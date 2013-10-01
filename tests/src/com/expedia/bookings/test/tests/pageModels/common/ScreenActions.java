@@ -66,10 +66,12 @@ public class ScreenActions extends Solo {
 
 	public void screenshot(String fileName) {
 		if (mPreferences.getScreenshotPermission()) {
+			delay(1);
 			String currentLocale = mRes.getConfiguration().locale.toString();
 			enterLog(TAG, "Taking screenshot: " + fileName);
 			mScreen.screenshot(currentLocale + " " + String.format("%02d", mScreenShotCount) + " " + fileName);
 			mScreenShotCount++;
+			delay(1);
 		}
 	}
 

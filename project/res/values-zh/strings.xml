@@ -254,7 +254,7 @@
     <!-- Flight has been redirected (location unknown) -->
     <string name="flight_redirected">航班已改变航向</string>
     <!-- Flight has been diverted (location unknown) -->
-    <string name="flight_diverted">航班已备降</string>
+    <string name="flight_diverted">航班已改航</string>
     <!-- Flight has been diverted to {airport} template -->
     <string name="flight_diverted_TEMPLATE">航班已备降至 %1$s</string>
     <!-- Flight departs on {date} template -->
@@ -683,8 +683,6 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; 至 &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">航班排序</string>
-    <!-- Label for "stops" button -->
-    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">编辑搜索设置</string>
     <!-- Action mode asking users to select dates -->
@@ -1881,6 +1879,34 @@
     <string name="expired_coupon">优惠券过期</string>
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">优惠券错误</string>
+
+    <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't recognized -->
+    <string name="coupon_error_unrecognized">很抱歉，这不是已知的优惠券代码</string>
+    <!-- Error when applying coupon - the coupon has expired -->
+    <string name="coupon_error_expired">很抱歉，该优惠券已过期</string>
+    <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
+    <string name="coupon_error_not_redeemed">很抱歉，我们遇到了问题。请重试。</string>
+    <!-- Error when applying coupon - the coupon has already been used by this user -->
+    <string name="coupon_error_duplicate">很抱歉，该优惠券已使用</string>
+    <!-- Error when applying coupon - generic error when the coupon doesn't work -->
+    <string name="coupon_error_fallback">很抱歉，我们遇到了问题。请重试。</string>
+    <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
+    <string name="coupon_error_price_change">预订成本已变更，因此我们未应用优惠券。请检查并重试</string>
+    <!-- Error when applying coupon - the coupon is for another region -->
+    <string name="coupon_error_invalid_region">很抱歉，该优惠券代码是用于其他国家或地区的</string>
+    <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
+    <string name="coupon_error_min_stay_not_met">很抱歉，您未选择最小航班数</string>
+    <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
+    <string name="coupon_error_invalid_travel_dates">很抱歉，该优惠券对这些日期无效</string>
+    <!-- Error when applying coupon - the hotel does not accept any coupons -->
+    <string name="coupon_error_invalid_product">很抱歉，该酒店不接受优惠券</string>
+    <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
+    <string name="coupon_error_min_purchase_amount_not_met">很抱歉，这不符合最低成本要求</string>
+    <!-- Error when applying coupon - the hotel does not accept this coupon -->
+    <string name="coupon_error_hotel_excluded">很抱歉，该酒店不接受优惠券</string>
+    <!-- Error when applying coupon - our coupon servers are down -->
+    <string name="coupon_error_service_down">很抱歉，我们当前无法处理优惠券。请重试。</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->

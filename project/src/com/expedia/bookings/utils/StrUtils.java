@@ -172,11 +172,11 @@ public class StrUtils {
 	}
 
 	public static String formatHotelPrice(Money money) {
-		return money.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN);
+		return money.getFormattedMoney();
 	}
 
 	public static String formatHotelPrice(Money money, String currencyCode) {
-		return money.getFormattedMoney(Money.F_NO_DECIMAL + Money.F_ROUND_DOWN, currencyCode);
+		return money.getFormattedMoney(0, currencyCode);
 	}
 
 	public static String formatTravelerName(Traveler traveler) {

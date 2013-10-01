@@ -55,7 +55,7 @@
     <!-- Label for launch screen flight button secondary text -->
     <string name="launch_flight_secondary_text">Toma un viaje.</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
-    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Vuela a &lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
+    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Vuela a&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
     <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Hospédate en&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
@@ -639,7 +639,7 @@
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">Lo sentimos, no pudimos conectarnos con los servidores de Expedia.  Favor de intentarlo más tarde.</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">Salidas</string>
+    <string name="sort_description_departure">Sale el</string>
     <!-- Sort by arrival time label -->
     <string name="sort_description_arrival">Llegadas</string>
     <!-- Sort by duration label -->
@@ -683,8 +683,6 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; a &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Ordenar los vuelos</string>
-    <!-- Label for "stops" button -->
-    <string name="stops_flights">Paradas (dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">Modificar la búsqueda</string>
     <!-- Action mode asking users to select dates -->
@@ -924,15 +922,15 @@
 
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
-    <string name="Add_Traveler">Ingresar datos del viajero</string>
+    <string name="Add_Traveler">Datos del pasajero</string>
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">Agregar pago</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Información del pasajero</string>
     <!-- Add traveler -->
-    <string name="add_traveler">Ingresar datos del viajero</string>
+    <string name="add_traveler">Datos del pasajero</string>
     <!-- Add traveler number template -->
-    <string name="add_traveler_number_TEMPLATE">Agregar un pasajero %1$s</string>
+    <string name="add_traveler_number_TEMPLATE">Datos del pasajero %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Es posible que se rechace el abordaje si el nombre del pasajero no corresponde al de la identificación oficial con foto emitida por el gobierno.</string>
 
@@ -1013,7 +1011,7 @@
     <!-- Can't Save Traveler -->
     <string name="cant_save_traveler">No se puede guardar al pasajero</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
-    <string name="you_already_have_traveler_TEMPLATE">Ya has guardado un pasajero con el nombre\"%1$s\".</string>
+    <string name="you_already_have_traveler_TEMPLATE">Ya has guardado un pasajero con el nombre \&apos;%1$s\&apos;.</string>
     <!-- Don't save -->
     <string name="dont_save">No guardar</string>
     <!-- Overwrite -->
@@ -1257,7 +1255,7 @@
     <!-- Initial hint for the search location field - invites the user to enter information here -->
     <string name="enter_search_location">Ingresa una ubicación para realizar una búsqueda…</string>
     <!-- Hint for "search location" field -->
-    <string name="hint_search_location">Buscar una ubicación</string>
+    <string name="hint_search_location">Buscar un lugar</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
     <string name="loading_suggestions">Cargando las sugerencias…</string>
     <!-- Label for button that starts search -->
@@ -1724,7 +1722,7 @@
     <!-- Rules & restrictions section header -->
     <string name="rules_restrictions">Normas y restricciones</string>
     <!-- Disclaimer about how to earn expedia points -->
-    <string name="disclaimer_expedia_points">Si tienes una cuenta de Expedia Rewards favor de reservar con el mismo correo electrónico, y tus puntos aparecerán automáticamente después de tu estancia. Favor de notar que pueden pasar hasta 30 días para que los puntos aparezcan.</string>
+    <string name="disclaimer_expedia_points">Si tienes una cuenta de Expedia Rewards, favor de reservar con el mismo correo electrónico, y tus puntos aparecerán automáticamente después de tu estadía. Favor de notar que pueden pasar hasta 30 días para que los puntos aparezcan.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Confirmar y reservar</string>
     <!-- Label for clearing private data -->
@@ -1732,9 +1730,9 @@
     <!-- Title for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_title">¿Eliminar datos privados?</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_clear_private_data_msg">Esto borrará toda la información guardada de pago y de contacto.</string>
+    <string name="dialog_clear_private_data_msg">Esto borrará toda la información guardada de facturación y de contacto.</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_log_out_and_clear_private_data_msg">Si continúas tu sesión se dará por terminada y toda la información de pago y de contacto ya no estará disponible.</string>
+    <string name="dialog_log_out_and_clear_private_data_msg">Si continúas, tu sesión se dará por terminada y toda la información de facturación y de contacto ya no estará disponible.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Los datos privados han sido eliminados</string>
     <!-- Error message if field was required but not entered -->
@@ -1882,6 +1880,34 @@
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">Error del cupón</string>
 
+    <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't recognized -->
+    <string name="coupon_error_unrecognized">Lo sentimos, pero este no es un código de un cupón</string>
+    <!-- Error when applying coupon - the coupon has expired -->
+    <string name="coupon_error_expired">Lo sentimos, pero el cupón ya venció</string>
+    <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
+    <string name="coupon_error_not_redeemed">Lo sentimos, pero estamos teniendo un problema. Inténtalo de nuevo</string>
+    <!-- Error when applying coupon - the coupon has already been used by this user -->
+    <string name="coupon_error_duplicate">Lo sentimos, pero este código de cupón ya ha sido utilizado</string>
+    <!-- Error when applying coupon - generic error when the coupon doesn't work -->
+    <string name="coupon_error_fallback">Lo sentimos, pero estamos teniendo un problema. Inténtalo de nuevo</string>
+    <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
+    <string name="coupon_error_price_change">El costo de la reservación cambió. Por este motivo, no aplicamos el cupón. Revísalo e inténtalo de nuevo</string>
+    <!-- Error when applying coupon - the coupon is for another region -->
+    <string name="coupon_error_invalid_region">Lo sentimos, pero el código de este cupón corresponde a un país diferente</string>
+    <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
+    <string name="coupon_error_min_stay_not_met">Lo sentimos, pero no seleccionó la cantidad mínima de noches</string>
+    <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
+    <string name="coupon_error_invalid_travel_dates">Lo sentimos, pero este cupón no es válido para estas fechas</string>
+    <!-- Error when applying coupon - the hotel does not accept any coupons -->
+    <string name="coupon_error_invalid_product">Lo sentimos, pero este hotel no acepta cupones</string>
+    <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
+    <string name="coupon_error_min_purchase_amount_not_met">Lo sentimos, pero esto no reúne los requisitos de costo mínimo</string>
+    <!-- Error when applying coupon - the hotel does not accept this coupon -->
+    <string name="coupon_error_hotel_excluded">Lo sentimos, pero este hotel no acepta cupones</string>
+    <!-- Error when applying coupon - our coupon servers are down -->
+    <string name="coupon_error_service_down">Lo sentimos, pero no podemos procesar cupones actualmente.  Inténtalo de nuevo</string>
+
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
     <string name="share_subject_dash_template">%1$s - %2$s</string>
@@ -1936,7 +1962,7 @@
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Hoteles de Expedia</string>
     <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Hola, \n\n visita los Hoteles de Expedia para iPhone y para los teléfonos Android. Es GRATIS y puedes fácilmente buscar y reservar habitaciones en más de 140.000 hoteles en el mundo. Es la mejor forma de reservar hoteles en tu teléfono.\n\nhttp://www.expedia.com/app</string>
+    <string name="tell_a_friend_body">Hola, \n\n visita los Hoteles de Expedia para iPhone y para los teléfonos Android. Es GRATIS, y puedes fácilmente buscar y reservar habitaciones en más de 140.000 hoteles en el mundo. Es la mejor forma de reservar hoteles en tu teléfono.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Términos y condiciones</string>
     <!-- Label for link to privacy policy -->
@@ -1946,11 +1972,11 @@
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Tu sesión ha terminado y la información se ha borrado</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">Tu sesión con Expedia no está abierta y toda la información de pago y de contacto se ha eliminado</string>
+    <string name="dialog_message_logged_out_and_cleared_private_data">Tu sesión con Expedia no está abierta, y toda la información de facturación y de contacto se ha eliminado</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">Los datos privados han sido eliminados</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">Toda la información de pago y de contacto ha sido eliminada.</string>
+    <string name="dialog_message_cleared_private_data">Toda la información de facturación y de contacto ha sido eliminada.</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
     <string name="dialog_message_launch_expedia_mobile_site">¿Quieres abrir el sitio web móvil de Expedia?</string>
     <!-- Action button label to Subscribe to our mailing list -->
@@ -1996,7 +2022,7 @@
 
     <!-- Strings used a lot of places -->
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
-    <string name="app_not_available">Puede ser que tu teléfono no cuente con una aplicación que pueda manejar esta acción o tu acceso a ella esta restringido.</string>
+    <string name="app_not_available">Puede ser que tu teléfono no cuente con una aplicación que pueda manejar esta acción o tu acceso a ella está restringido.</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d adultos</item>
@@ -2082,7 +2108,7 @@
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
     <string name="e3_error_checkout_booking_succeeded_with_errors">¡Has reservado tu habitación de hotel con éxito! Si necesitas un itinerario de inmediato, favor de llamar a Servicio a Clientes.</string>
     <!-- The hotel room is no longer available -->
-    <string name="e3_error_checkout_hotel_room_unavailable">Lo sentimos pero la habitación que has solicitado ya no está disponible.</string>
+    <string name="e3_error_checkout_hotel_room_unavailable">Lo sentimos, pero la habitación que has solicitado ya no está disponible.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
     <string name="e3_error_checkout_invalid_input">Favor de corregir la información incorrecta.</string>
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
@@ -2103,7 +2129,7 @@
     <!-- HotelOffers API method -->
     <!-- The hotel offer is no longer available -->
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">¡Lo sentimos! La promoción para esta habitación ha terminado, sin embargo hay otras opciones disponibles.</string>
-    <string name="e3_error_hotel_offers_hotel_room_unavailable">Lo sentimos pero la habitación que has solicitado ya no está disponible.</string>
+    <string name="e3_error_hotel_offers_hotel_room_unavailable">Lo sentimos, pero la habitación que has solicitado ya no está disponible.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_hotel_offers_hotel_service_failure">Lo sentimos pero no pudimos conectarnos a Expedia. Favor de intentarlo de nuevo.</string>
     <!-- There are no longer any rooms for the hotel offer -->
@@ -2752,7 +2778,7 @@
     <!-- Content description for action: Press to make this purchase with Google Wallet -->
     <string name="cd_checkout_buy_with_google">Presiona aquí para hacer esta compra con Google Wallet</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
-    <string name="cd_checkout_add_traveler">Presiona aquí para agregar un pasajero a esta reservación</string>
+    <string name="cd_checkout_add_traveler">Presiona aquí para ingresar los datos de un pasajero a esta reservación</string>
     <!-- Content description for action: Press to select payment for this booking -->
     <string name="cd_checkout_select_payment">Presiona aquí para seleccionar una forma de pago para esta reservación</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->

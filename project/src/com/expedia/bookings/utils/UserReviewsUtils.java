@@ -3,8 +3,8 @@ package com.expedia.bookings.utils;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.expedia.bookings.data.ReviewSort;
 import com.expedia.bookings.fragment.UserReviewsFragment.ReviewWrapper;
-import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 
 public class UserReviewsUtils {
 

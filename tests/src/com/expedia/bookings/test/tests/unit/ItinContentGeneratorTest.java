@@ -106,7 +106,7 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 
 		headerText = mItinGen.getHeaderTextDate();
 		dateString = getContext().getString(R.string.Title_Date_TEMPLATE, "",
-				getContext().getString(R.string.Today));
+				getContext().getString(R.string.tomorrow));
 		assertEquals(dateString, headerText);
 	}
 

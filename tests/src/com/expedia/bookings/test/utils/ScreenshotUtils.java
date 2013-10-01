@@ -25,7 +25,7 @@ public class ScreenshotUtils {
 	}
 
 	public void screenshot(String title) {
-		View currentView = mSolo.getCurrentViews().get(0);
+		View currentView = mSolo.getCurrentActivity().getWindow().getDecorView().findViewById(android.R.id.content);
 		takeScreenshot(currentView, title);
 	}
 
@@ -44,10 +44,12 @@ public class ScreenshotUtils {
 					FileOutputStream fos = null;
 					SimpleDateFormat sdf = new SimpleDateFormat("ddMMyy-hhmmss");
 					String fileName = null;
-					if (name == null)
+					if (name == null) {
 						fileName = sdf.format(new Date()).toString() + ".jpg";
-					else
+					}
+					else {
 						fileName = name + ".jpg";
+					}
 					File directory = new File(Environment.getExternalStorageDirectory() + "/" + mDirectory + "/");
 					directory.mkdir();
 

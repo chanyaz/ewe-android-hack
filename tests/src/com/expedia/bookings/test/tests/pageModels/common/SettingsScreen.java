@@ -1,22 +1,25 @@
 package com.expedia.bookings.test.tests.pageModels.common;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.res.Resources;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.utils.TestDriver;
 import com.expedia.bookings.test.utils.TestPreferences;
 
 public class SettingsScreen extends ScreenActions {
 
+	private static final String TAG = "SettingsScreen POM";
 	private static final int SELECT_POS_STRING_ID = R.string.preference_point_of_sale_title;
 	private static final int CLEAR_PRIVATE_DATE_STRING_ID = R.string.clear_private_data;
 	private static final int OK_STRING_ID = R.string.ok;
+	private static final int ACCEPT_STRING_ID = R.string.accept;
 	private static final int SPOOF_HOTEL_BOOKING_CHECKBOX_ID = R.id.preference_spoof_booking_checkbox;
 	private static final int SUPPRESS_FLIGHT_BOOKING_CHECKBOX_ID = R.id.preference_suppress_flight_booking_checkbox;
 
@@ -41,6 +44,10 @@ public class SettingsScreen extends ScreenActions {
 		return mRes.getString(OK_STRING_ID);
 	}
 
+	public String AcceptString() {
+		return mRes.getString(ACCEPT_STRING_ID);
+	}
+
 	public String country() {
 		return getString(COUNTRY_STRING_ID);
 	}
@@ -57,6 +64,10 @@ public class SettingsScreen extends ScreenActions {
 
 	public void clickOKString() {
 		clickOnText(OKString());
+	}
+
+	public void clickAcceptString() {
+		clickOnText(AcceptString());
 	}
 
 	public void clickSelectAPIString() {
@@ -101,6 +112,27 @@ public class SettingsScreen extends ScreenActions {
 					}
 					suppressFlightsDone = true;
 				}
+			}
+		}
+	}
+
+	public void selectPOSFromLocale(Locale l) {
+		String countrySelection = mRes.getString(mLocaleUtils.LOCALE_TO_COUNTRY.get(l));
+		delay(1);
+		clickOnText(countrySelection);
+		delay(1);
+		if (searchText(OKString())) {
+			clickOKString();
+		}
+		else if (searchText(AcceptString())) {
+			clickAcceptString();
+		}
+		else {
+			if (searchText("OK", 1, false, true)) {
+				clickOnText("OK");
+			}
+			else {
+				enterLog(TAG, "Trying to move on without an 'OK' click");
 			}
 		}
 	}

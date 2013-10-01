@@ -51,6 +51,7 @@ import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
 import com.expedia.bookings.widget.WalletButton;
 import com.google.android.gms.wallet.MaskedWallet;
+import com.google.android.gms.wallet.MaskedWalletRequest.Builder;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -369,7 +370,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
 
 				if (numAdults == 1) {
-					tv.setText(R.string.add_traveler);
+					tv.setText(R.string.traveler_details);
 				}
 				else {
 					tv.setText(getString(R.string.add_traveler_number_TEMPLATE, index + 1)); // no zero index for users
@@ -744,8 +745,10 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	}
 
 	@Override
-	protected int getMaskedWalletBuilderFlags() {
-		return WalletUtils.F_PHONE_NUMBER_REQUIRED;
+	protected void modifyMaskedWalletBuilder(Builder builder) {
+		builder.setCart(WalletUtils.buildFlightCart(getActivity()));
+
+		builder.setPhoneNumberRequired(true);
 	}
 
 	/**
@@ -808,4 +811,5 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 		public void onBillingInfoChange();
 	}
+
 }

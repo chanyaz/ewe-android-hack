@@ -34,4 +34,10 @@ public class LaunchScreen extends LaunchActionBar {
 		clickOnView(flightLaunchButton());
 	}
 
+	public void swipeToTripsScreen() {
+		int screenHeight = mRes.getDisplayMetrics().heightPixels;
+		int screenWidth = mRes.getDisplayMetrics().widthPixels;
+		drag(screenWidth - 10, 10, screenHeight / 2, screenHeight / 2, 10);
+	}
+
 }

@@ -13,7 +13,7 @@
     <!-- Attempting to log you in with facebook credentials -->
     <string name="attempting_to_log_in_with_facebook">กำลังล็อกอินคุณด้วยข้อมูล Facebook…</string>
     <!-- We have encountered an error -->
-    <string name="unspecified_error">เราพบข้อผิดพลาดที่ไม่สามารถระบุได้ โปรดลองอีกครั้ง</string>
+    <string name="unspecified_error">เราพบข้อผิดพลาดที่ไม่สามารถระบุได้ โปรดลองอีกครั้งภายหลัง</string>
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">ไม่สามารถเข้าสู่ระบบ Facebook</string>
     <!-- Login failed try again -->
@@ -27,7 +27,7 @@
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">กำลังลิงก์บัญชีของคุณ…</string>
     <!-- Log In -->
-    <string name="Log_In">เข้าระบบ</string>
+    <string name="Log_In">เข้าสู่ระบบ</string>
     <!-- Log in with Expedia -->
     <string name="Log_in_with_Expedia">เข้าสู่ระบบด้วยเอ็กซ์พีเดีย</string>
     <!-- or -->
@@ -335,7 +335,7 @@
     <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
     <string name="local_expert_title_TEMPLATE">ขอให้สนุกใน%1$s</string>
     <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="local_expert_description">เจ้าหน้าที่ Local Expert \nพร้อมให้ความช่วยเหลือในการวางแผนทริปของคุณ</string>
+    <string name="local_expert_description">เจ้าหน้าที่ Local Expert พร้อมให้ความช่วยเหลือ\nในการวางแผนทริปของคุณ</string>
     <!-- Text for the button on Local Expert pages, to call the concierge -->
     <string name="local_expert_call_button_text">โทรหาพวกเขา</string>
 
@@ -428,9 +428,9 @@
     <string name="car_category_oversize">รถขนาดใหญ่พิเศษ</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">สองประตู รถ</string>
-    <string name="car_type_three_door">สามประตู รถ</string>
-    <string name="car_type_four_door">สี่ประตู รถ</string>
+    <string name="car_type_two_door">รถสองประตู</string>
+    <string name="car_type_three_door">รถสามประตู</string>
+    <string name="car_type_four_door">รถสี่ประตู</string>
     <string name="car_type_van">รถตู้</string>
     <string name="car_type_wagon">รถแวกอน</string>
     <string name="car_type_limousine">ลิมูซีน</string>
@@ -683,8 +683,6 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; ถึง &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">จัดเรียงเที่ยวบิน</string>
-    <!-- Label for "stops" button -->
-    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">แก้ไขการค้นหา</string>
     <!-- Action mode asking users to select dates -->
@@ -772,7 +770,7 @@
     <!-- Button label for selecting flight -->
     <string name="select_flight">เลือกเที่ยวบิน</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
-    <string name="depart_from_TEMPLATE">เดินทางออกจาก: %s</string>
+    <string name="depart_from_TEMPLATE">เดินทางออกจาก %s</string>
     <!-- Template for where the flight is arriving at.  %s is the city, e.g. "Arrive at San Francisco, CA" -->
     <string name="arrive_at_TEMPLATE">มาถึงที่ %s</string>
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
@@ -792,7 +790,7 @@
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
-    <string name="edit_current_payment_details">รายละเอียการชำระเงินปัจจุบัน</string>
+    <string name="edit_current_payment_details">รายละเอียดการชำระเงินปัจจุบัน</string>
     <!-- Or Select a new payment method -->
     <string name="or_select_new_paymet_method">เลือกวิธีการชำระเงิน</string>
     <!-- Select Payment -->
@@ -1336,15 +1334,15 @@
     <!-- Message when app is loading saved search results -->
     <string name="loading_previous">กำลังโหลดผลลัพธ์การค้นหาก่อนหน้า…</string>
     <!-- Label for sort hotels in hotel list on tablet -->
-    <string name="sort_hotels_tablet">แสดงผล</string>
+    <string name="sort_hotels_tablet">เรียงตาม</string>
     <!-- Label for sort hotels in hotel list -->
-    <string name="sort">แสดงผล</string>
+    <string name="sort">เรียงตาม</string>
     <!-- Label to swtich between map and list search results -->
     <string name="switch_view">สลับมุมมอง</string>
     <!-- Expedia Deal for a given property, Mobile exclusive -->
-    <string name="mobile_exclusive">สิทธิเฉพาะมือถือ</string>
+    <string name="mobile_exclusive">พิเศษสำหรับมือถือ</string>
     <!-- Expedia Deal for a given property, tonight only -->
-    <string name="tonight_only">คืนนี้เท่านั้น</string>
+    <string name="tonight_only">คืนนี้เท่านั้น!</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">ขออภัย เราไม่สามารถค้นหาการจองห้องพักเกิน %1$s คืน</string>
     <!-- Search Error title text "Search Error" -->
@@ -1412,7 +1410,7 @@
     <!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
     <string name="filter_distance_miles_template">%s ไมล์</string>
     <!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
-    <string name="filter_distance_kilometers_template">%s ก.ม.</string>
+    <string name="filter_distance_kilometers_template">%s กม.</string>
 
     <!-- Progress messages -->
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
@@ -1479,7 +1477,7 @@
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">ไม่มีสัญญาณอินเทอร์เน็ต</string>
     <!-- Widget Branding title -->
-    <string name="hotel_radar">เรดาห์ระบุตำแหน่งโรงแรม</string>
+    <string name="hotel_radar">เรดาร์ระบุตำแหน่งโรงแรม</string>
     <!-- Widget Branding description -->
     <string name="book_a_room_tonight">จองโรงแรมคืนนี้</string>
 
@@ -1489,7 +1487,7 @@
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
-    <string name="book_now">จอง</string>
+    <string name="book_now">จองเลย</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">จองทางโทรศัพท์</string>
 
@@ -1543,7 +1541,7 @@
     <!-- Babysitting amenity -->
     <string name="AmenityBabysitting">บริการดูแลเด็ก</string>
     <!-- Jacuzzi amenity -->
-    <string name="AmenityJacuzzi">อ่างจากุซซี่</string>
+    <string name="AmenityJacuzzi">อ่างจากุชซี่</string>
     <!-- Parking amenity -->
     <string name="AmenityParking">ที่จอดรถ</string>
     <!-- Room service amenity -->
@@ -1559,7 +1557,7 @@
     <!-- In-room accessibility amenity -->
     <string name="AmenityInRoomAccessibility">ห้องพักสำหรับผู้ใช้รถเข็น</string>
     <!-- Accessibility equipment for the deaf amenity -->
-    <string name="AmenityDeafAccessibilityEquipment">การอำนวยความสะดวกให้คนหูหนวก</string>
+    <string name="AmenityDeafAccessibilityEquipment">สิ่งอำนวยความสะดวกคนหูหนวก</string>
     <!-- Braille or raised signage amenity -->
     <string name="AmenityBrailleSignage">ป้ายอักษรเบรลล์</string>
     <!-- Free airport shuttle amenity -->
@@ -1669,7 +1667,7 @@
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
-    <string name="gallery_title_template">รูป &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <string name="gallery_title_template">รูปของ &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Booking info -->
     <!-- edit label -->
@@ -1681,7 +1679,7 @@
     <!-- Label for bed type -->
     <string name="bed_type">ประเภทเตียง</string>
     <!-- Label for length of stay -->
-    <string name="stay_duration">ระยะเวลา</string>
+    <string name="stay_duration">ระยะเวลาการเข้าพัก</string>
     <!-- Quantity for the length of stay -->
     <plurals name="length_of_stay">
         <item quantity="one">1 คืน</item>
@@ -1690,9 +1688,9 @@
     <!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
     <string name="room_rate_template">ราคาห้อง %s</string>
     <!-- Label for the extra guest charge -->
-    <string name="extra_guest_charge">ค่าธรรมเนียมสำหรับผู้เข้าพักเสริม</string>
+    <string name="extra_guest_charge">ค่าธรรมเนียมผู้เข้าพักเสริม</string>
     <!-- Label for total cost of hotel stay -->
-    <string name="total_cost">ราคาทั้งหมด</string>
+    <string name="total_cost">ยอดรวม</string>
     <!-- Label for "guest info" form field section -->
     <string name="guest_info">ข้อมูลผู้เข้าพัก</string>
     <!-- The "first name" booking info field. -->
@@ -1706,9 +1704,9 @@
     <!-- Label for "credit card info" form field section -->
     <string name="credit_card_info">ข้อมูลบัตรเครดิต</string>
     <!-- Label for credit card selection box -->
-    <string name="saved_cards">บัตรเครดิตที่อยู่ในระบบ</string>
+    <string name="saved_cards">บัตรเครดิตที่บันทึกไว้</string>
     <!-- Label for entering new credit card information -->
-    <string name="enter_a_new_card">ป้อนข้อมูลบัตรเครดิตใหม่</string>
+    <string name="enter_a_new_card">ป้อนบัตรเครดิตใบใหม่</string>
     <!-- Card number form field hint -->
     <string name="hint_card_number">หมายเลขบัตร</string>
     <!-- Card expiration month form field hint -->
@@ -1832,21 +1830,21 @@
     <!-- Expedia merchant hotel policies -->
     <string name="PolicyExpediaMerchant">ในการทำการจองนี้ คุณยอมรับข้อตกลงและเงื่อนไข ซึ่งรวมถึงนโยบายการยกเลิกและเนื้อหาข้อตกลงและเงื่อนไขต่างๆ ที่ระบุในข้อตกลงสำหรับผู้ใช้\n\nคุณตกลงที่จะชำระเงินสำหรับการจองนี้ หากคุณไม่ชำระเงินตามที่ตกลงไว้ และหากมีการเรียกเก็บหนี้สินจากบริษัทติดตามทวงหนี้ ทนายความ หรือมีการดำเนินการตามกฏหมายต่างๆ คุณตกลงที่จะชำระค่าใช้จ่ายและค่าธรรมเนียมต่างๆ ที่เกี่ยวข้อง ซึ่งรวมถึงค่าบริการทนายความและค่าศาล</string>
     <!-- Expedia agent hotel policies -->
-    <string name="PolicyExpediaAgent">คุณกำลังจองโรงแรมที่ไม่มีส่วนลด ราคาที่แสดงเป็นราคาต่อคืน สำหรับผู้เข้าพัก 2 คนต่อห้อง ยกเว้นระบุว่าไว้อย่างอื่น โปรดอ่านรายละเอียดห้องพักและราคาอย่างละเอียด เพื่อให้แน่ใจว่าห้องที่คุณเลือกสามารถรองรับผู้เดินทางทั้งหมด ราคาห้องบางอย่างอาจต้องใช้โค้ดการจองพิเศษ ทางเราไม่ได้รวมค่าธรรมเนียมในการจอง ภาษี และค่าบริการต่างๆ ที่เรียกเก็บจากโรงแรม โรงแรมอาจมีการเรียกเก็บค่าบริการสำหรับผู้เข้าพักเพิ่มเติมนอกเหนือจากจำนวนที่ระบุไว้ ไม่ว่าจะเป็นผู้ใหญ่หรือเด็ก\n\n เราจะส่งคำร้องขอสำหรับการเข้าพักมากกว่า 2 คน หรือการเข้าพักมากกว่าจำนวนที่กำหนดไว้ตามราคาไปให้โรงแรม แต่เราไม่รับรองว่าโรงแรมจะปฏิบัติตาม หากโรงแรมยินดีที่จะปฏิบัติตาม ทางโรงแรมอาจจะคิดค่าธรรมเนียมเพิ่มเติม</string>
+    <string name="PolicyExpediaAgent">คุณกำลังจองโรงแรมที่ไม่มีส่วนลด ราคาที่แสดงเป็นราคาต่อคืน สำหรับผู้เข้าพัก 2 คนต่อห้อง ยกเว้นระบุว่าไว้อย่างอื่น โปรดอ่านรายละเอียดห้องพักและราคาอย่างละเอียด เพื่อให้แน่ใจว่าห้องที่คุณเลือกสามารถรองรับผู้เดินทางทั้งหมด ราคาห้องบางอย่างอาจต้องใช้โค้ดการจองพิเศษ ทางเราไม่ได้รวมค่าธรรมเนียมในการจอง ภาษี และค่าบริการต่างๆ ที่เรียกเก็บจากโรงแรม โรงแรมอาจมีเรียกเก็บค่าบริการสำหรับผู้เข้าพักเสริมนอกเหนือจากจำนวนที่ระบุไว้ ไม่ว่าจะเป็นผู้ใหญ่หรือเด็ก\n\nเราจะส่งคำขอสำหรับการเข้าพักมากกว่า 2 คน หรือการเข้าพักเกินจำนวนผู้เข้าพักที่กำหนดไว้สำหรับห้องของคุณไปให้โรงแรม แต่เราไม่สามารถรับประกันคำขอได้ หากโรงแรมยินดีรับคำขอของคุณ ทางโรงแรมอาจจะคิดค่าธรรมเนียมเพิ่มเติม</string>
 
     <!-- Expedia Accounts -->
     <!-- Label for menu item to log into account -->
-    <string name="log_in">เข้าระบบ</string>
+    <string name="log_in">เข้าสู่ระบบ</string>
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">รหัสผ่าน</string>
     <!-- Progress dialog text when we are logging the user into Expedia -->
-    <string name="logging_in">กำลังเข้าระบบ…</string>
+    <string name="logging_in">กำลังเข้าสู่ระบบ…</string>
     <!-- Message that tells user they failed to log in -->
-    <string name="login_failed">โปรดเข้าระบบอีกครั้ง</string>
+    <string name="login_failed">โปรดเข้าสู่ระบบอีกครั้ง</string>
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation">คุณต้องการออกจากบัญชีเอ็กซ์พีเดียหรือไม่</string>
     <!-- Label for login widget additional text -->
-    <string name="log_in_for_faster_booking">เข้าระบบเพื่อการจองที่รวดเร็วขึ้น</string>
+    <string name="log_in_for_faster_booking">เข้าสู่ระบบเพื่อจองได้รวดเร็วยิ่งขึ้น</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">ลงชื่อร่วมโปรแกรม Expedia Rewards\u2122</string>
     <!-- Label for account status -->
@@ -1854,7 +1852,7 @@
     <!-- Loading rewards points message -->
     <string name="loading_your_rewards_points">กำลังโหลดคะแนนของคุณ…</string>
     <!-- Label for account name -->
-    <string name="logged_in_as">เข้าระบบของ</string>
+    <string name="logged_in_as">เข้าสู่ระบบของ</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">บัญชีเอ็กซ์พีเดีย</string>
     <!-- Label for signin screen -->
@@ -1881,6 +1879,34 @@
     <string name="expired_coupon">คูปองหมดอายุ</string>
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">คูปองผิด</string>
+
+    <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't recognized -->
+    <string name="coupon_error_unrecognized">ขออภัย ระบบไม่พบรหัสคูปองนี้</string>
+    <!-- Error when applying coupon - the coupon has expired -->
+    <string name="coupon_error_expired">ขออภัย คูปองนี้หมดอายุแล้ว</string>
+    <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
+    <string name="coupon_error_not_redeemed">ขออภัย เราประสบปัญหา โปรดลองอีกครั้ง</string>
+    <!-- Error when applying coupon - the coupon has already been used by this user -->
+    <string name="coupon_error_duplicate">ขออภัย รหัสคูปองนี้ได้รับการใช้ไปแล้ว</string>
+    <!-- Error when applying coupon - generic error when the coupon doesn't work -->
+    <string name="coupon_error_fallback">ขออภัย เราประสบปัญหา โปรดลองอีกครั้ง</string>
+    <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
+    <string name="coupon_error_price_change">ราคาการจองมีการเปลี่ยนแปลง เราจึงไม่ได้ใช้คูปอง โปรดตรวจสอบแล้วลองอีกครั้ง</string>
+    <!-- Error when applying coupon - the coupon is for another region -->
+    <string name="coupon_error_invalid_region">ขออภัย รหัสคูปองนี้มีไว้สำหรับประเทศอื่น</string>
+    <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
+    <string name="coupon_error_min_stay_not_met">ขออภัย คุณไม่ได้เลือกจำนวนการเข้าพักขั้นต่ำ</string>
+    <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
+    <string name="coupon_error_invalid_travel_dates">ขออภัย คูปองนี้ไม่สามารถใช้ได้สำหรับวันที่เหล่านี้</string>
+    <!-- Error when applying coupon - the hotel does not accept any coupons -->
+    <string name="coupon_error_invalid_product">ขออภัย โรงแรมนี้ไม่รับคูปอง</string>
+    <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
+    <string name="coupon_error_min_purchase_amount_not_met">ขออภัย การจองไม่ถึงมูลค่าขั้นต่ำที่กำหนด</string>
+    <!-- Error when applying coupon - the hotel does not accept this coupon -->
+    <string name="coupon_error_hotel_excluded">ขออภัย โรงแรมนี้ไม่รับคูปอง</string>
+    <!-- Error when applying coupon - our coupon servers are down -->
+    <string name="coupon_error_service_down">ขออภัย เราไม่สามารถดำเนินการใช้คูปองได้ในขณะนี้ โปรดลองอีกครั้ง</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
@@ -1922,11 +1948,11 @@
     <!-- Label for "Expedia website" button in info page -->
     <string name="expedia_website">เว็บไซต์เอ็กซ์พีเดีย</string>
     <!-- Extra description for "Expedia website" button, when space allows -->
-    <string name="expedia_website_description">ไปที่ Expedia.co.th หากต้องการจองเที่ยวบิน รถเช่า แพ็คเกจท่องเที่ยวอื่นๆ</string>
+    <string name="expedia_website_description">ไปยังเว็บไซต์เพื่อจองเที่ยวบิน รถเช่า แพ็คเกจท่องเที่ยว และอื่นๆ อีกมากมาย</string>
     <!-- Extra description for "app feedback" button, when space allows -->
     <string name="app_feedback_description">โปรดแสดงความคิดเห็นของคุณเกี่ยวกับแอพ</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">ฝ่ายบริการลูกค้า</string>
+    <string name="app_support">ฝ่ายสนับสนุนแอพ</string>
     <!-- Extra description for "app support" button, when space allows -->
     <string name="app_support_description">ส่งข้อความถึงเรา แล้วเราจะติดต่อกลับไป</string>
     <!-- Extra description for "tell a friend" button, when space allows -->

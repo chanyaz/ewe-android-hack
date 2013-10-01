@@ -683,8 +683,6 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">항공편 정렬</string>
-    <!-- Label for "stops" button -->
-    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">검색 수정</string>
     <!-- Action mode asking users to select dates -->
@@ -1881,6 +1879,34 @@
     <string name="expired_coupon">만료된 쿠폰</string>
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">쿠폰 오류</string>
+
+    <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't recognized -->
+    <string name="coupon_error_unrecognized">죄송합니다. 알 수 없는 쿠폰 코드입니다.</string>
+    <!-- Error when applying coupon - the coupon has expired -->
+    <string name="coupon_error_expired">죄송합니다. 이 쿠폰은 만료되었습니다.</string>
+    <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
+    <string name="coupon_error_not_redeemed">죄송합니다. 문제가 있는 것 같습니다. 다시 시도해 주세요.</string>
+    <!-- Error when applying coupon - the coupon has already been used by this user -->
+    <string name="coupon_error_duplicate">죄송합니다. 이 쿠폰 코드는 이미 사용되었습니다.</string>
+    <!-- Error when applying coupon - generic error when the coupon doesn't work -->
+    <string name="coupon_error_fallback">죄송합니다. 문제가 있는 것 같습니다. 다시 시도해 주세요.</string>
+    <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
+    <string name="coupon_error_price_change">예약 비용이 변경되었기 때문에 쿠폰을 적용해 드리지 못했습니다. 확인하고 다시 시도해 주세요.</string>
+    <!-- Error when applying coupon - the coupon is for another region -->
+    <string name="coupon_error_invalid_region">죄송합니다. 이 쿠폰 코드는 다른 국가용입니다.</string>
+    <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
+    <string name="coupon_error_min_stay_not_met">죄송합니다. 최소 숙박 일수를 선택하지 않으셨습니다.</string>
+    <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
+    <string name="coupon_error_invalid_travel_dates">죄송합니다. 이 쿠폰 코드는 이들 날짜에 사용하실 수 없습니다.</string>
+    <!-- Error when applying coupon - the hotel does not accept any coupons -->
+    <string name="coupon_error_invalid_product">죄송합니다. 이 호텔 예약에는 쿠폰을 사용하실 수 없습니다.</string>
+    <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
+    <string name="coupon_error_min_purchase_amount_not_met">죄송합니다. 최소 비용 요구 조건을 충족하지 않습니다.</string>
+    <!-- Error when applying coupon - the hotel does not accept this coupon -->
+    <string name="coupon_error_hotel_excluded">죄송합니다. 이 호텔 예약에는 쿠폰을 사용하실 수 없습니다.</string>
+    <!-- Error when applying coupon - our coupon servers are down -->
+    <string name="coupon_error_service_down">죄송합니다. 현재 쿠폰을 처리할 수 없습니다.  다시 시도해 주세요.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->

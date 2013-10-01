@@ -24,9 +24,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Review;
+import com.expedia.bookings.data.ReviewSort;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.utils.UserReviewsUtils;
 import com.expedia.bookings.widget.UserReviewsAdapter;
 import com.mobiata.android.BackgroundDownloader;
@@ -44,6 +44,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	// Bundle strings
 	private static final String ARGUMENT_SORT_STRING = "ARGUMENT_SORT_STRING";
 	private static final String INSTANCE_ATTEMPTED_DOWNLOAD = "INSTANCE_ATTEMPTED_DOWNLOAD";
+	private static final String INSTANCE_HAS_FILTERED_REVIEW = "INSTANCE_HAS_FILTERED_REVIEW";
 	private static final String INSTANCE_HAS_REVIEWS = "INSTANCE_HAS_REVIEWS";
 	private static final String INSTANCE_STATUS_RES_ID = "INSTANCE_STATUS_RES_ID";
 	private static final String INSTANCE_PAGE_NUMBER = "INSTANCE_PAGE_NUMBER";
@@ -67,6 +68,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	private List<ReviewWrapper> mUserReviews;
 
 	private boolean mAttemptedDownload = false;
+	private boolean mHasFilteredOutAReview = false;
 	private int mStatusResId;
 
 	private UserReviewsAdapter mUserReviewsAdapter;
@@ -135,6 +137,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			mPageNumber = savedInstanceState.getInt(INSTANCE_PAGE_NUMBER);
 			mNumReviewsDownloaded = savedInstanceState.getInt(INSTANCE_NUM_DOWNLOADED);
 			mAttemptedDownload = savedInstanceState.getBoolean(INSTANCE_ATTEMPTED_DOWNLOAD, false);
+			mHasFilteredOutAReview = savedInstanceState.getBoolean(INSTANCE_HAS_FILTERED_REVIEW, false);
 			boolean reincarnatedReviews = savedInstanceState.getBoolean(INSTANCE_HAS_REVIEWS, false);
 			if (reincarnatedReviews) {
 				mUserReviews = mUserReviewsUtils.getReviews(mProperty.getPropertyId(), mReviewSort);
@@ -175,6 +178,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		super.onSaveInstanceState(outState);
 
 		outState.putBoolean(INSTANCE_ATTEMPTED_DOWNLOAD, mAttemptedDownload);
+		outState.putBoolean(INSTANCE_HAS_FILTERED_REVIEW, mHasFilteredOutAReview);
 
 		boolean hasReviews = false;
 		if (mUserReviews != null && mUserReviews.size() > 0) {
@@ -232,6 +236,11 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 				if (mUserReviews == null) {
 					mUserReviews = new ArrayList<ReviewWrapper>();
 				}
+
+				if (newlyLoadedReviews.size() == 0) {
+					showReviewsNotPresentMessage();
+				}
+
 				mUserReviews.addAll(newlyLoadedReviews);
 
 				mUserReviewsUtils.putReviews(mProperty.getPropertyId(), mReviewSort, mUserReviews);
@@ -248,9 +257,11 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
+		boolean hasMore = mNumReviewsDownloaded < Db.getHotelSearch().getSelectedProperty().getTotalReviews();
+		boolean shouldAttempt = !mHasFilteredOutAReview;
 		boolean isDownloading = mBackgroundDownloader.isDownloading(mReviewsDownloadKey);
 
-		if (mScrollListenerSet && loadMore && hasMoreReviews() && !isDownloading) {
+		if (mScrollListenerSet && loadMore && hasMore && shouldAttempt && !isDownloading) {
 			startReviewsDownload();
 			addLoadingFooter();
 		}
@@ -274,10 +285,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		// We don't care about the scrollState changing right now
-	}
-
-	private boolean hasMoreReviews() {
-		return mNumReviewsDownloaded < Db.getHotelSearch().getSelectedProperty().getTotalReviews();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -324,6 +331,11 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	private void showReviewsUnavailableMessage() {
 		removeLoadingFooter();
 		updateEmptyMessage(R.string.user_review_unavailable);
+	}
+
+	private void showReviewsNotPresentMessage() {
+		removeLoadingFooter();
+		updateEmptyMessage(mReviewSort.getNoReviewsMessageResId());
 	}
 
 	private void addLoadingFooter() {
@@ -400,6 +412,12 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			return null;
 		}
 		for (Review review : reviews) {
+			// Check to see if this review passes through the filter before processing and adding to the list
+			if (!mReviewSort.reviewPassesFilter(review)) {
+				mHasFilteredOutAReview = true;
+				continue;
+			}
+
 			ReviewWrapper loadedReview = new ReviewWrapper();
 			loadedReview.mReview = review;
 

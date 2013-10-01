@@ -49,7 +49,7 @@
         android:paddingLeft="5dp"
         android:paddingTop="4dp"
         android:textSize="18dp" />
-
+   
     <!-- This empty view fixes a scrolling bug on older versions of android -->
 
     <View

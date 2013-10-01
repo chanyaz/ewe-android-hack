@@ -21,6 +21,7 @@ public class HotelsHappyPath {
 			}
 
 			// Settings 
+			driver.delay();
 			driver.launchScreen().openMenuDropDown();
 			driver.launchScreen().pressSettings();
 			driver.settingsScreen().clickToClearPrivateData();
@@ -77,10 +78,18 @@ public class HotelsHappyPath {
 
 			// Sort
 			driver.waitForStringToBeGone(driver.hotelsSearchScreen().searchingForHotels());
+			driver.delay();
 			driver.hotelsSearchScreen().clickOnSortButton();
 			driver.delay(1);
 			driver.screenshot("Sort fragment");
-			driver.hotelsSearchScreen().sortMenu().clickSortByPopularityString();
+			if (driver.searchText(driver.hotelsSearchScreen().sortMenu().getSortByPopularityString())) {
+				driver.hotelsSearchScreen().sortMenu().clickSortByPopularityString();
+			}
+			else {
+				driver.hotelsSearchScreen().clickOnSortButton();
+				driver.delay(1);
+				driver.hotelsSearchScreen().sortMenu().clickSortByPopularityString();
+			}
 
 			// Filter
 			driver.hotelsSearchScreen().clickOnFilterButton();
@@ -127,6 +136,7 @@ public class HotelsHappyPath {
 
 			// Checkout
 			driver.commonCheckout().clickCheckoutButton();
+			driver.delay();
 			if (user.getLogInForCheckout()) {
 				// Log in
 				driver.commonCheckout().clickLogInButton();

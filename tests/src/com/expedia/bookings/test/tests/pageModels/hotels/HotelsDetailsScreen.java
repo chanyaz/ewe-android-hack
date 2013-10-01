@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.res.Resources;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -13,16 +14,17 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class HotelsDetailsScreen extends ScreenActions {
 
-	private static final int sTitleViewID = R.id.title;
-	private static final int sRatingViewID = R.id.rating;
-	private static final int sBookNowButtonID = R.id.book_now_button;
-	private static final int sBookByPhoneButtonID = R.id.book_by_phone_button;
-	private static final int sReviewsTitleViewID = R.id.user_rating_text_view;
-	private static final int sBannerViewID = R.id.banner_message_text_view;
-	private static final int sReadMoreViewID = R.id.read_more;
-	private static final int sSelectButtonID = R.id.menu_select_hotel;
-	private static final int sBackButtonID = android.R.id.home;
-	private static final int sNoReviewsStringID = R.string.no_reviews;
+	private static final int TITLE_VIEW_ID = R.id.title;
+	private static final int RATING_VIEW_ID = R.id.rating;
+	private static final int BOOK_NOW_BUTTON_ID = R.id.book_now_button;
+	private static final int BOOK_BY_PHONE_BUTTON_ID = R.id.book_by_phone_button;
+	private static final int REVIEWS_TITLE_VIEW_ID = R.id.user_rating_text_view;
+	private static final int BANNER_VIEW_ID = R.id.banner_message_text_view;
+	private static final int READ_MORE_VIEW_ID = R.id.read_more;
+	private static final int SELECT_BUTTON_ID = R.id.menu_select_hotel;
+	private static final int BACK_BUTTON_ID = android.R.id.home;
+	private static final int NO_REVIEWS_STRING_ID = R.string.no_reviews;
+	private static final int VIP_IMAGE_VIEW = R.id.vip_image_view;
 
 	public HotelsDetailsScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
@@ -32,43 +34,47 @@ public class HotelsDetailsScreen extends ScreenActions {
 	// Object access
 
 	public TextView titleView() {
-		return (TextView) getView(sTitleViewID);
+		return (TextView) getView(TITLE_VIEW_ID);
 	}
 
 	public RatingBar ratingBar() {
-		return (RatingBar) getView(sRatingViewID);
+		return (RatingBar) getView(RATING_VIEW_ID);
 	}
 
 	public View bookNowButton() {
-		return getView(sBookNowButtonID);
+		return getView(BOOK_NOW_BUTTON_ID);
 	}
 
 	public View bookByPhoneButton() {
-		return getView(sBookByPhoneButtonID);
+		return getView(BOOK_BY_PHONE_BUTTON_ID);
 	}
 
 	public TextView reviewsTitle() {
-		return (TextView) getView(sReviewsTitleViewID);
+		return (TextView) getView(REVIEWS_TITLE_VIEW_ID);
 	}
 
 	public TextView bannerTextView() {
-		return (TextView) getView(sBannerViewID);
+		return (TextView) getView(BANNER_VIEW_ID);
 	}
 
 	public View readMore() {
-		return getView(sReadMoreViewID);
+		return getView(READ_MORE_VIEW_ID);
 	}
 
 	public View selectButton() {
-		return getView(sSelectButtonID);
+		return getView(SELECT_BUTTON_ID);
 	}
 
 	public View backButton() {
-		return getView(sBackButtonID);
+		return getView(BACK_BUTTON_ID);
 	}
 
 	public String noReviews() {
-		return getString(sNoReviewsStringID);
+		return getString(NO_REVIEWS_STRING_ID);
+	}
+
+	public ImageView vipImageVIew() {
+		return (ImageView) getView(VIP_IMAGE_VIEW);
 	}
 
 	// Object interaction

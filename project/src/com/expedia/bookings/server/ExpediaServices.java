@@ -82,6 +82,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
+import com.expedia.bookings.data.ReviewSort;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.RoutesResponse;
 import com.expedia.bookings.data.SamsungWalletResponse;
@@ -149,12 +150,6 @@ public class ExpediaServices implements DownloadListener {
 	private static final int MAX_AVAILABILITY_ERROR_RETRIES = 3;
 
 	private static final String COOKIES_FILE = "cookies.dat";
-
-	public enum ReviewSort {
-		NEWEST_REVIEW_FIRST,
-		HIGHEST_RATING_FIRST,
-		LOWEST_RATING_FIRST;
-	}
 
 	// Flags for doRequest()
 	private static final int F_SECURE_REQUEST = 1;
@@ -1246,25 +1241,9 @@ public class ExpediaServices implements DownloadListener {
 
 	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber, int numReviewsPerPage) {
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+
 		params.add(new BasicNameValuePair("_type", "json"));
-
-		String sortValue;
-		switch (sort) {
-		case NEWEST_REVIEW_FIRST:
-			sortValue = "DATEDESC";
-			break;
-		case HIGHEST_RATING_FIRST:
-			sortValue = "RATINGDESC";
-
-			break;
-		case LOWEST_RATING_FIRST:
-		default:
-			sortValue = "RATINGASC";
-			break;
-
-		}
-		params.add(new BasicNameValuePair("sortBy", sortValue));
-
+		params.add(new BasicNameValuePair("sortBy", sort.getSortByApiParam()));
 		params.add(new BasicNameValuePair("start", Integer.toString(pageNumber * numReviewsPerPage)));
 		params.add(new BasicNameValuePair("items", Integer.toString(numReviewsPerPage)));
 
@@ -1452,8 +1431,6 @@ public class ExpediaServices implements DownloadListener {
 
 	/**
 	 * Returns the base E3 server url, based on dev settings
-	 * @param context
-	 * @return
 	 */
 	public String getE3EndpointUrl(int flags) {
 		EndPoint endPoint = getEndPoint(mContext);

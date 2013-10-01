@@ -335,7 +335,7 @@ public class Money implements JSONable {
 			amount = amount.round(new MathContext(amount.precision() - amount.scale(), RoundingMode.DOWN));
 		}
 
-		if ((flags & F_NO_DECIMAL) != 0) {
+		if (amount.scale() <= 0 || (flags & F_NO_DECIMAL) != 0) {
 			nf.setMaximumFractionDigits(0);
 		}
 

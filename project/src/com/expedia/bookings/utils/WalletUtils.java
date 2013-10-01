@@ -14,8 +14,13 @@ import android.text.TextUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
@@ -52,10 +57,6 @@ public class WalletUtils {
 
 	public static final String EXTRA_MASKED_WALLET = "EXTRA_MASKED_WALLET";
 	public static final String EXTRA_FULL_WALLET = "EXTRA_FULL_WALLET";
-
-	public static final int F_PHONE_NUMBER_REQUIRED = 1;
-	public static final int F_SHIPPING_ADDRESS_REQUIRED = 2;
-	public static final int F_USE_MINIMAL_BILLING_ADDRESS = 4;
 
 	public static final String SETTING_SHOW_WALLET_COUPON = "com.expedia.bookings.wallet.coupon.2013.enabled";
 
@@ -106,19 +107,6 @@ public class WalletUtils {
 			// This code is known to give 10% off on integration; may not work on other environments
 			return "hotelsapp2";
 		}
-	}
-
-	public static MaskedWalletRequest buildMaskedWalletRequest(Context context, Money total, int flags) {
-		MaskedWalletRequest.Builder builder = MaskedWalletRequest.newBuilder();
-		builder.setMerchantName(context.getString(R.string.merchant_name));
-		builder.setCurrencyCode(total.getCurrency());
-		builder.setEstimatedTotalPrice(formatAmount(total));
-
-		builder.setPhoneNumberRequired((flags & F_PHONE_NUMBER_REQUIRED) != 0);
-		builder.setShippingAddressRequired((flags & F_SHIPPING_ADDRESS_REQUIRED) != 0);
-		builder.setUseMinimalBillingAddress((flags & F_USE_MINIMAL_BILLING_ADDRESS) != 0);
-
-		return builder.build();
 	}
 
 	public static void addStandardFieldsToMaskedWalletRequest(Context context, MaskedWalletRequest.Builder builder,
@@ -469,5 +457,72 @@ public class WalletUtils {
 				.setRole(LineItem.Role.REGULAR)
 				.setTotalPrice(WalletUtils.formatAmount(money))
 				.build();
+	}
+
+	public static Cart buildHotelCart(Context context) {
+		HotelSearch search = Db.getHotelSearch();
+
+		Property property = search.getSelectedProperty();
+		Rate originalRate = search.getSelectedRate();
+		Rate couponRate = search.getCouponRate();
+		Money total = couponRate == null ? originalRate.getDisplayTotalPrice() : couponRate.getDisplayTotalPrice();
+
+		Cart.Builder cartBuilder = Cart.newBuilder();
+
+		// Total
+		cartBuilder.setCurrencyCode(total.getCurrency());
+		cartBuilder.setTotalPrice(WalletUtils.formatAmount(total));
+
+		// Base rate
+		cartBuilder.addLineItem(WalletUtils.createLineItem(originalRate.getNightlyRateTotal(), property.getName(),
+				LineItem.Role.REGULAR));
+
+		// Discount
+		if (couponRate != null) {
+			Money discount = new Money(couponRate.getTotalPriceAdjustments());
+			discount.negate();
+			cartBuilder.addLineItem(WalletUtils.createLineItem(discount, property.getName(), LineItem.Role.REGULAR));
+		}
+
+		// Taxes & Fees
+		if (originalRate.getTotalSurcharge() != null && !originalRate.getTotalSurcharge().isZero()) {
+			cartBuilder.addLineItem(WalletUtils.createLineItem(originalRate.getTotalSurcharge(),
+					context.getString(R.string.taxes_and_fees), LineItem.Role.TAX));
+		}
+
+		// Extra guest fees
+		if (originalRate.getExtraGuestFee() != null && !originalRate.getExtraGuestFee().isZero()) {
+			cartBuilder.addLineItem(WalletUtils.createLineItem(originalRate.getExtraGuestFee(),
+					context.getString(R.string.extra_guest_charge), LineItem.Role.TAX));
+		}
+
+		return cartBuilder.build();
+	}
+
+	public static Cart buildFlightCart(Context context) {
+		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+		FlightLeg firstLeg = trip.getLeg(0);
+		Money totalBeforeTax = trip.getBaseFare();
+		Money totalAfterTax = trip.getTotalFare();
+
+		Money surcharges = new Money();
+		surcharges.setCurrency(totalAfterTax.getCurrency());
+		surcharges.add(trip.getFees());
+		surcharges.add(trip.getTaxes());
+		surcharges.add(trip.getOnlineBookingFeesAmount());
+
+		Cart.Builder cartBuilder = Cart.newBuilder();
+		cartBuilder.setCurrencyCode(totalAfterTax.getCurrency());
+		cartBuilder.setTotalPrice(WalletUtils.formatAmount(totalAfterTax));
+
+		cartBuilder.addLineItem(WalletUtils.createLineItem(
+				totalBeforeTax,
+				context.getString(R.string.path_template, firstLeg.getFirstWaypoint().mAirportCode,
+						firstLeg.getLastWaypoint().mAirportCode), LineItem.Role.REGULAR));
+
+		cartBuilder.addLineItem(WalletUtils.createLineItem(surcharges, context.getString(R.string.taxes_and_fees),
+				LineItem.Role.TAX));
+
+		return cartBuilder.build();
 	}
 }

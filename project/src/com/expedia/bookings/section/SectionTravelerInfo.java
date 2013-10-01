@@ -35,6 +35,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
@@ -88,12 +89,14 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		mFields.add(mDisplaySpeatPreference);
 		mFields.add(mDisplayLongFormBirthDay);
 		mFields.add(mDisplayCurrentTravelerWithNameColored);
+		mFields.add(mDisplayEmailDisclaimer);
 
 		//Validation Indicator fields
 		mFields.add(mValidFirstName);
 		mFields.add(mValidMiddleName);
 		mFields.add(mValidLastName);
 		mFields.add(mValidPhoneNumber);
+		mFields.add(mValidEmail);
 		mFields.add(mValidDateOfBirth);
 		mFields.add(mValidRedressNumber);
 
@@ -103,6 +106,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		mFields.add(mEditLastName);
 		mFields.add(mEditPhoneNumberCountryCodeSpinner);
 		mFields.add(mEditPhoneNumber);
+		mFields.add(mEditEmailAddress);
 		mFields.add(mEditBirthDateTextBtn);
 		mFields.add(mEditRedressNumber);
 		mFields.add(mEditGenderSpinner);
@@ -119,7 +123,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		super.onFinishInflate();
 
 		mFields.bindFieldsAll(this);
-
 		postFinishInflate();
 	}
 
@@ -153,6 +156,12 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		PointOfSale pos = PointOfSale.getPointOfSale();
 		if (pos.hideMiddleName()) {
 			mFields.removeField(mEditMiddleName);
+		}
+		
+		// Remove email fields if user is logged in
+		if (User.isLoggedIn(mContext)) {
+			mFields.removeField(mEditEmailAddress);
+			mFields.removeField(mDisplayEmailDisclaimer);
 		}
 	}
 
@@ -239,6 +248,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			R.id.edit_phone_number);
 	ValidationIndicatorExclaimation<Traveler> mValidDateOfBirth = new ValidationIndicatorExclaimation<Traveler>(
 			R.id.edit_birth_date_text_btn);
+	ValidationIndicatorExclaimation<Traveler> mValidEmail = new ValidationIndicatorExclaimation<Traveler>(
+			R.id.edit_email_address);
 	ValidationIndicatorExclaimation<Traveler> mValidRedressNumber = new ValidationIndicatorExclaimation<Traveler>(
 			R.id.edit_redress_number);
 
@@ -262,7 +273,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			}
 		}
 	};
-
+	
 	SectionField<TextView, Traveler> mDisplayCurrentTravelerWithNameColored = new SectionField<TextView, Traveler>(
 			R.id.display_current_traveler_with_name_colored) {
 		@Override
@@ -347,6 +358,15 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			String template = mContext.getString(R.string.prefers_seat_TEMPLATE);
 			String val = String.format(template, data.getSeatPreferenceString(mContext));
 			field.setText(val);
+		}
+	};
+	
+
+	SectionField<TextView, 	Traveler> mDisplayEmailDisclaimer = new SectionField<TextView, Traveler>(
+			R.id.email_disclaimer) {
+		@Override
+		public void onHasFieldAndData(TextView field, Traveler data) {
+			field.setText(R.string.email_disclaimer);
 		}
 	};
 
@@ -488,6 +508,52 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		protected void onHasFieldAndData(EditText field, Traveler data) {
 			field.setText(data.getLastName());
 		}
+	};
+	
+	SectionFieldEditable<EditText, Traveler> mEditEmailAddress = new SectionFieldEditableFocusChangeTrimmer<EditText, Traveler>(
+			R.id.edit_email_address) {
+
+		@Override
+		public void setChangeListener(EditText field) {
+			field.addTextChangedListener(new AfterChangeTextWatcher() {
+				@Override
+				public void afterTextChanged(Editable s) {
+					if (hasBoundData()) {
+						getData().setEmail(s.toString());
+					}
+					onChange(SectionTravelerInfo.this);
+				}
+			});
+
+			field.addTextChangedListener(InvalidCharacterHelper
+					.generateInvalidCharacterTextWatcher(SectionTravelerInfo.this, Mode.EMAIL));
+		}
+
+		@Override
+		protected void onHasFieldAndData(EditText field, Traveler data) {
+			if (!TextUtils.isEmpty(data.getEmail())) {
+				field.setText(data.getEmail());
+			}
+			else {
+				field.setText("");
+			}
+		}
+
+		@Override
+		protected Validator<EditText> getValidator() {
+			MultiValidator<EditText> emailValidators = new MultiValidator<EditText>();
+			emailValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
+			emailValidators.addValidator(CommonSectionValidators.EMAIL_VALIDATOR_STRICT);
+			return emailValidators;
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, Traveler>> getPostValidators() {
+			ArrayList<SectionFieldValidIndicator<?, Traveler>> retArr = new ArrayList<SectionFieldValidIndicator<?, Traveler>>();
+			retArr.add(mValidEmail);
+			return retArr;
+		}
+		
 	};
 
 	/*

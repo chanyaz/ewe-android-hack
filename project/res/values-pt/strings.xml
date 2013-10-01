@@ -349,7 +349,7 @@
     <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
     <string name="attraction_theme_parks_second">parques temáticos</string>
     <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">Encontre as melhores</string>
+    <string name="attraction_beaches_first">Encontre o melhor</string>
     <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
     <string name="attraction_beaches_second">praias</string>
     <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
@@ -377,7 +377,7 @@
     <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
     <string name="attraction_food_second">comida</string>
     <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_first">Encontre as melhores</string>
+    <string name="attraction_entertainment_first">Encontre o melhor</string>
     <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
     <string name="attraction_entertainment_second">entretenimento</string>
     <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
@@ -428,9 +428,9 @@
     <string name="car_category_oversize">Carro grande</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">Duas portas Carro</string>
-    <string name="car_type_three_door">Três portas Carro</string>
-    <string name="car_type_four_door">Quatro portas Carro</string>
+    <string name="car_type_two_door">Duas portas</string>
+    <string name="car_type_three_door">Três portas</string>
+    <string name="car_type_four_door">Quatro portas</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Wagon</string>
     <string name="car_type_limousine">Limusine</string>
@@ -683,8 +683,6 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; para &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Classificar voos</string>
-    <!-- Label for "stops" button -->
-    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">Editar pesquisa</string>
     <!-- Action mode asking users to select dates -->
@@ -696,7 +694,7 @@
         <item quantity="two">%1$d adultos</item>
         <item quantity="few">%1$d adultos</item>
         <item quantity="many">%1$d adultos</item>
-        <item quantity="other">%1$d adulto</item>
+        <item quantity="other">%1$d Adultos</item>
     </plurals>
     <!-- Message shown when loading AirAsia flight routes -->
     <string name="loading_air_asia_routes">Carregando as rotas da AirAsia…</string>
@@ -924,7 +922,7 @@
 
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
-    <string name="Add_Traveler">Dados do Viajante</string>
+    <string name="Add_Traveler">Dados do viajante</string>
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">Adicionar Pagamento</string>
     <!-- Enter travler info button text -->
@@ -1505,7 +1503,7 @@
     <!-- Title for VIP Access message -->
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">Nos hotéis com VIP Access, os membros do Expedia Elite Plus recebem upgrade de quarto gratuito, além de outros benefícios que dependem da disponibilidade no momento do check-in.</string>
+    <string name="vip_access_message">Nos hotéis com VIP Access, os associados do Expedia Elite Plus recebem upgrade de quarto gratuito, além de outros benefícios que dependem da disponibilidade no momento do check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Somente hotéis com VIP Access</string>
 
@@ -1850,7 +1848,7 @@
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Inscrito no Expedia Rewards\u2122</string>
     <!-- Label for account status -->
-    <string name="enrolled_in_expedia_elite_plus_rewards">Membro do Elite Plus</string>
+    <string name="enrolled_in_expedia_elite_plus_rewards">Associado do Elite Plus</string>
     <!-- Loading rewards points message -->
     <string name="loading_your_rewards_points">Carregando seus pontos do Expedia Rewards…</string>
     <!-- Label for account name -->
@@ -1881,6 +1879,34 @@
     <string name="expired_coupon">Cupom expirado</string>
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">Erro de cupom</string>
+
+    <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't recognized -->
+    <string name="coupon_error_unrecognized">Desculpe, mas este código de cupom é desconhecido</string>
+    <!-- Error when applying coupon - the coupon has expired -->
+    <string name="coupon_error_expired">Desculpe, mas este cupom expirou</string>
+    <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
+    <string name="coupon_error_not_redeemed">Desculpe, ocorreu um problema. Tente novamente</string>
+    <!-- Error when applying coupon - the coupon has already been used by this user -->
+    <string name="coupon_error_duplicate">Desculpe, mas este código de cupom já foi utilizado</string>
+    <!-- Error when applying coupon - generic error when the coupon doesn't work -->
+    <string name="coupon_error_fallback">Desculpe, ocorreu um problema. Tente novamente</string>
+    <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
+    <string name="coupon_error_price_change">O cupom não foi aplicado, pois o valor da reserva foi alterado. Revise e tente novamente.</string>
+    <!-- Error when applying coupon - the coupon is for another region -->
+    <string name="coupon_error_invalid_region">Desculpe, mas este código de cupom serve para outro país</string>
+    <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
+    <string name="coupon_error_min_stay_not_met">Desculpe, mas você não selecionou o número mínimo de noites</string>
+    <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
+    <string name="coupon_error_invalid_travel_dates">Desculpe, mas este cupom não é válido para essas datas</string>
+    <!-- Error when applying coupon - the hotel does not accept any coupons -->
+    <string name="coupon_error_invalid_product">Desculpe, mas este hotel não aceita cupons</string>
+    <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
+    <string name="coupon_error_min_purchase_amount_not_met">Desculpe, mas isto não atende aos requisitos mínimos</string>
+    <!-- Error when applying coupon - the hotel does not accept this coupon -->
+    <string name="coupon_error_hotel_excluded">Desculpe, mas este hotel não aceita cupons</string>
+    <!-- Error when applying coupon - our coupon servers are down -->
+    <string name="coupon_error_service_down">Desculpe, mas não é mais possível processar cupons Tente novamente</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
@@ -1996,10 +2022,10 @@
 
     <!-- Strings used a lot of places -->
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
-    <string name="app_not_available">Seu dispositivo móvel não possui um app capaz de realizar esta ação ou você não tem autorização para acessá-lo.</string>
+    <string name="app_not_available">Seu dispositivo móvel não possui um aplicativo capaz de realizar esta ação ou você não tem autorização para acessá-lo.</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
-        <item quantity="zero">%d adulto</item>
+        <item quantity="zero">%d Adultos</item>
         <item quantity="one">%d adulto</item>
         <item quantity="two">%d adultos</item>
         <item quantity="many">%d adultos</item>
@@ -2392,7 +2418,7 @@
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">Termos e condições do cupom do Google Wallet</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">O cupom deve ser utilizado no aplicativo Android da Expedia para viagens entre 17 de junho e 31 de dezembro de 2013. Esta oferta da Expedia.com é válida somente para clientes da Expedia.com nos Estados Unidos.\n\nAs reservas estão sujeitas a disponibilidade nos hotéis com tarifa da Expedia no momento da reserva e a todos os termos e condições aplicáveis. O cupom não pode ser usado com outros cupons, promoções ou ofertas especiais. O cupom de desconto não pode ser aplicado a impostos, taxas de fornecedor, multas de alteração ou cancelamento, taxas administrativas ou outras cobranças, que são de responsabilidade única do cliente. Se você alterar ou cancelar qualquer parte da reserva, o cupom não será aplicado às novas datas de viagem.\n\nO conteúdo escrito dos termos e condições deste cupom não pode ser alterado por nenhuma representação de qualquer pessoa não autorizada, incluindo funcionários da Expedia, Inc. O cupom não pode ser transferido, não pode ser trocado por dinheiro e tem valor nulo onde é proibido por lei. A Expedia, Inc. pode alterar ou revogar esta oferta a qualquer momento.</string>
+    <string name="wallet_promo_tc_message">O cupom deve ser utilizado no aplicativo Android da Expedia para viagens entre 17 de junho e 31 de dezembro de 2013. Esta oferta da Expedia.com é válida somente para clientes da Expedia.com nos Estados Unidos.\n\nAs reservas estão sujeitas a disponibilidade nos hotéis com tarifa da Expedia no momento da reserva e a todos os termos e condições aplicáveis. O cupom não pode ser usado com outros cupons, promoções ou ofertas especiais. O cupom de desconto não pode ser aplicado a impostos, taxas de fornecedor, multas de alteração ou cancelamento, taxas administrativas ou outras cobranças, que são de responsabilidade única do cliente. Se você alterar ou cancelar qualquer parte da reserva, o cupom não será aplicado às novas datas de viagem.\n\nO conteúdo escrito dos termos e condições deste cupom não pode ser alterado por nenhuma representação de qualquer pessoa não autorizada, incluindo funcionários da Expedia, Inc. O cupom é intransferível e não pode ser trocado por dinheiro. Tem valor nulo onde é proibido por lei. A Expedia, Inc. pode alterar ou revogar esta oferta a qualquer momento.</string>
     <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
     <string name="wallet_promo_expired">Infelizmente o desconto do Google Wallet vale somente para viagens feitas em 2013.</string>
 

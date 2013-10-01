@@ -73,46 +73,9 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> {
 
 	@Override
 	protected FullWalletRequest getFullWalletRequest() {
-		HotelSearch search = Db.getHotelSearch();
-
-		Property property = search.getSelectedProperty();
-		Rate originalRate = search.getSelectedRate();
-		Rate couponRate = search.getCouponRate();
-		Money total = couponRate == null ? originalRate.getDisplayTotalPrice() : couponRate.getDisplayTotalPrice();
-
 		FullWalletRequest.Builder walletRequestBuilder = FullWalletRequest.newBuilder();
 		walletRequestBuilder.setGoogleTransactionId(getGoogleWalletTransactionId());
-
-		Cart.Builder cartBuilder = Cart.newBuilder();
-
-		// Total
-		cartBuilder.setCurrencyCode(total.getCurrency());
-		cartBuilder.setTotalPrice(WalletUtils.formatAmount(total));
-
-		// Base rate
-		cartBuilder.addLineItem(WalletUtils.createLineItem(originalRate.getNightlyRateTotal(), property.getName(),
-				LineItem.Role.REGULAR));
-
-		// Discount
-		if (couponRate != null) {
-			Money discount = new Money(couponRate.getTotalPriceAdjustments());
-			discount.negate();
-			cartBuilder.addLineItem(WalletUtils.createLineItem(discount, property.getName(), LineItem.Role.REGULAR));
-		}
-
-		// Taxes & Fees
-		if (originalRate.getTotalSurcharge() != null && !originalRate.getTotalSurcharge().isZero()) {
-			cartBuilder.addLineItem(WalletUtils.createLineItem(originalRate.getTotalSurcharge(),
-					getString(R.string.taxes_and_fees), LineItem.Role.TAX));
-		}
-
-		// Extra guest fees
-		if (originalRate.getExtraGuestFee() != null && !originalRate.getExtraGuestFee().isZero()) {
-			cartBuilder.addLineItem(WalletUtils.createLineItem(originalRate.getExtraGuestFee(),
-					getString(R.string.extra_guest_charge), LineItem.Role.TAX));
-		}
-
-		walletRequestBuilder.setCart(cartBuilder.build());
+		walletRequestBuilder.setCart(WalletUtils.buildHotelCart(getActivity()));
 		return walletRequestBuilder.build();
 	}
 

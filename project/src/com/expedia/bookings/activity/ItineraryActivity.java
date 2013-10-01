@@ -43,8 +43,6 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		OnCameraChangeListener, SupportMapFragmentListener, DoLogoutListener, ItineraryMapFragmentListener,
 		ItinerarySyncListener, OnListModeChangedListener {
 
-	public static final int REQUEST_SETTINGS = 1;
-
 	private static final String ARG_JUMP_TO_NOTIFICATION = "ARG_JUMP_TO_NOTIFICATION";
 
 	private static final String STATE_JUMP_TO_ITIN_ID = "STATE_JUMP_TO_ITIN_ID";
@@ -239,17 +237,6 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (requestCode == REQUEST_SETTINGS && resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
-			// Just to be safe, hide the popup window (as the itin may have been removed)
-			mItinListFragment.hideDetails();
-			hidePopupWindow();
-		}
-	}
-
-	@Override
 	public void onBackPressed() {
 		if (mItinListFragment.isInDetailMode()) {
 			mItinListFragment.hideDetails();
@@ -334,7 +321,6 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		getSupportMenuInflater().inflate(R.menu.menu_itinerary, menu);
-		getSupportMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
 
 		mLogInMenuItem = menu.findItem(R.id.menu_log_in);
 		mLogOutMenuItem = menu.findItem(R.id.menu_log_out);
@@ -372,16 +358,6 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		}
 		case R.id.menu_log_out: {
 			mItinListFragment.accountLogoutClicked();
-			return true;
-		}
-		case R.id.menu_settings: {
-			Intent intent = new Intent(this, TabletPreferenceActivity.class);
-			startActivityForResult(intent, REQUEST_SETTINGS);
-			return true;
-		}
-		case R.id.menu_about: {
-			Intent intent = new Intent(this, AboutActivity.class);
-			startActivity(intent);
 			return true;
 		}
 		}

@@ -683,8 +683,6 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;到&lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">排序航班</string>
-    <!-- Label for "stops" button -->
-    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">修改搜尋</string>
     <!-- Action mode asking users to select dates -->
@@ -1876,11 +1874,39 @@
     <!-- Label for credit card selection -->
     <string name="use_card">使用的信用卡：</string>
     <!-- Label for when a user has entered an invalid coupon -->
-    <string name="invalid_coupon">優惠代碼無效</string>
+    <string name="invalid_coupon">優惠券無效</string>
     <!-- Label for when a user has entered a coupon which is expired -->
-    <string name="expired_coupon">優惠代碼過期</string>
+    <string name="expired_coupon">優惠券過期</string>
     <!-- Label for when a user has entered a coupon and the server fails -->
-    <string name="coupon_error">優惠代碼錯誤</string>
+    <string name="coupon_error">優惠券錯誤</string>
+
+    <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't recognized -->
+    <string name="coupon_error_unrecognized">很抱歉，這不是有效的優惠代碼</string>
+    <!-- Error when applying coupon - the coupon has expired -->
+    <string name="coupon_error_expired">很抱歉，此優惠券已經過期</string>
+    <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
+    <string name="coupon_error_not_redeemed">很抱歉，系統出現問題。請再試一次。</string>
+    <!-- Error when applying coupon - the coupon has already been used by this user -->
+    <string name="coupon_error_duplicate">很抱歉，此優惠代碼已經使用過</string>
+    <!-- Error when applying coupon - generic error when the coupon doesn't work -->
+    <string name="coupon_error_fallback">很抱歉，系統出現問題。請再試一次。</string>
+    <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
+    <string name="coupon_error_price_change">由於預訂費用已經改變，因此我們沒有套用優惠代碼。請查看並再試一次</string>
+    <!-- Error when applying coupon - the coupon is for another region -->
+    <string name="coupon_error_invalid_region">很抱歉，此優惠代碼是給其他國家使用的</string>
+    <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
+    <string name="coupon_error_min_stay_not_met">很抱歉，您的選擇沒有達到最少入住晚數</string>
+    <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
+    <string name="coupon_error_invalid_travel_dates">很抱歉，此優惠券不適用於這些日期</string>
+    <!-- Error when applying coupon - the hotel does not accept any coupons -->
+    <string name="coupon_error_invalid_product">很抱歉，此飯店不接受優惠券</string>
+    <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
+    <string name="coupon_error_min_purchase_amount_not_met">很抱歉，此預訂未達最低費用要求</string>
+    <!-- Error when applying coupon - the hotel does not accept this coupon -->
+    <string name="coupon_error_hotel_excluded">很抱歉，此飯店不接受優惠券</string>
+    <!-- Error when applying coupon - our coupon servers are down -->
+    <string name="coupon_error_service_down">很抱歉，目前無法處理優惠券。請再試一次。</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
@@ -2760,7 +2786,7 @@
     <!-- Content description for action: Enter coupon or promotional code into text field -->
     <string name="cd_checkout_coupon_code_entry_field">請在文字欄位輸入優惠或折扣代碼</string>
     <!-- Content description for action: Press to apply coupon -->
-    <string name="cd_checkout_apply_coupon_button">按下以套用優惠</string>
+    <string name="cd_checkout_apply_coupon_button">按下以使用優惠券</string>
     <!-- Log in screen -->
     <!-- Content description for action: Enter Expedia account email address -->
     <string name="cd_log_in_email_edit_text">請輸入 Expedia 帳戶的電子郵件地址</string>

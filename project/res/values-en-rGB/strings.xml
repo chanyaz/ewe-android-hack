@@ -5,7 +5,7 @@
     <!-- Weve found your user account -->
     <string name="facebook_weve_found_your_account">Hey &lt;b&gt;%1$s&lt;/b&gt;, looks like we\&apos;ve found your Expedia account! Please enter your expedia password below to link your facebook and expedia accounts.</string>
     <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">Hey &lt;b&gt;%1$s&lt;/b&gt;, we\&apos;ve loaded your facebook information!</string>
+    <string name="facebook_weve_fetched_your_info">Hey &lt;b&gt;%1$s&lt;/b&gt;, we\&apos;ve loaded your Facebook information!</string>
     <!-- Log in with facebook (button text) -->
     <string name="Log_in_with_Facebook">Log in with Facebook</string>
     <!-- fetching information from Facebook -->
@@ -81,7 +81,7 @@
     <!-- Notification title for car drop off -->
     <string name="Car_Drop_Off_X_TEMPLATE">Car Drop Off – %s</string>
     <!-- Notification text for car drop off -->
-    <string name="Your_rental_is_due_returned">Your rental car is due to be returned in two hours.</string>
+    <string name="Your_rental_is_due_returned">Your hire car is due to be returned in two hours.</string>
     <!-- Notification title for activity start -->
     <string name="Activity_starting_soon">Activity starting soon</string>
     <!-- Notification text for activity start -->
@@ -481,7 +481,7 @@
     <!-- Tell users when they dropped off a rental car. %1$s is a date, e.g. ("dropped off Jun 15") -->
     <string name="itin_card_details_dropped_off_TEMPLATE">Dropped off %1$s</string>
     <string name="itin_card_details_agency_phone">Agency Phone</string>
-    <string name="itin_card_details_toll_free_phone">Toll Free Phone</string>
+    <string name="itin_card_details_toll_free_phone">Free Phone</string>
     <string name="itin_card_details_check_in">Check In</string>
     <string name="itin_card_details_check_out">Check Out</string>
     <string name="itin_card_details_address">Address</string>
@@ -491,7 +491,7 @@
     <string name="toast_copied_to_clipboard">Copied to the clipboard.</string>
     <string name="itin_card_details_reload">Reload Information</string>
     <string name="itin_card_details_reload_activity">Reload Activity Info</string>
-    <string name="itin_card_details_reload_car">Reload Car Rental Info</string>
+    <string name="itin_card_details_reload_car">Reload Car Hire Info</string>
     <string name="itin_card_details_reload_flight">Reload Flight Info</string>
     <string name="itin_card_details_reload_hotel">Reload Hotel Info</string>
     <string name="itin_card_details_reload_cruise">Reload Cruise Info</string>
@@ -556,15 +556,15 @@
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
     <string name="share_template_short_flight_multiday">I\&apos;m on flight %1$s to %2$s.\nDeparts %3$s at %4$s\nArrives %5$s at %6$s, %7$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
-    <string name="share_template_subject_car">My car rental (%1$s – %2$s)</string>
+    <string name="share_template_subject_car">My car hire (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
-    <string name="share_template_subject_car_no_dates">My car rental</string>
+    <string name="share_template_subject_car_no_dates">My car hire</string>
     <!-- 1: vehicle type -->
-    <string name="share_template_short_car_type">I\&apos;ve rented a %1$s</string>
+    <string name="share_template_short_car_type">I\&apos;ve hired a %1$s</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">from %1$s – %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
-    <string name="share_car_start_TEMPLATE">Here are the details of my %1$s car rental.</string>
+    <string name="share_car_start_TEMPLATE">Here are the details of my %1$s car hire.</string>
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
     <string name="share_car_vehicle_TEMPLATE">Vehicle: %1$s</string>
     <!-- The car rental pick up time.  %1$s is a date, %2$s is a time (e.g., "Pick Up After: 3/21/13 at 5 PM") -->
@@ -683,8 +683,6 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; to &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Sort Flights</string>
-    <!-- Label for "stops" button -->
-    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">Edit Search</string>
     <!-- Action mode asking users to select dates -->
@@ -739,7 +737,7 @@
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">One way for &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Round trip from $994" -->
-    <string name="round_trip_price_TEMPLATE">Round trip from &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="round_trip_price_TEMPLATE">Return from &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">Book now for &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
@@ -934,7 +932,7 @@
     <!-- Add traveler number template -->
     <string name="add_traveler_number_TEMPLATE">Add traveller %1$s</string>
     <!-- Warning shown to users when they enter their name -->
-    <string name="name_must_match_warning">Boarding may be denied if traveler name does not match government-issued photo ID.</string>
+    <string name="name_must_match_warning">Boarding may be denied if traveller name does not match government-issued photo ID.</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Special Assistance: %1$s</string>
@@ -1387,7 +1385,7 @@
     <!-- Less than or equal to a max  # of stop. Currently set to 1 -->
     <string name="stop_description__max">One or Less</string>
     <!-- Nonstop flights -->
-    <string name="stop_description__nonstop">NonStop</string>
+    <string name="stop_description__nonstop">Direct</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">All</string>
@@ -1398,11 +1396,11 @@
     <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
     <string name="filter_price_expensive">£££</string>
     <!-- Filter option for "show cheap hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_cheap_euro">£</string>
+    <string name="filter_price_cheap_euro">€</string>
     <!-- Filter option for "show moderate priced hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_moderate_euro">££</string>
+    <string name="filter_price_moderate_euro">€€</string>
     <!-- Filter option for "show expensive hotels".  (Should remain abbreviated) -->
-    <string name="filter_price_expensive_euro">£££</string>
+    <string name="filter_price_expensive_euro">€€€</string>
     <!-- Filter option for "show 3 star hotels or better."  (Should remain abbreviated) -->
     <string name="filter_stars_three">3+</string>
     <!-- Filter option for "show 4 star hotels or better."  (Should remain abbreviated) -->
@@ -1744,7 +1742,7 @@
     <!-- Error if an invalid card number was entered -->
     <string name="invalid_card_number">The credit card number you entered is invalid, please try again.</string>
     <!-- Error shown to user if their credit card postal code is invalid -->
-    <string name="invalid_postal_code">We\&apos;re sorry, but a valid postal code is required to process your credit card.</string>
+    <string name="invalid_postal_code">We\&apos;re sorry, but a valid postcode is required to process your credit card.</string>
     <!-- Error if an invalid credit card type was entered -->
     <string name="invalid_card_type">We could not detect your credit card type, please enter a valid credit card.</string>
     <!-- Error if an invalid month (not 1-12) was entered -->
@@ -1881,6 +1879,34 @@
     <string name="expired_coupon">Expired Voucher</string>
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">Voucher Error</string>
+
+    <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't recognized -->
+    <string name="coupon_error_unrecognized">Sorry, but this isn\&apos;t a known voucher code</string>
+    <!-- Error when applying coupon - the coupon has expired -->
+    <string name="coupon_error_expired">Sorry, but this voucher has expired</string>
+    <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
+    <string name="coupon_error_not_redeemed">Sorry, but we\&apos;re having a problem. Please try again</string>
+    <!-- Error when applying coupon - the coupon has already been used by this user -->
+    <string name="coupon_error_duplicate">Sorry, but this voucher code has already been used</string>
+    <!-- Error when applying coupon - generic error when the coupon doesn't work -->
+    <string name="coupon_error_fallback">Sorry, but we\&apos;re having a problem. Please try again</string>
+    <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
+    <string name="coupon_error_price_change">The booking cost changed, so we didn\&apos;t apply the voucher. Please review and try again</string>
+    <!-- Error when applying coupon - the coupon is for another region -->
+    <string name="coupon_error_invalid_region">Sorry, but this voucher code is for a different country</string>
+    <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
+    <string name="coupon_error_min_stay_not_met">Sorry, but you didn\&apos;t select the minimum number of nights</string>
+    <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
+    <string name="coupon_error_invalid_travel_dates">Sorry, but this voucher isn\&apos;t valid for these dates</string>
+    <!-- Error when applying coupon - the hotel does not accept any coupons -->
+    <string name="coupon_error_invalid_product">Sorry, but this hotel doesn\&apos;t accept vouchers</string>
+    <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
+    <string name="coupon_error_min_purchase_amount_not_met">Sorry, but this doesn\&apos;t meet the minimum cost requirement</string>
+    <!-- Error when applying coupon - the hotel does not accept this coupon -->
+    <string name="coupon_error_hotel_excluded">Sorry, but this hotel doesn\&apos;t accept vouchers</string>
+    <!-- Error when applying coupon - our coupon servers are down -->
+    <string name="coupon_error_service_down">Sorry, but we cannot process vouchers currently.  Please try again</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
@@ -2146,7 +2172,7 @@
     <string name="country_bj">Benin</string>
     <string name="country_bm">Bermuda</string>
     <string name="country_bt">Bhutan</string>
-    <string name="country_bo">Bolivia, Plurinational State of</string>
+    <string name="country_bo">Bolivia</string>
     <string name="country_ba">Bosnia and Herzegovina</string>
     <string name="country_bw">Botswana</string>
     <string name="country_br">Brazil</string>
@@ -2392,7 +2418,7 @@
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">Google Wallet Coupon Terms &amp; Conditions</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Coupon must be redeemed in the Expedia Android app for travel between 17 June 2013 and 31 December 2013. This offer is from Expedia.com and is valid for Expedia.com U.S. customers only.\n\nBookings are subject to availability at Expedia Rate hotels at the time of booking and all applicable terms and conditions. Coupon may not be used with other coupons, promotions or special offers. Coupon discount cannot be applied against taxes, supplier-charged fees, cancellation or change penalties, administrative fees or other miscellaneous charges, which are the sole responsibility of the customer. In the event that you change or cancel any part of your booking, the coupon will not apply to the changed travel schedule.\n\nTerms and conditions of this coupon are as written and cannot be changed by any representation of any unauthorised person, including employees of Expedia, Inc. Coupon is not transferable and is not redeemable for cash. Void where prohibited by law. Expedia, Inc. may revoke or change this offer at any time.</string>
+    <string name="wallet_promo_tc_message">Voucher must be redeemed in the Expedia Android app for travel between 17 June 2013 and 31 December 2013. This offer is from Expedia.com and is valid for Expedia.com U.S. customers only.\n\nBookings are subject to availability at Expedia Rate hotels at the time of booking and all applicable terms and conditions. Voucher may not be used with other vouchers, promotions or special offers. Coupon discount cannot be applied against taxes, supplier-charged fees, cancellation or change penalties, administrative fees or other miscellaneous charges, which are the sole responsibility of the customer. In the event that you change or cancel any part of your booking, the coupon will not apply to the changed travel schedule.\n\nTerms and conditions of this coupon are as written and cannot be changed by any representation of any unauthorised person, including employees of Expedia, Inc. Coupon is not transferable and is not redeemable for cash. Void where prohibited by law. Expedia, Inc. may revoke or change this offer at any time.</string>
     <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
     <string name="wallet_promo_expired">Sorry, but the Google Wallet discount only applies to trips taken in 2013.</string>
 
@@ -2426,7 +2452,7 @@
     <!-- Carte Bleue -->
     <string name="cc_carte_bleue">Carte Bleue</string>
     <!-- Carta Si -->
-    <string name="cc_carta_si">Carta Si</string>
+    <string name="cc_carta_si">CartaSì</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -2719,7 +2745,7 @@
     <!-- Content description for action: Press to clear selected dates -->
     <string name="cd_flights_clear_selected_dates">Press to clear selected dates</string>
     <!-- Content description for action: Press to edit number of travelers -->
-    <string name="cd_flights_search_number_of_travelers_edit">Press to edit number of travelers</string>
+    <string name="cd_flights_search_number_of_travelers_edit">Press to edit number of travellers</string>
     <!-- Flight Search Results -->
     <!-- Content description for action: Press to return to flight search -->
     <string name="cd_flights_search_search_button">Press to return to flight search</string>
@@ -2752,7 +2778,7 @@
     <!-- Content description for action: Press to make this purchase with Google Wallet -->
     <string name="cd_checkout_buy_with_google">Press to make this purchase with Google Wallet</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
-    <string name="cd_checkout_add_traveler">Press to add a traveler to this booking</string>
+    <string name="cd_checkout_add_traveler">Press to add a traveller to this booking</string>
     <!-- Content description for action: Press to select payment for this booking -->
     <string name="cd_checkout_select_payment">Press to select payment for this booking</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
@@ -2770,11 +2796,11 @@
     <string name="cd_log_in_with_facebook">Press to log into Expedia with your Facebook account</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
-    <string name="cd_traveler_enter_new_traveler">Press to enter a new traveler</string>
+    <string name="cd_traveler_enter_new_traveler">Press to enter a new traveller</string>
     <!-- Content description for action: Press to edit traveler information -->
-    <string name="cd_traveler_edit_traveler_information">Press to edit traveler information</string>
+    <string name="cd_traveler_edit_traveler_information">Press to edit traveller information</string>
     <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="cd_traveler_edit_passport_country">Edit traveler\&apos;s passport country</string>
+    <string name="cd_traveler_edit_passport_country">Edit traveller\&apos;s passport country</string>
     <!-- Traveler Information edit/entry screen -->
     <!-- Content description for action: Enter first name -->
     <string name="cd_traveler_first_name_edit_text">Enter first name</string>
@@ -2787,18 +2813,18 @@
     <!-- Content description for action: Enter phone number -->
     <string name="cd_traveler_phone_number">Enter phone number</string>
     <!-- Content description for action: Press to finish entering traveler information -->
-    <string name="cd_traveler_information_done">Press to finish entering traveler information</string>
+    <string name="cd_traveler_information_done">Press to finish entering traveller information</string>
     <!-- Extra traveler information - flights -->
     <!-- Content description for action: Press to select traveler's birthday -->
-    <string name="cd_traveler_birthday_edit">Press to select traveler\&apos;s birthday</string>
+    <string name="cd_traveler_birthday_edit">Press to select traveller\&apos;s birthday</string>
     <!-- Content description for action: Press to select traveler's gender -->
-    <string name="cd_traveler_gender_edit">Press to select traveler\&apos;s gender</string>
+    <string name="cd_traveler_gender_edit">Press to select traveller\&apos;s gender</string>
     <!-- Content description for action: Enter redress number, if applicable -->
     <string name="cd_traveler_redress_number_edit_text">Enter redress number, if applicable</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
-    <string name="cd_traveler_special_assistance_edit">Select type of special assistance traveler requires</string>
+    <string name="cd_traveler_special_assistance_edit">Select type of special assistance traveller requires</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
-    <string name="cd_traveler_seat_preference_edit">Select seat type that the traveler prefers</string>
+    <string name="cd_traveler_seat_preference_edit">Select seat type that the traveller prefers</string>
     <!-- Credit Card Information -->
     <!-- Content description for action: Enter credit card number -->
     <string name="cd_card_info_card_number_edit_text">Enter credit card number</string>

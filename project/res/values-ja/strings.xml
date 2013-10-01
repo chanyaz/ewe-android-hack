@@ -5,7 +5,7 @@
     <!-- Weve found your user account -->
     <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt;さん、すでにエクスペディアのアカウントをお持ちのようです。以下にエクスペディアのパスワードを入力して、Facebook とエクスペディアのアカウントをリンクしてください。</string>
     <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt;さん、Facebook のアカウントをロードしました !</string>
+    <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt;さん、Facebook のアカウントを読み込みました !</string>
     <!-- Log in with facebook (button text) -->
     <string name="Log_in_with_Facebook">Facebook でログイン</string>
     <!-- fetching information from Facebook -->
@@ -248,13 +248,13 @@
     <!-- Legend -->
     <string name="legend">凡例</string>
     <!-- Flight has been cancelled -->
-    <string name="flight_cancelled">キャンセルされたフライト</string>
+    <string name="flight_cancelled">フライトがキャンセルされました</string>
     <!-- Flight has been cancelled; parameter is the destination city for the canceled flight -->
     <string name="flight_to_city_cancelled_TEMPLATE">キャンセルされた %1$s 行きフライト</string>
     <!-- Flight has been redirected (location unknown) -->
-    <string name="flight_redirected">飛行経路が変更されたフライト</string>
+    <string name="flight_redirected">フライトの飛行経路が変更されました</string>
     <!-- Flight has been diverted (location unknown) -->
-    <string name="flight_diverted">到着地が変更されたフライト</string>
+    <string name="flight_diverted">フライトの到着地が変更されました</string>
     <!-- Flight has been diverted to {airport} template -->
     <string name="flight_diverted_TEMPLATE">%1$s へ到着地が変更されたフライト</string>
     <!-- Flight departs on {date} template -->
@@ -664,9 +664,9 @@
     <!-- Select a flight back to (city name) -->
     <string name="select_a_flight_back_to_TEMPLATE">%1$s へ戻るフライトを選択</string>
     <!-- Error message template when loading a webpage fails -->
-    <string name="web_view_loading_error_TEMPLATE">ページをロードできません ! エラー メッセージ : %1$s</string>
+    <string name="web_view_loading_error_TEMPLATE">ページを読み込めません ! エラー メッセージ : %1$s</string>
     <!-- Error message when attempting to load a webpage and there is no url to load -->
-    <string name="web_view_no_url">ロードする URL がありません</string>
+    <string name="web_view_no_url">読み込む URL がありません</string>
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">近日リリース予定…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
@@ -683,8 +683,6 @@
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; → &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">フライトを並べ替える</string>
-    <!-- Label for "stops" button -->
-    <string name="stops_flights">Stops(dev)</string>
     <!-- Edit search title -->
     <string name="edit_search">検索条件を変更する</string>
     <!-- Action mode asking users to select dates -->
@@ -1852,7 +1850,7 @@
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_elite_plus_rewards">Elite Plus メンバー</string>
     <!-- Loading rewards points message -->
-    <string name="loading_your_rewards_points">リワード ポイントをロード中…</string>
+    <string name="loading_your_rewards_points">リワード ポイントを読み込み中…</string>
     <!-- Label for account name -->
     <string name="logged_in_as">ログイン済み</string>
     <!-- Label for signin screen -->
@@ -1881,6 +1879,34 @@
     <string name="expired_coupon">期限切れクーポン</string>
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">クーポン エラー</string>
+
+    <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't recognized -->
+    <string name="coupon_error_unrecognized">申し訳ありません。このクーポン コードは存在しません</string>
+    <!-- Error when applying coupon - the coupon has expired -->
+    <string name="coupon_error_expired">申し訳ありません。このクーポンの有効期限が過ぎています</string>
+    <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
+    <string name="coupon_error_not_redeemed">申し訳ありません。エラーが発生しました。もう一度お試しください</string>
+    <!-- Error when applying coupon - the coupon has already been used by this user -->
+    <string name="coupon_error_duplicate">申し訳ありません。このクーポンはすでに使用されています</string>
+    <!-- Error when applying coupon - generic error when the coupon doesn't work -->
+    <string name="coupon_error_fallback">申し訳ありません。エラーが発生しました。もう一度お試しください</string>
+    <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
+    <string name="coupon_error_price_change">予約料金が変更されたため、クーポンは適用されませんでした。ご確認いただいてから、再度お試しください</string>
+    <!-- Error when applying coupon - the coupon is for another region -->
+    <string name="coupon_error_invalid_region">申し訳ありません。この国はこのクーポン コードの対象外です</string>
+    <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
+    <string name="coupon_error_min_stay_not_met">申し訳ありません。最低宿泊日数以上の宿泊日数を選択してください</string>
+    <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
+    <string name="coupon_error_invalid_travel_dates">申し訳ありません。指定された日程ではこのクーポンをご利用いただけません</string>
+    <!-- Error when applying coupon - the hotel does not accept any coupons -->
+    <string name="coupon_error_invalid_product">申し訳ありません。このホテルではクーポンをご利用いただけません</string>
+    <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
+    <string name="coupon_error_min_purchase_amount_not_met">申し訳ありません。クーポンを使用できる最低料金を満たしていません</string>
+    <!-- Error when applying coupon - the hotel does not accept this coupon -->
+    <string name="coupon_error_hotel_excluded">申し訳ありません。このホテルではクーポンをご利用いただけません</string>
+    <!-- Error when applying coupon - our coupon servers are down -->
+    <string name="coupon_error_service_down">申し訳ありません。現在クーポンを処理できません。もう一度お試しください</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
@@ -2370,7 +2396,7 @@
     <!-- The merchant name to display to the user for Google Wallet -->
     <string name="merchant_name">Expedia, Inc.</string>
     <!-- Loading message -->
-    <string name="loading">ロード中…</string>
+    <string name="loading">読み込み中</string>
     <!-- Google Wallet label -->
     <string name="google_wallet">Google ウォレット機能</string>
     <!-- Google wallet unavailable error -->
@@ -2400,7 +2426,7 @@
     <!-- Label to use when the ticket already exists in the wallet -->
     <string name="view_in_samsung_wallet">Samsung Wallet で見る</string>
     <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
-    <string name="load_to_samsung_wallet">Samsung Wallet にロードする</string>
+    <string name="load_to_samsung_wallet">Samsung Wallet に読み込む</string>
     <!-- Label to use when the user does not have the Samsung Wallet app installed -->
     <string name="download_samsung_wallet">Samsung Wallet をダウンロードする</string>
 

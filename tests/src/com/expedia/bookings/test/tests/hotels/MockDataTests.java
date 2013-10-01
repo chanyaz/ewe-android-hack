@@ -47,6 +47,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 			mDriver.enterLog(TAG, "No sweepstakes activity to interact with!");
 		}
 
+		mDriver.delay();
 		mDriver.launchScreen().openMenuDropDown();
 		mDriver.launchScreen().pressSettings();
 		mDriver.settingsScreen().clickToClearPrivateData();

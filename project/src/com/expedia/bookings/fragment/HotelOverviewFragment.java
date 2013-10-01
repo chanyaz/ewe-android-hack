@@ -9,29 +9,27 @@ import org.joda.time.LocalDate;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
@@ -52,6 +50,8 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
+import com.expedia.bookings.dialog.CouponDialogFragment;
+import com.expedia.bookings.dialog.CouponDialogFragment.CouponDialogFragmentListener;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
@@ -71,8 +71,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
-import com.expedia.bookings.widget.CouponCodeWidget;
-import com.expedia.bookings.widget.CouponCodeWidget.CouponCodeWidgetListener;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.HotelReceipt;
 import com.expedia.bookings.widget.LinearLayout;
@@ -80,6 +78,7 @@ import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.WalletButton;
 import com.google.android.gms.wallet.MaskedWallet;
+import com.google.android.gms.wallet.MaskedWalletRequest.Builder;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -91,7 +90,7 @@ import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.view.ViewHelper;
 
 public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
-		CouponCodeWidgetListener, CancelListener, SimpleCallbackDialogFragmentListener {
+		CancelListener, SimpleCallbackDialogFragmentListener, CouponDialogFragmentListener {
 
 	public interface BookingOverviewFragmentListener {
 		public void checkoutStarted();
@@ -139,9 +138,11 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private boolean mWasUsingGoogleWallet;
 	private ThrobberDialog mWalletPromoThrobberDialog;
 
-	private CouponCodeWidget mCouponCodeWidget;
-	private View mCouponCodeLayout;
-	private EditText mCouponCodeEditText;
+	private TextView mCouponButton;
+	private ViewGroup mCouponAppliedContainer;
+	private TextView mCouponSavedTextView;
+	private View mCouponRemoveView;
+
 	private TextView mLegalInformationTextView;
 	private View mScrollSpacerView;
 
@@ -152,6 +153,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private SlideToPurchaseFragment mSlideToPurchaseFragment;
 
 	private boolean mIsDoneLoadingPriceChange = false;
+
+	private CouponDialogFragment mCouponDialogFragment;
 
 	//When we last refreshed user data.
 	private long mRefreshedUserTime = 0L;
@@ -204,6 +207,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_booking_overview, container, false);
 
+		mCouponDialogFragment = Ui.findSupportFragment(this, CouponDialogFragment.TAG);
+
 		mScrollView = Ui.findView(view, R.id.scroll_view);
 
 		mHotelReceipt = Ui.findView(view, R.id.receipt);
@@ -218,9 +223,11 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mTravelerButton = Ui.findView(view, R.id.traveler_info_btn);
 		mPaymentButton = Ui.findView(view, R.id.payment_info_btn);
 
-		mCouponCodeWidget = new CouponCodeWidget(getActivity(), view.findViewById(R.id.coupon_code));
-		mCouponCodeLayout = Ui.findView(view, R.id.coupon_code);
-		mCouponCodeEditText = Ui.findView(view, R.id.coupon_code_edittext);
+		mCouponButton = Ui.findView(view, R.id.coupon_button);
+		mCouponAppliedContainer = Ui.findView(view, R.id.coupon_applied_container);
+		mCouponSavedTextView = Ui.findView(view, R.id.coupon_saved_text_view);
+		mCouponRemoveView = Ui.findView(view, R.id.coupon_clear);
+
 		mLegalInformationTextView = Ui.findView(view, R.id.legal_information_text_view);
 		mScrollSpacerView = Ui.findView(view, R.id.scroll_spacer_view);
 
@@ -285,15 +292,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mAccountButton.bind(false, false, null);
 		}
 
-		//1753. VSC Default to all caps character.
-		if (ExpediaBookingApp.IS_VSC) {
-			mCouponCodeEditText.setInputType(InputType.TYPE_TEXT_VARIATION_FILTER
-					| InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
-		}
-
 		// restore
 		mHotelReceipt.restoreInstanceState(savedInstanceState);
-		mCouponCodeWidget.restoreInstanceState(savedInstanceState);
 
 		// Listeners
 		mAccountButton.setListener(this);
@@ -303,22 +303,15 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mPaymentButton.setOnClickListener(mOnClickListener);
 		mStoredCreditCard.setOnClickListener(mOnClickListener);
 		mCreditCardSectionButton.setOnClickListener(mOnClickListener);
-		mCouponCodeEditText.setOnClickListener(mOnClickListener);
+		mCouponButton.setOnClickListener(mOnClickListener);
+		mCouponRemoveView.setOnClickListener(mOnClickListener);
 		mLegalInformationTextView.setOnClickListener(mOnClickListener);
 		mHotelReceipt.setRateBreakdownClickListener(mRateBreakdownClickListener);
 
-		mCouponCodeEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
-				}
-			}
-		});
-
-		mCouponCodeWidget.setListener(this);
-
 		mWalletButton.setPromoVisible(true);
+
+		// We underline the coupon button text in code to avoid re-translating
+		mCouponButton.setPaintFlags(mCouponButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
 		return view;
 	}
@@ -349,8 +342,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			else if (!mWasUsingGoogleWallet && isUsingGoogleWallet) {
 				applyWalletCoupon();
 			}
-
-			mCouponCodeWidget.startTextWatcher();
 
 			refreshData();
 
@@ -415,7 +406,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		outState.putBoolean(INSTANCE_WAS_USING_GOOGLE_WALLET, mWasUsingGoogleWallet);
 
 		mHotelReceipt.saveInstanceState(outState);
-		mCouponCodeWidget.saveInstanceState(outState);
 
 		mFragmentModLock.setSafe(false);
 	}
@@ -607,12 +597,15 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		// Configure the total cost and (if necessary) total cost paid to Expedia
 		if (Db.getHotelSearch().getCreateTripResponse() != null) {
 			rate = Db.getHotelSearch().getCouponRate();
+
+			// Show off the savings!
+			mCouponSavedTextView.setText(getString(R.string.coupon_saved_TEMPLATE, rate
+					.getTotalPriceAdjustments().getFormattedMoney()));
 		}
 
 		// Configure slide to purchase string
 		int chargeTypeMessageId = 0;
 		if (!Db.getHotelSearch().getSelectedProperty().isMerchant()) {
-			mCouponCodeLayout.setVisibility(View.GONE);
 			chargeTypeMessageId = R.string.collected_by_the_hotel_TEMPLATE;
 		}
 		else if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
@@ -649,17 +642,29 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			hidePurchaseViews();
 		}
 
+		// Show/hide either the coupon button or the coupon applied layout
+		View couponShow;
+		if (Db.getHotelSearch().getCreateTripResponse() != null) {
+			couponShow = mCouponAppliedContainer;
+			mCouponButton.setVisibility(View.GONE);
+		}
+		else {
+			couponShow = mCouponButton;
+			mCouponAppliedContainer.setVisibility(View.GONE);
+		}
+
 		if (mInCheckout) {
 			if (Db.getHotelSearch().getSelectedProperty().isMerchant()) {
-				mCouponCodeLayout.setVisibility(View.VISIBLE);
+				couponShow.setVisibility(View.VISIBLE);
 			}
 			else {
-				mCouponCodeLayout.setVisibility(View.GONE);
+				mCouponButton.setVisibility(View.GONE);
+				mCouponAppliedContainer.setVisibility(View.GONE);
 			}
 			mLegalInformationTextView.setVisibility(View.VISIBLE);
 		}
 		else {
-			mCouponCodeLayout.setVisibility(View.INVISIBLE);
+			couponShow.setVisibility(View.INVISIBLE);
 			mLegalInformationTextView.setVisibility(View.INVISIBLE);
 		}
 
@@ -837,9 +842,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			public void run() {
 				mScrollView.scrollTo(0, mScrollViewListener.getScrollY());
 				mScrollView.smoothScrollTo(0, 0);
-				if (isAdded()) {
-					Ui.hideKeyboard(mCouponCodeEditText);
-				}
 			}
 		});
 		hidePurchaseViews();
@@ -1091,8 +1093,13 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				startActivity(new Intent(getActivity(), HotelPaymentOptionsActivity.class));
 				break;
 			}
-			case R.id.coupon_code_edittext: {
-				mScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+			case R.id.coupon_button: {
+				mCouponDialogFragment = new CouponDialogFragment();
+				mCouponDialogFragment.show(getChildFragmentManager(), CouponDialogFragment.TAG);
+				break;
+			}
+			case R.id.coupon_clear: {
+				clearCoupon();
 				break;
 			}
 			case R.id.legal_information_text_view: {
@@ -1287,8 +1294,11 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	@Override
-	protected int getMaskedWalletBuilderFlags() {
-		return WalletUtils.F_PHONE_NUMBER_REQUIRED | WalletUtils.F_USE_MINIMAL_BILLING_ADDRESS;
+	protected void modifyMaskedWalletBuilder(Builder builder) {
+		builder.setCart(WalletUtils.buildHotelCart(getActivity()));
+
+		builder.setPhoneNumberRequired(true);
+		builder.setUseMinimalBillingAddress(true);
 	}
 
 	/**
@@ -1340,7 +1350,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mPaymentButton.setEnabled(enableButtons);
 		mStoredCreditCard.setEnabled(enableButtons);
 		mCreditCardSectionButton.setEnabled(enableButtons);
-		mCouponCodeEditText.setEnabled(enableButtons);
+		mCouponButton.setEnabled(enableButtons);
+		mCouponRemoveView.setEnabled(enableButtons);
 
 		// If we're using wallet and the promo code, hide the coupon layout (unless we failed to
 		// apply the Google Wallet code).
@@ -1348,13 +1359,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		boolean codeIsPromo = usingWalletPromoCoupon();
 		boolean applyingCoupon = BackgroundDownloader.getInstance().isDownloading(KEY_APPLY_COUPON);
 		boolean appliedCoupon = Db.getHotelSearch().getCreateTripResponse() != null;
-		if (Db.getHotelSearch().getSelectedProperty().isMerchant()) {
-			mCouponCodeLayout.setVisibility(mBillingInfo.isUsingGoogleWallet()
+		if (mCouponButton.getVisibility() == View.VISIBLE) {
+			mCouponButton.setVisibility(mBillingInfo.isUsingGoogleWallet()
 					&& offeredPromo && codeIsPromo && (applyingCoupon || appliedCoupon) ? View.GONE : View.VISIBLE);
-		}
-		else {
-			// Always hide for non-merchants
-			mCouponCodeLayout.setVisibility(View.GONE);
 		}
 
 		mHotelReceipt.bind(appliedWalletPromoCoupon());
@@ -1364,8 +1371,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	public void applyCoupon() {
 		Log.i("Trying to apply coupon code: " + mCouponCode);
-
-		mCouponCodeWidget.setLoading(true);
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_APPLY_COUPON)) {
@@ -1391,6 +1396,20 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 	}
 
+	public void clearCoupon() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(KEY_APPLY_COUPON)) {
+			bd.cancelDownload(KEY_APPLY_COUPON);
+		}
+		else if (Db.getHotelSearch().getCreateTripResponse() != null) {
+			Db.getHotelSearch().setCreateTripResponse(null);
+
+			OmnitureTracking.trackHotelCouponRemoved(getActivity());
+
+			refreshData();
+		}
+	}
+
 	private boolean usingWalletPromoCoupon() {
 		return WalletUtils.getWalletCouponCode(getActivity()).equals(mCouponCode);
 	}
@@ -1404,9 +1423,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		// If the user already has a coupon applied, clear it (and tell the user)
 		boolean hadCoupon = Db.getHotelSearch().getCreateTripResponse() != null;
 
-		onCouponCodeChanged(WalletUtils.getWalletCouponCode(getActivity()));
-
-		applyCoupon();
+		onApplyCoupon(WalletUtils.getWalletCouponCode(getActivity()));
 
 		// Apply this later so that this dialog shows up on top of the progress one
 		if (hadCoupon) {
@@ -1423,10 +1440,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private void clearWalletPromoCoupon() {
 		mCouponCode = null;
-		mCouponCodeEditText.setText("");
 		BackgroundDownloader.getInstance().cancelDownload(KEY_APPLY_COUPON);
 		Db.getHotelSearch().setCreateTripResponse(null);
-		mCouponCodeWidget.resetState();
 
 		if (mWalletPromoThrobberDialog != null) {
 			mWalletPromoThrobberDialog.dismiss();
@@ -1456,19 +1471,23 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				mWalletPromoThrobberDialog.dismiss();
 			}
 
-			mCouponCodeWidget.setLoading(false);
+			if (mCouponDialogFragment != null && mCouponDialogFragment.isAdded()) {
+				mCouponDialogFragment.dismiss();
+			}
 
 			if (response == null) {
 				Log.w("Failed to apply coupon code (null response): " + mCouponCode);
 
-				mCouponCodeWidget.onApplyCouponError(null);
+				DialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_error_no_code));
+				df.show(getChildFragmentManager(), "couponError");
 
 				handleWalletPromoErrorIfApplicable();
 			}
 			else if (response.hasErrors()) {
 				Log.w("Failed to apply coupon code (server errors): " + mCouponCode);
 
-				mCouponCodeWidget.onApplyCouponError(response.getErrors());
+				DialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_error_no_code));
+				df.show(getChildFragmentManager(), "couponError");
 
 				handleWalletPromoErrorIfApplicable();
 			}
@@ -1476,8 +1495,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				Log.i("Applied coupon code: " + mCouponCode);
 
 				Db.getHotelSearch().setCreateTripResponse(response);
-
-				mCouponCodeWidget.onApplyCoupon(Db.getHotelSearch().getCouponRate());
 
 				OmnitureTracking.trackHotelCouponApplied(getActivity(), mCouponCode);
 			}
@@ -1510,42 +1527,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 	}
 
-	// CouponCodeWidgetListener
-
-	@Override
-	public void onCouponCodeChanged(String couponCode) {
-		if (!TextUtils.equals(mCouponCode, couponCode)) {
-			mCouponCode = couponCode;
-
-			// Reset the coupon state
-			boolean rebindViews = false;
-			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			if (bd.isDownloading(KEY_APPLY_COUPON)) {
-				bd.cancelDownload(KEY_APPLY_COUPON);
-			}
-			else if (Db.getHotelSearch().getCreateTripResponse() != null) {
-				rebindViews = true;
-				Db.getHotelSearch().setCreateTripResponse(null);
-
-				OmnitureTracking.trackHotelCouponRemoved(getActivity());
-			}
-
-			mCouponCodeWidget.resetState();
-
-			// Note: onCouponCodeChanged gets invoked every time the CouponCode EditText changes.
-			// We only want to redraw the receipt when a coupon code has been applied or been
-			// removed, otherwise the receipt flashes on every character that is entered. 1502
-			if (rebindViews) {
-				refreshData();
-			}
-		}
-	}
-
-	@Override
-	public void onApplyClicked() {
-		applyCoupon();
-	}
-
 	// CancelListener (for wallet promo dialog)
 
 	@Override
@@ -1553,6 +1534,24 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		clearWalletPromoCoupon();
 
 		updateWalletViewVisibilities();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// CouponDialogFragmentListener
+
+	@Override
+	public void onApplyCoupon(String couponCode) {
+		mCouponCode = couponCode;
+		clearCoupon();
+		applyCoupon();
+	}
+
+	@Override
+	public void onCancelApplyCoupon() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(KEY_APPLY_COUPON)) {
+			bd.cancelDownload(KEY_APPLY_COUPON);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

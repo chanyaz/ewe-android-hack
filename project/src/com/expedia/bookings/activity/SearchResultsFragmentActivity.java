@@ -1,7 +1,6 @@
 package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -57,6 +56,7 @@ import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.ReviewSort;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.dialog.HotelErrorDialog;
@@ -81,10 +81,8 @@ import com.expedia.bookings.maps.HotelMapFragment;
 import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.server.ExpediaServices.ReviewSort;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -102,7 +100,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.BuildConfigUtils;
 import com.mobiata.android.util.NetUtils;
 
 // This is the TABLET search results activity
@@ -131,8 +128,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	private static final String INSTANCE_LAST_SEARCH_PARAMS = "INSTANCE_LAST_SEARCH_PARAMS";
 	private static final String INSTANCE_LAST_FILTER = "INSTANCE_LAST_FILTER";
 	private static final String INSTANCE_PARTIAL_SEARCH = "INSTANCE_PARTIAL_SEARCH";
-
-	private static final int REQUEST_CODE_SETTINGS = 1;
 
 	private static final long SEARCH_EXPIRATION = DateUtils.HOUR_IN_MILLIS;
 
@@ -446,18 +441,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	// Activity overrides
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		// Indicates that settings were changed - send out a broadcast
-		if (requestCode == REQUEST_CODE_SETTINGS && resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
-			// Clear out the search results data - this will automatically start a search
-			// when we get to onResume().
-			clearSearch();
-		}
-	}
-
-	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
 		// We're ensuring that if the user clicks somewhere else on the screen while the SearchView is focused,
 		// we clear focus on the SearchView.
@@ -501,7 +484,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		mCreatedOptionsMenu = true;
 
 		getSupportMenuInflater().inflate(R.menu.menu_fragment_search, menu);
-		getSupportMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
 
 		mGuestsMenuItem = menu.findItem(R.id.menu_guests);
 		mDatesMenuItem = menu.findItem(R.id.menu_dates);
@@ -588,16 +570,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		case R.id.menu_filter:
 			showFilterDialog();
 			return true;
-		case R.id.menu_settings: {
-			Intent intent = new Intent(this, TabletPreferenceActivity.class);
-			startActivityForResult(intent, REQUEST_CODE_SETTINGS);
-			return true;
-		}
-		case R.id.menu_about: {
-			Intent intent = new Intent(this, AboutActivity.class);
-			startActivity(intent);
-			return true;
-		}
 		}
 
 		if (DebugMenu.onOptionsItemSelected(this, item) || mHockeyPuck.onOptionsItemSelected(item)) {

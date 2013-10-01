@@ -265,7 +265,7 @@ public class HotelOverviewActivity extends SherlockFragmentActivity implements B
 		String checkoutEmail = BookingInfoUtils.getCheckoutEmail(this);
 		if (!TextUtils.isEmpty(checkoutEmail)) {
 			Db.getBillingInfo().setEmail(checkoutEmail);
-		}
+		} 
 		else {
 			//We tried to fix the email address, but failed. Do something drastic (this should very very very rarely happen)
 			Db.getBillingInfo().setEmail(null);
@@ -276,7 +276,7 @@ public class HotelOverviewActivity extends SherlockFragmentActivity implements B
 			mBookingOverviewFragment.startCheckout(false, false);//This will update all of our views (and re-validate everything).
 			return;
 		}
-
+		
 		//Ensure required billing info is migrated from our primary traveler
 		BillingInfo billingInfo = Db.getBillingInfo();
 		Traveler traveler = Db.getTravelers().get(0);
@@ -284,7 +284,7 @@ public class HotelOverviewActivity extends SherlockFragmentActivity implements B
 		billingInfo.setLastName(traveler.getLastName());
 		billingInfo.setTelephone(traveler.getPhoneNumber());
 		billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
-
+		
 		//Save it!
 		billingInfo.save(this);
 
