@@ -94,6 +94,7 @@ import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.SuggestResponse;
+import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SweepstakesResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
@@ -136,7 +137,9 @@ public class ExpediaServices implements DownloadListener {
 	private static final String FS_FLEX_APP_KEY = "6cf6ac9c083a45e93c6a290bf0cd442e";
 	private static final String FS_FLEX_BASE_URI = "https://api.flightstats.com/flex";
 
-	private static final String EXPEDIA_SUGGEST_BASE_URL = "http://suggest.expedia.com/hint/es/v2/ac/";
+	private static final String EXPEDIA_SUGGEST_V2_BASE_URL = "http://suggest.expedia.com/hint/es/v2/ac/";
+
+	private static final String EXPEDIA_SUGGEST_V3_BASE_URL = "http://suggest.expedia.com/hint/es/v3/ac/";
 
 	public static final int REVIEWS_PER_PAGE = 25;
 
@@ -267,7 +270,7 @@ public class ExpediaServices implements DownloadListener {
 
 		String localeString = PointOfSale.getSuggestLocaleIdentifier();
 
-		String url = NetUtils.formatUrl(EXPEDIA_SUGGEST_BASE_URL + localeString + "/" + query);
+		String url = NetUtils.formatUrl(EXPEDIA_SUGGEST_V2_BASE_URL + localeString + "/" + query);
 
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
 
@@ -292,6 +295,29 @@ public class ExpediaServices implements DownloadListener {
 
 		// Some logging before passing the request along^M
 		Log.d(TAG_REQUEST, "Autosuggest request: " + url + "?" + NetUtils.getParamsForLogging(params));
+
+		return doRequest(get, responseHandler, 0);
+	}
+
+	public SuggestionResponse suggestions(String query, int flags) {
+		if (query == null || query.length() < getMinSuggestQueryLength()) {
+			return null;
+		}
+
+		String localeString = PointOfSale.getSuggestLocaleIdentifier();
+
+		String url = NetUtils.formatUrl(EXPEDIA_SUGGEST_V3_BASE_URL + localeString + "/" + query);
+
+		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+
+		SuggestionResponseHandler responseHandler = new SuggestionResponseHandler();
+
+		// Make sure the response comes back as JSON
+		HttpGet get = NetUtils.createHttpGet(url, params);
+		get.addHeader("Accept", "application/json");
+
+		// Some logging before passing the request along
+		Log.d(TAG_REQUEST, "Autosuggest (v3) request: " + url + "?" + NetUtils.getParamsForLogging(params));
 
 		return doRequest(get, responseHandler, 0);
 	}
