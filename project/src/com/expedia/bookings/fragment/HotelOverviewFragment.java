@@ -9,6 +9,7 @@ import org.joda.time.LocalDate;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -25,7 +26,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -138,7 +138,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private boolean mWasUsingGoogleWallet;
 	private ThrobberDialog mWalletPromoThrobberDialog;
 
-	private Button mCouponButton;
+	private TextView mCouponButton;
 	private ViewGroup mCouponAppliedContainer;
 	private TextView mCouponSavedTextView;
 	private View mCouponRemoveView;
@@ -309,6 +309,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mHotelReceipt.setRateBreakdownClickListener(mRateBreakdownClickListener);
 
 		mWalletButton.setPromoVisible(true);
+
+		// We underline the coupon button text in code to avoid re-translating
+		mCouponButton.setPaintFlags(mCouponButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
 		return view;
 	}

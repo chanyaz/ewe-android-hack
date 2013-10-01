@@ -167,13 +167,17 @@
 
                 <!-- Coupon codes -->
 
-                <Button
+                <TextView
                     android:id="@+id/coupon_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
                     android:layout_marginTop="16dp"
-                    android:gravity="center"
-                    android:text="@string/coupon_code" />
+                    android:contentDescription="@string/cd_checkout_enter_coupon"
+                    android:text="@string/coupon_code"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
 
                 <!-- Applied coupon layout -->
 
