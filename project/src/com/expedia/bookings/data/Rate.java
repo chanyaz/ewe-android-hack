@@ -11,7 +11,6 @@ import org.json.JSONObject;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BedType.BedTypeId;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
@@ -183,6 +182,10 @@ public class Rate implements JSONable {
 		mNightlyRateTotal = nightlyRateTotal;
 	}
 
+	/**
+	 * @return the total amount to be paid, minus mandatory fees; useful if you're trying to get at what the user
+	 * 		is going to pay *right now* for the rate
+	 */
 	public Money getTotalAmountAfterTax() {
 		return mTotalAmountAfterTax;
 	}
@@ -325,6 +328,9 @@ public class Rate implements JSONable {
 		mTotalPriceWithMandatoryFees = totalPriceWithMandatoryFees;
 	}
 
+	/**
+	 * @return the discount that this rate represents (i.e., you applied a coupon and this is how much you saved)
+	 */
 	public Money getTotalPriceAdjustments() {
 		return mTotalPriceAdjustments;
 	}
@@ -355,7 +361,7 @@ public class Rate implements JSONable {
 		}
 		return mUserPriceType;
 	}
-	
+
 	public void setCheckoutPriceType(String checkoutPriceType) {
 		if ("totalPriceWithMandatoryFees".equals(checkoutPriceType)) {
 			mCheckoutPriceType = CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES;
@@ -392,7 +398,7 @@ public class Rate implements JSONable {
 
 	// #10905 - If the property's sale is <1%, we don't consider it on sale.
 	public boolean isOnSale() {
-		return ((getDiscountPercent() >= 1) && (this.getDisplayRate().compareTo(this.getDisplayBaseRate()) < 0));
+		return ((getDiscountPercent() >= 1) && (getDisplayRate().compareTo(getDisplayBaseRate()) < 0));
 	}
 
 	// 9.5% or higher will be rounded to 10% when the percent is displayed as an integer.
@@ -515,59 +521,44 @@ public class Rate implements JSONable {
 		return mIsMobileExclusive;
 	}
 
-	private Money getMandatoryBaseRate() {
-		if (mMandatoryFeesBaseRate == null) {
-			mMandatoryFeesBaseRate = new Money(mStrikethroughPriceToShowUsers);
-			mMandatoryFeesBaseRate.add(mTotalMandatoryFees);
-		}
-		return mMandatoryFeesBaseRate;
-	}
-
-	public Money getDisplayBaseRate() {
-		if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
-			return getMandatoryBaseRate();
-		}
-		else if (mStrikethroughPriceToShowUsers != null) {
-			return mStrikethroughPriceToShowUsers;
-		}
-		else {
-			return mAverageBaseRate;
-		}
-	}
-
-	public Money getDisplayRate() {
-		if (PointOfSale.getPointOfSale().displayMandatoryFees() && mTotalPriceWithMandatoryFees != null) {
-			return mTotalPriceWithMandatoryFees;
-		}
-		else if (mPriceToShowUsers != null) {
-			return mPriceToShowUsers;
-		}
-		else {
-			return mAverageRate;
-		}
-	}
-
-	/**
-	 * Total price to display to the user (including MandatoryFees if required)
-	 * This either returns getTotalPriceWithMandatoryFees() or getTotalAmountAfterTax()
-	 * depending on POS settings
-	 * @return
-	 */
-	public Money getDisplayTotalPrice() {
-		if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
-			return getTotalPriceWithMandatoryFees();
-		}
-		else {
-			return getTotalAmountAfterTax();
-		}
-	}
-
 	public int compareForPriceChange(Rate other) {
 		return getDisplayTotalPrice().compareToTheWholeValue(other.getDisplayTotalPrice());
 	}
 
 	public int compareTo(Rate other) {
 		return getDisplayRate().compareTo(other.getDisplayRate());
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Prices to show users
+	//
+	// Unless you're targeting a specific part of the cost (like surcharges),
+	// you should be using one of these methods to show the user the price.
+
+	/**
+	 * @return the *actual* rate to show users
+	 */
+	public Money getDisplayRate() {
+		return mPriceToShowUsers;
+	}
+
+	/**
+	 * @return the *base* (aka, pre-discount) rate we should show users
+	 */
+	public Money getDisplayBaseRate() {
+		return mStrikethroughPriceToShowUsers;
+	}
+
+	/**
+	 * @return the *checkout* rate we should show users (should == price to show users, but always has decimals)
+	 */
+	public Money getDisplayTotalPrice() {
+		if (mCheckoutPriceType == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
+			return mTotalPriceWithMandatoryFees;
+		}
+		else {
+			return mTotalAmountAfterTax;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
