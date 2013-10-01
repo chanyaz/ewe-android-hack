@@ -163,14 +163,14 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		Rate rate = (Rate) getItem(position);
 
 		holder.description.setText(Html.fromHtml(rate.getRoomDescription()));
-		holder.price.setText(StrUtils.formatHotelPrice(rate.getDisplayRate()));
+		holder.price.setText(StrUtils.formatHotelPrice(rate.getDisplayPrice()));
 
 		mBuilder.setLength(0);
 
 		// Check if there should be a strike-through rate, if this is on sale
 		if (rate.isOnSale()) {
 			mBuilder.append(mContext.getString(R.string.strike_template,
-					StrUtils.formatHotelPrice(rate.getDisplayBaseRate())));
+					StrUtils.formatHotelPrice(rate.getDisplayBasePrice())));
 			mBuilder.append(' ');
 
 			holder.saleLabel.setText(mContext.getString(R.string.percent_off_template, rate.getDiscountPercent()));

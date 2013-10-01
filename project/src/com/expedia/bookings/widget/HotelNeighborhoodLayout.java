@@ -100,7 +100,7 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 			for (Property property : sorted) {
 				mNeighborhoods.add(property.getLocation().getLocationId());
 				String description = property.getLocation().getDescription();
-				String rate = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
+				String rate = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayPrice());
 
 				// Build and colorize "From $200" string
 				String template = getResources().getString(R.string.From_x_TEMPLATE, rate);

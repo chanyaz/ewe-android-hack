@@ -21,6 +21,7 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.RoomsAndRatesAdapter;
@@ -234,8 +235,9 @@ public class RoomsAndRatesFragment extends ListFragment {
 		boolean hasResortFeesMessage = response != null && response.getProperty() != null
 				&& response.getProperty().getMandatoryFeesText() != null
 				&& !TextUtils.isEmpty(response.getProperty().getMandatoryFeesText().getContent());
+		boolean mandatoryFeePriceType = resortFeeRate.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES;
 
-		if (hasMandatoryFees && hasResortFeesMessage) {
+		if (hasMandatoryFees && hasResortFeesMessage && !mandatoryFeePriceType) {
 			LayoutInflater inflater = this.getLayoutInflater(null);
 			View mandatoryFeeView = inflater.inflate(R.layout.include_rooms_and_rates_resort_fees_notice,
 					mNoticeContainer);

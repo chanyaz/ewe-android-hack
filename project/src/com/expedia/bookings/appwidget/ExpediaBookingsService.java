@@ -872,7 +872,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 					getString(R.string.widget_savings_template, property.getLowestRate().getDiscountPercent()));
 
 			widgetContents.setTextViewText(R.id.price_text_view,
-					StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
+					StrUtils.formatHotelPrice(property.getLowestRate().getDisplayPrice()));
 
 			widgetContents.setViewVisibility(R.id.sale_text_view, View.VISIBLE);
 			widgetContents.setTextColor(R.id.price_text_view,
@@ -885,7 +885,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			widgetContents.setTextColor(R.id.price_text_view, getResources().getColor(R.color.hotel_price_text_color));
 			widgetContents.setViewVisibility(R.id.price_per_night_container, View.VISIBLE);
 			widgetContents.setTextViewText(R.id.price_text_view,
-					StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate()));
+					StrUtils.formatHotelPrice(property.getLowestRate().getDisplayPrice()));
 		}
 
 		widgetContents.setImageViewResource(R.id.hotel_image_view, R.drawable.widget_thumbnail_background);

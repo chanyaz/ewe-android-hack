@@ -28,6 +28,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
+import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -224,7 +225,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 		builder.addDivider();
 
 		// Mandatory fees
-		if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
+		if (originalRate.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
 			builder.addLineItem((new LineItemBuilder())
 					.setItemLeft((new ItemBuilder())
 							.setText(context.getString(R.string.total_due_today))

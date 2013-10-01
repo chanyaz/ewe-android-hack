@@ -465,7 +465,7 @@ public class WalletUtils {
 		Property property = search.getSelectedProperty();
 		Rate originalRate = search.getSelectedRate();
 		Rate couponRate = search.getCouponRate();
-		Money total = couponRate == null ? originalRate.getDisplayTotalPrice() : couponRate.getDisplayTotalPrice();
+		Money total = couponRate == null ? originalRate.getTotalAmountAfterTax() : couponRate.getTotalAmountAfterTax();
 
 		Cart.Builder cartBuilder = Cart.newBuilder();
 

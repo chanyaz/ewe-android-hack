@@ -11,7 +11,6 @@ import org.json.JSONObject;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BedType.BedTypeId;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
@@ -28,6 +27,12 @@ public class Rate implements JSONable {
 		RATE_FOR_WHOLE_STAY_WITH_TAXES,
 		PER_NIGHT_RATE_NO_TAXES,
 		UNKNOWN;
+	}
+
+	// Which price to display to users
+	public enum CheckoutPriceType {
+		TOTAL,
+		TOTAL_WITH_MANDATORY_FEES
 	}
 
 	// Common fields between HotelPal and StayHIP
@@ -57,6 +62,7 @@ public class Rate implements JSONable {
 
 	// Display prices
 	private UserPriceType mUserPriceType;
+	private CheckoutPriceType mCheckoutPriceType;
 	private Money mPriceToShowUsers;
 	private Money mStrikethroughPriceToShowUsers;
 
@@ -68,6 +74,7 @@ public class Rate implements JSONable {
 	private Money mAverageRate; // The average rate, post-sale
 	private Money mAverageBaseRate; // The average rate, without sale discounts
 	private double mDiscountPercent = UNSET_DISCOUNT_PERCENT; // Discount percent, as reported by E3 (i.e. 15.0)
+	private boolean mIsMobileExclusive = false;
 	private int mNumberOfNights;
 	private String mPromoDescription;
 	private int mNumRoomsLeft;
@@ -176,6 +183,10 @@ public class Rate implements JSONable {
 		mNightlyRateTotal = nightlyRateTotal;
 	}
 
+	/**
+	 * @return the total amount to be paid, minus mandatory fees; useful if you're trying to get at what the user
+	 * 		is going to pay *right now* for the rate
+	 */
 	public Money getTotalAmountAfterTax() {
 		return mTotalAmountAfterTax;
 	}
@@ -318,6 +329,9 @@ public class Rate implements JSONable {
 		mTotalPriceWithMandatoryFees = totalPriceWithMandatoryFees;
 	}
 
+	/**
+	 * @return the discount that this rate represents (i.e., you applied a coupon and this is how much you saved)
+	 */
 	public Money getTotalPriceAdjustments() {
 		return mTotalPriceAdjustments;
 	}
@@ -349,6 +363,24 @@ public class Rate implements JSONable {
 		return mUserPriceType;
 	}
 
+	public void setCheckoutPriceType(String checkoutPriceType) {
+		if ("totalPriceWithMandatoryFees".equals(checkoutPriceType)) {
+			mCheckoutPriceType = CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES;
+		}
+		else {
+			// Default to total; value would be "total" otherwise
+			mCheckoutPriceType = CheckoutPriceType.TOTAL;
+		}
+	}
+
+	public void setCheckoutPriceType(CheckoutPriceType checkoutPriceType) {
+		mCheckoutPriceType = checkoutPriceType;
+	}
+
+	public CheckoutPriceType getCheckoutPriceType() {
+		return mCheckoutPriceType;
+	}
+
 	public void setPriceToShowUsers(Money m) {
 		mPriceToShowUsers = m;
 	}
@@ -367,7 +399,7 @@ public class Rate implements JSONable {
 
 	// #10905 - If the property's sale is <1%, we don't consider it on sale.
 	public boolean isOnSale() {
-		return ((getDiscountPercent() >= 1) && (this.getDisplayRate().compareTo(this.getDisplayBaseRate()) < 0));
+		return ((getDiscountPercent() >= 1) && (getDisplayPrice().compareTo(getDisplayBasePrice()) < 0));
 	}
 
 	// 9.5% or higher will be rounded to 10% when the percent is displayed as an integer.
@@ -480,8 +512,6 @@ public class Rate implements JSONable {
 		return !isNonRefundable() && hasFreeCancellation();
 	}
 
-	private boolean mIsMobileExclusive = false;
-
 	public void setMobileExlusivity(boolean bool) {
 		mIsMobileExclusive = bool;
 	}
@@ -490,59 +520,44 @@ public class Rate implements JSONable {
 		return mIsMobileExclusive;
 	}
 
-	private Money getMandatoryBaseRate() {
-		if (mMandatoryFeesBaseRate == null) {
-			mMandatoryFeesBaseRate = new Money(mStrikethroughPriceToShowUsers);
-			mMandatoryFeesBaseRate.add(mTotalMandatoryFees);
-		}
-		return mMandatoryFeesBaseRate;
-	}
-
-	public Money getDisplayBaseRate() {
-		if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
-			return getMandatoryBaseRate();
-		}
-		else if (mStrikethroughPriceToShowUsers != null) {
-			return mStrikethroughPriceToShowUsers;
-		}
-		else {
-			return mAverageBaseRate;
-		}
-	}
-
-	public Money getDisplayRate() {
-		if (PointOfSale.getPointOfSale().displayMandatoryFees() && mTotalPriceWithMandatoryFees != null) {
-			return mTotalPriceWithMandatoryFees;
-		}
-		else if (mPriceToShowUsers != null) {
-			return mPriceToShowUsers;
-		}
-		else {
-			return mAverageRate;
-		}
-	}
-
-	/**
-	 * Total price to display to the user (including MandatoryFees if required)
-	 * This either returns getTotalPriceWithMandatoryFees() or getTotalAmountAfterTax()
-	 * depending on POS settings
-	 * @return
-	 */
-	public Money getDisplayTotalPrice() {
-		if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
-			return getTotalPriceWithMandatoryFees();
-		}
-		else {
-			return getTotalAmountAfterTax();
-		}
-	}
-
 	public int compareForPriceChange(Rate other) {
 		return getDisplayTotalPrice().compareToTheWholeValue(other.getDisplayTotalPrice());
 	}
 
 	public int compareTo(Rate other) {
-		return getDisplayRate().compareTo(other.getDisplayRate());
+		return getDisplayPrice().compareTo(other.getDisplayPrice());
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Prices to show users
+	//
+	// Unless you're targeting a specific part of the cost (like surcharges),
+	// you should be using one of these methods to show the user the price.
+
+	/**
+	 * @return the *actual* rate to show users
+	 */
+	public Money getDisplayPrice() {
+		return mPriceToShowUsers;
+	}
+
+	/**
+	 * @return the *base* (aka, pre-discount) rate we should show users
+	 */
+	public Money getDisplayBasePrice() {
+		return mStrikethroughPriceToShowUsers;
+	}
+
+	/**
+	 * @return the *checkout* rate we should show users (should == price to show users, but always has decimals)
+	 */
+	public Money getDisplayTotalPrice() {
+		if (mCheckoutPriceType == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
+			return mTotalPriceWithMandatoryFees;
+		}
+		else {
+			return mTotalAmountAfterTax;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -575,10 +590,12 @@ public class Rate implements JSONable {
 			JSONUtils.putJSONable(obj, "averageRate", mAverageRate);
 			JSONUtils.putJSONable(obj, "averageBaseRate", mAverageBaseRate);
 			obj.put("discountPercent", mDiscountPercent);
+			obj.putOpt("isMobileExclusive", mIsMobileExclusive);
 			JSONUtils.putJSONable(obj, "totalSurcharge", mTotalSurcharge);
 			JSONUtils.putJSONable(obj, "totalMandatoryFees", mTotalMandatoryFees);
 			JSONUtils.putJSONable(obj, "totalPriceWithMandatoryFees", mTotalPriceWithMandatoryFees);
 			obj.putOpt("userPriceType", getUserPriceType().ordinal());
+			JSONUtils.putEnum(obj, "checkoutPriceType", mCheckoutPriceType);
 			JSONUtils.putJSONable(obj, "priceToShowUsers", mPriceToShowUsers);
 			JSONUtils.putJSONable(obj, "strikethroughPriceToShowUsers", mStrikethroughPriceToShowUsers);
 			obj.putOpt("numberOfNights", mNumberOfNights);
@@ -638,6 +655,7 @@ public class Rate implements JSONable {
 		mAverageRate = JSONUtils.getJSONable(obj, "averageRate", Money.class);
 		mAverageBaseRate = JSONUtils.getJSONable(obj, "averageBaseRate", Money.class);
 		mDiscountPercent = obj.optDouble("discountPercent", UNSET_DISCOUNT_PERCENT);
+		mIsMobileExclusive = obj.optBoolean("isMobileExclusive");
 		mTotalSurcharge = JSONUtils.getJSONable(obj, "totalSurcharge", Money.class);
 		if (mTotalSurcharge == null) {
 			// Try surcharge from EAN
@@ -646,6 +664,7 @@ public class Rate implements JSONable {
 		mTotalMandatoryFees = JSONUtils.getJSONable(obj, "totalMandatoryFees", Money.class);
 		mTotalPriceWithMandatoryFees = JSONUtils.getJSONable(obj, "totalPriceWithMandatoryFees", Money.class);
 		mUserPriceType = UserPriceType.values()[obj.optInt("userPriceType", UserPriceType.UNKNOWN.ordinal())];
+		mCheckoutPriceType = JSONUtils.getEnum(obj, "checkoutPriceType", CheckoutPriceType.class);
 		mPriceToShowUsers = JSONUtils.getJSONable(obj, "priceToShowUsers", Money.class);
 		mStrikethroughPriceToShowUsers = JSONUtils.getJSONable(obj, "strikethroughPriceToShowUsers",
 				Money.class);

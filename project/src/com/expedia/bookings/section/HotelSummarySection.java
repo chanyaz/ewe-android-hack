@@ -102,7 +102,7 @@ public class HotelSummarySection extends RelativeLayout {
 		// We assume we have a lowest rate here; this may not be a safe assumption
 		Rate lowestRate = property.getLowestRate();
 		Money highestPriceFromSurvey = property.getHighestPriceFromSurvey();
-		final String hotelPrice = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
+		final String hotelPrice = StrUtils.formatHotelPrice(lowestRate.getDisplayPrice());
 
 		// Detect if the property is on sale, if it is do special things
 		if (lowestRate.isOnSale() && lowestRate.isSaleTenPercentOrBetter()) {
@@ -110,7 +110,7 @@ public class HotelSummarySection extends RelativeLayout {
 				mStrikethroughPriceText.setVisibility(View.VISIBLE);
 				mStrikethroughPriceText.setText(Html.fromHtml(
 						context.getString(R.string.strike_template,
-								StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate())), null,
+								StrUtils.formatHotelPrice(lowestRate.getDisplayBasePrice())), null,
 						new StrikethroughTagHandler()));
 			}
 			else {
@@ -124,7 +124,7 @@ public class HotelSummarySection extends RelativeLayout {
 					.setText(context.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
 		}
 		// Story #790. Expedia's way of making it seem like they are offering a discount.
-		else if (highestPriceFromSurvey != null && (highestPriceFromSurvey.compareTo(lowestRate.getDisplayRate()) > 0)) {
+		else if (highestPriceFromSurvey != null && (highestPriceFromSurvey.compareTo(lowestRate.getDisplayPrice()) > 0)) {
 			mStrikethroughPriceText.setVisibility(View.VISIBLE);
 			mStrikethroughPriceText.setText(Html.fromHtml(
 					context.getString(R.string.strike_template,

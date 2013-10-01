@@ -164,7 +164,7 @@ public class SummarizedRoomRates {
 				 */
 				if (mBedTypeToMinRateMap.containsKey(bedTypeId)) {
 					Rate currentMinimumRate = mBedTypeToMinRateMap.get(bedTypeId);
-					if (currentMinimumRate.getDisplayRate().getAmount().compareTo(rate.getDisplayRate().getAmount()) > 0) {
+					if (currentMinimumRate.getDisplayPrice().getAmount().compareTo(rate.getDisplayPrice().getAmount()) > 0) {
 						mBedTypeToMinRateMap.put(bedTypeId, rate);
 					}
 				}
@@ -175,7 +175,7 @@ public class SummarizedRoomRates {
 
 			// also keep track of the minimum of all rates to display\
 			if (mMinimumRateAvailable == null
-					|| mMinimumRateAvailable.getDisplayRate().getAmount().compareTo(rate.getDisplayRate().getAmount()) > 0) {
+					|| mMinimumRateAvailable.getDisplayPrice().getAmount().compareTo(rate.getDisplayPrice().getAmount()) > 0) {
 				mMinimumRateAvailable = rate;
 				mMinimumRateBedTypeId = rate.getBedTypes().iterator().next().getBedTypeId();
 			}

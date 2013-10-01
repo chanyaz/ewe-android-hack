@@ -273,7 +273,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 				//if the API changes in the future and we end up parsing out of order,
 				//then we should still try and fetch the correct currency from lowestRateInfo.
 				if (currencyCode == null) {
-					String tempCurrencyCode = property.getLowestRate().getAverageRate().getCurrency();
+					String tempCurrencyCode = property.getLowestRate().getDisplayPrice().getCurrency();
 					currencyCode = tempCurrencyCode;
 				}
 				property.setHighestPriceFromSurvey(ParserUtils.createMoney(parser.getText(), currencyCode));
@@ -333,6 +333,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		String strikethroughPriceToShowUsers = null;
 		String priceToShowUsers = null;
 		String userPriceType = null;
+		String checkoutPriceType = null;
 
 		String name;
 		JsonToken token;
@@ -367,6 +368,9 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			else if (name.equals("userPriceType")) {
 				userPriceType = parser.getText();
 			}
+			else if (name.equals("checkoutPriceType")) {
+				checkoutPriceType = parser.getText();
+			}
 			else if (name.equals("strikethroughPriceToShowUsers")) {
 				strikethroughPriceToShowUsers = parser.getText();
 			}
@@ -386,6 +390,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		rate.setTotalMandatoryFees(ParserUtils.createMoney(totalMandatoryFees, currencyCode));
 		rate.setTotalPriceWithMandatoryFees(ParserUtils.createMoney(totalPriceWithMandatoryFees, currencyCode));
 		rate.setUserPriceType(userPriceType);
+		rate.setCheckoutPriceType(checkoutPriceType);
 		rate.setPriceToShowUsers(ParserUtils.createMoney(priceToShowUsers, currencyCode));
 		rate.setStrikethroughPriceToShowUsers(ParserUtils.createMoney(strikethroughPriceToShowUsers, currencyCode));
 		return rate;

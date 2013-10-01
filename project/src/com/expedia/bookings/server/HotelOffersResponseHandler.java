@@ -387,6 +387,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		rate.setTotalSurcharge(surchargeTotalForEntireStay);
 
 		rate.setUserPriceType(chargeableRateInfo.optString("userPriceType"));
+		rate.setCheckoutPriceType(chargeableRateInfo.optString("checkoutPriceType"));
 
 		Money priceToShowUsers = ParserUtils.createMoney(chargeableRateInfo.getString("priceToShowUsers"),
 				currencyCode);

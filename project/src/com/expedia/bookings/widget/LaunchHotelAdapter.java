@@ -159,7 +159,7 @@ public class LaunchHotelAdapter extends LaunchBaseAdapter<Object> {
 					true) + " - ");
 
 			Rate lowestRate = property.getLowestRate();
-			vh.mPriceTextView.setText(StrUtils.formatHotelPrice(lowestRate.getDisplayRate()));
+			vh.mPriceTextView.setText(StrUtils.formatHotelPrice(lowestRate.getDisplayPrice()));
 
 			// Sale
 			if (lowestRate.isSaleTenPercentOrBetter()) {

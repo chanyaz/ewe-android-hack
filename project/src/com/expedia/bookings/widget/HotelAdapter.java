@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.text.Html;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -16,22 +15,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Distance.DistanceUnit;
-import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchResponse;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.section.HotelSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
-import com.mobiata.android.bitmaps.UrlBitmapDrawable;
-import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.ViewUtils;
 
 public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
@@ -134,7 +124,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 			String longestPrice = "";
 			for (Property property : properties) {
-				String displayPrice = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayRate());
+				String displayPrice = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayPrice());
 				if (longestPrice.length() < displayPrice.length()) {
 					longestPrice = displayPrice;
 				}
@@ -227,6 +217,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 		HotelSummarySection section = (HotelSummarySection) convertView;
 		Property property = (Property) getItem(position);
+
 		boolean isSelected = getItemViewType(position) == ROW_SELECTED;
 		section.bind(property, mShouldShowVipIcon, mPriceTextSize,
 				mShowDistance, mDistanceUnit, isSelected);

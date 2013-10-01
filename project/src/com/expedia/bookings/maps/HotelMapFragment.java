@@ -307,7 +307,7 @@ public class HotelMapFragment extends SupportMapFragment {
 		String snippet = "";
 		Distance distanceFromuser = property.getDistanceFromUser();
 		Rate lowestRate = property.getLowestRate();
-		String formattedMoney = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
+		String formattedMoney = StrUtils.formatHotelPrice(lowestRate.getDisplayPrice());
 		snippet = getString(R.string.map_snippet_price_template, formattedMoney);
 
 		if (mShowDistances && distanceFromuser != null) {

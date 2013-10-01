@@ -144,7 +144,7 @@ public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 				baseRateTextView.setVisibility(View.VISIBLE);
 				baseRateTextView.setText(Html.fromHtml(
 						mContext.getString(R.string.strike_template,
-								StrUtils.formatHotelPrice(lowestRate.getDisplayBaseRate())), null,
+								StrUtils.formatHotelPrice(lowestRate.getDisplayBasePrice())), null,
 						new StrikethroughTagHandler()));
 			}
 			else {
@@ -155,7 +155,7 @@ public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 
 	private void configureSaleRateTextView(Rate lowestRate, TextView saleRateTextView) {
 		if (saleRateTextView != null) {
-			String displayRate = StrUtils.formatHotelPrice(lowestRate.getDisplayRate());
+			String displayRate = StrUtils.formatHotelPrice(lowestRate.getDisplayPrice());
 			saleRateTextView.setText(displayRate);
 		}
 	}
@@ -258,7 +258,7 @@ public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 			int template = (mShowFrom) ? R.string.bed_type_start_value_template : R.string.bold_template;
 			mDescriptionTextView.setText(Html.fromHtml(mContext.getString(template, description)));
 
-			mRateTextView.setText(StrUtils.formatHotelPrice(rate.getDisplayRate()));
+			mRateTextView.setText(StrUtils.formatHotelPrice(rate.getDisplayPrice()));
 
 			setRateQualifierTextView(rate, mRateQualifierTextView);
 		}
