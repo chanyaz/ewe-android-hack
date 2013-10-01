@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -106,7 +107,12 @@ public class CouponDialogFragment extends DialogFragment {
 			}
 		});
 
-		return builder.create();
+		Dialog dialog = builder.create();
+
+		// #2083: Show keyboard whenever the coupon displays
+		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+		return dialog;
 	}
 
 	@Override
