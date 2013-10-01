@@ -9,11 +9,14 @@ import org.json.JSONObject;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
-public class SuggestV3Response extends Response implements JSONable {
+/**
+ * Uses the new V2 suggestions; may eventually replace SuggestResponse
+ */
+public class SuggestionResponse extends Response implements JSONable {
 
 	private String mQuery;
 
-	private List<SuggestionV3> mSuggestions = new ArrayList<SuggestionV3>();
+	private List<SuggestionV2> mSuggestions = new ArrayList<SuggestionV2>();
 
 	public void setQuery(String query) {
 		mQuery = query;
@@ -23,11 +26,11 @@ public class SuggestV3Response extends Response implements JSONable {
 		return mQuery;
 	}
 
-	public void setSuggestions(List<SuggestionV3> suggestions) {
+	public void setSuggestions(List<SuggestionV2> suggestions) {
 		mSuggestions = suggestions;
 	}
 
-	public List<SuggestionV3> getSuggestions() {
+	public List<SuggestionV2> getSuggestions() {
 		return mSuggestions;
 	}
 
@@ -56,7 +59,7 @@ public class SuggestV3Response extends Response implements JSONable {
 		super.fromJson(obj);
 
 		mQuery = obj.optString("query", null);
-		mSuggestions = JSONUtils.getJSONableList(obj, "suggestions", SuggestionV3.class);
+		mSuggestions = JSONUtils.getJSONableList(obj, "suggestions", SuggestionV2.class);
 
 		return true;
 	}

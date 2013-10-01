@@ -10,11 +10,11 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.SuggestV3Response;
-import com.expedia.bookings.data.SuggestionV3;
-import com.expedia.bookings.data.SuggestionV3.RegionType;
-import com.expedia.bookings.data.SuggestionV3.ResultType;
-import com.expedia.bookings.data.SuggestionV3.SearchType;
+import com.expedia.bookings.data.SuggestionResponse;
+import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.data.SuggestionV2.RegionType;
+import com.expedia.bookings.data.SuggestionV2.ResultType;
+import com.expedia.bookings.data.SuggestionV2.SearchType;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.JsonResponseHandler;
 
@@ -23,22 +23,22 @@ import com.mobiata.android.net.JsonResponseHandler;
  * 
  * Docs: https://confluence/display/POS/Expedia+Suggest+API+Family
  */
-public class SuggestV3ResponseHandler extends JsonResponseHandler<SuggestV3Response> {
+public class SuggestionResponseHandler extends JsonResponseHandler<SuggestionResponse> {
 
 	@Override
-	public SuggestV3Response handleJson(JSONObject response) {
-		SuggestV3Response suggestResponse = new SuggestV3Response();
+	public SuggestionResponse handleJson(JSONObject response) {
+		SuggestionResponse suggestResponse = new SuggestionResponse();
 		suggestResponse.setQuery(response.optString("q", null));
 
 		JSONArray suggestionsArr = response.optJSONArray("sr");
 		if (suggestionsArr != null) {
-			List<SuggestionV3> suggestions = new ArrayList<SuggestionV3>();
+			List<SuggestionV2> suggestions = new ArrayList<SuggestionV2>();
 
 			int len = suggestionsArr.length();
 			for (int a = 0; a < len; a++) {
 				JSONObject suggestionJson = suggestionsArr.optJSONObject(a);
 
-				SuggestionV3 suggestion = new SuggestionV3();
+				SuggestionV2 suggestion = new SuggestionV2();
 
 				String resultType = suggestionJson.optString("@type");
 				if (resultType.equals("regionResult")) {

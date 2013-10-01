@@ -9,7 +9,7 @@ import com.mobiata.android.json.JSONable;
 /**
  * Don't want to break old suggestion code, so this takes its place now
  */
-public class SuggestionV3 implements JSONable, Comparable<SuggestionV3> {
+public class SuggestionV2 implements JSONable, Comparable<SuggestionV2> {
 
 	/**
 	 * The type of result
@@ -150,7 +150,7 @@ public class SuggestionV3 implements JSONable, Comparable<SuggestionV3> {
 	// Comparable
 
 	@Override
-	public int compareTo(SuggestionV3 another) {
+	public int compareTo(SuggestionV2 another) {
 		return mIndex - another.mIndex;
 	}
 
