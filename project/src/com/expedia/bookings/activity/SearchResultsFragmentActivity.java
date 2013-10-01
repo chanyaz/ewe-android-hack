@@ -129,8 +129,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	private static final String INSTANCE_LAST_FILTER = "INSTANCE_LAST_FILTER";
 	private static final String INSTANCE_PARTIAL_SEARCH = "INSTANCE_PARTIAL_SEARCH";
 
-	private static final int REQUEST_CODE_SETTINGS = 1;
-
 	private static final long SEARCH_EXPIRATION = DateUtils.HOUR_IN_MILLIS;
 
 	//////////////////////////////////////////////////////////////////////////
@@ -443,18 +441,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	// Activity overrides
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		// Indicates that settings were changed - send out a broadcast
-		if (requestCode == REQUEST_CODE_SETTINGS && resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
-			// Clear out the search results data - this will automatically start a search
-			// when we get to onResume().
-			clearSearch();
-		}
-	}
-
-	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
 		// We're ensuring that if the user clicks somewhere else on the screen while the SearchView is focused,
 		// we clear focus on the SearchView.
@@ -498,7 +484,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		mCreatedOptionsMenu = true;
 
 		getSupportMenuInflater().inflate(R.menu.menu_fragment_search, menu);
-		getSupportMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
 
 		mGuestsMenuItem = menu.findItem(R.id.menu_guests);
 		mDatesMenuItem = menu.findItem(R.id.menu_dates);
@@ -585,16 +570,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		case R.id.menu_filter:
 			showFilterDialog();
 			return true;
-		case R.id.menu_settings: {
-			Intent intent = new Intent(this, TabletPreferenceActivity.class);
-			startActivityForResult(intent, REQUEST_CODE_SETTINGS);
-			return true;
-		}
-		case R.id.menu_about: {
-			Intent intent = new Intent(this, AboutActivity.class);
-			startActivity(intent);
-			return true;
-		}
 		}
 
 		if (DebugMenu.onOptionsItemSelected(this, item) || mHockeyPuck.onOptionsItemSelected(item)) {

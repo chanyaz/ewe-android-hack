@@ -24,9 +24,4 @@
             android:title="@string/select_dates" />
     </group>
 
-    <item
-        android:id="@+id/menu_settings"
-        android:icon="@android:drawable/ic_menu_manage"
-        android:title="@string/Settings"/>
-
 </menu>
