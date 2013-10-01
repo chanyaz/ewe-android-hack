@@ -11,12 +11,16 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -74,6 +78,19 @@ public class CouponDialogFragment extends DialogFragment {
 					| InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
 		}
 
+		mCouponEditText.setOnEditorActionListener(new OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				// According to docs, this is only non-null if user clicked "enter"
+				if (event != null || actionId == EditorInfo.IME_ACTION_DONE) {
+					applyCoupon();
+					return true;
+				}
+
+				return false;
+			}
+		});
+
 		// TODO: Add a theme that works back to v8
 		ContextThemeWrapper context = new ContextThemeWrapper(getActivity(),
 				android.R.style.Theme_Holo_Dialog);
@@ -101,9 +118,7 @@ public class CouponDialogFragment extends DialogFragment {
 		mApplyButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mListener.onApplyCoupon(mCouponEditText.getText().toString());
-				mIsApplying = true;
-				updateViews();
+				applyCoupon();
 			}
 		});
 
@@ -130,6 +145,15 @@ public class CouponDialogFragment extends DialogFragment {
 		}
 
 	};
+
+	private void applyCoupon() {
+		String couponCode = mCouponEditText.getText().toString();
+		if (!TextUtils.isEmpty(couponCode)) {
+			mListener.onApplyCoupon(couponCode);
+			mIsApplying = true;
+			updateViews();
+		}
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Listener
