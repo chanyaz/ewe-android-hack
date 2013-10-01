@@ -23,6 +23,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
+import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -163,7 +164,7 @@ public class ReceiptWidget {
 
 		Money totalMandatoryFees = rate.getTotalMandatoryFees();
 		if (totalMandatoryFees != null && !totalMandatoryFees.isZero()
-				&& PointOfSale.getPointOfSale().displayMandatoryFees()) {
+				&& rate.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
 			addRateRow(mDetailsLayout, R.string.MandatoryFees, totalMandatoryFees.getFormattedMoney());
 		}
 
@@ -185,7 +186,7 @@ public class ReceiptWidget {
 		}
 
 		Money displayedTotal;
-		if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
+		if (rate.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
 			mBelowTotalCostLayout.setVisibility(View.VISIBLE);
 			addTextRow(mBelowTotalCostLayout, R.string.PayToExpedia, rate.getTotalAmountAfterTax().getFormattedMoney());
 			displayedTotal = rate.getTotalPriceWithMandatoryFees();

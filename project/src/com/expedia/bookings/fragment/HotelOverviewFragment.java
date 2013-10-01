@@ -48,6 +48,7 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.dialog.CouponDialogFragment;
@@ -608,7 +609,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (!Db.getHotelSearch().getSelectedProperty().isMerchant()) {
 			chargeTypeMessageId = R.string.collected_by_the_hotel_TEMPLATE;
 		}
-		else if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
+		else if (rate.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
 			chargeTypeMessageId = R.string.Amount_to_be_paid_now_TEMPLATE;
 		}
 		else {

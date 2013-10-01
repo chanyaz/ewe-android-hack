@@ -20,6 +20,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.StrUtils;
 
@@ -162,7 +163,7 @@ public class HotelReceiptMini extends FrameLayout {
 		mGuestsTextView.setText(StrUtils.formatGuests(getContext(), searchParams));
 
 		Money displayedTotal;
-		if (PointOfSale.getPointOfSale().displayMandatoryFees()) {
+		if (selectedRate.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
 			mBelowTotalCostLayout.setVisibility(View.VISIBLE);
 			addTextRow(mBelowTotalCostLayout, R.string.PayToExpedia, selectedRate.getTotalAmountAfterTax()
 					.getFormattedMoney());
