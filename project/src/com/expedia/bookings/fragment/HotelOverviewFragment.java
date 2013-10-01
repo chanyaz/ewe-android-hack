@@ -615,7 +615,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		else {
 			chargeTypeMessageId = R.string.your_card_will_be_charged_TEMPLATE;
 		}
-		mSlideToPurchasePriceString = getString(chargeTypeMessageId, rate.getDisplayTotalPrice().getFormattedMoney());
+		mSlideToPurchasePriceString = getString(chargeTypeMessageId, rate.getTotalAmountAfterTax().getFormattedMoney());
 		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
 
 		mHotelReceipt.bind(mIsDoneLoadingPriceChange, Db.getHotelSearch().getSelectedProperty(), Db.getHotelSearch()
