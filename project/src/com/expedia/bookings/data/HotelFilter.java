@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class HotelFilter implements JSONable {
@@ -201,6 +202,13 @@ public class HotelFilter implements JSONable {
 		mNeighborhoods = neighborhoods;
 	}
 
+	/**
+	 * There is a difference between "null" and an empty set. A "null" value
+	 * means that we are not filtering by neighborhood at all. An empty set
+	 * means that we are filtering by neighborhood, and the user has unchecked
+	 * all neighborhoods.
+	 * @return
+	 */
 	public Set<Integer> getNeighborhoods() {
 		return mNeighborhoods;
 	}
@@ -276,7 +284,9 @@ public class HotelFilter implements JSONable {
 			obj.put("hotelName", mHotelName);
 			obj.put("sort", mSort.toString());
 			obj.put("vipAccess", mVipAccessOnly);
-			obj.put("neighborhoods", new JSONArray(mNeighborhoods));
+			if (mNeighborhoods != null) {
+				obj.put("neighborhoods", new JSONArray(mNeighborhoods));
+			}
 		}
 		catch (JSONException e) {
 			Log.w("Could not write filter JSON.", e);
