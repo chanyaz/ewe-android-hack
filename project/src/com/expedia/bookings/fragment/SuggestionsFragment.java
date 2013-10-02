@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.widget.SuggestionsAdapter;
@@ -56,8 +57,11 @@ public class SuggestionsFragment extends ListFragment {
 		super.onListItemClick(l, v, position, id);
 
 		SuggestionV2 suggestion = mAdapter.getSuggestion(position);
+
+		SuggestionProvider.addSuggestionToRecents(getActivity(), suggestion);
+
 		Location location = suggestion.getLocation();
-		
+
 		// TODO: We should really be passing back a Suggestion at this point, not a Location,
 		// because it has so much extra information we need, like both an airport code + region id
 		location.setDestinationId(suggestion.getAirportCode());

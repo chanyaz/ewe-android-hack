@@ -1,5 +1,8 @@
 package com.expedia.bookings.content;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.SearchManager;
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -12,6 +15,7 @@ import android.util.Pair;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.RecentList;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.SuggestionV2.RegionType;
@@ -86,8 +90,18 @@ public class SuggestionProvider extends ContentProvider {
 	public static final int COL_LATITUDE = 17;
 	public static final int COL_LONGITUDE = 18;
 
+	private static final String KEY_SUGGESTION = "KEY_SUGGESTION";
+
+	private static final String RECENTS_FILENAME = "suggestion-recents.dat";
+
+	private static final int MAX_RECENTS = 10;
+
+	private RecentList<SuggestionV2> mRecents;
+
 	@Override
 	public boolean onCreate() {
+		mRecents = new RecentList<SuggestionV2>(SuggestionV2.class, getContext(), RECENTS_FILENAME, MAX_RECENTS);
+
 		return true;
 	}
 
@@ -110,11 +124,19 @@ public class SuggestionProvider extends ContentProvider {
 		if (response != null) {
 			for (SuggestionV2 suggestion : response.getSuggestions()) {
 				Object[] row = suggestionToRow(suggestion);
-				if (row != null) {
-					row[COL_ID] = id++;
-					row[COL_QUERY] = query;
-					cursor.addRow(row);
-				}
+				row[COL_ID] = id++;
+				row[COL_QUERY] = query;
+				cursor.addRow(row);
+			}
+		}
+
+		// If we have no suggestions at this point, add recents
+		if (cursor.getCount() == 0) {
+			for (SuggestionV2 recentSuggestion : mRecents.getList()) {
+				Object[] row = suggestionToRow(recentSuggestion);
+				row[COL_ID] = id++;
+				row[COL_QUERY] = query;
+				cursor.addRow(row);
 			}
 		}
 
@@ -123,6 +145,30 @@ public class SuggestionProvider extends ContentProvider {
 
 	public static Uri getContentFilterUri(Context context) {
 		return Uri.parse("content://" + context.getString(R.string.authority_autocomplete_suggestions));
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Recently used suggestions
+
+	public static void addSuggestionToRecents(Context context, SuggestionV2 suggestion) {
+		ContentValues values = new ContentValues();
+		values.put(KEY_SUGGESTION, suggestion.toJson().toString());
+		context.getContentResolver().insert(getContentFilterUri(context), values);
+	}
+
+	@Override
+	public Uri insert(Uri uri, ContentValues values) {
+		try {
+			SuggestionV2 suggestion = new SuggestionV2();
+			String jsonStr = values.getAsString(KEY_SUGGESTION);
+			JSONObject obj = new JSONObject(jsonStr);
+			suggestion.fromJson(obj);
+			mRecents.addItem(suggestion);
+			return getContentFilterUri(getContext());
+		}
+		catch (JSONException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -211,21 +257,16 @@ public class SuggestionProvider extends ContentProvider {
 
 	@Override
 	public String getType(Uri uri) {
-		throw new UnsupportedOperationException("Not expecting people to call getType() on the AutocompleteProvider.");
-	}
-
-	@Override
-	public Uri insert(Uri uri, ContentValues values) {
-		throw new UnsupportedOperationException("You cannot insert suggestions into the AutocompleteProvider.");
+		throw new UnsupportedOperationException("Not expecting people to call getType().");
 	}
 
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-		throw new UnsupportedOperationException("You cannot update suggestions in the AutocompleteProvider.");
+		throw new UnsupportedOperationException("You cannot update suggestions.");
 	}
 
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		throw new UnsupportedOperationException("You cannot delete suggestions from the AutocompleteProvider.");
+		throw new UnsupportedOperationException("You cannot delete suggestions.");
 	}
 }
