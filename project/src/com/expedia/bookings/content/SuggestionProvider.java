@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.text.TextUtils;
 import android.util.Pair;
 
 import com.expedia.bookings.R;
@@ -105,6 +106,17 @@ public class SuggestionProvider extends ContentProvider {
 		return true;
 	}
 
+	public static Uri getContentFilterUri(Context context) {
+		return Uri.parse("content://" + context.getString(R.string.authority_autocomplete_suggestions));
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Queries
+
+	private String mQuery;
+	private int mId;
+	private MatrixCursor mQueryCursor;
+
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		String query = "";
@@ -114,37 +126,44 @@ public class SuggestionProvider extends ContentProvider {
 			query = uri.getLastPathSegment();
 		}
 
-		MatrixCursor cursor = new MatrixCursor(COLUMNS);
+		// Startup some vars
+		mId = 0;
+		mQuery = query;
+		mQueryCursor = new MatrixCursor(COLUMNS);
 
-		int id = 0;
+		// If the user has no query parameter, then add some special rows; otherwise
+		// depend entirely on the suggestions service.
+		if (TextUtils.isEmpty(query)) {
+			// Add current location
+			SuggestionV2 currentLocationSuggestion = new SuggestionV2();
+			currentLocationSuggestion.setResultType(ResultType.CURRENT_LOCATION);
+			currentLocationSuggestion.setFullName(getContext().getString(R.string.current_location));
+			addSuggestion(currentLocationSuggestion);
 
-		// Try getting suggestions from server
-		ExpediaServices services = new ExpediaServices(getContext());
-		SuggestionResponse response = services.suggestions(query, 0);
-		if (response != null) {
-			for (SuggestionV2 suggestion : response.getSuggestions()) {
-				Object[] row = suggestionToRow(suggestion);
-				row[COL_ID] = id++;
-				row[COL_QUERY] = query;
-				cursor.addRow(row);
-			}
-		}
-
-		// If we have no suggestions at this point, add recents
-		if (cursor.getCount() == 0) {
+			// Add recent suggestions
 			for (SuggestionV2 recentSuggestion : mRecents.getList()) {
-				Object[] row = suggestionToRow(recentSuggestion);
-				row[COL_ID] = id++;
-				row[COL_QUERY] = query;
-				cursor.addRow(row);
+				addSuggestion(recentSuggestion);
+			}
+		}
+		else {
+			// Try getting suggestions from server
+			ExpediaServices services = new ExpediaServices(getContext());
+			SuggestionResponse response = services.suggestions(query, 0);
+			if (response != null) {
+				for (SuggestionV2 suggestion : response.getSuggestions()) {
+					addSuggestion(suggestion);
+				}
 			}
 		}
 
-		return cursor;
+		return mQueryCursor;
 	}
 
-	public static Uri getContentFilterUri(Context context) {
-		return Uri.parse("content://" + context.getString(R.string.authority_autocomplete_suggestions));
+	private void addSuggestion(SuggestionV2 suggestion) {
+		Object[] row = suggestionToRow(suggestion);
+		row[COL_ID] = mId++;
+		row[COL_QUERY] = mQuery;
+		mQueryCursor.addRow(row);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -191,16 +210,21 @@ public class SuggestionProvider extends ContentProvider {
 			row[COL_TEXT_1] = suggestion.getFullName();
 		}
 
-		switch (searchType) {
-		case AIRPORT:
-			row[COL_ICON_1] = R.drawable.ic_location_search;
-			break;
-		case HOTEL:
-			row[COL_ICON_1] = R.drawable.ic_suggestion_hotel;
-			break;
-		default:
-			row[COL_ICON_1] = R.drawable.ic_suggestion_place;
-			break;
+		if (resultType == ResultType.CURRENT_LOCATION) {
+			row[COL_ICON_1] = R.drawable.ic_suggestion_current_location;
+		}
+		else {
+			switch (searchType) {
+			case AIRPORT:
+				row[COL_ICON_1] = R.drawable.ic_location_search;
+				break;
+			case HOTEL:
+				row[COL_ICON_1] = R.drawable.ic_suggestion_hotel;
+				break;
+			default:
+				row[COL_ICON_1] = R.drawable.ic_suggestion_place;
+				break;
+			}
 		}
 
 		row[COL_RESULT_TYPE] = resultType != null ? resultType.ordinal() : -1;
@@ -214,13 +238,15 @@ public class SuggestionProvider extends ContentProvider {
 		row[COL_AIRPORT_CODE] = suggestion.getAirportCode();
 
 		Location location = suggestion.getLocation();
-		row[COL_REGION_ID] = location.getDestinationId();
-		row[COL_ADDRESS] = location.getStreetAddressString();
-		row[COL_CITY] = location.getCity();
-		row[COL_STATE_CODE] = location.getStateCode();
-		row[COL_COUNTRY_CODE] = location.getCountryCode();
-		row[COL_LATITUDE] = location.getLatitude();
-		row[COL_LONGITUDE] = location.getLongitude();
+		if (location != null) {
+			row[COL_REGION_ID] = location.getDestinationId();
+			row[COL_ADDRESS] = location.getStreetAddressString();
+			row[COL_CITY] = location.getCity();
+			row[COL_STATE_CODE] = location.getStateCode();
+			row[COL_COUNTRY_CODE] = location.getCountryCode();
+			row[COL_LATITUDE] = location.getLatitude();
+			row[COL_LONGITUDE] = location.getLongitude();
+		}
 
 		return row;
 	}
