@@ -60,12 +60,7 @@ public class AirlineFilterWidget extends LinearLayout implements OnCheckedChange
 		mCheckBox.setOnCheckedChangeListener(this);
 
 		mAirlineTv.setText(trip.getLeg(legNumber).getAirlinesFormatted());
-		if (enabled) {
-			mPriceTv.setText(trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
-		}
-		else {
-			mPriceTv.setText("");
-		}
+		mPriceTv.setText(trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
 
 		mCheckBox.setEnabled(enabled);
 		mAirlineTv.setEnabled(enabled);
