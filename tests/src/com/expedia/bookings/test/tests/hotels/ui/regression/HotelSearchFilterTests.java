@@ -176,7 +176,7 @@ public class HotelSearchFilterTests extends CustomActivityInstrumentationTestCas
 				mDriver.hotelsSearchScreen().selectHotelFromList(i);
 				mDriver.delay(1);
 
-				if (!mDriver.hotelsDetailsScreen().vipImageVIew().isShown()) {
+				if (!mDriver.hotelsDetailsScreen().vipImageView().isShown()) {
 					String hotelName = mDriver.hotelsDetailsScreen().titleView().getText().toString();
 					throw new Exception("VIP Image View not shown for hotel: " + hotelName);
 				}

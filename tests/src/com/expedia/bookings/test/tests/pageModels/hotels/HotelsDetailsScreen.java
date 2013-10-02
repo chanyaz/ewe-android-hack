@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.res.Resources;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -25,6 +26,9 @@ public class HotelsDetailsScreen extends ScreenActions {
 	private static final int BACK_BUTTON_ID = android.R.id.home;
 	private static final int NO_REVIEWS_STRING_ID = R.string.no_reviews;
 	private static final int VIP_IMAGE_VIEW = R.id.vip_image_view;
+	private static final int AMENITIES_CONTAINER_ID = R.id.amenities_table_row;
+	private static final int VIP_STRING_ID = R.string.vip_access_message;
+	private static final int GALLERY_VIEW_ID = R.id.images_gallery;
 
 	public HotelsDetailsScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
@@ -73,8 +77,20 @@ public class HotelsDetailsScreen extends ScreenActions {
 		return getString(NO_REVIEWS_STRING_ID);
 	}
 
-	public ImageView vipImageVIew() {
+	public ImageView vipImageView() {
 		return (ImageView) getView(VIP_IMAGE_VIEW);
+	}
+
+	public ViewGroup amenitiesContainer() {
+		return (ViewGroup) getView(AMENITIES_CONTAINER_ID);
+	}
+
+	public String vipAccessMessage() {
+		return getString(VIP_STRING_ID);
+	}
+
+	public View hotelGallery() {
+		return getView(GALLERY_VIEW_ID);
 	}
 
 	// Object interaction
@@ -105,6 +121,10 @@ public class HotelsDetailsScreen extends ScreenActions {
 
 	public void clickBackButton() {
 		clickOnView(backButton());
+	}
+
+	public void clickVIPImageView() {
+		clickOnView(vipImageView());
 	}
 
 }
