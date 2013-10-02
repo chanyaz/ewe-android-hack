@@ -164,6 +164,7 @@ public class SuggestionProvider extends ContentProvider {
 			JSONObject obj = new JSONObject(jsonStr);
 			suggestion.fromJson(obj);
 			mRecents.addItem(suggestion);
+			mRecents.saveList(getContext(), RECENTS_FILENAME);
 			return getContentFilterUri(getContext());
 		}
 		catch (JSONException e) {
