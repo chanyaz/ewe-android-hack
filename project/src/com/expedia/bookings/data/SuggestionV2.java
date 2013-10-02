@@ -25,7 +25,10 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 	 */
 	public enum ResultType {
 		REGION,
-		HOTEL
+		HOTEL,
+
+		// Non-ESS types - special types for our usage!
+		CURRENT_LOCATION
 	}
 
 	/**
