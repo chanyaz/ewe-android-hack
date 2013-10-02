@@ -202,8 +202,8 @@ public class SuggestionProvider extends ContentProvider {
 			break;
 		}
 
-		row[COL_RESULT_TYPE] = resultType.ordinal();
-		row[COL_SEARCH_TYPE] = searchType.ordinal();
+		row[COL_RESULT_TYPE] = resultType != null ? resultType.ordinal() : -1;
+		row[COL_SEARCH_TYPE] = searchType != null ? searchType.ordinal() : -1;
 		row[COL_REGION_TYPE] = regionType != null ? regionType.ordinal() : -1;
 
 		row[COL_FULL_NAME] = suggestion.getFullName();
@@ -227,8 +227,16 @@ public class SuggestionProvider extends ContentProvider {
 	public static SuggestionV2 rowToSuggestion(Cursor c) {
 		SuggestionV2 suggestion = new SuggestionV2();
 
-		suggestion.setResultType(ResultType.values()[c.getInt(COL_RESULT_TYPE)]);
-		suggestion.setSearchType(SearchType.values()[c.getInt(COL_SEARCH_TYPE)]);
+		int resultTypeOrdinal = c.getInt(COL_RESULT_TYPE);
+		if (resultTypeOrdinal != -1) {
+			suggestion.setResultType(ResultType.values()[resultTypeOrdinal]);
+		}
+
+		int searchTypeOrdinal = c.getInt(COL_SEARCH_TYPE);
+		if (searchTypeOrdinal != -1) {
+			suggestion.setSearchType(SearchType.values()[searchTypeOrdinal]);
+		}
+
 		int regionTypeOrdinal = c.getInt(COL_REGION_TYPE);
 		if (regionTypeOrdinal != -1) {
 			suggestion.setRegionType(RegionType.values()[regionTypeOrdinal]);
