@@ -70,16 +70,32 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 					return;
 				}
 
+				// We want to keep the width and height up to date so we don't remove this listener
 				mWidth = view.getWidth();
 				mHeight = view.getHeight();
-				Log.d("SupportMapFragment global layout height=" + mHeight + " width=" + mWidth);
+				Log.v("SupportMapFragment global layout height=" + mHeight + " width=" + mWidth);
+			}
+		});
+
+		view.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				Activity activity = getActivity();
+				if (activity == null) {
+					//Sometimes if the fragment attaches and then detaches quickly, activity will be null by this point.
+					view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+					return;
+				}
+
+				final int width = view.getWidth();
+				final int height = view.getHeight();
 
 				// https://code.google.com/p/gmaps-api-issues/issues/detail?id=4773
 				// Someone commented saying that the map needs to be at least 200dp by 200dp
 				final int minSize = (int) (200 * activity.getResources().getDisplayMetrics().density);
-				if (mHeight > minSize && mWidth > minSize) {
+				if (height > minSize && width > minSize) {
+					// Now that we've determined the map is large enough to touch we can remove the listener
 					view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-
 					onMapLayout();
 				}
 			}
