@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
 import android.util.Pair;
 
 import com.mobiata.android.json.JSONUtils;
@@ -149,6 +150,26 @@ public class SuggestionV2 implements JSONable, Comparable<SuggestionV2> {
 
 	public void setLocation(Location location) {
 		mLocation = location;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof SuggestionV2)) {
+			return false;
+		}
+
+		SuggestionV2 other = (SuggestionV2) o;
+
+		return mResultType == other.mResultType
+				&& mSearchType == other.mSearchType
+				&& mRegionType == other.mRegionType
+				&& TextUtils.equals(mFullName, other.mFullName)
+				&& TextUtils.equals(mDisplayName, other.mDisplayName)
+				&& mIndex == other.mIndex
+				&& mHotelId == other.mHotelId
+				&& TextUtils.equals(mAirportCode, other.mAirportCode)
+				&& ((mLocation == null && other.mLocation == null) || (mLocation != null && mLocation
+						.equals(other.mLocation)));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
