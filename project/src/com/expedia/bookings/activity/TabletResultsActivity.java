@@ -13,6 +13,7 @@ import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment.IBackgroundImageReceiverRegistrar;
 import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment;
@@ -25,6 +26,9 @@ import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackgroundImageReceiver;
 import com.expedia.bookings.interfaces.ITabletResultsController;
+import com.expedia.bookings.maps.HotelMapFragment;
+import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
+import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.ColumnManager;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
@@ -32,6 +36,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilit
 import com.expedia.bookings.widget.AbSearchInfoButton;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -51,15 +56,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.EditText;
-import android.widget.TextView;
 
 /**
  * TabletResultsActivity: The results activity designed for tablet results 2013
@@ -78,7 +78,8 @@ import android.widget.TextView;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsActivity extends SherlockFragmentActivity implements ITabletResultsController,
 		IFlightsFruitScrollUpListViewChangeListener, IHotelsFruitScrollUpListViewChangeListener,
-		IBackgroundImageReceiverRegistrar, IBackButtonLockListener, IAddToTripListener, IFragmentAvailabilityProvider {
+		IBackgroundImageReceiverRegistrar, IBackButtonLockListener, IAddToTripListener, IFragmentAvailabilityProvider,
+		HotelMapFragmentListener, SupportMapFragmentListener {
 
 	//State
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
@@ -115,6 +116,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private ArrayList<IBackgroundImageReceiver> mBackgroundImageReceivers = new ArrayList<IBackgroundImageReceiver>();
 	private ArrayList<ITabletResultsController> mTabletResultsControllers = new ArrayList<ITabletResultsController>();
 	private ArrayList<IAddToTripListener> mAddToTripListeners = new ArrayList<IAddToTripListener>();
+
+	private HotelMapFragment mMapFragment;
 
 	public enum GlobalResultsState
 	{
@@ -681,6 +684,53 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		for (IAddToTripListener listener : mAddToTripListeners) {
 			listener.performTripHandoff();
 		}
+	}
 
+	@Override
+	public void onMapClicked() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onPropertyClicked(Property property) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onExactLocationClicked() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onPropertyBubbleClicked(Property property) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onHotelMapFragmentAttached(HotelMapFragment fragment) {
+		fragment.setInitialCameraPosition(CameraUpdateFactory.newLatLngBounds(HotelMapFragment.getAmericaBounds(), 0));
+		this.mMapFragment = fragment;
+	}
+
+	@Override
+	public void onMapLayout() {
+		final View findView = Ui.findView(this, R.id.column_one_hotel_list);
+		findView.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+
+			@Override
+			public boolean onPreDraw() {
+				findView.getViewTreeObserver().removeOnPreDrawListener(this);
+				mMapFragment.setResultsViewWidth(findView.getWidth());
+				return true;
+			}
+		});
+		
+		mMapFragment.setShowInfoWindow(false);
+		mMapFragment.notifySearchComplete();
+		
 	}
 }

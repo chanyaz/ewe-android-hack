@@ -9,8 +9,7 @@ import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
 import com.expedia.bookings.interfaces.ITabletResultsController;
-import com.expedia.bookings.maps.SupportMapFragment;
-import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
+import com.expedia.bookings.maps.HotelMapFragment;
 import com.expedia.bookings.utils.ColumnManager;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
@@ -18,8 +17,6 @@ import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
 import com.expedia.bookings.widget.TouchThroughFrameLayout;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 import android.animation.Animator;
@@ -38,16 +35,17 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 
 /**
  *  TabletResultsHotelControllerFragment: designed for tablet results 2013
  *  This controls all the fragments relating to HOTELS results
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-public class TabletResultsHotelControllerFragment extends Fragment implements SupportMapFragmentListener,
-		ITabletResultsController, ISortAndFilterListener, IResultsHotelSelectedListener, IAddToTripListener,
-		IFragmentAvailabilityProvider {
+public class TabletResultsHotelControllerFragment extends Fragment implements ITabletResultsController,
+		ISortAndFilterListener, IResultsHotelSelectedListener, IAddToTripListener, IFragmentAvailabilityProvider {
 
 	public interface IHotelsFruitScrollUpListViewChangeListener {
 		public void onHotelsStateChanged(State oldState, State newState, float percentage, View requester);
@@ -96,8 +94,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 	private BlockEventFrameLayout mHotelRoomsAndRatesC;
 	private BlockEventFrameLayout mHotelRoomsAndRatesShadeC;
 
-	//Fragments
-	private SupportMapFragment mMapFragment;
+	// Fragments
+	private HotelMapFragment mMapFragment;
 	private ResultsHotelListFragment mHotelListFrag;
 	private ResultsHotelsFiltersFragment mHotelFiltersFrag;
 	private ResultsHotelsFilterCountFragment mHotelFilteredCountFrag;
@@ -159,7 +157,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 			mHotelsState = HotelsState.valueOf(savedInstanceState.getString(STATE_HOTELS_STATE,
 					HotelsState.DEFAULT.name()));
 		}
-
 		return view;
 	}
 
@@ -493,9 +490,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 		mHotelListFrag = (ResultsHotelListFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 				hotelListAvailable, FTAG_HOTEL_LIST, manager,
 				transaction, this, R.id.column_one_hotel_list, false);
-		mMapFragment = (SupportMapFragment) FragmentAvailabilityUtils.setFragmentAvailability(hotelMapAvailable,
-				FTAG_HOTEL_MAP, manager, transaction, this,
-				R.id.bg_hotel_map, false);
+		mMapFragment = (HotelMapFragment) FragmentAvailabilityUtils.setFragmentAvailability(hotelMapAvailable,
+				FTAG_HOTEL_MAP, manager, transaction, this, R.id.bg_hotel_map, false);
 		mHotelFiltersFrag = (ResultsHotelsFiltersFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 				hotelFiltersAvailable,
 				FTAG_HOTEL_FILTERS, manager, transaction, this, R.id.column_one_hotel_filters, false);
@@ -548,7 +544,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 			frag = new ResultsHotelsFilterCountFragment();
 		}
 		else if (tag == FTAG_HOTEL_MAP) {
-			frag = SupportMapFragment.newInstance();
+			frag = HotelMapFragment.newInstance();
 		}
 		else if (tag == FTAG_HOTEL_ROOMS_AND_RATES) {
 			frag = ResultsHotelsRoomsAndRates.newInstance();
@@ -562,18 +558,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 			((ResultsListFragment) frag).setChangeListener(mFruitProxy);
 		}
 
-	}
-
-	/**
-	 * MAP LISTENER, WE SHOULD SET THESE COORDINATES TO WHEREVER THE HOTEL SEARCH IS ....
-	 */
-	@Override
-	public void onMapLayout() {
-		if (mMapFragment != null) {
-			mMapFragment.setInitialCameraPosition(CameraUpdateFactory.newLatLngBounds(
-					SupportMapFragment.getAmericaBounds(),
-					0));
-		}
 	}
 
 	/**
@@ -758,6 +742,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements Su
 
 	@Override
 	public void onHotelSelected() {
+		mMapFragment.onHotelSelected();
 		if (mGlobalState == GlobalResultsState.HOTELS) {
 			setHotelsState(HotelsState.ROOMS_AND_RATES, true);
 

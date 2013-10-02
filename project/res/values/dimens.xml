@@ -242,4 +242,5 @@
     <dimen name="destination_search_item_divider_padding">32dp</dimen>
     <dimen name="destination_stack_padding">8dp</dimen>
 
+    <dimen name="hotels_map_pin_padding">50dp</dimen>
 </resources>

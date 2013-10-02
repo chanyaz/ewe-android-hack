@@ -35,6 +35,7 @@
         <item name="hotelListingFilterPriceExpensiveString">@string/filter_price_expensive</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletResults</item>
+        <item name="hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale</item>
     </style>
 
     <!-- Action bar styling; directly linked to themes so not moving too far away -->

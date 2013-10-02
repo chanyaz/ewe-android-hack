@@ -66,6 +66,8 @@ public class HotelMapFragment extends SupportMapFragment {
 	// Data being displayed.  It is assumed that the overlay doesn't need
 	// to keep track of state because the app will maintain this data
 	private List<Property> mProperties;
+	private int mResultsViewWidth;
+	private boolean mShowInfoWindow = true;
 
 	public static HotelMapFragment newInstance() {
 		HotelMapFragment frag = new HotelMapFragment();
@@ -141,7 +143,6 @@ public class HotelMapFragment extends SupportMapFragment {
 		// Load graphics
 		mPin = BitmapDescriptorFactory.fromResource(R.drawable.map_pin_normal);
 		mPinSale = BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.hotelListMapMarkerSaleDrawable));
-
 		onRestoreSavedInstanceState(savedInstanceState);
 		runReadyActions();
 	}
@@ -367,7 +368,9 @@ public class HotelMapFragment extends SupportMapFragment {
 
 	public void focusProperty(Property property, boolean animate, float zoom) {
 		Marker marker = mPropertiesToMarkers.get(property);
-		marker.showInfoWindow();
+		if (mShowInfoWindow) {
+			marker.showInfoWindow();
+		}
 		CameraUpdate camUpdate;
 
 		LatLng position = offsetLatLng(marker.getPosition());
@@ -404,6 +407,7 @@ public class HotelMapFragment extends SupportMapFragment {
 	 * hidden).
 	 */
 	public void showAll() {
+		setPadding(mResultsViewWidth, 0, 0, 0);
 		if (mProperties != null && mProperties.size() > 0) {
 			LatLngBounds.Builder builder = new LatLngBounds.Builder();
 			LatLngBounds.Builder allBuilder = new LatLngBounds.Builder();
@@ -481,5 +485,20 @@ public class HotelMapFragment extends SupportMapFragment {
 		public void onPropertyBubbleClicked(Property property);
 
 		public void onHotelMapFragmentAttached(HotelMapFragment fragment);
+	}
+
+	public void onHotelSelected() {
+		setPadding(mResultsViewWidth, getHeight() - getResources().getDimensionPixelSize(R.dimen.hotels_map_pin_padding), 0, 0);
+		focusProperty(Db.getHotelSearch().getSelectedProperty(), true);
+	}
+
+	public void setResultsViewWidth(int mResultsViewWidth) {
+		this.mResultsViewWidth = mResultsViewWidth;
+		
+	}
+
+	public void setShowInfoWindow(boolean showInfoWindow) {
+		this.mShowInfoWindow = showInfoWindow; 
+		
 	}
 }
