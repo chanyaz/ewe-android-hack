@@ -11,20 +11,19 @@ import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.widget.AirportDropDownAdapter;
+import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.widget.SuggestionsAdapter;
 import com.mobiata.android.util.Ui;
 
 public class SuggestionsFragment extends ListFragment {
 
 	private SuggestionsFragmentListener mListener;
 
-	private AirportDropDownAdapter mAirportAdapter;
+	private SuggestionsAdapter mAdapter;
 
 	// Sometimes we want to prep text to filter before start; by default
 	// we start with a blank query (to kick off the defaults)
 	private CharSequence mTextToFilter = "";
-
-	private android.location.Location mCurrentLocation;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -42,12 +41,12 @@ public class SuggestionsFragment extends ListFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		if (mAirportAdapter == null) {
-			mAirportAdapter = new AirportDropDownAdapter(getActivity());
-			mAirportAdapter.setShowNearbyAirports(true);
+		if (mAdapter == null) {
+			mAdapter = new SuggestionsAdapter(getActivity());
+			// mAirportAdapter.setShowNearbyAirports(true);
 		}
 
-		setListAdapter(mAirportAdapter);
+		setListAdapter(mAdapter);
 
 		filter(mTextToFilter);
 	}
@@ -56,8 +55,13 @@ public class SuggestionsFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		Location location = mAirportAdapter.getLocation(position);
-		mAirportAdapter.onAirportSelected(location);
+		SuggestionV2 suggestion = mAdapter.getSuggestion(position);
+		Location location = suggestion.getLocation();
+		
+		// TODO: We should really be passing back a Suggestion at this point, not a Location,
+		// because it has so much extra information we need, like both an airport code + region id
+		location.setDestinationId(suggestion.getAirportCode());
+
 		mListener.onSuggestionClicked(this, location);
 	}
 
@@ -69,16 +73,9 @@ public class SuggestionsFragment extends ListFragment {
 		mTextToFilter = text;
 
 		if (getView() != null) {
-			mAirportAdapter.setCurrentLocation(mCurrentLocation);
-			mAirportAdapter.getFilter().filter(text);
+			// mAirportAdapter.setCurrentLocation(mCurrentLocation);
+			mAdapter.getFilter().filter(text);
 		}
-	}
-
-	public void setCurrentLocation(android.location.Location currentLocation) {
-		mCurrentLocation = currentLocation;
-
-		// Update filter, just in case
-		filter(mTextToFilter);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

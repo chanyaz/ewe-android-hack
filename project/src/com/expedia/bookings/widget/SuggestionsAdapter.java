@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.content.SuggestionProvider;
+import com.expedia.bookings.data.SuggestionV2;
 import com.mobiata.android.util.Ui;
 
 public class SuggestionsAdapter extends CursorAdapter {
@@ -23,6 +24,12 @@ public class SuggestionsAdapter extends CursorAdapter {
 		super(context, null, 0);
 
 		mContent = context.getContentResolver();
+	}
+
+	public SuggestionV2 getSuggestion(int position) {
+		Cursor c = getCursor();
+		c.moveToPosition(position);
+		return SuggestionProvider.rowToSuggestion(c);
 	}
 
 	@Override

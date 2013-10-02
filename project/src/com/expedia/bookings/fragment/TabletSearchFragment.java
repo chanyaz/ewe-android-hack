@@ -877,9 +877,6 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				}
 			})).start();
 		}
-
-		mDestinationsFragment.setCurrentLocation(currentLocation);
-		mOriginsFragment.setCurrentLocation(currentLocation);
 	}
 
 	@Override
