@@ -88,6 +88,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
 		List<String> urls = getItinCardData().getHeaderImageUrls();
 		if (urls != null && urls.size() > 0) {
+			setSharableImageURL(urls.get(0));
 			return new UrlBitmapDrawable(getResources(), urls, getHeaderImagePlaceholderResId());
 		}
 		return null;

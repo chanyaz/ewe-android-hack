@@ -727,6 +727,9 @@ public class ItineraryManager implements JSONable {
 		DEEP_REFRESH_TRIP, // Refreshes a trip (deep)
 		REFRESH_TRIP, // Refreshes a trip
 
+		FETCH_SHARED_ITIN, // Fetches the shared itin data
+		REMOVE_ITIN, // Deletes the selected itin. Currently we can only delete a shared itin.
+
 		SAVE_TO_DISK, // Saves state of ItineraryManager to disk
 
 		GENERATE_ITIN_CARDS, // Generates itin card data for use
@@ -758,7 +761,7 @@ public class ItineraryManager implements JSONable {
 		public Task(Operation op, Trip trip, String tripNumber) {
 			mOp = op;
 			mTrip = trip;
-			mTripNumber = null;
+			mTripNumber = tripNumber;
 		}
 
 		@Override
@@ -890,6 +893,30 @@ public class ItineraryManager implements JSONable {
 		return true;
 	}
 
+	public boolean fetchSharedItin(String shareableUrl) {
+		Log.i(LOGGING_TAG, "Fetching SharedItin " + shareableUrl);
+		mSyncOpQueue.add(new Task(Operation.FETCH_SHARED_ITIN, shareableUrl));
+		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
+		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+		mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
+		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
+
+		startSyncIfNotInProgress();
+
+		return true;
+	}
+
+	public boolean removeItin(String tripNumber) {
+		Log.i(LOGGING_TAG, "Removing Itin num = " + tripNumber);
+		mSyncOpQueue.add(new Task(Operation.REMOVE_ITIN, tripNumber));
+		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
+		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+
+		startSyncIfNotInProgress();
+
+		return true;
+	}
+
 	public boolean startPushNotificationSync() {
 		Log.i(LOGGING_TAG, "Starting push notification sync");
 
@@ -1007,6 +1034,12 @@ public class ItineraryManager implements JSONable {
 					break;
 				case REFRESH_TRIP:
 					refreshTrip(nextTask.mTrip, false);
+					break;
+				case FETCH_SHARED_ITIN:
+					downloadSharedItinTrip(nextTask.mTripNumber);
+					break;
+				case REMOVE_ITIN:
+					removeTrip(nextTask.mTripNumber);
 					break;
 				case SAVE_TO_DISK:
 					save();
@@ -1374,6 +1407,70 @@ public class ItineraryManager implements JSONable {
 				if (trip.isGuest() && trip.getLevelOfDetail() == LevelOfDetail.NONE) {
 					mGuestTripsNotYetLoaded.add(trip.getTripNumber());
 				}
+			}
+		}
+
+		private void removeTrip(String tripNumber) {
+			Trip trip = mTrips.get(tripNumber);
+			if (trip == null) {
+				Log.w(LOGGING_TAG, "Tried to remove a tripNumber that doesn't exist: " + tripNumber);
+			}
+			else if (!trip.isShared()) {
+				Log.w(LOGGING_TAG,
+						"Tried to remove a non-shared trip, DENIED because we can only remove sharedItins # "
+								+ tripNumber);
+			}
+			else {
+				Log.i(LOGGING_TAG, "Removing trip with # " + tripNumber);
+
+				mTrips.remove(tripNumber);
+				publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
+				// Delete notifications if any.
+				deletePendingNotification(trip);
+				mTripsRemoved++;
+			}
+		}
+
+		private void downloadSharedItinTrip(String shareableUrl) {
+			Log.i(LOGGING_TAG, "Fetching shared itin " + shareableUrl);
+			TripDetailsResponse response = mServices.getSharedItin(shareableUrl);
+
+			if (isCancelled()) {
+				return;
+			}
+
+			if (response == null || response.hasErrors()) {
+				if (response != null && response.hasErrors()) {
+					Log.w(LOGGING_TAG, "Error fetching shared itin : " + response.gatherErrorMessage(mContext));
+				}
+			}
+			else {
+
+				Trip sharedTrip = response.getTrip();
+				String tripNumber = sharedTrip.getTripNumber();
+				sharedTrip.setIsShared(true);
+
+				LevelOfDetail lod = sharedTrip.getLevelOfDetail();
+				boolean hasFullDetails = lod == LevelOfDetail.FULL || lod == LevelOfDetail.SUMMARY_FALLBACK;
+				if (!mTrips.containsKey(tripNumber)) {
+					mTrips.put(tripNumber, sharedTrip);
+
+					publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, sharedTrip));
+
+					mTripsAdded++;
+				}
+				else if (hasFullDetails) {
+					mTrips.get(tripNumber).updateFrom(sharedTrip);
+				}
+
+				if (hasFullDetails) {
+					// If we have full details, mark this as recently updated so we don't
+					// refresh it below
+					sharedTrip.markUpdated(false);
+
+					mTripsRefreshed++;
+				}
+
 			}
 		}
 	}

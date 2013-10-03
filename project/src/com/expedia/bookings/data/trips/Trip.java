@@ -51,6 +51,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 	private String mDescription;
 
 	private String mDetailsUrl;
+	private String mSharableDetailsUrl;
 
 	private DateTime mStartDate;
 	private DateTime mEndDate;
@@ -67,6 +68,9 @@ public class Trip implements JSONable, Comparable<Trip> {
 	// a full, up-to-date copy.  Thus, two possible update times.
 	private long mLastCachedUpdate;
 	private long mLastFullUpdate;
+
+	// To identify if it's a shared itin
+	private boolean mIsShared;
 
 	public Trip() {
 		// Default constructor
@@ -133,6 +137,14 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mDetailsUrl = url;
 	}
 
+	public String getSharableDetailsUrl() {
+		return mSharableDetailsUrl;
+	}
+
+	public void setSharableDetailsUrl(String sharableDetailsUrl) {
+		this.mSharableDetailsUrl = sharableDetailsUrl;
+	}
+
 	public DateTime getStartDate() {
 		return mStartDate;
 	}
@@ -191,6 +203,14 @@ public class Trip implements JSONable, Comparable<Trip> {
 		return mTripComponents;
 	}
 
+	public boolean isShared() {
+		return mIsShared;
+	}
+
+	public void setIsShared(boolean isShared) {
+		this.mIsShared = isShared;
+	}
+
 	/**
 	 * Returns all trip components.  If you want sub components, it will automatically
 	 * unroll TripPackages into their constituent parts.
@@ -245,6 +265,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mDescription = other.mDescription;
 
 		mDetailsUrl = other.mDetailsUrl;
+		mSharableDetailsUrl = other.mSharableDetailsUrl;
 
 		mStartDate = other.mStartDate;
 		mEndDate = other.mEndDate;
@@ -304,6 +325,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 			obj.putOpt("title", mTitle);
 			obj.putOpt("description", mDescription);
 			obj.putOpt("webDetailsURL", mDetailsUrl);
+			obj.putOpt("sharableDetailsURL", mSharableDetailsUrl);
 
 			JSONUtils.putJSONable(obj, "customerSupport", mCustomerSupport);
 
@@ -318,6 +340,8 @@ public class Trip implements JSONable, Comparable<Trip> {
 
 			obj.putOpt("lastCachedUpdate", mLastCachedUpdate);
 			obj.putOpt("lastFullUpdate", mLastFullUpdate);
+
+			obj.putOpt("isShared", mIsShared);
 
 			return obj;
 		}
@@ -338,6 +362,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mTitle = obj.optString("title");
 		mDescription = obj.optString("description");
 		mDetailsUrl = obj.optString("webDetailsURL");
+		mSharableDetailsUrl = obj.optString("sharableDetailsURL");
 
 		mCustomerSupport = JSONUtils.getJSONable(obj, "customerSupport", CustomerSupport.class);
 
@@ -357,6 +382,8 @@ public class Trip implements JSONable, Comparable<Trip> {
 
 		mLastCachedUpdate = obj.optLong("lastCachedUpdate");
 		mLastFullUpdate = obj.optLong("lastFullUpdate");
+
+		mIsShared = obj.optBoolean("isShared");
 
 		return true;
 	}

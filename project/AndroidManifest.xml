@@ -96,7 +96,6 @@
         </activity>
 
         <!-- Deep link routing activity -->
-
         <activity
             android:name="com.expedia.bookings.activity.DeepLinkRouterActivity"
             android:theme="@android:style/Theme.NoDisplay" >
@@ -112,6 +111,23 @@
                 <data android:host="showTrips" />
                 <data android:host="hotelSearch" />
                 <data android:host="flightSearch" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:pathPrefix="/api/trips/shared"
+                    android:scheme="https" />
+                <data android:host="www.expedia.com" />
+                <!-- Public integration -->
+                <data android:host="70.42.224.37" />
+                <!-- Dev Server -->
+                <data android:host="wwwexpediacom.chelwebestr37.bgb.karmalab.net" />
+                <!-- Integration Server -->
+                <data android:host="wwwexpediacom.integration.sb.karmalab.net" />
             </intent-filter>
         </activity>
 
@@ -149,6 +165,10 @@
             android:name="com.expedia.bookings.activity.LocalExpertActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme" />
+        <activity
+            android:name="com.expedia.bookings.activity.FacebookShareActivity"
+            android:label="@string/Facebook_Sharing" >
+        </activity>
 
         <!-- Hotels activities -->
 

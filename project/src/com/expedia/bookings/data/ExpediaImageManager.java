@@ -21,6 +21,7 @@ public class ExpediaImageManager {
 
 	public enum ImageType {
 		DESTINATION("DESTINATION"),
+		DESTINATION_MOBILEWEB("DESTINATION_MOBILEWEB"), // use this to fetch a low res image. Ideal for posting on Facebook.
 		CAR("CAR"),
 		ACTIVITY("ACTIVITY");
 

@@ -28,8 +28,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
+import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.dialog.SocialMessageChooserDialogFragment;
+import com.expedia.bookings.fragment.ConfirmItinRemoveDialogFragment;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
@@ -923,6 +925,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		case R.id.itin_card_add_to_calendar:
 			addToCalendar();
 			return true;
+		case R.id.itin_card_remove:
+			showRemoveDialog();
+			return true;
 		default:
 			return false;
 		}
@@ -946,6 +951,11 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			popup.getMenu().removeItem(R.id.itin_card_add_to_calendar);
 		}
 
+		Trip trip = mItinContentGenerator.getItinCardData().getTripComponent().getParentTrip();
+		if (!trip.isShared()) {
+			popup.getMenu().removeItem(R.id.itin_card_remove);
+		}
+
 		popup.show();
 	}
 
@@ -960,6 +970,13 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		for (Intent intent : intents) {
 			getContext().startActivity(intent);
 		}
+	}
+
+	private void showRemoveDialog() {
+		final FragmentActivity activity = (FragmentActivity) getContext();
+		FragmentManager fragmentManager = activity.getSupportFragmentManager();
+		ConfirmItinRemoveDialogFragment df = ConfirmItinRemoveDialogFragment.getInstance(mItinContentGenerator.getItinCardData().getTripComponent().getParentTrip().getTripNumber());
+		df.show(fragmentManager, ConfirmItinRemoveDialogFragment.TAG);
 	}
 
 }

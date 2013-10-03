@@ -18,6 +18,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.tracking.AdX;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -196,6 +197,10 @@ public class DeepLinkRouterActivity extends Activity {
 				Log.i(TAG, "Launching flight search params activity from deep link!");
 				NavUtils.goToFlights(this, true);
 			}
+		}
+		else if (data.toString().contains("api/trips/shared")) {
+			ItineraryManager.getInstance().fetchSharedItin(data.toString());
+			NavUtils.goToItin(this);
 		}
 		else {
 			Ui.showToast(this, "Cannot yet handle data: " + data);

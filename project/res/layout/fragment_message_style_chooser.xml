@@ -56,17 +56,34 @@
     </LinearLayout>
 
     <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/facebook_button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal" >
+            android:layout_weight="1"
+            android:background="@drawable/bg_action_bar_button"
+            android:drawableTop="@drawable/ic_share_short"
+            android:gravity="center_horizontal"
+            android:paddingBottom="24dp"
+            android:paddingTop="16dp"
+            android:singleLine="true"
+            android:text="@string/Short_message_Facebook"
+            android:textAppearance="@style/TextAppearance.Small"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/flighttrack_button"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/bg_action_bar_button"
             android:drawableTop="@drawable/ic_share_flighttrack"
+            android:gravity="center_horizontal"
             android:paddingBottom="24dp"
             android:paddingTop="16dp"
             android:singleLine="true"

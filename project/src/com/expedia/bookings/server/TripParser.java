@@ -84,6 +84,8 @@ public class TripParser {
 		trip.setBookingStatus(parseBookingStatus(tripJson.optString("bookingStatus")));
 		trip.setTimePeriod(parseTimePeriod(tripJson.optString("timePeriod")));
 
+		trip.setSharableDetailsUrl(tripJson.optString("sharableDetailsURL"));
+
 		trip.setCustomerSupport(parseCustomerSupport(tripJson.optJSONObject("customerSupport")));
 
 		trip.addTripComponents(parseTripComponents(tripJson));
@@ -309,12 +311,18 @@ public class TripParser {
 				property.setItinRoomType(room.optString("roomRatePlanDescription"));
 
 				JSONObject roomPreferences = room.optJSONObject("roomPreferences");
-				JSONObject otherOccupantInfo = roomPreferences.optJSONObject("otherOccupantInfo");
-				guests += otherOccupantInfo.optInt("adultCount");
-				guests += otherOccupantInfo.optInt("childAndInfantCount");
+				if (roomPreferences != null) {
+					JSONObject otherOccupantInfo = roomPreferences.optJSONObject("otherOccupantInfo");
+					if (otherOccupantInfo != null) {
+						guests += otherOccupantInfo.optInt("adultCount");
+						guests += otherOccupantInfo.optInt("childAndInfantCount");
+					}
 
-				JSONObject occupantSelectedRoomOptions = roomPreferences.optJSONObject("occupantSelectedRoomOptions");
-				property.setItinBedType(occupantSelectedRoomOptions.optString("bedTypeName"));
+					JSONObject occupantSelectedRoomOptions = roomPreferences.optJSONObject("occupantSelectedRoomOptions");
+					if (occupantSelectedRoomOptions != null) {
+						property.setItinBedType(occupantSelectedRoomOptions.optString("bedTypeName"));
+					}
+				}
 			}
 		}
 
@@ -505,8 +513,10 @@ public class TripParser {
 			activity.setVoucherPrintUrl(obj.optString("voucherPrintURL"));
 
 			JSONObject priceJson = obj.optJSONObject("price");
-			activity.setPrice(ParserUtils.createMoney(priceJson.optString("total", null),
-					priceJson.optString("currency", null)));
+			if (priceJson != null) {
+				activity.setPrice(ParserUtils.createMoney(priceJson.optString("total", null),
+						priceJson.optString("currency", null)));
+			}
 
 			// Parse travelers
 			JSONArray travelersArr = obj.optJSONArray("travelers");
@@ -591,6 +601,7 @@ public class TripParser {
 		}
 
 		component.setUniqueId(uniqueId);
+
 	}
 
 	private Car.Category parseCarCategory(String category) {
