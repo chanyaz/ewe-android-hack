@@ -88,7 +88,7 @@ public class FlightsHappyPath {
 
 			// Searching
 			driver.screenshot("Searching for flights");
-			driver.waitForViewToBeGone(driver.flightsSearchLoading().getLoadingDialogueView(), 30);
+			driver.waitForStringToBeGone(driver.flightsSearchLoading().getLoadingFlightsString());
 			driver.landscape();
 			driver.portrait();
 
