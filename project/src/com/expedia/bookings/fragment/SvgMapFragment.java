@@ -36,6 +36,9 @@ import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.BitmapDrawable;
 
 public class SvgMapFragment extends MeasurableFragment {
+
+	private static final String ARG_MAP_RESOURCE = "ARG_MAP_RESOURCE";
+
 	private FrameLayout mRoot;
 	private ImageView mMapImageView;
 
@@ -50,11 +53,28 @@ public class SvgMapFragment extends MeasurableFragment {
 		return frag;
 	}
 
+	public void setMapResource(int resId) {
+		Bundle args = getArguments();
+		args.putInt(ARG_MAP_RESOURCE, resId);
+		setArguments(args);
+	}
+
+	public SvgMapFragment() {
+		Bundle args = new Bundle();
+		setArguments(args);
+	}
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		mPicture = SVGParser.getSVGFromResource(activity.getResources(), R.raw.map_tablet_launch).getPicture();
+		int mapResId = R.raw.map_tablet_launch;
+		Bundle args = getArguments();
+		if (args != null) {
+			mapResId = args.getInt(ARG_MAP_RESOURCE, R.raw.map_tablet_launch);
+		}
+
+		mPicture = SVGParser.getSVGFromResource(activity.getResources(), mapResId).getPicture();
 		mInflater = LayoutInflater.from(activity);
 	}
 
