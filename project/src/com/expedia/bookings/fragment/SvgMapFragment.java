@@ -86,7 +86,7 @@ public class SvgMapFragment extends MeasurableFragment {
 		int w = mMapImageView.getWidth();
 		int h = mMapImageView.getHeight();
 		Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-		bitmap.eraseColor(Color.TRANSPARENT);
+		bitmap.eraseColor(Color.parseColor("#161f39"));
 
 		Point2D.Double tl = transform(57, -140.828186);
 		Point2D.Double tr = transform(57, 32.316284);
