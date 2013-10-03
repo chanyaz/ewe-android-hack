@@ -28,6 +28,7 @@ import com.mobiata.android.util.Ui;
 public class ExpediaServicesFragment extends Fragment {
 
 	public enum ServiceType {
+		SUGGEST_NEARBY,
 		HOTEL_SEARCH,
 		FLIGHT_SEARCH
 	}
@@ -89,6 +90,14 @@ public class ExpediaServicesFragment extends Fragment {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Services
+
+	public void startSuggestionsNearby(final double latitude, final double longitude, boolean continueIfInProgress) {
+		doDownload(ServiceType.SUGGEST_NEARBY, continueIfInProgress, new ResponseDownload() {
+			public Response execute(ExpediaServices services) {
+				return services.suggestionsNearby(latitude, longitude, 0);
+			}
+		});
+	}
 
 	public void startHotelSearch(final SearchParams searchParams, boolean continueIfInProgress) {
 		doDownload(ServiceType.HOTEL_SEARCH, continueIfInProgress, new ResponseDownload() {
