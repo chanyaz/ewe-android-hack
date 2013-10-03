@@ -5,16 +5,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.widget.CursorAdapter;
+import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.SuggestionV2;
-import com.mobiata.android.util.Ui;
 
 public class SuggestionsAdapter extends CursorAdapter {
 
@@ -48,38 +48,25 @@ public class SuggestionsAdapter extends CursorAdapter {
 
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
-		ViewHolder vh = (ViewHolder) view.getTag();
+		TextView textView = (TextView) view;
 
 		int iconResId = cursor.getInt(SuggestionProvider.COL_ICON_1);
-		if (iconResId == 0) {
-			vh.mIcon1.setVisibility(View.GONE);
+		textView.setCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0);
+
+		// We only want to show the bolded text (of the query) if there is actually a query
+		String query = cursor.getString(SuggestionProvider.COL_QUERY);
+		if (TextUtils.isEmpty(query)) {
+			textView.setText(cursor.getString(SuggestionProvider.COL_FULL_NAME));
 		}
 		else {
-			vh.mIcon1.setImageResource(iconResId);
-			vh.mIcon1.setVisibility(View.VISIBLE);
+			textView.setText(Html.fromHtml(cursor.getString(SuggestionProvider.COL_DISPLAY_NAME)));
 		}
-
-		vh.mTextView1.setText(cursor.getString(SuggestionProvider.COL_TEXT_1));
-		vh.mTextView2.setText(cursor.getString(SuggestionProvider.COL_TEXT_2));
 	}
 
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		LayoutInflater inflater = LayoutInflater.from(context);
-		View v = inflater.inflate(R.layout.simple_dropdown_item_2line, parent, false);
-
-		ViewHolder vh = new ViewHolder();
-		vh.mIcon1 = Ui.findView(v, android.R.id.icon1);
-		vh.mTextView1 = Ui.findView(v, android.R.id.text1);
-		vh.mTextView2 = Ui.findView(v, android.R.id.text2);
-		v.setTag(vh);
-
-		return v;
+		return inflater.inflate(R.layout.row_suggestion_dropdown, parent, false);
 	}
 
-	private static class ViewHolder {
-		private ImageView mIcon1;
-		private TextView mTextView1;
-		private TextView mTextView2;
-	}
 }

@@ -138,6 +138,7 @@ public class SuggestionProvider extends ContentProvider {
 			SuggestionV2 currentLocationSuggestion = new SuggestionV2();
 			currentLocationSuggestion.setResultType(ResultType.CURRENT_LOCATION);
 			currentLocationSuggestion.setFullName(getContext().getString(R.string.current_location));
+			currentLocationSuggestion.setDisplayName(currentLocationSuggestion.getFullName());
 			addSuggestion(currentLocationSuggestion);
 
 			// Add recent suggestions
