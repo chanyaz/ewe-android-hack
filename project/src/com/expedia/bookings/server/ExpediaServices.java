@@ -137,9 +137,7 @@ public class ExpediaServices implements DownloadListener {
 	private static final String FS_FLEX_APP_KEY = "6cf6ac9c083a45e93c6a290bf0cd442e";
 	private static final String FS_FLEX_BASE_URI = "https://api.flightstats.com/flex";
 
-	private static final String EXPEDIA_SUGGEST_V2_BASE_URL = "http://suggest.expedia.com/hint/es/v2/ac/";
-
-	private static final String EXPEDIA_SUGGEST_V3_BASE_URL = "http://suggest.expedia.com/hint/es/v3/ac/";
+	private static final String EXPEDIA_SUGGEST_BASE_URL = "http://suggest.expedia.com/hint/es/";
 
 	public static final int REVIEWS_PER_PAGE = 25;
 
@@ -263,14 +261,17 @@ public class ExpediaServices implements DownloadListener {
 	// Examples (flights):
 	// http://suggest.expedia.com/hint/es/v1/ac/en_US/new%20york?type=95&lob=Flights
 
+	private enum SuggestType {
+		AUTOCOMPLETE,
+		NEARBY
+	}
+
 	public SuggestResponse suggest(String query, int flags) {
 		if (query == null || query.length() < getMinSuggestQueryLength()) {
 			return null;
 		}
 
-		String localeString = PointOfSale.getSuggestLocaleIdentifier();
-
-		String url = NetUtils.formatUrl(EXPEDIA_SUGGEST_V2_BASE_URL + localeString + "/" + query);
+		String url = NetUtils.formatUrl(getSuggestUrl(2, SuggestType.AUTOCOMPLETE) + "/" + query);
 
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
 
@@ -304,22 +305,39 @@ public class ExpediaServices implements DownloadListener {
 			return null;
 		}
 
-		String localeString = PointOfSale.getSuggestLocaleIdentifier();
+		String url = NetUtils.formatUrl(getSuggestUrl(3, SuggestType.AUTOCOMPLETE) + "/" + query);
 
-		String url = NetUtils.formatUrl(EXPEDIA_SUGGEST_V3_BASE_URL + localeString + "/" + query);
+		return doSuggestionRequest(url, null);
+	}
+
+	public SuggestionResponse suggestionsNearby(double latitude, double longitude, int flags) {
+		String url = NetUtils.formatUrl(getSuggestUrl(1, SuggestType.NEARBY));
 
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
 
-		SuggestionResponseHandler responseHandler = new SuggestionResponseHandler();
+		addCommonParams(params);
+
+		params.add(new BasicNameValuePair("latlong", latitude + "|" + longitude));
+
+		// 1 == airports, which is all that's supported for now
+		params.add(new BasicNameValuePair("type", "1"));
+
+		// Always sort by popularity (for now)
+		params.add(new BasicNameValuePair("sort", "p"));
+
+		return doSuggestionRequest(url, params);
+	}
+
+	private SuggestionResponse doSuggestionRequest(String url, List<BasicNameValuePair> params) {
+		HttpGet get = NetUtils.createHttpGet(url, params);
 
 		// Make sure the response comes back as JSON
-		HttpGet get = NetUtils.createHttpGet(url, params);
 		get.addHeader("Accept", "application/json");
 
 		// Some logging before passing the request along
-		Log.d(TAG_REQUEST, "Autosuggest (v3) request: " + url + "?" + NetUtils.getParamsForLogging(params));
+		Log.d(TAG_REQUEST, "Suggestion request: " + url + "?" + NetUtils.getParamsForLogging(params));
 
-		return doRequest(get, responseHandler, 0);
+		return doRequest(get, new SuggestionResponseHandler(), 0);
 	}
 
 	/**
@@ -334,6 +352,29 @@ public class ExpediaServices implements DownloadListener {
 		else {
 			return 3;
 		}
+	}
+
+	private String getSuggestUrl(int version, SuggestType type) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(EXPEDIA_SUGGEST_BASE_URL);
+
+		// Version #
+		sb.append("v" + Integer.toString(version) + "/");
+
+		// Type
+		switch (type) {
+		case AUTOCOMPLETE:
+			sb.append("ac/");
+			break;
+		case NEARBY:
+			sb.append("nearby/");
+			break;
+		}
+
+		// Locale identifier
+		sb.append(PointOfSale.getSuggestLocaleIdentifier());
+
+		return sb.toString();
 	}
 
 	// Sweepstakes

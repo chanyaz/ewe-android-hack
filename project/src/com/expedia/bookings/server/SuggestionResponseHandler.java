@@ -31,6 +31,12 @@ public class SuggestionResponseHandler extends JsonResponseHandler<SuggestionRes
 		suggestResponse.setQuery(response.optString("q", null));
 
 		JSONArray suggestionsArr = response.optJSONArray("sr");
+
+		// Nearby responses return "r" instead of "sr"
+		if (suggestionsArr == null) {
+			suggestionsArr = response.optJSONArray("r");
+		}
+
 		if (suggestionsArr != null) {
 			List<SuggestionV2> suggestions = new ArrayList<SuggestionV2>();
 
