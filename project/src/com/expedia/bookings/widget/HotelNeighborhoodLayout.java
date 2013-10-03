@@ -14,6 +14,7 @@ import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -24,7 +25,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.StrUtils;
-import com.mobiata.android.util.Ui;
 
 public class HotelNeighborhoodLayout extends LinearLayout {
 
@@ -97,6 +97,7 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 		else {
 			mNeighborhoods = new HashSet<Integer>();
 			LayoutInflater inflater = LayoutInflater.from(getContext());
+			ForegroundColorSpan graySpan = new ForegroundColorSpan(Color.rgb(0x05, 0x58, 0xc4));
 			for (Property property : sorted) {
 				mNeighborhoods.add(property.getLocation().getLocationId());
 				String description = property.getLocation().getDescription();
@@ -107,11 +108,12 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 				SpannableStringBuilder builder = new SpannableStringBuilder(template);
 				int start = template.indexOf(rate);
 				int end = start + rate.length();
-				builder.setSpan(new ForegroundColorSpan(Color.rgb(0x05, 0x58, 0xc4)), start, end, 0);
+				builder.setSpan(graySpan, start, end, 0);
 
 				LinearLayout row = (LinearLayout) inflater.inflate(R.layout.row_filter_refinement, null);
-				CheckBox box = Ui.findView(row, R.id.checkbox);
-				TextView price = Ui.findView(row, R.id.price);
+				// #2110 - Can't findViewById here, breaks on rotate
+				CheckBox box = (CheckBox) row.getChildAt(0);
+				TextView price = (TextView) row.getChildAt(1);
 				box.setText(description);
 				price.setText(builder);
 				box.setChecked(true);
@@ -143,8 +145,9 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 
 	private boolean areAllNeighborhoodsChecked() {
 		for (int i = 0; i < getChildCount(); i++) {
-			CheckBox check = Ui.findView(getChildAt(i), R.id.checkbox);
-			if (!check.isChecked()) {
+			ViewGroup row = (ViewGroup) getChildAt(i);
+			CheckBox box = (CheckBox) row.getChildAt(0);
+			if (!box.isChecked()) {
 				return false;
 			}
 		}
