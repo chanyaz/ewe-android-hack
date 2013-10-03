@@ -1433,7 +1433,9 @@ public class ItineraryManager implements JSONable {
 
 		private void downloadSharedItinTrip(String shareableUrl) {
 			Log.i(LOGGING_TAG, "Fetching shared itin " + shareableUrl);
-			TripDetailsResponse response = mServices.getSharedItin(shareableUrl);
+			// We need to replace the /m with /api to get the json response.
+			String shareableAPIUrl = shareableUrl.replace("/m/", "/api/");
+			TripDetailsResponse response = mServices.getSharedItin(shareableAPIUrl);
 
 			if (isCancelled()) {
 				return;

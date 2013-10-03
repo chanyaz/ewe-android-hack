@@ -198,7 +198,7 @@ public class DeepLinkRouterActivity extends Activity {
 				NavUtils.goToFlights(this, true);
 			}
 		}
-		else if (data.toString().contains("api/trips/shared")) {
+		else if (data.toString().contains("m/trips/shared")) {
 			ItineraryManager.getInstance().fetchSharedItin(data.toString());
 			NavUtils.goToItin(this);
 		}

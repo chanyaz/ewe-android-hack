@@ -84,7 +84,11 @@ public class TripParser {
 		trip.setBookingStatus(parseBookingStatus(tripJson.optString("bookingStatus")));
 		trip.setTimePeriod(parseTimePeriod(tripJson.optString("timePeriod")));
 
-		trip.setSharableDetailsUrl(tripJson.optString("sharableDetailsURL"));
+		/*
+		 *  The api returns the sharableUrl in the form of /api/trips/shared. But this is the link that is to be shared to any users.
+		 *  We will instead replace it with /m/trips/shared, so that if the user clicks on the link without the app installed it will get them to the mobileWeb's shared itin landing page.
+		 */
+		trip.setSharableDetailsUrl(tripJson.optString("sharableDetailsURL").replace("/api/", "/m/"));
 
 		trip.setCustomerSupport(parseCustomerSupport(tripJson.optJSONObject("customerSupport")));
 

@@ -119,7 +119,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:pathPrefix="/api/trips/shared"
+                    android:pathPrefix="/m/trips/shared"
                     android:scheme="https" />
                 <data android:host="www.expedia.com" />
                 <!-- Public integration -->
