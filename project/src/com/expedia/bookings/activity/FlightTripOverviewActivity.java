@@ -75,6 +75,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	private FlightCheckoutFragment mCheckoutFragment;
 	private SlideToPurchaseFragment mSlideToPurchaseFragment;
 
+	private ViewGroup mContentRoot;
 	private ViewGroup mOverviewContainer;
 	private ViewGroup mCheckoutContainer;
 	private BlockEventFrameLayout mCheckoutBlocker;
@@ -130,6 +131,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		ImageView bgImageView = Ui.findView(this, R.id.background_bg_view);
 		bgImageView.setImageBitmap(Db.getBackgroundImage(this, true));
 
+		mContentRoot = Ui.findView(this, R.id.content_root);
 		mContentScrollView = Ui.findView(this, R.id.content_scroll_view);
 		mOverviewContainer = Ui.findView(this, R.id.trip_overview_container);
 		mCheckoutContainer = Ui.findView(this, R.id.trip_checkout_container);
@@ -536,13 +538,13 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			}
 
 			AnimatorProxy proxy = AnimatorProxy.wrap(mCheckoutContainer);
-			proxy.setTranslationY((Math.max(mContentScrollView.getHeight(), mUnstackedHeight) - mOverviewContainer
+			proxy.setTranslationY((Math.max(mContentRoot.getHeight(), mUnstackedHeight) - mOverviewContainer
 					.getHeight()) * (1f - percentage));
 
 			if (percentage > 0 && mCheckoutContainer.getVisibility() != View.VISIBLE) {
 				mCheckoutContainer.setVisibility(View.VISIBLE);
 			}
-			else if (percentage == 0 && !mScrollViewListener.getIsCurrentlyTouching()) {
+			else if (percentage == 0 && mCheckoutContainer.getVisibility() == View.VISIBLE) {
 				mCheckoutContainer.setVisibility(View.INVISIBLE);
 			}
 
@@ -702,7 +704,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			addSlideToCheckoutFragment();
 
 			//Scroll to bottom to display legal text
-			mContentScrollView.scrollTo(0, this.mCheckoutContainer.getBottom());
+			doScroll(true, mCheckoutContainer.getBottom());
 		}
 	}
 
