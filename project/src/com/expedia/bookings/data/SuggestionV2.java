@@ -6,16 +6,19 @@ import java.util.regex.Pattern;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Pair;
 
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
+import com.mobiata.android.util.ParcelUtils;
 
 /**
  * Don't want to break old suggestion code, so this takes its place now
  */
-public class SuggestionV2 implements JSONable, Comparable<SuggestionV2> {
+public class SuggestionV2 implements JSONable, Parcelable, Comparable<SuggestionV2> {
 
 	/**
 	 * The type of result
@@ -79,6 +82,10 @@ public class SuggestionV2 implements JSONable, Comparable<SuggestionV2> {
 	// "ccc" denotes the country code TLA where the hotel is located
 	// "ll" denotes the latitude and longitude coordinates
 	private Location mLocation;
+
+	public SuggestionV2() {
+		// Default constructor, needed for JSONable
+	}
 
 	public ResultType getResultType() {
 		return mResultType;
@@ -245,4 +252,46 @@ public class SuggestionV2 implements JSONable, Comparable<SuggestionV2> {
 		return true;
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// Parcelable
+
+	private SuggestionV2(Parcel in) {
+		mResultType = ParcelUtils.readEnum(in, ResultType.class);
+		mSearchType = ParcelUtils.readEnum(in, SearchType.class);
+		mRegionType = ParcelUtils.readEnum(in, RegionType.class);
+		mFullName = in.readString();
+		mDisplayName = in.readString();
+		mIndex = in.readInt();
+		mHotelId = in.readInt();
+		mAirportCode = in.readString();
+		mLocation = in.readParcelable(getClass().getClassLoader());
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		ParcelUtils.writeEnum(dest, mResultType);
+		ParcelUtils.writeEnum(dest, mSearchType);
+		ParcelUtils.writeEnum(dest, mRegionType);
+		dest.writeString(mFullName);
+		dest.writeString(mDisplayName);
+		dest.writeInt(mIndex);
+		dest.writeInt(mHotelId);
+		dest.writeString(mAirportCode);
+		dest.writeParcelable(mLocation, 0);
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	public static final Parcelable.Creator<SuggestionV2> CREATOR = new Parcelable.Creator<SuggestionV2>() {
+		public SuggestionV2 createFromParcel(Parcel in) {
+			return new SuggestionV2(in);
+		}
+
+		public SuggestionV2[] newArray(int size) {
+			return new SuggestionV2[size];
+		}
+	};
 }
