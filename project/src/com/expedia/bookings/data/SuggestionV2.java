@@ -76,6 +76,8 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 	private String mAirportCode;
 
 	// "amc" denotes the multicity region id associated with the region/hotel element. We don't guarantee to have a multicity value available in this field (for all the regions)
+	private int mRegionId;
+
 	// "ad" denotes the hotel address
 	// "ci" denotes the city where the hotel is located
 	// "pr" denotes the province where the hotel is located
@@ -151,6 +153,14 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 		mAirportCode = airportCode;
 	}
 
+	public int getRegionId() {
+		return mRegionId;
+	}
+
+	public void setRegionId(int regionId) {
+		mRegionId = regionId;
+	}
+
 	public Location getLocation() {
 		return mLocation;
 	}
@@ -175,6 +185,7 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 				&& mIndex == other.mIndex
 				&& mHotelId == other.mHotelId
 				&& TextUtils.equals(mAirportCode, other.mAirportCode)
+				&& mRegionId == other.mRegionId
 				&& ((mLocation == null && other.mLocation == null) || (mLocation != null && mLocation
 						.equals(other.mLocation)));
 	}
@@ -223,6 +234,7 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 
 			obj.put("hotelId", mHotelId);
 			obj.putOpt("airportCode", mAirportCode);
+			obj.putOpt("regionId", mRegionId);
 
 			JSONUtils.putJSONable(obj, "location", mLocation);
 
@@ -246,6 +258,7 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 
 		mHotelId = obj.optInt("hotelId");
 		mAirportCode = obj.optString("airportCode", null);
+		mRegionId = obj.optInt("regionId");
 
 		mLocation = JSONUtils.getJSONable(obj, "location", Location.class);
 
@@ -264,6 +277,7 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 		mIndex = in.readInt();
 		mHotelId = in.readInt();
 		mAirportCode = in.readString();
+		mRegionId = in.readInt();
 		mLocation = in.readParcelable(getClass().getClassLoader());
 	}
 
@@ -277,6 +291,7 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 		dest.writeInt(mIndex);
 		dest.writeInt(mHotelId);
 		dest.writeString(mAirportCode);
+		dest.writeInt(mRegionId);
 		dest.writeParcelable(mLocation, 0);
 	}
 
