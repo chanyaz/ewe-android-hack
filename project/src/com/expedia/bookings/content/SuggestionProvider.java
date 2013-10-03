@@ -217,18 +217,18 @@ public class SuggestionProvider extends ContentProvider {
 		}
 
 		if (resultType == ResultType.CURRENT_LOCATION) {
-			row[COL_ICON_1] = R.drawable.ic_suggestion_current_location;
+			row[COL_ICON_1] = R.drawable.ic_suggest_current_location;
 		}
 		else {
 			switch (searchType) {
 			case AIRPORT:
-				row[COL_ICON_1] = R.drawable.ic_location_search;
+				row[COL_ICON_1] = R.drawable.ic_suggest_airport;
 				break;
 			case HOTEL:
-				row[COL_ICON_1] = R.drawable.ic_suggestion_hotel;
+				row[COL_ICON_1] = R.drawable.ic_suggest_hotel;
 				break;
 			default:
-				row[COL_ICON_1] = R.drawable.ic_suggestion_place;
+				row[COL_ICON_1] = R.drawable.ic_suggest_place;
 				break;
 			}
 		}
