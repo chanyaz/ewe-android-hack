@@ -39,6 +39,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.SuggestionV2.ResultType;
 import com.expedia.bookings.fragment.DatesFragment.DatesFragmentListener;
@@ -47,6 +48,7 @@ import com.expedia.bookings.fragment.GuestsDialogFragment.GuestsDialogFragmentLi
 import com.expedia.bookings.fragment.SuggestionsFragment.SuggestionsFragmentListener;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.section.AfterChangeTextWatcher;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -867,27 +869,23 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mCurrentLocation = currentLocation;
 
 		// If the current origin is blank, get a suggestion for the nearest location
-		if (currentLocation != null && mSearchParams.getOrigin().equals(new Location())) {
-			// Do this in another thread because of DB access; don't worry if this gets thrown away (short process)
+		if (currentLocation != null && !mSearchParams.hasOrigin()) {
+			// Do this in another thread because of network access; don't worry if this gets thrown away (short process)
 			(new Thread(new Runnable() {
 				@Override
 				public void run() {
-					// TODO: Get the nearest suggestions to the lat/lng
-					/*
-					List<Airport> nearestAirports = FlightStatsDbUtils.getNearestAirports(
-							currentLocation.getLatitude(), currentLocation.getLongitude(), true, 1);
+					ExpediaServices services = new ExpediaServices(getActivity());
+					SuggestionResponse response = services.suggestionsNearby(currentLocation.getLatitude(),
+							currentLocation.getLongitude(), 0);
 
-					if (nearestAirports.size() > 0) {
-						Airport airport = nearestAirports.get(0);
-						Location location = Suggestion.fromAirport(airport).toLocation();
-						mSearchParams.setOrigin(location);
+					if (response != null && !response.hasErrors() && response.getSuggestions().size() != 0) {
+						mSearchParams.setOrigin(response.getSuggestions().get(0));
 
 						// Update the UI
 						if (!mOriginEditText.isFocusableInTouchMode()) {
 							mOriginEditText.setText(getOriginText());
 						}
 					}
-					*/
 				}
 			})).start();
 		}
