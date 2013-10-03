@@ -40,6 +40,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.data.SuggestionV2.ResultType;
 import com.expedia.bookings.fragment.DatesFragment.DatesFragmentListener;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
 import com.expedia.bookings.fragment.GuestsDialogFragment.GuestsDialogFragmentListener;
@@ -492,15 +493,21 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	private String getSuggestionText(SuggestionV2 suggestion) {
 		String text = null;
 
-		Location location = suggestion.getLocation();
-		if (location != null) {
-			text = location.getCity();
+		if (suggestion.getResultType() == ResultType.CURRENT_LOCATION) {
+			text = getString(R.string.current_location);
 		}
 
 		if (TextUtils.isEmpty(text)) {
-			text = suggestion.getAirportCode();
+			Location location = suggestion.getLocation();
+			if (location != null) {
+				text = location.getCity();
+			}
+
 			if (TextUtils.isEmpty(text)) {
-				text = getString(R.string.great_unknown);
+				text = suggestion.getAirportCode();
+				if (TextUtils.isEmpty(text)) {
+					text = getString(R.string.great_unknown);
+				}
 			}
 		}
 
