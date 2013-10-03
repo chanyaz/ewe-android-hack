@@ -170,6 +170,11 @@ public class SuggestionProvider extends ContentProvider {
 	// Recently used suggestions
 
 	public static void addSuggestionToRecents(Context context, SuggestionV2 suggestion) {
+		if (suggestion.getResultType() == ResultType.CURRENT_LOCATION) {
+			// Don't try to save meta-suggestions like CURRENT_LOCATION
+			return;
+		}
+
 		ContentValues values = new ContentValues();
 		values.put(KEY_SUGGESTION, suggestion.toJson().toString());
 		context.getContentResolver().insert(getContentFilterUri(context), values);
