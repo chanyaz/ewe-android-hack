@@ -1,20 +1,12 @@
 package com.expedia.bookings.activity;
 
 import java.util.Date;
-import java.util.concurrent.Semaphore;
 
-import org.joda.time.DateTime;
-
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GestureDetectorCompat;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.view.GestureDetector;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,9 +14,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver.OnPreDrawListener;
-import android.widget.AbsListView;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -34,7 +24,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
-import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
@@ -65,10 +54,6 @@ import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.utils.DateTimeUtils;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.ValueAnimator;
-import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
-import com.nineoldandroids.view.ViewHelper;
 
 public class FlightTripOverviewActivity extends SherlockFragmentActivity implements LogInListener,
 		CheckoutInformationListener, RetryErrorDialogFragmentListener, ISlideToListener, DoLogoutListener {
@@ -165,7 +150,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 		addOverviewFragment();
 
-		mScrollViewListener = new ScrollViewListener(this);
+		mScrollViewListener = new ScrollViewListener();
 		mContentScrollView.addOnScrollListener(mScrollViewListener);
 		mContentScrollView.setOnTouchListener(mScrollViewListener);
 
@@ -471,23 +456,13 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		return retVal;
 	}
 
-	private class ScrollViewListener extends GestureDetector.SimpleOnGestureListener implements OnScrollListener,
+	private class ScrollViewListener implements OnScrollListener,
 			OnTouchListener {
 
 		private boolean mTouchDown = false;
 		private int mScrollY;
 		private int mMidY;
 		private int mCheckoutY;
-
-		private static final int SWIPE_MIN_DISTANCE = 100;
-		private static final int SWIPE_MAX_OFF_PATH = 250;
-		private static final int SWIPE_THRESHOLD_VELOCITY = 200;
-
-		private GestureDetector mGestureDetector;
-
-		public ScrollViewListener(Context context) {
-			mGestureDetector = new GestureDetector(context, this);
-		}
 
 		public void updateThresh(int checkoutY, int midY) {
 			mCheckoutY = checkoutY;
