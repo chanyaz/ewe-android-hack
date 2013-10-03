@@ -6,24 +6,30 @@ import java.util.concurrent.Semaphore;
 import org.joda.time.DateTime;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GestureDetectorCompat;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewTreeObserver.OnPreDrawListener;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.internal.nineoldandroids.view.animation.AnimatorProxy;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -53,12 +59,15 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.ScrollView;
+import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
+import com.nineoldandroids.view.ViewHelper;
 
 public class FlightTripOverviewActivity extends SherlockFragmentActivity implements LogInListener,
 		CheckoutInformationListener, RetryErrorDialogFragmentListener, ISlideToListener, DoLogoutListener {
@@ -69,17 +78,10 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	public static final String TAG_SLIDE_TO_PURCHASE_FRAG = "TAG_SLIDE_TO_PURCHASE_FRAG";
 
 	public static final String STATE_TAG_MODE = "STATE_TAG_MODE";
-	public static final String STATE_TAG_STACKED_HEIGHT = "STATE_TAG_STACKED_HEIGHT";
-	public static final String STATE_TAG_UNSTACKED_HEIGHT = "STATE_TAG_UNSTACKED_HEIGHT";
 	public static final String STATE_TAG_LOADED_DB_INFO = "STATE_TAG_LOADED_DB_INFO";
-
-	public static final int ANIMATION_DURATION = 450;
-	public static final int ANIMATION_SNAPBACK_DURATION = 0;
 
 	//We only want to load from disk once: when the activity is first started
 	private boolean mLoadedDbInfo = false;
-	private Semaphore mTransitionSem = new Semaphore(1);
-
 	private boolean mSafeToAttach = true;
 
 	private FlightTripOverviewFragment mOverviewFragment;
@@ -89,8 +91,10 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	private ViewGroup mOverviewContainer;
 	private ViewGroup mCheckoutContainer;
+	private View mBelowOverviewSpacer;
+
+	private ScrollViewListener mScrollViewListener;
 	private ScrollView mContentScrollView;
-	private View mBackToOverviewArea;
 
 	private MenuItem mCheckoutMenuItem;
 
@@ -99,9 +103,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	private int mStackedHeight = 0;
 	private int mUnstackedHeight = 0;
-
 	private float mLastCheckoutPercentage = 0f;
-	private float mCurrentCardDragDistance = 0f;
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
@@ -126,6 +128,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 		setContentView(R.layout.activity_flight_overview_and_checkout);
 
+		Db.saveOrLoadDbForTesting(this);
+
 		mKillReceiver = new ActivityKillReceiver(this);
 		mKillReceiver.onCreate();
 
@@ -142,7 +146,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		mContentScrollView = Ui.findView(this, R.id.content_scroll_view);
 		mOverviewContainer = Ui.findView(this, R.id.trip_overview_container);
 		mCheckoutContainer = Ui.findView(this, R.id.trip_checkout_container);
-		mBackToOverviewArea = Ui.findView(this, R.id.back_to_overview_area);
+		mBelowOverviewSpacer = Ui.findView(this, R.id.below_overview_spacer);
 
 		if (savedInstanceState != null) {
 			mLoadedDbInfo = savedInstanceState.getBoolean(STATE_TAG_LOADED_DB_INFO, false) && Db.hasBillingInfo();
@@ -154,25 +158,13 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			mDisplayMode = DisplayMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
 		}
 
-		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_STACKED_HEIGHT)) {
-			mStackedHeight = savedInstanceState.getInt(STATE_TAG_STACKED_HEIGHT);
-			setCheckoutContainerTopPadding(mStackedHeight);
-			setBackToOverviewAreaHeight(mStackedHeight);
-		}
-
-		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_UNSTACKED_HEIGHT)) {
-			mUnstackedHeight = savedInstanceState.getInt(STATE_TAG_UNSTACKED_HEIGHT);
-			mOverviewContainer.setMinimumHeight(mUnstackedHeight);
-			LayoutParams params = mOverviewContainer.getLayoutParams();
-			if (params != null) {
-				params.height = mUnstackedHeight;
-				mOverviewContainer.setLayoutParams(params);
-			}
-		}
-
 		mTripKey = Db.getFlightSearch().getSelectedFlightTrip().getProductKey();
 
 		addOverviewFragment();
+
+		mScrollViewListener = new ScrollViewListener(this);
+		mContentScrollView.addOnScrollListener(mScrollViewListener);
+		mContentScrollView.setOnTouchListener(mScrollViewListener);
 
 		AdTracker.trackFlightCheckoutStarted();
 	}
@@ -190,22 +182,28 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 		mSafeToAttach = true;
 
-		if (mOverviewFragment != null) {
-			mStackedHeight = mOverviewFragment.getStackedHeight();
-			mUnstackedHeight = mOverviewFragment.getUnstackedHeight();
-			LayoutParams params = mOverviewContainer.getLayoutParams();
-			if (params != null) {
-				params.height = mUnstackedHeight;
-				mOverviewContainer.setLayoutParams(params);
+		mOverviewContainer.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+			@Override
+			public boolean onPreDraw() {
+				if (setContainerHeights() && mOverviewContainer.getHeight() >= 0) {
+					//We want this to be attached regardless of mode
+					attachCheckoutFragment();
+					
+					if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
+						gotoCheckoutMode(false, true);
+						if (mScrollViewListener.getScrollY() >= mScrollViewListener.getCheckoutScrollY()) {
+							mOverviewContainer.getViewTreeObserver().removeOnPreDrawListener(this);
+						}
+					}
+					else {
+						mOverviewContainer.getViewTreeObserver().removeOnPreDrawListener(this);
+						gotoOverviewMode(false);
+					}
+				}
+				return true;
 			}
-		}
 
-		if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
-			gotoCheckoutMode(false);
-		}
-		else {
-			gotoOverviewMode(false);
-		}
+		});
 
 		// Normally we won't need this; but if we try to attach when it's not safe
 		// we will want to make the changes later.
@@ -255,8 +253,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	public void onSaveInstanceState(Bundle out) {
 		super.onSaveInstanceState(out);
 		out.putString(STATE_TAG_MODE, mDisplayMode.name());
-		out.putInt(STATE_TAG_STACKED_HEIGHT, mStackedHeight);
-		out.putInt(STATE_TAG_UNSTACKED_HEIGHT, mUnstackedHeight);
 		out.putBoolean(STATE_TAG_LOADED_DB_INFO, mLoadedDbInfo);
 	}
 
@@ -303,15 +299,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				transaction.add(R.id.trip_checkout_container, mCheckoutFragment, TAG_CHECKOUT_FRAG);
 				transaction.commit();
 			}
-		}
-	}
-
-	public void detachCheckoutFragment() {
-		FragmentTransaction checkoutTransaction = getSupportFragmentManager().beginTransaction();
-		mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
-		if (mCheckoutFragment != null && mCheckoutFragment.isAdded()) {
-			checkoutTransaction.detach(mCheckoutFragment);
-			checkoutTransaction.commit();
 		}
 	}
 
@@ -370,362 +357,216 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		}
 	}
 
-	public void setBackToOverviewAreaHeight(int height) {
-		RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) this.mBackToOverviewArea
-				.getLayoutParams();
-		if (params == null) {
-			params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		}
-		params.height = height;
-		mBackToOverviewArea.setLayoutParams(params);
-	}
-
-	protected Animator getAnimator(float startPercentage, final float endPercentage) {
-		ValueAnimator animator = ValueAnimator.ofFloat(startPercentage, endPercentage);
-		animator.addUpdateListener(new AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator anim) {
-				Float f = (Float) anim.getAnimatedValue();
-				FlightTripOverviewActivity.this.setCheckoutPercent(f.floatValue());
-			}
-		});
-		animator.addListener(new AnimatorListenerShort() {
-			@Override
-			public void onAnimationEnd(Animator arg0) {
-				FlightTripOverviewActivity.this.setCheckoutPercent(endPercentage);
-
-				// In checkout mode, we always want to show the price at bottom with the card fee
-				Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
-
-				// We only want to update the price bottom fragment if it is added to the content right now, otherwise
-				// it will attempt to find a context (that doesn't exist) and blow up, despite having a reference to it.
-				if (Ui.isAdded(mPriceBottomFragment)) {
-					mPriceBottomFragment.bind();
-				}
-			}
-		});
-
-		//We are going towards overview mode, so we should scroll to the top
-		if (endPercentage == 0f) {
-			animator.addListener(new AnimatorListenerShort() {
-				@Override
-				public void onAnimationStart(Animator arg0) {
-					mContentScrollView.smoothScrollTo(0, 0);
-				}
-			});
-		}
-		return animator;
-	}
-
-	protected void playSnapBackAnimation(int duration) {
-		Animator anim = getAnimator(this.mLastCheckoutPercentage, this.mDisplayMode == DisplayMode.CHECKOUT ? 1f : 0f);
-		anim.setDuration(duration);
-		anim.start();
-	}
-
 	public void gotoOverviewMode(boolean animate) {
-		boolean semGot = false;
-		try {
-			mTransitionSem.acquire();
-			semGot = true;
-			mDisplayMode = DisplayMode.OVERVIEW;
-			setActionBarOverviewMode();
+		mDisplayMode = DisplayMode.OVERVIEW;
 
-			int duration = animate ? ANIMATION_DURATION : 1;
+		//Make sure sizes are as they should be
+		setContainerHeights();
 
-			addPriceBarFragment();
+		addPriceBarFragment();
+		mPriceBottomFragment.showPriceChange();
 
-			if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
-				mBackToOverviewArea.setOnClickListener(null);
-				mBackToOverviewArea.setOnTouchListener(null);
-				mContentScrollView.setOnTouchListener(mPushToCheckoutOnTouchListener);
-
-				mPriceBottomFragment.showPriceChange();
-
-				if (animate) {
-					Animator anim = getAnimator(mLastCheckoutPercentage, 0f);
-					anim.setDuration(duration);
-					anim.start();
-				}
-				else {
-					this.setCheckoutPercent(0f);
-				}
-				mOverviewFragment.unStackCards(animate);
-
+		if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
+			if (animate) {
+				doScroll(true, 0);
 			}
-
-			if (mLastTrackingMode != TrackingMode.OVERVIEW) {
-				mLastTrackingMode = TrackingMode.OVERVIEW;
-				OmnitureTracking.trackPageLoadFlightRateDetailsOverview(this);
+			else {
+				setCheckoutPercent(0f, true);
 			}
-
 		}
-		catch (Exception ex) {
-			Log.e("Exception in gotoOverviewMode()", ex);
-		}
-		finally {
-			if (semGot) {
-				mTransitionSem.release();
-			}
+
+		setActionBarOverviewMode();
+		modeChangeComplete();
+
+		if (mLastTrackingMode != TrackingMode.OVERVIEW) {
+			mLastTrackingMode = TrackingMode.OVERVIEW;
+			OmnitureTracking.trackPageLoadFlightRateDetailsOverview(this);
 		}
 	}
 
-	public void gotoCheckoutMode(boolean animate) {
-		boolean semGot = false;
-		try {
+	public void gotoCheckoutMode(boolean animate, boolean updateScrollPosition) {
+		mDisplayMode = DisplayMode.CHECKOUT;
 
-			mTransitionSem.acquire();
-			semGot = true;
+		//Make sure sizes are as they should be
+		setContainerHeights();
 
-			mDisplayMode = DisplayMode.CHECKOUT;
-			setActionBarCheckoutMode();
-			attachCheckoutFragment();
+		if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
 
-			int duration = animate ? ANIMATION_DURATION : 1;
+			if (animate) {
+				doScroll(true, (int) mOverviewFragment.getScrollOffsetForPercentage(1f));
+			}
+			else {
+				setCheckoutPercent(1f, updateScrollPosition);
+			}
 
-			mContentScrollView.setOnTouchListener(null);
-			mBackToOverviewArea.setOnTouchListener(mDragBackToOverviewOnTouchListener);
+			if (mCheckoutFragment != null) {
+				mCheckoutFragment.updateViewVisibilities();
+			}
+		}
 
-			if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
-				mStackedHeight = mOverviewFragment.getStackedHeight();
-				mUnstackedHeight = mOverviewFragment.getUnstackedHeight();
-				LayoutParams params = this.mOverviewContainer.getLayoutParams();
-				params.height = mUnstackedHeight;
-				mOverviewContainer.setLayoutParams(params);
+		setActionBarCheckoutMode();
+		modeChangeComplete();
+	}
 
-				setCheckoutContainerTopPadding(mStackedHeight);
-
+	private void doScroll(final boolean animate, final int y) {
+		mContentScrollView.post(new Runnable() {
+			@Override
+			public void run() {
+				mContentScrollView.scrollTo(0, mScrollViewListener.getScrollY());
 				if (animate) {
-					Animator anim = getAnimator(mLastCheckoutPercentage, 1f);
-					anim.setDuration(duration);
-					anim.start();
+					mContentScrollView.smoothScrollTo(0, y);
 				}
 				else {
-					setCheckoutPercent(1f);
+					mContentScrollView.scrollTo(0, y);
 				}
-				mOverviewFragment.stackCards(animate);
+			}
+		});
+	}
 
-				setBackToOverviewAreaHeight(mStackedHeight);
-				if (mCheckoutFragment != null) {
-					mCheckoutFragment.updateViewVisibilities();
-				}
-			}
+	private void modeChangeComplete() {
+		// In checkout mode, we always want to show the price at bottom with the card fee
+		Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
+
+		// We only want to update the price bottom fragment if it is added to the content right now, otherwise
+		// it will attempt to find a context (that doesn't exist) and blow up, despite having a reference to it.
+		if (Ui.isAdded(mPriceBottomFragment)) {
+			mPriceBottomFragment.bind();
 		}
-		catch (Exception ex) {
-			Log.e("Exception in gotoCheckoutMode()", ex);
-		}
-		finally {
-			if (semGot) {
-				mTransitionSem.release();
-			}
+
+		if (mOverviewFragment != null) {
+			mOverviewFragment.updateCardInfoText();
 		}
 	}
 
-	OnTouchListener mDragBackToOverviewOnTouchListener = new OnTouchListener() {
-		float mStartPosY = 0;
-		long mStartTime = 0;
-		float mLastPosY = 0;
+	private boolean setContainerHeights() {
+		boolean retVal = true;
+		if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
+			mStackedHeight = mOverviewFragment.getStackedHeight();
+			mUnstackedHeight = mOverviewFragment.getUnstackedHeight();
+			LayoutParams overviewContainerParams = mOverviewContainer.getLayoutParams();
+			if (overviewContainerParams != null && mUnstackedHeight > 0) {
+				overviewContainerParams.height = mUnstackedHeight;
+				mOverviewContainer.setLayoutParams(overviewContainerParams);
+			}
+			else {
+				retVal = false;
+			}
+
+			LayoutParams spacerParams = mBelowOverviewSpacer.getLayoutParams();
+			if (spacerParams != null) {
+				spacerParams.height = mContentScrollView.getHeight() - mStackedHeight;
+				mBelowOverviewSpacer.setLayoutParams(spacerParams);
+			}
+			else {
+				retVal = false;
+			}
+
+			mScrollViewListener.updateThresh(mUnstackedHeight - mStackedHeight, (int) (mUnstackedHeight / 2f));
+		}
+		return retVal;
+	}
+
+	private class ScrollViewListener extends GestureDetector.SimpleOnGestureListener implements OnScrollListener,
+			OnTouchListener {
+
+		private boolean mTouchDown = false;
+		private int mScrollY;
+		private int mMidY;
+		private int mCheckoutY;
+
+		private static final int SWIPE_MIN_DISTANCE = 100;
+		private static final int SWIPE_MAX_OFF_PATH = 250;
+		private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
+		private GestureDetector mGestureDetector;
+
+		public ScrollViewListener(Context context) {
+			mGestureDetector = new GestureDetector(context, this);
+		}
+
+		public void updateThresh(int checkoutY, int midY) {
+			mCheckoutY = checkoutY;
+			mMidY = midY;
+		}
+
+		public boolean getIsCurrentlyTouching() {
+			return mTouchDown;
+		}
+
+		public int getScrollY() {
+			return mScrollY;
+		}
+
+		public int getCheckoutScrollY() {
+			return mCheckoutY;
+		}
 
 		@Override
-		public boolean onTouch(View arg0, MotionEvent arg1) {
-			boolean retVal = false;
-			try {
-				int action = arg1.getActionMasked();
-				switch (action) {
-				case MotionEvent.ACTION_DOWN:
-					mStartTime = DateTime.now().getMillis();
-					mStartPosY = arg1.getY();
-					mBackToOverviewArea.getParent().requestDisallowInterceptTouchEvent(true);
-					retVal = true;
-					dragCards(0f, true, false);
-					mLastPosY = mStartPosY;
-					break;
-				case MotionEvent.ACTION_MOVE:
-					float sinceLastDif = mLastPosY - arg1.getY();
-					setCheckoutPercent(dragCards(sinceLastDif, false, false));
-					retVal = true;
-					mLastPosY = arg1.getY();
-					break;
-				case MotionEvent.ACTION_UP:
-					if (DateTime.now().getMillis() - mStartTime < 100) {
-						FlightTripOverviewActivity.this.gotoOverviewMode(true);
-					}
-					else {
-						if (FlightTripOverviewActivity.this.mOverviewFragment != null
-								&& FlightTripOverviewActivity.this.mOverviewFragment.getExpandedPercentage() > 0.95f) {
-							FlightTripOverviewActivity.this.gotoOverviewMode(false);
-						}
-						else {
-							playSnapBackAnimation(ANIMATION_SNAPBACK_DURATION);
-						}
-						mBackToOverviewArea.getParent().requestDisallowInterceptTouchEvent(false);
-					}
-					retVal = true;
-
-					break;
-				default:
-					break;
+		public boolean onTouch(View v, MotionEvent event) {
+			if (event.getAction() == MotionEvent.ACTION_DOWN) {
+				mTouchDown = true;
+			}
+			else if (event.getAction() == MotionEvent.ACTION_UP) {
+				mTouchDown = false;
+			}
+			if (event.getAction() == MotionEvent.ACTION_UP) {
+				if (mScrollY < mMidY) {
+					Log.t("Ending checkout - ScrollY: %d", mScrollY);
+					gotoOverviewMode(true);
+				}
+				else if (mScrollY >= mMidY && (mScrollY <= mCheckoutY || mDisplayMode != DisplayMode.CHECKOUT)) {
+					Log.t("Starting checkout - ScrollY: %d", mScrollY);
+					gotoCheckoutMode(true, true);
+				}
+				else {
+					doScroll(true, mScrollY);
 				}
 			}
-			catch (Exception ex) {
-				Log.e("Exception in mDragBackToOverviewOnTouchListener", ex);
-			}
-			return retVal;
+
+			return false;
 		}
-
-	};
-
-	OnTouchListener mPushToCheckoutOnTouchListener = new OnTouchListener() {
-		float mLastPosY = 0;
 
 		@Override
-		public boolean onTouch(View arg0, MotionEvent arg1) {
-
-			boolean retVal = false;
-			try {
-				int action = arg1.getActionMasked();
-
-				int scrollH = FlightTripOverviewActivity.this.mContentScrollView.getHeight();
-				int scrollY = FlightTripOverviewActivity.this.mContentScrollView.getScrollY();
-				int currentCardHeight = mOverviewFragment.getCurrentHeight();
-
-				boolean bottomCardBelowFold = currentCardHeight - scrollY > scrollH;
-				boolean topAboveFold = scrollY > 0;
-
-				switch (action) {
-				case MotionEvent.ACTION_DOWN:
-					attachCheckoutFragment();
-					mLastPosY = arg1.getY();
-					if (mOverviewContainer != null) {
-						mOverviewContainer.getParent().requestDisallowInterceptTouchEvent(true);
-					}
-					retVal = true;
-					dragCards(0f, true, true);
-					break;
-				case MotionEvent.ACTION_MOVE:
-					float sinceLastDif = mLastPosY - arg1.getY();
-
-					if (bottomCardBelowFold && sinceLastDif > 0) {
-						FlightTripOverviewActivity.this.mContentScrollView.scrollBy(0, Math.round(sinceLastDif));
-					}
-					else if (topAboveFold && sinceLastDif < 0) {
-						FlightTripOverviewActivity.this.mContentScrollView.scrollBy(0, Math.round(sinceLastDif));
-					}
-					else if (topAboveFold && sinceLastDif > 0) {
-						FlightTripOverviewActivity.this.mContentScrollView.scrollBy(0, -Math.round(sinceLastDif));
-						setCheckoutPercent(dragCards(sinceLastDif, false, true));
-					}
-					else {
-						setCheckoutPercent(dragCards(sinceLastDif, false, true));
-					}
-
-					mLastPosY = arg1.getY();
-					retVal = true;
-					break;
-				case MotionEvent.ACTION_UP:
-					if (FlightTripOverviewActivity.this.mOverviewFragment != null
-							&& FlightTripOverviewActivity.this.mOverviewFragment.getExpandedPercentage() < 0.1f) {
-						FlightTripOverviewActivity.this.gotoCheckoutMode(false);
-					}
-					else {
-						playSnapBackAnimation(ANIMATION_SNAPBACK_DURATION);
-					}
-					mOverviewContainer.getParent().requestDisallowInterceptTouchEvent(false);
-					retVal = true;
-					break;
-				default:
-					break;
-				}
+		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
+			Log.t("ScrollY: %d", y);
+			mScrollY = y;
+			if (mOverviewFragment != null) {
+				float percentage = 1f - ((float) mScrollY) / mCheckoutY;
+				setCheckoutPercent(1f - percentage, false);
 			}
-			catch (Exception ex) {
-				Log.e("Exception in onTouch", ex);
-			}
-			return retVal;
 		}
-	};
-
-	/**
-	 *
-	 * @param dist - the distance moved defined by lastY - currentY
-	 * @param init - reset the tracked distance
-	 * @param north - are we trying to move up (north) or down (south)
-	 * @return - what percentage we have made the journey between 0f and 1f
-	 */
-	private float dragCards(float dist, boolean init, boolean north) {
-		if (init) {
-			mCurrentCardDragDistance = 0;
-		}
-
-		int range = this.mUnstackedHeight - this.mStackedHeight;
-		if (mContentScrollView != null && range > mContentScrollView.getHeight()) {
-			range = mContentScrollView.getHeight() / 2;
-		}
-
-		mCurrentCardDragDistance += dist;
-
-		if (north && mCurrentCardDragDistance < 0) {
-			mCurrentCardDragDistance = 0;
-		}
-		if (north && mCurrentCardDragDistance > range) {
-			mCurrentCardDragDistance = range;
-		}
-		if (!north && mCurrentCardDragDistance > 0) {
-			mCurrentCardDragDistance = 0;
-		}
-		if (!north && mCurrentCardDragDistance < -range) {
-			mCurrentCardDragDistance = -range;
-		}
-
-		float percentage = Math.abs(mCurrentCardDragDistance) / range;
-		return north ? percentage : 1f - percentage;
 	}
 
 	//The percentage we are to checkout mode...
-	private void setCheckoutPercent(float percentage) {
-		if (percentage < 0f || percentage > 1f) {
-			return;
+	private void setCheckoutPercent(float percentage, boolean doScroll) {
+		if (percentage < 0) {
+			percentage = 0;
 		}
-		if (mOverviewFragment != null) {
-			this.mOverviewFragment.setExpandedPercentage(1f - percentage);
+		else if (percentage > 1) {
+			percentage = 1;
 		}
-		setCheckoutVisibility(percentage);
-		setCheckoutContainerPaddingFromPercentage(percentage);
-		mLastCheckoutPercentage = percentage;
 
-	}
-
-	@SuppressLint("NewApi")
-	private void setCheckoutVisibility(float percentage) {
-		if (mCheckoutContainer != null && mSafeToAttach) {
-			if (percentage == 0) {
-				mCheckoutContainer.setVisibility(View.INVISIBLE);
+		if (doScroll && mOverviewFragment != null) {
+			int scrollY = (int) mOverviewFragment.getScrollOffsetForPercentage(percentage);
+			mContentScrollView.scrollTo(0, scrollY);
+		}
+		else {
+			if (mOverviewFragment != null) {
+				mOverviewFragment.setExpandedPercentage(1f - percentage);
 			}
-			else {
+
+			AnimatorProxy proxy = AnimatorProxy.wrap(mCheckoutContainer);
+			proxy.setTranslationY((Math.max(mContentScrollView.getHeight(), mUnstackedHeight) - mOverviewContainer
+					.getHeight()) * (1f - percentage));
+
+			if (percentage > 0 && mCheckoutContainer.getVisibility() != View.VISIBLE) {
 				mCheckoutContainer.setVisibility(View.VISIBLE);
 			}
-		}
-	}
+			else if (percentage == 0 && !mScrollViewListener.getIsCurrentlyTouching()) {
+				mCheckoutContainer.setVisibility(View.INVISIBLE);
+			}
 
-	private void setCheckoutContainerPaddingFromPercentage(float percentage) {
-		int usefulMax = Math.max(mContentScrollView.getHeight(), mUnstackedHeight);
-		float topPadding = mStackedHeight + (usefulMax - mStackedHeight) * (1f - percentage);
-		setCheckoutContainerTopPadding(topPadding);
-	}
-
-	private void setCheckoutContainerTopPadding(float topPadding) {
-		int pos = Math.round(topPadding);
-
-		if (pos < this.mStackedHeight) {
-			pos = this.mStackedHeight;
-		}
-
-		int usefulMax = Math.max(mContentScrollView.getHeight(), mUnstackedHeight);
-
-		if (usefulMax > this.mStackedHeight && pos > usefulMax) {
-			pos = usefulMax;
-		}
-		if (mCheckoutContainer != null) {
-			mCheckoutContainer.setPadding(0, pos, 0, 0);
+			mLastCheckoutPercentage = percentage;
 		}
 	}
 
@@ -828,7 +669,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
+			if (mDisplayMode == DisplayMode.CHECKOUT) {
 				onBackPressed();
 			}
 			else {
@@ -843,8 +684,8 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			}
 			return true;
 		case R.id.menu_checkout:
-			if (mOverviewFragment != null) {
-				gotoCheckoutMode(true);
+			if (mOverviewFragment != null && mDisplayMode == DisplayMode.OVERVIEW) {
+				gotoCheckoutMode(true, true);
 			}
 			return true;
 		default:
@@ -942,7 +783,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				mSlideToPurchaseFragment.resetSlider();
 			}
 			Ui.showToast(this, R.string.please_enter_a_valid_email_address);
-			gotoCheckoutMode(false);//This will update all of our views (and re-validate everything).
+			gotoCheckoutMode(false, true);
 			return;
 		}
 

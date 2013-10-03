@@ -7,8 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
+import android.widget.FrameLayout.LayoutParams;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -18,10 +19,6 @@ import com.expedia.bookings.section.InfoBarSection;
 import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.Animator.AnimatorListener;
-import com.nineoldandroids.animation.ValueAnimator;
-import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 import com.nineoldandroids.view.animation.AnimatorProxy;
 
 public class FlightTripOverviewFragment extends Fragment {
@@ -29,16 +26,16 @@ public class FlightTripOverviewFragment extends Fragment {
 	private static final String ARG_TRIP_KEY = "ARG_TRIP_KEY";
 	private static final String ARG_DISPLAY_MODE = "ARG_DISPLAY_MODE";
 	private static final int ID_START_RANGE = Integer.MAX_VALUE - 100;
-	private static final int ANIMATION_DURATION = 450;
+
 	//The margin between cards when expanded
 	private static final int FLIGHT_LEG_TOP_MARGIN = 20;
-
 	private static final int TOP_CARD_STACKED_ALPHA = 255;
 	private static final int TOP_CARD_UNSTACKED_ALPHA = 210;
 
 	private FlightTrip mTrip;
-	private RelativeLayout mFlightContainer;
+	private FrameLayout mFlightContainer;
 	private InfoBarSection mFlightDateAndTravCount;
+	private ViewGroup mRootView;
 
 	private DisplayMode mDisplayMode = DisplayMode.OVERVIEW;
 
@@ -71,10 +68,10 @@ public class FlightTripOverviewFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_flight_trip_overview, container, false);
+		mRootView = (ViewGroup) inflater.inflate(R.layout.fragment_flight_trip_overview, container, false);
 
-		mFlightContainer = Ui.findView(v, R.id.flight_legs_container);
-		mFlightDateAndTravCount = Ui.findView(v, R.id.date_and_travlers);
+		mFlightContainer = Ui.findView(mRootView, R.id.flight_legs_container);
+		mFlightDateAndTravCount = Ui.findView(mRootView, R.id.date_and_travlers);
 
 		String tripKey = getArguments().getString(ARG_TRIP_KEY);
 		mTrip = Db.getFlightSearch().getFlightTrip(tripKey);
@@ -83,7 +80,7 @@ public class FlightTripOverviewFragment extends Fragment {
 
 		buildCards(inflater);
 
-		return v;
+		return mRootView;
 	}
 
 	@Override
@@ -107,10 +104,8 @@ public class FlightTripOverviewFragment extends Fragment {
 	private void buildCards(LayoutInflater inflater) {
 		//Inflate and store the sections
 		mFlightContainer.removeAllViews();
-		int currentTop = 0;
 
 		measureDateAndTravelers();
-		currentTop += Math.max(mFlightDateAndTravCount.getMeasuredHeight(), mFlightDateAndTravCount.getHeight());
 
 		//Build the cards
 		SectionFlightLeg tempFlight;
@@ -126,24 +121,25 @@ public class FlightTripOverviewFragment extends Fragment {
 			}
 
 			tempFlight.bind(new FlightTripLeg(mTrip, mTrip.getLeg(i)));
-
-			currentTop += FLIGHT_LEG_TOP_MARGIN;
-
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-					RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-			params.topMargin = currentTop;
-			params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+			FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+					FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
 
 			mFlightContainer.addView(tempFlight, params);
 
 			measureCard(tempFlight);
-			currentTop += Math.max(tempFlight.getMeasuredHeight(), tempFlight.getHeight());
 		}
 
 		//Z-index the card
 		for (int i = mTrip.getLegCount() - 1; i >= 0; i--) {
 			mFlightContainer.findViewById(ID_START_RANGE + i).bringToFront();
 		}
+
+		//Set the container to be tall enough
+		LayoutParams containerParams = (LayoutParams) mFlightContainer.getLayoutParams();
+		containerParams.height = getUnstackedHeight();
+		mFlightContainer.setLayoutParams(containerParams);
+
+		placeCardsFromPercentage(1);
 	}
 
 	private void measureCard(SectionFlightLeg card) {
@@ -159,22 +155,15 @@ public class FlightTripOverviewFragment extends Fragment {
 	}
 
 	public int getStackedHeight() {
-		return getHeightFromMargins(getStackedTopMargins(), false);
+		int[] margins = getStackedTopMargins();
+		int retHeight = 0;
+		SectionFlightLeg flight = Ui.findView(mFlightContainer, ID_START_RANGE);
+		retHeight = getHeightFromMargins(margins, false) - margins[0] - getFlightLegUnusedHeight(flight);
+		return retHeight;
 	}
 
 	public int getUnstackedHeight() {
 		return getHeightFromMargins(getNormalTopMargins(), true);
-	}
-
-	public int getCurrentHeight() {
-		int lastInd = mFlightContainer.getChildCount() - 1;
-		SectionFlightLeg lastFlight = Ui.findView(mFlightContainer, lastInd + ID_START_RANGE);
-		if (lastFlight != null) {
-			return lastFlight.getBottom();
-		}
-		else {
-			return 0;
-		}
 	}
 
 	private int getHeightFromMargins(int[] margins, boolean includeTravBar) {
@@ -194,35 +183,22 @@ public class FlightTripOverviewFragment extends Fragment {
 		return retHeight;
 	}
 
-	public void stackCards(boolean animate) {
-		mDisplayMode = DisplayMode.CHECKOUT;
-		if (animate) {
-			animateToPercentage(mCurrentPercentage, 0);
-		}
-		else {
-			setExpandedPercentage(0);
-		}
+	public float getScrollOffsetForPercentage(float percentage) {
+		return percentage * (getScrollOffsetStacked() - getScrollOffsetUnstacked());
 	}
 
-	public void unStackCards(boolean animate) {
-		//We default to overview mode, so there shouldn't be a time when we need to animate to overview if we are already in overview
-		if (mDisplayMode.compareTo(DisplayMode.OVERVIEW) != 0) {
-			mDisplayMode = DisplayMode.OVERVIEW;
+	public float getScrollOffsetUnstacked() {
+		return 0f;
+	}
 
-			if (animate) {
-				animateToPercentage(mCurrentPercentage, 1);
-			}
-			else {
-				setExpandedPercentage(1);
-			}
-		}
+	public float getScrollOffsetStacked() {
+		return getUnstackedHeight() - getStackedHeight();
 	}
 
 	public void setExpandedPercentage(float percentage) {
 		mCurrentPercentage = percentage;
 		if (this.isAdded()) {
 			placeCardsFromPercentage(percentage);
-			placeTopBarFromPercentage(percentage);
 			setCardsAlpha(percentage);
 			setTopCardBgAlpha(percentage);
 		}
@@ -232,30 +208,7 @@ public class FlightTripOverviewFragment extends Fragment {
 		return mCurrentPercentage;
 	}
 
-	protected void animateToPercentage(float startPercentage, float endPercentage) {
-		if (!mCardsAnimating) {
-			Animator animator = getAnimator(startPercentage, endPercentage);
-			animator.setDuration(ANIMATION_DURATION);
-			animator.addListener(mCardsAnimatingListener);
-			animator.start();
-		}
-	}
-
-	protected Animator getAnimator(float startPercentage, float endPercentage) {
-		ValueAnimator animator = ValueAnimator.ofFloat(startPercentage, endPercentage);
-		animator.addUpdateListener(new AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator anim) {
-				Float f = (Float) anim.getAnimatedValue();
-				setExpandedPercentage(f.floatValue());
-
-			}
-		});
-		return animator;
-	}
-
 	protected void placeCardsFromPercentage(float percentage) {
-
 		if (percentage == 0) {
 			placeCardsFromMargins(getStackedTopMargins());
 		}
@@ -273,31 +226,6 @@ public class FlightTripOverviewFragment extends Fragment {
 				positions[i] = val;
 			}
 			placeCardsFromMargins(positions);
-		}
-	}
-
-	protected void placeTopBarFromPercentage(float percentage) {
-		int height = Math.max(mFlightDateAndTravCount.getHeight(), mFlightDateAndTravCount.getMeasuredHeight());
-		if (height <= 0) {
-			this.measureDateAndTravelers();
-			height = Math.max(mFlightDateAndTravCount.getHeight(), mFlightDateAndTravCount.getMeasuredHeight());
-		}
-
-		if (percentage == 0) {
-			LayoutParams params = (LayoutParams) mFlightDateAndTravCount.getLayoutParams();
-			params.topMargin = -height;
-			mFlightDateAndTravCount.setLayoutParams(params);
-		}
-		else if (percentage == 1) {
-			LayoutParams params = (LayoutParams) mFlightDateAndTravCount.getLayoutParams();
-			params.topMargin = 0;
-			mFlightDateAndTravCount.setLayoutParams(params);
-		}
-		else {
-			int top = height - (int) Math.round(percentage * height);
-			LayoutParams params = (LayoutParams) mFlightDateAndTravCount.getLayoutParams();
-			params.topMargin = -top;
-			mFlightDateAndTravCount.setLayoutParams(params);
 		}
 	}
 
@@ -339,9 +267,7 @@ public class FlightTripOverviewFragment extends Fragment {
 	private void placeCardsFromMargins(int[] margins) {
 		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
 			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
-			RelativeLayout.LayoutParams params = (LayoutParams) tempFlight.getLayoutParams();
-			params.topMargin = margins[i];
-			tempFlight.setLayoutParams(params);
+			AnimatorProxy.wrap(tempFlight).setTranslationY(margins[i]);
 		}
 	}
 
@@ -380,74 +306,42 @@ public class FlightTripOverviewFragment extends Fragment {
 
 	private int[] getStackedTopMargins() {
 		measureFlightContainer();
+		int flightContainerHeight = Math.max(mFlightContainer.getMeasuredHeight(), mFlightContainer.getHeight());
 		int[] retVal = new int[mFlightContainer.getChildCount()];
-		int currentTop = 0;
-		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
+		int currentTop = flightContainerHeight;
+		for (int i = mFlightContainer.getChildCount() - 1; i >= 0; i--) {
 			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
-			View header = Ui.findView(tempFlight, R.id.info_text_view);
-			View price = Ui.findView(tempFlight, R.id.price_text_view);
-			View airline = Ui.findView(tempFlight, R.id.airline_text_view);
-			View flightTripView = Ui.findView(tempFlight, R.id.flight_trip_view);
 
-			int headerUnused = Math.max(header.getMeasuredHeight(), header.getHeight());
-			int innerUnused = Math.max(Math.max(price.getMeasuredHeight(), price.getHeight()),
-					Math.max(airline.getMeasuredHeight(), airline.getHeight()));
+			int totalUnusedHeight = getFlightLegUnusedHeight(tempFlight);
 
-			//Dont forget margins...
-			if (flightTripView != null && flightTripView.getLayoutParams() != null) {
-				if (((RelativeLayout.LayoutParams) flightTripView.getLayoutParams()).topMargin > 0) {
-					innerUnused += ((RelativeLayout.LayoutParams) flightTripView.getLayoutParams()).topMargin;
-				}
-			}
-
-			int totalUnusedHeight = (int) (headerUnused + innerUnused);
-
-			currentTop -= totalUnusedHeight;
+			currentTop -= Math.max(tempFlight.getMeasuredHeight(), tempFlight.getHeight());
 			retVal[i] = currentTop;
-			currentTop += Math.max(tempFlight.getMeasuredHeight(), tempFlight.getHeight());
+			currentTop += totalUnusedHeight;
+
 		}
 		return retVal;
 	}
 
-	private boolean mCardsAnimating = false;
-	private AnimatorListener mCardsAnimatingListener = new AnimatorListener() {
+	private int getFlightLegUnusedHeight(SectionFlightLeg sectionFlightLeg) {
+		View header = Ui.findView(sectionFlightLeg, R.id.info_text_view);
+		View price = Ui.findView(sectionFlightLeg, R.id.price_text_view);
+		View airline = Ui.findView(sectionFlightLeg, R.id.airline_text_view);
+		View flightTripView = Ui.findView(sectionFlightLeg, R.id.flight_trip_view);
 
-		@Override
-		public void onAnimationCancel(Animator arg0) {
-			mCardsAnimating = false;
-		}
+		int headerUnused = Math.max(header.getMeasuredHeight(), header.getHeight());
+		int innerUnused = Math.max(Math.max(price.getMeasuredHeight(), price.getHeight()),
+				Math.max(airline.getMeasuredHeight(), airline.getHeight()));
 
-		@Override
-		public void onAnimationEnd(Animator arg0) {
-			mCardsAnimating = false;
-
-			if (mDisplayMode.compareTo(DisplayMode.OVERVIEW) == 0) {
-				Runnable layoutRunner = new Runnable() {
-					@Override
-					public void run() {
-						updateCardInfoText();
-					}
-				};
-				if (FlightTripOverviewFragment.this.getView() != null) {
-					FlightTripOverviewFragment.this.getView().postDelayed(layoutRunner, 200);
-				}
+		//Dont forget margins...
+		if (flightTripView != null && flightTripView.getLayoutParams() != null) {
+			if (((RelativeLayout.LayoutParams) flightTripView.getLayoutParams()).topMargin > 0) {
+				innerUnused += ((RelativeLayout.LayoutParams) flightTripView.getLayoutParams()).topMargin;
 			}
 		}
+		return headerUnused + innerUnused;
+	}
 
-		@Override
-		public void onAnimationRepeat(Animator arg0) {
-
-		}
-
-		@Override
-		public void onAnimationStart(Animator arg0) {
-			mCardsAnimating = true;
-
-		}
-
-	};
-
-	private void updateCardInfoText() {
+	public void updateCardInfoText() {
 		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
 			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
 			//a small rebind

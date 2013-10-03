@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
@@ -8,17 +8,16 @@
         android:id="@+id/date_and_travlers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         layout="@layout/section_info_bar" />
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/flight_legs_container"
         style="@style/MarginPoint"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_gravity="center_horizontal"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:orientation="vertical" >
-    </RelativeLayout>
+    </FrameLayout>
 
-</RelativeLayout>
+</FrameLayout>
