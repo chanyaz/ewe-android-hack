@@ -14,7 +14,6 @@ import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -22,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.StrUtils;
@@ -29,11 +29,16 @@ import com.expedia.bookings.utils.StrUtils;
 public class HotelNeighborhoodLayout extends LinearLayout {
 
 	public interface OnNeighborhoodsChangedListener {
-		public void onNeighborhoodsChanged(Set<Integer> neighborhoods, boolean areAllChecked);
+		/**
+		 * If onNeighborhoodsChanged is called with *null*, that means do not filter by
+		 * neighborhood (i.e. all neighborhoods are selected).
+		 */
+		public void onNeighborhoodsChanged(Set<Integer> neighborhoods);
 	}
 
 	private OnNeighborhoodsChangedListener mListener;
-	private Set<Integer> mNeighborhoods;
+	private Set<Integer> mAllNeighborhoods;
+	private Set<Integer> mCheckedNeighborhoods;
 
 	public HotelNeighborhoodLayout(Context context) {
 		super(context);
@@ -52,7 +57,8 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 		mListener = listener;
 	}
 
-	public void setNeighborhoods(HotelSearchResponse response) {
+	public void setNeighborhoods(HotelSearchResponse response, HotelFilter filter) {
+		mCheckedNeighborhoods = filter.getNeighborhoods();
 		if (response == null) {
 			removeAllViews();
 		}
@@ -95,15 +101,27 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 			// TODO: DESIGN: Do we want to show "no neighborhoods" or just make this GONE?
 		}
 		else {
-			mNeighborhoods = new HashSet<Integer>();
+			// Prepopulate mCheckedNeighborhoods with all neighborhoods checked
+			if (mCheckedNeighborhoods == null) {
+				mCheckedNeighborhoods = new HashSet<Integer>();
+				for (Property property : sorted) {
+					mCheckedNeighborhoods.add(property.getLocation().getLocationId());
+				}
+			}
+
+			mAllNeighborhoods = new HashSet<Integer>();
 			for (Property property : sorted) {
-				mNeighborhoods.add(property.getLocation().getLocationId());
+				int locationId = property.getLocation().getLocationId();
+				String description = property.getLocation().getDescription();
+				String rate = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayPrice());
+				boolean isChecked = mCheckedNeighborhoods.contains(locationId);
+
+				mAllNeighborhoods.add(locationId);
 
 				CheckBoxFilterWidget filterWidget = new CheckBoxFilterWidget(getContext());
 				filterWidget.setOnCheckedChangeListener(mCheckedChangedListener);
 				filterWidget.bindHotel(property);
 				filterWidget.setTag(property);
-
 				addView(filterWidget);
 			}
 		}
@@ -115,27 +133,20 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 			Property property = (Property) buttonView.getTag();
 			int locationId = property.getLocation().getLocationId();
 			if (isChecked) {
-				mNeighborhoods.add(locationId);
+				mCheckedNeighborhoods.add(locationId);
 			}
 			else {
-				mNeighborhoods.remove(locationId);
+				mCheckedNeighborhoods.remove(locationId);
 			}
 			triggerOnNeighborhoodsChanged();
 		}
 	};
 
 	private void triggerOnNeighborhoodsChanged() {
-		mListener.onNeighborhoodsChanged(mNeighborhoods, areAllNeighborhoodsChecked());
+		mListener.onNeighborhoodsChanged(areAllNeighborhoodsChecked() ? null : mCheckedNeighborhoods);
 	}
 
 	private boolean areAllNeighborhoodsChecked() {
-		for (int i = 0; i < getChildCount(); i++) {
-			ViewGroup row = (ViewGroup) getChildAt(i);
-			CheckBox box = (CheckBox) row.getChildAt(0);
-			if (!box.isChecked()) {
-				return false;
-			}
-		}
-		return true;
+		return mCheckedNeighborhoods.containsAll(mAllNeighborhoods);
 	}
 }

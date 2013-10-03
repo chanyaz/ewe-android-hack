@@ -198,7 +198,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		mVipAccessButton.setSelected(filter.isVipAccessOnly());
 
 		// Configure Areas/Neighborhoods
-		mNeighborhoodLayout.setNeighborhoods(search.getSearchResponse());
+		mNeighborhoodLayout.setNeighborhoods(search.getSearchResponse(), filter);
 	}
 
 	public void onStart() {
@@ -372,10 +372,9 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 
 	private final OnNeighborhoodsChangedListener mNeighborhoodsChangedListener = new OnNeighborhoodsChangedListener() {
 		@Override
-		public void onNeighborhoodsChanged(Set<Integer> neighborhoods, boolean areAllChecked) {
+		public void onNeighborhoodsChanged(Set<Integer> neighborhoods) {
 			HotelFilter filter = Db.getFilter();
-			// If all are checked, then remove the neighborhood filtering
-			filter.setNeighborhoods(areAllChecked ? null : neighborhoods);
+			filter.setNeighborhoods(neighborhoods);
 			filter.notifyFilterChanged();
 		}
 	};
