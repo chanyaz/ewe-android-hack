@@ -1,7 +1,7 @@
 package com.expedia.bookings.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -17,26 +17,32 @@ import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SuggestionResponse;
+import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.data.SuggestionV2.ResultType;
 import com.expedia.bookings.fragment.DestinationTilesFragment;
 import com.expedia.bookings.fragment.ExpediaServicesFragment;
 import com.expedia.bookings.fragment.ExpediaServicesFragment.ExpediaServicesFragmentListener;
 import com.expedia.bookings.fragment.ExpediaServicesFragment.ServiceType;
+import com.expedia.bookings.fragment.FusedLocationProviderFragment;
+import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
 import com.expedia.bookings.fragment.SvgMapFragment;
 import com.expedia.bookings.fragment.TabletSearchFragment;
 import com.expedia.bookings.fragment.TabletSearchFragment.SearchFragmentListener;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.fragment.base.MeasurableFragmentListener;
-import com.expedia.bookings.fragment.debug.ColorFragment;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.app.SimpleProgressDialogFragment;
 import com.mobiata.android.app.SimpleProgressDialogFragment.SimpleProgressDialogFragmentListener;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
 public class TabletLaunchActivity extends FragmentActivity implements MeasurableFragmentListener,
-		SearchFragmentListener, ExpediaServicesFragmentListener, SimpleProgressDialogFragmentListener {
+		SearchFragmentListener, ExpediaServicesFragmentListener, SimpleProgressDialogFragmentListener,
+		FusedLocationProviderListener {
 
 	// On top when search params covers up everything
 	private static final String BACKSTACK_SEARCH_PARAMS = "BACKSTACK_SEARCH_PARAMS";
@@ -50,7 +56,9 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	private static final String TAG_SERVICES = "TAG_SERVICES";
 	private static final String TAG_LOAD_SEARCH_DIALOG = "TAG_LOAD_SEARCH_DIALOG";
 	private ExpediaServicesFragment mServicesFragment;
+	private FusedLocationProviderFragment mLocationFragment;
 	private SimpleProgressDialogFragment mLoadSearchDialogFragment;
+	private SearchParams mSearchParams;
 
 	// HockeyApp
 	private HockeyPuck mHockeyPuck;
@@ -89,6 +97,8 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 			}
 		}
 
+		mLocationFragment = FusedLocationProviderFragment.getInstance(this);
+
 		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
 		mHockeyPuck.onCreate(savedInstanceState);
 	}
@@ -97,6 +107,12 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	protected void onResume() {
 		super.onResume();
 		mHockeyPuck.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		mLocationFragment.stop();
 	}
 
 	@Override
@@ -170,6 +186,82 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Search code
+	//
+	// This should eventually all get moved into TabletSearchActivity
+
+	private void startSearch(SearchParams searchParams) {
+		// Validate that we have all data we need
+		if (!searchParams.hasOrigin()) {
+			Toast.makeText(this, "Origin is required for search (Loc String TODO)", Toast.LENGTH_LONG).show();
+			return;
+		}
+		else if (!searchParams.hasDestination()) {
+			Toast.makeText(this, "Destination is required for search (Loc String TODO)", Toast.LENGTH_LONG).show();
+			return;
+		}
+
+		mSearchParams = searchParams;
+
+		// If either the origin or the destination are "current location", then fill that out before starting a search
+		if (searchParams.getOrigin().getResultType() == ResultType.CURRENT_LOCATION
+				|| searchParams.getDestination().getResultType() == ResultType.CURRENT_LOCATION) {
+			mLocationFragment.find(this);
+		}
+		else {
+			doSearch();
+		}
+	}
+
+	private void onCurrentLocationSuggestions(SuggestionResponse suggestResponse) {
+		if (suggestResponse == null) {
+			showDevErrorDialog("No current location suggestions: null response.");
+			return;
+		}
+		else if (suggestResponse.hasErrors()) {
+			showDevErrorDialog("No current location suggestions: error response.");
+			return;
+		}
+		else if (suggestResponse.getSuggestions().size() == 0) {
+			showDevErrorDialog("No current location suggestions: nothing nearby!.");
+			return;
+		}
+
+		// Use the 1st suggestion
+		SuggestionV2 suggestion = suggestResponse.getSuggestions().get(0);
+
+		if (mSearchParams.getOrigin().getResultType() == ResultType.CURRENT_LOCATION) {
+			mSearchParams.setOrigin(suggestion);
+		}
+
+		if (mSearchParams.getDestination().getResultType() == ResultType.CURRENT_LOCATION) {
+			mSearchParams.setDestination(suggestion);
+		}
+
+		doSearch();
+	}
+
+	private void doSearch() {
+		Db.getHotelSearch().setSearchResponse(null);
+		Db.getFlightSearch().setSearchResponse(null);
+
+		mLoadSearchDialogFragment = SimpleProgressDialogFragment.newInstance("Loading results...");
+		mLoadSearchDialogFragment.show(getSupportFragmentManager(), TAG_LOAD_SEARCH_DIALOG);
+
+		mServicesFragment.startHotelSearch(mSearchParams, false);
+		mServicesFragment.startFlightSearch(mSearchParams, false);
+
+		Db.getHotelSearch().setSearchParams(mSearchParams.toHotelSearchParams());
+		Db.getFlightSearch().setSearchParams(mSearchParams.toFlightSearchParams());
+
+		Log.i("Starting search with params: " + mSearchParams);
+	}
+
+	private void showDevErrorDialog(String msg) {
+		SimpleDialogFragment.newInstance(null, "DEV (NO LOC): " + msg).show(getSupportFragmentManager(), "errorDf");
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Back stack utils
 
 	public String getTopBackStackName() {
@@ -208,30 +300,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 	@Override
 	public void onSearch(SearchParams searchParams) {
-		// Validate that we have all data we need
-		if (!searchParams.hasOrigin()) {
-			Toast.makeText(this, "Origin is required for search (Loc String TODO)", Toast.LENGTH_LONG).show();
-			return;
-		}
-		else if (!searchParams.hasDestination()) {
-			Toast.makeText(this, "Destination is required for search (Loc String TODO)", Toast.LENGTH_LONG).show();
-			return;
-		}
-
-		// Do actual search
-		Db.getHotelSearch().setSearchResponse(null);
-		Db.getFlightSearch().setSearchResponse(null);
-
-		mLoadSearchDialogFragment = SimpleProgressDialogFragment.newInstance("Loading results...");
-		mLoadSearchDialogFragment.show(getSupportFragmentManager(), TAG_LOAD_SEARCH_DIALOG);
-
-		mServicesFragment.startHotelSearch(searchParams, false);
-		mServicesFragment.startFlightSearch(searchParams, false);
-
-		Db.getHotelSearch().setSearchParams(searchParams.toHotelSearchParams());
-		Db.getFlightSearch().setSearchParams(searchParams.toFlightSearchParams());
-
-		Log.i("Starting search with params: " + searchParams);
+		startSearch(searchParams);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -240,6 +309,10 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	@Override
 	public void onExpediaServicesDownload(ServiceType type, Response response) {
 		switch (type) {
+		case SUGGEST_NEARBY:
+			SuggestionResponse suggestResponse = (SuggestionResponse) response;
+			onCurrentLocationSuggestions(suggestResponse);
+			return;
 		case HOTEL_SEARCH:
 			Db.getHotelSearch().setSearchResponse((HotelSearchResponse) response);
 			break;
@@ -276,6 +349,19 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// FusedLocationProviderListener
+
+	@Override
+	public void onFound(Location currentLocation) {
+		mServicesFragment.startSuggestionsNearby(currentLocation.getLatitude(), currentLocation.getLongitude(), false);
+	}
+
+	@Override
+	public void onError() {
+		showDevErrorDialog("Tried current location search, but could not get current location.");
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// SimpleProgressDialogFragmentListener
 
 	@Override
@@ -284,4 +370,5 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		mServicesFragment.cancel(ServiceType.HOTEL_SEARCH);
 		mServicesFragment.cancel(ServiceType.FLIGHT_SEARCH);
 	}
+
 }
