@@ -59,6 +59,7 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
@@ -91,6 +92,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	private ViewGroup mOverviewContainer;
 	private ViewGroup mCheckoutContainer;
+	private BlockEventFrameLayout mCheckoutBlocker;
 	private View mBelowOverviewSpacer;
 
 	private ScrollViewListener mScrollViewListener;
@@ -147,6 +149,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		mOverviewContainer = Ui.findView(this, R.id.trip_overview_container);
 		mCheckoutContainer = Ui.findView(this, R.id.trip_checkout_container);
 		mBelowOverviewSpacer = Ui.findView(this, R.id.below_overview_spacer);
+		mCheckoutBlocker = Ui.findView(this, R.id.checkout_event_blocker);
 
 		if (savedInstanceState != null) {
 			mLoadedDbInfo = savedInstanceState.getBoolean(STATE_TAG_LOADED_DB_INFO, false) && Db.hasBillingInfo();
@@ -188,7 +191,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				if (setContainerHeights() && mOverviewContainer.getHeight() >= 0) {
 					//We want this to be attached regardless of mode
 					attachCheckoutFragment();
-					
+
 					if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
 						gotoCheckoutMode(false, true);
 						if (mScrollViewListener.getScrollY() >= mScrollViewListener.getCheckoutScrollY()) {
@@ -359,6 +362,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	public void gotoOverviewMode(boolean animate) {
 		mDisplayMode = DisplayMode.OVERVIEW;
+		mCheckoutBlocker.setBlockNewEventsEnabled(true);
 
 		//Make sure sizes are as they should be
 		setContainerHeights();
@@ -405,6 +409,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		}
 
 		setActionBarCheckoutMode();
+		mCheckoutBlocker.setBlockNewEventsEnabled(false);
 		modeChangeComplete();
 	}
 
