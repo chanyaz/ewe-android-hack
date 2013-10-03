@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,7 +25,7 @@ import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.AirlineFilterWidget;
+import com.expedia.bookings.widget.CheckBoxFilterWidget;
 import com.mobiata.flightlib.data.IAirport;
 
 /**
@@ -184,6 +185,16 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		}
 	};
 
+	private CompoundButton.OnCheckedChangeListener mAirlineOnCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
+			FlightTrip trip = (FlightTrip) buttonView.getTag();
+			filter.setPreferredAirline(trip.getLeg(mLegNumber).getFirstAirlineCode(), isChecked);
+			filter.notifyFilterChanged();
+		}
+	};
+
 	public void onFilterChanged() {
 		buildAirlineList();
 	}
@@ -217,20 +228,22 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		}
 
 		FlightTrip trip;
-		AirlineFilterWidget airlineFilterWidget;
+		CheckBoxFilterWidget airlineFilterWidget;
 		for (int i = 0; i < numTripsToShow; i++) {
 			trip = trips.get(i);
 			if (i < numTripsInContainer) {
-				airlineFilterWidget = (AirlineFilterWidget) mAirlineContainer.getChildAt(i);
+				airlineFilterWidget = (CheckBoxFilterWidget) mAirlineContainer.getChildAt(i);
 				airlineFilterWidget.setVisibility(View.VISIBLE);
 			}
 			else {
-				airlineFilterWidget = new AirlineFilterWidget(getActivity());
+				airlineFilterWidget = new CheckBoxFilterWidget(getActivity());
 				mAirlineContainer.addView(airlineFilterWidget);
 			}
 
 			boolean enabled = filteredTrips.contains(trip);
-			airlineFilterWidget.bind(Db.getFlightSearch().getFilter(mLegNumber, allTrips), trip, mLegNumber, enabled);
+			airlineFilterWidget.setOnCheckedChangeListener(mAirlineOnCheckedChangeListener);
+			airlineFilterWidget.setTag(trip);
+			airlineFilterWidget.bindFlight(Db.getFlightSearch().getFilter(mLegNumber, allTrips), trip, mLegNumber, enabled);
 		}
 
 		// Keep around the views not needed, but just set their visibility to GONE.

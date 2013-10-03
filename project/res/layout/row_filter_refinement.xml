@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="48dp"
-    android:minHeight="48dp"
-    android:orientation="horizontal" >
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <CheckBox
+        android:id="@+id/filter_refinement_checkbox"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -16,6 +13,7 @@
         android:textSize="14sp" />
 
     <TextView
+        android:id="@+id/filter_refinement_textview"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
@@ -24,4 +22,4 @@
         android:textColor="#8C96A1"
         android:textSize="14sp" />
 
-</LinearLayout>
+</merge>

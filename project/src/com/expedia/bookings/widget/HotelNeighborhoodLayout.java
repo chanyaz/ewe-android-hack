@@ -96,30 +96,15 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 		}
 		else {
 			mNeighborhoods = new HashSet<Integer>();
-			LayoutInflater inflater = LayoutInflater.from(getContext());
-			ForegroundColorSpan graySpan = new ForegroundColorSpan(Color.rgb(0x05, 0x58, 0xc4));
 			for (Property property : sorted) {
 				mNeighborhoods.add(property.getLocation().getLocationId());
-				String description = property.getLocation().getDescription();
-				String rate = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayPrice());
 
-				// Build and colorize "From $200" string
-				String template = getResources().getString(R.string.From_x_TEMPLATE, rate);
-				SpannableStringBuilder builder = new SpannableStringBuilder(template);
-				int start = template.indexOf(rate);
-				int end = start + rate.length();
-				builder.setSpan(graySpan, start, end, 0);
+				CheckBoxFilterWidget filterWidget = new CheckBoxFilterWidget(getContext());
+				filterWidget.setOnCheckedChangeListener(mCheckedChangedListener);
+				filterWidget.bindHotel(property);
+				filterWidget.setTag(property);
 
-				LinearLayout row = (LinearLayout) inflater.inflate(R.layout.row_filter_refinement, null);
-				// #2110 - Can't findViewById here, breaks on rotate
-				CheckBox box = (CheckBox) row.getChildAt(0);
-				TextView price = (TextView) row.getChildAt(1);
-				box.setText(description);
-				price.setText(builder);
-				box.setChecked(true);
-				box.setTag(property);
-				box.setOnCheckedChangeListener(mCheckedChangedListener);
-				addView(row);
+				addView(filterWidget);
 			}
 		}
 	}
