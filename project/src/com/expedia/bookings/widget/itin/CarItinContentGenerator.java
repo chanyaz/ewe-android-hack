@@ -87,8 +87,10 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	@Override
 	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
 		Car car = getItinCardData().getCar();
-		return new DestinationBitmapDrawable(getResources(), getHeaderImagePlaceholderResId(),
+		DestinationBitmapDrawable bitmapDrawable = new DestinationBitmapDrawable(getResources(), getHeaderImagePlaceholderResId(),
 				car.getCategory(), car.getType(), width, height);
+		setSharableImageURL(bitmapDrawable.getSharableUrl());
+		return bitmapDrawable;
 	}
 
 	@Override

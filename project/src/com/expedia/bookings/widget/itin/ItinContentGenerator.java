@@ -59,6 +59,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	private boolean mDetialsSummaryHideTypeIcon = true;
 	private boolean mDetailsSummaryHideTitle = true;
 
+	private String mSharableImageURL;
+
 	public ItinContentGenerator(Context context, T itinCardData) {
 		mContext = context;
 		mItinCardData = itinCardData;
@@ -172,6 +174,23 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	public boolean hasDetails() {
 		return true;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Itin Content Image URL
+
+	public String getSharableImageURL() {
+		if (mSharableImageURL == null) {
+			// TODO: Check for the desired default image to be used while sharing. Using this temporarily
+			return "http://media.expedia.com/media/content/shared/images/navigation/expedia.com.png";
+		}
+		else {
+			return mSharableImageURL;
+		}
+	}
+
+	public void setSharableImageURL(String imageURL) {
+		this.mSharableImageURL = imageURL;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

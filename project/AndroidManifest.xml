@@ -126,6 +126,8 @@
                 <data android:host="70.42.224.37" />
                 <!-- Dev Server -->
                 <data android:host="wwwexpediacom.chelwebestr37.bgb.karmalab.net" />
+                <!-- Integration Server -->
+                <data android:host="wwwexpediacom.integration.sb.karmalab.net" />
             </intent-filter>
         </activity>
 
@@ -163,6 +165,10 @@
             android:name="com.expedia.bookings.activity.LocalExpertActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme" />
+        <activity
+            android:name="com.expedia.bookings.activity.FacebookShareActivity"
+            android:label="@string/Facebook_Sharing" >
+        </activity>
 
         <!-- Hotels activities -->
 

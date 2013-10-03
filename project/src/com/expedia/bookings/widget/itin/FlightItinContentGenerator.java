@@ -129,8 +129,11 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	@Override
 	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
 		String destinationCode = getItinCardData().getFlightLeg().getLastWaypoint().mAirportCode;
-		return new DestinationBitmapDrawable(getResources(), getHeaderImagePlaceholderResId(), destinationCode, width,
+		DestinationBitmapDrawable bitmapDrawable = new DestinationBitmapDrawable(getResources(),
+				getHeaderImagePlaceholderResId(), destinationCode, width,
 				height);
+		setSharableImageURL(bitmapDrawable.getSharableUrl());
+		return bitmapDrawable;
 	}
 
 	@Override

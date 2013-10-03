@@ -3,10 +3,12 @@ package com.expedia.bookings.graphics;
 import android.content.res.Resources;
 import android.text.TextUtils;
 
+import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.ExpediaImageManager.ImageType;
+import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -16,6 +18,7 @@ public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Down
 		OnDownloadComplete<ExpediaImage> {
 
 	private String mUrl;
+	private String mSharableUrl; // Sharable Url to low res image. Used while sharing in Facebook.
 
 	private ImageType mImageType;
 	private String mImageCode;
@@ -35,6 +38,7 @@ public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Down
 		mHeight = height;
 
 		retrieveUrl();
+		retrieveSharableUrl();
 	}
 
 	/**
@@ -50,11 +54,16 @@ public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Down
 		mHeight = height;
 
 		retrieveUrl();
+		retrieveSharableUrl();
 	}
 
 	@Override
 	protected String getUrl() {
 		return mUrl;
+	}
+
+	public String getSharableUrl() {
+		return mSharableUrl;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -73,6 +82,24 @@ public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Down
 		}
 	}
 
+	/**
+	 * We have to make a quick call to fetch the lowest available resolution image for the particular destination.
+	 * Low res images are preferred to be used to show while posting on Facebook.
+	 */
+	private void retrieveSharableUrl() {
+		// Set the width and height to 0, so that the api returns the lowest res image file.
+		ExpediaImage image = ExpediaImageManager.getInstance().getExpediaImage(ImageType.DESTINATION_MOBILEWEB,
+				mImageCode, 0, 0, false);
+		if (image != null) {
+			mSharableUrlCallBack.onDownload(image);
+		}
+		else {
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			String key = ExpediaImageManager.getImageKey(ImageType.DESTINATION_MOBILEWEB, mImageCode, 0, 0);
+			bd.startDownload(key, mSharableUrlDownload, mSharableUrlCallBack);
+		}
+	}
+
 	@Override
 	public void onDownload(ExpediaImage image) {
 		// Don't bother reloading the image if the URL hasn't changed
@@ -87,4 +114,21 @@ public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Down
 	public ExpediaImage doDownload() {
 		return ExpediaImageManager.getInstance().getExpediaImage(mImageType, mImageCode, mWidth, mHeight, true);
 	}
+
+	private final Download<ExpediaImage> mSharableUrlDownload = new Download<ExpediaImage>() {
+
+		@Override
+		public ExpediaImage doDownload() {
+			return ExpediaImageManager.getInstance().getExpediaImage(ImageType.DESTINATION_MOBILEWEB, mImageCode, 0, 0, true);
+		}
+	};
+
+	private final OnDownloadComplete<ExpediaImage> mSharableUrlCallBack = new OnDownloadComplete<ExpediaImage>() {
+
+		@Override
+		public void onDownload(ExpediaImage results) {
+			mSharableUrl = results.getUrl();
+		}
+	};
+
 }
