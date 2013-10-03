@@ -39,7 +39,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.Suggestion;
+import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.fragment.DatesFragment.DatesFragmentListener;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
 import com.expedia.bookings.fragment.GuestsDialogFragment.GuestsDialogFragmentListener;
@@ -54,8 +54,6 @@ import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
-import com.mobiata.flightlib.data.Airport;
-import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 /**
  * A large search fragment only suitable for tablet sizes.
@@ -472,7 +470,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			clearEditTextFocus(mOriginEditText);
 		}
 		mDestinationEditText.setText(displayDest ? getString(R.string.to_TEMPLATE,
-				getLocationText(mSearchParams.getDestination())) : null);
+				getSuggestionText(mSearchParams.getDestination())) : null);
 		mOriginEditText.setText(displayOrigin ? getOriginText() : null);
 	}
 
@@ -491,10 +489,16 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	//////////////////////////////////////////////////////////////////////////
 	// Formatting
 
-	private String getLocationText(Location location) {
-		String text = location.getCity();
+	private String getSuggestionText(SuggestionV2 suggestion) {
+		String text = null;
+
+		Location location = suggestion.getLocation();
+		if (location != null) {
+			text = location.getCity();
+		}
+
 		if (TextUtils.isEmpty(text)) {
-			text = location.getDestinationId();
+			text = suggestion.getAirportCode();
 			if (TextUtils.isEmpty(text)) {
 				text = getString(R.string.great_unknown);
 			}
@@ -504,7 +508,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	}
 
 	private String getOriginText() {
-		return getString(R.string.from_TEMPLATE, getLocationText(mSearchParams.getOrigin()));
+		return getString(R.string.from_TEMPLATE, getSuggestionText(mSearchParams.getOrigin()));
 	}
 
 	/**
@@ -837,13 +841,13 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	// SuggestionsFragmentListener
 
 	@Override
-	public void onSuggestionClicked(Fragment fragment, Location location) {
+	public void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion) {
 		if (fragment.getTag().equals(TAG_DESTINATIONS)) {
-			mSearchParams.setDestination(location);
+			mSearchParams.setDestination(suggestion);
 			switchToFragment(TAG_ORIGINS);
 		}
 		else {
-			mSearchParams.setOrigin(location);
+			mSearchParams.setOrigin(suggestion);
 			switchToFragment(TAG_DATES);
 		}
 	}
@@ -861,6 +865,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			(new Thread(new Runnable() {
 				@Override
 				public void run() {
+					// TODO: Get the nearest suggestions to the lat/lng
+					/*
 					List<Airport> nearestAirports = FlightStatsDbUtils.getNearestAirports(
 							currentLocation.getLatitude(), currentLocation.getLongitude(), true, 1);
 
@@ -874,6 +880,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 							mOriginEditText.setText(getOriginText());
 						}
 					}
+					*/
 				}
 			})).start();
 		}

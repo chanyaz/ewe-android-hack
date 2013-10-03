@@ -40,6 +40,10 @@ public class Location implements JSONable, Parcelable, IAirport {
 		// Default constructor
 	}
 
+	public Location(Location other) {
+		fromJson(other.toJson());
+	}
+
 	public void setLocationId(int id) {
 		mLocationId = id;
 	}

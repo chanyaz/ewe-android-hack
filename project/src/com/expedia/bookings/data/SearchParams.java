@@ -16,8 +16,6 @@ import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
-import com.mobiata.flightlib.data.Airport;
-import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 /**
  * A mega-search params object that can handle any search that
@@ -50,8 +48,8 @@ import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
  */
 public class SearchParams implements Parcelable, JSONable {
 
-	private Location mOrigin;
-	private Location mDestination;
+	private SuggestionV2 mOrigin;
+	private SuggestionV2 mDestination;
 
 	private LocalDate mStartDate;
 	private LocalDate mEndDate;
@@ -63,30 +61,30 @@ public class SearchParams implements Parcelable, JSONable {
 		restoreToDefaults();
 	}
 
-	public Location getOrigin() {
+	public SuggestionV2 getOrigin() {
 		return mOrigin;
 	}
 
-	public SearchParams setOrigin(Location origin) {
+	public SearchParams setOrigin(SuggestionV2 origin) {
 		mOrigin = origin;
 		return this;
 	}
 
 	public boolean hasOrigin() {
-		return mOrigin != null && !mOrigin.equals(new Location());
+		return mOrigin != null && !mOrigin.equals(new SuggestionV2());
 	}
 
-	public Location getDestination() {
+	public SuggestionV2 getDestination() {
 		return mDestination;
 	}
 
-	public SearchParams setDestination(Location destination) {
+	public SearchParams setDestination(SuggestionV2 destination) {
 		mDestination = destination;
 		return this;
 	}
 
 	public boolean hasDestination() {
-		return mDestination != null && !mDestination.equals(new Location());
+		return mDestination != null && !mDestination.equals(new SuggestionV2());
 	}
 
 	public LocalDate getStartDate() {
@@ -166,8 +164,8 @@ public class SearchParams implements Parcelable, JSONable {
 	}
 
 	public void setDefaultLocations() {
-		mOrigin = new Location();
-		mDestination = new Location();
+		mOrigin = new SuggestionV2();
+		mDestination = new SuggestionV2();
 	}
 
 	public void setDefaultDuration() {
@@ -235,18 +233,18 @@ public class SearchParams implements Parcelable, JSONable {
 	public HotelSearchParams toHotelSearchParams() {
 		HotelSearchParams params = new HotelSearchParams();
 
-		if (!mDestination.equals(new Location())) {
-			// TODO: This is temporary code; the suggestions are all based off FS.db, which doesn't
-			// give us good hotel search data excepting lat/lng.  So we use the airport's lat/lng
-			// for the search for now - once we are stabilized a bit we should switch to basing
-			// data off mOrigin.
-			Airport airport = FlightStatsDbUtils.getAirport(mDestination.getDestinationId());
-
-			if (airport != null && airport.getLatitude() != 0 || airport.getLongitude() != 0) {
-				params.setSearchLatLon(airport.getLatitude(), airport.getLongitude());
+		if (!mDestination.equals(new SuggestionV2())) {
+			// TODO: Make this more comprehensive - right now it doesn't do
+			// specialized searches like single-hotels or attractions
+			Location destLoc = mDestination.getLocation();
+			if (mDestination.getRegionId() != 0) {
+				params.setRegionId(Integer.toString(mDestination.getRegionId()));
+			}
+			else if (destLoc.getLatitude() != 0 || destLoc.getLongitude() != 0) {
+				params.setSearchLatLon(destLoc.getLatitude(), destLoc.getLongitude());
 			}
 			else {
-				params.setQuery(mDestination.getCity());
+				params.setQuery(destLoc.getCity());
 			}
 		}
 
@@ -275,8 +273,13 @@ public class SearchParams implements Parcelable, JSONable {
 	public FlightSearchParams toFlightSearchParams() {
 		FlightSearchParams params = new FlightSearchParams();
 
-		params.setDepartureLocation(mOrigin);
-		params.setArrivalLocation(mDestination);
+		Location depLocation = new Location(mOrigin.getLocation());
+		depLocation.setDestinationId(mOrigin.getAirportCode());
+		params.setDepartureLocation(depLocation);
+
+		Location arrLocation = new Location(mDestination.getLocation());
+		arrLocation.setDestinationId(mDestination.getAirportCode());
+		params.setArrivalLocation(arrLocation);
 
 		if (mStartDate != null) {
 			params.setDepartureDate(mStartDate);
@@ -437,8 +440,8 @@ public class SearchParams implements Parcelable, JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mOrigin = JSONUtils.getJSONable(obj, "origin", Location.class);
-		mDestination = JSONUtils.getJSONable(obj, "destination", Location.class);
+		mOrigin = JSONUtils.getJSONable(obj, "origin", SuggestionV2.class);
+		mDestination = JSONUtils.getJSONable(obj, "destination", SuggestionV2.class);
 
 		mStartDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "startDate", null);
 		mEndDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "endDate", null);

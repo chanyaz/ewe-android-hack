@@ -44,7 +44,6 @@ public class SuggestionsFragment extends ListFragment {
 
 		if (mAdapter == null) {
 			mAdapter = new SuggestionsAdapter(getActivity());
-			// mAirportAdapter.setShowNearbyAirports(true);
 		}
 
 		setListAdapter(mAdapter);
@@ -60,13 +59,7 @@ public class SuggestionsFragment extends ListFragment {
 
 		SuggestionProvider.addSuggestionToRecents(getActivity(), suggestion);
 
-		Location location = suggestion.getLocation();
-
-		// TODO: We should really be passing back a Suggestion at this point, not a Location,
-		// because it has so much extra information we need, like both an airport code + region id
-		location.setDestinationId(suggestion.getAirportCode());
-
-		mListener.onSuggestionClicked(this, location);
+		mListener.onSuggestionClicked(this, suggestion);
 	}
 
 	public void filter(CharSequence text) {
@@ -77,7 +70,6 @@ public class SuggestionsFragment extends ListFragment {
 		mTextToFilter = text;
 
 		if (getView() != null) {
-			// mAirportAdapter.setCurrentLocation(mCurrentLocation);
 			mAdapter.getFilter().filter(text);
 		}
 	}
@@ -86,6 +78,6 @@ public class SuggestionsFragment extends ListFragment {
 	// Listener
 
 	public interface SuggestionsFragmentListener {
-		public void onSuggestionClicked(Fragment fragment, Location location);
+		public void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion);
 	}
 }
