@@ -144,7 +144,7 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 	}
 
 	@Override
-	protected OnClickListener initializeSortAndFilterOnClickListener() {
+	protected OnClickListener initializeTopRightTextButtonOnClickListener() {
 		return new OnClickListener() {
 
 			@Override
@@ -158,7 +158,7 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 	}
 
 	@Override
-	protected boolean initializeSortAndFilterEnabled() {
+	protected boolean initializeTopRightTextButtonEnabled() {
 		return mLegNumber <= 0;
 	}
 

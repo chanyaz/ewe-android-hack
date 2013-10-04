@@ -811,7 +811,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	public void doFragmentSetup(String tag, Fragment frag) {
 		if (tag == FTAG_FLIGHT_ONE_LIST) {
 			((ResultsListFragment) frag).setChangeListener(mFruitProxy);
-			((ResultsListFragment) frag).setSortAndFilterButtonText(getString(R.string.Done));
+			((ResultsListFragment) frag).setTopRightTextButtonText(getString(R.string.Done));
 		}
 		else if (tag == FTAG_FLIGHT_TWO_LIST) {
 			((ResultsListFragment) frag).gotoTopPosition(0);

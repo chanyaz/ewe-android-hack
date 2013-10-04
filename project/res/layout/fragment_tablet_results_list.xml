@@ -39,7 +39,7 @@
             app:textStyle="light" />
 
         <com.expedia.bookings.widget.TextView
-            android:id="@+id/sort_and_filter"
+            android:id="@+id/top_right_text_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

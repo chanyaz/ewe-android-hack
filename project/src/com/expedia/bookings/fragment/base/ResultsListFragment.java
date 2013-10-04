@@ -33,12 +33,12 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 	private FruitScrollUpListView mListView;
 	private ViewGroup mStickyHeader;
 	private TextView mStickyHeaderTv;
-	private TextView mSortAndFilterButton;
+	private TextView mTopRightTextButton;
 
 	private CharSequence mStickyHeaderText = "";
-	private CharSequence mSortAndFilterText = "";
+	private CharSequence mTopRightTextButtonText = "";
 
-	private boolean mSortAndFilterButtonEnabled = true;
+	private boolean mTopRightButtonEnabled = true;
 	private boolean mLockedToTop = false;
 	private boolean mGotoBottom = false;
 	private boolean mGotoTop = false;
@@ -58,17 +58,17 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 		mListView = Ui.findView(view, android.R.id.list);
 		mStickyHeader = Ui.findView(view, R.id.sticky_header_container);
 		mStickyHeaderTv = Ui.findView(view, R.id.sticky_number_of_items);
-		mSortAndFilterButton = Ui.findView(view, R.id.sort_and_filter);
+		mTopRightTextButton = Ui.findView(view, R.id.top_right_text_button);
 
 		mStickyHeaderTv.setText(mStickyHeaderText);
-		mSortAndFilterButton.setText(mSortAndFilterText);
+		mTopRightTextButton.setText(mTopRightTextButtonText);
 
 		//Note: We must set the adapter before we restore instance state
 		mListView.setAdapter(initializeAdapter());
 
-		setSortAndFilterButtonEnabled(initializeSortAndFilterEnabled());
+		setTopRightTextButtonEnabled(initializeTopRightTextButtonEnabled());
 
-		mSortAndFilterButton.setOnClickListener(initializeSortAndFilterOnClickListener());
+		mTopRightTextButton.setOnClickListener(initializeTopRightTextButtonOnClickListener());
 
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey(STATE_LIST_STATE)) {
@@ -126,20 +126,20 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 		}
 	}
 
-	public void setSortAndFilterButtonEnabled(boolean enabled) {
-		mSortAndFilterButtonEnabled = enabled;
-		if (mSortAndFilterButton != null) {
+	public void setTopRightTextButtonEnabled(boolean enabled) {
+		mTopRightButtonEnabled = enabled;
+		if (mTopRightTextButton != null) {
 			if (enabled) {
-				mSortAndFilterButton.setVisibility(View.VISIBLE);
+				mTopRightTextButton.setVisibility(View.VISIBLE);
 			}
 			else {
-				mSortAndFilterButton.setVisibility(View.GONE);
+				mTopRightTextButton.setVisibility(View.GONE);
 			}
 		}
 	}
 
-	public void setSortAndFilterOnClick(OnClickListener clicky) {
-		mSortAndFilterButton.setOnClickListener(clicky);
+	public void setTopRightTextButtonOnClick(OnClickListener clicky) {
+		mTopRightTextButton.setOnClickListener(clicky);
 	}
 
 	public void setStickyHeaderText(CharSequence text) {
@@ -149,10 +149,10 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 		}
 	}
 
-	public void setSortAndFilterButtonText(CharSequence text) {
-		mSortAndFilterText = text;
-		if (mSortAndFilterButton != null) {
-			mSortAndFilterButton.setText(text);
+	public void setTopRightTextButtonText(CharSequence text) {
+		mTopRightTextButtonText = text;
+		if (mTopRightTextButton != null) {
+			mTopRightTextButton.setText(text);
 		}
 	}
 
@@ -192,17 +192,17 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 
 	private void updateStickyHeaderState(float percentage, boolean actionComplete) {
 
-		//Sort and filter button stuff...
-		if (mSortAndFilterButtonEnabled) {
-			mSortAndFilterButton.setAlpha(1f - percentage);
+		//top right button stuff...
+		if (mTopRightButtonEnabled) {
+			mTopRightTextButton.setAlpha(1f - percentage);
 			if (percentage == 1f) {
-				mSortAndFilterButton.setVisibility(View.INVISIBLE);
+				mTopRightTextButton.setVisibility(View.INVISIBLE);
 			}
 			else {
-				mSortAndFilterButton.setVisibility(View.VISIBLE);
+				mTopRightTextButton.setVisibility(View.VISIBLE);
 			}
 			if (actionComplete) {
-				mSortAndFilterButton.setEnabled(percentage == 0f);
+				mTopRightTextButton.setEnabled(percentage == 0f);
 			}
 		}
 
@@ -238,8 +238,8 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 
 	protected abstract CharSequence initializeStickyHeaderString();
 
-	protected abstract OnClickListener initializeSortAndFilterOnClickListener();
+	protected abstract OnClickListener initializeTopRightTextButtonOnClickListener();
 
-	protected abstract boolean initializeSortAndFilterEnabled();
+	protected abstract boolean initializeTopRightTextButtonEnabled();
 
 }

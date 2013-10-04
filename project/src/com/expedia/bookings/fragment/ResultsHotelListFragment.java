@@ -117,7 +117,7 @@ public class ResultsHotelListFragment extends ResultsListFragment implements OnF
 	}
 
 	@Override
-	protected OnClickListener initializeSortAndFilterOnClickListener() {
+	protected OnClickListener initializeTopRightTextButtonOnClickListener() {
 		return new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -127,7 +127,7 @@ public class ResultsHotelListFragment extends ResultsListFragment implements OnF
 	}
 
 	@Override
-	protected boolean initializeSortAndFilterEnabled() {
+	protected boolean initializeTopRightTextButtonEnabled() {
 		return true;
 	}
 }
