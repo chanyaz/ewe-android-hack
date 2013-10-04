@@ -10,10 +10,13 @@ import android.widget.ListView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelFilter.OnFilterChangedListener;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
+import com.expedia.bookings.widget.FlightAdapter;
 import com.expedia.bookings.widget.SimpleColorAdapter;
 import com.expedia.bookings.widget.TabletHotelAdapter;
 import com.mobiata.android.util.Ui;
@@ -61,8 +64,14 @@ public class ResultsHotelListFragment extends ResultsListFragment implements OnF
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		Db.getHotelSearch().setSelectedProperty((Property)mAdapter.getItem(position-1));
-		mHotelSelectedListener.onHotelSelected();
+		if (mAdapter instanceof TabletHotelAdapter) {
+			int headerCount = getTopSpaceListView().getHeaderViewsCount();
+			int itemPosition = position - headerCount;
+			if (itemPosition >= 0) {
+				Db.getHotelSearch().setSelectedProperty((Property) mAdapter.getItem(itemPosition));
+				mHotelSelectedListener.onHotelSelected();
+			}
+		}
 	}
 
 	@Override

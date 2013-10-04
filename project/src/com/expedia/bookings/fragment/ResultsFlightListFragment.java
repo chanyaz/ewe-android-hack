@@ -92,11 +92,14 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		// TODO remove this if check once SimpleColorAdapter is removed
 		if (mAdapter instanceof FlightAdapter) {
-			FlightTrip trip = ((FlightAdapter) mAdapter)
-					.getItem(position - getTopSpaceListView().getHeaderViewsCount());
-			Db.getFlightSearch().setSelectedLeg(mLegNumber, new FlightTripLeg(trip, trip.getLeg(mLegNumber)));
+			int headerCount = getTopSpaceListView().getHeaderViewsCount();
+			int itemPosition = position - headerCount;
+			if (itemPosition >= 0) {
+				FlightTrip trip = ((FlightAdapter) mAdapter).getItem(itemPosition);
+				Db.getFlightSearch().setSelectedLeg(mLegNumber, new FlightTripLeg(trip, trip.getLeg(mLegNumber)));
+				mFlightSelectedListener.onFlightSelected(mLegNumber);
+			}
 		}
-		mFlightSelectedListener.onFlightSelected(mLegNumber);
 	}
 
 	@Override
