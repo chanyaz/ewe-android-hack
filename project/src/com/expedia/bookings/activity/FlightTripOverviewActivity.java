@@ -116,8 +116,6 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 		setContentView(R.layout.activity_flight_overview_and_checkout);
 
-		Db.saveOrLoadDbForTesting(this);
-
 		mKillReceiver = new ActivityKillReceiver(this);
 		mKillReceiver.onCreate();
 
