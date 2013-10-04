@@ -35,9 +35,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.FrameLayout;
-import android.widget.ListView;
 
 /**
  *  TabletResultsHotelControllerFragment: designed for tablet results 2013
@@ -108,7 +106,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 	private IAddToTripListener mParentAddToTripListener;
 	private ColumnManager mColumnManager = new ColumnManager(3);
 	private int mShadeColor = Color.argb(220, 0, 0, 0);
-	private boolean mRoomsAndRatesInFront = false;
+	private boolean mRoomsAndRatesInFront = true;//They start in front
 
 	//Animation
 	private ValueAnimator mHotelsStateAnimator;
@@ -133,10 +131,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 		mHotelListC = Ui.findView(view, R.id.column_one_hotel_list);
 		mBgHotelMapC = Ui.findView(view, R.id.bg_hotel_map);
 		mBgHotelMapTouchDelegateC = Ui.findView(view, R.id.bg_hotel_map_touch_delegate);
-		mHotelFiltersC = Ui.findView(view, R.id.column_one_hotel_filters);
+		mHotelFiltersC = Ui.findView(view, R.id.column_two_hotel_filters);
 		mHotelFilteredCountC = Ui.findView(view, R.id.column_three_hotel_filtered_count);
-		mHotelRoomsAndRatesC = Ui.findView(view, R.id.column_two_hotel_rooms_and_rates);
-		mHotelRoomsAndRatesShadeC = Ui.findView(view, R.id.column_one_hotel_rooms_and_rates_shade);
+		mHotelRoomsAndRatesC = Ui.findView(view, R.id.hotel_rooms_and_rates);
+		mHotelRoomsAndRatesShadeC = Ui.findView(view, R.id.hotel_rooms_and_rates_shade);
 
 		//Set shade color
 		mHotelRoomsAndRatesShadeC.setBackgroundColor(mShadeColor);
@@ -207,9 +205,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 			}
 		}
 		else if (mRoomsAndRatesInFront) {
-			mHotelListC.bringToFront();
 			mHotelFiltersC.bringToFront();
 			mHotelFilteredCountC.bringToFront();
+			mHotelListC.bringToFront();
 			mRoomsAndRatesInFront = false;
 		}
 	}
@@ -345,15 +343,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 
 	private void setHotelsFiltersAnimationHardwareRendering(boolean useHardwareLayer) {
 		int layerValue = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
-		mHotelListC.setLayerType(layerValue, null);
 		mHotelFiltersC.setLayerType(layerValue, null);
 		mHotelFilteredCountC.setLayerType(layerValue, null);
 	}
 
 	private void setHotelsFiltersShownPercentage(float percentage) {
-		mHotelListC.setTranslationX(percentage * mColumnManager.getColLeft(1));
-
-		float filtersLeft = mColumnManager.getColLeft(0) - ((1f - percentage) * mColumnManager.getColWidth(0));
+		float filtersLeft = -(1f - percentage) * mColumnManager.getColWidth(1);
 		mHotelFiltersC.setTranslationX(filtersLeft);
 
 		float filteredCountLeft = mColumnManager.getColWidth(2) * (1f - percentage);
@@ -494,13 +489,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 				FTAG_HOTEL_MAP, manager, transaction, this, R.id.bg_hotel_map, false);
 		mHotelFiltersFrag = (ResultsHotelsFiltersFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 				hotelFiltersAvailable,
-				FTAG_HOTEL_FILTERS, manager, transaction, this, R.id.column_one_hotel_filters, false);
+				FTAG_HOTEL_FILTERS, manager, transaction, this, R.id.column_two_hotel_filters, false);
 		mHotelFilteredCountFrag = (ResultsHotelsFilterCountFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 				hotelFilteredCountAvailable, FTAG_HOTEL_FILTERED_COUNT, manager, transaction, this,
 				R.id.column_three_hotel_filtered_count, false);
 		mHotelRoomsAndRatesFrag = (ResultsHotelsRoomsAndRates) FragmentAvailabilityUtils.setFragmentAvailability(
 				hotelRoomsAndRatesAvailable,
-				FTAG_HOTEL_ROOMS_AND_RATES, manager, transaction, this, R.id.column_two_hotel_rooms_and_rates, false);
+				FTAG_HOTEL_ROOMS_AND_RATES, manager, transaction, this, R.id.hotel_rooms_and_rates, false);
 
 		transaction.commit();
 
@@ -657,7 +652,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 		mColumnManager.setTotalWidth(totalWidth);
 
 		mColumnManager.setContainerToColumn(mHotelListC, 0);
-		mColumnManager.setContainerToColumn(mHotelFiltersC, 0);
+		mColumnManager.setContainerToColumn(mHotelFiltersC, 1);
 		mColumnManager.setContainerToColumn(mHotelFilteredCountC, 2);
 		mColumnManager.setContainerToColumnSpan(mBgHotelMapC, 0, 2);
 		mColumnManager.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 2);
