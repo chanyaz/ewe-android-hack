@@ -106,7 +106,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		if (mDetailsC != null && mDetailsPositionLeft >= 0) {
 			LayoutParams params = (LayoutParams) mDetailsC.getLayoutParams();
 			if (params == null) {
-				params = new LayoutParams(mDetailsHeight, mDetailsWidth);
+				params = new LayoutParams(mDetailsWidth, mDetailsHeight);
 			}
 			params.width = mDetailsWidth;
 			params.height = mDetailsHeight;

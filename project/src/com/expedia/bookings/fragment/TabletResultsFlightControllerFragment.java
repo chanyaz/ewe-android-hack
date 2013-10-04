@@ -924,11 +924,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	private void updateDetailsFragSizes(ResultsFlightDetailsFragment frag) {
 		if (frag != null && mColumnManager.getTotalWidth() > 0) {
+			int actionbarHeight = getActivity().getActionBar().getHeight();
 			Rect position = new Rect();
 			position.left = mColumnManager.getColLeft(1);
 			position.right = mColumnManager.getColRight(2);
 			position.top = 0;
-			position.bottom = mGlobalHeight;
+			position.bottom = mGlobalHeight - actionbarHeight;
 			frag.setDefaultDetailsPositionAndDimensions(position, mFlightDetailsMarginPercentage);
 		}
 		if (frag != null && mFlightOneListFrag != null && mFlightOneListFrag.getTopSpaceListView() != null
