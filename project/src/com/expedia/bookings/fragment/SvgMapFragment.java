@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Picture;
 import android.os.Bundle;
-import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +26,7 @@ import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.graphics.RoundBitmapDrawable;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCacheTypefaceSpan;
+import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
 import com.jhlabs.map.Point2D;
 import com.jhlabs.map.proj.MercatorProjection;
@@ -181,15 +181,14 @@ public class SvgMapFragment extends MeasurableFragment {
 	private void setPinText(TextView pin, String upper, String lower) {
 		TextAppearanceSpan upperSpan = new TextAppearanceSpan(getActivity(), R.style.MapPinUpperTextAppearance);
 		TextAppearanceSpan lowerSpan = new TextAppearanceSpan(getActivity(), R.style.MapPinLowerTextAppearance);
+		FontCacheTypefaceSpan typefaceSpan = new FontCacheTypefaceSpan(FontCache.Font.ROBOTO_LIGHT);
 
-		SpannableString allText = new SpannableString(upper + "\n" + lower);
-		allText.setSpan(upperSpan, 0, upper.length(), 0);
+		SpannableBuilder sb = new SpannableBuilder();
+		sb.append(upper, upperSpan);
+		sb.append("\n");
+		sb.append(lower, lowerSpan, typefaceSpan);
 
-		// Merge the spans together so we can set custom typeface
-		allText.setSpan(lowerSpan, upper.length() + 1, allText.length(), 0);
-		allText.setSpan(new FontCacheTypefaceSpan(FontCache.Font.ROBOTO_LIGHT), upper.length() + 1, allText.length(), 0);
-
-		pin.setText(allText, TextView.BufferType.SPANNABLE);
+		pin.setText(sb.build(), TextView.BufferType.SPANNABLE);
 	}
 
 	private void setPinImage(TextView pin, int drawableId) {

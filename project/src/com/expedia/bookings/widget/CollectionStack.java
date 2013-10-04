@@ -6,7 +6,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -17,6 +16,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.ColorUtils;
+import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
@@ -112,10 +112,12 @@ public class CollectionStack extends FrameLayout {
 		TextAppearanceSpan upperSpan = new TextAppearanceSpan(getContext(), R.style.DestinationStackUpperTextAppearance);
 		TextAppearanceSpan lowerSpan = new TextAppearanceSpan(getContext(), R.style.DestinationStackLowerTextAppearance);
 
-		SpannableString allText = new SpannableString(upper + "\n" + lower);
-		allText.setSpan(upperSpan, 0, upper.length(), 0);
-		allText.setSpan(lowerSpan, upper.length() + 1, allText.length(), 0);
-		mTextView.setText(allText, TextView.BufferType.SPANNABLE);
+		SpannableBuilder sb = new SpannableBuilder();
+		sb.append(upper, upperSpan);
+		sb.append("\n");
+		sb.append(lower, lowerSpan);
+
+		mTextView.setText(sb.build(), TextView.BufferType.SPANNABLE);
 	}
 
 	// From [-1, 1] because that's how I roll
