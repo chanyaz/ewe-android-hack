@@ -13,7 +13,6 @@ import android.text.TextUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.mobiata.android.Log;
-import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class HotelFilter implements JSONable {

@@ -1,5 +1,8 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
@@ -33,6 +36,7 @@ public class ResultsHotelListFragment extends ResultsListFragment implements OnF
 	private ListAdapter mAdapter;
 	private ISortAndFilterListener mSortAndFilterListener;
 	private IResultsHotelSelectedListener mHotelSelectedListener;
+	private List<ISortAndFilterListener> mSortAndFilterListeners = new ArrayList<ResultsHotelListFragment.ISortAndFilterListener>();
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -40,6 +44,7 @@ public class ResultsHotelListFragment extends ResultsListFragment implements OnF
 
 		mSortAndFilterListener = Ui.findFragmentListener(this, ISortAndFilterListener.class, true);
 		mHotelSelectedListener = Ui.findFragmentListener(this, IResultsHotelSelectedListener.class, true);
+		mSortAndFilterListeners.add(mSortAndFilterListener);
 	}
 
 	@Override
@@ -130,7 +135,9 @@ public class ResultsHotelListFragment extends ResultsListFragment implements OnF
 		return new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mSortAndFilterListener.onSortAndFilterClicked();
+				for (ISortAndFilterListener listener : mSortAndFilterListeners) {
+					listener.onSortAndFilterClicked();
+				}
 			}
 		};
 	}
@@ -138,5 +145,11 @@ public class ResultsHotelListFragment extends ResultsListFragment implements OnF
 	@Override
 	protected boolean initializeTopRightTextButtonEnabled() {
 		return true;
+	}
+
+	public void addSortAndFilterListener(ISortAndFilterListener sortAndFilterListener) {
+		if (!mSortAndFilterListeners.contains(sortAndFilterListener)) {
+			mSortAndFilterListeners.add(sortAndFilterListener);
+		}
 	}
 }

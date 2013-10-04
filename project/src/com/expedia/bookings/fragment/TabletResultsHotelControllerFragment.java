@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
 import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
@@ -498,7 +499,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 				FTAG_HOTEL_ROOMS_AND_RATES, manager, transaction, this, R.id.hotel_rooms_and_rates, false);
 
 		transaction.commit();
-
+		mHotelListFrag.addSortAndFilterListener(mMapFragment);
+		if (mHotelFiltersFrag != null) {
+			mHotelFiltersFrag.addSortAndFilterListener(mMapFragment);
+		}
 	}
 
 	/**
@@ -664,6 +668,16 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 		FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) mRootC.getLayoutParams();
 		params.topMargin = actionBarHeight;
 		mRootC.setLayoutParams(params);
+		if (mMapFragment == null) {
+			mMapFragment = (HotelMapFragment) ((TabletResultsActivity) getActivity()).getExisitingLocalInstanceFromTag(FTAG_HOTEL_MAP);
+		}
+		if (mMapFragment != null && mColumnManager.getTotalWidth() > 0) {
+			mMapFragment.setResultsViewWidth(mColumnManager.getColWidth(0));
+			mMapFragment.setFilterViewWidth(mColumnManager.getColLeft(2));
+			if (mMapFragment.isReady()) {
+				mMapFragment.notifySearchComplete();
+			}
+		}
 	}
 
 	//REMOVE: This is just to mimick locking the back button when we are adding the trip...

@@ -11,14 +11,17 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.HotelFilter.OnFilterChangedListener;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -37,7 +40,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mobiata.android.Log;
 
-public class HotelMapFragment extends SupportMapFragment {
+public class HotelMapFragment extends SupportMapFragment implements OnFilterChangedListener, ISortAndFilterListener {
 
 	private static final String INSTANCE_INFO_WINDOW_SHOWING = "INSTANCE_INFO_WINDOW_SHOWING";
 	private static final String EXACT_LOCATION_MARKER = "EXACT_LOCATION_MARKER";
@@ -68,6 +71,9 @@ public class HotelMapFragment extends SupportMapFragment {
 	private List<Property> mProperties;
 	private int mResultsViewWidth;
 	private boolean mShowInfoWindow = true;
+	private int mFilterViewWidth;
+	private int mCurrentLeftColWidth;
+	private boolean mFilterOpen = false;
 
 	public static HotelMapFragment newInstance() {
 		HotelMapFragment frag = new HotelMapFragment();
@@ -81,7 +87,6 @@ public class HotelMapFragment extends SupportMapFragment {
 		if (!(activity instanceof HotelMapFragmentListener)) {
 			throw new RuntimeException("HotelMapFragment Activity must implement listener!");
 		}
-
 		if (mMap == null) {
 			// To initialize CameraUpdateFactory and BitmapDescriptorFactory
 			// since the GoogleMap is not ready
@@ -95,7 +100,7 @@ public class HotelMapFragment extends SupportMapFragment {
 
 		mListener = (HotelMapFragmentListener) activity;
 		mListener.onHotelMapFragmentAttached(this);
-
+		Db.getFilter().addOnFilterChangedListener(this);
 		runReadyActions();
 	}
 
@@ -193,7 +198,7 @@ public class HotelMapFragment extends SupportMapFragment {
 		mInstanceInfoWindowShowing = bundle.getString(INSTANCE_INFO_WINDOW_SHOWING);
 	}
 
-	private boolean isReady() {
+	public boolean isReady() {
 		return getActivity() != null && mMap != null;
 	}
 
@@ -399,15 +404,19 @@ public class HotelMapFragment extends SupportMapFragment {
 		marker.hideInfoWindow();
 	}
 
-	/**
-	 * Shows all properties visible on the map.
-	 *
+    /**
+     * Shows all properties visible on the map.
+     *
 	 * If there are properties but all are hidden (due to filtering),
 	 * then it shows the area they would appear (if they weren't
 	 * hidden).
 	 */
 	public void showAll() {
-		setPadding(mResultsViewWidth, 0, 0, 0);
+		if (mCurrentLeftColWidth <= 0) {
+			mCurrentLeftColWidth = mResultsViewWidth;
+		}
+		Log.d("showAll Width: " + mCurrentLeftColWidth);
+		setPadding(mCurrentLeftColWidth, 0, 0, 0);
 		if (mProperties != null && mProperties.size() > 0) {
 			LatLngBounds.Builder builder = new LatLngBounds.Builder();
 			LatLngBounds.Builder allBuilder = new LatLngBounds.Builder();
@@ -475,6 +484,18 @@ public class HotelMapFragment extends SupportMapFragment {
 	//////////////////////////////////////////////////////////////////////////
 	// Listeners
 
+	public void setResultsViewWidth(int resultsViewWidth) {
+		this.mResultsViewWidth = resultsViewWidth;
+	}
+
+	public void setFilterViewWidth(int filterViewWidth) {
+		this.mFilterViewWidth = filterViewWidth;
+	}
+
+	public void setShowInfoWindow(boolean showInfoWindow) {
+		this.mShowInfoWindow = showInfoWindow;
+	}
+
 	public interface HotelMapFragmentListener {
 		public void onMapClicked();
 
@@ -487,18 +508,30 @@ public class HotelMapFragment extends SupportMapFragment {
 		public void onHotelMapFragmentAttached(HotelMapFragment fragment);
 	}
 
+	@Override
+	public void onSortAndFilterClicked() {
+		int width;
+		if (mFilterOpen) {
+			width = mResultsViewWidth;
+			mFilterOpen = false;
+		}
+		else {
+			width = mFilterViewWidth;
+			mFilterOpen = true;
+		}
+		setPadding(width, 0, 0, 0);
+		mCurrentLeftColWidth = width;
+		showAll();
+	}
+
+	@Override
+	public void onFilterChanged() {
+		notifyFilterChanged();
+	}
+
 	public void onHotelSelected() {
-		setPadding(mResultsViewWidth, getHeight() - getResources().getDimensionPixelSize(R.dimen.hotels_map_pin_padding), 0, 0);
+		setPadding(mResultsViewWidth, getHeight()
+		        - getResources().getDimensionPixelSize(R.dimen.hotels_map_pin_padding), 0, 0);
 		focusProperty(Db.getHotelSearch().getSelectedProperty(), true);
-	}
-
-	public void setResultsViewWidth(int mResultsViewWidth) {
-		this.mResultsViewWidth = mResultsViewWidth;
-		
-	}
-
-	public void setShowInfoWindow(boolean showInfoWindow) {
-		this.mShowInfoWindow = showInfoWindow; 
-		
 	}
 }

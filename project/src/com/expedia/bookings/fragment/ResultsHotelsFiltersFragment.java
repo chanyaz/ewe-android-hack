@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import android.app.Activity;
@@ -49,7 +51,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 	private SegmentedControlGroup mPriceButtonGroup;
 	private View mVipAccessButton;
 	private HotelNeighborhoodLayout mNeighborhoodLayout;
-
+	private List<ISortAndFilterListener> mSortAndFilterListeners = new ArrayList<ResultsHotelListFragment.ISortAndFilterListener>();
 	private ISortAndFilterListener mSortAndFilterListener;
 
 	public static ResultsHotelsFiltersFragment newInstance() {
@@ -61,6 +63,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		mSortAndFilterListener = Ui.findFragmentListener(this, ISortAndFilterListener.class, true);
+		mSortAndFilterListeners.add(mSortAndFilterListener);
 	}
 
 	@Override
@@ -70,7 +73,9 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		Ui.findView(view, R.id.done_button).setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				onFilterClosed();
-				mSortAndFilterListener.onSortAndFilterClicked();
+				for (ISortAndFilterListener sortAndFilterListener : mSortAndFilterListeners) {
+					sortAndFilterListener.onSortAndFilterClicked();
+				}
 			}
 		});
 
@@ -476,6 +481,12 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			OmnitureTracking.trackLinkHotelRefineRating(getActivity(), "AllStars");
 			break;
 		}
+		}
+	}
+
+	public void addSortAndFilterListener(ISortAndFilterListener sortAndFilterListener) {
+		if (!mSortAndFilterListeners.contains(sortAndFilterListener)) {
+			mSortAndFilterListeners.add(sortAndFilterListener);
 		}
 	}
 

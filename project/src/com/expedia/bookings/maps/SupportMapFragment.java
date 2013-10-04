@@ -133,6 +133,10 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 		}
 	}
 
+	public boolean isReady() {
+		return mLoaded;
+	}
+
 	////////////////////////////////////////////////////////////////////////
 	// General utilities
 

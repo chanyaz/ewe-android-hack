@@ -89,6 +89,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private static final String FTAG_HOTELS_CONTROLLER = "FTAG_HOTELS_CONTROLLER";
 	private static final String FTAG_TRIP_CONTROLLER = "FTAG_TRIP_CONTROLLER";
 	private static final String FTAG_BACKGROUND_IMAGE = "FTAG_BACKGROUND_IMAGE";
+	private static final String FTAG_HOTEL_MAP = "FTAG_HOTEL_MAP";
 
 	//Containers..
 	private ViewGroup mRootC;
@@ -388,7 +389,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 		//Actionbar search button width
 		mABSearchBtn.setWidth(mColumnManager.getColRight(1) - mABSearchBtn.getLeft());
-
 		//Tell the children
 		for (ITabletResultsController controller : mTabletResultsControllers) {
 			controller.updateContentSize(totalWidth, totalHeight);
@@ -443,6 +443,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
 			frag = mBackgroundImageFrag;
+		} else if (tag == FTAG_HOTEL_MAP) {
+			frag = mMapFragment;
 		}
 		return frag;
 	}
@@ -718,19 +720,20 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	@Override
 	public void onMapLayout() {
-		final View findView = Ui.findView(this, R.id.column_one_hotel_list);
-		findView.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
-
-			@Override
-			public boolean onPreDraw() {
-				findView.getViewTreeObserver().removeOnPreDrawListener(this);
-				mMapFragment.setResultsViewWidth(findView.getWidth());
-				return true;
-			}
-		});
-		
 		mMapFragment.setShowInfoWindow(false);
+
+		if (mColumnManager.getTotalWidth() == 0) {
+			return;
+		}
+
+		int colWidth = mColumnManager.getColWidth(0);
+		if (colWidth != 0) {
+			mMapFragment.setResultsViewWidth(colWidth);
+		}
+		colWidth = mColumnManager.getColLeft(2);
+		if (colWidth != 0) {
+			mMapFragment.setFilterViewWidth(colWidth);
+		}
 		mMapFragment.notifySearchComplete();
-		
 	}
 }
