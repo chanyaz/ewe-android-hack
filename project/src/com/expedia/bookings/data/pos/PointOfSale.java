@@ -93,9 +93,6 @@ public class PointOfSale {
 	// Whether or not to require a rules & restrictions checkbox for this POS
 	private boolean mRequiresRulesRestrictionsCheckbox;
 
-	// Whether or not to display total price + mandatory fees when displaying costs
-	private boolean mDisplayMandatoryFees;
-
 	// Whether or not we should show the best price guarantee
 	private boolean mDisplayBestPriceGuarantee;
 
@@ -270,10 +267,6 @@ public class PointOfSale {
 
 	public boolean requiresRulesRestrictionsCheckbox() {
 		return mRequiresRulesRestrictionsCheckbox;
-	}
-
-	public boolean displayMandatoryFees() {
-		return mDisplayMandatoryFees;
 	}
 
 	public boolean displayBestPriceGuarantee() {
@@ -686,7 +679,6 @@ public class PointOfSale {
 		// POS config
 		pos.mDistanceUnit = data.optString("distanceUnit", "").equals("miles") ? DistanceUnit.MILES
 				: DistanceUnit.KILOMETERS;
-		pos.mDisplayMandatoryFees = data.optBoolean("shouldDisplayTotalPriceWithMandatoryFees");
 		pos.mRequiresRulesRestrictionsCheckbox = data.optBoolean("explicitConsentRequired");
 		pos.mDisplayBestPriceGuarantee = data.optBoolean("shouldDisplayBestPriceGuarantee");
 		pos.mShowLastNameFirst = data.optBoolean("shouldShowLastNameFirst");
