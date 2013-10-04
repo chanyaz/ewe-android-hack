@@ -198,9 +198,16 @@ public class DeepLinkRouterActivity extends Activity {
 				NavUtils.goToFlights(this, true);
 			}
 		}
+		/*
+		 * Let's handle iOS implementation of sharing/importing itins, cause we can - Yeah, Android ROCKS !!!
+		 * iOS prepends the sharableLink this way "expda://addSharedItinerary?url=<actual_sharable_link_here>"
+		 * We intercept this uri too, extract the link and then send to fetch the itin.
+		 */
+		else if (host.equals("addSharedItinerary") && data.toString().contains("m/trips/shared")) {
+			goFetchSharedItin(data.getQueryParameter("url"));
+		}
 		else if (data.toString().contains("m/trips/shared")) {
-			ItineraryManager.getInstance().fetchSharedItin(data.toString());
-			NavUtils.goToItin(this);
+			goFetchSharedItin(data.toString());
 		}
 		else {
 			Ui.showToast(this, "Cannot yet handle data: " + data);
@@ -210,6 +217,10 @@ public class DeepLinkRouterActivity extends Activity {
 		finish();
 	}
 
+	private void goFetchSharedItin(String sharableUrl) {
+		ItineraryManager.getInstance().fetchSharedItin(sharableUrl);
+		NavUtils.goToItin(this);
+	}
 	private int parseNumAdults(String numAdultsStr) {
 		try {
 			int numAdults = Integer.parseInt(numAdultsStr);
