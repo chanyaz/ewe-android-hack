@@ -12,6 +12,8 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.test.utils.CustomActivityInstrumentationTestCase;
+import com.expedia.bookings.test.utils.ScreenshotMethodInterface;
+import com.expedia.bookings.test.utils.ScreenshotSweepRunnerUtils;
 import com.expedia.bookings.widget.ItinListView;
 
 public class ItinScreenshotSweepFromList extends CustomActivityInstrumentationTestCase<LaunchActivity> {
@@ -30,9 +32,9 @@ public class ItinScreenshotSweepFromList extends CustomActivityInstrumentationTe
 		mUser.setBookingServer("(Stubbed)");
 	}
 
-	public void testMethod() throws Exception {
-		try {
-			// Set up the test to point to the mock server one time.
+	private class Runner implements ScreenshotMethodInterface {
+		@Override
+		public void execute() throws Exception {
 			mDriver.delay();
 			mDriver.launchScreen().openMenuDropDown();
 			if (mDriver.searchText(mDriver.launchScreen().settingsString())) {
@@ -100,7 +102,6 @@ public class ItinScreenshotSweepFromList extends CustomActivityInstrumentationTe
 						}
 					}
 				}
-
 				mDriver.tripsScreen().openMenuDropDown();
 				mDriver.delay();
 				if (mDriver.searchText(mDriver.launchScreen().logOutString())) {
@@ -112,25 +113,13 @@ public class ItinScreenshotSweepFromList extends CustomActivityInstrumentationTe
 				mDriver.launchScreen().pressLogOut();
 				mDriver.delay();
 				mDriver.tripsScreen().swipeToLaunchScreen();
-
 			}
 		}
-		catch (OutOfPOSException e) {
-			Log.e(TAG, "POSHappyPath out of POSs. Throwing exception", e);
-			throw e;
-		}
-		catch (RuntimeException r) {
-			Log.e(TAG, "RuntimeException", r);
-			throw r;
-		}
-		catch (Exception e) {
-			Configuration config = mRes.getConfiguration();
-			Log.e(TAG, "Exception on Locale: " + config.locale.toString(), e);
-		}
-		catch (Error e) {
-			Configuration config = mRes.getConfiguration();
-			Log.e(TAG, "Error on Locale: " + config.locale.toString(), e);
-		}
+	}
+
+	public void testMethod() throws Exception {
+		Runner runner = new Runner();
+		ScreenshotSweepRunnerUtils.run(runner, mRes);
 	}
 
 	@Override

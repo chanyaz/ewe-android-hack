@@ -7,18 +7,17 @@ package com.expedia.bookings.test.tests.localization;
 
 import java.util.Locale;
 
-import ErrorsAndExceptions.OutOfPOSException;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Environment;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.hotels.HotelsHappyPath;
 import com.expedia.bookings.test.utils.HotelsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
+import com.expedia.bookings.test.utils.ScreenshotMethodInterface;
+import com.expedia.bookings.test.utils.ScreenshotSweepRunnerUtils;
 import com.expedia.bookings.test.utils.TestPreferences;
 
 public class ScreenshotSweepFromList extends
@@ -50,35 +49,22 @@ public class ScreenshotSweepFromList extends
 		mUser.setBookingServer("Production");
 	}
 
-	////////////////////////////////////////////////////////////////
-	// Test Drivers
-
-	public void testBookings() throws Exception {
-		try {
+	private class Runner implements ScreenshotMethodInterface {
+		@Override
+		public void execute() throws Exception {
 			//Limit to two POSs at a time.
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < 4; i++) {
 				Locale testingLocale = mDriver.mLocaleUtils.selectNextLocaleFromInternalList(LOCALE_LIST_LOCATION);
 				mDriver.enterLog(TAG, "Starting sweep of " + testingLocale.toString());
 				mDriver.mLocaleUtils.setLocale(testingLocale);
 				HotelsHappyPath.execute(mDriver, mUser, 1);
 			}
 		}
-		catch (OutOfPOSException e) {
-			Log.e(TAG, "POSHappyPath out of POSs. Throwing exception", e);
-			throw e;
-		}
-		catch (RuntimeException r) {
-			Log.e(TAG, "RuntimeException", r);
-			throw r;
-		}
-		catch (Exception e) {
-			Configuration config = mRes.getConfiguration();
-			Log.e(TAG, "Exception on Locale: " + config.locale.toString(), e);
-		}
-		catch (Error e) {
-			Configuration config = mRes.getConfiguration();
-			Log.e(TAG, "Error on Locale: " + config.locale.toString(), e);
-		}
+	}
+
+	public void testBookings() throws Exception {
+		Runner runner = new Runner();
+		ScreenshotSweepRunnerUtils.run(runner, mRes);
 	}
 
 	@Override

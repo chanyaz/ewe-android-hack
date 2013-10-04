@@ -3,10 +3,8 @@ package com.expedia.bookings.test.tests.localization;
 import java.util.Locale;
 
 import ErrorsAndExceptions.OutOfPOSException;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Environment;
-import android.test.mock.MockContext;
 import android.util.Log;
 
 import com.expedia.bookings.activity.LaunchActivity;
@@ -14,6 +12,8 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.test.tests.flights.FlightsHappyPath;
 import com.expedia.bookings.test.utils.CustomActivityInstrumentationTestCase;
 import com.expedia.bookings.test.utils.FlightsTestDriver;
+import com.expedia.bookings.test.utils.ScreenshotMethodInterface;
+import com.expedia.bookings.test.utils.ScreenshotSweepRunnerUtils;
 
 public class FlightsScreenshotSweepFromList extends CustomActivityInstrumentationTestCase<LaunchActivity> {
 
@@ -34,9 +34,9 @@ public class FlightsScreenshotSweepFromList extends CustomActivityInstrumentatio
 		mUser.setHotelCityToRandomUSCity();
 	}
 
-	public void testBookings() throws Exception {
-		try {
-			//Limit to eight POSs at a time.
+	private class Runner implements ScreenshotMethodInterface {
+		@Override
+		public void execute() throws Exception {
 			for (int i = 0; i < 8; i++) {
 				mDriver.setScreenshotCount(0);
 				Locale testingLocale = mDriver.mLocaleUtils.selectNextLocaleFromInternalList(LOCALE_LIST_LOCATION);
@@ -65,22 +65,11 @@ public class FlightsScreenshotSweepFromList extends CustomActivityInstrumentatio
 				}
 			}
 		}
-		catch (OutOfPOSException e) {
-			Log.e(TAG, "POSHappyPath out of POSs. Throwing exception", e);
-			throw e;
-		}
-		catch (RuntimeException r) {
-			Log.e(TAG, "RuntimeException", r);
-			throw r;
-		}
-		catch (Exception e) {
-			Configuration config = mRes.getConfiguration();
-			Log.e(TAG, "Exception on Locale: " + config.locale.toString(), e);
-		}
-		catch (Error e) {
-			Configuration config = mRes.getConfiguration();
-			Log.e(TAG, "Error on Locale: " + config.locale.toString(), e);
-		}
+	}
+
+	public void testBookings() throws Exception {
+		Runner runner = new Runner();
+		ScreenshotSweepRunnerUtils.run(runner, mRes);
 	}
 
 	@Override
