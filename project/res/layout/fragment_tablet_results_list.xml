@@ -32,19 +32,22 @@
         <com.expedia.bookings.widget.TextView
             android:id="@+id/sticky_number_of_items"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="16dp"
+            android:gravity="center_vertical|left"
             android:textSize="18sp"
             app:textStyle="light" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/top_right_text_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="16dp"
-            android:text="Sort &amp; Filter"
+            android:layout_marginRight="8dp"
+            android:gravity="center_vertical|right"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:textColor="#FF0B4EA4"
             android:textSize="18sp"
             app:textStyle="light" />
