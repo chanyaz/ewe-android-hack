@@ -19,7 +19,7 @@ public class InvalidCharacterHelper {
 
 	//Matches only ascii characters (thus disallowing multibyte characters)
 	private static final Pattern SUPPORTED_CHARACTER_PATTERN_ASCII = Pattern.compile("^(\\p{ASCII})*$");
-	//Matches all ascii characters from <space> through Ø (where space is hex 20 and Ø is the last of the extended ascii characters at hex FF)
+	//Matches all ascii characters from <space> == 0x20 through 0xFF (where space is hex 20 and 0xFF is the last of the extended ascii characters)
 	private static final Pattern SUPPORTED_CHARACTER_PATTERN_NAMES = Pattern.compile("^[\\x20-\\xFF]*$");
 
 	private static final String INVALID_CHARACTER_POPUP_TAG = "INVALID_CHARACTER_POPUP_TAG";
