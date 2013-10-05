@@ -8,23 +8,15 @@ import java.util.TreeSet;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Color;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.util.SparseArray;
-import android.view.LayoutInflater;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.widget.CheckBoxFilterWidget.OnCheckedChangeListener;
 
 public class HotelNeighborhoodLayout extends LinearLayout {
 
@@ -112,16 +104,15 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 			mAllNeighborhoods = new HashSet<Integer>();
 			for (Property property : sorted) {
 				int locationId = property.getLocation().getLocationId();
-				String description = property.getLocation().getDescription();
-				String rate = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayPrice());
 				boolean isChecked = mCheckedNeighborhoods.contains(locationId);
 
 				mAllNeighborhoods.add(locationId);
 
 				CheckBoxFilterWidget filterWidget = new CheckBoxFilterWidget(getContext());
-				filterWidget.setOnCheckedChangeListener(mCheckedChangedListener);
 				filterWidget.bindHotel(property);
 				filterWidget.setTag(property);
+				filterWidget.setChecked(isChecked);
+				filterWidget.setOnCheckedChangeListener(mCheckedChangedListener);
 				addView(filterWidget);
 			}
 		}
@@ -129,8 +120,8 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 
 	private final OnCheckedChangeListener mCheckedChangedListener = new OnCheckedChangeListener() {
 		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-			Property property = (Property) buttonView.getTag();
+		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
+			Property property = (Property) view.getTag();
 			int locationId = property.getLocation().getLocationId();
 			if (isChecked) {
 				mCheckedNeighborhoods.add(locationId);

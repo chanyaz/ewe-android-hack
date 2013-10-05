@@ -4,7 +4,7 @@
     <CheckBox
         android:id="@+id/filter_refinement_checkbox"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="48dp"
         android:layout_weight="1"
         android:ellipsize="end"
         android:gravity="center_vertical"
@@ -15,7 +15,7 @@
     <TextView
         android:id="@+id/filter_refinement_textview"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="48dp"
         android:gravity="center_vertical"
         android:padding="6dp"
         android:singleLine="true"

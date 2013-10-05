@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -26,6 +25,7 @@ import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CheckBoxFilterWidget;
+import com.expedia.bookings.widget.CheckBoxFilterWidget.OnCheckedChangeListener;
 import com.mobiata.flightlib.data.IAirport;
 
 /**
@@ -185,11 +185,11 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		}
 	};
 
-	private CompoundButton.OnCheckedChangeListener mAirlineOnCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+	private OnCheckedChangeListener mAirlineOnCheckedChangeListener = new OnCheckedChangeListener() {
 		@Override
-		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
 			FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
-			FlightTrip trip = (FlightTrip) buttonView.getTag();
+			FlightTrip trip = (FlightTrip) view.getTag();
 			filter.setPreferredAirline(trip.getLeg(mLegNumber).getFirstAirlineCode(), isChecked);
 			filter.notifyFilterChanged();
 		}
@@ -241,9 +241,11 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			}
 
 			boolean enabled = filteredTrips.contains(trip);
-			airlineFilterWidget.setOnCheckedChangeListener(mAirlineOnCheckedChangeListener);
+			airlineFilterWidget.bindFlight(Db.getFlightSearch().getFilter(mLegNumber, allTrips), trip, mLegNumber);
 			airlineFilterWidget.setTag(trip);
-			airlineFilterWidget.bindFlight(Db.getFlightSearch().getFilter(mLegNumber, allTrips), trip, mLegNumber, enabled);
+			airlineFilterWidget.setEnabled(enabled);
+			airlineFilterWidget.setOnCheckedChangeListener(mAirlineOnCheckedChangeListener);
+
 		}
 
 		// Keep around the views not needed, but just set their visibility to GONE.

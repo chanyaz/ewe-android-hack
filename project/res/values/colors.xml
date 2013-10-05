@@ -161,5 +161,5 @@
     <color name="tablet_results_ab_hotels">#422B14</color>
     <color name="tablet_results_ab_flights">#142B42</color>
     <color name="tablet_bg_tiles_blend">#232c45</color>
-
+    <color name="tablet_filter_light_gray_text">#0558c4</color>
 </resources>

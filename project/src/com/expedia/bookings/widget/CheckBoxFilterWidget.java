@@ -8,7 +8,8 @@ import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.CheckBox;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Checkable;
+import android.widget.CompoundButton;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightFilter;
@@ -18,7 +19,9 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 
-public class CheckBoxFilterWidget extends LinearLayout {
+public class CheckBoxFilterWidget extends LinearLayout implements Checkable {
+
+	private static ForegroundColorSpan sGraySpan;
 
 	private CheckBox mCheckBox;
 	private android.widget.TextView mPriceTextView;
@@ -28,11 +31,17 @@ public class CheckBoxFilterWidget extends LinearLayout {
 	public CheckBoxFilterWidget(Context context) {
 		super(context);
 
+		if (sGraySpan == null) {
+			sGraySpan = new ForegroundColorSpan(getResources().getColor(R.color.tablet_filter_light_gray_text));
+		}
+
 		setOrientation(HORIZONTAL);
 
 		LayoutInflater.from(context).inflate(R.layout.row_filter_refinement, this, true);
 		mCheckBox = Ui.findView(this, R.id.filter_refinement_checkbox);
 		mPriceTextView = Ui.findView(this, R.id.filter_refinement_textview);
+
+		mCheckBox.setOnCheckedChangeListener(mLocalCheckedChangeListener);
 
 		// the bind methods take care of restoring the enabled/disabled state
 		mCheckBox.setSaveEnabled(false);
@@ -50,60 +59,77 @@ public class CheckBoxFilterWidget extends LinearLayout {
 	}
 
 	public void setOnCheckedChangeListener(OnCheckedChangeListener listener) {
-		mCheckBox.setOnCheckedChangeListener(listener);
 		mOnCheckedChangeListener = listener;
 	}
 
-	/**
-	 * Set some data to attach to this view. Call getTag() on the view returned in your listener's onCheckedChange()
-	 * to retrieve this data.
-	 *
-	 * We override the default behavior to pass the tag down to the checkbox. This means we can leverage the system
-	 * OnCheckedChange interface and the listener implementations can easily retrieve the tag.
-	 * @param tag
-	 */
 	@Override
-	public void setTag(Object tag) {
-		mCheckBox.setTag(tag);
+	public void setChecked(boolean isChecked) {
+		mCheckBox.setChecked(isChecked);
 	}
 
-	public void bindFlight(FlightFilter filter, FlightTrip trip, int legNumber, boolean enabled) {
-		mCheckBox.setOnCheckedChangeListener(null);
-		mCheckBox.setChecked(filter.getPreferredAirlines().contains(trip.getLeg(legNumber).getFirstAirlineCode()));
-		mCheckBox.setOnCheckedChangeListener(mOnCheckedChangeListener);
+	@Override
+	public boolean isChecked() {
+		return mCheckBox.isChecked();
+	}
 
-		mCheckBox.setText(trip.getLeg(legNumber).getAirlinesFormatted());
+	@Override
+	public void toggle() {
+		setChecked(!isChecked());
+	}
 
-		bindPrice(trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
+	@Override
+	public void setEnabled(boolean isEnabled) {
+		mCheckBox.setEnabled(isEnabled);
+		mPriceTextView.setEnabled(isEnabled);
+	}
 
-		bindEnabled(enabled);
+	public void bindFlight(FlightFilter filter, FlightTrip trip, int legNumber) {
+		boolean isChecked = filter.getPreferredAirlines().contains(trip.getLeg(legNumber).getFirstAirlineCode());
+		String text = trip.getLeg(legNumber).getAirlinesFormatted();
+		String price = trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL);
+
+		setChecked(isChecked);
+		mCheckBox.setText(text);
+		bindPrice(price);
 	}
 
 	public void bindHotel(Property property) {
 		String description = property.getLocation().getDescription();
 		String price = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayPrice());
 
-		mCheckBox.setOnCheckedChangeListener(null);
-		mCheckBox.setChecked(true); // TODO fix this
-		mCheckBox.setOnCheckedChangeListener(mOnCheckedChangeListener);
 		mCheckBox.setText(description);
 		bindPrice(price);
 	}
 
-	private void bindEnabled(boolean isEnabled) {
-		mCheckBox.setEnabled(isEnabled);
-		mPriceTextView.setEnabled(isEnabled);
-	}
-
 	private void bindPrice(String price) {
 		// Build and colorize "From $200" string
-		ForegroundColorSpan graySpan = new ForegroundColorSpan(Color.rgb(0x05, 0x58, 0xc4)); // TODO get color from design and cache this span?
 		String priceString = getResources().getString(R.string.From_x_TEMPLATE, price);
 		SpannableStringBuilder builder = new SpannableStringBuilder(priceString);
 		int start = priceString.indexOf(price);
 		int end = start + price.length();
-		builder.setSpan(graySpan, start, end, 0);
+		builder.setSpan(sGraySpan, start, end, 0);
 		mPriceTextView.setText(builder);
 	}
 
+	private CompoundButton.OnCheckedChangeListener mLocalCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+		private boolean mBroadcasting = false;
+
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			// Avoid infinite recursions if setChecked() is called from a listener
+			if (mBroadcasting) {
+				return;
+			}
+
+			mBroadcasting = true;
+			if (mOnCheckedChangeListener != null) {
+				mOnCheckedChangeListener.onCheckedChanged(CheckBoxFilterWidget.this, isChecked);
+			}
+
+			mBroadcasting = false;
+		}
+	};
+
+	public interface OnCheckedChangeListener {
+		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked);
+	}
 }
