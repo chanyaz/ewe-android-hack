@@ -285,5 +285,17 @@
     
     <!-- for hotels and flights travel type -->
     <attr name="travelerLabelOnCheckout" format="reference|string" />
+    
+    <!-- SwipeOutLayout style -->
+    <declare-styleable name="SwipeOutLayout">
+        <attr name="swipeOutDirection">
+            <enum name="north" value="0" />
+            <enum name="south" value="1" />
+            <enum name="east" value="2" />
+            <enum name="west" value="3" />
+        </attr>
+        <attr name="swipeOutEnabled" format="boolean" />
+    </declare-styleable>
+    
 </resources>
 
