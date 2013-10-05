@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchResponse;
+import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.SearchParams;
@@ -244,6 +245,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	private void doSearch() {
 		Db.getHotelSearch().setSearchResponse(null);
 		Db.getFlightSearch().setSearchResponse(null);
+		Db.getFilter().reset();
 
 		mLoadSearchDialogFragment = SimpleProgressDialogFragment.newInstance("Loading results...");
 		mLoadSearchDialogFragment.show(getSupportFragmentManager(), TAG_LOAD_SEARCH_DIALOG);

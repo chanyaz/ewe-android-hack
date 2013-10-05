@@ -87,11 +87,6 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		mVipAccessButton = Ui.findView(view, R.id.filter_vip_access);
 		mNeighborhoodLayout = Ui.findView(view, R.id.areas_layout);
 
-		// Configure initial settings (based on the filter)
-		HotelSearch search = Db.getHotelSearch();
-		HotelFilter filter = Db.getFilter();
-		initializeViews(search, filter);
-
 		// Configure functionality of each filter control
 		mHotelNameEditText.addTextChangedListener(mHotelNameTextWatcher);
 		mSortByButtonGroup.setOnCheckedChangeListener(mSortCheckedChangeListener);
@@ -201,14 +196,19 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		mNeighborhoodLayout.setNeighborhoods(search.getSearchResponse(), filter);
 	}
 
+	@Override
 	public void onStart() {
 		super.onStart();
 
 		HotelSearch search = Db.getHotelSearch();
 		if (search != null) {
+			// Populate views based on the filter
+			HotelFilter filter = Db.getFilter();
+			initializeViews(search, filter);
+
 			HotelSearchResponse response = search.getSearchResponse();
 			if (response != null) {
-				response.setFilter(Db.getFilter());
+				response.setFilter(filter);
 			}
 		}
 	}
