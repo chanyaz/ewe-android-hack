@@ -12,7 +12,7 @@ import android.view.View;
  * 
  * We have a MapView that we want to draw in the background, but if we set the Visibility
  * of said map view to INVISIBLE it will not draw. If we set the alpha of said map view to 0,
- * it will draw. However, the MapView is on top of a bunch of other stuff that needs to allow 
+ * it will draw. However, the MapView is on top of a bunch of other stuff that needs to allow
  * user interaction. Setting the alpha = 0 does not prevent user interaction so we're hosed.
  * 
  * Solution: we put the mapview in one of these TouchThroughFrameLayout containers,
@@ -26,7 +26,6 @@ public class TouchThroughFrameLayout extends FrameLayout {
 
 	private boolean mPassThroughTouches = false;
 	private View mTouchGetter;
-	
 
 	public TouchThroughFrameLayout(Context context) {
 		super(context);
@@ -43,25 +42,27 @@ public class TouchThroughFrameLayout extends FrameLayout {
 	public void setTouchPassThroughEnabled(boolean enabled) {
 		mPassThroughTouches = enabled;
 	}
-	
-	public void setTouchPassThroughReceiver(View view){
+
+	public void setTouchPassThroughReceiver(View view) {
 		mTouchGetter = view;
 	}
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		if(!mPassThroughTouches){
+		if (!mPassThroughTouches) {
 			return super.onInterceptTouchEvent(ev);
-		}else{
+		}
+		else {
 			return true;
 		}
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if(!mPassThroughTouches){
+		if (!mPassThroughTouches) {
 			return super.onTouchEvent(event);
-		}else if (mTouchGetter != null){
+		}
+		else if (mTouchGetter != null) {
 			mTouchGetter.dispatchTouchEvent(event);
 			return false;
 		}

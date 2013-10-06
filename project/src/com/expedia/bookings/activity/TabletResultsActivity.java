@@ -4,6 +4,23 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
+import android.annotation.TargetApi;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnPreDrawListener;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -38,28 +55,11 @@ import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
-
-import android.annotation.TargetApi;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
-import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver.OnPreDrawListener;
-import android.view.View;
-import android.view.ViewGroup;
 
 /**
  * TabletResultsActivity: The results activity designed for tablet results 2013
@@ -72,7 +72,7 @@ import android.view.ViewGroup;
  * GlobalResultsState is set to HOTEL.
  * 
  * At the time of this writting (9/5/2013) this is also in control of background images, but hopefully this
- * will be offloaded to elsewhere in the app eventually (if for nothing other than performance/ load time reasons). 
+ * will be offloaded to elsewhere in the app eventually (if for nothing other than performance/ load time reasons).
  * 
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -120,8 +120,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	private HotelMapFragment mMapFragment;
 
-	public enum GlobalResultsState
-	{
+	public enum GlobalResultsState {
 		DEFAULT,
 		HOTELS,
 		FLIGHTS,
@@ -443,7 +442,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
 			frag = mBackgroundImageFrag;
-		} else if (tag == FTAG_HOTEL_MAP) {
+		}
+		else if (tag == FTAG_HOTEL_MAP) {
 			frag = mMapFragment;
 		}
 		return frag;

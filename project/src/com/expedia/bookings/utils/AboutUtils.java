@@ -11,7 +11,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.Intent;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutWebViewActivity;

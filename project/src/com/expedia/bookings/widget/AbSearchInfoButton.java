@@ -2,13 +2,13 @@ package com.expedia.bookings.widget;
 
 import org.joda.time.LocalDate;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.utils.JodaUtils;
-
 import android.content.Context;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.utils.JodaUtils;
 
 public class AbSearchInfoButton extends TextView {
 

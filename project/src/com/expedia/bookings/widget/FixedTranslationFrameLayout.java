@@ -18,8 +18,8 @@ public class FixedTranslationFrameLayout extends BlockEventFrameLayout {
 
 	/**
 	 * When we translate this container on the x axis, we do an equal
-	 * oposite translation on the x axis for its children, causing the 
-	 * container bounds to be changed, but with the appearance that the 
+	 * oposite translation on the x axis for its children, causing the
+	 * container bounds to be changed, but with the appearance that the
 	 * container content has remained in place.
 	 * @param translationX
 	 */

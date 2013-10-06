@@ -44,7 +44,7 @@ import com.mobiata.android.Log;
  * of it.  It does not save its own state; it depends on CalendarPicker
  * for that.
  * 
- * This class should be modified in conjunction with DaysOfWeekView, 
+ * This class should be modified in conjunction with DaysOfWeekView,
  * which should measure itself in a similar manner.
  *
  * This View assumes it has a well-defined width and height (e.g.,
@@ -637,7 +637,7 @@ public class MonthView extends View {
 
 		return new int[] {
 			(int) Math.floor(y / mCellHeight),
-			(int) Math.floor(x / mCellWidth)
+			(int) Math.floor(x / mCellWidth),
 		};
 	}
 
@@ -668,7 +668,7 @@ public class MonthView extends View {
 		private int[] virtualViewIdToCell(int virtualViewId) {
 			return new int[] {
 				virtualViewId / COLS,
-				virtualViewId % COLS
+				virtualViewId % COLS,
 			};
 		}
 

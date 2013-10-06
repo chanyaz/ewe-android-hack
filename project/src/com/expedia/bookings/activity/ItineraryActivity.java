@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -34,7 +33,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.mobiata.android.util.AndroidUtils;
 
 /**
  * Full-screen Itinerary activity.  Used in tablets.

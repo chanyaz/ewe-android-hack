@@ -2,9 +2,6 @@ package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
 
-import com.expedia.bookings.R;
-import com.mobiata.android.Log;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -21,6 +18,9 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import com.expedia.bookings.R;
+import com.mobiata.android.Log;
 
 /**
  * FruitScrollUpListView: A view designed for tablet results 2013
@@ -290,7 +290,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	}
 
 	/*
-	 * SETTERS 
+	 * SETTERS
 	 */
 
 	public void setListenersEnabled(boolean enabled) {
@@ -607,7 +607,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 			footerHeight = mHeight;
 		}
 		else if (singleRowHeight < 0) {
-			//couldn't get a rows height... 
+			//couldn't get a rows height...
 			footerHeight = -1;
 		}
 		else {
@@ -714,7 +714,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 			boolean wasFlinging = mPreviousScrollState == OnScrollListener.SCROLL_STATE_FLING;
 
 			if (isFlinging & !wasFlinging && getFirstVisiblePosition() > 0) {
-				//We started flinging while the header spacer was off screen. We don't want people to fling to 
+				//We started flinging while the header spacer was off screen. We don't want people to fling to
 				//a different mode un-intentionally, so we hide the header which means flinging will stop at the top data row
 				shrinkHeaderSpacer();
 			}

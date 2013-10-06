@@ -21,10 +21,10 @@ import com.mobiata.android.util.Ui;
  *	n listeners.
  *
  *   SwipeOutLayout must be defined with exactly two children having ids: R.id.swipe_out_content and R.id.swipe_out_indicator
- *   
+ * 
  *   SwipeOutLayout is expected to be defined in xml, and to have the following property app:swipeOutDirection="east" where east
  *   can be any of north,south,east,west.
- *  
+ * 
  *   This was developed as a way to remove an item from a collection.
  *   E.g. We drag our view to the left, revealing a red x symbol, and when the user lets go a trip is removed.
  *

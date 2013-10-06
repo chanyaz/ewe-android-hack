@@ -1,11 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.section.FlightLegSummarySectionTablet;
-import com.expedia.bookings.utils.ScreenPositionUtils;
-import com.mobiata.android.Log;
-import com.mobiata.android.util.Ui;
-
 import android.annotation.TargetApi;
 import android.graphics.Rect;
 import android.os.Build;
@@ -16,6 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout.LayoutParams;
 
+import com.expedia.bookings.R;
+import com.expedia.bookings.section.FlightLegSummarySectionTablet;
+import com.expedia.bookings.utils.ScreenPositionUtils;
+import com.mobiata.android.Log;
+import com.mobiata.android.util.Ui;
+
 /**
  * ResultsFlightFiltersFragment: The filters fragment designed for tablet results 2013
  */
@@ -23,7 +23,7 @@ import android.widget.FrameLayout.LayoutParams;
 public class ResultsFlightDetailsFragment extends Fragment {
 
 	private static final String ARG_LEG_NUMBER = "ARG_LEG_NUMBER";
-	
+
 	public static ResultsFlightDetailsFragment newInstance(int legNumber) {
 		ResultsFlightDetailsFragment frag = new ResultsFlightDetailsFragment();
 		Bundle args = new Bundle();
@@ -63,7 +63,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		mDetailsC = Ui.findView(mRootC, R.id.details_container);
 		mDetailsC.setPivotX(0);
 		mDetailsC.setPivotY(0);
-		
+
 		setLegPosition(getArguments().getInt(ARG_LEG_NUMBER));
 
 		applyDetailsDimensions();

@@ -32,7 +32,6 @@ import com.jhlabs.map.Point2D;
 import com.jhlabs.map.proj.MercatorProjection;
 import com.jhlabs.map.proj.Projection;
 import com.larvalabs.svgandroid.SVGParser;
-import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.BitmapDrawable;
 
 public class SvgMapFragment extends MeasurableFragment {

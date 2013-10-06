@@ -5,13 +5,13 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * A simple version of View that indicates it does not have overlapping rendering.  
+ * A simple version of View that indicates it does not have overlapping rendering.
  * This helps optimize performance a lot when we use a simple empty View + background
- * for some layouts. 
+ * for some layouts.
  * 
  * Note that using LAYER_TYPE_HARDWARE with this View during an alpha fade will actually
  * HURT performance, for some reason.  It seems to ignore hasOverlappingRendering(),
- * which helps more than it hurts. 
+ * which helps more than it hurts.
  */
 public class BackgroundView extends View {
 

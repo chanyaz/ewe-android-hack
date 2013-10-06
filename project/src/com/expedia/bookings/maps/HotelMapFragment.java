@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
@@ -404,9 +403,9 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		marker.hideInfoWindow();
 	}
 
-    /**
-     * Shows all properties visible on the map.
-     *
+	/**
+	 * Shows all properties visible on the map.
+	 *
 	 * If there are properties but all are hidden (due to filtering),
 	 * then it shows the area they would appear (if they weren't
 	 * hidden).

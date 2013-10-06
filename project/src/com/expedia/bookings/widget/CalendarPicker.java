@@ -34,7 +34,7 @@ import com.mobiata.android.util.Ui;
  * - Use setSelectedDates() to change which dates are currently selected.
  * - Use setSelectableDateRange() to select the minimum/maximum selectable dates.
  * - Use setMaxSelectableDateRange() to select the longest duration one can select.
- * - Use a style derived from "V2.Widget.CalendarPicker" to theme it. 
+ * - Use a style derived from "V2.Widget.CalendarPicker" to theme it.
  * 
  * Notes:
  * - CalendarPicker does not work with layout_width="wrap_content" because it has no
@@ -261,7 +261,7 @@ public class CalendarPicker extends LinearLayout {
 
 	/**
 	 * Defines the selectable date range.
-	 *  
+	 * 
 	 * @param minDate the minimum selectable date or null for no minimum
 	 * @param maxDate the maximum selectable date or null for no maximum
 	 */

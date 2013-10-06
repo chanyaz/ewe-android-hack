@@ -1,18 +1,7 @@
 package com.expedia.bookings.fragment;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.interfaces.IAddToTripListener;
-import com.expedia.bookings.utils.ColumnManager;
-import com.expedia.bookings.utils.ScreenPositionUtils;
-import com.mobiata.android.util.Ui;
-
-import android.animation.Animator;
-import android.animation.Animator.AnimatorListener;
-import android.animation.ValueAnimator;
-import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.interfaces.IAddToTripListener;
+import com.expedia.bookings.utils.ScreenPositionUtils;
+import com.mobiata.android.util.Ui;
 
 /**
  * ResultsFlightFiltersFragment: The filters fragment designed for tablet results 2013

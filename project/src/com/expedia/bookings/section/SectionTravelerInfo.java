@@ -157,7 +157,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		if (pos.hideMiddleName()) {
 			mFields.removeField(mEditMiddleName);
 		}
-		
+
 		// Remove email fields if user is logged in
 		if (User.isLoggedIn(mContext)) {
 			mFields.removeField(mEditEmailAddress);
@@ -509,7 +509,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			field.setText(data.getLastName());
 		}
 	};
-	
+
 	SectionFieldEditable<EditText, Traveler> mEditEmailAddress = new SectionFieldEditableFocusChangeTrimmer<EditText, Traveler>(
 			R.id.edit_email_address) {
 
@@ -553,7 +553,6 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			retArr.add(mValidEmail);
 			return retArr;
 		}
-		
 	};
 
 	/*

@@ -77,7 +77,7 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 
 	/**
 	 * Call this any time that you need to reset the query. Basically, any time that you move forward,
-	 * in the flights flow, by selecting a leg, you want to clear the query of the next leg. The reason 
+	 * in the flights flow, by selecting a leg, you want to clear the query of the next leg. The reason
 	 * is that the flights present in the second leg is dependent upon which flight has been selected
 	 * from the first leg. This method call takes care of resetting the query, and ensuring all observers
 	 * are setup to properly receive changes, from the filter, for instance.

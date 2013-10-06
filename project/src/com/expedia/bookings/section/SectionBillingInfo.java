@@ -719,7 +719,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			retArr.add(mValidEmail);
 			return retArr;
 		}
-		
 	};
 
 	SectionFieldEditable<EditText, BillingInfo> mEditPhoneNumber = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(

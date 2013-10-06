@@ -22,7 +22,6 @@ import com.expedia.bookings.activity.HotelBookingActivity;
 import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
-import com.expedia.bookings.activity.SearchFragmentActivity;
 import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.activity.SweepstakesActivity;
 import com.expedia.bookings.activity.TabletLaunchActivity;

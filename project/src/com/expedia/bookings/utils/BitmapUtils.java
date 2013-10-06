@@ -10,11 +10,11 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.Matrix3f;
 import android.renderscript.RenderScript;
+import android.renderscript.Script.KernelID;
 import android.renderscript.ScriptGroup;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.renderscript.ScriptIntrinsicColorMatrix;
 import android.renderscript.Type;
-import android.renderscript.Script.KernelID;
 
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.TimingLogger;
@@ -22,14 +22,14 @@ import com.mobiata.android.util.TimingLogger;
 public class BitmapUtils {
 
 	/**
-	 * This will return a copy of a the supplied bitmap that has been stack blurred and darkened 
+	 * This will return a copy of a the supplied bitmap that has been stack blurred and darkened
 	 * according to the supplied params
 	 * 
 	 * @param bmapToBlur - the bitmap we plan to blur
 	 * @param context
-	 * @param reductionFactor - this is an optimization, typically 4 works well, basically we can shrink the bitmap before we blur and 
-	 * thus have fewer pixels to blur. 
-	 * @param blurRadius - the blur radius. 
+	 * @param reductionFactor - this is an optimization, typically 4 works well, basically we can shrink the bitmap before we blur and
+	 * thus have fewer pixels to blur.
+	 * @param blurRadius - the blur radius.
 	 * @param darkenMultiplier - each color channel will be multiplied by this number
 	 * @return
 	 */

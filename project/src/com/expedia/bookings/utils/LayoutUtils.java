@@ -1,9 +1,6 @@
 package com.expedia.bookings.utils;
 
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.util.Calendar;
-import java.util.TimeZone;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar.LayoutParams;
@@ -20,7 +17,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.TextPaint;
-import android.text.format.DateUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;

@@ -182,7 +182,7 @@ public class SearchParams implements Parcelable, JSONable {
 	// Validation
 	//
 	// This is just as much documentation of the states the SearchParams can
-	// be in as much as it is for validation purposes. 
+	// be in as much as it is for validation purposes.
 
 	public boolean isValid() {
 		return areLocationsValid() && isDurationValid() && areGuestsValid();

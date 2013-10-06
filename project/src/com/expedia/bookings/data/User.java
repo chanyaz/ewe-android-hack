@@ -348,7 +348,7 @@ public class User implements JSONable {
 	}
 
 	/**
-	 * This method is important. This is the method that adds the account to AccountManager. 
+	 * This method is important. This is the method that adds the account to AccountManager.
 	 * If we log in and this doesn't get called, User.isLoggedIn() will
 	 * still return false, and user data will not be allowed to sync.
 	 */

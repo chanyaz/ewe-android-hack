@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelFilter.OnFilterChangedListener;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.widget.RingedCountView;

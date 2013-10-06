@@ -22,7 +22,7 @@ import android.view.View;
 import com.expedia.bookings.R;
 
 /**
- * A view displaying a count with a partially completed circle around it, on a 
+ * A view displaying a count with a partially completed circle around it, on a
  * translucent black background.
  * 
  * <pre>

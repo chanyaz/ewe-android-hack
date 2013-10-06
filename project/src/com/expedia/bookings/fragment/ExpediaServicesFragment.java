@@ -21,7 +21,7 @@ import com.mobiata.android.util.Ui;
  * succeed/fail.
  * 
  * To avoid confusion, only one of each download type may run at a time;
- * if you start a new one, it will 
+ * if you start a new one, it will
  * 
  * It should not manipulate Db; let the caller do that.
  */
@@ -150,7 +150,7 @@ public class ExpediaServicesFragment extends Fragment {
 	 * @param type The ServiceType of the download
 	 * @param continueIfInProgress true if we should not interrupt an
 	 *        existing download, false if we should cancel the download if it's found
-	 * @return true if you should start a new download, false if we're 
+	 * @return true if you should start a new download, false if we're
 	 *         currently downloading and don't want to interrupt
 	 */
 	private boolean shouldStartNewDownload(ServiceType type, boolean continueIfInProgress) {

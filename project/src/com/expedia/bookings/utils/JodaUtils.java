@@ -108,7 +108,7 @@ public class JodaUtils {
 	 * 
 	 * 1. Create a Time in the current Timezone (mistake!)
 	 * 2. Set the millis for each, and get the Julian day
-	 * 3. Compare julian days 
+	 * 3. Compare julian days
 	 * 
 	 * This works great...  if you remember to use the correct timezone for the millis passed
 	 * in (the current system's timezone) AND you make sure to cache the original system

@@ -2,24 +2,6 @@ package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.fragment.base.ResultsListFragment;
-import com.expedia.bookings.interfaces.IAddToTripListener;
-import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
-import com.expedia.bookings.interfaces.ITabletResultsController;
-import com.expedia.bookings.section.FlightLegSummarySectionTablet;
-import com.expedia.bookings.utils.ColumnManager;
-import com.expedia.bookings.utils.FragmentAvailabilityUtils;
-import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
-import com.expedia.bookings.utils.ScreenPositionUtils;
-import com.expedia.bookings.widget.BlockEventFrameLayout;
-import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
-import com.expedia.bookings.widget.FruitScrollUpListView.State;
-import com.mobiata.android.Log;
-import com.mobiata.android.util.Ui;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
@@ -38,6 +20,23 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.fragment.base.ResultsListFragment;
+import com.expedia.bookings.interfaces.IAddToTripListener;
+import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
+import com.expedia.bookings.interfaces.ITabletResultsController;
+import com.expedia.bookings.section.FlightLegSummarySectionTablet;
+import com.expedia.bookings.utils.ColumnManager;
+import com.expedia.bookings.utils.FragmentAvailabilityUtils;
+import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
+import com.expedia.bookings.utils.ScreenPositionUtils;
+import com.expedia.bookings.widget.BlockEventFrameLayout;
+import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
+import com.expedia.bookings.widget.FruitScrollUpListView.State;
+import com.mobiata.android.util.Ui;
 
 /**
  *  TabletResultsFlightControllerFragment: designed for tablet results 2013

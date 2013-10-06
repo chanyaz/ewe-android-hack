@@ -1,11 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.section.FlightLegSummarySectionTablet;
-import com.expedia.bookings.utils.ScreenPositionUtils;
-import com.mobiata.android.util.Ui;
-
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -15,6 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.section.FlightLegSummarySectionTablet;
+import com.expedia.bookings.utils.ScreenPositionUtils;
+import com.mobiata.android.util.Ui;
 
 /**
  * ResultsTripOverviewFragment: The trip overview fragment designed for tablet results 2013

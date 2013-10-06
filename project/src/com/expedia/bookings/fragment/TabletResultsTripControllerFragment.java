@@ -85,7 +85,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 	private void setFragmentState(GlobalResultsState state) {
 		FragmentManager manager = getChildFragmentManager();
-		
+
 		//All of the fragment adds/removes come through this method, and we want to make sure our last call
 		//is complete before moving forward, so this is important
 		manager.executePendingTransactions();
@@ -109,7 +109,6 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 						false);
 
 		transaction.commit();
-
 	}
 
 	@Override

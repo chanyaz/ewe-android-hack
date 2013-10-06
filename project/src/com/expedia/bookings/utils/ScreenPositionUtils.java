@@ -1,15 +1,15 @@
 package com.expedia.bookings.utils;
 
-import com.mobiata.android.Log;
-
 import android.annotation.TargetApi;
 import android.graphics.Rect;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mobiata.android.Log;
+
 /**
- * This class helps us figure out where things are on screen, 
+ * This class helps us figure out where things are on screen,
  * and helps us to figure out how that translates to local coordinates.
  * 
  *
@@ -21,7 +21,7 @@ public class ScreenPositionUtils {
 	 * This will return the global position/size rect of the provided view.
 	 * 
 	 * Keep in mind that the returned position will include things like the actionbar height,
-	 * so typically a call to translateGlobalPositionToLocalPosition is required to get back 
+	 * so typically a call to translateGlobalPositionToLocalPosition is required to get back
 	 * useful coordinates.
 	 * 
 	 * @param view

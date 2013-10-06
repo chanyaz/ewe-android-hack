@@ -5,13 +5,13 @@ import android.view.View;
 import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
 
 /**
- * This interface was designed to be implemented by the various major playes in 
+ * This interface was designed to be implemented by the various major playes in
  * Tablet Results 2013. E.g. We create an ITabletResultsController that handles
  * all results fragments relating to HOTELS for example.
  */
 public interface ITabletResultsController {
 	/**
-	 * When this is called, the global state of results is set. 
+	 * When this is called, the global state of results is set.
 	 * ITabletResultsControllers are expected to set their visibility,
 	 * availability, and touch handling accordingly.
 	 * 
@@ -48,7 +48,7 @@ public interface ITabletResultsController {
 	public void blockAllNewTouches(View requester);
 
 	/**
-	 * When tansitioning between DEFAULT and FLIGHTS modes, our various 
+	 * When tansitioning between DEFAULT and FLIGHTS modes, our various
 	 * ITabletResultsControllers need to know about it so they can animate their
 	 * view correctly
 	 * @param percentage
@@ -56,7 +56,7 @@ public interface ITabletResultsController {
 	public void animateToFlightsPercentage(float percentage);
 
 	/**
-	 * When tansitioning between DEFAULT and HOTELS modes, our various 
+	 * When tansitioning between DEFAULT and HOTELS modes, our various
 	 * ITabletResultsControllers need to know about it so they can animate their
 	 * view correctly
 	 * @param percentage

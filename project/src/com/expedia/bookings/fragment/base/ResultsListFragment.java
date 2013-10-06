@@ -185,7 +185,7 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 			mListView.setState(State.LIST_CONTENT_AT_BOTTOM, true, duration);
 			mGotoBottom = false;
 		}
-		if(duration == 0){
+		if (duration == 0) {
 			updateStickyHeaderState(1f,true);
 		}
 	}

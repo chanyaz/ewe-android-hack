@@ -11,7 +11,6 @@ import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.content.SuggestionProvider;
-import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.widget.SuggestionsAdapter;
 import com.mobiata.android.util.Ui;
