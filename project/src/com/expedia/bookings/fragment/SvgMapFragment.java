@@ -140,16 +140,27 @@ public class SvgMapFragment extends MeasurableFragment {
 		tiled.draw(c);
 
 		// Linear Gradient
-		int[] linearGradColors = new int[]{0xFF1b2747, 0x98131c33, 0xFF131c33};
-		LinearGradient linearShader = new LinearGradient(0, 0, 0, h, linearGradColors, null, Shader.TileMode.CLAMP);
+		int[] linearGradColors = new int[] {
+			Color.parseColor("#001b2747"),
+			Color.parseColor("#98131c33"),
+			Color.parseColor("#131c33"),
+		};
+		float [] linearGradPositions = new float[] {
+			0.0f,
+			0.5f,
+			1.0f,
+		};
+		LinearGradient linearShader = new LinearGradient(w/2, 0, w/2, h, linearGradColors, linearGradPositions, Shader.TileMode.REPEAT);
 
 		// Radial Gradient
-		float radius = Math.min(w, h) / 2.0f;
-		RadialGradient radialShader = new RadialGradient(w/2.0f, h/2.0f, radius, 0x00000000, 0x5a000000, Shader.TileMode.CLAMP);
+		float radius = Math.min(w, h) / 1.5f;
+		RadialGradient radialShader = new RadialGradient(w/2.0f, h/2.0f, radius, Color.parseColor("#00000000"), Color.parseColor("#5a000000"), Shader.TileMode.CLAMP);
 
-		ComposeShader compose = new ComposeShader(linearShader, radialShader, PorterDuff.Mode.OVERLAY);
+		ComposeShader composeShader = new ComposeShader(linearShader, radialShader, PorterDuff.Mode.SRC_OVER);
 		Paint paint = new Paint();
-		paint.setShader(compose);
+		paint.setStyle(Paint.Style.FILL);
+		paint.setShader(composeShader);
+		paint.setDither(true);
 		c.drawRect(new RectF(0, 0, w, h), paint);
 
 		mMapImageView.setImageDrawable(new BitmapDrawable(bitmap));
