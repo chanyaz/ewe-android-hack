@@ -278,7 +278,9 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 
 	public void setPadding(int left, int top, int right, int bottom) {
 		GoogleMap map = getMap();
-		map.setPadding(left, top, right, bottom);
+		if (map != null) {
+			map.setPadding(left, top, right, bottom);
+		}
 	}
 
 	public int getWidth() {

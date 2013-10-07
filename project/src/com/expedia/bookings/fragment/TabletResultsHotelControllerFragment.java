@@ -246,6 +246,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 			break;
 		}
 		}
+
+		if (mMapFragment != null) {
+			mMapFragment.setMapPaddingFromFilterState(state == HotelsState.DEFAULT_FILTERS
+					|| state == HotelsState.ROOMS_AND_RATES_FILTERS);
+		}
+
 		mHotelsState = state;
 		mDestinationHotelsState = null;
 		mHotelsStateAnimator = null;
@@ -491,23 +497,19 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 		mHotelListFrag = (ResultsHotelListFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 				hotelListAvailable, FTAG_HOTEL_LIST, manager,
 				transaction, this, R.id.column_one_hotel_list, false);
-		mMapFragment = (HotelMapFragment) FragmentAvailabilityUtils.setFragmentAvailability(hotelMapAvailable,
-				FTAG_HOTEL_MAP, manager, transaction, this, R.id.bg_hotel_map, false);
 		mHotelFiltersFrag = (ResultsHotelsFiltersFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 				hotelFiltersAvailable,
 				FTAG_HOTEL_FILTERS, manager, transaction, this, R.id.column_two_hotel_filters, false);
 		mHotelFilteredCountFrag = (ResultsHotelsFilterCountFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 				hotelFilteredCountAvailable, FTAG_HOTEL_FILTERED_COUNT, manager, transaction, this,
 				R.id.column_three_hotel_filtered_count, false);
+		mMapFragment = (HotelMapFragment) FragmentAvailabilityUtils.setFragmentAvailability(hotelMapAvailable,
+				FTAG_HOTEL_MAP, manager, transaction, this, R.id.bg_hotel_map, false);
 		mHotelRoomsAndRatesFrag = (ResultsHotelsRoomsAndRates) FragmentAvailabilityUtils.setFragmentAvailability(
 				hotelRoomsAndRatesAvailable,
 				FTAG_HOTEL_ROOMS_AND_RATES, manager, transaction, this, R.id.hotel_rooms_and_rates, false);
 
 		transaction.commit();
-		mHotelListFrag.addSortAndFilterListener(mMapFragment);
-		if (mHotelFiltersFrag != null) {
-			mHotelFiltersFrag.addSortAndFilterListener(mMapFragment);
-		}
 	}
 
 	/**
@@ -559,9 +561,23 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
 		if (tag == FTAG_HOTEL_LIST) {
-			((ResultsListFragment) frag).setChangeListener(mFruitProxy);
+			ResultsHotelListFragment listFrag = (ResultsHotelListFragment) frag;
+			listFrag.setChangeListener(mFruitProxy);
 		}
+		else if (tag == FTAG_HOTEL_MAP) {
+			HotelMapFragment mapFrag = (HotelMapFragment) frag;
+			updateMapFragmentPositioningInfo(mapFrag);
+		}
+	}
 
+	private void updateMapFragmentPositioningInfo(HotelMapFragment mapFrag) {
+		if (mapFrag != null && mColumnManager.getTotalWidth() > 0) {
+			mapFrag.setResultsViewWidth(mColumnManager.getColWidth(0));
+			mapFrag.setFilterViewWidth(mColumnManager.getColLeft(2));
+			if (mapFrag.isReady()) {
+				mapFrag.notifySearchComplete();
+			}
+		}
 	}
 
 	/**
@@ -660,6 +676,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 	public void updateContentSize(int totalWidth, int totalHeight) {
 		mColumnManager.setTotalWidth(totalWidth);
 
+		//Tell all of the containers where they belong
 		mColumnManager.setContainerToColumn(mHotelListC, 0);
 		mColumnManager.setContainerToColumn(mHotelFiltersC, 1);
 		mColumnManager.setContainerToColumn(mHotelFilteredCountC, 2);
@@ -673,16 +690,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 		FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) mRootC.getLayoutParams();
 		params.topMargin = actionBarHeight;
 		mRootC.setLayoutParams(params);
-		if (mMapFragment == null) {
-			mMapFragment = (HotelMapFragment) ((TabletResultsActivity) getActivity()).getExisitingLocalInstanceFromTag(FTAG_HOTEL_MAP);
-		}
-		if (mMapFragment != null && mColumnManager.getTotalWidth() > 0) {
-			mMapFragment.setResultsViewWidth(mColumnManager.getColWidth(0));
-			mMapFragment.setFilterViewWidth(mColumnManager.getColLeft(2));
-			if (mMapFragment.isReady()) {
-				mMapFragment.notifySearchComplete();
-			}
-		}
+
+		//tell the map where its bounds are
+		updateMapFragmentPositioningInfo(mMapFragment);
 	}
 
 	//REMOVE: This is just to mimick locking the back button when we are adding the trip...
@@ -801,7 +811,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 			mRootC.postDelayed(mDownloadRunner, 3000);
 		}
 	}
-	
+
 	/*
 	 * HotelMapFragmentListener
 	 */
@@ -835,7 +845,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 		fragment.setInitialCameraPosition(CameraUpdateFactory.newLatLngBounds(HotelMapFragment.getAmericaBounds(), 0));
 		this.mMapFragment = fragment;
 	}
-	
+
 	/*
 	 * SupportMapFragmentListener
 	 */
@@ -843,20 +853,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 	@Override
 	public void onMapLayout() {
 		mMapFragment.setShowInfoWindow(false);
-
-		if (mColumnManager.getTotalWidth() == 0) {
-			return;
-		}
-
-		int colWidth = mColumnManager.getColWidth(0);
-		if (colWidth != 0) {
-			mMapFragment.setResultsViewWidth(colWidth);
-		}
-		colWidth = mColumnManager.getColLeft(2);
-		if (colWidth != 0) {
-			mMapFragment.setFilterViewWidth(colWidth);
-		}
-		mMapFragment.notifySearchComplete();
+		updateMapFragmentPositioningInfo(mMapFragment);
 	}
 
 }

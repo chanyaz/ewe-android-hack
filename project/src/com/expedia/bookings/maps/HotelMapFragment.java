@@ -39,7 +39,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mobiata.android.Log;
 
-public class HotelMapFragment extends SupportMapFragment implements OnFilterChangedListener, ISortAndFilterListener {
+public class HotelMapFragment extends SupportMapFragment implements OnFilterChangedListener {
 
 	private static final String INSTANCE_INFO_WINDOW_SHOWING = "INSTANCE_INFO_WINDOW_SHOWING";
 	private static final String EXACT_LOCATION_MARKER = "EXACT_LOCATION_MARKER";
@@ -402,6 +402,14 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		Marker marker = mPropertiesToMarkers.get(property);
 		marker.hideInfoWindow();
 	}
+	
+	public void setMapPaddingFromFilterState(boolean filtersShowing) {
+		int width = filtersShowing ? mFilterViewWidth : mResultsViewWidth;
+		mFilterOpen = filtersShowing;
+		setPadding(width, 0, 0, 0);
+		mCurrentLeftColWidth = width;
+		showAll();
+	}
 
 	/**
 	 * Shows all properties visible on the map.
@@ -505,22 +513,6 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		public void onPropertyBubbleClicked(Property property);
 
 		public void onHotelMapFragmentAttached(HotelMapFragment fragment);
-	}
-
-	@Override
-	public void onSortAndFilterClicked() {
-		int width;
-		if (mFilterOpen) {
-			width = mResultsViewWidth;
-			mFilterOpen = false;
-		}
-		else {
-			width = mFilterViewWidth;
-			mFilterOpen = true;
-		}
-		setPadding(width, 0, 0, 0);
-		mCurrentLeftColWidth = width;
-		showAll();
 	}
 
 	@Override
