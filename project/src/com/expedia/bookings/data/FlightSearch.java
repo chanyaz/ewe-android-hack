@@ -21,7 +21,6 @@ import com.expedia.bookings.data.FlightTrip.CompareField;
 import com.expedia.bookings.data.FlightTrip.FlightTripComparator;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
-import com.mobiata.flightlib.data.IAirport;
 import com.mobiata.flightlib.data.Waypoint;
 
 public class FlightSearch implements JSONable {
@@ -231,27 +230,8 @@ public class FlightSearch implements JSONable {
 		mSearchState = state;
 	}
 
-	/**
-	 * Return a list of airports for a given leg. The first entry is the metro code. The following entries
-	 * are the airports returned for the search/leg combo. The list returns empty if the leg was searched
-	 * with a normal airport.
-	 */
-	public List<IAirport> getAirports(int legNumber) {
-		List<IAirport> airports = mSearchResponse.getAirports(legNumber);
-		if (airports.isEmpty()) {
-			return airports;
-		}
-
-		IAirport metro;
-		if (legNumber == 0) {
-			metro = getSearchParams().getDepartureLocation();
-		}
-		else {
-			metro = getSearchParams().getArrivalLocation();
-		}
-		airports.add(0, metro);
-
-		return airports;
+	public Set<String> getAirports(int legNumber) {
+		return mSearchResponse.getAirports(legNumber);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -305,8 +285,8 @@ public class FlightSearch implements JSONable {
 				mTrips = getTripsFilteredByStops(mLegPosition, mTrips, filter.getStops());
 
 				// Filter the trips by airport filter
-				mTrips = getTripsFilteredByAirport(mLegPosition, mTrips, filter.getDepartureAirportFilter(), 0);
-				mTrips = getTripsFilteredByAirport(mLegPosition, mTrips, filter.getArrivalAirportFilter(), 1);
+				mTrips = getTripsFilteredByAirport(mLegPosition, mTrips, filter.getDepartureAirports(), true);
+				mTrips = getTripsFilteredByAirport(mLegPosition, mTrips, filter.getArrivalAirports(), false);
 
 				// Handling case when tripsList might return empty after filtering by stops.
 				if (mTrips.size() == 0) {
@@ -433,8 +413,10 @@ public class FlightSearch implements JSONable {
 		return result;
 	}
 
-	public static List<FlightTrip> getTripsFilteredByAirport(int legPosition, List<FlightTrip> trips, IAirport airport, int airportIndex) {
-		if (airport == null || airport.isMetroCode()) {
+	public static List<FlightTrip> getTripsFilteredByAirport(int legPosition, List<FlightTrip> trips,
+			Set<String> airports, boolean departureAirport) {
+
+		if (airports.isEmpty()) {
 			return trips;
 		}
 
@@ -442,13 +424,14 @@ public class FlightSearch implements JSONable {
 		for (FlightTrip trip : trips) {
 			FlightLeg flightLeg = trip.getLeg(legPosition);
 			Waypoint waypoint;
-			if (airportIndex == 0) {
+			if (departureAirport) {
 				waypoint = flightLeg.getFirstWaypoint();
 			}
 			else {
 				waypoint = flightLeg.getLastWaypoint();
 			}
-			if (airport.getAirportCode().equalsIgnoreCase(waypoint.getAirport().mAirportCode)) {
+
+			if (airports.contains(waypoint.getAirport().mAirportCode)) {
 				filteredTrips.add(trip);
 			}
 		}

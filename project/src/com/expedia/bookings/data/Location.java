@@ -15,9 +15,8 @@ import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
-import com.mobiata.flightlib.data.IAirport;
 
-public class Location implements JSONable, Parcelable, IAirport {
+public class Location implements JSONable, Parcelable {
 	private int mLocationId;
 	private List<String> mStreetAddress;
 	private String mDescription;
@@ -190,25 +189,6 @@ public class Location implements JSONable, Parcelable, IAirport {
 		if (!TextUtils.isEmpty(other.mDestinationId)) {
 			mDestinationId = other.mDestinationId;
 		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// IAirport
-
-	@Override
-	public boolean isMetroCode() {
-		// TODO comment or clean up
-		return mSearchType == null || "METROCODE".equals(mSearchType);
-	}
-
-	@Override
-	public String getAirportCode() {
-		return mDestinationId;
-	}
-
-	@Override
-	public String getBlurb() {
-		return mDescription;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

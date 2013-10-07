@@ -7,8 +7,6 @@ import java.util.Set;
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
 
-import com.mobiata.flightlib.data.IAirport;
-
 //TODO: Filter based on departure/arrival specs
 public class FlightFilter {
 
@@ -30,13 +28,15 @@ public class FlightFilter {
 
 	private Set<String> mPreferredAirlines;
 
-	private IAirport mDepartureAirportFilter;
-	private IAirport mArrivalAirportFilter;
+	private Set<String> mDepartureAirports;
+	private Set<String> mArrivalAirports;
 
 	private DataSetObservable mDataSetObservable = new DataSetObservable();
 
 	public FlightFilter() {
 		mPreferredAirlines = new HashSet<String>();
+		mDepartureAirports = new HashSet<String>();
+		mArrivalAirports = new HashSet<String>();
 
 		reset();
 	}
@@ -45,8 +45,8 @@ public class FlightFilter {
 		mSort = Sort.PRICE;
 		mStops = STOPS_ANY;
 		mPreferredAirlines.clear();
-		mDepartureAirportFilter = null;
-		mArrivalAirportFilter = null;
+		mDepartureAirports.clear();
+		mArrivalAirports.clear();
 	}
 
 	public void setSort(Sort sort) {
@@ -90,20 +90,36 @@ public class FlightFilter {
 		return mPreferredAirlines.size() != 0;
 	}
 
-	public IAirport getDepartureAirportFilter() {
-		return mDepartureAirportFilter;
+	public Set<String> getDepartureAirports() {
+		return mDepartureAirports;
 	}
 
-	public void setDepartureAirportFilter(IAirport airport) {
-		mDepartureAirportFilter = airport;
+	public void addDepartureAirport(String airportCode) {
+		mDepartureAirports.add(airportCode);
 	}
 
-	public IAirport getArrivalAirportFilter() {
-		return mArrivalAirportFilter;
+	public void removeDepartureAirport(String airportCode) {
+		mDepartureAirports.remove(airportCode);
 	}
 
-	public void setArrivalAirportFilter(IAirport arrivalAirportFilter) {
-		mArrivalAirportFilter = arrivalAirportFilter;
+	public void clearDepartureAirports() {
+		mDepartureAirports.clear();
+	}
+
+	public Set<String> getArrivalAirports() {
+		return mArrivalAirports;
+	}
+
+	public void addArrivalAirport(String airportCode) {
+		mArrivalAirports.add(airportCode);
+	}
+
+	public void removeArrivalAirport(String airportCode) {
+		mArrivalAirports.remove(airportCode);
+	}
+
+	public void clearArrivalAirports() {
+		mArrivalAirports.clear();
 	}
 
 	public void notifyFilterChanged() {
