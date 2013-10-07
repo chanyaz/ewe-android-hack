@@ -18,7 +18,7 @@ import com.expedia.bookings.test.utils.ScreenshotSweepRunnerUtils;
 public class FlightsScreenshotSweepFromList extends CustomActivityInstrumentationTestCase<LaunchActivity> {
 
 	private FlightsTestDriver mDriver;
-	private static final String TAG = "FlightsScreenshotSweepFromList";
+	private static final String TAG = FlightsScreenshotSweepFromList.class.getSimpleName();
 	private static final String LOCALE_LIST_LOCATION =
 			Environment.getExternalStorageDirectory().getPath() + "/locales_list.txt";
 

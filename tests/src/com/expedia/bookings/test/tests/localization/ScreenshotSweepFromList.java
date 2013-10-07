@@ -27,7 +27,7 @@ public class ScreenshotSweepFromList extends
 		super(SearchActivity.class);
 	}
 
-	private static final String TAG = "POS Test";
+	private static final String TAG = ScreenshotSweepFromList.class.getSimpleName();
 	private static final String LOCALE_LIST_LOCATION =
 			Environment.getExternalStorageDirectory().getPath() + "/locales_list.txt";
 

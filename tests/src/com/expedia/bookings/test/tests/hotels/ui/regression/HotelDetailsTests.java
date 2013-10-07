@@ -14,7 +14,7 @@ import com.expedia.bookings.test.utils.CustomActivityInstrumentationTestCase;
 
 public class HotelDetailsTests extends CustomActivityInstrumentationTestCase<PhoneSearchActivity> {
 
-	private static final String TAG = HotelDetailsTests.class.getName();
+	private static final String TAG = HotelDetailsTests.class.getSimpleName();
 
 	private static HashMap<String, Integer> mAmenityNameToDrawableID;
 

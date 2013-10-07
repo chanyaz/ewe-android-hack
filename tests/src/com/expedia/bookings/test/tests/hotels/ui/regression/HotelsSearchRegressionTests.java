@@ -17,7 +17,7 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class HotelsSearchRegressionTests extends CustomActivityInstrumentationTestCase<SearchActivity> {
 
-	private static final String TAG = "Hotel Search Regression";
+	private static final String TAG = HotelsSearchRegressionTests.class.getSimpleName();
 
 	public HotelsSearchRegressionTests() {
 		super(SearchActivity.class);

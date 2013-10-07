@@ -18,7 +18,7 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 		super("com.expedia.bookings", SearchActivity.class);
 	}
 
-	private static final String TAG = "Hotels Browsing Test";
+	private static final String TAG = ReviewsTests.class.getSimpleName();
 
 	private Resources mRes;
 	DisplayMetrics mMetric;

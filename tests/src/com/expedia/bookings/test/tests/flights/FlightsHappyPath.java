@@ -11,7 +11,7 @@ public class FlightsHappyPath {
 	 * and a user as its parameters. Executes a flight happy path
 	 * test based upon these parameters.
 	 */
-	private static final String TAG = "FlightsHappyPath";
+	private static final String TAG = FlightsHappyPath.class.getSimpleName();
 
 	public static void execute(FlightsTestDriver driver, HotelsUserData user) throws Exception {
 		try {

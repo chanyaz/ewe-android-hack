@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class HotelGuestPickerTests extends CustomActivityInstrumentationTestCase<SearchActivity> {
 
-	private static final String TAG = "Hotel Search Regression";
+	private static final String TAG = HotelGuestPickerTests.class.getSimpleName();
 
 	public HotelGuestPickerTests() {
 		super(SearchActivity.class);

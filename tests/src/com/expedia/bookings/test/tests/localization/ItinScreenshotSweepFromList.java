@@ -17,7 +17,7 @@ import com.expedia.bookings.test.utils.ScreenshotSweepRunnerUtils;
 import com.expedia.bookings.widget.ItinListView;
 
 public class ItinScreenshotSweepFromList extends CustomActivityInstrumentationTestCase<LaunchActivity> {
-	private static final String TAG = "ItinScreenshotSweepFromList";
+	private static final String TAG = ItinScreenshotSweepFromList.class.getSimpleName();
 	private static final String LOCALE_LIST_LOCATION =
 			Environment.getExternalStorageDirectory().getPath() + "/locales_list.txt";
 

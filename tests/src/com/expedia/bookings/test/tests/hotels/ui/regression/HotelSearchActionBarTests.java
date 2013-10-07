@@ -11,7 +11,7 @@ import com.mobiata.testutils.CalendarTouchUtils;
 
 public class HotelSearchActionBarTests extends CustomActivityInstrumentationTestCase<SearchActivity> {
 
-	private static final String TAG = "Hotel Search Regression";
+	private static final String TAG = HotelSearchActionBarTests.class.getSimpleName();
 
 	public HotelSearchActionBarTests() {
 		super(SearchActivity.class);

@@ -5,7 +5,7 @@ import com.expedia.bookings.test.utils.CustomActivityInstrumentationTestCase;
 
 public class HotelRoomsAndRatesTests extends CustomActivityInstrumentationTestCase<PhoneSearchActivity> {
 
-	private static final String TAG = HotelRoomsAndRatesTests.class.getName();
+	private static final String TAG = HotelRoomsAndRatesTests.class.getSimpleName();
 
 	public HotelRoomsAndRatesTests() {
 		super(PhoneSearchActivity.class);

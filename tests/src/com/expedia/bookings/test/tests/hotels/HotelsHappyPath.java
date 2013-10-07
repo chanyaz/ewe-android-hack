@@ -5,7 +5,7 @@ import com.expedia.bookings.test.utils.HotelsUserData;
 
 public class HotelsHappyPath {
 
-	private static final String TAG = HotelsHappyPath.class.getName();
+	private static final String TAG = HotelsHappyPath.class.getSimpleName();
 
 	public static void execute(HotelsTestDriver driver, HotelsUserData user, int numberOfHotelsToLookAt)
 			throws Exception {

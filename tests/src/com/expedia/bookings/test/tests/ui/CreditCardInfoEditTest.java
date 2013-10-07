@@ -21,7 +21,7 @@ public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<Hot
 		super(HotelPaymentOptionsActivity.class);
 	}
 
-	private static final String TAG = "CC Edit Info Test";
+	private static final String TAG = CreditCardInfoEditTest.class.getSimpleName();
 
 	private Resources mRes;
 	DisplayMetrics mMetric;
