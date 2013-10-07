@@ -241,7 +241,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			}
 
 			boolean enabled = filteredTrips.contains(trip);
-			airlineFilterWidget.bindFlight(Db.getFlightSearch().getFilter(mLegNumber, allTrips), trip, mLegNumber);
+			airlineFilterWidget.bindFlight(Db.getFlightSearch().getFilter(mLegNumber), trip, mLegNumber);
 			airlineFilterWidget.setTag(trip);
 			airlineFilterWidget.setEnabled(enabled);
 			airlineFilterWidget.setOnCheckedChangeListener(mAirlineOnCheckedChangeListener);

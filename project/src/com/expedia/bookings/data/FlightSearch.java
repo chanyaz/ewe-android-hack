@@ -192,11 +192,7 @@ public class FlightSearch implements JSONable {
 	}
 
 	public FlightFilter getFilter(int legPosition) {
-		return mSearchState.getFilter(mSearchParams.getQueryLegCount(), legPosition, null);
-	}
-
-	public FlightFilter getFilter(int legPosition, List<FlightTrip> trips) {
-		return mSearchState.getFilter(mSearchParams.getQueryLegCount(), legPosition, trips);
+		return mSearchState.getFilter(mSearchParams.getQueryLegCount(), legPosition, getTrips(legPosition));
 	}
 
 	public FlightTripQuery queryTrips(final int legPosition) {
