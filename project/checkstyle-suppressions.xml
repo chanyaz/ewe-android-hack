@@ -12,4 +12,5 @@
     <suppress files="AbsSpinner\.java$" checks="[a-zA-Z0-9]*"/>
     <suppress files="GLTagProgressBar\.java$" checks="[a-zA-Z0-9]*"/>
     <suppress files="IcsPopupMenu\.java$" checks="[a-zA-Z0-9]*"/>
+    <suppress files="CustomEditText\.java$" checks="UnusedImports"/>
 </suppressions>
