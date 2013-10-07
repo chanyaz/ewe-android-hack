@@ -990,12 +990,12 @@
 
     <!-- For the destination stack text spans in DestinationTilesFragment -->
     <style name="DestinationStackUpperTextAppearance">
-        <item name="android:textColor">@color/actionbar_text</item>
-        <item name="android:textSize">24dp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">20dp</item>
     </style>
 
     <style name="DestinationStackLowerTextAppearance">
-        <item name="android:textColor">@color/actionbar_text</item>
+        <item name="android:textColor">#80ffffff</item>
         <item name="android:textSize">16dp</item>
     </style>
 
