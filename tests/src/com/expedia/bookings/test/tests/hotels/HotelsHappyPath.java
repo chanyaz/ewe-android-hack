@@ -10,8 +10,6 @@ public class HotelsHappyPath {
 	public static void execute(HotelsTestDriver driver, HotelsUserData user, int numberOfHotelsToLookAt)
 			throws Exception {
 		try {
-			driver.landscape();
-			driver.portrait();
 
 			try {
 				driver.sweepstakesScreen().clickNoThanksButton();
@@ -44,8 +42,6 @@ public class HotelsHappyPath {
 			driver.settingsScreen().goBack();
 
 			// Launch screen
-			driver.landscape();
-			driver.portrait();
 			driver.screenshot("Launch Screen");
 			driver.launchScreen().launchHotels();
 
