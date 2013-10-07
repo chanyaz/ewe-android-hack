@@ -200,15 +200,19 @@ public class SwipeOutLayout extends FrameLayout {
 	 * LISTENER STUFF
 	 */
 
+	public static final int SWIPE_STATE_IDLE = 0;
+	public static final int SWIPE_STATE_DRAGGING = 1;
+
+	private int mLastReportedSwipeState = SWIPE_STATE_IDLE;
+	private float mLastReportedMovePercentage = -1;
+
 	public interface ISwipeOutListener {
 
-		public void onSwipeStart();
+		public void onSwipeStateChange(int oldState, int newState);
 
 		public void onSwipeUpdate(float percentage);
 
 		public void onSwipeAllTheWay();
-
-		public void onSwipeAbort();
 	}
 
 	public void addListener(ISwipeOutListener listener) {
@@ -223,17 +227,23 @@ public class SwipeOutLayout extends FrameLayout {
 		mListeners.clear();
 	}
 
-	private void reportSwipeStart() {
-		Log.d("SwipeOut - reportSwipeStart");
-		for (ISwipeOutListener listener : mListeners) {
-			listener.onSwipeStart();
+	private void reportSwipeStateChanged(int newState) {
+		if (newState != mLastReportedSwipeState) {
+			Log.d("SwipeOut - reportSwipeStateChanged(" + newState + ")");
+			for (ISwipeOutListener listener : mListeners) {
+				listener.onSwipeStateChange(mLastReportedSwipeState, newState);
+			}
+			mLastReportedSwipeState = newState;
 		}
 	}
 
 	private void reportSwipeUpdate(float percentage) {
-		Log.d("SwipeOut - reportSwipeUpdate(" + percentage + ")");
-		for (ISwipeOutListener listener : mListeners) {
-			listener.onSwipeUpdate(percentage);
+		if (percentage != mLastReportedMovePercentage) {
+			Log.d("SwipeOut - reportSwipeUpdate(" + percentage + ")");
+			for (ISwipeOutListener listener : mListeners) {
+				listener.onSwipeUpdate(percentage);
+			}
+			mLastReportedMovePercentage = percentage;
 		}
 	}
 
@@ -244,13 +254,6 @@ public class SwipeOutLayout extends FrameLayout {
 		}
 	}
 
-	private void reportSwipeAbort() {
-		Log.d("SwipeOut - reportSwipeAbort");
-		for (ISwipeOutListener listener : mListeners) {
-			listener.onSwipeAbort();
-		}
-	}
-
 	/*
 	 * TOUCH HANDLING
 	 */
@@ -258,7 +261,6 @@ public class SwipeOutLayout extends FrameLayout {
 	private class SwipeOutTouchListener implements OnTouchListener {
 
 		private float mTouchDownPos = 0;//where we touched down (x for east,west - y for north,south)
-		private float mLastReportedMovePercentage = -1;//previously report percentage
 		private boolean mVertical = false;//is north/south?
 		private boolean mPositiveDirection = false;//should x/y be growing when you drag? true for east and south.
 
@@ -294,7 +296,7 @@ public class SwipeOutLayout extends FrameLayout {
 				}
 
 				mTouchDownPos = getTouchDownPos(event);
-				reportSwipeStart();
+				reportSwipeStateChanged(SWIPE_STATE_DRAGGING);
 				break;
 			}
 			case MotionEvent.ACTION_MOVE: {
@@ -303,17 +305,13 @@ public class SwipeOutLayout extends FrameLayout {
 				float percentage = getPercentageFromOffset(sanatized);
 
 				setTranslation(sanatized);
-
-				if (percentage != mLastReportedMovePercentage) {
-					reportSwipeUpdate(percentage);
-					mLastReportedMovePercentage = percentage;
-				}
+				reportSwipeUpdate(percentage);
 
 				break;
 			}
 			case MotionEvent.ACTION_CANCEL: {
 				setTranslation(0);
-				reportSwipeAbort();
+				reportSwipeStateChanged(SWIPE_STATE_IDLE);
 				resetVars();
 				break;
 			}
@@ -333,8 +331,8 @@ public class SwipeOutLayout extends FrameLayout {
 				else {
 					reportSwipeUpdate(0);
 					setTranslation(0);
-					reportSwipeAbort();
 				}
+				reportSwipeStateChanged(SWIPE_STATE_IDLE);
 
 				resetVars();
 				break;
@@ -345,7 +343,6 @@ public class SwipeOutLayout extends FrameLayout {
 
 		private void resetVars() {
 			mTouchDownPos = 0;
-			mLastReportedMovePercentage = -1;
 			mVertical = false;
 			mPositiveDirection = false;
 		}
