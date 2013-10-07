@@ -46,8 +46,10 @@
 
     <style name="V2.Widget.ActionBar.TabletLaunch">
         <item name="android:background">@drawable/ab_transparent_dark_blue</item>
+        <item name="android:logo">@drawable/ab_logo_tablet_launch</item>
+        <item name="android:windowContentOverlay">@drawable/ab_shadow_tablet_launch</item>
     </style>
-    
+
     <style name="V2.Widget.ActionBar.TabletResults">
         <item name="android:background">@android:color/transparent</item>
     </style>
