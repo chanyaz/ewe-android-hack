@@ -14,12 +14,13 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class HotelsRoomsRatesScreen extends ScreenActions {
 
-	private static final int sHotelNameTextViewID = R.id.name_text_view;
-	private static final int sHotelLocationTextViewID = R.id.location_text_view;
-	private static final int sHotelRatingBarID = R.id.hotel_rating_bar;
-	private static final int sListViewID = android.R.id.list;
-	private static final int sBackButtonID = android.R.id.home;
-	private static final int sFindingAvailableRoomsStringID = R.string.room_rates_loading;
+	private static final int HOTEL_NAME_TEXT_VIEW_ID = R.id.name_text_view;
+	private static final int HOTEL_LOCATION_TEXT_VIEW_ID = R.id.location_text_view;
+	private static final int HOTEL_RATING_BAR_ID = R.id.hotel_rating_bar;
+	private static final int LIST_VIEW_ID = android.R.id.list;
+	private static final int BACK_BUTTON_ID = android.R.id.home;
+	private static final int FINDING_AVAILABLE_ROOMS_STRING_ID = R.string.room_rates_loading;
+	private static final int SELECT_A_ROOM_STRING_ID = R.string.select_a_room_instruction;
 
 	public HotelsRoomsRatesScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
@@ -29,27 +30,31 @@ public class HotelsRoomsRatesScreen extends ScreenActions {
 	// Object access 
 
 	public TextView hotelNameTextView() {
-		return (TextView) getView(sHotelNameTextViewID);
+		return (TextView) getView(HOTEL_NAME_TEXT_VIEW_ID);
 	}
 
 	public TextView hotelLocationTextView() {
-		return (TextView) getView(sHotelLocationTextViewID);
+		return (TextView) getView(HOTEL_LOCATION_TEXT_VIEW_ID);
 	}
 
 	public RatingBar hotelRatingBar() {
-		return (RatingBar) getView(sHotelRatingBarID);
+		return (RatingBar) getView(HOTEL_RATING_BAR_ID);
 	}
 
 	public ListView roomList() {
-		return (ListView) getView(sListViewID);
+		return (ListView) getView(LIST_VIEW_ID);
 	}
 
 	public View backButton() {
-		return getView(sBackButtonID);
+		return getView(BACK_BUTTON_ID);
 	}
 
 	public String findingAvailableRooms() {
-		return getString(sFindingAvailableRoomsStringID);
+		return getString(FINDING_AVAILABLE_ROOMS_STRING_ID);
+	}
+
+	public String selectARoom() {
+		return getString(SELECT_A_ROOM_STRING_ID);
 	}
 
 	// Object interaction
