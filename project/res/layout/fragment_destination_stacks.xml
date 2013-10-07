@@ -14,38 +14,38 @@
 
         <com.expedia.bookings.widget.CollectionStack
             android:id="@+id/stack_asia"
-            android:layout_width="@dimen/destination_search_stack_size"
-            android:layout_height="@dimen/destination_search_stack_size" />
+            android:layout_width="@dimen/destination_search_stack_width"
+            android:layout_height="@dimen/destination_search_stack_height" />
 
         <ImageView
             android:id="@+id/view_seattle"
-            android:layout_width="@dimen/destination_search_item_size"
-            android:layout_height="@dimen/destination_search_item_size"
-            android:layout_marginTop="16dp"
+            android:layout_width="@dimen/destination_search_stack_width"
+            android:layout_height="@dimen/destination_search_stack_height"
+            android:layout_marginTop="10dp"
             android:scaleType="centerCrop" />
 
         <com.expedia.bookings.widget.CollectionStack
             android:id="@+id/stack_historic"
-            android:layout_width="@dimen/destination_search_stack_size"
-            android:layout_height="@dimen/destination_search_stack_size" />
+            android:layout_width="@dimen/destination_search_stack_width"
+            android:layout_height="@dimen/destination_search_stack_height" />
 
         <com.expedia.bookings.widget.CollectionStack
             android:id="@+id/stack_beaches"
-            android:layout_width="@dimen/destination_search_stack_size"
-            android:layout_height="@dimen/destination_search_stack_size" />
+            android:layout_width="@dimen/destination_search_stack_width"
+            android:layout_height="@dimen/destination_search_stack_height" />
 
         <ImageView
             android:id="@+id/view_portland"
-            android:layout_width="@dimen/destination_search_item_size"
-            android:layout_height="@dimen/destination_search_item_size"
-            android:layout_marginTop="16dp"
+            android:layout_width="@dimen/destination_search_stack_width"
+            android:layout_height="@dimen/destination_search_stack_height"
+            android:layout_marginTop="10dp"
             android:scaleType="centerCrop" />
 
         <ImageView
             android:id="@+id/view_toronto"
-            android:layout_width="@dimen/destination_search_item_size"
-            android:layout_height="@dimen/destination_search_item_size"
-            android:layout_marginTop="16dp"
+            android:layout_width="@dimen/destination_search_stack_width"
+            android:layout_height="@dimen/destination_search_stack_height"
+            android:layout_marginTop="10dp"
             android:scaleType="centerCrop" />
 
     </LinearLayout>
