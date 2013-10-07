@@ -4,10 +4,18 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ComposeShader;
+import android.graphics.LinearGradient;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Picture;
+import android.graphics.PorterDuff;
+import android.graphics.RadialGradient;
+import android.graphics.RectF;
+import android.graphics.Shader;
 import android.os.Bundle;
 import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
@@ -75,6 +83,13 @@ public class SvgMapFragment extends MeasurableFragment {
 
 		mPicture = SVGParser.getSVGFromResource(activity.getResources(), mapResId).getPicture();
 		mInflater = LayoutInflater.from(activity);
+
+		mProjection = new MercatorProjection();
+		double circumference = mProjection.getEllipsoid().getEquatorRadius() * 2 * Math.PI;
+		mProjection.setFalseEasting(circumference / 2);
+		mProjection.setFalseNorthing(circumference / 2);
+		mProjection.setFromMetres((1 / circumference) * mPicture.getWidth());
+		mProjection.initialize();
 	}
 
 	@Override
@@ -95,13 +110,6 @@ public class SvgMapFragment extends MeasurableFragment {
 	}
 
 	public void generateMap() {
-		mProjection = new MercatorProjection();
-		double circumference = mProjection.getEllipsoid().getEquatorRadius() * 2 * Math.PI;
-		mProjection.setFalseEasting(circumference / 2);
-		mProjection.setFalseNorthing(circumference / 2);
-		mProjection.setFromMetres((1 / circumference) * mPicture.getWidth());
-		mProjection.initialize();
-
 		int w = mMapImageView.getWidth();
 		int h = mMapImageView.getHeight();
 		Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
@@ -117,11 +125,38 @@ public class SvgMapFragment extends MeasurableFragment {
 		mMapMatrix.preTranslate((float) -tl.x, (float) -tl.y);
 		mMapMatrix.postScale(scale, scale);
 
+		// Draw scaled and translated map
 		Canvas c = new Canvas(bitmap);
 		c.setMatrix(mMapMatrix);
 		mPicture.draw(c);
+		c.setMatrix(new Matrix());
+
+		// Dot grid
+		Bitmap tiledBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.tileable_dot_grid);
+		BitmapDrawable tiled = new BitmapDrawable(tiledBitmap);
+		tiled.setTileModeX(Shader.TileMode.REPEAT);
+		tiled.setTileModeY(Shader.TileMode.REPEAT);
+		tiled.setBounds(0, 0, w, h);
+		tiled.draw(c);
+
+		// Linear Gradient
+		int[] linearGradColors = new int[]{0xFF1b2747, 0x98131c33, 0xFF131c33};
+		LinearGradient linearShader = new LinearGradient(0, 0, 0, h, linearGradColors, null, Shader.TileMode.CLAMP);
+
+		// Radial Gradient
+		float radius = Math.min(w, h) / 2.0f;
+		RadialGradient radialShader = new RadialGradient(w/2.0f, h/2.0f, radius, 0x00000000, 0x5a000000, Shader.TileMode.CLAMP);
+
+		ComposeShader compose = new ComposeShader(linearShader, radialShader, PorterDuff.Mode.OVERLAY);
+		Paint paint = new Paint();
+		paint.setShader(compose);
+		c.drawRect(new RectF(0, 0, w, h), paint);
 
 		mMapImageView.setImageDrawable(new BitmapDrawable(bitmap));
+
+		// Cleanup
+		tiled.setBitmap(null);
+		tiledBitmap.recycle();
 	}
 
 	public void generatePins() {
