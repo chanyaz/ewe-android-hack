@@ -29,7 +29,6 @@ public class FlightFilter {
 	private int mStops;
 
 	private Set<String> mPreferredAirlines;
-	private boolean mHasInitPreferredAirlines = false;
 
 	private IAirport mDepartureAirportFilter;
 	private IAirport mArrivalAirportFilter;
@@ -69,14 +68,9 @@ public class FlightFilter {
 	// This filter depends upon airlines generated at runtime, dynamic based on the given FlightSearch.
 	// Supply a list of trips to initialize this filter, where flights from all airlines are shown by default.
 	public void initPreferredAirlines(List<FlightTrip> trips, int legPosition) {
-		mHasInitPreferredAirlines = true;
 		for (FlightTrip trip : trips) {
 			mPreferredAirlines.add(trip.getLeg(legPosition).getPrimaryAirlines().iterator().next());
 		}
-	}
-
-	public boolean hasInitPreferredAirlines() {
-		return mHasInitPreferredAirlines;
 	}
 
 	public void setPreferredAirline(String airlineCode, boolean isPreferred) {
