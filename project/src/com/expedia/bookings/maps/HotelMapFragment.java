@@ -83,9 +83,6 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof HotelMapFragmentListener)) {
-			throw new RuntimeException("HotelMapFragment Activity must implement listener!");
-		}
 		if (mMap == null) {
 			// To initialize CameraUpdateFactory and BitmapDescriptorFactory
 			// since the GoogleMap is not ready
@@ -97,7 +94,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 			}
 		}
 
-		mListener = (HotelMapFragmentListener) activity;
+		mListener = Ui.findFragmentListener(this, HotelMapFragmentListener.class);
 		mListener.onHotelMapFragmentAttached(this);
 		Db.getFilter().addOnFilterChangedListener(this);
 		runReadyActions();
@@ -146,7 +143,8 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 
 		// Load graphics
 		mPin = BitmapDescriptorFactory.fromResource(R.drawable.map_pin_normal);
-		mPinSale = BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.hotelListMapMarkerSaleDrawable));
+		mPinSale = BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(),
+				R.attr.hotelListMapMarkerSaleDrawable));
 		onRestoreSavedInstanceState(savedInstanceState);
 		runReadyActions();
 	}
@@ -249,7 +247,8 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 
 	// Only call this if isReady()
 	private void addExactLocation() {
-		if (Db.getHotelSearch().getSearchResponse() != null && Db.getHotelSearch().getSearchResponse().getSearchType() != null
+		if (Db.getHotelSearch().getSearchResponse() != null
+				&& Db.getHotelSearch().getSearchResponse().getSearchType() != null
 				&& Db.getHotelSearch().getSearchResponse().getSearchType().shouldShowExactLocation()) {
 			HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 			LatLng point = new LatLng(params.getSearchLatitude(), params.getSearchLongitude());
@@ -340,7 +339,8 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 
 	public void notifyFilterChanged() {
 		if (mProperties != null && Db.getHotelSearch().getSearchResponse() != null) {
-			List<Property> newSet = Arrays.asList(Db.getHotelSearch().getSearchResponse().getFilteredAndSortedProperties());
+			List<Property> newSet = Arrays.asList(Db.getHotelSearch().getSearchResponse()
+					.getFilteredAndSortedProperties());
 
 			// Add properties we have not seen.
 			// This happens if we are already filtered,
@@ -530,7 +530,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 
 	public void onHotelSelected() {
 		setPadding(mResultsViewWidth, getHeight()
-		        - getResources().getDimensionPixelSize(R.dimen.hotels_map_pin_padding), 0, 0);
+				- getResources().getDimensionPixelSize(R.dimen.hotels_map_pin_padding), 0, 0);
 		focusProperty(Db.getHotelSearch().getSelectedProperty(), true);
 	}
 }

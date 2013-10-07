@@ -78,8 +78,7 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsActivity extends SherlockFragmentActivity implements ITabletResultsController,
 		IFlightsFruitScrollUpListViewChangeListener, IHotelsFruitScrollUpListViewChangeListener,
-		IBackgroundImageReceiverRegistrar, IBackButtonLockListener, IAddToTripListener, IFragmentAvailabilityProvider,
-		HotelMapFragmentListener, SupportMapFragmentListener {
+		IBackgroundImageReceiverRegistrar, IBackButtonLockListener, IAddToTripListener, IFragmentAvailabilityProvider {
 
 	//State
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
@@ -89,7 +88,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private static final String FTAG_HOTELS_CONTROLLER = "FTAG_HOTELS_CONTROLLER";
 	private static final String FTAG_TRIP_CONTROLLER = "FTAG_TRIP_CONTROLLER";
 	private static final String FTAG_BACKGROUND_IMAGE = "FTAG_BACKGROUND_IMAGE";
-	private static final String FTAG_HOTEL_MAP = "FTAG_HOTEL_MAP";
 
 	//Containers..
 	private ViewGroup mRootC;
@@ -117,8 +115,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private ArrayList<IBackgroundImageReceiver> mBackgroundImageReceivers = new ArrayList<IBackgroundImageReceiver>();
 	private ArrayList<ITabletResultsController> mTabletResultsControllers = new ArrayList<ITabletResultsController>();
 	private ArrayList<IAddToTripListener> mAddToTripListeners = new ArrayList<IAddToTripListener>();
-
-	private HotelMapFragment mMapFragment;
 
 	public enum GlobalResultsState {
 		DEFAULT,
@@ -443,9 +439,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
 			frag = mBackgroundImageFrag;
 		}
-		else if (tag == FTAG_HOTEL_MAP) {
-			frag = mMapFragment;
-		}
 		return frag;
 	}
 
@@ -686,54 +679,5 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		for (IAddToTripListener listener : mAddToTripListeners) {
 			listener.performTripHandoff();
 		}
-	}
-
-	@Override
-	public void onMapClicked() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onPropertyClicked(Property property) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onExactLocationClicked() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onPropertyBubbleClicked(Property property) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onHotelMapFragmentAttached(HotelMapFragment fragment) {
-		fragment.setInitialCameraPosition(CameraUpdateFactory.newLatLngBounds(HotelMapFragment.getAmericaBounds(), 0));
-		this.mMapFragment = fragment;
-	}
-
-	@Override
-	public void onMapLayout() {
-		mMapFragment.setShowInfoWindow(false);
-
-		if (mColumnManager.getTotalWidth() == 0) {
-			return;
-		}
-
-		int colWidth = mColumnManager.getColWidth(0);
-		if (colWidth != 0) {
-			mMapFragment.setResultsViewWidth(colWidth);
-		}
-		colWidth = mColumnManager.getColLeft(2);
-		if (colWidth != 0) {
-			mMapFragment.setFilterViewWidth(colWidth);
-		}
-		mMapFragment.notifySearchComplete();
 	}
 }

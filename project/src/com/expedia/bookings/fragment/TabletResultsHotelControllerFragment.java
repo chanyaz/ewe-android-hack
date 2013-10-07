@@ -23,12 +23,15 @@ import android.widget.FrameLayout;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
 import com.expedia.bookings.interfaces.ITabletResultsController;
 import com.expedia.bookings.maps.HotelMapFragment;
+import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
+import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
 import com.expedia.bookings.utils.ColumnManager;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
@@ -36,6 +39,7 @@ import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
 import com.expedia.bookings.widget.TouchThroughFrameLayout;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -44,7 +48,8 @@ import com.mobiata.android.util.Ui;
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsHotelControllerFragment extends Fragment implements ITabletResultsController,
-		ISortAndFilterListener, IResultsHotelSelectedListener, IAddToTripListener, IFragmentAvailabilityProvider {
+		ISortAndFilterListener, IResultsHotelSelectedListener, IAddToTripListener, IFragmentAvailabilityProvider,
+		HotelMapFragmentListener, SupportMapFragmentListener {
 
 	public interface IHotelsFruitScrollUpListViewChangeListener {
 		public void onHotelsStateChanged(State oldState, State newState, float percentage, View requester);
@@ -776,7 +781,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 		mHotelListFrag.gotoBottomPosition(STATE_CHANGE_ANIMATION_DURATION);
 	}
 
-	/**
+	/*
 	 * ADD TO TRIP DOWNLOAD....
 	 */
 	//NOTE THIS IS JUST A PLACEHOLDER SO THAT WE GET THE FLOW IDEA
@@ -795,6 +800,63 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 			};
 			mRootC.postDelayed(mDownloadRunner, 3000);
 		}
+	}
+	
+	/*
+	 * HotelMapFragmentListener
+	 */
+
+	@Override
+	public void onMapClicked() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onPropertyClicked(Property property) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onExactLocationClicked() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onPropertyBubbleClicked(Property property) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onHotelMapFragmentAttached(HotelMapFragment fragment) {
+		fragment.setInitialCameraPosition(CameraUpdateFactory.newLatLngBounds(HotelMapFragment.getAmericaBounds(), 0));
+		this.mMapFragment = fragment;
+	}
+	
+	/*
+	 * SupportMapFragmentListener
+	 */
+
+	@Override
+	public void onMapLayout() {
+		mMapFragment.setShowInfoWindow(false);
+
+		if (mColumnManager.getTotalWidth() == 0) {
+			return;
+		}
+
+		int colWidth = mColumnManager.getColWidth(0);
+		if (colWidth != 0) {
+			mMapFragment.setResultsViewWidth(colWidth);
+		}
+		colWidth = mColumnManager.getColLeft(2);
+		if (colWidth != 0) {
+			mMapFragment.setFilterViewWidth(colWidth);
+		}
+		mMapFragment.notifySearchComplete();
 	}
 
 }
