@@ -150,6 +150,13 @@ public class SwipeOutLayout extends FrameLayout {
 		}
 	}
 
+	@Override
+	public void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
+
+		clearListeners();
+	}
+
 	/*
 	 * ACCESSORS
 	 */
