@@ -29,6 +29,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilit
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FixedTranslationFrameLayout;
+import com.expedia.bookings.widget.SwipeOutLayout;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -44,11 +45,23 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	private ResultsBlurBackgroundImageFragment mBlurredBackgroundFrag;
 
 	private ViewGroup mRootC;
+	private FixedTranslationFrameLayout mBlurredBackgroundC;
+	
+	//These are the outer containers of the trip bucket items.
 	private BlockEventFrameLayout mTripBucketYourTripToC;
 	private BlockEventFrameLayout mTripBucketFlightC;
 	private BlockEventFrameLayout mTripBucketHotelC;
+	
+	//These are the swipeOutLayouts for the trip bucket items.
+	private SwipeOutLayout mFlightSwipeOut;
+	private SwipeOutLayout mHotelSwipeOut;
+	
+	//These are the containers for the actual trip bucket content
+	private FrameLayout mTripFlightC;
+	private FrameLayout mTripHotelC;
+	
+	//Animation containers
 	private BlockEventFrameLayout mTripAnimationC;
-	private FixedTranslationFrameLayout mBlurredBackgroundC;
 	private BlockEventFrameLayout mShadeC;
 
 	private GlobalResultsState mGlobalState;
@@ -92,6 +105,12 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		mBucketContainers.add(mTripBucketYourTripToC);
 		mBucketContainers.add(mTripBucketFlightC);
 		mBucketContainers.add(mTripBucketHotelC);
+		
+		mFlightSwipeOut = Ui.findView(view, R.id.trip_bucket_flight_trip_swipeout);
+		mHotelSwipeOut = Ui.findView(view, R.id.trip_bucket_hotel_trip_swipeout);
+		
+		mTripFlightC = Ui.findView(view, R.id.flight_trip_content);
+		mTripHotelC = Ui.findView(view, R.id.hotel_trip_content);
 
 		return view;
 	}
@@ -296,8 +315,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		mColumnManager.setContainerToColumn(mTripAnimationC, 2);
 
 		mColumnManager.setContainerToColumn(mTripBucketYourTripToC, 2);
-		mColumnManager.setContainerToColumn(mTripBucketFlightC, 2);
-		mColumnManager.setContainerToColumn(mTripBucketHotelC, 2);
+		
 
 		positionTripBucketItems(totalHeight);
 	}
@@ -306,14 +324,28 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		int viewHeight = (int) ((float) height / mBucketContainers.size());
 		int top = 0;
 		for (View container : mBucketContainers) {
-			setTopMargin(container, top, viewHeight);
+			setVerticalPos(container, top, viewHeight);
 			top += viewHeight;
 		}
+		
+		setHorizontalPos(mFlightSwipeOut.getContentView(),0,mColumnManager.getColWidth(2));
+		setHorizontalPos(mHotelSwipeOut.getContentView(),0,mColumnManager.getColWidth(2));
+		
+		setHorizontalPos(mTripBucketFlightC, (int)( mColumnManager.getColLeft(2) - mFlightSwipeOut.getSwipeOutDistance()),(int)(mColumnManager.getColWidth(2) + mFlightSwipeOut.getSwipeOutDistance()));
+		setHorizontalPos(mTripBucketHotelC, (int)( mColumnManager.getColLeft(2) - mHotelSwipeOut.getSwipeOutDistance()),(int)(mColumnManager.getColWidth(2) + mHotelSwipeOut.getSwipeOutDistance()));
 	}
+	
+	
 
-	private void setTopMargin(View view, int topMargin, int height) {
+	private void setVerticalPos(View view, int topMargin, int height) {
 		((FrameLayout.LayoutParams) view.getLayoutParams()).topMargin = topMargin;
 		((FrameLayout.LayoutParams) view.getLayoutParams()).height = height;
+		view.setLayoutParams(view.getLayoutParams());
+	}
+	
+	private void setHorizontalPos(View view, int leftMargin, int width){
+		((FrameLayout.LayoutParams) view.getLayoutParams()).leftMargin = leftMargin;
+		((FrameLayout.LayoutParams) view.getLayoutParams()).width = width;
 		view.setLayoutParams(view.getLayoutParams());
 	}
 
