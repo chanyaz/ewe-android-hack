@@ -130,6 +130,8 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	private final Download<HotelSearchResponse> mSearchDownload = new Download<HotelSearchResponse>() {
 		@Override
 		public HotelSearchResponse doDownload() {
+			Log.i(TAG, "Starting new widget search...");
+
 			ExpediaServices services = new ExpediaServices(getApplicationContext());
 			mSearchDownloader.addDownloadListener(WIDGET_KEY_SEARCH, services);
 			return services.search(mWidgetDeals.getSearchParams(), ExpediaServices.F_FROM_WIDGET);
@@ -382,11 +384,14 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			long timeBetweenChecks = System.currentTimeMillis() - mLastUpdatedTimeInMillis;
 			float distanceFromLastSearchedLocation = location.distanceTo(lastSearchedLocation);
 
-			Log.i(TAG, "Time between checks = " + timeBetweenChecks);
-			Log.i(TAG, "Distance from location last searched = " + distanceFromLastSearchedLocation);
-			Log.i(TAG, "Provider = " + location.getProvider());
-			if (timeBetweenChecks > TIME_THRESHOLD_FOR_DISTANCE_TRAVELLED
-					&& distanceFromLastSearchedLocation >= MIN_DISTANCE_BEFORE_UPDATE) {
+			boolean isLongEnoughFromLastSearch = timeBetweenChecks > TIME_THRESHOLD_FOR_DISTANCE_TRAVELLED;
+			boolean isFarEnoughFromLastSearch = distanceFromLastSearchedLocation >= MIN_DISTANCE_BEFORE_UPDATE;
+
+			Log.d(TAG, "Time between checks=" + timeBetweenChecks + ", is long enough=" + isLongEnoughFromLastSearch);
+			Log.d(TAG, "Distance from location last searched = " + distanceFromLastSearchedLocation
+					+ ", is far enough=" + isFarEnoughFromLastSearch);
+			Log.d(TAG, "Provider = " + location.getProvider());
+			if (isLongEnoughFromLastSearch && isFarEnoughFromLastSearch) {
 				Log.i(TAG, "Starting download for current location widgets since location has changed");
 				mWidgetDeals.getSearchParams().setSearchLatLon(location.getLatitude(), location.getLongitude());
 				startSearchDownloader();
