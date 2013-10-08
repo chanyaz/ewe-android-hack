@@ -46,20 +46,20 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 	private ViewGroup mRootC;
 	private FixedTranslationFrameLayout mBlurredBackgroundC;
-	
+
 	//These are the outer containers of the trip bucket items.
 	private BlockEventFrameLayout mTripBucketYourTripToC;
 	private BlockEventFrameLayout mTripBucketFlightC;
 	private BlockEventFrameLayout mTripBucketHotelC;
-	
+
 	//These are the swipeOutLayouts for the trip bucket items.
 	private SwipeOutLayout mFlightSwipeOut;
 	private SwipeOutLayout mHotelSwipeOut;
-	
+
 	//These are the containers for the actual trip bucket content
 	private FrameLayout mTripFlightC;
 	private FrameLayout mTripHotelC;
-	
+
 	//Animation containers
 	private BlockEventFrameLayout mTripAnimationC;
 	private BlockEventFrameLayout mShadeC;
@@ -105,10 +105,10 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		mBucketContainers.add(mTripBucketYourTripToC);
 		mBucketContainers.add(mTripBucketFlightC);
 		mBucketContainers.add(mTripBucketHotelC);
-		
+
 		mFlightSwipeOut = Ui.findView(view, R.id.trip_bucket_flight_trip_swipeout);
 		mHotelSwipeOut = Ui.findView(view, R.id.trip_bucket_hotel_trip_swipeout);
-		
+
 		mTripFlightC = Ui.findView(view, R.id.flight_trip_content);
 		mTripHotelC = Ui.findView(view, R.id.hotel_trip_content);
 
@@ -315,35 +315,40 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		mColumnManager.setContainerToColumn(mTripAnimationC, 2);
 
 		mColumnManager.setContainerToColumn(mTripBucketYourTripToC, 2);
-		
 
 		positionTripBucketItems(totalHeight);
 	}
 
 	private void positionTripBucketItems(int height) {
+		//We just split the space evenly between views
 		int viewHeight = (int) ((float) height / mBucketContainers.size());
 		int top = 0;
 		for (View container : mBucketContainers) {
 			setVerticalPos(container, top, viewHeight);
 			top += viewHeight;
 		}
-		
-		setHorizontalPos(mFlightSwipeOut.getContentView(),0,mColumnManager.getColWidth(2));
-		setHorizontalPos(mHotelSwipeOut.getContentView(),0,mColumnManager.getColWidth(2));
-		
-		setHorizontalPos(mTripBucketFlightC, (int)( mColumnManager.getColLeft(2) - mFlightSwipeOut.getSwipeOutDistance()),(int)(mColumnManager.getColWidth(2) + mFlightSwipeOut.getSwipeOutDistance()));
-		setHorizontalPos(mTripBucketHotelC, (int)( mColumnManager.getColLeft(2) - mHotelSwipeOut.getSwipeOutDistance()),(int)(mColumnManager.getColWidth(2) + mHotelSwipeOut.getSwipeOutDistance()));
+
+		//We set the content containers to be the column width
+		setHorizontalPos(mTripFlightC, 0, mColumnManager.getColWidth(2));
+		setHorizontalPos(mTripHotelC, 0, mColumnManager.getColWidth(2));
+
+		int flightSwipeOutDistance = (int) mFlightSwipeOut.getSwipeOutDistance();
+		int hotelSwipeOutDistance = (int) mHotelSwipeOut.getSwipeOutDistance();
+
+		setHorizontalPos(mTripBucketFlightC, mColumnManager.getColLeft(2) - flightSwipeOutDistance,
+				mColumnManager.getColWidth(2) + flightSwipeOutDistance);
+		setHorizontalPos(mTripBucketHotelC,
+				mColumnManager.getColLeft(2) - hotelSwipeOutDistance,
+				mColumnManager.getColWidth(2) + hotelSwipeOutDistance);
 	}
-	
-	
 
 	private void setVerticalPos(View view, int topMargin, int height) {
 		((FrameLayout.LayoutParams) view.getLayoutParams()).topMargin = topMargin;
 		((FrameLayout.LayoutParams) view.getLayoutParams()).height = height;
 		view.setLayoutParams(view.getLayoutParams());
 	}
-	
-	private void setHorizontalPos(View view, int leftMargin, int width){
+
+	private void setHorizontalPos(View view, int leftMargin, int width) {
 		((FrameLayout.LayoutParams) view.getLayoutParams()).leftMargin = leftMargin;
 		((FrameLayout.LayoutParams) view.getLayoutParams()).width = width;
 		view.setLayoutParams(view.getLayoutParams());
@@ -395,8 +400,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 		Rect destRect = ScreenPositionUtils
 				.translateGlobalPositionToLocalPosition(
-						ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(isFlights ? mTripBucketFlightC
-								: mTripBucketHotelC), mRootC);
+						ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(isFlights ? mTripFlightC
+								: mTripHotelC), mRootC);
 
 		LayoutParams params = (LayoutParams) mTripAnimationC.getLayoutParams();
 		if (!mHasPreppedAddToTripAnimation || params.leftMargin != destRect.left
@@ -419,7 +424,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 			mTripAnimationC.setLayoutParams(params);
 
 			//TODO: We should be flying around something without fake in the def name
-			mTripAnimationC.addView(getFakeAnimationView(), LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+			mTripAnimationC.addView(getFakeAnimationView(), LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
 			//Translation. We setup the translation animation to start at deltaX, deltaY and animate
 			// to it's final resting place of (0,0), i.e. no translation.
@@ -451,8 +456,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 			mHasPreppedAddToTripAnimation = true;
 		}
 	}
-	
-	private View getFakeAnimationView(){
+
+	private View getFakeAnimationView() {
 		TextView tv = new TextView(getActivity());
 		tv.setText("Animation View");
 		tv.setBackgroundColor(Color.YELLOW);
