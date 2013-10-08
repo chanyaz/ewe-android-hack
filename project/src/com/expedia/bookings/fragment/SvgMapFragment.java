@@ -153,7 +153,7 @@ public class SvgMapFragment extends MeasurableFragment {
 		LinearGradient linearShader = new LinearGradient(w/2, 0, w/2, h, linearGradColors, linearGradPositions, Shader.TileMode.REPEAT);
 
 		// Radial Gradient
-		float radius = Math.min(w, h) / 1.5f;
+		float radius = Math.min(w, h) * 0.65f;
 		RadialGradient radialShader = new RadialGradient(w/2.0f, h/2.0f, radius, Color.parseColor("#00000000"), Color.parseColor("#5a000000"), Shader.TileMode.CLAMP);
 
 		ComposeShader composeShader = new ComposeShader(linearShader, radialShader, PorterDuff.Mode.SRC_OVER);
