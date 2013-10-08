@@ -10,13 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- This should eventually be removed as it has no purpose -->
-
-    <com.expedia.bookings.widget.BlockEventFrameLayout
-        android:id="@+id/column_three_trip_pane"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <!-- Trip Bucket Containers -->
 
     <com.expedia.bookings.widget.BlockEventFrameLayout

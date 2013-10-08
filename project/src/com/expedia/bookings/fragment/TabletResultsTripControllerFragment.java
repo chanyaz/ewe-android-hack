@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
@@ -38,19 +39,14 @@ import com.mobiata.android.util.Ui;
 public class TabletResultsTripControllerFragment extends Fragment implements ITabletResultsController,
 		IAddToTripListener, IFragmentAvailabilityProvider {
 
-	private static final String FTAG_TRIP_OVERVIEW = "FTAG_TRIP_OVERVIEW";
 	private static final String FTAG_BLURRED_BG = "FTAG_BLURRED_BG";
 
-	private ResultsTripOverviewFragment mTripOverviewFrag;
 	private ResultsBlurBackgroundImageFragment mBlurredBackgroundFrag;
 
 	private ViewGroup mRootC;
-	private BlockEventFrameLayout mTripOverviewC;
-
 	private BlockEventFrameLayout mTripBucketYourTripToC;
 	private BlockEventFrameLayout mTripBucketFlightC;
 	private BlockEventFrameLayout mTripBucketHotelC;
-
 	private BlockEventFrameLayout mTripAnimationC;
 	private FixedTranslationFrameLayout mBlurredBackgroundC;
 	private BlockEventFrameLayout mShadeC;
@@ -85,7 +81,6 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		View view = inflater.inflate(R.layout.fragment_tablet_results_trip, null, false);
 
 		mRootC = Ui.findView(view, R.id.root_layout);
-		mTripOverviewC = Ui.findView(view, R.id.column_three_trip_pane);
 		mBlurredBackgroundC = Ui.findView(view, R.id.column_three_blurred_bg);
 		mTripAnimationC = Ui.findView(view, R.id.trip_add_animation_view);
 		mShadeC = Ui.findView(view, R.id.column_one_shade);
@@ -111,13 +106,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		//We will be adding all of our add/removes to this transaction
 		FragmentTransaction transaction = manager.beginTransaction();
 
-		boolean tripOverviewAvailable = true;
 		boolean blurredBackgroundAvailable = true;
-
-		//Trip Overview
-		mTripOverviewFrag = (ResultsTripOverviewFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-				tripOverviewAvailable,
-				FTAG_TRIP_OVERVIEW, manager, transaction, this, R.id.column_three_trip_pane, false);
 
 		//Blurrred Background (for behind trip overview)
 		mBlurredBackgroundFrag = (ResultsBlurBackgroundImageFragment) FragmentAvailabilityUtils
@@ -132,10 +121,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	@Override
 	public Fragment getExisitingLocalInstanceFromTag(String tag) {
 		Fragment frag = null;
-		if (tag == FTAG_TRIP_OVERVIEW) {
-			frag = mTripOverviewFrag;
-		}
-		else if (tag == FTAG_BLURRED_BG) {
+		if (tag == FTAG_BLURRED_BG) {
 			frag = mBlurredBackgroundFrag;
 		}
 		return frag;
@@ -144,10 +130,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	@Override
 	public Fragment getNewFragmentInstanceFromTag(String tag) {
 		Fragment frag = null;
-		if (tag == FTAG_TRIP_OVERVIEW) {
-			frag = ResultsTripOverviewFragment.newInstance();
-		}
-		else if (tag == FTAG_BLURRED_BG) {
+		if (tag == FTAG_BLURRED_BG) {
 			frag = ResultsBlurBackgroundImageFragment.newInstance();
 		}
 		return frag;
@@ -165,12 +148,10 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 		switch (state) {
 		case DEFAULT: {
-			mTripOverviewC.setBlockNewEventsEnabled(false);
 			mTripAnimationC.setBlockNewEventsEnabled(false);
 			break;
 		}
 		default: {
-			mTripOverviewC.setBlockNewEventsEnabled(true);
 			mTripAnimationC.setBlockNewEventsEnabled(true);
 			break;
 		}
@@ -180,14 +161,12 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	private void setVisibilityState(GlobalResultsState state) {
 		switch (state) {
 		case DEFAULT: {
-			mTripOverviewC.setVisibility(View.INVISIBLE);
 			mBlurredBackgroundC.setVisibility(View.VISIBLE);
 			mTripAnimationC.setVisibility(View.INVISIBLE);
 			mShadeC.setVisibility(View.INVISIBLE);
 			break;
 		}
 		default: {
-			mTripOverviewC.setVisibility(View.INVISIBLE);
 			mBlurredBackgroundC.setVisibility(View.INVISIBLE);
 			mTripAnimationC.setVisibility(View.INVISIBLE);
 			mShadeC.setVisibility(View.INVISIBLE);
@@ -213,7 +192,6 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	@Override
 	public void setAnimatingTowardsVisibility(GlobalResultsState state) {
 		if (state == GlobalResultsState.DEFAULT) {
-			mTripOverviewC.setVisibility(View.VISIBLE);
 			mBlurredBackgroundC.setVisibility(View.VISIBLE);
 			if (mAddingHotelTrip) {
 				mTripAnimationC.setVisibility(View.VISIBLE);
@@ -227,7 +205,6 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 				&& (stateTwo == GlobalResultsState.DEFAULT || stateTwo == GlobalResultsState.HOTELS)) {
 			//Default -> Hotels or Hotels -> Default transition
 
-			mTripOverviewC.setLayerType(layerType, null);
 			mBlurredBackgroundC.setLayerType(layerType, null);
 			mTripAnimationC.setLayerType(layerType, null);
 			mShadeC.setLayerType(layerType, null);
@@ -242,7 +219,6 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 				&& (stateTwo == GlobalResultsState.DEFAULT || stateTwo == GlobalResultsState.FLIGHTS)) {
 			//Default -> Flights or Flights -> Default transition
 
-			mTripOverviewC.setLayerType(layerType, null);
 			mBlurredBackgroundC.setLayerType(layerType, null);
 			mTripAnimationC.setLayerType(layerType, null);
 
@@ -254,9 +230,6 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 	@Override
 	public void blockAllNewTouches(View requester) {
-		if (mTripOverviewC != requester) {
-			mTripOverviewC.setBlockNewEventsEnabled(true);
-		}
 		if (mTripAnimationC != requester) {
 			mTripAnimationC.setBlockNewEventsEnabled(true);
 		}
@@ -264,12 +237,11 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 	private void animateToPercentage(float percentage, boolean addingTrip) {
 		int colTwoDist = mColumnManager.getTotalWidth() - mColumnManager.getColLeft(2);
-
-		mTripOverviewC.setTranslationX(colTwoDist * (1f - percentage));
+		float translationX = colTwoDist * (1f - percentage);
 		for (View container : mBucketContainers) {
-			container.setTranslationX(colTwoDist * (1f - percentage));
+			container.setTranslationX(translationX);
 		}
-		mBlurredBackgroundC.setTranslationX(colTwoDist * (1f - percentage));
+		mBlurredBackgroundC.setTranslationX(translationX);
 	}
 
 	private void addTripPercentage(float percentage) {
@@ -320,7 +292,6 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	public void updateContentSize(int totalWidth, int totalHeight) {
 		mColumnManager.setTotalWidth(totalWidth);
 
-		mColumnManager.setContainerToColumn(mTripOverviewC, 2);
 		mColumnManager.setContainerToColumn(mBlurredBackgroundC, 2);
 		mColumnManager.setContainerToColumn(mTripAnimationC, 2);
 
@@ -390,15 +361,10 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		boolean isFlights = (mAddToTripData instanceof String && ((String) mAddToTripData)
 				.equalsIgnoreCase("FLIGHTS"));
 
-		Rect destRect;
-		if (isFlights) {
-			destRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(
-					mTripOverviewFrag.getFlightContainerRect(), mRootC);
-		}
-		else {
-			destRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(
-					mTripOverviewFrag.getHotelContainerRect(), mRootC);
-		}
+		Rect destRect = ScreenPositionUtils
+				.translateGlobalPositionToLocalPosition(
+						ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(isFlights ? mTripBucketFlightC
+								: mTripBucketHotelC), mRootC);
 
 		LayoutParams params = (LayoutParams) mTripAnimationC.getLayoutParams();
 		if (!mHasPreppedAddToTripAnimation || params.leftMargin != destRect.left
@@ -414,21 +380,14 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 			int destHeight = destRect.bottom - destRect.top;
 
 			//Position the view where it will be ending up, but sized as it will be starting...
-
 			params.leftMargin = destRect.left;
 			params.topMargin = destRect.top;
 			params.width = originWidth;
 			params.height = originHeight;
 			mTripAnimationC.setLayoutParams(params);
 
-			if (isFlights) {
-				mTripAnimationC.addView(mTripOverviewFrag.getFlightViewForAddTrip(), LayoutParams.MATCH_PARENT,
-						LayoutParams.MATCH_PARENT);
-			}
-			else {
-				mTripAnimationC.addView(mTripOverviewFrag.getHotelViewForAddTrip(), LayoutParams.MATCH_PARENT,
-						LayoutParams.MATCH_PARENT);
-			}
+			//TODO: We should be flying around something without fake in the def name
+			mTripAnimationC.addView(getFakeAnimationView(), LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
 
 			//Translation. We setup the translation animation to start at deltaX, deltaY and animate
 			// to it's final resting place of (0,0), i.e. no translation.
@@ -459,6 +418,13 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 			mHasPreppedAddToTripAnimation = true;
 		}
+	}
+	
+	private View getFakeAnimationView(){
+		TextView tv = new TextView(getActivity());
+		tv.setText("Animation View");
+		tv.setBackgroundColor(Color.YELLOW);
+		return tv;
 	}
 
 }
