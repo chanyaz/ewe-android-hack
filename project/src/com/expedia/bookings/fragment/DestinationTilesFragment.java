@@ -44,15 +44,20 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 				root.getViewTreeObserver().removeOnPreDrawListener(this);
 				CollectionStack c;
 
-				ImageView v;
-				v = Ui.findView(root, R.id.view_seattle);
-				UrlBitmapDrawable.loadImageView("http://media.expedia.com/mobiata/mobile/destination/sea_720_1140.jpg", v);
+				c = Ui.findView(root, R.id.stack_seattle);
+				c.disableStack();
+				c.setStackBackgroundDrawable(Color.rgb(216, 164, 154), "http://media.expedia.com/mobiata/mobile/destination/sea_720_1140.jpg");
+				c.setText("Destination Spotlight", "Flights from $80");
 
-				v = Ui.findView(root, R.id.view_portland);
-				UrlBitmapDrawable.loadImageView("http://media.expedia.com/mobiata/mobile/destination/pdx_720_1140.jpg", v);
+				c = Ui.findView(root, R.id.stack_portland);
+				c.disableStack();
+				c.setStackBackgroundDrawable(Color.rgb(216, 164, 154), "http://media.expedia.com/mobiata/mobile/destination/pdx_720_1140.jpg");
+				c.setText("City of Roses", "Accommodations from $78");
 
-				v = Ui.findView(root, R.id.view_toronto);
-				UrlBitmapDrawable.loadImageView("http://media.expedia.com/mobiata/mobile/destination/yyz_720_1140.jpg", v);
+				c = Ui.findView(root, R.id.stack_toronto);
+				c.disableStack();
+				c.setStackBackgroundDrawable(Color.rgb(216, 164, 154), "http://media.expedia.com/mobiata/mobile/destination/yyz_720_1140.jpg");
+				c.setText("Pleasant getaway", "Packages from $730");
 
 				c = Ui.findView(root, R.id.stack_asia);
 				c.setStackBackgroundDrawable(Color.rgb(216, 164, 154), "http://media.expedia.com/mobiata/mobile/destination/pek_720_1140.jpg");

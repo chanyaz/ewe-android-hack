@@ -53,6 +53,7 @@ public class CollectionStack extends FrameLayout {
 	private AnimateInsetLayerDrawable mCollectionBackgroundDrawable;
 
 	private int mBackgroundColor;
+	private boolean mIsStack = true;
 
 	private void init(Context context) {
 		mContext = context;
@@ -77,26 +78,39 @@ public class CollectionStack extends FrameLayout {
 		mTextView = Ui.findView(this, R.id.text);
 	}
 
-	private void setupStackBackground(int color, String url) {
-		if (mCollectionBackgroundDrawable == null) {
-			Drawable[] drawables = new Drawable[2];
-			HeaderBitmapDrawable drawable0 = makeHeaderBitmapDrawable(url);
-			drawable0.setOverlayDrawable(new ColorDrawable(Color.parseColor("#e5141d36")));
-			drawables[0] = drawable0;
-
-			HeaderBitmapDrawable drawable1 = makeHeaderBitmapDrawable(url);
-			drawable1.setOverlayDrawable(new ColorDrawable(Color.parseColor("#b2141d36")));
-			drawables[1] = drawable1;
-			mCollectionBackgroundDrawable = new AnimateInsetLayerDrawable(drawables);
-		}
-
-		mCollectionBackgroundDrawable.setPadding((int) (mBasePadding * 2));
-		setBackgroundDrawable(mCollectionBackgroundDrawable);
-		setStackPosition(-1.0f);
+	public void disableStack() {
+		mIsStack = false;
 	}
 
-	public void setStackBackgroundDrawable(int color, String url) {
-		setStackBackgroundDrawable(color, makeHeaderBitmapDrawable(url), url);
+	public void setStackBackgroundDrawable(final int color, final String url) {
+		if (mIsStack) {
+			if (mCollectionBackgroundDrawable == null) {
+				Drawable[] drawables = new Drawable[2];
+				HeaderBitmapDrawable drawable0 = makeHeaderBitmapDrawable(url);
+				drawable0.setOverlayDrawable(new ColorDrawable(Color.parseColor("#e5141d36")));
+				drawables[0] = drawable0;
+
+				HeaderBitmapDrawable drawable1 = makeHeaderBitmapDrawable(url);
+				drawable1.setOverlayDrawable(new ColorDrawable(Color.parseColor("#b2141d36")));
+				drawables[1] = drawable1;
+				mCollectionBackgroundDrawable = new AnimateInsetLayerDrawable(drawables);
+			}
+
+			mCollectionBackgroundDrawable.setPadding((int) (mBasePadding * 2));
+			setBackgroundDrawable(mCollectionBackgroundDrawable);
+
+			// Init bounds
+			setStackPosition(-1.0f);
+		}
+		else {
+			int pad = (int) (mBasePadding * 2);
+			setPadding(pad, pad, pad, pad);
+		}
+
+		if (mImageView != null) {
+			Drawable bg = makeHeaderBitmapDrawable(url);
+			mImageView.setImageDrawable(bg);
+		}
 	}
 
 	private HeaderBitmapDrawable makeHeaderBitmapDrawable(String url) {
@@ -109,20 +123,6 @@ public class CollectionStack extends FrameLayout {
 		headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(mContext.getResources(), urls, R.drawable.bg_itin_placeholder));
 
 		return headerBitmapDrawable;
-	}
-
-	public void setStackBackgroundDrawable(int color, Drawable bg, String url) {
-		setupStackBackground(color, url);
-		if (mImageView != null) {
-			mImageView.setImageDrawable(bg);
-		}
-	}
-
-	public void setStackBackgroundResource(int color, int bgRes, String url) {
-		setupStackBackground(color, url);
-		if (mImageView != null) {
-			mImageView.setImageResource(bgRes);
-		}
 	}
 
 	public void clearStackBackground() {
