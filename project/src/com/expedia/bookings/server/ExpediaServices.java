@@ -172,6 +172,9 @@ public class ExpediaServices implements DownloadListener {
 	// redirects has revealed issues in the past.
 	private static final int F_ALLOW_REDIRECT = 256;
 
+	// Indicator that this request came from the widget, for tracking purposes
+	public static final int F_FROM_WIDGET = 512;
+
 	private Context mContext;
 
 	// For cancelling requests
@@ -555,8 +558,8 @@ public class ExpediaServices implements DownloadListener {
 	//
 	// Documentation: http://www.expedia.com/static/mobile/APIConsole/
 
-	public HotelSearchResponse search(HotelSearchParams params, int sortType) {
-		List<BasicNameValuePair> query = generateHotelSearchParams(params, sortType);
+	public HotelSearchResponse search(HotelSearchParams params, int flags) {
+		List<BasicNameValuePair> query = generateHotelSearchParams(params, flags);
 
 		HotelSearchResponseHandler rh = new HotelSearchResponseHandler(mContext);
 		if (params.hasSearchLatLon()) {
@@ -567,7 +570,7 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("MobileHotel/Webapp/SearchResults", query, rh, 0);
 	}
 
-	public List<BasicNameValuePair> generateHotelSearchParams(HotelSearchParams params, int sortType) {
+	public List<BasicNameValuePair> generateHotelSearchParams(HotelSearchParams params, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		if (getEndPoint(mContext) == EndPoint.MOCK_SERVER) {
@@ -593,6 +596,10 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		addHotelSearchParams(query, params);
+
+		if ((flags & F_FROM_WIDGET) != 0) {
+			query.add(new BasicNameValuePair("fromWidget", "true"));
+		}
 
 		// These values are always the same (for now)
 		query.add(new BasicNameValuePair("resultsPerPage", HOTEL_MAX_RESULTS + ""));
