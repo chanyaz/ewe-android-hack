@@ -85,13 +85,17 @@ public class CollectionStack extends FrameLayout {
 	public void setStackBackgroundDrawable(final int color, final String url) {
 		if (mIsStack) {
 			if (mCollectionBackgroundDrawable == null) {
+				int gradColor;
+
 				Drawable[] drawables = new Drawable[2];
 				HeaderBitmapDrawable drawable0 = makeHeaderBitmapDrawable(url);
-				drawable0.setOverlayDrawable(new ColorDrawable(Color.parseColor("#e5141d36")));
+				gradColor = Color.parseColor("#e5141d36");
+				drawable0.setGradient(new int[]{gradColor, gradColor}, null);
 				drawables[0] = drawable0;
 
 				HeaderBitmapDrawable drawable1 = makeHeaderBitmapDrawable(url);
-				drawable1.setOverlayDrawable(new ColorDrawable(Color.parseColor("#b2141d36")));
+				gradColor = Color.parseColor("#b2141d36");
+				drawable1.setGradient(new int[]{gradColor, gradColor}, null);
 				drawables[1] = drawable1;
 				mCollectionBackgroundDrawable = new AnimateInsetLayerDrawable(drawables);
 			}
