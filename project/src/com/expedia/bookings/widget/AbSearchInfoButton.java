@@ -18,7 +18,7 @@ public class AbSearchInfoButton extends TextView {
 
 	public boolean bindFromDb(Context context) {
 		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchParams() != null) {
-			String city = Db.getFlightSearch().getSearchParams().getDepartureLocation().getCity();
+			String city = Db.getFlightSearch().getSearchParams().getArrivalLocation().getCity();
 			String dateStr;
 
 			int flags = DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_ABBREV_WEEKDAY;
