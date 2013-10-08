@@ -101,6 +101,12 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	}
 
 	@Override
+	public void onDetach() {
+		super.onDetach();
+		Db.getFilter().removeOnFilterChangedListener(this);
+	}
+
+	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
@@ -402,7 +408,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		Marker marker = mPropertiesToMarkers.get(property);
 		marker.hideInfoWindow();
 	}
-	
+
 	public void setMapPaddingFromFilterState(boolean filtersShowing) {
 		int width = filtersShowing ? mFilterViewWidth : mResultsViewWidth;
 		mFilterOpen = filtersShowing;
