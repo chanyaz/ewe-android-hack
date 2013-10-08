@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -8,34 +9,98 @@
         android:id="@+id/column_three_blurred_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    
+
     <!-- This should eventually be removed as it has no purpose -->
+
     <com.expedia.bookings.widget.BlockEventFrameLayout
         android:id="@+id/column_three_trip_pane"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    
-	<!-- Trip Bucket Containers  -->
-	    
+
+    <!-- Trip Bucket Containers -->
+
     <com.expedia.bookings.widget.BlockEventFrameLayout
         android:id="@+id/trip_bucket_your_trip_to"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#00FF00" />
-    
+
     <com.expedia.bookings.widget.BlockEventFrameLayout
         android:id="@+id/trip_bucket_flight_trip"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#0000FF" />
-    
+        android:background="#660000FF" >
+
+        <com.expedia.bookings.widget.SwipeOutLayout
+            android:id="@+id/trip_bucket_flight_trip_swipeout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:swipeOutContentId="@+id/flight_trip_content"
+            app:swipeOutDirection="west"
+            app:swipeOutIndicatorId="@+id/flight_swipe_out_indicator_image" >
+
+            <com.expedia.bookings.widget.BlockEventFrameLayout
+                android:id="@+id/flight_trip_content"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" >
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="match_parent"
+                    android:background="#6666FF"
+                    android:gravity="center"
+                    android:paddingBottom="50dp"
+                    android:paddingTop="50dp"
+                    android:text="Flight Trip" />
+            </com.expedia.bookings.widget.BlockEventFrameLayout>
+
+            <ImageView
+                android:id="@id/flight_swipe_out_indicator_image"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="#66000000"
+                android:src="@drawable/ic_error_blue" />
+        </com.expedia.bookings.widget.SwipeOutLayout>
+    </com.expedia.bookings.widget.BlockEventFrameLayout>
+
     <com.expedia.bookings.widget.BlockEventFrameLayout
         android:id="@+id/trip_bucket_hotel_trip"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FF0000" />
-    
-    
+        android:background="#66FF0000" >
+
+        <com.expedia.bookings.widget.SwipeOutLayout
+            android:id="@+id/trip_bucket_hotel_trip_swipeout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:swipeOutContentId="@+id/hotel_trip_content"
+            app:swipeOutDirection="west"
+            app:swipeOutIndicatorId="@+id/hotel_swipe_out_indicator_image" >
+
+            <com.expedia.bookings.widget.BlockEventFrameLayout
+                android:id="@+id/hotel_trip_content"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" >
+
+                <TextView
+                    android:layout_width="250dp"
+                    android:layout_height="match_parent"
+                    android:background="#FF6666"
+                    android:gravity="center"
+                    android:paddingBottom="50dp"
+                    android:paddingTop="50dp"
+                    android:text="Hotel Trip" />
+            </com.expedia.bookings.widget.BlockEventFrameLayout>
+
+            <ImageView
+                android:id="@id/hotel_swipe_out_indicator_image"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="#66000000"
+                android:src="@drawable/ic_error_blue" />
+        </com.expedia.bookings.widget.SwipeOutLayout>
+    </com.expedia.bookings.widget.BlockEventFrameLayout>
+
     <!-- Animation containers -->
 
     <com.expedia.bookings.widget.BlockEventFrameLayout

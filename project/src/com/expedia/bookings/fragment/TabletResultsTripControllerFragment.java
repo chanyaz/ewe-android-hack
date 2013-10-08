@@ -46,11 +46,11 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 	private ViewGroup mRootC;
 	private BlockEventFrameLayout mTripOverviewC;
-	
+
 	private BlockEventFrameLayout mTripBucketYourTripToC;
 	private BlockEventFrameLayout mTripBucketFlightC;
 	private BlockEventFrameLayout mTripBucketHotelC;
-	
+
 	private BlockEventFrameLayout mTripAnimationC;
 	private FixedTranslationFrameLayout mBlurredBackgroundC;
 	private BlockEventFrameLayout mShadeC;
@@ -70,7 +70,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	private CubicBezierAnimation mBezierAnimation;
 	private float mAddTripEndScaleX = 1f;
 	private float mAddTripEndScaleY = 1f;
-	
+
 	private ArrayList<BlockEventFrameLayout> mBucketContainers = new ArrayList<BlockEventFrameLayout>();
 
 	@Override
@@ -89,11 +89,11 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		mBlurredBackgroundC = Ui.findView(view, R.id.column_three_blurred_bg);
 		mTripAnimationC = Ui.findView(view, R.id.trip_add_animation_view);
 		mShadeC = Ui.findView(view, R.id.column_one_shade);
-		
-		mTripBucketYourTripToC= Ui.findView(view, R.id.trip_bucket_your_trip_to);
-		mTripBucketFlightC= Ui.findView(view, R.id.trip_bucket_flight_trip);
-		mTripBucketHotelC= Ui.findView(view, R.id.trip_bucket_hotel_trip);
-		
+
+		mTripBucketYourTripToC = Ui.findView(view, R.id.trip_bucket_your_trip_to);
+		mTripBucketFlightC = Ui.findView(view, R.id.trip_bucket_flight_trip);
+		mTripBucketHotelC = Ui.findView(view, R.id.trip_bucket_hotel_trip);
+
 		mBucketContainers.add(mTripBucketYourTripToC);
 		mBucketContainers.add(mTripBucketFlightC);
 		mBucketContainers.add(mTripBucketHotelC);
@@ -180,7 +180,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	private void setVisibilityState(GlobalResultsState state) {
 		switch (state) {
 		case DEFAULT: {
-			mTripOverviewC.setVisibility(View.VISIBLE);
+			mTripOverviewC.setVisibility(View.INVISIBLE);
 			mBlurredBackgroundC.setVisibility(View.VISIBLE);
 			mTripAnimationC.setVisibility(View.INVISIBLE);
 			mShadeC.setVisibility(View.INVISIBLE);
@@ -231,8 +231,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 			mBlurredBackgroundC.setLayerType(layerType, null);
 			mTripAnimationC.setLayerType(layerType, null);
 			mShadeC.setLayerType(layerType, null);
-			
-			for(View container : mBucketContainers){
+
+			for (View container : mBucketContainers) {
 				container.setLayerType(layerType, null);
 			}
 
@@ -245,8 +245,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 			mTripOverviewC.setLayerType(layerType, null);
 			mBlurredBackgroundC.setLayerType(layerType, null);
 			mTripAnimationC.setLayerType(layerType, null);
-			
-			for(View container : mBucketContainers){
+
+			for (View container : mBucketContainers) {
 				container.setLayerType(layerType, null);
 			}
 		}
@@ -266,7 +266,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		int colTwoDist = mColumnManager.getTotalWidth() - mColumnManager.getColLeft(2);
 
 		mTripOverviewC.setTranslationX(colTwoDist * (1f - percentage));
-		for(View container : mBucketContainers){
+		for (View container : mBucketContainers) {
 			container.setTranslationX(colTwoDist * (1f - percentage));
 		}
 		mBlurredBackgroundC.setTranslationX(colTwoDist * (1f - percentage));
@@ -323,28 +323,28 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		mColumnManager.setContainerToColumn(mTripOverviewC, 2);
 		mColumnManager.setContainerToColumn(mBlurredBackgroundC, 2);
 		mColumnManager.setContainerToColumn(mTripAnimationC, 2);
-		
+
 		mColumnManager.setContainerToColumn(mTripBucketYourTripToC, 2);
 		mColumnManager.setContainerToColumn(mTripBucketFlightC, 2);
 		mColumnManager.setContainerToColumn(mTripBucketHotelC, 2);
-		
+
 		positionTripBucketItems(totalHeight);
 	}
-	
-	private void positionTripBucketItems(int height){
-		int viewHeight = (int) ((float)height /mBucketContainers.size());
+
+	private void positionTripBucketItems(int height) {
+		int viewHeight = (int) ((float) height / mBucketContainers.size());
 		int top = 0;
-		for(View container : mBucketContainers){
-			setTopMargin(container, top);
-			top+= viewHeight;
+		for (View container : mBucketContainers) {
+			setTopMargin(container, top, viewHeight);
+			top += viewHeight;
 		}
 	}
-	
-	private void setTopMargin(View view, int topMargin){
-		((FrameLayout.LayoutParams)view.getLayoutParams()).topMargin = topMargin;
+
+	private void setTopMargin(View view, int topMargin, int height) {
+		((FrameLayout.LayoutParams) view.getLayoutParams()).topMargin = topMargin;
+		((FrameLayout.LayoutParams) view.getLayoutParams()).height = height;
 		view.setLayoutParams(view.getLayoutParams());
 	}
-		
 
 	@Override
 	public boolean handleBackPressed() {
