@@ -428,7 +428,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	public Fragment getExisitingLocalInstanceFromTag(String tag) {
 		Fragment frag = null;
 		if (tag == FTAG_FLIGHTS_CONTROLLER) {
-			frag = new TabletResultsFlightControllerFragment();
+			frag = mFlightsController;
 		}
 		else if (tag == FTAG_HOTELS_CONTROLLER) {
 			frag = mHotelsController;
@@ -446,7 +446,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	public Fragment getNewFragmentInstanceFromTag(String tag) {
 		Fragment frag = null;
 		if (tag == FTAG_FLIGHTS_CONTROLLER) {
-			frag = mFlightsController;
+			frag = new TabletResultsFlightControllerFragment();
 		}
 		else if (tag == FTAG_HOTELS_CONTROLLER) {
 			frag = new TabletResultsHotelControllerFragment();
