@@ -19,6 +19,7 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Build;
@@ -61,6 +62,7 @@ import com.mobiata.android.util.IoUtils;
 /**
  * A large search fragment only suitable for tablet sizes.
  */
+@TargetApi(14)
 public class TabletSearchFragment extends MeasurableFragment implements OnClickListener, SuggestionsFragmentListener,
 		FusedLocationProviderListener, DatesFragmentListener, GuestsDialogFragmentListener {
 
