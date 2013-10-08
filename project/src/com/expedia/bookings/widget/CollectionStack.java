@@ -1,6 +1,9 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
+
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -14,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.utils.ColorUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
@@ -35,6 +40,8 @@ public class CollectionStack extends FrameLayout {
 		init(context);
 	}
 
+	private Context mContext;
+
 	private float mBasePadding;
 	private int mFirstDrawableBottom;
 	private int mFirstDrawableTop;
@@ -48,16 +55,18 @@ public class CollectionStack extends FrameLayout {
 	private int mBackgroundColor;
 
 	private void init(Context context) {
-		mBasePadding = context.getResources().getDimension(R.dimen.destination_stack_padding);
+		mContext = context;
+
+		mBasePadding = mContext.getResources().getDimension(R.dimen.destination_stack_padding);
 		mFirstDrawableBottom = (int) (mBasePadding * 4);
 		mFirstDrawableTop = 0;
 		mSecondDrawableBottom = (int) (mBasePadding * 3);
 		mSecondDrawableTop = (int) (mBasePadding);
 
-		LayoutInflater inflater = LayoutInflater.from(context);
+		LayoutInflater inflater = LayoutInflater.from(mContext);
 		View root = inflater.inflate(R.layout.widget_collection_stack, this);
 
-		mBackgroundColor = context.getResources().getColor(R.color.tablet_bg_tiles_blend);
+		mBackgroundColor = mContext.getResources().getColor(R.color.tablet_bg_tiles_blend);
 	}
 
 	@Override
@@ -68,11 +77,16 @@ public class CollectionStack extends FrameLayout {
 		mTextView = Ui.findView(this, R.id.text);
 	}
 
-	private void setupStackBackground(int color) {
+	private void setupStackBackground(int color, String url) {
 		if (mCollectionBackgroundDrawable == null) {
 			Drawable[] drawables = new Drawable[2];
-			drawables[0] = new ColorDrawable(ColorUtils.blend(color, mBackgroundColor, 0.70f));
-			drawables[1] = new ColorDrawable(ColorUtils.blend(color, mBackgroundColor, 0.35f));
+			HeaderBitmapDrawable drawable0 = makeHeaderBitmapDrawable(url);
+			drawable0.setOverlayDrawable(new ColorDrawable(Color.parseColor("#e5141d36")));
+			drawables[0] = drawable0;
+
+			HeaderBitmapDrawable drawable1 = makeHeaderBitmapDrawable(url);
+			drawable1.setOverlayDrawable(new ColorDrawable(Color.parseColor("#b2141d36")));
+			drawables[1] = drawable1;
 			mCollectionBackgroundDrawable = new AnimateInsetLayerDrawable(drawables);
 		}
 
@@ -82,20 +96,30 @@ public class CollectionStack extends FrameLayout {
 	}
 
 	public void setStackBackgroundDrawable(int color, String url) {
-		ColorDrawable drawable = new ColorDrawable(color);
-		setStackBackgroundDrawable(color, drawable);
-		UrlBitmapDrawable.loadImageView(url, mImageView);
+		setStackBackgroundDrawable(color, makeHeaderBitmapDrawable(url), url);
 	}
 
-	public void setStackBackgroundDrawable(int color, Drawable bg) {
-		setupStackBackground(color);
+	private HeaderBitmapDrawable makeHeaderBitmapDrawable(String url) {
+		HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
+                headerBitmapDrawable.setCornerMode(CornerMode.ALL);
+                headerBitmapDrawable.setCornerRadius(mContext.getResources().getDimensionPixelSize(R.dimen.destination_stack_corner_radius));
+
+		ArrayList<String> urls = new ArrayList<String>();
+		urls.add(url);
+		headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(mContext.getResources(), urls, R.drawable.bg_itin_placeholder));
+
+		return headerBitmapDrawable;
+	}
+
+	public void setStackBackgroundDrawable(int color, Drawable bg, String url) {
+		setupStackBackground(color, url);
 		if (mImageView != null) {
 			mImageView.setImageDrawable(bg);
 		}
 	}
 
-	public void setStackBackgroundResource(int color, int bgRes) {
-		setupStackBackground(color);
+	public void setStackBackgroundResource(int color, int bgRes, String url) {
+		setupStackBackground(color, url);
 		if (mImageView != null) {
 			mImageView.setImageResource(bgRes);
 		}
