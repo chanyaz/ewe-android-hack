@@ -295,6 +295,8 @@
             <enum name="west" value="3" />
         </attr>
         <attr name="swipeOutEnabled" format="boolean" />
+        <attr name="swipeOutContentId" format="reference"/>
+        <attr name="swipeOutIndicatorId" format="reference"/>
     </declare-styleable>
     
 </resources>

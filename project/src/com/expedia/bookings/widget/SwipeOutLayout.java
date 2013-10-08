@@ -38,6 +38,9 @@ public class SwipeOutLayout extends FrameLayout {
 
 	private ArrayList<ISwipeOutListener> mListeners = new ArrayList<ISwipeOutListener>();
 
+	private int mContentResId = R.id.swipe_out_content;
+	private int mIndicatorResId = R.id.swipe_out_indicator;
+
 	private float mMaxSlideOutDistance;
 	private View mContentView;
 	private View mSwipeOutView;
@@ -72,6 +75,10 @@ public class SwipeOutLayout extends FrameLayout {
 						mSwipeDirection.ordinal())];
 				mSwipeEnabled = true;
 			}
+
+			mContentResId = ta.getResourceId(R.styleable.SwipeOutLayout_swipeOutContentId, mContentResId);
+			mIndicatorResId = ta.getResourceId(R.styleable.SwipeOutLayout_swipeOutIndicatorId, mIndicatorResId);
+
 			mSwipeEnabled = ta.getBoolean(R.styleable.SwipeOutLayout_swipeOutEnabled, mSwipeEnabled);
 
 			ta.recycle();
@@ -83,12 +90,12 @@ public class SwipeOutLayout extends FrameLayout {
 	public void onFinishInflate() {
 		super.onFinishInflate();
 
-		mContentView = Ui.findView(this, R.id.swipe_out_content);
-		mSwipeOutView = Ui.findView(this, R.id.swipe_out_indicator);
+		mContentView = Ui.findView(this, mContentResId);
+		mSwipeOutView = Ui.findView(this, mIndicatorResId);
 
 		if (mContentView == null || mSwipeOutView == null || getChildCount() != 2) {
 			throw new RuntimeException(
-					"SwipeOutLayout must be defined with exactly two children having ids: R.id.swipe_out_content and R.id.swipe_out_indicator");
+					"SwipeOutLayout must be defined with exactly two children having ids: R.id.swipe_out_content and R.id.swipe_out_indicator (custom ids are possible if set via attributes)");
 		}
 
 		mContentView.bringToFront();
