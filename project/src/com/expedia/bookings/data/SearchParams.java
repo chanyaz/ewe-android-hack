@@ -275,10 +275,12 @@ public class SearchParams implements Parcelable, JSONable {
 
 		Location depLocation = new Location(mOrigin.getLocation());
 		depLocation.setDestinationId(mOrigin.getAirportCode());
+		depLocation.setDescription(mOrigin.getFullName());
 		params.setDepartureLocation(depLocation);
 
 		Location arrLocation = new Location(mDestination.getLocation());
 		arrLocation.setDestinationId(mDestination.getAirportCode());
+		arrLocation.setDescription(mDestination.getFullName());
 		params.setArrivalLocation(arrLocation);
 
 		if (mStartDate != null) {
