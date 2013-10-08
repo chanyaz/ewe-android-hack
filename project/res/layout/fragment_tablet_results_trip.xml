@@ -8,11 +8,35 @@
         android:id="@+id/column_three_blurred_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
+    
+    <!-- This should eventually be removed as it has no purpose -->
     <com.expedia.bookings.widget.BlockEventFrameLayout
         android:id="@+id/column_three_trip_pane"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    
+	<!-- Trip Bucket Containers  -->
+	    
+    <com.expedia.bookings.widget.BlockEventFrameLayout
+        android:id="@+id/trip_bucket_your_trip_to"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00FF00" />
+    
+    <com.expedia.bookings.widget.BlockEventFrameLayout
+        android:id="@+id/trip_bucket_flight_trip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#0000FF" />
+    
+    <com.expedia.bookings.widget.BlockEventFrameLayout
+        android:id="@+id/trip_bucket_hotel_trip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FF0000" />
+    
+    
+    <!-- Animation containers -->
 
     <com.expedia.bookings.widget.BlockEventFrameLayout
         android:id="@+id/column_one_shade"
