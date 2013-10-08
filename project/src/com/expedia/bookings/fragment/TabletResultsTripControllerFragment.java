@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
 import com.expedia.bookings.animation.CubicBezierAnimation;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.ITabletResultsController;
 import com.expedia.bookings.utils.ColumnManager;
@@ -65,6 +66,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	private BlockEventFrameLayout mShadeC;
 
 	private GlobalResultsState mGlobalState;
+	private int mTotalHeight = 0;
 	private ColumnManager mColumnManager = new ColumnManager(3);
 	private ITabletResultsController mParentResultsController;
 
@@ -180,12 +182,18 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	private void setVisibilityState(GlobalResultsState state) {
 		switch (state) {
 		case DEFAULT: {
+			mTripBucketYourTripToC.setVisibility(View.VISIBLE);
+			mTripBucketFlightC.setVisibility(hasFlightTrip() ? View.VISIBLE : View.INVISIBLE);
+			mTripBucketHotelC.setVisibility(hasHotelTrip() ? View.VISIBLE : View.INVISIBLE);
 			mBlurredBackgroundC.setVisibility(View.VISIBLE);
 			mTripAnimationC.setVisibility(View.INVISIBLE);
 			mShadeC.setVisibility(View.INVISIBLE);
 			break;
 		}
 		default: {
+			mTripBucketYourTripToC.setVisibility(View.INVISIBLE);
+			mTripBucketFlightC.setVisibility(View.INVISIBLE);
+			mTripBucketHotelC.setVisibility(View.INVISIBLE);
 			mBlurredBackgroundC.setVisibility(View.INVISIBLE);
 			mTripAnimationC.setVisibility(View.INVISIBLE);
 			mShadeC.setVisibility(View.INVISIBLE);
@@ -309,6 +317,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 	@Override
 	public void updateContentSize(int totalWidth, int totalHeight) {
+		mTotalHeight = totalHeight;
 		mColumnManager.setTotalWidth(totalWidth);
 
 		mColumnManager.setContainerToColumn(mBlurredBackgroundC, 2);
@@ -316,30 +325,63 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 		mColumnManager.setContainerToColumn(mTripBucketYourTripToC, 2);
 
-		positionTripBucketItems(totalHeight);
+		positionTripBucketItems(false);
 	}
 
-	private void positionTripBucketItems(int height) {
+	private int getNumberOfBucketContainers() {
+		if (hasFlightTrip() && hasHotelTrip()) {
+			//We have two trips and the "your trip to"
+			return 3;
+		}
+		else {
+			//We have the "your trip to" container, and maybe a trip
+			return 2;
+		}
+	}
+
+	private boolean hasFlightTrip() {
+		return Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedFlightTrip() != null;
+	}
+
+	private boolean hasHotelTrip() {
+		return Db.getHotelSearch() != null && Db.getHotelSearch().getSelectedProperty() != null;
+	}
+
+	private void positionTripBucketItems(boolean verticalOnly) {
 		//We just split the space evenly between views
-		int viewHeight = (int) ((float) height / mBucketContainers.size());
-		int top = 0;
-		for (View container : mBucketContainers) {
-			setVerticalPos(container, top, viewHeight);
-			top += viewHeight;
+		int viewHeight = (int) ((float) mTotalHeight / getNumberOfBucketContainers());
+		int currentTop = 0;
+
+		setVerticalPos(mTripBucketYourTripToC, currentTop, viewHeight);
+		currentTop += viewHeight;
+		if (hasFlightTrip() || hasHotelTrip()) {
+			if (hasFlightTrip()) {
+				setVerticalPos(mTripBucketFlightC, currentTop, viewHeight);
+				currentTop += viewHeight;
+			}
+			if (hasHotelTrip()) {
+				setVerticalPos(mTripBucketHotelC, currentTop, viewHeight);
+				currentTop += viewHeight;
+			}
+		}
+		else {
+			//TODO: ADD AN EMPTY TRIP BUCKET CONTAINER WITH APPROPRIATE MESSAGING
 		}
 
-		//We set the content containers to be the column width
-		setHorizontalPos(mTripFlightC, 0, mColumnManager.getColWidth(2));
-		setHorizontalPos(mTripHotelC, 0, mColumnManager.getColWidth(2));
+		if (!verticalOnly) {
+			//We set the content containers to be the column width
+			setHorizontalPos(mTripFlightC, 0, mColumnManager.getColWidth(2));
+			setHorizontalPos(mTripHotelC, 0, mColumnManager.getColWidth(2));
 
-		int flightSwipeOutDistance = (int) mFlightSwipeOut.getSwipeOutDistance();
-		int hotelSwipeOutDistance = (int) mHotelSwipeOut.getSwipeOutDistance();
+			int flightSwipeOutDistance = (int) mFlightSwipeOut.getSwipeOutDistance();
+			int hotelSwipeOutDistance = (int) mHotelSwipeOut.getSwipeOutDistance();
 
-		setHorizontalPos(mTripBucketFlightC, mColumnManager.getColLeft(2) - flightSwipeOutDistance,
-				mColumnManager.getColWidth(2) + flightSwipeOutDistance);
-		setHorizontalPos(mTripBucketHotelC,
-				mColumnManager.getColLeft(2) - hotelSwipeOutDistance,
-				mColumnManager.getColWidth(2) + hotelSwipeOutDistance);
+			setHorizontalPos(mTripBucketFlightC, mColumnManager.getColLeft(2) - flightSwipeOutDistance,
+					mColumnManager.getColWidth(2) + flightSwipeOutDistance);
+			setHorizontalPos(mTripBucketHotelC,
+					mColumnManager.getColLeft(2) - hotelSwipeOutDistance,
+					mColumnManager.getColWidth(2) + hotelSwipeOutDistance);
+		}
 	}
 
 	private void setVerticalPos(View view, int topMargin, int height) {
@@ -370,9 +412,11 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		mAddToTripOriginCoordinates = globalCoordinates;
 		mAddToTripShadeColor = shadeColor;
 
+		//We position things
+		positionTripBucketItems(true);
+
 		//Ideally we want to put things in place and have them ready when the trip handoff happens.
 		prepareAddToTripAnimation();
-
 	}
 
 	@Override
