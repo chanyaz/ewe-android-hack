@@ -31,6 +31,7 @@ import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FixedTranslationFrameLayout;
 import com.expedia.bookings.widget.SwipeOutLayout;
+import com.expedia.bookings.widget.SwipeOutLayout.ISwipeOutListener;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -109,13 +110,59 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		mBucketContainers.add(mTripBucketHotelC);
 
 		mFlightSwipeOut = Ui.findView(view, R.id.trip_bucket_flight_trip_swipeout);
+		mFlightSwipeOut.addListener(mFlightSwipeOutListener);
 		mHotelSwipeOut = Ui.findView(view, R.id.trip_bucket_hotel_trip_swipeout);
+		mHotelSwipeOut.addListener(mHotelSwipeOutListener);
 
 		mTripFlightC = Ui.findView(view, R.id.flight_trip_content);
 		mTripHotelC = Ui.findView(view, R.id.hotel_trip_content);
 
 		return view;
 	}
+
+	private ISwipeOutListener mFlightSwipeOutListener = new ISwipeOutListener() {
+
+		@Override
+		public void onSwipeStateChange(int oldState, int newState) {
+
+		}
+
+		@Override
+		public void onSwipeUpdate(float percentage) {
+
+		}
+
+		@Override
+		public void onSwipeAllTheWay() {
+			for (int i = 0; i < Db.getFlightSearch().getSelectedLegs().length; i++) {
+				Db.getFlightSearch().setSelectedLeg(i, null);
+			}
+			positionTripBucketItems(true);
+			setVisibilityState(mGlobalState);
+		}
+
+	};
+
+	private ISwipeOutListener mHotelSwipeOutListener = new ISwipeOutListener() {
+
+		@Override
+		public void onSwipeStateChange(int oldState, int newState) {
+
+		}
+
+		@Override
+		public void onSwipeUpdate(float percentage) {
+
+		}
+
+		@Override
+		public void onSwipeAllTheWay() {
+			Db.getHotelSearch().clearSelectedProperty();
+			positionTripBucketItems(true);
+			setVisibilityState(mGlobalState);
+		}
+
+	};
 
 	private void setFragmentState(GlobalResultsState state) {
 		FragmentManager manager = getChildFragmentManager();
