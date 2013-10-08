@@ -175,8 +175,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		mSummaryDividerView = Ui.findView(this, R.id.summary_divider_view);
 
 		mSummarySectionLayout.setOnClickListener(mOnClickListener);
-		Ui.findView(this, R.id.close_image_button).setOnClickListener(mOnClickListener);
-		Ui.findView(this, R.id.itin_overflow_image_button).setOnClickListener(mOnClickListener);
+		Ui.setOnClickListener(this, R.id.close_image_button, mOnClickListener);
+		Ui.setOnClickListener(this, R.id.itin_overflow_image_button, mOnClickListener);
 
 		updateHeaderImageHeight();
 		updateClickable();
@@ -975,7 +975,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	private void showRemoveDialog() {
 		final FragmentActivity activity = (FragmentActivity) getContext();
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
-		ConfirmItinRemoveDialogFragment df = ConfirmItinRemoveDialogFragment.getInstance(mItinContentGenerator.getItinCardData().getTripComponent().getParentTrip().getTripNumber());
+		ConfirmItinRemoveDialogFragment df = ConfirmItinRemoveDialogFragment.getInstance(mItinContentGenerator
+				.getItinCardData().getTripComponent().getParentTrip().getTripNumber());
 		df.show(fragmentManager, ConfirmItinRemoveDialogFragment.TAG);
 	}
 
