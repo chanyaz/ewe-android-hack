@@ -62,6 +62,9 @@ public class FlightDetailsTests extends CustomActivityInstrumentationTestCase<Fl
 		mDriver.goBack();
 		mDriver.flightsSearchScreen().clickSearchButton();
 		mDriver.waitForStringToBeGone(mDriver.flightsSearchLoading().getLoadingFlightsString());
+		mDriver.flightsSearchResultsScreen().clickSortFlightsButton();
+		mDriver.flightsSearchResultsScreen().clickToSortByDuration();
+		mDriver.delay();
 	}
 
 	// Extremely long helper method that helps to have me
@@ -107,13 +110,14 @@ public class FlightDetailsTests extends CustomActivityInstrumentationTestCase<Fl
 				mDriver.waitForStringToBeGone(mDriver.flightLegScreen().checkingForPriceChangesString());
 				mDriver.scrollDown();
 				numberOfFlightsToTest = mDriver.flightsSearchResultsScreen().searchResultListView().getChildCount() - 1;
-				for (int j = 0; j < numberOfFlightsToTest; j++) {
+				for (int j = 1; j < numberOfFlightsToTest; j++) {
 					row = mDriver.flightsSearchResultsScreen().searchResultListView().getChildAt(j);
 					rowModel = new FlightsSearchResultRow(row);
 					resultsFlightName = rowModel.getAirlineTextView().getText().toString();
 					resultsDepartureTime = rowModel.getDepartureTimeTextView().getText().toString();
 					resultsArrivalTime = rowModel.getArrivalTimeTextView().getText().toString();
 					resultsPriceString = rowModel.getPriceTextView().getText().toString();
+					mDriver.delay();
 					mDriver.flightsSearchResultsScreen().clickOnView(row);
 					mDriver.waitForStringToBeGone(mDriver.flightLegScreen().checkingForPriceChangesString());
 
