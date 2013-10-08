@@ -64,8 +64,6 @@ public class SwipeOutLayout extends FrameLayout {
 	}
 
 	private void init(Context context, AttributeSet attrs) {
-		setOnTouchListener(new SwipeOutTouchListener());
-
 		//Read in attrs
 		if (attrs != null) {
 			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SwipeOutLayout, 0, 0);
@@ -99,6 +97,7 @@ public class SwipeOutLayout extends FrameLayout {
 		}
 
 		mContentView.bringToFront();
+		mContentView.setOnTouchListener(new SwipeOutTouchListener());
 	}
 
 	@Override
