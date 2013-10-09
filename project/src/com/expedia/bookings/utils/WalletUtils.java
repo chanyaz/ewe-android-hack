@@ -99,14 +99,8 @@ public class WalletUtils {
 	}
 
 	public static String getWalletCouponCode(Context context) {
-		if (ExpediaServices.getEndPoint(context) == EndPoint.PRODUCTION) {
-			// This is the official coupon code for Wallet on Prod
-			return "MOBILEWALLET";
-		}
-		else {
-			// This code is known to give 10% off on integration; may not work on other environments
-			return "hotelsapp2";
-		}
+		// This is the official coupon code for Wallet on Prod
+		return "MOBILEWALLET";
 	}
 
 	public static void addStandardFieldsToMaskedWalletRequest(Context context, MaskedWalletRequest.Builder builder,
