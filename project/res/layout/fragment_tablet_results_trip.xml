@@ -26,6 +26,7 @@
             android:id="@+id/trip_bucket_flight_trip_swipeout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="16dp"
             app:swipeOutContentId="@+id/flight_trip_content"
             app:swipeOutDirection="west"
             app:swipeOutIndicatorId="@+id/flight_swipe_out_indicator_image" >
@@ -54,6 +55,7 @@
             android:id="@+id/trip_bucket_hotel_trip_swipeout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="16dp"
             app:swipeOutContentId="@+id/hotel_trip_content"
             app:swipeOutDirection="west"
             app:swipeOutIndicatorId="@+id/hotel_swipe_out_indicator_image" >

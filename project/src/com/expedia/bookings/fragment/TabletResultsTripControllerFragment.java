@@ -462,8 +462,10 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 		if (!verticalOnly) {
 			//We set the content containers to be the column width
-			setHorizontalPos(mTripFlightC, 0, mColumnManager.getColWidth(2));
-			setHorizontalPos(mTripHotelC, 0, mColumnManager.getColWidth(2));
+			setHorizontalPos(mTripFlightC, 0, mColumnManager.getColWidth(2) - mFlightSwipeOut.getPaddingLeft()
+					- mFlightSwipeOut.getPaddingRight());
+			setHorizontalPos(mTripHotelC, 0, mColumnManager.getColWidth(2) - mHotelSwipeOut.getPaddingLeft()
+					- mHotelSwipeOut.getPaddingRight());
 
 			int flightSwipeOutDistance = (int) mFlightSwipeOut.getSwipeOutDistance();
 			int hotelSwipeOutDistance = (int) mHotelSwipeOut.getSwipeOutDistance();

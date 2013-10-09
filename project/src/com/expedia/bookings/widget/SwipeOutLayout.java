@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -47,6 +48,9 @@ public class SwipeOutLayout extends FrameLayout {
 	private Direction mSwipeDirection = Direction.NORTH;
 	private boolean mSwipeEnabled = false;
 	private boolean mAlwaysSnapBack = true;
+
+	Rect mLayoutRectContent = new Rect();
+	Rect mLayoutRectIndicator = new Rect();
 
 	public SwipeOutLayout(Context context) {
 		super(context);
@@ -102,10 +106,22 @@ public class SwipeOutLayout extends FrameLayout {
 
 	@Override
 	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		measureChildren(widthMeasureSpec, heightMeasureSpec);
 
+		//We measure the children, taking into account padding
+		int childMeasureSpecW = widthMeasureSpec;
+		int childMeasureSpecH = heightMeasureSpec;
+		if (MeasureSpec.getMode(childMeasureSpecW) != MeasureSpec.UNSPECIFIED) {
+			childMeasureSpecW = MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(childMeasureSpecW) - getPaddingLeft()
+					- getPaddingRight(), MeasureSpec.getMode(childMeasureSpecW));
+		}
+		if (MeasureSpec.getMode(childMeasureSpecH) != MeasureSpec.UNSPECIFIED) {
+			childMeasureSpecH = MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(childMeasureSpecH) - getPaddingTop()
+					- getPaddingBottom(), MeasureSpec.getMode(childMeasureSpecH));
+		}
+		measureChildren(childMeasureSpecW, childMeasureSpecH);
+
+		//We set our dimensions based on the size of the children
 		int width, height;
-
 		if (mSwipeDirection == Direction.NORTH || mSwipeDirection == Direction.SOUTH) {
 			//Vertical
 			height = mContentView.getMeasuredHeight() + mSwipeOutView.getMeasuredHeight();
@@ -117,43 +133,90 @@ public class SwipeOutLayout extends FrameLayout {
 			width = mContentView.getMeasuredWidth() + mSwipeOutView.getMeasuredWidth();
 		}
 
+		width = width + getPaddingRight() + getPaddingLeft();
+		height = height + getPaddingTop() + getPaddingBottom();
+
 		setMeasuredDimension(width, height);
 	}
 
 	@Override
 	public void onLayout(boolean changed, int left, int top, int right, int bottom) {
+		int pL = getPaddingLeft();
+		int pR = getPaddingRight();
+		int pT = getPaddingTop();
+		int pB = getPaddingBottom();
+
 		int width = right - left;
 		int height = bottom - top;
+		int widthNoPad = width - pL - pR;
+		int heightNoPad = height - pT - pB;
 
 		int swipeOutHeight = mSwipeOutView.getMeasuredHeight();
 		int swipeOutWidth = mSwipeOutView.getMeasuredWidth();
 
 		switch (mSwipeDirection) {
 		case NORTH: {
-			mContentView.layout(0, swipeOutHeight, width, height);
-			mSwipeOutView.layout(0, height - swipeOutHeight, width, height);
+			mLayoutRectContent.left = pL;
+			mLayoutRectContent.right = pL + widthNoPad;
+			mLayoutRectContent.top = pT + swipeOutHeight;
+			mLayoutRectContent.bottom = pT + swipeOutHeight + heightNoPad;
+
+			mLayoutRectIndicator.left = pL;
+			mLayoutRectIndicator.right = pL + widthNoPad;
+			mLayoutRectIndicator.top = pT + heightNoPad - swipeOutHeight;
+			mLayoutRectIndicator.bottom = pT + heightNoPad;
+
 			mMaxSlideOutDistance = swipeOutHeight;
 			break;
 		}
 		case SOUTH: {
-			mContentView.layout(0, 0, width, height - swipeOutHeight);
-			mSwipeOutView.layout(0, 0, width, swipeOutHeight);
+			mLayoutRectContent.left = pL;
+			mLayoutRectContent.right = pL + widthNoPad;
+			mLayoutRectContent.top = pT;
+			mLayoutRectContent.bottom = pT + heightNoPad;
+
+			mLayoutRectIndicator.left = pL;
+			mLayoutRectIndicator.right = pL + widthNoPad;
+			mLayoutRectIndicator.top = pT;
+			mLayoutRectIndicator.bottom = pT + swipeOutHeight;
+
 			mMaxSlideOutDistance = swipeOutHeight;
 			break;
 		}
 		case EAST: {
-			mContentView.layout(0, 0, width - swipeOutWidth, height);
-			mSwipeOutView.layout(0, 0, swipeOutWidth, height);
+			mLayoutRectContent.left = pL;
+			mLayoutRectContent.right = pL + widthNoPad;
+			mLayoutRectContent.top = pT;
+			mLayoutRectContent.bottom = pT + heightNoPad;
+
+			mLayoutRectIndicator.left = pL;
+			mLayoutRectIndicator.right = pL + swipeOutWidth;
+			mLayoutRectIndicator.top = pT;
+			mLayoutRectIndicator.bottom = pT + heightNoPad;
+
 			mMaxSlideOutDistance = swipeOutWidth;
 			break;
 		}
 		case WEST: {
-			mContentView.layout(swipeOutWidth, 0, width, height);
-			mSwipeOutView.layout(width - swipeOutWidth, 0, width, height);
+			mLayoutRectContent.left = pL + swipeOutWidth;
+			mLayoutRectContent.right = pL + swipeOutWidth + widthNoPad;
+			mLayoutRectContent.top = pT;
+			mLayoutRectContent.bottom = pT + heightNoPad;
+
+			mLayoutRectIndicator.left = pL + widthNoPad - swipeOutWidth;
+			mLayoutRectIndicator.right = pL + widthNoPad;
+			mLayoutRectIndicator.top = pT;
+			mLayoutRectIndicator.bottom = pT + heightNoPad;
+
 			mMaxSlideOutDistance = swipeOutWidth;
+
 			break;
 		}
 		}
+		mContentView.layout(mLayoutRectContent.left, mLayoutRectContent.top, mLayoutRectContent.right,
+				mLayoutRectContent.bottom);
+		mSwipeOutView.layout(mLayoutRectIndicator.left, mLayoutRectIndicator.top, mLayoutRectIndicator.right,
+				mLayoutRectIndicator.bottom);
 	}
 
 	@Override
