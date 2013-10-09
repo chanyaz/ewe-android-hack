@@ -45,10 +45,12 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	private static final String FTAG_BLURRED_BG = "FTAG_BLURRED_BG";
 	private static final String FTAG_YOUR_TRIP_TO = "FTAG_YOUR_TRIP_TO";
 	private static final String FTAG_BUCKET_FLIGHT = "FTAG_BUCKET_FLIGHT";
+	private static final String FTAG_BUCKET_HOTEL = "FTAG_BUCKET_HOTEL";
 
 	private ResultsBlurBackgroundImageFragment mBlurredBackgroundFrag;
 	private ResultsTripBucketYourTripToFragment mTripBucketTripToFrag;
 	private ResultsTripBucketFlightFragment mTripBucketFlightFrag;
+	private ResultsTripBucketHotelFragment mTripBucketHotelFrag;
 
 	private ViewGroup mRootC;
 	private FixedTranslationFrameLayout mBlurredBackgroundC;
@@ -181,6 +183,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		boolean blurredBackgroundAvailable = true;
 		boolean yourTripToAvailable = true;
 		boolean bucketFlightAvailable = true;
+		boolean bucketHotelAvailable = true;
 
 		mTripBucketTripToFrag = (ResultsTripBucketYourTripToFragment) FragmentAvailabilityUtils
 				.setFragmentAvailability(yourTripToAvailable, FTAG_YOUR_TRIP_TO, manager, transaction, this,
@@ -188,6 +191,9 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 		mTripBucketFlightFrag = (ResultsTripBucketFlightFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 				bucketFlightAvailable, FTAG_BUCKET_FLIGHT, manager, transaction, this, R.id.flight_trip_content, true);
+
+		mTripBucketHotelFrag = (ResultsTripBucketHotelFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+				bucketHotelAvailable, FTAG_BUCKET_HOTEL, manager, transaction, this, R.id.hotel_trip_content, true);
 
 		//Blurrred Background (for behind trip overview)
 		mBlurredBackgroundFrag = (ResultsBlurBackgroundImageFragment) FragmentAvailabilityUtils
@@ -211,6 +217,9 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		else if (tag == FTAG_BUCKET_FLIGHT) {
 			frag = mTripBucketFlightFrag;
 		}
+		else if (tag == FTAG_BUCKET_HOTEL) {
+			frag = mTripBucketHotelFrag;
+		}
 		return frag;
 	}
 
@@ -226,6 +235,9 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		else if (tag == FTAG_BUCKET_FLIGHT) {
 			frag = ResultsTripBucketFlightFragment.newInstance();
 		}
+		else if (tag == FTAG_BUCKET_HOTEL) {
+			frag = ResultsTripBucketHotelFragment.newInstance();
+		}
 		return frag;
 	}
 
@@ -236,6 +248,9 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		}
 		else if (tag == FTAG_BUCKET_FLIGHT) {
 			((ResultsTripBucketFlightFragment) frag).bindToDb();
+		}
+		else if (tag == FTAG_BUCKET_HOTEL) {
+			((ResultsTripBucketHotelFragment) frag).bindToDb();
 		}
 	}
 
