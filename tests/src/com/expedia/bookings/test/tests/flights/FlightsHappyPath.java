@@ -117,10 +117,10 @@ public class FlightsHappyPath {
 			// Checkout
 			driver.landscape();
 			driver.portrait();
-			driver.commonCheckout().clickCheckoutButton();
+			driver.flightsCheckoutScreen().clickCheckoutButton();
 			driver.enterLog(TAG, "Clicked checkout button");
 			driver.screenshot("Flights checkout");
-			driver.commonCheckout().clickLogInButton();
+			driver.flightsCheckoutScreen().clickLogInButton();
 
 			// Log in
 			driver.landscape();
@@ -135,7 +135,7 @@ public class FlightsHappyPath {
 			// Enter new payment
 			driver.landscape();
 			driver.portrait();
-			driver.commonCheckout().clickSelectPaymentButton();
+			driver.flightsCheckoutScreen().clickSelectPaymentButton();
 			driver.screenshot("Select Payment");
 			driver.commonPaymentMethodScreen().clickOnAddNewCardTextView();
 
@@ -169,8 +169,8 @@ public class FlightsHappyPath {
 			driver.cardInfoScreen().clickNoThanksButton();
 			driver.delay(1);
 
-			if (driver.searchText(driver.commonCheckout().addTravelerString(), 1, false, true)) {
-				driver.commonCheckout().clickAddTravelerString();
+			if (driver.searchText(driver.flightsCheckoutScreen().addTravelerString(), 1, false, true)) {
+				driver.flightsCheckoutScreen().clickAddTravelerString();
 				driver.travelerInformationScreen().clickEnterANewTraveler();
 				driver.travelerInformationScreen().enterLastName(user.getLastName());
 				driver.enterLog(TAG, "Entering last name: " + user.getLastName());
@@ -187,12 +187,12 @@ public class FlightsHappyPath {
 
 			driver.landscape();
 			driver.portrait();
-			if (driver.searchText(driver.commonCheckout().acceptString(), 1, false, true)) {
-				driver.commonCheckout().clickOnAcceptString();
+			if (driver.searchText(driver.flightsCheckoutScreen().acceptString(), 1, false, true)) {
+				driver.flightsCheckoutScreen().clickOnAcceptString();
 			}
 			driver.screenshot("Slide to checkout");
 			driver.enterLog(TAG, "Sliding to checkout");
-			driver.commonCheckout().slideToCheckout();
+			driver.flightsCheckoutScreen().slideToCheckout();
 			driver.delay();
 
 			driver.screenshot("CVV Entry");

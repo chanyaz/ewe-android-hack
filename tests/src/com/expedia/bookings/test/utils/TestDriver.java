@@ -7,7 +7,6 @@ import android.content.res.Resources;
 import com.expedia.bookings.test.tests.pageModels.common.BillingAddressScreen;
 import com.expedia.bookings.test.tests.pageModels.common.CVVEntryScreen;
 import com.expedia.bookings.test.tests.pageModels.common.CardInfoScreen;
-import com.expedia.bookings.test.tests.pageModels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.tests.pageModels.common.CommonPaymentMethodScreen;
 import com.expedia.bookings.test.tests.pageModels.common.CommonSelectTravelerScreen;
 import com.expedia.bookings.test.tests.pageModels.common.CommonTravelerInformationScreen;
@@ -27,7 +26,6 @@ public class TestDriver extends ScreenActions {
 	private FindItineraryScreen mFindItinerary;
 	private LogInScreen mLogInScreen;
 	private SettingsScreen mSettingsScreen;
-	private CommonCheckoutScreen mCommonCheckout;
 	private CommonPaymentMethodScreen mCommonPaymentMethod;
 	private CommonSelectTravelerScreen mSelectTravelerScreen;
 	private CommonTravelerInformationScreen mTravelerInformationScreen;
@@ -79,13 +77,6 @@ public class TestDriver extends ScreenActions {
 			mSettingsScreen = new SettingsScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
 		}
 		return mSettingsScreen;
-	}
-
-	public CommonCheckoutScreen commonCheckout() {
-		if (mCommonCheckout == null) {
-			mCommonCheckout = new CommonCheckoutScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
-		}
-		return mCommonCheckout;
 	}
 
 	public CommonSelectTravelerScreen selectTravelerScreen() {

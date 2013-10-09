@@ -149,15 +149,15 @@ public class HotelsHappyPath {
 			driver.enterLog(TAG, "Selecting first room listed for this hotel.");
 			driver.hotelsRoomsRatesScreen().selectRoom(0);
 			driver.delay();
-			driver.waitForStringToBeGone(driver.commonCheckout().calculatingTaxesAndFees());
+			driver.waitForStringToBeGone(driver.hotelsCheckoutScreen().calculatingTaxesAndFees());
 
 			// Checkout
-			driver.commonCheckout().clickCheckoutButton();
+			driver.hotelsCheckoutScreen().clickCheckoutButton();
 			driver.delay();
 			if (user.getLogInForCheckout()) {
 				driver.enterLog(TAG, "Logging in for this booking using email " + user.getLoginEmail());
 				// Log in
-				driver.commonCheckout().clickLogInButton();
+				driver.hotelsCheckoutScreen().clickLogInButton();
 				driver.screenshot("Login Screen");
 				driver.logInScreen().typeTextEmailEditText(user.getLoginEmail());
 				driver.logInScreen().typeTextPasswordEditText(user.getLoginPassword());
@@ -165,7 +165,7 @@ public class HotelsHappyPath {
 				driver.waitForStringToBeGone(driver.logInScreen().loggingInDialogString());
 
 				// Enter payment as logged in user
-				driver.commonCheckout().clickSelectPaymentButton();
+				driver.hotelsCheckoutScreen().clickSelectPaymentButton();
 				driver.scrollToBottom();
 				driver.enterLog(TAG, "Using new credit card");
 				driver.commonPaymentMethodScreen().clickOnAddNewCardTextView();
@@ -196,7 +196,7 @@ public class HotelsHappyPath {
 				driver.screenshot("Add traveler screen");
 				driver.landscape();
 				driver.portrait();
-				driver.commonCheckout().clickAddTravelerButton();
+				driver.hotelsCheckoutScreen().clickAddTravelerButton();
 				driver.selectTravelerScreen().clickEnterInfoManuallyButton();
 				driver.screenshot("Traveler information");
 				driver.landscape();
@@ -210,7 +210,7 @@ public class HotelsHappyPath {
 				driver.travelerInformationScreen().clickDoneButton();
 
 				// Select payment as guest user
-				driver.commonCheckout().clickSelectPaymentButton();
+				driver.hotelsCheckoutScreen().clickSelectPaymentButton();
 				driver.screenshot("Card info");
 				driver.landscape();
 				driver.portrait();
@@ -234,7 +234,7 @@ public class HotelsHappyPath {
 			}
 
 			try {
-				driver.commonCheckout().clickCheckoutButton();
+				driver.hotelsCheckoutScreen().clickCheckoutButton();
 			}
 			catch (Throwable t) {
 				driver.enterLog(TAG, "No checkout button to click.");
@@ -244,7 +244,7 @@ public class HotelsHappyPath {
 			driver.landscape();
 			driver.portrait();
 			driver.enterLog(TAG, "Sliding to checkout");
-			driver.commonCheckout().slideToCheckout();
+			driver.hotelsCheckoutScreen().slideToCheckout();
 			driver.delay();
 
 			// CVV Entry

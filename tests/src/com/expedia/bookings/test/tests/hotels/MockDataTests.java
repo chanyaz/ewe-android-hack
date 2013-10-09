@@ -76,7 +76,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 		mDriver.hotelsDetailsScreen().clickSelectButton();
 		mDriver.waitForStringToBeGone(mDriver.hotelsRoomsRatesScreen().findingAvailableRooms());
 		mDriver.hotelsRoomsRatesScreen().selectRoom(0);
-		mDriver.waitForStringToBeGone(mDriver.commonCheckout().calculatingTaxesAndFees());
+		mDriver.waitForStringToBeGone(mDriver.hotelsCheckoutScreen().calculatingTaxesAndFees());
 		String alertText = (String) mDriver.getText(0).getText();
 		String expectedText = mRes.getString(R.string.the_hotel_raised_the_total_price_TEMPLATE, "$400.65", "$440.65");
 		mDriver.enterLog(TAG, "Expected text: " + expectedText);
@@ -96,7 +96,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 		mDriver.hotelsDetailsScreen().clickSelectButton();
 		mDriver.waitForStringToBeGone(mDriver.hotelsRoomsRatesScreen().findingAvailableRooms());
 		mDriver.hotelsRoomsRatesScreen().selectRoom(0);
-		mDriver.waitForStringToBeGone(mDriver.commonCheckout().calculatingTaxesAndFees());
+		mDriver.waitForStringToBeGone(mDriver.hotelsCheckoutScreen().calculatingTaxesAndFees());
 		String alertText = (String) mDriver.getText(0).getText();
 		String expectedText = mRes.getString(R.string.the_hotel_lowered_the_total_price_TEMPLATE, "$400.65", "$360.65");
 		mDriver.enterLog(TAG, "Expected text: " + expectedText);
@@ -116,7 +116,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 		mDriver.hotelsDetailsScreen().clickSelectButton();
 		mDriver.waitForStringToBeGone(mDriver.hotelsRoomsRatesScreen().findingAvailableRooms());
 		mDriver.hotelsRoomsRatesScreen().selectRoom(0);
-		mDriver.waitForStringToBeGone(mDriver.commonCheckout().calculatingTaxesAndFees());
+		mDriver.waitForStringToBeGone(mDriver.hotelsCheckoutScreen().calculatingTaxesAndFees());
 		String alertText = (String) mDriver.getText(0).getText();
 		String expectedText = mRes.getString(R.string.e3_error_checkout_hotel_room_unavailable);
 		mDriver.enterLog(TAG, "Expected text: " + expectedText);
@@ -145,7 +145,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 		String ok;
 		for (int i = 0; i < upperBound; i++) {
 			mDriver.hotelsRoomsRatesScreen().selectRoom(0);
-			mDriver.waitForStringToBeGone(mDriver.commonCheckout().calculatingTaxesAndFees());
+			mDriver.waitForStringToBeGone(mDriver.hotelsCheckoutScreen().calculatingTaxesAndFees());
 			String alertText = (String) mDriver.getText(0).getText();
 			String expectedText = mRes.getString(R.string.e3_error_checkout_hotel_room_unavailable);
 			mDriver.enterLog(TAG, "Expected text: " + expectedText);
