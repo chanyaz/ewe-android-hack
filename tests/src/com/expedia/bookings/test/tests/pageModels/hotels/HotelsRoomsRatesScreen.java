@@ -64,8 +64,12 @@ public class HotelsRoomsRatesScreen extends ScreenActions {
 	}
 
 	public void selectRoom(int index) {
-
 		clickOnView(roomList().getChildAt(index));
+	}
+
+	public RoomsAndRatesRow getRowModelAtIndex(int index) {
+		View row = roomList().getChildAt(index);
+		return new RoomsAndRatesRow(row);
 	}
 
 }
