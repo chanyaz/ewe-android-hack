@@ -92,6 +92,8 @@
     </plurals>
     <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
     <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
+    <!-- Trip To -->
+    <string name="trip_to">Trip To</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->

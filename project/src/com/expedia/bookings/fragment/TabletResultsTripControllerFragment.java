@@ -43,8 +43,10 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		IAddToTripListener, IFragmentAvailabilityProvider {
 
 	private static final String FTAG_BLURRED_BG = "FTAG_BLURRED_BG";
+	private static final String FTAG_YOUR_TRIP_TO = "FTAG_YOUR_TRIP_TO";
 
 	private ResultsBlurBackgroundImageFragment mBlurredBackgroundFrag;
+	private ResultsTripBucketYourTripToFragment mTripBucketTripToFrag;
 
 	private ViewGroup mRootC;
 	private FixedTranslationFrameLayout mBlurredBackgroundC;
@@ -175,6 +177,11 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		FragmentTransaction transaction = manager.beginTransaction();
 
 		boolean blurredBackgroundAvailable = true;
+		boolean yourTripToAvailable = true;
+
+		mTripBucketTripToFrag = (ResultsTripBucketYourTripToFragment) FragmentAvailabilityUtils
+				.setFragmentAvailability(yourTripToAvailable, FTAG_YOUR_TRIP_TO, manager, transaction, this,
+						R.id.trip_bucket_your_trip_to, true);
 
 		//Blurrred Background (for behind trip overview)
 		mBlurredBackgroundFrag = (ResultsBlurBackgroundImageFragment) FragmentAvailabilityUtils
@@ -192,6 +199,9 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		if (tag == FTAG_BLURRED_BG) {
 			frag = mBlurredBackgroundFrag;
 		}
+		else if (tag == FTAG_YOUR_TRIP_TO) {
+			frag = mTripBucketTripToFrag;
+		}
 		return frag;
 	}
 
@@ -201,12 +211,17 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		if (tag == FTAG_BLURRED_BG) {
 			frag = ResultsBlurBackgroundImageFragment.newInstance();
 		}
+		else if (tag == FTAG_YOUR_TRIP_TO) {
+			frag = ResultsTripBucketYourTripToFragment.newInstance();
+		}
 		return frag;
 	}
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
-		//Currently the fragments require no setup
+		if (tag == FTAG_YOUR_TRIP_TO) {
+			((ResultsTripBucketYourTripToFragment) frag).bindToDb();
+		}
 	}
 
 	private void setTouchState(GlobalResultsState state) {

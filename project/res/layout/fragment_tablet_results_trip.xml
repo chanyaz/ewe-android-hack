@@ -15,8 +15,7 @@
     <com.expedia.bookings.widget.BlockEventFrameLayout
         android:id="@+id/trip_bucket_your_trip_to"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#00FF00" />
+        android:layout_height="match_parent" />
 
     <com.expedia.bookings.widget.BlockEventFrameLayout
         android:id="@+id/trip_bucket_flight_trip"
