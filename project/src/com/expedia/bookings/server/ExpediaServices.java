@@ -95,6 +95,7 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.SuggestionResponse;
+import com.expedia.bookings.data.SuggestionSort;
 import com.expedia.bookings.data.SweepstakesResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
@@ -307,7 +308,7 @@ public class ExpediaServices implements DownloadListener {
 		return doSuggestionRequest(url, null);
 	}
 
-	public SuggestionResponse suggestionsNearby(double latitude, double longitude, int flags) {
+	public SuggestionResponse suggestionsNearby(double latitude, double longitude, SuggestionSort sort, int flags) {
 		String url = NetUtils.formatUrl(getSuggestUrl(1, SuggestType.NEARBY));
 
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
@@ -319,8 +320,13 @@ public class ExpediaServices implements DownloadListener {
 		// 1 == airports, which is all that's supported for now
 		params.add(new BasicNameValuePair("type", "1"));
 
-		// Always sort by popularity (for now)
-		params.add(new BasicNameValuePair("sort", "p"));
+		if (sort == SuggestionSort.DISTANCE) {
+			params.add(new BasicNameValuePair("sort", "d"));
+		}
+		else {
+			// Default to popularity sort
+			params.add(new BasicNameValuePair("sort", "p"));
+		}
 
 		return doSuggestionRequest(url, params);
 	}
