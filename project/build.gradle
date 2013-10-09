@@ -194,7 +194,7 @@ def generateAccountManagerTypeToken(buildVariant, resourceOverridePairs) {
 
 def generateUniqueContentProviderStrings(buildVariant, contentProviderBuildStringsPath, contentProviderOverridePairs) {
     def stringSuffix = "." + buildVariant.productFlavors.get(0).name + "." + buildVariant.buildType.name
-    def xmlStringsFileAsNode = new XmlParser().parse(contentProviderBuildStringsPath)
+    def xmlStringsFileAsNode = new XmlParser().parse(new File(rootDir, contentProviderBuildStringsPath))
     xmlStringsFileAsNode.each {
         contentProviderOverridePairs.add(new AndroidResource("string", it.attributes()["name"], it.text() + stringSuffix))
     }
