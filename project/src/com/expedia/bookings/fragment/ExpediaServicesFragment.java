@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.SuggestionSort;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.util.Ui;
 
@@ -94,7 +95,7 @@ public class ExpediaServicesFragment extends Fragment {
 	public void startSuggestionsNearby(final double latitude, final double longitude, boolean continueIfInProgress) {
 		doDownload(ServiceType.SUGGEST_NEARBY, continueIfInProgress, new ResponseDownload() {
 			public Response execute(ExpediaServices services) {
-				return services.suggestionsNearby(latitude, longitude, 0);
+				return services.suggestionsNearby(latitude, longitude, SuggestionSort.POPULARITY, 0);
 			}
 		});
 	}

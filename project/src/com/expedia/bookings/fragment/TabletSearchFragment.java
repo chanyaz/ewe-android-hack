@@ -41,6 +41,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SuggestionResponse;
+import com.expedia.bookings.data.SuggestionSort;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.SuggestionV2.ResultType;
 import com.expedia.bookings.fragment.DatesFragment.DatesFragmentListener;
@@ -878,7 +879,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				public void run() {
 					ExpediaServices services = new ExpediaServices(getActivity());
 					SuggestionResponse response = services.suggestionsNearby(currentLocation.getLatitude(),
-							currentLocation.getLongitude(), 0);
+							currentLocation.getLongitude(), SuggestionSort.POPULARITY, 0);
 
 					if (response != null && !response.hasErrors() && response.getSuggestions().size() != 0) {
 						mSearchParams.setOrigin(response.getSuggestions().get(0));
