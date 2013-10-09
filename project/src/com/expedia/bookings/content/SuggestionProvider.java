@@ -95,7 +95,7 @@ public class SuggestionProvider extends ContentProvider {
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		String query = "";
 
-		if (uri.getPathSegments().size() > 1) {
+		if (uri.getPathSegments().size() > 0) {
 			// uri.getLastPathSegment automatically URLDecodes
 			query = uri.getLastPathSegment();
 		}
