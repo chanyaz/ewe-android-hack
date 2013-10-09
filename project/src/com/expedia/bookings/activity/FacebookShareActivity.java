@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.facebook.Session;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
@@ -32,7 +33,22 @@ public class FacebookShareActivity extends Activity {
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Static Methods
 
-	public static final Intent createIntent(Context context, String shareName, String shareDescription,
+	public static final Intent createIntent(Context context, ItinContentGenerator<?> itin) {
+		// This is the bold header title (name) shown in the Facebook post.
+		String shareName = itin.getFacebookShareName();
+		String shareThumbnail = itin.getSharableImageURL();
+		String detailsUrl = itin.getItinCardData().getSharableDetailsUrl();
+
+		// We need to split the already created shortMessage contents to fit with the Facebook share model.
+		// The first two lines from the shortMessage should serve as description.
+		String shortMessage = itin.getShareTextShort();
+		String[] shareMsgSplit = shortMessage.split("\n");
+		String shareDescription = shareMsgSplit[0] + "\n" + shareMsgSplit[1];
+
+		return createIntent(context, shareName, shareDescription, detailsUrl, shareThumbnail);
+	}
+
+	private static final Intent createIntent(Context context, String shareName, String shareDescription,
 			String shareURL, String shareThumbnailURL) {
 		Intent intent = new Intent(context, FacebookShareActivity.class);
 		intent.putExtra(KEY_SHARE_NAME, shareName);

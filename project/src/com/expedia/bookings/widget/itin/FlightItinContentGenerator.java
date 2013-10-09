@@ -68,6 +68,7 @@ import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Delay;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
+import com.mobiata.flightlib.utils.AddFlightsIntentUtils;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
 
@@ -537,6 +538,14 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		return false;
 	}
 
+	// Facebook
+
+	@Override
+	public String getFacebookShareName() {
+		return getContext().getString(R.string.share_facebook_template_title_flight,
+				getItinCardData().getFlightLeg().getLastWaypoint().getAirport().mCity);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Notifications
 	//////////////////////////////////////////////////////////////////////////
@@ -613,6 +622,13 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		Intent intent = new Intent(Intent.ACTION_VIEW, airportUri);
 
 		return intent;
+	}
+
+	public Intent getShareWithFlightTrackIntent() {
+		ItinCardDataFlight cardData = getItinCardData();
+		FlightTrip flightTrip = ((TripFlight) cardData.getTripComponent()).getFlightTrip();
+		List<Flight> flights = flightTrip.getLeg(cardData.getLegNumber()).getSegments();
+		return AddFlightsIntentUtils.getIntent(flights);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

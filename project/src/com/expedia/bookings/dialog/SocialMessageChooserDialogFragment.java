@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FacebookShareActivity;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
@@ -39,7 +40,7 @@ import com.mobiata.flightlib.utils.AddFlightsIntentUtils;
 
 public class SocialMessageChooserDialogFragment extends DialogFragment {
 
-	private ItinContentGenerator mItinContentGenerator;
+	private ItinContentGenerator<? extends ItinCardData> mItinContentGenerator;
 
 	private String mSubject;
 	private String mShortMessage;
@@ -47,24 +48,14 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 
 	private TripComponent.Type mType;
 
-	public static SocialMessageChooserDialogFragment newInstance(ItinContentGenerator<?> generator) {
-		String subject = generator.getShareSubject();
-		String shortMessage = generator.getShareTextShort();
-		String longMessage = generator.getShareTextLong();
-		TripComponent.Type type = generator.getType();
-
-		return newInstance(generator, subject, shortMessage, longMessage, type);
-	}
-
-	private static SocialMessageChooserDialogFragment newInstance(ItinContentGenerator<?> generator, String subject,
-			String shortMessage, String longMessage, TripComponent.Type type) {
+	public static SocialMessageChooserDialogFragment newInstance(ItinContentGenerator<? extends ItinCardData> generator) {
 		SocialMessageChooserDialogFragment fragment = new SocialMessageChooserDialogFragment();
 
 		fragment.mItinContentGenerator = generator;
-		fragment.mSubject = subject;
-		fragment.mShortMessage = shortMessage;
-		fragment.mLongMessage = longMessage;
-		fragment.mType = type;
+		fragment.mSubject = generator.getShareSubject();
+		fragment.mShortMessage = generator.getShareTextShort();
+		fragment.mLongMessage = generator.getShareTextLong();
+		fragment.mType = generator.getType();
 
 		return fragment;
 	}
@@ -132,7 +123,7 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 					}
 					else {
 						Log.d("FB: doFacebookLogin - currentSession.isOpened()");
-						postToFacebook(currentSession);
+						postToFacebook();
 					}
 
 					OmnitureTracking.trackItinShare(getActivity(), mType, false);
@@ -142,11 +133,7 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 
 		// Share with FlightTrack
 		if (mItinContentGenerator instanceof FlightItinContentGenerator) {
-			// Grab the Flight segments for the given leg/itin
-			ItinCardDataFlight cardData = (ItinCardDataFlight) mItinContentGenerator.getItinCardData();
-			FlightTrip flightTrip = ((TripFlight) cardData.getTripComponent()).getFlightTrip();
-			List<Flight> flights = flightTrip.getLeg(cardData.getLegNumber()).getSegments();
-			final Intent intent = AddFlightsIntentUtils.getIntent(flights);
+			final Intent intent = ((FlightItinContentGenerator) mItinContentGenerator).getShareWithFlightTrackIntent();
 
 			if (NavUtils.canHandleIntent(getActivity(), intent)) {
 				View ft = Ui.findView(view, R.id.flighttrack_button);
@@ -175,7 +162,7 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 
 	public void handleFacebookResponse(Session session, SessionState state, Exception exception) {
 		if (session.isOpened()) {
-			postToFacebook(session);
+			postToFacebook();
 		}
 		else {
 			Log.d("FB: handleFacebookResponse - else");
@@ -183,38 +170,8 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 
 	}
 
-	private void postToFacebook(Session session) {
-
-		String shareName = null; // This is the bold header title (name) shown in the Facebook post.
-		String shareThumbnail = null;
-
-		if (mItinContentGenerator instanceof FlightItinContentGenerator) {
-			ItinCardDataFlight cardData = (ItinCardDataFlight) mItinContentGenerator.getItinCardData();
-			shareName = getString(R.string.share_facebook_template_title_flight, cardData.getFlightLeg()
-					.getLastWaypoint().getAirport().mCity);
-		}
-		else if (mItinContentGenerator instanceof HotelItinContentGenerator) {
-			ItinCardDataHotel cardData = (ItinCardDataHotel) mItinContentGenerator.getItinCardData();
-			shareName = getString(R.string.share_facebook_template_title_hotel, cardData.getPropertyName());
-		}
-		else if (mItinContentGenerator instanceof CarItinContentGenerator) {
-			ItinCardDataCar cardData = (ItinCardDataCar) mItinContentGenerator.getItinCardData();
-			shareName = getString(R.string.share_facebook_template_title_car, cardData.getVendorName());
-		}
-		else if (mItinContentGenerator instanceof ActivityItinContentGenerator) {
-			ItinCardDataActivity cardData = (ItinCardDataActivity) mItinContentGenerator.getItinCardData();
-			shareName = cardData.getTitle();
-		}
-
-		shareThumbnail = mItinContentGenerator.getSharableImageURL();
-
-		// We need to split the already created shortMessage contents to fit with the Facebook share model
-		String[] shareMsgSplit = mShortMessage.split("\n");
-		String shareDescription = shareMsgSplit[0] + "\n" + shareMsgSplit[1]; // The first two lines from the shortMessage should serve as description
-
-		Intent facebookShareIntent = FacebookShareActivity.createIntent(getActivity(), shareName, shareDescription,
-				mItinContentGenerator.getItinCardData().getSharableDetailsUrl(), shareThumbnail);
-		startActivity(facebookShareIntent);
+	private void postToFacebook() {
+		startActivity(FacebookShareActivity.createIntent(getActivity(), mItinContentGenerator));
 		dismiss();
 	}
 

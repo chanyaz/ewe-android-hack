@@ -252,6 +252,13 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		return new ArrayList<Intent>();
 	}
 
+	// Facebook
+
+	@Override
+	public String getFacebookShareName() {
+		return getItinCardData().getTitle();
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Notifications
 	//////////////////////////////////////////////////////////////////////////

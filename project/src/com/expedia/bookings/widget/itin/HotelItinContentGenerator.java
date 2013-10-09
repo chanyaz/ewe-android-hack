@@ -366,6 +366,14 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		return intents;
 	}
 
+	// Facebook
+
+	@Override
+	public String getFacebookShareName() {
+		return getContext().getString(R.string.share_facebook_template_title_hotel,
+				getItinCardData().getPropertyName());
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Notifications
 	//////////////////////////////////////////////////////////////////////////

@@ -87,7 +87,8 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	@Override
 	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
 		Car car = getItinCardData().getCar();
-		DestinationBitmapDrawable bitmapDrawable = new DestinationBitmapDrawable(getResources(), getHeaderImagePlaceholderResId(),
+		DestinationBitmapDrawable bitmapDrawable = new DestinationBitmapDrawable(getResources(),
+				getHeaderImagePlaceholderResId(),
 				car.getCategory(), car.getType(), width, height);
 		setSharableImageURL(bitmapDrawable.getSharableUrl());
 		return bitmapDrawable;
@@ -297,6 +298,14 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	@Override
 	public List<Intent> getAddToCalendarIntents() {
 		return new ArrayList<Intent>();
+	}
+
+	// Facebook
+
+	@Override
+	public String getFacebookShareName() {
+		return getContext().getString(R.string.share_facebook_template_title_car,
+				getItinCardData().getVendorName());
 	}
 
 	//////////////////////////////////////////////////////////////////////////

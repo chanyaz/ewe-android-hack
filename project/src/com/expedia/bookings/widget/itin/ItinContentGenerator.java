@@ -583,4 +583,10 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		return ret;
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// Facebook Sharing
+
+	public String getFacebookShareName() {
+		return getHeaderText();
+	}
 }
