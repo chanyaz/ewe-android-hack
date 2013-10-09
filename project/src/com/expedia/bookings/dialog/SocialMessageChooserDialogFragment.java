@@ -96,35 +96,8 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 			facebookButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					//dismiss();
-
-					Session currentSession = Session.getActiveSession();
-					if (currentSession == null || currentSession.getState().isClosed()) {
-						Session session = new Session.Builder(getActivity()).setApplicationId(
-								ExpediaServices.getFacebookAppId(getActivity())).build();
-						Session.setActiveSession(session);
-						currentSession = session;
-					}
-					if (!currentSession.isOpened()) {
-						Log.d("FB: doFacebookLogin - !currentSession.isOpened()");
-						Session.OpenRequest openRequest = null;
-
-						openRequest = new Session.OpenRequest(SocialMessageChooserDialogFragment.this);
-
-						//We need an email address to do any sort of Expedia account creation/linking
-						List<String> permissions = new ArrayList<String>();
-						permissions.add("email");
-
-						if (openRequest != null) {
-							openRequest.setPermissions(permissions);
-							currentSession.addCallback(mFacebookStatusCallback);
-							currentSession.openForRead(openRequest);
-						}
-					}
-					else {
-						Log.d("FB: doFacebookLogin - currentSession.isOpened()");
-						postToFacebook();
-					}
+					startActivity(FacebookShareActivity.createIntent(getActivity(), mItinContentGenerator));
+					dismiss();
 
 					OmnitureTracking.trackItinShare(getActivity(), mType, false);
 				}
@@ -151,42 +124,10 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 		return view;
 	}
 
-	Session.StatusCallback mFacebookStatusCallback = new Session.StatusCallback() {
-
-		// callback when session changes state
-		@Override
-		public void call(Session session, SessionState state, Exception exception) {
-			handleFacebookResponse(session, state, exception);
-		}
-	};
-
-	public void handleFacebookResponse(Session session, SessionState state, Exception exception) {
-		if (session.isOpened()) {
-			postToFacebook();
-		}
-		else {
-			Log.d("FB: handleFacebookResponse - else");
-		}
-
-	}
-
-	private void postToFacebook() {
-		startActivity(FacebookShareActivity.createIntent(getActivity(), mItinContentGenerator));
-		dismiss();
-	}
-
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		Log.d("FB: onActivityResult");
 		Session.getActiveSession().onActivityResult(getActivity(), requestCode, resultCode, data);
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		if (Session.getActiveSession() != null) {
-			Session.getActiveSession().addCallback(mFacebookStatusCallback);
-		}
 	}
 }

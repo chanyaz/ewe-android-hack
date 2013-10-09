@@ -1,13 +1,17 @@
 package com.expedia.bookings.activity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.facebook.Session;
-import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
@@ -23,7 +27,7 @@ public class FacebookShareActivity extends Activity {
 	public static final String KEY_SHARE_THUMBNAIL_URL = "KEY_SHARE_THUMBNAIL_URL";
 
 	// https://developers.facebook.com/docs/android/share-dialog/
-	private UiLifecycleHelper uiHelper;
+	private UiLifecycleHelper mUiHelper;
 
 	private String mShareName;
 	private String mShareDescription;
@@ -65,12 +69,8 @@ public class FacebookShareActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		uiHelper = new UiLifecycleHelper(this, new StatusCallback() {
-			@Override
-			public void call(Session session, SessionState state, Exception exception) {
-			}
-		});
-		uiHelper.onCreate(savedInstanceState);
+		mUiHelper = new UiLifecycleHelper(this, mFacebookStatusCallback);
+		mUiHelper.onCreate(savedInstanceState);
 
 		mShareName = getIntent().getStringExtra(KEY_SHARE_NAME);
 		mShareDescription = getIntent().getStringExtra(KEY_SHARE_DESCRIPTION);
@@ -88,7 +88,7 @@ public class FacebookShareActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
+		mUiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
 			@Override
 			public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
 				Log.e(LOGGING_TAG, String.format("Facebook share error: %s", error.toString()));
@@ -105,34 +105,89 @@ public class FacebookShareActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		uiHelper.onResume();
+		mUiHelper.onResume();
+		if (Session.getActiveSession() != null) {
+			Session.getActiveSession().addCallback(mFacebookStatusCallback);
+		}
 	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		uiHelper.onSaveInstanceState(outState);
+		mUiHelper.onSaveInstanceState(outState);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		uiHelper.onPause();
+		mUiHelper.onPause();
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		uiHelper.onDestroy();
+		mUiHelper.onDestroy();
 	}
 
 	public void share() {
+		Session currentSession = Session.getActiveSession();
+		if (currentSession == null || currentSession.getState().isClosed()) {
+			Session session = new Session.Builder(this).setApplicationId(
+					ExpediaServices.getFacebookAppId(this)).build();
+			Session.setActiveSession(session);
+			currentSession = session;
+		}
+		if (!currentSession.isOpened()) {
+			Log.d("FB: doFacebookLogin - !currentSession.isOpened()");
+			Session.OpenRequest openRequest = null;
+
+			openRequest = new Session.OpenRequest(this);
+
+			//We need an email address to do any sort of Expedia account creation/linking
+			List<String> permissions = new ArrayList<String>();
+			permissions.add("email");
+
+			if (openRequest != null) {
+				openRequest.setPermissions(permissions);
+				currentSession.addCallback(mFacebookStatusCallback);
+				currentSession.openForRead(openRequest);
+			}
+		}
+		else {
+			Log.d("FB: doFacebookLogin - currentSession.isOpened()");
+			postToFacebook();
+		}
+
+	}
+
+	Session.StatusCallback mFacebookStatusCallback = new Session.StatusCallback() {
+
+		// callback when session changes state
+		@Override
+		public void call(Session session, SessionState state, Exception exception) {
+			handleFacebookResponse(session, state, exception);
+		}
+	};
+
+	public void handleFacebookResponse(Session session, SessionState state, Exception exception) {
+		if (session.isOpened()) {
+			postToFacebook();
+		}
+		else if (session.isClosed()) {
+			finish();
+		}
+		else {
+			Log.d("FB: handleFacebookResponse - else " + state.name());
+		}
+	}
+
+	private void postToFacebook() {
 		FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(this)
 				.setDescription(mShareDescription)
 				.setName(mShareName)
 				.setLink(mShareURL)
 				.setPicture(mShareThumbnailURL)
 				.build();
-		uiHelper.trackPendingDialogCall(shareDialog.present());
+		mUiHelper.trackPendingDialogCall(shareDialog.present());
 	}
 }
