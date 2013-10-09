@@ -44,9 +44,11 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 	private static final String FTAG_BLURRED_BG = "FTAG_BLURRED_BG";
 	private static final String FTAG_YOUR_TRIP_TO = "FTAG_YOUR_TRIP_TO";
+	private static final String FTAG_BUCKET_FLIGHT = "FTAG_BUCKET_FLIGHT";
 
 	private ResultsBlurBackgroundImageFragment mBlurredBackgroundFrag;
 	private ResultsTripBucketYourTripToFragment mTripBucketTripToFrag;
+	private ResultsTripBucketFlightFragment mTripBucketFlightFrag;
 
 	private ViewGroup mRootC;
 	private FixedTranslationFrameLayout mBlurredBackgroundC;
@@ -178,10 +180,14 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 		boolean blurredBackgroundAvailable = true;
 		boolean yourTripToAvailable = true;
+		boolean bucketFlightAvailable = true;
 
 		mTripBucketTripToFrag = (ResultsTripBucketYourTripToFragment) FragmentAvailabilityUtils
 				.setFragmentAvailability(yourTripToAvailable, FTAG_YOUR_TRIP_TO, manager, transaction, this,
 						R.id.trip_bucket_your_trip_to, true);
+
+		mTripBucketFlightFrag = (ResultsTripBucketFlightFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+				bucketFlightAvailable, FTAG_BUCKET_FLIGHT, manager, transaction, this, R.id.flight_trip_content, true);
 
 		//Blurrred Background (for behind trip overview)
 		mBlurredBackgroundFrag = (ResultsBlurBackgroundImageFragment) FragmentAvailabilityUtils
@@ -202,6 +208,9 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		else if (tag == FTAG_YOUR_TRIP_TO) {
 			frag = mTripBucketTripToFrag;
 		}
+		else if (tag == FTAG_BUCKET_FLIGHT) {
+			frag = mTripBucketFlightFrag;
+		}
 		return frag;
 	}
 
@@ -214,6 +223,9 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		else if (tag == FTAG_YOUR_TRIP_TO) {
 			frag = ResultsTripBucketYourTripToFragment.newInstance();
 		}
+		else if (tag == FTAG_BUCKET_FLIGHT) {
+			frag = ResultsTripBucketFlightFragment.newInstance();
+		}
 		return frag;
 	}
 
@@ -221,6 +233,9 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	public void doFragmentSetup(String tag, Fragment frag) {
 		if (tag == FTAG_YOUR_TRIP_TO) {
 			((ResultsTripBucketYourTripToFragment) frag).bindToDb();
+		}
+		else if (tag == FTAG_BUCKET_FLIGHT) {
+			((ResultsTripBucketFlightFragment) frag).bindToDb();
 		}
 	}
 

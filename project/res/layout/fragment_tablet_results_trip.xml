@@ -33,16 +33,7 @@
             <FrameLayout
                 android:id="@+id/flight_trip_content"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent" >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#6666FF"
-                    android:gravity="center"
-                    android:paddingBottom="50dp"
-                    android:paddingTop="50dp"
-                    android:text="Flight Trip" />
+                android:layout_height="wrap_content" >
             </FrameLayout>
 
             <ImageView
