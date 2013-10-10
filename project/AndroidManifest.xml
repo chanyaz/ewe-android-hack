@@ -170,7 +170,8 @@
             android:theme="@style/Theme" />
         <activity
             android:name="com.expedia.bookings.activity.FacebookShareActivity"
-            android:label="@string/Facebook_Sharing" >
+            android:icon="@drawable/ic_share_facebook"
+            android:label="@string/Facebook" >
         </activity>
 
         <!-- Hotels activities -->

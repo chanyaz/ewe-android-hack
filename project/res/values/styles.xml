@@ -30,6 +30,12 @@
         <item name="android:paddingBottom">22dip</item>
     </style>
 
+    <style name="Widget.ShareView.Invisible" parent="Widget.ShareView.Dark.Simple">
+        <item name="sv_favoriteDisplayed">false</item>
+        <item name="sv_buttonDrawable">@null</item>
+        <item name="sv_buttonBackground">@null</item>
+    </style>
+
     <style name="NumberPickerButton">
         <item name="android:background">@null</item>
     </style>

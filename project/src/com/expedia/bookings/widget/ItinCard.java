@@ -3,8 +3,10 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Point;
@@ -24,18 +26,21 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.dgmltn.shareeverywhere.ShareView;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.FacebookShareActivity;
 import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.dialog.SocialMessageChooserDialogFragment;
 import com.expedia.bookings.fragment.ConfirmItinRemoveDialogFragment;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
+import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
+import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.CalendarAPIUtils;
@@ -117,6 +122,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	private View mHeaderShadeView;
 	private View mSummaryDividerView;
 
+	private ShareView mShareView;
+
 	// Views generated an ItinContentGenerator (that get reused)
 	private View mHeaderView;
 	private View mSummaryView;
@@ -177,6 +184,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		mSummarySectionLayout.setOnClickListener(mOnClickListener);
 		Ui.setOnClickListener(this, R.id.close_image_button, mOnClickListener);
 		Ui.setOnClickListener(this, R.id.itin_overflow_image_button, mOnClickListener);
+
+		mShareView = Ui.findView(this, R.id.itin_share_view);
 
 		updateHeaderImageHeight();
 		updateClickable();
@@ -960,9 +969,44 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	}
 
 	private void showShareDialog() {
-		FragmentActivity activity = (FragmentActivity) getContext();
-		FragmentManager fragmentManager = activity.getSupportFragmentManager();
-		SocialMessageChooserDialogFragment.newInstance(mItinContentGenerator).show(fragmentManager, "dialogShare");
+		ArrayList<Intent> intents = new ArrayList<Intent>();
+
+		if (mItinContentGenerator instanceof FlightItinContentGenerator) {
+			intents.add(((FlightItinContentGenerator) mItinContentGenerator).getShareWithFlightTrackIntent());
+		}
+		if (AndroidUtils.isPackageInstalled(getContext(), "com.facebook.katana")) {
+			intents.add(FacebookShareActivity.createIntent(getContext(), mItinContentGenerator));
+		}
+
+		String subject = mItinContentGenerator.getShareSubject();
+		String longMessage = mItinContentGenerator.getShareTextLong();
+		String shortMessage = mItinContentGenerator.getShareTextShort();
+
+		intents.add(SocialUtils.getEmailIntent(getContext(), subject, longMessage));
+
+		Intent share = SocialUtils.getShareIntent(subject, shortMessage, false);
+
+		// We want to strip "Facebook" from the share intent. We have a better
+		// solution for Facebook sharing (FacebookShareActivity). How we'll do that is
+		// to create multiple intents, one for each that resolves the share intent,
+		// excluding Facebook.
+		List<ResolveInfo> resolveInfos =
+				getContext().getPackageManager().queryIntentActivities(share, 0);
+
+		for (ResolveInfo resolveInfo : resolveInfos) {
+			String packageName = resolveInfo.activityInfo.applicationInfo.packageName;
+			if ("com.facebook.katana".equals(packageName)) {
+				continue;
+			}
+			String activityName = resolveInfo.activityInfo.name;
+			ComponentName component = new ComponentName(packageName, activityName);
+			Intent intent = new Intent(share);
+			intent.setComponent(component);
+			intents.add(intent);
+		}
+
+		mShareView.setShareIntent(intents.toArray(new Intent[] {}));
+		mShareView.showPopup();
 	}
 
 	private void addToCalendar() {

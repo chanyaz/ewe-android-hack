@@ -615,8 +615,8 @@
     <string name="Short_message_Facebook">Facebook</string>
 
     <!-- Itinerary Share for Facebook -->
-    <!-- Label for Facebook Sharing in task manager -->
-    <string name="Facebook_Sharing">Facebook Sharing</string>
+    <!-- Label for Facebook Sharing in task manager and share menu -->
+    <string name="Facebook">Facebook</string>
     <!-- Template for title/name of the facebook post - Hotels -->
     <string name="share_facebook_template_title_hotel">Staying at %1$s</string>
     <!-- Template for title/name of the facebook post - Flights -->
