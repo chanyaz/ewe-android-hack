@@ -78,6 +78,9 @@ public class PointOfSale {
 	// The POS's elite plus gold contact phone number (currently only available in USA POS)
 	private String mSupportPhoneNumberGold;
 
+	// The POS's elite plus silver contact phone number (currently only available in USA POS)
+	private String mSupportPhoneNumberSilver;
+
 	// The POS's support email address
 	private String mSupportEmail;
 
@@ -224,6 +227,10 @@ public class PointOfSale {
 
 	public String getSupportPhoneNumberGold() {
 		return mSupportPhoneNumberGold;
+	}
+
+	public String getSupportPhoneNumberSilver() {
+		return mSupportPhoneNumberSilver;
 	}
 
 	/**
@@ -681,6 +688,7 @@ public class PointOfSale {
 		// Support
 		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumber");
 		pos.mSupportPhoneNumberGold = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberGold");
+		pos.mSupportPhoneNumberSilver = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberSilver");
 		pos.mSupportEmail = data.optString("supportEmail");
 
 		// POS config
