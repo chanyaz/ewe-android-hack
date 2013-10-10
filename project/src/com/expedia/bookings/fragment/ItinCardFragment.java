@@ -14,9 +14,11 @@ import android.widget.ScrollView;
 
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.dgmltn.shareeverywhere.ShareView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.dialog.SocialMessageChooserDialogFragment;
+import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AbsPopupMenu;
 import com.expedia.bookings.widget.ItinActionsSection;
@@ -37,6 +39,8 @@ public class ItinCardFragment extends Fragment implements AbsPopupMenu.OnMenuIte
 
 	private ItinCardData mCurrentData;
 
+	private ShareView mShareView;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_itin_card, container, false);
@@ -45,6 +49,7 @@ public class ItinCardFragment extends Fragment implements AbsPopupMenu.OnMenuIte
 		mItinSummaryContainer = Ui.findView(view, R.id.summary_layout);
 		mItinDetailsContainer = Ui.findView(view, R.id.itin_details_container);
 		mActionButtons = Ui.findView(view, R.id.action_button_layout);
+		mShareView = Ui.findView(view, R.id.itin_share_view);
 
 		Ui.setOnClickListener(view, R.id.itin_overflow_image_button, new OnClickListener() {
 			@Override
@@ -126,7 +131,9 @@ public class ItinCardFragment extends Fragment implements AbsPopupMenu.OnMenuIte
 		ItinContentGenerator<?> generator = ItinContentGenerator.createGenerator(getActivity(), mCurrentData);
 		switch (item.getItemId()) {
 		case R.id.itin_card_share:
-			SocialMessageChooserDialogFragment.newInstance(generator).show(getFragmentManager(), "shareDialog");
+			ShareUtils shareUtils = new ShareUtils(getActivity());
+			mShareView.setShareIntent(shareUtils.getShareIntents(generator));
+			mShareView.showPopup();
 			return true;
 		case R.id.itin_card_add_to_calendar:
 			for (Intent intent : generator.getAddToCalendarIntents()) {
