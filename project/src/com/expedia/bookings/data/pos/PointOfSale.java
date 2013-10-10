@@ -680,7 +680,7 @@ public class PointOfSale {
 
 		// Support
 		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumber");
-		pos.mSupportPhoneNumberElitePlus = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberElite");
+		pos.mSupportPhoneNumberElitePlus = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberGold");
 		pos.mSupportEmail = data.optString("supportEmail");
 
 		// POS config
