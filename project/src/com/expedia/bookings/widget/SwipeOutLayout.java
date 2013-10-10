@@ -8,6 +8,8 @@ import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -30,7 +32,7 @@ import com.mobiata.android.util.Ui;
  *   E.g. We drag our view to the left, revealing a red x symbol, and when the user lets go a trip is removed.
  *
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
 public class SwipeOutLayout extends FrameLayout {
 
 	public enum Direction {
@@ -39,15 +41,21 @@ public class SwipeOutLayout extends FrameLayout {
 
 	private ArrayList<ISwipeOutListener> mListeners = new ArrayList<ISwipeOutListener>();
 
+	private View mContentView;
+	private View mSwipeOutView;
+
 	private int mContentResId = R.id.swipe_out_content;
 	private int mIndicatorResId = R.id.swipe_out_indicator;
 
+	private float mSwipeOutThreshold = 0.8f;//We will report swipeAllTheWay if we let go and are beyond this threshold
 	private float mMaxSlideOutDistance;
-	private View mContentView;
-	private View mSwipeOutView;
+	private boolean mVertical = false;//is north/south?
+	private boolean mPositiveDirection = false;//should x/y be growing when you drag? true for east and south.
 	private Direction mSwipeDirection = Direction.NORTH;
 	private boolean mSwipeEnabled = false;
 	private boolean mAlwaysSnapBack = true;
+
+	private SwipeOutTouchListener mTouchListener;
 
 	Rect mLayoutRectContent = new Rect();
 	Rect mLayoutRectIndicator = new Rect();
@@ -73,8 +81,9 @@ public class SwipeOutLayout extends FrameLayout {
 			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SwipeOutLayout, 0, 0);
 
 			if (ta.hasValue(R.styleable.SwipeOutLayout_swipeOutDirection)) {
-				mSwipeDirection = Direction.values()[ta.getInt(R.styleable.SwipeOutLayout_swipeOutDirection,
+				Direction direction = Direction.values()[ta.getInt(R.styleable.SwipeOutLayout_swipeOutDirection,
 						mSwipeDirection.ordinal())];
+				setSwipeDirection(direction);
 				mSwipeEnabled = true;
 			}
 
@@ -85,7 +94,7 @@ public class SwipeOutLayout extends FrameLayout {
 
 			ta.recycle();
 		}
-
+		mTouchListener = new SwipeOutTouchListener(context);
 	}
 
 	@Override
@@ -101,7 +110,7 @@ public class SwipeOutLayout extends FrameLayout {
 		}
 
 		mContentView.bringToFront();
-		mContentView.setOnTouchListener(new SwipeOutTouchListener());
+		setOnTouchListener(mTouchListener);
 	}
 
 	@Override
@@ -238,6 +247,10 @@ public class SwipeOutLayout extends FrameLayout {
 		return mSwipeDirection;
 	}
 
+	public float getSwipeOutThresholdPercentage() {
+		return mSwipeOutThreshold;
+	}
+
 	public boolean getSwipeEnabled() {
 		return mSwipeEnabled;
 	}
@@ -263,6 +276,26 @@ public class SwipeOutLayout extends FrameLayout {
 
 	public void setAlwaysSnapBack(boolean alwaysSnapBack) {
 		mAlwaysSnapBack = alwaysSnapBack;
+	}
+
+	public void setSwipeOutThresholdPercentage(float percentage) {
+		mSwipeOutThreshold = percentage;
+	}
+
+	public void setSwipeDirection(Direction direction) {
+		mSwipeDirection = direction;
+		if (mSwipeDirection == Direction.NORTH || mSwipeDirection == Direction.SOUTH) {
+			mVertical = true;
+		}
+		else {
+			mVertical = false;
+		}
+		if (mSwipeDirection == Direction.EAST || mSwipeDirection == Direction.SOUTH) {
+			mPositiveDirection = true;
+		}
+		else {
+			mPositiveDirection = false;
+		}
 	}
 
 	/*
@@ -328,99 +361,93 @@ public class SwipeOutLayout extends FrameLayout {
 	 */
 
 	private class SwipeOutTouchListener implements OnTouchListener {
+		private float mCurrentDistance = 0f;
+		private boolean mHasDown = false;
+		private GestureDetector mGesDet;
 
-		private float mTouchDownPos = 0;//where we touched down (x for east,west - y for north,south)
-		private boolean mVertical = false;//is north/south?
-		private boolean mPositiveDirection = false;//should x/y be growing when you drag? true for east and south.
+		public SwipeOutTouchListener(Context context) {
+			mGesDet = new GestureDetector(context, mListener);
+		}
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
+			//If swiping out is disabled, we ignore touch events
 			if (!mSwipeEnabled) {
 				return false;
 			}
 
-			switch (event.getAction()) {
-			case MotionEvent.ACTION_DOWN: {
-				switch (mSwipeDirection) {
-				case NORTH: {
-					mVertical = true;
-					mPositiveDirection = false;
-					break;
-				}
-				case SOUTH: {
-					mVertical = true;
-					mPositiveDirection = true;
-					break;
-				}
-				case EAST: {
-					mVertical = false;
-					mPositiveDirection = true;
-					break;
-				}
-				case WEST: {
-					mVertical = false;
-					mPositiveDirection = false;
-					break;
-				}
-				}
-
-				mTouchDownPos = getTouchDownPos(event);
-				reportSwipeStateChanged(SWIPE_STATE_DRAGGING);
-				break;
-			}
-			case MotionEvent.ACTION_MOVE: {
-				float offset = getTouchOffset(event);
-				float sanatized = sanatizeOffset(offset);
-				float percentage = getPercentageFromOffset(sanatized);
-
-				setTranslation(sanatized);
-				reportSwipeUpdate(percentage);
-
-				break;
-			}
-			case MotionEvent.ACTION_CANCEL: {
-				setTranslation(0);
-				reportSwipeStateChanged(SWIPE_STATE_IDLE);
-				resetVars();
-				break;
-			}
-			case MotionEvent.ACTION_UP: {
-				float offset = sanatizeOffset(getTouchOffset(event));
-				float percentage = getPercentageFromOffset(offset);
-				if (percentage == 1) {
-					reportSwipeUpdate(1);
-					if (mAlwaysSnapBack) {
-						setTranslation(0);
+			//We only care about touch events that fall on top of our content view
+			if (event.getAction() == MotionEvent.ACTION_DOWN) {
+				mHasDown = true;
+				float x = event.getX();
+				float y = event.getY();
+				if (mVertical) {
+					if (y < mContentView.getY() || (mPositiveDirection && y > (getHeight() - getSwipeOutDistance()))) {
+						mHasDown = false;
 					}
-					else {
-						setTranslation(offset);
-					}
-					reportSwipeAllTheWay();
 				}
 				else {
-					reportSwipeUpdate(0);
-					setTranslation(0);
+					if (x < mContentView.getX() || (mPositiveDirection && x > (getWidth() - getSwipeOutDistance()))) {
+						mHasDown = false;
+					}
 				}
-				reportSwipeStateChanged(SWIPE_STATE_IDLE);
+			}
 
-				resetVars();
-				break;
+			//If our down event fell on top of our content view, we do scroll stuff.
+			if (mHasDown) {
+				//On down we need to init and fire our listeners
+				if (event.getAction() == MotionEvent.ACTION_DOWN) {
+					reportSwipeStateChanged(SWIPE_STATE_DRAGGING);
+				}
+
+				//Do scroll related stuff.
+				mGesDet.onTouchEvent(event);
+
+				//clean up and fire listeners
+				if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+					if (getPercentageFromOffset(mCurrentDistance) >= mSwipeOutThreshold) {
+						reportSwipeAllTheWay();
+						if (mAlwaysSnapBack) {
+							setTranslation(0);
+						}
+					}
+					else {
+						setTranslation(0);
+					}
+
+					reportSwipeStateChanged(SWIPE_STATE_IDLE);
+					resetVars();
+				}
+
+				return true;
 			}
-			}
-			return true;
+			return false;
 		}
 
+		private SimpleOnGestureListener mListener = new GestureDetector.SimpleOnGestureListener() {
+			public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+				if (mVertical) {
+					mCurrentDistance = sanitizeOffset(mCurrentDistance - distanceY);
+				}
+				else {
+					mCurrentDistance = sanitizeOffset(mCurrentDistance - distanceX);
+				}
+				setTranslation(mCurrentDistance);
+				reportSwipeUpdate(getPercentageFromOffset(mCurrentDistance));
+				return true;
+			}
+		};
+
 		private void resetVars() {
-			mTouchDownPos = 0;
-			mVertical = false;
-			mPositiveDirection = false;
+			mCurrentDistance = 0;
+			mHasDown = false;
 		}
 
 		private float getPercentageFromOffset(float offset) {
 			return Math.abs(offset) / mMaxSlideOutDistance;
 		}
 
-		private float sanatizeOffset(float offset) {
+		private float sanitizeOffset(float offset) {
 			if (mPositiveDirection && offset < 0) {
 				return 0;
 			}
@@ -441,33 +468,14 @@ public class SwipeOutLayout extends FrameLayout {
 			return offset;
 		}
 
-		private void setTranslation(float tanslation) {
+		private void setTranslation(float translation) {
 			if (mVertical) {
-				mContentView.setTranslationY(tanslation);
+				mContentView.setTranslationY(translation);
 			}
 			else {
-				mContentView.setTranslationX(tanslation);
-			}
-		}
-
-		private float getTouchDownPos(MotionEvent event) {
-			if (mVertical) {
-				return event.getY();
-			}
-			else {
-				return event.getX();
-			}
-		}
-
-		private float getTouchOffset(MotionEvent event) {
-			if (mVertical) {
-				return event.getY() - mTouchDownPos;
-			}
-			else {
-				return event.getX() - mTouchDownPos;
+				mContentView.setTranslationX(translation);
 			}
 		}
 
 	}
-
 }
