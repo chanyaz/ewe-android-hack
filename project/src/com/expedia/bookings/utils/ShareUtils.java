@@ -233,12 +233,14 @@ public class ShareUtils {
 		Location dropOffLocation = itinCardData.getDropOffLocation();
 		String sharableDetailsURL = itinCardData.getSharableDetailsUrl();
 
-		return getCarShareTextLong(category, pickUpDate, dropOffDate, vendor, pickUpLocation, dropOffLocation, sharableDetailsURL);
+		return getCarShareTextLong(category, pickUpDate, dropOffDate, vendor, pickUpLocation, dropOffLocation,
+				sharableDetailsURL);
 	}
 
 	public String getActivityShareTextLong(ItinCardDataActivity itinCardData) {
 		return getActivityShareTextLong(itinCardData.getTitle(), itinCardData.getValidDate(),
-				itinCardData.getExpirationDate(), itinCardData.getTravelers(), itinCardData.getGuestCount(), itinCardData.getSharableDetailsUrl());
+				itinCardData.getExpirationDate(), itinCardData.getTravelers(), itinCardData.getGuestCount(),
+				itinCardData.getSharableDetailsUrl());
 	}
 
 	// Share methods
@@ -298,7 +300,8 @@ public class ShareUtils {
 					+ " " + arrivalTzString;
 
 			return String.format(template, airlineAndFlightNumber, destinationCity, departureDateStr,
-					originAirportCode, departureTimeStr, destinationAirportCode, arrivalStr, destinationGateTerminal, shareableDetailsURL);
+					originAirportCode, departureTimeStr, destinationAirportCode, arrivalStr, destinationGateTerminal,
+					shareableDetailsURL);
 		}
 		//multi day
 		else {
@@ -312,7 +315,8 @@ public class ShareUtils {
 					+ arrivalTzString;
 
 			return String.format(template, airlineAndFlightNumber, destinationCity, originAirportCode,
-					departureDateTimeStr, destinationAirportCode, arrivalDateTimeStr, destinationGateTerminal, shareableDetailsURL);
+					departureDateTimeStr, destinationAirportCode, arrivalDateTimeStr, destinationGateTerminal,
+					shareableDetailsURL);
 		}
 	}
 
@@ -392,7 +396,8 @@ public class ShareUtils {
 
 		//1683. VSC Don't show Android App crossSell text and link.
 		if (!ExpediaBookingApp.IS_VSC) {
-			body.append(mContext.getString(R.string.share_template_long_ad, PointOfSale.getPointOfSale().getAppInfoUrl()));
+			body.append(mContext.getString(R.string.share_template_long_ad, PointOfSale.getPointOfSale()
+					.getAppInfoUrl()));
 		}
 
 		return body.toString();
@@ -408,7 +413,8 @@ public class ShareUtils {
 		return String.format(template, city, checkIn, checkOut);
 	}
 
-	public String getHotelShareTextShort(String hotelName, DateTime startDate, DateTime endDate, String sharableDetailsURL) {
+	public String getHotelShareTextShort(String hotelName, DateTime startDate, DateTime endDate,
+			String sharableDetailsURL) {
 		String template = mContext.getString(R.string.share_template_short_hotel);
 		String checkIn = JodaUtils.formatDateTime(mContext, startDate, SHARE_CHECK_IN_FLAGS);
 		String checkOut = JodaUtils.formatDateTime(mContext, endDate, SHARE_CHECK_OUT_FLAGS);
@@ -621,7 +627,8 @@ public class ShareUtils {
 		return subject;
 	}
 
-	public String getActivityShareTextShort(String title, DateTime validDateTime, DateTime expirationDateTime, String sharableDetailsURL) {
+	public String getActivityShareTextShort(String title, DateTime validDateTime, DateTime expirationDateTime,
+			String sharableDetailsURL) {
 		String validDate = JodaUtils.formatDateTime(mContext, validDateTime, SHARE_DATE_FLAGS);
 		String expirationDate = JodaUtils.formatDateTime(mContext, expirationDateTime, SHARE_DATE_FLAGS);
 
