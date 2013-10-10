@@ -34,3 +34,6 @@
 [submodule "lib/ExpediaTests"]
 	path = lib/ExpediaTests
 	url = git@team.mobiata.com:Android/ExpediaTests.git
+[submodule "lib/ShareEverywhere"]
+	path = lib/ShareEverywhere
+	url = git@team.mobiata.com:Android/ShareEverywhere
