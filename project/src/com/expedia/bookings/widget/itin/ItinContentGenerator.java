@@ -297,7 +297,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	protected boolean addElitePlusNumber(ViewGroup container) {
 		Log.d("ITIN: addElitePlusNumber");
 		if (hasElitePlusNumber()) {
-			final String elitePlusNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus();
+			final String elitePlusNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberGold();
 			View view = getItinDetailItem(R.string.elite_plus_customer_support, elitePlusNumber, false,
 					new OnClickListener() {
 						@Override
@@ -490,7 +490,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		boolean hasElitePlusNum = false;
 		if (User.isLoggedIn(mContext) && Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
 				&& Db.getUser().getPrimaryTraveler().getIsElitePlusMember()) {
-			hasElitePlusNum = !TextUtils.isEmpty(PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus());
+			hasElitePlusNum = !TextUtils.isEmpty(PointOfSale.getPointOfSale().getSupportPhoneNumberGold());
 		}
 		return hasElitePlusNum;
 	}

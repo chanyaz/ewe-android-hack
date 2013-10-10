@@ -75,8 +75,8 @@ public class PointOfSale {
 	// The POS's contact phone number
 	private String mSupportPhoneNumber;
 
-	// The POS's elite plus contact phone number (currently only available in USA POS)
-	private String mSupportPhoneNumberElitePlus;
+	// The POS's elite plus gold contact phone number (currently only available in USA POS)
+	private String mSupportPhoneNumberGold;
 
 	// The POS's support email address
 	private String mSupportEmail;
@@ -222,8 +222,8 @@ public class PointOfSale {
 		return number;
 	}
 
-	public String getSupportPhoneNumberElitePlus() {
-		return mSupportPhoneNumberElitePlus;
+	public String getSupportPhoneNumberGold() {
+		return mSupportPhoneNumberGold;
 	}
 
 	/**
@@ -235,8 +235,8 @@ public class PointOfSale {
 	 */
 	public String getSupportPhoneNumberBestForUser(User usr) {
 		if (usr != null && usr.getPrimaryTraveler() != null && usr.getPrimaryTraveler().getIsElitePlusMember()
-				&& !TextUtils.isEmpty(getSupportPhoneNumberElitePlus())) {
-			return getSupportPhoneNumberElitePlus();
+				&& !TextUtils.isEmpty(getSupportPhoneNumberGold())) {
+			return getSupportPhoneNumberGold();
 		}
 		else {
 			return getSupportPhoneNumber();
@@ -680,7 +680,7 @@ public class PointOfSale {
 
 		// Support
 		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumber");
-		pos.mSupportPhoneNumberElitePlus = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberGold");
+		pos.mSupportPhoneNumberGold = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberGold");
 		pos.mSupportEmail = data.optString("supportEmail");
 
 		// POS config

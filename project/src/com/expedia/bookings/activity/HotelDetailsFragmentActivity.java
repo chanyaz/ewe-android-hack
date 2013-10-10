@@ -430,7 +430,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 					if (User.isLoggedIn(mContext) && Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
 							&& Db.getUser().getPrimaryTraveler().getIsElitePlusMember()) {
 						SocialUtils.call(HotelDetailsFragmentActivity.this, PointOfSale.getPointOfSale()
-								.getSupportPhoneNumberElitePlus());
+								.getSupportPhoneNumberGold());
 					}
 					else {
 						SocialUtils.call(HotelDetailsFragmentActivity.this, property.getTelephoneSalesNumber());
