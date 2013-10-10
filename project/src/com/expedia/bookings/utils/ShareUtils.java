@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -7,7 +8,10 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.text.Html;
 import android.text.TextUtils;
@@ -15,6 +19,7 @@ import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.activity.FacebookShareActivity;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.CarVendor;
 import com.expedia.bookings.data.FlightLeg;
@@ -28,7 +33,10 @@ import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripFlight;
-import com.expedia.bookings.widget.ItinCard;
+import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
+import com.expedia.bookings.widget.itin.ItinContentGenerator;
+import com.mobiata.android.SocialUtils;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
@@ -767,5 +775,45 @@ public class ShareUtils {
 		else {
 			return airport.mAirportCode;
 		}
+	}
+
+	public Intent[] getShareIntents(ItinContentGenerator<? extends ItinCardData> generator) {
+		ArrayList<Intent> intents = new ArrayList<Intent>();
+
+		if (generator instanceof FlightItinContentGenerator) {
+			intents.add(((FlightItinContentGenerator) generator).getShareWithFlightTrackIntent());
+		}
+		if (AndroidUtils.isPackageInstalled(mContext, "com.facebook.katana")) {
+			intents.add(FacebookShareActivity.createIntent(mContext, generator));
+		}
+
+		String subject = generator.getShareSubject();
+		String longMessage = generator.getShareTextLong();
+		String shortMessage = generator.getShareTextShort();
+
+		intents.add(SocialUtils.getEmailIntent(mContext, subject, longMessage));
+
+		Intent share = SocialUtils.getShareIntent(subject, shortMessage, false);
+
+		// We want to strip "Facebook" from the share intent. We have a better
+		// solution for Facebook sharing (FacebookShareActivity). How we'll do that is
+		// to create multiple intents, one for each that resolves the share intent,
+		// excluding Facebook.
+		List<ResolveInfo> resolveInfos =
+				mContext.getPackageManager().queryIntentActivities(share, 0);
+
+		for (ResolveInfo resolveInfo : resolveInfos) {
+			String packageName = resolveInfo.activityInfo.applicationInfo.packageName;
+			if ("com.facebook.katana".equals(packageName)) {
+				continue;
+			}
+			String activityName = resolveInfo.activityInfo.name;
+			ComponentName component = new ComponentName(packageName, activityName);
+			Intent intent = new Intent(share);
+			intent.setComponent(component);
+			intents.add(intent);
+		}
+
+		return intents.toArray(new Intent[] {});
 	}
 }
