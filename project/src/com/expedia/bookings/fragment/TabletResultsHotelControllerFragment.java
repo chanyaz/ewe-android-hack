@@ -625,11 +625,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 				&& (stateTwo == GlobalResultsState.DEFAULT || stateTwo == GlobalResultsState.HOTELS)) {
 			//Default -> Hotels or Hotels -> Default transition
 
-			//TODO: This should be carefully considered. Basically we are setting a hardware layer on a mapview
-			//and we don't know if it is still drawing or not. We want the alpha fade to be buttery smooth, but
-			//if the map is still drawing it will be repainting to the GPU constantly causing performance badness.
-			//Profiling on my N10 suggests it is still better to set the hardware layer, but it makes me a little nervous.
-			mBgHotelMapC.setLayerType(layerType, null);
 			mHotelRoomsAndRatesC.setLayerType(layerType, null);
 
 		}

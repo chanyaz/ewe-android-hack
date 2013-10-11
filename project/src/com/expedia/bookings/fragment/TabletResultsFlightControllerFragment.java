@@ -865,7 +865,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				&& (stateTwo == GlobalResultsState.DEFAULT || stateTwo == GlobalResultsState.FLIGHTS)) {
 			//Default -> Flights or Flights -> Default transition
 
-			mFlightMapC.setLayerType(layerType, null);
 			mFlightOneFiltersC.setLayerType(layerType, null);
 		}
 	}
