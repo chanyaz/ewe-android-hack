@@ -127,7 +127,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 	private void initVipAccessIcon() {
 		if (mVipAccessIcon == null) {
-			mVipAccessIcon = (AlphaImageView) findViewById(R.id.vip_image_view);
+			mVipAccessIcon = (AlphaImageView) findViewById(R.id.vip_badge);
 		}
 	}
 

@@ -579,7 +579,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		final View galleryFragment = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
 		final View pricePromoFragment = findViewById(R.id.hotel_details_price_promo_fragment_container);
 		final View pricePromoLayout = findViewById(R.id.price_and_promo_layout);
-		final AlphaImageView vipAccessIcon = (AlphaImageView) findViewById(R.id.vip_image_view);
+		final AlphaImageView vipAccessIcon = (AlphaImageView) findViewById(R.id.vip_badge);
 		final int windowWidth = getWindow().getDecorView().getWidth();
 		final float rightSideWidth = windowWidth * .55f;
 

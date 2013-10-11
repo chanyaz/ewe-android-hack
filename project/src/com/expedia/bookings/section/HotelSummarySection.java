@@ -81,7 +81,7 @@ public class HotelSummarySection extends RelativeLayout {
 		// Cache views
 		mThumbnailView = Ui.findView(this, R.id.thumbnail_image_view);
 		mHotelBackgroundView = Ui.findView(this, R.id.hotel_background_view);
-		mVipView = Ui.findView(this, R.id.vip_image_view);
+		mVipView = Ui.findView(this, R.id.vip_badge);
 		mNameText = Ui.findView(this, R.id.name_text_view);
 		mStrikethroughPriceText = Ui.findView(this, R.id.strikethrough_price_text_view);
 		mPriceText = Ui.findView(this, R.id.price_text_view);
