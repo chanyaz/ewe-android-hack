@@ -441,19 +441,24 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 	private void positionTripBucketItems(boolean verticalOnly) {
 		//We just split the space evenly between views
-		int viewHeight = (int) ((float) mTotalHeight / getNumberOfBucketContainers());
+		int viewSpace = (int) ((float) mTotalHeight / getNumberOfBucketContainers());
+		int viewHeight = mTotalHeight / 3;
 		int currentTop = 0;
 
-		setVerticalPos(mTripBucketYourTripToC, currentTop, viewHeight);
-		currentTop += viewHeight;
+		setViewHeight(mTripBucketYourTripToC, viewHeight);
+		setViewHeight(mTripBucketFlightC, viewHeight);
+		setViewHeight(mTripBucketHotelC, viewHeight);
+
+		mTripBucketYourTripToC.setTranslationY(currentTop);
+		currentTop += viewSpace;
 		if (hasFlightTrip() || hasHotelTrip()) {
 			if (hasFlightTrip()) {
-				setVerticalPos(mTripBucketFlightC, currentTop, viewHeight);
-				currentTop += viewHeight;
+				mTripBucketFlightC.setTranslationY(currentTop);
+				currentTop += viewSpace;
 			}
 			if (hasHotelTrip()) {
-				setVerticalPos(mTripBucketHotelC, currentTop, viewHeight);
-				currentTop += viewHeight;
+				mTripBucketHotelC.setTranslationY(currentTop);
+				currentTop += viewSpace;
 			}
 		}
 		else {
@@ -478,8 +483,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		}
 	}
 
-	private void setVerticalPos(View view, int topMargin, int height) {
-		((FrameLayout.LayoutParams) view.getLayoutParams()).topMargin = topMargin;
+	private void setViewHeight(View view, int height) {
 		((FrameLayout.LayoutParams) view.getLayoutParams()).height = height;
 		view.setLayoutParams(view.getLayoutParams());
 	}
@@ -536,14 +540,13 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		boolean isFlights = (mAddToTripData instanceof String && ((String) mAddToTripData)
 				.equalsIgnoreCase("FLIGHTS"));
 
-		Rect destRect = ScreenPositionUtils
-				.translateGlobalPositionToLocalPosition(
-						ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(isFlights ? mTripFlightC
-								: mTripHotelC), mRootC);
+		Rect globalDestRect = ScreenPositionUtils.getGlobalScreenPosition(isFlights ? mTripFlightC : mTripHotelC, true,
+				false);
+		Rect localDestRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(globalDestRect, mRootC);
 
 		LayoutParams params = (LayoutParams) mTripAnimationC.getLayoutParams();
-		if (!mHasPreppedAddToTripAnimation || params.leftMargin != destRect.left
-				|| params.topMargin != destRect.top) {
+		if (!mHasPreppedAddToTripAnimation || params.leftMargin != localDestRect.left
+				|| params.topMargin != localDestRect.top) {
 
 			Rect origRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(mAddToTripOriginCoordinates,
 					mRootC);
@@ -551,12 +554,12 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 			//Do calculations
 			int originWidth = origRect.right - origRect.left;
 			int originHeight = origRect.bottom - origRect.top;
-			int destWidth = destRect.right - destRect.left;
-			int destHeight = destRect.bottom - destRect.top;
+			int destWidth = localDestRect.right - localDestRect.left;
+			int destHeight = localDestRect.bottom - localDestRect.top;
 
 			//Position the view where it will be ending up, but sized as it will be starting...
-			params.leftMargin = destRect.left;
-			params.topMargin = destRect.top;
+			params.leftMargin = localDestRect.left;
+			params.topMargin = localDestRect.top;
 			params.width = originWidth;
 			params.height = originHeight;
 			mTripAnimationC.setLayoutParams(params);
@@ -566,8 +569,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 			//Translation. We setup the translation animation to start at deltaX, deltaY and animate
 			// to it's final resting place of (0,0), i.e. no translation.
-			int deltaX = origRect.left - destRect.left;
-			int deltaY = origRect.top - destRect.top;
+			int deltaX = origRect.left - localDestRect.left;
+			int deltaY = origRect.top - localDestRect.top;
 			mBezierAnimation = CubicBezierAnimation.newOutsideInAnimation(deltaX, deltaY, 0, 0);
 
 			mAddTripEndScaleX = (float) destWidth / originWidth;
