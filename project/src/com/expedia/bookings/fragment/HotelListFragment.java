@@ -71,11 +71,7 @@ public class HotelListFragment extends ListFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof HotelListFragmentListener)) {
-			throw new RuntimeException("HotelListFragment Activity must implement HotelListFragmentListener!");
-		}
-
-		mListener = (HotelListFragmentListener) activity;
+		mListener = Ui.findFragmentListener(this, HotelListFragmentListener.class);
 
 		mAdapter = new HotelAdapter(getActivity());
 
