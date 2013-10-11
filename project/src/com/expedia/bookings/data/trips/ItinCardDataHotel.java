@@ -241,6 +241,16 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 
 	@Override
 	public String getSharableDetailsUrl() {
-		return ((TripHotel) getTripComponent()).getSharableDetailsUrl();
+		String sharableUrl = ((TripHotel) getTripComponent()).getSharableDetailsUrl();
+		/*
+		 * The "sharableItemDetailURL" in the tripDetails API call might be missing in the case
+		 * when the whole trip consists of just a hotel. But it will be present when it's part of a package.
+		 */
+		if (sharableUrl != null && !TextUtils.isEmpty(sharableUrl)) {
+			return sharableUrl;
+		}
+		else {
+			return super.getSharableDetailsUrl();
+		}
 	}
 }
