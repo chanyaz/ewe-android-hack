@@ -23,6 +23,9 @@ public class FlightLeg implements JSONable {
 
 	private String mLegId;
 
+	// ItinSharing: We can share a flight at the leg level. But not at the FlightTrip level.
+	private String mSharableDetailsUrl;
+
 	private List<Flight> mSegments = new ArrayList<Flight>();
 
 	public String getLegId() {
@@ -47,6 +50,14 @@ public class FlightLeg implements JSONable {
 
 	public List<Flight> getSegments() {
 		return mSegments;
+	}
+
+	public String getSharableDetailsUrl() {
+		return mSharableDetailsUrl;
+	}
+
+	public void setSharableDetailsUrl(String sharableDetailsUrl) {
+		this.mSharableDetailsUrl = sharableDetailsUrl;
 	}
 
 	@Override
@@ -178,6 +189,7 @@ public class FlightLeg implements JSONable {
 			JSONObject obj = new JSONObject();
 			obj.putOpt("legId", mLegId);
 			JSONUtils.putJSONableList(obj, "segments", mSegments);
+			obj.putOpt("sharableFlightLegURL", mSharableDetailsUrl);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -189,6 +201,7 @@ public class FlightLeg implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 		mLegId = obj.optString("legId");
 		mSegments = JSONUtils.getJSONableList(obj, "segments", Flight.class);
+		mSharableDetailsUrl = obj.optString("sharableFlightLegURL");
 		return true;
 	}
 }

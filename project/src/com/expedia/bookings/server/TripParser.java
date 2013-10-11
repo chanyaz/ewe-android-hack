@@ -251,6 +251,7 @@ public class TripParser {
 		TripHotel hotel = new TripHotel();
 
 		parseTripCommon(obj, hotel);
+		hotel.setSharableDetailsUrl(obj.optString("sharableItemDetailURL").replace("/api/", "/m/"));
 
 		if (obj.has("checkInDateTime") && obj.has("checkOutDateTime")) {
 			hotel.setStartDate(parseDateTime(obj.opt("checkInDateTime")));
@@ -392,6 +393,9 @@ public class TripParser {
 		for (int a = 0; a < legsArr.length(); a++) {
 			JSONObject legJson = legsArr.optJSONObject(a);
 			FlightLeg leg = new FlightLeg();
+
+			// Fetch the sharable link at the flight leg level.
+			leg.setSharableDetailsUrl(legJson.optString("sharableFlightLegURL").replace("/api/", "/m/"));
 
 			JSONArray segmentsArr = legJson.optJSONArray("segments");
 			for (int b = 0; b < segmentsArr.length(); b++) {

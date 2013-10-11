@@ -17,6 +17,7 @@ public class TripHotel extends TripComponent {
 	private String mCheckOutTime;
 	private int mGuests;
 	private Set<String> mConfirmationNumbers;
+	private String mSharableDetailsUrl;
 
 	public TripHotel() {
 		super(Type.HOTEL);
@@ -70,6 +71,14 @@ public class TripHotel extends TripComponent {
 		mConfirmationNumbers = confirmationNumbers;
 	}
 
+	public String getSharableDetailsUrl() {
+		return mSharableDetailsUrl;
+	}
+
+	public void setSharableDetailsUrl(String sharableDetailsUrl) {
+		this.mSharableDetailsUrl = sharableDetailsUrl;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -85,6 +94,7 @@ public class TripHotel extends TripComponent {
 			obj.put("guests", mGuests);
 			obj.putOpt("checkInTime", mCheckInTime);
 			JSONUtils.putStringList(obj, "confNumbers", mConfirmationNumbers);
+			obj.putOpt("sharableItemDetailURL", mSharableDetailsUrl);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -98,6 +108,7 @@ public class TripHotel extends TripComponent {
 		mProperty = JSONUtils.getJSONable(obj, "property", Property.class);
 		mGuests = obj.optInt("guests");
 		mCheckInTime = obj.optString("checkInTime", null);
+		mSharableDetailsUrl = obj.optString("sharableItemDetailURL");
 
 		List<String> confNumbers = JSONUtils.getStringList(obj, "confNumbers");
 		if (confNumbers != null && confNumbers.size() > 0) {

@@ -238,4 +238,9 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 
 		return super.getLocation();
 	}
+
+	@Override
+	public String getSharableDetailsUrl() {
+		return ((TripHotel) getTripComponent()).getSharableDetailsUrl();
+	}
 }

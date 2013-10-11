@@ -160,4 +160,9 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 		}
 		return null;
 	}
+
+	@Override
+	public String getSharableDetailsUrl() {
+		return getFlightLeg().getSharableDetailsUrl();
+	}
 }
