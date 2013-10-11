@@ -2,6 +2,10 @@ package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Color;
@@ -32,6 +36,7 @@ import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FixedTranslationFrameLayout;
 import com.expedia.bookings.widget.SwipeOutLayout;
 import com.expedia.bookings.widget.SwipeOutLayout.ISwipeOutListener;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -46,6 +51,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	private static final String FTAG_YOUR_TRIP_TO = "FTAG_YOUR_TRIP_TO";
 	private static final String FTAG_BUCKET_FLIGHT = "FTAG_BUCKET_FLIGHT";
 	private static final String FTAG_BUCKET_HOTEL = "FTAG_BUCKET_HOTEL";
+
+	private static final int ANIM_DUR_BUCKET_ITEM_REMOVE = 300;
 
 	private ResultsBlurBackgroundImageFragment mBlurredBackgroundFrag;
 	private ResultsTripBucketYourTripToFragment mTripBucketTripToFrag;
@@ -126,6 +133,125 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		return view;
 	}
 
+	/*
+	 * TRIP BUCKET ITEM POSITIONING AND MANAGEMENT
+	 */
+
+	private int getNumberOfBucketContainers() {
+		if (hasFlightTrip() && hasHotelTrip()) {
+			//We have two trips and the "your trip to"
+			return 3;
+		}
+		else {
+			//We have the "your trip to" container, and maybe a trip
+			return 2;
+		}
+	}
+
+	private boolean hasFlightTrip() {
+		return Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedFlightTrip() != null;
+	}
+
+	private boolean hasHotelTrip() {
+		return Db.getHotelSearch() != null && Db.getHotelSearch().getSelectedProperty() != null;
+	}
+
+	private Animator perpareTripBucketItemRemovalAnimator(final int removalIndex) {
+		if (hasFlightTrip() && hasHotelTrip()) {
+			final int[] three = getCenterPositionsForTripBucket(3);
+			final int[] two = getCenterPositionsForTripBucket(2);
+			ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
+			animator.setDuration(ANIM_DUR_BUCKET_ITEM_REMOVE);
+			animator.addUpdateListener(new AnimatorUpdateListener() {
+				@Override
+				public void onAnimationUpdate(ValueAnimator arg0) {
+					float val = (Float) arg0.getAnimatedValue();
+					float viewHalfHeight = mTripBucketYourTripToC.getHeight() / 2f;
+					mTripBucketYourTripToC.setTranslationY(three[0] - viewHalfHeight + (val * (two[0] - three[0])));
+
+					if (removalIndex == 1) {
+						//moving hotel upwards
+						mTripBucketHotelC.setTranslationY(three[2] - viewHalfHeight + (val * (two[1] - three[2])));
+					}
+					else if (removalIndex == 2) {
+						//moving flight one down
+						mTripBucketFlightC.setTranslationY(three[1] - viewHalfHeight + (val * (two[1] - three[1])));
+
+					}
+				}
+			});
+			return animator;
+		}
+		return null;
+	}
+
+	private int[] getCenterPositionsForTripBucket(int itemCount) {
+		int viewSpace = (int) ((float) mTotalHeight / itemCount);
+		int[] retArr = new int[itemCount];
+		int currentCenter = (int) (viewSpace / 2f);
+		for (int i = 0; i < itemCount; i++) {
+			retArr[i] = currentCenter;
+			currentCenter += viewSpace;
+		}
+		return retArr;
+	}
+
+	private void positionTripBucketItems(boolean verticalOnly) {
+		//We just split the space evenly between views
+		int[] centers = getCenterPositionsForTripBucket(getNumberOfBucketContainers());
+		int viewHeight = mTotalHeight / 3;
+		float halfViewHeight = viewHeight / 2f;
+
+		setViewHeight(mTripBucketYourTripToC, viewHeight);
+		setViewHeight(mTripBucketFlightC, viewHeight);
+		setViewHeight(mTripBucketHotelC, viewHeight);
+
+		int index = 0;
+		mTripBucketYourTripToC.setTranslationY(centers[index] - halfViewHeight);
+		index++;
+		if (hasFlightTrip() || hasHotelTrip()) {
+			if (hasFlightTrip()) {
+				mTripBucketFlightC.setTranslationY(centers[index] - halfViewHeight);
+				index++;
+			}
+			if (hasHotelTrip()) {
+				mTripBucketHotelC.setTranslationY(centers[index] - halfViewHeight);
+				index++;
+			}
+		}
+		else {
+			//TODO: ADD AN EMPTY TRIP BUCKET CONTAINER WITH APPROPRIATE MESSAGING
+		}
+
+		if (!verticalOnly) {
+			//We set the content containers to be the column width
+			setHorizontalPos(mTripFlightC, 0, mColumnManager.getColWidth(2) - mFlightSwipeOut.getPaddingLeft()
+					- mFlightSwipeOut.getPaddingRight());
+			setHorizontalPos(mTripHotelC, 0, mColumnManager.getColWidth(2) - mHotelSwipeOut.getPaddingLeft()
+					- mHotelSwipeOut.getPaddingRight());
+
+			int flightSwipeOutDistance = (int) mFlightSwipeOut.getSwipeOutDistance();
+			int hotelSwipeOutDistance = (int) mHotelSwipeOut.getSwipeOutDistance();
+
+			setHorizontalPos(mTripBucketFlightC, mColumnManager.getColLeft(2) - flightSwipeOutDistance,
+					mColumnManager.getColWidth(2) + flightSwipeOutDistance);
+			setHorizontalPos(mTripBucketHotelC,
+					mColumnManager.getColLeft(2) - hotelSwipeOutDistance,
+					mColumnManager.getColWidth(2) + hotelSwipeOutDistance);
+		}
+	}
+
+	private void setViewHeight(View view, int height) {
+		((FrameLayout.LayoutParams) view.getLayoutParams()).height = height;
+		view.setLayoutParams(view.getLayoutParams());
+	}
+
+	private void setHorizontalPos(View view, int leftMargin, int width) {
+		((FrameLayout.LayoutParams) view.getLayoutParams()).leftMargin = leftMargin;
+		((FrameLayout.LayoutParams) view.getLayoutParams()).width = width;
+		view.setLayoutParams(view.getLayoutParams());
+	}
+
 	private ISwipeOutListener mFlightSwipeOutListener = new ISwipeOutListener() {
 
 		@Override
@@ -140,6 +266,29 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 		@Override
 		public void onSwipeAllTheWay() {
+			Animator anim = perpareTripBucketItemRemovalAnimator(1);
+			if (anim != null) {
+				anim.addListener(new AnimatorListenerAdapter() {
+					@Override
+					public void onAnimationStart(Animator animator) {
+						mTripBucketFlightC.setVisibility(View.INVISIBLE);
+					}
+
+					@Override
+					public void onAnimationEnd(Animator animator) {
+						if (getActivity() != null) {
+							finalizeRemoveFlight();
+						}
+					}
+				});
+				anim.start();
+			}
+			else {
+				finalizeRemoveFlight();
+			}
+		}
+
+		private void finalizeRemoveFlight() {
 			for (int i = 0; i < Db.getFlightSearch().getSelectedLegs().length; i++) {
 				Db.getFlightSearch().setSelectedLeg(i, null);
 			}
@@ -163,9 +312,32 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 		@Override
 		public void onSwipeAllTheWay() {
+			Animator anim = perpareTripBucketItemRemovalAnimator(2);
+			if (anim != null) {
+				anim.addListener(new AnimatorListenerAdapter() {
+					@Override
+					public void onAnimationStart(Animator animator) {
+						mTripBucketHotelC.setVisibility(View.INVISIBLE);
+					}
+
+					@Override
+					public void onAnimationEnd(Animator animator) {
+						if (getActivity() != null) {
+							finalizeRemoveHotel();
+						}
+					}
+				});
+				anim.start();
+			}
+			else {
+				finalizeRemoveHotel();
+			}
+		}
+
+		private void finalizeRemoveHotel() {
 			Db.getHotelSearch().clearSelectedProperty();
-			positionTripBucketItems(true);
 			setVisibilityState(mGlobalState);
+			positionTripBucketItems(true);
 		}
 
 	};
@@ -418,80 +590,6 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		mColumnManager.setContainerToColumn(mTripBucketYourTripToC, 2);
 
 		positionTripBucketItems(false);
-	}
-
-	private int getNumberOfBucketContainers() {
-		if (hasFlightTrip() && hasHotelTrip()) {
-			//We have two trips and the "your trip to"
-			return 3;
-		}
-		else {
-			//We have the "your trip to" container, and maybe a trip
-			return 2;
-		}
-	}
-
-	private boolean hasFlightTrip() {
-		return Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedFlightTrip() != null;
-	}
-
-	private boolean hasHotelTrip() {
-		return Db.getHotelSearch() != null && Db.getHotelSearch().getSelectedProperty() != null;
-	}
-
-	private void positionTripBucketItems(boolean verticalOnly) {
-		//We just split the space evenly between views
-		int viewSpace = (int) ((float) mTotalHeight / getNumberOfBucketContainers());
-		int viewHeight = mTotalHeight / 3;
-		int currentTop = 0;
-
-		setViewHeight(mTripBucketYourTripToC, viewHeight);
-		setViewHeight(mTripBucketFlightC, viewHeight);
-		setViewHeight(mTripBucketHotelC, viewHeight);
-
-		mTripBucketYourTripToC.setTranslationY(currentTop);
-		currentTop += viewSpace;
-		if (hasFlightTrip() || hasHotelTrip()) {
-			if (hasFlightTrip()) {
-				mTripBucketFlightC.setTranslationY(currentTop);
-				currentTop += viewSpace;
-			}
-			if (hasHotelTrip()) {
-				mTripBucketHotelC.setTranslationY(currentTop);
-				currentTop += viewSpace;
-			}
-		}
-		else {
-			//TODO: ADD AN EMPTY TRIP BUCKET CONTAINER WITH APPROPRIATE MESSAGING
-		}
-
-		if (!verticalOnly) {
-			//We set the content containers to be the column width
-			setHorizontalPos(mTripFlightC, 0, mColumnManager.getColWidth(2) - mFlightSwipeOut.getPaddingLeft()
-					- mFlightSwipeOut.getPaddingRight());
-			setHorizontalPos(mTripHotelC, 0, mColumnManager.getColWidth(2) - mHotelSwipeOut.getPaddingLeft()
-					- mHotelSwipeOut.getPaddingRight());
-
-			int flightSwipeOutDistance = (int) mFlightSwipeOut.getSwipeOutDistance();
-			int hotelSwipeOutDistance = (int) mHotelSwipeOut.getSwipeOutDistance();
-
-			setHorizontalPos(mTripBucketFlightC, mColumnManager.getColLeft(2) - flightSwipeOutDistance,
-					mColumnManager.getColWidth(2) + flightSwipeOutDistance);
-			setHorizontalPos(mTripBucketHotelC,
-					mColumnManager.getColLeft(2) - hotelSwipeOutDistance,
-					mColumnManager.getColWidth(2) + hotelSwipeOutDistance);
-		}
-	}
-
-	private void setViewHeight(View view, int height) {
-		((FrameLayout.LayoutParams) view.getLayoutParams()).height = height;
-		view.setLayoutParams(view.getLayoutParams());
-	}
-
-	private void setHorizontalPos(View view, int leftMargin, int width) {
-		((FrameLayout.LayoutParams) view.getLayoutParams()).leftMargin = leftMargin;
-		((FrameLayout.LayoutParams) view.getLayoutParams()).width = width;
-		view.setLayoutParams(view.getLayoutParams());
 	}
 
 	@Override
