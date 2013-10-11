@@ -180,7 +180,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		//We will be adding all of our add/removes to this transaction
 		FragmentTransaction transaction = manager.beginTransaction();
 
-		boolean blurredBackgroundAvailable = true;
+		boolean blurredBackgroundAvailable = false;
 		boolean yourTripToAvailable = true;
 		boolean bucketFlightAvailable = true;
 		boolean bucketHotelAvailable = true;

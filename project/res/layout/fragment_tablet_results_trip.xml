@@ -8,7 +8,8 @@
     <com.expedia.bookings.widget.FixedTranslationFrameLayout
         android:id="@+id/column_three_blurred_bg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="#EE092A3D" />
 
     <!-- Trip Bucket Containers -->
 
