@@ -14,6 +14,7 @@ import android.support.v4.app.DialogFragment;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Ui;
 
 public class GeocodeDisambiguationDialogFragment extends DialogFragment {
 
@@ -33,12 +34,7 @@ public class GeocodeDisambiguationDialogFragment extends DialogFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof GeocodeDisambiguationDialogFragmentListener)) {
-			throw new RuntimeException("GeocodeDisambiguationDialogFragment Activity "
-					+ "must implement GeocodeDisambiguationDialogFragmentListener!");
-		}
-
-		mListener = (GeocodeDisambiguationDialogFragmentListener) activity;
+		mListener = Ui.findFragmentListener(this, GeocodeDisambiguationDialogFragmentListener.class);
 	}
 
 	@Override

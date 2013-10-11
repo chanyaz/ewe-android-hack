@@ -19,6 +19,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.mobiata.android.util.Ui;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
 
@@ -52,11 +53,7 @@ public class CalendarDialogFragment extends DialogFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof CalendarDialogFragmentListener)) {
-			throw new RuntimeException("CalendarDialogFragment Activity must implement CalendarDialogFragmentListener!");
-		}
-
-		mListener = (CalendarDialogFragmentListener) activity;
+		mListener = Ui.findFragmentListener(this, CalendarDialogFragmentListener.class);
 	}
 
 	@Override

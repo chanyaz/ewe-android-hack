@@ -19,6 +19,7 @@ import com.expedia.bookings.widget.AvailabilitySummaryWidget;
 import com.expedia.bookings.widget.AvailabilitySummaryWidget.AvailabilitySummaryListener;
 import com.expedia.bookings.widget.HotelCollage;
 import com.expedia.bookings.widget.HotelCollage.OnCollageImageClickedListener;
+import com.mobiata.android.util.Ui;
 
 public class MiniDetailsFragment extends Fragment implements AvailabilitySummaryListener {
 
@@ -33,6 +34,7 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 	private HotelCollage mCollageHandler;
 
 	private MiniDetailsFragmentListener mListener;
+	private OnCollageImageClickedListener mCollageListener;
 
 	private AvailabilitySummaryWidget mAvailabilitySummary;
 
@@ -43,14 +45,8 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof MiniDetailsFragmentListener)) {
-			throw new RuntimeException("MiniDetailsFragment Activity must implement MiniDetailsFragmentListener!");
-		}
-		else if (!(activity instanceof OnCollageImageClickedListener)) {
-			throw new RuntimeException("MiniDetailsFragment Activity must implement OnCollageImageClickedListener!");
-		}
-
-		mListener = (MiniDetailsFragmentListener) activity;
+		mListener = Ui.findFragmentListener(this, MiniDetailsFragmentListener.class);
+		mCollageListener = Ui.findFragmentListener(this, OnCollageImageClickedListener.class);
 
 		mAvailabilitySummary = new AvailabilitySummaryWidget(activity);
 		mAvailabilitySummary.setListener(this);
@@ -66,7 +62,7 @@ public class MiniDetailsFragment extends Fragment implements AvailabilitySummary
 		mNameTextView = (TextView) view.findViewById(R.id.name_text_view);
 		mLocationTextView = (TextView) view.findViewById(R.id.location_text_view);
 		mRatingBar = (RatingBar) view.findViewById(R.id.hotel_rating_bar);
-		mCollageHandler = new HotelCollage(view, (OnCollageImageClickedListener) getActivity());
+		mCollageHandler = new HotelCollage(view, mCollageListener);
 
 		mAvailabilitySummary.init(view);
 

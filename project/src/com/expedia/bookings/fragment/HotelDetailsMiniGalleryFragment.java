@@ -19,6 +19,7 @@ import com.expedia.bookings.widget.AdapterView;
 import com.expedia.bookings.widget.AdapterView.OnItemClickListener;
 import com.expedia.bookings.widget.AdapterView.OnItemSelectedListener;
 import com.expedia.bookings.widget.Gallery;
+import com.mobiata.android.util.Ui;
 
 public class HotelDetailsMiniGalleryFragment extends Fragment {
 
@@ -49,12 +50,7 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof HotelMiniGalleryFragmentListener)) {
-			throw new RuntimeException(
-					"HotelDetailsMiniGalleryFragment Activity must implement HotelMiniGalleryFragmentListener!");
-		}
-
-		mListener = (HotelMiniGalleryFragmentListener) activity;
+		mListener = Ui.findFragmentListener(this, HotelMiniGalleryFragmentListener.class);
 	}
 
 	@Override

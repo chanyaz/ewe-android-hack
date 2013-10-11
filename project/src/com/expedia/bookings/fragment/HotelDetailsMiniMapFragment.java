@@ -29,12 +29,7 @@ public class HotelDetailsMiniMapFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof HotelMiniMapFragmentListener)) {
-			throw new RuntimeException(
-					"HotelDetailsMiniMapFragment Activity must implement HotelMiniMapFragmentListener!");
-		}
-
-		mListener = (HotelMiniMapFragmentListener) activity;
+		mListener = Ui.findFragmentListener(this, HotelMiniMapFragmentListener.class);
 	}
 
 	@Override

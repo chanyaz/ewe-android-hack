@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.maps.MapAnimationUtils;
 
 public class ItineraryMapFragment extends SupportMapFragment implements OnMyLocationChangeListener {
@@ -61,11 +62,7 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof ItineraryMapFragmentListener)) {
-			throw new RuntimeException("ItineraryMapFragment Activity must implement listener");
-		}
-
-		mListener = (ItineraryMapFragmentListener) activity;
+		mListener = Ui.findFragmentListener(this, ItineraryMapFragmentListener.class);
 
 		mLocationFragment = FusedLocationProviderFragment.getInstance(this);
 

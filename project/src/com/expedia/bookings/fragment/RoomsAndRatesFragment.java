@@ -49,11 +49,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof RoomsAndRatesFragmentListener)) {
-			throw new RuntimeException("RoomsAndRatesFragment Activity must implement RoomsAndRatesFragmentListener!");
-		}
-
-		mListener = (RoomsAndRatesFragmentListener) activity;
+		mListener = Ui.findFragmentListener(this, RoomsAndRatesFragmentListener.class);
 	}
 
 	@Override

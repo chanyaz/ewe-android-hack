@@ -171,12 +171,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof BookingOverviewFragmentListener)) {
-			throw new RuntimeException(
-					"HotelOverviewFragment Activity must implement BookingOverviewFragmentListener");
-		}
-
-		mBookingOverviewFragmentListener = (BookingOverviewFragmentListener) activity;
+		mBookingOverviewFragmentListener = Ui.findFragmentListener(this, BookingOverviewFragmentListener.class);
 	}
 
 	@Override

@@ -16,6 +16,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.Ui;
 
 public class PriceChangeDialogFragment extends DialogFragment {
 
@@ -39,13 +40,7 @@ public class PriceChangeDialogFragment extends DialogFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (activity instanceof PriceChangeDialogFragmentListener) {
-			mListener = (PriceChangeDialogFragmentListener) activity;
-		}
-		else {
-			throw new RuntimeException(
-					"PriceChangeDialogFragment Activity must implement PriceChangeDialogFragmentListener");
-		}
+		mListener = Ui.findFragmentListener(this, PriceChangeDialogFragmentListener.class);
 	}
 
 	@Override

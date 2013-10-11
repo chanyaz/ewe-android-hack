@@ -65,12 +65,7 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof FlightPaymentYoYoListener)) {
-			throw new RuntimeException(
-					"FlightPaymentOptiosnFragment activity must implement FlightPaymentYoYoListener!");
-		}
-
-		mListener = (FlightPaymentYoYoListener) activity;
+		mListener = Ui.findFragmentListener(this, FlightPaymentYoYoListener.class);
 	}
 
 	@Override

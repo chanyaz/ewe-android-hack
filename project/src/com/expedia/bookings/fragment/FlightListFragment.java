@@ -86,11 +86,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof FlightListFragmentListener)) {
-			throw new RuntimeException("FlightListFragment activity must implement FlightListFragmentListener!");
-		}
-
-		mListener = (FlightListFragmentListener) activity;
+		mListener = Ui.findFragmentListener(this, FlightListFragmentListener.class);
 	}
 
 	@Override

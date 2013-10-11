@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.FlightTravelerInfoOptionsFragment.TravelerInfoYoYoListener;
+import com.expedia.bookings.utils.Ui;
 
 public class FlightTravelerSaveDialogFragment extends DialogFragment {
 
@@ -53,12 +54,7 @@ public class FlightTravelerSaveDialogFragment extends DialogFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof TravelerInfoYoYoListener)) {
-			throw new RuntimeException(
-					"FlightTravelerSaveDialogFragment activity must implement TravelerInfoYoYoListener!");
-		}
-
-		mListener = (TravelerInfoYoYoListener) activity;
+		mListener = Ui.findFragmentListener(this, TravelerInfoYoYoListener.class);
 	}
 
 	@Override

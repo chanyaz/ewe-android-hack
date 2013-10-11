@@ -35,12 +35,7 @@ public class NoFlightsFragment extends Fragment implements OnClickListener {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (activity instanceof NoFlightsFragmentListener) {
-			mListener = (NoFlightsFragmentListener) activity;
-		}
-		else {
-			throw new RuntimeException("NoFlightsFragment Activity must implement listener!");
-		}
+		mListener = Ui.findFragmentListener(this, NoFlightsFragmentListener.class);
 	}
 
 	@Override

@@ -60,12 +60,7 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof HotelPaymentYoYoListener)) {
-			throw new RuntimeException(HotelPaymentOptionsFragment.class.getSimpleName() + " activity must implement "
-					+ HotelPaymentYoYoListener.class.getSimpleName());
-		}
-
-		mListener = (HotelPaymentYoYoListener) activity;
+		mListener = Ui.findFragmentListener(this, HotelPaymentYoYoListener.class);
 	}
 
 	@Override

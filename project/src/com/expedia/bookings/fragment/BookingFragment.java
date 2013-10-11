@@ -13,6 +13,7 @@ import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.util.Ui;
 
 public abstract class BookingFragment<T extends Response> extends FullWalletFragment {
 
@@ -52,11 +53,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof BookingFragmentListener)) {
-			throw new RuntimeException("BookingFragment Activity must implement listener!");
-		}
-
-		mListener = (BookingFragmentListener) activity;
+		mListener = Ui.findFragmentListener(this, BookingFragmentListener.class);
 	}
 
 	@Override
