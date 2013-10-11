@@ -1384,10 +1384,11 @@ public class ItineraryManager implements JSONable {
 						currentTrips.remove(tripNumber);
 					}
 
-					// Remove all trips that were not returned by the server (not including guest trips)
+					// Remove all trips that were not returned by the server (not including guest trips or imported shared trips)
 					for (String tripNumber : currentTrips) {
-						if (!mTrips.get(tripNumber).isGuest()) {
-							Trip trip = mTrips.remove(tripNumber);
+						Trip trip = mTrips.get(tripNumber);
+						if (!trip.isGuest() && !trip.isShared()) {
+							trip = mTrips.remove(tripNumber);
 							publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
 							mTripsRemoved++;
 						}
