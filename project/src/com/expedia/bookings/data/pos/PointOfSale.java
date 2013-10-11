@@ -234,8 +234,7 @@ public class PointOfSale {
 	 * @return
 	 */
 	public String getSupportPhoneNumberBestForUser(User usr) {
-		if (usr != null && usr.getPrimaryTraveler() != null && usr.getPrimaryTraveler().getIsElitePlusMember()
-				&& !TextUtils.isEmpty(getSupportPhoneNumberElitePlus())) {
+		if (usr != null && usr.isElitePlus()) {
 			return getSupportPhoneNumberElitePlus();
 		}
 		else {

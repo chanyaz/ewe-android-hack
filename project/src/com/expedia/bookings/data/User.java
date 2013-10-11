@@ -110,6 +110,17 @@ public class User implements JSONable {
 		return false;
 	}
 
+	/**
+	 * Returns true if this user is an Elite Plus Member. Used for VIP badges,
+	 * special dial in phone numbers, etc.
+	 * @param context
+	 * @return
+	 */
+	public boolean isElitePlus() {
+		return this.getPrimaryTraveler() != null
+				&& this.getPrimaryTraveler().getIsElitePlusMember();
+	}
+
 	public String getTuidString() {
 		if (this.getPrimaryTraveler() != null && this.getPrimaryTraveler().getTuid() != null
 				&& this.getPrimaryTraveler().getTuid() >= 0) {
@@ -565,5 +576,17 @@ public class User implements JSONable {
 	 */
 	public interface SignOutCompleteListener {
 		public void onSignOutComplete();
+	}
+
+	/**
+	 * Returns true if the currently logged in user is an Elite Plus Member. Used for VIP badges,
+	 * special dial in phone numbers, etc.
+	 * @param context
+	 * @return
+	 */
+	public static boolean isElitePlus(Context context) {
+		return isLoggedIn(context)
+				&& Db.getUser() != null
+				&& Db.getUser().isElitePlus();
 	}
 }

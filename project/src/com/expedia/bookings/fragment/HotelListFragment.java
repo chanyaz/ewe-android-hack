@@ -142,14 +142,8 @@ public class HotelListFragment extends ListFragment {
 		super.onResume();
 
 		if (getActivity() != null) {
-			boolean supportsVipAccess = PointOfSale.getPointOfSale().supportsVipAccess();
-			boolean shouldShowVipIcon = false;
-			if (supportsVipAccess) {
-				shouldShowVipIcon = User.isLoggedIn(getActivity())
-					&& Db.getUser() != null
-					&& Db.getUser().getPrimaryTraveler() != null
-					&& Db.getUser().getPrimaryTraveler().getIsElitePlusMember();
-			}
+			boolean shouldShowVipIcon = PointOfSale.getPointOfSale().supportsVipAccess()
+					&& User.isElitePlus(getActivity());
 			mAdapter.setShowVipIcon(shouldShowVipIcon);
 		}
 

@@ -468,12 +468,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	}
 
 	protected boolean hasElitePlusNumber() {
-		boolean hasElitePlusNum = false;
-		if (User.isLoggedIn(mContext) && Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
-				&& Db.getUser().getPrimaryTraveler().getIsElitePlusMember()) {
-			hasElitePlusNum = !TextUtils.isEmpty(PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus());
-		}
-		return hasElitePlusNum;
+		return User.isElitePlus(mContext)
+				&& !TextUtils.isEmpty(PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus());
 	}
 
 	protected boolean hasConfirmationNumber() {

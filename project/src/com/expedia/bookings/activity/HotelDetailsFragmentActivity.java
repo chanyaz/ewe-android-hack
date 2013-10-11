@@ -427,10 +427,9 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			mBookByPhoneButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (User.isLoggedIn(mContext) && Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
-							&& Db.getUser().getPrimaryTraveler().getIsElitePlusMember()) {
-						SocialUtils.call(HotelDetailsFragmentActivity.this, PointOfSale.getPointOfSale()
-								.getSupportPhoneNumberElitePlus());
+					if (User.isElitePlus(mContext)) {
+						SocialUtils.call(HotelDetailsFragmentActivity.this,
+								PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus());
 					}
 					else {
 						SocialUtils.call(HotelDetailsFragmentActivity.this, property.getTelephoneSalesNumber());
