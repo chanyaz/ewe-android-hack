@@ -26,7 +26,7 @@ import com.mobiata.android.util.Ui;
 public class TabletResultsActionBarView extends RelativeLayout implements ITabletResultsController {
 
 	private ColumnManager mColumnManager = new ColumnManager(3);
-	private GlobalResultsState mResultsState;
+	private GlobalResultsState mResultsState = GlobalResultsState.DEFAULT;
 
 	private ActionBar mActionBar;
 	private PercentageFadeColorDrawable mActionBarBg;
@@ -141,12 +141,16 @@ public class TabletResultsActionBarView extends RelativeLayout implements ITable
 		switch (state) {
 		case HOTELS: {
 			mHotelsTitleTv.setVisibility(View.VISIBLE);
-			mHotelsTitleTv.setAlpha(0f);
+			if (mResultsState == GlobalResultsState.DEFAULT) {
+				mHotelsTitleTv.setAlpha(0f);
+			}
 			break;
 		}
 		case FLIGHTS: {
 			mFlightsTitleTv.setVisibility(View.VISIBLE);
-			mFlightsTitleTv.setAlpha(0f);
+			if (mResultsState == GlobalResultsState.DEFAULT) {
+				mFlightsTitleTv.setAlpha(0f);
+			}
 			break;
 		}
 		default: {
