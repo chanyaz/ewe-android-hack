@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModels.common.ScreenActions;
 import com.expedia.bookings.test.utils.TestPreferences;
+import com.mobiata.android.text.format.Time;
+import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.testutils.CalendarTouchUtils;
 
 public class FlightsSearchScreen extends ScreenActions {
@@ -68,6 +70,10 @@ public class FlightsSearchScreen extends ScreenActions {
 		return mRes.getQuantityString(ADULTS_PLURAL_STRING_FORMAT_ID, quantityOfAdults, quantityOfAdults);
 	}
 
+	public CalendarDatePicker calendarDatePicker() {
+		return (CalendarDatePicker) getView(CALENDAR_DATE_PICKER_ID);
+	}
+
 	// Object interactions 
 
 	public void enterDepartureAirport(String text) {
@@ -113,6 +119,11 @@ public class FlightsSearchScreen extends ScreenActions {
 	public void clickDate(int offset) {
 		delay();
 		CalendarTouchUtils.selectDay(this, offset, CALENDAR_DATE_PICKER_ID);
+	}
+
+	public void clickDate(Time time) {
+		delay();
+		CalendarTouchUtils.clickOnFutureMonthDay(this, calendarDatePicker(), time);
 	}
 
 }

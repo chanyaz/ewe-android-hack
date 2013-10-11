@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModels.common.ScreenActions;
 import com.expedia.bookings.test.utils.TestPreferences;
+import com.mobiata.android.text.format.Time;
+import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.testutils.CalendarTouchUtils;
 
 public class HotelsSearchScreen extends ScreenActions {
@@ -155,6 +157,10 @@ public class HotelsSearchScreen extends ScreenActions {
 		return new HotelSearchResultRow(hotelResultsListView().getChildAt(index + 1));
 	}
 
+	public CalendarDatePicker calendarDatePicker() {
+		return (CalendarDatePicker) getView(CALENDAR_DATE_PICKER_ID);
+	}
+
 	// Object interaction
 
 	public void enterSearchText(String text) {
@@ -197,4 +203,11 @@ public class HotelsSearchScreen extends ScreenActions {
 		delay();
 		CalendarTouchUtils.selectDay(this, offset, CALENDAR_DATE_PICKER_ID);
 	}
+
+	public void clickDate(Time time) {
+		delay();
+		CalendarDatePicker cal = calendarDatePicker();
+		CalendarTouchUtils.clickOnFutureMonthDay(this, cal, time);
+	}
+
 }
