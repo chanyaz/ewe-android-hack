@@ -30,7 +30,6 @@ import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
-import com.expedia.bookings.data.Property;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment.IBackgroundImageReceiverRegistrar;
 import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment;
@@ -38,22 +37,17 @@ import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment.IFlig
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment.IHotelsFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.fragment.TabletResultsTripControllerFragment;
-import com.expedia.bookings.graphics.PercentageFadeColorDrawable;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackgroundImageReceiver;
 import com.expedia.bookings.interfaces.ITabletResultsController;
-import com.expedia.bookings.maps.HotelMapFragment;
-import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
-import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.ColumnManager;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
-import com.expedia.bookings.widget.AbSearchInfoButton;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
-import com.google.android.gms.maps.CameraUpdateFactory;
+import com.expedia.bookings.widget.TabletResultsActionBarView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -107,10 +101,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private boolean mBackButtonLocked = false;
 
 	//ActionBar
-	private AbSearchInfoButton mABSearchBtn;
-	private PercentageFadeColorDrawable mActionBarBg;
-	private PercentageFadeColorDrawable mActionBarBgFlights;
-	private PercentageFadeColorDrawable mActionBarBgHotels;
+	private TabletResultsActionBarView mActionBarView;
 
 	private ArrayList<IBackgroundImageReceiver> mBackgroundImageReceivers = new ArrayList<IBackgroundImageReceiver>();
 	private ArrayList<ITabletResultsController> mTabletResultsControllers = new ArrayList<ITabletResultsController>();
@@ -171,34 +162,21 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			Db.getBackgroundImageCache(this).loadDefaultsInThread(this);
 		}
 
-		//We set up our actionbar background colors.
-		mActionBarBgHotels = new PercentageFadeColorDrawable(
-				getResources().getColor(R.color.tablet_results_ab_default),
-				getResources().getColor(R.color.tablet_results_ab_hotels));
-		mActionBarBgFlights = new PercentageFadeColorDrawable(getResources()
-				.getColor(R.color.tablet_results_ab_default),
-				getResources().getColor(R.color.tablet_results_ab_flights));
-		mActionBarBg = mActionBarBgHotels;
-
 		//Ab search button
-		mABSearchBtn = (AbSearchInfoButton) getLayoutInflater().inflate(R.layout.actionbar_search_button, null);
-		mABSearchBtn.bindFromDb(this);
-		mABSearchBtn.setOnClickListener(new OnClickListener() {
+		mActionBarView = new TabletResultsActionBarView(this);
+		mActionBarView.bindFromDb(this);
+		mActionBarView.setSearchBarOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				if (mState == GlobalResultsState.DEFAULT && mABSearchBtn.getAlpha() == 1f) {
+				if (mState == GlobalResultsState.DEFAULT) {
 					onBackPressed();
 				}
 			}
 		});
+		mTabletResultsControllers.add(mActionBarView);
 
 		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setBackgroundDrawable(mActionBarBg);
-		actionBar.setDisplayShowCustomEnabled(true);
-		actionBar.setCustomView(mABSearchBtn);
-
+		mActionBarView.attachToActionBar(actionBar);
 	}
 
 	@Override
@@ -273,54 +251,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	}
 
 	/**
-	 * ACTIONBAR COLOR STUFF
-	 */
-
-	private void setActionbarColorFromState(GlobalResultsState state) {
-
-		if (state == GlobalResultsState.DEFAULT) {
-			mActionBarBg.setPercentage(0f);
-			mABSearchBtn.setAlpha(1f);
-		}
-		else {
-			ActionBar actionBar = getSupportActionBar();
-			if (state == GlobalResultsState.HOTELS && mActionBarBg != mActionBarBgHotels) {
-				mActionBarBg = mActionBarBgHotels;
-				actionBar.setBackgroundDrawable(mActionBarBg);
-			}
-			else if (state == GlobalResultsState.FLIGHTS && mActionBarBg != mActionBarBgFlights) {
-				mActionBarBg = mActionBarBgFlights;
-				actionBar.setBackgroundDrawable(mActionBarBg);
-			}
-			mActionBarBg.setPercentage(1f);
-			mABSearchBtn.setAlpha(0f);
-		}
-	}
-
-	private void setActionbarColorForTransition(GlobalResultsState stateOne, GlobalResultsState stateTwo) {
-		ActionBar actionBar = getSupportActionBar();
-		if (stateOne == GlobalResultsState.DEFAULT && stateTwo == GlobalResultsState.DEFAULT) {
-			mActionBarBg.setPercentage(0f);
-		}
-		else if (stateOne == GlobalResultsState.HOTELS || stateTwo == GlobalResultsState.HOTELS) {
-			if (mActionBarBg != mActionBarBgHotels) {
-				mActionBarBg = mActionBarBgHotels;
-				actionBar.setBackgroundDrawable(mActionBarBg);
-			}
-			float percentage = stateOne == GlobalResultsState.HOTELS ? 1f : 0f;
-			mActionBarBg.setPercentage(percentage);
-		}
-		else {
-			if (mActionBarBg != mActionBarBgFlights) {
-				mActionBarBg = mActionBarBgFlights;
-				actionBar.setBackgroundDrawable(mActionBarBg);
-			}
-			float percentage = stateOne == GlobalResultsState.FLIGHTS ? 1f : 0f;
-			mActionBarBg.setPercentage(percentage);
-		}
-	}
-
-	/**
 	 * ITabletResultsController STUFF
 	 */
 
@@ -328,7 +258,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	public void setGlobalResultsState(GlobalResultsState state) {
 		Log.d("setGlobalResultsState:" + state.name());
 		mState = state;
-		setActionbarColorFromState(state);
 
 		for (ITabletResultsController controller : mTabletResultsControllers) {
 			controller.setGlobalResultsState(state);
@@ -337,7 +266,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	@Override
 	public void setAnimatingTowardsVisibility(GlobalResultsState state) {
-		setActionbarColorForTransition(mState, state);
 		for (ITabletResultsController controller : mTabletResultsControllers) {
 			controller.setAnimatingTowardsVisibility(state);
 		}
@@ -359,8 +287,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	@Override
 	public void animateToFlightsPercentage(float percentage) {
-		mActionBarBg.setPercentage(1f - percentage);
-		mABSearchBtn.setAlpha(percentage);
 		for (ITabletResultsController controller : mTabletResultsControllers) {
 			controller.animateToFlightsPercentage(percentage);
 		}
@@ -369,8 +295,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	@Override
 	public void animateToHotelsPercentage(float percentage) {
-		mActionBarBg.setPercentage(1f - percentage);
-		mABSearchBtn.setAlpha(percentage);
 		for (ITabletResultsController controller : mTabletResultsControllers) {
 			controller.animateToHotelsPercentage(percentage);
 		}
@@ -378,12 +302,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	@Override
 	public void updateContentSize(int totalWidth, int totalHeight) {
-
 		//Setup column manager
 		mColumnManager.setTotalWidth(totalWidth);
 
-		//Actionbar search button width
-		mABSearchBtn.setWidth(mColumnManager.getColRight(1) - mABSearchBtn.getLeft());
 		//Tell the children
 		for (ITabletResultsController controller : mTabletResultsControllers) {
 			controller.updateContentSize(totalWidth, totalHeight);
