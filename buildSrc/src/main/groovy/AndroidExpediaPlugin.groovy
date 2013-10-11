@@ -16,6 +16,7 @@ class AndroidExpediaPlugin implements Plugin<Project> {
     // Path to file in src tree with ContentProvider authority declarations
     final def contentProviderBuildStringsPath = "project/res/values/gradle_content_provider_authorities.xml"
     def rootDir = ""
+    def jenkinsBuildNumber = "$System.env.BUILD_NUMBER"
 
     void apply(Project project) {
         def hasAppPlugin = project.plugins.hasPlugin AppPlugin
