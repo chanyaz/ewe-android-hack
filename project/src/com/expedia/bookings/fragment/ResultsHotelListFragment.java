@@ -13,8 +13,10 @@ import android.widget.ListView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelFilter.OnFilterChangedListener;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
 import com.expedia.bookings.widget.SimpleColorAdapter;
@@ -47,6 +49,12 @@ public class ResultsHotelListFragment extends ResultsListFragment implements OnF
 	@Override
 	public void onStart() {
 		super.onStart();
+
+		if (getActivity() != null && mAdapter instanceof TabletHotelAdapter) {
+			boolean shouldShowVipIcon = PointOfSale.getPointOfSale().supportsVipAccess()
+					&& User.isElitePlus(getActivity());
+			((TabletHotelAdapter) mAdapter).setShowVipIcon(shouldShowVipIcon);
+		}
 
 		Db.getFilter().addOnFilterChangedListener(this);
 	}

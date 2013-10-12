@@ -43,7 +43,7 @@ public class HotelSummarySection extends RelativeLayout {
 	// "ViewHolder" views
 	private ImageView mThumbnailView;
 	private ImageView mHotelBackgroundView;
-	private ImageView mVipView;
+	private View mVipView;
 	private TextView mNameText;
 	private TextView mStrikethroughPriceText;
 	private TextView mPriceText;

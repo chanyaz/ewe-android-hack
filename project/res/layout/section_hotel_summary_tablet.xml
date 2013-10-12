@@ -12,6 +12,7 @@
     mobiata:salePriceTextColor="?attr/hotelPriceSaleColor" >
 
     <!-- TODO: revisit the background view here. -->
+
     <com.expedia.bookings.widget.OptimizedImageView
         android:id="@+id/hotel_background_view"
         android:layout_width="match_parent"
@@ -106,15 +107,21 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- TODO: place the VIP image somewhere -->
-
-    <ImageView
+    <TextView
         android:id="@+id/vip_badge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/ic_vip_search"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textColor="#ffffff"
+        android:background="@drawable/bg_vip_badge"
+        android:text="@string/VIP"
         android:visibility="gone" />
 
     <!-- TODO: place the urgency message somewhere -->

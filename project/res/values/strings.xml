@@ -98,6 +98,8 @@
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">Flights to %1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
     <string name="actionbar_tablet_results_hotels_title_TEMPLATE">%1$s Hotels</string>
+    <!-- Label for VIP badge -->
+    <string name="VIP">VIP</string>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->

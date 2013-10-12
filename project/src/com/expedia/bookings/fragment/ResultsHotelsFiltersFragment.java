@@ -20,6 +20,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelFilter;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.HotelFilter.PriceRange;
 import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.HotelFilter.Sort;
@@ -31,6 +32,7 @@ import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterList
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.HotelNeighborhoodLayout;
+import com.expedia.bookings.widget.TabletHotelAdapter;
 import com.expedia.bookings.widget.HotelNeighborhoodLayout.OnNeighborhoodsChangedListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
@@ -187,10 +189,14 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		}
 		mPriceButtonGroup.check(checkId);
 
-		if (PointOfSale.getPointOfSale().supportsVipAccess()) {
+		if (PointOfSale.getPointOfSale().supportsVipAccess() && User.isElitePlus(getActivity())) {
 			mVipAccessButton.setVisibility(View.VISIBLE);
+			mVipAccessButton.setSelected(filter.isVipAccessOnly());
 		}
-		mVipAccessButton.setSelected(filter.isVipAccessOnly());
+		else {
+			mVipAccessButton.setVisibility(View.GONE);
+			filter.setVipAccessOnly(false);
+		}
 
 		// Configure Areas/Neighborhoods
 		mNeighborhoodLayout.setNeighborhoods(search.getSearchResponse(), filter);
