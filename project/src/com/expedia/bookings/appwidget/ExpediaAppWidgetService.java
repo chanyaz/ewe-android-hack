@@ -12,16 +12,17 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.expedia.bookings.data.Distance;
+import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.mobiata.android.Log;
 
 public class ExpediaAppWidgetService extends Service {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
 
-	private static final String TAG = "ExpediaWidget";
+	public static final String TAG = "ExpediaWidget";
 
 	private static final String WIDGET_KEY_SEARCH = "WIDGET_KEY_SEARCH";
 
@@ -56,8 +57,29 @@ public class ExpediaAppWidgetService extends Service {
 	// Lifecycle
 
 	@Override
+	public void onCreate() {
+		super.onCreate();
+
+		Log.i(TAG, "ExpediaAppWidgetService.onCreate()");
+	}
+
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		Log.i(TAG, "ExpediaAppWidgetService.onStartCommand(" + intent + ", " + flags + ", " + startId + ")");
+
+		return super.onStartCommand(intent, flags, startId);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+
+		Log.i(TAG, "ExpediaAppWidgetService.onDestroy()");
+	}
+
+	@Override
 	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
+		// Ignore; nothing ever binds to this Service
 		return null;
 	}
 
