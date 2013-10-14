@@ -16,6 +16,7 @@ import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -24,10 +25,11 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
+import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.StrUtils;
 import com.google.android.gms.common.ConnectionResult;
@@ -40,9 +42,11 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.bitmaps.TwoLevelImageCache;
+import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 
 public class ExpediaAppWidgetService extends Service implements ConnectionCallbacks, OnConnectionFailedListener,
-		LocationListener {
+		LocationListener, OnImageLoaded {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -74,6 +78,9 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 
 	// When the user interacts with the widget, how long we should delay until the next rotation
 	private static final ReadablePeriod INTERACTION_DELAY = Seconds.seconds(30);
+
+	// So that we're loading URLs on our own key
+	private static final String WIDGET_THUMBNAIL_KEY_PREFIX = "WIDGET_THUMBNAIL_KEY.";
 
 	// Actions used to change things in the service
 	private static final String ACTION_PREVIOUS = "ACTION_PREVIOUS";
@@ -200,7 +207,19 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 							getResources().getColor(R.color.hotel_price_text_color));
 				}
 
-				remoteViews.setImageViewResource(R.id.hotel_image_view, R.drawable.widget_thumbnail_background);
+				Media thumbnail = property.getThumbnail();
+				if (thumbnail != null) {
+					String url = thumbnail.getUrl();
+					Bitmap bitmap = TwoLevelImageCache.getImage(url, false);
+					if (bitmap != null) {
+						remoteViews.setImageViewBitmap(R.id.hotel_image_view, bitmap);
+					}
+					else {
+						remoteViews.setImageViewResource(R.id.hotel_image_view, R.drawable.widget_thumbnail_background);
+
+						TwoLevelImageCache.loadImage(WIDGET_THUMBNAIL_KEY_PREFIX + url, url, this);
+					}
+				}
 			}
 
 			remoteViews.setOnClickPendingIntent(R.id.prev_hotel_btn, createPendingIntent(ACTION_PREVIOUS));
@@ -354,6 +373,19 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		// when we actually want to do a new search (due to the user moving).
 		mSearchParams.setSearchLatLon(location.getLatitude(), location.getLongitude());
 		startNewSearch();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// OnImageLoaded
+
+	@Override
+	public void onImageLoaded(String url, Bitmap bitmap) {
+		updateWidgets();
+	}
+
+	@Override
+	public void onImageLoadFailed(String url) {
+		// Ignore
 	}
 
 	//////////////////////////////////////////////////////////////////////////
