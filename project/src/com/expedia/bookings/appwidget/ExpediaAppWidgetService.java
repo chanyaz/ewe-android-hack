@@ -149,13 +149,17 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	private void startNewSearch() {
 		Log.i(TAG, "Widget is starting a new search...");
 
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		// Clear old results
+		mDeals.clear();
+		mLoadedDeals = false;
+		updateWidgets();
 
+		// Start new search
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(WIDGET_KEY_SEARCH)) {
 			Log.w(TAG, "Widget was already doing a search when a new one was started!");
 			bd.cancelDownload(WIDGET_KEY_SEARCH);
 		}
-
 		bd.startDownload(WIDGET_KEY_SEARCH, mSearchDownload, mSearchCallback);
 	}
 
@@ -174,8 +178,6 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 			Log.i(TAG, "Widget received search response: " + results);
 
 			mLoadedDeals = true;
-
-			mDeals.clear();
 			mDeals.addAll(getDeals(results));
 			updateWidgets();
 		}
@@ -260,6 +262,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 
 		// Due to the way we setup LocationRequest, this should only be called
 		// when we actually want to do a new search (due to the user moving).
+		mSearchParams.setSearchLatLon(location.getLatitude(), location.getLongitude());
 		startNewSearch();
 	}
 
