@@ -140,29 +140,21 @@
         android:textStyle="bold"
         android:visibility="gone" />
 
-    <ImageView
-        android:id="@+id/sale_image_view"
+    <TextView
+        android:id="@+id/sale_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:src="?attr/hotelListingSaleDrawable"
-        android:visibility="gone" />
-
-    <com.mobiata.android.widget.TiltedTextView
-        android:id="@+id/sale_text_view"
-        android:layout_width="27dp"
-        android:layout_height="27dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="top|right"
-        android:layout_marginRight="@dimen/percent_off_corner_margin_right"
-        android:layout_marginTop="@dimen/percent_off_corner_margin_top"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_sale_text_view"
+        android:paddingBottom="1dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="1dp"
         android:singleLine="true"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/percent_off_corner_text_size"
-        android:textStyle="bold"
-        android:visibility="gone"
-        mobiata:rotation="45" />
+        android:visibility="gone" />
 
 </com.expedia.bookings.section.HotelSummarySection>

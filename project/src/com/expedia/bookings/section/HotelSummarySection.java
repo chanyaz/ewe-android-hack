@@ -119,7 +119,9 @@ public class HotelSummarySection extends RelativeLayout {
 
 			mPriceText.setTextColor(mSalePriceTextColor);
 			mSaleText.setVisibility(View.VISIBLE);
-			mSaleImageView.setVisibility(View.VISIBLE);
+			if (mSaleImageView != null) {
+				mSaleImageView.setVisibility(View.VISIBLE);
+			}
 			mSaleText
 					.setText(context.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
 		}
@@ -131,14 +133,18 @@ public class HotelSummarySection extends RelativeLayout {
 							StrUtils.formatHotelPrice(highestPriceFromSurvey)), null,
 					new StrikethroughTagHandler()));
 			mSaleText.setVisibility(View.GONE);
-			mSaleImageView.setVisibility(View.GONE);
+			if (mSaleImageView != null) {
+				mSaleImageView.setVisibility(View.GONE);
+			}
 			mPriceText.setTextColor(mPriceTextColor);
 		}
 		else {
 			mStrikethroughPriceText.setVisibility(View.GONE);
 			mPriceText.setTextColor(mPriceTextColor);
 			mSaleText.setVisibility(View.GONE);
-			mSaleImageView.setVisibility(View.GONE);
+			if (mSaleImageView != null) {
+				mSaleImageView.setVisibility(View.GONE);
+			}
 		}
 
 		int roomsLeft = property.getRoomsLeftAtThisRate();
