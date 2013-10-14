@@ -67,8 +67,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		getActionBar().setTitle(null);
-
 		setContentView(R.layout.activity_tablet_launch);
 
 		getWindow().setBackgroundDrawable(null);
