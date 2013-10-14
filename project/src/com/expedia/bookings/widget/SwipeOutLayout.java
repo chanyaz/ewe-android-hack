@@ -47,7 +47,7 @@ public class SwipeOutLayout extends FrameLayout {
 	private int mContentResId = R.id.swipe_out_content;
 	private int mIndicatorResId = R.id.swipe_out_indicator;
 
-	private float mSwipeOutThreshold = 0.8f;//We will report swipeAllTheWay if we let go and are beyond this threshold
+	private float mSwipeOutThreshold = 0.5f;//We will report swipeAllTheWay if we let go and are beyond this threshold
 	private float mMaxSlideOutDistance;
 	private boolean mVertical = false;//is north/south?
 	private boolean mPositiveDirection = false;//should x/y be growing when you drag? true for east and south.

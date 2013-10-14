@@ -26,6 +26,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
 import com.expedia.bookings.animation.CubicBezierAnimation;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.graphics.PercentageFadeColorDrawable;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.ITabletResultsController;
 import com.expedia.bookings.utils.ColumnManager;
@@ -254,14 +255,26 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 	private ISwipeOutListener mFlightSwipeOutListener = new ISwipeOutListener() {
 
+		private PercentageFadeColorDrawable mBgDrawable;
+
 		@Override
 		public void onSwipeStateChange(int oldState, int newState) {
-
+			if (mBgDrawable == null) {
+				mBgDrawable = new PercentageFadeColorDrawable(Color.TRANSPARENT, Color.RED);
+				mFlightSwipeOut.getSwipeOutView().setBackground(mBgDrawable);
+			}
 		}
 
 		@Override
 		public void onSwipeUpdate(float percentage) {
-
+			float outPerc = mHotelSwipeOut.getSwipeOutThresholdPercentage();
+			if (percentage < outPerc) {
+				mBgDrawable.setPercentage(0);
+			}
+			else {
+				float drawablePercentage = .2f + .8f * (percentage - outPerc) / (1f - outPerc);
+				mBgDrawable.setPercentage(drawablePercentage);
+			}
 		}
 
 		@Override
@@ -300,14 +313,26 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 	private ISwipeOutListener mHotelSwipeOutListener = new ISwipeOutListener() {
 
+		private PercentageFadeColorDrawable mBgDrawable;
+
 		@Override
 		public void onSwipeStateChange(int oldState, int newState) {
-
+			if (mBgDrawable == null) {
+				mBgDrawable = new PercentageFadeColorDrawable(Color.TRANSPARENT, Color.RED);
+				mHotelSwipeOut.getSwipeOutView().setBackground(mBgDrawable);
+			}
 		}
 
 		@Override
 		public void onSwipeUpdate(float percentage) {
-
+			float outPerc = mHotelSwipeOut.getSwipeOutThresholdPercentage();
+			if (percentage < outPerc) {
+				mBgDrawable.setPercentage(0);
+			}
+			else {
+				float drawablePercentage = .2f + .8f * (percentage - outPerc) / (1f - outPerc);
+				mBgDrawable.setPercentage(drawablePercentage);
+			}
 		}
 
 		@Override
