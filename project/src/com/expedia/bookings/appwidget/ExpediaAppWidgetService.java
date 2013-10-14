@@ -27,7 +27,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.StrUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
@@ -173,12 +175,39 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 				remoteViews.setViewVisibility(R.id.widget_hang_tag, View.GONE);
 
 				Property property = mDeals.get(mCurrentPosition - 1);
+
+				remoteViews.setTextViewText(R.id.hotel_name_text_view, property.getName());
+
+				String location = property.getDistanceFromUser().formatDistance(this,
+						DistanceUnit.getDefaultDistanceUnit());
+				remoteViews.setTextViewText(R.id.location_text_view, location);
+
+				remoteViews.setTextViewText(R.id.price_text_view,
+						StrUtils.formatHotelPrice(property.getLowestRate().getDisplayPrice()));
+
+				if (property.getLowestRate().isOnSale()) {
+					remoteViews.setViewVisibility(R.id.sale_text_view, View.VISIBLE);
+					remoteViews.setTextViewText(R.id.sale_text_view,
+							getString(R.string.widget_savings_template, property.getLowestRate().getDiscountPercent()));
+
+					remoteViews.setTextColor(R.id.price_text_view,
+							getResources().getColor(R.color.hotel_price_sale_text_color));
+				}
+				else {
+					remoteViews.setViewVisibility(R.id.sale_text_view, View.GONE);
+
+					remoteViews.setTextColor(R.id.price_text_view,
+							getResources().getColor(R.color.hotel_price_text_color));
+				}
+
+				remoteViews.setImageViewResource(R.id.hotel_image_view, R.drawable.widget_thumbnail_background);
 			}
 
 			remoteViews.setOnClickPendingIntent(R.id.prev_hotel_btn, createPendingIntent(ACTION_PREVIOUS));
 			remoteViews.setOnClickPendingIntent(R.id.next_hotel_btn, createPendingIntent(ACTION_NEXT));
 		}
 		else {
+			// Show text
 			remoteViews.setViewVisibility(R.id.loading_text_container, View.VISIBLE);
 			remoteViews.setViewVisibility(R.id.widget_contents_container, View.GONE);
 			remoteViews.setViewVisibility(R.id.widget_hang_tag, View.GONE);
