@@ -122,10 +122,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/LaunchTheme" />
-        <activity
-            android:name="com.expedia.bookings.activity.SweepstakesActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Phone.NoActionBar" />
 
         <!-- Itineraries -->
 
