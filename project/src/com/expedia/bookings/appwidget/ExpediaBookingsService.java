@@ -729,7 +729,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 		// #2121: For some reason we still end up doing tons of searches.  Here's an absolute
 		// minimum sanity check for searching too often.
-		if (!JodaUtils.isExpired(mLastUpdateTimestamp, MIN_UPDATE_INTERVAL)) {
+		if (mLastUpdateTimestamp != null && !JodaUtils.isExpired(mLastUpdateTimestamp, MIN_UPDATE_INTERVAL)) {
 			Log.v(TAG, "It was too recent since the last search - not actually starting widget search.");
 			return;
 		}
