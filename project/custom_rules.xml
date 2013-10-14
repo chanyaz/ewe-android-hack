@@ -19,6 +19,8 @@
             failOnViolation="false" >
 
             <fileset dir="src" includes="**/*.java"/>
+            <formatter type="plain" toFile="checkstyle_results.txt" />
+            <formatter type="xml" toFile="checkstyle_results.xml"/>
         </checkstyle>
     </target>
 </project>
