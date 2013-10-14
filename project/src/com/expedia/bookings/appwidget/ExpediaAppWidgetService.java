@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.expedia.bookings.R;
@@ -80,6 +81,9 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	private DateTime mLastUpateTimestamp;
 	private boolean mLoadedDeals = false;
 
+	// 0 == branding, 1-X == deals
+	private int mCurrentPosition = 0;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
@@ -96,6 +100,9 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d(TAG, "ExpediaAppWidgetService.onStartCommand(" + intent + ", " + flags + ", " + startId + ")");
+
+		// There might be a new widget or something; might as well update widgets
+		updateWidgets();
 
 		return super.onStartCommand(intent, flags, startId);
 	}
@@ -128,13 +135,35 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.app_widget);
 
 		if (mDeals.size() > 0) {
-			remoteViews.setTextViewText(R.id.widget_text_view, "Deals loaded!");
-		}
-		else if (!mLoadedDeals) {
-			remoteViews.setTextViewText(R.id.widget_text_view, getString(R.string.loading_hotels));
+			remoteViews.setViewVisibility(R.id.loading_text_container, View.GONE);
+			remoteViews.setViewVisibility(R.id.widget_contents_container, View.VISIBLE);
+
+			if (mCurrentPosition == 0) {
+				// Show branding
+				remoteViews.setViewVisibility(R.id.branding_container, View.VISIBLE);
+				remoteViews.setViewVisibility(R.id.hotels_container, View.GONE);
+				remoteViews.setViewVisibility(R.id.widget_hang_tag, View.VISIBLE);
+			}
+			else {
+				// Show a property
+				remoteViews.setViewVisibility(R.id.branding_container, View.GONE);
+				remoteViews.setViewVisibility(R.id.hotels_container, View.VISIBLE);
+				remoteViews.setViewVisibility(R.id.widget_hang_tag, View.GONE);
+
+				Property property = mDeals.get(mCurrentPosition - 1);
+			}
 		}
 		else {
-			remoteViews.setTextViewText(R.id.widget_text_view, "ERROR CASE");
+			remoteViews.setViewVisibility(R.id.loading_text_container, View.VISIBLE);
+			remoteViews.setViewVisibility(R.id.widget_contents_container, View.GONE);
+			remoteViews.setViewVisibility(R.id.widget_hang_tag, View.GONE);
+
+			if (!mLoadedDeals) {
+				remoteViews.setTextViewText(R.id.widget_text_view, getString(R.string.loading_hotels));
+			}
+			else {
+				remoteViews.setTextViewText(R.id.widget_text_view, "ERROR CASE");
+			}
 		}
 
 		// Update all widgets with the same content
@@ -152,6 +181,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		// Clear old results
 		mDeals.clear();
 		mLoadedDeals = false;
+		mCurrentPosition = 0;
 		updateWidgets();
 
 		// Start new search
