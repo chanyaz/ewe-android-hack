@@ -15,17 +15,6 @@ public class FlightsHappyPath {
 
 	public static void execute(FlightsTestDriver driver, HotelsUserData user) throws Exception {
 		try {
-			// Sweepstakes Screen
-			driver.landscape();
-			driver.portrait();
-
-			try {
-				driver.sweepstakesScreen().clickNoThanksButton();
-			}
-			catch (Throwable e) {
-				driver.enterLog(TAG, "No sweepstakes activity to interact with!");
-			}
-
 			// Settings 
 			driver.delay();
 			driver.launchScreen().openMenuDropDown();

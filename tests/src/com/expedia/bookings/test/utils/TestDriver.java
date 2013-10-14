@@ -16,12 +16,10 @@ import com.expedia.bookings.test.tests.pageModels.common.LaunchScreen;
 import com.expedia.bookings.test.tests.pageModels.common.LogInScreen;
 import com.expedia.bookings.test.tests.pageModels.common.ScreenActions;
 import com.expedia.bookings.test.tests.pageModels.common.SettingsScreen;
-import com.expedia.bookings.test.tests.pageModels.common.SweepstakesScreen;
 import com.expedia.bookings.test.tests.pageModels.common.TripsScreen;
 
 public class TestDriver extends ScreenActions {
 
-	private SweepstakesScreen mSweepstakesScreen;
 	private LaunchScreen mLaunchScreen;
 	private TripsScreen mTripsScreen;
 	private FindItineraryScreen mFindItinerary;
@@ -37,13 +35,6 @@ public class TestDriver extends ScreenActions {
 
 	public TestDriver(Instrumentation instrumentation, Activity activity, Resources res, TestPreferences preferences) {
 		super(instrumentation, activity, res, preferences);
-	}
-
-	public SweepstakesScreen sweepstakesScreen() {
-		if (mSweepstakesScreen == null) {
-			mSweepstakesScreen = new SweepstakesScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
-		}
-		return mSweepstakesScreen;
 	}
 
 	public LaunchScreen launchScreen() {
