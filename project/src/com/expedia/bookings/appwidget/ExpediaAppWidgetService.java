@@ -25,6 +25,8 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
+import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
@@ -165,6 +167,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		// Configure remote views
 		RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.app_widget);
 
+		Intent onClickWidgetIntent = new Intent(this, SearchActivity.class);
 		if (mDeals.size() > 0) {
 			remoteViews.setViewVisibility(R.id.loading_text_container, View.GONE);
 			remoteViews.setViewVisibility(R.id.widget_contents_container, View.VISIBLE);
@@ -220,6 +223,8 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 						TwoLevelImageCache.loadImage(WIDGET_THUMBNAIL_KEY_PREFIX + url, url, this);
 					}
 				}
+
+				onClickWidgetIntent = HotelDetailsFragmentActivity.createIntent(this, 0, mSearchParams, property);
 			}
 
 			remoteViews.setOnClickPendingIntent(R.id.prev_hotel_btn, createPendingIntent(ACTION_PREVIOUS));
@@ -238,6 +243,9 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 				remoteViews.setTextViewText(R.id.widget_text_view, "ERROR CASE");
 			}
 		}
+
+		remoteViews.setOnClickPendingIntent(R.id.widget_root,
+				PendingIntent.getActivity(this, 0, onClickWidgetIntent, 0));
 
 		// Update all widgets with the same content
 		AppWidgetManager widgetManager = AppWidgetManager.getInstance(this);
