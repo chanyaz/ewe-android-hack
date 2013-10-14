@@ -87,7 +87,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	public void onCreate() {
 		super.onCreate();
 
-		Log.i(TAG, "ExpediaAppWidgetService.onCreate()");
+		Log.d(TAG, "ExpediaAppWidgetService.onCreate()");
 
 		mLocationClient = new LocationClient(this, this, this);
 		mLocationClient.connect();
@@ -95,7 +95,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.i(TAG, "ExpediaAppWidgetService.onStartCommand(" + intent + ", " + flags + ", " + startId + ")");
+		Log.d(TAG, "ExpediaAppWidgetService.onStartCommand(" + intent + ", " + flags + ", " + startId + ")");
 
 		return super.onStartCommand(intent, flags, startId);
 	}
@@ -104,7 +104,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	public void onDestroy() {
 		super.onDestroy();
 
-		Log.i(TAG, "ExpediaAppWidgetService.onDestroy()");
+		Log.d(TAG, "ExpediaAppWidgetService.onDestroy()");
 
 		if (mLocationClient.isConnected()) {
 			mLocationClient.removeLocationUpdates(this);
@@ -258,7 +258,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 
 	@Override
 	public void onLocationChanged(Location location) {
-		Log.i(TAG, "ExpediaAppWidgetService.onLocationChanged(" + location + ")");
+		Log.d(TAG, "ExpediaAppWidgetService.onLocationChanged(" + location + ")");
 
 		// Due to the way we setup LocationRequest, this should only be called
 		// when we actually want to do a new search (due to the user moving).
