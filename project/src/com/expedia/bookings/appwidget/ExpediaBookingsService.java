@@ -39,6 +39,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -56,6 +57,12 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	//////////////////////////////////////////////////////////////////////////////////////////
 
 	private static final String TAG = "ExpediaWidget";
+
+	// This service is a clusterfuck and I have no idea why it sometimes gets itself into a constant
+	// download loop.  But in case it does, here's a sanity check - NEVER do another search if
+	// there's been another search recently.
+	private final static long MIN_UPDATE_INTERVAL = DateUtils.MINUTE_IN_MILLIS * 15; // 15 minutes
+	private DateTime mLastUpdateTimestamp;
 
 	// Widget config related constants
 	private final static long UPDATE_INTERVAL = DateUtils.HOUR_IN_MILLIS;
@@ -719,6 +726,14 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		if (mSearchDownloader.isDownloading(WIDGET_KEY_SEARCH)) {
 			return;
 		}
+
+		// #2121: For some reason we still end up doing tons of searches.  Here's an absolute
+		// minimum sanity check for searching too often.
+		if (!JodaUtils.isExpired(mLastUpdateTimestamp, MIN_UPDATE_INTERVAL)) {
+			Log.v(TAG, "It was too recent since the last search - not actually starting widget search.");
+			return;
+		}
+		mLastUpdateTimestamp = DateTime.now();
 
 		Log.i(TAG, "Starting search downloader (for widgets).");
 
