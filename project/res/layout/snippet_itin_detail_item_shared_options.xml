@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="0dp"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="0dp" >
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/shared_options_label"
+        style="@style/TextView.Itin.SectionHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="2dp"
+        android:text="@string/shared_options"
+        android:visibility="visible" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/remove_itin"
+        style="@style/TextView.Itin.SectionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/list_selector_holo_dark"
+        android:drawableLeft="@drawable/ic_itin_share_delete"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:text="@string/itin_card_details_remove_itin"
+        android:visibility="visible" />
+
+</LinearLayout>

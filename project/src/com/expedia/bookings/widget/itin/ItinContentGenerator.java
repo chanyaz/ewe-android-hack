@@ -8,6 +8,8 @@ import org.joda.time.DateTime;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -41,6 +43,7 @@ import com.expedia.bookings.data.trips.ItinCardDataLocalExpert;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.fragment.ConfirmItinRemoveDialogFragment;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
@@ -161,6 +164,11 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	public abstract List<Intent> getAddToCalendarIntents();
 
+	// Itin sharing
+	public boolean isSharedItin() {
+		return getItinCardData().getTripComponent().getParentTrip().isShared();
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Override-able methods with default implementations
 
@@ -259,9 +267,10 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		boolean addedElitePlusNumber = addElitePlusNumber(container);
 		boolean addedBookingInfo = addBookingInfo(container);
 		boolean addedInsurance = addInsurance(container);
+		boolean addedSharedoptions = addSharedOptions(container);
 		Log.d("ITIN: ItinCard.addSharedGuiElements - addedConfNumber:" + addedConfNumber + " addedItinNumber:"
 				+ addedItinNumber + " addedElitePlusNumber:" + addedElitePlusNumber + " addedBookingInfo:"
-				+ addedBookingInfo + " addedInsurance:" + addedInsurance);
+				+ addedBookingInfo + " addedInsurance:" + addedInsurance + " addedSharedoptions:" + addedSharedoptions);
 	}
 
 	protected boolean addConfirmationNumber(ViewGroup container) {
@@ -312,6 +321,32 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			}
 		}
 		return false;
+	}
+
+	protected boolean addSharedOptions(ViewGroup container) {
+		Log.d("ITIN: addSharedOptions");
+		if (isSharedItin()) {
+			View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_shared_options, null);
+			TextView removeTextView = Ui.findView(item, R.id.remove_itin);
+			removeTextView.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					showRemoveDialog();
+				}
+			});
+			Log.d("ITIN: addSharedOptions to container");
+			container.addView(item);
+			return true;
+		}
+		return false;
+	}
+
+	private void showRemoveDialog() {
+		final FragmentActivity activity = (FragmentActivity) getContext();
+		FragmentManager fragmentManager = activity.getSupportFragmentManager();
+		ConfirmItinRemoveDialogFragment df = ConfirmItinRemoveDialogFragment.getInstance(getItinCardData().getTripComponent().getParentTrip().getTripNumber());
+		df.show(fragmentManager, ConfirmItinRemoveDialogFragment.TAG);
 	}
 
 	protected View getClickToCopyItinDetailItem(int headerResId, final String text, final boolean isConfNumber) {

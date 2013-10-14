@@ -930,9 +930,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		case R.id.itin_card_add_to_calendar:
 			addToCalendar();
 			return true;
-		case R.id.itin_card_remove:
-			showRemoveDialog();
-			return true;
 		default:
 			return false;
 		}
@@ -956,11 +953,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			popup.getMenu().removeItem(R.id.itin_card_add_to_calendar);
 		}
 
-		Trip trip = mItinContentGenerator.getItinCardData().getTripComponent().getParentTrip();
-		if (!trip.isShared()) {
-			popup.getMenu().removeItem(R.id.itin_card_remove);
-		}
-
 		popup.show();
 	}
 
@@ -975,14 +967,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		for (Intent intent : intents) {
 			getContext().startActivity(intent);
 		}
-	}
-
-	private void showRemoveDialog() {
-		final FragmentActivity activity = (FragmentActivity) getContext();
-		FragmentManager fragmentManager = activity.getSupportFragmentManager();
-		ConfirmItinRemoveDialogFragment df = ConfirmItinRemoveDialogFragment.getInstance(mItinContentGenerator
-				.getItinCardData().getTripComponent().getParentTrip().getTripNumber());
-		df.show(fragmentManager, ConfirmItinRemoveDialogFragment.TAG);
 	}
 
 }

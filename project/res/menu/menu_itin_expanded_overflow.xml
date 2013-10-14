@@ -9,8 +9,4 @@
         android:id="@+id/itin_card_add_to_calendar"
         android:title="@string/add_to_calendar"/>
 
-    <item
-        android:id="@+id/itin_card_remove"
-        android:title="@string/itin_action_remove"/>
-
 </menu>

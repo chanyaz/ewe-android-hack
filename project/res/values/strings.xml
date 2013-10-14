@@ -499,6 +499,7 @@
     <string name="itin_card_details_reload_flight">Reload Flight Info</string>
     <string name="itin_card_details_reload_hotel">Reload Hotel Info</string>
     <string name="itin_card_details_reload_cruise">Reload Cruise Info</string>
+    <string name="itin_card_details_remove_itin">Remove from Itinerary</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check in — 3 days</string>
@@ -530,7 +531,6 @@
     <string name="itin_action_redeem">Redeem</string>
     <string name="itin_action_support">Support</string>
     <string name="itin_action_share">Share</string>
-    <string name="itin_action_remove">Remove</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Print Vouchers</string>
@@ -584,6 +584,8 @@
     <string name="share_car_dropoff_location_section">Drop Off Location:</string>
     <!-- Section header for the Itin sharable link -->
     <string name="share_link_section">Link to the shared Itinerary:\n%s</string>
+    <!-- Shared options label -->
+    <string name="shared_options">Shared Options</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">My %1$s Details</string>
