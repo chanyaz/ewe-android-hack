@@ -18,9 +18,6 @@ public class ExpediaAppWidgetProvider extends AppWidgetProvider {
 
 		Log.i(ExpediaAppWidgetService.TAG, "ExpediaAppWidgetProvider.onEnabled()");
 
-		// Start up the app widget service
-		context.startService(new Intent(context, ExpediaAppWidgetService.class));
-
 		// Track that the widget has been installed
 		OmnitureTracking.trackSimpleEvent(context, null, null, "App.Widget.Install");
 	}
@@ -31,6 +28,9 @@ public class ExpediaAppWidgetProvider extends AppWidgetProvider {
 
 		Log.i(ExpediaAppWidgetService.TAG,
 				"ExpediaAppWidgetProvider.onUpdate(" + appWidgetManager + ", " + Arrays.toString(appWidgetIds) + ")");
+
+		// Either start the service, or notify it that an update is necessary
+		context.startService(new Intent(context, ExpediaAppWidgetService.class));
 	}
 
 	@Override

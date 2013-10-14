@@ -12,11 +12,15 @@ import org.joda.time.ReadablePeriod;
 import org.joda.time.Seconds;
 
 import android.app.Service;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.widget.RemoteViews;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
@@ -74,6 +78,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	private HotelSearchParams mSearchParams = new HotelSearchParams();
 	private List<Property> mDeals = new ArrayList<Property>();
 	private DateTime mLastUpateTimestamp;
+	private boolean mLoadedDeals = false;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -114,9 +119,36 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Widget Views
+
+	private void updateWidgets() {
+		Log.v(TAG, "Updating widget views...");
+
+		// Configure remote views
+		RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.app_widget);
+
+		if (mDeals.size() > 0) {
+			remoteViews.setTextViewText(R.id.widget_text_view, "Deals loaded!");
+		}
+		else if (!mLoadedDeals) {
+			remoteViews.setTextViewText(R.id.widget_text_view, getString(R.string.loading_hotels));
+		}
+		else {
+			remoteViews.setTextViewText(R.id.widget_text_view, "ERROR CASE");
+		}
+
+		// Update all widgets with the same content
+		AppWidgetManager widgetManager = AppWidgetManager.getInstance(this);
+		int[] widgets = widgetManager.getAppWidgetIds(new ComponentName(this, ExpediaAppWidgetProvider.class));
+		widgetManager.updateAppWidget(widgets, remoteViews);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Search
 
 	private void startNewSearch() {
+		Log.i(TAG, "Widget is starting a new search...");
+
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
 		if (bd.isDownloading(WIDGET_KEY_SEARCH)) {
@@ -139,8 +171,13 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	private OnDownloadComplete<HotelSearchResponse> mSearchCallback = new OnDownloadComplete<HotelSearchResponse>() {
 		@Override
 		public void onDownload(HotelSearchResponse results) {
+			Log.i(TAG, "Widget received search response: " + results);
+
+			mLoadedDeals = true;
+
 			mDeals.clear();
 			mDeals.addAll(getDeals(results));
+			updateWidgets();
 		}
 	};
 
@@ -148,7 +185,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	private List<Property> getDeals(HotelSearchResponse response) {
 		List<Property> deals = new ArrayList<Property>();
 
-		if (response != null && !response.hasErrors() && response.getPropertiesCount() != 0) {
+		if (response != null && !response.hasErrors() && response.getPropertiesCount() > 0) {
 			List<Property> properties = new ArrayList<Property>(response.getProperties());
 
 			// Sort by rating, so we only show the best
