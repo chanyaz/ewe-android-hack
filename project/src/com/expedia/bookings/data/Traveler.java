@@ -28,6 +28,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private String mLoyaltyMembershipNumber;
 	private String mLoyaltyMembershipName;
 	private boolean mIsLoyaltyMembershipActive = false;
+	private String mMembershipTierName;
 
 	// General
 	private String mFirstName;
@@ -128,6 +129,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public String getLoyaltyMembershipName() {
 		return mLoyaltyMembershipName;
+	}
+
+	public String membershipTierName() {
+		return mMembershipTierName;
 	}
 
 	public boolean getIsElitePlusMember() {
@@ -315,7 +320,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	public boolean hasName() {
 		return !TextUtils.isEmpty(getFirstName()) && !TextUtils.isEmpty(getLastName());
 	}
-	
+
 	public boolean hasEmail() {
 		return !TextUtils.isEmpty(getEmail());
 	}
@@ -349,6 +354,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public void setLoyaltyMembershipName(String loyaltyMembershipName) {
 		mLoyaltyMembershipName = loyaltyMembershipName;
+	}
+
+	public void setMembershipTierName(String membershipTierName) {
+		mMembershipTierName = membershipTierName;
 	}
 
 	public void setFirstName(String firstName) {
@@ -500,6 +509,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			obj.putOpt("loyaltyMembershipNumber", mLoyaltyMembershipNumber);
 			obj.putOpt("loyaltyMemebershipActive", mIsLoyaltyMembershipActive);
 			obj.putOpt("loyaltyMemebershipName", mLoyaltyMembershipName);
+			obj.putOpt("membershipTierName", mMembershipTierName);
 
 			obj.putOpt("firstName", mFirstName);
 			obj.putOpt("middleName", mMiddleName);
@@ -543,6 +553,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mLoyaltyMembershipNumber = obj.optString("loyaltyMembershipNumber", null);
 		mIsLoyaltyMembershipActive = obj.optBoolean("loyaltyMemebershipActive", false);
 		mLoyaltyMembershipName = obj.optString("loyaltyMemebershipName", null);
+		mMembershipTierName = obj.optString("membershipTierName", null);
 
 		mFirstName = obj.optString("firstName", null);
 		mMiddleName = obj.optString("middleName", null);
