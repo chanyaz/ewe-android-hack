@@ -9,15 +9,22 @@ import org.joda.time.Seconds;
 
 import android.app.Service;
 import android.content.Intent;
+import android.location.Location;
+import android.os.Bundle;
 import android.os.IBinder;
 
-import com.expedia.bookings.data.Distance;
-import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
+import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.mobiata.android.Log;
 
-public class ExpediaAppWidgetService extends Service {
+public class ExpediaAppWidgetService extends Service implements ConnectionCallbacks, OnConnectionFailedListener,
+		LocationListener {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -30,10 +37,10 @@ public class ExpediaAppWidgetService extends Service {
 	private static final ReadablePeriod UPDATE_INTERVAL = Hours.ONE;
 
 	// The distance one must be from their last search location before we want to update
-	private static final Distance UPDATE_DISTANCE_MILES = new Distance(5, DistanceUnit.MILES);
+	private static final int UPDATE_DISTANCE_METERS = 8000; // 8km
 
 	// The minimum time between updates, regardless of when one is requested
-	private static final ReadablePeriod MINIMUM_UPDATE_INTERVAL = Hours.ONE;
+	private static final ReadablePeriod MINIMUM_UPDATE_INTERVAL = Minutes.minutes(15);
 
 	// If we try to refresh but fail for some reason, we keep doubling the backoff time
 	private static final ReadablePeriod CONNECTION_ERROR_BACKOFF = Minutes.ONE;
@@ -50,6 +57,8 @@ public class ExpediaAppWidgetService extends Service {
 	//////////////////////////////////////////////////////////////////////////
 	// Data
 
+	private LocationClient mLocationClient;
+
 	private HotelSearchParams mSearchParams;
 	private List<Property> mDeals;
 
@@ -61,6 +70,9 @@ public class ExpediaAppWidgetService extends Service {
 		super.onCreate();
 
 		Log.i(TAG, "ExpediaAppWidgetService.onCreate()");
+
+		mLocationClient = new LocationClient(this, this, this);
+		mLocationClient.connect();
 	}
 
 	@Override
@@ -75,12 +87,57 @@ public class ExpediaAppWidgetService extends Service {
 		super.onDestroy();
 
 		Log.i(TAG, "ExpediaAppWidgetService.onDestroy()");
+
+		if (mLocationClient.isConnected()) {
+			mLocationClient.removeLocationUpdates(this);
+		}
+		mLocationClient.disconnect();
 	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
 		// Ignore; nothing ever binds to this Service
 		return null;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// ConnectionCallbacks
+
+	@Override
+	public void onConnected(Bundle connectionHint) {
+		Log.d(TAG, "ExpediaAppWidgetService.onConnected(" + connectionHint + ")");
+
+		LocationRequest request = new LocationRequest();
+		request.setPriority(LocationRequest.PRIORITY_LOW_POWER);
+		request.setFastestInterval(MINIMUM_UPDATE_INTERVAL.toPeriod().toStandardDuration().getMillis());
+		request.setInterval(request.getFastestInterval());
+		request.setSmallestDisplacement(UPDATE_DISTANCE_METERS);
+
+		mLocationClient.requestLocationUpdates(request, this);
+	}
+
+	@Override
+	public void onDisconnected() {
+		Log.d(TAG, "ExpediaAppWidgetService.onDisconnected()");
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// OnConnectionFailedListener
+
+	@Override
+	public void onConnectionFailed(ConnectionResult result) {
+		Log.e(TAG, "ExpediaAppWidgetService.onConnectionFailed(" + result + ")");
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// LocationListener
+
+	@Override
+	public void onLocationChanged(Location location) {
+		Log.i(TAG, "ExpediaAppWidgetService.onLocationChanged(" + location + ")");
+
+		// Due to the way we setup LocationRequest, this should only be called
+		// when we actually want to do a new search (due to the user moving).
 	}
 
 	//////////////////////////////////////////////////////////////////////////
