@@ -11,6 +11,7 @@ import org.joda.time.Minutes;
 import org.joda.time.ReadablePeriod;
 import org.joda.time.Seconds;
 
+import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -18,6 +19,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -71,6 +73,10 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	// When the user interacts with the widget, how long we should delay until the next rotation
 	private static final ReadablePeriod INTERACTION_DELAY = Seconds.seconds(30);
 
+	// Actions used to change things in the service
+	private static final String ACTION_PREVIOUS = "ACTION_PREVIOUS";
+	private static final String ACTION_NEXT = "ACTION_NEXT";
+
 	//////////////////////////////////////////////////////////////////////////
 	// Data
 
@@ -100,6 +106,22 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d(TAG, "ExpediaAppWidgetService.onStartCommand(" + intent + ", " + flags + ", " + startId + ")");
+
+		String action = intent.getAction();
+		if (!TextUtils.isEmpty(action)) {
+			int posChange = 0;
+			if (action.equals(ACTION_NEXT)) {
+				posChange = 1;
+			}
+			else if (action.equals(ACTION_PREVIOUS)) {
+				posChange = -1;
+			}
+
+			if (posChange != 0) {
+				int numPositions = mDeals.size() + 1;
+				mCurrentPosition = (mCurrentPosition + numPositions + posChange) % numPositions;
+			}
+		}
 
 		// There might be a new widget or something; might as well update widgets
 		updateWidgets();
@@ -152,6 +174,9 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 
 				Property property = mDeals.get(mCurrentPosition - 1);
 			}
+
+			remoteViews.setOnClickPendingIntent(R.id.prev_hotel_btn, createPendingIntent(ACTION_PREVIOUS));
+			remoteViews.setOnClickPendingIntent(R.id.next_hotel_btn, createPendingIntent(ACTION_NEXT));
 		}
 		else {
 			remoteViews.setViewVisibility(R.id.loading_text_container, View.VISIBLE);
@@ -170,6 +195,12 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		AppWidgetManager widgetManager = AppWidgetManager.getInstance(this);
 		int[] widgets = widgetManager.getAppWidgetIds(new ComponentName(this, ExpediaAppWidgetProvider.class));
 		widgetManager.updateAppWidget(widgets, remoteViews);
+	}
+
+	private PendingIntent createPendingIntent(String action) {
+		Intent intent = new Intent(this, getClass());
+		intent.setAction(action);
+		return PendingIntent.getService(this, 0, intent, 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
