@@ -26,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -503,17 +504,24 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		}
 
 		if (TextUtils.isEmpty(text)) {
-			Location location = suggestion.getLocation();
-			if (location != null) {
-				text = location.getCity();
-			}
+			text = suggestion.getDisplayName();
 
-			if (TextUtils.isEmpty(text)) {
-				text = suggestion.getAirportCode();
-				if (TextUtils.isEmpty(text)) {
-					text = getString(R.string.great_unknown);
-				}
+			if (!TextUtils.isEmpty(text)) {
+				// Strip HTML from display
+				text = Html.fromHtml(text).toString();
 			}
+		}
+
+		if (TextUtils.isEmpty(text) && suggestion.getLocation() != null) {
+			text = suggestion.getLocation().getCity();
+		}
+
+		if (TextUtils.isEmpty(text)) {
+			text = suggestion.getAirportCode();
+		}
+
+		if (TextUtils.isEmpty(text)) {
+			text = getString(R.string.great_unknown);
 		}
 
 		return text;
