@@ -231,11 +231,11 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		SuggestionV2 suggestion = suggestResponse.getSuggestions().get(0);
 
 		if (mSearchParams.getOrigin().getResultType() == ResultType.CURRENT_LOCATION) {
-			mSearchParams.setOrigin(suggestion);
+			mSearchParams.setOriginAirport(suggestion);
 		}
 
 		if (mSearchParams.getDestination().getResultType() == ResultType.CURRENT_LOCATION) {
-			mSearchParams.setDestination(suggestion);
+			mSearchParams.setDestinationAirport(suggestion);
 		}
 
 		doSearch();
@@ -354,6 +354,19 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 	@Override
 	public void onFound(Location currentLocation) {
+		// Update any "current location" fields
+		com.expedia.bookings.data.Location location = new com.expedia.bookings.data.Location();
+		location.setLatitude(currentLocation.getLatitude());
+		location.setLongitude(currentLocation.getLongitude());
+
+		if (mSearchParams.getOrigin().getResultType() == ResultType.CURRENT_LOCATION) {
+			mSearchParams.getOrigin().setLocation(location);
+		}
+
+		if (mSearchParams.getDestination().getResultType() == ResultType.CURRENT_LOCATION) {
+			mSearchParams.getDestination().setLocation(location);
+		}
+
 		mServicesFragment.startSuggestionsNearby(currentLocation.getLatitude(), currentLocation.getLongitude(), false);
 	}
 

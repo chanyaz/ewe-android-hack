@@ -300,14 +300,16 @@ public class SearchParams implements Parcelable, JSONable {
 	public FlightSearchParams toFlightSearchParams() {
 		FlightSearchParams params = new FlightSearchParams();
 
-		Location depLocation = new Location(mOrigin.getLocation());
-		depLocation.setDestinationId(mOrigin.getAirportCode());
-		depLocation.setDescription(mOrigin.getFullName());
+		SuggestionV2 origin = mOriginAirport != null ? mOriginAirport : mOrigin;
+		Location depLocation = new Location(origin.getLocation());
+		depLocation.setDestinationId(origin.getAirportCode());
+		depLocation.setDescription(origin.getFullName());
 		params.setDepartureLocation(depLocation);
 
-		Location arrLocation = new Location(mDestination.getLocation());
-		arrLocation.setDestinationId(mDestination.getAirportCode());
-		arrLocation.setDescription(mDestination.getFullName());
+		SuggestionV2 destination = mDestinationAirport != null ? mDestinationAirport : mDestination;
+		Location arrLocation = new Location(destination.getLocation());
+		arrLocation.setDestinationId(destination.getAirportCode());
+		arrLocation.setDescription(destination.getFullName());
 		params.setArrivalLocation(arrLocation);
 
 		if (mStartDate != null) {
