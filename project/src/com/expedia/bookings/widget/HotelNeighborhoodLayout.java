@@ -76,10 +76,17 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 		// Sort by location name
 		TreeSet<Property> sorted = new TreeSet<Property>(new Comparator<Property>() {
 			public int compare(Property lhs, Property rhs) {
-				String a = lhs.getLocation() == null || lhs.getLocation().getDescription() == null ? ""
+
+				// Use "~" here so it appears last
+				
+				String a = lhs.getLocation() == null || lhs.getLocation().getDescription() == null
+						? "~"
 						: lhs.getLocation().getDescription();
-				String b = rhs.getLocation() == null || rhs.getLocation().getDescription() == null ? ""
+				
+				String b = rhs.getLocation() == null || rhs.getLocation().getDescription() == null
+						? "~"
 						: rhs.getLocation().getDescription();
+				
 				return a.compareTo(b);
 			}
 		});

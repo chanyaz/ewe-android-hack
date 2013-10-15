@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.os.Parcel;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.style.CharacterStyle;
 import android.text.style.UpdateAppearance;
 import android.util.AttributeSet;
@@ -95,6 +96,9 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable {
 
 	public void bindHotel(Property property) {
 		String description = property.getLocation().getDescription();
+		if (TextUtils.isEmpty(description)) {
+			description = getContext().getString(R.string.Other_Areas);
+		}
 		String price = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayPrice());
 
 		mCheckBox.setText(description);

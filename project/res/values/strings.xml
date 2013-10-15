@@ -106,8 +106,10 @@
     <string name="Sort_By">Sort By</string>
     <!-- "Filters" section header -->
     <string name="Filters">Filters</string>
-    <!-- "Areas" section header -->
+    <!-- "Areas"/neighborhoods section header -->
     <string name="Areas">Areas</string>
+    <!-- Default label for unnamed areas/neighborhoods -->
+    <string name="Other_Areas">Other Areas</string>
     <!-- Short label for "sort by popular" button -->
     <string name="popular">popular</string>
     <!-- Short label for "sort by price" button -->
