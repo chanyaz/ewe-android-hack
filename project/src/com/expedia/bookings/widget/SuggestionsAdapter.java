@@ -56,7 +56,7 @@ public class SuggestionsAdapter extends CursorAdapter {
 		// We only want to show the bolded text (of the query) if there is actually a query
 		String query = cursor.getString(SuggestionProvider.COL_QUERY);
 		if (TextUtils.isEmpty(query)) {
-			textView.setText(cursor.getString(SuggestionProvider.COL_FULL_NAME));
+			textView.setText(Html.fromHtml(cursor.getString(SuggestionProvider.COL_DISPLAY_NAME)).toString());
 		}
 		else {
 			textView.setText(Html.fromHtml(cursor.getString(SuggestionProvider.COL_DISPLAY_NAME)));
