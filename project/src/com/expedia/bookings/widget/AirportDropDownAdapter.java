@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,11 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.content.AirportAutocompleteProvider;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.RecentList;
+import com.expedia.bookings.data.SuggestionResponse;
+import com.expedia.bookings.data.SuggestionSort;
+import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.util.Ui;
@@ -42,6 +47,11 @@ public class AirportDropDownAdapter extends CursorAdapter {
 	// Maximum # of nearby airports to report
 	private static final int MAX_NEARBY = 2;
 
+	// Maximum classification of a pre-populated airport
+	private static final int MAX_CLASSIFICATION = 3;
+
+	private Context mContext;
+
 	private Map<String, String> mCountryCodeMap;
 
 	private ContentResolver mContent;
@@ -52,6 +62,8 @@ public class AirportDropDownAdapter extends CursorAdapter {
 
 	public AirportDropDownAdapter(Context context) {
 		super(context, null, 0);
+
+		mContext = context;
 
 		mContent = context.getContentResolver();
 
@@ -81,10 +93,28 @@ public class AirportDropDownAdapter extends CursorAdapter {
 			long minTime = DateTime.now().getMillis() - MINIMUM_TIME_AGO;
 			android.location.Location loc = LocationServices.getLastBestLocation(mContext, minTime);
 			if (mShowNearbyAirports && loc != null) {
-				List<Airport> airports = FlightStatsDbUtils.getNearestAirports(loc.getLatitude(), loc.getLongitude(),
-						true, MAX_NEARBY);
+				ExpediaServices expediaServices = new ExpediaServices(mContext);
+				SuggestionResponse response = expediaServices.suggestionsNearby(loc.getLatitude(), loc.getLongitude(),
+						SuggestionSort.DISTANCE, 0);
 
-				for (Airport airport : airports) {
+				List<SuggestionV2> airportSuggestions = new ArrayList<SuggestionV2>();
+				Airport airport;
+
+				if (!response.hasErrors() && !response.getSuggestions().isEmpty()) {
+					for (SuggestionV2 suggestion : response.getSuggestions()) {
+						airport = FlightStatsDbUtils.getAirport(suggestion.getAirportCode());
+						if (airport.mClassification <= MAX_CLASSIFICATION) {
+							airportSuggestions.add(suggestion);
+
+							if (airportSuggestions.size() == MAX_NEARBY) {
+								break;
+							}
+						}
+					}
+				}
+
+				for (SuggestionV2 suggestion : airportSuggestions) {
+					airport = FlightStatsDbUtils.getAirport(suggestion.getAirportCode());
 					Object[] row = new Object[AirportAutocompleteProvider.COLUMNS.length];
 					row[0] = a++;
 					row[1] = StrUtils.formatAirport(airport);
