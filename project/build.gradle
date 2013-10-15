@@ -18,6 +18,8 @@ dependencies {
     compile project(':lib:svg-android:svgandroid')
     compile project(':lib:Utils')
     compile project(':lib:ShareEverywhere:shareeverywhere')
+
+    instrumentTestCompile fileTree('../tests/libs').include('*.jar')
 }
 
 android {
@@ -29,6 +31,9 @@ android {
         versionName "3.5"
         minSdkVersion 8
         targetSdkVersion 18
+
+        testPackageName "com.expedia.bookings.debug.test"
+        testInstrumentationRunner "com.zutubi.android.junitreport.JUnitReportTestRunner"
     }
 
     productFlavors {
@@ -93,7 +98,8 @@ android {
             assets.srcDirs = ['assets']
         }
 
-        instrumentTest.setRoot('tests')
+        instrumentTest.manifest.srcFile '../tests/AndroidManifest.xml'
+        instrumentTest.java.srcDirs = ['../tests/src']
 
         VSC {
             manifest.srcFile 'AndroidManifest-vsc.xml'
