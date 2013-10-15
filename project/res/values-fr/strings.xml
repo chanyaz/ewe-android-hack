@@ -309,6 +309,10 @@
     <string name="hours_minutes_past_TEMPLATE">il y a %1$s et %2$s</string>
 
     <!-- Itin Buttons -->
+    <!-- Dialog title for removing shared itin -->
+    <string name="remove_shared_itin_title">Supprimer le voyage partagé ?</string>
+    <!-- Dialog message for removing shared itin -->
+    <string name="remove_shared_itin_message">Êtes-vous sûr de vouloir supprimer ce voyage de votre appareil ?</string>
     <!-- Popup menu -->
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Masquer</string>
@@ -526,6 +530,7 @@
     <string name="itin_action_redeem">Utiliser</string>
     <string name="itin_action_support">Assistance</string>
     <string name="itin_action_share">Partager</string>
+    <string name="itin_action_remove">Supprimer</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Imprimer les bons</string>
@@ -552,9 +557,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Notre vol vers %1$s le %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Le %3$s, je prends l\&apos;avion (%1$s) pour aller à %2$s !\nDépart de %4$s à %5$s\nArrivée à %6$s à %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Le %3$s, je prends l\&apos;avion (%1$s) pour aller à %2$s !\nDépart de %4$s à %5$s\nArrivée à %6$s à %7$s, %8$s\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Je prends l\&apos;avion (%1$s) pour aller à %2$s !\nDépart de %3$s à %4$s\nArrivée à %5$s à %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Je prends l\&apos;avion (%1$s) pour aller à %2$s !\nDépart de %3$s à %4$s\nArrivée à %5$s à %6$s, %7$s\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Ma location de voiture (du %1$s au %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -577,6 +582,8 @@
     <string name="share_car_pickup_location_section">Lieu de prise en charge :</string>
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Lieu de retour :</string>
+    <!-- Section header for the Itin sharable link -->
+    <string name="share_link_section">Accéder au voyage partagé : \n%s</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">%1$s : mes détails</string>
@@ -604,6 +611,18 @@
     <string name="Long_message">Long (email)</string>
     <!-- Button label for a buton that shares a short message suitable for social media or SMS -->
     <string name="Short_message">Court (SMS, réseaux sociaux)</string>
+    <!-- Button label for a button that shares a short message to only Facebook -->
+    <string name="Short_message_Facebook">Facebook</string>
+
+    <!-- Itinerary Share for Facebook -->
+    <!-- Label for Facebook Sharing in task manager and share menu -->
+    <string name="Facebook">Facebook</string>
+    <!-- Template for title/name of the facebook post - Hotels -->
+    <string name="share_facebook_template_title_hotel">Séjour à %1$s</string>
+    <!-- Template for title/name of the facebook post - Flights -->
+    <string name="share_facebook_template_title_flight">Vol pour %1$s</string>
+    <!-- Template for title/name of the facebook post - Cars -->
+    <string name="share_facebook_template_title_car">Voiture louée chez %1$s</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -796,7 +815,7 @@
     <!-- Select Payment -->
     <string name="select_payment">Choisir le paiement</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Choisir le paiement</string>
+    <string name="select_payment_sentence_case">Informations de paiement</string>
     <!-- Add new card -->
     <string name="add_new_card">Ajouter une nouvelle carte</string>
     <!-- Overview button -->
@@ -923,14 +942,22 @@
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">Ajouter un voyageur</string>
+
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Guest">Ajouter un invité</string>
+
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">Ajouter un mode de paiement</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Informations sur le voyageur</string>
     <!-- Add traveler -->
     <string name="add_traveler">Ajouter un voyageur</string>
+    <!-- Traveler Details (for flights) -->
+    <string name="traveler_details">Informations du voyageur</string>
+    <!-- Add Guest for hotels -->
+    <string name="guest_details">Informations du client</string>
     <!-- Add traveler number template -->
-    <string name="add_traveler_number_TEMPLATE">Ajouter le voyageur %1$s</string>
+    <string name="add_traveler_number_TEMPLATE">Informations du voyageur %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Si le nom du voyageur ne correspond pas à celui sur la pièce d\&apos;identité, l\&apos;embarquement pourrait être refusé.</string>
 
@@ -1539,7 +1566,7 @@
     <!-- Breakfast amenity -->
     <string name="AmenityBreakfast">Petit-déjeuner</string>
     <!-- Babysitting amenity -->
-    <string name="AmenityBabysitting">Garderie pour enfants</string>
+    <string name="AmenityBabysitting">Garde d\&apos;enfants</string>
     <!-- Jacuzzi amenity -->
     <string name="AmenityJacuzzi">Jacuzzi</string>
     <!-- Parking amenity -->
@@ -1608,6 +1635,13 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s de %2$s</string>
+    <!-- User review no critical reviews -->
+    <string name="user_review_no_critical_reviews">Aucun avis négatif sur cet hôtel</string>
+    <!-- User review no favorable reviews -->
+    <string name="user_review_no_favorable_reviews">Aucun avis positif sur cet hôtel</string>
+    <!-- User review no recent reviews -->
+    <string name="user_review_no_recent_reviews">Aucun avis récent sur cet hôtel</string>
+
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Les avis sont temporairement indisponibles</string>
 
@@ -1686,7 +1720,7 @@
         <item quantity="other">%d nuits</item>
     </plurals>
     <!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
-    <string name="room_rate_template">Tarif de la chambre, %s</string>
+    <string name="room_rate_template">Prix de la chambre %s</string>
     <!-- Label for the extra guest charge -->
     <string name="extra_guest_charge">Supplément personne additionnelle</string>
     <!-- Label for total cost of hotel stay -->
@@ -1726,7 +1760,7 @@
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Confirmer et réserver</string>
     <!-- Label for clearing private data -->
-    <string name="clear_private_data">Supprimer vos données</string>
+    <string name="clear_private_data">Effacer vos données</string>
     <!-- Title for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_title">Supprimer les donnes personnelles ?</string>
     <!-- Message for dialog confirming the clearing of private data -->
@@ -1880,33 +1914,45 @@
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">Erreur code promotionnel</string>
 
+    <!-- Coupon dialog -->
+    <!-- Title on dialog imploring users to enter coupons -->
+    <string name="enter_coupon_code">Veuillez saisir un code promotionnel</string>
+    <!-- Message shown when applying coupon (in progress) -->
+    <string name="applying_coupon">Code promotionnel en cours d\&apos;application…</string>
+    <!-- Message shown when a coupon was successfully applied -->
+    <string name="coupon_applied">Code promotionnel appliqué</string>
+    <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
+    <string name="coupon_saved_TEMPLATE">Vous avez économisé %s !</string>
+
     <!-- Coupon Error Strings -->
+    <!-- Generic error when applying coupon, but we didn't get an error code back -->
+    <string name="coupon_error_no_code">Désolés, ce bon de réduction n\&apos;est pas applicable.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Désolé, ce code promotionnel est inconnu</string>
+    <string name="coupon_error_unrecognized">Désolé, ce code promotionnel est inconnu.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Désolé, ce bon de réduction a expiré</string>
+    <string name="coupon_error_expired">Désolé, ce bon de réduction a expiré.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Désolé, notre système rencontre actuellement un problème. Veuillez réessayer</string>
+    <string name="coupon_error_not_redeemed">Désolé, notre système rencontre actuellement un problème. Veuillez réessayer.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Désolé, ce code promotionnel a déjà été utilisé</string>
+    <string name="coupon_error_duplicate">Désolé, ce code promotionnel a déjà été utilisé.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">Désolé, notre système rencontre actuellement un problème. Veuillez réessayer</string>
+    <string name="coupon_error_fallback">Désolé, notre système rencontre actuellement un problème. Veuillez réessayer.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">Nous n\&apos;avons pas appliqué le bon de réduction parce que le montant de la réservation a évolué. Veuillez relire les informations et réessayer</string>
+    <string name="coupon_error_price_change">Nous n\&apos;avons pas appliqué le bon de réduction parce que le montant de la réservation a évolué. Veuillez relire les informations et réessayer.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Désolé, ce code promotionnel est valable dans un autre pays</string>
+    <string name="coupon_error_invalid_region">Désolé, ce code promotionnel est valable dans un autre pays.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">Désolé, vous n\&apos;avez pas sélectionné le nombre de nuits minimum</string>
+    <string name="coupon_error_min_stay_not_met">Désolé, vous n\&apos;avez pas sélectionné le nombre de nuits minimum.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Désolé, ce bon de réduction n\&apos;est pas valable aux dates sélectionnées</string>
+    <string name="coupon_error_invalid_travel_dates">Désolé, ce bon de réduction n\&apos;est pas valable aux dates sélectionnées.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Désolé, cet hôtel n\&apos;accepte pas les bons de réduction</string>
+    <string name="coupon_error_invalid_product">Désolé, cet hôtel n\&apos;accepte pas les bons de réduction.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Désolé, le montant minimum n\&apos;est pas atteint</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Désolé, le montant minimum n\&apos;est pas atteint.</string>
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
-    <string name="coupon_error_hotel_excluded">Désolé, cet hôtel n\&apos;accepte pas les bons de réduction</string>
+    <string name="coupon_error_hotel_excluded">Désolé, cet hôtel n\&apos;accepte pas les bons de réduction.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">Désolé, nous ne sommes pas en mesure d\&apos;accepter les bons de réduction pour le moment. Veuillez réessayer</string>
+    <string name="coupon_error_service_down">Désolé, nous ne sommes pas en mesure d\&apos;accepter les bons de réduction pour le moment. Veuillez réessayer.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
@@ -1976,7 +2022,7 @@
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">Données personnelles supprimées</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">Toutes les données de facturation et les coordonnées utilisateurs ont été effacées.</string>
+    <string name="dialog_message_cleared_private_data">Toutes les informations de facturation et les coordonnées utilisateurs ont été effacées.</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
     <string name="dialog_message_launch_expedia_mobile_site">Ouvrir le site mobile d\&apos;Expedia ?</string>
     <!-- Action button label to Subscribe to our mailing list -->
@@ -2049,11 +2095,11 @@
     </plurals>
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
-        <item quantity="zero">Personnes</item>
+        <item quantity="zero">Voyageurs</item>
         <item quantity="one">Personne</item>
         <item quantity="two">Personnes</item>
-        <item quantity="many">Personnes</item>
-        <item quantity="other">Personnes</item>
+        <item quantity="many">Voyageurs</item>
+        <item quantity="other">Voyageurs</item>
     </plurals>
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">

@@ -138,18 +138,18 @@
     <plurals name="minutes_from_now">
         <item quantity="zero">%s minuto</item>
         <item quantity="one">%s minuto</item>
-        <item quantity="two">%s minutos</item>
-        <item quantity="few">%s minutos</item>
-        <item quantity="many">%s minutos</item>
+        <item quantity="two">%s minuto</item>
+        <item quantity="few">%s minuto</item>
+        <item quantity="many">%s minuto</item>
         <item quantity="other">%s minuto</item>
     </plurals>
     <!-- "XX Hours" - an event happening XX hours in the future -->
     <plurals name="hours_from_now">
         <item quantity="zero">%s hora</item>
         <item quantity="one">%s hora</item>
-        <item quantity="two">%s horas</item>
-        <item quantity="few">%s horas</item>
-        <item quantity="many">%s horas</item>
+        <item quantity="two">%s hora</item>
+        <item quantity="few">%s hora</item>
+        <item quantity="many">%s hora</item>
         <item quantity="other">%s hora</item>
     </plurals>
     <!-- "XX Days" an event happening XX days in the future -->
@@ -309,6 +309,10 @@
     <string name="hours_minutes_past_TEMPLATE">há %1$s e %2$s</string>
 
     <!-- Itin Buttons -->
+    <!-- Dialog title for removing shared itin -->
+    <string name="remove_shared_itin_title">Remover itinerário compartilhado?</string>
+    <!-- Dialog message for removing shared itin -->
+    <string name="remove_shared_itin_message">Tem certeza de que deseja remover este itinerário compartilhado deste dispositivo?</string>
     <!-- Popup menu -->
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Ocultar</string>
@@ -428,9 +432,9 @@
     <string name="car_category_oversize">Carro grande</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">Duas portas</string>
-    <string name="car_type_three_door">Três portas</string>
-    <string name="car_type_four_door">Quatro portas</string>
+    <string name="car_type_two_door">Duas portas Carro</string>
+    <string name="car_type_three_door">Três portas Carro</string>
+    <string name="car_type_four_door">Quatro portas Carro</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Wagon</string>
     <string name="car_type_limousine">Limusine</string>
@@ -526,6 +530,7 @@
     <string name="itin_action_redeem">Utilizar</string>
     <string name="itin_action_support">Assistência</string>
     <string name="itin_action_share">Compartilhar</string>
+    <string name="itin_action_remove">Remover</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Imprimir vouchers</string>
@@ -538,7 +543,7 @@
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Olá, \n\n Estou hospedado no %1$s por %2$s.</string>
     <!-- 1: Check in date, 2: Check out date -->
-    <string name="share_template_long_hotel_2_checkin_checkout">Check-in%1$s \nCheck-out%2$s</string>
+    <string name="share_template_long_hotel_2_checkin_checkout">Check-in %1$s\nCheck-out %2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
     <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
     <!-- Hotel phone number -->
@@ -552,9 +557,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Nosso voo para %1$s em %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Estou no voo %1$s para %2$s em %3$s.\nParte de %4$s às %5$s\nChega a %6$s às %7$s (%8$s)</string>
+    <string name="share_template_short_flight_sameday">Estou no voo %1$s para %2$s em %3$s.\nParte de %4$s às %5$s\nChega a %6$s às %7$s (%8$s)\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Estou no voo %1$s para %2$s.\nParte de %3$s às %4$s\nChega a %5$s às %6$s (%7$s)</string>
+    <string name="share_template_short_flight_multiday">Estou no voo %1$s para %2$s.\nParte de %3$s às %4$s\nChega a %5$s às %6$s (%7$s)\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Meu aluguel de carro (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -577,6 +582,8 @@
     <string name="share_car_pickup_location_section">Local de coleta:</string>
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Local de devolução:</string>
+    <!-- Section header for the Itin sharable link -->
+    <string name="share_link_section">Link para o itinerário compartilhado: \n%s</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">Minhas informações sobre %1$s</string>
@@ -604,6 +611,18 @@
     <string name="Long_message">Longo (e-mail)</string>
     <!-- Button label for a buton that shares a short message suitable for social media or SMS -->
     <string name="Short_message">Curto (SMS, Social)</string>
+    <!-- Button label for a button that shares a short message to only Facebook -->
+    <string name="Short_message_Facebook">Facebook</string>
+
+    <!-- Itinerary Share for Facebook -->
+    <!-- Label for Facebook Sharing in task manager and share menu -->
+    <string name="Facebook">Facebook</string>
+    <!-- Template for title/name of the facebook post - Hotels -->
+    <string name="share_facebook_template_title_hotel">Ficando em %1$s</string>
+    <!-- Template for title/name of the facebook post - Flights -->
+    <string name="share_facebook_template_title_flight">Voando para %1$s</string>
+    <!-- Template for title/name of the facebook post - Cars -->
+    <string name="share_facebook_template_title_car">Carro alugado de %1$s</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -646,7 +665,7 @@
     <string name="sort_description_duration">Duração</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
     <plurals name="day_span">
-        <item quantity="zero">%s dia</item>
+        <item quantity="zero">%s dias</item>
         <item quantity="one">%s dia</item>
         <item quantity="two">%s dias</item>
         <item quantity="few">%s dias</item>
@@ -689,11 +708,11 @@
     <string name="select_dates">Selecione as datas</string>
     <!-- Number of adults template -->
     <plurals name="number_of_adults_TEMPLATE">
-        <item quantity="zero">%1$d adulto</item>
+        <item quantity="zero">%1$d Adultos</item>
         <item quantity="one">%1$d adulto</item>
-        <item quantity="two">%1$d adultos</item>
-        <item quantity="few">%1$d adultos</item>
-        <item quantity="many">%1$d adultos</item>
+        <item quantity="two">%1$d Adultos</item>
+        <item quantity="few">%1$d Adultos</item>
+        <item quantity="many">%1$d Adultos</item>
         <item quantity="other">%1$d Adultos</item>
     </plurals>
     <!-- Message shown when loading AirAsia flight routes -->
@@ -796,7 +815,7 @@
     <!-- Select Payment -->
     <string name="select_payment">Selecionar pagamento</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Selecionar pagamento</string>
+    <string name="select_payment_sentence_case">Detalhes de pagamento</string>
     <!-- Add new card -->
     <string name="add_new_card">Adicionar um novo cartão</string>
     <!-- Overview button -->
@@ -836,9 +855,9 @@
     <plurals name="number_of_travelers_TEMPLATE">
         <item quantity="zero">%1$dViajante</item>
         <item quantity="one">%1$dViajante</item>
-        <item quantity="two">%1$dViajantes</item>
-        <item quantity="few">%1$dViajantes</item>
-        <item quantity="many">%1$dViajantes</item>
+        <item quantity="two">%1$dViajante</item>
+        <item quantity="few">%1$dViajante</item>
+        <item quantity="many">%1$dViajante</item>
         <item quantity="other">%1$dViajante</item>
     </plurals>
     <!-- Checkout button text -->
@@ -923,14 +942,22 @@
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">Dados do viajante</string>
+
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Guest">Adicionar hóspede</string>
+
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">Adicionar Pagamento</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Informações do viajante</string>
     <!-- Add traveler -->
     <string name="add_traveler">Dados do viajante</string>
+    <!-- Traveler Details (for flights) -->
+    <string name="traveler_details">Detalhes do viajante</string>
+    <!-- Add Guest for hotels -->
+    <string name="guest_details">Detalhes do hóspede</string>
     <!-- Add traveler number template -->
-    <string name="add_traveler_number_TEMPLATE">Adicionar viajante %1$s</string>
+    <string name="add_traveler_number_TEMPLATE">Detalhes do viajante %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">O embarque poderá ser recusado se o nome do viajante não corresponder ao ID oficial com foto.</string>
 
@@ -1117,7 +1144,7 @@
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Compartilhar via e-mail</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
-    <string name="add_to_calendar">Adicionar ao calendário</string>
+    <string name="add_to_calendar">Adicionar ao Calendário</string>
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
     <string name="add_to_flighttrack">Acompanhar com o FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
@@ -1248,7 +1275,7 @@
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">Partida:</string>
     <!-- Header for the return flight details section of the share flight email -->
-    <string name="share_flight_section_return">Chegada: </string>
+    <string name="share_flight_section_return">Chegada:</string>
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1309,8 +1336,8 @@
     <plurals name="number_of_matching_hotels">
         <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; hotel correspondente</item>
         <item quantity="one">&lt;b&gt;%d&lt;/b&gt; hotel correspondente</item>
-        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; hotéis correspondentes</item>
-        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; hotéis correspondentes</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; hotel correspondente</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; hotel correspondente</item>
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; hotel correspondente</item>
     </plurals>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
@@ -1561,7 +1588,7 @@
     <!-- Braille or raised signage amenity -->
     <string name="AmenityBrailleSignage">Sinalização em braille</string>
     <!-- Free airport shuttle amenity -->
-    <string name="AmenityFreeAirportShuttle">Traslado de ida e volta para o aeroporto</string>
+    <string name="AmenityFreeAirportShuttle">Traslado de/para o aeroporto</string>
     <!-- Indoor pool amenity -->
     <string name="AmenityPoolIndoor">Piscina coberta</string>
     <!-- Outdoor pool amenity -->
@@ -1598,9 +1625,9 @@
     <plurals name="number_of_reviews">
         <item quantity="zero">Nenhuma avaliação</item>
         <item quantity="one">%d avaliação</item>
-        <item quantity="two">%d avaliações</item>
-        <item quantity="many">%d avaliações</item>
-        <item quantity="other">%d avaliações</item>
+        <item quantity="two">%d avaliação</item>
+        <item quantity="many">%d avaliação</item>
+        <item quantity="other">%d avaliação</item>
     </plurals>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
@@ -1608,6 +1635,13 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s de %2$s</string>
+    <!-- User review no critical reviews -->
+    <string name="user_review_no_critical_reviews">Não há avaliações negativas para este hotel.</string>
+    <!-- User review no favorable reviews -->
+    <string name="user_review_no_favorable_reviews">Não há avaliações positivas para este hotel.</string>
+    <!-- User review no recent reviews -->
+    <string name="user_review_no_recent_reviews">Não há avaliações recentes para este hotel.</string>
+
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">As avaliações não estão disponíveis no momento</string>
 
@@ -1616,8 +1650,8 @@
     <plurals name="staying_nights">
         <item quantity="zero">Estadia de %d noite</item>
         <item quantity="one">Estadia de %d noite</item>
-        <item quantity="two">Estadia de %d noites</item>
-        <item quantity="many">Estadia de %d noites</item>
+        <item quantity="two">Estadia de %d noite</item>
+        <item quantity="many">Estadia de %d noite</item>
         <item quantity="other">Estadia de %d noite</item>
     </plurals>
     <!-- Loading message for rooms & rates -->
@@ -1880,33 +1914,45 @@
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">Erro de cupom</string>
 
+    <!-- Coupon dialog -->
+    <!-- Title on dialog imploring users to enter coupons -->
+    <string name="enter_coupon_code">Digite o código do cupom</string>
+    <!-- Message shown when applying coupon (in progress) -->
+    <string name="applying_coupon">Aplicando cupom…</string>
+    <!-- Message shown when a coupon was successfully applied -->
+    <string name="coupon_applied">Cupom aplicado</string>
+    <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
+    <string name="coupon_saved_TEMPLATE">Você economizou %s!</string>
+
     <!-- Coupon Error Strings -->
+    <!-- Generic error when applying coupon, but we didn't get an error code back -->
+    <string name="coupon_error_no_code">Não podemos aplicar o cupom.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Desculpe, mas este código de cupom é desconhecido</string>
+    <string name="coupon_error_unrecognized">Desculpe, mas este código de cupom é desconhecido.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Desculpe, mas este cupom expirou</string>
+    <string name="coupon_error_expired">Desculpe, mas este cupom expirou.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Desculpe, ocorreu um problema. Tente novamente</string>
+    <string name="coupon_error_not_redeemed">Desculpe, ocorreu um problema. Tente novamente.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Desculpe, mas este código de cupom já foi utilizado</string>
+    <string name="coupon_error_duplicate">Desculpe, mas este código de cupom já foi utilizado.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">Desculpe, ocorreu um problema. Tente novamente</string>
+    <string name="coupon_error_fallback">Desculpe, ocorreu um problema. Tente novamente.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">O cupom não foi aplicado, pois o valor da reserva foi alterado. Revise e tente novamente.</string>
+    <string name="coupon_error_price_change">O cupom não foi aplicado, pois o valor da reserva foi alterado. Revise e tente novamente..</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Desculpe, mas este código de cupom serve para outro país</string>
+    <string name="coupon_error_invalid_region">Desculpe, mas este código de cupom serve para outro país.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">Desculpe, mas você não selecionou o número mínimo de noites</string>
+    <string name="coupon_error_min_stay_not_met">Desculpe, mas você não selecionou o número mínimo de noites.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Desculpe, mas este cupom não é válido para essas datas</string>
+    <string name="coupon_error_invalid_travel_dates">Desculpe, mas este cupom não é válido para essas datas.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Desculpe, mas este hotel não aceita cupons</string>
+    <string name="coupon_error_invalid_product">Desculpe, mas este hotel não aceita cupons.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Desculpe, mas isto não atende aos requisitos mínimos</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Desculpe, mas isto não atende aos requisitos mínimos.</string>
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
-    <string name="coupon_error_hotel_excluded">Desculpe, mas este hotel não aceita cupons</string>
+    <string name="coupon_error_hotel_excluded">Desculpe, mas este hotel não aceita cupons.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">Desculpe, mas não é mais possível processar cupons Tente novamente</string>
+    <string name="coupon_error_service_down">Desculpe, mas não é mais possível processar cupons Tente novamente.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
@@ -1976,7 +2022,7 @@
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">Dados privados apagados</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">Todas as informações salvas relativas à cobrança e contato foram removidas.</string>
+    <string name="dialog_message_cleared_private_data">Todas as informações salvas relativas a cobrança e contato foram removidas.</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
     <string name="dialog_message_launch_expedia_mobile_site">Abrir o site móvel da Expedia?</string>
     <!-- Action button label to Subscribe to our mailing list -->
@@ -2027,25 +2073,25 @@
     <plurals name="number_of_adults">
         <item quantity="zero">%d Adultos</item>
         <item quantity="one">%d adulto</item>
-        <item quantity="two">%d adultos</item>
-        <item quantity="many">%d adultos</item>
-        <item quantity="other">%d adultos</item>
+        <item quantity="two">%d Adultos</item>
+        <item quantity="many">%d Adultos</item>
+        <item quantity="other">%d Adultos</item>
     </plurals>
     <!-- A number of children. Capitalized -->
     <plurals name="number_of_children">
         <item quantity="zero">%d criança</item>
         <item quantity="one">%d criança</item>
-        <item quantity="two">%d crianças</item>
-        <item quantity="many">%d crianças</item>
-        <item quantity="other">%d crianças</item>
+        <item quantity="two">%d criança</item>
+        <item quantity="many">%d criança</item>
+        <item quantity="other">%d criança</item>
     </plurals>
     <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
-        <item quantity="zero">%d hóspede</item>
+        <item quantity="zero">%d hóspedes</item>
         <item quantity="one">%d hóspede</item>
-        <item quantity="two">%d hóspede</item>
-        <item quantity="many">%d hóspede</item>
-        <item quantity="other">%d hóspede</item>
+        <item quantity="two">%d hóspedes</item>
+        <item quantity="many">%d hóspedes</item>
+        <item quantity="other">%d hóspedes</item>
     </plurals>
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
@@ -2057,11 +2103,11 @@
     </plurals>
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
-        <item quantity="zero">%d noite</item>
+        <item quantity="zero">%d noites</item>
         <item quantity="one">%d Noite</item>
-        <item quantity="two">%d noite</item>
-        <item quantity="many">%d noite</item>
-        <item quantity="other">%d noite</item>
+        <item quantity="two">%d noites</item>
+        <item quantity="many">%d noites</item>
+        <item quantity="other">%d noites</item>
     </plurals>
     <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
     <plurals name="number_of_days_label">

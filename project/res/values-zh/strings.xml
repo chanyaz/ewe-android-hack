@@ -309,6 +309,10 @@
     <string name="hours_minutes_past_TEMPLATE">%1$s %2$s 前</string>
 
     <!-- Itin Buttons -->
+    <!-- Dialog title for removing shared itin -->
+    <string name="remove_shared_itin_title">删除共享行程？</string>
+    <!-- Dialog message for removing shared itin -->
+    <string name="remove_shared_itin_message">确实要从设备中删除这个共享的行程？</string>
     <!-- Popup menu -->
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">隐藏</string>
@@ -428,9 +432,9 @@
     <string name="car_category_oversize">特大型车</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">两个门轿车</string>
-    <string name="car_type_three_door">三个门轿车</string>
-    <string name="car_type_four_door">四个门轿车</string>
+    <string name="car_type_two_door">两个门 轿车</string>
+    <string name="car_type_three_door">三个门 轿车</string>
+    <string name="car_type_four_door">四个门 轿车</string>
     <string name="car_type_van">箱型车</string>
     <string name="car_type_wagon">旅行车</string>
     <string name="car_type_limousine">豪华轿车</string>
@@ -526,6 +530,7 @@
     <string name="itin_action_redeem">兑换</string>
     <string name="itin_action_support">客户支持服务</string>
     <string name="itin_action_share">分享</string>
+    <string name="itin_action_remove">删除</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">打印代金券</string>
@@ -552,9 +557,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">%2$s飞往%1$s的航班</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">我正在 %3$s 飞往 %2$s 的 %1$s 次航班上。\n%5$s\n飞离 %4$s；%7$s, %8$s 到达 %6$s</string>
+    <string name="share_template_short_flight_sameday">我正在 %3$s 飞往 %2$s 的 %1$s 次航班上。\n%4$s%5$s飞离 \n；%6$s, %7$s 到达 %8$s\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">我正在飞往 %2$s 的 %1$s 次航班上。\n%4$s\n飞离 %3$s；%6$s, %7$s 到达 %5$s</string>
+    <string name="share_template_short_flight_multiday">我正在飞往 %2$s 的 %1$s 次航班上。\n%3$s%4$s飞离 \n；%5$s, %6$s 到达 %7$s\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">租车(%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -577,6 +582,8 @@
     <string name="share_car_pickup_location_section">取车地点：</string>
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">还车地点：</string>
+    <!-- Section header for the Itin sharable link -->
+    <string name="share_link_section">链接共享行程：\n%s</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">我的%1$s详细信息</string>
@@ -604,6 +611,18 @@
     <string name="Long_message">长（电子邮件）</string>
     <!-- Button label for a buton that shares a short message suitable for social media or SMS -->
     <string name="Short_message">短（短信、社交网）</string>
+    <!-- Button label for a button that shares a short message to only Facebook -->
+    <string name="Short_message_Facebook">Facebook</string>
+
+    <!-- Itinerary Share for Facebook -->
+    <!-- Label for Facebook Sharing in task manager and share menu -->
+    <string name="Facebook">Facebook</string>
+    <!-- Template for title/name of the facebook post - Hotels -->
+    <string name="share_facebook_template_title_hotel">住在 %1$s</string>
+    <!-- Template for title/name of the facebook post - Flights -->
+    <string name="share_facebook_template_title_flight">飞往 %1$s</string>
+    <!-- Template for title/name of the facebook post - Cars -->
+    <string name="share_facebook_template_title_car">租车选择了 %1$s</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -796,7 +815,7 @@
     <!-- Select Payment -->
     <string name="select_payment">选择付款</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">选择付款</string>
+    <string name="select_payment_sentence_case">付款详细信息</string>
     <!-- Add new card -->
     <string name="add_new_card">添加新卡</string>
     <!-- Overview button -->
@@ -923,14 +942,22 @@
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">添加旅客</string>
+
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Guest">添加住客</string>
+
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">添加帐款</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">旅客信息</string>
     <!-- Add traveler -->
     <string name="add_traveler">添加旅客</string>
+    <!-- Traveler Details (for flights) -->
+    <string name="traveler_details">旅客详细信息</string>
+    <!-- Add Guest for hotels -->
+    <string name="guest_details">住客详细信息</string>
     <!-- Add traveler number template -->
-    <string name="add_traveler_number_TEMPLATE">添加旅客 %1$s</string>
+    <string name="add_traveler_number_TEMPLATE">旅客 %1$s 详细信息</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">如果旅客的姓名与政府签发的带照片的身份证不符，则可能被拒绝登机。</string>
 
@@ -1519,7 +1546,7 @@
     <!-- Fitness center amenity -->
     <string name="AmenityFitnessCenter">健身房</string>
     <!-- Hot tub on-site amenity -->
-    <string name="AmenityHotTub">热浴缸</string>
+    <string name="AmenityHotTub">热水浴缸</string>
     <!-- Internet access amenity -->
     <string name="AmenityInternet">互联网</string>
     <!-- Kids' activities amenity -->
@@ -1535,7 +1562,7 @@
     <!-- Spa on-site amenity -->
     <string name="AmenitySpa">Spa</string>
     <!-- Whirlpool bath amenity -->
-    <string name="AmenityWhirlpoolBath">漩涡浴</string>
+    <string name="AmenityWhirlpoolBath">漩涡式浴缸</string>
     <!-- Breakfast amenity -->
     <string name="AmenityBreakfast">早餐</string>
     <!-- Babysitting amenity -->
@@ -1608,6 +1635,13 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s来自%2$s</string>
+    <!-- User review no critical reviews -->
+    <string name="user_review_no_critical_reviews">没有对此酒店的恶评。</string>
+    <!-- User review no favorable reviews -->
+    <string name="user_review_no_favorable_reviews">没有对此酒店的好评。</string>
+    <!-- User review no recent reviews -->
+    <string name="user_review_no_recent_reviews">最近没有对此酒店的点评。</string>
+
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">暂时无法提供点评</string>
 
@@ -1623,7 +1657,7 @@
     <!-- Loading message for rooms & rates -->
     <string name="room_rates_loading">正在查找空房…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
-    <string name="error_no_response_room_rates">无法下载客房与价格信息。请检查您的网络连接情况并重试。</string>
+    <string name="error_no_response_room_rates">无法下载客房与价格信息。请检查您的网络连接情况，然后再试一次。</string>
     <!-- Rate price displayed "per night" -->
     <string name="rate_per_night">每晚</string>
     <!-- Rate price displayed "average per night" -->
@@ -1760,7 +1794,7 @@
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">错误</string>
     <!-- Error message when we couldn't get a response -->
-    <string name="error_booking_null">无法连接到 Expedia 服务器。请检查您的网络连接情况并重试。</string>
+    <string name="error_booking_null">无法连接到 Expedia 服务器。请检查您的网络连接情况，然后再试一次。</string>
     <!-- Error message when booking completed with errors -->
     <string name="error_booking_succeeded_with_errors">您的酒店客房已被预订并保留。然而，出现以下错误：%s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
@@ -1880,33 +1914,45 @@
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">优惠券错误</string>
 
+    <!-- Coupon dialog -->
+    <!-- Title on dialog imploring users to enter coupons -->
+    <string name="enter_coupon_code">输入优惠券代码</string>
+    <!-- Message shown when applying coupon (in progress) -->
+    <string name="applying_coupon">正在兑换优惠券…</string>
+    <!-- Message shown when a coupon was successfully applied -->
+    <string name="coupon_applied">已兑换优惠券</string>
+    <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
+    <string name="coupon_saved_TEMPLATE">您节省了 %s！</string>
+
     <!-- Coupon Error Strings -->
+    <!-- Generic error when applying coupon, but we didn't get an error code back -->
+    <string name="coupon_error_no_code">很抱歉，优惠券无法使用。</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">很抱歉，这不是已知的优惠券代码</string>
+    <string name="coupon_error_unrecognized">很抱歉，这不是已知的优惠券代码。</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">很抱歉，该优惠券已过期</string>
+    <string name="coupon_error_expired">很抱歉，该优惠券已过期。</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">很抱歉，我们遇到了问题。请重试。</string>
+    <string name="coupon_error_not_redeemed">很抱歉，我们遇到了问题。请再试一次。</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">很抱歉，该优惠券已使用</string>
+    <string name="coupon_error_duplicate">很抱歉，该优惠券已使用。</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">很抱歉，我们遇到了问题。请重试。</string>
+    <string name="coupon_error_fallback">很抱歉，我们遇到了问题。请再试一次。</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">预订成本已变更，因此我们未应用优惠券。请检查并重试</string>
+    <string name="coupon_error_price_change">预订费用已变更，因此我们未应用优惠券。请检查并重试。</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">很抱歉，该优惠券代码是用于其他国家或地区的</string>
+    <string name="coupon_error_invalid_region">很抱歉，该优惠券代码是用于其他国家或地区的。</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">很抱歉，您未选择最小航班数</string>
+    <string name="coupon_error_min_stay_not_met">很抱歉，您未达到最低晚数要求。</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">很抱歉，该优惠券对这些日期无效</string>
+    <string name="coupon_error_invalid_travel_dates">很抱歉，该优惠券对这些日期无效。</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">很抱歉，该酒店不接受优惠券</string>
+    <string name="coupon_error_invalid_product">很抱歉，该酒店不接受优惠券。</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">很抱歉，这不符合最低成本要求</string>
+    <string name="coupon_error_min_purchase_amount_not_met">很抱歉，这没有达到最低费用的要求。</string>
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
-    <string name="coupon_error_hotel_excluded">很抱歉，该酒店不接受优惠券</string>
+    <string name="coupon_error_hotel_excluded">很抱歉，该酒店不接受优惠券。</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">很抱歉，我们当前无法处理优惠券。请重试。</string>
+    <string name="coupon_error_service_down">很抱歉，我们当前无法处理优惠券。请再试一次。</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
@@ -2104,7 +2150,7 @@
 
     <!-- Checkout API method -->
     <!-- The hotel booking failed -->
-    <string name="e3_error_checkout_booking_failed">遇到错误，无法完成您的预订。请重试。</string>
+    <string name="e3_error_checkout_booking_failed">遇到错误，无法完成您的预订。请再试一次。</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
     <string name="e3_error_checkout_booking_succeeded_with_errors">您已成功预订酒店！如果您需要立即处理行程，请致电 Expedia 客户支持部门。</string>
     <!-- The hotel room is no longer available -->
@@ -2118,20 +2164,20 @@
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_hotel_service_failure">很抱歉，我们无法完成您的搜索。请重试。</string>
+    <string name="e3_error_search_results_hotel_service_failure">很抱歉，我们无法完成您的搜索。请再试一次。</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input">很抱歉，我们无法返回符合您的搜索关键词的结果。请重试。</string>
+    <string name="e3_error_search_results_invalid_input">很抱歉，我们无法返回符合您的搜索关键词的结果。请再试一次。</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input_unknown">很抱歉，我们无法返回符合您的搜索关键词的结果。请重试。</string>
+    <string name="e3_error_search_results_invalid_input_unknown">很抱歉，我们无法返回符合您的搜索关键词的结果。请再试一次。</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_unknown_error">很抱歉，我们无法完成您的搜索。请重试。</string>
+    <string name="e3_error_search_results_unknown_error">很抱歉，我们无法完成您的搜索。请再试一次。</string>
 
     <!-- HotelOffers API method -->
     <!-- The hotel offer is no longer available -->
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">我们非常抱歉！此客房的促销活动已结束，但是还有其他优惠项目。</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">很抱歉，您要求的客房不再可供预订。</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">很抱歉，我们无法连接至 Expedia。请重试。</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure">很抱歉，我们无法连接至 Expedia。请再试一次。</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">我们非常抱歉！此客房的促销活动已结束，但是还有其他优惠项目。</string>
     <!-- There are no longer any rooms for the hotel offer -->

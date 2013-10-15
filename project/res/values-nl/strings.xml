@@ -309,6 +309,10 @@
     <string name="hours_minutes_past_TEMPLATE">%1$s en %2$s geleden</string>
 
     <!-- Itin Buttons -->
+    <!-- Dialog title for removing shared itin -->
+    <string name="remove_shared_itin_title">Gedeeld reisplan verwijderen?</string>
+    <!-- Dialog message for removing shared itin -->
+    <string name="remove_shared_itin_message">Weet je zeker dat je dit gedeelde reisplan van je apparaat wilt verwijderen?</string>
     <!-- Popup menu -->
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Verbergen</string>
@@ -428,9 +432,9 @@
     <string name="car_category_oversize">Oversize auto</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2-deurs auto</string>
-    <string name="car_type_three_door">3-deurs auto</string>
-    <string name="car_type_four_door">4-deurs auto</string>
+    <string name="car_type_two_door">2-deurs Auto</string>
+    <string name="car_type_three_door">3-deurs Auto</string>
+    <string name="car_type_four_door">4-deurs Auto</string>
     <string name="car_type_van">MPV</string>
     <string name="car_type_wagon">Stationswagen</string>
     <string name="car_type_limousine">Limousine</string>
@@ -526,6 +530,7 @@
     <string name="itin_action_redeem">Inwisselen</string>
     <string name="itin_action_support">Ondersteuning</string>
     <string name="itin_action_share">Delen</string>
+    <string name="itin_action_remove">Verwijderen</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Coupons afdrukken</string>
@@ -538,7 +543,7 @@
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Hoi,\n\nIk overnacht in %1$s voor %2$s.</string>
     <!-- 1: Check in date, 2: Check out date -->
-    <string name="share_template_long_hotel_2_checkin_checkout">Check-in%1$s \nCheck-out%2$s</string>
+    <string name="share_template_long_hotel_2_checkin_checkout">Check-in %1$s\nCheck-out %2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
     <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
     <!-- Hotel phone number -->
@@ -552,9 +557,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Onze vlucht op %2$s naar %1$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Mijn vlucht is %1$s naar %2$s op %3$s.\nVertrekt vanaf %4$s om %5$s\nKomt aan op %6$s om %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Mijn vlucht is %1$s naar %2$s op %3$s.\nVertrekt vanaf %4$s om %5$s\nKomt aan op %6$s om %7$s, %8$s\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Mijn vlucht is %1$s naar %2$s.\nVertrekt vanaf %3$s om %4$s\nKomt aan op %5$s om %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Mijn vlucht is %1$s naar %2$s.\nVertrekt vanaf %3$s om %4$s\nKomt aan op %5$s om %6$s, %7$s\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Mijn autoverhuur (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -577,6 +582,8 @@
     <string name="share_car_pickup_location_section">Ophaallocatie:</string>
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Terugbrenglocatie:</string>
+    <!-- Section header for the Itin sharable link -->
+    <string name="share_link_section">Koppeling naar het gedeelde reisplan:\n%s</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">Mijn %1$s gegevens</string>
@@ -604,6 +611,18 @@
     <string name="Long_message">Lang (E-Mail)</string>
     <!-- Button label for a buton that shares a short message suitable for social media or SMS -->
     <string name="Short_message">Kort (SMS, Social Media)</string>
+    <!-- Button label for a button that shares a short message to only Facebook -->
+    <string name="Short_message_Facebook">Facebook</string>
+
+    <!-- Itinerary Share for Facebook -->
+    <!-- Label for Facebook Sharing in task manager and share menu -->
+    <string name="Facebook">Facebook</string>
+    <!-- Template for title/name of the facebook post - Hotels -->
+    <string name="share_facebook_template_title_hotel">Verblijf bij %1$s</string>
+    <!-- Template for title/name of the facebook post - Flights -->
+    <string name="share_facebook_template_title_flight">Vlucht naar %1$s</string>
+    <!-- Template for title/name of the facebook post - Cars -->
+    <string name="share_facebook_template_title_car">Gehuurde auto van %1$s</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -796,7 +815,7 @@
     <!-- Select Payment -->
     <string name="select_payment">Kies betaalmethode</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Kies betaalmethode</string>
+    <string name="select_payment_sentence_case">Betaalinfo</string>
     <!-- Add new card -->
     <string name="add_new_card">Nieuwe creditcard toevoegen</string>
     <!-- Overview button -->
@@ -923,14 +942,22 @@
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">Reiziger toevoegen</string>
+
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Guest">Gast toevoegen</string>
+
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">Betaling toevoegen</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Reizigersinformatie</string>
     <!-- Add traveler -->
     <string name="add_traveler">Reiziger toevoegen</string>
+    <!-- Traveler Details (for flights) -->
+    <string name="traveler_details">Reizigersinfo</string>
+    <!-- Add Guest for hotels -->
+    <string name="guest_details">Gastinfo</string>
     <!-- Add traveler number template -->
-    <string name="add_traveler_number_TEMPLATE">Reiziger %1$s toevoegen</string>
+    <string name="add_traveler_number_TEMPLATE">Info reiziger %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Mogelijk wordt toegang tot het vliegtuig geweigerd als de naam van de reiziger niet overeenstemt met die op het identiteitsbewijs.</string>
 
@@ -1117,7 +1144,7 @@
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Deel via e-mail</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
-    <string name="add_to_calendar">Aan Agenda toevoegen</string>
+    <string name="add_to_calendar">Toevoegen aan Agenda</string>
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
     <string name="add_to_flighttrack">Volg met FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
@@ -1383,9 +1410,9 @@
     <!-- Any # of stops -->
     <string name="stop_description_any">Alle tussenstops</string>
     <!-- Less than or equal to a max  # of stop. Currently set to 1 -->
-    <string name="stop_description__max">Eén of minder</string>
+    <string name="stop_description__max">Max. 1 tussenstop</string>
     <!-- Nonstop flights -->
-    <string name="stop_description__nonstop">NonStop</string>
+    <string name="stop_description__nonstop">Non-stop</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">Alle</string>
@@ -1446,7 +1473,7 @@
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/nacht</string>
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
-    <string name="per_nt">/nt</string>
+    <string name="per_nt">/nacht</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Niet beoordeeld</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -1497,7 +1524,7 @@
     <!-- Title for the amenities section in the hotel details fragment -->
     <string name="amenities">Voorzieningen</string>
     <!-- Label for button to see all reviews as a modal dialog -->
-    <string name="see_all_reviews">Alle reviews bekijken</string>
+    <string name="see_all_reviews">Alle beoordelingen bekijken</string>
     <!-- Label for button that brings users to the room selection page -->
     <string name="select_room">Kamer selecteren</string>
     <!-- Title for VIP Access message -->
@@ -1515,7 +1542,7 @@
     <!-- Text that indicates no amenities at this property -->
     <string name="AmenityNone">Geen aangeboden voorzieningen</string>
     <!-- Business center amenity -->
-    <string name="AmenityBusinessCenter">Zakencentrum</string>
+    <string name="AmenityBusinessCenter">Businesscentrum</string>
     <!-- Fitness center amenity -->
     <string name="AmenityFitnessCenter">Fitnesscentrum</string>
     <!-- Hot tub on-site amenity -->
@@ -1539,7 +1566,7 @@
     <!-- Breakfast amenity -->
     <string name="AmenityBreakfast">Ontbijt</string>
     <!-- Babysitting amenity -->
-    <string name="AmenityBabysitting">Babysit</string>
+    <string name="AmenityBabysitting">Kinderoppas</string>
     <!-- Jacuzzi amenity -->
     <string name="AmenityJacuzzi">Jacuzzi</string>
     <!-- Parking amenity -->
@@ -1608,6 +1635,13 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s uit %2$s</string>
+    <!-- User review no critical reviews -->
+    <string name="user_review_no_critical_reviews">Er zijn geen negatieve beoordelingen voor dit hotel.</string>
+    <!-- User review no favorable reviews -->
+    <string name="user_review_no_favorable_reviews">Er zijn geen positieve beoordelingen voor dit hotel.</string>
+    <!-- User review no recent reviews -->
+    <string name="user_review_no_recent_reviews">Er zijn geen recente beoordelingen voor dit hotel.</string>
+
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">De beoordelingen zijn voorlopig niet beschikbaar</string>
 
@@ -1692,7 +1726,7 @@
     <!-- Label for total cost of hotel stay -->
     <string name="total_cost">Totale kosten</string>
     <!-- Label for "guest info" form field section -->
-    <string name="guest_info">Gastgegevens</string>
+    <string name="guest_info">Gastinfo</string>
     <!-- The "first name" booking info field. -->
     <string name="FirstName">Voornaam</string>
     <!-- The "last name" booking info field. -->
@@ -1872,7 +1906,7 @@
     <!-- Label for new price after applying coupon -->
     <string name="new_total">Nieuw totaal:</string>
     <!-- Label for credit card selection -->
-    <string name="use_card">Gebruik kaart:</string>
+    <string name="use_card">Gebruik creditcard:</string>
     <!-- Label for when a user has entered an invalid coupon -->
     <string name="invalid_coupon">Ongeldige coupon</string>
     <!-- Label for when a user has entered a coupon which is expired -->
@@ -1880,33 +1914,45 @@
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">Fout met coupon</string>
 
+    <!-- Coupon dialog -->
+    <!-- Title on dialog imploring users to enter coupons -->
+    <string name="enter_coupon_code">Voer couponcode in</string>
+    <!-- Message shown when applying coupon (in progress) -->
+    <string name="applying_coupon">Coupon wordt toegepast…</string>
+    <!-- Message shown when a coupon was successfully applied -->
+    <string name="coupon_applied">Coupon toegepast</string>
+    <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
+    <string name="coupon_saved_TEMPLATE">Je hebt %s bespaard!</string>
+
     <!-- Coupon Error Strings -->
+    <!-- Generic error when applying coupon, but we didn't get an error code back -->
+    <string name="coupon_error_no_code">Sorry, maar de coupon kan niet worden toegepast.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Sorry, maar dit is geen gekende couponcode</string>
+    <string name="coupon_error_unrecognized">Sorry, maar dit is geen gekende couponcode.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Sorry, maar deze coupon is verlopen</string>
+    <string name="coupon_error_expired">Sorry, maar deze coupon is verlopen.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Sorry, maar er deed zich een probleem voor. Probeer het opnieuw</string>
+    <string name="coupon_error_not_redeemed">Sorry, maar er deed zich een probleem voor. Probeer het opnieuw.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Sorry, maar deze coupon is al gebruikt geweest</string>
+    <string name="coupon_error_duplicate">Sorry, maar deze coupon is al gebruikt geweest.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">Sorry, maar er deed zich een probleem voor. Probeer het opnieuw</string>
+    <string name="coupon_error_fallback">Sorry, maar er deed zich een probleem voor. Probeer het opnieuw.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">De coupon werd niet toegepast omdat de boekingsprijs werd gewijzigd. Controleer en probeer opnieuw</string>
+    <string name="coupon_error_price_change">De coupon werd niet toegepast omdat de boekingsprijs werd gewijzigd. Controleer en probeer opnieuw.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Sorry, maar deze coupon is geldig in een ander land</string>
+    <string name="coupon_error_invalid_region">Sorry, maar deze coupon is geldig in een ander land.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">Sorry, maar je dient een minimumaantal nachten te boeken</string>
+    <string name="coupon_error_min_stay_not_met">Sorry, maar je dient een minimumaantal nachten te boeken.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Sorry, maar de coupon is ongeldig op deze datums</string>
+    <string name="coupon_error_invalid_travel_dates">Sorry, maar de coupon is ongeldig op deze datums.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Sorry, maar dit hotel aanvaardt geen coupons</string>
+    <string name="coupon_error_invalid_product">Sorry, maar dit hotel aanvaardt geen coupons.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Sorry, maar de boekingsprijs is lager dan het vereiste boekingsbedrag</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Sorry, maar de boekingsprijs is lager dan het vereiste boekingsbedrag.</string>
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
-    <string name="coupon_error_hotel_excluded">Sorry, maar dit hotel aanvaardt geen coupons</string>
+    <string name="coupon_error_hotel_excluded">Sorry, maar dit hotel aanvaardt geen coupons.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">Sorry, maar we kunnen coupons op dit moment niet verwerken. Probeer het opnieuw</string>
+    <string name="coupon_error_service_down">Sorry, maar we kunnen coupons op dit moment niet verwerken. Probeer het opnieuw.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
@@ -2106,7 +2152,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">Door een fout konden we je boeking niet afronden. Probeer het opnieuw.</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">Je hebt je boeking bij dit hotel succesvol afgerond! Als je onmiddellijk een reisplan nodig hebt, bel dan de Expedia klantenservice.</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors">Je hebt je boeking bij dit hotel voltooid! Bel de Expedia klantenservice als je onmiddellijk een reisplan nodig hebt.</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">Het spijt ons, maar de kamer waar je naar zocht is niet meer beschikbaar op Expedia.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->

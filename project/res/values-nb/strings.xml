@@ -309,6 +309,10 @@
     <string name="hours_minutes_past_TEMPLATE">%1$s og %2$s siden</string>
 
     <!-- Itin Buttons -->
+    <!-- Dialog title for removing shared itin -->
+    <string name="remove_shared_itin_title">Fjerne delt reiserute?</string>
+    <!-- Dialog message for removing shared itin -->
+    <string name="remove_shared_itin_message">Er du sikker på at du vil fjerne denne delte reiseruten fra enheten din?</string>
     <!-- Popup menu -->
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Skjul</string>
@@ -526,6 +530,7 @@
     <string name="itin_action_redeem">Løs inn</string>
     <string name="itin_action_support">Støtte</string>
     <string name="itin_action_share">Del</string>
+    <string name="itin_action_remove">Fjern</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Skriv ut kuponger</string>
@@ -552,9 +557,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Vår flyvning til %1$s den %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Jeg er på fly %1$s til %2$s den %3$s.\nAvreise fra %4$s kl. %5$s\nAnkomst ved %6$s kl. %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Jeg er på fly %1$s til %2$s den %3$s.\nAvreise fra %4$s kl. %5$s\nAnkomst ved %6$s kl. %7$s, %8$s\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Jeg er på fly %1$s til %2$s.\nAvreise fra %3$s kl. %4$s\nAnkomst ved %5$s kl. %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Jeg er på fly %1$s til %2$s.\nAvreise fra %3$s kl. %4$s\nAnkomst ved %5$s kl. %6$s, %7$s\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Min leiebil (%1$s–%2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -577,6 +582,8 @@
     <string name="share_car_pickup_location_section">Sted for henting:</string>
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Sted for avlevering:</string>
+    <!-- Section header for the Itin sharable link -->
+    <string name="share_link_section">Link til den delte reiseruten:\n%s</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">Mine detaljer om %1$s</string>
@@ -604,6 +611,18 @@
     <string name="Long_message">Lang (e-post)</string>
     <!-- Button label for a buton that shares a short message suitable for social media or SMS -->
     <string name="Short_message">Kort (SMS, sosiale medier)</string>
+    <!-- Button label for a button that shares a short message to only Facebook -->
+    <string name="Short_message_Facebook">Facebook</string>
+
+    <!-- Itinerary Share for Facebook -->
+    <!-- Label for Facebook Sharing in task manager and share menu -->
+    <string name="Facebook">Facebook</string>
+    <!-- Template for title/name of the facebook post - Hotels -->
+    <string name="share_facebook_template_title_hotel">Bor på %1$s</string>
+    <!-- Template for title/name of the facebook post - Flights -->
+    <string name="share_facebook_template_title_flight">Flyr til %1$s</string>
+    <!-- Template for title/name of the facebook post - Cars -->
+    <string name="share_facebook_template_title_car">Leid bil fra %1$s</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -796,7 +815,7 @@
     <!-- Select Payment -->
     <string name="select_payment">Velg betalingsform</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Velg betalingsform</string>
+    <string name="select_payment_sentence_case">Betalingsdetaljer</string>
     <!-- Add new card -->
     <string name="add_new_card">Legg til nytt betalingskort</string>
     <!-- Overview button -->
@@ -923,14 +942,22 @@
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">Legg til reisende</string>
+
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Guest">Legg til en gjest</string>
+
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">Legg til betaling</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Reisendes informasjon</string>
     <!-- Add traveler -->
     <string name="add_traveler">Legg til reisende</string>
+    <!-- Traveler Details (for flights) -->
+    <string name="traveler_details">Den reisendes detaljer</string>
+    <!-- Add Guest for hotels -->
+    <string name="guest_details">Gjestens detaljer</string>
     <!-- Add traveler number template -->
-    <string name="add_traveler_number_TEMPLATE">Legg til reisende %1$s</string>
+    <string name="add_traveler_number_TEMPLATE">Informasjon om reisende %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Du kan nektes boarding på flyet dersom navnet på billetten ikke stemmer overens med din offentlig godkjente legitimasjon.</string>
 
@@ -1608,6 +1635,13 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s fra %2$s</string>
+    <!-- User review no critical reviews -->
+    <string name="user_review_no_critical_reviews">Det finnes ingen negative anmeldelser av dette hotellet</string>
+    <!-- User review no favorable reviews -->
+    <string name="user_review_no_favorable_reviews">Det finnes ingen positive anmeldelser av dette hotellet</string>
+    <!-- User review no recent reviews -->
+    <string name="user_review_no_recent_reviews">Det finnes ingen nylige anmeldelser av dette hotellet</string>
+
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Anmeldelser er utilgjengelige for øyeblikket</string>
 
@@ -1627,7 +1661,7 @@
     <!-- Rate price displayed "per night" -->
     <string name="rate_per_night">per natt</string>
     <!-- Rate price displayed "average per night" -->
-    <string name="rate_avg_per_night">i snitt per natt</string>
+    <string name="rate_avg_per_night">i gjennomsnitt per natt</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="total_price_for_stay">Totalpris for oppholdet</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
@@ -1722,7 +1756,7 @@
     <!-- Rules & restrictions section header -->
     <string name="rules_restrictions">Regler og begrensninger</string>
     <!-- Disclaimer about how to earn expedia points -->
-    <string name="disclaimer_expedia_points">Dersom du har en Expedia Rewards-konto, må du bestille med den samme e-postadressen for at poengene dine automatisk skal bli lagt til etter endt opphold. Vær oppmerksom på at det kan ta opptil 30 dager før poengene dine vises.</string>
+    <string name="disclaimer_expedia_points">Dersom du har en Expedia Rewards™-konto, må du bestille med den samme e-postadressen for at poengene dine automatisk skal bli lagt til etter endt opphold. Vær oppmerksom på at det kan ta opptil 30 dager før poengene dine vises.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Bekreft og bestill</string>
     <!-- Label for clearing private data -->
@@ -1880,33 +1914,45 @@
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">Feil ved kupongkode</string>
 
+    <!-- Coupon dialog -->
+    <!-- Title on dialog imploring users to enter coupons -->
+    <string name="enter_coupon_code">Angi kupongkode</string>
+    <!-- Message shown when applying coupon (in progress) -->
+    <string name="applying_coupon">Påfører kupongen…</string>
+    <!-- Message shown when a coupon was successfully applied -->
+    <string name="coupon_applied">Kupongen er anvendt</string>
+    <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
+    <string name="coupon_saved_TEMPLATE">Du har spart %s!</string>
+
     <!-- Coupon Error Strings -->
+    <!-- Generic error when applying coupon, but we didn't get an error code back -->
+    <string name="coupon_error_no_code">Beklager, kupongen kan ikke brukes.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Beklager, dette er ikke en kjent kupongkode</string>
+    <string name="coupon_error_unrecognized">Beklager, dette er ikke en kjent kupongkode.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Beklager, kupongen er utløpt</string>
+    <string name="coupon_error_expired">Beklager, kupongen er utløpt.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Beklager, det har oppstått et problem. Prøv på nytt</string>
+    <string name="coupon_error_not_redeemed">Beklager, det har oppstått et problem. Prøv på nytt.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Beklager, denne kupongkoden har allerede blitt brukt</string>
+    <string name="coupon_error_duplicate">Beklager, denne kupongkoden har allerede blitt brukt.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">Beklager, det har oppstått et problem. Prøv på nytt</string>
+    <string name="coupon_error_fallback">Beklager, det har oppstått et problem. Prøv på nytt.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">Prisen på bestillingen er endret, så vi har ikke lagt til kupongen. Anmeld på nytt og prøv igjen</string>
+    <string name="coupon_error_price_change">Prisen på bestillingen er endret, så vi har ikke lagt til kupongen. Anmeld på nytt og prøv igjen.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Beklager, denne kupongkoden er kun gyldig i et annet land</string>
+    <string name="coupon_error_invalid_region">Beklager, denne kupongkoden er kun gyldig i et annet land.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">Du har valgt færre dager enn det som er minstekravet</string>
+    <string name="coupon_error_min_stay_not_met">Du har valgt færre dager enn det som er minstekravet.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Beklager, denne kupongen er ikke gyldig for disse datoene</string>
+    <string name="coupon_error_invalid_travel_dates">Beklager, denne kupongen er ikke gyldig for disse datoene.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Beklager, dette hotellet godtar ikke kuponger</string>
+    <string name="coupon_error_invalid_product">Beklager, dette hotellet godtar ikke kuponger.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Beklager, du har ikke oppnådd minimumsbeløpet</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Beklager, du har ikke oppnådd minimumsbeløpet.</string>
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
-    <string name="coupon_error_hotel_excluded">Beklager, dette hotellet godtar ikke kuponger</string>
+    <string name="coupon_error_hotel_excluded">Beklager, dette hotellet godtar ikke kuponger.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">Beklager, det var ikke mulig å lese kupongkoden.  Prøv på nytt</string>
+    <string name="coupon_error_service_down">Beklager, det var ikke mulig å lese kupongkoden.  Prøv på nytt.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->

@@ -63,7 +63,7 @@
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">การเดินทาง</string>
     <!-- Google play services unrecoverable error dialog message -->
-    <string name="google_play_services_unrecoverable_error">แอพฯ นี้ต้องใช้ Google Play Services โปรดติดตั้ง Google Play Services เวอร์ชั่นล่าสุด</string>
+    <string name="google_play_services_unrecoverable_error">แอพนี้ต้องใช้ Google Play Services โปรดติดตั้ง Google Play Services เวอร์ชั่นล่าสุด</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -309,6 +309,10 @@
     <string name="hours_minutes_past_TEMPLATE">%1$s และ %2$s ที่ผ่านมา</string>
 
     <!-- Itin Buttons -->
+    <!-- Dialog title for removing shared itin -->
+    <string name="remove_shared_itin_title">ลบแผนการเดินทางที่แชร์?</string>
+    <!-- Dialog message for removing shared itin -->
+    <string name="remove_shared_itin_message">คุณแน่ใจว่าต้องการลบแผนการเดินทางที่แชร์นี้ออกจากเครื่องหรือไม่</string>
     <!-- Popup menu -->
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">ซ่อน</string>
@@ -526,6 +530,7 @@
     <string name="itin_action_redeem">แลก</string>
     <string name="itin_action_support">ทีมงานบริการ</string>
     <string name="itin_action_share">แชร์</string>
+    <string name="itin_action_remove">ลบ</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">พิมพ์บัตรกำนัล</string>
@@ -546,15 +551,15 @@
     <!-- Link to more information about the hotel -->
     <string name="share_template_long_hotel_5_more_info">ข้อมูลเพิ่มเติม\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">จองโรงแรม เที่ยวบิน ดูและแบ่งปันแผนการเดินทางของคุณ ดาวน์โหลดแอพฯ ฟรีสำหรับมือถือจากเอ็กซ์พีเดียวันนี้\n%s</string>
+    <string name="share_template_long_ad">จองโรงแรม เที่ยวบิน ดูและแบ่งปันแผนการเดินทางของคุณ ดาวน์โหลดแอพฟรีสำหรับมือถือจากเอ็กซ์พีเดียวันนี้\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">เที่ยวบินของฉันไปยัง %1$s ใน %2$s</string>
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">เที่ยวบินของเราไปยัง %1$s ใน %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">ฉันนั่งเที่ยวบิน %1$s ไปยัง %2$s ใน %3$s\nออกจาก %4$s เวลา %5$s\nมาถึง %6$s เวลา %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">ฉันนั่งเที่ยวบิน %1$s ไปยัง %2$s ใน %3$s\nออกจาก %4$s เวลา %5$s\nมาถึง %6$s เวลา %7$s, %8$s\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">ฉันนั่งเที่ยวบิน %1$s ไปยัง %2$s\nออกจาก %3$s เวลา %4$s\nมาถึง %5$s เวลา %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">ฉันนั่งเที่ยวบิน %1$s ไปยัง %2$s\nออกจาก %3$s เวลา %4$s\nมาถึง %5$s เวลา %6$s, %7$s\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">รถเช่าของฉัน (%1$s - %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -577,6 +582,8 @@
     <string name="share_car_pickup_location_section">สถานที่รับรถ:</string>
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">สถานที่ส่งคืนรถ:</string>
+    <!-- Section header for the Itin sharable link -->
+    <string name="share_link_section">ลิงก์ไปยังแผนการเดินทางที่แชร์:\n%s</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">รายละเอียด %1$s ของฉัน</string>
@@ -604,6 +611,18 @@
     <string name="Long_message">ยาว (อีเมล)</string>
     <!-- Button label for a buton that shares a short message suitable for social media or SMS -->
     <string name="Short_message">สั้น (SMS, โซเชียล)</string>
+    <!-- Button label for a button that shares a short message to only Facebook -->
+    <string name="Short_message_Facebook">Facebook</string>
+
+    <!-- Itinerary Share for Facebook -->
+    <!-- Label for Facebook Sharing in task manager and share menu -->
+    <string name="Facebook">Facebook</string>
+    <!-- Template for title/name of the facebook post - Hotels -->
+    <string name="share_facebook_template_title_hotel">เข้าพักที่ %1$s</string>
+    <!-- Template for title/name of the facebook post - Flights -->
+    <string name="share_facebook_template_title_flight">บินไปยัง %1$s</string>
+    <!-- Template for title/name of the facebook post - Cars -->
+    <string name="share_facebook_template_title_car">เช่ารถจาก %1$s</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -796,7 +815,7 @@
     <!-- Select Payment -->
     <string name="select_payment">เลือกการชำระเงิน</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">เลือกการชำระเงิน</string>
+    <string name="select_payment_sentence_case">รายละเอียดการชำระเงิน</string>
     <!-- Add new card -->
     <string name="add_new_card">เพิ่มบัตรใหม่</string>
     <!-- Overview button -->
@@ -812,7 +831,7 @@
 
     <!-- Edit CreditCard Fragment -->
     <!-- Airline processing fee for this card: <Dollar Amount> (e.g. Airling processing fee for this card: $5) -->
-    <string name="airline_processing_fee_TEMPLATE">ค่าธรรมเนียมของสายการบินสำหรับบัตรนี้: &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <string name="airline_processing_fee_TEMPLATE">ค่าธรรมเนียมบัตรเครดิตของสายการบิน: &lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
     <string name="airline_does_not_accept_cardtype_TEMPLATE">สายการบินไม่รับ %1$s</string>
     <!-- "Airline Fee Information" -->
@@ -923,14 +942,22 @@
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">เพิ่มผู้เดินทาง</string>
+
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Guest">เพิ่มผู้เข้าพัก</string>
+
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">เพิ่มการชำระเงิน</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">ข้อมูลผู้เดินทาง</string>
     <!-- Add traveler -->
     <string name="add_traveler">เพิ่มผู้เดินทาง</string>
+    <!-- Traveler Details (for flights) -->
+    <string name="traveler_details">รายละเอียดผู้เดินทาง</string>
+    <!-- Add Guest for hotels -->
+    <string name="guest_details">รายละเอียดผู้เข้าพัก</string>
     <!-- Add traveler number template -->
-    <string name="add_traveler_number_TEMPLATE">เพิ่มผู้เดินทาง %1$s</string>
+    <string name="add_traveler_number_TEMPLATE">รายละเอียดผู้เดินทาง %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">สายการบินอาจปฏิเสธการขึ้นเครื่องหากชื่อผู้เดินทางไม่ตรงกับบัตรประจำตัวที่มีรูปถ่ายที่ทางราชการออกให้</string>
 
@@ -1073,7 +1100,7 @@
     <!-- Window seating preference -->
     <string name="window">ติดหน้าต่าง</string>
     <!-- Aisle seating preference -->
-    <string name="aisle">ติดทางเดิน</string>
+    <string name="aisle">ทางเดิน</string>
     <!-- Any -->
     <string name="any">ที่ใดก็ได้</string>
 
@@ -1363,7 +1390,7 @@
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">ปิดการให้บริการข้อมูลตำแหน่งแล้ว โปรดเปิดใช้การให้บริการข้อมูลตำแหน่ง หากต้องการค้นหาตามตำแหน่ง</string>
     <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-    <string name="ProviderOutOfService">การให้บริการข้อมูลตำแหน่งใช้การไม่ได้ โปรดลองอีกครั้ง</string>
+    <string name="ProviderOutOfService">การให้บริการข้อมูลตำแหน่งใช้การไม่ได้ โปรดลองอีกครั้งภายหลัง</string>
     <!-- Message displayed when the location provider is temporarily unavailable. -->
     <string name="ProviderTemporarilyUnavailable">การให้บริการข้อมูลตำแหน่งใช้การไม่ได้ในขณะนี้ โปรดลองอีกครั้ง</string>
 
@@ -1608,6 +1635,13 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s จาก %2$s</string>
+    <!-- User review no critical reviews -->
+    <string name="user_review_no_critical_reviews">ไม่มีรีวิวเชิงลบสำหรับโรงแรมนี้</string>
+    <!-- User review no favorable reviews -->
+    <string name="user_review_no_favorable_reviews">ไม่มีรีวิวเชิงบวกสำหรับโรงแรมนี้</string>
+    <!-- User review no recent reviews -->
+    <string name="user_review_no_recent_reviews">ไม่มีรีวิวใหม่สำหรับโรงแรมนี้</string>
+
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">ขออภัย ระบบแสดงความคิดเห็นขัดข้อง</string>
 
@@ -1639,10 +1673,10 @@
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">ไม่มีห้องว่าง</item>
-        <item quantity="one">เหลือเพียง 1 ห้อง</item>
-        <item quantity="two">เหลือเพียง %d ห้อง</item>
-        <item quantity="many">เหลือเพียง %d ห้อง</item>
-        <item quantity="other">เหลือเพียง %d ห้อง</item>
+        <item quantity="one">เหลือเพียง 1 ห้อง!</item>
+        <item quantity="two">เหลือเพียง %d ห้อง!</item>
+        <item quantity="many">เหลือเพียง %d ห้อง!</item>
+        <item quantity="other">เหลือเพียง %d ห้อง!</item>
     </plurals>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">ไม่สามารถคืนเงินได้</string>
@@ -1880,17 +1914,29 @@
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">คูปองผิด</string>
 
+    <!-- Coupon dialog -->
+    <!-- Title on dialog imploring users to enter coupons -->
+    <string name="enter_coupon_code">กรอกรหัสคูปอง</string>
+    <!-- Message shown when applying coupon (in progress) -->
+    <string name="applying_coupon">กำลังใช้คูปอง…</string>
+    <!-- Message shown when a coupon was successfully applied -->
+    <string name="coupon_applied">ใช้คูปองแล้ว</string>
+    <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
+    <string name="coupon_saved_TEMPLATE">คุณประหยัด %s!</string>
+
     <!-- Coupon Error Strings -->
+    <!-- Generic error when applying coupon, but we didn't get an error code back -->
+    <string name="coupon_error_no_code">ขออภัย ไม่สามารถใช้คูปองได้</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
     <string name="coupon_error_unrecognized">ขออภัย ระบบไม่พบรหัสคูปองนี้</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">ขออภัย คูปองนี้หมดอายุแล้ว</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">ขออภัย เราประสบปัญหา โปรดลองอีกครั้ง</string>
+    <string name="coupon_error_not_redeemed">ขออภัย เราประสบปัญหา โปรดลองใหม่อีกครั้ง</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
     <string name="coupon_error_duplicate">ขออภัย รหัสคูปองนี้ได้รับการใช้ไปแล้ว</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">ขออภัย เราประสบปัญหา โปรดลองอีกครั้ง</string>
+    <string name="coupon_error_fallback">ขออภัย เราประสบปัญหา โปรดลองใหม่อีกครั้ง</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
     <string name="coupon_error_price_change">ราคาการจองมีการเปลี่ยนแปลง เราจึงไม่ได้ใช้คูปอง โปรดตรวจสอบแล้วลองอีกครั้ง</string>
     <!-- Error when applying coupon - the coupon is for another region -->
@@ -1906,7 +1952,7 @@
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
     <string name="coupon_error_hotel_excluded">ขออภัย โรงแรมนี้ไม่รับคูปอง</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">ขออภัย เราไม่สามารถดำเนินการใช้คูปองได้ในขณะนี้ โปรดลองอีกครั้ง</string>
+    <string name="coupon_error_service_down">ขออภัย เราไม่สามารถดำเนินการใช้คูปองได้ในขณะนี้ โปรดลองใหม่อีกครั้ง</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
@@ -1992,7 +2038,7 @@
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">ใบอนุญาตซอฟต์แวร์โอเพนซอร์ซ</string>
     <!-- String for acrediting the open source libraries we use -->
-    <string name="this_app_makes_use_of_the_following">แอพฯ นี้ใช้งานไลบรารีโอเพนซอร์สดังนี้:</string>
+    <string name="this_app_makes_use_of_the_following">แอพนี้ใช้งานไลบรารีโอเพนซอร์สดังนี้:</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -2022,7 +2068,7 @@
 
     <!-- Strings used a lot of places -->
     <!-- Error shown if user tries to launch an outside app that they don't have access to -->
-    <string name="app_not_available">โทรศัพท์ของคุณไม่มีแอพฯ ที่รองรับการดำเนินการนี้ หรือไม่คุณก็ถูกจำกัดการเข้าใช้งานของแอพฯ นั้น</string>
+    <string name="app_not_available">โทรศัพท์ของคุณไม่มีแอพที่รองรับการดำเนินการนี้ หรือไม่คุณก็ถูกจำกัดการเข้าใช้งานของแอพนั้น</string>
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">ผู้ใหญ่ %d คน</item>
@@ -2418,7 +2464,7 @@
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">ข้อตกลงและเงื่อนไขของคูปอง Google Wallet</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">คูปองต้องแลกใช้ในแอพฯ Expedia สำหรับ Android สำหรับการเดินทางระหว่างวันที่ 17 มิถุนายน 2556 - 31 ธันวาคม 2556 ข้อเสนอนี้เป็นข้อเสนอจาก Expedia.com และใช้ได้กับลูกค้าของ Expedia.com ในสหรัฐอเมริกาเท่านั้น\n\nการจองมีข้อตกลงและเงื่อนไขและขึ้นอยู่กับความพร้อมให้บริการของโรงแรมราคาเอ็กซ์พีเดีย ณ เวลาที่ทำการจอง ไม่สามารถใช้คูปองร่วมกับโปรโมชั่น ส่วนลด หรือข้อเสนอพิเศษอื่นๆ ส่วนลดจากคูปองไม่สามารถนำมาใช้กับภาษี ค่าธรรมเนียมที่โรงแรมเรียกเก็บ ค่าปรับในการยกเลิกหรือเปลี่ยนแปลงการจอง ค่าธรรมเนียมการดำเนินการ หรือค่าใช้จ่ายจิปาถะอื่นๆ ซึ่งถือเป็นความรับผิดชอบของลูกค้าแต่เพียงผู้เดียว ในกรณีที่คุณเปลี่ยนแปลงหรือยกเลิกการจอง คูปองจะไม่สามารถใช้ได้กับแผนการเดินทางที่เปลี่ยนแปลง\n\nข้อตกลงและเงื่อนไขของคูปองนี้เป็นไปตามที่กำหนด และไม่สามารถเปลี่ยนแปลงได้โดยตัวแทนของผู้ที่ไม่ได้รับการมอบอำนาจ รวมถึงพนักงานของ Expedia, Inc. คูปองไม่สามารถโอนให้กันและไม่สามารถแลกเป็นเงินสดได้ เป็นโมฆะหากไม่ได้รับอนุญาตตามกฎหมาย Expedia, Inc. อาจยกเลิกหรือเปลี่ยนแปลงข้อเสนอนี้ได้ทุกเมื่อ</string>
+    <string name="wallet_promo_tc_message">คูปองต้องแลกใช้ในแอพ Expedia สำหรับ Android สำหรับการเดินทางระหว่างวันที่ 17 มิถุนายน 2556 - 31 ธันวาคม 2556 ข้อเสนอนี้เป็นข้อเสนอจาก Expedia.com และใช้ได้กับลูกค้าของ Expedia.com ในสหรัฐอเมริกาเท่านั้น\n\nการจองมีข้อตกลงและเงื่อนไขและขึ้นอยู่กับความพร้อมให้บริการของโรงแรมราคาเอ็กซ์พีเดีย ณ เวลาที่ทำการจอง ไม่สามารถใช้คูปองร่วมกับโปรโมชั่น ส่วนลด หรือข้อเสนอพิเศษอื่นๆ ส่วนลดจากคูปองไม่สามารถนำมาใช้กับภาษี ค่าธรรมเนียมที่โรงแรมเรียกเก็บ ค่าปรับในการยกเลิกหรือเปลี่ยนแปลงการจอง ค่าธรรมเนียมการดำเนินการ หรือค่าใช้จ่ายจิปาถะอื่นๆ ซึ่งถือเป็นความรับผิดชอบของลูกค้าแต่เพียงผู้เดียว ในกรณีที่คุณเปลี่ยนแปลงหรือยกเลิกการจอง คูปองจะไม่สามารถใช้ได้กับแผนการเดินทางที่เปลี่ยนแปลง\n\nข้อตกลงและเงื่อนไขของคูปองนี้เป็นไปตามที่กำหนด และไม่สามารถเปลี่ยนแปลงได้โดยตัวแทนของผู้ที่ไม่ได้รับการมอบอำนาจ รวมถึงพนักงานของ Expedia, Inc. คูปองไม่สามารถโอนให้กันและไม่สามารถแลกเป็นเงินสดได้ เป็นโมฆะหากไม่ได้รับอนุญาตตามกฎหมาย Expedia, Inc. อาจยกเลิกหรือเปลี่ยนแปลงข้อเสนอนี้ได้ทุกเมื่อ</string>
     <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
     <string name="wallet_promo_expired">ขออภัย ส่วนลด Google Wallet ใช้ได้กับการเดินทางในปี 2556 เท่านั้น</string>
 
@@ -2634,7 +2680,7 @@
 
     <!-- VSC Info Screen -->
     <!-- Header for a list of apps also written by VSC -->
-    <string name="AlsoByVSC">แอพฯ อื่นๆ โดย VSC</string>
+    <string name="AlsoByVSC">แอพอื่นๆ โดย VSC</string>
     <!-- Name of VSC Train app -->
     <string name="VSC_Voyages_SNF">Voyages-SNCF</string>
     <!-- Description for FT Free app -->
