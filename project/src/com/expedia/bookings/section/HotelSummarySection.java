@@ -32,9 +32,9 @@ import com.mobiata.android.text.StrikethroughTagHandler;
  */
 public class HotelSummarySection extends RelativeLayout {
 
-	private static final int[] CARD_GRADIENT_COLORS = new int[] { 0, 206 << 24, 255 << 24 };
+	private static final int[] CARD_GRADIENT_COLORS = new int[] { 0x00000000, 0x40000000, 0xa4000000 };
 
-	private static final float[] CARD_GRADIENT_POSITIONS = new float[] { 0f, .82f, 1f };
+	private static final float[] CARD_GRADIENT_POSITIONS = null; // Distribute the gradient colors evenly
 
 	private static final int ROOMS_LEFT_CUTOFF = 5;
 
