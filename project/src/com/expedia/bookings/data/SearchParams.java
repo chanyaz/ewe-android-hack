@@ -51,6 +51,11 @@ public class SearchParams implements Parcelable, JSONable {
 	private SuggestionV2 mOrigin;
 	private SuggestionV2 mDestination;
 
+	// In certain cases, the origin/destination may differ from the airport used to get there
+	// (e.g., "current location" searches)
+	private SuggestionV2 mOriginAirport;
+	private SuggestionV2 mDestinationAirport;
+
 	private LocalDate mStartDate;
 	private LocalDate mEndDate;
 
@@ -67,6 +72,7 @@ public class SearchParams implements Parcelable, JSONable {
 
 	public SearchParams setOrigin(SuggestionV2 origin) {
 		mOrigin = origin;
+		mOriginAirport = null; // Assume this is no longer valid with a new origin
 		return this;
 	}
 
@@ -80,11 +86,30 @@ public class SearchParams implements Parcelable, JSONable {
 
 	public SearchParams setDestination(SuggestionV2 destination) {
 		mDestination = destination;
+		mDestinationAirport = null; // Assume this is no longer valid with a new destination
 		return this;
 	}
 
 	public boolean hasDestination() {
 		return mDestination != null && !mDestination.equals(new SuggestionV2());
+	}
+
+	public SuggestionV2 getOriginAirport() {
+		return mOriginAirport;
+	}
+
+	public SearchParams setOriginAirport(SuggestionV2 originAirport) {
+		mOriginAirport = originAirport;
+		return this;
+	}
+
+	public SuggestionV2 getDestinationAirport() {
+		return mDestinationAirport;
+	}
+
+	public SearchParams setDestinationAirport(SuggestionV2 destinationAirport) {
+		mDestinationAirport = destinationAirport;
+		return this;
 	}
 
 	public LocalDate getStartDate() {
@@ -166,6 +191,8 @@ public class SearchParams implements Parcelable, JSONable {
 	public void setDefaultLocations() {
 		mOrigin = new SuggestionV2();
 		mDestination = new SuggestionV2();
+		mOriginAirport = null;
+		mDestinationAirport = null;
 	}
 
 	public void setDefaultDuration() {
@@ -314,6 +341,9 @@ public class SearchParams implements Parcelable, JSONable {
 		mOrigin = params.mOrigin;
 		mDestination = params.mDestination;
 
+		mOriginAirport = params.mOriginAirport;
+		mDestinationAirport = params.mDestinationAirport;
+
 		mStartDate = params.mStartDate;
 		mEndDate = params.mEndDate;
 
@@ -382,6 +412,9 @@ public class SearchParams implements Parcelable, JSONable {
 		mOrigin = in.readParcelable(cl);
 		mDestination = in.readParcelable(cl);
 
+		mOriginAirport = in.readParcelable(cl);
+		mDestinationAirport = in.readParcelable(cl);
+
 		mStartDate = JodaUtils.readLocalDate(in);
 		mEndDate = JodaUtils.readLocalDate(in);
 
@@ -393,6 +426,9 @@ public class SearchParams implements Parcelable, JSONable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeParcelable(mOrigin, flags);
 		dest.writeParcelable(mDestination, flags);
+
+		dest.writeParcelable(mOriginAirport, flags);
+		dest.writeParcelable(mDestinationAirport, flags);
 
 		JodaUtils.writeLocalDate(dest, mStartDate);
 		JodaUtils.writeLocalDate(dest, mEndDate);
@@ -427,6 +463,9 @@ public class SearchParams implements Parcelable, JSONable {
 			JSONUtils.putJSONable(obj, "origin", mOrigin);
 			JSONUtils.putJSONable(obj, "destination", mDestination);
 
+			JSONUtils.putJSONable(obj, "originAirport", mOriginAirport);
+			JSONUtils.putJSONable(obj, "destinationAirport", mDestinationAirport);
+
 			JodaUtils.putLocalDateInJson(obj, "startDate", mStartDate);
 			JodaUtils.putLocalDateInJson(obj, "endDate", mEndDate);
 
@@ -444,6 +483,9 @@ public class SearchParams implements Parcelable, JSONable {
 	public boolean fromJson(JSONObject obj) {
 		mOrigin = JSONUtils.getJSONable(obj, "origin", SuggestionV2.class);
 		mDestination = JSONUtils.getJSONable(obj, "destination", SuggestionV2.class);
+
+		mOriginAirport = JSONUtils.getJSONable(obj, "originAirport", SuggestionV2.class);
+		mDestinationAirport = JSONUtils.getJSONable(obj, "destinationAirport", SuggestionV2.class);
 
 		mStartDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "startDate", null);
 		mEndDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "endDate", null);
