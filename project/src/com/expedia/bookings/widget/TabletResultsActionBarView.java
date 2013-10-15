@@ -14,19 +14,22 @@ import android.widget.RelativeLayout;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.graphics.PercentageFadeColorDrawable;
-import com.expedia.bookings.interfaces.ITabletResultsController;
+import com.expedia.bookings.interfaces.IBackManageable;
+import com.expedia.bookings.interfaces.IMeasurementListener;
+import com.expedia.bookings.interfaces.helpers.BackManager;
+import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.utils.ColumnManager;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class TabletResultsActionBarView extends RelativeLayout implements ITabletResultsController {
+public class TabletResultsActionBarView extends RelativeLayout implements IMeasurementListener, IBackManageable {
 
 	private ColumnManager mColumnManager = new ColumnManager(3);
-	private GlobalResultsState mResultsState = GlobalResultsState.DEFAULT;
+	private ResultsState mResultsState = ResultsState.DEFAULT;
 
 	private ActionBar mActionBar;
 	private PercentageFadeColorDrawable mActionBarBg;
@@ -45,6 +48,11 @@ public class TabletResultsActionBarView extends RelativeLayout implements ITable
 	public TabletResultsActionBarView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context, attrs);
+	}
+
+	@Override
+	public void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
 	}
 
 	private void init(Context context, AttributeSet attr) {
@@ -100,122 +108,6 @@ public class TabletResultsActionBarView extends RelativeLayout implements ITable
 		mSearchBar.setOnClickListener(mSearchBarClickListener);
 	};
 
-	/**
-	 * ITabletResultsController STUFF
-	 */
-
-	@Override
-	public void setGlobalResultsState(GlobalResultsState state) {
-		mResultsState = state;
-		switch (mResultsState) {
-		case HOTELS: {
-			mSearchBar.setVisibility(View.INVISIBLE);
-			mFlightsTitleTv.setVisibility(View.INVISIBLE);
-			mHotelsTitleTv.setVisibility(View.VISIBLE);
-			mActionBarBg.setPercentage(1f);
-			break;
-		}
-		case FLIGHTS: {
-			mSearchBar.setVisibility(View.INVISIBLE);
-			mFlightsTitleTv.setVisibility(View.VISIBLE);
-			mHotelsTitleTv.setVisibility(View.INVISIBLE);
-			mActionBarBg.setPercentage(1f);
-			break;
-		}
-		default: {
-			mSearchBar.setVisibility(View.VISIBLE);
-			mFlightsTitleTv.setVisibility(View.INVISIBLE);
-			mHotelsTitleTv.setVisibility(View.INVISIBLE);
-			mActionBarBg.setPercentage(0f);
-			break;
-		}
-		}
-
-		if (mSearchBarClickListener != null) {
-			mSearchBarClickListener.setClickEnabled(mResultsState == GlobalResultsState.DEFAULT);
-		}
-	}
-
-	@Override
-	public void setAnimatingTowardsVisibility(GlobalResultsState state) {
-		switch (state) {
-		case HOTELS: {
-			mHotelsTitleTv.setVisibility(View.VISIBLE);
-			if (mResultsState == GlobalResultsState.DEFAULT) {
-				mHotelsTitleTv.setAlpha(0f);
-			}
-			break;
-		}
-		case FLIGHTS: {
-			mFlightsTitleTv.setVisibility(View.VISIBLE);
-			if (mResultsState == GlobalResultsState.DEFAULT) {
-				mFlightsTitleTv.setAlpha(0f);
-			}
-			break;
-		}
-		default: {
-			mSearchBar.setVisibility(View.VISIBLE);
-			break;
-		}
-		}
-	}
-
-	@Override
-	public void setHardwareLayerForTransition(int layerType, GlobalResultsState stateOne, GlobalResultsState stateTwo) {
-		if ((stateOne == GlobalResultsState.DEFAULT || stateOne == GlobalResultsState.FLIGHTS)
-				&& (stateTwo == GlobalResultsState.DEFAULT || stateTwo == GlobalResultsState.FLIGHTS)) {
-			//to or from flights mode
-			mSearchBar.setLayerType(layerType, null);
-			mFlightsTitleTv.setLayerType(layerType, null);
-		}
-		else if ((stateOne == GlobalResultsState.DEFAULT || stateOne == GlobalResultsState.HOTELS)
-				&& (stateTwo == GlobalResultsState.DEFAULT || stateTwo == GlobalResultsState.HOTELS)) {
-			//to or from hotels mode
-			mSearchBar.setLayerType(layerType, null);
-			mHotelsTitleTv.setLayerType(layerType, null);
-		}
-	}
-
-	@Override
-	public void blockAllNewTouches(View requester) {
-		if (mSearchBarClickListener != null) {
-			mSearchBarClickListener.setClickEnabled(false);
-		}
-	}
-
-	@Override
-	public void animateToFlightsPercentage(float percentage) {
-		mSearchBar.setAlpha(percentage);
-		mActionBarBg.setPercentage(1f - percentage);
-		mFlightsTitleTv.setAlpha(1f - percentage);
-
-	}
-
-	@Override
-	public void animateToHotelsPercentage(float percentage) {
-		mSearchBar.setAlpha(percentage);
-		mActionBarBg.setPercentage(1f - percentage);
-		mHotelsTitleTv.setAlpha(1f - percentage);
-	}
-
-	@Override
-	public void updateContentSize(int totalWidth, int totalHeight) {
-		mColumnManager.setTotalWidth(totalWidth);
-
-		//We set the search bar to be centered between the app icon and left edge of the 3rd column
-		int width = mColumnManager.getColWidth(0) + mColumnManager.getColWidth(1) - 2 * getLeft();
-		int left = Math.round(getLeft() / 2f);
-		LayoutParams params = (LayoutParams) mSearchBar.getLayoutParams();
-		params.width = width;
-		params.leftMargin = left;
-		mSearchBar.setLayoutParams(params);
-	}
-
-	@Override
-	public boolean handleBackPressed() {
-		return false;
-	}
-
 	/*
 	 * DisableableClickWrapper - A class for wrapping an OnClickListener and not firing onClick if disabled
 	 */
@@ -239,5 +131,162 @@ public class TabletResultsActionBarView extends RelativeLayout implements ITable
 			}
 		}
 	}
+
+	/*
+	 * RESULTS STATE LISTENER
+	 */
+
+	public StateListenerHelper<ResultsState> mStateHelper = new StateListenerHelper<ResultsState>() {
+
+		@Override
+		public void onPrepareStateTransition(ResultsState stateOne, ResultsState stateTwo) {
+			//Touch
+			if (mSearchBarClickListener != null) {
+				mSearchBarClickListener.setClickEnabled(false);
+			}
+
+			//Vis
+			if (stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS) {
+				mHotelsTitleTv.setVisibility(View.VISIBLE);
+				if (mResultsState == ResultsState.DEFAULT) {
+					mHotelsTitleTv.setAlpha(0f);
+				}
+			}
+			if (stateOne == ResultsState.FLIGHTS || stateTwo == ResultsState.FLIGHTS) {
+				mFlightsTitleTv.setVisibility(View.VISIBLE);
+				if (mResultsState == ResultsState.DEFAULT) {
+					mFlightsTitleTv.setAlpha(0f);
+				}
+			}
+			if (stateOne == ResultsState.DEFAULT || stateTwo == ResultsState.DEFAULT) {
+				mSearchBar.setVisibility(View.VISIBLE);
+			}
+
+			//layer type
+			int layerType = View.LAYER_TYPE_HARDWARE;
+			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.FLIGHTS)
+					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.FLIGHTS)) {
+				//to or from flights mode
+				mSearchBar.setLayerType(layerType, null);
+				mFlightsTitleTv.setLayerType(layerType, null);
+			}
+			else if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.HOTELS)
+					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.HOTELS)) {
+				//to or from hotels mode
+				mSearchBar.setLayerType(layerType, null);
+				mHotelsTitleTv.setLayerType(layerType, null);
+			}
+
+		}
+
+		@Override
+		public void onStateTransitionPercentageChange(ResultsState stateOne, ResultsState stateTwo, float percentage) {
+			if (stateOne == ResultsState.DEFAULT && stateTwo == ResultsState.FLIGHTS) {
+				mSearchBar.setAlpha(percentage);
+				mActionBarBg.setPercentage(1f - percentage);
+				mFlightsTitleTv.setAlpha(1f - percentage);
+			}
+
+			if (stateOne == ResultsState.DEFAULT && stateTwo == ResultsState.HOTELS) {
+				mSearchBar.setAlpha(percentage);
+				mActionBarBg.setPercentage(1f - percentage);
+				mHotelsTitleTv.setAlpha(1f - percentage);
+			}
+
+		}
+
+		@Override
+		public void onFinishStateTransition(ResultsState stateOne, ResultsState stateTwo) {
+			//Touch
+			if (mSearchBarClickListener != null) {
+				mSearchBarClickListener.setClickEnabled(true);
+			}
+
+			//layer type
+			int layerType = View.LAYER_TYPE_NONE;
+			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.FLIGHTS)
+					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.FLIGHTS)) {
+				//to or from flights mode
+				mSearchBar.setLayerType(layerType, null);
+				mFlightsTitleTv.setLayerType(layerType, null);
+			}
+			else if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.HOTELS)
+					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.HOTELS)) {
+				//to or from hotels mode
+				mSearchBar.setLayerType(layerType, null);
+				mHotelsTitleTv.setLayerType(layerType, null);
+			}
+
+		}
+
+		@Override
+		public void onStateFinalized(ResultsState state) {
+			mResultsState = state;
+			switch (mResultsState) {
+			case HOTELS: {
+				mSearchBar.setVisibility(View.INVISIBLE);
+				mFlightsTitleTv.setVisibility(View.INVISIBLE);
+				mHotelsTitleTv.setVisibility(View.VISIBLE);
+				mActionBarBg.setPercentage(1f);
+				break;
+			}
+			case FLIGHTS: {
+				mSearchBar.setVisibility(View.INVISIBLE);
+				mFlightsTitleTv.setVisibility(View.VISIBLE);
+				mHotelsTitleTv.setVisibility(View.INVISIBLE);
+				mActionBarBg.setPercentage(1f);
+				break;
+			}
+			default: {
+				mSearchBar.setVisibility(View.VISIBLE);
+				mFlightsTitleTv.setVisibility(View.INVISIBLE);
+				mHotelsTitleTv.setVisibility(View.INVISIBLE);
+				mActionBarBg.setPercentage(0f);
+				break;
+			}
+			}
+
+			if (mSearchBarClickListener != null) {
+				mSearchBarClickListener.setClickEnabled(mResultsState == ResultsState.DEFAULT);
+			}
+
+		}
+
+	};
+
+	/*
+	 * IMeasurementListener
+	 */
+
+	@Override
+	public void onContentSizeUpdated(int totalWidth, int totalHeight) {
+		mColumnManager.setTotalWidth(totalWidth);
+
+		//We set the search bar to be centered between the app icon and left edge of the 3rd column
+		int width = mColumnManager.getColWidth(0) + mColumnManager.getColWidth(1) - 2 * getLeft();
+		int left = Math.round(getLeft() / 2f);
+		LayoutParams params = (LayoutParams) mSearchBar.getLayoutParams();
+		params.width = width;
+		params.leftMargin = left;
+		mSearchBar.setLayoutParams(params);
+	}
+
+	/*
+	 * BACK STACK MANAGEMENT
+	 */
+
+	@Override
+	public BackManager getBackManager() {
+		return mBackManager;
+	}
+
+	private BackManager mBackManager = new BackManager(this) {
+
+		@Override
+		public boolean handleBackPressed() {
+			return false;
+		}
+
+	};
 
 }

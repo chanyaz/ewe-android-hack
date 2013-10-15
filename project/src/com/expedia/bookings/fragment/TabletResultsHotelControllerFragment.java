@@ -21,14 +21,15 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletResultsActivity;
-import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
-import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IAddToTripListener;
+import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
-import com.expedia.bookings.interfaces.ITabletResultsController;
+import com.expedia.bookings.interfaces.helpers.BackManager;
+import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
+import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.maps.HotelMapFragment;
 import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
@@ -47,9 +48,9 @@ import com.mobiata.android.util.Ui;
  *  This controls all the fragments relating to HOTELS results
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-public class TabletResultsHotelControllerFragment extends Fragment implements ITabletResultsController,
+public class TabletResultsHotelControllerFragment extends Fragment implements
 		ISortAndFilterListener, IResultsHotelSelectedListener, IAddToTripListener, IFragmentAvailabilityProvider,
-		HotelMapFragmentListener, SupportMapFragmentListener {
+		HotelMapFragmentListener, SupportMapFragmentListener, IBackManageable {
 
 	public interface IHotelsFruitScrollUpListViewChangeListener {
 		public void onHotelsStateChanged(State oldState, State newState, float percentage, View requester);
@@ -106,7 +107,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 	private ResultsHotelsRoomsAndRates mHotelRoomsAndRatesFrag;
 
 	//Other
-	private GlobalResultsState mGlobalState = GlobalResultsState.DEFAULT;
+	private ResultsState mGlobalState = ResultsState.DEFAULT;
 	private HotelsState mHotelsState = HotelsState.DEFAULT;
 	private IHotelsFruitScrollUpListViewChangeListener mFruitListener;
 	private IAddToTripListener mParentAddToTripListener;
@@ -156,8 +157,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 		mBgHotelMapC.setTouchPassThroughReceiver(mBgHotelMapTouchDelegateC);
 
 		if (savedInstanceState != null) {
-			mGlobalState = GlobalResultsState.valueOf(savedInstanceState.getString(STATE_GLOBAL_STATE,
-					GlobalResultsState.DEFAULT.name()));
+			mGlobalState = ResultsState.valueOf(savedInstanceState.getString(STATE_GLOBAL_STATE,
+					ResultsState.DEFAULT.name()));
 			mHotelsState = HotelsState.valueOf(savedInstanceState.getString(STATE_HOTELS_STATE,
 					HotelsState.DEFAULT.name()));
 		}
@@ -169,6 +170,22 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 		super.onSaveInstanceState(outState);
 		outState.putString(STATE_HOTELS_STATE, mHotelsState.name());
 		outState.putString(STATE_GLOBAL_STATE, mGlobalState.name());
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		mStateHelper.registerWithProvider(this);
+		mMeasurementHelper.registerWithProvider(this);
+		mBackManager.registerWithParent(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		mStateHelper.unregisterWithProvider(this);
+		mMeasurementHelper.unregisterWithProvider(this);
+		mBackManager.unregisterWithParent(this);
 	}
 
 	/**
@@ -371,7 +388,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 	 * STATE HELPERS
 	 */
 
-	private void setTouchState(GlobalResultsState globalState, HotelsState hotelsState) {
+	private void setTouchState(ResultsState globalState, HotelsState hotelsState) {
 		switch (globalState) {
 		case HOTELS: {
 			if (hotelsState == HotelsState.DEFAULT) {
@@ -420,7 +437,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 		}
 	}
 
-	private void setVisibilityState(GlobalResultsState globalState, HotelsState hotelsState) {
+	private void setVisibilityState(ResultsState globalState, HotelsState hotelsState) {
 		switch (globalState) {
 		case HOTELS: {
 			if (hotelsState == HotelsState.DEFAULT_FILTERS || hotelsState == HotelsState.ROOMS_AND_RATES_FILTERS) {
@@ -469,7 +486,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 		}
 	}
 
-	private void setFragmentState(GlobalResultsState globalState, HotelsState hotelsState) {
+	private void setFragmentState(ResultsState globalState, HotelsState hotelsState) {
 		FragmentManager manager = getChildFragmentManager();
 
 		//All of the fragment adds/removes come through this method, and we want to make sure our last call
@@ -485,12 +502,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 		boolean hotelFilteredCountAvailable = true;
 		boolean hotelRoomsAndRatesAvailable = true;
 
-		if (globalState != GlobalResultsState.HOTELS) {
+		if (globalState != ResultsState.HOTELS) {
 			hotelFiltersAvailable = false;
 			hotelFilteredCountAvailable = false;
 			hotelRoomsAndRatesAvailable = false;
 		}
-		if (globalState != GlobalResultsState.HOTELS && globalState != GlobalResultsState.DEFAULT) {
+		if (globalState != ResultsState.HOTELS && globalState != ResultsState.DEFAULT) {
 			hotelMapAvailable = false;
 		}
 
@@ -581,161 +598,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 	}
 
 	/**
-	 * ITabletResultsController Functions
-	 */
-
-	@Override
-	public void setGlobalResultsState(GlobalResultsState state) {
-		mGlobalState = state;
-
-		//TODO: Should we reset to default?
-		HotelsState tmpHotelsState = state != GlobalResultsState.HOTELS ? HotelsState.DEFAULT : mHotelsState;
-		//HotelsState tmpHotelsState = mHotelsState;
-
-		setTouchState(state, tmpHotelsState);
-		setVisibilityState(state, tmpHotelsState);
-		setFragmentState(state, tmpHotelsState);
-
-		setHotelsState(tmpHotelsState, false);
-	}
-
-	@Override
-	public void setAnimatingTowardsVisibility(GlobalResultsState state) {
-		switch (state) {
-		case DEFAULT: {
-			mHotelListC.setVisibility(View.VISIBLE);
-			if (mHotelsState == HotelsState.ADDING_HOTEL_TO_TRIP) {
-				//We are adding a trip - this call wont happen until we have handed off our shade and
-				//view to the trip controller, so we set these to invisible so we dont have both on screen
-				mHotelRoomsAndRatesC.setVisibility(View.INVISIBLE);
-				mHotelRoomsAndRatesShadeC.setVisibility(View.INVISIBLE);
-			}
-			break;
-		}
-		case HOTELS: {
-			mHotelListC.setVisibility(View.VISIBLE);
-			break;
-		}
-		}
-	}
-
-	@Override
-	public void setHardwareLayerForTransition(int layerType, GlobalResultsState stateOne, GlobalResultsState stateTwo) {
-		if ((stateOne == GlobalResultsState.DEFAULT || stateOne == GlobalResultsState.HOTELS)
-				&& (stateTwo == GlobalResultsState.DEFAULT || stateTwo == GlobalResultsState.HOTELS)) {
-			//Default -> Hotels or Hotels -> Default transition
-
-			mHotelRoomsAndRatesC.setLayerType(layerType, null);
-
-		}
-
-		if ((stateOne == GlobalResultsState.DEFAULT || stateOne == GlobalResultsState.FLIGHTS)
-				&& (stateTwo == GlobalResultsState.DEFAULT || stateTwo == GlobalResultsState.FLIGHTS)) {
-			//Default -> Flights or Flights -> Default transition
-			mHotelListC.setLayerType(layerType, null);
-		}
-
-	}
-
-	@Override
-	public void blockAllNewTouches(View requester) {
-		if (mBgHotelMapC != requester) {
-			mBgHotelMapC.setTouchPassThroughEnabled(true);
-		}
-		if (mHotelListC != requester) {
-			mHotelListC.setBlockNewEventsEnabled(true);
-		}
-		if (mHotelFiltersC != requester) {
-			mHotelFiltersC.setBlockNewEventsEnabled(true);
-		}
-		if (mHotelFilteredCountC != requester) {
-			mHotelFilteredCountC.setBlockNewEventsEnabled(true);
-		}
-		if (mHotelRoomsAndRatesC != requester) {
-			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(true);
-		}
-	}
-
-	@Override
-	public void animateToFlightsPercentage(float percentage) {
-		mHotelListC.setAlpha(percentage);
-	}
-
-	@Override
-	public void animateToHotelsPercentage(float percentage) {
-		mBgHotelMapC.setAlpha(1f - percentage);
-		mHotelRoomsAndRatesC.setAlpha(1f - percentage);
-	}
-
-	@Override
-	public void updateContentSize(int totalWidth, int totalHeight) {
-		mColumnManager.setTotalWidth(totalWidth);
-
-		//Tell all of the containers where they belong
-		mColumnManager.setContainerToColumn(mHotelListC, 0);
-		mColumnManager.setContainerToColumn(mHotelFiltersC, 1);
-		mColumnManager.setContainerToColumn(mHotelFilteredCountC, 2);
-		mColumnManager.setContainerToColumnSpan(mBgHotelMapC, 0, 2);
-		mColumnManager.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 2);
-		mColumnManager.setContainerToColumnSpan(mHotelRoomsAndRatesC, 1, 2);
-		mColumnManager.setContainerToColumnSpan(mHotelRoomsAndRatesShadeC, 0, 2);
-
-		//since the actionbar is an overlay, we must compensate by setting the root layout to have a top margin
-		int actionBarHeight = getActivity().getActionBar().getHeight();
-		FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) mRootC.getLayoutParams();
-		params.topMargin = actionBarHeight;
-		mRootC.setLayoutParams(params);
-
-		//tell the map where its bounds are
-		updateMapFragmentPositioningInfo(mMapFragment);
-	}
-
-	//REMOVE: This is just to mimick locking the back button when we are adding the trip...
-	private int mBackTapCount = 0;
-
-	@Override
-	public boolean handleBackPressed() {
-		if (mGlobalState == GlobalResultsState.HOTELS) {
-			if (mHotelsStateAnimator != null) {
-				//If we are in the middle of state transition, just reverse it
-				this.setHotelsState(mHotelsState, true);
-				return true;
-			}
-			else {
-				if (mHotelsState == HotelsState.DEFAULT) {
-					mHotelListFrag.gotoBottomPosition(STATE_CHANGE_ANIMATION_DURATION);
-					return true;
-				}
-				else if (mHotelsState == HotelsState.DEFAULT_FILTERS) {
-					setHotelsState(HotelsState.DEFAULT, true);
-					return true;
-				}
-				else if (mHotelsState == HotelsState.ROOMS_AND_RATES) {
-					setHotelsState(HotelsState.DEFAULT, true);
-					return true;
-				}
-				else if (mHotelsState == HotelsState.ROOMS_AND_RATES_FILTERS) {
-					setHotelsState(HotelsState.ROOMS_AND_RATES, true);
-					return true;
-				}
-				else if (mHotelsState == HotelsState.ADDING_HOTEL_TO_TRIP) {
-					if (mBackTapCount == 0) {
-						Ui.showToast(getActivity(),
-								"If we are adding your trip, we probably wont allow back pressing...");
-						mBackTapCount++;
-					}
-					else {
-						setHotelsState(HotelsState.ROOMS_AND_RATES, true);
-						mBackTapCount = 0;
-					}
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	/**
 	 * ISortAndFilterListener Functions
 	 */
 
@@ -762,7 +624,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 	@Override
 	public void onHotelSelected() {
 		mMapFragment.onHotelSelected();
-		if (mGlobalState == GlobalResultsState.HOTELS) {
+		if (mGlobalState == ResultsState.HOTELS) {
 			setHotelsState(HotelsState.ROOMS_AND_RATES, true);
 
 			for (IResultsHotelSelectedListener listener : mHotelSelectedListeners) {
@@ -850,5 +712,183 @@ public class TabletResultsHotelControllerFragment extends Fragment implements IT
 		mMapFragment.setShowInfoWindow(false);
 		updateMapFragmentPositioningInfo(mMapFragment);
 	}
+
+	/*
+	 * RESULTS STATE LISTENER
+	 */
+
+	private StateListenerHelper mStateHelper = new StateListenerHelper<ResultsState>() {
+
+		@Override
+		public void onPrepareStateTransition(ResultsState stateOne, ResultsState stateTwo) {
+			//Touch
+			setTouchable(false);
+
+			//Visibilities
+			if (stateOne == ResultsState.DEFAULT || stateTwo == ResultsState.DEFAULT) {
+
+				mHotelListC.setVisibility(View.VISIBLE);
+				if (mHotelsState == HotelsState.ADDING_HOTEL_TO_TRIP) {
+					//We are adding a trip - this call wont happen until we have handed off our shade and
+					//view to the trip controller, so we set these to invisible so we dont have both on screen
+					mHotelRoomsAndRatesC.setVisibility(View.INVISIBLE);
+					mHotelRoomsAndRatesShadeC.setVisibility(View.INVISIBLE);
+				}
+
+			}
+
+			if (stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS) {
+				mHotelListC.setVisibility(View.VISIBLE);
+			}
+
+			//Layer types
+			int layerType = View.LAYER_TYPE_HARDWARE;
+			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.HOTELS)
+					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.HOTELS)) {
+				//Default -> Hotels or Hotels -> Default transition
+				mHotelRoomsAndRatesC.setLayerType(layerType, null);
+			}
+			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.FLIGHTS)
+					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.FLIGHTS)) {
+				//Default -> Flights or Flights -> Default transition
+				mHotelListC.setLayerType(layerType, null);
+			}
+
+		}
+
+		@Override
+		public void onStateTransitionPercentageChange(ResultsState stateOne, ResultsState stateTwo, float percentage) {
+			if (stateOne == ResultsState.DEFAULT && stateTwo == ResultsState.FLIGHTS) {
+				mHotelListC.setAlpha(percentage);
+			}
+
+			if (stateOne == ResultsState.DEFAULT && stateTwo == ResultsState.HOTELS) {
+				mBgHotelMapC.setAlpha(1f - percentage);
+				mHotelRoomsAndRatesC.setAlpha(1f - percentage);
+			}
+		}
+
+		@Override
+		public void onFinishStateTransition(ResultsState stateOne, ResultsState stateTwo) {
+			//Touch
+			setTouchable(true);
+
+			//Layer types
+			int layerType = View.LAYER_TYPE_SOFTWARE;
+			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.HOTELS)
+					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.HOTELS)) {
+				//Default -> Hotels or Hotels -> Default transition
+				mHotelRoomsAndRatesC.setLayerType(layerType, null);
+			}
+			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.FLIGHTS)
+					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.FLIGHTS)) {
+				//Default -> Flights or Flights -> Default transition
+				mHotelListC.setLayerType(layerType, null);
+			}
+
+		}
+
+		@Override
+		public void onStateFinalized(ResultsState state) {
+			mGlobalState = state;
+
+			//TODO: Should we reset to default?
+			HotelsState tmpHotelsState = state != ResultsState.HOTELS ? HotelsState.DEFAULT : mHotelsState;
+			//HotelsState tmpHotelsState = mHotelsState;
+
+			setTouchState(state, tmpHotelsState);
+			setVisibilityState(state, tmpHotelsState);
+			setFragmentState(state, tmpHotelsState);
+
+			setHotelsState(tmpHotelsState, false);
+		}
+
+		private void setTouchable(boolean touchable) {
+			mBgHotelMapC.setTouchPassThroughEnabled(touchable);
+			mHotelListC.setBlockNewEventsEnabled(touchable);
+			mHotelFiltersC.setBlockNewEventsEnabled(touchable);
+			mHotelFilteredCountC.setBlockNewEventsEnabled(touchable);
+			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(touchable);
+		}
+
+	};
+
+	/*
+	 * MEASUREMENT LISTENER
+	 */
+
+	private MeasurementHelper mMeasurementHelper = new MeasurementHelper() {
+
+		@Override
+		public void onContentSizeUpdated(int totalWidth, int totalHeight) {
+			mColumnManager.setTotalWidth(totalWidth);
+
+			//Tell all of the containers where they belong
+			mColumnManager.setContainerToColumn(mHotelListC, 0);
+			mColumnManager.setContainerToColumn(mHotelFiltersC, 1);
+			mColumnManager.setContainerToColumn(mHotelFilteredCountC, 2);
+			mColumnManager.setContainerToColumnSpan(mBgHotelMapC, 0, 2);
+			mColumnManager.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 2);
+			mColumnManager.setContainerToColumnSpan(mHotelRoomsAndRatesC, 1, 2);
+			mColumnManager.setContainerToColumnSpan(mHotelRoomsAndRatesShadeC, 0, 2);
+
+			//since the actionbar is an overlay, we must compensate by setting the root layout to have a top margin
+			int actionBarHeight = getActivity().getActionBar().getHeight();
+			FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) mRootC.getLayoutParams();
+			params.topMargin = actionBarHeight;
+			mRootC.setLayoutParams(params);
+
+			//tell the map where its bounds are
+			updateMapFragmentPositioningInfo(mMapFragment);
+		}
+
+	};
+
+	/*
+	 * BACK STACK MANAGEMENT
+	 */
+
+	@Override
+	public BackManager getBackManager() {
+		return mBackManager;
+	}
+
+	private BackManager mBackManager = new BackManager(this) {
+
+		@Override
+		public boolean handleBackPressed() {
+			if (mGlobalState == ResultsState.HOTELS) {
+				if (mHotelsStateAnimator != null) {
+					//If we are in the middle of state transition, just reverse it
+					setHotelsState(mHotelsState, true);
+					return true;
+				}
+				else {
+					if (mHotelsState == HotelsState.DEFAULT) {
+						mHotelListFrag.gotoBottomPosition(STATE_CHANGE_ANIMATION_DURATION);
+						return true;
+					}
+					else if (mHotelsState == HotelsState.DEFAULT_FILTERS) {
+						setHotelsState(HotelsState.DEFAULT, true);
+						return true;
+					}
+					else if (mHotelsState == HotelsState.ROOMS_AND_RATES) {
+						setHotelsState(HotelsState.DEFAULT, true);
+						return true;
+					}
+					else if (mHotelsState == HotelsState.ROOMS_AND_RATES_FILTERS) {
+						setHotelsState(HotelsState.ROOMS_AND_RATES, true);
+						return true;
+					}
+					else if (mHotelsState == HotelsState.ADDING_HOTEL_TO_TRIP) {
+						//We return true here, because we want to block back presses in this state
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+	};
 
 }

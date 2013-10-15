@@ -30,6 +30,7 @@ import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
+import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment.IBackgroundImageReceiverRegistrar;
 import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment;
@@ -39,8 +40,14 @@ import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment.IHotel
 import com.expedia.bookings.fragment.TabletResultsTripControllerFragment;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
+import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IBackgroundImageReceiver;
-import com.expedia.bookings.interfaces.ITabletResultsController;
+import com.expedia.bookings.interfaces.IMeasurementListener;
+import com.expedia.bookings.interfaces.IMeasurementProvider;
+import com.expedia.bookings.interfaces.IStateListener;
+import com.expedia.bookings.interfaces.IStateProvider;
+import com.expedia.bookings.interfaces.helpers.BackManager;
+import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.ColumnManager;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
@@ -70,9 +77,10 @@ import com.mobiata.android.util.Ui;
  * 
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class TabletResultsActivity extends SherlockFragmentActivity implements ITabletResultsController,
+public class TabletResultsActivity extends SherlockFragmentActivity implements
 		IFlightsFruitScrollUpListViewChangeListener, IHotelsFruitScrollUpListViewChangeListener,
-		IBackgroundImageReceiverRegistrar, IBackButtonLockListener, IAddToTripListener, IFragmentAvailabilityProvider {
+		IBackgroundImageReceiverRegistrar, IBackButtonLockListener, IAddToTripListener, IFragmentAvailabilityProvider,
+		IStateProvider<ResultsState>, IMeasurementProvider, IBackManageable {
 
 	//State
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
@@ -95,7 +103,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	//Other
 	private ColumnManager mColumnManager = new ColumnManager(3);
-	private GlobalResultsState mState = GlobalResultsState.DEFAULT;
+	private ResultsState mState = ResultsState.DEFAULT;
 	private String mDestinationCode = "SFO";//The destination code to use for background images...
 	private boolean mPreDrawInitComplete = false;
 	private boolean mBackButtonLocked = false;
@@ -104,14 +112,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private TabletResultsActionBarView mActionBarView;
 
 	private ArrayList<IBackgroundImageReceiver> mBackgroundImageReceivers = new ArrayList<IBackgroundImageReceiver>();
-	private ArrayList<ITabletResultsController> mTabletResultsControllers = new ArrayList<ITabletResultsController>();
 	private ArrayList<IAddToTripListener> mAddToTripListeners = new ArrayList<IAddToTripListener>();
-
-	public enum GlobalResultsState {
-		DEFAULT,
-		HOTELS,
-		FLIGHTS,
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -129,7 +130,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CURRENT_STATE)) {
 			String stateName = savedInstanceState.getString(STATE_CURRENT_STATE);
-			mState = GlobalResultsState.valueOf(stateName);
+			mState = ResultsState.valueOf(stateName);
 		}
 
 		//Add default fragments
@@ -152,10 +153,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		transaction.commit();
 		manager.executePendingTransactions();//These must be finished before we continue..
 
-		mTabletResultsControllers.add(mTripController);
-		mTabletResultsControllers.add(mFlightsController);
-		mTabletResultsControllers.add(mHotelsController);
-
 		//We load up the default backgrounds so they are ready to go later if/when we need them
 		//this is important, as we need to load images before our memory load gets too heavy
 		if (savedInstanceState == null || !Db.getBackgroundImageCache(this).isDefaultInCache()) {
@@ -168,15 +165,21 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		mActionBarView.setSearchBarOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				if (mState == GlobalResultsState.DEFAULT) {
+				if (mState == ResultsState.DEFAULT) {
 					onBackPressed();
 				}
 			}
 		});
-		mTabletResultsControllers.add(mActionBarView);
+		//Register the actionbar - this never gets unregistered because it is paired with
+		//the activity. Further it is not a fragment, so this is an easy place to set the listeners
+		registerStateListener(mActionBarView.mStateHelper, true);
+		registerMeasurementListener(mActionBarView, false);
 
 		ActionBar actionBar = getSupportActionBar();
 		mActionBarView.attachToActionBar(actionBar);
+
+		//TODO: This is just for logging so it can be removed if we want to turn off state logging.
+		registerStateListener(new StateListenerLogger<ResultsState>(), true);
 	}
 
 	@Override
@@ -208,7 +211,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			public boolean onPreDraw() {
 				if (!mPreDrawInitComplete) {
 					updateContentSize(mRootC.getWidth(), mRootC.getHeight());
-					setGlobalResultsState(mState);
+					finalizeState(mState);
 					mPreDrawInitComplete = true;
 				}
 
@@ -250,82 +253,10 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		return super.onOptionsItemSelected(item);
 	}
 
-	/**
-	 * ITabletResultsController STUFF
-	 */
-
-	@Override
-	public void setGlobalResultsState(GlobalResultsState state) {
-		Log.d("setGlobalResultsState:" + state.name());
-		mState = state;
-
-		for (ITabletResultsController controller : mTabletResultsControllers) {
-			controller.setGlobalResultsState(state);
-		}
-	}
-
-	@Override
-	public void setAnimatingTowardsVisibility(GlobalResultsState state) {
-		for (ITabletResultsController controller : mTabletResultsControllers) {
-			controller.setAnimatingTowardsVisibility(state);
-		}
-	}
-
-	@Override
-	public void setHardwareLayerForTransition(int layerType, GlobalResultsState stateOne, GlobalResultsState stateTwo) {
-		for (ITabletResultsController controller : mTabletResultsControllers) {
-			controller.setHardwareLayerForTransition(layerType, stateOne, stateTwo);
-		}
-	}
-
-	@Override
-	public void blockAllNewTouches(View requester) {
-		for (ITabletResultsController controller : mTabletResultsControllers) {
-			controller.blockAllNewTouches(requester);
-		}
-	}
-
-	@Override
-	public void animateToFlightsPercentage(float percentage) {
-		for (ITabletResultsController controller : mTabletResultsControllers) {
-			controller.animateToFlightsPercentage(percentage);
-		}
-
-	}
-
-	@Override
-	public void animateToHotelsPercentage(float percentage) {
-		for (ITabletResultsController controller : mTabletResultsControllers) {
-			controller.animateToHotelsPercentage(percentage);
-		}
-	}
-
-	@Override
-	public void updateContentSize(int totalWidth, int totalHeight) {
-		//Setup column manager
-		mColumnManager.setTotalWidth(totalWidth);
-
-		//Tell the children
-		for (ITabletResultsController controller : mTabletResultsControllers) {
-			controller.updateContentSize(totalWidth, totalHeight);
-		}
-	}
-
-	@Override
-	public boolean handleBackPressed() {
-		for (ITabletResultsController controller : mTabletResultsControllers) {
-			if (controller.handleBackPressed()) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
 	@Override
 	public void onBackPressed() {
 		if (!mBackButtonLocked) {
-			if (!handleBackPressed()) {
+			if (!mBackManager.doOnBackPressed()) {
 				super.onBackPressed();
 			}
 		}
@@ -498,11 +429,11 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	}
 
 	private boolean isFlightsListenerEnabled() {
-		return mState == GlobalResultsState.DEFAULT || mState == GlobalResultsState.FLIGHTS;
+		return mState == ResultsState.DEFAULT || mState == ResultsState.FLIGHTS;
 	}
 
 	private boolean isHotelsListenerEnabled() {
-		return mState == GlobalResultsState.DEFAULT || mState == GlobalResultsState.HOTELS;
+		return mState == ResultsState.DEFAULT || mState == ResultsState.HOTELS;
 	}
 
 	@Override
@@ -512,27 +443,20 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		if (isHotelsListenerEnabled()) {
 			if (newState == State.TRANSIENT) {
 				if (oldState != State.TRANSIENT) {
-					blockAllNewTouches(requester);
 
-					//order matters here, because the second will in certain cases squash the first
-					setAnimatingTowardsVisibility(GlobalResultsState.DEFAULT);
-					setAnimatingTowardsVisibility(GlobalResultsState.HOTELS);
-
-					setHardwareLayerForTransition(View.LAYER_TYPE_HARDWARE, GlobalResultsState.DEFAULT,
-							GlobalResultsState.HOTELS);
+					prepareStateTransition(ResultsState.DEFAULT, ResultsState.HOTELS);
 				}
 
 			}
 			else {
-				setHardwareLayerForTransition(View.LAYER_TYPE_NONE, GlobalResultsState.DEFAULT,
-						GlobalResultsState.HOTELS);
+				finishStateTransition(ResultsState.DEFAULT, ResultsState.HOTELS);
 
 				if (newState == State.LIST_CONTENT_AT_TOP) {
 					//We have entered this mode...
-					setGlobalResultsState(GlobalResultsState.HOTELS);
+					finalizeState(ResultsState.HOTELS);
 				}
 				else {
-					setGlobalResultsState(GlobalResultsState.DEFAULT);
+					finalizeState(ResultsState.DEFAULT);
 				}
 			}
 		}
@@ -542,7 +466,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	public void onHotelsPercentageChanged(State state, float percentage) {
 		Log.d("HotelState.onHotelsPercentageChanged state:" + state.name() + " percentage:" + percentage);
 		if (isHotelsListenerEnabled()) {
-			animateToHotelsPercentage(percentage);
+			setStateTransitionPercentage(ResultsState.DEFAULT, ResultsState.HOTELS, percentage);
 		}
 	}
 
@@ -550,21 +474,18 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	public void onFlightsStateChanged(State oldState, State newState, float percentage, View requester) {
 		if (isFlightsListenerEnabled()) {
 			if (newState == State.TRANSIENT) {
-				blockAllNewTouches(requester);
-				setAnimatingTowardsVisibility(GlobalResultsState.DEFAULT);
-				setAnimatingTowardsVisibility(GlobalResultsState.FLIGHTS);
-				setHardwareLayerForTransition(View.LAYER_TYPE_HARDWARE, GlobalResultsState.DEFAULT,
-						GlobalResultsState.FLIGHTS);
-				animateToFlightsPercentage(percentage);
+
+				prepareStateTransition(ResultsState.DEFAULT, ResultsState.FLIGHTS);
+
+				setStateTransitionPercentage(ResultsState.DEFAULT, ResultsState.FLIGHTS, percentage);
 			}
 			else {
-				setHardwareLayerForTransition(View.LAYER_TYPE_NONE, GlobalResultsState.DEFAULT,
-						GlobalResultsState.FLIGHTS);
+				finishStateTransition(ResultsState.DEFAULT, ResultsState.FLIGHTS);
 				if (newState == State.LIST_CONTENT_AT_TOP) {
-					setGlobalResultsState(GlobalResultsState.FLIGHTS);
+					finalizeState(ResultsState.FLIGHTS);
 				}
 				else {
-					setGlobalResultsState(GlobalResultsState.DEFAULT);
+					finalizeState(ResultsState.DEFAULT);
 				}
 			}
 		}
@@ -573,9 +494,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	@Override
 	public void onFlightsPercentageChanged(State state, float percentage) {
 		if (isFlightsListenerEnabled()) {
-			animateToFlightsPercentage(percentage);
+			setStateTransitionPercentage(ResultsState.DEFAULT, ResultsState.FLIGHTS, percentage);
 		}
-
 	}
 
 	@Override
@@ -601,4 +521,107 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			listener.performTripHandoff();
 		}
 	}
+
+	/*
+	 * State management
+	 */
+
+	private ArrayList<IStateListener<ResultsState>> mStateChangeListeners = new ArrayList<IStateListener<ResultsState>>();
+
+	@Override
+	public void prepareStateTransition(ResultsState stateOne, ResultsState stateTwo) {
+		for (IStateListener<ResultsState> listener : mStateChangeListeners) {
+			listener.onPrepareStateTransition(stateOne, stateTwo);
+		}
+	}
+
+	@Override
+	public void setStateTransitionPercentage(ResultsState stateOne, ResultsState stateTwo, float percentage) {
+		for (IStateListener<ResultsState> listener : mStateChangeListeners) {
+			listener.onStateTransitionPercentageChange(stateOne, stateTwo, percentage);
+		}
+	}
+
+	@Override
+	public void finishStateTransition(ResultsState stateOne, ResultsState stateTwo) {
+		for (IStateListener<ResultsState> listener : mStateChangeListeners) {
+			listener.onFinishStateTransition(stateOne, stateTwo);
+		}
+	}
+
+	@Override
+	public void finalizeState(ResultsState state) {
+		mState = state;
+		for (IStateListener<ResultsState> listener : mStateChangeListeners) {
+			listener.onStateFinalized(state);
+		}
+	}
+
+	@Override
+	public void registerStateListener(IStateListener<ResultsState> listener, boolean fireFinalizeState) {
+		mStateChangeListeners.add(listener);
+		if (fireFinalizeState) {
+			listener.onStateFinalized(mState);
+		}
+	}
+
+	@Override
+	public void unRegisterStateListener(IStateListener<ResultsState> listener) {
+		mStateChangeListeners.remove(listener);
+	}
+
+	/*
+	 * IMeasurementProvider
+	 */
+
+	private int mLastReportedWidth = -1;
+	private int mLastReportedHeight = -1;
+	private ArrayList<IMeasurementListener> mMeasurementListeners = new ArrayList<IMeasurementListener>();
+
+	@Override
+	public void updateContentSize(int totalWidth, int totalHeight) {
+		if (totalWidth != mLastReportedWidth || totalHeight != mLastReportedHeight) {
+			mLastReportedWidth = totalWidth;
+			mLastReportedHeight = totalHeight;
+
+			//Setup column manager
+			mColumnManager.setTotalWidth(totalWidth);
+
+			for (IMeasurementListener listener : mMeasurementListeners) {
+				listener.onContentSizeUpdated(totalWidth, totalHeight);
+			}
+		}
+	}
+
+	@Override
+	public void registerMeasurementListener(IMeasurementListener listener, boolean fireListener) {
+		mMeasurementListeners.add(listener);
+		if (fireListener && mLastReportedWidth >= 0 && mLastReportedHeight >= 0) {
+			listener.onContentSizeUpdated(mLastReportedWidth, mLastReportedHeight);
+		}
+	}
+
+	@Override
+	public void unRegisterMeasurementListener(IMeasurementListener listener) {
+		mMeasurementListeners.remove(listener);
+	}
+
+	/*
+	 * BACK STACK MANAGEMENT
+	 */
+
+	@Override
+	public BackManager getBackManager() {
+		return mBackManager;
+	}
+
+	private BackManager mBackManager = new BackManager(this) {
+
+		@Override
+		public boolean handleBackPressed() {
+			//Our children may do something on back pressed, but if we are left in charge we do nothing
+			return false;
+		}
+
+	};
 }

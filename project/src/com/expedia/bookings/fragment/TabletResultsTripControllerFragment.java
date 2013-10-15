@@ -23,12 +23,15 @@ import android.widget.FrameLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletResultsActivity.GlobalResultsState;
 import com.expedia.bookings.animation.CubicBezierAnimation;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.graphics.PercentageFadeColorDrawable;
 import com.expedia.bookings.interfaces.IAddToTripListener;
-import com.expedia.bookings.interfaces.ITabletResultsController;
+import com.expedia.bookings.interfaces.IBackManageable;
+import com.expedia.bookings.interfaces.helpers.BackManager;
+import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
+import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.utils.ColumnManager;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
@@ -37,7 +40,6 @@ import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FixedTranslationFrameLayout;
 import com.expedia.bookings.widget.SwipeOutLayout;
 import com.expedia.bookings.widget.SwipeOutLayout.ISwipeOutListener;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -45,8 +47,8 @@ import com.mobiata.android.util.Ui;
  *  This controls all the fragments relating to the Trip Overview
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class TabletResultsTripControllerFragment extends Fragment implements ITabletResultsController,
-		IAddToTripListener, IFragmentAvailabilityProvider {
+public class TabletResultsTripControllerFragment extends Fragment implements
+		IAddToTripListener, IFragmentAvailabilityProvider, IBackManageable {
 
 	private static final String FTAG_BLURRED_BG = "FTAG_BLURRED_BG";
 	private static final String FTAG_YOUR_TRIP_TO = "FTAG_YOUR_TRIP_TO";
@@ -80,10 +82,9 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	private BlockEventFrameLayout mTripAnimationC;
 	private BlockEventFrameLayout mShadeC;
 
-	private GlobalResultsState mGlobalState;
+	private ResultsState mGlobalState;
 	private int mTotalHeight = 0;
 	private ColumnManager mColumnManager = new ColumnManager(3);
-	private ITabletResultsController mParentResultsController;
 
 	private boolean mAddingHotelTrip = false;
 	private boolean mAddingFlightTrip = false;
@@ -102,8 +103,6 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
-		mParentResultsController = Ui.findFragmentListener(this, ITabletResultsController.class);
 	}
 
 	@Override
@@ -132,6 +131,22 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		mTripHotelC = Ui.findView(view, R.id.hotel_trip_content);
 
 		return view;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		mStateHelper.registerWithProvider(this);
+		mMeasurementHelper.registerWithProvider(this);
+		mBackManager.registerWithParent(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		mStateHelper.unregisterWithProvider(this);
+		mMeasurementHelper.unregisterWithProvider(this);
+		mBackManager.unregisterWithParent(this);
 	}
 
 	/*
@@ -367,7 +382,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 
 	};
 
-	private void setFragmentState(GlobalResultsState state) {
+	private void setFragmentState(ResultsState state) {
 		FragmentManager manager = getChildFragmentManager();
 
 		//All of the fragment adds/removes come through this method, and we want to make sure our last call
@@ -451,7 +466,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		}
 	}
 
-	private void setTouchState(GlobalResultsState state) {
+	private void setTouchState(ResultsState state) {
 		//We never interact with this container
 		mBlurredBackgroundC.setBlockNewEventsEnabled(true);
 		mShadeC.setBlockNewEventsEnabled(true);
@@ -468,7 +483,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		}
 	}
 
-	private void setVisibilityState(GlobalResultsState state) {
+	private void setVisibilityState(ResultsState state) {
 		switch (state) {
 		case DEFAULT: {
 			mTripBucketYourTripToC.setVisibility(View.VISIBLE);
@@ -488,66 +503,6 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 			mShadeC.setVisibility(View.INVISIBLE);
 			break;
 		}
-		}
-	}
-
-	@Override
-	public void setGlobalResultsState(GlobalResultsState state) {
-		mGlobalState = state;
-		setTouchState(state);
-		setVisibilityState(state);
-		setFragmentState(state);
-
-		if (state == GlobalResultsState.DEFAULT) {
-			mAddingHotelTrip = false;
-			mAddingFlightTrip = false;
-			mTripAnimationC.removeAllViews();
-		}
-	}
-
-	@Override
-	public void setAnimatingTowardsVisibility(GlobalResultsState state) {
-		if (state == GlobalResultsState.DEFAULT) {
-			mBlurredBackgroundC.setVisibility(View.VISIBLE);
-			if (mAddingHotelTrip) {
-				mTripAnimationC.setVisibility(View.VISIBLE);
-			}
-		}
-	}
-
-	@Override
-	public void setHardwareLayerForTransition(int layerType, GlobalResultsState stateOne, GlobalResultsState stateTwo) {
-		if ((stateOne == GlobalResultsState.DEFAULT || stateOne == GlobalResultsState.HOTELS)
-				&& (stateTwo == GlobalResultsState.DEFAULT || stateTwo == GlobalResultsState.HOTELS)) {
-			//Default -> Hotels or Hotels -> Default transition
-
-			mBlurredBackgroundC.setLayerType(layerType, null);
-			mTripAnimationC.setLayerType(layerType, null);
-			mShadeC.setLayerType(layerType, null);
-
-			for (View container : mBucketContainers) {
-				container.setLayerType(layerType, null);
-			}
-
-		}
-
-		if ((stateOne == GlobalResultsState.DEFAULT || stateOne == GlobalResultsState.FLIGHTS)
-				&& (stateTwo == GlobalResultsState.DEFAULT || stateTwo == GlobalResultsState.FLIGHTS)) {
-			//Default -> Flights or Flights -> Default transition
-
-			mBlurredBackgroundC.setLayerType(layerType, null);
-			mTripAnimationC.setLayerType(layerType, null);
-
-			for (View container : mBucketContainers) {
-				container.setLayerType(layerType, null);
-			}
-		}
-	}
-
-	@Override
-	public void blockAllNewTouches(View requester) {
-		if (mTripAnimationC != requester) {
-			mTripAnimationC.setBlockNewEventsEnabled(true);
 		}
 	}
 
@@ -585,41 +540,11 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 			//Alpha
 			mShadeC.setAlpha(1f - percentage);
 
-			if (percentage == 1f && mGlobalState == GlobalResultsState.DEFAULT) {
+			if (percentage == 1f && mGlobalState == ResultsState.DEFAULT) {
 				mAddingHotelTrip = false;
 				mAddingFlightTrip = false;
 			}
 		}
-	}
-
-	@Override
-	public void animateToFlightsPercentage(float percentage) {
-		animateToPercentage(percentage, mAddingFlightTrip);
-		addTripPercentage(percentage);
-	}
-
-	@Override
-	public void animateToHotelsPercentage(float percentage) {
-		animateToPercentage(percentage, mAddingHotelTrip);
-		addTripPercentage(percentage);
-	}
-
-	@Override
-	public void updateContentSize(int totalWidth, int totalHeight) {
-		mTotalHeight = totalHeight;
-		mColumnManager.setTotalWidth(totalWidth);
-
-		mColumnManager.setContainerToColumn(mBlurredBackgroundC, 2);
-		mColumnManager.setContainerToColumn(mTripAnimationC, 2);
-
-		mColumnManager.setContainerToColumn(mTripBucketYourTripToC, 2);
-
-		positionTripBucketItems(false);
-	}
-
-	@Override
-	public boolean handleBackPressed() {
-		return false;
 	}
 
 	/**
@@ -727,5 +652,157 @@ public class TabletResultsTripControllerFragment extends Fragment implements ITa
 		tv.setBackgroundColor(Color.YELLOW);
 		return tv;
 	}
+
+	/*
+	 * RESULTS STATE LISTENER
+	 */
+
+	private StateListenerHelper<ResultsState> mStateHelper = new StateListenerHelper<ResultsState>() {
+
+		@Override
+		public void onPrepareStateTransition(ResultsState stateOne, ResultsState stateTwo) {
+			//Touch
+			mTripAnimationC.setBlockNewEventsEnabled(true);
+
+			//Visibility
+			if (stateOne == ResultsState.DEFAULT || stateTwo == ResultsState.DEFAULT) {
+				mBlurredBackgroundC.setVisibility(View.VISIBLE);
+				if (mAddingHotelTrip) {
+					mTripAnimationC.setVisibility(View.VISIBLE);
+				}
+			}
+
+			//layer type
+			int layerType = View.LAYER_TYPE_HARDWARE;
+			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.HOTELS)
+					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.HOTELS)) {
+				//Default -> Hotels or Hotels -> Default transition
+
+				mBlurredBackgroundC.setLayerType(layerType, null);
+				mTripAnimationC.setLayerType(layerType, null);
+				mShadeC.setLayerType(layerType, null);
+
+				for (View container : mBucketContainers) {
+					container.setLayerType(layerType, null);
+				}
+
+			}
+
+			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.FLIGHTS)
+					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.FLIGHTS)) {
+				//Default -> Flights or Flights -> Default transition
+
+				mBlurredBackgroundC.setLayerType(layerType, null);
+				mTripAnimationC.setLayerType(layerType, null);
+
+				for (View container : mBucketContainers) {
+					container.setLayerType(layerType, null);
+				}
+			}
+
+		}
+
+		@Override
+		public void onStateTransitionPercentageChange(ResultsState stateOne, ResultsState stateTwo, float percentage) {
+			if (stateOne == ResultsState.DEFAULT && stateTwo == ResultsState.FLIGHTS) {
+				animateToPercentage(percentage, mAddingFlightTrip);
+				addTripPercentage(percentage);
+			}
+
+			if (stateOne == ResultsState.DEFAULT && stateTwo == ResultsState.HOTELS) {
+				animateToPercentage(percentage, mAddingHotelTrip);
+				addTripPercentage(percentage);
+			}
+		}
+
+		@Override
+		public void onFinishStateTransition(ResultsState stateOne, ResultsState stateTwo) {
+			//Touch
+			mTripAnimationC.setBlockNewEventsEnabled(true);
+
+			//layer type
+			int layerType = View.LAYER_TYPE_NONE;
+			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.HOTELS)
+					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.HOTELS)) {
+				//Default -> Hotels or Hotels -> Default transition
+
+				mBlurredBackgroundC.setLayerType(layerType, null);
+				mTripAnimationC.setLayerType(layerType, null);
+				mShadeC.setLayerType(layerType, null);
+
+				for (View container : mBucketContainers) {
+					container.setLayerType(layerType, null);
+				}
+
+			}
+
+			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.FLIGHTS)
+					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.FLIGHTS)) {
+				//Default -> Flights or Flights -> Default transition
+
+				mBlurredBackgroundC.setLayerType(layerType, null);
+				mTripAnimationC.setLayerType(layerType, null);
+
+				for (View container : mBucketContainers) {
+					container.setLayerType(layerType, null);
+				}
+			}
+
+		}
+
+		@Override
+		public void onStateFinalized(ResultsState state) {
+			mGlobalState = state;
+			setTouchState(state);
+			setVisibilityState(state);
+			setFragmentState(state);
+
+			if (state == ResultsState.DEFAULT) {
+				mAddingHotelTrip = false;
+				mAddingFlightTrip = false;
+				mTripAnimationC.removeAllViews();
+			}
+		}
+
+	};
+
+	/*
+	 * MEASUREMENT LISTENER
+	 */
+
+	private MeasurementHelper mMeasurementHelper = new MeasurementHelper() {
+
+		@Override
+		public void onContentSizeUpdated(int totalWidth, int totalHeight) {
+			mTotalHeight = totalHeight;
+			mColumnManager.setTotalWidth(totalWidth);
+
+			mColumnManager.setContainerToColumn(mBlurredBackgroundC, 2);
+			mColumnManager.setContainerToColumn(mTripAnimationC, 2);
+
+			mColumnManager.setContainerToColumn(mTripBucketYourTripToC, 2);
+
+			positionTripBucketItems(false);
+		}
+
+	};
+
+	/*
+	 * BACK STACK MANAGEMENT
+	 */
+
+	@Override
+	public BackManager getBackManager() {
+		return mBackManager;
+	}
+
+	private BackManager mBackManager = new BackManager(this) {
+
+		@Override
+		public boolean handleBackPressed() {
+			return false;
+		}
+
+	};
 
 }
