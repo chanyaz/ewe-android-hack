@@ -37,7 +37,7 @@
 
     <!-- Restricted Profile -->
     <!-- Restricted profile login message -->
-    <string name="restricted_profile_login_message">För att logga in på Expedia, måste du använda en obegränsad användarprofil på din mobil eller surfplatta.</string>
+    <string name="restricted_profile_login_message">För att logga in på Expedia måste du använda en obegränsad användarprofil på din mobil eller surfplatta.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -196,35 +196,35 @@
     <!-- Itin flight generic terminal and gate template -->
     <string name="Terminal_X_Gate_Y_TEMPLATE">Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight international terminal and gate template -->
-    <string name="International_Terminal_Gate_X_TEMPLATE">Internationell terminal, Gate %1$s</string>
+    <string name="International_Terminal_Gate_X_TEMPLATE">Internationell Terminal, Gate %1$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="Arrive_Terminal_X_Gate_Y_TEMPLATE">Ankomstterminal %1$s, Gate %2$s</string>
+    <string name="Arrive_Terminal_X_Gate_Y_TEMPLATE">Ankommer till Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight arrival international terminal and gate template -->
-    <string name="Arrive_International_Terminal_Gate_X_TEMPLATE">Anländer till internationell terminal, Gate %1$s</string>
+    <string name="Arrive_International_Terminal_Gate_X_TEMPLATE">Ankommer till Internationell Terminal, Gate %1$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="Depart_Terminal_X_Gate_Y_TEMPLATE">Avgångsterminal %1$s, Gate %2$s</string>
+    <string name="Depart_Terminal_X_Gate_Y_TEMPLATE">Avgår från Terminal %1$s, Gate %2$s</string>
     <!-- Itin flight departure international terminal and gate template -->
-    <string name="Depart_International_Terminal_Gate_X_TEMPLATE">Avgår från internationell terminal, Gate %1$s</string>
+    <string name="Depart_International_Terminal_Gate_X_TEMPLATE">Avgår från Internationell Terminal, Gate %1$s</string>
     <!-- "Gate To Be Determined", with "To Be Determined" abbreviated if possible -->
     <string name="Gate_To_Be_Determined_abbrev">Gate ej utlyst än</string>
     <!-- Itin flight gate only template -->
     <string name="Gate_X_TEMPLATE">Gate %1$s</string>
     <!-- Itin flight arrive gate only template -->
-    <string name="Arrive_Gate_X_TEMPLATE">Ankomstgate %1$s</string>
+    <string name="Arrive_Gate_X_TEMPLATE">Ankommer till Gate %1$s</string>
     <!-- Itin flight depart gate only template -->
-    <string name="Depart_Gate_X_TEMPLATE">Avgångsgate %1$s</string>
+    <string name="Depart_Gate_X_TEMPLATE">Avgår från Gate %1$s</string>
     <!-- Name of terminal, e.g. "Terminal A" or "Terminal 5" -->
     <string name="Terminal_X_TEMPLATE">Terminal %1$s</string>
     <!-- Special case for name of International Terminal -->
-    <string name="International_Terminal">Internationell terminal</string>
+    <string name="International_Terminal">Internationell Terminal</string>
     <!-- Name of baggage claim, e.g. "Baggage Claim A" or "Baggage Claim 5" -->
     <string name="Baggage_Claim_X_TEMPLATE">Bagageband %1$s</string>
     <!-- Itin flight terminal only template -->
-    <string name="Arrive_Terminal_X_TEMPLATE">Ankomstterminal %1$s</string>
+    <string name="Arrive_Terminal_X_TEMPLATE">Ankommer till Terminal %1$s</string>
     <!-- Itin flight international terminal only -->
-    <string name="Arrive_International_Terminal">Anländer till internationell terminal</string>
+    <string name="Arrive_International_Terminal">Ankommer till Internationell Terminal</string>
     <!-- Itin flight terminal only template -->
-    <string name="Depart_Terminal_X_TEMPLATE">Avgångsterminal %1$s</string>
+    <string name="Depart_Terminal_X_TEMPLATE">Avgår från Terminal %1$s</string>
     <!-- Itin flight international terminal only -->
     <string name="Depart_International_Terminal">Avgår från internationell terminal</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
@@ -309,6 +309,10 @@
     <string name="hours_minutes_past_TEMPLATE">%1$s och %2$s sen</string>
 
     <!-- Itin Buttons -->
+    <!-- Dialog title for removing shared itin -->
+    <string name="remove_shared_itin_title">Ta bort delad resplan?</string>
+    <!-- Dialog message for removing shared itin -->
+    <string name="remove_shared_itin_message">Är du säker på att du vill ta bort den delade resplanen från din mobilenhet?</string>
     <!-- Popup menu -->
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Dölj</string>
@@ -349,7 +353,7 @@
     <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
     <string name="attraction_theme_parks_second">nöjesparkerna</string>
     <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">Hitta den bästa</string>
+    <string name="attraction_beaches_first">Hitta de bästa</string>
     <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
     <string name="attraction_beaches_second">stränderna</string>
     <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
@@ -526,6 +530,7 @@
     <string name="itin_action_redeem">Lös in</string>
     <string name="itin_action_support">Support</string>
     <string name="itin_action_share">Dela</string>
+    <string name="itin_action_remove">Ta bort</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Skriv ut kuponger</string>
@@ -538,7 +543,7 @@
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Hej,\n\nJag bor på %1$s i %2$s.</string>
     <!-- 1: Check in date, 2: Check out date -->
-    <string name="share_template_long_hotel_2_checkin_checkout">Checka in%1$s \nChecka ut%2$s</string>
+    <string name="share_template_long_hotel_2_checkin_checkout">Checka in %1$s\nChecka ut %2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
     <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
     <!-- Hotel phone number -->
@@ -552,9 +557,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Vårt flyg till %1$s %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Jag är på flyg %1$s till %2$s %3$s.\nAvgår %4$s %5$s\nAnkommer %6$s %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Jag är på flyg %1$s till %2$s %3$s.\nAvgår %4$s %5$s\nAnkommer %6$s %7$s, %8$s\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Jag är på flyg %1$s till %2$s.\nAvgår %3$s %4$s\nAnkommer %5$s %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Jag är på flyg %1$s till %2$s.\nAvgår %3$s %4$s\nAnkommer %5$s %6$s, %7$s\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Min hyrbil (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -577,6 +582,8 @@
     <string name="share_car_pickup_location_section">Hämtningsplats:</string>
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Avlämningsplats:</string>
+    <!-- Section header for the Itin sharable link -->
+    <string name="share_link_section">Länk till delad resplan:\n%s</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">Mina %1$s uppgifter</string>
@@ -604,6 +611,18 @@
     <string name="Long_message">Långt (e-post)</string>
     <!-- Button label for a buton that shares a short message suitable for social media or SMS -->
     <string name="Short_message">Kort (SMS, socialt nätverk)</string>
+    <!-- Button label for a button that shares a short message to only Facebook -->
+    <string name="Short_message_Facebook">Facebook</string>
+
+    <!-- Itinerary Share for Facebook -->
+    <!-- Label for Facebook Sharing in task manager and share menu -->
+    <string name="Facebook">Facebook</string>
+    <!-- Template for title/name of the facebook post - Hotels -->
+    <string name="share_facebook_template_title_hotel">Bor på %1$s</string>
+    <!-- Template for title/name of the facebook post - Flights -->
+    <string name="share_facebook_template_title_flight">Flyger till %1$s</string>
+    <!-- Template for title/name of the facebook post - Cars -->
+    <string name="share_facebook_template_title_car">Hyrbil från %1$s</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -796,7 +815,7 @@
     <!-- Select Payment -->
     <string name="select_payment">Välj betalning</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Välj betalning</string>
+    <string name="select_payment_sentence_case">Betalningsinformation</string>
     <!-- Add new card -->
     <string name="add_new_card">Lägg till nytt kort</string>
     <!-- Overview button -->
@@ -923,14 +942,22 @@
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">Lägg till resenär</string>
+
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Guest">Lägg till gäst</string>
+
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">Lägg till betalning</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Resenärens uppgifter</string>
     <!-- Add traveler -->
     <string name="add_traveler">Lägg till resenär</string>
+    <!-- Traveler Details (for flights) -->
+    <string name="traveler_details">Resenärsinformation</string>
+    <!-- Add Guest for hotels -->
+    <string name="guest_details">Gästinformation</string>
     <!-- Add traveler number template -->
-    <string name="add_traveler_number_TEMPLATE">Lägg till resenär %1$s</string>
+    <string name="add_traveler_number_TEMPLATE">Information om resenär %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Passagerare kan nekas ombordstigning om namnet i bokningen inte matchar namnet i den statligt utfärdade ID-handlingen</string>
 
@@ -1035,9 +1062,9 @@
     <!-- next page buttn -->
     <string name="next">Nästa</string>
     <!-- Passport country label -->
-    <string name="passport_country">Utfärdandeland för pass</string>
+    <string name="passport_country">Passets utfärdandeland</string>
     <!-- Passport country / origin heading -->
-    <string name="passport_country_origin">Utfärdandeland för pass / hemland</string>
+    <string name="passport_country_origin">Passets utfärdandeland / hemland</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">Referensnummer (om du har ett)</string>
     <!-- Saving traveler info spinner dialog -->
@@ -1248,7 +1275,7 @@
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">Avresa:</string>
     <!-- Header for the return flight details section of the share flight email -->
-    <string name="share_flight_section_return">Återresa: </string>
+    <string name="share_flight_section_return">Återresa:</string>
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1259,7 +1286,7 @@
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
     <string name="loading_suggestions">Hämtar förslag…</string>
     <!-- Label for button that starts search -->
-    <string name="search_for_hotels">Sök hotell</string>
+    <string name="search_for_hotels">Sök efter hotell</string>
     <!-- Label for picking search location -->
     <string name="where_are_you_going">&lt;b&gt;Vart&lt;/b&gt; ska du resa?</string>
     <!-- Label for picking checkin/checkout dates -->
@@ -1608,6 +1635,13 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s från %2$s</string>
+    <!-- User review no critical reviews -->
+    <string name="user_review_no_critical_reviews">Det finns inga negativa recensioner av det här hotellet.</string>
+    <!-- User review no favorable reviews -->
+    <string name="user_review_no_favorable_reviews">Det finns inga positiva recensioner av det här hotellet.</string>
+    <!-- User review no recent reviews -->
+    <string name="user_review_no_recent_reviews">Det finns inga nya recensioner av det här hotellet.</string>
+
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Recensioner är otillgängliga för tillfället</string>
 
@@ -1880,33 +1914,45 @@
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">Fel med kupong</string>
 
+    <!-- Coupon dialog -->
+    <!-- Title on dialog imploring users to enter coupons -->
+    <string name="enter_coupon_code">Ange kupongkod</string>
+    <!-- Message shown when applying coupon (in progress) -->
+    <string name="applying_coupon">Tillämpar kupong…</string>
+    <!-- Message shown when a coupon was successfully applied -->
+    <string name="coupon_applied">Kupong har tillämpats</string>
+    <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
+    <string name="coupon_saved_TEMPLATE">Du sparade %s!</string>
+
     <!-- Coupon Error Strings -->
+    <!-- Generic error when applying coupon, but we didn't get an error code back -->
+    <string name="coupon_error_no_code">Tyvärr kan kupongen inte användas.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Tyvärr känner vi inte igen kupongkoden</string>
+    <string name="coupon_error_unrecognized">Tyvärr känner vi inte igen kupongkoden.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Tyvärr har kupongen gått ut</string>
+    <string name="coupon_error_expired">Tyvärr har kupongen gått ut.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Tyvärr uppstod ett problem. Försök igen</string>
+    <string name="coupon_error_not_redeemed">Tyvärr uppstod ett problem. Försök igen.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Tyvärr har kupongkoden redan använts</string>
+    <string name="coupon_error_duplicate">Tyvärr har kupongkoden redan använts.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">Tyvärr uppstod ett problem. Försök igen</string>
+    <string name="coupon_error_fallback">Tyvärr uppstod ett problem. Försök igen.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">Bokningsbeloppet ändrades så vi tillämpade inte kupongen. Kontrollera uppgifterna och försök igen</string>
+    <string name="coupon_error_price_change">Bokningsbeloppet ändrades så vi tillämpade inte kupongen. Kontrollera uppgifterna och försök igen.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Den här kupongen är tyvärr endast giltig för ett annat land</string>
+    <string name="coupon_error_invalid_region">Den här kupongen är tyvärr endast giltig för ett annat land.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">Du uppfyllde inte minimumkravet på antal nätter</string>
+    <string name="coupon_error_min_stay_not_met">Du uppfyllde inte minimumkravet på antal nätter.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Den här kupongen gäller tyvärr inte för dessa datum</string>
+    <string name="coupon_error_invalid_travel_dates">Den här kupongen gäller tyvärr inte för dessa datum.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Det här hotellet accepterar tyvärr inte kuponger</string>
+    <string name="coupon_error_invalid_product">Det här hotellet accepterar tyvärr inte kuponger.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Beloppet motsvarar tyvärr inte minimumbeloppet</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Beloppet motsvarar tyvärr inte minimumbeloppet.</string>
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
-    <string name="coupon_error_hotel_excluded">Det här hotellet accepterar tyvärr inte kuponger</string>
+    <string name="coupon_error_hotel_excluded">Det här hotellet accepterar tyvärr inte kuponger.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">Vi kan tyvärr inte tillämpa kuponger just nu. Försök igen</string>
+    <string name="coupon_error_service_down">Vi kan tyvärr inte tillämpa kuponger just nu. Försök igen.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
@@ -1914,7 +1960,7 @@
     <!-- The title of the share subject line -->
     <string name="share_subject_title">Expedias resplan</string>
     <!-- Subject property name template. -->
-    <string name="share_subject_template">Expedia Itinerary -</string>
+    <string name="share_subject_template">Expedias resplan -</string>
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
     <string name="share_subject_template_dates">(%1$s - %2$s)</string>
     <!-- Preset at the top of the share body message -->
@@ -1992,7 +2038,7 @@
     <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Softwarelicenser för öppna källor</string>
     <!-- String for acrediting the open source libraries we use -->
-    <string name="this_app_makes_use_of_the_following">Appen använder följande öppna källbibliotek: </string>
+    <string name="this_app_makes_use_of_the_following">Appen använder följande öppna källbibliotek:</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -2124,14 +2170,14 @@
     <!-- There were no results matching the input -->
     <string name="e3_error_search_results_invalid_input_unknown">Tyvärr genererade din sökning inga resultat. Försök igen.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_search_results_unknown_error">Tyvärr kunde vi inte genomföra din sökning. Försök igen.</string>
+    <string name="e3_error_search_results_unknown_error">Tyvärr kunde vi inte utföra din sökning. Försök igen.</string>
 
     <!-- HotelOffers API method -->
     <!-- The hotel offer is no longer available -->
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">Vi beklagar! Tyvärr gäller inte det här rumserbjudandet längre, men andra erbjudanden är tillgängliga.</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">Tyvärr är rummet inte längre tillgängligt.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">Vi kunde inte tyvärr inte ansluta till Expedia.  Försök igen.</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure">Vi kunde inte tyvärr inte ansluta till Expedia. Försök igen.</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">Vi beklagar! Tyvärr gäller inte det här rumserbjudandet längre, men andra erbjudanden är tillgängliga.</string>
     <!-- There are no longer any rooms for the hotel offer -->

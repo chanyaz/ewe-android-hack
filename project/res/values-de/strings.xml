@@ -309,6 +309,10 @@
     <string name="hours_minutes_past_TEMPLATE">vor %1$s und %2$s</string>
 
     <!-- Itin Buttons -->
+    <!-- Dialog title for removing shared itin -->
+    <string name="remove_shared_itin_title">Geteilten Reiseplan entfernen?</string>
+    <!-- Dialog message for removing shared itin -->
+    <string name="remove_shared_itin_message">Möchten Sie diesen geteilten Reiseplan wirklich von Ihrem Gerät entfernen?</string>
     <!-- Popup menu -->
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Ausblenden</string>
@@ -526,6 +530,7 @@
     <string name="itin_action_redeem">Einlösen</string>
     <string name="itin_action_support">Support</string>
     <string name="itin_action_share">Teilen</string>
+    <string name="itin_action_remove">Entfernen</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Gutscheine drucken</string>
@@ -538,7 +543,7 @@
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Hallo! \n\nIch bin für %2$s im %1$s.</string>
     <!-- 1: Check in date, 2: Check out date -->
-    <string name="share_template_long_hotel_2_checkin_checkout">Check-in%1$s \nCheck-out%2$s</string>
+    <string name="share_template_long_hotel_2_checkin_checkout">Check-in %1$s\nCheck-out %2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
     <string name="share_template_long_hotel_3_address">%1$s\n%2$s</string>
     <!-- Hotel phone number -->
@@ -552,9 +557,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Unser Flug nach %1$s am %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Ich habe Flug %1$s nach %2$s am %3$s.\nAbflug %4$s um %5$s\nAnkunft %6$s um %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Ich habe Flug %1$s nach %2$s am %3$s.\nAbflug %4$s um %5$s\nAnkunft %6$s um %7$s, %8$s\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Ich habe Flug %1$s nach %2$s.\nAbflug %3$s um %4$s\nAnkunft %5$s um %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Ich habe Flug %1$s nach %2$s.\nAbflug %3$s um %4$s\nAnkunft %5$s um %6$s, %7$s\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Mein Mietwagen (%1$s − %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -577,6 +582,8 @@
     <string name="share_car_pickup_location_section">Abholort:</string>
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Rückgabeort:</string>
+    <!-- Section header for the Itin sharable link -->
+    <string name="share_link_section">Link zum geteilten Reiseplan:\n%s</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">Meine Aktivität %1$s</string>
@@ -604,6 +611,18 @@
     <string name="Long_message">Lang (E-Mail)</string>
     <!-- Button label for a buton that shares a short message suitable for social media or SMS -->
     <string name="Short_message">Kurz (SMS, Statusupdate etc.)</string>
+    <!-- Button label for a button that shares a short message to only Facebook -->
+    <string name="Short_message_Facebook">Facebook</string>
+
+    <!-- Itinerary Share for Facebook -->
+    <!-- Label for Facebook Sharing in task manager and share menu -->
+    <string name="Facebook">Facebook</string>
+    <!-- Template for title/name of the facebook post - Hotels -->
+    <string name="share_facebook_template_title_hotel">Ich übernachte im %1$s</string>
+    <!-- Template for title/name of the facebook post - Flights -->
+    <string name="share_facebook_template_title_flight">Ich fliege nach %1$s</string>
+    <!-- Template for title/name of the facebook post - Cars -->
+    <string name="share_facebook_template_title_car">Ich habe ein Auto bei %1$s gemietet</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -796,7 +815,7 @@
     <!-- Select Payment -->
     <string name="select_payment">Zahlung auswählen</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Zahlung auswählen</string>
+    <string name="select_payment_sentence_case">Zahlungsdetails</string>
     <!-- Add new card -->
     <string name="add_new_card">Neue Karte hinzufügen</string>
     <!-- Overview button -->
@@ -923,14 +942,22 @@
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">Person hinzufügen</string>
+
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Guest">Gast hinzufügen</string>
+
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">Zahlungsart hinzufügen</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Angaben zum Reisenden</string>
     <!-- Add traveler -->
     <string name="add_traveler">Person hinzufügen</string>
+    <!-- Traveler Details (for flights) -->
+    <string name="traveler_details">Angaben zum Reisenden</string>
+    <!-- Add Guest for hotels -->
+    <string name="guest_details">Gästedetails</string>
     <!-- Add traveler number template -->
-    <string name="add_traveler_number_TEMPLATE">Person %1$s hinzufügen</string>
+    <string name="add_traveler_number_TEMPLATE">Angaben zum %1$s. Reisenden</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Wenn der Name des Reisenden nicht mit dem Namen im Lichtbildausweis übereinstimmt, kann das Boarding verwehrt werden.</string>
 
@@ -1037,7 +1064,7 @@
     <!-- Passport country label -->
     <string name="passport_country">Land des Reisepasses</string>
     <!-- Passport country / origin heading -->
-    <string name="passport_country_origin">Land/Herkunft des Reisepasses</string>
+    <string name="passport_country_origin">Land/Ausstellungsort des Reisepasses</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">Regress-Nr. (falls zutreffend)</string>
     <!-- Saving traveler info spinner dialog -->
@@ -1294,14 +1321,14 @@
     <!-- Suggestion to search Times Square -->
     <string name="suggestion_times_square">Times Square, New York, NY</string>
     <string name="suggestion_boston">Boston, MA</string>
-    <string name="suggestion_los_angeles">Los Angeles, KA</string>
-    <string name="suggestion_venice">Venice Beach Park, Venice, KA</string>
+    <string name="suggestion_los_angeles">Los Angeles, CA</string>
+    <string name="suggestion_venice">Venice Beach Park, Venice, CA</string>
     <string name="suggestion_miami">Miami, FL</string>
-    <string name="suggestion_london">London, UK</string>
+    <string name="suggestion_london">London, Großbritannien</string>
     <string name="suggestion_las_vegas">Las Vegas, NV</string>
     <string name="suggestion_paris">Paris, Frankreich</string>
     <string name="suggestion_minneapolis">Minneapolis, MN</string>
-    <string name="suggestion_san_francisco">San Francisco, KA</string>
+    <string name="suggestion_san_francisco">San Francisco, CA</string>
 
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
@@ -1321,7 +1348,7 @@
     <!-- Label indicating that there are no results matching their current filter -->
     <string name="no_filter_results">Leider wurden für Ihre Auswahl keine Hotels gefunden.</string>
     <!-- Label indicating that geolocation failed -->
-    <string name="geolocation_failed">Das Ziel wurde nicht gefunden.</string>
+    <string name="geolocation_failed">Das Reiseziel wurde nicht gefunden.</string>
     <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
     <string name="NoGeocodingResults">Die Lage von %s konnte nicht bestimmt werden.</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
@@ -1520,7 +1547,7 @@
     <!-- Fitness center amenity -->
     <string name="AmenityFitnessCenter">Fitnessstudio</string>
     <!-- Hot tub on-site amenity -->
-    <string name="AmenityHotTub">Hot Tub</string>
+    <string name="AmenityHotTub">Whirlpool</string>
     <!-- Internet access amenity -->
     <string name="AmenityInternet">Internet</string>
     <!-- Kids' activities amenity -->
@@ -1558,7 +1585,7 @@
     <!-- In-room accessibility amenity -->
     <string name="AmenityInRoomAccessibility">Barrierefreies Zimmer</string>
     <!-- Accessibility equipment for the deaf amenity -->
-    <string name="AmenityDeafAccessibilityEquipment">Für Taube geeignet</string>
+    <string name="AmenityDeafAccessibilityEquipment">Für Gehörlose geeignet</string>
     <!-- Braille or raised signage amenity -->
     <string name="AmenityBrailleSignage">Brailleschrift</string>
     <!-- Free airport shuttle amenity -->
@@ -1609,6 +1636,13 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s aus %2$s</string>
+    <!-- User review no critical reviews -->
+    <string name="user_review_no_critical_reviews">Zu diesem Hotel wurden keine kritischen Bewertungen abgegeben.</string>
+    <!-- User review no favorable reviews -->
+    <string name="user_review_no_favorable_reviews">Zu diesem Hotel wurden keine positiven Bewertungen abgegeben.</string>
+    <!-- User review no recent reviews -->
+    <string name="user_review_no_recent_reviews">Zu diesem Hotel wurden keine neuen Bewertungen abgegeben.</string>
+
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Bewertungen sind zurzeit nicht verfügbar</string>
 
@@ -1684,7 +1718,7 @@
     <!-- Quantity for the length of stay -->
     <plurals name="length_of_stay">
         <item quantity="one">1 Nacht</item>
-        <item quantity="other">%d Nächte</item>
+        <item quantity="other">%d Übernachtungen</item>
     </plurals>
     <!-- Label for room rate on a particular date (e.g., "Room Rate 10/24/2011") where %s represents the date -->
     <string name="room_rate_template">Zimmerpreis %s</string>
@@ -1755,7 +1789,7 @@
     <!-- Error if an invalid currency code is being used with American Express -->
     <string name="invalid_currency_for_amex">Leider unterstützt American Express keine Zahlungen in dieser Währung (%s). Bitte verwenden Sie eine andere Kreditkarte.</string>
     <!-- Error if user agreement needs to be checked but is not -->
-    <string name="error_no_user_agreement">Sie müssen die AGBs bestätigen, um buchen zu können.</string>
+    <string name="error_no_user_agreement">Sie müssen die AGB bestätigen, um buchen zu können.</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Es wird gebucht…</string>
     <!-- Title for error dialog when booking fails -->
@@ -1787,7 +1821,7 @@
     <!-- Confirmation email label -->
     <string name="confirmation_email">Bestätigungsmail</string>
     <!-- ActionBar button for starting a new search -->
-    <string name="NEW_SEARCH">Neue Suche</string>
+    <string name="NEW_SEARCH">NEUE SUCHE</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">Wenn Sie Fragen zu Ihrer Buchung haben, erreichen Sie Expedia unter %s.</string>
 
@@ -1831,7 +1865,7 @@
     <!-- Expedia merchant hotel policies -->
     <string name="PolicyExpediaMerchant">Wenn Sie mit dieser Buchung fortfahren, stimmen Sie den allgemeinen Geschäftsbedingungen, den darin enthaltenen Stornierungsbedingungen sowie der Nutzungsvereinbarung zu.\n\nSie stimmen der Zahlung der Buchungskosten zu. Wenn Sie diese Schuld nicht begleichen und der Betrag durch ein Inkassobüro oder andere rechtliche Schritte eingetrieben werden muss, haben Sie alle dafür anfallenden Kosten oder Gebühren wie Anwalts- und Gerichtskosten zu tragen.</string>
     <!-- Expedia agent hotel policies -->
-    <string name="PolicyExpediaAgent">Sie buchen ein Hotel zum Normalpreis. Wenn nicht anders angegeben, verstehen sich alle Preise pro Nacht und Zimmer mit Doppelbelegung. Bitte lesen Sie die Zimmerbeschreibung und die Preisangaben sorgfältig, um sicherzugehen, dass das gewählte Zimmer für alle Reiseteilnehmer Platz bietet. Für einige Tarife können besondere Nachweise erforderlich sein. Unsere Buchungsgebühr, Steuern und andere Gebühren, die das Hotel erhebt, sind nicht im Preis inbegriffen. Für weitere Erwachsene oder Kinder, die die ausgeschriebene Belegung des Zimmers überschreiten, fallen nach Ermessen des Hotels möglicherweise zusätzliche Gebühren an.\n\nAnfragen für mehr als 2 Personen oder für mehr Gäste als zum ausgewählten Preis vorgesehen, werden an das Hotel weitergeleitet, können jedoch nicht garantiert werden. Wenn sie akzeptiert werden, wird nach Ermessen des Hotels ein Aufpreis berechnet.</string>
+    <string name="PolicyExpediaAgent">Sie buchen ein Hotel zum Normalpreis. Wenn nicht anders angegeben, verstehen sich alle Preise pro Nacht und Zimmer mit Doppelbelegung. Bitte lesen Sie die Zimmerbeschreibung und die Preisangaben sorgfältig durch, um sicherzugehen, dass das gewählte Zimmer für alle Reiseteilnehmer Platz bietet. Für einige Tarife können besondere Nachweise erforderlich sein. Unsere Buchungsgebühr, Steuern und andere Gebühren, die das Hotel erhebt, sind nicht im Preis inbegriffen. Für weitere Erwachsene oder Kinder, die die ausgeschriebene Belegung des Zimmers überschreiten, fallen nach Ermessen des Hotels möglicherweise zusätzliche Gebühren an.\n\nAnfragen für mehr als 2 Personen oder für mehr Gäste als zum ausgewählten Preis vorgesehen, werden an das Hotel weitergeleitet, können jedoch nicht garantiert werden. Wenn sie akzeptiert werden, wird nach Ermessen des Hotels ein Aufpreis berechnet.</string>
 
     <!-- Expedia Accounts -->
     <!-- Label for menu item to log into account -->
@@ -1881,19 +1915,31 @@
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">Fehlerhafter Gutschein</string>
 
+    <!-- Coupon dialog -->
+    <!-- Title on dialog imploring users to enter coupons -->
+    <string name="enter_coupon_code">Geben Sie den Gutscheincode ein</string>
+    <!-- Message shown when applying coupon (in progress) -->
+    <string name="applying_coupon">Gutschein wird eingelöst…</string>
+    <!-- Message shown when a coupon was successfully applied -->
+    <string name="coupon_applied">Gutschein wurde eingelöst</string>
+    <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
+    <string name="coupon_saved_TEMPLATE">Sie haben %s gespart!</string>
+
     <!-- Coupon Error Strings -->
+    <!-- Generic error when applying coupon, but we didn't get an error code back -->
+    <string name="coupon_error_no_code">Der Gutschein kann leider nicht eingelöst werden.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
     <string name="coupon_error_unrecognized">Das ist leider kein gültiger Gutscheincode.</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Dieser Gutschein ist leider schon verfallen.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Leider gibt es ein Problem. Bitte versuchen Sie es noch einmal</string>
+    <string name="coupon_error_not_redeemed">Leider gibt es ein Problem. Bitte versuchen Sie es erneut.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
     <string name="coupon_error_duplicate">Dieser Gutscheincode wurde leider schon verwendet.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">Leider gibt es ein Problem. Bitte versuchen Sie es noch einmal</string>
+    <string name="coupon_error_fallback">Leider gibt es ein Problem. Bitte versuchen Sie es erneut.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">Der Buchungsbetrag hat sich geändert, daher haben wir den Gutschein nicht eingelöst. Bitte schauen Sie noch mal drüber und versuchen Sie es erneut</string>
+    <string name="coupon_error_price_change">Der Buchungsbetrag hat sich geändert, daher haben wir den Gutschein nicht eingelöst. Bitte schauen Sie noch mal drüber und versuchen Sie es erneut.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">Leider gilt dieser Gutscheincode nicht für dieses Land.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
@@ -1907,7 +1953,7 @@
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
     <string name="coupon_error_hotel_excluded">Leider akzeptiert dieses Hotel keine Gutscheine.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">Leider können wir im Moment keine Gutscheine verarbeiten.  Bitte versuchen Sie es noch einmal</string>
+    <string name="coupon_error_service_down">Leider können wir im Moment keine Gutscheine verarbeiten.  Bitte versuchen Sie es erneut.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
@@ -1943,15 +1989,15 @@
     <!-- Contact Expedia via email -->
     <string name="contact_expedia_email">E-Mail</string>
     <!-- Contact Expedia via email subject -->
-    <string name="contact_expedia_email_subject">Expedia-Buchungssupport</string>
+    <string name="contact_expedia_email_subject">Expedia-Kundenservice</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">Website</string>
     <!-- Label for "Expedia website" button in info page -->
     <string name="expedia_website">Expedia-Website</string>
     <!-- Extra description for "Expedia website" button, when space allows -->
-    <string name="expedia_website_description">Besuchen Sie die Website und buchen Sie Flüge, Mietwagen, Pauschalreisen und vieles mehr.</string>
+    <string name="expedia_website_description">Besuchen Sie unsere Website und buchen Sie Flüge, Mietwagen, Pauschalreisen und vieles mehr.</string>
     <!-- Extra description for "app feedback" button, when space allows -->
-    <string name="app_feedback_description">Sagen Sie uns, wie Sie die App finden.</string>
+    <string name="app_feedback_description">Verraten Sie uns, wie Sie unsere App finden.</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App-Support</string>
     <!-- Extra description for "app support" button, when space allows -->
@@ -1963,7 +2009,7 @@
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Hallo,\n\nvielleicht ist Expedia Hotels für iPhone und Android auch etwas für Dich. Es ist GRATIS und Du kannst ganz einfach Zimmer in über 140.000 Hotels in der ganzen Welt suchen und buchen. So einfach war es noch nie, mit dem Handy Hotelzimmer zu buchen.\n\nhttp://www.expedia.com/app</string>
+    <string name="tell_a_friend_body">Hallo,\n\nvielleicht ist Expedia Hotels für iPhone und Android auch etwas für dich. Es ist GRATIS und du kannst ganz einfach Zimmer in über 140.000 Hotels in der ganzen Welt suchen und buchen. Mit dem Handy Hotelzimmer zu buchen, war noch nie leichter.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Allgemeine Geschäftsbedingungen</string>
     <!-- Label for link to privacy policy -->
@@ -2099,7 +2145,7 @@
     <!-- Replaces "result was null" for no result search -->
     <string name="ean_error_no_results">Für diesen Zeitraum wurden leider keine verfügbaren Hotels gefunden. Bitte geben Sie einen anderen Zeitraum oder ein anderes Ziel ein.</string>
     <!-- Replaces "result was null" for no result search -->
-    <string name="ean_error_connect_unavailable">Es konnte keine Verbindung zu dem gewählten Hotel hergestellt werden, um verfügbare Zimmer zu finden.</string>
+    <string name="ean_error_connect_unavailable">Es konnte keine Verbindung zum ausgewählten Hotel hergestellt werden, um verfügbare Zimmer zu finden.</string>
     <!-- Error message displayed when the phone number sent via booking is invalid -->
     <string name="ean_error_invalid_phone_number">Bitte geben Sie eine gültige Telefonnummer ein.</string>
 
@@ -2175,7 +2221,7 @@
     <string name="country_bt">Bhutan</string>
     <string name="country_bo">Bolivien</string>
     <string name="country_ba">Bosnien und Herzegowina</string>
-    <string name="country_bw">Botsuana</string>
+    <string name="country_bw">Botswana</string>
     <string name="country_br">Brasilien</string>
     <string name="country_io">Britisches Territorium im Indischen Ozean</string>
     <string name="country_bn">Brunei Darussalam</string>
@@ -2362,7 +2408,7 @@
     <string name="country_tj">Tadschikistan</string>
     <string name="country_tz">Tansania</string>
     <string name="country_th">Thailand</string>
-    <string name="country_tl">Timor-Leste</string>
+    <string name="country_tl">Osttimor</string>
     <string name="country_tg">Togo</string>
     <string name="country_tk">Tokelau</string>
     <string name="country_to">Tonga</string>
@@ -2375,7 +2421,7 @@
     <string name="country_ug">Uganda</string>
     <string name="country_ua">Ukraine</string>
     <string name="country_ae">Vereinigte Arabische Emirate</string>
-    <string name="country_gb">Vereinigtes Königreich</string>
+    <string name="country_gb">Großbritannien</string>
     <string name="country_us">USA</string>
     <string name="country_um">Kleinere Amerikanische Überseeinseln</string>
     <string name="country_uy">Uruguay</string>

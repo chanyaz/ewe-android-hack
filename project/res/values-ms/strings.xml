@@ -309,6 +309,10 @@
     <string name="hours_minutes_past_TEMPLATE">%1$s %2$s yang lalu</string>
 
     <!-- Itin Buttons -->
+    <!-- Dialog title for removing shared itin -->
+    <string name="remove_shared_itin_title">Keluarkan Jadual Perjalanan Berkongsi?</string>
+    <!-- Dialog message for removing shared itin -->
+    <string name="remove_shared_itin_message">Adakah anda pasti ingin mengeluarkan jadual perjalanan berkongsi ini daripada peranti anda?</string>
     <!-- Popup menu -->
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Sembunyi</string>
@@ -526,6 +530,7 @@
     <string name="itin_action_redeem">Tebus</string>
     <string name="itin_action_support">Sokongan</string>
     <string name="itin_action_share">Kongsi</string>
+    <string name="itin_action_remove">Keluarkan</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Cetak Baucar</string>
@@ -536,7 +541,7 @@
     <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
     <string name="share_template_short_hotel">Saya akan menginap di %1$s\n%2$s – %3$s\n\n%4$s</string>
     <!-- 1: Hotel name, 2: Formatted length of stay -->
-    <string name="share_template_long_hotel_1_greeting">Hai, \n\nSaya akan menginap di %1$s selama %2$s.</string>
+    <string name="share_template_long_hotel_1_greeting">Hai,\n\nSaya akan menginap di %1$s selama %2$s.</string>
     <!-- 1: Check in date, 2: Check out date -->
     <string name="share_template_long_hotel_2_checkin_checkout">Daftar Masuk %1$s\nDaftar Keluar %2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
@@ -552,9 +557,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Penerbangan kami ke %1$s pada %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Saya menaiki penerbangan %1$s ke %2$s pada %3$s.\nBerlepas dari %4$s pada %5$s\nTiba di %6$s pada %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Saya menaiki penerbangan %1$s ke %2$s pada %3$s.\nBerlepas dari %4$s pada %5$s\nTiba di %6$s pada %7$s, %8$s\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Saya menaiki penerbangan %1$s ke %2$s.\nBerlepas dari %3$s pada %4$s\nTiba di %5$s pada %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Saya menaiki penerbangan %1$s ke %2$s.\nBerlepas dari %3$s pada %4$s\nTiba di %5$s pada %6$s, %7$s\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Kereta sewa saya (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -577,6 +582,8 @@
     <string name="share_car_pickup_location_section">Lokasi Pengambilan:</string>
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Lokasi Penghantaran:</string>
+    <!-- Section header for the Itin sharable link -->
+    <string name="share_link_section">Pautan kepada Jadual Perjalanan berkongsi:\n%s</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">Butiran %1$s Saya</string>
@@ -604,6 +611,18 @@
     <string name="Long_message">Panjang (E-Mel)</string>
     <!-- Button label for a buton that shares a short message suitable for social media or SMS -->
     <string name="Short_message">Singkat (SMS, Sosial)</string>
+    <!-- Button label for a button that shares a short message to only Facebook -->
+    <string name="Short_message_Facebook">Facebook</string>
+
+    <!-- Itinerary Share for Facebook -->
+    <!-- Label for Facebook Sharing in task manager and share menu -->
+    <string name="Facebook">Facebook</string>
+    <!-- Template for title/name of the facebook post - Hotels -->
+    <string name="share_facebook_template_title_hotel">Menginap di %1$s</string>
+    <!-- Template for title/name of the facebook post - Flights -->
+    <string name="share_facebook_template_title_flight">Menaiki kapal trbg ke %1$s</string>
+    <!-- Template for title/name of the facebook post - Cars -->
+    <string name="share_facebook_template_title_car">Kereta sewa daripada %1$s</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -796,7 +815,7 @@
     <!-- Select Payment -->
     <string name="select_payment">Pilih Pembayaran</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Pilih pembayaran</string>
+    <string name="select_payment_sentence_case">Butiran pembayaran</string>
     <!-- Add new card -->
     <string name="add_new_card">Tambah Kad Baru</string>
     <!-- Overview button -->
@@ -923,14 +942,22 @@
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">Tambah Pengembara</string>
+
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Guest">Tambah Tetamu</string>
+
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">Tambah Bayaran</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Maklumat Pengembara</string>
     <!-- Add traveler -->
-    <string name="add_traveler">Tambah pengembara</string>
+    <string name="add_traveler">Tambah Pengembara</string>
+    <!-- Traveler Details (for flights) -->
+    <string name="traveler_details">Butiran pengembara</string>
+    <!-- Add Guest for hotels -->
+    <string name="guest_details">Butiran tetamu</string>
     <!-- Add traveler number template -->
-    <string name="add_traveler_number_TEMPLATE">Tambah pengembara %1$s</string>
+    <string name="add_traveler_number_TEMPLATE">Butiran pengembara %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Pengembara mungkin tidak dibenarkan menaiki kapal jika namanya tidak sepadan dengan ID bergambar yang dikeluarkan oleh kerajaan.</string>
 
@@ -1353,9 +1380,9 @@
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
         <item quantity="one">%d Bilik Lagi!</item>
-        <item quantity="two">%d Bilik Lagi</item>
-        <item quantity="many">%d Bilik Lagi</item>
-        <item quantity="other">%d Bilik Lagi</item>
+        <item quantity="two">Tinggal %d Bilik Lagi</item>
+        <item quantity="many">Tinggal %d Bilik Lagi</item>
+        <item quantity="other">Tinggal %d Bilik Lagi</item>
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
@@ -1608,6 +1635,13 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s dari %2$s</string>
+    <!-- User review no critical reviews -->
+    <string name="user_review_no_critical_reviews">Tiada ulasan yang kritikal bagi hotel ini.</string>
+    <!-- User review no favorable reviews -->
+    <string name="user_review_no_favorable_reviews">Tiada ulasan yang menyokong bagi hotel ini.</string>
+    <!-- User review no recent reviews -->
+    <string name="user_review_no_recent_reviews">Tiada ulasan yang terbaru bagi hotel ini.</string>
+
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Ulasan tidak tersedia buat sementara waktu</string>
 
@@ -1880,33 +1914,45 @@
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">Ralat Kupon</string>
 
+    <!-- Coupon dialog -->
+    <!-- Title on dialog imploring users to enter coupons -->
+    <string name="enter_coupon_code">Masukkan Kod Kupon</string>
+    <!-- Message shown when applying coupon (in progress) -->
+    <string name="applying_coupon">Menggunakan Kupon…</string>
+    <!-- Message shown when a coupon was successfully applied -->
+    <string name="coupon_applied">Kupon Digunakan</string>
+    <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
+    <string name="coupon_saved_TEMPLATE">Anda menjimatkan %s!</string>
+
     <!-- Coupon Error Strings -->
+    <!-- Generic error when applying coupon, but we didn't get an error code back -->
+    <string name="coupon_error_no_code">Maaf, kupon tidak boleh digunakan.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Maaf, tetapi ini bukan kod kupon yang diketahui</string>
+    <string name="coupon_error_unrecognized">Maaf, tetapi ini bukan kod kupon yang diketahui.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Maaf, tetapi kupon ini telah tamat tempoh</string>
+    <string name="coupon_error_expired">Maaf, tetapi kupon ini telah tamat tempoh.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Maaf, tetapi kami sedang menghadapi masalah. Sila cuba lagi</string>
+    <string name="coupon_error_not_redeemed">Maaf, tetapi kami sedang menghadapi masalah. Sila cuba lagi.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Maaf, tetapi kod kupon ini telah digunakan</string>
+    <string name="coupon_error_duplicate">Maaf, tetapi kod kupon ini telah digunakan.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">Maaf, tetapi kami sedang menghadapi masalah. Sila cuba lagi</string>
+    <string name="coupon_error_fallback">Maaf, tetapi kami sedang menghadapi masalah. Sila cuba lagi.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">Kos tempahan berubah, jadi kami tidak menggunakan kupon ini. Sila semak dan cuba lagi</string>
+    <string name="coupon_error_price_change">Kos tempahan berubah, jadi kami tidak menggunakan kupon ini. Sila semak dan cuba lagi.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Maaf, kod kupon ini adalah untuk negara berbeza</string>
+    <string name="coupon_error_invalid_region">Maaf, kod kupon ini adalah untuk negara berbeza.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">Maaf, tetapi anda tidak memilih bilangan malam minimum</string>
+    <string name="coupon_error_min_stay_not_met">Maaf, tetapi anda tidak memilih bilangan malam minimum.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Maaf, kupon ini tidak sah bagi tarikh ini</string>
+    <string name="coupon_error_invalid_travel_dates">Maaf, kupon ini tidak sah bagi tarikh ini.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Maaf, tetapi hotel ini tidak menerima kupon</string>
+    <string name="coupon_error_invalid_product">Maaf, tetapi hotel ini tidak menerima kupon.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Maaf, tetapi ini tidak memenuhi keperluan kos minimum</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Maaf, tetapi ini tidak memenuhi keperluan kos minimum.</string>
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
-    <string name="coupon_error_hotel_excluded">Maaf, tetapi hotel ini tidak menerima kupon</string>
+    <string name="coupon_error_hotel_excluded">Maaf, tetapi hotel ini tidak menerima kupon.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">Maaf, tetapi kami tidak boleh memproses kupon pada masa ini.  Sila cuba lagi</string>
+    <string name="coupon_error_service_down">Maaf, tetapi kami tidak boleh memproses kupon pada masa ini.  Sila cuba lagi.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
@@ -2128,7 +2174,7 @@
 
     <!-- HotelOffers API method -->
     <!-- The hotel offer is no longer available -->
-    <string name="e3_error_hotel_offers_hotel_offer_unavailable">Kami memohon maaf! Promosi bagi bilik ini telah tamat, tetapi terdapat tawaran lain yang tersedia.</string>
+    <string name="e3_error_hotel_offers_hotel_offer_unavailable">Maafkan kami! Promosi bagi bilik ini telah tamat, tetapi terdapat tawaran lain yang tersedia.</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">Maafkan kami, tetapi bilik yang anda minta tidak lagi tersedia.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_hotel_offers_hotel_service_failure">Maafkan kami, tetapi kami tidak dapat menyambung ke Expedia. Sila cuba lagi.</string>

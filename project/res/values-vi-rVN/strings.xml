@@ -43,7 +43,7 @@
     <!-- Home -->
     <string name="nav_home">Trang chủ</string>
     <!-- Flights -->
-    <string name="nav_flights">C.bay</string>
+    <string name="nav_flights">Chuyến bay</string>
     <!-- Hotels -->
     <string name="nav_hotels">Khách sạn</string>
     <!-- Account -->
@@ -309,6 +309,10 @@
     <string name="hours_minutes_past_TEMPLATE">%1$s và %2$s trước</string>
 
     <!-- Itin Buttons -->
+    <!-- Dialog title for removing shared itin -->
+    <string name="remove_shared_itin_title">Xóa Lịch trình đã chia sẻ?</string>
+    <!-- Dialog message for removing shared itin -->
+    <string name="remove_shared_itin_message">Quý vị có chắn chắn muốn xóa lịch trình đã chia sẻ này khỏi thiết bị của mình không?</string>
     <!-- Popup menu -->
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Ẩn</string>
@@ -428,9 +432,9 @@
     <string name="car_category_oversize">Xe ngoại cỡ</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 cửa Xe hơi</string>
-    <string name="car_type_three_door">3 cửa Xe hơi</string>
-    <string name="car_type_four_door">4 cửa Xe hơi</string>
+    <string name="car_type_two_door">Xe 2 cửa</string>
+    <string name="car_type_three_door">Xe 3 cửa</string>
+    <string name="car_type_four_door">Xe 4 cửa</string>
     <string name="car_type_van">Tải</string>
     <string name="car_type_wagon">Wagon</string>
     <string name="car_type_limousine">Limousine</string>
@@ -526,6 +530,7 @@
     <string name="itin_action_redeem">Đổi</string>
     <string name="itin_action_support">Hỗ trợ</string>
     <string name="itin_action_share">Chia sẻ</string>
+    <string name="itin_action_remove">Xóa</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">In voucher</string>
@@ -552,9 +557,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Chuyến bay của chúng tôi đến %1$s vào %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Tôi đang trên chuyến bay %1$s đến %2$s vào %3$s.\nKhởi hành từ %4$s lúc %5$s\nĐến %6$s lúc %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Tôi đang trên chuyến bay %1$s đến %2$s vào %3$s.\nKhởi hành từ %4$s lúc %5$s\nĐến %6$s lúc %7$s, %8$s\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Tôi đang trên chuyến bay %1$s đến %2$s.\nKhởi hành từ %3$s lúc %4$s\nĐến %5$s lúc %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Tôi đang trên chuyến bay %1$s đến %2$s.\nKhởi hành từ %3$s lúc %4$s\nĐến %5$s lúc %6$s, %7$s\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Xe thuê của tôi (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -577,6 +582,8 @@
     <string name="share_car_pickup_location_section">Địa điểm nhận xe:</string>
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Địa điểm trả xe:</string>
+    <!-- Section header for the Itin sharable link -->
+    <string name="share_link_section">Liên kết vào lịch trình đã chia sẻ:\n%s</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">Chi tiết %1$s của tôi</string>
@@ -604,6 +611,18 @@
     <string name="Long_message">Dài (Email)</string>
     <!-- Button label for a buton that shares a short message suitable for social media or SMS -->
     <string name="Short_message">Ngắn (SMS, Mạng xã hội)</string>
+    <!-- Button label for a button that shares a short message to only Facebook -->
+    <string name="Short_message_Facebook">Facebook</string>
+
+    <!-- Itinerary Share for Facebook -->
+    <!-- Label for Facebook Sharing in task manager and share menu -->
+    <string name="Facebook">Facebook</string>
+    <!-- Template for title/name of the facebook post - Hotels -->
+    <string name="share_facebook_template_title_hotel">Nghỉ tại %1$s</string>
+    <!-- Template for title/name of the facebook post - Flights -->
+    <string name="share_facebook_template_title_flight">Bay đến %1$s</string>
+    <!-- Template for title/name of the facebook post - Cars -->
+    <string name="share_facebook_template_title_car">Thuê xe từ %1$s</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -796,7 +815,7 @@
     <!-- Select Payment -->
     <string name="select_payment">Chọn phương thức thanh toán</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Chọn phương thức thanh toán</string>
+    <string name="select_payment_sentence_case">Chi tiết thanh toán</string>
     <!-- Add new card -->
     <string name="add_new_card">Thêm thẻ mới</string>
     <!-- Overview button -->
@@ -923,14 +942,22 @@
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">Thêm khách</string>
+
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Guest">Thêm khách</string>
+
     <!-- Label for "Add Payment" in task manager -->
-    <string name="Add_Payment">Thêm hình thức thanh toán</string>
+    <string name="Add_Payment">Thêm phương thức thanh toán</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Thông tin khách</string>
     <!-- Add traveler -->
     <string name="add_traveler">Thêm khách</string>
+    <!-- Traveler Details (for flights) -->
+    <string name="traveler_details">Chi tiết khách</string>
+    <!-- Add Guest for hotels -->
+    <string name="guest_details">Chi tiết khách</string>
     <!-- Add traveler number template -->
-    <string name="add_traveler_number_TEMPLATE">Thêm khách %1$s</string>
+    <string name="add_traveler_number_TEMPLATE">Chi tiết %1$s khách</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Khách có thể không được lên máy bay nếu tên khách không trùng khớp với giấy tờ tùy thân (ID) có ảnh hợp lệ.</string>
 
@@ -1199,7 +1226,7 @@
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Rất tiếc, có vẻ như chúng tôi hiện không tiến hành yêu cầu của quý vị được. Vui lòng thử lại.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">Rất tiếc, có vẻ như chúng tôi hiện không tiến hành yêu cầu của quý vị được. Vui lòng thử lại sau hoặc gọi Bộ phận Hỗ trợ Khách hàng của Expedia và báo mã số lịch trình sau: %s</string>
+    <string name="error_flight_unhandled_TEMPLATE">Rất tiếc, có vẻ như chúng tôi hiện không tiến hành yêu cầu của quý vị được. Vui lòng thử lại sau hoặc gọi Bộ phận Hỗ trợ Khách hàng của Expedia và báo số lịch trình sau: %s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
     <string name="error_flight_no_longer_available">Chúng tôi thành thật xin lỗi! Chuyến bay của quý vị hiện không còn.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
@@ -1255,7 +1282,7 @@
     <!-- Initial hint for the search location field - invites the user to enter information here -->
     <string name="enter_search_location">Nhập địa điểm muốn tìm…</string>
     <!-- Hint for "search location" field -->
-    <string name="hint_search_location">Tìm địa điểm</string>
+    <string name="hint_search_location">Tìm kiếm địa điểm</string>
     <!-- Label indicating we're searching for suggestions (either from previous searches or using Expedia autosuggest) -->
     <string name="loading_suggestions">Đang tải các gợi ý…</string>
     <!-- Label for button that starts search -->
@@ -1608,6 +1635,13 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s từ %2$s</string>
+    <!-- User review no critical reviews -->
+    <string name="user_review_no_critical_reviews">Không có nhận xét tiêu cực nào cho khách sạn này.</string>
+    <!-- User review no favorable reviews -->
+    <string name="user_review_no_favorable_reviews">Không có nhận xét tích cực nào cho khách sạn này.</string>
+    <!-- User review no recent reviews -->
+    <string name="user_review_no_recent_reviews">Không có nhận xét gần đây nào cho khách sạn này.</string>
+
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Phần nhận xét tạm thời không hoạt động</string>
 
@@ -1722,13 +1756,13 @@
     <!-- Rules & restrictions section header -->
     <string name="rules_restrictions">Quy tắc &amp; Giới hạn</string>
     <!-- Disclaimer about how to earn expedia points -->
-    <string name="disclaimer_expedia_points">Nếu đã có tài khoản Expedia Rewards, vui lòng đặt chỗ với cùng địa chỉ email và điểm của quý vị sẽ tự động được cập nhật sau khi thời gian lưu trú. Xin lưu ý rằng có thể mất tối đa 30 ngày để điểm tích lũy xuất hiện.</string>
+    <string name="disclaimer_expedia_points">Nếu đã có tài khoản Expedia Rewards, vui lòng đặt phòng với cùng địa chỉ email và điểm của quý vị sẽ tự động được cập nhật sau khi thời gian lưu trú. Xin lưu ý rằng có thể mất tối đa 30 ngày để điểm tích lũy xuất hiện.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Xác nhận &amp; Đặt phòng</string>
     <!-- Label for clearing private data -->
-    <string name="clear_private_data">Xóa Private Data (Dữ liệu Cá nhân)</string>
+    <string name="clear_private_data">Xóa Dữ liệu Cá nhân</string>
     <!-- Title for dialog confirming the clearing of private data -->
-    <string name="dialog_clear_private_data_title">Xóa Private Data?</string>
+    <string name="dialog_clear_private_data_title">Xóa Dữ liệu C nhân?</string>
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_msg">Thao tác này sẽ xóa tất cả thông tin thanh toán và liên hệ đã lưu.</string>
     <!-- Message for dialog confirming the clearing of private data -->
@@ -1756,13 +1790,13 @@
     <!-- Error if user agreement needs to be checked but is not -->
     <string name="error_no_user_agreement">Quý vị phải đồng ý các điều khoản sử dụng để đặt phòng</string>
     <!-- Message to display to user while booking is in progress -->
-    <string name="booking_loading">Đang đặt chỗ…</string>
+    <string name="booking_loading">Đang đặt phòng…</string>
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">Lỗi</string>
     <!-- Error message when we couldn't get a response -->
     <string name="error_booking_null">Không thể kết nối với máy chủ Expedia.  Vui lòng kiểm tra kết nối của quý vị và thử lại.</string>
     <!-- Error message when booking completed with errors -->
-    <string name="error_booking_succeeded_with_errors">Đã đặt phòng khách sạn cho quý vị.  Tuy nhiên, có một số lỗi sau: %s</string>
+    <string name="error_booking_succeeded_with_errors">Đã hoàn tất đặt phòng cho quý vị.  Tuy nhiên, có một số lỗi sau: %s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">Chúng tôi không thể gửi email xác nhận.</string>
     <!-- Label for button pressing which brings up a dialog to enter info to book a room -->
@@ -1782,7 +1816,7 @@
     <!-- Confirmation number label -->
     <string name="confirmation_number">Số xác nhận</string>
     <!-- Itinerary number label -->
-    <string name="itinerary_number">Số hành trình</string>
+    <string name="itinerary_number">Số lịch trình</string>
     <!-- Confirmation email label -->
     <string name="confirmation_email">Email xác nhận</string>
     <!-- ActionBar button for starting a new search -->
@@ -1880,33 +1914,45 @@
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">Lỗi trong quá trình xác nhận coupon</string>
 
+    <!-- Coupon dialog -->
+    <!-- Title on dialog imploring users to enter coupons -->
+    <string name="enter_coupon_code">Nhập Mã Coupon</string>
+    <!-- Message shown when applying coupon (in progress) -->
+    <string name="applying_coupon">Đang áp dụng Coupon…</string>
+    <!-- Message shown when a coupon was successfully applied -->
+    <string name="coupon_applied">Đã áp dụng Coupon</string>
+    <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
+    <string name="coupon_saved_TEMPLATE">Quý vị đã tiết kiệm %s!</string>
+
     <!-- Coupon Error Strings -->
+    <!-- Generic error when applying coupon, but we didn't get an error code back -->
+    <string name="coupon_error_no_code">Rất tiếc, không thể áp dụng coupon.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Rất tiếc, nhưng đây không phải là mã coupon xác định</string>
+    <string name="coupon_error_unrecognized">Rất tiếc, nhưng đây không phải là mã coupon xác định.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Rất tiếc, nhưng coupon này đã hết hạn</string>
+    <string name="coupon_error_expired">Rất tiếc, nhưng coupon này đã hết hạn.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Rất tiếc, nhưng chúng tôi đang gặp sự cố. Vui lòng thử lại</string>
+    <string name="coupon_error_not_redeemed">Rất tiếc, nhưng chúng tôi đang gặp sự cố. Vui lòng thử lại.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Rất tiếc, nhưng mã coupon đã được sử dụng</string>
+    <string name="coupon_error_duplicate">Rất tiếc, nhưng mã coupon đã được sử dụng.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">Rất tiếc, nhưng chúng tôi đang gặp sự cố. Vui lòng thử lại</string>
+    <string name="coupon_error_fallback">Rất tiếc, nhưng chúng tôi đang gặp sự cố. Vui lòng thử lại.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">Chi phí đặt phòng đã thay đổi, vì vậy chúng tôi không áp dụng coupon. Vui lòng xem lại và thử lại</string>
+    <string name="coupon_error_price_change">Chi phí đặt phòng đã thay đổi, vì vậy chúng tôi không áp dụng coupon. Vui lòng xem lại và thử lại.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Rất tiếc, nhưng mã coupon này dành cho quốc gia khác</string>
+    <string name="coupon_error_invalid_region">Rất tiếc, nhưng mã coupon này dành cho quốc gia khác.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">Rất tiếc, nhưng quý vị đã không chọn số đêm tối thiểu</string>
+    <string name="coupon_error_min_stay_not_met">Rất tiếc, nhưng quý vị đã không chọn số đêm tối thiểu.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Rất tiếc, nhưng coupon này không hợp lệ cho những ngày này</string>
+    <string name="coupon_error_invalid_travel_dates">Rất tiếc, nhưng coupon này không hợp lệ cho những ngày này.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Rất tiếc, nhưng khách sạn này không chấp nhận coupon</string>
+    <string name="coupon_error_invalid_product">Rất tiếc, nhưng khách sạn này không chấp nhận coupon.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Rất tiếc, nhưng điều này không đáp ứng yêu cầu chi phí tối thiểu</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Rất tiếc, nhưng điều này không đáp ứng yêu cầu chi phí tối thiểu.</string>
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
-    <string name="coupon_error_hotel_excluded">Rất tiếc, nhưng khách sạn này không chấp nhận coupon</string>
+    <string name="coupon_error_hotel_excluded">Rất tiếc, nhưng khách sạn này không chấp nhận coupon.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">Rất tiếc, nhưng chúng tôi hiện không thể xử lý coupon.  Vui lòng thử lại</string>
+    <string name="coupon_error_service_down">Rất tiếc, nhưng chúng tôi hiện không thể xử lý coupon.  Vui lòng thử lại.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
@@ -1962,7 +2008,7 @@
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Xin chào,\n\nHãy thử ứng dụng Expedia Hotels dành cho điện thoại iPhone và Android! MIỄN PHÍ và quý vị có thể dễ dàng tìm kiếm cũng như đặt phòng từ hơn 140.000 khách sạn trên toàn thế giới. Đây là cách dễ dàng nhất để đặt phòng khách sạn từ điện thoại của quý vị.\n\nhttp://www.expedia.com/app</string>
+    <string name="tell_a_friend_body">Xin chào,\n\nHãy thử ứng dụng Expedia Hotels dành cho điện thoại iPhone và Android. MIỄN PHÍ và quý vị có thể dễ dàng tìm kiếm cũng như đặt phòng từ hơn 140.000 khách sạn trên toàn thế giới. Đây là cách dễ dàng nhất để đặt phòng khách sạn từ điện thoại của quý vị.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Điều khoản và Điều kiện</string>
     <!-- Label for link to privacy policy -->
@@ -2058,7 +2104,7 @@
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
         <item quantity="zero">%d đêm</item>
-        <item quantity="one">%d đêm</item>
+        <item quantity="one">%d Đêm</item>
         <item quantity="two">%d đêm</item>
         <item quantity="many">%d đêm</item>
         <item quantity="other">%d đêm</item>
@@ -2080,7 +2126,7 @@
     <!-- Miles (used in distance_template) -->
     <string name="unit_miles_full">dặm</string>
     <!-- Kilometers (used in distance template) -->
-    <string name="unit_kilometers_full">kilômét</string>
+    <string name="unit_kilometers_full">km</string>
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">cách %1$s %2$s</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
@@ -2240,7 +2286,7 @@
     <string name="country_ht">Haiti</string>
     <string name="country_va">Holy See (Thành phố Vatican)</string>
     <string name="country_hn">Honduras</string>
-    <string name="country_hk">Hong Kong</string>
+    <string name="country_hk">Hồng Kông</string>
     <string name="country_hu">Hungary</string>
     <string name="country_is">Iceland</string>
     <string name="country_in">Ấn Độ</string>

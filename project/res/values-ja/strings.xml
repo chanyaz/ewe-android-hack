@@ -309,6 +309,10 @@
     <string name="hours_minutes_past_TEMPLATE">%1$s および %2$s 前</string>
 
     <!-- Itin Buttons -->
+    <!-- Dialog title for removing shared itin -->
+    <string name="remove_shared_itin_title">シェアされた旅程を削除しますか ?</string>
+    <!-- Dialog message for removing shared itin -->
+    <string name="remove_shared_itin_message">シェアされたこの旅程をご利用のデバイスから削除してもよろしいですか ?</string>
     <!-- Popup menu -->
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">表示しない</string>
@@ -428,9 +432,9 @@
     <string name="car_category_oversize">オーバーサイズカー</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア 自動車</string>
-    <string name="car_type_three_door">3 ドア 自動車</string>
-    <string name="car_type_four_door">4 ドア 自動車</string>
+    <string name="car_type_two_door">2 ドア自動車</string>
+    <string name="car_type_three_door">3 ドア自動車</string>
+    <string name="car_type_four_door">4 ドア自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -526,6 +530,7 @@
     <string name="itin_action_redeem">特典利用</string>
     <string name="itin_action_support">サポート</string>
     <string name="itin_action_share">共有</string>
+    <string name="itin_action_remove">削除</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">バウチャーを印刷</string>
@@ -552,9 +557,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">%2$sの%1$sへのフライト</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">私は現在、%2$s行き%3$s発のフライト %1$s 便に乗っています。\n%4$sを%5$sに出発\n%6$sに%7$s、%8$sに到着</string>
+    <string name="share_template_short_flight_sameday">私は現在、%2$s行き%3$s発のフライト %1$s 便に乗っています。\n%4$sを%5$sに出発\n%6$sに%7$s、%8$s\n%9$sに到着</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">私は現在、%2$s行きのフライト %1$s 便に乗っています。\n%3$sを%4$sに出発\n%5$sに%6$s、%7$sに到着</string>
+    <string name="share_template_short_flight_multiday">私は現在、%2$s行きのフライト %1$s 便に乗っています。\n%3$sを%4$sに出発\n%5$sに%6$s、%7$s\n%8$sに到着</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">レンタカー (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -574,9 +579,11 @@
     <!-- Section header for the location of the car rental pickup/dropoff. -->
     <string name="share_car_location_section">ロケーション :</string>
     <!-- Section header for the location of the car rental pick up. -->
-    <string name="share_car_pickup_location_section">ピックアップ場所 : </string>
+    <string name="share_car_pickup_location_section">ピックアップ場所 :</string>
     <!-- Section header for the location of the car rental drop off. -->
-    <string name="share_car_dropoff_location_section">返却場所 : </string>
+    <string name="share_car_dropoff_location_section">返却場所 :</string>
+    <!-- Section header for the Itin sharable link -->
+    <string name="share_link_section">シェアされた旅程へのリンク : \n%s</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">%1$s詳細</string>
@@ -604,6 +611,18 @@
     <string name="Long_message">ロング (電子メール)</string>
     <!-- Button label for a buton that shares a short message suitable for social media or SMS -->
     <string name="Short_message">ショート (SMS)</string>
+    <!-- Button label for a button that shares a short message to only Facebook -->
+    <string name="Short_message_Facebook">Facebook</string>
+
+    <!-- Itinerary Share for Facebook -->
+    <!-- Label for Facebook Sharing in task manager and share menu -->
+    <string name="Facebook">Facebook</string>
+    <!-- Template for title/name of the facebook post - Hotels -->
+    <string name="share_facebook_template_title_hotel">%1$sに滞在中</string>
+    <!-- Template for title/name of the facebook post - Flights -->
+    <string name="share_facebook_template_title_flight">%1$sへフライト中</string>
+    <!-- Template for title/name of the facebook post - Cars -->
+    <string name="share_facebook_template_title_car">%1$sでレンタカー</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -796,7 +815,7 @@
     <!-- Select Payment -->
     <string name="select_payment">お支払い方法を選択する</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">お支払い方法を選択する</string>
+    <string name="select_payment_sentence_case">支払い情報の詳細</string>
     <!-- Add new card -->
     <string name="add_new_card">新しいカードを追加する</string>
     <!-- Overview button -->
@@ -923,14 +942,22 @@
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">旅行者情報を入力</string>
+
+    <!-- Label for "Add Traveler" in task manager -->
+    <string name="Add_Guest">ゲスト情報を入力</string>
+
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">お支払い情報を追加</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">旅行者情報</string>
     <!-- Add traveler -->
     <string name="add_traveler">旅行者情報を入力</string>
+    <!-- Traveler Details (for flights) -->
+    <string name="traveler_details">旅行者の詳細</string>
+    <!-- Add Guest for hotels -->
+    <string name="guest_details">ゲストの詳細</string>
     <!-- Add traveler number template -->
-    <string name="add_traveler_number_TEMPLATE">旅行者 %1$s の情報を入力</string>
+    <string name="add_traveler_number_TEMPLATE">旅行者 %1$s の詳細</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">旅行者名がパスポートなど写真付きの公的証明書に記載された名前と一致しない場合は搭乗できません。</string>
 
@@ -1244,11 +1271,11 @@
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">旅程番号 : %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
-    <string name="share_travelers_section">旅行者 : </string>
+    <string name="share_travelers_section">旅行者 :</string>
     <!-- Header for the outbound flight details section of the share flight email -->
     <string name="share_flight_section_outbound">往路 : </string>
     <!-- Header for the return flight details section of the share flight email -->
-    <string name="share_flight_section_return">現地出発日 : </string>
+    <string name="share_flight_section_return">現地出発日 :</string>
     <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
@@ -1320,7 +1347,7 @@
     <!-- Label indicating that there are no results matching their current filter -->
     <string name="no_filter_results">申し訳ありません。検索条件に一致するホテルはありません。</string>
     <!-- Label indicating that geolocation failed -->
-    <string name="geolocation_failed">検索ロケーションが確定できません。</string>
+    <string name="geolocation_failed">検索地が確定できません。</string>
     <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
     <string name="NoGeocodingResults">%sのロケーションが見つかりませんでした。</string>
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
@@ -1608,6 +1635,13 @@
         2$ is the place they are from
     -->
     <string name="user_review_name_and_location_signature">%1$s ～ %2$s</string>
+    <!-- User review no critical reviews -->
+    <string name="user_review_no_critical_reviews">このホテルのネガティブなレビューはまだありません</string>
+    <!-- User review no favorable reviews -->
+    <string name="user_review_no_favorable_reviews">このホテルのポジティブなレビューはまだありません</string>
+    <!-- User review no recent reviews -->
+    <string name="user_review_no_recent_reviews">このホテルの最近のレビューはありません</string>
+
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">レビューは現在ご覧いただけません</string>
 
@@ -1623,7 +1657,7 @@
     <!-- Loading message for rooms & rates -->
     <string name="room_rates_loading">空室を検索中…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
-    <string name="error_no_response_room_rates">部屋と料金情報をダウンロードできませんでした。インターネットへの接続を確認して再度お試しください。</string>
+    <string name="error_no_response_room_rates">部屋と料金情報をダウンロードできませんでした。インターネットへの接続を確認してから、もう一度お試しください。</string>
     <!-- Rate price displayed "per night" -->
     <string name="rate_per_night">1 泊あたり</string>
     <!-- Rate price displayed "average per night" -->
@@ -1722,7 +1756,7 @@
     <!-- Rules & restrictions section header -->
     <string name="rules_restrictions">規則および制限事項</string>
     <!-- Disclaimer about how to earn expedia points -->
-    <string name="disclaimer_expedia_points">Expedia Rewards アカウントをお持ちの方は、アカウント登録時に使用した電子メールアドレスでご予約いただくと、ご滞在後にポイントが自動的に付与されます。ポイントが反映されるまでには最長 30 日間かかりますので予めご了承ください。</string>
+    <string name="disclaimer_expedia_points">Expedia Rewards アカウントをお持ちの方は、アカウント登録時に使用した E メールアドレスでご予約いただくと、ご滞在後にポイントが自動的に付与されます。ポイントが反映されるまでには最長 30 日間かかりますので予めご了承ください。</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">確認 &amp; 予約</string>
     <!-- Label for clearing private data -->
@@ -1730,7 +1764,7 @@
     <!-- Title for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_title">個人データを削除しますか ?</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_clear_private_data_msg">保存したすべてのお支払い情報と連絡先情報が削除されます。</string>
+    <string name="dialog_clear_private_data_msg">保存したすべての請求先情報と連絡先情報が削除されます。</string>
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_log_out_and_clear_private_data_msg">実行すると一旦ログアウトされ、保存済みのお支払い情報およびご連絡先情報が削除されます。</string>
     <!-- Title for dialog after private data has been cleared -->
@@ -1760,7 +1794,7 @@
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">エラー</string>
     <!-- Error message when we couldn't get a response -->
-    <string name="error_booking_null">エクスペディアのサーバーに接続できませんでした。インターネットへの接続を確認して再度お試しください。</string>
+    <string name="error_booking_null">エクスペディアのサーバーに接続できませんでした。インターネットへの接続を確認してから、もう一度お試しください。</string>
     <!-- Error message when booking completed with errors -->
     <string name="error_booking_succeeded_with_errors">ご希望の客室のご予約は完了しました。しかし、ご予約過程で以下のエラーが発生しました : %s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
@@ -1776,11 +1810,11 @@
     <!-- Friendly message at the top of the receipt -->
     <string name="Enjoy_your_stay">素敵なご滞在を。</string>
     <!-- Format for a first/last name -->
-    <string name="name_template">%1$s %2$s</string>
+    <string name="name_template">%2$s %1$s 様</string>
     <!-- Reservation summary label -->
     <string name="reservation_summary">予約の概要</string>
     <!-- Confirmation number label -->
-    <string name="confirmation_number">確認 #</string>
+    <string name="confirmation_number">確認番号</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">旅程番号</string>
     <!-- Confirmation email label -->
@@ -1870,7 +1904,7 @@
     <!-- Label applying a coupon -->
     <string name="apply">適用</string>
     <!-- Label for new price after applying coupon -->
-    <string name="new_total">変更後の合計 : </string>
+    <string name="new_total">変更後の合計 :</string>
     <!-- Label for credit card selection -->
     <string name="use_card">ご利用カード :</string>
     <!-- Label for when a user has entered an invalid coupon -->
@@ -1880,33 +1914,45 @@
     <!-- Label for when a user has entered a coupon and the server fails -->
     <string name="coupon_error">クーポン エラー</string>
 
+    <!-- Coupon dialog -->
+    <!-- Title on dialog imploring users to enter coupons -->
+    <string name="enter_coupon_code">クーポンコードを入力</string>
+    <!-- Message shown when applying coupon (in progress) -->
+    <string name="applying_coupon">クーポンを適用しています…</string>
+    <!-- Message shown when a coupon was successfully applied -->
+    <string name="coupon_applied">クーポンが適用されました</string>
+    <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
+    <string name="coupon_saved_TEMPLATE">%s お得です !</string>
+
     <!-- Coupon Error Strings -->
+    <!-- Generic error when applying coupon, but we didn't get an error code back -->
+    <string name="coupon_error_no_code">申し訳ありません。クーポンをご利用いただけせん。</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">申し訳ありません。このクーポン コードは存在しません</string>
+    <string name="coupon_error_unrecognized">申し訳ありません。このクーポン コードは存在しません.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">申し訳ありません。このクーポンの有効期限が過ぎています</string>
+    <string name="coupon_error_expired">申し訳ありません。このクーポンの有効期限が過ぎています.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">申し訳ありません。エラーが発生しました。もう一度お試しください</string>
+    <string name="coupon_error_not_redeemed">申し訳ありません。エラーが発生しました。もう一度お試しください。</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">申し訳ありません。このクーポンはすでに使用されています</string>
+    <string name="coupon_error_duplicate">申し訳ありません。このクーポンはすでに使用されています.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">申し訳ありません。エラーが発生しました。もう一度お試しください</string>
+    <string name="coupon_error_fallback">申し訳ありません。エラーが発生しました。もう一度お試しください。</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">予約料金が変更されたため、クーポンは適用されませんでした。ご確認いただいてから、再度お試しください</string>
+    <string name="coupon_error_price_change">予約料金が変更されたため、クーポンは適用されませんでした。ご確認いただいてから、再度お試しください.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">申し訳ありません。この国はこのクーポン コードの対象外です</string>
+    <string name="coupon_error_invalid_region">申し訳ありません。この国はこのクーポン コードの対象外です.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">申し訳ありません。最低宿泊日数以上の宿泊日数を選択してください</string>
+    <string name="coupon_error_min_stay_not_met">申し訳ありません。最低宿泊日数以上の宿泊日数を選択してください.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">申し訳ありません。指定された日程ではこのクーポンをご利用いただけません</string>
+    <string name="coupon_error_invalid_travel_dates">申し訳ありません。指定された日程ではこのクーポンをご利用いただけません.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">申し訳ありません。このホテルではクーポンをご利用いただけません</string>
+    <string name="coupon_error_invalid_product">申し訳ありません。このホテルではクーポンをご利用いただけません.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">申し訳ありません。クーポンを使用できる最低料金を満たしていません</string>
+    <string name="coupon_error_min_purchase_amount_not_met">申し訳ありません。クーポンを使用できる最低料金を満たしていません.</string>
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
-    <string name="coupon_error_hotel_excluded">申し訳ありません。このホテルではクーポンをご利用いただけません</string>
+    <string name="coupon_error_hotel_excluded">申し訳ありません。このホテルではクーポンをご利用いただけません.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">申し訳ありません。現在クーポンを処理できません。もう一度お試しください</string>
+    <string name="coupon_error_service_down">申し訳ありません。現在クーポンを処理できません。もう一度お試しください。</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
@@ -1918,7 +1964,7 @@
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
     <string name="share_subject_template_dates">(%1$s - %2$s)</string>
     <!-- Preset at the top of the share body message -->
-    <string name="share_body_start">ホテル予約情報 : </string>
+    <string name="share_body_start">ホテル予約情報 :</string>
     <!-- Name of user -->
     <string name="name">氏名</string>
     <!-- Number of adults label -->
@@ -1944,7 +1990,7 @@
     <!-- Contact Expedia via email subject -->
     <string name="contact_expedia_email_subject">エクスペディア予約サポート窓口</string>
     <!-- Contact Expedia via website -->
-    <string name="contact_expedia_website">ウェブサイト</string>
+    <string name="contact_expedia_website">Web サイト</string>
     <!-- Label for "Expedia website" button in info page -->
     <string name="expedia_website">エクスペディア ウェブサイト</string>
     <!-- Extra description for "Expedia website" button, when space allows -->
@@ -1972,11 +2018,11 @@
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">ログアウト済み、データ削除済み</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">エクスペディアのアカウントからログアウトしています。保存されていた全てのお支払い情報および連絡先が削除されました。</string>
+    <string name="dialog_message_logged_out_and_cleared_private_data">エクスペディアのアカウントからログアウトしています。セーブした全ての請求情報および連絡先が削除されました。</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">個人データが削除されました</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_cleared_private_data">保存されていたクレジットカードおよび連絡先情報が全て消去されました。</string>
+    <string name="dialog_message_cleared_private_data">保存されているクレジットカードおよび連絡先情報が全て消去されました。</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
     <string name="dialog_message_launch_expedia_mobile_site">エクスペディアのモバイルサイトを開きますか ?</string>
     <!-- Action button label to Subscribe to our mailing list -->
@@ -1998,7 +2044,7 @@
     <!-- menu -->
     <string name="email_us">メールで問い合わせ</string>
     <!-- Support email body -->
-    <string name="app_support_message_body">お気軽にお問い合わせください ! お問い合わせ時に以下の情報をお知らせください : </string>
+    <string name="app_support_message_body">お気軽にお問い合わせください ! お問い合わせ時に以下の情報をお知らせください :</string>
 
     <!-- App Feedback Activity -->
     <!-- Text within submit button in header -->
@@ -2082,7 +2128,7 @@
     <!-- Kilometers (used in distance template) -->
     <string name="unit_kilometers_full">km</string>
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
-    <string name="distance_template">%1$s%2$s距離</string>
+    <string name="distance_template">現在地から %1$s%2$s</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
 
