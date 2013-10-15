@@ -2,8 +2,13 @@ package com.expedia.bookings.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Canvas;
+import android.os.Parcel;
 import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
+import android.text.TextPaint;
+import android.text.style.CharacterStyle;
+import android.text.style.UpdateAppearance;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.CheckBox;
@@ -17,10 +22,9 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 
 public class CheckBoxFilterWidget extends LinearLayout implements Checkable {
-
-	private static ForegroundColorSpan sGraySpan;
 
 	private CheckBox mCheckBox;
 	private android.widget.TextView mPriceTextView;
@@ -29,10 +33,6 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable {
 
 	public CheckBoxFilterWidget(Context context) {
 		super(context);
-
-		if (sGraySpan == null) {
-			sGraySpan = new ForegroundColorSpan(getResources().getColor(R.color.tablet_filter_light_gray_text));
-		}
 
 		setOrientation(HORIZONTAL);
 
@@ -78,6 +78,7 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable {
 
 	@Override
 	public void setEnabled(boolean isEnabled) {
+		super.setEnabled(isEnabled);
 		mCheckBox.setEnabled(isEnabled);
 		mPriceTextView.setEnabled(isEnabled);
 	}
@@ -100,13 +101,17 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable {
 		bindPrice(price);
 	}
 
+	// We're using a custom span instead just another TextView here
+	// to support languages where "From $234" is translated in a different order,
+	// such as "234 xxxx" or "xxx 234 yyyy"
 	private void bindPrice(String price) {
 		// Build and colorize "From $200" string
 		String priceString = getResources().getString(R.string.From_x_TEMPLATE, price);
 		SpannableStringBuilder builder = new SpannableStringBuilder(priceString);
 		int start = priceString.indexOf(price);
 		int end = start + price.length();
-		builder.setSpan(sGraySpan, start, end, 0);
+		ForegroundColorSpan span = new ForegroundColorSpan(getResources().getColorStateList(R.color.tablet_filter_price_text));
+		builder.setSpan(span, start, end, 0);
 		mPriceTextView.setText(builder);
 	}
 
@@ -130,5 +135,21 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable {
 
 	public interface OnCheckedChangeListener {
 		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked);
+	}
+
+	public class ForegroundColorSpan extends CharacterStyle implements UpdateAppearance {
+
+		private final ColorStateList mColor;
+
+		public ForegroundColorSpan(ColorStateList color) {
+			mColor = color;
+		}
+
+		@Override
+		public void updateDrawState(TextPaint ds) {
+			int[] drawState = CheckBoxFilterWidget.this.getDrawableState();
+			int color = mColor.getColorForState(drawState, 0);
+			ds.setColor(color);
+		}
 	}
 }
