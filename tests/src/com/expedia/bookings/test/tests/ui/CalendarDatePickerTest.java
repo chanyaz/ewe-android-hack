@@ -9,7 +9,7 @@ import com.jayway.android.robotium.solo.Solo;
 import com.mobiata.android.text.format.Time;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.widget.CalendarDatePicker;
-import com.mobiata.testutils.CalendarTouchUtils;
+import com.expedia.bookings.test.utils.CalendarTouchUtils;
 import com.expedia.bookings.data.LineOfBusiness;
 
 import java.util.List;

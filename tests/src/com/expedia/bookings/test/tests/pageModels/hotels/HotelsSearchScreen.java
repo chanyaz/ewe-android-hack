@@ -13,7 +13,7 @@ import com.expedia.bookings.test.tests.pageModels.common.ScreenActions;
 import com.expedia.bookings.test.utils.TestPreferences;
 import com.mobiata.android.text.format.Time;
 import com.mobiata.android.widget.CalendarDatePicker;
-import com.mobiata.testutils.CalendarTouchUtils;
+import com.expedia.bookings.test.utils.CalendarTouchUtils;
 
 public class HotelsSearchScreen extends ScreenActions {
 

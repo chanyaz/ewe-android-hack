@@ -6,8 +6,8 @@ import android.text.format.DateFormat;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
+import com.expedia.bookings.test.utils.CalendarTouchUtils;
 import com.expedia.bookings.test.utils.CustomActivityInstrumentationTestCase;
-import com.mobiata.testutils.CalendarTouchUtils;
 
 public class HotelSearchActionBarTests extends CustomActivityInstrumentationTestCase<SearchActivity> {
 
