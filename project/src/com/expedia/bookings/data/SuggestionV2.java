@@ -180,11 +180,15 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 
 		SuggestionV2 other = (SuggestionV2) o;
 
+		// We purposefully do not compare display name, as its HTML can vary
+		// based on how the query is constructed.  To put it another way, two
+		// suggestions can be suggesting the same thing with different
+		// display names.
+
 		return mResultType == other.mResultType
 				&& mSearchType == other.mSearchType
 				&& mRegionType == other.mRegionType
 				&& TextUtils.equals(mFullName, other.mFullName)
-				&& TextUtils.equals(mDisplayName, other.mDisplayName)
 				&& mIndex == other.mIndex
 				&& mHotelId == other.mHotelId
 				&& TextUtils.equals(mAirportCode, other.mAirportCode)
