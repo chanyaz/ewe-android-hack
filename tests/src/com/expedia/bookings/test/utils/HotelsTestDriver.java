@@ -10,6 +10,7 @@ import com.expedia.bookings.test.tests.pageModels.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.tests.pageModels.hotels.HotelsReviewsScreen;
 import com.expedia.bookings.test.tests.pageModels.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.tests.pageModels.hotels.HotelsSearchScreen;
+import com.expedia.bookings.test.tests.pageModels.hotels.HotelsTermsAndConditionsScreen;
 
 public class HotelsTestDriver extends TestDriver {
 
@@ -19,6 +20,7 @@ public class HotelsTestDriver extends TestDriver {
 	private HotelsRoomsRatesScreen mHotelsRoomsRatesScreen;
 	private HotelsCheckoutScreen mHotelsCheckoutScreen;
 	private HotelsConfirmationScreen mHotelsConfirmationScreen;
+	private HotelsTermsAndConditionsScreen mHotelsTOSScreen;
 
 	public HotelsTestDriver(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
@@ -59,6 +61,15 @@ public class HotelsTestDriver extends TestDriver {
 			mHotelsCheckoutScreen = new HotelsCheckoutScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
 		}
 		return mHotelsCheckoutScreen;
+	}
+
+	public HotelsTermsAndConditionsScreen hotelsTermsAndConditionsScreen() {
+		if (mHotelsTOSScreen == null) {
+			mHotelsTOSScreen = new HotelsTermsAndConditionsScreen(mInstrumentation, getCurrentActivity(), mRes,
+					mPreferences);
+		}
+
+		return mHotelsTOSScreen;
 	}
 
 	public HotelsConfirmationScreen hotelsConfirmationScreen() {
