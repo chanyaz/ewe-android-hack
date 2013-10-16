@@ -34,7 +34,7 @@ public interface IStateListener<T> {
 	/**
 	 * This gets called when the state transition is completing.
 	 * In this method we are expected to unset certain things that got set
-	 * in onPrepareStateTransition, such as hardware layers.
+	 * in onStateTransitionStart, such as hardware layers.
 	 * 
 	 * This DOES NOT mean we have entered stateTwo. This just means we have stopped transitioning
 	 * between two states. E.g. we may be dragging between two states, this method should not care

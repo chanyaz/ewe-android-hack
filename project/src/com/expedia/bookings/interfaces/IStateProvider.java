@@ -14,7 +14,7 @@ public interface IStateProvider<T> {
 
 	/**
 	 * This should be called at the very start of a transition between stateOne and stateTwo, and 
-	 * it should be propagated to the onPrepareStateTransition() method of our listener collection.
+	 * it should be propagated to the onStateTransitionStart() method of our listener collection.
 	 * 
 	 * This is where listeners are likely to set things like animation starting visibilities/positions etc.
 	 * 
@@ -30,7 +30,7 @@ public interface IStateProvider<T> {
 
 	/**
 	 * This should be called when the percentage between states is changed, and it should propagate to
-	 * the onStateTransitionPercentageChange method of our listener collection.
+	 * the onStateTransitionUpdate method of our listener collection.
 	 * 
 	 * NOTE: percentage does not indicate state. If percentage == 1f our view should appear to be in stateTwo,
 	 * but we may be dragging between states, and we may leave this percentage just as easily, so NEVER assume
@@ -44,7 +44,7 @@ public interface IStateProvider<T> {
 
 	/**
 	 * This should be called when the state transition is completing, and 
-	 * it should be propagated to the onFinishStateTransition() method of our listener collection.
+	 * it should be propagated to the onStateTransitionEnd() method of our listener collection.
 	 * 
 	 * This DOES NOT mean we have entered stateTwo. This just means we have stopped transitioning
 	 * between two states. 
