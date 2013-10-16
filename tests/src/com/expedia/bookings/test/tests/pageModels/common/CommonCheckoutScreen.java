@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.res.Resources;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.utils.TestPreferences;
@@ -12,6 +14,7 @@ public class CommonCheckoutScreen extends ScreenActions {
 
 	private static final int CHECKOUT_BUTTON_ID = R.id.menu_checkout;
 	private static final int LOG_IN_BUTTON_ID = R.id.login_text_view;
+	private static final int LOG_OUT_BUTTON_ID = R.id.account_logout_logout_button;
 	private static final int BUY_WITH_GOOGLE_BUTTON_ID = R.id.wallet_button;
 	private static final int ADD_TRAVELER_BUTTON_ID = R.id.traveler_info_btn;
 	private static final int SELECT_PAYMENT_BUTTON_ID = R.id.payment_info_btn;
@@ -20,6 +23,10 @@ public class CommonCheckoutScreen extends ScreenActions {
 	private static final int CALCULATING_TAXES_AND_FEES_ID = R.string.calculating_taxes_and_fees;
 	private static final int I_ACCEPT_STRING_ID = R.string.I_Accept;
 	private static final int ADD_TRAVELER_STRING_ID = R.string.add_traveler;
+	private static final int ENTER_COUPON_TEXT_VIEW_ID = R.id.coupon_button;
+	private static final int ENTER_COUPON_CODE_STRING_ID = R.string.enter_coupon_code;
+	private static final int COUPON_EDIT_TEXT_ID = R.id.coupon_edit_text;
+	private static final int RULES_RESTRICTIONS_TEXT_VIEW_ID = R.id.legal_information_text_view;
 
 	private static final String TAG = "Common Checkout Screen";
 
@@ -36,6 +43,10 @@ public class CommonCheckoutScreen extends ScreenActions {
 
 	public View logInButton() {
 		return getView(LOG_IN_BUTTON_ID);
+	}
+
+	public View logOutButton() {
+		return getView(LOG_OUT_BUTTON_ID);
 	}
 
 	public View googleWalletButton() {
@@ -70,6 +81,22 @@ public class CommonCheckoutScreen extends ScreenActions {
 		return getString(ADD_TRAVELER_STRING_ID);
 	}
 
+	public TextView enterCouponButton() {
+		return (TextView) getView(ENTER_COUPON_TEXT_VIEW_ID);
+	}
+
+	public String enterCouponCode() {
+		return getString(ENTER_COUPON_CODE_STRING_ID);
+	}
+
+	public EditText couponCodeEditText() {
+		return (EditText) getView(COUPON_EDIT_TEXT_ID);
+	}
+
+	public TextView legalInfoTextView() {
+		return (TextView) getView(RULES_RESTRICTIONS_TEXT_VIEW_ID);
+	}
+
 	// Object interaction
 
 	public void clickCheckoutButton() {
@@ -78,6 +105,10 @@ public class CommonCheckoutScreen extends ScreenActions {
 
 	public void clickLogInButton() {
 		clickOnView(logInButton());
+	}
+
+	public void clickLogOutButton() {
+		clickOnView(logOutButton());
 	}
 
 	public void clickGoogleWalletButton() {
@@ -96,8 +127,20 @@ public class CommonCheckoutScreen extends ScreenActions {
 		clickOnText(acceptString());
 	}
 
+	public void clickOnEnterCouponButton() {
+		clickOnView(enterCouponButton());
+	}
+
+	public void clickOnLegalInfoButton() {
+		clickOnView(legalInfoTextView());
+	}
+
 	public void clickAddTravelerString() {
 		clickOnText(addTravelerString());
+	}
+
+	public void typeTextCouponEditText(String couponCode) {
+		enterText(couponCodeEditText(), couponCode);
 	}
 
 	public void slideToCheckout() {

@@ -11,13 +11,14 @@ import com.expedia.bookings.widget.TextView;
 
 public class ConfirmationScreen extends ScreenActions {
 
-	private static final int sDoneButtonID = R.id.menu_done;
-	private static final int sItineraryTextViewID = R.id.itinerary_text_view;
-	private static final int sEmailTextViewID = R.id.email_text_view;
-	private static final int sCallExpediaTextViewID = R.id.call_action_text_view;
-	private static final int sCallExpediaStringID = R.string.call_expedia_customer_support;
-	private static final int sShareViaEmailTextViewID = R.id.share_action_text_view;
-	private static final int sAddToCalendarTextViewID = R.id.calendar_action_text_view;
+	private static final int DONE_BUTTON_ID = R.id.menu_done;
+	private static final int ITIN_TEXT_VIEW_ID = R.id.itinerary_text_view;
+	private static final int EMAIL_TEXT_VIEW_ID = R.id.email_text_view;
+	private static final int CALL_EXPEDIA_TEXT_VIEW_ID = R.id.call_action_text_view;
+	private static final int CALL_CUSTOMER_SUPPORT_STRING = R.string.call_expedia_customer_support;
+	private static final int SHARE_VIA_EMAIL_TEXT_VIEW = R.id.share_action_text_view;
+	private static final int ADD_TO_CALENDAR_TEXT_VIEW_ID = R.id.calendar_action_text_view;
+	private static final int BOOKING_COMPLETE_STRING_ID = R.string.booking_complete;
 
 	public ConfirmationScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
@@ -27,31 +28,35 @@ public class ConfirmationScreen extends ScreenActions {
 	// Object access
 
 	public View doneButton() {
-		return getView(sDoneButtonID);
+		return getView(DONE_BUTTON_ID);
 	}
 
 	public TextView itineraryTextView() {
-		return (TextView) getView(sItineraryTextViewID);
+		return (TextView) getView(ITIN_TEXT_VIEW_ID);
 	}
 
 	public TextView emailTextView() {
-		return (TextView) getView(sEmailTextViewID);
+		return (TextView) getView(EMAIL_TEXT_VIEW_ID);
 	}
 
 	public TextView callExpediaTextView() {
-		return (TextView) getView(sCallExpediaTextViewID);
+		return (TextView) getView(CALL_EXPEDIA_TEXT_VIEW_ID);
 	}
 
 	public String callExpediaCustomerSupport() {
-		return getString(sCallExpediaStringID);
+		return getString(CALL_CUSTOMER_SUPPORT_STRING);
 	}
 
 	public TextView shareViaEmailTextView() {
-		return (TextView) getView(sShareViaEmailTextViewID);
+		return (TextView) getView(SHARE_VIA_EMAIL_TEXT_VIEW);
 	}
 
 	public TextView addToCalendarTextView() {
-		return (TextView) getView(sAddToCalendarTextViewID);
+		return (TextView) getView(ADD_TO_CALENDAR_TEXT_VIEW_ID);
+	}
+
+	public String bookingComplete() {
+		return getString(BOOKING_COMPLETE_STRING_ID);
 	}
 
 	// Object interaction

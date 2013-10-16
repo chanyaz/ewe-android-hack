@@ -15,6 +15,7 @@ public class CommonTravelerInformationScreen extends ScreenActions {
 	private static final int MIDDLE_NAME_EDIT_TEXT_ID = R.id.edit_middle_name;
 	private static final int LAST_NAME_EDIT_TEXT_ID = R.id.edit_last_name;
 	private static final int PHONE_NUMBER_EDIT_TEXT_ID = R.id.edit_phone_number;
+	private static final int EMAIL_EDIT_TEXT_ID = R.id.edit_email_address;
 	private static final int BIRTHDATE_SPINNER_BUTTON_ID = R.id.edit_birth_date_text_btn;
 	private static final int DONE_STRING_ID = R.string.done;
 	private static final int NEXT_BUTTON_ID = R.id.menu_next;
@@ -54,6 +55,10 @@ public class CommonTravelerInformationScreen extends ScreenActions {
 
 	public View doneButton() {
 		return getView(DONE_BUTTON_ID);
+	}
+
+	public EditText emailEditText() {
+		return (EditText) getView(EMAIL_EDIT_TEXT_ID);
 	}
 
 	public View nextButton() {
@@ -96,5 +101,9 @@ public class CommonTravelerInformationScreen extends ScreenActions {
 
 	public void clickEnterANewTraveler() {
 		clickOnText(enterANewTraveler());
+	}
+
+	public void enterEmailAddress(String emailAddress) {
+		typeText(emailEditText(), emailAddress);
 	}
 }
