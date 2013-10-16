@@ -44,6 +44,11 @@ public class SuggestionResponseHandler extends JsonResponseHandler<SuggestionRes
 			for (int a = 0; a < len; a++) {
 				JSONObject suggestionJson = suggestionsArr.optJSONObject(a);
 
+				// #2128 - Filter out minor airports from results as they are never useful
+				if (suggestionJson.optBoolean("isMinorAirport", false)) {
+					continue;
+				}
+
 				SuggestionV2 suggestion = new SuggestionV2();
 
 				String resultType = suggestionJson.optString("@type");
