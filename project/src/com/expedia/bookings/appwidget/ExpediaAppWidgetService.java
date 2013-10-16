@@ -118,8 +118,8 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d(TAG, "ExpediaAppWidgetService.onStartCommand(" + intent + ", " + flags + ", " + startId + ")");
 
-		String action = intent.getAction();
-		if (!TextUtils.isEmpty(action)) {
+		if (intent != null && !TextUtils.isEmpty(intent.getAction())) {
+			String action = intent.getAction();
 			int posChange = 0;
 			if (action.equals(ACTION_NEXT)) {
 				posChange = 1;
