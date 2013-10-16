@@ -276,7 +276,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 
 	public void setSearchResponse(HotelSearchResponse searchResponse) {
 		if (searchResponse != null && searchResponse.getFilteredAndSortedProperties() != null) {
-			setProperties(Arrays.asList(searchResponse.getFilteredAndSortedProperties()));
+			setProperties(searchResponse.getFilteredAndSortedProperties());
 		}
 	}
 
@@ -344,8 +344,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 
 	public void notifyFilterChanged() {
 		if (mProperties != null && Db.getHotelSearch().getSearchResponse() != null) {
-			List<Property> newSet = Arrays.asList(Db.getHotelSearch().getSearchResponse()
-					.getFilteredAndSortedProperties());
+			List<Property> newSet = Db.getHotelSearch().getSearchResponse().getFilteredAndSortedProperties();
 
 			// Add properties we have not seen.
 			// This happens if we are already filtered,

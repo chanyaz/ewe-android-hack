@@ -2,6 +2,7 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -150,8 +151,10 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	/**
 	 * Get properties of a particular sort.  You should probably set a HotelFilter before running this,
 	 * but it'll create one on the fly if you're being lazy.
+	 * 
+	 * Populates mExpediaSortedProperties and mFilteredProperties as a side effect.
 	 */
-	public Property[] getFilteredAndSortedProperties() {
+	public List<Property> getFilteredAndSortedProperties() {
 		Log.v("getFilteredAndSortedProperties() called...");
 
 		// If we have no properties set, return null
@@ -187,17 +190,17 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		}
 
 		// Create a copy of the filtered results and sort them
-		Property[] sortedProperties = mFilteredProperties.toArray(new Property[0]);
+		ArrayList<Property> sortedProperties = new ArrayList<Property>(mFilteredProperties);
 		Sort sort = mFilter.getSort();
 		switch (sort) {
 		case PRICE:
 			Log.v("Sorting based on price");
-			Arrays.sort(sortedProperties, Property.PRICE_COMPARATOR);
+			Collections.sort(sortedProperties, Property.PRICE_COMPARATOR);
 			break;
 		case DEALS:
 			Log.v("Sorting based on deals");
 			if (mSearchType == SearchType.MY_LOCATION) {
-				Arrays.sort(sortedProperties, Property.DISTANCE_COMPARATOR);
+				Collections.sort(sortedProperties, Property.DISTANCE_COMPARATOR);
 			}
 
 			ArrayList<Property> deals = new ArrayList<Property>();
@@ -211,23 +214,17 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 				}
 			}
 
-			int i = 0;
-			for (Property p : deals) {
-				sortedProperties[i] = p;
-				i++;
-			}
-			for (Property p : others) {
-				sortedProperties[i] = p;
-				i++;
-			}
+			sortedProperties.clear();
+			sortedProperties.addAll(deals);
+			sortedProperties.addAll(others);
 			break;
 		case RATING:
 			Log.v("Sorting based on rating");
-			Arrays.sort(sortedProperties, Property.RATING_COMPARATOR);
+			Collections.sort(sortedProperties, Property.RATING_COMPARATOR);
 			break;
 		case DISTANCE:
 			Log.v("Sorting based on distance");
-			Arrays.sort(sortedProperties, Property.DISTANCE_COMPARATOR);
+			Collections.sort(sortedProperties, Property.DISTANCE_COMPARATOR);
 			break;
 		case POPULAR:
 		default:
@@ -382,19 +379,18 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		mFilter = new HotelFilter();
 		mFilter.setSort(sort);
 
-		Property[] properties = getFilteredAndSortedProperties();
+		getFilteredAndSortedProperties();
 
-		int num = Math.min(properties.length, count);
-		Property[] propertiesCapped = new Property[num];
+		if (mFilteredProperties.size() > count) {
+			return mFilteredProperties.subList(0, count);
+		}
 
-		System.arraycopy(properties, 0, propertiesCapped, 0, num);
-
-		return Arrays.asList(propertiesCapped);
+		return mFilteredProperties;
 	}
 
 	public int getFilteredPropertiesCount() {
-		Property[] properties = getFilteredAndSortedProperties();
-		return properties == null ? 0 : properties.length;
+		getFilteredAndSortedProperties();
+		return mFilteredProperties == null ? 0 : mFilteredProperties.size();
 	}
 
 	public void onFilterChanged() {

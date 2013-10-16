@@ -38,7 +38,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	private HotelSearchResponse mSearchResponse;
 
-	private Property[] mCachedProperties;
+	private List<Property> mCachedProperties;
 
 	private boolean mIsMeasuring = false;
 	private boolean mShowDistance = true;
@@ -107,7 +107,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		}
 		else {
 			mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
-			final int size = mCachedProperties == null ? 0 : mCachedProperties.length;
+			final int size = mCachedProperties == null ? 0 : mCachedProperties.size();
 			if (size == 0) {
 				OmnitureTracking.trackErrorPage(mContext, "FilteredToZeroResults");
 			}
@@ -119,7 +119,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			properties.addAll(mSearchResponse.getProperties());
 
 			for (int i = 0; i < size; i++) {
-				properties.remove(mCachedProperties[i]);
+				properties.remove(mCachedProperties.get(i));
 			}
 
 			String longestPrice = "";
@@ -156,7 +156,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	@Override
 	public int getCount() {
 		if (mCachedProperties != null) {
-			return mCachedProperties.length;
+			return mCachedProperties.size();
 		}
 
 		return 0;
@@ -164,7 +164,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	@Override
 	public Object getItem(int position) {
-		return mCachedProperties[position];
+		return mCachedProperties.get(position);
 	}
 
 	@Override
@@ -174,14 +174,14 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 	@Override
 	public long getItemId(int position) {
-		if (position >= mCachedProperties.length) {
+		if (position >= mCachedProperties.size()) {
 			Log.w("Adapter may be trying to store instance state of hotels in list that have been filtered out while map is visible (See #7118).");
 			Log.w("If you didn't just click a hotel after filtering on the Map tab in Android 2.2 or lower, this means there's a more serious problem.");
 			return -1;
 		}
 
 		try {
-			return Integer.valueOf(mCachedProperties[position].getPropertyId());
+			return Integer.valueOf(mCachedProperties.get(position).getPropertyId());
 		}
 		catch (java.lang.NumberFormatException e) {
 			return position;
