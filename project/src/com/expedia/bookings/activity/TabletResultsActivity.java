@@ -84,6 +84,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 
 	//State
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
+	private static final String STATE_DEBUG_DATA_LOADED = "STATE_DEBUG_DATA_LOADING";
 
 	//Tags
 	private static final String FTAG_FLIGHTS_CONTROLLER = "FTAG_FLIGHTS_CONTROLLER";
@@ -107,6 +108,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	private String mDestinationCode = "SFO";//The destination code to use for background images...
 	private boolean mPreDrawInitComplete = false;
 	private boolean mBackButtonLocked = false;
+	private boolean mTestDataLoaded = false;
 
 	//ActionBar
 	private TabletResultsActionBarView mActionBarView;
@@ -120,7 +122,11 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 		setContentView(R.layout.activity_tablet_results);
 
 		//TODO: REMOVE
-		Db.saveOrLoadDbForTesting(this);
+		if(savedInstanceState == null || !savedInstanceState.getBoolean(STATE_DEBUG_DATA_LOADED, false)){
+			Db.saveOrLoadDbForTesting(this);
+			mTestDataLoaded = true;
+		}
+		
 
 		//Containers
 		mRootC = Ui.findView(this, R.id.root_layout);
@@ -185,6 +191,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putString(STATE_CURRENT_STATE, mState.name());
+		outState.putBoolean(STATE_DEBUG_DATA_LOADED, mTestDataLoaded);
 		super.onSaveInstanceState(outState);
 	}
 
