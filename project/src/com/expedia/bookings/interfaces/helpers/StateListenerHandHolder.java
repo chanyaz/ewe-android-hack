@@ -8,14 +8,14 @@ import android.view.View;
 public abstract class StateListenerHandHolder<T> extends StateListenerHelper<T> {
 
 	@Override
-	public void onPrepareStateTransition(T stateOne, T stateTwo) {
+	public void onStateTransitionStart(T stateOne, T stateTwo) {
 		setTouchabilityForTransition(stateOne, stateTwo);
 		setVisibilityForTransition(stateOne, stateTwo);
 		setHardwareLayerForTransition(stateOne, stateTwo, View.LAYER_TYPE_HARDWARE);
 	}
 
 	@Override
-	public void onFinishStateTransition(T stateOne, T stateTwo) {
+	public void onStateTransitionEnd(T stateOne, T stateTwo) {
 		setHardwareLayerForTransition(stateOne, stateTwo, View.LAYER_TYPE_NONE);
 	}
 

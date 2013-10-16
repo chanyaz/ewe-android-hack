@@ -720,7 +720,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private StateListenerHelper mStateHelper = new StateListenerHelper<ResultsState>() {
 
 		@Override
-		public void onPrepareStateTransition(ResultsState stateOne, ResultsState stateTwo) {
+		public void onStateTransitionStart(ResultsState stateOne, ResultsState stateTwo) {
 			//Touch
 			setTouchable(false);
 
@@ -757,7 +757,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 
 		@Override
-		public void onStateTransitionPercentageChange(ResultsState stateOne, ResultsState stateTwo, float percentage) {
+		public void onStateTransitionUpdate(ResultsState stateOne, ResultsState stateTwo, float percentage) {
 			if (stateOne == ResultsState.DEFAULT && stateTwo == ResultsState.FLIGHTS) {
 				mHotelListC.setAlpha(percentage);
 			}
@@ -769,7 +769,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 
 		@Override
-		public void onFinishStateTransition(ResultsState stateOne, ResultsState stateTwo) {
+		public void onStateTransitionEnd(ResultsState stateOne, ResultsState stateTwo) {
 			//Touch
 			setTouchable(true);
 

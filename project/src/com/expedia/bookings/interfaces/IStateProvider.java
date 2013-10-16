@@ -26,7 +26,7 @@ public interface IStateProvider<T> {
 	 * @param stateOne - the origin state
 	 * @param stateTwo - the destination state
 	 */
-	public void prepareStateTransition(T stateOne, T stateTwo);
+	public void startStateTransition(T stateOne, T stateTwo);
 
 	/**
 	 * This should be called when the percentage between states is changed, and it should propagate to
@@ -40,7 +40,7 @@ public interface IStateProvider<T> {
 	 * @param stateTwo - the destination state
 	 * @param percentage - the percentage between the two states (0f - 1f)
 	 */
-	public void setStateTransitionPercentage(T stateOne, T stateTwo, float percentage);
+	public void updateStateTransition(T stateOne, T stateTwo, float percentage);
 
 	/**
 	 * This should be called when the state transition is completing, and 
@@ -52,7 +52,7 @@ public interface IStateProvider<T> {
 	 * @param stateOne - the origin state
 	 * @param stateTwo - the destination state.
 	 */
-	public void finishStateTransition(T stateOne, T stateTwo);
+	public void endStateTransition(T stateOne, T stateTwo);
 
 	/**
 	 * This should be called to definitively set the state of ourself and the listener collection (via onStateFinalized)

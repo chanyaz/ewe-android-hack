@@ -271,21 +271,21 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		animator.addUpdateListener(new AnimatorUpdateListener() {
 			@Override
 			public void onAnimationUpdate(ValueAnimator arg0) {
-				setStateTransitionPercentage(mFlightsState, state, (Float) arg0.getAnimatedValue());
+				updateStateTransition(mFlightsState, state, (Float) arg0.getAnimatedValue());
 			}
 		});
 		animator.addListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationStart(Animator arg0) {
 				if (getActivity() != null) {
-					prepareStateTransition(mFlightsState, state);
+					startStateTransition(mFlightsState, state);
 				}
 			}
 
 			@Override
 			public void onAnimationEnd(Animator arg0) {
 				if (getActivity() != null) {
-					finishStateTransition(mFlightsState, state);
+					endStateTransition(mFlightsState, state);
 					finalizeState(mDestinationFlightsState);
 				}
 			}
@@ -663,9 +663,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	 */
 
 	private StateListenerHelper<ResultsState> mStateHelper = new StateListenerHandHolder<ResultsState>() {
-
+ 
 		@Override
-		public void onStateTransitionPercentageChange(ResultsState stateOne, ResultsState stateTwo, float percentage) {
+		public void onStateTransitionUpdate(ResultsState stateOne, ResultsState stateTwo, float percentage) {
 			if (stateOne == ResultsState.DEFAULT && stateTwo == ResultsState.FLIGHTS) {
 				mFlightOneFiltersC.setAlpha(1f - percentage);
 				mFlightMapC.setAlpha(1f - percentage);
@@ -723,11 +723,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					((BlockEventFrameLayout) vg).setBlockNewEventsEnabled(true);
 				}
 			}
-		}
-
-		@Override
-		public void setMiscForTransition(ResultsState stateOne, ResultsState stateTwo) {
-
 		}
 
 		@Override
@@ -837,25 +832,25 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private ArrayList<IStateListener<ResultsFlightsState>> mStateChangeListeners = new ArrayList<IStateListener<ResultsFlightsState>>();
 
 	@Override
-	public void prepareStateTransition(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
+	public void startStateTransition(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
 		for (IStateListener<ResultsFlightsState> listener : mStateChangeListeners) {
-			listener.onPrepareStateTransition(stateOne, stateTwo);
+			listener.onStateTransitionStart(stateOne, stateTwo);
 		}
 	}
 
 	@Override
-	public void setStateTransitionPercentage(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
+	public void updateStateTransition(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
 			float percentage) {
 		for (IStateListener<ResultsFlightsState> listener : mStateChangeListeners) {
-			listener.onStateTransitionPercentageChange(stateOne, stateTwo, percentage);
+			listener.onStateTransitionUpdate(stateOne, stateTwo, percentage);
 		}
 
 	}
 
 	@Override
-	public void finishStateTransition(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
+	public void endStateTransition(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
 		for (IStateListener<ResultsFlightsState> listener : mStateChangeListeners) {
-			listener.onFinishStateTransition(stateOne, stateTwo);
+			listener.onStateTransitionEnd(stateOne, stateTwo);
 		}
 	}
 
@@ -894,7 +889,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		private ResultsFlightDetailsFragment mTransitionDetailsFrag;
 
 		@Override
-		public void onPrepareStateTransition(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
+		public void onStateTransitionStart(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
 			int layerType = View.LAYER_TYPE_HARDWARE;
 			if ((stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS || stateOne == ResultsFlightsState.FLIGHT_TWO_FILTERS)
 					&& (stateTwo == ResultsFlightsState.FLIGHT_ONE_DETAILS || stateTwo == ResultsFlightsState.FLIGHT_TWO_FILTERS)) {
@@ -989,7 +984,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 
 		@Override
-		public void onStateTransitionPercentageChange(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
+		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
 				float percentage) {
 			if ((stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS || stateOne == ResultsFlightsState.FLIGHT_TWO_FILTERS)
 					&& (stateTwo == ResultsFlightsState.FLIGHT_ONE_DETAILS || stateTwo == ResultsFlightsState.FLIGHT_TWO_FILTERS)) {
@@ -1054,7 +1049,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 
 		@Override
-		public void onFinishStateTransition(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
+		public void onStateTransitionEnd(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
 			if (((stateOne == ResultsFlightsState.FLIGHT_ONE_FILTERS || stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS)
 					&& (stateTwo == ResultsFlightsState.FLIGHT_ONE_FILTERS || stateTwo == ResultsFlightsState.FLIGHT_ONE_DETAILS))
 					|| ((stateOne == ResultsFlightsState.FLIGHT_TWO_FILTERS || stateOne == ResultsFlightsState.FLIGHT_TWO_DETAILS)

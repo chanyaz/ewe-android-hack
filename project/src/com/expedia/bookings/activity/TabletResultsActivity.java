@@ -126,7 +126,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 			Db.saveOrLoadDbForTesting(this);
 			mTestDataLoaded = true;
 		}
-		
 
 		//Containers
 		mRootC = Ui.findView(this, R.id.root_layout);
@@ -451,12 +450,12 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 			if (newState == State.TRANSIENT) {
 				if (oldState != State.TRANSIENT) {
 
-					prepareStateTransition(ResultsState.DEFAULT, ResultsState.HOTELS);
+					startStateTransition(ResultsState.DEFAULT, ResultsState.HOTELS);
 				}
 
 			}
 			else {
-				finishStateTransition(ResultsState.DEFAULT, ResultsState.HOTELS);
+				endStateTransition(ResultsState.DEFAULT, ResultsState.HOTELS);
 
 				if (newState == State.LIST_CONTENT_AT_TOP) {
 					//We have entered this mode...
@@ -473,7 +472,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	public void onHotelsPercentageChanged(State state, float percentage) {
 		Log.d("HotelState.onHotelsPercentageChanged state:" + state.name() + " percentage:" + percentage);
 		if (isHotelsListenerEnabled()) {
-			setStateTransitionPercentage(ResultsState.DEFAULT, ResultsState.HOTELS, percentage);
+			updateStateTransition(ResultsState.DEFAULT, ResultsState.HOTELS, percentage);
 		}
 	}
 
@@ -482,12 +481,12 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 		if (isFlightsListenerEnabled()) {
 			if (newState == State.TRANSIENT) {
 
-				prepareStateTransition(ResultsState.DEFAULT, ResultsState.FLIGHTS);
+				startStateTransition(ResultsState.DEFAULT, ResultsState.FLIGHTS);
 
-				setStateTransitionPercentage(ResultsState.DEFAULT, ResultsState.FLIGHTS, percentage);
+				updateStateTransition(ResultsState.DEFAULT, ResultsState.FLIGHTS, percentage);
 			}
 			else {
-				finishStateTransition(ResultsState.DEFAULT, ResultsState.FLIGHTS);
+				endStateTransition(ResultsState.DEFAULT, ResultsState.FLIGHTS);
 				if (newState == State.LIST_CONTENT_AT_TOP) {
 					finalizeState(ResultsState.FLIGHTS);
 				}
@@ -501,7 +500,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	@Override
 	public void onFlightsPercentageChanged(State state, float percentage) {
 		if (isFlightsListenerEnabled()) {
-			setStateTransitionPercentage(ResultsState.DEFAULT, ResultsState.FLIGHTS, percentage);
+			updateStateTransition(ResultsState.DEFAULT, ResultsState.FLIGHTS, percentage);
 		}
 	}
 
@@ -536,23 +535,23 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	private ArrayList<IStateListener<ResultsState>> mStateChangeListeners = new ArrayList<IStateListener<ResultsState>>();
 
 	@Override
-	public void prepareStateTransition(ResultsState stateOne, ResultsState stateTwo) {
+	public void startStateTransition(ResultsState stateOne, ResultsState stateTwo) {
 		for (IStateListener<ResultsState> listener : mStateChangeListeners) {
-			listener.onPrepareStateTransition(stateOne, stateTwo);
+			listener.onStateTransitionStart(stateOne, stateTwo);
 		}
 	}
 
 	@Override
-	public void setStateTransitionPercentage(ResultsState stateOne, ResultsState stateTwo, float percentage) {
+	public void updateStateTransition(ResultsState stateOne, ResultsState stateTwo, float percentage) {
 		for (IStateListener<ResultsState> listener : mStateChangeListeners) {
-			listener.onStateTransitionPercentageChange(stateOne, stateTwo, percentage);
+			listener.onStateTransitionUpdate(stateOne, stateTwo, percentage);
 		}
 	}
 
 	@Override
-	public void finishStateTransition(ResultsState stateOne, ResultsState stateTwo) {
+	public void endStateTransition(ResultsState stateOne, ResultsState stateTwo) {
 		for (IStateListener<ResultsState> listener : mStateChangeListeners) {
-			listener.onFinishStateTransition(stateOne, stateTwo);
+			listener.onStateTransitionEnd(stateOne, stateTwo);
 		}
 	}
 

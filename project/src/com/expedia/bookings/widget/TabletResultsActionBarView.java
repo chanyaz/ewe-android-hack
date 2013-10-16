@@ -139,7 +139,7 @@ public class TabletResultsActionBarView extends RelativeLayout implements IMeasu
 	public StateListenerHelper<ResultsState> mStateHelper = new StateListenerHelper<ResultsState>() {
 
 		@Override
-		public void onPrepareStateTransition(ResultsState stateOne, ResultsState stateTwo) {
+		public void onStateTransitionStart(ResultsState stateOne, ResultsState stateTwo) {
 			//Touch
 			if (mSearchBarClickListener != null) {
 				mSearchBarClickListener.setClickEnabled(false);
@@ -180,7 +180,7 @@ public class TabletResultsActionBarView extends RelativeLayout implements IMeasu
 		}
 
 		@Override
-		public void onStateTransitionPercentageChange(ResultsState stateOne, ResultsState stateTwo, float percentage) {
+		public void onStateTransitionUpdate(ResultsState stateOne, ResultsState stateTwo, float percentage) {
 			if (stateOne == ResultsState.DEFAULT && stateTwo == ResultsState.FLIGHTS) {
 				mSearchBar.setAlpha(percentage);
 				mActionBarBg.setPercentage(1f - percentage);
@@ -196,7 +196,7 @@ public class TabletResultsActionBarView extends RelativeLayout implements IMeasu
 		}
 
 		@Override
-		public void onFinishStateTransition(ResultsState stateOne, ResultsState stateTwo) {
+		public void onStateTransitionEnd(ResultsState stateOne, ResultsState stateTwo) {
 			//Touch
 			if (mSearchBarClickListener != null) {
 				mSearchBarClickListener.setClickEnabled(true);

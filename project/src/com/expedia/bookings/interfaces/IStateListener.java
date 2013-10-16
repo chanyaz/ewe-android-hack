@@ -16,7 +16,7 @@ public interface IStateListener<T> {
 	 * @param stateOne - the origin state
 	 * @param stateTwo - the destination state.
 	 */
-	public void onPrepareStateTransition(T stateOne, T stateTwo);
+	public void onStateTransitionStart(T stateOne, T stateTwo);
 
 	/**
 	 * This gets called to indicate updated progress in a transition.
@@ -29,7 +29,7 @@ public interface IStateListener<T> {
 	 * @param stateTwo - the destination state
 	 * @param percentage - between 0f and 1f.
 	 */
-	public void onStateTransitionPercentageChange(T stateOne, T stateTwo, float percentage);
+	public void onStateTransitionUpdate(T stateOne, T stateTwo, float percentage);
 
 	/**
 	 * This gets called when the state transition is completing.
@@ -43,7 +43,7 @@ public interface IStateListener<T> {
 	 * @param stateOne - the origin state
 	 * @param stateTwo - the destination state.
 	 */
-	public void onFinishStateTransition(T stateOne, T stateTwo);
+	public void onStateTransitionEnd(T stateOne, T stateTwo);
 
 	/**
 	 * This gets called to set the state, and should set everything to its 
