@@ -23,7 +23,7 @@ public interface IStateListener<T> {
 	 * 
 	 * percentage == 1f DOES NOT mean we have entered stateTwo. If we are dragging
 	 * between states for instance, we may hit percentage == 1f, and then drag right
-	 * back down to 0f. 
+	 * back down to 0f.
 	 * 
 	 * @param stateOne - the origin state
 	 * @param stateTwo - the destination state
@@ -46,7 +46,7 @@ public interface IStateListener<T> {
 	public void onStateTransitionEnd(T stateOne, T stateTwo);
 
 	/**
-	 * This gets called to set the state, and should set everything to its 
+	 * This gets called to set the state, and should set everything to its
 	 * final position/visibility/touchability/etc. for the provided state.
 	 * 
 	 * @param state

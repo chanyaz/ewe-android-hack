@@ -5,7 +5,7 @@ import com.mobiata.android.Log;
 
 /**
  * Sometimes you want an easy way to log all of the state change methods. Just add one of these bad boys to the an IStateProvider instance
- * and enjoy the sweet sweet logs. 
+ * and enjoy the sweet sweet logs.
  *
  * @param <T>
  */

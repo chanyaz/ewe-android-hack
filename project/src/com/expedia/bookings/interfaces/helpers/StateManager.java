@@ -54,7 +54,7 @@ public class StateManager<T> {
 
 	private void setProvider(IStateProvider<T> provider) {
 		mProvider = provider;
-		if(provider instanceof Fragment) {
+		if (provider instanceof Fragment) {
 			mProviderIsFrag = true;
 		}
 	}
@@ -80,24 +80,24 @@ public class StateManager<T> {
 	 * @param duration - the duration of the animation ( if <= 0 no animation is performed)
 	 */
 	public void setState(T state, int duration) {
-		if(duration <= 0) {
-			if(isAnimating()) {
+		if (duration <= 0) {
+			if (isAnimating()) {
 				mAnimator.cancel();
 			}
 			finalizeState(state, mProvider);
 		}
 		else {
-			if(mAnimator == null) {
+			if (mAnimator == null) {
 				mDestinationState = state;
 				mAnimator = getTowardsStateAnimator(state, mProvider, duration);
-				if(mAnimator == null) {
+				if (mAnimator == null) {
 					finalizeState(state, mProvider);
 				}
 				else {
 					mAnimator.start();
 				}
 			}
-			else if(mDestinationState != state) {
+			else if (mDestinationState != state) {
 				mDestinationState = state;
 				mAnimator.reverse();
 			}
@@ -112,7 +112,7 @@ public class StateManager<T> {
 	}
 
 	private boolean allowAnimationActions() {
-		if(mProviderIsFrag) {
+		if (mProviderIsFrag) {
 			return ((Fragment) mProvider).getActivity() != null;
 		}
 		return true;
@@ -129,14 +129,14 @@ public class StateManager<T> {
 		animator.addListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationStart(Animator arg0) {
-				if(allowAnimationActions()) {
+				if (allowAnimationActions()) {
 					provider.startStateTransition(getState(), state);
 				}
 			}
 
 			@Override
 			public void onAnimationEnd(Animator arg0) {
-				if(allowAnimationActions()) {
+				if (allowAnimationActions()) {
 					provider.endStateTransition(getState(), state);
 					finalizeState(mDestinationState, provider);
 				}

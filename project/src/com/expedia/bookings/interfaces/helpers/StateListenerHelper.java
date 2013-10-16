@@ -11,7 +11,7 @@ import com.mobiata.android.util.Ui;
  * by providing methods for finding and registering with the parent IStateProvider class.
  *
  * It is expected that registerWithProvider and unregisterWithProvider are called an equal number of times
- * throughout the app's lifetime. It is recommended to put them in lifecycle methods of the fragment. E.g. 
+ * throughout the app's lifetime. It is recommended to put them in lifecycle methods of the fragment. E.g.
  * onResume calls registerWithProvider and onPause calls unregisterWithProvider.
  *
  */
@@ -51,7 +51,7 @@ public abstract class StateListenerHelper<T> implements IStateListener<T> {
 			retVal = Ui.findFragmentListener(fragment, IStateProvider.class);
 		}
 		catch (Exception ex) {
-
+			// ignore
 		}
 		return retVal;
 	}

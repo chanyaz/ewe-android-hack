@@ -54,7 +54,7 @@ public abstract class BackManager {
 
 	/**
 	 * Register child IBackManageable that will try to handle onBackPressed() events before our own handleBackPressed() implementation is called.
-	 *  
+	 * 
 	 * @param listener
 	 */
 	public void registerBackManageable(IBackManageable listener) {
@@ -63,7 +63,7 @@ public abstract class BackManager {
 
 	/**
 	 * Unregister a child IBackManageable
-	 *  
+	 * 
 	 * @param listener
 	 */
 	public void unRegisterBackManageable(IBackManageable listener) {
@@ -71,7 +71,7 @@ public abstract class BackManager {
 	}
 
 	/**
-	 * This method asks all of our IBackManageable children if they want to handle the back event, 
+	 * This method asks all of our IBackManageable children if they want to handle the back event,
 	 * if not we pass it along to our own handleBackPressed method.
 	 * 
 	 * This should be called from the onBackPressed() method in the root of the tree activity.

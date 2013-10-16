@@ -122,7 +122,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 		setContentView(R.layout.activity_tablet_results);
 
 		//TODO: REMOVE
-		if(savedInstanceState == null || !savedInstanceState.getBoolean(STATE_DEBUG_DATA_LOADED, false)){
+		if (savedInstanceState == null || !savedInstanceState.getBoolean(STATE_DEBUG_DATA_LOADED, false)) {
 			Db.saveOrLoadDbForTesting(this);
 			mTestDataLoaded = true;
 		}

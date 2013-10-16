@@ -39,7 +39,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionSort;

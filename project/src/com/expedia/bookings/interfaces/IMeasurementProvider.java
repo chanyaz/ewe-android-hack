@@ -5,8 +5,8 @@ package com.expedia.bookings.interfaces;
  * dimensions.
  * 
  * It is typical when working with fragments, that they need to measure when they are attached.
- * This allows us to tell the fragments the kind of space they are dealing with so they can perform sizing/placement/etc 
- * before drawing/measuring. 
+ * This allows us to tell the fragments the kind of space they are dealing with so they can perform sizing/placement/etc
+ * before drawing/measuring.
  */
 public interface IMeasurementProvider {
 	/**

@@ -1,7 +1,7 @@
 package com.expedia.bookings.interfaces;
 
 /**
- * This is implemented by consumers of IMeasurementProvider.updateContentSize 
+ * This is implemented by consumers of IMeasurementProvider.updateContentSize
  */
 public interface IMeasurementListener {
 	/**

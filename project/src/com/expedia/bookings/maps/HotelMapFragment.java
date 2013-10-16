@@ -20,7 +20,6 @@ import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;

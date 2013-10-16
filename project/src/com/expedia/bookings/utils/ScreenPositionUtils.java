@@ -51,7 +51,7 @@ public class ScreenPositionUtils {
 	 * so typically a call to translateGlobalPositionToLocalPosition is required to get back
 	 * useful coordinates.
 	 * 
-	 * If we would like to get the actual position in layout (without translations) we can set the 
+	 * If we would like to get the actual position in layout (without translations) we can set the
 	 * values of offsetTranslationX and offsetTranslationY to true.
 	 * 
 	 * @param view - view to get global screen position for
