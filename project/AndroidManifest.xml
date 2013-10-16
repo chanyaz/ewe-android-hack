@@ -131,6 +131,8 @@
                 <data android:host="wwwexpediacom.chelwebestr37.bgb.karmalab.net" />
                 <!-- Integration Server -->
                 <data android:host="wwwexpediacom.integration.sb.karmalab.net" />
+                <!-- Trunk Server -->
+                <data android:host="wwwexpediacom.trunk.sb.karmalab.net" />
             </intent-filter>
         </activity>
 
