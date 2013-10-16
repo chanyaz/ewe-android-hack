@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <com.expedia.bookings.widget.OptimizedImageView
+        android:id="@+id/back_image_view"
+        android:layout_width="@dimen/destination_search_tile_width"
+        android:layout_height="@dimen/destination_search_tile_height"
+        android:scaleType="centerCrop" />
+
+    <com.expedia.bookings.widget.OptimizedImageView
+        android:id="@+id/middle_image_view"
+        android:layout_width="@dimen/destination_search_tile_width"
+        android:layout_height="@dimen/destination_search_tile_height"
+        android:scaleType="centerCrop" />
+
+    <com.expedia.bookings.widget.OptimizedImageView
+        android:id="@+id/front_image_view"
+        android:layout_width="@dimen/destination_search_tile_width"
+        android:layout_height="@dimen/destination_search_tile_height"
         android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/text"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/destination_search_tile_width"
         android:layout_height="@dimen/destination_stack_text_container_height"
-        android:layout_gravity="bottom"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="134dp"
         android:background="#AA000000"
         android:gravity="center" />
 
