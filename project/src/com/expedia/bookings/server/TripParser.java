@@ -304,6 +304,7 @@ public class TripParser {
 		}
 
 		int guests = 0;
+		Traveler primaryTraveler = new Traveler();
 		JSONArray roomsJson = obj.optJSONArray("rooms");
 		if (roomsJson != null) {
 			for (int i = 0; i < roomsJson.length(); i++) {
@@ -327,11 +328,18 @@ public class TripParser {
 					if (occupantSelectedRoomOptions != null) {
 						property.setItinBedType(occupantSelectedRoomOptions.optString("bedTypeName"));
 					}
+					// Used only when importing a shared Itin
+					JSONObject primaryOccupantInfo = roomPreferences.optJSONObject("primaryOccupant");
+					if (primaryOccupantInfo != null) {
+						primaryTraveler.setFirstName(primaryOccupantInfo.optString("firstName"));
+						primaryTraveler.setFullName(primaryOccupantInfo.optString("fullName"));
+					}
 				}
 			}
 		}
 
 		hotel.setGuests(guests);
+		hotel.setPrimaryTraveler(primaryTraveler);
 
 		return hotel;
 	}

@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
+import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
@@ -53,7 +54,12 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public int getTypeIconResId() {
-		return R.drawable.ic_type_circle_hotel;
+		if (isSharedItin()) {
+			return R.drawable.ic_itin_shared_placeholder_hotel;
+		}
+		else {
+			return R.drawable.ic_type_circle_hotel;
+		}
 	}
 
 	@Override
@@ -80,6 +86,17 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	}
 
 	@Override
+	public String getHeaderTextDate() {
+		if (isSharedItin()) {
+			return getContext().getString(R.string.SharedItin_Title_Hotel_TEMPLATE, "",
+					getItinCardData().getPropertyName());
+		}
+		else {
+			return super.getHeaderTextDate();
+		}
+	}
+
+	@Override
 	public int getHeaderImagePlaceholderResId() {
 		return R.drawable.bg_itin_placeholder;
 	}
@@ -96,7 +113,18 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public String getHeaderText() {
-		return getItinCardData().getPropertyName();
+		if (isSharedItin()) {
+			TripHotel hotel = (TripHotel) getItinCardData().getTripComponent();
+			if (hotel.getPrimaryTraveler().getFirstName() != null) {
+				return hotel.getPrimaryTraveler().getFirstName();
+			}
+			else {
+				return "Hotel Card";
+			}
+		}
+		else {
+			return getItinCardData().getPropertyName();
+		}
 	}
 
 	@Override

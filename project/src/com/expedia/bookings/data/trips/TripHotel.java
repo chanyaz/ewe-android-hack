@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Traveler;
 import com.mobiata.android.json.JSONUtils;
 
 public class TripHotel extends TripComponent {
@@ -18,6 +19,7 @@ public class TripHotel extends TripComponent {
 	private int mGuests;
 	private Set<String> mConfirmationNumbers;
 	private String mSharableDetailsUrl;
+	private Traveler mPrimaryTraveler; // Used in sharedItin.
 
 	public TripHotel() {
 		super(Type.HOTEL);
@@ -79,6 +81,14 @@ public class TripHotel extends TripComponent {
 		this.mSharableDetailsUrl = sharableDetailsUrl;
 	}
 
+	public Traveler getPrimaryTraveler() {
+		return mPrimaryTraveler;
+	}
+
+	public void setPrimaryTraveler(Traveler primaryTraveler) {
+		this.mPrimaryTraveler = primaryTraveler;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -95,6 +105,7 @@ public class TripHotel extends TripComponent {
 			obj.putOpt("checkInTime", mCheckInTime);
 			JSONUtils.putStringList(obj, "confNumbers", mConfirmationNumbers);
 			obj.putOpt("sharableItemDetailURL", mSharableDetailsUrl);
+			JSONUtils.putJSONable(obj, "primaryTraveler", mPrimaryTraveler);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -109,6 +120,7 @@ public class TripHotel extends TripComponent {
 		mGuests = obj.optInt("guests");
 		mCheckInTime = obj.optString("checkInTime", null);
 		mSharableDetailsUrl = obj.optString("sharableItemDetailURL");
+		mPrimaryTraveler = JSONUtils.getJSONable(obj, "primaryTraveler", Traveler.class);
 
 		List<String> confNumbers = JSONUtils.getStringList(obj, "confNumbers");
 		if (confNumbers != null && confNumbers.size() > 0) {
