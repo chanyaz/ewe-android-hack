@@ -304,7 +304,7 @@ public class TripParser {
 		}
 
 		int guests = 0;
-		Traveler primaryTraveler = new Traveler();
+		Traveler primaryTraveler = null;
 		JSONArray roomsJson = obj.optJSONArray("rooms");
 		if (roomsJson != null) {
 			for (int i = 0; i < roomsJson.length(); i++) {
@@ -331,6 +331,7 @@ public class TripParser {
 					// Used only when importing a shared Itin
 					JSONObject primaryOccupantInfo = roomPreferences.optJSONObject("primaryOccupant");
 					if (primaryOccupantInfo != null) {
+						primaryTraveler = new Traveler();
 						primaryTraveler.setFirstName(primaryOccupantInfo.optString("firstName"));
 						primaryTraveler.setFullName(primaryOccupantInfo.optString("fullName"));
 					}
