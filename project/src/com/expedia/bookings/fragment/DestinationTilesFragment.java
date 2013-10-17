@@ -66,7 +66,7 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 				c.setText("Historic Hotels", "From $140 per night");
 
 				c = Ui.findView(root, R.id.stack_beaches);
-				c.setStackBackgroundDrawable(Color.rgb(117, 129, 187), "http://media.expedia.com/hotels/2000000/1200000/1199700/1199677/1199677_116_z.jpg");
+				c.setStackBackgroundDrawable(Color.rgb(117, 129, 187), "http://media.expedia.com/mobiata/mobile/destination/cun_720_1140.jpg");
 				c.setText("Hotels on the Beach", "From $110 per night");
 
 				onScrollChanged(mScrollView, 0, 0, 0, 0);
