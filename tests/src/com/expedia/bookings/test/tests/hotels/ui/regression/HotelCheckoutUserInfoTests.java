@@ -76,7 +76,7 @@ public class HotelCheckoutUserInfoTests extends CustomActivityInstrumentationTes
 				}
 				mDriver.goBack();
 				mDriver.goBack();
-				break;
+				continue;
 			}
 		}
 	}
