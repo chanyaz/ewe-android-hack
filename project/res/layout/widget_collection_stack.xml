@@ -4,20 +4,17 @@
     <com.expedia.bookings.widget.OptimizedImageView
         android:id="@+id/back_image_view"
         android:layout_width="@dimen/destination_search_tile_width"
-        android:layout_height="@dimen/destination_search_tile_height"
-        android:scaleType="centerCrop" />
+        android:layout_height="@dimen/destination_search_tile_height" />
 
     <com.expedia.bookings.widget.OptimizedImageView
         android:id="@+id/middle_image_view"
         android:layout_width="@dimen/destination_search_tile_width"
-        android:layout_height="@dimen/destination_search_tile_height"
-        android:scaleType="centerCrop" />
+        android:layout_height="@dimen/destination_search_tile_height" />
 
     <com.expedia.bookings.widget.OptimizedImageView
         android:id="@+id/front_image_view"
         android:layout_width="@dimen/destination_search_tile_width"
-        android:layout_height="@dimen/destination_search_tile_height"
-        android:scaleType="centerCrop" />
+        android:layout_height="@dimen/destination_search_tile_height" />
 
     <TextView
         android:id="@+id/text"

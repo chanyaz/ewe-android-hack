@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
@@ -126,12 +125,14 @@ public class CollectionStack extends FrameLayout {
 
 	private HeaderBitmapDrawable makeHeaderBitmapDrawable(String url) {
 		HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
-		headerBitmapDrawable.setCornerMode(CornerMode.ALL);
+		headerBitmapDrawable.setCornerMode(HeaderBitmapDrawable.CornerMode.ALL);
 		headerBitmapDrawable.setCornerRadius(mContext.getResources().getDimensionPixelSize(R.dimen.destination_stack_corner_radius));
 
 		ArrayList<String> urls = new ArrayList<String>();
 		urls.add(url);
 		headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(mContext.getResources(), urls, R.drawable.bg_itin_placeholder));
+
+		headerBitmapDrawable.setScaleType(HeaderBitmapDrawable.ScaleType.TOP_CROP);
 
 		return headerBitmapDrawable;
 	}
