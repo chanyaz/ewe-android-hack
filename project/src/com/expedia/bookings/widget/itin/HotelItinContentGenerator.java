@@ -249,7 +249,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		addressTextView.setText(itinCardData.getAddressString());
 
-		if (!TextUtils.isEmpty(itinCardData.getRoomType())) {
+		if (!TextUtils.isEmpty(itinCardData.getRoomType()) && !isSharedItin()) {
 			roomTypeTextView.setText(itinCardData.getRoomType());
 		}
 		else {

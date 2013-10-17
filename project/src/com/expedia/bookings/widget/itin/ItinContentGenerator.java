@@ -205,7 +205,12 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	// Detail Settings
 
 	public boolean getHideDetailsTypeIcon() {
-		return mDetialsSummaryHideTypeIcon;
+		if (isSharedItin()) {
+			return false;
+		}
+		else {
+			return mDetialsSummaryHideTypeIcon;
+		}
 	}
 
 	public void setHideDetailsTypeIcon(boolean hide) {
@@ -275,7 +280,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	protected boolean addConfirmationNumber(ViewGroup container) {
 		Log.d("ITIN: addConfirmationNumber");
-		if (hasConfirmationNumber()) {
+		if (hasConfirmationNumber() && !isSharedItin()) {
 			String confirmationText = ((ConfirmationNumberable) this.getItinCardData())
 					.getFormattedConfirmationNumbers();
 			int labelResId = ((ConfirmationNumberable) this.getItinCardData()).getConfirmationNumberLabelResId();
@@ -291,7 +296,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	protected boolean addItineraryNumber(ViewGroup container) {
 		Log.d("ITIN: addItineraryNumber");
-		if (hasItinNumber()) {
+		if (hasItinNumber() && !isSharedItin()) {
 			String itineraryNumber = this.getItinCardData().getTripComponent().getParentTrip().getTripNumber();
 			View view = getClickToCopyItinDetailItem(R.string.expedia_itinerary, itineraryNumber, false);
 			if (view != null) {
