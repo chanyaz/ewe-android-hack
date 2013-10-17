@@ -226,6 +226,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			HotelFilter filter = Db.getFilter();
 			filter.setHotelName(s.toString());
 			filter.notifyFilterChanged();
+			mNeighborhoodLayout.updateWidgets(Db.getHotelSearch().getSearchResponse());
 		}
 
 		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -294,6 +295,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			HotelFilter filter = Db.getFilter();
 			filter.setSearchRadius(searchRadius);
 			filter.notifyFilterChanged();
+			mNeighborhoodLayout.updateWidgets(Db.getHotelSearch().getSearchResponse());
 
 			onRadiusFilterChanged();
 		}
@@ -325,6 +327,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			HotelFilter filter = Db.getFilter();
 			filter.setMinimumStarRating(minStarRating);
 			filter.notifyFilterChanged();
+			mNeighborhoodLayout.updateWidgets(Db.getHotelSearch().getSearchResponse());
 
 			onRatingFilterChanged();
 		}
@@ -356,6 +359,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			HotelFilter filter = Db.getFilter();
 			filter.setPriceRange(priceRange);
 			filter.notifyFilterChanged();
+			mNeighborhoodLayout.updateWidgets(Db.getHotelSearch().getSearchResponse());
 
 			onPriceFilterChanged();
 		}
@@ -370,6 +374,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			HotelFilter filter = Db.getFilter();
 			filter.setVipAccessOnly(vipAccessOnly);
 			filter.notifyFilterChanged();
+			mNeighborhoodLayout.updateWidgets(Db.getHotelSearch().getSearchResponse());
 
 			OmnitureTracking.trackLinkHotelRefineVip(getActivity(), vipAccessOnly);
 		}

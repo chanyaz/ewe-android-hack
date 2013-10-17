@@ -1,8 +1,6 @@
 package com.expedia.bookings.widget;
 
-import java.util.Comparator;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -29,8 +27,16 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 	}
 
 	private OnNeighborhoodsChangedListener mListener;
+
+	/**
+	 *  Maps locationId to a CheckBoxFilterWidget
+	 */
+	private SparseArray<CheckBoxFilterWidget> mWidgetMap = new SparseArray<CheckBoxFilterWidget>();
+
 	private Set<Integer> mAllNeighborhoods;
 	private Set<Integer> mCheckedNeighborhoods;
+
+	private boolean mWidgetsBuilt = false;
 
 	public HotelNeighborhoodLayout(Context context) {
 		super(context);
@@ -55,82 +61,101 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 			removeAllViews();
 		}
 		else {
-			setNeighborhoods(response.getProperties());
+			buildWidgets(response);
+			updateWidgets(response);
 		}
 	}
 
-	public void setNeighborhoods(List<Property> properties) {
-
-		SparseArray<Property> neighborhoods = new SparseArray<Property>();
-
-		if (properties != null) {
-			// Find property in each location with the lowest price
-			for (Property property : properties) {
+	private void buildWidgets(HotelSearchResponse response) {
+		// Keep track of all locationId's
+		if (mAllNeighborhoods == null) {
+			mAllNeighborhoods = new HashSet<Integer>();
+			for (Property property : response.getProperties()) {
 				int locationId = property.getLocation().getLocationId();
-				Property lowest = neighborhoods.get(locationId);
-				if (lowest == null || lowest.getLowestRate().compareTo(property.getLowestRate()) > 0) {
-					neighborhoods.put(locationId, property);
-				}
+				mAllNeighborhoods.add(locationId);
 			}
 		}
 
-		// Sort by location name
-		TreeSet<Property> sorted = new TreeSet<Property>(new Comparator<Property>() {
-			public int compare(Property lhs, Property rhs) {
+		// If necessary, initialize mCheckedNeighborhoods with all neighborhoods checked
+		if (mCheckedNeighborhoods == null) {
+			mCheckedNeighborhoods = new HashSet<Integer>(mAllNeighborhoods);
+		}
 
-				// Use "~" here so it appears last
-
-				String a = lhs.getLocation() == null || lhs.getLocation().getDescription() == null
-						? "~"
-						: lhs.getLocation().getDescription();
-
-				String b = rhs.getLocation() == null || rhs.getLocation().getDescription() == null
-						? "~"
-						: rhs.getLocation().getDescription();
-
-				return a.compareTo(b);
+		// Initialize all neighborhoods, disabled for now
+		mWidgetMap.clear();
+		for (Property property : response.getProperties()) {
+			int locationId = property.getLocation().getLocationId();
+			if (mWidgetMap.get(locationId) == null) {
+				CheckBoxFilterWidget widget = new CheckBoxFilterWidget(getContext());
+				widget.setTag(locationId);
+				widget.setDescription(property.getLocation().getDescription());
+				widget.setOnCheckedChangeListener(mCheckedChangedListener);
+				mWidgetMap.put(locationId, widget);
 			}
-		});
-		for (int i = 0; i < neighborhoods.size(); i++) {
-			sorted.add(neighborhoods.valueAt(i));
+		}
+
+		// Sort by CheckBoxFilterWidget.compareTo()
+		TreeSet<CheckBoxFilterWidget> sorted = new TreeSet<CheckBoxFilterWidget>();
+		for (int i = 0; i < mWidgetMap.size(); i++) {
+			sorted.add(mWidgetMap.valueAt(i));
 		}
 
 		removeAllViews();
-		if (sorted.size() == 0) {
-			// TODO: DESIGN: Do we want to show "no neighborhoods" or just make this GONE?
+		for (CheckBoxFilterWidget view : sorted) {
+			addView(view);
 		}
-		else {
-			// Prepopulate mCheckedNeighborhoods with all neighborhoods checked
-			if (mCheckedNeighborhoods == null) {
-				mCheckedNeighborhoods = new HashSet<Integer>();
-				for (Property property : sorted) {
-					mCheckedNeighborhoods.add(property.getLocation().getLocationId());
-				}
-			}
 
-			mAllNeighborhoods = new HashSet<Integer>();
-			for (Property property : sorted) {
-				int locationId = property.getLocation().getLocationId();
-				boolean isChecked = mCheckedNeighborhoods.contains(locationId);
-
-				mAllNeighborhoods.add(locationId);
-
-				CheckBoxFilterWidget filterWidget = new CheckBoxFilterWidget(getContext());
-				filterWidget.setDescription(property.getLocation().getDescription());
-				filterWidget.setPrice(property.getLowestRate().getDisplayPrice());
-				filterWidget.setTag(property);
-				filterWidget.setChecked(isChecked);
-				filterWidget.setOnCheckedChangeListener(mCheckedChangedListener);
-				addView(filterWidget);
-			}
-		}
+		mWidgetsBuilt = true;
 	}
+
+	public void updateWidgets(HotelSearchResponse response) {
+		if (!mWidgetsBuilt) {
+			return;
+		}
+
+		for (Property property : response.getProperties()) {
+			int locationId = property.getLocation().getLocationId();
+			CheckBoxFilterWidget widget = mWidgetMap.get(locationId);
+			widget.setEnabled(false);
+			widget.setPriceIfLower(property.getLowestRate().getDisplayPrice());
+		}
+
+		// Look through the filtered properties, enable that filter widget
+		// and modify its price if appropriate.
+		for (Property property : response.getFilteredPropertiesIgnoringNeighborhood()) {
+			int locationId = property.getLocation().getLocationId();
+			CheckBoxFilterWidget widget = mWidgetMap.get(locationId);
+			if (widget.isEnabled()) {
+				widget.setPriceIfLower(property.getLowestRate().getDisplayPrice());
+			}
+			else {
+				widget.setEnabled(true);
+				widget.setPrice(property.getLowestRate().getDisplayPrice());
+			}
+		}
+
+		mDisableCheckedListener = true;
+
+		// Tick the neighborhoods according to the filter.
+		for (int locationId : mAllNeighborhoods) {
+			CheckBoxFilterWidget widget = mWidgetMap.get(locationId);
+			widget.setChecked(mCheckedNeighborhoods.contains(locationId));
+		}
+
+		mDisableCheckedListener = false;
+	}
+
+	// Flag to disable the checked change listener when we're initializing the widget
+	private boolean mDisableCheckedListener = false;
 
 	private final OnCheckedChangeListener mCheckedChangedListener = new OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
-			Property property = (Property) view.getTag();
-			int locationId = property.getLocation().getLocationId();
+			if (mDisableCheckedListener) {
+				return;
+			}
+
+			int locationId = (Integer) view.getTag();
 			if (isChecked) {
 				mCheckedNeighborhoods.add(locationId);
 			}
