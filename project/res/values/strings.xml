@@ -163,10 +163,6 @@
     </plurals>
     <!-- Template for card header text (will be filled in with "Title - Date") -->
     <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
-    <!-- Shared Itin - Template for flightcard header text (will be filled in with "FirstName to Destination") -->
-    <string name="SharedItin_Title_Flight_TEMPLATE">%1$s to %2$s</string>
-    <!-- Shared Itin - Template for hotelcard header text (will be filled in with "FirstName at HotelName") -->
-    <string name="SharedItin_Title_Hotel_TEMPLATE">%1$s at %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">Flight</string>
     <!-- Default (fallback) itin card title for HOTEL -->

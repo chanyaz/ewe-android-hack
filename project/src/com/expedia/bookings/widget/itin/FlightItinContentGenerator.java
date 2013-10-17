@@ -144,43 +144,21 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 	@Override
 	public String getHeaderText() {
-		if (isSharedItin()) {
-			ItinCardDataFlight itinCardData = getItinCardData();
-			TripFlight flight = (TripFlight) itinCardData.getTripComponent();
-			StringBuilder travelers = new StringBuilder();
-			for (Traveler trav : flight.getTravelers()) {
-				if (travelers.length() > 0) {
-					travelers.append(",");
-					travelers.append(" ");
-				}
-				travelers.append(trav.getFirstName());
-			}
-			return travelers.toString();
-		}
-		else {
-			final ItinCardDataFlight itinCardData = getItinCardData();
+		final ItinCardDataFlight itinCardData = getItinCardData();
 
-			if (itinCardData != null && itinCardData.getFlightLeg() != null
-					&& itinCardData.getFlightLeg().getLastWaypoint() != null
-					&& itinCardData.getFlightLeg().getLastWaypoint().getAirport() != null
-					&& !TextUtils.isEmpty(itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity)) {
-				return itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity;
-			}
-
-			return "Flight Card";
+		if (itinCardData != null && itinCardData.getFlightLeg() != null
+				&& itinCardData.getFlightLeg().getLastWaypoint() != null
+				&& itinCardData.getFlightLeg().getLastWaypoint().getAirport() != null
+				&& !TextUtils.isEmpty(itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity)) {
+			return itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity;
 		}
+
+		return "Flight Card";
 	}
 
 	@Override
 	public String getHeaderTextDate() {
-		if (isSharedItin()) {
-			ItinCardDataFlight itinCardData = getItinCardData();
-			return getContext().getString(R.string.SharedItin_Title_Flight_TEMPLATE, "",
-					itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity);
-		}
-		else {
-			return super.getHeaderTextDate();
-		}
+		return super.getHeaderTextDate();
 	}
 
 	@Override
