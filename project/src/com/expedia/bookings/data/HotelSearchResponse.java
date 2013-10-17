@@ -126,6 +126,14 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	 */
 	private Collection<Property> mFilteredProperties;
 
+	/**
+	 * Cached subset of mProperties that has already been filtered
+	 * according to mFilter, ignoring the neighborhood part of mFilter.
+	 * We'll use this to determine what neighborhoods are available,
+	 * even if they've been unselected in mFilter.
+	 */
+	private Collection<Property> mFilteredPropertiesIgnoringNeighborhood;
+
 	public void setSearchLatLon(double searchLat, double searchLon) {
 		mSearchLatitude = searchLat;
 		mSearchLongitude = searchLon;
@@ -142,6 +150,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 
 	public void clearCache() {
 		mFilteredProperties = null;
+		mFilteredPropertiesIgnoringNeighborhood = null;
 	}
 
 	public boolean filterChanged() {
@@ -170,6 +179,23 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		performFiltering();
 
 		return mFilteredProperties;
+	}
+
+	/**
+	 * Returns a collection of properties filtered by this object's filter, ignoring
+	 * the "neighborhoods" part of the filter.
+	 * @return
+	 */
+	public Collection<Property> getFilteredPropertiesIgnoringNeighborhood() {
+		// If we have no properties set, return null
+		if (mProperties == null) {
+			Log.v("getFilteredPropertiesIgnoringNeighborhood() - properties is null, returning null");
+			return null;
+		}
+
+		performFiltering();
+
+		return mFilteredPropertiesIgnoringNeighborhood;
 	}
 
 	/**
@@ -325,7 +351,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	/**
 	 * Filters the list of properties based on the passed filter.
 	 * This populates mFilter, mPresortedProperties, mPriceTiers,
-	 * mFilteredProperties, and mFilteredPropertiesExcludingNeighborhood
+	 * mFilteredProperties, and mFilteredPropertiesIgnoringNeighborhood
 	 */
 	private void performFiltering() {
 		// Check that we have a filter, if not create a new one
@@ -362,6 +388,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		Log.v("performFiltering() - No cached properties, filtering now...");
 
 		mFilteredProperties = new ArrayList<Property>();
+		mFilteredPropertiesIgnoringNeighborhood = new ArrayList<Property>();
 
 		// Get all the current HotelFilter options
 		SearchRadius searchRadius = mFilter.getSearchRadius();
@@ -417,6 +444,8 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			if (namePattern != null && !namePattern.matcher(property.getName()).find()) {
 				continue;
 			}
+
+			mFilteredPropertiesIgnoringNeighborhood.add(property);
 
 			if (neighborhoods != null && !neighborhoods.contains(property.getLocation().getLocationId())) {
 				continue;
