@@ -203,6 +203,9 @@ public class HotelCheckoutUserInfoTests extends CustomActivityInstrumentationTes
 		assertTrue(mDriver.hotelsCheckoutScreen().couponCodeEditText().isShown());
 		mDriver.enterLog(TAG, "After clicking coupon button, the proper header text and the edit text are shown");
 		mDriver.goBack();
+		if (mDriver.searchText(mDriver.hotelsCheckoutScreen().enterCouponCode(), 1, false, true)) {
+			mDriver.goBack();
+		}
 	}
 
 	private void verifyRulesAndRestrictionsButton() {
