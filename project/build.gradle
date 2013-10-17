@@ -1,10 +1,4 @@
-def shouldRunProguard
-def jenkinsBuildNumber = "$System.env.BUILD_NUMBER"
-if (project.hasProperty("runProguard") || GradleUtil.isDefined(jenkinsBuildNumber)) {
-    shouldRunProguard = true
-} else {
-    shouldRunProguard = false
-}
+def shouldRunProguard = GradleUtil.shouldEnableProguard(project)
 
 apply plugin: 'android'
 apply plugin: AndroidExpediaPlugin

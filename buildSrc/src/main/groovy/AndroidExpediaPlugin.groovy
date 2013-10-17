@@ -139,14 +139,14 @@ class AndroidExpediaPlugin implements Plugin<Project> {
     // system environment variable. Required for HockeyApp versioning. See documentation:
     // http://hockeyapp.net/blog/2013/07/03/hockeysdk-android-3-0-release-notes.html
 
-    def injectBuildNumberMetaData(applicationNode, namespace, jenkinsBuildNumber) {
+    def injectBuildNumberMetaData(applicationNode, namespace, buildNumber) {
         def hockeyUpdateActivityTag = new Node(applicationNode, 'activity')
         hockeyUpdateActivityTag.attributes()[namespace.name] = 'net.hockeyapp.android.UpdateActivity'
         hockeyUpdateActivityTag.attributes()[namespace.screenOrientation] = 'portrait'
 
         def hockeyBuildNumberMetaDataTag = new Node(applicationNode, 'meta-data')
         hockeyBuildNumberMetaDataTag.attributes()[namespace.name] = 'buildNumber'
-        hockeyBuildNumberMetaDataTag.attributes()[namespace.value] = jenkinsBuildNumber
+        hockeyBuildNumberMetaDataTag.attributes()[namespace.value] = buildNumber
     }
 
     // Note: I am thinking of migrating this to BuildConfig, but this change would require some legitimate
