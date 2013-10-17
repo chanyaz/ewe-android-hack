@@ -2,6 +2,7 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +28,7 @@ import com.mobiata.android.maps.MapUtils;
 public class HotelSearchResponse extends Response implements OnFilterChangedListener, JSONable {
 	private SearchType mSearchType;
 
-	// We keep both a list of properties (for ordering) and a map (for easy id lookup)
+	// The original list of properties in this response
 	private List<Property> mProperties;
 
 	// If the web service was doing the geocoding, here are where
@@ -114,9 +115,16 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	private double mSearchLatitude;
 	private double mSearchLongitude;
 
-	// Cached list of filtered properties
-	private List<Property> mExpediaSortedProperties;
-	private List<Property> mFilteredProperties;
+	/**
+	 * Cached subset of mProperties that has been sorted by distance bands.
+	 */
+	private List<Property> mPresortedProperties;
+
+	/**
+	 * Cached subset of mProperties that has already been filtered
+	 * according to mFilter.
+	 */
+	private Collection<Property> mFilteredProperties;
 
 	public void setSearchLatLon(double searchLat, double searchLon) {
 		mSearchLatitude = searchLat;
@@ -149,6 +157,22 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	}
 
 	/**
+	 * Returns a collection of properties filtered by this object's filter.
+	 * @return
+	 */
+	public Collection<Property> getFilteredProperties() {
+		// If we have no properties set, return null
+		if (mProperties == null) {
+			Log.v("getFilteredProperties() - properties is null, returning null");
+			return null;
+		}
+
+		performFiltering();
+
+		return mFilteredProperties;
+	}
+
+	/**
 	 * Get properties of a particular sort.  You should probably set a HotelFilter before running this,
 	 * but it'll create one on the fly if you're being lazy.
 	 * 
@@ -163,34 +187,8 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			return null;
 		}
 
-		// Check that we have a filter, if not create a new one
-		if (mFilter == null) {
-			Log.v("getFilteredAndSortedProperties() - no filter set, setting default one");
-			setFilter(new HotelFilter());
-		}
-
-		// Check if we've done the custom POPULAR sort for MY_LOCATION
-		if (mExpediaSortedProperties == null) {
-			Log.v("getFilteredAndSortedProperties() - No Expedia sorted items, sorting now...");
-			Log.v("getFilteredAndSortedProperties() - Current search type: " + mSearchType);
-
-			if (mSearchType == SearchType.MY_LOCATION) {
-				Log.v("My location search, doing special sorting...");
-				mExpediaSortedProperties = preSortByMyLocation(mProperties);
-			}
-			else {
-				Log.v("NOT a my location search, skipping special sorting...");
-				mExpediaSortedProperties = mProperties;
-			}
-		}
-
-		if (mFilteredProperties == null) {
-			Log.v("getFilteredAndSortedProperties() - No cached properties, filtering now...");
-			mFilteredProperties = buildFilteredProperties(mExpediaSortedProperties, mFilter);
-		}
-
-		// Create a copy of the filtered results and sort them
-		ArrayList<Property> sortedProperties = new ArrayList<Property>(mFilteredProperties);
+		// Create a (shallow) list of the filtered results and sort it.
+		ArrayList<Property> sortedProperties = new ArrayList<Property>(getFilteredProperties());
 		Sort sort = mFilter.getSort();
 		switch (sort) {
 		case PRICE:
@@ -236,7 +234,37 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		return sortedProperties;
 	}
 
-	private ArrayList<Property> preSortByMyLocation(List<Property> properties) {
+	public List<Property> getFilteredAndSortedProperties(Sort sort, int count) {
+		mFilter = new HotelFilter();
+		mFilter.setSort(sort);
+
+		List<Property> sorted = getFilteredAndSortedProperties();
+
+		if (mFilteredProperties.size() > count) {
+			return sorted.subList(0, count);
+		}
+
+		return sorted;
+	}
+
+	public int getFilteredPropertiesCount() {
+		getFilteredProperties();
+		return mFilteredProperties == null ? 0 : mFilteredProperties.size();
+	}
+
+	public void onFilterChanged() {
+		clearCache();
+	}
+
+	public void removeProperty(Property property) {
+		mProperties.remove(property);
+		clearCache();
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////
+	// Grunt work for sorting/filtering
+
+	private void preSortByMyLocation() {
 		// Here we do banding, as described by #6261
 		List<Property> propsShort = new ArrayList<Property>();
 		List<Property> propsMedium = new ArrayList<Property>();
@@ -287,35 +315,61 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			}
 		}
 
-		ArrayList<Property> sorted = new ArrayList<Property>(mProperties.size());
-		sorted.addAll(propsShort);
-		sorted.addAll(propsMedium);
-		sorted.addAll(propsFar);
-		sorted.addAll(propsRest);
-
-		return sorted;
+		mPresortedProperties = new ArrayList<Property>(mProperties.size());
+		mPresortedProperties.addAll(propsShort);
+		mPresortedProperties.addAll(propsMedium);
+		mPresortedProperties.addAll(propsFar);
+		mPresortedProperties.addAll(propsRest);
 	}
 
 	/**
 	 * Filters the list of properties based on the passed filter.
+	 * This populates mFilter, mPresortedProperties, mPriceTiers,
+	 * mFilteredProperties, and mFilteredPropertiesExcludingNeighborhood
 	 */
-	private List<Property> buildFilteredProperties(List<Property> properties, HotelFilter filter) {
+	private void performFiltering() {
+		// Check that we have a filter, if not create a new one
+		if (mFilter == null) {
+			Log.v("performFiltering() - no filter set, setting default one");
+			setFilter(new HotelFilter());
+		}
+
+		// Check if we've done the custom POPULAR sort for MY_LOCATION
+		if (mPresortedProperties == null) {
+			Log.v("performFiltering() - No Expedia sorted items, sorting now...");
+			Log.v("performFiltering() - Current search type: " + mSearchType);
+
+			if (mSearchType == SearchType.MY_LOCATION) {
+				Log.v("My location search, doing special sorting...");
+				preSortByMyLocation();
+			}
+			else {
+				Log.v("NOT a my location search, skipping special sorting...");
+				mPresortedProperties = mProperties;
+			}
+		}
 
 		// Check if we've clustered properties yet
 		if (mPriceTiers.size() == 0) {
-			Log.v("getFilteredAndSortedProperties() - No price tiers, clustering now...");
+			Log.v("performFiltering() - No price tiers, clustering now...");
 			clusterProperties();
 		}
 
-		List<Property> results = new ArrayList<Property>();
+		if (mFilteredProperties != null) {
+			return;
+		}
+
+		Log.v("performFiltering() - No cached properties, filtering now...");
+
+		mFilteredProperties = new ArrayList<Property>();
 
 		// Get all the current HotelFilter options
-		SearchRadius searchRadius = filter.getSearchRadius();
-		DistanceUnit distanceUnit = filter.getDistanceUnit();
-		PriceRange priceRange = filter.getPriceRange();
-		double minStarRating = filter.getMinimumStarRating();
-		String hotelName = filter.getHotelName();
-		Set<Integer> neighborhoods = filter.getNeighborhoods();
+		SearchRadius searchRadius = mFilter.getSearchRadius();
+		DistanceUnit distanceUnit = mFilter.getDistanceUnit();
+		PriceRange priceRange = mFilter.getPriceRange();
+		double minStarRating = mFilter.getMinimumStarRating();
+		String hotelName = mFilter.getHotelName();
+		Set<Integer> neighborhoods = mFilter.getNeighborhoods();
 
 		Distance searchDistance = null;
 		if (searchRadius != null && searchRadius != SearchRadius.ALL) {
@@ -332,7 +386,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			namePattern = Pattern.compile(".*" + hotelName + ".*", Pattern.CASE_INSENSITIVE);
 		}
 
-		for (Property property : properties) {
+		for (Property property : mPresortedProperties) {
 			// HotelFilter search radius
 			if (searchDistance != null) {
 				if (property.getDistanceFromUser() != null) {
@@ -356,7 +410,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			}
 
 			// HotelFilter VIP Access
-			if (filter.isVipAccessOnly() && !property.isVipAccess()) {
+			if (mFilter.isVipAccessOnly() && !property.isVipAccess()) {
 				continue;
 			}
 
@@ -369,37 +423,8 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			}
 
 			// Property passed the tests, add it to results
-			results.add(property);
+			mFilteredProperties.add(property);
 		}
-
-		return results;
-	}
-
-	public List<Property> getFilteredAndSortedProperties(Sort sort, int count) {
-		mFilter = new HotelFilter();
-		mFilter.setSort(sort);
-
-		getFilteredAndSortedProperties();
-
-		if (mFilteredProperties.size() > count) {
-			return mFilteredProperties.subList(0, count);
-		}
-
-		return mFilteredProperties;
-	}
-
-	public int getFilteredPropertiesCount() {
-		getFilteredAndSortedProperties();
-		return mFilteredProperties == null ? 0 : mFilteredProperties.size();
-	}
-
-	public void onFilterChanged() {
-		clearCache();
-	}
-
-	public void removeProperty(Property property) {
-		mProperties.remove(property);
-		clearCache();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
