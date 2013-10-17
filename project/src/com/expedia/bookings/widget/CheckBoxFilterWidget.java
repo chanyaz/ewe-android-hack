@@ -3,8 +3,6 @@ package com.expedia.bookings.widget;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Canvas;
-import android.os.Parcel;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -23,7 +21,6 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 
 public class CheckBoxFilterWidget extends LinearLayout implements Checkable {
 

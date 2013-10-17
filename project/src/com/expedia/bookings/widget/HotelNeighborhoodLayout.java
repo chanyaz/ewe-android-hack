@@ -78,15 +78,15 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 			public int compare(Property lhs, Property rhs) {
 
 				// Use "~" here so it appears last
-				
+
 				String a = lhs.getLocation() == null || lhs.getLocation().getDescription() == null
 						? "~"
 						: lhs.getLocation().getDescription();
-				
+
 				String b = rhs.getLocation() == null || rhs.getLocation().getDescription() == null
 						? "~"
 						: rhs.getLocation().getDescription();
-				
+
 				return a.compareTo(b);
 			}
 		});
