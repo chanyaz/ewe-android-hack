@@ -36,6 +36,12 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 		NONE
 	}
 
+	// Made to mimic ImageView.ScaleType to some degree
+	public enum ScaleType {
+		CENTER_CROP,
+		TOP_CROP,
+	}
+
 	// This represents where the current bitmap shader came from
 	// It helps distinguish when we're upgrading from one source
 	// to another (e.g., null to placeholder, or placeholder to bitmap)
@@ -63,6 +69,7 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 	private Paint mGradientPaint;
 
 	// Used to create matrix (if requested)
+	private ScaleType mScaleType;
 	private float mDx;
 	private float mDy;
 	private int mBitmapWidth;
@@ -78,6 +85,8 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 	private Drawable mPlaceholderDrawable;
 
 	public HeaderBitmapDrawable() {
+		mScaleType = ScaleType.CENTER_CROP;
+
 		mBitmapPaint = new Paint();
 		mBitmapPaint.setAntiAlias(true);
 
@@ -176,6 +185,10 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 		}
 	}
 
+	public void setScaleType(ScaleType type) {
+		mScaleType = type;
+	}
+
 	/**
 	 * Sets a gradient for the image.  Does not apply gradient to the overlay
 	 *
@@ -214,7 +227,13 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 
 	private void configureMatrix(Rect bounds) {
 		if (mBitmapShader != null) {
-			Matrix matrix = createCenterCropMatrix(mDx, mDy, mBitmapWidth, mBitmapHeight, bounds);
+			Matrix matrix;
+			if (mScaleType == ScaleType.TOP_CROP) {
+				matrix = createTopCropMatrix(mBitmapWidth, mBitmapHeight, bounds);
+			}
+			else {
+				matrix = createCenterCropMatrix(mDx, mDy, mBitmapWidth, mBitmapHeight, bounds);
+			}
 			mBitmapShader.setLocalMatrix(matrix);
 		}
 	}
@@ -349,6 +368,25 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Utility
+
+	private Matrix createTopCropMatrix(int bitmapWidth, int bitmapHeight, Rect bounds) {
+		Matrix matrix = new Matrix();
+
+		int vwidth = bounds.width();
+		int vheight = bounds.height();
+
+		float scale;
+		if (bitmapWidth * vheight > vwidth * bitmapHeight) {
+			scale = (float) vheight / (float) bitmapHeight;
+		}
+		else {
+			scale = (float) vwidth / (float) bitmapWidth;
+		}
+
+		matrix.setScale(scale, scale);
+
+		return matrix;
+	}
 
 	private Matrix createCenterCropMatrix(float dX, float dY, int bitmapWidth, int bitmapHeight, Rect bounds) {
 		Matrix matrix = new Matrix();
