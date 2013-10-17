@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearchResponse;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.widget.CheckBoxFilterWidget.OnCheckedChangeListener;
 
@@ -115,7 +116,8 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 				mAllNeighborhoods.add(locationId);
 
 				CheckBoxFilterWidget filterWidget = new CheckBoxFilterWidget(getContext());
-				filterWidget.bindHotel(property);
+				filterWidget.setDescription(property.getLocation().getDescription());
+				filterWidget.setPrice(property.getLowestRate().getDisplayPrice());
 				filterWidget.setTag(property);
 				filterWidget.setChecked(isChecked);
 				filterWidget.setOnCheckedChangeListener(mCheckedChangedListener);
