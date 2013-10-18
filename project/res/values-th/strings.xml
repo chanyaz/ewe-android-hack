@@ -2952,9 +2952,9 @@
     </plurals>
 
     <!-- This is used to express that something occurred some number of abbreviated minutes in the past (e.g., 5 mins ago). -->
-    <plurals name="abbrev_num_seconds_ago">
-        <item quantity="one">"1 วินาทีที่แล้ว"</item>
-        <item quantity="other">"%d วินาทีที่ผ่านมา"</item>
+    <plurals name="abbrev_num_minutes_ago">
+        <item quantity="one">"1 นาทีที่ผ่านมา"</item>
+        <item quantity="other">"%d นาทีที่ผ่านมา"</item>
     </plurals>
 
     <!-- This is used to express that something occurred some number of abbreviated hours in the past (e.g., 5 hrs ago). -->
