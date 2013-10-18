@@ -17,16 +17,16 @@ class GradleUtil {
 
     static def shouldEnableProguard(Project project) {
         def jenkinsBuildNumber = "$System.env.BUILD_NUMBER"
-        def shouldRunProguard = false
+        def boolean shouldRunProguard = false
 
-        if (project.hasProperty("runProguard") || GradleUtil.isDefined(jenkinsBuildNumber)) {
+        // If BUILD_NUMBER defined turn on proguard
+        if (GradleUtil.isDefined(jenkinsBuildNumber)) {
             shouldRunProguard = true
         }
 
-        // We add this so we can absolutely disable proguard on jenkins builds
-        // if we need to. Like for instrumentation tests
-        if (project.hasProperty("disableProguard")) {
-            shouldRunProguard = false
+        // This setting supercedes BUILD_NUMBER
+        if (project.hasProperty("runProguard")) {
+            shouldRunProguard = project.getProperty("runProguard").toBoolean()
         }
 
         return shouldRunProguard;
