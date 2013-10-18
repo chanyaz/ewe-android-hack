@@ -241,10 +241,11 @@
     <dimen name="destination_search_stack_height">240dp</dimen>
     <dimen name="destination_search_tile_width">259dp</dimen>
     <dimen name="destination_search_tile_height">220dp</dimen>
-    <dimen name="destination_search_item_divider_padding">32dp</dimen>
+    <dimen name="destination_search_item_divider_padding">24dp</dimen>
     <dimen name="destination_stack_padding">5dp</dimen>
-    <dimen name="destination_stack_text_container_height">96dp</dimen>
+    <dimen name="destination_stack_text_container_height">56dp</dimen>
     <dimen name="destination_stack_corner_radius">3dp</dimen>
+    <dimen name="destination_search_tile_text_margin_top">174dp</dimen>
 
     <dimen name="hotels_map_pin_padding">50dp</dimen>
 </resources>
