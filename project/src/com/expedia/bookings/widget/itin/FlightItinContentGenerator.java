@@ -454,7 +454,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			//
 			// 1871: Due to the screwed up way DateUtils.getNumberOfDaysPassed() works, this ends up such that
 			// the millis must be in the system locale (and hopefully the user has not changed their locale recently)
-			return JodaUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS, 0);
+			return JodaUtils.getRelativeTimeSpanString(context, time, now, DateUtils.MINUTE_IN_MILLIS, 0);
 		}
 	}
 
