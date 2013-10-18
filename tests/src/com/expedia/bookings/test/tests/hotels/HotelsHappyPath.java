@@ -11,13 +11,6 @@ public class HotelsHappyPath {
 			throws Exception {
 		try {
 
-			try {
-				driver.sweepstakesScreen().clickNoThanksButton();
-			}
-			catch (Throwable e) {
-				driver.enterLog(TAG, "No sweepstakes activity to interact with!");
-			}
-
 			// Settings 
 			driver.delay();
 			driver.launchScreen().openMenuDropDown();

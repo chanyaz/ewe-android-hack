@@ -1,19 +1,12 @@
 package com.expedia.bookings.test.tests.hotels.ui.regression;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
-import android.content.res.Resources;
-import android.test.ActivityInstrumentationTestCase2;
-import android.util.DisplayMetrics;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.utils.CustomActivityInstrumentationTestCase;
-import com.expedia.bookings.test.utils.HotelsTestDriver;
-import com.expedia.bookings.test.utils.HotelsUserData;
-import com.expedia.bookings.test.utils.TestPreferences;
 
 public class HotelsSearchRegressionTests extends CustomActivityInstrumentationTestCase<SearchActivity> {
 
@@ -26,13 +19,6 @@ public class HotelsSearchRegressionTests extends CustomActivityInstrumentationTe
 	protected void setUp() throws Exception {
 		super.setUp();
 		mUser.setHotelCityToRandomUSCity();
-		try {
-			mDriver.sweepstakesScreen().clickNoThanksButton();
-		}
-		catch (Throwable e) {
-			mDriver.enterLog(TAG, "No sweepstakes activity to interact with!");
-		}
-
 		mDriver.launchScreen().openMenuDropDown();
 		mDriver.launchScreen().pressSettings();
 		mDriver.settingsScreen().clickToClearPrivateData();

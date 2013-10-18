@@ -97,6 +97,13 @@ public class JodaUtils {
 	 * one for you.
 	 */
 	public static CharSequence getRelativeTimeSpanString(DateTime time, DateTime now, long minResolution, int flags) {
+		// #2144: If the relative time is less than a day, don't use the hacky solution to make the days correct
+		// It just causes things to get messed up on a smaller resolution than a day.
+		if (Math.abs(now.getMillis() - time.getMillis()) < DateUtils.DAY_IN_MILLIS
+				&& minResolution < DateUtils.WEEK_IN_MILLIS) {
+			return DateUtils.getRelativeTimeSpanString(time.getMillis(), now.getMillis(), minResolution, flags);
+		}
+
 		// getRelativeTimeSpanString() was changed in API 18 such that it *doesn't*
 		// cache the timezone info anymore, so we should always use the local timezone
 		if (Build.VERSION.SDK_INT >= 18 || sThenTimeZone == null) {

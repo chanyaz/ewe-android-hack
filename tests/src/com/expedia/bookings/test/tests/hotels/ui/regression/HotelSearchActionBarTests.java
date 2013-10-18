@@ -21,12 +21,6 @@ public class HotelSearchActionBarTests extends CustomActivityInstrumentationTest
 		super.setUp();
 
 		mUser.setHotelCityToRandomUSCity();
-		try {
-			mDriver.sweepstakesScreen().clickNoThanksButton();
-		}
-		catch (Throwable e) {
-			mDriver.enterLog(TAG, "No sweepstakes activity to interact with!");
-		}
 		mDriver.launchScreen().openMenuDropDown();
 		mDriver.launchScreen().pressSettings();
 		mDriver.settingsScreen().clickToClearPrivateData();

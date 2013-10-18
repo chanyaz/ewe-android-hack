@@ -691,7 +691,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			mLaunchingActivity = true;
 
 			ImageView bgImageView = Ui.findView(view, R.id.background_view);
-			Bundle animOptions = AnimUtils.createActivityThumbnailScaleBundle(bgImageView);
+			Bundle animOptions = AnimUtils.createActivityScaleBundle(bgImageView);
 
 			if (item instanceof Property) {
 				Property property = (Property) item;
@@ -774,7 +774,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 			// if you are on an unsupported POS!
 
 			ImageView bgImageView = Ui.findView(view, R.id.background_view);
-			Bundle animOptions = AnimUtils.createActivityThumbnailScaleBundle(bgImageView);
+			Bundle animOptions = AnimUtils.createActivityScaleBundle(bgImageView);
 
 			if (!PointOfSale.getPointOfSale().supportsFlights()) {
 				Intent intent = new Intent(getActivity(), FlightUnsupportedPOSActivity.class);

@@ -39,6 +39,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.model.WidgetConfigurationState;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -54,6 +55,14 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String TAG = "ExpediaWidget";
+
+	// This service is a clusterfuck and I have no idea why it sometimes gets itself into a constant
+	// download loop.  But in case it does, here's a sanity check - NEVER do another search if
+	// there's been another search recently.
+	private final static long MIN_UPDATE_INTERVAL = DateUtils.MINUTE_IN_MILLIS * 15; // 15 minutes
+	private DateTime mLastUpdateTimestamp;
 
 	// Widget config related constants
 	private final static long UPDATE_INTERVAL = DateUtils.HOUR_IN_MILLIS;
@@ -128,9 +137,11 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	private final Download<HotelSearchResponse> mSearchDownload = new Download<HotelSearchResponse>() {
 		@Override
 		public HotelSearchResponse doDownload() {
+			Log.i(TAG, "Starting new widget search...");
+
 			ExpediaServices services = new ExpediaServices(getApplicationContext());
 			mSearchDownloader.addDownloadListener(WIDGET_KEY_SEARCH, services);
-			return services.search(mWidgetDeals.getSearchParams(), 0);
+			return services.search(mWidgetDeals.getSearchParams(), ExpediaServices.F_FROM_WIDGET);
 		}
 	};
 	private final OnDownloadComplete<HotelSearchResponse> mSearchCallback = new OnDownloadComplete<HotelSearchResponse>() {
@@ -178,7 +189,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	BroadcastReceiver mPosChangeReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.i("Widget detected POS change, starting a new search...");
+			Log.i(TAG, "Widget detected POS change, starting a new search...");
 
 			// Cancel any current searches, update widget with "loading" text, and do a new search
 			mSearchDownloader.cancelDownload(WIDGET_KEY_SEARCH);
@@ -218,14 +229,14 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		}
 
 		if (provider == null) {
-			Log.w("Could not find a location provider, informing user of error...");
+			Log.w(TAG, "Could not find a location provider, informing user of error...");
 			updateAllWidgetsWithText(getString(R.string.progress_finding_location), getString(R.string.refresh_widget),
 					getRefreshIntent());
 			// TODO Should we inform the user that the reason we're unable to
 			// determine location is because of the lack of an available provider?
 		}
 		else {
-			Log.i("Starting location listener, provider=" + provider);
+			Log.i(TAG, "Starting location listener, provider=" + provider);
 			lm.requestLocationUpdates(provider, 0, 0, this);
 		}
 	}
@@ -236,7 +247,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private void startLocationListenerForCurrentLocationWidgets() {
-		Log.i("Starting location listener for current location widgets.");
+		Log.i(TAG, "Starting location listener for current location widgets.");
 		if (!NetUtils.isOnline(getApplicationContext())) {
 			updateAllWidgetsWithText(getString(R.string.progress_finding_location), getString(R.string.refresh_widget),
 					getRefreshIntent());
@@ -285,12 +296,12 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			}
 		}
 		catch (SecurityException e) {
-			Log.i("This exception is expected for api version < 8 since PASSIVE_PROVIDER only exists for API Levels >= 8");
+			Log.i(TAG, "This exception is expected for api version < 8 since PASSIVE_PROVIDER only exists for API Levels >= 8");
 		}
 	}
 
 	private void stopLocationListenerforCurrentLocationWidgets() {
-		Log.i("Stopping location listener for current location widgets.");
+		Log.i(TAG, "Stopping location listener for current location widgets.");
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		lm.removeUpdates(mListenerForCurrentLocationWidgets);
 	}
@@ -347,7 +358,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 		@Override
 		public void onLocationChanged(Location location) {
-			Log.i("location changed for current location widgets listener");
+			Log.i(TAG, "location changed for current location widgets listener");
 
 			// Ignore location changes if we haven't ever completed a search.
 			if (mLastUpdatedTimeInMillis == 0) {
@@ -380,12 +391,15 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			long timeBetweenChecks = System.currentTimeMillis() - mLastUpdatedTimeInMillis;
 			float distanceFromLastSearchedLocation = location.distanceTo(lastSearchedLocation);
 
-			Log.i("Time between checks = " + timeBetweenChecks);
-			Log.i("Distance from location last searched = " + distanceFromLastSearchedLocation);
-			Log.i("Provider = " + location.getProvider());
-			if (timeBetweenChecks > TIME_THRESHOLD_FOR_DISTANCE_TRAVELLED
-					&& distanceFromLastSearchedLocation >= MIN_DISTANCE_BEFORE_UPDATE) {
-				Log.i("Starting download for current location widgets since location has changed");
+			boolean isLongEnoughFromLastSearch = timeBetweenChecks > TIME_THRESHOLD_FOR_DISTANCE_TRAVELLED;
+			boolean isFarEnoughFromLastSearch = distanceFromLastSearchedLocation >= MIN_DISTANCE_BEFORE_UPDATE;
+
+			Log.d(TAG, "Time between checks=" + timeBetweenChecks + ", is long enough=" + isLongEnoughFromLastSearch);
+			Log.d(TAG, "Distance from location last searched = " + distanceFromLastSearchedLocation
+					+ ", is far enough=" + isFarEnoughFromLastSearch);
+			Log.d(TAG, "Provider = " + location.getProvider());
+			if (isLongEnoughFromLastSearch && isFarEnoughFromLastSearch) {
+				Log.i(TAG, "Starting download for current location widgets since location has changed");
 				mWidgetDeals.getSearchParams().setSearchLatLon(location.getLatitude(), location.getLongitude());
 				startSearchDownloader();
 			}
@@ -394,7 +408,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 	@Override
 	public void onLocationChanged(Location location) {
-		Log.d("onLocationChanged(): " + location.toString());
+		Log.d(TAG, "onLocationChanged(): " + location.toString());
 		mWidgetDeals.setSearchParams(new HotelSearchParams());
 		mWidgetDeals.getSearchParams().setSearchLatLon(location.getLatitude(), location.getLongitude());
 		mWidgetDeals.getSearchParams().setFromWidget();
@@ -404,7 +418,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		Log.w("onProviderDisabled(): " + provider);
+		Log.w(TAG, "onProviderDisabled(): " + provider);
 
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		boolean stillWorking = true;
@@ -434,7 +448,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		Log.i("onProviderDisabled(): " + provider);
+		Log.i(TAG, "onProviderDisabled(): " + provider);
 
 		// Switch to network if it's now available (because it's much faster)
 		if (provider.equals(LocationManager.NETWORK_PROVIDER)) {
@@ -446,16 +460,16 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		Log.w("onStatusChanged(): provider=" + provider + " status=" + status);
+		Log.w(TAG, "onStatusChanged(): provider=" + provider + " status=" + status);
 
 		if (status == LocationProvider.OUT_OF_SERVICE) {
 			stopLocationListener();
-			Log.w("Location listener failed: out of service");
+			Log.w(TAG, "Location listener failed: out of service");
 			// TODO
 		}
 		else if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
 			stopLocationListener();
-			Log.w("Location listener failed: temporarily unavailable");
+			Log.w(TAG, "Location listener failed: temporarily unavailable");
 			// TODO
 		}
 	}
@@ -534,7 +548,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			 * kill the widget if there are no widgets installed
 			 */
 			if (mWidgets.size() == 0) {
-				Log.i("Stopping self, Action = " + intent.getAction());
+				Log.i(TAG, "Stopping self, Action = " + intent.getAction());
 				stopSelf();
 			}
 
@@ -553,7 +567,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 
 					// if all widgets have been deleted, kill
 					// the widget
-					Log.i("Stopping self, Action = " + intent.getAction());
+					Log.i(TAG, "Stopping self, Action = " + intent.getAction());
 					stopSelf();
 				}
 			}
@@ -639,11 +653,11 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		PendingIntent operation = getUpdatePendingIntent();
 
 		// Cancel any old updates
-		Log.i("Cancelling search");
+		Log.i(TAG, "Cancelling search");
 		am.cancel(operation);
 
 		// Schedule update
-		Log.d("Scheduling next hotels search to occur in " + (UPDATE_INTERVAL / 1000) + " seconds.");
+		Log.d(TAG, "Scheduling next hotels search to occur in " + (UPDATE_INTERVAL / 1000) + " seconds.");
 		am.set(AlarmManager.RTC, System.currentTimeMillis() + UPDATE_INTERVAL, operation);
 	}
 
@@ -655,7 +669,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 		am.cancel(operation);
 
 		// Schedule update
-		Log.v("Scheduling rotation to occur in " + (ROTATE_INTERVAL / 1000) + " seconds.");
+		Log.v(TAG, "Scheduling rotation to occur in " + (ROTATE_INTERVAL / 1000) + " seconds.");
 		am.set(AlarmManager.RTC, System.currentTimeMillis() + rotateInterval, operation);
 	}
 
@@ -667,7 +681,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private void cancelScheduledSearch() {
-		Log.i("Cancelling search");
+		Log.i(TAG, "Cancelling search");
 
 		AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
 		PendingIntent operation = getUpdatePendingIntent();
@@ -688,7 +702,7 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 	}
 
 	private void startSearch() {
-		Log.i("Starting search");
+		Log.i(TAG, "Starting search");
 
 		// See if we have a good enough location stored
 		long minTime = DateTime.now().getMillis() - 15 * DateUtils.MINUTE_IN_MILLIS;
@@ -713,7 +727,15 @@ public class ExpediaBookingsService extends Service implements LocationListener 
 			return;
 		}
 
-		Log.i("Starting search downloader (for widgets).");
+		// #2121: For some reason we still end up doing tons of searches.  Here's an absolute
+		// minimum sanity check for searching too often.
+		if (mLastUpdateTimestamp != null && !JodaUtils.isExpired(mLastUpdateTimestamp, MIN_UPDATE_INTERVAL)) {
+			Log.v(TAG, "It was too recent since the last search - not actually starting widget search.");
+			return;
+		}
+		mLastUpdateTimestamp = DateTime.now();
+
+		Log.i(TAG, "Starting search downloader (for widgets).");
 
 		// search for 1 guest by default
 		mWidgetDeals.getSearchParams().setNumAdults(1);

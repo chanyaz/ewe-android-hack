@@ -45,11 +45,19 @@ public class Ui extends com.mobiata.android.util.Ui {
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Fragment> T findSupportFragment(Fragment fragment, String tag) {
+		T childFragment = (T) fragment.getChildFragmentManager().findFragmentByTag(tag);
+		if (childFragment != null) {
+			return childFragment;
+		}
 		return (T) fragment.getFragmentManager().findFragmentByTag(tag);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Fragment> T findSupportFragment(Fragment fragment, int id) {
+		T childFragment = (T) fragment.getChildFragmentManager().findFragmentById(id);
+		if (childFragment != null) {
+			return childFragment;
+		}
 		return (T) fragment.getFragmentManager().findFragmentById(id);
 	}
 

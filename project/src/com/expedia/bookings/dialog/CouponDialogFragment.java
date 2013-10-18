@@ -71,7 +71,6 @@ public class CouponDialogFragment extends DialogFragment {
 		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_coupon, null);
 		mProgressContainer = Ui.findView(view, R.id.progress_container);
 		mCouponEditText = Ui.findView(view, R.id.coupon_edit_text);
-		mCouponEditText.addTextChangedListener(mTextWatcher);
 
 		//1753. VSC Default to all caps character.
 		if (ExpediaBookingApp.IS_VSC) {
@@ -129,6 +128,20 @@ public class CouponDialogFragment extends DialogFragment {
 		});
 
 		updateViews();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		mCouponEditText.addTextChangedListener(mTextWatcher);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		mCouponEditText.removeTextChangedListener(mTextWatcher);
 	}
 
 	@Override

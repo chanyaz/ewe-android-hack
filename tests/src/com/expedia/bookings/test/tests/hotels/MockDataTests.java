@@ -40,13 +40,6 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 		mUser.setServerIP(mConfigFileUtils.getConfigValue("Mock Server IP"));
 		mUser.setServerPort(mConfigFileUtils.getConfigValue("Mock Server Port"));
 
-		try {
-			mDriver.sweepstakesScreen().clickNoThanksButton();
-		}
-		catch (Throwable e) {
-			mDriver.enterLog(TAG, "No sweepstakes activity to interact with!");
-		}
-
 		mDriver.delay();
 		mDriver.launchScreen().openMenuDropDown();
 		mDriver.launchScreen().pressSettings();

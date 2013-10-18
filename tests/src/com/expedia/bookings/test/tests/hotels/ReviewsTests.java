@@ -3,8 +3,6 @@ package com.expedia.bookings.test.tests.hotels;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.DisplayMetrics;
-import android.view.View;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
@@ -35,13 +33,6 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 		mUser = new HotelsUserData();
 		mUser.setHotelCityToRandomUSCity();
-
-		try {
-			mDriver.sweepstakesScreen().clickNoThanksButton();
-		}
-		catch (Throwable e) {
-			mDriver.enterLog(TAG, "No sweepstakes activity to interact with!");
-		}
 	}
 
 	public void testNumberOfReviews() throws Exception {

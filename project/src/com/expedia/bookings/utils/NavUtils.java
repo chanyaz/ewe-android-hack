@@ -24,16 +24,13 @@ import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.activity.SearchFragmentActivity;
 import com.expedia.bookings.activity.SearchResultsFragmentActivity;
-import com.expedia.bookings.activity.SweepstakesActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.SettingUtils;
 
 /**
  * Utilities for navigating the app (between Activities)
@@ -64,12 +61,6 @@ public class NavUtils {
 			Toast.makeText(context, R.string.app_not_available, Toast.LENGTH_LONG).show();
 			return false;
 		}
-	}
-
-	public static void goToSweepstakes(Context context) {
-		Intent intent = new Intent(context, SweepstakesActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		context.startActivity(intent);
 	}
 
 	public static void goToLaunchScreen(Context context) {
@@ -191,11 +182,6 @@ public class NavUtils {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, FlightSearchResultsActivity.class);
 		context.startActivity(intent);
-	}
-
-	public static boolean showSweepstakes(Context context) {
-		return PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.UNITED_STATES)
-				&& !SettingUtils.contains(context, R.string.setting_hide_sweepstakes);
 	}
 
 	/**

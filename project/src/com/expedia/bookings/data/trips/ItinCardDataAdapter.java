@@ -20,12 +20,14 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.LocalExpertSite.Destination;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.model.DismissedItinButton;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.itin.ItinButtonCard;
 import com.expedia.bookings.widget.itin.ItinButtonCard.ItinButtonType;
 import com.expedia.bookings.widget.itin.ItinButtonCard.OnHideListener;
 import com.mobiata.android.util.SettingUtils;
+import com.mobiata.flightlib.data.Waypoint;
 
 public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickListener, OnHideListener {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -477,6 +479,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			// See if this flight is:
 			// 1. Has an ending Flight from the same Trip, arriving and departing from same airport
 			// 2. Has no hotels/flights in between now and the ending flight
+			// 3. There is more than 1 day between this flight and the ending flight
 			for (int j = i + 1; j < len; j++) {
 				ItinCardData nextData = itinCardDatas.get(j);
 				Type nextType = nextData.getTripComponentType();
@@ -488,12 +491,18 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 					if (data.getTripId().equals(nextData.getTripId()) && nextData instanceof ItinCardDataFlight) {
 						FlightLeg firstLeg = ((ItinCardDataFlight) data).getFlightLeg();
 						FlightLeg secondLeg = ((ItinCardDataFlight) nextData).getFlightLeg();
+						Waypoint waypointOne = firstLeg.getLastWaypoint();
+						Waypoint waypointTwo = secondLeg.getFirstWaypoint();
 
-						if (firstLeg.getLastWaypoint().mAirportCode.equals(secondLeg.getFirstWaypoint().mAirportCode)) {
-							// Add HA button
-							itinCardDatas.add(i + 1, new ItinCardDataHotelAttach(tripFlight, firstLeg, secondLeg));
+						if (waypointOne.mAirportCode.equals(waypointTwo.mAirportCode)) {
+							DateTime dateTimeOne = new DateTime(waypointOne.getMostRelevantDateTime());
+							DateTime dateTimeTwo = new DateTime(waypointTwo.getMostRelevantDateTime());
+							if (JodaUtils.daysBetween(dateTimeOne, dateTimeTwo) != 0) {
+								// Add HA button
+								itinCardDatas.add(i + 1, new ItinCardDataHotelAttach(tripFlight, firstLeg, secondLeg));
 
-							return;
+								return;
+							}
 						}
 					}
 

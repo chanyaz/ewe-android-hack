@@ -96,7 +96,6 @@ import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionSort;
-import com.expedia.bookings.data.SweepstakesResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
@@ -176,6 +175,9 @@ public class ExpediaServices implements DownloadListener {
 
 	// Flag to indicate that we don't need to add the Endpoint while making an E3request
 	public static final int F_DONT_ADD_ENDPOINT = 512;
+
+	// Indicator that this request came from the widget, for tracking purposes
+	public static final int F_FROM_WIDGET = 1024;
 
 	private Context mContext;
 
@@ -381,12 +383,6 @@ public class ExpediaServices implements DownloadListener {
 		sb.append(PointOfSale.getSuggestLocaleIdentifier());
 
 		return sb.toString();
-	}
-
-	// Sweepstakes
-
-	public SweepstakesResponse getSweepstakesResponse() {
-		return doE3Request("static/mobile/sweepstakes", null, new SweepstakesResponseHandler(), 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -631,8 +627,8 @@ public class ExpediaServices implements DownloadListener {
 	//
 	// Documentation: http://www.expedia.com/static/mobile/APIConsole/
 
-	public HotelSearchResponse search(HotelSearchParams params, int sortType) {
-		List<BasicNameValuePair> query = generateHotelSearchParams(params, sortType);
+	public HotelSearchResponse search(HotelSearchParams params, int flags) {
+		List<BasicNameValuePair> query = generateHotelSearchParams(params, flags);
 
 		HotelSearchResponseHandler rh = new HotelSearchResponseHandler(mContext);
 		if (params.hasSearchLatLon()) {
@@ -643,7 +639,7 @@ public class ExpediaServices implements DownloadListener {
 		return doE3Request("MobileHotel/Webapp/SearchResults", query, rh, 0);
 	}
 
-	public List<BasicNameValuePair> generateHotelSearchParams(HotelSearchParams params, int sortType) {
+	public List<BasicNameValuePair> generateHotelSearchParams(HotelSearchParams params, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		if (getEndPoint(mContext) == EndPoint.MOCK_SERVER) {
@@ -669,6 +665,10 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		addHotelSearchParams(query, params);
+
+		if ((flags & F_FROM_WIDGET) != 0) {
+			query.add(new BasicNameValuePair("fromWidget", "true"));
+		}
 
 		// These values are always the same (for now)
 		query.add(new BasicNameValuePair("resultsPerPage", HOTEL_MAX_RESULTS + ""));

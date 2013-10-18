@@ -1,15 +1,9 @@
 package com.expedia.bookings.test.tests.hotels.ui.regression;
 
+import android.widget.TextView;
+
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.utils.CustomActivityInstrumentationTestCase;
-import com.expedia.bookings.test.utils.HotelsTestDriver;
-import com.expedia.bookings.test.utils.HotelsUserData;
-import com.expedia.bookings.test.utils.TestPreferences;
-
-import android.content.res.Resources;
-import android.test.ActivityInstrumentationTestCase2;
-import android.util.DisplayMetrics;
-import android.widget.TextView;
 
 public class HotelGuestPickerTests extends CustomActivityInstrumentationTestCase<SearchActivity> {
 
@@ -23,12 +17,6 @@ public class HotelGuestPickerTests extends CustomActivityInstrumentationTestCase
 		super.setUp();
 
 		mUser.setHotelCityToRandomUSCity();
-		try {
-			mDriver.sweepstakesScreen().clickNoThanksButton();
-		}
-		catch (Throwable e) {
-			mDriver.enterLog(TAG, "No sweepstakes activity to interact with!");
-		}
 	}
 
 	// verify that the guest number picker's text views
