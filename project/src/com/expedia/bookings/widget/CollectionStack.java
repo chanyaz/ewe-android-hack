@@ -50,6 +50,8 @@ public class CollectionStack extends FrameLayout {
 	private void init(Context context) {
 		mContext = context;
 
+		setClipChildren(false);
+
 		mBasePadding = mContext.getResources().getDimension(R.dimen.destination_stack_padding);
 
 		LayoutInflater inflater = LayoutInflater.from(mContext);
@@ -66,8 +68,6 @@ public class CollectionStack extends FrameLayout {
 		mMiddleImageView = Ui.findView(this, R.id.middle_image_view);
 		mBackImageView = Ui.findView(this, R.id.back_image_view);
 		mTextView = Ui.findView(this, R.id.text);
-
-		setClipChildren(false);
 
 		mFrontImageView.setTranslationX(mBasePadding * 2);
 		mFrontImageView.setTranslationY(mBasePadding * 2);
@@ -163,8 +163,9 @@ public class CollectionStack extends FrameLayout {
 			return;
 		}
 
-		float backLeft = (amount + 1.0f) * mBasePadding * 2;
-		float middleLeft = backLeft / 2.0f + mBasePadding;
+		final float frontLeft = mBasePadding * 2.0f;
+		final float backLeft = amount * 3.0f * frontLeft + frontLeft;
+		final float middleLeft = (backLeft + frontLeft) / 2.0f;
 
 		mBackImageView.setTranslationX(backLeft);
 		mMiddleImageView.setTranslationX(middleLeft);

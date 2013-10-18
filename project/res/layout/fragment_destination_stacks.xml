@@ -9,6 +9,7 @@
         android:id="@+id/destinations_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:clipChildren="false"
         android:divider="@drawable/destinations_divider"
         android:orientation="horizontal" >
 
