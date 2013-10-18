@@ -2898,9 +2898,9 @@
 
 
     <!-- This is used to express that something occurred some number of seconds in the past (e.g., 5 seconds ago). -->
-    <plurals name="abbrev_in_num_days">
-        <item quantity="one">"esok"</item>
-        <item quantity="other">"dalam %d hari"</item>
+    <plurals name="num_seconds_ago">
+        <item quantity="one">"for et sekund siden"</item>
+        <item quantity="other">"for %d sekunder siden"</item>
     </plurals>
 
     <!-- This is used to express that something occurred some number of minutes in the past (e.g., 5 minutes ago). -->
