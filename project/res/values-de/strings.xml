@@ -2984,14 +2984,14 @@
 
     <!-- This is used to express that something will occur some number of abbreviated hours in the future (e.g., in 5 hrs). -->
     <plurals name="abbrev_in_num_hours">
-        <item quantity="one">in 1 hour</item>
-        <item quantity="other">in %d hours</item>
+        <item quantity="one">"in 1 Stunde"</item>
+        <item quantity="other">"In %d Stunden"</item>
     </plurals>
 
     <!-- This is used to express that something will occur some number of abbreviated days in the future (e.g., in 5 days). -->
-    <plurals name="abbrev_in_num_hours">
-        <item quantity="one">"in 1 Stunde"</item>
-        <item quantity="other">"In %d Stunden"</item>
+    <plurals name="abbrev_in_num_days">
+        <item quantity="one">"morgen"</item>
+        <item quantity="other">"in %d Tagen"</item>
     </plurals>
 
 </resources>
