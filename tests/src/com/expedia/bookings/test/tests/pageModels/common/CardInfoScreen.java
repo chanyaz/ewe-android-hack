@@ -11,17 +11,18 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class CardInfoScreen extends ScreenActions {
 
-	private static final int sCreditCardNumberEditTextID = R.id.edit_creditcard_number;
-	private static final int sExpirationDateButtonID = R.id.edit_creditcard_exp_text_btn;
-	private static final int sNameOnCardEditTextID = R.id.edit_name_on_card;
-	private static final int sEmailAddressEditTextID = R.id.edit_email_address;
-	private static final int sPostalCodeEditTextID = R.id.edit_address_postal_code;
-	private static final int sDoneButtonID = R.id.menu_done;
+	private static final int CREDIT_CARD_NUMBER_EDIT_TEXT_ID = R.id.edit_creditcard_number;
+	private static final int EXPIRATION_DATE_BUTTON_ID = R.id.edit_creditcard_exp_text_btn;
+	private static final int NAME_ON_CARD_EDIT_TEXT_ID = R.id.edit_name_on_card;
+	private static final int EMAIL_ADDRESS_EDIT_TEXT_ID = R.id.edit_email_address;
+	private static final int POSTAL_CODE_EDIT_TEXT_ID = R.id.edit_address_postal_code;
+	private static final int DONE_BUTTON_ID = R.id.menu_done;
+	private static final int NEXT_BUTTON_ID = R.id.menu_next;
 
-	private static final int sMonthUpButtonID = R.id.month_up;
-	private static final int sMonthDownButtonID = R.id.month_down;
-	private static final int sYearUpButtonID = R.id.year_up;
-	private static final int sYearDownButtonID = R.id.year_down;
+	private static final int MONTH_UP_BUTTON_ID = R.id.month_up;
+	private static final int MONTH_DOWN_BUTTON_ID = R.id.month_down;
+	private static final int YEAR_UP_BUTTON_ID = R.id.year_up;
+	private static final int YEAR_DOWN_BUTTON_ID = R.id.year_down;
 
 	public CardInfoScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
@@ -31,19 +32,19 @@ public class CardInfoScreen extends ScreenActions {
 	// Object access
 
 	public EditText creditCardNumberEditText() {
-		return (EditText) getView(sCreditCardNumberEditTextID);
+		return (EditText) getView(CREDIT_CARD_NUMBER_EDIT_TEXT_ID);
 	}
 
 	public View expirationDateButton() {
-		return getView(sExpirationDateButtonID);
+		return getView(EXPIRATION_DATE_BUTTON_ID);
 	}
 
 	public EditText nameOnCardEditText() {
-		return (EditText) getView(sNameOnCardEditTextID);
+		return (EditText) getView(NAME_ON_CARD_EDIT_TEXT_ID);
 	}
 
 	public View doneButton() {
-		return getView(sDoneButtonID);
+		return getView(DONE_BUTTON_ID);
 	}
 
 	public String noThanksButtonString() {
@@ -55,28 +56,28 @@ public class CardInfoScreen extends ScreenActions {
 	}
 
 	public EditText emailEditText() {
-		return (EditText) getView(sEmailAddressEditTextID);
+		return (EditText) getView(EMAIL_ADDRESS_EDIT_TEXT_ID);
 	}
 
 	public EditText postalCodeEditText() {
-		return (EditText) getView(sPostalCodeEditTextID);
+		return (EditText) getView(POSTAL_CODE_EDIT_TEXT_ID);
 	}
 
 	// Object access expiration date dialog
 	public View monthUpButton() {
-		return getView(sMonthUpButtonID);
+		return getView(MONTH_UP_BUTTON_ID);
 	}
 
 	public View monthDownButton() {
-		return getView(sMonthDownButtonID);
+		return getView(MONTH_DOWN_BUTTON_ID);
 	}
 
 	public View yearUpButton() {
-		return getView(sYearUpButtonID);
+		return getView(YEAR_UP_BUTTON_ID);
 	}
 
 	public View yearDownButton() {
-		return getView(sYearDownButtonID);
+		return getView(YEAR_DOWN_BUTTON_ID);
 	}
 
 	public View setButton() {
@@ -85,6 +86,10 @@ public class CardInfoScreen extends ScreenActions {
 
 	public View cancelButton() {
 		return negativeButton();
+	}
+
+	public View nextButton() {
+		return getView(NEXT_BUTTON_ID);
 	}
 
 	// Object interaction
@@ -144,5 +149,9 @@ public class CardInfoScreen extends ScreenActions {
 
 	public void clickSaveButton() {
 		clickOnText(saveButtonString());
+	}
+
+	public void clickNextButton() {
+		clickOnView(nextButton());
 	}
 }

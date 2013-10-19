@@ -21,6 +21,7 @@ public class CommonTravelerInformationScreen extends ScreenActions {
 	private static final int NEXT_BUTTON_ID = R.id.menu_next;
 	private static final int DONE_BUTTON_ID = R.id.menu_done;
 	private static final int ENTER_A_NEW_TRAVELER_STRING_ID = R.string.enter_new_traveler;
+	private static final int SET_STRING_ID = R.string.btn_set;
 
 	public CommonTravelerInformationScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
@@ -69,6 +70,10 @@ public class CommonTravelerInformationScreen extends ScreenActions {
 		return getString(ENTER_A_NEW_TRAVELER_STRING_ID);
 	}
 
+	public String set() {
+		return getString(SET_STRING_ID);
+	}
+
 	// Object interaction
 
 	public void enterFirstName(String firstName) {
@@ -106,4 +111,13 @@ public class CommonTravelerInformationScreen extends ScreenActions {
 	public void enterEmailAddress(String emailAddress) {
 		typeText(emailEditText(), emailAddress);
 	}
+
+	public void clickNextButton() {
+		clickOnView(nextButton());
+	}
+
+	public void clickSetButton() {
+		clickOnButton(set());
+	}
+
 }

@@ -17,6 +17,7 @@ public class CommonCheckoutScreen extends ScreenActions {
 	private static final int LOG_OUT_BUTTON_ID = R.id.account_logout_logout_button;
 	private static final int BUY_WITH_GOOGLE_BUTTON_ID = R.id.wallet_button;
 	private static final int ADD_TRAVELER_BUTTON_ID = R.id.traveler_info_btn;
+	private static final int EMPTY_TRAVELER_BUTTON_ID = R.id.traveler_empty_text_view;
 	private static final int SELECT_PAYMENT_BUTTON_ID = R.id.payment_info_btn;
 	private static final int SLIDE_TO_PURCHASE_START_ID = R.id.slider_image;
 	private static final int SLIDE_TO_PURCHASE_END_ID = R.id.destination_image;
@@ -97,6 +98,14 @@ public class CommonCheckoutScreen extends ScreenActions {
 		return (TextView) getView(RULES_RESTRICTIONS_TEXT_VIEW_ID);
 	}
 
+	public TextView flightsLegalTextView() {
+		return (TextView) getView(R.id.legal_blurb);
+	}
+
+	public View emptyTravelerButton() {
+		return getView(EMPTY_TRAVELER_BUTTON_ID);
+	}
+
 	// Object interaction
 
 	public void clickCheckoutButton() {
@@ -117,6 +126,10 @@ public class CommonCheckoutScreen extends ScreenActions {
 
 	public void clickAddTravelerButton() {
 		clickOnView(addTravelerButton());
+	}
+
+	public void clickTravelerDetailsButton() {
+		clickOnView(emptyTravelerButton());
 	}
 
 	public void clickSelectPaymentButton() {
