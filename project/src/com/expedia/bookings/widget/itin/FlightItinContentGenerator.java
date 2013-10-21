@@ -450,11 +450,12 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			return res.getString(templateResId, hourStr, minStr);
 		}
 		else {
-			// Explicitly adding a minute in milliseconds to avoid showing '0 minutes' strings. Defect# 758
+			// Explicitly adding a minute in milliseconds to avoid showing '0 minutes' strings. Defect #758, #2157
 			//
 			// 1871: Due to the screwed up way DateUtils.getNumberOfDaysPassed() works, this ends up such that
 			// the millis must be in the system locale (and hopefully the user has not changed their locale recently)
-			return JodaUtils.getRelativeTimeSpanString(context, time, now, DateUtils.MINUTE_IN_MILLIS, 0);
+			return JodaUtils.getRelativeTimeSpanString(context, time.plusMinutes(1).minusMillis(1), now,
+					DateUtils.MINUTE_IN_MILLIS, 0);
 		}
 	}
 
