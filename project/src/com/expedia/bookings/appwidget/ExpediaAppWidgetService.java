@@ -251,7 +251,12 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		Intent onClickWidgetIntent = new Intent(this, SearchActivity.class);
 		if (mDeals.size() > 0) {
 			remoteViews.setViewVisibility(R.id.loading_text_container, View.GONE);
-			remoteViews.setViewVisibility(R.id.widget_contents_container, View.VISIBLE);
+			remoteViews.setViewVisibility(R.id.widget_results_container, View.VISIBLE);
+
+			// We remove all views/re-add so that layout animations play
+			remoteViews.removeAllViews(R.id.widget_contents_container);
+			remoteViews.addView(R.id.widget_contents_container, 
+					new RemoteViews(getPackageName(), R.layout.app_widget_contents));
 
 			if (mCurrentPosition == 0) {
 				// Show branding
@@ -314,7 +319,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		else {
 			// Show text
 			remoteViews.setViewVisibility(R.id.loading_text_container, View.VISIBLE);
-			remoteViews.setViewVisibility(R.id.widget_contents_container, View.GONE);
+			remoteViews.setViewVisibility(R.id.widget_results_container, View.GONE);
 			remoteViews.setViewVisibility(R.id.widget_hang_tag, View.GONE);
 
 			if (!mLoadedDeals) {
