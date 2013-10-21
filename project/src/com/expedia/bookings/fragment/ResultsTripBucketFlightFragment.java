@@ -22,8 +22,6 @@ public class ResultsTripBucketFlightFragment extends Fragment {
 		return frag;
 	}
 
-	private boolean mRunBind = false;
-
 	private ViewGroup mRootC;
 	private FlightLegSummarySectionTablet mFlightSection;
 
@@ -36,22 +34,14 @@ public class ResultsTripBucketFlightFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_tripbucket_flight, null);
 		mFlightSection = Ui.findView(mRootC, R.id.trip_bucket_flight);
-		if (mRunBind) {
-			bindToDb();
-		}
+		bindToDb();
 		return mRootC;
 	}
 
 	public void bindToDb() {
-		if (mFlightSection != null) {
-			if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
-				mFlightSection.bind(Db.getFlightSearch().getSelectedFlightTrip(), Db.getFlightSearch()
-						.getSelectedFlightTrip().getLeg(0));
-			}
-			mRunBind = false;
-		}
-		else {
-			mRunBind = true;
+		if (mFlightSection != null && Db.getFlightSearch().getSelectedFlightTrip() != null) {
+			mFlightSection.bind(Db.getFlightSearch().getSelectedFlightTrip(), Db.getFlightSearch()
+					.getSelectedFlightTrip().getLeg(0));
 		}
 	}
 }

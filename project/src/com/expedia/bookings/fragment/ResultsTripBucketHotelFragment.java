@@ -23,8 +23,6 @@ public class ResultsTripBucketHotelFragment extends Fragment {
 		return frag;
 	}
 
-	private boolean mRunBind = false;
-
 	private ViewGroup mRootC;
 	private HotelSummarySection mHotelSection;
 
@@ -37,22 +35,14 @@ public class ResultsTripBucketHotelFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_tripbucket_hotel, null);
 		mHotelSection = Ui.findView(mRootC, R.id.trip_bucket_hotel);
-		if (mRunBind) {
-			bindToDb();
-		}
+		bindToDb();
 		return mRootC;
 	}
 
 	public void bindToDb() {
-		if (mHotelSection != null) {
-			if (Db.getHotelSearch() != null && Db.getHotelSearch().getSelectedProperty() != null) {
-				mHotelSection.bind(Db.getHotelSearch().getSelectedProperty(), false, 16, false, DistanceUnit.MILES,
-						false);
-			}
-			mRunBind = false;
-		}
-		else {
-			mRunBind = true;
+		if (mHotelSection != null && Db.getHotelSearch() != null && Db.getHotelSearch().getSelectedProperty() != null) {
+			mHotelSection.bind(Db.getHotelSearch().getSelectedProperty(), false, 16, false, DistanceUnit.MILES,
+					false);
 		}
 	}
 }
