@@ -129,11 +129,11 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 			String action = intent.getAction();
 			if (action.equals(ACTION_NEXT)) {
 				rotateProperty(1);
-				setupNextRotation();
+				setupNextRotation(true);
 			}
 			else if (action.equals(ACTION_PREVIOUS)) {
 				rotateProperty(-1);
-				setupNextRotation();
+				setupNextRotation(true);
 			}
 		}
 
@@ -307,7 +307,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 			mLoadedDeals = true;
 			mDeals.addAll(getDeals(results));
 			updateWidgets();
-			setupNextRotation();
+			setupNextRotation(false);
 		}
 	};
 
@@ -365,11 +365,12 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		mCurrentPosition = (mCurrentPosition + numPositions + rotateBy) % numPositions;
 	}
 
-	private void setupNextRotation() {
+	private void setupNextRotation(boolean delayDueToInteraction) {
 		mHandler.removeMessages(WHAT_ROTATE);
 
 		Message msg = mHandler.obtainMessage(WHAT_ROTATE);
-		mHandler.sendMessageDelayed(msg, getMillisFromPeriod(ROTATE_INTERVAL));
+		ReadablePeriod delayPeriod = delayDueToInteraction ? INTERACTION_DELAY : ROTATE_INTERVAL;
+		mHandler.sendMessageDelayed(msg, getMillisFromPeriod(delayPeriod));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -448,7 +449,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 				case WHAT_ROTATE:
 					service.rotateProperty(1);
 					service.updateWidgets();
-					service.setupNextRotation();
+					service.setupNextRotation(false);
 					break;
 				}
 			}
