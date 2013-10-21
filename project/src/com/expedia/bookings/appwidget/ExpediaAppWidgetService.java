@@ -1,5 +1,6 @@
 package com.expedia.bookings.appwidget;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -19,7 +20,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -101,6 +104,8 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	// 0 == branding, 1-X == deals
 	private int mCurrentPosition = 0;
 
+	private Handler mHandler;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
@@ -109,6 +114,8 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		super.onCreate();
 
 		Log.d(TAG, "ExpediaAppWidgetService.onCreate()");
+
+		mHandler = new LeakSafeHandler(this);
 
 		mLocationClient = new LocationClient(this, this, this);
 		mLocationClient.connect();
@@ -120,17 +127,13 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 
 		if (intent != null && !TextUtils.isEmpty(intent.getAction())) {
 			String action = intent.getAction();
-			int posChange = 0;
 			if (action.equals(ACTION_NEXT)) {
-				posChange = 1;
+				rotateProperty(1);
+				setupNextRotation();
 			}
 			else if (action.equals(ACTION_PREVIOUS)) {
-				posChange = -1;
-			}
-
-			if (posChange != 0) {
-				int numPositions = mDeals.size() + 1;
-				mCurrentPosition = (mCurrentPosition + numPositions + posChange) % numPositions;
+				rotateProperty(-1);
+				setupNextRotation();
 			}
 		}
 
@@ -156,6 +159,13 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	public IBinder onBind(Intent intent) {
 		// Ignore; nothing ever binds to this Service
 		return null;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// General Utility
+
+	private long getMillisFromPeriod(ReadablePeriod period) {
+		return period.toPeriod().toStandardDuration().getMillis();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -297,6 +307,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 			mLoadedDeals = true;
 			mDeals.addAll(getDeals(results));
 			updateWidgets();
+			setupNextRotation();
 		}
 	};
 
@@ -342,6 +353,26 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Rotating widget views
+
+	/**
+	 * Rotates the property shown on the widget; does NOT update widget Views,
+	 * leaves that to the caller.
+	 */
+	private void rotateProperty(int rotateBy) {
+		Log.v(TAG, "Rotating properties by: " + rotateBy);
+		int numPositions = mDeals.size() + 1;
+		mCurrentPosition = (mCurrentPosition + numPositions + rotateBy) % numPositions;
+	}
+
+	private void setupNextRotation() {
+		mHandler.removeMessages(WHAT_ROTATE);
+
+		Message msg = mHandler.obtainMessage(WHAT_ROTATE);
+		mHandler.sendMessageDelayed(msg, getMillisFromPeriod(ROTATE_INTERVAL));
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// ConnectionCallbacks
 
 	@Override
@@ -350,7 +381,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 
 		LocationRequest request = new LocationRequest();
 		request.setPriority(LocationRequest.PRIORITY_LOW_POWER);
-		request.setFastestInterval(MINIMUM_UPDATE_INTERVAL.toPeriod().toStandardDuration().getMillis());
+		request.setFastestInterval(getMillisFromPeriod(MINIMUM_UPDATE_INTERVAL));
 		request.setInterval(request.getFastestInterval());
 		request.setSmallestDisplacement(UPDATE_DISTANCE_METERS);
 
@@ -397,5 +428,30 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// OTHER STUFF
+	// Handler
+
+	private static final int WHAT_ROTATE = 1;
+
+	private static final class LeakSafeHandler extends Handler {
+
+		private WeakReference<ExpediaAppWidgetService> mWeakReference;
+
+		protected LeakSafeHandler(ExpediaAppWidgetService service) {
+			mWeakReference = new WeakReference<ExpediaAppWidgetService>(service);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			ExpediaAppWidgetService service = mWeakReference.get();
+			if (service != null) {
+				switch (msg.what) {
+				case WHAT_ROTATE:
+					service.rotateProperty(1);
+					service.updateWidgets();
+					service.setupNextRotation();
+					break;
+				}
+			}
+		}
+	}
 }
