@@ -38,6 +38,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -331,7 +332,8 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 				remoteViews.setTextViewText(R.id.widget_text_view, getString(R.string.loading_hotels));
 			}
 			else {
-				remoteViews.setTextViewText(R.id.widget_text_view, "ERROR CASE");
+				// If we either had no results, or there was an error, display that no hotels were found
+				remoteViews.setTextViewText(R.id.widget_text_view, getString(R.string.progress_search_failed));
 			}
 		}
 
