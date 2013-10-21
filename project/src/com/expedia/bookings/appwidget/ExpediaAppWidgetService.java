@@ -15,8 +15,11 @@ import org.joda.time.Seconds;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.os.Bundle;
@@ -36,6 +39,7 @@ import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -96,6 +100,11 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 
 	private LocationClient mLocationClient;
 
+	// Indicates when the widget should use low energy; this should be enabled
+	// whenever the system is not actively displaying the widget (to the best
+	// of our knowledge).
+	private boolean mUseLowEnergy;
+
 	private HotelSearchParams mSearchParams = new HotelSearchParams();
 	private List<Property> mDeals = new ArrayList<Property>();
 	private DateTime mLastUpateTimestamp;
@@ -105,6 +114,11 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	private int mCurrentPosition = 0;
 
 	private Handler mHandler;
+
+	// You have to request new location updates when switching between power
+	// modes; however, this causes the location listener to fire once
+	// immediately.  So we have to verify location updates ourselves, too.
+	private Location mLastLocation;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -119,6 +133,11 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 
 		mLocationClient = new LocationClient(this, this, this);
 		mLocationClient.connect();
+
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(Intent.ACTION_SCREEN_ON);
+		filter.addAction(Intent.ACTION_SCREEN_OFF);
+		registerReceiver(mScreenReceiver, filter);
 	}
 
 	@Override
@@ -166,6 +185,47 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 
 	private long getMillisFromPeriod(ReadablePeriod period) {
 		return period.toPeriod().toStandardDuration().getMillis();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Power states
+	//
+	// If the user's screen is off, we want to go in low power mode
+
+	private final BroadcastReceiver mScreenReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Log.d(TAG, "Screen state changed: " + intent.getAction());
+
+			setPowerState(intent.getAction().equals(Intent.ACTION_SCREEN_OFF));
+		}
+	};
+
+	private void setPowerState(boolean useLowPower) {
+		Log.i(TAG, "Switching power state to " + (useLowPower ? "LOW" : "HIGH") + " energy");
+
+		mUseLowEnergy = useLowPower;
+
+		// Update location request based on power state
+		requestLocationUpdates();
+
+		// Turn on/off property rotation based on power state
+		if (useLowPower) {
+			cancelRotation();
+		}
+		else {
+			setupNextRotation(false);
+		}
+	}
+
+	private void requestLocationUpdates() {
+		LocationRequest request = new LocationRequest();
+		request.setPriority(mUseLowEnergy ? LocationRequest.PRIORITY_NO_POWER : LocationRequest.PRIORITY_LOW_POWER);
+		request.setFastestInterval(getMillisFromPeriod(MINIMUM_UPDATE_INTERVAL));
+		request.setInterval(request.getFastestInterval());
+		request.setSmallestDisplacement(UPDATE_DISTANCE_METERS);
+
+		mLocationClient.requestLocationUpdates(request, this);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -305,6 +365,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 			Log.i(TAG, "Widget received search response: " + results);
 
 			mLoadedDeals = true;
+			mLastUpateTimestamp = DateTime.now();
 			mDeals.addAll(getDeals(results));
 			updateWidgets();
 			setupNextRotation(false);
@@ -368,9 +429,16 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	private void setupNextRotation(boolean delayDueToInteraction) {
 		mHandler.removeMessages(WHAT_ROTATE);
 
-		Message msg = mHandler.obtainMessage(WHAT_ROTATE);
-		ReadablePeriod delayPeriod = delayDueToInteraction ? INTERACTION_DELAY : ROTATE_INTERVAL;
-		mHandler.sendMessageDelayed(msg, getMillisFromPeriod(delayPeriod));
+		if (!mUseLowEnergy) {
+			Message msg = mHandler.obtainMessage(WHAT_ROTATE);
+			ReadablePeriod delayPeriod = delayDueToInteraction ? INTERACTION_DELAY : ROTATE_INTERVAL;
+			mHandler.sendMessageDelayed(msg, getMillisFromPeriod(delayPeriod));
+		}
+	}
+
+	private void cancelRotation() {
+		Log.d(TAG, "Cancelling property rotations");
+		mHandler.removeMessages(WHAT_ROTATE);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -380,13 +448,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	public void onConnected(Bundle connectionHint) {
 		Log.d(TAG, "ExpediaAppWidgetService.onConnected(" + connectionHint + ")");
 
-		LocationRequest request = new LocationRequest();
-		request.setPriority(LocationRequest.PRIORITY_LOW_POWER);
-		request.setFastestInterval(getMillisFromPeriod(MINIMUM_UPDATE_INTERVAL));
-		request.setInterval(request.getFastestInterval());
-		request.setSmallestDisplacement(UPDATE_DISTANCE_METERS);
-
-		mLocationClient.requestLocationUpdates(request, this);
+		requestLocationUpdates();
 	}
 
 	@Override
@@ -409,10 +471,12 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	public void onLocationChanged(Location location) {
 		Log.d(TAG, "ExpediaAppWidgetService.onLocationChanged(" + location + ")");
 
-		// Due to the way we setup LocationRequest, this should only be called
-		// when we actually want to do a new search (due to the user moving).
-		mSearchParams.setSearchLatLon(location.getLatitude(), location.getLongitude());
-		startNewSearch();
+		if (mLastLocation == null || (location.distanceTo(mLastLocation) > UPDATE_DISTANCE_METERS
+				&& JodaUtils.isExpired(mLastUpateTimestamp, getMillisFromPeriod(MINIMUM_UPDATE_INTERVAL)))) {
+			mSearchParams.setSearchLatLon(location.getLatitude(), location.getLongitude());
+			startNewSearch();
+			mLastLocation = location;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -420,6 +484,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 
 	@Override
 	public void onImageLoaded(String url, Bitmap bitmap) {
+		Log.d(TAG, "Loaded widget image: " + url);
 		updateWidgets();
 	}
 
