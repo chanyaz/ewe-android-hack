@@ -150,6 +150,8 @@ public class SwipeOutLayout extends FrameLayout {
 
 	@Override
 	public void onLayout(boolean changed, int left, int top, int right, int bottom) {
+		boolean isVertical = mSwipeDirection == Direction.NORTH || mSwipeDirection == Direction.SOUTH;
+
 		int pL = getPaddingLeft();
 		int pR = getPaddingRight();
 		int pT = getPaddingTop();
@@ -163,65 +165,57 @@ public class SwipeOutLayout extends FrameLayout {
 		int swipeOutHeight = mSwipeOutView.getMeasuredHeight();
 		int swipeOutWidth = mSwipeOutView.getMeasuredWidth();
 
+		mMaxSlideOutDistance = isVertical ? swipeOutHeight : swipeOutWidth;
+
+		//We begin by giving our rects the base top and left padding
+		mLayoutRectContent.left = pL;
+		mLayoutRectContent.right = pL;
+		mLayoutRectContent.top = pT;
+		mLayoutRectContent.bottom = pT;
+
+		mLayoutRectIndicator.left = pL;
+		mLayoutRectIndicator.right = pL;
+		mLayoutRectIndicator.top = pT;
+		mLayoutRectIndicator.bottom = pT;
+
+		//The right/top are easy to figure out depending on swipe orientation 
+		if (isVertical) {
+			mLayoutRectContent.right += widthNoPad;
+			mLayoutRectIndicator.right += widthNoPad;
+		}
+		else {
+			mLayoutRectContent.bottom += heightNoPad;
+			mLayoutRectIndicator.bottom += heightNoPad;
+		}
+
+		//The remaining values to compute are direction specific
 		switch (mSwipeDirection) {
 		case NORTH: {
-			mLayoutRectContent.left = pL;
-			mLayoutRectContent.right = pL + widthNoPad;
-			mLayoutRectContent.top = pT + swipeOutHeight;
-			mLayoutRectContent.bottom = pT + swipeOutHeight + heightNoPad;
-
-			mLayoutRectIndicator.left = pL;
-			mLayoutRectIndicator.right = pL + widthNoPad;
-			mLayoutRectIndicator.top = pT + heightNoPad - swipeOutHeight;
-			mLayoutRectIndicator.bottom = pT + heightNoPad;
-
-			mMaxSlideOutDistance = swipeOutHeight;
+			mLayoutRectContent.top += swipeOutHeight;
+			mLayoutRectContent.bottom += swipeOutHeight + heightNoPad;
+			mLayoutRectIndicator.top += heightNoPad - swipeOutHeight;
+			mLayoutRectIndicator.bottom += heightNoPad;
 			break;
 		}
 		case SOUTH: {
-			mLayoutRectContent.left = pL;
-			mLayoutRectContent.right = pL + widthNoPad;
-			mLayoutRectContent.top = pT;
-			mLayoutRectContent.bottom = pT + heightNoPad;
-
-			mLayoutRectIndicator.left = pL;
-			mLayoutRectIndicator.right = pL + widthNoPad;
-			mLayoutRectIndicator.top = pT;
-			mLayoutRectIndicator.bottom = pT + swipeOutHeight;
-
-			mMaxSlideOutDistance = swipeOutHeight;
+			mLayoutRectContent.bottom += heightNoPad;
+			mLayoutRectIndicator.bottom += swipeOutHeight;
 			break;
 		}
 		case EAST: {
-			mLayoutRectContent.left = pL;
-			mLayoutRectContent.right = pL + widthNoPad;
-			mLayoutRectContent.top = pT;
-			mLayoutRectContent.bottom = pT + heightNoPad;
-
-			mLayoutRectIndicator.left = pL;
-			mLayoutRectIndicator.right = pL + swipeOutWidth;
-			mLayoutRectIndicator.top = pT;
-			mLayoutRectIndicator.bottom = pT + heightNoPad;
-
-			mMaxSlideOutDistance = swipeOutWidth;
+			mLayoutRectContent.right += widthNoPad;
+			mLayoutRectIndicator.right += swipeOutWidth;
 			break;
 		}
 		case WEST: {
-			mLayoutRectContent.left = pL + swipeOutWidth;
-			mLayoutRectContent.right = pL + swipeOutWidth + widthNoPad;
-			mLayoutRectContent.top = pT;
-			mLayoutRectContent.bottom = pT + heightNoPad;
-
-			mLayoutRectIndicator.left = pL + widthNoPad - swipeOutWidth;
-			mLayoutRectIndicator.right = pL + widthNoPad;
-			mLayoutRectIndicator.top = pT;
-			mLayoutRectIndicator.bottom = pT + heightNoPad;
-
-			mMaxSlideOutDistance = swipeOutWidth;
-
+			mLayoutRectContent.left += swipeOutWidth;
+			mLayoutRectContent.right += swipeOutWidth + widthNoPad;
+			mLayoutRectIndicator.left += widthNoPad - swipeOutWidth;
+			mLayoutRectIndicator.right += widthNoPad;
 			break;
 		}
 		}
+
 		mContentView.layout(mLayoutRectContent.left, mLayoutRectContent.top, mLayoutRectContent.right,
 				mLayoutRectContent.bottom);
 		mSwipeOutView.layout(mLayoutRectIndicator.left, mLayoutRectIndicator.top, mLayoutRectIndicator.right,
