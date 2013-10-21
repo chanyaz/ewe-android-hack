@@ -557,9 +557,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">우리가 예약한 %1$s행 항공편, %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">저 %1$s 비행기로 %2$s에 가요. 날짜는 %3$s이고요.\n%4$s에서 출발하는 시간은 %5$s, \n%6$s에 도착하는 시간은 %7$s에요(%8$s).\n%9$s</string>
+    <string name="share_template_short_flight_sameday">저 %1$s 비행기로 %2$s에 가요. 날짜는 %3$s이고요.\n%4$s에서 출발하는 시간은 %5$s, \n%6$s에 도착하는 시간은 %7$s에요(%8$s).</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">저 %1$s 비행기로 %2$s에 가요.\n%3$s에서 출발하는 시간은 %4$s, \n%5$s에 도착하는 시간은 %6$s에요(%7$s).\n%8$s</string>
+    <string name="share_template_short_flight_multiday">저 %1$s 비행기로 %2$s에 가요.\n%3$s에서 출발하는 시간은 %4$s, \n%5$s에 도착하는 시간은 %6$s에요(%7$s).</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">내가 예약한 렌터카(%1$s ~ %2$s)</string>
     <!-- Car rental share subject (no dates) -->

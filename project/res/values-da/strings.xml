@@ -557,9 +557,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Vores fly til %1$s d. %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Jeg skal med fly %1$s til %2$s d. %3$s.\nAfgår fra %4$s fra %5$s\nAnkommer %6$s ved %7$s, %8$s\n%9$s</string>
+    <string name="share_template_short_flight_sameday">Jeg skal med fly %1$s til %2$s d. %3$s.\nAfgår fra %4$s fra %5$s\nAnkommer %6$s ved %7$s, %8$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Jeg skal med fly %1$s til %2$s.\nAfgår fra %3$s fra %4$s\nAnkommer %5$s ved %6$s, %7$s\n%8$s</string>
+    <string name="share_template_short_flight_multiday">Jeg skal med fly %1$s til %2$s.\nAfgår fra %3$s fra %4$s\nAnkommer %5$s ved %6$s, %7$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Min lejebil (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
