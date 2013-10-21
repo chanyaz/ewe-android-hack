@@ -244,14 +244,15 @@ public class ItineraryManager implements JSONable {
 	}
 
 	/**
-	 * Get every Flight instance represented in our Itineraries
+	 * Get the Flight instances represented in our Itineraries
 	 *
 	 * Note: We are only searching the mItinCardDatas collection, so only itins displayed
 	 * in the itin list will be searched
 	 *
+	 * @param shared - if true, we return a list of shared itin flights, if false we return a list of normal itin flights 
 	 * @return a list of Flight instances
 	 */
-	public List<Flight> getAllItinFlights() {
+	public List<Flight> getItinFlights(boolean shared) {
 		List<Flight> retFlights = new ArrayList<Flight>();
 
 		synchronized (mItinCardDatas) {
@@ -259,14 +260,18 @@ public class ItineraryManager implements JSONable {
 				if (data.getTripComponentType() != null && data.getTripComponentType() == Type.FLIGHT
 						&& data.getTripComponent() != null && data instanceof ItinCardDataFlight) {
 					ItinCardDataFlight dataFlight = (ItinCardDataFlight) data;
-					FlightLeg leg = dataFlight.getFlightLeg();
-					if (leg != null && leg.getSegments() != null) {
-						retFlights.addAll(leg.getSegments());
+					boolean flightIsShared = dataFlight.getTripComponent().getParentTrip() != null
+							&& dataFlight.getTripComponent().getParentTrip().isShared();
+
+					if ((flightIsShared && shared) || (!shared && !flightIsShared)) {
+						FlightLeg leg = dataFlight.getFlightLeg();
+						if (leg != null && leg.getSegments() != null) {
+							retFlights.addAll(leg.getSegments());
+						}
 					}
 				}
 			}
 		}
-
 		return retFlights;
 	}
 
@@ -1530,7 +1535,7 @@ public class ItineraryManager implements JSONable {
 			}
 
 			JSONObject payload = PushNotificationUtils.buildPushRegistrationPayload(regId, userTuid,
-					getAllItinFlights());
+					getItinFlights(false), getItinFlights(true));
 
 			Log.d(LOGGING_TAG, "registerForPushNotifications payload:" + payload.toString());
 

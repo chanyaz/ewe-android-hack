@@ -249,11 +249,13 @@ public class PushNotificationUtils {
 	 * Build the JSONObject that is to be posted to the api for registering push notifications
 	 * @param token - This is api terminology, in our case it is the Registration Id provided by GCM
 	 * @param tuid - The current user's tuid
-	 * @param flightList - A list of flight objects we want to register for
+	 * @param normalFlightList - A list of flight objects we want to register for that come from our regular itins.
+	 * @param sharedFlightList - A list of flight objects that we want to register for, which are from shared itins.
 	 * @return
 	 */
 	@SuppressLint("SimpleDateFormat")
-	public static JSONObject buildPushRegistrationPayload(String token, long tuid, List<Flight> flightList) {
+	public static JSONObject buildPushRegistrationPayload(String token, long tuid, List<Flight> normalFlightList,
+			List<Flight> sharedFlightList) {
 		JSONObject retObj = new JSONObject();
 		JSONObject courier = new JSONObject();
 		JSONArray flights = new JSONArray();
@@ -270,21 +272,21 @@ public class PushNotificationUtils {
 			courier.put("group", "gcm");
 			courier.put("token", token);
 
-			if (flightList != null) {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				for (Flight f : flightList) {
-					Date departureDate = DateTimeUtils.getTimeInLocalTimeZone(f.mOrigin.getBestSearchDateTime());
-					Date arrivalDate = DateTimeUtils.getTimeInLocalTimeZone(f.mDestination.getBestSearchDateTime());
+			if (normalFlightList != null) {
+				for (Flight f : normalFlightList) {
+					JSONObject flightJson = buildFlightJSON(f, false);
+					if (flightJson != null) {
+						flights.put(flightJson);
+					}
+				}
+			}
 
-					JSONObject flightJson = new JSONObject();
-					flightJson.put("__type__", "Flight");
-					flightJson.put("departure_date", sdf.format(departureDate));
-					flightJson.put("arrival_date", sdf.format(arrivalDate));
-					flightJson.put("destination", f.mDestination.mAirportCode);
-					flightJson.put("origin", f.mOrigin.mAirportCode);
-					flightJson.put("airline", f.getPrimaryFlightCode().mAirlineCode);
-					flightJson.put("flight_no", f.getPrimaryFlightCode().mNumber);
-					flights.put(flightJson);
+			if (sharedFlightList != null) {
+				for (Flight f : normalFlightList) {
+					JSONObject flightJson = buildFlightJSON(f, true);
+					if (flightJson != null) {
+						flights.put(flightJson);
+					}
 				}
 			}
 
@@ -297,6 +299,30 @@ public class PushNotificationUtils {
 		}
 
 		return retObj;
+	}
+
+	private static SimpleDateFormat sFlightDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+	private static JSONObject buildFlightJSON(Flight flight, boolean shared) {
+		try {
+			Date departureDate = DateTimeUtils.getTimeInLocalTimeZone(flight.mOrigin.getBestSearchDateTime());
+			Date arrivalDate = DateTimeUtils.getTimeInLocalTimeZone(flight.mDestination.getBestSearchDateTime());
+
+			JSONObject flightJson = new JSONObject();
+			flightJson.put("__type__", "Flight");
+			flightJson.put("departure_date", sFlightDateFormat.format(departureDate));
+			flightJson.put("arrival_date", sFlightDateFormat.format(arrivalDate));
+			flightJson.put("destination", flight.mDestination.mAirportCode);
+			flightJson.put("origin", flight.mOrigin.mAirportCode);
+			flightJson.put("airline", flight.getPrimaryFlightCode().mAirlineCode);
+			flightJson.put("flight_no", flight.getPrimaryFlightCode().mNumber);
+			flightJson.put("shared", shared);
+			return flightJson;
+		}
+		catch (Exception ex) {
+			Log.e("Exception in buildFlightJSON", ex);
+		}
+		return null;
 	}
 
 	/**
@@ -583,7 +609,7 @@ public class PushNotificationUtils {
 				}
 				ExpediaServices services = new ExpediaServices(context);
 				return services.registerForPushNotifications(new PushRegistrationResponseHandler(context),
-						buildPushRegistrationPayload(regId, userTuid, null), regId);
+						buildPushRegistrationPayload(regId, userTuid, null, null), regId);
 			}
 		}, unregistrationCompleteHandler);
 	}
