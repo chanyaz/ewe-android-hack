@@ -67,8 +67,11 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	// The maximum # of properties to show in the widget
 	private static final int MAX_DEALS = 5;
 
-	// How often we should update the widget, regardless of anything else
+	// How often we should update the widget, by default
 	private static final ReadablePeriod UPDATE_INTERVAL = Hours.ONE;
+
+	// How often we should update the widget in low power mode
+	private static final ReadablePeriod UPDATE_INTERVAL_LOW_ENERGY = Hours.SIX;
 
 	// The distance one must be from their last search location before we want to update
 	private static final int UPDATE_DISTANCE_METERS = 8000; // 8km
@@ -216,6 +219,14 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		else {
 			setupNextRotation(false);
 		}
+
+		// Check if we're overdue for a search; only valid if going to high energy
+		if (!useLowPower && JodaUtils.isExpired(mLastUpateTimestamp, getMillisFromPeriod(UPDATE_INTERVAL))) {
+			startNewSearch();
+		}
+		else {
+			scheduleSearch();
+		}
 	}
 
 	private void requestLocationUpdates() {
@@ -332,6 +343,17 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	//////////////////////////////////////////////////////////////////////////
 	// Search
 
+	private void scheduleSearch() {
+		mHandler.removeMessages(WHAT_UPDATE);
+
+		Message msg = mHandler.obtainMessage(WHAT_UPDATE);
+		ReadablePeriod delayPeriod = mUseLowEnergy ? UPDATE_INTERVAL_LOW_ENERGY : UPDATE_INTERVAL;
+		mHandler.sendMessageDelayed(msg, getMillisFromPeriod(delayPeriod));
+
+		Log.d(TAG, "Scheduling next automatic search in " + delayPeriod.toPeriod().toStandardMinutes().getMinutes()
+				+ " minutes");
+	}
+
 	private void startNewSearch() {
 		Log.i(TAG, "Widget is starting a new search...");
 
@@ -341,13 +363,11 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		mCurrentPosition = 0;
 		updateWidgets();
 
-		// Start new search
+		// Start new search if one isn't currently running
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(WIDGET_KEY_SEARCH)) {
-			Log.w(TAG, "Widget was already doing a search when a new one was started!");
-			bd.cancelDownload(WIDGET_KEY_SEARCH);
+		if (!bd.isDownloading(WIDGET_KEY_SEARCH)) {
+			bd.startDownload(WIDGET_KEY_SEARCH, mSearchDownload, mSearchCallback);
 		}
-		bd.startDownload(WIDGET_KEY_SEARCH, mSearchDownload, mSearchCallback);
 	}
 
 	private Download<HotelSearchResponse> mSearchDownload = new Download<HotelSearchResponse>() {
@@ -369,6 +389,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 			mDeals.addAll(getDeals(results));
 			updateWidgets();
 			setupNextRotation(false);
+			scheduleSearch();
 		}
 	};
 
@@ -498,6 +519,8 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 
 	private static final int WHAT_ROTATE = 1;
 
+	private static final int WHAT_UPDATE = 2;
+
 	private static final class LeakSafeHandler extends Handler {
 
 		private WeakReference<ExpediaAppWidgetService> mWeakReference;
@@ -515,6 +538,9 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 					service.rotateProperty(1);
 					service.updateWidgets();
 					service.setupNextRotation(false);
+					break;
+				case WHAT_UPDATE:
+					service.startNewSearch();
 					break;
 				}
 			}
