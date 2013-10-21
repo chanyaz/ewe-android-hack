@@ -104,7 +104,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 
 	//Other
 	private ColumnManager mColumnManager = new ColumnManager(3);
-	private ResultsState mState = ResultsState.DEFAULT;
+	private ResultsState mState = ResultsState.OVERVIEW;
 	private String mDestinationCode = "SFO";//The destination code to use for background images...
 	private boolean mPreDrawInitComplete = false;
 	private boolean mBackButtonLocked = false;
@@ -170,7 +170,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 		mActionBarView.setSearchBarOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				if (mState == ResultsState.DEFAULT) {
+				if (mState == ResultsState.OVERVIEW) {
 					onBackPressed();
 				}
 			}
@@ -435,11 +435,11 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	}
 
 	private boolean isFlightsListenerEnabled() {
-		return mState == ResultsState.DEFAULT || mState == ResultsState.FLIGHTS;
+		return mState == ResultsState.OVERVIEW || mState == ResultsState.FLIGHTS;
 	}
 
 	private boolean isHotelsListenerEnabled() {
-		return mState == ResultsState.DEFAULT || mState == ResultsState.HOTELS;
+		return mState == ResultsState.OVERVIEW || mState == ResultsState.HOTELS;
 	}
 
 	@Override
@@ -450,19 +450,19 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 			if (newState == State.TRANSIENT) {
 				if (oldState != State.TRANSIENT) {
 
-					startStateTransition(ResultsState.DEFAULT, ResultsState.HOTELS);
+					startStateTransition(ResultsState.OVERVIEW, ResultsState.HOTELS);
 				}
 
 			}
 			else {
-				endStateTransition(ResultsState.DEFAULT, ResultsState.HOTELS);
+				endStateTransition(ResultsState.OVERVIEW, ResultsState.HOTELS);
 
 				if (newState == State.LIST_CONTENT_AT_TOP) {
 					//We have entered this mode...
 					finalizeState(ResultsState.HOTELS);
 				}
 				else {
-					finalizeState(ResultsState.DEFAULT);
+					finalizeState(ResultsState.OVERVIEW);
 				}
 			}
 		}
@@ -472,7 +472,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	public void onHotelsPercentageChanged(State state, float percentage) {
 		Log.d("HotelState.onHotelsPercentageChanged state:" + state.name() + " percentage:" + percentage);
 		if (isHotelsListenerEnabled()) {
-			updateStateTransition(ResultsState.DEFAULT, ResultsState.HOTELS, percentage);
+			updateStateTransition(ResultsState.OVERVIEW, ResultsState.HOTELS, percentage);
 		}
 	}
 
@@ -481,17 +481,17 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 		if (isFlightsListenerEnabled()) {
 			if (newState == State.TRANSIENT) {
 
-				startStateTransition(ResultsState.DEFAULT, ResultsState.FLIGHTS);
+				startStateTransition(ResultsState.OVERVIEW, ResultsState.FLIGHTS);
 
-				updateStateTransition(ResultsState.DEFAULT, ResultsState.FLIGHTS, percentage);
+				updateStateTransition(ResultsState.OVERVIEW, ResultsState.FLIGHTS, percentage);
 			}
 			else {
-				endStateTransition(ResultsState.DEFAULT, ResultsState.FLIGHTS);
+				endStateTransition(ResultsState.OVERVIEW, ResultsState.FLIGHTS);
 				if (newState == State.LIST_CONTENT_AT_TOP) {
 					finalizeState(ResultsState.FLIGHTS);
 				}
 				else {
-					finalizeState(ResultsState.DEFAULT);
+					finalizeState(ResultsState.OVERVIEW);
 				}
 			}
 		}
@@ -500,7 +500,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	@Override
 	public void onFlightsPercentageChanged(State state, float percentage) {
 		if (isFlightsListenerEnabled()) {
-			updateStateTransition(ResultsState.DEFAULT, ResultsState.FLIGHTS, percentage);
+			updateStateTransition(ResultsState.OVERVIEW, ResultsState.FLIGHTS, percentage);
 		}
 	}
 

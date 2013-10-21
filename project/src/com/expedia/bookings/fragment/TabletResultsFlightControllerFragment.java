@@ -182,7 +182,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		if (savedInstanceState != null) {
 			mGlobalState = ResultsState.valueOf(savedInstanceState.getString(STATE_GLOBAL_STATE,
-					ResultsState.DEFAULT.name()));
+					ResultsState.OVERVIEW.name()));
 			mFlightsStateManager.setDefaultState(ResultsFlightsState.valueOf(savedInstanceState.getString(
 					STATE_FLIGHTS_STATE,
 					ResultsFlightsState.FLIGHT_ONE_FILTERS.name())));
@@ -465,7 +465,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			}
 			break;
 		}
-		case DEFAULT: {
+		case OVERVIEW: {
 			touchableViews.add(mFlightOneListC);
 			break;
 		}
@@ -523,7 +523,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			}
 			break;
 		}
-		case DEFAULT: {
+		case OVERVIEW: {
 			visibleViews.add(mFlightOneListC);
 			break;
 		}
@@ -563,7 +563,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		boolean flightOneDetailsAvailable = true;
 		boolean flightTwoDetailsAvailable = true;
 
-		if (state != ResultsState.FLIGHTS && state != ResultsState.DEFAULT) {
+		if (state != ResultsState.FLIGHTS && state != ResultsState.OVERVIEW) {
 			flightMapAvailable = false;
 			flightOneFiltersAvailable = false;
 		}
@@ -617,7 +617,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateTransitionUpdate(ResultsState stateOne, ResultsState stateTwo, float percentage) {
-			if (stateOne == ResultsState.DEFAULT && stateTwo == ResultsState.FLIGHTS) {
+			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.FLIGHTS) {
 				mFlightOneFiltersC.setAlpha(1f - percentage);
 				mFlightMapC.setAlpha(1f - percentage);
 				float filterPaneTopTranslation = percentage
@@ -625,7 +625,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				mFlightOneFiltersC.setTranslationY(filterPaneTopTranslation);
 			}
 
-			if (stateOne == ResultsState.DEFAULT && stateTwo == ResultsState.HOTELS) {
+			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.HOTELS) {
 				int colOneDist = mColumnManager.getTotalWidth() - mColumnManager.getColLeft(1);
 				int colTwoDist = mColumnManager.getTotalWidth() - mColumnManager.getColLeft(2);
 
@@ -636,16 +636,16 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		@Override
 		public void setHardwareLayerForTransition(ResultsState stateOne, ResultsState stateTwo, int layerType) {
-			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.HOTELS)
-					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.HOTELS)) {
+			if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.HOTELS)
+					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.HOTELS)) {
 				//Default -> Hotels or Hotels -> Default transition
 
 				mFlightOneListC.setLayerType(layerType, null);
 
 			}
 
-			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.FLIGHTS)
-					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.FLIGHTS)) {
+			if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.FLIGHTS)
+					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.FLIGHTS)) {
 				//Default -> Flights or Flights -> Default transition
 
 				mFlightOneFiltersC.setLayerType(layerType, null);
@@ -655,7 +655,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		@Override
 		public void setVisibilityForTransition(ResultsState stateOne, ResultsState stateTwo) {
-			if (stateOne == ResultsState.DEFAULT || stateTwo == ResultsState.DEFAULT) {
+			if (stateOne == ResultsState.OVERVIEW || stateTwo == ResultsState.OVERVIEW) {
 				mFlightOneListC.setVisibility(View.VISIBLE);
 			}
 

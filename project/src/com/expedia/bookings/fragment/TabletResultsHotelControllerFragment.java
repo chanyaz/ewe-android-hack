@@ -104,7 +104,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private ResultsHotelsRoomsAndRates mHotelRoomsAndRatesFrag;
 
 	//Other
-	private ResultsState mGlobalState = ResultsState.DEFAULT;
+	private ResultsState mGlobalState = ResultsState.OVERVIEW;
 	private StateManager<ResultsHotelsState> mHotelsStateManager = new StateManager<ResultsHotelsState>(
 			ResultsHotelsState.DEFAULT, this);
 	private IHotelsFruitScrollUpListViewChangeListener mFruitListener;
@@ -151,7 +151,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		if (savedInstanceState != null) {
 			mGlobalState = ResultsState.valueOf(savedInstanceState.getString(STATE_GLOBAL_STATE,
-					ResultsState.DEFAULT.name()));
+					ResultsState.OVERVIEW.name()));
 			mHotelsStateManager.setDefaultState(ResultsHotelsState.valueOf(savedInstanceState.getString(
 					STATE_HOTELS_STATE,
 					ResultsHotelsState.DEFAULT.name())));
@@ -234,7 +234,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mHotelListC.setBlockNewEventsEnabled(false);
 			break;
 		}
-		case DEFAULT: {
+		case OVERVIEW: {
 			mBgHotelMapC.setTouchPassThroughEnabled(true);
 			mHotelListC.setBlockNewEventsEnabled(false);
 			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(true);
@@ -281,7 +281,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mHotelListC.setVisibility(View.VISIBLE);
 			break;
 		}
-		case DEFAULT: {
+		case OVERVIEW: {
 			mHotelListC.setVisibility(View.VISIBLE);
 			mHotelFiltersC.setVisibility(View.INVISIBLE);
 			mHotelFilteredCountC.setVisibility(View.INVISIBLE);
@@ -321,7 +321,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			hotelFilteredCountAvailable = false;
 			hotelRoomsAndRatesAvailable = false;
 		}
-		if (globalState != ResultsState.HOTELS && globalState != ResultsState.DEFAULT) {
+		if (globalState != ResultsState.HOTELS && globalState != ResultsState.OVERVIEW) {
 			hotelMapAvailable = false;
 		}
 
@@ -540,7 +540,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			setTouchable(false);
 
 			//Visibilities
-			if (stateOne == ResultsState.DEFAULT || stateTwo == ResultsState.DEFAULT) {
+			if (stateOne == ResultsState.OVERVIEW || stateTwo == ResultsState.OVERVIEW) {
 
 				mHotelListC.setVisibility(View.VISIBLE);
 				if (mHotelsStateManager.getState() == ResultsHotelsState.ADDING_HOTEL_TO_TRIP) {
@@ -558,13 +558,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			//Layer types
 			int layerType = View.LAYER_TYPE_HARDWARE;
-			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.HOTELS)
-					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.HOTELS)) {
+			if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.HOTELS)
+					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.HOTELS)) {
 				//Default -> Hotels or Hotels -> Default transition
 				mHotelRoomsAndRatesC.setLayerType(layerType, null);
 			}
-			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.FLIGHTS)
-					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.FLIGHTS)) {
+			if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.FLIGHTS)
+					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.FLIGHTS)) {
 				//Default -> Flights or Flights -> Default transition
 				mHotelListC.setLayerType(layerType, null);
 			}
@@ -573,11 +573,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionUpdate(ResultsState stateOne, ResultsState stateTwo, float percentage) {
-			if (stateOne == ResultsState.DEFAULT && stateTwo == ResultsState.FLIGHTS) {
+			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.FLIGHTS) {
 				mHotelListC.setAlpha(percentage);
 			}
 
-			if (stateOne == ResultsState.DEFAULT && stateTwo == ResultsState.HOTELS) {
+			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.HOTELS) {
 				mBgHotelMapC.setAlpha(1f - percentage);
 				mHotelRoomsAndRatesC.setAlpha(1f - percentage);
 			}
@@ -590,13 +590,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			//Layer types
 			int layerType = View.LAYER_TYPE_SOFTWARE;
-			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.HOTELS)
-					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.HOTELS)) {
+			if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.HOTELS)
+					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.HOTELS)) {
 				//Default -> Hotels or Hotels -> Default transition
 				mHotelRoomsAndRatesC.setLayerType(layerType, null);
 			}
-			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.FLIGHTS)
-					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.FLIGHTS)) {
+			if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.FLIGHTS)
+					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.FLIGHTS)) {
 				//Default -> Flights or Flights -> Default transition
 				mHotelListC.setLayerType(layerType, null);
 			}

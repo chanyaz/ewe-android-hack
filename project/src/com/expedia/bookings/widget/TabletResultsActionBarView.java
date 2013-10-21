@@ -29,7 +29,7 @@ import com.mobiata.android.util.Ui;
 public class TabletResultsActionBarView extends RelativeLayout implements IMeasurementListener, IBackManageable {
 
 	private ColumnManager mColumnManager = new ColumnManager(3);
-	private ResultsState mResultsState = ResultsState.DEFAULT;
+	private ResultsState mResultsState = ResultsState.OVERVIEW;
 
 	private ActionBar mActionBar;
 	private PercentageFadeColorDrawable mActionBarBg;
@@ -148,30 +148,30 @@ public class TabletResultsActionBarView extends RelativeLayout implements IMeasu
 			//Vis
 			if (stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS) {
 				mHotelsTitleTv.setVisibility(View.VISIBLE);
-				if (mResultsState == ResultsState.DEFAULT) {
+				if (mResultsState == ResultsState.OVERVIEW) {
 					mHotelsTitleTv.setAlpha(0f);
 				}
 			}
 			if (stateOne == ResultsState.FLIGHTS || stateTwo == ResultsState.FLIGHTS) {
 				mFlightsTitleTv.setVisibility(View.VISIBLE);
-				if (mResultsState == ResultsState.DEFAULT) {
+				if (mResultsState == ResultsState.OVERVIEW) {
 					mFlightsTitleTv.setAlpha(0f);
 				}
 			}
-			if (stateOne == ResultsState.DEFAULT || stateTwo == ResultsState.DEFAULT) {
+			if (stateOne == ResultsState.OVERVIEW || stateTwo == ResultsState.OVERVIEW) {
 				mSearchBar.setVisibility(View.VISIBLE);
 			}
 
 			//layer type
 			int layerType = View.LAYER_TYPE_HARDWARE;
-			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.FLIGHTS)
-					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.FLIGHTS)) {
+			if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.FLIGHTS)
+					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.FLIGHTS)) {
 				//to or from flights mode
 				mSearchBar.setLayerType(layerType, null);
 				mFlightsTitleTv.setLayerType(layerType, null);
 			}
-			else if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.HOTELS)
-					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.HOTELS)) {
+			else if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.HOTELS)
+					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.HOTELS)) {
 				//to or from hotels mode
 				mSearchBar.setLayerType(layerType, null);
 				mHotelsTitleTv.setLayerType(layerType, null);
@@ -181,13 +181,13 @@ public class TabletResultsActionBarView extends RelativeLayout implements IMeasu
 
 		@Override
 		public void onStateTransitionUpdate(ResultsState stateOne, ResultsState stateTwo, float percentage) {
-			if (stateOne == ResultsState.DEFAULT && stateTwo == ResultsState.FLIGHTS) {
+			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.FLIGHTS) {
 				mSearchBar.setAlpha(percentage);
 				mActionBarBg.setPercentage(1f - percentage);
 				mFlightsTitleTv.setAlpha(1f - percentage);
 			}
 
-			if (stateOne == ResultsState.DEFAULT && stateTwo == ResultsState.HOTELS) {
+			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.HOTELS) {
 				mSearchBar.setAlpha(percentage);
 				mActionBarBg.setPercentage(1f - percentage);
 				mHotelsTitleTv.setAlpha(1f - percentage);
@@ -204,14 +204,14 @@ public class TabletResultsActionBarView extends RelativeLayout implements IMeasu
 
 			//layer type
 			int layerType = View.LAYER_TYPE_NONE;
-			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.FLIGHTS)
-					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.FLIGHTS)) {
+			if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.FLIGHTS)
+					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.FLIGHTS)) {
 				//to or from flights mode
 				mSearchBar.setLayerType(layerType, null);
 				mFlightsTitleTv.setLayerType(layerType, null);
 			}
-			else if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.HOTELS)
-					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.HOTELS)) {
+			else if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.HOTELS)
+					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.HOTELS)) {
 				//to or from hotels mode
 				mSearchBar.setLayerType(layerType, null);
 				mHotelsTitleTv.setLayerType(layerType, null);
@@ -247,7 +247,7 @@ public class TabletResultsActionBarView extends RelativeLayout implements IMeasu
 			}
 
 			if (mSearchBarClickListener != null) {
-				mSearchBarClickListener.setClickEnabled(mResultsState == ResultsState.DEFAULT);
+				mSearchBarClickListener.setClickEnabled(mResultsState == ResultsState.OVERVIEW);
 			}
 
 		}

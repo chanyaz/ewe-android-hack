@@ -472,7 +472,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 		mShadeC.setBlockNewEventsEnabled(true);
 
 		switch (state) {
-		case DEFAULT: {
+		case OVERVIEW: {
 			mTripAnimationC.setBlockNewEventsEnabled(false);
 			break;
 		}
@@ -485,7 +485,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 
 	private void setVisibilityState(ResultsState state) {
 		switch (state) {
-		case DEFAULT: {
+		case OVERVIEW: {
 			mTripBucketYourTripToC.setVisibility(View.VISIBLE);
 			mTripBucketFlightC.setVisibility(hasFlightTrip() ? View.VISIBLE : View.INVISIBLE);
 			mTripBucketHotelC.setVisibility(hasHotelTrip() ? View.VISIBLE : View.INVISIBLE);
@@ -540,7 +540,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 			//Alpha
 			mShadeC.setAlpha(1f - percentage);
 
-			if (percentage == 1f && mGlobalState == ResultsState.DEFAULT) {
+			if (percentage == 1f && mGlobalState == ResultsState.OVERVIEW) {
 				mAddingHotelTrip = false;
 				mAddingFlightTrip = false;
 			}
@@ -665,7 +665,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 			mTripAnimationC.setBlockNewEventsEnabled(true);
 
 			//Visibility
-			if (stateOne == ResultsState.DEFAULT || stateTwo == ResultsState.DEFAULT) {
+			if (stateOne == ResultsState.OVERVIEW || stateTwo == ResultsState.OVERVIEW) {
 				mBlurredBackgroundC.setVisibility(View.VISIBLE);
 				if (mAddingHotelTrip) {
 					mTripAnimationC.setVisibility(View.VISIBLE);
@@ -674,8 +674,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 
 			//layer type
 			int layerType = View.LAYER_TYPE_HARDWARE;
-			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.HOTELS)
-					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.HOTELS)) {
+			if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.HOTELS)
+					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.HOTELS)) {
 				//Default -> Hotels or Hotels -> Default transition
 
 				mBlurredBackgroundC.setLayerType(layerType, null);
@@ -688,8 +688,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 
 			}
 
-			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.FLIGHTS)
-					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.FLIGHTS)) {
+			if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.FLIGHTS)
+					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.FLIGHTS)) {
 				//Default -> Flights or Flights -> Default transition
 
 				mBlurredBackgroundC.setLayerType(layerType, null);
@@ -704,12 +704,12 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionUpdate(ResultsState stateOne, ResultsState stateTwo, float percentage) {
-			if (stateOne == ResultsState.DEFAULT && stateTwo == ResultsState.FLIGHTS) {
+			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.FLIGHTS) {
 				animateToPercentage(percentage, mAddingFlightTrip);
 				addTripPercentage(percentage);
 			}
 
-			if (stateOne == ResultsState.DEFAULT && stateTwo == ResultsState.HOTELS) {
+			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.HOTELS) {
 				animateToPercentage(percentage, mAddingHotelTrip);
 				addTripPercentage(percentage);
 			}
@@ -722,8 +722,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 
 			//layer type
 			int layerType = View.LAYER_TYPE_NONE;
-			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.HOTELS)
-					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.HOTELS)) {
+			if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.HOTELS)
+					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.HOTELS)) {
 				//Default -> Hotels or Hotels -> Default transition
 
 				mBlurredBackgroundC.setLayerType(layerType, null);
@@ -736,8 +736,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 
 			}
 
-			if ((stateOne == ResultsState.DEFAULT || stateOne == ResultsState.FLIGHTS)
-					&& (stateTwo == ResultsState.DEFAULT || stateTwo == ResultsState.FLIGHTS)) {
+			if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.FLIGHTS)
+					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.FLIGHTS)) {
 				//Default -> Flights or Flights -> Default transition
 
 				mBlurredBackgroundC.setLayerType(layerType, null);
@@ -757,7 +757,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 			setVisibilityState(state);
 			setFragmentState(state);
 
-			if (state == ResultsState.DEFAULT) {
+			if (state == ResultsState.OVERVIEW) {
 				mAddingHotelTrip = false;
 				mAddingFlightTrip = false;
 				mTripAnimationC.removeAllViews();
