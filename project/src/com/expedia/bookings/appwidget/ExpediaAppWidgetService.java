@@ -255,7 +255,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 
 			// We remove all views/re-add so that layout animations play
 			remoteViews.removeAllViews(R.id.widget_contents_container);
-			remoteViews.addView(R.id.widget_contents_container, 
+			remoteViews.addView(R.id.widget_contents_container,
 					new RemoteViews(getPackageName(), R.layout.app_widget_contents));
 
 			if (mCurrentPosition == 0) {
@@ -263,6 +263,11 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 				remoteViews.setViewVisibility(R.id.branding_container, View.VISIBLE);
 				remoteViews.setViewVisibility(R.id.hotels_container, View.GONE);
 				remoteViews.setViewVisibility(R.id.widget_hang_tag, View.VISIBLE);
+
+				// Remove hangatg/re-add so that layout animations play (it's separate from the contents)
+				remoteViews.removeAllViews(R.id.widget_hang_tag);
+				remoteViews.addView(R.id.widget_hang_tag,
+						new RemoteViews(getPackageName(), R.layout.app_widget_hangtag));
 			}
 			else {
 				// Show a property
