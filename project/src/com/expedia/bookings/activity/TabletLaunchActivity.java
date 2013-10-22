@@ -26,7 +26,7 @@ import com.expedia.bookings.fragment.ExpediaServicesFragment.ExpediaServicesFrag
 import com.expedia.bookings.fragment.ExpediaServicesFragment.ServiceType;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
-import com.expedia.bookings.fragment.SvgMapFragment;
+import com.expedia.bookings.fragment.TabletLaunchMapFragment;
 import com.expedia.bookings.fragment.TabletSearchFragment;
 import com.expedia.bookings.fragment.TabletSearchFragment.SearchFragmentListener;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
@@ -73,7 +73,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 		FragmentManager fm = getSupportFragmentManager();
 		if (savedInstanceState == null) {
-			mMapFragment = SvgMapFragment.newInstance();
+			mMapFragment = TabletLaunchMapFragment.newInstance();
 			mTilesFragment = DestinationTilesFragment.newInstance();
 			mSearchFragment = new TabletSearchFragment();
 			mServicesFragment = new ExpediaServicesFragment();
