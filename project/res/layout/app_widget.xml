@@ -45,7 +45,8 @@
             android:id="@+id/widget_results_container"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:gravity="center_vertical" >
+            android:gravity="center_vertical"
+            android:visibility="gone" >
 
             <!-- We add/remove views here, so that the animation occurs -->
 
