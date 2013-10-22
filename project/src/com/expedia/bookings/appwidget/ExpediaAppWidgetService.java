@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.joda.time.Hours;
 import org.joda.time.Minutes;
 import org.joda.time.ReadablePeriod;
@@ -38,7 +39,6 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -86,6 +86,9 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	// The maximum backoff time
 	private static final ReadablePeriod MAX_CONNECTION_ERROR_BACKOFF = Hours.ONE;
 
+	// The maximum backoff time in low energy mode
+	private static final ReadablePeriod MAX_CONNECTION_ERROR_BACKOFF_LOW_ENERGY = Hours.SIX;
+
 	// How long before rotating the shown hotel
 	private static final ReadablePeriod ROTATE_INTERVAL = Seconds.seconds(5);
 
@@ -118,6 +121,8 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	private int mCurrentPosition = 0;
 
 	private Handler mHandler;
+
+	private int mFailureCount = 0;
 
 	// You have to request new location updates when switching between power
 	// modes; however, this causes the location listener to fire once
@@ -222,7 +227,10 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		}
 
 		// Check if we're overdue for a search; only valid if going to high energy
-		if (!useLowPower && JodaUtils.isExpired(mLastUpateTimestamp, getMillisFromPeriod(UPDATE_INTERVAL))) {
+		if (!useLowPower
+				&& (JodaUtils.isExpired(mLastUpateTimestamp, getMillisFromPeriod(UPDATE_INTERVAL))
+				|| (mDeals.size() == 0 && JodaUtils.isExpired(mLastUpateTimestamp,
+						getMillisFromPeriod(MINIMUM_UPDATE_INTERVAL))))) {
 			startNewSearch();
 		}
 		else {
@@ -359,11 +367,24 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		mHandler.removeMessages(WHAT_UPDATE);
 
 		Message msg = mHandler.obtainMessage(WHAT_UPDATE);
-		ReadablePeriod delayPeriod = mUseLowEnergy ? UPDATE_INTERVAL_LOW_ENERGY : UPDATE_INTERVAL;
-		mHandler.sendMessageDelayed(msg, getMillisFromPeriod(delayPeriod));
 
-		Log.d(TAG, "Scheduling next automatic search in " + delayPeriod.toPeriod().toStandardMinutes().getMinutes()
-				+ " minutes");
+		long delay;
+		if (mFailureCount != 0) {
+			// Exponential back-off between attempts
+			ReadablePeriod backoffBase = mUseLowEnergy ? MINIMUM_UPDATE_INTERVAL : CONNECTION_ERROR_BACKOFF;
+			ReadablePeriod maxBackoff = mUseLowEnergy ? MAX_CONNECTION_ERROR_BACKOFF_LOW_ENERGY
+					: MAX_CONNECTION_ERROR_BACKOFF;
+			delay = Math.min(getMillisFromPeriod(backoffBase) * (long) Math.pow(2, mFailureCount - 1),
+					getMillisFromPeriod(maxBackoff));
+		}
+		else {
+			ReadablePeriod delayPeriod = mUseLowEnergy ? UPDATE_INTERVAL_LOW_ENERGY : UPDATE_INTERVAL;
+			delay = getMillisFromPeriod(delayPeriod);
+		}
+
+		mHandler.sendMessageDelayed(msg, delay);
+
+		Log.d(TAG, "Scheduling next automatic search in " + (new Duration(delay)).getStandardMinutes() + " minutes");
 	}
 
 	private void startNewSearch() {
@@ -400,7 +421,17 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 			mLastUpateTimestamp = DateTime.now();
 			mDeals.addAll(getDeals(results));
 			updateWidgets();
-			setupNextRotation(false);
+
+			// If there was an error getting results, try again (soon)
+			if (results == null || results.hasErrors()) {
+				mFailureCount++;
+				Log.w(TAG, "Search resulted in failure, increasing failure count to " + mFailureCount);
+			}
+			else {
+				mFailureCount = 0;
+				setupNextRotation(false);
+			}
+
 			scheduleSearch();
 		}
 	};
@@ -462,7 +493,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	private void setupNextRotation(boolean delayDueToInteraction) {
 		mHandler.removeMessages(WHAT_ROTATE);
 
-		if (!mUseLowEnergy) {
+		if (!mUseLowEnergy && mDeals.size() != 0) {
 			Message msg = mHandler.obtainMessage(WHAT_ROTATE);
 			ReadablePeriod delayPeriod = delayDueToInteraction ? INTERACTION_DELAY : ROTATE_INTERVAL;
 			mHandler.sendMessageDelayed(msg, getMillisFromPeriod(delayPeriod));
