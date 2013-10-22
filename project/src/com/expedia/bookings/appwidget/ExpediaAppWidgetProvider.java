@@ -47,5 +47,8 @@ public class ExpediaAppWidgetProvider extends AppWidgetProvider {
 		Log.i(ExpediaAppWidgetService.TAG, "ExpediaAppWidgetProvider.onDisabled()");
 
 		context.stopService(new Intent(context, ExpediaAppWidgetService.class));
+
+		// Track that the widget has been uninstalled
+		OmnitureTracking.trackSimpleEvent(context, null, null, "App.Widget.Remove");
 	}
 }
