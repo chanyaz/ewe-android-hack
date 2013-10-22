@@ -886,7 +886,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				public void run() {
 					ExpediaServices services = new ExpediaServices(getActivity());
 					SuggestionResponse response = services.suggestionsNearby(currentLocation.getLatitude(),
-							currentLocation.getLongitude(), SuggestionSort.POPULARITY, 0);
+							currentLocation.getLongitude(), SuggestionSort.DISTANCE, 0);
 
 					if (response != null && !response.hasErrors() && response.getSuggestions().size() != 0) {
 						mSearchParams.setOrigin(response.getSuggestions().get(0));
