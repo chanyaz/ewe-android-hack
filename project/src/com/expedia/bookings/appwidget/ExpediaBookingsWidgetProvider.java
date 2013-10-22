@@ -10,7 +10,7 @@ import android.content.Intent;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
 
-public class ExpediaAppWidgetProvider extends AppWidgetProvider {
+public class ExpediaBookingsWidgetProvider extends AppWidgetProvider {
 
 	@Override
 	public void onEnabled(Context context) {

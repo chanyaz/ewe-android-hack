@@ -325,7 +325,7 @@
         <!-- NEW Widget components -->
 
         <receiver
-            android:name="com.expedia.bookings.appwidget.ExpediaAppWidgetProvider"
+            android:name="com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider"
             android:enabled="@bool/widgetEnabled" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

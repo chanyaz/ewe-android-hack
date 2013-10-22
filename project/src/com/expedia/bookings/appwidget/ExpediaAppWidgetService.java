@@ -353,7 +353,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 
 		// Update all widgets with the same content
 		AppWidgetManager widgetManager = AppWidgetManager.getInstance(this);
-		int[] widgets = widgetManager.getAppWidgetIds(new ComponentName(this, ExpediaAppWidgetProvider.class));
+		int[] widgets = widgetManager.getAppWidgetIds(new ComponentName(this, ExpediaBookingsWidgetProvider.class));
 		widgetManager.updateAppWidget(widgets, remoteViews);
 	}
 
