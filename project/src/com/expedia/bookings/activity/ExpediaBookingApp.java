@@ -16,7 +16,7 @@ import android.text.format.DateUtils;
 
 import com.activeandroid.ActiveAndroid;
 import com.expedia.bookings.R;
-import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
+import com.expedia.bookings.appwidget.ExpediaAppWidgetProvider;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -164,7 +164,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		if (AndroidUtils.isHoneycombTablet(this) || ExpediaBookingApp.IS_VSC) {
 			try {
 				PackageManager pm = getPackageManager();
-				ComponentName cn = new ComponentName(this, ExpediaBookingsWidgetProvider.class);
+				ComponentName cn = new ComponentName(this, ExpediaAppWidgetProvider.class);
 				pm.setComponentEnabledSetting(cn, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
 						PackageManager.DONT_KILL_APP);
 			}
