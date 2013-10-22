@@ -11,16 +11,32 @@ public class HotelsHappyPath {
 			throws Exception {
 		try {
 
-			// Settings 
 			driver.delay();
 			driver.launchScreen().openMenuDropDown();
 			driver.launchScreen().pressSettings();
 			driver.settingsScreen().clickToClearPrivateData();
-			driver.settingsScreen().clickOKString();
-			driver.settingsScreen().clickOKString();
+			if (driver.searchText(driver.settingsScreen().OKString())) {
+				driver.settingsScreen().clickOKString();
+			}
+			else if (driver.searchText(driver.settingsScreen().AcceptString())) {
+				driver.settingsScreen().clickAcceptString();
+			}
+			else {
+				driver.clickOnText("OK");
+			}
+			driver.delay();
+			if (driver.searchText(driver.settingsScreen().OKString())) {
+				driver.settingsScreen().clickOKString();
+			}
+			else if (driver.searchText(driver.settingsScreen().AcceptString())) {
+				driver.settingsScreen().clickAcceptString();
+			}
+			else {
+				driver.clickOnText("OK");
+			}
 			driver.settingsScreen().setSpoofBookings();
 			driver.settingsScreen().goBack();
-			driver.enterLog(TAG, "Cleared private data and set spoof bookings");
+			driver.enterLog(TAG, "Cleared private data and set spoof/suppress bookings");
 
 			driver.launchScreen().openMenuDropDown();
 			driver.launchScreen().pressSettings();
@@ -161,7 +177,12 @@ public class HotelsHappyPath {
 				driver.hotelsCheckoutScreen().clickSelectPaymentButton();
 				driver.scrollToBottom();
 				driver.enterLog(TAG, "Using new credit card");
-				driver.commonPaymentMethodScreen().clickOnAddNewCardTextView();
+				try {
+					driver.commonPaymentMethodScreen().clickOnAddNewCardTextView();
+				}
+				catch (Exception e) {
+					driver.enterLog(TAG, "No Add New Card button. Proceeding anyway.");
+				}
 				driver.screenshot("Card info");
 				driver.landscape();
 				driver.portrait();
@@ -232,10 +253,13 @@ public class HotelsHappyPath {
 			catch (Throwable t) {
 				driver.enterLog(TAG, "No checkout button to click.");
 			}
-			// Slide to checkout
-			driver.screenshot("Slide to checkout");
+
 			driver.landscape();
 			driver.portrait();
+			if (driver.searchText(driver.hotelsCheckoutScreen().acceptString(), 1, false, true)) {
+				driver.hotelsCheckoutScreen().clickOnAcceptString();
+			}
+			driver.screenshot("Slide to checkout");
 			driver.enterLog(TAG, "Sliding to checkout");
 			driver.hotelsCheckoutScreen().slideToCheckout();
 			driver.delay();
@@ -254,7 +278,7 @@ public class HotelsHappyPath {
 			driver.enterLog(TAG, "Going back to launch screen.");
 			driver.hotelsConfirmationScreen().clickDoneButton();
 			driver.enterLog(TAG, "Clicking shop tab");
-			driver.launchScreen().pressShop();
+			driver.tripsScreen().swipeToLaunchScreen();
 		}
 		catch (Error e) {
 			driver.getScreenShotUtility().screenshot(TAG + "-FAILURE");

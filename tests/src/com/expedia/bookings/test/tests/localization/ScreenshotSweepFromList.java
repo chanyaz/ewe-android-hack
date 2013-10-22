@@ -1,8 +1,3 @@
-// POS/Locale Screenshot Sweep
-// Made for Expedia Hotels Android App.
-// Kevin Carpenter
-// Some code derived from Daniel Lew's LocalizationTests.java
-
 package com.expedia.bookings.test.tests.localization;
 
 import java.util.Locale;
@@ -54,9 +49,23 @@ public class ScreenshotSweepFromList extends
 		public void execute() throws Exception {
 			//Limit to two POSs at a time.
 			for (int i = 0; i < 4; i++) {
+				mDriver.setScreenshotCount(0);
 				Locale testingLocale = mDriver.mLocaleUtils.selectNextLocaleFromInternalList(LOCALE_LIST_LOCATION);
 				mDriver.enterLog(TAG, "Starting sweep of " + testingLocale.toString());
-				mDriver.mLocaleUtils.setLocale(testingLocale);
+				mDriver.delay();
+
+				mDriver.launchScreen().openMenuDropDown();
+				if (mDriver.searchText(mDriver.launchScreen().settingsString())) {
+					mDriver.launchScreen().pressSettings();
+				}
+				else {
+					mDriver.clickInList(0);
+				}
+				mDriver.settingsScreen().clickCountryString();
+				mDriver.settingsScreen().selectPOSFromLocale(testingLocale);
+				mDriver.delay(1);
+				mDriver.goBack();
+
 				HotelsHappyPath.execute(mDriver, mUser, 1);
 			}
 		}
