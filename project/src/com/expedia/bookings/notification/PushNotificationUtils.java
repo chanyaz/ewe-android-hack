@@ -518,8 +518,523 @@ public class PushNotificationUtils {
 		}
 
 		//These are the same for both versions...
-
 		sLocStringMap.put("S_Push_baggage_BAGGAGE", R.string.S_Push_baggage_BAGGAGE);
+
+		//Add the FlightTrack push keys and strings for shared itins.
+		addFTPushKeysToMap();
+	}
+
+	/**
+	 * This adds the FlightTrack push keys and accompanying strings to the key map.
+	 * We keep these separate because we are likely to customize them eventually.
+	 * Also this makes porting over the keys easy. Since both push systems derive from the same code
+	 * we can just go into the GcmBroadcastReceiver and copy the contents of initLocStringMap() to this
+	 * function (not including the part that initializes the map).
+	 */
+	private static void addFTPushKeysToMap() {
+		sLocStringMap.put("S_Push_check_in_C_from_D_to_A_HS", R.string.S_Push_check_in_C_from_D_to_A_HS);
+		sLocStringMap.put("S_Push_two_hour_C_D_to_A_from_G", R.string.S_Push_two_hour_C_D_to_A_from_G);
+		sLocStringMap.put("S_Push_two_hour_C_D_to_A", R.string.S_Push_two_hour_C_D_to_A);
+		sLocStringMap.put("S_Push_one_hour_C_D_to_A_from_G", R.string.S_Push_one_hour_C_D_to_A_from_G);
+		sLocStringMap.put("S_Push_one_hour_C_D_to_A", R.string.S_Push_one_hour_C_D_to_A);
+		sLocStringMap.put("S_Push_C_D_to_A_depart_T_HS_MS_late_from_G",
+				R.string.S_Push_C_D_to_A_depart_T_HS_MS_late_from_G);
+		sLocStringMap.put("S_Push_C_D_to_A_depart_T_HS_MS_late", R.string.S_Push_C_D_to_A_depart_T_HS_MS_late);
+		sLocStringMap.put("S_Push_C_D_to_A_depart_T_HS_late_from_G", R.string.S_Push_C_D_to_A_depart_T_HS_late_from_G);
+		sLocStringMap.put("S_Push_C_D_to_A_depart_T_HS_late", R.string.S_Push_C_D_to_A_depart_T_HS_late);
+		sLocStringMap.put("S_Push_C_D_to_A_depart_T_MS_late_from_G", R.string.S_Push_C_D_to_A_depart_T_MS_late_from_G);
+		sLocStringMap.put("S_Push_C_D_to_A_depart_T_MS_late", R.string.S_Push_C_D_to_A_depart_T_MS_late);
+		sLocStringMap.put("S_Push_C_D_to_A_depart_T_HS_MS_early_from_G",
+				R.string.S_Push_C_D_to_A_depart_T_HS_MS_early_from_G);
+		sLocStringMap.put("S_Push_C_D_to_A_depart_T_HS_MS_early", R.string.S_Push_C_D_to_A_depart_T_HS_MS_early);
+		sLocStringMap
+				.put("S_Push_C_D_to_A_depart_T_HS_early_from_G", R.string.S_Push_C_D_to_A_depart_T_HS_early_from_G);
+		sLocStringMap.put("S_Push_C_D_to_A_depart_T_HS_early", R.string.S_Push_C_D_to_A_depart_T_HS_early);
+		sLocStringMap
+				.put("S_Push_C_D_to_A_depart_T_MS_early_from_G", R.string.S_Push_C_D_to_A_depart_T_MS_early_from_G);
+		sLocStringMap.put("S_Push_C_D_to_A_depart_T_MS_early", R.string.S_Push_C_D_to_A_depart_T_MS_early);
+		sLocStringMap.put("S_Push_Gate_change_C_D_A_from_G_instead_of_G",
+				R.string.S_Push_Gate_change_C_D_A_from_G_instead_of_G);
+		sLocStringMap.put("S_Push_Gate_change_C_D_A_from_G", R.string.S_Push_Gate_change_C_D_A_from_G);
+		sLocStringMap.put("S_Push_On_time_departure_C_D_A_from_G_at_T",
+				R.string.S_Push_On_time_departure_C_D_A_from_G_at_T);
+		sLocStringMap.put("S_Push_On_time_departure_C_D_A_at_T", R.string.S_Push_On_time_departure_C_D_A_at_T);
+		sLocStringMap.put("S_Push_Early_departure_C_D_A_from_G_at_T_HS_MS",
+				R.string.S_Push_Early_departure_C_D_A_from_G_at_T_HS_MS);
+		sLocStringMap.put("S_Push_Early_departure_C_D_A_from_G_at_T_HS",
+				R.string.S_Push_Early_departure_C_D_A_from_G_at_T_HS);
+		sLocStringMap.put("S_Push_Early_departure_C_D_A_from_G_at_T_MS",
+				R.string.S_Push_Early_departure_C_D_A_from_G_at_T_MS);
+		sLocStringMap.put("S_Push_Early_departure_C_D_A_at_T_HS_MS", R.string.S_Push_Early_departure_C_D_A_at_T_HS_MS);
+		sLocStringMap.put("S_Push_Early_departure_C_D_A_at_T_HS", R.string.S_Push_Early_departure_C_D_A_at_T_HS);
+		sLocStringMap.put("S_Push_Early_departure_C_D_A_at_T_MS", R.string.S_Push_Early_departure_C_D_A_at_T_MS);
+		sLocStringMap.put("S_Push_Late_departure_C_D_A_from_G_at_T_HS_MS",
+				R.string.S_Push_Late_departure_C_D_A_from_G_at_T_HS_MS);
+		sLocStringMap.put("S_Push_Late_departure_C_D_A_from_G_at_T_HS",
+				R.string.S_Push_Late_departure_C_D_A_from_G_at_T_HS);
+		sLocStringMap.put("S_Push_Late_departure_C_D_A_from_G_at_T_MS",
+				R.string.S_Push_Late_departure_C_D_A_from_G_at_T_MS);
+		sLocStringMap.put("S_Push_Late_departure_C_D_A_at_T_HS_MS", R.string.S_Push_Late_departure_C_D_A_at_T_HS_MS);
+		sLocStringMap.put("S_Push_Late_departure_C_D_A_at_T_HS", R.string.S_Push_Late_departure_C_D_A_at_T_HS);
+		sLocStringMap.put("S_Push_Late_departure_C_D_A_at_T_MS", R.string.S_Push_Late_departure_C_D_A_at_T_MS);
+		sLocStringMap.put("S_Push_on_time_takeoff_C_D_A_at_T", R.string.S_Push_on_time_takeoff_C_D_A_at_T);
+		sLocStringMap.put("S_Push_late_takeoff_C_D_A_at_T_HS_MS", R.string.S_Push_late_takeoff_C_D_A_at_T_HS_MS);
+		sLocStringMap.put("S_Push_late_takeoff_C_D_A_at_T_HS", R.string.S_Push_late_takeoff_C_D_A_at_T_HS);
+		sLocStringMap.put("S_Push_late_takeoff_C_D_A_at_T_MS", R.string.S_Push_late_takeoff_C_D_A_at_T_MS);
+		sLocStringMap.put("S_Push_early_takeoff_C_D_A_at_T_HS_MS", R.string.S_Push_early_takeoff_C_D_A_at_T_HS_MS);
+		sLocStringMap.put("S_Push_early_takeoff_C_D_A_at_T_HS", R.string.S_Push_early_takeoff_C_D_A_at_T_HS);
+		sLocStringMap.put("S_Push_early_takeoff_C_D_A_at_T_MS", R.string.S_Push_early_takeoff_C_D_A_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_arrives_in_HS_MS", R.string.S_Push_C_D_A_arrives_in_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_arrives_in_HS_M", R.string.S_Push_C_D_A_arrives_in_HS_M);
+		sLocStringMap.put("S_Push_C_D_A_arrives_in_H_MS", R.string.S_Push_C_D_A_arrives_in_H_MS);
+		sLocStringMap.put("S_Push_C_D_A_arrives_in_H_M", R.string.S_Push_C_D_A_arrives_in_H_M);
+		sLocStringMap.put("S_Push_C_D_A_arrives_in_HS", R.string.S_Push_C_D_A_arrives_in_HS);
+		sLocStringMap.put("S_Push_C_D_A_arrives_in_H", R.string.S_Push_C_D_A_arrives_in_H);
+		sLocStringMap.put("S_Push_C_D_A_arrives_in_MS", R.string.S_Push_C_D_A_arrives_in_MS);
+		sLocStringMap.put("S_Push_C_D_A_arrives_in_M", R.string.S_Push_C_D_A_arrives_in_M);
+		sLocStringMap.put("S_Push_C_D_A_will_land_on_time_at_T", R.string.S_Push_C_D_A_will_land_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_will_land_late_at_T_HS_MS", R.string.S_Push_C_D_A_will_land_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_will_land_late_at_T_HS", R.string.S_Push_C_D_A_will_land_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_will_land_late_at_T_MS", R.string.S_Push_C_D_A_will_land_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_will_land_early_at_T_HS_MS", R.string.S_Push_C_D_A_will_land_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_will_land_early_at_T_HS", R.string.S_Push_C_D_A_will_land_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_will_land_early_at_T_MS", R.string.S_Push_C_D_A_will_land_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_will_arrive_at_G_on_time_at_T",
+				R.string.S_Push_C_D_A_will_arrive_at_G_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_will_arrive_at_G_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_will_arrive_at_G_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_will_arrive_at_G_late_at_T_HS",
+				R.string.S_Push_C_D_A_will_arrive_at_G_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_will_arrive_at_G_late_at_T_MS",
+				R.string.S_Push_C_D_A_will_arrive_at_G_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_will_arrive_at_G_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_will_arrive_at_G_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_will_arrive_at_G_early_at_T_HS",
+				R.string.S_Push_C_D_A_will_arrive_at_G_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_will_arrive_at_G_early_at_T_MS",
+				R.string.S_Push_C_D_A_will_arrive_at_G_early_at_T_MS);
+		sLocStringMap.put("S_Push_Gate_change_C_D_A_at_G_instead_of_G",
+				R.string.S_Push_Gate_change_C_D_A_at_G_instead_of_G);
+		sLocStringMap.put("S_Push_Gate_change_C_D_A_at_G", R.string.S_Push_Gate_change_C_D_A_at_G);
+		sLocStringMap.put("S_Push_late_landed_C_D_A_at_T_HS_MS", R.string.S_Push_late_landed_C_D_A_at_T_HS_MS);
+		sLocStringMap.put("S_Push_late_landed_C_D_A_at_T_HS", R.string.S_Push_late_landed_C_D_A_at_T_HS);
+		sLocStringMap.put("S_Push_late_landed_C_D_A_at_T_MS", R.string.S_Push_late_landed_C_D_A_at_T_MS);
+		sLocStringMap.put("S_Push_early_landed_C_D_A_at_T_HS_MS", R.string.S_Push_early_landed_C_D_A_at_T_HS_MS);
+		sLocStringMap.put("S_Push_early_landed_C_D_A_at_T_HS", R.string.S_Push_early_landed_C_D_A_at_T_HS);
+		sLocStringMap.put("S_Push_early_landed_C_D_A_at_T_MS", R.string.S_Push_early_landed_C_D_A_at_T_MS);
+		sLocStringMap.put("S_Push_on_time_landed_C_D_A_at_T", R.string.S_Push_on_time_landed_C_D_A_at_T);
+		sLocStringMap.put("S_Push_early_arrival_C_D_A_at_G_at_T_HS_MS",
+				R.string.S_Push_early_arrival_C_D_A_at_G_at_T_HS_MS);
+		sLocStringMap.put("S_Push_early_arrival_C_D_A_at_G_at_T_HS", R.string.S_Push_early_arrival_C_D_A_at_G_at_T_HS);
+		sLocStringMap.put("S_Push_early_arrival_C_D_A_at_G_at_T_MS", R.string.S_Push_early_arrival_C_D_A_at_G_at_T_MS);
+		sLocStringMap.put("S_Push_early_arrival_C_D_A_at_T_HS_MS", R.string.S_Push_early_arrival_C_D_A_at_T_HS_MS);
+		sLocStringMap.put("S_Push_early_arrival_C_D_A_at_T_HS", R.string.S_Push_early_arrival_C_D_A_at_T_HS);
+		sLocStringMap.put("S_Push_early_arrival_C_D_A_at_T_MS", R.string.S_Push_early_arrival_C_D_A_at_T_MS);
+		sLocStringMap.put("S_Push_late_arrival_C_D_A_at_G_at_T_HS_MS",
+				R.string.S_Push_late_arrival_C_D_A_at_G_at_T_HS_MS);
+		sLocStringMap.put("S_Push_late_arrival_C_D_A_at_G_at_T_HS", R.string.S_Push_late_arrival_C_D_A_at_G_at_T_HS);
+		sLocStringMap.put("S_Push_late_arrival_C_D_A_at_G_at_T_MS", R.string.S_Push_late_arrival_C_D_A_at_G_at_T_MS);
+		sLocStringMap.put("S_Push_late_arrival_C_D_A_at_T_HS_MS", R.string.S_Push_late_arrival_C_D_A_at_T_HS_MS);
+		sLocStringMap.put("S_Push_late_arrival_C_D_A_at_T_HS", R.string.S_Push_late_arrival_C_D_A_at_T_HS);
+		sLocStringMap.put("S_Push_late_arrival_C_D_A_at_T_MS", R.string.S_Push_late_arrival_C_D_A_at_T_MS);
+		sLocStringMap.put("S_Push_on_time_arrival_C_D_A_at_G_at_T", R.string.S_Push_on_time_arrival_C_D_A_at_G_at_T);
+		sLocStringMap.put("S_Push_on_time_arrival_C_D_A_at_T", R.string.S_Push_on_time_arrival_C_D_A_at_T);
+		sLocStringMap.put("S_Push_cancelled_C_D_A", R.string.S_Push_cancelled_C_D_A);
+		sLocStringMap.put("S_Push_diverted_C_D_A_AIRPORT", R.string.S_Push_diverted_C_D_A_AIRPORT);
+		sLocStringMap.put("S_Push_diverted_C_D_A", R.string.S_Push_diverted_C_D_A);
+		sLocStringMap.put("S_Push_redirected_C_D_A", R.string.S_Push_redirected_C_D_A);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_G_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_G_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_on_time_at_T_arrival_G_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_on_time_at_T_arrival_G_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_on_time_at_T_arrival_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_on_time_at_T_arrival_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_G_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_G_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_G_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_G_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_G_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_G_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_arrival_G_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_arrival_G_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_arrival_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_arrival_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_G_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_G_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_MS_arrival_G_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_MS_arrival_G_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_MS_arrival_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_MS_arrival_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_G_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_G_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_G_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_G_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_G_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_G_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_arrival_G_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_arrival_G_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_arrival_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_arrival_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_G_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_G_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_MS_arrival_G_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_MS_arrival_G_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_MS_arrival_on_time_at_T",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_MS_arrival_on_time_at_T);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_G_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_G_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_on_time_at_T_arrival_G_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_on_time_at_T_arrival_G_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_on_time_at_T_arrival_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_on_time_at_T_arrival_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_G_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_G_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_on_time_at_T_arrival_G_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_on_time_at_T_arrival_G_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_on_time_at_T_arrival_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_on_time_at_T_arrival_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_G_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_G_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_on_time_at_T_arrival_G_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_on_time_at_T_arrival_G_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_on_time_at_T_arrival_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_on_time_at_T_arrival_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_G_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_G_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_on_time_at_T_arrival_G_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_on_time_at_T_arrival_G_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_on_time_at_T_arrival_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_on_time_at_T_arrival_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_G_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_G_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_on_time_at_T_arrival_G_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_on_time_at_T_arrival_G_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_on_time_at_T_arrival_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_on_time_at_T_arrival_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_G_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_G_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_on_time_at_T_arrival_G_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_on_time_at_T_arrival_G_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_on_time_at_T_arrival_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_on_time_at_T_arrival_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_on_time_at_T_arrival_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_G_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_G_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_G_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_G_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_G_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_G_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_arrival_G_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_arrival_G_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_arrival_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_arrival_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_G_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_G_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_G_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_G_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_G_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_G_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_arrival_G_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_arrival_G_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_arrival_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_arrival_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_G_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_G_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_MS_arrival_G_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_MS_arrival_G_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_MS_arrival_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_MS_arrival_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_G_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_G_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_arrival_G_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_arrival_G_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_arrival_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_arrival_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_G_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_G_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_MS_arrival_G_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_MS_arrival_G_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_MS_arrival_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_MS_arrival_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_G_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_G_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_MS_arrival_G_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_MS_arrival_G_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_MS_arrival_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_MS_arrival_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_G_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_G_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_G_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_G_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_G_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_G_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_G_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_G_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_G_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_G_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_arrival_G_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_arrival_G_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_arrival_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_arrival_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_G_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_G_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_G_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_G_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_G_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_G_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_arrival_G_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_arrival_G_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_arrival_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_arrival_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_G_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_G_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_MS_arrival_G_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_MS_arrival_G_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_MS_arrival_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_MS_arrival_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_G_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_G_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_arrival_G_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_arrival_G_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_arrival_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_arrival_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_arrival_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_G_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_G_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_MS_arrival_G_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_MS_arrival_G_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_MS_arrival_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_MS_arrival_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_G_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_G_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_MS_arrival_G_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_MS_arrival_G_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_MS_arrival_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_MS_arrival_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_MS_arrival_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_G_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_G_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_G_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_G_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_early_at_T_HS_MS_arrival_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_early_at_T_HS_MS_arrival_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_G_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_G_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_G_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_G_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_G_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_G_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_arrival_G_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_arrival_G_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_arrival_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_arrival_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_G_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_G_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_G_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_G_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_G_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_G_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_arrival_G_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_arrival_G_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_arrival_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_arrival_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_G_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_G_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_MS_arrival_G_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_MS_arrival_G_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_MS_arrival_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_MS_arrival_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_G_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_G_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_arrival_G_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_arrival_G_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_arrival_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_arrival_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_G_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_G_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_MS_arrival_G_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_MS_arrival_G_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_MS_arrival_late_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_MS_arrival_late_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_G_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_G_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_MS_arrival_G_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_MS_arrival_G_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_MS_arrival_late_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_MS_arrival_late_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_G_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_G_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_G_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_G_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_late_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_late_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_G_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_G_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_G_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_G_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_G_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_G_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_arrival_G_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_arrival_G_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_arrival_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_arrival_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_G_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_G_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_G_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_G_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_G_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_G_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_arrival_G_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_arrival_G_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_arrival_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_arrival_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_G_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_G_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_MS_arrival_G_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_MS_arrival_G_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_MS_arrival_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_MS_arrival_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_G_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_G_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_arrival_G_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_arrival_G_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_arrival_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_arrival_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_arrival_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_G_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_G_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_MS_arrival_G_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_MS_arrival_G_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_MS_arrival_early_at_T_HS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_MS_arrival_early_at_T_HS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_G_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_G_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_MS_arrival_G_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_MS_arrival_G_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_MS_arrival_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_MS_arrival_early_at_T_HS_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_MS_arrival_early_at_T_HS_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_G_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_G_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_G_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_G_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_G_late_at_T_HS_MS_arrival_early_at_T_MS);
+		sLocStringMap.put("S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_early_at_T_MS",
+				R.string.S_Push_C_D_A_left_gate_late_at_T_HS_MS_arrival_early_at_T_MS);
 	}
 
 	/**
