@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.tests.hotels.ui.regression;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -25,6 +26,7 @@ public class HotelCheckoutInfoTests extends CustomActivityInstrumentationTestCas
 	}
 
 	public void testHotelHeaderInfo() throws Exception {
+		mDriver.enterLog(TAG, "START: HOTEL HEADER INFO TESTS");
 		mUser.setHotelCityToRandomUSCity();
 		mDriver.hotelsSearchScreen().clickSearchEditText();
 		mDriver.hotelsSearchScreen().clickToClearSearchEditText();
@@ -32,12 +34,14 @@ public class HotelCheckoutInfoTests extends CustomActivityInstrumentationTestCas
 		mDriver.hotelsSearchScreen().clickOnGuestsButton();
 		mDriver.hotelsSearchScreen().guestPicker().clickOnSearchButton();
 		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
+		mDriver.enterLog(TAG, "Searched for hotels in: " + mUser.getHotelSearchCity());
 		for (int i = 0; i < 2; i++) {
 			mDriver.hotelsSearchScreen().selectHotelFromList(i);
 			mDriver.hotelsDetailsScreen().clickSelectButton();
 			int numberOfRooms = mDriver.hotelsRoomsRatesScreen().roomList().getChildCount() - 1;
 			String hotelName = mDriver.hotelsRoomsRatesScreen().hotelNameTextView().getText().toString();
 			float hotelRating = mDriver.hotelsRoomsRatesScreen().hotelRatingBar().getRating();
+			mDriver.enterLog(TAG, "Test is looking at hotel with name: " + hotelName);
 			for (int j = 0; j < numberOfRooms; j++) {
 				if (!handleDialogPopupPresent()) {
 					RoomsAndRatesRow rowModel = mDriver.hotelsRoomsRatesScreen().getRowModelAtIndex(j);
@@ -50,11 +54,19 @@ public class HotelCheckoutInfoTests extends CustomActivityInstrumentationTestCas
 						HotelReceiptModel receiptModel = mDriver.hotelsCheckoutScreen().hotelReceiptModel();
 						String checkoutRoomName = receiptModel.roomTypeDescriptionTextView().getText().toString();
 						assertEquals(hotelName, checkoutHotelName);
+						mDriver.enterLog(TAG,
+								"Assertion Passed: Hotel name from rooms and rates matches name in hotel details");
 						assertEquals(hotelRating, checkoutHotelRating);
+						mDriver.enterLog(TAG,
+								"Assertion Passed: Hotel rating from rooms and rates matches rating in hotel details");
 						assertEquals(roomName, checkoutRoomName);
+						mDriver.enterLog(TAG,
+								"Assertion Passed: Room title from rooms and rates matches room title in hotel checkout receipt");
 						mDriver.hotelsCheckoutScreen().hotelReceiptModel().clickGrandTotalTextView();
 						assertTrue(mDriver.searchText(mDriver.hotelsCheckoutScreen().hotelReceiptModel()
 								.costSummaryString()));
+						mDriver.enterLog(TAG,
+								"Assertion Passed: Cost summary displayed after clicking grand total info button");
 						mDriver.goBack();
 						mDriver.goBack();
 						mDriver.delay();
@@ -66,42 +78,36 @@ public class HotelCheckoutInfoTests extends CustomActivityInstrumentationTestCas
 			mDriver.goBack();
 			mDriver.delay(1);
 		}
+		mDriver.enterLog(TAG, "END: HOTEL HEADER INFO TESTS");
+	}
+
+	public ArrayList<Pair<Integer, Integer>> generateChildAdultCountPairs() {
+		ArrayList<Pair<Integer, Integer>> returnableList = new ArrayList<Pair<Integer, Integer>>();
+		final int numberOfPairsToGenerate = 3;
+		Random rand = new Random();
+		for (int i = 0; i < numberOfPairsToGenerate; i++) {
+			// Can have a maximum of six guests
+			// Can add at most 4 children
+			int childCount = rand.nextInt(5);
+			// Must have a minimum of 1 adult, thus can only add a maximum of 5 minus the number of children already added
+			int adultCount = rand.nextInt(6 - childCount) + 1;
+			Pair<Integer, Integer> newPair = new Pair<Integer, Integer>(adultCount, childCount);
+			returnableList.add(newPair);
+			mDriver.enterLog(TAG, "Added pair: " + newPair.first + ", " + newPair.second);
+		}
+		return returnableList;
 	}
 
 	public void testHotelReceiptGuestNumber() throws Exception {
-		ArrayList<Pair<Integer, Integer>> adultChildNumberPairs = new ArrayList<Pair<Integer, Integer>>();
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(1, 0));
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(2, 0));
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(3, 0));
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(4, 0));
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(5, 0));
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(6, 0));
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(1, 1));
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(1, 2));
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(1, 3));
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(1, 4));
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(2, 1));
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(2, 2));
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(2, 3));
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(2, 4));
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(3, 1));
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(3, 2));
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(3, 3));
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(4, 1));
-		adultChildNumberPairs.add(new Pair<Integer, Integer>(2, 2));
-
-		ArrayList<Pair<Integer, Integer>> testSelection = new ArrayList<Pair<Integer, Integer>>();
-		Random random = new Random();
-		for (int i = 0; i < 3; i++) {
-			int randomPairIndex = random.nextInt(adultChildNumberPairs.size());
-			testSelection.add(adultChildNumberPairs.get(randomPairIndex));
-		}
+		mDriver.enterLog(TAG, "START: HOTEL RECEIPT GUEST NUMBER TESTS");
+		ArrayList<Pair<Integer, Integer>> adultChildNumberPairs = generateChildAdultCountPairs();
 		mUser.setHotelCityToRandomUSCity();
 		mDriver.hotelsSearchScreen().clickSearchEditText();
 		mDriver.hotelsSearchScreen().clickToClearSearchEditText();
 		mDriver.hotelsSearchScreen().enterSearchText(mUser.getHotelSearchCity());
-		for (int i = 0; i < testSelection.size(); i++) {
-			Pair<Integer, Integer> currentPair = testSelection.get(i);
+		mDriver.enterLog(TAG, "Searched for hotels in city: " + mUser.getHotelSearchCity());
+		for (int i = 0; i < adultChildNumberPairs.size(); i++) {
+			Pair<Integer, Integer> currentPair = adultChildNumberPairs.get(i);
 			mDriver.hotelsSearchScreen().clickOnGuestsButton();
 			setGuests(currentPair.first, currentPair.second);
 			mDriver.hotelsSearchScreen().guestPicker().clickOnSearchButton();
@@ -124,6 +130,7 @@ public class HotelCheckoutInfoTests extends CustomActivityInstrumentationTestCas
 									.getQuantityString(R.plurals.number_of_guests, totalNumberOfGuests,
 											totalNumberOfGuests);
 							assertEquals(expectedGuestString, receiptGuestString);
+							mDriver.enterLog(TAG, "Receipt's guest string matched expected guest string.");
 							mDriver.goBack();
 							mDriver.delay();
 						}
@@ -135,9 +142,11 @@ public class HotelCheckoutInfoTests extends CustomActivityInstrumentationTestCas
 				mDriver.delay(1);
 			}
 		}
+		mDriver.enterLog(TAG, "END: HOTEL RECEIPT GUEST NUMBER TESTS");
 	}
 
 	public void testHotelNightsNumber() throws Exception {
+		mDriver.enterLog(TAG, "START: HOTEL RECEIPT NIGHTS NUMBER TESTS");
 		int dateOffsets[] = {
 			3, 7, 10, 25,
 		};
@@ -147,8 +156,10 @@ public class HotelCheckoutInfoTests extends CustomActivityInstrumentationTestCas
 			mDriver.hotelsSearchScreen().clickSearchEditText();
 			mDriver.hotelsSearchScreen().clickToClearSearchEditText();
 			mDriver.hotelsSearchScreen().enterSearchText(mUser.getHotelSearchCity());
+			mDriver.enterLog(TAG, "Searching for hotels in city: " + mUser.getHotelSearchCity());
 			mDriver.hotelsSearchScreen().clickOnCalendarButton();
 			mDriver.delay();
+
 			Time now = new Time();
 			now.setToNow();
 			mDriver.hotelsSearchScreen().clickDate(1);
@@ -161,6 +172,7 @@ public class HotelCheckoutInfoTests extends CustomActivityInstrumentationTestCas
 			mDriver.hotelsSearchScreen().clickOnGuestsButton();
 			mDriver.hotelsSearchScreen().guestPicker().clickOnSearchButton();
 			mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
+			mDriver.enterLog(TAG, "Testing for hotels for a stay of " + numberOfNights + " nights.");
 
 			for (int j = 0; j < 2; j++) {
 				mDriver.hotelsSearchScreen().selectHotelFromList(j);
@@ -179,10 +191,15 @@ public class HotelCheckoutInfoTests extends CustomActivityInstrumentationTestCas
 									.nightsTextView()
 									.getText().toString();
 							assertEquals(expectedNightsString, shownNightsString);
+							mDriver.enterLog(TAG,
+									"Nights string in hotel receipt matched the number of nights selected.");
 							mDriver.hotelsCheckoutScreen().hotelReceiptModel().clickGrandTotalTextView();
 							assertTrue(mDriver.searchText(shownNightsString));
+							mDriver.enterLog(TAG,
+									"Number of nights selected is properly displayed in cost summary fragment.");
 							assertTrue(mDriver.searchText(mDriver.hotelsCheckoutScreen().hotelReceiptModel()
 									.costSummaryString()));
+							mDriver.enterLog(TAG, "Cost summary string is shown in cost summary fragment.");
 							mDriver.goBack();
 							mDriver.goBack();
 							mDriver.delay();
@@ -195,9 +212,11 @@ public class HotelCheckoutInfoTests extends CustomActivityInstrumentationTestCas
 				mDriver.delay(1);
 			}
 		}
+		mDriver.enterLog(TAG, "END: HOTEL RECEIPT NIGHTS NUMBER TESTS");
 	}
 
 	public void testUIElementsPresent() throws Exception {
+		mDriver.enterLog(TAG, "START: UI ELEMENTS PRESENT TESTS");
 		mUser.setHotelCityToRandomUSCity();
 		mDriver.hotelsSearchScreen().clickSearchEditText();
 		mDriver.hotelsSearchScreen().clickToClearSearchEditText();
@@ -205,6 +224,7 @@ public class HotelCheckoutInfoTests extends CustomActivityInstrumentationTestCas
 		mDriver.hotelsSearchScreen().clickOnGuestsButton();
 		mDriver.hotelsSearchScreen().guestPicker().clickOnSearchButton();
 		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
+		mDriver.enterLog(TAG, "Searched for hotels in city: " + mUser.getHotelSearchCity());
 
 		for (int j = 0; j < 2; j++) {
 			mDriver.hotelsSearchScreen().selectHotelFromList(j);
@@ -217,6 +237,8 @@ public class HotelCheckoutInfoTests extends CustomActivityInstrumentationTestCas
 					mDriver.waitForStringToBeGone(mDriver.hotelsCheckoutScreen().calculatingTaxesAndFees());
 					if (!handleDialogPopupPresent()) {
 						HotelReceiptModel receiptModel = mDriver.hotelsCheckoutScreen().hotelReceiptModel();
+						String hotelName = mDriver.hotelsCheckoutScreen().hotelNameView().getText().toString();
+						mDriver.enterLog(TAG, "Looking at hotel: " + hotelName);
 						String nightsString = receiptModel.nightsTextView().getText().toString();
 						String guestsString = receiptModel.guestsTextView().getText().toString();
 						String priceString = receiptModel.priceTextView().getText().toString();
@@ -226,13 +248,14 @@ public class HotelCheckoutInfoTests extends CustomActivityInstrumentationTestCas
 						String secondGuestsString = receiptModel.guestsTextView().getText().toString();
 						String secondPriceString = receiptModel.priceTextView().getText().toString();
 						assertEquals(nightsString, secondNightsString);
+						mDriver.enterLog(TAG, "Nights string remained consistent after checkout scroll down.");
 						assertEquals(guestsString, secondGuestsString);
+						mDriver.enterLog(TAG, "Guests string remained consistent after checkout scroll down.");
 						assertEquals(priceString, secondPriceString);
+						mDriver.enterLog(TAG, "Price string remained consistent after checkout scroll down.");
 						mDriver.goBack();
 						mDriver.goBack();
 						mDriver.delay();
-						// coupon dialog pops up.
-						// TOS screen
 					}
 				}
 			}
@@ -241,23 +264,11 @@ public class HotelCheckoutInfoTests extends CustomActivityInstrumentationTestCas
 			mDriver.goBack();
 			mDriver.delay(1);
 		}
+		mDriver.enterLog(TAG, "END: UI ELEMENTS PRESENT TESTS");
 	}
 
-	// Checkout button
-
-	// After scrolled down, verify: 
-	/*
-	 * Log in with Expedia button
-	 * Buy with Google
-	 * Checkout info
-	 * guest details
-	 * payment details
-	 * Enter a coupon or promotion code
-	 * By accepting blah blah blah
-	 * Rules and restrictions link takes you to TOS Activity
-	 */
-
 	private void setGuests(int adults, int children) {
+		mDriver.enterLog(TAG, "Setting adults to: " + adults + " and children to: " + children);
 		for (int i = 6; i >= 1; i--) {
 			mDriver.hotelsSearchScreen().guestPicker().clickDecrementAdultsButton();
 		}
