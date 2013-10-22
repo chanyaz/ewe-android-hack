@@ -156,17 +156,19 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		if (intent != null && !TextUtils.isEmpty(intent.getAction())) {
 			String action = intent.getAction();
 			if (action.equals(ACTION_NEXT)) {
+				cancelRotation();
 				rotateProperty(1);
 				setupNextRotation(true);
 			}
 			else if (action.equals(ACTION_PREVIOUS)) {
+				cancelRotation();
 				rotateProperty(-1);
 				setupNextRotation(true);
 			}
 		}
 
 		// There might be a new widget or something; might as well update widgets
-		updateWidgets();
+		updateWidgets(true);
 
 		return super.onStartCommand(intent, flags, startId);
 	}
@@ -248,7 +250,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	//////////////////////////////////////////////////////////////////////////
 	// Widget Views
 
-	private void updateWidgets() {
+	private void updateWidgets(boolean animate) {
 		Log.v(TAG, "Updating widget views...");
 
 		// Configure remote views
@@ -256,24 +258,28 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 
 		Intent onClickWidgetIntent = new Intent(this, SearchActivity.class);
 		if (mDeals.size() > 0) {
+			// We remove all views/re-add so that layout animations play
+			if (animate) {
+				remoteViews.removeAllViews(R.id.widget_contents_container);
+				remoteViews.addView(R.id.widget_contents_container,
+						new RemoteViews(getPackageName(), R.layout.app_widget_contents));
+			}
+
 			remoteViews.setViewVisibility(R.id.loading_text_container, View.GONE);
 			remoteViews.setViewVisibility(R.id.widget_results_container, View.VISIBLE);
 
-			// We remove all views/re-add so that layout animations play
-			remoteViews.removeAllViews(R.id.widget_contents_container);
-			remoteViews.addView(R.id.widget_contents_container,
-					new RemoteViews(getPackageName(), R.layout.app_widget_contents));
-
 			if (mCurrentPosition == 0) {
+				// Remove hangatg/re-add so that layout animations play (it's separate from the contents)
+				if (animate) {
+					remoteViews.removeAllViews(R.id.widget_hang_tag);
+					remoteViews.addView(R.id.widget_hang_tag,
+							new RemoteViews(getPackageName(), R.layout.app_widget_hangtag));
+				}
+
 				// Show branding
 				remoteViews.setViewVisibility(R.id.branding_container, View.VISIBLE);
 				remoteViews.setViewVisibility(R.id.hotels_container, View.GONE);
 				remoteViews.setViewVisibility(R.id.widget_hang_tag, View.VISIBLE);
-
-				// Remove hangatg/re-add so that layout animations play (it's separate from the contents)
-				remoteViews.removeAllViews(R.id.widget_hang_tag);
-				remoteViews.addView(R.id.widget_hang_tag,
-						new RemoteViews(getPackageName(), R.layout.app_widget_hangtag));
 			}
 			else {
 				// Show a property
@@ -392,7 +398,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		mDeals.clear();
 		mLoadedDeals = false;
 		mCurrentPosition = 0;
-		updateWidgets();
+		updateWidgets(true);
 
 		// Start new search if one isn't currently running
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -418,7 +424,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 			mLoadedDeals = true;
 			mLastUpateTimestamp = DateTime.now();
 			mDeals.addAll(getDeals(results));
-			updateWidgets();
+			updateWidgets(true);
 
 			// If there was an error getting results, try again (soon)
 			if (results == null || results.hasErrors()) {
@@ -547,7 +553,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	@Override
 	public void onImageLoaded(String url, Bitmap bitmap) {
 		Log.d(TAG, "Loaded widget image: " + url);
-		updateWidgets();
+		updateWidgets(false);
 	}
 
 	@Override
@@ -577,7 +583,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 				switch (msg.what) {
 				case WHAT_ROTATE:
 					service.rotateProperty(1);
-					service.updateWidgets();
+					service.updateWidgets(true);
 					service.setupNextRotation(false);
 					break;
 				case WHAT_UPDATE:
