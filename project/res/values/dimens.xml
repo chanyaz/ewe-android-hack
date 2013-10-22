@@ -227,4 +227,8 @@
     <!-- This gets overridden for small screens (in values-small) -->
     <dimen name="number_picker_text_size">20sp</dimen>
 
+    <!-- App widget dimens -->
+    <dimen name="app_widget_min_height">72dp</dimen>
+    <dimen name="app_widget_min_width">294dp</dimen>
+
 </resources>
