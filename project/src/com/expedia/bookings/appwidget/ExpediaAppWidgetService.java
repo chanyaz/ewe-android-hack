@@ -227,10 +227,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		}
 
 		// Check if we're overdue for a search; only valid if going to high energy
-		if (!useLowPower
-				&& (JodaUtils.isExpired(mLastUpateTimestamp, getMillisFromPeriod(UPDATE_INTERVAL))
-				|| (mDeals.size() == 0 && JodaUtils.isExpired(mLastUpateTimestamp,
-						getMillisFromPeriod(MINIMUM_UPDATE_INTERVAL))))) {
+		if (!useLowPower && JodaUtils.isExpired(mLastUpateTimestamp, getNextSearchDelay())) {
 			startNewSearch();
 		}
 		else {
@@ -367,24 +364,25 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		mHandler.removeMessages(WHAT_UPDATE);
 
 		Message msg = mHandler.obtainMessage(WHAT_UPDATE);
+		long delay = getNextSearchDelay();
+		mHandler.sendMessageDelayed(msg, delay);
 
-		long delay;
+		Log.d(TAG, "Scheduling next automatic search in " + (new Duration(delay)).getStandardMinutes() + " minutes");
+	}
+
+	private long getNextSearchDelay() {
 		if (mFailureCount != 0) {
 			// Exponential back-off between attempts
 			ReadablePeriod backoffBase = mUseLowEnergy ? MINIMUM_UPDATE_INTERVAL : CONNECTION_ERROR_BACKOFF;
 			ReadablePeriod maxBackoff = mUseLowEnergy ? MAX_CONNECTION_ERROR_BACKOFF_LOW_ENERGY
 					: MAX_CONNECTION_ERROR_BACKOFF;
-			delay = Math.min(getMillisFromPeriod(backoffBase) * (long) Math.pow(2, mFailureCount - 1),
+			return Math.min(getMillisFromPeriod(backoffBase) * (long) Math.pow(2, mFailureCount - 1),
 					getMillisFromPeriod(maxBackoff));
 		}
 		else {
 			ReadablePeriod delayPeriod = mUseLowEnergy ? UPDATE_INTERVAL_LOW_ENERGY : UPDATE_INTERVAL;
-			delay = getMillisFromPeriod(delayPeriod);
+			return getMillisFromPeriod(delayPeriod);
 		}
-
-		mHandler.sendMessageDelayed(msg, delay);
-
-		Log.d(TAG, "Scheduling next automatic search in " + (new Duration(delay)).getStandardMinutes() + " minutes");
 	}
 
 	private void startNewSearch() {
