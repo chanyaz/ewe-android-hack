@@ -21,14 +21,14 @@ import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IMeasurementListener;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
-import com.expedia.bookings.utils.ColumnManager;
+import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsActionBarView extends RelativeLayout implements IMeasurementListener, IBackManageable {
 
-	private ColumnManager mColumnManager = new ColumnManager(3);
+	private GridManager mGrid = new GridManager(1, 3);
 	private ResultsState mResultsState = ResultsState.OVERVIEW;
 
 	private ActionBar mActionBar;
@@ -260,10 +260,10 @@ public class TabletResultsActionBarView extends RelativeLayout implements IMeasu
 
 	@Override
 	public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
-		mColumnManager.setTotalWidth(totalWidth);
+		mGrid.setTotalWidth(totalWidth);
 
 		//We set the search bar to be centered between the app icon and left edge of the 3rd column
-		int width = mColumnManager.getColWidth(0) + mColumnManager.getColWidth(1) - 2 * getLeft();
+		int width = mGrid.getColWidth(0) + mGrid.getColWidth(1) - 2 * getLeft();
 		int left = Math.round(getLeft() / 2f);
 		LayoutParams params = (LayoutParams) mSearchBar.getLayoutParams();
 		params.width = width;

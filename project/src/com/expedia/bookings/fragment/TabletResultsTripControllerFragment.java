@@ -32,7 +32,7 @@ import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
-import com.expedia.bookings.utils.ColumnManager;
+import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.ScreenPositionUtils;
@@ -84,7 +84,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 
 	private ResultsState mGlobalState;
 	private int mTotalHeight = 0;
-	private ColumnManager mColumnManager = new ColumnManager(3);
+	private GridManager mGrid = new GridManager(1, 3);
 
 	private boolean mAddingHotelTrip = false;
 	private boolean mAddingFlightTrip = false;
@@ -241,19 +241,19 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 
 		if (!verticalOnly) {
 			//We set the content containers to be the column width
-			setHorizontalPos(mTripFlightC, 0, mColumnManager.getColWidth(2) - mFlightSwipeOut.getPaddingLeft()
+			setHorizontalPos(mTripFlightC, 0, mGrid.getColWidth(2) - mFlightSwipeOut.getPaddingLeft()
 					- mFlightSwipeOut.getPaddingRight());
-			setHorizontalPos(mTripHotelC, 0, mColumnManager.getColWidth(2) - mHotelSwipeOut.getPaddingLeft()
+			setHorizontalPos(mTripHotelC, 0, mGrid.getColWidth(2) - mHotelSwipeOut.getPaddingLeft()
 					- mHotelSwipeOut.getPaddingRight());
 
 			int flightSwipeOutDistance = (int) mFlightSwipeOut.getSwipeOutDistance();
 			int hotelSwipeOutDistance = (int) mHotelSwipeOut.getSwipeOutDistance();
 
-			setHorizontalPos(mTripBucketFlightC, mColumnManager.getColLeft(2) - flightSwipeOutDistance,
-					mColumnManager.getColWidth(2) + flightSwipeOutDistance);
+			setHorizontalPos(mTripBucketFlightC, mGrid.getColLeft(2) - flightSwipeOutDistance,
+					mGrid.getColWidth(2) + flightSwipeOutDistance);
 			setHorizontalPos(mTripBucketHotelC,
-					mColumnManager.getColLeft(2) - hotelSwipeOutDistance,
-					mColumnManager.getColWidth(2) + hotelSwipeOutDistance);
+					mGrid.getColLeft(2) - hotelSwipeOutDistance,
+					mGrid.getColWidth(2) + hotelSwipeOutDistance);
 		}
 	}
 
@@ -507,7 +507,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 	}
 
 	private void animateToPercentage(float percentage, boolean addingTrip) {
-		int colTwoDist = mColumnManager.getTotalWidth() - mColumnManager.getColLeft(2);
+		int colTwoDist = mGrid.getTotalWidth() - mGrid.getColLeft(2);
 		float translationX = colTwoDist * (1f - percentage);
 		for (View container : mBucketContainers) {
 			container.setTranslationX(translationX);
@@ -763,7 +763,6 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 				mTripAnimationC.removeAllViews();
 			}
 		}
-
 	};
 
 	/*
@@ -775,12 +774,12 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 		@Override
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
 			mTotalHeight = totalHeight;
-			mColumnManager.setTotalWidth(totalWidth);
+			mGrid.setTotalWidth(totalWidth);
 
-			mColumnManager.setContainerToColumn(mBlurredBackgroundC, 2);
-			mColumnManager.setContainerToColumn(mTripAnimationC, 2);
+			mGrid.setContainerToColumn(mBlurredBackgroundC, 2);
+			mGrid.setContainerToColumn(mTripAnimationC, 2);
 
-			mColumnManager.setContainerToColumn(mTripBucketYourTripToC, 2);
+			mGrid.setContainerToColumn(mTripBucketYourTripToC, 2);
 
 			positionTripBucketItems(false);
 		}

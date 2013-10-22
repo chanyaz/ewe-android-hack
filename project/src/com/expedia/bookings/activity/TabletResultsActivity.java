@@ -49,7 +49,7 @@ import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.utils.ColumnManager;
+import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
@@ -103,7 +103,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	private TabletResultsTripControllerFragment mTripController;
 
 	//Other
-	private ColumnManager mColumnManager = new ColumnManager(3);
+	private GridManager mGrid = new GridManager(1, 3);
 	private ResultsState mState = ResultsState.OVERVIEW;
 	private String mDestinationCode = "SFO";//The destination code to use for background images...
 	private boolean mPreDrawInitComplete = false;
@@ -274,7 +274,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	@Override
 	public void registerBgImageReceiver(IBackgroundImageReceiver receiver) {
 		mBackgroundImageReceivers.add(receiver);
-		receiver.bgImageInDbUpdated(mColumnManager.getTotalWidth());
+		receiver.bgImageInDbUpdated(mGrid.getTotalWidth());
 	}
 
 	@Override
@@ -414,7 +414,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 
 	private void updateBackgroundImages() {
 		for (IBackgroundImageReceiver receiver : mBackgroundImageReceivers) {
-			receiver.bgImageInDbUpdated(mColumnManager.getTotalWidth());
+			receiver.bgImageInDbUpdated(mGrid.getTotalWidth());
 		}
 	}
 
@@ -591,7 +591,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 			mLastReportedHeight = totalHeight;
 
 			//Setup column manager
-			mColumnManager.setTotalWidth(totalWidth);
+			mGrid.setTotalWidth(totalWidth);
 
 			for (IMeasurementListener listener : mMeasurementListeners) {
 				listener.onContentSizeUpdated(totalWidth, totalHeight, totalWidth > totalHeight);

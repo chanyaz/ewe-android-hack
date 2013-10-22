@@ -34,7 +34,7 @@ import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.maps.HotelMapFragment;
 import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
-import com.expedia.bookings.utils.ColumnManager;
+import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
@@ -109,7 +109,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			ResultsHotelsState.HOTEL_LIST, this);
 	private IHotelsFruitScrollUpListViewChangeListener mFruitListener;
 	private IAddToTripListener mParentAddToTripListener;
-	private ColumnManager mColumnManager = new ColumnManager(3);
+	private GridManager mGrid = new GridManager(1, 3);
 	private int mShadeColor = Color.argb(220, 0, 0, 0);
 	private boolean mRoomsAndRatesInFront = true;//They start in front
 
@@ -402,9 +402,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	}
 
 	private void updateMapFragmentPositioningInfo(HotelMapFragment mapFrag) {
-		if (mapFrag != null && mColumnManager.getTotalWidth() > 0) {
-			mapFrag.setResultsViewWidth(mColumnManager.getColWidth(0));
-			mapFrag.setFilterViewWidth(mColumnManager.getColLeft(2));
+		if (mapFrag != null && mGrid.getTotalWidth() > 0) {
+			mapFrag.setResultsViewWidth(mGrid.getColWidth(0));
+			mapFrag.setFilterViewWidth(mGrid.getColLeft(2));
 			if (mapFrag.isReady()) {
 				mapFrag.notifySearchComplete();
 			}
@@ -636,16 +636,16 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
-			mColumnManager.setTotalWidth(totalWidth);
+			mGrid.setTotalWidth(totalWidth);
 
 			//Tell all of the containers where they belong
-			mColumnManager.setContainerToColumn(mHotelListC, 0);
-			mColumnManager.setContainerToColumn(mHotelFiltersC, 1);
-			mColumnManager.setContainerToColumn(mHotelFilteredCountC, 2);
-			mColumnManager.setContainerToColumnSpan(mBgHotelMapC, 0, 2);
-			mColumnManager.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 2);
-			mColumnManager.setContainerToColumnSpan(mHotelRoomsAndRatesC, 1, 2);
-			mColumnManager.setContainerToColumnSpan(mHotelRoomsAndRatesShadeC, 0, 2);
+			mGrid.setContainerToColumn(mHotelListC, 0);
+			mGrid.setContainerToColumn(mHotelFiltersC, 1);
+			mGrid.setContainerToColumn(mHotelFilteredCountC, 2);
+			mGrid.setContainerToColumnSpan(mBgHotelMapC, 0, 2);
+			mGrid.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 2);
+			mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 1, 2);
+			mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesShadeC, 0, 2);
 
 			//since the actionbar is an overlay, we must compensate by setting the root layout to have a top margin
 			int actionBarHeight = getActivity().getActionBar().getHeight();
@@ -764,7 +764,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionStart(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
-			if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS || stateTwo == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
+			if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
+					|| stateTwo == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
 				//SHOWING FILTERS
 				mHotelListFrag.setListLockedToTop(true);
 				setHotelsFiltersAnimationVisibilities(true);
@@ -787,7 +788,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo, float percentage) {
-			if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS || stateTwo == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
+			if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
+					|| stateTwo == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
 				//SHOWING FILTERS
 				setHotelsFiltersShownPercentage(percentage);
 
@@ -807,7 +809,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionEnd(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
-			if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS || stateTwo == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
+			if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
+					|| stateTwo == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
 				//SHOWING FILTERS
 				setHotelsFiltersAnimationVisibilities(false);
 				setHotelsFiltersAnimationHardwareRendering(false);
@@ -883,10 +886,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 
 		private void setHotelsFiltersShownPercentage(float percentage) {
-			float filtersLeft = -(1f - percentage) * mColumnManager.getColWidth(1);
+			float filtersLeft = -(1f - percentage) * mGrid.getColWidth(1);
 			mHotelFiltersC.setTranslationX(filtersLeft);
 
-			float filteredCountLeft = mColumnManager.getColWidth(2) * (1f - percentage);
+			float filteredCountLeft = mGrid.getColWidth(2) * (1f - percentage);
 			mHotelFilteredCountC.setTranslationX(filteredCountLeft);
 		}
 
