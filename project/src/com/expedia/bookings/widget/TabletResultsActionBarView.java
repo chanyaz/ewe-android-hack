@@ -28,7 +28,7 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsActionBarView extends RelativeLayout implements IMeasurementListener, IBackManageable {
 
-	private GridManager mGrid = new GridManager(1, 3);
+	private GridManager mGrid = new GridManager();
 	private ResultsState mResultsState = ResultsState.OVERVIEW;
 
 	private ActionBar mActionBar;
@@ -260,7 +260,9 @@ public class TabletResultsActionBarView extends RelativeLayout implements IMeasu
 
 	@Override
 	public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
-		mGrid.setTotalWidth(totalWidth);
+		//Setup grid manager
+		mGrid.setGridSize(1, 3);
+		mGrid.setDimensions(totalWidth, totalHeight);
 
 		//We set the search bar to be centered between the app icon and left edge of the 3rd column
 		int width = mGrid.getColWidth(0) + mGrid.getColWidth(1) - 2 * getLeft();

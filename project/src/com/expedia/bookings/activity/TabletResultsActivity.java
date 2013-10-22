@@ -103,7 +103,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	private TabletResultsTripControllerFragment mTripController;
 
 	//Other
-	private GridManager mGrid = new GridManager(1, 3);
+	private GridManager mGrid = new GridManager();
 	private ResultsState mState = ResultsState.OVERVIEW;
 	private String mDestinationCode = "SFO";//The destination code to use for background images...
 	private boolean mPreDrawInitComplete = false;
@@ -586,15 +586,19 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public void updateContentSize(int totalWidth, int totalHeight) {
+
 		if (totalWidth != mLastReportedWidth || totalHeight != mLastReportedHeight) {
+			boolean isLandscape = totalWidth > totalHeight;
+
 			mLastReportedWidth = totalWidth;
 			mLastReportedHeight = totalHeight;
 
-			//Setup column manager
-			mGrid.setTotalWidth(totalWidth);
+			//Setup grid manager
+			mGrid.setGridSize(1, 3);
+			mGrid.setDimensions(totalWidth, totalHeight);
 
 			for (IMeasurementListener listener : mMeasurementListeners) {
-				listener.onContentSizeUpdated(totalWidth, totalHeight, totalWidth > totalHeight);
+				listener.onContentSizeUpdated(totalWidth, totalHeight, isLandscape);
 			}
 		}
 	}

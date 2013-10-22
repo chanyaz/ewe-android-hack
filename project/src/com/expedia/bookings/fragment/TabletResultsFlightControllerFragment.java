@@ -128,8 +128,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	//Other
 	private ResultsState mGlobalState;
 	private IFlightsFruitScrollUpListViewChangeListener mListener;
-	private GridManager mGrid = new GridManager(1, 3);
-	private int mGlobalHeight = 0;
+	private GridManager mGrid = new GridManager();
 	private float mFlightDetailsMarginPercentage = 0.1f;
 	private boolean mOneWayFlight = true;
 	private IAddToTripListener mParentAddToTripListener;
@@ -335,7 +334,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			position.left = mGrid.getColLeft(1);
 			position.right = mGrid.getColRight(2);
 			position.top = 0;
-			position.bottom = mGlobalHeight - actionbarHeight;
+			position.bottom = mGrid.getTotalHeight() - actionbarHeight;
 			frag.setDefaultDetailsPositionAndDimensions(position, mFlightDetailsMarginPercentage);
 		}
 		if (frag != null && mFlightOneListFrag != null && mFlightOneListFrag.getTopSpaceListView() != null
@@ -706,8 +705,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		@Override
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
-			mGrid.setTotalWidth(totalWidth);
-			mGlobalHeight = totalHeight;
+			//Setup grid manager
+			mGrid.setGridSize(1, 3);
+			mGrid.setDimensions(totalWidth, totalHeight);
 
 			mGrid.setContainerToColumnSpan(mFlightMapC, 0, 2);
 

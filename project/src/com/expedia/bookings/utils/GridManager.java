@@ -9,9 +9,12 @@ public class GridManager {
 	private GridAxis mRows;
 	private GridAxis mCols;
 
+	public GridManager() {
+		this(1, 1);
+	}
+
 	public GridManager(int numRows, int numColumns) {
-		mRows = new GridAxis(numRows);
-		mCols = new GridAxis(numColumns);
+		setGridSize(numRows, numColumns);
 	}
 
 	public void setTotalWidth(int width) {
@@ -25,6 +28,29 @@ public class GridManager {
 	public void setDimensions(int width, int height) {
 		setTotalWidth(width);
 		setTotalHeight(height);
+	}
+
+	public void setNumRows(int numRows) {
+		if (mRows == null) {
+			mRows = new GridAxis(numRows);
+		}
+		else {
+			mRows.setNumItems(numRows);
+		}
+	}
+
+	public void setNumCols(int numCols) {
+		if (mCols == null) {
+			mCols = new GridAxis(numCols);
+		}
+		else {
+			mCols.setNumItems(numCols);
+		}
+	}
+
+	public void setGridSize(int numRows, int numCols) {
+		setNumRows(numRows);
+		setNumCols(numCols);
 	}
 
 	public int getTotalWidth() {
@@ -158,14 +184,24 @@ public class GridManager {
 		private int[] mItemEdges;
 
 		public GridAxis(int numItems) {
-			mNumItems = numItems;
-			mItemSizes = new int[mNumItems];
-			mItemEdges = new int[mNumItems];
+			setNumItems(numItems);
 		}
 
 		public void setTotalSize(int totalSize) {
-			mTotalSize = totalSize;
-			calculate();
+			if (mTotalSize != totalSize) {
+				mTotalSize = totalSize;
+				calculate();
+			}
+		}
+
+		public void setNumItems(int numItems) {
+			mNumItems = numItems;
+			mItemSizes = new int[mNumItems];
+			mItemEdges = new int[mNumItems];
+
+			if (mTotalSize > 0) {
+				calculate();
+			}
 		}
 
 		public int getTotalSize() {
@@ -177,14 +213,23 @@ public class GridManager {
 		}
 
 		public int getItemSize(int colIndex) {
+			if (colIndex >= mItemSizes.length) {
+				return 0;
+			}
 			return mItemSizes[colIndex];
 		}
 
 		public int getItemEdge(int colIndex) {
+			if (colIndex >= mItemEdges.length) {
+				return 0;
+			}
 			return mItemEdges[colIndex];
 		}
 
 		public int getItemFarEdge(int colIndex) {
+			if (colIndex >= mItemEdges.length || colIndex >= mItemSizes.length) {
+				return 0;
+			}
 			return mItemEdges[colIndex] + mItemSizes[colIndex];
 		}
 

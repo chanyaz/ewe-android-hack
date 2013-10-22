@@ -109,7 +109,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			ResultsHotelsState.HOTEL_LIST, this);
 	private IHotelsFruitScrollUpListViewChangeListener mFruitListener;
 	private IAddToTripListener mParentAddToTripListener;
-	private GridManager mGrid = new GridManager(1, 3);
+	private GridManager mGrid = new GridManager();
 	private int mShadeColor = Color.argb(220, 0, 0, 0);
 	private boolean mRoomsAndRatesInFront = true;//They start in front
 
@@ -636,7 +636,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
-			mGrid.setTotalWidth(totalWidth);
+			//Setup grid manager
+			mGrid.setGridSize(1, 3);
+			mGrid.setDimensions(totalWidth, totalHeight);
 
 			//Tell all of the containers where they belong
 			mGrid.setContainerToColumn(mHotelListC, 0);

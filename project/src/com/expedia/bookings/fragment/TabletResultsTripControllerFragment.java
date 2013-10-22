@@ -83,8 +83,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 	private BlockEventFrameLayout mShadeC;
 
 	private ResultsState mGlobalState;
-	private int mTotalHeight = 0;
-	private GridManager mGrid = new GridManager(1, 3);
+	private GridManager mGrid = new GridManager();
 
 	private boolean mAddingHotelTrip = false;
 	private boolean mAddingFlightTrip = false;
@@ -202,7 +201,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 	}
 
 	private int[] getCenterPositionsForTripBucket(int itemCount) {
-		int viewSpace = (int) ((float) mTotalHeight / itemCount);
+		int viewSpace = (int) ((float) mGrid.getTotalHeight() / itemCount);
 		int[] retArr = new int[itemCount];
 		int currentCenter = (int) (viewSpace / 2f);
 		for (int i = 0; i < itemCount; i++) {
@@ -215,7 +214,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 	private void positionTripBucketItems(boolean verticalOnly) {
 		//We just split the space evenly between views
 		int[] centers = getCenterPositionsForTripBucket(getNumberOfBucketContainers());
-		int viewHeight = mTotalHeight / 3;
+		int viewHeight = mGrid.getTotalHeight() / 3;
 		float halfViewHeight = viewHeight / 2f;
 
 		setViewHeight(mTripBucketYourTripToC, viewHeight);
@@ -773,8 +772,9 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 
 		@Override
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
-			mTotalHeight = totalHeight;
-			mGrid.setTotalWidth(totalWidth);
+			//Setup grid manager
+			mGrid.setGridSize(1, 3);
+			mGrid.setDimensions(totalWidth, totalHeight);
 
 			mGrid.setContainerToColumn(mBlurredBackgroundC, 2);
 			mGrid.setContainerToColumn(mTripAnimationC, 2);
