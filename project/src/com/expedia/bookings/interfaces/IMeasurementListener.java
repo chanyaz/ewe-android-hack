@@ -10,5 +10,5 @@ public interface IMeasurementListener {
 	 * @param totalWidth
 	 * @param totalHeight
 	 */
-	public void onContentSizeUpdated(int totalWidth, int totalHeight);
+	public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape);
 }

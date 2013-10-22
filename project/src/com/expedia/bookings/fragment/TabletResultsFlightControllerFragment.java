@@ -705,7 +705,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private MeasurementHelper mMeasurementHelper = new MeasurementHelper() {
 
 		@Override
-		public void onContentSizeUpdated(int totalWidth, int totalHeight) {
+		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
 			mColumnManager.setTotalWidth(totalWidth);
 			mGlobalHeight = totalHeight;
 

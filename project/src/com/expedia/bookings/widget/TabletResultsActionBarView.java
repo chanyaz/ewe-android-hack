@@ -259,7 +259,7 @@ public class TabletResultsActionBarView extends RelativeLayout implements IMeasu
 	 */
 
 	@Override
-	public void onContentSizeUpdated(int totalWidth, int totalHeight) {
+	public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
 		mColumnManager.setTotalWidth(totalWidth);
 
 		//We set the search bar to be centered between the app icon and left edge of the 3rd column

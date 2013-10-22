@@ -635,7 +635,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private MeasurementHelper mMeasurementHelper = new MeasurementHelper() {
 
 		@Override
-		public void onContentSizeUpdated(int totalWidth, int totalHeight) {
+		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
 			mColumnManager.setTotalWidth(totalWidth);
 
 			//Tell all of the containers where they belong

@@ -594,7 +594,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 			mColumnManager.setTotalWidth(totalWidth);
 
 			for (IMeasurementListener listener : mMeasurementListeners) {
-				listener.onContentSizeUpdated(totalWidth, totalHeight);
+				listener.onContentSizeUpdated(totalWidth, totalHeight, totalWidth > totalHeight);
 			}
 		}
 	}
@@ -603,7 +603,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	public void registerMeasurementListener(IMeasurementListener listener, boolean fireListener) {
 		mMeasurementListeners.add(listener);
 		if (fireListener && mLastReportedWidth >= 0 && mLastReportedHeight >= 0) {
-			listener.onContentSizeUpdated(mLastReportedWidth, mLastReportedHeight);
+			listener.onContentSizeUpdated(mLastReportedWidth, mLastReportedHeight,
+					mLastReportedWidth > mLastReportedHeight);
 		}
 	}
 

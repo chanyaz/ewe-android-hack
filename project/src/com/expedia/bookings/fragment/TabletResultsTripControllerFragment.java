@@ -773,7 +773,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 	private MeasurementHelper mMeasurementHelper = new MeasurementHelper() {
 
 		@Override
-		public void onContentSizeUpdated(int totalWidth, int totalHeight) {
+		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
 			mTotalHeight = totalHeight;
 			mColumnManager.setTotalWidth(totalWidth);
 
