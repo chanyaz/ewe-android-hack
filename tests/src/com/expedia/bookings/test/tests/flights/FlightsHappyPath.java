@@ -84,7 +84,7 @@ public class FlightsHappyPath {
 
 			// Searching
 			driver.screenshot("Searching for flights");
-			driver.waitForStringToBeGone(driver.flightsSearchLoading().getLoadingFlightsString());
+			driver.waitForStringToBeGone(driver.flightsSearchLoading().getLoadingFlightsString(), 60);
 			driver.landscape();
 			driver.portrait();
 
@@ -104,7 +104,7 @@ public class FlightsHappyPath {
 			driver.screenshot("Flight leg screen");
 			driver.enterLog(TAG, "Clicking select flight button");
 			driver.flightLegScreen().clickSelectFlightButton();
-			driver.waitForStringToBeGone(driver.flightLegScreen().checkingForPriceChangesString());
+			driver.waitForStringToBeGone(driver.flightLegScreen().checkingForPriceChangesString(), 60);
 
 			// Checkout
 			driver.landscape();
@@ -122,7 +122,7 @@ public class FlightsHappyPath {
 			driver.logInScreen().typeTextEmailEditText(user.getLoginEmail());
 			driver.logInScreen().typeTextPasswordEditText(user.getLoginPassword());
 			driver.logInScreen().clickOnLoginButton();
-			driver.waitForStringToBeGone(driver.logInScreen().loggingInDialogString());
+			driver.waitForStringToBeGone(driver.logInScreen().loggingInDialogString(), 45);
 
 			// Enter new payment
 			driver.landscape();
@@ -192,7 +192,7 @@ public class FlightsHappyPath {
 			driver.cvvEntryScreen().parseAndEnterCVV(user.getCCV());
 			driver.cvvEntryScreen().clickBookButton();
 			driver.delay(1);
-			driver.waitForStringToBeGone(driver.cvvEntryScreen().booking());
+			driver.waitForStringToBeGone(driver.cvvEntryScreen().booking(), 60);
 			driver.delay(1);
 			driver.screenshot("Confirmation Screen");
 			driver.landscape();
