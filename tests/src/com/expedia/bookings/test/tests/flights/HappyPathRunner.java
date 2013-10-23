@@ -28,11 +28,10 @@ public class HappyPathRunner extends ActivityInstrumentationTestCase2<SearchActi
 		mUser = new HotelsUserData();
 		mRes = getActivity().getResources();
 		mPreferences = new TestPreferences();
-		mPreferences.setRotationPermission(mConfigFileUtils.getBooleanConfigValue("Rotations"));
-		mPreferences.setScreenshotPermission(mConfigFileUtils.getBooleanConfigValue("Screenshots"));
 		mDriver = new FlightsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 		mConfigFileUtils = new ConfigFileUtils();
-
+		mPreferences.setRotationPermission(mConfigFileUtils.getBooleanConfigValue("Rotations"));
+		mPreferences.setScreenshotPermission(mConfigFileUtils.getBooleanConfigValue("Screenshots"));
 	}
 
 	// This test goes through a prototypical flight booking
