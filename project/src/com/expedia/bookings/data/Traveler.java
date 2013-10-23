@@ -79,6 +79,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		WHEELCHAIR_IMMOBILE
 	}
 
+	public static enum LoyaltyMembershipTier {
+		NONE, GOLD, SILVER, BLUE
+	}
+
 	public Traveler() {
 		// Default constructor
 	}
@@ -136,8 +140,26 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	}
 
 	public boolean getIsElitePlusMember() {
-		return mIsLoyaltyMembershipActive && !TextUtils.isEmpty(mLoyaltyMembershipName)
-				&& mLoyaltyMembershipName.equalsIgnoreCase("Elite Plus");
+		return mIsLoyaltyMembershipActive
+				&& getLoyaltyMembershipTier() != LoyaltyMembershipTier.NONE;
+	}
+
+	public LoyaltyMembershipTier getLoyaltyMembershipTier() {
+		LoyaltyMembershipTier tier = LoyaltyMembershipTier.NONE;
+
+		if ("Elite Plus".equalsIgnoreCase(mLoyaltyMembershipName) // For legacy purposees
+				|| "Elite Plus".equalsIgnoreCase(mMembershipTierName)
+				|| "Gold".equalsIgnoreCase(mMembershipTierName)) {
+			tier = LoyaltyMembershipTier.GOLD;
+		}
+		else if ("Silver".equalsIgnoreCase(mMembershipTierName)) {
+			tier = LoyaltyMembershipTier.SILVER;
+		}
+		else if ("Blue".equalsIgnoreCase(mMembershipTierName)) {
+			tier = LoyaltyMembershipTier.BLUE;
+		}
+
+		return tier;
 	}
 
 	public String getFirstName() {
