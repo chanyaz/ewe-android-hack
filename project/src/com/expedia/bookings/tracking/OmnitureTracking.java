@@ -14,6 +14,7 @@ import java.util.Locale;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
@@ -80,6 +81,8 @@ public class OmnitureTracking {
 
 	// So we don't have to keep reloading this from settings
 	private static String sMarketingDate = "";
+
+	private static final DateTimeFormatter sFormatter = DateTimeFormat.forPattern("E|hh:mma");
 
 	public static void init(Context context) {
 		Log.d(TAG, "init");
@@ -1866,6 +1869,9 @@ public class OmnitureTracking {
 
 		// GMT timestamp
 		s.setProp(32, Long.toString(DateTime.now(DateTimeZone.UTC).getMillis()));
+
+		// Device local time
+		s.setEvar(60, sFormatter.print(DateTime.now()));
 
 		// Device carrier network info - format is "android|<carrier>|<network>"
 		TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
