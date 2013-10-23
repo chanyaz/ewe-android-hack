@@ -93,6 +93,10 @@ public class GridManager {
 		return mRows.getItemFarEdge(rowNum);
 	}
 
+	public boolean isLandscape() {
+		return mCols.getTotalSize() > mRows.getTotalSize();
+	}
+
 	/**
 	 * Set the container so it is positioned to fill the provided column
 	 * @param view - what we want to size/position
