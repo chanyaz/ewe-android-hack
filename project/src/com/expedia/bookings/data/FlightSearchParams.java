@@ -232,7 +232,7 @@ public class FlightSearchParams implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 		mAdults = obj.optInt("adults");
 		mChildren = JSONUtils.getIntList(obj, "children");
-		mQueryLegs = (List<FlightSearchLeg>) JSONUtils.getJSONableList(obj, "queryLegs", FlightSearchLeg.class);
+		mQueryLegs = JSONUtils.getJSONableList(obj, "queryLegs", FlightSearchLeg.class);
 		return true;
 	}
 

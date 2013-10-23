@@ -392,11 +392,11 @@ public class HotelSearchParams implements JSONable {
 	 * 
 	 * @param firstLeg the first leg of the trip; required
 	 * @param secondLeg the second leg of a trip (if round trip); optional
-	 * @param flightParams the query parameters for the flights; optional
+	 * @param numFlightTravelers
 	 * @return a HotelSearchParams for those flight parameters
 	 */
 	public static HotelSearchParams fromFlightParams(FlightLeg firstLeg, FlightLeg secondLeg,
-			FlightSearchParams flightParams) {
+			int numFlightTravelers) {
 		HotelSearchParams hotelParams = new HotelSearchParams();
 
 		// Where //
@@ -444,13 +444,9 @@ public class HotelSearchParams implements JSONable {
 
 		// Who //
 		hotelParams.setChildren(null);
-		if (flightParams != null) {
-			hotelParams.setNumAdults(Math.min(GuestsPickerUtils.getMaxAdults(0),
-					Db.getFlightSearch().getSearchParams().getNumAdults()));
-		}
-		else {
-			hotelParams.setNumAdults(1);
-		}
+		int numHotelAdults = Math.min(GuestsPickerUtils.getMaxAdults(0), numFlightTravelers);
+		numHotelAdults = Math.max(numHotelAdults, GuestsPickerUtils.MIN_ADULTS); // just in case default...
+		hotelParams.setNumAdults(numHotelAdults);
 
 		return hotelParams;
 	}

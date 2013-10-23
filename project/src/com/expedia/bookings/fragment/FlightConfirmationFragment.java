@@ -223,7 +223,8 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 		FlightTrip trip = search.getSelectedFlightTrip();
 		FlightLeg firstLeg = trip.getLeg(0);
 		FlightLeg secondLeg = trip.getLegCount() > 1 ? trip.getLeg(1) : null;
-		HotelSearchParams sp = HotelSearchParams.fromFlightParams(firstLeg, secondLeg, search.getSearchParams());
+		int numTravelers = search.getSearchParams().getNumAdults() + search.getSearchParams().getNumChildren();
+		HotelSearchParams sp = HotelSearchParams.fromFlightParams(firstLeg, secondLeg, numTravelers);
 
 		NavUtils.goToHotels(getActivity(), sp);
 
@@ -247,8 +248,8 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 	private void share() {
 		FlightSearch search = Db.getFlightSearch();
-		FlightTrip trip = search.getSelectedFlightTrip();		
-		
+		FlightTrip trip = search.getSelectedFlightTrip();
+
 		int travelerCount = Db.getTravelers() == null ? 1 : Db.getTravelers().size();
 		ShareUtils shareUtils = new ShareUtils(getActivity());
 		String subject = shareUtils.getFlightShareSubject(trip, travelerCount);

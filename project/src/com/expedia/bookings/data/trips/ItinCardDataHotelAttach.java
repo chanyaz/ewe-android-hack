@@ -4,12 +4,15 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.HotelSearchParams;
 
 public class ItinCardDataHotelAttach extends ItinCardData {
+
+	private TripFlight mTripFlight;
 	private FlightLeg mFirstLeg;
 	private FlightLeg mNextLeg;
 
 	public ItinCardDataHotelAttach(TripFlight parent, FlightLeg firstLeg, FlightLeg nextLeg) {
 		super(parent);
 
+		mTripFlight = parent;
 		mFirstLeg = firstLeg;
 		mNextLeg = nextLeg;
 	}
@@ -19,7 +22,7 @@ public class ItinCardDataHotelAttach extends ItinCardData {
 	}
 
 	public HotelSearchParams getSearchParams() {
-		return HotelSearchParams.fromFlightParams(mFirstLeg, mNextLeg, null);
+		return HotelSearchParams.fromFlightParams(mFirstLeg, mNextLeg, mTripFlight.getTravelers().size());
 	}
 
 	@Override
