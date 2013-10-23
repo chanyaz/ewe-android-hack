@@ -73,4 +73,8 @@ public class ConfigFileUtils {
 	public String getConfigValue(String keyword) throws JSONException {
 		return mJsonObject.getString(keyword);
 	}
+
+	public boolean getBooleanConfigValue(String keyword) throws JSONException {
+		return mJsonObject.getBoolean(keyword);
+	}
 }
