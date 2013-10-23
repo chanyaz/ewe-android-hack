@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -85,9 +84,6 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	private int mPreviousScrollState = OnScrollListener.SCROLL_STATE_IDLE;
 	private float mPreviouslyReportedPercentage = 1f;
 	private boolean mListenersEnabled = true;
-
-	//We use this to meausre how much of the header spacer is on screen
-	private Rect mHeaderSpacerLocalVisibilityRect = new Rect();
 
 	//Listeners
 	ArrayList<IFruitScrollUpListViewInitListener> mInitListeners = new ArrayList<IFruitScrollUpListViewInitListener>();
@@ -562,8 +558,10 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 	}
 
 	public int calculateHeaderSpacerVisibleHeight() {
-		if (!mHeaderSpacerShrunk && mHeaderSpacer.getLocalVisibleRect(mHeaderSpacerLocalVisibilityRect)) {
-			return mHeaderSpacerLocalVisibilityRect.bottom - mHeaderSpacerLocalVisibilityRect.top;
+		if (!mHeaderSpacerShrunk && getChildAt(0) == mHeaderSpacer) {
+			//Because mHeaderSpacer is always the first item in the list, mHeaderSpacer.getTop()
+			//can only ever be 0 or negative.
+			return Math.max(0, getHeaderSpacerHeight() + mHeaderSpacer.getTop());
 		}
 		return 0;
 	}
