@@ -52,6 +52,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 
 	private String mDetailsUrl;
 	private String mSharableDetailsUrl;
+	private String mShortSharableDetailsUrl;
 
 	private DateTime mStartDate;
 	private DateTime mEndDate;
@@ -137,12 +138,24 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mDetailsUrl = url;
 	}
 
+	public String getShareableUrl() {
+		return mShortSharableDetailsUrl != null ? mShortSharableDetailsUrl : mSharableDetailsUrl;
+	}
+
 	public String getSharableDetailsUrl() {
 		return mSharableDetailsUrl;
 	}
 
 	public void setSharableDetailsUrl(String sharableDetailsUrl) {
 		this.mSharableDetailsUrl = sharableDetailsUrl;
+	}
+
+	public String getShortSharableDetailsUrl() {
+		return mShortSharableDetailsUrl;
+	}
+
+	public void setShortSharableDetailsUrl(String shortSharableDetailsUrl) {
+		mShortSharableDetailsUrl = shortSharableDetailsUrl;
 	}
 
 	public DateTime getStartDate() {
@@ -266,6 +279,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 
 		mDetailsUrl = other.mDetailsUrl;
 		mSharableDetailsUrl = other.mSharableDetailsUrl;
+		mShortSharableDetailsUrl = other.mShortSharableDetailsUrl;
 
 		mStartDate = other.mStartDate;
 		mEndDate = other.mEndDate;
@@ -326,6 +340,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 			obj.putOpt("description", mDescription);
 			obj.putOpt("webDetailsURL", mDetailsUrl);
 			obj.putOpt("sharableDetailsURL", mSharableDetailsUrl);
+			obj.putOpt("shortSharableDetailsURL", mShortSharableDetailsUrl);
 
 			JSONUtils.putJSONable(obj, "customerSupport", mCustomerSupport);
 
@@ -363,6 +378,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mDescription = obj.optString("description");
 		mDetailsUrl = obj.optString("webDetailsURL");
 		mSharableDetailsUrl = obj.optString("sharableDetailsURL");
+		mShortSharableDetailsUrl = obj.optString("shortSharableDetailsURL");
 
 		mCustomerSupport = JSONUtils.getJSONable(obj, "customerSupport", CustomerSupport.class);
 
