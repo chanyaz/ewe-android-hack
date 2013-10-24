@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.tests.hotels;
+package com.expedia.bookings.test.tests.hotels.ui.regression;
 
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
