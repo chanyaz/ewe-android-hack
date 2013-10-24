@@ -742,6 +742,7 @@ public class ItineraryManager implements JSONable {
 		SCHEDULE_NOTIFICATIONS, // Schedule local notifications
 		REGISTER_FOR_PUSH_NOTIFICATIONS, //Tell the push server which flights to notify us about
 
+		SHORTEN_SHARE_URLS, //We run the url shortener for itins that do not yet have shortened urls.
 	}
 
 	private class Task implements Comparable<Task> {
@@ -845,6 +846,7 @@ public class ItineraryManager implements JSONable {
 			mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
 			mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
 			mSyncOpQueue.add(new Task(Operation.GATHER_TRIPS));
+			mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
 			mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 			mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
 			mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
@@ -888,6 +890,7 @@ public class ItineraryManager implements JSONable {
 		}
 
 		// We're set to sync; add the rest of the ops and go
+		mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
 		mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
@@ -1039,6 +1042,9 @@ public class ItineraryManager implements JSONable {
 					break;
 				case REFRESH_TRIP:
 					refreshTrip(nextTask.mTrip, false);
+					break;
+				case SHORTEN_SHARE_URLS:
+					shortenSharableUrl(nextTask.mTrip);
 					break;
 				case FETCH_SHARED_ITIN:
 					downloadSharedItinTrip(nextTask.mTripNumber);
@@ -1479,6 +1485,29 @@ public class ItineraryManager implements JSONable {
 					mTripsRefreshed++;
 				}
 
+			}
+		}
+
+		private void shortenSharableUrl(Trip trip) {
+			if (trip == null || trip.getShortSharableDetailsUrl() != null || trip.getSharableDetailsUrl() == null) {
+				//If we already have a short share url, or we dont have a sharableDetailsUrl, DO NOTHING.
+				return;
+			}
+			else {
+				String shareUrl = trip.getSharableDetailsUrl();
+				String shortenedUrl = null;
+				Log.i(LOGGING_TAG, "Shortening share url:" + shareUrl);
+
+				//TODO: Call the shortener service and set the shortened url of the trip object.
+
+				if (shortenedUrl != null) {
+					Log.i(LOGGING_TAG, "Successfully shortened url - original:" + shareUrl + " short:"
+							+ shortenedUrl);
+					trip.setShortSharableDetailsUrl(shortenedUrl);
+				}
+				else {
+					Log.w(LOGGING_TAG, "Failure to shorten url:" + shareUrl);
+				}
 			}
 		}
 	}
