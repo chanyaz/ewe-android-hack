@@ -178,7 +178,7 @@ public class SwipeOutLayout extends FrameLayout {
 		mLayoutRectIndicator.top = pT;
 		mLayoutRectIndicator.bottom = pT;
 
-		//The right/top are easy to figure out depending on swipe orientation 
+		//The right/top are easy to figure out depending on swipe orientation
 		if (isVertical) {
 			mLayoutRectContent.right += widthNoPad;
 			mLayoutRectIndicator.right += widthNoPad;

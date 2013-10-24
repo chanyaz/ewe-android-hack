@@ -102,7 +102,7 @@ public class SvgMapFragment extends MeasurableFragment {
 
 		for (int i = 0; i < latlngs.length; i += 2) {
 			double lat = latlngs[i];
-			double lng = latlngs[i+1];
+			double lng = latlngs[i + 1];
 
 			maxLat = Math.max(maxLat, lat);
 			minLat = Math.min(minLat, lat);

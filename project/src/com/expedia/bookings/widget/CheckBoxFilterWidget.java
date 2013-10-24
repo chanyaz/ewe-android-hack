@@ -18,7 +18,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.Property;
 import com.expedia.bookings.utils.Ui;
 
 public class CheckBoxFilterWidget extends LinearLayout implements Checkable, Comparable<CheckBoxFilterWidget> {

@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearchResponse;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.widget.CheckBoxFilterWidget.OnCheckedChangeListener;
 
