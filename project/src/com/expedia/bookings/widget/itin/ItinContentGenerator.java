@@ -247,7 +247,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						SocialUtils.call(getContext(), PointOfSale.getPointOfSale().getSupportPhoneNumber(getContext()));
+						SocialUtils.call(getContext(), PointOfSale.getPointOfSale().getSupportPhoneNumber(mContext));
 					}
 				});
 	}
@@ -325,6 +325,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -350,7 +351,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	private void showRemoveDialog() {
 		final FragmentActivity activity = (FragmentActivity) getContext();
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
-		ConfirmItinRemoveDialogFragment df = ConfirmItinRemoveDialogFragment.getInstance(getItinCardData().getTripComponent().getParentTrip().getTripNumber());
+		ConfirmItinRemoveDialogFragment df = ConfirmItinRemoveDialogFragment.getInstance(getItinCardData()
+				.getTripComponent().getParentTrip().getTripNumber());
 		df.show(fragmentManager, ConfirmItinRemoveDialogFragment.TAG);
 	}
 
