@@ -74,7 +74,17 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
 		bitmap.eraseColor(Color.parseColor("#161f39"));
 
-		setHorizontalBounds(57, -140.828186, 57, 32.316284);
+		int bottomPadding = getResources().getDimensionPixelSize(R.dimen.destination_search_stack_height);
+		int otherPadding = getResources().getDimensionPixelSize(R.dimen.tablet_launch_map_pin_image_size) / 2;
+		int abHeight = getActivity().getActionBar().getHeight();
+		setPadding(otherPadding, otherPadding + abHeight, otherPadding, bottomPadding);
+		setBounds(
+			37.770715, -122.405033,
+			41.893077, 12.481627,
+			40.425519, -3.709366,
+			25.797418, -80.226341,
+			45.525592, -73.553681
+		);
 
 		// Draw scaled and translated map
 		Canvas c = new Canvas(bitmap);
