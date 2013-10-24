@@ -230,6 +230,7 @@ public class PointOfSale {
 			}
 			User usr = Db.getUser();
 			if (usr != null && usr.getPrimaryTraveler() != null
+					&& usr.getPrimaryTraveler().getIsLoyaltyMembershipActive()
 					&& usr.getPrimaryTraveler().getLoyaltyMembershipTier() != null) {
 				LoyaltyMembershipTier tier = usr.getPrimaryTraveler().getLoyaltyMembershipTier();
 
