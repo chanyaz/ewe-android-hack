@@ -29,6 +29,10 @@ public class SvgMapFragment extends MeasurableFragment {
 
 	private Projection mProjection;
 	private Matrix mViewportMatrix;
+	private int mPaddingLeft = 0;
+	private int mPaddingRight = 0;
+	private int mPaddingTop = 0;
+	private int mPaddingBottom = 0;
 
 	public static SvgMapFragment newInstance() {
 		SvgMapFragment frag = new SvgMapFragment();
@@ -85,6 +89,43 @@ public class SvgMapFragment extends MeasurableFragment {
 		mViewportMatrix.postScale(scale, scale);
 	}
 
+	public void setBounds(double... latlngs) {
+		if (latlngs.length % 2 != 0) {
+			throw new IllegalArgumentException("Must pass lat lng in pairs, found an odd number of arguments");
+		}
+
+		double maxLat = java.lang.Double.MIN_VALUE;
+		double minLat = java.lang.Double.MAX_VALUE;
+
+		double maxLng = java.lang.Double.MIN_VALUE;
+		double minLng = java.lang.Double.MAX_VALUE;
+
+		for (int i = 0; i < latlngs.length; i += 2) {
+			double lat = latlngs[i];
+			double lng = latlngs[i+1];
+
+			maxLat = Math.max(maxLat, lat);
+			minLat = Math.min(minLat, lat);
+			maxLng = Math.max(maxLng, lng);
+			minLng = Math.min(minLng, lng);
+		}
+
+		Point2D.Double tl = projectToSvg(maxLat, minLng);
+		Point2D.Double br = projectToSvg(minLat, maxLng);
+
+		float projectedWidth = (float) (br.x - tl.x);
+		float projectedHeight = (float) (br.y - tl.y);
+
+		float horizontalScale = (mMapImageView.getWidth() - mPaddingRight - mPaddingLeft) / projectedWidth;
+		float verticalScale = (mMapImageView.getHeight() - mPaddingTop - mPaddingBottom) / projectedHeight;
+
+		float scale = Math.min(horizontalScale, verticalScale);
+
+		mViewportMatrix = new Matrix();
+		mViewportMatrix.preTranslate((float) -(tl.x - mPaddingLeft/scale), (float) -(tl.y - mPaddingTop/scale));
+		mViewportMatrix.postScale(scale, scale);
+	}
+
 	public Point2D.Double projectToSvg(double lat, double lon) {
 		Point2D.Double p = new Point2D.Double();
 		mProjection.transform(lon, lat, p);
@@ -123,6 +164,13 @@ public class SvgMapFragment extends MeasurableFragment {
 
 	public Projection getSvgProjection() {
 		return mProjection;
+	}
+
+	public void setPadding(int left, int top, int right, int bottom) {
+		mPaddingLeft = left;
+		mPaddingTop = top;
+		mPaddingRight = right;
+		mPaddingBottom = bottom;
 	}
 }
 
