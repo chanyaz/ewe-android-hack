@@ -72,7 +72,7 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		int w = getMapImageView().getWidth();
 		int h = getMapImageView().getHeight();
 		Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-		bitmap.eraseColor(Color.parseColor("#161f39"));
+		bitmap.eraseColor(Color.parseColor("#1b2747"));
 
 		int bottomPadding = getResources().getDimensionPixelSize(R.dimen.destination_search_stack_height);
 		int otherPadding = getResources().getDimensionPixelSize(R.dimen.tablet_launch_map_pin_image_size) / 2;
