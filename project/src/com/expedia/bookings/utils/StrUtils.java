@@ -10,9 +10,11 @@ import java.util.Map;
 import java.util.Set;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.location.Address;
 import android.net.Uri;
+import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
@@ -330,6 +332,23 @@ public class StrUtils {
 		}
 
 		return str.substring(start, end);
+	}
+
+	public static String printIntent(Intent intent) {
+		if (intent == null) {
+			return "";
+		}
+
+		StringBuilder builder = new StringBuilder();
+		Bundle extras = intent.getExtras();
+		if (extras != null) {
+			builder.append("Intent!\n");
+			builder.append("component className=" + intent.getComponent().getClassName() + "\n");
+			for (String key : extras.keySet()) {
+				builder.append(String.format("key=%1s value=%2s\n", key, extras.get(key)));
+			}
+		}
+		return builder.toString();
 	}
 
 	/**
