@@ -167,7 +167,7 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 				});
 				anim.setInterpolator(new OvershootInterpolator(2.0f));
 				anim.setDuration(500);
-				anim.setStartDelay(400 + marginLeft / 5);
+				anim.setStartDelay(Math.max(0, 400 + marginLeft / 5));
 				anim.start();
 				return true;
 			}
