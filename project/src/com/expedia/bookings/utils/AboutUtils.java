@@ -150,7 +150,7 @@ public class AboutUtils {
 
 	public void contactViaPhone() {
 		trackCallSupport();
-		SocialUtils.call(mActivity, PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
+		SocialUtils.call(mActivity, PointOfSale.getPointOfSale().getSupportPhoneNumber(mActivity));
 	}
 
 	public void contactViaWeb() {

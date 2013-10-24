@@ -485,7 +485,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 	@Override
 	public void onCallCustomerSupport() {
-		SocialUtils.call(this, PointOfSale.getPointOfSale().getSupportPhoneNumber());
+		SocialUtils.call(this, PointOfSale.getPointOfSale().getSupportPhoneNumber(this));
 	}
 
 	@Override

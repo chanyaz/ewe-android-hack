@@ -247,7 +247,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						SocialUtils.call(getContext(), PointOfSale.getPointOfSale().getSupportPhoneNumber());
+						SocialUtils.call(getContext(), PointOfSale.getPointOfSale().getSupportPhoneNumber(getContext()));
 					}
 				});
 	}

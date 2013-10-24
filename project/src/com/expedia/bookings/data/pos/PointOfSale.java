@@ -30,6 +30,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.Traveler.LoyaltyMembershipTier;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.mobiata.android.Log;
@@ -211,15 +212,53 @@ public class PointOfSale {
 	}
 
 	/**
-	 * If there is a locale-specific support number, use that over the generic POS support number.
+	 * Get the most appropriate support number.
+	 * 
+	 * If the user is logged in, we check their support tier, and use the appropriate support tier phone number.
+	 * 
+	 * If we dont have a fancy support number we check the locale, to see if there is a specific locale support number,
+	 * and if all else fails we fall back to the good honest POS support number
+	 * 
+	 * @param context
 	 * @return
 	 */
-	public String getSupportPhoneNumber() {
-		String number = getPosLocale().mSupportNumber;
-		if (TextUtils.isEmpty(number)) {
-			number = mSupportPhoneNumber;
+	public String getSupportPhoneNumber(Context context) {
+		String supportNumber = null;
+		if (context != null && User.isLoggedIn(context)) {
+			if (Db.getUser() == null) {
+				Db.loadUser(context);
+			}
+			User usr = Db.getUser();
+			if (usr != null && usr.getPrimaryTraveler() != null
+					&& usr.getPrimaryTraveler().getLoyaltyMembershipTier() != null) {
+				LoyaltyMembershipTier tier = usr.getPrimaryTraveler().getLoyaltyMembershipTier();
+
+				//If our user has a blinged out membership tier, get them a blinging support phone number 
+				if (tier == LoyaltyMembershipTier.GOLD) {
+					supportNumber = getSupportPhoneNumberGold();
+				}
+				else if (tier == LoyaltyMembershipTier.SILVER) {
+					supportNumber = getSupportPhoneNumberSilver();
+				}
+			}
 		}
-		return number;
+
+		if (TextUtils.isEmpty(supportNumber)) {
+			supportNumber = getSupportPhoneNumberLocale();
+			if (TextUtils.isEmpty(supportNumber)) {
+				supportNumber = getSupportPhoneNumberBasic();
+			}
+		}
+
+		return supportNumber;
+	}
+
+	public String getSupportPhoneNumberLocale() {
+		return getPosLocale().mSupportNumber;
+	}
+
+	public String getSupportPhoneNumberBasic() {
+		return mSupportPhoneNumber;
 	}
 
 	public String getSupportPhoneNumberGold() {
@@ -228,23 +267,6 @@ public class PointOfSale {
 
 	public String getSupportPhoneNumberSilver() {
 		return mSupportPhoneNumberSilver;
-	}
-
-	/**
-	 * If the user is an elite plus member, we return the elite plus number (if available)
-	 * otherwise if the user is null, or a normal user, return  the regular support number
-	 * 
-	 * @param usr - The current logged in user, or null.
-	 * @return
-	 */
-	public String getSupportPhoneNumberBestForUser(User usr) {
-		if (usr != null && usr.getPrimaryTraveler() != null && usr.getPrimaryTraveler().getIsElitePlusMember()
-				&& !TextUtils.isEmpty(getSupportPhoneNumberGold())) {
-			return getSupportPhoneNumberGold();
-		}
-		else {
-			return getSupportPhoneNumber();
-		}
 	}
 
 	public String getSupportEmail() {
