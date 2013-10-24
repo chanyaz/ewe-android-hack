@@ -6,6 +6,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
+import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 import org.joda.time.ReadableInstant;
 import org.joda.time.ReadablePartial;
@@ -17,17 +18,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.os.Build;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.mobiata.android.json.JSONUtils;
 
 public class JodaUtils {
-
-	private static DateTimeZone sThenTimeZone = null;
 
 	public static DateTime fromMillisAndOffset(long millisFromEpoch, int tzOffsetMillis) {
 		return new org.joda.time.DateTime(millisFromEpoch, DateTimeZone.forOffsetMillis(tzOffsetMillis));
@@ -79,39 +79,106 @@ public class JodaUtils {
 	}
 
 	/**
-	 * Use this in place of DateUtils.getRelativeTimeSpanString() to handle any
-	 * weirdnesses with timezones.
-	 * 
-	 * The way that DateUtils.getRelativeTimeSpanString() works is as follows (when
-	 * comparing # of days passed):
-	 * 
-	 * 1. Create a Time in the current Timezone (mistake!)
-	 * 2. Set the millis for each, and get the Julian day
-	 * 3. Compare julian days 
-	 * 
-	 * This works great...  if you remember to use the correct timezone for the millis passed
-	 * in (the current system's timezone) AND you make sure to cache the original system
-	 * timezone (in case the user switches their timezone while your app is still in memory).
-	 * 
-	 * This should smooth over that problem by caching the time zone and casting it to the right
-	 * one for you.
+	 * This method is mostly ripped from DateUtils.getRelativeTimeSpanString(), and
+	 * works in much the same way.  The major difference is that it doesn't suck
+	 * and actually calculates everything correctly, using durations (instead of
+	 * millisecond math, which is prone to be off if you're comparing two different
+	 * timezones).
 	 */
-	public static CharSequence getRelativeTimeSpanString(DateTime time, DateTime now, long minResolution, int flags) {
-		// #2144: If the relative time is less than a day, don't use the hacky solution to make the days correct
-		// It just causes things to get messed up on a smaller resolution than a day.
-		if (Math.abs(now.getMillis() - time.getMillis()) < DateUtils.DAY_IN_MILLIS
-				&& minResolution < DateUtils.WEEK_IN_MILLIS) {
-			return DateUtils.getRelativeTimeSpanString(time.getMillis(), now.getMillis(), minResolution, flags);
+	public static CharSequence getRelativeTimeSpanString(Context context, DateTime time, DateTime now,
+			long minResolution, int flags) {
+		Resources r = context.getResources();
+		boolean abbrevRelative = (flags & (DateUtils.FORMAT_ABBREV_RELATIVE | DateUtils.FORMAT_ABBREV_ALL)) != 0;
+
+		boolean past = now.isAfter(time);
+		Duration duration = past ? new Duration(time, now) : new Duration(now, time);
+
+		int resId;
+		long count;
+		if (duration.isShorterThan(Duration.standardMinutes(1)) && minResolution < DateUtils.MINUTE_IN_MILLIS) {
+			count = duration.getStandardMinutes();
+			if (past) {
+				if (abbrevRelative) {
+					resId = R.plurals.abbrev_num_seconds_ago;
+				}
+				else {
+					resId = R.plurals.num_seconds_ago;
+				}
+			}
+			else {
+				if (abbrevRelative) {
+					resId = R.plurals.abbrev_in_num_seconds;
+				}
+				else {
+					resId = R.plurals.in_num_seconds;
+				}
+			}
+		}
+		else if (duration.isShorterThan(Duration.standardHours(1)) && minResolution < DateUtils.HOUR_IN_MILLIS) {
+			count = duration.getStandardMinutes();
+			if (past) {
+				if (abbrevRelative) {
+					resId = R.plurals.abbrev_num_minutes_ago;
+				}
+				else {
+					resId = R.plurals.num_minutes_ago;
+				}
+			}
+			else {
+				if (abbrevRelative) {
+					resId = R.plurals.abbrev_in_num_minutes;
+				}
+				else {
+					resId = R.plurals.in_num_minutes;
+				}
+			}
+		}
+		else if (duration.isShorterThan(Duration.standardDays(1)) && minResolution < DateUtils.DAY_IN_MILLIS) {
+			count = duration.getStandardHours();
+			if (past) {
+				if (abbrevRelative) {
+					resId = R.plurals.abbrev_num_hours_ago;
+				}
+				else {
+					resId = R.plurals.num_hours_ago;
+				}
+			}
+			else {
+				if (abbrevRelative) {
+					resId = R.plurals.abbrev_in_num_hours;
+				}
+				else {
+					resId = R.plurals.in_num_hours;
+				}
+			}
+		}
+		else if (duration.isShorterThan(Duration.standardDays(7)) && minResolution < DateUtils.WEEK_IN_MILLIS) {
+			count = Math.abs(daysBetween(time, now.withZone(time.getZone())));
+			if (past) {
+				if (abbrevRelative) {
+					resId = R.plurals.abbrev_num_days_ago;
+				}
+				else {
+					resId = R.plurals.num_days_ago;
+				}
+			}
+			else {
+				if (abbrevRelative) {
+					resId = R.plurals.abbrev_in_num_days;
+				}
+				else {
+					resId = R.plurals.in_num_days;
+				}
+			}
+		}
+		else {
+			// We know that we won't be showing the time, so it is safe to pass
+			// in a null context.
+			return DateUtils.formatDateRange(null, time.getMillis(), time.getMillis(), flags);
 		}
 
-		// getRelativeTimeSpanString() was changed in API 18 such that it *doesn't*
-		// cache the timezone info anymore, so we should always use the local timezone
-		if (Build.VERSION.SDK_INT >= 18 || sThenTimeZone == null) {
-			sThenTimeZone = DateTimeZone.getDefault();
-		}
-
-		return DateUtils.getRelativeTimeSpanString(time.withZoneRetainFields(sThenTimeZone).getMillis(),
-				now.withZoneRetainFields(sThenTimeZone).getMillis(), minResolution, flags);
+		String format = r.getQuantityString(resId, (int) count);
+		return String.format(format, count);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -572,7 +572,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		long time = dateTime.getMillis();
 		long now = today.getMillis();
 		long duration = time - now;
-		int daysBetween = JodaUtils.daysBetween(today, dateTime);
+		int daysBetween = JodaUtils.daysBetween(today.withZone(dateTime.getZone()), dateTime);
 
 		CharSequence ret = null;
 
