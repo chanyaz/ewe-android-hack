@@ -1239,6 +1239,44 @@ public class OmnitureTracking {
 		internalTrackLink(context, String.format(ITIN_RELOAD_TEMPLATE, formatted));
 	}
 
+	public static void trackItinShareNew(Context context, Type type, Intent intent) {
+		// Notes on determining type of share, taken from the ShareUtils spec among other places
+		// TYPE message/rfc822 - EMAIL
+		// TYPE text/plain - MESSAGE
+		// class FacebookShareActivity - our Facebook sharing activity
+
+		String itinType;
+		if (type == Type.FLIGHT) {
+			itinType = "Flight";
+		}
+		else if (type == Type.HOTEL) {
+			itinType = "Hotel";
+		}
+		else {
+			// TODO figure out what we do with other types...track with the old style??
+			return;
+		}
+
+		String shareType;
+		if ("com.expedia.bookings.activity.FacebookShareActivity".equals(intent.getComponent().getClassName())) {
+			shareType = "Facebook";
+		}
+		else if ("message/rfc822".equals(intent.getType())) {
+			shareType = "Mail";
+		}
+		else {
+			shareType = "Message";
+		}
+
+		String pageName = ITIN + "." + itinType + ".Share." + shareType;
+
+		ADMS_Measurement s = createTrackLinkEvent(context, pageName);
+		s.setEvar(2, itinType);
+		s.setEvents("event48");
+
+		internalTrackLink(s);
+	}
+
 	/**
 	 * Note: Due to the way that ItineraryManager interacts with our Fragments + Views, this extra bookkeeping is
 	 * required currently to correctly fire the single success event of adding a guest itinerary manually.

@@ -10,8 +10,6 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -29,11 +27,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
-import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.fragment.ConfirmItinRemoveDialogFragment;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
@@ -48,7 +45,8 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 import com.nineoldandroids.view.ViewHelper;
 
-public class ItinCard<T extends ItinCardData> extends RelativeLayout implements AbsPopupMenu.OnMenuItemClickListener {
+public class ItinCard<T extends ItinCardData> extends RelativeLayout implements AbsPopupMenu.OnMenuItemClickListener,
+		ShareView.ShareViewListener {
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// INTERFACES
@@ -959,6 +957,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	private void showShareDialog() {
 		ShareUtils shareUtils = new ShareUtils(getContext());
 		mShareView.setShareIntent(shareUtils.getShareIntents(mItinContentGenerator));
+		mShareView.setListener(this);
 		mShareView.showPopup();
 	}
 
@@ -967,6 +966,11 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		for (Intent intent : intents) {
 			getContext().startActivity(intent);
 		}
+	}
+
+	@Override
+	public void onShareAppSelected(Intent intent) {
+		OmnitureTracking.trackItinShareNew(getContext(), mItinContentGenerator.getType(), intent);
 	}
 
 }

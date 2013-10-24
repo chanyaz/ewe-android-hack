@@ -17,7 +17,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.dgmltn.shareeverywhere.ShareView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardData;
-import com.expedia.bookings.dialog.SocialMessageChooserDialogFragment;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AbsPopupMenu;
@@ -29,7 +29,8 @@ import com.mobiata.android.util.CalendarAPIUtils;
 /**
  * Standalone ItinCard fragment that can be placed anywhere
  */
-public class ItinCardFragment extends Fragment implements AbsPopupMenu.OnMenuItemClickListener {
+public class ItinCardFragment extends Fragment implements AbsPopupMenu.OnMenuItemClickListener,
+		ShareView.ShareViewListener {
 
 	private ViewGroup mItinHeaderContainer;
 	private ScrollView mItinCardContainer;
@@ -133,6 +134,7 @@ public class ItinCardFragment extends Fragment implements AbsPopupMenu.OnMenuIte
 		case R.id.itin_card_share:
 			ShareUtils shareUtils = new ShareUtils(getActivity());
 			mShareView.setShareIntent(shareUtils.getShareIntents(generator));
+			mShareView.setListener(this);
 			mShareView.showPopup();
 			return true;
 		case R.id.itin_card_add_to_calendar:
@@ -144,4 +146,10 @@ public class ItinCardFragment extends Fragment implements AbsPopupMenu.OnMenuIte
 			return false;
 		}
 	}
+
+	@Override
+	public void onShareAppSelected(Intent intent) {
+		OmnitureTracking.trackItinShareNew(getActivity(), mCurrentData.getTripComponentType(), intent);
+	}
+
 }
