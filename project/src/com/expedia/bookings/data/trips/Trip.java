@@ -278,8 +278,16 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mDescription = other.mDescription;
 
 		mDetailsUrl = other.mDetailsUrl;
+		if (mSharableDetailsUrl != null && other.mSharableDetailsUrl != null
+				&& !mSharableDetailsUrl.equals(other.mSharableDetailsUrl)) {
+			//The sharable details url has changed, so our shortened sharable details url is no longer valid.
+			mShortSharableDetailsUrl = null;
+		}
 		mSharableDetailsUrl = other.mSharableDetailsUrl;
-		mShortSharableDetailsUrl = other.mShortSharableDetailsUrl;
+
+		//We dont squash the shortened url, if we dont have a new value for it
+		mShortSharableDetailsUrl = TextUtils.isEmpty(other.mShortSharableDetailsUrl) ? mShortSharableDetailsUrl
+				: other.mShortSharableDetailsUrl;
 
 		mStartDate = other.mStartDate;
 		mEndDate = other.mEndDate;
