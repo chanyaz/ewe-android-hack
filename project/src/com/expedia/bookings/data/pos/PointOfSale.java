@@ -214,32 +214,35 @@ public class PointOfSale {
 	/**
 	 * Get the most appropriate support number.
 	 * 
-	 * If the user is logged in, we check their support tier, and use the appropriate support tier phone number.
+	 * If the user is logged in, we check their support tier,
+	 * and use the appropriate support tier phone number.
 	 * 
-	 * If we dont have a fancy support number we check the locale, to see if there is a specific locale support number,
-	 * and if all else fails we fall back to the good honest POS support number
+	 * If we dont have a fancy support number we check the locale,
+	 * to see if there is a specific locale support number,
+	 * and if all else fails we fall back to the good honest POS
+	 * support number.
 	 * 
 	 * @param context
 	 * @return
 	 */
 	public String getSupportPhoneNumber(Context context) {
 		String supportNumber = null;
-		if (context != null && User.isLoggedIn(context)) {
-			if (Db.getUser() == null) {
-				Db.loadUser(context);
-			}
-			User usr = Db.getUser();
-			if (usr != null && usr.getPrimaryTraveler() != null
-					&& usr.getPrimaryTraveler().getIsLoyaltyMembershipActive()
-					&& usr.getPrimaryTraveler().getLoyaltyMembershipTier() != null) {
-				LoyaltyMembershipTier tier = usr.getPrimaryTraveler().getLoyaltyMembershipTier();
 
-				//If our user has a blinged out membership tier, get them a blinging support phone number 
-				if (tier == LoyaltyMembershipTier.GOLD) {
+		if (context != null && User.isLoggedIn(context)) {
+			User usr = Db.getUser();
+			if (usr == null) {
+				Db.loadUser(context);
+				usr = Db.getUser();
+			}
+			if (usr != null && usr.getPrimaryTraveler() != null) {
+				//If our user has a blinged out membership tier, get them a blinging support phone number
+				switch (usr.getPrimaryTraveler().getLoyaltyMembershipTier()) {
+				case GOLD:
 					supportNumber = getSupportPhoneNumberGold();
-				}
-				else if (tier == LoyaltyMembershipTier.SILVER) {
+					break;
+				case SILVER:
 					supportNumber = getSupportPhoneNumberSilver();
+					break;
 				}
 			}
 		}
