@@ -144,10 +144,19 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 				&& getLoyaltyMembershipTier() != LoyaltyMembershipTier.NONE;
 	}
 
+	/**
+	 * Returns the Elite+ Tier that this traveller is sporting. If
+	 * the membership is INACTIVE, we'll just return NONE here. We don't
+	 * care if it's gold but yet inactive.
+	 * @return
+	 */
 	public LoyaltyMembershipTier getLoyaltyMembershipTier() {
 		LoyaltyMembershipTier tier = LoyaltyMembershipTier.NONE;
 
-		if ("Elite Plus".equalsIgnoreCase(mLoyaltyMembershipName) // For legacy purposees
+		if (!mIsLoyaltyMembershipActive) {
+			// NONE
+		}
+		else if ("Elite Plus".equalsIgnoreCase(mLoyaltyMembershipName) // For legacy purposees
 				|| "Elite Plus".equalsIgnoreCase(mMembershipTierName)
 				|| "Gold".equalsIgnoreCase(mMembershipTierName)) {
 			tier = LoyaltyMembershipTier.GOLD;
