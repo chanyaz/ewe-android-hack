@@ -1,6 +1,9 @@
 package com.expedia.bookings.activity;
 
+import java.util.List;
 import java.util.Locale;
+
+import org.apache.http.cookie.Cookie;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +14,9 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.DebugUtils;
+import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -106,8 +111,25 @@ public class AboutWebViewActivity extends WebViewActivity {
 
 		body.append("\n\n");
 
+		body.append("MC1 COOKIE: ");
+		body.append(getMC1CookieStr());
+
+		body.append("\n\n");
+
 		body.append(DebugUtils.getBuildInfo());
 
 		SocialUtils.email(this, getString(R.string.email_app_support), "", body);
+	}
+
+	private String getMC1CookieStr() {
+		List<Cookie> cookies = ExpediaServices.getCookieStore(this).getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName() != null && cookie.getName().equals("MC1")) {
+					return cookie.getValue();
+				}
+			}
+		}
+		return "";
 	}
 }
