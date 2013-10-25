@@ -87,24 +87,6 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">%sのチケットは明日から使用できます。</string>
 
-    <!-- Sweepstakes -->
-    <!-- Title of the sweepstakes -->
-    <string name="sweepstakes_enter_title">Trip-a-day プレゼント !</string>
-    <!-- Subtitle of the sweepstakes describing what the price is -->
-    <string name="sweepstakes_enter_subtitle">エクスペディアから $1,200 相当の旅を\n抽選でプレゼント !</string>
-    <!-- Text describing how to enter the sweepstakes -->
-    <string name="sweepstakes_enter_text">エクスペディア アカウント、\nまたは Facebook コネクトでログインするだけで参加できます。</string>
-    <!-- Button declining to enter the sweepstakes -->
-    <string name="sweepstakes_no_thanks">いいえ</string>
-    <!-- Button to enter the sweepstakes -->
-    <string name="sweepstakes_enter">参加する</string>
-    <!-- Terms and conditions text for the sweepstakes -->
-    <string name="sweepstakes_terms">&lt;font color="#216092"&gt;利用規約&lt;/font&gt;に同意の上、参加します。&lt;br /&gt;購入は不要です。詳細は、&lt;font color="#216092"&gt;規則&lt;/font&gt;全文をご確認ください。</string>
-    <!-- Confirmation title after user enters the sweepstakes -->
-    <string name="sweepstakes_confirmation_title">ご参加ありがとうございます !</string>
-    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
-    <string name="sweepstakes_confirmation_text">当選結果発表をお楽しみに ! 当選された方には\n電子メールでお知らせいたします。</string>
-
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">旅程</string>
@@ -499,6 +481,7 @@
     <string name="itin_card_details_reload_flight">フライト情報をリロード</string>
     <string name="itin_card_details_reload_hotel">ホテル情報をリロード</string>
     <string name="itin_card_details_reload_cruise">クルーズ情報をリロード</string>
+    <string name="itin_card_details_remove_itin">旅程から削除</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">チェックイン — 3 日後</string>
@@ -530,7 +513,6 @@
     <string name="itin_action_redeem">特典利用</string>
     <string name="itin_action_support">サポート</string>
     <string name="itin_action_share">共有</string>
-    <string name="itin_action_remove">削除</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">バウチャーを印刷</string>
@@ -557,9 +539,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">%2$sの%1$sへのフライト</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">私は現在、%2$s行き%3$s発のフライト %1$s 便に乗っています。\n%4$sを%5$sに出発\n%6$sに%7$s、%8$sに到着</string>
+    <string name="share_template_short_flight_sameday">私は現在、%2$s行き%3$s発のフライト %1$s 便に乗っています。\n%4$sを%5$sに出発\n%6$sに%7$s、%8$s\n%9$sに到着</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">私は現在、%2$s行きのフライト %1$s 便に乗っています。\n%3$sを%4$sに出発\n%5$sに%6$s、%7$sに到着</string>
+    <string name="share_template_short_flight_multiday">私は現在、%2$s行きのフライト %1$s 便に乗っています。\n%3$sを%4$sに出発\n%5$sに%6$s、%7$s\n%8$sに到着</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">レンタカー (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -584,6 +566,8 @@
     <string name="share_car_dropoff_location_section">返却場所 :</string>
     <!-- Section header for the Itin sharable link -->
     <string name="share_link_section">シェアされた旅程へのリンク : \n%s</string>
+    <!-- Shared options label -->
+    <string name="shared_options">共有オプション</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">%1$s詳細</string>
@@ -1273,7 +1257,7 @@
     <!-- Section with a bunch of travelers on the flight (listed below) -->
     <string name="share_travelers_section">旅行者 :</string>
     <!-- Header for the outbound flight details section of the share flight email -->
-    <string name="share_flight_section_outbound">往路 : </string>
+    <string name="share_flight_section_outbound">往路 :</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">現地出発日 :</string>
     <string name="app_name">Expedia</string>
@@ -1514,7 +1498,7 @@
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
-    <string name="book_now">部屋タイプを選択</string>
+    <string name="book_now">今すぐ予約</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">電話で予約</string>
 
@@ -1810,7 +1794,7 @@
     <!-- Friendly message at the top of the receipt -->
     <string name="Enjoy_your_stay">素敵なご滞在を。</string>
     <!-- Format for a first/last name -->
-    <string name="name_template">%2$s %1$s 様</string>
+    <string name="name_template">%1$s %2$s</string>
     <!-- Reservation summary label -->
     <string name="reservation_summary">予約の概要</string>
     <!-- Confirmation number label -->

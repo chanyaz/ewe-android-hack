@@ -87,24 +87,6 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Je ticket voor %s kan vanaf morgen gebruikt worden.</string>
 
-    <!-- Sweepstakes -->
-    <!-- Title of the sweepstakes -->
-    <string name="sweepstakes_enter_title">Trip-a-day giveaway!</string>
-    <!-- Subtitle of the sweepstakes describing what the price is -->
-    <string name="sweepstakes_enter_subtitle">Grijp je kans en win\neen Expedia-reis t.w.v. $ 1200!</string>
-    <!-- Text describing how to enter the sweepstakes -->
-    <string name="sweepstakes_enter_text">Meld je aan met een Expedia-account\nof via Facebook om deel te nemen.</string>
-    <!-- Button declining to enter the sweepstakes -->
-    <string name="sweepstakes_no_thanks">Nee, bedankt</string>
-    <!-- Button to enter the sweepstakes -->
-    <string name="sweepstakes_enter">Doe mee</string>
-    <!-- Terms and conditions text for the sweepstakes -->
-    <string name="sweepstakes_terms">Door deel te nemen ga ik akkoord met de &lt;font color="#216092"&gt;Voorwaarden &amp; Bepalingen&lt;/font&gt;. &lt;br /&gt;Geen aankoopverplichting. Lees de volledige &lt;font color="#216092"&gt;regels&lt;/font&gt; voor meer info.</string>
-    <!-- Confirmation title after user enters the sweepstakes -->
-    <string name="sweepstakes_confirmation_title">Hartelijk dank voor je deelname!</string>
-    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
-    <string name="sweepstakes_confirmation_text">Controleer je inbox, winnaars worden\nvia e-mail op de hoogte gebracht.</string>
-
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Reisplan</string>
@@ -339,7 +321,7 @@
     <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
     <string name="local_expert_title_TEMPLATE">Geniet van %1$s</string>
     <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="local_expert_description">Je Local Expert concierge is een telefoontje\nverwijderd voor het plannen van activiteiten.</string>
+    <string name="local_expert_description">Je Local Expert conciërge is een telefoontje\nverwijderd voor het plannen van activiteiten.</string>
     <!-- Text for the button on Local Expert pages, to call the concierge -->
     <string name="local_expert_call_button_text">Bel hen even op</string>
 
@@ -498,7 +480,8 @@
     <string name="itin_card_details_reload_car">Autohuurinfo opnieuw laden</string>
     <string name="itin_card_details_reload_flight">Vluchtinfo opnieuw laden</string>
     <string name="itin_card_details_reload_hotel">Hotelinfo opnieuw laden</string>
-    <string name="itin_card_details_reload_cruise">Cruiseïnfo opnieuw laden</string>
+    <string name="itin_card_details_reload_cruise">Cruise-info opnieuw laden</string>
+    <string name="itin_card_details_remove_itin">Verwijderen uit reisplan</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check-in over 3 dagen</string>
@@ -530,7 +513,6 @@
     <string name="itin_action_redeem">Inwisselen</string>
     <string name="itin_action_support">Ondersteuning</string>
     <string name="itin_action_share">Delen</string>
-    <string name="itin_action_remove">Verwijderen</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Coupons afdrukken</string>
@@ -557,9 +539,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Onze vlucht op %2$s naar %1$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Mijn vlucht is %1$s naar %2$s op %3$s.\nVertrekt vanaf %4$s om %5$s\nKomt aan op %6$s om %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Mijn vlucht is %1$s naar %2$s op %3$s.\nVertrekt vanaf %4$s om %5$s\nKomt aan op %6$s om %7$s, %8$s\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Mijn vlucht is %1$s naar %2$s.\nVertrekt vanaf %3$s om %4$s\nKomt aan op %5$s om %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Mijn vlucht is %1$s naar %2$s.\nVertrekt vanaf %3$s om %4$s\nKomt aan op %5$s om %6$s, %7$s\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Mijn autoverhuur (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -584,6 +566,8 @@
     <string name="share_car_dropoff_location_section">Terugbrenglocatie:</string>
     <!-- Section header for the Itin sharable link -->
     <string name="share_link_section">Koppeling naar het gedeelde reisplan:\n%s</string>
+    <!-- Shared options label -->
+    <string name="shared_options">Gedeelde opties</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">Mijn %1$s gegevens</string>
@@ -1709,7 +1693,7 @@
     <!-- Label for room type -->
     <string name="room_type">Kamertype</string>
     <!-- Error if we couldn't find the room type details -->
-    <string name="error_room_type_nonexistant">Het spijt ons, we kunnen geen extra kamersgegevens vinden.</string>
+    <string name="error_room_type_nonexistant">Het spijt ons, we kunnen geen extra kamergegevens vinden.</string>
     <!-- Label for bed type -->
     <string name="bed_type">Bedtype</string>
     <!-- Label for length of stay -->

@@ -87,24 +87,6 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Il tuo biglietto per %s potrà essere riscattato a partire da domani.</string>
 
-    <!-- Sweepstakes -->
-    <!-- Title of the sweepstakes -->
-    <string name="sweepstakes_enter_title">Vinci un viaggio al giorno!</string>
-    <!-- Subtitle of the sweepstakes describing what the price is -->
-    <string name="sweepstakes_enter_subtitle">La tua occasione di vincere un viaggio del valore di \n$1,200 messo in palio da Expedia!</string>
-    <!-- Text describing how to enter the sweepstakes -->
-    <string name="sweepstakes_enter_text">Per partecipare accedi con un account Expedia \no con Facebook.</string>
-    <!-- Button declining to enter the sweepstakes -->
-    <string name="sweepstakes_no_thanks">No, grazie</string>
-    <!-- Button to enter the sweepstakes -->
-    <string name="sweepstakes_enter">Inserisci</string>
-    <!-- Terms and conditions text for the sweepstakes -->
-    <string name="sweepstakes_terms">Aderendo all\&apos;iniziativa ne accetto i &lt;font color="#216092"&gt;Termini e le condizioni&lt;/font&gt;.&lt;br /&gt;Non è necessario fare alcun acquisto. Per maggiori dettagli, consulta il &lt;font color="#216092"&gt;regolamento&lt;/font&gt;.</string>
-    <!-- Confirmation title after user enters the sweepstakes -->
-    <string name="sweepstakes_confirmation_title">Grazie per aver partecipato!</string>
-    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
-    <string name="sweepstakes_confirmation_text">Controlla la tua casella di posta! I vincitori riceveranno \nuna notifica via e-mail.</string>
-
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerario</string>
@@ -499,6 +481,7 @@
     <string name="itin_card_details_reload_flight">Ricarica informazioni volo</string>
     <string name="itin_card_details_reload_hotel">Ricarica informazioni hotel</string>
     <string name="itin_card_details_reload_cruise">Ricarica informazioni crociera</string>
+    <string name="itin_card_details_remove_itin">Rimuovere dall\&apos;itinerario condiviso?</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check-in — 3 giorni</string>
@@ -530,7 +513,6 @@
     <string name="itin_action_redeem">Riscatta</string>
     <string name="itin_action_support">Assistenza</string>
     <string name="itin_action_share">Condividi</string>
-    <string name="itin_action_remove">Rimuovi</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Stampa voucher</string>
@@ -557,9 +539,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Il nostro volo per %1$s in data %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Sono sul volo %1$s per %2$s in data %3$s.\nParte da %4$s alle ore %5$s\nArriva a %6$s alle ore %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Sono sul volo %1$s per %2$s in data %3$s.\nParte da %4$s alle ore %5$s\nArriva a %6$s alle ore %7$s, %8$s\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Sono sul volo %1$s per %2$s.\nParte da %3$s alle ore %4$s\nArriva a %5$s alle ore %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Sono sul volo %1$s per %2$s.\nParte da %3$s alle ore %4$s\nArriva a %5$s alle ore %6$s, %7$s\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Il mio noleggio auto (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -584,6 +566,8 @@
     <string name="share_car_dropoff_location_section">Luogo di riconsegna:</string>
     <!-- Section header for the Itin sharable link -->
     <string name="share_link_section">Link all\&apos;itinerario condiviso:\n%s</string>
+    <!-- Shared options label -->
+    <string name="shared_options">Opzioni condivise</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">I miei dettagli %1$s</string>
@@ -1928,29 +1912,29 @@
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
     <string name="coupon_error_no_code">Spiacenti, il coupon non può essere utilizzato.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Impossibile riconoscere il coupon.</string>
+    <string name="coupon_error_unrecognized">Impossibile riconoscere il coupon..</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Siamo spiacenti, ma questo coupon è scaduto .</string>
+    <string name="coupon_error_expired">Siamo spiacenti, ma questo coupon è scaduto. .</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Si è verificato un problema. Riprova in seguito. .</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Siamo spiacenti, ma questo codice coupon è già stato utilizzato.</string>
+    <string name="coupon_error_duplicate">Siamo spiacenti, ma questo codice coupon è già stato utilizzato..</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Si è verificato un problema. Riprova in seguito..</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">Impossibile applicare il coupon perché il costo della prenotazione è cambiato. Controlla il totale aggiornato e riprova.</string>
+    <string name="coupon_error_price_change">Impossibile applicare il coupon perché il costo della prenotazione è cambiato. Controlla il totale aggiornato e riprova..</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Siamo spiacenti, ma questo coupon è valido per un altro paese.</string>
+    <string name="coupon_error_invalid_region">Siamo spiacenti, ma questo coupon è valido per un altro paese. .</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">Siamo spiacenti, ma non hai selezionato il numero minimo di notti richiesto.</string>
+    <string name="coupon_error_min_stay_not_met">Siamo spiacenti, ma non hai selezionato il numero minimo di notti richiesto..</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Siamo spiacenti, ma il coupon non è valido per le date selezionate .</string>
+    <string name="coupon_error_invalid_travel_dates">Siamo spiacenti, ma il coupon non è valido per le date selezionate. .</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Siamo spiacenti, ma l\&apos;hotel selezionato non accetta coupon.</string>
+    <string name="coupon_error_invalid_product">Siamo spiacenti, ma l\&apos;hotel selezionato non accetta coupon. .</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Siamo spiacenti, ma la prenotazione non soddisfa i requisiti minimi di spesa previsti.</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Siamo spiacenti, ma l\&apos;hotel selezionato non soddisfa i requisiti minimi di spesa previsti..</string>
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
-    <string name="coupon_error_hotel_excluded">Siamo spiacenti, ma l\&apos;hotel selezionato non accetta coupon.</string>
+    <string name="coupon_error_hotel_excluded">Siamo spiacenti, ma l\&apos;hotel selezionato non accetta coupon..</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">Siamo spiacenti, ma al momento non ci è possibile gestire i coupon. Riprova in seguito..</string>
 

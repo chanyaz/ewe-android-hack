@@ -87,24 +87,6 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Sua entrada para %s pode ser trocada a partir de amanhã.</string>
 
-    <!-- Sweepstakes -->
-    <!-- Title of the sweepstakes -->
-    <string name="sweepstakes_enter_title">Trip-a-day giveaway!</string>
-    <!-- Subtitle of the sweepstakes describing what the price is -->
-    <string name="sweepstakes_enter_subtitle">Sua chance de ganhar uma viagem de\nUS$ 1.200 da Expedia!</string>
-    <!-- Text describing how to enter the sweepstakes -->
-    <string name="sweepstakes_enter_text">Basta se conectar com uma conta da Expedia\nou se conectar com o Facebook para se inscrever.</string>
-    <!-- Button declining to enter the sweepstakes -->
-    <string name="sweepstakes_no_thanks">Não</string>
-    <!-- Button to enter the sweepstakes -->
-    <string name="sweepstakes_enter">Inscrever-se</string>
-    <!-- Terms and conditions text for the sweepstakes -->
-    <string name="sweepstakes_terms">Ao me inscrever, aceito todos os &lt;font color="#216092"&gt;Termos e condições&lt;/font&gt;.&lt;br /&gt;Sem necessidade de compras. Veja todas as &lt;font color="#216092"&gt;Regras&lt;/font&gt; para mais informações.</string>
-    <!-- Confirmation title after user enters the sweepstakes -->
-    <string name="sweepstakes_confirmation_title">Agradecemos sua inscrição!</string>
-    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
-    <string name="sweepstakes_confirmation_text">Fique atento! Os vencedores serão\nnotificados via e-mail.</string>
-
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinerário</string>
@@ -499,6 +481,7 @@
     <string name="itin_card_details_reload_flight">Recarregar Info Voo</string>
     <string name="itin_card_details_reload_hotel">Recarregar Info Hotéis</string>
     <string name="itin_card_details_reload_cruise">Regarregar Info Cruzeiro</string>
+    <string name="itin_card_details_remove_itin">Remover do itinerário</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Check-in em 3 dias</string>
@@ -530,7 +513,6 @@
     <string name="itin_action_redeem">Utilizar</string>
     <string name="itin_action_support">Assistência</string>
     <string name="itin_action_share">Compartilhar</string>
-    <string name="itin_action_remove">Remover</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Imprimir vouchers</string>
@@ -557,9 +539,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Nosso voo para %1$s em %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Estou no voo %1$s para %2$s em %3$s.\nParte de %4$s às %5$s\nChega a %6$s às %7$s (%8$s)</string>
+    <string name="share_template_short_flight_sameday">Estou no voo %1$s para %2$s em %3$s.\nParte de %4$s às %5$s\nChega a %6$s às %7$s (%8$s)\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Estou no voo %1$s para %2$s.\nParte de %3$s às %4$s\nChega a %5$s às %6$s (%7$s)</string>
+    <string name="share_template_short_flight_multiday">Estou no voo %1$s para %2$s.\nParte de %3$s às %4$s\nChega a %5$s às %6$s (%7$s)\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Meu aluguel de carro (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -584,6 +566,8 @@
     <string name="share_car_dropoff_location_section">Local de devolução:</string>
     <!-- Section header for the Itin sharable link -->
     <string name="share_link_section">Link para o itinerário compartilhado: \n%s</string>
+    <!-- Shared options label -->
+    <string name="shared_options">Opções compartilhadas</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">Minhas informações sobre %1$s</string>
@@ -1938,7 +1922,7 @@
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Desculpe, ocorreu um problema. Tente novamente.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">O cupom não foi aplicado, pois o valor da reserva foi alterado. Revise e tente novamente..</string>
+    <string name="coupon_error_price_change">O cupom não foi aplicado, pois o valor da reserva foi alterado. Revise e tente novamente.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">Desculpe, mas este código de cupom serve para outro país.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->

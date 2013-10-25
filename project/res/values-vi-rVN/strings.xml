@@ -87,24 +87,6 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Quý vị đã có thể đổi vé %s để sử dụng từ ngày mai.</string>
 
-    <!-- Sweepstakes -->
-    <!-- Title of the sweepstakes -->
-    <string name="sweepstakes_enter_title">Trip-a-day giveaway!</string>
-    <!-- Subtitle of the sweepstakes describing what the price is -->
-    <string name="sweepstakes_enter_subtitle">Cơ hội nhận thưởng chuyến đi trị giá\n1.200$ từ Expedia!</string>
-    <!-- Text describing how to enter the sweepstakes -->
-    <string name="sweepstakes_enter_text">Chỉ cần đăng nhập bằng tài khoản Expedia \nhoặc kết nối bằng tài khoản Facebook để tham gia.</string>
-    <!-- Button declining to enter the sweepstakes -->
-    <string name="sweepstakes_no_thanks">Không, cảm ơn</string>
-    <!-- Button to enter the sweepstakes -->
-    <string name="sweepstakes_enter">Tham gia</string>
-    <!-- Terms and conditions text for the sweepstakes -->
-    <string name="sweepstakes_terms">Tham gia cũng đồng nghĩa tôi chấp nhận các &lt;font color="#216092"&gt;Điều khoản và Điều kiện&lt;/font&gt;.&lt;br /&gt;Không cần đặt bất kỳ sản phẩm nào. Xem toàn bộ &lt;font color="#216092"&gt;Quy tắc&lt;/font&gt; để biết thêm chi tiết.</string>
-    <!-- Confirmation title after user enters the sweepstakes -->
-    <string name="sweepstakes_confirmation_title">Cám ơn quý vị đã tham gia!</string>
-    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
-    <string name="sweepstakes_confirmation_text">Hãy chờ đón! Người thắng giải\nsẽ được thông báo qua email.</string>
-
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Lịch trình</string>
@@ -451,7 +433,7 @@
     <string name="car_type_coupe">Xe thể thao 2 cửa</string>
     <string name="car_type_monospace">Xe thân liền</string>
     <string name="car_type_motor_home">Nhà xe</string>
-    <string name="car_type_two_wheel_vehicle">Xe 2 cầu</string>
+    <string name="car_type_two_wheel_vehicle">Xe dẫn động 2 bánh</string>
     <string name="car_type_roadster">Xe thể thao 2 chỗ</string>
     <string name="car_type_crossover">Xe Crossover</string>
 
@@ -499,6 +481,7 @@
     <string name="itin_card_details_reload_flight">Đang tải lại thông tin Chuyến bay</string>
     <string name="itin_card_details_reload_hotel">Đang tải lại thông tin Khách sạn</string>
     <string name="itin_card_details_reload_cruise">Đang tải lại thông tin Du thuyền</string>
+    <string name="itin_card_details_remove_itin">Xóa khỏi Lịch trình</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Nhận phòng trong 3 ngày</string>
@@ -530,7 +513,6 @@
     <string name="itin_action_redeem">Đổi</string>
     <string name="itin_action_support">Hỗ trợ</string>
     <string name="itin_action_share">Chia sẻ</string>
-    <string name="itin_action_remove">Xóa</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">In voucher</string>
@@ -557,9 +539,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Chuyến bay của chúng tôi đến %1$s vào %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Tôi đang trên chuyến bay %1$s đến %2$s vào %3$s.\nKhởi hành từ %4$s lúc %5$s\nĐến %6$s lúc %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Tôi đang trên chuyến bay %1$s đến %2$s vào %3$s.\nKhởi hành từ %4$s lúc %5$s\nĐến %6$s lúc %7$s, %8$s\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Tôi đang trên chuyến bay %1$s đến %2$s.\nKhởi hành từ %3$s lúc %4$s\nĐến %5$s lúc %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Tôi đang trên chuyến bay %1$s đến %2$s.\nKhởi hành từ %3$s lúc %4$s\nĐến %5$s lúc %6$s, %7$s\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Xe thuê của tôi (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -584,6 +566,8 @@
     <string name="share_car_dropoff_location_section">Địa điểm trả xe:</string>
     <!-- Section header for the Itin sharable link -->
     <string name="share_link_section">Liên kết vào lịch trình đã chia sẻ:\n%s</string>
+    <!-- Shared options label -->
+    <string name="shared_options">Tùy chọn Chia sẻ</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">Chi tiết %1$s của tôi</string>
@@ -1928,31 +1912,31 @@
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
     <string name="coupon_error_no_code">Rất tiếc, không thể áp dụng coupon.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Rất tiếc, nhưng đây không phải là mã coupon xác định.</string>
+    <string name="coupon_error_unrecognized">Rất tiếc, mã coupon này không hợp lệ.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Rất tiếc, nhưng coupon này đã hết hạn.</string>
+    <string name="coupon_error_expired">Rất tiếc, coupon này đã hết hạn.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Rất tiếc, nhưng chúng tôi đang gặp sự cố. Vui lòng thử lại.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Rất tiếc, nhưng mã coupon đã được sử dụng.</string>
+    <string name="coupon_error_duplicate">Rất tiếc, mã coupon này đã được sử dụng.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">Rất tiếc, nhưng chúng tôi đang gặp sự cố. Vui lòng thử lại.</string>
+    <string name="coupon_error_fallback">Rất tiếc, chúng tôi đang gặp sự cố. Vui lòng thử lại.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">Chi phí đặt phòng đã thay đổi, vì vậy chúng tôi không áp dụng coupon. Vui lòng xem lại và thử lại.</string>
+    <string name="coupon_error_price_change">Chi phí đặt phòng đã thay đổi, vì thế chúng tôi không áp dụng được coupon. Vui lòng kiểm tra và thử lại.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Rất tiếc, nhưng mã coupon này dành cho quốc gia khác.</string>
+    <string name="coupon_error_invalid_region">Rất tiếc, mã coupon này dành cho quốc gia khác.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">Rất tiếc, nhưng quý vị đã không chọn số đêm tối thiểu.</string>
+    <string name="coupon_error_min_stay_not_met">Rất tiếc, quý vị không chọn đủ số đêm tối thiểu.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Rất tiếc, nhưng coupon này không hợp lệ cho những ngày này.</string>
+    <string name="coupon_error_invalid_travel_dates">Rất tiếc, coupon này không hợp lệ để sử dụng vào những ngày này.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Rất tiếc, nhưng khách sạn này không chấp nhận coupon.</string>
+    <string name="coupon_error_invalid_product">Rất tiếc, khách sạn này không chấp nhận coupon.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Rất tiếc, nhưng điều này không đáp ứng yêu cầu chi phí tối thiểu.</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Rất tiếc, đặt phòng này không đáp ứng mức giá tối thiểu theo yêu cầu.</string>
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
-    <string name="coupon_error_hotel_excluded">Rất tiếc, nhưng khách sạn này không chấp nhận coupon.</string>
+    <string name="coupon_error_hotel_excluded">Rất tiếc, khách sạn này không chấp nhận coupon.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">Rất tiếc, nhưng chúng tôi hiện không thể xử lý coupon.  Vui lòng thử lại.</string>
+    <string name="coupon_error_service_down">Rất tiếc, hiện chúng tôi không thể xử lý coupon.  Vui lòng thử lại.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
@@ -2096,7 +2080,7 @@
     <!-- A number of guests (but not including the guest count). Capitalized -->
     <plurals name="number_of_guests_label">
         <item quantity="zero">Khách</item>
-        <item quantity="one">khách</item>
+        <item quantity="one">Khách</item>
         <item quantity="two">Khách</item>
         <item quantity="many">Khách</item>
         <item quantity="other">Khách</item>

@@ -87,24 +87,6 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">明天可以開始兌換%s的票。</string>
 
-    <!-- Sweepstakes -->
-    <!-- Title of the sweepstakes -->
-    <string name="sweepstakes_enter_title">Trip-a-day giveaway!</string>
-    <!-- Subtitle of the sweepstakes describing what the price is -->
-    <string name="sweepstakes_enter_subtitle">您有機會獲得價值 $1,200　元的\nExpedia 假期！</string>
-    <!-- Text describing how to enter the sweepstakes -->
-    <string name="sweepstakes_enter_text">只要登入 Expedia 帳戶\n或使用 Facebook 帳戶登入就可以參加抽獎。</string>
-    <!-- Button declining to enter the sweepstakes -->
-    <string name="sweepstakes_no_thanks">不用了，謝謝。</string>
-    <!-- Button to enter the sweepstakes -->
-    <string name="sweepstakes_enter">參加活動</string>
-    <!-- Terms and conditions text for the sweepstakes -->
-    <string name="sweepstakes_terms">參加活動即表示我同意&lt;font color="#216092"&gt;條款和條件&lt;/font&gt;。&lt;br /&gt;不用預訂或購買任何行程。活動詳情請參閱&lt;font color="#216092"&gt;完整活動規則&lt;/font&gt;。</string>
-    <!-- Confirmation title after user enters the sweepstakes -->
-    <string name="sweepstakes_confirmation_title">感謝您參加活動</string>
-    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
-    <string name="sweepstakes_confirmation_text">請留意您的電子郵件信箱！\n得獎者會收到電子郵件通知。</string>
-
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">行程</string>
@@ -432,9 +414,9 @@
     <string name="car_category_oversize">超大型車</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">雙門 汽車</string>
-    <string name="car_type_three_door">三門 汽車</string>
-    <string name="car_type_four_door">四門 汽車</string>
+    <string name="car_type_two_door">雙門汽車</string>
+    <string name="car_type_three_door">三門汽車</string>
+    <string name="car_type_four_door">四門汽車</string>
     <string name="car_type_van">箱型車</string>
     <string name="car_type_wagon">轎車</string>
     <string name="car_type_limousine">豪華禮車</string>
@@ -499,6 +481,7 @@
     <string name="itin_card_details_reload_flight">重新載入班機資訊</string>
     <string name="itin_card_details_reload_hotel">重新載入飯店資訊</string>
     <string name="itin_card_details_reload_cruise">重新載入遊輪資訊</string>
+    <string name="itin_card_details_remove_itin">自行程中移除</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">3 天後入住</string>
@@ -530,7 +513,6 @@
     <string name="itin_action_redeem">兌換</string>
     <string name="itin_action_support">支援</string>
     <string name="itin_action_share">分享</string>
-    <string name="itin_action_remove">移除</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">列印折扣券</string>
@@ -557,9 +539,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">我們的班機資訊：前往%1$s，日期：%2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">我將搭乘班機 %1$s 前往%2$s，日期：%3$s。\n出發機場：%4$s，時間：%5$s\n抵達機場：%6$s時間：%7$s，航廈和閘門：%8$s</string>
+    <string name="share_template_short_flight_sameday">我將搭乘班機 %1$s 前往%2$s，日期：%3$s。\n出發機場：%4$s，時間：%5$s\n抵達機場：%6$s時間：%7$s，航廈和閘門：%8$s\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">我將搭乘班機 %1$s 前往%2$s。\n出發機場：%3$s，時間：%4$s\n抵達機場：%5$s時間：%6$s，航廈和閘門：%7$s</string>
+    <string name="share_template_short_flight_multiday">我將搭乘班機 %1$s 前往%2$s。\n出發機場：%3$s，時間：%4$s\n抵達機場：%5$s時間：%6$s，航廈和閘門：%7$s\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">我的租車 (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -584,6 +566,8 @@
     <string name="share_car_dropoff_location_section">還車地點：</string>
     <!-- Section header for the Itin sharable link -->
     <string name="share_link_section">連結到分享的行程：\n%s</string>
+    <!-- Shared options label -->
+    <string name="shared_options">共用選項</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">我的%1$s活動資訊</string>

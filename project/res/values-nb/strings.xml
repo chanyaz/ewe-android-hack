@@ -87,24 +87,6 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Din billett til %s kan løses inn fra og med i morgen.</string>
 
-    <!-- Sweepstakes -->
-    <!-- Title of the sweepstakes -->
-    <string name="sweepstakes_enter_title">Trip-a-day giveaway!</string>
-    <!-- Subtitle of the sweepstakes describing what the price is -->
-    <string name="sweepstakes_enter_subtitle">Din mulighet til å vinne en reise til en verdi av \n$1 200 fra Expedia!</string>
-    <!-- Text describing how to enter the sweepstakes -->
-    <string name="sweepstakes_enter_text">Logg inn med en Expedia-konto\neller gjennom Facebook-kontoen din for å delta.</string>
-    <!-- Button declining to enter the sweepstakes -->
-    <string name="sweepstakes_no_thanks">Nei, takk</string>
-    <!-- Button to enter the sweepstakes -->
-    <string name="sweepstakes_enter">Delta</string>
-    <!-- Terms and conditions text for the sweepstakes -->
-    <string name="sweepstakes_terms">Ved å delta godkjenner jeg automatisk &lt;font color="#216092"&gt;vilkår og betingelser&lt;/font&gt;.&lt;br /&gt;Det kreves ikke at du kjøper noe. Se fullstendige &lt;font color="#216092"&gt;Regler&lt;/font&gt; for flere detaljer.</string>
-    <!-- Confirmation title after user enters the sweepstakes -->
-    <string name="sweepstakes_confirmation_title">Takk for at du deltok!</string>
-    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
-    <string name="sweepstakes_confirmation_text">Følg med! Vinnerne vil\nfå beskjed via e-post.</string>
-
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Reiserute</string>
@@ -499,6 +481,7 @@
     <string name="itin_card_details_reload_flight">Last inn informasjon om fly på nytt</string>
     <string name="itin_card_details_reload_hotel">Last inn informasjon om hotell på nytt</string>
     <string name="itin_card_details_reload_cruise">Last inn informasjon om cruise på nytt</string>
+    <string name="itin_card_details_remove_itin">Fjern fra reiserute</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Innsjekking — 3 dager</string>
@@ -530,7 +513,6 @@
     <string name="itin_action_redeem">Løs inn</string>
     <string name="itin_action_support">Støtte</string>
     <string name="itin_action_share">Del</string>
-    <string name="itin_action_remove">Fjern</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Skriv ut kuponger</string>
@@ -557,9 +539,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Vår flyvning til %1$s den %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Jeg er på fly %1$s til %2$s den %3$s.\nAvreise fra %4$s kl. %5$s\nAnkomst ved %6$s kl. %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Jeg er på fly %1$s til %2$s den %3$s.\nAvreise fra %4$s kl. %5$s\nAnkomst ved %6$s kl. %7$s, %8$s\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Jeg er på fly %1$s til %2$s.\nAvreise fra %3$s kl. %4$s\nAnkomst ved %5$s kl. %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Jeg er på fly %1$s til %2$s.\nAvreise fra %3$s kl. %4$s\nAnkomst ved %5$s kl. %6$s, %7$s\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Min leiebil (%1$s–%2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -584,6 +566,8 @@
     <string name="share_car_dropoff_location_section">Sted for avlevering:</string>
     <!-- Section header for the Itin sharable link -->
     <string name="share_link_section">Link til den delte reiseruten:\n%s</string>
+    <!-- Shared options label -->
+    <string name="shared_options">Delte valg</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">Mine detaljer om %1$s</string>

@@ -87,24 +87,6 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Votre billet pour %s peut être réclamé à compter de demain.</string>
 
-    <!-- Sweepstakes -->
-    <!-- Title of the sweepstakes -->
-    <string name="sweepstakes_enter_title">Trip-a-day giveaway!</string>
-    <!-- Subtitle of the sweepstakes describing what the price is -->
-    <string name="sweepstakes_enter_subtitle">Votre chance de gagner un voyage d\&apos;une valeur de \n1 200 $ avec Expedia!</string>
-    <!-- Text describing how to enter the sweepstakes -->
-    <string name="sweepstakes_enter_text">Il suffit d\&apos;ouvrir une session à un compte Expedia\nou de vous connecter avec Facebook pour vous inscrire.</string>
-    <!-- Button declining to enter the sweepstakes -->
-    <string name="sweepstakes_no_thanks">Non merci</string>
-    <!-- Button to enter the sweepstakes -->
-    <string name="sweepstakes_enter">S\&apos;inscrire</string>
-    <!-- Terms and conditions text for the sweepstakes -->
-    <string name="sweepstakes_terms">En m\&apos;inscrivant, j\&apos;accepte les &lt;font color="#216092"&gt;conditions générales&lt;/font&gt;.&lt;br /&gt;Aucun achat requis. Voir toutes les &lt;font color="#216092"&gt;règles&lt;/font&gt; pour connaître les détails.</string>
-    <!-- Confirmation title after user enters the sweepstakes -->
-    <string name="sweepstakes_confirmation_title">Merci de votre inscription!</string>
-    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
-    <string name="sweepstakes_confirmation_text">Vérifiez vos messages! Les gagnants recevront\nun avis par courriel.</string>
-
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Itinéraire</string>
@@ -154,12 +136,12 @@
     </plurals>
     <!-- "XX Days" an event happening XX days in the future -->
     <plurals name="days_from_now">
-        <item quantity="zero">%sdes  prochains jours</item>
+        <item quantity="zero">%s jours</item>
         <item quantity="one">%s jour</item>
-        <item quantity="two">%sdes  prochains jours</item>
-        <item quantity="few">%sdes  prochains jours</item>
-        <item quantity="many">%sdes  prochains jours</item>
-        <item quantity="other">%sdes  prochains jours</item>
+        <item quantity="two">%s jours</item>
+        <item quantity="few">%s jours</item>
+        <item quantity="many">%s jours</item>
+        <item quantity="other">%s jours</item>
     </plurals>
     <!-- Template for card header text (will be filled in with "Title - Date") -->
     <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
@@ -184,7 +166,7 @@
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$s Confirmation</string>
     <!-- Car rental agency name and location in car itin detail -->
-    <string name="car_rental_agency_name_location">%1$s dans %2$s, %3$s</string>
+    <string name="car_rental_agency_name_location">%1$s à %2$s, %3$s</string>
     <!-- Car rental confirmation code "Agency Confirmation Code" -->
     <string name="car_rental_confirmation_code_label">Code de confirmation d\&apos;agence</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
@@ -306,7 +288,7 @@
     <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_future_TEMPLATE">dans %1$s et %2$s</string>
     <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
-    <string name="hours_minutes_past_TEMPLATE">%1$s et %2$s passé</string>
+    <string name="hours_minutes_past_TEMPLATE">Il y a %1$s e %2$s</string>
 
     <!-- Itin Buttons -->
     <!-- Dialog title for removing shared itin -->
@@ -432,9 +414,9 @@
     <string name="car_category_oversize">Surdimensionnées</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">Deux portes Voiture</string>
-    <string name="car_type_three_door">Trois portes Voiture</string>
-    <string name="car_type_four_door">Quatre portes Voiture</string>
+    <string name="car_type_two_door">Voiture 2 portes</string>
+    <string name="car_type_three_door">Voiture 3 portes</string>
+    <string name="car_type_four_door">Voiture 4 portes</string>
     <string name="car_type_van">Fourgonnette</string>
     <string name="car_type_wagon">Familiale</string>
     <string name="car_type_limousine">Limousine</string>
@@ -499,6 +481,7 @@
     <string name="itin_card_details_reload_flight">Recharger info. vol</string>
     <string name="itin_card_details_reload_hotel">Recharger info. hôtel</string>
     <string name="itin_card_details_reload_cruise">Recharger info. croisières</string>
+    <string name="itin_card_details_remove_itin">Supprimer du voyage</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Arrivée — 3 jours</string>
@@ -530,7 +513,6 @@
     <string name="itin_action_redeem">Échanger</string>
     <string name="itin_action_support">Soutien</string>
     <string name="itin_action_share">Partager</string>
-    <string name="itin_action_remove">Supprimer</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Imprimer les pièces</string>
@@ -557,9 +539,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Notre vol à %1$s le %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Je suis sur le vol %1$s vers %2$s le %3$s.\nQuitte %4$s à %5$s\nArrive %6$s à %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Je suis sur le vol %1$s vers %2$s le %3$s.\nQuitte %4$s à %5$s\nArrive %6$s à %7$s, %8$s\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Je suis sur le vol %1$s vers %2$s.\nQuitte %3$s à %4$s\nArrive %5$s à %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Je suis sur le vol %1$s vers %2$s.\nQuitte %3$s à %4$s\nArrive %5$s à %6$s, %7$s\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Ma location de voiture (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -584,6 +566,8 @@
     <string name="share_car_dropoff_location_section">Emplacement de remise :</string>
     <!-- Section header for the Itin sharable link -->
     <string name="share_link_section">Accéder à l\&apos;itinéraire partagé :\n%s</string>
+    <!-- Shared options label -->
+    <string name="shared_options">Options voyage partagé</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">Mes %1$s détails</string>
@@ -665,12 +649,12 @@
     <string name="sort_description_duration">Durée</string>
     <!-- Pluralization for # of days a flight takes up.  %s is the number of days, positive or minus (-1 day, +2 days) -->
     <plurals name="day_span">
-        <item quantity="zero">%sdes  prochains jours</item>
+        <item quantity="zero">%s jours</item>
         <item quantity="one">%s jour</item>
-        <item quantity="two">%sdes  prochains jours</item>
-        <item quantity="few">%sdes  prochains jours</item>
-        <item quantity="many">%sdes  prochains jours</item>
-        <item quantity="other">%sdes  prochains jours</item>
+        <item quantity="two">%s jours</item>
+        <item quantity="few">%s jours</item>
+        <item quantity="many">%s jours</item>
+        <item quantity="other">%s jours</item>
     </plurals>
     <!-- Message shown to user when data has expired and we need to send them back to the start of the app -->
     <string name="error_data_expired">DÉBOGAGE : La recherche de données a été effacée. Veuillez signaler cette erreur à DLew.</string>
@@ -1649,7 +1633,7 @@
     <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
     <plurals name="staying_nights">
         <item quantity="zero">Séjour de %d nuits</item>
-        <item quantity="one">Séjour de %d nuit</item>
+        <item quantity="one">Séjour d\&apos;%d nuit</item>
         <item quantity="two">Séjour de %d nuits</item>
         <item quantity="many">Séjour de %d nuits</item>
         <item quantity="other">Séjour de %d nuits</item>
@@ -1673,7 +1657,7 @@
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">Aucune chambre disponible!</item>
-        <item quantity="one">Plus que 1 chambre!</item>
+        <item quantity="one">Plus qu\&apos;1 chambre!</item>
         <item quantity="two">Plus que %d chambres!</item>
         <item quantity="many">Plus que %d chambres!</item>
         <item quantity="other">Plus que %d chambres!</item>
@@ -1938,7 +1922,7 @@
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Désolé, nous éprouvons des difficultés. Veuillez réessayer.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">Le coût de la réservation a changé; nous n\&apos;avons pas appliqué le bon de réduction. Veuillez vérifier et recommencer..</string>
+    <string name="coupon_error_price_change">Le coût de la réservation a changé; nous n\&apos;avons pas appliqué le bon de réduction. Veuillez vérifier et recommencer.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">Désolé, le code de ce bon de réduction est pour un autre pays..</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
@@ -1952,7 +1936,7 @@
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
     <string name="coupon_error_hotel_excluded">Désolé, cet hôtel n\&apos;accepte pas les bons de réduction..</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">Désolé, nous ne pouvons pas traiter les bons de réduction en ce moment.  Veuillez réessayer.</string>
+    <string name="coupon_error_service_down">Désolé, nous ne pouvons pas traiter les bons de réduction en ce moment Veuillez réessayer.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->

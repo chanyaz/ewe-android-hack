@@ -87,24 +87,6 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">고객님의 %s 티켓은 내일부터 이용하실 수 있습니다.</string>
 
-    <!-- Sweepstakes -->
-    <!-- Title of the sweepstakes -->
-    <string name="sweepstakes_enter_title">Trip-a-day giveaway!</string>
-    <!-- Subtitle of the sweepstakes describing what the price is -->
-    <string name="sweepstakes_enter_subtitle">Expedia의 $1,200 상당\n 여행 상품 당첨 빅 찬스!</string>
-    <!-- Text describing how to enter the sweepstakes -->
-    <string name="sweepstakes_enter_text">Expedia 계정으로 로그인하거나\nFacebook 계정을 통해 연결하면 응모하실 수 있습니다.</string>
-    <!-- Button declining to enter the sweepstakes -->
-    <string name="sweepstakes_no_thanks">나중에 하기</string>
-    <!-- Button to enter the sweepstakes -->
-    <string name="sweepstakes_enter">응모하기</string>
-    <!-- Terms and conditions text for the sweepstakes -->
-    <string name="sweepstakes_terms">응모함으로써 본인은 해당 &lt;font color="#216092"&gt;이용약관&lt;/font&gt;에 동의함을 명시합니다.&lt;br /&gt;아무것도 구매하지 않으셔도 됩니다. 자세한 내용은 전체 &lt;font color="#216092"&gt;규정&lt;/font&gt;을 참조해 주세요.</string>
-    <!-- Confirmation title after user enters the sweepstakes -->
-    <string name="sweepstakes_confirmation_title">응모해 주셔서 감사합니다!</string>
-    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
-    <string name="sweepstakes_confirmation_text">이메일을 자주 확인하세요! 당첨자는 이메일로\n알려드립니다.</string>
-
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">일정</string>
@@ -499,6 +481,7 @@
     <string name="itin_card_details_reload_flight">항공편 정보 다시 로드하기</string>
     <string name="itin_card_details_reload_hotel">호텔 정보 다시 로드하기</string>
     <string name="itin_card_details_reload_cruise">크루즈 정보 다시 로드하기</string>
+    <string name="itin_card_details_remove_itin">일정에서 삭제</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">3일 후 체크인</string>
@@ -530,7 +513,6 @@
     <string name="itin_action_redeem">사용하기</string>
     <string name="itin_action_support">고객 지원</string>
     <string name="itin_action_share">공유하기</string>
-    <string name="itin_action_remove">삭제</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">바우처 인쇄</string>
@@ -557,9 +539,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">우리가 예약한 %1$s행 항공편, %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">저 %1$s 비행기로 %2$s에 가요. 날짜는 %3$s이고요.\n%4$s에서 출발하는 시간은 %5$s, \n%6$s에 도착하는 시간은 %7$s에요(%8$s).</string>
+    <string name="share_template_short_flight_sameday">저 %1$s 비행기로 %2$s에 가요. 날짜는 %3$s이고요.\n%4$s에서 출발하는 시간은 %5$s, \n%6$s에 도착하는 시간은 %7$s에요(%8$s).\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">저 %1$s 비행기로 %2$s에 가요.\n%3$s에서 출발하는 시간은 %4$s, \n%5$s에 도착하는 시간은 %6$s에요(%7$s).</string>
+    <string name="share_template_short_flight_multiday">저 %1$s 비행기로 %2$s에 가요.\n%3$s에서 출발하는 시간은 %4$s, \n%5$s에 도착하는 시간은 %6$s에요(%7$s).\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">내가 예약한 렌터카(%1$s ~ %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -584,6 +566,8 @@
     <string name="share_car_dropoff_location_section">차량 반납 위치:</string>
     <!-- Section header for the Itin sharable link -->
     <string name="share_link_section">공유 일정 링크:\n%s</string>
+    <!-- Shared options label -->
+    <string name="shared_options">공유 옵션</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">내가 예약한 %1$s에 대한 정보</string>

@@ -87,24 +87,6 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Din billet til %s kan indløses fra i morgen.</string>
 
-    <!-- Sweepstakes -->
-    <!-- Title of the sweepstakes -->
-    <string name="sweepstakes_enter_title">Trip-a-day giveaway!</string>
-    <!-- Subtitle of the sweepstakes describing what the price is -->
-    <string name="sweepstakes_enter_subtitle">Nu har du chancen for at vinde\nen rejse til $1200 med Expedia!</string>
-    <!-- Text describing how to enter the sweepstakes -->
-    <string name="sweepstakes_enter_text">Du skal bare logge på med en Expedia-konto\neller forbinde med Facebook for at deltage.</string>
-    <!-- Button declining to enter the sweepstakes -->
-    <string name="sweepstakes_no_thanks">Nej tak</string>
-    <!-- Button to enter the sweepstakes -->
-    <string name="sweepstakes_enter">Deltag</string>
-    <!-- Terms and conditions text for the sweepstakes -->
-    <string name="sweepstakes_terms">Ved at deltage accepterer jeg&lt;font color="#216092"&gt;vilkår og betingelser&lt;/font&gt;.&lt;br /&gt;Ikke købsbetinget. Se alle &lt;font color="#216092"&gt;regler&lt;/font&gt; for flere oplysninger.</string>
-    <!-- Confirmation title after user enters the sweepstakes -->
-    <string name="sweepstakes_confirmation_title">Tak, fordi du har tilmeldt dig!</string>
-    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
-    <string name="sweepstakes_confirmation_text">Hold øje med din indbakke! Vinderne vil få\nbesked via e-mail.</string>
-
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Rejseplan</string>
@@ -499,6 +481,7 @@
     <string name="itin_card_details_reload_flight">Genindlæs flyrejseinfo</string>
     <string name="itin_card_details_reload_hotel">Genindlæs hotelinfo</string>
     <string name="itin_card_details_reload_cruise">Genindlæs krydstogtsinfo</string>
+    <string name="itin_card_details_remove_itin">Fjern fra rejseplan</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Indtjekning — 3 dage</string>
@@ -530,7 +513,6 @@
     <string name="itin_action_redeem">Indløs</string>
     <string name="itin_action_support">Support</string>
     <string name="itin_action_share">Del</string>
-    <string name="itin_action_remove">Fjern</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Udskriv kuponer</string>
@@ -557,9 +539,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Vores fly til %1$s d. %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Jeg skal med fly %1$s til %2$s d. %3$s.\nAfgår fra %4$s fra %5$s\nAnkommer %6$s ved %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Jeg skal med fly %1$s til %2$s d. %3$s.\nAfgår fra %4$s fra %5$s\nAnkommer %6$s ved %7$s, %8$s\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Jeg skal med fly %1$s til %2$s.\nAfgår fra %3$s fra %4$s\nAnkommer %5$s ved %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Jeg skal med fly %1$s til %2$s.\nAfgår fra %3$s fra %4$s\nAnkommer %5$s ved %6$s, %7$s\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Min lejebil (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -584,6 +566,8 @@
     <string name="share_car_dropoff_location_section">Aflevering:</string>
     <!-- Section header for the Itin sharable link -->
     <string name="share_link_section">Link til den delte rejseplan:\n%s</string>
+    <!-- Shared options label -->
+    <string name="shared_options">Deleindstillinger</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">Mine detaljer for %1$s</string>
@@ -1938,7 +1922,7 @@
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Beklager, men der er opstået et problem. Forsøg venligst igen.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">Prisen på reservationen har ændret sig, så vi har ikke anvendt kuponen. Kontroller venligst, og prøv igen..</string>
+    <string name="coupon_error_price_change">Prisen på reservationen har ændret sig, så vi har ikke anvendt kuponen. Kontroller venligst, og prøv igen.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">Beklager, men denne kuponkode er for et andet land.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->

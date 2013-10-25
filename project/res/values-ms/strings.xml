@@ -87,24 +87,6 @@
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Tiket %s anda boleh ditebus bermula esok.</string>
 
-    <!-- Sweepstakes -->
-    <!-- Title of the sweepstakes -->
-    <string name="sweepstakes_enter_title">Trip-a-day giveaway!</string>
-    <!-- Subtitle of the sweepstakes describing what the price is -->
-    <string name="sweepstakes_enter_subtitle">Peluang anda untuk memenangi sebuah\nperjalanan bernilai $1,200 daripada Expedia!</string>
-    <!-- Text describing how to enter the sweepstakes -->
-    <string name="sweepstakes_enter_text">Hanya log masuk menggunakan akaun Expedia\natau sambung dengan Facebook untuk menyertai.</string>
-    <!-- Button declining to enter the sweepstakes -->
-    <string name="sweepstakes_no_thanks">Tidak, Terima Kasih</string>
-    <!-- Button to enter the sweepstakes -->
-    <string name="sweepstakes_enter">Sertai</string>
-    <!-- Terms and conditions text for the sweepstakes -->
-    <string name="sweepstakes_terms">Dengan menyertai, saya bersetuju kepada &lt;font color="#216092"&gt;Terma dan Syarat&lt;/font&gt;.&lt;br /&gt;Pembelian tidak diperlukan. Lihat &lt;font color="#216092"&gt;Peraturan&lt;/font&gt; sepenuhnya untuk butiran lanjut.</string>
-    <!-- Confirmation title after user enters the sweepstakes -->
-    <string name="sweepstakes_confirmation_title">Terima kasih kerana menyertai!</string>
-    <!-- Confirmation text after user enters the sweepstakes, saying the user will be notified if they win -->
-    <string name="sweepstakes_confirmation_text">Sentiasa nantikan perkembangan! Pemenang akan\ndimaklumkan melalui e-mel.</string>
-
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">Jadual Perjalanan</string>
@@ -499,6 +481,7 @@
     <string name="itin_card_details_reload_flight">Muat Semula Makl Pnrbgn</string>
     <string name="itin_card_details_reload_hotel">Muat Semula Makl Hotel</string>
     <string name="itin_card_details_reload_cruise">Muat Semula Makl Persiaran</string>
+    <string name="itin_card_details_remove_itin">Keluarkan daripada Jadual Perjalanan</string>
 
     <!-- Message to users that they can check into their hotel in three days -->
     <string name="itin_card_hotel_summary_check_in_three_days">Daftar masuk — 3 hari</string>
@@ -530,7 +513,6 @@
     <string name="itin_action_redeem">Tebus</string>
     <string name="itin_action_support">Sokongan</string>
     <string name="itin_action_share">Kongsi</string>
-    <string name="itin_action_remove">Keluarkan</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Cetak Baucar</string>
@@ -557,9 +539,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Penerbangan kami ke %1$s pada %2$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Saya menaiki penerbangan %1$s ke %2$s pada %3$s.\nBerlepas dari %4$s pada %5$s\nTiba di %6$s pada %7$s, %8$s</string>
+    <string name="share_template_short_flight_sameday">Saya menaiki penerbangan %1$s ke %2$s pada %3$s.\nBerlepas dari %4$s pada %5$s\nTiba di %6$s pada %7$s, %8$s\n%9$s</string>
     <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Saya menaiki penerbangan %1$s ke %2$s.\nBerlepas dari %3$s pada %4$s\nTiba di %5$s pada %6$s, %7$s</string>
+    <string name="share_template_short_flight_multiday">Saya menaiki penerbangan %1$s ke %2$s.\nBerlepas dari %3$s pada %4$s\nTiba di %5$s pada %6$s, %7$s\n%8$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Kereta sewa saya (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -584,6 +566,8 @@
     <string name="share_car_dropoff_location_section">Lokasi Penghantaran:</string>
     <!-- Section header for the Itin sharable link -->
     <string name="share_link_section">Pautan kepada Jadual Perjalanan berkongsi:\n%s</string>
+    <!-- Shared options label -->
+    <string name="shared_options">Pilihan Berkongsi</string>
 
     <!-- activity message subject 1: activity title -->
     <string name="share_template_subject_activity">Butiran %1$s Saya</string>
