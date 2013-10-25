@@ -5,6 +5,7 @@
     android:layout_height="wrap_content" >
 
     <LinearLayout
+        android:id="@+id/column1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -33,6 +34,7 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/divider_1_2"
         android:layout_width="1dp"
         android:layout_height="match_parent"
         android:layout_marginBottom="16dp"
@@ -40,6 +42,7 @@
         android:background="#4D555D" />
 
     <LinearLayout
+        android:id="@+id/column2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -68,6 +71,7 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/divider_2_3"
         android:layout_width="1dp"
         android:layout_height="match_parent"
         android:layout_marginBottom="16dp"
@@ -75,6 +79,7 @@
         android:background="#4D555D" />
 
     <LinearLayout
+        android:id="@+id/column3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
