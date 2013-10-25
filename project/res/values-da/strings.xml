@@ -1516,7 +1516,7 @@
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">På VIP Access-hoteller kan Expedia Elite Plus-medlemmer få gratis værelsesopgraderinger og andre fordele, der er tilgængelige ved indtjekning.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Kun VIP Access-hoteller</string>
+    <string name="filter_vip_access">Kun +VIP Access-hoteller</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>

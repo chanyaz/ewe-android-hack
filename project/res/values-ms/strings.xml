@@ -1516,7 +1516,7 @@
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Di hotel VIP Access, ahli Expedia Elite Plus menerima naik taraf bilik percuma dan keistimewaan lain apabila tersedia semasa daftar masuk.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Hanya Hotel VIP Access</string>
+    <string name="filter_vip_access">Hanya Hotel +VIP Access</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>

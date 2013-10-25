@@ -1516,7 +1516,7 @@
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">VIP Access 호텔에서 Expedia Elite Plus 회원은 체크인 시 이용 가능한 경우 무료 객실 업그레이드와 기타 특전을 받으시게 됩니다.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">VIP Access 호텔만</string>
+    <string name="filter_vip_access">+VIP Access 호텔만</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>

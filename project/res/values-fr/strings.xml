@@ -1516,7 +1516,7 @@
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Les hôtels Accès VIP offrent le surclassement sans frais en catégorie supérieure aux membres Élite Plus, ainsi que de nombreux autres avantages, selon disponibilité à l\&apos;arrivée.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Seulement les hôtels Accès VIP</string>
+    <string name="filter_vip_access">Seulement les hôtels Accès +VIP</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
