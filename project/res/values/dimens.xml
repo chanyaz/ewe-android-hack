@@ -20,14 +20,14 @@
     <dimen name="launch_tile_hotel_sale_drawable_padding">3dp</dimen>
 
     <!-- Itinerary dimens -->
-    <dimen name="itin_card_collapsed_height">118.5dp</dimen>
-    <dimen name="itin_card_summary_collapsed_height">274.5dp</dimen>
+    <dimen name="itin_card_collapsed_height">138.5dp</dimen>
+    <dimen name="itin_card_summary_collapsed_height">294.5dp</dimen>
     <dimen name="itin_card_extra_top_padding">8dp</dimen>
     <dimen name="itin_card_extra_bottom_padding">8dp</dimen>
     <dimen name="itin_title_height">48dp</dimen>
     <dimen name="itin_list_view_width">@dimen/match_parent</dimen>
     <dimen name="itin_card_expanded_image_height">160dp</dimen>
-    <dimen name="itin_card_mini_image_height">100dp</dimen>
+    <dimen name="itin_card_mini_image_height">120dp</dimen>
     <dimen name="itin_summary_section_height">48dp</dimen>
     <dimen name="itin_action_button_height">48dp</dimen>
     <dimen name="itin_flight_segment_divider_padding">10dp</dimen>
@@ -110,7 +110,6 @@
 
     <!-- Radius of the blue circle drawn on the hotel details mini map fragment -->
     <dimen name="mini_map_circle_radius">7dp</dimen>
-
     <dimen name="phone_search_calendar_height">300dp</dimen>
 
     <!-- Dimensions for hotel rows -->

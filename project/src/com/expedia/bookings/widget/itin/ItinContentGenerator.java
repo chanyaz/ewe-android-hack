@@ -178,7 +178,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		if (relativeStartDate == null) {
 			return "";
 		}
-		return getContext().getString(R.string.Title_Date_TEMPLATE, "", relativeStartDate);
+		return relativeStartDate.toString();
 	}
 
 	public boolean hasDetails() {

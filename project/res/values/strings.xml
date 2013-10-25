@@ -147,8 +147,6 @@
         <item quantity="many">%s days</item>
         <item quantity="other">%s days</item>
     </plurals>
-    <!-- Template for card header text (will be filled in with "Title - Date") -->
-    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">Flight</string>
     <!-- Default (fallback) itin card title for HOTEL -->
