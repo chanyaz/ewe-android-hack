@@ -207,7 +207,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	public boolean getHideDetailsTypeIcon() {
 		if (isSharedItin()) {
-			return false;
+			return true;
 		}
 		else {
 			return mDetialsSummaryHideTypeIcon;
