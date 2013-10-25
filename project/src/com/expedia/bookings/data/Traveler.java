@@ -528,6 +528,14 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return getOrCreatePrimaryPhoneNumber().getCountryCode();
 	}
 
+	public void setPhoneCountryName(String phoneCountryCode) {
+		getOrCreatePrimaryPhoneNumber().setCountryName(phoneCountryCode);
+	}
+
+	public String getPhoneCountryName() {
+		return getOrCreatePrimaryPhoneNumber().getCountryName();
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 

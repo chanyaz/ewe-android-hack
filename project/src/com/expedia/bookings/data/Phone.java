@@ -12,6 +12,7 @@ public class Phone implements JSONable {
 	private String mAreaCode;
 	private UserPreference.Category mCategory;
 	private String mCountryCode;
+	private String mCountryName;
 	private String mExtensionNumber;
 
 	public Phone() {
@@ -58,6 +59,14 @@ public class Phone implements JSONable {
 
 	public String getCountryCode() {
 		return mCountryCode;
+	}
+
+	public void setCountryName(String countryName) {
+		mCountryName = countryName;
+	}
+
+	public String getCountryName() {
+		return mCountryName;
 	}
 
 	public void setExtensionNumber(String extensionNumber) {

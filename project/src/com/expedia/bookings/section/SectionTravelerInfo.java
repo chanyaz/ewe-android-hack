@@ -157,7 +157,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		if (pos.hideMiddleName()) {
 			mFields.removeField(mEditMiddleName);
 		}
-		
+
 		// Remove email fields if user is logged in
 		if (User.isLoggedIn(mContext)) {
 			mFields.removeField(mEditEmailAddress);
@@ -273,7 +273,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			}
 		}
 	};
-	
+
 	SectionField<TextView, Traveler> mDisplayCurrentTravelerWithNameColored = new SectionField<TextView, Traveler>(
 			R.id.display_current_traveler_with_name_colored) {
 		@Override
@@ -360,9 +360,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			field.setText(val);
 		}
 	};
-	
 
-	SectionField<TextView, 	Traveler> mDisplayEmailDisclaimer = new SectionField<TextView, Traveler>(
+	SectionField<TextView, Traveler> mDisplayEmailDisclaimer = new SectionField<TextView, Traveler>(
 			R.id.email_disclaimer) {
 		@Override
 		public void onHasFieldAndData(TextView field, Traveler data) {
@@ -509,7 +508,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			field.setText(data.getLastName());
 		}
 	};
-	
+
 	SectionFieldEditable<EditText, Traveler> mEditEmailAddress = new SectionFieldEditableFocusChangeTrimmer<EditText, Traveler>(
 			R.id.edit_email_address) {
 
@@ -553,7 +552,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			retArr.add(mValidEmail);
 			return retArr;
 		}
-		
+
 	};
 
 	/*
@@ -1019,8 +1018,10 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 					if (getData() != null) {
 						TelephoneSpinner spinner = (TelephoneSpinner) parent;
+						String countryName = spinner.getSelectedTelephoneCountry();
 						String countryCode = "" + spinner.getSelectedTelephoneCountryCode();
 						getData().setPhoneCountryCode(countryCode);
+						getData().setPhoneCountryName(countryName);
 					}
 
 					if (!mSetFieldManually) {
@@ -1042,9 +1043,13 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		protected void onHasFieldAndData(TelephoneSpinner field, Traveler data) {
 			TelephoneSpinnerAdapter adapter = (TelephoneSpinnerAdapter) field.getAdapter();
 			if (!TextUtils.isEmpty(data.getPhoneCountryCode())) {
-				final String targetCountryCode = data.getPhoneCountryCode();
+				//Look up the country based on Country code, and if available the country name
+				String targetCountryCode = data.getPhoneCountryCode();
+				String targetCountryName = data.getPhoneCountryName();
 				for (int i = 0; i < adapter.getCount(); i++) {
-					if (targetCountryCode.equalsIgnoreCase("" + adapter.getCountryCode(i))) {
+					if (targetCountryCode.equalsIgnoreCase("" + adapter.getCountryCode(i))
+							&& (TextUtils.isEmpty(targetCountryName) || targetCountryName.equals(adapter
+									.getCountryName(i)))) {
 						field.setSelection(i);
 						mSetFieldManually = true;
 						break;
