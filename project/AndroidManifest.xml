@@ -150,7 +150,12 @@
             android:name="com.expedia.bookings.activity.ItineraryActivity"
             android:label="@string/trips"
             android:launchMode="singleTop"
-            android:theme="@style/ItineraryTheme" />
+            android:parentActivityName="com.expedia.bookings.activity.SearchFragmentActivity"
+            android:theme="@style/ItineraryTheme">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.expedia.bookings.activity.SearchFragmentActivity" />
+        </activity>
         <activity
             android:name="com.expedia.bookings.activity.ItineraryGuestAddActivity"
             android:theme="@style/LoginTheme"
