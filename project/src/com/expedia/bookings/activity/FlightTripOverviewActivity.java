@@ -37,6 +37,7 @@ import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationL
 import com.expedia.bookings.fragment.FlightTripOverviewFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
 import com.expedia.bookings.fragment.FlightTripPriceFragment;
+import com.expedia.bookings.fragment.FlightTripPriceFragment.FlightTripPriceFragmentListener;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.fragment.SlideToPurchaseFragment;
@@ -56,7 +57,8 @@ import com.mobiata.android.Log;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class FlightTripOverviewActivity extends SherlockFragmentActivity implements LogInListener,
-		CheckoutInformationListener, RetryErrorDialogFragmentListener, ISlideToListener, DoLogoutListener {
+		CheckoutInformationListener, RetryErrorDialogFragmentListener, ISlideToListener, DoLogoutListener,
+		FlightTripPriceFragmentListener {
 
 	public static final String TAG_OVERVIEW_FRAG = "TAG_OVERVIEW_FRAG";
 	public static final String TAG_CHECKOUT_FRAG = "TAG_CHECKOUT_FRAG";
@@ -738,6 +740,14 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	@Override
 	public void onCancelError() {
 		finish();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// FlightTripPriceFragmentListener
+
+	@Override
+	public void onCreateTripFinished() {
+		mCheckoutFragment.refreshData();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

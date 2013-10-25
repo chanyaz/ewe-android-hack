@@ -42,6 +42,12 @@ public class FlightTripPriceFragment extends Fragment {
 	private ViewGroup mPriceChangeContainer;
 	private View mFragmentContent;
 
+	private FlightTripPriceFragmentListener mListener;
+
+	public interface FlightTripPriceFragmentListener {
+		void onCreateTripFinished();
+	}
+
 	public static FlightTripPriceFragment newInstance() {
 		return new FlightTripPriceFragment();
 	}
@@ -59,6 +65,8 @@ public class FlightTripPriceFragment extends Fragment {
 			mRequestedDetails = savedInstanceState.getBoolean(INSTANCE_REQUESTED_DETAILS, false);
 			mPriceChangeString = savedInstanceState.getString(INSTANCE_PRICE_CHANGE);
 		}
+
+		mListener = Ui.findFragmentListener(this, FlightTripPriceFragmentListener.class, false);
 	}
 
 	@Override
@@ -210,6 +218,10 @@ public class FlightTripPriceFragment extends Fragment {
 				}
 				else {
 					hidePriceChange();
+				}
+
+				if (mListener != null) {
+					mListener.onCreateTripFinished();
 				}
 			}
 		}
