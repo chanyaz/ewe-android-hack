@@ -27,6 +27,7 @@ import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.HotelErrorDialog;
@@ -504,18 +505,22 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 				Db.getHotelSearch().updateFrom(response);
 			}
 
-			if (response == null || response.hasErrors()) {
-				HotelErrorDialog dialog = HotelErrorDialog.newInstance();
-				dialog.setMessage(R.string.e3_error_hotel_offers_hotel_service_failure);
-				dialog.show(getSupportFragmentManager(), "unreachableDialog");
+			if (response == null) {
+				showErrorDialog(R.string.e3_error_hotel_offers_hotel_service_failure);
 				return;
 			}
-
-			if (Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0) {
-				Db.getHotelSearch().removeProperty(selectedId);
-				HotelErrorDialog dialog = HotelErrorDialog.newInstance();
-				dialog.setMessage(R.string.error_hotel_is_now_sold_out);
-				dialog.show(getSupportFragmentManager(), "soldOutDialog");
+			else if (response.hasErrors()) {
+				int messageResId;
+				if (response.getErrors().get(0).getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
+					messageResId = R.string.error_room_is_now_sold_out;
+				}
+				else {
+					messageResId = R.string.e3_error_hotel_offers_hotel_service_failure;
+				}
+				showErrorDialog(messageResId);
+			}
+			else if (Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0) {
+				showErrorDialog(R.string.error_hotel_is_now_sold_out);
 			}
 			else {
 				Db.kickOffBackgroundHotelSearchSave(mContext);
@@ -540,6 +545,12 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			}
 		}
 	};
+
+	private void showErrorDialog(int messageResId) {
+		HotelErrorDialog dialog = HotelErrorDialog.newInstance();
+		dialog.setMessage(messageResId);
+		dialog.show(getSupportFragmentManager(), "errorDialog");
+	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// HotelMiniMapFragmentListener implementation
