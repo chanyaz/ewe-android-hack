@@ -179,8 +179,15 @@ public class ShareUtils {
 	}
 
 	public String getHotelShareTextShort(ItinCardDataHotel itinCardData) {
+		// This is so we can share a shared itin. the API does not return the shareable URL when we hit
+		// it with a shared itin link. as such, we stuff the shareable url in the parent trip and just use
+		// that if the component link is not present (in the case of a shared itin)
+		String urlFromParentTrip = itinCardData.getTripComponent().getParentTrip().getShareableUrl();
+		String urlFromComponent = itinCardData.getSharableDetailsUrl();
+		String url = TextUtils.isEmpty(urlFromComponent) ? urlFromParentTrip : urlFromComponent;
+
 		return getHotelShareTextShort(itinCardData.getPropertyName(), itinCardData.getStartDate(),
-				itinCardData.getEndDate(), itinCardData.getSharableDetailsUrl());
+				itinCardData.getEndDate(), url);
 	}
 
 	public String getCarShareTextShort(ItinCardDataCar itinCardData) {
@@ -211,8 +218,15 @@ public class ShareUtils {
 
 	public String getFlightShareTextLong(ItinCardDataFlight itinCardData) {
 		TripFlight tripFlight = (TripFlight) itinCardData.getTripComponent();
-		return getFlightShareEmail(itinCardData.getFlightLeg(), tripFlight.getTravelers(),
-				itinCardData.getSharableDetailsUrl());
+
+		// This is so we can share a shared itin. the API does not return the shareable URL when we hit
+		// it with a shared itin link. as such, we stuff the shareable url in the parent trip and just use
+		// that if the component link is not present (in the case of a shared itin)
+		String urlFromParentTrip = tripFlight.getParentTrip().getShareableUrl();
+		String urlFromComponent = itinCardData.getSharableDetailsUrl();
+		String url = TextUtils.isEmpty(urlFromComponent) ? urlFromParentTrip : urlFromComponent;
+
+		return getFlightShareEmail(itinCardData.getFlightLeg(), tripFlight.getTravelers(), url);
 	}
 
 	public String getFlightShareEmail(FlightTrip trip, List<Traveler> travelers) {
