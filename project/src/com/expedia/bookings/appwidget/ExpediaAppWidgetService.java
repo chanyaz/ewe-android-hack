@@ -403,6 +403,9 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		// Start new search if one isn't currently running
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (!bd.isDownloading(WIDGET_KEY_SEARCH)) {
+			// 2178: Ensure that we're searching for *today*
+			mSearchParams.setDefaultStay();
+
 			bd.startDownload(WIDGET_KEY_SEARCH, mSearchDownload, mSearchCallback);
 		}
 	}
