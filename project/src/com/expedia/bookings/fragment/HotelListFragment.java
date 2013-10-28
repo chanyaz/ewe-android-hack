@@ -152,7 +152,7 @@ public class HotelListFragment extends ListFragment {
 				shouldShowVipIcon = User.isLoggedIn(getActivity())
 					&& Db.getUser() != null
 					&& Db.getUser().getPrimaryTraveler() != null
-					&& Db.getUser().getPrimaryTraveler().getIsElitePlusMember();
+					&& Db.getUser().getPrimaryTraveler().getIsBlingedElitePlusMember();
 			}
 			mAdapter.setShowVipIcon(shouldShowVipIcon);
 		}

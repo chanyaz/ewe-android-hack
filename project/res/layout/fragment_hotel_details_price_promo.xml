@@ -10,7 +10,7 @@
         android:layout_height="36dp"
         android:layout_gravity="right"
         android:layout_marginBottom="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="13dp"
         android:src="@drawable/ic_vip_details"
         android:visibility="invisible" />
 
