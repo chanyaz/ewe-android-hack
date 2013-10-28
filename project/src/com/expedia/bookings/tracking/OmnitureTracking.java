@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Locale;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -1239,23 +1238,15 @@ public class OmnitureTracking {
 		internalTrackLink(context, String.format(ITIN_RELOAD_TEMPLATE, formatted));
 	}
 
+	/**
+	 * The new style of tracking "shared itins" via shareable urls.
+	 * https://confluence/display/Omniture/Itinerary+Sharing
+	 */
 	public static void trackItinShareNew(Context context, Type type, Intent intent) {
 		// Notes on determining type of share, taken from the ShareUtils spec among other places
 		// TYPE message/rfc822 - EMAIL
 		// TYPE text/plain - MESSAGE
 		// class FacebookShareActivity - our Facebook sharing activity
-
-		String itinType;
-		if (type == Type.FLIGHT) {
-			itinType = "Flight";
-		}
-		else if (type == Type.HOTEL) {
-			itinType = "Hotel";
-		}
-		else {
-			// TODO figure out what we do with other types...track with the old style??
-			return;
-		}
 
 		String shareType;
 		if ("com.expedia.bookings.activity.FacebookShareActivity".equals(intent.getComponent().getClassName())) {
@@ -1266,6 +1257,19 @@ public class OmnitureTracking {
 		}
 		else {
 			shareType = "Message";
+		}
+
+		String itinType;
+		if (type == Type.FLIGHT) {
+			itinType = "Flight";
+		}
+		else if (type == Type.HOTEL) {
+			itinType = "Hotel";
+		}
+		else {
+			boolean isLong = shareType.equals("Mail") ? true : false;
+			trackItinShare(context, type, isLong);
+			return;
 		}
 
 		String pageName = ITIN + "." + itinType + ".Share." + shareType;
