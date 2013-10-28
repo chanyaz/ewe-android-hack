@@ -516,8 +516,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		PointOfSale pointOfSale = PointOfSale.getPointOfSale();
 		ItinCardDataFlight itinCardData = getItinCardData();
 		String itinNumber = itinCardData.getTripComponent().getParentTrip().getTripNumber();
-		if (itinCardData.getTripComponent().getParentTrip() != null
-				&& itinCardData.getTripComponent().getParentTrip().isShared()) {
+		if (itinCardData.getTripComponent().getParentTrip().isShared()) {
 			//We dont want to show the itin number of shared itins.
 			itinNumber = null;
 		}

@@ -375,8 +375,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		LocalDate out = itinCardDataHotel.getEndDate().toLocalDate();
 		String confNum = itinCardDataHotel.getFormattedConfirmationNumbers();
 		String itinId = itinCardDataHotel.getTripComponent().getParentTrip().getTripNumber();
-		if (itinCardDataHotel.getTripComponent().getParentTrip() != null
-				&& itinCardDataHotel.getTripComponent().getParentTrip().isShared()) {
+		if (itinCardDataHotel.getTripComponent().getParentTrip().isShared()) {
 			//We dont want to show the itin number of shared itins.
 			itinId = null;
 		}
