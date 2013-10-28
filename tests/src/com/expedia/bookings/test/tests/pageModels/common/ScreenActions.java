@@ -125,4 +125,14 @@ public class ScreenActions extends Solo {
 	protected View negativeButton() {
 		return getView(R.id.negative_button);
 	}
+
+	public boolean handleDialogPopupPresent() {
+		String okString = mRes.getString(R.string.ok);
+		if (searchText(okString, 1, false, true)) {
+			clickOnText(okString);
+			return true;
+		}
+		return false;
+	}
+
 }
