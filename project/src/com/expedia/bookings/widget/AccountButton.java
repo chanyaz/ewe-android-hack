@@ -146,7 +146,7 @@ public class AccountButton extends LinearLayout {
 					bottom.setText(mContext.getString(resId));
 
 					FlightTrip flightTrip = Db.getFlightSearch().getSelectedFlightTrip();
-					String points = flightTrip.getRewardsPoints();
+					String points = flightTrip == null ? "" : flightTrip.getRewardsPoints();
 					boolean USA = PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES;
 					if (mRewardsContainer != null && flightTrip != null && !TextUtils.isEmpty(points) && USA) {
 						String str = String.format(mContext.getString(R.string.youll_earn_points_TEMPLATE), points);
