@@ -1044,7 +1044,7 @@ public class ItineraryManager implements JSONable {
 					refreshTrip(nextTask.mTrip, false);
 					break;
 				case SHORTEN_SHARE_URLS:
-					shortenSharableUrl(nextTask.mTrip);
+					shortenSharableUrls();
 					break;
 				case FETCH_SHARED_ITIN:
 					downloadSharedItinTrip(nextTask.mTripNumber);
@@ -1492,25 +1492,28 @@ public class ItineraryManager implements JSONable {
 			}
 		}
 
-		private void shortenSharableUrl(Trip trip) {
-			if (trip == null || trip.getShortSharableDetailsUrl() != null || trip.getSharableDetailsUrl() == null) {
-				//If we already have a short share url, or we dont have a sharableDetailsUrl, DO NOTHING.
-				return;
-			}
-			else {
-				String shareUrl = trip.getSharableDetailsUrl();
-				String shortenedUrl = null;
-				Log.i(LOGGING_TAG, "Shortening share url:" + shareUrl);
+		private void shortenSharableUrls() {
+			Log.d(LOGGING_TAG, "ItineraryManager.shortenSharableUrls");
+			for (Trip trip : mTrips.values()) {
+				if (trip != null && TextUtils.isEmpty(trip.getShortSharableDetailsUrl())
+						&& !TextUtils.isEmpty(trip.getSharableDetailsUrl())) {
+					String shareUrl = trip.getSharableDetailsUrl();
+					String shortenedUrl = null;
+					Log.i(LOGGING_TAG, "Shortening share url:" + shareUrl);
 
-				//TODO: Call the shortener service and set the shortened url of the trip object.
+					TripShareUrlShortenerResponse response = mServices.getShortenedShareItinUrl(shareUrl);
+					if (response != null) {
+						shortenedUrl = response.getShortUrl();
+					}
 
-				if (shortenedUrl != null) {
-					Log.i(LOGGING_TAG, "Successfully shortened url - original:" + shareUrl + " short:"
-							+ shortenedUrl);
-					trip.setShortSharableDetailsUrl(shortenedUrl);
-				}
-				else {
-					Log.w(LOGGING_TAG, "Failure to shorten url:" + shareUrl);
+					if (!TextUtils.isEmpty(shortenedUrl)) {
+						Log.i(LOGGING_TAG, "Successfully shortened url - original:" + shareUrl + " short:"
+								+ shortenedUrl);
+						trip.setShortSharableDetailsUrl(shortenedUrl);
+					}
+					else {
+						Log.w(LOGGING_TAG, "Failure to shorten url:" + shareUrl);
+					}
 				}
 			}
 		}

@@ -107,6 +107,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
+import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.facebook.Session;
@@ -921,6 +922,29 @@ public class ExpediaServices implements DownloadListener {
 		int flags = F_SECURE_REQUEST | F_GET | F_DONT_ADD_ENDPOINT;
 		return doE3Request(shareableUrl, null, new TripDetailsResponseHandler(mContext), flags);
 	}
+
+	public TripShareUrlShortenerResponse getShortenedShareItinUrl(String longUrl) {
+		int flags = F_ALLOW_REDIRECT | F_IGNORE_COOKIES | F_POST;
+
+		//Only one argument!
+		JSONObject args = new JSONObject();
+		try {
+			args.putOpt("long_url", longUrl);
+		}
+		catch (JSONException e) {
+			Log.e("Couldn't add the long_url to the argument json");
+		}
+
+		//TODO: THIS URL IS NOT THE FINAL ENDPOINT OF THE SHORTENER SERVICE
+		HttpPost post = NetUtils.createHttpPost(
+				"http://shortly-ewetest-lb-674578484.us-east-1.elb.amazonaws.com/v1/shorten", args.toString());
+
+		// Make sure the response comes back as JSON
+		post.addHeader("Accept", "application/json");
+
+		return doRequest(post, new TripShareUrlShortenerHandler(), flags);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Expedia user account API
 	//

@@ -138,18 +138,30 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mDetailsUrl = url;
 	}
 
-	public String getShareableUrl() {
-		return mShortSharableDetailsUrl != null ? mShortSharableDetailsUrl : mSharableDetailsUrl;
+	/**
+	 * Returns the shortened sharable details url if available, otherwise the long form sharable details url
+	 * @return
+	 */
+	public String getSharableUrl() {
+		return TextUtils.isEmpty(mShortSharableDetailsUrl) ? mSharableDetailsUrl : mShortSharableDetailsUrl;
 	}
 
+	/**
+	 * Returns the long form sharable details url
+	 * @return
+	 */
 	public String getSharableDetailsUrl() {
 		return mSharableDetailsUrl;
 	}
 
 	public void setSharableDetailsUrl(String sharableDetailsUrl) {
-		this.mSharableDetailsUrl = sharableDetailsUrl;
+		mSharableDetailsUrl = sharableDetailsUrl;
 	}
 
+	/**
+	 * Returns shortened sharable details url
+	 * @return
+	 */
 	public String getShortSharableDetailsUrl() {
 		return mShortSharableDetailsUrl;
 	}
