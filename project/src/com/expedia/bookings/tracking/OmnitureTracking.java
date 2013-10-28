@@ -1905,15 +1905,8 @@ public class OmnitureTracking {
 			s.setProp(12, md5(id));
 		}
 
-		// GMT timestamp
-		s.setProp(32, Long.toString(DateTime.now(DateTimeZone.UTC).getMillis()));
-
 		// Device local time
 		s.setEvar(60, sFormatter.print(DateTime.now()));
-
-		// Device carrier network info - format is "android|<carrier>|<network>"
-		TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-		s.setProp(33, "android|" + tm.getNetworkOperatorName() + "|" + getNetworkType(tm));
 
 		// App version
 		s.setProp(35, AndroidUtils.getAppVersion(context));
