@@ -11,8 +11,8 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class HotelsConfirmationScreen extends ConfirmationScreen {
 
-	private static final int sSummaryTextViewID = R.id.stay_summary_text_view;
-	private static final int sHotelNameTextViewID = R.id.hotel_name_text_view;
+	private static final int SUMMARY_TEXT_VIEW_ID = R.id.stay_summary_text_view;
+	private static final int HOTEL_NAME_TEXT_VIEW_ID = R.id.hotel_name_text_view;
 
 	public HotelsConfirmationScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
@@ -22,11 +22,10 @@ public class HotelsConfirmationScreen extends ConfirmationScreen {
 	// Object access
 
 	public TextView summaryTextView() {
-		return (TextView) getView(sSummaryTextViewID);
+		return (TextView) getView(SUMMARY_TEXT_VIEW_ID);
 	}
 
 	public TextView hotelNameTextView() {
-		return (TextView) getView(sHotelNameTextViewID);
+		return (TextView) getView(HOTEL_NAME_TEXT_VIEW_ID);
 	}
-
 }
