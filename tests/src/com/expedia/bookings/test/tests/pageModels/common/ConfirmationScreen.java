@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.res.Resources;
 import android.view.View;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.utils.TestPreferences;
-import com.expedia.bookings.widget.TextView;
 
 public class ConfirmationScreen extends ScreenActions {
 
