@@ -275,7 +275,12 @@ public class TripParser {
 			JSONObject addressJson = propertyJson.optJSONObject("address");
 			if (addressJson != null) {
 				Location location = new Location();
-				location.addStreetAddressLine(addressJson.optString("fullAddress", null));
+				if (addressJson.has("addressLine1")) {
+					location.addStreetAddressLine(addressJson.optString("addressLine1", null));
+				}
+				if (addressJson.has("addressLine2")) {
+					location.addStreetAddressLine(addressJson.optString("addressLine2", null));
+				}
 				location.setCity(addressJson.optString("city", null));
 				location.setStateCode(addressJson.optString("countrySubdivisionCode", null));
 				location.setCountryCode(addressJson.optString("countryCode", null));
