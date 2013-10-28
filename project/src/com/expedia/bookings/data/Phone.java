@@ -86,6 +86,7 @@ public class Phone implements JSONable {
 			obj.putOpt("areaCode", mAreaCode);
 			obj.putOpt("category", mCategory.toString());
 			obj.putOpt("countryCode", mCountryCode);
+			obj.putOpt("countryName", mCountryName);
 			obj.putOpt("extensionNumber", mExtensionNumber);
 
 			return obj;
@@ -102,6 +103,7 @@ public class Phone implements JSONable {
 		mAreaCode = obj.optString("areaCode", null);
 		mCategory = UserPreference.parseCategoryString(obj.optString("category", null));
 		mCountryCode = obj.optString("countryCode", null);
+		mCountryName = obj.optString("countryName");
 		mExtensionNumber = obj.optString("extensionNumber", null);
 		return true;
 	}
