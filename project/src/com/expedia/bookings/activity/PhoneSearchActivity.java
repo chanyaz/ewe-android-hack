@@ -285,6 +285,26 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	// THREADS/CALLBACKS
 	//----------------------------------
 
+	private final Download<HotelSearchResponse> mSearchDownload = new Download<HotelSearchResponse>() {
+		@Override
+		public HotelSearchResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(PhoneSearchActivity.this);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
+			if (mEditedSearchParams != null) {
+				throw new RuntimeException("edited search params not commited or cleared before search");
+			}
+			return services.search(Db.getHotelSearch().getSearchParams(), 0);
+		}
+	};
+
+	private final OnDownloadComplete<HotelSearchResponse> mSearchCallback = new OnDownloadComplete<HotelSearchResponse>() {
+		@Override
+		public void onDownload(HotelSearchResponse searchResponse) {
+			Db.getHotelSearch().setSearchResponse(searchResponse);
+			loadSearchResponse(searchResponse);
+		}
+	};
+
 	private final Download<HotelOffersResponse> mSearchHotelDownload = new Download<HotelOffersResponse>() {
 		@Override
 		public HotelOffersResponse doDownload() {
@@ -298,18 +318,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			selectedProperty.setPropertyId(Db.getHotelSearch().getSearchParams().getRegionId());
 
 			return services.availability(Db.getHotelSearch().getSearchParams(), selectedProperty);
-		}
-	};
-
-	private final Download<HotelSearchResponse> mSearchDownload = new Download<HotelSearchResponse>() {
-		@Override
-		public HotelSearchResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(PhoneSearchActivity.this);
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
-			if (mEditedSearchParams != null) {
-				throw new RuntimeException("edited search params not commited or cleared before search");
-			}
-			return services.search(Db.getHotelSearch().getSearchParams(), 0);
 		}
 	};
 
@@ -371,14 +379,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			}
 		}
 
-	};
-
-	private final OnDownloadComplete<HotelSearchResponse> mSearchCallback = new OnDownloadComplete<HotelSearchResponse>() {
-		@Override
-		public void onDownload(HotelSearchResponse searchResponse) {
-			Db.getHotelSearch().setSearchResponse(searchResponse);
-			loadSearchResponse(searchResponse);
-		}
 	};
 
 	private void loadSearchResponse(HotelSearchResponse searchResponse) {
