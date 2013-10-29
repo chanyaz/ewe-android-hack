@@ -1064,7 +1064,16 @@ public class PushNotificationUtils {
 		//    self.assertEqual(Notification("STATUS_REDIRECTED").id, 17)
 		//    self.assertEqual(Notification("STATUS_BAGGAGE_CLAIM").id, 18)
 
-		int iType = Integer.parseInt(typeIntStr);
+		int iType = 0;
+		try {
+			//We attempt to parse the typeIntStr to an int, it may however contain multiple values such as "6,16"
+			//in that case we just use the default as we currently don't handle multiple types
+			iType = Integer.parseInt(typeIntStr);
+		}
+		catch (NumberFormatException ex) {
+			Log.w("Failure to parse typeIntStr:" + typeIntStr + " to an int. Using default type:" + iType, ex);
+		}
+
 		switch (iType) {
 		case 1:
 			return NotificationType.FLIGHT_DEPARTURE_REMINDER;
