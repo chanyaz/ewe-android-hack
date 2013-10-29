@@ -11,6 +11,7 @@ import android.content.Context;
 import android.text.Html;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.FormatUtils.Conjunction;
@@ -26,6 +27,30 @@ public class HotelOffersResponse extends Response {
 
 	public HotelOffersResponse() {
 		mRates = new ArrayList<Rate>();
+	}
+
+	/**
+	 * Shortcut for determining if there are simply no rooms available at this hotel
+	 * right now.  It's technically an error, but often times we want to handle
+	 * this particular error differently.
+	 * 
+	 * Note that this returning "true" does NOT mean that there are rooms available;
+	 * only that we didn't get the specific error that there are simply no hotel
+	 * rooms available.
+	 */
+	public boolean isHotelUnavailable() {
+		if (hasErrors()) {
+			List<ServerError> errors = getErrors();
+			if (errors.size() == 1) {
+				ServerError error = errors.get(0);
+				ErrorCode errorCode = error.getErrorCode();
+				if (errorCode == ErrorCode.HOTEL_OFFER_UNAVAILABLE || errorCode == ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	public void addRate(Rate rate) {
