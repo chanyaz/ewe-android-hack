@@ -323,69 +323,10 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	};
 
 	private final OnDownloadComplete<HotelOffersResponse> mSearchHotelCallback = new OnDownloadComplete<HotelOffersResponse>() {
-
 		@Override
 		public void onDownload(HotelOffersResponse offersResponse) {
-			if (offersResponse == null) {
-				Log.e("PhoneSearchActivity mSearchHotelCallback: Problem downloading HotelOffersResponse");
-				simulateErrorResponse(R.string.error_server);
-			}
-			else if (offersResponse.isHotelUnavailable()) {
-				// Start an info call, so we can show an unavailable hotel
-				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				bd.cancelDownload(KEY_HOTEL_INFO);
-				bd.startDownload(KEY_HOTEL_INFO, mHotelInfoDownload, mHotelInfoCallback);
-			}
-			else if (offersResponse.hasErrors()) {
-				String message = getString(R.string.error_server);
-				for (ServerError error : offersResponse.getErrors()) {
-					message = error.getPresentableMessage(PhoneSearchActivity.this);
-				}
-				simulateErrorResponse(message);
-			}
-			else if (offersResponse.isSuccess() && offersResponse.getProperty() != null) {
-				Property property = offersResponse.getProperty();
-				HotelSearchResponse searchResponse = new HotelSearchResponse();
-
-				List<Rate> rates = offersResponse.getRates();
-				if (rates != null) {
-					Rate lowestRate = null;
-					for (Rate rate : rates) {
-						Money temp = rate.getDisplayPrice();
-						if (lowestRate == null) {
-							lowestRate = rate;
-						}
-						if (lowestRate.getDisplayPrice().getAmount().compareTo(temp.getAmount()) > 0) {
-							lowestRate = rate;
-						}
-					}
-					property.setLowestRate(lowestRate);
-				}
-
-				// #1550: Don't try to show the hotel if it has no rates
-				if (property.getLowestRate() != null) {
-					searchResponse.addProperty(property);
-
-					// Forward to the hotel detail screen if the user searched by hotel name and selected one.
-					if (Db.getHotelSearch().getSearchParams().getSearchType() == HotelSearchParams.SearchType.HOTEL) {
-						startActivity(HotelDetailsFragmentActivity.createIntent(PhoneSearchActivity.this));
-					}
-					Db.getHotelSearch().setSearchResponse(searchResponse);
-					Db.getHotelSearch().updateFrom(offersResponse);
-					Db.getHotelSearch().setSelectedProperty(property);
-				}
-				else {
-					Db.getHotelSearch().setSearchResponse(searchResponse);
-				}
-
-				loadSearchResponse(searchResponse);
-			}
-			else {
-				Log.e("PhoneSearchActivity mSearchHotelCallback: Problem downloading HotelOffersResponse");
-				simulateErrorResponse(R.string.error_server);
-			}
+			loadHotelOffers(offersResponse);
 		}
-
 	};
 
 	private final Download<HotelOffersResponse> mHotelInfoDownload = new Download<HotelOffersResponse>() {
@@ -402,15 +343,64 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private final OnDownloadComplete<HotelOffersResponse> mHotelInfoCallback = new OnDownloadComplete<HotelOffersResponse>() {
 		@Override
 		public void onDownload(HotelOffersResponse offersResponse) {
-			if (offersResponse == null || offersResponse.hasErrors()) {
-				Log.e("Could not download/process hotel info call; giving generic server error");
-				simulateErrorResponse(R.string.error_server);
-			}
-			else {
-				Ui.showToast(mContext, "Loaded hotel information on sold out hotel!");
-			}
+			loadHotelOffers(offersResponse);
 		}
 	};
+
+	private void loadHotelOffers(HotelOffersResponse offersResponse) {
+		if (offersResponse == null) {
+			Log.e("PhoneSearchActivity mSearchHotelCallback: Problem downloading HotelOffersResponse");
+			simulateErrorResponse(R.string.error_server);
+		}
+		else if (offersResponse.isHotelUnavailable()) {
+			// Start an info call, so we can show an unavailable hotel
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			bd.cancelDownload(KEY_HOTEL_INFO);
+			bd.startDownload(KEY_HOTEL_INFO, mHotelInfoDownload, mHotelInfoCallback);
+		}
+		else if (offersResponse.hasErrors()) {
+			String message = getString(R.string.error_server);
+			for (ServerError error : offersResponse.getErrors()) {
+				message = error.getPresentableMessage(PhoneSearchActivity.this);
+			}
+			simulateErrorResponse(message);
+		}
+		else if (offersResponse.getProperty() != null) {
+			Property property = offersResponse.getProperty();
+			HotelSearchResponse searchResponse = new HotelSearchResponse();
+
+			List<Rate> rates = offersResponse.getRates();
+			if (rates != null) {
+				Rate lowestRate = null;
+				for (Rate rate : rates) {
+					Money temp = rate.getDisplayPrice();
+					if (lowestRate == null) {
+						lowestRate = rate;
+					}
+					if (lowestRate.getDisplayPrice().getAmount().compareTo(temp.getAmount()) > 0) {
+						lowestRate = rate;
+					}
+				}
+				property.setLowestRate(lowestRate);
+			}
+
+			searchResponse.addProperty(property);
+
+			// Forward to the hotel detail screen if the user searched by hotel name and selected one.
+			if (Db.getHotelSearch().getSearchParams().getSearchType() == HotelSearchParams.SearchType.HOTEL) {
+				// startActivity(HotelDetailsFragmentActivity.createIntent(PhoneSearchActivity.this));
+			}
+			Db.getHotelSearch().setSearchResponse(searchResponse);
+			Db.getHotelSearch().updateFrom(offersResponse);
+			Db.getHotelSearch().setSelectedProperty(property);
+
+			loadSearchResponse(searchResponse);
+		}
+		else {
+			Log.e("PhoneSearchActivity mSearchHotelCallback: Problem downloading HotelOffersResponse");
+			simulateErrorResponse(R.string.error_server);
+		}
+	}
 
 	private void loadSearchResponse(HotelSearchResponse searchResponse) {
 		// Clear the old listener so we don't end up with a memory leak
