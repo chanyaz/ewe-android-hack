@@ -166,6 +166,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private static final String KEY_GEOCODE = "KEY_GEOCODE";
 	public static final String KEY_SEARCH = "KEY_SEARCH";
 	public static final String KEY_HOTEL_SEARCH = "KEY_HOTEL_SEARCH";
+	public static final String KEY_HOTEL_INFO = "KEY_HOTEL_INFO";
 	private static final String KEY_LOADING_PREVIOUS = "KEY_LOADING_PREVIOUS";
 
 	private static final int DIALOG_LOCATION_SUGGESTIONS = 0;
@@ -329,6 +330,12 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				Log.e("PhoneSearchActivity mSearchHotelCallback: Problem downloading HotelOffersResponse");
 				simulateErrorResponse(R.string.error_server);
 			}
+			else if (offersResponse.isHotelUnavailable()) {
+				// Start an info call, so we can show an unavailable hotel
+				BackgroundDownloader bd = BackgroundDownloader.getInstance();
+				bd.cancelDownload(KEY_HOTEL_INFO);
+				bd.startDownload(KEY_HOTEL_INFO, mHotelInfoDownload, mHotelInfoCallback);
+			}
 			else if (offersResponse.hasErrors()) {
 				String message = getString(R.string.error_server);
 				for (ServerError error : offersResponse.getErrors()) {
@@ -379,6 +386,30 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			}
 		}
 
+	};
+
+	private final Download<HotelOffersResponse> mHotelInfoDownload = new Download<HotelOffersResponse>() {
+		@Override
+		public HotelOffersResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(PhoneSearchActivity.this);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_HOTEL_INFO, services);
+			Property selectedProperty = new Property();
+			selectedProperty.setPropertyId(Db.getHotelSearch().getSearchParams().getRegionId());
+			return services.hotelInformation(selectedProperty);
+		}
+	};
+
+	private final OnDownloadComplete<HotelOffersResponse> mHotelInfoCallback = new OnDownloadComplete<HotelOffersResponse>() {
+		@Override
+		public void onDownload(HotelOffersResponse offersResponse) {
+			if (offersResponse == null || offersResponse.hasErrors()) {
+				Log.e("Could not download/process hotel info call; giving generic server error");
+				simulateErrorResponse(R.string.error_server);
+			}
+			else {
+				Ui.showToast(mContext, "Loaded hotel information on sold out hotel!");
+			}
+		}
 	};
 
 	private void loadSearchResponse(HotelSearchResponse searchResponse) {
@@ -600,6 +631,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			downloader.unregisterDownloadCallback(KEY_LOADING_PREVIOUS);
 			downloader.unregisterDownloadCallback(KEY_SEARCH);
 			downloader.unregisterDownloadCallback(KEY_HOTEL_SEARCH);
+			downloader.unregisterDownloadCallback(KEY_HOTEL_INFO);
 		}
 
 		OmnitureTracking.onPause();
@@ -680,6 +712,12 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				//TODO: Check if this is the correct string to display while searching for hotel by name.
 				showLoading(true, R.string.progress_searching_selected_hotel);
 			}
+			else if (downloader.isDownloading(KEY_HOTEL_INFO)) {
+				Log.d("Already searching, resuming the hotel name (unavailable, getting info) search...");
+				mActivityState = ActivityState.SEARCHING;
+				downloader.registerDownloadCallback(KEY_HOTEL_INFO, mHotelInfoCallback);
+				showLoading(true, R.string.progress_searching_selected_hotel);
+			}
 			else {
 				hideLoading();
 			}
@@ -738,6 +776,10 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			if (downloader.isDownloading(KEY_HOTEL_SEARCH)) {
 				Log.d("Cancelling search by hotel name because activity is ending.");
 				downloader.cancelDownload(KEY_HOTEL_SEARCH);
+			}
+			if (downloader.isDownloading(KEY_HOTEL_INFO)) {
+				Log.d("Cancelling search by hotel name (info, due to unavailable) because activity is ending.");
+				downloader.cancelDownload(KEY_HOTEL_INFO);
 			}
 		}
 	}
@@ -1457,6 +1499,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		bd.cancelDownload(KEY_GEOCODE);
 		bd.cancelDownload(KEY_SEARCH);
 		bd.cancelDownload(KEY_HOTEL_SEARCH);
+		bd.cancelDownload(KEY_HOTEL_INFO);
 		bd.cancelDownload(KEY_LOADING_PREVIOUS);
 
 		Db.deleteHotelSearchData(this);
@@ -1606,6 +1649,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		if (searchType == SearchType.HOTEL) {
 			bd.cancelDownload(KEY_HOTEL_SEARCH);
+			bd.cancelDownload(KEY_HOTEL_INFO);
 			bd.startDownload(KEY_HOTEL_SEARCH, mSearchHotelDownload, mSearchHotelCallback);
 		}
 		else {
