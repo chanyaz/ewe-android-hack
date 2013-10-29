@@ -3,8 +3,6 @@ package com.expedia.bookings.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Ui;
@@ -34,8 +32,6 @@ public class InfoTripletView extends LinearLayout {
 
 	private TextView[] mValues;
 	private TextView[] mLabels;
-	private ViewGroup[] mColumns;
-	private View[] mDividers;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -101,14 +97,6 @@ public class InfoTripletView extends LinearLayout {
 		mNeedsResize = true;
 	}
 
-	public void setColumnVisibility(int colNum, int visibility) {
-		mColumns[colNum].setVisibility(visibility);
-		if (colNum - 1 >= 0) {
-			mDividers[colNum - 1].setVisibility(visibility);
-		}
-		mNeedsResize = true;
-	}
-
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PRIVATE METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -120,19 +108,12 @@ public class InfoTripletView extends LinearLayout {
 
 		mValues = new TextView[3];
 		mLabels = new TextView[3];
-		mColumns = new ViewGroup[3];
-		mDividers = new View[2];
 		mValues[0] = Ui.findView(this, R.id.value1);
 		mValues[1] = Ui.findView(this, R.id.value2);
 		mValues[2] = Ui.findView(this, R.id.value3);
 		mLabels[0] = Ui.findView(this, R.id.label1);
 		mLabels[1] = Ui.findView(this, R.id.label2);
 		mLabels[2] = Ui.findView(this, R.id.label3);
-		mColumns[0] = Ui.findView(this, R.id.column1);
-		mColumns[1] = Ui.findView(this, R.id.column2);
-		mColumns[2] = Ui.findView(this, R.id.column3);
-		mDividers[0] = Ui.findView(this, R.id.divider_1_2);
-		mDividers[1] = Ui.findView(this, R.id.divider_2_3);
 
 		mDesiredValueTextSizeSp = mValues[0].getTextSize() / getResources().getDisplayMetrics().scaledDensity;
 		mDesiredLabelTextSizeSp = mLabels[0].getTextSize() / getResources().getDisplayMetrics().scaledDensity;
@@ -149,11 +130,6 @@ public class InfoTripletView extends LinearLayout {
 	private void resizeAllTheThings(TextView[] views, float targetTextSizeSp) {
 		// Figure out if we have to shrink targetTextSizeSp to make room for all the text.
 		for (int i = 0; i < views.length; i++) {
-			if (mColumns[i].getVisibility() == View.GONE) {
-				//If a view is gone we dont need to measure it
-				continue;
-			}
-
 			TextView view = views[i];
 			CharSequence text = view.getText();
 

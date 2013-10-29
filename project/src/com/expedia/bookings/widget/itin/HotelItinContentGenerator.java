@@ -233,21 +233,15 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
 
 		// Bind
-		boolean shared = itinCardData.getTripComponent() != null
-				&& itinCardData.getTripComponent().getParentTrip() != null
-				&& itinCardData.getTripComponent().getParentTrip().isShared();
 		Resources res = getResources();
 		infoTriplet.setValues(
 				itinCardData.getFormattedDetailsCheckInDate(getContext()),
 				itinCardData.getFormattedDetailsCheckOutDate(getContext()),
-				shared ? "" : itinCardData.getFormattedGuests());
+				itinCardData.getFormattedGuests());
 		infoTriplet.setLabels(
 				res.getString(R.string.itin_card_details_check_in),
 				res.getString(R.string.itin_card_details_check_out),
-				shared ? "" : res.getQuantityText(R.plurals.number_of_guests_label, itinCardData.getGuestCount()));
-		if (shared) {
-			infoTriplet.setColumnVisibility(2, View.GONE);
-		}
+				res.getQuantityText(R.plurals.number_of_guests_label, itinCardData.getGuestCount()));
 
 		if (itinCardData.getPropertyLocation() != null) {
 			staticMapImageView.setLocation(itinCardData.getPropertyLocation());
