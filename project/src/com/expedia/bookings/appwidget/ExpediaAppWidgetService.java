@@ -212,6 +212,19 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		}
 	};
 
+	private final BroadcastReceiver mTimeTickReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (!mSearchParams.isDefaultStay()) {
+				Log.i(TAG, "TIME_TICK started new search, it's a new day!");
+				startNewSearch();
+			}
+			else {
+				Log.v(TAG, "TIME_TICK received, but date is still valid");
+			}
+		}
+	};
+
 	private void setPowerState(boolean useLowPower) {
 		Log.i(TAG, "Switching power state to " + (useLowPower ? "LOW" : "HIGH") + " energy");
 
@@ -229,11 +242,20 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		}
 
 		// Check if we're overdue for a search; only valid if going to high energy
-		if (!useLowPower && JodaUtils.isExpired(mLastUpateTimestamp, getNextSearchDelay())) {
+		if (!useLowPower && JodaUtils.isExpired(mLastUpateTimestamp, getNextSearchDelay())
+				&& !mSearchParams.isDefaultStay()) {
 			startNewSearch();
 		}
 		else {
 			scheduleSearch();
+		}
+
+		// Setup time tick receiver if high power, otherwise disable
+		if (useLowPower) {
+			unregisterReceiver(mTimeTickReceiver);
+		}
+		else {
+			registerReceiver(mTimeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
 		}
 	}
 
