@@ -373,7 +373,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 		}
 
 		remoteViews.setOnClickPendingIntent(R.id.widget_root,
-				PendingIntent.getActivity(this, 0, onClickWidgetIntent, 0));
+				PendingIntent.getActivity(this, 0, onClickWidgetIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
 		// Update all widgets with the same content
 		AppWidgetManager widgetManager = AppWidgetManager.getInstance(this);
