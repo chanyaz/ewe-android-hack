@@ -694,6 +694,18 @@ public class ExpediaServices implements DownloadListener {
 		return query;
 	}
 
+	/**
+	 * This leverages the same classes as hotel offers, but simply returns less data (since
+	 * it won't have any actual rates).
+	 */
+	public HotelOffersResponse hotelInformation(Property property) {
+		List<BasicNameValuePair> query = generateHotelAvailabilityParams(null, property);
+
+		HotelOffersResponseHandler responseHandler = new HotelOffersResponseHandler(mContext, null, property);
+
+		return doE3Request("MobileHotel/Webapp/HotelInformation", query, responseHandler, 0);
+	}
+
 	public HotelProductResponse hotelProduct(HotelSearchParams params, Property property, Rate rate) {
 		List<BasicNameValuePair> query = generateHotelProductParmas(params, property, rate);
 		HotelProductResponseHandler responseHandler = new HotelProductResponseHandler(mContext, params, property, rate);

@@ -405,16 +405,18 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		}
 
 		JSONArray nightlyRates = chargeableRateInfo.optJSONArray("nightlyRatesPerRoom");
-		for (int b = 0; b < nightlyRates.length(); b++) {
-			LocalDate checkInDate = mSearchParams.getCheckInDate();
-			LocalDate night = checkInDate.plusDays(b);
+		if (mSearchParams != null && nightlyRates != null) {
+			for (int b = 0; b < nightlyRates.length(); b++) {
+				LocalDate checkInDate = mSearchParams.getCheckInDate();
+				LocalDate night = checkInDate.plusDays(b);
 
-			JSONObject nightlyRate = nightlyRates.getJSONObject(b);
-			RateBreakdown rateBreakdown = new RateBreakdown();
-			rateBreakdown.setAmount(ParserUtils.createMoney(nightlyRate.getString("rate"), currencyCode));
-			rateBreakdown.setDate(night);
+				JSONObject nightlyRate = nightlyRates.getJSONObject(b);
+				RateBreakdown rateBreakdown = new RateBreakdown();
+				rateBreakdown.setAmount(ParserUtils.createMoney(nightlyRate.getString("rate"), currencyCode));
+				rateBreakdown.setDate(night);
 
-			rate.addRateBreakdown(rateBreakdown);
+				rate.addRateBreakdown(rateBreakdown);
+			}
 		}
 
 		// Surcharges
