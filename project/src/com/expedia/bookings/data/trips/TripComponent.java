@@ -4,6 +4,8 @@ import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -11,7 +13,7 @@ import com.mobiata.android.json.JSONable;
 /**
  * Represents an individual segment of a trip.
  */
-public class TripComponent implements JSONable {
+public class TripComponent implements JSONable, Comparable<TripComponent> {
 
 	// Order matters here, we sort the cards based on Type.ordinal()
 	public static enum Type {
@@ -158,6 +160,35 @@ public class TripComponent implements JSONable {
 		mBookingStatus = JSONUtils.getEnum(obj, "bookingStatus", BookingStatus.class);
 
 		return true;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Comparable
+
+	@Override
+	public int compareTo(TripComponent other) {
+		if (other == null) {
+			return -1;
+		}
+		else if (other == this) {
+			return 0;
+		}
+		else {
+			if (!TextUtils.isEmpty(getUniqueId()) && !TextUtils.isEmpty(other.getUniqueId())) {
+				//If we have uniqueIds, compare those because two different components should not have the same unique id.
+				return getUniqueId().compareTo(other.getUniqueId());
+			}
+			else if (getType() == other.getType()) {
+				//If we dont have uniqueIds, but these components are of the same type, we compare start/end dates.
+				int startCompareVal = getStartDate().compareTo(other.getStartDate());
+				int endCompareVal = getEndDate().compareTo(other.getEndDate());
+				return startCompareVal != 0 ? startCompareVal : endCompareVal;
+			}
+			else {
+				//Nice try, but we dont have uniqueIds and our types dont match, so this is not a match
+				return -1;
+			}
+		}
 	}
 
 }
