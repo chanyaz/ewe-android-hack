@@ -9,13 +9,15 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
+import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
-public class Trip implements JSONable, Comparable<Trip> {
+public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 
 	public static enum TimePeriod {
 		UPCOMING,
@@ -51,8 +53,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 	private String mDescription;
 
 	private String mDetailsUrl;
-	private String mSharableDetailsUrl;
-	private String mShortSharableDetailsUrl;
+	private ItinShareInfo mShareInfo = new ItinShareInfo();
 
 	private DateTime mStartDate;
 	private DateTime mEndDate;
@@ -136,38 +137,6 @@ public class Trip implements JSONable, Comparable<Trip> {
 
 	public void setDetailsUrl(String url) {
 		mDetailsUrl = url;
-	}
-
-	/**
-	 * Returns the shortened sharable details url if available, otherwise the long form sharable details url
-	 * @return
-	 */
-	public String getSharableUrl() {
-		return TextUtils.isEmpty(mShortSharableDetailsUrl) ? mSharableDetailsUrl : mShortSharableDetailsUrl;
-	}
-
-	/**
-	 * Returns the long form sharable details url
-	 * @return
-	 */
-	public String getSharableDetailsUrl() {
-		return mSharableDetailsUrl;
-	}
-
-	public void setSharableDetailsUrl(String sharableDetailsUrl) {
-		mSharableDetailsUrl = sharableDetailsUrl;
-	}
-
-	/**
-	 * Returns shortened sharable details url
-	 * @return
-	 */
-	public String getShortSharableDetailsUrl() {
-		return mShortSharableDetailsUrl;
-	}
-
-	public void setShortSharableDetailsUrl(String shortSharableDetailsUrl) {
-		mShortSharableDetailsUrl = shortSharableDetailsUrl;
 	}
 
 	public DateTime getStartDate() {
@@ -290,16 +259,16 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mDescription = other.mDescription;
 
 		mDetailsUrl = other.mDetailsUrl;
-		if (mSharableDetailsUrl != null && other.mSharableDetailsUrl != null
-				&& !mSharableDetailsUrl.equals(other.mSharableDetailsUrl)) {
-			//The sharable details url has changed, so our shortened sharable details url is no longer valid.
-			mShortSharableDetailsUrl = null;
-		}
-		mSharableDetailsUrl = other.mSharableDetailsUrl;
 
+		if (mShareInfo.hasSharableDetailsUrl() && other.getShareInfo().hasSharableDetailsUrl()
+				&& !mShareInfo.getSharableDetailsUrl().equals(other.getShareInfo().getSharableDetailsUrl())) {
+			//The sharable details url has changed, so our shortened sharable details url is no longer valid.
+			mShareInfo.setShortSharableDetailsUrl(null);
+		}
+		mShareInfo.setSharableDetailsUrl(other.getShareInfo().getSharableDetailsUrl());
 		//We dont squash the shortened url, if we dont have a new value for it
-		mShortSharableDetailsUrl = TextUtils.isEmpty(other.mShortSharableDetailsUrl) ? mShortSharableDetailsUrl
-				: other.mShortSharableDetailsUrl;
+		mShareInfo.setShortSharableDetailsUrl(other.getShareInfo().hasShortSharableDetailsUrl() ? other.getShareInfo()
+				.getShortSharableDetailsUrl() : getShareInfo().getShortSharableDetailsUrl());
 
 		mStartDate = other.mStartDate;
 		mEndDate = other.mEndDate;
@@ -397,8 +366,7 @@ public class Trip implements JSONable, Comparable<Trip> {
 			obj.putOpt("title", mTitle);
 			obj.putOpt("description", mDescription);
 			obj.putOpt("webDetailsURL", mDetailsUrl);
-			obj.putOpt("sharableDetailsURL", mSharableDetailsUrl);
-			obj.putOpt("shortSharableDetailsURL", mShortSharableDetailsUrl);
+			JSONUtils.putJSONable(obj, "shareInfo", mShareInfo);
 
 			JSONUtils.putJSONable(obj, "customerSupport", mCustomerSupport);
 
@@ -435,8 +403,9 @@ public class Trip implements JSONable, Comparable<Trip> {
 		mTitle = obj.optString("title");
 		mDescription = obj.optString("description");
 		mDetailsUrl = obj.optString("webDetailsURL");
-		mSharableDetailsUrl = obj.optString("sharableDetailsURL");
-		mShortSharableDetailsUrl = obj.optString("shortSharableDetailsURL");
+
+		mShareInfo = JSONUtils.getJSONable(obj, "shareInfo", ItinShareInfo.class);
+		mShareInfo = mShareInfo == null ? new ItinShareInfo() : mShareInfo;
 
 		mCustomerSupport = JSONUtils.getJSONable(obj, "customerSupport", CustomerSupport.class);
 
@@ -511,5 +480,18 @@ public class Trip implements JSONable, Comparable<Trip> {
 		}
 
 		return compareTo((Trip) o) == 0;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// ItinSharable
+
+	@Override
+	public ItinShareInfo getShareInfo() {
+		return mShareInfo;
+	}
+
+	@Override
+	public boolean getSharingEnabled() {
+		return true;
 	}
 }

@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
+import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -13,7 +14,7 @@ import com.mobiata.android.json.JSONable;
 /**
  * Represents an individual segment of a trip.
  */
-public class TripComponent implements JSONable, Comparable<TripComponent> {
+public class TripComponent implements JSONable, Comparable<TripComponent>, ItinSharable {
 
 	// Order matters here, we sort the cards based on Type.ordinal()
 	public static enum Type {
@@ -39,6 +40,8 @@ public class TripComponent implements JSONable, Comparable<TripComponent> {
 	// that should be set by the parent.
 	private Trip mParent;
 	private TripPackage mParentPackage;
+
+	private ItinShareInfo mShareInfo = new ItinShareInfo();
 
 	public TripComponent() {
 		// Empty constructor for JSONable
@@ -141,6 +144,8 @@ public class TripComponent implements JSONable, Comparable<TripComponent> {
 
 			JSONUtils.putEnum(obj, "bookingStatus", mBookingStatus);
 
+			JSONUtils.putJSONable(obj, "shareInfo", mShareInfo);
+
 			return obj;
 		}
 		catch (JSONException e) {
@@ -158,6 +163,9 @@ public class TripComponent implements JSONable, Comparable<TripComponent> {
 		mEndDate = JodaUtils.getDateTimeFromJsonBackCompat(obj, "endDateTime", "endDate");
 
 		mBookingStatus = JSONUtils.getEnum(obj, "bookingStatus", BookingStatus.class);
+
+		mShareInfo = JSONUtils.getJSONable(obj, "shareInfo", ItinShareInfo.class);
+		mShareInfo = mShareInfo == null ? new ItinShareInfo() : mShareInfo;
 
 		return true;
 	}
@@ -189,6 +197,19 @@ public class TripComponent implements JSONable, Comparable<TripComponent> {
 				return -1;
 			}
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// ItinSharable
+
+	@Override
+	public ItinShareInfo getShareInfo() {
+		return mShareInfo;
+	}
+
+	@Override
+	public boolean getSharingEnabled() {
+		return (getType() == Type.FLIGHT || getType() == Type.HOTEL);
 	}
 
 }

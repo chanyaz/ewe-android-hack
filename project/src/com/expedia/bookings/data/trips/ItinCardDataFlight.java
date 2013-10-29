@@ -10,12 +10,13 @@ import android.text.TextUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
+import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
 
-public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumberable {
+public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumberable, ItinSharable {
 
 	private int mLegNumber;
 	private DateTime mEndDate;
@@ -163,6 +164,19 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 
 	@Override
 	public String getSharableDetailsUrl() {
-		return getFlightLeg().getSharableDetailsUrl();
+		if (getFlightLeg().getShareInfo().hasSharableUrl()) {
+			return getFlightLeg().getShareInfo().getSharableUrl();
+		}
+		return super.getSharableDetailsUrl();
+	}
+
+	@Override
+	public ItinShareInfo getShareInfo() {
+		return getFlightLeg().getShareInfo();
+	}
+
+	@Override
+	public boolean getSharingEnabled() {
+		return true;
 	}
 }

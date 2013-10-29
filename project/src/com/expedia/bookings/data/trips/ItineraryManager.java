@@ -36,6 +36,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
@@ -1466,7 +1467,7 @@ public class ItineraryManager implements JSONable {
 
 				// Stuff the URL in the parent trip for later retrieval in case the sharee wants to become a sharer.
 				// This response does not contain any shareable url, so, we gotta save it for later on our own.
-				sharedTrip.setSharableDetailsUrl(shareableUrl);
+				sharedTrip.getShareInfo().setSharableDetailsUrl(shareableUrl);
 
 				LevelOfDetail lod = sharedTrip.getLevelOfDetail();
 				boolean hasFullDetails = lod == LevelOfDetail.FULL || lod == LevelOfDetail.SUMMARY_FALLBACK;
@@ -1495,25 +1496,57 @@ public class ItineraryManager implements JSONable {
 		private void shortenSharableUrls() {
 			Log.d(LOGGING_TAG, "ItineraryManager.shortenSharableUrls");
 			for (Trip trip : mTrips.values()) {
-				if (trip != null && TextUtils.isEmpty(trip.getShortSharableDetailsUrl())
-						&& !TextUtils.isEmpty(trip.getSharableDetailsUrl())) {
-					String shareUrl = trip.getSharableDetailsUrl();
-					String shortenedUrl = null;
-					Log.i(LOGGING_TAG, "Shortening share url:" + shareUrl);
+				for (TripComponent tripComp : trip.getTripComponents()) {
+					//For packages we have to shorten the share urls of the individual pieces.
+					if (tripComp.getType() == Type.PACKAGE) {
+						TripPackage pack = (TripPackage) tripComp;
+						for (TripComponent packComp : pack.getTripComponents()) {
+							if (packComp.getType() == Type.FLIGHT) {
+								//For flights we have to shorten share urls for individual legs
+								shortenSharableFlightUrls((TripFlight) packComp);
+							}
+							else {
+								shortenSharableUrl(packComp);
+							}
+						}
+					}
+					else if (tripComp.getType() == Type.FLIGHT) {
+						//For flights we have to shorten share urls for individual legs
+						shortenSharableFlightUrls((TripFlight) tripComp);
+					}
+				}
+				//Shorten the trip share url
+				shortenSharableUrl(trip);
+			}
+		}
 
-					TripShareUrlShortenerResponse response = mServices.getShortenedShareItinUrl(shareUrl);
-					if (response != null) {
-						shortenedUrl = response.getShortUrl();
-					}
+		private void shortenSharableFlightUrls(TripFlight trip) {
+			if (trip.getFlightTrip() != null && trip.getFlightTrip().getLegCount() > 0) {
+				for (FlightLeg leg : trip.getFlightTrip().getLegs()) {
+					shortenSharableUrl(leg);
+				}
+			}
+		}
 
-					if (!TextUtils.isEmpty(shortenedUrl)) {
-						Log.i(LOGGING_TAG, "Successfully shortened url - original:" + shareUrl + " short:"
-								+ shortenedUrl);
-						trip.setShortSharableDetailsUrl(shortenedUrl);
-					}
-					else {
-						Log.w(LOGGING_TAG, "Failure to shorten url:" + shareUrl);
-					}
+		private void shortenSharableUrl(ItinSharable itinSharable) {
+			if (itinSharable.getSharingEnabled() && itinSharable.getShareInfo().hasSharableDetailsUrl()
+					&& !itinSharable.getShareInfo().hasShortSharableDetailsUrl()) {
+				String shareUrl = itinSharable.getShareInfo().getSharableDetailsUrl();
+				String shortenedUrl = null;
+				Log.i(LOGGING_TAG, "Shortening share url:" + shareUrl);
+
+				TripShareUrlShortenerResponse response = mServices.getShortenedShareItinUrl(shareUrl);
+				if (response != null) {
+					shortenedUrl = response.getShortUrl();
+				}
+
+				if (!TextUtils.isEmpty(shortenedUrl)) {
+					Log.i(LOGGING_TAG, "Successfully shortened url - original:" + shareUrl + " short:"
+							+ shortenedUrl);
+					itinSharable.getShareInfo().setShortSharableDetailsUrl(shortenedUrl);
+				}
+				else {
+					Log.w(LOGGING_TAG, "Failure to shorten url:" + shareUrl);
 				}
 			}
 		}

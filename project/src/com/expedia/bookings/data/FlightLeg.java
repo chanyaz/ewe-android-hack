@@ -11,6 +11,9 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
+import com.expedia.bookings.data.trips.ItinShareInfo;
+import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
+import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -19,12 +22,11 @@ import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
 
-public class FlightLeg implements JSONable {
+public class FlightLeg implements JSONable, ItinSharable {
 
 	private String mLegId;
 
-	// ItinSharing: We can share a flight at the leg level. But not at the FlightTrip level.
-	private String mSharableDetailsUrl;
+	private ItinShareInfo mShareInfo = new ItinShareInfo();
 
 	private List<Flight> mSegments = new ArrayList<Flight>();
 
@@ -50,14 +52,6 @@ public class FlightLeg implements JSONable {
 
 	public List<Flight> getSegments() {
 		return mSegments;
-	}
-
-	public String getSharableDetailsUrl() {
-		return mSharableDetailsUrl;
-	}
-
-	public void setSharableDetailsUrl(String sharableDetailsUrl) {
-		this.mSharableDetailsUrl = sharableDetailsUrl;
 	}
 
 	@Override
@@ -189,7 +183,7 @@ public class FlightLeg implements JSONable {
 			JSONObject obj = new JSONObject();
 			obj.putOpt("legId", mLegId);
 			JSONUtils.putJSONableList(obj, "segments", mSegments);
-			obj.putOpt("sharableFlightLegURL", mSharableDetailsUrl);
+			JSONUtils.putJSONable(obj, "shareInfo", mShareInfo);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -201,7 +195,21 @@ public class FlightLeg implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 		mLegId = obj.optString("legId");
 		mSegments = JSONUtils.getJSONableList(obj, "segments", Flight.class);
-		mSharableDetailsUrl = obj.optString("sharableFlightLegURL");
+		mShareInfo = JSONUtils.getJSONable(obj, "shareInfo", ItinShareInfo.class);
+		mShareInfo = mShareInfo == null ? new ItinShareInfo() : mShareInfo;
+		return true;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// ItinSharable
+
+	@Override
+	public ItinShareInfo getShareInfo() {
+		return mShareInfo;
+	}
+
+	@Override
+	public boolean getSharingEnabled() {
 		return true;
 	}
 }

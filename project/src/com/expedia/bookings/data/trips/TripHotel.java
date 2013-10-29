@@ -73,14 +73,6 @@ public class TripHotel extends TripComponent {
 		mConfirmationNumbers = confirmationNumbers;
 	}
 
-	public String getSharableDetailsUrl() {
-		return mSharableDetailsUrl;
-	}
-
-	public void setSharableDetailsUrl(String sharableDetailsUrl) {
-		this.mSharableDetailsUrl = sharableDetailsUrl;
-	}
-
 	public Traveler getPrimaryTraveler() {
 		return mPrimaryTraveler;
 	}

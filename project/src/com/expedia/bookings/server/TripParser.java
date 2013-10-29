@@ -88,7 +88,7 @@ public class TripParser {
 		 *  The api returns the sharableUrl in the form of /api/trips/shared. But this is NOT the link that is to be shared to any users.
 		 *  We will instead replace it with /m/trips/shared, so that if the user clicks on the link without the app installed it will get them to the mobileWeb's shared itin landing page.
 		 */
-		trip.setSharableDetailsUrl(tripJson.optString("sharableDetailsURL").replace("/api/", "/m/"));
+		trip.getShareInfo().setSharableDetailsUrl(tripJson.optString("sharableDetailsURL").replace("/api/", "/m/"));
 
 		trip.setCustomerSupport(parseCustomerSupport(tripJson.optJSONObject("customerSupport")));
 
@@ -251,7 +251,7 @@ public class TripParser {
 		TripHotel hotel = new TripHotel();
 
 		parseTripCommon(obj, hotel);
-		hotel.setSharableDetailsUrl(obj.optString("sharableItemDetailURL").replace("/api/", "/m/"));
+		hotel.getShareInfo().setSharableDetailsUrl(obj.optString("sharableItemDetailURL").replace("/api/", "/m/"));
 
 		if (obj.has("checkInDateTime") && obj.has("checkOutDateTime")) {
 			hotel.setStartDate(parseDateTime(obj.opt("checkInDateTime")));
@@ -329,7 +329,8 @@ public class TripParser {
 						guests += otherOccupantInfo.optInt("childAndInfantCount");
 					}
 
-					JSONObject occupantSelectedRoomOptions = roomPreferences.optJSONObject("occupantSelectedRoomOptions");
+					JSONObject occupantSelectedRoomOptions = roomPreferences
+							.optJSONObject("occupantSelectedRoomOptions");
 					if (occupantSelectedRoomOptions != null) {
 						property.setItinBedType(occupantSelectedRoomOptions.optString("bedTypeName"));
 					}
@@ -409,7 +410,7 @@ public class TripParser {
 			FlightLeg leg = new FlightLeg();
 
 			// Fetch the sharable link at the flight leg level.
-			leg.setSharableDetailsUrl(legJson.optString("sharableFlightLegURL").replace("/api/", "/m/"));
+			leg.getShareInfo().setSharableDetailsUrl(legJson.optString("sharableFlightLegURL").replace("/api/", "/m/"));
 
 			JSONArray segmentsArr = legJson.optJSONArray("segments");
 			for (int b = 0; b < segmentsArr.length(); b++) {

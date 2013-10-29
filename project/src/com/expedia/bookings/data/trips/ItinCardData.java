@@ -54,7 +54,10 @@ public class ItinCardData {
 	}
 
 	public String getSharableDetailsUrl() {
-		return mTripComponent.getParentTrip().getSharableUrl();
+		if(mTripComponent.getShareInfo().hasSharableUrl()){
+			return mTripComponent.getShareInfo().getSharableUrl();
+		}
+		return mTripComponent.getParentTrip().getShareInfo().getSharableUrl();
 	}
 
 	public boolean hasSummaryData() {
