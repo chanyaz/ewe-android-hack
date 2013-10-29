@@ -91,7 +91,7 @@ public class PushNotificationUtils {
 			return false;
 		}
 		else {
-			Log.d("PushNotificationUtils.sendPayloadCheck() payloadHash:" + payloadHash);
+			Log.d("PushNotificationUtils.sendPayloadCheck() payloadHash: " + StrUtils.formatHexString(payloadHash));
 		}
 
 		if (!sPayloadMap.containsKey(regId)) {
