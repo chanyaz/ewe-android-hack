@@ -260,13 +260,15 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	}
 
 	private void requestLocationUpdates() {
-		LocationRequest request = new LocationRequest();
-		request.setPriority(mUseLowEnergy ? LocationRequest.PRIORITY_NO_POWER : LocationRequest.PRIORITY_LOW_POWER);
-		request.setFastestInterval(getMillisFromPeriod(MINIMUM_UPDATE_INTERVAL));
-		request.setInterval(request.getFastestInterval());
-		request.setSmallestDisplacement(UPDATE_DISTANCE_METERS);
+		if (mLocationClient != null) {
+			LocationRequest request = new LocationRequest();
+			request.setPriority(mUseLowEnergy ? LocationRequest.PRIORITY_NO_POWER : LocationRequest.PRIORITY_LOW_POWER);
+			request.setFastestInterval(getMillisFromPeriod(MINIMUM_UPDATE_INTERVAL));
+			request.setInterval(request.getFastestInterval());
+			request.setSmallestDisplacement(UPDATE_DISTANCE_METERS);
 
-		mLocationClient.requestLocationUpdates(request, this);
+			mLocationClient.requestLocationUpdates(request, this);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
