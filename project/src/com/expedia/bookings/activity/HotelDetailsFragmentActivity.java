@@ -386,12 +386,18 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 				HotelDetailsDescriptionFragment.class, FRAGMENT_DESCRIPTION_TAG);
 
 		mBookNowButton = Ui.findView(this, R.id.book_now_button);
-		mBookNowButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				startActivity(RoomsAndRatesListActivity.createIntent(HotelDetailsFragmentActivity.this));
-			}
-		});
+		if (Db.getHotelSearch().getSelectedProperty().isAvailable()) {
+			mBookNowButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					startActivity(RoomsAndRatesListActivity.createIntent(HotelDetailsFragmentActivity.this));
+				}
+			});
+		}
+		else {
+			mBookNowButton.setVisibility(View.GONE);
+		}
+
 		mBookByPhoneButton = Ui.findView(this, R.id.book_by_phone_button);
 
 		// Tracking
@@ -416,8 +422,10 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		}
 
 		final Property property = response.getProperty();
-		boolean showBookByPhone = property != null && !TextUtils.isEmpty(property.getTelephoneSalesNumber())
-				&& !property.isDesktopOverrideNumber();
+		boolean showBookByPhone = property != null
+				&& !TextUtils.isEmpty(property.getTelephoneSalesNumber())
+				&& !property.isDesktopOverrideNumber()
+				&& property.isAvailable();
 		if (showBookByPhone) {
 			mBookByPhoneButton.setOnClickListener(new View.OnClickListener() {
 				@Override
