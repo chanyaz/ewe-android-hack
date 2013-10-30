@@ -41,6 +41,7 @@ import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment.HotelMiniMapFra
 import com.expedia.bookings.fragment.HotelDetailsPricePromoFragment;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AlphaImageView;
 import com.expedia.bookings.widget.HotelDetailsScrollView;
@@ -306,15 +307,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		actionBar.setCustomView(titleView);
 
 		final MenuItem select = menu.findItem(R.id.menu_select_hotel);
-		Button tv = (Button) getLayoutInflater().inflate(R.layout.actionbar_checkmark_item, null);
-		ViewUtils.setAllCaps(tv);
-		tv.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onOptionsItemSelected(select);
-			}
-		});
-		select.setActionView(tv);
+		HotelUtils.setupActionBarCheckmark(this, select);
 
 		return super.onCreateOptionsMenu(menu);
 	}

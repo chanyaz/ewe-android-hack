@@ -1,8 +1,16 @@
 package com.expedia.bookings.utils;
 
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.mobiata.android.util.ViewUtils;
 
 public class HotelUtils {
 
@@ -25,5 +33,22 @@ public class HotelUtils {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Sets up the "checkmark" action bar item
+	 */
+	public static Button setupActionBarCheckmark(final SherlockFragmentActivity activity, final MenuItem menuItem) {
+		Button tv = (Button) activity.getLayoutInflater().inflate(R.layout.actionbar_checkmark_item, null);
+		ViewUtils.setAllCaps(tv);
+		tv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				activity.onOptionsItemSelected(menuItem);
+			}
+		});
+		menuItem.setActionView(tv);
+
+		return tv;
 	}
 }

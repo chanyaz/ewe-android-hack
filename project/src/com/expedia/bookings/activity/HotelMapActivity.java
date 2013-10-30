@@ -22,6 +22,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.maps.HotelMapFragment;
 import com.expedia.bookings.maps.HotelMapFragment.HotelMapFragmentListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
@@ -131,15 +132,7 @@ public class HotelMapActivity extends SherlockFragmentActivity implements HotelM
 		actionBar.setCustomView(titleView);
 
 		final MenuItem select = menu.findItem(R.id.menu_select_hotel);
-		Button tv = (Button) getLayoutInflater().inflate(R.layout.actionbar_checkmark_item, null);
-		ViewUtils.setAllCaps(tv);
-		tv.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onOptionsItemSelected(select);
-			}
-		});
-		select.setActionView(tv);
+		HotelUtils.setupActionBarCheckmark(this, select);
 
 		return super.onCreateOptionsMenu(menu);
 	}
