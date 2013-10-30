@@ -96,6 +96,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 			List<String> streetAddress = new ArrayList<String>();
 			streetAddress.add(response.optString("hotelAddress", null));
 			location.setStreetAddress(streetAddress);
+			location.setDescription(response.optString("locationDescription", null));
 			property.setLocation(location);
 
 			int len;
