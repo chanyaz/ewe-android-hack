@@ -26,6 +26,9 @@ public class Codes {
 	//If the calling activity has already set the search params, we don't need to clear/reset them
 	public static final String TAG_EXTERNAL_SEARCH_PARAMS = "TAG_EXTERNAL_SEARCH_PARAMS";
 
+	// Indicates that we came from a deeplink, which might entail different behavior
+	public static final String FROM_DEEPLINK = "TAG_FROM_DEEPLINK";
+
 	// For EF
 	public final static String TRAVELER_INDEX = "TRAVELER_INDEX";
 }

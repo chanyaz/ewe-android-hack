@@ -136,7 +136,7 @@ public class DeepLinkRouterActivity extends Activity {
 
 			// Launch hotel search
 			Log.i(TAG, "Launching hotel search from deep link!");
-			NavUtils.goToHotels(this, params);
+			NavUtils.goToHotels(this, params, null, NavUtils.FLAG_DEEPLINK);
 		}
 		else if (host.equals("flightSearch")) {
 			// Fill FlightSearchParams with query data

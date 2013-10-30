@@ -740,7 +740,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				searchParams.setChildren(null);
 
 				// Launch hotel search
-				NavUtils.goToHotels(getActivity(), searchParams, animOptions);
+				NavUtils.goToHotels(getActivity(), searchParams, animOptions, 0);
 			}
 		}
 	};

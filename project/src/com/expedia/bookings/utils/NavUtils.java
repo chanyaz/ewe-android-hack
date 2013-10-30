@@ -38,6 +38,8 @@ import com.mobiata.android.Log;
  */
 public class NavUtils {
 
+	public static final int FLAG_DEEPLINK = 1;
+
 	public static boolean canHandleIntent(Context context, Intent intent) {
 		return intent.resolveActivity(context.getPackageManager()) != null;
 	}
@@ -93,14 +95,14 @@ public class NavUtils {
 	}
 
 	public static void goToHotels(Context context, HotelSearchParams params) {
-		goToHotels(context, params, null);
+		goToHotels(context, params, null, 0);
 	}
 
 	public static void goToHotels(Context context, Bundle animOptions) {
-		goToHotels(context, null, animOptions);
+		goToHotels(context, null, animOptions, 0);
 	}
 
-	public static void goToHotels(Context context, HotelSearchParams params, Bundle animOptions) {
+	public static void goToHotels(Context context, HotelSearchParams params, Bundle animOptions, int flags) {
 		sendKillActivityBroadcast(context);
 
 		Intent intent = new Intent();
@@ -113,6 +115,10 @@ public class NavUtils {
 
 			// Only used by phone search currently, but won't harm to put on tablet as well
 			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
+		}
+
+		if ((flags & FLAG_DEEPLINK) != 0) {
+			intent.putExtra(Codes.FROM_DEEPLINK, true);
 		}
 
 		// 13820: Check if a booking is in process at this moment (in case BookingInfoActivity died)
