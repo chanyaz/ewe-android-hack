@@ -78,6 +78,15 @@ public class JodaUtils {
 		return dateTime.getZone().getShortName(dateTime.getMillis());
 	}
 
+	public static String formatDateRange(Context context, LocalDate start, LocalDate end, int flags) {
+		return formatDateRange(context, start.toDateTimeAtStartOfDay(), end.toDateTimeAtStartOfDay(), flags);
+	}
+
+	public static String formatDateRange(Context context, DateTime start, DateTime end, int flags) {
+		return DateUtils.formatDateRange(context, start.getMillis(), end.getMillis() + 1000, flags
+				| DateUtils.FORMAT_UTC);
+	}
+
 	/**
 	 * This method is mostly ripped from DateUtils.getRelativeTimeSpanString(), and
 	 * works in much the same way.  The major difference is that it doesn't suck
