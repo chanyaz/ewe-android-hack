@@ -44,6 +44,7 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.server.PushRegistrationResponseHandler;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
@@ -1460,7 +1461,6 @@ public class ItineraryManager implements JSONable {
 				}
 			}
 			else {
-
 				Trip sharedTrip = response.getTrip();
 				String tripNumber = sharedTrip.getTripNumber();
 				sharedTrip.setIsShared(true);
@@ -1490,6 +1490,10 @@ public class ItineraryManager implements JSONable {
 					mTripsRefreshed++;
 				}
 
+				// Note: In the future, we may be getting these parameters from the URL. Currently, we do not, thus we just
+				// send the generic "AppShare" event any time that we import a shared itin. Ideally, the URL will contain
+				// some more info pertaining to tracking and we'd send something like "AppShare.Facebook".
+				OmnitureTracking.setDeepLinkTrackingParams("brandcid", "AppShare");
 			}
 		}
 
