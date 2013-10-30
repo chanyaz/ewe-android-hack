@@ -18,9 +18,10 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
-import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.tracking.AdX;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -48,6 +49,7 @@ public class DeepLinkRouterActivity extends Activity {
 		Set<String> queryData = StrUtils.getQueryParameterNames(data);
 
 		AdX.trackDeepLinkLaunch(data);
+		OmnitureTracking.parseAndTrackDeepLink(data, queryData);
 
 		if (host.equals("home")) {
 			Log.i(TAG, "Launching home screen from deep link!");
@@ -221,6 +223,7 @@ public class DeepLinkRouterActivity extends Activity {
 		ItineraryManager.getInstance().fetchSharedItin(sharableUrl);
 		NavUtils.goToItin(this);
 	}
+
 	private int parseNumAdults(String numAdultsStr) {
 		try {
 			int numAdults = Integer.parseInt(numAdultsStr);

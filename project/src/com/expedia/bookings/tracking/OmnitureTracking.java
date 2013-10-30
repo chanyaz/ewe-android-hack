@@ -7,8 +7,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -20,6 +22,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import com.adobe.adms.measurement.ADMS_Measurement;
@@ -1278,11 +1281,36 @@ public class OmnitureTracking {
 		internalTrackLink(s);
 	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////
+	//
+	// Deep Link Tracking
+	//
 	// Documentation:
 	// https://confluence/display/Omniture/Download+-+Retargeting+-+Deeplink+Campaign+Tracking
 
+	// TODO candidate for ExpediaPointOfSale JSON?
+	private static Set<String> KNOWN_DEEP_LINK_ARGS = new HashSet<String>() {
+		{
+			add("emlcid");
+			add("semcid");
+			add("olacid");
+			add("affcid");
+			add("brandcid");
+			add("seocid");
+		}
+	};
+
 	private static String mDeepLinkKey;
 	private static String mDeepLinkValue;
+
+	public static void parseAndTrackDeepLink(Uri data, Set<String> queryData) {
+		for (String key : KNOWN_DEEP_LINK_ARGS) {
+			if (queryData.contains(key)) {
+				setDeepLinkTrackingParams(key, data.getQueryParameter(key));
+				break;
+			}
+		}
+	}
 
 	public static void setDeepLinkTrackingParams(String key, String value) {
 		mDeepLinkKey = key;
