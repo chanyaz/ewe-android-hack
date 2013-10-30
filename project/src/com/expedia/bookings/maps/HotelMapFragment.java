@@ -8,6 +8,7 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.expedia.bookings.R;
@@ -307,21 +308,29 @@ public class HotelMapFragment extends SupportMapFragment {
 		String snippet = "";
 		Distance distanceFromuser = property.getDistanceFromUser();
 		Rate lowestRate = property.getLowestRate();
-		String formattedMoney = StrUtils.formatHotelPrice(lowestRate.getDisplayPrice());
-		snippet = getString(R.string.map_snippet_price_template, formattedMoney);
+		boolean isOnSale = lowestRate != null && lowestRate.isSaleTenPercentOrBetter();
+		if (lowestRate != null) {
+			String formattedMoney = StrUtils.formatHotelPrice(lowestRate.getDisplayPrice());
+			snippet = getString(R.string.map_snippet_price_template, formattedMoney);
+		}
 
+		String secondSnippet = null;
 		if (mShowDistances && distanceFromuser != null) {
-			snippet = getString(R.string.map_snippet_template, snippet,
-					distanceFromuser.formatDistance(getActivity(), DistanceUnit.getDefaultDistanceUnit()));
+			secondSnippet = distanceFromuser.formatDistance(getActivity(), DistanceUnit.getDefaultDistanceUnit());
 		}
-		else if (lowestRate.isSaleTenPercentOrBetter()) {
-			snippet = getString(R.string.map_snippet_template, snippet,
-					getString(R.string.widget_savings_template, lowestRate.getDiscountPercent()));
+		else if (isOnSale) {
+			secondSnippet = getString(R.string.widget_savings_template, lowestRate.getDiscountPercent());
 		}
 
-		marker.snippet(snippet);
+		if (!TextUtils.isEmpty(secondSnippet)) {
+			snippet = getString(R.string.map_snippet_template, snippet, secondSnippet);
+		}
 
-		marker.icon((lowestRate.isSaleTenPercentOrBetter()) ? mPinSale : mPin);
+		if (!TextUtils.isEmpty(snippet)) {
+			marker.snippet(snippet);
+		}
+
+		marker.icon(isOnSale ? mPinSale : mPin);
 
 		Marker actualMarker = mMap.addMarker(marker);
 
