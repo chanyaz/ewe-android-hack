@@ -394,6 +394,11 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				// here so user knows what search params were used.  Also, remove
 				// this so we do auto-launch next time.
 				intent.putExtra(Codes.FROM_DEEPLINK, false);
+
+				// We need to correct the hotel name in the search at this point, because we didn't have it
+				// before; now we can make things a bit prettier.
+				Db.getHotelSearch().getSearchParams().setQuery(property.getName());
+				setSearchText(property.getName());
 			}
 			else if (Db.getHotelSearch().getSearchParams().getSearchType() == HotelSearchParams.SearchType.HOTEL) {
 				startActivity(HotelDetailsFragmentActivity.createIntent(PhoneSearchActivity.this));
@@ -1637,7 +1642,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 
 		SearchType type = Db.getHotelSearch().getSearchParams().getSearchType();
-		if (type != SearchType.MY_LOCATION && type != SearchType.VISIBLE_MAP_AREA) {
+		if (type != SearchType.MY_LOCATION && type != SearchType.VISIBLE_MAP_AREA
+				&& (type != SearchType.HOTEL || !getIntent().getBooleanExtra(Codes.FROM_DEEPLINK, false))) {
 			Search.add(this, Db.getHotelSearch().getSearchParams());
 		}
 
