@@ -1278,6 +1278,17 @@ public class OmnitureTracking {
 		internalTrackLink(s);
 	}
 
+	// Documentation:
+	// https://confluence/display/Omniture/Download+-+Retargeting+-+Deeplink+Campaign+Tracking
+
+	private static String mDeepLinkKey;
+	private static String mDeepLinkValue;
+
+	public static void setDeepLinkTrackingParams(String key, String value) {
+		mDeepLinkKey = key;
+		mDeepLinkValue = value;
+	}
+
 	/**
 	 * Note: Due to the way that ItineraryManager interacts with our Fragments + Views, this extra bookkeeping is
 	 * required currently to correctly fire the single success event of adding a guest itinerary manually.
@@ -1886,6 +1897,9 @@ public class OmnitureTracking {
 		// Marketing date tracking
 		s.setEvar(10, sMarketingDate);
 
+		// Deep Link tracking
+		addDeepLinkData(s);
+
 		// Server
 		s.setTrackingServer(getTrackingServer());
 		s.setSSL(false);
@@ -1963,6 +1977,46 @@ public class OmnitureTracking {
 		if (bestLastLocation != null) {
 			s.setProp(40, bestLastLocation.getLatitude() + "," + bestLastLocation.getLongitude() + "|"
 					+ bestLastLocation.getAccuracy());
+		}
+	}
+
+	private static void addDeepLinkData(ADMS_Measurement s) {
+		if (mDeepLinkKey != null && mDeepLinkValue != null) {
+			String var;
+			boolean useEvar22 = true;
+
+			if (mDeepLinkKey.equals("emlcid")) {
+				var = "EML.";
+			}
+			else if (mDeepLinkKey.equals("semcid")) {
+				var = "SEM.";
+			}
+			else if (mDeepLinkKey.equals("olacid")) {
+				var = "OLA.";
+			}
+			else if (mDeepLinkKey.equals("affcid")) {
+				var = "AFF.";
+			}
+			else if (mDeepLinkKey.equals("brandcid")) {
+				var = "Brand.";
+			}
+			else if (mDeepLinkKey.equals("seocid")) {
+				useEvar22 = false;
+				var = "SEO.";
+			}
+			else {
+				Log.w(TAG, "Received Deep Link tracking parameters we don't know how to handle. Ignoring");
+				mDeepLinkKey = null;
+				mDeepLinkValue = null;
+				return;
+			}
+
+			int evar = useEvar22 ? 22 : 27;
+			var += mDeepLinkValue;
+			s.setEvar(evar, var);
+
+			mDeepLinkKey = null;
+			mDeepLinkValue = null;
 		}
 	}
 
