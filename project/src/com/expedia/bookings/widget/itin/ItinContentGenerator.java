@@ -27,7 +27,6 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Insurance;
@@ -248,7 +247,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						SocialUtils.call(getContext(), PointOfSale.getPointOfSale().getSupportPhoneNumber(mContext));
+						SocialUtils.call(getContext(), PointOfSale.getPointOfSale().getSupportPhoneNumber());
 					}
 				});
 	}
@@ -311,31 +310,9 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	protected boolean addElitePlusNumber(ViewGroup container) {
 		Log.d("ITIN: addElitePlusNumber");
-
-		User usr = Db.getUser();
-		if (usr == null || usr.getPrimaryTraveler() == null) {
-			return false;
-		}
-
-		final String elitePlusNumber;
-		final int elitePlusResId;
-		switch (usr.getPrimaryTraveler().getLoyaltyMembershipTier()) {
-		case GOLD:
-			elitePlusNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberGold();
-			elitePlusResId = R.string.elite_plus_customer_support_gold;
-			break;
-		case SILVER:
-			elitePlusNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberSilver();
-			elitePlusResId = R.string.elite_plus_customer_support_silver;
-			break;
-		default:
-			elitePlusNumber = null;
-			elitePlusResId = 0;
-			break;
-		}
-
-		if (!TextUtils.isEmpty(elitePlusNumber)) {
-			View view = getItinDetailItem(elitePlusResId, elitePlusNumber, false,
+		if (hasElitePlusNumber()) {
+			final String elitePlusNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus();
+			View view = getItinDetailItem(R.string.elite_plus_customer_support, elitePlusNumber, false,
 					new OnClickListener() {
 						@Override
 						public void onClick(View v) {
@@ -549,6 +526,15 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			hasItinNum = !TextUtils.isEmpty(this.getItinCardData().getTripComponent().getParentTrip().getTripNumber());
 		}
 		return hasItinNum;
+	}
+
+	protected boolean hasElitePlusNumber() {
+		boolean hasElitePlusNum = false;
+		if (User.isLoggedIn(mContext) && Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
+				&& Db.getUser().getPrimaryTraveler().getIsElitePlusMember()) {
+			hasElitePlusNum = !TextUtils.isEmpty(PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus());
+		}
+		return hasElitePlusNum;
 	}
 
 	protected boolean hasConfirmationNumber() {

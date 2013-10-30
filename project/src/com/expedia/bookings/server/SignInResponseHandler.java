@@ -172,11 +172,8 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 		traveler.setMiddleName(obj.optString("middleName", null));
 		traveler.setLastName(obj.optString("lastName", null));
 		traveler.setLoyaltyMembershipNumber(obj.optString("loyaltyMembershipNumber", null));
-
-		// Wow, bad speeling.
 		traveler.setLoyaltyMembershipActive(obj.optBoolean("loyaltyMemebershipActive", false));
 		traveler.setLoyaltyMembershipName(obj.optString("loyaltyMemebershipName", null));
-
 		traveler.setMembershipTierName(obj.optString("membershipTierName", null));
 		return traveler;
 	}

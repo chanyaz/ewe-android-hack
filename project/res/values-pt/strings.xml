@@ -1516,7 +1516,7 @@
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Nos hotéis com VIP Access, os associados do Expedia Elite Plus recebem upgrade de quarto gratuito, além de outros benefícios que dependem da disponibilidade no momento do check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Somente hotéis com +VIP Access</string>
+    <string name="filter_vip_access">Somente hotéis com VIP Access</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>

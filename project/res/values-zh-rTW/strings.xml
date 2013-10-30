@@ -1516,7 +1516,7 @@
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">入住 VIP Access 飯店時，Expedia Elite Plus 的會員會獲得免費客房升級和其他禮遇 (視實際情況而定)。</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">僅限 +VIP Access 飯店</string>
+    <string name="filter_vip_access">僅限 VIP Access 飯店</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>

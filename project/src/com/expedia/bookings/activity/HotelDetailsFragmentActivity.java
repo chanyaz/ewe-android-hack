@@ -422,20 +422,16 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		}
 
 		final Property property = response.getProperty();
-		boolean showBookByPhone = property != null 
-				&& !TextUtils.isEmpty(property.getTelephoneSalesNumber())
+		boolean showBookByPhone = property != null && !TextUtils.isEmpty(property.getTelephoneSalesNumber())
 				&& !property.isDesktopOverrideNumber();
 		if (showBookByPhone) {
 			mBookByPhoneButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (User.isLoggedIn(mContext)
-							&& Db.getUser() != null
-							&& Db.getUser().getPrimaryTraveler() != null
-							&& Db.getUser().getPrimaryTraveler().getIsBlingedElitePlusMember()) {
-
-						SocialUtils.call(HotelDetailsFragmentActivity.this,
-								PointOfSale.getPointOfSale().getSupportPhoneNumber(mContext));
+					if (User.isLoggedIn(mContext) && Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
+							&& Db.getUser().getPrimaryTraveler().getIsElitePlusMember()) {
+						SocialUtils.call(HotelDetailsFragmentActivity.this, PointOfSale.getPointOfSale()
+								.getSupportPhoneNumberElitePlus());
 					}
 					else {
 						SocialUtils.call(HotelDetailsFragmentActivity.this, property.getTelephoneSalesNumber());

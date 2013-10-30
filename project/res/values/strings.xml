@@ -100,10 +100,6 @@
     <string name="expedia_itinerary">Expedia Itinerary #</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus Customer Support</string>
-    <!-- Elite plus (Silver) customer support -->
-    <string name="elite_plus_customer_support_silver">Priority Customer Care</string>
-    <!-- Elite plus (Gold) customer support -->
-    <string name="elite_plus_customer_support_gold">+gold Dedicated Support</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">No upcoming trips.</string>
     <!-- Enter itinerary number -->
@@ -1518,7 +1514,7 @@
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">At VIP Access hotels, Expedia Elite Plus members receive free room upgrades and other perks upon availability at check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Only +VIP Access Hotels</string>
+    <string name="filter_vip_access">Only VIP Access Hotels</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>

@@ -1516,7 +1516,7 @@
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">ที่โรงแรม VIP Access สมาชิก Expedia Elite Plus จะได้รับการอัพเกรดห้องพักฟรี รวมถึงสิทธิประโยชน์อื่นๆ ที่มีพร้อมบริการขณะเข้าเช็คอิน</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">โรงแรม +VIP Access เท่านั้น</string>
+    <string name="filter_vip_access">โรงแรม VIP Access เท่านั้น</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>

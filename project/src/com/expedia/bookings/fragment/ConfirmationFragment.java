@@ -81,7 +81,7 @@ public abstract class ConfirmationFragment extends Fragment {
 					getActivity().startActivity(webBuilder.getIntent());
 				}
 				else {
-					SocialUtils.call(getActivity(), PointOfSale.getPointOfSale().getSupportPhoneNumber(getActivity()));
+					SocialUtils.call(getActivity(), PointOfSale.getPointOfSale().getSupportPhoneNumber());
 				}
 
 			}

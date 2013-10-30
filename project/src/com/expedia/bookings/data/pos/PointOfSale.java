@@ -30,7 +30,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
-import com.expedia.bookings.data.Traveler.LoyaltyMembershipTier;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.mobiata.android.Log;
@@ -76,11 +75,8 @@ public class PointOfSale {
 	// The POS's contact phone number
 	private String mSupportPhoneNumber;
 
-	// The POS's elite plus gold contact phone number (currently only available in USA POS)
-	private String mSupportPhoneNumberGold;
-
-	// The POS's elite plus silver contact phone number (currently only available in USA POS)
-	private String mSupportPhoneNumberSilver;
+	// The POS's elite plus contact phone number (currently only available in USA POS)
+	private String mSupportPhoneNumberElitePlus;
 
 	// The POS's support email address
 	private String mSupportEmail;
@@ -212,65 +208,36 @@ public class PointOfSale {
 	}
 
 	/**
-	 * Get the most appropriate support number.
-	 * 
-	 * If the user is logged in, we check their support tier,
-	 * and use the appropriate support tier phone number.
-	 * 
-	 * If we dont have a fancy support number we check the locale,
-	 * to see if there is a specific locale support number,
-	 * and if all else fails we fall back to the good honest POS
-	 * support number.
-	 * 
-	 * @param context
+	 * If there is a locale-specific support number, use that over the generic POS support number.
 	 * @return
 	 */
-	public String getSupportPhoneNumber(Context context) {
-		String supportNumber = null;
-
-		if (context != null && User.isLoggedIn(context)) {
-			User usr = Db.getUser();
-			if (usr == null) {
-				Db.loadUser(context);
-				usr = Db.getUser();
-			}
-			if (usr != null && usr.getPrimaryTraveler() != null) {
-				//If our user has a blinged out membership tier, get them a blinging support phone number
-				switch (usr.getPrimaryTraveler().getLoyaltyMembershipTier()) {
-				case GOLD:
-					supportNumber = getSupportPhoneNumberGold();
-					break;
-				case SILVER:
-					supportNumber = getSupportPhoneNumberSilver();
-					break;
-				}
-			}
+	public String getSupportPhoneNumber() {
+		String number = getPosLocale().mSupportNumber;
+		if (TextUtils.isEmpty(number)) {
+			number = mSupportPhoneNumber;
 		}
+		return number;
+	}
 
-		if (TextUtils.isEmpty(supportNumber)) {
-			supportNumber = getSupportPhoneNumberLocale();
-			if (TextUtils.isEmpty(supportNumber)) {
-				supportNumber = getSupportPhoneNumberBasic();
-			}
+	public String getSupportPhoneNumberElitePlus() {
+		return mSupportPhoneNumberElitePlus;
+	}
+
+	/**
+	 * If the user is an elite plus member, we return the elite plus number (if available)
+	 * otherwise if the user is null, or a normal user, return  the regular support number
+	 * 
+	 * @param usr - The current logged in user, or null.
+	 * @return
+	 */
+	public String getSupportPhoneNumberBestForUser(User usr) {
+		if (usr != null && usr.getPrimaryTraveler() != null && usr.getPrimaryTraveler().getIsElitePlusMember()
+				&& !TextUtils.isEmpty(getSupportPhoneNumberElitePlus())) {
+			return getSupportPhoneNumberElitePlus();
 		}
-
-		return supportNumber;
-	}
-
-	public String getSupportPhoneNumberLocale() {
-		return getPosLocale().mSupportNumber;
-	}
-
-	public String getSupportPhoneNumberBasic() {
-		return mSupportPhoneNumber;
-	}
-
-	public String getSupportPhoneNumberGold() {
-		return mSupportPhoneNumberGold;
-	}
-
-	public String getSupportPhoneNumberSilver() {
-		return mSupportPhoneNumberSilver;
+		else {
+			return getSupportPhoneNumber();
+		}
 	}
 
 	public String getSupportEmail() {
@@ -706,8 +673,7 @@ public class PointOfSale {
 
 		// Support
 		pos.mSupportPhoneNumber = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumber");
-		pos.mSupportPhoneNumberGold = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberGold");
-		pos.mSupportPhoneNumberSilver = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberSilver");
+		pos.mSupportPhoneNumberElitePlus = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberGold");
 		pos.mSupportEmail = data.optString("supportEmail");
 
 		// POS config

@@ -1517,7 +1517,7 @@
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Expedia-Elite-Plus-Mitglieder erhalten in VIP-Access-Hotels je nach Verfügbarkeit bei Check-in kostenlose Zimmerupgrades und weitere Extras.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Nur +VIP-Access-Hotels</string>
+    <string name="filter_vip_access">Nur VIP-Access-Hotels</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>

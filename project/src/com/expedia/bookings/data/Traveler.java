@@ -27,14 +27,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private Long mTuid = 0L;
 	private String mLoyaltyMembershipNumber;
 	private String mLoyaltyMembershipName;
-
-	/**
-	 * According to @RobMeyer - if, for some reason, the user picks not to
-	 * involved with the Elite+ program, they would come back as INACTIVE.
-	 * Which means: they won't get all the fun emails, no more points etc etc
-	 */
 	private boolean mIsLoyaltyMembershipActive = false;
-
 	private String mMembershipTierName;
 
 	// General
@@ -84,10 +77,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		WHEELCHAIR_CAN_CLIMB_STAIRS,
 		WHEELCHAIR_CANNOT_CLIMB_STAIRS,
 		WHEELCHAIR_IMMOBILE
-	}
-
-	public static enum LoyaltyMembershipTier {
-		NONE, GOLD, SILVER, BLUE
 	}
 
 	public Traveler() {
@@ -146,58 +135,9 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return mMembershipTierName;
 	}
 
-	/**
-	 * Returns whether this traveler is in the higher echelons of Elite+
-	 * member status (LoyaltyMembershipTier.SILVER or LoyaltyMembershipTier.GOLD).
-	 * This should be used to show/hide special VIP benefits / VIP badge / etc.
-	 * @return
-	 */
-	public boolean getIsBlingedElitePlusMember() {
-		switch (getLoyaltyMembershipTier()) {
-		case GOLD:
-		case SILVER:
-			return true;
-		default:
-			return false;
-		}
-	}
-
-	/**
-	 * Returns whether this traveller is an Elite+ member at all
-	 * (not LoyaltyMembershipTier.NONE). This should be used to show/hide
-	 * things that are available to all Elite+ members, such as
-	 * membership points, etc.
-	 * @return
-	 */
 	public boolean getIsElitePlusMember() {
-		return getLoyaltyMembershipTier() != LoyaltyMembershipTier.NONE;
-	}
-
-	/**
-	 * Returns the Elite+ Tier that this traveller is sporting. If
-	 * the membership is INACTIVE, we'll just return NONE here. We don't
-	 * care if it's gold but yet inactive.
-	 * @return
-	 */
-	public LoyaltyMembershipTier getLoyaltyMembershipTier() {
-		LoyaltyMembershipTier tier = LoyaltyMembershipTier.NONE;
-
-		if (!mIsLoyaltyMembershipActive) {
-			// NONE
-		}
-		else if ("Elite Plus".equalsIgnoreCase(mLoyaltyMembershipName) // For legacy purposees
-				|| "Elite Plus".equalsIgnoreCase(mMembershipTierName)
-				|| "Gold".equalsIgnoreCase(mMembershipTierName)) {
-			tier = LoyaltyMembershipTier.GOLD;
-		}
-		else if ("Silver".equalsIgnoreCase(mMembershipTierName)) {
-			tier = LoyaltyMembershipTier.SILVER;
-		}
-		else if ("Blue".equalsIgnoreCase(mMembershipTierName)) {
-			tier = LoyaltyMembershipTier.BLUE;
-		}
-
-		return tier;
+		return mIsLoyaltyMembershipActive && !TextUtils.isEmpty(mLoyaltyMembershipName)
+				&& mLoyaltyMembershipName.equalsIgnoreCase("Elite Plus");
 	}
 
 	public String getFirstName() {
