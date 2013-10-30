@@ -142,7 +142,7 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 
 	public String getAddressString() {
 		if (hasProperty()) {
-			return mProperty.getLocation().getStreetAddressString();
+			return mProperty.getLocation().toLongFormattedString();
 		}
 		return null;
 	}
