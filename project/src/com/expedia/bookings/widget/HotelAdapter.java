@@ -248,44 +248,57 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 		// We assume we have a lowest rate here; this may not be a safe assumption
 		Rate lowestRate = property.getLowestRate();
-		Money highestPriceFromSurvey = property.getHighestPriceFromSurvey();
-		final String hotelPrice = StrUtils.formatHotelPrice(lowestRate.getDisplayPrice());
+		if (lowestRate == null) {
+			holder.strikethroughPrice.setVisibility(View.GONE);
+			holder.price.setVisibility(View.GONE);
+			holder.saleText.setVisibility(View.GONE);
+			holder.saleImage.setVisibility(View.GONE);
+		}
+		else {
+			Money highestPriceFromSurvey = property.getHighestPriceFromSurvey();
+			final String hotelPrice = StrUtils.formatHotelPrice(lowestRate.getDisplayPrice());
 
-		// Detect if the property is on sale, if it is do special things
-		if (lowestRate.isOnSale() && lowestRate.isSaleTenPercentOrBetter()) {
-			if (hotelPrice.length() < HOTEL_PRICE_TOO_LONG) {
+			holder.price.setVisibility(View.VISIBLE);
+			holder.price.setTextSize(mPriceTextSize);
+			holder.price.setText(hotelPrice);
+
+			// Detect if the property is on sale, if it is do special things
+			if (lowestRate.isOnSale() && lowestRate.isSaleTenPercentOrBetter()) {
+				if (hotelPrice.length() < HOTEL_PRICE_TOO_LONG) {
+					holder.strikethroughPrice.setVisibility(View.VISIBLE);
+					holder.strikethroughPrice.setText(Html.fromHtml(
+							mContext.getString(R.string.strike_template,
+									StrUtils.formatHotelPrice(lowestRate.getDisplayBasePrice())), null,
+							new StrikethroughTagHandler()));
+				}
+				else {
+					holder.strikethroughPrice.setVisibility(View.GONE);
+				}
+
+				holder.price.setTextColor(mSaleTextColor);
+				holder.saleText.setVisibility(View.VISIBLE);
+				holder.saleImage.setVisibility(View.VISIBLE);
+				holder.saleText
+						.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
+			}
+			// Story #790. Expedia's way of making it seem like they are offering a discount.
+			else if (highestPriceFromSurvey != null
+					&& (highestPriceFromSurvey.compareTo(lowestRate.getDisplayPrice()) > 0)) {
 				holder.strikethroughPrice.setVisibility(View.VISIBLE);
 				holder.strikethroughPrice.setText(Html.fromHtml(
 						mContext.getString(R.string.strike_template,
-								StrUtils.formatHotelPrice(lowestRate.getDisplayBasePrice())), null,
+								StrUtils.formatHotelPrice(highestPriceFromSurvey)), null,
 						new StrikethroughTagHandler()));
+				holder.saleText.setVisibility(View.GONE);
+				holder.saleImage.setVisibility(View.GONE);
+				holder.price.setTextColor(mStandardTextColor);
 			}
 			else {
 				holder.strikethroughPrice.setVisibility(View.GONE);
+				holder.price.setTextColor(mStandardTextColor);
+				holder.saleText.setVisibility(View.GONE);
+				holder.saleImage.setVisibility(View.GONE);
 			}
-
-			holder.price.setTextColor(mSaleTextColor);
-			holder.saleText.setVisibility(View.VISIBLE);
-			holder.saleImage.setVisibility(View.VISIBLE);
-			holder.saleText
-					.setText(mContext.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
-		}
-		// Story #790. Expedia's way of making it seem like they are offering a discount.
-		else if (highestPriceFromSurvey != null && (highestPriceFromSurvey.compareTo(lowestRate.getDisplayPrice()) > 0)) {
-			holder.strikethroughPrice.setVisibility(View.VISIBLE);
-			holder.strikethroughPrice.setText(Html.fromHtml(
-					mContext.getString(R.string.strike_template,
-							StrUtils.formatHotelPrice(highestPriceFromSurvey)), null,
-					new StrikethroughTagHandler()));
-			holder.saleText.setVisibility(View.GONE);
-			holder.saleImage.setVisibility(View.GONE);
-			holder.price.setTextColor(mStandardTextColor);
-		}
-		else {
-			holder.strikethroughPrice.setVisibility(View.GONE);
-			holder.price.setTextColor(mStandardTextColor);
-			holder.saleText.setVisibility(View.GONE);
-			holder.saleImage.setVisibility(View.GONE);
 		}
 
 		int roomsLeft = property.getRoomsLeftAtThisRate();
@@ -316,9 +329,6 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 				holder.vip.setVisibility(visibility);
 			}
 		}
-
-		holder.price.setTextSize(mPriceTextSize);
-		holder.price.setText(hotelPrice);
 
 		holder.userRating.setRating((float) property.getAverageExpediaRating());
 		if (holder.userRating.getRating() == 0) {
