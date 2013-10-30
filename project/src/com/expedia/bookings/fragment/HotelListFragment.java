@@ -296,10 +296,14 @@ public class HotelListFragment extends ListFragment {
 	}
 
 	private void updateHeaderLawyerLabel() {
-		if (mLawyerLabelTextView != null) {
-			HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
+		HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
+		if (mLawyerLabelTextView != null && searchResponse != null) {
 			boolean isTablet = ExpediaBookingApp.useTabletInterface(getActivity());
-			if (searchResponse != null && searchResponse.getUserPriceType() == UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES) {
+			UserPriceType priceType = searchResponse.getUserPriceType();
+			if (priceType == null) {
+				mLawyerLabelTextView.setText(null);
+			}
+			else if (priceType == UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES) {
 				if (isTablet) {
 					mLawyerLabelTextView.setText(getString(R.string.total_price_for_stay_punctuated));
 				}

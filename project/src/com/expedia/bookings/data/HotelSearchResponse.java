@@ -90,9 +90,13 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	 * @return the first UserPriceType in the rates, or null if there are no rates
 	 */
 	public UserPriceType getUserPriceType() {
-		if (mProperties != null && mProperties.size() > 0) {
-			Property property = mProperties.get(0);
-			return property.getLowestRate().getUserPriceType();
+		if (mProperties != null) {
+			for (Property property : mProperties) {
+				Rate rate = property.getLowestRate();
+				if (rate != null) {
+					return rate.getUserPriceType();
+				}
+			}
 		}
 
 		return null;
@@ -396,9 +400,23 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 
 		// Extract the prices from the properties
 		int len = mProperties.size();
+		List<Property> propertiesWithPrices = new ArrayList<Property>();
+		for (Property property : mProperties) {
+			if (property.getLowestRate() != null) {
+				propertiesWithPrices.add(property);
+			}
+		}
+
+		len = propertiesWithPrices.size();
+
+		// Don't bother clustering if we have no properties with prices
+		if (len == 0) {
+			return;
+		}
+
 		double[] prices = new double[len];
 		for (int index = 0; index < len; index++) {
-			prices[index] = mProperties.get(index).getLowestRate().getDisplayPrice().getAmount().doubleValue();
+			prices[index] = propertiesWithPrices.get(index).getLowestRate().getDisplayPrice().getAmount().doubleValue();
 		}
 
 		// Cluster
@@ -415,7 +433,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		double tmp;
 		double amount;
 		int closestIndex;
-		for (Property property : mProperties) {
+		for (Property property : propertiesWithPrices) {
 			closestIndex = 0;
 			amount = property.getLowestRate().getDisplayPrice().getAmount().doubleValue();
 			closest = Math.abs(amount - medoids[0]);
