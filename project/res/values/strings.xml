@@ -2482,6 +2482,12 @@
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
 
+    <!-- Handling sold out hotels -->
+    <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
+    <string name="sold_out_tonight">Sold out tonight</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Sold out Nov. 3-4" -->
+    <string name="sold_out_TEMPLATE">Sold out %s</string>
+
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR">Your flight to %1$s is delayed %2$s hour.</string>

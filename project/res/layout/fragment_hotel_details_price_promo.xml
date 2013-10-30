@@ -15,6 +15,7 @@
         android:visibility="invisible" />
 
     <LinearLayout
+        android:id="@+id/rate_info_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/price_promo_banner_height"
         android:background="#80000000"
@@ -76,7 +77,26 @@
                 android:text="@string/per_nt"
                 android:textColor="@color/price_promo_banner_text_color"
                 android:textSize="12sp" />
-
         </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/unavailable_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/price_promo_banner_height"
+        android:background="#80000000"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/sold_out_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:ellipsize="middle"
+            android:singleLine="true"
+            android:textColor="@color/price_promo_banner_text_color"
+            android:textStyle="bold" />
+    </LinearLayout>
+
 </LinearLayout>
