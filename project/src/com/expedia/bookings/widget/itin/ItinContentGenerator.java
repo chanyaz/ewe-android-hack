@@ -414,7 +414,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	protected boolean addElitePlusNumber(ViewGroup container) {
 		Log.d("ITIN: addElitePlusNumber");
-		if (hasElitePlusNumber()) {
+		if (hasElitePlusNumber() && !isSharedItin()) {
 			final String elitePlusNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus();
 			View view = getItinDetailItem(R.string.elite_plus_customer_support, elitePlusNumber, false,
 					new OnClickListener() {
