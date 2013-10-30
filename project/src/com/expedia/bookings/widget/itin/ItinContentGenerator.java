@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget.itin;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Locale;
 
@@ -8,6 +9,10 @@ import org.joda.time.DateTime;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.Html;
@@ -47,6 +52,7 @@ import com.expedia.bookings.fragment.ConfirmItinRemoveDialogFragment;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.LinearLayout;
 import com.mobiata.android.Log;
@@ -164,9 +170,107 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	public abstract List<Intent> getAddToCalendarIntents();
 
+	////////////////////////////////////////////////////////////////////////
 	// Itin sharing
+
 	public boolean isSharedItin() {
 		return getItinCardData().getTripComponent().getParentTrip().isShared();
+	}
+
+	/**
+	 * This method is used to fetch the bitmap icon for imported shared itins.
+	 * The icon will consist of the shared user's initials and the background color will change based on LOB (Line of Business)
+	 * @return Bitmap which can be used as the itinCardIcon.
+	 */
+	public Bitmap getSharedItinCardIcon() {
+		byte[] shareIconBytes = fetchIconBitmapBytes(getSharedItinName());
+		Bitmap shareIcon = BitmapFactory.decodeByteArray(shareIconBytes, 0, shareIconBytes.length);
+		return shareIcon;
+	}
+
+	/**
+	 * Use this method to fetch the shared Itin icon background color.
+	 * Activities - #FF351B53
+	 * Car - #FF2D3153
+	 * Cruise - #FF652012
+	 * Flight - #FF1A5287
+	 * Generic - #FF373F4A
+	 * Hotel - #FF2D4653
+	 * Packages - #FF2E5539
+	 * @return Hex color for the icon background based on LOB
+	 */
+	public int getSharedItinIconBackground() {
+		return 0xFF373F4A;
+	}
+
+	/**
+	 * Override this in respective LOB to get the appropriate user name.
+	 * @return The full name of the shared user
+	 */
+	public String getSharedItinName() {
+		return "Shared User";
+	}
+
+	private byte[] fetchIconBitmapBytes(String displayName) {
+
+		String name = getInitialsFromDisplayName(displayName);
+
+		float density = mContext.getResources().getDisplayMetrics().density;
+		int size = (int) (48 * density);
+		Bitmap bmp = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(bmp);
+
+		Paint iconBgPaint = new Paint();
+		iconBgPaint.setStyle(Paint.Style.FILL);
+		iconBgPaint.setAntiAlias(true);
+
+		Paint bgPaintWhite = new Paint();
+		bgPaintWhite.setStyle(Paint.Style.FILL);
+		bgPaintWhite.setColor(0xffffffff);
+		bgPaintWhite.setAntiAlias(true);
+
+		Paint txtPaint = new Paint();
+		txtPaint.setStyle(Paint.Style.FILL);
+		txtPaint.setTextAlign(Paint.Align.CENTER);
+		txtPaint.setAntiAlias(true);
+		// Fetch appropriate background color to paint in the icon.
+		iconBgPaint.setColor(getSharedItinIconBackground());
+		txtPaint.setColor(0xFFFFFFFF);
+		txtPaint.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
+		txtPaint.setTextSize(24 * density);
+
+		float textHeight = txtPaint.descent() - txtPaint.ascent();
+		float textOffset = (textHeight / 2) - txtPaint.descent();
+
+		canvas.drawCircle(size / 2, size / 2, size / 2, bgPaintWhite);
+		canvas.drawCircle(size / 2, size / 2, size / 2 - 4, iconBgPaint);
+		canvas.drawText(name, size / 2, (size / 2) + (textOffset), txtPaint);
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
+		bmp.recycle();
+		return baos.toByteArray();
+	}
+
+	private String getInitialsFromDisplayName(String displayName) {
+		String[] nameParts = displayName.split(" ");
+		if (nameParts.length == 1 && startsWithASCIIAlphabet(nameParts[0])) {
+			return nameParts[0].substring(0, 1).toUpperCase(Locale.getDefault());
+		}
+		else if (nameParts.length > 1 && startsWithASCIIAlphabet(nameParts[0]) && startsWithASCIIAlphabet(nameParts[1])) {
+			return (nameParts[0].substring(0, 1) + nameParts[1].substring(0, 1)).toUpperCase(Locale.getDefault());
+		}
+
+		return null;
+	}
+
+	private boolean startsWithASCIIAlphabet(String s) {
+		if (s == null || s.length() < 1) {
+			return false;
+		}
+
+		char c = s.charAt(0);
+		return ('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z');
 	}
 
 	//////////////////////////////////////////////////////////////////////////

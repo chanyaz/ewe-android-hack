@@ -167,6 +167,19 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	@Override
+	public String getSharedItinName() {
+		ItinCardDataFlight itinCardData = getItinCardData();
+		TripFlight flight = (TripFlight) itinCardData.getTripComponent();
+		List<Traveler> travelers = flight.getTravelers();
+		return travelers.get(0).getFullName();
+	}
+
+	@Override
+	public int getSharedItinIconBackground() {
+		return 0xFF1A5287;
+	}
+
+	@Override
 	public View getTitleView(View convertView, ViewGroup container) {
 		TextView view = (TextView) convertView;
 		if (view == null) {

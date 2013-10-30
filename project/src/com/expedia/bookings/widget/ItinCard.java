@@ -293,8 +293,14 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		}
 
 		// Type icon
-		mItinTypeImageView.setImageResource(mItinContentGenerator.getTypeIconResId());
-		mFixedItinTypeImageView.setImageResource(mItinContentGenerator.getTypeIconResId());
+		if (mItinContentGenerator.isSharedItin()) {
+			mItinTypeImageView.setImageBitmap(mItinContentGenerator.getSharedItinCardIcon());
+			mFixedItinTypeImageView.setImageBitmap(mItinContentGenerator.getSharedItinCardIcon());
+		}
+		else {
+			mItinTypeImageView.setImageResource(mItinContentGenerator.getTypeIconResId());
+			mFixedItinTypeImageView.setImageResource(mItinContentGenerator.getTypeIconResId());
+		}
 
 		// Header image parallax effect
 		mHeaderImageContainer.setEnabled(mDisplayState.equals(DisplayState.EXPANDED));

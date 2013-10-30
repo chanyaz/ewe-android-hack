@@ -116,6 +116,17 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	}
 
 	@Override
+	public String getSharedItinName() {
+		TripHotel hotel = (TripHotel) getItinCardData().getTripComponent();
+		return hotel.getPrimaryTraveler().getFullName();
+	}
+
+	@Override
+	public int getSharedItinIconBackground() {
+		return 0xFF2D4653;
+	}
+
+	@Override
 	public View getTitleView(View convertView, ViewGroup container) {
 		TitleViewHolder vh;
 		if (convertView == null) {
