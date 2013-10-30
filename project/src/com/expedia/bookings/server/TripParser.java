@@ -274,18 +274,7 @@ public class TripParser {
 
 			JSONObject addressJson = propertyJson.optJSONObject("address");
 			if (addressJson != null) {
-				Location location = new Location();
-				if (addressJson.has("addressLine1")) {
-					location.addStreetAddressLine(addressJson.optString("addressLine1", null));
-				}
-				if (addressJson.has("addressLine2")) {
-					location.addStreetAddressLine(addressJson.optString("addressLine2", null));
-				}
-				location.setCity(addressJson.optString("city", null));
-				location.setStateCode(addressJson.optString("countrySubdivisionCode", null));
-				location.setCountryCode(addressJson.optString("countryCode", null));
-				location.setLatitude(propertyJson.optDouble("latitude"));
-				location.setLongitude(propertyJson.optDouble("longitude"));
+				Location location = parseHotelLocation(propertyJson, addressJson);
 				property.setLocation(location);
 			}
 
@@ -483,8 +472,8 @@ public class TripParser {
 			car.setPickUpDateTime(parseDateTime(obj.optJSONObject("pickupTime")));
 			car.setDropOffDateTime(parseDateTime(obj.optJSONObject("dropOffTime")));
 
-			car.setPickUpLocation(parseLocation(obj.optJSONObject("pickupLocation")));
-			car.setDropOffLocation(parseLocation(obj.optJSONObject("dropOffLocation")));
+			car.setPickUpLocation(parseCarLocation(obj.optJSONObject("pickupLocation")));
+			car.setDropOffLocation(parseCarLocation(obj.optJSONObject("dropOffLocation")));
 
 			JSONObject vendorJson = obj.optJSONObject("carVendor");
 			CarVendor vendor = new CarVendor();
@@ -765,7 +754,24 @@ public class TripParser {
 		return null;
 	}
 
-	private Location parseLocation(JSONObject obj) {
+	private Location parseHotelLocation(JSONObject propertyJson, JSONObject addressJson) {
+		Location location = new Location();
+		if (addressJson.has("addressLine1")) {
+			location.addStreetAddressLine(addressJson.optString("addressLine1", null));
+		}
+		if (addressJson.has("addressLine2")) {
+			location.addStreetAddressLine(addressJson.optString("addressLine2", null));
+		}
+		location.setCity(addressJson.optString("city", null));
+		location.setStateCode(addressJson.optString("countrySubdivisionCode", null));
+		location.setCountryCode(addressJson.optString("countryCode", null));
+		location.setPostalCode(addressJson.optString("postalCode", null));
+		location.setLatitude(propertyJson.optDouble("latitude"));
+		location.setLongitude(propertyJson.optDouble("longitude"));
+		return location;
+	}
+
+	private Location parseCarLocation(JSONObject obj) {
 		if (obj != null) {
 			Location location = new Location();
 			location.setLatitude(obj.optDouble("latitude", 0));
