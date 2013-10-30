@@ -25,6 +25,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.ServerError;
@@ -519,7 +520,8 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 				}
 				showErrorDialog(messageResId);
 			}
-			else if (Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0) {
+			else if (Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0
+					&& Db.getHotelSearch().getSearchParams().getSearchType() != SearchType.HOTEL) {
 				showErrorDialog(R.string.error_hotel_is_now_sold_out);
 			}
 			else {
