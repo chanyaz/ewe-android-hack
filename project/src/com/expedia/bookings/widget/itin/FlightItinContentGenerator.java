@@ -144,13 +144,24 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 	@Override
 	public String getHeaderText() {
-		final ItinCardDataFlight itinCardData = getItinCardData();
+		if (isSharedItin()) {
+			ItinCardDataFlight itinCardData = getItinCardData();
+			TripFlight flight = (TripFlight) itinCardData.getTripComponent();
+			List<Traveler> travelers = flight.getTravelers();
+			return getContext().getString(R.string.SharedItin_Title_Flight_TEMPLATE, travelers.get(0).getFirstName(),
+					itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity);
+		}
+		else {
 
-		if (itinCardData != null && itinCardData.getFlightLeg() != null
-				&& itinCardData.getFlightLeg().getLastWaypoint() != null
-				&& itinCardData.getFlightLeg().getLastWaypoint().getAirport() != null
-				&& !TextUtils.isEmpty(itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity)) {
-			return itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity;
+			final ItinCardDataFlight itinCardData = getItinCardData();
+
+			if (itinCardData != null && itinCardData.getFlightLeg() != null
+					&& itinCardData.getFlightLeg().getLastWaypoint() != null
+					&& itinCardData.getFlightLeg().getLastWaypoint().getAirport() != null
+					&& !TextUtils.isEmpty(itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity)) {
+				return itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity;
+			}
+
 		}
 
 		return "Flight Card";

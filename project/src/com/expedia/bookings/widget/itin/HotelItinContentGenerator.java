@@ -107,7 +107,14 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public String getHeaderText() {
-		return getItinCardData().getPropertyName();
+		if (isSharedItin()) {
+			TripHotel hotel = (TripHotel) getItinCardData().getTripComponent();
+			return getContext().getString(R.string.SharedItin_Title_Hotel_TEMPLATE,
+					hotel.getPrimaryTraveler().getFirstName(), getItinCardData().getPropertyName());
+		}
+		else {
+			return getItinCardData().getPropertyName();
+		}
 	}
 
 	@Override
