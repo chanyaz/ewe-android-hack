@@ -53,6 +53,7 @@
     <color name="hotel_price_breakdown_discount_green">#218b22</color>
     <color name="rooms_and_rates_notice_bg">#d9dbdd</color>
     <color name="rooms_and_rates_notice_bottom_div">#898989</color>
+    <color name="actionbar_text_disabled">#505c69</color>
 
     <!-- Login -->
     <color name="login_shade_flights">#32000000</color>

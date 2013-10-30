@@ -118,7 +118,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 		getSupportMenuInflater().inflate(R.menu.menu_hotel_details, menu);
 
 		final MenuItem select = menu.findItem(R.id.menu_select_hotel);
-		HotelUtils.setupActionBarCheckmark(this, select);
+		HotelUtils.setupActionBarCheckmark(this, select, Db.getHotelSearch().getSelectedProperty().isAvailable());
 
 		return super.onCreateOptionsMenu(menu);
 	}

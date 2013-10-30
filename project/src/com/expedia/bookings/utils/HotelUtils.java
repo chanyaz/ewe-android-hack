@@ -38,15 +38,26 @@ public class HotelUtils {
 	/**
 	 * Sets up the "checkmark" action bar item
 	 */
-	public static Button setupActionBarCheckmark(final SherlockFragmentActivity activity, final MenuItem menuItem) {
+	public static Button setupActionBarCheckmark(final SherlockFragmentActivity activity, final MenuItem menuItem,
+			boolean enabled) {
 		Button tv = (Button) activity.getLayoutInflater().inflate(R.layout.actionbar_checkmark_item, null);
 		ViewUtils.setAllCaps(tv);
-		tv.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				activity.onOptionsItemSelected(menuItem);
-			}
-		});
+
+		if (enabled) {
+			tv.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					activity.onOptionsItemSelected(menuItem);
+				}
+			});
+		}
+		else {
+			tv.setClickable(false);
+			tv.setFocusable(false);
+			tv.setTextColor(activity.getResources().getColor(R.color.actionbar_text_disabled));
+			tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_bar_checkmark_disabled, 0, 0, 0);
+		}
+
 		menuItem.setActionView(tv);
 
 		return tv;
