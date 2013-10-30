@@ -111,6 +111,12 @@ public class Search extends Model implements JSONable {
 				.execute();
 	}
 
+	public static void deleteAll() {
+		new Delete()
+				.from(Search.class)
+				.execute();
+	}
+
 	@Override
 	public JSONObject toJson() {
 		try {

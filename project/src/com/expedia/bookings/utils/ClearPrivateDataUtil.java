@@ -12,6 +12,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
 import com.expedia.bookings.model.DismissedItinButton;
+import com.expedia.bookings.model.Search;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.server.ExpediaServices;
@@ -87,6 +88,9 @@ public class ClearPrivateDataUtil {
 		// Clear airport dropdown suggestions
 		AirportDropDownAdapter.clearRecentAirports(context);
 		FlightSearchParamsFragment.clearRecentAirAsiaAirports(context);
+
+		// Clear previous hotel searches
+		Search.deleteAll();
 
 		// Clear anything else out that might remain
 		Db.clear();
