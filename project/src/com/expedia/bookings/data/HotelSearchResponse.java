@@ -330,7 +330,8 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			ArrayList<Property> deals = new ArrayList<Property>();
 			ArrayList<Property> others = new ArrayList<Property>();
 			for (Property p : filteredProperties) {
-				if (p.getLowestRate().isSaleTenPercentOrBetter()) {
+				Rate rate = p.getLowestRate();
+				if (rate != null && rate.isSaleTenPercentOrBetter()) {
 					deals.add(p);
 				}
 				else {

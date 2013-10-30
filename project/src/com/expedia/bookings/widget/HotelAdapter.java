@@ -133,9 +133,12 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 			String longestPrice = "";
 			for (Property property : properties) {
-				String displayPrice = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayPrice());
-				if (longestPrice.length() < displayPrice.length()) {
-					longestPrice = displayPrice;
+				Rate rate = property.getLowestRate();
+				if (rate != null) {
+					String displayPrice = StrUtils.formatHotelPrice(rate.getDisplayPrice());
+					if (longestPrice.length() < displayPrice.length()) {
+						longestPrice = displayPrice;
+					}
 				}
 			}
 
