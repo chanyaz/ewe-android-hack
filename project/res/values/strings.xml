@@ -296,7 +296,7 @@
     <!-- Dialog title for removing shared itin -->
     <string name="remove_shared_itin_title">Remove Shared Itinerary?</string>
     <!-- Dialog message for removing shared itin -->
-    <string name="remove_shared_itin_message">Are you sure you want to remove this shared itinerary from your device.</string>
+    <string name="remove_shared_itin_message">Are you sure you want to remove this shared itinerary from your device?</string>
     <!-- Popup menu -->
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Hide</string>
