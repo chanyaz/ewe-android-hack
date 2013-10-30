@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 
@@ -128,28 +129,37 @@ public class InfoTripletView extends LinearLayout {
 	}
 
 	private void resizeAllTheThings(TextView[] views, float targetTextSizeSp) {
+		float combinedTextSizeSp = targetTextSizeSp;
+
 		// Figure out if we have to shrink targetTextSizeSp to make room for all the text.
 		for (int i = 0; i < views.length; i++) {
 			TextView view = views[i];
 			CharSequence text = view.getText();
 
-			int availWidthPx = view.getWidth() - view.getCompoundPaddingLeft() - view.getCompoundPaddingRight();
-			float availWidthDp = availWidthPx / getResources().getDisplayMetrics().density;
-
-			// Do not resize if the view does not have dimensions or there is no text
-			if (text == null || text.length() == 0 || availWidthDp <= 0) {
+			// Do not resize if there is no text
+			if (TextUtils.isEmpty(text)) {
 				return;
 			}
 
-			targetTextSizeSp = Math.min(targetTextSizeSp, ViewUtils.getTextSizeForMaxLines(getContext(), text,
-					view.getPaint(), availWidthDp, 1, targetTextSizeSp, 1));
+			int availWidthPx = view.getWidth() - view.getCompoundPaddingLeft() - view.getCompoundPaddingRight();
+			float availWidthDp = availWidthPx / getResources().getDisplayMetrics().density;
+
+			// Do not resize if the view does not have dimensions
+			if (availWidthDp <= 0) {
+				return;
+			}
+
+			float columnTextSizeSp = ViewUtils.getTextSizeForMaxLines(getContext(), text,
+					view.getPaint(), availWidthDp, 1, targetTextSizeSp, 1);
+
+			combinedTextSizeSp = Math.min(combinedTextSizeSp, columnTextSizeSp);
 		}
 
 		// Now set the text size for all the views.
 		for (int i = 0; i < views.length; i++) {
 			// Some devices try to auto adjust line spacing, so force default line spacing
 			// and invalidate the layout as a side effect
-			views[i].setTextSize(TypedValue.COMPLEX_UNIT_SP, targetTextSizeSp);
+			views[i].setTextSize(TypedValue.COMPLEX_UNIT_SP, combinedTextSizeSp);
 			views[i].setLineSpacing(SPACING_ADD, SPACING_MULT);
 		}
 
