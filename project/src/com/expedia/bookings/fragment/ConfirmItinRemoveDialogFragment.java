@@ -13,12 +13,12 @@ public class ConfirmItinRemoveDialogFragment extends DialogFragment {
 
 	public static final String TAG = "ConfirmItinRemoveDialogFragment";
 
-	private static String mTripNumber;
+	private static String mItinKey;
 
-	public static ConfirmItinRemoveDialogFragment getInstance(String tripNumber) {
+	public static ConfirmItinRemoveDialogFragment getInstance(String itinKey) {
 		ConfirmItinRemoveDialogFragment instance = new ConfirmItinRemoveDialogFragment();
 		Bundle args = new Bundle();
-		mTripNumber = tripNumber;
+		mItinKey = itinKey;
 		instance.setArguments(args);
 		return instance;
 	}
@@ -32,7 +32,7 @@ public class ConfirmItinRemoveDialogFragment extends DialogFragment {
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				ItineraryManager.getInstance().removeItin(mTripNumber);
+				ItineraryManager.getInstance().removeItin(mItinKey);
 			}
 		});
 		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

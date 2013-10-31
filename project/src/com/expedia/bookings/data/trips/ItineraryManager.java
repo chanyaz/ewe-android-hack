@@ -1468,8 +1468,8 @@ public class ItineraryManager implements JSONable {
 			}
 			else {
 				Trip sharedTrip = response.getTrip();
-				String tripNumber = sharedTrip.getTripNumber();
 				sharedTrip.setIsShared(true);
+				sharedTrip.setShareableUrl(shareableUrl);
 
 				// Stuff the URL in the parent trip for later retrieval in case the sharee wants to become a sharer.
 				// This response does not contain any shareable url, so, we gotta save it for later on our own.
@@ -1477,15 +1477,15 @@ public class ItineraryManager implements JSONable {
 
 				LevelOfDetail lod = sharedTrip.getLevelOfDetail();
 				boolean hasFullDetails = lod == LevelOfDetail.FULL || lod == LevelOfDetail.SUMMARY_FALLBACK;
-				if (!mTrips.containsKey(tripNumber)) {
-					mTrips.put(tripNumber, sharedTrip);
+				if (!mTrips.containsKey(shareableUrl)) {
+					mTrips.put(shareableUrl, sharedTrip);
 
 					publishProgress(new ProgressUpdate(ProgressUpdate.Type.ADDED, sharedTrip));
 
 					mTripsAdded++;
 				}
 				else if (hasFullDetails) {
-					mTrips.get(tripNumber).updateFrom(sharedTrip);
+					mTrips.get(shareableUrl).updateFrom(sharedTrip);
 				}
 
 				if (hasFullDetails) {

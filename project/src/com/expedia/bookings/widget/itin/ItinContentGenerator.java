@@ -455,8 +455,9 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	private void showRemoveDialog() {
 		final FragmentActivity activity = (FragmentActivity) getContext();
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
-		ConfirmItinRemoveDialogFragment df = ConfirmItinRemoveDialogFragment.getInstance(getItinCardData()
-				.getTripComponent().getParentTrip().getTripNumber());
+		Trip parentTrip = getItinCardData().getTripComponent().getParentTrip();
+		String itinKey = parentTrip.isShared() ? parentTrip.getShareableUrl() : parentTrip.getTripNumber();
+		ConfirmItinRemoveDialogFragment df = ConfirmItinRemoveDialogFragment.getInstance(itinKey);
 		df.show(fragmentManager, ConfirmItinRemoveDialogFragment.TAG);
 	}
 
