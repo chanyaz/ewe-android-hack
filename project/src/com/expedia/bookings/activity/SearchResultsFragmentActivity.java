@@ -957,6 +957,25 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		}
 	}
 
+	private final Download<HotelSearchResponse> mSearchDownload = new Download<HotelSearchResponse>() {
+		public HotelSearchResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(mContext);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
+			return services.search(Db.getHotelSearch().getSearchParams(), 0);
+		}
+	};
+
+	private final OnDownloadComplete<HotelSearchResponse> mSearchCallback = new OnDownloadComplete<HotelSearchResponse>() {
+		public void onDownload(HotelSearchResponse response) {
+			if (response != null) {
+				// Even if there are errors we want to store them
+				// for when we reload the response (eg rotation)
+				Db.getHotelSearch().setSearchResponse(response);
+			}
+			loadSearchResponse(response, true);
+		}
+	};
+
 	private final Download<HotelOffersResponse> mSearchHotelDownload = new Download<HotelOffersResponse>() {
 		@Override
 		public HotelOffersResponse doDownload() {
@@ -967,14 +986,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			selectedProperty.setPropertyId(Db.getHotelSearch().getSearchParams().getRegionId());
 
 			return services.availability(Db.getHotelSearch().getSearchParams(), selectedProperty);
-		}
-	};
-
-	private final Download<HotelSearchResponse> mSearchDownload = new Download<HotelSearchResponse>() {
-		public HotelSearchResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(mContext);
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_SEARCH, services);
-			return services.search(Db.getHotelSearch().getSearchParams(), 0);
 		}
 	};
 
@@ -1008,17 +1019,6 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 				Db.getHotelSearch().setSelectedProperty(property);
 			}
 			loadSearchResponse(searchResponse, true);
-		}
-	};
-
-	private final OnDownloadComplete<HotelSearchResponse> mSearchCallback = new OnDownloadComplete<HotelSearchResponse>() {
-		public void onDownload(HotelSearchResponse response) {
-			if (response != null) {
-				// Even if there are errors we want to store them
-				// for when we reload the response (eg rotation)
-				Db.getHotelSearch().setSearchResponse(response);
-			}
-			loadSearchResponse(response, true);
 		}
 	};
 
