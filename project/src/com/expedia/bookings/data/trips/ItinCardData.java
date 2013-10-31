@@ -78,6 +78,10 @@ public class ItinCardData {
 		return null;
 	}
 
+	public boolean isSharedItin() {
+		return mTripComponent.getParentTrip().isShared();
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// interfaces
 

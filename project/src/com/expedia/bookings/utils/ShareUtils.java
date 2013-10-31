@@ -33,6 +33,7 @@ import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripFlight;
+import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.SocialUtils;
@@ -173,7 +174,14 @@ public class ShareUtils {
 
 	public String getFlightShareTextShort(ItinCardDataFlight itinCardData) {
 		if (itinCardData != null) {
-			return getFlightShareTextShort(itinCardData.getFlightLeg(), itinCardData.getSharableDetailsUrl());
+
+			TripFlight flight = (TripFlight) itinCardData.getTripComponent();
+			List<Traveler> travelers = flight.getTravelers();
+			String travelerName = travelers.get(0).getFirstName();
+			boolean isShared = itinCardData.isSharedItin();
+
+			return getFlightShareTextShort(itinCardData.getFlightLeg(), itinCardData.getSharableDetailsUrl(), isShared,
+					travelerName);
 		}
 		return null;
 	}
@@ -185,9 +193,12 @@ public class ShareUtils {
 		String urlFromParentTrip = itinCardData.getTripComponent().getParentTrip().getShareInfo().getSharableUrl();
 		String urlFromComponent = itinCardData.getSharableDetailsUrl();
 		String url = TextUtils.isEmpty(urlFromComponent) ? urlFromParentTrip : urlFromComponent;
+		boolean isShared = itinCardData.isSharedItin();
 
-		return getHotelShareTextShort(itinCardData.getPropertyName(), itinCardData.getStartDate(),
-				itinCardData.getEndDate(), url);
+		TripHotel hotel = (TripHotel) itinCardData.getTripComponent();
+		String travelerName = hotel.getPrimaryTraveler().getFirstName();
+
+		return getHotelShareTextShort(itinCardData.getPropertyName(), itinCardData.getStartDate(), url, isShared, travelerName);
 	}
 
 	public String getCarShareTextShort(ItinCardDataCar itinCardData) {
@@ -303,58 +314,27 @@ public class ShareUtils {
 		return mContext.getString(emailSubjectResId, destinationCity, dateRange);
 	}
 
-	public String getFlightShareTextShort(FlightLeg leg, String shareableDetailsURL) {
+	public String getFlightShareTextShort(FlightLeg leg, String shareableDetailsURL, boolean isShared, String travelerFirstName) {
 		if (leg == null || leg.getLastWaypoint() == null || leg.getLastWaypoint().getAirport() == null) {
 			return null;
 		}
 
-		String airlineAndFlightNumber = FormatUtils.formatFlightNumberShort(
-				leg.getSegment(leg.getSegmentCount() - 1), mContext);
 		String destinationCity = leg.getLastWaypoint().getAirport().mCity;
-		String destinationAirportCode = leg.getLastWaypoint().getAirport().mAirportCode;
-		String originAirportCode = leg.getFirstWaypoint().getAirport().mAirportCode;
-		String destinationGateTerminal = FlightUtils.getTerminalGateString(mContext, leg.getLastWaypoint());
-
 		Calendar departureCal = leg.getFirstWaypoint().getBestSearchDateTime();
-		Calendar arrivalCal = leg.getLastWaypoint().getBestSearchDateTime();
-
 		Date departureDate = DateTimeUtils.getTimeInLocalTimeZone(departureCal);
-		Date arrivalDate = DateTimeUtils.getTimeInLocalTimeZone(arrivalCal);
 
-		String departureTzString = FormatUtils.formatTimeZone(leg.getFirstWaypoint().getAirport(), departureDate,
-				MAX_TIMEZONE_LENGTH);
-		String arrivalTzString = FormatUtils.formatTimeZone(leg.getLastWaypoint().getAirport(), arrivalDate,
-				MAX_TIMEZONE_LENGTH);
-
-		//single day
-		if (leg.getDaySpan() == 0) {
-			String template = mContext.getString(R.string.share_template_short_flight_sameday);
-
+		if (!isShared) {
+			String template = mContext.getString(R.string.share_msg_template_short_flight);
 			String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getTime(),
 					DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
-			String departureTimeStr = DateUtils.formatDateTime(mContext, departureDate.getTime(),
-					DateUtils.FORMAT_SHOW_TIME) + " " + departureTzString;
-			String arrivalStr = DateUtils.formatDateTime(mContext, arrivalDate.getTime(), DateUtils.FORMAT_SHOW_TIME)
-					+ " " + arrivalTzString;
-
-			return String.format(template, airlineAndFlightNumber, destinationCity, departureDateStr,
-					originAirportCode, departureTimeStr, destinationAirportCode, arrivalStr, destinationGateTerminal,
-					shareableDetailsURL);
+			return String.format(template, destinationCity, departureDateStr, shareableDetailsURL);
 		}
-		//multi day
 		else {
-			String template = mContext.getString(R.string.share_template_short_flight_multiday);
-
-			int flags = DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR
-					| DateUtils.FORMAT_NUMERIC_DATE;
-			String departureDateTimeStr = DateUtils.formatDateTime(mContext, departureDate.getTime(), flags) + " "
-					+ departureTzString;
-			String arrivalDateTimeStr = DateUtils.formatDateTime(mContext, arrivalDate.getTime(), flags) + " "
-					+ arrivalTzString;
-
-			return String.format(template, airlineAndFlightNumber, destinationCity, originAirportCode,
-					departureDateTimeStr, destinationAirportCode, arrivalDateTimeStr, destinationGateTerminal,
-					shareableDetailsURL);
+			// This is a reshare, hence append the primaryTraveler's FirstName to the share message.
+			String template = mContext.getString(R.string.share_msg_template_short_flight_reshare);
+			String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getTime(),
+					DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
+			return String.format(template, travelerFirstName, destinationCity, departureDateStr, shareableDetailsURL);
 		}
 	}
 
@@ -451,13 +431,22 @@ public class ShareUtils {
 		return String.format(template, city, checkIn, checkOut);
 	}
 
-	public String getHotelShareTextShort(String hotelName, DateTime startDate, DateTime endDate,
-			String sharableDetailsURL) {
-		String template = mContext.getString(R.string.share_template_short_hotel);
-		String checkIn = JodaUtils.formatDateTime(mContext, startDate, SHARE_CHECK_IN_FLAGS);
-		String checkOut = JodaUtils.formatDateTime(mContext, endDate, SHARE_CHECK_OUT_FLAGS);
+	public String getHotelShareTextShort(String hotelName, DateTime startDate, String sharableDetailsURL,
+			boolean isShared, String travelerFirstName) {
 
-		return String.format(template, hotelName, checkIn, checkOut, sharableDetailsURL);
+		if (!isShared) {
+			String template = mContext.getString(R.string.share_msg_template_short_hotel);
+			String departureDateStr = DateUtils.formatDateTime(mContext, startDate.getMillis(),
+					DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
+			return String.format(template, hotelName, departureDateStr, sharableDetailsURL);
+		}
+		else {
+			// This is a reshare, hence append the primaryTraveler's FirstName to the share message.
+			String template = mContext.getString(R.string.share_msg_template_short_hotel_reshare);
+			String departureDateStr = DateUtils.formatDateTime(mContext, startDate.getMillis(),
+					DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
+			return String.format(template, travelerFirstName, hotelName, departureDateStr, sharableDetailsURL);
+		}
 	}
 
 	public String getHotelShareTextLong(String hotelName, String address, String phone, LocalDate startDate,

@@ -522,8 +522,10 @@
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
     <string name="share_template_subject_hotel">My hotel stay in %1$s (%2$s – %3$s)</string>
-    <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
-    <string name="share_template_short_hotel">I\&apos;m staying at the %1$s\n%2$s – %3$s\n\n%4$s</string>
+    <!-- 1: hotel name 2: date(mm/dd/yyyy) 3: SharableURL -->
+    <string name="share_msg_template_short_hotel">I\&apos;m staying at %1$s on %2$s!\n%3$s</string>
+    <!-- 1: traveler name 2: hotel name 3: date(mm/dd/yyyy) 4: SharableURL -->
+    <string name="share_msg_template_short_hotel_reshare">%1$s is staying at %2$s on %3$s!\n%4$s</string>
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Hi,\n\nI\&apos;m staying at the %1$s for %2$s.</string>
     <!-- 1: Check in date, 2: Check out date -->
@@ -540,10 +542,10 @@
     <string name="share_template_subject_flight">My flight to %1$s on %2$s</string>
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Our flight to %1$s on %2$s</string>
-    <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">I\&apos;m on flight %1$s to %2$s on %3$s.\nDeparts %4$s at %5$s\nArrives %6$s at %7$s, %8$s\n%9$s</string>
-    <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">I\&apos;m on flight %1$s to %2$s.\nDeparts %3$s at %4$s\nArrives %5$s at %6$s, %7$s\n%8$s</string>
+    <!-- 1: city name 2: date(mm/dd/yyyy) 3: SharableURL -->
+    <string name="share_msg_template_short_flight">I\&apos;m flying to %1$s on %2$s!\n%3$s</string>
+    <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
+    <string name="share_msg_template_short_flight_reshare">%1$s is flying to %2$s on %3$s!\n%4$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">My car rental (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
