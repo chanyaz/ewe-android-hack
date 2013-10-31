@@ -140,6 +140,8 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 					Rate rate = parseJsonHotelOffer(jsonRate, numberOfNights, checkInPolicy);
 					availResponse.addRate(rate);
 
+					property.setAvailable(true); // Once we have a rate, we're available!
+
 					// #1686: The supplier type is only set in these rates; parse here if we don't have one set already
 					if (TextUtils.isEmpty(property.getSupplierType())) {
 						property.setSupplierType(jsonRate.optString("supplierType", null));
