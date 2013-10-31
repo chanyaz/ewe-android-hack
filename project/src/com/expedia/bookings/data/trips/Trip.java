@@ -73,7 +73,6 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 
 	// To identify if it's a shared itin
 	private boolean mIsShared;
-	private String mShareableUrl;
 
 	public Trip() {
 		// Default constructor
@@ -206,12 +205,8 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 		this.mIsShared = isShared;
 	}
 
-	public void setShareableUrl(String shareableUrl) {
-		mShareableUrl = shareableUrl;
-	}
-
 	public String getShareableUrl() {
-		return mShareableUrl;
+		return getShareInfo().getSharableDetailsUrl();
 	}
 
 	/**
@@ -392,7 +387,6 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 			obj.putOpt("lastFullUpdate", mLastFullUpdate);
 
 			obj.putOpt("isShared", mIsShared);
-			obj.putOpt("shareableUrl", mShareableUrl);
 
 			return obj;
 		}
@@ -437,7 +431,6 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 		mLastFullUpdate = obj.optLong("lastFullUpdate");
 
 		mIsShared = obj.optBoolean("isShared");
-		mShareableUrl = obj.optString("shareableUrl", null);
 
 		return true;
 	}

@@ -1469,7 +1469,6 @@ public class ItineraryManager implements JSONable {
 			else {
 				Trip sharedTrip = response.getTrip();
 				sharedTrip.setIsShared(true);
-				sharedTrip.setShareableUrl(shareableUrl);
 
 				// Stuff the URL in the parent trip for later retrieval in case the sharee wants to become a sharer.
 				// This response does not contain any shareable url, so, we gotta save it for later on our own.
