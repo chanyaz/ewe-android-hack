@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,6 +23,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
+import com.mobiata.android.util.Ui;
 
 public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 
@@ -34,8 +36,10 @@ public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 	private Context mContext;
 
 	// Cached views.  These may or may not be present, based on the layout being used.
+	private ViewGroup mContainer;
 	private ViewGroup mHeaderViewGroup;
 	private ViewGroup mHeaderViewGroupTwoLine;
+	private ViewGroup mMinPriceContainer;
 	private TextView mFromTextView;
 	private TextView mBaseRateTextView;
 	private TextView mSaleRateTextView;
@@ -59,6 +63,7 @@ public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 	}
 
 	public void init(View rootView) {
+		mContainer = Ui.findView(rootView, R.id.availability_summary_container);
 		mHeaderViewGroup = (ViewGroup) rootView.findViewById(R.id.availability_header);
 		mFromTextView = (TextView) rootView.findViewById(R.id.from_text_view);
 		mBaseRateTextView = (TextView) rootView.findViewById(R.id.base_rate_text_view);
@@ -70,6 +75,8 @@ public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 		mBaseRateTextViewTwoLine = (TextView) rootView.findViewById(R.id.base_rate_text_view_two_line);
 		mSaleRateTextViewTwoLine = (TextView) rootView.findViewById(R.id.sale_rate_text_view_two_line);
 		mRateQualifierTextViewTwoLine = (TextView) rootView.findViewById(R.id.rate_qualifier_text_view_two_line);
+
+		mMinPriceContainer = Ui.findView(rootView, R.id.min_price_container);
 
 		mErrorTextView = (TextView) rootView.findViewById(R.id.error_text_view);
 
@@ -112,6 +119,8 @@ public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 		Rate lowestRate = property.getLowestRate();
 
 		if (lowestRate != null) {
+			setShowHeader(true);
+
 			if (mNeedsTwoLines && lowestRate.isOnSale()) {
 				configureTwoLine();
 			}
@@ -132,6 +141,8 @@ public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 			setRateQualifierTextView(lowestRate, mRateQualifierTextViewTwoLine);
 		}
 		else {
+			setShowHeader(false);
+
 			showError(mContext.getString(R.string.error_no_hotel_rooms_available));
 		}
 	}
@@ -347,7 +358,8 @@ public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 		int len = mHeaderViewGroup.getChildCount();
 		for (int a = 0; a < len; a++) {
 			TextView child = (TextView) mHeaderViewGroup.getChildAt(a);
-			if (child.getVisibility() != View.GONE && (child.getWidth() == 0 || child.getLineCount() > 1)) {
+			if (child.getVisibility() != View.GONE && (child.getWidth() == 0 || child.getLineCount() > 1)
+					&& !TextUtils.isEmpty(child.getText())) {
 				fits = false;
 				break;
 			}
@@ -371,6 +383,25 @@ public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 		if (mHeaderViewGroup != null && mHeaderViewGroupTwoLine != null) {
 			mHeaderViewGroup.setVisibility(View.GONE);
 			mHeaderViewGroupTwoLine.setVisibility(View.VISIBLE);
+		}
+	}
+
+	// This enables/disables all "header" like functionality (which may not look like a header in some configs)
+	private void setShowHeader(boolean showHeader) {
+		int visibility = showHeader ? View.VISIBLE : View.GONE;
+
+		if (mContainer != null) {
+			mContainer.setBackgroundResource(showHeader ? R.drawable.bg_summarized_room_rates
+					: R.drawable.bg_summarized_room_rates_no_header);
+		}
+
+		if (mMinPriceContainer != null) {
+			mMinPriceContainer.setVisibility(visibility);
+		}
+
+		if (mHeaderViewGroup != null && mHeaderViewGroupTwoLine != null) {
+			mHeaderViewGroup.setVisibility(visibility);
+			mHeaderViewGroupTwoLine.setVisibility(visibility);
 		}
 	}
 }
