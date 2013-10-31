@@ -379,11 +379,12 @@ public class HotelMapFragment extends SupportMapFragment {
 		marker.showInfoWindow();
 		CameraUpdate camUpdate;
 
-		LatLng position = offsetLatLng(marker.getPosition());
 		if (zoom != -1.0f) {
+			LatLng position = offsetLatLng(marker.getPosition(), getCenterOffsetX(), getCenterOffsety(), zoom);
 			camUpdate = CameraUpdateFactory.newLatLngZoom(position, zoom);
 		}
 		else {
+			LatLng position = offsetLatLng(marker.getPosition());
 			camUpdate = CameraUpdateFactory.newLatLng(position);
 		}
 
@@ -461,7 +462,7 @@ public class HotelMapFragment extends SupportMapFragment {
 
 	public void notifyPropertySelected() {
 		showBalloon(Db.getHotelSearch().getSelectedProperty());
-		focusProperty(Db.getHotelSearch().getSelectedProperty(), true);
+		focusProperty(Db.getHotelSearch().getSelectedProperty(), true, DEFAULT_ZOOM);
 	}
 
 	private void checkIfSearchIsCurrentLocation() {

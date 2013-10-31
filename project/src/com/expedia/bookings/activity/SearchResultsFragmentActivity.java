@@ -95,6 +95,7 @@ import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
@@ -590,6 +591,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	public static final int SOURCE_LIST = 1;
 	public static final int SOURCE_MAP = 2;
 	public static final int SOURCE_MINI_DETAILS = 3;
+	public static final int SOURCE_AUTO = 4; // When we automatically want to start with details 
 
 	public void propertySelected(Property property, int source) {
 		Log.v("propertySelected(): " + property.getName());
@@ -1041,6 +1043,8 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			HotelUtils.loadHotelOffersAsSearchResponse(offersResponse);
 
 			loadSearchResponse(Db.getHotelSearch().getSearchResponse(), true);
+
+			propertySelected(offersResponse.getProperty(), SOURCE_AUTO);
 		}
 		else {
 			Log.e("SearchResultsFragmentActivity: Problem downloading HotelOffersResponse");

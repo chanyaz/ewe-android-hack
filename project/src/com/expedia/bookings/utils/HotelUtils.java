@@ -64,7 +64,6 @@ public class HotelUtils {
 
 		Db.getHotelSearch().setSearchResponse(searchResponse);
 		Db.getHotelSearch().updateFrom(offersResponse);
-		Db.getHotelSearch().setSelectedProperty(property);
 	}
 
 	/**

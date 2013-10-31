@@ -366,25 +366,22 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 		else if (offersResponse.getProperty() != null) {
 			HotelUtils.loadHotelOffersAsSearchResponse(offersResponse);
+			Property property = offersResponse.getProperty();
+			Db.getHotelSearch().setSelectedProperty(property);
 
 			Intent intent = getIntent();
 
 			// Forward to the hotel detail screen if the user searched by hotel name and selected one.
 			if (intent.getBooleanExtra(Codes.FROM_DEEPLINK, false)) {
-				// But not if we're from a deeplink; then we want to stay
-				// here so user knows what search params were used.  Also, remove
-				// this so we do auto-launch next time.
 				intent.putExtra(Codes.FROM_DEEPLINK, false);
 
 				// We need to correct the hotel name in the search at this point, because we didn't have it
 				// before; now we can make things a bit prettier.
-				Property property = Db.getHotelSearch().getSelectedProperty();
 				Db.getHotelSearch().getSearchParams().setQuery(property.getName());
 				setSearchText(property.getName());
 			}
-			else if (Db.getHotelSearch().getSearchParams().getSearchType() == HotelSearchParams.SearchType.HOTEL) {
-				startActivity(HotelDetailsFragmentActivity.createIntent(PhoneSearchActivity.this));
-			}
+
+			startActivity(HotelDetailsFragmentActivity.createIntent(PhoneSearchActivity.this));
 
 			loadSearchResponse(Db.getHotelSearch().getSearchResponse());
 		}
