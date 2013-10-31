@@ -30,10 +30,10 @@
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
         android:padding="8dp"
-        android:text="@string/itin_card_details_details"
-        android:visibility="visible" />
+        android:text="@string/itin_card_details_details" />
 
     <View
+        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="8dp"
@@ -72,7 +72,7 @@
             android:id="@+id/reload_text_view"
             style="@style/TextView.Itin.SectionText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_toRightOf="@id/itin_details_reload_image_view"
             android:gravity="center_vertical"
             android:padding="8dp" />

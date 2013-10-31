@@ -1259,7 +1259,14 @@ public class ItineraryManager implements JSONable {
 					deepRefresh = false;
 				}
 
-				TripDetailsResponse response = mServices.getTripDetails(trip, !deepRefresh);
+				TripDetailsResponse response = null;
+				if (trip.isShared()) {
+					String shareableAPIUrl = trip.getShareInfo().getSharableDetailsUrl().replace("/m/", "/api/");
+					response = mServices.getSharedItin(shareableAPIUrl);
+				}
+				else {
+					response = mServices.getTripDetails(trip, !deepRefresh);
+				}
 
 				if (response == null || response.hasErrors()) {
 					if (response != null && response.hasErrors()) {

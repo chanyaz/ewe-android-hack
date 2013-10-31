@@ -499,25 +499,38 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	protected boolean addBookingInfo(ViewGroup container) {
 		Log.d("ITIN: addBookingInfo");
-		if (this.getItinCardData() != null && !TextUtils.isEmpty(this.getItinCardData().getDetailsUrl())) {
+		if (getItinCardData() != null
+				&& (!TextUtils.isEmpty(getItinCardData().getDetailsUrl()) || isSharedItin())) {
+
 			View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_booking_info, null);
+
 			TextView bookingInfoTv = Ui.findView(item, R.id.booking_info);
-			bookingInfoTv.setOnClickListener(new OnClickListener() {
 
-				@Override
-				public void onClick(View arg0) {
-					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
-					builder.setUrl(getItinCardData().getDetailsUrl());
-					builder.setTitle(R.string.itin_card_details_details);
-					builder.setTheme(R.style.ItineraryTheme);
-					builder.setInjectExpediaCookies(true);
-					builder.setAllowMobileRedirects(false);
-					getContext().startActivity(builder.getIntent());
+			if (isSharedItin()) {
+				//If shared we dont show the additional information button 
+				View divider = Ui.findView(item, R.id.divider);
+				divider.setVisibility(View.GONE);
+				bookingInfoTv.setVisibility(View.GONE);
+			}
+			else {
+				bookingInfoTv.setOnClickListener(new OnClickListener() {
 
-					OmnitureTracking.trackItinInfoClicked(getContext(), getItinCardData().getTripComponent().getType());
-				}
+					@Override
+					public void onClick(View arg0) {
+						WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
+						builder.setUrl(getItinCardData().getDetailsUrl());
+						builder.setTitle(R.string.itin_card_details_details);
+						builder.setTheme(R.style.ItineraryTheme);
+						builder.setInjectExpediaCookies(true);
+						builder.setAllowMobileRedirects(false);
+						getContext().startActivity(builder.getIntent());
 
-			});
+						OmnitureTracking.trackItinInfoClicked(getContext(), getItinCardData().getTripComponent()
+								.getType());
+					}
+
+				});
+			}
 
 			// Reload stuff
 			TextView reloadTextView = Ui.findView(item, R.id.reload_text_view);
