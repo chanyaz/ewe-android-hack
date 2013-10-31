@@ -109,26 +109,31 @@ public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 	// Data updates
 
 	public void updateProperty(Property property) {
-		if (mNeedsTwoLines && property.getLowestRate().isOnSale()) {
-			configureTwoLine();
-		}
-		else {
-			configureSingleLine();
-		}
-
 		Rate lowestRate = property.getLowestRate();
 
-		configureFromTextView(lowestRate, mFromTextView);
-		configureFromTextView(lowestRate, mFromTextViewTwoLine);
+		if (lowestRate != null) {
+			if (mNeedsTwoLines && lowestRate.isOnSale()) {
+				configureTwoLine();
+			}
+			else {
+				configureSingleLine();
+			}
 
-		configureBaseRateTextView(lowestRate, mBaseRateTextView);
-		configureBaseRateTextView(lowestRate, mBaseRateTextViewTwoLine);
+			configureFromTextView(lowestRate, mFromTextView);
+			configureFromTextView(lowestRate, mFromTextViewTwoLine);
 
-		configureSaleRateTextView(lowestRate, mSaleRateTextView);
-		configureSaleRateTextView(lowestRate, mSaleRateTextViewTwoLine);
+			configureBaseRateTextView(lowestRate, mBaseRateTextView);
+			configureBaseRateTextView(lowestRate, mBaseRateTextViewTwoLine);
 
-		setRateQualifierTextView(lowestRate, mRateQualifierTextView);
-		setRateQualifierTextView(lowestRate, mRateQualifierTextViewTwoLine);
+			configureSaleRateTextView(lowestRate, mSaleRateTextView);
+			configureSaleRateTextView(lowestRate, mSaleRateTextViewTwoLine);
+
+			setRateQualifierTextView(lowestRate, mRateQualifierTextView);
+			setRateQualifierTextView(lowestRate, mRateQualifierTextViewTwoLine);
+		}
+		else {
+			showError(mContext.getString(R.string.error_no_hotel_rooms_available));
+		}
 	}
 
 	private void configureFromTextView(Rate lowestRate, TextView fromTextView) {
@@ -170,6 +175,9 @@ public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 		}
 		else if (response.hasErrors()) {
 			showError(response.getErrors().get(0).getPresentableMessage(mContext));
+		}
+		else if (response.getRateCount() == 0) {
+			showError(mContext.getString(R.string.error_no_hotel_rooms_available));
 		}
 		else if (mRatesContainer != null) {
 			setSingleViewVisible(mRatesContainer, mProgressBar, mErrorTextView);

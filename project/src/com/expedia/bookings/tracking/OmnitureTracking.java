@@ -466,7 +466,10 @@ public class OmnitureTracking {
 
 		addHotelRating(s, property);
 
-		s.setEvar(9, property.getLowestRate().getPromoDescription());
+		Rate rate = property.getLowestRate();
+		if (rate != null) {
+			s.setEvar(9, property.getLowestRate().getPromoDescription());
+		}
 
 		s.track();
 	}
@@ -477,7 +480,10 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createSimpleEvent(context, "App.Hotels.Search.QuickView", null, referrer);
 
-		s.setEvar(9, property.getLowestRate().getPromoDescription());
+		Rate rate = property.getLowestRate();
+		if (rate != null) {
+			s.setEvar(9, rate.getPromoDescription());
+		}
 
 		s.track();
 	}
