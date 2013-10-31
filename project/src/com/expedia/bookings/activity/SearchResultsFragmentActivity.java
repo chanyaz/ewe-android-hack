@@ -119,6 +119,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 
 	private static final String KEY_SEARCH = "KEY_SEARCH";
 	private static final String KEY_HOTEL_SEARCH = "KEY_HOTEL_SEARCH";
+	public static final String KEY_HOTEL_INFO = "KEY_HOTEL_INFO";
 	private static final String KEY_AVAILABILITY_SEARCH = "KEY_AVAILABILITY_SEARCH";
 	private static final String KEY_GEOCODE = "KEY_GEOCODE";
 	private static final String KEY_REVIEWS = "KEY_REVIEWS";
@@ -355,6 +356,9 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		if (bd.isDownloading(KEY_HOTEL_SEARCH)) {
 			bd.registerDownloadCallback(KEY_HOTEL_SEARCH, mSearchHotelCallback);
 		}
+		else if (bd.isDownloading(KEY_HOTEL_INFO)) {
+			bd.registerDownloadCallback(KEY_HOTEL_INFO, mHotelInfoCallback);
+		}
 		else if (bd.isDownloading(KEY_GEOCODE)) {
 			bd.registerDownloadCallback(KEY_GEOCODE, mGeocodeCallback);
 		}
@@ -410,6 +414,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		bd.unregisterDownloadCallback(KEY_GEOCODE);
 		bd.unregisterDownloadCallback(KEY_SEARCH);
 		bd.unregisterDownloadCallback(KEY_HOTEL_SEARCH);
+		bd.unregisterDownloadCallback(KEY_HOTEL_INFO);
 		for (String key : mDownloadKeys) {
 			// unregister KEY_AVAILABILITY_SEARCH related downloads
 			bd.unregisterDownloadCallback(key);
@@ -996,10 +1001,34 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		}
 	};
 
+	private final Download<HotelOffersResponse> mHotelInfoDownload = new Download<HotelOffersResponse>() {
+		@Override
+		public HotelOffersResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(mContext);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_HOTEL_INFO, services);
+			Property selectedProperty = new Property();
+			selectedProperty.setPropertyId(Db.getHotelSearch().getSearchParams().getRegionId());
+			return services.hotelInformation(selectedProperty);
+		}
+	};
+
+	private final OnDownloadComplete<HotelOffersResponse> mHotelInfoCallback = new OnDownloadComplete<HotelOffersResponse>() {
+		@Override
+		public void onDownload(HotelOffersResponse results) {
+			loadHotelOffers(results);
+		}
+	};
+
 	private void loadHotelOffers(HotelOffersResponse offersResponse) {
 		if (offersResponse == null) {
 			Log.e("SearchResultsFragmentActivity: Problem downloading HotelOffersResponse");
 			simulateSearchErrorResponse(R.string.error_server);
+		}
+		else if (offersResponse.isHotelUnavailable()) {
+			// Start an info call, so we can show an unavailable hotel
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			bd.cancelDownload(KEY_HOTEL_INFO);
+			bd.startDownload(KEY_HOTEL_INFO, mHotelInfoDownload, mHotelInfoCallback);
 		}
 		else if (offersResponse.hasErrors()) {
 			String message = getString(R.string.error_server);
@@ -1077,6 +1106,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		bd.cancelDownload(KEY_GEOCODE);
 		bd.cancelDownload(KEY_SEARCH);
 		bd.cancelDownload(KEY_HOTEL_SEARCH);
+		bd.cancelDownload(KEY_HOTEL_INFO);
 		for (String key : mDownloadKeys) {
 			// Cancel KEY_AVAILABILITY_SEARCH related downloads
 			bd.cancelDownload(key);
