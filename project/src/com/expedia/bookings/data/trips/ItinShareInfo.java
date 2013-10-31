@@ -43,6 +43,16 @@ public class ItinShareInfo implements JSONable {
 		return mSharableDetailsUrl;
 	}
 
+	/**
+	 * Returns the long form sharable details url in the form suitable for fetching
+	 * json data. E.g. /m/ is replaces with /api/ via the static convertSharableUrlToApiUrl method.
+	 * 
+	 * @return share url suitable for fetching api data.
+	 */
+	public String getSharableDetailsApiUrl() {
+		return convertSharableUrlToApiUrl(getSharableDetailsUrl());
+	}
+
 	public void setSharableDetailsUrl(String sharableDetailsUrl) {
 		mSharableDetailsUrl = sharableDetailsUrl;
 	}
@@ -88,5 +98,23 @@ public class ItinShareInfo implements JSONable {
 		mSharableDetailsUrl = obj.optString("sharableDetailsURL");
 		mShortSharableDetailsUrl = obj.optString("shortSharableDetailsURL");
 		return true;
+	}
+
+	//////////////////////////////////////////////////////////////
+	// Static
+
+	/**
+	 * Typically our sharable itin urls come in the mobile form (/m/),
+	 * however, we often want the api version of the url (/api/).
+	 * This method does the conversion.
+	 * 
+	 * @param url - mobile version of the sharable itin url
+	 * @return - api version of the url argument
+	 */
+	public static String convertSharableUrlToApiUrl(String url) {
+		if (url == null) {
+			return "";
+		}
+		return url.replace("/m/", "/api/");
 	}
 }
