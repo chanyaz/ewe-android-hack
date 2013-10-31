@@ -906,6 +906,7 @@ public class ItineraryManager implements JSONable {
 	public boolean fetchSharedItin(String shareableUrl) {
 		Log.i(LOGGING_TAG, "Fetching SharedItin " + shareableUrl);
 		mSyncOpQueue.add(new Task(Operation.FETCH_SHARED_ITIN, shareableUrl));
+		mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
 		mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
