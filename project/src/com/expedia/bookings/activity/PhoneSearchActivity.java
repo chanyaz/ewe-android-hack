@@ -84,9 +84,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.FusedLocationProviderFragment;
@@ -103,6 +101,7 @@ import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.GuestsPickerUtils;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -366,25 +365,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			simulateErrorResponse(message);
 		}
 		else if (offersResponse.getProperty() != null) {
-			Property property = offersResponse.getProperty();
-			HotelSearchResponse searchResponse = new HotelSearchResponse();
-
-			List<Rate> rates = offersResponse.getRates();
-			if (rates != null) {
-				Rate lowestRate = null;
-				for (Rate rate : rates) {
-					Money temp = rate.getDisplayPrice();
-					if (lowestRate == null) {
-						lowestRate = rate;
-					}
-					if (lowestRate.getDisplayPrice().getAmount().compareTo(temp.getAmount()) > 0) {
-						lowestRate = rate;
-					}
-				}
-				property.setLowestRate(lowestRate);
-			}
-
-			searchResponse.addProperty(property);
+			HotelUtils.loadHotelOffersAsSearchResponse(offersResponse);
 
 			Intent intent = getIntent();
 
@@ -397,6 +378,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 				// We need to correct the hotel name in the search at this point, because we didn't have it
 				// before; now we can make things a bit prettier.
+				Property property = Db.getHotelSearch().getSelectedProperty();
 				Db.getHotelSearch().getSearchParams().setQuery(property.getName());
 				setSearchText(property.getName());
 			}
@@ -404,11 +386,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				startActivity(HotelDetailsFragmentActivity.createIntent(PhoneSearchActivity.this));
 			}
 
-			Db.getHotelSearch().setSearchResponse(searchResponse);
-			Db.getHotelSearch().updateFrom(offersResponse);
-			Db.getHotelSearch().setSelectedProperty(property);
-
-			loadSearchResponse(searchResponse);
+			loadSearchResponse(Db.getHotelSearch().getSearchResponse());
 		}
 		else {
 			Log.e("PhoneSearchActivity mSearchHotelCallback: Problem downloading HotelOffersResponse");

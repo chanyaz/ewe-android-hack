@@ -53,7 +53,6 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Media;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ReviewSort;
@@ -85,6 +84,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.GuestsPickerUtils;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.SearchUtils;
@@ -992,35 +992,32 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	private final OnDownloadComplete<HotelOffersResponse> mSearchHotelCallback = new OnDownloadComplete<HotelOffersResponse>() {
 		@Override
 		public void onDownload(HotelOffersResponse results) {
-			Property property = results.getProperty();
-			HotelSearchResponse searchResponse = new HotelSearchResponse();
-			List<Rate> rates = results.getRates();
-			Rate lowestRate = null;
-
-			if (property != null && rates != null) {
-				for (Rate rate : rates) {
-					Money temp = rate.getDisplayPrice();
-					if (lowestRate == null) {
-						lowestRate = rate;
-					}
-					if (lowestRate.getDisplayPrice().getAmount().compareTo(temp.getAmount()) > 0) {
-						lowestRate = rate;
-					}
-				}
-			}
-
-			if (lowestRate != null) {
-				property.setLowestRate(lowestRate);
-				searchResponse.addProperty(property);
-			}
-			Db.getHotelSearch().setSearchResponse(searchResponse);
-			if (lowestRate != null) {
-				Db.getHotelSearch().updateFrom(results);
-				Db.getHotelSearch().setSelectedProperty(property);
-			}
-			loadSearchResponse(searchResponse, true);
+			loadHotelOffers(results);
 		}
 	};
+
+	private void loadHotelOffers(HotelOffersResponse offersResponse) {
+		if (offersResponse == null) {
+			Log.e("SearchResultsFragmentActivity: Problem downloading HotelOffersResponse");
+			simulateSearchErrorResponse(R.string.error_server);
+		}
+		else if (offersResponse.hasErrors()) {
+			String message = getString(R.string.error_server);
+			for (ServerError error : offersResponse.getErrors()) {
+				message = error.getPresentableMessage(this);
+			}
+			simulateSearchErrorResponse(message);
+		}
+		else if (offersResponse.getProperty() != null) {
+			HotelUtils.loadHotelOffersAsSearchResponse(offersResponse);
+
+			loadSearchResponse(Db.getHotelSearch().getSearchResponse(), true);
+		}
+		else {
+			Log.e("SearchResultsFragmentActivity: Problem downloading HotelOffersResponse");
+			simulateSearchErrorResponse(R.string.error_server);
+		}
+	}
 
 	private void loadSearchResponse(HotelSearchResponse response, boolean initialLoad) {
 		if (response == null) {
@@ -1060,9 +1057,13 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	}
 
 	private void simulateSearchErrorResponse(int errorMessageResId) {
+		simulateSearchErrorResponse(getString(errorMessageResId));
+	}
+
+	private void simulateSearchErrorResponse(String errorMessage) {
 		HotelSearchResponse response = new HotelSearchResponse();
 		ServerError error = new ServerError();
-		error.setPresentationMessage(getString(errorMessageResId));
+		error.setPresentationMessage(errorMessage);
 		error.setCode("SIMULATED");
 		response.addError(error);
 		mSearchCallback.onDownload(response);
