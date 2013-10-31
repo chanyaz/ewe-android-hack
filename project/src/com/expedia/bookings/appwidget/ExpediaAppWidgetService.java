@@ -252,7 +252,12 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 
 		// Setup time tick receiver if high power, otherwise disable
 		if (useLowPower) {
-			unregisterReceiver(mTimeTickReceiver);
+			try {
+				unregisterReceiver(mTimeTickReceiver);
+			}
+			catch (IllegalArgumentException e) {
+				// Ignore; we don't care if we were already unregistered
+			}
 		}
 		else {
 			registerReceiver(mTimeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
