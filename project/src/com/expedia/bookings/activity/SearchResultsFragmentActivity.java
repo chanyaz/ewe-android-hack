@@ -858,7 +858,10 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		case FREEFORM:
 		case HOTEL:
 			if (params.hasEnoughToSearch()) {
-				Search.add(this, params);
+				if (!getIntent().getBooleanExtra(Codes.FROM_DEEPLINK, false)) {
+					Search.add(this, params);
+				}
+
 				setShowDistances(params.hasSearchLatLon());
 				startSearchDownloader();
 			}
@@ -1041,10 +1044,21 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		}
 		else if (offersResponse.getProperty() != null) {
 			HotelUtils.loadHotelOffersAsSearchResponse(offersResponse);
+			Property property = offersResponse.getProperty();
+
+			// We need to correct the hotel name in the search at this point, because we didn't have it
+			// before; now we can make things a bit prettier.
+			Intent intent = getIntent();
+			if (intent.getBooleanExtra(Codes.FROM_DEEPLINK, false)) {
+				intent.putExtra(Codes.FROM_DEEPLINK, false);
+
+				Db.getHotelSearch().getSearchParams().setQuery(property.getName());
+				supportInvalidateOptionsMenu();
+			}
 
 			loadSearchResponse(Db.getHotelSearch().getSearchResponse(), true);
 
-			propertySelected(offersResponse.getProperty(), SOURCE_AUTO);
+			propertySelected(property, SOURCE_AUTO);
 		}
 		else {
 			Log.e("SearchResultsFragmentActivity: Problem downloading HotelOffersResponse");
@@ -1367,7 +1381,9 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		}
 
 		// TODO: Update autocomplete cursor
-		Search.add(this, Db.getHotelSearch().getSearchParams());
+		if (!getIntent().getBooleanExtra(Codes.FROM_DEEPLINK, false)) {
+			Search.add(this, Db.getHotelSearch().getSearchParams());
+		}
 	}
 
 	private void notifySearchComplete() {

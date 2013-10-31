@@ -369,18 +369,17 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			Property property = offersResponse.getProperty();
 			Db.getHotelSearch().setSelectedProperty(property);
 
+			// We need to correct the hotel name in the search at this point, because we didn't have it
+			// before; now we can make things a bit prettier.
 			Intent intent = getIntent();
-
-			// Forward to the hotel detail screen if the user searched by hotel name and selected one.
 			if (intent.getBooleanExtra(Codes.FROM_DEEPLINK, false)) {
 				intent.putExtra(Codes.FROM_DEEPLINK, false);
 
-				// We need to correct the hotel name in the search at this point, because we didn't have it
-				// before; now we can make things a bit prettier.
 				Db.getHotelSearch().getSearchParams().setQuery(property.getName());
 				setSearchText(property.getName());
 			}
 
+			// Forward to the hotel detail screen if the user searched by hotel name and selected one.
 			startActivity(HotelDetailsFragmentActivity.createIntent(PhoneSearchActivity.this));
 
 			loadSearchResponse(Db.getHotelSearch().getSearchResponse());
