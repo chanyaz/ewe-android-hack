@@ -469,6 +469,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				continue;
 			}
 
+			// Ignore shared itins
+			if (data.getTripComponent().getParentTrip().isShared()) {
+				continue;
+			}
+
 			// Ignore last leg flights
 			TripFlight tripFlight = (TripFlight) data.getTripComponent();
 			final int legCount = tripFlight.getFlightTrip().getLegCount();
