@@ -1306,8 +1306,8 @@ public class OmnitureTracking {
 		}
 	};
 
-	private static String mDeepLinkKey;
-	private static String mDeepLinkValue;
+	private static String sDeepLinkKey;
+	private static String sDeepLinkValue;
 
 	public static void parseAndTrackDeepLink(Uri data, Set<String> queryData) {
 		for (String key : KNOWN_DEEP_LINK_ARGS) {
@@ -1319,8 +1319,8 @@ public class OmnitureTracking {
 	}
 
 	public static void setDeepLinkTrackingParams(String key, String value) {
-		mDeepLinkKey = key;
-		mDeepLinkValue = value;
+		sDeepLinkKey = key;
+		sDeepLinkValue = value;
 	}
 
 	/**
@@ -2015,42 +2015,42 @@ public class OmnitureTracking {
 	}
 
 	private static void addDeepLinkData(ADMS_Measurement s) {
-		if (mDeepLinkKey != null && mDeepLinkValue != null) {
+		if (sDeepLinkKey != null && sDeepLinkValue != null) {
 			String var;
 			boolean useEvar22 = true;
 
-			if (mDeepLinkKey.equals("emlcid")) {
+			if (sDeepLinkKey.equals("emlcid")) {
 				var = "EML.";
 			}
-			else if (mDeepLinkKey.equals("semcid")) {
+			else if (sDeepLinkKey.equals("semcid")) {
 				var = "SEM.";
 			}
-			else if (mDeepLinkKey.equals("olacid")) {
+			else if (sDeepLinkKey.equals("olacid")) {
 				var = "OLA.";
 			}
-			else if (mDeepLinkKey.equals("affcid")) {
+			else if (sDeepLinkKey.equals("affcid")) {
 				var = "AFF.";
 			}
-			else if (mDeepLinkKey.equals("brandcid")) {
+			else if (sDeepLinkKey.equals("brandcid")) {
 				var = "Brand.";
 			}
-			else if (mDeepLinkKey.equals("seocid")) {
+			else if (sDeepLinkKey.equals("seocid")) {
 				useEvar22 = false;
 				var = "SEO.";
 			}
 			else {
 				Log.w(TAG, "Received Deep Link tracking parameters we don't know how to handle. Ignoring");
-				mDeepLinkKey = null;
-				mDeepLinkValue = null;
+				sDeepLinkKey = null;
+				sDeepLinkValue = null;
 				return;
 			}
 
 			int evar = useEvar22 ? 22 : 27;
-			var += mDeepLinkValue;
+			var += sDeepLinkValue;
 			s.setEvar(evar, var);
 
-			mDeepLinkKey = null;
-			mDeepLinkValue = null;
+			sDeepLinkKey = null;
+			sDeepLinkValue = null;
 		}
 	}
 
