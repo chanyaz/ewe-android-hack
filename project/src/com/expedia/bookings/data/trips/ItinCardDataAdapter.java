@@ -553,6 +553,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				continue;
 			}
 
+			// Ignore shared itins
+			if (data.isSharedItin()) {
+				continue;
+			}
+
 			// Add LE button
 			itinCardDatas.add(i + 1, new ItinCardDataLocalExpert((TripHotel) data.getTripComponent()));
 
