@@ -100,6 +100,10 @@
     <string name="expedia_itinerary">Expedia 行程编号</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus 客户支持</string>
+    <!-- Elite plus (Silver) customer support -->
+    <string name="elite_plus_customer_support_silver">优先客服</string>
+    <!-- Elite plus (Gold) customer support -->
+    <string name="elite_plus_customer_support_gold">+ 金牌客服专线</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">近期无旅行计划。</string>
     <!-- Enter itinerary number -->
@@ -143,8 +147,6 @@
         <item quantity="many">%s 天</item>
         <item quantity="other">%s 天</item>
     </plurals>
-    <!-- Template for card header text (will be filled in with "Title - Date") -->
-    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">航班</string>
     <!-- Default (fallback) itin card title for HOTEL -->

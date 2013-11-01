@@ -100,6 +100,10 @@
     <string name="expedia_itinerary">No. Rencana Perjalanan Expedia</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Layanan Pelanggan Elite Plus</string>
+    <!-- Elite plus (Silver) customer support -->
+    <string name="elite_plus_customer_support_silver">Layanan Pelanggan Prioritas</string>
+    <!-- Elite plus (Gold) customer support -->
+    <string name="elite_plus_customer_support_gold">Layanan Khusus +gold</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Tidak ada perjalanan akan datang.</string>
     <!-- Enter itinerary number -->
@@ -143,8 +147,6 @@
         <item quantity="many">%s hari</item>
         <item quantity="other">%s hari</item>
     </plurals>
-    <!-- Template for card header text (will be filled in with "Title - Date") -->
-    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">Penerbangan</string>
     <!-- Default (fallback) itin card title for HOTEL -->
@@ -1516,7 +1518,7 @@
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Di hotel VIP Access, anggota Expedia Elite Plus dapat menerima upgrade kamar gratis dan tambahan lainnya tergantung ketersediaan pada saat check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Hanya hotel VIP Access</string>
+    <string name="filter_vip_access">Hanya Hotel VIP Access</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>

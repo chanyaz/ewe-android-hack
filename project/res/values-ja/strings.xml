@@ -100,6 +100,10 @@
     <string name="expedia_itinerary">エクスペディアの旅程番号</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus カスタマーサポート</string>
+    <!-- Elite plus (Silver) customer support -->
+    <string name="elite_plus_customer_support_silver">優先カスタマー ケア</string>
+    <!-- Elite plus (Gold) customer support -->
+    <string name="elite_plus_customer_support_gold">+gold 専用サポート</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">予約された旅行はありません。</string>
     <!-- Enter itinerary number -->
@@ -143,8 +147,6 @@
         <item quantity="many">%s 日</item>
         <item quantity="other">%s 日</item>
     </plurals>
-    <!-- Template for card header text (will be filled in with "Title - Date") -->
-    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">フライト</string>
     <!-- Default (fallback) itin card title for HOTEL -->
@@ -414,9 +416,9 @@
     <string name="car_category_oversize">オーバーサイズカー</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア自動車</string>
-    <string name="car_type_three_door">3 ドア自動車</string>
-    <string name="car_type_four_door">4 ドア自動車</string>
+    <string name="car_type_two_door">2 ドア 自動車</string>
+    <string name="car_type_three_door">3 ドア 自動車</string>
+    <string name="car_type_four_door">4 ドア 自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -1498,7 +1500,7 @@
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
-    <string name="book_now">今すぐ予約</string>
+    <string name="book_now">部屋タイプを選択</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">電話で予約</string>
 
@@ -1794,7 +1796,7 @@
     <!-- Friendly message at the top of the receipt -->
     <string name="Enjoy_your_stay">素敵なご滞在を。</string>
     <!-- Format for a first/last name -->
-    <string name="name_template">%1$s %2$s</string>
+    <string name="name_template">%2$s%1$s</string>
     <!-- Reservation summary label -->
     <string name="reservation_summary">予約の概要</string>
     <!-- Confirmation number label -->
@@ -2114,7 +2116,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">現在地から %1$s%2$s</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">%2$s%1$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->

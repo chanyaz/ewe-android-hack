@@ -100,6 +100,10 @@
     <string name="expedia_itinerary">No. Jadual Perjlnan Expedia</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Sokongan Pelanggan Elite Plus</string>
+    <!-- Elite plus (Silver) customer support -->
+    <string name="elite_plus_customer_support_silver">Perkhidmatan Pelanggan Keutamaan</string>
+    <!-- Elite plus (Gold) customer support -->
+    <string name="elite_plus_customer_support_gold">Sokongan Berdedikasi +gold</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Tiada perjalanan akan datang.</string>
     <!-- Enter itinerary number -->
@@ -143,8 +147,6 @@
         <item quantity="many">%s hari</item>
         <item quantity="other">%s hari</item>
     </plurals>
-    <!-- Template for card header text (will be filled in with "Title - Date") -->
-    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">Penerbangan</string>
     <!-- Default (fallback) itin card title for HOTEL -->

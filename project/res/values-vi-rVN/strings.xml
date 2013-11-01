@@ -100,6 +100,10 @@
     <string name="expedia_itinerary">Số lịch trình Expedia</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Hỗ trợ khách hàng Elite Plus</string>
+    <!-- Elite plus (Silver) customer support -->
+    <string name="elite_plus_customer_support_silver">Chăm sóc Khách hàng Đặc biệt</string>
+    <!-- Elite plus (Gold) customer support -->
+    <string name="elite_plus_customer_support_gold">Hỗ trợ Chuyên biệt +gold</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Không có chuyến đi nào sắp đến.</string>
     <!-- Enter itinerary number -->
@@ -143,8 +147,6 @@
         <item quantity="many">%s ngày</item>
         <item quantity="other">%s ngày</item>
     </plurals>
-    <!-- Template for card header text (will be filled in with "Title - Date") -->
-    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">Chuyến bay</string>
     <!-- Default (fallback) itin card title for HOTEL -->
@@ -1516,7 +1518,7 @@
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Tại các khách sạn VIP Access, thành viên Expedia Elite Plus sẽ được miễn phí nâng hạng phòng và nhận nhiều ưu đãi khác tùy theo khả năng đáp ứng thực tế của khách sạn vào thời điểm nhận phòng.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Chỉ các khách sạn VIP Access</string>
+    <string name="filter_vip_access">Chỉ các khách sạn VIP access</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>

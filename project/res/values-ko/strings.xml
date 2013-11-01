@@ -100,6 +100,10 @@
     <string name="expedia_itinerary">Expedia 일정 번호</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus 고객 지원</string>
+    <!-- Elite plus (Silver) customer support -->
+    <string name="elite_plus_customer_support_silver">우대 고객 지원</string>
+    <!-- Elite plus (Gold) customer support -->
+    <string name="elite_plus_customer_support_gold">+gold 전담 지원</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">예정된 여행이 없습니다.</string>
     <!-- Enter itinerary number -->
@@ -143,8 +147,6 @@
         <item quantity="many">%s일</item>
         <item quantity="other">%s일</item>
     </plurals>
-    <!-- Template for card header text (will be filled in with "Title - Date") -->
-    <string name="Title_Date_TEMPLATE">%1$s - %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">항공편</string>
     <!-- Default (fallback) itin card title for HOTEL -->

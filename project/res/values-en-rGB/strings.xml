@@ -100,6 +100,10 @@
     <string name="expedia_itinerary">Expedia Itinerary #</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus Customer Support</string>
+    <!-- Elite plus (Silver) customer support -->
+    <string name="elite_plus_customer_support_silver">Priority Customer Care</string>
+    <!-- Elite plus (Gold) customer support -->
+    <string name="elite_plus_customer_support_gold">+gold Dedicated Support</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">No upcoming trips.</string>
     <!-- Enter itinerary number -->
@@ -143,8 +147,6 @@
         <item quantity="many">%s days</item>
         <item quantity="other">%s days</item>
     </plurals>
-    <!-- Template for card header text (will be filled in with "Title - Date") -->
-    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">Flight</string>
     <!-- Default (fallback) itin card title for HOTEL -->

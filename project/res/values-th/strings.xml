@@ -100,6 +100,10 @@
     <string name="expedia_itinerary">หมายเลขแผนการเดินทางเอ็กซ์พีเดีย</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">ฝ่ายบริการลูกค้า Elite Plus</string>
+    <!-- Elite plus (Silver) customer support -->
+    <string name="elite_plus_customer_support_silver">ฝ่ายบริการลูกค้าคนสำคัญ</string>
+    <!-- Elite plus (Gold) customer support -->
+    <string name="elite_plus_customer_support_gold">ฝ่ายบริการลูกค้า +gold</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">ไม่มีการเดินทางเร็วๆ นี้</string>
     <!-- Enter itinerary number -->
@@ -143,8 +147,6 @@
         <item quantity="many">%s วัน</item>
         <item quantity="other">%s วัน</item>
     </plurals>
-    <!-- Template for card header text (will be filled in with "Title - Date") -->
-    <string name="Title_Date_TEMPLATE">%1$s — %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">เที่ยวบิน</string>
     <!-- Default (fallback) itin card title for HOTEL -->
