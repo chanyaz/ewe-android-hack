@@ -1723,7 +1723,7 @@ public class ItineraryManager implements JSONable {
 		mTrips = new HashMap<String, Trip>();
 		List<Trip> trips = JSONUtils.getJSONableList(obj, "trips", Trip.class);
 		for (Trip trip : trips) {
-			mTrips.put(trip.getTripNumber(), trip);
+			mTrips.put(trip.getItineraryKey(), trip);
 		}
 
 		return true;

@@ -205,8 +205,13 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 		this.mIsShared = isShared;
 	}
 
-	public String getShareableUrl() {
-		return getShareInfo().getSharableDetailsUrl();
+	public String getItineraryKey() {
+		if (isShared()) {
+			return getShareInfo().getSharableDetailsUrl();
+		}
+		else {
+			return mTripNumber;
+		}
 	}
 
 	/**
@@ -269,7 +274,11 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 			//The sharable details url has changed, so our shortened sharable details url is no longer valid.
 			mShareInfo.setShortSharableDetailsUrl(null);
 		}
-		mShareInfo.setSharableDetailsUrl(other.getShareInfo().getSharableDetailsUrl());
+
+		if (!TextUtils.isEmpty(other.getShareInfo().getSharableDetailsUrl())) {
+			mShareInfo.setSharableDetailsUrl(other.getShareInfo().getSharableDetailsUrl());
+		}
+
 		//We dont squash the shortened url, if we dont have a new value for it
 		mShareInfo.setShortSharableDetailsUrl(other.getShareInfo().hasShortSharableDetailsUrl() ? other.getShareInfo()
 				.getShortSharableDetailsUrl() : getShareInfo().getShortSharableDetailsUrl());

@@ -456,7 +456,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		final FragmentActivity activity = (FragmentActivity) getContext();
 		FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		Trip parentTrip = getItinCardData().getTripComponent().getParentTrip();
-		String itinKey = parentTrip.isShared() ? parentTrip.getShareableUrl() : parentTrip.getTripNumber();
+		String itinKey = parentTrip.getItineraryKey();
 		ConfirmItinRemoveDialogFragment df = ConfirmItinRemoveDialogFragment.getInstance(itinKey);
 		df.show(fragmentManager, ConfirmItinRemoveDialogFragment.TAG);
 	}
