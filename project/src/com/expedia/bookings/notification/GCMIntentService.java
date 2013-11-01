@@ -163,7 +163,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 							}
 						});
 
-						ItineraryManager.getInstance().deepRefreshTrip(notificationTrip.getTripNumber(), true);
+						ItineraryManager.getInstance().deepRefreshTrip(notificationTrip.getItineraryKey(), true);
 						Log.d("GCM: Started deep refresh, waiting for sync completion...");
 					}
 				});
