@@ -474,6 +474,22 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	private CharSequence generateRelativeTimeSpanString(Context context, DateTime time, DateTime now) {
+		// Explicitly adding a minute in milliseconds to avoid showing '0 minutes' strings. Defect #758, #2157
+		// This effectively rounds the duration UP, such that
+		// A time difference of:    Results in a display of:
+		// 1s                       1 minute
+		// 59s                      1 minute
+		// 1m                       1 minute
+		// 1m1s                     2 minutes
+		// 59m                      59 minutes
+		// 59m1s                    1 hour
+		// 1h1s                     1 hour and 1 minute
+		// 1h1m1s                   1 hour and 2 minutes
+		// 1h59m1s                  2 hours
+		// 2h                       2 hours
+		// 2h1s                     1 hours and 1 minute
+		time = time.plusMinutes(1).minusMillis(1);
+
 		int hours = Hours.hoursBetween(time, now).getHours();
 		int absHours = Math.abs(hours);
 		//If the time is between 1 and 24 hours we want to show both Hours and Minutes, which isn't supported by getRelativeTimeSpanString()
@@ -488,12 +504,9 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			return res.getString(templateResId, hourStr, minStr);
 		}
 		else {
-			// Explicitly adding a minute in milliseconds to avoid showing '0 minutes' strings. Defect #758, #2157
-			//
 			// 1871: Due to the screwed up way DateUtils.getNumberOfDaysPassed() works, this ends up such that
 			// the millis must be in the system locale (and hopefully the user has not changed their locale recently)
-			return JodaUtils.getRelativeTimeSpanString(context, time.plusMinutes(1).minusMillis(1), now,
-					DateUtils.MINUTE_IN_MILLIS, 0);
+			return JodaUtils.getRelativeTimeSpanString(context, time, now, DateUtils.MINUTE_IN_MILLIS, 0);
 		}
 	}
 
