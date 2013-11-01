@@ -1642,6 +1642,11 @@ public class ItineraryManager implements JSONable {
 	private void scheduleLocalNotifications() {
 		synchronized (mItinCardDatas) {
 			for (ItinCardData data : mItinCardDatas) {
+				// #2224 disable local notifications for shared itineraries.
+				if (data.isSharedItin()) {
+					continue;
+				}
+
 				ItinContentGenerator<?> generator = ItinContentGenerator.createGenerator(mContext, data);
 
 				List<Notification> notifications = generator.generateNotifications();
