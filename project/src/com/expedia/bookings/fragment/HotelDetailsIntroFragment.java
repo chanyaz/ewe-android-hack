@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,10 +19,16 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.UserReviewsListActivity;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
+import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
@@ -69,6 +76,32 @@ public class HotelDetailsIntroFragment extends Fragment {
 		reviewsLayout.setVisibility(View.VISIBLE);
 		bannerTextView.setVisibility(View.VISIBLE);
 		verticalSep.setVisibility(View.VISIBLE);
+
+		// Search params (if it's a specific hotel search)
+		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
+		if (searchParams.getSearchType() == SearchType.HOTEL) {
+			View searchLayout = Ui.findView(view, R.id.search_params_layout);
+			searchLayout.setVisibility(View.VISIBLE);
+
+			TextView calendarTextView = Ui.findView(view, R.id.calendar_text_view);
+			calendarTextView.setText(Integer.toString(searchParams.getCheckInDate().getDayOfMonth()));
+
+			TextView searchDatesTextView = Ui.findView(view, R.id.search_dates_text_view);
+			searchDatesTextView.setText(JodaUtils.formatDateRange(getActivity(), searchParams.getCheckInDate(),
+					searchParams.getCheckOutDate(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL));
+
+			TextView searchGuestsTextView = Ui.findView(view, R.id.search_guests_text_view);
+			searchGuestsTextView.setText(StrUtils.formatGuests(getActivity(), searchParams));
+
+			TextView changeSearchTextView = Ui.findView(view, R.id.change_search_text_view);
+			ViewUtils.setAllCaps(changeSearchTextView);
+			changeSearchTextView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					NavUtils.goToHotels(getActivity(), (Bundle) null);
+				}
+			});
+		}
 
 		// Reviews
 		int numReviews = property.getTotalReviews();

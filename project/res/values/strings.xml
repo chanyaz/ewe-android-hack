@@ -2493,6 +2493,8 @@
     <string name="sold_out_tonight">Sold out tonight</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Sold out Nov. 3-4" -->
     <string name="sold_out_TEMPLATE">Sold out %s</string>
+    <!-- Shown if the user might want to change the search -->
+    <string name="change_search">Change Search</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
