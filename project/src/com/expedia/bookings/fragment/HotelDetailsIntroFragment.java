@@ -98,7 +98,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 			changeSearchTextView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					NavUtils.goToHotels(getActivity(), (Bundle) null);
+					NavUtils.goToHotels(getActivity(), null, null, NavUtils.FLAG_OPEN_SEARCH);
 				}
 			});
 		}

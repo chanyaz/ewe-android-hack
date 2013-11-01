@@ -39,6 +39,7 @@ import com.mobiata.android.Log;
 public class NavUtils {
 
 	public static final int FLAG_DEEPLINK = 1;
+	public static final int FLAG_OPEN_SEARCH = 2;
 
 	public static boolean canHandleIntent(Context context, Intent intent) {
 		return intent.resolveActivity(context.getPackageManager()) != null;
@@ -119,6 +120,10 @@ public class NavUtils {
 
 		if ((flags & FLAG_DEEPLINK) != 0) {
 			intent.putExtra(Codes.FROM_DEEPLINK, true);
+		}
+
+		if ((flags & FLAG_OPEN_SEARCH) != 0) {
+			intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
 		}
 
 		// 13820: Check if a booking is in process at this moment (in case BookingInfoActivity died)

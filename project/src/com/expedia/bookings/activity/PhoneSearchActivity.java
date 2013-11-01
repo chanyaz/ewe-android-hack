@@ -637,6 +637,11 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				LineOfBusiness.HOTELS);
 
 		// setDisplayType here because it could possibly add a TextWatcher before the view has restored causing the listener to fire
+		if (getIntent().hasExtra(Codes.EXTRA_OPEN_SEARCH)) {
+			getIntent().removeExtra(Codes.EXTRA_OPEN_SEARCH);
+			mDisplayType = DisplayType.CALENDAR;
+		}
+
 		setDisplayType(mDisplayType, false);
 
 		setSearchEditViews();

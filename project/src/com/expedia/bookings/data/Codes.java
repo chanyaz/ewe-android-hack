@@ -29,6 +29,9 @@ public class Codes {
 	// Indicates that we came from a deeplink, which might entail different behavior
 	public static final String FROM_DEEPLINK = "TAG_FROM_DEEPLINK";
 
+	// Indicates we should open search automatically when launching a screen
+	public static final String EXTRA_OPEN_SEARCH = "EXTRA_OPEN_SEARCH";
+
 	// For EF
 	public final static String TRAVELER_INDEX = "TRAVELER_INDEX";
 }
