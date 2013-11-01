@@ -491,10 +491,12 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		time = time.plusMinutes(1).minusMillis(1);
 
 		int hours = Hours.hoursBetween(time, now).getHours();
+		int minutes = Math.abs(Minutes.minutesBetween(time.plusHours(hours), now).getMinutes());
 		int absHours = Math.abs(hours);
-		//If the time is between 1 and 24 hours we want to show both Hours and Minutes, which isn't supported by getRelativeTimeSpanString()
-		if (absHours < 24 && absHours >= 1) {
-			int minutes = Math.abs(Minutes.minutesBetween(time.plusHours(hours), now).getMinutes());
+
+		// If the time is between 1 and 24 hours (and minutes != 0)
+		// we want to show both Hours and Minutes, which isn't supported by getRelativeTimeSpanString()
+		if (absHours < 24 && absHours >= 1 && minutes != 0) {
 			boolean timeBefore = time.isBefore(now);
 			int templateResId = timeBefore ? R.string.hours_minutes_past_TEMPLATE
 					: R.string.hours_minutes_future_TEMPLATE;
