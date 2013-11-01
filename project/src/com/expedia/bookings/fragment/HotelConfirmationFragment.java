@@ -301,8 +301,9 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		String address = StrUtils.formatAddress(property.getLocation());
 		String phone = Db.getBookingResponse().getPhoneNumber();
 
-		String subject = socialUtils.getHotelShareSubject(property.getLocation().getCity(), checkIn, checkOut);
-		String body = socialUtils.getHotelShareTextLong(property.getName(), address, phone, checkIn, checkOut, null);
+		//In this screen isShared & travelerName would not be relevant. So just set to false and null and pass it on to ShareUtils.
+		String subject = socialUtils.getHotelShareSubject(property.getLocation().getCity(), checkIn, checkOut, false, null);
+		String body = socialUtils.getHotelShareTextLong(property.getName(), address, phone, checkIn, checkOut, null, false, null);
 
 		SocialUtils.email(context, subject, body);
 

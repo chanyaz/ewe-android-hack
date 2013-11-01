@@ -146,20 +146,26 @@ public class ShareUtils {
 		if (tripFlight != null && tripFlight.getTravelers() != null) {
 			travelerCount = tripFlight.getTravelers().size();
 		}
-		return getFlightShareSubject(itinCardData.getFlightLeg(), travelerCount);
+		String travelerName = tripFlight.getTravelers().get(0).getFirstName();
+		boolean isShared = itinCardData.isSharedItin();
+		return getFlightShareSubject(itinCardData.getFlightLeg(), travelerCount, isShared, travelerName);
 	}
 
 	public String getFlightShareSubject(FlightTrip trip, int travelerCount) {
-		return getFlightShareSubject(trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1), travelerCount);
+		//This method is called only for sharing in flight confirmation screen. So the isShared & travelerName would not be relevant.
+		return getFlightShareSubject(trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1), travelerCount, false, null);
 	}
 
-	public String getFlightShareSubject(FlightLeg leg, int travelerCount) {
-		return getFlightShareSubject(leg, leg, travelerCount);
+	public String getFlightShareSubject(FlightLeg leg, int travelerCount, boolean isShared, String travelerName) {
+		return getFlightShareSubject(leg, leg, travelerCount, isShared, travelerName);
 	}
 
 	public String getHotelShareSubject(ItinCardDataHotel itinCardData) {
+		boolean isShared = itinCardData.isSharedItin();
+		TripHotel hotel = (TripHotel) itinCardData.getTripComponent();
+		String travelerName = hotel.getPrimaryTraveler().getFirstName();
 		return getHotelShareSubject(itinCardData.getPropertyCity(), itinCardData.getStartDate().toLocalDate(),
-				itinCardData.getEndDate().toLocalDate());
+				itinCardData.getEndDate().toLocalDate(), isShared, travelerName);
 	}
 
 	public String getCarShareSubject(ItinCardDataCar itinCardData) {
@@ -236,21 +242,26 @@ public class ShareUtils {
 		String urlFromParentTrip = tripFlight.getParentTrip().getShareInfo().getSharableUrl();
 		String urlFromComponent = itinCardData.getSharableDetailsUrl();
 		String url = TextUtils.isEmpty(urlFromComponent) ? urlFromParentTrip : urlFromComponent;
+		TripFlight flight = (TripFlight) itinCardData.getTripComponent();
+		List<Traveler> travelers = flight.getTravelers();
+		String travelerName = travelers.get(0).getFirstName();
+		boolean isShared = itinCardData.isSharedItin();
 
-		return getFlightShareEmail(itinCardData.getFlightLeg(), tripFlight.getTravelers(), url);
+		return getFlightShareEmail(itinCardData.getFlightLeg(), tripFlight.getTravelers(), url, isShared, travelerName);
 	}
 
 	public String getFlightShareEmail(FlightTrip trip, List<Traveler> travelers) {
-		return getFlightShareEmail(trip, trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1), travelers, null);
+		//This method is called only for sharing in flight confirmation screen. So the isShared & travelerName would not be relevant.
+		return getFlightShareEmail(trip, trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1), travelers, null, false, null);
 	}
 
 	public String getFlightShareEmail(FlightTrip trip, List<Traveler> travelers, String sharableDetailsURL) {
 		return getFlightShareEmail(trip, trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1), travelers,
-				sharableDetailsURL);
+				sharableDetailsURL, false, null);
 	}
 
-	public String getFlightShareEmail(FlightLeg leg, List<Traveler> travelers, String sharableDetailsURL) {
-		return getFlightShareEmail(null, leg, leg, travelers, sharableDetailsURL);
+	public String getFlightShareEmail(FlightLeg leg, List<Traveler> travelers, String sharableDetailsURL, boolean isShared, String travelerFirstName) {
+		return getFlightShareEmail(null, leg, leg, travelers, sharableDetailsURL, isShared, travelerFirstName);
 	}
 
 	public String getHotelShareTextLong(ItinCardDataHotel itinCardData) {
@@ -260,9 +271,12 @@ public class ShareUtils {
 		DateTime startDate = itinCardData.getStartDate();
 		DateTime endDate = itinCardData.getEndDate();
 		String sharableDetailsUrl = itinCardData.getSharableDetailsUrl();
+		boolean isShared = itinCardData.isSharedItin();
+		TripHotel hotel = (TripHotel) itinCardData.getTripComponent();
+		String travelerName = hotel.getPrimaryTraveler().getFirstName();
 
 		return getHotelShareTextLong(hotelName, address, phone, startDate.toLocalDate(), endDate.toLocalDate(),
-				sharableDetailsUrl);
+				sharableDetailsUrl, isShared, travelerName);
 	}
 
 	public String getCarShareTextLong(ItinCardDataCar itinCardData) {
@@ -296,7 +310,7 @@ public class ShareUtils {
 
 	// Flights
 
-	public String getFlightShareSubject(FlightLeg firstLeg, FlightLeg lastLeg, int travelerCount) {
+	public String getFlightShareSubject(FlightLeg firstLeg, FlightLeg lastLeg, int travelerCount, boolean isShared, String travelerName) {
 		String destinationCity = StrUtils.getWaypointCityOrCode(firstLeg.getLastWaypoint());
 
 		long start = DateTimeUtils.getTimeInLocalTimeZone(firstLeg.getFirstWaypoint().getMostRelevantDateTime())
@@ -306,12 +320,19 @@ public class ShareUtils {
 		String dateRange = DateUtils.formatDateRange(mContext, start, end, DateUtils.FORMAT_NUMERIC_DATE
 				| DateUtils.FORMAT_SHOW_DATE);
 
-		int emailSubjectResId = R.string.share_template_subject_flight;
+		int emailSubjectResId = isShared ? R.string.share_template_subject_flight_reshare
+				: R.string.share_template_subject_flight;
 		if (travelerCount > 1) {
-			emailSubjectResId = R.string.share_template_subject_flight_multiple_travelers;
+			emailSubjectResId = isShared ? R.string.share_template_subject_flight_reshare
+					: R.string.share_template_subject_flight_multiple_travelers;
 		}
 
-		return mContext.getString(emailSubjectResId, destinationCity, dateRange);
+		if (isShared) {
+			return mContext.getString(emailSubjectResId, travelerName, destinationCity, dateRange);
+		}
+		else {
+			return mContext.getString(emailSubjectResId, destinationCity, dateRange);
+		}
 	}
 
 	public String getFlightShareTextShort(FlightLeg leg, String shareableDetailsURL, boolean isShared, String travelerFirstName) {
@@ -339,7 +360,7 @@ public class ShareUtils {
 	}
 
 	public String getFlightShareEmail(FlightTrip trip, FlightLeg firstLeg, FlightLeg lastLeg, List<Traveler> travelers,
-			String sharableDetailsURL) {
+			String sharableDetailsURL, boolean isShared, String travelerFirstName) {
 		int numTravelers = travelers.size();
 		boolean moreThanOneLeg = firstLeg != lastLeg;
 
@@ -355,23 +376,31 @@ public class ShareUtils {
 		int shareTemplateResId;
 		if (!moreThanOneLeg) {
 			if (numTravelers > 1) {
-				shareTemplateResId = R.string.share_flight_one_way_multiple_travelers_TEMPLATE;
+				shareTemplateResId = isShared ? R.string.share_flight_one_way_multiple_travelers_TEMPLATE_reshare
+						: R.string.share_flight_one_way_multiple_travelers_TEMPLATE;
 			}
 			else {
-				shareTemplateResId = R.string.share_flight_one_way_TEMPLATE;
+				shareTemplateResId = isShared ? R.string.share_flight_one_way_TEMPLATE_reshare
+						: R.string.share_flight_one_way_TEMPLATE;
 			}
 		}
 		else {
 			// Assume round trip for now
 			if (numTravelers > 1) {
-				shareTemplateResId = R.string.share_flight_round_trip_multiple_travelers_TEMPLATE;
+				shareTemplateResId = isShared ? R.string.share_flight_round_trip_multiple_travelers_TEMPLATE_reshare
+						: R.string.share_flight_round_trip_multiple_travelers_TEMPLATE;
 			}
 			else {
-				shareTemplateResId = R.string.share_flight_round_trip_TEMPLATE;
+				shareTemplateResId = isShared ? R.string.share_flight_round_trip_TEMPLATE_reshare
+						: R.string.share_flight_round_trip_TEMPLATE;
 			}
 		}
-		body.append(mContext.getString(shareTemplateResId, originCity, destinationCity));
-
+		if (isShared) {
+			body.append(mContext.getString(shareTemplateResId, travelerFirstName, originCity, destinationCity));
+		}
+		else {
+			body.append(mContext.getString(shareTemplateResId, originCity, destinationCity));
+		}
 		body.append("\n\n");
 
 		if (trip != null && !TextUtils.isEmpty(trip.getItineraryNumber())) {
@@ -423,12 +452,18 @@ public class ShareUtils {
 
 	// Hotels
 
-	public String getHotelShareSubject(String city, LocalDate startDate, LocalDate endDate) {
-		String template = mContext.getString(R.string.share_template_subject_hotel);
+	public String getHotelShareSubject(String city, LocalDate startDate, LocalDate endDate, boolean isShared,
+			String travelerName) {
 		String checkIn = JodaUtils.formatLocalDate(mContext, startDate, SHARE_CHECK_IN_FLAGS);
 		String checkOut = JodaUtils.formatLocalDate(mContext, endDate, SHARE_CHECK_OUT_FLAGS);
 
-		return String.format(template, city, checkIn, checkOut);
+		if (isShared) {
+			return String.format(mContext.getString(R.string.share_template_subject_hotel_reshare), travelerName, city,
+					checkIn, checkOut);
+		}
+		else {
+			return String.format(mContext.getString(R.string.share_template_subject_hotel), city, checkIn, checkOut);
+		}
 	}
 
 	public String getHotelShareTextShort(String hotelName, DateTime startDate, String sharableDetailsURL,
@@ -450,7 +485,7 @@ public class ShareUtils {
 	}
 
 	public String getHotelShareTextLong(String hotelName, String address, String phone, LocalDate startDate,
-			LocalDate endDate, String sharableDetailsUrl) {
+			LocalDate endDate, String sharableDetailsUrl, boolean isShared, String travelerName) {
 
 		String checkIn = JodaUtils.formatLocalDate(mContext, startDate, LONG_SHARE_DATE_FLAGS);
 		String checkOut = JodaUtils.formatLocalDate(mContext, endDate, LONG_SHARE_DATE_FLAGS);

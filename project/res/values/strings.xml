@@ -521,7 +521,9 @@
 
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
-    <string name="share_template_subject_hotel">My hotel stay in %1$s (%2$s – %3$s)</string>
+    <string name="share_template_subject_hotel">I\&apos;m staying in %1$s (%2$s – %3$s)</string>
+    <!-- 1: travelerName 2: hotel name 3: check in date 4: check out date -->
+    <string name="share_template_subject_hotel_reshare">%1$s is staying in %2$s (%3$s – %4$s)</string>
     <!-- 1: hotel name 2: date(mm/dd/yyyy) 3: SharableURL -->
     <string name="share_msg_template_short_hotel">I\&apos;m staying at %1$s on %2$s!\n%3$s</string>
     <!-- 1: traveler name 2: hotel name 3: date(mm/dd/yyyy) 4: SharableURL -->
@@ -539,9 +541,11 @@
     <!-- App download link -->
     <string name="share_template_long_ad">Book hotels, flights and view &amp; share your itineraries. Download the free Expedia mobile app today.\n%s</string>
     <!-- 1: city 2: date string -->
-    <string name="share_template_subject_flight">My flight to %1$s on %2$s</string>
+    <string name="share_template_subject_flight">I\&apos;m flying to %1$s on %2$s</string>
+    <!-- 1: travelerName 2: city 3: date string -->
+    <string name="share_template_subject_flight_reshare">%1$s is flying to %2$s on %3$s</string>
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
-    <string name="share_template_subject_flight_multiple_travelers">Our flight to %1$s on %2$s</string>
+    <string name="share_template_subject_flight_multiple_travelers">We are flying to %1$s on %2$s</string>
     <!-- 1: city name 2: date(mm/dd/yyyy) 3: SharableURL -->
     <string name="share_msg_template_short_flight">I\&apos;m flying to %1$s on %2$s!\n%3$s</string>
     <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
@@ -569,7 +573,7 @@
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Drop Off Location:</string>
     <!-- Section header for the Itin sharable link -->
-    <string name="share_link_section">Link to the shared Itinerary:\n%s</string>
+    <string name="share_link_section">Track this trip live:\n%s</string>
     <!-- Shared options label -->
     <string name="shared_options">Shared Options</string>
 
@@ -1249,13 +1253,21 @@
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Hi,</string>
     <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">Here are the details of my flight(s) from %1$s to %2$s.</string>
+    <string name="share_flight_one_way_TEMPLATE">I\&apos;m flying from %1$s to %2$s.</string>
+    <!-- One-way flight summary of locations for single traveler when reshared. %1$s is travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_one_way_TEMPLATE_reshare">%1$s is flying from %2$s to %3$s.</string>
     <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">Here are the details of my round-trip flight from %1$s to %2$s.</string>
+    <string name="share_flight_round_trip_TEMPLATE">I\&apos;m flying from %1$s to %2$s.</string>
+    <!-- Round trip flight summary of locations for single traveler when reshared.  %1$s is travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_round_trip_TEMPLATE_reshare">%1$s is flying from %2$s to %3$s.</string>
     <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">Here are the details of our flight(s) from %1$s to %2$s.</string>
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">We are flying from %1$s to %2$s.</string>
+    <!-- One-way flight summary of locations for multiple travelers when reshared.  %1$s is the travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE_reshare">%1$s is flying from %2$s to %3$s.</string>
     <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">Here are the details of our round-trip flight from %1$s to %2$s.</string>
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">We are flying from %1$s to %2$s.</string>
+    <!-- Round trip flight summary of locations for multiple travelers when reshared.  %1$s is the travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE_reshare">%1$s is flying from %2$s to %3$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Itinerary #: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
