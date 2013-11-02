@@ -199,9 +199,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			return BitmapFactory.decodeResource(getResources(),fallBackIcon);
 		}
 		else {
-			byte[] shareIconBytes = fetchIconBitmapBytes(name);
-			Bitmap shareIcon = BitmapFactory.decodeByteArray(shareIconBytes, 0, shareIconBytes.length);
-			return shareIcon;
+			return fetchIconBitmapBytes(name);
 		}
 	}
 
@@ -228,14 +226,14 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		return getResources().getString(R.string.sharedItin_card_fallback_name);
 	}
 
-	private byte[] fetchIconBitmapBytes(String displayName) {
+	private Bitmap fetchIconBitmapBytes(String displayName) {
 
 		String name = getInitialsFromDisplayName(displayName);
 
 		float density = mContext.getResources().getDisplayMetrics().density;
 		int size = (int) (48 * density);
-		Bitmap bmp = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-		Canvas canvas = new Canvas(bmp);
+		Bitmap iconBmp = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(iconBmp);
 
 		Paint iconBgPaint = new Paint();
 		iconBgPaint.setStyle(Paint.Style.FILL);
@@ -262,11 +260,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		canvas.drawCircle(size / 2, size / 2, size / 2, bgPaintWhite);
 		canvas.drawCircle(size / 2, size / 2, size / 2 - 4, iconBgPaint);
 		canvas.drawText(name, size / 2, (size / 2) + (textOffset), txtPaint);
-
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		bmp.compress(Bitmap.CompressFormat.PNG, 100, baos);
-		bmp.recycle();
-		return baos.toByteArray();
+		return iconBmp;
 	}
 
 	private String getInitialsFromDisplayName(String displayName) {
