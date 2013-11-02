@@ -189,7 +189,7 @@ public class HotelMapActivity extends SherlockFragmentActivity implements HotelM
 
 	@Override
 	public void onPropertyClicked(Property property) {
-		//ignore
+		mHotelMapFragment.showBalloon(property);
 	}
 
 	@Override
