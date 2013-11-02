@@ -297,6 +297,10 @@
     <string name="hours_minutes_future_TEMPLATE">in %1$s and %2$s</string>
     <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_past_TEMPLATE">%1$s and %2$s ago</string>
+    <!-- Message to show when the user tried to ingest a cancelled itin -->
+    <string name="viewing_cancelled_itineraries_not_yet_supported">Viewing cancelled itineraries is not yet supported.</string>
+    <!-- Message to show when the user tried to ingest an itin that is already completed and in the past -->
+    <string name="viewing_completed_itineraries_not_yet_supported">Viewing completed itineraries is not yet supported.</string>
 
     <!-- Itin Buttons -->
     <!-- Dialog title for removing shared itin -->
