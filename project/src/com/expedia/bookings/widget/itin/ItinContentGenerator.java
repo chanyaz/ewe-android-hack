@@ -265,23 +265,14 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	private String getInitialsFromDisplayName(String displayName) {
 		String[] nameParts = displayName.split(" ");
-		if (nameParts.length == 1 && startsWithASCIIAlphabet(nameParts[0])) {
+		if (nameParts.length == 1) {
 			return nameParts[0].substring(0, 1).toUpperCase(Locale.getDefault());
 		}
-		else if (nameParts.length > 1 && startsWithASCIIAlphabet(nameParts[0]) && startsWithASCIIAlphabet(nameParts[1])) {
+		else if (nameParts.length > 1) {
 			return (nameParts[0].substring(0, 1) + nameParts[1].substring(0, 1)).toUpperCase(Locale.getDefault());
 		}
 
 		return null;
-	}
-
-	private boolean startsWithASCIIAlphabet(String s) {
-		if (s == null || s.length() < 1) {
-			return false;
-		}
-
-		char c = s.charAt(0);
-		return ('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z');
 	}
 
 	//////////////////////////////////////////////////////////////////////////
