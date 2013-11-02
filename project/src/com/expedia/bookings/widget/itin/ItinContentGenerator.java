@@ -183,9 +183,26 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * @return Bitmap which can be used as the itinCardIcon.
 	 */
 	public Bitmap getSharedItinCardIcon() {
-		byte[] shareIconBytes = fetchIconBitmapBytes(getSharedItinName());
-		Bitmap shareIcon = BitmapFactory.decodeByteArray(shareIconBytes, 0, shareIconBytes.length);
-		return shareIcon;
+		String name = getSharedItinName();
+		// This is NOT supposed to ever happen, but in case it does let's show a default icon based on LOB
+		if (TextUtils.isEmpty(name)) {
+			int fallBackIcon;
+			if (this instanceof FlightItinContentGenerator) {
+				fallBackIcon = R.drawable.ic_itin_shared_placeholder_flights;
+			}
+			else if (this instanceof HotelItinContentGenerator) {
+				fallBackIcon = R.drawable.ic_itin_shared_placeholder_hotel;
+			}
+			else {
+				fallBackIcon = R.drawable.ic_itin_shared_placeholder_generic;
+			}
+			return BitmapFactory.decodeResource(getResources(),fallBackIcon);
+		}
+		else {
+			byte[] shareIconBytes = fetchIconBitmapBytes(name);
+			Bitmap shareIcon = BitmapFactory.decodeByteArray(shareIconBytes, 0, shareIconBytes.length);
+			return shareIcon;
+		}
 	}
 
 	/**
@@ -208,7 +225,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * @return The full name of the shared user
 	 */
 	public String getSharedItinName() {
-		return "Shared User";
+		return getResources().getString(R.string.sharedItin_card_fallback_name);
 	}
 
 	private byte[] fetchIconBitmapBytes(String displayName) {

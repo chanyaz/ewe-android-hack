@@ -148,7 +148,11 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			ItinCardDataFlight itinCardData = getItinCardData();
 			TripFlight flight = (TripFlight) itinCardData.getTripComponent();
 			List<Traveler> travelers = flight.getTravelers();
-			return getContext().getString(R.string.SharedItin_Title_Flight_TEMPLATE, travelers.get(0).getFirstName(),
+			String name = travelers.get(0).getFirstName();
+			if (TextUtils.isEmpty(name)) {
+				name = getResources().getString(R.string.sharedItin_card_fallback_name_flight);
+			}
+			return getContext().getString(R.string.SharedItin_Title_Flight_TEMPLATE, name,
 					itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity);
 		}
 		else {
