@@ -502,8 +502,8 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 
 	@Override
 	public void onSyncFinished(Collection<Trip> trips) {
-		setIsLoading(false);
 		mItinListView.syncWithManager();
+		setIsLoading(false);
 		if (mCurrentSyncHasErrors && (trips == null || trips.size() == 0)) {
 			setErrorMessage(R.string.itinerary_fetch_error, true);
 		}
