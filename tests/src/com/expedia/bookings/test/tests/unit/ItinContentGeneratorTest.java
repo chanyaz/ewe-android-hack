@@ -39,8 +39,7 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 		mItinGen = (HotelItinContentGenerator) getUpdatedItinGenerator(mCheckInDate,
 				mCheckOutDate, mTripHotel);
 		String headerText = mItinGen.getHeaderTextDate();
-		String yesterday = getContext().getString(R.string.Title_Date_TEMPLATE, "",
-				getContext().getString(R.string.yesterday));
+		String yesterday = getContext().getString(R.string.yesterday);
 		assertEquals(yesterday, headerText);
 	}
 
@@ -50,9 +49,8 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 		mItinGen = (HotelItinContentGenerator) getUpdatedItinGenerator(mCheckInDate,
 				mCheckOutDate, mTripHotel);
 		String headerText = mItinGen.getHeaderTextDate();
-		String text_today = getContext().getString(R.string.Title_Date_TEMPLATE, "",
-				getContext().getString(R.string.Today));
-		assertEquals(text_today, headerText);
+		String today = getContext().getString(R.string.Today);
+		assertEquals(today, headerText);
 	}
 
 	public void testHotelHeaderTextTomorrow() {
@@ -60,8 +58,7 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 		mCheckOutDate = mNow.plusDays(5);
 		mItinGen = (HotelItinContentGenerator) getUpdatedItinGenerator(mCheckInDate, mCheckOutDate, mTripHotel);
 		String headerText = mItinGen.getHeaderTextDate();
-		String tomorrow = getContext().getString(R.string.Title_Date_TEMPLATE, "",
-				getContext().getString(R.string.tomorrow));
+		String tomorrow = getContext().getString(R.string.tomorrow);
 		assertEquals(tomorrow, headerText);
 	}
 
@@ -70,8 +67,7 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 		mItinGen = (HotelItinContentGenerator) getUpdatedItinGenerator(mCheckInDate, mCheckOutDate, mTripHotel);
 		String headerText = mItinGen.getHeaderTextDate();
 		String daysInFuture = getContext().getResources().getQuantityString(R.plurals.days_from_now, 2, 2);
-		String formattedDaysInFuture = getContext().getString(R.string.Title_Date_TEMPLATE, "", daysInFuture);
-		assertEquals(formattedDaysInFuture, headerText);
+		assertEquals(daysInFuture, headerText);
 	}
 
 	public void testHotelHeaderTextDate() {
@@ -80,8 +76,7 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 		String headerText = mItinGen.getHeaderTextDate();
 		String dateString = JodaUtils.formatDateTime(getContext(), mCheckInDate, DateUtils.FORMAT_SHOW_DATE
 				| DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH);
-		String formattedDateString = getContext().getString(R.string.Title_Date_TEMPLATE, "", dateString);
-		assertEquals(formattedDateString, headerText);
+		assertEquals(dateString, headerText);
 	}
 
 	private static final int MILLIS_IN_HOUR = 3600000;
@@ -92,8 +87,7 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 		mCheckInDate = mNow.withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59);
 		mItinGen = (HotelItinContentGenerator) getUpdatedItinGenerator(mCheckInDate, mCheckOutDate, mTripHotel);
 		String headerText = mItinGen.getHeaderTextDate();
-		String dateString = getContext().getString(R.string.Title_Date_TEMPLATE, "",
-				getContext().getString(R.string.Today));
+		String dateString = getContext().getString(R.string.Today);
 		assertEquals(dateString, headerText);
 
 		// Make a DateTimeZone that is +1 closer to UTC than default (local)
@@ -105,8 +99,7 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 				mTripHotel);
 
 		headerText = mItinGen.getHeaderTextDate();
-		dateString = getContext().getString(R.string.Title_Date_TEMPLATE, "",
-				getContext().getString(R.string.tomorrow));
+		dateString = getContext().getString(R.string.tomorrow);
 		assertEquals(dateString, headerText);
 	}
 
@@ -115,8 +108,7 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 		mCheckInDate = mNow.withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(1);
 		mItinGen = (HotelItinContentGenerator) getUpdatedItinGenerator(mCheckInDate, mCheckOutDate, mTripHotel);
 		String headerText = mItinGen.getHeaderTextDate();
-		String dateString = getContext().getString(R.string.Title_Date_TEMPLATE, "",
-				getContext().getString(R.string.Today));
+		String dateString = getContext().getString(R.string.Today);
 		assertEquals(dateString, headerText);
 
 		// Make a DateTimeZone that is 1 hour farther from UTC than default (local)
@@ -128,8 +120,7 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 				mTripHotel);
 
 		headerText = mItinGen.getHeaderTextDate();
-		dateString = getContext().getString(R.string.Title_Date_TEMPLATE, "",
-				getContext().getString(R.string.yesterday));
+		dateString = getContext().getString(R.string.yesterday);
 		assertEquals(dateString, headerText);
 	}
 }
