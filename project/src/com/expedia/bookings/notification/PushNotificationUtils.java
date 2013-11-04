@@ -216,16 +216,32 @@ public class PushNotificationUtils {
 	 * @return loc argument index of destination string, or negative if no destination argument
 	 */
 	private static int getDestinationArgNum(String locKey) {
-		if (locKey.equals("S_Push_baggage_BAGGAGE")) {
-			//No destination in args for this message
-			return -1;
-		}
-		else if (locKey.equals("S_Push_flight_from_CITY_to_CITY_cancelled")) {
+		if (locKey.equals("S_Push_flight_from_CITY_to_CITY_cancelled")) {
 			//This one is like Fright from <arg1> to <arg2> is cancelled, we want destination so we go index 1
 			return 1;
 		}
 		else {
-			return 0;
+			//At this point we analyze the push key to determine the index of the destination argument.
+			//THIS IS NOT GREAT. FT does a network lookup based on the fhid that comes with the push message,
+			//but because ALL BUT ONE of our push messages contain the destination as an argument it seems
+			//better to just find the destination (in a shady manner) than to do an extra network call.
+			int retVal = -1;
+			String str = locKey.replaceFirst("S_Push", ""); //Remove S_PUSH
+			String[] splits = str.split("_");
+			int argNum = 0;
+			for (String split : splits) {
+				//The argument portions are always A-Z all caps
+				if (split.matches("[A-Z]+")) {
+					//"A" denotes destination (arrival) for FT strings, and "CITY" does so for the EB strings
+					if (split.equals("A") || split.equals("CITY")) {
+						retVal = argNum;
+						break;
+					}
+					argNum++;
+				}
+			}
+
+			return retVal;
 		}
 	}
 
