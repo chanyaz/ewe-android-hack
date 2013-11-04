@@ -540,6 +540,8 @@
     <string name="share_msg_template_short_hotel_reshare">%1$s is staying at %2$s on %3$s!\n%4$s</string>
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Hi,\n\nI\&apos;m staying at the %1$s for %2$s.</string>
+    <!-- 1: Traveler name 2: Hotel name, 3: Formatted length of stay -->
+    <string name="share_template_long_hotel_1_greeting_reshare">Hi,\n\n%1$s is staying at the %2$s for %3$s.</string>
     <!-- 1: Check in date, 2: Check out date -->
     <string name="share_template_long_hotel_2_checkin_checkout">Check In %1$s\nCheck Out %2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->

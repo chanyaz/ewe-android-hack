@@ -495,7 +495,13 @@ public class ShareUtils {
 		String lengthOfStay = mContext.getResources().getQuantityString(R.plurals.length_of_stay, nights, nights);
 
 		StringBuilder builder = new StringBuilder();
-		builder.append(mContext.getString(R.string.share_template_long_hotel_1_greeting, hotelName, lengthOfStay));
+		if (isShared) {
+			builder.append(mContext.getString(R.string.share_template_long_hotel_1_greeting_reshare, travelerName,
+					hotelName, lengthOfStay));
+		}
+		else {
+			builder.append(mContext.getString(R.string.share_template_long_hotel_1_greeting, hotelName, lengthOfStay));
+		}
 		builder.append("\n\n");
 
 		if (checkIn != null || checkOut != null) {
