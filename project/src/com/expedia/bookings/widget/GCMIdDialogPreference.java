@@ -11,7 +11,6 @@ import android.util.AttributeSet;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.utils.ClipboardUtils;
 
@@ -50,8 +49,8 @@ public class GCMIdDialogPreference extends DialogPreference {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle("GCM Info");
 
-		if (TextUtils.isEmpty(gcmId) || !User.isLoggedIn(context)) {
-			builder.setMessage("GCM ID NOT CURRENTLY AVAILABLE! Make sure you are logged in, and wait a little a while (and ensure this isn't a VSC build).");
+		if (TextUtils.isEmpty(gcmId)) {
+			builder.setMessage("GCM ID NOT CURRENTLY AVAILABLE! Please wait a little a while (and ensure this isn't a VSC build).");
 
 		}
 		else {
