@@ -200,7 +200,9 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		if (view == null) {
 			view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_title_generic, container, false);
 		}
-		view.setText(getHeaderText());
+		ItinCardDataFlight itinCardData = getItinCardData();
+		String headerText = itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity;
+		view.setText(headerText);
 		return view;
 	}
 

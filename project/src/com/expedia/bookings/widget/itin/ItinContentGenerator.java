@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget.itin;
 
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Locale;
 
@@ -320,7 +319,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	public boolean getHideDetailsTypeIcon() {
 		if (isSharedItin()) {
-			return true;
+			return false;
 		}
 		else {
 			return mDetialsSummaryHideTypeIcon;
@@ -332,7 +331,12 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	}
 
 	public boolean getHideDetailsTitle() {
-		return mDetailsSummaryHideTitle;
+		if (isSharedItin()) {
+			return false;
+		}
+		else {
+			return mDetailsSummaryHideTitle;
+		}
 	}
 
 	public void setHideDetailsTitle(boolean hide) {

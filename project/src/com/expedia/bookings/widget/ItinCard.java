@@ -485,12 +485,15 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			mScrollView.scrollTo(0, 0);
 		}
 
-		// Past overlay
-		if (animate) {
-			animators.add(ObjectAnimator.ofFloat(mHeaderOverlayImageView, "alpha", 1).setDuration(400));
-		}
-		else {
-			ViewHelper.setAlpha(mHeaderOverlayImageView, 1f);
+		// Since we are adding the dropshadow to expanded view for sharedItins, no use in animating.
+		if (!mItinContentGenerator.isSharedItin()) {
+			// Past overlay
+			if (animate) {
+				animators.add(ObjectAnimator.ofFloat(mHeaderOverlayImageView, "alpha", 1).setDuration(400));
+			}
+			else {
+				ViewHelper.setAlpha(mHeaderOverlayImageView, 1f);
+			}
 		}
 
 		//Header Text
@@ -643,6 +646,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 
 		mSummaryDividerView.setVisibility(GONE);
 		mDetailsLayout.setVisibility(GONE);
+		mHeaderTextDateView.setVisibility(VISIBLE);
 
 		destroyDetailsView();
 	}
@@ -661,6 +665,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 
 		mSummaryDividerView.setVisibility(VISIBLE);
 		mDetailsLayout.setVisibility(VISIBLE);
+		mHeaderTextDateView.setVisibility(INVISIBLE);
 
 		ArrayList<Animator> animators = new ArrayList<Animator>();
 		if (animate) {
@@ -685,17 +690,20 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			}
 		}
 
-		//Header image gradient overlay
-		if (animate) {
-			ObjectAnimator headerOverlayAlphaAnimator = ObjectAnimator
-					.ofFloat(mHeaderOverlayImageView, "alpha", 0f)
-					.setDuration(200);
-			animators.add(headerOverlayAlphaAnimator);
+		// Since we are adding the dropshadow to expanded view for sharedItins, no use in animating.
+		if (!mItinContentGenerator.isSharedItin()) {
+			//Header image gradient overlay
+			if (animate) {
+				ObjectAnimator headerOverlayAlphaAnimator = ObjectAnimator
+						.ofFloat(mHeaderOverlayImageView, "alpha", 0f)
+						.setDuration(200);
+				animators.add(headerOverlayAlphaAnimator);
+			}
+			else {
+				ViewHelper.setAlpha(mHeaderOverlayImageView, 0f);
+			}
 		}
-		else {
-			ViewHelper.setAlpha(mHeaderOverlayImageView, 0f);
-		}
-
+			
 		// Header text
 		if (mItinContentGenerator.getHideDetailsTitle()) {
 			if (animate) {
