@@ -263,13 +263,21 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		return iconBmp;
 	}
 
+	/**
+	 * @param displayName Full name of the traveler
+	 * @return 2 character string, which are the 1st letter of firstname and lastname. 
+	 * In case where displayName has only one name, then just return 1 character.
+	 */
 	private String getInitialsFromDisplayName(String displayName) {
 		String[] nameParts = displayName.split(" ");
 		if (nameParts.length == 1) {
 			return nameParts[0].substring(0, 1).toUpperCase(Locale.getDefault());
 		}
-		else if (nameParts.length > 1) {
+		else if (nameParts.length == 2) {
 			return (nameParts[0].substring(0, 1) + nameParts[1].substring(0, 1)).toUpperCase(Locale.getDefault());
+		}
+		else if (nameParts.length == 3) {
+			return (nameParts[0].substring(0, 1) + nameParts[2].substring(0, 1)).toUpperCase(Locale.getDefault());
 		}
 
 		return null;
