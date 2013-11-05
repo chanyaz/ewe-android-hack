@@ -663,6 +663,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mFlightDetailsActionContainer.setVisibility(areFlightDetailsShowing ? View.VISIBLE : View.GONE);
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowHomeEnabled(!areFlightDetailsShowing);
+		actionBar.setDisplayHomeAsUpEnabled(!areFlightDetailsShowing);
 		actionBar.setDisplayShowCustomEnabled(!isSearching && !gotNoResults);
 		actionBar.setDisplayShowTitleEnabled(isSearching || gotNoResults);
 		for (int a = 0; a < menu.size(); a++) {
