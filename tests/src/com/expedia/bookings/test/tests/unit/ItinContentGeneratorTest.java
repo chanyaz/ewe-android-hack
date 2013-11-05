@@ -62,15 +62,39 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 		assertEquals(tomorrow, headerText);
 	}
 
-	public void testHotelHeaderTextFuture() {
-		mCheckInDate = mNow.plusDays(2);
+	public void testHotelHeaderTextFuture30s() {
+		mCheckInDate = mNow.plusSeconds(30);
 		mItinGen = (HotelItinContentGenerator) getUpdatedItinGenerator(mCheckInDate, mCheckOutDate, mTripHotel);
-		String headerText = mItinGen.getHeaderTextDate();
-		String daysInFuture = getContext().getResources().getQuantityString(R.plurals.days_from_now, 2, 2);
-		assertEquals(daysInFuture, headerText);
+		String result = mItinGen.getHeaderTextDate();
+		String expected = getContext().getString(R.string.Today);
+		assertEquals(expected, result);
 	}
 
-	public void testHotelHeaderTextDate() {
+	public void testHotelHeaderTextFuture119s() {
+		mCheckInDate = mNow.plusSeconds(119);
+		mItinGen = (HotelItinContentGenerator) getUpdatedItinGenerator(mCheckInDate, mCheckOutDate, mTripHotel);
+		String result = mItinGen.getHeaderTextDate();
+		String expected = getContext().getString(R.string.Today);
+		assertEquals(expected, result);
+	}
+
+	public void testHotelHeaderTextFuture2m() {
+		mCheckInDate = mNow.plusMinutes(2);
+		mItinGen = (HotelItinContentGenerator) getUpdatedItinGenerator(mCheckInDate, mCheckOutDate, mTripHotel);
+		String result = mItinGen.getHeaderTextDate();
+		String expected = getContext().getString(R.string.Today);
+		assertEquals(expected, result);
+	}
+
+	public void testHotelHeaderTextFuture2d() {
+		mCheckInDate = mNow.plusDays(2);
+		mItinGen = (HotelItinContentGenerator) getUpdatedItinGenerator(mCheckInDate, mCheckOutDate, mTripHotel);
+		String result = mItinGen.getHeaderTextDate();
+		String expected = getContext().getResources().getQuantityString(R.plurals.days_from_now, 2, 2);
+		assertEquals(expected, result);
+	}
+
+	public void testHotelHeaderTextFuture4d() {
 		mCheckInDate = mNow.plusDays(4);
 		mItinGen = (HotelItinContentGenerator) getUpdatedItinGenerator(mCheckInDate, mCheckOutDate, mTripHotel);
 		String headerText = mItinGen.getHeaderTextDate();
