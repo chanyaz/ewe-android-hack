@@ -1589,6 +1589,7 @@ public class ItineraryManager implements JSONable {
 				if (response != null && response.hasErrors()) {
 					Log.w(LOGGING_TAG, "Error fetching shared itin : " + response.gatherErrorMessage(mContext));
 				}
+				removeItin(shareableUrl);
 			}
 			else {
 				Trip sharedTrip = response.getTrip();
