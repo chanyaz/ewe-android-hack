@@ -1041,7 +1041,7 @@ public class ItineraryManager implements JSONable {
 					}
 
 					if (trip != null) {
-						refreshTrip(nextTask.mTrip, true);
+						refreshTrip(trip, true);
 					}
 					break;
 				case REFRESH_TRIP:
