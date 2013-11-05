@@ -87,6 +87,7 @@
                         android:layout_height="46dp"
                         android:layout_marginRight="3dp"
                         android:background="@drawable/list_selector_holo_dark"
+                        android:contentDescription="@string/cd_share_menu_btn"
                         android:paddingBottom="6dp"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"

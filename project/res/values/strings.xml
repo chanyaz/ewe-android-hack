@@ -2913,5 +2913,8 @@
     <!-- Common actionbar elements -->
     <!-- Content description for action: Press to go back to previous screen -->
     <string name="cd_go_back">Press to go back to previous screen</string>
+    <!-- Itinerary card elements -->
+    <!-- Content description for action: Press to view share options -->
+    <string name="cd_share_menu_btn">Press to view itinerary sharing options</string>
 
 </resources>
