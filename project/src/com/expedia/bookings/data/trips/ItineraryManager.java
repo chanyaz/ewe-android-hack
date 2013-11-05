@@ -766,9 +766,14 @@ public class ItineraryManager implements JSONable {
 	// 3. It makes updating routes easier.  For example, getting cached
 	//    details in the user list update can still get images/flight status
 	//    updates without wonky sync code.
-
+	
+	// !!!!!
+	//
+	// SUPER IMPORTANT, READ THIS OR I WILL HURT YOU: 
 	// The order of operations in this enum determines the priorities of each item;
 	// the looper will pick the highest order operation to execute next.
+	//
+	// !!!!!!
 	private enum Operation {
 		LOAD_FROM_DISK, // Loads saved trips from disk, if we're just starting up
 		REFRESH_USER, // If logged in, refreshes the trip list of the user
