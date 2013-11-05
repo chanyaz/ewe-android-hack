@@ -55,9 +55,28 @@ import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 
-// Make sure to call init() before using in the app!
-//
-// In addition, make sure to call startSync() before manipulating data.
+/**
+ * This singleton keeps all of our itinerary data together.  It loads, syncs and stores all itin data.
+ * 
+ * Make sure to call init() before using in the app!  In addition, make sure to call startSync()
+ * before manipulating data.
+ * 
+ * An explanation about how the syncs happen: in order to allow syncs to be modified mid-execution, we implemented
+ * a priority Operation queue which re-orders a series of instructions to perform a sync. 
+ * 
+ * There are essentially four steps to how Operations worked:
+ * 
+ * 1. Initial load.  This can be safely called whenever.
+ * 2. Refresh/load trips.  These steps load data from all sources.
+ * 3. Load ancillary data about trips.  For example, flight stats data about trips.  Any calls beyond
+ *    our normal refresh should go here.  Also, anyone who loads trip data in #2 should make sure to call
+ *    these ancillary data calls.
+ * 4. Post-processing operations; these assume that all of the data in the itins have been loaded.  These 
+ *    operations include saving the loaded data to disk, generating data for the app to consume, and 
+ *    registering loaded data with notifications.
+ * 
+ * For more information, check out the Operation enum comments.
+ */
 public class ItineraryManager implements JSONable {
 
 	private static final long UPDATE_CUTOFF = DateUtils.MINUTE_IN_MILLIS; // At most once a minute
