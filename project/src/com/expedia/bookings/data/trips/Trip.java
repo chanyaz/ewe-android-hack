@@ -214,6 +214,11 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 		}
 	}
 
+	public boolean endedForHours(int hours) {
+		DateTime pastCutOffDateTime = DateTime.now().minusHours(hours);
+		return getEndDate() != null && getEndDate().isBefore(pastCutOffDateTime);
+	}
+
 	/**
 	 * Returns all trip components.  If you want sub components, it will automatically
 	 * unroll TripPackages into their constituent parts.

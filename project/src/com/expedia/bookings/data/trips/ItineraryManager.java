@@ -1263,6 +1263,17 @@ public class ItineraryManager implements JSONable {
 
 				TripDetailsResponse response = null;
 				if (trip.isShared()) {
+					if (trip.endedForHours(CUTOFF_HOURS)) {
+						Log.w(LOGGING_TAG, "Removing a shared trip because it is completed and past the cutoff.  tripNum="
+								+ trip.getItineraryKey());
+
+						Trip removeTrip = mTrips.remove(trip.getItineraryKey());
+						publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, removeTrip));
+
+						mTripsRemoved++;
+						return;
+					}
+
 					response = mServices.getSharedItin(trip.getShareInfo().getSharableDetailsApiUrl());
 				}
 				else {
