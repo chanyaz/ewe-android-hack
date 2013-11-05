@@ -939,6 +939,7 @@ public class ItineraryManager implements JSONable {
 	public boolean fetchSharedItin(String shareableUrl) {
 		Log.i(LOGGING_TAG, "Fetching SharedItin " + shareableUrl);
 
+		mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
 		mSyncOpQueue.add(new Task(Operation.FETCH_SHARED_ITIN, shareableUrl));
 		mSyncOpQueue.add(new Task(Operation.DEDUPLICATE_TRIPS));
 		mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
@@ -1604,6 +1605,8 @@ public class ItineraryManager implements JSONable {
 					sharedTrip.markUpdated(false);
 
 					mTripsRefreshed++;
+
+					mSyncOpQueue.add(new Task(Operation.REFRESH_TRIP_FLIGHT_STATUS, sharedTrip));
 				}
 
 				// Note: In the future, we may be getting these parameters from the URL. Currently, we do not, thus we just
