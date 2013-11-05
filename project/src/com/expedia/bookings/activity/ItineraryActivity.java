@@ -482,6 +482,16 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 	}
 
 	@Override
+	public void onCompletedTripAdded(Trip trip) {
+		// Do nothing
+	}
+
+	@Override
+	public void onCancelledTripAdded(Trip trip) {
+		// Do nothing
+	}
+
+	@Override
 	public void onSyncFinished(Collection<Trip> trips) {
 		syncWithManager();
 	}

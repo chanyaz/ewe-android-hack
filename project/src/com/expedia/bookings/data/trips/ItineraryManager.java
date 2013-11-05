@@ -604,6 +604,16 @@ public class ItineraryManager implements JSONable {
 		public void onTripRemoved(Trip trip);
 
 		/**
+		 * Notification for when a Trip added by the user is already completed + 48h
+		 */
+		public void onCompletedTripAdded(Trip trip);
+
+		/**
+		 * Notification for when a Trip added by the user has a cancelled status
+		 */
+		public void onCancelledTripAdded(Trip trip);
+
+		/**
 		 * Notification if sync itself has a failure.  There can be multiple
 		 * failures during the sync process.  onSyncFinished() will still
 		 * be called at the end.
@@ -629,6 +639,12 @@ public class ItineraryManager implements JSONable {
 		}
 
 		public void onTripRemoved(Trip trip) {
+		}
+
+		public void onCompletedTripAdded(Trip trip) {
+		}
+
+		public void onCancelledTripAdded(Trip trip) {
 		}
 
 		public void onSyncFailure(SyncError error) {
@@ -673,6 +689,20 @@ public class ItineraryManager implements JSONable {
 		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripRemoved(trip);
+		}
+	}
+
+	private void onCompletedTripAdded(Trip trip) {
+		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		for (ItinerarySyncListener listener : listeners) {
+			listener.onCompletedTripAdded(trip);
+		}
+	}
+
+	private void onCancelledTripAdded(Trip trip) {
+		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		for (ItinerarySyncListener listener : listeners) {
+			listener.onCancelledTripAdded(trip);
 		}
 	}
 
@@ -1113,6 +1143,12 @@ public class ItineraryManager implements JSONable {
 			case SYNC_ERROR:
 				onSyncFailed(update.mError);
 				break;
+			case USER_ADDED_COMPLETED_TRIP:
+				onCompletedTripAdded(update.mTrip);
+				break;
+			case USER_ADDED_CANCELLED_TRIP:
+				onCancelledTripAdded(update.mTrip);
+				break;
 			}
 		}
 
@@ -1536,6 +1572,19 @@ public class ItineraryManager implements JSONable {
 				// This response does not contain any shareable url, so, we gotta save it for later on our own.
 				sharedTrip.getShareInfo().setSharableDetailsUrl(shareableUrl);
 
+				if (sharedTrip.endedForHours(CUTOFF_HOURS)) {
+					publishProgress(new ProgressUpdate(ProgressUpdate.Type.USER_ADDED_COMPLETED_TRIP, sharedTrip));
+					// Remove placeholder for loading
+					removeItin(shareableUrl);
+					return;
+				}
+				if (sharedTrip.getBookingStatus() == BookingStatus.CANCELLED) {
+					publishProgress(new ProgressUpdate(ProgressUpdate.Type.USER_ADDED_CANCELLED_TRIP, sharedTrip));
+					// Remove placeholder for loading
+					removeItin(shareableUrl);
+					return;
+				}
+
 				LevelOfDetail lod = sharedTrip.getLevelOfDetail();
 				boolean hasFullDetails = lod == LevelOfDetail.FULL || lod == LevelOfDetail.SUMMARY_FALLBACK;
 				if (!mTrips.containsKey(shareableUrl)) {
@@ -1630,6 +1679,8 @@ public class ItineraryManager implements JSONable {
 			UPDATE_FAILED,
 			REMOVED,
 			SYNC_ERROR,
+			USER_ADDED_COMPLETED_TRIP,
+			USER_ADDED_CANCELLED_TRIP,
 		}
 
 		public Type mType;

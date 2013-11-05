@@ -32,12 +32,13 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.dialog.TextViewDialog;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
-import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
@@ -498,6 +499,29 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	@Override
 	public void onSyncFailure(SyncError error) {
 		mCurrentSyncHasErrors = true;
+	}
+
+	private final String COMPLETED_TRIP_DIALOG_TAG = "USER_ADDED_COMPLETED_TRIP_DIALOG";
+	private final String CANCELLED_TRIP_DIALOG_TAG = "USER_ADDED_CANCELLED_TRIP_DIALOG";
+
+	@Override
+	public void onCompletedTripAdded(Trip trip) {
+		TextViewDialog dialog = Ui.findSupportFragment(this, COMPLETED_TRIP_DIALOG_TAG);
+		if (dialog == null) {
+			dialog = new TextViewDialog();
+			dialog.setMessage(R.string.viewing_completed_itineraries_not_yet_supported);
+			dialog.show(getFragmentManager(), COMPLETED_TRIP_DIALOG_TAG);
+		}
+	}
+
+	@Override
+	public void onCancelledTripAdded(Trip trip) {
+		TextViewDialog dialog = Ui.findSupportFragment(this, CANCELLED_TRIP_DIALOG_TAG);
+		if (dialog == null) {
+			dialog = new TextViewDialog();
+			dialog.setMessage(R.string.viewing_cancelled_itineraries_not_yet_supported);
+			dialog.show(getFragmentManager(), CANCELLED_TRIP_DIALOG_TAG);
+		}
 	}
 
 	@Override

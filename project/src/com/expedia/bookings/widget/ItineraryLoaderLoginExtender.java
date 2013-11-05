@@ -129,6 +129,16 @@ public class ItineraryLoaderLoginExtender extends LoginExtender implements Itine
 	}
 
 	@Override
+	public void onCompletedTripAdded(Trip trip) {
+		// Do nothing
+	}
+
+	@Override
+	public void onCancelledTripAdded(Trip trip) {
+		// Do nothing
+	}
+
+	@Override
 	public void onSyncFinished(Collection<Trip> trips) {
 		if (mCurrentSyncHasErrors && (trips == null || trips.size() == 0)) {
 			Runnable runner = new Runnable() {
