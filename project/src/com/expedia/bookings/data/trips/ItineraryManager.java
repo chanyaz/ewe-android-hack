@@ -886,9 +886,10 @@ public class ItineraryManager implements JSONable {
 			Log.d(LOGGING_TAG, "ItineraryManager sync started too soon since last one; ignoring.");
 			return false;
 		}
-		else if (mTrips != null && mTrips.size() == 0 && !User.isLoggedIn(mContext)) {
+		else if (mTrips != null && mTrips.size() == 0 && !User.isLoggedIn(mContext) && !hasFetchSharedInQueue()) {
 			Log.d(LOGGING_TAG,
-					"ItineraryManager sync called, but there are no guest trips and the user is not logged in, so" +
+					"ItineraryManager sync called, but there are no guest nor shared trips and the user is not logged in, so"
+							+
 							" we're not starting a formal sync; but we will call onSyncFinished() with no results");
 			onSyncFinished(mTrips.values());
 			return false;
@@ -1827,6 +1828,15 @@ public class ItineraryManager implements JSONable {
 			String itinId = tc.getUniqueId();
 			Notification.deleteAll(mContext, itinId);
 		}
+	}
+
+	private boolean hasFetchSharedInQueue() {
+		for (Task task : mSyncOpQueue) {
+			if (task.mOp == Operation.FETCH_SHARED_ITIN) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
