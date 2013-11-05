@@ -717,8 +717,13 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 		// For flight cards coming up in less than one hour, we want "XX Minutes"
 		else if (time > now && getType().equals(Type.FLIGHT) && duration <= DateUtils.HOUR_IN_MILLIS) {
-			// Explicitly adding a minute in milliseconds to avoid showing '0 minutes' strings. Defect# 758
-			int minutes = (int) ((duration + DateUtils.MINUTE_IN_MILLIS - 1) / DateUtils.MINUTE_IN_MILLIS);
+			int minutes = (int) (duration / DateUtils.MINUTE_IN_MILLIS);
+
+			// Special case: display <1 minute as "1 minute". Defect# 758
+			if (minutes < 1) {
+				minutes = 1;
+			}
+
 			ret = getResources().getQuantityString(R.plurals.minutes_from_now, minutes, minutes);
 		}
 
