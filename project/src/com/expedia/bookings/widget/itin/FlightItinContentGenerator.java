@@ -6,9 +6,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.joda.time.Hours;
-import org.joda.time.Minutes;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
