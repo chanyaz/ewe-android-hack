@@ -16,6 +16,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 
 public class UserToTripAssocLoginExtender extends LoginExtender {
 
@@ -89,6 +90,9 @@ public class UserToTripAssocLoginExtender extends LoginExtender {
 			if (results != null && results.isSuccess() && !TextUtils.isEmpty(results.getRewardsPoints())) {
 				Db.getFlightSearch().getSelectedFlightTrip().setRewardsPoints(results.getRewardsPoints());
 			}
+			else {
+				Log.w("Failed to associate user to trip");
+			}
 
 			if (mListener != null) {
 				mListener.loginExtenderWorkComplete(UserToTripAssocLoginExtender.this);
@@ -105,7 +109,7 @@ public class UserToTripAssocLoginExtender extends LoginExtender {
 	protected Bundle getStateBundle() {
 		Bundle bundle = new Bundle();
 		bundle.putString(STATE_TRIP_ID, mTripId);
-		return null;
+		return bundle;
 	}
 
 	@Override
