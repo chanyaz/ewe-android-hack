@@ -788,14 +788,14 @@ public class ItineraryManager implements JSONable {
 
 		DEDUPLICATE_TRIPS, // Remove shared trip if it matches one associated to a user
 
+		SHORTEN_SHARE_URLS, //We run the url shortener for itins that do not yet have shortened urls.
+
 		SAVE_TO_DISK, // Saves state of ItineraryManager to disk
 
 		GENERATE_ITIN_CARDS, // Generates itin card data for use
 
 		SCHEDULE_NOTIFICATIONS, // Schedule local notifications
 		REGISTER_FOR_PUSH_NOTIFICATIONS, //Tell the push server which flights to notify us about
-
-		SHORTEN_SHARE_URLS, //We run the url shortener for itins that do not yet have shortened urls.
 	}
 
 	private class Task implements Comparable<Task> {
