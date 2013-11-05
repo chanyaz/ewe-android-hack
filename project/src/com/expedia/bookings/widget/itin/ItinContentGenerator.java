@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 
 import android.content.Context;
 import android.content.Intent;
@@ -286,7 +287,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	// Override-able methods with default implementations
 
 	public String getHeaderTextDate() {
-		CharSequence relativeStartDate = getRelativeStartDate();
+		CharSequence relativeStartDate = getItinRelativeStartDate();
 		if (relativeStartDate == null) {
 			return "";
 		}
@@ -699,8 +700,10 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * Rules defined here: https://mingle.karmalab.net/projects/eb_ad_app/cards/234
 	 * @param context
 	 * @return
+	 *
+	 * @see #getItinRelativeTimeSpan(Context context, DateTime time, DateTime now) for relative time span
 	 */
-	private CharSequence getRelativeStartDate() {
+	public CharSequence getItinRelativeStartDate() {
 		DateTime dateTime = getItinCardData().getStartDate();
 		DateTime today = DateTime.now();
 		long time = dateTime.getMillis();
@@ -720,6 +723,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			int minutes = (int) (duration / DateUtils.MINUTE_IN_MILLIS);
 
 			// Special case: display <1 minute as "1 minute". Defect# 758
+			// TODO: consider changing to something like "less than 1 minute"
 			if (minutes < 1) {
 				minutes = 1;
 			}
@@ -760,6 +764,50 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		}
 
 		return ret;
+	}
+
+	/**
+	 * Returns a relative time span according to very specific formatting:
+	 * 1. If less than one minute ago, or less than one minute in the future, "in 1 minute"
+	 * 2. If between 1 and 24 hours, "in 2 hours and 27 minutes" or "in 5 hours"
+	 * 3. Otherwise, we'll use JodaUtils.getRelativeTimeSpanString, "in 5 days" or "in 35 minutes"
+	 * @param context
+	 * @param time
+	 * @param now
+	 * @return
+	 * 
+	 * @see #getItinRelativeStartDate() for relative date
+	 */
+	public CharSequence getItinRelativeTimeSpan(Context context, DateTime time, DateTime now) {
+		boolean past = now.isAfter(time);
+		Duration duration = past ? new Duration(time, now) : new Duration(now, time);
+
+		int hours = (int) duration.getStandardHours();
+		int minutes = (int) duration.getStandardMinutes() % 60;
+
+		// Special case: if the time is between 1 and 24 hours (and minutes != 0)
+		// we want to show both Hours and Minutes, which isn't supported by getRelativeTimeSpanString()
+		if (hours < 24 && hours >= 1 && minutes != 0) {
+			int templateResId = past ? R.string.hours_minutes_past_TEMPLATE
+					: R.string.hours_minutes_future_TEMPLATE;
+			Resources res = context.getResources();
+			String hourStr = res.getQuantityString(R.plurals.hours_from_now, hours, hours);
+			String minStr = res.getQuantityString(R.plurals.minutes_from_now, minutes, minutes);
+			return res.getString(templateResId, hourStr, minStr);
+		}
+
+		// Special case: if the time is in less than 1 minute (or less than one minute ago),
+		// display it as "in 1 minute" to avoid showing '0 minutes' strings. Defect #758, #2157
+		// TODO: consider changing to something like "in less than 1 minute"
+		if (hours == 0 && minutes == 0) {
+			Resources res = context.getResources();
+			int resId = past ? R.plurals.num_minutes_ago : R.plurals.in_num_minutes;
+			return res.getQuantityString(resId, 1, 1);
+		}
+
+		// 1871: Due to the screwed up way DateUtils.getNumberOfDaysPassed() works, this ends up such that
+		// the millis must be in the system locale (and hopefully the user has not changed their locale recently)
+		return JodaUtils.getRelativeTimeSpanString(context, time, now, DateUtils.MINUTE_IN_MILLIS, 0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
