@@ -737,6 +737,8 @@ public class ItineraryManager implements JSONable {
 		FETCH_SHARED_ITIN, // Fetches the shared itin data
 		REMOVE_ITIN, // Deletes the selected itin. Currently we can only delete a shared itin.
 
+		DEDUPLICATE_TRIPS, // Remove shared trip if it matches one associated to a user
+
 		SAVE_TO_DISK, // Saves state of ItineraryManager to disk
 
 		GENERATE_ITIN_CARDS, // Generates itin card data for use
@@ -848,6 +850,7 @@ public class ItineraryManager implements JSONable {
 			mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
 			mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
 			mSyncOpQueue.add(new Task(Operation.GATHER_TRIPS));
+			mSyncOpQueue.add(new Task(Operation.DEDUPLICATE_TRIPS));
 			mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
 			mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 			mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
@@ -907,6 +910,7 @@ public class ItineraryManager implements JSONable {
 		Log.i(LOGGING_TAG, "Fetching SharedItin " + shareableUrl);
 
 		mSyncOpQueue.add(new Task(Operation.FETCH_SHARED_ITIN, shareableUrl));
+		mSyncOpQueue.add(new Task(Operation.DEDUPLICATE_TRIPS));
 		mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
@@ -1046,6 +1050,9 @@ public class ItineraryManager implements JSONable {
 					break;
 				case REFRESH_TRIP:
 					refreshTrip(nextTask.mTrip, false);
+					break;
+				case DEDUPLICATE_TRIPS:
+					deduplicateTrips();
 					break;
 				case SHORTEN_SHARE_URLS:
 					shortenSharableUrls();
@@ -1440,6 +1447,38 @@ public class ItineraryManager implements JSONable {
 				if (trip.isGuest() && trip.getLevelOfDetail() == LevelOfDetail.NONE) {
 					mGuestTripsNotYetLoaded.add(trip.getTripNumber());
 				}
+			}
+		}
+
+		private void deduplicateTrips() {
+			Map<String, String> sharedTripsMap = new HashMap<String, String>();
+			Set<String> sharedTripsToRemove = new HashSet<String>();
+
+			// Collect all of the shared trips
+			for (Trip trip : mTrips.values()) {
+				if (trip.isShared()) {
+					sharedTripsMap.put(trip.getTripComponents().get(0).getUniqueId(), trip.getItineraryKey());
+				}
+			}
+
+			// Check each "regular" trip and see if it matches one of the shared trips
+			for (Trip trip : mTrips.values()) {
+				if (!trip.isShared()) {
+					for (TripComponent tc : trip.getTripComponents()) {
+						if (sharedTripsMap.keySet().contains(tc.getUniqueId())) {
+							sharedTripsToRemove.add(sharedTripsMap.get(tc.getUniqueId()));
+						}
+					}
+				}
+			}
+
+			// Remove the shared trips
+			Trip trip;
+			for (String key : sharedTripsToRemove) {
+				Log.i(LOGGING_TAG, "Removing duplicate shared itin key=" + key);
+				trip = mTrips.remove(key);
+				publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, trip));
+				mTripsRemoved++;
 			}
 		}
 
