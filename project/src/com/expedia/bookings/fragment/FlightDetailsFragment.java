@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -220,9 +220,9 @@ public class FlightDetailsFragment extends Fragment {
 		}
 
 		mFirstLayoutPass = true;
-		v.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+		v.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
-			public void onGlobalLayout() {
+			public boolean onPreDraw() {
 				if (mFirstLayoutPass) {
 					// In the first layout pass, we adapt the info container for however tall the info bar/fees
 					// container will be.
@@ -235,7 +235,7 @@ public class FlightDetailsFragment extends Fragment {
 					// its parent (and thus the baggage fees link would need to be moved)
 
 					// Remove the global layout listener
-					v.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+					v.getViewTreeObserver().removeOnPreDrawListener(this);
 
 					// This is for determining whether the baggage info text view should
 					// appear on the bottom of the screen or scrolling with the content
@@ -253,6 +253,9 @@ public class FlightDetailsFragment extends Fragment {
 
 					mListener.onFlightDetailsLayout(FlightDetailsFragment.this);
 				}
+
+				// We always return false so that we don't pre-draw before the animation starts
+				return false;
 			}
 		});
 
