@@ -298,7 +298,7 @@ public class PushNotificationUtils {
 			}
 
 			if (sharedFlightList != null) {
-				for (Flight f : normalFlightList) {
+				for (Flight f : sharedFlightList) {
 					JSONObject flightJson = buildFlightJSON(f, true);
 					if (flightJson != null) {
 						flights.put(flightJson);
