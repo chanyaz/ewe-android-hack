@@ -102,7 +102,7 @@ public class HotelsSearchRegressionTests extends CustomActivityInstrumentationTe
 		hotelList.add("Hotel Nikko San Francisco");
 		hotelList.add("Hotel Bijou");
 		hotelList.add("Hilton Minneapolis");
-		hotelList.add("Melia Berlin");
+		hotelList.add("Swissotel Berlin");
 		hotelList.add("Pacific Beach Hotel");
 
 		String titleString;
@@ -256,7 +256,7 @@ public class HotelsSearchRegressionTests extends CustomActivityInstrumentationTe
 		mDriver.hotelsSearchScreen().clickSearchEditText();
 		mDriver.hotelsSearchScreen().clickToClearSearchEditText();
 		mDriver.delay();
-		assertTrue(mDriver.searchText(resolvedSearchString));
+		assertTrue(mDriver.searchText(initialSearch));
 	}
 
 	@Override
