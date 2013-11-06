@@ -23,7 +23,7 @@ public class FragmentModificationSafeLock {
 
 	private List<Runnable> mRunWhenSafe;
 
-	private boolean mSafe = true;
+	private boolean mSafe = false;
 
 	public void setSafe(boolean isSafe) {
 		if (mSafe != isSafe) {
