@@ -214,7 +214,7 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 		}
 	}
 
-	public boolean endedForHours(int hours) {
+	public boolean hasExpired(int hours) {
 		DateTime pastCutOffDateTime = DateTime.now().minusHours(hours);
 		return getEndDate() != null && getEndDate().isBefore(pastCutOffDateTime);
 	}

@@ -1332,7 +1332,7 @@ public class ItineraryManager implements JSONable {
 
 				TripDetailsResponse response = null;
 				if (trip.isShared()) {
-					if (trip.endedForHours(CUTOFF_HOURS)) {
+					if (trip.hasExpired(CUTOFF_HOURS)) {
 						Log.w(LOGGING_TAG,
 								"Removing a shared trip because it is completed and past the cutoff.  tripNum="
 										+ trip.getItineraryKey());
@@ -1599,7 +1599,7 @@ public class ItineraryManager implements JSONable {
 				// This response does not contain any shareable url, so, we gotta save it for later on our own.
 				sharedTrip.getShareInfo().setSharableDetailsUrl(shareableUrl);
 
-				if (sharedTrip.endedForHours(CUTOFF_HOURS)) {
+				if (sharedTrip.hasExpired(CUTOFF_HOURS)) {
 					publishProgress(new ProgressUpdate(ProgressUpdate.Type.USER_ADDED_COMPLETED_TRIP, sharedTrip));
 					// Remove placeholder for loading
 					removeItin(shareableUrl);
