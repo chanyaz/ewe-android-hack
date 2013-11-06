@@ -8,9 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -28,7 +26,6 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.HotelErrorDialog;
@@ -51,7 +48,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -513,7 +509,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			}
 			else if (response.hasErrors()) {
 				int messageResId;
-				if (response.getErrors().get(0).getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
+				if (response.isHotelUnavailable()) {
 					messageResId = R.string.error_room_is_now_sold_out;
 				}
 				else {

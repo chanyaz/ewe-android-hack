@@ -95,7 +95,6 @@ import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
@@ -1209,7 +1208,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			}
 			else {
 				if (availabilityResponse.hasErrors()) {
-					if (availabilityResponse.getErrors().get(0).getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
+					if (availabilityResponse.isHotelUnavailable()) {
 						String propertyId = Db.getHotelSearch().getSelectedPropertyId();
 						notifyAvailabilityQueryRemoveHotel(propertyId);
 					}
