@@ -128,7 +128,7 @@ public class GCMRegistrationKeeper implements JSONable {
 	 * @return
 	 */
 	public String getRegistrationId(Context context) {
-		Log.d("GCMRegistrationKeeper.getRegistrationId returning:" + mActiveRegistrationId);
+		Log.d("GCMRegistrationKeeper.getRegistrationId returning: \"" + mActiveRegistrationId + "\"");
 		return mActiveRegistrationId;
 	}
 
