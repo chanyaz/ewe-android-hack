@@ -766,7 +766,7 @@ public class ItineraryManager implements JSONable {
 	// 3. It makes updating routes easier.  For example, getting cached
 	//    details in the user list update can still get images/flight status
 	//    updates without wonky sync code.
-
+	
 	// !!!!!
 	//
 	// SUPER IMPORTANT, READ THIS OR I WILL HURT YOU: 
@@ -1636,9 +1636,9 @@ public class ItineraryManager implements JSONable {
 				}
 
 				// Note: In the future, we may be getting these parameters from the URL. Currently, we do not, thus we just
-				// send the generic "Brand.AppShare" event any time that we import a shared itin. Ideally, the URL will contain
-				// some more info pertaining to tracking and we'd send something like "Brand.AppShare.Facebook".
-				OmnitureTracking.setDeepLinkTrackingParams("brandcid", "Brand.AppShare");
+				// send the generic "AppShare" event any time that we import a shared itin. Ideally, the URL will contain
+				// some more info pertaining to tracking and we'd send something like "AppShare.Facebook".
+				OmnitureTracking.setDeepLinkTrackingParams("brandcid", "AppShare");
 			}
 		}
 
