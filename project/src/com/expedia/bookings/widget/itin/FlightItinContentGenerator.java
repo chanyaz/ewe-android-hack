@@ -192,7 +192,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 	@Override
 	public int getSharedItinIconBackground() {
-		return 0xFF1A5287;
+		return 0xFF1F6699;
 	}
 
 	@Override

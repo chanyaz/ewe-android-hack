@@ -199,18 +199,18 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			return BitmapFactory.decodeResource(getResources(),fallBackIcon);
 		}
 		else {
-			return fetchIconBitmapBytes(name);
+			return fetchIconBitmap(name);
 		}
 	}
 
 	/**
 	 * Use this method to fetch the shared Itin icon background color.
-	 * Activities - #FF351B53
-	 * Car - #FF2D3153
-	 * Cruise - #FF652012
-	 * Flight - #FF1A5287
+	 * Activities - #FF462966
+	 * Car - #FF3B4266
+	 * Cruise - #FF7A2D16
+	 * Flight - #FF1F6699
 	 * Generic - #FF373F4A
-	 * Hotel - #FF2D4653
+	 * Hotel - #FF3B5866
 	 * Packages - #FF2E5539
 	 * @return Hex color for the icon background based on LOB
 	 */
@@ -226,12 +226,12 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		return getResources().getString(R.string.sharedItin_card_fallback_name);
 	}
 
-	private Bitmap fetchIconBitmapBytes(String displayName) {
+	private Bitmap fetchIconBitmap(String displayName) {
 
 		String name = getInitialsFromDisplayName(displayName);
 
 		float density = mContext.getResources().getDisplayMetrics().density;
-		int size = (int) (48 * density);
+		int size = (int) (62 * density);
 		Bitmap iconBmp = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(iconBmp);
 
@@ -252,13 +252,14 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		iconBgPaint.setColor(getSharedItinIconBackground());
 		txtPaint.setColor(0xFFFFFFFF);
 		txtPaint.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
-		txtPaint.setTextSize(24 * density);
+		txtPaint.setTextSize(32 * density);
 
 		float textHeight = txtPaint.descent() - txtPaint.ascent();
 		float textOffset = (textHeight / 2) - txtPaint.descent();
 
+		int borderWidth = (int) (2.5 * density);
 		canvas.drawCircle(size / 2, size / 2, size / 2, bgPaintWhite);
-		canvas.drawCircle(size / 2, size / 2, size / 2 - 4, iconBgPaint);
+		canvas.drawCircle(size / 2, size / 2, size / 2 - borderWidth, iconBgPaint);
 		canvas.drawText(name, size / 2, (size / 2) + (textOffset), txtPaint);
 		return iconBmp;
 	}

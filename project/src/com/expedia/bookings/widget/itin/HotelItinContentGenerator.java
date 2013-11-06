@@ -134,7 +134,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public int getSharedItinIconBackground() {
-		return 0xFF2D4653;
+		return 0xFF3B5866;
 	}
 
 	@Override

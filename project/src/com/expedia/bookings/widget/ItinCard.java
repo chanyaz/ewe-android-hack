@@ -426,6 +426,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	public void updateSummaryVisibility() {
 		mSummarySectionLayout.setVisibility(mShowSummary ? VISIBLE : GONE);
 		mActionButtonLayout.setVisibility(mShowSummary ? VISIBLE : GONE);
+		// Let's not show the date text in summaryCard as per design
+		mHeaderTextDateView.setVisibility(mShowSummary ? GONE : VISIBLE);
 	}
 
 	public void updateHeaderImageHeight() {
@@ -617,6 +619,29 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			ViewHelper.setRotation(mChevronImageView, 0f);
 		}
 
+		if (mItinContentGenerator.isSharedItin()) {
+			//Fade in Headertextdateview
+			if (animate) {
+				ObjectAnimator headerDateTextAlphaAnimator = ObjectAnimator
+						.ofFloat(mHeaderTextDateView, "alpha", 1f)
+						.setDuration(200);
+				animators.add(headerDateTextAlphaAnimator);
+
+				if (!mShowSummary) {
+					ObjectAnimator headerTextTranslationAnimator = ObjectAnimator
+							.ofFloat(mHeaderTextView, "translationY", 0f)
+							.setDuration(200);
+					animators.add(headerTextTranslationAnimator);
+				}
+			}
+			else {
+				ViewHelper.setAlpha(mHeaderTextDateView, 1f);
+				if (!mShowSummary) {
+					ViewHelper.setTranslationY(mHeaderTextLayout, 0f);
+				}
+			}
+		}
+
 		// Putting it all together
 		if (animate) {
 			AnimatorSet set = new AnimatorSet();
@@ -646,7 +671,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 
 		mSummaryDividerView.setVisibility(GONE);
 		mDetailsLayout.setVisibility(GONE);
-		mHeaderTextDateView.setVisibility(VISIBLE);
 
 		destroyDetailsView();
 	}
@@ -665,7 +689,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 
 		mSummaryDividerView.setVisibility(VISIBLE);
 		mDetailsLayout.setVisibility(VISIBLE);
-		mHeaderTextDateView.setVisibility(INVISIBLE);
 
 		ArrayList<Animator> animators = new ArrayList<Animator>();
 		if (animate) {
@@ -764,16 +787,20 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		}
 		else {
 			if (animate) {
-				ValueAnimator dummy = ValueAnimator.ofInt(0, 1).setDuration(300);
-				dummy.addListener(new AnimatorListenerShort() {
-					@Override
-					public void onAnimationStart(Animator arg0) {
-						ViewHelper.setAlpha(mItinTypeImageView, 0f);
-						mItinTypeImageView.setVisibility(View.INVISIBLE);
-						mFixedItinTypeImageView.setVisibility(View.VISIBLE);
-					}
-				});
-				animators.add(dummy);
+				/*
+				 * Trying to make it look like the floating image is blowing up in size
+				 * and transforming into the full size fixed Image.
+				 */
+				mFixedItinTypeImageView.setVisibility(View.VISIBLE);
+				ViewHelper.setAlpha(mFixedItinTypeImageView, 0f);
+				ObjectAnimator itinTypeAlphaAnimator = ObjectAnimator
+						.ofFloat(mItinTypeImageView, "alpha", 0f)
+						.setDuration(200);
+				ObjectAnimator itinTypeFixedAlphaAnimator = ObjectAnimator
+						.ofFloat(mFixedItinTypeImageView, "alpha", 1f)
+						.setDuration(400);
+				animators.add(itinTypeFixedAlphaAnimator);
+				animators.add(itinTypeAlphaAnimator);
 			}
 			else {
 				ViewHelper.setAlpha(mItinTypeImageView, 0f);
@@ -800,6 +827,29 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		}
 		else {
 			ViewHelper.setRotation(mChevronImageView, 180f);
+		}
+
+		if (mItinContentGenerator.isSharedItin()) {
+			//Fade out Headertextdateview
+			if (animate) {
+				ObjectAnimator headerDateTextAlphaAnimator = ObjectAnimator
+						.ofFloat(mHeaderTextDateView, "alpha", 0f)
+						.setDuration(200);
+				animators.add(headerDateTextAlphaAnimator);
+
+				if (!mShowSummary) {
+					ObjectAnimator headerTextTranslationAnimator = ObjectAnimator
+							.ofFloat(mHeaderTextView, "translationY", 20f)
+							.setDuration(200);
+					animators.add(headerTextTranslationAnimator);
+				}
+			}
+			else {
+				ViewHelper.setAlpha(mHeaderTextDateView, 0f);
+				if (!mShowSummary) {
+					ViewHelper.setTranslationY(mHeaderTextLayout, 10f);
+				}
+			}
 		}
 
 		// Putting it all together
