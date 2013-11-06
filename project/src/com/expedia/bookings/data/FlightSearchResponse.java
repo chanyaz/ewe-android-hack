@@ -69,7 +69,7 @@ public class FlightSearchResponse extends Response {
 		return mAirlineNames;
 	}
 
-	public Set<String> getAirports(int legNumber) {
+	public Set<String> getDepartureAirportsForLeg(int legNumber) {
 		Set<String> codes = new HashSet<String>();
 
 		Waypoint waypoint;

@@ -230,8 +230,8 @@ public class FlightSearch implements JSONable {
 		mSearchState = state;
 	}
 
-	public Set<String> getAirports(int legNumber) {
-		return mSearchResponse.getAirports(legNumber);
+	public Set<String> getDepartureAirportsForLeg(int legNumber) {
+		return mSearchResponse.getDepartureAirportsForLeg(legNumber);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

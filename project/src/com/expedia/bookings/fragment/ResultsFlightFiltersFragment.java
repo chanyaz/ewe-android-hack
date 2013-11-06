@@ -96,7 +96,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		// the SearchParams will be retrieved.
 		airports.add("metro-code-placeholder");
 
-		airports.addAll(Db.getFlightSearch().getAirports(airportIndex));
+		airports.addAll(Db.getFlightSearch().getDepartureAirportsForLeg(airportIndex));
 
 		if (airports.size() <= 2) {
 			// One for the placeholder, one for the minimum number of airports. Any more means a metro
