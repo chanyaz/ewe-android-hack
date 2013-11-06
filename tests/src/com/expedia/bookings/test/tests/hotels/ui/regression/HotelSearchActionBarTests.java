@@ -2,12 +2,16 @@ package com.expedia.bookings.test.tests.hotels.ui.regression;
 
 import java.util.Calendar;
 
+import org.joda.time.LocalDate;
+
 import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.utils.CalendarTouchUtils;
 import com.expedia.bookings.test.utils.CustomActivityInstrumentationTestCase;
+import com.expedia.bookings.utils.JodaUtils;
 
 public class HotelSearchActionBarTests extends CustomActivityInstrumentationTestCase<SearchActivity> {
 
@@ -158,11 +162,13 @@ public class HotelSearchActionBarTests extends CustomActivityInstrumentationTest
 		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
 		dateRangeText = mDriver.hotelsSearchScreen().dateRangeTextView().getText().toString();
 		long first = CalendarTouchUtils.getDay(daysOffset).toMillis(false);
-		String firstDay = (String) DateFormat.format("MMM dd", first);
+		String firstDay = JodaUtils.formatLocalDate(getActivity().getApplicationContext(), new LocalDate(first),
+				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH);
 		long second = CalendarTouchUtils.getDay(daysOffset + 1).toMillis(false);
-		String secondDay = (String) DateFormat.format("MMM dd", second);
+		String secondDay = JodaUtils.formatLocalDate(getActivity().getApplicationContext(), new LocalDate(second),
+				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH);
 		String range = this.getString(R.string.date_range_TEMPLATE, firstDay, secondDay);
-		assertEquals(dateRangeText, range);
+		assertEquals(range, dateRangeText);
 	}
 
 	public void testHeaderPriceInfoText() throws Exception {
