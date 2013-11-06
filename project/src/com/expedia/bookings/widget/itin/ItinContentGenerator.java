@@ -65,7 +65,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	private Context mContext;
 	private T mItinCardData;
 
-	private boolean mDetialsSummaryHideTypeIcon = true;
+	private boolean mDetailsSummaryHideTypeIcon = true;
 	private boolean mDetailsSummaryHideTitle = true;
 
 	private String mSharableImageURL;
@@ -324,12 +324,12 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			return false;
 		}
 		else {
-			return mDetialsSummaryHideTypeIcon;
+			return mDetailsSummaryHideTypeIcon;
 		}
 	}
 
 	public void setHideDetailsTypeIcon(boolean hide) {
-		mDetialsSummaryHideTypeIcon = hide;
+		mDetailsSummaryHideTypeIcon = hide;
 	}
 
 	public boolean getHideDetailsTitle() {
