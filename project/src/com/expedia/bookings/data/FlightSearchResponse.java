@@ -2,7 +2,6 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,7 +12,6 @@ import org.json.JSONObject;
 
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.flightlib.data.Waypoint;
 
 public class FlightSearchResponse extends Response {
 
@@ -70,20 +68,7 @@ public class FlightSearchResponse extends Response {
 	}
 
 	public Set<String> getDepartureAirportsForLeg(int legNumber) {
-		Set<String> codes = new HashSet<String>();
-
-		Waypoint waypoint;
-		for (FlightTrip trip : mTrips) {
-			if (legNumber == 0) {
-				waypoint = trip.getLeg(0).getFirstWaypoint();
-			}
-			else {
-				waypoint = trip.getLeg(0).getLastWaypoint();
-			}
-			codes.add(waypoint.getAirport().mAirportCode);
-		}
-
-		return codes;
+		return FlightSearch.generateDepartureAirportsForLeg(mTrips, legNumber);
 	}
 
 	public void setObFeesDetails(String obFeesDetails) {

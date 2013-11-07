@@ -2,6 +2,7 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -459,6 +460,23 @@ public class FlightSearch implements JSONable {
 		}
 
 		return lowestPriceMap;
+	}
+
+	public static Set<String> generateDepartureAirportsForLeg(Collection<FlightTrip> trips, int legNumber) {
+		Set<String> codes = new HashSet<String>();
+
+		Waypoint waypoint;
+		for (FlightTrip trip : trips) {
+			if (legNumber == 0) {
+				waypoint = trip.getLeg(0).getFirstWaypoint();
+			}
+			else {
+				waypoint = trip.getLeg(0).getLastWaypoint();
+			}
+			codes.add(waypoint.getAirport().mAirportCode);
+		}
+
+		return codes;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

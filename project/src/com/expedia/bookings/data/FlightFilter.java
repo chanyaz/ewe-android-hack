@@ -73,6 +73,11 @@ public class FlightFilter {
 		}
 	}
 
+	public void initAirports(List<FlightTrip> trips) {
+		mDepartureAirports = FlightSearch.generateDepartureAirportsForLeg(trips, 0);
+		mArrivalAirports = FlightSearch.generateDepartureAirportsForLeg(trips, 1);
+	}
+
 	public void setPreferredAirline(String airlineCode, boolean isPreferred) {
 		if (isPreferred) {
 			mPreferredAirlines.add(airlineCode);
@@ -112,6 +117,36 @@ public class FlightFilter {
 
 	public void addArrivalAirport(String airportCode) {
 		mArrivalAirports.add(airportCode);
+	}
+
+	public void addDepartureAirportForLeg(int legNumber, String airportCode) {
+		if (legNumber == 0) {
+			mDepartureAirports.add(airportCode);
+		}
+		else {
+			mArrivalAirports.add(airportCode);
+		}
+	}
+
+	public void removeDepartureAirportForLeg(int legNumber, String airportCode) {
+		if (legNumber == 0) {
+			mDepartureAirports.remove(airportCode);
+		}
+		else {
+			mArrivalAirports.remove(airportCode);
+		}
+	}
+
+	public boolean containsDepartureAirportForLeg(int legNumber, String airportCode) {
+		Set<String> airports;
+		if (legNumber == 0) {
+			airports = mDepartureAirports;
+		}
+		else {
+			airports = mArrivalAirports;
+		}
+
+		return airports.contains(airportCode);
 	}
 
 	public void removeArrivalAirport(String airportCode) {

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,10 +13,7 @@ import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -24,11 +22,11 @@ import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.AirportFilterWidget;
 import com.expedia.bookings.widget.CheckBoxFilterWidget;
 import com.expedia.bookings.widget.CheckBoxFilterWidget.OnCheckedChangeListener;
-import com.mobiata.flightlib.data.Airport;
-import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 /**
  * ResultsFlightFiltersFragment: The filters fragment designed for tablet results 2013
@@ -40,6 +38,12 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	private int mLegNumber;
 
 	private ViewGroup mAirlineContainer;
+
+	private TextView mDepartureAirportsHeader;
+	private AirportFilterWidget mDepartureAirportFilterWidget;
+
+	private TextView mArrivalAirportsHeader;
+	private AirportFilterWidget mArrivalAirportFilterWidget;
 
 	public static ResultsFlightFiltersFragment newInstance(int legNumber) {
 		ResultsFlightFiltersFragment frag = new ResultsFlightFiltersFragment();
@@ -56,7 +60,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_flight_tablet_filter, container, false);
 
 		RadioGroup sortGroup = Ui.findView(view, R.id.flight_sort_control);
@@ -64,122 +68,27 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		RadioGroup filterGroup = Ui.findView(view, R.id.flight_filter_control);
 		filterGroup.setOnCheckedChangeListener(mControlKnobListener);
 
-		int departureAirportIndex, arrivalAirportIndex;
-		if (mLegNumber == 0) {
-			departureAirportIndex = 0;
-			arrivalAirportIndex = 1;
-		}
-		else {
-			departureAirportIndex = 1;
-			arrivalAirportIndex = 0;
-		}
-
-		Spinner departureAirportsSpinner = Ui.findView(view, R.id.departure_airports_spinner);
-		TextView departureAirportsHeader = Ui.findView(view, R.id.departure_airports_header);
-		Spinner arrivalAirportsSpinner = Ui.findView(view, R.id.arrival_airports_spinner);
-		TextView arrivalAirportsHeader = Ui.findView(view, R.id.arrival_airports_header);
-
-		configureAirportFilter(departureAirportIndex, departureAirportsSpinner, departureAirportsHeader);
-		configureAirportFilter(arrivalAirportIndex, arrivalAirportsSpinner, arrivalAirportsHeader);
-
 		mAirlineContainer = Ui.findView(view, R.id.filter_airline_container);
 
+		mDepartureAirportsHeader = Ui.findView(view, R.id.departure_airports_header);
+		mDepartureAirportFilterWidget = Ui.findView(view, R.id.departure_airports_widget);
+
+		mArrivalAirportsHeader = Ui.findView(view, R.id.arrival_airports_header);
+		mArrivalAirportFilterWidget = Ui.findView(view, R.id.arrival_airports_widget);
+
+		Set<String> departureAirports = Db.getFlightSearch().getDepartureAirportsForLeg(0);
+		FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
+		mDepartureAirportFilterWidget.bind(0, departureAirports, filter, mAirportOnCheckedChangeListener);
+		mDepartureAirportsHeader.setVisibility(departureAirports.size() < 2 ? View.GONE : View.VISIBLE);
+
+		Set<String> arrivalAirports = Db.getFlightSearch().getDepartureAirportsForLeg(1);
+		mArrivalAirportFilterWidget.bind(1, arrivalAirports, filter, mArrivalAirportOnCheckedChangeListener);
+		mArrivalAirportsHeader.setVisibility(arrivalAirports.size() < 2 ? View.GONE : View.VISIBLE);
+
 		buildAirlineList();
+		updateAirportLabel(Db.getFlightSearch().getFilter(mLegNumber));
 
 		return view;
-	}
-
-	private void configureAirportFilter(final int airportIndex, Spinner spinner, TextView header) {
-		final List<String> airports = new ArrayList<String>();
-
-		// Add a placeholder for the first position. When accessed via the Spinner, metro codes from
-		// the SearchParams will be retrieved.
-		airports.add("metro-code-placeholder");
-
-		airports.addAll(Db.getFlightSearch().getDepartureAirportsForLeg(airportIndex));
-
-		if (airports.size() <= 2) {
-			// One for the placeholder, one for the minimum number of airports. Any more means a metro
-			// code was searched.
-			spinner.setVisibility(View.GONE);
-			header.setVisibility(View.GONE);
-		}
-		else {
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.simple_spinner_item,
-					airports) {
-				@Override
-				public View getView(int position, View convertView, ViewGroup parent) {
-					return getAirportView(airports, position, airportIndex, convertView, parent);
-				}
-
-				@Override
-				public View getDropDownView(int position, View convertView, ViewGroup parent) {
-					return getAirportView(airports, position, airportIndex, convertView, parent);
-				}
-			};
-
-			spinner.setAdapter(adapter);
-			spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-					FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
-					if (position == 0) {
-						if (airportIndex == 0) {
-							filter.clearDepartureAirports();
-						}
-						else {
-							filter.clearArrivalAirports();
-						}
-					}
-					else {
-						if (airportIndex == 0) {
-							filter.addDepartureAirport(airports.get(position));
-						}
-						else {
-							filter.addArrivalAirport(airports.get(position));
-						}
-					}
-					filter.notifyFilterChanged();
-					onFilterChanged();
-				}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> parent) {
-					// We don't need to execute any code if the user doesn't select a row.
-				}
-			});
-
-			spinner.setVisibility(View.VISIBLE);
-			header.setVisibility(View.VISIBLE);
-		}
-	}
-
-	private View getAirportView(List<String> codes, int spinnerPos, int airportIndex, View convertView, ViewGroup parent) {
-		if (convertView == null) {
-			convertView = LayoutInflater.from(getActivity()).inflate(R.layout.simple_spinner_item, parent, false);
-		}
-		String text;
-
-		String code = codes.get(spinnerPos);
-
-		if (spinnerPos == 0) {
-			Location loc;
-			if (airportIndex == 0) {
-				loc = Db.getFlightSearch().getSearchParams().getDepartureLocation();
-			}
-			else {
-				loc = Db.getFlightSearch().getSearchParams().getArrivalLocation();
-			}
-			text = loc.getDestinationId() + " - " + loc.getDescription();
-		}
-		else {
-			Airport airport = FlightStatsDbUtils.getAirport(code);
-			text = airport.mAirportCode + " - " + airport.mName;
-		}
-
-		// TODO use string template, use span, match mocks
-		((TextView) convertView).setText(text);
-		return convertView;
 	}
 
 	private static final Map<Integer, FlightFilter.Sort> RES_ID_SORT_MAP = new HashMap<Integer, FlightFilter.Sort>() {
@@ -218,8 +127,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 				break;
 			}
 
-			filter.notifyFilterChanged();
-			onFilterChanged();
+			onFilterChanged(filter);
 		}
 	};
 
@@ -233,8 +141,76 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		}
 	};
 
+	private OnCheckedChangeListener mAirportOnCheckedChangeListener = new OnCheckedChangeListener() {
+		@Override
+		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
+			FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
+			String airportCode = (String) view.getTag();
+			if (isChecked) {
+				filter.addDepartureAirportForLeg(0, airportCode);
+			}
+			else {
+				filter.removeDepartureAirportForLeg(0, airportCode);
+			}
+
+			onFilterChanged(filter);
+		}
+	};
+
+	private OnCheckedChangeListener mArrivalAirportOnCheckedChangeListener = new OnCheckedChangeListener() {
+		@Override
+		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
+			FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
+			String airportCode = (String) view.getTag();
+			if (isChecked) {
+				filter.addDepartureAirportForLeg(1, airportCode);
+			}
+			else {
+				filter.removeDepartureAirportForLeg(1, airportCode);
+			}
+
+			onFilterChanged(filter);
+		}
+	};
+
 	public void onFilterChanged() {
+		onFilterChanged(Db.getFlightSearch().getFilter(mLegNumber));
+	}
+
+	public void onFilterChanged(FlightFilter filter) {
+		filter.notifyFilterChanged();
+
 		buildAirlineList();
+		updateAirportLabel(filter);
+	}
+
+	private void updateAirportLabel(FlightFilter filter) {
+		Set<String> airportsInFilter = filter.getDepartureAirports();
+		Set<String> airportsAll = Db.getFlightSearch().getDepartureAirportsForLeg(0);
+
+		String text;
+		if (airportsInFilter.size() == airportsAll.size()) {
+			Location depLoc = Db.getFlightSearch().getSearchParams().getDepartureLocation();
+			text = depLoc.getDestinationId() + " - " + depLoc.getDescription();
+		}
+		else {
+			text = StrUtils.joinWithoutEmpties(", ", airportsInFilter);
+		}
+		mDepartureAirportFilterWidget.setText(text);
+
+		Set<String> arrivalAirportsInFilter = filter.getArrivalAirports();
+		Set<String> arrivalAirportsAll = Db.getFlightSearch().getDepartureAirportsForLeg(1);
+
+		String text2;
+		if (arrivalAirportsInFilter.size() == arrivalAirportsAll.size()) {
+			Location arrLoc = Db.getFlightSearch().getSearchParams().getArrivalLocation();
+			text2 = arrLoc.getDestinationId() + " - " + arrLoc.getDescription();
+		}
+		else {
+			text2 = StrUtils.joinWithoutEmpties(", ", arrivalAirportsInFilter);
+		}
+		mArrivalAirportFilterWidget.setText(text2);
+
 	}
 
 	private void buildAirlineList() {

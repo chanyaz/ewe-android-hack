@@ -43,11 +43,13 @@
                 android:text="@string/hint_departure_airport"
                 android:textAllCaps="true" />
 
-        <Spinner
-                android:id="@+id/departure_airports_spinner"
+        <com.expedia.bookings.widget.AirportFilterWidget
+                android:id="@+id/departure_airports_widget"
+                style="@style/FakeSpinner"
+                android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp" />
+                android:layout_marginBottom="24dp"/>
 
         <TextView
                 android:id="@+id/arrival_airports_header"
@@ -56,8 +58,10 @@
                 android:text="@string/hint_arrival_airport"
                 android:textAllCaps="true" />
 
-        <Spinner
-                android:id="@+id/arrival_airports_spinner"
+        <com.expedia.bookings.widget.AirportFilterWidget
+                android:id="@+id/arrival_airports_widget"
+                style="@style/FakeSpinner"
+                android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp" />
