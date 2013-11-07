@@ -909,9 +909,7 @@ public class ExpediaServices implements DownloadListener {
 			Log.e("Couldn't add the long_url to the argument json");
 		}
 
-		//TODO: THIS URL IS NOT THE FINAL ENDPOINT OF THE SHORTENER SERVICE
-		HttpPost post = NetUtils.createHttpPost(
-				"http://shortly-ewetest-lb-674578484.us-east-1.elb.amazonaws.com/v1/shorten", args.toString());
+		HttpPost post = NetUtils.createHttpPost("http://e.xpda.co/v1/shorten", args.toString());
 
 		// Make sure the response comes back as JSON
 		post.addHeader("Accept", "application/json");
