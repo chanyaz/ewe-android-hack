@@ -9,8 +9,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,7 +25,7 @@ import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.Ui;
 
-public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
+public class AvailabilitySummaryWidget {
 
 	// Controlled by max_summarized_rate_rows (via config.xml)
 	private int mMaxRateRows;
@@ -105,10 +105,6 @@ public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 					onButtonClicked();
 				}
 			});
-		}
-
-		if (mHeaderViewGroup != null) {
-			mHeaderViewGroup.addOnLayoutChangeListener(this);
 		}
 	}
 
@@ -347,35 +343,40 @@ public class AvailabilitySummaryWidget implements OnLayoutChangeListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// OnLayoutChangeListener
+	// Single line vs. two line layouts, depending on space
 
 	private boolean mNeedsTwoLines;
 
-	@Override
-	public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight,
-			int oldBottom) {
-		boolean fits = true;
-		int len = mHeaderViewGroup.getChildCount();
-		for (int a = 0; a < len; a++) {
-			TextView child = (TextView) mHeaderViewGroup.getChildAt(a);
-			if (child.getVisibility() != View.GONE && (child.getWidth() == 0 || child.getLineCount() > 1)
-					&& !TextUtils.isEmpty(child.getText())) {
-				fits = false;
-				break;
-			}
-		}
-
-		if (!fits) {
-			mNeedsTwoLines = true;
-
-			configureTwoLine();
-		}
-	}
-
 	private void configureSingleLine() {
 		if (mHeaderViewGroup != null && mHeaderViewGroupTwoLine != null) {
+			mNeedsTwoLines = false;
 			mHeaderViewGroup.setVisibility(View.VISIBLE);
 			mHeaderViewGroupTwoLine.setVisibility(View.GONE);
+
+			// Add a VTO to check if single line is alright;
+			mHeaderViewGroup.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+				@Override
+				public void onGlobalLayout() {
+					mHeaderViewGroup.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+					boolean fits = true;
+					int len = mHeaderViewGroup.getChildCount();
+					for (int a = 0; a < len; a++) {
+						TextView child = (TextView) mHeaderViewGroup.getChildAt(a);
+						if (child.getVisibility() != View.GONE && (child.getWidth() == 0 || child.getLineCount() > 1)
+								&& !TextUtils.isEmpty(child.getText())) {
+							fits = false;
+							break;
+						}
+					}
+
+					if (!fits) {
+						mNeedsTwoLines = true;
+
+						configureTwoLine();
+					}
+				}
+			});
 		}
 	}
 
