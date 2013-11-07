@@ -561,7 +561,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			}
 			else {
 				if (animate) {
-					ValueAnimator dummy = ValueAnimator.ofInt(0, 1).setDuration(300);
+					ValueAnimator dummy = ValueAnimator.ofInt(0, 1).setDuration(400);
 					dummy.addListener(new AnimatorListenerShort() {
 						@Override
 						public void onAnimationEnd(Animator arg0) {
@@ -726,7 +726,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 				ViewHelper.setAlpha(mHeaderOverlayImageView, 0f);
 			}
 		}
-			
+
 		// Header text
 		if (mItinContentGenerator.getHideDetailsTitle()) {
 			if (animate) {
@@ -786,7 +786,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			}
 		}
 		else {
-			if (animate) {
+			// There's no need to animate anything here if this is the summary card
+			if (animate && !mShowSummary) {
 				/*
 				 * Trying to make it look like the floating image is blowing up in size
 				 * and transforming into the full size fixed Image.
