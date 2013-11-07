@@ -31,6 +31,7 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
@@ -567,7 +568,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 					float scale = ViewHelper.getScaleX(mItinTypeImageView);
 					PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", scale);
 					PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", scale);
-					ObjectAnimator anim = ObjectAnimator.ofPropertyValuesHolder(
+					ObjectAnimator anim = AnimUtils.ofPropertyValuesHolder(
 							mFixedItinTypeImageView, scaleX, scaleY).setDuration(400);
 					anim.addListener(new AnimatorListenerShort() {
 						@Override
@@ -807,7 +808,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 				mItinTypeImageView.setVisibility(View.INVISIBLE);
 				PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", scale, 1f);
 				PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", scale, 1f);
-				ObjectAnimator anim = ObjectAnimator.ofPropertyValuesHolder(
+				ObjectAnimator anim = AnimUtils.ofPropertyValuesHolder(
 						mFixedItinTypeImageView, scaleX, scaleY).setDuration(400);
 				animators.add(anim);
 			}
