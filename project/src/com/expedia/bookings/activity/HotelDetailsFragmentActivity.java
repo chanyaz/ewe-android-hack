@@ -383,6 +383,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 
 		mBookNowButton = Ui.findView(this, R.id.book_now_button);
 		if (Db.getHotelSearch().getSelectedProperty().isAvailable()) {
+			mBookNowButton.setVisibility(View.VISIBLE);
 			mBookNowButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
