@@ -888,7 +888,12 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			float typeImageHeight = mItinTypeImageView.getHeight();
 			float typeImageHalfHeight = typeImageHeight / 2;
 			float headerImageHeight = mHeaderImageView.getHeight();
+
 			float typeImageY = (headerImageHeight - mHeaderTextLayout.getHeight()) / 2;
+			if (mShowSummary) {
+				// This is 9dp, which works, but, this whole method is a nasty TODO cluster
+				typeImageY -= 9 * getResources().getDisplayMetrics().density;
+			}
 
 			float percent = 0;
 			float percentIcon = 0;
