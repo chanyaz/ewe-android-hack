@@ -41,6 +41,7 @@ import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.animation.PropertyValuesHolder;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 import com.nineoldandroids.view.ViewHelper;
@@ -561,8 +562,14 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			}
 			else {
 				if (animate) {
-					ValueAnimator dummy = ValueAnimator.ofInt(0, 1).setDuration(400);
-					dummy.addListener(new AnimatorListenerShort() {
+					// Animate the fixed image smoothly down into the smaller floating Image.
+					ViewHelper.setAlpha(mItinTypeImageView, 0f);
+					float scale = ViewHelper.getScaleX(mItinTypeImageView);
+					PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", scale);
+					PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", scale);
+					ObjectAnimator anim = ObjectAnimator.ofPropertyValuesHolder(
+							mFixedItinTypeImageView, scaleX, scaleY).setDuration(400);
+					anim.addListener(new AnimatorListenerShort() {
 						@Override
 						public void onAnimationEnd(Animator arg0) {
 							ViewHelper.setAlpha(mItinTypeImageView, 1f);
@@ -570,7 +577,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 							mFixedItinTypeImageView.setVisibility(View.GONE);
 						}
 					});
-					animators.add(dummy);
+					animators.add(anim);
 				}
 				else {
 					ViewHelper.setAlpha(mItinTypeImageView, 1f);
@@ -788,20 +795,21 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		else {
 			// There's no need to animate anything here if this is the summary card
 			if (animate && !mShowSummary) {
-				/*
-				 * Trying to make it look like the floating image is blowing up in size
-				 * and transforming into the full size fixed Image.
-				 */
+				// Animate the floating image smoothly into the full size fixed Image.
+				float scale = ViewHelper.getScaleX(mItinTypeImageView);
+
+				// TODO: Big Ol' fudge factor.
+				// We'll need to redo this view's layout to fix it though.
+				float trans = -8 * getResources().getDisplayMetrics().density;
+				ViewHelper.setTranslationY(mFixedItinTypeImageView, trans);
+
 				mFixedItinTypeImageView.setVisibility(View.VISIBLE);
-				ViewHelper.setAlpha(mFixedItinTypeImageView, 0f);
-				ObjectAnimator itinTypeAlphaAnimator = ObjectAnimator
-						.ofFloat(mItinTypeImageView, "alpha", 0f)
-						.setDuration(200);
-				ObjectAnimator itinTypeFixedAlphaAnimator = ObjectAnimator
-						.ofFloat(mFixedItinTypeImageView, "alpha", 1f)
-						.setDuration(400);
-				animators.add(itinTypeFixedAlphaAnimator);
-				animators.add(itinTypeAlphaAnimator);
+				mItinTypeImageView.setVisibility(View.INVISIBLE);
+				PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", scale, 1f);
+				PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", scale, 1f);
+				ObjectAnimator anim = ObjectAnimator.ofPropertyValuesHolder(
+						mFixedItinTypeImageView, scaleX, scaleY).setDuration(400);
+				animators.add(anim);
 			}
 			else {
 				ViewHelper.setAlpha(mItinTypeImageView, 0f);
