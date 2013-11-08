@@ -46,8 +46,13 @@ import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
 public class ExpediaBookingApp extends Application implements UncaughtExceptionHandler {
-	private static final String PREF_FIRST_LAUNCH = "PREF_FIRST_LAUNCH";
-	private static final String PREF_UPGRADED_TO_ACCOUNT_MANAGER = "PREF_UPGRADED_TO_ACCOUNT_MANAGER";//For logged in backward compatibility with AccountManager
+	// Don't change the actual string, updated identifier for clarity
+	private static final String PREF_FIRST_LAUNCH_OCCURED = "PREF_FIRST_LAUNCH";
+
+	// For logged in backward compatibility with AccountManager
+	private static final String PREF_UPGRADED_TO_ACCOUNT_MANAGER = "PREF_UPGRADED_TO_ACCOUNT_MANAGER";
+
+	// For bug #2249 where we did not point at the production push server
 	private static final String PREF_UPGRADED_TO_PRODUCTION_PUSH = "PREF_UPGRADED_TO_PRODUCTION_PUSH";
 
 	private static final int MIN_IMAGE_CACHE_SIZE = (1024 * 1024 * 6); // 6 MB
@@ -156,7 +161,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		// We also don't want to bother if the user has never launched the app before
 		if (isRelease
 			&& !SettingUtils.get(this, PREF_UPGRADED_TO_PRODUCTION_PUSH, false)
-			&& SettingUtils.get(this, PREF_FIRST_LAUNCH, false)) {
+			&& SettingUtils.get(this, PREF_FIRST_LAUNCH_OCCURED, false)) {
 
 			final String testPushServer = PushNotificationUtils.REGISTRATION_URL_TEST;
 			final String regId = GCMRegistrationKeeper.getInstance(this).getRegistrationId(this);
@@ -174,8 +179,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		// We want to try to start loading data (but it may not be finished syncing before someone tries to use it).
 		ItineraryManager.getInstance().startSync(false);
 
-		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH, false)) {
-			SettingUtils.save(this, PREF_FIRST_LAUNCH, true);
+		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH_OCCURED, false)) {
+			SettingUtils.save(this, PREF_FIRST_LAUNCH_OCCURED, true);
 			AdTracker.trackFirstLaunch();
 			startupTimer.addSplit("AdTracker first launch tracking");
 		}
