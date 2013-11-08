@@ -185,6 +185,11 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			startupTimer.addSplit("AdTracker first launch tracking");
 		}
 
+		// 2249: We don't need to unregister if this is the user's first launch
+		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH_OCCURED, false)) {
+			SettingUtils.save(ExpediaBookingApp.this, PREF_UPGRADED_TO_PRODUCTION_PUSH, true);
+		}
+
 		// #13097: We need a way to disable the widget on ICS tablets.  This is a hacky way of doing so,
 		// in that it requires the app to be launched at least once before it can be disabled, but it's
 		// the best we can do for the time being.
