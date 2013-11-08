@@ -12,7 +12,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginRight="8dp"
         android:src="@drawable/ic_vip_details"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/rate_info_container"
