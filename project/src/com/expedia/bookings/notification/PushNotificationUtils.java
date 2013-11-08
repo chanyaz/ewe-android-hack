@@ -38,7 +38,8 @@ import com.mobiata.flightlib.utils.DateTimeUtils;
 public class PushNotificationUtils {
 
 	public static final String SENDER_ID = "895052546820";
-	public static final String REGISTRATION_URL = "http://ewetest.flightalerts.mobiata.com/register_for_flight_alerts";
+	public static final String REGISTRATION_URL_TEST = "http://ewetest.flightalerts.mobiata.com/register_for_flight_alerts";
+	public static final String REGISTRATION_URL_PRODUCTION = "https://ewe.flightalerts.mobiata.com/register_for_flight_alerts";
 
 	private static HashMap<String, Integer> sLocStringMap;
 
@@ -1125,9 +1126,11 @@ public class PushNotificationUtils {
 	 * the supplied regId
 	 *
 	 * @param context
+	 * @param serverUrl
 	 * @param regId
+	 * @param unregistrationCompleteHandler
 	 */
-	public static void unRegister(final Context context, final String regId,
+	public static void unRegister(final Context context, final String serverUrl, final String regId,
 			OnDownloadComplete<PushNotificationRegistrationResponse> unregistrationCompleteHandler) {
 		Log.d("PushNotificationUtils.unRegister regId " + regId);
 		String downloadKey = buildUnregisterDownloadKey(regId);
@@ -1148,10 +1151,24 @@ public class PushNotificationUtils {
 					}
 				}
 				ExpediaServices services = new ExpediaServices(context);
-				return services.registerForPushNotifications(new PushRegistrationResponseHandler(context),
+				return services.registerForPushNotifications(serverUrl, new PushRegistrationResponseHandler(context),
 						buildPushRegistrationPayload(regId, userTuid, null, null), regId);
 			}
 		}, unregistrationCompleteHandler);
+	}
+
+	/**
+	 * This is a helper method that essentially just sends an empty flight list to the api
+	 * (in the background) and thereby unregisters all of the current push notifications for
+	 * the supplied regId to the default push server
+	 *
+	 * @param context
+	 * @param regId
+	 * @param unregistrationCompleteHandler
+	 */
+	public static void unRegister(final Context context, final String regId,
+			OnDownloadComplete<PushNotificationRegistrationResponse> unregistrationCompleteHandler) {
+		unRegister(context, getRegistrationUrl(context), regId, unregistrationCompleteHandler);
 	}
 
 	/**
@@ -1163,7 +1180,7 @@ public class PushNotificationUtils {
 	 * @param regId
 	 */
 	public static void unRegister(final Context context, final String regId) {
-		unRegister(context, regId, new OnDownloadComplete<PushNotificationRegistrationResponse>() {
+		unRegister(context, getRegistrationUrl(context), regId, new OnDownloadComplete<PushNotificationRegistrationResponse>() {
 			@Override
 			public void onDownload(PushNotificationRegistrationResponse result) {
 				Log.d("PushNotificationUtils.unRegister regId " + regId + " complete! result:"
@@ -1214,6 +1231,15 @@ public class PushNotificationUtils {
 		catch (Exception ex) {
 			Log.e("Exception generating hash of string:" + strToHash);
 			return null;
+		}
+	}
+
+	public static String getRegistrationUrl(Context context) {
+		if (AndroidUtils.isRelease(context)) {
+			return REGISTRATION_URL_PRODUCTION;
+		}
+		else {
+			return REGISTRATION_URL_TEST;
 		}
 	}
 }

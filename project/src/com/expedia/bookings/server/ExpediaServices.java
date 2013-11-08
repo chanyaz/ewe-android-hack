@@ -1266,8 +1266,8 @@ public class ExpediaServices implements DownloadListener {
 	// Push Notifications
 
 	public PushNotificationRegistrationResponse registerForPushNotifications(
-			ResponseHandler<PushNotificationRegistrationResponse> responseHandler, JSONObject payload, String regId) {
-		String serverUrl = PushNotificationUtils.REGISTRATION_URL;
+			String serverUrl, ResponseHandler<PushNotificationRegistrationResponse> responseHandler,
+			JSONObject payload, String regId) {
 
 		// Create the request
 		HttpPost post = NetUtils.createHttpPost(serverUrl, (List<BasicNameValuePair>) null);
@@ -1306,6 +1306,12 @@ public class ExpediaServices implements DownloadListener {
 			Log.d("PushNotification registration is disabled in settings!");
 			return null;
 		}
+	}
+
+	public PushNotificationRegistrationResponse registerForPushNotifications(
+			ResponseHandler<PushNotificationRegistrationResponse> responseHandler, JSONObject payload, String regId) {
+		String serverUrl = PushNotificationUtils.getRegistrationUrl(mContext);
+		return registerForPushNotifications(serverUrl, responseHandler, payload, regId);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

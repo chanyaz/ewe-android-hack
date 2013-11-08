@@ -21,10 +21,13 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LocalExpertSite;
+import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.WalletPromoResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.notification.GCMRegistrationKeeper;
+import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
@@ -32,6 +35,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AssetZoneInfoProvider;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.WalletUtils;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
@@ -44,6 +48,7 @@ import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 public class ExpediaBookingApp extends Application implements UncaughtExceptionHandler {
 	private static final String PREF_FIRST_LAUNCH = "PREF_FIRST_LAUNCH";
 	private static final String PREF_UPGRADED_TO_ACCOUNT_MANAGER = "PREF_UPGRADED_TO_ACCOUNT_MANAGER";//For logged in backward compatibility with AccountManager
+	private static final String PREF_UPGRADED_TO_PRODUCTION_PUSH = "PREF_UPGRADED_TO_PRODUCTION_PUSH";
 
 	private static final int MIN_IMAGE_CACHE_SIZE = (1024 * 1024 * 6); // 6 MB
 	public static final boolean IS_VSC = AndroidUtils.getBuildConfigValue("IS_VSC"); // Check to see if this is a VSC app build
@@ -145,6 +150,26 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			SettingUtils.save(this, PREF_UPGRADED_TO_ACCOUNT_MANAGER, true);
 		}
 		startupTimer.addSplit("User upgraded to use AccountManager (if needed)");
+
+		// 2249: We were not sending push registrations to the prod push server
+		// If we are upgrading from a previous version we will send an unregister to the test push server
+		// We also don't want to bother if the user has never launched the app before
+		if (isRelease
+			&& !SettingUtils.get(this, PREF_UPGRADED_TO_PRODUCTION_PUSH, false)
+			&& SettingUtils.get(this, PREF_FIRST_LAUNCH, false)) {
+
+			final String testPushServer = PushNotificationUtils.REGISTRATION_URL_TEST;
+			final String regId = GCMRegistrationKeeper.getInstance(this).getRegistrationId(this);
+			OnDownloadComplete<PushNotificationRegistrationResponse> callback = new OnDownloadComplete<PushNotificationRegistrationResponse>() {
+				@Override
+				public void onDownload(PushNotificationRegistrationResponse result) {
+					Log.d("Unregistered from test server");
+					SettingUtils.save(ExpediaBookingApp.this, PREF_UPGRADED_TO_PRODUCTION_PUSH, true);
+				}
+			};
+			PushNotificationUtils.unRegister(this, testPushServer, regId, callback);
+		}
+		startupTimer.addSplit("Push server unregistered (if needed)");
 
 		// We want to try to start loading data (but it may not be finished syncing before someone tries to use it).
 		ItineraryManager.getInstance().startSync(false);
