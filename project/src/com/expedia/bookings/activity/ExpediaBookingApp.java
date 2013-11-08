@@ -100,8 +100,6 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			startupTimer.addSplit("VSC force fr locale");
 		}
 
-		startupTimer.addSplit("Maps V2 Key Check");
-
 		// Init required for Omniture tracking
 		OmnitureTracking.init(this);
 		// Setup Omniture for tracking crashes
