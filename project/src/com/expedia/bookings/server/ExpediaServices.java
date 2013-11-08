@@ -1272,7 +1272,12 @@ public class ExpediaServices implements DownloadListener {
 		// Create the request
 		HttpPost post = NetUtils.createHttpPost(serverUrl, (List<BasicNameValuePair>) null);
 		post.setHeader("Content-type", "application/json");
-		post.addHeader("MobiataPushName", "ExpediaBookingsAlpha");
+		if (PushNotificationUtils.REGISTRATION_URL_PRODUCTION.equals(serverUrl)) {
+			post.addHeader("MobiataPushName", "ExpediaBookings");
+		}
+		else {
+			post.addHeader("MobiataPushName", "ExpediaBookingsAlpha");
+		}
 
 		try {
 			StringEntity strEntity = new StringEntity(payload.toString());
