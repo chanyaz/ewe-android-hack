@@ -752,6 +752,29 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 				ViewHelper.setTranslationY(mHeaderTextLayout, -50f);
 			}
 		}
+		else {
+			//Fade out Headertextdateview
+			if (animate) {
+				ObjectAnimator headerDateTextAlphaAnimator = ObjectAnimator
+						.ofFloat(mHeaderTextDateView, "alpha", 0f)
+						.setDuration(200);
+				animators.add(headerDateTextAlphaAnimator);
+
+				if (!mShowSummary) {
+					ObjectAnimator headerTextTranslationAnimator = ObjectAnimator
+							.ofFloat(mHeaderTextView, "translationY", 20f)
+							.setDuration(200);
+					animators.add(headerTextTranslationAnimator);
+				}
+			}
+			else {
+				ViewHelper.setAlpha(mHeaderTextDateView, 0f);
+				if (!mShowSummary) {
+					ViewHelper.setTranslationY(mHeaderTextLayout, 20f);
+				}
+			}
+		}
+
 
 		// Header Shade (for past itins)
 		if (mHeaderShadeView.getVisibility() != View.GONE) {
@@ -837,29 +860,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		}
 		else {
 			ViewHelper.setRotation(mChevronImageView, 180f);
-		}
-
-		if (mItinContentGenerator.isSharedItin()) {
-			//Fade out Headertextdateview
-			if (animate) {
-				ObjectAnimator headerDateTextAlphaAnimator = ObjectAnimator
-						.ofFloat(mHeaderTextDateView, "alpha", 0f)
-						.setDuration(200);
-				animators.add(headerDateTextAlphaAnimator);
-
-				if (!mShowSummary) {
-					ObjectAnimator headerTextTranslationAnimator = ObjectAnimator
-							.ofFloat(mHeaderTextView, "translationY", 20f)
-							.setDuration(200);
-					animators.add(headerTextTranslationAnimator);
-				}
-			}
-			else {
-				ViewHelper.setAlpha(mHeaderTextDateView, 0f);
-				if (!mShowSummary) {
-					ViewHelper.setTranslationY(mHeaderTextLayout, 10f);
-				}
-			}
 		}
 
 		// Putting it all together
