@@ -88,14 +88,14 @@ public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Down
 	 */
 	private void retrieveSharableUrl() {
 		// Set the width and height to 0, so that the api returns the lowest res image file.
-		ExpediaImage image = ExpediaImageManager.getInstance().getExpediaImage(ImageType.DESTINATION_MOBILEWEB,
+		ExpediaImage image = ExpediaImageManager.getInstance().getExpediaImage(ImageType.DESTINATION,
 				mImageCode, 0, 0, false);
 		if (image != null) {
 			mSharableUrlCallBack.onDownload(image);
 		}
 		else {
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			String key = ExpediaImageManager.getImageKey(ImageType.DESTINATION_MOBILEWEB, mImageCode, 0, 0);
+			String key = ExpediaImageManager.getImageKey(ImageType.DESTINATION, mImageCode, 0, 0);
 			bd.startDownload(key, mSharableUrlDownload, mSharableUrlCallBack);
 		}
 	}
@@ -119,7 +119,7 @@ public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Down
 
 		@Override
 		public ExpediaImage doDownload() {
-			return ExpediaImageManager.getInstance().getExpediaImage(ImageType.DESTINATION_MOBILEWEB, mImageCode, 0, 0, true);
+			return ExpediaImageManager.getInstance().getExpediaImage(ImageType.DESTINATION, mImageCode, 0, 0, true);
 		}
 	};
 
