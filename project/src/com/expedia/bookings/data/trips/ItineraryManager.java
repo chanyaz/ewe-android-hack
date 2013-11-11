@@ -1068,7 +1068,15 @@ public class ItineraryManager implements JSONable {
 
 		@Override
 		protected void onPreExecute() {
-			mQuickSync = mTrips == null;
+			if (mTrips == null) {
+				Log.i(LOGGING_TAG, "Sync called with mTrips == null. Clearing queue and performing quick sync.");
+				mQuickSync = true;
+
+				mSyncOpQueue.clear();
+
+				mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
+				mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+			}
 		}
 
 		@Override
@@ -1080,15 +1088,8 @@ public class ItineraryManager implements JSONable {
 			}
 			while (!mSyncOpQueue.isEmpty()) {
 				Task nextTask = mSyncOpQueue.remove();
-				Operation op = nextTask.mOp;
 
 				Log.d(LOGGING_TAG, "Processing " + nextTask + " mQuickSync=" + mQuickSync);
-
-				// If we're doing a quick sync (aka, just loading data from disk), skip most operations
-				if (mQuickSync
-						&& !(op == Operation.LOAD_FROM_DISK || op == Operation.GENERATE_ITIN_CARDS || op == Operation.FETCH_SHARED_ITIN)) {
-					continue;
-				}
 
 				switch (nextTask.mOp) {
 				case LOAD_FROM_DISK:
@@ -1205,6 +1206,7 @@ public class ItineraryManager implements JSONable {
 			logStats();
 
 			if (mQuickSync) {
+				Log.i(LOGGING_TAG, "Quick sync completed. Starting force sync.");
 				mFinished = true;
 				startSync(true);
 			}
