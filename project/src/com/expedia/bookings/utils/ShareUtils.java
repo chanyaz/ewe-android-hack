@@ -462,15 +462,37 @@ public class ShareUtils {
 			String template = mContext.getString(R.string.share_msg_template_short_hotel);
 			String departureDateStr = DateUtils.formatDateTime(mContext, startDate.getMillis(),
 					DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
-			return String.format(template, hotelName, departureDateStr, sharableDetailsURL);
+			return shortenShortShareMessage(template, hotelName, departureDateStr, sharableDetailsURL);
 		}
 		else {
 			// This is a reshare, hence append the primaryTraveler's FirstName to the share message.
 			String template = mContext.getString(R.string.share_msg_template_short_hotel_reshare);
 			String departureDateStr = DateUtils.formatDateTime(mContext, startDate.getMillis(),
 					DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
-			return String.format(template, travelerFirstName, hotelName, departureDateStr, sharableDetailsURL);
+			return shortenShortShareMessage(template, travelerFirstName, hotelName, departureDateStr, sharableDetailsURL);
 		}
+	}
+
+	private final static int SMS_CHAR_LIMIT = 160;
+
+	private String shortenShortShareMessage(String template, String hotelName, String departureDateStr, String sharableDetailsURL) {
+		String longMsg = String.format(template, hotelName, departureDateStr, sharableDetailsURL);
+		hotelName = clipHotelName(longMsg.length(), hotelName);
+		return String.format(template, hotelName, departureDateStr, sharableDetailsURL);
+	}
+
+	private String shortenShortShareMessage(String template, String travelerFirstName, String hotelName, String departureDateStr, String sharableDetailsURL) {
+		String longMsg = String.format(template, travelerFirstName, hotelName, departureDateStr, sharableDetailsURL);
+		hotelName = clipHotelName(longMsg.length(), hotelName);
+		return String.format(template, travelerFirstName, hotelName, departureDateStr, sharableDetailsURL);
+	}
+
+	private String clipHotelName(int longMsgLength, String hotelName) {
+		int diff = longMsgLength - SMS_CHAR_LIMIT;
+		if (diff < 0 && -diff < hotelName.length() - 20) {
+			hotelName = hotelName.substring(0, hotelName.length() + diff);
+		}
+		return hotelName;
 	}
 
 	public String getHotelShareTextLong(String hotelName, String address, String phone, LocalDate startDate,
