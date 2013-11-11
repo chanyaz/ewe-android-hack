@@ -850,6 +850,21 @@ public class ItineraryManager implements JSONable {
 
 			return compareTo((Task) o) == 0;
 		}
+
+		@Override
+		public String toString() {
+			String str = "task " + mOp;
+
+			String tripKey = mTripNumber;
+			if (TextUtils.isEmpty(tripKey) && mTrip != null) {
+				tripKey = mTrip.getItineraryKey();
+			}
+			if (!TextUtils.isEmpty(tripKey)) {
+				str += " trip=" + tripKey;
+			}
+
+			return str;
+		}
 	}
 
 	// Priority queue that doesn't allow duplicates to be added
@@ -1066,6 +1081,8 @@ public class ItineraryManager implements JSONable {
 			while (!mSyncOpQueue.isEmpty()) {
 				Task nextTask = mSyncOpQueue.remove();
 				Operation op = nextTask.mOp;
+
+				Log.d(LOGGING_TAG, "Processing " + nextTask + " mQuickSync=" + mQuickSync);
 
 				// If we're doing a quick sync (aka, just loading data from disk), skip most operations
 				if (mQuickSync && !(op == Operation.LOAD_FROM_DISK || op == Operation.GENERATE_ITIN_CARDS)) {
