@@ -766,7 +766,7 @@ public class ItineraryManager implements JSONable {
 	// 3. It makes updating routes easier.  For example, getting cached
 	//    details in the user list update can still get images/flight status
 	//    updates without wonky sync code.
-	
+
 	// !!!!!
 	//
 	// SUPER IMPORTANT, READ THIS OR I WILL HURT YOU: 
@@ -1085,7 +1085,8 @@ public class ItineraryManager implements JSONable {
 				Log.d(LOGGING_TAG, "Processing " + nextTask + " mQuickSync=" + mQuickSync);
 
 				// If we're doing a quick sync (aka, just loading data from disk), skip most operations
-				if (mQuickSync && !(op == Operation.LOAD_FROM_DISK || op == Operation.GENERATE_ITIN_CARDS)) {
+				if (mQuickSync
+						&& !(op == Operation.LOAD_FROM_DISK || op == Operation.GENERATE_ITIN_CARDS || op == Operation.FETCH_SHARED_ITIN)) {
 					continue;
 				}
 
