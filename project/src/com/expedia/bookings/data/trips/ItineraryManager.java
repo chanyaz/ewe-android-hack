@@ -1089,7 +1089,7 @@ public class ItineraryManager implements JSONable {
 			while (!mSyncOpQueue.isEmpty()) {
 				Task nextTask = mSyncOpQueue.remove();
 
-				Log.d(LOGGING_TAG, "Processing " + nextTask + " mQuickSync=" + mQuickSync);
+				Log.v(LOGGING_TAG, "Processing " + nextTask + " mQuickSync=" + mQuickSync);
 
 				switch (nextTask.mOp) {
 				case LOAD_FROM_DISK:
