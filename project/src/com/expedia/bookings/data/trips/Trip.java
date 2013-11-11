@@ -296,45 +296,7 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 		mBookingStatus = other.mBookingStatus;
 		mTimePeriod = other.mTimePeriod;
 
-		if (isShared()) {
-			//If we have a shared package, the user may first share the flight, and then share the hotel,
-			//thus we can't just squash the tripcomponents list because instead of adding the hotel to the flight
-			//it would just replace the flight with the hotel, and that is not good behavior...
-			ArrayList<TripComponent> comps = new ArrayList<TripComponent>();
-			for (TripComponent newComp : other.mTripComponents) {
-				if (newComp.getType() == Type.PACKAGE) {
-					//If this is a package we need to ensure that its contents are added to the package already in the trip list (if it exists)
-					TripPackage mergedPackage = null;
-					TripPackage newPackComp = (TripPackage) newComp;
-					for (TripComponent oldComp : mTripComponents) {
-						if (oldComp.getType() == Type.PACKAGE) {
-							TripPackage oldPackComp = (TripPackage) oldComp;
-							if (oldPackComp.compareTo(newPackComp) == 0) {
-								//We merge the new package with the old one, and use this as our new value.
-								mergedPackage = TripPackage.mergePackages(oldPackComp, newPackComp);
-							}
-						}
-					}
-
-					if (mergedPackage != null) {
-						comps.add(mergedPackage);
-					}
-					else {
-						comps.add(newComp);
-					}
-				}
-				else {
-					//If this isnt a package, we just add it normally.
-					comps.add(newComp);
-				}
-			}
-			mTripComponents = comps;
-
-		}
-		else {
-			//Normal itins will get the full trip (with all components), so we can just copy
-			mTripComponents = other.mTripComponents;
-		}
+		mTripComponents = other.mTripComponents;
 		associateTripWithComponents();
 
 		mTripInsurance = other.getTripInsurance();
