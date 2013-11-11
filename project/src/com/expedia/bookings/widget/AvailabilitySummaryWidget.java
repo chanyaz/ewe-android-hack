@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,9 +19,12 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BedType;
 import com.expedia.bookings.data.BedType.BedTypeId;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.android.util.Ui;
@@ -51,6 +55,8 @@ public class AvailabilitySummaryWidget {
 	private TextView mErrorTextView;
 	private ProgressBar mProgressBar;
 	private LinearLayout mRatesContainer;
+	private ViewGroup mSoldOutContainer;
+	private TextView mSoldOutDatesTextView;
 	private TextView mMoreButton;
 
 	private List<RateRow> mRateRows;
@@ -106,6 +112,9 @@ public class AvailabilitySummaryWidget {
 				}
 			});
 		}
+
+		mSoldOutContainer = Ui.findView(rootView, R.id.sold_out_container);
+		mSoldOutDatesTextView = Ui.findView(rootView, R.id.sold_out_dates_text_view);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -137,9 +146,7 @@ public class AvailabilitySummaryWidget {
 			setRateQualifierTextView(lowestRate, mRateQualifierTextViewTwoLine);
 		}
 		else {
-			setShowHeader(false);
-
-			showError(mContext.getString(R.string.error_no_hotel_rooms_available));
+			showSoldOut();
 		}
 	}
 
@@ -173,7 +180,7 @@ public class AvailabilitySummaryWidget {
 	}
 
 	public void showProgressBar() {
-		setSingleViewVisible(mProgressBar, mRatesContainer, mErrorTextView);
+		setSingleViewVisible(mProgressBar, mRatesContainer, mErrorTextView, mSoldOutContainer);
 	}
 
 	public void showRates(HotelOffersResponse response) {
@@ -184,10 +191,10 @@ public class AvailabilitySummaryWidget {
 			showError(response.getErrors().get(0).getPresentableMessage(mContext));
 		}
 		else if (response.getRateCount() == 0) {
-			showError(mContext.getString(R.string.error_no_hotel_rooms_available));
+			showSoldOut();
 		}
 		else if (mRatesContainer != null) {
-			setSingleViewVisible(mRatesContainer, mProgressBar, mErrorTextView);
+			setSingleViewVisible(mRatesContainer, mProgressBar, mErrorTextView, mSoldOutContainer);
 
 			SummarizedRoomRates summarizedRates = response.getSummarizedRoomRates();
 			int numSummarizedRates = summarizedRates.numSummarizedRates();
@@ -203,10 +210,22 @@ public class AvailabilitySummaryWidget {
 	}
 
 	public void showError(CharSequence errorText) {
-		setSingleViewVisible(mErrorTextView, mProgressBar, mRatesContainer);
+		setSingleViewVisible(mErrorTextView, mProgressBar, mRatesContainer, mSoldOutContainer);
 
 		if (mErrorTextView != null) {
 			mErrorTextView.setText(errorText);
+		}
+	}
+
+	public void showSoldOut() {
+		setShowHeader(false);
+
+		setSingleViewVisible(mSoldOutContainer, mErrorTextView, mProgressBar, mRatesContainer);
+
+		if (mSoldOutDatesTextView != null) {
+			HotelSearchParams params = Db.getHotelSearch().getSearchParams();
+			mSoldOutDatesTextView.setText(JodaUtils.formatDateRange(mContext, params.getCheckInDate(),
+					params.getCheckOutDate(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL));
 		}
 	}
 
@@ -392,6 +411,7 @@ public class AvailabilitySummaryWidget {
 		int visibility = showHeader ? View.VISIBLE : View.GONE;
 
 		if (mContainer != null) {
+			// TODO: REMOVE BG FOR CERTAIN CIRCUMSTANCES
 			mContainer.setBackgroundResource(showHeader ? R.drawable.bg_summarized_room_rates
 					: R.drawable.bg_summarized_room_rates_no_header);
 		}

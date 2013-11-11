@@ -144,6 +144,11 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:gravity="center" />
+
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/include_sold_out" />
     </LinearLayout>
 
     <com.mobiata.android.widget.AutoResizeTextView
@@ -154,9 +159,9 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:bufferType="spannable"
         android:maxLines="1"
         android:text="@string/see_details"
-        android:bufferType="spannable"
         android:textSize="22sp"
         android:textStyle="bold" />
 
