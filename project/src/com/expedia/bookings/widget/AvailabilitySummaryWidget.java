@@ -419,7 +419,7 @@ public class AvailabilitySummaryWidget {
 				mContainer.setBackgroundDrawable(drawable);
 			}
 			else {
-				mContainer.setBackgroundResource(0);
+				mContainer.setBackgroundDrawable(null);
 			}
 		}
 
