@@ -86,6 +86,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	private int mItinCardExtraBottomPadding;
 	private int mItinSummarySectionHeight;
 	private int mActionButtonLayoutHeight;
+	
+	private int mFixedItinTypeImageTranslation;
 
 	private int mExpandedCardHeaderImageHeight;
 	private int mMiniCardHeaderImageHeight;
@@ -501,13 +503,38 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		}
 
 		//Header Text
-		if (animate) {
-			animators.add(ObjectAnimator.ofFloat(mHeaderTextLayout, "alpha", 1).setDuration(400));
-			animators.add(ObjectAnimator.ofFloat(mHeaderTextLayout, "translationY", 0).setDuration(400));
+		boolean isDateHidden = ViewHelper.getAlpha(mHeaderTextDateView) < 1f;
+		boolean isTitleHidden = ViewHelper.getAlpha(mHeaderTextLayout) < 1f;
+		boolean isTitleTranslated = ViewHelper.getTranslationY(mHeaderTextView) != 0f;
+		if (isDateHidden) {
+			if (animate) {
+				animators.add(ObjectAnimator
+						.ofFloat(mHeaderTextDateView, "alpha", 1f)
+						.setDuration(200));
+			}
+			else {
+				ViewHelper.setAlpha(mHeaderTextDateView, 1f);
+			}
 		}
-		else {
-			ViewHelper.setAlpha(mHeaderTextLayout, 1f);
-			ViewHelper.setTranslationY(mHeaderTextLayout, 0f);
+		if (isTitleHidden) {
+			if (animate) {
+				animators.add(ObjectAnimator
+						.ofFloat(mHeaderTextLayout, "alpha", 1f)
+						.setDuration(200));
+			}
+			else {
+				ViewHelper.setAlpha(mHeaderTextLayout, 1f);
+			}
+		}
+		if (isTitleTranslated) {
+			if (animate) {
+				animators.add(ObjectAnimator
+						.ofFloat(mHeaderTextView, "translationY", 0f)
+						.setDuration(400));
+			}
+			else {
+				ViewHelper.setTranslationY(mHeaderTextView, 0f);
+			}
 		}
 
 		// Header Shade and Type Icon (for past itins).
@@ -562,10 +589,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 				}
 			}
 			else {
+				float scale = ViewHelper.getScaleX(mItinTypeImageView);
 				if (animate) {
 					// Animate the fixed image smoothly down into the smaller floating Image.
 					ViewHelper.setAlpha(mItinTypeImageView, 0f);
-					float scale = ViewHelper.getScaleX(mItinTypeImageView);
 					PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", scale);
 					PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", scale);
 					ObjectAnimator anim = AnimUtils.ofPropertyValuesHolder(
@@ -579,9 +606,17 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 						}
 					});
 					animators.add(anim);
+
+					// Make mFixedItinTypeImageView end up aligned with mItinTypeImageView
+					animators.add(ObjectAnimator
+							.ofFloat(mFixedItinTypeImageView, "translationY", mFixedItinTypeImageTranslation)
+							.setDuration(400));
 				}
 				else {
 					ViewHelper.setAlpha(mItinTypeImageView, 1f);
+					ViewHelper.setScaleX(mFixedItinTypeImageView, scale);
+					ViewHelper.setScaleY(mFixedItinTypeImageView, scale);
+					ViewHelper.setTranslationY(mFixedItinTypeImageView, mFixedItinTypeImageTranslation);
 					mItinTypeImageView.setVisibility(View.VISIBLE);
 					mFixedItinTypeImageView.setVisibility(View.GONE);
 				}
@@ -627,29 +662,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			ViewHelper.setRotation(mChevronImageView, 0f);
 		}
 
-		if (mItinContentGenerator.isSharedItin()) {
-			//Fade in Headertextdateview
-			if (animate) {
-				ObjectAnimator headerDateTextAlphaAnimator = ObjectAnimator
-						.ofFloat(mHeaderTextDateView, "alpha", 1f)
-						.setDuration(200);
-				animators.add(headerDateTextAlphaAnimator);
-
-				if (!mShowSummary) {
-					ObjectAnimator headerTextTranslationAnimator = ObjectAnimator
-							.ofFloat(mHeaderTextView, "translationY", 0f)
-							.setDuration(200);
-					animators.add(headerTextTranslationAnimator);
-				}
-			}
-			else {
-				ViewHelper.setAlpha(mHeaderTextDateView, 1f);
-				if (!mShowSummary) {
-					ViewHelper.setTranslationY(mHeaderTextLayout, 0f);
-				}
-			}
-		}
-
 		// Putting it all together
 		if (animate) {
 			AnimatorSet set = new AnimatorSet();
@@ -684,6 +696,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	}
 
 	public AnimatorSet expand(boolean animate) {
+		// CAUTION: don't setTranslationY here on mTitleLayout.
+		// That's already tweaked in updateLayout()
+
 		mDisplayState = DisplayState.EXPANDED;
 
 		mCollapsedTop = getTop();
@@ -753,7 +768,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			}
 		}
 		else {
-			//Fade out Headertextdateview
+			// Even though getHideDetailsTitle() is false,
+			// we still want to hide the date text.
+			// Also, we'll shift the header text into position here.
+			float trans = 20f * getResources().getDisplayMetrics().density;
 			if (animate) {
 				ObjectAnimator headerDateTextAlphaAnimator = ObjectAnimator
 						.ofFloat(mHeaderTextDateView, "alpha", 0f)
@@ -762,19 +780,18 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 
 				if (!mShowSummary) {
 					ObjectAnimator headerTextTranslationAnimator = ObjectAnimator
-							.ofFloat(mHeaderTextView, "translationY", 20f)
-							.setDuration(200);
+							.ofFloat(mHeaderTextView, "translationY", trans)
+							.setDuration(400);
 					animators.add(headerTextTranslationAnimator);
 				}
 			}
 			else {
 				ViewHelper.setAlpha(mHeaderTextDateView, 0f);
 				if (!mShowSummary) {
-					ViewHelper.setTranslationY(mHeaderTextLayout, 20f);
+					ViewHelper.setTranslationY(mHeaderTextView, trans);
 				}
 			}
 		}
-
 
 		// Header Shade (for past itins)
 		if (mHeaderShadeView.getVisibility() != View.GONE) {
@@ -817,25 +834,31 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			}
 		}
 		else {
+			// Make mFixedItinTypeImageView start out aligned with mItinTypeImageView 
+			mFixedItinTypeImageTranslation = mItinTypeImageView.getTop() - mFixedItinTypeImageView.getTop();
+
 			// There's no need to animate anything here if this is the summary card
 			if (animate && !mShowSummary) {
 				// Animate the floating image smoothly into the full size fixed Image.
 				float scale = ViewHelper.getScaleX(mItinTypeImageView);
 
-				// TODO: Big Ol' fudge factor.
-				// We'll need to redo this view's layout to fix it though.
-				float trans = -8 * getResources().getDisplayMetrics().density;
-				ViewHelper.setTranslationY(mFixedItinTypeImageView, trans);
-
 				mFixedItinTypeImageView.setVisibility(View.VISIBLE);
 				mItinTypeImageView.setVisibility(View.INVISIBLE);
 				PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", scale, 1f);
 				PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", scale, 1f);
-				ObjectAnimator anim = AnimUtils.ofPropertyValuesHolder(
-						mFixedItinTypeImageView, scaleX, scaleY).setDuration(400);
+				ObjectAnimator anim = AnimUtils
+						.ofPropertyValuesHolder(mFixedItinTypeImageView, scaleX, scaleY)
+						.setDuration(400);
 				animators.add(anim);
+
+				animators.add(ObjectAnimator
+						.ofFloat(mFixedItinTypeImageView, "translationY", mFixedItinTypeImageTranslation, 0f)
+						.setDuration(400));
 			}
 			else {
+				ViewHelper.setScaleX(mFixedItinTypeImageView, 1f);
+				ViewHelper.setScaleY(mFixedItinTypeImageView, 1f);
+				ViewHelper.setTranslationY(mFixedItinTypeImageView, 0f);
 				ViewHelper.setAlpha(mItinTypeImageView, 0f);
 				mItinTypeImageView.setVisibility(View.INVISIBLE);
 				mFixedItinTypeImageView.setVisibility(View.VISIBLE);
