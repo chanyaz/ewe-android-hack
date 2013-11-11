@@ -928,9 +928,12 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			ViewHelper.setTranslationY(mHeaderTextLayout, (mItinTypeImageView.getHeight() * percentIcon) / 2);
 			ViewHelper.setTranslationY(mCardLayout, viewTranslationY);
 		}
-		else if (AndroidUtils.getSdkVersion() < 11 && mFixedItinTypeImageView.getVisibility() == View.VISIBLE
+		else if ((AndroidUtils.getSdkVersion() < 11 || (mShowSummary && ViewHelper.getTranslationY(mHeaderTextLayout) == 0))
+				&& mFixedItinTypeImageView.getVisibility() == View.VISIBLE
 				&& mHeaderTextLayout.getVisibility() == View.VISIBLE) {
-			//Sometimes 2.x needs a little extra help
+			//If we are in expanded mode, and are making use the of the fixtedItinTypeImageView we need to ensure that the text is positioned below it
+			//not underneath it. This fixes a 2.x bug w.r.t. positioning, and it also fixes a rotation bug when a card is expanded and mShowSummary == true
+
 			int height = mFixedItinTypeImageView.getHeight();
 			int padding = mFixedItinTypeImageView.getPaddingBottom();
 			float centerOffset = (height * 0.5f) - ((height - padding) * 0.5f);
