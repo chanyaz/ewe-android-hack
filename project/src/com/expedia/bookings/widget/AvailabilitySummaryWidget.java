@@ -45,6 +45,7 @@ public class AvailabilitySummaryWidget {
 	private ViewGroup mHeaderViewGroup;
 	private ViewGroup mHeaderViewGroupTwoLine;
 	private ViewGroup mMinPriceContainer;
+	private View mRibbonView;
 	private TextView mFromTextView;
 	private TextView mBaseRateTextView;
 	private TextView mSaleRateTextView;
@@ -76,6 +77,7 @@ public class AvailabilitySummaryWidget {
 		mBaseRateTextView = (TextView) rootView.findViewById(R.id.base_rate_text_view);
 		mSaleRateTextView = (TextView) rootView.findViewById(R.id.sale_rate_text_view);
 		mRateQualifierTextView = (TextView) rootView.findViewById(R.id.rate_qualifier_text_view);
+		mRibbonView = Ui.findView(rootView, R.id.ribbon);
 
 		mHeaderViewGroupTwoLine = (ViewGroup) rootView.findViewById(R.id.availability_header_two_line);
 		mFromTextViewTwoLine = (TextView) rootView.findViewById(R.id.from_text_view_two_line);
@@ -421,6 +423,10 @@ public class AvailabilitySummaryWidget {
 			}
 		}
 
+		if (mRibbonView != null) {
+			mRibbonView.setVisibility(showHeader ? View.VISIBLE : View.GONE);
+		}
+
 		if (mMinPriceContainer != null) {
 			mMinPriceContainer.setVisibility(visibility);
 		}
@@ -429,5 +435,7 @@ public class AvailabilitySummaryWidget {
 			mHeaderViewGroup.setVisibility(visibility);
 			mHeaderViewGroupTwoLine.setVisibility(visibility);
 		}
+
+		mMoreButton.setVisibility(showHeader || mMoreButton.isEnabled() ? View.VISIBLE : View.GONE);
 	}
 }
