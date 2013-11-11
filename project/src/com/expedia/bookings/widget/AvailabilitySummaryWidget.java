@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -411,9 +412,13 @@ public class AvailabilitySummaryWidget {
 		int visibility = showHeader ? View.VISIBLE : View.GONE;
 
 		if (mContainer != null) {
-			// TODO: REMOVE BG FOR CERTAIN CIRCUMSTANCES
-			mContainer.setBackgroundResource(showHeader ? R.drawable.bg_summarized_room_rates
-					: R.drawable.bg_summarized_room_rates_no_header);
+			if (showHeader) {
+				Drawable drawable = mContext.getResources().getDrawable(R.drawable.bg_availability_summary);
+				mContainer.setBackgroundDrawable(drawable);
+			}
+			else {
+				mContainer.setBackgroundResource(0);
+			}
 		}
 
 		if (mMinPriceContainer != null) {
