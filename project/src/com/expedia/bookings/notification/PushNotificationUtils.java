@@ -143,46 +143,56 @@ public class PushNotificationUtils {
 				Log.e("PushNotificationUtils.generateNotification couldnt find ItinCardData for fhid:" + fhid);
 			}
 			else {
-
 				FlightLeg leg = data.getFlightLeg();
 
-				String itinId = data.getId();
-				long triggerTimeMillis = System.currentTimeMillis();
-
-				String formattedMessage = getFormattedLocString(context, locKey, locKeyArgs);
-
-				if (formattedMessage == null) {
-					Log.e("PushNotificationUtils.generateNotification Formatted message was null for locKey:" + locKey);
+				if (locKey.equals("S_Push_baggage_BAGGAGE") && leg.getSegmentCount() > 0
+						&& leg.getSegment(leg.getSegmentCount() - 1).mFlightHistoryId == fhid) {
+					//We only care about baggage claim info for the terminal segment of our flight
+					Log.d("PushNotificationUtils.generateNotification we got a baggage claim push message for"
+							+ " a NON-TERMINAL segment of our flight. Because this is a layover flight, we do not"
+							+ " display the baggage claim notification. fhid:" + fhid);
 				}
 				else {
-					String uniqueId = sanitizeUniqueId(fhid + "_" + formattedMessage);
 
-					Notification notification = new Notification(uniqueId, itinId, triggerTimeMillis);
-					notification.setItinId(itinId);
-					notification.setNotificationType(pushApiTypeToNotificationType(typeIntStr));
-					notification.setFlags(Notification.FLAG_PUSH);
-					notification.setIconResId(R.drawable.ic_stat_flight);
-					notification.setImageType(ImageType.NONE);
+					String itinId = data.getId();
+					long triggerTimeMillis = System.currentTimeMillis();
 
-					String destination = getDestinationStringFromLocArgs(locKey, locKeyArgs);
-					if (TextUtils.isEmpty(destination)) {
-						destination = StrUtils.getWaypointCityOrCode(leg.getLastWaypoint());
-					}
+					String formattedMessage = getFormattedLocString(context, locKey, locKeyArgs);
 
-					String airline = leg.getAirlinesFormatted();
-					String title;
-					if (AndroidUtils.getSdkVersion() >= 14 && !TextUtils.isEmpty(airline)) {
-						title = context.getString(R.string.x_flight_to_x_TEMPLATE, airline, destination);
+					if (formattedMessage == null) {
+						Log.e("PushNotificationUtils.generateNotification Formatted message was null for locKey:"
+								+ locKey);
 					}
 					else {
-						title = context.getString(R.string.your_flight_to_x_TEMPLATE, destination);
-					}
-					notification.setTitle(title);
-					notification.setBody(formattedMessage);
-					notification.setTicker(formattedMessage);
+						String uniqueId = sanitizeUniqueId(fhid + "_" + formattedMessage);
 
-					notification.save();
-					notification.scheduleNotification(context);
+						Notification notification = new Notification(uniqueId, itinId, triggerTimeMillis);
+						notification.setItinId(itinId);
+						notification.setNotificationType(pushApiTypeToNotificationType(typeIntStr));
+						notification.setFlags(Notification.FLAG_PUSH);
+						notification.setIconResId(R.drawable.ic_stat_flight);
+						notification.setImageType(ImageType.NONE);
+
+						String destination = getDestinationStringFromLocArgs(locKey, locKeyArgs);
+						if (TextUtils.isEmpty(destination)) {
+							destination = StrUtils.getWaypointCityOrCode(leg.getLastWaypoint());
+						}
+
+						String airline = leg.getAirlinesFormatted();
+						String title;
+						if (AndroidUtils.getSdkVersion() >= 14 && !TextUtils.isEmpty(airline)) {
+							title = context.getString(R.string.x_flight_to_x_TEMPLATE, airline, destination);
+						}
+						else {
+							title = context.getString(R.string.your_flight_to_x_TEMPLATE, destination);
+						}
+						notification.setTitle(title);
+						notification.setBody(formattedMessage);
+						notification.setTicker(formattedMessage);
+
+						notification.save();
+						notification.scheduleNotification(context);
+					}
 				}
 			}
 		}
@@ -1180,13 +1190,14 @@ public class PushNotificationUtils {
 	 * @param regId
 	 */
 	public static void unRegister(final Context context, final String regId) {
-		unRegister(context, getRegistrationUrl(context), regId, new OnDownloadComplete<PushNotificationRegistrationResponse>() {
-			@Override
-			public void onDownload(PushNotificationRegistrationResponse result) {
-				Log.d("PushNotificationUtils.unRegister regId " + regId + " complete! result:"
-						+ (result == null ? "null" : "success:" + result.getSuccess()));
-			}
-		});
+		unRegister(context, getRegistrationUrl(context), regId,
+				new OnDownloadComplete<PushNotificationRegistrationResponse>() {
+					@Override
+					public void onDownload(PushNotificationRegistrationResponse result) {
+						Log.d("PushNotificationUtils.unRegister regId " + regId + " complete! result:"
+								+ (result == null ? "null" : "success:" + result.getSuccess()));
+					}
+				});
 	}
 
 	/**
