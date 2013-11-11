@@ -16,8 +16,8 @@
     <string name="unspecified_error">Vi er stødt på en uspecificeret fejl. Prøv igen senere.</string>
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">Kan ikke logge på Facebook.</string>
-    <!-- Login failed try again -->
-    <string name="login_failed_try_again">Login mislykkedes. Genindtast din adgangskode og forsøg igen.</string>
+    <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
+    <string name="login_failed_try_again">Login mislykkedes. Hvis din e-mail og adgangskode er korrekte, så kontroller, at indstillingen for land i din app er korrekt.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia-adgangskode</string>
     <!-- Link accounts -->
@@ -100,10 +100,6 @@
     <string name="expedia_itinerary">Expedia-rejseplansnummer</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus-kundeservice</string>
-    <!-- Elite plus (Silver) customer support -->
-    <string name="elite_plus_customer_support_silver">Prioriteret kundeservice</string>
-    <!-- Elite plus (Gold) customer support -->
-    <string name="elite_plus_customer_support_gold">+gold-dedikeret kundeservice</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Ingen kommende rejser</string>
     <!-- Enter itinerary number -->
@@ -147,6 +143,16 @@
         <item quantity="many">%s dage</item>
         <item quantity="other">%s dage</item>
     </plurals>
+    <!-- Shared Itin - Fallback name for itin card -->
+    <string name="sharedItin_card_fallback_name">Delt rejseplan</string>
+    <!-- Shared Itin - Fallback name for Flight itin card -->
+    <string name="sharedItin_card_fallback_name_flight">Delt flyrejse</string>
+    <!-- Shared Itin - Fallback name for Hotel itin card -->
+    <string name="sharedItin_card_fallback_name_hotel">Delt hotel</string>
+    <!-- Shared Itin - Template for flightcard header text (will be filled in with "FirstName to Destination") -->
+    <string name="SharedItin_Title_Flight_TEMPLATE">%1$s til %2$s</string>
+    <!-- Shared Itin - Template for hotelcard header text (will be filled in with "FirstName at HotelName") -->
+    <string name="SharedItin_Title_Hotel_TEMPLATE">%1$s på %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">Fly</string>
     <!-- Default (fallback) itin card title for HOTEL -->
@@ -291,6 +297,10 @@
     <string name="hours_minutes_future_TEMPLATE">om %1$s og %2$s</string>
     <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_past_TEMPLATE">for %1$s og %2$s siden</string>
+    <!-- Message to show when the user tried to ingest a cancelled itin -->
+    <string name="viewing_cancelled_itineraries_not_yet_supported">Visning af slettede rejseplaner er endnu ikke understøttet.</string>
+    <!-- Message to show when the user tried to ingest an itin that is already completed and in the past -->
+    <string name="viewing_completed_itineraries_not_yet_supported">Visning af gennemførte rejseplaner er endnu ikke understøttet.</string>
 
     <!-- Itin Buttons -->
     <!-- Dialog title for removing shared itin -->
@@ -521,11 +531,17 @@
 
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
-    <string name="share_template_subject_hotel">Mit hotelophold på %1$s (%2$s – %3$s)</string>
-    <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
-    <string name="share_template_short_hotel">Jeg skal bo på %1$s\n%2$s – %3$s\n\n%4$s</string>
+    <string name="share_template_subject_hotel">Jeg skal overnatte på %1$s (%2$s – %3$s)</string>
+    <!-- 1: travelerName 2: hotel name 3: check in date 4: check out date -->
+    <string name="share_template_subject_hotel_reshare">%1$s skal overnatte på %2$s (%3$s - %4$s)</string>
+    <!-- 1: hotel name 2: date(mm/dd/yyyy) 3: SharableURL -->
+    <string name="share_msg_template_short_hotel">Jeg skal overnatte på %1$s d. %2$s!\n%3$s</string>
+    <!-- 1: traveler name 2: hotel name 3: date(mm/dd/yyyy) 4: SharableURL -->
+    <string name="share_msg_template_short_hotel_reshare">%1$s skal overnatte på %2$s d. %3$s!\n%4$s</string>
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Hej\n\nJeg skal overnatte på %1$s i %2$s.</string>
+    <!-- 1: Traveler name 2: Hotel name, 3: Formatted length of stay -->
+    <string name="share_template_long_hotel_1_greeting_reshare">Hej\n\n%1$s skal overnatte på %2$s i %3$s.</string>
     <!-- 1: Check in date, 2: Check out date -->
     <string name="share_template_long_hotel_2_checkin_checkout">Indtjekning%1$s \nUdtjekning%2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
@@ -537,13 +553,15 @@
     <!-- App download link -->
     <string name="share_template_long_ad">Book hoteller, flyrejser og se/del dine rejseplaner. Download Expedias gratis mobil-app i dag.\n%s</string>
     <!-- 1: city 2: date string -->
-    <string name="share_template_subject_flight">Mit fly til %1$s d. %2$s</string>
+    <string name="share_template_subject_flight">Jeg rejser til %1$s d. %2$s</string>
+    <!-- 1: travelerName 2: city 3: date string -->
+    <string name="share_template_subject_flight_reshare">%1$s flyver til %2$s d. %3$s</string>
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
-    <string name="share_template_subject_flight_multiple_travelers">Vores fly til %1$s d. %2$s</string>
-    <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Jeg skal med fly %1$s til %2$s d. %3$s.\nAfgår fra %4$s fra %5$s\nAnkommer %6$s ved %7$s, %8$s\n%9$s</string>
-    <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Jeg skal med fly %1$s til %2$s.\nAfgår fra %3$s fra %4$s\nAnkommer %5$s ved %6$s, %7$s\n%8$s</string>
+    <string name="share_template_subject_flight_multiple_travelers">Vi flyver til %1$s d. %2$s</string>
+    <!-- 1: city name 2: date(mm/dd/yyyy) 3: SharableURL -->
+    <string name="share_msg_template_short_flight">Jeg rejser til %1$s d. %2$s!\n%3$s</string>
+    <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
+    <string name="share_msg_template_short_flight_reshare">%1$s flyver til %2$s d. %3$s!\n%4$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Min lejebil (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -567,7 +585,7 @@
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Aflevering:</string>
     <!-- Section header for the Itin sharable link -->
-    <string name="share_link_section">Link til den delte rejseplan:\n%s</string>
+    <string name="share_link_section">Følg denne rejse live:\n%s</string>
     <!-- Shared options label -->
     <string name="shared_options">Deleindstillinger</string>
 
@@ -1247,13 +1265,21 @@
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Hej</string>
     <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">Her er detaljerne for min(e) flyrejse(r) fra %1$s til %2$s.</string>
+    <string name="share_flight_one_way_TEMPLATE">Jeg skal rejse fra %1$s til %2$s.</string>
+    <!-- One-way flight summary of locations for single traveler when reshared. %1$s is travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_one_way_TEMPLATE_reshare">%1$s skal rejse fra %2$s til %3$s.</string>
     <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">Her er detaljerne for min flyrejse tur-retur fra %1$s til %2$s.</string>
+    <string name="share_flight_round_trip_TEMPLATE">Jeg skal rejse fra %1$s til %2$s.</string>
+    <!-- Round trip flight summary of locations for single traveler when reshared.  %1$s is travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_round_trip_TEMPLATE_reshare">%1$s skal rejse fra %2$s til %3$s.</string>
     <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">Her er detaljerne for vores flyrejse(r) fra %1$s til %2$s.</string>
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">Vi skal rejse fra %1$s til %2$s.</string>
+    <!-- One-way flight summary of locations for multiple travelers when reshared.  %1$s is the travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE_reshare">%1$s skal rejse fra %2$s til %3$s.</string>
     <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">Her er detaljerne for vores flyrejse tur-retur fra %1$s til %2$s.</string>
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">Vi skal rejse fra %1$s til %2$s.</string>
+    <!-- Round trip flight summary of locations for multiple travelers when reshared.  %1$s is the travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE_reshare">%1$s skal rejse fra %2$s til %3$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Rejseplansnummer: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -2486,6 +2512,14 @@
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
 
+    <!-- Handling sold out hotels -->
+    <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
+    <string name="sold_out_tonight">Udsolgt i aften</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Sold out Nov. 3-4" -->
+    <string name="sold_out_TEMPLATE">Udsolgt %s</string>
+    <!-- Shown if the user might want to change the search -->
+    <string name="change_search">Rediger søgning</string>
+
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR">Dit fly til %1$s er %2$s time forsinket.</string>
@@ -2879,5 +2913,8 @@
     <!-- Common actionbar elements -->
     <!-- Content description for action: Press to go back to previous screen -->
     <string name="cd_go_back">Tryk for at vende tilbage til den forrige side</string>
+    <!-- Itinerary card elements -->
+    <!-- Content description for action: Press to view share options -->
+    <string name="cd_share_menu_btn">Tryk for at vise muligheder for at dele rejseplan</string>
 
 </resources>

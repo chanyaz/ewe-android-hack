@@ -16,8 +16,8 @@
     <string name="unspecified_error">詳細不明なエラーが発生しました。後ほどお試しください。</string>
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">Facebook にログインできません。</string>
-    <!-- Login failed try again -->
-    <string name="login_failed_try_again">ログインに失敗しました。パスワードを再入力して、もう一度お試しください。</string>
+    <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
+    <string name="login_failed_try_again">ログインに失敗しました。メールアドレスとパスワードに間違いがない場合は、アプリの国の設定が正しいことを確認してください。</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">エクスペディア パスワード</string>
     <!-- Link accounts -->
@@ -100,10 +100,6 @@
     <string name="expedia_itinerary">エクスペディアの旅程番号</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus カスタマーサポート</string>
-    <!-- Elite plus (Silver) customer support -->
-    <string name="elite_plus_customer_support_silver">優先カスタマー ケア</string>
-    <!-- Elite plus (Gold) customer support -->
-    <string name="elite_plus_customer_support_gold">+gold 専用サポート</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">予約された旅行はありません。</string>
     <!-- Enter itinerary number -->
@@ -147,6 +143,16 @@
         <item quantity="many">%s 日</item>
         <item quantity="other">%s 日</item>
     </plurals>
+    <!-- Shared Itin - Fallback name for itin card -->
+    <string name="sharedItin_card_fallback_name">シェアされた旅程</string>
+    <!-- Shared Itin - Fallback name for Flight itin card -->
+    <string name="sharedItin_card_fallback_name_flight">シェアされたフライト</string>
+    <!-- Shared Itin - Fallback name for Hotel itin card -->
+    <string name="sharedItin_card_fallback_name_hotel">シェアされたホテル</string>
+    <!-- Shared Itin - Template for flightcard header text (will be filled in with "FirstName to Destination") -->
+    <string name="SharedItin_Title_Flight_TEMPLATE">%1$s → %2$s</string>
+    <!-- Shared Itin - Template for hotelcard header text (will be filled in with "FirstName at HotelName") -->
+    <string name="SharedItin_Title_Hotel_TEMPLATE">%1$s @ %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">フライト</string>
     <!-- Default (fallback) itin card title for HOTEL -->
@@ -291,6 +297,10 @@
     <string name="hours_minutes_future_TEMPLATE">%1$s および %2$s 以内</string>
     <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_past_TEMPLATE">%1$s および %2$s 前</string>
+    <!-- Message to show when the user tried to ingest a cancelled itin -->
+    <string name="viewing_cancelled_itineraries_not_yet_supported">キャンセル済みの旅程を表示することはできません。</string>
+    <!-- Message to show when the user tried to ingest an itin that is already completed and in the past -->
+    <string name="viewing_completed_itineraries_not_yet_supported">完了済みの旅程を表示することはできません。</string>
 
     <!-- Itin Buttons -->
     <!-- Dialog title for removing shared itin -->
@@ -416,9 +426,9 @@
     <string name="car_category_oversize">オーバーサイズカー</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア 自動車</string>
-    <string name="car_type_three_door">3 ドア 自動車</string>
-    <string name="car_type_four_door">4 ドア 自動車</string>
+    <string name="car_type_two_door">2 ドア自動車</string>
+    <string name="car_type_three_door">3 ドア自動車</string>
+    <string name="car_type_four_door">4 ドア自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -521,11 +531,17 @@
 
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
-    <string name="share_template_subject_hotel">%1$s での宿泊 (%2$s – %3$s)</string>
-    <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
-    <string name="share_template_short_hotel">%1$s に宿泊中です\n%2$s – %3$s\n\n%4$s</string>
+    <string name="share_template_subject_hotel">%1$sに滞在中です (%2$s ～ %3$s)</string>
+    <!-- 1: travelerName 2: hotel name 3: check in date 4: check out date -->
+    <string name="share_template_subject_hotel_reshare">%1$sは%2$sに宿泊中です (%3$s ～ %4$s)</string>
+    <!-- 1: hotel name 2: date(mm/dd/yyyy) 3: SharableURL -->
+    <string name="share_msg_template_short_hotel">%2$sに%1$sに滞在中です ! \n%3$s</string>
+    <!-- 1: traveler name 2: hotel name 3: date(mm/dd/yyyy) 4: SharableURL -->
+    <string name="share_msg_template_short_hotel_reshare">%1$sは%3$sに%2$sに滞在中です ! \n%4$s</string>
     <!-- 1: Hotel name, 2: Formatted length of stay -->
-    <string name="share_template_long_hotel_1_greeting">こんにちは。\n\n今私は%1$sに %2$s滞在しています。</string>
+    <string name="share_template_long_hotel_1_greeting">こんにちは。\n\n今私は%1$sに %2$s滞在中です。</string>
+    <!-- 1: Traveler name 2: Hotel name, 3: Formatted length of stay -->
+    <string name="share_template_long_hotel_1_greeting_reshare">こんにちは。\n\n%1$sは%2$sに %3$s滞在中です。</string>
     <!-- 1: Check in date, 2: Check out date -->
     <string name="share_template_long_hotel_2_checkin_checkout">チェックイン日 %1$s \nチェックアウト日 %2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
@@ -537,21 +553,23 @@
     <!-- App download link -->
     <string name="share_template_long_ad">ホテルとフライトを予約して、旅程を表示 &amp; シェアできます。無料のエクスペディア モバイル アプリを今すぐダウンロードしてください。\n%s</string>
     <!-- 1: city 2: date string -->
-    <string name="share_template_subject_flight">%2$sの%1$sへのフライト</string>
+    <string name="share_template_subject_flight">%2$sに%1$sへ行きます</string>
+    <!-- 1: travelerName 2: city 3: date string -->
+    <string name="share_template_subject_flight_reshare">%1$sは %3$sに%2$sへ行きます</string>
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
-    <string name="share_template_subject_flight_multiple_travelers">%2$sの%1$sへのフライト</string>
-    <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">私は現在、%2$s行き%3$s発のフライト %1$s 便に乗っています。\n%4$sを%5$sに出発\n%6$sに%7$s、%8$s\n%9$sに到着</string>
-    <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">私は現在、%2$s行きのフライト %1$s 便に乗っています。\n%3$sを%4$sに出発\n%5$sに%6$s、%7$s\n%8$sに到着</string>
+    <string name="share_template_subject_flight_multiple_travelers">%2$sに%1$sへ行きます</string>
+    <!-- 1: city name 2: date(mm/dd/yyyy) 3: SharableURL -->
+    <string name="share_msg_template_short_flight">%2$sに%1$sへ行きます ! \n%3$s</string>
+    <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
+    <string name="share_msg_template_short_flight_reshare">%1$sは%2$sに%3$sへ行きます ! \n%4$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
-    <string name="share_template_subject_car">レンタカー (%1$s – %2$s)</string>
+    <string name="share_template_subject_car">レンタカー (%1$s ～ %2$s)</string>
     <!-- Car rental share subject (no dates) -->
     <string name="share_template_subject_car_no_dates">レンタカー</string>
     <!-- 1: vehicle type -->
     <string name="share_template_short_car_type">%1$sをレンタルしました</string>
     <!-- 1: pick up date 2: drop off date -->
-    <string name="share_template_short_car_dates">(%1$s - %2$s)</string>
+    <string name="share_template_short_car_dates">(%1$s ～ %2$s)</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
     <string name="share_car_start_TEMPLATE">%1$sレンタカーについての詳細です。</string>
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
@@ -567,7 +585,7 @@
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">返却場所 :</string>
     <!-- Section header for the Itin sharable link -->
-    <string name="share_link_section">シェアされた旅程へのリンク : \n%s</string>
+    <string name="share_link_section">この旅行を常に追跡する : \n%s</string>
     <!-- Shared options label -->
     <string name="shared_options">共有オプション</string>
 
@@ -730,11 +748,11 @@
     <!-- Calendar tooltip hotels bottom line after a single date is selected "Select Checkout Date" -->
     <string name="calendar_tooltip_hotel_bottom_select_checkout_date">チェックアウト日を選択</string>
     <!-- Calendar tooltip hotels bottom line after two dates are selected TEMPLATE arg1=start date string, arg2=end date string, arg3=number of nights e.g. "May 26 - May 28 (2 nights)" -->
-    <string name="calendar_tooltip_hotel_top_text_date_range_and_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
+    <string name="calendar_tooltip_hotel_top_text_date_range_and_nights_TEMPLATE">%1$s ～ %2$s (%3$s)</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="calendar_instructions_date_range_TEMPLATE">%1$s - %2$s</string>
+    <string name="calendar_instructions_date_range_TEMPLATE">%1$s ～ %2$s</string>
     <!-- Calendar instruction text hotels date range template with nights. %1$s = Formatted start date, %2$s = formatted end date, %3$s = formatted nights string. E.g. May 12 - May 15 (3 nights) -->
-    <string name="calendar_instructions_date_range_with_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
+    <string name="calendar_instructions_date_range_with_nights_TEMPLATE">%1$s ～ %2$s (%3$s)</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">チェックイン日を選択</string>
 
@@ -1034,11 +1052,11 @@
     <!-- Traveler Information -->
     <string name="traveler_information">旅行者情報</string>
     <!-- First name label -->
-    <string name="first_name">名 (例: Taro)</string>
+    <string name="first_name">名 (例 : Taro)</string>
     <!-- Middle name label -->
     <string name="middle_name">ミドルネーム</string>
     <!-- Last name label -->
-    <string name="last_name">姓 (例: Yamada)</string>
+    <string name="last_name">姓 (例 : Yamada)</string>
     <!-- date of birth label -->
     <string name="date_of_birth">生年月日</string>
     <!-- male -->
@@ -1247,13 +1265,21 @@
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">こんにちは。</string>
     <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">%1$sから%2$sへのフライトの詳細です。</string>
+    <string name="share_flight_one_way_TEMPLATE">%1$sから%2$sへ行きます。</string>
+    <!-- One-way flight summary of locations for single traveler when reshared. %1$s is travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_one_way_TEMPLATE_reshare">%1$sは%2$sから%3$sへ行きます。</string>
     <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">%1$sから%2$sへの往復フライトの詳細です。</string>
+    <string name="share_flight_round_trip_TEMPLATE">%1$sから%2$sへ行きます。</string>
+    <!-- Round trip flight summary of locations for single traveler when reshared.  %1$s is travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_round_trip_TEMPLATE_reshare">%1$sは%2$sから%3$sへ行きます。</string>
     <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">%1$sから%2$sへのフライトの詳細です。</string>
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">%1$sから%2$sへ行きます。</string>
+    <!-- One-way flight summary of locations for multiple travelers when reshared.  %1$s is the travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE_reshare">%1$sは%2$sから%3$sへ行きます。</string>
     <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">%1$sから%2$sへの往復フライトの詳細です。</string>
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">%1$sから%2$sへ行きます。</string>
+    <!-- Round trip flight summary of locations for multiple travelers when reshared.  %1$s is the travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE_reshare">%1$sは%2$sから%3$sへ行きます。</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">旅程番号 : %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -1291,7 +1317,7 @@
         <item quantity="other">お子様の年齢を選択する</item>
     </plurals>
     <!-- Title of "select child age" spinner dialog box -->
-    <string name="prompt_select_child_age">お子様の年齢を選択 (%1$s - %2$s 歳)</string>
+    <string name="prompt_select_child_age">お子様の年齢を選択 (%1$s ～ %2$s 歳)</string>
     <!-- Text for child's age on search refinements and in spinner -->
     <plurals name="child_age">
         <item quantity="one">&lt;b&gt;%d&lt;/b&gt; 歳</item>
@@ -1714,9 +1740,9 @@
     <!-- Label for "guest info" form field section -->
     <string name="guest_info">宿泊者情報</string>
     <!-- The "first name" booking info field. -->
-    <string name="FirstName">名 (例: Taro)</string>
+    <string name="FirstName">名 (例 : Taro)</string>
     <!-- The "last name" booking info field. -->
-    <string name="LastName">姓 (例: Yamada)</string>
+    <string name="LastName">姓 (例 : Yamada)</string>
     <!-- The "telephone" booking info field. -->
     <string name="Telephone">電話</string>
     <!-- The "email for booking confirmation" booking info field. -->
@@ -1796,7 +1822,7 @@
     <!-- Friendly message at the top of the receipt -->
     <string name="Enjoy_your_stay">素敵なご滞在を。</string>
     <!-- Format for a first/last name -->
-    <string name="name_template">%2$s%1$s</string>
+    <string name="name_template">%2$s %1$s</string>
     <!-- Reservation summary label -->
     <string name="reservation_summary">予約の概要</string>
     <!-- Confirmation number label -->
@@ -1948,7 +1974,7 @@
     <!-- Subject property name template. -->
     <string name="share_subject_template">エクスペディアの旅程 -</string>
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
-    <string name="share_subject_template_dates">(%1$s - %2$s)</string>
+    <string name="share_subject_template_dates">(%1$s ～ %2$s)</string>
     <!-- Preset at the top of the share body message -->
     <string name="share_body_start">ホテル予約情報 :</string>
     <!-- Name of user -->
@@ -2116,7 +2142,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">現在地から %1$s%2$s</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%2$s%1$s</string>
+    <string name="distance_template_short">%1$s %2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
@@ -2485,6 +2511,14 @@
     <string name="cc_carte_bleue">Carte Bleue</string>
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
+
+    <!-- Handling sold out hotels -->
+    <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
+    <string name="sold_out_tonight">今晩は売り切れ</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Sold out Nov. 3-4" -->
+    <string name="sold_out_TEMPLATE">満席%s</string>
+    <!-- Shown if the user might want to change the search -->
+    <string name="change_search">検索条件を変更する</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -2879,5 +2913,8 @@
     <!-- Common actionbar elements -->
     <!-- Content description for action: Press to go back to previous screen -->
     <string name="cd_go_back">タップして前の画面に戻る</string>
+    <!-- Itinerary card elements -->
+    <!-- Content description for action: Press to view share options -->
+    <string name="cd_share_menu_btn">タップして旅程のシェアのオプションを表示</string>
 
 </resources>

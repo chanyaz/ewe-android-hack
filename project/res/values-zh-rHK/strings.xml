@@ -16,8 +16,8 @@
     <string name="unspecified_error">系統發生未明的錯誤。請稍後再試一次。</string>
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">無法登入 Facebook。</string>
-    <!-- Login failed try again -->
-    <string name="login_failed_try_again">登入失敗請重新輸入密碼並再試一次。</string>
+    <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
+    <string name="login_failed_try_again">登入失敗如果電郵和密碼正確無誤，請確認應用程式的「國家/地區」設定是否正確。</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia 密碼</string>
     <!-- Link accounts -->
@@ -100,10 +100,6 @@
     <string name="expedia_itinerary">Expedia 行程編號：</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus 客戶支援</string>
-    <!-- Elite plus (Silver) customer support -->
-    <string name="elite_plus_customer_support_silver">優先客戶服務</string>
-    <!-- Elite plus (Gold) customer support -->
-    <string name="elite_plus_customer_support_gold">+gold 尊享支援服務</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">沒有即將進行的旅程。</string>
     <!-- Enter itinerary number -->
@@ -147,6 +143,16 @@
         <item quantity="many">%s 天</item>
         <item quantity="other">%s 天</item>
     </plurals>
+    <!-- Shared Itin - Fallback name for itin card -->
+    <string name="sharedItin_card_fallback_name">分享的行程</string>
+    <!-- Shared Itin - Fallback name for Flight itin card -->
+    <string name="sharedItin_card_fallback_name_flight">分享的航班</string>
+    <!-- Shared Itin - Fallback name for Hotel itin card -->
+    <string name="sharedItin_card_fallback_name_hotel">分享的酒店</string>
+    <!-- Shared Itin - Template for flightcard header text (will be filled in with "FirstName to Destination") -->
+    <string name="SharedItin_Title_Flight_TEMPLATE">%1$s 至 %2$s</string>
+    <!-- Shared Itin - Template for hotelcard header text (will be filled in with "FirstName at HotelName") -->
+    <string name="SharedItin_Title_Hotel_TEMPLATE">%1$s (位於 %2$s)</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">航班</string>
     <!-- Default (fallback) itin card title for HOTEL -->
@@ -291,6 +297,10 @@
     <string name="hours_minutes_future_TEMPLATE">尚餘 %1$s %2$s</string>
     <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_past_TEMPLATE">%1$s %2$s 前</string>
+    <!-- Message to show when the user tried to ingest a cancelled itin -->
+    <string name="viewing_cancelled_itineraries_not_yet_supported">尚未支援查看已取消行程。</string>
+    <!-- Message to show when the user tried to ingest an itin that is already completed and in the past -->
+    <string name="viewing_completed_itineraries_not_yet_supported">尚未支援查看已完成行程。</string>
 
     <!-- Itin Buttons -->
     <!-- Dialog title for removing shared itin -->
@@ -521,11 +531,17 @@
 
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
-    <string name="share_template_subject_hotel">我的酒店資料：%1$s (%2$s – %3$s)</string>
-    <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
-    <string name="share_template_short_hotel">我即將入住%1$s\n%2$s – %3$s\n\n%4$s</string>
+    <string name="share_template_subject_hotel">我將入住 %1$s (%2$s – %3$s)</string>
+    <!-- 1: travelerName 2: hotel name 3: check in date 4: check out date -->
+    <string name="share_template_subject_hotel_reshare">%1$s 將入住 %2$s (%3$s − %4$s)</string>
+    <!-- 1: hotel name 2: date(mm/dd/yyyy) 3: SharableURL -->
+    <string name="share_msg_template_short_hotel">我將於 %2$s 入住 %1$s\n%3$s</string>
+    <!-- 1: traveler name 2: hotel name 3: date(mm/dd/yyyy) 4: SharableURL -->
+    <string name="share_msg_template_short_hotel_reshare">%1$s 將於 %3$s 入住 %2$s！\n%4$s</string>
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">你好！\n\n我即將入住%1$s%2$s。</string>
+    <!-- 1: Traveler name 2: Hotel name, 3: Formatted length of stay -->
+    <string name="share_template_long_hotel_1_greeting_reshare">你好，\n\n%1$s 將入住 %2$s %3$s。</string>
     <!-- 1: Check in date, 2: Check out date -->
     <string name="share_template_long_hotel_2_checkin_checkout">入住日期：%1$s\n退房日期：%2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
@@ -537,13 +553,15 @@
     <!-- App download link -->
     <string name="share_template_long_ad">預訂酒店和機票，及查看和分享你的行程立即下載免費的 Expedia 流動裝置應用程式吧！\n%s</string>
     <!-- 1: city 2: date string -->
-    <string name="share_template_subject_flight">我的班機資料：前往%1$s，日期：%2$s</string>
+    <string name="share_template_subject_flight">我將於 %2$s 飛往%1$s</string>
+    <!-- 1: travelerName 2: city 3: date string -->
+    <string name="share_template_subject_flight_reshare">%1$s 將於 %3$s 飛往%2$s</string>
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
-    <string name="share_template_subject_flight_multiple_travelers">我們的班機資料：前往%1$s，日期：%2$s</string>
-    <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">我正乘搭 %1$s 前往%2$s，日期：%3$s。\n出發機場：%4$s，時間：%5$s\n抵達機場：%6$s，時間：%7$s，客運大樓和閘口：%8$s\n%9$s</string>
-    <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">我正乘搭 %1$s 前往%2$s。\n出發機場：%3$s，時間：%4$s\n抵達機場：%5$s，時間：%6$s，客運大樓和閘口：%7$s\n%8$s</string>
+    <string name="share_template_subject_flight_multiple_travelers">我們將於 %2$s 飛往%1$s</string>
+    <!-- 1: city name 2: date(mm/dd/yyyy) 3: SharableURL -->
+    <string name="share_msg_template_short_flight">我將於 %2$s 飛往%1$s！\n%3$s</string>
+    <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
+    <string name="share_msg_template_short_flight_reshare">%1$s 將於 %3$s 飛往%2$s！\n%4$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">我的租車資料 (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -567,7 +585,7 @@
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">還車地點：</string>
     <!-- Section header for the Itin sharable link -->
-    <string name="share_link_section">連結到分享的行程：\n%s</string>
+    <string name="share_link_section">即時追蹤本次旅行：\n%s</string>
     <!-- Shared options label -->
     <string name="shared_options">共享的選項</string>
 
@@ -1247,13 +1265,21 @@
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">你好！</string>
     <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">以下是我從%1$s到%2$s的航班資料。</string>
+    <string name="share_flight_one_way_TEMPLATE">我將自%1$s飛往%2$s。</string>
+    <!-- One-way flight summary of locations for single traveler when reshared. %1$s is travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_one_way_TEMPLATE_reshare">%1$s 將自%2$s飛往%3$s。</string>
     <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">以下是我從%1$s到%2$s的來回航班資料。</string>
+    <string name="share_flight_round_trip_TEMPLATE">我將自%1$s飛往%2$s。</string>
+    <!-- Round trip flight summary of locations for single traveler when reshared.  %1$s is travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_round_trip_TEMPLATE_reshare">%1$s 將自%2$s飛往%3$s。</string>
     <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">以下是我們從%1$s到%2$s的航班資料。</string>
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">我們將自%1$s飛往%2$s。</string>
+    <!-- One-way flight summary of locations for multiple travelers when reshared.  %1$s is the travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE_reshare">%1$s 將自%2$s飛往%3$s。</string>
     <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">以下是我們從%1$s到%2$s的來回航班資料。</string>
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">我們將自%1$s飛往%2$s。</string>
+    <!-- Round trip flight summary of locations for multiple travelers when reshared.  %1$s is the travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE_reshare">%1$s 將自%2$s飛往%3$s。</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">行程編號：%s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -2486,6 +2512,14 @@
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
 
+    <!-- Handling sold out hotels -->
+    <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
+    <string name="sold_out_tonight">今晚已售完</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Sold out Nov. 3-4" -->
+    <string name="sold_out_TEMPLATE">%s已售完</string>
+    <!-- Shown if the user might want to change the search -->
+    <string name="change_search">變更搜尋</string>
+
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR">你前往%1$s的班機延遲 %2$s 小時。</string>
@@ -2879,5 +2913,8 @@
     <!-- Common actionbar elements -->
     <!-- Content description for action: Press to go back to previous screen -->
     <string name="cd_go_back">輕按以返回上一頁</string>
+    <!-- Itinerary card elements -->
+    <!-- Content description for action: Press to view share options -->
+    <string name="cd_share_menu_btn">按下即可查看行程分享選項</string>
 
 </resources>

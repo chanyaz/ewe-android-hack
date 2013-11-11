@@ -16,8 +16,8 @@
     <string name="unspecified_error">알 수 없는 오류가 발생했습니다. 나중에 다시 시도해 주세요.</string>
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">Facebook으로 로그인할 수 없습니다.</string>
-    <!-- Login failed try again -->
-    <string name="login_failed_try_again">로그인하지 못했습니다. 비밀번호를 다시 입력하고 재시도해 주세요.</string>
+    <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
+    <string name="login_failed_try_again">로그인하지 못했습니다. 이메일과 비밀번호가 올바른 경우 앱의 국가 설정이 올바른지 확인해 주세요.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia 비밀번호</string>
     <!-- Link accounts -->
@@ -100,10 +100,6 @@
     <string name="expedia_itinerary">Expedia 일정 번호</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus 고객 지원</string>
-    <!-- Elite plus (Silver) customer support -->
-    <string name="elite_plus_customer_support_silver">우대 고객 지원</string>
-    <!-- Elite plus (Gold) customer support -->
-    <string name="elite_plus_customer_support_gold">+gold 전담 지원</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">예정된 여행이 없습니다.</string>
     <!-- Enter itinerary number -->
@@ -147,6 +143,16 @@
         <item quantity="many">%s일</item>
         <item quantity="other">%s일</item>
     </plurals>
+    <!-- Shared Itin - Fallback name for itin card -->
+    <string name="sharedItin_card_fallback_name">공유 일정</string>
+    <!-- Shared Itin - Fallback name for Flight itin card -->
+    <string name="sharedItin_card_fallback_name_flight">공유 항공편</string>
+    <!-- Shared Itin - Fallback name for Hotel itin card -->
+    <string name="sharedItin_card_fallback_name_hotel">공유 호텔</string>
+    <!-- Shared Itin - Template for flightcard header text (will be filled in with "FirstName to Destination") -->
+    <string name="SharedItin_Title_Flight_TEMPLATE">%1$s, 목적지: %2$s</string>
+    <!-- Shared Itin - Template for hotelcard header text (will be filled in with "FirstName at HotelName") -->
+    <string name="SharedItin_Title_Hotel_TEMPLATE">%1$s, 호텔: %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">항공편</string>
     <!-- Default (fallback) itin card title for HOTEL -->
@@ -291,6 +297,10 @@
     <string name="hours_minutes_future_TEMPLATE">%1$s시간 %2$s분 후</string>
     <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_past_TEMPLATE">%1$s시간 %2$s분 전</string>
+    <!-- Message to show when the user tried to ingest a cancelled itin -->
+    <string name="viewing_cancelled_itineraries_not_yet_supported">취소된 일정 보기는 아직 지원되지 않습니다.</string>
+    <!-- Message to show when the user tried to ingest an itin that is already completed and in the past -->
+    <string name="viewing_completed_itineraries_not_yet_supported">완료된 일정 보기는 아직 지원되지 않습니다.</string>
 
     <!-- Itin Buttons -->
     <!-- Dialog title for removing shared itin -->
@@ -521,11 +531,17 @@
 
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
-    <string name="share_template_subject_hotel">내가 숙박할 호텔 %1$s(%2$s ~ %3$s)</string>
-    <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
-    <string name="share_template_short_hotel">저 %1$s에서 머물 예정이에요.\n%2$s ~ %3$s\n\n%4$s</string>
+    <string name="share_template_subject_hotel">%1$s에서 %2$s ~ %3$s에 머물러요.</string>
+    <!-- 1: travelerName 2: hotel name 3: check in date 4: check out date -->
+    <string name="share_template_subject_hotel_reshare">%1$s 님이 %2$s에서 %3$s ~ %4$s에 머물러요.</string>
+    <!-- 1: hotel name 2: date(mm/dd/yyyy) 3: SharableURL -->
+    <string name="share_msg_template_short_hotel">%1$s에서 %2$s에 머물러요!\n%3$s</string>
+    <!-- 1: traveler name 2: hotel name 3: date(mm/dd/yyyy) 4: SharableURL -->
+    <string name="share_msg_template_short_hotel_reshare">%1$s 님이 %2$s에서 %3$s에 머물러요!\n%4$s</string>
     <!-- 1: Hotel name, 2: Formatted length of stay -->
-    <string name="share_template_long_hotel_1_greeting">안녕하세요,\n\n저 %1$s에서 %2$s 머물 예정이에요.</string>
+    <string name="share_template_long_hotel_1_greeting">안녕하세요,\n\n저 %1$s에서 %2$s 동안 머물러요.</string>
+    <!-- 1: Traveler name 2: Hotel name, 3: Formatted length of stay -->
+    <string name="share_template_long_hotel_1_greeting_reshare">안녕하세요,\n\n%1$s 님이 %2$s에서 %3$s 동안 머물러요.</string>
     <!-- 1: Check in date, 2: Check out date -->
     <string name="share_template_long_hotel_2_checkin_checkout">체크인: %1$s\n체크아웃: %2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
@@ -537,13 +553,15 @@
     <!-- App download link -->
     <string name="share_template_long_ad">호텔과 항공편을 예약하고 일정을 확인 및 공유하실 수 있어요. 오늘 바로 Expedia 모바일 앱을 다운로드하세요.\n%s</string>
     <!-- 1: city 2: date string -->
-    <string name="share_template_subject_flight">내가 예약한 %1$s행 항공편, %2$s</string>
+    <string name="share_template_subject_flight">항공편으로 %1$s에 가요!(%2$s)</string>
+    <!-- 1: travelerName 2: city 3: date string -->
+    <string name="share_template_subject_flight_reshare">%1$s 님이 항공편으로 %2$s에 가요!(%3$s)</string>
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
-    <string name="share_template_subject_flight_multiple_travelers">우리가 예약한 %1$s행 항공편, %2$s</string>
-    <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">저 %1$s 비행기로 %2$s에 가요. 날짜는 %3$s이고요.\n%4$s에서 출발하는 시간은 %5$s, \n%6$s에 도착하는 시간은 %7$s에요(%8$s).\n%9$s</string>
-    <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">저 %1$s 비행기로 %2$s에 가요.\n%3$s에서 출발하는 시간은 %4$s, \n%5$s에 도착하는 시간은 %6$s에요(%7$s).\n%8$s</string>
+    <string name="share_template_subject_flight_multiple_travelers">저희는 항공편으로 %1$s에 가요!(%2$s)</string>
+    <!-- 1: city name 2: date(mm/dd/yyyy) 3: SharableURL -->
+    <string name="share_msg_template_short_flight">항공편으로 %1$s에 가요!(%2$s)\n%3$s</string>
+    <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
+    <string name="share_msg_template_short_flight_reshare">%1$s 님이 항공편으로 %2$s에 가요!(%3$s)\n%4$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">내가 예약한 렌터카(%1$s ~ %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -567,7 +585,7 @@
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">차량 반납 위치:</string>
     <!-- Section header for the Itin sharable link -->
-    <string name="share_link_section">공유 일정 링크:\n%s</string>
+    <string name="share_link_section">이 여행 실시간 추적: \n%s</string>
     <!-- Shared options label -->
     <string name="shared_options">공유 옵션</string>
 
@@ -1247,13 +1265,21 @@
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">안녕하세요,</string>
     <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">%1$s에서 출발하여 %2$s에 도착하는 제 항공편 정보를 아래와 같이 알려드릴게요.</string>
+    <string name="share_flight_one_way_TEMPLATE">항공편으로 %1$s에서 %2$s에 가요.</string>
+    <!-- One-way flight summary of locations for single traveler when reshared. %1$s is travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_one_way_TEMPLATE_reshare">%1$s 님이 항공편으로 %2$s에서 %3$s에 가요.</string>
     <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">%1$s에서 출발하여 %2$s에 도착하는 제 왕복 항공편 정보를 아래와 같이 알려드릴게요.</string>
+    <string name="share_flight_round_trip_TEMPLATE">항공편으로 %1$s에서 %2$s에 가요.</string>
+    <!-- Round trip flight summary of locations for single traveler when reshared.  %1$s is travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_round_trip_TEMPLATE_reshare">%1$s 님이 항공편으로 %2$s에서 %3$s에 가요.</string>
     <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">%1$s에서 출발하여 %2$s에 도착하는 저희 항공편 정보를 아래와 같이 알려드릴게요.</string>
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">저희는 항공편으로 %1$s에서 %2$s에 가요.</string>
+    <!-- One-way flight summary of locations for multiple travelers when reshared.  %1$s is the travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE_reshare">%1$s 님이 항공편으로 %2$s에서 %3$s에 가요.</string>
     <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">%1$s에서 출발하여 %2$s에 도착하는 저희 왕복 항공편 정보를 아래와 같이 알려드릴게요.</string>
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">저희는 항공편으로 %1$s에서 %2$s에 가요.</string>
+    <!-- Round trip flight summary of locations for multiple travelers when reshared.  %1$s is the travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE_reshare">%1$s 님이 항공편으로 %2$s에서 %3$s에 가요.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">일정 번호: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -2486,6 +2512,14 @@
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
 
+    <!-- Handling sold out hotels -->
+    <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
+    <string name="sold_out_tonight">오늘 밤 매진</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Sold out Nov. 3-4" -->
+    <string name="sold_out_TEMPLATE">%s 매진</string>
+    <!-- Shown if the user might want to change the search -->
+    <string name="change_search">검색 변경</string>
+
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR">고객님의 %1$s행 항공편이 %2$s시간 지연입니다.</string>
@@ -2879,5 +2913,8 @@
     <!-- Common actionbar elements -->
     <!-- Content description for action: Press to go back to previous screen -->
     <string name="cd_go_back">누르면 이전 화면으로 돌아갑니다.</string>
+    <!-- Itinerary card elements -->
+    <!-- Content description for action: Press to view share options -->
+    <string name="cd_share_menu_btn">일정 공유 옵션을 보려면 누르세요.</string>
 
 </resources>

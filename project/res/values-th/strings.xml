@@ -16,8 +16,8 @@
     <string name="unspecified_error">เราพบข้อผิดพลาดที่ไม่สามารถระบุได้ โปรดลองอีกครั้งภายหลัง</string>
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">ไม่สามารถเข้าสู่ระบบ Facebook</string>
-    <!-- Login failed try again -->
-    <string name="login_failed_try_again">เข้าระบบไม่สำเร็จ โปรดป้อนรหัสผ่านของคุณใหม่แล้วลองอีกครั้ง</string>
+    <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
+    <string name="login_failed_try_again">เข้าระบบไม่สำเร็จ หากอีเมลและรหัสผ่านของคุณถูกต้อง โปรดตรวจสอบให้แน่ใจว่าการตั้งค่าประเทศในแอพของคุณถูกต้อง</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">รหัสผ่านเอ็กซ์พีเดีย</string>
     <!-- Link accounts -->
@@ -37,7 +37,7 @@
 
     <!-- Restricted Profile -->
     <!-- Restricted profile login message -->
-    <string name="restricted_profile_login_message">คุณต้องใช้โปรไฟล์ผู้ใช้ที่ไม่ถูกจำกัดการใช้งานบนอุปกรณ์ของคุณ เพื่อเข้าสู่ระบบเอ็กซ์พีเดีย</string>
+    <string name="restricted_profile_login_message">เพื่อเข้าสู่ระบบเอ็กซ์พีเดีย คุณต้องตั้งโปรไฟล์ผู้ใช้บนอุปกรณ์ของคุณเป็นแบบไม่หวงห้าม</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -55,9 +55,9 @@
     <!-- Label for launch screen flight button secondary text -->
     <string name="launch_flight_secondary_text">จองเที่ยวบิน</string>
     <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
-    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;บินไปที่&lt;/font&gt;&lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
+    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;บินไปยัง&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
-    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;เข้าพักที่&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
+    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;เข้าพักใน&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">ขออภัย ไม่สามารถเชื่อมต่อได้</string>
     <!-- Menu option for going to see your trips/itineraries -->
@@ -100,10 +100,6 @@
     <string name="expedia_itinerary">หมายเลขแผนการเดินทางเอ็กซ์พีเดีย</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">ฝ่ายบริการลูกค้า Elite Plus</string>
-    <!-- Elite plus (Silver) customer support -->
-    <string name="elite_plus_customer_support_silver">ฝ่ายบริการลูกค้าคนสำคัญ</string>
-    <!-- Elite plus (Gold) customer support -->
-    <string name="elite_plus_customer_support_gold">ฝ่ายบริการลูกค้า +gold</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">ไม่มีการเดินทางเร็วๆ นี้</string>
     <!-- Enter itinerary number -->
@@ -147,6 +143,16 @@
         <item quantity="many">%s วัน</item>
         <item quantity="other">%s วัน</item>
     </plurals>
+    <!-- Shared Itin - Fallback name for itin card -->
+    <string name="sharedItin_card_fallback_name">แผนการเดินทางที่แชร์</string>
+    <!-- Shared Itin - Fallback name for Flight itin card -->
+    <string name="sharedItin_card_fallback_name_flight">เที่ยวบินที่แชร์</string>
+    <!-- Shared Itin - Fallback name for Hotel itin card -->
+    <string name="sharedItin_card_fallback_name_hotel">โรงแรมที่แชร์</string>
+    <!-- Shared Itin - Template for flightcard header text (will be filled in with "FirstName to Destination") -->
+    <string name="SharedItin_Title_Flight_TEMPLATE">%1$s ไปยัง %2$s</string>
+    <!-- Shared Itin - Template for hotelcard header text (will be filled in with "FirstName at HotelName") -->
+    <string name="SharedItin_Title_Hotel_TEMPLATE">%1$s เข้าพักที่ %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">เที่ยวบิน</string>
     <!-- Default (fallback) itin card title for HOTEL -->
@@ -168,7 +174,7 @@
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">ยืนยัน %1$s</string>
     <!-- Car rental agency name and location in car itin detail -->
-    <string name="car_rental_agency_name_location">%1$sใน %2$s%3$s</string>
+    <string name="car_rental_agency_name_location">%1$s ใน %2$s%3$s</string>
     <!-- Car rental confirmation code "Agency Confirmation Code" -->
     <string name="car_rental_confirmation_code_label">รหัสยืนยันบริษัทตัวแทน</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
@@ -242,7 +248,7 @@
     <!-- Flight has been diverted to {airport} template -->
     <string name="flight_diverted_TEMPLATE">เที่ยวบินเปลี่ยนไปลงจอดยัง %1$s</string>
     <!-- Flight departs on {date} template -->
-    <string name="flight_departs_on_TEMPLATE">ออกจาก %1$s</string>
+    <string name="flight_departs_on_TEMPLATE">ออกเดินทาง %1$s</string>
     <!-- Departs early {duration from now} -->
     <string name="flight_departs_early_TEMPLATE">ออกเร็วกว่ากำหนด %1$s</string>
     <!-- Departs late {duration from now} -->
@@ -250,33 +256,33 @@
     <!-- Departs on time {duration from now} -->
     <string name="flight_departs_on_time_TEMPLATE">ออกตรงเวลา %1$s</string>
     <!-- Departs {duration} early -->
-    <string name="flight_departs_x_early_TEMPLATE">ออกจาก %1$s เร็วกว่ากำหนด</string>
+    <string name="flight_departs_x_early_TEMPLATE">ออกเร็วกว่ากำหนด %1$s</string>
     <!-- Departs {duration} late -->
-    <string name="flight_departs_x_late_TEMPLATE">ออกจาก %1$s ล่าช้า</string>
+    <string name="flight_departs_x_late_TEMPLATE">ออกล่าช้า %1$s</string>
     <!-- Flight departs on time -->
     <string name="flight_departs_on_time">ออกเดินทางตรงเวลา</string>
     <!-- Arrives early {duration from now} -->
-    <string name="flight_arrives_early_TEMPLATE">มาถึง %1$s เร็วกว่ากำหนด</string>
+    <string name="flight_arrives_early_TEMPLATE">มาถึงเร็วกว่ากำหนด %1$s</string>
     <!-- Arrives late {duration from now} -->
-    <string name="flight_arrives_late_TEMPLATE">มาถึง %1$s ล่าช้า</string>
+    <string name="flight_arrives_late_TEMPLATE">มาถึงล่าช้า %1$s</string>
     <!-- Arrives on time {duration from now} -->
-    <string name="flight_arrives_on_time_TEMPLATE">มาถึง %1$s ตรงเวลา</string>
+    <string name="flight_arrives_on_time_TEMPLATE">มาถึงตรงเวลา %1$s</string>
     <!-- Arrives {duration} early -->
-    <string name="flight_arrives_x_early_TEMPLATE">มาถึง %1$s เร็วกว่ากำหนด</string>
+    <string name="flight_arrives_x_early_TEMPLATE">มาถึงเร็วกว่ากำหนด %1$s</string>
     <!-- Arrives {duration} late -->
-    <string name="flight_arrives_x_late_TEMPLATE">มาถึง %1$s ล่าช้า</string>
+    <string name="flight_arrives_x_late_TEMPLATE">มาถึงล่าช้า %1$s</string>
     <!-- Flight arrives on time -->
     <string name="flight_arrives_on_time">มาถึงตรงเวลา</string>
     <!-- Arrived early {duration from now} -->
-    <string name="flight_arrived_early_at_TEMPLATE">มาถึง %1$s เร็วกว่ากำหนด</string>
+    <string name="flight_arrived_early_at_TEMPLATE">มาถึงเร็วกว่ากำหนดเมื่อ %1$s</string>
     <!-- Arrived late {duration from now} -->
-    <string name="flight_arrived_late_at_TEMPLATE">มาถึง %1$s ล่าช้า</string>
+    <string name="flight_arrived_late_at_TEMPLATE">มาถึงล่าช้าเมื่อ %1$s</string>
     <!-- Arrived on time {duration from now} -->
-    <string name="flight_arrived_on_time_at_TEMPLATE">มาถึง %1$s ตรงเวลา</string>
+    <string name="flight_arrived_on_time_at_TEMPLATE">มาถึงตรงเวลาเมื่อ %1$s</string>
     <!-- Arrived {duration} early -->
-    <string name="flight_arrived_x_early_TEMPLATE">มาถึง %1$s เร็วกว่ากำหนด</string>
+    <string name="flight_arrived_x_early_TEMPLATE">มาถึงเร็วกว่ากำหนด %1$s</string>
     <!-- Arrived {duration} late -->
-    <string name="flight_arrived_x_late_TEMPLATE">มาถึง %1$s ล่าช้า</string>
+    <string name="flight_arrived_x_late_TEMPLATE">มาถึงล่าช้า %1$s</string>
     <!-- Flight arrived on time -->
     <string name="flight_arrived_on_time">มาถึงตรงเวลา</string>
     <!-- Flight arrived (fallback when we have very little information about arrival available) -->
@@ -291,12 +297,16 @@
     <string name="hours_minutes_future_TEMPLATE">ใน %1$s และ %2$s</string>
     <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_past_TEMPLATE">%1$s และ %2$s ที่ผ่านมา</string>
+    <!-- Message to show when the user tried to ingest a cancelled itin -->
+    <string name="viewing_cancelled_itineraries_not_yet_supported">ยังไม่รองรับการเรียกดูแผนการเดินทางที่ยกเลิก</string>
+    <!-- Message to show when the user tried to ingest an itin that is already completed and in the past -->
+    <string name="viewing_completed_itineraries_not_yet_supported">ยังไม่รองรับการเรียกดูแผนการเดินทางที่เสร็จสิ้นแล้ว</string>
 
     <!-- Itin Buttons -->
     <!-- Dialog title for removing shared itin -->
     <string name="remove_shared_itin_title">ลบแผนการเดินทางที่แชร์?</string>
     <!-- Dialog message for removing shared itin -->
-    <string name="remove_shared_itin_message">คุณแน่ใจว่าต้องการลบแผนการเดินทางที่แชร์นี้ออกจากเครื่องหรือไม่</string>
+    <string name="remove_shared_itin_message">คุณแน่ใจว่าต้องการลบแผนการเดินทางที่แชร์นี้ออกจากเครื่อง?</string>
     <!-- Popup menu -->
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">ซ่อน</string>
@@ -521,11 +531,17 @@
 
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
-    <string name="share_template_subject_hotel">โรงแรมของฉันใน %1$s (%2$s - %3$s)</string>
-    <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
-    <string name="share_template_short_hotel">ฉันจะเข้าพักที่ %1$s\n%2$s - %3$s\n\n%4$s</string>
+    <string name="share_template_subject_hotel">ฉันเข้าพักที่ %1$s (%2$s − %3$s)</string>
+    <!-- 1: travelerName 2: hotel name 3: check in date 4: check out date -->
+    <string name="share_template_subject_hotel_reshare">%1$s จะเข้าพักที่ %2$s (%3$s − %4$s)</string>
+    <!-- 1: hotel name 2: date(mm/dd/yyyy) 3: SharableURL -->
+    <string name="share_msg_template_short_hotel">ฉันจะเข้าพักที่ %1$s ในวันที่ %2$s!\n%3$s</string>
+    <!-- 1: traveler name 2: hotel name 3: date(mm/dd/yyyy) 4: SharableURL -->
+    <string name="share_msg_template_short_hotel_reshare">%1$s จะเข้าพักที่ %2$s ในวันที่ %3$s!\n%4$s</string>
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">สวัสดี \n\nฉันเข้าพักที่ %1$s เป็นเวลา %2$s คืน</string>
+    <!-- 1: Traveler name 2: Hotel name, 3: Formatted length of stay -->
+    <string name="share_template_long_hotel_1_greeting_reshare">สวัสดี \n\n%1$s เข้าพักที่ %2$s เป็นเวลา %3$s คืน</string>
     <!-- 1: Check in date, 2: Check out date -->
     <string name="share_template_long_hotel_2_checkin_checkout">เช็คอิน %1$s \nเช็คเอาท์ %2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
@@ -537,13 +553,15 @@
     <!-- App download link -->
     <string name="share_template_long_ad">จองโรงแรม เที่ยวบิน ดูและแบ่งปันแผนการเดินทางของคุณ ดาวน์โหลดแอพฟรีสำหรับมือถือจากเอ็กซ์พีเดียวันนี้\n%s</string>
     <!-- 1: city 2: date string -->
-    <string name="share_template_subject_flight">เที่ยวบินของฉันไปยัง %1$s ใน %2$s</string>
+    <string name="share_template_subject_flight">ฉันกำลังจะบินไป %1$s ในวันที่ %2$s</string>
+    <!-- 1: travelerName 2: city 3: date string -->
+    <string name="share_template_subject_flight_reshare">%1$s กำลังจะบินไป %2$s ในวันที่ %3$s</string>
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
-    <string name="share_template_subject_flight_multiple_travelers">เที่ยวบินของเราไปยัง %1$s ใน %2$s</string>
-    <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">ฉันนั่งเที่ยวบิน %1$s ไปยัง %2$s ใน %3$s\nออกจาก %4$s เวลา %5$s\nมาถึง %6$s เวลา %7$s, %8$s\n%9$s</string>
-    <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">ฉันนั่งเที่ยวบิน %1$s ไปยัง %2$s\nออกจาก %3$s เวลา %4$s\nมาถึง %5$s เวลา %6$s, %7$s\n%8$s</string>
+    <string name="share_template_subject_flight_multiple_travelers">เรากำลังจะบินไป %1$s ในวันที่ %2$s</string>
+    <!-- 1: city name 2: date(mm/dd/yyyy) 3: SharableURL -->
+    <string name="share_msg_template_short_flight">ฉันกำลังจะบินไป %1$s ในวันที่ %2$s!\n%3$s</string>
+    <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
+    <string name="share_msg_template_short_flight_reshare">%1$s กำลังจะบินไป %2$s ในวันที่ %3$s!\n%4$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">รถเช่าของฉัน (%1$s - %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -567,7 +585,7 @@
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">สถานที่ส่งคืนรถ:</string>
     <!-- Section header for the Itin sharable link -->
-    <string name="share_link_section">ลิงก์ไปยังแผนการเดินทางที่แชร์:\n%s</string>
+    <string name="share_link_section">ติดตามทริปนี้แบบเรียลไทม์: \n%s</string>
     <!-- Shared options label -->
     <string name="shared_options">ตัวเลือกการแชร์</string>
 
@@ -1247,13 +1265,21 @@
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">สวัสดี</string>
     <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">นี่คือรายละเอียดเที่ยวบินจาก %1$s ไปยัง %2$s</string>
+    <string name="share_flight_one_way_TEMPLATE">ฉันจะบินจาก %1$s ไป %2$s</string>
+    <!-- One-way flight summary of locations for single traveler when reshared. %1$s is travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_one_way_TEMPLATE_reshare">%1$s กำลังจะบินจาก %2$s ไป %3$s</string>
     <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">นี่คือรายละเอียดเที่ยวบินไป-กลับจาก %1$s ไปยัง %2$s</string>
+    <string name="share_flight_round_trip_TEMPLATE">ฉันจะบินจาก %1$s ไป %2$s</string>
+    <!-- Round trip flight summary of locations for single traveler when reshared.  %1$s is travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_round_trip_TEMPLATE_reshare">%1$s กำลังจะบินจาก %2$s ไป %3$s</string>
     <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">นี่คือรายละเอียดเที่ยวบินจาก %1$s ไปยัง %2$s</string>
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">เราจะบินจาก %1$s ไป %2$s</string>
+    <!-- One-way flight summary of locations for multiple travelers when reshared.  %1$s is the travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE_reshare">%1$s กำลังจะบินจาก %2$s ไป %3$s</string>
     <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">นี่คือรายละเอียดเที่ยวบินไป-กลับจาก %1$s ไปยัง %2$s</string>
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">เราจะบินจาก %1$s ไป %2$s</string>
+    <!-- Round trip flight summary of locations for multiple travelers when reshared.  %1$s is the travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE_reshare">%1$s กำลังจะบินจาก %2$s ไป %3$s</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">หมายเลขแผนการเดินทาง: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -1740,7 +1766,7 @@
     <!-- Security code tip (if code is on front of card) -->
     <string name="security_code_tip_back">ดูด้านหลังบัตรเครดิต</string>
     <!-- Rules & restrictions section header -->
-    <string name="rules_restrictions">กฏและข้อบังคับ</string>
+    <string name="rules_restrictions">กฎและข้อบังคับ</string>
     <!-- Disclaimer about how to earn expedia points -->
     <string name="disclaimer_expedia_points">หากคุณมีบัญชี Expedia Rewards โปรดใช้อีเมลที่ระบุในบัญชีในการจอง เพื่อให้ระบบเพิ่มคะแนนให้คุณโดยอัตโนมัติ หลังการเข้าพัก หมายเหตุ: อาจใช้เวลานานกว่า 30 วัน ในการแสดงคะแนนที่เพิ่ม</string>
     <!-- Button label for confirming your booking -->
@@ -1848,7 +1874,7 @@
     <!-- Policy displayed to user when a guarantee is required -->
     <string name="PolicyGuaranteeRequired">เราจำเป็นต้องใช้ข้อมูลบัตรเครดิตของคุณในการยืนยันการจอง ระบบจะไม่ทำการตัดบัตรเครดิตของคุณ จนกว่าคุณจะเช็คอินเข้าพักหรือเกินกำหนดวันยกเลิกแล้ว</string>
     <!-- Expedia merchant hotel policies -->
-    <string name="PolicyExpediaMerchant">ในการทำการจองนี้ คุณยอมรับข้อตกลงและเงื่อนไข ซึ่งรวมถึงนโยบายการยกเลิกและเนื้อหาข้อตกลงและเงื่อนไขต่างๆ ที่ระบุในข้อตกลงสำหรับผู้ใช้\n\nคุณตกลงที่จะชำระเงินสำหรับการจองนี้ หากคุณไม่ชำระเงินตามที่ตกลงไว้ และหากมีการเรียกเก็บหนี้สินจากบริษัทติดตามทวงหนี้ ทนายความ หรือมีการดำเนินการตามกฏหมายต่างๆ คุณตกลงที่จะชำระค่าใช้จ่ายและค่าธรรมเนียมต่างๆ ที่เกี่ยวข้อง ซึ่งรวมถึงค่าบริการทนายความและค่าศาล</string>
+    <string name="PolicyExpediaMerchant">ในการทำการจองนี้ คุณยอมรับข้อตกลงและเงื่อนไข ซึ่งรวมถึงนโยบายการยกเลิกและเนื้อหาข้อตกลงและเงื่อนไขต่างๆ ที่ระบุในข้อตกลงสำหรับผู้ใช้\n\nคุณตกลงที่จะชำระเงินสำหรับการจองนี้ หากคุณไม่ชำระเงินตามที่ตกลงไว้ และหากมีการเรียกเก็บหนี้สินจากบริษัทติดตามทวงหนี้ ทนายความ หรือมีการดำเนินการตามกฎหมายต่างๆ คุณตกลงที่จะชำระค่าใช้จ่ายและค่าธรรมเนียมต่างๆ ที่เกี่ยวข้อง ซึ่งรวมถึงค่าบริการทนายความและค่าศาล</string>
     <!-- Expedia agent hotel policies -->
     <string name="PolicyExpediaAgent">คุณกำลังจองโรงแรมที่ไม่มีส่วนลด ราคาที่แสดงเป็นราคาต่อคืน สำหรับผู้เข้าพัก 2 คนต่อห้อง ยกเว้นระบุว่าไว้อย่างอื่น โปรดอ่านรายละเอียดห้องพักและราคาอย่างละเอียด เพื่อให้แน่ใจว่าห้องที่คุณเลือกสามารถรองรับผู้เดินทางทั้งหมด ราคาห้องบางอย่างอาจต้องใช้โค้ดการจองพิเศษ ทางเราไม่ได้รวมค่าธรรมเนียมในการจอง ภาษี และค่าบริการต่างๆ ที่เรียกเก็บจากโรงแรม โรงแรมอาจมีเรียกเก็บค่าบริการสำหรับผู้เข้าพักเสริมนอกเหนือจากจำนวนที่ระบุไว้ ไม่ว่าจะเป็นผู้ใหญ่หรือเด็ก\n\nเราจะส่งคำขอสำหรับการเข้าพักมากกว่า 2 คน หรือการเข้าพักเกินจำนวนผู้เข้าพักที่กำหนดไว้สำหรับห้องของคุณไปให้โรงแรม แต่เราไม่สามารถรับประกันคำขอได้ หากโรงแรมยินดีรับคำขอของคุณ ทางโรงแรมอาจจะคิดค่าธรรมเนียมเพิ่มเติม</string>
 
@@ -2486,89 +2512,97 @@
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
 
+    <!-- Handling sold out hotels -->
+    <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
+    <string name="sold_out_tonight">เต็มแล้วสำหรับคืนนี้</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Sold out Nov. 3-4" -->
+    <string name="sold_out_TEMPLATE">เต็มแล้วในวันที่ %s</string>
+    <!-- Shown if the user might want to change the search -->
+    <string name="change_search">เปลี่ยนการค้นหา</string>
+
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง</string>
     <!-- Your flight to _ delayed _ hours TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง</string>
+    <string name="S_Push_flight_CITY_delayed_HOURS">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง</string>
     <!-- Your flight to _ delayed _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s นาที</string>
+    <string name="S_Push_flight_CITY_delayed_MINUTE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s นาที</string>
     <!-- Your flight to _ delayed _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s นาที</string>
+    <string name="S_Push_flight_CITY_delayed_MINUTES">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s นาที</string>
     <!-- Your flight to _ delayed _ hour _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที</string>
     <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที</string>
     <!-- Your flight to _ delayed _ hours _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที</string>
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที</string>
     <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที</string>
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที</string>
     <!-- Your flight to _ departs _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTE">เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s นาที</string>
+    <string name="S_Push_flight_CITY_early_MINUTE">เที่ยวบินไป %1$s ของคุณออกเดินทางก่อนกำหนด %2$s นาที</string>
     <!-- Your flight to _ departs _ minutes early  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTES">เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s นาที</string>
+    <string name="S_Push_flight_CITY_early_MINUTES">เที่ยวบินไป %1$s ของคุณออกเดินทางก่อนกำหนด %2$s นาที</string>
     <!-- Your flight to _ departs _ hour early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR">เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง</string>
+    <string name="S_Push_flight_CITY_early_HOUR">เที่ยวบินไป %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง</string>
     <!-- Your flight to _ departs _ hours early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS">เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง</string>
+    <string name="S_Push_flight_CITY_early_HOURS">เที่ยวบินไป %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง</string>
     <!-- Your flight to _ departs _ hour _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE">เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE">เที่ยวบินไป %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
     <!-- Your flight to _ departs _ hours _ minute early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE">เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE">เที่ยวบินไป %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
     <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES">เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES">เที่ยวบินไป %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
     <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES">เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES">เที่ยวบินไป %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
     <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s นาที และขณะนี้กำลังออกจากประตู %3$s</string>
+    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s นาที และกำลังออกเดินทางจากประตู %3$s</string>
     <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s นาที และขณะนี้กำลังออกจากประตู %3$s</string>
+    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s นาที และกำลังออกเดินทางจากประตู %3$s</string>
     <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง และขณะนี้กำลังออกจากประตู %3$s</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง และกำลังออกเดินทางจากประตู %3$s</string>
     <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง และขณะนี้กำลังออกจากประตู %3$s</string>
+    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง และกำลังออกเดินทางจากประตู %3$s</string>
     <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที และขณะนี้กำลังออกจากประตู %4$s</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที และกำลังออกเดินทางจากประตู %4$s</string>
     <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที และขณะนี้กำลังออกจากประตู %4$s</string>
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที และกำลังออกเดินทางจากประตู %4$s</string>
     <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที และขณะนี้กำลังออกจากประตู %4$s</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที และกำลังออกเดินทางจากประตู %4$s</string>
     <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">เที่ยวบินไปยัง %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที และขณะนี้กำลังออกจากประตู %4$s</string>
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">เที่ยวบินไป %1$s ของคุณล่าช้า %2$s ชั่วโมง %3$s นาที และกำลังออกเดินทางจากประตู %4$s</string>
     <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s นาที จากประตู %3$s</string>
+    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">เที่ยวบินไป %1$s ของคุณกำลังออกเดินทางก่อนกำหนด %2$s นาที จากประตู %3$s</string>
     <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s นาที จากประตู %3$s</string>
+    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">เที่ยวบินไป %1$s ของคุณกำลังออกเดินทางก่อนกำหนด %2$s นาที จากประตู %3$s</string>
     <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง จากประตู %3$s</string>
+    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">เที่ยวบินไป %1$s ของคุณกำลังออกเดินทางก่อนกำหนด %2$s ชั่วโมง จากประตู %3$s</string>
     <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง จากประตู %3$s</string>
+    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">เที่ยวบินไป %1$s ของคุณกำลังออกเดินทางก่อนกำหนด %2$s ชั่วโมง จากประตู %3$s</string>
     <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที จากประตู %4$s</string>
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">เที่ยวบินไป %1$s ของคุณกำลังออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที จากประตู %4$s</string>
     <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที จากประตู %4$s</string>
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">เที่ยวบินไป %1$s ของคุณกำลังออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที จากประตู %4$s</string>
     <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที จากประตู %4$s</string>
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">เที่ยวบินไป %1$s ของคุณกำลังออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที จากประตู %4$s</string>
     <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที จากประตู %4$s</string>
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">เที่ยวบินไป %1$s ของคุณกำลังออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที จากประตู %4$s</string>
     <!-- Your flight from _ to _ has been cancelled TEMPLATE -->
-    <string name="S_Push_flight_from_CITY_to_CITY_cancelled">เที่ยวบินจาก %1$s ไปยัง %2$s ของคุณถูกยกเลิก</string>
+    <string name="S_Push_flight_from_CITY_to_CITY_cancelled">เที่ยวบินจาก %1$s ไป %2$s ของคุณถูกยกเลิก</string>
     <!-- Your flight to _ departs in _ hour TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR">เที่ยวบินไปยัง %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง</string>
+    <string name="S_Push_flight_CITY_departs_in_HOUR">เที่ยวบินไป %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง</string>
     <!-- Your flight to _ departs in _ hours TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS">เที่ยวบินไปยัง %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง</string>
+    <string name="S_Push_flight_CITY_departs_in_HOURS">เที่ยวบินไป %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง</string>
     <!-- Your flight to _ departs in _ hours _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">เที่ยวบินไปยัง %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง %3$s นาที</string>
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE">เที่ยวบินไป %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง %3$s นาที</string>
     <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">เที่ยวบินไปยัง %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง %3$s นาที</string>
+    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES">เที่ยวบินไป %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง %3$s นาที</string>
     <!-- Your flight to _ departs in _ hour _ minute TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">เที่ยวบินไปยัง %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง %3$s นาที</string>
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE">เที่ยวบินไป %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง %3$s นาที</string>
     <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">เที่ยวบินไปยัง %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง %3$s นาที</string>
+    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES">เที่ยวบินไป %1$s ของคุณจะออกเดินทางใน %2$s ชั่วโมง %3$s นาที</string>
     <!-- Your flight to _ departs in _ minutes TEMPLATE -->
-    <string name="S_Push_flight_CITY_departs_in_MINUTES">เที่ยวบินไปยัง %1$s ของคุณจะออกเดินทางใน %2$s นาที</string>
+    <string name="S_Push_flight_CITY_departs_in_MINUTES">เที่ยวบินไป %1$s ของคุณจะออกเดินทางใน %2$s นาที</string>
     <!-- Your flight to _ now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_gate_GATE">ขณะนี้เที่ยวบินไปยัง %1$s ของคุณกำลังออกจากประตู %2$s</string>
+    <string name="S_Push_flight_CITY_gate_GATE">ขณะนี้เที่ยวบินไป %1$s ของคุณกำลังออกจากประตู %2$s</string>
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">กระเป๋าของคุณจะอยู่บริเวณจุดรับกระเป๋า %1$s</string>
 
@@ -2879,5 +2913,8 @@
     <!-- Common actionbar elements -->
     <!-- Content description for action: Press to go back to previous screen -->
     <string name="cd_go_back">กดเพื่อกลับไปยังเพจก่อนหน้า</string>
+    <!-- Itinerary card elements -->
+    <!-- Content description for action: Press to view share options -->
+    <string name="cd_share_menu_btn">กดเพื่อดูตัวเลือกการแชร์แผนการเดินทาง</string>
 
 </resources>

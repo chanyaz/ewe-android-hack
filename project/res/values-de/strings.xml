@@ -16,8 +16,8 @@
     <string name="unspecified_error">Leider ist ein unbestimmter Fehler aufgetreten. Bitte versuchen Sie es später erneut.</string>
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">Die Anmeldung bei Facebook hat nicht geklappt.</string>
-    <!-- Login failed try again -->
-    <string name="login_failed_try_again">Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihr Passwort und versuchen Sie es erneut.</string>
+    <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
+    <string name="login_failed_try_again">Anmeldung fehlgeschlagen. Wenn Ihre E-Mail-Adresse und Ihr Passwort korrekt sind, überprüfen Sie bitte die Ländereinstellungen der App.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Expedia-Passwort</string>
     <!-- Link accounts -->
@@ -100,10 +100,6 @@
     <string name="expedia_itinerary">Expedia-Reiseplannr.</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite-Plus-Kundenservice</string>
-    <!-- Elite plus (Silver) customer support -->
-    <string name="elite_plus_customer_support_silver">Priority-Kundenservice</string>
-    <!-- Elite plus (Gold) customer support -->
-    <string name="elite_plus_customer_support_gold">Eigener +gold-Kundenservice</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Es stehen keine Reisen bevor.</string>
     <!-- Enter itinerary number -->
@@ -147,6 +143,16 @@
         <item quantity="many">%s Tage</item>
         <item quantity="other">%s Tage</item>
     </plurals>
+    <!-- Shared Itin - Fallback name for itin card -->
+    <string name="sharedItin_card_fallback_name">Geteilter Reiseplan</string>
+    <!-- Shared Itin - Fallback name for Flight itin card -->
+    <string name="sharedItin_card_fallback_name_flight">Geteilter Flug</string>
+    <!-- Shared Itin - Fallback name for Hotel itin card -->
+    <string name="sharedItin_card_fallback_name_hotel">Geteiltes Hotel</string>
+    <!-- Shared Itin - Template for flightcard header text (will be filled in with "FirstName to Destination") -->
+    <string name="SharedItin_Title_Flight_TEMPLATE">%1$s bis %2$s</string>
+    <!-- Shared Itin - Template for hotelcard header text (will be filled in with "FirstName at HotelName") -->
+    <string name="SharedItin_Title_Hotel_TEMPLATE">%1$s um %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">Flug</string>
     <!-- Default (fallback) itin card title for HOTEL -->
@@ -291,6 +297,10 @@
     <string name="hours_minutes_future_TEMPLATE">in %1$s und %2$s</string>
     <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_past_TEMPLATE">vor %1$s und %2$s</string>
+    <!-- Message to show when the user tried to ingest a cancelled itin -->
+    <string name="viewing_cancelled_itineraries_not_yet_supported">Das Ansehen stornierter Reisepläne wird noch nicht unterstützt.</string>
+    <!-- Message to show when the user tried to ingest an itin that is already completed and in the past -->
+    <string name="viewing_completed_itineraries_not_yet_supported">Das Ansehen abgeschlossener Reisepläne wird noch nicht unterstützt.</string>
 
     <!-- Itin Buttons -->
     <!-- Dialog title for removing shared itin -->
@@ -521,11 +531,17 @@
 
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
-    <string name="share_template_subject_hotel">Mein Hotelaufenthalt in %1$s (%2$s − %3$s)</string>
-    <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
-    <string name="share_template_short_hotel">Ich bin im %1$s\n%2$s – %3$s\n\n%4$s</string>
+    <string name="share_template_subject_hotel">Ich übernachte im %1$s (%2$s – %3$s)</string>
+    <!-- 1: travelerName 2: hotel name 3: check in date 4: check out date -->
+    <string name="share_template_subject_hotel_reshare">%1$s übernachtet im %2$s (%3$s − %4$s)</string>
+    <!-- 1: hotel name 2: date(mm/dd/yyyy) 3: SharableURL -->
+    <string name="share_msg_template_short_hotel">Ich übernachte am %2$s im %1$s!\n%3$s</string>
+    <!-- 1: traveler name 2: hotel name 3: date(mm/dd/yyyy) 4: SharableURL -->
+    <string name="share_msg_template_short_hotel_reshare">%1$s übernachtet am %3$s im %2$s!\n%4$s</string>
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Hallo! \n\nIch bin für %2$s im %1$s.</string>
+    <!-- 1: Traveler name 2: Hotel name, 3: Formatted length of stay -->
+    <string name="share_template_long_hotel_1_greeting_reshare">Hallo! \n\n%1$s ist für %3$s im %2$s.</string>
     <!-- 1: Check in date, 2: Check out date -->
     <string name="share_template_long_hotel_2_checkin_checkout">Check-in %1$s\nCheck-out %2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
@@ -537,13 +553,15 @@
     <!-- App download link -->
     <string name="share_template_long_ad">Sie möchten Hotels und Flüge buchen und Ihre Reisepläne einsehen und teilen? Dann laden Sie noch heute die kostenlose Expedia-App herunter.\n%s</string>
     <!-- 1: city 2: date string -->
-    <string name="share_template_subject_flight">Mein Flug nach %1$s am %2$s</string>
+    <string name="share_template_subject_flight">Ich fliege am %2$s nach %1$s!</string>
+    <!-- 1: travelerName 2: city 3: date string -->
+    <string name="share_template_subject_flight_reshare">%1$s fliegt am %3$s nach %2$s</string>
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
-    <string name="share_template_subject_flight_multiple_travelers">Unser Flug nach %1$s am %2$s</string>
-    <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Ich habe Flug %1$s nach %2$s am %3$s.\nAbflug %4$s um %5$s\nAnkunft %6$s um %7$s, %8$s\n%9$s</string>
-    <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Ich habe Flug %1$s nach %2$s.\nAbflug %3$s um %4$s\nAnkunft %5$s um %6$s, %7$s\n%8$s</string>
+    <string name="share_template_subject_flight_multiple_travelers">Wir fliegen am %2$s nach %1$s</string>
+    <!-- 1: city name 2: date(mm/dd/yyyy) 3: SharableURL -->
+    <string name="share_msg_template_short_flight">Ich fliege am %2$s nach %1$s!\n%3$s</string>
+    <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
+    <string name="share_msg_template_short_flight_reshare">%1$s fliegt am %3$s nach %2$s!\n%4$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Mein Mietwagen (%1$s − %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -567,7 +585,7 @@
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Rückgabeort:</string>
     <!-- Section header for the Itin sharable link -->
-    <string name="share_link_section">Link zum geteilten Reiseplan:\n%s</string>
+    <string name="share_link_section">Diese Reise live verfolgen:\n%s</string>
     <!-- Shared options label -->
     <string name="shared_options">Optionen fürs Teilen</string>
 
@@ -1248,13 +1266,21 @@
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Hallo!</string>
     <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">Hier sind die Details für meinen Flug/meine Flüge von %1$s nach %2$s.</string>
+    <string name="share_flight_one_way_TEMPLATE">Ich fliege von %1$s nach %2$s.</string>
+    <!-- One-way flight summary of locations for single traveler when reshared. %1$s is travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_one_way_TEMPLATE_reshare">%1$s fliegt von %2$s nach %3$s.</string>
     <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">Hier sind die Details für meinen Hin- und Rückflug von %1$s nach %2$s.</string>
+    <string name="share_flight_round_trip_TEMPLATE">Ich fliege von %1$s nach %2$s.</string>
+    <!-- Round trip flight summary of locations for single traveler when reshared.  %1$s is travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_round_trip_TEMPLATE_reshare">%1$s fliegt von %2$s nach %3$s.</string>
     <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">Hier sind die Details für unseren Flug/unsere Flüge von %1$s nach %2$s.</string>
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">Wir fliegen von %1$s nach %2$s.</string>
+    <!-- One-way flight summary of locations for multiple travelers when reshared.  %1$s is the travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE_reshare">%1$s fliegt von %2$s nach %3$s.</string>
     <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">Hier sind die Details für unseren Hin- und Rückflug von %1$s nach %2$s.</string>
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">Wir fliegen von %1$s nach %2$s.</string>
+    <!-- Round trip flight summary of locations for multiple travelers when reshared.  %1$s is the travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE_reshare">%1$s fliegt von %2$s nach %3$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Reiseplannr.: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -2487,6 +2513,14 @@
     <!-- Carta Si -->
     <string name="cc_carta_si">CartaSi</string>
 
+    <!-- Handling sold out hotels -->
+    <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
+    <string name="sold_out_tonight">Heute Nacht ausgebucht</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Sold out Nov. 3-4" -->
+    <string name="sold_out_TEMPLATE">Am %s ausgebucht</string>
+    <!-- Shown if the user might want to change the search -->
+    <string name="change_search">Suche ändern</string>
+
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR">Ihr Flug nach %1$s hat %2$s Std. Verspätung.</string>
@@ -2880,5 +2914,8 @@
     <!-- Common actionbar elements -->
     <!-- Content description for action: Press to go back to previous screen -->
     <string name="cd_go_back">Zurück zur vorherigen Seite</string>
+    <!-- Itinerary card elements -->
+    <!-- Content description for action: Press to view share options -->
+    <string name="cd_share_menu_btn">Tippen, um Optionen zum Teilen des Reiseplans zu sehen</string>
 
 </resources>

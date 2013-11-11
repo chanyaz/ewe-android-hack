@@ -16,8 +16,8 @@
     <string name="unspecified_error">Chúng tôi đã gặp lỗi không xác định. Vui lòng thử lại sau.</string>
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">Không thể đăng nhập Facebook.</string>
-    <!-- Login failed try again -->
-    <string name="login_failed_try_again">Không đăng nhập được. Vui lòng nhập lại mật khẩu và thử lại.</string>
+    <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
+    <string name="login_failed_try_again">Không đăng nhập được. Nếu đã nhập đúng địa chỉ email và mật khẩu, vui lòng kiểm tra xác nhận cài đặt quốc gia trên app của quý vị chính xác.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Mật khẩu Expedia</string>
     <!-- Link accounts -->
@@ -43,9 +43,9 @@
     <!-- Home -->
     <string name="nav_home">Trang chủ</string>
     <!-- Flights -->
-    <string name="nav_flights">Chuyến bay</string>
+    <string name="nav_flights">Chuyến\nbay</string>
     <!-- Hotels -->
-    <string name="nav_hotels">Khách sạn</string>
+    <string name="nav_hotels">Khách\nsạn</string>
     <!-- Account -->
     <string name="nav_account">Tài khoản</string>
 
@@ -100,10 +100,6 @@
     <string name="expedia_itinerary">Số lịch trình Expedia</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Hỗ trợ khách hàng Elite Plus</string>
-    <!-- Elite plus (Silver) customer support -->
-    <string name="elite_plus_customer_support_silver">Chăm sóc Khách hàng Đặc biệt</string>
-    <!-- Elite plus (Gold) customer support -->
-    <string name="elite_plus_customer_support_gold">Hỗ trợ Chuyên biệt +gold</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Không có chuyến đi nào sắp đến.</string>
     <!-- Enter itinerary number -->
@@ -147,6 +143,16 @@
         <item quantity="many">%s ngày</item>
         <item quantity="other">%s ngày</item>
     </plurals>
+    <!-- Shared Itin - Fallback name for itin card -->
+    <string name="sharedItin_card_fallback_name">Lịch trình đã chia sẻ</string>
+    <!-- Shared Itin - Fallback name for Flight itin card -->
+    <string name="sharedItin_card_fallback_name_flight">Chuyến bay đã chia sẻ</string>
+    <!-- Shared Itin - Fallback name for Hotel itin card -->
+    <string name="sharedItin_card_fallback_name_hotel">Khách sạn đã chia sẻ</string>
+    <!-- Shared Itin - Template for flightcard header text (will be filled in with "FirstName to Destination") -->
+    <string name="SharedItin_Title_Flight_TEMPLATE">%1$s bay đến %2$s</string>
+    <!-- Shared Itin - Template for hotelcard header text (will be filled in with "FirstName at HotelName") -->
+    <string name="SharedItin_Title_Hotel_TEMPLATE">%1$s nghỉ tại %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
     <string name="Flight">Chuyến bay</string>
     <!-- Default (fallback) itin card title for HOTEL -->
@@ -291,12 +297,16 @@
     <string name="hours_minutes_future_TEMPLATE">trong %1$s và %2$s</string>
     <!-- Hours and minutes duration past TEMPLATE. This will be used to produce a string like "3 hours and 12 minutes ago". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
     <string name="hours_minutes_past_TEMPLATE">%1$s và %2$s trước</string>
+    <!-- Message to show when the user tried to ingest a cancelled itin -->
+    <string name="viewing_cancelled_itineraries_not_yet_supported">Tính năng xem lịch trình đã hủy hiện chưa được hỗ trợ.</string>
+    <!-- Message to show when the user tried to ingest an itin that is already completed and in the past -->
+    <string name="viewing_completed_itineraries_not_yet_supported">Tính năng xem lịch trình đã hoàn tất hiện chưa được hỗ trợ.</string>
 
     <!-- Itin Buttons -->
     <!-- Dialog title for removing shared itin -->
     <string name="remove_shared_itin_title">Xóa Lịch trình đã chia sẻ?</string>
     <!-- Dialog message for removing shared itin -->
-    <string name="remove_shared_itin_message">Quý vị có chắn chắn muốn xóa lịch trình đã chia sẻ này khỏi thiết bị của mình không?</string>
+    <string name="remove_shared_itin_message">Quý vị có chắc muốn xóa lịch trình đã chia sẻ này khỏi thiết bị của mình không?</string>
     <!-- Popup menu -->
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Ẩn</string>
@@ -521,11 +531,17 @@
 
     <!-- Itin Share templates -->
     <!-- 1: hotel name 2: check in date 3: check out date -->
-    <string name="share_template_subject_hotel">Kỳ lưu trú tại %1$s (%2$s – %3$s)</string>
-    <!-- 1: hotel name 2: check in date 3: check out date 4: hotel web url -->
-    <string name="share_template_short_hotel">Tôi nghỉ tại %1$s\n%2$s – %3$s\n\n%4$s</string>
+    <string name="share_template_subject_hotel">Tôi lưu trú tại %1$s (%2$s – %3$s)</string>
+    <!-- 1: travelerName 2: hotel name 3: check in date 4: check out date -->
+    <string name="share_template_subject_hotel_reshare">%1$s lưu trú tại %2$s (%3$s – %4$s)</string>
+    <!-- 1: hotel name 2: date(mm/dd/yyyy) 3: SharableURL -->
+    <string name="share_msg_template_short_hotel">Tôi lưu trú tại %1$s vào %2$s!\n%3$s</string>
+    <!-- 1: traveler name 2: hotel name 3: date(mm/dd/yyyy) 4: SharableURL -->
+    <string name="share_msg_template_short_hotel_reshare">%1$s lưu trú tại %2$s vào %3$s!\n%4$s</string>
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Xin chào,\n\nTôi nghỉ tại %1$s trong %2$s.</string>
+    <!-- 1: Traveler name 2: Hotel name, 3: Formatted length of stay -->
+    <string name="share_template_long_hotel_1_greeting_reshare">Chào,\n\n%1$s lưu trú tại %2$s trong vòng %3$s.</string>
     <!-- 1: Check in date, 2: Check out date -->
     <string name="share_template_long_hotel_2_checkin_checkout">Nhận phòng %1$s\nTrả phòng %2$s</string>
     <!-- 1: Hotel name, 2: Hotel street address -->
@@ -537,13 +553,15 @@
     <!-- App download link -->
     <string name="share_template_long_ad">Đặt phòng khách sạn, chuyến bay; xem và chia sẻ lịch trình của quý vị. Tải ứng dụng di động Expedia miễn phí ngay hôm nay.\n%s</string>
     <!-- 1: city 2: date string -->
-    <string name="share_template_subject_flight">Chuyến bay của tôi đến %1$s vào %2$s</string>
+    <string name="share_template_subject_flight">Tôi bay đến %1$s vào %2$s</string>
+    <!-- 1: travelerName 2: city 3: date string -->
+    <string name="share_template_subject_flight_reshare">%1$s bay đến %2$s vào %3$s</string>
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
-    <string name="share_template_subject_flight_multiple_travelers">Chuyến bay của chúng tôi đến %1$s vào %2$s</string>
-    <!-- 1: flight carrier code and flight number 2: city name 3: date 4: Departure airport code 5: departure time 6: Arrival airport code 7: Arrival time 8: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_sameday">Tôi đang trên chuyến bay %1$s đến %2$s vào %3$s.\nKhởi hành từ %4$s lúc %5$s\nĐến %6$s lúc %7$s, %8$s\n%9$s</string>
-    <!-- 1: flight carrier code and flight number 2: city name 3: Departure airport code 4: departure time and date 5: Arrival airport code 6: Arrival time and date 7: Arrival gate and terminal info -->
-    <string name="share_template_short_flight_multiday">Tôi đang trên chuyến bay %1$s đến %2$s.\nKhởi hành từ %3$s lúc %4$s\nĐến %5$s lúc %6$s, %7$s\n%8$s</string>
+    <string name="share_template_subject_flight_multiple_travelers">Chúng tôi bay đến %1$s vào %2$s</string>
+    <!-- 1: city name 2: date(mm/dd/yyyy) 3: SharableURL -->
+    <string name="share_msg_template_short_flight">Tôi bay đến %1$s vào %2$s!\n%3$s</string>
+    <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
+    <string name="share_msg_template_short_flight_reshare">%1$s bay đến %2$s vào %3$s!\n%4$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Xe thuê của tôi (%1$s – %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -567,7 +585,7 @@
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Địa điểm trả xe:</string>
     <!-- Section header for the Itin sharable link -->
-    <string name="share_link_section">Liên kết vào lịch trình đã chia sẻ:\n%s</string>
+    <string name="share_link_section">Theo dõi chuyến đi này trực tiếp:\n%s</string>
     <!-- Shared options label -->
     <string name="shared_options">Tùy chọn Chia sẻ</string>
 
@@ -1247,13 +1265,21 @@
     <!-- The first line of the share email (casual introduction) -->
     <string name="share_hi">Xin chào,</string>
     <!-- One-way flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_TEMPLATE">Đây là chi tiết chuyến bay từ %1$s đến %2$s của tôi.</string>
+    <string name="share_flight_one_way_TEMPLATE">Tôi bay từ %1$s đến %2$s.</string>
+    <!-- One-way flight summary of locations for single traveler when reshared. %1$s is travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_one_way_TEMPLATE_reshare">%1$s bay từ %2$s đến %3$s.</string>
     <!-- Round trip flight summary of locations for single traveler.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_TEMPLATE">Đây là chi tiết chuyến bay khứ hồi từ %1$s đến %2$s của tôi.</string>
+    <string name="share_flight_round_trip_TEMPLATE">Tôi bay từ %1$s đến %2$s.</string>
+    <!-- Round trip flight summary of locations for single traveler when reshared.  %1$s is travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_round_trip_TEMPLATE_reshare">%1$s bay từ %2$s đến %3$s.</string>
     <!-- One-way flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">Đây là thông tin về chuyến bay từ %1$s đến %2$s của chúng tôi.</string>
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE">Chúng tôi bay từ %1$s đến %2$s.</string>
+    <!-- One-way flight summary of locations for multiple travelers when reshared.  %1$s is the travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_one_way_multiple_travelers_TEMPLATE_reshare">%1$s bay từ %2$s đến %3$s.</string>
     <!-- Round trip flight summary of locations for multiple travelers.  %1$s is the origin, %2$s is the destination. -->
-    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">Đây là thông tin về chuyến bay khứ hồi từ %1$s đến %2$s của chúng tôi.</string>
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE">Chúng tôi bay từ %1$s đến %2$s.</string>
+    <!-- Round trip flight summary of locations for multiple travelers when reshared.  %1$s is the travelerName, %2$s is the origin, %3$s is the destination. -->
+    <string name="share_flight_round_trip_multiple_travelers_TEMPLATE_reshare">%1$s bay từ %2$s đến %3$s.</string>
     <!-- The user's itinerary number, presented to them.  %s is an itinerary number -->
     <string name="share_flight_itinerary_TEMPLATE">Số lịch trình: %s</string>
     <!-- Section with a bunch of travelers on the flight (listed below) -->
@@ -1518,7 +1544,7 @@
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Tại các khách sạn VIP Access, thành viên Expedia Elite Plus sẽ được miễn phí nâng hạng phòng và nhận nhiều ưu đãi khác tùy theo khả năng đáp ứng thực tế của khách sạn vào thời điểm nhận phòng.</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">Chỉ các khách sạn VIP access</string>
+    <string name="filter_vip_access">Chỉ các khách sạn VIP Access</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
@@ -2486,6 +2512,14 @@
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
 
+    <!-- Handling sold out hotels -->
+    <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
+    <string name="sold_out_tonight">Hết phòng đêm nay</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Sold out Nov. 3-4" -->
+    <string name="sold_out_TEMPLATE">Hết phòng vào %s</string>
+    <!-- Shown if the user might want to change the search -->
+    <string name="change_search">Thay đổi tìm kiếm</string>
+
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR">Chuyến bay đến %1$s của quý vị bị hoãn %2$s giờ.</string>
@@ -2879,5 +2913,8 @@
     <!-- Common actionbar elements -->
     <!-- Content description for action: Press to go back to previous screen -->
     <string name="cd_go_back">Bấm để trở về màn hình trước</string>
+    <!-- Itinerary card elements -->
+    <!-- Content description for action: Press to view share options -->
+    <string name="cd_share_menu_btn">Bấm để xem các tùy chọn chia sẻ lịch trình</string>
 
 </resources>
