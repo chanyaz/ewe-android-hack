@@ -378,22 +378,6 @@
             android:name="com.expedia.bookings.appwidget.ExpediaAppWidgetService"
             android:exported="false" />
 
-        <!-- Widget components -->
-
-        <service
-            android:name="com.expedia.bookings.appwidget.ExpediaBookingsService"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.expedia.bookings.START_SEARCH" />
-                <action android:name="com.expedia.bookings.START_CLEAN_SEARCH" />
-                <action android:name="com.expedia.bookings.LOAD_PROPERTY" />
-                <action android:name="com.expedia.bookings.NEXT_PROPERTY" />
-                <action android:name="com.expedia.bookings.PREV_PROPERTY" />
-                <action android:name="com.expedia.bookings.ROTATE_PROPERTY" />
-                <action android:name="com.expedia.bookings.CANCEL_UPDATE" />
-            </intent-filter>
-        </service>
-
         <!-- Notifications -->
 
         <receiver
