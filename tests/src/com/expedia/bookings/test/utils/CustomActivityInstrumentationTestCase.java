@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.utils;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.util.SettingUtils;
 
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
@@ -17,6 +18,7 @@ public class CustomActivityInstrumentationTestCase<T> extends ActivityInstrument
 	protected DisplayMetrics mMetric;
 	protected HotelsTestDriver mDriver;
 	protected HotelsUserData mUser;
+	protected ConfigFileUtils mConfigFileUtils;
 	protected TestPreferences mPreferences;
 
 	@Override
@@ -28,6 +30,12 @@ public class CustomActivityInstrumentationTestCase<T> extends ActivityInstrument
 		mPreferences.setScreenshotPermission(false);
 		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 		mUser = new HotelsUserData();
+		mConfigFileUtils = new ConfigFileUtils();
+		mUser.setBookingServer(mConfigFileUtils.getConfigValue("Server"));
+
+		// Set Server API programatically
+		SettingUtils.save(this.getActivity().getApplicationContext(),
+				mRes.getString(R.string.preference_which_api_to_use_key), mUser.getBookingServer());
 	}
 
 	public String getString(int resourceID) {
