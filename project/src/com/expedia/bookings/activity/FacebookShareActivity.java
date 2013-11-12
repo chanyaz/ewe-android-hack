@@ -56,11 +56,10 @@ public class FacebookShareActivity extends Activity {
 			detailsUrl = itin.getItinCardData().getDetailsUrl();
 		}
 
-		// We need to split the already created shortMessage contents to fit with the Facebook share model.
-		// The first two lines from the shortMessage should serve as description.
+		// The shortText now consists of the shortenedURL embedded in it. So let's just get rid of that when sharing on FB
 		String shortMessage = itin.getShareTextShort();
-		String[] shareMsgSplit = shortMessage.split("\n");
-		String shareDescription = shareMsgSplit[0] + "\n" + shareMsgSplit[1];
+		String[] shareMsgSplit = shortMessage.split(" http");
+		String shareDescription = shareMsgSplit[0];
 
 		return createIntent(context, shareName, shareDescription, detailsUrl, shareThumbnail);
 	}
