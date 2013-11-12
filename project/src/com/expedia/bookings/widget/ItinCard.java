@@ -470,6 +470,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	}
 
 	public AnimatorSet collapse(boolean animate) {
+		if (AndroidUtils.getSdkVersion() < 11) {
+			return collapseLegacy(animate);
+		}
+
 		mDisplayState = DisplayState.COLLAPSED;
 		updateClickable();
 
@@ -692,6 +696,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	}
 
 	public AnimatorSet expand(boolean animate) {
+		if (AndroidUtils.getSdkVersion() < 11) {
+			return expandLegacy(animate);
+		}
+
 		// CAUTION: don't setTranslationY here on mTitleLayout.
 		// That's already tweaked in updateLayout()
 
@@ -955,6 +963,326 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			float centerOffset = (height * 0.5f) - ((height - padding) * 0.5f);
 			float translationY = centerOffset * 1.1f;//Add a little extra space between icon and text
 			ViewHelper.setTranslationY(mHeaderTextLayout, translationY);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// LEGACY VERSIONS OF COLLAPSE/EXPAND
+	// These are versions of collapse/expand from version 3.4.2. We'll just use
+	// these on Gingerbread, since it was having issues with the new code. Lame.
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	public AnimatorSet collapseLegacy(boolean animate) {
+		mDisplayState = DisplayState.COLLAPSED;
+		updateClickable();
+
+		List<Animator> animators = new ArrayList<Animator>();
+
+		final int startY = mScrollView.getScrollY();
+		final int stopY = 0;
+
+		//Title
+		if (animate) {
+			ValueAnimator titleResizeAnimator = ResizeAnimator.buildResizeAnimator(mTitleLayout, mTitleLayoutHeight, 0);
+			titleResizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
+				@Override
+				public void onAnimationUpdate(ValueAnimator arg0) {
+					mScrollView.scrollTo(0, (int) (((stopY - startY) * arg0.getAnimatedFraction()) + startY));
+				}
+			});
+			animators.add(titleResizeAnimator);
+		}
+		else {
+			ResizeAnimator.setHeight(mTitleLayout, 0);
+			mScrollView.scrollTo(0, 0);
+		}
+
+		// Past overlay
+		if (animate) {
+			animators.add(ObjectAnimator.ofFloat(mHeaderOverlayImageView, "alpha", 1).setDuration(400));
+		}
+		else {
+			ViewHelper.setAlpha(mHeaderOverlayImageView, 1f);
+		}
+
+		//Header Text
+		if (animate) {
+			animators.add(ObjectAnimator.ofFloat(mHeaderTextLayout, "alpha", 1).setDuration(400));
+			animators.add(ObjectAnimator.ofFloat(mHeaderTextLayout, "translationY", 0).setDuration(400));
+		}
+		else {
+			ViewHelper.setAlpha(mHeaderTextLayout, 1f);
+			ViewHelper.setTranslationY(mHeaderTextLayout, 0f);
+		}
+
+		// Header Shade and Type Icon (for past itins).
+		// We couple the mHeaderShadeView stuff with Type Icon because they are both doing alpha animations on top of one another 
+		// and create an animation glitch if both run at once ( The type icon displays as a black box during animation).
+		if (mHeaderShadeView.getVisibility() != View.GONE) {
+			if (animate) {
+				ObjectAnimator shadeAnim = ObjectAnimator.ofFloat(mHeaderShadeView, "alpha", 1f).setDuration(400);
+				shadeAnim.addListener(new AnimatorListenerShort() {
+					@Override
+					public void onAnimationEnd(Animator arg0) {
+						ViewHelper.setAlpha(mItinTypeImageView, 1f);
+						mItinTypeImageView.setVisibility(View.VISIBLE);
+						mFixedItinTypeImageView.setVisibility(View.GONE);
+					}
+
+				});
+				animators.add(shadeAnim);
+			}
+			else {
+				ViewHelper.setAlpha(mHeaderShadeView, 1f);
+				ViewHelper.setAlpha(mItinTypeImageView, 1f);
+				mItinTypeImageView.setVisibility(View.VISIBLE);
+				mFixedItinTypeImageView.setVisibility(View.GONE);
+			}
+		}
+		else {
+			// Type Icon (for present and future itins) - Note: No work is needed here for the shade view as it is gone and stays gone.
+			if (mItinContentGenerator.getHideDetailsTypeIcon()) {
+				if (animate) {
+					Animator typeImageAnimator = ObjectAnimator
+							.ofFloat(mItinTypeImageView, "alpha", 1)
+							.setDuration(400);
+					typeImageAnimator.addListener(new AnimatorListenerShort() {
+						@Override
+						public void onAnimationStart(Animator arg0) {
+							mItinTypeImageView.setVisibility(View.VISIBLE);
+						}
+
+						@Override
+						public void onAnimationEnd(Animator arg0) {
+							mItinTypeImageView.setVisibility(View.VISIBLE);
+							mFixedItinTypeImageView.setVisibility(View.GONE);
+						}
+					});
+					animators.add(typeImageAnimator);
+				}
+				else {
+					ViewHelper.setAlpha(mItinTypeImageView, 1f);
+					mItinTypeImageView.setVisibility(View.VISIBLE);
+					mFixedItinTypeImageView.setVisibility(View.GONE);
+				}
+			}
+			else {
+				if (animate) {
+					ValueAnimator dummy = ValueAnimator.ofInt(0, 1).setDuration(300);
+					dummy.addListener(new AnimatorListenerShort() {
+						@Override
+						public void onAnimationEnd(Animator arg0) {
+							ViewHelper.setAlpha(mItinTypeImageView, 1f);
+							mItinTypeImageView.setVisibility(View.VISIBLE);
+							mFixedItinTypeImageView.setVisibility(View.GONE);
+						}
+					});
+					animators.add(dummy);
+				}
+				else {
+					ViewHelper.setAlpha(mItinTypeImageView, 1f);
+					mItinTypeImageView.setVisibility(View.VISIBLE);
+					mFixedItinTypeImageView.setVisibility(View.GONE);
+				}
+			}
+		}
+
+		// Header image parallax
+		if (animate) {
+			ValueAnimator parallaxAnimator = ValueAnimator
+					.ofInt(mHeaderImageContainer.getScrollY(), 0)
+					.setDuration(300);
+			parallaxAnimator.addUpdateListener(new AnimatorUpdateListener() {
+				@Override
+				public void onAnimationUpdate(ValueAnimator arg0) {
+					mHeaderImageContainer.scrollTo(0, (Integer) arg0.getAnimatedValue());
+				}
+			});
+			animators.add(parallaxAnimator);
+		}
+		else {
+			mHeaderImageContainer.scrollTo(0, 0);
+		}
+
+		//Summary View views
+		if (!mShowSummary) {
+			if (animate) {
+				animators.add(ResizeAnimator.buildResizeAnimator(mHeaderLayout, mMiniCardHeaderImageHeight));
+				animators.add(ResizeAnimator.buildResizeAnimator(mHeaderImageView, mMiniCardHeaderImageHeight));
+				animators.add(ResizeAnimator.buildResizeAnimator(mActionButtonLayout, 0).setDuration(300));
+			}
+			else {
+				ResizeAnimator.setHeight(mHeaderLayout, mMiniCardHeaderImageHeight);
+				ResizeAnimator.setHeight(mHeaderImageView, mMiniCardHeaderImageHeight);
+				ResizeAnimator.setHeight(mActionButtonLayout, 0);
+			}
+		}
+
+		// Chevron rotation
+		if (animate) {
+			animators.add(ObjectAnimator.ofFloat(mChevronImageView, "rotation", 0f).setDuration(400));
+		}
+		else {
+			ViewHelper.setRotation(mChevronImageView, 0f);
+		}
+
+		// Putting it all together
+		if (animate) {
+			AnimatorSet set = new AnimatorSet();
+			set.playTogether(animators);
+			set.addListener(new AnimatorListenerShort() {
+				@Override
+				public void onAnimationEnd(Animator arg0) {
+					finishCollapse();
+				}
+			});
+			return set;
+		}
+		else {
+			finishCollapse();
+			return null;
+		}
+	}
+
+	public AnimatorSet expandLegacy(boolean animate) {
+		mDisplayState = DisplayState.EXPANDED;
+
+		mCollapsedTop = getTop();
+
+		inflateDetailsView();
+		updateClickable();
+
+		ViewHelper.setTranslationY(mCardLayout, 0);
+
+		mHeaderBitmapDrawable.setCornerMode(CornerMode.NONE);
+
+		mSummaryDividerView.setVisibility(VISIBLE);
+		mDetailsLayout.setVisibility(VISIBLE);
+
+		ArrayList<Animator> animators = new ArrayList<Animator>();
+		if (animate) {
+			Animator titleLayoutResizeAnimator = ResizeAnimator
+					.buildResizeAnimator(mTitleLayout, 0, mTitleLayoutHeight);
+			animators.add(titleLayoutResizeAnimator);
+		}
+		else {
+			ResizeAnimator.setHeight(mTitleLayout, mTitleLayoutHeight);
+		}
+
+		if (mActionButtonLayout.getVisibility() != VISIBLE) {
+			mSummarySectionLayout.setVisibility(VISIBLE);
+			mActionButtonLayout.setVisibility(VISIBLE);
+			if (animate) {
+				Animator actionButtonResizeAnimator = ResizeAnimator.buildResizeAnimator(
+						mActionButtonLayout, mActionButtonLayoutHeight);
+				animators.add(actionButtonResizeAnimator);
+			}
+			else {
+				ResizeAnimator.setHeight(mActionButtonLayout, mActionButtonLayoutHeight);
+			}
+		}
+
+		//Header image gradient overlay
+		if (animate) {
+			ObjectAnimator headerOverlayAlphaAnimator = ObjectAnimator
+					.ofFloat(mHeaderOverlayImageView, "alpha", 0f)
+					.setDuration(200);
+			animators.add(headerOverlayAlphaAnimator);
+		}
+		else {
+			ViewHelper.setAlpha(mHeaderOverlayImageView, 0f);
+		}
+
+		// Header text
+		if (animate) {
+			ObjectAnimator headerTextAlphaAnimator = ObjectAnimator
+					.ofFloat(mHeaderTextLayout, "alpha", 0f)
+					.setDuration(200);
+			ObjectAnimator headerTextTranslationAnimator = ObjectAnimator
+					.ofFloat(mHeaderTextLayout, "translationY", -50f)
+					.setDuration(400);
+			animators.add(headerTextTranslationAnimator);
+			animators.add(headerTextAlphaAnimator);
+		}
+		else {
+			ViewHelper.setAlpha(mHeaderTextLayout, 0f);
+			ViewHelper.setTranslationY(mHeaderTextLayout, -50f);
+		}
+
+		// Header Shade (for past itins)
+		if (mHeaderShadeView.getVisibility() != View.GONE) {
+			if (animate) {
+				ObjectAnimator shadeAnim = ObjectAnimator.ofFloat(mHeaderShadeView, "alpha", 0f).setDuration(400);
+				shadeAnim.addListener(new AnimatorListenerShort() {
+
+					@Override
+					public void onAnimationStart(Animator arg0) {
+						//So the type icon image will flicker black if we let it live, shutting it off here is a pretty good way to do it
+						ViewHelper.setAlpha(mItinTypeImageView, 0f);
+						mItinTypeImageView.setVisibility(View.INVISIBLE);
+					}
+
+				});
+				animators.add(shadeAnim);
+			}
+			else {
+				ViewHelper.setRotation(mHeaderShadeView, 0f);
+			}
+		}
+
+		//Type icon
+		if (animate) {
+			ObjectAnimator itinTypeImageAlphaAnimator = ObjectAnimator
+					.ofFloat(mItinTypeImageView, "alpha", 0)
+					.setDuration(200);
+			itinTypeImageAlphaAnimator.addListener(new AnimatorListenerShort() {
+				@Override
+				public void onAnimationEnd(Animator animator) {
+					mItinTypeImageView.setVisibility(View.INVISIBLE);
+				}
+			});
+			animators.add(itinTypeImageAlphaAnimator);
+		}
+		else {
+			ViewHelper.setAlpha(mItinTypeImageView, 0f);
+			mItinTypeImageView.setVisibility(View.INVISIBLE);
+		}
+
+		//Summary View views
+		if (!mShowSummary) {
+			if (animate) {
+				animators.add(ResizeAnimator.buildResizeAnimator(mHeaderLayout, mExpandedCardHeaderImageHeight));
+				animators.add(ResizeAnimator.buildResizeAnimator(mHeaderImageView, mExpandedCardHeaderImageHeight));
+			}
+			else {
+				ResizeAnimator.setHeight(mHeaderLayout, mExpandedCardHeaderImageHeight);
+				ResizeAnimator.setHeight(mHeaderImageView, mExpandedCardHeaderImageHeight);
+			}
+		}
+
+		// Chevron rotation
+		if (animate) {
+			animators.add(ObjectAnimator.ofFloat(mChevronImageView, "rotation", 180f).setDuration(400));
+		}
+		else {
+			ViewHelper.setRotation(mChevronImageView, 180f);
+		}
+
+		// Putting it all together
+		if (animate) {
+			AnimatorSet set = new AnimatorSet();
+			set.playTogether(animators);
+			set.addListener(new AnimatorListenerShort() {
+				@Override
+				public void onAnimationEnd(Animator arg0) {
+					finishExpand();
+				}
+			});
+			return set;
+		}
+		else {
+			finishExpand();
+			return null;
 		}
 	}
 
