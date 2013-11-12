@@ -183,6 +183,10 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 			mLocationClient.removeLocationUpdates(this);
 		}
 		mLocationClient.disconnect();
+
+		// Clear out any Handler messages so we can let that shut down
+		mHandler.removeMessages(WHAT_ROTATE);
+		mHandler.removeMessages(WHAT_UPDATE);
 	}
 
 	@Override
