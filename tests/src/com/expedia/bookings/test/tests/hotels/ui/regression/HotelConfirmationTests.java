@@ -29,8 +29,6 @@ public class HotelConfirmationTests extends CustomActivityInstrumentationTestCas
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		mConfigFileUtils = new ConfigFileUtils();
-		mEnvironment = mConfigFileUtils.getConfigValue("Server");
 	}
 
 	private void getToCheckout() throws Exception {
@@ -40,8 +38,6 @@ public class HotelConfirmationTests extends CustomActivityInstrumentationTestCas
 
 		mDriver.launchScreen().openMenuDropDown();
 		mDriver.launchScreen().pressSettings();
-		mDriver.settingsScreen().clickSelectAPIString();
-		mDriver.clickOnText(mEnvironment);
 		mDriver.settingsScreen().setSpoofBookings();
 		mDriver.goBack();
 		mDriver.launchScreen().launchHotels();

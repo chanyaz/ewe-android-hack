@@ -11,7 +11,6 @@ public class FlightsConfirmationTests extends CustomActivityInstrumentationTestC
 
 	private static final String TAG = FlightsConfirmationTests.class.getSimpleName();
 
-	ConfigFileUtils mConfigFileUtils;
 	FlightsTestDriver mDriver;
 
 	String mEnvironment;
@@ -25,8 +24,6 @@ public class FlightsConfirmationTests extends CustomActivityInstrumentationTestC
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		mConfigFileUtils = new ConfigFileUtils();
-		mEnvironment = mConfigFileUtils.getConfigValue("Server");
 		mDriver = new FlightsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 		mUser.setAirportsToRandomUSAirports();
 	}
@@ -159,8 +156,6 @@ public class FlightsConfirmationTests extends CustomActivityInstrumentationTestC
 	private void getToCheckout() throws Exception {
 		mDriver.launchScreen().openMenuDropDown();
 		mDriver.launchScreen().pressSettings();
-		mDriver.settingsScreen().clickSelectAPIString();
-		mDriver.clickOnText(mEnvironment);
 		mDriver.settingsScreen().setSpoofBookings();
 		mDriver.goBack();
 
