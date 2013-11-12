@@ -333,19 +333,25 @@ public class ShareUtils {
 		Calendar departureCal = leg.getFirstWaypoint().getBestSearchDateTime();
 		Date departureDate = DateTimeUtils.getTimeInLocalTimeZone(departureCal);
 
+		String shareText = "";
+
 		if (!isShared) {
 			String template = mContext.getString(R.string.share_msg_template_short_flight);
 			String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getTime(),
 					DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
-			return String.format(template, destinationCity, departureDateStr, shareableDetailsURL);
+			shareText = String.format(template, destinationCity, departureDateStr, shareableDetailsURL);
 		}
 		else {
 			// This is a reshare, hence append the primaryTraveler's FirstName to the share message.
 			String template = mContext.getString(R.string.share_msg_template_short_flight_reshare);
 			String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getTime(),
 					DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
-			return String.format(template, travelerFirstName, destinationCity, departureDateStr, shareableDetailsURL);
+			shareText = String.format(template, travelerFirstName, destinationCity, departureDateStr,
+					shareableDetailsURL);
 		}
+		// This is a hack to remove the newLine from the text.
+		// TODO: Remove the \n from strings.xml for next loc dump.
+		return shareText.replace("\n", " ");
 	}
 
 	public String getFlightShareEmail(FlightTrip trip, FlightLeg firstLeg, FlightLeg lastLeg, List<Traveler> travelers,
