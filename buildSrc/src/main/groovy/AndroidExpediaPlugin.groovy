@@ -74,7 +74,6 @@ class AndroidExpediaPlugin implements Plugin<Project> {
 
                 modifyPushNotificationPermission(manifest, namespace, packageName)
                 modifyContentProviderAuthorities(applicationNode, namespace, contentProviderOverridePairs)
-                modifyAppWidgetIntentActions(applicationNode, namespace, packageName)
 
                 if (variant.buildType.hockey.enabled) {
                     injectBuildNumberMetaData(applicationNode, namespace, jenkinsBuildNumber)
@@ -159,20 +158,6 @@ class AndroidExpediaPlugin implements Plugin<Project> {
     def generateHockeyAppId(buildVariant, resourceOverridePairs) {
         def hockeyId = HockeyExtension.getHockeyId(buildVariant)
         resourceOverridePairs.add(new AndroidResource("string", "hockey_app_id", hockeyId))
-    }
-
-    /////////////////// APPWIDGET ///////////////////
-
-    def modifyAppWidgetIntentActions(applicationNode, namespace, packageName) {
-        // AppWidget intent-filter actions
-        applicationNode.service.each { service ->
-            if (service.attributes()[namespace.name] == "com.expedia.bookings.appwidget.ExpediaBookingsService") {
-                service."intent-filter".action.each { action ->
-                    def orig = action.attributes()[namespace.name]
-                    action.attributes()[namespace.name] = orig.replaceAll("com.expedia.bookings", packageName)
-                }
-            }
-        }
     }
 
     /////////////////// PUSH NOTIFICATIONS ///////////////////
