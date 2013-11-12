@@ -227,6 +227,13 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		FontCache.setTypeface(mLinkPassword, Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(v, R.id.or_tv, Font.ROBOTO_LIGHT);
 
+		return v;
+	}
+
+	@Override
+	public void onViewStateRestored(Bundle savedInstanceState) {
+		super.onViewStateRestored(savedInstanceState);
+
 		loadSavedState(savedInstanceState);
 
 		mStatusTextContent = getString(Ui.obtainThemeResID(getActivity(), R.attr.loginWithExpediaTitleText));
@@ -245,7 +252,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 				Db.loadUser(getActivity());
 			}
 
-			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
+			if (!mDoLoginExtenderWork && Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
 					&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
 				//We have a user (either from memory, or loaded from disk)
 				mAccountButton.bind(false, true, Db.getUser(), true);
@@ -254,8 +261,6 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		}
 
 		setVisibilityState(mVisibilityState, false);
-
-		return v;
 	}
 
 	@Override
