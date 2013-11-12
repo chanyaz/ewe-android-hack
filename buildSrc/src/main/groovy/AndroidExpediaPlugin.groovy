@@ -191,6 +191,14 @@ class AndroidExpediaPlugin implements Plugin<Project> {
                 usesPermission.attributes()[namespace.name] = orig.replaceAll("com.expedia.bookings", packageName)
             }
         }
+        manifestNode.application.receiver.each { receiver ->
+            if (receiver.attributes()[namespace.permission] == "com.google.android.c2dm.permission.SEND") {
+                receiver."intent-filter".category.each { category ->
+                    def orig = category.attributes()[namespace.name]
+                    category.attributes()[namespace.name] = orig.replaceAll("com.expedia.bookings", packageName)
+                }
+            }
+        }
     }
 
     /////////////////// RESOURCE OVERRIDE FILE WRITE ///////////////////
