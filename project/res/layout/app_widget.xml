@@ -99,6 +99,6 @@
     <FrameLayout
         android:id="@+id/widget_hang_tag"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="87dp" />
 
 </RelativeLayout>
