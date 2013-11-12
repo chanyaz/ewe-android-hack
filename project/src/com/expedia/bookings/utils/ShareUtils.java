@@ -458,19 +458,21 @@ public class ShareUtils {
 	public String getHotelShareTextShort(String hotelName, DateTime startDate, String sharableDetailsURL,
 			boolean isShared, String travelerFirstName) {
 
+		String message = "";
 		if (!isShared) {
 			String template = mContext.getString(R.string.share_msg_template_short_hotel);
 			String departureDateStr = DateUtils.formatDateTime(mContext, startDate.getMillis(),
 					DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
-			return shortenShortShareMessage(template, hotelName, departureDateStr, sharableDetailsURL);
+			message = shortenShortShareMessage(template, hotelName, departureDateStr, sharableDetailsURL);
 		}
 		else {
 			// This is a reshare, hence append the primaryTraveler's FirstName to the share message.
 			String template = mContext.getString(R.string.share_msg_template_short_hotel_reshare);
 			String departureDateStr = DateUtils.formatDateTime(mContext, startDate.getMillis(),
 					DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
-			return shortenShortShareMessage(template, travelerFirstName, hotelName, departureDateStr, sharableDetailsURL);
+			message = shortenShortShareMessage(template, travelerFirstName, hotelName, departureDateStr, sharableDetailsURL);
 		}
+		return message.replace('\n', ' ');
 	}
 
 	private final static int SMS_CHAR_LIMIT = 160;
