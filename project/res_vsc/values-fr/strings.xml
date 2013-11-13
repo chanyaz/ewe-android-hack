@@ -6,7 +6,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt;, nous avons trouvé votre compte VSC ! Veuillez saisir votre mot de passe VSC ci-dessous afin de lier vos comptes Facebook et VSC.</string>
+    <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt;, nous avons trouvé votre compte VSC ! Veuillez saisir votre mot de passe VSC ci-dessous afin de lier vos comptes Facebook et VSC.</string>
     <!-- Log in with VSC -->
     <string name="Log_in_with_VSC">Se connecter</string>
     <!-- Login button text in hotel Confirmation screen for VSC -->
@@ -48,7 +48,7 @@
 
     <!-- Save traveler dialog -->
     <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">Enregistrer les informations sur %1$s dans votre compte VSC pour réserver plus rapidement dans le futur ?</string>
+    <string name="save_traveler_message_TEMPLATE">Enregistrer les informations sur %1$s dans votre compte VSC pour réserver plus rapidement dans le futur ?</string>
 
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
