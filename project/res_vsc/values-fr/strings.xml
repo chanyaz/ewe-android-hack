@@ -146,7 +146,7 @@
     <!-- Description for FT Free app -->
     <string name="VSC_Voyages_SNF_description">Avec l’application Voyages-sncf.com</string>
     <!-- VSC Copyright information -->
-    <string name="VSC_copyright">© Copyright 2012-2013 Agence Voyages-SNCF.\nTous droits réservés.</string>
+    <string name="VSC_copyright">© Copyright 2012-2014 Agence Voyages-SNCF.\nTous droits réservés.</string>
     <!-- VSC app name -->
     <string name="VSC_app_name">Agence Voyages-sncf Hôtels</string>
 

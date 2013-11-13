@@ -2026,7 +2026,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Politique de confidentialité</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2013 Expedia, Inc.\nTous droits réservés.</string>
+    <string name="copyright">© Copyright 2012-2014 Expedia, Inc.\nTous droits réservés.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Session fermée et données effacées</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -2706,7 +2706,7 @@
     <!-- Description for FT Free app -->
     <string name="VSC_Voyages_SNF_description">Application Voyages-sncf.com</string>
     <!-- VSC Copyright information -->
-    <string name="VSC_copyright">© Copyright 2012-2013 Agence Voyages-SNCF, Inc.\nTous droits réservés.</string>
+    <string name="VSC_copyright">© Copyright 2012-2014 Agence Voyages-SNCF, Inc.\nTous droits réservés.</string>
     <!-- VSC app name -->
     <string name="VSC_app_name">Hôtels VSC</string>
     <!-- Link to open when VSC logo is clicked on -->
