@@ -1425,6 +1425,7 @@ public class ExpediaServices implements DownloadListener {
 
 		HttpContext httpContext = new BasicHttpContext();
 		PersistantCookieStore cookieStore = null;
+		boolean cookiesAreLoggedIn = User.isLoggedIn(mContext);
 		if (!ignoreCookies) {
 			// TODO: Find some way to keep this easily in memory so we're not saving/loading after each request.
 			cookieStore = getCookieStore(mContext);
@@ -1471,12 +1472,20 @@ public class ExpediaServices implements DownloadListener {
 		try {
 			T response = client.execute(mRequest, responseHandler, httpContext);
 			if (!ignoreCookies && !mCancellingDownload) {
+				if (cookiesAreLoggedIn != User.isLoggedIn(mContext)) {
+					//The login state has changed, so we should redo the network request with the appropriate new cookies
+					//this prevents us from overwritting our cookies with bunk loggedin/loggedout cookie states.
+					Log.d("Login state has changed since the request began - we are going to resend the request using appropriate cookies. The request began in the logged "
+							+ (cookiesAreLoggedIn ? "IN" : "OUT") + " state.");
+					return doRequest(request, responseHandler, flags);
+				}
 				if (logCookies) {
 					Log.v("Received cookies: ");
 					cookieStore.log();
 				}
 
 				cookieStore.save(mContext, COOKIES_FILE);
+
 			}
 			return response;
 		}
