@@ -336,20 +336,26 @@ public class ShareUtils {
 
 		String shareText = "";
 
-		if (!isShared) {
-			String template = mContext.getString(R.string.share_msg_template_short_flight);
-			String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getTime(),
-					DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
-			shareText = String.format(template, destinationCity, departureDateStr, shareableDetailsURL);
+		if (Locale.US.equals(Locale.getDefault())) {
+			if (!isShared) {
+				String template = mContext.getString(R.string.share_msg_template_short_flight);
+				String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getTime(),
+						DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
+				shareText = String.format(template, destinationCity, departureDateStr, shareableDetailsURL);
+			}
+			else {
+				// This is a reshare, hence append the primaryTraveler's FirstName to the share message.
+				String template = mContext.getString(R.string.share_msg_template_short_flight_reshare);
+				String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getTime(),
+						DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
+				shareText = String.format(template, travelerFirstName, destinationCity, departureDateStr,
+						shareableDetailsURL);
+			}
 		}
 		else {
-			// This is a reshare, hence append the primaryTraveler's FirstName to the share message.
-			String template = mContext.getString(R.string.share_msg_template_short_flight_reshare);
-			String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getTime(),
-					DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
-			shareText = String.format(template, travelerFirstName, destinationCity, departureDateStr,
-					shareableDetailsURL);
+			shareText = shareableDetailsURL;
 		}
+
 		// This is a hack to remove the newLine from the text.
 		// TODO: Remove the \n from strings.xml for next loc dump.
 		return shareText.replace("\n", " ");
@@ -501,7 +507,7 @@ public class ShareUtils {
 		return String.format(template, travelerFirstName, hotelName, departureDateStr, sharableDetailsURL);
 	}
 
-	private String clipHotelName(int longMsgLength, String hotelName) {
+	public static String clipHotelName(int longMsgLength, String hotelName) {
 		int diff = longMsgLength - SMS_CHAR_LIMIT;
 		if (diff < 0 && -diff < hotelName.length() - 20) {
 			hotelName = hotelName.substring(0, hotelName.length() + diff);
