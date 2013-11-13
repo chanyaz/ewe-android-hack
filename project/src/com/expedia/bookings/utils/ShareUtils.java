@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -465,18 +466,23 @@ public class ShareUtils {
 			boolean isShared, String travelerFirstName) {
 
 		String message = "";
-		if (!isShared) {
-			String template = mContext.getString(R.string.share_msg_template_short_hotel);
-			String departureDateStr = DateUtils.formatDateTime(mContext, startDate.getMillis(),
+		if (Locale.US.equals(Locale.getDefault())) {
+			if (!isShared) {
+				String template = mContext.getString(R.string.share_msg_template_short_hotel);
+				String departureDateStr = DateUtils.formatDateTime(mContext, startDate.getMillis(),
 					DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
-			message = shortenShortShareMessage(template, hotelName, departureDateStr, sharableDetailsURL);
+				message = shortenShortShareMessage(template, hotelName, departureDateStr, sharableDetailsURL);
+			}
+			else {
+				// This is a reshare, hence append the primaryTraveler's FirstName to the share message.
+				String template = mContext.getString(R.string.share_msg_template_short_hotel_reshare);
+				String departureDateStr = DateUtils.formatDateTime(mContext, startDate.getMillis(),
+					DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
+				message = shortenShortShareMessage(template, travelerFirstName, hotelName, departureDateStr, sharableDetailsURL);
+			}
 		}
 		else {
-			// This is a reshare, hence append the primaryTraveler's FirstName to the share message.
-			String template = mContext.getString(R.string.share_msg_template_short_hotel_reshare);
-			String departureDateStr = DateUtils.formatDateTime(mContext, startDate.getMillis(),
-					DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
-			message = shortenShortShareMessage(template, travelerFirstName, hotelName, departureDateStr, sharableDetailsURL);
+			message = sharableDetailsURL;
 		}
 		return message.replace('\n', ' ');
 	}
