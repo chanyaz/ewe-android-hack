@@ -641,11 +641,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 		getSupportMenuInflater().inflate(R.menu.menu_flight_results, menu);
 
-		// #1878. Add flight filtering by # of stops. Still in dev.
-		if (!AndroidUtils.isRelease(mContext)) {
-			getSupportMenuInflater().inflate(R.menu.menu_flight_results_stops, menu);
-		}
-
 		mSearchMenuItem = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_search);
 
 		return super.onCreateOptionsMenu(menu);
@@ -705,20 +700,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				mSearchMenuItem.getActionView().setMinimumWidth(AndroidUtils.getScreenSize(this).x / numVisible);
 			}
 
-			// #1878. Add flight filtering by # of stops. Still in dev.
-			// Since this item is dynamically added in onCreateOptionsMenu it will show up during the flightSearchloading screen. Just hide it.
-			if (!resultsVisible) {
-				MenuItem stopsFilterMenu = menu.findItem(R.id.menu_stops);
-				if (stopsFilterMenu != null) {
-					stopsFilterMenu.setVisible(false);
-				}
-			}
-
-			// #1878. Add flight filtering by # of stops. Still in dev.
-			if (AndroidUtils.isRelease(this)) {
-				menu.removeItem(R.id.menu_stops);
-			}
-
 			if (resultsVisible) {
 				// Configure the checked sort button
 				FlightFilter filter = Db.getFlightSearch().getFilter(mLegPosition);
@@ -739,25 +720,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 					break;
 				}
 				menu.findItem(selectedId).setChecked(true);
-
-				// #1878. Add flight filtering by # of stops.
-				if (!AndroidUtils.isRelease(this)) {
-					switch (filter.getStops()) {
-					case FlightFilter.STOPS_ANY:
-						selectedId = R.id.menu_select_stop_any;
-						break;
-					case FlightFilter.STOPS_MAX:
-						selectedId = R.id.menu_select_stop_max;
-						break;
-					case FlightFilter.STOPS_NONSTOP:
-						selectedId = R.id.menu_select_stop_nonstop;
-						break;
-					default:
-						selectedId = R.id.menu_select_stop_any;
-						break;
-					}
-					menu.findItem(selectedId).setChecked(true);
-				}
 			}
 		}
 
@@ -806,25 +768,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			openEditSearchOverlay();
 			return true;
 		}
-		// #1878. Add flight filtering by # of stops.
-		case R.id.menu_select_stop_any:
-		case R.id.menu_select_stop_max:
-		case R.id.menu_select_stop_nonstop:
-			FlightFilter stopFilter = Db.getFlightSearch().getFilter(mLegPosition);
-			switch (item.getItemId()) {
-			case R.id.menu_select_stop_any:
-				stopFilter.setStops(FlightFilter.STOPS_ANY);
-				break;
-			case R.id.menu_select_stop_max:
-				stopFilter.setStops(FlightFilter.STOPS_MAX);
-				break;
-			case R.id.menu_select_stop_nonstop:
-				stopFilter.setStops(FlightFilter.STOPS_NONSTOP);
-				break;
-			}
-			stopFilter.notifyFilterChanged();
-			item.setChecked(true);
-			return true;
 		}
 
 		return super.onOptionsItemSelected(item);
