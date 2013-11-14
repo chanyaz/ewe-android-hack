@@ -165,6 +165,16 @@
         <attr name="captionTextSize" format="dimension" />
     </declare-styleable>
 
+    <!-- SlidingRadioGroup -->
+    <declare-styleable name="SlidingRadioGroup">
+        <attr name="unselectedDrawable" format="reference" />
+        <attr name="selectedDrawable" format="reference" />
+        <attr name="unselectedDividerColor" format="color" />
+        <attr name="selectedDividerColor" format="color" />
+        <attr name="dividerWidth" format="dimension" />
+        <attr name="sluggishness" format="integer" />
+    </declare-styleable>
+
     <!-- CalendarPicker -->
     <declare-styleable name="CalendarPicker">
 

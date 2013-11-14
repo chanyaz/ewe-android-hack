@@ -68,53 +68,65 @@
                 android:textAllCaps="true"
                 android:textColor="#7C7E7F" />
 
-            <com.mobiata.android.widget.SegmentedControlGroup
-                xmlns:android="http://schemas.android.com/apk/res/android"
+            <com.expedia.bookings.widget.SlidingRadioGroup
                 android:id="@+id/sort_by_button_group"
-                style="?attr/hotelListingFilterGroupStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/popup_filter_row_height"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                app:dividerWidth="1dp"
+                app:selectedDividerColor="#ff596a80"
+                app:selectedDrawable="@drawable/btn_tablet_filter_pressed"
+                app:sluggishness="0"
+                app:unselectedDividerColor="#40999999"
+                app:unselectedDrawable="@drawable/btn_tablet_filter_normal" >
 
                 <RadioButton
                     android:id="@+id/sort_by_price_button"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
+                    android:button="@android:color/transparent"
                     android:contentDescription="@string/cd_sort_by_price"
+                    android:gravity="center"
                     android:text="@string/price"
-                    android:textStyle="bold" />
+                    android:textColor="@color/sliding_group_text" />
 
                 <RadioButton
                     android:id="@+id/sort_by_rating_button"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
+                    android:button="@android:color/transparent"
                     android:checked="true"
                     android:contentDescription="@string/cd_sort_by_rating"
+                    android:gravity="center"
                     android:text="@string/rating"
-                    android:textStyle="bold" />
+                    android:textColor="@color/sliding_group_text" />
 
                 <RadioButton
                     android:id="@+id/sort_by_distance_button"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
+                    android:button="@android:color/transparent"
                     android:contentDescription="@string/cd_sort_by_distance"
+                    android:gravity="center"
                     android:text="@string/distance"
-                    android:textStyle="bold" />
+                    android:textColor="@color/sliding_group_text" />
 
                 <RadioButton
                     android:id="@+id/sort_by_popular_button"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
+                    android:button="@android:color/transparent"
                     android:contentDescription="@string/cd_sort_by_popular"
+                    android:gravity="center"
                     android:text="@string/popular"
-                    android:textStyle="bold" />
-            </com.mobiata.android.widget.SegmentedControlGroup>
+                    android:textColor="@color/sliding_group_text" />
+            </com.expedia.bookings.widget.SlidingRadioGroup>
 
             <TextView
                 android:layout_width="wrap_content"

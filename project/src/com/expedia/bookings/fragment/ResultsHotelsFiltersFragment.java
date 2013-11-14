@@ -33,6 +33,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.HotelNeighborhoodLayout;
 import com.expedia.bookings.widget.HotelNeighborhoodLayout.OnNeighborhoodsChangedListener;
+import com.expedia.bookings.widget.SlidingRadioGroup;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.widget.SegmentedControlGroup;
@@ -46,7 +47,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 	// even need FilterDialogFragment after 4.0?
 
 	private EditText mHotelNameEditText;
-	private SegmentedControlGroup mSortByButtonGroup;
+	private SlidingRadioGroup mSortByButtonGroup;
 	private SegmentedControlGroup mRadiusButtonGroup;
 	private SegmentedControlGroup mRatingButtonGroup;
 	private SegmentedControlGroup mPriceButtonGroup;
