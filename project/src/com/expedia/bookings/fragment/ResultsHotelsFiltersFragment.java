@@ -50,7 +50,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 	private SlidingRadioGroup mSortByButtonGroup;
 	private SegmentedControlGroup mRadiusButtonGroup;
 	private SegmentedControlGroup mRatingButtonGroup;
-	private SegmentedControlGroup mPriceButtonGroup;
+	private SlidingRadioGroup mPriceButtonGroup;
 	private View mVipAccessButton;
 	private HotelNeighborhoodLayout mNeighborhoodLayout;
 	private List<ISortAndFilterListener> mSortAndFilterListeners = new ArrayList<ResultsHotelListFragment.ISortAndFilterListener>();

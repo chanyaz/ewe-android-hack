@@ -136,12 +136,65 @@
                 android:textAllCaps="true"
                 android:textColor="#7C7E7F" />
 
-            <include
+            <com.expedia.bookings.widget.SlidingRadioGroup
                 android:id="@+id/price_filter_button_group"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/popup_filter_row_height"
                 android:layout_marginBottom="8dp"
-                layout="@layout/include_filter_price" />
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:dividerWidth="1dp"
+                app:selectedDividerColor="#ff596a80"
+                app:selectedDrawable="@drawable/btn_tablet_filter_pressed"
+                app:sluggishness="0"
+                app:unselectedDividerColor="#40999999"
+                app:unselectedDrawable="@drawable/btn_tablet_filter_normal" >
+
+                <RadioButton
+                    android:id="@+id/price_cheap_button"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:button="@android:color/transparent"
+                    android:contentDescription="@string/cd_filter_for_low_range_hotel_prices"
+                    android:gravity="center"
+                    android:text="?attr/hotelListingFilterPriceCheapString"
+                    android:textColor="@color/sliding_group_text" />
+
+                <RadioButton
+                    android:id="@+id/price_moderate_button"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:button="@android:color/transparent"
+                    android:contentDescription="@string/cd_filter_for_mid_range_hotel_prices"
+                    android:gravity="center"
+                    android:text="?attr/hotelListingFilterPriceModerateString"
+                    android:textColor="@color/sliding_group_text" />
+
+                <RadioButton
+                    android:id="@+id/price_expensive_button"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:button="@android:color/transparent"
+                    android:contentDescription="@string/cd_filter_for_high_range_hotel_prices"
+                    android:gravity="center"
+                    android:text="?attr/hotelListingFilterPriceExpensiveString"
+                    android:textColor="@color/sliding_group_text" />
+
+                <RadioButton
+                    android:id="@+id/price_all_button"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:button="@android:color/transparent"
+                    android:checked="true"
+                    android:contentDescription="@string/cd_filter_remove_hotel_price_filters"
+                    android:gravity="center"
+                    android:text="@string/all"
+                    android:textColor="@color/sliding_group_text" />
+            </com.expedia.bookings.widget.SlidingRadioGroup>
 
             <include
                 android:id="@+id/radius_filter_button_group"
