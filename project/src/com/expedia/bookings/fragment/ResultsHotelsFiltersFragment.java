@@ -48,7 +48,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 
 	private EditText mHotelNameEditText;
 	private SlidingRadioGroup mSortByButtonGroup;
-	private SegmentedControlGroup mRadiusButtonGroup;
+	private SlidingRadioGroup mRadiusButtonGroup;
 	private SegmentedControlGroup mRatingButtonGroup;
 	private SlidingRadioGroup mPriceButtonGroup;
 	private View mVipAccessButton;
