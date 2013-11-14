@@ -240,12 +240,12 @@ public class SuggestionProvider extends ContentProvider {
 		row[COL_FULL_NAME] = suggestion.getFullName();
 		row[COL_DISPLAY_NAME] = suggestion.getDisplayName();
 
+		row[COL_REGION_ID] = suggestion.getRegionId();
 		row[COL_HOTEL_ID] = suggestion.getHotelId();
 		row[COL_AIRPORT_CODE] = suggestion.getAirportCode();
 
 		Location location = suggestion.getLocation();
 		if (location != null) {
-			row[COL_REGION_ID] = location.getDestinationId();
 			row[COL_ADDRESS] = location.getStreetAddressString();
 			row[COL_CITY] = location.getCity();
 			row[COL_STATE_CODE] = location.getStateCode();
@@ -278,6 +278,7 @@ public class SuggestionProvider extends ContentProvider {
 		suggestion.setFullName(c.getString(COL_FULL_NAME));
 		suggestion.setDisplayName(c.getString(COL_DISPLAY_NAME));
 
+		suggestion.setRegionId(c.getInt(COL_REGION_ID));
 		suggestion.setHotelId(c.getInt(COL_HOTEL_ID));
 		suggestion.setAirportCode(c.getString(COL_AIRPORT_CODE));
 
