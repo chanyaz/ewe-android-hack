@@ -195,7 +195,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	}
 
 	private ResultsHotelsState getHotelsState(ResultsState state) {
-		return state != ResultsState.HOTELS ? mHotelsStateManager.getDefaultState() : mHotelsStateManager
+		return state != ResultsState.HOTELS ? ResultsHotelsState.HOTEL_LIST : mHotelsStateManager
 				.getState();
 	}
 
@@ -440,7 +440,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	public void onHotelSelected() {
 		mMapFragment.onHotelSelected();
 		if (mGlobalState == ResultsState.HOTELS) {
-			setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, false);//we dont animate because there is not animation for this...
+			setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
 
 			for (IResultsHotelSelectedListener listener : mHotelSelectedListeners) {
 				listener.onHotelSelected();
@@ -607,9 +607,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		public void onStateFinalized(ResultsState state) {
 			mGlobalState = state;
 
-			ResultsHotelsState tmpHotelsState = state != ResultsState.HOTELS ? mHotelsStateManager
-					.getDefaultState()
-					: mHotelsStateManager.getState();
+			ResultsHotelsState tmpHotelsState = getHotelsState(state);
 
 			setTouchState(state, tmpHotelsState);
 			setVisibilityState(state, tmpHotelsState);
@@ -636,19 +634,31 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
-			//Setup grid manager
-			mGrid.setGridSize(1, 3);
 			mGrid.setDimensions(totalWidth, totalHeight);
 
-			//Tell all of the containers where they belong
-			mGrid.setContainerToColumn(mHotelListC, 0);
-			mGrid.setContainerToColumn(mHotelFiltersC, 1);
-			mGrid.setContainerToColumn(mHotelFilteredCountC, 2);
-			mGrid.setContainerToColumnSpan(mBgHotelMapC, 0, 2);
-			mGrid.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 2);
-			mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 1, 2);
-			mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesShadeC, 0, 2);
+			if (mGrid.isLandscape()) {
+				mGrid.setGridSize(1, 3);
 
+				//Tell all of the containers where they belong
+				mGrid.setContainerToColumn(mHotelListC, 0);
+				mGrid.setContainerToColumn(mHotelFiltersC, 1);
+				mGrid.setContainerToColumn(mHotelFilteredCountC, 2);
+				mGrid.setContainerToColumnSpan(mBgHotelMapC, 0, 2);
+				mGrid.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 2);
+				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 1, 2);
+				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesShadeC, 0, 2);
+			}
+			else {
+				mGrid.setGridSize(2, 2);
+
+				mGrid.setContainerToColumn(mHotelListC, 0);
+				mGrid.setContainerToColumn(mHotelFiltersC, 1);
+				mGrid.setContainerToColumn(mHotelFilteredCountC, 0);
+				mGrid.setContainerToColumnSpan(mBgHotelMapC, 0, 1);
+				mGrid.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 1);
+				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 0, 1);
+				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesShadeC, 0, 1);
+			}
 			//since the actionbar is an overlay, we must compensate by setting the root layout to have a top margin
 			int actionBarHeight = getActivity().getActionBar().getHeight();
 			FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) mRootC.getLayoutParams();
@@ -691,7 +701,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 						return true;
 					}
 					else if (state == ResultsHotelsState.ROOMS_AND_RATES) {
-						setHotelsState(ResultsHotelsState.HOTEL_LIST, false);
+						setHotelsState(ResultsHotelsState.HOTEL_LIST, true);
 						return true;
 					}
 					else if (state == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
@@ -766,7 +776,14 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionStart(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
-			if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
+			if ((stateOne == ResultsHotelsState.HOTEL_LIST && stateTwo == ResultsHotelsState.ROOMS_AND_RATES)
+					|| (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.HOTEL_LIST)) {
+				//SHOWING ROOMS AND RATES
+				mHotelListFrag.setListLockedToTop(true);
+				setRoomsAndRatesAnimationVisibilities();
+				setRoomsAndRatesAnimationHardwareRendering(true);
+			}
+			else if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
 					|| stateTwo == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
 				//SHOWING FILTERS
 				mHotelListFrag.setListLockedToTop(true);
@@ -790,7 +807,15 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo, float percentage) {
-			if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
+			if (stateOne == ResultsHotelsState.HOTEL_LIST && stateTwo == ResultsHotelsState.ROOMS_AND_RATES) {
+				//SHOWING ROOMS AND RATES
+				setRoomsAndRatesShownPercentage(percentage);
+			}
+			else if (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.HOTEL_LIST) {
+				//HIDING ROOMS AND RATES
+				setRoomsAndRatesShownPercentage(1f - percentage);
+			}
+			else if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
 					|| stateTwo == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
 				//SHOWING FILTERS
 				setHotelsFiltersShownPercentage(percentage);
@@ -811,7 +836,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionEnd(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
-			if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
+			if ((stateOne == ResultsHotelsState.HOTEL_LIST && stateTwo == ResultsHotelsState.ROOMS_AND_RATES)
+					|| (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.HOTEL_LIST)) {
+				//SHOWING/HIDING ROOMS AND RATES
+				setRoomsAndRatesAnimationHardwareRendering(false);
+			}
+			else if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
 					|| stateTwo == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
 				//SHOWING FILTERS
 				setHotelsFiltersAnimationVisibilities(false);
@@ -837,10 +867,18 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		public void onStateFinalized(ResultsHotelsState state) {
 			switch (state) {
 			case HOTEL_LIST:
+				mHotelListFrag.setListLockedToTop(false);
+				setHotelsFiltersShownPercentage(0f);
+				setAddToTripPercentage(0f);
+				setRoomsAndRatesShownPercentage(0f);
+				mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
+				mHotelListFrag.setTopRightTextButtonEnabled(true);
+				break;
 			case ROOMS_AND_RATES: {
 				mHotelListFrag.setListLockedToTop(false);
 				setHotelsFiltersShownPercentage(0f);
 				setAddToTripPercentage(0f);
+				setRoomsAndRatesShownPercentage(1f);
 				mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
 				mHotelListFrag.setTopRightTextButtonEnabled(true);
 				break;
@@ -893,6 +931,34 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			float filteredCountLeft = mGrid.getColWidth(2) * (1f - percentage);
 			mHotelFilteredCountC.setTranslationX(filteredCountLeft);
+		}
+
+		/*
+		 * SHOW ROOMS AND RATES ANIMATION STUFF
+		 */
+
+		private void setRoomsAndRatesAnimationVisibilities() {
+			mHotelRoomsAndRatesC.setVisibility(View.VISIBLE);
+		}
+
+		private void setRoomsAndRatesAnimationHardwareRendering(boolean useHardwareLayer) {
+			int layerValue = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
+			mHotelRoomsAndRatesC.setLayerType(layerValue, null);
+			if (!mGrid.isLandscape()) {
+				mHotelListC.setLayerType(layerValue, null);
+			}
+		}
+
+		private void setRoomsAndRatesShownPercentage(float percentage) {
+			if (mGrid.isLandscape()) {
+				mHotelRoomsAndRatesC.setTranslationY(-(1f - percentage) * mGrid.getTotalHeight());
+			}
+			else {
+				float roomsAndRatesTransX = (1f - percentage) * mGrid.getTotalWidth();
+				float hotelListTransX = percentage * -mGrid.getColWidth(0);
+				mHotelRoomsAndRatesC.setTranslationX(roomsAndRatesTransX);
+				mHotelListC.setTranslationX(hotelListTransX);
+			}
 		}
 
 		/*

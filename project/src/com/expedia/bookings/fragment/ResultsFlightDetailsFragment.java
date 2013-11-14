@@ -155,7 +155,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	}
 
 	public void prepareSlideInAnimation() {
-		mAnimationFlightRow.setVisibility(View.VISIBLE);
+		mAnimationFlightRow.setVisibility(View.INVISIBLE);
 		mDetailsC.setVisibility(View.VISIBLE);
 	}
 

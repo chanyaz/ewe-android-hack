@@ -330,9 +330,16 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private void updateDetailsFragSizes(ResultsFlightDetailsFragment frag) {
 		if (frag != null && mGrid.getTotalWidth() > 0) {
 			int actionbarHeight = getActivity().getActionBar().getHeight();
+			int leftCol = 1;
+			int rightCol = 2;
+			if (!mGrid.isLandscape()) {
+				leftCol = 0;
+				rightCol = 1;
+			}
+
 			Rect position = new Rect();
-			position.left = mGrid.getColLeft(1);
-			position.right = mGrid.getColRight(2);
+			position.left = mGrid.getColLeft(leftCol);
+			position.right = mGrid.getColRight(rightCol);
 			position.top = 0;
 			position.bottom = mGrid.getTotalHeight() - actionbarHeight;
 			frag.setDefaultDetailsPositionAndDimensions(position, mFlightDetailsMarginPercentage);
@@ -705,19 +712,34 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		@Override
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
-			//Setup grid manager
-			mGrid.setGridSize(1, 3);
 			mGrid.setDimensions(totalWidth, totalHeight);
 
-			mGrid.setContainerToColumnSpan(mFlightMapC, 0, 2);
+			if (isLandscape) {
+				mGrid.setGridSize(1, 3);
 
-			mGrid.setContainerToColumn(mFlightOneFiltersC, 0);
-			mGrid.setContainerToColumn(mFlightOneListC, 1);
-			mGrid.setContainerToColumnSpan(mFlightOneDetailsC, 0, 2);
+				mGrid.setContainerToColumnSpan(mFlightMapC, 0, 2);
 
-			mGrid.setContainerToColumn(mFlightTwoFiltersC, 0);
-			mGrid.setContainerToColumn(mFlightTwoListColumnC, 1);
-			mGrid.setContainerToColumnSpan(mFlightTwoDetailsC, 0, 2);
+				mGrid.setContainerToColumn(mFlightOneFiltersC, 0);
+				mGrid.setContainerToColumn(mFlightOneListC, 1);
+				mGrid.setContainerToColumnSpan(mFlightOneDetailsC, 0, 2);
+
+				mGrid.setContainerToColumn(mFlightTwoFiltersC, 0);
+				mGrid.setContainerToColumn(mFlightTwoListColumnC, 1);
+				mGrid.setContainerToColumnSpan(mFlightTwoDetailsC, 0, 2);
+			}
+			else {
+				mGrid.setGridSize(2, 2);
+
+				mGrid.setContainerToColumnSpan(mFlightMapC, 0, 1);
+
+				mGrid.setContainerToColumn(mFlightOneFiltersC, 0);
+				mGrid.setContainerToColumn(mFlightOneListC, 1);
+				mGrid.setContainerToColumnSpan(mFlightOneDetailsC, 0, 1);
+
+				mGrid.setContainerToColumn(mFlightTwoFiltersC, 0);
+				mGrid.setContainerToColumn(mFlightTwoListColumnC, 1);
+				mGrid.setContainerToColumnSpan(mFlightTwoDetailsC, 0, 1);
+			}
 
 			updateDetailsFragSizes(mFlightOneDetailsFrag);
 			updateDetailsFragSizes(mFlightTwoDetailsFrag);
@@ -916,13 +938,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					mFlightOneDetailsFrag.prepareAddToTripFromDetailsAnimation(addToTripDestination);
 				}
 				else {
-
-					Rect departureFlightLocation = ScreenPositionUtils
-							.getGlobalScreenPosition(mFlightTwoFlightOneHeaderC);
-
-					mFlightOneDetailsFrag.prepareAddToTripFromDepartureAnimation(departureFlightLocation,
-							addToTripDestination);
-					mFlightOneDetailsC.setVisibility(View.VISIBLE);
+					if (mGrid.isLandscape()) {
+						Rect departureFlightLocation = ScreenPositionUtils
+								.getGlobalScreenPosition(mFlightTwoFlightOneHeaderC);
+						mFlightOneDetailsFrag.prepareAddToTripFromDepartureAnimation(departureFlightLocation,
+								addToTripDestination);
+						mFlightOneDetailsC.setVisibility(View.VISIBLE);
+					}
 
 					mFlightTwoListColumnC.setVisibility(View.VISIBLE);
 					mFlightTwoListC.setVisibility(View.VISIBLE);
@@ -948,6 +970,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				int flightTwoTranslationX = (int) ((1f - percentage) * (mGrid.getColWidth(1) / 2f + mGrid
 						.getColLeft(1)));
 
+				if (!mGrid.isLandscape()) {
+					flightOneListTranslationX = -mGrid.getColRight(1);
+				}
+
 				mFlightOneListC.setTranslationX(flightOneListTranslationX);
 				mFlightTwoFiltersC.setTranslationX(flightTwoTranslationX);
 				mFlightTwoListColumnC.setTranslationX(flightTwoTranslationX);
@@ -966,8 +992,15 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 				//Between filters and details
 				if (mTransitionFiltersC != null) {
-					mTransitionFiltersC.setTranslationX(percentage * -mGrid.getColWidth(0));
-					mTransitionListC.setTranslationX(percentage * -mGrid.getColWidth(0));
+
+					if (mGrid.isLandscape()) {
+						mTransitionFiltersC.setTranslationX(percentage * -mGrid.getColWidth(0));
+						mTransitionListC.setTranslationX(percentage * -mGrid.getColWidth(0));
+					}
+					else {
+						mTransitionFiltersC.setTranslationX(percentage * -mGrid.getColRight(0));
+						mTransitionListC.setTranslationX(percentage * -mGrid.getColRight(1));
+					}
 
 					if (mTransitionDetailsFrag != null) {
 						int detailsTranslateDistance = mGrid.getColWidth(1) + mGrid.getColWidth(2);
@@ -983,13 +1016,20 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					mFlightOneDetailsFrag.setAddToTripFromDetailsAnimationState(percentage);
 				}
 				else {
-					mFlightOneDetailsFrag.setAddToTripFromDepartureAnimationState(percentage);
+					if (mGrid.isLandscape()) {
+						mFlightOneDetailsFrag.setAddToTripFromDepartureAnimationState(percentage);
+					}
 					mFlightTwoDetailsFrag.setAddToTripFromDetailsAnimationState(percentage);
 				}
 
 				//Move flight list out of view
 				float flightListTranslationX = -mGrid.getColWidth(0) + -percentage
 						* mGrid.getColWidth(0);
+
+				if (!mGrid.isLandscape()) {
+					flightListTranslationX = -mGrid.getColRight(1);
+				}
+
 				if (stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS) {
 					mFlightOneListC.setTranslationX(flightListTranslationX);
 				}
@@ -1061,10 +1101,18 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 
 		private void positionForDetails(ViewGroup filtersC, ViewGroup listC, ResultsFlightDetailsFragment detailsFrag) {
-			filtersC.setTranslationX(-mGrid.getColWidth(0));
-			listC.setTranslationX(-mGrid.getColLeft(1));
-			int detailsTranslateDistance = mGrid.getColWidth(1) + mGrid.getColWidth(2);
-			detailsFrag.setDetailsSlideInAnimationState(1f, detailsTranslateDistance, true);
+			if (mGrid.isLandscape()) {
+				filtersC.setTranslationX(-mGrid.getColWidth(0));
+				listC.setTranslationX(-mGrid.getColLeft(1));
+				int detailsTranslateDistance = mGrid.getColWidth(1) + mGrid.getColWidth(2);
+				detailsFrag.setDetailsSlideInAnimationState(1f, detailsTranslateDistance, true);
+			}
+			else {
+				filtersC.setTranslationX(-mGrid.getColWidth(0));
+				listC.setTranslationX(-mGrid.getColRight(1));
+				int detailsTranslateDistance = mGrid.getColWidth(0) + mGrid.getColWidth(1);
+				detailsFrag.setDetailsSlideInAnimationState(1f, detailsTranslateDistance, true);
+			}
 		}
 
 	};
