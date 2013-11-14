@@ -1,8 +1,10 @@
 package com.expedia.bookings.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -263,25 +265,27 @@ public class StrUtils {
 	 * For example, joining [ "a", "", "b", "c" ] with ", " would
 	 * result in "a, b, c"
 	 *
-	 * @param items a list of strings
-	 * @param sep the seperator between each item
+	 * @param items a collection of strings
+	 * @param sep the separator between each item
 	 * @return joined string
 	 */
-	public static String joinWithoutEmpties(final CharSequence sep, final List<? extends CharSequence> items) {
+	public static String joinWithoutEmpties(final CharSequence sep, final Collection<? extends CharSequence> items) {
 		if (items == null) {
 			return null;
 		}
 
 		StringBuilder sb = new StringBuilder();
-		int len = items.size();
-		for (int a = 0; a < len; a++) {
-			CharSequence str = items.get(a);
+		int a = 0;
+		Iterator<? extends CharSequence> it = items.iterator();
+		while (it.hasNext()) {
+			CharSequence str = it.next();
 			if (!TextUtils.isEmpty(str)) {
 				if (a > 0) {
 					sb.append(sep);
 				}
 				sb.append(str);
 			}
+			a++;
 		}
 
 		return sb.toString();
