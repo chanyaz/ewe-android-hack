@@ -26,7 +26,9 @@ import android.text.TextPaint;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
+import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 
@@ -500,6 +502,9 @@ public class MonthView extends View {
 
 		@Override
 		public boolean onDown(MotionEvent e) {
+			performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+			playSoundEffect(SoundEffectConstants.CLICK);
+
 			int[] cell = getCell(e);
 			mInitialDate = mDays[cell[0]][cell[1]];
 			mIsScrolling = false;

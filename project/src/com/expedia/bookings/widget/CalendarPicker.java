@@ -9,6 +9,7 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
@@ -42,6 +43,7 @@ import com.mobiata.android.util.Ui;
  * 
  * TODO: Scale all views based on size of CalendarPicker itself
  */
+@TargetApi(11)
 public class CalendarPicker extends LinearLayout {
 
 	// Constants
