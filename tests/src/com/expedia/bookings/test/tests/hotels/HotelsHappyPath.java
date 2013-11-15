@@ -13,7 +13,12 @@ public class HotelsHappyPath {
 
 			driver.delay();
 			driver.launchScreen().openMenuDropDown();
-			driver.launchScreen().pressSettings();
+			try {
+				driver.launchScreen().pressSettings();
+			}
+			catch (Error e) {
+				driver.clickInList(0);
+			}
 			driver.settingsScreen().clickToClearPrivateData();
 			if (driver.searchText(driver.settingsScreen().OKString())) {
 				driver.settingsScreen().clickOKString();
