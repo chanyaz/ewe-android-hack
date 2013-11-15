@@ -3,7 +3,6 @@ package com.expedia.bookings.fragment;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.database.DataSetObserver;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
-import com.expedia.bookings.widget.SimpleColorAdapter;
 import com.expedia.bookings.widget.TabletFlightAdapter;
 import com.mobiata.android.util.Ui;
 
@@ -90,28 +88,17 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		// TODO remove this if check once SimpleColorAdapter is removed
-		if (mAdapter instanceof FlightAdapter) {
-			int headerCount = getTopSpaceListView().getHeaderViewsCount();
-			int itemPosition = position - headerCount;
-			if (itemPosition >= 0) {
-				FlightTrip trip = ((FlightAdapter) mAdapter).getItem(itemPosition);
-				Db.getFlightSearch().setSelectedLeg(mLegNumber, new FlightTripLeg(trip, trip.getLeg(mLegNumber)));
-				mFlightSelectedListener.onFlightSelected(mLegNumber);
-			}
+		int headerCount = getTopSpaceListView().getHeaderViewsCount();
+		int itemPosition = position - headerCount;
+		if (itemPosition >= 0) {
+			FlightTrip trip = ((FlightAdapter) mAdapter).getItem(itemPosition);
+			Db.getFlightSearch().setSelectedLeg(mLegNumber, new FlightTripLeg(trip, trip.getLeg(mLegNumber)));
+			mFlightSelectedListener.onFlightSelected(mLegNumber);
 		}
 	}
 
 	@Override
 	protected ListAdapter initializeAdapter() {
-		// TODO: this block is temporary
-		if (Db.getFlightSearch() == null || Db.getFlightSearch().getSearchResponse() == null) {
-			int[] flightColors = { Color.rgb(0, 0, 255), Color.rgb(0, 0, 220), Color.rgb(0, 0, 150) };
-			mAdapter = new SimpleColorAdapter(getActivity(), 200, 50, flightColors);
-			//mAdapter.enableSizeChanges(10, 3000);
-			return mAdapter;
-		}
-
 		FlightAdapter adapter = new TabletFlightAdapter(getActivity(), null);
 		mAdapter = adapter;
 		mAdapter.registerDataSetObserver(mDataSetObserver);

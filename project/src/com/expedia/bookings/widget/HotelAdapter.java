@@ -107,41 +107,41 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		}
 		else {
 			mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
-			final int size = mCachedProperties == null ? 0 : mCachedProperties.size();
-			if (size == 0) {
-				OmnitureTracking.trackErrorPage(mContext, "FilteredToZeroResults");
-			}
 
 			mDistanceUnit = mSearchResponse.getFilter().getDistanceUnit();
-
-			// Clear all the images that are no longer going to be displayed (since we're only showing cached props)
-			final List<Property> properties = new ArrayList<Property>();
-			properties.addAll(mSearchResponse.getProperties());
-
-			for (int i = 0; i < size; i++) {
-				properties.remove(mCachedProperties.get(i));
+			if (mCachedProperties == null || mCachedProperties.size() == 0) {
+				OmnitureTracking.trackErrorPage(mContext, "FilteredToZeroResults");
 			}
-
-			String longestPrice = "";
-			for (Property property : properties) {
-				String displayPrice = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayPrice());
-				if (longestPrice.length() < displayPrice.length()) {
-					longestPrice = displayPrice;
-				}
+			else {
+				determinePriceTextSize();
 			}
-
-			// Determine the price text size based on longest price
-			Resources r = mContext.getResources();
-			DisplayMetrics dm = r.getDisplayMetrics();
-			float maxTextSize = r.getDimension(R.dimen.hotel_row_price_text_size) / dm.scaledDensity;
-			float maxViewWidthdp = r.getDimension(R.dimen.hotel_row_price_text_view_max_width) / dm.density;
-			TextPaint textPaint = new TextPaint();
-			textPaint.setTypeface(Typeface.DEFAULT_BOLD);
-			mPriceTextSize = ViewUtils.getTextSizeForMaxLines(mContext, longestPrice, textPaint, maxViewWidthdp, 1,
-					maxTextSize, 5);
 		}
 
 		notifyDataSetChanged();
+	}
+
+	private void determinePriceTextSize() {
+		if (mCachedProperties == null || mCachedProperties.size() == 0) {
+			return;
+		}
+
+		String longestPrice = "";
+		for (Property property : mCachedProperties) {
+			String displayPrice = StrUtils.formatHotelPrice(property.getLowestRate().getDisplayPrice());
+			if (longestPrice.length() < displayPrice.length()) {
+				longestPrice = displayPrice;
+			}
+		}
+
+		// Determine the price text size based on longest price
+		Resources r = mContext.getResources();
+		DisplayMetrics dm = r.getDisplayMetrics();
+		float maxTextSize = r.getDimension(R.dimen.hotel_row_price_text_size) / dm.scaledDensity;
+		float maxViewWidthdp = r.getDimension(R.dimen.hotel_row_price_text_view_max_width) / dm.density;
+		TextPaint textPaint = new TextPaint();
+		textPaint.setTypeface(Typeface.DEFAULT_BOLD);
+		mPriceTextSize = ViewUtils.getTextSizeForMaxLines(mContext, longestPrice, textPaint,
+				maxViewWidthdp, 1, maxTextSize, 5);
 	}
 
 	public void setShowDistance(boolean showDistance) {

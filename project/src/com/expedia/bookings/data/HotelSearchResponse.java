@@ -63,6 +63,13 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		clearCache();
 	}
 
+	public void removeProperty(Property property) {
+		if (mProperties == null) {
+			mProperties.remove(property);
+		}
+		clearCache();
+	}
+
 	public int getPropertiesCount() {
 		if (mProperties == null) {
 			return 0;
@@ -151,10 +158,6 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	public void clearCache() {
 		mFilteredProperties = null;
 		mFilteredPropertiesIgnoringNeighborhood = null;
-	}
-
-	public boolean filterChanged() {
-		return mFilteredProperties == null;
 	}
 
 	public PriceTier getPriceTier(PriceRange priceRange) {
@@ -278,12 +281,10 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		return mFilteredProperties == null ? 0 : mFilteredProperties.size();
 	}
 
-	public void onFilterChanged() {
-		clearCache();
-	}
+	//////////////////////////////////////////////////////////////////////////////////
+	// OnFilterChangedListener
 
-	public void removeProperty(Property property) {
-		mProperties.remove(property);
+	public void onFilterChanged() {
 		clearCache();
 	}
 

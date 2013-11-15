@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ListAdapter;
@@ -19,7 +18,6 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
-import com.expedia.bookings.widget.SimpleColorAdapter;
 import com.expedia.bookings.widget.TabletHotelAdapter;
 import com.mobiata.android.util.Ui;
 
@@ -86,14 +84,6 @@ public class ResultsHotelListFragment extends ResultsListFragment implements OnF
 
 	@Override
 	protected ListAdapter initializeAdapter() {
-
-		// TODO: This block is temporary
-		if (Db.getHotelSearch() == null || Db.getHotelSearch().getSearchResponse() == null) {
-			int[] hotelColors = { Color.rgb(255, 0, 0), Color.rgb(220, 0, 0), Color.rgb(150, 0, 0) };
-			mAdapter = new SimpleColorAdapter(getActivity(), 250, 25, hotelColors);
-			return mAdapter;
-		}
-
 		TabletHotelAdapter adapter = new TabletHotelAdapter(getActivity());
 		mAdapter = adapter;
 		adapter.highlightSelectedPosition(true);
