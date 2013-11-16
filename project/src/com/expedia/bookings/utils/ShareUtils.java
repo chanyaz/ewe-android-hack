@@ -198,7 +198,10 @@ public class ShareUtils {
 		boolean isShared = itinCardData.isSharedItin();
 
 		TripHotel hotel = (TripHotel) itinCardData.getTripComponent();
-		String travelerName = hotel.getPrimaryTraveler().getFirstName();
+		String travelerName = "";
+		if (hotel.getPrimaryTraveler() != null) {
+			travelerName = hotel.getPrimaryTraveler().getFirstName();
+		}
 
 		return getHotelShareTextShort(itinCardData.getPropertyName(), itinCardData.getStartDate(), url, isShared, travelerName);
 	}
