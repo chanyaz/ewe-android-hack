@@ -189,9 +189,8 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		}
 		mPriceButtonGroup.check(checkId);
 
-		if (PointOfSale.getPointOfSale().supportsVipAccess() && User.isElitePlus(getActivity())) {
+		if (PointOfSale.getPointOfSale().supportsVipAccess()) {
 			mVipAccessButton.setVisibility(View.VISIBLE);
-			mVipAccessButton.setSelected(filter.isVipAccessOnly());
 		}
 		else {
 			mVipAccessButton.setVisibility(View.GONE);
