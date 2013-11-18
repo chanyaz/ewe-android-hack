@@ -209,22 +209,15 @@ public class ShareUtils {
 		DateTime dropOffDate = itinCardData.getDropOffDate();
 		String vendorName = itinCardData.getVendorName();
 		String vendorAddress = itinCardData.getRelevantVendorLocation().toLongFormattedString();
-		/*
-		 *  #2139. SharableURL/Importing shared itin is currently restricted to only hotels and flights.
-		 *  So currently just share the webDetailsURL. When we support itinSharing for other trips just use the itinCardData.getSharableDetailsUrl() below
-		 */
-		String sharableDetailsURL = itinCardData.getDetailsUrl();
-
-		return getCarShareTextShort(category, pickUpDate, dropOffDate, vendorName, vendorAddress, sharableDetailsURL);
+		
+		// #2189: Only use share URL with hotels/flights
+		return getCarShareTextShort(category, pickUpDate, dropOffDate, vendorName, vendorAddress, null);
 	}
 
 	public String getActivityShareTextShort(ItinCardDataActivity itinCardData) {
-		/*
-		 *  #2139. SharableURL/Importing shared itin is currently restricted to only hotels and flights.
-		 *  So currently just share the webDetailsURL. When we support itinSharing for other trips just use the itinCardData.getSharableDetailsUrl() below
-		 */
+		// #2189: Only use share URL with hotels/flights
 		return getActivityShareTextShort(itinCardData.getTitle(), itinCardData.getValidDate(),
-				itinCardData.getExpirationDate(), itinCardData.getDetailsUrl());
+				itinCardData.getExpirationDate(), null);
 	}
 
 	// SHARE TEXT LONG
@@ -276,24 +269,18 @@ public class ShareUtils {
 		CarVendor vendor = itinCardData.getCar().getVendor();
 		Location pickUpLocation = itinCardData.getPickUpLocation();
 		Location dropOffLocation = itinCardData.getDropOffLocation();
-		/*
-		 *  #2139. SharableURL/Importing shared itin is currently restricted to only hotels and flights.
-		 *  So currently just share the webDetailsURL. When we support itinSharing for other trips just use the itinCardData.getSharableDetailsUrl() below
-		 */
-		String sharableDetailsURL = itinCardData.getDetailsUrl();
+		// #2189: Only use share URL with hotels/flights
+		String sharableDetailsURL = null;
 
 		return getCarShareTextLong(category, pickUpDate, dropOffDate, vendor, pickUpLocation, dropOffLocation,
 				sharableDetailsURL);
 	}
 
 	public String getActivityShareTextLong(ItinCardDataActivity itinCardData) {
-		/*
-		 *  #2139. SharableURL/Importing shared itin is currently restricted to only hotels and flights.
-		 *  So currently just share the webDetailsURL. When we support itinSharing for other trips just use the itinCardData.getSharableDetailsUrl() below
-		 */
+		// #2189: Only use share URL with hotels/flights
 		return getActivityShareTextLong(itinCardData.getTitle(), itinCardData.getValidDate(),
 				itinCardData.getExpirationDate(), itinCardData.getTravelers(), itinCardData.getGuestCount(),
-				itinCardData.getDetailsUrl());
+				null);
 	}
 
 	// Share methods

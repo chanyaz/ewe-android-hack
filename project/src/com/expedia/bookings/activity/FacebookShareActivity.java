@@ -6,7 +6,6 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
@@ -43,17 +42,12 @@ public class FacebookShareActivity extends Activity {
 		// This is the bold header title (name) shown in the Facebook post.
 		String shareName = itin.getFacebookShareName();
 		String shareThumbnail = itin.getSharableImageURL();
-		String detailsUrl;
-		/*
-		 *  #2139. SharableURL/Importing shared itin is currently restricted to only hotels and flights.
-		 *  So currently just include the webDetailsURL for any other trips.
-		 */
+		String detailsUrl = "";
+
+		// #2189: Only use share URL with hotels/flights
 		if ((itin.getItinCardData() instanceof ItinCardDataHotel)
 				|| (itin.getItinCardData() instanceof ItinCardDataFlight)) {
 			detailsUrl = itin.getItinCardData().getSharableDetailsUrl();
-		}
-		else {
-			detailsUrl = itin.getItinCardData().getDetailsUrl();
 		}
 
 		// The shortText now consists of the shortenedURL embedded in it. So let's just get rid of that when sharing on FB
