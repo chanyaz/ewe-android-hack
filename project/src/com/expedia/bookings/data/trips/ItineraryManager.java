@@ -737,13 +737,6 @@ public class ItineraryManager implements JSONable {
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onSyncFinished(trips);
 		}
-
-		// Only remember the last update time if there was something actually updated;
-		// either the user was logged in (but had no trips) or there are guest trips
-		// present.
-		if (User.isLoggedIn(mContext) || (trips != null && trips.size() > 0)) {
-			mLastUpdateTime = DateTime.now().getMillis();
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1209,6 +1202,13 @@ public class ItineraryManager implements JSONable {
 				Log.i(LOGGING_TAG, "Quick sync completed. Starting force sync.");
 				mFinished = true;
 				startSync(true);
+			}
+			else if (User.isLoggedIn(mContext) || (trips != null && trips.size() > 0)) {
+				// Only remember the last update time if there was something actually updated;
+				// either the user was logged in (but had no trips) or there are guest trips
+				// present.  Also, don't bother doing this w/ quick sync as we'll just be
+				// starting a new sync immediately (which should trigger this)
+				mLastUpdateTime = DateTime.now().getMillis();
 			}
 		}
 
