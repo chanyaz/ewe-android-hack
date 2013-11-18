@@ -73,9 +73,9 @@ public class FlightFilter {
 		}
 	}
 
-	public void initAirports(List<FlightTrip> trips) {
-		mDepartureAirports = FlightSearch.generateDepartureAirportsForLeg(trips, 0);
-		mArrivalAirports = FlightSearch.generateDepartureAirportsForLeg(trips, 1);
+	public void initAirports(List<FlightTrip> trips, int legPosition) {
+		mDepartureAirports = FlightSearch.generateAirports(trips, legPosition, true);
+		mArrivalAirports = FlightSearch.generateAirports(trips, legPosition, false);
 	}
 
 	public void setPreferredAirline(String airlineCode, boolean isPreferred) {
@@ -99,62 +99,35 @@ public class FlightFilter {
 		return mDepartureAirports;
 	}
 
-	public void addDepartureAirport(String airportCode) {
-		mDepartureAirports.add(airportCode);
-	}
-
-	public void removeDepartureAirport(String airportCode) {
-		mDepartureAirports.remove(airportCode);
-	}
-
-	public void clearDepartureAirports() {
-		mDepartureAirports.clear();
-	}
-
 	public Set<String> getArrivalAirports() {
 		return mArrivalAirports;
 	}
 
-	public void addArrivalAirport(String airportCode) {
-		mArrivalAirports.add(airportCode);
-	}
-
-	public void addDepartureAirportForLeg(int legNumber, String airportCode) {
-		if (legNumber == 0) {
-			mDepartureAirports.add(airportCode);
+	/**
+	 * Returns the selected airports for this given filter.
+	 * @param departureAirport - true means return departure airports, false means return arrival airports
+	 * @return
+	 */
+	public Set<String> getAirports(boolean departureAirport) {
+		if (departureAirport) {
+			return mDepartureAirports;
 		}
 		else {
-			mArrivalAirports.add(airportCode);
-		}
-	}
-
-	public void removeDepartureAirportForLeg(int legNumber, String airportCode) {
-		if (legNumber == 0) {
-			mDepartureAirports.remove(airportCode);
-		}
-		else {
-			mArrivalAirports.remove(airportCode);
+			return mArrivalAirports;
 		}
 	}
 
-	public boolean containsDepartureAirportForLeg(int legNumber, String airportCode) {
-		Set<String> airports;
-		if (legNumber == 0) {
-			airports = mDepartureAirports;
-		}
-		else {
-			airports = mArrivalAirports;
-		}
+	public void addAirport(boolean departureAirport, String airportCode) {
+		getAirports(departureAirport).add(airportCode);
+	}
 
+	public void removeAirport(boolean departureAirport, String airportCode) {
+		getAirports(departureAirport).remove(airportCode);
+	}
+
+	public boolean containsAirport(boolean departureAirport, String airportCode) {
+		Set<String> airports = departureAirport ? mDepartureAirports : mArrivalAirports;
 		return airports.contains(airportCode);
-	}
-
-	public void removeArrivalAirport(String airportCode) {
-		mArrivalAirports.remove(airportCode);
-	}
-
-	public void clearArrivalAirports() {
-		mArrivalAirports.clear();
 	}
 
 	public void notifyFilterChanged() {

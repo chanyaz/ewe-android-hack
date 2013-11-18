@@ -21,8 +21,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.Location;
-import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportFilterWidget;
 import com.expedia.bookings.widget.CheckBoxFilterWidget;
@@ -76,17 +74,18 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		mArrivalAirportsHeader = Ui.findView(view, R.id.arrival_airports_header);
 		mArrivalAirportFilterWidget = Ui.findView(view, R.id.arrival_airports_widget);
 
-		Set<String> departureAirports = Db.getFlightSearch().getDepartureAirportsForLeg(0);
+		Set<String> departureAirports = Db.getFlightSearch().getAirports(mLegNumber, true);
 		FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
-		mDepartureAirportFilterWidget.bind(0, departureAirports, filter, mAirportOnCheckedChangeListener);
+		mDepartureAirportFilterWidget
+				.bind(mLegNumber, true, departureAirports, filter, mAirportOnCheckedChangeListener);
 		mDepartureAirportsHeader.setVisibility(departureAirports.size() < 2 ? View.GONE : View.VISIBLE);
 
-		Set<String> arrivalAirports = Db.getFlightSearch().getDepartureAirportsForLeg(1);
-		mArrivalAirportFilterWidget.bind(1, arrivalAirports, filter, mArrivalAirportOnCheckedChangeListener);
+		Set<String> arrivalAirports = Db.getFlightSearch().getAirports(mLegNumber, false);
+		mArrivalAirportFilterWidget.bind(mLegNumber, false, arrivalAirports, filter, mAirportOnCheckedChangeListener);
 		mArrivalAirportsHeader.setVisibility(arrivalAirports.size() < 2 ? View.GONE : View.VISIBLE);
 
 		buildAirlineList();
-		updateAirportLabel(Db.getFlightSearch().getFilter(mLegNumber));
+		bindAirportFilter();
 
 		return view;
 	}
@@ -145,28 +144,14 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		@Override
 		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
 			FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
-			String airportCode = (String) view.getTag();
+			String[] split = ((String) view.getTag()).split(";");
+			boolean departureAirport = Boolean.parseBoolean(split[0]);
+			String airportCode = split[1];
 			if (isChecked) {
-				filter.addDepartureAirportForLeg(0, airportCode);
+				filter.addAirport(departureAirport, airportCode);
 			}
 			else {
-				filter.removeDepartureAirportForLeg(0, airportCode);
-			}
-
-			onFilterChanged(filter);
-		}
-	};
-
-	private OnCheckedChangeListener mArrivalAirportOnCheckedChangeListener = new OnCheckedChangeListener() {
-		@Override
-		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
-			FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
-			String airportCode = (String) view.getTag();
-			if (isChecked) {
-				filter.addDepartureAirportForLeg(1, airportCode);
-			}
-			else {
-				filter.removeDepartureAirportForLeg(1, airportCode);
+				filter.removeAirport(departureAirport, airportCode);
 			}
 
 			onFilterChanged(filter);
@@ -181,36 +166,12 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		filter.notifyFilterChanged();
 
 		buildAirlineList();
-		updateAirportLabel(filter);
+		bindAirportFilter();
 	}
 
-	private void updateAirportLabel(FlightFilter filter) {
-		Set<String> airportsInFilter = filter.getDepartureAirports();
-		Set<String> airportsAll = Db.getFlightSearch().getDepartureAirportsForLeg(0);
-
-		String text;
-		if (airportsInFilter.size() == airportsAll.size()) {
-			Location depLoc = Db.getFlightSearch().getSearchParams().getDepartureLocation();
-			text = depLoc.getDestinationId() + " - " + depLoc.getDescription();
-		}
-		else {
-			text = StrUtils.joinWithoutEmpties(", ", airportsInFilter);
-		}
-		mDepartureAirportFilterWidget.setText(text);
-
-		Set<String> arrivalAirportsInFilter = filter.getArrivalAirports();
-		Set<String> arrivalAirportsAll = Db.getFlightSearch().getDepartureAirportsForLeg(1);
-
-		String text2;
-		if (arrivalAirportsInFilter.size() == arrivalAirportsAll.size()) {
-			Location arrLoc = Db.getFlightSearch().getSearchParams().getArrivalLocation();
-			text2 = arrLoc.getDestinationId() + " - " + arrLoc.getDescription();
-		}
-		else {
-			text2 = StrUtils.joinWithoutEmpties(", ", arrivalAirportsInFilter);
-		}
-		mArrivalAirportFilterWidget.setText(text2);
-
+	private void bindAirportFilter() {
+		mDepartureAirportFilterWidget.bindLabel();
+		mArrivalAirportFilterWidget.bindLabel();
 	}
 
 	private void buildAirlineList() {

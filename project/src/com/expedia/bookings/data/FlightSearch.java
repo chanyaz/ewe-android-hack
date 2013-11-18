@@ -231,8 +231,14 @@ public class FlightSearch implements JSONable {
 		mSearchState = state;
 	}
 
-	public Set<String> getDepartureAirportsForLeg(int legNumber) {
-		return mSearchResponse.getDepartureAirportsForLeg(legNumber);
+	/**
+	 * Returns all airports available from the SearchResponse for the given leg and departure/arrival pair.
+	 * @param legNumber - which leg?
+	 * @param departureAirport - is this the departure or arrival airport for the given leg?
+	 * @return the airport codes that are available in the response for leg and location (departure or arrival).
+	 */
+	public Set<String> getAirports(int legNumber, boolean departureAirport) {
+		return mSearchResponse.getAirports(legNumber, departureAirport);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -462,17 +468,20 @@ public class FlightSearch implements JSONable {
 		return lowestPriceMap;
 	}
 
-	public static Set<String> generateDepartureAirportsForLeg(Collection<FlightTrip> trips, int legNumber) {
+	/**
+	 * For a legNumber and departure/airport pair, return all airport codes that we have flights for.
+	 * @param trips - the FlightTrips
+	 * @param legNumber - which leg, 0 or 1?
+	 * @param departureAirport - the first airport of the leg or the last airport, e.g. departure or arrival?
+	 */
+	public static Set<String> generateAirports(Collection<FlightTrip> trips, int legNumber, boolean departureAirport) {
 		Set<String> codes = new HashSet<String>();
 
 		Waypoint waypoint;
+		FlightLeg leg;
 		for (FlightTrip trip : trips) {
-			if (legNumber == 0) {
-				waypoint = trip.getLeg(0).getFirstWaypoint();
-			}
-			else {
-				waypoint = trip.getLeg(0).getLastWaypoint();
-			}
+			leg = trip.getLeg(legNumber);
+			waypoint = departureAirport ? leg.getFirstWaypoint() : leg.getLastWaypoint();
 			codes.add(waypoint.getAirport().mAirportCode);
 		}
 

@@ -12,7 +12,10 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
+import com.expedia.bookings.data.Location;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CheckBoxFilterWidget.OnCheckedChangeListener;
 import com.mobiata.flightlib.data.Airport;
@@ -23,6 +26,7 @@ public class AirportFilterWidget extends TextView {
 	private PopupWindow mPopup;
 
 	private int mLegNumber;
+	private boolean mDepartureAirport;
 	private Set<String> mAirportCodes;
 	private FlightFilter mFilter;
 	private OnCheckedChangeListener mAirportCheckChangeListener;
@@ -51,13 +55,32 @@ public class AirportFilterWidget extends TextView {
 		});
 	}
 
-	public void bind(int legNumber, Set<String> airportCodes, FlightFilter filter, OnCheckedChangeListener listener) {
+	public void bind(int legNumber, boolean departureAirport, Set<String> airportCodes, FlightFilter filter,
+			OnCheckedChangeListener listener) {
 		mLegNumber = legNumber;
+		mDepartureAirport = departureAirport;
 		mAirportCodes = airportCodes;
 		mFilter = filter;
 		mAirportCheckChangeListener = listener;
 
 		setVisibility(mAirportCodes.size() < 2 ? View.GONE : View.VISIBLE);
+
+		bindLabel();
+	}
+
+	public void bindLabel() {
+		Set<String> airportsInFilter = mFilter.getAirports(mDepartureAirport);
+		Set<String> airportsAll = Db.getFlightSearch().getAirports(mLegNumber, mDepartureAirport);
+
+		String text;
+		if (airportsInFilter.size() == airportsAll.size()) {
+			Location loc = Db.getFlightSearch().getSearchParams().getLocation(mDepartureAirport);
+			text = loc.getDestinationId() + " - " + loc.getDescription();
+		}
+		else {
+			text = StrUtils.joinWithoutEmpties(", ", airportsInFilter);
+		}
+		setText(text);
 	}
 
 	private void toggleDropdown() {
@@ -79,8 +102,8 @@ public class AirportFilterWidget extends TextView {
 				String text = airport.mAirportCode + " - " + airport.mName;
 				CheckBoxFilterWidget widget = new CheckBoxFilterWidget(getContext());
 				widget.setDescription(text);
-				widget.setTag(code);
-				widget.setChecked(mFilter.containsDepartureAirportForLeg(mLegNumber, airport.mAirportCode));
+				widget.setTag(Boolean.toString(mDepartureAirport) + ";" + code);
+				widget.setChecked(mFilter.containsAirport(mDepartureAirport, airport.mAirportCode));
 				widget.setOnCheckedChangeListener(mAirportCheckChangeListener);
 				vg.addView(widget);
 			}

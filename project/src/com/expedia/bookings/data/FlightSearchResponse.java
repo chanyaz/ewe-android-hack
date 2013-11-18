@@ -67,8 +67,8 @@ public class FlightSearchResponse extends Response {
 		return mAirlineNames;
 	}
 
-	public Set<String> getDepartureAirportsForLeg(int legNumber) {
-		return FlightSearch.generateDepartureAirportsForLeg(mTrips, legNumber);
+	public Set<String> getAirports(int legNumber, boolean departureAirport) {
+		return FlightSearch.generateAirports(mTrips, legNumber, departureAirport);
 	}
 
 	public void setObFeesDetails(String obFeesDetails) {
