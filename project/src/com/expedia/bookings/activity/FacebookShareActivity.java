@@ -49,6 +49,10 @@ public class FacebookShareActivity extends Activity {
 				|| (itin.getItinCardData() instanceof ItinCardDataFlight)) {
 			detailsUrl = itin.getItinCardData().getSharableDetailsUrl();
 		}
+		else {
+			// Product decided to link the FB share post to the app download desktop page (below) - for anything but flights and hotels.
+			detailsUrl = "http://www.expedia.com/app";
+		}
 
 		// The shortText now consists of the shortenedURL embedded in it. So let's just get rid of that when sharing on FB
 		String shortMessage = itin.getShareTextShort();

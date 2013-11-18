@@ -90,7 +90,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		DestinationBitmapDrawable bitmapDrawable = new DestinationBitmapDrawable(getResources(),
 				getHeaderImagePlaceholderResId(),
 				car.getCategory(), car.getType(), width, height);
-		setSharableImageURL(bitmapDrawable.getSharableUrl());
+		setSharableImageURL("http://media.expedia.com/mobiata/mobile/car/convertible_720_500.jpg");
 		return bitmapDrawable;
 	}
 

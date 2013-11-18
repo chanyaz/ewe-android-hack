@@ -304,8 +304,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	public String getSharableImageURL() {
 		if (mSharableImageURL == null) {
-			// TODO: Check for the desired default image to be used while sharing. Using this temporarily
-			return "http://media.expedia.com/media/content/shared/images/navigation/expedia.com.png";
+			return "http://media.expedia.com/mobiata/fb/exp-fb-share.png";
 		}
 		else {
 			return mSharableImageURL;
