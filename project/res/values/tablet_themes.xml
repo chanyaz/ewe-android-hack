@@ -28,7 +28,7 @@
         <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale</item>
         <item name="hotelPriceStandardColor">#ffffff</item>
         <item name="hotelPriceSaleColor">#ffffff</item>
-        <item name="hotelListingFilterGroupStyle">@style/Widget.SegmentedControlGroup.TabletFilterControls</item>
+        <item name="hotelListingFilterGroupStyle">@style/Widget.SlidingRadioGroup.TabletFilterControls</item>
         <item name="hotelListingFilterToggleButtonStyle">@style/Widget.Button.TabletFilterControls</item>
         <item name="hotelListingFilterPriceCheapString">@string/filter_price_cheap</item>
         <item name="hotelListingFilterPriceModerateString">@string/filter_price_moderate</item>

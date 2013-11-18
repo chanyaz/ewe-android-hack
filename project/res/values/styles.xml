@@ -665,17 +665,20 @@
         <item name="android:textColor">@color/text_color_dark</item>
     </style>
 
-    <style name="Widget.SegmentedControlGroup.TabletFilterControls">
-        <item name="centerButton">@drawable/segmented_center</item>
-        <item name="leftButton">@drawable/segmented_left</item>
-        <item name="rightButton">@drawable/segmented_right</item>
-        <item name="textColor">@color/actionbar_text</item>
+    <style name="Widget.SlidingRadioGroup.TabletFilterControls" parent="Widget">
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="dividerWidth">1dp</item>
+        <item name="selectedDividerColor">#ff596a80</item>
+        <item name="selectedDrawable">@drawable/btn_tablet_filter_pressed</item>
+        <item name="sluggishness">0</item>
+        <item name="unselectedDividerColor">#40999999</item>
+        <item name="unselectedDrawable">@drawable/btn_tablet_filter_normal</item>
     </style>
 
     <style name="Widget.Button.TabletFilterControls">
-        <item name="android:background">@drawable/toggle</item>
-        <item name="android:textColor">@color/actionbar_text</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/btn_tablet_filter</item>
+        <item name="android:textColor">@color/sliding_group_text</item>
     </style>
 
     <style name="Widget.SegmentedControlGroup.DarkFilterControls">
