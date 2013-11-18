@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <RadioGroup
+    <com.expedia.bookings.widget.SlidingRadioGroup
             android:id="@+id/flight_filter_control"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:orientation="horizontal" >
+            style="@style/Widget.SlidingRadioGroup.TabletFilterControls" >
 
-        <include layout="@layout/snippet_flight_tablet_filter_items" />
-    </RadioGroup>
+        <RadioButton
+                android:id="@+id/flight_filter_stop_any"
+                style="@style/Widget.RadioButton.TabletFilterControls"
+                android:text="@string/stop_description_any"
+                android:textSize="10sp" />
+
+        <RadioButton
+                android:id="@+id/flight_filter_stop_one_or_less"
+                style="@style/Widget.RadioButton.TabletFilterControls"
+                android:text="@string/stop_description__max"
+                android:textSize="10sp" />
+
+        <RadioButton
+                android:id="@+id/flight_filter_stop_none"
+                style="@style/Widget.RadioButton.TabletFilterControls"
+                android:text="@string/stop_description__nonstop"
+                android:textSize="10sp" />
+    </com.expedia.bookings.widget.SlidingRadioGroup>
 
 </merge>
