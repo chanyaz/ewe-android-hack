@@ -164,7 +164,7 @@ public class ShareUtils {
 	public String getHotelShareSubject(ItinCardDataHotel itinCardData) {
 		boolean isShared = itinCardData.isSharedItin();
 		TripHotel hotel = (TripHotel) itinCardData.getTripComponent();
-		String travelerName = hotel.getPrimaryTraveler().getFirstName();
+		String travelerName = getTravelerFirstName(hotel);
 		return getHotelShareSubject(itinCardData.getPropertyCity(), itinCardData.getStartDate().toLocalDate(),
 				itinCardData.getEndDate().toLocalDate(), isShared, travelerName);
 	}
@@ -198,10 +198,7 @@ public class ShareUtils {
 		boolean isShared = itinCardData.isSharedItin();
 
 		TripHotel hotel = (TripHotel) itinCardData.getTripComponent();
-		String travelerName = "";
-		if (hotel.getPrimaryTraveler() != null) {
-			travelerName = hotel.getPrimaryTraveler().getFirstName();
-		}
+		String travelerName = getTravelerFirstName(hotel);
 
 		return getHotelShareTextShort(itinCardData.getPropertyName(), itinCardData.getStartDate(), url, isShared, travelerName);
 	}
@@ -266,7 +263,7 @@ public class ShareUtils {
 		String sharableDetailsUrl = itinCardData.getSharableDetailsUrl();
 		boolean isShared = itinCardData.isSharedItin();
 		TripHotel hotel = (TripHotel) itinCardData.getTripComponent();
-		String travelerName = hotel.getPrimaryTraveler().getFirstName();
+		String travelerName = getTravelerFirstName(hotel);
 
 		return getHotelShareTextLong(hotelName, address, phone, startDate.toLocalDate(), endDate.toLocalDate(),
 				sharableDetailsUrl, isShared, travelerName);
@@ -909,5 +906,9 @@ public class ShareUtils {
 		}
 
 		return intents.toArray(new Intent[] {});
+	}
+	
+	private String getTravelerFirstName(TripHotel hotel) {
+		return hotel.getPrimaryTraveler() != null ? hotel.getPrimaryTraveler().getFirstName() : "";
 	}
 }
