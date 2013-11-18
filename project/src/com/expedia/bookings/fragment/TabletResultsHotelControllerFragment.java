@@ -190,11 +190,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	 * STATE HELPERS
 	 */
 
-	private void setHotelsState(ResultsHotelsState state, boolean animate) {
+	public void setHotelsState(ResultsHotelsState state, boolean animate) {
 		mHotelsStateManager.setState(state, animate);
 	}
 
-	private ResultsHotelsState getHotelsState(ResultsState state) {
+	public ResultsHotelsState getHotelsState(ResultsState state) {
 		return state != ResultsState.HOTELS ? ResultsHotelsState.HOTEL_LIST : mHotelsStateManager
 				.getState();
 	}

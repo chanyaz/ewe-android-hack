@@ -432,11 +432,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	 * STATE HELPER METHODS
 	 */
 
-	private void setFlightsState(ResultsFlightsState state, boolean animate) {
+	public void setFlightsState(ResultsFlightsState state, boolean animate) {
 		mFlightsStateManager.setState(state, animate);
 	}
 
-	private ResultsFlightsState getFlightsState(ResultsState state) {
+	public ResultsFlightsState getFlightsState(ResultsState state) {
 		return state != ResultsState.FLIGHTS ? mFlightsStateManager.getDefaultState() : mFlightsStateManager.getState();
 	}
 

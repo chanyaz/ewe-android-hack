@@ -23,13 +23,17 @@ import android.view.ViewTreeObserver.OnPreDrawListener;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.SubMenu;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BackgroundImageCache;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
+import com.expedia.bookings.enums.ResultsFlightsState;
+import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment.IBackgroundImageReceiverRegistrar;
@@ -249,6 +253,34 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		boolean retVal = super.onCreateOptionsMenu(menu);
+
+		//We allow debug users to jump between states
+		if (!AndroidUtils.isRelease(this)) {
+			//We use ordinal() + 1 for all ids and groups because 0 == Menu.NONE
+			SubMenu subMen = menu.addSubMenu(Menu.NONE, Menu.NONE, 0, "Results State");
+			subMen.add(ResultsState.OVERVIEW.ordinal() + 1, ResultsState.OVERVIEW.ordinal() + 1,
+					ResultsState.OVERVIEW.ordinal() + 1, ResultsState.OVERVIEW.name());
+
+			SubMenu hotelSubMen = subMen.addSubMenu(Menu.NONE, Menu.NONE, 1, ResultsState.HOTELS.name());
+			SubMenu flightSubMen = subMen.addSubMenu(Menu.NONE, Menu.NONE, 2, ResultsState.FLIGHTS.name());
+			for (ResultsHotelsState hotelState : ResultsHotelsState.values()) {
+				hotelSubMen.add(ResultsState.HOTELS.ordinal() + 1, hotelState.ordinal() + 1, hotelState.ordinal() + 1,
+						hotelState.name());
+			}
+			for (ResultsFlightsState flightState : ResultsFlightsState.values()) {
+				flightSubMen.add(ResultsState.FLIGHTS.ordinal() + 1, flightState.ordinal() + 1,
+						flightState.ordinal() + 1,
+						flightState.name());
+			}
+			return true;
+		}
+
+		return retVal;
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home: {
@@ -256,6 +288,37 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 			return true;
 		}
 		}
+
+		//We allow debug users to jump between states
+		if (!AndroidUtils.isRelease(this)) {
+
+			//All of our groups/ids are .ordinal() + 1 so we subtract here to make things easier
+			int groupId = item.getGroupId() - 1;
+			int id = item.getItemId() - 1;
+
+			if (groupId == ResultsState.OVERVIEW.ordinal() && id == ResultsState.OVERVIEW.ordinal()) {
+				Log.d("JumpTo: OVERVIEW");
+				finalizeState(ResultsState.OVERVIEW);
+				return true;
+			}
+			else if (groupId == ResultsState.HOTELS.ordinal()) {
+				Log.d("JumpTo: HOTELS - state:" + ResultsHotelsState.values()[id].name());
+				if (mState != ResultsState.HOTELS) {
+					finalizeState(ResultsState.HOTELS);
+				}
+				mHotelsController.setHotelsState(ResultsHotelsState.values()[id], false);
+				return true;
+			}
+			else if (groupId == ResultsState.FLIGHTS.ordinal()) {
+				Log.d("JumpTo: FLIGHTS - state:" + ResultsFlightsState.values()[id].name());
+				if (mState != ResultsState.FLIGHTS) {
+					finalizeState(ResultsState.FLIGHTS);
+				}
+				mFlightsController.setFlightsState(ResultsFlightsState.values()[id], false);
+				return true;
+			}
+		}
+
 		return super.onOptionsItemSelected(item);
 	}
 
