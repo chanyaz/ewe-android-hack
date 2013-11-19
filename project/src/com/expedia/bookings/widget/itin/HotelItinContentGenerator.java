@@ -36,6 +36,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardDataHotel> {
@@ -499,5 +500,25 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		notification.setImageUrls(data.getHeaderImageUrls());
 
 		return notification;
+	}
+
+	@Override
+	public String getSharableImageURL() {
+		/*
+		 *  #2320. Let's get the previously set sharableImageURL and test to see if it actually exists.
+		 *  Easiest way to do it is to ask TwoLevelImageCache, since it would already have been loaded if it did.
+		 *  In the case it doesn't exist, then we will get the list of urls and then go thru each to find one.
+		 */
+		String sharableImgURL = super.getSharableImageURL();
+		if (!TwoLevelImageCache.hasImageInDiskCache(sharableImgURL)) {
+			List<String> urls = getItinCardData().getHeaderImageUrls();
+			for (String url : urls) {
+				if (TwoLevelImageCache.hasImageInDiskCache(url)) {
+					sharableImgURL = url;
+					break;
+				}
+			}
+		}
+		return sharableImgURL;
 	}
 }

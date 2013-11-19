@@ -302,7 +302,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	// Itin Content Image URL
 
 	public String getSharableImageURL() {
-		if (mSharableImageURL == null) {
+		if (TextUtils.isEmpty(mSharableImageURL)) {
 			return "http://media.expedia.com/mobiata/fb/exp-fb-share.png";
 		}
 		else {
