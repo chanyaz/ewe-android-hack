@@ -138,6 +138,7 @@ public class SuggestionProvider extends ContentProvider {
 			SuggestionV2 currentLocationSuggestion = new SuggestionV2();
 			currentLocationSuggestion.setResultType(ResultType.CURRENT_LOCATION);
 			currentLocationSuggestion.setFullName(getContext().getString(R.string.current_location));
+			currentLocationSuggestion.setDisplayName(currentLocationSuggestion.getFullName());
 			addSuggestion(currentLocationSuggestion);
 
 			// Add recent suggestions
@@ -216,18 +217,18 @@ public class SuggestionProvider extends ContentProvider {
 		}
 
 		if (resultType == ResultType.CURRENT_LOCATION) {
-			row[COL_ICON_1] = R.drawable.ic_suggestion_current_location;
+			row[COL_ICON_1] = R.drawable.ic_suggest_current_location;
 		}
 		else {
 			switch (searchType) {
 			case AIRPORT:
-				row[COL_ICON_1] = R.drawable.ic_location_search;
+				row[COL_ICON_1] = R.drawable.ic_suggest_airport;
 				break;
 			case HOTEL:
-				row[COL_ICON_1] = R.drawable.ic_suggestion_hotel;
+				row[COL_ICON_1] = R.drawable.ic_suggest_hotel;
 				break;
 			default:
-				row[COL_ICON_1] = R.drawable.ic_suggestion_place;
+				row[COL_ICON_1] = R.drawable.ic_suggest_place;
 				break;
 			}
 		}
@@ -239,12 +240,12 @@ public class SuggestionProvider extends ContentProvider {
 		row[COL_FULL_NAME] = suggestion.getFullName();
 		row[COL_DISPLAY_NAME] = suggestion.getDisplayName();
 
+		row[COL_REGION_ID] = suggestion.getRegionId();
 		row[COL_HOTEL_ID] = suggestion.getHotelId();
 		row[COL_AIRPORT_CODE] = suggestion.getAirportCode();
 
 		Location location = suggestion.getLocation();
 		if (location != null) {
-			row[COL_REGION_ID] = location.getDestinationId();
 			row[COL_ADDRESS] = location.getStreetAddressString();
 			row[COL_CITY] = location.getCity();
 			row[COL_STATE_CODE] = location.getStateCode();
@@ -277,6 +278,7 @@ public class SuggestionProvider extends ContentProvider {
 		suggestion.setFullName(c.getString(COL_FULL_NAME));
 		suggestion.setDisplayName(c.getString(COL_DISPLAY_NAME));
 
+		suggestion.setRegionId(c.getInt(COL_REGION_ID));
 		suggestion.setHotelId(c.getInt(COL_HOTEL_ID));
 		suggestion.setAirportCode(c.getString(COL_AIRPORT_CODE));
 

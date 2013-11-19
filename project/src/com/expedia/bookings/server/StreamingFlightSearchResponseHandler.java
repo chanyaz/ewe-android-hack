@@ -453,6 +453,9 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 			else if (name.equals("code")) {
 				location.setDestinationId(parser.getText());
 			}
+			else if (name.equals("searchType")) {
+				location.setSearchType(parser.getText());
+			}
 			else {
 				parser.skipChildren();
 			}

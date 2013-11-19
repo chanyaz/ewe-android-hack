@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -20,6 +21,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
@@ -39,6 +41,22 @@ public class JodaUtils {
 
 	public static boolean isBeforeOrEquals(AbstractPartial first, AbstractPartial second) {
 		return first.isBefore(second) || first.isEqual(second);
+	}
+
+	/**
+	 * Handles null cases while checking for equality.
+	 * @return true if they are equal, or if they are both null
+	 */
+	public static boolean isEqual(AbstractPartial first, AbstractPartial second) {
+		if (first == second) {
+			return true;
+		}
+
+		if (first != null && second != null) {
+			return first.isEqual(second);
+		}
+
+		return false;
 	}
 
 	/**
@@ -190,6 +208,23 @@ public class JodaUtils {
 		return String.format(format, count);
 	}
 
+	/**
+	 * @return the constant representing the first day of the week, according to Joda Time
+	 */
+	public static int getFirstDayOfWeek() {
+		// In Java, the first day of the week (1) is == Sunday
+		// In Joda, the first day of the week (1) is == Monday
+		return ((Calendar.getInstance().getFirstDayOfWeek() + 5) % 7) + 1;
+	}
+
+	/**
+	 * @return a value from 0-6 which can be used to compare whether one date is before or after
+	 * another one (by simply looking at a calendar)
+	 */
+	public static int getDayOfWeekNormalized(LocalDate date) {
+		return (date.getDayOfWeek() - getFirstDayOfWeek() + 7) % 7;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Formatting
 
@@ -238,6 +273,8 @@ public class JodaUtils {
 		DateTimeFormatter fmt = DateTimeFormat.forPattern(pattern);
 		return fmt.print(partial);
 	}
+
+
 
 	//////////////////////////////////////////////////////////////////////////
 	// JSON
@@ -326,4 +363,42 @@ public class JodaUtils {
 
 		return null;
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Parcelable
+
+	public static void writeLocalDate(Parcel parcel, LocalDate localDate) {
+		if (localDate == null) {
+			parcel.writeString(null);
+		}
+		else {
+			parcel.writeString(localDate.toString());
+		}
+	}
+
+	public static LocalDate readLocalDate(Parcel parcel) {
+		String str = parcel.readString();
+		if (TextUtils.isEmpty(str)) {
+			return null;
+		}
+		return LocalDate.parse(str);
+	}
+
+	public static void writeDateTime(Parcel parcel, DateTime dateTime) {
+		if (dateTime == null) {
+			parcel.writeString(null);
+		}
+		else {
+			parcel.writeString(dateTime.toString());
+		}
+	}
+
+	public static DateTime readDateTime(Parcel parcel) {
+		String str = parcel.readString();
+		if (TextUtils.isEmpty(str)) {
+			return null;
+		}
+		return DateTime.parse(str);
+	}
+
 }

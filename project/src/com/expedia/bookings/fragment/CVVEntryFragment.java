@@ -83,12 +83,7 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (activity instanceof CVVEntryFragmentListener) {
-			mListener = (CVVEntryFragmentListener) activity;
-		}
-		else {
-			throw new RuntimeException("CVVEntryFragment Activity must implement CVVEntryFragmentListener!");
-		}
+		mListener = Ui.findFragmentListener(this, CVVEntryFragmentListener.class);
 	}
 
 	@Override

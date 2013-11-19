@@ -419,7 +419,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			searchResponse.setSearchType(searchParams.getSearchType());
 			searchResponse.setSearchLatLon(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
 
-			if (searchResponse.getFilteredAndSortedProperties().length <= 10) {
+			if (searchResponse.getFilteredPropertiesCount() <= 10) {
 				Log.i("Initial search results had not many results, expanding search radius filter to show all.");
 				filter.setSearchRadius(SearchRadius.ALL);
 				mRadiusCheckedId = R.id.radius_all_button;

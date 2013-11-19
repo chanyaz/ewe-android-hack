@@ -31,7 +31,6 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Insurance;
@@ -662,12 +661,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	}
 
 	protected boolean hasElitePlusNumber() {
-		boolean hasElitePlusNum = false;
-		if (User.isLoggedIn(mContext) && Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
-				&& Db.getUser().getPrimaryTraveler().getIsElitePlusMember()) {
-			hasElitePlusNum = !TextUtils.isEmpty(PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus());
-		}
-		return hasElitePlusNum;
+		return User.isElitePlus(mContext)
+				&& !TextUtils.isEmpty(PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus());
 	}
 
 	protected boolean hasConfirmationNumber() {

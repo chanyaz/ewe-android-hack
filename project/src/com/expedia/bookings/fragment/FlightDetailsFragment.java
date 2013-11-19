@@ -84,12 +84,7 @@ public class FlightDetailsFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (activity instanceof FlightDetailsFragmentListener) {
-			mListener = (FlightDetailsFragmentListener) activity;
-		}
-		else {
-			throw new RuntimeException("FlightDetailsFragment activity must implement listener!");
-		}
+		mListener = Ui.findFragmentListener(this, FlightDetailsFragmentListener.class);
 	}
 
 	@Override

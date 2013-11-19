@@ -2,9 +2,12 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.json.JSONException;
@@ -25,7 +28,7 @@ import com.mobiata.android.maps.MapUtils;
 public class HotelSearchResponse extends Response implements OnFilterChangedListener, JSONable {
 	private SearchType mSearchType;
 
-	// We keep both a list of properties (for ordering) and a map (for easy id lookup)
+	// The original list of properties in this response
 	private List<Property> mProperties;
 
 	// If the web service was doing the geocoding, here are where
@@ -57,6 +60,13 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 
 		mProperties.add(property);
 
+		clearCache();
+	}
+
+	public void removeProperty(Property property) {
+		if (mProperties == null) {
+			mProperties.remove(property);
+		}
 		clearCache();
 	}
 
@@ -116,9 +126,24 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	private double mSearchLatitude;
 	private double mSearchLongitude;
 
-	// Cached list of filtered properties
-	private List<Property> mExpediaSortedProperties;
-	private Property[] mFilteredProperties;
+	/**
+	 * Cached subset of mProperties that has been sorted by distance bands.
+	 */
+	private List<Property> mPresortedProperties;
+
+	/**
+	 * Cached subset of mProperties that has already been filtered
+	 * according to mFilter.
+	 */
+	private Collection<Property> mFilteredProperties;
+
+	/**
+	 * Cached subset of mProperties that has already been filtered
+	 * according to mFilter, ignoring the neighborhood part of mFilter.
+	 * We'll use this to determine what neighborhoods are available,
+	 * even if they've been unselected in mFilter.
+	 */
+	private Collection<Property> mFilteredPropertiesIgnoringNeighborhood;
 
 	public void setSearchLatLon(double searchLat, double searchLon) {
 		mSearchLatitude = searchLat;
@@ -136,10 +161,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 
 	public void clearCache() {
 		mFilteredProperties = null;
-	}
-
-	public boolean filterChanged() {
-		return mFilteredProperties == null;
+		mFilteredPropertiesIgnoringNeighborhood = null;
 	}
 
 	public PriceTier getPriceTier(PriceRange priceRange) {
@@ -151,10 +173,45 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	}
 
 	/**
+	 * Returns a collection of properties filtered by this object's filter.
+	 * @return
+	 */
+	public Collection<Property> getFilteredProperties() {
+		// If we have no properties set, return null
+		if (mProperties == null) {
+			Log.v("getFilteredProperties() - properties is null, returning null");
+			return null;
+		}
+
+		performFiltering();
+
+		return mFilteredProperties;
+	}
+
+	/**
+	 * Returns a collection of properties filtered by this object's filter, ignoring
+	 * the "neighborhoods" part of the filter.
+	 * @return
+	 */
+	public Collection<Property> getFilteredPropertiesIgnoringNeighborhood() {
+		// If we have no properties set, return null
+		if (mProperties == null) {
+			Log.v("getFilteredPropertiesIgnoringNeighborhood() - properties is null, returning null");
+			return null;
+		}
+
+		performFiltering();
+
+		return mFilteredPropertiesIgnoringNeighborhood;
+	}
+
+	/**
 	 * Get properties of a particular sort.  You should probably set a HotelFilter before running this,
 	 * but it'll create one on the fly if you're being lazy.
+	 * 
+	 * Populates mExpediaSortedProperties and mFilteredProperties as a side effect.
 	 */
-	public Property[] getFilteredAndSortedProperties() {
+	public List<Property> getFilteredAndSortedProperties() {
 		Log.v("getFilteredAndSortedProperties() called...");
 
 		// If we have no properties set, return null
@@ -163,173 +220,23 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			return null;
 		}
 
-		// Check that we have a filter, if not create a new one
-		if (mFilter == null) {
-			Log.v("getFilteredAndSortedProperties() - no filter set, setting default one");
-			setFilter(new HotelFilter());
-		}
-
-		// Check if we've done the custom POPULAR sort for MY_LOCATION
-		if (mExpediaSortedProperties == null) {
-			Log.v("getFilteredAndSortedProperties() - No Expedia sorted items, sorting now...");
-			Log.v("getFilteredAndSortedProperties() - Current search type: " + mSearchType);
-
-			if (mSearchType == SearchType.MY_LOCATION) {
-				Log.v("My location search, doing special sorting...");
-
-				// Here we do banding, as described by #6261
-				List<Property> propsShort = new ArrayList<Property>();
-				List<Property> propsMedium = new ArrayList<Property>();
-				List<Property> propsFar = new ArrayList<Property>();
-				List<Property> propsRest = new ArrayList<Property>();
-
-				DistanceUnit distanceUnit = mFilter.getDistanceUnit();
-				double smallRadius = HotelFilter.SearchRadius.SMALL.getRadius(distanceUnit);
-				double mediumRadius = HotelFilter.SearchRadius.MEDIUM.getRadius(distanceUnit);
-				double farRadius = HotelFilter.SearchRadius.LARGE.getRadius(distanceUnit);
-
-				// Our math is based on miles to somewhere; if we're using km, then convert to miles
-				// before we do our calculations
-				if (distanceUnit == DistanceUnit.KILOMETERS) {
-					smallRadius = MapUtils.kilometersToMiles(smallRadius);
-					mediumRadius = MapUtils.kilometersToMiles(mediumRadius);
-					farRadius = MapUtils.kilometersToMiles(farRadius);
-				}
-
-				for (Property property : mProperties) {
-					Distance distanceFromUser = property.getDistanceFromUser();
-					Location loc = property.getLocation();
-					if (distanceFromUser != null || loc != null) {
-						double distance;
-						if (distanceFromUser != null) {
-							distance = distanceFromUser.getDistance(DistanceUnit.MILES);
-						}
-						else {
-							distance = MapUtils.getDistance(mSearchLatitude, mSearchLongitude,
-									loc.getLatitude(), loc.getLongitude());
-						}
-
-						if (distance <= smallRadius) {
-							propsShort.add(property);
-						}
-						else if (distance <= mediumRadius) {
-							propsMedium.add(property);
-						}
-						else if (distance <= farRadius) {
-							propsFar.add(property);
-						}
-						else {
-							propsRest.add(property);
-						}
-					}
-					else {
-						propsRest.add(property);
-					}
-				}
-
-				mExpediaSortedProperties = new ArrayList<Property>(mProperties.size());
-				mExpediaSortedProperties.addAll(propsShort);
-				mExpediaSortedProperties.addAll(propsMedium);
-				mExpediaSortedProperties.addAll(propsFar);
-				mExpediaSortedProperties.addAll(propsRest);
-			}
-			else {
-				Log.v("NOT a my location search, skipping special sorting...");
-
-				mExpediaSortedProperties = mProperties;
-			}
-		}
-
-		// Create a list of filtered properties, if we don't have one yet
-		if (mFilteredProperties == null) {
-			Log.v("getFilteredAndSortedProperties() - No cached properties, filtering now...");
-
-			// Check if we've clustered properties yet
-			if (mPriceTiers.size() == 0) {
-				Log.v("getFilteredAndSortedProperties() - No price tiers, clustering now...");
-				clusterProperties();
-			}
-
-			List<Property> results = new ArrayList<Property>();
-
-			// Get all the current HotelFilter options
-			SearchRadius searchRadius = mFilter.getSearchRadius();
-			DistanceUnit distanceUnit = mFilter.getDistanceUnit();
-			PriceRange priceRange = mFilter.getPriceRange();
-			double minStarRating = mFilter.getMinimumStarRating();
-			String hotelName = mFilter.getHotelName();
-
-			Distance searchDistance = null;
-			if (searchRadius != null && searchRadius != SearchRadius.ALL) {
-				searchDistance = new Distance(searchRadius.getRadius(distanceUnit), distanceUnit);
-			}
-
-			PriceTier priceTier = null;
-			if (priceRange != null && priceRange != PriceRange.ALL) {
-				priceTier = mPriceTiers.get(priceRange);
-			}
-
-			Pattern namePattern = null;
-			if (hotelName != null) {
-				namePattern = Pattern.compile(".*" + hotelName + ".*", Pattern.CASE_INSENSITIVE);
-			}
-
-			for (Property property : mExpediaSortedProperties) {
-				// HotelFilter search radius
-				if (searchDistance != null) {
-					if (property.getDistanceFromUser() != null) {
-						Distance distanceFromUser = new Distance(property.getDistanceFromUser().getDistance(), property
-								.getDistanceFromUser().getUnit());
-						distanceFromUser.setDistance(Math.rint(distanceFromUser.getDistance() * 10.0d) / 10.0d);
-						if (distanceFromUser == null || distanceFromUser.compareTo(searchDistance) > 0) {
-							continue;
-						}
-					}
-				}
-
-				// HotelFilter price range
-				if (priceTier != null && !priceTier.containsProperty(property)) {
-					continue;
-				}
-
-				// HotelFilter star rating
-				if (minStarRating > property.getHotelRating()) {
-					continue;
-				}
-
-				// HotelFilter VIP Access
-				if (mFilter.isVipAccessOnly() && !property.isVipAccess()) {
-					continue;
-				}
-
-				if (namePattern != null && !namePattern.matcher(property.getName()).find()) {
-					continue;
-				}
-
-				// Property passed the tests, add it to results
-				results.add(property);
-			}
-
-			mFilteredProperties = results.toArray(new Property[0]);
-		}
-
-		// Create a copy of the filtered results and sort them
-		Property[] filteredProperties = mFilteredProperties.clone();
+		// Create a (shallow) list of the filtered results and sort it.
+		ArrayList<Property> sortedProperties = new ArrayList<Property>(getFilteredProperties());
 		Sort sort = mFilter.getSort();
 		switch (sort) {
 		case PRICE:
 			Log.v("Sorting based on price");
-			Arrays.sort(filteredProperties, Property.PRICE_COMPARATOR);
+			Collections.sort(sortedProperties, Property.PRICE_COMPARATOR);
 			break;
 		case DEALS:
 			Log.v("Sorting based on deals");
 			if (mSearchType == SearchType.MY_LOCATION) {
-				Arrays.sort(filteredProperties, Property.DISTANCE_COMPARATOR);
+				Collections.sort(sortedProperties, Property.DISTANCE_COMPARATOR);
 			}
 
 			ArrayList<Property> deals = new ArrayList<Property>();
 			ArrayList<Property> others = new ArrayList<Property>();
-			for (Property p : filteredProperties) {
+			for (Property p : sortedProperties) {
 				Rate rate = p.getLowestRate();
 				if (rate != null && rate.isSaleTenPercentOrBetter()) {
 					deals.add(p);
@@ -339,23 +246,17 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 				}
 			}
 
-			int i = 0;
-			for (Property p : deals) {
-				filteredProperties[i] = p;
-				i++;
-			}
-			for (Property p : others) {
-				filteredProperties[i] = p;
-				i++;
-			}
+			sortedProperties.clear();
+			sortedProperties.addAll(deals);
+			sortedProperties.addAll(others);
 			break;
 		case RATING:
 			Log.v("Sorting based on rating");
-			Arrays.sort(filteredProperties, Property.RATING_COMPARATOR);
+			Collections.sort(sortedProperties, Property.RATING_COMPARATOR);
 			break;
 		case DISTANCE:
 			Log.v("Sorting based on distance");
-			Arrays.sort(filteredProperties, Property.DISTANCE_COMPARATOR);
+			Collections.sort(sortedProperties, Property.DISTANCE_COMPARATOR);
 			break;
 		case POPULAR:
 		default:
@@ -364,30 +265,201 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			break;
 		}
 
-		return filteredProperties;
+		return sortedProperties;
 	}
 
 	public List<Property> getFilteredAndSortedProperties(Sort sort, int count) {
 		mFilter = new HotelFilter();
 		mFilter.setSort(sort);
 
-		Property[] properties = getFilteredAndSortedProperties();
+		List<Property> sorted = getFilteredAndSortedProperties();
 
-		int num = Math.min(properties.length, count);
-		Property[] propertiesCapped = new Property[num];
+		if (mFilteredProperties.size() > count) {
+			return sorted.subList(0, count);
+		}
 
-		System.arraycopy(properties, 0, propertiesCapped, 0, num);
-
-		return Arrays.asList(propertiesCapped);
+		return sorted;
 	}
+
+	public int getFilteredPropertiesCount() {
+		getFilteredProperties();
+		return mFilteredProperties == null ? 0 : mFilteredProperties.size();
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////
+	// OnFilterChangedListener
 
 	public void onFilterChanged() {
 		clearCache();
 	}
 
-	public void removeProperty(Property property) {
-		mProperties.remove(property);
-		clearCache();
+	//////////////////////////////////////////////////////////////////////////////////
+	// Grunt work for sorting/filtering
+
+	private void preSortByMyLocation() {
+		// Here we do banding, as described by #6261
+		List<Property> propsShort = new ArrayList<Property>();
+		List<Property> propsMedium = new ArrayList<Property>();
+		List<Property> propsFar = new ArrayList<Property>();
+		List<Property> propsRest = new ArrayList<Property>();
+
+		DistanceUnit distanceUnit = mFilter.getDistanceUnit();
+		double smallRadius = HotelFilter.SearchRadius.SMALL.getRadius(distanceUnit);
+		double mediumRadius = HotelFilter.SearchRadius.MEDIUM.getRadius(distanceUnit);
+		double farRadius = HotelFilter.SearchRadius.LARGE.getRadius(distanceUnit);
+
+		// Our math is based on miles to somewhere; if we're using km, then convert to miles
+		// before we do our calculations
+		if (distanceUnit == DistanceUnit.KILOMETERS) {
+			smallRadius = MapUtils.kilometersToMiles(smallRadius);
+			mediumRadius = MapUtils.kilometersToMiles(mediumRadius);
+			farRadius = MapUtils.kilometersToMiles(farRadius);
+		}
+
+		for (Property property : mProperties) {
+			Distance distanceFromUser = property.getDistanceFromUser();
+			Location loc = property.getLocation();
+			if (distanceFromUser != null || loc != null) {
+				double distance;
+				if (distanceFromUser != null) {
+					distance = distanceFromUser.getDistance(DistanceUnit.MILES);
+				}
+				else {
+					distance = MapUtils.getDistance(mSearchLatitude, mSearchLongitude,
+							loc.getLatitude(), loc.getLongitude());
+				}
+
+				if (distance <= smallRadius) {
+					propsShort.add(property);
+				}
+				else if (distance <= mediumRadius) {
+					propsMedium.add(property);
+				}
+				else if (distance <= farRadius) {
+					propsFar.add(property);
+				}
+				else {
+					propsRest.add(property);
+				}
+			}
+			else {
+				propsRest.add(property);
+			}
+		}
+
+		mPresortedProperties = new ArrayList<Property>(mProperties.size());
+		mPresortedProperties.addAll(propsShort);
+		mPresortedProperties.addAll(propsMedium);
+		mPresortedProperties.addAll(propsFar);
+		mPresortedProperties.addAll(propsRest);
+	}
+
+	/**
+	 * Filters the list of properties based on the passed filter.
+	 * This populates mFilter, mPresortedProperties, mPriceTiers,
+	 * mFilteredProperties, and mFilteredPropertiesIgnoringNeighborhood
+	 */
+	private void performFiltering() {
+		// Check that we have a filter, if not create a new one
+		if (mFilter == null) {
+			Log.v("performFiltering() - no filter set, setting default one");
+			setFilter(new HotelFilter());
+		}
+
+		// Check if we've done the custom POPULAR sort for MY_LOCATION
+		if (mPresortedProperties == null) {
+			Log.v("performFiltering() - No Expedia sorted items, sorting now...");
+			Log.v("performFiltering() - Current search type: " + mSearchType);
+
+			if (mSearchType == SearchType.MY_LOCATION) {
+				Log.v("My location search, doing special sorting...");
+				preSortByMyLocation();
+			}
+			else {
+				Log.v("NOT a my location search, skipping special sorting...");
+				mPresortedProperties = mProperties;
+			}
+		}
+
+		// Check if we've clustered properties yet
+		if (mPriceTiers.size() == 0) {
+			Log.v("performFiltering() - No price tiers, clustering now...");
+			clusterProperties();
+		}
+
+		if (mFilteredProperties != null) {
+			return;
+		}
+
+		Log.v("performFiltering() - No cached properties, filtering now...");
+
+		mFilteredProperties = new ArrayList<Property>();
+		mFilteredPropertiesIgnoringNeighborhood = new ArrayList<Property>();
+
+		// Get all the current HotelFilter options
+		SearchRadius searchRadius = mFilter.getSearchRadius();
+		DistanceUnit distanceUnit = mFilter.getDistanceUnit();
+		PriceRange priceRange = mFilter.getPriceRange();
+		double minStarRating = mFilter.getMinimumStarRating();
+		String hotelName = mFilter.getHotelName();
+		Set<Integer> neighborhoods = mFilter.getNeighborhoods();
+
+		Distance searchDistance = null;
+		if (searchRadius != null && searchRadius != SearchRadius.ALL) {
+			searchDistance = new Distance(searchRadius.getRadius(distanceUnit), distanceUnit);
+		}
+
+		PriceTier priceTier = null;
+		if (priceRange != null && priceRange != PriceRange.ALL) {
+			priceTier = mPriceTiers.get(priceRange);
+		}
+
+		Pattern namePattern = null;
+		if (hotelName != null) {
+			namePattern = Pattern.compile(".*" + hotelName + ".*", Pattern.CASE_INSENSITIVE);
+		}
+
+		for (Property property : mPresortedProperties) {
+			// HotelFilter search radius
+			if (searchDistance != null) {
+				if (property.getDistanceFromUser() != null) {
+					Distance distanceFromUser = new Distance(property.getDistanceFromUser().getDistance(), property
+							.getDistanceFromUser().getUnit());
+					distanceFromUser.setDistance(Math.rint(distanceFromUser.getDistance() * 10.0d) / 10.0d);
+					if (distanceFromUser == null || distanceFromUser.compareTo(searchDistance) > 0) {
+						continue;
+					}
+				}
+			}
+
+			// HotelFilter price range
+			if (priceTier != null && !priceTier.containsProperty(property)) {
+				continue;
+			}
+
+			// HotelFilter star rating
+			if (minStarRating > property.getHotelRating()) {
+				continue;
+			}
+
+			// HotelFilter VIP Access
+			if (mFilter.isVipAccessOnly() && !property.isVipAccess()) {
+				continue;
+			}
+
+			if (namePattern != null && !namePattern.matcher(property.getName()).find()) {
+				continue;
+			}
+
+			mFilteredPropertiesIgnoringNeighborhood.add(property);
+
+			if (neighborhoods != null && !neighborhoods.contains(property.getLocation().getLocationId())) {
+				continue;
+			}
+
+			// Property passed the tests, add it to results
+			mFilteredProperties.add(property);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////

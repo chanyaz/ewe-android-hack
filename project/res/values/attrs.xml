@@ -112,6 +112,13 @@
         <attr name="secondaryTextColor" format="color|reference" />
     </declare-styleable>
 
+    <!-- So that we can define this in the layout xml rather than in code -->
+    <declare-styleable name="hotel_summary_section">
+        <attr name="selectedBackground" format="color|reference" />
+        <attr name="salePriceTextColor" format="color" />
+        <attr name="priceTextColor" format="color" />
+    </declare-styleable>
+
     <!-- This is the flight line that shows layovers, we want to be able to control colors -->
     <declare-styleable name="FlightTripView">
         <attr name="flightLineColor" format="color|reference" />
@@ -146,6 +153,50 @@
         </attr>
     </declare-styleable>
 
+    <!-- RingedCountView -->
+    <declare-styleable name="RingedCountView">
+        <attr name="backgroundColor" format="color" />
+        <attr name="countTextColor" format="color" />
+        <attr name="captionTextColor" format="color" />
+        <attr name="primaryColor" format="color" />
+        <attr name="secondaryColor" format="color" />
+        <attr name="ringThickness" format="dimension" />
+        <attr name="countTextSize" format="dimension" />
+        <attr name="captionTextSize" format="dimension" />
+    </declare-styleable>
+
+    <!-- SlidingRadioGroup -->
+    <declare-styleable name="SlidingRadioGroup">
+        <attr name="unselectedDrawable" format="reference" />
+        <attr name="selectedDrawable" format="reference" />
+        <attr name="unselectedDividerColor" format="color" />
+        <attr name="selectedDividerColor" format="color" />
+        <attr name="dividerWidth" format="dimension" />
+        <attr name="sluggishness" format="integer" />
+    </declare-styleable>
+
+    <!-- CalendarPicker -->
+    <declare-styleable name="CalendarPicker">
+
+        <!-- The default color for elements on the calendar picker -->
+        <attr name="calendarBaseColor" format="color" />
+
+        <!-- Color used for secondary elements, like dates not in the current month -->
+        <attr name="calendarSecondaryColor" format="color" />
+
+        <!-- The highlight color; includes header buttons and selection -->
+        <attr name="calendarHighlightColor" format="color" />
+
+        <!-- Color used on top of the highlight color (should contrast) -->
+        <attr name="calendarHighlightInverseColor" format="color" />
+
+        <!-- Color used to indicate which day is today -->
+        <attr name="calendarTodayColor" format="color" />
+
+        <!-- Color used to indicate days which are not selectable for reasons -->
+        <attr name="calendarInvalidDaysColor" format="color" />
+    </declare-styleable>
+
     <!-- VSC/EB attributes used for style switching in themes -->
     <!-- Hotel Search price styles -->
     <attr name="hotelPriceStandardColor" format="reference|color" />
@@ -161,7 +212,6 @@
     <attr name="webViewPreferencesActionBarLogoWithTitle" format="reference" />
     <!-- ActionBar icon/logo in HotelRulesActivities -->
     <attr name="hotelwebViewActionBarLogo" format="reference" />
-
     <attr name="actionBarBackgroundDrawable" format="reference" />
     <!-- ActionBar checkmark drawable -->
     <attr name="actionBarCheckMarkDrawable" format="reference" />
@@ -178,7 +228,6 @@
     <attr name="calendarDatePickerCellDrawable" format="reference" />
     <attr name="calendarDatePickerPopupDrawable" format="reference" />
     <attr name="calendarDatePickerDateFormat" format="reference|string" />
-
     <attr name="hotelCancellationPolicyDateFormat" format="reference|string" />
 
     <!-- Hotel promo pricing related styling -->
@@ -191,6 +240,12 @@
 
     <!-- Hotel listing Sort by price icon -->
     <attr name="hotelListingSortPriceDrawable" format="reference" />
+
+    <!-- Hotel filters button style, for SegmentedControlGroups -->
+    <attr name="hotelListingFilterGroupStyle" format="reference" />
+
+    <!-- Hotel filters button style for VIP Toggle Button -->
+    <attr name="hotelListingFilterToggleButtonStyle" format="reference" />
 
     <!-- Hotel listing Filter price strings -->
     <attr name="hotelListingFilterPriceCheapString" format="reference|string" />
@@ -230,7 +285,6 @@
     <!-- HotelCheckout Traveler Info screen after logged in, Logo to the left of the primary traveler -->
     <attr name="hotelPrimaryTravelerInfoLogoDrawable" format="reference" />
     <attr name="hotelListMapMarkerSaleDrawable" format="reference" />
-
     <attr name="ccCheckoutHologramDrawable" format="reference" />
 
     <!-- Placeholder image used in hotelReciept, Rooms&RatesListActivity -->
@@ -241,4 +295,19 @@
     
     <!-- for hotels and flights travel type -->
     <attr name="travelerLabelOnCheckout" format="reference|string" />
+    
+    <!-- SwipeOutLayout style -->
+    <declare-styleable name="SwipeOutLayout">
+        <attr name="swipeOutDirection">
+            <enum name="north" value="0" />
+            <enum name="south" value="1" />
+            <enum name="east" value="2" />
+            <enum name="west" value="3" />
+        </attr>
+        <attr name="swipeOutEnabled" format="boolean" />
+        <attr name="swipeOutContentId" format="reference"/>
+        <attr name="swipeOutIndicatorId" format="reference"/>
+    </declare-styleable>
+    
 </resources>
+

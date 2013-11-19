@@ -47,7 +47,7 @@ public class HotelCollage {
 		addViewToListIfExists(R.id.property_image_view_3, view);
 		addViewToListIfExists(R.id.property_image_view_4, view);
 
-		mVipImageView = (ImageView) view.findViewById(R.id.vip_image_view);
+		mVipImageView = (ImageView) view.findViewById(R.id.vip_badge);
 
 		mPromoDescriptionTextView = (TextView) view.findViewById(R.id.promo_description_text_view);
 		mPromoDescriptionTextView.setOnClickListener(new OnClickListener() {

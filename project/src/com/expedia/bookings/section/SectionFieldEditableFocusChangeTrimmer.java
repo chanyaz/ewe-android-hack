@@ -5,7 +5,7 @@ import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
 
 /**
- * This class is a superclass of SectionFieldEditable, and its purpose for existing is to 
+ * This class is a superclass of SectionFieldEditable, and its purpose for existing is to
  *
  * @param <FieldType>
  * @param <Data>

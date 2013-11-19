@@ -17,7 +17,6 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
-import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
@@ -49,6 +48,7 @@ import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.animation.AnimatorProxy;
@@ -427,10 +427,9 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 			mBookByPhoneButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (User.isLoggedIn(mContext) && Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
-							&& Db.getUser().getPrimaryTraveler().getIsElitePlusMember()) {
-						SocialUtils.call(HotelDetailsFragmentActivity.this, PointOfSale.getPointOfSale()
-								.getSupportPhoneNumberElitePlus());
+					if (User.isElitePlus(mContext)) {
+						SocialUtils.call(HotelDetailsFragmentActivity.this,
+								PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus());
 					}
 					else {
 						SocialUtils.call(HotelDetailsFragmentActivity.this, property.getTelephoneSalesNumber());
@@ -590,7 +589,7 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		final View galleryFragment = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
 		final View pricePromoFragment = findViewById(R.id.hotel_details_price_promo_fragment_container);
 		final View pricePromoLayout = findViewById(R.id.price_and_promo_layout);
-		final AlphaImageView vipAccessIcon = (AlphaImageView) findViewById(R.id.vip_image_view);
+		final AlphaImageView vipAccessIcon = (AlphaImageView) findViewById(R.id.vip_badge);
 		final int windowWidth = getWindow().getDecorView().getWidth();
 		final float rightSideWidth = windowWidth * .55f;
 
@@ -600,13 +599,13 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		if (!isGalleryFullscreen) {
 			mGalleryToggleAnimator = new AnimatorSet();
 			mGalleryToggleAnimator.playTogether(
-					ObjectAnimator.ofFloat(detailsFragment, "translationX", windowWidth),
-					ObjectAnimator.ofFloat(galleryFragment, "translationX", 0.0f),
-					ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth, 0.0f),
-					ObjectAnimator.ofFloat(vipAccessIcon, "translationX", -rightSideWidth, 0.0f),
-					ObjectAnimator.ofInt(vipAccessIcon, "drawAlpha", 255, 0)
-					);
-			mGalleryToggleAnimator.addListener(new AnimatorListenerShort() {
+				ObjectAnimator.ofFloat(detailsFragment, "translationX", windowWidth),
+				ObjectAnimator.ofFloat(galleryFragment, "translationX", 0.0f),
+				ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth, 0.0f),
+				ObjectAnimator.ofFloat(vipAccessIcon, "translationX", -rightSideWidth, 0.0f),
+				ObjectAnimator.ofInt(vipAccessIcon, "drawAlpha", 255, 0)
+			);
+			mGalleryToggleAnimator.addListener(new AnimatorListenerAdapter() {
 				@TargetApi(11)
 				@Override
 				public void onAnimationStart(Animator arg0) {
@@ -622,13 +621,13 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 		else {
 			mGalleryToggleAnimator = new AnimatorSet();
 			mGalleryToggleAnimator.playTogether(
-					ObjectAnimator.ofFloat(detailsFragment, "translationX", 0.0f),
-					ObjectAnimator.ofFloat(galleryFragment, "translationX", -rightSideWidth / 2.0f),
-					ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth),
-					ObjectAnimator.ofFloat(vipAccessIcon, "translationX", -rightSideWidth),
-					ObjectAnimator.ofInt(vipAccessIcon, "drawAlpha", 0, 255)
-					);
-			mGalleryToggleAnimator.addListener(new AnimatorListenerShort() {
+				ObjectAnimator.ofFloat(detailsFragment, "translationX", 0.0f),
+				ObjectAnimator.ofFloat(galleryFragment, "translationX", -rightSideWidth / 2.0f),
+				ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth),
+				ObjectAnimator.ofFloat(vipAccessIcon, "translationX", -rightSideWidth),
+				ObjectAnimator.ofInt(vipAccessIcon, "drawAlpha", 0, 255)
+			);
+			mGalleryToggleAnimator.addListener(new AnimatorListenerAdapter() {
 				@TargetApi(11)
 				@Override
 				public void onAnimationEnd(Animator arg0) {

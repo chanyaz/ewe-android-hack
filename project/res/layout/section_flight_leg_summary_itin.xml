@@ -23,6 +23,8 @@
         android:textStyle="bold"
         app:textStyle="medium" />
 
+    <!-- Don't merge this into a drawableLeft of operating_carrier_text_view,
+    that text could span multiple lines and we want this top justified. -->
     <ImageView
         android:id="@+id/operating_carrier_image_view"
         android:layout_width="wrap_content"

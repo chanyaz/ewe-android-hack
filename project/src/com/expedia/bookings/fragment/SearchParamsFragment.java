@@ -123,11 +123,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof SearchParamsFragmentListener)) {
-			throw new RuntimeException("SearchParamsFragment Activity must implement SearchParamsFragmentListener!");
-		}
-
-		mListener = (SearchParamsFragmentListener) activity;
+		mListener = Ui.findFragmentListener(this, SearchParamsFragmentListener.class);
 	}
 
 	@Override

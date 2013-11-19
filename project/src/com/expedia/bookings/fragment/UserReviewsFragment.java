@@ -93,11 +93,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof UserReviewsFragmentListener)) {
-			throw new RuntimeException("UserReviewsFragment Activity must implement UserReviewsFragmentListener!");
-		}
-
-		mUserReviewsFragmentListener = (UserReviewsFragmentListener) activity;
+		mUserReviewsFragmentListener = Ui.findFragmentListener(this, UserReviewsFragmentListener.class);
 	}
 
 	@Override

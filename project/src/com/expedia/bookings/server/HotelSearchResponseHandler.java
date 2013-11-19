@@ -167,6 +167,9 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			else if (name.equals("locationDescription")) {
 				location.setDescription(parser.getText());
 			}
+			else if (name.equals("locationId")) {
+				location.setLocationId(parser.getValueAsInt());
+			}
 			else if (name.equals("largeThumbnailUrl")) {
 				// The thumbnail url can sometimes assume a prefix
 				property.setThumbnail(ParserUtils.parseUrl(parser.getText()));
@@ -300,7 +303,8 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			searchResponse.addProperty(property);
 		}
 		else {
-			boolean filterMerchants = SettingUtils.get(mContext, mContext.getString(R.string.preference_filter_merchant_properties), false);
+			boolean filterMerchants = SettingUtils.get(mContext,
+					mContext.getString(R.string.preference_filter_merchant_properties), false);
 
 			if (filterMerchants) {
 				if (!property.isMerchant()) {

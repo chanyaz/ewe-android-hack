@@ -198,6 +198,15 @@ public class FlightSearchParams implements JSONable {
 		return mQueryLegs.get(0).getArrivalLocation();
 	}
 
+	public Location getLocation(boolean departureLocation) {
+		if (departureLocation) {
+			return mQueryLegs.get(0).getDepartureLocation();
+		}
+		else {
+			return mQueryLegs.get(0).getArrivalLocation();
+		}
+	}
+
 	// If we want this to be a round trip flight, ensures that we have round trip data
 	private void ensureRoundTripData() {
 		if (!isRoundTrip()) {

@@ -177,6 +177,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/LaunchTheme" />
 
+        <!-- Tablet launch -->
+
+        <activity
+            android:name="com.expedia.bookings.activity.TabletLaunchActivity"
+            android:theme="@style/V2.Theme.Activity.TabletLaunch"
+            android:windowSoftInputMode="adjustPan" />
+
         <!-- Itineraries -->
 
         <activity
@@ -352,6 +359,19 @@
             android:name="com.expedia.bookings.activity.RestrictedProfileActivity"
             android:theme="@style/LoginTheme"
             android:windowSoftInputMode="adjustPan" />
+
+        <!-- Tablet redesign activities -->
+        <activity
+            android:name="com.expedia.bookings.activity.TabletResultsActivity"
+            android:label="@string/results"
+            android:theme="@style/V2.Theme.Activity.TabletResults"
+            android:windowSoftInputMode="adjustPan" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <!-- Testing activities -->
 

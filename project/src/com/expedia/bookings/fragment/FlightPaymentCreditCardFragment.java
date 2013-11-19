@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.Validatable;
-import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
@@ -31,6 +30,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FocusViewRunnable;
 import com.expedia.bookings.utils.Ui;
 import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ObjectAnimator;
 
 public class FlightPaymentCreditCardFragment extends Fragment implements Validatable {
@@ -219,7 +219,7 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 							start, end);
 					animator.setDuration(300);
 					if (show) {
-						animator.addListener(new AnimatorListenerShort() {
+						animator.addListener(new AnimatorListenerAdapter() {
 
 							@Override
 							public void onAnimationStart(Animator arg0) {
@@ -229,7 +229,7 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 						});
 					}
 					else {
-						animator.addListener(new AnimatorListenerShort() {
+						animator.addListener(new AnimatorListenerAdapter() {
 
 							@Override
 							public void onAnimationEnd(Animator arg0) {

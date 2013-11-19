@@ -21,11 +21,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.animation.AnimatorListenerShort;
 import com.expedia.bookings.data.LocalExpertAttraction;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
 import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 
@@ -97,7 +97,7 @@ public class AttractionBubbleView extends LinearLayout {
 		if (mAttraction != null) {
 			animatorSet = getCloseAnimatorSet();
 			if (attraction != null) {
-				animatorSet.addListener(new AnimatorListenerShort() {
+				animatorSet.addListener(new AnimatorListenerAdapter() {
 					@Override
 					public void onAnimationEnd(Animator animator) {
 						bind(attraction);

@@ -42,6 +42,7 @@ import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AvailabilitySummaryWidget;
 import com.expedia.bookings.widget.AvailabilitySummaryWidget.AvailabilitySummaryListener;
 import com.expedia.bookings.widget.HotelCollage;
@@ -94,6 +95,7 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 	//----------------------------------
 
 	private HotelDetailsFragmentListener mListener;
+	private OnCollageImageClickedListener mCollageListener;
 
 	private LayoutInflater mInflater;
 	private HotelCollage mCollageHandler;
@@ -113,14 +115,8 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof HotelDetailsFragmentListener)) {
-			throw new RuntimeException("HotelDetailsFragment Activity must implement HotelDetailsFragmentListener!");
-		}
-		else if (!(activity instanceof OnCollageImageClickedListener)) {
-			throw new RuntimeException("HotelDetailsFragment Activity must implement OnCollageImageClickedListener!");
-		}
-
-		mListener = (HotelDetailsFragmentListener) activity;
+		mListener = Ui.findFragmentListener(this, HotelDetailsFragmentListener.class);
+		mCollageListener = Ui.findFragmentListener(this, OnCollageImageClickedListener.class);
 
 		mAvailabilityWidget = new AvailabilitySummaryWidget(activity);
 		mAvailabilityWidget.setListener(this);
@@ -134,7 +130,7 @@ public class HotelDetailsFragment extends Fragment implements AvailabilitySummar
 		mHotelDetailsScrollView = (ScrollView) view.findViewById(R.id.hotel_details_scroll_view);
 		mHotelNameTextView = (TextView) view.findViewById(R.id.hotel_name_text_view);
 		mHotelLocationTextView = (TextView) view.findViewById(R.id.hotel_address_text_view);
-		mCollageHandler = new HotelCollage(view, (OnCollageImageClickedListener) getActivity());
+		mCollageHandler = new HotelCollage(view, mCollageListener);
 		mReviewsTitle = (TextView) view.findViewById(R.id.reviews_title);
 		mUserRating = (RatingBar) view.findViewById(R.id.user_rating_bar);
 		mStarRating = (RatingBar) view.findViewById(R.id.hotel_rating_bar);

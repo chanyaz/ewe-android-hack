@@ -20,7 +20,7 @@
                 android:scaleType="centerCrop" />
 
             <ImageView
-                android:id="@+id/vip_image_view"
+                android:id="@+id/vip_badge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"

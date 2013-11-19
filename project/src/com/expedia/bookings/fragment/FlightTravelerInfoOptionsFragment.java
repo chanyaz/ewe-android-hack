@@ -69,12 +69,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof TravelerInfoYoYoListener)) {
-			throw new RuntimeException(
-					"FlightTravelerInfoOptiosnFragment activity must implement TravelerInfoYoYoListener!");
-		}
-
-		mListener = (TravelerInfoYoYoListener) activity;
+		mListener = Ui.findFragmentListener(this, TravelerInfoYoYoListener.class);
 	}
 
 	@Override

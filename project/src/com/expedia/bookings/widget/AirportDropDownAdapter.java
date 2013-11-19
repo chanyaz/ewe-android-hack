@@ -44,8 +44,10 @@ public class AirportDropDownAdapter extends CursorAdapter {
 	// Minimum time ago that we will use location stats
 	private static final long MINIMUM_TIME_AGO = DateUtils.HOUR_IN_MILLIS;
 
+	private static final int DEFAULT_MAX_NEARBY = 2;
+
 	// Maximum # of nearby airports to report
-	private static final int MAX_NEARBY = 2;
+	private int mMaxNearby = DEFAULT_MAX_NEARBY;
 
 	// Maximum classification of a pre-populated airport
 	private static final int MAX_CLASSIFICATION = 3;
@@ -59,6 +61,9 @@ public class AirportDropDownAdapter extends CursorAdapter {
 	private RecentList<Location> mRecentSearches;
 
 	private boolean mShowNearbyAirports;
+
+	// If you want to specify your own current location, do it here
+	private android.location.Location mCurrentLocation;
 
 	public AirportDropDownAdapter(Context context) {
 		super(context, null, 0);
@@ -83,6 +88,14 @@ public class AirportDropDownAdapter extends CursorAdapter {
 		mShowNearbyAirports = showNearbyAirports;
 	}
 
+	public void setMaxNearbyAirports(int num) {
+		mMaxNearby = num;
+	}
+
+	public void setCurrentLocation(android.location.Location location) {
+		mCurrentLocation = location;
+	}
+
 	@Override
 	public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
 		if (TextUtils.isEmpty(constraint)) {
@@ -90,8 +103,12 @@ public class AirportDropDownAdapter extends CursorAdapter {
 			MatrixCursor cursor = new MatrixCursor(AirportAutocompleteProvider.COLUMNS);
 
 			// Add nearby airports if we know the user's recent location
-			long minTime = DateTime.now().getMillis() - MINIMUM_TIME_AGO;
-			android.location.Location loc = LocationServices.getLastBestLocation(mContext, minTime);
+			android.location.Location loc = mCurrentLocation;
+			if (loc == null) {
+				long minTime = DateTime.now().getMillis() - MINIMUM_TIME_AGO;
+				loc = LocationServices.getLastBestLocation(mContext, minTime);
+			}
+
 			if (mShowNearbyAirports && loc != null) {
 				ExpediaServices expediaServices = new ExpediaServices(mContext);
 				SuggestionResponse response = expediaServices.suggestionsNearby(loc.getLatitude(), loc.getLongitude(),
@@ -106,7 +123,7 @@ public class AirportDropDownAdapter extends CursorAdapter {
 						if (airport.mClassification <= MAX_CLASSIFICATION) {
 							airportSuggestions.add(suggestion);
 
-							if (airportSuggestions.size() == MAX_NEARBY) {
+							if (airportSuggestions.size() == mMaxNearby) {
 								break;
 							}
 						}
@@ -121,7 +138,6 @@ public class AirportDropDownAdapter extends CursorAdapter {
 					row[2] = airport.mAirportCode + "-" + airport.mName;
 					row[3] = airport.mAirportCode;
 					row[4] = R.drawable.ic_nearby_search;
-					row[5] = airport.mCountryCode;
 					cursor.addRow(row);
 				}
 			}

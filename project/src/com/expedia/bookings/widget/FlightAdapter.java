@@ -50,7 +50,9 @@ public class FlightAdapter extends BaseAdapter {
 
 			if (mFlightTripQuery != null) {
 				mFlightTripQuery.registerDataSetObserver(mDataSetObserver);
+			}
 
+			if (mFlightTripQuery != null && mFlightTripQuery.getCount() > 0) {
 				mMinTime = (Calendar) mFlightTripQuery.getMinTime().clone();
 				mMaxTime = (Calendar) mFlightTripQuery.getMaxTime().clone();
 

@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.widget.AlphaImageView;
 import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -128,7 +127,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 	private void initVipAccessIcon() {
 		if (mVipAccessIcon == null) {
-			mVipAccessIcon = (AlphaImageView) findViewById(R.id.vip_image_view);
+			mVipAccessIcon = (AlphaImageView) findViewById(R.id.vip_badge);
 		}
 	}
 

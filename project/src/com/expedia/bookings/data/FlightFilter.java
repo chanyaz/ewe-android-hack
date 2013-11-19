@@ -1,6 +1,7 @@
 package com.expedia.bookings.data;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import android.database.DataSetObservable;
@@ -27,10 +28,15 @@ public class FlightFilter {
 
 	private Set<String> mPreferredAirlines;
 
+	private Set<String> mDepartureAirports;
+	private Set<String> mArrivalAirports;
+
 	private DataSetObservable mDataSetObservable = new DataSetObservable();
 
 	public FlightFilter() {
 		mPreferredAirlines = new HashSet<String>();
+		mDepartureAirports = new HashSet<String>();
+		mArrivalAirports = new HashSet<String>();
 
 		reset();
 	}
@@ -39,6 +45,8 @@ public class FlightFilter {
 		mSort = Sort.PRICE;
 		mStops = STOPS_ANY;
 		mPreferredAirlines.clear();
+		mDepartureAirports.clear();
+		mArrivalAirports.clear();
 	}
 
 	public void setSort(Sort sort) {
@@ -57,6 +65,19 @@ public class FlightFilter {
 		mStops = stops;
 	}
 
+	// This filter depends upon airlines generated at runtime, dynamic based on the given FlightSearch.
+	// Supply a list of trips to initialize this filter, where flights from all airlines are shown by default.
+	public void initPreferredAirlines(List<FlightTrip> trips, int legPosition) {
+		for (FlightTrip trip : trips) {
+			mPreferredAirlines.add(trip.getLeg(legPosition).getPrimaryAirlines().iterator().next());
+		}
+	}
+
+	public void initAirports(List<FlightTrip> trips, int legPosition) {
+		mDepartureAirports = FlightSearch.generateAirports(trips, legPosition, true);
+		mArrivalAirports = FlightSearch.generateAirports(trips, legPosition, false);
+	}
+
 	public void setPreferredAirline(String airlineCode, boolean isPreferred) {
 		if (isPreferred) {
 			mPreferredAirlines.add(airlineCode);
@@ -72,6 +93,41 @@ public class FlightFilter {
 
 	public boolean hasPreferredAirlines() {
 		return mPreferredAirlines.size() != 0;
+	}
+
+	public Set<String> getDepartureAirports() {
+		return mDepartureAirports;
+	}
+
+	public Set<String> getArrivalAirports() {
+		return mArrivalAirports;
+	}
+
+	/**
+	 * Returns the selected airports for this given filter.
+	 * @param departureAirport - true means return departure airports, false means return arrival airports
+	 * @return
+	 */
+	public Set<String> getAirports(boolean departureAirport) {
+		if (departureAirport) {
+			return mDepartureAirports;
+		}
+		else {
+			return mArrivalAirports;
+		}
+	}
+
+	public void addAirport(boolean departureAirport, String airportCode) {
+		getAirports(departureAirport).add(airportCode);
+	}
+
+	public void removeAirport(boolean departureAirport, String airportCode) {
+		getAirports(departureAirport).remove(airportCode);
+	}
+
+	public boolean containsAirport(boolean departureAirport, String airportCode) {
+		Set<String> airports = departureAirport ? mDepartureAirports : mArrivalAirports;
+		return airports.contains(airportCode);
 	}
 
 	public void notifyFilterChanged() {

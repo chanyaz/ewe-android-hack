@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item>
+        <color android:color="@color/tablet_list_bg" />
+    </item>
+    <item
+        android:bottom="6dp"
+        android:left="12dp"
+        android:right="12dp"
+        android:top="6dp">
+        <shape>
+            <solid android:color="#2A445E" />
+
+            <corners android:radius="@dimen/tablet_result_corner_radius" />
+        </shape>
+    </item>
+
+</layer-list>

@@ -988,6 +988,9 @@ public class Db {
 
 			IoUtils.writeStringToFile(TEST_DATA_FILE, obj.toString(), context);
 		}
+		catch (OutOfMemoryError e) {
+			Log.w("Could not save db for testing", e);
+		}
 		catch (Exception e) {
 			Log.w("Could not save db for testing", e);
 		}

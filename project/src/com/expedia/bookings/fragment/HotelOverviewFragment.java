@@ -43,12 +43,12 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.dialog.CouponDialogFragment;
@@ -171,12 +171,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof BookingOverviewFragmentListener)) {
-			throw new RuntimeException(
-					"HotelOverviewFragment Activity must implement BookingOverviewFragmentListener");
-		}
-
-		mBookingOverviewFragmentListener = (BookingOverviewFragmentListener) activity;
+		mBookingOverviewFragmentListener = Ui.findFragmentListener(this, BookingOverviewFragmentListener.class);
 	}
 
 	@Override

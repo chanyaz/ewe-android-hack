@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <com.expedia.bookings.widget.OptimizedImageView
+        android:id="@+id/back_image_view"
+        android:layout_width="@dimen/destination_search_tile_width"
+        android:layout_height="@dimen/destination_search_tile_height" />
+
+    <com.expedia.bookings.widget.OptimizedImageView
+        android:id="@+id/middle_image_view"
+        android:layout_width="@dimen/destination_search_tile_width"
+        android:layout_height="@dimen/destination_search_tile_height" />
+
+    <com.expedia.bookings.widget.OptimizedImageView
+        android:id="@+id/front_image_view"
+        android:layout_width="@dimen/destination_search_tile_width"
+        android:layout_height="@dimen/destination_search_tile_height" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="@dimen/destination_search_tile_width"
+        android:layout_height="@dimen/destination_stack_text_container_height"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="@dimen/destination_search_tile_text_margin_top"
+        android:background="#AA000000"
+        android:gravity="center" />
+
+</merge>

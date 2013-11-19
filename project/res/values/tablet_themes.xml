@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	I got super sick of the other themes.xml being a damn mess.
+	Hopefully this version will be lot more clean.
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+	    Don't put anything in here; it just marks the difference between our
+	    terribly-organized v1 styles and our (hopefully) better organized v2 styles
+    -->
+    <style name="V2" />
+
+    <!-- Values that go into *everything*.  Don't put anything here unless you want it *everywhere* -->
+    <style name="V2.Theme" parent="@android:style/Theme.Holo.Light.DarkActionBar" />
+
+    <!-- Values that go into every *activity*.  Don't put anything here unless you want it in every *activity* -->
+    <style name="V2.Theme.Activity" />
+
+    <style name="V2.Theme.Activity.TabletLaunch">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletLaunch</item>
+    </style>
+
+    <style name="V2.Theme.Activity.TabletResults">
+        <item name="HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder</item>
+        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.White</item>
+        <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale</item>
+        <item name="hotelPriceStandardColor">#ffffff</item>
+        <item name="hotelPriceSaleColor">#ffffff</item>
+        <item name="hotelListingFilterGroupStyle">@style/Widget.SlidingRadioGroup.TabletFilterControls</item>
+        <item name="hotelListingFilterToggleButtonStyle">@style/Widget.Button.TabletFilterControls</item>
+        <item name="hotelListingFilterPriceCheapString">@string/filter_price_cheap</item>
+        <item name="hotelListingFilterPriceModerateString">@string/filter_price_moderate</item>
+        <item name="hotelListingFilterPriceExpensiveString">@string/filter_price_expensive</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletResults</item>
+        <item name="hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale</item>
+    </style>
+
+    <!-- Action bar styling; directly linked to themes so not moving too far away -->
+
+    <style name="V2.Widget" />
+
+    <style name="V2.Widget.ActionBar" parent="@android:style/Widget.Holo.ActionBar" />
+
+    <style name="V2.Widget.ActionBar.TabletLaunch">
+        <item name="android:background">@drawable/ab_transparent_dark_blue</item>
+        <item name="android:logo">@drawable/ab_logo_tablet_launch</item>
+        <item name="android:windowContentOverlay">@drawable/ab_shadow_tablet_launch</item>
+        <item name="android:displayOptions">showHome|useLogo</item>
+    </style>
+
+    <style name="V2.Widget.ActionBar.TabletResults">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <!-- Calendar styling -->
+
+    <style name="V2.Widget.CalendarPicker">
+        <item name="calendarBaseColor">#FFFFFF</item>
+        <item name="calendarSecondaryColor">#6F787E</item>
+        <item name="calendarHighlightColor">#FDDB4D</item>
+        <item name="calendarHighlightInverseColor">#000000</item>
+        <item name="calendarTodayColor">#F4FB00</item>
+        <item name="calendarInvalidDaysColor">#313132</item>
+    </style>
+
+</resources>

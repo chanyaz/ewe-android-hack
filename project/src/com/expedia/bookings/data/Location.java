@@ -17,6 +17,9 @@ import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class Location implements JSONable, Parcelable {
+
+	private int mLocationId;
+
 	private List<String> mStreetAddress;
 	private String mDescription;
 	private String mCity;
@@ -31,8 +34,23 @@ public class Location implements JSONable, Parcelable {
 	// Also sometimes used for airport/metro codes
 	private String mDestinationId;
 
+	// Returned in the FlightSearchResponse for the given search airport codes
+	private String mSearchType;
+
 	public Location() {
 		// Default constructor
+	}
+
+	public Location(Location other) {
+		fromJson(other.toJson());
+	}
+
+	public void setLocationId(int id) {
+		mLocationId = id;
+	}
+
+	public int getLocationId() {
+		return mLocationId;
 	}
 
 	public List<String> getStreetAddress() {
@@ -130,6 +148,14 @@ public class Location implements JSONable, Parcelable {
 		this.mDestinationId = destinationId;
 	}
 
+	public String getSearchType() {
+		return mSearchType;
+	}
+
+	public void setSearchType(String searchType) {
+		mSearchType = searchType;
+	}
+
 	// Update this Location's fields with data from another, without blowing
 	// away any data currently stored here (if there's no new value)
 	public void updateFrom(Location other) {
@@ -167,6 +193,10 @@ public class Location implements JSONable, Parcelable {
 		}
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// JSONAble
+
+	@Override
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = new JSONObject();
@@ -179,6 +209,7 @@ public class Location implements JSONable, Parcelable {
 			obj.putOpt("latitude", mLatitude);
 			obj.putOpt("longitude", mLongitude);
 			obj.putOpt("destinationId", mDestinationId);
+			obj.putOpt("searchType", mSearchType);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -187,6 +218,7 @@ public class Location implements JSONable, Parcelable {
 		}
 	}
 
+	@Override
 	public boolean fromJson(JSONObject obj) {
 		mStreetAddress = JSONUtils.getStringList(obj, "streetAddress");
 		mDescription = obj.optString("description", null);
@@ -197,6 +229,7 @@ public class Location implements JSONable, Parcelable {
 		mLatitude = obj.optDouble("latitude", 0);
 		mLongitude = obj.optDouble("longitude", 0);
 		mDestinationId = obj.optString("destinationId", null);
+		mSearchType = obj.optString("searchType", null);
 		return true;
 	}
 

@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.SparseArray;
 
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
@@ -321,22 +322,33 @@ public class Money implements JSONable {
 
 	private static final String EURO_CURRENCY_UNICODE = "\u20AC";
 
+	private static SparseArray<NumberFormat> sFormats = new SparseArray<NumberFormat>();
+
 	private static String formatRate(BigDecimal amount, String currencyCode, int flags) {
-		// We use the default user locale for both of these, as it should
-		// be properly set by the Android system.
-		Currency currency = Currency.getInstance(currencyCode);
-		NumberFormat nf = NumberFormat.getCurrencyInstance();
-		if (currency != null) {
-			nf.setCurrency(currency);
-			nf.setMaximumFractionDigits(currency.getDefaultFractionDigits());
-		}
+		// NumberFormat.getCurrencyInstance is slow. So let's try to cache it.
 
-		if ((flags & F_ROUND_DOWN) != 0) {
-			amount = amount.round(new MathContext(amount.precision() - amount.scale(), RoundingMode.DOWN));
-		}
+		// This doesn't have the best uniqueness, but it'll work for us here.
+		int key = currencyCode.hashCode() + flags * 28629151 /* 31 ^ 5 */;
 
-		if (amount.scale() <= 0 || (flags & F_NO_DECIMAL) != 0) {
-			nf.setMaximumFractionDigits(0);
+		NumberFormat nf = sFormats.get(key);
+		if (nf == null) {
+			// We use the default user locale for both of these, as it should
+			// be properly set by the Android system.
+			Currency currency = Currency.getInstance(currencyCode);
+			nf = NumberFormat.getCurrencyInstance();
+			if (currency != null) {
+				nf.setCurrency(currency);
+				nf.setMaximumFractionDigits(currency.getDefaultFractionDigits());
+			}
+
+			if ((flags & F_ROUND_DOWN) != 0) {
+				amount = amount.round(new MathContext(amount.precision() - amount.scale(), RoundingMode.DOWN));
+			}
+
+			if (amount.scale() <= 0 || (flags & F_NO_DECIMAL) != 0) {
+				nf.setMaximumFractionDigits(0);
+			}
+			sFormats.put(key, nf);
 		}
 
 		String formatted = nf.format(amount);

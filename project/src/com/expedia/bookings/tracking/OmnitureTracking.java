@@ -216,7 +216,7 @@ public class OmnitureTracking {
 
 		// Number of search results
 		if (searchResponse != null && searchResponse.getFilteredAndSortedProperties() != null) {
-			s.setProp(1, searchResponse.getFilteredAndSortedProperties().length + "");
+			s.setProp(1, searchResponse.getFilteredAndSortedProperties().size() + "");
 		}
 
 		// Send the tracking data

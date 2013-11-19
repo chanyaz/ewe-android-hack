@@ -147,6 +147,7 @@ public class AssetZoneInfoProvider implements Provider {
 				}
 			}
 			catch (IOException ex) {
+				// ignore
 			}
 		}
 	}
@@ -169,6 +170,7 @@ public class AssetZoneInfoProvider implements Provider {
 				din.close();
 			}
 			catch (IOException ex) {
+				// ignore
 			}
 		}
 		map.put("UTC", new SoftReference<DateTimeZone>(DateTimeZone.UTC));

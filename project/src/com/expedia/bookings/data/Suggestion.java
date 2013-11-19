@@ -10,9 +10,11 @@ import android.util.Pair;
 
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.model.Search;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
+import com.mobiata.flightlib.data.Airport;
 
 /**
  * A general Suggestion.  At the moment, can either be a city with hotels
@@ -130,6 +132,18 @@ public class Suggestion implements JSONable {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Conversion to other types (Search, JSONable)
+
+	public static Suggestion fromAirport(Airport airport) {
+		Suggestion suggestion = new Suggestion();
+		suggestion.mDisplayName = StrUtils.formatAirport(airport) + "(" + airport.mAirportCode + "-" + airport.mName
+				+ ")";
+		suggestion.mLatitude = airport.getLatitude();
+		suggestion.mLongitude = airport.getLongitude();
+		suggestion.mCountryCode = airport.mCountryCode;
+		suggestion.mAirportLocationCode = airport.mAirportCode;
+		suggestion.mType = Type.AIRPORT;
+		return suggestion;
+	}
 
 	public Search toSearch() {
 		HotelSearchParams searchParams = new HotelSearchParams();

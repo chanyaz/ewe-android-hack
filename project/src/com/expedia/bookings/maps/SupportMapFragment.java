@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
+import com.expedia.bookings.fragment.base.Measurable;
+import com.expedia.bookings.fragment.base.MeasurableFragmentHelper;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,6 +16,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.Ui;
 
 /**
  * You can't do anything with maps (like animate cameras) until they
@@ -22,7 +25,7 @@ import com.mobiata.android.Log;
  *
  * Also has some utilities that are useful overall.
  */
-public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFragment {
+public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFragment implements Measurable {
 
 	private SupportMapFragmentListener mListener;
 
@@ -30,6 +33,11 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 
 	private float mCenterOffsetX = 0;
 	private float mCenterOffsetY = 0;
+
+	private int mWidth;
+	private int mHeight;
+
+	private MeasurableFragmentHelper mHelper;
 
 	public static SupportMapFragment newInstance() {
 		SupportMapFragment frag = new SupportMapFragment();
@@ -43,14 +51,31 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (activity instanceof SupportMapFragmentListener) {
-			mListener = (SupportMapFragmentListener) activity;
-		}
+		mListener = Ui.findFragmentListener(this, SupportMapFragmentListener.class, false);
+
+		mHelper = new MeasurableFragmentHelper(this);
+		mHelper.onAttach(activity);
 	}
 
 	@Override
 	public void onViewCreated(final View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		view.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				Activity activity = getActivity();
+				if (activity == null) {
+					//Sometimes if the fragment attaches and then detaches quickly, activity will be null by this point.
+					view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+					return;
+				}
+
+				// We want to keep the width and height up to date so we don't remove this listener
+				mWidth = view.getWidth();
+				mHeight = view.getHeight();
+				Log.v("SupportMapFragment global layout height=" + mHeight + " width=" + mWidth);
+			}
+		});
 
 		view.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			@Override
@@ -64,18 +89,31 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 
 				final int width = view.getWidth();
 				final int height = view.getHeight();
-				Log.d("SupportMapFragment global layout height=" + height + " width=" + width);
 
 				// https://code.google.com/p/gmaps-api-issues/issues/detail?id=4773
 				// Someone commented saying that the map needs to be at least 200dp by 200dp
 				final int minSize = (int) (200 * activity.getResources().getDisplayMetrics().density);
 				if (height > minSize && width > minSize) {
+					// Now that we've determined the map is large enough to touch we can remove the listener
 					view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-
 					onMapLayout();
 				}
 			}
 		});
+
+		mHelper.onViewCreated(view, savedInstanceState);
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		mHelper.onDestroyView();
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		mHelper.onDetach();
 	}
 
 	protected void onMapLayout() {
@@ -93,6 +131,10 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 		if (mListener != null) {
 			mListener.onMapLayout();
 		}
+	}
+
+	public boolean isReady() {
+		return mLoaded;
 	}
 
 	////////////////////////////////////////////////////////////////////////
@@ -232,6 +274,29 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 		}
 
 		return offsetLatLng;
+	}
+
+	public void setPadding(int left, int top, int right, int bottom) {
+		GoogleMap map = getMap();
+		if (map != null) {
+			map.setPadding(left, top, right, bottom);
+		}
+	}
+
+	public int getWidth() {
+		return mWidth;
+	}
+
+	public int getHeight() {
+		return mHeight;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Measurable
+
+	@Override
+	public boolean isMeasurable() {
+		return mHelper.isMeasurable();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

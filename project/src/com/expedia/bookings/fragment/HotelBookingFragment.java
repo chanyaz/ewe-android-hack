@@ -1,17 +1,12 @@
 package com.expedia.bookings.fragment;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearch;
-import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.WalletUtils;
-import com.google.android.gms.wallet.Cart;
 import com.google.android.gms.wallet.FullWalletRequest;
-import com.google.android.gms.wallet.LineItem;
 import com.mobiata.android.BackgroundDownloader.Download;
 
 /**

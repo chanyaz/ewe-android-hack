@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.util.Ui;
 
 // For now spits out a single message, but could be modified to spit out
 // a given message.
@@ -31,12 +32,7 @@ public class RetryErrorDialogFragment extends DialogFragment implements OnClickL
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (activity instanceof RetryErrorDialogFragmentListener) {
-			mListener = (RetryErrorDialogFragmentListener) activity;
-		}
-		else {
-			throw new RuntimeException("RetryErrorDialogFragment Activity must implement listener!");
-		}
+		mListener = Ui.findFragmentListener(this, RetryErrorDialogFragmentListener.class);
 	}
 
 	@Override

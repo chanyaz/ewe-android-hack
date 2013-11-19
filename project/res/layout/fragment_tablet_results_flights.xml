@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- BG FLIGHT MAP -->
+
+    <com.expedia.bookings.widget.BlockEventFrameLayout
+        android:id="@+id/bg_flight_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- FLIGHT TWO -->
+    <!-- This ends up being below flight one, due to how the transition animations work -->
+
+    <com.expedia.bookings.widget.BlockEventFrameLayout
+        android:id="@+id/flight_two_details"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+
+    <com.expedia.bookings.widget.BlockEventFrameLayout
+        android:id="@+id/flight_two_filters"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:id="@+id/flight_two_list_and_header_container"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" >
+
+        <com.expedia.bookings.widget.BlockEventFrameLayout
+            android:id="@+id/flight_two_header_with_flight_one_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <include
+                android:id="@+id/flight_one_row"
+                layout="@layout/section_flight_leg_summary_tablet" />
+        </com.expedia.bookings.widget.BlockEventFrameLayout>
+
+        <com.expedia.bookings.widget.BlockEventFrameLayout
+            android:id="@+id/flight_two_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/flight_two_header_with_flight_one_info" />
+    </RelativeLayout>
+
+    <!-- FLIGHT ONE -->
+
+    <com.expedia.bookings.widget.BlockEventFrameLayout
+        android:id="@+id/flight_one_details"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+
+    <com.expedia.bookings.widget.BlockEventFrameLayout
+        android:id="@+id/flight_one_filters"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+
+    <com.expedia.bookings.widget.BlockEventFrameLayout
+        android:id="@+id/flight_one_list"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+
+    <!-- ADD TO TRIP -->
+
+    <com.expedia.bookings.widget.BlockEventFrameLayout
+        android:id="@+id/flights_add_to_trip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>

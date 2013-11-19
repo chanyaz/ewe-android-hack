@@ -22,8 +22,8 @@ import com.expedia.bookings.activity.HotelBookingActivity;
 import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
-import com.expedia.bookings.activity.SearchFragmentActivity;
 import com.expedia.bookings.activity.SearchResultsFragmentActivity;
+import com.expedia.bookings.activity.TabletLaunchActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -230,7 +230,7 @@ public class NavUtils {
 	 */
 	private static Intent generateStartEHTabletIntent(Context context) {
 		if (ExpediaBookingApp.useTabletInterface(context)) {
-			return SearchFragmentActivity.createIntent(context, false);
+			return new Intent(context, TabletLaunchActivity.class);
 		}
 		return null;
 	}

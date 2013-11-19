@@ -22,7 +22,6 @@ import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelFilter.PriceRange;
 import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
-import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -160,8 +159,7 @@ public class FilterDialogFragment extends DialogFragment {
 	}
 
 	public CharSequence getTitle() {
-		Property[] properties = Db.getHotelSearch().getSearchResponse().getFilteredAndSortedProperties();
-		int count = properties == null ? 0 : properties.length;
+		int count = Db.getHotelSearch().getSearchResponse().getFilteredPropertiesCount();
 		return Html.fromHtml(getResources().getQuantityString(R.plurals.number_of_matching_hotels, count, count));
 	}
 

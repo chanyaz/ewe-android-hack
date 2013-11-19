@@ -20,8 +20,8 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Rate.CheckoutPriceType;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.RoomsAndRatesAdapter;
@@ -49,11 +49,7 @@ public class RoomsAndRatesFragment extends ListFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof RoomsAndRatesFragmentListener)) {
-			throw new RuntimeException("RoomsAndRatesFragment Activity must implement RoomsAndRatesFragmentListener!");
-		}
-
-		mListener = (RoomsAndRatesFragmentListener) activity;
+		mListener = Ui.findFragmentListener(this, RoomsAndRatesFragmentListener.class);
 	}
 
 	@Override

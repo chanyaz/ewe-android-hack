@@ -4,6 +4,13 @@
     <dimen name="match_parent">-1px</dimen>
     <dimen name="wrap_content">-2px</dimen>
 
+    <!-- Tablet -->
+    <dimen name="tablet_search_width">@dimen/match_parent</dimen>
+    <dimen name="tablet_result_corner_radius">2dp</dimen>
+    <dimen name="tablet_result_row_primary_text_size">13sp</dimen>
+    <dimen name="tablet_result_row_secondary_text_size">11sp</dimen>
+    <dimen name="tablet_result_row_price_size">@dimen/hotel_row_price_text_size</dimen>
+
     <!-- Launch dimens -->
     <dimen name="launch_tile_space_width">2dp</dimen>
     <dimen name="launch_header_height">100dp</dimen>
@@ -32,9 +39,10 @@
     <dimen name="itin_action_button_height">48dp</dimen>
     <dimen name="itin_flight_segment_divider_padding">10dp</dimen>
     <dimen name="itin_simple_list_width">440dp</dimen>
-    <dimen name="itin_map_marker_bottom_padding">12dp</dimen>
     <dimen name="itin_card_corner_radius">2dp</dimen>
     <dimen name="itin_card_flight_vertical_offset">-48dp</dimen>
+    <dimen name="itin_map_marker_bottom_padding">12dp</dimen>
+    <dimen name="itin_map_bounds_padding">24dp</dimen>
 
     <!-- LocalExpert -->
     <dimen name="attraction_bubble_start_text_size">36dp</dimen>
@@ -230,4 +238,18 @@
     <dimen name="app_widget_min_height">72dp</dimen>
     <dimen name="app_widget_min_width">294dp</dimen>
 
+    <!-- For map pins on tablet launch screen -->
+    <dimen name="tablet_launch_map_pin_image_size">172dp</dimen>
+
+    <dimen name="destination_search_stack_width">279dp</dimen>
+    <dimen name="destination_search_stack_height">240dp</dimen>
+    <dimen name="destination_search_tile_width">259dp</dimen>
+    <dimen name="destination_search_tile_height">220dp</dimen>
+    <dimen name="destination_search_item_divider_padding">24dp</dimen>
+    <dimen name="destination_stack_padding">5dp</dimen>
+    <dimen name="destination_stack_text_container_height">56dp</dimen>
+    <dimen name="destination_stack_corner_radius">3dp</dimen>
+    <dimen name="destination_search_tile_text_margin_top">174dp</dimen>
+
+    <dimen name="hotels_map_pin_padding">50dp</dimen>
 </resources>

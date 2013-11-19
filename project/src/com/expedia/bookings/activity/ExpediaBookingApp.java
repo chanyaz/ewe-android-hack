@@ -300,9 +300,10 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	//////////////////////////////////////////////////////////////////////////
 	// All-app utilities
 
-	// #11076 - for Android 3.0, we still use the phone version of the app due to crippling bugs.
+	// Due to a low number of users and a desire to use latest APIs,
+	// we only use tablet UI on ICS+
 	public static boolean useTabletInterface(Context context) {
-		return AndroidUtils.getSdkVersion() >= 12
+		return AndroidUtils.getSdkVersion() >= 14
 				&& (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 	}
 

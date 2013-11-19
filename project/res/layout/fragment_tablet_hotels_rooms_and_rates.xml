@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/rooms_and_rates_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="64dp"
+        android:gravity="top"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:id="@+id/rooms_and_rates_content_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#FF0000"
+                android:gravity="center"
+                android:text="Hotel Image" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/rooms_and_rates_content_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FFFF00"
+                android:gravity="center"
+                android:text="Rooms &amp; Rates" />
+        </FrameLayout>
+    </LinearLayout>
+
+</FrameLayout>

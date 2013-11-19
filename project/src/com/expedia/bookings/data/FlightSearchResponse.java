@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,6 +65,10 @@ public class FlightSearchResponse extends Response {
 
 	public Map<String, String> getAirlineNames() {
 		return mAirlineNames;
+	}
+
+	public Set<String> getAirports(int legNumber, boolean departureAirport) {
+		return FlightSearch.generateAirports(mTrips, legNumber, departureAirport);
 	}
 
 	public void setObFeesDetails(String obFeesDetails) {

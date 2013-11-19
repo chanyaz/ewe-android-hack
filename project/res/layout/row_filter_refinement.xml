@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <CheckBox
+        android:id="@+id/filter_refinement_checkbox"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textColor="@color/tablet_filter_checkbox_text"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/filter_refinement_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:padding="6dp"
+        android:singleLine="true"
+        android:textColor="@color/tablet_filter_from_text"
+        android:textSize="14sp" />
+
+</merge>

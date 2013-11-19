@@ -8,6 +8,9 @@
     <color name="launch_tile_overlay">#A6000000</color>
     <color name="low_memory_bg_color">#404040</color>
 
+    <!-- Dates Fragment colors -->
+    <color name="bg_dates_color">#60000000</color>
+
     <!-- Itinerary colors -->
     <color name="itin_white_text">#F3F3F3</color>
     <color name="itin_offwhite_text">#A9ABAE</color>
@@ -153,4 +156,10 @@
     <!-- From ABS, Sherlock Light DialogWindowTitle -->
     <color name="dialog_window_holo_blue_light">#ff33b5e5</color>
 
+    <!-- Tablet colors -->
+    <color name="tablet_list_bg">#FFF4F2F1</color>
+    <color name="tablet_results_ab_default">@android:color/transparent</color>
+    <color name="tablet_results_ab_hotels">#422B14</color>
+    <color name="tablet_results_ab_flights">#142B42</color>
+    <color name="tablet_bg_tiles_blend">#232c45</color>
 </resources>

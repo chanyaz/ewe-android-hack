@@ -13,6 +13,10 @@
     <item name="tag_flight_trip_position" type="id"/>
     <item name="itin_flight_map_container_active" type="id"/>
 
+    <!-- SwipeOutLayout ids -->
+    <item name="swipe_out_content" type="id"/>
+    <item name="swipe_out_indicator" type="id"/>
+
     <!-- For styles that want to declare IDs -->
     <item name="departure_airport_edit_text" type="id"/>
     <item name="arrival_airport_edit_text" type="id"/>

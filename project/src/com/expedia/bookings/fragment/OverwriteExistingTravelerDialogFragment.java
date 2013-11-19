@@ -11,6 +11,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.mobiata.android.util.Ui;
 
 public class OverwriteExistingTravelerDialogFragment extends DialogFragment {
 
@@ -26,12 +27,7 @@ public class OverwriteExistingTravelerDialogFragment extends DialogFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof FlightTravelerInfoOptionsFragment.TravelerInfoYoYoListener)) {
-			throw new RuntimeException(
-					"OverwriteExistingTravelerDialogFragment activity must implement TravelerInfoYoYoListener!");
-		}
-
-		mListener = (FlightTravelerInfoOptionsFragment.TravelerInfoYoYoListener) activity;
+		mListener = Ui.findFragmentListener(this, FlightTravelerInfoOptionsFragment.TravelerInfoYoYoListener.class);
 	}
 
 	@Override

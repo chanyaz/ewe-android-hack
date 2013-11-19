@@ -463,7 +463,8 @@ public class FlightTrip implements JSONable {
 		DEPARTURE,
 		ARRIVAL,
 		DURATION,
-		LEG_ID
+		LEG_ID,
+		AIRLINE_NAME
 	}
 
 	public static class FlightTripComparator implements Comparator<FlightTrip> {
@@ -487,6 +488,9 @@ public class FlightTrip implements JSONable {
 				break;
 			case DURATION:
 				mToCompare = new CompareField[] { CompareField.DURATION, CompareField.PRICE, CompareField.LEG_ID };
+				break;
+			case AIRLINE_NAME:
+				mToCompare = new CompareField[] { CompareField.AIRLINE_NAME, CompareField.PRICE, CompareField.LEG_ID };
 				break;
 			case LEG_ID:
 			default:
@@ -514,6 +518,9 @@ public class FlightTrip implements JSONable {
 					break;
 				case DURATION:
 					result = DURATION_COMPARATOR.compare(lhsLeg, rhsLeg);
+					break;
+				case AIRLINE_NAME:
+					result = AIRLINE_COMPARATOR.compare(lhsLeg, rhsLeg);
 					break;
 				case LEG_ID:
 				default:
@@ -601,6 +608,13 @@ public class FlightTrip implements JSONable {
 			else {
 				return -1;
 			}
+		}
+	};
+
+	public static final Comparator<FlightLeg> AIRLINE_COMPARATOR = new Comparator<FlightLeg>() {
+		@Override
+		public int compare(FlightLeg lhs, FlightLeg rhs) {
+			return lhs.getAirlinesFormatted().compareTo(rhs.getAirlinesFormatted());
 		}
 	};
 

@@ -131,7 +131,7 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 		}
 
 		if (PointOfSale.getPointOfSale().supportsVipAccess() && property.isVipAccess()) {
-			mVipIcon = Ui.findView(root, R.id.vip_image_view);
+			mVipIcon = Ui.findView(root, R.id.vip_badge);
 			mVipIcon.setVisibility(View.VISIBLE);
 			mVipIcon.setOnClickListener(new View.OnClickListener() {
 				@Override

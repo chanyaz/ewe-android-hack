@@ -16,6 +16,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.ReceiptWidget;
+import com.mobiata.android.util.Ui;
 
 @TargetApi(11)
 public class BookingInfoFragment extends Fragment {
@@ -35,11 +36,7 @@ public class BookingInfoFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (!(activity instanceof BookingInfoFragmentListener)) {
-			throw new RuntimeException("BookingInfoFragment Activity must implement BookingInfoFragmentListener!");
-		}
-
-		mListener = (BookingInfoFragmentListener) activity;
+		mListener = Ui.findFragmentListener(this, BookingInfoFragmentListener.class);
 	}
 
 	@Override

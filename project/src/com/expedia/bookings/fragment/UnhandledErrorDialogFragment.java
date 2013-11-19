@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.util.Ui;
 
 public class UnhandledErrorDialogFragment extends DialogFragment implements OnClickListener {
 
@@ -29,12 +30,7 @@ public class UnhandledErrorDialogFragment extends DialogFragment implements OnCl
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (activity instanceof UnhandledErrorDialogFragmentListener) {
-			mListener = (UnhandledErrorDialogFragmentListener) activity;
-		}
-		else {
-			throw new RuntimeException("UnhandledErrorDialogFragment Activity must implement listener!");
-		}
+		mListener = Ui.findFragmentListener(this, UnhandledErrorDialogFragmentListener.class);
 	}
 
 	@Override
