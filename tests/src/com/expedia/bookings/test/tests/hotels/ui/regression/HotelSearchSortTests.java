@@ -64,7 +64,7 @@ public class HotelSearchSortTests extends CustomActivityInstrumentationTestCase<
 						View currentHotelRowView = mDriver.hotelsSearchScreen().hotelResultsListView().getChildAt(i);
 						HotelSearchResultRow currentRow = new HotelSearchResultRow(currentHotelRowView);
 						float currentRowPrice = getCleanFloatFromTextView(currentRow.getPriceTextView());
-						mDriver.enterLog(TAG, "RATING " + currentRowPrice + " >= " + previousRowPrice);
+						mDriver.enterLog(TAG, "PRICE " + currentRowPrice + " >= " + previousRowPrice);
 						assertTrue(currentRowPrice >= previousRowPrice);
 						previousRowPrice = currentRowPrice;
 					}
