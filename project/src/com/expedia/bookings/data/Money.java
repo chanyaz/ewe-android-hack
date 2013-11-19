@@ -327,8 +327,8 @@ public class Money implements JSONable {
 	private static String formatRate(BigDecimal amount, String currencyCode, int flags) {
 		// NumberFormat.getCurrencyInstance is slow. So let's try to cache it.
 
-		// This doesn't have the best uniqueness, but it'll work for us here.
-		int key = currencyCode.hashCode() + flags * 28629151 /* 31 ^ 5 */;
+		// We want a different NumberFormat cached for each currencyCode/flags combination
+		int key = (currencyCode + flags).hashCode();
 
 		NumberFormat nf = sFormats.get(key);
 		if (nf == null) {
@@ -341,14 +341,14 @@ public class Money implements JSONable {
 				nf.setMaximumFractionDigits(currency.getDefaultFractionDigits());
 			}
 
-			if ((flags & F_ROUND_DOWN) != 0) {
-				amount = amount.round(new MathContext(amount.precision() - amount.scale(), RoundingMode.DOWN));
-			}
-
 			if (amount.scale() <= 0 || (flags & F_NO_DECIMAL) != 0) {
 				nf.setMaximumFractionDigits(0);
 			}
 			sFormats.put(key, nf);
+		}
+
+		if ((flags & F_ROUND_DOWN) != 0) {
+			amount = amount.round(new MathContext(amount.precision() - amount.scale(), RoundingMode.DOWN));
 		}
 
 		String formatted = nf.format(amount);
