@@ -445,13 +445,15 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 			for (Property property : mProperties) {
 				Marker marker = mPropertiesToMarkers.get(property);
 				Location location = property.getLocation();
-				LatLng latLng = offsetLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+				LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 				if (marker != null && marker.isVisible()) {
 					builder.include(latLng);
 					numIncluded++;
 				}
 
-				allBuilder.include(latLng);
+				if (numIncluded == 0) {
+					allBuilder.include(latLng);
+				}
 			}
 
 			if (numIncluded == 0) {
