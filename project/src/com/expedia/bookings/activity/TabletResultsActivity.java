@@ -53,6 +53,7 @@ import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
@@ -256,6 +257,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		boolean retVal = super.onCreateOptionsMenu(menu);
 
+		DebugMenu.onCreateOptionsMenu(this, menu);
 		//We allow debug users to jump between states
 		if (!AndroidUtils.isRelease(this)) {
 			//We use ordinal() + 1 for all ids and groups because 0 == Menu.NONE
@@ -281,12 +283,22 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	}
 
 	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		DebugMenu.onPrepareOptionsMenu(this, menu);
+		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home: {
 			onBackPressed();
 			return true;
 		}
+		}
+
+		if (DebugMenu.onOptionsItemSelected(this, item)) {
+			return true;
 		}
 
 		//We allow debug users to jump between states

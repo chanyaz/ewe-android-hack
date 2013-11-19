@@ -4,6 +4,8 @@
     <string name="forward_slash">/</string>
     <string name="connected_server">Server: %s</string>
 
+    <string name="build_number">Build  %s</string>
+
     <!-- Names of the open source libraries we use -->
     <!-- The translators should not translate these proper names and when they came back from loc they didn't touch them anyways -->
     <string name="open_source_names">ActionBarSherlock 4.4.0, NineOldAndroids 2.4.0, DiskLruCache 2.0.2, JodaTime 2.3</string>
