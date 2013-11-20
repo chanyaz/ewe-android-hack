@@ -35,6 +35,8 @@ public class ResultsFlightFiltersFragment extends Fragment {
 
 	private int mLegNumber;
 
+	private FlightFilter mFilter;
+
 	private SlidingRadioGroup mSortGroup;
 	private SlidingRadioGroup mFilterGroup;
 
@@ -58,6 +60,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mLegNumber = getArguments().getInt(ARG_LEG_NUMBER);
+		mFilter = Db.getFlightSearch().getFilter(mLegNumber);
 	}
 
 	@Override
@@ -78,13 +81,12 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		mArrivalAirportFilterWidget = Ui.findView(view, R.id.arrival_airports_widget);
 
 		Set<String> departureAirports = Db.getFlightSearch().getAirports(mLegNumber, true);
-		FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
 		mDepartureAirportFilterWidget
-				.bind(mLegNumber, true, departureAirports, filter, mAirportOnCheckedChangeListener);
+				.bind(mLegNumber, true, departureAirports, mFilter, mAirportOnCheckedChangeListener);
 		mDepartureAirportsHeader.setVisibility(departureAirports.size() < 2 ? View.GONE : View.VISIBLE);
 
 		Set<String> arrivalAirports = Db.getFlightSearch().getAirports(mLegNumber, false);
-		mArrivalAirportFilterWidget.bind(mLegNumber, false, arrivalAirports, filter, mAirportOnCheckedChangeListener);
+		mArrivalAirportFilterWidget.bind(mLegNumber, false, arrivalAirports, mFilter, mAirportOnCheckedChangeListener);
 		mArrivalAirportsHeader.setVisibility(arrivalAirports.size() < 2 ? View.GONE : View.VISIBLE);
 
 		return view;
@@ -97,11 +99,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	}
 
 	public void onFilterChanged() {
-		onFilterChanged(Db.getFlightSearch().getFilter(mLegNumber));
-	}
-
-	public void onFilterChanged(FlightFilter filter) {
-		filter.notifyFilterChanged();
+		mFilter.notifyFilterChanged();
 
 		bindAll();
 	}
@@ -113,11 +111,8 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	}
 
 	private void bindSortFilter() {
-		FlightFilter.Sort sort = Db.getFlightSearch().getFilter(mLegNumber).getSort();
-		mSortGroup.check(SORT_RADIO_BUTTON_MAP.get(sort));
-
-		int filter = Db.getFlightSearch().getFilter(mLegNumber).getStops();
-		mFilterGroup.check(STOPS_FILTER_RES_ID_MAP.get(filter));
+		mSortGroup.check(SORT_RADIO_BUTTON_MAP.get(mFilter.getSort()));
+		mFilterGroup.check(STOPS_FILTER_RES_ID_MAP.get(mFilter.getStops()));
 	}
 
 	private void bindAirportFilter() {
@@ -126,14 +121,12 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	}
 
 	private void buildAirlineList() {
-		FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
-
 		List<FlightTrip> allTrips = Db.getFlightSearch().getTrips(mLegNumber);
-		List<FlightTrip> filteredTrips = FlightSearch.getTripsFilteredByStops(mLegNumber, allTrips, filter.getStops());
+		List<FlightTrip> filteredTrips = FlightSearch.getTripsFilteredByStops(mLegNumber, allTrips, mFilter.getStops());
 		filteredTrips = FlightSearch.getTripsFilteredByAirport(mLegNumber, filteredTrips,
-				filter.getDepartureAirports(), true);
-		filteredTrips = FlightSearch.getTripsFilteredByAirport(mLegNumber, filteredTrips,
-				filter.getArrivalAirports(), false);
+				mFilter.getDepartureAirports(), true);
+		filteredTrips = FlightSearch.getTripsFilteredByAirport(mLegNumber, filteredTrips, mFilter.getArrivalAirports(),
+				false);
 		Map<String, FlightTrip> cheapestTripsMap = FlightSearch.getCheapestTripEachAirlineMap(mLegNumber, allTrips);
 
 		// Update the cheapest trips based on the trips available after filtering
@@ -186,51 +179,48 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	private RadioGroup.OnCheckedChangeListener mControlKnobListener = new RadioGroup.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
-			FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
-
 			switch (checkedId) {
 			case R.id.flight_sort_arrives:
 			case R.id.flight_sort_departs:
 			case R.id.flight_sort_duration:
 			case R.id.flight_sort_price:
-				filter.setSort(RES_ID_SORT_MAP.get(Integer.valueOf(checkedId)));
+				mFilter.setSort(RES_ID_SORT_MAP.get(Integer.valueOf(checkedId)));
 				break;
 			case R.id.flight_filter_stop_any:
 			case R.id.flight_filter_stop_one_or_less:
 			case R.id.flight_filter_stop_none:
-				filter.setStops(RES_ID_STOPS_FILTER_MAP.get(checkedId));
+				mFilter.setStops(RES_ID_STOPS_FILTER_MAP.get(checkedId));
 				break;
 			}
 
-			onFilterChanged(filter);
+			onFilterChanged();
 		}
 	};
 
 	private CheckBoxFilterWidget.OnCheckedChangeListener mAirlineOnCheckedChangeListener = new CheckBoxFilterWidget.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
-			FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
 			FlightTrip trip = (FlightTrip) view.getTag();
-			filter.setPreferredAirline(trip.getLeg(mLegNumber).getFirstAirlineCode(), isChecked);
-			filter.notifyFilterChanged();
+			mFilter.setPreferredAirline(trip.getLeg(mLegNumber).getFirstAirlineCode(), isChecked);
+
+			onFilterChanged();
 		}
 	};
 
 	private CheckBoxFilterWidget.OnCheckedChangeListener mAirportOnCheckedChangeListener = new CheckBoxFilterWidget.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
-			FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
 			String[] split = ((String) view.getTag()).split(";");
 			boolean departureAirport = Boolean.parseBoolean(split[0]);
 			String airportCode = split[1];
 			if (isChecked) {
-				filter.addAirport(departureAirport, airportCode);
+				mFilter.addAirport(departureAirport, airportCode);
 			}
 			else {
-				filter.removeAirport(departureAirport, airportCode);
+				mFilter.removeAirport(departureAirport, airportCode);
 			}
 
-			onFilterChanged(filter);
+			onFilterChanged();
 		}
 	};
 
