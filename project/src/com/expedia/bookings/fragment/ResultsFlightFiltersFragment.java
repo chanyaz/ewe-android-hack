@@ -179,18 +179,14 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	private RadioGroup.OnCheckedChangeListener mControlKnobListener = new RadioGroup.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
-			switch (checkedId) {
-			case R.id.flight_sort_arrives:
-			case R.id.flight_sort_departs:
-			case R.id.flight_sort_duration:
-			case R.id.flight_sort_price:
-				mFilter.setSort(RES_ID_SORT_MAP.get(Integer.valueOf(checkedId)));
-				break;
-			case R.id.flight_filter_stop_any:
-			case R.id.flight_filter_stop_one_or_less:
-			case R.id.flight_filter_stop_none:
-				mFilter.setStops(RES_ID_STOPS_FILTER_MAP.get(checkedId));
-				break;
+			FlightFilter.Sort sort = RES_ID_SORT_MAP.get(Integer.valueOf(checkedId));
+			if (sort != null) {
+				mFilter.setSort(sort);
+			}
+
+			int stops = RES_ID_STOPS_FILTER_MAP.get(checkedId, -99);
+			if (stops != -99) {
+				mFilter.setStops(stops);
 			}
 
 			onFilterChanged();
