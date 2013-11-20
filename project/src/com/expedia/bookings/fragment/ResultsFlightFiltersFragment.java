@@ -184,8 +184,8 @@ public class ResultsFlightFiltersFragment extends Fragment {
 				mFilter.setSort(sort);
 			}
 
-			int stops = RES_ID_STOPS_FILTER_MAP.get(checkedId, -99);
-			if (stops != -99) {
+			int stops = RES_ID_STOPS_FILTER_MAP.get(checkedId, FlightFilter.STOPS_UNSPECIFIED);
+			if (stops != FlightFilter.STOPS_UNSPECIFIED) {
 				mFilter.setStops(stops);
 			}
 

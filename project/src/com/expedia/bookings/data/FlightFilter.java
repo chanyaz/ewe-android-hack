@@ -18,6 +18,7 @@ public class FlightFilter {
 	}
 
 	//Filter flight search by # of stops
+	public static final int STOPS_UNSPECIFIED = -2;
 	public static final int STOPS_ANY = -1;
 	public static final int STOPS_MAX = 1; //currently specifies "One or Less Stop"
 	public static final int STOPS_NONSTOP = 0;
