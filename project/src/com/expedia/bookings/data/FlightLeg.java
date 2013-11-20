@@ -13,7 +13,6 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.data.trips.ItinShareInfo;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
-import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -65,6 +64,15 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	////////////////////////////////////////////////////////////////////////
 	// More meta retrieval methods
+
+	public Airport getAirport(boolean departureAirport) {
+		if (departureAirport) {
+			return getFirstWaypoint().getAirport();
+		}
+		else {
+			return getLastWaypoint().getAirport();
+		}
+	}
 
 	public Waypoint getFirstWaypoint() {
 		if (mSegments != null && mSegments.size() > 0) {

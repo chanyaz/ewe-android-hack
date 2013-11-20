@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import android.content.Context;
@@ -14,6 +16,8 @@ import android.widget.PopupWindow;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
+import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -96,12 +100,17 @@ public class AirportFilterWidget extends TextView {
 			mPopup.setOutsideTouchable(true);
 			mPopup.setTouchable(true);
 
+			List<FlightTrip> allTrips = Db.getFlightSearch().getTrips(mLegNumber);
+			Map<String, FlightTrip> cheapestPerAirport = FlightSearch.getCheapestTripEachAirportMap(mLegNumber,
+					mDepartureAirport, allTrips);
+
 			// Add the checkbox widgets
 			for (String code : mAirportCodes) {
 				Airport airport = FlightStatsDbUtils.getAirport(code);
 				String text = airport.mAirportCode + " - " + airport.mName;
 				CheckBoxFilterWidget widget = new CheckBoxFilterWidget(getContext());
 				widget.setDescription(text);
+				widget.setPrice(cheapestPerAirport.get(airport.mAirportCode).getTotalFare());
 				widget.setTag(Boolean.toString(mDepartureAirport) + ";" + code);
 				widget.setChecked(mFilter.containsAirport(mDepartureAirport, airport.mAirportCode));
 				widget.setOnCheckedChangeListener(mAirportCheckChangeListener);

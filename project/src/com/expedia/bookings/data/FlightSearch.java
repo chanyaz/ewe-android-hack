@@ -468,6 +468,24 @@ public class FlightSearch implements JSONable {
 		return lowestPriceMap;
 	}
 
+	public static Map<String, FlightTrip> getCheapestTripEachAirportMap(int legPosition, boolean departureAirport,
+			List<FlightTrip> trips) {
+		Map<String, FlightTrip> lowestPriceMap = new HashMap<String, FlightTrip>();
+
+		String airportCode;
+		FlightTrip cheapest;
+		for (FlightTrip trip : trips) {
+			airportCode = trip.getLeg(legPosition).getAirport(departureAirport).mAirportCode;
+
+			cheapest = lowestPriceMap.get(airportCode);
+			if (cheapest == null || trip.getTotalFare().compareTo(cheapest.getTotalFare()) < 0) {
+				lowestPriceMap.put(airportCode, trip);
+			}
+		}
+
+		return lowestPriceMap;
+	}
+
 	/**
 	 * For a legNumber and departure/airport pair, return all airport codes that we have flights for.
 	 * @param trips - the FlightTrips
