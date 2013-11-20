@@ -25,6 +25,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportFilterWidget;
 import com.expedia.bookings.widget.CheckBoxFilterWidget;
 import com.expedia.bookings.widget.CheckBoxFilterWidget.OnCheckedChangeListener;
+import com.expedia.bookings.widget.SlidingRadioGroup;
 
 /**
  * ResultsFlightFiltersFragment: The filters fragment designed for tablet results 2013
@@ -34,6 +35,9 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	private static final String ARG_LEG_NUMBER = "ARG_LEG_NUMBER";
 
 	private int mLegNumber;
+
+	private SlidingRadioGroup mSortGroup;
+	private SlidingRadioGroup mFilterGroup;
 
 	private ViewGroup mAirlineContainer;
 
@@ -58,13 +62,13 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	}
 
 	@Override
-	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_flight_tablet_filter, container, false);
 
-		RadioGroup sortGroup = Ui.findView(view, R.id.flight_sort_control);
-		sortGroup.setOnCheckedChangeListener(mControlKnobListener);
-		RadioGroup filterGroup = Ui.findView(view, R.id.flight_filter_control);
-		filterGroup.setOnCheckedChangeListener(mControlKnobListener);
+		mSortGroup = Ui.findView(view, R.id.flight_sort_control);
+		mFilterGroup = Ui.findView(view, R.id.flight_filter_control);
+		mSortGroup.setOnCheckedChangeListener(mControlKnobListener);
+		mFilterGroup.setOnCheckedChangeListener(mControlKnobListener);
 
 		mAirlineContainer = Ui.findView(view, R.id.filter_airline_container);
 
@@ -84,10 +88,13 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		mArrivalAirportFilterWidget.bind(mLegNumber, false, arrivalAirports, filter, mAirportOnCheckedChangeListener);
 		mArrivalAirportsHeader.setVisibility(arrivalAirports.size() < 2 ? View.GONE : View.VISIBLE);
 
-		buildAirlineList();
-		bindAirportFilter();
-
 		return view;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		bindAll();
 	}
 
 	private static final Map<Integer, FlightFilter.Sort> RES_ID_SORT_MAP = new HashMap<Integer, FlightFilter.Sort>() {
@@ -99,11 +106,28 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		}
 	};
 
+	private static final Map<FlightFilter.Sort, Integer> SORT_RADIO_BUTTON_MAP = new HashMap<FlightFilter.Sort, Integer>() {
+		{
+			put(FlightFilter.Sort.ARRIVAL, R.id.flight_sort_arrives);
+			put(FlightFilter.Sort.DEPARTURE, R.id.flight_sort_departs);
+			put(FlightFilter.Sort.DURATION, R.id.flight_sort_duration);
+			put(FlightFilter.Sort.PRICE, R.id.flight_sort_price);
+		}
+	};
+
 	private static final SparseIntArray RES_ID_STOPS_FILTER_MAP = new SparseIntArray() {
 		{
 			put(R.id.flight_filter_stop_any, FlightFilter.STOPS_ANY);
 			put(R.id.flight_filter_stop_one_or_less, FlightFilter.STOPS_MAX);
 			put(R.id.flight_filter_stop_none, FlightFilter.STOPS_NONSTOP);
+		}
+	};
+
+	private static final SparseIntArray STOPS_FILTER_RES_ID_MAP = new SparseIntArray() {
+		{
+			put(FlightFilter.STOPS_ANY, R.id.flight_filter_stop_any);
+			put(FlightFilter.STOPS_MAX, R.id.flight_filter_stop_one_or_less);
+			put(FlightFilter.STOPS_NONSTOP, R.id.flight_filter_stop_none);
 		}
 	};
 
@@ -165,8 +189,21 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	public void onFilterChanged(FlightFilter filter) {
 		filter.notifyFilterChanged();
 
-		buildAirlineList();
+		bindAll();
+	}
+
+	private void bindAll() {
+		bindSortFilter();
 		bindAirportFilter();
+		buildAirlineList();
+	}
+
+	private void bindSortFilter() {
+		FlightFilter.Sort sort = Db.getFlightSearch().getFilter(mLegNumber).getSort();
+		mSortGroup.check(SORT_RADIO_BUTTON_MAP.get(sort));
+
+		int filter = Db.getFlightSearch().getFilter(mLegNumber).getStops();
+		mFilterGroup.check(STOPS_FILTER_RES_ID_MAP.get(filter));
 	}
 
 	private void bindAirportFilter() {

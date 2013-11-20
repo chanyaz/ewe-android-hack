@@ -4,7 +4,7 @@
     <com.expedia.bookings.widget.SlidingRadioGroup
             android:id="@+id/flight_filter_control"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginBottom="24dp"
             style="@style/Widget.SlidingRadioGroup.TabletFilterControls" >
 
