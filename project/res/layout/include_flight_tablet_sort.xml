@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <com.expedia.bookings.widget.SlidingRadioGroup
             android:id="@+id/flight_sort_control"
+            style="@style/Widget.SlidingRadioGroup.TabletFilterControls"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="24dp"
-            style="@style/Widget.SlidingRadioGroup.TabletFilterControls">
+            android:layout_marginBottom="24dp" >
 
         <RadioButton
                 android:id="@+id/flight_sort_price"
@@ -31,7 +31,6 @@
                 style="@style/Widget.RadioButton.TabletFilterControls"
                 android:text="@string/sort_description_duration"
                 android:textSize="10sp" />
-
     </com.expedia.bookings.widget.SlidingRadioGroup>
 
 </merge>

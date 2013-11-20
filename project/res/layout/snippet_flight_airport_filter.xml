@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:background="@android:color/holo_blue_bright"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:background="@android:color/white"
+              android:orientation="vertical" >
 
-    <LinearLayout android:id="@+id/airport_filter_container"
-                  android:orientation="vertical"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent" />
+    <LinearLayout
+            android:id="@+id/airport_filter_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
 
     <Button
             android:id="@+id/airport_filter_done"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/Done"/>
+            android:text="@string/Done" />
 
 </LinearLayout>

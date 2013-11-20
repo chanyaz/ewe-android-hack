@@ -46,10 +46,10 @@
         <com.expedia.bookings.widget.AirportFilterWidget
                 android:id="@+id/departure_airports_widget"
                 style="@style/FakeSpinner"
-                android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"/>
+                android:layout_marginBottom="24dp"
+                android:singleLine="true" />
 
         <TextView
                 android:id="@+id/arrival_airports_header"
@@ -61,10 +61,10 @@
         <com.expedia.bookings.widget.AirportFilterWidget
                 android:id="@+id/arrival_airports_widget"
                 style="@style/FakeSpinner"
-                android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp" />
+                android:layout_marginBottom="24dp"
+                android:singleLine="true" />
 
         <TextView
                 android:layout_width="wrap_content"
@@ -76,8 +76,8 @@
                 android:id="@+id/filter_airline_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:divider="@drawable/grey_divider"
+                android:orientation="vertical"
                 android:showDividers="middle" />
     </LinearLayout>
 
