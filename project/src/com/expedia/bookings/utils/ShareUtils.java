@@ -496,8 +496,13 @@ public class ShareUtils {
 
 	public static String clipHotelName(int longMsgLength, String hotelName) {
 		int diff = longMsgLength - SMS_CHAR_LIMIT;
-		if (diff < 0 && -diff < hotelName.length() - 20) {
-			hotelName = hotelName.substring(0, hotelName.length() + diff);
+		if (diff > 0) {
+			if (hotelName.length() - diff <= 20) {
+				hotelName = hotelName.substring(0, 20);
+			}
+			else {
+				hotelName = hotelName.substring(0, hotelName.length() - diff);
+			}
 		}
 		return hotelName;
 	}
