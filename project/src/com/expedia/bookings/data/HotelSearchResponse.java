@@ -176,7 +176,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	 * Returns a collection of properties filtered by this object's filter.
 	 * @return
 	 */
-	public Collection<Property> getFilteredProperties() {
+	private Collection<Property> getFilteredProperties() {
 		// If we have no properties set, return null
 		if (mProperties == null) {
 			Log.v("getFilteredProperties() - properties is null, returning null");

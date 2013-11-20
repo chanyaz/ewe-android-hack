@@ -26,7 +26,6 @@ import com.expedia.bookings.data.HotelFilter.Sort;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelSearchResponse;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -36,7 +35,6 @@ import com.expedia.bookings.widget.HotelNeighborhoodLayout.OnNeighborhoodsChange
 import com.expedia.bookings.widget.SlidingRadioGroup;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
-import com.mobiata.android.widget.SegmentedControlGroup;
 
 /**
  * ResultsFlightFiltersFragment: The filters fragment designed for tablet results 2013
