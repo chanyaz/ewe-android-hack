@@ -25,7 +25,7 @@ public class HotelsDetailsScreen extends ScreenActions {
 	private static final int SELECT_BUTTON_ID = R.id.menu_select_hotel;
 	private static final int BACK_BUTTON_ID = android.R.id.home;
 	private static final int NO_REVIEWS_STRING_ID = R.string.no_reviews;
-	private static final int VIP_IMAGE_VIEW = R.id.vip_image_view;
+	private static final int VIP_IMAGE_VIEW = R.id.vip_badge;
 	private static final int AMENITIES_CONTAINER_ID = R.id.amenities_table_row;
 	private static final int VIP_STRING_ID = R.string.vip_access_message;
 	private static final int GALLERY_VIEW_ID = R.id.images_gallery;

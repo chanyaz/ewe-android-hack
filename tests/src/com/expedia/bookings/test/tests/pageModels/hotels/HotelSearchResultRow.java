@@ -14,7 +14,7 @@ import com.expedia.bookings.test.utils.TestPreferences;
 
 public class HotelSearchResultRow {
 
-	private static final int VIP_IMAGE_VIEW_ID = R.id.vip_image_view;
+	private static final int VIP_IMAGE_VIEW_ID = R.id.vip_badge;
 
 	private static final int HOTEL_NAME_TEXT_VIEW_ID = R.id.name_text_view;
 	private static final int RATING_BAR_ID = R.id.user_rating_bar;
