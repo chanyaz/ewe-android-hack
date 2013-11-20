@@ -64,6 +64,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
@@ -114,6 +115,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	private boolean mPreDrawInitComplete = false;
 	private boolean mBackButtonLocked = false;
 	private boolean mTestDataLoaded = false;
+
+	private HockeyPuck mHockeyPuck;
 
 	//ActionBar
 	private TabletResultsActionBarView mActionBarView;
@@ -188,6 +191,10 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 		ActionBar actionBar = getSupportActionBar();
 		mActionBarView.attachToActionBar(actionBar);
 
+		// HockeyApp init
+		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
+		mHockeyPuck.onCreate(savedInstanceState);
+
 		//TODO: This is just for logging so it can be removed if we want to turn off state logging.
 		registerStateListener(new StateListenerLogger<ResultsState>(), true);
 	}
@@ -237,6 +244,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 				return true;
 			}
 		});
+
+		mHockeyPuck.onResume();
+
 	}
 
 	@Override
@@ -258,6 +268,11 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 		boolean retVal = super.onCreateOptionsMenu(menu);
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
+
+		if (!AndroidUtils.isRelease(this)) {
+			mHockeyPuck.onCreateOptionsMenu(menu);
+		}
+
 		//We allow debug users to jump between states
 		if (!AndroidUtils.isRelease(this)) {
 			//We use ordinal() + 1 for all ids and groups because 0 == Menu.NONE
@@ -285,6 +300,11 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		DebugMenu.onPrepareOptionsMenu(this, menu);
+
+		if (!AndroidUtils.isRelease(this)) {
+			mHockeyPuck.onPrepareOptionsMenu(menu);
+		}
+
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -298,6 +318,10 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 		}
 
 		if (DebugMenu.onOptionsItemSelected(this, item)) {
+			return true;
+		}
+
+		if (!AndroidUtils.isRelease(this) && mHockeyPuck.onOptionsItemSelected(item)) {
 			return true;
 		}
 
