@@ -24,7 +24,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportFilterWidget;
 import com.expedia.bookings.widget.CheckBoxFilterWidget;
-import com.expedia.bookings.widget.CheckBoxFilterWidget.OnCheckedChangeListener;
 import com.expedia.bookings.widget.SlidingRadioGroup;
 
 /**
@@ -96,91 +95,6 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		super.onResume();
 		bindAll();
 	}
-
-	private static final Map<Integer, FlightFilter.Sort> RES_ID_SORT_MAP = new HashMap<Integer, FlightFilter.Sort>() {
-		{
-			put(R.id.flight_sort_arrives, FlightFilter.Sort.ARRIVAL);
-			put(R.id.flight_sort_departs, FlightFilter.Sort.DEPARTURE);
-			put(R.id.flight_sort_duration, FlightFilter.Sort.DURATION);
-			put(R.id.flight_sort_price, FlightFilter.Sort.PRICE);
-		}
-	};
-
-	private static final Map<FlightFilter.Sort, Integer> SORT_RADIO_BUTTON_MAP = new HashMap<FlightFilter.Sort, Integer>() {
-		{
-			put(FlightFilter.Sort.ARRIVAL, R.id.flight_sort_arrives);
-			put(FlightFilter.Sort.DEPARTURE, R.id.flight_sort_departs);
-			put(FlightFilter.Sort.DURATION, R.id.flight_sort_duration);
-			put(FlightFilter.Sort.PRICE, R.id.flight_sort_price);
-		}
-	};
-
-	private static final SparseIntArray RES_ID_STOPS_FILTER_MAP = new SparseIntArray() {
-		{
-			put(R.id.flight_filter_stop_any, FlightFilter.STOPS_ANY);
-			put(R.id.flight_filter_stop_one_or_less, FlightFilter.STOPS_MAX);
-			put(R.id.flight_filter_stop_none, FlightFilter.STOPS_NONSTOP);
-		}
-	};
-
-	private static final SparseIntArray STOPS_FILTER_RES_ID_MAP = new SparseIntArray() {
-		{
-			put(FlightFilter.STOPS_ANY, R.id.flight_filter_stop_any);
-			put(FlightFilter.STOPS_MAX, R.id.flight_filter_stop_one_or_less);
-			put(FlightFilter.STOPS_NONSTOP, R.id.flight_filter_stop_none);
-		}
-	};
-
-	private RadioGroup.OnCheckedChangeListener mControlKnobListener = new RadioGroup.OnCheckedChangeListener() {
-		@Override
-		public void onCheckedChanged(RadioGroup group, int checkedId) {
-			FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
-
-			switch (checkedId) {
-			case R.id.flight_sort_arrives:
-			case R.id.flight_sort_departs:
-			case R.id.flight_sort_duration:
-			case R.id.flight_sort_price:
-				filter.setSort(RES_ID_SORT_MAP.get(Integer.valueOf(checkedId)));
-				break;
-			case R.id.flight_filter_stop_any:
-			case R.id.flight_filter_stop_one_or_less:
-			case R.id.flight_filter_stop_none:
-				filter.setStops(RES_ID_STOPS_FILTER_MAP.get(checkedId));
-				break;
-			}
-
-			onFilterChanged(filter);
-		}
-	};
-
-	private OnCheckedChangeListener mAirlineOnCheckedChangeListener = new OnCheckedChangeListener() {
-		@Override
-		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
-			FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
-			FlightTrip trip = (FlightTrip) view.getTag();
-			filter.setPreferredAirline(trip.getLeg(mLegNumber).getFirstAirlineCode(), isChecked);
-			filter.notifyFilterChanged();
-		}
-	};
-
-	private OnCheckedChangeListener mAirportOnCheckedChangeListener = new OnCheckedChangeListener() {
-		@Override
-		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
-			FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
-			String[] split = ((String) view.getTag()).split(";");
-			boolean departureAirport = Boolean.parseBoolean(split[0]);
-			String airportCode = split[1];
-			if (isChecked) {
-				filter.addAirport(departureAirport, airportCode);
-			}
-			else {
-				filter.removeAirport(departureAirport, airportCode);
-			}
-
-			onFilterChanged(filter);
-		}
-	};
 
 	public void onFilterChanged() {
 		onFilterChanged(Db.getFlightSearch().getFilter(mLegNumber));
@@ -265,5 +179,96 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			mAirlineContainer.getChildAt(i).setVisibility(View.GONE);
 		}
 	}
+
+	/////////////////////////////////////////////////////////////////////////
+	// CheckedChange Listeners
+
+	private RadioGroup.OnCheckedChangeListener mControlKnobListener = new RadioGroup.OnCheckedChangeListener() {
+		@Override
+		public void onCheckedChanged(RadioGroup group, int checkedId) {
+			FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
+
+			switch (checkedId) {
+			case R.id.flight_sort_arrives:
+			case R.id.flight_sort_departs:
+			case R.id.flight_sort_duration:
+			case R.id.flight_sort_price:
+				filter.setSort(RES_ID_SORT_MAP.get(Integer.valueOf(checkedId)));
+				break;
+			case R.id.flight_filter_stop_any:
+			case R.id.flight_filter_stop_one_or_less:
+			case R.id.flight_filter_stop_none:
+				filter.setStops(RES_ID_STOPS_FILTER_MAP.get(checkedId));
+				break;
+			}
+
+			onFilterChanged(filter);
+		}
+	};
+
+	private CheckBoxFilterWidget.OnCheckedChangeListener mAirlineOnCheckedChangeListener = new CheckBoxFilterWidget.OnCheckedChangeListener() {
+		@Override
+		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
+			FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
+			FlightTrip trip = (FlightTrip) view.getTag();
+			filter.setPreferredAirline(trip.getLeg(mLegNumber).getFirstAirlineCode(), isChecked);
+			filter.notifyFilterChanged();
+		}
+	};
+
+	private CheckBoxFilterWidget.OnCheckedChangeListener mAirportOnCheckedChangeListener = new CheckBoxFilterWidget.OnCheckedChangeListener() {
+		@Override
+		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
+			FlightFilter filter = Db.getFlightSearch().getFilter(mLegNumber);
+			String[] split = ((String) view.getTag()).split(";");
+			boolean departureAirport = Boolean.parseBoolean(split[0]);
+			String airportCode = split[1];
+			if (isChecked) {
+				filter.addAirport(departureAirport, airportCode);
+			}
+			else {
+				filter.removeAirport(departureAirport, airportCode);
+			}
+
+			onFilterChanged(filter);
+		}
+	};
+
+	/////////////////////////////////////////////////////////////////////////
+	// Static maps for Filter -> resId and resId - Filter
+
+	private static final Map<Integer, FlightFilter.Sort> RES_ID_SORT_MAP = new HashMap<Integer, FlightFilter.Sort>() {
+		{
+			put(R.id.flight_sort_arrives, FlightFilter.Sort.ARRIVAL);
+			put(R.id.flight_sort_departs, FlightFilter.Sort.DEPARTURE);
+			put(R.id.flight_sort_duration, FlightFilter.Sort.DURATION);
+			put(R.id.flight_sort_price, FlightFilter.Sort.PRICE);
+		}
+	};
+
+	private static final Map<FlightFilter.Sort, Integer> SORT_RADIO_BUTTON_MAP = new HashMap<FlightFilter.Sort, Integer>() {
+		{
+			put(FlightFilter.Sort.ARRIVAL, R.id.flight_sort_arrives);
+			put(FlightFilter.Sort.DEPARTURE, R.id.flight_sort_departs);
+			put(FlightFilter.Sort.DURATION, R.id.flight_sort_duration);
+			put(FlightFilter.Sort.PRICE, R.id.flight_sort_price);
+		}
+	};
+
+	private static final SparseIntArray RES_ID_STOPS_FILTER_MAP = new SparseIntArray() {
+		{
+			put(R.id.flight_filter_stop_any, FlightFilter.STOPS_ANY);
+			put(R.id.flight_filter_stop_one_or_less, FlightFilter.STOPS_MAX);
+			put(R.id.flight_filter_stop_none, FlightFilter.STOPS_NONSTOP);
+		}
+	};
+
+	private static final SparseIntArray STOPS_FILTER_RES_ID_MAP = new SparseIntArray() {
+		{
+			put(FlightFilter.STOPS_ANY, R.id.flight_filter_stop_any);
+			put(FlightFilter.STOPS_MAX, R.id.flight_filter_stop_one_or_less);
+			put(FlightFilter.STOPS_NONSTOP, R.id.flight_filter_stop_none);
+		}
+	};
 
 }
