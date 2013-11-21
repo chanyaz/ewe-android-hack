@@ -17,7 +17,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 /**
- * ResultsFlightFiltersFragment: The filters fragment designed for tablet results 2013
+ * ResultsFlightDetailsFragment: The flight details fragment designed for tablet results 2013
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ResultsFlightDetailsFragment extends Fragment {
