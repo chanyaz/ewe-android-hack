@@ -1,11 +1,12 @@
 package com.expedia.bookings.test.utils;
 
-import com.expedia.bookings.R;
-import com.mobiata.android.util.SettingUtils;
-
+import android.content.Context;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.DisplayMetrics;
+
+import com.expedia.bookings.R;
+import com.mobiata.android.util.SettingUtils;
 
 public class CustomActivityInstrumentationTestCase<T> extends ActivityInstrumentationTestCase2 {
 
@@ -15,6 +16,7 @@ public class CustomActivityInstrumentationTestCase<T> extends ActivityInstrument
 	}
 
 	protected Resources mRes;
+	protected Context mContext;
 	protected DisplayMetrics mMetric;
 	protected HotelsTestDriver mDriver;
 	protected HotelsUserData mUser;
@@ -24,6 +26,7 @@ public class CustomActivityInstrumentationTestCase<T> extends ActivityInstrument
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		mContext = getActivity().getApplicationContext();
 		mRes = getActivity().getBaseContext().getResources();
 		mPreferences = new TestPreferences();
 		mPreferences.setRotationPermission(false);
