@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -180,6 +181,8 @@ public class SlidingRadioGroup extends RadioGroup implements RadioGroup.OnChecke
 
 		private int mSluggishness;
 
+		private Animator mAnimator;
+
 		public ExposedLayerDrawable(Drawable unselected, Drawable selected,
 				Paint unselectedDivider, Paint selectedDivider, int sluggishness) {
 			mRectExposed = new Rect();
@@ -204,7 +207,6 @@ public class SlidingRadioGroup extends RadioGroup implements RadioGroup.OnChecke
 
 		@TargetApi(11)
 		public void setExposedRect(View child, boolean animate) {
-			mRectFrom.set(mRectExposed);
 
 			if (child != null) {
 				mRectTo.left = child.getLeft() - 1;
@@ -219,9 +221,14 @@ public class SlidingRadioGroup extends RadioGroup implements RadioGroup.OnChecke
 				mRectTo.right = -1;
 			}
 
-			if (animate) {
+			if (mAnimator != null && mAnimator.isRunning()) {
+				// Another animator is running. Just updating mRectTo is sufficient.
+			}
+			else if (animate) {
+				mRectFrom.set(mRectExposed);
 				// This will call setRectTransit()
-				ObjectAnimator.ofFloat(this, "rectTransit", 0f, 1f).setDuration(mSluggishness).start();
+				mAnimator = ObjectAnimator.ofFloat(this, "rectTransit", 0f, 1f).setDuration(mSluggishness);
+				mAnimator.start();
 			}
 			else {
 				mRectExposed.set(mRectTo);
