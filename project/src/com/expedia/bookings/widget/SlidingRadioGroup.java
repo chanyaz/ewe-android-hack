@@ -11,7 +11,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 
@@ -118,16 +117,12 @@ public class SlidingRadioGroup extends RadioGroup implements RadioGroup.OnChecke
 
 		// This overrides the radiogroup onCheckListener
 		super.setOnCheckedChangeListener(this);
+	}
 
-		getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
-			@Override
-			public boolean onPreDraw() {
-				getViewTreeObserver().removeOnPreDrawListener(this);
-				updateExposedRect(false);
-				return false;
-			}
-		});
-
+	@Override
+	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		super.onLayout(changed, l, t, r, b);
+		updateExposedRect(false);
 	}
 
 	@Override
