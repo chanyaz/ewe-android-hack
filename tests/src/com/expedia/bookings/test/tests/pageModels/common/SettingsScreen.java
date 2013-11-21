@@ -22,6 +22,7 @@ public class SettingsScreen extends ScreenActions {
 	private static final int ACCEPT_STRING_ID = R.string.accept;
 	private static final int SPOOF_HOTEL_BOOKING_CHECKBOX_ID = R.id.preference_spoof_booking_checkbox;
 	private static final int SUPPRESS_FLIGHT_BOOKING_CHECKBOX_ID = R.id.preference_suppress_flight_booking_checkbox;
+	private static final int CANCEL_STRING_ID = R.string.cancel;
 
 	private static final int COUNTRY_STRING_ID = R.string.preference_point_of_sale_title;
 	private static final String SELECT_API_STRING_ID = "Select API";
@@ -44,6 +45,10 @@ public class SettingsScreen extends ScreenActions {
 		return mRes.getString(OK_STRING_ID);
 	}
 
+	public String cancelString() {
+		return mRes.getString(CANCEL_STRING_ID);
+	}
+
 	public String AcceptString() {
 		return mRes.getString(ACCEPT_STRING_ID);
 	}
@@ -64,6 +69,10 @@ public class SettingsScreen extends ScreenActions {
 
 	public void clickOKString() {
 		clickOnText(OKString());
+	}
+
+	public void clickCancelString() {
+		clickOnText(cancelString());
 	}
 
 	public void clickAcceptString() {
