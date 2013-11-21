@@ -69,6 +69,7 @@ public class TripsLoginTests extends CustomActivityInstrumentationTestCase<Launc
 		else {
 			mDriver.settingsScreen().clickAcceptString();
 		}
+		mDriver.delay();
 		mDriver.enterLog(TAG, "Pressed the affirmative button on the changing POS dialog.");
 		assertFalse("User should no longer have been logged in after the POS was changed.", User.isLoggedIn(mContext));
 		mDriver.goBack();
