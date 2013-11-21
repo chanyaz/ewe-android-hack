@@ -104,7 +104,7 @@ public class ScreenActions extends Solo {
 	}
 
 	public void waitForStringToBeGone(String s) throws Exception {
-		waitForStringToBeGone(s, 20);
+		waitForStringToBeGone(s, 60);
 	}
 
 	public void waitForViewToBeGone(View v, int timeoutMax) throws Exception {
