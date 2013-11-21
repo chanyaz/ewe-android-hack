@@ -18,13 +18,13 @@ dependencies {
 
 android {
     compileSdkVersion 18
-    buildToolsVersion "18.0.1"
+    buildToolsVersion "18.1.0"
 
     defaultConfig {
         versionCode 32
         versionName "3.5"
         minSdkVersion 8
-        targetSdkVersion 18
+        targetSdkVersion 19
 
         testPackageName "com.expedia.bookings.debug.test"
         testInstrumentationRunner "com.zutubi.android.junitreport.JUnitReportTestRunner"
