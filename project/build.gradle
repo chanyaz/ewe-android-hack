@@ -27,7 +27,6 @@ android {
         targetSdkVersion 19
 
         testPackageName "com.expedia.bookings.debug.test"
-        testInstrumentationRunner "com.zutubi.android.junitreport.JUnitReportTestRunner"
     }
 
     productFlavors {
@@ -41,6 +40,11 @@ android {
             packageName "com.expedia.bookings.vsc"
             versionCode 1
             versionName "1.0"
+        }
+
+        Automation {
+            packageName "com.expedia.bookings.auto"
+            buildConfig "public static final boolean IS_VSC = false;"
         }
     }
 
@@ -69,12 +73,6 @@ android {
             hockey.enabled true
         }
 
-        tablet.initWith(buildTypes.debug)
-        tablet {
-            packageNameSuffix ".tablet"
-            hockey.enabled true
-        }
-
         release {
             runProguard true
             proguardFile 'proguard.cfg'
@@ -92,8 +90,16 @@ android {
             assets.srcDirs = ['assets']
         }
 
-        instrumentTest.manifest.srcFile '../tests/AndroidManifest.xml'
-        instrumentTest.java.srcDirs = ['../tests/src']
+        instrumentTest {
+            java.srcDirs = ['../unitTests/java']
+            res.srcDirs = ['../unitTests/res']
+        }
+
+        instrumentTestAutomation {
+            manifest.srcFile '../tests/AndroidManifest.xml'
+            java.srcDirs = ['../tests/src']
+            res.srcDirs = ['../tests/res']
+        }
 
         VSC {
             manifest.srcFile 'AndroidManifest-vsc.xml'
