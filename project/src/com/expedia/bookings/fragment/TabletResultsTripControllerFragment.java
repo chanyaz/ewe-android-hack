@@ -40,7 +40,6 @@ import com.expedia.bookings.widget.BlockEventFrameLayout;
 import com.expedia.bookings.widget.FixedTranslationFrameLayout;
 import com.expedia.bookings.widget.SwipeOutLayout;
 import com.expedia.bookings.widget.SwipeOutLayout.ISwipeOutListener;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 /**

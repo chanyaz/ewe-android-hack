@@ -209,7 +209,7 @@ public class ShareUtils {
 		DateTime dropOffDate = itinCardData.getDropOffDate();
 		String vendorName = itinCardData.getVendorName();
 		String vendorAddress = itinCardData.getRelevantVendorLocation().toLongFormattedString();
-		
+
 		// #2189: Only use share URL with hotels/flights
 		return getCarShareTextShort(category, pickUpDate, dropOffDate, vendorName, vendorAddress, null);
 	}

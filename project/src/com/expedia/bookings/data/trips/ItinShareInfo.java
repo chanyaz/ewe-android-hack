@@ -4,7 +4,6 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
-import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 

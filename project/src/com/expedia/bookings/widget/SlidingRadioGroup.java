@@ -24,7 +24,7 @@ import com.expedia.bookings.R;
  * 
  * This control paints its background in two layers: the bottom (unselected) layer
  * fills the whole canvas. The top (selected) layer is partially exposed, depending
- * on which CompoundButton child is selected. That exposed part of the top layer 
+ * on which CompoundButton child is selected. That exposed part of the top layer
  * can be animated from one region to the next if desired. Both drawables used
  * for drawing the background are expected to fill the canvas (so, probably use
  * 9-patch drawables).
@@ -42,7 +42,7 @@ import com.expedia.bookings.R;
  *     app:sluggishness="150"
  *     app:unselectedDividerColor="#40999999"
  *     app:unselectedDrawable="@drawable/btn_tablet_filter_normal" &gt;
- *     
+ * 
  *     &lt;RadioButton
  *         android:id="@+id/option_1"
  *         android:layout_width="0dp"
@@ -50,7 +50,7 @@ import com.expedia.bookings.R;
  *         android:layout_weight="1"
  *         android:text="option 1"
  *         android:textColor="@color/sliding_group_text" /&gt;
- *     
+ * 
  *     &lt;RadioButton
  *         android:id="@+id/option_2"
  *         android:layout_width="0dp"

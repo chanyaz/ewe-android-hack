@@ -3,12 +3,10 @@ package com.expedia.bookings.graphics;
 import android.content.res.Resources;
 import android.text.TextUtils;
 
-import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.ExpediaImageManager.ImageType;
-import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;

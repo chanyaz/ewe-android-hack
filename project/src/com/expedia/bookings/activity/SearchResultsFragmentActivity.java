@@ -590,7 +590,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	public static final int SOURCE_LIST = 1;
 	public static final int SOURCE_MAP = 2;
 	public static final int SOURCE_MINI_DETAILS = 3;
-	public static final int SOURCE_AUTO = 4; // When we automatically want to start with details 
+	public static final int SOURCE_AUTO = 4; // When we automatically want to start with details
 
 	public void propertySelected(Property property, int source) {
 		Log.v("propertySelected(): " + property.getName());

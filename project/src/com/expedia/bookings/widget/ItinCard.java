@@ -834,7 +834,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			}
 		}
 		else {
-			// Make mFixedItinTypeImageView start out aligned with mItinTypeImageView 
+			// Make mFixedItinTypeImageView start out aligned with mItinTypeImageView
 			mFixedItinTypeImageTranslation = mItinTypeImageView.getTop() - mFixedItinTypeImageView.getTop();
 
 			// There's no need to animate anything here if this is the summary card
@@ -1015,7 +1015,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		}
 
 		// Header Shade and Type Icon (for past itins).
-		// We couple the mHeaderShadeView stuff with Type Icon because they are both doing alpha animations on top of one another 
+		// We couple the mHeaderShadeView stuff with Type Icon because they are both doing alpha animations on top of one another
 		// and create an animation glitch if both run at once ( The type icon displays as a black box during animation).
 		if (mHeaderShadeView.getVisibility() != View.GONE) {
 			if (animate) {

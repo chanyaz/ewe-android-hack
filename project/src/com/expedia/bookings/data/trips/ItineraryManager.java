@@ -62,7 +62,7 @@ import com.mobiata.flightlib.data.Flight;
  * before manipulating data.
  * 
  * An explanation about how the syncs happen: in order to allow syncs to be modified mid-execution, we implemented
- * a priority Operation queue which re-orders a series of instructions to perform a sync. 
+ * a priority Operation queue which re-orders a series of instructions to perform a sync.
  * 
  * There are essentially four steps to how Operations worked:
  * 
@@ -71,8 +71,8 @@ import com.mobiata.flightlib.data.Flight;
  * 3. Load ancillary data about trips.  For example, flight stats data about trips.  Any calls beyond
  *    our normal refresh should go here.  Also, anyone who loads trip data in #2 should make sure to call
  *    these ancillary data calls.
- * 4. Post-processing operations; these assume that all of the data in the itins have been loaded.  These 
- *    operations include saving the loaded data to disk, generating data for the app to consume, and 
+ * 4. Post-processing operations; these assume that all of the data in the itins have been loaded.  These
+ *    operations include saving the loaded data to disk, generating data for the app to consume, and
  *    registering loaded data with notifications.
  * 
  * For more information, check out the Operation enum comments.
@@ -270,7 +270,7 @@ public class ItineraryManager implements JSONable {
 	 * Note: We are only searching the mItinCardDatas collection, so only itins displayed
 	 * in the itin list will be searched
 	 *
-	 * @param shared - if true, we return a list of shared itin flights, if false we return a list of normal itin flights 
+	 * @param shared - if true, we return a list of shared itin flights, if false we return a list of normal itin flights
 	 * @return a list of Flight instances
 	 */
 	public List<Flight> getItinFlights(boolean shared) {
@@ -762,7 +762,7 @@ public class ItineraryManager implements JSONable {
 
 	// !!!!!
 	//
-	// SUPER IMPORTANT, READ THIS OR I WILL HURT YOU: 
+	// SUPER IMPORTANT, READ THIS OR I WILL HURT YOU:
 	// The order of operations in this enum determines the priorities of each item;
 	// the looper will pick the highest order operation to execute next.
 	//

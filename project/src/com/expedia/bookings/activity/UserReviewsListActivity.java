@@ -16,8 +16,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.format.DateUtils;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -38,7 +36,6 @@ import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.UserReviewsUtils;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.ViewUtils;
 
 public class UserReviewsListActivity extends SherlockFragmentActivity implements UserReviewsFragmentListener,
 		TabListener, OnPageChangeListener {

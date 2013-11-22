@@ -399,8 +399,8 @@ public class StrUtils {
 
 	public static String formatHexString(String str) {
 		StringBuilder sb = new StringBuilder();
-		for(byte b: str.getBytes()) {
-			sb.append(String.format("%02x", b&0xff));
+		for (byte b: str.getBytes()) {
+			sb.append(String.format("%02x", b & 0xff));
 		}
 		return sb.toString();
 	}

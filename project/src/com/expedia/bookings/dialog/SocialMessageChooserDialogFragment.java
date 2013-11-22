@@ -1,8 +1,5 @@
 package com.expedia.bookings.dialog;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -13,30 +10,17 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FacebookShareActivity;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.trips.ItinCardData;
-import com.expedia.bookings.data.trips.ItinCardDataActivity;
-import com.expedia.bookings.data.trips.ItinCardDataCar;
-import com.expedia.bookings.data.trips.ItinCardDataFlight;
-import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent;
-import com.expedia.bookings.data.trips.TripFlight;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
-import com.expedia.bookings.widget.itin.ActivityItinContentGenerator;
-import com.expedia.bookings.widget.itin.CarItinContentGenerator;
 import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
-import com.expedia.bookings.widget.itin.HotelItinContentGenerator;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.facebook.Session;
-import com.facebook.SessionState;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
-import com.mobiata.flightlib.data.Flight;
-import com.mobiata.flightlib.utils.AddFlightsIntentUtils;
 
 public class SocialMessageChooserDialogFragment extends DialogFragment {
 

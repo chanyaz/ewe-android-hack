@@ -26,8 +26,6 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.server.ExpediaServices.EndPoint;
 import com.google.android.gms.wallet.Address;
 import com.google.android.gms.wallet.Cart;
 import com.google.android.gms.wallet.FullWallet;

@@ -265,7 +265,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	/**
 	 * @param displayName Full name of the traveler
-	 * @return 2 character string, which are the 1st letter of firstname and lastname. 
+	 * @return 2 character string, which are the 1st letter of firstname and lastname.
 	 * In case where displayName has only one name, then just return 1 character.
 	 */
 	private String getInitialsFromDisplayName(String displayName) {
@@ -522,7 +522,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			TextView bookingInfoTv = Ui.findView(item, R.id.booking_info);
 
 			if (isSharedItin()) {
-				//If shared we dont show the additional information button 
+				//If shared we dont show the additional information button
 				View divider = Ui.findView(item, R.id.divider);
 				divider.setVisibility(View.GONE);
 				bookingInfoTv.setVisibility(View.GONE);
