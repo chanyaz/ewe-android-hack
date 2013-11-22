@@ -110,7 +110,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			@Override
 			protected void onPostExecute(List<Property> result) {
 				mCachedProperties = result;
-				if (mSearchResponse != null) {
+				if (mSearchResponse != null && mSearchResponse.getFilter() != null) {
 					mDistanceUnit = mSearchResponse.getFilter().getDistanceUnit();
 				}
 				notifyDataSetChanged();
