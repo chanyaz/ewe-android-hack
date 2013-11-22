@@ -42,7 +42,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	private List<Property> mCachedProperties;
 
 	private boolean mIsMeasuring = false;
-	private boolean mShowDistance = true;
+	private boolean mShowDistance = false;
 
 	private DistanceUnit mDistanceUnit;
 
