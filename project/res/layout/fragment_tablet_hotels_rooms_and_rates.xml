@@ -4,39 +4,115 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <LinearLayout
-        android:id="@+id/rooms_and_rates_content"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="64dp"
-        android:gravity="top"
-        android:orientation="vertical" >
+        android:gravity="top" >
 
-        <FrameLayout
-            android:id="@+id/rooms_and_rates_content_top"
+        <LinearLayout
+            android:id="@+id/rooms_and_rates_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-            <TextView
+            <FrameLayout
+                android:id="@+id/rooms_and_rates_content_top"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="#FF0000"
-                android:gravity="center"
-                android:text="Hotel Image" />
-        </FrameLayout>
+                android:layout_height="200dp" >
 
-        <FrameLayout
-            android:id="@+id/rooms_and_rates_content_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+                <!-- Hotel image (#1822) -->
 
-            <TextView
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FF0000"
+                    android:gravity="center"
+                    android:text="Hotel Image" />
+
+                <!-- Hotel header section (#2058) -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_gravity="bottom"
+                    android:background="#80808080"
+                    android:orientation="horizontal" >
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:id="@+id/button_add_to_trip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center_vertical|right"
+                        android:text="Add for $390"
+                        android:textAllCaps="true" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- Reviews section (#2059) -->
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#FFFF00"
-                android:gravity="center"
-                android:text="Rooms &amp; Rates" />
-        </FrameLayout>
-    </LinearLayout>
+                android:layout_height="80dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#00FF00"
+                    android:gravity="center"
+                    android:text="Reviews Section" />
+            </FrameLayout>
+
+            <!-- Amenities section (#2060) -->
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#0000FF"
+                    android:gravity="center"
+                    android:text="Amenities Section"
+                    android:textColor="#ffffff" />
+            </FrameLayout>
+
+            <!-- Rooms and Rates section -->
+
+            <LinearLayout
+                android:id="@+id/rooms_rates_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:background="#FFFF00"
+                    android:gravity="center"
+                    android:text="Rate #1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:background="#FF00FF"
+                    android:gravity="center"
+                    android:text="Rate #2" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:background="#00FFFF"
+                    android:gravity="center"
+                    android:text="Rate #3" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>

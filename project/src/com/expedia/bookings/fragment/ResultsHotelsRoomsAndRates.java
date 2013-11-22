@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.interfaces.IAddToTripListener;
@@ -30,7 +31,7 @@ public class ResultsHotelsRoomsAndRates extends Fragment {
 	private ViewGroup mRootC;
 	private ViewGroup mRoomsAndRatesC;
 	private ViewGroup mRoomsAndRatesTopC;
-	private ViewGroup mRoomsAndRatesBottomC;
+	private Button mAddToTripButton;
 
 	private IAddToTripListener mAddToTripListener;
 
@@ -47,10 +48,10 @@ public class ResultsHotelsRoomsAndRates extends Fragment {
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotels_rooms_and_rates, null);
 		mRoomsAndRatesC = Ui.findView(mRootC, R.id.rooms_and_rates_content);
 		mRoomsAndRatesTopC = Ui.findView(mRootC, R.id.rooms_and_rates_content_top);
-		mRoomsAndRatesBottomC = Ui.findView(mRootC, R.id.rooms_and_rates_content_bottom);
+		mAddToTripButton = Ui.findView(mRootC, R.id.button_add_to_trip);
 
-		mRoomsAndRatesBottomC.setPivotY(0f);
-		mRoomsAndRatesBottomC.setOnClickListener(new OnClickListener() {
+		mAddToTripButton.setPivotY(0f);
+		mAddToTripButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
@@ -63,15 +64,17 @@ public class ResultsHotelsRoomsAndRates extends Fragment {
 	}
 
 	public void setTransitionToAddTripPercentage(float percentage) {
-		if (mRoomsAndRatesBottomC != null) {
-			mRoomsAndRatesBottomC.setScaleY(1f - percentage);
-		}
+		//TODO
+		//		if (mAddToTripButton != null) {
+		//			mAddToTripButton.setScaleY(1f - percentage);
+		//		}
 	}
 
 	public void setTransitionToAddTripHardwareLayer(int layerType) {
-		if (mRoomsAndRatesBottomC != null) {
-			mRoomsAndRatesBottomC.setLayerType(layerType, null);
-		}
+		//TODO
+		//		if (mAddToTripButton != null) {
+		//			mAddToTripButton.setLayerType(layerType, null);
+		//		}
 	}
 
 	public Object getSelectedData() {
