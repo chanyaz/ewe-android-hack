@@ -14,34 +14,35 @@
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
+                style="@style/V2.Widget.TextView.FilterTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:text="@string/flight_preferences" />
+                android:layout_marginBottom="12dp"
+                android:text="@string/Sort_and_Filter" />
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
+                style="@style/V2.Widget.TextView.FilterHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/Sort_By"
-                android:textAllCaps="true" />
+                android:text="@string/Sort_By" />
 
         <include layout="@layout/include_flight_tablet_sort" />
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
+                style="@style/V2.Widget.TextView.FilterHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/stops"
-                android:textAllCaps="true" />
+                android:text="@string/stops" />
 
         <include layout="@layout/include_flight_tablet_filter" />
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
                 android:id="@+id/departure_airports_header"
+                style="@style/V2.Widget.TextView.FilterHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/hint_departure_airport"
-                android:textAllCaps="true" />
+                android:text="@string/hint_departure_airport" />
 
         <com.expedia.bookings.widget.AirportFilterWidget
                 android:id="@+id/departure_airports_widget"
@@ -51,12 +52,12 @@
                 android:layout_marginBottom="24dp"
                 android:singleLine="true" />
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
                 android:id="@+id/arrival_airports_header"
+                style="@style/V2.Widget.TextView.FilterHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/hint_arrival_airport"
-                android:textAllCaps="true" />
+                android:text="@string/hint_arrival_airport" />
 
         <com.expedia.bookings.widget.AirportFilterWidget
                 android:id="@+id/arrival_airports_widget"
@@ -66,11 +67,11 @@
                 android:layout_marginBottom="24dp"
                 android:singleLine="true" />
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
+                style="@style/V2.Widget.TextView.FilterHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/airlines"
-                android:textAllCaps="true" />
+                android:text="@string/airlines" />
 
         <LinearLayout
                 android:id="@+id/filter_airline_container"

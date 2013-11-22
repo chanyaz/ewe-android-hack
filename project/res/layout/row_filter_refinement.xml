@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <CheckBox
         android:id="@+id/filter_refinement_checkbox"
@@ -10,9 +10,9 @@
         android:gravity="center_vertical"
         android:singleLine="true"
         android:textColor="@color/tablet_filter_checkbox_text"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/filter_refinement_textview"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
@@ -20,6 +20,7 @@
         android:padding="6dp"
         android:singleLine="true"
         android:textColor="@color/tablet_filter_from_text"
-        android:textSize="14sp" />
+        android:textSize="16sp"
+        app:textStyle="medium"/>
 
 </merge>

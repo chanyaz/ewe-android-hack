@@ -5,26 +5,23 @@
             android:id="@+id/flight_filter_control"
             style="@style/Widget.SlidingRadioGroup.TabletFilterControls"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="24dp" >
 
         <RadioButton
-                android:id="@+id/flight_filter_stop_any"
-                style="@style/Widget.RadioButton.TabletFilterControls"
-                android:text="@string/stop_description_any"
-                android:textSize="10sp" />
-
-        <RadioButton
                 android:id="@+id/flight_filter_stop_one_or_less"
-                style="@style/Widget.RadioButton.TabletFilterControls"
-                android:text="@string/stop_description__max"
-                android:textSize="10sp" />
+                style="@style/V2.Widget.RadioButton.Filter"
+                android:text="@string/stop_description__max" />
 
         <RadioButton
                 android:id="@+id/flight_filter_stop_none"
-                style="@style/Widget.RadioButton.TabletFilterControls"
-                android:text="@string/stop_description__nonstop"
-                android:textSize="10sp" />
+                style="@style/V2.Widget.RadioButton.Filter"
+                android:text="@string/stop_description__nonstop" />
+
+        <RadioButton
+                android:id="@+id/flight_filter_stop_any"
+                style="@style/V2.Widget.RadioButton.Filter"
+                android:text="@string/stop_description_any" />
     </com.expedia.bookings.widget.SlidingRadioGroup>
 
 </merge>

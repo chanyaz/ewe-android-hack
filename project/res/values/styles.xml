@@ -682,15 +682,6 @@
         <item name="unselectedDrawable">@drawable/btn_tablet_filter_normal</item>
     </style>
 
-    <style name="Widget.RadioButton.TabletFilterControls">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">fill_parent</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:button">@android:color/transparent</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/sliding_group_text</item>
-    </style>
-
     <style name="Widget.Button.TabletFilterControls">
         <item name="android:background">@drawable/btn_tablet_filter</item>
         <item name="android:textColor">@color/sliding_group_text</item>

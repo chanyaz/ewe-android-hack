@@ -5,32 +5,28 @@
             android:id="@+id/flight_sort_control"
             style="@style/Widget.SlidingRadioGroup.TabletFilterControls"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="24dp" >
 
         <RadioButton
                 android:id="@+id/flight_sort_price"
-                style="@style/Widget.RadioButton.TabletFilterControls"
-                android:text="@string/sort_description_price"
-                android:textSize="10sp" />
+                style="@style/V2.Widget.RadioButton.Filter"
+                android:text="@string/sort_description_price" />
 
         <RadioButton
                 android:id="@+id/flight_sort_departs"
-                style="@style/Widget.RadioButton.TabletFilterControls"
-                android:text="@string/sort_description_departure"
-                android:textSize="10sp" />
+                style="@style/V2.Widget.RadioButton.Filter"
+                android:text="@string/sort_description_departure" />
 
         <RadioButton
                 android:id="@+id/flight_sort_arrives"
-                style="@style/Widget.RadioButton.TabletFilterControls"
-                android:text="@string/sort_description_arrival"
-                android:textSize="10sp" />
+                style="@style/V2.Widget.RadioButton.Filter"
+                android:text="@string/sort_description_arrival" />
 
         <RadioButton
                 android:id="@+id/flight_sort_duration"
-                style="@style/Widget.RadioButton.TabletFilterControls"
-                android:text="@string/sort_description_duration"
-                android:textSize="10sp" />
+                style="@style/V2.Widget.RadioButton.Filter"
+                android:text="@string/sort_description_duration" />
     </com.expedia.bookings.widget.SlidingRadioGroup>
 
 </merge>
