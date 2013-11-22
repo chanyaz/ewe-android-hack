@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -100,33 +101,47 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	}
 
 	private void rebuildCache() {
+		new AsyncTask<Void, Void, List<Property>>() {
+			@Override
+			protected List<Property> doInBackground(Void... params) {
+				return rebuildCacheBlocking();
+			}
+
+			@Override
+			protected void onPostExecute(List<Property> result) {
+				mCachedProperties = result;
+				mDistanceUnit = mSearchResponse.getFilter().getDistanceUnit();
+				notifyDataSetChanged();
+			}
+		}.execute();
+	}
+
+	private List<Property> rebuildCacheBlocking() {
 		Log.d("Rebuilding hotel list adapter cache...");
 
 		if (mSearchResponse == null || mSearchResponse.getProperties() == null) {
-			mCachedProperties = null;
+			return null;
+		}
+
+		List<Property> properties = mSearchResponse.getFilteredAndSortedProperties();
+
+		if (properties == null || properties.size() == 0) {
+			OmnitureTracking.trackErrorPage(mContext, "FilteredToZeroResults");
 		}
 		else {
-			mCachedProperties = mSearchResponse.getFilteredAndSortedProperties();
-
-			mDistanceUnit = mSearchResponse.getFilter().getDistanceUnit();
-			if (mCachedProperties == null || mCachedProperties.size() == 0) {
-				OmnitureTracking.trackErrorPage(mContext, "FilteredToZeroResults");
-			}
-			else {
-				determinePriceTextSize();
-			}
+			determinePriceTextSize(properties);
 		}
 
-		notifyDataSetChanged();
+		return properties;
 	}
 
-	private void determinePriceTextSize() {
-		if (mCachedProperties == null || mCachedProperties.size() == 0) {
+	private void determinePriceTextSize(List<Property> properties) {
+		if (properties == null || properties.size() == 0) {
 			return;
 		}
 
 		String longestPrice = "";
-		for (Property property : mCachedProperties) {
+		for (Property property : properties) {
 			Rate rate = property.getLowestRate();
 			if (rate != null) {
 				String displayPrice = StrUtils.formatHotelPrice(rate.getDisplayPrice());
