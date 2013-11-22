@@ -27,6 +27,7 @@ android {
         targetSdkVersion 19
 
         testPackageName "com.expedia.bookings.debug.test"
+        testInstrumentationRunner "com.zutubi.android.junitreport.JUnitReportTestRunner"
     }
 
     productFlavors {
