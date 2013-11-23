@@ -20,7 +20,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.SpannableBuilder;
-import com.expedia.bookings.utils.TypefaceSpan;
 import com.expedia.bookings.utils.Ui;
 
 public class CheckBoxFilterWidget extends LinearLayout implements Checkable, Comparable<CheckBoxFilterWidget> {
@@ -120,8 +119,7 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable, Com
 	public void bindFlight(FlightFilter filter, FlightTrip trip, int legNumber) {
 		boolean isChecked = filter.getPreferredAirlines().contains(trip.getLeg(legNumber).getFirstAirlineCode());
 		SpannableBuilder sb = new SpannableBuilder();
-		sb.append(trip.getLeg(legNumber).getAirlinesFormatted(),
-				new TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)));
+		sb.append(trip.getLeg(legNumber).getAirlinesFormatted(), FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 
 		setChecked(isChecked);
 		setDescription(sb.build());

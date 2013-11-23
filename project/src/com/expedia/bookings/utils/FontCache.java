@@ -41,6 +41,7 @@ public class FontCache {
 	private static Context sContext;
 
 	private static Map<Font, Typeface> sCachedFonts = new HashMap<Font, Typeface>();
+	private static Map<Font, TypefaceSpan> sCachedSpans = new HashMap<Font, TypefaceSpan>();
 
 	private FontCache() {
 		// No constructor
@@ -57,6 +58,13 @@ public class FontCache {
 		}
 
 		return sCachedFonts.get(font);
+	}
+
+	public static TypefaceSpan getSpan(Font font) {
+		if (!sCachedSpans.containsKey(font)) {
+			sCachedSpans.put(font, new TypefaceSpan(getTypeface(font)));
+		}
+		return sCachedSpans.get(font);
 	}
 
 	public static void setTypeface(TextView tv, Font font) {

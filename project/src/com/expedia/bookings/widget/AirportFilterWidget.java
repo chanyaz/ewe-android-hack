@@ -82,13 +82,12 @@ public class AirportFilterWidget extends TextView {
 		SpannableBuilder sb = new SpannableBuilder();
 		if (airportsInFilter.size() == airportsAll.size()) {
 			Location loc = Db.getFlightSearch().getSearchParams().getLocation(mDepartureAirport);
-			sb.append(loc.getDestinationId() + " - ",
-					new TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD)));
-			sb.append(loc.getDescription(), new TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)));
+			sb.append(loc.getDestinationId() + " - ", FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
+			sb.append(loc.getDescription(), FontCache.getSpan(FontCache.Font.ROBOTO_REGULAR));
 		}
 		else {
 			sb.append(StrUtils.joinWithoutEmpties(", ", airportsInFilter),
-					new TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD)));
+					FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
 		}
 		setText(sb.build(), android.widget.TextView.BufferType.SPANNABLE);
 	}
@@ -115,9 +114,8 @@ public class AirportFilterWidget extends TextView {
 				Airport airport = FlightStatsDbUtils.getAirport(code);
 
 				SpannableBuilder sb = new SpannableBuilder();
-				sb.append(airport.mAirportCode + " - ",
-						new TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD)));
-				sb.append(airport.mName, new TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)));
+				sb.append(airport.mAirportCode + " - ", FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
+				sb.append(airport.mName, FontCache.getSpan(FontCache.Font.ROBOTO_REGULAR));
 
 				CheckBoxFilterWidget widget = new CheckBoxFilterWidget(getContext());
 
