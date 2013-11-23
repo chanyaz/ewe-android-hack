@@ -19,7 +19,10 @@ import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.TypefaceSpan;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CheckBoxFilterWidget.OnCheckedChangeListener;
 import com.mobiata.flightlib.data.Airport;
@@ -76,15 +79,18 @@ public class AirportFilterWidget extends TextView {
 		Set<String> airportsInFilter = mFilter.getAirports(mDepartureAirport);
 		Set<String> airportsAll = Db.getFlightSearch().getAirports(mLegNumber, mDepartureAirport);
 
-		String text;
+		SpannableBuilder sb = new SpannableBuilder();
 		if (airportsInFilter.size() == airportsAll.size()) {
 			Location loc = Db.getFlightSearch().getSearchParams().getLocation(mDepartureAirport);
-			text = loc.getDestinationId() + " - " + loc.getDescription();
+			sb.append(loc.getDestinationId() + " - ",
+					new TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD)));
+			sb.append(loc.getDescription(), new TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)));
 		}
 		else {
-			text = StrUtils.joinWithoutEmpties(", ", airportsInFilter);
+			sb.append(StrUtils.joinWithoutEmpties(", ", airportsInFilter),
+					new TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD)));
 		}
-		setText(text);
+		setText(sb.build(), android.widget.TextView.BufferType.SPANNABLE);
 	}
 
 	private void toggleDropdown() {
@@ -94,7 +100,7 @@ public class AirportFilterWidget extends TextView {
 		else {
 			View content = LayoutInflater.from(getContext()).inflate(R.layout.snippet_flight_airport_filter, null);
 			ViewGroup vg = Ui.findView(content, R.id.airport_filter_container);
-			mPopup = new PopupWindow(content, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
+			mPopup = new PopupWindow(content, getWidth(), ViewGroup.LayoutParams.WRAP_CONTENT,
 					true);
 			mPopup.setBackgroundDrawable(new BitmapDrawable());
 			mPopup.setOutsideTouchable(true);
@@ -107,13 +113,21 @@ public class AirportFilterWidget extends TextView {
 			// Add the checkbox widgets
 			for (String code : mAirportCodes) {
 				Airport airport = FlightStatsDbUtils.getAirport(code);
-				String text = airport.mAirportCode + " - " + airport.mName;
+
+				SpannableBuilder sb = new SpannableBuilder();
+				sb.append(airport.mAirportCode + " - ",
+						new TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD)));
+				sb.append(airport.mName, new TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)));
+
 				CheckBoxFilterWidget widget = new CheckBoxFilterWidget(getContext());
-				widget.setDescription(text);
-				widget.setPrice(cheapestPerAirport.get(airport.mAirportCode).getTotalFare());
+
+				widget.setDescription(sb.build());
+				widget.setPrice(cheapestPerAirport.get(airport.mAirportCode).getTotalFare(), false);
+
 				widget.setTag(Boolean.toString(mDepartureAirport) + ";" + code);
 				widget.setChecked(mFilter.containsAirport(mDepartureAirport, airport.mAirportCode));
 				widget.setOnCheckedChangeListener(mAirportCheckChangeListener);
+
 				vg.addView(widget);
 			}
 
