@@ -80,12 +80,13 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		mArrivalAirportsHeader = Ui.findView(view, R.id.arrival_airports_header);
 		mArrivalAirportFilterWidget = Ui.findView(view, R.id.arrival_airports_widget);
 
-		Set<String> departureAirports = Db.getFlightSearch().getAirports(mLegNumber, true);
+		FlightSearch.FlightTripQuery query = Db.getFlightSearch().queryTrips(mLegNumber);
+		Set<String> departureAirports = query.getDepartureAirportCodes();
 		mDepartureAirportFilterWidget
 				.bind(mLegNumber, true, departureAirports, mFilter, mAirportOnCheckedChangeListener);
 		mDepartureAirportsHeader.setVisibility(departureAirports.size() < 2 ? View.GONE : View.VISIBLE);
 
-		Set<String> arrivalAirports = Db.getFlightSearch().getAirports(mLegNumber, false);
+		Set<String> arrivalAirports = query.getArrivalAirportCodes();
 		mArrivalAirportFilterWidget.bind(mLegNumber, false, arrivalAirports, mFilter, mAirportOnCheckedChangeListener);
 		mArrivalAirportsHeader.setVisibility(arrivalAirports.size() < 2 ? View.GONE : View.VISIBLE);
 
@@ -121,20 +122,8 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	}
 
 	private void buildAirlineList() {
-		List<FlightTrip> allTrips = Db.getFlightSearch().getTrips(mLegNumber);
-		List<FlightTrip> filteredTrips = FlightSearch.getTripsFilteredByStops(mLegNumber, allTrips, mFilter.getStops());
-		filteredTrips = FlightSearch.getTripsFilteredByAirport(mLegNumber, filteredTrips,
-				mFilter.getDepartureAirports(), true);
-		filteredTrips = FlightSearch.getTripsFilteredByAirport(mLegNumber, filteredTrips, mFilter.getArrivalAirports(),
-				false);
-		Map<String, FlightTrip> cheapestTripsMap = FlightSearch.getCheapestTripEachAirlineMap(mLegNumber, allTrips);
-
-		// Update the cheapest trips based on the trips available after filtering
-		Map<String, FlightTrip> cheapestTripsByStopsMap = FlightSearch.getCheapestTripEachAirlineMap(mLegNumber,
-				filteredTrips);
-		for (String key : cheapestTripsByStopsMap.keySet()) {
-			cheapestTripsMap.put(key, cheapestTripsByStopsMap.get(key));
-		}
+		FlightSearch.FlightTripQuery query = Db.getFlightSearch().queryTrips(mLegNumber);
+		Map<String, FlightTrip> cheapestTripsMap = query.getCheapestTripsByAirline();
 
 		int numTripsToShow = cheapestTripsMap == null ? 0 : cheapestTripsMap.values().size();
 		int numTripsInContainer = mAirlineContainer.getChildCount();
@@ -159,7 +148,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 				mAirlineContainer.addView(airlineFilterWidget);
 			}
 
-			boolean enabled = filteredTrips.contains(trip);
+			boolean enabled = query.getTrips().contains(trip);
 			airlineFilterWidget.bindFlight(Db.getFlightSearch().getFilter(mLegNumber), trip, mLegNumber);
 			airlineFilterWidget.setTag(trip);
 			airlineFilterWidget.setEnabled(enabled);

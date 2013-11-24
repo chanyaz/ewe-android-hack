@@ -104,6 +104,7 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 		mAdapter.registerDataSetObserver(mDataSetObserver);
 
 		// Make sure mLegNumber is in-bounds (should not be needed in production)
+		// TODO still needed?
 		mLegNumber = Math.min(mLegNumber, Db.getFlightSearch().getSelectedLegs().length - 1);
 
 		// Setup data

@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,7 +15,6 @@ import android.widget.PopupWindow;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
-import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.utils.FontCache;
@@ -77,7 +75,7 @@ public class AirportFilterWidget extends TextView {
 
 	public void bindLabel() {
 		Set<String> airportsInFilter = mFilter.getAirports(mDepartureAirport);
-		Set<String> airportsAll = Db.getFlightSearch().getAirports(mLegNumber, mDepartureAirport);
+		Set<String> airportsAll = Db.getFlightSearch().queryTrips(mLegNumber).getAirportCodes(mDepartureAirport);
 
 		SpannableBuilder sb = new SpannableBuilder();
 		if (airportsInFilter.size() == airportsAll.size()) {
@@ -105,9 +103,8 @@ public class AirportFilterWidget extends TextView {
 			mPopup.setOutsideTouchable(true);
 			mPopup.setTouchable(true);
 
-			List<FlightTrip> allTrips = Db.getFlightSearch().getTrips(mLegNumber);
-			Map<String, FlightTrip> cheapestPerAirport = FlightSearch.getCheapestTripEachAirportMap(mLegNumber,
-					mDepartureAirport, allTrips);
+			Map<String, FlightTrip> cheapestPerAirport = Db.getFlightSearch().queryTrips(mLegNumber)
+					.getCheapestTripsByAirport(mDepartureAirport);
 
 			// Add the checkbox widgets
 			for (String code : mAirportCodes) {

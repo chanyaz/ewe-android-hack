@@ -74,9 +74,9 @@ public class FlightFilter {
 		}
 	}
 
-	public void initAirports(List<FlightTrip> trips, int legPosition) {
-		mDepartureAirports = FlightSearch.generateAirports(trips, legPosition, true);
-		mArrivalAirports = FlightSearch.generateAirports(trips, legPosition, false);
+	public void initAirports(FlightSearch.FlightTripQuery query) {
+		mDepartureAirports = query.getDepartureAirportCodes();
+		mArrivalAirports = query.getArrivalAirportCodes();
 	}
 
 	public void setPreferredAirline(String airlineCode, boolean isPreferred) {
