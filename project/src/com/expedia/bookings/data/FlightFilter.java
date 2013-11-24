@@ -75,8 +75,8 @@ public class FlightFilter {
 	}
 
 	public void initAirports(FlightSearch.FlightTripQuery query) {
-		mDepartureAirports = query.getDepartureAirportCodes();
-		mArrivalAirports = query.getArrivalAirportCodes();
+		mDepartureAirports = new HashSet<String>(query.getDepartureAirportCodes());
+		mArrivalAirports = new HashSet<String>(query.getArrivalAirportCodes());
 	}
 
 	public void setPreferredAirline(String airlineCode, boolean isPreferred) {
