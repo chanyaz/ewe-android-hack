@@ -346,17 +346,19 @@ public class FlightSearch implements JSONable {
 				// Run a second pass over the filtered trips
 
 				// Calculate the min/max time, and lowest prices
-				trip = mTrips.get(0);
-				leg = trip.getLeg(mLegPosition);
-				mMinTime = leg.getFirstWaypoint().getMostRelevantDateTime();
-				mMaxTime = leg.getLastWaypoint().getMostRelevantDateTime();
+				if (mTrips.size() > 0) {
+					trip = mTrips.get(0);
+					leg = trip.getLeg(mLegPosition);
+					mMinTime = leg.getFirstWaypoint().getMostRelevantDateTime();
+					mMaxTime = leg.getLastWaypoint().getMostRelevantDateTime();
+				}
 
 				// Calculate a set of of cheapest trips per airport/airline
 				Map<String, FlightTrip> depAirportMap = new HashMap<String, FlightTrip>();
 				Map<String, FlightTrip> arrAirportMap = new HashMap<String, FlightTrip>();
 				Map<String, FlightTrip> airlineMap = new HashMap<String, FlightTrip>();
 
-				for (int a = 1; a < mTrips.size(); a++) {
+				for (int a = 0; a < mTrips.size(); a++) {
 					trip = mTrips.get(a);
 					leg = trip.getLeg(mLegPosition);
 
