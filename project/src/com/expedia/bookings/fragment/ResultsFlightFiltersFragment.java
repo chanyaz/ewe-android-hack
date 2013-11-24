@@ -136,7 +136,9 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		}
 
 		FlightTrip trip;
+		String airline;
 		CheckBoxFilterWidget airlineFilterWidget;
+		boolean enabled;
 		for (int i = 0; i < numTripsToShow; i++) {
 			trip = trips.get(i);
 			if (i < numTripsInContainer) {
@@ -148,7 +150,8 @@ public class ResultsFlightFiltersFragment extends Fragment {
 				mAirlineContainer.addView(airlineFilterWidget);
 			}
 
-			boolean enabled = query.getTrips().contains(trip);
+			airline = trip.getLeg(mLegNumber).getFirstAirlineCode();
+			enabled = query.getAirlinesFilteredByStopsAndAirports().contains(airline);
 			airlineFilterWidget.bindFlight(Db.getFlightSearch().getFilter(mLegNumber), trip, mLegNumber);
 			airlineFilterWidget.setTag(trip);
 			airlineFilterWidget.setEnabled(enabled);

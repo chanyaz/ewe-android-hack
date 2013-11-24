@@ -253,6 +253,8 @@ public class FlightSearch implements JSONable {
 		private Set<String> mDepartureAirportCodes;
 		private Set<String> mArrivalAirportCodes;
 
+		private Set<String> mAirlinesFilteredByStopsAndAirports;
+
 		private Calendar mMinTime;
 		private Calendar mMaxTime;
 
@@ -267,6 +269,7 @@ public class FlightSearch implements JSONable {
 
 				mDepartureAirportCodes = new HashSet<String>();
 				mArrivalAirportCodes = new HashSet<String>();
+				mAirlinesFilteredByStopsAndAirports = new HashSet<String>();
 
 				mCheapestTripsByDepartureAirport = new HashMap<String, FlightTrip>();
 				mCheapestTripsByArrivalAirport = new HashMap<String, FlightTrip>();
@@ -291,6 +294,20 @@ public class FlightSearch implements JSONable {
 				// Filter results (if user called for it)
 				FlightFilter filter = getFilter(mLegPosition);
 
+				// Filter trips by number of stops and by airports
+				mTrips = getTripsFilteredByStops(mLegPosition, mTrips, filter.getStops());
+				mTrips = getTripsFilteredByAirport(mLegPosition, mTrips, filter.getDepartureAirports(), true);
+				mTrips = getTripsFilteredByAirport(mLegPosition, mTrips, filter.getArrivalAirports(), false);
+
+				// Generate a list of airlines available after being filtered by stops/airports but
+				// before filtered by airline. This data will be used to correctly display the airline
+				// filter in the UI
+				for (int i = 0; i < mTrips.size(); i++) {
+					trip = mTrips.get(i);
+					leg = trip.getLeg(mLegPosition);
+					mAirlinesFilteredByStopsAndAirports.add(leg.getFirstAirlineCode());
+				}
+
 				// Filter out preferred airlines
 				// TODO: Is the preferred airline operating?  Marketing?  Currently assumes operating.
 				if (filter.hasPreferredAirlines()) {
@@ -306,13 +323,6 @@ public class FlightSearch implements JSONable {
 						}
 					}
 				}
-
-				// #1878. Filter by number of stops before sorting.
-				mTrips = getTripsFilteredByStops(mLegPosition, mTrips, filter.getStops());
-
-				// Filter the trips by airport filter
-				mTrips = getTripsFilteredByAirport(mLegPosition, mTrips, filter.getDepartureAirports(), true);
-				mTrips = getTripsFilteredByAirport(mLegPosition, mTrips, filter.getArrivalAirports(), false);
 
 				// Sort the results
 				Comparator<FlightTrip> comparator;
@@ -421,6 +431,10 @@ public class FlightSearch implements JSONable {
 		public Set<String> getArrivalAirportCodes() {
 			ensureCalculations();
 			return mArrivalAirportCodes;
+		}
+
+		public Set<String> getAirlinesFilteredByStopsAndAirports() {
+			return mAirlinesFilteredByStopsAndAirports;
 		}
 
 		// If this trip is in fact cheapest, add it to the cheapest trip map
