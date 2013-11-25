@@ -3,9 +3,16 @@ package com.expedia.bookings.activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GestureDetectorCompat;
 import android.text.TextUtils;
+import android.view.GestureDetector.OnGestureListener;
+import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.MotionEvent;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -64,6 +71,10 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 
 	private AboutUtils mAboutUtils;
 
+	private GestureDetectorCompat mGestureDetector;
+
+	private int mSecretCount = 0;
+
 	private boolean mWasStopped;
 
 	@Override
@@ -71,6 +82,8 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 		super.onCreate(savedInstanceState);
 
 		mAboutUtils = new AboutUtils(this);
+
+		mGestureDetector = new GestureDetectorCompat(this, mOnGestureListener);
 
 		setContentView(R.layout.activity_about);
 
@@ -385,5 +398,62 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 	@Override
 	public void onSubscribeEmail(String email) {
 		MailChimpUtils.subscribeEmail(this, DOWNLOAD_MAILCHIMP, email, mMailChimpCallback);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Secret Access
+	//
+	// For things like diagnostics panels.  Activates when you press the
+	// bottom left/right corners of the Activity repeatedly.
+
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+		// We're using the gesture detector to detect taps, regardless of if anyone
+		// else cared about it and used it.
+		mGestureDetector.onTouchEvent(ev);
+
+		return super.dispatchTouchEvent(ev);
+	}
+
+	private OnGestureListener mOnGestureListener = new SimpleOnGestureListener() {
+		@Override
+		public boolean onSingleTapUp(MotionEvent e) {
+			Point screenSize = AndroidUtils.getScreenSize(AboutActivity.this);
+			Rect hitRect;
+			int fourthWidth = screenSize.x / 4;
+			int fourthHeight = screenSize.y / 4;
+
+			if (mSecretCount % 2 == 0) {
+				// Bottom left
+				hitRect = new Rect(0, 3 * fourthHeight, fourthWidth, screenSize.y);
+			}
+			else {
+				// Bottom right
+				hitRect = new Rect(3 * fourthWidth, 3 * fourthHeight, screenSize.x, screenSize.y);
+			}
+
+			if (hitRect.contains((int) e.getX(), (int) e.getY())) {
+				if (mSecretCount == 7) {
+					activateSecret();
+					mSecretCount = 0;
+				}
+				else {
+					mSecretCount++;
+				}
+			}
+			else {
+				mSecretCount = 0;
+			}
+
+			return false;
+		}
+	};
+
+	private void activateSecret() {
+		// Normally we wouldn't access the Fragment's logo directly, but this is a special case.
+		ImageView logo = Ui.findView(this, R.id.logo);
+		if (logo != null) {
+			logo.setImageResource(R.drawable.ic_secret);
+		}
 	}
 }
