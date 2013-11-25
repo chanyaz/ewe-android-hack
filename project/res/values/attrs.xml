@@ -120,6 +120,10 @@
     <declare-styleable name="FlightTripView">
         <attr name="flightLineColor" format="color|reference" />
         <attr name="waypointTextColor" format="color|reference" />
+        <attr name="waypointTextSize" format="dimension|reference" />
+        <attr name="waypointTextTypeface" format="enum">
+            <enum name="medium" value="0" />
+        </attr>
         <attr name="waypointTextTopMargin" format="dimension" />
     </declare-styleable>
 

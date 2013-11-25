@@ -7,8 +7,8 @@
     <!-- Tablet -->
     <dimen name="tablet_search_width">@dimen/match_parent</dimen>
     <dimen name="tablet_result_corner_radius">2dp</dimen>
-    <dimen name="tablet_result_row_primary_text_size">13sp</dimen>
-    <dimen name="tablet_result_row_secondary_text_size">11sp</dimen>
+    <dimen name="tablet_result_row_primary_text_size">15sp</dimen>
+    <dimen name="tablet_result_row_secondary_text_size">14sp</dimen>
     <dimen name="tablet_result_row_price_size">@dimen/hotel_row_price_text_size</dimen>
 
     <!-- Launch dimens -->
