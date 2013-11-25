@@ -20,7 +20,6 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.utils.TypefaceSpan;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CheckBoxFilterWidget.OnCheckedChangeListener;
 import com.mobiata.flightlib.data.Airport;
@@ -78,7 +77,7 @@ public class AirportFilterWidget extends TextView {
 		Set<String> airportsAll = Db.getFlightSearch().queryTrips(mLegNumber).getAirportCodes(mDepartureAirport);
 
 		SpannableBuilder sb = new SpannableBuilder();
-		if (airportsInFilter.size() == airportsAll.size()) {
+		if (airportsInFilter.size() >= airportsAll.size()) {
 			Location loc = Db.getFlightSearch().getSearchParams().getLocation(mDepartureAirport);
 			sb.append(loc.getDestinationId() + " - ", FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
 			sb.append(loc.getDescription(), FontCache.getSpan(FontCache.Font.ROBOTO_REGULAR));
@@ -107,6 +106,7 @@ public class AirportFilterWidget extends TextView {
 					.getCheapestTripsByAirport(mDepartureAirport);
 
 			// Add the checkbox widgets
+			FlightTrip flightTrip;
 			for (String code : mAirportCodes) {
 				Airport airport = FlightStatsDbUtils.getAirport(code);
 
@@ -116,8 +116,15 @@ public class AirportFilterWidget extends TextView {
 
 				CheckBoxFilterWidget widget = new CheckBoxFilterWidget(getContext());
 
+				flightTrip = cheapestPerAirport.get(airport.mAirportCode);
 				widget.setDescription(sb.build());
-				widget.setPrice(cheapestPerAirport.get(airport.mAirportCode).getTotalFare(), false);
+				if (flightTrip != null) {
+					widget.setPrice(flightTrip.getTotalFare(), false);
+					widget.setEnabled(true);
+				}
+				else {
+					widget.setEnabled(false);
+				}
 
 				widget.setTag(Boolean.toString(mDepartureAirport) + ";" + code);
 				widget.setChecked(mFilter.containsAirport(mDepartureAirport, airport.mAirportCode));
