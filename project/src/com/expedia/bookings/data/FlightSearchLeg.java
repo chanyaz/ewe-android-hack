@@ -42,6 +42,15 @@ public class FlightSearchLeg implements JSONable {
 		mArrivalLocation = arrivalAirportCode;
 	}
 
+	public Location getLocation(boolean departureAirport) {
+		if (departureAirport) {
+			return mDepartureLocation;
+		}
+		else {
+			return mArrivalLocation;
+		}
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (o == null || !(o instanceof FlightSearchLeg)) {

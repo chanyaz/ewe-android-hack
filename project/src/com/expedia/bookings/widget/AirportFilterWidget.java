@@ -78,7 +78,7 @@ public class AirportFilterWidget extends TextView {
 
 		SpannableBuilder sb = new SpannableBuilder();
 		if (airportsInFilter.size() >= airportsAll.size()) {
-			Location loc = Db.getFlightSearch().getSearchParams().getLocation(mDepartureAirport);
+			Location loc = Db.getFlightSearch().getSearchParams().getLocation(mLegNumber, mDepartureAirport);
 			sb.append(loc.getDestinationId() + " - ", FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
 			sb.append(loc.getDescription(), FontCache.getSpan(FontCache.Font.ROBOTO_REGULAR));
 		}
