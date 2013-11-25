@@ -30,7 +30,6 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.graphics.RoundBitmapDrawable;
 import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.FontCacheTypefaceSpan;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.jhlabs.map.Point2D;
 import com.mobiata.android.bitmaps.BitmapDrawable;
@@ -187,12 +186,11 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	private void setPinText(TextView pin, String upper, String lower) {
 		TextAppearanceSpan upperSpan = new TextAppearanceSpan(getActivity(), R.style.MapPinUpperTextAppearance);
 		TextAppearanceSpan lowerSpan = new TextAppearanceSpan(getActivity(), R.style.MapPinLowerTextAppearance);
-		FontCacheTypefaceSpan typefaceSpan = new FontCacheTypefaceSpan(FontCache.Font.ROBOTO_LIGHT);
 
 		SpannableBuilder sb = new SpannableBuilder();
 		sb.append(upper, upperSpan);
 		sb.append("\n");
-		sb.append(lower, lowerSpan, typefaceSpan);
+		sb.append(lower, lowerSpan, FontCache.getSpan(FontCache.Font.ROBOTO_LIGHT));
 
 		pin.setText(sb.build(), TextView.BufferType.SPANNABLE);
 	}

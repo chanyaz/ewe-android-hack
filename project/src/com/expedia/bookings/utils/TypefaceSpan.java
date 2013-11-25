@@ -3,17 +3,12 @@ package com.expedia.bookings.utils;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.TextPaint;
+import android.text.style.MetricAffectingSpan;
 
-/**
- * Inspired by http://stackoverflow.com/questions/9618835/apply-two-different-font-styles-to-a-textview
- */
-
-public class TypefaceSpan extends android.text.style.TypefaceSpan {
-
+public class TypefaceSpan extends MetricAffectingSpan {
 	private Typeface mTypeface;
 
 	public TypefaceSpan(Typeface typeface) {
-		super("");
 		mTypeface = typeface;
 	}
 
@@ -29,6 +24,9 @@ public class TypefaceSpan extends android.text.style.TypefaceSpan {
 
 	private static void apply(Paint paint, Typeface typeface) {
 		paint.setTypeface(typeface);
+
+		// Note: This flag is required for proper typeface rendering
+		paint.setFlags(paint.getFlags() | Paint.SUBPIXEL_TEXT_FLAG);
 	}
 
 }
