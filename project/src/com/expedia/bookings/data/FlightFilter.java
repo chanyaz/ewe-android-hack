@@ -7,7 +7,6 @@ import java.util.Set;
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
 
-//TODO: Filter based on departure/arrival specs
 public class FlightFilter {
 
 	public static enum Sort {
@@ -15,13 +14,15 @@ public class FlightFilter {
 		DEPARTURE,
 		ARRIVAL,
 		DURATION
+
+
 	}
 
 	//Filter flight search by # of stops
 	public static final int STOPS_UNSPECIFIED = -2;
 	public static final int STOPS_ANY = -1;
-	public static final int STOPS_MAX = 1; //currently specifies "One or Less Stop"
 	public static final int STOPS_NONSTOP = 0;
+	public static final int STOPS_MAX = 1; //currently specifies "One or Less Stop"
 
 	private Sort mSort;
 
