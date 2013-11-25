@@ -21,7 +21,7 @@ import com.expedia.bookings.data.FlightTrip.CompareField;
 import com.expedia.bookings.data.FlightTrip.FlightTripComparator;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
-import com.mobiata.flightlib.data.Waypoint;
+import com.mobiata.flightlib.data.Airport;
 
 public class FlightSearch implements JSONable {
 
@@ -295,9 +295,9 @@ public class FlightSearch implements JSONable {
 				FlightFilter filter = getFilter(mLegPosition);
 
 				// Filter trips by number of stops and by airports
-				mTrips = getTripsFilteredByStops(mLegPosition, mTrips, filter.getStops());
-				mTrips = getTripsFilteredByAirport(mLegPosition, mTrips, filter.getDepartureAirports(), true);
-				mTrips = getTripsFilteredByAirport(mLegPosition, mTrips, filter.getArrivalAirports(), false);
+				filterTripsByStops(mLegPosition, mTrips, filter.getStops());
+				filterTripsByAirport(mLegPosition, mTrips, filter.getDepartureAirports(), true);
+				filterTripsByAirport(mLegPosition, mTrips, filter.getArrivalAirports(), false);
 
 				// Generate a list of airlines available after being filtered by stops/airports but
 				// before filtered by airline. This data will be used to correctly display the airline
@@ -309,20 +309,7 @@ public class FlightSearch implements JSONable {
 				}
 
 				// Filter out preferred airlines
-				// TODO: Is the preferred airline operating?  Marketing?  Currently assumes operating.
-				if (filter.hasPreferredAirlines()) {
-					Set<String> preferredAirlines = filter.getPreferredAirlines();
-
-					Iterator<FlightTrip> iterator = mTrips.iterator();
-					while (iterator.hasNext()) {
-						trip = iterator.next();
-						leg = trip.getLeg(mLegPosition);
-
-						if (Collections.disjoint(preferredAirlines, leg.getPrimaryAirlines())) {
-							iterator.remove();
-						}
-					}
-				}
+				filterTripsByAirline(mLegPosition, mTrips, filter.getPreferredAirlines());
 
 				// Sort the results
 				Comparator<FlightTrip> comparator;
@@ -436,6 +423,7 @@ public class FlightSearch implements JSONable {
 		}
 
 		public Set<String> getAirlinesFilteredByStopsAndAirports() {
+			ensureCalculations();
 			return mAirlinesFilteredByStopsAndAirports;
 		}
 
@@ -452,6 +440,55 @@ public class FlightSearch implements JSONable {
 			// Update the cheapest chips map to reflect the cheapest
 			for (String key : filtered.keySet()) {
 				all.put(key, filtered.get(key));
+			}
+		}
+
+		private void filterTripsByStops(int legPosition, List<FlightTrip> trips, int stops) {
+			// For STOPS_ANY, just return the list.
+			if (stops < 0) {
+				return;
+			}
+
+			FlightLeg leg;
+			Iterator<FlightTrip> iterator = trips.iterator();
+			while (iterator.hasNext()) {
+				leg = iterator.next().getLeg(legPosition);
+
+				if (leg.getSegmentCount() - 1 > stops) {
+					iterator.remove();
+				}
+			}
+		}
+
+		private void filterTripsByAirport(int legPos, List<FlightTrip> trips, Set<String> airports,
+				boolean departureAirport) {
+			if (airports.isEmpty()) {
+				return;
+			}
+
+			FlightLeg leg;
+			Airport airport;
+			Iterator<FlightTrip> iterator = trips.iterator();
+			while (iterator.hasNext()) {
+				leg = iterator.next().getLeg(legPos);
+				airport = leg.getAirport(departureAirport);
+
+				if (!airports.contains(airport.mAirportCode)) {
+					iterator.remove();
+				}
+			}
+		}
+
+		// TODO: Is the preferred airline operating?  Marketing?  Currently assumes operating.
+		private void filterTripsByAirline(int legPos, List<FlightTrip> trips, Set<String> airlines) {
+			FlightLeg leg;
+			Iterator<FlightTrip> iterator = trips.iterator();
+			while (iterator.hasNext()) {
+				leg = iterator.next().getLeg(legPos);
+
+				if (Collections.disjoint(airlines, leg.getPrimaryAirlines())) {
+					iterator.remove();
+				}
 			}
 		}
 
@@ -492,50 +529,6 @@ public class FlightSearch implements JSONable {
 			mDataSetObservable.unregisterObserver(observer);
 		}
 
-	}
-
-	// Static filtering methods
-
-	private static List<FlightTrip> getTripsFilteredByStops(int legPosition, List<FlightTrip> trips, int stops) {
-		// For STOPS_ANY, just return the list.
-		if (stops < 0) {
-			return trips;
-		}
-
-		List<FlightTrip> result = new ArrayList<FlightTrip>();
-		for (FlightTrip trip : trips) {
-			FlightLeg flightLeg = trip.getLeg(legPosition);
-			// Two segments = 1 stop, so subtract.
-			if (((flightLeg.getSegmentCount() - 1) <= stops)) {
-				result.add(trip);
-			}
-		}
-		return result;
-	}
-
-	private static List<FlightTrip> getTripsFilteredByAirport(int legPosition, List<FlightTrip> trips,
-			Set<String> airports, boolean departureAirport) {
-
-		if (airports.isEmpty()) {
-			return trips;
-		}
-
-		List<FlightTrip> filteredTrips = new ArrayList<FlightTrip>();
-		for (FlightTrip trip : trips) {
-			FlightLeg flightLeg = trip.getLeg(legPosition);
-			Waypoint waypoint;
-			if (departureAirport) {
-				waypoint = flightLeg.getFirstWaypoint();
-			}
-			else {
-				waypoint = flightLeg.getLastWaypoint();
-			}
-
-			if (airports.contains(waypoint.getAirport().mAirportCode)) {
-				filteredTrips.add(trip);
-			}
-		}
-		return filteredTrips;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
