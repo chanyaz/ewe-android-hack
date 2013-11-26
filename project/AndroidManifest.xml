@@ -190,12 +190,7 @@
             android:name="com.expedia.bookings.activity.ItineraryActivity"
             android:label="@string/trips"
             android:launchMode="singleTop"
-            android:parentActivityName="com.expedia.bookings.activity.SearchFragmentActivity"
-            android:theme="@style/ItineraryTheme">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.expedia.bookings.activity.SearchFragmentActivity" />
-        </activity>
+            android:theme="@style/ItineraryTheme" />
         <activity
             android:name="com.expedia.bookings.activity.ItineraryGuestAddActivity"
             android:theme="@style/LoginTheme"
@@ -225,23 +220,6 @@
             android:uiOptions="splitActionBarWhenNarrow"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.expedia.bookings.activity.SearchFragmentActivity"
-            android:theme="@style/Theme.Tablet.Launcher"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name="com.expedia.bookings.activity.SearchResultsFragmentActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/Theme.Tablet"
-            android:windowSoftInputMode="stateHidden|adjustPan" >
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
-        <activity
             android:name="com.expedia.bookings.activity.HotelGalleryActivity"
             android:theme="@style/Theme.Tablet.Dark" />
         <activity
@@ -261,9 +239,6 @@
         <activity
             android:name="com.expedia.bookings.activity.UserReviewsListActivity"
             android:theme="@style/Theme.Phone" />
-        <activity
-            android:name="com.expedia.bookings.activity.TabletUserReviewsListActivity"
-            android:theme="@style/Theme.Light.Fullscreen.Panel" />
         <activity
             android:name="com.expedia.bookings.activity.RoomsAndRatesListActivity"
             android:theme="@style/Theme.Phone" />

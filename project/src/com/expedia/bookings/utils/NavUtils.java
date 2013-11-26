@@ -22,7 +22,6 @@ import com.expedia.bookings.activity.HotelBookingActivity;
 import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
-import com.expedia.bookings.activity.SearchResultsFragmentActivity;
 import com.expedia.bookings.activity.TabletLaunchActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
@@ -129,9 +128,6 @@ public class NavUtils {
 		// 13820: Check if a booking is in process at this moment (in case BookingInfoActivity died)
 		if (BackgroundDownloader.getInstance().isDownloading(HotelBookingFragment.BOOKING_DOWNLOAD_KEY)) {
 			routingTarget = HotelBookingActivity.class;
-		}
-		else if (ExpediaBookingApp.useTabletInterface(context)) {
-			routingTarget = SearchResultsFragmentActivity.class;
 		}
 		else {
 			routingTarget = PhoneSearchActivity.class;

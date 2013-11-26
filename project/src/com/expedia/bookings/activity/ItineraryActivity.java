@@ -237,8 +237,8 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		}
 		else if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
 			// Just in case we started this activity directly (like from clicking a Notification),
-			// we always want the back button to take us to the SearchFragmentActivity.
-			android.support.v4.app.NavUtils.navigateUpTo(this, SearchFragmentActivity.createIntent(this, false));
+			// we always want the back button to take us to the launch screen
+			android.support.v4.app.NavUtils.navigateUpTo(this, new Intent(this, TabletLaunchActivity.class));
 		}
 		else {
 			super.onBackPressed();
