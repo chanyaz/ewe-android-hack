@@ -30,7 +30,7 @@ public class ResultsHotelsRoomsAndRates extends Fragment {
 
 	private ViewGroup mRootC;
 	private ViewGroup mRoomsAndRatesC;
-	private ViewGroup mRoomsAndRatesTopC;
+	private ViewGroup mHotelHeaderContainer;
 	private Button mAddToTripButton;
 
 	private IAddToTripListener mAddToTripListener;
@@ -47,7 +47,7 @@ public class ResultsHotelsRoomsAndRates extends Fragment {
 
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotels_rooms_and_rates, null);
 		mRoomsAndRatesC = Ui.findView(mRootC, R.id.rooms_and_rates_content);
-		mRoomsAndRatesTopC = Ui.findView(mRootC, R.id.rooms_and_rates_content_top);
+		mHotelHeaderContainer = Ui.findView(mRootC, R.id.hotel_header_container);
 		mAddToTripButton = Ui.findView(mRootC, R.id.button_add_to_trip);
 
 		mAddToTripButton.setPivotY(0f);
@@ -82,7 +82,7 @@ public class ResultsHotelsRoomsAndRates extends Fragment {
 	}
 
 	public Rect getDestinationRect() {
-		return ScreenPositionUtils.getGlobalScreenPosition(mRoomsAndRatesTopC);
+		return ScreenPositionUtils.getGlobalScreenPosition(mHotelHeaderContainer);
 	}
 
 }
