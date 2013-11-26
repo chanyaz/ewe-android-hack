@@ -82,6 +82,7 @@
         app:flightLineColor="#ffffff"
         app:waypointTextColor="#bdc5cf"
         app:waypointTextSize="@dimen/tablet_result_row_secondary_text_size"
-        app:waypointTextTopMargin="4dp" />
+        app:waypointTextTopMargin="4dp"
+        app:waypointTextTypeface="medium"/>
 
 </com.expedia.bookings.section.FlightLegSummarySectionTablet>

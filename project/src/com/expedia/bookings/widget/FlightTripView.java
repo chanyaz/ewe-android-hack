@@ -62,14 +62,14 @@ public class FlightTripView extends View {
 		int lineColor = r.getColor(R.color.flight_trip);
 		int textColor = r.getColor(R.color.airport_text);
 		float textSize = -1.0f;
-		int textStyle = -1;
+		int typeface = -1;
 
 		if (attrs != null) {
 			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.FlightTripView, 0, 0);
 			lineColor = ta.getColor(R.styleable.FlightTripView_flightLineColor, r.getColor(R.color.flight_trip));
 			textColor = ta.getColor(R.styleable.FlightTripView_waypointTextColor, r.getColor(R.color.airport_text));
 			textSize = ta.getDimension(R.styleable.FlightTripView_waypointTextSize, -1.0f);
-			textStyle = ta.getInt(R.styleable.TextView_textStyle, -1);
+			typeface = ta.getInt(R.styleable.FlightTripView_waypointTextTypeface, -1);
 			mWaypointTextTopMargin = ta.getDimension(R.styleable.FlightTripView_waypointTextTopMargin, 0);
 			ta.recycle();
 		}
@@ -85,7 +85,7 @@ public class FlightTripView extends View {
 		mTextPaint = new TextPaint();
 		mTextPaint.setTextAlign(Align.CENTER);
 		mTextPaint.setColor(textColor);
-		if (textStyle != -1) {
+		if (typeface == TYPEFACE_MEDIUM) {
 			mTextPaint.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM));
 		}
 		else {
