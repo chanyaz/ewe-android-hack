@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils;
 
 import android.text.SpannableStringBuilder;
+import android.text.style.CharacterStyle;
 
 // Much more usable SpannableStringBuilder
 public class SpannableBuilder {
@@ -15,11 +16,11 @@ public class SpannableBuilder {
 	}
 
 	// Look MA no Math! Just say what spans for the seq and we take care of the rest
-	public void append(CharSequence seq, Object... whats) {
+	public void append(CharSequence seq, CharacterStyle... whats) {
 		append(seq, 0, whats);
 	}
 
-	public void append(CharSequence seq, int flags, Object... whats) {
+	public void append(CharSequence seq, int flags, CharacterStyle... whats) {
 		int start = mBuilder.length();
 		int end = start + seq.length();
 
