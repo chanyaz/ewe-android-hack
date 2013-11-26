@@ -100,22 +100,13 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		return -1;
 	}
 
+	//TODO: rebuildCacheBlocking is expensive. Consider trying this on a background thread.
 	private void rebuildCache() {
-		new AsyncTask<Void, Void, List<Property>>() {
-			@Override
-			protected List<Property> doInBackground(Void... params) {
-				return rebuildCacheBlocking();
-			}
-
-			@Override
-			protected void onPostExecute(List<Property> result) {
-				mCachedProperties = result;
-				if (mSearchResponse != null && mSearchResponse.getFilter() != null) {
-					mDistanceUnit = mSearchResponse.getFilter().getDistanceUnit();
-				}
-				notifyDataSetChanged();
-			}
-		}.execute();
+		mCachedProperties = rebuildCacheBlocking();
+		if (mSearchResponse != null && mSearchResponse.getFilter() != null) {
+			mDistanceUnit = mSearchResponse.getFilter().getDistanceUnit();
+		}
+		notifyDataSetChanged();
 	}
 
 	private List<Property> rebuildCacheBlocking() {
