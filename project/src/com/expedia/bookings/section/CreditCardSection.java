@@ -12,6 +12,7 @@ import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.AndroidUtils;
 
 public class CreditCardSection extends LinearLayout {
 
@@ -33,7 +34,15 @@ public class CreditCardSection extends LinearLayout {
 		mNameTextView = Ui.findView(this, R.id.name_text_view);
 
 		// Configure custom typefaces
-		mSignatureTextView.setTypeface(FontCache.getTypeface(Font.SIGNERICA_FAT), Typeface.BOLD);
+		// #2350: 4.4 kitkat has issue with custom fonts and bolding
+		// https://code.google.com/p/android/issues/detail?id=61771
+		if (AndroidUtils.getSdkVersion() == 19) {
+			mSignatureTextView.setTypeface(FontCache.getTypeface(Font.SIGNERICA_FAT));
+		}
+		else {
+			mSignatureTextView.setTypeface(FontCache.getTypeface(Font.SIGNERICA_FAT), Typeface.BOLD);
+		}
+
 		mNameTextView.setTypeface(FontCache.getTypeface(Font.OCRA_STD));
 	}
 
