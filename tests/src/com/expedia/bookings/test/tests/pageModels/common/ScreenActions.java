@@ -94,6 +94,7 @@ public class ScreenActions extends Solo {
 	public void waitForStringToBeGone(String s, int timeoutMax) throws Exception {
 		int count_max = timeoutMax;
 		int count = 0;
+		delay();
 		while (searchText(s, 1, false, true) && count < count_max) {
 			delay(1);
 			count++;
