@@ -13,9 +13,7 @@ public class FlightFilter {
 		PRICE,
 		DEPARTURE,
 		ARRIVAL,
-		DURATION
-
-
+		DURATION,
 	}
 
 	//Filter flight search by # of stops
