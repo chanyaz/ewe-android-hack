@@ -3,7 +3,6 @@
 	<dimen name="amenity_text_size_large">14sp</dimen>
 	<dimen name="amenity_text_size_small">12sp</dimen>
 	<dimen name="amenity_layout_width">70dp</dimen>
-	<dimen name="hotel_description_body_text_size">14sp</dimen>
 
 	<dimen name="cvv_keypad_text_size">28dp</dimen>
 	<dimen name="cvv_keypad_book_text_size">18dp</dimen>

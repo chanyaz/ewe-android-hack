@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <drawable name="bg_availability_summary">@drawable/bg_summarized_room_rates</drawable>
-    
     <drawable name="bg_textview_divider_large">@drawable/bg_textview_divider_large_light</drawable>
     <drawable name="bg_textview_divider_small">@drawable/bg_textview_divider_small_light</drawable>
 
