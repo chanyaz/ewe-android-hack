@@ -16,9 +16,6 @@
     <integer name="animation_duration">300</integer>
     <integer name="left_list_pane_weight">3</integer>
     <integer name="right_content_pane_weight">7</integer>
-    <integer name="num_review_rows">2</integer>
-    <integer name="num_review_columns">2</integer>
-    <integer name="num_hotel_description_sections_per_row">2</integer>
     <integer name="search_params_weight_sum">1</integer>
     <integer name="search_params_input_weight">1</integer>
     <integer name="login_or_lines_weight">1</integer>
