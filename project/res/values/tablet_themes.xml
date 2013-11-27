@@ -3,23 +3,23 @@
 	I got super sick of the other themes.xml being a damn mess.
 	Hopefully this version will be lot more clean.
 -->
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <!--
 	    Don't put anything in here; it just marks the difference between our
 	    terribly-organized v1 styles and our (hopefully) better organized v2 styles
     -->
-    <style name="V2" />
+    <style name="V2" tools:targetApi="11" />
 
     <!-- Values that go into *everything*.  Don't put anything here unless you want it *everywhere* -->
-    <style name="V2.Theme" parent="@android:style/Theme.Holo.Light.DarkActionBar" />
+    <style name="V2.Theme" parent="@android:style/Theme.Holo.Light.DarkActionBar" tools:targetApi="14" />
 
     <!-- Values that go into every *activity*.  Don't put anything here unless you want it in every *activity* -->
     <style name="V2.Theme.Activity" />
 
     <style name="V2.Theme.Activity.TabletLaunch">
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletLaunch</item>
+        <item name="android:windowActionBarOverlay" tools:targetApi="11">true</item>
+        <item name="android:actionBarStyle" tools:targetApi="11">@style/V2.Widget.ActionBar.TabletLaunch</item>
     </style>
 
     <style name="V2.Theme.Activity.TabletResults">
@@ -33,8 +33,8 @@
         <item name="hotelListingFilterPriceCheapString">@string/filter_price_cheap</item>
         <item name="hotelListingFilterPriceModerateString">@string/filter_price_moderate</item>
         <item name="hotelListingFilterPriceExpensiveString">@string/filter_price_expensive</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletResults</item>
+        <item name="android:windowActionBarOverlay" tools:targetApi="11">true</item>
+        <item name="android:actionBarStyle" tools:targetApi="11">@style/V2.Widget.ActionBar.TabletResults</item>
         <item name="hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale</item>
     </style>
 
@@ -42,13 +42,13 @@
 
     <style name="V2.Widget" />
 
-    <style name="V2.Widget.ActionBar" parent="@android:style/Widget.Holo.ActionBar" />
+    <style name="V2.Widget.ActionBar" parent="@android:style/Widget.Holo.ActionBar" tools:targetApi="11" />
 
     <style name="V2.Widget.ActionBar.TabletLaunch">
         <item name="android:background">@drawable/ab_transparent_dark_blue</item>
-        <item name="android:logo">@drawable/ab_logo_tablet_launch</item>
+        <item name="android:logo" tools:targetApi="11">@drawable/ab_logo_tablet_launch</item>
         <item name="android:windowContentOverlay">@drawable/ab_shadow_tablet_launch</item>
-        <item name="android:displayOptions">showHome|useLogo</item>
+        <item name="android:displayOptions" tools:targetApi="11">showHome|useLogo</item>
     </style>
 
     <style name="V2.Widget.ActionBar.TabletResults">

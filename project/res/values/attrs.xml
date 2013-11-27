@@ -293,10 +293,10 @@
 
     <!-- Text defined separately for VSC, in the CVV entry screen -->
     <attr name="cvvEntryExplainationText" format="reference|string" />
-    
+
     <!-- for hotels and flights travel type -->
     <attr name="travelerLabelOnCheckout" format="reference|string" />
-    
+
     <!-- SwipeOutLayout style -->
     <declare-styleable name="SwipeOutLayout">
         <attr name="swipeOutDirection">
@@ -306,9 +306,8 @@
             <enum name="west" value="3" />
         </attr>
         <attr name="swipeOutEnabled" format="boolean" />
-        <attr name="swipeOutContentId" format="reference"/>
-        <attr name="swipeOutIndicatorId" format="reference"/>
+        <attr name="swipeOutContentId" format="reference" />
+        <attr name="swipeOutIndicatorId" format="reference" />
     </declare-styleable>
-    
-</resources>
 
+</resources>
