@@ -101,7 +101,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private ResultsHotelListFragment mHotelListFrag;
 	private ResultsHotelsFiltersFragment mHotelFiltersFrag;
 	private ResultsHotelsFilterCountFragment mHotelFilteredCountFrag;
-	private ResultsHotelsRoomsAndRates mHotelRoomsAndRatesFrag;
+	private ResultsHotelDetailsFragment mHotelRoomsAndRatesFrag;
 
 	//Other
 	private ResultsState mGlobalState = ResultsState.OVERVIEW;
@@ -336,7 +336,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				R.id.column_three_hotel_filtered_count, false);
 		mMapFragment = (HotelMapFragment) FragmentAvailabilityUtils.setFragmentAvailability(hotelMapAvailable,
 				FTAG_HOTEL_MAP, manager, transaction, this, R.id.bg_hotel_map, false);
-		mHotelRoomsAndRatesFrag = (ResultsHotelsRoomsAndRates) FragmentAvailabilityUtils.setFragmentAvailability(
+		mHotelRoomsAndRatesFrag = (ResultsHotelDetailsFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 				hotelRoomsAndRatesAvailable,
 				FTAG_HOTEL_ROOMS_AND_RATES, manager, transaction, this, R.id.hotel_rooms_and_rates, false);
 
@@ -384,7 +384,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			frag = HotelMapFragment.newInstance();
 		}
 		else if (tag == FTAG_HOTEL_ROOMS_AND_RATES) {
-			frag = ResultsHotelsRoomsAndRates.newInstance();
+			frag = ResultsHotelDetailsFragment.newInstance();
 		}
 		return frag;
 	}

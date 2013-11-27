@@ -21,15 +21,14 @@ import com.mobiata.android.util.Ui;
  * ResultsFlightFiltersFragment: The filters fragment designed for tablet results 2013
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class ResultsHotelsRoomsAndRates extends Fragment {
+public class ResultsHotelDetailsFragment extends Fragment {
 
-	public static ResultsHotelsRoomsAndRates newInstance() {
-		ResultsHotelsRoomsAndRates frag = new ResultsHotelsRoomsAndRates();
+	public static ResultsHotelDetailsFragment newInstance() {
+		ResultsHotelDetailsFragment frag = new ResultsHotelDetailsFragment();
 		return frag;
 	}
 
 	private ViewGroup mRootC;
-	private ViewGroup mRoomsAndRatesC;
 	private ViewGroup mHotelHeaderContainer;
 	private Button mAddToTripButton;
 
@@ -45,8 +44,7 @@ public class ResultsHotelsRoomsAndRates extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotels_rooms_and_rates, null);
-		mRoomsAndRatesC = Ui.findView(mRootC, R.id.rooms_and_rates_content);
+		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotel_details, null);
 		mHotelHeaderContainer = Ui.findView(mRootC, R.id.hotel_header_container);
 		mAddToTripButton = Ui.findView(mRootC, R.id.button_add_to_trip);
 
