@@ -253,6 +253,10 @@
     <attr name="hotelListingFilterPriceModerateString" format="reference|string" />
     <attr name="hotelListingFilterPriceExpensiveString" format="reference|string" />
 
+    <!-- Hotel details tablet popup styles -->
+    <attr name="hotelDetailsUserRatingStyle" format="reference" />
+    <attr name="hotelDetailsStarRatingStyle" format="reference" />
+
     <!-- HangTag assets -->
     <attr name="hangTagProgressDrawable" format="reference" />
     <attr name="hangTagProgressRingFillDrawable" format="reference" />
