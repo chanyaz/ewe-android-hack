@@ -47,6 +47,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 
 	private LinearLayout mAirlineContainer;
 	private TextView mAirlineTextView;
+	private TextView mCitiesTextView;
 	private ImageView mOperatingCarrierImageView;
 	private TextView mOperatingCarrierTextView;
 	private TextView mPriceTextView;
@@ -67,6 +68,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		// Cache views
 		mAirlineContainer = Ui.findView(this, R.id.airline_container);
 		mAirlineTextView = Ui.findView(this, R.id.airline_text_view);
+		mCitiesTextView = Ui.findView(this, R.id.cities_text_view);
 		mOperatingCarrierImageView = Ui.findView(this, R.id.operating_carrier_image_view);
 		mOperatingCarrierTextView = Ui.findView(this, R.id.operating_carrier_text_view);
 		mPriceTextView = Ui.findView(this, R.id.price_text_view);
@@ -132,6 +134,13 @@ public class FlightLegSummarySection extends RelativeLayout {
 					mAirlineTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 				}
 			}
+		}
+
+		if (mCitiesTextView != null) {
+			String depCity = leg.getAirport(true).mCity;
+			String arrCity = leg.getAirport(false).mCity;
+			String text = "- " + res.getString(R.string.flight_cities_TEMPLATE, depCity, arrCity);
+			mCitiesTextView.setText(text);
 		}
 
 		if (mFlightTimeTextView != null) {

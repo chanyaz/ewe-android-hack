@@ -1,20 +1,39 @@
 package com.expedia.bookings.fragment;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout.LayoutParams;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.FlightTripLeg;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.interfaces.IResultsFlightLegSelected;
+import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.section.FlightLegSummarySectionTablet;
 import com.expedia.bookings.utils.ScreenPositionUtils;
+import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
+import com.mobiata.flightlib.data.Flight;
+import com.mobiata.flightlib.data.Layover;
+import com.mobiata.flightlib.utils.DateTimeUtils;
 
 /**
  * ResultsFlightDetailsFragment: The flight details fragment designed for tablet results 2013
@@ -37,6 +56,12 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	private ViewGroup mDetailsC;
 	private FlightLegSummarySectionTablet mAnimationFlightRow;
 
+	private TextView mTimeHeaderTv;
+	private Button mAddTripBtn;
+	private ViewGroup mFlightLegsC;
+
+	private IResultsFlightLegSelected mListener;
+
 	//Position and size vars
 	int mDetailsPositionLeft = -1;
 	int mDetailsPositionTop = -1;
@@ -54,6 +79,12 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	private int mLegNumber = -1;
 
 	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mListener = Ui.findFragmentListener(this, IResultsFlightLegSelected.class, true);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_flight_details, null);
@@ -63,6 +94,11 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		mDetailsC = Ui.findView(mRootC, R.id.details_container);
 		mDetailsC.setPivotX(0);
 		mDetailsC.setPivotY(0);
+
+		mTimeHeaderTv = Ui.findView(mRootC, R.id.details_time_header);
+		mAddTripBtn = Ui.findView(mRootC, R.id.details_add_trip_button);
+
+		mFlightLegsC = Ui.findView(mRootC, R.id.flight_legs_container);
 
 		setLegPosition(getArguments().getInt(ARG_LEG_NUMBER));
 
@@ -74,6 +110,79 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 	public void setLegPosition(int legNumber) {
 		mLegNumber = legNumber;
+	}
+
+	public void bindWithDb() {
+		FlightTripLeg flightTripLeg = Db.getFlightSearch().getSelectedLegs()[mLegNumber];
+		FlightTrip trip = flightTripLeg.getFlightTrip();
+		FlightLeg flightLeg = flightTripLeg.getFlightLeg();
+		Flight flight;
+
+		final Resources res = getResources();
+
+		// Grey header
+
+		// 10:05 AM to 2:20 PM
+		String departure = formatTime(flightLeg.getFirstWaypoint().getBestSearchDateTime());
+		String arrival = formatTime(flightLeg.getLastWaypoint().getBestSearchDateTime());
+		String time = res.getString(R.string.date_range_TEMPLATE, departure, arrival);
+		mTimeHeaderTv.setText(time);
+
+		// Add for $390
+		String addTripStr = res.getString(R.string.add_for_TEMPLATE,
+				trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
+		mAddTripBtn.setText(addTripStr);
+		mAddTripBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mListener.onTripAdded(mLegNumber);
+			}
+		});
+
+		// Statistics
+		// TODO stats
+
+		// Flight Leg container
+
+		//Arrival / Departure times
+		Calendar departureTimeCal = flightLeg.getFirstWaypoint().getBestSearchDateTime();
+		Calendar arrivalTimeCal = flightLeg.getLastWaypoint().getBestSearchDateTime();
+
+		FlightLegSummarySection view;
+
+		LayoutInflater inflater = LayoutInflater.from(getActivity());
+		int numFlights = flightLeg.getSegmentCount();
+
+		// TODO recycle and rebind Views rather than container.removeAllViews()
+		mFlightLegsC.removeAllViews();
+		for (int i = 0; i < numFlights; i++) {
+			flight = flightLeg.getSegments().get(i);
+			boolean isFirstSegment = (i == 0);
+
+			if (!isFirstSegment) {
+				Flight prevFlight = flightLeg.getSegment(i - 1);
+				Layover layover = new Layover(prevFlight, flight);
+				String duration = DateTimeUtils.formatDuration(getResources(), layover.mDuration);
+				String waypoint = StrUtils.formatWaypoint(flight.mOrigin);
+
+				ViewGroup layoverSnippet = (ViewGroup) inflater.inflate(R.layout.snippet_tablet_flight_layover,
+						mFlightLegsC, false);
+				TextView tv = Ui.findView(layoverSnippet, R.id.flight_details_layover_text_view);
+				String layoverStr = res.getString(R.string.layover_duration_location_TEMPLATE, duration, waypoint);
+				tv.setText(Html.fromHtml(layoverStr).toString());
+				mFlightLegsC.addView(layoverSnippet);
+			}
+
+			// The FlightLeg with lines and circles
+			view = (FlightLegSummarySection) inflater.inflate(R.layout.section_flight_leg_details_tablet, null);
+			view.bindFlight(flight, departureTimeCal, arrivalTimeCal);
+			mFlightLegsC.addView(view);
+		}
+	}
+
+	private String formatTime(Calendar cal) {
+		DateFormat df = android.text.format.DateFormat.getTimeFormat(getActivity());
+		return df.format(DateTimeUtils.getTimeInLocalTimeZone(cal));
 	}
 
 	/*

@@ -1,24 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:id="@+id/root_layout"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent" >
 
     <include
-        android:id="@+id/details_animation_row"
-        layout="@layout/section_flight_leg_summary_tablet" />
+            android:id="@+id/details_animation_row"
+            layout="@layout/section_flight_leg_summary_tablet" />
 
-    <FrameLayout
-        android:id="@+id/details_container"
-        android:layout_width="1dp"
-        android:layout_height="1dp" >
-
-        <TextView
+    <LinearLayout
+            android:id="@+id/details_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#FFFF00"
-            android:gravity="center"
-            android:text="Details" />
-    </FrameLayout>
+            android:background="@android:color/white"
+            android:orientation="vertical" >
+
+        <!-- Add trip now! -->
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EBEBEB"
+                android:padding="12dp" >
+
+            <com.expedia.bookings.widget.TextView
+                    android:id="@+id/details_time_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="4:00 PM to 11:00 PM"
+                    app:textStyle="normal" />
+
+            <Button
+                    android:id="@+id/details_add_trip_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="right"
+                    android:text="ADD FOR $390"
+                    android:textAllCaps="true" />
+        </RelativeLayout>
+
+        <!-- Cool stats on the flight -->
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="12dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:paddingTop="12dp" >
+
+            <com.expedia.bookings.widget.TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_tablet_departure_arrow"
+                    android:text="71% on time"
+                    app:textStyle="normal" />
+
+            <com.expedia.bookings.widget.TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_tablet_arrival_arrow"
+                    android:text="5100 miles"
+                    app:textStyle="normal" />
+
+            <com.expedia.bookings.widget.TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_tablet_departure_arrow"
+                    android:text="10 hours"
+                    app:textStyle="normal" />
+        </LinearLayout>
+
+        <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp" >
+
+            <!-- flight information -->
+
+            <LinearLayout
+                    android:id="@+id/flight_legs_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+        </ScrollView>
+    </LinearLayout>
 
 </FrameLayout>

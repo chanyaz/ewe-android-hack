@@ -135,6 +135,12 @@
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">Airlines</string>
 
+    <!-- Tablet flight details -->
+    <!-- Name of button for selecting a flight -->
+    <string name="add_for_TEMPLATE">Add for %1$s</string>
+    <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
+    <string name="flight_cities_TEMPLATE">%1$s to %2$s</string>
+
     <!-- Facebook -->
     <!-- Weve found your user account -->
     <string name="facebook_weve_found_your_account">Hey &lt;b&gt;%1$s&lt;/b&gt;, looks like we\'ve found your Expedia account! Please enter your expedia password below to link your facebook and expedia accounts.</string>

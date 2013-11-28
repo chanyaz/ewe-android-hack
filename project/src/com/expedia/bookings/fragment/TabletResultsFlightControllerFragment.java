@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -28,6 +27,7 @@ import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IBackManageable;
+import com.expedia.bookings.interfaces.IResultsFlightLegSelected;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -53,7 +53,8 @@ import com.mobiata.android.util.Ui;
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsFlightControllerFragment extends Fragment implements IResultsFlightSelectedListener,
-		IAddToTripListener, IFragmentAvailabilityProvider, IBackManageable, IStateProvider<ResultsFlightsState> {
+		IResultsFlightLegSelected, IAddToTripListener, IFragmentAvailabilityProvider, IBackManageable,
+		IStateProvider<ResultsFlightsState> {
 
 	public interface IFlightsFruitScrollUpListViewChangeListener {
 
@@ -186,29 +187,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					STATE_FLIGHTS_STATE,
 					ResultsFlightsState.FLIGHT_ONE_FILTERS.name())));
 		}
-
-		mFlightOneDetailsC.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				if (mOneWayFlight) {
-					setFlightsState(ResultsFlightsState.ADDING_FLIGHT_TO_TRIP, true);
-				}
-				else {
-					setFlightsState(ResultsFlightsState.FLIGHT_TWO_FILTERS, true);
-				}
-			}
-
-		});
-
-		mFlightTwoDetailsC.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				setFlightsState(ResultsFlightsState.ADDING_FLIGHT_TO_TRIP, true);
-			}
-
-		});
 
 		registerStateListener(mFlightsStateHelper, false);
 		registerStateListener(new StateListenerLogger<ResultsFlightsState>(), false);
@@ -370,10 +348,31 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				if (mFlightTwoFilterFrag != null) {
 					mFlightTwoFilterFrag.onFilterChanged();
 				}
+
+				mFlightOneDetailsFrag.bindWithDb();
 			}
 			else if (legNumber == 1) {
 				setFlightsState(ResultsFlightsState.FLIGHT_TWO_DETAILS,
 						mFlightsStateManager.getState() != ResultsFlightsState.FLIGHT_TWO_DETAILS);
+
+				mFlightTwoDetailsFrag.bindWithDb();
+			}
+		}
+	}
+
+	/*
+	 * IResultsFlightLegSelected
+	 */
+
+	@Override
+	public void onTripAdded(int legNumber) {
+		if (mGlobalState == ResultsState.FLIGHTS) {
+			boolean lastLegToSelect = mOneWayFlight || legNumber == 1;
+			if (lastLegToSelect) {
+				setFlightsState(ResultsFlightsState.ADDING_FLIGHT_TO_TRIP, true);
+			}
+			else {
+				setFlightsState(ResultsFlightsState.FLIGHT_TWO_FILTERS, true);
 			}
 		}
 	}
