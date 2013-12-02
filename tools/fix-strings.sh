@@ -44,5 +44,8 @@ for i in $path/values*/strings.xml ; do
 
     # Fix multiple spaces
     gsed -i 's/\(>.*[^.!]\)  /\1 /' $i
+
+    # Fix unicode non-breaking spaces
+    gsed -i 's:\xc2\xa0: :g' $i
 done
 

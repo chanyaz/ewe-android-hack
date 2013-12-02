@@ -40,6 +40,9 @@ for i in $path/values*/strings.xml ; do
 
     # check for duplicate strings
     grep 'string name="[a-zA-Z_]*"' $i | sed 's/^.*string name="\([a-zA-Z_]*\)".*$/\1/' | uniq -d
+
+    # check for unicode non-breaking space
+    grep $options -P "\xC2\xA0" $i
 done
 
 root="../project/res"
