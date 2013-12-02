@@ -279,7 +279,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	}
 
 	public AssistanceType getAssistance() {
-		return mAssistance;
+		return mAssistance == null ? AssistanceType.NONE : mAssistance;
 	}
 
 	public String getAssistanceString(Context context) {
