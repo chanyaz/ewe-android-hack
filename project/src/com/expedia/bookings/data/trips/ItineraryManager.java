@@ -991,6 +991,7 @@ public class ItineraryManager implements JSONable {
 		mSyncOpQueue.add(new Task(Operation.REMOVE_ITIN, tripNumber));
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
 
 		startSyncIfNotInProgress();
 
