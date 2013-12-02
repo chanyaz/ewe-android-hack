@@ -4,11 +4,14 @@ import java.util.Map;
 import java.util.Set;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.PopupWindow;
 
@@ -22,6 +25,8 @@ import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CheckBoxFilterWidget.OnCheckedChangeListener;
+import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
@@ -94,10 +99,10 @@ public class AirportFilterWidget extends TextView {
 			mPopup.dismiss();
 		}
 		else {
-			View content = LayoutInflater.from(getContext()).inflate(R.layout.snippet_flight_airport_filter, null);
+			LayoutInflater inflater = LayoutInflater.from(getContext());
+			final View content = inflater.inflate(R.layout.snippet_flight_airport_filter, null);
 			ViewGroup vg = Ui.findView(content, R.id.airport_filter_container);
-			mPopup = new PopupWindow(content, getWidth(), ViewGroup.LayoutParams.WRAP_CONTENT,
-					true);
+			mPopup = new PopupWindow(content, getWidth(), LayoutParams.WRAP_CONTENT, true);
 			mPopup.setBackgroundDrawable(new BitmapDrawable());
 			mPopup.setOutsideTouchable(true);
 			mPopup.setTouchable(true);
@@ -142,8 +147,37 @@ public class AirportFilterWidget extends TextView {
 				}
 			});
 
-			// Show the popup
-			mPopup.showAsDropDown(this);
+			// Show the popup off screen to render it fully.
+			mPopup.showAtLocation(this, Gravity.NO_GRAVITY, -1000, -1000);
+
+			// Update the Popup position to above or below based on whether or not it clips at bottom.
+			content.post(new Runnable() {
+				@Override
+				public void run() {
+					int popupHeight = content.getHeight();
+
+					int[] anchorLoc = new int[2];
+					AirportFilterWidget.this.getLocationOnScreen(anchorLoc);
+
+					int anchorYPos = anchorLoc[1];
+					int anchorHeight = AirportFilterWidget.this.getHeight();
+					Point screenSize = AndroidUtils.getScreenSize(getContext());
+
+					Log.d("AirportFilterWidget - popupHeight=" + popupHeight + " anchorY=" + anchorYPos
+							+ " anchorHeight=" + anchorHeight + " screenY=" + screenSize.y);
+
+					int popupBottom = popupHeight + anchorYPos + anchorHeight;
+
+					int y;
+					if (popupBottom > screenSize.y) {
+						y = anchorYPos - popupHeight;
+					}
+					else {
+						y = anchorYPos + anchorHeight;
+					}
+					mPopup.update(anchorLoc[0], y, -1, -1);
+				}
+			});
 		}
 	}
 
