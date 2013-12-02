@@ -891,10 +891,18 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 					if (response != null && !response.hasErrors() && response.getSuggestions().size() != 0) {
 						mSearchParams.setOrigin(response.getSuggestions().get(0));
 
-						// Update the UI
-						if (!mOriginEditText.isFocusableInTouchMode()) {
-							mOriginEditText.setText(getOriginText());
+						// Update the UI on the UI thread.
+						if (getActivity() != null) {
+							mOriginEditText.post(new Runnable() {
+								@Override
+								public void run() {
+									if (!mOriginEditText.isFocusableInTouchMode()) {
+										mOriginEditText.setText(getOriginText());
+									}
+								}
+							});
 						}
+
 					}
 				}
 			})).start();
