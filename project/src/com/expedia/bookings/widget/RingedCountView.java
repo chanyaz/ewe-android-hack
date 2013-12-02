@@ -78,6 +78,8 @@ public class RingedCountView extends View {
 		int thickness = 20;
 		float countTextSize = 112f;
 		float captionTextSize = 36f;
+		String caption = null;
+		float percent = 0.0f;
 
 		if (attrs != null) {
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RingedCountView);
@@ -89,11 +91,15 @@ public class RingedCountView extends View {
 			thickness = a.getDimensionPixelSize(R.styleable.RingedCountView_ringThickness, thickness);
 			countTextSize = a.getDimension(R.styleable.RingedCountView_countTextSize, countTextSize);
 			captionTextSize = a.getDimension(R.styleable.RingedCountView_captionTextSize, captionTextSize);
+			caption = a.getString(R.styleable.RingedCountView_caption);
+			percent = a.getFloat(R.styleable.RingedCountView_percent, percent);
 			a.recycle();
 		}
 
 		mRingDrawable = new RingDrawable(backgroundColor, countTextColor, captionTextColor,
 				primaryColor, secondaryColor, thickness, countTextSize, captionTextSize);
+		setCaption(caption);
+		setPercent(percent);
 
 		super.setBackgroundDrawable(mRingDrawable);
 	}
@@ -280,7 +286,8 @@ public class RingedCountView extends View {
 		}
 
 		public void setCaption(String caption) {
-			if (!caption.equals(mCaption)) {
+			if ((caption != null || mCaption != null)
+					&& (caption == null || !caption.equals(mCaption))) {
 				mCaption = caption;
 				invalidateSelf();
 			}
@@ -313,11 +320,12 @@ public class RingedCountView extends View {
 
 		private void drawText(Canvas canvas) {
 			// Odometer style count
+			float yOffset = mCaption == null ? -((mCountTextPaint.descent() + mCountTextPaint.ascent()) / 2) : 0;
 			canvas.save();
-			canvas.clipRect(0, mCy - mCountTextSize, canvas.getWidth(), mCy + 4, Op.REPLACE);
+			canvas.clipRect(0, mCy - mCountTextSize + yOffset, canvas.getWidth(), mCy + 4 + yOffset, Op.REPLACE);
 			String countString = Integer.toString(Math.round(mCount));
 			float fraction = mCount - Math.round(mCount);
-			float y = mCy - fraction * mCountTextSize;
+			float y = mCy - fraction * mCountTextSize + yOffset;
 			canvas.drawText(countString, mCx, y, mCountTextPaint);
 			if (y != 0) {
 				String nextString = Integer.toString(Math.round(mCount) + 1);
@@ -326,7 +334,9 @@ public class RingedCountView extends View {
 			canvas.restore();
 
 			// Caption
-			canvas.drawText(mCaption, mCx, mCy + mCaptionTextSize * 1.6f, mCaptionTextPaint);
+			if (mCaption != null) {
+				canvas.drawText(mCaption, mCx, mCy + mCaptionTextSize * 1.6f, mCaptionTextPaint);
+			}
 		}
 
 		@Override

@@ -156,6 +156,7 @@
 
     <!-- RingedCountView -->
     <declare-styleable name="RingedCountView">
+        <attr name="caption" format="reference|string" />
         <attr name="backgroundColor" format="color" />
         <attr name="countTextColor" format="color" />
         <attr name="captionTextColor" format="color" />
@@ -164,6 +165,7 @@
         <attr name="ringThickness" format="dimension" />
         <attr name="countTextSize" format="dimension" />
         <attr name="captionTextSize" format="dimension" />
+        <attr name="percent" format="float" />
     </declare-styleable>
 
     <!-- SlidingRadioGroup -->
