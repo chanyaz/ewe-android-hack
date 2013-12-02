@@ -1,6 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Tablet search strings -->
+    <!-- Hint asking users to search for anything -->
+    <string name="search_all_hint">Cari destinasi, objek wisata, dan alamat</string>
+    <!-- Hint in edit text that the user should type in a destination (location) -->
+    <string name="destinations_hint">Cari destinasi…</string>
+    <!-- Hint in edit text that the user should type in an origin (location) -->
+    <string name="origins_hint">Cari asal…</string>
+    <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
+    <string name="to_TEMPLATE">Ke %s</string>
+    <!-- From an origin.  %s is an origin name, e.g. "From San Francisco" -->
+    <string name="from_TEMPLATE">Mulai dari %s</string>
+    <!-- String when we don't know where the user is coming from/going to -->
+    <string name="great_unknown">Antah Berantah</string>
+    <!-- When a search is for one adult, we assume it's you! -->
+    <string name="just_you">Anda Saja</string>
+    <!-- Shown when no search dates are selected -->
+    <string name="dates_status_none">Masukkan tanggal perjalanan Anda di bawah.</string>
+    <!-- Shown when a single date is selected for searching -->
+    <string name="dates_status_one">Penerbangan sekali jalan dan penginapan satu malam.</string>
+    <!-- Shown when round trip dates are selected for searching -->
+    <string name="dates_status_multi_TEMPLATE">Penerbangan pulang-pergi dan penginapan %s malam.</string>
+    <!-- Start date display.  %s is the start date, e.g. "Start Date: September 10" -->
+    <string name="start_date_TEMPLATE">Tanggal Mulai: %s</string>
+    <!-- End date display, when there is no end date selected yet.  We indicate it is not necessary to provide. -->
+    <string name="end_date_optional">Tanggal Selesai: (Opsional)</string>
+    <!-- End date display, when there is an end date selected.  %s is the date, e.g. "End Date: September 15" -->
+    <string name="end_date_TEMPLATE">Tanggal Selesai: %s</string>
+
+    <!-- Calendar picker strings -->
+    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
+    <string name="cd_month_previous_TEMPLATE">%s bulan sebelumnya</string>
+    <!-- Accessibility string describing calendar header. This is for the current month label. %s is the month, e.g. "September current month" -->
+    <string name="cd_month_current_TEMPLATE">%s bulan sekarang</string>
+    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go forward one month. %s is the month, e.g. "September next month" -->
+    <string name="cd_month_next_TEMPLATE">%s bulan berikutnya</string>
+    <!-- Accessibility string describing days of the week.  %s is the number (of the day), %2$s is the day.  E.g. "Day 3, Tuesday"-->
+    <string name="cd_day_of_week_TEMPLATE">Hari ke-%1$s, %2$s</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day that is selected (but not the start or end).  %s is the day, e.g. "September 3 in trip" -->
+    <string name="cd_day_selected_TEMPLATE">%s dalam perjalanan</string>
+    <!-- Accessibility string describing days on a calendar.  This is first selected day.  %s is the day, e.g. "September 3 start date" -->
+    <string name="cd_day_selected_start_TEMPLATE">%s tanggal mulai</string>
+    <!-- Accessibility string describing days on a calendar.  This is last selected day.  %s is the day, e.g. "September 3 end date" -->
+    <string name="cd_day_selected_end_TEMPLATE">%s tanggal selesai</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day displayed, but not valid for selection (due to being too early/late).  %s is the day, e.g. "September 3 not selectable" -->
+    <string name="cd_day_invalid_TEMPLATE">%s tidak bisa dipilih</string>
+
+    <!-- Tablet Results strings -->
+    <!-- Resulsts label -->
+    <string name="results">Hasil</string>
+    <!-- Sort & Filter label -->
+    <string name="Sort_and_Filter">Urutkan &amp; Filter</string>
+    <!-- "Done" list header label -->
+    <string name="Done">Selesai</string>
+    <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
+    <plurals name="x_Hotels_TEMPLATE">
+        <item quantity="zero">%s Hotel</item>
+        <item quantity="one">%s Hotel</item>
+        <item quantity="two">%s Hotel</item>
+        <item quantity="few">%s Hotel</item>
+        <item quantity="many">%s Hotel</item>
+        <item quantity="other">%s Hotel</item>
+    </plurals>
+    <!-- Pluralization for a filtered number of hotels returned from a search TEMPLATE e.g. "15 of 25 Hotels" -->
+    <plurals name="x_of_y_Hotels_TEMPLATE">
+        <item quantity="zero">%1$s dari %2$s Hotel</item>
+        <item quantity="one">%1$s dari %2$s Hotel</item>
+        <item quantity="two">%1$s dari %2$s Hotel</item>
+        <item quantity="few">%1$s dari %2$s Hotel</item>
+        <item quantity="many">%1$s dari %2$s Hotel</item>
+        <item quantity="other">%1$s dari %2$s Hotel</item>
+    </plurals>
+    <!-- Pluralization for a filtered number of hotels returned from a search, lacking the actual filtered count e.g. "of 25 hotels" -->
+    <plurals name="of_y_hotels_TEMPLATE">
+        <item quantity="zero">dari %s hotel</item>
+        <item quantity="one">dari %s hotel</item>
+        <item quantity="two">dari %s hotel</item>
+        <item quantity="few">dari %s hotel</item>
+        <item quantity="many">dari %s hotel</item>
+        <item quantity="other">dari %s hotel</item>
+    </plurals>
+    <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Flights_TEMPLATE">
+        <item quantity="zero">%s Penerbangan</item>
+        <item quantity="one">%s Penerbangan</item>
+        <item quantity="two">%s Penerbangan</item>
+        <item quantity="few">%s Penerbangan</item>
+        <item quantity="many">%s Penerbangan</item>
+        <item quantity="other">%s Penerbangan</item>
+    </plurals>
+    <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
+    <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
+    <!-- Trip To -->
+    <string name="trip_to">Perjalanan Ke</string>
+    <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
+    <string name="actionbar_tablet_results_flights_title_TEMPLATE">Penerbangan ke %1$s</string>
+    <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
+    <string name="actionbar_tablet_results_hotels_title_TEMPLATE">%1$s Hotel</string>
+    <!-- Label for VIP badge -->
+    <string name="VIP">VIP</string>
+
+    <!-- Tablet hotel filters -->
+    <!-- "Sort By" section header -->
+    <string name="Sort_By">Urutkan berdasarkan</string>
+    <!-- "Filters" section header -->
+    <string name="Filters">Filter</string>
+    <!-- "Areas"/neighborhoods section header -->
+    <string name="Areas">Kawasan</string>
+    <!-- Default label for unnamed areas/neighborhoods -->
+    <string name="Other_Areas">Kawasan Lainnya</string>
+    <!-- Short label for "sort by popular" button -->
+    <string name="popular">Populer</string>
+    <!-- Short label for "sort by price" button -->
+    <string name="price">harga</string>
+    <!-- Short label for "sort by rating" button -->
+    <string name="rating">nilai</string>
+    <!-- Short label for "sort by distance" button -->
+    <string name="distance">jarak</string>
+    <!-- Content description for "sort by popular" button -->
+    <string name="cd_sort_by_popular">Tekan untuk urutkan dari hotel terpopuler</string>
+    <!-- Content description for "sort by price" button -->
+    <string name="cd_sort_by_price">Tekan untuk urutkan dari hotel termurah</string>
+    <!-- Content description for "sort by rating" button -->
+    <string name="cd_sort_by_rating">Tekan untuk urutkan dari hotel dengan nilai tertinggi</string>
+    <!-- Content description for "sort by distance" button -->
+    <string name="cd_sort_by_distance">Tekan untuk urutkan dari hotel terdekat</string>
+    <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
+    <string name="From_x_TEMPLATE">Mulai dari %s</string>
+
+    <!-- Tablet flight sort/filter controls -->
+    <!-- Flight sort and filter page header -->
+    <string name="flight_preferences">Preferensi Penerbangan</string>
+    <!-- Header for a flight filter based upon number of stops -->
+    <string name="stops">Pemberhentian</string>
+    <!-- Header for a flight filter, showing a list of flights from different airlines -->
+    <string name="airlines">Maskapai Penerbangan</string>
+
     <!-- Facebook -->
     <!-- Weve found your user account -->
     <string name="facebook_weve_found_your_account">Halo &lt;b&gt;%1$s&lt;/b&gt;, kami menemukan akun Expedia Anda! Masukkan kata sandi Expedia di bawah untuk menghubungkan akun Facebook dan Expedia Anda.</string>
@@ -2706,7 +2842,7 @@
     <!-- Description for FT Free app -->
     <string name="VSC_Voyages_SNF_description">Aplikasi Voyages-sncf.com</string>
     <!-- VSC Copyright information -->
-    <string name="VSC_copyright">© Copyright 2012-2014 Agence Voyages-SNCF, Inc.\nHak cipta dilindungi undang-undang.</string>
+    <string name="VSC_copyright">© Hak cipta 2012-2014 Agence Voyages-SNCF, Inc.\nHak cipta dilindungi undang-undang.</string>
     <!-- VSC app name -->
     <string name="VSC_app_name">VSC Hotels</string>
     <!-- Link to open when VSC logo is clicked on -->

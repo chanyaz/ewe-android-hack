@@ -1,6 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Tablet search strings -->
+    <!-- Hint asking users to search for anything -->
+    <string name="search_all_hint">Pesquise destinos, pontos de referência e endereços</string>
+    <!-- Hint in edit text that the user should type in a destination (location) -->
+    <string name="destinations_hint">Buscar destinos…</string>
+    <!-- Hint in edit text that the user should type in an origin (location) -->
+    <string name="origins_hint">Buscar partidas…</string>
+    <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
+    <string name="to_TEMPLATE">Para %s</string>
+    <!-- From an origin.  %s is an origin name, e.g. "From San Francisco" -->
+    <string name="from_TEMPLATE">A partir de %s</string>
+    <!-- String when we don't know where the user is coming from/going to -->
+    <string name="great_unknown">o Grande Desconhecido</string>
+    <!-- When a search is for one adult, we assume it's you! -->
+    <string name="just_you">Somente você</string>
+    <!-- Shown when no search dates are selected -->
+    <string name="dates_status_none">Insira as datas da viagem abaixo.</string>
+    <!-- Shown when a single date is selected for searching -->
+    <string name="dates_status_one">Voos somente de ida e estadias de uma noite.</string>
+    <!-- Shown when round trip dates are selected for searching -->
+    <string name="dates_status_multi_TEMPLATE">Voos de ida e volta e estadias de %s noites.</string>
+    <!-- Start date display.  %s is the start date, e.g. "Start Date: September 10" -->
+    <string name="start_date_TEMPLATE">Data inicial: %s</string>
+    <!-- End date display, when there is no end date selected yet.  We indicate it is not necessary to provide. -->
+    <string name="end_date_optional">Data final: (Opcional)</string>
+    <!-- End date display, when there is an end date selected.  %s is the date, e.g. "End Date: September 15" -->
+    <string name="end_date_TEMPLATE">Data final: %s</string>
+
+    <!-- Calendar picker strings -->
+    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
+    <string name="cd_month_previous_TEMPLATE">%s mês anterior</string>
+    <!-- Accessibility string describing calendar header. This is for the current month label. %s is the month, e.g. "September current month" -->
+    <string name="cd_month_current_TEMPLATE">%s mês atual</string>
+    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go forward one month. %s is the month, e.g. "September next month" -->
+    <string name="cd_month_next_TEMPLATE">%s próximo mês</string>
+    <!-- Accessibility string describing days of the week.  %s is the number (of the day), %2$s is the day.  E.g. "Day 3, Tuesday"-->
+    <string name="cd_day_of_week_TEMPLATE">Dia %1$s, %2$s</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day that is selected (but not the start or end).  %s is the day, e.g. "September 3 in trip" -->
+    <string name="cd_day_selected_TEMPLATE">%s na viagem</string>
+    <!-- Accessibility string describing days on a calendar.  This is first selected day.  %s is the day, e.g. "September 3 start date" -->
+    <string name="cd_day_selected_start_TEMPLATE">%s data inicial</string>
+    <!-- Accessibility string describing days on a calendar.  This is last selected day.  %s is the day, e.g. "September 3 end date" -->
+    <string name="cd_day_selected_end_TEMPLATE">%s data final</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day displayed, but not valid for selection (due to being too early/late).  %s is the day, e.g. "September 3 not selectable" -->
+    <string name="cd_day_invalid_TEMPLATE">%s não selecionável</string>
+
+    <!-- Tablet Results strings -->
+    <!-- Resulsts label -->
+    <string name="results">Resultados</string>
+    <!-- Sort & Filter label -->
+    <string name="Sort_and_Filter">Organizar e filtrar</string>
+    <!-- "Done" list header label -->
+    <string name="Done">Concluído</string>
+    <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
+    <plurals name="x_Hotels_TEMPLATE">
+        <item quantity="zero">%s hotéis</item>
+        <item quantity="one">%s hotel</item>
+        <item quantity="two">%s hotéis</item>
+        <item quantity="few">%s hotéis</item>
+        <item quantity="many">%s hotéis</item>
+        <item quantity="other">%s hotéis</item>
+    </plurals>
+    <!-- Pluralization for a filtered number of hotels returned from a search TEMPLATE e.g. "15 of 25 Hotels" -->
+    <plurals name="x_of_y_Hotels_TEMPLATE">
+        <item quantity="zero">%1$s de %2$s hotéis</item>
+        <item quantity="one">%1$s de %2$s hotel</item>
+        <item quantity="two">%1$s de %2$s hotéis</item>
+        <item quantity="few">%1$s de %2$s hotéis</item>
+        <item quantity="many">%1$s de %2$s hotéis</item>
+        <item quantity="other">%1$s de %2$s hotéis</item>
+    </plurals>
+    <!-- Pluralization for a filtered number of hotels returned from a search, lacking the actual filtered count e.g. "of 25 hotels" -->
+    <plurals name="of_y_hotels_TEMPLATE">
+        <item quantity="zero">de %s hotéis</item>
+        <item quantity="one">de %s hotel</item>
+        <item quantity="two">de %s hotéis</item>
+        <item quantity="few">de %s hotéis</item>
+        <item quantity="many">de %s hotéis</item>
+        <item quantity="other">de %s hotéis</item>
+    </plurals>
+    <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Flights_TEMPLATE">
+        <item quantity="zero">%s voos</item>
+        <item quantity="one">%s voo</item>
+        <item quantity="two">%s voos</item>
+        <item quantity="few">%s voos</item>
+        <item quantity="many">%s voos</item>
+        <item quantity="other">%s voos</item>
+    </plurals>
+    <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
+    <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
+    <!-- Trip To -->
+    <string name="trip_to">Viagem para</string>
+    <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
+    <string name="actionbar_tablet_results_flights_title_TEMPLATE">Voos para %1$s</string>
+    <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
+    <string name="actionbar_tablet_results_hotels_title_TEMPLATE">%1$s hotéis</string>
+    <!-- Label for VIP badge -->
+    <string name="VIP">VIP</string>
+
+    <!-- Tablet hotel filters -->
+    <!-- "Sort By" section header -->
+    <string name="Sort_By">Classificar por</string>
+    <!-- "Filters" section header -->
+    <string name="Filters">Filtro</string>
+    <!-- "Areas"/neighborhoods section header -->
+    <string name="Areas">Áreas</string>
+    <!-- Default label for unnamed areas/neighborhoods -->
+    <string name="Other_Areas">Outras áreas</string>
+    <!-- Short label for "sort by popular" button -->
+    <string name="popular">popular</string>
+    <!-- Short label for "sort by price" button -->
+    <string name="price">preço</string>
+    <!-- Short label for "sort by rating" button -->
+    <string name="rating">classificação</string>
+    <!-- Short label for "sort by distance" button -->
+    <string name="distance">distância</string>
+    <!-- Content description for "sort by popular" button -->
+    <string name="cd_sort_by_popular">Pressione para organizar pelos hotéis mais populares.</string>
+    <!-- Content description for "sort by price" button -->
+    <string name="cd_sort_by_price">Pressione para organizar pelos hotéis mais baratos.</string>
+    <!-- Content description for "sort by rating" button -->
+    <string name="cd_sort_by_rating">Pressione para organizar pelos hotéis com melhor classificação.</string>
+    <!-- Content description for "sort by distance" button -->
+    <string name="cd_sort_by_distance">Pressiona para organizar pelos hotéis mais próximos.</string>
+    <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
+    <string name="From_x_TEMPLATE">A partir de %s</string>
+
+    <!-- Tablet flight sort/filter controls -->
+    <!-- Flight sort and filter page header -->
+    <string name="flight_preferences">Preferências de voo</string>
+    <!-- Header for a flight filter based upon number of stops -->
+    <string name="stops">Paradas</string>
+    <!-- Header for a flight filter, showing a list of flights from different airlines -->
+    <string name="airlines">Companhias aéreas</string>
+
     <!-- Facebook -->
     <!-- Weve found your user account -->
     <string name="facebook_weve_found_your_account">Olá &lt;b&gt;%1$s&lt;/b&gt;, parece que encontramos sua conta da Expedia! Digite sua senha da Expedia a seguir para vincular sua conta do Facebook à da Expedia.</string>

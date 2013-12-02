@@ -1,6 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Tablet search strings -->
+    <!-- Hint asking users to search for anything -->
+    <string name="search_all_hint">目的地、観光名所、住所で検索</string>
+    <!-- Hint in edit text that the user should type in a destination (location) -->
+    <string name="destinations_hint">目的地で検索…</string>
+    <!-- Hint in edit text that the user should type in an origin (location) -->
+    <string name="origins_hint">出発地で検索…</string>
+    <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
+    <string name="to_TEMPLATE">到着地 %s</string>
+    <!-- From an origin.  %s is an origin name, e.g. "From San Francisco" -->
+    <string name="from_TEMPLATE">出発地 %s</string>
+    <!-- String when we don't know where the user is coming from/going to -->
+    <string name="great_unknown">指定なし</string>
+    <!-- When a search is for one adult, we assume it's you! -->
+    <string name="just_you">ご本人</string>
+    <!-- Shown when no search dates are selected -->
+    <string name="dates_status_none">下に旅行日を入力してください。</string>
+    <!-- Shown when a single date is selected for searching -->
+    <string name="dates_status_one">片道フライトと 1 泊滞在。</string>
+    <!-- Shown when round trip dates are selected for searching -->
+    <string name="dates_status_multi_TEMPLATE">往復フライトと %s 泊滞在。</string>
+    <!-- Start date display.  %s is the start date, e.g. "Start Date: September 10" -->
+    <string name="start_date_TEMPLATE">出発日 : %s</string>
+    <!-- End date display, when there is no end date selected yet.  We indicate it is not necessary to provide. -->
+    <string name="end_date_optional">現地出発日 : (オプション)</string>
+    <!-- End date display, when there is an end date selected.  %s is the date, e.g. "End Date: September 15" -->
+    <string name="end_date_TEMPLATE">現地出発日 : %s</string>
+
+    <!-- Calendar picker strings -->
+    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
+    <string name="cd_month_previous_TEMPLATE">%s 先月</string>
+    <!-- Accessibility string describing calendar header. This is for the current month label. %s is the month, e.g. "September current month" -->
+    <string name="cd_month_current_TEMPLATE">%s 今月</string>
+    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go forward one month. %s is the month, e.g. "September next month" -->
+    <string name="cd_month_next_TEMPLATE">%s 翌月</string>
+    <!-- Accessibility string describing days of the week.  %s is the number (of the day), %2$s is the day.  E.g. "Day 3, Tuesday"-->
+    <string name="cd_day_of_week_TEMPLATE">%1$s 日 (%2$s)</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day that is selected (but not the start or end).  %s is the day, e.g. "September 3 in trip" -->
+    <string name="cd_day_selected_TEMPLATE">%s 旅行中</string>
+    <!-- Accessibility string describing days on a calendar.  This is first selected day.  %s is the day, e.g. "September 3 start date" -->
+    <string name="cd_day_selected_start_TEMPLATE">%s 出発日</string>
+    <!-- Accessibility string describing days on a calendar.  This is last selected day.  %s is the day, e.g. "September 3 end date" -->
+    <string name="cd_day_selected_end_TEMPLATE">%s 現地出発日</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day displayed, but not valid for selection (due to being too early/late).  %s is the day, e.g. "September 3 not selectable" -->
+    <string name="cd_day_invalid_TEMPLATE">%s 選択不可</string>
+
+    <!-- Tablet Results strings -->
+    <!-- Resulsts label -->
+    <string name="results">結果</string>
+    <!-- Sort & Filter label -->
+    <string name="Sort_and_Filter">並び替え &amp; 絞り込み</string>
+    <!-- "Done" list header label -->
+    <string name="Done">完了</string>
+    <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
+    <plurals name="x_Hotels_TEMPLATE">
+        <item quantity="zero">%s 軒のホテル</item>
+        <item quantity="one">%s 軒のホテル</item>
+        <item quantity="two">%s 軒のホテル</item>
+        <item quantity="few">%s 軒のホテル</item>
+        <item quantity="many">%s 軒のホテル</item>
+        <item quantity="other">%s 軒のホテル</item>
+    </plurals>
+    <!-- Pluralization for a filtered number of hotels returned from a search TEMPLATE e.g. "15 of 25 Hotels" -->
+    <plurals name="x_of_y_Hotels_TEMPLATE">
+        <item quantity="zero">%2$s 軒中 %1$s 軒のホテル</item>
+        <item quantity="one">%2$s 軒中 %1$s 軒のホテル</item>
+        <item quantity="two">%2$s 軒中 %1$s 軒のホテル</item>
+        <item quantity="few">%2$s 軒中 %1$s 軒のホテル</item>
+        <item quantity="many">%2$s 軒中 %1$s 軒のホテル</item>
+        <item quantity="other">%2$s 軒中 %1$s 軒のホテル</item>
+    </plurals>
+    <!-- Pluralization for a filtered number of hotels returned from a search, lacking the actual filtered count e.g. "of 25 hotels" -->
+    <plurals name="of_y_hotels_TEMPLATE">
+        <item quantity="zero">軒のホテル (%s 軒中)</item>
+        <item quantity="one">軒のホテル (%s 軒中)</item>
+        <item quantity="two">軒のホテル (%s 軒中)</item>
+        <item quantity="few">軒のホテル (%s 軒中)</item>
+        <item quantity="many">軒のホテル (%s 軒中)</item>
+        <item quantity="other">軒のホテル (%s 軒中)</item>
+    </plurals>
+    <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Flights_TEMPLATE">
+        <item quantity="zero">%s 便</item>
+        <item quantity="one">%s 便</item>
+        <item quantity="two">%s 便</item>
+        <item quantity="few">%s 便</item>
+        <item quantity="many">%s 便</item>
+        <item quantity="other">%s 便</item>
+    </plurals>
+    <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
+    <string name="destination_and_date_range_TEMPLATE">%1$s、%2$s</string>
+    <!-- Trip To -->
+    <string name="trip_to">目的地 : </string>
+    <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
+    <string name="actionbar_tablet_results_flights_title_TEMPLATE">%1$sへのフライト</string>
+    <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
+    <string name="actionbar_tablet_results_hotels_title_TEMPLATE">%1$sのホテル</string>
+    <!-- Label for VIP badge -->
+    <string name="VIP">VIP</string>
+
+    <!-- Tablet hotel filters -->
+    <!-- "Sort By" section header -->
+    <string name="Sort_By">並べ替え</string>
+    <!-- "Filters" section header -->
+    <string name="Filters">絞り込み</string>
+    <!-- "Areas"/neighborhoods section header -->
+    <string name="Areas">エリア</string>
+    <!-- Default label for unnamed areas/neighborhoods -->
+    <string name="Other_Areas">その他のエリア</string>
+    <!-- Short label for "sort by popular" button -->
+    <string name="popular">人気</string>
+    <!-- Short label for "sort by price" button -->
+    <string name="price">価格</string>
+    <!-- Short label for "sort by rating" button -->
+    <string name="rating">評価</string>
+    <!-- Short label for "sort by distance" button -->
+    <string name="distance">距離</string>
+    <!-- Content description for "sort by popular" button -->
+    <string name="cd_sort_by_popular">タップして人気の高い順にホテルを並び替えてください。</string>
+    <!-- Content description for "sort by price" button -->
+    <string name="cd_sort_by_price">タップして料金の低い順にホテルを並び替えてください。</string>
+    <!-- Content description for "sort by rating" button -->
+    <string name="cd_sort_by_rating">タップして評価の高い順にホテルを並び替えてください。</string>
+    <!-- Content description for "sort by distance" button -->
+    <string name="cd_sort_by_distance">タップして距離の近い順にホテルを並び替えてください。</string>
+    <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
+    <string name="From_x_TEMPLATE">%s ～</string>
+
+    <!-- Tablet flight sort/filter controls -->
+    <!-- Flight sort and filter page header -->
+    <string name="flight_preferences">フライトの検索条件</string>
+    <!-- Header for a flight filter based upon number of stops -->
+    <string name="stops">乗継回数</string>
+    <!-- Header for a flight filter, showing a list of flights from different airlines -->
+    <string name="airlines">航空会社</string>
+
     <!-- Facebook -->
     <!-- Weve found your user account -->
     <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt;さん、すでにエクスペディアのアカウントをお持ちのようです。以下にエクスペディアのパスワードを入力して、Facebook とエクスペディアのアカウントをリンクしてください。</string>
@@ -1822,7 +1958,7 @@
     <!-- Friendly message at the top of the receipt -->
     <string name="Enjoy_your_stay">素敵なご滞在を。</string>
     <!-- Format for a first/last name -->
-    <string name="name_template">%2$s %1$s</string>
+    <string name="name_template">%1$s %2$s</string>
     <!-- Reservation summary label -->
     <string name="reservation_summary">予約の概要</string>
     <!-- Confirmation number label -->

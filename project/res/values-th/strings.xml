@@ -1,6 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Tablet search strings -->
+    <!-- Hint asking users to search for anything -->
+    <string name="search_all_hint">ค้นหาจุดหมายปลายทาง สถานที่สำคัญ และที่อยู่</string>
+    <!-- Hint in edit text that the user should type in a destination (location) -->
+    <string name="destinations_hint">ค้นหาจุดหมายปลายทาง…</string>
+    <!-- Hint in edit text that the user should type in an origin (location) -->
+    <string name="origins_hint">ค้นหาเมืองต้นทาง…</string>
+    <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
+    <string name="to_TEMPLATE">ไปยัง %s</string>
+    <!-- From an origin.  %s is an origin name, e.g. "From San Francisco" -->
+    <string name="from_TEMPLATE">จาก %s</string>
+    <!-- String when we don't know where the user is coming from/going to -->
+    <string name="great_unknown">ไม่ทราบสถานที่</string>
+    <!-- When a search is for one adult, we assume it's you! -->
+    <string name="just_you">เพียงคุณคนเดียว</string>
+    <!-- Shown when no search dates are selected -->
+    <string name="dates_status_none">ป้อนวันเดินทางของคุณด้านล่าง</string>
+    <!-- Shown when a single date is selected for searching -->
+    <string name="dates_status_one">เที่ยวบินขาเดียวและห้องพักหนึ่งคืน</string>
+    <!-- Shown when round trip dates are selected for searching -->
+    <string name="dates_status_multi_TEMPLATE">เที่ยวบินไป-กลับและห้องพัก %s คืน</string>
+    <!-- Start date display.  %s is the start date, e.g. "Start Date: September 10" -->
+    <string name="start_date_TEMPLATE">วันออกเดินทาง: %s</string>
+    <!-- End date display, when there is no end date selected yet.  We indicate it is not necessary to provide. -->
+    <string name="end_date_optional">วันสิ้นสุด: (ไม่บังคับ)</string>
+    <!-- End date display, when there is an end date selected.  %s is the date, e.g. "End Date: September 15" -->
+    <string name="end_date_TEMPLATE">วันสิ้นสุด: %s</string>
+
+    <!-- Calendar picker strings -->
+    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
+    <string name="cd_month_previous_TEMPLATE">%s เดือนที่แล้ว</string>
+    <!-- Accessibility string describing calendar header. This is for the current month label. %s is the month, e.g. "September current month" -->
+    <string name="cd_month_current_TEMPLATE">%s เดือนปัจจุบัน</string>
+    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go forward one month. %s is the month, e.g. "September next month" -->
+    <string name="cd_month_next_TEMPLATE">%s เดือนถัดไป</string>
+    <!-- Accessibility string describing days of the week.  %s is the number (of the day), %2$s is the day.  E.g. "Day 3, Tuesday"-->
+    <string name="cd_day_of_week_TEMPLATE">วัน %1$s, %2$s</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day that is selected (but not the start or end).  %s is the day, e.g. "September 3 in trip" -->
+    <string name="cd_day_selected_TEMPLATE">%s อยู่ในการเดินทาง</string>
+    <!-- Accessibility string describing days on a calendar.  This is first selected day.  %s is the day, e.g. "September 3 start date" -->
+    <string name="cd_day_selected_start_TEMPLATE">วันออกเดินทาง %s</string>
+    <!-- Accessibility string describing days on a calendar.  This is last selected day.  %s is the day, e.g. "September 3 end date" -->
+    <string name="cd_day_selected_end_TEMPLATE">วันสิ้นสุด %s</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day displayed, but not valid for selection (due to being too early/late).  %s is the day, e.g. "September 3 not selectable" -->
+    <string name="cd_day_invalid_TEMPLATE">ไม่สามารถเลือก %s ได้</string>
+
+    <!-- Tablet Results strings -->
+    <!-- Resulsts label -->
+    <string name="results">ผลการค้นหา</string>
+    <!-- Sort & Filter label -->
+    <string name="Sort_and_Filter">กรอง / แบ่งประเภท</string>
+    <!-- "Done" list header label -->
+    <string name="Done">เสร็จ</string>
+    <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
+    <plurals name="x_Hotels_TEMPLATE">
+        <item quantity="zero">%s โรงแรม</item>
+        <item quantity="one">%s โรงแรม</item>
+        <item quantity="two">%s โรงแรม</item>
+        <item quantity="few">%s โรงแรม</item>
+        <item quantity="many">%s โรงแรม</item>
+        <item quantity="other">%s โรงแรม</item>
+    </plurals>
+    <!-- Pluralization for a filtered number of hotels returned from a search TEMPLATE e.g. "15 of 25 Hotels" -->
+    <plurals name="x_of_y_Hotels_TEMPLATE">
+        <item quantity="zero">%1$s จาก %2$s โรงแรม</item>
+        <item quantity="one">%1$s จาก %2$s โรงแรม</item>
+        <item quantity="two">%1$s จาก %2$s โรงแรม</item>
+        <item quantity="few">%1$s จาก %2$s โรงแรม</item>
+        <item quantity="many">%1$s จาก %2$s โรงแรม</item>
+        <item quantity="other">%1$s จาก %2$s โรงแรม</item>
+    </plurals>
+    <!-- Pluralization for a filtered number of hotels returned from a search, lacking the actual filtered count e.g. "of 25 hotels" -->
+    <plurals name="of_y_hotels_TEMPLATE">
+        <item quantity="zero">จาก %s โรงแรม</item>
+        <item quantity="one">จาก %s โรงแรม</item>
+        <item quantity="two">จาก %s โรงแรม</item>
+        <item quantity="few">จาก %s โรงแรม</item>
+        <item quantity="many">จาก %s โรงแรม</item>
+        <item quantity="other">จาก %s โรงแรม</item>
+    </plurals>
+    <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Flights_TEMPLATE">
+        <item quantity="zero">%s เที่ยวบิน</item>
+        <item quantity="one">%s เที่ยวบิน</item>
+        <item quantity="two">%s เที่ยวบิน</item>
+        <item quantity="few">%s เที่ยวบิน</item>
+        <item quantity="many">%s เที่ยวบิน</item>
+        <item quantity="other">%s เที่ยวบิน</item>
+    </plurals>
+    <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
+    <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
+    <!-- Trip To -->
+    <string name="trip_to">ทริปไปยัง</string>
+    <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
+    <string name="actionbar_tablet_results_flights_title_TEMPLATE">เที่ยวบินไปยัง%1$s</string>
+    <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
+    <string name="actionbar_tablet_results_hotels_title_TEMPLATE">โรงแรมใน%1$s</string>
+    <!-- Label for VIP badge -->
+    <string name="VIP">VIP</string>
+
+    <!-- Tablet hotel filters -->
+    <!-- "Sort By" section header -->
+    <string name="Sort_By">เรียงตาม</string>
+    <!-- "Filters" section header -->
+    <string name="Filters">ตัวกรอง</string>
+    <!-- "Areas"/neighborhoods section header -->
+    <string name="Areas">ย่าน</string>
+    <!-- Default label for unnamed areas/neighborhoods -->
+    <string name="Other_Areas">ย่านอื่นๆ</string>
+    <!-- Short label for "sort by popular" button -->
+    <string name="popular">ยอดนิยม</string>
+    <!-- Short label for "sort by price" button -->
+    <string name="price">ราคา</string>
+    <!-- Short label for "sort by rating" button -->
+    <string name="rating">คะแนน</string>
+    <!-- Short label for "sort by distance" button -->
+    <string name="distance">ระยะทาง</string>
+    <!-- Content description for "sort by popular" button -->
+    <string name="cd_sort_by_popular">กดเพื่อเรียงโรงแรมตามความนิยม</string>
+    <!-- Content description for "sort by price" button -->
+    <string name="cd_sort_by_price">กดเพื่อเรียงโรงแรมตามราคาที่ถูกที่สุด</string>
+    <!-- Content description for "sort by rating" button -->
+    <string name="cd_sort_by_rating">กดเพื่อเรียงโรงแรมที่ได้คะแนนดีที่สุด</string>
+    <!-- Content description for "sort by distance" button -->
+    <string name="cd_sort_by_distance">กดเพื่อเรียงโรงแรมที่อยู่ใกล้ที่สุด</string>
+    <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
+    <string name="From_x_TEMPLATE">เริ่มที่ %s</string>
+
+    <!-- Tablet flight sort/filter controls -->
+    <!-- Flight sort and filter page header -->
+    <string name="flight_preferences">เที่ยวบินที่ต้องการ</string>
+    <!-- Header for a flight filter based upon number of stops -->
+    <string name="stops">แวะพัก</string>
+    <!-- Header for a flight filter, showing a list of flights from different airlines -->
+    <string name="airlines">สายการบิน</string>
+
     <!-- Facebook -->
     <!-- Weve found your user account -->
     <string name="facebook_weve_found_your_account">สวัสดี &lt;b&gt;%1$s&lt;/b&gt; เราพบบัญชีเอ็กซ์พีเดียของคุณ! โปรดป้อนรหัสผ่านเอ็กซ์พีเดียของคุณด้านล่างเพื่อลิงก์บัญชี Facebook และเอ็กซ์พีเดียของคุณ</string>

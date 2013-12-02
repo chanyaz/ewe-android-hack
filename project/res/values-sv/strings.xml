@@ -1,6 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Tablet search strings -->
+    <!-- Hint asking users to search for anything -->
+    <string name="search_all_hint">Sök efter destinationer, landmärken och adresser</string>
+    <!-- Hint in edit text that the user should type in a destination (location) -->
+    <string name="destinations_hint">Sök efter destinationer…</string>
+    <!-- Hint in edit text that the user should type in an origin (location) -->
+    <string name="origins_hint">Sök efter avreseort…</string>
+    <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
+    <string name="to_TEMPLATE">Till %s</string>
+    <!-- From an origin.  %s is an origin name, e.g. "From San Francisco" -->
+    <string name="from_TEMPLATE">Från %s</string>
+    <!-- String when we don't know where the user is coming from/going to -->
+    <string name="great_unknown">Det stora okända</string>
+    <!-- When a search is for one adult, we assume it's you! -->
+    <string name="just_you">Bara du</string>
+    <!-- Shown when no search dates are selected -->
+    <string name="dates_status_none">Ange dina resedatum nedan.</string>
+    <!-- Shown when a single date is selected for searching -->
+    <string name="dates_status_one">Enkelflyg och 1-nattsvistelser.</string>
+    <!-- Shown when round trip dates are selected for searching -->
+    <string name="dates_status_multi_TEMPLATE">Tur-och-returflyg och %s-nättersvistelser.</string>
+    <!-- Start date display.  %s is the start date, e.g. "Start Date: September 10" -->
+    <string name="start_date_TEMPLATE">Startdatum: %s</string>
+    <!-- End date display, when there is no end date selected yet.  We indicate it is not necessary to provide. -->
+    <string name="end_date_optional">Slutdatum: (valfritt)</string>
+    <!-- End date display, when there is an end date selected.  %s is the date, e.g. "End Date: September 15" -->
+    <string name="end_date_TEMPLATE">Slutdatum: %s</string>
+
+    <!-- Calendar picker strings -->
+    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
+    <string name="cd_month_previous_TEMPLATE">%s föregående månad</string>
+    <!-- Accessibility string describing calendar header. This is for the current month label. %s is the month, e.g. "September current month" -->
+    <string name="cd_month_current_TEMPLATE">%s nuvarande månad</string>
+    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go forward one month. %s is the month, e.g. "September next month" -->
+    <string name="cd_month_next_TEMPLATE">%s nästa månad</string>
+    <!-- Accessibility string describing days of the week.  %s is the number (of the day), %2$s is the day.  E.g. "Day 3, Tuesday"-->
+    <string name="cd_day_of_week_TEMPLATE">Dag %1$s, %2$s</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day that is selected (but not the start or end).  %s is the day, e.g. "September 3 in trip" -->
+    <string name="cd_day_selected_TEMPLATE">%s på resan</string>
+    <!-- Accessibility string describing days on a calendar.  This is first selected day.  %s is the day, e.g. "September 3 start date" -->
+    <string name="cd_day_selected_start_TEMPLATE">%s startdatum</string>
+    <!-- Accessibility string describing days on a calendar.  This is last selected day.  %s is the day, e.g. "September 3 end date" -->
+    <string name="cd_day_selected_end_TEMPLATE">%s slutdatum</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day displayed, but not valid for selection (due to being too early/late).  %s is the day, e.g. "September 3 not selectable" -->
+    <string name="cd_day_invalid_TEMPLATE">%s ej valbart</string>
+
+    <!-- Tablet Results strings -->
+    <!-- Resulsts label -->
+    <string name="results">Resultat</string>
+    <!-- Sort & Filter label -->
+    <string name="Sort_and_Filter">Sortera och filtrera</string>
+    <!-- "Done" list header label -->
+    <string name="Done">Klar</string>
+    <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
+    <plurals name="x_Hotels_TEMPLATE">
+        <item quantity="zero">Hotell i %s</item>
+        <item quantity="one">Hotell i %s</item>
+        <item quantity="two">Hotell i %s</item>
+        <item quantity="few">Hotell i %s</item>
+        <item quantity="many">Hotell i %s</item>
+        <item quantity="other">Hotell i %s</item>
+    </plurals>
+    <!-- Pluralization for a filtered number of hotels returned from a search TEMPLATE e.g. "15 of 25 Hotels" -->
+    <plurals name="x_of_y_Hotels_TEMPLATE">
+        <item quantity="zero">%1$s av %2$s hotell</item>
+        <item quantity="one">%1$s av %2$s hotell</item>
+        <item quantity="two">%1$s av %2$s hotell</item>
+        <item quantity="few">%1$s av %2$s hotell</item>
+        <item quantity="many">%1$s av %2$s hotell</item>
+        <item quantity="other">%1$s av %2$s hotell</item>
+    </plurals>
+    <!-- Pluralization for a filtered number of hotels returned from a search, lacking the actual filtered count e.g. "of 25 hotels" -->
+    <plurals name="of_y_hotels_TEMPLATE">
+        <item quantity="zero">av %s hotell</item>
+        <item quantity="one">av %s hotell</item>
+        <item quantity="two">av %s hotell</item>
+        <item quantity="few">av %s hotell</item>
+        <item quantity="many">av %s hotell</item>
+        <item quantity="other">av %s hotell</item>
+    </plurals>
+    <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Flights_TEMPLATE">
+        <item quantity="zero">%s flyg</item>
+        <item quantity="one">%s flyg</item>
+        <item quantity="two">%s flyg</item>
+        <item quantity="few">%s flyg</item>
+        <item quantity="many">%s flyg</item>
+        <item quantity="other">%s flyg</item>
+    </plurals>
+    <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
+    <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
+    <!-- Trip To -->
+    <string name="trip_to">Resa till</string>
+    <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
+    <string name="actionbar_tablet_results_flights_title_TEMPLATE">Flyg till %1$s</string>
+    <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
+    <string name="actionbar_tablet_results_hotels_title_TEMPLATE">Hotell i %1$s</string>
+    <!-- Label for VIP badge -->
+    <string name="VIP">VIP</string>
+
+    <!-- Tablet hotel filters -->
+    <!-- "Sort By" section header -->
+    <string name="Sort_By">Sortera efter</string>
+    <!-- "Filters" section header -->
+    <string name="Filters">Filter</string>
+    <!-- "Areas"/neighborhoods section header -->
+    <string name="Areas">Områden</string>
+    <!-- Default label for unnamed areas/neighborhoods -->
+    <string name="Other_Areas">Övriga områden</string>
+    <!-- Short label for "sort by popular" button -->
+    <string name="popular">populära</string>
+    <!-- Short label for "sort by price" button -->
+    <string name="price">pris</string>
+    <!-- Short label for "sort by rating" button -->
+    <string name="rating">betyg</string>
+    <!-- Short label for "sort by distance" button -->
+    <string name="distance">avstånd</string>
+    <!-- Content description for "sort by popular" button -->
+    <string name="cd_sort_by_popular">Tryck för att sortera efter populäraste hotell.</string>
+    <!-- Content description for "sort by price" button -->
+    <string name="cd_sort_by_price">Tryck för att sortera efter hotell med lägst pris.</string>
+    <!-- Content description for "sort by rating" button -->
+    <string name="cd_sort_by_rating">Tryck för att sortera efter hotell med högst betyg.</string>
+    <!-- Content description for "sort by distance" button -->
+    <string name="cd_sort_by_distance">Tryck för att sortera efter närmaste hotell.</string>
+    <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
+    <string name="From_x_TEMPLATE">Från %s</string>
+
+    <!-- Tablet flight sort/filter controls -->
+    <!-- Flight sort and filter page header -->
+    <string name="flight_preferences">Flygönskemål</string>
+    <!-- Header for a flight filter based upon number of stops -->
+    <string name="stops">Stopp</string>
+    <!-- Header for a flight filter, showing a list of flights from different airlines -->
+    <string name="airlines">Flygbolag</string>
+
     <!-- Facebook -->
     <!-- Weve found your user account -->
     <string name="facebook_weve_found_your_account">Hej &lt;b&gt;%1$s&lt;/b&gt;! Vi verkar ha hittat ditt Expediakonto. Ange ditt lösenord för Expedia nedan för att länka ditt facebookkonto till ditt Expediakonto.</string>
@@ -2026,7 +2162,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Integritetspolicy</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2014 Expedia, Inc.\nAlla rättigheter förbehålles.</string>
+    <string name="copyright">© Copyright 2012-2014 Expedia, Inc.\nMed ensamrätt.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Utloggad och data raderad</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->

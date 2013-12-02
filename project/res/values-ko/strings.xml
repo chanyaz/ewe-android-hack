@@ -1,6 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Tablet search strings -->
+    <!-- Hint asking users to search for anything -->
+    <string name="search_all_hint">목적지, 랜드마크 및 주소 검색</string>
+    <!-- Hint in edit text that the user should type in a destination (location) -->
+    <string name="destinations_hint">목적지 검색…</string>
+    <!-- Hint in edit text that the user should type in an origin (location) -->
+    <string name="origins_hint">출발지 검색…</string>
+    <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
+    <string name="to_TEMPLATE">목적지: %s</string>
+    <!-- From an origin.  %s is an origin name, e.g. "From San Francisco" -->
+    <string name="from_TEMPLATE">출발지: %s</string>
+    <!-- String when we don't know where the user is coming from/going to -->
+    <string name="great_unknown">출발지/목적지 미정</string>
+    <!-- When a search is for one adult, we assume it's you! -->
+    <string name="just_you">본인만</string>
+    <!-- Shown when no search dates are selected -->
+    <string name="dates_status_none">아래에 여행 날짜를 입력해 주세요.</string>
+    <!-- Shown when a single date is selected for searching -->
+    <string name="dates_status_one">편도 항공편 및 1박 숙박입니다.</string>
+    <!-- Shown when round trip dates are selected for searching -->
+    <string name="dates_status_multi_TEMPLATE">왕복 항공편 및 %s박 숙박입니다.</string>
+    <!-- Start date display.  %s is the start date, e.g. "Start Date: September 10" -->
+    <string name="start_date_TEMPLATE">시작일: %s</string>
+    <!-- End date display, when there is no end date selected yet.  We indicate it is not necessary to provide. -->
+    <string name="end_date_optional">완료일: (선택 사항)</string>
+    <!-- End date display, when there is an end date selected.  %s is the date, e.g. "End Date: September 15" -->
+    <string name="end_date_TEMPLATE">완료일: %s</string>
+
+    <!-- Calendar picker strings -->
+    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
+    <string name="cd_month_previous_TEMPLATE">이전 달 %s</string>
+    <!-- Accessibility string describing calendar header. This is for the current month label. %s is the month, e.g. "September current month" -->
+    <string name="cd_month_current_TEMPLATE">현재 달 %s</string>
+    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go forward one month. %s is the month, e.g. "September next month" -->
+    <string name="cd_month_next_TEMPLATE">다음 달 %s</string>
+    <!-- Accessibility string describing days of the week.  %s is the number (of the day), %2$s is the day.  E.g. "Day 3, Tuesday"-->
+    <string name="cd_day_of_week_TEMPLATE">%1$s번 요일, %2$s</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day that is selected (but not the start or end).  %s is the day, e.g. "September 3 in trip" -->
+    <string name="cd_day_selected_TEMPLATE">여행일 %s</string>
+    <!-- Accessibility string describing days on a calendar.  This is first selected day.  %s is the day, e.g. "September 3 start date" -->
+    <string name="cd_day_selected_start_TEMPLATE">시작일 %s</string>
+    <!-- Accessibility string describing days on a calendar.  This is last selected day.  %s is the day, e.g. "September 3 end date" -->
+    <string name="cd_day_selected_end_TEMPLATE">완료일 %s</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day displayed, but not valid for selection (due to being too early/late).  %s is the day, e.g. "September 3 not selectable" -->
+    <string name="cd_day_invalid_TEMPLATE">%s 선택 불가</string>
+
+    <!-- Tablet Results strings -->
+    <!-- Resulsts label -->
+    <string name="results">개의 결과</string>
+    <!-- Sort & Filter label -->
+    <string name="Sort_and_Filter">정렬 &amp; 필터</string>
+    <!-- "Done" list header label -->
+    <string name="Done">완료</string>
+    <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
+    <plurals name="x_Hotels_TEMPLATE">
+        <item quantity="zero">%s개 호텔</item>
+        <item quantity="one">%s개 호텔</item>
+        <item quantity="two">%s개 호텔</item>
+        <item quantity="few">%s개 호텔</item>
+        <item quantity="many">%s개 호텔</item>
+        <item quantity="other">%s개 호텔</item>
+    </plurals>
+    <!-- Pluralization for a filtered number of hotels returned from a search TEMPLATE e.g. "15 of 25 Hotels" -->
+    <plurals name="x_of_y_Hotels_TEMPLATE">
+        <item quantity="zero">%1$s개(총 %2$s개 중) 호텔</item>
+        <item quantity="one">%1$s개(총 %2$s개 중) 호텔</item>
+        <item quantity="two">%1$s개(총 %2$s개 중) 호텔</item>
+        <item quantity="few">%1$s개(총 %2$s개 중) 호텔</item>
+        <item quantity="many">%1$s개(총 %2$s개 중) 호텔</item>
+        <item quantity="other">%1$s개(총 %2$s개 중) 호텔</item>
+    </plurals>
+    <!-- Pluralization for a filtered number of hotels returned from a search, lacking the actual filtered count e.g. "of 25 hotels" -->
+    <plurals name="of_y_hotels_TEMPLATE">
+        <item quantity="zero">%s개 호텔 중</item>
+        <item quantity="one">%s개 호텔 중</item>
+        <item quantity="two">%s개 호텔 중</item>
+        <item quantity="few">%s개 호텔 중</item>
+        <item quantity="many">%s개 호텔 중</item>
+        <item quantity="other">%s개 호텔 중</item>
+    </plurals>
+    <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Flights_TEMPLATE">
+        <item quantity="zero">%s개 항공편</item>
+        <item quantity="one">%s개 항공편</item>
+        <item quantity="two">%s개 항공편</item>
+        <item quantity="few">%s개 항공편</item>
+        <item quantity="many">%s개 항공편</item>
+        <item quantity="other">%s개 항공편</item>
+    </plurals>
+    <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
+    <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
+    <!-- Trip To -->
+    <string name="trip_to">여행 목적지:</string>
+    <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
+    <string name="actionbar_tablet_results_flights_title_TEMPLATE">%1$s행 항공편</string>
+    <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
+    <string name="actionbar_tablet_results_hotels_title_TEMPLATE">%1$s 호텔</string>
+    <!-- Label for VIP badge -->
+    <string name="VIP">VIP</string>
+
+    <!-- Tablet hotel filters -->
+    <!-- "Sort By" section header -->
+    <string name="Sort_By">정렬 기준</string>
+    <!-- "Filters" section header -->
+    <string name="Filters">필터링</string>
+    <!-- "Areas"/neighborhoods section header -->
+    <string name="Areas">지역</string>
+    <!-- Default label for unnamed areas/neighborhoods -->
+    <string name="Other_Areas">기타 지역</string>
+    <!-- Short label for "sort by popular" button -->
+    <string name="popular">인기</string>
+    <!-- Short label for "sort by price" button -->
+    <string name="price">가격</string>
+    <!-- Short label for "sort by rating" button -->
+    <string name="rating">평점</string>
+    <!-- Short label for "sort by distance" button -->
+    <string name="distance">거리</string>
+    <!-- Content description for "sort by popular" button -->
+    <string name="cd_sort_by_popular">누르면 가장 인기 많은 호텔별로 정렬됩니다.</string>
+    <!-- Content description for "sort by price" button -->
+    <string name="cd_sort_by_price">누르면 가장 낮은 가격의 호텔별로 정렬됩니다.</string>
+    <!-- Content description for "sort by rating" button -->
+    <string name="cd_sort_by_rating">누르면 평점이 가장 높은 호텔별로 정렬됩니다.</string>
+    <!-- Content description for "sort by distance" button -->
+    <string name="cd_sort_by_distance">누르면 가장 가까운 호텔별로 정렬됩니다.</string>
+    <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
+    <string name="From_x_TEMPLATE">%s ~</string>
+
+    <!-- Tablet flight sort/filter controls -->
+    <!-- Flight sort and filter page header -->
+    <string name="flight_preferences">항공편 선호 사항</string>
+    <!-- Header for a flight filter based upon number of stops -->
+    <string name="stops">경유 횟수</string>
+    <!-- Header for a flight filter, showing a list of flights from different airlines -->
+    <string name="airlines">항공사</string>
+
     <!-- Facebook -->
     <!-- Weve found your user account -->
     <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt; 님! Expedia 계정을 갖고 계신 것 같네요. Facebook과 Expedia 계정을 연결하려면 아래에 Expedia 비밀번호를 입력해 주세요.</string>
@@ -2142,7 +2278,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">%1$s%2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->

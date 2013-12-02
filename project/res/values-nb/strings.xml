@@ -1,6 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Tablet search strings -->
+    <!-- Hint asking users to search for anything -->
+    <string name="search_all_hint">Søk blant destinasjoner, landemerker og adresser</string>
+    <!-- Hint in edit text that the user should type in a destination (location) -->
+    <string name="destinations_hint">Søk blant destinasjoner…</string>
+    <!-- Hint in edit text that the user should type in an origin (location) -->
+    <string name="origins_hint">Søk blant avreisesteder…</string>
+    <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
+    <string name="to_TEMPLATE">Til %s</string>
+    <!-- From an origin.  %s is an origin name, e.g. "From San Francisco" -->
+    <string name="from_TEMPLATE">Fra %s</string>
+    <!-- String when we don't know where the user is coming from/going to -->
+    <string name="great_unknown">Det store ukjente</string>
+    <!-- When a search is for one adult, we assume it's you! -->
+    <string name="just_you">Bare deg</string>
+    <!-- Shown when no search dates are selected -->
+    <string name="dates_status_none">Angi reisedatoene dine nedenfor.</string>
+    <!-- Shown when a single date is selected for searching -->
+    <string name="dates_status_one">Enveis flyvninger og 1-natts opphold.</string>
+    <!-- Shown when round trip dates are selected for searching -->
+    <string name="dates_status_multi_TEMPLATE">Tur-retur flyvninger og %s-natts opphold.</string>
+    <!-- Start date display.  %s is the start date, e.g. "Start Date: September 10" -->
+    <string name="start_date_TEMPLATE">Startdato: %s</string>
+    <!-- End date display, when there is no end date selected yet.  We indicate it is not necessary to provide. -->
+    <string name="end_date_optional">Sluttdato: (valgfritt)</string>
+    <!-- End date display, when there is an end date selected.  %s is the date, e.g. "End Date: September 15" -->
+    <string name="end_date_TEMPLATE">Sluttdato: %s</string>
+
+    <!-- Calendar picker strings -->
+    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
+    <string name="cd_month_previous_TEMPLATE">%s forrige måned</string>
+    <!-- Accessibility string describing calendar header. This is for the current month label. %s is the month, e.g. "September current month" -->
+    <string name="cd_month_current_TEMPLATE">%s nåværende måned</string>
+    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go forward one month. %s is the month, e.g. "September next month" -->
+    <string name="cd_month_next_TEMPLATE">%s neste måned</string>
+    <!-- Accessibility string describing days of the week.  %s is the number (of the day), %2$s is the day.  E.g. "Day 3, Tuesday"-->
+    <string name="cd_day_of_week_TEMPLATE">Dag %1$s, %2$s</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day that is selected (but not the start or end).  %s is the day, e.g. "September 3 in trip" -->
+    <string name="cd_day_selected_TEMPLATE">%s i reise</string>
+    <!-- Accessibility string describing days on a calendar.  This is first selected day.  %s is the day, e.g. "September 3 start date" -->
+    <string name="cd_day_selected_start_TEMPLATE">%s startdato</string>
+    <!-- Accessibility string describing days on a calendar.  This is last selected day.  %s is the day, e.g. "September 3 end date" -->
+    <string name="cd_day_selected_end_TEMPLATE">%s sluttdato</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day displayed, but not valid for selection (due to being too early/late).  %s is the day, e.g. "September 3 not selectable" -->
+    <string name="cd_day_invalid_TEMPLATE">%s kan ikke velges</string>
+
+    <!-- Tablet Results strings -->
+    <!-- Resulsts label -->
+    <string name="results">Resultater</string>
+    <!-- Sort & Filter label -->
+    <string name="Sort_and_Filter">Sorter og filtrer</string>
+    <!-- "Done" list header label -->
+    <string name="Done">Fullført</string>
+    <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
+    <plurals name="x_Hotels_TEMPLATE">
+        <item quantity="zero">%s hoteller</item>
+        <item quantity="one">%s hotell</item>
+        <item quantity="two">%s hoteller</item>
+        <item quantity="few">%s hoteller</item>
+        <item quantity="many">%s hoteller</item>
+        <item quantity="other">%s hoteller</item>
+    </plurals>
+    <!-- Pluralization for a filtered number of hotels returned from a search TEMPLATE e.g. "15 of 25 Hotels" -->
+    <plurals name="x_of_y_Hotels_TEMPLATE">
+        <item quantity="zero">%1$s av %2$s hoteller</item>
+        <item quantity="one">%1$s av %2$s hotell</item>
+        <item quantity="two">%1$s av %2$s hoteller</item>
+        <item quantity="few">%1$s av %2$s hoteller</item>
+        <item quantity="many">%1$s av %2$s hoteller</item>
+        <item quantity="other">%1$s av %2$s hoteller</item>
+    </plurals>
+    <!-- Pluralization for a filtered number of hotels returned from a search, lacking the actual filtered count e.g. "of 25 hotels" -->
+    <plurals name="of_y_hotels_TEMPLATE">
+        <item quantity="zero">av %s hoteller</item>
+        <item quantity="one">av %s hotell</item>
+        <item quantity="two">av %s hoteller</item>
+        <item quantity="few">av %s hoteller</item>
+        <item quantity="many">av %s hoteller</item>
+        <item quantity="other">av %s hoteller</item>
+    </plurals>
+    <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Flights_TEMPLATE">
+        <item quantity="zero">%s flyvninger</item>
+        <item quantity="one">%s flyvning</item>
+        <item quantity="two">%s flyvninger</item>
+        <item quantity="few">%s flyvninger</item>
+        <item quantity="many">%s flyvninger</item>
+        <item quantity="other">%s flyvninger</item>
+    </plurals>
+    <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
+    <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
+    <!-- Trip To -->
+    <string name="trip_to">Reise til</string>
+    <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
+    <string name="actionbar_tablet_results_flights_title_TEMPLATE">Flyvninger til %1$s</string>
+    <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
+    <string name="actionbar_tablet_results_hotels_title_TEMPLATE">%1$s hoteller</string>
+    <!-- Label for VIP badge -->
+    <string name="VIP">VIP</string>
+
+    <!-- Tablet hotel filters -->
+    <!-- "Sort By" section header -->
+    <string name="Sort_By">Sorter etter</string>
+    <!-- "Filters" section header -->
+    <string name="Filters">Filter</string>
+    <!-- "Areas"/neighborhoods section header -->
+    <string name="Areas">Områder</string>
+    <!-- Default label for unnamed areas/neighborhoods -->
+    <string name="Other_Areas">Andre områder</string>
+    <!-- Short label for "sort by popular" button -->
+    <string name="popular">Populære</string>
+    <!-- Short label for "sort by price" button -->
+    <string name="price">pris</string>
+    <!-- Short label for "sort by rating" button -->
+    <string name="rating">rangering</string>
+    <!-- Short label for "sort by distance" button -->
+    <string name="distance">avstand</string>
+    <!-- Content description for "sort by popular" button -->
+    <string name="cd_sort_by_popular">Klikk for å sortere etter de mest populære hotellene</string>
+    <!-- Content description for "sort by price" button -->
+    <string name="cd_sort_by_price">Klikk for å sortere etter de billigste hotellene.</string>
+    <!-- Content description for "sort by rating" button -->
+    <string name="cd_sort_by_rating">Klikk for å sortere etter de høyst rangerte hotellene.</string>
+    <!-- Content description for "sort by distance" button -->
+    <string name="cd_sort_by_distance">Klikk for å sortere etter hotellene som ligger nærmest.</string>
+    <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
+    <string name="From_x_TEMPLATE">Fra %s</string>
+
+    <!-- Tablet flight sort/filter controls -->
+    <!-- Flight sort and filter page header -->
+    <string name="flight_preferences">Flypreferanser</string>
+    <!-- Header for a flight filter based upon number of stops -->
+    <string name="stops">Mellomlandinger</string>
+    <!-- Header for a flight filter, showing a list of flights from different airlines -->
+    <string name="airlines">Flyselskaper</string>
+
     <!-- Facebook -->
     <!-- Weve found your user account -->
     <string name="facebook_weve_found_your_account">Hei, &lt;b&gt;%1$s&lt;/b&gt;! Det ser ut som vi har funnet Expedia-kontoen din! Vennligst skriv inn Expedia-passordet ditt nedenfor for å koble Facebook-kontoen din opp mot Expedia-kontoen din.</string>

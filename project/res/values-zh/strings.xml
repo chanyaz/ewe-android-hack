@@ -1,6 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Tablet search strings -->
+    <!-- Hint asking users to search for anything -->
+    <string name="search_all_hint">搜索目的地、地标和地址</string>
+    <!-- Hint in edit text that the user should type in a destination (location) -->
+    <string name="destinations_hint">搜索目的地…</string>
+    <!-- Hint in edit text that the user should type in an origin (location) -->
+    <string name="origins_hint">搜索出发地…</string>
+    <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
+    <string name="to_TEMPLATE">目的地：%s</string>
+    <!-- From an origin.  %s is an origin name, e.g. "From San Francisco" -->
+    <string name="from_TEMPLATE">出发地：%s</string>
+    <!-- String when we don't know where the user is coming from/going to -->
+    <string name="great_unknown">未知世界</string>
+    <!-- When a search is for one adult, we assume it's you! -->
+    <string name="just_you">独自旅行</string>
+    <!-- Shown when no search dates are selected -->
+    <string name="dates_status_none">请在下面输入旅行日期。</string>
+    <!-- Shown when a single date is selected for searching -->
+    <string name="dates_status_one">单程航班和一晚住宿。</string>
+    <!-- Shown when round trip dates are selected for searching -->
+    <string name="dates_status_multi_TEMPLATE">往返航班和 %s 晚住宿。</string>
+    <!-- Start date display.  %s is the start date, e.g. "Start Date: September 10" -->
+    <string name="start_date_TEMPLATE">出发日期：%s</string>
+    <!-- End date display, when there is no end date selected yet.  We indicate it is not necessary to provide. -->
+    <string name="end_date_optional">结束日期：（可选）</string>
+    <!-- End date display, when there is an end date selected.  %s is the date, e.g. "End Date: September 15" -->
+    <string name="end_date_TEMPLATE">结束日期：%s</string>
+
+    <!-- Calendar picker strings -->
+    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
+    <string name="cd_month_previous_TEMPLATE">%s 上个月</string>
+    <!-- Accessibility string describing calendar header. This is for the current month label. %s is the month, e.g. "September current month" -->
+    <string name="cd_month_current_TEMPLATE">%s 本月</string>
+    <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go forward one month. %s is the month, e.g. "September next month" -->
+    <string name="cd_month_next_TEMPLATE">%s 下个月</string>
+    <!-- Accessibility string describing days of the week.  %s is the number (of the day), %2$s is the day.  E.g. "Day 3, Tuesday"-->
+    <string name="cd_day_of_week_TEMPLATE">%1$s 号，%2$s</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day that is selected (but not the start or end).  %s is the day, e.g. "September 3 in trip" -->
+    <string name="cd_day_selected_TEMPLATE">%s旅行途中</string>
+    <!-- Accessibility string describing days on a calendar.  This is first selected day.  %s is the day, e.g. "September 3 start date" -->
+    <string name="cd_day_selected_start_TEMPLATE">%s出发</string>
+    <!-- Accessibility string describing days on a calendar.  This is last selected day.  %s is the day, e.g. "September 3 end date" -->
+    <string name="cd_day_selected_end_TEMPLATE">%s结束</string>
+    <!-- Accessibility string describing days on a calendar.  This is a day displayed, but not valid for selection (due to being too early/late).  %s is the day, e.g. "September 3 not selectable" -->
+    <string name="cd_day_invalid_TEMPLATE">%s不可选</string>
+
+    <!-- Tablet Results strings -->
+    <!-- Resulsts label -->
+    <string name="results">结果</string>
+    <!-- Sort & Filter label -->
+    <string name="Sort_and_Filter">筛选/排序</string>
+    <!-- "Done" list header label -->
+    <string name="Done">完成</string>
+    <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
+    <plurals name="x_Hotels_TEMPLATE">
+        <item quantity="zero">%s 家酒店</item>
+        <item quantity="one">%s 家酒店</item>
+        <item quantity="two">%s 家酒店</item>
+        <item quantity="few">%s 家酒店</item>
+        <item quantity="many">%s 家酒店</item>
+        <item quantity="other">%s 家酒店</item>
+    </plurals>
+    <!-- Pluralization for a filtered number of hotels returned from a search TEMPLATE e.g. "15 of 25 Hotels" -->
+    <plurals name="x_of_y_Hotels_TEMPLATE">
+        <item quantity="zero">%1$s 家酒店（共%2$s家）</item>
+        <item quantity="one">%1$s 家酒店（共%2$s家）</item>
+        <item quantity="two">%1$s 家酒店（共%2$s家）</item>
+        <item quantity="few">%1$s 家酒店（共%2$s家）</item>
+        <item quantity="many">%1$s 家酒店（共%2$s家）</item>
+        <item quantity="other">%1$s 家酒店（共%2$s家）</item>
+    </plurals>
+    <!-- Pluralization for a filtered number of hotels returned from a search, lacking the actual filtered count e.g. "of 25 hotels" -->
+    <plurals name="of_y_hotels_TEMPLATE">
+        <item quantity="zero">家酒店（共%s家）</item>
+        <item quantity="one">家酒店（共%s家）</item>
+        <item quantity="two">家酒店（共%s家）</item>
+        <item quantity="few">家酒店（共%s家）</item>
+        <item quantity="many">家酒店（共%s家）</item>
+        <item quantity="other">家酒店（共%s家）</item>
+    </plurals>
+    <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
+    <plurals name="x_Flights_TEMPLATE">
+        <item quantity="zero">%s 个航班</item>
+        <item quantity="one">%s 个航班</item>
+        <item quantity="two">%s 个航班</item>
+        <item quantity="few">%s 个航班</item>
+        <item quantity="many">%s 个航班</item>
+        <item quantity="other">%s 个航班</item>
+    </plurals>
+    <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
+    <string name="destination_and_date_range_TEMPLATE">%1$s，%2$s</string>
+    <!-- Trip To -->
+    <string name="trip_to">旅行 -</string>
+    <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
+    <string name="actionbar_tablet_results_flights_title_TEMPLATE">飞往%1$s的航班</string>
+    <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
+    <string name="actionbar_tablet_results_hotels_title_TEMPLATE">%1$s酒店</string>
+    <!-- Label for VIP badge -->
+    <string name="VIP">VIP</string>
+
+    <!-- Tablet hotel filters -->
+    <!-- "Sort By" section header -->
+    <string name="Sort_By">排序方式：</string>
+    <!-- "Filters" section header -->
+    <string name="Filters">筛选条件</string>
+    <!-- "Areas"/neighborhoods section header -->
+    <string name="Areas">区域</string>
+    <!-- Default label for unnamed areas/neighborhoods -->
+    <string name="Other_Areas">其他区域</string>
+    <!-- Short label for "sort by popular" button -->
+    <string name="popular">热门</string>
+    <!-- Short label for "sort by price" button -->
+    <string name="price">价格</string>
+    <!-- Short label for "sort by rating" button -->
+    <string name="rating">评分</string>
+    <!-- Short label for "sort by distance" button -->
+    <string name="distance">距离</string>
+    <!-- Content description for "sort by popular" button -->
+    <string name="cd_sort_by_popular">轻触按钮，显示最热门的酒店。</string>
+    <!-- Content description for "sort by price" button -->
+    <string name="cd_sort_by_price">轻触按钮，显示最便宜的酒店。</string>
+    <!-- Content description for "sort by rating" button -->
+    <string name="cd_sort_by_rating">轻触按钮，显示评分最高的酒店。</string>
+    <!-- Content description for "sort by distance" button -->
+    <string name="cd_sort_by_distance">轻触按钮，显示距离最近的酒店。</string>
+    <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
+    <string name="From_x_TEMPLATE">起价 %s</string>
+
+    <!-- Tablet flight sort/filter controls -->
+    <!-- Flight sort and filter page header -->
+    <string name="flight_preferences">挑选航班</string>
+    <!-- Header for a flight filter based upon number of stops -->
+    <string name="stops">经停次数</string>
+    <!-- Header for a flight filter, showing a list of flights from different airlines -->
+    <string name="airlines">航空公司</string>
+
     <!-- Facebook -->
     <!-- Weve found your user account -->
     <string name="facebook_weve_found_your_account">嗨！&lt;b&gt;%1$s&lt;/b&gt;我们好像找到了您的 Expedia 帐户！请在下面输入 Expedia 密码，关联您的 Facebook 帐户和 Expedia 帐户。</string>
@@ -2706,7 +2842,7 @@
     <!-- Description for FT Free app -->
     <string name="VSC_Voyages_SNF_description">Voyages-sncf.com 应用程序</string>
     <!-- VSC Copyright information -->
-    <string name="VSC_copyright">© 版权所有 2012–2013 Agence Voyages-SNCF, Inc.\n 保留所有权利。</string>
+    <string name="VSC_copyright">© 版权所有 2012–2014 Agence Voyages-SNCF, Inc.\n 保留所有权利。</string>
     <!-- VSC app name -->
     <string name="VSC_app_name">VSC Hotels</string>
     <!-- Link to open when VSC logo is clicked on -->
