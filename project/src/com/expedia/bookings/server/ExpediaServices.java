@@ -397,7 +397,7 @@ public class ExpediaServices implements DownloadListener {
 
 	public FlightSearchResponse flightSearch(FlightSearchParams params, int flags) {
 		List<BasicNameValuePair> query = generateFlightSearchParams(params, flags);
-		return doFlightsRequest("api/flight/search", query, new StreamingFlightSearchResponseHandler(), flags);
+		return doFlightsRequest("api/flight/search", query, new StreamingFlightSearchResponseHandler(mContext), flags);
 	}
 
 	public List<BasicNameValuePair> generateFlightSearchParams(FlightSearchParams params, int flags) {

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
@@ -26,6 +27,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
+import com.expedia.bookings.utils.LoggingInputStream;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.AndroidHttpClient;
 import com.mobiata.android.util.AndroidUtils;
@@ -37,12 +39,14 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 	private double mLatitude;
 	private double mLongitude;
 
-	private boolean mCachedIsRelease = false;
+	private boolean mIsRelease = false;
 	private boolean mFilterMerchants = false;
 
 	public HotelSearchResponseHandler(Context context) {
-		mCachedIsRelease = AndroidUtils.isRelease(context);
-		mFilterMerchants = SettingUtils.get(context, context.getString(R.string.preference_filter_merchant_properties), false);
+		mIsRelease = AndroidUtils.isRelease(context);
+		if (!mIsRelease) {
+			mFilterMerchants = SettingUtils.get(context, context.getString(R.string.preference_filter_merchant_properties), false);
+		}
 	}
 
 	public void setNumNights(int numNights) {
@@ -60,7 +64,21 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			return null;
 		}
 
+		if (Log.isLoggingEnabled()) {
+			StringBuilder httpInfo = new StringBuilder();
+			httpInfo.append(response.getStatusLine().toString());
+			for (Header header : response.getAllHeaders()) {
+				httpInfo.append(" ");
+				httpInfo.append(header.toString());
+			}
+			Log.v(httpInfo.toString());
+		}
+
 		InputStream in = AndroidHttpClient.getUngzippedContent(response.getEntity());
+		if (!mIsRelease) {
+			// Only wire this up on debug builds
+			in = new LoggingInputStream(in);
+		}
 
 		JsonFactory factory = new JsonFactory();
 		JsonParser parser = factory.createJsonParser(in);
@@ -123,7 +141,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			}
 		}
 
-		Log.d("Search response parse time: " + (System.currentTimeMillis() - start) + " ms");
+		Log.d("Hotel Search response parse time: " + (System.currentTimeMillis() - start) + " ms");
 
 		return searchResponse;
 	}
@@ -298,7 +316,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 					.getLongitude(), DistanceUnit.getDefaultDistanceUnit()));
 		}
 
-		if (mCachedIsRelease) {
+		if (mIsRelease) {
 			searchResponse.addProperty(property);
 		}
 		else {

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
@@ -14,6 +15,7 @@ import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonToken;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.data.FlightLeg;
@@ -23,8 +25,10 @@ import com.expedia.bookings.data.FlightSegmentAttributes.CabinCode;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.ServerError.ApiMethod;
+import com.expedia.bookings.utils.LoggingInputStream;
 import com.mobiata.android.Log;
 import com.mobiata.android.net.AndroidHttpClient;
+import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
@@ -35,6 +39,8 @@ import com.mobiata.flightlib.data.Waypoint;
  * To avoid memory issues, use this!
  */
 public class StreamingFlightSearchResponseHandler implements ResponseHandler<FlightSearchResponse> {
+
+	private boolean mIsRelease = false;
 
 	private FlightSearchResponse mResponse;
 
@@ -48,13 +54,33 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 	// We cache attribute parsing rows so we don't unnecessarily create a ton of new objects
 	private List<List<FlightSegmentAttributes>> mAttributes = new ArrayList<List<FlightSegmentAttributes>>();
 
+	public StreamingFlightSearchResponseHandler(Context context) {
+		mIsRelease = AndroidUtils.isRelease(context);
+	}
+
 	@Override
 	public FlightSearchResponse handleResponse(HttpResponse response) throws ClientProtocolException, IOException {
 		if (response == null) {
 			return null;
 		}
 
-		return handleResponse(AndroidHttpClient.getUngzippedContent(response.getEntity()));
+		if (Log.isLoggingEnabled()) {
+			StringBuilder httpInfo = new StringBuilder();
+			httpInfo.append(response.getStatusLine().toString());
+			for (Header header : response.getAllHeaders()) {
+				httpInfo.append(" ");
+				httpInfo.append(header.toString());
+			}
+			Log.v(httpInfo.toString());
+		}
+
+		InputStream in = AndroidHttpClient.getUngzippedContent(response.getEntity());
+		if (!mIsRelease) {
+			// Only wire this up on debug builds
+			in = new LoggingInputStream(in);
+		}
+
+		return handleResponse(in);
 	}
 
 	// Split out just to make it easier to profile in tests
