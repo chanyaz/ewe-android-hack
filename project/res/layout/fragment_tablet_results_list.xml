@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="56dp"
-        android:cacheColorHint="@color/tablet_list_bg"
-        android:divider="@color/tablet_list_bg"
+        android:cacheColorHint="@color/tablet_white_pane_bg"
+        android:divider="@color/tablet_white_pane_bg"
         android:dividerHeight="8dp"
         android:listSelector="@android:color/transparent"
         android:scrollbars="none" />
@@ -26,7 +26,7 @@
         android:id="@+id/sticky_header_container"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="@color/tablet_list_bg"
+        android:background="@color/tablet_white_pane_bg"
         android:gravity="center_vertical" >
 
         <com.expedia.bookings.widget.TextView

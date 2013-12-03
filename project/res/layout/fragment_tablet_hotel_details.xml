@@ -134,7 +134,7 @@
                 android:id="@+id/reviews_container"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:background="@color/tablet_list_bg" >
+                android:background="@color/tablet_grey_pane_bg" >
 
                 <LinearLayout
                     android:layout_width="0dp"

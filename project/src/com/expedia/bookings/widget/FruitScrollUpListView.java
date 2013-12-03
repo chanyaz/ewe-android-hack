@@ -268,7 +268,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 		mFooterSpacer = new BlockEventFrameLayout(context);
 		mFooterSpacer.setEnabled(false);
 		mFooterSpacer.setBlockNewEventsEnabled(true);
-		mFooterSpacer.setBackgroundColor(context.getResources().getColor(R.color.tablet_list_bg));
+		mFooterSpacer.setBackgroundColor(context.getResources().getColor(R.color.tablet_white_pane_bg));
 		AbsListView.LayoutParams footerParams = new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, 0);
 		mFooterSpacer.setLayoutParams(footerParams);
 		addFooterView(mFooterSpacer);
