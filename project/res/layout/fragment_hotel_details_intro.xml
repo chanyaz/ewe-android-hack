@@ -50,14 +50,13 @@
                 android:singleLine="true" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/change_search_text_view"
+        <ImageView
+            android:id="@+id/change_search_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:text="@string/change_search"
-            android:textColor="#666666"
-            android:textStyle="bold" />
+            android:layout_weight="0"
+            android:src="@drawable/ic_action_edit" />
     </LinearLayout>
 
     <!-- Urgency messages / user reviews -->

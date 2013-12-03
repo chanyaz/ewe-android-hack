@@ -93,9 +93,8 @@ public class HotelDetailsIntroFragment extends Fragment {
 			TextView searchGuestsTextView = Ui.findView(view, R.id.search_guests_text_view);
 			searchGuestsTextView.setText(StrUtils.formatGuests(getActivity(), searchParams));
 
-			TextView changeSearchTextView = Ui.findView(view, R.id.change_search_text_view);
-			ViewUtils.setAllCaps(changeSearchTextView);
-			changeSearchTextView.setOnClickListener(new OnClickListener() {
+			View changeSearchView = Ui.findView(view, R.id.change_search_view);
+			changeSearchView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					NavUtils.goToHotels(getActivity(), null, null, NavUtils.FLAG_OPEN_SEARCH);
