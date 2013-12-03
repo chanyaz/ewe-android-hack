@@ -135,6 +135,11 @@
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">Airlines</string>
 
+    <!-- Header for a dropdown to select from a list of available departure airports -->
+    <string name="departure_airports">Departure Airports</string>
+    <!-- Header for a dropdown to select from a list of available arrival airports -->
+    <string name="arrival_airports">Arrival Airports</string>
+
     <!-- Tablet flight details -->
     <!-- Name of button for selecting a flight -->
     <string name="add_for_TEMPLATE">Add for %1$s</string>

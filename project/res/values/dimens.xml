@@ -11,6 +11,10 @@
     <dimen name="tablet_result_row_secondary_text_size">14sp</dimen>
     <dimen name="tablet_result_row_price_size">@dimen/hotel_row_price_text_size</dimen>
 
+    <!-- Tablet results -->
+    <dimen name="tablet_filter_title_margin_bottom">16dp</dimen>
+    <dimen name="tablet_filter_white_space">32dp</dimen>
+
     <!-- Launch dimens -->
     <dimen name="launch_tile_space_width">2dp</dimen>
     <dimen name="launch_header_height">100dp</dimen>

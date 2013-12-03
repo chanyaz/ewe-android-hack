@@ -6,7 +6,7 @@
             style="@style/Widget.SlidingRadioGroup.TabletFilterControls"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp" >
+            android:layout_marginBottom="@dimen/tablet_filter_white_space" >
 
         <RadioButton
                 android:id="@+id/flight_filter_stop_one_or_less"
