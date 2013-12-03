@@ -51,34 +51,22 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingBottom="12dp"
-                android:paddingLeft="24dp"
-                android:paddingRight="24dp"
-                android:paddingTop="12dp" >
+                android:padding="32dp" >
 
             <com.expedia.bookings.widget.TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_tablet_departure_arrow"
-                    android:text="71% on time"
-                    app:textStyle="normal" />
+                    style="@style/V2.Widget.TextView.FlightStatistic"
+                    android:drawableLeft="@drawable/ic_tablet_flight_time"
+                    android:text="71% on time" />
 
             <com.expedia.bookings.widget.TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_tablet_arrival_arrow"
-                    android:text="5100 miles"
-                    app:textStyle="normal" />
+                    style="@style/V2.Widget.TextView.FlightStatistic"
+                    android:drawableLeft="@drawable/ic_tablet_miles"
+                    android:text="5100 miles" />
 
             <com.expedia.bookings.widget.TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_tablet_departure_arrow"
-                    android:text="10 hours"
-                    app:textStyle="normal" />
+                    style="@style/V2.Widget.TextView.FlightStatistic"
+                    android:drawableLeft="@drawable/ic_tablet_flight_time"
+                    android:text="10 hours" />
         </LinearLayout>
 
         <ScrollView

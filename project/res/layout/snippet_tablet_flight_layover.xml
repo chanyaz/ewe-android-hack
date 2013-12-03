@@ -9,7 +9,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:drawableLeft="@drawable/ic_layover_details"
+            android:gravity="center_vertical"
+            android:drawablePadding="8dp"
+            android:drawableLeft="@drawable/ic_tablet_layover"
             app:textStyle="light" />
 
 </FrameLayout>
