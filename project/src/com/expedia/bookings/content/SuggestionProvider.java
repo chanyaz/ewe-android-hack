@@ -219,6 +219,10 @@ public class SuggestionProvider extends ContentProvider {
 		if (resultType == ResultType.CURRENT_LOCATION) {
 			row[COL_ICON_1] = R.drawable.ic_suggest_current_location;
 		}
+		else if (searchType == null) {
+			// For unknown types
+			row[COL_ICON_1] = R.drawable.ic_suggest_place;
+		}
 		else {
 			switch (searchType) {
 			case AIRPORT:
