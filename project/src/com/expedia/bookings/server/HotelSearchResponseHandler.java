@@ -32,18 +32,17 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchResponse> {
-	private Context mContext;
-
 	private int mNumNights = 1;
 
 	private double mLatitude;
 	private double mLongitude;
 
 	private boolean mCachedIsRelease = false;
+	private boolean mFilterMerchants = false;
 
 	public HotelSearchResponseHandler(Context context) {
-		mContext = context;
-		mCachedIsRelease = AndroidUtils.isRelease(mContext);
+		mCachedIsRelease = AndroidUtils.isRelease(context);
+		mFilterMerchants = SettingUtils.get(context, context.getString(R.string.preference_filter_merchant_properties), false);
 	}
 
 	public void setNumNights(int numNights) {
@@ -303,10 +302,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			searchResponse.addProperty(property);
 		}
 		else {
-			boolean filterMerchants = SettingUtils.get(mContext,
-					mContext.getString(R.string.preference_filter_merchant_properties), false);
-
-			if (filterMerchants) {
+			if (mFilterMerchants) {
 				if (!property.isMerchant()) {
 					searchResponse.addProperty(property);
 				}
