@@ -141,7 +141,7 @@
     <string name="arrival_airports">Arrival Airports</string>
 
     <!-- Tablet flight details -->
-    <!-- Name of button for selecting a flight -->
+    <!-- Name of button for selecting a flight. %1$s is a price. example: "Add for $345" -->
     <string name="add_for_TEMPLATE">Add for %1$s</string>
     <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
     <string name="flight_cities_TEMPLATE">%1$s to %2$s</string>
