@@ -28,6 +28,7 @@ import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
+import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
@@ -723,50 +724,38 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	/*
 	 * HOTELS STATE PROVIDER
 	 */
-	private ArrayList<IStateListener<ResultsHotelsState>> mStateChangeListeners = new ArrayList<IStateListener<ResultsHotelsState>>();
+	private StateListenerCollection<ResultsHotelsState> mHotelsStateListeners = new StateListenerCollection<ResultsHotelsState>(
+			mHotelsStateManager.getState());
 
 	@Override
 	public void startStateTransition(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
-		for (IStateListener<ResultsHotelsState> listener : mStateChangeListeners) {
-			listener.onStateTransitionStart(stateOne, stateTwo);
-		}
+		mHotelsStateListeners.startStateTransition(stateOne, stateTwo);
 	}
 
 	@Override
 	public void updateStateTransition(ResultsHotelsState stateOne, ResultsHotelsState stateTwo,
 			float percentage) {
-		for (IStateListener<ResultsHotelsState> listener : mStateChangeListeners) {
-			listener.onStateTransitionUpdate(stateOne, stateTwo, percentage);
-		}
-
+		mHotelsStateListeners.updateStateTransition(stateOne, stateTwo, percentage);
 	}
 
 	@Override
 	public void endStateTransition(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
-		for (IStateListener<ResultsHotelsState> listener : mStateChangeListeners) {
-			listener.onStateTransitionEnd(stateOne, stateTwo);
-		}
+		mHotelsStateListeners.endStateTransition(stateOne, stateTwo);
 	}
 
 	@Override
 	public void finalizeState(ResultsHotelsState state) {
-		for (IStateListener<ResultsHotelsState> listener : mStateChangeListeners) {
-			listener.onStateFinalized(state);
-		}
+		mHotelsStateListeners.finalizeState(state);
 	}
 
 	@Override
 	public void registerStateListener(IStateListener<ResultsHotelsState> listener, boolean fireFinalizeState) {
-		mStateChangeListeners.add(listener);
-		if (fireFinalizeState) {
-			listener.onStateFinalized(getHotelsState(mGlobalState));
-		}
+		mHotelsStateListeners.registerStateListener(listener, fireFinalizeState);
 	}
 
 	@Override
 	public void unRegisterStateListener(IStateListener<ResultsHotelsState> listener) {
-		mStateChangeListeners.remove(listener);
-
+		mHotelsStateListeners.unRegisterStateListener(listener);
 	}
 
 	/*

@@ -34,6 +34,7 @@ import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
+import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHandHolder;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
@@ -814,50 +815,38 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	/*
 	 * FLIGHTS STATE PROVIDER
 	 */
-	private ArrayList<IStateListener<ResultsFlightsState>> mStateChangeListeners = new ArrayList<IStateListener<ResultsFlightsState>>();
+	private StateListenerCollection<ResultsFlightsState> mFlightsStateListeners = new StateListenerCollection<ResultsFlightsState>(
+			mFlightsStateManager.getState());
 
 	@Override
 	public void startStateTransition(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
-		for (IStateListener<ResultsFlightsState> listener : mStateChangeListeners) {
-			listener.onStateTransitionStart(stateOne, stateTwo);
-		}
+		mFlightsStateListeners.startStateTransition(stateOne, stateTwo);
 	}
 
 	@Override
 	public void updateStateTransition(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
 			float percentage) {
-		for (IStateListener<ResultsFlightsState> listener : mStateChangeListeners) {
-			listener.onStateTransitionUpdate(stateOne, stateTwo, percentage);
-		}
-
+		mFlightsStateListeners.updateStateTransition(stateOne, stateTwo, percentage);
 	}
 
 	@Override
 	public void endStateTransition(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
-		for (IStateListener<ResultsFlightsState> listener : mStateChangeListeners) {
-			listener.onStateTransitionEnd(stateOne, stateTwo);
-		}
+		mFlightsStateListeners.endStateTransition(stateOne, stateTwo);
 	}
 
 	@Override
 	public void finalizeState(ResultsFlightsState state) {
-		for (IStateListener<ResultsFlightsState> listener : mStateChangeListeners) {
-			listener.onStateFinalized(state);
-		}
+		mFlightsStateListeners.finalizeState(state);
 	}
 
 	@Override
 	public void registerStateListener(IStateListener<ResultsFlightsState> listener, boolean fireFinalizeState) {
-		mStateChangeListeners.add(listener);
-		if (fireFinalizeState) {
-			listener.onStateFinalized(getFlightsState(mGlobalState));
-		}
+		mFlightsStateListeners.registerStateListener(listener, fireFinalizeState);
 	}
 
 	@Override
 	public void unRegisterStateListener(IStateListener<ResultsFlightsState> listener) {
-		mStateChangeListeners.remove(listener);
-
+		mFlightsStateListeners.unRegisterStateListener(listener);
 	}
 
 	/*

@@ -51,6 +51,7 @@ import com.expedia.bookings.interfaces.IMeasurementProvider;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
+import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.DebugMenu;
@@ -633,48 +634,38 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	 * State management
 	 */
 
-	private ArrayList<IStateListener<ResultsState>> mStateChangeListeners = new ArrayList<IStateListener<ResultsState>>();
+	private StateListenerCollection<ResultsState> mResultsStateListeners = new StateListenerCollection<ResultsState>(
+			mState);
 
 	@Override
 	public void startStateTransition(ResultsState stateOne, ResultsState stateTwo) {
-		for (IStateListener<ResultsState> listener : mStateChangeListeners) {
-			listener.onStateTransitionStart(stateOne, stateTwo);
-		}
+		mResultsStateListeners.startStateTransition(stateOne, stateTwo);
 	}
 
 	@Override
 	public void updateStateTransition(ResultsState stateOne, ResultsState stateTwo, float percentage) {
-		for (IStateListener<ResultsState> listener : mStateChangeListeners) {
-			listener.onStateTransitionUpdate(stateOne, stateTwo, percentage);
-		}
+		mResultsStateListeners.updateStateTransition(stateOne, stateTwo, percentage);
 	}
 
 	@Override
 	public void endStateTransition(ResultsState stateOne, ResultsState stateTwo) {
-		for (IStateListener<ResultsState> listener : mStateChangeListeners) {
-			listener.onStateTransitionEnd(stateOne, stateTwo);
-		}
+		mResultsStateListeners.endStateTransition(stateOne, stateTwo);
 	}
 
 	@Override
 	public void finalizeState(ResultsState state) {
 		mState = state;
-		for (IStateListener<ResultsState> listener : mStateChangeListeners) {
-			listener.onStateFinalized(state);
-		}
+		mResultsStateListeners.finalizeState(state);
 	}
 
 	@Override
 	public void registerStateListener(IStateListener<ResultsState> listener, boolean fireFinalizeState) {
-		mStateChangeListeners.add(listener);
-		if (fireFinalizeState) {
-			listener.onStateFinalized(mState);
-		}
+		mResultsStateListeners.registerStateListener(listener, fireFinalizeState);
 	}
 
 	@Override
 	public void unRegisterStateListener(IStateListener<ResultsState> listener) {
-		mStateChangeListeners.remove(listener);
+		mResultsStateListeners.unRegisterStateListener(listener);
 	}
 
 	/*
