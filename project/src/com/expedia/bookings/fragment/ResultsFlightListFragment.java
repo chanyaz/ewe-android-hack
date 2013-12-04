@@ -94,6 +94,7 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 			FlightTrip trip = ((FlightAdapter) mAdapter).getItem(itemPosition);
 			Db.getFlightSearch().setSelectedLeg(mLegNumber, new FlightTripLeg(trip, trip.getLeg(mLegNumber)));
 			mFlightSelectedListener.onFlightSelected(mLegNumber);
+			mListView.setItemChecked(position, true);
 		}
 	}
 

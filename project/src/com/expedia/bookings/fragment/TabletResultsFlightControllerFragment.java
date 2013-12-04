@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
@@ -1097,6 +1098,15 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		private void positionForFilters(ViewGroup filtersC, ViewGroup listC) {
 			filtersC.setTranslationX(0f);
 			listC.setTranslationX(0f);
+
+			// Clear the checked/blue/highlight item when returning to filters
+			ListView listView = Ui.findView(listC, android.R.id.list);
+			if (listView != null) {
+				int checkedPos = listView.getCheckedItemPosition();
+				if (checkedPos != ListView.INVALID_POSITION) {
+					listView.setItemChecked(checkedPos, false);
+				}
+			}
 		}
 
 		private void positionForDetails(ViewGroup filtersC, ViewGroup listC, ResultsFlightDetailsFragment detailsFrag) {

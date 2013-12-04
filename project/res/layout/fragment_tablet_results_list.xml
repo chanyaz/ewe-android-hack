@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="56dp"
+        android:choiceMode="singleChoice"
         android:cacheColorHint="@color/tablet_white_pane_bg"
         android:divider="@color/tablet_white_pane_bg"
         android:dividerHeight="8dp"

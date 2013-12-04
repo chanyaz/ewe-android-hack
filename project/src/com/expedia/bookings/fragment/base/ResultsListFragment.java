@@ -30,7 +30,7 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 
 	private static final int SMOOTH_SCROLL_DURATION = 120;
 
-	private FruitScrollUpListView mListView;
+	protected FruitScrollUpListView mListView;
 	private ViewGroup mStickyHeader;
 	private TextView mStickyHeaderTv;
 	private TextView mTopRightTextButton;
