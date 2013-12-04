@@ -64,14 +64,14 @@
                 android:layout_marginBottom="@dimen/tablet_filter_white_space" >
 
             <RadioButton
-                    android:id="@+id/flight_filter_stop_one_or_less"
-                    style="@style/V2.Widget.RadioButton.Filter"
-                    android:text="@string/stop_description__max" />
-
-            <RadioButton
                     android:id="@+id/flight_filter_stop_none"
                     style="@style/V2.Widget.RadioButton.Filter"
                     android:text="@string/stop_description__nonstop" />
+
+            <RadioButton
+                    android:id="@+id/flight_filter_stop_one_or_less"
+                    style="@style/V2.Widget.RadioButton.Filter"
+                    android:text="@string/stop_description__max" />
 
             <RadioButton
                     android:id="@+id/flight_filter_stop_any"
