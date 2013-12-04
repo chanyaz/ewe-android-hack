@@ -134,7 +134,7 @@
                 android:id="@+id/reviews_container"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:background="@color/tablet_grey_pane_bg" >
+                android:background="@color/tablet_white_pane_bg" >
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -211,7 +211,9 @@
                 android:id="@+id/amenities_container"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:background="@color/tablet_list_bg" >
+                android:background="@color/tablet_white_pane_bg"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" >
 
                 <include
                     layout="@layout/include_amenities"
@@ -224,7 +226,10 @@
                 android:id="@+id/rooms_rates_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:background="@color/tablet_white_pane_bg"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" >
 
                 <TextView
                     android:layout_width="match_parent"
@@ -251,24 +256,13 @@
             <!-- Hotel Description section -->
 
             <LinearLayout
-                android:id="@+id/description_container"
+                android:id="@+id/description_details_sections_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#800000"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Description"
-                    android:textColor="#ffffff" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="64dp"
-                    android:text="Long hotel description that most people probably won&apos;t read, with bullets, rules, etc. If you made it this far, you win. Congrats."
-                    android:textColor="#ffffff" />
-            </LinearLayout>
+                android:background="@color/tablet_white_pane_bg"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" />
         </LinearLayout>
     </ScrollView>
 

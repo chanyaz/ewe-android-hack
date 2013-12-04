@@ -1,32 +1,45 @@
 package com.expedia.bookings.fragment;
 
+import java.util.List;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelOffersResponse;
+import com.expedia.bookings.data.HotelSearch;
+import com.expedia.bookings.data.HotelSearchParams.SearchType;
+import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.interfaces.IAddToTripListener;
+import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.ScrollView;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 /**
- * ResultsFlightFiltersFragment: The filters fragment designed for tablet results 2013
+ * ResultsHotelDetailsFragment: The hotel details / rooms and rates
+ * fragment designed for tablet results 2013
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+@TargetApi(11)
 public class ResultsHotelDetailsFragment extends Fragment {
 
 	public static ResultsHotelDetailsFragment newInstance() {
@@ -70,12 +83,46 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		Db.getHotelSearch().getSelectedProperty()
-		setupViews(mRootC);
+		populateViews();
+		downloadDetails();
 	}
 
-	private void setupViews(View view) {
-		setupAmenities(view, Db.getHotelSearch().getSelectedProperty());
+	private void downloadDetails() {
+		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
+		if (TextUtils.isEmpty(selectedId)) {
+			return;
+		}
+
+		final BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		final String key = CrossContextHelper.KEY_INFO_DOWNLOAD;
+		final HotelOffersResponse infoResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
+		if (infoResponse != null) {
+			// We may have been downloading the data here before getting it elsewhere, so cancel
+			// our own download once we have data
+			bd.cancelDownload(key);
+
+			// Load the data
+			mInfoCallback.onDownload(infoResponse);
+		}
+		else if (bd.isDownloading(key)) {
+			bd.registerDownloadCallback(key, mInfoCallback);
+		}
+		else {
+			bd.startDownload(key, CrossContextHelper.getHotelOffersDownload(getActivity(), key), mInfoCallback);
+		}
+
+	}
+
+	/**
+	 * This could be called when not much information is available, or after
+	 * details have been downloaded from e3. We should handle both cases gracefully
+	 * in here.
+	 */
+	private void populateViews() {
+		Property property = Db.getHotelSearch().getSelectedProperty();
+		Log.e("DOUG: populateViews with property = " + property);
+		setupAmenities(mRootC, property);
+		setupDescriptionSections(mRootC, property);
 	}
 
 	public void setTransitionToAddTripPercentage(float percentage) {
@@ -122,6 +169,83 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		else {
 			view.findViewById(R.id.amenities_scroll_view).setVisibility(View.GONE);
 		}
-
 	}
+
+	private void setupDescriptionSections(View view, Property property) {
+		if (property == null) {
+			return;
+		}
+
+		LinearLayout allSectionsContainer = Ui.findView(view, R.id.description_details_sections_container);
+		allSectionsContainer.removeAllViews();
+
+		List<HotelTextSection> sections = property.getAllHotelText(getActivity());
+
+		if (sections != null && sections.size() > 1) {
+			LayoutInflater inflater = getActivity().getLayoutInflater();
+			for (int i = 1; i < sections.size(); i++) {
+				HotelTextSection section = sections.get(i);
+				View sectionContainer = inflater.inflate(R.layout.include_hotel_description_section,
+						allSectionsContainer, false);
+
+				TextView titleText = Ui.findView(sectionContainer, R.id.title_text);
+				TextView bodyText = Ui.findView(sectionContainer, R.id.body_text);
+				titleText.setVisibility(View.VISIBLE);
+				titleText.setText(section.getNameWithoutHtml());
+				bodyText.setText(Html.fromHtml(section.getContentFormatted(getActivity())));
+				allSectionsContainer.addView(sectionContainer);
+			}
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Async loading of ExpediaServices.availability
+
+	private final OnDownloadComplete<HotelOffersResponse> mInfoCallback = new OnDownloadComplete<HotelOffersResponse>() {
+		@Override
+		public void onDownload(HotelOffersResponse response) {
+			HotelSearch search = Db.getHotelSearch();
+
+			// Check if we got a better response elsewhere before loading up this data
+			String selectedId = search.getSelectedPropertyId();
+			HotelOffersResponse possibleBetterResponse = search.getHotelOffersResponse(selectedId);
+
+			if (possibleBetterResponse != null) {
+				response = possibleBetterResponse;
+			}
+			else {
+				search.updateFrom(response);
+			}
+
+			if (response == null) {
+				Log.w(getString(R.string.e3_error_hotel_offers_hotel_service_failure));
+				//showErrorDialog(R.string.e3_error_hotel_offers_hotel_service_failure);
+				return;
+			}
+			else if (response.hasErrors()) {
+				int messageResId;
+				if (response.isHotelUnavailable()) {
+					messageResId = R.string.error_room_is_now_sold_out;
+				}
+				else {
+					messageResId = R.string.e3_error_hotel_offers_hotel_service_failure;
+				}
+				Log.w(getString(messageResId));
+				//showErrorDialog(messageResId);
+			}
+			else if (search.getAvailability(selectedId).getRateCount() == 0
+					&& search.getSearchParams().getSearchType() != SearchType.HOTEL) {
+				Log.w(getString(R.string.error_hotel_is_now_sold_out));
+				//showErrorDialog(R.string.error_hotel_is_now_sold_out);
+			}
+			else {
+				Db.kickOffBackgroundHotelSearchSave(getActivity());
+			}
+
+			// Notify affected child fragments to refresh.
+
+			populateViews();
+		}
+	};
+
 }
