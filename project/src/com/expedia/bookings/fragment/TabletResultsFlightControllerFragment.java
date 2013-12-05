@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -24,10 +23,6 @@ import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightSearch;
-import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
