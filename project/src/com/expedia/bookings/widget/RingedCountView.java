@@ -96,10 +96,17 @@ public class RingedCountView extends View {
 			a.recycle();
 		}
 
-		mRingDrawable = new RingDrawable(backgroundColor, countTextColor, captionTextColor,
-				primaryColor, secondaryColor, thickness, countTextSize, captionTextSize);
+		mRingDrawable = new RingDrawable();
+		setBackgroundColor(backgroundColor);
+		setPrimaryColor(primaryColor);
+		setSecondaryColor(secondaryColor);
+		setCountTextColor(countTextColor);
+		setCaptionTextColor(captionTextColor);
 		setCaption(caption);
 		setPercent(percent);
+		setRingThickness(thickness);
+		setCountTextSize(countTextSize);
+		setCaptionTextSize(captionTextSize);
 
 		super.setBackgroundDrawable(mRingDrawable);
 	}
@@ -107,6 +114,38 @@ public class RingedCountView extends View {
 	@Override
 	public void setBackgroundDrawable(Drawable background) {
 		// ignored
+	}
+
+	public void setBackgroundColor(int color) {
+		mRingDrawable.setBackgroundColor(color);
+	}
+
+	public void setPrimaryColor(int color) {
+		mRingDrawable.setPrimaryColor(color);
+	}
+
+	public void setSecondaryColor(int color) {
+		mRingDrawable.setSecondaryColor(color);
+	}
+
+	public void setCountTextColor(int color) {
+		mRingDrawable.setCountTextColor(color);
+	}
+
+	public void setCaptionTextColor(int color) {
+		mRingDrawable.setCaptionTextColor(color);
+	}
+
+	public void setRingThickness(int thickness) {
+		mRingDrawable.setRingThickness(thickness);
+	}
+
+	public void setCountTextSize(float pixels) {
+		mRingDrawable.setCountTextSize(pixels);
+	}
+
+	public void setCaptionTextSize(float pixels) {
+		mRingDrawable.setCaptionTextSize(pixels);
 	}
 
 	/**
@@ -210,48 +249,32 @@ public class RingedCountView extends View {
 		// Text properties
 		private Paint mCountTextPaint;
 		private Paint mCaptionTextPaint;
-		private float mCountTextSize;
-		private float mCaptionTextSize;
 		private float mCount;
 		private String mCaption;
 
-		public RingDrawable(int backgroundColor, int countTextColor, int captionTextColor,
-				int primaryColor, int secondaryColor,
-				int strokeWidth, float primaryTextSize, float secondaryTextSize) {
+		public RingDrawable() {
 			super();
 
 			mBackgroundPaint = new Paint();
-			mBackgroundPaint.setColor(backgroundColor);
 			mBackgroundPaint.setAntiAlias(true);
 
 			// Ring
 			mPrimaryArcPaint = new Paint();
-			mPrimaryArcPaint.setColor(primaryColor);
 			mPrimaryArcPaint.setAntiAlias(true);
-			mPrimaryArcPaint.setStrokeWidth(strokeWidth);
 			mPrimaryArcPaint.setStyle(Style.STROKE);
 
 			mSecondaryArcPaint = new Paint();
-			mSecondaryArcPaint.setColor(secondaryColor);
 			mSecondaryArcPaint.setAntiAlias(true);
-			mSecondaryArcPaint.setStrokeWidth(strokeWidth);
 			mSecondaryArcPaint.setStyle(Style.STROKE);
 
 			// Text
-			mCountTextSize = primaryTextSize;
-			mCaptionTextSize = secondaryTextSize;
-
 			mCountTextPaint = new Paint();
-			mCountTextPaint.setColor(countTextColor);
 			mCountTextPaint.setAntiAlias(true);
 			mCountTextPaint.setTextAlign(Align.CENTER);
-			mCountTextPaint.setTextSize(mCountTextSize);
 
 			mCaptionTextPaint = new Paint();
-			mCaptionTextPaint.setColor(countTextColor);
 			mCaptionTextPaint.setAntiAlias(true);
 			mCaptionTextPaint.setTextAlign(Align.CENTER);
-			mCaptionTextPaint.setTextSize(mCaptionTextSize);
 		}
 
 		@Override
@@ -263,6 +286,39 @@ public class RingedCountView extends View {
 			mCx = (right + left) / 2;
 			mCy = (bottom + top) / 2;
 			mOval = new RectF(mCx - mRadius, mCy - mRadius, mCx + mRadius, mCy + mRadius);
+		}
+
+		public void setBackgroundColor(int color) {
+			mBackgroundPaint.setColor(color);
+		}
+
+		public void setPrimaryColor(int color) {
+			mPrimaryArcPaint.setColor(color);
+		}
+
+		public void setSecondaryColor(int color) {
+			mSecondaryArcPaint.setColor(color);
+		}
+
+		public void setCountTextColor(int color) {
+			mCountTextPaint.setColor(color);
+		}
+
+		public void setCaptionTextColor(int color) {
+			mCaptionTextPaint.setColor(color);
+		}
+
+		public void setRingThickness(int thickness) {
+			mPrimaryArcPaint.setStrokeWidth(thickness);
+			mSecondaryArcPaint.setStrokeWidth(thickness);
+		}
+
+		public void setCountTextSize(float pixels) {
+			mCountTextPaint.setTextSize(pixels);
+		}
+
+		public void setCaptionTextSize(float pixels) {
+			mCaptionTextPaint.setTextSize(pixels);
 		}
 
 		public void setPercent(float filled) {
@@ -319,23 +375,24 @@ public class RingedCountView extends View {
 		}
 
 		private void drawText(Canvas canvas) {
+			float textSize = mCountTextPaint.getTextSize();
 			// Odometer style count
 			float yOffset = mCaption == null ? -((mCountTextPaint.descent() + mCountTextPaint.ascent()) / 2) : 0;
 			canvas.save();
-			canvas.clipRect(0, mCy - mCountTextSize + yOffset, canvas.getWidth(), mCy + 4 + yOffset, Op.REPLACE);
+			canvas.clipRect(0, mCy - textSize + yOffset, canvas.getWidth(), mCy + 4 + yOffset, Op.REPLACE);
 			String countString = Integer.toString(Math.round(mCount));
 			float fraction = mCount - Math.round(mCount);
-			float y = mCy - fraction * mCountTextSize + yOffset;
+			float y = mCy - fraction * textSize + yOffset;
 			canvas.drawText(countString, mCx, y, mCountTextPaint);
 			if (y != 0) {
 				String nextString = Integer.toString(Math.round(mCount) + 1);
-				canvas.drawText(nextString, mCx, y + mCountTextSize, mCountTextPaint);
+				canvas.drawText(nextString, mCx, y + textSize, mCountTextPaint);
 			}
 			canvas.restore();
 
 			// Caption
 			if (mCaption != null) {
-				canvas.drawText(mCaption, mCx, mCy + mCaptionTextSize * 1.6f, mCaptionTextPaint);
+				canvas.drawText(mCaption, mCx, mCy + mCaptionTextPaint.getTextSize() * 1.6f, mCaptionTextPaint);
 			}
 		}
 
