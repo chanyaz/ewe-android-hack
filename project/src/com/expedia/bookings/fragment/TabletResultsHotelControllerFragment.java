@@ -40,7 +40,6 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
-import com.expedia.bookings.widget.FruitScrollUpListView.State;
 import com.expedia.bookings.widget.TouchThroughFrameLayout;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.mobiata.android.util.Ui;
@@ -53,12 +52,6 @@ import com.mobiata.android.util.Ui;
 public class TabletResultsHotelControllerFragment extends Fragment implements
 		ISortAndFilterListener, IResultsHotelSelectedListener, IAddToTripListener, IFragmentAvailabilityProvider,
 		HotelMapFragmentListener, SupportMapFragmentListener, IBackManageable, IStateProvider<ResultsHotelsState> {
-
-	public interface IHotelsFruitScrollUpListViewChangeListener {
-		public void onHotelsStateChanged(State oldState, State newState, float percentage, View requester);
-
-		public void onHotelsPercentageChanged(State state, float percentage);
-	}
 
 	//State
 	private static final String STATE_HOTELS_STATE = "STATE_HOTELS_STATE";
