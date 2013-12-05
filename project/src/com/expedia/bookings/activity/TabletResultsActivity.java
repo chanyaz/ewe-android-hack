@@ -50,6 +50,7 @@ import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
+import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.DebugMenu;
@@ -163,6 +164,10 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 				R.id.full_width_hotels_controller_container, false);
 		transaction.commit();
 		manager.executePendingTransactions();//These must be finished before we continue..
+
+		//Add listeners
+		mHotelsController.registerStateListener(mHotelsStateHelper, false);
+		mFlightsController.registerStateListener(mFlightsStateHelper, false);
 
 		//We load up the default backgrounds so they are ready to go later if/when we need them
 		//this is important, as we need to load images before our memory load gets too heavy
@@ -651,6 +656,64 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		public boolean handleBackPressed() {
 			//Our children may do something on back pressed, but if we are left in charge we do nothing
 			return false;
+		}
+
+	};
+
+	/*
+	 * HOTELS STATE LISTENER
+	 */
+
+	private StateListenerHelper<ResultsHotelsState> mHotelsStateHelper = new StateListenerHelper<ResultsHotelsState>() {
+
+		@Override
+		public void onStateTransitionStart(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
+			Log.d("ResultsHotelsState - onStateTransitionStart - stateOne:" + stateOne + " stateTwo:" + stateTwo);
+		}
+
+		@Override
+		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo, float percentage) {
+			Log.d("ResultsHotelsState - onStateTransitionUpdate - stateOne:" + stateOne + " stateTwo:" + stateTwo
+					+ " percentage:" + percentage);
+		}
+
+		@Override
+		public void onStateTransitionEnd(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
+			Log.d("ResultsHotelsState - onStateTransitionEnd - stateOne:" + stateOne + " stateTwo:" + stateTwo);
+		}
+
+		@Override
+		public void onStateFinalized(ResultsHotelsState state) {
+			Log.d("ResultsHotelsState - onStateFinalized - state:" + state);
+		}
+
+	};
+
+	/*
+	 * FLIGHTS STATE LISTENER
+	 */
+
+	private StateListenerHelper<ResultsFlightsState> mFlightsStateHelper = new StateListenerHelper<ResultsFlightsState>() {
+
+		@Override
+		public void onStateTransitionStart(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
+			Log.d("ResultsFlightsState - onStateTransitionStart - stateOne:" + stateOne + " stateTwo:" + stateTwo);
+		}
+
+		@Override
+		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo, float percentage) {
+			Log.d("ResultsFlightsState - onStateTransitionUpdate - stateOne:" + stateOne + " stateTwo:" + stateTwo
+					+ " percentage:" + percentage);
+		}
+
+		@Override
+		public void onStateTransitionEnd(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
+			Log.d("ResultsFlightsState - onStateTransitionEnd - stateOne:" + stateOne + " stateTwo:" + stateTwo);
+		}
+
+		@Override
+		public void onStateFinalized(ResultsFlightsState state) {
+			Log.d("ResultsFlightsState - onStateFinalized - state:" + state);
 		}
 
 	};
