@@ -37,6 +37,7 @@ import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Property.Amenity;
 import com.expedia.bookings.data.Rate;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 
@@ -188,7 +189,6 @@ public class LayoutUtils {
 	}
 
 	private static void addAmenity(Context context, ViewGroup amenitiesTable, Amenity amenity, int iconResourceId) {
-
 		LayoutInflater layoutInflater = LayoutInflater.from(context);
 		TextView amenityTextView = (TextView) layoutInflater.inflate(R.layout.snippet_amenity, amenitiesTable, false);
 
@@ -207,26 +207,6 @@ public class LayoutUtils {
 
 		amenityTextView.setText(amenityStr);
 		amenityTextView.setCompoundDrawablesWithIntrinsicBounds(0, iconResourceId, 0, 0);
-
-		// fix width for first amenity
-
-		if (amenitiesTable.getChildCount() == 0 && ExpediaBookingApp.useTabletInterface(context)) {
-			LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) amenityTextView.getLayoutParams();
-			params.width = LayoutParams.WRAP_CONTENT;
-			amenityTextView.setLayoutParams(params);
-
-			final Resources res = context.getResources();
-			final int amenityLayoutWidth = (int) res.getDimension(R.dimen.amenity_layout_width);
-			final int widthMeasureSpec = MeasureSpec.makeMeasureSpec(LayoutParams.WRAP_CONTENT, MeasureSpec.EXACTLY);
-			final int heightMeasureSpec = MeasureSpec.makeMeasureSpec(LayoutParams.WRAP_CONTENT, MeasureSpec.EXACTLY);
-
-			amenityTextView.measure(widthMeasureSpec, heightMeasureSpec);
-
-			final int width = amenityTextView.getMeasuredWidth();
-			final int marginRight = (int) (((amenityLayoutWidth - width) / 2) + (res.getDisplayMetrics().scaledDensity * 3));
-
-			params.setMargins(0, 0, marginRight, 0);
-		}
 
 		amenitiesTable.addView(amenityTextView);
 	}
