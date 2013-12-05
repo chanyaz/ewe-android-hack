@@ -161,6 +161,10 @@
     <color name="tablet_results_ab_default">@android:color/transparent</color>
     <color name="tablet_results_ab_flights">#142B42</color>
     <color name="tablet_bg_tiles_blend">#232c45</color>
+    <color name="details_ring_red">#bc4649</color>
+    <color name="details_ring_blue">#286cb5</color>
+    <color name="details_ring_gray">#cbcfd2</color>
+    <color name="details_ring_text">#556174</color>
 
     <!-- Tablet flights -->
     <color name="tablet_flight_trip_view_airport_text_color">#aaffffff</color>

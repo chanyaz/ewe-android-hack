@@ -148,13 +148,12 @@
                         android:id="@+id/rooms_left_ring"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        app:countTextColor="#BC4649"
+                        app:countTextColor="@color/details_ring_red"
                         app:countTextSize="24sp"
                         app:percent="0.2"
-                        app:primaryColor="#BC4649"
+                        app:primaryColor="@color/details_ring_red"
                         app:ringThickness="4dp"
-                        app:secondaryColor="#CBCFD2" />
-
+                        app:secondaryColor="@color/details_ring_gray" />
                     <TextView
                         android:id="@+id/rooms_left_ring_text"
                         android:layout_width="wrap_content"
@@ -162,7 +161,7 @@
                         android:gravity="center_vertical"
                         android:padding="8dp"
                         android:text="@string/rooms_left"
-                        android:textColor="#556174"
+                        android:textColor="@color/details_ring_text"
                         android:textSize="18sp" />
                 </LinearLayout>
 
@@ -177,12 +176,12 @@
                         android:id="@+id/user_rating_ring"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        app:countTextColor="#556174"
+                        app:countTextColor="@color/details_ring_text"
                         app:countTextSize="24sp"
                         app:percent="0.8"
-                        app:primaryColor="#286CB5"
+                        app:primaryColor="@color/details_ring_blue"
                         app:ringThickness="4dp"
-                        app:secondaryColor="#CBCFD2" />
+                        app:secondaryColor="@color/details_ring_gray" />
 
                     <TextView
                         android:id="@+id/user_rating_ring_text"
@@ -191,7 +190,7 @@
                         android:gravity="center_vertical"
                         android:padding="8dp"
                         android:text="@string/out_of_5"
-                        android:textColor="#556174"
+                        android:textColor="@color/details_ring_text"
                         android:textSize="18sp" />
                 </LinearLayout>
 
@@ -202,8 +201,8 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical|right"
                     android:padding="8dp"
-                    android:text="Read Reviews"
-                    android:textColor="#556174"
+                    android:text="@string/Read_Reviews"
+                    android:textColor="@color/details_ring_text"
                     android:textSize="18sp" />
             </LinearLayout>
 

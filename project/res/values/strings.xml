@@ -151,6 +151,8 @@
     <string name="rooms_left">rooms left</string>
     <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
     <string name="out_of_5">out of 5</string>
+    <!-- "Read Reviews" user reviews button text -->
+    <string name="Read_Reviews">Read Reviews</string>
 
     <!-- Tablet flight details -->
     <!-- Name of button for selecting a flight. %1$s is a price. example: "Add for $345" -->
