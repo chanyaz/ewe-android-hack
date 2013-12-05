@@ -59,9 +59,9 @@
                     android:text="71% on time" />
 
             <com.expedia.bookings.widget.TextView
+                    android:id="@+id/flight_miles_text_view"
                     style="@style/V2.Widget.TextView.FlightStatistic"
-                    android:drawableLeft="@drawable/ic_tablet_miles"
-                    android:text="5100 miles" />
+                    android:drawableLeft="@drawable/ic_tablet_miles" />
 
             <com.expedia.bookings.widget.TextView
                     style="@style/V2.Widget.TextView.FlightStatistic"

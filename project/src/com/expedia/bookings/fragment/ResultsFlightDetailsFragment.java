@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Build;
@@ -26,6 +27,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.interfaces.IResultsFlightLegSelected;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.section.FlightLegSummarySectionTablet;
+import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.TextView;
@@ -34,6 +36,7 @@ import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
 import com.mobiata.flightlib.utils.DateTimeUtils;
+import com.mobiata.flightlib.utils.FormatUtils;
 
 /**
  * ResultsFlightDetailsFragment: The flight details fragment designed for tablet results 2013
@@ -58,6 +61,9 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 	private TextView mTimeHeaderTv;
 	private Button mAddTripBtn;
+
+	private TextView mFlightDistanceTv;
+
 	private ViewGroup mFlightLegsC;
 
 	private FlightLegSummarySectionTablet mSelectedFlightLegAnimationRowSection;
@@ -99,6 +105,9 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 		mTimeHeaderTv = Ui.findView(mRootC, R.id.details_time_header);
 		mAddTripBtn = Ui.findView(mRootC, R.id.details_add_trip_button);
+
+		mFlightDistanceTv = Ui.findView(mRootC, R.id.flight_miles_text_view);
+
 		mFlightLegsC = Ui.findView(mRootC, R.id.flight_legs_container);
 
 		mSelectedFlightLegAnimationRowSection = Ui.findView(mRootC, R.id.details_animation_row);
@@ -121,6 +130,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		FlightLeg flightLeg = flightTripLeg.getFlightLeg();
 		Flight flight;
 
+		final Context context = getActivity();
 		final Resources res = getResources();
 
 		// Grey header
@@ -145,7 +155,8 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		});
 
 		// Statistics
-		// TODO stats
+		String distanceStr = FlightUtils.formatDistance(context, flightLeg, FormatUtils.F_FULL);
+		mFlightDistanceTv.setText(distanceStr);
 
 		// Flight Leg container
 

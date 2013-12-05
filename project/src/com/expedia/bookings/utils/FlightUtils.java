@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Distance;
+import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.flightlib.data.Waypoint;
+import com.mobiata.flightlib.utils.FormatUtils;
 
 public class FlightUtils {
 
@@ -35,4 +39,15 @@ public class FlightUtils {
 			return res.getString(R.string.Gate_To_Be_Determined_abbrev);
 		}
 	}
+
+	public static String formatDistance(Context context, FlightLeg leg) {
+		return formatDistance(context, leg, 0);
+	}
+
+	public static String formatDistance(Context context, FlightLeg leg, int flags) {
+		flags |= PointOfSale.getPointOfSale().getDistanceUnit() == Distance.DistanceUnit.MILES ? FormatUtils.F_IMPERIAL
+				: FormatUtils.F_METRIC;
+		return FormatUtils.formatDistance(context, leg.getDistanceInMiles(), flags);
+	}
+
 }
