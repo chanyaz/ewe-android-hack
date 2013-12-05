@@ -60,6 +60,8 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	private Button mAddTripBtn;
 	private ViewGroup mFlightLegsC;
 
+	private FlightLegSummarySectionTablet mSelectedFlightLegAnimationRowSection;
+
 	private IResultsFlightLegSelected mListener;
 
 	//Position and size vars
@@ -97,8 +99,9 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 		mTimeHeaderTv = Ui.findView(mRootC, R.id.details_time_header);
 		mAddTripBtn = Ui.findView(mRootC, R.id.details_add_trip_button);
-
 		mFlightLegsC = Ui.findView(mRootC, R.id.flight_legs_container);
+
+		mSelectedFlightLegAnimationRowSection = Ui.findView(mRootC, R.id.details_animation_row);
 
 		setLegPosition(getArguments().getInt(ARG_LEG_NUMBER));
 
@@ -136,6 +139,8 @@ public class ResultsFlightDetailsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				mListener.onTripAdded(mLegNumber);
+
+				mSelectedFlightLegAnimationRowSection.bind(Db.getFlightSearch(), mLegNumber);
 			}
 		});
 

@@ -21,7 +21,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.widget.FlightTripView;
 import com.mobiata.android.util.Ui;
@@ -85,6 +88,18 @@ public class FlightLegSummarySection extends RelativeLayout {
 		pseudoLeg.addSegment(flight);
 
 		bind(null, pseudoLeg, minTime, maxTime, true);
+	}
+
+	public void bind(FlightSearch flightSearch, int legNumber) {
+		FlightTripQuery query = flightSearch.queryTrips(legNumber);
+		Calendar minTime = (Calendar) query.getMinTime().clone();
+		Calendar maxTime = (Calendar) query.getMaxTime().clone();
+
+		FlightTripLeg flightTripLeg = flightSearch.getSelectedLegs()[legNumber];
+		FlightTrip trip = flightTripLeg.getFlightTrip();
+		FlightLeg leg = flightTripLeg.getFlightLeg();
+
+		bind(trip, leg, minTime, maxTime);
 	}
 
 	public void bind(FlightTrip trip, FlightLeg leg) {

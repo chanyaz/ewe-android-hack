@@ -36,7 +36,7 @@
 
             <include
                 android:id="@+id/flight_one_row"
-                layout="@layout/section_flight_leg_summary_tablet" />
+                layout="@layout/section_flight_leg_summary_tablet_checked" />
         </com.expedia.bookings.widget.BlockEventFrameLayout>
 
         <com.expedia.bookings.widget.BlockEventFrameLayout

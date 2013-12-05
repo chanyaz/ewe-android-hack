@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -23,6 +24,10 @@ import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
@@ -1070,7 +1075,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 			switch (state) {
 			case FLIGHT_ONE_FILTERS: {
-				positionForFilters(mFlightOneFiltersC, mFlightOneListC);
+				positionForFilters(mFlightOneFiltersC, mFlightOneListC, 0);
 				break;
 			}
 			case FLIGHT_ONE_DETAILS: {
@@ -1078,7 +1083,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				break;
 			}
 			case FLIGHT_TWO_FILTERS: {
-				positionForFilters(mFlightTwoFiltersC, mFlightTwoListColumnC);
+				positionForFilters(mFlightTwoFiltersC, mFlightTwoListColumnC, 1);
 				mFlightTwoFlightOneHeaderC.setVisibility(View.VISIBLE);
 				break;
 			}
@@ -1095,7 +1100,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			setVisibilityState(mGlobalState, state);
 		}
 
-		private void positionForFilters(ViewGroup filtersC, ViewGroup listC) {
+		private void positionForFilters(ViewGroup filtersC, ViewGroup listC, int legPos) {
 			filtersC.setTranslationX(0f);
 			listC.setTranslationX(0f);
 
@@ -1106,6 +1111,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				if (checkedPos != ListView.INVALID_POSITION) {
 					listView.setItemChecked(checkedPos, false);
 				}
+			}
+
+			if (legPos == 1) {
+				mFlightOneSelectedRow.bind(Db.getFlightSearch(), 0);
 			}
 		}
 

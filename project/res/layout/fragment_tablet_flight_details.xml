@@ -7,7 +7,7 @@
 
     <include
             android:id="@+id/details_animation_row"
-            layout="@layout/section_flight_leg_summary_tablet" />
+            layout="@layout/section_flight_leg_summary_tablet_checked" />
 
     <LinearLayout
             android:id="@+id/details_container"
