@@ -77,7 +77,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         app:flightLineColor="#ffffff"
-        app:waypointTextColor="#bdc5cf"
+        app:waypointTextColor="@color/tablet_flight_trip_view_airport_text_color"
         app:waypointTextSize="@dimen/tablet_result_row_secondary_text_size"
         app:waypointTextTopMargin="4dp"
         app:waypointTextTypeface="medium"/>
