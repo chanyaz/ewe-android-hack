@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -29,6 +30,7 @@ import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
+import com.expedia.bookings.widget.RingedCountView;
 import com.expedia.bookings.widget.ScrollView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -120,9 +122,12 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	 */
 	private void populateViews() {
 		Property property = Db.getHotelSearch().getSelectedProperty();
-		Log.e("DOUG: populateViews with property = " + property);
-		setupAmenities(mRootC, property);
-		setupDescriptionSections(mRootC, property);
+		if (property != null) {
+			setupHeader(mRootC, property);
+			setupReviews(mRootC, property);
+			setupAmenities(mRootC, property);
+			setupDescriptionSections(mRootC, property);
+		}
 	}
 
 	public void setTransitionToAddTripPercentage(float percentage) {
@@ -147,11 +152,43 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		return ScreenPositionUtils.getGlobalScreenPosition(mHotelHeaderContainer);
 	}
 
-	private void setupAmenities(View view, Property property) {
-		if (property == null) {
-			return;
+	private void setupHeader(View view, Property property) {
+		TextView hotelName = Ui.findView(view, R.id.hotel_header_hotel_name);
+		RatingBar starRating = Ui.findView(view, R.id.star_rating_bar);
+		RatingBar userRating = Ui.findView(view, R.id.user_rating_bar);
+		TextView starRatingText = Ui.findView(view, R.id.star_rating_text);
+		TextView userRatingText = Ui.findView(view, R.id.user_rating_text);
+
+		hotelName.setText(property.getName());
+		starRating.setRating((float) property.getHotelRating());
+		userRating.setRating((float) property.getAverageExpediaRating());
+		starRatingText.setText(getString(R.string.n_stars_TEMPLATE, property.getHotelRating()));
+		userRatingText.setText(getString(R.string.n_reviews_TEMPLATE, property.getTotalReviews()));
+	}
+
+	private void setupReviews(View view, Property property) {
+		RingedCountView roomsLeftRing = Ui.findView(view, R.id.rooms_left_ring);
+		RingedCountView userRatingRing = Ui.findView(view, R.id.user_rating_ring);
+
+		int roomsLeft = property.getRoomsLeftAtThisRate();
+		if (roomsLeft <= 5 && roomsLeft >= 0) {
+			roomsLeftRing.setPercent(.2f);
+			roomsLeftRing.setCount(roomsLeft);
+			//TODO: set color red
+		}
+		else {
+			//TODO: set color blue
+			//TODO: set count "90%"
+			roomsLeftRing.setPercent(property.getPercentRecommended() / 100f);
 		}
 
+		float percent = (float) property.getAverageExpediaRating() / 5f;
+		userRatingRing.setPercent(percent);
+		//TODO: set count "4.5"
+		userRatingRing.setCount((float) Math.round(property.getAverageExpediaRating()));
+	}
+
+	private void setupAmenities(View view, Property property) {
 		// Disable some aspects of the horizontal scrollview so it looks pretty
 		HorizontalScrollView amenitiesScrollView = (HorizontalScrollView) view.findViewById(R.id.amenities_scroll_view);
 		amenitiesScrollView.setHorizontalScrollBarEnabled(false);
@@ -172,10 +209,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	private void setupDescriptionSections(View view, Property property) {
-		if (property == null) {
-			return;
-		}
-
 		LinearLayout allSectionsContainer = Ui.findView(view, R.id.description_details_sections_container);
 		allSectionsContainer.removeAllViews();
 

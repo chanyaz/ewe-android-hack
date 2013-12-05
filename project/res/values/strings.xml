@@ -140,6 +140,18 @@
     <!-- Header for a dropdown to select from a list of available arrival airports -->
     <string name="arrival_airports">Arrival Airports</string>
 
+    <!-- Tablet hotel details -->
+    <!-- Caption next to the star rating bar, like "3 stars" -->
+    <string name="n_stars_TEMPLATE">%1$s stars</string>
+    <!-- Caption next to the user review rating bar, like "140 reviews" -->
+    <string name="n_reviews_TEMPLATE">%1$s reviews</string>
+    <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
+    <string name="recommend">recommend</string>
+    <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
+    <string name="rooms_left">rooms left</string>
+    <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
+    <string name="out_of_5">out of 5</string>
+
     <!-- Tablet flight details -->
     <!-- Name of button for selecting a flight. %1$s is a price. example: "Add for $345" -->
     <string name="add_for_TEMPLATE">Add for %1$s</string>
