@@ -177,7 +177,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	@Override
 	public void onResume() {
 		super.onResume();
-		mStateHelper.registerWithProvider(this);
+		mResultsStateHelper.registerWithProvider(this);
 		mMeasurementHelper.registerWithProvider(this);
 		mBackManager.registerWithParent(this);
 	}
@@ -185,7 +185,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	@Override
 	public void onPause() {
 		super.onPause();
-		mStateHelper.unregisterWithProvider(this);
+		mResultsStateHelper.unregisterWithProvider(this);
 		mMeasurementHelper.unregisterWithProvider(this);
 		mBackManager.unregisterWithParent(this);
 	}
@@ -625,7 +625,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	 * RESULTS STATE LISTENER
 	 */
 
-	private StateListenerHelper<ResultsState> mStateHelper = new StateListenerHandHolder<ResultsState>() {
+	public StateListenerHelper<ResultsState> getResultsListener() {
+		return mResultsStateHelper;
+	}
+
+	private StateListenerHelper<ResultsState> mResultsStateHelper = new StateListenerHandHolder<ResultsState>() {
 
 		@Override
 		public void onStateTransitionUpdate(ResultsState stateOne, ResultsState stateTwo, float percentage) {

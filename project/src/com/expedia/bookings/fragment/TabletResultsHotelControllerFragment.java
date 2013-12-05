@@ -534,6 +534,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	 * RESULTS STATE LISTENER
 	 */
 
+	public StateListenerHelper<ResultsState> getResultsListener(){
+		return mResultsStateHelper;
+	}
+	
 	private StateListenerHelper<ResultsState> mResultsStateHelper = new StateListenerHelper<ResultsState>() {
 
 		@Override
