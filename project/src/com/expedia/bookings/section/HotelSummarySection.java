@@ -68,8 +68,10 @@ public class HotelSummarySection extends RelativeLayout {
 		if (attrs != null) {
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.hotel_summary_section);
 			mSelectedBackground = a.getDrawable(R.styleable.hotel_summary_section_selectedBackground);
-			mSalePriceTextColor = a.getColor(R.styleable.hotel_summary_section_salePriceTextColor, R.color.hotel_price_sale_text_color);
-			mPriceTextColor = a.getColor(R.styleable.hotel_summary_section_priceTextColor, R.color.hotel_price_text_color);
+			mSalePriceTextColor = a.getColor(R.styleable.hotel_summary_section_salePriceTextColor,
+					R.color.hotel_price_sale_text_color);
+			mPriceTextColor = a.getColor(R.styleable.hotel_summary_section_priceTextColor,
+					R.color.hotel_price_text_color);
 			a.recycle();
 		}
 	}
@@ -102,48 +104,59 @@ public class HotelSummarySection extends RelativeLayout {
 		// We assume we have a lowest rate here; this may not be a safe assumption
 		Rate lowestRate = property.getLowestRate();
 		Money highestPriceFromSurvey = property.getHighestPriceFromSurvey();
-		final String hotelPrice = StrUtils.formatHotelPrice(lowestRate.getDisplayPrice());
+		final String hotelPrice = lowestRate == null ? "" : StrUtils.formatHotelPrice(lowestRate.getDisplayPrice());
 
-		// Detect if the property is on sale, if it is do special things
-		if (lowestRate.isOnSale() && lowestRate.isSaleTenPercentOrBetter()) {
-			if (hotelPrice.length() < HOTEL_PRICE_TOO_LONG) {
-				mStrikethroughPriceText.setVisibility(View.VISIBLE);
-				mStrikethroughPriceText.setText(Html.fromHtml(
-						context.getString(R.string.strike_template,
-								StrUtils.formatHotelPrice(lowestRate.getDisplayBasePrice())), null,
-						new StrikethroughTagHandler()));
-			}
-			else {
-				mStrikethroughPriceText.setVisibility(View.GONE);
-			}
-
-			mPriceText.setTextColor(mSalePriceTextColor);
-			mSaleText.setVisibility(View.VISIBLE);
-			if (mSaleImageView != null) {
-				mSaleImageView.setVisibility(View.VISIBLE);
-			}
-			mSaleText
-					.setText(context.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
-		}
-		// Story #790. Expedia's way of making it seem like they are offering a discount.
-		else if (highestPriceFromSurvey != null && (highestPriceFromSurvey.compareTo(lowestRate.getDisplayPrice()) > 0)) {
-			mStrikethroughPriceText.setVisibility(View.VISIBLE);
-			mStrikethroughPriceText.setText(Html.fromHtml(
-					context.getString(R.string.strike_template,
-							StrUtils.formatHotelPrice(highestPriceFromSurvey)), null,
-					new StrikethroughTagHandler()));
-			mSaleText.setVisibility(View.GONE);
-			if (mSaleImageView != null) {
-				mSaleImageView.setVisibility(View.GONE);
-			}
-			mPriceText.setTextColor(mPriceTextColor);
-		}
-		else {
+		if (lowestRate == null) {
 			mStrikethroughPriceText.setVisibility(View.GONE);
 			mPriceText.setTextColor(mPriceTextColor);
 			mSaleText.setVisibility(View.GONE);
 			if (mSaleImageView != null) {
 				mSaleImageView.setVisibility(View.GONE);
+			}
+		}
+		else {
+			// Detect if the property is on sale, if it is do special things
+			if (lowestRate.isOnSale() && lowestRate.isSaleTenPercentOrBetter()) {
+				if (hotelPrice.length() < HOTEL_PRICE_TOO_LONG) {
+					mStrikethroughPriceText.setVisibility(View.VISIBLE);
+					mStrikethroughPriceText.setText(Html.fromHtml(
+							context.getString(R.string.strike_template,
+									StrUtils.formatHotelPrice(lowestRate.getDisplayBasePrice())), null,
+							new StrikethroughTagHandler()));
+				}
+				else {
+					mStrikethroughPriceText.setVisibility(View.GONE);
+				}
+
+				mPriceText.setTextColor(mSalePriceTextColor);
+				mSaleText.setVisibility(View.VISIBLE);
+				if (mSaleImageView != null) {
+					mSaleImageView.setVisibility(View.VISIBLE);
+				}
+				mSaleText
+						.setText(context.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
+			}
+			// Story #790. Expedia's way of making it seem like they are offering a discount.
+			else if (highestPriceFromSurvey != null
+					&& (highestPriceFromSurvey.compareTo(lowestRate.getDisplayPrice()) > 0)) {
+				mStrikethroughPriceText.setVisibility(View.VISIBLE);
+				mStrikethroughPriceText.setText(Html.fromHtml(
+						context.getString(R.string.strike_template,
+								StrUtils.formatHotelPrice(highestPriceFromSurvey)), null,
+						new StrikethroughTagHandler()));
+				mSaleText.setVisibility(View.GONE);
+				if (mSaleImageView != null) {
+					mSaleImageView.setVisibility(View.GONE);
+				}
+				mPriceText.setTextColor(mPriceTextColor);
+			}
+			else {
+				mStrikethroughPriceText.setVisibility(View.GONE);
+				mPriceText.setTextColor(mPriceTextColor);
+				mSaleText.setVisibility(View.GONE);
+				if (mSaleImageView != null) {
+					mSaleImageView.setVisibility(View.GONE);
+				}
 			}
 		}
 
