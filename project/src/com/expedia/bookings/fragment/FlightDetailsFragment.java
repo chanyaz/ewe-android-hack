@@ -25,9 +25,9 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
+import com.expedia.bookings.section.FlightInfoBarSection;
 import com.expedia.bookings.section.FlightInfoSection;
 import com.expedia.bookings.section.FlightSegmentSection;
-import com.expedia.bookings.section.InfoBarSection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -55,7 +55,7 @@ public class FlightDetailsFragment extends Fragment {
 	// Cached views
 	private ScrollView mScrollView;
 	private ViewGroup mInfoContainer;
-	private InfoBarSection mInfoBar;
+	private FlightInfoBarSection mInfoBar;
 	private TextView mFeesTextView;
 	private TextView mFeesSecondaryTextView;
 	private ViewGroup mFeesContainer;

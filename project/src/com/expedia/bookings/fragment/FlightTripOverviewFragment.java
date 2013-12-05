@@ -15,7 +15,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
-import com.expedia.bookings.section.InfoBarSection;
+import com.expedia.bookings.section.FlightInfoBarSection;
 import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
@@ -34,7 +34,7 @@ public class FlightTripOverviewFragment extends Fragment {
 
 	private FlightTrip mTrip;
 	private FrameLayout mFlightContainer;
-	private InfoBarSection mFlightDateAndTravCount;
+	private FlightInfoBarSection mFlightDateAndTravCount;
 	private ViewGroup mRootView;
 
 	private DisplayMode mDisplayMode = DisplayMode.OVERVIEW;

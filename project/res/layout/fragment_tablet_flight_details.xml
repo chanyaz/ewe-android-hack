@@ -64,6 +64,7 @@
                     android:drawableLeft="@drawable/ic_tablet_miles" />
 
             <com.expedia.bookings.widget.TextView
+                    android:id="@+id/flight_overall_duration_text_view"
                     style="@style/V2.Widget.TextView.FlightStatistic"
                     android:drawableLeft="@drawable/ic_tablet_flight_time"
                     android:text="10 hours" />

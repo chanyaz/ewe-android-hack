@@ -27,7 +27,7 @@
         android:id="@+id/info_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/section_info_bar" />
+        layout="@layout/section_flight_info_bar" />
 
     <!-- Payment and Baggage Fees Footer -->
 

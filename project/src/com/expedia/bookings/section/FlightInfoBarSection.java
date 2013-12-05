@@ -2,6 +2,7 @@ package com.expedia.bookings.section;
 
 import java.util.Calendar;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.text.Html;
@@ -21,22 +22,23 @@ import com.expedia.bookings.utils.FontCache.Font;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
-public class InfoBarSection extends LinearLayout {
+public class FlightInfoBarSection extends LinearLayout {
 
 	private static final int SHOW_URGENCY_CUTOFF = 5;
 
 	private TextView mLeftTextView;
 	private TextView mRightTextView;
 
-	public InfoBarSection(Context context) {
+	public FlightInfoBarSection(Context context) {
 		super(context);
 	}
 
-	public InfoBarSection(Context context, AttributeSet attrs) {
+	public FlightInfoBarSection(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	public InfoBarSection(Context context, AttributeSet attrs, int defStyle) {
+	@TargetApi(11)
+	public FlightInfoBarSection(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
 
@@ -48,7 +50,7 @@ public class InfoBarSection extends LinearLayout {
 		mLeftTextView = Ui.findView(this, R.id.left_text_view);
 		mRightTextView = Ui.findView(this, R.id.right_text_view);
 
-		// Configur font
+		// Configure font
 		Typeface font = FontCache.getTypeface(Font.ROBOTO_LIGHT);
 		mLeftTextView.setTypeface(font);
 		mRightTextView.setTypeface(font);

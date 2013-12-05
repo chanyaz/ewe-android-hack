@@ -8,7 +8,7 @@
         android:id="@+id/date_and_travlers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/section_info_bar" />
+        layout="@layout/section_flight_info_bar" />
 
     <FrameLayout
         android:id="@+id/flight_legs_container"
