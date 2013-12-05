@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.enums.ResultsFlightsListState;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
@@ -45,8 +46,6 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilit
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
-import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
-import com.expedia.bookings.widget.FruitScrollUpListView.State;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -57,32 +56,6 @@ import com.mobiata.android.util.Ui;
 public class TabletResultsFlightControllerFragment extends Fragment implements IResultsFlightSelectedListener,
 		IResultsFlightLegSelected, IAddToTripListener, IFragmentAvailabilityProvider, IBackManageable,
 		IStateProvider<ResultsFlightsState> {
-
-	public interface IFlightsFruitScrollUpListViewChangeListener {
-
-		public void onFlightsStateChanged(State oldState, State newState, float percentage, View requester);
-
-		public void onFlightsPercentageChanged(State state, float percentage);
-
-	}
-
-	private IFruitScrollUpListViewChangeListener mFruitProxy = new IFruitScrollUpListViewChangeListener() {
-
-		@Override
-		public void onStateChanged(State oldState, State newState, float percentage) {
-			if (mListener != null) {
-				mListener.onFlightsStateChanged(oldState, newState, percentage, mFlightOneListC);
-			}
-		}
-
-		@Override
-		public void onPercentageChanged(State state, float percentage) {
-			if (mListener != null) {
-				mListener.onFlightsPercentageChanged(state, percentage);
-			}
-
-		}
-	};
 
 	//State
 	private static final String STATE_FLIGHTS_STATE = "STATE_HOTELS_STATE";
@@ -130,7 +103,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	//Other
 	private ResultsState mGlobalState;
-	private IFlightsFruitScrollUpListViewChangeListener mListener;
 	private GridManager mGrid = new GridManager();
 	private float mFlightDetailsMarginPercentage = 0.1f;
 	private boolean mOneWayFlight = true;
@@ -148,7 +120,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			mOneWayFlight = false;
 		}
 
-		mListener = Ui.findFragmentListener(this, IFlightsFruitScrollUpListViewChangeListener.class, true);
 		mParentAddToTripListener = Ui.findFragmentListener(this, IAddToTripListener.class);
 	}
 
@@ -291,12 +262,14 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
+
 		if (tag == FTAG_FLIGHT_MAP) {
 			updateMapFragSizes((ResultsFlightMapFragment) frag);
 		}
 		else if (tag == FTAG_FLIGHT_ONE_LIST) {
-			((ResultsListFragment) frag).setChangeListener(mFruitProxy);
-			((ResultsListFragment) frag).setTopRightTextButtonText(getString(R.string.Done));
+			ResultsFlightListFragment listFrag = (ResultsFlightListFragment) frag;
+			listFrag.registerStateListener(mListStateHelper, false);
+			listFrag.setTopRightTextButtonText(getString(R.string.Done));
 		}
 		else if (tag == FTAG_FLIGHT_TWO_LIST) {
 			((ResultsListFragment) frag).gotoTopPosition(0);
@@ -408,7 +381,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 			@Override
 			public void onAnimationUpdate(ValueAnimator arg0) {
-				mListener.onFlightsPercentageChanged(State.TRANSIENT, (Float) arg0.getAnimatedValue());
 				//Fade in the flight list, this will look dumb and needs to be re-thought
 				mFlightOneListC.setAlpha((Float) arg0.getAnimatedValue());
 			}
@@ -419,13 +391,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			@Override
 			public void onAnimationEnd(Animator arg0) {
 				if (getActivity() != null) {
-					mListener.onFlightsStateChanged(State.TRANSIENT, State.LIST_CONTENT_AT_BOTTOM, 0f, mFlightOneListC);
 					mFlightOneListFrag.getTopSpaceListView().setListenersEnabled(true);
 				}
 			}
 		});
 
-		mListener.onFlightsStateChanged(State.LIST_CONTENT_AT_TOP, State.TRANSIENT, 0f, mFlightOneListC);
 		animator.start();
 		mFlightOneListFrag.getTopSpaceListView().setListenersEnabled(false);
 		mFlightOneListC.setTranslationX(0);
@@ -625,6 +595,31 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		transaction.commit();
 
 	}
+
+	/*
+	 * LIST STATE LISTENER
+	 */
+
+	private StateListenerHelper<ResultsFlightsListState> mListStateHelper = new StateListenerHelper<ResultsFlightsListState>() {
+
+		@Override
+		public void onStateTransitionStart(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo) {
+		}
+
+		@Override
+		public void onStateTransitionUpdate(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo,
+				float percentage) {
+		}
+
+		@Override
+		public void onStateTransitionEnd(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo) {
+		}
+
+		@Override
+		public void onStateFinalized(ResultsFlightsListState state) {
+		}
+
+	};
 
 	/*
 	 * RESULTS STATE LISTENER

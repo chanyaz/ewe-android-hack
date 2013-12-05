@@ -17,8 +17,12 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
+import com.expedia.bookings.enums.ResultsFlightsListState;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
+import com.expedia.bookings.interfaces.IStateListener;
+import com.expedia.bookings.interfaces.IStateProvider;
+import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
 import com.expedia.bookings.widget.TabletFlightAdapter;
@@ -28,7 +32,7 @@ import com.mobiata.android.util.Ui;
  * ResultsFlightListFragment: The flight list fragment designed for tablet results 2013
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class ResultsFlightListFragment extends ResultsListFragment {
+public class ResultsFlightListFragment extends ResultsListFragment implements IStateProvider<ResultsFlightsListState>{
 
 	private static final String STATE_LEG_NUMBER = "STATE_LEG_NUMBER";
 
@@ -160,5 +164,90 @@ public class ResultsFlightListFragment extends ResultsListFragment {
 			setStickyHeaderText(initializeStickyHeaderString());
 		}
 	};
+	
+	/*
+	 * Here we convert FruitScrollUpListView states to our ResultsFlightsListState states, and fire the listeners
+	 */
+
+	private ResultsFlightsListState mTransStartState;
+	private ResultsFlightsListState mTransEndState;
+
+	@Override
+	public void onStateChanged(State oldState, State newState, float percentage) {
+		super.onStateChanged(oldState, newState, percentage);
+		if (oldState == State.LIST_CONTENT_AT_TOP && newState == State.LIST_CONTENT_AT_BOTTOM) {
+			finalizeState(ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM);
+		}
+		else if (oldState == State.LIST_CONTENT_AT_BOTTOM && newState == State.LIST_CONTENT_AT_TOP) {
+			finalizeState(ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM);
+		}
+		else if (oldState == State.LIST_CONTENT_AT_BOTTOM && newState == State.TRANSIENT) {
+			mTransStartState = ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM;
+			mTransEndState = ResultsFlightsListState.FLIGHTS_LIST_AT_TOP;
+			startStateTransition(mTransStartState, mTransEndState);
+		}
+		else if (oldState == State.LIST_CONTENT_AT_TOP && newState == State.TRANSIENT) {
+			mTransStartState = ResultsFlightsListState.FLIGHTS_LIST_AT_TOP;
+			mTransEndState = ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM;
+			startStateTransition(mTransStartState, mTransEndState);
+		}
+		else if (oldState == State.TRANSIENT && newState != State.TRANSIENT) {
+			endStateTransition(mTransStartState, mTransEndState);
+			if (newState == State.LIST_CONTENT_AT_BOTTOM) {
+				finalizeState(ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM);
+			}
+			else {
+				finalizeState(ResultsFlightsListState.FLIGHTS_LIST_AT_TOP);
+			}
+			mTransStartState = null;
+			mTransEndState = null;
+		}
+	}
+
+	@Override
+	public void onPercentageChanged(State state, float percentage) {
+		super.onPercentageChanged(state, percentage);
+		if (state == State.TRANSIENT && mTransStartState != null && mTransEndState != null) {
+			updateStateTransition(mTransStartState, mTransEndState,
+					mTransStartState == ResultsFlightsListState.FLIGHTS_LIST_AT_TOP ? percentage : 1f - percentage);
+		}
+	}
+	
+	/*
+	 *	IStateProvider
+	 */
+
+	private StateListenerCollection<ResultsFlightsListState> mResultsStateListeners = new StateListenerCollection<ResultsFlightsListState>(
+			ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM);
+
+	@Override
+	public void startStateTransition(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo) {
+		mResultsStateListeners.startStateTransition(stateOne, stateTwo);
+	}
+
+	@Override
+	public void updateStateTransition(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo, float percentage) {
+		mResultsStateListeners.updateStateTransition(stateOne, stateTwo, percentage);
+	}
+
+	@Override
+	public void endStateTransition(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo) {
+		mResultsStateListeners.endStateTransition(stateOne, stateTwo);
+	}
+
+	@Override
+	public void finalizeState(ResultsFlightsListState state) {
+		mResultsStateListeners.finalizeState(state);
+	}
+
+	@Override
+	public void registerStateListener(IStateListener<ResultsFlightsListState> listener, boolean fireFinalizeState) {
+		mResultsStateListeners.registerStateListener(listener, fireFinalizeState);
+	}
+
+	@Override
+	public void unRegisterStateListener(IStateListener<ResultsFlightsListState> listener) {
+		mResultsStateListeners.unRegisterStateListener(listener);
+	}
 
 }

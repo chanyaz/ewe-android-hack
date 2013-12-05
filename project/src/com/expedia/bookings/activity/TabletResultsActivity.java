@@ -38,7 +38,6 @@ import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment.IBackgroundImageReceiverRegistrar;
 import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment;
-import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment.IFlightsFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsTripControllerFragment;
 import com.expedia.bookings.interfaces.IAddToTripListener;
@@ -58,7 +57,6 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
-import com.expedia.bookings.widget.FruitScrollUpListView.State;
 import com.expedia.bookings.widget.TabletResultsActionBarView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -83,8 +81,8 @@ import com.mobiata.android.util.Ui;
  * 
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class TabletResultsActivity extends SherlockFragmentActivity implements
-		IFlightsFruitScrollUpListViewChangeListener, IBackgroundImageReceiverRegistrar, IBackButtonLockListener,
+public class TabletResultsActivity extends SherlockFragmentActivity implements IBackgroundImageReceiverRegistrar,
+		IBackButtonLockListener,
 		IAddToTripListener, IFragmentAvailabilityProvider, IStateProvider<ResultsState>, IMeasurementProvider,
 		IBackManageable {
 
@@ -532,42 +530,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 
 		protected void onPostExecute(Object result) {
 			updateBackgroundImages();
-		}
-	}
-
-	private boolean isFlightsListenerEnabled() {
-		return mState == ResultsState.OVERVIEW || mState == ResultsState.FLIGHTS;
-	}
-
-	private boolean isHotelsListenerEnabled() {
-		return mState == ResultsState.OVERVIEW || mState == ResultsState.HOTELS;
-	}
-
-	@Override
-	public void onFlightsStateChanged(State oldState, State newState, float percentage, View requester) {
-		if (isFlightsListenerEnabled()) {
-			if (newState == State.TRANSIENT) {
-
-				startStateTransition(ResultsState.OVERVIEW, ResultsState.FLIGHTS);
-
-				updateStateTransition(ResultsState.OVERVIEW, ResultsState.FLIGHTS, percentage);
-			}
-			else {
-				endStateTransition(ResultsState.OVERVIEW, ResultsState.FLIGHTS);
-				if (newState == State.LIST_CONTENT_AT_TOP) {
-					finalizeState(ResultsState.FLIGHTS);
-				}
-				else {
-					finalizeState(ResultsState.OVERVIEW);
-				}
-			}
-		}
-	}
-
-	@Override
-	public void onFlightsPercentageChanged(State state, float percentage) {
-		if (isFlightsListenerEnabled()) {
-			updateStateTransition(ResultsState.OVERVIEW, ResultsState.FLIGHTS, percentage);
 		}
 	}
 
