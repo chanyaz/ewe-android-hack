@@ -18,6 +18,7 @@ import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.enums.ResultsHotelsListState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
@@ -39,7 +40,6 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
-import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.widget.FruitScrollUpListView.State;
 import com.expedia.bookings.widget.TouchThroughFrameLayout;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -59,22 +59,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		public void onHotelsPercentageChanged(State state, float percentage);
 	}
-
-	private IFruitScrollUpListViewChangeListener mFruitProxy = new IFruitScrollUpListViewChangeListener() {
-		@Override
-		public void onStateChanged(State oldState, State newState, float percentage) {
-			if (mFruitListener != null) {
-				mFruitListener.onHotelsStateChanged(oldState, newState, percentage, mHotelListC);
-			}
-		}
-
-		@Override
-		public void onPercentageChanged(State state, float percentage) {
-			if (mFruitListener != null) {
-				mFruitListener.onHotelsPercentageChanged(state, percentage);
-			}
-		}
-	};
 
 	//State
 	private static final String STATE_HOTELS_STATE = "STATE_HOTELS_STATE";
@@ -394,7 +378,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	public void doFragmentSetup(String tag, Fragment frag) {
 		if (tag == FTAG_HOTEL_LIST) {
 			ResultsHotelListFragment listFrag = (ResultsHotelListFragment) frag;
-			listFrag.setChangeListener(mFruitProxy);
+			listFrag.registerStateListener(mListStateHelper, false);
 		}
 		else if (tag == FTAG_HOTEL_MAP) {
 			HotelMapFragment mapFrag = (HotelMapFragment) frag;
@@ -529,6 +513,31 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mMapFragment.setShowInfoWindow(false);
 		updateMapFragmentPositioningInfo(mMapFragment);
 	}
+
+	/*
+	 * LIST STATE LISTENER
+	 */
+
+	private StateListenerHelper<ResultsHotelsListState> mListStateHelper = new StateListenerHelper<ResultsHotelsListState>() {
+
+		@Override
+		public void onStateTransitionStart(ResultsHotelsListState stateOne, ResultsHotelsListState stateTwo) {
+		}
+
+		@Override
+		public void onStateTransitionUpdate(ResultsHotelsListState stateOne, ResultsHotelsListState stateTwo,
+				float percentage) {
+		}
+
+		@Override
+		public void onStateTransitionEnd(ResultsHotelsListState stateOne, ResultsHotelsListState stateTwo) {
+		}
+
+		@Override
+		public void onStateFinalized(ResultsHotelsListState state) {
+		}
+
+	};
 
 	/*
 	 * RESULTS STATE LISTENER

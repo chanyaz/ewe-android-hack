@@ -40,7 +40,6 @@ import com.expedia.bookings.fragment.ResultsBackgroundImageFragment.IBackgroundI
 import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment.IFlightsFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
-import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment.IHotelsFruitScrollUpListViewChangeListener;
 import com.expedia.bookings.fragment.TabletResultsTripControllerFragment;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
@@ -85,9 +84,9 @@ import com.mobiata.android.util.Ui;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsActivity extends SherlockFragmentActivity implements
-		IFlightsFruitScrollUpListViewChangeListener, IHotelsFruitScrollUpListViewChangeListener,
-		IBackgroundImageReceiverRegistrar, IBackButtonLockListener, IAddToTripListener, IFragmentAvailabilityProvider,
-		IStateProvider<ResultsState>, IMeasurementProvider, IBackManageable {
+		IFlightsFruitScrollUpListViewChangeListener, IBackgroundImageReceiverRegistrar, IBackButtonLockListener,
+		IAddToTripListener, IFragmentAvailabilityProvider, IStateProvider<ResultsState>, IMeasurementProvider,
+		IBackManageable {
 
 	//State
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
@@ -542,40 +541,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 
 	private boolean isHotelsListenerEnabled() {
 		return mState == ResultsState.OVERVIEW || mState == ResultsState.HOTELS;
-	}
-
-	@Override
-	public void onHotelsStateChanged(State oldState, State newState, float percentage, View requester) {
-		Log.d("HotelState.onHotelsStateChanged oldState:" + oldState.name() + " newState:" + newState.name()
-				+ " percentage:" + percentage);
-		if (isHotelsListenerEnabled()) {
-			if (newState == State.TRANSIENT) {
-				if (oldState != State.TRANSIENT) {
-
-					startStateTransition(ResultsState.OVERVIEW, ResultsState.HOTELS);
-				}
-
-			}
-			else {
-				endStateTransition(ResultsState.OVERVIEW, ResultsState.HOTELS);
-
-				if (newState == State.LIST_CONTENT_AT_TOP) {
-					//We have entered this mode...
-					finalizeState(ResultsState.HOTELS);
-				}
-				else {
-					finalizeState(ResultsState.OVERVIEW);
-				}
-			}
-		}
-	}
-
-	@Override
-	public void onHotelsPercentageChanged(State state, float percentage) {
-		Log.d("HotelState.onHotelsPercentageChanged state:" + state.name() + " percentage:" + percentage);
-		if (isHotelsListenerEnabled()) {
-			updateStateTransition(ResultsState.OVERVIEW, ResultsState.HOTELS, percentage);
-		}
 	}
 
 	@Override
