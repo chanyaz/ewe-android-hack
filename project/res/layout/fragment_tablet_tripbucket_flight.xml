@@ -9,6 +9,6 @@
 
     <include
         android:id="@+id/trip_bucket_flight"
-        layout="@layout/section_flight_leg_summary_tablet" />
+        layout="@layout/section_flight_leg_tablet_blue_card" />
 
 </LinearLayout>

@@ -179,7 +179,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 			}
 
 			// The FlightLeg with lines and circles
-			view = (FlightLegSummarySection) inflater.inflate(R.layout.section_flight_leg_details_tablet, null);
+			view = (FlightLegSummarySection) inflater.inflate(R.layout.section_flight_leg_segment_tablet_details, null);
 			view.bindFlight(flight, departureTimeCal, arrivalTimeCal);
 			mFlightLegsC.addView(view);
 		}

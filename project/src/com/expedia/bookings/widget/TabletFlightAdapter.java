@@ -24,7 +24,7 @@ public class TabletFlightAdapter extends FlightAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.section_flight_leg_summary_tablet, parent, false);
+			convertView = mInflater.inflate(R.layout.section_flight_leg_tablet_blue_card, parent, false);
 		}
 
 		return super.getView(position, convertView, parent);

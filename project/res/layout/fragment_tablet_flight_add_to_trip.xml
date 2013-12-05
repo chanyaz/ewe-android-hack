@@ -12,7 +12,7 @@
 
         <include
             android:id="@+id/flight_row"
-            layout="@layout/section_flight_leg_summary_tablet" />
+            layout="@layout/section_flight_leg_tablet_blue_card" />
     </FrameLayout>
 
     <FrameLayout
