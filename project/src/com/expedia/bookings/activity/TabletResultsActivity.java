@@ -695,8 +695,17 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			mResultsStateListeners.setListenerInactive(mHotelsController.getResultsListener());
 
 			//DO WORK
+			finalizeState(getResultsStateFromHotels(state));
 
 			mResultsStateListeners.setListenerActive(mHotelsController.getResultsListener());
+		}
+		
+		private ResultsState getResultsStateFromHotels(ResultsHotelsState state){
+			if(state == ResultsHotelsState.HOTEL_LIST_DOWN){
+				return ResultsState.OVERVIEW;
+			}else{
+				return ResultsState.HOTELS;
+			}
 		}
 
 	};

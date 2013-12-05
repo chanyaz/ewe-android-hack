@@ -84,7 +84,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	//Other
 	private ResultsState mGlobalState = ResultsState.OVERVIEW;
 	private StateManager<ResultsHotelsState> mHotelsStateManager = new StateManager<ResultsHotelsState>(
-			ResultsHotelsState.HOTEL_LIST, this);
+			ResultsHotelsState.HOTEL_LIST_DOWN, this);
 	private IAddToTripListener mParentAddToTripListener;
 	private GridManager mGrid = new GridManager();
 	private int mShadeColor = Color.argb(220, 0, 0, 0);
@@ -130,7 +130,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 					ResultsState.OVERVIEW.name()));
 			mHotelsStateManager.setDefaultState(ResultsHotelsState.valueOf(savedInstanceState.getString(
 					STATE_HOTELS_STATE,
-					ResultsHotelsState.HOTEL_LIST.name())));
+					ResultsHotelsState.HOTEL_LIST_DOWN.name())));
 		}
 
 		registerStateListener(mHotelsStateHelper, false);
@@ -171,14 +171,14 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	}
 
 	public ResultsHotelsState getHotelsState(ResultsState state) {
-		return state != ResultsState.HOTELS ? ResultsHotelsState.HOTEL_LIST : mHotelsStateManager
+		return state != ResultsState.HOTELS ? ResultsHotelsState.HOTEL_LIST_DOWN : mHotelsStateManager
 				.getState();
 	}
 
 	private void setTouchState(ResultsState globalState, ResultsHotelsState hotelsState) {
 		switch (globalState) {
 		case HOTELS: {
-			if (hotelsState == ResultsHotelsState.HOTEL_LIST) {
+			if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN || hotelsState == ResultsHotelsState.HOTEL_LIST_UP) {
 				mBgHotelMapC.setTouchPassThroughEnabled(false);
 			}
 			else {
@@ -394,11 +394,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	@Override
 	public void onSortAndFilterClicked() {
 		ResultsHotelsState state = mHotelsStateManager.getState();
-		if (state == ResultsHotelsState.HOTEL_LIST) {
+		if (state == ResultsHotelsState.HOTEL_LIST_UP) {
 			setHotelsState(ResultsHotelsState.HOTEL_LIST_AND_FILTERS, true);
 		}
 		else if (state == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
-			setHotelsState(ResultsHotelsState.HOTEL_LIST, true);
+			setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, true);
 		}
 		else if (state == ResultsHotelsState.ROOMS_AND_RATES) {
 			setHotelsState(ResultsHotelsState.ROOMS_AND_RATES_FILTERS, true);
@@ -513,6 +513,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionStart(ResultsHotelsListState stateOne, ResultsHotelsListState stateTwo) {
+			
 		}
 
 		@Override
@@ -526,6 +527,16 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateFinalized(ResultsHotelsListState state) {
+			finalizeState(getHotelsStateFromListState(state));
+		}
+		
+		private ResultsHotelsState getHotelsStateFromListState(ResultsHotelsListState state){
+			if(state == ResultsHotelsListState.HOTELS_LIST_AT_TOP){
+				return ResultsHotelsState.HOTEL_LIST_UP;
+			}else if(state == ResultsHotelsListState.HOTELS_LIST_AT_BOTTOM){
+				return ResultsHotelsState.HOTEL_LIST_DOWN;
+			}
+			return null;
 		}
 
 	};
@@ -698,16 +709,16 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 					return true;
 				}
 				else {
-					if (state == ResultsHotelsState.HOTEL_LIST) {
+					if (state == ResultsHotelsState.HOTEL_LIST_UP) {
 						mHotelListFrag.gotoBottomPosition(StateManager.STATE_CHANGE_ANIMATION_DURATION);
 						return true;
 					}
 					else if (state == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
-						setHotelsState(ResultsHotelsState.HOTEL_LIST, true);
+						setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, true);
 						return true;
 					}
 					else if (state == ResultsHotelsState.ROOMS_AND_RATES) {
-						setHotelsState(ResultsHotelsState.HOTEL_LIST, true);
+						setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, true);
 						return true;
 					}
 					else if (state == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
@@ -770,8 +781,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionStart(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
-			if ((stateOne == ResultsHotelsState.HOTEL_LIST && stateTwo == ResultsHotelsState.ROOMS_AND_RATES)
-					|| (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.HOTEL_LIST)) {
+			if ((stateOne == ResultsHotelsState.HOTEL_LIST_UP && stateTwo == ResultsHotelsState.ROOMS_AND_RATES)
+					|| (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.HOTEL_LIST_UP)) {
 				//SHOWING ROOMS AND RATES
 				mHotelListFrag.setListLockedToTop(true);
 				setRoomsAndRatesAnimationVisibilities();
@@ -801,11 +812,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo, float percentage) {
-			if (stateOne == ResultsHotelsState.HOTEL_LIST && stateTwo == ResultsHotelsState.ROOMS_AND_RATES) {
+			if (stateOne == ResultsHotelsState.HOTEL_LIST_UP && stateTwo == ResultsHotelsState.ROOMS_AND_RATES) {
 				//SHOWING ROOMS AND RATES
 				setRoomsAndRatesShownPercentage(percentage);
 			}
-			else if (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.HOTEL_LIST) {
+			else if (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.HOTEL_LIST_UP) {
 				//HIDING ROOMS AND RATES
 				setRoomsAndRatesShownPercentage(1f - percentage);
 			}
@@ -830,8 +841,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionEnd(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
-			if ((stateOne == ResultsHotelsState.HOTEL_LIST && stateTwo == ResultsHotelsState.ROOMS_AND_RATES)
-					|| (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.HOTEL_LIST)) {
+			if ((stateOne == ResultsHotelsState.HOTEL_LIST_UP && stateTwo == ResultsHotelsState.ROOMS_AND_RATES)
+					|| (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.HOTEL_LIST_UP)) {
 				//SHOWING/HIDING ROOMS AND RATES
 				setRoomsAndRatesAnimationHardwareRendering(false);
 			}
@@ -860,7 +871,15 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		@Override
 		public void onStateFinalized(ResultsHotelsState state) {
 			switch (state) {
-			case HOTEL_LIST:
+			case HOTEL_LIST_DOWN:
+				mHotelListFrag.setListLockedToTop(false);
+				setHotelsFiltersShownPercentage(0f);
+				setAddToTripPercentage(0f);
+				setRoomsAndRatesShownPercentage(0f);
+				mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
+				mHotelListFrag.setTopRightTextButtonEnabled(false);
+				break;
+			case HOTEL_LIST_UP:
 				mHotelListFrag.setListLockedToTop(false);
 				setHotelsFiltersShownPercentage(0f);
 				setAddToTripPercentage(0f);
