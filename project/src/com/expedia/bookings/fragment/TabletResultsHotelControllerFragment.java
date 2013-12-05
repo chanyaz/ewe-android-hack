@@ -92,7 +92,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private ResultsState mGlobalState = ResultsState.OVERVIEW;
 	private StateManager<ResultsHotelsState> mHotelsStateManager = new StateManager<ResultsHotelsState>(
 			ResultsHotelsState.HOTEL_LIST, this);
-	private IHotelsFruitScrollUpListViewChangeListener mFruitListener;
 	private IAddToTripListener mParentAddToTripListener;
 	private GridManager mGrid = new GridManager();
 	private int mShadeColor = Color.argb(220, 0, 0, 0);
@@ -104,7 +103,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		mFruitListener = Ui.findFragmentListener(this, IHotelsFruitScrollUpListViewChangeListener.class, true);
 		mParentAddToTripListener = Ui.findFragmentListener(this, IAddToTripListener.class);
 	}
 
