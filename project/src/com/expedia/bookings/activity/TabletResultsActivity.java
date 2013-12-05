@@ -669,6 +669,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		@Override
 		public void onStateTransitionStart(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
 			Log.d("ResultsHotelsState - onStateTransitionStart - stateOne:" + stateOne + " stateTwo:" + stateTwo);
+			mResultsStateListeners.setListenerInactive(mHotelsController.getResultsListener());
+
+			//DO WORK
 		}
 
 		@Override
@@ -680,11 +683,20 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		@Override
 		public void onStateTransitionEnd(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
 			Log.d("ResultsHotelsState - onStateTransitionEnd - stateOne:" + stateOne + " stateTwo:" + stateTwo);
+
+			//DO WORK
+
+			mResultsStateListeners.setListenerActive(mHotelsController.getResultsListener());
 		}
 
 		@Override
 		public void onStateFinalized(ResultsHotelsState state) {
 			Log.d("ResultsHotelsState - onStateFinalized - state:" + state);
+			mResultsStateListeners.setListenerInactive(mHotelsController.getResultsListener());
+
+			//DO WORK
+
+			mResultsStateListeners.setListenerActive(mHotelsController.getResultsListener());
 		}
 
 	};
@@ -698,6 +710,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		@Override
 		public void onStateTransitionStart(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
 			Log.d("ResultsFlightsState - onStateTransitionStart - stateOne:" + stateOne + " stateTwo:" + stateTwo);
+			mResultsStateListeners.setListenerInactive(mFlightsController.getResultsListener());
+
+			//DO WORK
 		}
 
 		@Override
@@ -709,11 +724,21 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		@Override
 		public void onStateTransitionEnd(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
 			Log.d("ResultsFlightsState - onStateTransitionEnd - stateOne:" + stateOne + " stateTwo:" + stateTwo);
+
+			//DO WORK
+
+			mResultsStateListeners.setListenerActive(mFlightsController.getResultsListener());
 		}
 
 		@Override
 		public void onStateFinalized(ResultsFlightsState state) {
 			Log.d("ResultsFlightsState - onStateFinalized - state:" + state);
+
+			mResultsStateListeners.setListenerInactive(mFlightsController.getResultsListener());
+
+			//DO WORK
+
+			mResultsStateListeners.setListenerActive(mFlightsController.getResultsListener());
 		}
 
 	};
