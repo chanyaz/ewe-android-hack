@@ -43,6 +43,10 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 		mRoot.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
+				if (!isAdded()) {
+					return;
+				}
+
 				Location departure = Db.getFlightSearch().getSearchParams().getDepartureLocation();
 				Location arrival = Db.getFlightSearch().getSearchParams().getArrivalLocation();
 				setDepartureLatLng(departure.getLatitude(), departure.getLongitude());
