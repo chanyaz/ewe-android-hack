@@ -94,10 +94,10 @@ public class SvgMapFragment extends MeasurableFragment {
 			throw new IllegalArgumentException("Must pass lat lng in pairs, found an odd number of arguments");
 		}
 
-		double maxLat = java.lang.Double.MIN_VALUE;
+		double maxLat = - java.lang.Double.MAX_VALUE;
 		double minLat = java.lang.Double.MAX_VALUE;
 
-		double maxLng = java.lang.Double.MIN_VALUE;
+		double maxLng = - java.lang.Double.MAX_VALUE;
 		double minLng = java.lang.Double.MAX_VALUE;
 
 		for (int i = 0; i < latlngs.length; i += 2) {
@@ -116,14 +116,25 @@ public class SvgMapFragment extends MeasurableFragment {
 		float projectedWidth = (float) (br.x - tl.x);
 		float projectedHeight = (float) (br.y - tl.y);
 
-		float horizontalScale = (mMapImageView.getWidth() - mPaddingRight - mPaddingLeft) / projectedWidth;
-		float verticalScale = (mMapImageView.getHeight() - mPaddingTop - mPaddingBottom) / projectedHeight;
+		int usableWidth = mMapImageView.getWidth() - mPaddingRight - mPaddingLeft;
+		float horizontalScale =  usableWidth / projectedWidth;
+
+		int usableHeight = mMapImageView.getHeight() - mPaddingTop - mPaddingBottom;
+		float verticalScale = usableHeight / projectedHeight;
 
 		float scale = Math.min(horizontalScale, verticalScale);
+		float yShift = 0.0f;
+		float xShift = 0.0f;
+
+		float actualHeight = projectedHeight * scale;
+		yShift = (usableHeight - actualHeight) / 2;
+		float actualWidth = projectedWidth * scale;
+		xShift = (usableWidth - actualWidth) / 2;
 
 		mViewportMatrix = new Matrix();
 		mViewportMatrix.preTranslate((float) -(tl.x - mPaddingLeft/scale), (float) -(tl.y - mPaddingTop/scale));
 		mViewportMatrix.postScale(scale, scale);
+		mViewportMatrix.postTranslate(xShift, yShift);
 	}
 
 	public Point2D.Double projectToSvg(double lat, double lon) {
