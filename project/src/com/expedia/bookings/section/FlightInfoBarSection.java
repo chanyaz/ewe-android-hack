@@ -66,7 +66,7 @@ public class FlightInfoBarSection extends LinearLayout {
 			mLeftTextView.setText(Html.fromHtml(context.getString(R.string.bold_template, duration)));
 		}
 		else {
-			String distance = FlightUtils.formatDistance(context, leg);
+			String distance = FlightUtils.formatDistance(context, leg, false);
 			mLeftTextView.setText(Html.fromHtml(context.getString(R.string.time_distance_TEMPLATE, duration,
 					distance)));
 		}

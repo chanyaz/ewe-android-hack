@@ -36,7 +36,6 @@ import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
 import com.mobiata.flightlib.utils.DateTimeUtils;
-import com.mobiata.flightlib.utils.FormatUtils;
 
 /**
  * ResultsFlightDetailsFragment: The flight details fragment designed for tablet results 2013
@@ -155,7 +154,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		});
 
 		// Statistics
-		String distanceStr = FlightUtils.formatDistance(context, flightLeg, FormatUtils.F_FULL);
+		String distanceStr = FlightUtils.formatDistance(context, flightLeg, true);
 		mFlightDistanceTv.setText(distanceStr);
 
 		// Flight Leg container

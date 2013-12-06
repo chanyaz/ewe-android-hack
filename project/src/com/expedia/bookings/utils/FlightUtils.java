@@ -40,13 +40,12 @@ public class FlightUtils {
 		}
 	}
 
-	public static String formatDistance(Context context, FlightLeg leg) {
-		return formatDistance(context, leg, 0);
-	}
-
-	public static String formatDistance(Context context, FlightLeg leg, int flags) {
-		flags |= PointOfSale.getPointOfSale().getDistanceUnit() == Distance.DistanceUnit.MILES ? FormatUtils.F_IMPERIAL
+	public static String formatDistance(Context context, FlightLeg leg, boolean longTemplate) {
+		int flags = PointOfSale.getPointOfSale().getDistanceUnit() == Distance.DistanceUnit.MILES ? FormatUtils.F_IMPERIAL
 				: FormatUtils.F_METRIC;
+		if (longTemplate) {
+			flags |= FormatUtils.F_LONG;
+		}
 		return FormatUtils.formatDistance(context, leg.getDistanceInMiles(), flags);
 	}
 
