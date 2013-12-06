@@ -141,7 +141,6 @@ class AndroidExpediaPlugin implements Plugin<Project> {
     def injectBuildNumberMetaData(applicationNode, namespace, buildNumber) {
         def hockeyUpdateActivityTag = new Node(applicationNode, 'activity')
         hockeyUpdateActivityTag.attributes()[namespace.name] = 'net.hockeyapp.android.UpdateActivity'
-        hockeyUpdateActivityTag.attributes()[namespace.screenOrientation] = 'portrait'
 
         def hockeyBuildNumberMetaDataTag = new Node(applicationNode, 'meta-data')
         hockeyBuildNumberMetaDataTag.attributes()[namespace.name] = 'buildNumber'
