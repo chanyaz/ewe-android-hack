@@ -169,22 +169,29 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private void setupReviews(View view, Property property) {
 		RingedCountView roomsLeftRing = Ui.findView(view, R.id.rooms_left_ring);
 		RingedCountView userRatingRing = Ui.findView(view, R.id.user_rating_ring);
+		TextView roomsLeftText = Ui.findView(view, R.id.rooms_left_ring_text);
 
 		int roomsLeft = property.getRoomsLeftAtThisRate();
+		Log.e("DOUG: roomsLeft = " + roomsLeft);
 		if (roomsLeft <= 5 && roomsLeft >= 0) {
-			roomsLeftRing.setPercent(.2f);
+			int color = getResources().getColor(R.color.details_ring_red);
+			roomsLeftRing.setPrimaryColor(color);
+			roomsLeftRing.setCountTextColor(color);
+			roomsLeftRing.setPercent(roomsLeft / 10f);
 			roomsLeftRing.setCount(roomsLeft);
-			//TODO: set color red
+			roomsLeftText.setText(R.string.rooms_left);
 		}
 		else {
-			//TODO: set color blue
-			//TODO: set count "90%"
+			roomsLeftRing.setPrimaryColor(getResources().getColor(R.color.details_ring_blue));
+			roomsLeftRing.setCountTextColor(getResources().getColor(R.color.details_ring_text));
 			roomsLeftRing.setPercent(property.getPercentRecommended() / 100f);
+			roomsLeftText.setText(R.string.recommend);
+			//TODO: set count text to i.e. "90%"
 		}
 
 		float percent = (float) property.getAverageExpediaRating() / 5f;
 		userRatingRing.setPercent(percent);
-		//TODO: set count "4.5"
+		//TODO: set count text to i.e. "4.5"
 		userRatingRing.setCount((float) Math.round(property.getAverageExpediaRating()));
 	}
 

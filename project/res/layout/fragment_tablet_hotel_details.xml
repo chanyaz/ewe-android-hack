@@ -64,7 +64,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:includeFontPadding="false"
-                            android:text="Castille Paris"
+                            android:singleLine="true"
+                            android:ellipsize="end"
                             android:textColor="#ffffff"
                             android:textSize="24sp" />
 
@@ -90,7 +91,6 @@
                                 android:layout_gravity="center_vertical"
                                 android:isIndicator="true"
                                 android:numStars="5"
-                                android:rating="2.5"
                                 android:stepSize=".5" />
 
                             <TextView
@@ -100,7 +100,6 @@
                                 android:includeFontPadding="false"
                                 android:paddingLeft="4dp"
                                 android:paddingRight="8dp"
-                                android:text="3 stars"
                                 android:textColor="@color/hotel_cell_secondary_color" />
 
                             <RatingBar
@@ -111,7 +110,6 @@
                                 android:layout_gravity="center_vertical"
                                 android:isIndicator="true"
                                 android:numStars="5"
-                                android:rating="2.5"
                                 android:stepSize=".5" />
 
                             <TextView
@@ -121,7 +119,6 @@
                                 android:includeFontPadding="false"
                                 android:paddingLeft="4dp"
                                 android:paddingRight="8dp"
-                                android:text="140 reviews"
                                 android:textColor="@color/hotel_cell_secondary_color" />
                         </LinearLayout>
                     </LinearLayout>
