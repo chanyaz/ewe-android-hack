@@ -101,85 +101,51 @@ public class LayoutUtils {
 
 	private static final float MAX_AMENITY_TEXT_WIDTH_IN_DP = 60.0f;
 
-	public static void addAmenities(Context context, Property property, ViewGroup amenitiesContainer) {
+	private static final class AmenityInfo {
+		public Amenity amenity;
+		public int resId;
+		public Amenity[] aliases;
 
-		// We have to do these manually as multiple amenities can lead to the same icon, also for proper ordering
-		if (property.hasAmenity(Amenity.POOL) || property.hasAmenity(Amenity.POOL_INDOOR)
-				|| property.hasAmenity(Amenity.POOL_OUTDOOR)) {
-			addAmenity(context, amenitiesContainer, Amenity.POOL, R.drawable.ic_amenity_pool);
+		public AmenityInfo(Amenity amenity, int resId, Amenity... aliases) {
+			this.amenity = amenity;
+			this.resId = resId;
+			this.aliases = aliases;
 		}
-		if (property.hasAmenity(Amenity.INTERNET)) {
-			addAmenity(context, amenitiesContainer, Amenity.INTERNET, R.drawable.ic_amenity_internet);
-		}
-		if (property.hasAmenity(Amenity.BREAKFAST)) {
-			addAmenity(context, amenitiesContainer, Amenity.BREAKFAST, R.drawable.ic_amenity_breakfast);
-		}
-		if (property.hasAmenity(Amenity.PARKING) || property.hasAmenity(Amenity.EXTENDED_PARKING)
-				|| property.hasAmenity(Amenity.FREE_PARKING)) {
-			addAmenity(context, amenitiesContainer, Amenity.PARKING, R.drawable.ic_amenity_parking);
-		}
-		if (property.hasAmenity(Amenity.PETS_ALLOWED)) {
-			addAmenity(context, amenitiesContainer, Amenity.PETS_ALLOWED, R.drawable.ic_amenity_pets);
-		}
-		if (property.hasAmenity(Amenity.RESTAURANT)) {
-			addAmenity(context, amenitiesContainer, Amenity.RESTAURANT, R.drawable.ic_amenity_restaurant);
-		}
-		if (property.hasAmenity(Amenity.FITNESS_CENTER)) {
-			addAmenity(context, amenitiesContainer, Amenity.FITNESS_CENTER, R.drawable.ic_amenity_fitness_center);
-		}
-		if (property.hasAmenity(Amenity.ROOM_SERVICE)) {
-			addAmenity(context, amenitiesContainer, Amenity.ROOM_SERVICE, R.drawable.ic_amenity_room_service);
-		}
-		if (property.hasAmenity(Amenity.SPA)) {
-			addAmenity(context, amenitiesContainer, Amenity.SPA, R.drawable.ic_amenity_spa);
-		}
-		if (property.hasAmenity(Amenity.BUSINESS_CENTER)) {
-			addAmenity(context, amenitiesContainer, Amenity.BUSINESS_CENTER, R.drawable.ic_amenity_business);
-		}
-		if (property.hasAmenity(Amenity.FREE_AIRPORT_SHUTTLE)) {
-			addAmenity(context, amenitiesContainer, Amenity.FREE_AIRPORT_SHUTTLE, R.drawable.ic_amenity_airport_shuttle);
-		}
-		if (property.hasAmenity(Amenity.ACCESSIBLE_BATHROOM)) {
-			addAmenity(context, amenitiesContainer, Amenity.ACCESSIBLE_BATHROOM,
-					R.drawable.ic_amenity_accessible_bathroom);
-		}
-		if (property.hasAmenity(Amenity.HOT_TUB)) {
-			addAmenity(context, amenitiesContainer, Amenity.HOT_TUB, R.drawable.ic_amenity_hot_tub);
-		}
-		if (property.hasAmenity(Amenity.JACUZZI)) {
-			addAmenity(context, amenitiesContainer, Amenity.JACUZZI, R.drawable.ic_amenity_jacuzzi);
-		}
-		if (property.hasAmenity(Amenity.WHIRLPOOL_BATH)) {
-			addAmenity(context, amenitiesContainer, Amenity.WHIRLPOOL_BATH, R.drawable.ic_amenity_whirl_pool);
-		}
-		if (property.hasAmenity(Amenity.KITCHEN)) {
-			addAmenity(context, amenitiesContainer, Amenity.KITCHEN, R.drawable.ic_amenity_kitchen);
-		}
-		if (property.hasAmenity(Amenity.KIDS_ACTIVITIES)) {
-			addAmenity(context, amenitiesContainer, Amenity.KIDS_ACTIVITIES, R.drawable.ic_amenity_children_activities);
-		}
-		if (property.hasAmenity(Amenity.BABYSITTING)) {
-			addAmenity(context, amenitiesContainer, Amenity.BABYSITTING, R.drawable.ic_amenity_baby_sitting);
-		}
-		if (property.hasAmenity(Amenity.ACCESSIBLE_PATHS)) {
-			addAmenity(context, amenitiesContainer, Amenity.ACCESSIBLE_PATHS, R.drawable.ic_amenity_accessible_ramp);
-		}
-		if (property.hasAmenity(Amenity.ROLL_IN_SHOWER)) {
-			addAmenity(context, amenitiesContainer, Amenity.ROLL_IN_SHOWER, R.drawable.ic_amenity_accessible_shower);
-		}
-		if (property.hasAmenity(Amenity.HANDICAPPED_PARKING)) {
-			addAmenity(context, amenitiesContainer, Amenity.HANDICAPPED_PARKING, R.drawable.ic_amenity_handicap_parking);
-		}
-		if (property.hasAmenity(Amenity.IN_ROOM_ACCESSIBILITY)) {
-			addAmenity(context, amenitiesContainer, Amenity.IN_ROOM_ACCESSIBILITY,
-					R.drawable.ic_amenity_accessible_room);
-		}
-		if (property.hasAmenity(Amenity.DEAF_ACCESSIBILITY_EQUIPMENT)) {
-			addAmenity(context, amenitiesContainer, Amenity.DEAF_ACCESSIBILITY_EQUIPMENT,
-					R.drawable.ic_amenity_deaf_access);
-		}
-		if (property.hasAmenity(Amenity.BRAILLE_SIGNAGE)) {
-			addAmenity(context, amenitiesContainer, Amenity.BRAILLE_SIGNAGE, R.drawable.ic_amenity_braille_signs);
+	}
+
+	// These will be displayed in the order they're in this array
+	private static final AmenityInfo[] sAmenityInfo = new AmenityInfo[] {
+		new AmenityInfo(Amenity.POOL, R.drawable.ic_amenity_pool, Amenity.POOL_INDOOR, Amenity.POOL_OUTDOOR),
+		new AmenityInfo(Amenity.INTERNET, R.drawable.ic_amenity_internet),
+		new AmenityInfo(Amenity.BREAKFAST, R.drawable.ic_amenity_breakfast),
+		new AmenityInfo(Amenity.PARKING, R.drawable.ic_amenity_parking, Amenity.EXTENDED_PARKING, Amenity.FREE_PARKING),
+		new AmenityInfo(Amenity.PETS_ALLOWED, R.drawable.ic_amenity_pets),
+		new AmenityInfo(Amenity.RESTAURANT, R.drawable.ic_amenity_restaurant),
+		new AmenityInfo(Amenity.FITNESS_CENTER, R.drawable.ic_amenity_fitness_center),
+		new AmenityInfo(Amenity.ROOM_SERVICE, R.drawable.ic_amenity_room_service),
+		new AmenityInfo(Amenity.SPA, R.drawable.ic_amenity_spa),
+		new AmenityInfo(Amenity.BUSINESS_CENTER, R.drawable.ic_amenity_business),
+		new AmenityInfo(Amenity.FREE_AIRPORT_SHUTTLE, R.drawable.ic_amenity_airport_shuttle),
+		new AmenityInfo(Amenity.ACCESSIBLE_BATHROOM, R.drawable.ic_amenity_accessible_bathroom),
+		new AmenityInfo(Amenity.HOT_TUB, R.drawable.ic_amenity_hot_tub),
+		new AmenityInfo(Amenity.JACUZZI, R.drawable.ic_amenity_jacuzzi),
+		new AmenityInfo(Amenity.WHIRLPOOL_BATH, R.drawable.ic_amenity_whirl_pool),
+		new AmenityInfo(Amenity.KITCHEN, R.drawable.ic_amenity_kitchen),
+		new AmenityInfo(Amenity.KIDS_ACTIVITIES, R.drawable.ic_amenity_children_activities),
+		new AmenityInfo(Amenity.BABYSITTING, R.drawable.ic_amenity_baby_sitting),
+		new AmenityInfo(Amenity.ACCESSIBLE_PATHS, R.drawable.ic_amenity_accessible_ramp),
+		new AmenityInfo(Amenity.ROLL_IN_SHOWER, R.drawable.ic_amenity_accessible_shower),
+		new AmenityInfo(Amenity.HANDICAPPED_PARKING, R.drawable.ic_amenity_handicap_parking),
+		new AmenityInfo(Amenity.IN_ROOM_ACCESSIBILITY, R.drawable.ic_amenity_accessible_room),
+		new AmenityInfo(Amenity.DEAF_ACCESSIBILITY_EQUIPMENT, R.drawable.ic_amenity_deaf_access),
+		new AmenityInfo(Amenity.BRAILLE_SIGNAGE, R.drawable.ic_amenity_braille_signs)
+	};
+
+	public static void addAmenities(Context context, Property property, ViewGroup amenitiesContainer) {
+		for (AmenityInfo ai : sAmenityInfo) {
+			if (property.hasAmenity(ai.amenity) || property.hasAnyAmenity(ai.aliases)) {
+				addAmenity(context, amenitiesContainer, ai.amenity, ai.resId);
+			}
 		}
 	}
 

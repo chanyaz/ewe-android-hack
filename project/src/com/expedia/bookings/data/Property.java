@@ -191,6 +191,17 @@ public class Property implements JSONable {
 		return amenity.inMask(mAmenityMask);
 	}
 
+	public boolean hasAnyAmenity(Amenity[] amenities) {
+		if (amenities != null) {
+			for (Amenity amenity : amenities) {
+				if (hasAmenity(amenity)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	public boolean hasAmenities() {
 		return mAmenityMask != 0;
 	}
