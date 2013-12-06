@@ -106,10 +106,10 @@ public class LayoutUtils {
 		public int resId;
 		public Amenity[] aliases;
 
-		public AmenityInfo(Amenity amenity, int resId, Amenity... aliases) {
-			this.amenity = amenity;
-			this.resId = resId;
-			this.aliases = aliases;
+		public AmenityInfo(Amenity a, int r, Amenity... s) {
+			amenity = a;
+			resId = r;
+			aliases = s;
 		}
 	}
 
@@ -138,7 +138,7 @@ public class LayoutUtils {
 		new AmenityInfo(Amenity.HANDICAPPED_PARKING, R.drawable.ic_amenity_handicap_parking),
 		new AmenityInfo(Amenity.IN_ROOM_ACCESSIBILITY, R.drawable.ic_amenity_accessible_room),
 		new AmenityInfo(Amenity.DEAF_ACCESSIBILITY_EQUIPMENT, R.drawable.ic_amenity_deaf_access),
-		new AmenityInfo(Amenity.BRAILLE_SIGNAGE, R.drawable.ic_amenity_braille_signs)
+		new AmenityInfo(Amenity.BRAILLE_SIGNAGE, R.drawable.ic_amenity_braille_signs),
 	};
 
 	public static void addAmenities(Context context, Property property, ViewGroup amenitiesContainer) {
