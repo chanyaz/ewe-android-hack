@@ -19,6 +19,8 @@ import android.text.TextUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.RestrictedProfileActivity;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.model.WorkingBillingInfoManager;
+import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.server.ExpediaServices;
 import com.facebook.Session;
@@ -295,6 +297,26 @@ public class User implements JSONable {
 			//Delete all Notifications
 			Notification.deleteAll(context);
 			logger.addSplit("Notification.deleteAll(context);");
+
+			WorkingBillingInfoManager biManager = new WorkingBillingInfoManager();
+			biManager.deleteWorkingBillingInfoFile(context);
+
+			WorkingTravelerManager travManager = new WorkingTravelerManager();
+			travManager.deleteWorkingTravelerFile(context);
+
+			//If the data has already been populated in memory, we should clear that....
+			if (Db.getWorkingBillingInfoManager() != null) {
+				Db.getWorkingBillingInfoManager().clearWorkingBillingInfo(context);
+			}
+
+			if (Db.getWorkingTravelerManager() != null) {
+				Db.getWorkingTravelerManager().clearWorkingTraveler(context);
+			}
+
+			Db.loadBillingInfo(context);
+			Db.getBillingInfo().delete(context);
+			Db.getTravelers().clear();
+			logger.addSplit("User billing and traveler info deletion.");
 		}
 		logger.dumpToLog();
 	}
