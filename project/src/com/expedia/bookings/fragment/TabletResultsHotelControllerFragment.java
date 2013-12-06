@@ -901,7 +901,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 			}
 
-			if (mMapFragment != null) {
+			if (mMapFragment != null && state != ResultsHotelsState.ROOMS_AND_RATES) {
 				mMapFragment.setMapPaddingFromFilterState(state == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
 						|| state == ResultsHotelsState.ROOMS_AND_RATES_FILTERS);
 			}
