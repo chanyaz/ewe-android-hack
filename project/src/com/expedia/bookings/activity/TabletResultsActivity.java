@@ -111,7 +111,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 	//Other
 	private GridManager mGrid = new GridManager();
 	private ResultsState mState = ResultsState.OVERVIEW;
-	private String mDestinationCode = "SFO";//The destination code to use for background images...
+	private String mDestinationCode; //The destination code to use for background images...
 	private boolean mPreDrawInitComplete = false;
 	private boolean mBackButtonLocked = false;
 	private boolean mTestDataLoaded = false;
@@ -197,6 +197,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements
 
 		//TODO: This is just for logging so it can be removed if we want to turn off state logging.
 		registerStateListener(new StateListenerLogger<ResultsState>(), true);
+
+		mDestinationCode = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
 	}
 
 	@Override
