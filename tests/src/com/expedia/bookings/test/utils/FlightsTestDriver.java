@@ -11,6 +11,7 @@ import com.expedia.bookings.test.tests.pageModels.flights.FlightsSearchLoading;
 import com.expedia.bookings.test.tests.pageModels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.tests.pageModels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.tests.pageModels.flights.FlightsTermsAndConditionsScreen;
+import com.expedia.bookings.test.tests.pageModels.flights.FlightsTravelerInfoScreen;
 
 public class FlightsTestDriver extends TestDriver {
 
@@ -21,6 +22,7 @@ public class FlightsTestDriver extends TestDriver {
 	private FlightsCheckoutScreen mFlightsCheckoutScreen;
 	private FlightsConfirmationScreen mFlightsConfirmationScreen;
 	private FlightsTermsAndConditionsScreen mFlightsTermsAndConditionsScreen;
+	private FlightsTravelerInfoScreen mFlightsTravelerInfoScreen;
 
 	public FlightsTestDriver(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
@@ -78,6 +80,14 @@ public class FlightsTestDriver extends TestDriver {
 					getCurrentActivity(), mRes, mPreferences);
 		}
 		return mFlightsTermsAndConditionsScreen;
+	}
+
+	public FlightsTravelerInfoScreen travelerInformationScreen() {
+		if (mFlightsTravelerInfoScreen == null) {
+			mFlightsTravelerInfoScreen = new FlightsTravelerInfoScreen(mInstrumentation, getCurrentActivity(),
+					mRes, mPreferences);
+		}
+		return mFlightsTravelerInfoScreen;
 	}
 
 }
