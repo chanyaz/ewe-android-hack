@@ -125,7 +125,9 @@ public class DestinationBitmapDrawable extends UrlBitmapDrawable implements Down
 
 		@Override
 		public void onDownload(ExpediaImage results) {
-			mSharableUrl = results.getUrl();
+			if (results != null) {
+				mSharableUrl = results.getUrl();
+			}
 		}
 	};
 
