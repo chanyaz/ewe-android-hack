@@ -25,8 +25,8 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.interfaces.IResultsFlightLegSelected;
-import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.section.FlightLegSummarySectionTablet;
+import com.expedia.bookings.section.FlightSegmentSection;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -164,7 +164,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		Calendar departureTimeCal = flightLeg.getFirstWaypoint().getBestSearchDateTime();
 		Calendar arrivalTimeCal = flightLeg.getLastWaypoint().getBestSearchDateTime();
 
-		FlightLegSummarySection view;
+		FlightSegmentSection flightSegmentSection;
 
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		int numFlights = flightLeg.getSegmentCount();
@@ -190,9 +190,12 @@ public class ResultsFlightDetailsFragment extends Fragment {
 			}
 
 			// The FlightLeg with lines and circles
-			view = (FlightLegSummarySection) inflater.inflate(R.layout.section_flight_leg_segment_tablet_details, null);
-			view.bindFlight(flight, departureTimeCal, arrivalTimeCal);
-			mFlightLegsC.addView(view);
+			flightSegmentSection = (FlightSegmentSection) inflater.inflate(R.layout.section_flight_segment_tablet,
+					mFlightLegsC, false);
+			flightSegmentSection.bind(flight, trip.getFlightSegmentAttributes(mLegNumber)[i], departureTimeCal,
+					arrivalTimeCal);
+
+			mFlightLegsC.addView(flightSegmentSection);
 		}
 	}
 
