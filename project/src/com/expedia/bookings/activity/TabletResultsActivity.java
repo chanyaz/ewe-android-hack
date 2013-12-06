@@ -672,12 +672,14 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			mResultsStateListeners.setListenerInactive(mHotelsController.getResultsListener());
 
 			//DO WORK
+			startStateTransition(getResultsStateFromHotels(stateOne), getResultsStateFromHotels(stateTwo));
 		}
 
 		@Override
 		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo, float percentage) {
 			Log.d("ResultsHotelsState - onStateTransitionUpdate - stateOne:" + stateOne + " stateTwo:" + stateTwo
 					+ " percentage:" + percentage);
+			updateStateTransition(getResultsStateFromHotels(stateOne), getResultsStateFromHotels(stateTwo), percentage);
 		}
 
 		@Override
@@ -685,7 +687,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			Log.d("ResultsHotelsState - onStateTransitionEnd - stateOne:" + stateOne + " stateTwo:" + stateTwo);
 
 			//DO WORK
-
+			endStateTransition(getResultsStateFromHotels(stateOne), getResultsStateFromHotels(stateTwo));
+			
 			mResultsStateListeners.setListenerActive(mHotelsController.getResultsListener());
 		}
 
