@@ -250,4 +250,5 @@
     <dimen name="hotels_map_pin_padding">50dp</dimen>
 
     <dimen name="tablet_search_header_height">44dp</dimen>
+    <dimen name="tablet_results_flight_map_padding">16dp</dimen>
 </resources>

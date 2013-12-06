@@ -290,7 +290,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
-		if (tag == FTAG_FLIGHT_ONE_LIST) {
+		if (tag == FTAG_FLIGHT_MAP) {
+			updateMapFragSizes((ResultsFlightMapFragment) frag);
+		}
+		else if (tag == FTAG_FLIGHT_ONE_LIST) {
 			((ResultsListFragment) frag).setChangeListener(mFruitProxy);
 			((ResultsListFragment) frag).setTopRightTextButtonText(getString(R.string.Done));
 		}
@@ -327,6 +330,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				&& mFlightOneListFrag.getTopSpaceListView().getRowHeight(false) > 0) {
 			frag.setDetaultRowDimensions(mGrid.getColWidth(1), mFlightOneListFrag.getTopSpaceListView()
 					.getRowHeight(false));
+		}
+	}
+
+	private void updateMapFragSizes(ResultsFlightMapFragment frag) {
+		if (mGrid.isLandscape()) {
+			int padding = getResources().getDimensionPixelSize(R.dimen.tablet_results_flight_map_padding);
+			frag.setPadding(mGrid.getColLeft(2) + padding, padding, padding, padding);
 		}
 	}
 
@@ -743,6 +753,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 			updateDetailsFragSizes(mFlightOneDetailsFrag);
 			updateDetailsFragSizes(mFlightTwoDetailsFrag);
+			updateMapFragSizes(mFlightMapFrag);
 
 			//since the actionbar is an overlay, we must compensate by setting the root layout to have a top margin
 			int actionBarHeight = getActivity().getActionBar().getHeight();
