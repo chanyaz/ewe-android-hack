@@ -3,7 +3,6 @@ package com.expedia.bookings.test.tests.flights.ui.regression;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -48,9 +47,9 @@ public class FlightCheckoutUserInfoTests extends CustomActivityInstrumentationTe
 		mDriver.flightsSearchScreen().clickSearchButton();
 		mDriver.waitForStringToBeGone(mDriver.flightsSearchLoading().getLoadingFlightsString());
 		mDriver.flightsSearchResultsScreen().selectFlightFromList(0);
+		mDriver.delay();
 		mDriver.flightLegScreen().clickSelectFlightButton();
 		mDriver.waitForStringToBeGone(mDriver.flightLegScreen().checkingForPriceChangesString());
-		mDriver.flightLegScreen().clickSelectFlightButton();
 		mDriver.delay();
 		mDriver.flightsCheckoutScreen().clickCheckoutButton();
 		mDriver.delay(10);
@@ -58,18 +57,7 @@ public class FlightCheckoutUserInfoTests extends CustomActivityInstrumentationTe
 		verifyMissingTravelerInformationAlerts();
 		verifyMissingCardInfoAlerts();
 		verifyLoginButtonNotAppearing();
-		mDriver.flightsCheckoutScreen().slideToCheckout();
-		doBookingAndReturnToLaunchScreen();
-		mDriver.launchScreen().openMenuDropDown();
-		mDriver.launchScreen().pressSettings();
-		mDriver.settingsScreen().clickToClearPrivateData();
-		mDriver.delay(1);
-		mDriver.settingsScreen().clickOKString();
-		mDriver.delay(1);
-		mDriver.settingsScreen().clickOKString();
-		mDriver.delay(1);
-		mDriver.goBack();
-		mDriver.delay(1);
+		
 	}
 
 	private void verifyMissingTravelerInformationAlerts() {
@@ -113,10 +101,31 @@ public class FlightCheckoutUserInfoTests extends CustomActivityInstrumentationTe
 		assertEquals(null, lastNameETBitmap());
 		assertEquals(errorIcon(), phoneNumberETBitmap());
 
+		mDriver.enterLog(TAG, "Verifying that phone number must be at least 3 chars long");
+		mDriver.travelerInformationScreen().enterPhoneNumber(mUser.getPhoneNumber().substring(0, 2));
+		mDriver.travelerInformationScreen().clickNextButton();
+		assertEquals(null, firstNameETBitmap());
+		assertEquals(null, middleNameETBitmap());
+		assertEquals(null, lastNameETBitmap());
+		assertEquals(errorIcon(), phoneNumberETBitmap());
+		mDriver.travelerInformationScreen().clearEditText(mDriver.travelerInformationScreen().phoneNumberEditText());
+		mDriver.travelerInformationScreen().enterPhoneNumber(mUser.getPhoneNumber().substring(0, 3));
+		assertEquals(null, firstNameETBitmap());
+		assertEquals(null, middleNameETBitmap());
+		assertEquals(null, lastNameETBitmap());
+		assertEquals(null, phoneNumberETBitmap());
+		mDriver.travelerInformationScreen().clearEditText(mDriver.travelerInformationScreen().phoneNumberEditText());
 		mDriver.travelerInformationScreen().enterPhoneNumber(mUser.getPhoneNumber());
 		mDriver.travelerInformationScreen().clickNextButton();
-
 		mDriver.delay();
+
+		//Verify that the redress EditText allows a max of 7 chars, numbers only
+		mDriver.travelerInformationScreen().typeRedressText("12345678");
+		String redressText = mDriver.travelerInformationScreen().redressEditText().getText().toString();
+		assertEquals("1234567", redressText);
+		mDriver.enterLog(TAG,
+				"Asserted that redress EditText has a max capacity of 7 chars");
+
 		mDriver.travelerInformationScreen().clickDoneButton();
 		mDriver.delay(1);
 		assertTrue(mDriver.flightsCheckoutScreen().logInButton().isShown());
@@ -173,6 +182,17 @@ public class FlightCheckoutUserInfoTests extends CustomActivityInstrumentationTe
 				"CC, name on card, expiration date, email address views all have error icon");
 
 		mDriver.cardInfoScreen().clickOnExpirationDateButton();
+		mDriver.cardInfoScreen().clickMonthDownButton();
+		mDriver.cardInfoScreen().clickSetButton();
+		mDriver.cardInfoScreen().clickOnDoneButton();
+		assertEquals(errorIcon(), expirationDateTextViewBitmap());
+		assertEquals(errorIcon(), creditCardETBitmap());
+		assertEquals(errorIcon(), nameOnCardETBitmap());
+		assertEquals(errorIcon(), emailAddressETBitmap());
+		mDriver.enterLog(TAG, "Successfully asserted that the expiration date cannot be in the past!");
+
+		mDriver.cardInfoScreen().clickOnExpirationDateButton();
+		mDriver.cardInfoScreen().clickYearUpButton();
 		mDriver.cardInfoScreen().clickSetButton();
 		mDriver.cardInfoScreen().clickOnDoneButton();
 		assertEquals(null, expirationDateTextViewBitmap());
@@ -180,6 +200,23 @@ public class FlightCheckoutUserInfoTests extends CustomActivityInstrumentationTe
 		assertEquals(errorIcon(), nameOnCardETBitmap());
 		assertEquals(errorIcon(), emailAddressETBitmap());
 		mDriver.enterLog(TAG, "After entering expiration date, that field no longer has error icon");
+
+		mDriver.cardInfoScreen().typeTextCreditCardEditText(mUser.getCreditCardNumber().substring(0, 12));
+		mDriver.cardInfoScreen().clickOnDoneButton();
+		assertEquals(errorIcon(), creditCardETBitmap());
+		assertEquals(null, expirationDateTextViewBitmap());
+		assertEquals(errorIcon(), nameOnCardETBitmap());
+		assertEquals(errorIcon(), emailAddressETBitmap());
+		mDriver.enterLog(TAG, "Successfully asserted that 12 chars is too short for CC edittext");
+		mDriver.clearEditText(mDriver.cardInfoScreen().creditCardNumberEditText());
+
+		String twentyChars = "12345123451234512345";
+		String nineteenChars = twentyChars.substring(0, 19);
+		mDriver.cardInfoScreen().typeTextCreditCardEditText(twentyChars);
+		String currentCCText = mDriver.cardInfoScreen().creditCardNumberEditText().getText().toString();
+		assertEquals(nineteenChars, currentCCText);
+		mDriver.enterLog(TAG, "Successfully asserted that the CC edittext has a max capacity of 19 chars");
+		mDriver.clearEditText(mDriver.cardInfoScreen().creditCardNumberEditText());
 
 		mDriver.cardInfoScreen().typeTextCreditCardEditText(mUser.getCreditCardNumber());
 		assertEquals(null, creditCardETBitmap());
@@ -194,6 +231,33 @@ public class FlightCheckoutUserInfoTests extends CustomActivityInstrumentationTe
 		assertEquals(null, nameOnCardETBitmap());
 		assertEquals(errorIcon(), emailAddressETBitmap());
 		mDriver.enterLog(TAG, "After entering cardholder name, that edit text no longer has error icon");
+
+		mDriver.cardInfoScreen().typeTextEmailEditText("kevincarpenter");
+		assertEquals(null, creditCardETBitmap());
+		assertEquals(null, expirationDateTextViewBitmap());
+		assertEquals(null, nameOnCardETBitmap());
+		assertEquals(errorIcon(), emailAddressETBitmap());
+		mDriver.cardInfoScreen().clickOnDoneButton();
+		mDriver.enterLog(TAG, "Successfully asserted that an email address with no '@' or TLD is found invalid");
+		mDriver.clearEditText(mDriver.cardInfoScreen().emailEditText());
+
+		mDriver.cardInfoScreen().typeTextEmailEditText("kevincarpenter@");
+		assertEquals(null, creditCardETBitmap());
+		assertEquals(null, expirationDateTextViewBitmap());
+		assertEquals(null, nameOnCardETBitmap());
+		assertEquals(errorIcon(), emailAddressETBitmap());
+		mDriver.cardInfoScreen().clickOnDoneButton();
+		mDriver.enterLog(TAG, "Successfully asserted that an email address with no website or TLD is found invalid");
+		mDriver.clearEditText(mDriver.cardInfoScreen().emailEditText());
+
+		mDriver.cardInfoScreen().typeTextEmailEditText("kevincarpenter@expedia.");
+		assertEquals(null, creditCardETBitmap());
+		assertEquals(null, expirationDateTextViewBitmap());
+		assertEquals(null, nameOnCardETBitmap());
+		assertEquals(errorIcon(), emailAddressETBitmap());
+		mDriver.cardInfoScreen().clickOnDoneButton();
+		mDriver.enterLog(TAG, "Successfully asserted that an email address with no TLD is found invalid");
+		mDriver.clearEditText(mDriver.cardInfoScreen().emailEditText());
 
 		mDriver.cardInfoScreen().typeTextEmailEditText(mUser.getLoginEmail());
 		assertEquals(null, creditCardETBitmap());
@@ -240,17 +304,6 @@ public class FlightCheckoutUserInfoTests extends CustomActivityInstrumentationTe
 		assertTrue(mDriver.searchText(mDriver.flightsTermsAndConditionsScreen().termsAndConditions()));
 		mDriver.enterLog(TAG, "After clicking rules & restrictions button, expected strings are displayed.");
 		mDriver.goBack();
-	}
-
-	private void doBookingAndReturnToLaunchScreen() throws Exception {
-		mDriver.cvvEntryScreen().parseAndEnterCVV("111");
-		mDriver.cvvEntryScreen().clickBookButton();
-		mDriver.waitForStringToBeGone(mDriver.cvvEntryScreen().booking());
-		assertTrue(mDriver.searchText(mDriver.flightsConfirmationScreen().bookingComplete()));
-		mDriver.flightsConfirmationScreen().clickDoneButton();
-		mDriver.delay();
-		mDriver.tripsScreen().swipeToLaunchScreen();
-		mDriver.enterLog(TAG, "Back at launch screen.");
 	}
 
 	// Helpers
