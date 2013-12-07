@@ -89,6 +89,10 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		downloadDetails();
 	}
 
+	public void onHotelSelected() {
+		downloadDetails();
+	}
+
 	private void downloadDetails() {
 		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		if (TextUtils.isEmpty(selectedId)) {

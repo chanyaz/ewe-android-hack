@@ -101,7 +101,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private ResultsHotelListFragment mHotelListFrag;
 	private ResultsHotelsFiltersFragment mHotelFiltersFrag;
 	private ResultsHotelsFilterCountFragment mHotelFilteredCountFrag;
-	private ResultsHotelDetailsFragment mHotelRoomsAndRatesFrag;
+	private ResultsHotelDetailsFragment mHotelDetailsFrag;
 
 	//Other
 	private ResultsState mGlobalState = ResultsState.OVERVIEW;
@@ -336,7 +336,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				R.id.column_three_hotel_filtered_count, false);
 		mMapFragment = (HotelMapFragment) FragmentAvailabilityUtils.setFragmentAvailability(hotelMapAvailable,
 				FTAG_HOTEL_MAP, manager, transaction, this, R.id.bg_hotel_map, false);
-		mHotelRoomsAndRatesFrag = (ResultsHotelDetailsFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+		mHotelDetailsFrag = (ResultsHotelDetailsFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 				hotelRoomsAndRatesAvailable,
 				FTAG_HOTEL_ROOMS_AND_RATES, manager, transaction, this, R.id.hotel_rooms_and_rates, false);
 
@@ -363,7 +363,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			frag = mMapFragment;
 		}
 		else if (tag == FTAG_HOTEL_ROOMS_AND_RATES) {
-			frag = mHotelRoomsAndRatesFrag;
+			frag = mHotelDetailsFrag;
 		}
 		return frag;
 	}
@@ -439,6 +439,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	@Override
 	public void onHotelSelected() {
 		mMapFragment.onHotelSelected();
+		mHotelDetailsFrag.onHotelSelected();
 		if (mGlobalState == ResultsState.HOTELS) {
 			setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
 
@@ -894,8 +895,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			case ADDING_HOTEL_TO_TRIP: {
 				mHotelListFrag.setListLockedToTop(true);
 				setAddToTripPercentage(1f);
-				mParentAddToTripListener.beginAddToTrip(mHotelRoomsAndRatesFrag.getSelectedData(),
-						mHotelRoomsAndRatesFrag.getDestinationRect(), mShadeColor);
+				mParentAddToTripListener.beginAddToTrip(mHotelDetailsFrag.getSelectedData(),
+						mHotelDetailsFrag.getDestinationRect(), mShadeColor);
 				doAddToTripDownloadStuff();
 				break;
 			}
@@ -971,12 +972,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		private void setAddToTripAnimationHardwareRendering(boolean useHardwareLayer) {
 			int layerType = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
 			mHotelRoomsAndRatesShadeC.setLayerType(layerType, null);
-			mHotelRoomsAndRatesFrag.setTransitionToAddTripHardwareLayer(layerType);
+			mHotelDetailsFrag.setTransitionToAddTripHardwareLayer(layerType);
 		}
 
 		private void setAddToTripPercentage(float percentage) {
-			if (mHotelRoomsAndRatesFrag != null) {
-				mHotelRoomsAndRatesFrag.setTransitionToAddTripPercentage(percentage);
+			if (mHotelDetailsFrag != null) {
+				mHotelDetailsFrag.setTransitionToAddTripPercentage(percentage);
 			}
 			mHotelRoomsAndRatesShadeC.setAlpha(percentage);
 		}
