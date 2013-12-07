@@ -180,17 +180,15 @@ public class ResultsFlightDetailsFragment extends Fragment {
 				String duration = DateTimeUtils.formatDuration(getResources(), layover.mDuration);
 				String waypoint = StrUtils.formatWaypoint(flight.mOrigin);
 
-				ViewGroup layoverSnippet = (ViewGroup) inflater.inflate(R.layout.snippet_tablet_flight_layover,
-						mFlightLegsC, false);
-				TextView tv = Ui.findView(layoverSnippet, R.id.flight_details_layover_text_view);
+				ViewGroup layoverC = Ui.inflate(inflater, R.layout.snippet_tablet_flight_layover, mFlightLegsC, false);
+				TextView tv = Ui.findView(layoverC, R.id.flight_details_layover_text_view);
 				String layoverStr = res.getString(R.string.layover_duration_location_TEMPLATE, duration, waypoint);
 				tv.setText(Html.fromHtml(layoverStr).toString());
-				mFlightLegsC.addView(layoverSnippet);
+				mFlightLegsC.addView(layoverC);
 			}
 
 			// The FlightLeg with lines and circles
-			flightSegmentSection = (FlightSegmentSection) inflater.inflate(R.layout.section_flight_segment_tablet,
-					mFlightLegsC, false);
+			flightSegmentSection = Ui.inflate(inflater, R.layout.section_flight_segment_tablet, mFlightLegsC, false);
 			flightSegmentSection.bind(flight, trip.getFlightSegmentAttributes(mLegNumber)[i], departureTimeCal,
 					arrivalTimeCal);
 
