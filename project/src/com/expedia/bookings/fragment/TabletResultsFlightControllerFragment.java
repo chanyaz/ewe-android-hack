@@ -334,7 +334,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	}
 
 	private void updateMapFragSizes(ResultsFlightMapFragment frag) {
-		if (mGrid.isLandscape()) {
+		if (frag != null && mGrid.isLandscape()) {
 			int padding = getResources().getDimensionPixelSize(R.dimen.tablet_results_flight_map_padding);
 			frag.setPadding(mGrid.getColLeft(2) + padding, padding, padding, padding);
 		}
