@@ -768,6 +768,10 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 		@Override
 		public void onStateTransitionUpdate(ResultsState stateOne, ResultsState stateTwo, float percentage) {
 			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.FLIGHTS) {
+				animateToPercentage(1f - percentage, mAddingFlightTrip);
+				addTripPercentage(1f - percentage);
+			}
+			else if (stateOne == ResultsState.FLIGHTS && stateTwo == ResultsState.OVERVIEW) {
 				animateToPercentage(percentage, mAddingFlightTrip);
 				addTripPercentage(percentage);
 			}
