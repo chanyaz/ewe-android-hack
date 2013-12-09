@@ -55,7 +55,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	//State
 	private static final String STATE_HOTELS_STATE = "STATE_HOTELS_STATE";
-	private static final String STATE_GLOBAL_STATE = "STATE_GLOBAL_STATE";
 
 	//Frag tags
 	private static final String FTAG_HOTEL_LIST = "FTAG_HOTEL_LIST";
@@ -383,11 +382,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Override
 	public void onHotelSelected() {
-		mMapFragment.onHotelSelected();
-		mHotelDetailsFrag.onHotelSelected();
-		setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
-		for (IResultsHotelSelectedListener listener : mHotelSelectedListeners) {
-			listener.onHotelSelected();
+		if (mHotelsStateManager.getState() != ResultsHotelsState.HOTEL_LIST_DOWN) {
+			mMapFragment.onHotelSelected();
+			mHotelDetailsFrag.onHotelSelected();
+			setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
+			for (IResultsHotelSelectedListener listener : mHotelSelectedListeners) {
+				listener.onHotelSelected();
+			}
 		}
 	}
 
