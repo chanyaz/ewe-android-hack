@@ -688,7 +688,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 			//DO WORK
 			endStateTransition(getResultsStateFromHotels(stateOne), getResultsStateFromHotels(stateTwo));
-			
+
 			mResultsStateListeners.setListenerActive(mHotelsController.getResultsListener());
 		}
 
@@ -702,11 +702,12 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 			mResultsStateListeners.setListenerActive(mHotelsController.getResultsListener());
 		}
-		
-		private ResultsState getResultsStateFromHotels(ResultsHotelsState state){
-			if(state == ResultsHotelsState.HOTEL_LIST_DOWN){
+
+		private ResultsState getResultsStateFromHotels(ResultsHotelsState state) {
+			if (state == ResultsHotelsState.HOTEL_LIST_DOWN) {
 				return ResultsState.OVERVIEW;
-			}else{
+			}
+			else {
 				return ResultsState.HOTELS;
 			}
 		}
@@ -725,12 +726,15 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			mResultsStateListeners.setListenerInactive(mFlightsController.getResultsListener());
 
 			//DO WORK
+			startStateTransition(getResultsStateFromFlights(stateOne), getResultsStateFromFlights(stateTwo));
 		}
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo, float percentage) {
 			Log.d("ResultsFlightsState - onStateTransitionUpdate - stateOne:" + stateOne + " stateTwo:" + stateTwo
 					+ " percentage:" + percentage);
+			updateStateTransition(getResultsStateFromFlights(stateOne), getResultsStateFromFlights(stateTwo),
+					percentage);
 		}
 
 		@Override
@@ -738,6 +742,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			Log.d("ResultsFlightsState - onStateTransitionEnd - stateOne:" + stateOne + " stateTwo:" + stateTwo);
 
 			//DO WORK
+			endStateTransition(getResultsStateFromFlights(stateOne), getResultsStateFromFlights(stateTwo));
 
 			mResultsStateListeners.setListenerActive(mFlightsController.getResultsListener());
 		}
@@ -749,8 +754,18 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			mResultsStateListeners.setListenerInactive(mFlightsController.getResultsListener());
 
 			//DO WORK
+			finalizeState(getResultsStateFromFlights(state));
 
 			mResultsStateListeners.setListenerActive(mFlightsController.getResultsListener());
+		}
+
+		private ResultsState getResultsStateFromFlights(ResultsFlightsState state) {
+			if (state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				return ResultsState.OVERVIEW;
+			}
+			else {
+				return ResultsState.FLIGHTS;
+			}
 		}
 
 	};
