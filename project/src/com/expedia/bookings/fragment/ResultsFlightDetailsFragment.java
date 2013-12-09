@@ -54,7 +54,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 	// Views
 
-	private static final int NUM_SCROLLVIEW_HEADERS = 1;
+	private static final int NUM_SCROLLVIEW_HEADERS = 2; // Stats container + grey divider
 
 	private ViewGroup mRootC;
 	private ViewGroup mDetailsC;

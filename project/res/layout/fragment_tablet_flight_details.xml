@@ -91,6 +91,12 @@
                             android:drawableLeft="@drawable/ic_tablet_flight_time"
                             android:text="10 hours" />
                 </LinearLayout>
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
+                        android:layout_marginBottom="18dp"
+                        android:background="#e5e5e5" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
