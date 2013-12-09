@@ -147,7 +147,7 @@
                         android:layout_height="48dp"
                         app:countTextColor="@color/details_ring_red"
                         app:countTextSize="24sp"
-                        app:percent="0.2"
+                        app:percent="0"
                         app:primaryColor="@color/details_ring_red"
                         app:ringThickness="4dp"
                         app:secondaryColor="@color/details_ring_gray" />
@@ -175,7 +175,7 @@
                         android:layout_height="48dp"
                         app:countTextColor="@color/details_ring_text"
                         app:countTextSize="24sp"
-                        app:percent="0.8"
+                        app:percent="0"
                         app:primaryColor="@color/details_ring_blue"
                         app:ringThickness="4dp"
                         app:secondaryColor="@color/details_ring_gray" />
