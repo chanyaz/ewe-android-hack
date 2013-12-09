@@ -22,7 +22,6 @@ public class SvgMapFragment extends MeasurableFragment {
 
 	private static final String ARG_MAP_RESOURCE = "ARG_MAP_RESOURCE";
 
-	private FrameLayout mRoot;
 	private ImageView mMapImageView;
 
 	private Picture mPicture;
@@ -72,9 +71,9 @@ public class SvgMapFragment extends MeasurableFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRoot = (FrameLayout) inflater.inflate(R.layout.fragment_svg_map, container, false);
-		mMapImageView = Ui.findView(mRoot, R.id.map_image_view);
-		return mRoot;
+		FrameLayout root = (FrameLayout) inflater.inflate(R.layout.fragment_svg_map, container, false);
+		mMapImageView = Ui.findView(root, R.id.map_image_view);
+		return root;
 	}
 
 	public void setHorizontalBounds(double lat0, double lng0, double lat1, double lng1) {
@@ -123,6 +122,7 @@ public class SvgMapFragment extends MeasurableFragment {
 		float verticalScale = usableHeight / projectedHeight;
 
 		float scale = Math.min(horizontalScale, verticalScale);
+		scale = Math.min(4.0f, scale); // Cap the zooming
 		float yShift = 0.0f;
 		float xShift = 0.0f;
 
@@ -163,6 +163,10 @@ public class SvgMapFragment extends MeasurableFragment {
 
 	public Picture getMapPicture() {
 		return mPicture;
+	}
+
+	public void setMapImageView(ImageView v) {
+		mMapImageView = v;
 	}
 
 	public ImageView getMapImageView() {
