@@ -44,35 +44,10 @@
                     android:textAllCaps="true" />
         </RelativeLayout>
 
-        <!-- Cool stats on the flight -->
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="32dp" >
-
-            <com.expedia.bookings.widget.TextView
-                    style="@style/V2.Widget.TextView.FlightStatistic"
-                    android:drawableLeft="@drawable/ic_tablet_flight_time"
-                    android:text="71% on time" />
-
-            <com.expedia.bookings.widget.TextView
-                    android:id="@+id/flight_miles_text_view"
-                    style="@style/V2.Widget.TextView.FlightStatistic"
-                    android:drawableLeft="@drawable/ic_tablet_miles" />
-
-            <com.expedia.bookings.widget.TextView
-                    android:id="@+id/flight_overall_duration_text_view"
-                    style="@style/V2.Widget.TextView.FlightStatistic"
-                    android:drawableLeft="@drawable/ic_tablet_flight_time"
-                    android:text="10 hours" />
-        </LinearLayout>
-
         <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_flight_details_tablet_white_bottom"
                 android:padding="12dp" >
 
             <!-- flight information -->
@@ -81,7 +56,34 @@
                     android:id="@+id/flight_legs_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" />
+                    android:orientation="vertical" >
+
+                <!-- Cool stats on the flight -->
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="32dp" >
+
+                    <com.expedia.bookings.widget.TextView
+                            style="@style/V2.Widget.TextView.FlightStatistic"
+                            android:drawableLeft="@drawable/ic_tablet_flight_time"
+                            android:text="71% on time" />
+
+                    <com.expedia.bookings.widget.TextView
+                            android:id="@+id/flight_miles_text_view"
+                            style="@style/V2.Widget.TextView.FlightStatistic"
+                            android:drawableLeft="@drawable/ic_tablet_miles" />
+
+                    <com.expedia.bookings.widget.TextView
+                            android:id="@+id/flight_overall_duration_text_view"
+                            style="@style/V2.Widget.TextView.FlightStatistic"
+                            android:drawableLeft="@drawable/ic_tablet_flight_time"
+                            android:text="10 hours" />
+                </LinearLayout>
+            </LinearLayout>
         </ScrollView>
     </LinearLayout>
 

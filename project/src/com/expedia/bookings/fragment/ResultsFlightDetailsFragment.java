@@ -53,7 +53,10 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		return frag;
 	}
 
-	//Views
+	// Views
+
+	private static final int NUM_SCROLLVIEW_HEADERS = 1;
+
 	private ViewGroup mRootC;
 	private ViewGroup mDetailsC;
 	private FlightLegSummarySectionTablet mAnimationFlightRow;
@@ -69,7 +72,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 	private IResultsFlightLegSelected mListener;
 
-	//Position and size vars
+	// Position and size vars
 	int mDetailsPositionLeft = -1;
 	int mDetailsPositionTop = -1;
 	int mDetailsWidth = -1;
@@ -79,10 +82,10 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	int mRowWidth = -1;
 	int mRowHeight = -1;
 
-	//Animation vars
+	// Animation vars
 	private Rect mAddToTripRect;
 
-	//Misc
+	// Misc
 	private int mLegNumber = -1;
 
 	@Override
@@ -160,16 +163,20 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		// Flight Leg container
 
 		//Arrival / Departure times
-		Calendar departureTimeCal = flightLeg.getFirstWaypoint().getBestSearchDateTime();
-		Calendar arrivalTimeCal = flightLeg.getLastWaypoint().getBestSearchDateTime();
+		Calendar depTime = flightLeg.getFirstWaypoint().getBestSearchDateTime();
+		Calendar arrTime = flightLeg.getLastWaypoint().getBestSearchDateTime();
 
 		FlightSegmentSection flightSegmentSection;
 
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		int numFlights = flightLeg.getSegmentCount();
 
-		// TODO recycle and rebind Views rather than container.removeAllViews()
-		mFlightLegsC.removeAllViews();
+		// TODO recycle and rebind children views if we need it for performance
+		// Remove all components below the statistsics header
+		while (mFlightLegsC.getChildCount() > NUM_SCROLLVIEW_HEADERS) {
+			mFlightLegsC.removeViewAt(NUM_SCROLLVIEW_HEADERS);
+		}
+
 		for (int i = 0; i < numFlights; i++) {
 			flight = flightLeg.getSegments().get(i);
 			boolean isFirstSegment = (i == 0);
@@ -189,8 +196,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 			// The FlightLeg with lines and circles
 			flightSegmentSection = Ui.inflate(inflater, R.layout.section_flight_segment_tablet, mFlightLegsC, false);
-			flightSegmentSection.bind(flight, trip.getFlightSegmentAttributes(mLegNumber)[i], departureTimeCal,
-					arrivalTimeCal);
+			flightSegmentSection.bind(flight, trip.getFlightSegmentAttributes(mLegNumber)[i], depTime, arrTime);
 
 			mFlightLegsC.addView(flightSegmentSection);
 		}
