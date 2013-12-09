@@ -36,7 +36,6 @@ import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
-import com.expedia.bookings.interfaces.helpers.StateListenerHandHolder;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
@@ -58,8 +57,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		IStateProvider<ResultsFlightsState> {
 
 	//State
-	private static final String STATE_FLIGHTS_STATE = "STATE_HOTELS_STATE";
-	private static final String STATE_GLOBAL_STATE = "STATE_GLOBAL_STATE";
+	private static final String STATE_FLIGHTS_STATE = "STATE_FLIGHTS_STATE";
 
 	//Frag tags
 	private static final String FTAG_FLIGHT_MAP = "FTAG_FLIGHT_MAP";
@@ -102,14 +100,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private ResultsFlightDetailsFragment mFlightTwoDetailsFrag;
 
 	//Other
-	private ResultsState mGlobalState;
 	private GridManager mGrid = new GridManager();
 	private float mFlightDetailsMarginPercentage = 0.1f;
 	private boolean mOneWayFlight = true;
 	private IAddToTripListener mParentAddToTripListener;
 
 	private StateManager<ResultsFlightsState> mFlightsStateManager = new StateManager<ResultsFlightsState>(
-			ResultsFlightsState.FLIGHT_ONE_FILTERS, this);
+			ResultsFlightsState.FLIGHT_LIST_DOWN, this);
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -154,11 +151,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		mFlightOneSelectedRow = Ui.findView(view, R.id.flight_one_row);
 
 		if (savedInstanceState != null) {
-			mGlobalState = ResultsState.valueOf(savedInstanceState.getString(STATE_GLOBAL_STATE,
-					ResultsState.OVERVIEW.name()));
 			mFlightsStateManager.setDefaultState(ResultsFlightsState.valueOf(savedInstanceState.getString(
 					STATE_FLIGHTS_STATE,
-					ResultsFlightsState.FLIGHT_ONE_FILTERS.name())));
+					ResultsFlightsState.FLIGHT_LIST_DOWN.name())));
 		}
 
 		registerStateListener(mFlightsStateHelper, false);
@@ -171,7 +166,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(STATE_FLIGHTS_STATE, mFlightsStateManager.getState().name());
-		outState.putString(STATE_GLOBAL_STATE, mGlobalState.name());
 	}
 
 	@Override
@@ -320,7 +314,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	@Override
 	public void onFlightSelected(int legNumber) {
-		if (mGlobalState == ResultsState.FLIGHTS) {
+		if (mFlightsStateManager.getState() != ResultsFlightsState.FLIGHT_LIST_DOWN) {
 			if (legNumber == 0) {
 				//TODO: IF MULTILEG FLIGHT BIND THE FLIGHT TO THE ROW HEADER
 				setFlightsState(ResultsFlightsState.FLIGHT_ONE_DETAILS,
@@ -351,7 +345,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	@Override
 	public void onTripAdded(int legNumber) {
-		if (mGlobalState == ResultsState.FLIGHTS) {
+		if (mFlightsStateManager.getState() != ResultsFlightsState.FLIGHT_LIST_DOWN) {
 			boolean lastLegToSelect = mOneWayFlight || legNumber == 1;
 			if (lastLegToSelect) {
 				setFlightsState(ResultsFlightsState.ADDING_FLIGHT_TO_TRIP, true);
@@ -417,46 +411,34 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		mFlightsStateManager.setState(state, animate);
 	}
 
-	public ResultsFlightsState getFlightsState(ResultsState state) {
-		return state != ResultsState.FLIGHTS ? mFlightsStateManager.getDefaultState() : mFlightsStateManager.getState();
-	}
-
-	private void setTouchState(ResultsState globalState, ResultsFlightsState flightsState) {
+	private void setTouchState(ResultsFlightsState flightsState) {
 		ArrayList<ViewGroup> touchableViews = new ArrayList<ViewGroup>();
-		switch (globalState) {
-		case FLIGHTS: {
-			switch (flightsState) {
-			case FLIGHT_ONE_FILTERS: {
-				touchableViews.add(mFlightOneFiltersC);
-				touchableViews.add(mFlightOneListC);
-				break;
-			}
-			case FLIGHT_ONE_DETAILS: {
-				touchableViews.add(mFlightOneDetailsC);
-				touchableViews.add(mFlightOneListC);
-				break;
-			}
-			case FLIGHT_TWO_FILTERS: {
-				touchableViews.add(mFlightTwoFiltersC);
-				touchableViews.add(mFlightTwoListC);
-				break;
-			}
-			case FLIGHT_TWO_DETAILS: {
-				touchableViews.add(mFlightTwoDetailsC);
-				touchableViews.add(mFlightTwoListC);
-				break;
-			}
-			case ADDING_FLIGHT_TO_TRIP: {
-				break;
-			}
-			}
-			break;
-		}
-		case OVERVIEW: {
+		switch (flightsState) {
+		case FLIGHT_LIST_DOWN: {
 			touchableViews.add(mFlightOneListC);
 			break;
 		}
-		default: {
+		case FLIGHT_ONE_FILTERS: {
+			touchableViews.add(mFlightOneFiltersC);
+			touchableViews.add(mFlightOneListC);
+			break;
+		}
+		case FLIGHT_ONE_DETAILS: {
+			touchableViews.add(mFlightOneDetailsC);
+			touchableViews.add(mFlightOneListC);
+			break;
+		}
+		case FLIGHT_TWO_FILTERS: {
+			touchableViews.add(mFlightTwoFiltersC);
+			touchableViews.add(mFlightTwoListC);
+			break;
+		}
+		case FLIGHT_TWO_DETAILS: {
+			touchableViews.add(mFlightTwoDetailsC);
+			touchableViews.add(mFlightTwoListC);
+			break;
+		}
+		case ADDING_FLIGHT_TO_TRIP: {
 			break;
 		}
 		}
@@ -473,48 +455,45 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 	}
 
-	private void setVisibilityState(ResultsState globalState, ResultsFlightsState flightsState) {
+	private void setVisibilityState(ResultsFlightsState flightsState) {
 		ArrayList<ViewGroup> visibleViews = new ArrayList<ViewGroup>();
-		switch (globalState) {
-		case FLIGHTS: {
-			visibleViews.add(mFlightMapC);
-			switch (flightsState) {
-			case FLIGHT_ONE_FILTERS: {
-				visibleViews.add(mFlightOneFiltersC);
-				visibleViews.add(mFlightOneListC);
-				break;
-			}
-			case FLIGHT_ONE_DETAILS: {
-				visibleViews.add(mFlightOneDetailsC);
-				visibleViews.add(mFlightOneListC);
-				break;
-			}
-			case FLIGHT_TWO_FILTERS: {
-				visibleViews.add(mFlightTwoFiltersC);
-				visibleViews.add(mFlightTwoListColumnC);
-				visibleViews.add(mFlightTwoFlightOneHeaderC);
-				visibleViews.add(mFlightTwoListC);
-				break;
-			}
-			case FLIGHT_TWO_DETAILS: {
-				visibleViews.add(mFlightTwoDetailsC);
-				visibleViews.add(mFlightTwoListC);
-				visibleViews.add(mFlightTwoListColumnC);
-				visibleViews.add(mFlightTwoFlightOneHeaderC);
-				break;
-			}
-			case ADDING_FLIGHT_TO_TRIP: {
-				visibleViews.add(mAddToTripC);
-				break;
-			}
-			}
-			break;
-		}
-		case OVERVIEW: {
+
+		switch (flightsState) {
+		case FLIGHT_LIST_DOWN: {
 			visibleViews.add(mFlightOneListC);
 			break;
 		}
-		default: {
+		case FLIGHT_ONE_FILTERS: {
+			visibleViews.add(mFlightOneFiltersC);
+			visibleViews.add(mFlightOneListC);
+			visibleViews.add(mFlightMapC);
+			break;
+		}
+		case FLIGHT_ONE_DETAILS: {
+			visibleViews.add(mFlightOneDetailsC);
+			visibleViews.add(mFlightOneListC);
+			visibleViews.add(mFlightMapC);
+			break;
+		}
+		case FLIGHT_TWO_FILTERS: {
+			visibleViews.add(mFlightTwoFiltersC);
+			visibleViews.add(mFlightTwoListColumnC);
+			visibleViews.add(mFlightTwoFlightOneHeaderC);
+			visibleViews.add(mFlightTwoListC);
+			visibleViews.add(mFlightMapC);
+			break;
+		}
+		case FLIGHT_TWO_DETAILS: {
+			visibleViews.add(mFlightTwoDetailsC);
+			visibleViews.add(mFlightTwoListC);
+			visibleViews.add(mFlightTwoListColumnC);
+			visibleViews.add(mFlightTwoFlightOneHeaderC);
+			visibleViews.add(mFlightMapC);
+			break;
+		}
+		case ADDING_FLIGHT_TO_TRIP: {
+			visibleViews.add(mAddToTripC);
+			visibleViews.add(mFlightMapC);
 			break;
 		}
 		}
@@ -529,7 +508,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 	}
 
-	private void setFragmentState(ResultsState state, ResultsFlightsState flightsState) {
+	private void setFragmentState(ResultsFlightsState flightsState) {
 
 		FragmentManager manager = getChildFragmentManager();
 
@@ -550,11 +529,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		boolean flightOneDetailsAvailable = true;
 		boolean flightTwoDetailsAvailable = true;
 
-		if (state != ResultsState.FLIGHTS && state != ResultsState.OVERVIEW) {
-			flightMapAvailable = false;
-			flightOneFiltersAvailable = false;
-		}
-		if (state != ResultsState.FLIGHTS) {
+		if (flightsState == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 			flightTwoListAvailable = false;
 			flightTwoFiltersAvailabe = false;
 			flightOneDetailsAvailable = false;
@@ -604,19 +579,34 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateTransitionStart(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo) {
+			startStateTransition(getFlightsStateFromListState(stateOne), getFlightsStateFromListState(stateTwo));
 		}
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo,
 				float percentage) {
+			updateStateTransition(getFlightsStateFromListState(stateOne), getFlightsStateFromListState(stateTwo),
+					percentage);
 		}
 
 		@Override
 		public void onStateTransitionEnd(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo) {
+			endStateTransition(getFlightsStateFromListState(stateOne), getFlightsStateFromListState(stateTwo));
 		}
 
 		@Override
 		public void onStateFinalized(ResultsFlightsListState state) {
+			finalizeState(getFlightsStateFromListState(state));
+		}
+
+		private ResultsFlightsState getFlightsStateFromListState(ResultsFlightsListState state) {
+			if (state == ResultsFlightsListState.FLIGHTS_LIST_AT_TOP) {
+				return ResultsFlightsState.FLIGHT_ONE_FILTERS;
+			}
+			else if (state == ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM) {
+				return ResultsFlightsState.FLIGHT_LIST_DOWN;
+			}
+			return null;
 		}
 
 	};
@@ -629,88 +619,48 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		return mResultsStateHelper;
 	}
 
-	private StateListenerHelper<ResultsState> mResultsStateHelper = new StateListenerHandHolder<ResultsState>() {
+	private StateListenerHelper<ResultsState> mResultsStateHelper = new StateListenerHelper<ResultsState>() {
+
+		@Override
+		public void onStateTransitionStart(ResultsState stateOne, ResultsState stateTwo) {
+			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.FLIGHTS) {
+				startStateTransition(ResultsFlightsState.FLIGHT_LIST_DOWN, ResultsFlightsState.FLIGHT_ONE_FILTERS);
+			}
+			else if (stateOne == ResultsState.FLIGHTS && stateTwo == ResultsState.OVERVIEW) {
+				startStateTransition(ResultsFlightsState.FLIGHT_ONE_FILTERS, ResultsFlightsState.FLIGHT_LIST_DOWN);
+			}
+		}
 
 		@Override
 		public void onStateTransitionUpdate(ResultsState stateOne, ResultsState stateTwo, float percentage) {
 			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.FLIGHTS) {
-				mFlightOneFiltersC.setAlpha(1f - percentage);
-				mFlightMapC.setAlpha(1f - percentage);
-				float filterPaneTopTranslation = percentage
-						* mFlightOneListFrag.getTopSpaceListView().getHeaderSpacerHeight();
-				mFlightOneFiltersC.setTranslationY(filterPaneTopTranslation);
+				updateStateTransition(ResultsFlightsState.FLIGHT_LIST_DOWN, ResultsFlightsState.FLIGHT_ONE_FILTERS,
+						percentage);
 			}
-
-			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.HOTELS) {
-				int colOneDist = mGrid.getTotalWidth() - mGrid.getColLeft(1);
-				int colTwoDist = mGrid.getTotalWidth() - mGrid.getColLeft(2);
-
-				mFlightMapC.setTranslationX(colTwoDist * (1f - percentage));
-				mFlightOneListC.setTranslationX(colOneDist * (1f - percentage));
+			else if (stateOne == ResultsState.FLIGHTS && stateTwo == ResultsState.OVERVIEW) {
+				updateStateTransition(ResultsFlightsState.FLIGHT_ONE_FILTERS, ResultsFlightsState.FLIGHT_LIST_DOWN,
+						percentage);
 			}
 		}
 
 		@Override
-		public void setHardwareLayerForTransition(ResultsState stateOne, ResultsState stateTwo, int layerType) {
-			if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.HOTELS)
-					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.HOTELS)) {
-				//Default -> Hotels or Hotels -> Default transition
-
-				mFlightOneListC.setLayerType(layerType, null);
-
+		public void onStateTransitionEnd(ResultsState stateOne, ResultsState stateTwo) {
+			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.FLIGHTS) {
+				endStateTransition(ResultsFlightsState.FLIGHT_LIST_DOWN, ResultsFlightsState.FLIGHT_ONE_FILTERS);
 			}
-
-			if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.FLIGHTS)
-					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.FLIGHTS)) {
-				//Default -> Flights or Flights -> Default transition
-
-				mFlightOneFiltersC.setLayerType(layerType, null);
-			}
-
-		}
-
-		@Override
-		public void setVisibilityForTransition(ResultsState stateOne, ResultsState stateTwo) {
-			if (stateOne == ResultsState.OVERVIEW || stateTwo == ResultsState.OVERVIEW) {
-				mFlightOneListC.setVisibility(View.VISIBLE);
-			}
-
-			if (stateOne == ResultsState.FLIGHTS || stateTwo == ResultsState.FLIGHTS) {
-				mFlightMapC.setVisibility(View.VISIBLE);
-				mFlightOneFiltersC.setVisibility(View.VISIBLE);
-				mFlightOneListC.setVisibility(View.VISIBLE);
-			}
-
-		}
-
-		@Override
-		public void setTouchabilityForTransition(ResultsState stateOne, ResultsState stateTwo) {
-			for (ViewGroup vg : mContainers) {
-				if (vg instanceof BlockEventFrameLayout) {
-					((BlockEventFrameLayout) vg).setBlockNewEventsEnabled(true);
-				}
+			else if (stateOne == ResultsState.FLIGHTS && stateTwo == ResultsState.OVERVIEW) {
+				endStateTransition(ResultsFlightsState.FLIGHT_ONE_FILTERS, ResultsFlightsState.FLIGHT_LIST_DOWN);
 			}
 		}
 
 		@Override
-		public void setTouchabilityForState(ResultsState state) {
-			setTouchState(state, getFlightsState(state));
-		}
-
-		@Override
-		public void setVisibilityForState(ResultsState state) {
-			setVisibilityState(state, getFlightsState(state));
-		}
-
-		@Override
-		public void setFragmentsForState(ResultsState state) {
-			setFragmentState(state, getFlightsState(state));
-		}
-
-		@Override
-		public void setMiscForState(ResultsState state) {
-			mGlobalState = state;
-			setFlightsState(getFlightsState(state), false);
+		public void onStateFinalized(ResultsState state) {
+			if (state != ResultsState.FLIGHTS) {
+				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, false);
+			}
+			else {
+				setFlightsState(ResultsFlightsState.FLIGHT_ONE_FILTERS, false);
+			}
 		}
 	};
 
@@ -777,35 +727,38 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		@Override
 		public boolean handleBackPressed() {
-			if (mGlobalState == ResultsState.FLIGHTS) {
-				ResultsFlightsState state = mFlightsStateManager.getState();
-				if (mFlightsStateManager.isAnimating()) {
-					//If we are in the middle of state transition, just reverse it
-					setFlightsState(state, true);
+			ResultsFlightsState state = mFlightsStateManager.getState();
+			if (mFlightsStateManager.isAnimating()) {
+				//If we are in the middle of state transition, just reverse it
+				setFlightsState(state, true);
+				return true;
+			}
+			else {
+
+				if (state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+					return false;
+				}
+				else if (state == ResultsFlightsState.FLIGHT_ONE_FILTERS) {
+					mFlightOneListFrag.gotoBottomPosition();
 					return true;
 				}
-				else {
-					if (state == ResultsFlightsState.FLIGHT_ONE_FILTERS) {
-						mFlightOneListFrag.gotoBottomPosition();
-						return true;
-					}
-					else if (state == ResultsFlightsState.FLIGHT_ONE_DETAILS) {
-						setFlightsState(ResultsFlightsState.FLIGHT_ONE_FILTERS, true);
-						return true;
-					}
-					else if (state == ResultsFlightsState.FLIGHT_TWO_FILTERS) {
-						setFlightsState(ResultsFlightsState.FLIGHT_ONE_DETAILS, true);
-						return true;
-					}
-					else if (state == ResultsFlightsState.FLIGHT_TWO_DETAILS) {
-						setFlightsState(ResultsFlightsState.FLIGHT_TWO_FILTERS, true);
-						return true;
-					}
-					else if (state == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
-						return true;
-					}
+				else if (state == ResultsFlightsState.FLIGHT_ONE_DETAILS) {
+					setFlightsState(ResultsFlightsState.FLIGHT_ONE_FILTERS, true);
+					return true;
+				}
+				else if (state == ResultsFlightsState.FLIGHT_TWO_FILTERS) {
+					setFlightsState(ResultsFlightsState.FLIGHT_ONE_DETAILS, true);
+					return true;
+				}
+				else if (state == ResultsFlightsState.FLIGHT_TWO_DETAILS) {
+					setFlightsState(ResultsFlightsState.FLIGHT_TWO_FILTERS, true);
+					return true;
+				}
+				else if (state == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
+					return true;
 				}
 			}
+
 			return false;
 		}
 
@@ -863,7 +816,14 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		@Override
 		public void onStateTransitionStart(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
 			int layerType = View.LAYER_TYPE_HARDWARE;
-			if ((stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS || stateOne == ResultsFlightsState.FLIGHT_TWO_FILTERS)
+			if ((stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN && stateTwo == ResultsFlightsState.FLIGHT_ONE_FILTERS)
+					|| (stateOne == ResultsFlightsState.FLIGHT_ONE_FILTERS && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN)) {
+
+				mFlightMapC.setVisibility(View.VISIBLE);
+				mFlightOneFiltersC.setVisibility(View.VISIBLE);
+				mFlightOneListC.setVisibility(View.VISIBLE);
+			}
+			else if ((stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS || stateOne == ResultsFlightsState.FLIGHT_TWO_FILTERS)
 					&& (stateTwo == ResultsFlightsState.FLIGHT_ONE_DETAILS || stateTwo == ResultsFlightsState.FLIGHT_TWO_FILTERS)) {
 				//WE ARE GOING FROM FLIGHT DETAILS TO THE NEXT LEG
 
@@ -958,7 +918,16 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
 				float percentage) {
-			if ((stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS || stateOne == ResultsFlightsState.FLIGHT_TWO_FILTERS)
+			if ((stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN && stateTwo == ResultsFlightsState.FLIGHT_ONE_FILTERS)
+					|| (stateOne == ResultsFlightsState.FLIGHT_ONE_FILTERS && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN)) {
+				float perc = stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN ? percentage : 1f - percentage;
+				mFlightOneFiltersC.setAlpha(perc);
+				mFlightMapC.setAlpha(perc);
+				float filterPaneTopTranslation = (1f - perc)
+						* mFlightOneListFrag.getTopSpaceListView().getHeaderSpacerHeight();
+				mFlightOneFiltersC.setTranslationY(filterPaneTopTranslation);
+			}
+			else if ((stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS || stateOne == ResultsFlightsState.FLIGHT_TWO_FILTERS)
 					&& (stateTwo == ResultsFlightsState.FLIGHT_ONE_DETAILS || stateTwo == ResultsFlightsState.FLIGHT_TWO_FILTERS)) {
 				//Between flight details and the next flight leg list/filters
 				boolean forward = stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS;
@@ -1063,11 +1032,18 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateFinalized(ResultsFlightsState state) {
+
+			setFragmentState(state);
+			setTouchState(state);
+			setVisibilityState(state);
+
 			if (mFlightOneListFrag != null) {
-				mFlightOneListFrag.setListLockedToTop(state != ResultsFlightsState.FLIGHT_ONE_FILTERS);
+				mFlightOneListFrag.setListLockedToTop(state != ResultsFlightsState.FLIGHT_LIST_DOWN
+						&& state != ResultsFlightsState.FLIGHT_ONE_FILTERS);
 			}
 
 			switch (state) {
+			case FLIGHT_LIST_DOWN:
 			case FLIGHT_ONE_FILTERS: {
 				positionForFilters(mFlightOneFiltersC, mFlightOneListC, 0);
 				break;
@@ -1090,8 +1066,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				break;
 			}
 			}
-			setTouchState(mGlobalState, state);
-			setVisibilityState(mGlobalState, state);
 		}
 
 		private void positionForFilters(ViewGroup filtersC, ViewGroup listC, int legPos) {
