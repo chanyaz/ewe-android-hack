@@ -15,6 +15,9 @@
     <dimen name="tablet_filter_title_margin_bottom">16dp</dimen>
     <dimen name="tablet_filter_white_space">32dp</dimen>
 
+    <!-- Tablet details -->
+    <dimen name="tablet_detail_padding">16dp</dimen>
+
     <!-- Launch dimens -->
     <dimen name="launch_tile_space_width">2dp</dimen>
     <dimen name="launch_header_height">100dp</dimen>
@@ -144,6 +147,7 @@
     <dimen name="amenity_text_size_large">12sp</dimen>
     <dimen name="amenity_text_size_small">10sp</dimen>
     <dimen name="amenity_layout_width">60dp</dimen>
+    <dimen name="single_amenity_margin">3dp</dimen>
 
     <!--
          The limiting dimension of the gallery (either height or width, depending 

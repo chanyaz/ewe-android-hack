@@ -141,10 +141,29 @@ public class LayoutUtils {
 		new AmenityInfo(Amenity.BRAILLE_SIGNAGE, R.drawable.ic_amenity_braille_signs),
 	};
 
-	public static void addAmenities(Context context, Property property, ViewGroup amenitiesContainer) {
+	/**
+	 * Estimates the width of the amenities if they'd be displayed on the screen.
+	 * @param property
+	 * @return
+	 */
+	public static float estimateAmenitiesWidth(Context context, Property property) {
+		int count = 0;
 		for (AmenityInfo ai : sAmenityInfo) {
 			if (property.hasAmenity(ai.amenity) || property.hasAnyAmenity(ai.aliases)) {
-				addAmenity(context, amenitiesContainer, ai.amenity, ai.resId);
+				count++;
+			}
+		}
+		Resources res = context.getResources();
+		float singleAmenityWidth = res.getDimension(R.dimen.amenity_layout_width)
+				+ res.getDimension(R.dimen.single_amenity_margin) * 2;
+		return count * singleAmenityWidth;
+
+	}
+
+	public static void addAmenities(Context context, Property property, ViewGroup container) {
+		for (AmenityInfo ai : sAmenityInfo) {
+			if (property.hasAmenity(ai.amenity) || property.hasAnyAmenity(ai.aliases)) {
+				addAmenity(context, container, ai.amenity, ai.resId);
 			}
 		}
 	}

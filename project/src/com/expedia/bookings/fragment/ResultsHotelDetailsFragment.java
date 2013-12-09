@@ -176,7 +176,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		TextView roomsLeftText = Ui.findView(view, R.id.rooms_left_ring_text);
 
 		int roomsLeft = property.getRoomsLeftAtThisRate();
-		Log.e("DOUG: roomsLeft = " + roomsLeft);
 		if (roomsLeft <= 5 && roomsLeft >= 0) {
 			int color = getResources().getColor(R.color.details_ring_red);
 			roomsLeftRing.setPrimaryColor(color);
@@ -205,9 +204,18 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		amenitiesScrollView.setHorizontalScrollBarEnabled(false);
 		amenitiesScrollView.setOverScrollMode(ScrollView.OVER_SCROLL_NEVER);
 
-		ViewGroup amenitiesContainer = (ViewGroup) view.findViewById(R.id.amenities_table_row);
-		amenitiesContainer.removeAllViews();
-		LayoutUtils.addAmenities(getActivity(), property, amenitiesContainer);
+		ViewGroup amenitiesTableRow = Ui.findView(view, R.id.amenities_table_row);
+		amenitiesTableRow.removeAllViews();
+
+		// Center the amenities if they don't take up the full width
+		float amenitiesWidth = LayoutUtils.estimateAmenitiesWidth(getActivity(), property);
+		ViewGroup amenitiesContainer = Ui.findView(view, R.id.amenities_container);
+		float desiredPadding = (amenitiesContainer.getWidth() - amenitiesWidth) / 2;
+		float minPadding = getResources().getDimension(R.dimen.tablet_detail_padding);
+		int padding = (int) Math.max(minPadding, desiredPadding);
+		amenitiesContainer.setPadding(padding, 0, padding, 0);
+
+		LayoutUtils.addAmenities(getActivity(), property, amenitiesTableRow);
 
 		// Hide the text that indicated no amenities because there are amenities
 		view.findViewById(R.id.amenities_none_text).setVisibility(View.GONE);
