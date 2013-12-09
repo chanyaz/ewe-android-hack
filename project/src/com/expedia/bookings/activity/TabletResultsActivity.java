@@ -165,10 +165,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		transaction.commit();
 		manager.executePendingTransactions();//These must be finished before we continue..
 
-		//Add listeners
-		mHotelsController.registerStateListener(mHotelsStateHelper, false);
-		mFlightsController.registerStateListener(mFlightsStateHelper, false);
-
 		//We load up the default backgrounds so they are ready to go later if/when we need them
 		//this is important, as we need to load images before our memory load gets too heavy
 		if (savedInstanceState == null || !Db.getBackgroundImageCache(this).isDefaultInCache()) {
@@ -586,8 +582,27 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	@Override
 	public void finalizeState(ResultsState state) {
+
+		setListenerState(state);
+
 		mState = state;
 		mResultsStateListeners.finalizeState(state);
+
+	}
+
+	private void setListenerState(ResultsState state) {
+		if (state == ResultsState.HOTELS) {
+			mFlightsController.unRegisterStateListener(mFlightsStateHelper);
+			mHotelsController.registerStateListener(mHotelsStateHelper, false);
+		}
+		else if (state == ResultsState.FLIGHTS) {
+			mFlightsController.registerStateListener(mFlightsStateHelper, false);
+			mHotelsController.unRegisterStateListener(mHotelsStateHelper);
+		}
+		else {
+			mFlightsController.registerStateListener(mFlightsStateHelper, false);
+			mHotelsController.registerStateListener(mHotelsStateHelper, false);
+		}
 	}
 
 	@Override
