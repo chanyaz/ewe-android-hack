@@ -188,6 +188,11 @@ public class TabletResultsActionBarView extends RelativeLayout implements IMeasu
 			}
 
 			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.HOTELS) {
+				mSearchBar.setAlpha(1f - percentage);
+				mActionBarBg.setPercentage(percentage);
+				mHotelsTitleTv.setAlpha(percentage);
+			}
+			else if (stateOne == ResultsState.HOTELS && stateTwo == ResultsState.OVERVIEW) {
 				mSearchBar.setAlpha(percentage);
 				mActionBarBg.setPercentage(1f - percentage);
 				mHotelsTitleTv.setAlpha(1f - percentage);
