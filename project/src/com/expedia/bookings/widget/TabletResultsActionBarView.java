@@ -182,6 +182,11 @@ public class TabletResultsActionBarView extends RelativeLayout implements IMeasu
 		@Override
 		public void onStateTransitionUpdate(ResultsState stateOne, ResultsState stateTwo, float percentage) {
 			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.FLIGHTS) {
+				mSearchBar.setAlpha(1f - percentage);
+				mActionBarBg.setPercentage(percentage);
+				mFlightsTitleTv.setAlpha(percentage);
+			}
+			else if (stateOne == ResultsState.FLIGHTS && stateTwo == ResultsState.OVERVIEW) {
 				mSearchBar.setAlpha(percentage);
 				mActionBarBg.setPercentage(1f - percentage);
 				mFlightsTitleTv.setAlpha(1f - percentage);
