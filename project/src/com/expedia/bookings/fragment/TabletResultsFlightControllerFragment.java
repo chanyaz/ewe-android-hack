@@ -596,7 +596,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateFinalized(ResultsFlightsListState state) {
-			finalizeState(getFlightsStateFromListState(state));
+			setFlightsState(getFlightsStateFromListState(state),false);
 		}
 
 		private ResultsFlightsState getFlightsStateFromListState(ResultsFlightsListState state) {

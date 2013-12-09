@@ -496,7 +496,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateFinalized(ResultsHotelsListState state) {
-			finalizeState(getHotelsStateFromListState(state));
+			setHotelsState(getHotelsStateFromListState(state), false);
 		}
 
 		private ResultsHotelsState getHotelsStateFromListState(ResultsHotelsListState state) {
