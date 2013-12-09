@@ -15,7 +15,6 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout.LayoutParams;
 
 import com.expedia.bookings.R;
@@ -62,7 +61,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	private FlightLegSummarySectionTablet mAnimationFlightRow;
 
 	private TextView mTimeHeaderTv;
-	private Button mAddTripBtn;
+	private TextView mAddTripTv;
 
 	private TextView mFlightDistanceTv;
 
@@ -106,7 +105,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		mDetailsC.setPivotY(0);
 
 		mTimeHeaderTv = Ui.findView(mRootC, R.id.details_time_header);
-		mAddTripBtn = Ui.findView(mRootC, R.id.details_add_trip_button);
+		mAddTripTv = Ui.findView(mRootC, R.id.details_add_trip_button);
 
 		mFlightDistanceTv = Ui.findView(mRootC, R.id.flight_miles_text_view);
 
@@ -146,8 +145,8 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		// Add for $390
 		String addTripStr = res.getString(R.string.add_for_TEMPLATE,
 				trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
-		mAddTripBtn.setText(addTripStr);
-		mAddTripBtn.setOnClickListener(new View.OnClickListener() {
+		mAddTripTv.setText(addTripStr);
+		mAddTripTv.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				mListener.onTripAdded(mLegNumber);

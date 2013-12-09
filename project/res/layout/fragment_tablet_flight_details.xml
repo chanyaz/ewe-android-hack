@@ -13,7 +13,6 @@
             android:id="@+id/details_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white"
             android:orientation="vertical" >
 
         <!-- Add trip now! -->
@@ -21,8 +20,11 @@
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#EBEBEB"
-                android:padding="12dp" >
+                android:background="@drawable/bg_flight_details_tablet_grey_top"
+                android:paddingBottom="16dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="28dp"
+                android:paddingTop="16dp" >
 
             <com.expedia.bookings.widget.TextView
                     android:id="@+id/details_time_header"
@@ -30,18 +32,24 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:text="4:00 PM to 11:00 PM"
-                    app:textStyle="normal" />
+                    android:textColor="#333"
+                    android:textSize="20sp"
+                    app:textStyle="light" />
 
-            <Button
+            <com.expedia.bookings.widget.TextView
                     android:id="@+id/details_add_trip_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="right"
-                    android:text="ADD FOR $390"
-                    android:textAllCaps="true" />
+                    android:background="#3987bf"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:textAllCaps="true"
+                    android:textColor="#fff"
+                    android:textSize="14sp"
+                    app:textStyle="bold" />
         </RelativeLayout>
 
         <ScrollView
