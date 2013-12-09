@@ -28,6 +28,7 @@ public class StateManager<T> {
 	private T mState;
 	private T mDestinationState;
 	private boolean mProviderIsFrag = false;
+	private boolean mAcceptAnimationUpdates = false;
 
 	/**
 	 * Create a new StateManager
@@ -123,7 +124,9 @@ public class StateManager<T> {
 		animator.addUpdateListener(new AnimatorUpdateListener() {
 			@Override
 			public void onAnimationUpdate(ValueAnimator arg0) {
-				provider.updateStateTransition(getState(), state, (Float) arg0.getAnimatedValue());
+				if (mAcceptAnimationUpdates) {
+					provider.updateStateTransition(getState(), state, (Float) arg0.getAnimatedValue());
+				}
 			}
 		});
 		animator.addListener(new AnimatorListenerAdapter() {
@@ -132,14 +135,21 @@ public class StateManager<T> {
 				if (allowAnimationActions()) {
 					provider.startStateTransition(getState(), state);
 				}
+				mAcceptAnimationUpdates = true;
 			}
 
 			@Override
 			public void onAnimationEnd(Animator arg0) {
+				mAcceptAnimationUpdates = false;
 				if (allowAnimationActions()) {
 					provider.endStateTransition(getState(), state);
 					finalizeState(mDestinationState, provider);
 				}
+			}
+
+			@Override
+			public void onAnimationCancel(Animator arg0) {
+				mAcceptAnimationUpdates = false;
 			}
 		});
 		return animator;
