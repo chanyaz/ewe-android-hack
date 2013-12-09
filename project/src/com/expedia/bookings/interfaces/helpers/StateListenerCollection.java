@@ -3,6 +3,7 @@ package com.expedia.bookings.interfaces.helpers;
 import java.util.ArrayList;
 
 import com.expedia.bookings.interfaces.IStateListener;
+import com.mobiata.android.Log;
 
 /**
  * This class is designed to ease the implementation of IStateProvider.
@@ -15,6 +16,9 @@ public class StateListenerCollection<T> {
 	private ArrayList<IStateListener<T>> mStateChangeListeners = new ArrayList<IStateListener<T>>();
 	private ArrayList<IStateListener<T>> mInactiveStateChangeListeners = new ArrayList<IStateListener<T>>();
 	private T mLastFinalizedState;
+
+	private T mTransStartState;
+	private T mTransEndState;
 
 	public StateListenerCollection(T startState) {
 		mLastFinalizedState = startState;
@@ -33,34 +37,77 @@ public class StateListenerCollection<T> {
 	}
 
 	public void startStateTransition(T stateOne, T stateTwo) {
-		for (IStateListener<T> listener : mStateChangeListeners) {
-			if (!mInactiveStateChangeListeners.contains(listener)) {
-				listener.onStateTransitionStart(stateOne, stateTwo);
+		if (mTransStartState != null || mTransEndState != null) {
+			Log.e("startStateTransition may not be called until after endStateTransition has been called on the previous transition.");
+		}
+		else {
+			mTransStartState = stateOne;
+			mTransEndState = stateTwo;
+			for (IStateListener<T> listener : mStateChangeListeners) {
+				if (!mInactiveStateChangeListeners.contains(listener)) {
+					listener.onStateTransitionStart(stateOne, stateTwo);
+				}
 			}
 		}
 	}
 
 	public void updateStateTransition(T stateOne, T stateTwo, float percentage) {
-		for (IStateListener<T> listener : mStateChangeListeners) {
-			if (!mInactiveStateChangeListeners.contains(listener)) {
-				listener.onStateTransitionUpdate(stateOne, stateTwo, percentage);
+		if (mTransStartState == null || mTransEndState == null || stateOne != mTransStartState
+				|| stateTwo != mTransEndState) {
+			Log.e("updateStateTransition must be called after startStateTransition. The argument states of startStateTransition must match the argument states of updateStateTransition. startStateOne:"
+					+ mTransStartState
+					+ " startStateTwo:"
+					+ mTransEndState
+					+ " stateOne:"
+					+ stateOne
+					+ " stateTwo:"
+					+ stateTwo);
+		}
+		else {
+			for (IStateListener<T> listener : mStateChangeListeners) {
+				if (!mInactiveStateChangeListeners.contains(listener)) {
+					listener.onStateTransitionUpdate(stateOne, stateTwo, percentage);
+				}
 			}
 		}
 	}
 
 	public void endStateTransition(T stateOne, T stateTwo) {
-		for (IStateListener<T> listener : mStateChangeListeners) {
-			if (!mInactiveStateChangeListeners.contains(listener)) {
-				listener.onStateTransitionEnd(stateOne, stateTwo);
+		if (mTransStartState == null || mTransEndState == null || stateOne != mTransStartState
+				|| stateTwo != mTransEndState) {
+			Log.e("endStateTransition must be called after startStateTransition. The argument states of startStateTransition must match the argument states of updateStateTransition. startStateOne:"
+					+ mTransStartState
+					+ " startStateTwo:"
+					+ mTransEndState
+					+ " stateOne:"
+					+ stateOne
+					+ " stateTwo:"
+					+ stateTwo);
+		}
+		else {
+			for (IStateListener<T> listener : mStateChangeListeners) {
+				if (!mInactiveStateChangeListeners.contains(listener)) {
+					listener.onStateTransitionEnd(stateOne, stateTwo);
+				}
 			}
+			mTransStartState = null;
+			mTransEndState = null;
 		}
 	}
 
 	public void finalizeState(T state) {
-		mLastFinalizedState = state;
-		for (IStateListener<T> listener : mStateChangeListeners) {
-			if (!mInactiveStateChangeListeners.contains(listener)) {
-				listener.onStateFinalized(state);
+		if (mTransStartState != null || mTransEndState != null) {
+			Log.e("finalizeState may not be called until after endStateTransition has been called on the transition. Transition that needs to end startStateOne:"
+					+ mTransStartState
+					+ " startStateTwo:"
+					+ mTransEndState);
+		}
+		else {
+			mLastFinalizedState = state;
+			for (IStateListener<T> listener : mStateChangeListeners) {
+				if (!mInactiveStateChangeListeners.contains(listener)) {
+					listener.onStateFinalized(state);
+				}
 			}
 		}
 	}
