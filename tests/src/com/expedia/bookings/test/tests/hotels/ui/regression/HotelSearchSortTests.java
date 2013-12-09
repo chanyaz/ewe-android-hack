@@ -152,7 +152,9 @@ public class HotelSearchSortTests extends CustomActivityInstrumentationTestCase<
 		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
 		mDriver.hotelsSearchScreen().clickOnSortButton();
 		mDriver.delay(1);
-		assertTrue(isTheSelectedSortMethod(mDriver.hotelsSearchScreen().sortMenu().getSortByDistanceString()));
+		if (mDriver.searchText(mDriver.hotelsSearchScreen().sortMenu().getSortByPriceString(), 1, false, true)) {
+			assertTrue(isTheSelectedSortMethod(mDriver.hotelsSearchScreen().sortMenu().getSortByDistanceString()));
+		}
 	}
 
 	public void testSearchByAddressYieldsSortByDistance() throws Exception {
@@ -165,7 +167,9 @@ public class HotelSearchSortTests extends CustomActivityInstrumentationTestCase<
 		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
 		mDriver.hotelsSearchScreen().clickOnSortButton();
 		mDriver.delay(1);
-		assertTrue(isTheSelectedSortMethod(mDriver.hotelsSearchScreen().sortMenu().getSortByDistanceString()));
+		if (mDriver.searchText(mDriver.hotelsSearchScreen().sortMenu().getSortByPriceString(), 1, false, true)) {
+			assertTrue(isTheSelectedSortMethod(mDriver.hotelsSearchScreen().sortMenu().getSortByDistanceString()));
+		}
 	}
 
 	public void testSearchByPOIYieldsSortByDistance() throws Exception {
@@ -178,7 +182,9 @@ public class HotelSearchSortTests extends CustomActivityInstrumentationTestCase<
 		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
 		mDriver.hotelsSearchScreen().clickOnSortButton();
 		mDriver.delay(1);
-		assertTrue(isTheSelectedSortMethod(mDriver.hotelsSearchScreen().sortMenu().getSortByDistanceString()));
+		if (mDriver.searchText(mDriver.hotelsSearchScreen().sortMenu().getSortByPriceString(), 1, false, true)) {
+			assertTrue(isTheSelectedSortMethod(mDriver.hotelsSearchScreen().sortMenu().getSortByDistanceString()));
+		}
 	}
 
 	public void testSearchByNeighborhoodYieldsSortByPopularity() throws Exception {
@@ -191,7 +197,9 @@ public class HotelSearchSortTests extends CustomActivityInstrumentationTestCase<
 		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
 		mDriver.hotelsSearchScreen().clickOnSortButton();
 		mDriver.delay(1);
-		assertTrue(isTheSelectedSortMethod(mDriver.hotelsSearchScreen().sortMenu().getSortByPopularityString()));
+		if (mDriver.searchText(mDriver.hotelsSearchScreen().sortMenu().getSortByPriceString(), 1, false, true)) {
+			assertTrue(isTheSelectedSortMethod(mDriver.hotelsSearchScreen().sortMenu().getSortByPopularityString()));
+		}
 	}
 
 	public void testSearchByAiportYieldsSortByPopularity() throws Exception {
@@ -204,7 +212,9 @@ public class HotelSearchSortTests extends CustomActivityInstrumentationTestCase<
 		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
 		mDriver.hotelsSearchScreen().clickOnSortButton();
 		mDriver.delay(1);
-		assertTrue(isTheSelectedSortMethod(mDriver.hotelsSearchScreen().sortMenu().getSortByPopularityString()));
+		if (mDriver.searchText(mDriver.hotelsSearchScreen().sortMenu().getSortByPriceString(), 1, false, true)) {
+			assertTrue(isTheSelectedSortMethod(mDriver.hotelsSearchScreen().sortMenu().getSortByPopularityString()));
+		}
 	}
 
 	public void testSearchByPostalCodeDefaultsToPopularity() throws Exception {
@@ -217,7 +227,9 @@ public class HotelSearchSortTests extends CustomActivityInstrumentationTestCase<
 		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
 		mDriver.hotelsSearchScreen().clickOnSortButton();
 		mDriver.delay(1);
-		assertTrue(isTheSelectedSortMethod(mDriver.hotelsSearchScreen().sortMenu().getSortByPopularityString()));
+		if (mDriver.searchText(mDriver.hotelsSearchScreen().sortMenu().getSortByPriceString(), 1, false, true)) {
+			assertTrue(isTheSelectedSortMethod(mDriver.hotelsSearchScreen().sortMenu().getSortByPopularityString()));
+		}
 	}
 
 	// Assert that the RadioButton checked corresponds to
