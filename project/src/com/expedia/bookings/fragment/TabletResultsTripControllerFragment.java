@@ -773,6 +773,10 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 			}
 
 			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.HOTELS) {
+				animateToPercentage(1f - percentage, mAddingHotelTrip);
+				addTripPercentage(1f - percentage);
+			}
+			else if (stateOne == ResultsState.HOTELS && stateTwo == ResultsState.OVERVIEW) {
 				animateToPercentage(percentage, mAddingHotelTrip);
 				addTripPercentage(percentage);
 			}
