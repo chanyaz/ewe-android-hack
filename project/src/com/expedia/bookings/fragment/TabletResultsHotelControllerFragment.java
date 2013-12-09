@@ -529,6 +529,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			else if (stateOne == ResultsState.HOTELS && stateTwo == ResultsState.OVERVIEW) {
 				startStateTransition(ResultsHotelsState.HOTEL_LIST_UP, ResultsHotelsState.HOTEL_LIST_DOWN);
 			}
+			else if (stateOne == ResultsState.FLIGHTS && stateTwo == ResultsState.OVERVIEW) {
+				mHotelListC.setVisibility(View.VISIBLE);
+				mHotelListC.setAlpha(0f);
+			}
 		}
 
 		@Override
@@ -538,6 +542,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 			else if (stateOne == ResultsState.HOTELS && stateTwo == ResultsState.OVERVIEW) {
 				updateStateTransition(ResultsHotelsState.HOTEL_LIST_UP, ResultsHotelsState.HOTEL_LIST_DOWN, percentage);
+			}
+			else if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.FLIGHTS) {
+				mHotelListC.setAlpha(1f - percentage);
+			}
+			else if (stateOne == ResultsState.FLIGHTS && stateTwo == ResultsState.OVERVIEW) {
+				mHotelListC.setAlpha(percentage);
 			}
 		}
 
@@ -553,6 +563,15 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateFinalized(ResultsState state) {
+			if (state == ResultsState.FLIGHTS) {
+				mHotelListC.setVisibility(View.GONE);
+				mHotelListC.setAlpha(0f);
+			}
+			else {
+				mHotelListC.setVisibility(View.VISIBLE);
+				mHotelListC.setAlpha(1f);
+			}
+
 			if (state != ResultsState.HOTELS) {
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, false);
 			}
@@ -560,6 +579,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, false);
 			}
 		}
+
 	};
 
 	/*
