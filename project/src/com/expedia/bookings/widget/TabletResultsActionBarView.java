@@ -234,6 +234,7 @@ public class TabletResultsActionBarView extends RelativeLayout implements IMeasu
 			mResultsState = state;
 			switch (mResultsState) {
 			case HOTELS: {
+				mHotelsTitleTv.setAlpha(1f);
 				mSearchBar.setVisibility(View.INVISIBLE);
 				mFlightsTitleTv.setVisibility(View.INVISIBLE);
 				mHotelsTitleTv.setVisibility(View.VISIBLE);
@@ -241,6 +242,7 @@ public class TabletResultsActionBarView extends RelativeLayout implements IMeasu
 				break;
 			}
 			case FLIGHTS: {
+				mFlightsTitleTv.setAlpha(1f);
 				mSearchBar.setVisibility(View.INVISIBLE);
 				mFlightsTitleTv.setVisibility(View.VISIBLE);
 				mHotelsTitleTv.setVisibility(View.INVISIBLE);
@@ -248,6 +250,7 @@ public class TabletResultsActionBarView extends RelativeLayout implements IMeasu
 				break;
 			}
 			default: {
+				mSearchBar.setAlpha(1f);
 				mSearchBar.setVisibility(View.VISIBLE);
 				mFlightsTitleTv.setVisibility(View.INVISIBLE);
 				mHotelsTitleTv.setVisibility(View.INVISIBLE);
