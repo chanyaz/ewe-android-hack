@@ -57,18 +57,6 @@ public class HotelCheckoutUserInfoTests extends CustomActivityInstrumentationTes
 				verifyMissingTravelerInformationAlerts();
 				verifyMissingCardInfoAlerts();
 				verifyLoginButtonNotAppearing();
-				mDriver.hotelsCheckoutScreen().slideToCheckout();
-				doBookingAndReturnToLaunchScreen();
-				mDriver.launchScreen().openMenuDropDown();
-				mDriver.launchScreen().pressSettings();
-				mDriver.settingsScreen().clickToClearPrivateData();
-				mDriver.delay(1);
-				mDriver.settingsScreen().clickOKString();
-				mDriver.delay(1);
-				mDriver.settingsScreen().clickOKString();
-				mDriver.delay(1);
-				mDriver.goBack();
-				mDriver.delay(1);
 			}
 			else {
 				if (!handleDialogPopupPresent()) {
