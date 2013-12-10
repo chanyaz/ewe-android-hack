@@ -2,10 +2,6 @@ package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
-import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Rect;
@@ -370,11 +366,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	public void performTripHandoff() {
 		//Tell the trip overview to do its thing...
 		mParentAddToTripListener.performTripHandoff();
-		
+
 		//set our own state to be where it needs to be (THIS IS NOT GOOD, setFlightsState should take care of this)
 		mFlightOneListFrag.setListLockedToTop(false);
 		mFlightOneListFrag.gotoBottomPosition(StateManager.STATE_CHANGE_ANIMATION_DURATION);
-		setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN,false);
+		setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, false);
 	}
 
 	/*
@@ -570,7 +566,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateFinalized(ResultsFlightsListState state) {
-			setFlightsState(getFlightsStateFromListState(state),false);
+			setFlightsState(getFlightsStateFromListState(state), false);
 		}
 
 		private ResultsFlightsState getFlightsStateFromListState(ResultsFlightsListState state) {
@@ -1016,8 +1012,24 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 						&& state != ResultsFlightsState.FLIGHT_ONE_FILTERS);
 			}
 
+			if (state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				mFlightOneFiltersC.setAlpha(0f);
+				mFlightMapC.setAlpha(0f);
+				if (mFlightOneListFrag != null && mFlightOneListFrag.getTopSpaceListView() != null) {
+					mFlightOneFiltersC
+							.setTranslationY(mFlightOneListFrag.getTopSpaceListView().getHeaderSpacerHeight());
+				}
+			}
+			else {
+				mFlightOneFiltersC.setAlpha(1f);
+				mFlightMapC.setAlpha(1f);
+				mFlightOneFiltersC.setTranslationY(0f);
+			}
+
 			switch (state) {
 			case FLIGHT_LIST_DOWN:
+				positionForFilters(mFlightOneFiltersC, mFlightOneListC, 0);
+				break;
 			case FLIGHT_ONE_FILTERS: {
 				positionForFilters(mFlightOneFiltersC, mFlightOneListC, 0);
 				break;
