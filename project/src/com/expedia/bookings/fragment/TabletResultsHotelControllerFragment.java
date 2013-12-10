@@ -331,9 +331,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mHotelListFrag.gotoTopPosition(0);
 			}
 			mHotelListFrag.registerStateListener(mListStateHelper, false);
-
 		}
-
 	}
 
 	/*
@@ -455,8 +453,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		//Tell the trip overview to do its thing...
 		mParentAddToTripListener.performTripHandoff();
 
-		//set our own state to be where it needs to be (THIS IS NOT GOOD, setFlightsState should take care of this)
-		mHotelListFrag.setListLockedToTop(false);
+		//set our own state to be where it needs to be
 		setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, false);
 	}
 

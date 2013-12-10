@@ -41,6 +41,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilit
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -367,9 +368,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		//Tell the trip overview to do its thing...
 		mParentAddToTripListener.performTripHandoff();
 
-		//set our own state to be where it needs to be (THIS IS NOT GOOD, setFlightsState should take care of this)
+		//TODO: Remove this stuff, setFlightsState should be enough to take care of it, but right now
+		//the flights list draws stupidly and doesnt make it to the bottom.
 		mFlightOneListFrag.setListLockedToTop(false);
 		mFlightOneListFrag.gotoBottomPosition(StateManager.STATE_CHANGE_ANIMATION_DURATION);
+
+		//set our own state to be where it needs to be
 		setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, false);
 	}
 
@@ -539,6 +543,25 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		transaction.commit();
 
+	}
+
+	private void setFirstFlightListState(ResultsFlightsState state) {
+		if (mFlightOneListFrag != null) {
+			//lock
+			mFlightOneListFrag.setListLockedToTop(state != ResultsFlightsState.FLIGHT_LIST_DOWN
+					&& state != ResultsFlightsState.FLIGHT_ONE_FILTERS);
+
+			//List scroll position
+			mFlightOneListFrag.unRegisterStateListener(mListStateHelper);
+			if (state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				mFlightOneListFrag.gotoBottomPosition(0);
+			}
+			else if (mFlightOneListFrag.getTopSpaceListView() != null
+					&& mFlightOneListFrag.getTopSpaceListView().getScrollDownPercentage() > 0) {
+				mFlightOneListFrag.gotoTopPosition(0);
+			}
+			mFlightOneListFrag.registerStateListener(mListStateHelper, false);
+		}
 	}
 
 	/*
@@ -1006,11 +1029,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			setFragmentState(state);
 			setTouchState(state);
 			setVisibilityState(state);
-
-			if (mFlightOneListFrag != null) {
-				mFlightOneListFrag.setListLockedToTop(state != ResultsFlightsState.FLIGHT_LIST_DOWN
-						&& state != ResultsFlightsState.FLIGHT_ONE_FILTERS);
-			}
+			setFirstFlightListState(state);
 
 			if (state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mFlightOneFiltersC.setAlpha(0f);

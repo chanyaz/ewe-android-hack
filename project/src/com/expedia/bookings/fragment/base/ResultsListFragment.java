@@ -217,7 +217,6 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 			int stickyHeaderBottom = mListView.calculateHeaderSpacerVisibleHeight();
 			mStickyHeader.setTranslationY(stickyHeaderBottom);
 		}
-
 	}
 
 	@Override
