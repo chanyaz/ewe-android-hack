@@ -30,6 +30,8 @@ public class FlightTripView extends View {
 	private Paint mTripPaint;
 	private TextPaint mTextPaint;
 
+	private boolean mSpecifiedTextSize = false;
+
 	private FlightLeg mFlightLeg;
 
 	// Min/max time are the minimum and maximum times for the entire result set (not just this flight)
@@ -92,6 +94,7 @@ public class FlightTripView extends View {
 			mTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
 		}
 		if (textSize != -1.0f) {
+			mSpecifiedTextSize = true;
 			mTextPaint.setTextSize(textSize);
 		}
 		mTextPaint.setAntiAlias(true);
@@ -237,8 +240,10 @@ public class FlightTripView extends View {
 		float circleDiameter = (height - mWaypointTextTopMargin) / 2.0f;
 
 		// F856: Make sure that the font padding is accounted for in the text size
-		float fontPadding = (mTextPaint.descent() - mTextPaint.ascent()) - mTextPaint.getTextSize();
-		mTextPaint.setTextSize(circleDiameter - fontPadding);
+		if (!mSpecifiedTextSize) {
+			float fontPadding = (mTextPaint.descent() - mTextPaint.ascent()) - mTextPaint.getTextSize();
+			mTextPaint.setTextSize(circleDiameter - fontPadding);
+		}
 
 		// Determine the widest text, base the side padding (and min line width) on that
 		float maxTextWidth = 0;
