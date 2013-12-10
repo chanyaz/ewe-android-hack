@@ -16,6 +16,7 @@ import android.graphics.PixelFormat;
 import android.graphics.RectF;
 import android.graphics.Region.Op;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -170,7 +171,8 @@ public class RingedCountView extends View {
 
 	/**
 	 * Sets the large count text. Does not change the ring percentage. A fractional
-	 * amount will cause an odometer style effect.
+	 * amount will cause an odometer style effect. Setting this will override what
+	 * was set previously in setCount(String).
 	 * @param count
 	 */
 	@TargetApi(11)
@@ -179,6 +181,15 @@ public class RingedCountView extends View {
 			mAnimator.cancel();
 		}
 		mRingDrawable.setCount(count);
+	}
+
+	/**
+	 * Sets the large count text. Setting this will override what was set previously
+	 * in setCount(float).
+	 * @param text
+	 */
+	public void setCountText(String text) {
+		mRingDrawable.setCountText(text);
 	}
 
 	/**
@@ -250,6 +261,7 @@ public class RingedCountView extends View {
 		private Paint mCountTextPaint;
 		private Paint mCaptionTextPaint;
 		private float mCount;
+		private String mCountText;
 		private String mCaption;
 
 		public RingDrawable() {
@@ -331,6 +343,7 @@ public class RingedCountView extends View {
 		}
 
 		public void setCount(float count) {
+			mCountText = null;
 			if (count != mCount) {
 				mCount = count;
 				invalidateSelf();
@@ -339,6 +352,10 @@ public class RingedCountView extends View {
 
 		public float getCount() {
 			return mCount;
+		}
+
+		public void setCountText(String text) {
+			mCountText = text;
 		}
 
 		public void setCaption(String caption) {
@@ -376,22 +393,31 @@ public class RingedCountView extends View {
 
 		private void drawText(Canvas canvas) {
 			float textSize = mCountTextPaint.getTextSize();
-			// Odometer style count
+
 			float yOffset = mCaption == null ? -((mCountTextPaint.descent() + mCountTextPaint.ascent()) / 2) : 0;
-			canvas.save();
-			canvas.clipRect(0, mCy - textSize + yOffset, canvas.getWidth(), mCy + 4 + yOffset, Op.REPLACE);
-			String countString = Integer.toString(Math.round(mCount));
-			float fraction = mCount - Math.round(mCount);
-			float y = mCy - fraction * textSize + yOffset;
-			canvas.drawText(countString, mCx, y, mCountTextPaint);
-			if (y != 0) {
-				String nextString = Integer.toString(Math.round(mCount) + 1);
-				canvas.drawText(nextString, mCx, y + textSize, mCountTextPaint);
+
+			// Odometer style count
+			if (mCountText == null) {
+				canvas.save();
+				canvas.clipRect(0, mCy - textSize + yOffset, canvas.getWidth(), mCy + 4 + yOffset, Op.REPLACE);
+				String countString = Integer.toString(Math.round(mCount));
+				float fraction = mCount - Math.round(mCount);
+				float y = mCy - fraction * textSize + yOffset;
+				canvas.drawText(countString, mCx, y, mCountTextPaint);
+				if (y != 0) {
+					String nextString = Integer.toString(Math.round(mCount) + 1);
+					canvas.drawText(nextString, mCx, y + textSize, mCountTextPaint);
+				}
+				canvas.restore();
 			}
-			canvas.restore();
+
+			// Simple user defined count text
+			else if (!TextUtils.isEmpty(mCountText)) {
+				canvas.drawText(mCountText, mCx, mCy + yOffset, mCountTextPaint);
+			}
 
 			// Caption
-			if (mCaption != null) {
+			if (!TextUtils.isEmpty(mCaption)) {
 				canvas.drawText(mCaption, mCx, mCy + mCaptionTextPaint.getTextSize() * 1.6f, mCaptionTextPaint);
 			}
 		}
