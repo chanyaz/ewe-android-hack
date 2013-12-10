@@ -3,6 +3,7 @@ package com.expedia.bookings.widget;
 import java.util.Map;
 import java.util.Set;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,9 +11,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
 import android.widget.PopupWindow;
 
 import com.expedia.bookings.R;
@@ -30,6 +29,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
+@TargetApi(14)
 public class AirportFilterWidget extends TextView {
 
 	private PopupWindow mPopup;
@@ -101,7 +101,8 @@ public class AirportFilterWidget extends TextView {
 		else {
 			LayoutInflater inflater = LayoutInflater.from(getContext());
 			final View content = inflater.inflate(R.layout.snippet_flight_airport_filter, null);
-			ViewGroup vg = Ui.findView(content, R.id.airport_filter_container);
+			android.widget.LinearLayout vg = Ui.findView(content, R.id.airport_filter_container);
+			vg.setDividerPadding(8);
 			mPopup = new PopupWindow(content, getWidth(), LayoutParams.WRAP_CONTENT, true);
 			mPopup.setBackgroundDrawable(new BitmapDrawable());
 			mPopup.setOutsideTouchable(true);
@@ -139,8 +140,8 @@ public class AirportFilterWidget extends TextView {
 			}
 
 			// Set a click listener for the done button
-			Button button = Ui.findView(content, R.id.airport_filter_done);
-			button.setOnClickListener(new OnClickListener() {
+			TextView doneTv = Ui.findView(content, R.id.airport_filter_done);
+			doneTv.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					mPopup.dismiss();

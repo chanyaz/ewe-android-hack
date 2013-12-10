@@ -167,6 +167,7 @@
     <color name="details_ring_text">#556174</color>
 
     <!-- Tablet flights -->
+    <color name="tablet_flight_filter_text_color">#4c5156</color>
     <color name="tablet_flight_trip_view_airport_text_color">#aaffffff</color>
     <color name="tablet_flight_details_primary_text_color">#4c4c4c</color>
 

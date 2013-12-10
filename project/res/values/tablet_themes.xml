@@ -109,7 +109,7 @@
         <item name="android:paddingTop">16dp</item>
         <item name="android:paddingBottom">16dp</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textColor">#4c5156</item>
+        <item name="android:textColor">@color/tablet_flight_filter_text_color</item>
         <item name="android:textSize">16sp</item>
     </style>
 
