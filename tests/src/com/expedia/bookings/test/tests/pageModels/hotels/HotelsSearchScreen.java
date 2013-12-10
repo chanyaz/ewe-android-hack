@@ -40,7 +40,7 @@ public class HotelsSearchScreen extends ScreenActions {
 
 	// Strings
 	private static final int ROOM_NO_LONGER_AVAILABLE_STRING_ID = R.string.e3_error_checkout_hotel_room_unavailable;
-	private static final int SEARCHING_FOR_HOTELS_STRING_ID = R.string.search_for_hotels;
+	private static final int SEARCHING_FOR_HOTELS_STRING_ID = R.string.progress_searching_hotels;
 	private static final int PLEASE_TRY_DIFFERENT_STRING_ID = R.string.please_try_a_different_location_or_date;
 	private static final int NO_HOTELS_AVAILABLE_TONIGHT_ID = R.string.no_hotels_availiable_tonight;
 	private static final int DID_YOU_MEAN_STRING_ID = R.string.ChooseLocation;
