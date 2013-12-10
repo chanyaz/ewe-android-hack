@@ -18,6 +18,7 @@ import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsListState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsState;
@@ -451,8 +452,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Override
 	public void performTripHandoff() {
+		//Tell the trip overview to do its thing...
 		mParentAddToTripListener.performTripHandoff();
-		mHotelListFrag.gotoBottomPosition(StateManager.STATE_CHANGE_ANIMATION_DURATION);
+
+		//set our own state to be where it needs to be (THIS IS NOT GOOD, setFlightsState should take care of this)
+		mHotelListFrag.setListLockedToTop(false);
+		setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, false);
 	}
 
 	/*
