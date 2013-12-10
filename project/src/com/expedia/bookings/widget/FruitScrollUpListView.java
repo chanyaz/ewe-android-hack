@@ -246,8 +246,8 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 					post(new Runnable() {
 						@Override
 						public void run() {
-							setState(mState, true);
 							mInitialized = true;
+							setState(mState, true);
 						}
 					});
 				}
@@ -305,6 +305,12 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 		Log.d("FruitScrollUpListView.setState state:" + state.name() + " prevState:" + mState + " forceUpdate:"
 				+ forceUpdate + " duration:" + duration);
 
+		if(!isInitialized()){
+			//If we aren't yet initialized, we wait for the init listener to fire setState.
+			mState = state;
+			return;
+		}
+		
 		if (forceUpdate || mState != state) {
 			mPrevState = mState;
 			mState = state;

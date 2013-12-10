@@ -169,7 +169,7 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 
 	public void gotoTopPosition(int duration) {
 		mGotoTop = true;
-		if (mListView != null && mListView.isInitialized()) {
+		if (mListView != null) {
 			mListView.setState(State.LIST_CONTENT_AT_TOP, true, duration);
 			mGotoTop = false;
 		}
@@ -181,7 +181,7 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 
 	public void gotoBottomPosition(int duration) {
 		mGotoBottom = true;
-		if (mListView != null && mListView.isInitialized()) {
+		if (mListView != null) {
 			mListView.setState(State.LIST_CONTENT_AT_BOTTOM, true, duration);
 			mGotoBottom = false;
 

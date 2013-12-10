@@ -199,7 +199,7 @@ public class ResultsHotelListFragment extends ResultsListFragment implements OnF
 	public void onPercentageChanged(State state, float percentage) {
 		super.onPercentageChanged(state, percentage);
 		if (state == State.TRANSIENT && mTransStartState != null && mTransEndState != null) {
-			if (percentage > 0 && percentage < 1) {
+			if (mHasStarted || (percentage > 0 && percentage < 1)) {
 				if (!mHasStarted) {
 					startStateTransition(mTransStartState, mTransEndState);
 					mHasStarted = true;
