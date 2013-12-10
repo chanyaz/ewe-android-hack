@@ -8,6 +8,7 @@ import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.flightlib.data.Waypoint;
+import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
 
 public class FlightUtils {
@@ -47,6 +48,10 @@ public class FlightUtils {
 			flags |= FormatUtils.F_LONG;
 		}
 		return FormatUtils.formatDistance(context, leg.getDistanceInMiles(), flags);
+	}
+
+	public static String formatDuration(Context context, FlightLeg leg) {
+		return DateTimeUtils.formatDuration(context.getResources(), (int) (leg.getDuration() / 60000));
 	}
 
 }

@@ -60,7 +60,7 @@ public class FlightInfoBarSection extends LinearLayout {
 		Context context = getContext();
 
 		// Bind left label (distance)
-		String duration = DateTimeUtils.formatDuration(getResources(), (int) (leg.getDuration() / 60000));
+		String duration = FlightUtils.formatDuration(context, leg);
 		int distanceInMiles = leg.getDistanceInMiles();
 		if (distanceInMiles <= 0) {
 			mLeftTextView.setText(Html.fromHtml(context.getString(R.string.bold_template, duration)));

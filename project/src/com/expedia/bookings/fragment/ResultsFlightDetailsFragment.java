@@ -64,6 +64,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	private TextView mAddTripTv;
 
 	private TextView mFlightDistanceTv;
+	private TextView mFlightDurationTv;
 
 	private ViewGroup mFlightLegsC;
 
@@ -108,6 +109,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		mAddTripTv = Ui.findView(mRootC, R.id.details_add_trip_button);
 
 		mFlightDistanceTv = Ui.findView(mRootC, R.id.flight_miles_text_view);
+		mFlightDurationTv = Ui.findView(mRootC, R.id.flight_overall_duration_text_view);
 
 		mFlightLegsC = Ui.findView(mRootC, R.id.flight_legs_container);
 
@@ -156,8 +158,8 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		});
 
 		// Statistics
-		String distanceStr = FlightUtils.formatDistance(context, flightLeg, true);
-		mFlightDistanceTv.setText(distanceStr);
+		mFlightDistanceTv.setText(FlightUtils.formatDistance(context, flightLeg, true));
+		mFlightDurationTv.setText(FlightUtils.formatDuration(context, flightLeg));
 
 		// Flight Leg container
 
