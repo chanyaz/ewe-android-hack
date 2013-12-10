@@ -14,6 +14,7 @@
             android:drawableLeft="@drawable/ic_tablet_layover"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
+            android:textSize="@dimen/tablet_flight_details_flight_trip_view_text_size"
             app:textStyle="light" />
 
 </FrameLayout>

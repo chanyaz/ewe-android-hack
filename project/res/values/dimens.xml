@@ -12,8 +12,11 @@
     <dimen name="tablet_result_row_price_size">@dimen/hotel_row_price_text_size</dimen>
 
     <!-- Tablet results -->
+
+    <!-- Flights -->
     <dimen name="tablet_filter_title_margin_bottom">16dp</dimen>
     <dimen name="tablet_filter_white_space">32dp</dimen>
+    <dimen name="tablet_flight_details_flight_trip_view_text_size">17sp</dimen>
 
     <!-- Tablet details -->
     <dimen name="tablet_detail_padding">16dp</dimen>

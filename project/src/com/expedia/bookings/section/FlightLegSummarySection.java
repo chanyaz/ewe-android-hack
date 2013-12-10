@@ -26,6 +26,8 @@ import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.widget.FlightTripView;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airline;
@@ -50,7 +52,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 
 	private LinearLayout mAirlineContainer;
 	private TextView mAirlineTextView;
-	private TextView mCitiesTextView;
+	private TextView mAirlineAndCitiesTextView;
 	private ImageView mOperatingCarrierImageView;
 	private TextView mOperatingCarrierTextView;
 	private TextView mPriceTextView;
@@ -71,7 +73,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		// Cache views
 		mAirlineContainer = Ui.findView(this, R.id.airline_container);
 		mAirlineTextView = Ui.findView(this, R.id.airline_text_view);
-		mCitiesTextView = Ui.findView(this, R.id.cities_text_view);
+		mAirlineAndCitiesTextView = Ui.findView(this, R.id.airline_and_cities_text_view);
 		mOperatingCarrierImageView = Ui.findView(this, R.id.operating_carrier_image_view);
 		mOperatingCarrierTextView = Ui.findView(this, R.id.operating_carrier_text_view);
 		mPriceTextView = Ui.findView(this, R.id.price_text_view);
@@ -133,12 +135,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		adjustLayout(leg, isIndividualFlight);
 
 		if (mAirlineTextView != null) {
-			if (isIndividualFlight) {
-				mAirlineTextView.setText(FormatUtils.formatFlightNumber(firstFlight, context));
-			}
-			else {
-				mAirlineTextView.setText(leg.getAirlinesFormatted());
-			}
+			mAirlineTextView.setText(getAirlinesStr(context, firstFlight, leg, isIndividualFlight));
 
 			if (trip != null) {
 				if (trip.hasBagFee()) {
@@ -151,11 +148,17 @@ public class FlightLegSummarySection extends RelativeLayout {
 			}
 		}
 
-		if (mCitiesTextView != null) {
+		if (mAirlineAndCitiesTextView != null) {
+			SpannableBuilder sb = new SpannableBuilder();
+			String airlinesStr = getAirlinesStr(context, firstFlight, leg, isIndividualFlight);
+			sb.append(airlinesStr, FontCache.getSpan(FontCache.Font.ROBOTO_MEDIUM));
+
 			String depCity = leg.getAirport(true).mCity;
 			String arrCity = leg.getAirport(false).mCity;
-			String text = "- " + res.getString(R.string.flight_cities_TEMPLATE, depCity, arrCity);
-			mCitiesTextView.setText(text);
+			String text = " - " + res.getString(R.string.flight_cities_TEMPLATE, depCity, arrCity);
+			sb.append(text, FontCache.getSpan(FontCache.Font.ROBOTO_LIGHT));
+
+			mAirlineAndCitiesTextView.setText(sb.build());
 		}
 
 		if (mFlightTimeTextView != null) {
@@ -213,6 +216,15 @@ public class FlightLegSummarySection extends RelativeLayout {
 		mFlightTripView.setUp(leg, minTime, maxTime);
 	}
 
+	private static String getAirlinesStr(Context context, Flight flight, FlightLeg leg, boolean isIndividualFlight) {
+		if (isIndividualFlight) {
+			return FormatUtils.formatFlightNumber(flight, context);
+		}
+		else {
+			return leg.getAirlinesFormatted();
+		}
+	}
+
 	/**
 	 * Perform any layout adjustments on this section, based on the data in this FlightLeg,
 	 * whether this is a summary card or an itin card, etc.
@@ -249,6 +261,9 @@ public class FlightLegSummarySection extends RelativeLayout {
 			// section_flight_leg_summary_itin.xml does not require the container, so default to the TextView in that case
 			if (mAirlineContainer != null) {
 				belowTarget = mAirlineContainer.getId();
+			}
+			else if (mAirlineAndCitiesTextView != null) {
+				belowTarget = mAirlineAndCitiesTextView.getId();
 			}
 			else {
 				belowTarget = mAirlineTextView.getId();
