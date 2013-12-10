@@ -93,6 +93,19 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		downloadDetails();
 	}
 
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (getActivity().isFinishing()) {
+			bd.cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
+		}
+		else {
+			bd.unregisterDownloadCallback(CrossContextHelper.KEY_INFO_DOWNLOAD);
+		}
+	}
+
 	private void downloadDetails() {
 		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		if (TextUtils.isEmpty(selectedId)) {
