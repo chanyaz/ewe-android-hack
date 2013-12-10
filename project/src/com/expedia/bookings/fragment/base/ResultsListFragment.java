@@ -169,7 +169,7 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 
 	public void gotoTopPosition(int duration) {
 		mGotoTop = true;
-		if (mListView != null) {
+		if (mListView != null && mListView.isInitialized()) {
 			mListView.setState(State.LIST_CONTENT_AT_TOP, true, duration);
 			mGotoTop = false;
 		}
@@ -181,17 +181,17 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 
 	public void gotoBottomPosition(int duration) {
 		mGotoBottom = true;
-		if (mListView != null) {
+		if (mListView != null && mListView.isInitialized()) {
 			mListView.setState(State.LIST_CONTENT_AT_BOTTOM, true, duration);
 			mGotoBottom = false;
-		}
-		if (duration == 0) {
-			updateStickyHeaderState(1f,true);
+
+			if (duration == 0) {
+				updateStickyHeaderState(1f, true);
+			}
 		}
 	}
 
 	private void updateStickyHeaderState(float percentage, boolean actionComplete) {
-
 		//top right button stuff...
 		if (mTopRightButtonEnabled) {
 			mTopRightTextButton.setAlpha(1f - percentage);
@@ -217,6 +217,7 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 			int stickyHeaderBottom = mListView.calculateHeaderSpacerVisibleHeight();
 			mStickyHeader.setTranslationY(stickyHeaderBottom);
 		}
+
 	}
 
 	@Override

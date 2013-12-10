@@ -287,6 +287,54 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		transaction.commit();
 	}
 
+	private void setListState(ResultsHotelsState state) {
+		if (mHotelListFrag != null) {
+			//Button and locking
+			switch (state) {
+			case HOTEL_LIST_DOWN:
+				mHotelListFrag.setListLockedToTop(false);
+				mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
+				mHotelListFrag.setTopRightTextButtonEnabled(false);
+				break;
+			case HOTEL_LIST_UP:
+				mHotelListFrag.setListLockedToTop(false);
+				mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
+				mHotelListFrag.setTopRightTextButtonEnabled(true);
+				break;
+			case ROOMS_AND_RATES: {
+				mHotelListFrag.setListLockedToTop(true);
+				mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
+				mHotelListFrag.setTopRightTextButtonEnabled(true);
+				break;
+			}
+			case ROOMS_AND_RATES_FILTERS:
+			case HOTEL_LIST_AND_FILTERS: {
+				mHotelListFrag.setListLockedToTop(true);
+				mHotelListFrag.setTopRightTextButtonEnabled(false);
+				break;
+			}
+			case ADDING_HOTEL_TO_TRIP: {
+				mHotelListFrag.setListLockedToTop(true);
+				mHotelListFrag.setTopRightTextButtonEnabled(false);
+				break;
+			}
+			}
+
+			//List scroll position
+			mHotelListFrag.unRegisterStateListener(mListStateHelper);
+			if (state == ResultsHotelsState.HOTEL_LIST_DOWN) {
+				mHotelListFrag.gotoBottomPosition(0);
+			}
+			else if (mHotelListFrag.getTopSpaceListView() != null
+					&& mHotelListFrag.getTopSpaceListView().getScrollDownPercentage() > 0) {
+				mHotelListFrag.gotoTopPosition(0);
+			}
+			mHotelListFrag.registerStateListener(mListStateHelper, false);
+
+		}
+
+	}
+
 	/*
 	 * FRAGMENT STUFF
 	 */
@@ -480,24 +528,37 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionStart(ResultsHotelsListState stateOne, ResultsHotelsListState stateTwo) {
-			startStateTransition(getHotelsStateFromListState(stateOne), getHotelsStateFromListState(stateTwo));
+			if (shouldWeListenToScroll()) {
+				startStateTransition(getHotelsStateFromListState(stateOne), getHotelsStateFromListState(stateTwo));
+			}
 		}
 
 		@Override
 		public void onStateTransitionUpdate(ResultsHotelsListState stateOne, ResultsHotelsListState stateTwo,
 				float percentage) {
-			updateStateTransition(getHotelsStateFromListState(stateOne), getHotelsStateFromListState(stateTwo),
-					percentage);
+			if (shouldWeListenToScroll()) {
+				updateStateTransition(getHotelsStateFromListState(stateOne), getHotelsStateFromListState(stateTwo),
+						percentage);
+			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(ResultsHotelsListState stateOne, ResultsHotelsListState stateTwo) {
-			endStateTransition(getHotelsStateFromListState(stateOne), getHotelsStateFromListState(stateTwo));
+			if (shouldWeListenToScroll()) {
+				endStateTransition(getHotelsStateFromListState(stateOne), getHotelsStateFromListState(stateTwo));
+			}
 		}
 
 		@Override
 		public void onStateFinalized(ResultsHotelsListState state) {
-			setHotelsState(getHotelsStateFromListState(state), false);
+			if (shouldWeListenToScroll()) {
+				setHotelsState(getHotelsStateFromListState(state), false);
+			}
+		}
+
+		private boolean shouldWeListenToScroll() {
+			return mHotelsStateManager.getState() == ResultsHotelsState.HOTEL_LIST_DOWN
+					|| mHotelsStateManager.getState() == ResultsHotelsState.HOTEL_LIST_UP;
 		}
 
 		private ResultsHotelsState getHotelsStateFromListState(ResultsHotelsListState state) {
@@ -829,45 +890,35 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			setTouchState(state);
 			setHotelsStateZIndex(state);
 			setFragmentState(state);
+			setListState(state);
 
 			switch (state) {
 			case HOTEL_LIST_DOWN:
 				mBgHotelMapC.setAlpha(0f);
-				mHotelListFrag.setListLockedToTop(false);
 				setHotelsFiltersShownPercentage(0f);
 				setAddToTripPercentage(0f);
 				setRoomsAndRatesShownPercentage(0f);
-				mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
-				mHotelListFrag.setTopRightTextButtonEnabled(false);
+
 				break;
 			case HOTEL_LIST_UP:
 				mBgHotelMapC.setAlpha(1f);
-				mHotelListFrag.setListLockedToTop(false);
 				setHotelsFiltersShownPercentage(0f);
 				setAddToTripPercentage(0f);
 				setRoomsAndRatesShownPercentage(0f);
-				mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
-				mHotelListFrag.setTopRightTextButtonEnabled(true);
 				break;
 			case ROOMS_AND_RATES: {
-				mHotelListFrag.setListLockedToTop(false);
 				setHotelsFiltersShownPercentage(0f);
 				setAddToTripPercentage(0f);
 				setRoomsAndRatesShownPercentage(1f);
-				mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
-				mHotelListFrag.setTopRightTextButtonEnabled(true);
 				break;
 			}
 			case ROOMS_AND_RATES_FILTERS:
 			case HOTEL_LIST_AND_FILTERS: {
-				mHotelListFrag.setListLockedToTop(true);
 				setHotelsFiltersShownPercentage(1f);
 				setAddToTripPercentage(0f);
-				mHotelListFrag.setTopRightTextButtonEnabled(false);
 				break;
 			}
 			case ADDING_HOTEL_TO_TRIP: {
-				mHotelListFrag.setListLockedToTop(true);
 				setAddToTripPercentage(1f);
 				mParentAddToTripListener.beginAddToTrip(mHotelDetailsFrag.getSelectedData(),
 						mHotelDetailsFrag.getDestinationRect(), mShadeColor);
