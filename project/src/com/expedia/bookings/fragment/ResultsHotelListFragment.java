@@ -17,7 +17,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsHotelsListState;
-import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
 import com.expedia.bookings.interfaces.IStateListener;
@@ -161,6 +160,7 @@ public class ResultsHotelListFragment extends ResultsListFragment implements OnF
 
 	private ResultsHotelsListState mTransStartState;
 	private ResultsHotelsListState mTransEndState;
+	private boolean mHasStarted = false;
 
 	@Override
 	public void onStateChanged(State oldState, State newState, float percentage) {
@@ -174,23 +174,24 @@ public class ResultsHotelListFragment extends ResultsListFragment implements OnF
 		else if (oldState == State.LIST_CONTENT_AT_BOTTOM && newState == State.TRANSIENT) {
 			mTransStartState = ResultsHotelsListState.HOTELS_LIST_AT_BOTTOM;
 			mTransEndState = ResultsHotelsListState.HOTELS_LIST_AT_TOP;
-			startStateTransition(mTransStartState, mTransEndState);
 		}
 		else if (oldState == State.LIST_CONTENT_AT_TOP && newState == State.TRANSIENT) {
 			mTransStartState = ResultsHotelsListState.HOTELS_LIST_AT_TOP;
 			mTransEndState = ResultsHotelsListState.HOTELS_LIST_AT_BOTTOM;
-			startStateTransition(mTransStartState, mTransEndState);
 		}
 		else if (oldState == State.TRANSIENT && newState != State.TRANSIENT) {
-			endStateTransition(mTransStartState, mTransEndState);
-			if (newState == State.LIST_CONTENT_AT_BOTTOM) {
-				finalizeState(ResultsHotelsListState.HOTELS_LIST_AT_BOTTOM);
-			}
-			else {
-				finalizeState(ResultsHotelsListState.HOTELS_LIST_AT_TOP);
+			if (mHasStarted) {
+				endStateTransition(mTransStartState, mTransEndState);
+				if (newState == State.LIST_CONTENT_AT_BOTTOM) {
+					finalizeState(ResultsHotelsListState.HOTELS_LIST_AT_BOTTOM);
+				}
+				else {
+					finalizeState(ResultsHotelsListState.HOTELS_LIST_AT_TOP);
+				}
 			}
 			mTransStartState = null;
 			mTransEndState = null;
+			mHasStarted = false;
 		}
 	}
 
@@ -198,8 +199,14 @@ public class ResultsHotelListFragment extends ResultsListFragment implements OnF
 	public void onPercentageChanged(State state, float percentage) {
 		super.onPercentageChanged(state, percentage);
 		if (state == State.TRANSIENT && mTransStartState != null && mTransEndState != null) {
-			updateStateTransition(mTransStartState, mTransEndState,
-					mTransStartState == ResultsHotelsListState.HOTELS_LIST_AT_TOP ? percentage : 1f - percentage);
+			if (percentage > 0 && percentage < 1) {
+				if (!mHasStarted) {
+					startStateTransition(mTransStartState, mTransEndState);
+					mHasStarted = true;
+				}
+				updateStateTransition(mTransStartState, mTransEndState,
+						mTransStartState == ResultsHotelsListState.HOTELS_LIST_AT_TOP ? percentage : 1f - percentage);
+			}
 		}
 	}
 

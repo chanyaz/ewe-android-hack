@@ -32,7 +32,7 @@ import com.mobiata.android.util.Ui;
  * ResultsFlightListFragment: The flight list fragment designed for tablet results 2013
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class ResultsFlightListFragment extends ResultsListFragment implements IStateProvider<ResultsFlightsListState>{
+public class ResultsFlightListFragment extends ResultsListFragment implements IStateProvider<ResultsFlightsListState> {
 
 	private static final String STATE_LEG_NUMBER = "STATE_LEG_NUMBER";
 
@@ -164,13 +164,14 @@ public class ResultsFlightListFragment extends ResultsListFragment implements IS
 			setStickyHeaderText(initializeStickyHeaderString());
 		}
 	};
-	
+
 	/*
 	 * Here we convert FruitScrollUpListView states to our ResultsFlightsListState states, and fire the listeners
 	 */
 
 	private ResultsFlightsListState mTransStartState;
 	private ResultsFlightsListState mTransEndState;
+	private boolean mHasStarted = false;
 
 	@Override
 	public void onStateChanged(State oldState, State newState, float percentage) {
@@ -184,23 +185,24 @@ public class ResultsFlightListFragment extends ResultsListFragment implements IS
 		else if (oldState == State.LIST_CONTENT_AT_BOTTOM && newState == State.TRANSIENT) {
 			mTransStartState = ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM;
 			mTransEndState = ResultsFlightsListState.FLIGHTS_LIST_AT_TOP;
-			startStateTransition(mTransStartState, mTransEndState);
 		}
 		else if (oldState == State.LIST_CONTENT_AT_TOP && newState == State.TRANSIENT) {
 			mTransStartState = ResultsFlightsListState.FLIGHTS_LIST_AT_TOP;
 			mTransEndState = ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM;
-			startStateTransition(mTransStartState, mTransEndState);
 		}
 		else if (oldState == State.TRANSIENT && newState != State.TRANSIENT) {
-			endStateTransition(mTransStartState, mTransEndState);
-			if (newState == State.LIST_CONTENT_AT_BOTTOM) {
-				finalizeState(ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM);
-			}
-			else {
-				finalizeState(ResultsFlightsListState.FLIGHTS_LIST_AT_TOP);
+			if (mHasStarted) {
+				endStateTransition(mTransStartState, mTransEndState);
+				if (newState == State.LIST_CONTENT_AT_BOTTOM) {
+					finalizeState(ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM);
+				}
+				else {
+					finalizeState(ResultsFlightsListState.FLIGHTS_LIST_AT_TOP);
+				}
 			}
 			mTransStartState = null;
 			mTransEndState = null;
+			mHasStarted = false;
 		}
 	}
 
@@ -208,11 +210,17 @@ public class ResultsFlightListFragment extends ResultsListFragment implements IS
 	public void onPercentageChanged(State state, float percentage) {
 		super.onPercentageChanged(state, percentage);
 		if (state == State.TRANSIENT && mTransStartState != null && mTransEndState != null) {
-			updateStateTransition(mTransStartState, mTransEndState,
-					mTransStartState == ResultsFlightsListState.FLIGHTS_LIST_AT_TOP ? percentage : 1f - percentage);
+			if (percentage > 0 && percentage < 1) {
+				if (!mHasStarted) {
+					startStateTransition(mTransStartState, mTransEndState);
+					mHasStarted = true;
+				}
+				updateStateTransition(mTransStartState, mTransEndState,
+						mTransStartState == ResultsFlightsListState.FLIGHTS_LIST_AT_TOP ? percentage : 1f - percentage);
+			}
 		}
 	}
-	
+
 	/*
 	 *	IStateProvider
 	 */
@@ -226,7 +234,8 @@ public class ResultsFlightListFragment extends ResultsListFragment implements IS
 	}
 
 	@Override
-	public void updateStateTransition(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo, float percentage) {
+	public void updateStateTransition(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo,
+			float percentage) {
 		mResultsStateListeners.updateStateTransition(stateOne, stateTwo, percentage);
 	}
 
