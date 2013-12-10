@@ -262,6 +262,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				/*
 				 * 2225. ItinSharing improve traveler initial logic.
 				 * For shared Itins the trip response consists of firstname and lastname = first initials of last name, to maintain privacy
+				 * Also the fullName will be same as lastName. Hence this work around.
 				 */
 				if (getItinCardData().isSharedItin()) {
 					travelerSb.append(trav.getFirstName() + " " + trav.getLastName());
