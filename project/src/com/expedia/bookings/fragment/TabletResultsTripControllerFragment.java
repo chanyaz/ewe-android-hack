@@ -832,6 +832,9 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 				mAddingHotelTrip = false;
 				mAddingFlightTrip = false;
 				mTripAnimationC.removeAllViews();
+				
+				animateToPercentage(1, false);
+				addTripPercentage(1);
 			}
 		}
 	};

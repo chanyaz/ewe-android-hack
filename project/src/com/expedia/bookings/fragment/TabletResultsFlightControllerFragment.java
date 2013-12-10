@@ -368,39 +368,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	@Override
 	public void performTripHandoff() {
-		//FAKE IT TO MAKE IT
-		ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f)
-				.setDuration(StateManager.STATE_CHANGE_ANIMATION_DURATION);
-		animator.addUpdateListener(new AnimatorUpdateListener() {
-
-			@Override
-			public void onAnimationUpdate(ValueAnimator arg0) {
-				//Fade in the flight list, this will look dumb and needs to be re-thought
-				mFlightOneListC.setAlpha((Float) arg0.getAnimatedValue());
-			}
-
-		});
-		animator.addListener(new AnimatorListenerAdapter() {
-
-			@Override
-			public void onAnimationEnd(Animator arg0) {
-				if (getActivity() != null) {
-					mFlightOneListFrag.getTopSpaceListView().setListenersEnabled(true);
-				}
-			}
-		});
-
-		animator.start();
-		mFlightOneListFrag.getTopSpaceListView().setListenersEnabled(false);
-		mFlightOneListC.setTranslationX(0);
-		mFlightOneListFrag.gotoBottomPosition(0);
-		mFlightOneListC.setAlpha(0f);
-		mFlightOneListC.setVisibility(View.VISIBLE);
-		mFlightOneDetailsC.setVisibility(View.INVISIBLE);
-		mFlightTwoDetailsC.setVisibility(View.INVISIBLE);
-
 		//Tell the trip overview to do its thing...
 		mParentAddToTripListener.performTripHandoff();
+		
+		//set our own state to be where it needs to be (THIS IS NOT GOOD, setFlightsState should take care of this)
+		mFlightOneListFrag.setListLockedToTop(false);
+		mFlightOneListFrag.gotoBottomPosition(StateManager.STATE_CHANGE_ANIMATION_DURATION);
+		setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN,false);
 	}
 
 	/*
