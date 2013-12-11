@@ -14,7 +14,6 @@
     <!-- Tablet results -->
 
     <!-- Flights -->
-    <dimen name="tablet_filter_title_margin_bottom">16dp</dimen>
     <dimen name="tablet_filter_white_space">32dp</dimen>
     <dimen name="tablet_flight_details_flight_trip_view_text_size">17sp</dimen>
 
