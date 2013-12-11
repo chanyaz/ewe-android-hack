@@ -22,8 +22,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_flight_details_tablet_grey_top"
                 android:paddingBottom="16dp"
-                android:paddingLeft="24dp"
-                android:paddingRight="28dp"
+                android:paddingLeft="@dimen/tablet_flight_details_horizontal_padding"
+                android:paddingRight="@dimen/tablet_flight_details_horizontal_padding"
                 android:paddingTop="16dp" >
 
             <com.expedia.bookings.widget.TextView
@@ -43,6 +43,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="right"
+                    android:layout_marginRight="4dp"
                     android:background="#3987bf"
                     android:gravity="center"
                     android:padding="4dp"
@@ -56,7 +57,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_flight_details_tablet_white_bottom"
-                android:padding="12dp" >
+                android:paddingLeft="@dimen/tablet_flight_details_horizontal_padding"
+                android:paddingRight="@dimen/tablet_flight_details_horizontal_padding"
+                android:paddingBottom="2dp">
 
             <!-- Flight information -->
 
@@ -71,6 +74,7 @@
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
                         android:orientation="horizontal"
                         android:weightSum="3" >
 
