@@ -48,7 +48,7 @@
                         android:layout_height="48dp"
                         android:layout_alignParentRight="true"
                         android:layout_gravity="center_vertical"
-                        android:text="Add for $390"
+                        android:textSize="14sp"
                         android:textAllCaps="true" />
 
                     <LinearLayout
@@ -146,7 +146,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         app:countTextColor="@color/details_ring_red"
-                        app:countTextSize="24sp"
+                        app:countTextSize="18sp"
                         app:percent="0"
                         app:primaryColor="@color/details_ring_red"
                         app:ringThickness="4dp"
@@ -157,7 +157,6 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:padding="8dp"
-                        android:text="@string/rooms_left"
                         android:textColor="@color/details_ring_text"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -174,7 +173,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         app:countTextColor="@color/details_ring_text"
-                        app:countTextSize="24sp"
+                        app:countTextSize="18sp"
                         app:percent="0"
                         app:primaryColor="@color/details_ring_blue"
                         app:ringThickness="4dp"

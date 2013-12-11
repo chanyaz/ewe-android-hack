@@ -1,9 +1,11 @@
 package com.expedia.bookings.fragment;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -188,27 +190,28 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		RingedCountView userRatingRing = Ui.findView(view, R.id.user_rating_ring);
 		TextView roomsLeftText = Ui.findView(view, R.id.rooms_left_ring_text);
 
+		Resources res = getResources();
 		int roomsLeft = property.getRoomsLeftAtThisRate();
 		if (roomsLeft <= 5 && roomsLeft >= 0) {
-			int color = getResources().getColor(R.color.details_ring_red);
+			int color = res.getColor(R.color.details_ring_red);
 			roomsLeftRing.setPrimaryColor(color);
 			roomsLeftRing.setCountTextColor(color);
 			roomsLeftRing.setPercent(roomsLeft / 10f);
 			roomsLeftRing.setCount(roomsLeft);
-			roomsLeftText.setText(R.string.rooms_left);
+			roomsLeftText.setText(res.getQuantityText(R.plurals.rooms_left, roomsLeft));
 		}
 		else {
-			roomsLeftRing.setPrimaryColor(getResources().getColor(R.color.details_ring_blue));
-			roomsLeftRing.setCountTextColor(getResources().getColor(R.color.details_ring_text));
+			roomsLeftRing.setPrimaryColor(res.getColor(R.color.details_ring_blue));
+			roomsLeftRing.setCountTextColor(res.getColor(R.color.details_ring_text));
 			roomsLeftRing.setPercent(property.getPercentRecommended() / 100f);
 			roomsLeftText.setText(R.string.recommend);
-			//TODO: set count text to i.e. "90%"
+			roomsLeftRing.setCountText(Math.round(property.getPercentRecommended()) + "%");
 		}
 
 		float percent = (float) property.getAverageExpediaRating() / 5f;
 		userRatingRing.setPercent(percent);
-		//TODO: set count text to i.e. "4.5"
-		userRatingRing.setCount((float) Math.round(property.getAverageExpediaRating()));
+		DecimalFormat fmt = new DecimalFormat("0.#");
+		userRatingRing.setCountText(fmt.format(property.getAverageExpediaRating()));
 	}
 
 	private void setupAmenities(View view, Property property) {
@@ -241,8 +244,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	private void setupDescriptionSections(View view, Property property) {
-		LinearLayout allSectionsContainer = Ui.findView(view, R.id.description_details_sections_container);
-		allSectionsContainer.removeAllViews();
+		LinearLayout container = Ui.findView(view, R.id.description_details_sections_container);
+		container.removeAllViews();
 
 		List<HotelTextSection> sections = property.getAllHotelText(getActivity());
 
@@ -251,14 +254,14 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			for (int i = 1; i < sections.size(); i++) {
 				HotelTextSection section = sections.get(i);
 				View sectionContainer = inflater.inflate(R.layout.include_hotel_description_section,
-						allSectionsContainer, false);
+						container, false);
 
 				TextView titleText = Ui.findView(sectionContainer, R.id.title_text);
 				TextView bodyText = Ui.findView(sectionContainer, R.id.body_text);
 				titleText.setVisibility(View.VISIBLE);
 				titleText.setText(section.getNameWithoutHtml());
 				bodyText.setText(Html.fromHtml(section.getContentFormatted(getActivity())));
-				allSectionsContainer.addView(sectionContainer);
+				container.addView(sectionContainer);
 			}
 		}
 	}

@@ -148,14 +148,23 @@
     <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
     <string name="recommend">recommend</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
-    <string name="rooms_left">rooms left</string>
+    <plurals name="rooms_left">
+        <item quantity="zero">rooms left</item>
+        <item quantity="one">room left</item>
+        <item quantity="two">rooms left</item>
+        <item quantity="few">rooms left</item>
+        <item quantity="many">rooms left</item>
+        <item quantity="other">rooms left</item>
+    </plurals>
     <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
     <string name="out_of_5">out of 5</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">Read Reviews</string>
+    <!-- Text indicating a hotel room/rate is non-refundable -->
+    <string name="Non_Refundable">Non Refundable</string>
 
     <!-- Tablet flight details -->
-    <!-- Name of button for selecting a flight. %1$s is a price. example: "Add for $345" -->
+    <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
     <string name="add_for_TEMPLATE">Add for %1$s</string>
     <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
     <string name="flight_cities_TEMPLATE">%1$s to %2$s</string>
