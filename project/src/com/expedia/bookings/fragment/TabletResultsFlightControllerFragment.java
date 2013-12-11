@@ -454,6 +454,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			visibleViews.add(mFlightTwoFlightOneHeaderC);
 			visibleViews.add(mFlightTwoListC);
 			visibleViews.add(mFlightMapC);
+			mFlightTwoFiltersC.setAlpha(1f);
+			mFlightTwoListColumnC.setAlpha(1f);
 			break;
 		}
 		case FLIGHT_TWO_DETAILS: {
@@ -462,6 +464,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			visibleViews.add(mFlightTwoListColumnC);
 			visibleViews.add(mFlightTwoFlightOneHeaderC);
 			visibleViews.add(mFlightMapC);
+			mFlightTwoListColumnC.setAlpha(1f);
 			break;
 		}
 		case ADDING_FLIGHT_TO_TRIP: {
@@ -1062,7 +1065,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			}
 			case FLIGHT_TWO_FILTERS: {
 				positionForFilters(mFlightTwoFiltersC, mFlightTwoListColumnC, 1);
-				mFlightTwoFlightOneHeaderC.setVisibility(View.VISIBLE);
 				break;
 			}
 			case FLIGHT_TWO_DETAILS: {
