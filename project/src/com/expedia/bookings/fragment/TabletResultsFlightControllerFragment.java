@@ -1102,6 +1102,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 
 		private void positionForDetails(ViewGroup filtersC, ViewGroup listC, ResultsFlightDetailsFragment detailsFrag) {
+			detailsFrag.bindWithDb();
 			if (mGrid.isLandscape()) {
 				filtersC.setTranslationX(-mGrid.getColWidth(0));
 				listC.setTranslationX(-mGrid.getColLeft(1));
