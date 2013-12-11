@@ -133,6 +133,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			Db.saveOrLoadDbForTesting(this);
 			mTestDataLoaded = true;
 		}
+		else {
+			mTestDataLoaded = true;
+		}
 
 		//Containers
 		mRootC = Ui.findView(this, R.id.root_layout);
