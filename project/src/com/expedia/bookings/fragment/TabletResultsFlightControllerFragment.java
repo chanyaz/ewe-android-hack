@@ -41,7 +41,6 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilit
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -651,8 +650,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			if (state != ResultsState.FLIGHTS) {
 				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, false);
 			}
-			else {
+			else if (mFlightsStateManager.getState() == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				setFlightsState(ResultsFlightsState.FLIGHT_ONE_FILTERS, false);
+			}
+			else {
+				//The activity is still telling us something, so we better refresh our state.
+				setFlightsState(mFlightsStateManager.getState(), false);
 			}
 		}
 	};

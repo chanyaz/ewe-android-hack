@@ -143,6 +143,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CURRENT_STATE)) {
 			String stateName = savedInstanceState.getString(STATE_CURRENT_STATE);
 			mState = ResultsState.valueOf(stateName);
+			mResultsStateListeners.finalizeState(mState);//Note at this point there are no listeners, so no worries.
 		}
 
 		//Add default fragments

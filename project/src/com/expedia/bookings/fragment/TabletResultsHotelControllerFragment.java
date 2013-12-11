@@ -639,8 +639,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			if (state != ResultsState.HOTELS) {
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, false);
 			}
-			else {
+			else if (mHotelsStateManager.getState() == ResultsHotelsState.HOTEL_LIST_DOWN) {
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, false);
+			}else{
+				//The activity is still telling us something, so we better refresh our state.
+				setHotelsState(mHotelsStateManager.getState(), false);
 			}
 		}
 
