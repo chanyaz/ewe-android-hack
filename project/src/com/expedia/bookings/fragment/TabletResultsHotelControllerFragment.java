@@ -18,7 +18,6 @@ import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsListState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsState;
@@ -210,13 +209,14 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private void setVisibilityState(ResultsHotelsState hotelsState) {
 		mHotelListC.setVisibility(View.VISIBLE);
 		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN) {
-			mHotelListC.setVisibility(View.VISIBLE);
+			mBgHotelMapC.setAlpha(0f);
 			mHotelFiltersC.setVisibility(View.INVISIBLE);
 			mHotelFilteredCountC.setVisibility(View.INVISIBLE);
 			mHotelRoomsAndRatesC.setVisibility(View.INVISIBLE);
 			mHotelRoomsAndRatesShadeC.setVisibility(View.INVISIBLE);
 		}
 		else {
+			mBgHotelMapC.setAlpha(1f);
 			if (hotelsState == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
 					|| hotelsState == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
 				mHotelFiltersC.setVisibility(View.VISIBLE);
@@ -242,7 +242,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			else {
 				mHotelRoomsAndRatesShadeC.setVisibility(View.INVISIBLE);
 			}
-			mHotelListC.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -641,7 +640,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 			else if (mHotelsStateManager.getState() == ResultsHotelsState.HOTEL_LIST_DOWN) {
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, false);
-			}else{
+			}
+			else {
 				//The activity is still telling us something, so we better refresh our state.
 				setHotelsState(mHotelsStateManager.getState(), false);
 			}
