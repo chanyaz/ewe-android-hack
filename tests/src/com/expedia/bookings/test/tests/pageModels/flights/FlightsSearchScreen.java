@@ -26,6 +26,7 @@ public class FlightsSearchScreen extends ScreenActions {
 	private static final int SEARCH_BUTTON_ID = R.id.search_button;
 	private static final int DEPARTURE_ARRIVAL_SAME_ERROR_MESSAGE_ID = R.string.error_same_flight_departure_arrival;
 	private static final int ADULTS_PLURAL_STRING_FORMAT_ID = R.plurals.number_of_adults_TEMPLATE;
+	private static final int OK_STRING_ID = R.string.ok;
 
 	public FlightsSearchScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
@@ -72,6 +73,10 @@ public class FlightsSearchScreen extends ScreenActions {
 
 	public CalendarDatePicker calendarDatePicker() {
 		return (CalendarDatePicker) getView(CALENDAR_DATE_PICKER_ID);
+	}
+
+	public String okString() {
+		return getString(OK_STRING_ID);
 	}
 
 	// Object interactions 
