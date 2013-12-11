@@ -227,6 +227,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	private Bitmap fetchIconBitmap(String displayName) {
 
+		String name = getInitialsFromDisplayName(displayName);
+
 		float density = mContext.getResources().getDisplayMetrics().density;
 		int size = (int) (62 * density);
 		Bitmap iconBmp = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
@@ -257,8 +259,28 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		int borderWidth = (int) (2.5 * density);
 		canvas.drawCircle(size / 2, size / 2, size / 2, bgPaintWhite);
 		canvas.drawCircle(size / 2, size / 2, size / 2 - borderWidth, iconBgPaint);
-		canvas.drawText(displayName, size / 2, (size / 2) + (textOffset), txtPaint);
+		canvas.drawText(name, size / 2, (size / 2) + (textOffset), txtPaint);
 		return iconBmp;
+	}
+
+	/**
+	 * @param displayName Full name of the traveler
+	 * @return 2 character string, which are the 1st letter of firstname and lastname.
+	 * In case where displayName has only one name, then just return 1 character.
+	 */
+	private String getInitialsFromDisplayName(String displayName) {
+		String[] nameParts = displayName.split(" ");
+		if (nameParts.length == 1) {
+			return nameParts[0].substring(0, 1).toUpperCase(Locale.getDefault());
+		}
+		else if (nameParts.length == 2) {
+			return (nameParts[0].substring(0, 1) + nameParts[1].substring(0, 1)).toUpperCase(Locale.getDefault());
+		}
+		else if (nameParts.length == 3) {
+			return (nameParts[0].substring(0, 1) + nameParts[2].substring(0, 1)).toUpperCase(Locale.getDefault());
+		}
+
+		return null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

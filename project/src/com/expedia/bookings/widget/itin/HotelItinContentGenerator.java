@@ -2,7 +2,6 @@ package com.expedia.bookings.widget.itin;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -131,11 +130,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	@Override
 	public String getSharedItinName() {
 		TripHotel hotel = (TripHotel) getItinCardData().getTripComponent();
-		String firstNameInitial = hotel.getPrimaryTraveler().getFirstName().substring(0, 1)
-				.toUpperCase(Locale.getDefault());
-		String LastNameInitial = hotel.getPrimaryTraveler().getFullName().substring(0, 1)
-				.toUpperCase(Locale.getDefault());
-		return firstNameInitial + LastNameInitial;
+		return hotel.getPrimaryTraveler().getFullName();
 	}
 
 	@Override

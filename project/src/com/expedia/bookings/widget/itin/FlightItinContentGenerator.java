@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import org.joda.time.DateTime;
 
@@ -185,11 +184,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		ItinCardDataFlight itinCardData = getItinCardData();
 		TripFlight flight = (TripFlight) itinCardData.getTripComponent();
 		List<Traveler> travelers = flight.getTravelers();
-		String firstNameInitial = travelers.get(0).getFirstName().substring(0, 1)
-				.toUpperCase(Locale.getDefault());
-		String LastNameInitial = travelers.get(0).getFullName().substring(0, 1)
-				.toUpperCase(Locale.getDefault());
-		return firstNameInitial + LastNameInitial;
+		return travelers.get(0).getFullName();
 	}
 
 	@Override
@@ -259,16 +254,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 					travelerSb.append(",");
 					travelerSb.append(" ");
 				}
-				/*
-				 * 2225. ItinSharing improve traveler initial logic.
-				 * For shared Itins the trip response consists of firstname and lastname = first initials of last name, to maintain privacy
-				 */
-				if (getItinCardData().isSharedItin()) {
-					travelerSb.append(trav.getFirstName() + " " + trav.getLastName());
-				}
-				else {
-					travelerSb.append(trav.getFullName());
-				}
+				travelerSb.append(trav.getFullName());
 			}
 			String travString = travelerSb.toString().trim();
 			passengerNameListTv.setText(travString);
