@@ -37,6 +37,7 @@
         <item name="hotelListingFilterPriceExpensiveString">@string/filter_price_expensive</item>
         <item name="android:windowActionBarOverlay" tools:targetApi="11">true</item>
         <item name="android:actionBarStyle" tools:targetApi="11">@style/V2.Widget.ActionBar.TabletResults</item>
+        <item name="android:windowContentOverlay">@null</item>
         <item name="hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale</item>
     </style>
 
