@@ -190,9 +190,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 
 		if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES) {
+			mBgHotelMapC.setTouchPassThroughEnabled(true);
 			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(false);
 		}
 		else {
+			mBgHotelMapC.setTouchPassThroughEnabled(false);
 			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(true);
 		}
 
