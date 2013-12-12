@@ -21,6 +21,7 @@ public class PercentageFadeColorDrawable extends Drawable {
 	private int mColorOneG;
 	private int mColorOneB;
 
+	private int mInitialColorTwoA;
 	private int mColorTwoA;
 	private int mColorTwoR;
 	private int mColorTwoG;
@@ -34,6 +35,7 @@ public class PercentageFadeColorDrawable extends Drawable {
 		mColorOneG = Color.green(colorOne);
 		mColorOneB = Color.blue(colorOne);
 
+		mInitialColorTwoA = Color.alpha(colorTwo);
 		mColorTwoA = Color.alpha(colorTwo);
 		mColorTwoR = Color.red(colorTwo);
 		mColorTwoG = Color.green(colorTwo);
@@ -44,7 +46,7 @@ public class PercentageFadeColorDrawable extends Drawable {
 		if (percentage > 1 || percentage < 0) {
 			throw new RuntimeException("Percentage must be inclusive between 0f and 1f");
 		}
-		mColorTwoA = (int) (percentage * 255);
+		mColorTwoA = (int) (percentage * mInitialColorTwoA);
 		invalidateSelf();
 	}
 
@@ -56,7 +58,7 @@ public class PercentageFadeColorDrawable extends Drawable {
 
 	@Override
 	public int getOpacity() {
-		return PixelFormat.TRANSLUCENT;
+		return PixelFormat.TRANSPARENT;
 	}
 
 	@Override
