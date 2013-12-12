@@ -399,7 +399,7 @@ public class RingedCountView extends View {
 			// Odometer style count
 			if (mCountText == null) {
 				canvas.save();
-				canvas.clipRect(0, mCy - textSize + yOffset, canvas.getWidth(), mCy + 4 + yOffset, Op.REPLACE);
+				canvas.clipRect(0, mCy - textSize + yOffset, canvas.getWidth(), mCy + 4 + yOffset);
 				String countString = Integer.toString(Math.round(mCount));
 				float fraction = mCount - Math.round(mCount);
 				float y = mCy - fraction * textSize + yOffset;
