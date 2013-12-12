@@ -164,7 +164,7 @@
     <color name="details_ring_red">#bc4649</color>
     <color name="details_ring_blue">#286cb5</color>
     <color name="details_ring_gray">#cbcfd2</color>
-    <color name="details_ring_text">#556174</color>
+    <color name="details_ring_text">#4b556b</color>
 
     <!-- Tablet flights -->
     <color name="tablet_flight_filter_text_color">#4c5156</color>
