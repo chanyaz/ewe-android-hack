@@ -14,7 +14,6 @@ import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.PixelFormat;
 import android.graphics.RectF;
-import android.graphics.Region.Op;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
