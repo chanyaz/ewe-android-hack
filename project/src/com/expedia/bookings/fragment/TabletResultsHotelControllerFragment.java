@@ -22,6 +22,7 @@ import com.expedia.bookings.enums.ResultsHotelsListState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
+import com.expedia.bookings.graphics.PercentageFadeColorDrawable;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
@@ -88,6 +89,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private GridManager mGrid = new GridManager();
 	private int mShadeColor = Color.argb(220, 0, 0, 0);
 	private boolean mRoomsAndRatesInFront = true;//They start in front
+	private PercentageFadeColorDrawable mBgHotelMapDimmerDrawable;
 
 	private ArrayList<IResultsHotelSelectedListener> mHotelSelectedListeners = new ArrayList<IResultsHotelSelectedListener>();
 
@@ -116,6 +118,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		//Default maps to be invisible (they get ignored by our setVisibilityState function so this is important)
 		mBgHotelMapC.setAlpha(0f);
+		int dimmedColor = getResources().getColor(R.color.map_dimmer);
+		mBgHotelMapDimmerDrawable = new PercentageFadeColorDrawable(Color.TRANSPARENT, dimmedColor);
+		mBgHotelMapDimmerDrawable.setPercentage(0);
+		mBgHotelMapC.setForeground(mBgHotelMapDimmerDrawable);
 
 		//Set up our maps touch passthrough. It is important to note that A) the touch receiver is set to be invisible,
 		//so that when it gets a touch, it will pass to whatever is behind it. B) It must be the same size as the
@@ -986,6 +992,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mHotelRoomsAndRatesC.setTranslationX(roomsAndRatesTransX);
 				mHotelListC.setTranslationX(hotelListTransX);
 			}
+
+			mBgHotelMapDimmerDrawable.setPercentage(percentage);
 		}
 
 		/*
