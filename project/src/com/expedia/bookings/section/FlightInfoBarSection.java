@@ -104,7 +104,7 @@ public class FlightInfoBarSection extends LinearLayout {
 	public void bindTripOverview(FlightTrip trip, int numTravelers) {
 		// Bind left label (trip dates)
 		Calendar depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
-		Calendar retDate = trip.getLeg(trip.getLegCount() - 1).getFirstWaypoint().getMostRelevantDateTime();
+		Calendar retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime();
 
 		long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();
 		long end = DateTimeUtils.getTimeInLocalTimeZone(retDate).getTime();
