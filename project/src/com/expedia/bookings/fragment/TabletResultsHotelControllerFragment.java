@@ -180,21 +180,25 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private void setTouchState(ResultsHotelsState hotelsState) {
 		mHotelListC.setBlockNewEventsEnabled(false);
 
-		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN) {
+		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN || hotelsState == ResultsHotelsState.ROOMS_AND_RATES) {
 			mBgHotelMapC.setTouchPassThroughEnabled(true);
-			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(true);
 		}
 		else {
 			mBgHotelMapC.setTouchPassThroughEnabled(false);
+		}
+
+		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN) {
+			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(true);
+		}
+		else {
+
 			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(false);
 		}
 
 		if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES) {
-			mBgHotelMapC.setTouchPassThroughEnabled(true);
 			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(false);
 		}
 		else {
-			mBgHotelMapC.setTouchPassThroughEnabled(false);
 			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(true);
 		}
 
