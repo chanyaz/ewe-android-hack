@@ -6,10 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.FontCache.Font;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -25,8 +29,13 @@ public class ResultsTripBucketYourTripToFragment extends Fragment {
 	private boolean mRunBind = false;
 
 	private ViewGroup mRootC;
+	private TextView mTripToHeaderTv;
 	private TextView mPrimaryDestTv;
 	private TextView mSecondaryDestTv;
+	private TextView mEmptyTripTv;
+	private View mLeftDivider;
+	private View mRightDivider;
+	private LinearLayout mTripToLayout;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -36,8 +45,19 @@ public class ResultsTripBucketYourTripToFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_tripbucket_your_trip_to, null);
+		mTripToHeaderTv = Ui.findView(mRootC, R.id.top_header_text);
+		mLeftDivider = Ui.findView(mRootC, R.id.left_divider);
+		mRightDivider = Ui.findView(mRootC, R.id.right_divider);
 		mPrimaryDestTv = Ui.findView(mRootC, R.id.primary_destination_text);
 		mSecondaryDestTv = Ui.findView(mRootC, R.id.secondary_destination_text);
+		mEmptyTripTv = Ui.findView(mRootC, R.id.trip_empty_text);
+		mTripToLayout = Ui.findView(mRootC, R.id.trip_to_layout);
+
+		FontCache.setTypeface(mTripToHeaderTv, Font.ROBOTOSLAB_LIGHT);
+		FontCache.setTypeface(mPrimaryDestTv, Font.ROBOTOSLAB_BOLD);
+		FontCache.setTypeface(mSecondaryDestTv, Font.ROBOTOSLAB_BOLD);
+		FontCache.setTypeface(mEmptyTripTv, Font.ROBOTO_LIGHT);
+
 		if (mRunBind) {
 			bindToDb();
 		}
@@ -46,15 +66,42 @@ public class ResultsTripBucketYourTripToFragment extends Fragment {
 
 	public void bindToDb() {
 		if (mPrimaryDestTv != null) {
+
 			String city = Db.getFlightSearch().getSearchParams().getArrivalLocation().getCity();
 			String country = Db.getFlightSearch().getSearchParams().getArrivalLocation().getCountryCode();
 
 			mPrimaryDestTv.setText(city);
 			mSecondaryDestTv.setText(country);
+			resizeDividers();
+
 			mRunBind = false;
 		}
 		else {
 			mRunBind = true;
 		}
+	}
+
+	/**
+	 * This method resizes the divider lines on either sides of "Trip To" text
+	 * to be as wide as the longest of the two strings. i.e. either cityName or countryName
+	 */
+	private void resizeDividers() {
+		int priDestWidth = mPrimaryDestTv.getMeasuredWidth();
+		int secDestWidth = mSecondaryDestTv.getMeasuredWidth();
+		int requiredWidth = priDestWidth > secDestWidth ? priDestWidth : secDestWidth;
+
+		int tripToWidth = mTripToLayout.getMeasuredWidth();
+
+		int delta = requiredWidth - tripToWidth;
+		int eachDividerWidth = delta / 2;
+		float dp = eachDividerWidth / getResources().getDisplayMetrics().density;
+
+		LayoutParams leftDividerParams = mLeftDivider.getLayoutParams();
+		leftDividerParams.width = (int) dp;
+		mLeftDivider.setLayoutParams(leftDividerParams);
+
+		LayoutParams rightDividerParams = mRightDivider.getLayoutParams();
+		rightDividerParams.width = (int) dp;
+		mRightDivider.setLayoutParams(rightDividerParams);
 	}
 }

@@ -24,6 +24,10 @@ public class FontCache {
 		ROBOTO_MEDIUM("fonts/Roboto-Medium.ttf"),
 		ROBOTO_BOLD("fonts/Roboto-Bold.ttf"),
 		ROBOTO_REGULAR("fonts/Roboto-Regular.ttf"),
+		ROBOTOSLAB_BOLD("fonts/RobotoSlab-Bold.ttf"),
+		ROBOTOSLAB_LIGHT("fonts/RobotoSlab-Light.ttf"),
+		ROBOTOSLAB_REGULAR("fonts/RobotoSlab-Regular.ttf"),
+		ROBOTOSLAB_THIN("fonts/RobotoSlab-Thin.ttf"),
 		SIGNERICA_FAT("fonts/Signerica_Fat.ttf"),
 		BEBAS_NEUE("fonts/BebasNeue.otf");
 
