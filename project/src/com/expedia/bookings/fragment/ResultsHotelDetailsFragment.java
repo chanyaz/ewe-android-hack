@@ -1,11 +1,14 @@
 package com.expedia.bookings.fragment;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,8 +18,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -27,7 +32,9 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelTextSection;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -36,6 +43,7 @@ import com.expedia.bookings.widget.RingedCountView;
 import com.expedia.bookings.widget.ScrollView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.FormatUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
@@ -56,6 +64,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private Button mAddToTripButton;
 
 	private IAddToTripListener mAddToTripListener;
+
+	HotelOffersResponse mResponse;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -145,6 +155,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			setupHeader(mRootC, property);
 			setupReviews(mRootC, property);
 			setupAmenities(mRootC, property);
+			setupRoomRates(mRootC, property);
 			setupDescriptionSections(mRootC, property);
 		}
 	}
@@ -243,6 +254,73 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		}
 	}
 
+	private void setupRoomRates(View view, Property property) {
+		LinearLayout container = Ui.findView(view, R.id.rooms_rates_container);
+		container.removeAllViews();
+
+		if (mResponse == null) {
+			return;
+		}
+
+		Rate lowestRate = property.getLowestRate();
+
+		Button addToTrip = Ui.findView(view, R.id.button_add_to_trip);
+		String addTripStr = getString(R.string.add_for_TEMPLATE,
+				lowestRate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL));
+		addToTrip.setText(addTripStr);
+
+		List<Rate> rates = mResponse.getRates();
+
+		List<String> common = mResponse.getCommonValueAdds();
+
+		// TODO: I wonder if we should use RoomsAndRatesAdapter, or similar
+		boolean first = true;
+		LayoutInflater inflater = getActivity().getLayoutInflater();
+		for (Rate rate : rates) {
+			View row = inflater.inflate(R.layout.row_tablet_room_rate, container, false);
+			TextView description = Ui.findView(row, R.id.text_room_description);
+			TextView valueAdds = Ui.findView(row, R.id.text_value_adds);
+			TextView nonRefundable = Ui.findView(row, R.id.text_non_refundable);
+			ImageView checkmark = Ui.findView(row, R.id.image_checkmark);
+			Button select = Ui.findView(row, R.id.button_select_new_room_rate);
+
+			// Separator
+			if (!first) {
+				View sep = new View(getActivity());
+				LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, 1);
+				sep.setLayoutParams(lp);
+				sep.setBackgroundColor(Color.rgb(0xd9, 0xdc, 0xe0));
+				container.addView(sep);
+			}
+
+			// Description
+			description.setText(rate.getRoomDescription());
+
+			// Value Adds
+			List<String> unique = new ArrayList<String>(rate.getValueAdds());
+			if (common != null) {
+				unique.removeAll(common);
+			}
+			if (unique.size() > 0) {
+				valueAdds.setText(Html.fromHtml(getActivity().getString(R.string.value_add_template,
+						FormatUtils.series(getActivity(), unique, ",", null).toLowerCase(Locale.getDefault()))));
+				valueAdds.setVisibility(View.VISIBLE);
+			}
+			else {
+				valueAdds.setVisibility(View.GONE);
+			}
+
+			// Non Refundable
+			nonRefundable.setVisibility(rate.isNonRefundable() ? View.VISIBLE : View.GONE);
+
+			// Selected / +$20
+			checkmark.setVisibility(/*rate.equals(lowestRate)*/first ? View.VISIBLE : View.INVISIBLE);
+			select.setVisibility(/*rate.equals(lowestRate)*/first ? View.INVISIBLE : View.VISIBLE);
+			container.addView(row);
+			first = false;
+		}
+	}
+
 	private void setupDescriptionSections(View view, Property property) {
 		LinearLayout container = Ui.findView(view, R.id.description_details_sections_container);
 		container.removeAllViews();
@@ -312,6 +390,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 			// Notify affected child fragments to refresh.
 
+			mResponse = response;
 			populateViews();
 		}
 	};
