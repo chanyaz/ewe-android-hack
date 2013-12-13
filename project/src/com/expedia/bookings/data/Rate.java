@@ -560,6 +560,23 @@ public class Rate implements JSONable {
 		}
 	}
 
+	public String getRelativeDisplayPriceString(Rate other) {
+		return getRelativeDisplayPriceString(other.getDisplayPrice());
+	}
+
+	public String getRelativeDisplayPriceString(Money other) {
+		Money difference = new Money(getDisplayPrice());
+		difference.subtract(other);
+		String prefix = "+";
+		int intvalue = difference.getAmount().intValue();
+		if (intvalue < 0) {
+			difference.negate();
+			prefix = "-";
+		}
+		String display = prefix + difference.getFormattedMoney();
+		return display;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSON Stuff
 

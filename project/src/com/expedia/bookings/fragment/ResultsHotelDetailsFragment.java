@@ -324,6 +324,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			// Selected / +$20
 			checkmark.setVisibility(/*rate.equals(lowestRate)*/first ? View.VISIBLE : View.INVISIBLE);
 			select.setVisibility(/*rate.equals(lowestRate)*/first ? View.INVISIBLE : View.VISIBLE);
+			select.setText(rate.getRelativeDisplayPriceString(lowestRate));
 			container.addView(row);
 			first = false;
 		}
