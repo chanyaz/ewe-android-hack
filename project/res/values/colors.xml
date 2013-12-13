@@ -57,6 +57,7 @@
     <color name="rooms_and_rates_notice_bg">#d9dbdd</color>
     <color name="rooms_and_rates_notice_bottom_div">#898989</color>
     <color name="actionbar_text_disabled">#505c69</color>
+    <color name="amenity_text_color_large">#737880</color>
 
     <!-- Login -->
     <color name="login_shade_flights">#32000000</color>

@@ -11,5 +11,5 @@
     android:shadowDx="0"
     android:shadowDy="1"
     android:shadowRadius="0.1"
-    android:textColor="#737880"
+    android:textColor="@color/amenity_text_color_large"
     android:textSize="@dimen/amenity_text_size_large" />
