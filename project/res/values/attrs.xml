@@ -165,6 +165,26 @@
         <attr name="ringThickness" format="dimension" />
         <attr name="countTextSize" format="dimension" />
         <attr name="captionTextSize" format="dimension" />
+        <attr name="countTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+            <enum name="black" value="8" />
+            <enum name="condensed" value="16" />
+            <enum name="light" value="32" />
+            <enum name="medium" value="64" />
+            <enum name="thin" value="128" />
+        </attr>
+        <attr name="captionTextStyle" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+            <enum name="black" value="8" />
+            <enum name="condensed" value="16" />
+            <enum name="light" value="32" />
+            <enum name="medium" value="64" />
+            <enum name="thin" value="128" />
+        </attr>
         <attr name="percent" format="float" />
     </declare-styleable>
 

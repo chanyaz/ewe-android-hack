@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 import android.graphics.PixelFormat;
@@ -20,6 +21,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.FontCache;
 
 /**
  * A view displaying a count with a partially completed circle around it, on a
@@ -36,8 +38,10 @@ import com.expedia.bookings.R;
  *     app:secondaryColor="#66ace3"
  *     app:countTextColor="#ffffff"
  *     app:countTextSize="56sp"
+ *     app:countTextStyle="normal"
  *     app:captionTextColor="#ffffff"
  *     app:captionTextSize="18sp"
+ *     app:captionTextStyle="bold"
  *     app:ringThickness="10dp" /&gt;
  * </pre>
  * 
@@ -50,6 +54,14 @@ import com.expedia.bookings.R;
  * @author Doug Melton
  */
 public class RingedCountView extends View {
+	private static final int NORMAL = 0;
+	private static final int BOLD = 1;
+	private static final int ITALIC = 2;
+	private static final int BLACK = 8;
+	private static final int CONDENSED = 16;
+	private static final int LIGHT = 32;
+	private static final int MEDIUM = 64;
+	private static final int THIN = 128;
 
 	private Animator mAnimator;
 	private RingDrawable mRingDrawable;
@@ -72,7 +84,9 @@ public class RingedCountView extends View {
 	private void init(Context context, AttributeSet attrs) {
 		int backgroundColor = Color.argb(0x00, 0x00, 0x00, 0x00);
 		int countTextColor = Color.WHITE;
+		int countTextStyle = NORMAL;
 		int captionTextColor = Color.WHITE;
+		int captionTextStyle = NORMAL;
 		int primaryColor = Color.WHITE;
 		int secondaryColor = Color.argb(0xff, 0x66, 0xAC, 0xE3);
 		int thickness = 20;
@@ -91,6 +105,8 @@ public class RingedCountView extends View {
 			thickness = a.getDimensionPixelSize(R.styleable.RingedCountView_ringThickness, thickness);
 			countTextSize = a.getDimension(R.styleable.RingedCountView_countTextSize, countTextSize);
 			captionTextSize = a.getDimension(R.styleable.RingedCountView_captionTextSize, captionTextSize);
+			captionTextStyle = a.getInt(R.styleable.RingedCountView_captionTextStyle, captionTextStyle);
+			countTextStyle = a.getInt(R.styleable.RingedCountView_countTextStyle, countTextStyle);
 			caption = a.getString(R.styleable.RingedCountView_caption);
 			percent = a.getFloat(R.styleable.RingedCountView_percent, percent);
 			a.recycle();
@@ -107,6 +123,8 @@ public class RingedCountView extends View {
 		setRingThickness(thickness);
 		setCountTextSize(countTextSize);
 		setCaptionTextSize(captionTextSize);
+		setCountTextStyle(countTextStyle);
+		setCaptionTextStyle(captionTextStyle);
 
 		super.setBackgroundDrawable(mRingDrawable);
 	}
@@ -146,6 +164,20 @@ public class RingedCountView extends View {
 
 	public void setCaptionTextSize(float pixels) {
 		mRingDrawable.setCaptionTextSize(pixels);
+	}
+
+	/**
+	 * Only NORMAL and BOLD are supported for now.
+	 */
+	public void setCountTextStyle(int style) {
+		mRingDrawable.setCountTextStyle(style);
+	}
+
+	/**
+	 * Only NORMAL and BOLD are supported for now.
+	 */
+	public void setCaptionTextStyle(int style) {
+		mRingDrawable.setCaptionTextStyle(style);
 	}
 
 	/**
@@ -330,6 +362,27 @@ public class RingedCountView extends View {
 
 		public void setCaptionTextSize(float pixels) {
 			mCaptionTextPaint.setTextSize(pixels);
+		}
+
+		public void setCountTextStyle(int style) {
+			mCountTextPaint.setTypeface(gleanTypeface(style));
+		}
+
+		public void setCaptionTextStyle(int style) {
+			mCaptionTextPaint.setTypeface(gleanTypeface(style));
+		}
+
+		private Typeface gleanTypeface(int style) {
+			Typeface tf = null;
+			switch (style) {
+			case BOLD:
+				tf = FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD);
+				break;
+			default:
+				tf = Typeface.DEFAULT;
+				break;
+			}
+			return tf;
 		}
 
 		public void setPercent(float filled) {
