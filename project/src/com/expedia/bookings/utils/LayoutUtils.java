@@ -10,6 +10,10 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Shader.TileMode;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
@@ -161,14 +165,27 @@ public class LayoutUtils {
 	}
 
 	public static void addAmenities(Context context, Property property, ViewGroup container) {
+		addAmenities(context, property, container, null);
+	}
+
+	/**
+	 * Generate a view with the amenities included in this Property. Use iconColorFilter if you
+	 * want an icon color besides the standard gray.
+	 * @param context
+	 * @param property
+	 * @param container
+	 * @param iconColorFilter
+	 */
+	public static void addAmenities(Context context, Property property, ViewGroup container, ColorFilter iconColorFilter) {
 		for (AmenityInfo ai : sAmenityInfo) {
 			if (property.hasAmenity(ai.amenity) || property.hasAnyAmenity(ai.aliases)) {
-				addAmenity(context, container, ai.amenity, ai.resId);
+				addAmenity(context, container, ai.amenity, ai.resId, iconColorFilter);
 			}
 		}
 	}
 
-	private static void addAmenity(Context context, ViewGroup amenitiesTable, Amenity amenity, int iconResourceId) {
+	private static void addAmenity(Context context, ViewGroup amenitiesTable, Amenity amenity, int iconResourceId,
+			ColorFilter iconColorFilter) {
 		LayoutInflater layoutInflater = LayoutInflater.from(context);
 		TextView amenityTextView = (TextView) layoutInflater.inflate(R.layout.snippet_amenity, amenitiesTable, false);
 
@@ -186,7 +203,9 @@ public class LayoutUtils {
 		}
 
 		amenityTextView.setText(amenityStr);
-		amenityTextView.setCompoundDrawablesWithIntrinsicBounds(0, iconResourceId, 0, 0);
+		Drawable icon = context.getResources().getDrawable(iconResourceId);
+		icon.setColorFilter(iconColorFilter);
+		amenityTextView.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
 
 		amenitiesTable.addView(amenityTextView);
 	}
