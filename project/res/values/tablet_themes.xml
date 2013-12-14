@@ -26,8 +26,8 @@
         <item name="HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder</item>
         <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.White</item>
         <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale</item>
-        <item name="hotelDetailsUserRatingStyle">@style/RatingBar.UserReview.White</item>
-        <item name="hotelDetailsStarRatingStyle">@style/RatingBar.Star.White</item>
+        <item name="hotelDetailsUserRatingStyle">@style/RatingBar.UserReview.HotelDetails</item>
+        <item name="hotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails</item>
         <item name="hotelPriceStandardColor">#ffffff</item>
         <item name="hotelPriceSaleColor">#ffffff</item>
         <item name="hotelListingFilterGroupStyle">@style/Widget.SlidingRadioGroup.TabletFilterControls</item>
