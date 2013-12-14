@@ -30,7 +30,7 @@ import com.mobiata.android.util.CalendarAPIUtils;
  * Standalone ItinCard fragment that can be placed anywhere
  */
 public class ItinCardFragment extends Fragment implements AbsPopupMenu.OnMenuItemClickListener,
-		ShareView.ShareViewListener {
+		ShareView.OnShareTargetSelectedListener {
 
 	private ViewGroup mItinHeaderContainer;
 	private ScrollView mItinCardContainer;
@@ -134,7 +134,7 @@ public class ItinCardFragment extends Fragment implements AbsPopupMenu.OnMenuIte
 		case R.id.itin_card_share:
 			ShareUtils shareUtils = new ShareUtils(getActivity());
 			mShareView.setShareIntent(shareUtils.getShareIntents(generator));
-			mShareView.setListener(this);
+			mShareView.setOnShareTargetSelectedListener(this);
 			mShareView.showPopup();
 			return true;
 		case R.id.itin_card_add_to_calendar:
@@ -148,7 +148,7 @@ public class ItinCardFragment extends Fragment implements AbsPopupMenu.OnMenuIte
 	}
 
 	@Override
-	public void onShareAppSelected(Intent intent) {
+	public void onShareTargetSelected(ShareView view, Intent intent) {
 		OmnitureTracking.trackItinShareNew(getActivity(), mCurrentData.getTripComponentType(), intent);
 	}
 

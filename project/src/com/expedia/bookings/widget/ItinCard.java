@@ -48,7 +48,7 @@ import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 import com.nineoldandroids.view.ViewHelper;
 
 public class ItinCard<T extends ItinCardData> extends RelativeLayout implements AbsPopupMenu.OnMenuItemClickListener,
-		ShareView.ShareViewListener {
+		ShareView.OnShareTargetSelectedListener {
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// INTERFACES
@@ -1382,7 +1382,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	private void showShareDialog() {
 		ShareUtils shareUtils = new ShareUtils(getContext());
 		mShareView.setShareIntent(shareUtils.getShareIntents(mItinContentGenerator));
-		mShareView.setListener(this);
+		mShareView.setOnShareTargetSelectedListener(this);
 		mShareView.showPopup();
 	}
 
@@ -1394,7 +1394,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	}
 
 	@Override
-	public void onShareAppSelected(Intent intent) {
+	public void onShareTargetSelected(ShareView view, Intent intent) {
 		OmnitureTracking.trackItinShareNew(getContext(), mItinContentGenerator.getType(), intent);
 	}
 
