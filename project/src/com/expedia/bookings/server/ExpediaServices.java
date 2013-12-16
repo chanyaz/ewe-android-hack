@@ -70,6 +70,7 @@ import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightStatsFlightResponse;
+import com.expedia.bookings.data.FlightStatsRatingResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelProductResponse;
@@ -561,8 +562,8 @@ public class ExpediaServices implements DownloadListener {
 
 	public Flight getUpdatedFlight(Flight flight) {
 		ArrayList<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
-		parameters.add(new BasicNameValuePair("appId", FS_FLEX_APP_ID));
-		parameters.add(new BasicNameValuePair("appKey", FS_FLEX_APP_KEY));
+
+		addCommonFlightStatsParams(parameters);
 
 		String baseUrl;
 
@@ -614,6 +615,21 @@ public class ExpediaServices implements DownloadListener {
 				return null;
 			}
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	// FlightStats Ratings API: https://developer.flightstats.com/api-docs/ratings/v1
+
+	public FlightStatsRatingResponse getFlightStatsRating(Flight flight) {
+		ArrayList<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
+
+		addCommonFlightStatsParams(parameters);
+
+		String airlineCode = flight.getPrimaryFlightCode().mAirlineCode;
+		String airlineNum = flight.getPrimaryFlightCode().mNumber;
+		String baseUrl = FS_FLEX_BASE_URI + "/ratings/rest/v1/json/flight/" + airlineCode + "/" + airlineNum;
+
+		return doFlightStatsRequest(baseUrl, parameters, new FlightStatsRatingResponseHandler());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1048,6 +1064,11 @@ public class ExpediaServices implements DownloadListener {
 
 		// Client id (see https://confluence/display/POS/ewe+trips+api#ewetripsapi-apiclients)
 		query.add(new BasicNameValuePair("clientid", "expedia.phone.android:" + AndroidUtils.getAppVersion(mContext)));
+	}
+
+	private void addCommonFlightStatsParams(List<BasicNameValuePair> query) {
+		query.add(new BasicNameValuePair("appId", FS_FLEX_APP_ID));
+		query.add(new BasicNameValuePair("appKey", FS_FLEX_APP_KEY));
 	}
 
 	private void addBillingInfo(List<BasicNameValuePair> query, BillingInfo billingInfo, int flags) {
