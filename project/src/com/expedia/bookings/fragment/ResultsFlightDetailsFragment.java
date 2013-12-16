@@ -20,16 +20,21 @@ import android.widget.FrameLayout.LayoutParams;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightStatsRating;
+import com.expedia.bookings.data.FlightStatsRatingResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.interfaces.IResultsFlightLegSelected;
 import com.expedia.bookings.section.FlightLegSummarySectionTablet;
 import com.expedia.bookings.section.FlightSegmentSection;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.widget.RingedCountView;
 import com.expedia.bookings.widget.TextView;
+import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Flight;
@@ -44,6 +49,8 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 	private static final String ARG_LEG_NUMBER = "ARG_LEG_NUMBER";
 
+	private static final String BGD_KEY_RATINGS = "BGD_KEY_RATINGS";
+
 	public static ResultsFlightDetailsFragment newInstance(int legNumber) {
 		ResultsFlightDetailsFragment frag = new ResultsFlightDetailsFragment();
 		Bundle args = new Bundle();
@@ -51,6 +58,8 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		frag.setArguments(args);
 		return frag;
 	}
+
+	private Flight mFlight;
 
 	// Views
 
@@ -63,6 +72,9 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	private TextView mTimeHeaderTv;
 	private TextView mAddTripTv;
 
+	private ViewGroup mOnTimeContainer;
+	private RingedCountView mOnTimeRingView;
+	private TextView mOnTimeTextView;
 	private TextView mFlightDistanceTv;
 	private TextView mFlightDurationTv;
 
@@ -108,6 +120,10 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		mTimeHeaderTv = Ui.findView(mRootC, R.id.details_time_header);
 		mAddTripTv = Ui.findView(mRootC, R.id.details_add_trip_button);
 
+		mOnTimeContainer = Ui.findView(mRootC, R.id.flight_punctuality_container);
+		mOnTimeRingView = Ui.findView(mRootC, R.id.flight_on_time_ring_view);
+		mOnTimeRingView.setCountText("");
+		mOnTimeTextView = Ui.findView(mRootC, R.id.flight_punctuality_text_view);
 		mFlightDistanceTv = Ui.findView(mRootC, R.id.flight_miles_text_view);
 		mFlightDurationTv = Ui.findView(mRootC, R.id.flight_overall_duration_text_view);
 
@@ -123,6 +139,25 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		return mRootC;
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (BackgroundDownloader.getInstance().isDownloading(BGD_KEY_RATINGS)) {
+			BackgroundDownloader.getInstance().registerDownloadCallback(BGD_KEY_RATINGS, mRatingsCallback);
+		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		if (getActivity().isFinishing()) {
+			BackgroundDownloader.getInstance().cancelDownload(BGD_KEY_RATINGS);
+		}
+		else {
+			BackgroundDownloader.getInstance().unregisterDownloadCallback(BGD_KEY_RATINGS);
+		}
+	}
+
 	public void setLegPosition(int legNumber) {
 		mLegNumber = legNumber;
 	}
@@ -132,6 +167,29 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		FlightTrip trip = flightTripLeg.getFlightTrip();
 		FlightLeg flightLeg = flightTripLeg.getFlightLeg();
 		Flight flight;
+
+		// Evaluate the flight, for the punctuality rating purposes
+		Flight newFlight = Db.getFlightSearch().getSelectedLegs()[mLegNumber].getFlightLeg().getSegment(0);
+		if (!newFlight.equals(mFlight)) {
+			BackgroundDownloader bgd = BackgroundDownloader.getInstance();
+
+			// We're downloading the onTimePercent for the old Flight, so cancel it
+			if (bgd.isDownloading(BGD_KEY_RATINGS)) {
+				bgd.cancelDownload(BGD_KEY_RATINGS);
+			}
+
+			mFlight = newFlight;
+
+			FlightStatsRating rating = Db.getFlightSearch().getFlightStatsRating(mFlight);
+			if (rating == null) {
+				// Kick off a new download if necessary
+				bgd.startDownload(BGD_KEY_RATINGS, mRatingsDownload, mRatingsCallback);
+			}
+			else {
+				Log.v("FlightStats rating cache hit");
+				bindFlightPunctuality(rating);
+			}
+		}
 
 		final Context context = getActivity();
 		final Resources res = getResources();
@@ -207,6 +265,41 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		DateFormat df = android.text.format.DateFormat.getTimeFormat(getActivity());
 		return df.format(DateTimeUtils.getTimeInLocalTimeZone(cal));
 	}
+
+	private void bindFlightPunctuality(FlightStatsRating rating) {
+		mOnTimeContainer.setVisibility(View.VISIBLE);
+
+		float percent = (float) rating.getOnTimePercent();
+		String formatPercent = rating.getFormattedPercent();
+		mOnTimeRingView.setPercent(percent);
+		mOnTimeTextView.setText(getActivity().getString(R.string.flight_on_time_TEMPLATE, formatPercent));
+	}
+
+	private BackgroundDownloader.Download<FlightStatsRatingResponse> mRatingsDownload = new BackgroundDownloader.Download<FlightStatsRatingResponse>() {
+		@Override
+		public FlightStatsRatingResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(getActivity());
+			return services.getFlightStatsRating(mFlight);
+		}
+	};
+
+	private BackgroundDownloader.OnDownloadComplete<FlightStatsRatingResponse> mRatingsCallback = new BackgroundDownloader.OnDownloadComplete<FlightStatsRatingResponse>() {
+		@Override
+		public void onDownload(FlightStatsRatingResponse results) {
+			if (results == null || results.hasErrors() || !results.getFlightStatsRating().hasValidPercent()) {
+				if (results != null && !results.hasErrors()) {
+					Log.w("FlightStats onTimePercent=" + results.getFlightStatsRating().getOnTimePercent()
+							+ " numObservations=" + results.getFlightStatsRating().getNumObservations());
+				}
+				Log.w("No valid flight onTimePercent forecast, removing from hierarchy");
+				mOnTimeContainer.setVisibility(View.GONE);
+			}
+			else {
+				Db.getFlightSearch().addFlightStatsRating(mFlight, results.getFlightStatsRating());
+				bindFlightPunctuality(results.getFlightStatsRating());
+			}
+		}
+	};
 
 	/*
 	 * SIZING AND POSITIONING.

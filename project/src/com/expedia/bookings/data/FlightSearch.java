@@ -11,23 +11,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.database.DataSetObservable;
 import android.database.DataSetObserver;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.expedia.bookings.data.FlightTrip.CompareField;
 import com.expedia.bookings.data.FlightTrip.FlightTripComparator;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.Airport;
+import com.mobiata.flightlib.data.Flight;
 
 public class FlightSearch implements JSONable {
 
 	private FlightSearchParams mSearchParams = new FlightSearchParams();
 	private FlightSearchResponse mSearchResponse;
 	private FlightSearchState mSearchState = new FlightSearchState();
+
+	private Map<Flight, FlightStatsRating> mFlightStatsRatings = new HashMap<Flight, FlightStatsRating>();
 
 	// Not to be saved - transitory states!
 	private Map<String, FlightTrip> mFlightTripMap = new HashMap<String, FlightTrip>();
@@ -529,6 +532,17 @@ public class FlightSearch implements JSONable {
 			mDataSetObservable.unregisterObserver(observer);
 		}
 
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// FlightStats flight rating - not persisting to disk currently because who cares?
+
+	public FlightStatsRating getFlightStatsRating(Flight flight) {
+		return mFlightStatsRatings.get(flight);
+	}
+
+	public void addFlightStatsRating(Flight flight, FlightStatsRating rating) {
+		mFlightStatsRatings.put(flight, rating);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

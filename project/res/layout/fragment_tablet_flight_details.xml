@@ -76,18 +76,32 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="18dp"
                         android:orientation="horizontal"
-                        android:weightSum="3" >
+                        android:weightSum="3"
+                        android:animateLayoutChanges="true" >
 
-                    <FrameLayout
+                    <LinearLayout
+                            android:id="@+id/flight_punctuality_container"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1" >
+                            android:orientation="horizontal"
+                            android:layout_weight="1"
+                            android:visibility="gone" >
+
+                        <com.expedia.bookings.widget.RingedCountView
+                                android:id="@+id/flight_on_time_ring_view"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="@dimen/tablet_flight_details_statistic_drawable_spacing"
+                                android:gravity="center_vertical"
+                                app:primaryColor="#3f86c2"
+                                app:ringThickness="2dp"
+                                app:secondaryColor="#ffffff" />
 
                         <com.expedia.bookings.widget.TextView
-                                style="@style/V2.Widget.TextView.FlightStatistic"
-                                android:drawableLeft="@drawable/ic_tablet_flight_time"
-                                android:text="71% on time" />
-                    </FrameLayout>
+                                android:id="@+id/flight_punctuality_text_view"
+                                style="@style/V2.Widget.TextView.FlightStatistic" />
+                    </LinearLayout>
 
                     <FrameLayout
                             android:layout_width="wrap_content"
