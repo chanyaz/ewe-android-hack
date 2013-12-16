@@ -149,7 +149,7 @@ public class HotelSearchParams implements JSONable {
 	 * @param query
 	 * @return
 	 */
-	public boolean setQuery(String query) {
+	public boolean setQuery(String query, boolean resetRegionId) {
 		if (mQuery != null && mQuery.equals(query)) {
 			Log.v("Not resetting freeform location; already searching this spot: " + query);
 			return false;
@@ -157,8 +157,14 @@ public class HotelSearchParams implements JSONable {
 
 		mQuery = query;
 		mSearchLatLonUpToDate = false;
-		mRegionId = null;
+		if (resetRegionId) {
+			mRegionId = null;
+		}
 		return true;
+	}
+
+	public boolean setQuery(String query) {
+		return setQuery(query, true);
 	}
 
 	public void clearQuery() {
