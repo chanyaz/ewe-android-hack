@@ -325,8 +325,13 @@ public class Money implements JSONable {
 	private static SparseArray<NumberFormat> sFormats = new SparseArray<NumberFormat>();
 
 	private static String formatRate(BigDecimal amount, String currencyCode, int flags) {
-		// NumberFormat.getCurrencyInstance is slow. So let's try to cache it.
 
+		// Special case: if the Money does not have any decimal value, let's not show with decimal
+		if (amount.scale() <= 0) {
+			flags |= F_NO_DECIMAL;
+		}
+
+		// NumberFormat.getCurrencyInstance is slow. So let's try to cache it.
 		// We want a different NumberFormat cached for each currencyCode/flags combination
 		int key = (currencyCode + flags).hashCode();
 
@@ -341,7 +346,7 @@ public class Money implements JSONable {
 				nf.setMaximumFractionDigits(currency.getDefaultFractionDigits());
 			}
 
-			if (amount.scale() <= 0 || (flags & F_NO_DECIMAL) != 0) {
+			if ((flags & F_NO_DECIMAL) != 0) {
 				nf.setMaximumFractionDigits(0);
 			}
 			sFormats.put(key, nf);
