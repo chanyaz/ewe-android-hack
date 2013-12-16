@@ -375,7 +375,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			if (intent.getBooleanExtra(Codes.FROM_DEEPLINK, false)) {
 				intent.putExtra(Codes.FROM_DEEPLINK, false);
 
-				Db.getHotelSearch().getSearchParams().setQuery(property.getName());
+				Db.getHotelSearch().getSearchParams().setQuery(property.getName(), false);
 				setSearchText(property.getName());
 			}
 
