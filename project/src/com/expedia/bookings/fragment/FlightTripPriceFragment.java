@@ -94,7 +94,7 @@ public class FlightTripPriceFragment extends Fragment {
 		priceSection.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				BreakdownDialogFragment dialog = BreakdownDialogFragment.buildHotelRateBreakdownDialog(getActivity(),
+				BreakdownDialogFragment dialog = BreakdownDialogFragment.buildFlightBreakdownDialog(getActivity(),
 						Db.getFlightSearch(), Db.getBillingInfo());
 				dialog.show(getFragmentManager(), BreakdownDialogFragment.TAG);
 			}

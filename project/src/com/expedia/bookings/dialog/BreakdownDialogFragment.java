@@ -139,7 +139,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		// Title
 		builder.setTitle(context.getString(R.string.cost_summary));
-		builder.setTitleDivider(Ui.obtainThemeResID((Activity)context, R.attr.costSummaryDialogStripeDrawable));
+		builder.setTitleDivider(Ui.obtainThemeResID((Activity) context, R.attr.costSummaryDialogStripeDrawable));
 
 		// Breakdown summary
 		int numNights = params.getStayDuration();
@@ -264,7 +264,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 		return builder.build();
 	}
 
-	public static BreakdownDialogFragment buildHotelRateBreakdownDialog(Context context, FlightSearch search,
+	public static BreakdownDialogFragment buildFlightBreakdownDialog(Context context, FlightSearch search,
 			BillingInfo billingInfo) {
 		FlightSearchParams params = search.getSearchParams();
 		FlightTrip trip = search.getSelectedFlightTrip();
