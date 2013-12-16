@@ -217,9 +217,9 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 		int viewHeight = (mGrid.isLandscape() ? mGrid.getTotalHeight() : mGrid.getRowHeight(0)) / 3;
 		float halfViewHeight = viewHeight / 2f;
 
-		setViewHeight(mTripBucketYourTripToC, viewHeight);
+		/*setViewHeight(mTripBucketYourTripToC, viewHeight);
 		setViewHeight(mTripBucketFlightC, viewHeight);
-		setViewHeight(mTripBucketHotelC, viewHeight);
+		setViewHeight(mTripBucketHotelC, viewHeight);*/
 
 		if (mGrid.isLandscape()) {
 			if (!verticalOnly) {
@@ -267,9 +267,10 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 				mTripBucketHotelC.setTranslationY(centers[index] - halfViewHeight);
 				index++;
 			}
+			mTripBucketTripToFrag.hideEmptyTripContainer(true);
 		}
 		else {
-			//TODO: ADD AN EMPTY TRIP BUCKET CONTAINER WITH APPROPRIATE MESSAGING
+			mTripBucketTripToFrag.hideEmptyTripContainer(false);
 		}
 	}
 
@@ -832,7 +833,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 				mAddingHotelTrip = false;
 				mAddingFlightTrip = false;
 				mTripAnimationC.removeAllViews();
-				
+
 				animateToPercentage(1, false);
 				addTripPercentage(1);
 			}

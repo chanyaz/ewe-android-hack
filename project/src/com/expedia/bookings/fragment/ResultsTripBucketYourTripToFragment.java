@@ -36,6 +36,7 @@ public class ResultsTripBucketYourTripToFragment extends Fragment {
 	private View mLeftDivider;
 	private View mRightDivider;
 	private LinearLayout mTripToLayout;
+	private LinearLayout mEmptyTripLayout;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -52,6 +53,7 @@ public class ResultsTripBucketYourTripToFragment extends Fragment {
 		mSecondaryDestTv = Ui.findView(mRootC, R.id.secondary_destination_text);
 		mEmptyTripTv = Ui.findView(mRootC, R.id.trip_empty_text);
 		mTripToLayout = Ui.findView(mRootC, R.id.trip_to_layout);
+		mEmptyTripLayout = Ui.findView(mRootC, R.id.empty_trip_container);
 
 		FontCache.setTypeface(mTripToHeaderTv, Font.ROBOTOSLAB_LIGHT);
 		FontCache.setTypeface(mPrimaryDestTv, Font.ROBOTOSLAB_BOLD);
@@ -103,5 +105,16 @@ public class ResultsTripBucketYourTripToFragment extends Fragment {
 		LayoutParams rightDividerParams = mRightDivider.getLayoutParams();
 		rightDividerParams.width = (int) dp;
 		mRightDivider.setLayoutParams(rightDividerParams);
+	}
+
+	public void hideEmptyTripContainer(boolean hide) {
+		if (hide) {
+			mEmptyTripLayout.setVisibility(View.GONE);
+			mSecondaryDestTv.setVisibility(View.GONE);
+		}
+		else {
+			mEmptyTripLayout.setVisibility(View.VISIBLE);
+			mSecondaryDestTv.setVisibility(View.VISIBLE);
+		}
 	}
 }

@@ -27,9 +27,6 @@
             android:id="@+id/top_header_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="0dp"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
             android:gravity="center"
             android:text="@string/trip_to"
             android:textAllCaps="true"
@@ -64,28 +61,36 @@
         android:textSize="42sp"
         android:textStyle="bold" />
 
-    <View
+    <LinearLayout
+        android:id="@+id/empty_trip_container"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
-        android:layout_marginTop="110dp"
-        android:background="#5C6F7F" />
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="166dp"
-        android:src="@drawable/ic_trip_empty_suitcase" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="110dp"
+            android:background="#5C6F7F" />
 
-    <TextView
-        android:id="@+id/trip_empty_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:text="@string/trip_empty"
-        android:textColor="#8695A0"
-        android:textSize="17sp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="166dp"
+            android:src="@drawable/ic_trip_empty_suitcase" />
+
+        <TextView
+            android:id="@+id/trip_empty_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:text="@string/trip_empty"
+            android:textColor="#8695A0"
+            android:textSize="17sp" />
+    </LinearLayout>
 
 </LinearLayout>

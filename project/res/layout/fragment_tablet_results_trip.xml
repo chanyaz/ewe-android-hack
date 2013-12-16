@@ -9,7 +9,7 @@
         android:id="@+id/column_three_blurred_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EE092A3D" />
+        android:background="#D80d2a40" />
 
     <!-- Trip Bucket Containers -->
 
