@@ -39,15 +39,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="bottom"
-                    android:background="#80808080"
+                    android:background="#e54e4e52"
                     android:padding="@dimen/tablet_detail_padding" >
 
                     <Button
                         android:id="@+id/button_add_to_trip"
                         android:layout_width="wrap_content"
-                        android:layout_height="48dp"
+                        android:layout_height="40dp"
                         android:layout_alignParentRight="true"
-                        android:layout_gravity="center_vertical"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/btn_add_for_x"
                         android:textAllCaps="true"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -56,7 +57,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:layout_gravity="center_vertical"
+                        android:layout_centerVertical="true"
                         android:layout_toLeftOf="@id/button_add_to_trip"
                         android:orientation="vertical" >
 
