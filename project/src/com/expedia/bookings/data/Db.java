@@ -992,6 +992,7 @@ public class Db {
 			putJsonable(obj, "billingInfo", sDb.mBillingInfo);
 			putJsonable(obj, "bookingResponse", sDb.mBookingResponse);
 			putJsonable(obj, "flightSearch", sDb.mFlightSearch);
+			JSONUtils.putStringMap(obj, "airlines", sDb.mAirlineNames);
 			putJsonable(obj, "flightCheckout", sDb.mFlightCheckout);
 			putMap(obj, "itineraries", sDb.mItineraries);
 			putJsonable(obj, "user", sDb.mUser);
@@ -1028,6 +1029,7 @@ public class Db {
 			sDb.mBillingInfo = getJsonable(obj, "billingInfo", BillingInfo.class, sDb.mBillingInfo);
 			sDb.mBookingResponse = getJsonable(obj, "bookingResponse", BookingResponse.class, sDb.mBookingResponse);
 			sDb.mFlightSearch = getJsonable(obj, "flightSearch", FlightSearch.class, sDb.mFlightSearch);
+			sDb.mAirlineNames = JSONUtils.getStringMap(obj, "airlines");
 			sDb.mFlightCheckout = getJsonable(obj, "flightCheckout", FlightCheckoutResponse.class, sDb.mFlightCheckout);
 			sDb.mItineraries = getMap(obj, "itineraries", Itinerary.class, sDb.mItineraries);
 			sDb.mUser = getJsonable(obj, "user", User.class, sDb.mUser);
