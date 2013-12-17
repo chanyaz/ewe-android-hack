@@ -130,12 +130,35 @@
     <string name="From_x_TEMPLATE">Vanaf %s</string>
 
     <!-- Tablet flight sort/filter controls -->
-    <!-- Flight sort and filter page header -->
-    <string name="flight_preferences">Vluchtvoorkeuren</string>
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Tussenstops</string>
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">Airlines</string>
+
+    <!-- Header for a dropdown to select from a list of available departure airports -->
+    <string name="departure_airports">Luchthavens van vertrek</string>
+    <!-- Header for a dropdown to select from a list of available arrival airports -->
+    <string name="arrival_airports">Luchthavens van aankomst</string>
+
+    <!-- Tablet hotel details -->
+    <!-- Caption next to the star rating bar, like "3 stars" -->
+    <string name="n_stars_TEMPLATE">%1$s sterren</string>
+    <!-- Caption next to the user review rating bar, like "140 reviews" -->
+    <string name="n_reviews_TEMPLATE">%1$s beoordelingen</string>
+    <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
+    <string name="recommend">raden dit aan</string>
+    <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
+    <string name="rooms_left">kamers over</string>
+    <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
+    <string name="out_of_5">op 5</string>
+    <!-- "Read Reviews" user reviews button text -->
+    <string name="Read_Reviews">Lees beoordelingen</string>
+
+    <!-- Tablet flight details -->
+    <!-- Name of button for selecting a flight. %1$s is a price. example: "Add for $345" -->
+    <string name="add_for_TEMPLATE">Toevoegen voor %1$s</string>
+    <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
+    <string name="flight_cities_TEMPLATE">%1$s naar %2$s</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -767,8 +790,6 @@
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
     <string name="Expedia_Flights">Expedia Vluchten</string>
-    <!-- Label for Flight Confirmation activity in task manager -->
-    <string name="Flights_Confirmation">Vluchtbevestiging</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">Zoeken naar een vlucht</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -974,8 +995,6 @@
     <string name="airline_processing_fee_TEMPLATE">Transactiekosten airline: &lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Airline aanvaardt geen %1$s</string>
-    <!-- "Airline Fee Information" -->
-    <string name="airline_fee_information">Info over airlinetoeslag</string>
     <!-- Debit cards not supported message -->
     <string name="debit_cards_not_accepted">Betaalpassen worden niet aanvaard.</string>
 
@@ -1053,8 +1072,6 @@
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Totaal nu te betalen</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
-    <string name="please_use_only_the_following_characters">Gebruik alleen de volgende tekens: A-Z, a-z, 0-9, en ,.\&apos;-</string>
-    <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Gebruik alleen latijnse tekens</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Voer een geldig e-mailadres in</string>
@@ -1083,15 +1100,10 @@
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">Reiziger toevoegen</string>
 
-    <!-- Label for "Add Traveler" in task manager -->
-    <string name="Add_Guest">Gast toevoegen</string>
-
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">Betaling toevoegen</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Reizigersinformatie</string>
-    <!-- Add traveler -->
-    <string name="add_traveler">Reiziger toevoegen</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Reizigersinfo</string>
     <!-- Add Guest for hotels -->
@@ -1480,14 +1492,6 @@
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">Zoeken</string>
-    <!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
-    <plurals name="number_of_matching_hotels">
-        <item quantity="zero">&lt;b&gt;%d&lt;/b&gt; overeenkomende hotels</item>
-        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; overeenkomend hotel</item>
-        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; overeenkomende hotels</item>
-        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; overeenkomende hotels</item>
-        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; overeenkomende hotels</item>
-    </plurals>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
     <string name="date_range_TEMPLATE">%1$s naar %2$s</string>
     <!-- Hint for filtering results by hotel name -->
@@ -1506,8 +1510,6 @@
     <string name="SEARCH">ZOEKEN</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">Op kaart zoeken</string>
-    <!-- Message when app is loading saved search results -->
-    <string name="loading_previous">Bezig met laden eerdere zoekresultaten…</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">SORTEREN</string>
     <!-- Label for sort hotels in hotel list -->
@@ -1537,10 +1539,6 @@
     <string name="EnableLocationSettings">Om je huidige locatie te gebruiken moet je naar" Locatie en beveiliging" gaan in Instellingen.\nNaar Instellingen gaan en inschakelen?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">Je locatieprovider is uitgeschakeld. Schakel deze opnieuw in als je op jouw locatie wilt zoeken.</string>
-    <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-    <string name="ProviderOutOfService">Je locatieprovider is buiten dienst. Probeer het later opnieuw.</string>
-    <!-- Message displayed when the location provider is temporarily unavailable. -->
-    <string name="ProviderTemporarilyUnavailable">Je locatieprovider is momenteel niet beschikbaar. Probeer het over een paar minuten opnieuw.</string>
 
     <!-- Sort descriptions, e.g. Sorted by "description" -->
     <!-- Sort by distance label -->
@@ -1560,7 +1558,7 @@
     <!-- Less than or equal to a max  # of stop. Currently set to 1 -->
     <string name="stop_description__max">Max. 1 tussenstop</string>
     <!-- Nonstop flights -->
-    <string name="stop_description__nonstop">Non-stop</string>
+    <string name="stop_description__nonstop">Geen tussenstops</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">Alle</string>
@@ -1616,8 +1614,6 @@
     <string name="visible_map_area">Zichtbaar kaartgebied</string>
 
     <!-- Search list adapter -->
-    <!-- The label for how much hotels cost - "from $120/night", for example -->
-    <string name="from">Vanaf</string>
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/nacht</string>
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
@@ -1629,8 +1625,6 @@
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
     <string name="percent_minus_template">%2.0f%% korting</string>
 
-    <!-- Filter results action bar label -->
-    <string name="filter_results">Resultaten filteren</string>
     <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
     <string name="filter">Filteren</string>
 
@@ -1638,17 +1632,11 @@
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">Vanaf %s</string>
 
-    <!-- Mini-details fragment -->
-    <!-- Label for "see details" button on the mini details fragment -->
-    <string name="see_details">Hotelgegevens</string>
-
     <!-- Widget -->
     <!-- Default Loading message for widget -->
     <string name="loading_hotels">Bezig met laden van hotels…</string>
     <!-- Template for sale element in widget. The parameter is for the sale % -->
     <string name="widget_savings_template">Bespaar %2.0f%%</string>
-    <!-- Indicator to user to tap the widget to cause it to refresh -->
-    <string name="refresh_widget">Tik om te vernieuwen</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">Geen internetverbinding</string>
     <!-- Widget Branding title -->
@@ -1657,8 +1645,6 @@
     <string name="book_a_room_tonight">Boek vandaag nog een kamer.</string>
 
     <!-- Hotel Details Fragment Activity -->
-    <!-- Label for the hotel's star rating -->
-    <string name="star_rating">Sterrenclassificatie</string>
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
@@ -1667,14 +1653,6 @@
     <string name="book_by_phone">Boek via telefoon</string>
 
     <!-- Hotel Details Fragment -->
-    <!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available -->
-    <string name="bed_type_start_value_template">vanaf &lt;b&gt;%s&lt;/b&gt;</string>
-    <!-- Title for the amenities section in the hotel details fragment -->
-    <string name="amenities">Voorzieningen</string>
-    <!-- Label for button to see all reviews as a modal dialog -->
-    <string name="see_all_reviews">Alle beoordelingen bekijken</string>
-    <!-- Label for button that brings users to the room selection page -->
-    <string name="select_room">Kamer selecteren</string>
     <!-- Title for VIP Access message -->
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
@@ -1852,8 +1830,6 @@
     <string name="gallery_title_template">Foto\&apos;s van &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Booking info -->
-    <!-- edit label -->
-    <string name="edit">Bewerken</string>
     <!-- Label for room type -->
     <string name="room_type">Kamertype</string>
     <!-- Error if we couldn't find the room type details -->
@@ -1873,40 +1849,6 @@
     <string name="extra_guest_charge">Toeslag voor extra gast</string>
     <!-- Label for total cost of hotel stay -->
     <string name="total_cost">Totale kosten</string>
-    <!-- Label for "guest info" form field section -->
-    <string name="guest_info">Gastinfo</string>
-    <!-- The "first name" booking info field. -->
-    <string name="FirstName">Voornaam</string>
-    <!-- The "last name" booking info field. -->
-    <string name="LastName">Achternaam</string>
-    <!-- The "telephone" booking info field. -->
-    <string name="Telephone">Telefoon</string>
-    <!-- The "email for booking confirmation" booking info field. -->
-    <string name="EmailForConf">E-mailadres voor bevestiging</string>
-    <!-- Label for "credit card info" form field section -->
-    <string name="credit_card_info">Creditcardgegevens</string>
-    <!-- Label for credit card selection box -->
-    <string name="saved_cards">Opgeslagen creditcards</string>
-    <!-- Label for entering new credit card information -->
-    <string name="enter_a_new_card">Voeg een nieuwe creditcard toe</string>
-    <!-- Card number form field hint -->
-    <string name="hint_card_number">Creditcardnummer</string>
-    <!-- Card expiration month form field hint -->
-    <string name="hint_expiration_month">m</string>
-    <!-- Card expiration year form field hint -->
-    <string name="hint_expiration_year">jj</string>
-    <!-- Security code label -->
-    <string name="security_code">CVV-code</string>
-    <!-- Security code tip (if code is on front of card) -->
-    <string name="security_code_tip_front">Zie de voorzijde van je creditcard</string>
-    <!-- Security code tip (if code is on front of card) -->
-    <string name="security_code_tip_back">Zie de achterzijde van je creditcard</string>
-    <!-- Rules & restrictions section header -->
-    <string name="rules_restrictions">Regels &amp; beperkingen</string>
-    <!-- Disclaimer about how to earn expedia points -->
-    <string name="disclaimer_expedia_points">Als je een Expedia Rewards-account hebt, boek dan met hetzelfde e-mailadres om je punten automatisch na je verblijf toe te voegen. Let op: het kan maximaal 30 dagen duren voordat je punten verschijnen.</string>
-    <!-- Button label for confirming your booking -->
-    <string name="confirm_book">Bevestigen en boeken</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">Privégegevens wissen</string>
     <!-- Title for dialog confirming the clearing of private data -->
@@ -1917,32 +1859,12 @@
     <string name="dialog_log_out_and_clear_private_data_msg">Zo wordt je afgemeld en verwijder je alle opgeslagen betalings- en contactgegevens.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Privégegevens gewist</string>
-    <!-- Error message if field was required but not entered -->
-    <string name="required_field">Voer een waarde in voor dit veld.</string>
-    <!-- Error message if field had data entered but was invalid -->
-    <string name="invalid_field">Voer een geldige waarde in voor dit veld.</string>
-    <!-- Error if an invalid card number was entered -->
-    <string name="invalid_card_number">Het ingevoerde creditcardnummer is ongeldig, probeer het opnieuw.</string>
     <!-- Error shown to user if their credit card postal code is invalid -->
     <string name="invalid_postal_code">We hebben een geldige postcode nodig om je creditcard te verwerken.</string>
-    <!-- Error if an invalid credit card type was entered -->
-    <string name="invalid_card_type">We hebben je creditcardtype niet kunnen vaststellen, voer een geldige creditcard in.</string>
-    <!-- Error if an invalid month (not 1-12) was entered -->
-    <string name="invalid_month">Voer een waarde in tussen 1 en 12.</string>
-    <!-- Error if an invalid year was entered -->
-    <string name="invalid_expiration_year">Voer een jaar in dat niet in het verleden ligt</string>
-    <!-- Error if an invalid security code was entered -->
-    <string name="invalid_security_code">Voer een drie- of viercijferige CVV-code in</string>
-    <!-- Error if an invalid currency code is being used with American Express -->
-    <string name="invalid_currency_for_amex">Sorry, betalingen in deze valuta (%s) worden door American Express niet aanvaard. Gebruik een andere creditcard.</string>
-    <!-- Error if user agreement needs to be checked but is not -->
-    <string name="error_no_user_agreement">Je dient de voorwaarden te accepteren om te kunnen boeken</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Bezig met boeken…</string>
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">Fout</string>
-    <!-- Error message when we couldn't get a response -->
-    <string name="error_booking_null">Kon geen verbinding met de Expedia-servers maken. Controleer de verbinding en probeer opnieuw.</string>
     <!-- Error message when booking completed with errors -->
     <string name="error_booking_succeeded_with_errors">Je hotelkamer werd geboekt en gereserveerd. De volgende fouten deden zich echter voor: %s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
@@ -1951,34 +1873,16 @@
     <string name="enter_booking_info">Voer boekingsinfo in</string>
     <!-- Title for action bar when the user is on the booking info screen -->
     <string name="booking_information_title">Boekingsgegevens</string>
-    <!-- Title for dialog where the user is prompted to enter booking booking information -->
-    <string name="booking_information_dialog_title">Boeking voltooien</string>
 
     <!-- Confirmation activity -->
-    <!-- Friendly message at the top of the receipt -->
-    <string name="Enjoy_your_stay">Geniet van je verblijf.</string>
-    <!-- Format for a first/last name -->
-    <string name="name_template">%1$s %2$s</string>
-    <!-- Reservation summary label -->
-    <string name="reservation_summary">Boekingsoverzicht</string>
     <!-- Confirmation number label -->
     <string name="confirmation_number">Bevestigingsnr.</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">Reisplannr.</string>
     <!-- Confirmation email label -->
     <string name="confirmation_email">Bevestigingsmail</string>
-    <!-- ActionBar button for starting a new search -->
-    <string name="NEW_SEARCH">Nieuwe zoekopdracht</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">Als je vragen hebt over je boeking, bel Expedia op %s.</string>
-
-    <!-- Confirmation Fragment -->
-    <!-- Label to share booking information after a booking confirmation -->
-    <string name="share_booking_info">Boekingsgegevens delen</string>
-    <!-- Label to start a new search from a confirmation screen -->
-    <string name="start_new_search">Nieuwe zoekopdracht starten</string>
-    <!-- Label to view hotel in google maps to get directions from a confirmation screen -->
-    <string name="show_on_map">Bekijk op de kaart</string>
 
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
@@ -1989,8 +1893,6 @@
     <string name="included">Inbegrepen</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">Hoteltoeslagen (te betalen in het hotel)</string>
-    <!-- Label for the total cost of the booking. -->
-    <string name="Total">Totaal</string>
     <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
     <string name="PayToExpedia">Betaal Expedia</string>
     <!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
@@ -2025,8 +1927,6 @@
     <string name="login_failed">Meld je opnieuw aan</string>
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation">Ben je zeker dat je je wil afmelden bij je Expedia account?</string>
-    <!-- Label for login widget additional text -->
-    <string name="log_in_for_faster_booking">Meld je aan</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Ingeschreven voor Expedia Rewards\u2122</string>
     <!-- Label for account status -->
@@ -2051,16 +1951,6 @@
     <string name="optional">Optioneel</string>
     <!-- Label applying a coupon -->
     <string name="apply">Toepassen</string>
-    <!-- Label for new price after applying coupon -->
-    <string name="new_total">Nieuw totaal:</string>
-    <!-- Label for credit card selection -->
-    <string name="use_card">Gebruik creditcard:</string>
-    <!-- Label for when a user has entered an invalid coupon -->
-    <string name="invalid_coupon">Ongeldige coupon</string>
-    <!-- Label for when a user has entered a coupon which is expired -->
-    <string name="expired_coupon">Verlopen coupon</string>
-    <!-- Label for when a user has entered a coupon and the server fails -->
-    <string name="coupon_error">Fout met coupon</string>
 
     <!-- Coupon dialog -->
     <!-- Title on dialog imploring users to enter coupons -->
@@ -2103,32 +1993,16 @@
     <string name="coupon_error_service_down">Sorry, maar we kunnen coupons op dit moment niet verwerken. Probeer het opnieuw.</string>
 
     <!-- Sharing bookings via email -->
-    <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
-    <string name="share_subject_dash_template">%1$s - %2$s</string>
-    <!-- The title of the share subject line -->
-    <string name="share_subject_title">Expedia reisplan</string>
-    <!-- Subject property name template. -->
-    <string name="share_subject_template">Expedia reisplan -</string>
-    <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
-    <string name="share_subject_template_dates">(%1$s - %2$s)</string>
-    <!-- Preset at the top of the share body message -->
-    <string name="share_body_start">Hier is mijn hotelboekingsinformatie:</string>
-    <!-- Name of user -->
-    <string name="name">Naam</string>
     <!-- Number of adults label -->
     <string name="adults">Volwassenen</string>
     <!-- Number of children label -->
     <string name="children">Kinderen</string>
-    <!-- Subtotal label -->
-    <string name="subtotal">Subtotaal</string>
     <!-- Cancellation policy label -->
     <string name="cancellation_policy">Annuleringsbeleid</string>
 
     <!-- About activity -->
     <!-- Label for "contact Expedia" button in info page -->
     <string name="contact_expedia">Neem contact op met Expedia</string>
-    <!-- Extra description for "contact Expedia" button, when space allows -->
-    <string name="contact_expedia_description">We staan 24 uur per dag voor je klaar.</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_expedia_via">Neem contact op met Expedia via…</string>
     <!-- Contact Expedia via phone -->
@@ -2141,18 +2015,8 @@
     <string name="contact_expedia_website">Website</string>
     <!-- Label for "Expedia website" button in info page -->
     <string name="expedia_website">Expedia-website</string>
-    <!-- Extra description for "Expedia website" button, when space allows -->
-    <string name="expedia_website_description">Ga naar onze website voor het boeken van vluchten, huurauto\&apos;s, pakketvakanties en nog veel meer.</string>
-    <!-- Extra description for "app feedback" button, when space allows -->
-    <string name="app_feedback_description">Laat ons weten wat je van onze app vindt.</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App-support</string>
-    <!-- Extra description for "app support" button, when space allows -->
-    <string name="app_support_description">Stuur ons een berichtje, en we sturen je een antwoord.</string>
-    <!-- Extra description for "tell a friend" button, when space allows -->
-    <string name="tell_a_friend_description">Hou je van geweldige hotelaanbiedingen? Vertel je vrienden over onze app.</string>
-    <!-- Section header for other apps by Mobiata -->
-    <string name="travel_smart">Reis slim</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
@@ -2182,8 +2046,6 @@
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">Deze app gebruikt het Stack Blur algoritme van Mario Klingemann.</string>
     <!-- String where we link to the google play services open source licenses -->
-    <string name="view_open_source_software_licenses">Open Source Software-licenties bekijken</string>
-    <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">Open Source Software-licenties</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Deze app gebruikt de volgende open-source bibliotheken:</string>
@@ -2195,18 +2057,8 @@
     <string name="app_support_message_body">We sturen je graag een antwoord! Hieronder vind je enkele nuttige informatie:</string>
 
     <!-- App Feedback Activity -->
-    <!-- Text within submit button in header -->
-    <string name="send_feedback">Feedback verzenden</string>
-    <!-- Header title -->
-    <string name="app_feedback">App-feedback</string>
-    <!-- Section header for rating (1-5 stars) -->
-    <string name="oosdk_rating_overall_header">Beoordeel ons</string>
-    <!-- Footer for the view -->
-    <string name="powered_by_opinion_lab">Mogelijk gemaakt door Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">Privacybeleid</a></string>
     <!-- Hint to type in email address -->
     <string name="email_address">E-mailadres</string>
-    <!-- Hint to type in comments -->
-    <string name="feedback_hint">Wat kunnen we beter doen?</string>
 
     <!-- Preferences -->
     <!-- Category name for general preferences -->
@@ -2285,8 +2137,6 @@
     <string name="Settings">Instellingen</string>
     <!-- Label for "info about this app" menu item. -->
     <string name="Info">Info</string>
-    <!-- Label for "about this app" menu item. Deprecated for the time being, but kept because maybe it wil return -->
-    <string name="About">Over</string>
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->

@@ -130,12 +130,35 @@
     <string name="From_x_TEMPLATE">%s ～</string>
 
     <!-- Tablet flight sort/filter controls -->
-    <!-- Flight sort and filter page header -->
-    <string name="flight_preferences">フライトの検索条件</string>
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">乗継回数</string>
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">航空会社</string>
+
+    <!-- Header for a dropdown to select from a list of available departure airports -->
+    <string name="departure_airports">出発空港</string>
+    <!-- Header for a dropdown to select from a list of available arrival airports -->
+    <string name="arrival_airports">到着空港</string>
+
+    <!-- Tablet hotel details -->
+    <!-- Caption next to the star rating bar, like "3 stars" -->
+    <string name="n_stars_TEMPLATE">%1$s つ星</string>
+    <!-- Caption next to the user review rating bar, like "140 reviews" -->
+    <string name="n_reviews_TEMPLATE">%1$s 件のレビュー</string>
+    <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
+    <string name="recommend">のゲストが推奨</string>
+    <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
+    <string name="rooms_left">室残り</string>
+    <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
+    <string name="out_of_5">(5 段階中)</string>
+    <!-- "Read Reviews" user reviews button text -->
+    <string name="Read_Reviews">レビューを見る</string>
+
+    <!-- Tablet flight details -->
+    <!-- Name of button for selecting a flight. %1$s is a price. example: "Add for $345" -->
+    <string name="add_for_TEMPLATE">%1$s に追加</string>
+    <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
+    <string name="flight_cities_TEMPLATE">%1$s → %2$s</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -562,9 +585,9 @@
     <string name="car_category_oversize">オーバーサイズカー</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア自動車</string>
-    <string name="car_type_three_door">3 ドア自動車</string>
-    <string name="car_type_four_door">4 ドア自動車</string>
+    <string name="car_type_two_door">2 ドア 自動車</string>
+    <string name="car_type_three_door">3 ドア 自動車</string>
+    <string name="car_type_four_door">4 ドア 自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -767,8 +790,6 @@
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
     <string name="Expedia_Flights">エクスペディア フライト予約</string>
-    <!-- Label for Flight Confirmation activity in task manager -->
-    <string name="Flights_Confirmation">フライト予約通知</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">フライト検索</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -974,8 +995,6 @@
     <string name="airline_processing_fee_TEMPLATE">航空会社によるこのカードの手数料 : &lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
     <string name="airline_does_not_accept_cardtype_TEMPLATE">この航空会社では、%1$s のカードはご利用いただけません</string>
-    <!-- "Airline Fee Information" -->
-    <string name="airline_fee_information">航空会社の手数料詳細</string>
     <!-- Debit cards not supported message -->
     <string name="debit_cards_not_accepted">デビットカードはご利用いただけません。</string>
 
@@ -1053,8 +1072,6 @@
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">本日お支払の合計料金</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
-    <string name="please_use_only_the_following_characters">半角英数 (A-Z、a-ｚ、0-9) および ,.\&apos;- のみご利用ください</string>
-    <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">半角英字を使用してください</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">有効なメールアドレスを入力してください</string>
@@ -1083,15 +1100,10 @@
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">旅行者情報を入力</string>
 
-    <!-- Label for "Add Traveler" in task manager -->
-    <string name="Add_Guest">ゲスト情報を入力</string>
-
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">お支払い情報を追加</string>
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">旅行者情報</string>
-    <!-- Add traveler -->
-    <string name="add_traveler">旅行者情報を入力</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">旅行者の詳細</string>
     <!-- Add Guest for hotels -->
@@ -1480,14 +1492,6 @@
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">検索</string>
-    <!-- Label indicating how many hotels are left after filtering. %d is the number of hotels that match the filter -->
-    <plurals name="number_of_matching_hotels">
-        <item quantity="zero">条件一致するホテルが &lt;b&gt;%d&lt;/b&gt; 軒</item>
-        <item quantity="one">条件一致するホテルが &lt;b&gt;%d&lt;/b&gt; 軒</item>
-        <item quantity="two">条件一致するホテルが &lt;b&gt;%d&lt;/b&gt; 軒</item>
-        <item quantity="many">条件一致するホテルが &lt;b&gt;%d&lt;/b&gt; 軒</item>
-        <item quantity="other">条件一致するホテルが &lt;b&gt;%d&lt;/b&gt; 軒</item>
-    </plurals>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
     <string name="date_range_TEMPLATE">%1$s → %2$s</string>
     <!-- Hint for filtering results by hotel name -->
@@ -1506,8 +1510,6 @@
     <string name="SEARCH">検索</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">マップの検索</string>
-    <!-- Message when app is loading saved search results -->
-    <string name="loading_previous">過去の検索結果を読み込み中…</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">並べ替え</string>
     <!-- Label for sort hotels in hotel list -->
@@ -1537,10 +1539,6 @@
     <string name="EnableLocationSettings">My ロケーションを使うには、まず設定でロケーション ソースをオンにしてください。\n今すぐ設定しますか ?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">ロケーション プロバイダーが無効になっています。ロケーション検索をするために有効にしてください。</string>
-    <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-    <string name="ProviderOutOfService">ロケーション プロバイダーが使用できません。後ほどお試しください。</string>
-    <!-- Message displayed when the location provider is temporarily unavailable. -->
-    <string name="ProviderTemporarilyUnavailable">ロケーション プロバイダーが一時利用できなくなっています。数分後にもう一度お試しください。</string>
 
     <!-- Sort descriptions, e.g. Sorted by "description" -->
     <!-- Sort by distance label -->
@@ -1560,7 +1558,7 @@
     <!-- Less than or equal to a max  # of stop. Currently set to 1 -->
     <string name="stop_description__max">乗継 1 回以下</string>
     <!-- Nonstop flights -->
-    <string name="stop_description__nonstop">直行便</string>
+    <string name="stop_description__nonstop">乗継なし</string>
 
     <!-- Filter option for "show all" -->
     <string name="all">全て</string>
@@ -1616,8 +1614,6 @@
     <string name="visible_map_area">表示マップエリア</string>
 
     <!-- Search list adapter -->
-    <!-- The label for how much hotels cost - "from $120/night", for example -->
-    <string name="from">出発地</string>
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/ 泊</string>
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
@@ -1629,8 +1625,6 @@
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
     <string name="percent_minus_template">-%2.0f%%</string>
 
-    <!-- Filter results action bar label -->
-    <string name="filter_results">結果を絞り込む</string>
     <!-- Filter results action bar label (short version, shown when we need more room - should be shorter than filter_results) -->
     <string name="filter">絞り込み</string>
 
@@ -1638,17 +1632,11 @@
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">最低料金 %s</string>
 
-    <!-- Mini-details fragment -->
-    <!-- Label for "see details" button on the mini details fragment -->
-    <string name="see_details">詳細を表示</string>
-
     <!-- Widget -->
     <!-- Default Loading message for widget -->
     <string name="loading_hotels">ホテルを読み込んでいます…</string>
     <!-- Template for sale element in widget. The parameter is for the sale % -->
     <string name="widget_savings_template">%2.0f%% 割引</string>
-    <!-- Indicator to user to tap the widget to cause it to refresh -->
-    <string name="refresh_widget">タップして最新の情報に更新</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">インターネットに接続されていません</string>
     <!-- Widget Branding title -->
@@ -1657,8 +1645,6 @@
     <string name="book_a_room_tonight">今夜宿泊する部屋を予約する。</string>
 
     <!-- Hotel Details Fragment Activity -->
-    <!-- Label for the hotel's star rating -->
-    <string name="star_rating">星評価</string>
     <!-- Bullet point for list items -->
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
@@ -1667,14 +1653,6 @@
     <string name="book_by_phone">電話で予約</string>
 
     <!-- Hotel Details Fragment -->
-    <!-- Starting price for a bed type to be displayed in the summarized rates for the top 3 bed types available -->
-    <string name="bed_type_start_value_template">&lt;b&gt;%s&lt;/b&gt; 最低料金</string>
-    <!-- Title for the amenities section in the hotel details fragment -->
-    <string name="amenities">設備</string>
-    <!-- Label for button to see all reviews as a modal dialog -->
-    <string name="see_all_reviews">全レビューを表示</string>
-    <!-- Label for button that brings users to the room selection page -->
-    <string name="select_room">部屋を選択</string>
     <!-- Title for VIP Access message -->
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
@@ -1852,8 +1830,6 @@
     <string name="gallery_title_template">&lt;b&gt;%1$s&lt;/b&gt;の写真</string>
 
     <!-- Booking info -->
-    <!-- edit label -->
-    <string name="edit">編集</string>
     <!-- Label for room type -->
     <string name="room_type">部屋タイプ</string>
     <!-- Error if we couldn't find the room type details -->
@@ -1873,40 +1849,6 @@
     <string name="extra_guest_charge">追加ゲスト料金</string>
     <!-- Label for total cost of hotel stay -->
     <string name="total_cost">合計</string>
-    <!-- Label for "guest info" form field section -->
-    <string name="guest_info">宿泊者情報</string>
-    <!-- The "first name" booking info field. -->
-    <string name="FirstName">名 (例 : Taro)</string>
-    <!-- The "last name" booking info field. -->
-    <string name="LastName">姓 (例 : Yamada)</string>
-    <!-- The "telephone" booking info field. -->
-    <string name="Telephone">電話</string>
-    <!-- The "email for booking confirmation" booking info field. -->
-    <string name="EmailForConf">確認用 E メール</string>
-    <!-- Label for "credit card info" form field section -->
-    <string name="credit_card_info">クレジットカード情報</string>
-    <!-- Label for credit card selection box -->
-    <string name="saved_cards">保存済みのカード</string>
-    <!-- Label for entering new credit card information -->
-    <string name="enter_a_new_card">新しいカードを入力</string>
-    <!-- Card number form field hint -->
-    <string name="hint_card_number">カード番号</string>
-    <!-- Card expiration month form field hint -->
-    <string name="hint_expiration_month">月</string>
-    <!-- Card expiration year form field hint -->
-    <string name="hint_expiration_year">年</string>
-    <!-- Security code label -->
-    <string name="security_code">セキュリティコード</string>
-    <!-- Security code tip (if code is on front of card) -->
-    <string name="security_code_tip_front">クレジットカードの表面をご参照ください</string>
-    <!-- Security code tip (if code is on front of card) -->
-    <string name="security_code_tip_back">クレジットカードの裏面をご参照ください</string>
-    <!-- Rules & restrictions section header -->
-    <string name="rules_restrictions">規則および制限事項</string>
-    <!-- Disclaimer about how to earn expedia points -->
-    <string name="disclaimer_expedia_points">Expedia Rewards アカウントをお持ちの方は、アカウント登録時に使用した E メールアドレスでご予約いただくと、ご滞在後にポイントが自動的に付与されます。ポイントが反映されるまでには最長 30 日間かかりますので予めご了承ください。</string>
-    <!-- Button label for confirming your booking -->
-    <string name="confirm_book">確認 &amp; 予約</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">個人データの削除</string>
     <!-- Title for dialog confirming the clearing of private data -->
@@ -1917,32 +1859,12 @@
     <string name="dialog_log_out_and_clear_private_data_msg">実行すると一旦ログアウトされ、保存済みのお支払い情報およびご連絡先情報が削除されます。</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">個人データが削除されました</string>
-    <!-- Error message if field was required but not entered -->
-    <string name="required_field">このフィールドに値を入力してください。</string>
-    <!-- Error message if field had data entered but was invalid -->
-    <string name="invalid_field">このフィールドに有効な値を入力してください。</string>
-    <!-- Error if an invalid card number was entered -->
-    <string name="invalid_card_number">入力されたクレジットカード番号は無効です。再度入力してください。</string>
     <!-- Error shown to user if their credit card postal code is invalid -->
     <string name="invalid_postal_code">申し訳ありせん、クレジットカードでのお手続には有効な郵便番号が必要です。</string>
-    <!-- Error if an invalid credit card type was entered -->
-    <string name="invalid_card_type">入力されたクレジットカードタイプを確認できませんでした。有効なクレジットカードを入力してください。</string>
-    <!-- Error if an invalid month (not 1-12) was entered -->
-    <string name="invalid_month">1 ～ 12 までの値を入力してください</string>
-    <!-- Error if an invalid year was entered -->
-    <string name="invalid_expiration_year">有効な年を入力してください</string>
-    <!-- Error if an invalid security code was entered -->
-    <string name="invalid_security_code">3 桁あるいは 4 桁のセキュリティコードを入力してください</string>
-    <!-- Error if an invalid currency code is being used with American Express -->
-    <string name="invalid_currency_for_amex">申し訳ありません。American Express は、ご利用通貨 (%s) でのお支払いには対応しておりません。別のクレジットカードをご利用ください。</string>
-    <!-- Error if user agreement needs to be checked but is not -->
-    <string name="error_no_user_agreement">予約するにはご利用規約に同意していただく必要があります</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">予約中…</string>
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">エラー</string>
-    <!-- Error message when we couldn't get a response -->
-    <string name="error_booking_null">エクスペディアのサーバーに接続できませんでした。インターネットへの接続を確認してから、もう一度お試しください。</string>
     <!-- Error message when booking completed with errors -->
     <string name="error_booking_succeeded_with_errors">ご希望の客室のご予約は完了しました。しかし、ご予約過程で以下のエラーが発生しました : %s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
@@ -1951,34 +1873,16 @@
     <string name="enter_booking_info">予約情報を入力</string>
     <!-- Title for action bar when the user is on the booking info screen -->
     <string name="booking_information_title">予約情報</string>
-    <!-- Title for dialog where the user is prompted to enter booking booking information -->
-    <string name="booking_information_dialog_title">予約を完了</string>
 
     <!-- Confirmation activity -->
-    <!-- Friendly message at the top of the receipt -->
-    <string name="Enjoy_your_stay">素敵なご滞在を。</string>
-    <!-- Format for a first/last name -->
-    <string name="name_template">%1$s %2$s</string>
-    <!-- Reservation summary label -->
-    <string name="reservation_summary">予約の概要</string>
     <!-- Confirmation number label -->
     <string name="confirmation_number">確認番号</string>
     <!-- Itinerary number label -->
     <string name="itinerary_number">旅程番号</string>
     <!-- Confirmation email label -->
     <string name="confirmation_email">確認メール</string>
-    <!-- ActionBar button for starting a new search -->
-    <string name="NEW_SEARCH">新しい検索</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">ご予約に関するお問い合わせは、エクスペディア (%s) までご連絡ください。</string>
-
-    <!-- Confirmation Fragment -->
-    <!-- Label to share booking information after a booking confirmation -->
-    <string name="share_booking_info">予約情報をシェアする</string>
-    <!-- Label to start a new search from a confirmation screen -->
-    <string name="start_new_search">新しい検索をスタート</string>
-    <!-- Label to view hotel in google maps to get directions from a confirmation screen -->
-    <string name="show_on_map">マップ上で表示</string>
 
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
@@ -1989,8 +1893,6 @@
     <string name="included">含まれています</string>
     <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
     <string name="MandatoryFees">ホテル手数料 (ホテルで支払)</string>
-    <!-- Label for the total cost of the booking. -->
-    <string name="Total">合計</string>
     <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
     <string name="PayToExpedia">エクスペディアへ支払</string>
     <!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
@@ -2025,8 +1927,6 @@
     <string name="login_failed">もう一度ログインしてください</string>
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation">エクスペディアのアカウントからログアウトしてもよろしいですか ?</string>
-    <!-- Label for login widget additional text -->
-    <string name="log_in_for_faster_booking">ログインして簡単予約</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_rewards">Expedia Rewards\u2122 に参加</string>
     <!-- Label for account status -->
@@ -2051,16 +1951,6 @@
     <string name="optional">オプション</string>
     <!-- Label applying a coupon -->
     <string name="apply">適用</string>
-    <!-- Label for new price after applying coupon -->
-    <string name="new_total">変更後の合計 :</string>
-    <!-- Label for credit card selection -->
-    <string name="use_card">ご利用カード :</string>
-    <!-- Label for when a user has entered an invalid coupon -->
-    <string name="invalid_coupon">無効なクーポン</string>
-    <!-- Label for when a user has entered a coupon which is expired -->
-    <string name="expired_coupon">期限切れクーポン</string>
-    <!-- Label for when a user has entered a coupon and the server fails -->
-    <string name="coupon_error">クーポン エラー</string>
 
     <!-- Coupon dialog -->
     <!-- Title on dialog imploring users to enter coupons -->
@@ -2103,32 +1993,16 @@
     <string name="coupon_error_service_down">申し訳ありません。現在クーポンを処理できません。もう一度お試しください。</string>
 
     <!-- Sharing bookings via email -->
-    <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
-    <string name="share_subject_dash_template">%1$s - %2$s</string>
-    <!-- The title of the share subject line -->
-    <string name="share_subject_title">エクスペディアの旅程</string>
-    <!-- Subject property name template. -->
-    <string name="share_subject_template">エクスペディアの旅程 -</string>
-    <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
-    <string name="share_subject_template_dates">(%1$s ～ %2$s)</string>
-    <!-- Preset at the top of the share body message -->
-    <string name="share_body_start">ホテル予約情報 :</string>
-    <!-- Name of user -->
-    <string name="name">氏名</string>
     <!-- Number of adults label -->
     <string name="adults">大人</string>
     <!-- Number of children label -->
     <string name="children">お子様</string>
-    <!-- Subtotal label -->
-    <string name="subtotal">小計</string>
     <!-- Cancellation policy label -->
     <string name="cancellation_policy">キャンセル ポリシー</string>
 
     <!-- About activity -->
     <!-- Label for "contact Expedia" button in info page -->
     <string name="contact_expedia">エクスペディアに連絡</string>
-    <!-- Extra description for "contact Expedia" button, when space allows -->
-    <string name="contact_expedia_description">24 時間いつでもサポートします。</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_expedia_via">エクスペディアへのご連絡方法</string>
     <!-- Contact Expedia via phone -->
@@ -2141,18 +2015,8 @@
     <string name="contact_expedia_website">Web サイト</string>
     <!-- Label for "Expedia website" button in info page -->
     <string name="expedia_website">エクスペディア ウェブサイト</string>
-    <!-- Extra description for "Expedia website" button, when space allows -->
-    <string name="expedia_website_description">ウェブサイトでは、航空券、レンタカー、パッケージなどもご予約いただけます。</string>
-    <!-- Extra description for "app feedback" button, when space allows -->
-    <string name="app_feedback_description">当アプリに対するご意見をお寄せください。</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">アプリ サポート</string>
-    <!-- Extra description for "app support" button, when space allows -->
-    <string name="app_support_description">お問い合わせいただければこちらから折り返しご連絡します。</string>
-    <!-- Extra description for "tell a friend" button, when space allows -->
-    <string name="tell_a_friend_description">お得なホテル割引情報をお探しですか ?このアプリをお友達に紹介してください。</string>
-    <!-- Section header for other apps by Mobiata -->
-    <string name="travel_smart">Travel smart</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">エクスペディア ホテル予約アプリ</string>
     <!-- Message body for "tell a friend" feature -->
@@ -2182,8 +2046,6 @@
     <!-- Credit to the author of the "Stack Blur" algorithm we use in our app -->
     <string name="stack_blur_credit">このアプリは Mario Klingemann 氏の Stack Blur アルゴリズムを使用しています。</string>
     <!-- String where we link to the google play services open source licenses -->
-    <string name="view_open_source_software_licenses">オープン ソース ソフトウェアのライセンスを表示</string>
-    <!-- String where we link to the google play services open source licenses -->
     <string name="open_source_software_licenses">オープン ソース ソフトウェアのライセンス</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">このアプリは、以下のオープンソース ライブラリを使用しています :</string>
@@ -2195,18 +2057,8 @@
     <string name="app_support_message_body">お気軽にお問い合わせください ! お問い合わせ時に以下の情報をお知らせください :</string>
 
     <!-- App Feedback Activity -->
-    <!-- Text within submit button in header -->
-    <string name="send_feedback">フィードバックを送信</string>
-    <!-- Header title -->
-    <string name="app_feedback">アプリ フィードバック</string>
-    <!-- Section header for rating (1-5 stars) -->
-    <string name="oosdk_rating_overall_header">評価してください</string>
-    <!-- Footer for the view -->
-    <string name="powered_by_opinion_lab">Powered by Opinion Lab <a href="http://mobile.opinionlab.com/static/privacy.html">プライバシー ポリシー</a></string>
     <!-- Hint to type in email address -->
     <string name="email_address">メールアドレス</string>
-    <!-- Hint to type in comments -->
-    <string name="feedback_hint">ご意見、ご感想をお聞かせください</string>
 
     <!-- Preferences -->
     <!-- Category name for general preferences -->
@@ -2285,8 +2137,6 @@
     <string name="Settings">設定</string>
     <!-- Label for "info about this app" menu item. -->
     <string name="Info">情報</string>
-    <!-- Label for "about this app" menu item. Deprecated for the time being, but kept because maybe it wil return -->
-    <string name="About">情報</string>
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
