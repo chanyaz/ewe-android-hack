@@ -1053,22 +1053,27 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 			switch (state) {
 			case FLIGHT_LIST_DOWN:
-				positionForFilters(mFlightOneFiltersC, mFlightOneListC, 0);
+				positionForFilters(mFlightOneFiltersC, mFlightOneListC);
+				bindDataForFilters(mFlightOneListC, 0);
 				break;
 			case FLIGHT_ONE_FILTERS: {
-				positionForFilters(mFlightOneFiltersC, mFlightOneListC, 0);
+				positionForFilters(mFlightOneFiltersC, mFlightOneListC);
+				bindDataForFilters(mFlightOneListC, 0);
 				break;
 			}
 			case FLIGHT_ONE_DETAILS: {
 				positionForDetails(mFlightOneFiltersC, mFlightOneListC, mFlightOneDetailsFrag);
+				bindDataForDetails(mFlightOneDetailsFrag);
 				break;
 			}
 			case FLIGHT_TWO_FILTERS: {
-				positionForFilters(mFlightTwoFiltersC, mFlightTwoListColumnC, 1);
+				positionForFilters(mFlightTwoFiltersC, mFlightTwoListColumnC);
+				bindDataForFilters(mFlightTwoListColumnC, 1);
 				break;
 			}
 			case FLIGHT_TWO_DETAILS: {
 				positionForDetails(mFlightTwoFiltersC, mFlightTwoListColumnC, mFlightTwoDetailsFrag);
+				bindDataForDetails(mFlightTwoDetailsFrag);
 				break;
 			}
 			case ADDING_FLIGHT_TO_TRIP: {
@@ -1078,10 +1083,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			}
 		}
 
-		private void positionForFilters(ViewGroup filtersC, ViewGroup listC, int legPos) {
+		private void positionForFilters(ViewGroup filtersC, ViewGroup listC) {
 			filtersC.setTranslationX(0f);
 			listC.setTranslationX(0f);
+		}
 
+		private void bindDataForFilters(ViewGroup listC, int legPos) {
 			// Clear the checked/blue/highlight item when returning to filters
 			ListView listView = Ui.findView(listC, android.R.id.list);
 			if (listView != null) {
@@ -1102,7 +1109,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 
 		private void positionForDetails(ViewGroup filtersC, ViewGroup listC, ResultsFlightDetailsFragment detailsFrag) {
-			detailsFrag.bindWithDb();
 			if (mGrid.isLandscape()) {
 				filtersC.setTranslationX(-mGrid.getColWidth(0));
 				listC.setTranslationX(-mGrid.getColLeft(1));
@@ -1115,6 +1121,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				int detailsTranslateDistance = mGrid.getColWidth(0) + mGrid.getColWidth(1);
 				detailsFrag.setDetailsSlideInAnimationState(1f, detailsTranslateDistance, true);
 			}
+		}
+
+		private void bindDataForDetails(ResultsFlightDetailsFragment detailsFrag) {
+			detailsFrag.bindWithDb();
 		}
 
 	};
