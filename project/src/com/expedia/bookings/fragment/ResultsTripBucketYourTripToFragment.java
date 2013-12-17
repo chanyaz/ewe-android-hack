@@ -37,6 +37,7 @@ public class ResultsTripBucketYourTripToFragment extends Fragment {
 	private View mRightDivider;
 	private LinearLayout mTripToLayout;
 	private LinearLayout mEmptyTripLayout;
+	private boolean isResized;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -45,6 +46,7 @@ public class ResultsTripBucketYourTripToFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		isResized = false;
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_tripbucket_your_trip_to, null);
 		mTripToHeaderTv = Ui.findView(mRootC, R.id.top_header_text);
 		mLeftDivider = Ui.findView(mRootC, R.id.left_divider);
@@ -74,7 +76,9 @@ public class ResultsTripBucketYourTripToFragment extends Fragment {
 
 			mPrimaryDestTv.setText(city);
 			mSecondaryDestTv.setText(country);
-			resizeDividers();
+			if (!isResized) {
+				resizeDividers();
+			}
 
 			mRunBind = false;
 		}
@@ -84,9 +88,9 @@ public class ResultsTripBucketYourTripToFragment extends Fragment {
 	}
 
 	/**
-	 * This method resizes the divider lines on either sides of "Trip To" text
-	 * to be as wide as the longest of the two strings. i.e. either cityName or countryName
-	 */
+	* This method resizes the divider lines on either sides of "Trip To" text
+	* to be as wide as the longest of the two strings. i.e. either cityName or countryName
+	*/
 	private void resizeDividers() {
 		int priDestWidth = mPrimaryDestTv.getMeasuredWidth();
 		int secDestWidth = mSecondaryDestTv.getMeasuredWidth();
@@ -95,16 +99,21 @@ public class ResultsTripBucketYourTripToFragment extends Fragment {
 		int tripToWidth = mTripToLayout.getMeasuredWidth();
 
 		int delta = requiredWidth - tripToWidth;
-		int eachDividerWidth = delta / 2;
-		float dp = eachDividerWidth / getResources().getDisplayMetrics().density;
+		if (delta <= 1 && (priDestWidth != 0 || secDestWidth != 0)) {
+			isResized = true;
+		}
+		else {
+			int eachDividerWidth = delta / 2;
+			float dp = eachDividerWidth / getResources().getDisplayMetrics().density;
 
-		LayoutParams leftDividerParams = mLeftDivider.getLayoutParams();
-		leftDividerParams.width = (int) dp;
-		mLeftDivider.setLayoutParams(leftDividerParams);
+			LayoutParams leftDividerParams = mLeftDivider.getLayoutParams();
+			leftDividerParams.width = (int) dp;
+			mLeftDivider.setLayoutParams(leftDividerParams);
 
-		LayoutParams rightDividerParams = mRightDivider.getLayoutParams();
-		rightDividerParams.width = (int) dp;
-		mRightDivider.setLayoutParams(rightDividerParams);
+			LayoutParams rightDividerParams = mRightDivider.getLayoutParams();
+			rightDividerParams.width = (int) dp;
+			mRightDivider.setLayoutParams(rightDividerParams);
+		}
 	}
 
 	public void hideEmptyTripContainer(boolean hide) {
