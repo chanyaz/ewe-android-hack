@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Response;
@@ -320,8 +319,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 			break;
 		case FLIGHT_SEARCH:
 			Db.getFlightSearch().setSearchResponse((FlightSearchResponse) response);
-			FlightSearch search = Db.getFlightSearch();
-			search.setSearchResponse((FlightSearchResponse) response);
 			Db.addAirlineNames(((FlightSearchResponse) response).getAirlineNames());
 			break;
 		}
