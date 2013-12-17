@@ -305,18 +305,17 @@ public class User implements JSONable {
 			String accountType = context.getString(R.string.expedia_account_type_identifier);
 			String tokenType = context.getString(R.string.expedia_account_token_type_tuid_identifier);
 			Account[] accounts = manager.getAccountsByType(accountType);
-			Account activeAccount = null;
 			if (accounts == null || accounts.length == 0) {
 				manager.addAccount(accountType, tokenType, null, options, context, null, null);
 			}
-			else if (accounts != null && accounts.length == 1) {
-				activeAccount = accounts[0];
-			}
-			else {
-				throw new RuntimeException("There should never be more than one expedia user in AccountManager!");
-			}
-			if (activeAccount != null) {
-				manager.getAuthToken(activeAccount, accountType, options, context, null, null);
+			else if (accounts != null && accounts.length >= 1) {
+				Account activeAccount = accounts[0];
+				if (activeAccount != null) {
+					manager.getAuthToken(activeAccount, accountType, options, context, null, null);
+				}
+				else {
+					manager.addAccount(accountType, tokenType, null, options, context, null, null);
+				}
 			}
 		}
 	}
@@ -358,11 +357,21 @@ public class User implements JSONable {
 			String accountType = context.getString(R.string.expedia_account_type_identifier);
 			String tokenType = context.getString(R.string.expedia_account_token_type_tuid_identifier);
 			AccountManager manager = AccountManager.get(context);
+
+			//We are adding a new user to account manager, so we clobber ALL old accountmanager expedia accounts.
+			Account[] accounts = manager.getAccountsByType(accountType);
+			if (accounts != null && accounts.length > 0) {
+				for (int i = 0; i < accounts.length; i++) {
+					manager.removeAccount(accounts[i], null, null);
+				}
+			}
+
+			//Add the new account
 			final Account account = new Account(usr.getPrimaryTraveler().getEmail(), accountType);
 			manager.addAccountExplicitly(account, usr.getTuidString(), null);
 			manager.setAuthToken(account, tokenType, usr.getTuidString());
 
-			//Enable data syncing
+			//Set data syncing enabled/disabled
 			String contentAuthority = context.getString(R.string.authority_account_sync);
 			ContentResolver.setSyncAutomatically(account, contentAuthority, false);
 		}
