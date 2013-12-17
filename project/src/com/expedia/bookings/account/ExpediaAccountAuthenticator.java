@@ -143,4 +143,12 @@ public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator {
 		return null;
 	}
 
+	@Override
+	public Bundle getAccountRemovalAllowed(AccountAuthenticatorResponse response, Account account) {
+		//Always allow removal of expedia accounts
+		Bundle bundle = new Bundle();
+		bundle.putBoolean(AccountManager.KEY_BOOLEAN_RESULT, true);
+		return bundle;
+	}
+
 }
