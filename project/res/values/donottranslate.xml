@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Generic strings/characters we use in various places that don't need translation -->
     <string name="forward_slash">/</string>
     <string name="connected_server">Server: %s</string>
-
     <string name="build_number">Build  %s</string>
 
     <!-- Names of the open source libraries we use -->
@@ -411,5 +411,9 @@
     <string name="state_code_wi">WI</string>
     <string name="state_code_wy" tools:ignore="UnusedResources">WY</string>
     <string name="state_code_yt" tools:ignore="UnusedResources">YT</string>
+
+    <!-- Non-localized content descriptions (Automation) -->
+    <string name="cd_top_flight_calendar">Top of flight calendar</string>
+    <string name="cd_hotel_calendar_header">Top of hotel calendar</string>
 
 </resources>

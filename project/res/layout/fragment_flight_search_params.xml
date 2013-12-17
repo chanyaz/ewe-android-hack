@@ -138,6 +138,7 @@
             style="@style/MarginPoint"
             android:layout_height="wrap_content"
             android:scaleType="fitXY"
+            android:contentDescription="@string/cd_top_flight_calendar"
             android:src="@drawable/calendar_shadow" />
 
         <!-- Calendar pop-up -->
