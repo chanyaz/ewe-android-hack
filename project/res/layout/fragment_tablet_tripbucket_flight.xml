@@ -2,13 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_layout"
-    android:layout_width="wrap_content"
+    android:layout_width="@dimen/tablet_tripbucket_card_width"
     android:layout_height="wrap_content"
-    android:gravity="center"
+    android:layout_margin="0dp"
     android:orientation="vertical" >
 
     <include
         android:id="@+id/trip_bucket_flight"
-        layout="@layout/section_flight_leg_tablet_blue_card" />
+        layout="@layout/flight_card_tablet_add_tripbucket" />
+
+    <Button
+        android:id="@+id/tripbucket_book_button_flight"
+        android:layout_width="@dimen/tablet_tripbucket_card_width"
+        android:layout_height="50dp"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:text="@string/trip_bucket_book_flight"
+        android:textAlignment="center"
+        android:textColor="#006BB2"
+        android:textSize="16sp" />
 
 </LinearLayout>

@@ -224,8 +224,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 		if (mGrid.isLandscape()) {
 			if (!verticalOnly) {
 				//We set the content containers to be the column width
-				setHorizontalPos(mTripFlightC, 0, mGrid.getColWidth(2) - mFlightSwipeOut.getPaddingLeft()
-						- mFlightSwipeOut.getPaddingRight());
+				//setHorizontalPos(mTripFlightC, 0, mGrid.getColWidth(2) - mFlightSwipeOut.getPaddingLeft()- mFlightSwipeOut.getPaddingRight());
 				setHorizontalPos(mTripHotelC, 0, mGrid.getColWidth(2) - mHotelSwipeOut.getPaddingLeft()
 						- mHotelSwipeOut.getPaddingRight());
 

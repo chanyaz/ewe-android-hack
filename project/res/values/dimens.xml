@@ -9,9 +9,10 @@
     <dimen name="tablet_result_corner_radius">2dp</dimen>
     <dimen name="tablet_result_row_primary_text_size">15sp</dimen>
     <dimen name="tablet_result_row_secondary_text_size">14sp</dimen>
-    <dimen name="tablet_result_row_price_size">@dimen/hotel_row_price_text_size</dimen>
+    <dimen name="tablet_result_row_price_size">21sp</dimen>
 
     <!-- Tablet results -->
+
 
     <!-- Flights -->
     <dimen name="tablet_filter_white_space">32dp</dimen>
@@ -244,7 +245,6 @@
 
     <!-- For map pins on tablet launch screen -->
     <dimen name="tablet_launch_map_pin_image_size">172dp</dimen>
-
     <dimen name="destination_search_stack_width">279dp</dimen>
     <dimen name="destination_search_stack_height">240dp</dimen>
     <dimen name="destination_search_tile_width">259dp</dimen>
@@ -254,9 +254,12 @@
     <dimen name="destination_stack_text_container_height">56dp</dimen>
     <dimen name="destination_stack_corner_radius">3dp</dimen>
     <dimen name="destination_search_tile_text_margin_top">174dp</dimen>
-
     <dimen name="hotels_map_pin_padding">50dp</dimen>
-
     <dimen name="tablet_search_header_height">44dp</dimen>
     <dimen name="tablet_results_flight_map_padding">16dp</dimen>
+
+    <!-- Tablet trip bucket dimens -->
+    <dimen name="tablet_tripbucket_card_height">148dp</dimen>
+    <dimen name="tablet_tripbucket_card_width">352dp</dimen>
+
 </resources>

@@ -20,7 +20,8 @@
 
     <com.expedia.bookings.widget.BlockEventFrameLayout
         android:id="@+id/trip_bucket_flight_trip"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/tablet_tripbucket_card_width"
+        android:paddingLeft="25dp"
         android:layout_height="match_parent" >
 
         <com.expedia.bookings.widget.SwipeOutLayout
@@ -40,7 +41,7 @@
 
             <ImageView
                 android:id="@id/flight_swipe_out_indicator_image"
-                android:layout_width="100dp"
+                android:layout_width="33dp"
                 android:layout_height="match_parent"
                 android:background="#66000000"
                 android:src="@drawable/ic_error_blue" />

@@ -96,6 +96,8 @@
     <string name="trip_to">Trip To</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Your trip is empty.</string>
+    <!-- Tablet Trip bucket, Book Flight button text -->
+    <string name="trip_bucket_book_flight">Book Flight</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">Flights to %1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
