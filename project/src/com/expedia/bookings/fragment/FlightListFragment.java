@@ -130,7 +130,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		}
 
 		// Add the adapter
-		mAdapter = new FlightAdapter(getActivity(), savedInstanceState);
+		mAdapter = new FlightAdapter();
 		mAdapter.registerDataSetObserver(mDataSetObserver);
 		setListAdapter(mAdapter);
 

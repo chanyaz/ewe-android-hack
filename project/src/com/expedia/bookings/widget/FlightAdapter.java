@@ -3,9 +3,7 @@ package com.expedia.bookings.widget;
 import java.util.Calendar;
 import java.util.List;
 
-import android.content.Context;
 import android.database.DataSetObserver;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,18 +21,12 @@ public class FlightAdapter extends BaseAdapter {
 	private static final int ROW_TYPE_FIRST = 0;
 	private static final int ROW_TYPE_OTHER = 1;
 
-	private LayoutInflater mInflater;
-
 	private FlightTripQuery mFlightTripQuery;
 
 	private Calendar mMinTime;
 	private Calendar mMaxTime;
 
 	private int mLegPosition;
-
-	public FlightAdapter(Context context, Bundle savedInstanceState) {
-		mInflater = LayoutInflater.from(context);
-	}
 
 	public void setFlightTripQuery(FlightTripQuery query) {
 		setFlightTripQuery(query, null, null);
@@ -114,7 +106,8 @@ public class FlightAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.section_flight_leg_summary, parent, false);
+			convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.section_flight_leg_summary, parent,
+					false);
 
 			// Set a custom, interactive bg
 			if (getItemViewType(position) == ROW_TYPE_FIRST) {

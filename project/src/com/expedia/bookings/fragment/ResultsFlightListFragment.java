@@ -104,7 +104,7 @@ public class ResultsFlightListFragment extends ResultsListFragment implements IS
 
 	@Override
 	protected ListAdapter initializeAdapter() {
-		FlightAdapter adapter = new TabletFlightAdapter(getActivity(), null);
+		FlightAdapter adapter = new TabletFlightAdapter();
 		mAdapter = adapter;
 		mAdapter.registerDataSetObserver(mDataSetObserver);
 
