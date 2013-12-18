@@ -25,7 +25,6 @@ public class CVVEntryScreen extends ScreenActions {
 	private static final int ZERO_BUTTON_ID = R.id.zero_button;
 	private static final int BOOKING_BUTTON_ID = R.id.book_button;
 	private static final int DELETE_BUTTON_ID = R.id.delete_button;
-	private static final int INVALID_SECURITY_CODE_STRING_ID = R.string.invalid_security_code;
 
 	private static final int sBookingStringID = R.string.booking_loading;
 
@@ -61,10 +60,6 @@ public class CVVEntryScreen extends ScreenActions {
 
 	public String booking() {
 		return getString(sBookingStringID);
-	}
-
-	public String invalidSecurityCode() {
-		return getString(INVALID_SECURITY_CODE_STRING_ID);
 	}
 
 	// Object interaction
