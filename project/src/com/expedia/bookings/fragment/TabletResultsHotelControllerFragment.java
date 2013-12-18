@@ -464,8 +464,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		//Tell the trip overview to do its thing...
 		mParentAddToTripListener.performTripHandoff();
 
-		//set our own state to be where it needs to be
-		setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, false);
+		//begin the transition
+		setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
 	}
 
 	/*

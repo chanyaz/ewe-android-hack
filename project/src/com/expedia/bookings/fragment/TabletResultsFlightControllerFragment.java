@@ -367,13 +367,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		//Tell the trip overview to do its thing...
 		mParentAddToTripListener.performTripHandoff();
 
-		//TODO: Remove this stuff, setFlightsState should be enough to take care of it, but right now
-		//the flights list draws stupidly and doesnt make it to the bottom.
-		mFlightOneListFrag.setListLockedToTop(false);
-		mFlightOneListFrag.gotoBottomPosition(StateManager.STATE_CHANGE_ANIMATION_DURATION);
-
-		//set our own state to be where it needs to be
-		setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, false);
+		//begin the transition
+		setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
 	}
 
 	/*
