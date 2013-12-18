@@ -47,8 +47,6 @@ public class TripsScreen extends LaunchActionBar {
 	public void swipeToLaunchScreen() {
 		int screenHeight = mRes.getDisplayMetrics().heightPixels;
 		int screenWidth = mRes.getDisplayMetrics().widthPixels;
-		screenHeight /= mRes.getDisplayMetrics().density;
-		screenWidth /= mRes.getDisplayMetrics().density;
 		drag(10, screenWidth - 10, screenHeight / 2, screenHeight / 2, 10);
 	}
 
