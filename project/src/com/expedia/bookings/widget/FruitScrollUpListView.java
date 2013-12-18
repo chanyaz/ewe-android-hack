@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.Adapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -111,6 +112,11 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 		super.onDetachedFromWindow();
 
 		getViewTreeObserver().removeOnPreDrawListener(mInitPreDrawListener);
+
+		Adapter adapter = getAdapter();
+		if (adapter != null) {
+			adapter.unregisterDataSetObserver(mDataSetObserver);
+		}
 	}
 
 	@Override
@@ -128,12 +134,7 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 			throw new RuntimeException("IT IS A BUG TO CALL setAdapter AFTER onRestoreInstanceState");
 		}
 		super.setAdapter(adapter);
-		adapter.registerDataSetObserver(new DataSetObserver() {
-			@Override
-			public void onChanged() {
-				sizeOrDataChanged();
-			}
-		});
+		adapter.registerDataSetObserver(mDataSetObserver);
 		mAdapterSet = true;
 	}
 
@@ -194,6 +195,13 @@ public class FruitScrollUpListView extends ListView implements OnScrollListener 
 		}
 		mStateRestored = true;
 	}
+
+	private DataSetObserver mDataSetObserver = new DataSetObserver() {
+		@Override
+		public void onChanged() {
+			sizeOrDataChanged();
+		}
+	};
 
 	/*
 	 * INITIALIZATION
