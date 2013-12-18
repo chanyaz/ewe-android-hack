@@ -415,5 +415,18 @@
     <!-- Non-localized content descriptions (Automation) -->
     <string name="cd_top_flight_calendar">Top of flight calendar</string>
     <string name="cd_hotel_calendar_header">Top of hotel calendar</string>
+    <string name="cd_slide_to_checkout_start">Slide to checkout start</string>
+    <string name="cd_slide_to_checkout_end">Slide to checkout end</string>
+    <string name="cd_one_btn">One</string>
+    <string name="cd_two_btn">Two</string>
+    <string name="cd_three_btn">Three</string>
+    <string name="cd_four_btn">Four</string>
+    <string name="cd_five_btn">Five</string>
+    <string name="cd_six_btn">Six</string>
+    <string name="cd_seven_btn">Seven</string>
+    <string name="cd_eight_btn">Eight</string>
+    <string name="cd_nine_btn">Nine</string>
+    <string name="cd_zero_btn">Zero</string>
+    <string name="cd_delete_btn">Delete</string>
 
 </resources>
