@@ -1,5 +1,6 @@
 package com.expedia.bookings.data;
 
+import java.security.InvalidParameterException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,8 +15,6 @@ import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.json.JSONable;
 
-// TODO: Rewrite this so we only store the base URL, then pimp out different
-// versions of that URL.
 public class Media implements JSONable {
 
 	/*
@@ -27,9 +26,8 @@ public class Media implements JSONable {
 
 	private static final int SUFFIX_LENGTH = 5;
 
-	private String mUrl;
-	private int mHeight;
-	private int mWidth;
+	private String mBaseUrl;
+	private String mOriginalSuffix;
 
 	public Media() {
 		// Default constructor
@@ -40,31 +38,20 @@ public class Media implements JSONable {
 	}
 
 	public String getUrl() {
-		return mUrl;
+		return mBaseUrl + mOriginalSuffix;
 	}
 
 	public String getUrl(String suffix) {
-		return mUrl.substring(0, mUrl.length() - SUFFIX_LENGTH) + suffix;
+		return mBaseUrl + suffix;
 	}
 
 	public void setUrl(String url) {
-		this.mUrl = url;
-	}
-
-	public int getHeight() {
-		return mHeight;
-	}
-
-	public void setHeight(int height) {
-		this.mHeight = height;
-	}
-
-	public int getWidth() {
-		return mWidth;
-	}
-
-	public void setWidth(int width) {
-		this.mWidth = width;
+		if (url == null) {
+			throw new InvalidParameterException("url cannot be null");
+		}
+		int split = url.length() - SUFFIX_LENGTH;
+		mBaseUrl = url.substring(0, split);
+		mOriginalSuffix = url.substring(split);
 	}
 
 	/**
@@ -87,15 +74,14 @@ public class Media implements JSONable {
 	}
 
 	public List<String> getHighResUrls() {
-		return Arrays.asList(getUrl(IMAGE_LARGE_SUFFIX), getUrl(IMAGE_BIG_SUFFIX), mUrl);
+		return Arrays.asList(getUrl(IMAGE_LARGE_SUFFIX), getUrl(IMAGE_BIG_SUFFIX), getUrl());
 	}
 
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = new JSONObject();
-			obj.putOpt("url", mUrl);
-			obj.putOpt("height", mHeight);
-			obj.putOpt("width", mWidth);
+			obj.putOpt("url", mBaseUrl);
+			obj.putOpt("suffix", mOriginalSuffix);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -105,9 +91,8 @@ public class Media implements JSONable {
 	}
 
 	public boolean fromJson(JSONObject obj) {
-		mUrl = obj.optString("url", null);
-		mHeight = obj.optInt("height");
-		mWidth = obj.optInt("width");
+		mBaseUrl = obj.optString("url");
+		mOriginalSuffix = obj.optString("suffix");
 		return true;
 	}
 
@@ -120,7 +105,7 @@ public class Media implements JSONable {
 		// Equals compares the base URL, not the full URL (which could vary but ultimately means the same image)
 
 		Media other = (Media) o;
-		return getUrl("").equals(other.getUrl("")) && mHeight == other.mHeight && mWidth == other.mWidth;
+		return mBaseUrl.equals(other.mBaseUrl);
 	}
 
 	@Override
