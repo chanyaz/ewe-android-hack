@@ -220,11 +220,12 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			BackgroundDownloader.getInstance().registerDownloadCallback(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY,
 					mBackgroundImageInfoDownloadCallback);
 		}
-		else if (bd.isDownloading(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY)) {
+		if (bd.isDownloading(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY)) {
 			BackgroundDownloader.getInstance().registerDownloadCallback(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY,
 					mBackgroundImageFileDownloadCallback);
 		}
-		else if (Db.getBackgroundImageInfo() == null) {
+
+		if (Db.getBackgroundImageInfo() == null) {
 			bd.startDownload(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY, mBackgroundImageInfoDownload,
 					mBackgroundImageInfoDownloadCallback);
 		}
