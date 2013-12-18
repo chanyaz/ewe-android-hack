@@ -20,17 +20,17 @@
             <FrameLayout
                 android:id="@+id/hotel_header_container"
                 android:layout_width="match_parent"
+                android:background="#000000"
                 android:layout_height="200dp" >
 
                 <!-- Hotel image (#1822) -->
 
-                <TextView
+                <ImageView
                     android:id="@+id/hotel_header_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#FF0000"
-                    android:gravity="center"
-                    android:text="Hotel Image" />
+                    android:scaleType="centerCrop"
+                    android:gravity="center" />
 
                 <!-- Hotel header section (#2058) -->
 

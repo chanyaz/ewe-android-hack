@@ -47,6 +47,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.Log;
+import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -185,12 +186,14 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	private void setupHeader(View view, Property property) {
+		ImageView hotelImage = Ui.findView(view, R.id.hotel_header_image);
 		TextView hotelName = Ui.findView(view, R.id.hotel_header_hotel_name);
 		RatingBar starRating = Ui.findView(view, R.id.star_rating_bar);
 		RatingBar userRating = Ui.findView(view, R.id.user_rating_bar);
 		TextView starRatingText = Ui.findView(view, R.id.star_rating_text);
 		TextView userRatingText = Ui.findView(view, R.id.user_rating_text);
 
+		UrlBitmapDrawable.loadImageView(property.getMedia(0).getHighResUrls(), hotelImage);
 		hotelName.setText(property.getName());
 		starRating.setRating((float) property.getHotelRating());
 		userRating.setRating((float) property.getAverageExpediaRating());
