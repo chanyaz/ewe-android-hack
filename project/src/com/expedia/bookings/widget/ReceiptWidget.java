@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import java.util.List;
+
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
@@ -81,7 +83,8 @@ public class ReceiptWidget {
 		updateData(property, searchParams, rate, null, null, discountRate);
 	}
 
-	public void updateData(Property property, HotelSearchParams searchParams, Rate rate, BookingResponse bookingResponse,
+	public void updateData(Property property, HotelSearchParams searchParams, Rate rate,
+			BookingResponse bookingResponse,
 			BillingInfo billingInfo, Rate discountRate) {
 		reset();
 
@@ -89,8 +92,9 @@ public class ReceiptWidget {
 
 		// Configuring the header at the top
 		if (property.getThumbnail() != null) {
-			UrlBitmapDrawable.loadImageView(property.getThumbnail().getUrl(), mThumbnailImageView,
-					Ui.obtainThemeResID((Activity)mContext, R.attr.hotelImagePlaceHolderDrawable));
+			List<String> urls = property.getThumbnail().getBestUrls(mThumbnailImageView.getWidth());
+			int placeholderResId = Ui.obtainThemeResID((Activity) mContext, R.attr.hotelImagePlaceHolderDrawable);
+			UrlBitmapDrawable.loadImageView(urls, mThumbnailImageView, placeholderResId);
 			mThumbnailImageView.setVisibility(View.VISIBLE);
 		}
 		else {

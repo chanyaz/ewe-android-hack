@@ -114,7 +114,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 				// Adding the first media as the thumbnail media, if it exists
 				if (property.getMediaCount() > 0) {
 					Media media = property.getMedia(0);
-					Media thumbnailMedia = new Media(media.getUrl(Media.IMAGE_BIG_SUFFIX));
+					Media thumbnailMedia = new Media(media.getUrl(Media.Size.BIG));
 					property.setThumbnail(thumbnailMedia);
 				}
 			}

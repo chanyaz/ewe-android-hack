@@ -1,7 +1,10 @@
 package com.expedia.bookings.section;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
@@ -98,6 +101,7 @@ public class HotelSummarySection extends RelativeLayout {
 	public void bind(Property property, boolean mShouldShowVipIcon, float mPriceTextSize,
 			boolean mShowDistance, DistanceUnit mDistanceUnit, boolean isSelected) {
 		Context context = getContext();
+		Resources res = context.getResources();
 
 		mNameText.setText(property.getName());
 
@@ -175,8 +179,7 @@ public class HotelSummarySection extends RelativeLayout {
 				mUrgencyText.setVisibility(View.VISIBLE);
 			}
 			else if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
-				mUrgencyText.setText(context.getResources().getQuantityString(R.plurals.num_rooms_left, roomsLeft,
-						roomsLeft));
+				mUrgencyText.setText(res.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft));
 				mUrgencyText.setVisibility(View.VISIBLE);
 			}
 			else {
@@ -212,14 +215,13 @@ public class HotelSummarySection extends RelativeLayout {
 
 		// See if there's a first image; if there is, use that as the thumbnail
 		if (mThumbnailView != null) {
+			int placeholderResId = Ui.obtainThemeResID((Activity) context, R.attr.HotelRowThumbPlaceHolderDrawable);
 			if (property.getThumbnail() != null) {
-				String url = property.getThumbnail().getUrl();
-				UrlBitmapDrawable.loadImageView(url, mThumbnailView,
-						Ui.obtainThemeResID((Activity) context, R.attr.HotelRowThumbPlaceHolderDrawable));
+				List<String> urls = property.getThumbnail().getBestUrls(mThumbnailView.getWidth());
+				UrlBitmapDrawable.loadImageView(urls, mThumbnailView, placeholderResId);
 			}
 			else {
-				mThumbnailView.setImageResource(Ui
-						.obtainThemeResID((Activity) context, R.attr.HotelRowThumbPlaceHolderDrawable));
+				mThumbnailView.setImageResource(placeholderResId);
 			}
 		}
 
@@ -227,16 +229,15 @@ public class HotelSummarySection extends RelativeLayout {
 			HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
 			headerBitmapDrawable.setGradient(CARD_GRADIENT_COLORS, CARD_GRADIENT_POSITIONS);
 			headerBitmapDrawable.setCornerMode(CornerMode.ALL);
-			headerBitmapDrawable.setCornerRadius(context.getResources().getDimensionPixelSize(
-					R.dimen.tablet_result_corner_radius));
-			//TODO: headerBitmapDrawable.setOverlayDrawable(context.getResources().getDrawable(R.drawable.card_top_lighting));
+			headerBitmapDrawable.setCornerRadius(res.getDimensionPixelSize(R.dimen.tablet_result_corner_radius));
+			//TODO: headerBitmapDrawable.setOverlayDrawable(res.getDrawable(R.drawable.card_top_lighting));
 
 			mHotelBackgroundView.setImageDrawable(headerBitmapDrawable);
 
-			String url = property.getThumbnail().getUrl();
-			headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(context.getResources(), url,
-					Ui.obtainThemeResID((Activity) context, R.attr.HotelRowThumbPlaceHolderDrawable)));
-
+			List<String> urls = property.getThumbnail().getBestUrls(mHotelBackgroundView.getWidth());
+			int placeholderResId = Ui.obtainThemeResID((Activity) context, R.attr.HotelRowThumbPlaceHolderDrawable);
+			UrlBitmapDrawable urlBitmapDrawable = new UrlBitmapDrawable(res, urls, placeholderResId);
+			headerBitmapDrawable.setUrlBitmapDrawable(urlBitmapDrawable);
 		}
 
 		// Set the background based on whether the row is selected or not

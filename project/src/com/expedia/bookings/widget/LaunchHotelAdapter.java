@@ -26,7 +26,7 @@ import com.mobiata.android.util.Ui;
  */
 public class LaunchHotelAdapter extends LaunchBaseAdapter<Object> {
 
-	private static final String THUMBNAIL_SIZE = Media.IMAGE_BIG_SUFFIX;
+	private static final Media.Size THUMBNAIL_SIZE = Media.Size.BIG;
 
 	private Context mContext;
 	private LayoutInflater mInflater;

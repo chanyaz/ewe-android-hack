@@ -32,7 +32,7 @@ public class ImageAdapter extends BaseAdapter {
 
 	public int getPositionOfMedia(Media media) {
 		for (int i = 0; i < mMedia.size(); i++) {
-			if (mMedia.get(i).getUrl().equals(media.getUrl())) {
+			if (mMedia.get(i).equals(media)) {
 				return i;
 			}
 		}
@@ -62,7 +62,9 @@ public class ImageAdapter extends BaseAdapter {
 			imageView = (ImageView) convertView.findViewById(R.id.image);
 		}
 
-		UrlBitmapDrawable.loadImageView(mMedia.get(position).getUrl(), imageView, Ui.obtainThemeResID((Activity)mContext, R.attr.HotelRowThumbPlaceHolderDrawable));
+		List<String> urls = mMedia.get(position).getBestUrls(imageView.getWidth());
+		int placeholderResId = Ui.obtainThemeResID((Activity) mContext, R.attr.HotelRowThumbPlaceHolderDrawable);
+		UrlBitmapDrawable.loadImageView(urls, imageView, placeholderResId);
 
 		return convertView;
 	}

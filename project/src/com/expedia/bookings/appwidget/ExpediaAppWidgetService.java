@@ -348,7 +348,7 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 
 				Media thumbnail = property.getThumbnail();
 				if (thumbnail != null) {
-					String url = thumbnail.getUrl();
+					String url = thumbnail.getOriginalUrl();
 					Bitmap bitmap = TwoLevelImageCache.getImage(url, false);
 					if (bitmap != null) {
 						remoteViews.setImageViewBitmap(R.id.hotel_image_view, bitmap);
