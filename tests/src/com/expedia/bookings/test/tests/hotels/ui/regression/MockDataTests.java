@@ -71,7 +71,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 		mDriver.hotelsRoomsRatesScreen().selectRoom(0);
 		mDriver.waitForStringToBeGone(mDriver.hotelsCheckoutScreen().calculatingTaxesAndFees());
 		String alertText = (String) mDriver.getText(0).getText();
-		String expectedText = mRes.getString(R.string.the_hotel_raised_the_total_price_TEMPLATE, "$401", "$441");
+		String expectedText = mRes.getString(R.string.the_hotel_raised_the_total_price_TEMPLATE, "$400.65", "$440.65");
 		mDriver.enterLog(TAG, "Expected text: " + expectedText);
 		mDriver.enterLog(TAG, "Alert text: " + alertText);
 		assertEquals(expectedText, alertText);
@@ -91,7 +91,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 		mDriver.hotelsRoomsRatesScreen().selectRoom(0);
 		mDriver.waitForStringToBeGone(mDriver.hotelsCheckoutScreen().calculatingTaxesAndFees());
 		String alertText = (String) mDriver.getText(0).getText();
-		String expectedText = mRes.getString(R.string.the_hotel_lowered_the_total_price_TEMPLATE, "$401", "$361");
+		String expectedText = mRes.getString(R.string.the_hotel_lowered_the_total_price_TEMPLATE, "$400.65", "$360.65");
 		mDriver.enterLog(TAG, "Expected text: " + expectedText);
 		mDriver.enterLog(TAG, "Alert text: " + alertText);
 		assertEquals(expectedText, alertText);
