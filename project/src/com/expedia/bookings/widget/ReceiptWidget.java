@@ -92,9 +92,8 @@ public class ReceiptWidget {
 
 		// Configuring the header at the top
 		if (property.getThumbnail() != null) {
-			List<String> urls = property.getThumbnail().getBestUrls(mThumbnailImageView.getWidth());
 			int placeholderResId = Ui.obtainThemeResID((Activity) mContext, R.attr.hotelImagePlaceHolderDrawable);
-			UrlBitmapDrawable.loadImageView(urls, mThumbnailImageView, placeholderResId);
+			property.getThumbnail().fillImageView(mThumbnailImageView, placeholderResId);
 			mThumbnailImageView.setVisibility(View.VISIBLE);
 		}
 		else {

@@ -9,8 +9,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.ImageView;
 
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
@@ -161,14 +163,14 @@ public class Media implements JSONable {
 	 * @param width
 	 * @return
 	 */
-	public List<String> getBestUrls(int count, int width) {
+	private List<String> getBestUrls(int count, int width) {
 		int i = getBestIndex(width);
 		return getUrls(count, i,
 				i + 1, i - 1, i + 2, i - 2, i + 3, i - 3, i + 4, i - 4,
 				i + 5, i - 5, i + 6, i - 6, i + 7, i - 7, i + 8, i - 8);
 	}
 
-	public List<String> getBestUrls(int width) {
+	private List<String> getBestUrls(int width) {
 		return getBestUrls(sMediaTypes.length, width);
 	}
 
@@ -263,5 +265,49 @@ public class Media implements JSONable {
 		catch (JSONException e) {
 			return obj.toString();
 		}
+	}
+
+	/**
+	 * Determines the best-sized Media to fit in the passed ImageView, creates a
+	 * UrlBitmapDrawable with that sized Media (falling back to lower resolutions
+	 * if necessary), and stuffs it into that ImageView. The Media will be
+	 * downloaded in the background.
+	 */
+	public void fillImageView(final ImageView view, final int placeholderResId) {
+
+		// Do this OnPreDraw so that we are sure we have the imageView's width
+		view.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+			@Override
+			public boolean onPreDraw() {
+				view.getViewTreeObserver().removeOnPreDrawListener(this);
+				UrlBitmapDrawable.loadImageView(getBestUrls(view.getWidth()), view, placeholderResId);
+				return true;
+			}
+		});
+
+	}
+
+	/**
+	 * This is a specialized variant on fillImageView, where the ImageView wants to
+	 * hold a HeaderBitmapDrawable.
+	 *
+	 * @see{fillImageView()}
+	 */
+	public void fillHeaderBitmapDrawable(final ImageView view, final HeaderBitmapDrawable drawable,
+			final int placeholderResId) {
+		view.setImageDrawable(drawable);
+
+		// Do this OnPreDraw so that we are sure we have the imageView's width
+		view.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+			@Override
+			public boolean onPreDraw() {
+				view.getViewTreeObserver().removeOnPreDrawListener(this);
+				List<String> urls = getBestUrls(view.getWidth());
+				UrlBitmapDrawable urlBitmapDrawable = new UrlBitmapDrawable(view.getResources(), urls, placeholderResId);
+				drawable.setUrlBitmapDrawable(urlBitmapDrawable);
+				return true;
+			}
+		});
+
 	}
 }

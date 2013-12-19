@@ -62,9 +62,8 @@ public class ImageAdapter extends BaseAdapter {
 			imageView = (ImageView) convertView.findViewById(R.id.image);
 		}
 
-		List<String> urls = mMedia.get(position).getBestUrls(imageView.getWidth());
 		int placeholderResId = Ui.obtainThemeResID((Activity) mContext, R.attr.HotelRowThumbPlaceHolderDrawable);
-		UrlBitmapDrawable.loadImageView(urls, imageView, placeholderResId);
+		mMedia.get(position).fillImageView(imageView, placeholderResId);
 
 		return convertView;
 	}
