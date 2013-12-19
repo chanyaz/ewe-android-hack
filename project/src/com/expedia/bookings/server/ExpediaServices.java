@@ -701,7 +701,10 @@ public class ExpediaServices implements DownloadListener {
 
 		addCommonParams(query);
 
-		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
+		//If we have a valid property/propertyId we add it, otherwise we leave it off and let the api respond accordingly
+		if (property != null && !TextUtils.isEmpty(property.getPropertyId())) {
+			query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
+		}
 
 		if (params != null) {
 			addHotelSearchParams(query, params);
