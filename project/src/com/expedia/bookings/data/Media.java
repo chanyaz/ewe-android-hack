@@ -84,7 +84,7 @@ public class Media implements JSONable {
 	// A size-ordered list of the different MediaTypes
 	private static final Size[] sMediaTypes = {
 		Size.THUMB, Size.N, Size.G, Size.D, Size.SMALL,
-		Size.LANDSCAPE, Size.BIG, Size.Y, Size.Z };
+		Size.LANDSCAPE, Size.BIG, Size.Y, Size.Z, };
 
 	// ..."z.jpg"
 	private static final int SUFFIX_LENGTH = 5;

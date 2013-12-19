@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class ImageAdapter extends BaseAdapter {
 

@@ -34,7 +34,6 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
-import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class RoomsAndRatesListActivity extends SherlockFragmentActivity implements RoomsAndRatesFragmentListener {
 
@@ -94,7 +93,8 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 		ImageView thumbnailView = (ImageView) findViewById(R.id.thumbnail_image_view);
 		if (property.getThumbnail() != null) {
 			thumbnailView.setVisibility(View.VISIBLE);
-			property.getThumbnail().fillImageView(thumbnailView, Ui.obtainThemeResID(this, R.attr.hotelImagePlaceHolderDrawable));
+			property.getThumbnail().fillImageView(thumbnailView,
+					Ui.obtainThemeResID(this, R.attr.hotelImagePlaceHolderDrawable));
 		}
 		else {
 			thumbnailView.setVisibility(View.GONE);

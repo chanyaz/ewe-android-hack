@@ -1,7 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.util.List;
-
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
@@ -29,7 +27,6 @@ import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 // Support class for receipt layouts
 // Works well with include_receipt.xml, but can also be used if you provide
