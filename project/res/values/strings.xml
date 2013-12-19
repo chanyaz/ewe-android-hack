@@ -741,7 +741,8 @@
     <!-- Car rental share subject (no dates) -->
     <string name="share_template_subject_car_no_dates">My car rental</string>
     <!-- 1: vehicle type -->
-    <string name="share_template_short_car_type">I\&apos;ve rented a %1$s</string>
+    <string name="share_template_short_car_type">I\&apos;ve rented a %1$s </string>
+    <string name="share_template_short_car_type_an">I\&apos;ve rented an %1$s </string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">from %1$s – %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->

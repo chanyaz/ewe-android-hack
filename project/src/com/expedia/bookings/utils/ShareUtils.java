@@ -584,9 +584,35 @@ public class ShareUtils {
 		String dropOffDate = JodaUtils.formatDateTime(mContext, dropOffDateTime, SHORT_DATE_FLAGS);
 
 		StringBuilder sb = new StringBuilder();
+		int shareTemplateResID = R.string.share_template_short_car_type;
+
+		switch (carCategory) {
+		case MINI:
+		case COMPACT:
+		case MIDSIZE:
+		case STANDARD:
+		case FULLSIZE:
+		case PREMIUM:
+		case LUXURY:
+		case SPECIAL:
+		case MINI_ELITE:
+		case COMPACT_ELITE:
+		case MIDSIZE_ELITE:
+		case STANDARD_ELITE:
+		case FULLSIZE_ELITE:
+		case PREMIUM_ELITE:
+		case LUXURY_ELITE:
+			break;
+
+		case ECONOMY:
+		case ECONOMY_ELITE:
+		case OVERSIZE:
+			shareTemplateResID = R.string.share_template_short_car_type_an;
+			break;
+		}
 
 		if (!TextUtils.isEmpty(category)) {
-			sb.append(mContext.getString(R.string.share_template_short_car_type, category));
+			sb.append(mContext.getString(shareTemplateResID, category));
 		}
 
 		if (!TextUtils.isEmpty(pickUpDate) && !TextUtils.isEmpty(dropOffDate)) {
