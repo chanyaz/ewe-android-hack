@@ -319,7 +319,9 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 			break;
 		case FLIGHT_SEARCH:
 			Db.getFlightSearch().setSearchResponse((FlightSearchResponse) response);
-			Db.addAirlineNames(((FlightSearchResponse) response).getAirlineNames());
+			if (response != null) {
+				Db.addAirlineNames(((FlightSearchResponse) response).getAirlineNames());
+			}
 			break;
 		}
 
