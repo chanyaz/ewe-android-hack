@@ -26,6 +26,8 @@ android {
         minSdkVersion 8
         targetSdkVersion 19
 
+        buildConfigField "boolean", "IS_VSC", "false"
+
         testPackageName "com.expedia.bookings.debug.test"
         testInstrumentationRunner "com.zutubi.android.junitreport.JUnitReportTestRunner"
     }
@@ -33,11 +35,10 @@ android {
     productFlavors {
         Expedia {
             packageName "com.expedia.bookings"
-            buildConfig "public static final boolean IS_VSC = false;"
         }
 
         VSC {
-            buildConfig "public static final boolean IS_VSC = true;"
+            buildConfigField "boolean", "IS_VSC", "true"
             packageName "com.expedia.bookings.vsc"
             versionCode 1
             versionName "1.0"
@@ -45,7 +46,6 @@ android {
 
         Automation {
             packageName "com.expedia.bookings.auto"
-            buildConfig "public static final boolean IS_VSC = false;"
         }
     }
 
