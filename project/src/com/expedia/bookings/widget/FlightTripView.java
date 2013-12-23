@@ -298,8 +298,8 @@ public class FlightTripView extends View {
 				endMillis = flight2.mOrigin.getBestSearchDateTime().getTimeInMillis();
 			}
 			//Ensure we dont go over/under our max/min (this can happen if one of our intermediate waypoints gets rerouted or the max min values provided are bunk)
-			startMillis = startMillis < mMinTime.getTimeInMillis() ? mMinTime.getTimeInMillis() : startMillis;
-			endMillis = endMillis > mMaxTime.getTimeInMillis() ? mMaxTime.getTimeInMillis() : endMillis;
+			startMillis = startMillis < minTime.getTimeInMillis() ? minTime.getTimeInMillis() : startMillis;
+			endMillis = endMillis > maxTime.getTimeInMillis() ? maxTime.getTimeInMillis() : endMillis;
 
 			long durationMillis = endMillis - startMillis;
 			widths[a] = (durationMillis / (float) totalRangeMillis) * totalAvailableWidth;
