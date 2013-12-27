@@ -83,17 +83,19 @@
     </plurals>
     <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="x_Flights_TEMPLATE">
-        <item quantity="zero">%s Chuyến\nabay</item>
-        <item quantity="one">%s Chuyến\nabay</item>
-        <item quantity="two">%s Chuyến\nabay</item>
-        <item quantity="few">%s Chuyến\nabay</item>
-        <item quantity="many">%s Chuyến\nabay</item>
-        <item quantity="other">%s Chuyến\nabay</item>
+        <item quantity="zero">%s Chuyến\nbay</item>
+        <item quantity="one">%s Chuyến\nbay</item>
+        <item quantity="two">%s Chuyến\nbay</item>
+        <item quantity="few">%s Chuyến\nbay</item>
+        <item quantity="many">%s Chuyến\nbay</item>
+        <item quantity="other">%s Chuyến\nbay</item>
     </plurals>
     <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
     <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
     <!-- Trip To -->
     <string name="trip_to">Chuyến đi đến</string>
+    <!-- Trip bucket, trip is empty message -->
+    <string name="trip_empty">Không có chuyến đi.</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">Chuyến bay đến %1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -148,17 +150,28 @@
     <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
     <string name="recommend">đề xuất</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
-    <string name="rooms_left">phòng còn trống</string>
+    <plurals name="rooms_left">
+        <item quantity="zero">phòng còn trống</item>
+        <item quantity="one">phòng còn trống</item>
+        <item quantity="two">phòng còn trống</item>
+        <item quantity="few">phòng còn trống</item>
+        <item quantity="many">phòng còn trống</item>
+        <item quantity="other">phòng còn trống</item>
+    </plurals>
     <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
     <string name="out_of_5">/ 5</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">Đọc nhận xét</string>
+    <!-- Text indicating a hotel room/rate is non-refundable -->
+    <string name="Non_Refundable">Không hoàn tiền</string>
 
     <!-- Tablet flight details -->
-    <!-- Name of button for selecting a flight. %1$s is a price. example: "Add for $345" -->
+    <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
     <string name="add_for_TEMPLATE">Thêm cho %1$s</string>
     <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
     <string name="flight_cities_TEMPLATE">%1$s đến %2$s</string>
+    <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
+    <string name="flight_on_time_TEMPLATE">%s%% đúng giờ</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -250,7 +263,7 @@
     <!-- Itinerary -->
     <string name="itinerary">Lịch trình</string>
     <!-- Shop -->
-    <string name="shop">Mua sắm</string>
+    <string name="shop">Đặt</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Tìm lịch trình</string>
     <!-- Find Itinerary # -->
@@ -407,7 +420,7 @@
     <!-- Flight has been diverted to {airport} template -->
     <string name="flight_diverted_TEMPLATE">Chuyến bay đã chuyển hướng đến %1$s</string>
     <!-- Flight departs on {date} template -->
-    <string name="flight_departs_on_TEMPLATE">K.hành %1$s</string>
+    <string name="flight_departs_on_TEMPLATE">Khởi hành %1$s</string>
     <!-- Departs early {duration from now} -->
     <string name="flight_departs_early_TEMPLATE">Khởi hành sớm %1$s</string>
     <!-- Departs late {duration from now} -->
@@ -518,7 +531,7 @@
     <!-- Second half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
     <string name="attraction_scuba_second">lặn biển</string>
     <!-- First half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_first">Thử vận may cùng</string>
+    <string name="attraction_casinos_first">Thử vận may tại</string>
     <!-- Second half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
     <string name="attraction_casinos_second">những sòng bạc đẳng cấp thế giới</string>
     <!-- First half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
@@ -819,7 +832,7 @@
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">Rất tiếc, chúng tôi không thể kết nối đến máy chủ Expedia.  Vui lòng thử lại sau.</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">K.hành</string>
+    <string name="sort_description_departure">Khởi hành</string>
     <!-- Sort by arrival time label -->
     <string name="sort_description_arrival">Đến</string>
     <!-- Sort by duration label -->

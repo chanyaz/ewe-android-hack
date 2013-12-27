@@ -94,6 +94,8 @@
     <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
     <!-- Trip To -->
     <string name="trip_to">Rejse til</string>
+    <!-- Trip bucket, trip is empty message -->
+    <string name="trip_empty">Din rejse er tom.</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">Fly til %1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -146,19 +148,30 @@
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s anmeldelser</string>
     <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
-    <string name="recommend">gæster anbefaler</string>
+    <string name="recommend">anbefaler</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
-    <string name="rooms_left">værelser tilbage</string>
+    <plurals name="rooms_left">
+        <item quantity="zero">værelser tilbage</item>
+        <item quantity="one">værelse tilbage</item>
+        <item quantity="two">værelser tilbage</item>
+        <item quantity="few">værelser tilbage</item>
+        <item quantity="many">værelser tilbage</item>
+        <item quantity="other">værelser tilbage</item>
+    </plurals>
     <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
     <string name="out_of_5">ud af 5</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">Læs anmeldelser</string>
+    <!-- Text indicating a hotel room/rate is non-refundable -->
+    <string name="Non_Refundable">Ikke-refunderbar</string>
 
     <!-- Tablet flight details -->
-    <!-- Name of button for selecting a flight. %1$s is a price. example: "Add for $345" -->
+    <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
     <string name="add_for_TEMPLATE">Tilføj for %1$s</string>
     <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
     <string name="flight_cities_TEMPLATE">%1$s til %2$s</string>
+    <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
+    <string name="flight_on_time_TEMPLATE">%s%% til tiden</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -585,9 +598,9 @@
     <string name="car_category_oversize">Ekstra stor bil</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">To døre Bil</string>
-    <string name="car_type_three_door">Tre døre Bil</string>
-    <string name="car_type_four_door">Fire døre Bil</string>
+    <string name="car_type_two_door">Bil med to døre</string>
+    <string name="car_type_three_door">Bil med tre døre</string>
+    <string name="car_type_four_door">Bil med fire døre</string>
     <string name="car_type_van">Varevogn</string>
     <string name="car_type_wagon">vogn</string>
     <string name="car_type_limousine">Limousine</string>
@@ -1636,7 +1649,7 @@
     <!-- Default Loading message for widget -->
     <string name="loading_hotels">Henter hoteller…</string>
     <!-- Template for sale element in widget. The parameter is for the sale % -->
-    <string name="widget_savings_template">Spar %2.0f %%</string>
+    <string name="widget_savings_template">Spar %2.0f%%</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">Ingen internetforbindelse</string>
     <!-- Widget Branding title -->
@@ -2244,7 +2257,7 @@
     <string name="country_cr">Costa Rica</string>
     <string name="country_hr">Kroatien</string>
     <string name="country_cu">Cuba</string>
-    <string name="country_cy">Kypern</string>
+    <string name="country_cy">Cypern</string>
     <string name="country_cz">Tjekkiet</string>
     <string name="country_ci">Elfenbenskysten</string>
     <string name="country_dk">Danmark</string>

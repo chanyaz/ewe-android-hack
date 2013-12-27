@@ -94,6 +94,8 @@
     <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
     <!-- Trip To -->
     <string name="trip_to">Reise nach</string>
+    <!-- Trip bucket, trip is empty message -->
+    <string name="trip_empty">Ihr Reiseplan ist leer.</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">Flüge nach %1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -148,17 +150,28 @@
     <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
     <string name="recommend">empfehlen dieses Hotel</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
-    <string name="rooms_left">Zimmer übrig</string>
+    <plurals name="rooms_left">
+        <item quantity="zero">Zimmer übrig</item>
+        <item quantity="one">Zimmer übrig</item>
+        <item quantity="two">Zimmer übrig</item>
+        <item quantity="few">Zimmer übrig</item>
+        <item quantity="many">Zimmer übrig</item>
+        <item quantity="other">Zimmer übrig</item>
+    </plurals>
     <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
     <string name="out_of_5">von 5</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">Bewertungen lesen</string>
+    <!-- Text indicating a hotel room/rate is non-refundable -->
+    <string name="Non_Refundable">Nicht erstattungsfähig</string>
 
     <!-- Tablet flight details -->
-    <!-- Name of button for selecting a flight. %1$s is a price. example: "Add for $345" -->
+    <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
     <string name="add_for_TEMPLATE">Hinzufügen für %1$s</string>
     <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
     <string name="flight_cities_TEMPLATE">%1$s bis %2$s</string>
+    <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
+    <string name="flight_on_time_TEMPLATE">%s%% pünktlich</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -682,7 +695,7 @@
     <string name="itin_action_directions">Wegbeschreibung</string>
     <string name="itin_action_call_hotel">Hotel anrufen</string>
     <string name="itin_action_redeem">Einlösen</string>
-    <string name="itin_action_support">Support</string>
+    <string name="itin_action_support">Kundenservice</string>
     <string name="itin_action_share">Teilen</string>
 
     <!-- Itin webview titles -->

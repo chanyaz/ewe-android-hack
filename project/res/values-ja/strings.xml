@@ -93,7 +93,9 @@
     <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
     <string name="destination_and_date_range_TEMPLATE">%1$s、%2$s</string>
     <!-- Trip To -->
-    <string name="trip_to">目的地 : </string>
+    <string name="trip_to">目的地 :</string>
+    <!-- Trip bucket, trip is empty message -->
+    <string name="trip_empty">旅行のデータがありません。</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">%1$sへのフライト</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -148,17 +150,28 @@
     <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
     <string name="recommend">のゲストが推奨</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
-    <string name="rooms_left">室残り</string>
+    <plurals name="rooms_left">
+        <item quantity="zero">室残り</item>
+        <item quantity="one">室残り</item>
+        <item quantity="two">室残り</item>
+        <item quantity="few">室残り</item>
+        <item quantity="many">室残り</item>
+        <item quantity="other">室残り</item>
+    </plurals>
     <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
     <string name="out_of_5">(5 段階中)</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">レビューを見る</string>
+    <!-- Text indicating a hotel room/rate is non-refundable -->
+    <string name="Non_Refundable">返金不可</string>
 
     <!-- Tablet flight details -->
-    <!-- Name of button for selecting a flight. %1$s is a price. example: "Add for $345" -->
+    <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
     <string name="add_for_TEMPLATE">%1$s に追加</string>
     <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
     <string name="flight_cities_TEMPLATE">%1$s → %2$s</string>
+    <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
+    <string name="flight_on_time_TEMPLATE">%s%%定刻</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -585,9 +598,9 @@
     <string name="car_category_oversize">オーバーサイズカー</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア 自動車</string>
-    <string name="car_type_three_door">3 ドア 自動車</string>
-    <string name="car_type_four_door">4 ドア 自動車</string>
+    <string name="car_type_two_door">2 ドア自動車</string>
+    <string name="car_type_three_door">3 ドア自動車</string>
+    <string name="car_type_four_door">4 ドア自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>

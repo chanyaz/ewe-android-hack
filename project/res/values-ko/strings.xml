@@ -94,6 +94,8 @@
     <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
     <!-- Trip To -->
     <string name="trip_to">여행 목적지:</string>
+    <!-- Trip bucket, trip is empty message -->
+    <string name="trip_empty">고객님의 여행이 비어 있습니다.</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">%1$s행 항공편</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -148,17 +150,28 @@
     <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
     <string name="recommend">고객이 추천</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
-    <string name="rooms_left">개 객실 남음!</string>
+    <plurals name="rooms_left">
+        <item quantity="zero">개 객실 남음</item>
+        <item quantity="one">개 객실 남음</item>
+        <item quantity="two">개 객실 남음</item>
+        <item quantity="few">개 객실 남음</item>
+        <item quantity="many">개 객실 남음</item>
+        <item quantity="other">개 객실 남음</item>
+    </plurals>
     <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
     <string name="out_of_5">(5점 만점)</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">이용 후기 보기</string>
+    <!-- Text indicating a hotel room/rate is non-refundable -->
+    <string name="Non_Refundable">환불 불가</string>
 
     <!-- Tablet flight details -->
-    <!-- Name of button for selecting a flight. %1$s is a price. example: "Add for $345" -->
+    <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
     <string name="add_for_TEMPLATE">%1$s 가격으로 추가</string>
     <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
     <string name="flight_cities_TEMPLATE">%1$s - %2$s</string>
+    <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
+    <string name="flight_on_time_TEMPLATE">%s%% 정시 운항</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -226,7 +239,7 @@
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
-    <string name="Check_in_available">체크인 가능</string>
+    <string name="Check_in_available">탑승 수속 가능</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%2$s행 %1$s 항공편</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -1525,7 +1538,7 @@
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">검색 오류</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
-    <string name="search_hotel_id_TEMPLATE">호텔%s</string>
+    <string name="search_hotel_id_TEMPLATE">호텔 %s</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">

@@ -94,10 +94,12 @@
     <string name="destination_and_date_range_TEMPLATE">%1$s，%2$s</string>
     <!-- Trip To -->
     <string name="trip_to">前往</string>
+    <!-- Trip bucket, trip is empty message -->
+    <string name="trip_empty">您的行程是空的。</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">班機前往%1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
-    <string name="actionbar_tablet_results_hotels_title_TEMPLATE">%1$s飯店</string>
+    <string name="actionbar_tablet_results_hotels_title_TEMPLATE">%1$s 家飯店</string>
     <!-- Label for VIP badge -->
     <string name="VIP">VIP</string>
 
@@ -146,19 +148,30 @@
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s 則評語</string>
     <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
-    <string name="recommend">推薦</string>
+    <string name="recommend">旅客推薦</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
-    <string name="rooms_left">剩下 間客房</string>
+    <plurals name="rooms_left">
+        <item quantity="zero">可訂空房</item>
+        <item quantity="one">可訂空房</item>
+        <item quantity="two">可訂空房</item>
+        <item quantity="few">可訂空房</item>
+        <item quantity="many">可訂空房</item>
+        <item quantity="other">可訂空房</item>
+    </plurals>
     <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
-    <string name="out_of_5">(最高 5 星級)</string>
+    <string name="out_of_5">最高 5 分</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">閱讀評語</string>
+    <!-- Text indicating a hotel room/rate is non-refundable -->
+    <string name="Non_Refundable">不可退款</string>
 
     <!-- Tablet flight details -->
-    <!-- Name of button for selecting a flight. %1$s is a price. example: "Add for $345" -->
+    <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
     <string name="add_for_TEMPLATE">增加 %1$s</string>
     <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
     <string name="flight_cities_TEMPLATE">%1$s到%2$s</string>
+    <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
+    <string name="flight_on_time_TEMPLATE">%s%% 準時</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -220,7 +233,7 @@
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">很抱歉，我們無法建立連線。</string>
     <!-- Menu option for going to see your trips/itineraries -->
-    <string name="trips">旅行</string>
+    <string name="trips">行程</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">此 App 需要 Google Play Services。請安裝最新版的 Google Play Services。</string>
 
@@ -250,7 +263,7 @@
     <!-- Itinerary -->
     <string name="itinerary">行程</string>
     <!-- Shop -->
-    <string name="shop">購物</string>
+    <string name="shop">預訂</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">搜尋行程</string>
     <!-- Find Itinerary # -->
@@ -260,7 +273,7 @@
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus 客戶支援</string>
     <!-- No upcoming trips -->
-    <string name="no_upcoming_trips">沒有即將出發的旅行</string>
+    <string name="no_upcoming_trips">沒有即將出發的行程</string>
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">輸入行程編號</string>
     <!-- Fetching your itinerary -->
@@ -585,9 +598,9 @@
     <string name="car_category_oversize">超大型車</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">雙門汽車</string>
-    <string name="car_type_three_door">三門汽車</string>
-    <string name="car_type_four_door">四門汽車</string>
+    <string name="car_type_two_door">雙門 汽車</string>
+    <string name="car_type_three_door">三門 汽車</string>
+    <string name="car_type_four_door">四門 汽車</string>
     <string name="car_type_van">箱型車</string>
     <string name="car_type_wagon">轎車</string>
     <string name="car_type_limousine">豪華禮車</string>

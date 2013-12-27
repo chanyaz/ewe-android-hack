@@ -94,6 +94,8 @@
     <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
     <!-- Trip To -->
     <string name="trip_to">Perjalanan Ke</string>
+    <!-- Trip bucket, trip is empty message -->
+    <string name="trip_empty">Perjalanan anda kosong.</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">Penerbangan ke %1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -148,17 +150,28 @@
     <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
     <string name="recommend">mengesyorkan</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
-    <string name="rooms_left">bilik lagi</string>
+    <plurals name="rooms_left">
+        <item quantity="zero">bilik lagi</item>
+        <item quantity="one">bilik lagi</item>
+        <item quantity="two">bilik lagi</item>
+        <item quantity="few">bilik lagi</item>
+        <item quantity="many">bilik lagi</item>
+        <item quantity="other">bilik lagi</item>
+    </plurals>
     <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
     <string name="out_of_5">daripada 5</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">Baca Ulasan</string>
+    <!-- Text indicating a hotel room/rate is non-refundable -->
+    <string name="Non_Refundable">Tidak Boleh Dibayar Balik</string>
 
     <!-- Tablet flight details -->
-    <!-- Name of button for selecting a flight. %1$s is a price. example: "Add for $345" -->
+    <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
     <string name="add_for_TEMPLATE">Tambah untuk %1$s</string>
     <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
     <string name="flight_cities_TEMPLATE">%1$s ke %2$s</string>
+    <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
+    <string name="flight_on_time_TEMPLATE">%s%% menepati masa</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -172,7 +185,7 @@
     <!-- Attempting to log you in with facebook credentials -->
     <string name="attempting_to_log_in_with_facebook">Cuba membolehkan anda log masuk menggunakan kelayakan facebook…</string>
     <!-- We have encountered an error -->
-    <string name="unspecified_error">Kami telah mengalami ralat yang tidak ditentukan. Sila cuba lagi kemudian.</string>
+    <string name="unspecified_error">Kami telah mengalami ralat yang tidak dapat ditentukan. Sila cuba lagi kemudian.</string>
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">Tidak dapat log masuk ke Facebook.</string>
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->

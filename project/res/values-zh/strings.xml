@@ -94,6 +94,8 @@
     <string name="destination_and_date_range_TEMPLATE">%1$s，%2$s</string>
     <!-- Trip To -->
     <string name="trip_to">旅行 -</string>
+    <!-- Trip bucket, trip is empty message -->
+    <string name="trip_empty">旅行计划是空的。</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">飞往%1$s的航班</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -148,17 +150,28 @@
     <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
     <string name="recommend">推荐</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
-    <string name="rooms_left">间剩余客房</string>
+    <plurals name="rooms_left">
+        <item quantity="zero">间空房</item>
+        <item quantity="one">间空房</item>
+        <item quantity="two">间空房</item>
+        <item quantity="few">间空房</item>
+        <item quantity="many">间空房</item>
+        <item quantity="other">间空房</item>
+    </plurals>
     <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
-    <string name="out_of_5">（最高 5 星）</string>
+    <string name="out_of_5">满分 5 分</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">阅读点评</string>
+    <!-- Text indicating a hotel room/rate is non-refundable -->
+    <string name="Non_Refundable">不可退款</string>
 
     <!-- Tablet flight details -->
-    <!-- Name of button for selecting a flight. %1$s is a price. example: "Add for $345" -->
+    <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
     <string name="add_for_TEMPLATE">添加 %1$s</string>
     <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
     <string name="flight_cities_TEMPLATE">%1$s - %2$s</string>
+    <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
+    <string name="flight_on_time_TEMPLATE">%s%% 准点</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -585,9 +598,9 @@
     <string name="car_category_oversize">特大型车</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">两个门 轿车</string>
-    <string name="car_type_three_door">三个门 轿车</string>
-    <string name="car_type_four_door">四个门 轿车</string>
+    <string name="car_type_two_door">两个门轿车</string>
+    <string name="car_type_three_door">三个门轿车</string>
+    <string name="car_type_four_door">四个门轿车</string>
     <string name="car_type_van">箱型车</string>
     <string name="car_type_wagon">旅行车</string>
     <string name="car_type_limousine">豪华轿车</string>

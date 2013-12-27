@@ -94,6 +94,8 @@
     <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
     <!-- Trip To -->
     <string name="trip_to">Voyage à</string>
+    <!-- Trip bucket, trip is empty message -->
+    <string name="trip_empty">Votre voyage est vide.</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">Vols à destination de %1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -146,19 +148,30 @@
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s avis</string>
     <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
-    <string name="recommend">recommandent</string>
+    <string name="recommend">de recommandations</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
-    <string name="rooms_left">chambres restantes</string>
+    <plurals name="rooms_left">
+        <item quantity="zero">chambres sur notre app</item>
+        <item quantity="one">chambre sur notre app</item>
+        <item quantity="two">chambres sur notre app</item>
+        <item quantity="few">chambres sur notre app</item>
+        <item quantity="many">chambres sur notre app</item>
+        <item quantity="other">chambres sur notre app</item>
+    </plurals>
     <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
     <string name="out_of_5">sur 5</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">Lire les avis</string>
+    <!-- Text indicating a hotel room/rate is non-refundable -->
+    <string name="Non_Refundable">Non remboursable</string>
 
     <!-- Tablet flight details -->
-    <!-- Name of button for selecting a flight. %1$s is a price. example: "Add for $345" -->
+    <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
     <string name="add_for_TEMPLATE">Ajouter pour %1$s</string>
     <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
     <string name="flight_cities_TEMPLATE">%1$s à %2$s</string>
+    <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
+    <string name="flight_on_time_TEMPLATE">%s%% à l\&apos;heure</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -226,7 +239,7 @@
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
-    <string name="Check_in_available">Arrivée possible</string>
+    <string name="Check_in_available">Enregistrement disponible</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">Vol %1$s à destination de %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->

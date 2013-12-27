@@ -94,6 +94,8 @@
     <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
     <!-- Trip To -->
     <string name="trip_to">ทริปไปยัง</string>
+    <!-- Trip bucket, trip is empty message -->
+    <string name="trip_empty">ทริปของคุณว่างเปล่า</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">เที่ยวบินไปยัง%1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -148,17 +150,28 @@
     <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
     <string name="recommend">แนะนำ</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
-    <string name="rooms_left">ห้อง - ว่าง</string>
+    <plurals name="rooms_left">
+        <item quantity="zero">ห้อง - ยังว่าง</item>
+        <item quantity="one">ห้อง - ยังว่าง</item>
+        <item quantity="two">ห้อง - ยังว่าง</item>
+        <item quantity="few">ห้อง - ยังว่าง</item>
+        <item quantity="many">ห้อง - ยังว่าง</item>
+        <item quantity="other">ห้อง - ยังว่าง</item>
+    </plurals>
     <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
     <string name="out_of_5">จาก 5</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">อ่านรีวิว</string>
+    <!-- Text indicating a hotel room/rate is non-refundable -->
+    <string name="Non_Refundable">ไม่สามารถขอคืนเงินได้</string>
 
     <!-- Tablet flight details -->
-    <!-- Name of button for selecting a flight. %1$s is a price. example: "Add for $345" -->
+    <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
     <string name="add_for_TEMPLATE">เพิ่มสำหรับ %1$s</string>
     <!-- Describes a leg of a flight, e.g. "San Francisco to Paris" -->
     <string name="flight_cities_TEMPLATE">%1$s ไปยัง %2$s</string>
+    <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
+    <string name="flight_on_time_TEMPLATE">ตรงเวลา %s%%</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
