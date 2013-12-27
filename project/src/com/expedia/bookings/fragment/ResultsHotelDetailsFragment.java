@@ -193,7 +193,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		TextView starRatingText = Ui.findView(view, R.id.star_rating_text);
 		TextView userRatingText = Ui.findView(view, R.id.user_rating_text);
 
-		UrlBitmapDrawable.loadImageView(property.getMedia(0).getHighResUrls(), hotelImage);
+		if (property.getMedia(0) != null) {
+			UrlBitmapDrawable.loadImageView(property.getMedia(0).getHighResUrls(), hotelImage);
+		}
 		hotelName.setText(property.getName());
 		starRating.setRating((float) property.getHotelRating());
 		userRating.setRating((float) property.getAverageExpediaRating());
