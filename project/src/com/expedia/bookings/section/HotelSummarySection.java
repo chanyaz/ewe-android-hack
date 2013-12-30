@@ -115,7 +115,8 @@ public class HotelSummarySection extends RelativeLayout {
 				mSaleImageView.setVisibility(View.GONE);
 			}
 		}
-		else {
+		// mStrikethroughPriceText will always be null for tripbucket hotel item - tablet 4.0, so we just skip.
+		else if (mStrikethroughPriceText != null) {
 			// Detect if the property is on sale, if it is do special things
 			if (lowestRate.isOnSale() && lowestRate.isSaleTenPercentOrBetter()) {
 				if (hotelPrice.length() < HOTEL_PRICE_TOO_LONG) {
@@ -166,7 +167,8 @@ public class HotelSummarySection extends RelativeLayout {
 		if (ExpediaBookingApp.IS_VSC) {
 			mUrgencyText.setVisibility(View.GONE);
 		}
-		else {
+		// mUrgencyText will always be null for tripbucket hotel item - tablet 4.0, so we just skip.
+		else if (mUrgencyText != null) {
 			if (property.isLowestRateTonightOnly()) {
 				mUrgencyText.setText(context.getString(R.string.tonight_only));
 				mUrgencyText.setVisibility(View.VISIBLE);
