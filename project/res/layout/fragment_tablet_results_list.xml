@@ -16,7 +16,10 @@
         android:divider="@color/tablet_white_pane_bg"
         android:dividerHeight="8dp"
         android:listSelector="@android:color/transparent"
-        android:scrollbars="none" />
+        android:scrollbars="none"
+        app:footerSpacerColor="@color/tablet_white_pane_bg"
+        app:headerSpacePercentage="0.5"
+        app:headerSpacerColor="@android:color/transparent" />
 
     <!-- The sticky header view -->
 

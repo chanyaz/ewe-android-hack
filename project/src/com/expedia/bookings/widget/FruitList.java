@@ -6,7 +6,9 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.database.DataSetObserver;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.AbsListView.OnScrollListener;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.enums.ResultsListState;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -81,7 +84,18 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 	}
 
 	private void readInAttrs(Context context, AttributeSet attrs) {
-
+		if (attrs != null) {
+			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FruitList);
+			setHeaderSpacerColor(a.getColor(R.styleable.FruitList_headerSpacerColor, mHeaderSpacerColor));
+			setFooterSpacerColor(a.getColor(R.styleable.FruitList_footerSpacerColor, mFooterSpacerColor));
+			if (a.hasValue(R.styleable.FruitList_headerSpaceSize)) {
+				setTopSpacePixels(a.getDimension(R.styleable.FruitList_headerSpaceSize, mTopSpacerPixels));
+			}
+			else {
+				setTopSpacePercentage(a.getFloat(R.styleable.FruitList_headerSpacePercentage, mTopSpacerPercentage));
+			}
+			a.recycle();
+		}
 	}
 
 	private void initView(Context context) {
@@ -277,6 +291,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 		}
 		else {
 			int contentHeight = calculateContentHeight();
+			Log.d("JOE: contentHeight:" + contentHeight + " totalHeight:" + mTotalHeight);
 			return Math.max(mTotalHeight - contentHeight, 0);
 		}
 	}
@@ -334,7 +349,6 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 	private float mLastReportedPercentage = -1f;
 
 	private void reactToPercentage(final float percentage) {
-		Log.d("JOE: reactToPercentage:" + percentage);
 		if (percentage != mLastReportedPercentage) {
 			if (percentage != 0f && percentage != 1f) {
 				if (mTransStart == null && mTransEnd == null) {
@@ -438,7 +452,6 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 
 			@Override
 			public void onAnimationCancel(Animator arg0) {
-				Log.d("JOE: onAnimationCancel");
 				mPercentageAnimator = null;
 				cancelled = true;
 				mAnimationEnded = true;
@@ -447,7 +460,6 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 			@Override
 			public void onAnimationEnd(Animator arg0) {
 				mAnimationEnded = true;
-				Log.d("JOE: onAnimationEnd - cancelled:" + cancelled);
 				mPercentageAnimator = null;
 				if (!cancelled) {
 					setListScroll(percentage, false);
@@ -497,6 +509,22 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 			sizeOrDataChanged();
 		}
 		super.onLayout(changed, l, t, r, b);
+	}
+
+	/*
+	 * DRAWING
+	 */
+	int mLastDrawRowHeight = -1;
+
+	@Override
+	public void onDraw(Canvas canvas) {
+		int rowHeight = getRowHeight(false);
+		if (rowHeight != mLastDrawRowHeight) {
+			//This ensures the footerspacer is the correct size (as it depends on content height)
+			mLastDrawRowHeight = rowHeight;
+			sizeOrDataChanged();
+		}
+		super.onDraw(canvas);
 	}
 
 	/*
@@ -564,8 +592,6 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 	}
 
 	private void snapToPos(int duration) {
-		Log.d("JOE: snapToPos(" + duration + ") mIsFlining:" + mIsFlinging + " mIsTouching:" + mIsTouching
-				+ " isAnimatingScroll:" + isAnimatingScroll());
 		if (!mIsFlinging && !mIsTouching && !isAnimatingScroll()) {
 			float perc = getScrollDownPercentage();
 			if (perc <= 1f && perc >= 0.5) {

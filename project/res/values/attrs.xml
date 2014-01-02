@@ -335,5 +335,13 @@
         <attr name="swipeOutContentId" format="reference" />
         <attr name="swipeOutIndicatorId" format="reference" />
     </declare-styleable>
+    
+    <!-- FruitList style -->
+    <declare-styleable name="FruitList">
+        <attr name="headerSpacerColor" format="reference|color" />
+        <attr name="footerSpacerColor" format="reference|color" />
+        <attr name="headerSpacePercentage" format="float" />
+        <attr name="headerSpaceSize" format="dimension|reference" />
+    </declare-styleable>
 
 </resources>
