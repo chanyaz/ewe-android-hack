@@ -705,6 +705,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) mRootC.getLayoutParams();
 			params.topMargin = actionBarHeight;
 			mRootC.setLayoutParams(params);
+
+			//If we are already initialized, we should reset our state so things get positioned properly. 
+			if (mFlightOneListFrag != null) {
+				setFlightsState(mFlightsStateManager.getState(), false);
+			}
 		}
 
 	};
