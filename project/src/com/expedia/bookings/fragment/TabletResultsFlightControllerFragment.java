@@ -41,6 +41,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilit
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.BlockEventFrameLayout;
+import com.expedia.bookings.widget.FruitList;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -262,7 +263,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			listFrag.setTopRightTextButtonText(getString(R.string.Done));
 		}
 		else if (tag == FTAG_FLIGHT_TWO_LIST) {
-			((ResultsListFragment) frag).gotoTopPosition(0);
+			((ResultsListFragment) frag).setPercentage(0f, 0);
 			((ResultsListFragment) frag).setListLockedToTop(true);
 		}
 		else if (tag == FTAG_FLIGHT_ONE_DETAILS) {
@@ -290,10 +291,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			position.bottom = mGrid.getTotalHeight() - actionbarHeight;
 			frag.setDefaultDetailsPositionAndDimensions(position, mFlightDetailsMarginPercentage);
 		}
-		if (frag != null && mFlightOneListFrag != null && mFlightOneListFrag.getTopSpaceListView() != null
-				&& mFlightOneListFrag.getTopSpaceListView().getRowHeight(false) > 0) {
-			frag.setDetaultRowDimensions(mGrid.getColWidth(1), mFlightOneListFrag.getTopSpaceListView()
-					.getRowHeight(false));
+
+		if (frag != null && mFlightOneListFrag != null && mFlightOneListFrag.hasList()) {
+			FruitList list = (FruitList) mFlightOneListFrag.getListView();
+			frag.setDetaultRowDimensions(mGrid.getColWidth(1), list.getRowHeight(false));
 		}
 	}
 
@@ -551,11 +552,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			//List scroll position
 			mFlightOneListFrag.unRegisterStateListener(mListStateHelper);
 			if (state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-				mFlightOneListFrag.gotoBottomPosition(0);
+				mFlightOneListFrag.setPercentage(1f, 0);
 			}
-			else if (mFlightOneListFrag.getTopSpaceListView() != null
-					&& mFlightOneListFrag.getTopSpaceListView().getScrollDownPercentage() > 0) {
-				mFlightOneListFrag.gotoTopPosition(0);
+			else if (mFlightOneListFrag.hasList()
+					&& mFlightOneListFrag.getPercentage() > 0) {
+				mFlightOneListFrag.setPercentage(0f, 0);
 			}
 			mFlightOneListFrag.registerStateListener(mListStateHelper, false);
 		}
@@ -733,7 +734,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					return false;
 				}
 				else if (state == ResultsFlightsState.FLIGHT_ONE_FILTERS) {
-					mFlightOneListFrag.gotoBottomPosition();
+					setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
 					return true;
 				}
 				else if (state == ResultsFlightsState.FLIGHT_ONE_DETAILS) {
@@ -906,6 +907,14 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					mFlightTwoDetailsFrag.prepareAddToTripFromDetailsAnimation(addToTripDestination);
 				}
 			}
+			else if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
+					&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				mFlightOneListFrag.setListLockedToTop(false);
+				mFlightOneListFrag.setPercentage(1f, 0);
+				mFlightOneListC.setAlpha(0);
+				mFlightOneListC.setVisibility(View.VISIBLE);
+				positionForFilters(mFlightOneFiltersC, mFlightOneListC);
+			}
 
 		}
 
@@ -918,8 +927,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				mFlightOneFiltersC.setAlpha(perc);
 				mFlightMapC.setAlpha(perc);
 				float filterPaneTopTranslation = (1f - perc)
-						* mFlightOneListFrag.getTopSpaceListView().getHeaderSpacerHeight();
+						* mFlightOneListFrag.getMaxDistanceFromTop();
 				mFlightOneFiltersC.setTranslationY(filterPaneTopTranslation);
+				mFlightOneListFrag.setPercentage(1f - perc, 0);
 			}
 			else if ((stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS || stateOne == ResultsFlightsState.FLIGHT_TWO_FILTERS)
 					&& (stateTwo == ResultsFlightsState.FLIGHT_ONE_DETAILS || stateTwo == ResultsFlightsState.FLIGHT_TWO_FILTERS)) {
@@ -999,6 +1009,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					mFlightTwoListColumnC.setTranslationX(flightListTranslationX);
 				}
 			}
+			else if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
+					&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				mFlightOneListC.setAlpha(percentage);
+				mFlightMapC.setAlpha(1f - percentage);
+			}
 		}
 
 		@Override
@@ -1035,9 +1050,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			if (state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mFlightOneFiltersC.setAlpha(0f);
 				mFlightMapC.setAlpha(0f);
-				if (mFlightOneListFrag != null && mFlightOneListFrag.getTopSpaceListView() != null) {
+				if (mFlightOneListFrag != null && mFlightOneListFrag.hasList()) {
 					mFlightOneFiltersC
-							.setTranslationY(mFlightOneListFrag.getTopSpaceListView().getHeaderSpacerHeight());
+							.setTranslationY(mFlightOneListFrag.getMaxDistanceFromTop());
+					mFlightOneListFrag.setPercentage(1f, 0);
 				}
 			}
 			else {

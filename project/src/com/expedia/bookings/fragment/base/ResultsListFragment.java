@@ -9,28 +9,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.enums.ResultsListState;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
-import com.expedia.bookings.widget.FruitScrollUpListView;
-import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewChangeListener;
-import com.expedia.bookings.widget.FruitScrollUpListView.IFruitScrollUpListViewInitListener;
-import com.expedia.bookings.widget.FruitScrollUpListView.State;
+import com.expedia.bookings.interfaces.IStateListener;
+import com.expedia.bookings.interfaces.IStateProvider;
+import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
+import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
+import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
+import com.expedia.bookings.widget.FruitList;
 import com.mobiata.android.util.Ui;
 
 /**
  * ResultsListFragment: The abstract base Fragment  for the flight and hotel lists designed for tablet results 2013
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public abstract class ResultsListFragment extends ListFragment implements IFruitScrollUpListViewChangeListener {
+public abstract class ResultsListFragment<T> extends ListFragment implements IStateProvider<T> {
 
 	private static final String STATE_LIST_STATE = "STATE_LIST_STATE";
 
-	private static final int SMOOTH_SCROLL_DURATION = 120;
-
-	protected FruitScrollUpListView mListView;
+	protected FruitList mListView;
 	private ViewGroup mStickyHeader;
 	private TextView mStickyHeaderTv;
 	private TextView mTopRightTextButton;
@@ -40,9 +42,6 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 
 	private boolean mTopRightButtonEnabled = true;
 	private boolean mLockedToTop = false;
-	private boolean mGotoBottom = false;
-	private boolean mGotoTop = false;
-	private IFruitScrollUpListViewChangeListener mChangeListener;
 	private IBackButtonLockListener mBackLockListener;
 
 	@Override
@@ -50,6 +49,19 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 		super.onAttach(activity);
 
 		mBackLockListener = Ui.findFragmentListener(this, IBackButtonLockListener.class, true);
+
+		if (mStickyHeader != null) {
+			mStickyHeader.getViewTreeObserver().addOnPreDrawListener(mHeaderUpdater);
+		}
+	}
+
+	@Override
+	public void onDetach() {
+		if (mStickyHeader != null) {
+			mStickyHeader.getViewTreeObserver().removeOnPreDrawListener(mHeaderUpdater);
+		}
+		super.onDetach();
+
 	}
 
 	@Override
@@ -76,32 +88,11 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 			}
 		}
 
-		mStickyHeader.setVisibility(View.INVISIBLE);
-		mListView.addInitializationListener(new IFruitScrollUpListViewInitListener() {
+		mStickyHeader.getViewTreeObserver().addOnPreDrawListener(mHeaderUpdater);
 
-			@Override
-			public void onInitStatusChanged(boolean initialized, State state, float percentage) {
-				if (initialized) {
-					updateStickyHeaderState(percentage, state != State.TRANSIENT);
-					mStickyHeader.setVisibility(View.VISIBLE);
-				}
-			}
-		}, true);
-
-		mListView.addChangeListener(this, false);
-
-		if (mChangeListener != null) {
-			mListView.addChangeListener(mChangeListener, false);
-		}
-
-		if (mGotoTop) {
-			gotoTopPosition(0);
-		}
+		registerStateListener(new StateListenerLogger<T>(), false);
+		mListView.registerStateListener(mListStateHelper, false);
 		mListView.setListLockedToTop(mLockedToTop);
-		if (mGotoBottom) {
-			gotoBottomPosition(0);
-		}
-
 		setStickyHeaderText(initializeStickyHeaderString());
 
 		return view;
@@ -115,15 +106,30 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 		}
 	}
 
-	public FruitScrollUpListView getTopSpaceListView() {
-		return mListView;
+	private OnPreDrawListener mHeaderUpdater = new OnPreDrawListener() {
+		@Override
+		public boolean onPreDraw() {
+			if (mListView != null) {
+				float perc = mListView.getScrollDownPercentage();
+				updateStickyHeaderState(perc, false);
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	};
+
+	public int getMaxDistanceFromTop() {
+		return mListView.getHeaderSpacerHeight();
 	}
 
-	public void setChangeListener(IFruitScrollUpListViewChangeListener listener) {
-		mChangeListener = listener;
-		if (mListView != null) {
-			mListView.addChangeListener(listener, false);
-		}
+	public float getPercentage() {
+		return mListView.getScrollDownPercentage();
+	}
+
+	public boolean hasList() {
+		return mListView != null;
 	}
 
 	public void setTopRightTextButtonEnabled(boolean enabled) {
@@ -163,31 +169,9 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 		}
 	}
 
-	public void gotoTopPosition() {
-		gotoTopPosition(SMOOTH_SCROLL_DURATION);
-	}
-
-	public void gotoTopPosition(int duration) {
-		mGotoTop = true;
+	public void setPercentage(float percentage, int duration) {
 		if (mListView != null) {
-			mListView.setState(State.LIST_CONTENT_AT_TOP, true, duration);
-			mGotoTop = false;
-		}
-	}
-
-	public void gotoBottomPosition() {
-		gotoBottomPosition(SMOOTH_SCROLL_DURATION);
-	}
-
-	public void gotoBottomPosition(int duration) {
-		mGotoBottom = true;
-		if (mListView != null) {
-			mListView.setState(State.LIST_CONTENT_AT_BOTTOM, true, duration);
-			mGotoBottom = false;
-
-			if (duration == 0) {
-				updateStickyHeaderState(1f, true);
-			}
+			mListView.setScrollDownPercentage(percentage, duration);
 		}
 	}
 
@@ -214,20 +198,66 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 			mStickyHeader.setTranslationY(mListView.getHeaderSpacerHeight());
 		}
 		else {
-			int stickyHeaderBottom = mListView.calculateHeaderSpacerVisibleHeight();
+			int stickyHeaderBottom = mListView.getListDistanceFromTop();
 			mStickyHeader.setTranslationY(stickyHeaderBottom);
 		}
 	}
 
+	private StateListenerHelper<ResultsListState> mListStateHelper = new StateListenerHelper<ResultsListState>() {
+
+		@Override
+		public void onStateTransitionStart(ResultsListState stateOne, ResultsListState stateTwo) {
+			startStateTransition(translateState(stateOne), translateState(stateTwo));
+		}
+
+		@Override
+		public void onStateTransitionUpdate(ResultsListState stateOne, ResultsListState stateTwo, float percentage) {
+			updateStateTransition(translateState(stateOne), translateState(stateTwo), percentage);
+		}
+
+		@Override
+		public void onStateTransitionEnd(ResultsListState stateOne, ResultsListState stateTwo) {
+			endStateTransition(translateState(stateOne), translateState(stateTwo));
+		}
+
+		@Override
+		public void onStateFinalized(ResultsListState state) {
+			updateStickyHeaderState(state == ResultsListState.AT_TOP ? 0f : 1f, true);
+			finalizeState(translateState(state));
+		}
+	};
+
+	private StateListenerCollection<T> mListeners = new StateListenerCollection<T>(getDefaultState());
+
 	@Override
-	public void onStateChanged(State oldState, State newState, float percentage) {
-		mBackLockListener.setBackButtonLockState(newState == State.TRANSIENT);
-		updateStickyHeaderState(percentage, newState != State.TRANSIENT);
+	public void startStateTransition(T stateOne, T stateTwo) {
+		mListeners.startStateTransition(stateOne, stateTwo);
 	}
 
 	@Override
-	public void onPercentageChanged(State state, float percentage) {
-		updateStickyHeaderState(percentage, state != State.TRANSIENT);
+	public void updateStateTransition(T stateOne, T stateTwo,
+			float percentage) {
+		mListeners.updateStateTransition(stateOne, stateTwo, percentage);
+	}
+
+	@Override
+	public void endStateTransition(T stateOne, T stateTwo) {
+		mListeners.endStateTransition(stateOne, stateTwo);
+	}
+
+	@Override
+	public void finalizeState(T state) {
+		mListeners.finalizeState(state);
+	}
+
+	@Override
+	public void registerStateListener(IStateListener<T> listener, boolean fireFinalizeState) {
+		mListeners.registerStateListener(listener, fireFinalizeState);
+	}
+
+	@Override
+	public void unRegisterStateListener(IStateListener<T> listener) {
+		mListeners.unRegisterStateListener(listener);
 	}
 
 	/*
@@ -241,5 +271,9 @@ public abstract class ResultsListFragment extends ListFragment implements IFruit
 	protected abstract OnClickListener initializeTopRightTextButtonOnClickListener();
 
 	protected abstract boolean initializeTopRightTextButtonEnabled();
+
+	protected abstract T translateState(ResultsListState state);
+
+	protected abstract T getDefaultState();
 
 }

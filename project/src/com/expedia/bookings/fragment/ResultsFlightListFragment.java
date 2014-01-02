@@ -18,13 +18,10 @@ import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.enums.ResultsFlightsListState;
+import com.expedia.bookings.enums.ResultsListState;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
-import com.expedia.bookings.interfaces.IStateListener;
-import com.expedia.bookings.interfaces.IStateProvider;
-import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.widget.FlightAdapter;
-import com.expedia.bookings.widget.FruitScrollUpListView.State;
 import com.expedia.bookings.widget.TabletFlightAdapter;
 import com.mobiata.android.util.Ui;
 
@@ -32,7 +29,7 @@ import com.mobiata.android.util.Ui;
  * ResultsFlightListFragment: The flight list fragment designed for tablet results 2013
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class ResultsFlightListFragment extends ResultsListFragment implements IStateProvider<ResultsFlightsListState> {
+public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlightsListState>{
 
 	private static final String STATE_LEG_NUMBER = "STATE_LEG_NUMBER";
 
@@ -92,7 +89,7 @@ public class ResultsFlightListFragment extends ResultsListFragment implements IS
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		int headerCount = getTopSpaceListView().getHeaderViewsCount();
+		int headerCount = getListView().getHeaderViewsCount();
 		int itemPosition = position - headerCount;
 		if (itemPosition >= 0) {
 			FlightTrip trip = ((FlightAdapter) mAdapter).getItem(itemPosition);
@@ -145,9 +142,7 @@ public class ResultsFlightListFragment extends ResultsListFragment implements IS
 
 			@Override
 			public void onClick(View arg0) {
-				if (getTopSpaceListView() != null && getTopSpaceListView().getState() == State.LIST_CONTENT_AT_TOP) {
-					ResultsFlightListFragment.this.gotoBottomPosition();
-				}
+				ResultsFlightListFragment.this.setPercentage(1f, 200);
 			}
 
 		};
@@ -165,98 +160,19 @@ public class ResultsFlightListFragment extends ResultsListFragment implements IS
 		}
 	};
 
-	/*
-	 * Here we convert FruitScrollUpListView states to our ResultsFlightsListState states, and fire the listeners
-	 */
-
-	private ResultsFlightsListState mTransStartState;
-	private ResultsFlightsListState mTransEndState;
-	private boolean mHasStarted = false;
-
 	@Override
-	public void onStateChanged(State oldState, State newState, float percentage) {
-		super.onStateChanged(oldState, newState, percentage);
-		if (oldState == State.LIST_CONTENT_AT_TOP && newState == State.LIST_CONTENT_AT_BOTTOM) {
-			finalizeState(ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM);
+	protected ResultsFlightsListState translateState(ResultsListState state) {
+		if(state == ResultsListState.AT_TOP){
+			return ResultsFlightsListState.FLIGHTS_LIST_AT_TOP;
+		}else if(state == ResultsListState.AT_BOTTOM){
+			return ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM;
 		}
-		else if (oldState == State.LIST_CONTENT_AT_BOTTOM && newState == State.LIST_CONTENT_AT_TOP) {
-			finalizeState(ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM);
-		}
-		else if (oldState == State.LIST_CONTENT_AT_BOTTOM && newState == State.TRANSIENT) {
-			mTransStartState = ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM;
-			mTransEndState = ResultsFlightsListState.FLIGHTS_LIST_AT_TOP;
-		}
-		else if (oldState == State.LIST_CONTENT_AT_TOP && newState == State.TRANSIENT) {
-			mTransStartState = ResultsFlightsListState.FLIGHTS_LIST_AT_TOP;
-			mTransEndState = ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM;
-		}
-		else if (oldState == State.TRANSIENT && newState != State.TRANSIENT) {
-			if (mHasStarted) {
-				endStateTransition(mTransStartState, mTransEndState);
-				if (newState == State.LIST_CONTENT_AT_BOTTOM) {
-					finalizeState(ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM);
-				}
-				else {
-					finalizeState(ResultsFlightsListState.FLIGHTS_LIST_AT_TOP);
-				}
-			}
-			mTransStartState = null;
-			mTransEndState = null;
-			mHasStarted = false;
-		}
+		return null;
 	}
 
 	@Override
-	public void onPercentageChanged(State state, float percentage) {
-		super.onPercentageChanged(state, percentage);
-		if (state == State.TRANSIENT && mTransStartState != null && mTransEndState != null) {
-			if (mHasStarted || (percentage > 0 && percentage < 1)) {
-				if (!mHasStarted) {
-					startStateTransition(mTransStartState, mTransEndState);
-					mHasStarted = true;
-				}
-				updateStateTransition(mTransStartState, mTransEndState,
-						mTransStartState == ResultsFlightsListState.FLIGHTS_LIST_AT_TOP ? percentage : 1f - percentage);
-			}
-		}
-	}
-
-	/*
-	 *	IStateProvider
-	 */
-
-	private StateListenerCollection<ResultsFlightsListState> mResultsStateListeners = new StateListenerCollection<ResultsFlightsListState>(
-			ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM);
-
-	@Override
-	public void startStateTransition(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo) {
-		mResultsStateListeners.startStateTransition(stateOne, stateTwo);
-	}
-
-	@Override
-	public void updateStateTransition(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo,
-			float percentage) {
-		mResultsStateListeners.updateStateTransition(stateOne, stateTwo, percentage);
-	}
-
-	@Override
-	public void endStateTransition(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo) {
-		mResultsStateListeners.endStateTransition(stateOne, stateTwo);
-	}
-
-	@Override
-	public void finalizeState(ResultsFlightsListState state) {
-		mResultsStateListeners.finalizeState(state);
-	}
-
-	@Override
-	public void registerStateListener(IStateListener<ResultsFlightsListState> listener, boolean fireFinalizeState) {
-		mResultsStateListeners.registerStateListener(listener, fireFinalizeState);
-	}
-
-	@Override
-	public void unRegisterStateListener(IStateListener<ResultsFlightsListState> listener) {
-		mResultsStateListeners.unRegisterStateListener(listener);
+	protected ResultsFlightsListState getDefaultState() {
+		return ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM;
 	}
 
 }

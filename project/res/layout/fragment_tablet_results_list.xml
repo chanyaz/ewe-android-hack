@@ -6,13 +6,13 @@
 
     <!-- The list view -->
 
-    <com.expedia.bookings.widget.FruitScrollUpListView
+    <com.expedia.bookings.widget.FruitList
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="56dp"
-        android:choiceMode="singleChoice"
         android:cacheColorHint="@color/tablet_white_pane_bg"
+        android:choiceMode="singleChoice"
         android:divider="@color/tablet_white_pane_bg"
         android:dividerHeight="8dp"
         android:listSelector="@android:color/transparent"
@@ -28,7 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="@color/tablet_white_pane_bg"
-        android:gravity="center_vertical" >
+        android:gravity="center_vertical"
+        android:visibility="visible" >
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/sticky_number_of_items"
