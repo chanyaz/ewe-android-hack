@@ -310,6 +310,20 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 	}
 
 	/*
+	 * OVERSCROLL
+	 */
+
+	private int mLastOverscrollMode = OVER_SCROLL_ALWAYS;
+
+	private void updateOverscrollMode(float percentage) {
+		int overscroll = percentage <= 0 ? OVER_SCROLL_ALWAYS : OVER_SCROLL_NEVER;
+		if (overscroll != mLastOverscrollMode) {
+			setOverScrollMode(overscroll);
+			mLastOverscrollMode = overscroll;
+		}
+	}
+
+	/*
 	 * ROW METHODS
 	 */
 
@@ -569,6 +583,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 		else if (isUserInteraction()) {
 			reactToPercentage(perc);
 		}
+		updateOverscrollMode(perc);
 	}
 
 	@Override
