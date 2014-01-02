@@ -76,15 +76,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="18dp"
                         android:orientation="horizontal"
-                        android:weightSum="3"
                         android:animateLayoutChanges="true" >
 
                     <LinearLayout
                             android:id="@+id/flight_punctuality_container"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
                             android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:gravity="center_horizontal"
                             android:visibility="gone" >
 
                         <com.expedia.bookings.widget.RingedCountView
@@ -104,7 +104,7 @@
                     </LinearLayout>
 
                     <FrameLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1" >
 
@@ -115,7 +115,7 @@
                     </FrameLayout>
 
                     <FrameLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1" >
 
