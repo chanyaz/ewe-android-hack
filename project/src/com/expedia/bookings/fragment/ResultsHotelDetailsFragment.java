@@ -41,14 +41,13 @@ import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.RingedCountView;
 import com.expedia.bookings.widget.ScrollView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.Log;
-import com.mobiata.android.bitmaps.UrlBitmapDrawable;
-import com.mobiata.android.util.Ui;
 
 /**
  * ResultsHotelDetailsFragment: The hotel details / rooms and rates
@@ -193,9 +192,14 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		TextView starRatingText = Ui.findView(view, R.id.star_rating_text);
 		TextView userRatingText = Ui.findView(view, R.id.user_rating_text);
 
-		if (property.getMedia(0) != null) {
-			UrlBitmapDrawable.loadImageView(property.getMedia(0).getHighResUrls(), hotelImage);
+		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.hotelImagePlaceHolderDrawable);
+		if (property.getThumbnail() != null) {
+			property.getThumbnail().fillImageView(hotelImage, placeholderResId);
 		}
+		else {
+			hotelImage.setImageResource(placeholderResId);
+		}
+
 		hotelName.setText(property.getName());
 		starRating.setRating((float) property.getHotelRating());
 		userRating.setRating((float) property.getAverageExpediaRating());
