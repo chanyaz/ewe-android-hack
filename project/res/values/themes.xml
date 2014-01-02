@@ -22,7 +22,6 @@
         <item name="android:actionOverflowButtonStyle">@style/Widget.Sherlock.Light.ActionButton.Overflow</item>
         <item name="homeAsUpIndicator">@drawable/abs__ic_ab_back_holo_light</item>
         <item name="android:homeAsUpIndicator">@drawable/abs__ic_ab_back_holo_light</item>
-        <item name="hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder</item>
 
         <!-- NumberPicker styles -->
         <item name="numberPickerUpButtonStyle">@style/Widget.ImageButton.NumberPickerUpButton</item>
