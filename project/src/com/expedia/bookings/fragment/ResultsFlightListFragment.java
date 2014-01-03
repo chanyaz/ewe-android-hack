@@ -29,7 +29,7 @@ import com.mobiata.android.util.Ui;
  * ResultsFlightListFragment: The flight list fragment designed for tablet results 2013
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlightsListState>{
+public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlightsListState> {
 
 	private static final String STATE_LEG_NUMBER = "STATE_LEG_NUMBER";
 
@@ -162,9 +162,10 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 
 	@Override
 	protected ResultsFlightsListState translateState(ResultsListState state) {
-		if(state == ResultsListState.AT_TOP){
+		if (state == ResultsListState.AT_TOP) {
 			return ResultsFlightsListState.FLIGHTS_LIST_AT_TOP;
-		}else if(state == ResultsListState.AT_BOTTOM){
+		}
+		else if (state == ResultsListState.AT_BOTTOM) {
 			return ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM;
 		}
 		return null;
