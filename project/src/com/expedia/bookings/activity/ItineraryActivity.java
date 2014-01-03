@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -238,7 +237,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		else if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
 			// Just in case we started this activity directly (like from clicking a Notification),
 			// we always want the back button to take us to the launch screen
-			android.support.v4.app.NavUtils.navigateUpTo(this, new Intent(this, TabletLaunchActivity.class));
+			NavUtils.navigateUpTo(this, new Intent(this, TabletLaunchActivity.class));
 		}
 		else {
 			super.onBackPressed();

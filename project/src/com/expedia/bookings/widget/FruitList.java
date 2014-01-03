@@ -18,10 +18,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.Adapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.AbsListView.OnScrollListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.enums.ResultsListState;
@@ -206,7 +206,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 
 	public void setListLockedToTop(boolean locked) {
 		if (mListLockedToTop && !locked && getFirstVisiblePosition() <= getHeaderViewsCount()) {
-			//When we 
+			//When we
 			setSelectionFromTop(getHeaderViewsCount(), 0);
 		}
 		mListLockedToTop = locked;
@@ -233,7 +233,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 	};
 
 	/*
-	 * HEADER AND FOOTER SIZING METHODS 
+	 * HEADER AND FOOTER SIZING METHODS
 	 */
 
 	public int getHeaderSpacerHeight() {

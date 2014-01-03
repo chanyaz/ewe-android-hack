@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import android.database.DataSetObservable;
-import android.database.DataSetObserver;
-
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.database.DataSetObservable;
+import android.database.DataSetObserver;
 
 import com.expedia.bookings.data.FlightTrip.CompareField;
 import com.expedia.bookings.data.FlightTrip.FlightTripComparator;

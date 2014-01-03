@@ -706,7 +706,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			params.topMargin = actionBarHeight;
 			mRootC.setLayoutParams(params);
 
-			//If we are already initialized, we should reset our state so things get positioned properly. 
+			//If we are already initialized, we should reset our state so things get positioned properly.
 			if (mFlightOneListFrag != null) {
 				setFlightsState(mFlightsStateManager.getState(), false);
 			}

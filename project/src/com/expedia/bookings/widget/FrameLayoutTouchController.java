@@ -73,7 +73,7 @@ public class FrameLayoutTouchController extends FrameLayout {
 		if (mBlockNewEvents && ev.getAction() == MotionEvent.ACTION_DOWN) {
 			return true;
 		}
-		//Pass touches 
+		//Pass touches
 		else if (mPassThroughTouches && mTouchGetter != null) {
 			return true;
 		}
