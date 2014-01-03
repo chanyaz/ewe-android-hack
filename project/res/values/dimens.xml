@@ -22,6 +22,7 @@
 
     <!-- Tablet details -->
     <dimen name="tablet_detail_padding">16dp</dimen>
+    <dimen name="non_refundable_tweak">0dp</dimen>
 
     <!-- Launch dimens -->
     <dimen name="launch_tile_space_width">2dp</dimen>

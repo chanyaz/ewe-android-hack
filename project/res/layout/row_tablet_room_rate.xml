@@ -37,6 +37,7 @@
         android:text="@string/Non_Refundable"
         android:textAllCaps="true"
         android:textColor="#c4c6c9"
+        android:paddingTop="@dimen/non_refundable_tweak"
         android:textSize="14sp"
         android:textStyle="bold" />
 
