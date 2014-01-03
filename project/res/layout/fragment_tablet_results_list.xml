@@ -26,7 +26,7 @@
 
     <!-- Note that the layout_height on this container equals ( layout_marginTop + dividerHeight ) on @android:id/list -->
 
-    <RelativeLayout
+    <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/sticky_header_container"
         android:layout_width="match_parent"
         android:layout_height="64dp"
@@ -38,7 +38,7 @@
             android:id="@+id/sticky_number_of_items"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
+            android:layout_gravity="center_vertical|left"
             android:layout_marginLeft="16dp"
             android:gravity="center_vertical|left"
             android:textSize="18sp"
@@ -48,7 +48,7 @@
             android:id="@+id/top_right_text_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
+            android:layout_gravity="center_vertical|right"
             android:layout_marginRight="8dp"
             android:gravity="center_vertical|right"
             android:paddingLeft="8dp"
@@ -56,6 +56,6 @@
             android:textColor="#FF0B4EA4"
             android:textSize="18sp"
             app:textStyle="light" />
-    </RelativeLayout>
+    </com.expedia.bookings.widget.FrameLayoutTouchController>
 
 </FrameLayout>

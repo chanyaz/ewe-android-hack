@@ -21,6 +21,7 @@ import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
+import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.FruitList;
 import com.mobiata.android.util.Ui;
 
@@ -33,7 +34,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	private static final String STATE_LIST_STATE = "STATE_LIST_STATE";
 
 	protected FruitList mListView;
-	private ViewGroup mStickyHeader;
+	private FrameLayoutTouchController mStickyHeader;
 	private TextView mStickyHeaderTv;
 	private TextView mTopRightTextButton;
 
@@ -69,6 +70,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		View view = inflater.inflate(R.layout.fragment_tablet_results_list, null);
 		mListView = Ui.findView(view, android.R.id.list);
 		mStickyHeader = Ui.findView(view, R.id.sticky_header_container);
+		mStickyHeader.setConsumeTouch(true);
 		mStickyHeaderTv = Ui.findView(view, R.id.sticky_number_of_items);
 		mTopRightTextButton = Ui.findView(view, R.id.top_right_text_button);
 
