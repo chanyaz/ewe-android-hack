@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.enums.ResultsHotelsListState;
 import com.expedia.bookings.enums.ResultsHotelsState;
@@ -502,8 +503,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Override
 	public void onPropertyClicked(Property property) {
-		// TODO Auto-generated method stub
-
+		Db.getHotelSearch().setSelectedProperty(property);
+		if (mHotelListFrag != null && mHotelListFrag.isAdded()) {
+			mHotelListFrag.onHotelSelected();
+		}
+		onHotelSelected();
 	}
 
 	@Override

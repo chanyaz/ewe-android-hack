@@ -33,7 +33,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		public void onSortAndFilterClicked();
 	}
 
-	private ListAdapter mAdapter;
+	private TabletHotelAdapter mAdapter;
 	private ISortAndFilterListener mSortAndFilterListener;
 	private IResultsHotelSelectedListener mHotelSelectedListener;
 	private List<ISortAndFilterListener> mSortAndFilterListeners = new ArrayList<ResultsHotelListFragment.ISortAndFilterListener>();
@@ -51,10 +51,10 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	public void onStart() {
 		super.onStart();
 
-		if (getActivity() != null && mAdapter instanceof TabletHotelAdapter) {
+		if (getActivity() != null) {
 			boolean shouldShowVipIcon = PointOfSale.getPointOfSale().supportsVipAccess()
 					&& User.isElitePlus(getActivity());
-			((TabletHotelAdapter) mAdapter).setShowVipIcon(shouldShowVipIcon);
+			mAdapter.setShowVipIcon(shouldShowVipIcon);
 		}
 
 		Db.getFilter().addOnFilterChangedListener(this);
@@ -75,13 +75,11 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		if (mAdapter instanceof TabletHotelAdapter) {
-			int headerCount = getListView().getHeaderViewsCount();
-			int itemPosition = position - headerCount;
-			if (itemPosition >= 0) {
-				Db.getHotelSearch().setSelectedProperty((Property) mAdapter.getItem(itemPosition));
-				mHotelSelectedListener.onHotelSelected();
-			}
+		int headerCount = getListView().getHeaderViewsCount();
+		int itemPosition = position - headerCount;
+		if (itemPosition >= 0) {
+			Db.getHotelSearch().setSelectedProperty((Property) mAdapter.getItem(itemPosition));
+			mHotelSelectedListener.onHotelSelected();
 		}
 	}
 
@@ -97,14 +95,12 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	}
 
 	private void updateAdapter() {
-		TabletHotelAdapter adapter = (TabletHotelAdapter) mAdapter;
-
 		HotelSearchResponse response = Db.getHotelSearch().getSearchResponse();
-		adapter.setSearchResponse(response);
+		mAdapter.setSearchResponse(response);
 
 		if (Db.getHotelSearch().getSelectedProperty() != null) {
 			// In case there is a currently selected property, select it on the screen.
-			adapter.setSelectedProperty(Db.getHotelSearch().getSelectedProperty());
+			mAdapter.setSelectedProperty(Db.getHotelSearch().getSelectedProperty());
 		}
 	}
 
@@ -165,5 +161,10 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	@Override
 	protected ResultsHotelsListState getDefaultState() {
 		return ResultsHotelsListState.HOTELS_LIST_AT_BOTTOM;
+	}
+
+	public void onHotelSelected() {
+		Property property = Db.getHotelSearch().getSelectedProperty();
+		getListView().setSelection(getListView().getHeaderViewsCount() + mAdapter.getPositionOfProperty(property));
 	}
 }
