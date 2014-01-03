@@ -6,7 +6,7 @@
 
     <!-- BACKGROUND CONTAINERS -->
 
-    <com.expedia.bookings.widget.BlockEventFrameLayout
+    <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/bg_dest_image_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

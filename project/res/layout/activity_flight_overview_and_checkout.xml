@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
 
-                <com.expedia.bookings.widget.BlockEventFrameLayout
+                <com.expedia.bookings.widget.FrameLayoutTouchController
                     android:id="@+id/checkout_event_blocker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
@@ -53,7 +53,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:visibility="invisible" />
-                </com.expedia.bookings.widget.BlockEventFrameLayout>
+                </com.expedia.bookings.widget.FrameLayoutTouchController>
             </LinearLayout>
         </com.expedia.bookings.widget.ScrollView>
 

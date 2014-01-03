@@ -55,7 +55,7 @@ import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.BlockEventFrameLayout;
+import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
@@ -88,7 +88,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	private SearchParams mSearchParams;
 
 	// Cached views (general)
-	private BlockEventFrameLayout mBlockEventFrameLayout;
+	private FrameLayoutTouchController mBlockEventFrameLayout;
 	private View mBackground;
 
 	// Cached views (header)

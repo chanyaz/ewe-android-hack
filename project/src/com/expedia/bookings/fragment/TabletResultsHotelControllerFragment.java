@@ -40,7 +40,7 @@ import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
-import com.expedia.bookings.widget.BlockEventFrameLayout;
+import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TouchThroughFrameLayout;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.mobiata.android.util.Ui;
@@ -66,13 +66,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	//Containers
 	private ViewGroup mRootC;
-	private BlockEventFrameLayout mHotelListC;
+	private FrameLayoutTouchController mHotelListC;
 	private TouchThroughFrameLayout mBgHotelMapC;
-	private BlockEventFrameLayout mBgHotelMapTouchDelegateC;
-	private BlockEventFrameLayout mHotelFiltersC;
-	private BlockEventFrameLayout mHotelFilteredCountC;
-	private BlockEventFrameLayout mHotelRoomsAndRatesC;
-	private BlockEventFrameLayout mHotelRoomsAndRatesShadeC;
+	private FrameLayoutTouchController mBgHotelMapTouchDelegateC;
+	private FrameLayoutTouchController mHotelFiltersC;
+	private FrameLayoutTouchController mHotelFilteredCountC;
+	private FrameLayoutTouchController mHotelRoomsAndRatesC;
+	private FrameLayoutTouchController mHotelRoomsAndRatesShadeC;
 
 	// Fragments
 	private HotelMapFragment mMapFragment;

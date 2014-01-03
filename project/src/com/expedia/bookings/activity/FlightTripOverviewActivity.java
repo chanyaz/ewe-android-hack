@@ -49,7 +49,7 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.BlockEventFrameLayout;
+import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
@@ -80,7 +80,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	private ViewGroup mContentRoot;
 	private ViewGroup mOverviewContainer;
 	private ViewGroup mCheckoutContainer;
-	private BlockEventFrameLayout mCheckoutBlocker;
+	private FrameLayoutTouchController mCheckoutBlocker;
 	private View mBelowOverviewSpacer;
 
 	private ScrollViewListener mScrollViewListener;

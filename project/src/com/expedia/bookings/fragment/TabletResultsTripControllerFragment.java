@@ -36,7 +36,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
-import com.expedia.bookings.widget.BlockEventFrameLayout;
+import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.FixedTranslationFrameLayout;
 import com.expedia.bookings.widget.SwipeOutLayout;
 import com.expedia.bookings.widget.SwipeOutLayout.ISwipeOutListener;
@@ -66,9 +66,9 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 	private FixedTranslationFrameLayout mBlurredBackgroundC;
 
 	//These are the outer containers of the trip bucket items.
-	private BlockEventFrameLayout mTripBucketYourTripToC;
-	private BlockEventFrameLayout mTripBucketFlightC;
-	private BlockEventFrameLayout mTripBucketHotelC;
+	private FrameLayoutTouchController mTripBucketYourTripToC;
+	private FrameLayoutTouchController mTripBucketFlightC;
+	private FrameLayoutTouchController mTripBucketHotelC;
 
 	//These are the swipeOutLayouts for the trip bucket items.
 	private SwipeOutLayout mFlightSwipeOut;
@@ -79,8 +79,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 	private FrameLayout mTripHotelC;
 
 	//Animation containers
-	private BlockEventFrameLayout mTripAnimationC;
-	private BlockEventFrameLayout mShadeC;
+	private FrameLayoutTouchController mTripAnimationC;
+	private FrameLayoutTouchController mShadeC;
 
 	private ResultsState mGlobalState;
 	private GridManager mGrid = new GridManager();
@@ -97,7 +97,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 	private float mAddTripEndScaleX = 1f;
 	private float mAddTripEndScaleY = 1f;
 
-	private ArrayList<BlockEventFrameLayout> mBucketContainers = new ArrayList<BlockEventFrameLayout>();
+	private ArrayList<FrameLayoutTouchController> mBucketContainers = new ArrayList<FrameLayoutTouchController>();
 
 	@Override
 	public void onAttach(Activity activity) {

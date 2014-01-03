@@ -1,4 +1,4 @@
-<com.expedia.bookings.widget.BlockEventFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.widget.FrameLayoutTouchController xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/block_event_frame_layout"
     android:layout_width="match_parent"
@@ -148,4 +148,4 @@
             android:paddingRight="16dp" />
     </RelativeLayout>
 
-</com.expedia.bookings.widget.BlockEventFrameLayout>
+</com.expedia.bookings.widget.FrameLayoutTouchController>

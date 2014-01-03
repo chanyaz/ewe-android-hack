@@ -57,7 +57,7 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
-import com.expedia.bookings.widget.BlockEventFrameLayout;
+import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TabletResultsActionBarView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
@@ -99,7 +99,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	//Containers..
 	private ViewGroup mRootC;
-	private BlockEventFrameLayout mBgDestImageC;
+	private FrameLayoutTouchController mBgDestImageC;
 
 	//Fragments
 	private ResultsBackgroundImageFragment mBackgroundImageFrag;

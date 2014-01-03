@@ -40,7 +40,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
-import com.expedia.bookings.widget.BlockEventFrameLayout;
+import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.FruitList;
 import com.mobiata.android.util.Ui;
 
@@ -68,18 +68,18 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	//Containers
 	private ViewGroup mRootC;
-	private BlockEventFrameLayout mFlightMapC;
-	private BlockEventFrameLayout mAddToTripC;
+	private FrameLayoutTouchController mFlightMapC;
+	private FrameLayoutTouchController mAddToTripC;
 
-	private BlockEventFrameLayout mFlightOneListC;
-	private BlockEventFrameLayout mFlightOneFiltersC;
-	private BlockEventFrameLayout mFlightOneDetailsC;
+	private FrameLayoutTouchController mFlightOneListC;
+	private FrameLayoutTouchController mFlightOneFiltersC;
+	private FrameLayoutTouchController mFlightOneDetailsC;
 
 	private RelativeLayout mFlightTwoListColumnC;
-	private BlockEventFrameLayout mFlightTwoFlightOneHeaderC;
-	private BlockEventFrameLayout mFlightTwoListC;
-	private BlockEventFrameLayout mFlightTwoFiltersC;
-	private BlockEventFrameLayout mFlightTwoDetailsC;
+	private FrameLayoutTouchController mFlightTwoFlightOneHeaderC;
+	private FrameLayoutTouchController mFlightTwoListC;
+	private FrameLayoutTouchController mFlightTwoFiltersC;
+	private FrameLayoutTouchController mFlightTwoDetailsC;
 
 	private ArrayList<ViewGroup> mContainers = new ArrayList<ViewGroup>();
 
@@ -413,12 +413,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 
 		for (ViewGroup vg : mContainers) {
-			if (vg instanceof BlockEventFrameLayout) {
+			if (vg instanceof FrameLayoutTouchController) {
 				if (touchableViews.contains(vg)) {
-					((BlockEventFrameLayout) vg).setBlockNewEventsEnabled(false);
+					((FrameLayoutTouchController) vg).setBlockNewEventsEnabled(false);
 				}
 				else {
-					((BlockEventFrameLayout) vg).setBlockNewEventsEnabled(true);
+					((FrameLayoutTouchController) vg).setBlockNewEventsEnabled(true);
 				}
 			}
 		}

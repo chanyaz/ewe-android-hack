@@ -13,12 +13,12 @@
 
     <!-- Trip Bucket Containers -->
 
-    <com.expedia.bookings.widget.BlockEventFrameLayout
+    <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/trip_bucket_your_trip_to"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.BlockEventFrameLayout
+    <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/trip_bucket_flight_trip"
         android:layout_width="@dimen/tablet_tripbucket_card_width"
         android:layout_height="match_parent"
@@ -46,9 +46,9 @@
                 android:background="#66000000"
                 android:src="@drawable/ic_error_blue" />
         </com.expedia.bookings.widget.SwipeOutLayout>
-    </com.expedia.bookings.widget.BlockEventFrameLayout>
+    </com.expedia.bookings.widget.FrameLayoutTouchController>
 
-    <com.expedia.bookings.widget.BlockEventFrameLayout
+    <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/trip_bucket_hotel_trip"
         android:layout_width="@dimen/tablet_tripbucket_card_width"
         android:layout_height="match_parent"
@@ -76,16 +76,16 @@
                 android:background="#66000000"
                 android:src="@drawable/ic_error_blue" />
         </com.expedia.bookings.widget.SwipeOutLayout>
-    </com.expedia.bookings.widget.BlockEventFrameLayout>
+    </com.expedia.bookings.widget.FrameLayoutTouchController>
 
     <!-- Animation containers -->
 
-    <com.expedia.bookings.widget.BlockEventFrameLayout
+    <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/column_one_shade"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.BlockEventFrameLayout
+    <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/trip_add_animation_view"
         android:layout_width="match_parent"
         android:layout_height="0dp" />
