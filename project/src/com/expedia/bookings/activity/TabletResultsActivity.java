@@ -1,21 +1,14 @@
 package com.expedia.bookings.activity;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 
 import android.annotation.TargetApi;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.graphics.Rect;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -28,22 +21,17 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BackgroundImageCache;
-import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.ExpediaImage;
-import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
-import com.expedia.bookings.fragment.ResultsBackgroundImageFragment.IBackgroundImageReceiverRegistrar;
 import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsTripControllerFragment;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
-import com.expedia.bookings.interfaces.IBackgroundImageReceiver;
 import com.expedia.bookings.interfaces.IMeasurementListener;
 import com.expedia.bookings.interfaces.IMeasurementProvider;
 import com.expedia.bookings.interfaces.IStateListener;
@@ -52,16 +40,12 @@ import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TabletResultsActionBarView;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
@@ -82,8 +66,7 @@ import com.mobiata.android.util.Ui;
  * 
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class TabletResultsActivity extends SherlockFragmentActivity implements IBackgroundImageReceiverRegistrar,
-		IBackButtonLockListener,
+public class TabletResultsActivity extends SherlockFragmentActivity implements IBackButtonLockListener,
 		IAddToTripListener, IFragmentAvailabilityProvider, IStateProvider<ResultsState>, IMeasurementProvider,
 		IBackManageable {
 
@@ -110,7 +93,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	//Other
 	private GridManager mGrid = new GridManager();
 	private ResultsState mState = ResultsState.OVERVIEW;
-	private String mDestinationCode; //The destination code to use for background images...
 	private boolean mPreDrawInitComplete = false;
 	private boolean mBackButtonLocked = false;
 	private boolean mTestDataLoaded = false;
@@ -120,7 +102,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	//ActionBar
 	private TabletResultsActionBarView mActionBarView;
 
-	private ArrayList<IBackgroundImageReceiver> mBackgroundImageReceivers = new ArrayList<IBackgroundImageReceiver>();
 	private ArrayList<IAddToTripListener> mAddToTripListeners = new ArrayList<IAddToTripListener>();
 
 	@Override
@@ -200,8 +181,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 		//TODO: This is just for logging so it can be removed if we want to turn off state logging.
 		registerStateListener(new StateListenerLogger<ResultsState>(), true);
-
-		mDestinationCode = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
 	}
 
 	@Override
@@ -215,20 +194,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	public void onResume() {
 		super.onResume();
 
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY)) {
-			BackgroundDownloader.getInstance().registerDownloadCallback(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY,
-					mBackgroundImageInfoDownloadCallback);
-		}
-		if (bd.isDownloading(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY)) {
-			BackgroundDownloader.getInstance().registerDownloadCallback(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY,
-					mBackgroundImageFileDownloadCallback);
-		}
-
-		if (Db.getBackgroundImageInfo() == null) {
-			bd.startDownload(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY, mBackgroundImageInfoDownload,
-					mBackgroundImageInfoDownloadCallback);
-		}
+		// TODO: make background image dynamic, we'll probably want it in its own fragment
 
 		mRootC.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
@@ -245,7 +211,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 				if (cache.getBitmap(key, TabletResultsActivity.this) != null
 						&& cache.getBlurredBitmap(key, TabletResultsActivity.this) != null) {
 					mRootC.getViewTreeObserver().removeOnPreDrawListener(this);
-					updateBackgroundImages();
 				}
 				return true;
 			}
@@ -253,20 +218,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 		mHockeyPuck.onResume();
 
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-
-		if (!isFinishing()) {
-			BackgroundDownloader.getInstance().unregisterDownloadCallback(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY);
-			BackgroundDownloader.getInstance().unregisterDownloadCallback(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
-		}
-		else {
-			BackgroundDownloader.getInstance().cancelDownload(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY);
-			BackgroundDownloader.getInstance().cancelDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
-		}
 	}
 
 	@Override
@@ -373,20 +324,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 	}
 
-	/**
-	 * HERE BE BACKGROUND IMAGE STUFF
-	 */
-	@Override
-	public void registerBgImageReceiver(IBackgroundImageReceiver receiver) {
-		mBackgroundImageReceivers.add(receiver);
-		receiver.bgImageInDbUpdated(mGrid.getTotalWidth());
-	}
-
-	@Override
-	public void unRegisterBgImageReceiver(IBackgroundImageReceiver receiver) {
-		mBackgroundImageReceivers.remove(receiver);
-	}
-
 	@Override
 	public Fragment getExisitingLocalInstanceFromTag(String tag) {
 		Fragment frag = null;
@@ -418,7 +355,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			frag = new TabletResultsTripControllerFragment();
 		}
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
-			frag = ResultsBackgroundImageFragment.newInstance("SFO");
+			String destination = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+			frag = ResultsBackgroundImageFragment.newInstance(destination);
 		}
 		return frag;
 	}
@@ -427,115 +365,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	public void doFragmentSetup(String tag, Fragment frag) {
 		if (tag == FTAG_TRIP_CONTROLLER) {
 			mAddToTripListeners.add((IAddToTripListener) frag);
-		}
-	}
-
-	/**
-	 * BACKGROUND IMAGE DOWNLOAD STUFF (If at all possible we want this to be moved to an earlier point in the app, so the images are ready when we get here)
-	 */
-
-	private static final String BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY = "BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY";
-	private static final String BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY = "BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY";
-
-	private Download<ExpediaImage> mBackgroundImageInfoDownload = new Download<ExpediaImage>() {
-		@Override
-		public ExpediaImage doDownload() {
-			ExpediaServices services = new ExpediaServices(TabletResultsActivity.this);
-			BackgroundDownloader.getInstance().addDownloadListener(BACKGROUND_IMAGE_INFO_DOWNLOAD_KEY, services);
-			Point size = AndroidUtils.getScreenSize(TabletResultsActivity.this);
-			return ExpediaImageManager.getInstance().getDestinationImage(mDestinationCode, size.x, size.y, true);
-		}
-	};
-
-	private OnDownloadComplete<ExpediaImage> mBackgroundImageInfoDownloadCallback = new OnDownloadComplete<ExpediaImage>() {
-		@Override
-		public void onDownload(ExpediaImage image) {
-			Log.i("Finished background image info download!");
-
-			if (image == null) {
-				Log.e("Errors downloading background image info");
-				updateBackgroundImages();
-			}
-			else {
-				// We convert this back to a BackgroundImageResponse for the sake of compatibility,
-				// but at some point in the future we should really fix this up.
-				BackgroundImageResponse response = new BackgroundImageResponse();
-				response.setImageUrl(image.getUrl());
-				response.setCacheKey(image.getCacheKey());
-
-				Db.setBackgroundImageInfo(response);
-
-				if (!TextUtils.isEmpty(image.getCacheKey())) {
-					BackgroundImageCache cache = Db.getBackgroundImageCache(TabletResultsActivity.this);
-					if (!cache.hasKeyAndBlurredKey(image.getCacheKey())) {
-						BackgroundDownloader bd = BackgroundDownloader.getInstance();
-						bd.cancelDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY);
-						bd.startDownload(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY, mBackgroundImageFileDownload,
-								mBackgroundImageFileDownloadCallback);
-					}
-					else {
-						updateBackgroundImages();
-					}
-				}
-			}
-		}
-	};
-
-	private Download<Bitmap> mBackgroundImageFileDownload = new Download<Bitmap>() {
-		@Override
-		public Bitmap doDownload() {
-			ExpediaServices services = new ExpediaServices(TabletResultsActivity.this);
-			BackgroundDownloader.getInstance().addDownloadListener(BACKGROUND_IMAGE_FILE_DOWNLOAD_KEY, services);
-
-			try {
-				URL dlUrl = new URL(Db.getBackgroundImageInfo().getImageUrl());
-				Bitmap dledBmap = BitmapFactory.decodeStream((InputStream) dlUrl.getContent());
-				return dledBmap;
-			}
-			catch (Exception ex) {
-				Log.e("Exception downloading Bitmap", ex);
-			}
-
-			return null;
-		}
-	};
-
-	private OnDownloadComplete<Bitmap> mBackgroundImageFileDownloadCallback = new OnDownloadComplete<Bitmap>() {
-		@Override
-		public void onDownload(Bitmap response) {
-			Log.i("Finished background image file download!");
-
-			// If the response is null, fake an error response (for the sake of cleaner code)
-			if (response != null) {
-				BackgroundImageCache cache = Db.getBackgroundImageCache(TabletResultsActivity.this);
-				cache.putBitmap(Db.getBackgroundImageKey(), response, true, TabletResultsActivity.this);
-				new BackgroundImageUpdateTask().execute(cache);
-			}
-			else {
-				Log.e("Image download returned null.");
-			}
-		}
-	};
-
-	private void updateBackgroundImages() {
-		for (IBackgroundImageReceiver receiver : mBackgroundImageReceivers) {
-			receiver.bgImageInDbUpdated(mGrid.getTotalWidth());
-		}
-	}
-
-	private class BackgroundImageUpdateTask extends AsyncTask<BackgroundImageCache, Object, Object> {
-
-		@Override
-		protected Object doInBackground(BackgroundImageCache... params) {
-			if (params[0].isAddingBitmap()) {
-				//If we got nothing after 10 seconds, then lets not even bother
-				params[0].waitForAddingBitmap(10000);
-			}
-			return null;
-		}
-
-		protected void onPostExecute(Object result) {
-			updateBackgroundImages();
 		}
 	}
 

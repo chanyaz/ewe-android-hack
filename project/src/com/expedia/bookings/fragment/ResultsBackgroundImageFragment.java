@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,10 +11,10 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.interfaces.IBackgroundImageReceiver;
-import com.mobiata.android.util.Ui;
 
 /**
  * ResultsBackgroundImageFragment: The fragment that acts as a background image for the whole
@@ -24,34 +23,15 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class ResultsBackgroundImageFragment extends MeasurableFragment implements IBackgroundImageReceiver {
 
-	public interface IBackgroundImageReceiverRegistrar {
-		public void registerBgImageReceiver(IBackgroundImageReceiver receiver);
-
-		public void unRegisterBgImageReceiver(IBackgroundImageReceiver receiver);
-	}
+	private String mDestinationCode; //The destination code to use for background images...
 
 	private ImageView mImageView;
 	private Bitmap mBgBitmap;//We temporarily store a bitmap here if we have not yet initialized
-	private IBackgroundImageReceiverRegistrar mBgProvider;
 
 	public static ResultsBackgroundImageFragment newInstance(String destination) {
 		ResultsBackgroundImageFragment fragment = new ResultsBackgroundImageFragment();
+		fragment.mDestinationCode = destination;
 		return fragment;
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		mBgProvider = Ui.findFragmentListener(this, IBackgroundImageReceiverRegistrar.class, true);
-		mBgProvider.registerBgImageReceiver(this);
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-
-		mBgProvider.unRegisterBgImageReceiver(this);
 	}
 
 	@Override
@@ -60,6 +40,9 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		mImageView.setScaleType(ScaleType.FIT_XY);
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		mImageView.setLayoutParams(params);
+
+		//TODO: make this match mDestinationCode. Will require network call(s)
+		mImageView.setImageResource(R.drawable.temporary_paris_backdrop);
 
 		if (mBgBitmap != null) {
 			mImageView.setImageBitmap(mBgBitmap);

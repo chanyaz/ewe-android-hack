@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
@@ -15,10 +14,8 @@ import android.widget.ImageView.ScaleType;
 import android.widget.TableLayout.LayoutParams;
 
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.fragment.ResultsBackgroundImageFragment.IBackgroundImageReceiverRegistrar;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.interfaces.IBackgroundImageReceiver;
-import com.mobiata.android.util.Ui;
 
 /**
  * ResultsBackgroundImageFragment: designed for tablet results 2013
@@ -36,23 +33,6 @@ public class ResultsBlurBackgroundImageFragment extends MeasurableFragment imple
 	private ImageView mImageView;
 	private int mPrevTotalWidth = -1;
 	private int mWidth = 0;
-
-	private IBackgroundImageReceiverRegistrar mBgProvider;
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		mBgProvider = Ui.findFragmentListener(this, IBackgroundImageReceiverRegistrar.class, true);
-		mBgProvider.registerBgImageReceiver(this);
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-
-		mBgProvider.unRegisterBgImageReceiver(this);
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
