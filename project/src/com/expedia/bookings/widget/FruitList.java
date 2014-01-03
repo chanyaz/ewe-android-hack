@@ -328,7 +328,8 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 	 */
 
 	public int getRowCount() {
-		return getCount() - getFooterViewsCount() - getHeaderViewsCount();
+		int count = getAdapter() != null ? getAdapter().getCount() : getCount();
+		return count - getFooterViewsCount() - getHeaderViewsCount();
 	}
 
 	public int getRowHeight(boolean withDividerHeight) {
