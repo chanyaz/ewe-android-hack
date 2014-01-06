@@ -18,8 +18,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.FlightLineView;
 import com.google.android.gms.maps.model.LatLng;
 import com.jhlabs.map.Point2D;
+import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.BitmapDrawable;
 import com.mobiata.android.maps.MapUtils;
 
@@ -30,8 +32,11 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 
 	private FrameLayout mRoot;
 	private ImageView mMapImageView;
+	private FlightLineView mFlightLine;
 	private ImageView mDepartureImage;
 	private ImageView mArrivalImage;
+
+	private Bitmap mBitmap;
 
 	private double mDepartureLat;
 	private double mDepartureLng;
@@ -48,6 +53,7 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRoot = (FrameLayout) inflater.inflate(R.layout.fragment_results_flight_map, container, false);
 		mMapImageView = Ui.findView(mRoot, R.id.map_image_view);
+		mFlightLine = Ui.findView(mRoot, R.id.flight_line_view);
 		mDepartureImage = Ui.findView(mRoot, R.id.departure_image);
 		mArrivalImage = Ui.findView(mRoot, R.id.arrival_image);
 
@@ -84,8 +90,8 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 	private void generateMap() {
 		int w = getMapImageView().getWidth();
 		int h = getMapImageView().getHeight();
-		Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-		bitmap.eraseColor(Color.parseColor("#687887"));
+		mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+		mBitmap.eraseColor(Color.parseColor("#687887"));
 
 		// TODO make work for pacific ocean
 		setBounds(
@@ -93,45 +99,34 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 			mArrivalLat, mArrivalLng
 		);
 
-		// Draw scaled and translated map
-		Canvas c = new Canvas(bitmap);
+		c = new Canvas(mBitmap);
 		c.setMatrix(getViewportMatrix());
 		getMapPicture().draw(c);
 		c.setMatrix(new Matrix());
+		getMapImageView().setImageDrawable(new BitmapDrawable(mBitmap));
 
-		final float density = getResources().getDisplayMetrics().density;
-
-		// TODO - all very temporary code to make the map slightly more functional
-		Point2D.Double departureScreen = projectToScreen(mDepartureLat, mDepartureLng);
-		Point2D.Double arrivalScreen = projectToScreen(mArrivalLat, mArrivalLng);
-
-		LatLng start = new LatLng(mDepartureLat, mDepartureLng);
-		LatLng end = new LatLng(mArrivalLat, mArrivalLng);
-		final int NUM_SAMPLES = 31;
-		LatLng[] lineLatLngs = new LatLng[NUM_SAMPLES];
-		MapUtils.calculateGeodesicPolyline(start, end, lineLatLngs, null);
-		Path linePath = new Path();
-
-		Paint linePaint = new Paint();
-		linePaint.setColor(0xBBFFFFFF);
-		linePaint.setStyle(Paint.Style.STROKE);
-		linePaint.setStrokeWidth(4 * density);
-		linePaint.setAntiAlias(true);
-		for (int i = 0; i < NUM_SAMPLES; i++) {
-			LatLng firstLatLng = lineLatLngs[i];
-			Point2D.Double point = projectToScreen(firstLatLng.latitude, firstLatLng.longitude);
-			if (i == 0) {
-				linePath.moveTo((float) point.x, (float) point.y);
-			}
-			else {
-				linePath.lineTo((float) point.x, (float) point.y);
-			}
-		}
-		c.drawPath(linePath, linePaint);
-
-		getMapImageView().setImageDrawable(new BitmapDrawable(bitmap));
+		positionFlightLine();
 		positionDeparture();
 		positionArrival();
+	}
+
+	final int NUM_SAMPLES = 31;
+
+	private void positionFlightLine() {
+		LatLng start = new LatLng(mDepartureLat, mDepartureLng);
+		LatLng end = new LatLng(mArrivalLat, mArrivalLng);
+		LatLng[] lineLatLngs = new LatLng[NUM_SAMPLES];
+		Point2D.Double[] points = new Point2D.Double[NUM_SAMPLES];
+		MapUtils.calculateGeodesicPolyline(start, end, lineLatLngs, null);
+
+		for (int i = 0; i < lineLatLngs.length; i++) {
+			LatLng firstLatLng = lineLatLngs[i];
+			Point2D.Double point = projectToScreen(firstLatLng.latitude, firstLatLng.longitude);
+			points[i] = point;
+		}
+
+		mFlightLine.setFlightLinePoints(points);
+		mFlightLine.setupErasePaint(mBitmap);
 	}
 
 	private void positionDeparture() {

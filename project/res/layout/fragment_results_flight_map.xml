@@ -8,6 +8,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <com.expedia.bookings.widget.FlightLineView
+        android:id="@+id/flight_line_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <ImageView
         android:id="@+id/departure_image"
         android:layout_width="wrap_content"
