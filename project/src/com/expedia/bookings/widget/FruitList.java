@@ -363,8 +363,8 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 	private boolean mTransForward = true;
 	private float mLastReportedPercentage = -1f;
 
-	private void reactToPercentage(final float percentage) {
-		if (percentage != mLastReportedPercentage) {
+	private void reactToPercentage(final float percentage, boolean force) {
+		if (percentage != mLastReportedPercentage || force) {
 			if (percentage != 0f && percentage != 1f) {
 				if (mTransStart == null && mTransEnd == null) {
 					if (mLastReportedPercentage <= 0f) {
@@ -383,13 +383,22 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 			}
 			else {
 				if (mTransStart != null && mTransEnd != null) {
-					endStateTransition(mTransStart, mTransEnd);
-					mTransStart = null;
-					mTransEnd = null;
+					updateStateTransition(mTransStart, mTransEnd, mTransForward ? percentage : 1f - percentage);
 				}
-				finalizeState(percentage >= 1f ? ResultsListState.AT_BOTTOM : ResultsListState.AT_TOP);
+				attemptFinishingTransition(percentage);
 			}
 			mLastReportedPercentage = percentage;
+		}
+	}
+
+	private void attemptFinishingTransition(float percentage) {
+		if (!isUserInteraction()) {
+			if (mTransStart != null && mTransEnd != null) {
+				endStateTransition(mTransStart, mTransEnd);
+				mTransStart = null;
+				mTransEnd = null;
+			}
+			finalizeState(percentage >= 1f ? ResultsListState.AT_BOTTOM : ResultsListState.AT_TOP);
 		}
 	}
 
@@ -411,7 +420,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 				setSelectionFromTop(getHeaderViewsCount(), scrollY);
 			}
 			if (!fromOutside) {
-				reactToPercentage(percentage);
+				reactToPercentage(percentage, true);
 			}
 		}
 	}
@@ -431,7 +440,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 		}
 		else {
 			if (!fromOutside) {
-				reactToPercentage(percentage);
+				reactToPercentage(percentage, true);
 			}
 		}
 	}
@@ -550,10 +559,6 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 	private boolean mIsFlinging = false;
 	private int mFlingFirstVisiblePosition = -1;
 
-	private boolean isScrollHumanControlled() {
-		return mIsTouching || mIsFlinging;
-	}
-
 	@Override
 	public boolean onTouchEvent(MotionEvent me) {
 		boolean superVal = super.onTouchEvent(me);
@@ -582,7 +587,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 			perc = 0;
 		}
 		else if (isUserInteraction()) {
-			reactToPercentage(perc);
+			reactToPercentage(perc, false);
 		}
 		updateOverscrollMode(perc);
 	}
@@ -598,6 +603,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 		else if (!mIsFlinging && wasFlinging) {
 			mFlingFirstVisiblePosition = -1;
 		}
+
 		if (scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
 			snapToPos();
 		}
@@ -608,13 +614,13 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 	}
 
 	private void snapToPos(int duration) {
-		if (!mIsFlinging && !mIsTouching && !isAnimatingScroll()) {
+		if (!isScrollPotentiallyChanging()) {
 			float perc = getScrollDownPercentage();
 			if (perc <= 1f && perc >= 0.5) {
-				gotoBottom(duration);
+				setScrollDownPercentage(1f, duration, false);
 			}
 			else if (perc < 0.5 && perc >= 0) {
-				gotoTop(duration);
+				setScrollDownPercentage(0f, duration, false);
 			}
 		}
 	}
