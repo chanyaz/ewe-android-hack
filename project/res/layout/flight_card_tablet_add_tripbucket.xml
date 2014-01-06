@@ -21,12 +21,12 @@
             android:orientation="vertical" >
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/flight_time_text_view"
+                android:id="@+id/round_trip_label_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
                 android:singleLine="true"
-                android:text="11:04AM to 10:59PM"
+                android:text="@string/round_trip"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/tablet_result_row_primary_text_size"
                 app:textStyle="medium" />
@@ -37,7 +37,6 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="middle"
                 android:singleLine="true"
-                android:text="DELTA"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/tablet_result_row_secondary_text_size"
                 app:textStyle="light" />
@@ -62,7 +61,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="$180"
             android:textColor="#ffffff"
             android:textSize="@dimen/tablet_result_row_price_size"
             app:textStyle="bold" />

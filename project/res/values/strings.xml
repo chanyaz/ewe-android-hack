@@ -179,6 +179,10 @@
     <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
     <string name="flight_on_time_TEMPLATE">%s%% on time</string>
 
+    <!-- Tablet flight trip bucket -->
+    <!-- Label describing this flight is a round trip flight. -->
+    <string name="round_trip">Round Trip</string>
+
     <!-- Facebook -->
     <!-- Weve found your user account -->
     <string name="facebook_weve_found_your_account">Hey &lt;b&gt;%1$s&lt;/b&gt;, looks like we\'ve found your Expedia account! Please enter your expedia password below to link your facebook and expedia accounts.</string>
