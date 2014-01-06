@@ -12,12 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.interfaces.IAddToTripListener;
+import com.expedia.bookings.section.FlightLegSummarySectionTablet;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.mobiata.android.util.Ui;
 
 /**
- * ResultsFlightFiltersFragment: The filters fragment designed for tablet results 2013
+ * ResultsFlightAddToTrip: The add to trip fragment designed for tablet results 2013
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ResultsFlightAddToTrip extends Fragment {
@@ -27,10 +29,12 @@ public class ResultsFlightAddToTrip extends Fragment {
 		return frag;
 	}
 
-	//Views
+	// Views
 	private ViewGroup mRootC;
 	private ViewGroup mAddToTripRowC;
 	private ViewGroup mAddingToTripLoadingC;
+
+	private FlightLegSummarySectionTablet mFlightCard;
 
 	private IAddToTripListener mAddToTripListener;
 
@@ -46,6 +50,7 @@ public class ResultsFlightAddToTrip extends Fragment {
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_flight_add_to_trip, null);
 		mAddToTripRowC = Ui.findView(mRootC, R.id.add_to_trip_row);
 		mAddingToTripLoadingC = Ui.findView(mRootC, R.id.add_to_trip_loading_message_container);
+		mFlightCard = Ui.findView(mRootC, R.id.flight_row);
 		return mRootC;
 	}
 
@@ -57,13 +62,18 @@ public class ResultsFlightAddToTrip extends Fragment {
 		mAddToTripListener.beginAddToTrip("FLIGHTS", getRowRect(), Color.TRANSPARENT);
 		mAddToTripRowC.setVisibility(View.VISIBLE);
 		mAddingToTripLoadingC.setVisibility(View.VISIBLE);
+		bindFlightCard();
 		doAddToTripDownloadStuff();
+	}
+
+	private void bindFlightCard() {
+		mFlightCard.bind(Db.getFlightSearch(), 0); // TODO currently binds always to the first leg
 	}
 
 	/**
 	 * ADD TO TRIP DOWNLOAD....
 	 */
-	//NOTE THIS IS JUST A PLACEHOLDER SO THAT WE GET THE FLOW IDEA
+	// NOTE THIS IS JUST A PLACEHOLDER SO THAT WE GET THE FLOW IDEA
 	private Runnable mDownloadRunner;
 
 	private void doAddToTripDownloadStuff() {
@@ -79,7 +89,7 @@ public class ResultsFlightAddToTrip extends Fragment {
 					mDownloadRunner = null;
 				}
 			};
-			mRootC.postDelayed(mDownloadRunner, 3000);
+			mRootC.postDelayed(mDownloadRunner, 2000);
 		}
 	}
 
