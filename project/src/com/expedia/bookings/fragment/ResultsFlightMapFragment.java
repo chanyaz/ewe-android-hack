@@ -99,7 +99,7 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 			mArrivalLat, mArrivalLng
 		);
 
-		c = new Canvas(mBitmap);
+		Canvas c = new Canvas(mBitmap);
 		c.setMatrix(getViewportMatrix());
 		getMapPicture().draw(c);
 		c.setMatrix(new Matrix());
