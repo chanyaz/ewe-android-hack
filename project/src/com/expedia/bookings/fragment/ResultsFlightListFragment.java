@@ -31,11 +31,16 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlightsListState> {
 
+	public interface IDoneClickedListener {
+		public void onDoneClicked();
+	}
+
 	private static final String STATE_LEG_NUMBER = "STATE_LEG_NUMBER";
 
 	private ListAdapter mAdapter;
 	private int mLegNumber = -1;
 	private IResultsFlightSelectedListener mFlightSelectedListener;
+	private IDoneClickedListener mDoneClickedListener;
 
 	public static ResultsFlightListFragment getInstance(int legPosition) {
 		ResultsFlightListFragment frag = new ResultsFlightListFragment();
@@ -62,6 +67,7 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 		super.onAttach(activity);
 
 		mFlightSelectedListener = Ui.findFragmentListener(this, IResultsFlightSelectedListener.class);
+		mDoneClickedListener = Ui.findFragmentListener(this, IDoneClickedListener.class, false);
 	}
 
 	@Override
@@ -142,7 +148,12 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 
 			@Override
 			public void onClick(View arg0) {
-				ResultsFlightListFragment.this.setPercentage(1f, 200);
+				if (mDoneClickedListener == null) {
+					ResultsFlightListFragment.this.setPercentage(1f, 200);
+				}
+				else {
+					mDoneClickedListener.onDoneClicked();
+				}
 			}
 
 		};

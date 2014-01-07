@@ -22,6 +22,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.enums.ResultsFlightsListState;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsState;
+import com.expedia.bookings.fragment.ResultsFlightListFragment.IDoneClickedListener;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -51,7 +52,7 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsFlightControllerFragment extends Fragment implements IResultsFlightSelectedListener,
 		IResultsFlightLegSelected, IAddToTripListener, IFragmentAvailabilityProvider, IBackManageable,
-		IStateProvider<ResultsFlightsState> {
+		IStateProvider<ResultsFlightsState>, IDoneClickedListener {
 
 	//State
 	private static final String STATE_FLIGHTS_STATE = "STATE_FLIGHTS_STATE";
@@ -559,6 +560,26 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				mFlightOneListFrag.setPercentage(0f, 0);
 			}
 			mFlightOneListFrag.registerStateListener(mListStateHelper, false);
+		}
+	}
+
+	/*
+	 * LIST DONE BUTTON CLICK HANDLER
+	 */
+	@Override
+	public void onDoneClicked() {
+		if (mFlightsStateManager.getState() == ResultsFlightsState.FLIGHT_ONE_DETAILS) {
+			//Go through the states.
+			mFlightsStateManager.animateThroughStates(ResultsFlightsState.FLIGHT_ONE_FILTERS,
+					ResultsFlightsState.FLIGHT_LIST_DOWN);
+		}
+		else if (mFlightsStateManager.getState() == ResultsFlightsState.FLIGHT_ONE_FILTERS) {
+			//Animate the list down
+			mFlightsStateManager.setState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
+		}
+		else {
+			//We are done but we don't know how to get back, so we just go back without animation.
+			mFlightsStateManager.setState(ResultsFlightsState.FLIGHT_LIST_DOWN, false);
 		}
 	}
 
