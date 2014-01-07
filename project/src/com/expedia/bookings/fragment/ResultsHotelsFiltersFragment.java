@@ -105,6 +105,12 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		// Configure radius labels
 		LayoutUtils.configureRadiusFilterLabels(getActivity(), mRadiusButtonGroup, filter);
 
+		// Show/hide "sort by distance" depending on if this is a distance type search
+		HotelSearchResponse response = Db.getHotelSearch().getSearchResponse();
+		boolean showDistance = response != null && response.getSearchType() != null
+				&& response.getSearchType().shouldShowDistance();
+		Ui.findView(getActivity(), R.id.sort_by_distance_button).setVisibility(showDistance ? View.VISIBLE : View.GONE);
+
 		int checkId;
 		switch (filter.getSort()) {
 		case PRICE: {

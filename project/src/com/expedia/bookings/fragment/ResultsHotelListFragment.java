@@ -97,6 +97,10 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	private void updateAdapter() {
 		HotelSearchResponse response = Db.getHotelSearch().getSearchResponse();
 		mAdapter.setSearchResponse(response);
+		mAdapter.setShowDistance(
+				response != null
+						&& response.getSearchType() != null
+						&& response.getSearchType().shouldShowDistance());
 
 		if (Db.getHotelSearch().getSelectedProperty() != null) {
 			// In case there is a currently selected property, select it on the screen.
