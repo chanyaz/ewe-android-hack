@@ -1,5 +1,8 @@
 package com.expedia.bookings.utils;
 
+import java.util.HashMap;
+
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
@@ -51,6 +54,22 @@ public class GridManager {
 	public void setGridSize(int numRows, int numCols) {
 		setNumRows(numRows);
 		setNumCols(numCols);
+	}
+
+	public void setColumnSize(int colInd, int size) {
+		mCols.setItemFixedSize(colInd, size);
+	}
+
+	public void setRowSize(int rowInd, int size) {
+		mRows.setItemFixedSize(rowInd, size);
+	}
+
+	public void setColumnPercentage(int colInd, float perc) {
+		mCols.setItemFixedPercentage(colInd, perc);
+	}
+
+	public void setRowPercentage(int rowInd, float perc) {
+		mRows.setItemFixedPercentage(rowInd, perc);
 	}
 
 	public int getTotalWidth() {
@@ -181,11 +200,15 @@ public class GridManager {
 	/**
 	 * This class does the calculations for the boundaries/sizes of one axis in the grid (e.g. rows/columns/z-index/time/???)
 	 */
+	@SuppressLint("UseSparseArrays")
 	private static class GridAxis {
 		private int mNumItems = 0;
 		private int mTotalSize = 0;
 		private int[] mItemSizes;
 		private int[] mItemEdges;
+
+		private HashMap<Integer, Integer> mFixedItemSizes = new HashMap<Integer, Integer>();
+		private HashMap<Integer, Float> mFixedItemPercentages = new HashMap<Integer, Float>();
 
 		public GridAxis(int numItems) {
 			setNumItems(numItems);
@@ -203,6 +226,20 @@ public class GridManager {
 			mItemSizes = new int[mNumItems];
 			mItemEdges = new int[mNumItems];
 
+			if (mTotalSize > 0) {
+				calculate();
+			}
+		}
+
+		public void setItemFixedSize(int index, int size) {
+			mFixedItemSizes.put(index, size);
+			if (mTotalSize > 0) {
+				calculate();
+			}
+		}
+
+		public void setItemFixedPercentage(int index, float percentage) {
+			mFixedItemPercentages.put(index, percentage);
 			if (mTotalSize > 0) {
 				calculate();
 			}
@@ -238,19 +275,45 @@ public class GridManager {
 		}
 
 		private void calculate() {
-			int baseSize = (int) (mTotalSize / mNumItems);
-			int remainder = (int) (mTotalSize % mNumItems);
 
-			int edge = 0;
+			//Preprocess
+			int remainingSize = mTotalSize;
+			int preDefinedItems = 0;
 			for (int i = 0; i < mNumItems; i++) {
-				int size = baseSize;
-				if (i == 0) {
-					//the first column gets to be slightly larger
-					size += remainder;
+				if (mFixedItemSizes.containsKey(i)) {
+					remainingSize -= mFixedItemSizes.get(i);
+					preDefinedItems++;
+				}
+				else if (mFixedItemPercentages.containsKey(i)) {
+					remainingSize -= (mFixedItemPercentages.get(i) * mTotalSize);
+					preDefinedItems++;
+				}
+			}
+
+			//Set sizes
+			int nonSpecifiedItemCount = mNumItems - preDefinedItems;
+			int nonSpecifiedItemBaseSize = remainingSize / nonSpecifiedItemCount;
+			int edge = 0;
+			int totalUsedSize = 0;
+			for (int i = 0; i < mNumItems; i++) {
+				int size = nonSpecifiedItemBaseSize;
+				if (mFixedItemSizes.containsKey(i)) {
+					size = mFixedItemSizes.get(i);
+				}
+				else if (mFixedItemPercentages.containsKey(i)) {
+					size = (int) (mFixedItemPercentages.get(i) * mTotalSize);
 				}
 				mItemEdges[i] = edge;
 				mItemSizes[i] = size;
 				edge += size;
+				totalUsedSize += size;
+			}
+
+			//Account for remainder
+			int remainderSize = mTotalSize - totalUsedSize;
+			if (remainderSize != 0) {
+				//We just add the remainder to the last column, as this doesn't mess with our edge positions
+				mItemSizes[mNumItems - 1] += remainderSize;
 			}
 		}
 	}

@@ -850,7 +850,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 
 			if (isLandscape) {
 				mGrid.setGridSize(1, 3);
-
+				
 				mGrid.setContainerToColumn(mBlurredBackgroundC, 2);
 				mGrid.setContainerToColumn(mTripAnimationC, 2);
 				mGrid.setContainerToColumn(mTripBucketYourTripToC, 2);
