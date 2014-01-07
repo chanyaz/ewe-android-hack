@@ -1,5 +1,8 @@
 package com.expedia.bookings.interfaces.helpers;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
@@ -29,6 +32,7 @@ public class StateManager<T> {
 	private T mDestinationState;
 	private boolean mProviderIsFrag = false;
 	private boolean mAcceptAnimationUpdates = false;
+	private Queue<T> mStateChain;
 
 	/**
 	 * Create a new StateManager
@@ -105,11 +109,32 @@ public class StateManager<T> {
 		}
 	}
 
+	public void animateThroughStates(T... states) {
+		mStateChain = new LinkedList<T>();
+		for (T s : states) {
+			mStateChain.add(s);
+		}
+		doStateChainWork();
+	}
+
+	private void doStateChainWork() {
+		if (mStateChain != null) {
+			T state = mStateChain.poll();
+			if (state != null) {
+				setState(state, true);
+			}
+			else {
+				mStateChain = null;
+			}
+		}
+	}
+
 	private void finalizeState(T state, IStateProvider<T> provider) {
 		mState = state;
 		mAnimator = null;
 		mDestinationState = null;
 		provider.finalizeState(state);
+		doStateChainWork();
 	}
 
 	private boolean allowAnimationActions() {
