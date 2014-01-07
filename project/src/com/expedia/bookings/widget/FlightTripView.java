@@ -274,9 +274,10 @@ public class FlightTripView extends View {
 		long totalRangeMillis = maxTime.getTimeInMillis() - minTime.getTimeInMillis();
 		float totalPossibleWidth = width - (2 * sidePadding);
 		float totalAvailableWidth = width - (2 * sidePadding) - (2 * circleDiameter); // Discount the start/end circles
-		float tripPreferredWidth = (tripRangeMillis / (float) totalRangeMillis) * (float) totalAvailableWidth;
+		float tripPreferredWidth = (tripRangeMillis / (float) totalRangeMillis) * totalAvailableWidth;
 		float tripActualWidth = tripPreferredWidth;
 
+		// Make a first pass over the flight data to calculate the widths.
 		// Determine ideal width for each flight/layover + how much extra width can be reallocated
 		int numWidths = mFlightLeg.getSegmentCount() * 2 - 1;
 		float[] widths = new float[numWidths];
@@ -297,10 +298,12 @@ public class FlightTripView extends View {
 				startMillis = flight1.mDestination.getBestSearchDateTime().getTimeInMillis();
 				endMillis = flight2.mOrigin.getBestSearchDateTime().getTimeInMillis();
 			}
-			//Ensure we dont go over/under our max/min (this can happen if one of our intermediate waypoints gets rerouted or the max min values provided are bunk)
+			// Ensure we don't go over/under our max/min (this can happen if one of our intermediate
+			// waypoints gets rerouted or the max min values provided are bunk)
 			startMillis = startMillis < minTime.getTimeInMillis() ? minTime.getTimeInMillis() : startMillis;
 			endMillis = endMillis > maxTime.getTimeInMillis() ? maxTime.getTimeInMillis() : endMillis;
 
+			// Calculate the width as fraction of totalWidth, based on its weight (i.e width)
 			long durationMillis = endMillis - startMillis;
 			widths[a] = (durationMillis / (float) totalRangeMillis) * totalAvailableWidth;
 
@@ -311,6 +314,7 @@ public class FlightTripView extends View {
 			}
 		}
 
+		// Make a second pass over the widths.
 		// Ensure that all widths meet the minimum required length, taking width where there was extra
 		// found before (or increasing the width of the entire graph if there is not enough)
 		for (int a = 0; a < numWidths; a++) {
@@ -352,8 +356,8 @@ public class FlightTripView extends View {
 		}
 
 		// Determine where to start the graph
-		long startMillis = mFlightLeg.getFirstWaypoint().getBestSearchDateTime().getTimeInMillis()
-				- minTime.getTimeInMillis();
+		Calendar firstCal = mFlightLeg.getFirstWaypoint().getBestSearchDateTime();
+		long startMillis = firstCal.getTimeInMillis() - minTime.getTimeInMillis();
 		float left = (startMillis / (float) totalRangeMillis) * totalAvailableWidth + sidePadding;
 		if (tripActualWidth > tripPreferredWidth + .1) {
 			left -= (tripActualWidth - tripPreferredWidth) / 2.0;
