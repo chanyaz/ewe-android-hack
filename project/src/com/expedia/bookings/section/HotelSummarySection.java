@@ -95,8 +95,8 @@ public class HotelSummarySection extends RelativeLayout {
 		mUrgencyText = Ui.findView(this, R.id.urgency_text_view);
 	}
 
-	public void bind(final Property property, boolean mShouldShowVipIcon, float mPriceTextSize,
-			boolean mShowDistance, DistanceUnit mDistanceUnit, boolean isSelected) {
+	public void bind(final Property property, boolean shouldShowVipIcon, float priceTextSize,
+			boolean showDistance, DistanceUnit distanceUnit, boolean isSelected) {
 		final Context context = getContext();
 		final Resources res = context.getResources();
 
@@ -185,13 +185,13 @@ public class HotelSummarySection extends RelativeLayout {
 				mUrgencyText.setVisibility(View.GONE);
 			}
 
-			if (mVipView != null && mShouldShowVipIcon) {
+			if (mVipView != null && shouldShowVipIcon) {
 				int visibility = property.isVipAccess() ? View.VISIBLE : View.INVISIBLE;
 				mVipView.setVisibility(visibility);
 			}
 		}
 
-		mPriceText.setTextSize(mPriceTextSize);
+		mPriceText.setTextSize(priceTextSize);
 		mPriceText.setText(hotelPrice);
 
 		mUserRatingBar.setRating((float) property.getAverageExpediaRating());
@@ -204,9 +204,9 @@ public class HotelSummarySection extends RelativeLayout {
 			mNotRatedText.setVisibility(View.GONE);
 		}
 
-		if (mShowDistance && property.getDistanceFromUser() != null) {
+		if (showDistance && property.getDistanceFromUser() != null) {
 			// Send true so as to use the "abbreviated" version, which has now become standard in 1.5
-			mProximityText.setText(property.getDistanceFromUser().formatDistance(context, mDistanceUnit, true));
+			mProximityText.setText(property.getDistanceFromUser().formatDistance(context, distanceUnit, true));
 		}
 		else {
 			mProximityText.setText(property.getLocation().getDescription());
