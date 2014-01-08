@@ -5,6 +5,7 @@ import org.joda.time.LocalDate;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -68,7 +69,11 @@ public class TabletResultsActionBarView extends RelativeLayout implements IMeasu
 	}
 
 	public void bindFromDb(Context context) {
-		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchParams() != null) {
+		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchParams() != null
+				&& Db.getFlightSearch().getSearchParams().getArrivalLocation() != null
+				&& !TextUtils.isEmpty(Db.getFlightSearch().getSearchParams().getArrivalLocation().getCity())
+				&& Db.getFlightSearch().getSearchParams().getDepartureDate() != null) {
+
 			String city = Db.getFlightSearch().getSearchParams().getArrivalLocation().getCity();
 			String flightTitle = context.getResources().getString(
 					R.string.actionbar_tablet_results_flights_title_TEMPLATE, city);
