@@ -67,7 +67,7 @@ public class ResultsFlightAddToTrip extends Fragment {
 	}
 
 	private void bindFlightCard() {
-		mFlightCard.bind(Db.getFlightSearch(), 0); // TODO currently binds always to the first leg
+		mFlightCard.bindForTripBucket(Db.getFlightSearch());
 	}
 
 	/**

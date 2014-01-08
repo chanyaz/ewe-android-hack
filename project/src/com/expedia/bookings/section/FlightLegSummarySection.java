@@ -92,6 +92,20 @@ public class FlightLegSummarySection extends RelativeLayout {
 		bind(null, pseudoLeg, minTime, maxTime, true);
 	}
 
+	public void bindForTripBucket(FlightSearch flightSearch) {
+		boolean isRoundTrip = flightSearch.getSearchParams().isRoundTrip();
+		if (isRoundTrip) {
+			FlightTrip trip = flightSearch.getSelectedFlightTrip();
+			FlightLeg legOne = flightSearch.getSelectedLegs()[0].getFlightLeg();
+			FlightLeg legTwo = flightSearch.getSelectedLegs()[1].getFlightLeg();
+
+			bind(trip, legOne, legTwo, null, null, false, null);
+		}
+		else {
+			bind(flightSearch, 0);
+		}
+	}
+
 	public void bind(FlightSearch flightSearch, int legNumber) {
 		FlightTripQuery query = flightSearch.queryTrips(legNumber);
 		Calendar minTime = (Calendar) query.getMinTime().clone();
@@ -109,7 +123,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 	}
 
 	public void bind(FlightTrip trip, FlightLeg leg, BillingInfo billingInfo) {
-		bind(trip, leg, null, null, false, billingInfo);
+		bind(trip, leg, null, null, null, false, billingInfo);
 	}
 
 	public void bind(FlightTrip trip, final FlightLeg leg, Calendar minTime, Calendar maxTime) {
@@ -118,11 +132,11 @@ public class FlightLegSummarySection extends RelativeLayout {
 
 	public void bind(FlightTrip trip, final FlightLeg leg, Calendar minTime, Calendar maxTime,
 			boolean isIndividualFlight) {
-		bind(trip, leg, minTime, maxTime, isIndividualFlight, null);
+		bind(trip, leg, null, minTime, maxTime, isIndividualFlight, null);
 	}
 
-	public void bind(FlightTrip trip, final FlightLeg leg, Calendar minTime, Calendar maxTime,
-			boolean isIndividualFlight, BillingInfo billingInfo) {
+	public void bind(FlightTrip trip, final FlightLeg leg, final FlightLeg legTwo, Calendar minTime,
+			Calendar maxTime, boolean isIndividualFlight, BillingInfo billingInfo) {
 		Context context = getContext();
 		Resources res = getResources();
 
@@ -161,7 +175,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 			mAirlineAndCitiesTextView.setText(sb.build());
 		}
 
-		if (mFlightTimeTextView != null) {
+		if (mFlightTimeTextView != null && legTwo == null) {
 			SpannableStringBuilder builder = new SpannableStringBuilder();
 
 			// 10:05 AM to 2:20 PM
@@ -182,6 +196,9 @@ public class FlightLegSummarySection extends RelativeLayout {
 			}
 
 			mFlightTimeTextView.setText(builder);
+		}
+		else if (mFlightTimeTextView != null && legTwo != null) {
+			mFlightTimeTextView.setText(context.getString(R.string.round_trip));
 		}
 
 		if (mDepartureTimeTextView != null) {
@@ -213,7 +230,12 @@ public class FlightLegSummarySection extends RelativeLayout {
 			}
 		}
 
-		mFlightTripView.setUp(leg, minTime, maxTime);
+		if (legTwo != null) {
+			mFlightTripView.setUpRoundTrip(leg, legTwo);
+		}
+		else {
+			mFlightTripView.setUp(leg, minTime, maxTime);
+		}
 	}
 
 	private static String getAirlinesStr(Context context, Flight flight, FlightLeg leg, boolean isIndividualFlight) {

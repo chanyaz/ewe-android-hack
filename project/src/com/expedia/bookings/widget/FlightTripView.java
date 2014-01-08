@@ -31,11 +31,13 @@ public class FlightTripView extends View {
 	private static final int TYPEFACE_MEDIUM = 0;
 
 	private Paint mTripPaint;
+	private Paint mTripFilledPaint;
 	private TextPaint mTextPaint;
 
 	private boolean mSpecifiedTextSize = false;
 
 	private FlightLeg mFlightLeg;
+	private FlightLeg mFlightLegTwo;
 
 	// Min/max time are the minimum and maximum times for the entire result set (not just this flight)
 	private Calendar mMinTime;
@@ -51,7 +53,8 @@ public class FlightTripView extends View {
 	private boolean mDirty; // If true, means we need to recalculate everything
 	private float mCircleDiameter;
 
-	// V2
+	// If true, the View draws itself differently
+	private boolean mIsRoundTrip = false;
 
 	private List<DrawComponent> mDrawComponents = new ArrayList<DrawComponent>();
 
@@ -120,6 +123,12 @@ public class FlightTripView extends View {
 		mTripPaint.setStyle(Style.STROKE);
 		mTripPaint.setAntiAlias(true);
 
+		mTripFilledPaint = new Paint();
+		mTripFilledPaint.setColor(lineColor);
+		mTripFilledPaint.setStrokeWidth(r.getDimension(R.dimen.flight_trip_view_stroke_width));
+		mTripFilledPaint.setStyle(Style.FILL_AND_STROKE);
+		mTripFilledPaint.setAntiAlias(true);
+
 		mTextPaint = new TextPaint();
 		mTextPaint.setTextAlign(Align.CENTER);
 		mTextPaint.setColor(textColor);
@@ -156,6 +165,16 @@ public class FlightTripView extends View {
 		setUp(pseudoLeg, minTime, maxTime);
 	}
 
+	public void setUpRoundTrip(FlightLeg flightLeg, FlightLeg legTwo) {
+		mIsRoundTrip = true;
+		mFlightLeg = flightLeg;
+		mFlightLegTwo = legTwo;
+
+		mDirty = true;
+
+		invalidate();
+	}
+
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
@@ -173,7 +192,12 @@ public class FlightTripView extends View {
 		}
 
 		if (mDirty) {
-			calculateWidths();
+			if (mIsRoundTrip) {
+				calculateWidthsRoundTrip();
+			}
+			else {
+				calculateWidths();
+			}
 			mDirty = false;
 		}
 
@@ -212,7 +236,8 @@ public class FlightTripView extends View {
 				float bHeight = mCircleBounds.height();
 				if (mCircleBounds.width() - bHeight < .1f) {
 					// Draw a circle (as an oval)
-					canvas.drawOval(mCircleBounds, mTripPaint);
+					Paint paint = drawComponent.mCircleFilled ? mTripFilledPaint : mTripPaint;
+					canvas.drawOval(mCircleBounds, paint);
 				}
 				else {
 					// Draw the arcs
@@ -261,6 +286,49 @@ public class FlightTripView extends View {
 		if (DEBUG) {
 			Log.d("FlightTripView render: " + ((System.nanoTime() - start) / 1000) + " microseconds");
 		}
+	}
+
+	/**
+	 * This method constructs a "hardcoded" set of DrawComponents, such that a beautiful and centered
+	 * representation of the round-trip flight is drawn.
+	 */
+	private void calculateWidthsRoundTrip() {
+		int width = getWidth();
+		int height = getHeight();
+		mCircleDiameter = (height - mWaypointTextTopMargin) / 2.0f;
+
+		mDrawComponents = new ArrayList<DrawComponent>();
+
+		DrawComponent start = new DrawComponent();
+		start.mDrawType = DrawType.AIRPORT_START_END;
+		start.mAirportCode = mFlightLeg.getAirport(true).mAirportCode;
+		start.mStartLeft = width * 0.19f;
+
+		float circleAndLineWeight = 0.275f;
+		float flightLineWidth = circleAndLineWeight * width - mCircleDiameter;
+
+		DrawComponent startMiddle = new DrawComponent();
+		startMiddle.mDrawType = DrawType.FLIGHT_LINE;
+		startMiddle.mWidth = flightLineWidth;
+
+		DrawComponent middle = new DrawComponent();
+		middle.mDrawType = DrawType.AIRPORT_START_END;
+		middle.mCircleFilled = true;
+		middle.mAirportCode = mFlightLegTwo.getAirport(true).mAirportCode;
+
+		DrawComponent middleEnd = new DrawComponent();
+		middleEnd.mDrawType = DrawType.FLIGHT_LINE;
+		middleEnd.mWidth = flightLineWidth;
+
+		DrawComponent end = new DrawComponent();
+		end.mDrawType = DrawType.AIRPORT_START_END;
+		end.mAirportCode = mFlightLegTwo.getAirport(false).mAirportCode;
+
+		mDrawComponents.add(start);
+		mDrawComponents.add(startMiddle);
+		mDrawComponents.add(middle);
+		mDrawComponents.add(middleEnd);
+		mDrawComponents.add(end);
 	}
 
 	private void calculateWidths() {
