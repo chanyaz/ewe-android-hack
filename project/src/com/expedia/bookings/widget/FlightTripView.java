@@ -1,6 +1,8 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -12,6 +14,7 @@ import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -47,9 +50,42 @@ public class FlightTripView extends View {
 	// These are pre-calculated for each draw routine
 	private boolean mDirty; // If true, means we need to recalculate everything
 	private float mCircleDiameter;
-	private int mNumWidths;
-	private float[] mWidths;
-	private float mStartLeft;
+
+	// V2
+
+	private List<DrawComponent> mDrawComponents = new ArrayList<DrawComponent>();
+
+	private enum DrawType {
+		AIRPORT_START_END,
+		AIRPORT_LAYOVER,
+		FLIGHT_LINE;
+	}
+
+	private class DrawComponent {
+		private DrawType mDrawType;
+
+		private float mStartLeft;
+
+		private float mWidth;
+
+		private String mAirportCode;
+
+		private boolean mCircleFilled;
+
+		private boolean isFlight() {
+			return mDrawType == DrawType.FLIGHT_LINE;
+		}
+
+		private float getWidth() {
+			if (mDrawType == DrawType.AIRPORT_START_END) {
+				return mCircleDiameter;
+			}
+			else {
+				return mWidth;
+			}
+		}
+
+	}
 
 	// Pre-allocate for rendering
 	private RectF mCircleBounds;
@@ -146,17 +182,19 @@ public class FlightTripView extends View {
 			start = System.nanoTime();
 		}
 
-		// Draw each waypoint and flight line
+		// V2
 		float height = getHeight();
-		float left = mStartLeft;
+		float left = mDrawComponents.get(0).mStartLeft;
 		float circleBottom = (height - mWaypointTextTopMargin) / 2.0f;
 		float circleCenter = (height - mWaypointTextTopMargin) / 4.0f;
 		float halfStrokeWidth = mTripPaint.getStrokeWidth() / 2;
-		float[] pts = new float[4 * (mNumWidths * 2 - mFlightLeg.getSegmentCount() + 1)]; // Use upper bound # of lines
+		int numPoints = getNumPoints();
+		float[] pts = new float[numPoints];
 		int numPts = 0;
-		for (int a = -1; a <= mNumWidths; a++) {
-			boolean isFlight = a % 2 == 0;
-			float currWidth = (a >= 0 && a < mNumWidths) ? mWidths[a] : mCircleDiameter;
+
+		for (DrawComponent drawComponent : mDrawComponents) {
+			boolean isFlight = drawComponent.isFlight();
+			float currWidth = drawComponent.getWidth();
 
 			if (isFlight) {
 				pts[numPts] = left - halfStrokeWidth;
@@ -207,16 +245,13 @@ public class FlightTripView extends View {
 				}
 
 				// Draw the airport code
-				String airportCode;
-				if (a == -1) {
-					airportCode = mFlightLeg.getFirstWaypoint().mAirportCode;
+				String airportCode = drawComponent.mAirportCode;
+				if (!TextUtils.isEmpty(airportCode)) {
+					canvas.drawText(airportCode, mCircleBounds.centerX(), height - mTextPaint.descent(), mTextPaint);
 				}
-				else {
-					airportCode = mFlightLeg.getSegment(a / 2).mDestination.mAirportCode;
-				}
-				canvas.drawText(airportCode, mCircleBounds.centerX(), height - mTextPaint.descent(), mTextPaint);
 			}
 			left += currWidth;
+
 		}
 
 		// We draw all the lines at once later - this really optimizes rendering performance
@@ -233,6 +268,12 @@ public class FlightTripView extends View {
 		if (DEBUG) {
 			start = System.nanoTime();
 		}
+
+		mDrawComponents = new ArrayList<DrawComponent>();
+		DrawComponent firstAirportDC = new DrawComponent();
+		firstAirportDC.mDrawType = DrawType.AIRPORT_START_END;
+		firstAirportDC.mAirportCode = mFlightLeg.getFirstWaypoint().mAirportCode;
+		mDrawComponents.add(firstAirportDC);
 
 		// Setup our bounds based on the view's height/width and other factors
 		int width = getWidth();
@@ -280,21 +321,25 @@ public class FlightTripView extends View {
 		// Make a first pass over the flight data to calculate the widths.
 		// Determine ideal width for each flight/layover + how much extra width can be reallocated
 		int numWidths = mFlightLeg.getSegmentCount() * 2 - 1;
-		float[] widths = new float[numWidths];
 		float totalExtraWidth = 0;
 		for (int a = 0; a < numWidths; a++) {
+			DrawComponent drawComponent = new DrawComponent();
+
 			long startMillis, endMillis;
 			boolean isFlight = a % 2 == 0;
 			if (isFlight) {
 				// Flight
+				drawComponent.mDrawType = DrawType.FLIGHT_LINE;
 				Flight segment = mFlightLeg.getSegment(a / 2);
 				startMillis = segment.mOrigin.getBestSearchDateTime().getTimeInMillis();
 				endMillis = segment.mDestination.getBestSearchDateTime().getTimeInMillis();
 			}
 			else {
 				// Layover
+				drawComponent.mDrawType = DrawType.AIRPORT_LAYOVER;
 				Flight flight1 = mFlightLeg.getSegment((a - 1) / 2);
 				Flight flight2 = mFlightLeg.getSegment((a + 1) / 2);
+				drawComponent.mAirportCode = flight1.mDestination.mAirportCode;
 				startMillis = flight1.mDestination.getBestSearchDateTime().getTimeInMillis();
 				endMillis = flight2.mOrigin.getBestSearchDateTime().getTimeInMillis();
 			}
@@ -305,37 +350,42 @@ public class FlightTripView extends View {
 
 			// Calculate the width as fraction of totalWidth, based on its weight (i.e width)
 			long durationMillis = endMillis - startMillis;
-			widths[a] = (durationMillis / (float) totalRangeMillis) * totalAvailableWidth;
+			drawComponent.mWidth = (durationMillis / (float) totalRangeMillis) * totalAvailableWidth;
 
 			// Now that we know the width, calculate how much we could shrink this width if necessary
 			float minWidth = (isFlight) ? minLineWidth : circleDiameter;
-			if (widths[a] > minWidth) {
-				totalExtraWidth += widths[a] - minWidth;
+			if (drawComponent.mWidth > minWidth) {
+				totalExtraWidth += drawComponent.mWidth - minWidth;
 			}
+
+			mDrawComponents.add(drawComponent);
 		}
 
 		// Make a second pass over the widths.
 		// Ensure that all widths meet the minimum required length, taking width where there was extra
 		// found before (or increasing the width of the entire graph if there is not enough)
-		for (int a = 0; a < numWidths; a++) {
-			boolean isFlight = a % 2 == 0;
+		for (int a = 1; a < numWidths + 1; a++) {
+			DrawComponent drawComponent = mDrawComponents.get(a);
+			boolean isFlight = (a - 1) % 2 == 0;
 			float aMinWidth = (isFlight) ? minLineWidth : circleDiameter;
-			if (widths[a] < aMinWidth) {
-				float aWidthNeeded = aMinWidth - widths[a];
+			if (drawComponent.mWidth < aMinWidth) {
+				float aWidthNeeded = aMinWidth - drawComponent.mWidth;
 				if (aWidthNeeded >= 0.5) {
 					if (totalExtraWidth >= 0.5) {
 						float extraWidthUsed = 0;
-						for (int b = 0; b < numWidths; b++) {
+						for (int b = 1; b < numWidths + 1; b++) {
 							if (a == b) {
 								continue;
 							}
 
-							float bMinWidth = (b % 2 == 0) ? minLineWidth : circleDiameter;
-							if (widths[b] > bMinWidth) {
-								float bExtraWidth = widths[b] - bMinWidth;
+							DrawComponent drawComponent2 = mDrawComponents.get(b);
+
+							float bMinWidth = ((b - 1) % 2 == 0) ? minLineWidth : circleDiameter;
+							if (drawComponent2.mWidth > bMinWidth) {
+								float bExtraWidth = drawComponent2.mWidth - bMinWidth;
 								float bAlteration = (bExtraWidth / totalExtraWidth) * aWidthNeeded;
 								bAlteration = Math.min(bAlteration, bExtraWidth);
-								widths[b] -= bAlteration;
+								drawComponent2.mWidth -= bAlteration;
 								extraWidthUsed += bAlteration;
 							}
 						}
@@ -350,10 +400,15 @@ public class FlightTripView extends View {
 						tripActualWidth += aWidthNeeded;
 					}
 
-					widths[a] = aMinWidth;
+					drawComponent.mWidth = aMinWidth;
 				}
 			}
 		}
+
+		DrawComponent endAirport = new DrawComponent();
+		endAirport.mDrawType = DrawType.AIRPORT_START_END;
+		endAirport.mAirportCode = mFlightLeg.getAirport(false).mAirportCode;
+		mDrawComponents.add(endAirport);
 
 		// Determine where to start the graph
 		Calendar firstCal = mFlightLeg.getFirstWaypoint().getBestSearchDateTime();
@@ -373,12 +428,28 @@ public class FlightTripView extends View {
 
 		// Put our calculations into vars for later use
 		mCircleDiameter = circleDiameter;
-		mNumWidths = numWidths;
-		mWidths = widths;
-		mStartLeft = left;
+		mDrawComponents.get(0).mStartLeft = left;
 
 		if (DEBUG) {
 			Log.d("FlightTripView calc: " + ((System.nanoTime() - start) / 1000) + " microseconds");
 		}
 	}
+
+	/**
+	 * Return the number of points required for a Canvas.drawLines() call, based upon the content
+	 * of mDrawComponents. Each line is drawn from 4 consecutive floats, x0, y0, x1, y1.
+	 */
+	private int getNumPoints() {
+		int total = 0;
+		for (DrawComponent comp : mDrawComponents) {
+			if (comp.mDrawType == DrawType.AIRPORT_LAYOVER) {
+				total += 2;
+			}
+			else if (comp.mDrawType == DrawType.FLIGHT_LINE) {
+				total += 1;
+			}
+		}
+		return 4 * (total);
+	}
+
 }
