@@ -83,6 +83,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:includeFontPadding="false"
+                                android:paddingRight="8dp"
                                 android:text="@string/not_rated"
                                 android:textColor="#d3d7dc"
                                 android:visibility="gone"

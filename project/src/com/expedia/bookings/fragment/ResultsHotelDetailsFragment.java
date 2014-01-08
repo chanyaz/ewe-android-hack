@@ -187,6 +187,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private void setupHeader(View view, Property property) {
 		ImageView hotelImage = Ui.findView(view, R.id.hotel_header_image);
 		TextView hotelName = Ui.findView(view, R.id.hotel_header_hotel_name);
+		TextView notRatedText = Ui.findView(view, R.id.not_rated_text_view);
 		RatingBar starRating = Ui.findView(view, R.id.star_rating_bar);
 		RatingBar userRating = Ui.findView(view, R.id.user_rating_bar);
 		TextView starRatingText = Ui.findView(view, R.id.star_rating_text);
@@ -201,10 +202,33 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		}
 
 		hotelName.setText(property.getName());
-		starRating.setRating((float) property.getHotelRating());
-		userRating.setRating((float) property.getAverageExpediaRating());
-		starRatingText.setText(getString(R.string.n_stars_TEMPLATE, property.getHotelRating()));
-		userRatingText.setText(getString(R.string.n_reviews_TEMPLATE, property.getTotalReviews()));
+
+		float starRatingValue = (float) property.getHotelRating();
+		if (starRatingValue == 0f) {
+			starRating.setVisibility(View.GONE);
+			starRatingText.setVisibility(View.GONE);
+			notRatedText.setVisibility(View.VISIBLE);
+		}
+		else {
+			starRating.setVisibility(View.VISIBLE);
+			starRatingText.setVisibility(View.VISIBLE);
+			notRatedText.setVisibility(View.GONE);
+			starRating.setRating(starRatingValue);
+			starRatingText.setText(getString(R.string.n_stars_TEMPLATE, starRatingValue));
+		}
+
+		float userRatingValue = (float) property.getAverageExpediaRating();
+		int totalReviews = property.getTotalReviews();
+		if (totalReviews == 0) {
+			userRating.setVisibility(View.GONE);
+			userRatingText.setVisibility(View.GONE);
+		}
+		else {
+			userRating.setVisibility(View.VISIBLE);
+			userRatingText.setVisibility(View.VISIBLE);
+			userRating.setRating(userRatingValue);
+			userRatingText.setText(getString(R.string.n_reviews_TEMPLATE, totalReviews));
+		}
 	}
 
 	private void setupReviews(View view, Property property) {
