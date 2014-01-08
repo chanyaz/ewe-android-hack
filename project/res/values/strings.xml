@@ -166,6 +166,8 @@
     <string name="out_of_5">out of 5</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">Read Reviews</string>
+    <!-- "No Reviews" user reviews button text, when there are no reviews available -->
+    <string name="No_Reviews">No Reviews</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">Non Refundable</string>
 
