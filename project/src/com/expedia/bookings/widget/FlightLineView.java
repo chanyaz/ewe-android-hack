@@ -88,7 +88,10 @@ public class FlightLineView extends View {
 
 	public void setupErasePaint(Bitmap bitmap) {
 		if (mPlanePosition != null) {
-			BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+			int left = (int) (mPlanePosition.x - mPlaneDrawable.getIntrinsicWidth() / 2);
+			int top = (int) (mPlanePosition.y - mPlaneDrawable.getIntrinsicHeight() / 2);
+			Bitmap smallBitmap = Bitmap.createBitmap(bitmap, left, top, mPlaneDrawable.getIntrinsicWidth(), mPlaneDrawable.getIntrinsicHeight());
+			BitmapShader shader = new BitmapShader(smallBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
 
 			mErasePaint = new Paint();
 			mErasePaint.setAntiAlias(true);
