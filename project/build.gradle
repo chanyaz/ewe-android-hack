@@ -13,7 +13,7 @@ dependencies {
     compile project(':lib:Utils')
     compile project(':lib:ShareEverywhere:shareeverywhere')
 
-    instrumentTestCompile fileTree('../tests/libs').include('*.jar')
+    instrumentTestCompile fileTree('tests/libs').include('*.jar')
 }
 
 android {
@@ -92,14 +92,14 @@ android {
         }
 
         instrumentTest {
-            java.srcDirs = ['../unitTests/java']
-            res.srcDirs = ['../unitTests/res']
+            java.srcDirs = ['unitTests/java']
+            res.srcDirs = ['unitTests/res']
         }
 
         instrumentTestAutomation {
-            manifest.srcFile '../tests/AndroidManifest.xml'
-            java.srcDirs = ['../tests/src']
-            res.srcDirs = ['../tests/res']
+            manifest.srcFile 'tests/AndroidManifest.xml'
+            java.srcDirs = ['tests/src']
+            res.srcDirs = ['tests/res']
         }
 
         VSC {
