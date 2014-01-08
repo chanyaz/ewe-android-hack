@@ -18,7 +18,7 @@ public class TabletTestDriver extends ScreenActions {
 
 	public SearchScreen searchScreen() {
 		if (mTabletSearchScreen == null) {
-			mTabletSearchScreen = new SearchScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
+			//mTabletSearchScreen = new SearchScreen(mInstrumentation, getCurrentActivity(), mRes, mPreferences);
 		}
 		return mTabletSearchScreen;
 	}

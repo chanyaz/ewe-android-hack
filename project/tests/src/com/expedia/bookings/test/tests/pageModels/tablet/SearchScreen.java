@@ -1,92 +1,97 @@
 package com.expedia.bookings.test.tests.pageModels.tablet;
 
-import android.app.Activity;
-import android.app.Instrumentation;
-import android.content.res.Resources;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.tests.pageModels.common.ScreenActions;
-import com.expedia.bookings.test.utils.TestPreferences;
+import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
-public class SearchScreen extends ScreenActions {
+public class SearchScreen {
 
-	private static final int CANCEL_BUTTON_ID = R.id.cancel_button;
-	private static final int SEARCH_BUTTON_ID = R.id.search_button;
-	private static final int DESINATION_EDIT_TEXT_ID = R.id.search_edit_text;
-	private static final int SEARCH_DATES_TEXT_VIEW_ID = R.id.search_dates_text_view;
-	private static final int ORIGIN_TEXT_EDIT_TEXT_ID = R.id.origin_edit_text;
-	private static final int GUESTS_TEXT_VIEW_ID = R.id.guests_text_view;
-
-	public SearchScreen(Instrumentation instrumentation, Activity activity, Resources res,
-			TestPreferences preferences) {
-		super(instrumentation, activity, res, preferences);
+	public SearchScreen() {
 	}
 
 	// Object access
 
-	public View cancelButton() {
-		return getView(CANCEL_BUTTON_ID);
+	public static ViewInteraction startSearchButton() {
+		return onView(withId(R.id.search_status_text_view));
 	}
 
-	public View searchButton() {
-		return getView(SEARCH_BUTTON_ID);
+	public static ViewInteraction cancelButton() {
+		return onView(withId(R.id.cancel_button));
 	}
 
-	public EditText destinationEditText() {
-		return (EditText) getView(DESINATION_EDIT_TEXT_ID);
+	public static ViewInteraction searchButton() {
+		return onView(withId(R.id.search_button));
 	}
 
-	public TextView searchDatesTextView() {
-		return (TextView) getView(SEARCH_DATES_TEXT_VIEW_ID);
+	public static ViewInteraction destinationEditText() {
+		return onView(withId(R.id.destination_edit_text));
 	}
 
-	public TextView originEditText() {
-		return (TextView) getView(ORIGIN_TEXT_EDIT_TEXT_ID);
+	public static ViewInteraction searchDatesTextView() {
+		return onView(withId(R.id.search_dates_text_view));
 	}
 
-	public TextView guestsTextView() {
-		return (TextView) getView(GUESTS_TEXT_VIEW_ID);
+	public static ViewInteraction originEditText() {
+		return onView(withId(R.id.origin_edit_text));
+	}
+
+	public static ViewInteraction guestsTextView() {
+		return onView(withId(R.id.guests_text_view));
 	}
 
 	// Object interaction
 
-	public void clickCancelButton() {
-		clickOnView(cancelButton());
+	@SuppressWarnings("unchecked")
+	public static void clickInListWithText(String text) {
+		//TextView in suggestion row with the passed String as its text
+		onView(allOf(withId(R.id.location), withText(text))).perform(click());
 	}
 
-	public void clickSearchButton() {
-		clickOnView(searchButton());
+	public static void clickToStartSearch() {
+		startSearchButton().perform(click());
 	}
 
-	public void clickDestinationEditText() {
-		clickOnView(destinationEditText());
+	public static void clickCancelButton() {
+		cancelButton().perform(click());
 	}
 
-	public void clearDestinationEditText() {
-		clearEditText(destinationEditText());
+	public static void clickSearchButton() {
+		searchButton().perform(click());
 	}
 
-	public void typeInDestinationEditText(String text) {
-		typeText(destinationEditText(), text);
+	public static void clickDestinationEditText() {
+		destinationEditText().perform(click());
 	}
 
-	public void clickOriginEditText() {
-		clickOnView(destinationEditText());
+	public static void clearDestinationEditText() {
+		destinationEditText().perform(clearText());
 	}
 
-	public void clearOriginEditText() {
-		clearEditText(destinationEditText());
+	public static void typeInDestinationEditText(String text) {
+		destinationEditText().perform(typeText(text));
 	}
 
-	public void typeInOriginEditText(String text) {
-		typeText(destinationEditText(), text);
+	public static void clickOriginEditText() {
+		originEditText().perform(click());
 	}
 
-	public void clickGuestsButton() {
-		clickOnView(guestsTextView());
+	public static void clearOriginEditText() {
+		originEditText().perform(clearText());
+	}
+
+	public static void typeInOriginEditText(String text) {
+		originEditText().perform(typeText(text));
+	}
+
+	public static void clickGuestsButton() {
+		guestsTextView().perform(click());
 	}
 
 }
