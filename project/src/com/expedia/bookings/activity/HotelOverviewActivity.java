@@ -19,6 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.fragment.HotelOverviewFragment;
@@ -262,7 +263,7 @@ public class HotelOverviewActivity extends SherlockFragmentActivity implements B
 	@Override
 	public void onSlideAllTheWay() {
 		//Ensure the correct (and valid) email address makes it to billing info
-		String checkoutEmail = BookingInfoUtils.getCheckoutEmail(this);
+		String checkoutEmail = BookingInfoUtils.getCheckoutEmail(this, LineOfBusiness.HOTELS);
 		if (!TextUtils.isEmpty(checkoutEmail)) {
 			Db.getBillingInfo().setEmail(checkoutEmail);
 		} 
