@@ -6,6 +6,9 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +20,12 @@ import android.widget.ImageView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.graphics.SvgDrawable;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightLineView;
 import com.google.android.gms.maps.model.LatLng;
 import com.jhlabs.map.Point2D;
 import com.mobiata.android.Log;
-import com.mobiata.android.bitmaps.BitmapDrawable;
 import com.mobiata.android.maps.MapUtils;
 
 /**
@@ -36,7 +39,7 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 	private ImageView mDepartureImage;
 	private ImageView mArrivalImage;
 
-	private Bitmap mBitmap;
+	private LayerDrawable mBgDrawable;
 
 	private double mDepartureLat;
 	private double mDepartureLng;
@@ -90,8 +93,6 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 	private void generateMap() {
 		int w = getMapImageView().getWidth();
 		int h = getMapImageView().getHeight();
-		mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-		mBitmap.eraseColor(Color.parseColor("#687887"));
 
 		// TODO make work for pacific ocean
 		setBounds(
@@ -99,11 +100,19 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 			mArrivalLat, mArrivalLng
 		);
 
-		Canvas c = new Canvas(mBitmap);
-		c.setMatrix(getViewportMatrix());
-		getMapPicture().draw(c);
-		c.setMatrix(new Matrix());
-		getMapImageView().setImageDrawable(new BitmapDrawable(mBitmap));
+		ColorDrawable bgColorDrawable = new ColorDrawable(Color.parseColor("#687887"));
+		bgColorDrawable.setBounds(0, 0, w, h);
+
+		SvgDrawable mapDrawable = new SvgDrawable(getSvg(), getViewportMatrix());
+		mapDrawable.setBounds(0, 0, w, h);
+
+		Drawable[] drawables = new Drawable[]{
+			bgColorDrawable,
+			mapDrawable,
+		};
+		mBgDrawable = new LayerDrawable(drawables);
+		getMapImageView().setImageDrawable(mBgDrawable);
+		getMapImageView().setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
 		positionFlightLine();
 		positionDeparture();
@@ -126,7 +135,7 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 		}
 
 		mFlightLine.setFlightLinePoints(points);
-		mFlightLine.setupErasePaint(mBitmap);
+		mFlightLine.setupErasePaint(mBgDrawable);
 	}
 
 	private void positionDeparture() {

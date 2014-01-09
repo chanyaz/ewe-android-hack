@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import android.app.Activity;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Picture;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.expedia.bookings.utils.Ui;
 import com.jhlabs.map.Point2D;
 import com.jhlabs.map.proj.MercatorProjection;
 import com.jhlabs.map.proj.Projection;
+import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 
 public class SvgMapFragment extends MeasurableFragment {
@@ -24,7 +26,7 @@ public class SvgMapFragment extends MeasurableFragment {
 
 	private ImageView mMapImageView;
 
-	private Picture mPicture;
+	private SVG mSvg;
 
 	private Projection mProjection;
 	private Matrix mViewportMatrix;
@@ -59,13 +61,13 @@ public class SvgMapFragment extends MeasurableFragment {
 			mapResId = args.getInt(ARG_MAP_RESOURCE, R.raw.map_tablet_launch);
 		}
 
-		mPicture = SVGParser.getSVGFromResource(activity.getResources(), mapResId).getPicture();
+		mSvg = SVGParser.getSVGFromResource(activity.getResources(), mapResId);
 
 		mProjection = new MercatorProjection();
 		double circumference = mProjection.getEllipsoid().getEquatorRadius() * 2 * Math.PI;
 		mProjection.setFalseEasting(circumference / 2);
 		mProjection.setFalseNorthing(circumference / 2);
-		mProjection.setFromMetres((1 / circumference) * mPicture.getWidth());
+		mProjection.setFromMetres((1 / circumference) * 3000);
 		mProjection.initialize();
 	}
 
@@ -74,18 +76,6 @@ public class SvgMapFragment extends MeasurableFragment {
 		FrameLayout root = (FrameLayout) inflater.inflate(R.layout.fragment_svg_map, container, false);
 		mMapImageView = Ui.findView(root, R.id.map_image_view);
 		return root;
-	}
-
-	public void setHorizontalBounds(double lat0, double lng0, double lat1, double lng1) {
-		Point2D.Double tl = projectToSvg(lat0, lng0);
-		Point2D.Double tr = projectToSvg(lat1, lng1);
-
-		float projectedWidth = (float) (tr.x - tl.x);
-		float scale = mMapImageView.getWidth() / projectedWidth;
-
-		mViewportMatrix = new Matrix();
-		mViewportMatrix.preTranslate((float) -tl.x, (float) -tl.y);
-		mViewportMatrix.postScale(scale, scale);
 	}
 
 	public void setBounds(double... latlngs) {
@@ -133,14 +123,14 @@ public class SvgMapFragment extends MeasurableFragment {
 
 		mViewportMatrix = new Matrix();
 		mViewportMatrix.preTranslate((float) -(tl.x - mPaddingLeft/scale), (float) -(tl.y - mPaddingTop/scale));
-		mViewportMatrix.postScale(scale, scale);
 		mViewportMatrix.postTranslate(xShift, yShift);
+		mViewportMatrix.postScale(scale, scale);
 	}
 
 	public Point2D.Double projectToSvg(double lat, double lon) {
 		Point2D.Double p = new Point2D.Double();
 		mProjection.transform(lon, lat, p);
-		p.y = mPicture.getHeight() - p.y;
+		p.y = 3000 - p.y;
 		return p;
 	}
 
@@ -161,8 +151,12 @@ public class SvgMapFragment extends MeasurableFragment {
 		return t;
 	}
 
-	public Picture getMapPicture() {
-		return mPicture;
+	public void drawMapSvg(Canvas c) {
+		mSvg.getRoot().render(c, null, null);
+	}
+
+	public SVG getSvg() {
+		return mSvg;
 	}
 
 	public void setMapImageView(ImageView v) {

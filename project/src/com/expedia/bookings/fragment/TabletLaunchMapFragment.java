@@ -15,6 +15,11 @@ import android.graphics.PorterDuff;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
@@ -28,11 +33,12 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.graphics.PaintDrawable;
 import com.expedia.bookings.graphics.RoundBitmapDrawable;
+import com.expedia.bookings.graphics.SvgDrawable;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.jhlabs.map.Point2D;
-import com.mobiata.android.bitmaps.BitmapDrawable;
 
 public class TabletLaunchMapFragment extends SvgMapFragment {
 	private LayoutInflater mInflater;
@@ -70,8 +76,6 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	private void generateMap() {
 		int w = getMapImageView().getWidth();
 		int h = getMapImageView().getHeight();
-		Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-		bitmap.eraseColor(Color.parseColor("#1b2747"));
 
 		int searchHeaderHeight = getResources().getDimensionPixelSize(R.dimen.tablet_search_header_height);
 		int stackHeight = getResources().getDimensionPixelSize(R.dimen.destination_search_stack_height);
@@ -89,48 +93,43 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		);
 
 		// Draw scaled and translated map
-		Canvas c = new Canvas(bitmap);
-		c.setMatrix(getViewportMatrix());
-		getMapPicture().draw(c);
-		c.setMatrix(new Matrix());
+		ColorDrawable bgColorDrawable = new ColorDrawable(Color.parseColor("#1b2747"));
+		SvgDrawable mapDrawable = new SvgDrawable(getSvg(), getViewportMatrix());
 
 		// Dot grid
-		Bitmap tiledBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.tileable_dot_grid);
-		BitmapDrawable tiled = new BitmapDrawable(tiledBitmap);
-		tiled.setTileModeX(Shader.TileMode.REPEAT);
-		tiled.setTileModeY(Shader.TileMode.REPEAT);
-		tiled.setBounds(0, 0, w, h);
-		tiled.draw(c);
+		Drawable tiledDotDrawable = getResources().getDrawable(R.drawable.tiled_dot);
 
 		// Linear Gradient
 		int[] linearGradColors = new int[] {
 			Color.parseColor("#001b2747"),
 			Color.parseColor("#98131c33"),
-			Color.parseColor("#131c33"),
+			Color.parseColor("#ff131c33"),
 		};
-		float [] linearGradPositions = new float[] {
-			0.0f,
-			0.5f,
-			1.0f,
-		};
-		LinearGradient linearShader = new LinearGradient(w/2, 0, w/2, h, linearGradColors, linearGradPositions, Shader.TileMode.REPEAT);
+
+		GradientDrawable linearGradDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, linearGradColors);
 
 		// Radial Gradient
-		float radius = Math.min(w, h) * 0.65f;
-		RadialGradient radialShader = new RadialGradient(w/2.0f, h/2.0f, radius, Color.parseColor("#00000000"), Color.parseColor("#5a000000"), Shader.TileMode.CLAMP);
+		int[] radialGradColors = new int[] {
+			Color.parseColor("#00000000"),
+			Color.parseColor("#5a000000"),
+		};
 
-		ComposeShader composeShader = new ComposeShader(linearShader, radialShader, PorterDuff.Mode.SRC_OVER);
-		Paint paint = new Paint();
-		paint.setStyle(Paint.Style.FILL);
-		paint.setShader(composeShader);
-		paint.setDither(true);
-		c.drawRect(new RectF(0, 0, w, h), paint);
+		GradientDrawable radialGradDrawable = new GradientDrawable();
+		radialGradDrawable.setGradientType(GradientDrawable.RADIAL_GRADIENT);
+		radialGradDrawable.setGradientCenter(0.5f, 0.5f);
+		radialGradDrawable.setGradientRadius(Math.min(w, h) * 0.65f);
+		radialGradDrawable.setColors(radialGradColors);
 
-		getMapImageView().setImageDrawable(new BitmapDrawable(bitmap));
-
-		// Cleanup
-		tiled.setBitmap(null);
-		tiledBitmap.recycle();
+		Drawable[] drawables = new Drawable[]{
+			bgColorDrawable,
+			mapDrawable,
+			tiledDotDrawable,
+			linearGradDrawable,
+			radialGradDrawable,
+		};
+		LayerDrawable allDrawables = new LayerDrawable(drawables);
+		getMapImageView().setBackgroundDrawable(allDrawables);
+		getMapImageView().setLayerType(View.LAYER_TYPE_HARDWARE, null);
 	}
 
 	private void generatePins() {

@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -86,12 +87,20 @@ public class FlightLineView extends View {
 		invalidate();
 	}
 
-	public void setupErasePaint(Bitmap bitmap) {
+	public void setupErasePaint(Drawable drawable) {
 		if (mPlanePosition != null) {
 			int left = (int) (mPlanePosition.x - mPlaneDrawable.getIntrinsicWidth() / 2);
 			int top = (int) (mPlanePosition.y - mPlaneDrawable.getIntrinsicHeight() / 2);
-			Bitmap smallBitmap = Bitmap.createBitmap(bitmap, left, top, mPlaneDrawable.getIntrinsicWidth(), mPlaneDrawable.getIntrinsicHeight());
-			BitmapShader shader = new BitmapShader(smallBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+			Bitmap bitmap = Bitmap.createBitmap(mPlaneDrawable.getIntrinsicWidth(), mPlaneDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+			Canvas canvas = new Canvas(bitmap);
+
+			// Draw the bg to our little bitmap
+			canvas.save();
+			canvas.translate(-left, -top);
+			drawable.draw(canvas);
+			canvas.restore();
+
+			BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
 
 			mErasePaint = new Paint();
 			mErasePaint.setAntiAlias(true);
