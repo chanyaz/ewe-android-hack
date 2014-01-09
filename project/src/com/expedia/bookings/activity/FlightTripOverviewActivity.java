@@ -30,6 +30,7 @@ import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.fragment.ConfirmLogoutDialogFragment.DoLogoutListener;
@@ -789,7 +790,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	public void onSlideAllTheWay() {
 
 		//Ensure the correct (and valid) email address makes it to billing info
-		String checkoutEmail = BookingInfoUtils.getCheckoutEmail(this);
+		String checkoutEmail = BookingInfoUtils.getCheckoutEmail(this, LineOfBusiness.FLIGHTS);
 		if (!TextUtils.isEmpty(checkoutEmail)) {
 			Db.getBillingInfo().setEmail(checkoutEmail);
 		}

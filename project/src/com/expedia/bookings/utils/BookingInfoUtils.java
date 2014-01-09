@@ -104,12 +104,10 @@ public class BookingInfoUtils {
 	/**
 	 * This looks through our various static data and tries to determine the email address to use at checkout.
 	 * 
-	 * Order of checks:  User, GoogleWallet, BillingInfo
-	 * 
 	 * @param context
 	 * @return email address to use for checkout or null if no valid email addresses were found
 	 */
-	public static String getCheckoutEmail(Context context) {
+	public static String getCheckoutEmail(Context context, LineOfBusiness lob) {
 		Log.d("getCheckoutEmail");
 		//Ensure we have billingInfo (this is called getCheckoutEmail after all, so we should have checkout information)
 		if (!Db.hasBillingInfo()) {
@@ -117,6 +115,7 @@ public class BookingInfoUtils {
 		}
 
 		//Get User email...
+		String userEmail = null;
 		if (User.isLoggedIn(context)) {
 			if (Db.getUser() == null) {
 				Db.loadUser(context);
@@ -125,41 +124,90 @@ public class BookingInfoUtils {
 					&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
 				String email = Db.getUser().getPrimaryTraveler().getEmail();
 				if (email.matches(CommonSectionValidators.STRICT_EMAIL_VALIDATION_REGEX)) {
-					Log.d("getCheckoutEmail - returning Db.getUser().getPrimaryTraveler().getEmail():" + email);
-					return email;
+					Log.d("getCheckoutEmail - found Db.getUser().getPrimaryTraveler().getEmail():" + email);
+					userEmail = email;
 				}
 			}
 		}
 
+		//Get BillingInfo email
+		String billingInfoEmail = null;
+		if (Db.hasBillingInfo()) {
+			if (!TextUtils.isEmpty(Db.getBillingInfo().getEmail())) {
+				String email = Db.getBillingInfo().getEmail();
+				if (email.matches(CommonSectionValidators.STRICT_EMAIL_VALIDATION_REGEX)) {
+					Log.d("getCheckoutEmail - found Db.getBillingInfo().getEmail():" + email);
+					billingInfoEmail = email;
+				}
+			}
+		}
+
+		//Get traveler email
+		String travelerEmail = null;
+		if (Db.getTravelers() != null && Db.getTravelers().size() > 0 && Db.getTravelers().get(0) != null
+				&& !TextUtils.isEmpty(Db.getTravelers().get(0).getEmail())) {
+			String email = Db.getTravelers().get(0).getEmail();
+			if (email.matches(CommonSectionValidators.STRICT_EMAIL_VALIDATION_REGEX)) {
+				Log.d("getCheckoutEmail - found Db.getTravelers().get(0).getEmail():" + email);
+				travelerEmail = email;
+			}
+		}
+
 		//Get google wallet email...
+		String walletEmail = null;
 		if (Db.hasBillingInfo()) {
 			if (Db.getBillingInfo().getStoredCard() != null && Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
 				MaskedWallet wallet = Db.getMaskedWallet();
 				if (wallet != null && !TextUtils.isEmpty(wallet.getEmail())) {
 					String email = wallet.getEmail();
 					if (email.matches(CommonSectionValidators.STRICT_EMAIL_VALIDATION_REGEX)) {
-						Log.d("getCheckoutEmail - returning Db.getMaskedWallet().getEmail():" + email);
-						return email;
+						Log.d("getCheckoutEmail - found Db.getMaskedWallet().getEmail():" + email);
+						walletEmail = email;
 					}
 				}
 			}
 		}
 
-		//Get BillingInfo email...
-		if (Db.hasBillingInfo()) {
-			if (!TextUtils.isEmpty(Db.getBillingInfo().getEmail())) {
-				String email = Db.getBillingInfo().getEmail();
-				if (email.matches(CommonSectionValidators.STRICT_EMAIL_VALIDATION_REGEX)) {
-					Log.d("getCheckoutEmail - returning Db.getBillingInfo().getEmail():" + email);
-					return email;
+		//Choose best email address based on priority and availability.
+		String retEmail = null;
+		if (!TextUtils.isEmpty(userEmail)) {
+			//If we are logged in, always use that email address
+			retEmail = userEmail;
+		}
+		else {
+			//If we aren't logged in we need to wade through other sources, based on lineOfBusiness
+
+			if (lob == LineOfBusiness.FLIGHTS) {
+				//In flights email is associated with billingInfo. So if we have a wallet email, we use that, because it replaces our payment method.
+				//Failing that we try the BillingInfo, because that is where we put manually entered email addresses. Finally we try traveler, because
+				//the user may have entered an address in Hotels that is to be used now.
+				if (!TextUtils.isEmpty(walletEmail)) {
+					retEmail = walletEmail;
+				}
+				else if (!TextUtils.isEmpty(billingInfoEmail)) {
+					retEmail = billingInfoEmail;
+				}
+				else if (!TextUtils.isEmpty(travelerEmail)) {
+					retEmail = travelerEmail;
+				}
+			}
+			else {
+				//In hotels email is associated with the traveler. So we first look at the travelerEmail. Failing that we look in wallet, but wallet should
+				//have copied its email over to traveler already, so that should be rare, finally we check billingInfo because we are desperate.
+				if (!TextUtils.isEmpty(travelerEmail)) {
+					retEmail = travelerEmail;
+				}
+				else if (!TextUtils.isEmpty(walletEmail)) {
+					retEmail = walletEmail;
+				}
+				else if (!TextUtils.isEmpty(billingInfoEmail)) {
+					retEmail = billingInfoEmail;
 				}
 			}
 		}
 
-		if (Db.getTravelers() != null && Db.getTravelers().get(0) != null && !TextUtils.isEmpty(Db.getTravelers().get(0).getEmail())) {
-			return Db.getTravelers().get(0).getEmail();
-		}
-		return null;
+		Log.d("getCheckoutEmail - returning email:" + retEmail);
+		return retEmail;
 	}
 
 	public static final int getGreyCardIcon(CreditCardType type) {
