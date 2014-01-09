@@ -89,6 +89,13 @@ public class FlightTripPriceFragment extends Fragment {
 				startCreateTripDownload();
 			}
 		}
+		else {
+			//We call this here because though the trip was already created, we want to ensure
+			//that we tell the listener, so it can update the state of Google Wallet
+			if (mListener != null) {
+				mListener.onCreateTripFinished();
+			}
+		}
 
 		View priceSection = Ui.findView(mTripSection, R.id.price_section);
 		priceSection.setOnClickListener(new OnClickListener() {
