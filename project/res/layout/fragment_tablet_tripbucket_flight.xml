@@ -13,13 +13,7 @@
 
     <Button
         android:id="@+id/tripbucket_book_button_flight"
-        android:layout_width="@dimen/tablet_tripbucket_card_width"
-        android:layout_height="50dp"
-        android:background="@android:color/white"
-        android:gravity="center"
-        android:text="@string/trip_bucket_book_flight"
-        android:textAlignment="center"
-        android:textColor="#006BB2"
-        android:textSize="16sp" />
+        style="@style/TripBucketBookButton"
+        android:text="@string/trip_bucket_book_flight" />
 
 </LinearLayout>
