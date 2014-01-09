@@ -23,9 +23,7 @@ import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
@@ -106,13 +104,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		// #1363: Disable Google Wallet if not a valid payment type
-		FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
-
-		if (!trip.isCardTypeSupported(CreditCardType.GOOGLE_WALLET)) {
-			disableGoogleWallet();
-		}
 
 		if (savedInstanceState != null) {
 			mRefreshedUserTime = savedInstanceState.getLong(INSTANCE_REFRESHED_USER_TIME);

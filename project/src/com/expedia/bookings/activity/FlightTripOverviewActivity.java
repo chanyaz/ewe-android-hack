@@ -26,6 +26,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
+import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
@@ -267,6 +268,25 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		}
 	}
 
+	private void googleWalletTripPaymentTypeCheck() {
+		//If we have a valid trip, we check if google wallet is a supported payment type and tell the checkout fragment
+		FlightCheckoutFragment checkoutFrag = mCheckoutFragment;
+		if (checkoutFrag == null) {
+			//Sometimes this will be called on rotation, so our instance may exist, but be otherwise un-initialized for this orientation.
+			checkoutFrag = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
+		}
+		if (checkoutFrag != null && Db.getFlightSearch() != null
+				&& Db.getFlightSearch().getSelectedFlightTrip() != null
+				&& !TextUtils.isEmpty(Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber())) {
+			// Disable Google Wallet if not a valid payment type
+			FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+			if (!trip.isCardTypeSupported(CreditCardType.GOOGLE_WALLET)) {
+				Log.d("disableGoogleWallet: safeGoogleWalletTripPaymentTypeCheck");
+				checkoutFrag.disableGoogleWallet();
+			}
+		}
+	}
+
 	public void attachCheckoutFragment() {
 		if (mSafeToAttach) {
 			boolean refreshCheckoutData = !mLoadedDbInfo;
@@ -289,6 +309,9 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				transaction.add(R.id.trip_checkout_container, mCheckoutFragment, TAG_CHECKOUT_FRAG);
 				transaction.commit();
 			}
+
+			//If the trip call is already complete, lets ensure that the google wallet state is ok
+			googleWalletTripPaymentTypeCheck();
 		}
 	}
 
@@ -747,7 +770,11 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	@Override
 	public void onCreateTripFinished() {
-		mCheckoutFragment.refreshData();
+		googleWalletTripPaymentTypeCheck();
+
+		if (mCheckoutFragment != null) {
+			mCheckoutFragment.refreshData();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

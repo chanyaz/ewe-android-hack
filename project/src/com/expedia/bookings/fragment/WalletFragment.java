@@ -120,6 +120,7 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 		// Before we do *anything*, check if Google Wallet has been disabled on the POS or in a previous instance
 		if (!PointOfSale.getPointOfSale().supportsGoogleWallet() || (savedInstanceState != null
 				&& !savedInstanceState.getBoolean(INSTANCE_GOOGLE_WALLET_ENABLED, true))) {
+			Log.d("disableGoogleWallet: WalletFragment.onCreate");
 			disableGoogleWallet();
 		}
 
@@ -185,6 +186,7 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	protected void handleUnrecoverableGoogleWalletError(int errorCode) {
 		WalletUtils.logError(errorCode);
 
+		Log.d("disableGoogleWallet: WalletFragment.handleUnrecoverableGoogleWalletError");
 		disableGoogleWallet();
 	}
 
