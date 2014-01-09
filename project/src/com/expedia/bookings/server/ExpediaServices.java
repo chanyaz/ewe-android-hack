@@ -482,6 +482,7 @@ public class ExpediaServices implements DownloadListener {
 		String prefix;
 		for (int i = 0; i < travelers.size(); i++) {
 			if (i == 0) {
+				//NOTE: the values associated with mainFlightPassenger will take precedence over values in BillingInfo
 				prefix = "mainFlightPassenger.";
 			}
 			else {

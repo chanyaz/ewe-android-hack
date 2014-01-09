@@ -814,6 +814,13 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		//Save it!
 		Db.getBillingInfo().save(this);
 
+		//IMPORTANT: Above we ensure we have the correct email address for booking, and we put it in billingInfo.
+		//However, on the api the information associated with the primary traveler takes precedence. So in 
+		//FlightBookingActivity we make sure that the first traveler in Db.getTravelers() gets copied and set up to use
+		//the email address in BillingInfo. 
+		//THIS STEP MUST HAPPEN, so if this code is getting copied or refactored or whatever, you must ensure that the
+		//the "mainFlightPassenger" of the booking request has the correct email address, without altering our stored traveler info.
+
 		//Seal the deal
 		Intent intent = new Intent(this, FlightBookingActivity.class);
 		startActivity(intent);
