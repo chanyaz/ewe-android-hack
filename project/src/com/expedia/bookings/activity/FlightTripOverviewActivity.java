@@ -200,7 +200,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		// Normally we won't need this; but if we try to attach when it's not safe
 		// we will want to make the changes later.
 		if (mBottomBarMode == BottomBarMode.PRICE_BAR) {
-			addPriceBarFragment();
+			addPriceBarFragment(false);
 		}
 		else if (mBottomBarMode == BottomBarMode.SLIDE_TO_PURCHASE) {
 			addSlideToCheckoutFragment();
@@ -352,7 +352,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		}
 	}
 
-	private void addPriceBarFragment() {
+	private void addPriceBarFragment(boolean waitForTransactionCompletion) {
 		if (mSafeToAttach) {
 			mBottomBarMode = null;
 
@@ -364,6 +364,10 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 				transaction.replace(R.id.trip_price_container_bottom, mPriceBottomFragment, TAG_PRICE_BAR_BOTTOM_FRAG);
 				transaction.commit();
+
+				if (waitForTransactionCompletion) {
+					getSupportFragmentManager().executePendingTransactions();
+				}
 			}
 		}
 		else {
@@ -378,7 +382,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		//Make sure sizes are as they should be
 		setContainerHeights();
 
-		addPriceBarFragment();
+		addPriceBarFragment(true);
 		mPriceBottomFragment.showPriceChange();
 
 		if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
@@ -463,6 +467,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			if (overviewContainerParams != null && mUnstackedHeight > 0) {
 				overviewContainerParams.height = mUnstackedHeight;
 				mOverviewContainer.setLayoutParams(overviewContainerParams);
+
 			}
 			else {
 				retVal = false;
@@ -742,7 +747,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 			}
 
 			//Bring in the price bar
-			addPriceBarFragment();
+			addPriceBarFragment(false);
 		}
 	}
 
