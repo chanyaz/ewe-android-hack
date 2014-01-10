@@ -21,7 +21,7 @@
     <dimen name="tablet_flight_details_statistic_drawable_spacing">8dp</dimen>
 
     <!-- Tablet details -->
-    <dimen name="tablet_detail_padding">16dp</dimen>
+    <dimen name="tablet_detail_padding">24dp</dimen>
     <dimen name="non_refundable_tweak">0dp</dimen>
 
     <!-- Launch dimens -->
