@@ -5,7 +5,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingTop="110dp" >
 
     <LinearLayout
         android:id="@+id/trip_to_layout"
@@ -13,7 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="14dp"
         android:layout_marginRight="14dp"
-        android:layout_marginTop="55dp"
         android:gravity="center"
         android:orientation="horizontal" >
 

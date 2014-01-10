@@ -175,6 +175,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 		if (hasFlightTrip() && hasHotelTrip()) {
 			final int[] three = getCenterPositionsForTripBucket(3);
 			final int[] two = getCenterPositionsForTripBucket(2);
+			int viewHeight = (mGrid.isLandscape() ? mGrid.getTotalHeight() : mGrid.getRowHeight(0)) / 3;
+			final int[] centers = mTripBucketTripToFrag.getBucketItemsPosition(1, (int) viewHeight);
 			ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
 			animator.setDuration(ANIM_DUR_BUCKET_ITEM_REMOVE);
 			animator.addUpdateListener(new AnimatorUpdateListener() {
@@ -182,15 +184,15 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 				public void onAnimationUpdate(ValueAnimator arg0) {
 					float val = (Float) arg0.getAnimatedValue();
 					float viewHalfHeight = mTripBucketYourTripToC.getHeight() / 2f;
-					mTripBucketYourTripToC.setTranslationY(three[0] - viewHalfHeight + (val * (two[0] - three[0])));
+					//mTripBucketYourTripToC.setTranslationY(three[0] - viewHalfHeight + (val * (two[0] - three[0])));
 
 					if (removalIndex == 1) {
 						//moving hotel upwards
-						mTripBucketHotelC.setTranslationY(three[2] - viewHalfHeight + (val * (two[1] - three[2])));
+						mTripBucketHotelC.setTranslationY(centers[0]);
 					}
 					else if (removalIndex == 2) {
 						//moving flight one down
-						mTripBucketFlightC.setTranslationY(three[1] - viewHalfHeight + (val * (two[1] - three[1])));
+						mTripBucketFlightC.setTranslationY(centers[0]);
 
 					}
 				}
@@ -213,9 +215,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 
 	private void positionTripBucketItems(boolean verticalOnly) {
 		//We just split the space evenly between views
-		int[] centers = getCenterPositionsForTripBucket(getNumberOfBucketContainers());
 		int viewHeight = (mGrid.isLandscape() ? mGrid.getTotalHeight() : mGrid.getRowHeight(0)) / 3;
-		float halfViewHeight = viewHeight / 2f;
+		int[] centers = mTripBucketTripToFrag.getBucketItemsPosition(getNumberOfBucketContainers()-1, (int) viewHeight);
 
 		/*setViewHeight(mTripBucketYourTripToC, viewHeight);
 		setViewHeight(mTripBucketFlightC, viewHeight);
@@ -223,9 +224,6 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 
 		if (mGrid.isLandscape()) {
 			if (!verticalOnly) {
-				//We set the content containers to be the column width
-				//setHorizontalPos(mTripFlightC, 0, mGrid.getColWidth(2) - mFlightSwipeOut.getPaddingLeft()- mFlightSwipeOut.getPaddingRight());
-				//setHorizontalPos(mTripHotelC, 0, mGrid.getColWidth(2) - mHotelSwipeOut.getPaddingLeft() - mHotelSwipeOut.getPaddingRight());
 
 				int flightSwipeOutDistance = (int) mFlightSwipeOut.getSwipeOutDistance();
 				int hotelSwipeOutDistance = (int) mHotelSwipeOut.getSwipeOutDistance();
@@ -254,15 +252,13 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 		}
 
 		int index = 0;
-		mTripBucketYourTripToC.setTranslationY(centers[index] - halfViewHeight);
-		index++;
 		if (hasFlightTrip() || hasHotelTrip()) {
 			if (hasFlightTrip()) {
-				mTripBucketFlightC.setTranslationY(centers[index] - halfViewHeight);
+				mTripBucketFlightC.setTranslationY(centers[index]);
 				index++;
 			}
 			if (hasHotelTrip()) {
-				mTripBucketHotelC.setTranslationY(centers[index] - halfViewHeight);
+				mTripBucketHotelC.setTranslationY(centers[index]);
 				index++;
 			}
 			mTripBucketTripToFrag.hideEmptyTripContainer(true);

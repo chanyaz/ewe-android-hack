@@ -126,4 +126,29 @@ public class ResultsTripBucketYourTripToFragment extends Fragment {
 			mSecondaryDestTv.setVisibility(View.VISIBLE);
 		}
 	}
+
+	/**
+	 * This method gives the y-position of the tripBucket cards.
+	 * @param numCards Current number of cards in the trip bucket
+	 * @param cardHeight Height of the trip bucket card
+	 * @return Array of y-positions for the card(s)
+	 */
+	public int[] getBucketItemsPosition(int numCards, int cardHeight) {
+		int[] positions = new int[numCards];
+		int top = (int) (mSecondaryDestTv.getY() + mSecondaryDestTv.getMeasuredHeight());
+		int bottom = mRootC.getMeasuredHeight();
+
+		switch (numCards) {
+		case 1: // Has either hotel/flight card. So let's center the card in the space below 'Trip To XYZ'
+			positions[0] = (bottom - top) / 2 + cardHeight / 2;
+			break;
+
+		case 2: // Has both hotel/flight card
+			positions[0] = top;
+			positions[1] = top + cardHeight;
+			break;
+		}
+
+		return positions;
+	}
 }
