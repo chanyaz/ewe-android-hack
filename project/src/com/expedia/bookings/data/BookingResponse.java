@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class BookingResponse extends Response implements JSONable {
@@ -15,6 +16,9 @@ public class BookingResponse extends Response implements JSONable {
 	private String mOrderNumber;
 
 	private String mPhoneNumber;
+
+	// Not from Response, but stored here for code organization's sake
+	private Property mProperty;
 
 	public boolean succeededWithErrors() {
 		if (!hasErrors()) {
@@ -62,6 +66,14 @@ public class BookingResponse extends Response implements JSONable {
 		return mPhoneNumber;
 	}
 
+	public void setProperty(Property property) {
+		mProperty = property;
+	}
+
+	public Property getProperty() {
+		return mProperty;
+	}
+
 	@Override
 	public JSONObject toJson() {
 		try {
@@ -70,6 +82,7 @@ public class BookingResponse extends Response implements JSONable {
 			obj.putOpt("itineraryId", mItineraryId);
 			obj.putOpt("orderNumber", mOrderNumber);
 			obj.putOpt("phoneNumber", mPhoneNumber);
+			JSONUtils.putJSONable(obj, "property", mProperty);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -85,6 +98,7 @@ public class BookingResponse extends Response implements JSONable {
 		mItineraryId = obj.optString("itineraryId", null);
 		mOrderNumber = obj.optString("orderNumber", null);
 		mPhoneNumber = obj.optString("phoneNumber", null);
+		mProperty = JSONUtils.getJSONable(obj, "property", Property.class);
 		return true;
 	}
 }

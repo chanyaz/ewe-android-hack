@@ -17,6 +17,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Traveler;
@@ -507,6 +508,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	@Override
 	public void onBookingResponse(Response results) {
 		BookingResponse response = (BookingResponse) results;
+		Property property = Db.getHotelSearch().getSelectedProperty();
 
 		dismissProgressDialog();
 
@@ -520,9 +522,11 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 			OmnitureTracking.trackErrorPage(mContext, "ReservationRequestFailed");
 		}
 		else if (!results.isSuccess() && !response.succeededWithErrors()) {
+			response.setProperty(property);
 			handleErrorResponse(response);
 		}
 		else {
+			response.setProperty(property);
 			AdTracker.trackHotelBooked();
 			launchConfirmationActivity();
 		}
