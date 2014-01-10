@@ -144,7 +144,7 @@
     <!-- Hotels search hangtag/mapsearch colors -->
     <color name="hotel_list_progress_text_color">#555555</color>
     <color name="hotel_map_progress_text_color">@color/actionbar_text</color>
-    <color name="map_dimmer">#90000000</color>
+    <color name="map_dimmer">#c0495359</color>
 
     <!-- A light Holo shade of blue -->
     <color name="holo_blue_light">#ff33b5e5</color>
