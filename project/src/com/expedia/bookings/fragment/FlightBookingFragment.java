@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -45,7 +46,7 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 				//So at this point, billing info has the correct email address, but the api considers the email
 				//address of the first traveler the top priority. We dont want to change the email information
 				//of our stored travelers, so we make a copy of the first traveler, and alter its email address.
-				List<Traveler> travelers = Db.getTravelers();
+				List<Traveler> travelers = new ArrayList<Traveler>(Db.getTravelers());
 				if (travelers != null && travelers.size() > 0) {
 					Traveler trav = new Traveler();
 					trav.fromJson(travelers.get(0).toJson());
