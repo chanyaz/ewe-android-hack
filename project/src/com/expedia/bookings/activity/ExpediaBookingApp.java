@@ -304,7 +304,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	// we only use tablet UI on ICS+
 	public static boolean useTabletInterface(Context context) {
 		return AndroidUtils.getSdkVersion() >= 14
-				&& (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+				&& AndroidUtils.isTablet(context);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
