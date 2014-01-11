@@ -94,16 +94,15 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		});
 
-        mRootC.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+		mRootC.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
             public void onGlobalLayout() {
-                //mRootC.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                int paddingx = (int) (mRootC.getWidth() * 0.14f);
-                mRootC.setPadding(paddingx, mRootC.getPaddingTop(), paddingx, mRootC.getPaddingBottom());
+				int paddingx = (int) (mRootC.getWidth() * 0.14f);
+				mRootC.setPadding(paddingx, mRootC.getPaddingTop(), paddingx, mRootC.getPaddingBottom());
 
-                int headerHeight = (int) (mRootC.getWidth() * 0.36f);
-                Ui.findView(mRootC, R.id.hotel_header_container).getLayoutParams().height = headerHeight;
-            }
-        });
+				int headerHeight = (mRootC.getHeight() - mRootC.getPaddingTop() - mRootC.getPaddingBottom()) / 2;
+				Ui.findView(mRootC, R.id.hotel_header_container).getLayoutParams().height = headerHeight;
+			}
+		});
         return mRootC;
 	}
 
