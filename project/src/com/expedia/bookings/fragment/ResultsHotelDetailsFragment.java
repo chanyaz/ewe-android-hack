@@ -1,10 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.res.Resources;
@@ -21,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -48,6 +44,11 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.Log;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * ResultsHotelDetailsFragment: The hotel details / rooms and rates
@@ -93,7 +94,17 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		});
 
-		return mRootC;
+        mRootC.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+            public void onGlobalLayout() {
+                //mRootC.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                int paddingx = (int) (mRootC.getWidth() * 0.14f);
+                mRootC.setPadding(paddingx, mRootC.getPaddingTop(), paddingx, mRootC.getPaddingBottom());
+
+                int headerHeight = (int) (mRootC.getWidth() * 0.36f);
+                Ui.findView(mRootC, R.id.hotel_header_container).getLayoutParams().height = headerHeight;
+            }
+        });
+        return mRootC;
 	}
 
 	@Override
