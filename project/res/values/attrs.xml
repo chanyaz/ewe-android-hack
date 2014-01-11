@@ -198,6 +198,11 @@
         <attr name="sluggishness" format="integer" />
     </declare-styleable>
 
+    <!-- RoundedCornerFrameLayout -->
+    <declare-styleable name="RoundedCornerFrameLayout">
+        <attr name="radius" format="dimension" />
+    </declare-styleable>
+
     <!-- CalendarPicker -->
     <declare-styleable name="CalendarPicker">
 
