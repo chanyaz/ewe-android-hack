@@ -1,6 +1,5 @@
 package com.expedia.bookings.graphics;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Matrix;
@@ -10,7 +9,6 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 
 import com.larvalabs.svgandroid.SVG;
-import com.mobiata.android.Log;
 
 public class SvgDrawable extends Drawable {
 	private SVG mSvg;

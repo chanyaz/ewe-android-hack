@@ -1,11 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -25,7 +20,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightLineView;
 import com.google.android.gms.maps.model.LatLng;
 import com.jhlabs.map.Point2D;
-import com.mobiata.android.Log;
 import com.mobiata.android.maps.MapUtils;
 
 /**
@@ -119,7 +113,7 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 		positionArrival();
 	}
 
-	final int NUM_SAMPLES = 31;
+	private static final int NUM_SAMPLES = 31;
 
 	private void positionFlightLine() {
 		LatLng start = new LatLng(mDepartureLat, mDepartureLng);

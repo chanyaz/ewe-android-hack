@@ -1,5 +1,10 @@
 package com.expedia.bookings.fragment;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.res.Resources;
@@ -44,11 +49,6 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.Log;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 /**
  * ResultsHotelDetailsFragment: The hotel details / rooms and rates
@@ -95,7 +95,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		});
 
 		mRootC.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-            public void onGlobalLayout() {
+			public void onGlobalLayout() {
 				int paddingx = (int) (mRootC.getWidth() * 0.14f);
 				mRootC.setPadding(paddingx, mRootC.getPaddingTop(), paddingx, mRootC.getPaddingBottom());
 
@@ -103,7 +103,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				Ui.findView(mRootC, R.id.hotel_header_container).getLayoutParams().height = headerHeight;
 			}
 		});
-        return mRootC;
+		return mRootC;
 	}
 
 	@Override

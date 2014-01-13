@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
@@ -16,7 +15,6 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.jhlabs.map.Point2D;
-import com.mobiata.android.Log;
 
 public class FlightLineView extends View {
 	public FlightLineView(Context context) {

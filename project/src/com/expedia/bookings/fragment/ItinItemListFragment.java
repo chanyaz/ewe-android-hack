@@ -508,8 +508,8 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 		mCurrentSyncHasErrors = true;
 	}
 
-	private final String COMPLETED_TRIP_DIALOG_TAG = "USER_ADDED_COMPLETED_TRIP_DIALOG";
-	private final String CANCELLED_TRIP_DIALOG_TAG = "USER_ADDED_CANCELLED_TRIP_DIALOG";
+	private static final String COMPLETED_TRIP_DIALOG_TAG = "USER_ADDED_COMPLETED_TRIP_DIALOG";
+	private static final String CANCELLED_TRIP_DIALOG_TAG = "USER_ADDED_CANCELLED_TRIP_DIALOG";
 
 	@Override
 	public void onCompletedTripAdded(Trip trip) {

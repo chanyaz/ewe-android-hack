@@ -3,7 +3,6 @@ package com.expedia.bookings.fragment;
 import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Picture;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
