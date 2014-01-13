@@ -291,7 +291,6 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 		}
 		else {
 			int contentHeight = calculateContentHeight();
-			Log.d("JOE: contentHeight:" + contentHeight + " totalHeight:" + mTotalHeight);
 			return Math.max(mTotalHeight - contentHeight, 0);
 		}
 	}
