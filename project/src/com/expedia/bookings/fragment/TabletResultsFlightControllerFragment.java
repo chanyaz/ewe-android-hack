@@ -591,24 +591,40 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateTransitionStart(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo) {
-			startStateTransition(getFlightsStateFromListState(stateOne), getFlightsStateFromListState(stateTwo));
+			if (getFlightsListActionsEnabled()) {
+				startStateTransition(getFlightsStateFromListState(stateOne), getFlightsStateFromListState(stateTwo));
+			}
 		}
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo,
 				float percentage) {
-			updateStateTransition(getFlightsStateFromListState(stateOne), getFlightsStateFromListState(stateTwo),
-					percentage);
+			if (getFlightsListActionsEnabled()) {
+				updateStateTransition(getFlightsStateFromListState(stateOne), getFlightsStateFromListState(stateTwo),
+						percentage);
+			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo) {
-			endStateTransition(getFlightsStateFromListState(stateOne), getFlightsStateFromListState(stateTwo));
+			if (getFlightsListActionsEnabled()) {
+				endStateTransition(getFlightsStateFromListState(stateOne), getFlightsStateFromListState(stateTwo));
+			}
 		}
 
 		@Override
 		public void onStateFinalized(ResultsFlightsListState state) {
-			setFlightsState(getFlightsStateFromListState(state), false);
+			if (getFlightsListActionsEnabled()) {
+				setFlightsState(getFlightsStateFromListState(state), false);
+			}
+		}
+
+		private boolean getFlightsListActionsEnabled() {
+			ResultsFlightsState state = mFlightsStateManager.getState();
+			if (state == ResultsFlightsState.FLIGHT_ONE_FILTERS || state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				return true;
+			}
+			return false;
 		}
 
 		private ResultsFlightsState getFlightsStateFromListState(ResultsFlightsListState state) {
