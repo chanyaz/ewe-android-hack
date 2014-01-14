@@ -545,6 +545,15 @@ public class WalletUtils {
 					context.getString(R.string.extra_guest_charge), LineItem.Role.TAX));
 		}
 
+		//Sometimes we want to fake a google wallet error, so we created a dev setting
+		if (!AndroidUtils.isRelease(context)
+				&& SettingUtils.get(context,
+						context.getString(R.string.preference_fake_invalid_google_wallet_line_item), false)) {
+			Money fakeFee = new Money(total);
+			fakeFee.setAmount(new BigDecimal(100.00));
+			cartBuilder.addLineItem(WalletUtils.createLineItem(fakeFee, "Fake Tax", LineItem.Role.TAX));
+		}
+
 		//Generate the cart
 		Cart cart = cartBuilder.build();
 
