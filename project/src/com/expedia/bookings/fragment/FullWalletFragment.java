@@ -191,5 +191,9 @@ public abstract class FullWalletFragment extends WalletFragment {
 				requestFullWallet();
 			}
 		}
+		else {
+			Log.e("FullWalletFragment.onFullWalletLoaded() - !status.isSuccess() && !status.hasResolution(). Setting ERROR_CODE_UNKNOWN");
+			handleError(WalletConstants.ERROR_CODE_UNKNOWN);
+		}
 	}
 }
