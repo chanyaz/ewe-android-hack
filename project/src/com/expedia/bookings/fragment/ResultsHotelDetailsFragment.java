@@ -309,13 +309,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		int padding = (int) Math.max(minPadding, desiredPadding);
 		amenitiesContainer.setPadding(padding, 0, padding, 0);
 
-		// I derived this ColorFilter by sampling our existing amenity icon color (#666d75) and
-		// the desired amenity icon color (#445b75).
-		// 0x44 / 0x66 * 0xff = 68 / 102 * 255 = 170 = 0xaa
-		// 0x5b / 0x6d * 0xff = 91 / 109 * 255 = 213 = 0xd5
-		// 0x75 / 0x75 * 0xff = 0xff
-		PorterDuffColorFilter filter = new PorterDuffColorFilter(Color.rgb(0xaa, 0xd5, 0xff), Mode.MULTIPLY);
-		LayoutUtils.addAmenities(getActivity(), property, amenitiesTableRow, filter);
+		LayoutUtils.addAmenities(getActivity(), property, amenitiesTableRow);
 
 		// Hide the text that indicated no amenities because there are amenities
 		view.findViewById(R.id.amenities_none_text).setVisibility(View.GONE);

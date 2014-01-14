@@ -161,28 +161,21 @@ public class LayoutUtils {
 
 	}
 
-	public static void addAmenities(Context context, Property property, ViewGroup container) {
-		addAmenities(context, property, container, null);
-	}
-
 	/**
-	 * Generate a view with the amenities included in this Property. Use iconColorFilter if you
-	 * want an icon color besides the standard gray.
+	 * Generate a view with the amenities included in this Property.
 	 * @param context
 	 * @param property
 	 * @param container
-	 * @param iconColorFilter
 	 */
-	public static void addAmenities(Context context, Property property, ViewGroup container, ColorFilter iconColorFilter) {
+	public static void addAmenities(Context context, Property property, ViewGroup container) {
 		for (AmenityInfo ai : sAmenityInfo) {
 			if (property.hasAmenity(ai.amenity) || property.hasAnyAmenity(ai.aliases)) {
-				addAmenity(context, container, ai.amenity, ai.resId, iconColorFilter);
+				addAmenity(context, container, ai.amenity, ai.resId);
 			}
 		}
 	}
 
-	private static void addAmenity(Context context, ViewGroup amenitiesTable, Amenity amenity, int iconResourceId,
-			ColorFilter iconColorFilter) {
+	private static void addAmenity(Context context, ViewGroup amenitiesTable, Amenity amenity, int iconResourceId) {
 		LayoutInflater layoutInflater = LayoutInflater.from(context);
 		TextView amenityTextView = (TextView) layoutInflater.inflate(R.layout.snippet_amenity, amenitiesTable, false);
 
@@ -201,7 +194,6 @@ public class LayoutUtils {
 
 		amenityTextView.setText(amenityStr);
 		Drawable icon = context.getResources().getDrawable(iconResourceId);
-		icon.setColorFilter(iconColorFilter);
 		amenityTextView.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
 
 		amenitiesTable.addView(amenityTextView);
