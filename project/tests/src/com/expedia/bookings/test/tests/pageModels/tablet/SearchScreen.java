@@ -8,13 +8,21 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
+import org.joda.time.LocalDate;
+
+import android.app.Activity;
+
 import com.expedia.bookings.R;
+import com.expedia.bookings.widget.CalendarPicker;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
+import com.mobiata.android.util.Ui;
 
 public class SearchScreen {
 
 	public SearchScreen() {
 	}
+
+	private static CalendarPicker sPicker;
 
 	// Object access
 
@@ -46,12 +54,19 @@ public class SearchScreen {
 		return onView(withId(R.id.guests_text_view));
 	}
 
+	public static CalendarPicker calendarPicker(Activity a) {
+		if (sPicker == null) {
+			sPicker = Ui.findView(a, R.id.calendar_picker);
+		}
+		return sPicker;
+	}
+
 	// Object interaction
 
 	@SuppressWarnings("unchecked")
 	public static void clickInListWithText(String text) {
 		//TextView in suggestion row with the passed String as its text
-		onView(allOf(withId(R.id.location), withText(text))).perform(click());
+		onView(allOf(withId(android.R.id.text1), withText(text))).perform(click());
 	}
 
 	public static void clickToStartSearch() {
@@ -94,4 +109,11 @@ public class SearchScreen {
 		guestsTextView().perform(click());
 	}
 
+	public static void clickDate(final Activity a, final LocalDate start, final LocalDate end) {
+		a.runOnUiThread(new Runnable() {
+			public void run() {
+				calendarPicker(a).setSelectedDates(start, end);
+			}
+		});
+	}
 }
