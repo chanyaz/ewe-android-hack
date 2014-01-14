@@ -2,6 +2,7 @@ package com.expedia.bookings.test.tests.ui;
 
 import java.util.Random;
 
+import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,7 @@ import com.expedia.bookings.test.utils.HotelsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.TestPreferences;
 
+@SuppressLint("NewApi")
 public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<HotelPaymentOptionsActivity> {
 
 	public CreditCardInfoEditTest() {
@@ -63,7 +65,6 @@ public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<Hot
 
 		mDriver.cardInfoScreen().typeTextNameOnCardEditText(mUser.getFirstName() + " " + mUser.getLastName());
 		mDriver.cardInfoScreen().typeTextPostalCode(mUser.getAddressPostalCode());
-		mDriver.cardInfoScreen().typeTextEmailEditText(mUser.getLoginEmail());
 		mDriver.cardInfoScreen().clickOnDoneButton();
 
 		//If a pop up appears asking to save billing info, then the
