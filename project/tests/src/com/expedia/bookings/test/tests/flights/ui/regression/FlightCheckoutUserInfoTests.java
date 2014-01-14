@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.tests.flights.ui.regression;
 
+import org.joda.time.LocalDate;
+
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -57,7 +59,7 @@ public class FlightCheckoutUserInfoTests extends CustomActivityInstrumentationTe
 		verifyMissingTravelerInformationAlerts();
 		verifyMissingCardInfoAlerts();
 		verifyLoginButtonNotAppearing();
-		
+
 	}
 
 	private void verifyMissingTravelerInformationAlerts() {
@@ -185,7 +187,10 @@ public class FlightCheckoutUserInfoTests extends CustomActivityInstrumentationTe
 		mDriver.cardInfoScreen().clickMonthDownButton();
 		mDriver.cardInfoScreen().clickSetButton();
 		mDriver.cardInfoScreen().clickOnDoneButton();
-		assertEquals(errorIcon(), expirationDateTextViewBitmap());
+		//This check doesn't work for January. If it's January, the user cannot pick a date in the past.
+		if (LocalDate.now().getMonthOfYear() != 1) {
+			assertEquals(errorIcon(), expirationDateTextViewBitmap());
+		}
 		assertEquals(errorIcon(), creditCardETBitmap());
 		assertEquals(errorIcon(), nameOnCardETBitmap());
 		assertEquals(errorIcon(), emailAddressETBitmap());
