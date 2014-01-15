@@ -58,9 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_flight_details_tablet_white_bottom"
-            android:paddingBottom="2dp"
-            android:paddingLeft="@dimen/tablet_flight_details_horizontal_padding"
-            android:paddingRight="@dimen/tablet_flight_details_horizontal_padding" >
+            android:paddingBottom="2dp" >
 
             <!-- Flight information -->
 
@@ -68,7 +66,9 @@
                 android:id="@+id/flight_legs_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/tablet_flight_details_horizontal_padding"
+                android:paddingRight="@dimen/tablet_flight_details_horizontal_padding" >
 
                 <!-- Cool stats on the flight -->
 
