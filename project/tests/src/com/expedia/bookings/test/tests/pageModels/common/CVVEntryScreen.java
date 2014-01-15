@@ -62,6 +62,14 @@ public class CVVEntryScreen extends ScreenActions {
 		return getString(sBookingStringID);
 	}
 
+	public String creditCardNumberInvalid() {
+		return getString(R.string.error_invalid_card_number);
+	}
+
+	public String okString() {
+		return getString(android.R.string.ok);
+	}
+
 	// Object interaction
 
 	public void clickNumberButton(int number) {
@@ -85,5 +93,9 @@ public class CVVEntryScreen extends ScreenActions {
 
 	public void clickDeleteButton() {
 		clickOnView(deleteButton());
+	}
+
+	public void clickOkButton() {
+		clickOnText(okString());
 	}
 }

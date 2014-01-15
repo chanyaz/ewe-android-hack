@@ -19,7 +19,7 @@ public class CommonCheckoutScreen extends ScreenActions {
 	private static final int ADD_TRAVELER_BUTTON_ID = R.id.traveler_info_btn;
 	private static final int EMPTY_TRAVELER_BUTTON_ID = R.id.traveler_empty_text_view;
 	private static final int SELECT_PAYMENT_BUTTON_ID = R.id.payment_info_btn;
-	private static final int SLIDE_TO_PURCHASE_START_ID = R.id.slider_image;
+	private static final int SLIDE_TO_PURCHASE_START_ID = R.id.slider_image_holder;
 	private static final int SLIDE_TO_PURCHASE_END_ID = R.id.destination_image;
 	private static final int CALCULATING_TAXES_AND_FEES_ID = R.string.calculating_taxes_and_fees;
 	private static final int I_ACCEPT_STRING_ID = R.string.I_Accept;
