@@ -522,6 +522,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 			float translationY = Math.max(-topDist * (1f - percentage), -topDist);
 			mBlurredBackgroundC.setTranslationY(translationY);
 			mBlurredBackgroundC.setAlpha(percentage);
+			mTripBucketYourTripToC.setAlpha(percentage);
 
 			//Trip bucket items are a bit harder
 			int[] centers = getCenterPositionsForTripBucket(getNumberOfBucketContainers());
