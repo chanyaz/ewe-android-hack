@@ -447,7 +447,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				Log.w(getString(messageResId));
 				//showErrorDialog(messageResId);
 			}
-			else if (search.getAvailability(selectedId).getRateCount() == 0
+			else if (search.getAvailability(selectedId) != null && search.getSearchParams() != null
+					&& search.getAvailability(selectedId).getRateCount() == 0
 					&& search.getSearchParams().getSearchType() != SearchType.HOTEL) {
 				Log.w(getString(R.string.error_hotel_is_now_sold_out));
 				//showErrorDialog(R.string.error_hotel_is_now_sold_out);
