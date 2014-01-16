@@ -291,7 +291,9 @@ public class FlightSearch implements JSONable {
 					// calculate cheapest trip per airport/airline
 					evaluateTripPrice(leg.getAirport(true).mAirportCode, trip, mCheapestTripsByDepartureAirport);
 					evaluateTripPrice(leg.getAirport(false).mAirportCode, trip, mCheapestTripsByArrivalAirport);
-					evaluateTripPrice(leg.getFirstAirlineCode(), trip, mCheapestTripsByAirline);
+					for (String airline : leg.getPrimaryAirlines()) {
+						evaluateTripPrice(airline, trip, mCheapestTripsByAirline);
+					}
 				}
 
 				// Filter results (if user called for it)
@@ -308,7 +310,9 @@ public class FlightSearch implements JSONable {
 				for (int i = 0; i < mTrips.size(); i++) {
 					trip = mTrips.get(i);
 					leg = trip.getLeg(mLegPosition);
-					mAirlinesFilteredByStopsAndAirports.add(leg.getFirstAirlineCode());
+					for (String airline : leg.getPrimaryAirlines()) {
+						mAirlinesFilteredByStopsAndAirports.add(airline);
+					}
 				}
 
 				// Filter out preferred airlines
@@ -434,11 +438,15 @@ public class FlightSearch implements JSONable {
 		private void evaluateTripPrice(String key, FlightTrip trip, Map<String, FlightTrip> lowestPriceMap) {
 			FlightTrip cheapest = lowestPriceMap.get(key);
 			if (cheapest == null || trip.getTotalFare().compareTo(cheapest.getTotalFare()) < 0) {
-				lowestPriceMap.put(key, trip);
+				JSONObject json = trip.toJson();
+				FlightTrip ft = new FlightTrip();
+				ft.fromJson(json);
+				ft.setAirline(mLegPosition, key);
+				lowestPriceMap.put(key, ft);
 			}
 		}
 
-		// loop through the cheapest trips from the filtered set and update the
+		// loop through the cheapest trips from the filtered set and update the prices in the entire set
 		private void updateCheapestTrips(Map<String, FlightTrip> all, Map<String, FlightTrip> filtered) {
 			// Update the cheapest chips map to reflect the cheapest
 			for (String key : filtered.keySet()) {

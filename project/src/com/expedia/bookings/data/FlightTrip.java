@@ -348,6 +348,14 @@ public class FlightTrip implements JSONable {
 		return mFareName;
 	}
 
+	public void setAirline(int index, String airlineCode) {
+		getLeg(index).setAirlineCode(airlineCode);
+	}
+
+	public String getAirline(int index) {
+		return getLeg(index).getAirlineCode();
+	}
+
 	////////////////////////////////////////////////////////////////////////
 	// More meta retrieval methods
 
@@ -614,7 +622,9 @@ public class FlightTrip implements JSONable {
 	public static final Comparator<FlightLeg> AIRLINE_COMPARATOR = new Comparator<FlightLeg>() {
 		@Override
 		public int compare(FlightLeg lhs, FlightLeg rhs) {
-			return lhs.getAirlinesFormatted().compareTo(rhs.getAirlinesFormatted());
+			String lhsAirline = Db.getAirline(lhs.getAirlineCode()).mAirlineName;
+			String rhsAirline = Db.getAirline(rhs.getAirlineCode()).mAirlineName;
+			return lhsAirline.compareTo(rhsAirline);
 		}
 	};
 

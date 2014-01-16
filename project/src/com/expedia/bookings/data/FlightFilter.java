@@ -69,7 +69,9 @@ public class FlightFilter {
 	// Supply a list of trips to initialize this filter, where flights from all airlines are shown by default.
 	public void initPreferredAirlines(List<FlightTrip> trips, int legPosition) {
 		for (FlightTrip trip : trips) {
-			mPreferredAirlines.add(trip.getLeg(legPosition).getPrimaryAirlines().iterator().next());
+			for (String airline : trip.getLeg(legPosition).getPrimaryAirlines()) {
+				mPreferredAirlines.add(airline);
+			}
 		}
 	}
 

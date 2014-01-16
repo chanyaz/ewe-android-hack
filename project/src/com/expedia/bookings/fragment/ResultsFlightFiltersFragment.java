@@ -150,7 +150,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 				mAirlineContainer.addView(airlineFilterWidget);
 			}
 
-			airline = trip.getLeg(mLegNumber).getFirstAirlineCode();
+			airline = trip.getAirline(mLegNumber);
 			enabled = query.getAirlinesFilteredByStopsAndAirports().contains(airline);
 			airlineFilterWidget.bindFlight(Db.getFlightSearch().getFilter(mLegNumber), trip, mLegNumber);
 			airlineFilterWidget.setTag(trip);
@@ -189,7 +189,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		@Override
 		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
 			FlightTrip trip = (FlightTrip) view.getTag();
-			mFilter.setPreferredAirline(trip.getLeg(mLegNumber).getFirstAirlineCode(), isChecked);
+			mFilter.setPreferredAirline(trip.getAirline(mLegNumber), isChecked);
 
 			onFilterChanged();
 		}

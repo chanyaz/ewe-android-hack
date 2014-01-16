@@ -15,6 +15,7 @@ import android.widget.Checkable;
 import android.widget.CompoundButton;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
@@ -117,9 +118,12 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable, Com
 	}
 
 	public void bindFlight(FlightFilter filter, FlightTrip trip, int legNumber) {
-		boolean isChecked = filter.getPreferredAirlines().contains(trip.getLeg(legNumber).getFirstAirlineCode());
+		String airlineCode = trip.getAirline(legNumber);
+
+		boolean isChecked = filter.getPreferredAirlines().contains(airlineCode);
 		SpannableBuilder sb = new SpannableBuilder();
-		sb.append(trip.getLeg(legNumber).getAirlinesFormatted(), FontCache.getSpan(FontCache.Font.ROBOTO_REGULAR));
+		String airlineName = Db.getAirline(airlineCode).mAirlineName;
+		sb.append(airlineName, FontCache.getSpan(FontCache.Font.ROBOTO_REGULAR));
 
 		setChecked(isChecked);
 		setDescription(sb.build());

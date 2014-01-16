@@ -29,6 +29,8 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	private List<Flight> mSegments = new ArrayList<Flight>();
 
+	private String mAirlineCode;
+
 	public String getLegId() {
 		return mLegId;
 	}
@@ -51,6 +53,14 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	public List<Flight> getSegments() {
 		return mSegments;
+	}
+
+	public void setAirlineCode(String airlineCode) {
+		mAirlineCode = airlineCode;
+	}
+
+	public String getAirlineCode() {
+		return mAirlineCode;
 	}
 
 	@Override
