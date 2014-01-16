@@ -61,8 +61,8 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	}
 
 	private void generateMap() {
-		int w = getMapImageView().getWidth();
-		int h = getMapImageView().getHeight();
+		int w = getMapView().getWidth();
+		int h = getMapView().getHeight();
 
 		int searchHeaderHeight = getResources().getDimensionPixelSize(R.dimen.tablet_search_header_height);
 		int stackHeight = getResources().getDimensionPixelSize(R.dimen.destination_search_stack_height);
@@ -115,8 +115,8 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 			radialGradDrawable,
 		};
 		LayerDrawable allDrawables = new LayerDrawable(drawables);
-		getMapImageView().setBackgroundDrawable(allDrawables);
-		getMapImageView().setLayerType(View.LAYER_TYPE_HARDWARE, null);
+		getMapView().setBackgroundDrawable(allDrawables);
+		mRoot.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 	}
 
 	private void generatePins() {

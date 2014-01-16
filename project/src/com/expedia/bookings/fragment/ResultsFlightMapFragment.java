@@ -28,7 +28,7 @@ import com.mobiata.android.maps.MapUtils;
 public class ResultsFlightMapFragment extends SvgMapFragment {
 
 	private FrameLayout mRoot;
-	private ImageView mMapImageView;
+	private View mMapView;
 	private FlightLineView mFlightLine;
 	private ImageView mDepartureImage;
 	private ImageView mArrivalImage;
@@ -49,14 +49,14 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRoot = (FrameLayout) inflater.inflate(R.layout.fragment_results_flight_map, container, false);
-		mMapImageView = Ui.findView(mRoot, R.id.map_image_view);
+		mMapView = Ui.findView(mRoot, R.id.map_view);
 		mFlightLine = Ui.findView(mRoot, R.id.flight_line_view);
 		mDepartureImage = Ui.findView(mRoot, R.id.departure_image);
 		mArrivalImage = Ui.findView(mRoot, R.id.arrival_image);
 
-		setMapImageView(mMapImageView);
+		setMapView(mMapView);
 
-		mMapImageView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+		mMapView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			private Location mPrevDep = null;
 			private Location mPrevArr = null;
 
@@ -73,10 +73,10 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 				if (mPrevDep == null || mPrevArr == null
 						|| mPrevDep != Db.getFlightSearch().getSearchParams().getDepartureLocation()
 						|| mPrevArr != Db.getFlightSearch().getSearchParams().getArrivalLocation()
-						|| mPrevWidth != mMapImageView.getWidth() || mPrevHeight != mMapImageView.getHeight()) {
+						|| mPrevWidth != mMapView.getWidth() || mPrevHeight != mMapView.getHeight()) {
 
-					mPrevHeight = mMapImageView.getHeight();
-					mPrevWidth = mMapImageView.getWidth();
+					mPrevHeight = mMapView.getHeight();
+					mPrevWidth = mMapView.getWidth();
 
 					mPrevDep = Db.getFlightSearch().getSearchParams().getDepartureLocation();
 					mPrevArr = Db.getFlightSearch().getSearchParams().getArrivalLocation();
@@ -103,8 +103,8 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 	}
 
 	private void generateMap() {
-		int w = getMapImageView().getWidth();
-		int h = getMapImageView().getHeight();
+		int w = getMapView().getWidth();
+		int h = getMapView().getHeight();
 
 		// TODO make work for pacific ocean
 		setBounds(
@@ -122,8 +122,8 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 			mapDrawable,
 		};
 		mBgDrawable = new LayerDrawable(drawables);
-		getMapImageView().setImageDrawable(mBgDrawable);
-		getMapImageView().setLayerType(View.LAYER_TYPE_HARDWARE, null);
+		getMapView().setBackgroundDrawable(mBgDrawable);
+		mRoot.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
 		positionFlightLine();
 		positionDeparture();

@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
@@ -23,7 +22,7 @@ public class SvgMapFragment extends MeasurableFragment {
 
 	private static final String ARG_MAP_RESOURCE = "ARG_MAP_RESOURCE";
 
-	private ImageView mMapImageView;
+	private View mMapView;
 
 	private SVG mSvg;
 
@@ -73,7 +72,7 @@ public class SvgMapFragment extends MeasurableFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		FrameLayout root = (FrameLayout) inflater.inflate(R.layout.fragment_svg_map, container, false);
-		mMapImageView = Ui.findView(root, R.id.map_image_view);
+		mMapView = Ui.findView(root, R.id.map_view);
 		return root;
 	}
 
@@ -104,10 +103,10 @@ public class SvgMapFragment extends MeasurableFragment {
 		float projectedWidth = (float) (br.x - tl.x);
 		float projectedHeight = (float) (br.y - tl.y);
 
-		int usableWidth = mMapImageView.getWidth() - mPaddingRight - mPaddingLeft;
+		int usableWidth = mMapView.getWidth() - mPaddingRight - mPaddingLeft;
 		float horizontalScale =  usableWidth / projectedWidth;
 
-		int usableHeight = mMapImageView.getHeight() - mPaddingTop - mPaddingBottom;
+		int usableHeight = mMapView.getHeight() - mPaddingTop - mPaddingBottom;
 		float verticalScale = usableHeight / projectedHeight;
 
 		float scale = Math.min(horizontalScale, verticalScale);
@@ -158,12 +157,12 @@ public class SvgMapFragment extends MeasurableFragment {
 		return mSvg;
 	}
 
-	public void setMapImageView(ImageView v) {
-		mMapImageView = v;
+	public void setMapView(View v) {
+		mMapView = v;
 	}
 
-	public ImageView getMapImageView() {
-		return mMapImageView;
+	public View getMapView() {
+		return mMapView;
 	}
 
 	public Matrix getViewportMatrix() {
