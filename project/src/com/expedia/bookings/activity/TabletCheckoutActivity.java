@@ -1,8 +1,10 @@
 package com.expedia.bookings.activity;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.ViewGroup;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -10,6 +12,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.helpers.BackManager;
@@ -30,6 +33,9 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 
 	//Containers..
 	private ViewGroup mRootC;
+
+	//Fragments
+	TabletCheckoutControllerFragment mFragCheckoutController;
 
 	//Other
 	private boolean mBackButtonLocked = false;
@@ -52,6 +58,11 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 
 		//Containers
 		mRootC = Ui.findView(this, R.id.root_layout);
+
+		//Fragments
+		FragmentManager manager = getSupportFragmentManager();
+		mFragCheckoutController = (TabletCheckoutControllerFragment) manager
+				.findFragmentById(R.id.tablet_checkout_controller_fragment);
 
 		// HockeyApp init
 		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));

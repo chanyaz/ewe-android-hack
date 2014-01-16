@@ -4,4 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <fragment
+        android:id="@+id/tablet_checkout_controller_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.expedia.bookings.fragment.TabletCheckoutControllerFragment" />
+
 </FrameLayout>
