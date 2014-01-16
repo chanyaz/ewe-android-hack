@@ -1060,10 +1060,28 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateTransitionEnd(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
-			if (((stateOne == ResultsFlightsState.FLIGHT_ONE_FILTERS || stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS)
+			int layerType = View.LAYER_TYPE_NONE;
+			if ((stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS || stateOne == ResultsFlightsState.FLIGHT_TWO_FILTERS)
+					&& (stateTwo == ResultsFlightsState.FLIGHT_ONE_DETAILS || stateTwo == ResultsFlightsState.FLIGHT_TWO_FILTERS)) {
+				//Rendering
+				mFlightOneListC.setLayerType(layerType, null);
+				mFlightTwoFiltersC.setLayerType(layerType, null);
+				mFlightTwoListColumnC.setLayerType(layerType, null);
+				if (mFlightOneDetailsFrag != null) {
+					mFlightOneDetailsFrag.setDepartureTripSelectedAnimationLayer(layerType);
+				}
+			}else if (((stateOne == ResultsFlightsState.FLIGHT_ONE_FILTERS || stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS)
 					&& (stateTwo == ResultsFlightsState.FLIGHT_ONE_FILTERS || stateTwo == ResultsFlightsState.FLIGHT_ONE_DETAILS))
 					|| ((stateOne == ResultsFlightsState.FLIGHT_TWO_FILTERS || stateOne == ResultsFlightsState.FLIGHT_TWO_DETAILS)
 					&& (stateTwo == ResultsFlightsState.FLIGHT_TWO_FILTERS || stateTwo == ResultsFlightsState.FLIGHT_TWO_DETAILS))) {
+			
+				//Rendering
+				mTransitionFiltersC.setLayerType(layerType, null);
+				mTransitionListC.setLayerType(layerType, null);
+				if (mTransitionDetailsFrag != null) {
+					mTransitionDetailsFrag.setSlideInAnimationLayer(layerType);
+				}
+				
 				mTransitionFiltersC = null;
 				mTransitionListC = null;
 				mTransitionDetailsC = null;
@@ -1071,6 +1089,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			}
 			else if ((stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS || stateOne == ResultsFlightsState.FLIGHT_TWO_DETAILS)
 					&& stateTwo == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
+				
 				if (stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS) {
 					mFlightOneDetailsFrag.finalizeAddToTripFromDetailsAnimation();
 				}

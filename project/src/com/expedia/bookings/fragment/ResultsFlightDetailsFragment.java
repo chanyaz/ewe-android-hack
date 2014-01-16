@@ -376,7 +376,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	 */
 
 	public void setSlideInAnimationLayer(int layerType) {
-
+		mDetailsC.setLayerType(layerType, null);
 	}
 
 	public void prepareSlideInAnimation() {
@@ -399,7 +399,12 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	 */
 
 	public void setDepartureTripSelectedAnimationLayer(int layerType) {
-
+		if (mAnimationFlightRow != null) {
+			mAnimationFlightRow.setLayerType(layerType, null);
+		}
+		if (mDetailsC != null) {
+			mDetailsC.setLayerType(layerType, null);
+		}
 	}
 
 	public void prepareDepartureFlightSelectedAnimation(Rect globalDestSpot) {
@@ -479,7 +484,9 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	 */
 
 	public void setAddToTripFromDepartureAnimationLayer(int layerType) {
-
+		if (mAnimationFlightRow != null) {
+			mAnimationFlightRow.setLayerType(layerType, null);
+		}
 	}
 
 	public void prepareAddToTripFromDepartureAnimation(Rect globalDepartureRowPosition, Rect globalAddToTripPosition) {
