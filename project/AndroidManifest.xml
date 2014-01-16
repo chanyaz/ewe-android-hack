@@ -356,6 +356,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity
+            android:name="com.expedia.bookings.activity.TabletCheckoutActivity"
+            android:label="@string/CheckOut"
+            android:theme="@style/V2.Theme.Activity.TabletCheckout"
+            android:windowSoftInputMode="adjustPan" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <!-- Testing activities -->
 

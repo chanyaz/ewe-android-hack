@@ -42,6 +42,11 @@
         <item name="hotelImagePlaceHolderDrawable">@drawable/placeholder_lg</item>
     </style>
 
+    <style name="V2.Theme.Activity.TabletCheckout" parent="@android:style/Theme.Holo.Light" tools:targetApi="14">
+        <item name="android:windowActionBarOverlay">false</item>
+        <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletCheckout</item>
+    </style>
+
     <!-- Action bar styling; directly linked to themes so not moving too far away -->
 
     <style name="V2.Widget" />
@@ -57,6 +62,17 @@
 
     <style name="V2.Widget.ActionBar.TabletResults">
         <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="V2.Widget.ActionBar.TabletCheckout" parent="@android:style/Widget.Holo.Light.ActionBar" tools:targetApi="14">
+        <item name="android:background">@color/tablet_checkout_light</item>
+        <item name="android:logo">@drawable/ic_expedia_logo_blue</item>
+        <item name="android:displayOptions">showHome|useLogo|showTitle|homeAsUp</item>
+        <item name="android:titleTextStyle">@style/V2.Widget.ActionBar.TitleTextStyle</item>
+    </style>
+
+    <style name="V2.Widget.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title" tools:targetApi="14">
+        <item name="android:textColor">@color/tablet_checkout_dark</item>
     </style>
 
     <!-- Calendar styling -->
