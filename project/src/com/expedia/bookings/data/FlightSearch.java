@@ -494,8 +494,13 @@ public class FlightSearch implements JSONable {
 			}
 		}
 
-		// TODO: Is the preferred airline operating?  Marketing?  Currently assumes operating.
+		// We filter based upon the marketing airline (not the operating airline)
 		private void filterTripsByAirline(int legPos, List<FlightTrip> trips, Set<String> airlines) {
+			// Special case: if no airlines are provided, this means no filtering is to take place
+			if (airlines.size() == 0) {
+				return;
+			}
+
 			FlightLeg leg;
 			Iterator<FlightTrip> iterator = trips.iterator();
 			while (iterator.hasNext()) {

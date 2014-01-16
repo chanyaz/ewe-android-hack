@@ -1,7 +1,6 @@
 package com.expedia.bookings.data;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import android.database.DataSetObservable;
@@ -63,16 +62,6 @@ public class FlightFilter {
 
 	public void setStops(int stops) {
 		mStops = stops;
-	}
-
-	// This filter depends upon airlines generated at runtime, dynamic based on the given FlightSearch.
-	// Supply a list of trips to initialize this filter, where flights from all airlines are shown by default.
-	public void initPreferredAirlines(List<FlightTrip> trips, int legPosition) {
-		for (FlightTrip trip : trips) {
-			for (String airline : trip.getLeg(legPosition).getPrimaryAirlines()) {
-				mPreferredAirlines.add(airline);
-			}
-		}
 	}
 
 	public void initAirports(FlightSearch.FlightTripQuery query) {

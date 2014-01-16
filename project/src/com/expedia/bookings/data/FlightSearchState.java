@@ -46,7 +46,6 @@ public class FlightSearchState implements JSONable {
 			mFilters[legPosition] = new FlightFilter();
 
 			// A new filter should be initialized with a list of FlightTrips
-			mFilters[legPosition].initPreferredAirlines(trips, legPosition);
 			mFilters[legPosition].initAirports(query);
 		}
 
