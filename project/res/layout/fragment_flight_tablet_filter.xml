@@ -14,102 +14,174 @@
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
-        <com.expedia.bookings.widget.TextView
-                style="@style/V2.Widget.TextView.FilterTitle"
-                android:text="@string/Sort_and_Filter" />
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-        <com.expedia.bookings.widget.TextView
-                style="@style/V2.Widget.TextView.FilterHeader"
-                android:layout_marginBottom="8dp"
-                android:text="@string/Sort_By" />
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
 
-        <com.expedia.bookings.widget.SlidingRadioGroup
-                android:id="@+id/flight_sort_control"
-                style="@style/Widget.SlidingRadioGroup.TabletFilterControls"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/tablet_filter_white_space" >
+                <com.expedia.bookings.widget.TextView
+                        style="@style/V2.Widget.TextView.FilterTitle"
+                        android:text="@string/Sort_and_Filter" />
 
-            <RadioButton
-                    android:id="@+id/flight_sort_price"
-                    style="@style/V2.Widget.RadioButton.Filter"
-                    android:text="@string/sort_description_price" />
+                <com.expedia.bookings.widget.TextView
+                        style="@style/V2.Widget.TextView.FilterHeader"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/Sort_By" />
 
-            <RadioButton
-                    android:id="@+id/flight_sort_departs"
-                    style="@style/V2.Widget.RadioButton.Filter"
-                    android:text="@string/sort_description_departure" />
+                <com.expedia.bookings.widget.SlidingRadioGroup
+                        android:id="@+id/flight_sort_control"
+                        style="@style/Widget.SlidingRadioGroup.TabletFilterControls"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/tablet_filter_white_space" >
 
-            <RadioButton
-                    android:id="@+id/flight_sort_arrives"
-                    style="@style/V2.Widget.RadioButton.Filter"
-                    android:text="@string/sort_description_arrival" />
+                    <RadioButton
+                            android:id="@+id/flight_sort_price"
+                            style="@style/V2.Widget.RadioButton.Filter"
+                            android:text="@string/sort_description_price" />
 
-            <RadioButton
-                    android:id="@+id/flight_sort_duration"
-                    style="@style/V2.Widget.RadioButton.Filter"
-                    android:text="@string/sort_description_duration" />
-        </com.expedia.bookings.widget.SlidingRadioGroup>
+                    <RadioButton
+                            android:id="@+id/flight_sort_departs"
+                            style="@style/V2.Widget.RadioButton.Filter"
+                            android:text="@string/sort_description_departure" />
 
-        <com.expedia.bookings.widget.TextView
-                style="@style/V2.Widget.TextView.FilterHeader"
-                android:layout_marginBottom="8dp"
-                android:text="@string/stops" />
+                    <RadioButton
+                            android:id="@+id/flight_sort_arrives"
+                            style="@style/V2.Widget.RadioButton.Filter"
+                            android:text="@string/sort_description_arrival" />
 
-        <com.expedia.bookings.widget.SlidingRadioGroup
-                android:id="@+id/flight_filter_control"
-                style="@style/Widget.SlidingRadioGroup.TabletFilterControls"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/tablet_filter_white_space" >
+                    <RadioButton
+                            android:id="@+id/flight_sort_duration"
+                            style="@style/V2.Widget.RadioButton.Filter"
+                            android:text="@string/sort_description_duration" />
+                </com.expedia.bookings.widget.SlidingRadioGroup>
 
-            <RadioButton
-                    android:id="@+id/flight_filter_stop_none"
-                    style="@style/V2.Widget.RadioButton.Filter"
-                    android:text="@string/stop_description__nonstop" />
+                <com.expedia.bookings.widget.TextView
+                        style="@style/V2.Widget.TextView.FilterHeader"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/stops" />
 
-            <RadioButton
-                    android:id="@+id/flight_filter_stop_one_or_less"
-                    style="@style/V2.Widget.RadioButton.Filter"
-                    android:text="@string/stop_description__max" />
+                <com.expedia.bookings.widget.SlidingRadioGroup
+                        android:id="@+id/flight_filter_control"
+                        style="@style/Widget.SlidingRadioGroup.TabletFilterControls"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/tablet_filter_white_space" >
 
-            <RadioButton
-                    android:id="@+id/flight_filter_stop_any"
-                    style="@style/V2.Widget.RadioButton.Filter"
-                    android:text="@string/stop_description_any" />
-        </com.expedia.bookings.widget.SlidingRadioGroup>
+                    <RadioButton
+                            android:id="@+id/flight_filter_stop_none"
+                            style="@style/V2.Widget.RadioButton.Filter"
+                            android:text="@string/stop_description__nonstop" />
 
-        <com.expedia.bookings.widget.TextView
-                android:id="@+id/departure_airports_header"
-                style="@style/V2.Widget.TextView.FilterHeader"
-                android:text="@string/departure_airports" />
+                    <RadioButton
+                            android:id="@+id/flight_filter_stop_one_or_less"
+                            style="@style/V2.Widget.RadioButton.Filter"
+                            android:text="@string/stop_description__max" />
 
-        <com.expedia.bookings.widget.AirportFilterWidget
-                android:id="@+id/departure_airports_widget"
-                style="@style/V2.Widget.TextView.FakeSpinner.AirportFilter"
-                android:drawableLeft="@drawable/ic_tablet_departure_arrow" />
+                    <RadioButton
+                            android:id="@+id/flight_filter_stop_any"
+                            style="@style/V2.Widget.RadioButton.Filter"
+                            android:text="@string/stop_description_any" />
+                </com.expedia.bookings.widget.SlidingRadioGroup>
+            </LinearLayout>
 
-        <com.expedia.bookings.widget.TextView
-                android:id="@+id/arrival_airports_header"
-                style="@style/V2.Widget.TextView.FilterHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/arrival_airports" />
+            <View
+                    android:id="@+id/flight_filter_sort_overlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#a5f2f2f2"
+                    android:visibility="gone" />
+        </FrameLayout>
 
-        <com.expedia.bookings.widget.AirportFilterWidget
-                android:id="@+id/arrival_airports_widget"
-                style="@style/V2.Widget.TextView.FakeSpinner.AirportFilter"
-                android:drawableLeft="@drawable/ic_tablet_arrival_arrow" />
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-        <com.expedia.bookings.widget.TextView
-                style="@style/V2.Widget.TextView.FilterHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/airlines" />
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
 
-        <LinearLayout
-                android:id="@+id/filter_airline_container"
-                style="@style/V2.Widget.LinearLayout.FlightFilter" />
+                <com.expedia.bookings.widget.TextView
+                        android:id="@+id/departure_airports_header"
+                        style="@style/V2.Widget.TextView.FilterHeader"
+                        android:text="@string/departure_airports" />
+
+                <com.expedia.bookings.widget.AirportFilterWidget
+                        android:id="@+id/departure_airports_widget"
+                        style="@style/V2.Widget.TextView.FakeSpinner.AirportFilter"
+                        android:drawableLeft="@drawable/ic_tablet_departure_arrow" />
+            </LinearLayout>
+
+            <View
+                    android:id="@+id/flight_filter_departure_airports_overlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#a5f2f2f2"
+                    android:visibility="gone" />
+        </FrameLayout>
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                <com.expedia.bookings.widget.TextView
+                        android:id="@+id/arrival_airports_header"
+                        style="@style/V2.Widget.TextView.FilterHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/arrival_airports" />
+
+                <com.expedia.bookings.widget.AirportFilterWidget
+                        android:id="@+id/arrival_airports_widget"
+                        style="@style/V2.Widget.TextView.FakeSpinner.AirportFilter"
+                        android:drawableLeft="@drawable/ic_tablet_arrival_arrow" />
+            </LinearLayout>
+
+            <View
+                    android:id="@+id/flight_filter_arrival_airports_overlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#a5f2f2f2"
+                    android:visibility="gone" />
+        </FrameLayout>
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                <com.expedia.bookings.widget.TextView
+                        style="@style/V2.Widget.TextView.FilterHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/airlines" />
+
+                <LinearLayout
+                        android:id="@+id/filter_airline_container"
+                        style="@style/V2.Widget.LinearLayout.FlightFilter" />
+            </LinearLayout>
+
+            <View
+                    android:id="@+id/flight_filter_airline_overlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#a5f2f2f2"
+                    android:visibility="gone" />
+        </FrameLayout>
     </LinearLayout>
 
 </ScrollView>

@@ -40,6 +40,12 @@ public class AirportFilterWidget extends TextView {
 	private FlightFilter mFilter;
 	private OnCheckedChangeListener mAirportCheckChangeListener;
 
+	private AirportFilterWidgetListener mAirportFilterWidgetListener;
+
+	public interface AirportFilterWidgetListener {
+		void onPopupToggled(boolean isShowing, boolean departureAirport);
+	}
+
 	public AirportFilterWidget(Context context) {
 		super(context);
 		init();
@@ -65,12 +71,13 @@ public class AirportFilterWidget extends TextView {
 	}
 
 	public void bind(int legNumber, boolean departureAirport, Set<String> airportCodes, FlightFilter filter,
-			OnCheckedChangeListener listener) {
+			OnCheckedChangeListener checkChangeListener, AirportFilterWidgetListener airportFilterListener) {
 		mLegNumber = legNumber;
 		mDepartureAirport = departureAirport;
 		mAirportCodes = airportCodes;
 		mFilter = filter;
-		mAirportCheckChangeListener = listener;
+		mAirportCheckChangeListener = checkChangeListener;
+		mAirportFilterWidgetListener = airportFilterListener;
 
 		setVisibility(mAirportCodes.size() < 2 ? View.GONE : View.VISIBLE);
 
@@ -94,9 +101,14 @@ public class AirportFilterWidget extends TextView {
 		setText(sb.build(), android.widget.TextView.BufferType.SPANNABLE);
 	}
 
+	private void dismissPopup() {
+		mPopup.dismiss();
+		mAirportFilterWidgetListener.onPopupToggled(false, mDepartureAirport);
+	}
+
 	private void toggleDropdown() {
 		if (mPopup != null && mPopup.isShowing()) {
-			mPopup.dismiss();
+			dismissPopup();
 		}
 		else {
 			LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -107,6 +119,12 @@ public class AirportFilterWidget extends TextView {
 			mPopup.setBackgroundDrawable(new BitmapDrawable());
 			mPopup.setOutsideTouchable(true);
 			mPopup.setTouchable(true);
+			mPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+				@Override
+				public void onDismiss() {
+					dismissPopup();
+				}
+			});
 
 			Map<String, FlightTrip> cheapestPerAirport = Db.getFlightSearch().queryTrips(mLegNumber)
 					.getCheapestTripsByAirport(mDepartureAirport);
@@ -144,7 +162,7 @@ public class AirportFilterWidget extends TextView {
 			doneTv.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					mPopup.dismiss();
+					dismissPopup();
 				}
 			});
 
@@ -179,6 +197,8 @@ public class AirportFilterWidget extends TextView {
 					mPopup.update(anchorLoc[0], y, -1, -1);
 				}
 			});
+
+			mAirportFilterWidgetListener.onPopupToggled(true, mDepartureAirport);
 		}
 	}
 

@@ -45,6 +45,11 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	private TextView mArrivalAirportsHeader;
 	private AirportFilterWidget mArrivalAirportFilterWidget;
 
+	private View mSortOverlay;
+	private View mDepartureOverlay;
+	private View mArrivalOverlay;
+	private View mAirlineOverlay;
+
 	public static ResultsFlightFiltersFragment newInstance(int legNumber) {
 		ResultsFlightFiltersFragment frag = new ResultsFlightFiltersFragment();
 		Bundle args = new Bundle();
@@ -80,12 +85,17 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		FlightSearch.FlightTripQuery query = Db.getFlightSearch().queryTrips(mLegNumber);
 		Set<String> departureAirports = query.getDepartureAirportCodes();
 		mDepartureAirportFilterWidget
-				.bind(mLegNumber, true, departureAirports, mFilter, mAirportOnCheckedChangeListener);
+				.bind(mLegNumber, true, departureAirports, mFilter, mAirportOnCheckedChangeListener, mAirportPopupListener);
 		mDepartureAirportsHeader.setVisibility(departureAirports.size() < 2 ? View.GONE : View.VISIBLE);
 
 		Set<String> arrivalAirports = query.getArrivalAirportCodes();
-		mArrivalAirportFilterWidget.bind(mLegNumber, false, arrivalAirports, mFilter, mAirportOnCheckedChangeListener);
+		mArrivalAirportFilterWidget.bind(mLegNumber, false, arrivalAirports, mFilter, mAirportOnCheckedChangeListener, mAirportPopupListener);
 		mArrivalAirportsHeader.setVisibility(arrivalAirports.size() < 2 ? View.GONE : View.VISIBLE);
+
+		mSortOverlay = Ui.findView(view, R.id.flight_filter_sort_overlay);
+		mDepartureOverlay = Ui.findView(view, R.id.flight_filter_departure_airports_overlay);
+		mArrivalOverlay = Ui.findView(view, R.id.flight_filter_arrival_airports_overlay);
+		mAirlineOverlay = Ui.findView(view, R.id.flight_filter_airline_overlay);
 
 		return view;
 	}
@@ -199,6 +209,23 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			}
 
 			onFilterChanged();
+		}
+	};
+
+	private AirportFilterWidget.AirportFilterWidgetListener mAirportPopupListener = new AirportFilterWidget.AirportFilterWidgetListener() {
+		@Override
+		public void onPopupToggled(boolean isShowing, boolean departureAirport) {
+			int visibility = isShowing ? View.VISIBLE : View.GONE;
+
+			if (departureAirport) {
+				mArrivalOverlay.setVisibility(visibility);
+			}
+			else {
+				mDepartureOverlay.setVisibility(visibility);
+			}
+
+			mSortOverlay.setVisibility(visibility);
+			mAirlineOverlay.setVisibility(visibility);
 		}
 	};
 
