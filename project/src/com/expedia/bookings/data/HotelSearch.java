@@ -25,6 +25,7 @@ public class HotelSearch implements JSONable {
 	private HotelSearchParams mSearchParams;
 	private HotelSearchResponse mSearchResponse;
 	private String mSelectedPropertyId;
+	private boolean mIsPropertyAdded; // Check to ensure that hotel has actually be added by the user (tablet) as opposed to just selecting it.
 
 	// The result of a call to e3 for a coupon code discount
 	private CreateTripResponse mCreateTripResponse;
@@ -215,6 +216,14 @@ public class HotelSearch implements JSONable {
 		return null;
 	}
 
+	public boolean isPropertyAdded() {
+		return mIsPropertyAdded;
+	}
+
+	public void setIsPropertyAdded(boolean isPropertyAdded) {
+		this.mIsPropertyAdded = isPropertyAdded;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -226,6 +235,7 @@ public class HotelSearch implements JSONable {
 			JSONUtils.putJSONable(obj, "searchResponse", mSearchResponse);
 			obj.putOpt("selectedPropertyId", mSelectedPropertyId);
 			JSONUtils.putJSONable(obj, "createTripResponse", mCreateTripResponse);
+			obj.putOpt("isPropertyAdded", mIsPropertyAdded);
 
 			JSONUtils.putJSONableStringMap(obj, "availabilityMap", mAvailabilityMap);
 			JSONUtils.putJSONableStringMap(obj, "reviewsResponses", mReviewsResponses);
@@ -244,6 +254,7 @@ public class HotelSearch implements JSONable {
 		setSearchResponse(JSONUtils.getJSONable(obj, "searchResponse", HotelSearchResponse.class));
 
 		mSelectedPropertyId = obj.optString("selectedPropertyId", null);
+		mIsPropertyAdded = obj.optBoolean("isPropertyAdded");
 		mCreateTripResponse = JSONUtils.getJSONable(obj, "createTripResponse", CreateTripResponse.class);
 
 		Map<String, HotelAvailability> availabilityMap = JSONUtils.getJSONableStringMap(obj, "availabilityMap",
