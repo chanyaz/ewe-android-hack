@@ -159,6 +159,14 @@ public class FlightSearch implements JSONable {
 		getSelectedLegs()[position] = leg;
 	}
 
+	public boolean isFlightAdded() {
+		return mSearchState.isFlightAdded();
+	}
+
+	public void setFlightAdded(boolean isFlightAdded) {
+		mSearchState.setFlightAdded(isFlightAdded);
+	}
+
 	// Returns the selected FlightTrip.
 	//
 	// Only valid if all legs are selected.  Otherwise, it returns null.

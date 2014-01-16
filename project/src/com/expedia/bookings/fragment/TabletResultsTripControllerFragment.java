@@ -164,7 +164,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 	}
 
 	private boolean hasFlightTrip() {
-		return Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedFlightTrip() != null;
+		return Db.getFlightSearch() != null && Db.getFlightSearch().isFlightAdded();
 	}
 
 	private boolean hasHotelTrip() {
@@ -318,6 +318,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 		}
 
 		private void finalizeRemoveFlight() {
+			Db.getFlightSearch().setFlightAdded(false);
 			for (int i = 0; i < Db.getFlightSearch().getSelectedLegs().length; i++) {
 				Db.getFlightSearch().setSelectedLeg(i, null);
 			}

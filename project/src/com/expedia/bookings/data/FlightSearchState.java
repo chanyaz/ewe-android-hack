@@ -20,6 +20,7 @@ import com.mobiata.android.json.JSONable;
 public class FlightSearchState implements JSONable {
 
 	private FlightTripLeg[] mSelectedLegs;
+	private boolean isFlightAdded; // Check to ensure that flight has actually be added by the user (tablet) as opposed to just selecting it.
 
 	// We don't save Filters across executions because who cares?
 	private FlightFilter[] mFilters;
@@ -37,7 +38,8 @@ public class FlightSearchState implements JSONable {
 		return mSelectedLegs;
 	}
 
-	public FlightFilter getFilter(int expectedLength, int legPosition, List<FlightTrip> trips, FlightSearch.FlightTripQuery query) {
+	public FlightFilter getFilter(int expectedLength, int legPosition, List<FlightTrip> trips,
+			FlightSearch.FlightTripQuery query) {
 		if (mFilters == null || mFilters.length != expectedLength) {
 			mFilters = new FlightFilter[expectedLength];
 		}
@@ -52,6 +54,14 @@ public class FlightSearchState implements JSONable {
 		return mFilters[legPosition];
 	}
 
+	public boolean isFlightAdded() {
+		return isFlightAdded;
+	}
+
+	public void setFlightAdded(boolean isFlightAdded) {
+		this.isFlightAdded = isFlightAdded;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -62,6 +72,7 @@ public class FlightSearchState implements JSONable {
 			if (mSelectedLegs != null) {
 				JSONUtils.putJSONableList(obj, "selectedLegs", Arrays.asList(mSelectedLegs));
 			}
+			obj.putOpt("isFlightAdded", isFlightAdded);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -75,6 +86,7 @@ public class FlightSearchState implements JSONable {
 		if (selectedLegs != null) {
 			mSelectedLegs = selectedLegs.toArray(new FlightTripLeg[0]);
 		}
+		isFlightAdded = obj.optBoolean("isFlightAdded");
 		return true;
 	}
 }

@@ -344,6 +344,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	@Override
 	public void onTripAdded(int legNumber) {
 		if (mFlightsStateManager.getState() != ResultsFlightsState.FLIGHT_LIST_DOWN) {
+			Db.getFlightSearch().setFlightAdded(true);
 			boolean lastLegToSelect = mOneWayFlight || legNumber == 1;
 			if (lastLegToSelect) {
 				setFlightsState(ResultsFlightsState.ADDING_FLIGHT_TO_TRIP, true);
