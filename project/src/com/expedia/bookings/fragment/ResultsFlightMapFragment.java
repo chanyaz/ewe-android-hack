@@ -55,19 +55,37 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 		mArrivalImage = Ui.findView(mRoot, R.id.arrival_image);
 
 		setMapImageView(mMapImageView);
+
 		mMapImageView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+			private Location mPrevDep = null;
+			private Location mPrevArr = null;
+
+			private int mPrevWidth = 0;
+			private int mPrevHeight = 0;
+
 			@Override
 			public void onGlobalLayout() {
 				if (!isAdded()) {
 					return;
 				}
 
-				Location departure = Db.getFlightSearch().getSearchParams().getDepartureLocation();
-				Location arrival = Db.getFlightSearch().getSearchParams().getArrivalLocation();
-				setDepartureLatLng(departure.getLatitude(), departure.getLongitude());
-				setArrivalLatLng(arrival.getLatitude(), arrival.getLongitude());
+				//Typically we dont need to do any work, but if our size changes, or our locations change, we really do need to do  work
+				if (mPrevDep == null || mPrevArr == null
+						|| mPrevDep != Db.getFlightSearch().getSearchParams().getDepartureLocation()
+						|| mPrevArr != Db.getFlightSearch().getSearchParams().getArrivalLocation()
+						|| mPrevWidth != mMapImageView.getWidth() || mPrevHeight != mMapImageView.getHeight()) {
 
-				generateMap();
+					mPrevHeight = mMapImageView.getHeight();
+					mPrevWidth = mMapImageView.getWidth();
+
+					mPrevDep = Db.getFlightSearch().getSearchParams().getDepartureLocation();
+					mPrevArr = Db.getFlightSearch().getSearchParams().getArrivalLocation();
+
+					setDepartureLatLng(mPrevDep.getLatitude(), mPrevDep.getLongitude());
+					setArrivalLatLng(mPrevArr.getLatitude(), mPrevArr.getLongitude());
+
+					generateMap();
+				}
 			}
 		});
 
@@ -90,9 +108,8 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 
 		// TODO make work for pacific ocean
 		setBounds(
-			mDepartureLat, mDepartureLng,
-			mArrivalLat, mArrivalLng
-		);
+				mDepartureLat, mDepartureLng,
+				mArrivalLat, mArrivalLng);
 
 		ColorDrawable bgColorDrawable = new ColorDrawable(Color.parseColor("#687887"));
 		bgColorDrawable.setBounds(0, 0, w, h);
@@ -100,7 +117,7 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 		SvgDrawable mapDrawable = new SvgDrawable(getSvg(), getViewportMatrix());
 		mapDrawable.setBounds(0, 0, w, h);
 
-		Drawable[] drawables = new Drawable[]{
+		Drawable[] drawables = new Drawable[] {
 			bgColorDrawable,
 			mapDrawable,
 		};
