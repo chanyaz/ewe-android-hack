@@ -117,9 +117,7 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable, Com
 		}
 	}
 
-	public void bindFlight(FlightFilter filter, FlightTrip trip, int legNumber) {
-		String airlineCode = trip.getAirline(legNumber);
-
+	public void bindFlight(FlightFilter filter, String airlineCode, FlightTrip trip) {
 		boolean isChecked = filter.getPreferredAirlines().contains(airlineCode);
 		SpannableBuilder sb = new SpannableBuilder();
 		String airlineName = Db.getAirline(airlineCode).mAirlineName;

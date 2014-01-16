@@ -1,9 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -128,21 +125,14 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		int numTripsToShow = cheapestTripsMap == null ? 0 : cheapestTripsMap.values().size();
 		int numTripsInContainer = mAirlineContainer.getChildCount();
 
-		List<FlightTrip> trips = new ArrayList<FlightTrip>();
-		if (numTripsToShow > 0) {
-			trips = new ArrayList<FlightTrip>(cheapestTripsMap.values());
-			Collections.sort(trips, new FlightTrip.FlightTripComparator(mLegNumber,
-					FlightTrip.CompareField.AIRLINE_NAME));
-		}
-
 		FlightTrip trip;
-		String airline;
 		CheckBoxFilterWidget airlineFilterWidget;
 		boolean enabled;
-		for (int i = 0; i < numTripsToShow; i++) {
-			trip = trips.get(i);
-			if (i < numTripsInContainer) {
-				airlineFilterWidget = (CheckBoxFilterWidget) mAirlineContainer.getChildAt(i);
+		int index = 0;
+		for (String airlineCode : cheapestTripsMap.keySet()) {
+			trip = cheapestTripsMap.get(airlineCode);
+			if (index < numTripsInContainer) {
+				airlineFilterWidget = (CheckBoxFilterWidget) mAirlineContainer.getChildAt(index);
 				airlineFilterWidget.setVisibility(View.VISIBLE);
 			}
 			else {
@@ -150,13 +140,13 @@ public class ResultsFlightFiltersFragment extends Fragment {
 				mAirlineContainer.addView(airlineFilterWidget);
 			}
 
-			airline = trip.getAirline(mLegNumber);
-			enabled = query.getAirlinesFilteredByStopsAndAirports().contains(airline);
-			airlineFilterWidget.bindFlight(Db.getFlightSearch().getFilter(mLegNumber), trip, mLegNumber);
-			airlineFilterWidget.setTag(trip);
+			enabled = query.getAirlinesFilteredByStopsAndAirports().contains(airlineCode);
+			airlineFilterWidget.bindFlight(Db.getFlightSearch().getFilter(mLegNumber), airlineCode, trip);
+			airlineFilterWidget.setTag(airlineCode);
 			airlineFilterWidget.setEnabled(enabled);
 			airlineFilterWidget.setOnCheckedChangeListener(mAirlineOnCheckedChangeListener);
 
+			index++;
 		}
 
 		// Keep around the views not needed, but just set their visibility to GONE.
@@ -188,8 +178,8 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	private CheckBoxFilterWidget.OnCheckedChangeListener mAirlineOnCheckedChangeListener = new CheckBoxFilterWidget.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
-			FlightTrip trip = (FlightTrip) view.getTag();
-			mFilter.setPreferredAirline(trip.getAirline(mLegNumber), isChecked);
+			String airlineCode = (String) view.getTag();
+			mFilter.setPreferredAirline(airlineCode, isChecked);
 
 			onFilterChanged();
 		}

@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -276,7 +277,14 @@ public class FlightSearch implements JSONable {
 
 				mCheapestTripsByDepartureAirport = new HashMap<String, FlightTrip>();
 				mCheapestTripsByArrivalAirport = new HashMap<String, FlightTrip>();
-				mCheapestTripsByAirline = new HashMap<String, FlightTrip>();
+				mCheapestTripsByAirline = new TreeMap<String, FlightTrip>(new Comparator<String>() {
+					@Override
+					public int compare(String lhs, String rhs) {
+						String lhsAirline = Db.getAirline(lhs).mAirlineName;
+						String rhsAirline = Db.getAirline(rhs).mAirlineName;
+						return lhsAirline.compareTo(rhsAirline);
+					}
+				});
 
 				// Run a first pass over all trips to calculate cheapest trips per airline/airport
 				FlightTrip trip;
@@ -438,11 +446,7 @@ public class FlightSearch implements JSONable {
 		private void evaluateTripPrice(String key, FlightTrip trip, Map<String, FlightTrip> lowestPriceMap) {
 			FlightTrip cheapest = lowestPriceMap.get(key);
 			if (cheapest == null || trip.getTotalFare().compareTo(cheapest.getTotalFare()) < 0) {
-				JSONObject json = trip.toJson();
-				FlightTrip ft = new FlightTrip();
-				ft.fromJson(json);
-				ft.setAirline(mLegPosition, key);
-				lowestPriceMap.put(key, ft);
+				lowestPriceMap.put(key, trip);
 			}
 		}
 
