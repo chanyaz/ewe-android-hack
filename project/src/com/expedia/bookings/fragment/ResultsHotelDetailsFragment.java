@@ -305,9 +305,15 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		// Center the amenities if they don't take up the full width
 		float amenitiesWidth = LayoutUtils.estimateAmenitiesWidth(getActivity(), property);
 		ViewGroup amenitiesContainer = Ui.findView(view, R.id.amenities_container);
-		float desiredPadding = (amenitiesContainer.getWidth() - amenitiesWidth) / 2;
-		float minPadding = getResources().getDimension(R.dimen.tablet_detail_padding);
-		int padding = (int) Math.max(minPadding, desiredPadding);
+		int padding;
+		if (amenitiesWidth > amenitiesContainer.getWidth()) {
+			padding = 0;
+		}
+		else {
+			float desiredPadding = (amenitiesContainer.getWidth() - amenitiesWidth) / 2;
+			float minPadding = getResources().getDimension(R.dimen.tablet_detail_padding);
+			padding = (int) Math.max(minPadding, desiredPadding);
+		}
 		amenitiesContainer.setPadding(padding, 0, padding, 0);
 
 		LayoutUtils.addAmenities(getActivity(), property, amenitiesTableRow);
