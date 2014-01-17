@@ -71,8 +71,8 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 
 				//Typically we dont need to do any work, but if our size changes, or our locations change, we really do need to do  work
 				if (mPrevDep == null || mPrevArr == null
-						|| mPrevDep != Db.getFlightSearch().getSearchParams().getDepartureLocation()
-						|| mPrevArr != Db.getFlightSearch().getSearchParams().getArrivalLocation()
+						|| mPrevDep.equals(Db.getFlightSearch().getSearchParams().getDepartureLocation())
+						|| mPrevArr.equals(Db.getFlightSearch().getSearchParams().getArrivalLocation())
 						|| mPrevWidth != mMapView.getWidth() || mPrevHeight != mMapView.getHeight()) {
 
 					mPrevHeight = mMapView.getHeight();
