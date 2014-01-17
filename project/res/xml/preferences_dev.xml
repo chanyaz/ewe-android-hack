@@ -44,6 +44,11 @@
 
     <PreferenceCategory android:title="Hotels" >
 
+        <CheckBoxPreference
+            android:key="@string/preference_disable_domain_v2_hotel_search"
+            android:summary="Take the Domain V2 flag out of the search requests"
+            android:title="Disable Domain V2 Hotel Search" />
+
         <com.expedia.bookings.widget.CheckBoxPreference
             app:id="@id/preference_spoof_booking_checkbox"
             android:key="@string/preference_spoof_bookings"

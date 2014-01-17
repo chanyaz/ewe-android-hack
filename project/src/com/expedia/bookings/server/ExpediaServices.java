@@ -647,6 +647,14 @@ public class ExpediaServices implements DownloadListener {
 		}
 		rh.setNumNights(params.getStayDuration());
 
+		if (!AndroidUtils.isRelease(mContext)) {
+			boolean disabled = SettingUtils.get(mContext, mContext.getString(R.string.preference_disable_domain_v2_hotel_search), false);
+
+			if (!disabled) {
+				query.add(new BasicNameValuePair("doV2Search", "true"));
+			}
+		}
+
 		return doE3Request("MobileHotel/Webapp/SearchResults", query, rh, 0);
 	}
 
