@@ -40,8 +40,8 @@ public class ResultsTripBucketHotelFragment extends Fragment {
 	}
 
 	public void bindToDb() {
-		if (mHotelSection != null && Db.getHotelSearch() != null && Db.getHotelSearch().getSelectedProperty() != null) {
-			mHotelSection.bind(Db.getHotelSearch().getSelectedProperty(), false, 16, false, DistanceUnit.MILES,
+		if (mHotelSection != null && Db.getHotelSearch() != null && Db.getHotelSearch().getAddedProperty() != null) {
+			mHotelSection.bind(Db.getHotelSearch().getAddedProperty(), false, 16, false, DistanceUnit.MILES,
 					false);
 		}
 	}

@@ -169,7 +169,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 	}
 
 	private boolean hasHotelTrip() {
-		return Db.getHotelSearch() != null && Db.getHotelSearch().isPropertyAdded();
+		return Db.getHotelSearch() != null && Db.getHotelSearch().getAddedProperty() != null;
 	}
 
 	private Animator perpareTripBucketItemRemovalAnimator(final int removalIndex) {
@@ -378,8 +378,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 		}
 
 		private void finalizeRemoveHotel() {
-			Db.getHotelSearch().setIsPropertyAdded(false);
-			Db.getHotelSearch().clearSelectedProperty();
+			Db.getHotelSearch().clearAddedProperty();
 			setVisibilityState(mGlobalState);
 			positionTripBucketItems(true);
 		}

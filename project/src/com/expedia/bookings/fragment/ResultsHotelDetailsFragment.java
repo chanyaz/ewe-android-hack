@@ -87,7 +87,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 			@Override
 			public void onClick(View arg0) {
-				Db.getHotelSearch().setIsPropertyAdded(true);
+				Db.getHotelSearch().setAddedProperty(Db.getHotelSearch().getSelectedProperty());
 				mAddToTripListener.beginAddToTrip(getSelectedData(), getDestinationRect(), 0);
 			}
 
