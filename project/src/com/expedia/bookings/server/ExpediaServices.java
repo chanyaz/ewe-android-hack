@@ -3,6 +3,7 @@ package com.expedia.bookings.server;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
@@ -1739,4 +1740,22 @@ public class ExpediaServices implements DownloadListener {
 			return sslContext.getSocketFactory().createSocket();
 		}
 	}
+
+    public String getLongUrl(String shortUrl)
+    {
+        try
+        {
+            URL dlUrl = new URL(shortUrl);
+            HttpURLConnection connection = (HttpURLConnection) dlUrl.openConnection();
+            connection.setInstanceFollowRedirects(false);
+            connection.setRequestMethod("GET");
+            String longUrl = connection.getHeaderField("Location");
+            return longUrl;
+        }
+        catch (Exception e)
+        {
+            Log.e("Exception getting the long url", e);
+        }
+        return null;
+    }
 }
