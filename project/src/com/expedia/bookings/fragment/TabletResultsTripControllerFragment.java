@@ -40,6 +40,7 @@ import com.expedia.bookings.widget.FixedTranslationFrameLayout;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.SwipeOutLayout;
 import com.expedia.bookings.widget.SwipeOutLayout.ISwipeOutListener;
+import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -653,7 +654,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 			params.height = originHeight;
 			mTripAnimationC.setLayoutParams(params);
 
-			mTripAnimationC.addView(getAnimationView(), LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+			mTripAnimationC.addView(getAnimationView(isFlights), LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
 			//Translation. We setup the translation animation to start at deltaX, deltaY and animate
 			// to it's final resting place of (0,0), i.e. no translation.
@@ -686,10 +687,18 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 		}
 	}
 
-	private View getAnimationView() {
-		FlightLegSummarySectionTablet view = Ui.inflate(getActivity(), R.layout.flight_card_tablet_add_tripbucket, null);
-		view.bindForTripBucket(Db.getFlightSearch());
-		return view;
+	private View getAnimationView(boolean isFlights) {
+		if (isFlights) {
+			FlightLegSummarySectionTablet view = Ui.inflate(getActivity(), R.layout.flight_card_tablet_add_tripbucket, null);
+			view.bindForTripBucket(Db.getFlightSearch());
+			return view;
+		}
+		else {
+			TextView tv = new TextView(getActivity());
+			tv.setText("Hotel Animation View");
+			tv.setBackgroundColor(Color.YELLOW);
+			return tv;
+		}
 	}
 
 	private Rect getAddedFlightPosFromLocalRect(Rect rect) {
