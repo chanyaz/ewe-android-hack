@@ -199,7 +199,7 @@
     <!-- Unable to log in to Facebook -->
     <string name="unable_to_log_into_facebook">Impossible de se connecter à Facebook.</string>
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="login_failed_try_again">Accès non réussi. Si votre adresse e-mail et votre mot de passe sont corrects, vérifiez et confirmez que votre paramètre Pays de l\&apos;appli est correct.</string>
+    <string name="login_failed_try_again">Echec de connexion. Un compte spécifique pour la réservation d’hôtel est nécessaire.</string>
     <!-- Facebook connect expedia password hint -->
     <string name="expedia_password_hint">Mot de passe Expedia</string>
     <!-- Link accounts -->
@@ -1000,7 +1000,7 @@
     <!-- Select Payment -->
     <string name="select_payment">Choisir le paiement</string>
     <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Informations de paiement</string>
+    <string name="select_payment_sentence_case">Saisir ma carte bancaire</string>
     <!-- Add new card -->
     <string name="add_new_card">Ajouter une nouvelle carte</string>
     <!-- Overview button -->
@@ -1058,7 +1058,7 @@
 
     <!-- Checkout Activity -->
     <!-- Checkout Information label -->
-    <string name="checkout_information">Informations de paiement</string>
+    <string name="checkout_information">Réservez maintenant</string>
     <!-- Explicit acceptance of TOS -->
     <string name="Do_you_accept">Acceptez-vous toutes les conditions indiquées ci-dessus ?</string>
     <!-- I Accept button label -->
@@ -1092,7 +1092,7 @@
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">Bonne nouvelle ! Le prix de votre séjour est passé de %1$s à %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
-    <string name="done">Terminé</string>
+    <string name="done">Valider</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Total dû aujourd\&apos;hui</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
@@ -1102,7 +1102,7 @@
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
-    <string name="menu_done">Terminé</string>
+    <string name="menu_done">Valider</string>
     <!-- unable to load traveler details message -->
     <string name="unable_to_load_traveler_message">Impossible de récupérer les détails de ce voyageur. Veuillez vérifier votre connexion et réessayer plus tard.</string>
 
@@ -1122,7 +1122,7 @@
 
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
-    <string name="Add_Traveler">Ajouter un voyageur</string>
+    <string name="Add_Traveler">Saisir mes coordonnées</string>
 
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">Ajouter un mode de paiement</string>
@@ -1178,7 +1178,7 @@
     <!-- Expiration date label -->
     <string name="expiration_date">Date d\&apos;expiration</string>
     <!-- Set expiration date button -->
-    <string name="btn_set">Configurer</string>
+    <string name="btn_set">Valider</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -1222,7 +1222,7 @@
 
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
-    <string name="traveler_information">Informations sur le voyageur</string>
+    <string name="traveler_information">Mes coordonnées</string>
     <!-- First name label -->
     <string name="first_name">Prénom</string>
     <!-- Middle name label -->
@@ -1254,11 +1254,11 @@
 
     <!-- Traveler options activity -->
     <!-- Select a traveler -->
-    <string name="select_a_traveler">Choisir un voyageur</string>
+    <string name="select_a_traveler">Profil voyageur</string>
     <!-- Select a different traveler -->
-    <string name="select_a_different_traveler">Choisir un autre voyageur</string>
+    <string name="select_a_different_traveler">Coordonnées des autres voyageurs</string>
     <!-- Enter a new traveler -->
-    <string name="enter_new_traveler">Ajouter un autre voyageur</string>
+    <string name="enter_new_traveler">Saisir mes coordonnées</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Modifier les informations sur le voyageur</string>
     <!-- prefers seat template -->
@@ -1304,7 +1304,7 @@
 
     <!-- Flight confirmation page -->
     <!-- Title for flight confirmation page -->
-    <string name="booking_complete">Réservation complétée</string>
+    <string name="booking_complete">Confirmation</string>
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
     <string name="yay_going_somewhere_TEMPLATE">Vous allez à %s !</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
@@ -1316,7 +1316,7 @@
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Autres options</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
-    <string name="actions">Actions</string>
+    <string name="actions">Pour vous accompagner</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Partager par email</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -1423,7 +1423,7 @@
     <string name="eight">8</string>
     <string name="nine">9</string>
     <string name="zero">0</string>
-    <string name="book">Réserver</string>
+    <string name="book">Payer</string>
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
@@ -1478,9 +1478,9 @@
     <!-- Label for picking guests for hotel booking -->
     <string name="who_is_going">&lt;b&gt;Combien&lt;/b&gt; de personnes ?</string>
     <!-- Child age dialog button -->
-    <string name="button_done">Terminé</string>
+    <string name="button_done">Valider</string>
     <!-- Done button text in hotel Confirmation screen for VSC -->
-    <string name="button_done_vsc_confirmation">Terminé</string>
+    <string name="button_done_vsc_confirmation">Continuer</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Sélectionner l\&apos;âge de l\&apos;enfant</item>
@@ -1521,7 +1521,7 @@
     <!-- Hint for filtering results by hotel name -->
     <string name="filter_hotel_name_hint">Filtrer par nom d\&apos;hôtel</string>
     <!-- Label indicating that there are no results matching their current filter -->
-    <string name="no_filter_results">Aucun hôtel disponible sur notre app.</string>
+    <string name="no_filter_results">Aucun hôtel disponible selon vos critères de voyage. Nous vous invitons à les modifier.</string>
     <!-- Label indicating that geolocation failed -->
     <string name="geolocation_failed">Impossible de déterminer la position de recherche.</string>
     <!-- Message displayed when failed to find a particular location.  %s is the search term the user entered (e.g., "Could not find location of San Francisco"). -->
@@ -1572,9 +1572,9 @@
     <!-- Sort by price label -->
     <string name="sort_description_price">Prix</string>
     <!-- Sort by deals label -->
-    <string name="sort_description_deals">Offres</string>
+    <string name="sort_description_deals">Promos</string>
     <!-- Sort by user rating label -->
-    <string name="sort_description_rating">Note clients</string>
+    <string name="sort_description_rating">Avis</string>
 
     <!-- Stop descriptions, e.g. Stops filtered by "description" -->
     <!-- Any # of stops -->
@@ -1621,15 +1621,15 @@
     <!-- Message displayed when search comes up with zero results -->
     <string name="no_hotels_availiable_tonight">Aucun hôtel disponible sur notre app pour ce soir</string>
     <!-- Message displayed when search comes up with zero results -->
-    <string name="no_hotels_availiable">Aucun hôtel disponible sur notre app</string>
+    <string name="no_hotels_availiable">Aucun hôtel disponible selon vos critères de voyage.</string>
     <!-- Message displayed when user need to change input to correct search -->
     <string name="please_try_a_different_location_or_date">Veuillez saisir une destination ou des dates différentes.</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">Aucune chambre disponible sur notre app</string>
     <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out">Désolés. Cette chambre n\&apos;est plus disponible sur notre app.</string>
+    <string name="error_room_is_now_sold_out">Désolé, cette chambre n\&apos;est plus disponible sur notre app.</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out">Désolés. Cet hôtel n\&apos;est plus disponible sur notre app.</string>
+    <string name="error_hotel_is_now_sold_out">Désolé, cet hôtel n\&apos;est plus disponible. Veuillez en sélectionner un autre.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -1876,7 +1876,7 @@
     <!-- Label for clearing private data -->
     <string name="clear_private_data">Effacer vos données</string>
     <!-- Title for dialog confirming the clearing of private data -->
-    <string name="dialog_clear_private_data_title">Supprimer les donnes personnelles ?</string>
+    <string name="dialog_clear_private_data_title">Effacer les données personnelles?</string>
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_msg">Cette action supprimera toutes les informations de facturation et les coordonnées que vous avez sauvegardées.</string>
     <!-- Message for dialog confirming the clearing of private data -->
@@ -1886,7 +1886,7 @@
     <!-- Error shown to user if their credit card postal code is invalid -->
     <string name="invalid_postal_code">Désolés, afin de pouvoir traiter votre carte de paiement, nous avons besoin d\&apos;un code postal valide.</string>
     <!-- Message to display to user while booking is in progress -->
-    <string name="booking_loading">Réservation en cours…</string>
+    <string name="booking_loading">Paiement en cours…</string>
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">Erreur</string>
     <!-- Error message when booking completed with errors -->
@@ -1962,7 +1962,7 @@
     <!-- Label for signin screen -->
     <string name="expedia_account">Compte Expedia</string>
     <!-- Label for signin screen -->
-    <string name="vsc_account">Compte VSC</string>
+    <string name="vsc_account">Compte hôtel dédié</string>
     <!-- Label for loading user profile from expedia.com -->
     <string name="loading_expedia_account">Chargement compte Expedia…</string>
     <!-- Label for password recovery -->
@@ -2160,7 +2160,7 @@
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Paramètres</string>
     <!-- Label for "info about this app" menu item. -->
-    <string name="Info">Infos</string>
+    <string name="Info">Informations</string>
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
@@ -2180,7 +2180,7 @@
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
     <string name="e3_error_checkout_invalid_input">Merci de corriger les informations incorrectes.</string>
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
-    <string name="e3_error_checkout_payment_failed">Désolés, nous n\&apos;avons pas pu traiter votre paiement. Veuillez vérifier que les informations que vous avez saisies sont correctes.</string>
+    <string name="e3_error_checkout_payment_failed">Désolé, nous n\&apos;avons pas pu traiter votre paiement. Veuillez vérifier que les informations que vous avez saisies sont correctes.</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
     <string name="e3_error_checkout_invalid_expiration">Date d\&apos;expiration de la carte invalide.</string>
 
