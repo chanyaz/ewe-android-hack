@@ -21,7 +21,7 @@
     <!-- Shown when a single date is selected for searching -->
     <string name="dates_status_one">One-way flights and one-night stays.</string>
     <!-- Shown when round trip dates are selected for searching -->
-    <string name="dates_status_multi_TEMPLATE">Round-trip flights and %s-night stays.</string>
+    <string name="dates_status_multi_TEMPLATE">Return flights and %s-night stays.</string>
     <!-- Start date display.  %s is the start date, e.g. "Start Date: September 10" -->
     <string name="start_date_TEMPLATE">Start Date: %s</string>
     <!-- End date display, when there is no end date selected yet.  We indicate it is not necessary to provide. -->
@@ -166,6 +166,8 @@
     <string name="out_of_5">out of 5</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">Read Reviews</string>
+    <!-- "No Reviews" user reviews button text, when there are no reviews available -->
+    <string name="No_Reviews">No Reviews</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">Non Refundable</string>
 
@@ -176,6 +178,10 @@
     <string name="flight_cities_TEMPLATE">%1$s to %2$s</string>
     <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
     <string name="flight_on_time_TEMPLATE">%s%% on time</string>
+
+    <!-- Tablet flight trip bucket -->
+    <!-- Label describing this flight is a round trip flight. -->
+    <string name="round_trip">Return</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->

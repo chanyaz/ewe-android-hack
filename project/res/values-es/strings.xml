@@ -167,6 +167,8 @@
     <string name="out_of_5">de 5</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">Ver opiniones</string>
+    <!-- "No Reviews" user reviews button text, when there are no reviews available -->
+    <string name="No_Reviews">Sin opiniones</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">No reembolsable</string>
 
@@ -177,6 +179,10 @@
     <string name="flight_cities_TEMPLATE">%1$s - %2$s</string>
     <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
     <string name="flight_on_time_TEMPLATE">%s%% en hora</string>
+
+    <!-- Tablet flight trip bucket -->
+    <!-- Label describing this flight is a round trip flight. -->
+    <string name="round_trip">Vuelo de ida y vuelta</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->

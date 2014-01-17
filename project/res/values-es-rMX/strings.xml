@@ -166,6 +166,8 @@
     <string name="out_of_5">de 5</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">Leer las reseñas</string>
+    <!-- "No Reviews" user reviews button text, when there are no reviews available -->
+    <string name="No_Reviews">No hay comentarios</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">No reembolsable</string>
 
@@ -176,6 +178,10 @@
     <string name="flight_cities_TEMPLATE">%1$s a %2$s</string>
     <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
     <string name="flight_on_time_TEMPLATE">%s%% a tiempo</string>
+
+    <!-- Tablet flight trip bucket -->
+    <!-- Label describing this flight is a round trip flight. -->
+    <string name="round_trip">Viaje de ida y vuelta</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -2038,7 +2044,7 @@
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Hoteles de Expedia</string>
     <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Hola, \n\n visita los Hoteles de Expedia para iPhone y para los teléfonos Android. Es GRATIS, y puedes fácilmente buscar y reservar habitaciones en más de 140.000 hoteles en el mundo. Es la mejor forma de reservar hoteles en tu teléfono.\n\nhttps://www.expedia.com/app</string>
+    <string name="tell_a_friend_body">Hola, \n\n visita los Hoteles de Expedia para iPhone y para los teléfonos Android. Es GRATIS, y puedes fácilmente buscar y reservar habitaciones en más de 140.000 hoteles en el mundo. Es la mejor forma de reservar hoteles en tu teléfono.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Términos y condiciones</string>
     <!-- Label for link to privacy policy -->

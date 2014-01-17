@@ -166,6 +166,8 @@
     <string name="out_of_5">(5점 만점)</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">이용 후기 보기</string>
+    <!-- "No Reviews" user reviews button text, when there are no reviews available -->
+    <string name="No_Reviews">이용 후기 없음</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">환불 불가</string>
 
@@ -176,6 +178,10 @@
     <string name="flight_cities_TEMPLATE">%1$s - %2$s</string>
     <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
     <string name="flight_on_time_TEMPLATE">%s%% 정시 운항</string>
+
+    <!-- Tablet flight trip bucket -->
+    <!-- Label describing this flight is a round trip flight. -->
+    <string name="round_trip">왕복</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->

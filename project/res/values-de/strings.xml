@@ -166,6 +166,8 @@
     <string name="out_of_5">von 5</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">Bewertungen lesen</string>
+    <!-- "No Reviews" user reviews button text, when there are no reviews available -->
+    <string name="No_Reviews">Ohne Bewertungen</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">Nicht erstattungsfähig</string>
 
@@ -176,6 +178,10 @@
     <string name="flight_cities_TEMPLATE">%1$s bis %2$s</string>
     <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
     <string name="flight_on_time_TEMPLATE">%s%% pünktlich</string>
+
+    <!-- Tablet flight trip bucket -->
+    <!-- Label describing this flight is a round trip flight. -->
+    <string name="round_trip">Hin- und Rückflug</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -602,9 +608,9 @@
     <string name="car_category_oversize">Übergroß</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">Zweitürer</string>
-    <string name="car_type_three_door">Dreitürer</string>
-    <string name="car_type_four_door">Viertürer</string>
+    <string name="car_type_two_door">Zweitürer PKW</string>
+    <string name="car_type_three_door">Dreitürer PKW</string>
+    <string name="car_type_four_door">Viertürer PKW</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Kombi</string>
     <string name="car_type_limousine">Limousine</string>
@@ -1781,11 +1787,11 @@
     -->
     <string name="user_review_name_and_location_signature">%1$s aus %2$s</string>
     <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">Zu diesem Hotel wurden keine kritischen Bewertungen abgegeben.</string>
+    <string name="user_review_no_critical_reviews">Zu diesem Hotel wurden keine kritischen Bewertungen abgegeben..</string>
     <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">Zu diesem Hotel wurden keine positiven Bewertungen abgegeben.</string>
+    <string name="user_review_no_favorable_reviews">Zu diesem Hotel wurden keine positiven Bewertungen abgegeben..</string>
     <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">Zu diesem Hotel wurden keine neuen Bewertungen abgegeben.</string>
+    <string name="user_review_no_recent_reviews">Zu diesem Hotel wurden keine neuen Bewertungen abgegeben..</string>
 
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Bewertungen sind zurzeit nicht verfügbar</string>
@@ -1985,29 +1991,29 @@
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
     <string name="coupon_error_no_code">Der Gutschein kann leider nicht eingelöst werden.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Das ist leider kein gültiger Gutscheincode.</string>
+    <string name="coupon_error_unrecognized">Das ist leider kein gültiger Gutscheincode..</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Dieser Gutschein ist leider schon verfallen.</string>
+    <string name="coupon_error_expired">Dieser Gutschein ist leider schon verfallen..</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Leider gibt es ein Problem. Bitte versuchen Sie es erneut.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Dieser Gutscheincode wurde leider schon verwendet.</string>
+    <string name="coupon_error_duplicate">Dieser Gutscheincode wurde leider schon verwendet..</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Leider gibt es ein Problem. Bitte versuchen Sie es erneut.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
     <string name="coupon_error_price_change">Der Buchungsbetrag hat sich geändert, daher haben wir den Gutschein nicht eingelöst. Bitte schauen Sie noch mal drüber und versuchen Sie es erneut.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Leider gilt dieser Gutscheincode nicht für dieses Land.</string>
+    <string name="coupon_error_invalid_region">Leider gilt dieser Gutscheincode nicht für dieses Land..</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">Leider liegen Sie unter der Mindestaufenthaltsdauer.</string>
+    <string name="coupon_error_min_stay_not_met">Leider liegen Sie unter der Mindestaufenthaltsdauer..</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Leider gilt dieser Gutschein nicht für diesen Reisezeitraum.</string>
+    <string name="coupon_error_invalid_travel_dates">Leider gilt dieser Gutschein nicht für diesen Reisezeitraum..</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Leider akzeptiert dieses Hotel keine Gutscheine.</string>
+    <string name="coupon_error_invalid_product">Leider akzeptiert dieses Hotel keine Gutscheine..</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Leider erreicht Ihre Buchung nicht den geforderten Mindestbetrag.</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Leider erreicht Ihre Buchung nicht den geforderten Mindestbetrag..</string>
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
-    <string name="coupon_error_hotel_excluded">Leider akzeptiert dieses Hotel keine Gutscheine.</string>
+    <string name="coupon_error_hotel_excluded">Leider akzeptiert dieses Hotel keine Gutscheine..</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">Leider können wir im Moment keine Gutscheine verarbeiten.  Bitte versuchen Sie es erneut.</string>
 

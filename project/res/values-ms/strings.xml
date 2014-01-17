@@ -166,6 +166,8 @@
     <string name="out_of_5">daripada 5</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">Baca Ulasan</string>
+    <!-- "No Reviews" user reviews button text, when there are no reviews available -->
+    <string name="No_Reviews">Tiada Ulasan</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">Tidak Boleh Dibayar Balik</string>
 
@@ -176,6 +178,10 @@
     <string name="flight_cities_TEMPLATE">%1$s ke %2$s</string>
     <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
     <string name="flight_on_time_TEMPLATE">%s%% menepati masa</string>
+
+    <!-- Tablet flight trip bucket -->
+    <!-- Label describing this flight is a round trip flight. -->
+    <string name="round_trip">Perjalanan Pergi Balik</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->

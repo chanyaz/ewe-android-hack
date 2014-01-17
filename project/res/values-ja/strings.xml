@@ -166,6 +166,8 @@
     <string name="out_of_5">(5 段階中)</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">レビューを見る</string>
+    <!-- "No Reviews" user reviews button text, when there are no reviews available -->
+    <string name="No_Reviews">レビューなし</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">返金不可</string>
 
@@ -176,6 +178,10 @@
     <string name="flight_cities_TEMPLATE">%1$s → %2$s</string>
     <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
     <string name="flight_on_time_TEMPLATE">%s%%定刻</string>
+
+    <!-- Tablet flight trip bucket -->
+    <!-- Label describing this flight is a round trip flight. -->
+    <string name="round_trip">往復</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -1102,7 +1108,7 @@
 
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
-    <string name="cost_summary">コスト サマリー</string>
+    <string name="cost_summary">料金の概要</string>
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">税金 &amp; サービス料</string>
     <!-- Expedia booking fee -->

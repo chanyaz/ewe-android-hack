@@ -166,6 +166,8 @@
     <string name="out_of_5">最高 5 分</string>
     <!-- "Read Reviews" user reviews button text -->
     <string name="Read_Reviews">閱讀評語</string>
+    <!-- "No Reviews" user reviews button text, when there are no reviews available -->
+    <string name="No_Reviews">沒有評語</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">不可退款</string>
 
@@ -176,6 +178,10 @@
     <string name="flight_cities_TEMPLATE">%1$s到%2$s</string>
     <!-- A label describing the percent this flight is on time. e.g. "71% on time"-->
     <string name="flight_on_time_TEMPLATE">%s%% 準時</string>
+
+    <!-- Tablet flight trip bucket -->
+    <!-- Label describing this flight is a round trip flight. -->
+    <string name="round_trip">來回行程</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -602,9 +608,9 @@
     <string name="car_category_oversize">超大型車</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">雙門 汽車</string>
-    <string name="car_type_three_door">三門 汽車</string>
-    <string name="car_type_four_door">四門 汽車</string>
+    <string name="car_type_two_door">雙門汽車</string>
+    <string name="car_type_three_door">三門汽車</string>
+    <string name="car_type_four_door">四門汽車</string>
     <string name="car_type_van">箱型車</string>
     <string name="car_type_wagon">轎車</string>
     <string name="car_type_limousine">豪華禮車</string>
