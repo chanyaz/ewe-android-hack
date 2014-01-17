@@ -9,8 +9,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

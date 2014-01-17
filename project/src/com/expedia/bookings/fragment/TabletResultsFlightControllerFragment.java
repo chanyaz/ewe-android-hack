@@ -1071,18 +1071,19 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				if (mFlightOneDetailsFrag != null) {
 					mFlightOneDetailsFrag.setDepartureTripSelectedAnimationLayer(layerType);
 				}
-			}else if (((stateOne == ResultsFlightsState.FLIGHT_ONE_FILTERS || stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS)
+			}
+			else if (((stateOne == ResultsFlightsState.FLIGHT_ONE_FILTERS || stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS)
 					&& (stateTwo == ResultsFlightsState.FLIGHT_ONE_FILTERS || stateTwo == ResultsFlightsState.FLIGHT_ONE_DETAILS))
 					|| ((stateOne == ResultsFlightsState.FLIGHT_TWO_FILTERS || stateOne == ResultsFlightsState.FLIGHT_TWO_DETAILS)
 					&& (stateTwo == ResultsFlightsState.FLIGHT_TWO_FILTERS || stateTwo == ResultsFlightsState.FLIGHT_TWO_DETAILS))) {
-			
+
 				//Rendering
 				mTransitionFiltersC.setLayerType(layerType, null);
 				mTransitionListC.setLayerType(layerType, null);
 				if (mTransitionDetailsFrag != null) {
 					mTransitionDetailsFrag.setSlideInAnimationLayer(layerType);
 				}
-				
+
 				mTransitionFiltersC = null;
 				mTransitionListC = null;
 				mTransitionDetailsC = null;
@@ -1090,7 +1091,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			}
 			else if ((stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS || stateOne == ResultsFlightsState.FLIGHT_TWO_DETAILS)
 					&& stateTwo == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
-				
+
 				if (stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS) {
 					mFlightOneDetailsFrag.finalizeAddToTripFromDetailsAnimation();
 				}

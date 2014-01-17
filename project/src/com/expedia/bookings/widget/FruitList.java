@@ -29,7 +29,6 @@ import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
-import com.mobiata.android.Log;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class FruitList extends ListView implements OnScrollListener, IStateProvider<ResultsListState> {
