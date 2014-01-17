@@ -51,7 +51,7 @@ public class DeepLinkRouterActivity extends Activity {
 
 		AdX.trackDeepLinkLaunch(data);
 		OmnitureTracking.parseAndTrackDeepLink(data, queryData);
-        if (host.equals("home")) {
+		if (host.equals("home")) {
 			Log.i(TAG, "Launching home screen from deep link!");
 			NavUtils.goToLaunchScreen(this, true);
 		}
@@ -211,19 +211,19 @@ public class DeepLinkRouterActivity extends Activity {
 		else if (data.toString().contains("m/trips/shared")) {
 			goFetchSharedItin(data.toString());
 		}
-        else if ("e.xpda.co".equalsIgnoreCase(host)) {
-            final String shortUrl = data.toString();
-            final ExpediaServices services = new ExpediaServices(this);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    String longUrl = services.getLongUrl(shortUrl);
-                    if (null != longUrl) {
-                        goFetchSharedItin(longUrl);
-                    }
-                }
-            }).start();
-        }
+		else if ("e.xpda.co".equalsIgnoreCase(host)) {
+			final String shortUrl = data.toString();
+			final ExpediaServices services = new ExpediaServices(this);
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					String longUrl = services.getLongUrl(shortUrl);
+					if (null != longUrl) {
+						goFetchSharedItin(longUrl);
+					}
+				}
+			}).start();
+		}
 		else {
 			Ui.showToast(this, "Cannot yet handle data: " + data);
 		}

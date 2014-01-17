@@ -1741,21 +1741,18 @@ public class ExpediaServices implements DownloadListener {
 		}
 	}
 
-    public String getLongUrl(String shortUrl)
-    {
-        try
-        {
-            URL dlUrl = new URL(shortUrl);
-            HttpURLConnection connection = (HttpURLConnection) dlUrl.openConnection();
-            connection.setInstanceFollowRedirects(false);
-            connection.setRequestMethod("GET");
-            String longUrl = connection.getHeaderField("Location");
-            return longUrl;
-        }
-        catch (Exception e)
-        {
-            Log.e("Exception getting the long url", e);
-        }
-        return null;
-    }
+	public String getLongUrl(String shortUrl) {
+		try {
+			URL dlUrl = new URL(shortUrl);
+			HttpURLConnection connection = (HttpURLConnection) dlUrl.openConnection();
+			connection.setInstanceFollowRedirects(false);
+			connection.setRequestMethod("GET");
+			String longUrl = connection.getHeaderField("Location");
+			return longUrl;
+		}
+		catch (Exception e) {
+			Log.e("Exception getting the long url", e);
+		}
+		return null;
+	}
 }

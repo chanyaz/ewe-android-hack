@@ -421,7 +421,7 @@
             android:name="com.expedia.bookings.content.SuggestionProvider"
             android:authorities="@string/authority_autocomplete_suggestions"
             android:exported="false" />
-        
+
         <!-- Locale change receiver -->
 
         <receiver
