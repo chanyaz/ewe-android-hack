@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.CubicBezierAnimation;
@@ -32,6 +31,7 @@ import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
+import com.expedia.bookings.section.FlightLegSummarySectionTablet;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
@@ -653,8 +653,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 			params.height = originHeight;
 			mTripAnimationC.setLayoutParams(params);
 
-			//TODO: We should be flying around something without fake in the def name
-			mTripAnimationC.addView(getFakeAnimationView(), LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+			mTripAnimationC.addView(getAnimationView(), LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
 			//Translation. We setup the translation animation to start at deltaX, deltaY and animate
 			// to it's final resting place of (0,0), i.e. no translation.
@@ -687,11 +686,10 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 		}
 	}
 
-	private View getFakeAnimationView() {
-		TextView tv = new TextView(getActivity());
-		tv.setText("Animation View");
-		tv.setBackgroundColor(Color.YELLOW);
-		return tv;
+	private View getAnimationView() {
+		FlightLegSummarySectionTablet view = Ui.inflate(getActivity(), R.layout.flight_card_tablet_add_tripbucket, null);
+		view.bindForTripBucket(Db.getFlightSearch());
+		return view;
 	}
 
 	private Rect getAddedFlightPosFromLocalRect(Rect rect) {
