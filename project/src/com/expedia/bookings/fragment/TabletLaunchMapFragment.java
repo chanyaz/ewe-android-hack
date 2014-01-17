@@ -101,11 +101,10 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 			Color.parseColor("#5a000000"),
 		};
 
-		GradientDrawable radialGradDrawable = new GradientDrawable();
+		GradientDrawable radialGradDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, radialGradColors);
 		radialGradDrawable.setGradientType(GradientDrawable.RADIAL_GRADIENT);
 		radialGradDrawable.setGradientCenter(0.5f, 0.5f);
 		radialGradDrawable.setGradientRadius(Math.min(w, h) * 0.65f);
-		radialGradDrawable.setColors(radialGradColors);
 
 		Drawable[] drawables = new Drawable[]{
 			bgColorDrawable,
