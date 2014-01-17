@@ -39,7 +39,7 @@
         <item name="android:actionBarStyle" tools:targetApi="11">@style/V2.Widget.ActionBar.TabletResults</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale</item>
-        <item name="hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder</item>
+        <item name="hotelImagePlaceHolderDrawable">@drawable/placeholder_lg</item>
     </style>
 
     <!-- Action bar styling; directly linked to themes so not moving too far away -->

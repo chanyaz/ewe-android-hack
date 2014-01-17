@@ -33,7 +33,7 @@
                         android:id="@+id/hotel_header_container"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:background="#000000" >
+                        android:background="#2a2a2a" >
 
                         <!-- Hotel image (#1822) -->
 
