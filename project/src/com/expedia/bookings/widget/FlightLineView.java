@@ -39,6 +39,8 @@ public class FlightLineView extends View {
 	private Paint mErasePaint;
 	private Point2D.Double mPlanePosition;
 	private float mPlaneRotation;
+	private float mForwardPlaneRotation;
+	private float mBackwardPlaneRotation;
 
 	private void init(Context context, AttributeSet attrs, int defStyle) {
 		final float density = context.getResources().getDisplayMetrics().density;
@@ -77,7 +79,9 @@ public class FlightLineView extends View {
 
 		for (int i = whichPoint; i > 0; i--) {
 			if (distance(mPlanePosition, points[i]) > planew) {
-				mPlaneRotation = angle(mPlanePosition, points[i]);
+				mPlaneRotation = angle(mPlanePosition, points[i]) + 180.0f;
+				mForwardPlaneRotation = mPlaneRotation;
+				mBackwardPlaneRotation = mPlaneRotation + 180.0f;
 				break;
 			}
 		}
@@ -106,6 +110,16 @@ public class FlightLineView extends View {
 		}
 	}
 
+	public void forward() {
+		mPlaneRotation = mForwardPlaneRotation;
+		invalidate();
+	}
+
+	public void backward() {
+		mPlaneRotation = mBackwardPlaneRotation;
+		invalidate();
+	}
+
 	@Override
 	public void onDraw(Canvas c) {
 		if (mLinePath != null) {
@@ -116,6 +130,7 @@ public class FlightLineView extends View {
 			c.drawCircle((float) mPlanePosition.x, (float) mPlanePosition.y, mPlaneDrawable.getIntrinsicWidth() / 2, mErasePaint);
 			c.save();
 			c.rotate(mPlaneRotation, (float) mPlanePosition.x, (float) mPlanePosition.y);
+			c.rotate(0, (float) mPlanePosition.x, (float) mPlanePosition.y);
 			mPlaneDrawable.draw(c);
 			c.restore();
 		}

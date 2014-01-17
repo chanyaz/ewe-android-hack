@@ -1155,6 +1155,23 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				break;
 			}
 			}
+
+			// Switch the flight line around
+			switch (state) {
+			case FLIGHT_LIST_DOWN:
+			case FLIGHT_ONE_FILTERS:
+			case FLIGHT_ONE_DETAILS:
+				if (mFlightMapFrag.isAdded()) {
+					mFlightMapFrag.forward();
+				}
+				break;
+			case FLIGHT_TWO_FILTERS:
+			case FLIGHT_TWO_DETAILS:
+				if (mFlightMapFrag.isAdded()) {
+					mFlightMapFrag.backward();
+				}
+				break;
+			}
 		}
 
 		private void positionForFilters(ViewGroup filtersC, ViewGroup listC) {

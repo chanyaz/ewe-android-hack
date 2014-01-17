@@ -126,8 +126,32 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 		mRoot.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
 		positionFlightLine();
-		positionDeparture();
-		positionArrival();
+		forward();
+	}
+
+	public void forward() {
+		Point2D.Double screen;
+
+		mFlightLine.forward();
+
+		screen = projectToScreen(mDepartureLat, mDepartureLng);
+		positionDeparturePin(screen);
+
+		screen = projectToScreen(mArrivalLat, mArrivalLng);
+		positionArrivalPin(screen);
+	}
+
+	// For reversing the flight line
+	public void backward() {
+		Point2D.Double screen;
+
+		mFlightLine.backward();
+
+		screen = projectToScreen(mArrivalLat, mArrivalLng);
+		positionDeparturePin(screen);
+
+		screen = projectToScreen(mDepartureLat, mDepartureLng);
+		positionArrivalPin(screen);
 	}
 
 	private static final int NUM_SAMPLES = 31;
@@ -149,8 +173,7 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 		mFlightLine.setupErasePaint(mBgDrawable);
 	}
 
-	private void positionDeparture() {
-		Point2D.Double screen = projectToScreen(mDepartureLat, mDepartureLng);
+	private void positionDeparturePin(Point2D.Double screen) {
 		int left = (int) (screen.x - mDepartureImage.getWidth() / 2);
 		int top = (int) (screen.y - mDepartureImage.getHeight() / 2);
 
@@ -158,8 +181,7 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 		mDepartureImage.setTranslationY(top);
 	}
 
-	private void positionArrival() {
-		Point2D.Double screen = projectToScreen(mArrivalLat, mArrivalLng);
+	private void positionArrivalPin(Point2D.Double screen) {
 		int left = (int) (screen.x - mArrivalImage.getWidth() / 2);
 		int top = (int) (screen.y - mArrivalImage.getHeight());
 
