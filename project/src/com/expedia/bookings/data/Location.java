@@ -241,6 +241,10 @@ public class Location implements JSONable, Parcelable {
 
 		Location other = (Location) o;
 
+		if (this == other) {
+			return true;
+		}
+
 		return (mStreetAddress == null) == (other.mStreetAddress == null)
 				&& (mStreetAddress == null || mStreetAddress.equals(other.mStreetAddress))
 				&& ((mDescription == null) == (other.mDescription == null))
