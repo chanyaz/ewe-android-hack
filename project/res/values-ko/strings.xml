@@ -96,6 +96,10 @@
     <string name="trip_to">여행 목적지:</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">고객님의 여행이 비어 있습니다.</string>
+    <!-- Tablet Trip bucket, Book Flight button text -->
+    <string name="trip_bucket_book_flight">항공편 예약</string>
+    <!-- Tablet Trip bucket, Book Hotel button text -->
+    <string name="trip_bucket_book_hotel">호텔 예약</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">%1$s행 항공편</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -740,6 +744,7 @@
     <string name="share_template_subject_car_no_dates">내가 예약한 렌터카</string>
     <!-- 1: vehicle type -->
     <string name="share_template_short_car_type">제가 %1$s 차량을</string>
+    <string name="share_template_short_car_type_an">제가 %1$s 차량을</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">%1$s ~ %2$s 동안 예약했어요.</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
@@ -2143,7 +2148,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">%1$s%2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->

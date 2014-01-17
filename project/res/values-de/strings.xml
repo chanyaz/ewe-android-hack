@@ -96,6 +96,10 @@
     <string name="trip_to">Reise nach</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Ihr Reiseplan ist leer.</string>
+    <!-- Tablet Trip bucket, Book Flight button text -->
+    <string name="trip_bucket_book_flight">Flug buchen</string>
+    <!-- Tablet Trip bucket, Book Hotel button text -->
+    <string name="trip_bucket_book_hotel">Hotel buchen</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">Flüge nach %1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -740,6 +744,7 @@
     <string name="share_template_subject_car_no_dates">Mein Mietwagen</string>
     <!-- 1: vehicle type -->
     <string name="share_template_short_car_type">Ich habe einen %1$s gemietet</string>
+    <string name="share_template_short_car_type_an">Ich habe einen %1$s gemietet</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">von %1$s - %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
@@ -1371,7 +1376,7 @@
     <!-- Button label for retrying after getting an error -->
     <string name="retry">Wiederholen</string>
     <!-- Button label for calling -->
-    <string name="call_support">Support</string>
+    <string name="call_support">Kundenservice</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_increased">Die Fluglinie hat den Preis für Ihr Ticket leider gerade um %1$s erhöht.  Sind Sie mit dem neuen Gesamtpreis (%2$s) einverstanden?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->

@@ -96,6 +96,10 @@
     <string name="trip_to">前往</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">您的行程留空了。</string>
+    <!-- Tablet Trip bucket, Book Flight button text -->
+    <string name="trip_bucket_book_flight">預訂機票</string>
+    <!-- Tablet Trip bucket, Book Hotel button text -->
+    <string name="trip_bucket_book_hotel">預訂酒店</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">飛往%1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -740,6 +744,7 @@
     <string name="share_template_subject_car_no_dates">我的租車資料</string>
     <!-- 1: vehicle type -->
     <string name="share_template_short_car_type">我租了一部%1$s，</string>
+    <string name="share_template_short_car_type_an">我租了一部%1$s，</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">日期：%1$s – %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->

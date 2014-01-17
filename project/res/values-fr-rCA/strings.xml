@@ -96,6 +96,10 @@
     <string name="trip_to">Votre voyage à</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Votre voyage est vide.</string>
+    <!-- Tablet Trip bucket, Book Flight button text -->
+    <string name="trip_bucket_book_flight">Réserver le vol</string>
+    <!-- Tablet Trip bucket, Book Hotel button text -->
+    <string name="trip_bucket_book_hotel">Réserver l\&apos;hôtel</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">Vols à destination de %1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -598,9 +602,9 @@
     <string name="car_category_oversize">Surdimensionnées</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">Deux portes Voiture</string>
-    <string name="car_type_three_door">Trois portes Voiture</string>
-    <string name="car_type_four_door">Quatre portes Voiture</string>
+    <string name="car_type_two_door">Voiture 2 portes</string>
+    <string name="car_type_three_door">Voiture 3 portes</string>
+    <string name="car_type_four_door">Voiture 4 portes</string>
     <string name="car_type_van">Fourgonnette</string>
     <string name="car_type_wagon">Familiale</string>
     <string name="car_type_limousine">Limousine</string>
@@ -740,6 +744,7 @@
     <string name="share_template_subject_car_no_dates">Ma voiture de location</string>
     <!-- 1: vehicle type -->
     <string name="share_template_short_car_type">J\&apos;ai loué une %1$s</string>
+    <string name="share_template_short_car_type_an">J\&apos;ai loué une %1$s</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">de %1$s – %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
@@ -1979,29 +1984,29 @@
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
     <string name="coupon_error_no_code">Désolés, ce bon de réduction n\&apos;est pas applicable.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Désolé, le code de ce bon de réduction nous est inconnu.</string>
+    <string name="coupon_error_unrecognized">Désolé, le code de ce bon de réduction nous est inconnu..</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Désolé, ce bon de réduction est expiré.</string>
+    <string name="coupon_error_expired">Désolé, ce bon de réduction est expiré..</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Désolé, nous éprouvons des difficultés. Veuillez réessayer.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Désolé, le code de ce bon de réduction a déjà été utilisé.</string>
+    <string name="coupon_error_duplicate">Désolé, le code de ce bon de réduction a déjà été utilisé..</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Désolé, nous éprouvons des difficultés. Veuillez réessayer.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
     <string name="coupon_error_price_change">Le coût de la réservation a changé; nous n\&apos;avons pas appliqué le bon de réduction. Veuillez vérifier et recommencer.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Désolé, le code de ce bon de réduction est pour un autre pays.</string>
+    <string name="coupon_error_invalid_region">Désolé, le code de ce bon de réduction est pour un autre pays..</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">Désolé, vous n\&apos;avez pas sélectionné le nombre minimal de nuits.</string>
+    <string name="coupon_error_min_stay_not_met">Désolé, vous n\&apos;avez pas sélectionné le nombre minimal de nuits..</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Désolé, ce bon de réduction n\&apos;est pas valide pour ces dates.</string>
+    <string name="coupon_error_invalid_travel_dates">Désolé, ce bon de réduction n\&apos;est pas valide pour ces dates..</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Désolé, cet hôtel n\&apos;accepte pas les bons de réduction.</string>
+    <string name="coupon_error_invalid_product">Désolé, cet hôtel n\&apos;accepte pas les bons de réduction..</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Désolé, cette demande ne répond pas aux exigences minimales sur le coût.</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Désolé, cette demande ne répond pas aux exigences minimales sur le coût..</string>
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
-    <string name="coupon_error_hotel_excluded">Désolé, cet hôtel n\&apos;accepte pas les bons de réduction.</string>
+    <string name="coupon_error_hotel_excluded">Désolé, cet hôtel n\&apos;accepte pas les bons de réduction..</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">Désolé, nous ne pouvons pas traiter les bons de réduction en ce moment Veuillez réessayer.</string>
 

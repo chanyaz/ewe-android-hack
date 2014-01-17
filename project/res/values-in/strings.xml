@@ -96,6 +96,10 @@
     <string name="trip_to">Perjalanan Ke</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Perjalanan Anda kosong.</string>
+    <!-- Tablet Trip bucket, Book Flight button text -->
+    <string name="trip_bucket_book_flight">Pesan Penerbangan</string>
+    <!-- Tablet Trip bucket, Book Hotel button text -->
+    <string name="trip_bucket_book_hotel">Pesan Hotel</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">Penerbangan ke %1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -740,6 +744,7 @@
     <string name="share_template_subject_car_no_dates">Rental mobil saya</string>
     <!-- 1: vehicle type -->
     <string name="share_template_short_car_type">Saya sudah menyewa %1$s</string>
+    <string name="share_template_short_car_type_an">Saya sudah menyewa %1$s</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">dari %1$s – %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
