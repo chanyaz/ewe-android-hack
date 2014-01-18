@@ -13,6 +13,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.data.trips.ItinShareInfo;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
+import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -159,18 +160,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 	}
 
 	public String getAirlinesFormatted() {
-		StringBuilder sb = new StringBuilder();
-		for (String airlineCode : getPrimaryAirlines()) {
-			if (sb.length() != 0) {
-				sb.append(", ");
-			}
-
-			String airlineName = Db.getAirline(airlineCode).mAirlineName;
-			if (!TextUtils.isEmpty(airlineName)) {
-				sb.append(airlineName);
-			}
-		}
-		return sb.toString();
+		return FlightUtils.getFormattedAirlinesList(getPrimaryAirlines());
 	}
 
 	public boolean isSpirit() {

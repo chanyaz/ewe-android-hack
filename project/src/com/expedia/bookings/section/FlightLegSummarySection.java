@@ -3,6 +3,8 @@ package com.expedia.bookings.section;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.Calendar;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -26,9 +28,11 @@ import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.widget.FlightTripView;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.Flight;
@@ -149,7 +153,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		adjustLayout(leg, isIndividualFlight);
 
 		if (mAirlineTextView != null) {
-			mAirlineTextView.setText(getAirlinesStr(context, firstFlight, leg, isIndividualFlight));
+			mAirlineTextView.setText(getAirlinesStr(context, firstFlight, leg, legTwo, isIndividualFlight));
 
 			if (trip != null) {
 				if (trip.hasBagFee()) {
@@ -164,7 +168,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 
 		if (mAirlineAndCitiesTextView != null) {
 			SpannableBuilder sb = new SpannableBuilder();
-			String airlinesStr = getAirlinesStr(context, firstFlight, leg, isIndividualFlight);
+			String airlinesStr = getAirlinesStr(context, firstFlight, leg, legTwo, isIndividualFlight);
 			sb.append(airlinesStr, FontCache.getSpan(FontCache.Font.ROBOTO_MEDIUM));
 
 			String depCity = leg.getAirport(true).mCity;
@@ -238,9 +242,21 @@ public class FlightLegSummarySection extends RelativeLayout {
 		}
 	}
 
-	private static String getAirlinesStr(Context context, Flight flight, FlightLeg leg, boolean isIndividualFlight) {
+	private static String getAirlinesStr(Context context, Flight flight, FlightLeg leg, FlightLeg legTwo,
+			boolean isIndividualFlight) {
 		if (isIndividualFlight) {
 			return FormatUtils.formatFlightNumber(flight, context);
+		}
+		else {
+			return getCombinedAirlinesFormatted(leg, legTwo);
+		}
+	}
+
+	private static String getCombinedAirlinesFormatted(FlightLeg leg, FlightLeg legTwo) {
+		if (legTwo != null) {
+			Set<String> union = new LinkedHashSet<String>(leg.getPrimaryAirlines());
+			union.addAll(legTwo.getPrimaryAirlines());
+			return FlightUtils.getFormattedAirlinesList(union);
 		}
 		else {
 			return leg.getAirlinesFormatted();

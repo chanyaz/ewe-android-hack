@@ -1,9 +1,13 @@
 package com.expedia.bookings.utils;
 
+import java.util.Set;
+
 import android.content.Context;
 import android.content.res.Resources;
+import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -52,6 +56,21 @@ public class FlightUtils {
 
 	public static String formatDuration(Context context, FlightLeg leg) {
 		return DateTimeUtils.formatDuration(context.getResources(), (int) (leg.getDuration() / 60000));
+	}
+
+	public static String getFormattedAirlinesList(Set<String> airlineCodes) {
+		StringBuilder sb = new StringBuilder();
+		for (String airlineCode : airlineCodes) {
+			if (sb.length() != 0) {
+				sb.append(", ");
+			}
+
+			String airlineName = Db.getAirline(airlineCode).mAirlineName;
+			if (!TextUtils.isEmpty(airlineName)) {
+				sb.append(airlineName);
+			}
+		}
+		return sb.toString();
 	}
 
 }
