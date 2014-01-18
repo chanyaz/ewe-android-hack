@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.PopupWindow;
 
 import com.expedia.bookings.R;
@@ -158,8 +159,9 @@ public class AirportFilterWidget extends TextView {
 			}
 
 			// Set a click listener for the done button
-			TextView doneTv = Ui.findView(content, R.id.airport_filter_done);
-			doneTv.setOnClickListener(new OnClickListener() {
+			Button doneButton = Ui.findView(content, R.id.airport_filter_done);
+			doneButton.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
+			doneButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					dismissPopup();
