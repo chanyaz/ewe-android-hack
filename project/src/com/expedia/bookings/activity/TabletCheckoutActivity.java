@@ -12,9 +12,11 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
+import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.helpers.BackManager;
@@ -29,7 +31,7 @@ import com.mobiata.android.util.Ui;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletCheckoutActivity extends SherlockFragmentActivity implements IBackButtonLockListener,
-		IBackManageable {
+		IBackManageable, CheckoutInformationListener {
 
 	public static Intent createIntent(Context context, LineOfBusiness lob) {
 		Intent intent = new Intent(context, TabletCheckoutActivity.class);
@@ -67,6 +69,8 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 		else {
 			mTestDataLoaded = true;
 		}
+
+		loadCachedData(true);
 
 		//Containers
 		mRootC = Ui.findView(this, R.id.root_layout);
@@ -185,4 +189,44 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 	public void setBackButtonLockState(boolean locked) {
 		mBackButtonLocked = locked;
 	}
+
+	/*
+	 * CHECKOUT INFORMATION LISTENER
+	 */
+
+	@Override
+	public void checkoutInformationIsValid() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void checkoutInformationIsNotValid() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onBillingInfoChange() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/*
+	 * CACHED DATA LOADING...
+	 */
+	private boolean mLoadedDbInfo = false;
+
+	private void loadCachedData(boolean wait) {
+		if (!mLoadedDbInfo) {
+			CheckoutDataLoader.CheckoutDataLoadedListener listener = new CheckoutDataLoader.CheckoutDataLoadedListener() {
+				@Override
+				public void onCheckoutDataLoaded(boolean wasSuccessful) {
+					mLoadedDbInfo = wasSuccessful;
+				}
+			};
+			CheckoutDataLoader.getInstance().loadCheckoutData(this, true, true, listener, wait);
+		}
+	}
+
 }

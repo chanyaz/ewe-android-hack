@@ -16,20 +16,54 @@
 
     <!-- Values that go into every *activity*.  Don't put anything here unless you want it in every *activity* -->
     <style name="V2.Theme.Activity">
-        <item name="HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder</item>
-        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.White</item>
+
+        <!-- Custom attrs for Expedia/VSC switching -->
+        <item name="hotelPriceStandardColor">@color/hotel_price_text_color</item>
+        <item name="hotelPriceSaleColor">@color/hotel_price_sale_text_color</item>
+        <item name="hotelSearchActionBarPadding">0dp</item>
+        <item name="webViewPreferencesActionBarLogo">@drawable/ic_action_bar_expedia_logo</item>
+        <item name="webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_expedia_logo_small</item>
+        <item name="actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark</item>
+        <item name="actionBarButtonTextColor">@color/action_bar_text_yellow</item>
+        <item name="actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow</item>
+        <item name="costSummaryHeaderTextColor">@color/cost_summary_header_text_color</item>
+        <item name="actionBarBackgroundDrawable">@drawable/bg_action_bar</item>
+        <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.White</item>
+        <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
+        <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
+        <item name="calendarDatePickerDateFormat">@string/calendar_date_picker_date_format</item>
+        <item name="hotelCancellationPolicyDateFormat">@string/hotel_receipt_cancellation_policy_date_format</item>
         <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale</item>
-        <item name="hotelDetailsUserRatingStyle">@style/RatingBar.UserReview.HotelDetails</item>
-        <item name="hotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails</item>
-        <item name="hotelPriceStandardColor">#ffffff</item>
-        <item name="hotelPriceSaleColor">#ffffff</item>
-        <item name="hotelListingFilterGroupStyle">@style/Widget.SlidingRadioGroup.TabletFilterControls</item>
-        <item name="hotelListingFilterToggleButtonStyle">@style/Widget.Button.TabletFilterControls</item>
+        <item name="hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon</item>
+        <item name="roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon</item>
+        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Yellow</item>
+        <item name="hotelListingSortPriceDrawable">@drawable/ic_sort_price</item>
+        <item name="hotelListingFilterGroupStyle">@style/Widget.SegmentedControlGroup.DarkFilterControls</item>
+        <item name="hotelListingFilterToggleButtonStyle">@style/Widget.Button.DarkFilterControls</item>
         <item name="hotelListingFilterPriceCheapString">@string/filter_price_cheap</item>
         <item name="hotelListingFilterPriceModerateString">@string/filter_price_moderate</item>
         <item name="hotelListingFilterPriceExpensiveString">@string/filter_price_expensive</item>
+        <item name="hangTagProgressDrawable">@drawable/gl_progress_tag</item>
+        <item name="hangTagProgressRingFillDrawable">@drawable/gl_progress_ring_fill</item>
+        <item name="hangTagKnobDrawable">@drawable/gl_progress_knob</item>
+        <item name="hangTagKnobBackgroundDrawable">@drawable/gl_progress_knob_bg</item>
+        <item name="HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder</item>
+        <item name="costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
+        <item name="loginBookNowButtonDrawable">@drawable/btn_signin</item>
+        <item name="loginWithExpediaButtonText">@string/Log_in_with_Expedia</item>
+        <item name="loginWithExpediaTitleText">@string/expedia_account</item>
+        <item name="hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg</item>
+        <item name="hotelConfirmationCallActionDrawable">@drawable/ic_phone</item>
+        <item name="hotelCheckoutLogoutLogoDrawable">@drawable/ic_expedia_logo</item>
+        <item name="hotelCheckoutLoginLogoDrawable">@drawable/ic_log_in</item>
+        <item name="hotelCheckoutLoginButtonText">@string/Log_in_with_Expedia</item>
+        <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
+        <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
         <item name="hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale</item>
-        <item name="hotelImagePlaceHolderDrawable">@drawable/placeholder_lg</item>
+        <item name="ccCheckoutHologramDrawable">@drawable/ic_credit_card_hologram</item>
+        <item name="hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder</item>
+        <item name="hotelwebViewActionBarLogo">@drawable/ic_logo_hotels</item>
+        <item name="travelerLabelOnCheckout">@string/guest_details</item>
     </style>
 
     <style name="V2.Theme.Activity.TabletLaunch" tools:targetApi="11">

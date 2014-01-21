@@ -26,6 +26,7 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 
 	private static final String FRAG_TAG_BUCKET_FLIGHT = "FRAG_TAG_BUCKET_FLIGHT";
 	private static final String FRAG_TAG_BUCKET_HOTEL = "FRAG_TAG_BUCKET_HOTEL";
+	private static final String FRAG_TAG_CHECKOUT_INFO = "FRAG_TAG_CHECKOUT_INFO";
 
 	//Containers
 	private ViewGroup mRootC;
@@ -40,6 +41,7 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 	//frags
 	private ResultsTripBucketFlightFragment mBucketFlightFrag;
 	private ResultsTripBucketHotelFragment mBucketHotelFrag;
+	private FlightCheckoutFragment mCheckoutFragment;
 
 	//vars
 	private LineOfBusiness mLob = LineOfBusiness.FLIGHTS;
@@ -64,6 +66,7 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 		mBackManager.registerWithParent(this);
 
 		setupBucketFrags();
+		attachCheckoutFragment();
 	}
 
 	@Override
@@ -82,6 +85,29 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 
 	public LineOfBusiness getCheckoutMode() {
 		return mLob;
+	}
+
+	/*
+	 * CHECKOUT INFO FRAGMENT
+	 */
+
+	public void attachCheckoutFragment() {
+		FragmentManager manager = getFragmentManager();
+		mCheckoutFragment = (FlightCheckoutFragment) manager.findFragmentByTag(FRAG_TAG_CHECKOUT_INFO);
+		if (mCheckoutFragment == null) {
+			mCheckoutFragment = FlightCheckoutFragment.newInstance();
+		}
+
+		FragmentTransaction transaction = getFragmentManager().beginTransaction();
+		if (mCheckoutFragment.isDetached()) {
+			transaction.attach(mCheckoutFragment);
+			transaction.commit();
+		}
+		else if (!mCheckoutFragment.isAdded()) {
+			transaction.add(R.id.checkout_forms_container, mCheckoutFragment, FRAG_TAG_CHECKOUT_INFO);
+			transaction.commit();
+		}
+
 	}
 
 	/*
