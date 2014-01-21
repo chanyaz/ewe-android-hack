@@ -19,6 +19,7 @@ import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.utils.DebugMenu;
+import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
@@ -74,6 +75,18 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 		FragmentManager manager = getSupportFragmentManager();
 		mFragCheckoutController = (TabletCheckoutControllerFragment) manager
 				.findFragmentById(R.id.tablet_checkout_controller_fragment);
+
+		//Args
+		if (getIntent().hasExtra(ARG_LOB)) {
+			try {
+				LineOfBusiness lob = LineOfBusiness.valueOf(getIntent().getStringExtra(ARG_LOB));
+				mFragCheckoutController.setCheckoutMode(lob);
+			}
+			catch (Exception ex) {
+				Log.e("Exception parsing lob from intent.", ex);
+			}
+
+		}
 
 		// HockeyApp init
 		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
