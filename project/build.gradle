@@ -13,7 +13,7 @@ dependencies {
     compile project(':lib:Utils')
     compile project(':lib:ShareEverywhere:shareeverywhere')
 
-    instrumentTestCompile fileTree('../tests/libs').include('*.jar')
+    instrumentTestCompile fileTree('tests/libs').include('*.jar')
 }
 
 android {
@@ -101,8 +101,8 @@ android {
             assets.srcDirs = ['assets']
         }
 
-        instrumentTest.manifest.srcFile '../tests/AndroidManifest.xml'
-        instrumentTest.java.srcDirs = ['../tests/src']
+        instrumentTest.manifest.srcFile 'tests/AndroidManifest.xml'
+        instrumentTest.java.srcDirs = ['tests/src']
 
         VSC {
             manifest.srcFile 'AndroidManifest-vsc.xml'
