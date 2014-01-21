@@ -4,11 +4,15 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.mobiata.android.util.Ui;
@@ -20,10 +24,25 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletCheckoutControllerFragment extends Fragment implements IBackManageable {
 
+	private static final String FRAG_TAG_BUCKET_FLIGHT = "FRAG_TAG_BUCKET_FLIGHT";
+	private static final String FRAG_TAG_BUCKET_HOTEL = "FRAG_TAG_BUCKET_HOTEL";
+
 	//Containers
 	private ViewGroup mRootC;
 	private ViewGroup mTripBucketContainer;
+	private ViewGroup mBucketHotelContainer;
+	private ViewGroup mBucketFlightContainer;
 	private ViewGroup mCheckoutFormsContainer;
+
+	//Views
+	private TextView mBucketDateRange;
+
+	//frags
+	private ResultsTripBucketFlightFragment mBucketFlightFrag;
+	private ResultsTripBucketHotelFragment mBucketHotelFrag;
+
+	//vars
+	private LineOfBusiness mLob = LineOfBusiness.FLIGHTS;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,6 +52,9 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 		mTripBucketContainer = Ui.findView(view, R.id.trip_bucket_container);
 		mCheckoutFormsContainer = Ui.findView(view, R.id.checkout_forms_container);
 
+		mBucketDateRange = Ui.findView(view, R.id.trip_date_range);
+		mBucketDateRange.setText("FEB 8 - CAT 12");//TODO: real date range
+
 		return view;
 	}
 
@@ -40,12 +62,76 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 	public void onResume() {
 		super.onResume();
 		mBackManager.registerWithParent(this);
+
+		setupBucketFrags();
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		mBackManager.unregisterWithParent(this);
+	}
+
+	/*
+	 * GETTERS/SETTERS
+	 */
+
+	public void setCheckoutMode(LineOfBusiness lob) {
+		mLob = lob;
+	}
+
+	public LineOfBusiness getCheckoutMode() {
+		return mLob;
+	}
+
+	/*
+	 * BUCKET FRAGMENTS
+	 */
+
+	public void setupBucketFrags() {
+
+		//TODO: WE ONLY WANT TO SHOW A PARTICULAR BUCKET FRAG IF WE HAVE DATA,
+		//WE SHOULD BE CHECKING THAT DATA HERE!
+
+		if (mBucketFlightFrag == null || !mBucketFlightFrag.isAdded()) {
+			attachBucketFlightFrag();
+		}
+		if (mBucketHotelFrag == null || !mBucketHotelFrag.isAdded()) {
+			attachBucketHotelFrag();
+		}
+
+		mBucketFlightFrag.setExpanded(mLob == LineOfBusiness.FLIGHTS);
+		mBucketHotelFrag.setExpanded(mLob == LineOfBusiness.HOTELS);
+	}
+
+	public void attachBucketFlightFrag() {
+		FragmentManager manager = getFragmentManager();
+		if (mBucketFlightFrag == null) {
+			mBucketFlightFrag = (ResultsTripBucketFlightFragment) manager.findFragmentByTag(FRAG_TAG_BUCKET_FLIGHT);
+		}
+		if (mBucketFlightFrag == null) {
+			mBucketFlightFrag = ResultsTripBucketFlightFragment.newInstance();
+		}
+		if (mBucketFlightFrag != null && !mBucketFlightFrag.isAdded()) {
+			FragmentTransaction transaction = manager.beginTransaction();
+			transaction.add(R.id.bucket_flight_frag_container, mBucketFlightFrag, FRAG_TAG_BUCKET_FLIGHT);
+			transaction.commit();
+		}
+	}
+
+	public void attachBucketHotelFrag() {
+		FragmentManager manager = getFragmentManager();
+		if (mBucketHotelFrag == null) {
+			mBucketHotelFrag = (ResultsTripBucketHotelFragment) manager.findFragmentByTag(FRAG_TAG_BUCKET_HOTEL);
+		}
+		if (mBucketHotelFrag == null) {
+			mBucketHotelFrag = ResultsTripBucketHotelFragment.newInstance();
+		}
+		if (mBucketHotelFrag != null && !mBucketHotelFrag.isAdded()) {
+			FragmentTransaction transaction = manager.beginTransaction();
+			transaction.add(R.id.bucket_hotel_frag_container, mBucketHotelFrag, FRAG_TAG_BUCKET_HOTEL);
+			transaction.commit();
+		}
 	}
 
 	/*

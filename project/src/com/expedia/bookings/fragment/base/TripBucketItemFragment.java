@@ -55,23 +55,25 @@ public abstract class TripBucketItemFragment extends Fragment {
 
 	public void setExpanded(boolean expanded) {
 		mExpanded = expanded;
-		if (expanded) {
-			int padding = 2;
-			mRootC.setBackgroundColor(mExpandedBgColor);
-			mRootC.setPadding(padding, padding, padding, padding);
-			mExpandedC.removeAllViews();
-			addExpandedView(getLayoutInflater(null), mExpandedC);
-			mBookBtn.setVisibility(View.GONE);
-			mExpandedC.setVisibility(View.VISIBLE);
+		if (mRootC != null) {
+			if (expanded) {
+				int padding = 2;
+				mRootC.setBackgroundColor(mExpandedBgColor);
+				mRootC.setPadding(padding, padding, padding, padding);
+				mExpandedC.removeAllViews();
+				addExpandedView(getLayoutInflater(null), mExpandedC);
+				mBookBtn.setVisibility(View.GONE);
+				mExpandedC.setVisibility(View.VISIBLE);
 
-		}
-		else {
-			int padding = 0;
-			mRootC.setBackgroundColor(mCollapsedBgColor);
-			mRootC.setPadding(padding, padding, padding, padding);
-			mExpandedC.removeAllViews();
-			mBookBtn.setVisibility(View.VISIBLE);
-			mExpandedC.setVisibility(View.GONE);
+			}
+			else {
+				int padding = 0;
+				mRootC.setBackgroundColor(mCollapsedBgColor);
+				mRootC.setPadding(padding, padding, padding, padding);
+				mExpandedC.removeAllViews();
+				mBookBtn.setVisibility(View.VISIBLE);
+				mExpandedC.setVisibility(View.GONE);
+			}
 		}
 	}
 

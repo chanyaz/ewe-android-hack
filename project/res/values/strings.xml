@@ -192,6 +192,11 @@
     <!-- Tablet flight trip bucket -->
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Round Trip</string>
+    
+    
+    <!-- Tablet Checkout -->
+    <!-- Your Trip -->
+    <string name="your_trip">Your Trip</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
