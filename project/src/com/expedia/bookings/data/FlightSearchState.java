@@ -38,17 +38,14 @@ public class FlightSearchState implements JSONable {
 		return mSelectedLegs;
 	}
 
-	public FlightFilter getFilter(int expectedLength, int legPosition, List<FlightTrip> trips,
-			FlightSearch.FlightTripQuery query) {
+	public FlightFilter getFilter(int expectedLength, int legPosition, FlightSearch.FlightTripQuery query) {
 		if (mFilters == null || mFilters.length != expectedLength) {
 			mFilters = new FlightFilter[expectedLength];
 		}
 
 		if (mFilters[legPosition] == null) {
 			mFilters[legPosition] = new FlightFilter();
-
-			// A new filter should be initialized with a list of FlightTrips
-			mFilters[legPosition].initAirports(query);
+			mFilters[legPosition].initFromFlightSearch(query);
 		}
 
 		return mFilters[legPosition];

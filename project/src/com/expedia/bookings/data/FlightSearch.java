@@ -203,9 +203,7 @@ public class FlightSearch implements JSONable {
 	}
 
 	public FlightFilter getFilter(int legPosition) {
-		// TODO improve this to only pass in the FlightTripQuery
-		return mSearchState.getFilter(mSearchParams.getQueryLegCount(), legPosition, getTrips(legPosition),
-				queryTrips(legPosition));
+		return mSearchState.getFilter(mSearchParams.getQueryLegCount(), legPosition, queryTrips(legPosition));
 	}
 
 	public FlightTripQuery queryTrips(final int legPosition) {
@@ -267,6 +265,8 @@ public class FlightSearch implements JSONable {
 
 		private Set<String> mAirlinesFilteredByStopsAndAirports;
 
+		private ArrayList<Integer> mNumberOfStops;
+
 		private Calendar mMinTime;
 		private Calendar mMaxTime;
 
@@ -297,12 +297,14 @@ public class FlightSearch implements JSONable {
 				// Run a first pass over all trips to calculate cheapest trips per airline/airport
 				FlightTrip trip;
 				FlightLeg leg;
+				Set stopsSet = new HashSet<Integer>();
 				for (int i = 0; i < mTrips.size(); i++) {
 					trip = mTrips.get(i);
 					leg = trip.getLeg(mLegPosition);
 
 					mDepartureAirportCodes.add(leg.getAirport(true).mAirportCode);
 					mArrivalAirportCodes.add(leg.getAirport(false).mAirportCode);
+					stopsSet.add(Integer.valueOf(leg.getSegmentCount() - 1));
 
 					// calculate cheapest trip per airport/airline
 					evaluateTripPrice(leg.getAirport(true).mAirportCode, trip, mCheapestTripsByDepartureAirport);
@@ -311,6 +313,7 @@ public class FlightSearch implements JSONable {
 						evaluateTripPrice(airline, trip, mCheapestTripsByAirline);
 					}
 				}
+				mNumberOfStops = new ArrayList<Integer>(stopsSet);
 
 				// Filter results (if user called for it)
 				FlightFilter filter = getFilter(mLegPosition);
@@ -443,6 +446,19 @@ public class FlightSearch implements JSONable {
 		public Set<String> getArrivalAirportCodes() {
 			ensureCalculations();
 			return mArrivalAirportCodes;
+		}
+
+		public List<Integer> getNumberOfStops() {
+			ensureCalculations();
+			return mNumberOfStops;
+		}
+
+		public int getMaxNumberOfStops() {
+			ensureCalculations();
+			if (mNumberOfStops.size() == 0) {
+				return 0;
+			}
+			return mNumberOfStops.get(mNumberOfStops.size() - 1).intValue();
 		}
 
 		public Set<String> getAirlinesFilteredByStopsAndAirports() {

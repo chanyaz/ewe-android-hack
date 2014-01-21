@@ -1,15 +1,16 @@
 package com.expedia.bookings.fragment;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -74,6 +75,18 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		mSortGroup.setOnCheckedChangeListener(mControlKnobListener);
 		mFilterGroup.setOnCheckedChangeListener(mControlKnobListener);
 
+		FlightSearch.FlightTripQuery query = Db.getFlightSearch().queryTrips(mLegNumber);
+
+		List<Integer> numStopsList = query.getNumberOfStops();
+		mFilterGroup.removeAllViews();
+		for (Integer integer : numStopsList) {
+			RadioButton rad = Ui.inflate(getActivity(), R.layout.snippet_flight_filter_radio_button, null);
+			String str = getResources().getQuantityString(R.plurals.x_Stops_TEMPLATE, integer.intValue(), integer.intValue());
+			rad.setText(str);
+			rad.setId(FlightFilter.getStopsViewIdFromStopsValue(integer.intValue()));
+			mFilterGroup.addView(rad);
+		}
+
 		mAirlineContainer = Ui.findView(view, R.id.filter_airline_container);
 
 		mDepartureAirportsHeader = Ui.findView(view, R.id.departure_airports_header);
@@ -82,7 +95,6 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		mArrivalAirportsHeader = Ui.findView(view, R.id.arrival_airports_header);
 		mArrivalAirportFilterWidget = Ui.findView(view, R.id.arrival_airports_widget);
 
-		FlightSearch.FlightTripQuery query = Db.getFlightSearch().queryTrips(mLegNumber);
 		Set<String> departureAirports = query.getDepartureAirportCodes();
 		mDepartureAirportFilterWidget
 				.bind(mLegNumber, true, departureAirports, mFilter, mAirportOnCheckedChangeListener, mAirportPopupListener);
@@ -120,7 +132,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 
 	private void bindSortFilter() {
 		mSortGroup.check(SORT_RADIO_BUTTON_MAP.get(mFilter.getSort()));
-		mFilterGroup.check(STOPS_FILTER_RES_ID_MAP.get(mFilter.getStops()));
+		mFilterGroup.check(FlightFilter.getStopsViewIdFromStopsValue(mFilter.getStops()));
 	}
 
 	private void bindAirportFilter() {
@@ -176,9 +188,8 @@ public class ResultsFlightFiltersFragment extends Fragment {
 				mFilter.setSort(sort);
 			}
 
-			int stops = RES_ID_STOPS_FILTER_MAP.get(checkedId, FlightFilter.STOPS_UNSPECIFIED);
-			if (stops != FlightFilter.STOPS_UNSPECIFIED) {
-				mFilter.setStops(stops);
+			if (group.getId() == R.id.flight_filter_control) {
+				mFilter.setStops(FlightFilter.getStopsValueFromStopsViewId(checkedId));
 			}
 
 			onFilterChanged();
@@ -230,7 +241,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	};
 
 	/////////////////////////////////////////////////////////////////////////
-	// Static maps for Filter -> resId and resId - Filter
+	// Static maps for Sort -> resId and resId - Sort
 
 	private static final Map<Integer, FlightFilter.Sort> RES_ID_SORT_MAP = new HashMap<Integer, FlightFilter.Sort>() {
 		{
@@ -247,22 +258,6 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			put(FlightFilter.Sort.DEPARTURE, R.id.flight_sort_departs);
 			put(FlightFilter.Sort.DURATION, R.id.flight_sort_duration);
 			put(FlightFilter.Sort.PRICE, R.id.flight_sort_price);
-		}
-	};
-
-	private static final SparseIntArray RES_ID_STOPS_FILTER_MAP = new SparseIntArray() {
-		{
-			put(R.id.flight_filter_stop_any, FlightFilter.STOPS_ANY);
-			put(R.id.flight_filter_stop_one_or_less, FlightFilter.STOPS_MAX);
-			put(R.id.flight_filter_stop_none, FlightFilter.STOPS_NONSTOP);
-		}
-	};
-
-	private static final SparseIntArray STOPS_FILTER_RES_ID_MAP = new SparseIntArray() {
-		{
-			put(FlightFilter.STOPS_ANY, R.id.flight_filter_stop_any);
-			put(FlightFilter.STOPS_MAX, R.id.flight_filter_stop_one_or_less);
-			put(FlightFilter.STOPS_NONSTOP, R.id.flight_filter_stop_none);
 		}
 	};
 

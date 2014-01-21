@@ -15,11 +15,9 @@ public class FlightFilter {
 		DURATION,
 	}
 
-	//Filter flight search by # of stops
-	public static final int STOPS_UNSPECIFIED = -2;
-	public static final int STOPS_ANY = -1;
-	public static final int STOPS_NONSTOP = 0;
-	public static final int STOPS_MAX = 1; //currently specifies "One or Less Stop"
+	// Filter flight search by # of stops
+	private static final int STOPS_VIEW_ID_OFFSET = 1; // Ensures a positive View id
+	private int mDefaultNumberOfStops;
 
 	private Sort mSort;
 
@@ -42,7 +40,7 @@ public class FlightFilter {
 
 	public void reset() {
 		mSort = Sort.PRICE;
-		mStops = STOPS_ANY;
+		mStops = mDefaultNumberOfStops;
 		mPreferredAirlines.clear();
 		mDepartureAirports.clear();
 		mArrivalAirports.clear();
@@ -64,7 +62,20 @@ public class FlightFilter {
 		mStops = stops;
 	}
 
-	public void initAirports(FlightSearch.FlightTripQuery query) {
+	public static int getStopsViewIdFromStopsValue(int stopsValue) {
+		return stopsValue + STOPS_VIEW_ID_OFFSET;
+	}
+
+	public static int getStopsValueFromStopsViewId(int stopsViewId) {
+		return stopsViewId - STOPS_VIEW_ID_OFFSET;
+	}
+
+	public void initFromFlightSearch(FlightSearch.FlightTripQuery query) {
+		// Number of stops
+		mDefaultNumberOfStops = query.getMaxNumberOfStops();
+		mStops = mDefaultNumberOfStops;
+
+		// Airports
 		mDepartureAirports = new HashSet<String>(query.getDepartureAirportCodes());
 		mArrivalAirports = new HashSet<String>(query.getArrivalAirportCodes());
 	}

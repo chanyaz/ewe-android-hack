@@ -66,25 +66,9 @@
                 <com.expedia.bookings.widget.SlidingRadioGroup
                         android:id="@+id/flight_filter_control"
                         style="@style/Widget.SlidingRadioGroup.TabletFilterControls"
-                        android:layout_width="fill_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/tablet_filter_white_space" >
-
-                    <RadioButton
-                            android:id="@+id/flight_filter_stop_none"
-                            style="@style/V2.Widget.RadioButton.Filter"
-                            android:text="@string/stop_description__nonstop" />
-
-                    <RadioButton
-                            android:id="@+id/flight_filter_stop_one_or_less"
-                            style="@style/V2.Widget.RadioButton.Filter"
-                            android:text="@string/stop_description__max" />
-
-                    <RadioButton
-                            android:id="@+id/flight_filter_stop_any"
-                            style="@style/V2.Widget.RadioButton.Filter"
-                            android:text="@string/stop_description_any" />
-                </com.expedia.bookings.widget.SlidingRadioGroup>
+                        android:layout_marginBottom="@dimen/tablet_filter_white_space" />
             </LinearLayout>
 
             <View

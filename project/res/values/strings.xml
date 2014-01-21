@@ -141,6 +141,16 @@
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">Airlines</string>
 
+    <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
+    <plurals name="x_Stops_TEMPLATE">
+        <item quantity="zero">No Stops</item>
+        <item quantity="one">%s Stop</item>
+        <item quantity="two">%s Stops</item>
+        <item quantity="few">%s Stops</item>
+        <item quantity="many">%s Stops</item>
+        <item quantity="other">%s Stops</item>
+    </plurals>
+
     <!-- Header for a dropdown to select from a list of available departure airports -->
     <string name="departure_airports">Departure Airports</string>
     <!-- Header for a dropdown to select from a list of available arrival airports -->
