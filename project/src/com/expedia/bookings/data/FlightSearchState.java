@@ -20,13 +20,14 @@ import com.mobiata.android.json.JSONable;
 public class FlightSearchState implements JSONable {
 
 	private FlightTripLeg[] mSelectedLegs;
-	private boolean mIsFlightAdded; // Check to ensure that flight has actually be added by the user (tablet) as opposed to just selecting it.
+	private FlightTripLeg[] mAddedLegs;
 
 	// We don't save Filters across executions because who cares?
 	private FlightFilter[] mFilters;
 
 	public void reset() {
 		mSelectedLegs = null;
+		mAddedLegs = null;
 		mFilters = null;
 	}
 
@@ -36,6 +37,14 @@ public class FlightSearchState implements JSONable {
 		}
 
 		return mSelectedLegs;
+	}
+
+	public FlightTripLeg[] getAddedLegs(int expectedLength) {
+		if (mAddedLegs == null || mAddedLegs.length != expectedLength) {
+			mAddedLegs = new FlightTripLeg[expectedLength];
+		}
+
+		return mAddedLegs;
 	}
 
 	public FlightFilter getFilter(int expectedLength, int legPosition, FlightSearch.FlightTripQuery query) {
@@ -51,14 +60,6 @@ public class FlightSearchState implements JSONable {
 		return mFilters[legPosition];
 	}
 
-	public boolean isFlightAdded() {
-		return mIsFlightAdded;
-	}
-
-	public void setFlightAdded(boolean isFlightAdded) {
-		this.mIsFlightAdded = isFlightAdded;
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -68,8 +69,8 @@ public class FlightSearchState implements JSONable {
 			JSONObject obj = new JSONObject();
 			if (mSelectedLegs != null) {
 				JSONUtils.putJSONableList(obj, "selectedLegs", Arrays.asList(mSelectedLegs));
+				JSONUtils.putJSONableList(obj, "addedLegs", Arrays.asList(mAddedLegs));
 			}
-			obj.putOpt("isFlightAdded", mIsFlightAdded);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -83,7 +84,10 @@ public class FlightSearchState implements JSONable {
 		if (selectedLegs != null) {
 			mSelectedLegs = selectedLegs.toArray(new FlightTripLeg[0]);
 		}
-		mIsFlightAdded = obj.optBoolean("isFlightAdded");
+		List<FlightTripLeg> addedLegs = JSONUtils.getJSONableList(obj, "addedLegs", FlightTripLeg.class);
+		if (addedLegs != null) {
+			mAddedLegs = addedLegs.toArray(new FlightTripLeg[0]);
+		}
 		return true;
 	}
 }

@@ -33,7 +33,7 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 
 	private void bindToDb() {
 		if (mFlightSection != null && Db.getFlightSearch().getSelectedFlightTrip() != null) {
-			mFlightSection.bindForTripBucket(Db.getFlightSearch());
+			mFlightSection.bindForTripBucket(Db.getFlightSearch(), false);
 		}
 	}
 

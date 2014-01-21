@@ -67,7 +67,7 @@ public class ResultsFlightAddToTrip extends Fragment {
 	}
 
 	private void bindFlightCard() {
-		mFlightCard.bindForTripBucket(Db.getFlightSearch());
+		mFlightCard.bindForTripBucket(Db.getFlightSearch(), true);
 	}
 
 	/**

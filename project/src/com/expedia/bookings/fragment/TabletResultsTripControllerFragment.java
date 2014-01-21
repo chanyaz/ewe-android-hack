@@ -165,7 +165,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 	}
 
 	private boolean hasFlightTrip() {
-		return Db.getFlightSearch() != null && Db.getFlightSearch().isFlightAdded();
+		return Db.getFlightSearch() != null && Db.getFlightSearch().getAddedLegs()[0] != null;
 	}
 
 	private boolean hasHotelTrip() {
@@ -324,9 +324,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 		}
 
 		private void finalizeRemoveFlight() {
-			Db.getFlightSearch().setFlightAdded(false);
-			for (int i = 0; i < Db.getFlightSearch().getSelectedLegs().length; i++) {
-				Db.getFlightSearch().setSelectedLeg(i, null);
+			for (int i = 0; i < Db.getFlightSearch().getAddedLegs().length; i++) {
+				Db.getFlightSearch().setAddedLeg(i, null);
 			}
 			positionTripBucketItems(true);
 			setVisibilityState(mGlobalState);
@@ -695,7 +694,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 		if (isFlights) {
 			FlightLegSummarySectionTablet view = Ui.inflate(getActivity(), R.layout.flight_card_tablet_add_tripbucket,
 					null);
-			view.bindForTripBucket(Db.getFlightSearch());
+			view.bindForTripBucket(Db.getFlightSearch(), true);
 			return view;
 		}
 		else {

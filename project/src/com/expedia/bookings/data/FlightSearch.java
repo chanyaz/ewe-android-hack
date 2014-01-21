@@ -159,19 +159,40 @@ public class FlightSearch implements JSONable {
 		getSelectedLegs()[position] = leg;
 	}
 
-	public boolean isFlightAdded() {
-		return mSearchState.isFlightAdded();
+	public FlightTripLeg[] getAddedLegs() {
+		return mSearchState.getAddedLegs(mSearchParams.getQueryLegCount());
 	}
 
-	public void setFlightAdded(boolean isFlightAdded) {
-		mSearchState.setFlightAdded(isFlightAdded);
+	public void setAddedLeg(int position, FlightTripLeg leg) {
+		getAddedLegs()[position] = leg;
+	}
+
+	public void commitSelectedLegs() {
+		for (int i = 0; i < getSelectedLegs().length; i++) {
+			setAddedLeg(i, getSelectedLegs()[i]);
+			setSelectedLeg(i, null);
+		}
+	}
+
+	public FlightTrip getAddedFlightTrip() {
+		return getSelectedFlightTrip(true);
+	}
+
+	public FlightTrip getSelectedFlightTrip() {
+		return getSelectedFlightTrip(false);
 	}
 
 	// Returns the selected FlightTrip.
 	//
 	// Only valid if all legs are selected.  Otherwise, it returns null.
-	public FlightTrip getSelectedFlightTrip() {
-		FlightTripLeg[] legs = getSelectedLegs();
+	private FlightTrip getSelectedFlightTrip(boolean useAddedLegs) {
+		FlightTripLeg[] legs;
+		if (useAddedLegs) {
+			legs = getAddedLegs();
+		}
+		else {
+			legs = getSelectedLegs();
+		}
 		for (int a = 0; a < legs.length; a++) {
 			if (legs[a] == null) {
 				return null;

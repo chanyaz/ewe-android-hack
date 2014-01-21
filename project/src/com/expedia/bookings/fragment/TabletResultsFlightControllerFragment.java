@@ -314,7 +314,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	public void onFlightSelected(int legNumber) {
 		if (mFlightsStateManager.getState() != ResultsFlightsState.FLIGHT_LIST_DOWN) {
 			if (legNumber == 0) {
-				//TODO: IF MULTILEG FLIGHT BIND THE FLIGHT TO THE ROW HEADER
 				setFlightsState(ResultsFlightsState.FLIGHT_ONE_DETAILS,
 						mFlightsStateManager.getState() != ResultsFlightsState.FLIGHT_ONE_DETAILS);
 				// Make sure to reset the query, as the flights present in the second leg depend upon the flight
@@ -344,10 +343,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	@Override
 	public void onTripAdded(int legNumber) {
 		if (mFlightsStateManager.getState() != ResultsFlightsState.FLIGHT_LIST_DOWN) {
-			Db.getFlightSearch().setFlightAdded(true);
 			boolean lastLegToSelect = mOneWayFlight || legNumber == 1;
 			if (lastLegToSelect) {
 				setFlightsState(ResultsFlightsState.ADDING_FLIGHT_TO_TRIP, true);
+				Db.getFlightSearch().commitSelectedLegs();
 			}
 			else {
 				setFlightsState(ResultsFlightsState.FLIGHT_TWO_FILTERS, true);
@@ -1137,7 +1136,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			}
 			case FLIGHT_ONE_DETAILS: {
 				positionForDetails(mFlightOneFiltersC, mFlightOneListC, mFlightOneDetailsFrag);
-				bindDataForDetails(mFlightOneDetailsFrag);
+				bindDataForDetails(mFlightOneDetailsFrag, 0);
 				break;
 			}
 			case FLIGHT_TWO_FILTERS: {
@@ -1147,7 +1146,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			}
 			case FLIGHT_TWO_DETAILS: {
 				positionForDetails(mFlightTwoFiltersC, mFlightTwoListColumnC, mFlightTwoDetailsFrag);
-				bindDataForDetails(mFlightTwoDetailsFrag);
+				bindDataForDetails(mFlightTwoDetailsFrag, 1);
 				break;
 			}
 			case ADDING_FLIGHT_TO_TRIP: {
@@ -1194,7 +1193,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 						&& Db.getFlightSearch().getSelectedLegs().length > 0
 						&& Db.getFlightSearch().getSelectedLegs()[0] != null
 						&& Db.getFlightSearch().getSelectedLegs()[0].getFlightTrip() != null) {
-					mFlightOneSelectedRow.bind(Db.getFlightSearch(), 0);
+					mFlightOneSelectedRow.bind(Db.getFlightSearch(), 0, false);
 				}
 			}
 		}
@@ -1214,8 +1213,15 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			}
 		}
 
-		private void bindDataForDetails(ResultsFlightDetailsFragment detailsFrag) {
+		private void bindDataForDetails(ResultsFlightDetailsFragment detailsFrag, int pos) {
 			detailsFrag.bindWithDb();
+
+			// When going backwards, we must un-select the selected inbound leg, otherwise if
+			// we query the trips again, we will return a limited set of results for the outbound
+			// leg (based upon which trips work with that selected inbound flight).
+			if (pos == 0 && Db.getFlightSearch().getSearchParams().isRoundTrip()) {
+				Db.getFlightSearch().setSelectedLeg(1, null);
+			}
 		}
 
 	};

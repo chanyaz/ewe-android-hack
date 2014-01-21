@@ -32,7 +32,6 @@ import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.widget.FlightTripView;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.Flight;
@@ -96,26 +95,40 @@ public class FlightLegSummarySection extends RelativeLayout {
 		bind(null, pseudoLeg, minTime, maxTime, true);
 	}
 
-	public void bindForTripBucket(FlightSearch flightSearch) {
+	public void bindForTripBucket(FlightSearch flightSearch, boolean useAddedLeg) {
 		boolean isRoundTrip = flightSearch.getSearchParams().isRoundTrip();
 		if (isRoundTrip) {
-			FlightTrip trip = flightSearch.getSelectedFlightTrip();
-			FlightLeg legOne = flightSearch.getSelectedLegs()[0].getFlightLeg();
-			FlightLeg legTwo = flightSearch.getSelectedLegs()[1].getFlightLeg();
+			FlightTrip trip;
+			FlightTripLeg[] legs;
+			if (useAddedLeg) {
+				trip = flightSearch.getAddedFlightTrip();
+				legs = flightSearch.getAddedLegs();
+			}
+			else {
+				trip = flightSearch.getSelectedFlightTrip();
+				legs = flightSearch.getSelectedLegs();
+			}
 
-			bind(trip, legOne, legTwo, null, null, false, null);
+			bind(trip, legs[0].getFlightLeg(), legs[1].getFlightLeg(), null, null, false, null);
 		}
 		else {
-			bind(flightSearch, 0);
+			bind(flightSearch, 0, useAddedLeg);
 		}
 	}
 
-	public void bind(FlightSearch flightSearch, int legNumber) {
+	public void bind(FlightSearch flightSearch, int legNumber, boolean useAddedLeg) {
 		FlightTripQuery query = flightSearch.queryTrips(legNumber);
 		Calendar minTime = (Calendar) query.getMinTime().clone();
 		Calendar maxTime = (Calendar) query.getMaxTime().clone();
 
-		FlightTripLeg flightTripLeg = flightSearch.getSelectedLegs()[legNumber];
+		FlightTripLeg flightTripLeg;
+		if (useAddedLeg) {
+			flightTripLeg = flightSearch.getAddedLegs()[legNumber];
+		}
+		else {
+			flightTripLeg = flightSearch.getSelectedLegs()[legNumber];
+		}
+
 		FlightTrip trip = flightTripLeg.getFlightTrip();
 		FlightLeg leg = flightTripLeg.getFlightLeg();
 
