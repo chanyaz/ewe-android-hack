@@ -211,7 +211,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 	private void positionTripBucketItems(boolean verticalOnly) {
 		//We just split the space evenly between views
 		int viewHeight = (mGrid.isLandscape() ? mGrid.getTotalHeight() : mGrid.getRowHeight(0)) / 3;
-		int[] bucketItemYPositions = mTripBucketTripToFrag.getBucketItemsPosition(getNumberOfBucketContainers() - 1, (int) viewHeight);
+		int[] bucketItemYPositions = mTripBucketTripToFrag.getBucketItemsPosition(getNumberOfBucketContainers() - 1,
+				(int) viewHeight);
 
 		if (mGrid.isLandscape()) {
 			if (!verticalOnly) {
@@ -462,10 +463,10 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 			((ResultsTripBucketYourTripToFragment) frag).bindToDb();
 		}
 		else if (tag == FTAG_BUCKET_FLIGHT) {
-			((ResultsTripBucketFlightFragment) frag).bindToDb();
+			((ResultsTripBucketFlightFragment) frag).bind();
 		}
 		else if (tag == FTAG_BUCKET_HOTEL) {
-			((ResultsTripBucketHotelFragment) frag).bindToDb();
+			((ResultsTripBucketHotelFragment) frag).bind();
 		}
 	}
 

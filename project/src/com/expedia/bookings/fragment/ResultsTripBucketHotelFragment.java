@@ -1,48 +1,71 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.section.HotelSummarySection;
-import com.mobiata.android.util.Ui;
 
 /**
  * ResultsTripBucketYourTripToFragment: A simple fragment for displaying destination information, in the trip overview column - Tablet 2013
  */
-public class ResultsTripBucketHotelFragment extends Fragment {
+public class ResultsTripBucketHotelFragment extends TripBucketItemFragment {
 
 	public static ResultsTripBucketHotelFragment newInstance() {
 		ResultsTripBucketHotelFragment frag = new ResultsTripBucketHotelFragment();
 		return frag;
 	}
 
-	private ViewGroup mRootC;
 	private HotelSummarySection mHotelSection;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_tripbucket_hotel, null);
-		mHotelSection = Ui.findView(mRootC, R.id.trip_bucket_hotel);
+	protected void doBind() {
 		bindToDb();
-		return mRootC;
 	}
 
-	public void bindToDb() {
+	private void bindToDb() {
 		if (mHotelSection != null && Db.getHotelSearch() != null && Db.getHotelSearch().getAddedProperty() != null) {
 			mHotelSection.bind(Db.getHotelSearch().getAddedProperty(), false, 16, false, DistanceUnit.MILES,
 					false);
 		}
 	}
+
+	@Override
+	public CharSequence getBookButtonText() {
+		return getString(R.string.trip_bucket_book_hotel);
+	}
+
+	@Override
+	public void addTopView(LayoutInflater inflater, ViewGroup viewGroup) {
+		ViewGroup root = (ViewGroup) inflater.inflate(R.layout.hotel_card_tablet_add_tripbucket, viewGroup);
+		mHotelSection = (HotelSummarySection) root.getChildAt(0);
+	}
+
+	@Override
+	public void addExpandedView(LayoutInflater inflater, ViewGroup viewGroup) {
+		View view = new View(getActivity());
+		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, 400);
+		view.setLayoutParams(params);
+		view.setBackgroundColor(Color.RED);
+		viewGroup.addView(view);
+	}
+
+	@Override
+	public OnClickListener getOnBookClickListener() {
+		return mBookOnClick;
+	}
+
+	private OnClickListener mBookOnClick = new OnClickListener() {
+		@Override
+		public void onClick(View arg0) {
+			setExpanded(true);
+		}
+	};
 }
