@@ -263,5 +263,8 @@
     <dimen name="tablet_tripbucket_card_height">148dp</dimen>
     <dimen name="tablet_tripbucket_card_width">352dp</dimen>
     <dimen name="tripbucket_bookbutton_height">50dp</dimen>
+    <dimen name="trip_bucket_item_horizontal_margin">32dp</dimen>
+    <dimen name="trip_bucket_swipe_out_distance">48dp</dimen>
+    <dimen name="trip_bucket_swipe_out_distance_half">24dp</dimen>
 
 </resources>

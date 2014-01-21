@@ -219,12 +219,16 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 
 				int flightSwipeOutDistance = (int) mFlightSwipeOut.getSwipeOutDistance();
 				int hotelSwipeOutDistance = (int) mHotelSwipeOut.getSwipeOutDistance();
+				int margin = getResources().getDimensionPixelSize(R.dimen.trip_bucket_item_horizontal_margin);
+				int usableSpace = mGrid.getColWidth(2) - (2 * margin);
 
-				setHorizontalPos(mTripBucketFlightC, mGrid.getColLeft(2) - flightSwipeOutDistance,
-						mGrid.getColWidth(2) + flightSwipeOutDistance);
+				setHorizontalPos(mTripBucketFlightC,
+						mGrid.getColLeft(2) + margin - flightSwipeOutDistance,
+						usableSpace + flightSwipeOutDistance);
+
 				setHorizontalPos(mTripBucketHotelC,
-						mGrid.getColLeft(2) - hotelSwipeOutDistance,
-						mGrid.getColWidth(2) + hotelSwipeOutDistance);
+						mGrid.getColLeft(2) + margin - hotelSwipeOutDistance,
+						usableSpace + hotelSwipeOutDistance);
 			}
 		}
 		else {
@@ -689,7 +693,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 
 	private View getAnimationView(boolean isFlights) {
 		if (isFlights) {
-			FlightLegSummarySectionTablet view = Ui.inflate(getActivity(), R.layout.flight_card_tablet_add_tripbucket, null);
+			FlightLegSummarySectionTablet view = Ui.inflate(getActivity(), R.layout.flight_card_tablet_add_tripbucket,
+					null);
 			view.bindForTripBucket(Db.getFlightSearch());
 			return view;
 		}
