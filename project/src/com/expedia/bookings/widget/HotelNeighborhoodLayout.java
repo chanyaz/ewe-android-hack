@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.widget.LinearLayout;
 
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
@@ -28,7 +29,7 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 	private OnNeighborhoodsChangedListener mListener;
 
 	/**
-	 *  Maps locationId to a CheckBoxFilterWidget
+	 * Maps locationId to a CheckBoxFilterWidget
 	 */
 	private SparseArray<CheckBoxFilterWidget> mWidgetMap = new SparseArray<CheckBoxFilterWidget>();
 
@@ -121,7 +122,7 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 
 		// Look through the filtered properties, enable that filter widget
 		// and modify its price if appropriate.
-		for (Property property : response.getFilteredPropertiesIgnoringNeighborhood()) {
+		for (Property property : response.getFilteredPropertiesIgnoringNeighborhood(Db.getHotelSearch().getSearchParams())) {
 			int locationId = property.getLocation().getLocationId();
 			CheckBoxFilterWidget widget = mWidgetMap.get(locationId);
 			if (widget.isEnabled()) {

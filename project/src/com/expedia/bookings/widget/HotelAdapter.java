@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
@@ -115,7 +116,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			return null;
 		}
 
-		List<Property> properties = mSearchResponse.getFilteredAndSortedProperties();
+		List<Property> properties = mSearchResponse.getFilteredAndSortedProperties(Db.getHotelSearch().getSearchParams());
 
 		if (properties == null || properties.size() == 0) {
 			OmnitureTracking.trackErrorPage(mContext, "FilteredToZeroResults");

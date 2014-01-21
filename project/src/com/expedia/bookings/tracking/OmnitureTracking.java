@@ -215,8 +215,8 @@ public class OmnitureTracking {
 		}
 
 		// Number of search results
-		if (searchResponse != null && searchResponse.getFilteredAndSortedProperties() != null) {
-			s.setProp(1, searchResponse.getFilteredAndSortedProperties().size() + "");
+		if (searchResponse != null && searchResponse.getFilteredAndSortedProperties(searchParams) != null) {
+			s.setProp(1, searchResponse.getFilteredAndSortedProperties(searchParams).size() + "");
 		}
 
 		// Send the tracking data

@@ -12,6 +12,8 @@ import android.widget.ListView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelFilter.OnFilterChangedListener;
+import com.expedia.bookings.data.HotelSearch;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.User;
@@ -95,12 +97,12 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	}
 
 	private void updateAdapter() {
-		HotelSearchResponse response = Db.getHotelSearch().getSearchResponse();
-		mAdapter.setSearchResponse(response);
+		HotelSearch search = Db.getHotelSearch();
+		mAdapter.setSearchResponse(search.getSearchResponse());
 		mAdapter.setShowDistance(
-				response != null
-						&& response.getSearchType() != null
-						&& response.getSearchType().shouldShowDistance());
+				search != null
+						&& search.getSearchParams().getSearchType() != null
+						&& search.getSearchParams().getSearchType().shouldShowDistance());
 
 		if (Db.getHotelSearch().getSelectedProperty() != null) {
 			// In case there is a currently selected property, select it on the screen.
@@ -112,10 +114,11 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	protected CharSequence initializeStickyHeaderString() {
 		int total = 0;
 		int count = 0;
+		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 		HotelSearchResponse response = Db.getHotelSearch().getSearchResponse();
 		if (response != null) {
 			total = response.getPropertiesCount();
-			count = response.getFilteredPropertiesCount();
+			count = response.getFilteredPropertiesCount(params);
 		}
 
 		CharSequence text = null;

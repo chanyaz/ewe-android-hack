@@ -253,8 +253,8 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	// Only call this if isReady()
 	private void addExactLocation() {
 		if (Db.getHotelSearch().getSearchResponse() != null
-				&& Db.getHotelSearch().getSearchResponse().getSearchType() != null
-				&& Db.getHotelSearch().getSearchResponse().getSearchType().shouldShowExactLocation()) {
+				&& Db.getHotelSearch().getSearchParams().getSearchType() != null
+				&& Db.getHotelSearch().getSearchParams().getSearchType().shouldShowExactLocation()) {
 			HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 			LatLng point = new LatLng(params.getSearchLatitude(), params.getSearchLongitude());
 
@@ -275,8 +275,12 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	}
 
 	public void setSearchResponse(HotelSearchResponse searchResponse) {
-		if (searchResponse != null && searchResponse.getFilteredAndSortedProperties() != null) {
-			setProperties(searchResponse.getFilteredAndSortedProperties());
+		if (searchResponse != null) {
+			HotelSearchParams params = Db.getHotelSearch().getSearchParams();
+			List<Property> properties = searchResponse.getFilteredAndSortedProperties(params);
+			if (properties != null) {
+				setProperties(properties);
+			}
 		}
 	}
 
@@ -351,26 +355,29 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	}
 
 	public void notifyFilterChanged() {
-		if (mProperties != null && Db.getHotelSearch().getSearchResponse() != null) {
-			List<Property> newSet = Db.getHotelSearch().getSearchResponse().getFilteredAndSortedProperties();
+		if (mProperties == null || Db.getHotelSearch().getSearchResponse() == null) {
+			return;
+		}
 
-			// Add properties we have not seen.
-			// This happens if we are already filtered,
-			// map is created, then the filter contraints are relaxed.
-			if (newSet.size() > mProperties.size()) {
-				for (Property property : newSet) {
-					if (!mProperties.contains(property)) {
-						addMarker(property);
-					}
+		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
+		List<Property> newSet = Db.getHotelSearch().getSearchResponse().getFilteredAndSortedProperties(params);
+
+		// Add properties we have not seen.
+		// This happens if we are already filtered,
+		// map is created, then the filter constraints are relaxed.
+		if (newSet.size() > mProperties.size()) {
+			for (Property property : newSet) {
+				if (!mProperties.contains(property)) {
+					addMarker(property);
 				}
 			}
+		}
 
-			// Toggle visibility
-			for (Property property : mProperties) {
-				boolean visibility = newSet.contains(property);
-				Marker marker = mPropertiesToMarkers.get(property);
-				marker.setVisible(visibility);
-			}
+		// Toggle visibility
+		for (Property property : mProperties) {
+			boolean visibility = newSet.contains(property);
+			Marker marker = mPropertiesToMarkers.get(property);
+			marker.setVisible(visibility);
 		}
 	}
 
@@ -426,7 +433,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 
 	/**
 	 * Shows all properties visible on the map.
-	 *
+	 * <p/>
 	 * If there are properties but all are hidden (due to filtering),
 	 * then it shows the area they would appear (if they weren't
 	 * hidden).

@@ -415,11 +415,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			searchResponse.setFilter(filter);
 			filter.addOnFilterChangedListener(PhoneSearchActivity.this);
 
-			HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
-			searchResponse.setSearchType(searchParams.getSearchType());
-			searchResponse.setSearchLatLon(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
-
-			if (searchResponse.getFilteredPropertiesCount() <= 10) {
+			if (searchResponse.getFilteredPropertiesCount(Db.getHotelSearch().getSearchParams()) <= 10) {
 				Log.i("Initial search results had not many results, expanding search radius filter to show all.");
 				filter.setSearchRadius(SearchRadius.ALL);
 				mRadiusCheckedId = R.id.radius_all_button;

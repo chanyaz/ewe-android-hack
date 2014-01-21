@@ -294,6 +294,25 @@ public class SearchParams implements Parcelable, JSONable {
 		params.setNumAdults(mNumAdults);
 		params.setChildren(getChildAges());
 
+		// Map SuggestionV2.SearchType to HotelSearchParams.SearchType
+		switch (mDestination.getSearchType()) {
+		case ATTRACTION:
+			params.setSearchType(HotelSearchParams.SearchType.POI);
+			break;
+		case AIRPORT:
+			params.setSearchType(HotelSearchParams.SearchType.POI);
+			break;
+		case HOTEL:
+			params.setSearchType(HotelSearchParams.SearchType.HOTEL);
+			break;
+		case CITY:
+			params.setSearchType(HotelSearchParams.SearchType.CITY);
+			break;
+		default:
+			params.setSearchType(HotelSearchParams.SearchType.FREEFORM);
+			break;
+		}
+
 		return params;
 	}
 

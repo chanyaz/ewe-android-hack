@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelFilter.OnFilterChangedListener;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.widget.RingedCountView;
 import com.mobiata.android.util.Ui;
@@ -66,10 +67,11 @@ public class ResultsHotelsFilterCountFragment extends Fragment implements OnFilt
 		int count = 0;
 		int total = 0;
 
+		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 		HotelSearchResponse response = Db.getHotelSearch().getSearchResponse();
 		if (response != null) {
 			total = response.getPropertiesCount();
-			count = response.getFilteredPropertiesCount();
+			count = response.getFilteredPropertiesCount(params);
 		}
 
 		float percent = total == 0 ? 0 : 1.0f * count / total;

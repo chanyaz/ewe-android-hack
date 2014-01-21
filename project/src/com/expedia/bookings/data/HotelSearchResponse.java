@@ -26,7 +26,6 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.android.maps.MapUtils;
 
 public class HotelSearchResponse extends Response implements OnFilterChangedListener, JSONable {
-	private SearchType mSearchType;
 
 	// The original list of properties in this response
 	private List<Property> mProperties;
@@ -77,14 +76,6 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		return mProperties.size();
 	}
 
-	public void setSearchType(SearchType searchType) {
-		mSearchType = searchType;
-	}
-
-	public SearchType getSearchType() {
-		return mSearchType;
-	}
-
 	public void setLocations(List<Location> locations) {
 		mLocations = locations;
 	}
@@ -122,10 +113,6 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	// The filter that defines how properties are presented
 	private HotelFilter mFilter;
 
-	// Search latitude/longitude.  Used for banding results.
-	private double mSearchLatitude;
-	private double mSearchLongitude;
-
 	/**
 	 * Cached subset of mProperties that has been sorted by distance bands.
 	 */
@@ -145,11 +132,6 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	 */
 	private Collection<Property> mFilteredPropertiesIgnoringNeighborhood;
 
-	public void setSearchLatLon(double searchLat, double searchLon) {
-		mSearchLatitude = searchLat;
-		mSearchLongitude = searchLon;
-	}
-
 	public void setFilter(HotelFilter filter) {
 		mFilter = filter;
 		filter.setOnDataListener(this);
@@ -164,26 +146,19 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		mFilteredPropertiesIgnoringNeighborhood = null;
 	}
 
-	public PriceTier getPriceTier(PriceRange priceRange) {
-		if (mPriceTiers.size() == 0) {
-			clusterProperties();
-		}
-
-		return mPriceTiers.get(priceRange);
-	}
-
 	/**
 	 * Returns a collection of properties filtered by this object's filter.
+	 *
 	 * @return
 	 */
-	private Collection<Property> getFilteredProperties() {
+	private Collection<Property> getFilteredProperties(HotelSearchParams searchParams) {
 		// If we have no properties set, return null
 		if (mProperties == null) {
 			Log.v("getFilteredProperties() - properties is null, returning null");
 			return null;
 		}
 
-		performFiltering();
+		performFiltering(searchParams);
 
 		return mFilteredProperties;
 	}
@@ -191,27 +166,28 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	/**
 	 * Returns a collection of properties filtered by this object's filter, ignoring
 	 * the "neighborhoods" part of the filter.
+	 *
 	 * @return
 	 */
-	public Collection<Property> getFilteredPropertiesIgnoringNeighborhood() {
+	public Collection<Property> getFilteredPropertiesIgnoringNeighborhood(HotelSearchParams searchParams) {
 		// If we have no properties set, return null
 		if (mProperties == null) {
 			Log.v("getFilteredPropertiesIgnoringNeighborhood() - properties is null, returning null");
 			return null;
 		}
 
-		performFiltering();
+		performFiltering(searchParams);
 
 		return mFilteredPropertiesIgnoringNeighborhood;
 	}
 
 	/**
-	 * Get properties of a particular sort.  You should probably set a HotelFilter before running this,
-	 * but it'll create one on the fly if you're being lazy.
-	 * 
+	 * Get properties of a particular sort.  You should probably set a HotelFilter before
+	 * running this, but it'll create one on the fly if you're being lazy.
+	 * <p/>
 	 * Populates mExpediaSortedProperties and mFilteredProperties as a side effect.
 	 */
-	public List<Property> getFilteredAndSortedProperties() {
+	public List<Property> getFilteredAndSortedProperties(HotelSearchParams searchParams) {
 		Log.v("getFilteredAndSortedProperties() called...");
 
 		// If we have no properties set, return null
@@ -221,7 +197,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		}
 
 		// Create a (shallow) list of the filtered results and sort it.
-		ArrayList<Property> sortedProperties = new ArrayList<Property>(getFilteredProperties());
+		ArrayList<Property> sortedProperties = new ArrayList<Property>(getFilteredProperties(searchParams));
 		Sort sort = mFilter.getSort();
 		switch (sort) {
 		case PRICE:
@@ -230,7 +206,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			break;
 		case DEALS:
 			Log.v("Sorting based on deals");
-			if (mSearchType == SearchType.MY_LOCATION) {
+			if (searchParams.getSearchType() == SearchType.MY_LOCATION) {
 				Collections.sort(sortedProperties, Property.DISTANCE_COMPARATOR);
 			}
 
@@ -268,11 +244,11 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		return sortedProperties;
 	}
 
-	public List<Property> getFilteredAndSortedProperties(Sort sort, int count) {
+	public List<Property> getFilteredAndSortedProperties(Sort sort, int count, HotelSearchParams searchParams) {
 		mFilter = new HotelFilter();
 		mFilter.setSort(sort);
 
-		List<Property> sorted = getFilteredAndSortedProperties();
+		List<Property> sorted = getFilteredAndSortedProperties(searchParams);
 
 		if (mFilteredProperties.size() > count) {
 			return sorted.subList(0, count);
@@ -281,8 +257,8 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		return sorted;
 	}
 
-	public int getFilteredPropertiesCount() {
-		getFilteredProperties();
+	public int getFilteredPropertiesCount(HotelSearchParams searchParams) {
+		getFilteredProperties(searchParams);
 		return mFilteredProperties == null ? 0 : mFilteredProperties.size();
 	}
 
@@ -296,7 +272,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	//////////////////////////////////////////////////////////////////////////////////
 	// Grunt work for sorting/filtering
 
-	private void preSortByMyLocation() {
+	private void preSortByLocation(double latitude, double longitude) {
 		// Here we do banding, as described by #6261
 		List<Property> propsShort = new ArrayList<Property>();
 		List<Property> propsMedium = new ArrayList<Property>();
@@ -325,7 +301,8 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 					distance = distanceFromUser.getDistance(DistanceUnit.MILES);
 				}
 				else {
-					distance = MapUtils.getDistance(mSearchLatitude, mSearchLongitude,
+					distance = MapUtils.getDistance(
+							latitude, longitude,
 							loc.getLatitude(), loc.getLongitude());
 				}
 
@@ -359,7 +336,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	 * This populates mFilter, mPresortedProperties, mPriceTiers,
 	 * mFilteredProperties, and mFilteredPropertiesIgnoringNeighborhood
 	 */
-	private void performFiltering() {
+	private void performFiltering(HotelSearchParams searchParams) {
 		// Check that we have a filter, if not create a new one
 		if (mFilter == null) {
 			Log.v("performFiltering() - no filter set, setting default one");
@@ -369,11 +346,11 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		// Check if we've done the custom POPULAR sort for MY_LOCATION
 		if (mPresortedProperties == null) {
 			Log.v("performFiltering() - No Expedia sorted items, sorting now...");
-			Log.v("performFiltering() - Current search type: " + mSearchType);
+			Log.v("performFiltering() - Current search type: " + searchParams.getSearchType());
 
-			if (mSearchType == SearchType.MY_LOCATION) {
+			if (searchParams.getSearchType() == SearchType.MY_LOCATION) {
 				Log.v("My location search, doing special sorting...");
-				preSortByMyLocation();
+				preSortByLocation(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
 			}
 			else {
 				Log.v("NOT a my location search, skipping special sorting...");
@@ -498,9 +475,9 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		// Separate out based on medoid values
 		@SuppressWarnings("unchecked")
 		ArrayList<Property>[] tiers = new ArrayList[] {
-			new ArrayList<Property>(),
-			new ArrayList<Property>(),
-			new ArrayList<Property>(),
+				new ArrayList<Property>(),
+				new ArrayList<Property>(),
+				new ArrayList<Property>(),
 		};
 		double closest;
 		double tmp;
@@ -821,13 +798,8 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		}
 
 		try {
-			JSONUtils.putEnum(obj, "searchType", mSearchType);
-
 			JSONUtils.putJSONableList(obj, "properties", mProperties);
 			JSONUtils.putJSONableList(obj, "locations", mLocations);
-
-			obj.putOpt("searchLatitude", mSearchLatitude);
-			obj.putOpt("searchLongitude", mSearchLongitude);
 
 			return obj;
 		}
@@ -841,12 +813,8 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
 
-		mSearchType = JSONUtils.getEnum(obj, "searchType", SearchType.class);
 		mProperties = (List<Property>) JSONUtils.getJSONableList(obj, "properties", Property.class);
 		mLocations = (List<Location>) JSONUtils.getJSONableList(obj, "locations", Location.class);
-
-		mSearchLatitude = obj.optDouble("searchLatitude");
-		mSearchLongitude = obj.optDouble("searchLongitude");
 
 		return true;
 	}

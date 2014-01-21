@@ -402,7 +402,7 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 				// Extract relevant data here
 				LaunchHotelData launchHotelData = new LaunchHotelData();
 				List<Property> properties = searchResponse.getFilteredAndSortedProperties(HotelFilter.Sort.DEALS,
-						NUM_HOTEL_PROPERTIES);
+						NUM_HOTEL_PROPERTIES, Db.getHotelSearch().getSearchParams());
 				launchHotelData.setProperties(properties);
 				launchHotelData.setDistanceUnit(searchResponse.getFilter().getDistanceUnit());
 				Db.setLaunchHotelData(launchHotelData);

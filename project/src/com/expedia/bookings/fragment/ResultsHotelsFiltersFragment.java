@@ -24,6 +24,7 @@ import com.expedia.bookings.data.HotelFilter.PriceRange;
 import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.HotelFilter.Sort;
 import com.expedia.bookings.data.HotelSearch;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -106,9 +107,9 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		LayoutUtils.configureRadiusFilterLabels(getActivity(), mRadiusButtonGroup, filter);
 
 		// Show/hide "sort by distance" depending on if this is a distance type search
-		HotelSearchResponse response = Db.getHotelSearch().getSearchResponse();
-		boolean showDistance = response != null && response.getSearchType() != null
-				&& response.getSearchType().shouldShowDistance();
+		boolean showDistance = search != null
+				&& search.getSearchParams() != null
+				&& search.getSearchParams().getSearchType().shouldShowDistance();
 		Ui.findView(getActivity(), R.id.sort_by_distance_button).setVisibility(showDistance ? View.VISIBLE : View.GONE);
 
 		int checkId;
