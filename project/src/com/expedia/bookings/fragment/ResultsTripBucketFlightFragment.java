@@ -8,11 +8,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.section.FlightLegSummarySectionTablet;
-import com.expedia.bookings.widget.FlightTripView;
-import com.mobiata.android.util.Ui;
 
 /**
  * ResultsTripBucketYourTripToFragment: A simple fragment for displaying destination information, in the trip overview column - Tablet 2013
@@ -25,7 +25,6 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 	}
 
 	private FlightLegSummarySectionTablet mFlightSection;
-	private FlightTripView mFlightTripView;
 
 	@Override
 	protected void doBind() {
@@ -47,7 +46,6 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 	public void addTopView(LayoutInflater inflater, ViewGroup viewGroup) {
 		ViewGroup root = (ViewGroup) inflater.inflate(R.layout.flight_card_tablet_add_tripbucket, viewGroup);
 		mFlightSection = (FlightLegSummarySectionTablet) root.getChildAt(0);
-		mFlightTripView = Ui.findView(mFlightSection, R.id.flight_trip_view);
 	}
 
 	@Override
@@ -67,7 +65,7 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 	private OnClickListener mBookOnClick = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
-			setExpanded(true);
+			getActivity().startActivity(TabletCheckoutActivity.createIntent(getActivity(), LineOfBusiness.FLIGHTS));
 		}
 	};
 }

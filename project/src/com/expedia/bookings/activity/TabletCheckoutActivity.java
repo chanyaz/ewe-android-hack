@@ -1,7 +1,8 @@
 package com.expedia.bookings.activity;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +13,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -27,6 +29,15 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletCheckoutActivity extends SherlockFragmentActivity implements IBackButtonLockListener,
 		IBackManageable {
+
+	public static Intent createIntent(Context context, LineOfBusiness lob) {
+		Intent intent = new Intent(context, TabletCheckoutActivity.class);
+		intent.putExtra(ARG_LOB, lob.name());
+		return intent;
+	}
+
+	//Args
+	private static final String ARG_LOB = "ARG_LOB";
 
 	//State
 	private static final String STATE_DEBUG_DATA_LOADED = "STATE_DEBUG_DATA_LOADING";

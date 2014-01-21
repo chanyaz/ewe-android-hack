@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.section.HotelSummarySection;
@@ -65,7 +67,7 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment {
 	private OnClickListener mBookOnClick = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
-			setExpanded(true);
+			getActivity().startActivity(TabletCheckoutActivity.createIntent(getActivity(), LineOfBusiness.HOTELS));
 		}
 	};
 }
