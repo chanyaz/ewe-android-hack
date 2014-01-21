@@ -28,26 +28,25 @@ android {
 
         testPackageName "com.expedia.bookings.debug.test"
         testInstrumentationRunner "com.zutubi.android.junitreport.JUnitReportTestRunner"
+
+        buildConfigField "boolean", "IS_VSC", "false"
+        buildConfigField "boolean", "IS_TRAVELOCITY", "false"
     }
 
     productFlavors {
         Expedia {
             packageName "com.expedia.bookings"
-            buildConfig "public static final boolean IS_VSC = false;"
-            buildConfig "public static final boolean IS_TRAVELOCITY = false;"
         }
 
         VSC {
-            buildConfig "public static final boolean IS_VSC = true;"
-            buildConfig "public static final boolean IS_TRAVELOCITY = false;"
+            buildConfigField "boolean", "IS_VSC", "true"
             packageName "com.expedia.bookings.vsc"
             versionCode 1
             versionName "1.0"
         }
 
         Travelocity {
-            buildConfig "public static final boolean IS_VSC = false;"
-            buildConfig "public static final boolean IS_TRAVELOCITY = true;"
+            buildConfigField "boolean", "IS_TRAVELOCITY", "true"
             packageName "com.travelocity.android"
             versionCode 1
             versionName "1.0"
