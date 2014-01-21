@@ -88,23 +88,24 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 	 * BUCKET FRAGMENTS
 	 */
 
-	public void setupBucketFrags() {
+	private void setupBucketFrags() {
 
 		//TODO: WE ONLY WANT TO SHOW A PARTICULAR BUCKET FRAG IF WE HAVE DATA,
 		//WE SHOULD BE CHECKING THAT DATA HERE!
 
 		if (mBucketFlightFrag == null || !mBucketFlightFrag.isAdded()) {
 			attachBucketFlightFrag();
+			mBucketFlightFrag.setExpanded(mLob == LineOfBusiness.FLIGHTS);
+			mBucketFlightFrag.setShowButton(false);
 		}
 		if (mBucketHotelFrag == null || !mBucketHotelFrag.isAdded()) {
 			attachBucketHotelFrag();
+			mBucketHotelFrag.setExpanded(mLob == LineOfBusiness.HOTELS);
+			mBucketHotelFrag.setShowButton(false);
 		}
-
-		mBucketFlightFrag.setExpanded(mLob == LineOfBusiness.FLIGHTS);
-		mBucketHotelFrag.setExpanded(mLob == LineOfBusiness.HOTELS);
 	}
 
-	public void attachBucketFlightFrag() {
+	private void attachBucketFlightFrag() {
 		FragmentManager manager = getFragmentManager();
 		if (mBucketFlightFrag == null) {
 			mBucketFlightFrag = (ResultsTripBucketFlightFragment) manager.findFragmentByTag(FRAG_TAG_BUCKET_FLIGHT);
@@ -119,7 +120,7 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 		}
 	}
 
-	public void attachBucketHotelFrag() {
+	private void attachBucketHotelFrag() {
 		FragmentManager manager = getFragmentManager();
 		if (mBucketHotelFrag == null) {
 			mBucketHotelFrag = (ResultsTripBucketHotelFragment) manager.findFragmentByTag(FRAG_TAG_BUCKET_HOTEL);
