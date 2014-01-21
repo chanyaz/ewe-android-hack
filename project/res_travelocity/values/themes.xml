@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="Theme.Travelocity" parent="@style/Theme.Expedia">
+    </style>
+
+    <!-- Override the phone theme -->
+    <style name="Theme.Phone" parent="@style/Theme.Travelocity"/>
+</resources>

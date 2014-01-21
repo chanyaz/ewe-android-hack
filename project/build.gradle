@@ -34,11 +34,21 @@ android {
         Expedia {
             packageName "com.expedia.bookings"
             buildConfig "public static final boolean IS_VSC = false;"
+            buildConfig "public static final boolean IS_TRAVELOCITY = false;"
         }
 
         VSC {
             buildConfig "public static final boolean IS_VSC = true;"
+            buildConfig "public static final boolean IS_TRAVELOCITY = false;"
             packageName "com.expedia.bookings.vsc"
+            versionCode 1
+            versionName "1.0"
+        }
+
+        Travelocity {
+            buildConfig "public static final boolean IS_VSC = false;"
+            buildConfig "public static final boolean IS_TRAVELOCITY = true;"
+            packageName "com.travelocity.android"
             versionCode 1
             versionName "1.0"
         }
@@ -98,6 +108,10 @@ android {
         VSC {
             manifest.srcFile 'AndroidManifest-vsc.xml'
             res.srcDirs 'res_vsc'
+        }
+
+        Travelocity {
+            res.srcDirs 'res_travelocity'
         }
 
         signingConfigs {
