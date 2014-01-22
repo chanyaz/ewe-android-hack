@@ -17,11 +17,12 @@ public class FlightFilter {
 
 	// Filter flight search by # of stops
 	private static final int STOPS_VIEW_ID_OFFSET = 1; // Ensures a positive View id
-	private int mDefaultNumberOfStops;
+	private static final int STOPS_UNSPECIFIED = -1;
+
+	private int mStops = STOPS_UNSPECIFIED;
+	private int mDefaultNumberOfStops = STOPS_UNSPECIFIED;
 
 	private Sort mSort;
-
-	private int mStops;
 
 	private Set<String> mPreferredAirlines;
 
