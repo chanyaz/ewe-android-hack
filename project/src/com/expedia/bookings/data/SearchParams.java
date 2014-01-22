@@ -20,31 +20,30 @@ import com.mobiata.android.json.JSONable;
 /**
  * A mega-search params object that can handle any search that
  * we do in the application.
- * 
+ *
  * This object is purposefully dumb about validating its data; for example,
  * you could set an end date that is before a start date.  This is to avoid
  * issues that might otherwise arise when setting multiple fields at once.
- * 
+ *
  * If you want to save/restore state (for example, during editing) then use
  * saveToMemento() to save a backup copy and restoreFromMemento() to pop back
  * to a previous state.  Note that Memento uses Parcels so it should not be
  * persisted.
- * 
+ *
  * !!!NEW FIELD CHECKLIST!!!
  * 1. Add a getter/setter
  * 2. Add a setDefault() for that field (or set of fields, if it makes sense)
  * 3. Add setDefault() method to restoreToDefaults()
  * 4. Add validation for the field to isValid() (if applicable)
  * 5. Add the field to the Parcelable interface, i.e. SearchParams(Parcel in)
- *    and writeToParcel()
+ * and writeToParcel()
  * 6. Add the field to restoreFromMemento()
  * 7. Add field to JSONable interface, i.e. toJson() and fromJson()
  *
  * Future ideas:
  * - canSearch(LineOfBusiness)
  * - Alternatively, convert ExpediaServices to use this, and add
- *   method for converting others INTO a SearchParams object.
- * 
+ * method for converting others INTO a SearchParams object.
  */
 public class SearchParams implements Parcelable, JSONable {
 
@@ -298,25 +297,30 @@ public class SearchParams implements Parcelable, JSONable {
 		params.setNumAdults(mNumAdults);
 		params.setChildren(getChildAges());
 
-		// Map SuggestionV2.SearchType to HotelSearchParams.SearchType
-		switch (mDestination.getSearchType()) {
-		case ATTRACTION:
-			params.setSearchType(HotelSearchParams.SearchType.POI);
-			break;
-		case AIRPORT:
-			params.setSearchType(HotelSearchParams.SearchType.POI);
-			break;
-		case HOTEL:
-			params.setSearchType(HotelSearchParams.SearchType.HOTEL);
-			break;
-		case CITY:
-			params.setSearchType(HotelSearchParams.SearchType.CITY);
-			break;
-		default:
-			params.setSearchType(HotelSearchParams.SearchType.FREEFORM);
-			break;
-		}
 
+		// Map SuggestionV2.SearchType to HotelSearchParams.SearchType
+		if (mDestination.getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION) {
+			params.setSearchType(HotelSearchParams.SearchType.MY_LOCATION);
+		}
+		else {
+			switch (mDestination.getSearchType()) {
+			case ATTRACTION:
+				params.setSearchType(HotelSearchParams.SearchType.POI);
+				break;
+			case AIRPORT:
+				params.setSearchType(HotelSearchParams.SearchType.POI);
+				break;
+			case HOTEL:
+				params.setSearchType(HotelSearchParams.SearchType.HOTEL);
+				break;
+			case CITY:
+				params.setSearchType(HotelSearchParams.SearchType.CITY);
+				break;
+			default:
+				params.setSearchType(HotelSearchParams.SearchType.FREEFORM);
+				break;
+			}
+		}
 		return params;
 	}
 
