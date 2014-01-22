@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -41,6 +42,8 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 	private int mLegNumber = -1;
 	private IResultsFlightSelectedListener mFlightSelectedListener;
 	private IDoneClickedListener mDoneClickedListener;
+
+	private boolean mEnableOnListItemClick = true;
 
 	public static ResultsFlightListFragment getInstance(int legPosition) {
 		ResultsFlightListFragment frag = new ResultsFlightListFragment();
@@ -93,16 +96,23 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 		resetAdapterQuery();
 	}
 
+	public void setEnableOnListItemClick(boolean enable) {
+		mEnableOnListItemClick = enable;
+		mListView.setChoiceMode(enable ? AbsListView.CHOICE_MODE_SINGLE : AbsListView.CHOICE_MODE_NONE);
+	}
+
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		int headerCount = getListView().getHeaderViewsCount();
-		int itemPosition = position - headerCount;
-		if (itemPosition >= 0) {
-			FlightTrip trip = ((FlightAdapter) mAdapter).getItem(itemPosition);
-			if (trip != null) {
-				Db.getFlightSearch().setSelectedLeg(mLegNumber, new FlightTripLeg(trip, trip.getLeg(mLegNumber)));
-				mFlightSelectedListener.onFlightSelected(mLegNumber);
-				mListView.setItemChecked(position, true);
+		if (mEnableOnListItemClick) {
+			int headerCount = getListView().getHeaderViewsCount();
+			int itemPosition = position - headerCount;
+			if (itemPosition >= 0) {
+				FlightTrip trip = ((FlightAdapter) mAdapter).getItem(itemPosition);
+				if (trip != null) {
+					Db.getFlightSearch().setSelectedLeg(mLegNumber, new FlightTripLeg(trip, trip.getLeg(mLegNumber)));
+					mFlightSelectedListener.onFlightSelected(mLegNumber);
+					mListView.setItemChecked(position, true);
+				}
 			}
 		}
 	}

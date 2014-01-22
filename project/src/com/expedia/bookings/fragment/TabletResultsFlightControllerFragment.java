@@ -1116,9 +1116,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					mFlightOneFiltersC
 							.setTranslationY(mFlightOneListFrag.getMaxDistanceFromTop());
 					mFlightOneListFrag.setPercentage(1f, 0);
+					mFlightOneListFrag.setEnableOnListItemClick(false);
 				}
 			}
 			else {
+				if (mFlightOneListFrag != null && mFlightOneListFrag.hasList()) {
+					mFlightOneListFrag.setEnableOnListItemClick(true);
+				}
 				mFlightOneFiltersC.setAlpha(1f);
 				mFlightMapC.setAlpha(1f);
 				mFlightOneFiltersC.setTranslationY(0f);
