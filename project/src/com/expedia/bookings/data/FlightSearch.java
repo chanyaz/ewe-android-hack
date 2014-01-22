@@ -20,6 +20,7 @@ import android.database.DataSetObserver;
 
 import com.expedia.bookings.data.FlightTrip.CompareField;
 import com.expedia.bookings.data.FlightTrip.FlightTripComparator;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.Airport;
@@ -220,6 +221,9 @@ public class FlightSearch implements JSONable {
 		// logically went wrong with the app (as you were able to
 		// select a flightleg combo that isn't valid).  So throw
 		// a hissy fit.
+		for (int i = 0; i < legs.length; i++) {
+			Log.e("leg=" + i + " content: " + legs[i]);
+		}
 		throw new RuntimeException("Somehow setup a series of flight legs that do not match any flight trips.");
 	}
 

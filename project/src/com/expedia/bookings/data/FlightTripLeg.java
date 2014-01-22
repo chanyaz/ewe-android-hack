@@ -30,6 +30,16 @@ public class FlightTripLeg implements JSONable {
 		return Db.getFlightSearch().getFlightLeg(mLegId);
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("FlightTrip:\n");
+		builder.append(getFlightTrip().toJson().toString());
+		builder.append("\n\nFlightLeg:\n");
+		builder.append(getFlightLeg().toJson().toString());
+		return builder.toString();
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
