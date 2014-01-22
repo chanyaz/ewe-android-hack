@@ -18,8 +18,8 @@
     <style name="V2.Theme.Activity">
 
         <!-- Custom attrs for Expedia/VSC switching -->
-        <item name="hotelPriceStandardColor">@color/hotel_price_text_color</item>
-        <item name="hotelPriceSaleColor">@color/hotel_price_sale_text_color</item>
+        <item name="hotelPriceStandardColor">#ffffff</item>
+        <item name="hotelPriceSaleColor">#ffffff</item>
         <item name="hotelSearchActionBarPadding">0dp</item>
         <item name="webViewPreferencesActionBarLogo">@drawable/ic_action_bar_expedia_logo</item>
         <item name="webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_expedia_logo_small</item>
@@ -36,7 +36,7 @@
         <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale</item>
         <item name="hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon</item>
         <item name="roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon</item>
-        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Yellow</item>
+        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.White</item>
         <item name="hotelListingSortPriceDrawable">@drawable/ic_sort_price</item>
         <item name="hotelListingFilterGroupStyle">@style/Widget.SlidingRadioGroup.TabletFilterControls</item>
         <item name="hotelListingFilterToggleButtonStyle">@style/Widget.Button.TabletFilterControls</item>
@@ -61,9 +61,11 @@
         <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
         <item name="hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale</item>
         <item name="ccCheckoutHologramDrawable">@drawable/ic_credit_card_hologram</item>
-        <item name="hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder</item>
+        <item name="hotelImagePlaceHolderDrawable">@drawable/placeholder_lg</item>
         <item name="hotelwebViewActionBarLogo">@drawable/ic_logo_hotels</item>
         <item name="travelerLabelOnCheckout">@string/guest_details</item>
+        <item name="hotelDetailsUserRatingStyle">@style/RatingBar.UserReview.HotelDetails</item>
+        <item name="hotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails</item>
     </style>
 
     <style name="V2.Theme.Activity.TabletLaunch" tools:targetApi="11">
