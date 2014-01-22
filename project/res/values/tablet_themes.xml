@@ -38,8 +38,8 @@
         <item name="roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon</item>
         <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Yellow</item>
         <item name="hotelListingSortPriceDrawable">@drawable/ic_sort_price</item>
-        <item name="hotelListingFilterGroupStyle">@style/Widget.SegmentedControlGroup.DarkFilterControls</item>
-        <item name="hotelListingFilterToggleButtonStyle">@style/Widget.Button.DarkFilterControls</item>
+        <item name="hotelListingFilterGroupStyle">@style/Widget.SlidingRadioGroup.TabletFilterControls</item>
+        <item name="hotelListingFilterToggleButtonStyle">@style/Widget.Button.TabletFilterControls</item>
         <item name="hotelListingFilterPriceCheapString">@string/filter_price_cheap</item>
         <item name="hotelListingFilterPriceModerateString">@string/filter_price_moderate</item>
         <item name="hotelListingFilterPriceExpensiveString">@string/filter_price_expensive</item>
