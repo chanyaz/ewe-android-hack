@@ -99,9 +99,11 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 		int itemPosition = position - headerCount;
 		if (itemPosition >= 0) {
 			FlightTrip trip = ((FlightAdapter) mAdapter).getItem(itemPosition);
-			Db.getFlightSearch().setSelectedLeg(mLegNumber, new FlightTripLeg(trip, trip.getLeg(mLegNumber)));
-			mFlightSelectedListener.onFlightSelected(mLegNumber);
-			mListView.setItemChecked(position, true);
+			if (trip != null) {
+				Db.getFlightSearch().setSelectedLeg(mLegNumber, new FlightTripLeg(trip, trip.getLeg(mLegNumber)));
+				mFlightSelectedListener.onFlightSelected(mLegNumber);
+				mListView.setItemChecked(position, true);
+			}
 		}
 	}
 

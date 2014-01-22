@@ -80,7 +80,11 @@ public class FlightAdapter extends BaseAdapter {
 
 	@Override
 	public FlightTrip getItem(int position) {
-		return mFlightTripQuery.getTrips().get(position);
+		List<FlightTrip> trips = mFlightTripQuery.getTrips();
+		if (position < trips.size()) {
+			return trips.get(position);
+		}
+		return null;
 	}
 
 	@Override
