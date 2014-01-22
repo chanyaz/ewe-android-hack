@@ -263,14 +263,18 @@ public class SearchParams implements Parcelable, JSONable {
 		if (!mDestination.equals(new SuggestionV2())) {
 			// TODO: Make this more comprehensive - right now it doesn't do
 			// specialized searches like single-hotels or attractions
-			Location destLoc = mDestination.getLocation();
+
 			if (mDestination.getRegionId() != 0) {
 				params.setRegionId(Integer.toString(mDestination.getRegionId()));
 			}
-			else if (destLoc.getLatitude() != 0 || destLoc.getLongitude() != 0) {
+
+			Location destLoc = mDestination.getLocation();
+			if (destLoc.getLatitude() != 0 || destLoc.getLongitude() != 0) {
 				params.setSearchLatLon(destLoc.getLatitude(), destLoc.getLongitude());
 			}
-			else {
+
+			// Fallback
+			if (mDestination.getRegionId() == 0 && destLoc.getLatitude() == 0 && destLoc.getLongitude() == 0) {
 				params.setQuery(destLoc.getCity());
 			}
 		}
