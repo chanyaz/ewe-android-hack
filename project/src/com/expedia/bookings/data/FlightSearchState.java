@@ -69,6 +69,8 @@ public class FlightSearchState implements JSONable {
 			JSONObject obj = new JSONObject();
 			if (mSelectedLegs != null) {
 				JSONUtils.putJSONableList(obj, "selectedLegs", Arrays.asList(mSelectedLegs));
+			}
+			if (mAddedLegs != null) {
 				JSONUtils.putJSONableList(obj, "addedLegs", Arrays.asList(mAddedLegs));
 			}
 			return obj;
