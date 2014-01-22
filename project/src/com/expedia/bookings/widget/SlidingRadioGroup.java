@@ -6,9 +6,11 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 
 import com.expedia.bookings.R;
+import com.mobiata.android.Log;
 
 /**
  * A RadioGroup with custom drawables, and a nicely animated transition between
@@ -190,7 +193,17 @@ public class SlidingRadioGroup extends RadioGroup implements RadioGroup.OnChecke
 			mRectTo = new Rect();
 
 			mUnselected = unselected;
+			if (mUnselected == null) {
+				Log.w("Missing 'unselected' drawable. Using blank.");
+				mUnselected = new ColorDrawable(Color.TRANSPARENT);
+			}
+
 			mSelected = selected;
+			if (mSelected == null) {
+				Log.e("Missing 'selected' drawable. Using blank.");
+				mSelected = new ColorDrawable(Color.TRANSPARENT);
+			}
+
 			mUnselectedDivider = unselectedDivider;
 			mSelectedDivider = selectedDivider;
 
