@@ -429,7 +429,6 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			}
 
 			broadcastSearchCompleted();
-
 			hideLoading();
 
 			// Save the timestamp in memory and on disk
@@ -2116,7 +2115,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		// showing up for a split second for reason I'm not entirely sure of.  ~dlew
 		mProgressBar.postDelayed(new Runnable() {
 			public void run() {
-				mProgressBar.setVisibility(View.GONE);
+				mProgressBarLayout.setVisibility(View.GONE);
 			}
 		}, 500);
 	}
