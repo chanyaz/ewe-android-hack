@@ -12,7 +12,7 @@
     <dimen name="tablet_result_row_price_size">21sp</dimen>
 
     <!-- Tablet results -->
-
+    <dimen name="checkbox_filter_widget_padding_left">38dp</dimen>
 
     <!-- Flights -->
     <dimen name="tablet_filter_white_space">32dp</dimen>
