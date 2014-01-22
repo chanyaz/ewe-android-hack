@@ -6,11 +6,9 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -18,20 +16,19 @@ import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 
 import com.expedia.bookings.R;
-import com.mobiata.android.Log;
 
 /**
  * A RadioGroup with custom drawables, and a nicely animated transition between
  * selected buttons. Designed for use in hotel/flight filters to narrow down
  * the search results.
- * 
+ *
  * This control paints its background in two layers: the bottom (unselected) layer
  * fills the whole canvas. The top (selected) layer is partially exposed, depending
  * on which CompoundButton child is selected. That exposed part of the top layer
  * can be animated from one region to the next if desired. Both drawables used
  * for drawing the background are expected to fill the canvas (so, probably use
  * 9-patch drawables).
- * 
+ *
  * <pre>
  * &lt;com.expedia.bookings.widget.SlidingRadioGroup
  *     android:id="@+id/ring"
@@ -45,7 +42,7 @@ import com.mobiata.android.Log;
  *     app:sluggishness="150"
  *     app:unselectedDividerColor="#40999999"
  *     app:unselectedDrawable="@drawable/btn_tablet_filter_normal" &gt;
- * 
+ *
  *     &lt;RadioButton
  *         android:id="@+id/option_1"
  *         android:layout_width="0dp"
@@ -53,7 +50,7 @@ import com.mobiata.android.Log;
  *         android:layout_weight="1"
  *         android:text="option 1"
  *         android:textColor="@color/sliding_group_text" /&gt;
- * 
+ *
  *     &lt;RadioButton
  *         android:id="@+id/option_2"
  *         android:layout_width="0dp"
@@ -64,7 +61,7 @@ import com.mobiata.android.Log;
  *
  * &lt;/com.expedia.bookings.widget.SlidingRadioGroup&gt;
  * </pre>
- * 
+ *
  * @author Doug Melton
  */
 public class SlidingRadioGroup extends RadioGroup implements RadioGroup.OnCheckedChangeListener {
@@ -187,23 +184,16 @@ public class SlidingRadioGroup extends RadioGroup implements RadioGroup.OnChecke
 		private Animator mAnimator;
 
 		public ExposedLayerDrawable(Drawable unselected, Drawable selected,
-				Paint unselectedDivider, Paint selectedDivider, int sluggishness) {
+									Paint unselectedDivider, Paint selectedDivider, int sluggishness) {
 			mRectExposed = new Rect();
 			mRectFrom = new Rect();
 			mRectTo = new Rect();
 
+			// It's not invalid for these to be null
 			mUnselected = unselected;
-			if (mUnselected == null) {
-				Log.w("Missing 'unselected' drawable. Using blank.");
-				mUnselected = new ColorDrawable(Color.TRANSPARENT);
-			}
-
 			mSelected = selected;
-			if (mSelected == null) {
-				Log.e("Missing 'selected' drawable. Using blank.");
-				mSelected = new ColorDrawable(Color.TRANSPARENT);
-			}
 
+			// These will/should never be null
 			mUnselectedDivider = unselectedDivider;
 			mSelectedDivider = selectedDivider;
 
@@ -214,8 +204,12 @@ public class SlidingRadioGroup extends RadioGroup implements RadioGroup.OnChecke
 		protected void onBoundsChange(Rect bounds) {
 			super.onBoundsChange(bounds);
 
-			mUnselected.setBounds(bounds);
-			mSelected.setBounds(bounds);
+			if (mUnselected != null) {
+				mUnselected.setBounds(bounds);
+			}
+			if (mSelected != null) {
+				mSelected.setBounds(bounds);
+			}
 		}
 
 		@TargetApi(11)
@@ -230,7 +224,7 @@ public class SlidingRadioGroup extends RadioGroup implements RadioGroup.OnChecke
 			else {
 				mRectTo.left = -1;
 				mRectTo.top = 0;
-				mRectTo.bottom = mSelected.getBounds().bottom;
+				mRectTo.bottom = getHeight();
 				mRectTo.right = -1;
 			}
 
@@ -249,6 +243,7 @@ public class SlidingRadioGroup extends RadioGroup implements RadioGroup.OnChecke
 			}
 		}
 
+		// This is used by ObjectAnimator.ofFloat(this, "rectTransit", ...) above.
 		@SuppressWarnings("unused")
 		public void setRectTransit(float percent) {
 			mRectExposed.top = transit(mRectFrom.top, mRectTo.top, percent);
@@ -264,11 +259,15 @@ public class SlidingRadioGroup extends RadioGroup implements RadioGroup.OnChecke
 
 		@Override
 		public void draw(Canvas canvas) {
-			mUnselected.draw(canvas);
+			if (mUnselected != null) {
+				mUnselected.draw(canvas);
+			}
 			drawDividers(canvas, mUnselectedDivider);
 			canvas.save();
 			canvas.clipRect(mRectExposed);
-			mSelected.draw(canvas);
+			if (mSelected != null) {
+				mSelected.draw(canvas);
+			}
 			drawDividers(canvas, mSelectedDivider);
 			canvas.restore();
 		}
