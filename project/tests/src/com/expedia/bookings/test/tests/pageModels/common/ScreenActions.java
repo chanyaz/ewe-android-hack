@@ -11,7 +11,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.utils.ScreenshotUtils;
 import com.expedia.bookings.test.utils.TestPreferences;
 import com.expedia.bookings.test.utils.UserLocaleUtils;
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 
 /*
  * This is the parent class for all page models.

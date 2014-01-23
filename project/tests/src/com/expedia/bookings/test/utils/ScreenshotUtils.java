@@ -5,14 +5,12 @@ import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import android.app.Activity;
-import android.app.Instrumentation;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 
-import com.jayway.android.robotium.solo.*;
+import com.robotium.solo.Solo;
 
 public class ScreenshotUtils {
 	private static final String TAG = "Robotium Screenshot";

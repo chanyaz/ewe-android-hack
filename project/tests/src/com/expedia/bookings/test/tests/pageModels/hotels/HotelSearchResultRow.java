@@ -1,16 +1,11 @@
 package com.expedia.bookings.test.tests.pageModels.hotels;
 
-import android.app.Activity;
-import android.app.Instrumentation;
-import android.content.res.Resources;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.tests.pageModels.common.ScreenActions;
-import com.expedia.bookings.test.utils.TestPreferences;
 
 public class HotelSearchResultRow {
 

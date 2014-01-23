@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.utils.TestDriver;
 import com.expedia.bookings.test.utils.TestPreferences;
 
 public class SettingsScreen extends ScreenActions {

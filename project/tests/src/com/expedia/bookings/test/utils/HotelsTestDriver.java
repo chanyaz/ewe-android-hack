@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.res.Resources;
 
-import com.expedia.bookings.test.tests.pageModels.common.CommonTravelerInformationScreen;
 import com.expedia.bookings.test.tests.pageModels.hotels.HotelsCheckoutScreen;
 import com.expedia.bookings.test.tests.pageModels.hotels.HotelsConfirmationScreen;
 import com.expedia.bookings.test.tests.pageModels.hotels.HotelsDetailsScreen;

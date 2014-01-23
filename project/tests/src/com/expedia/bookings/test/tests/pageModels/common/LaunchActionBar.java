@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.utils.TestPreferences;
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 
 public class LaunchActionBar extends ScreenActions {
 	private static final int sSettingsStringID = R.string.Settings;

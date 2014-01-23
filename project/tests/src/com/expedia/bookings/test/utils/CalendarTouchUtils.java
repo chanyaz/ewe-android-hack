@@ -1,9 +1,9 @@
 package com.expedia.bookings.test.utils;
 
-import com.jayway.android.robotium.solo.Solo;
 import com.mobiata.android.Log;
 import com.mobiata.android.text.format.Time;
 import com.mobiata.android.widget.CalendarDatePicker;
+import com.robotium.solo.Solo;
 
 public class CalendarTouchUtils {
 

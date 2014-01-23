@@ -3,7 +3,6 @@ package com.expedia.bookings.test.tests.flights.ui.regression;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.test.tests.pageModels.flights.FlightsSearchResultRow;
-import com.expedia.bookings.test.utils.ConfigFileUtils;
 import com.expedia.bookings.test.utils.CustomActivityInstrumentationTestCase;
 import com.expedia.bookings.test.utils.FlightsTestDriver;
 
