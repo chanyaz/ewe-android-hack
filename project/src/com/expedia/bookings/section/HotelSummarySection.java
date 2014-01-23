@@ -95,19 +95,54 @@ public class HotelSummarySection extends RelativeLayout {
 		mUrgencyText = Ui.findView(this, R.id.urgency_text_view);
 	}
 
+	/**
+	 * Convenience method for hotels shown in the trip bucket.
+	 * @param property
+	 * @param rate
+	 */
+	public void bindForTripBucket(Property property, Rate rate) {
+		bind(property, rate, false, 16, false, DistanceUnit.MILES, false);
+	}
+
+	/**
+	 * Binds the data from the passed Property to the views in this Section. Uses the lowest
+	 * rate available for the property (property.getLowestRate()).
+	 *
+	 * @param property
+	 * @param shouldShowVipIcon
+	 * @param priceTextSize interpreted as "scaled pixel" units
+	 * @param showDistance
+	 * @param distanceUnit
+	 * @param isSelected
+	 */
 	public void bind(final Property property, boolean shouldShowVipIcon, float priceTextSize,
-			boolean showDistance, DistanceUnit distanceUnit, boolean isSelected) {
+					 boolean showDistance, DistanceUnit distanceUnit, boolean isSelected) {
+
+		Rate lowestRate = property.getLowestRate();
+		bind(property, lowestRate, shouldShowVipIcon, priceTextSize, showDistance, distanceUnit, isSelected);
+	}
+
+	/**
+	 * Binds the data from the passed Property & rate to the views in this Section.
+	 *
+	 * @param property
+	 * @param rate
+	 * @param shouldShowVipIcon
+	 * @param priceTextSize interpreted as "scaled pixel" units
+	 * @param showDistance
+	 * @param distanceUnit
+	 * @param isSelected
+	 */
+	public void bind(final Property property, final Rate rate, boolean shouldShowVipIcon, float priceTextSize,
+					 boolean showDistance, DistanceUnit distanceUnit, boolean isSelected) {
 		final Context context = getContext();
 		final Resources res = context.getResources();
 
 		mNameText.setText(property.getName());
 
-		// We assume we have a lowest rate here; this may not be a safe assumption
-		Rate lowestRate = property.getLowestRate();
-		Money highestPriceFromSurvey = property.getHighestPriceFromSurvey();
-		final String hotelPrice = lowestRate == null ? "" : StrUtils.formatHotelPrice(lowestRate.getDisplayPrice());
+		final String hotelPrice = rate == null ? "" : StrUtils.formatHotelPrice(rate.getDisplayPrice());
 
-		if (lowestRate == null) {
+		if (rate == null) {
 			mStrikethroughPriceText.setVisibility(View.GONE);
 			mPriceText.setTextColor(mPriceTextColor);
 			mSaleText.setVisibility(View.GONE);
@@ -115,15 +150,19 @@ public class HotelSummarySection extends RelativeLayout {
 				mSaleImageView.setVisibility(View.GONE);
 			}
 		}
+
 		// mStrikethroughPriceText will always be null for tripbucket hotel item - tablet 4.0, so we just skip.
 		else if (mStrikethroughPriceText != null) {
+			Money highestPriceFromSurvey = property.getHighestPriceFromSurvey();
+			Rate lowestRate = property.getLowestRate();
+
 			// Detect if the property is on sale, if it is do special things
-			if (lowestRate.isOnSale() && lowestRate.isSaleTenPercentOrBetter()) {
+			if (rate.isOnSale() && rate.isSaleTenPercentOrBetter()) {
 				if (hotelPrice.length() < HOTEL_PRICE_TOO_LONG) {
 					mStrikethroughPriceText.setVisibility(View.VISIBLE);
 					mStrikethroughPriceText.setText(Html.fromHtml(
 							context.getString(R.string.strike_template,
-									StrUtils.formatHotelPrice(lowestRate.getDisplayBasePrice())), null,
+									StrUtils.formatHotelPrice(rate.getDisplayBasePrice())), null,
 							new StrikethroughTagHandler()));
 				}
 				else {
@@ -135,9 +174,10 @@ public class HotelSummarySection extends RelativeLayout {
 				if (mSaleImageView != null) {
 					mSaleImageView.setVisibility(View.VISIBLE);
 				}
-				mSaleText
-						.setText(context.getString(R.string.percent_minus_template, lowestRate.getDiscountPercent()));
+				mSaleText.setText(context.getString(R.string.percent_minus_template,
+						rate.getDiscountPercent()));
 			}
+
 			// Story #790. Expedia's way of making it seem like they are offering a discount.
 			else if (highestPriceFromSurvey != null
 					&& (highestPriceFromSurvey.compareTo(lowestRate.getDisplayPrice()) > 0)) {
@@ -152,6 +192,7 @@ public class HotelSummarySection extends RelativeLayout {
 				}
 				mPriceText.setTextColor(mPriceTextColor);
 			}
+
 			else {
 				mStrikethroughPriceText.setVisibility(View.GONE);
 				mPriceText.setTextColor(mPriceTextColor);

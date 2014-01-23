@@ -88,7 +88,10 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 			@Override
 			public void onClick(View arg0) {
-				Db.getHotelSearch().setAddedProperty(Db.getHotelSearch().getSelectedProperty());
+				HotelSearch search = Db.getHotelSearch();
+				Property property = search.getSelectedProperty();
+				Rate rate = search.getSelectedRate();
+				search.setAddedProperty(property, rate);
 				Db.kickOffBackgroundHotelSearchSave(getActivity());
 				mAddToTripListener.beginAddToTrip(getSelectedData(), getDestinationRect(), 0);
 			}
@@ -413,8 +416,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	 * @param selectedRate
 	 */
 	private void setSelectedRate(Rate selectedRate) {
-		String propertyId = Db.getHotelSearch().getSelectedPropertyId();
-		Db.getHotelSearch().getAvailability(propertyId).setSelectedRate(selectedRate);
+		Db.getHotelSearch().setSelectedRate(selectedRate);
 
 		Button addToTrip = Ui.findView(getView(), R.id.button_add_to_trip);
 		String addTripStr = getString(R.string.add_for_TEMPLATE,

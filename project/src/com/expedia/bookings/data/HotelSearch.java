@@ -25,7 +25,10 @@ public class HotelSearch implements JSONable {
 	private HotelSearchParams mSearchParams;
 	private HotelSearchResponse mSearchResponse;
 	private String mSelectedPropertyId;
-	private String mAddedPropertyId; // In tablet 4.0, we need to separately keep track of hotels that are added to the cart.
+
+	// In tablet 4.0, we need to separately keep track of the hotel/rate that is added to the cart.
+	private String mAddedPropertyId;
+	private Rate mAddedRate;
 
 	// The result of a call to e3 for a coupon code discount
 	private CreateTripResponse mCreateTripResponse;
@@ -104,28 +107,20 @@ public class HotelSearch implements JSONable {
 		return mSelectedPropertyId;
 	}
 
-	public Property getAddedProperty() {
-		return getProperty(mAddedPropertyId);
-	}
-
-	public String getAddedPropertyId() {
-		return mAddedPropertyId;
-	}
-
-	public void setAddedProperty(Property property) {
-		mAddedPropertyId = property.getPropertyId();
-	}
-
-	public void clearAddedProperty() {
-		mAddedPropertyId = null;
-	}
-
 	/**
 	 * Helper method to grab the rate of the currently selected room, based solely on the availability (and not coupon)
 	 * @return the currently selected rate, selected from the rooms and rates screen
 	 */
 	public Rate getSelectedRate() {
 		return getAvailability(mSelectedPropertyId).getSelectedRate();
+	}
+
+	/**
+	 * Helper method to set the selected rate of the currently selected hotel.
+	 * @param rate
+	 */
+	public void setSelectedRate(Rate rate) {
+		getAvailability(mSelectedPropertyId).setSelectedRate(rate);
 	}
 
 	/**
@@ -153,6 +148,31 @@ public class HotelSearch implements JSONable {
 			rate = getSelectedRate();
 		}
 		return rate;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Relevant to Trip Bucket
+
+	public Property getAddedProperty() {
+		return getProperty(mAddedPropertyId);
+	}
+
+	public String getAddedPropertyId() {
+		return mAddedPropertyId;
+	}
+
+	public Rate getAddedRate() {
+		return mAddedRate;
+	}
+
+	public void setAddedProperty(Property property, Rate rate) {
+		mAddedPropertyId = property.getPropertyId();
+		mAddedRate = rate;
+	}
+
+	public void clearAddedProperty() {
+		mAddedPropertyId = null;
+		mAddedRate = null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

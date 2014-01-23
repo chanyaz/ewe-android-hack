@@ -10,8 +10,12 @@ import android.view.ViewGroup.LayoutParams;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelAvailability;
+import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.section.HotelSummarySection;
 
@@ -29,13 +33,12 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment {
 
 	@Override
 	protected void doBind() {
-		bindToDb();
-	}
+		HotelSearch search = Db.getHotelSearch();
+		if (mHotelSection != null && search != null && search.getAddedProperty() != null) {
+			Property property = search.getAddedProperty();
+			Rate rate = search.getAddedRate();
 
-	private void bindToDb() {
-		if (mHotelSection != null && Db.getHotelSearch() != null && Db.getHotelSearch().getAddedProperty() != null) {
-			mHotelSection.bind(Db.getHotelSearch().getAddedProperty(), false, 16, false, DistanceUnit.MILES,
-					false);
+			mHotelSection.bindForTripBucket(property, rate);
 		}
 	}
 
