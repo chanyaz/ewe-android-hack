@@ -652,7 +652,7 @@ public class ExpediaServices implements DownloadListener {
 			boolean disabled = SettingUtils.get(mContext, mContext.getString(R.string.preference_disable_domain_v2_hotel_search), false);
 
 			if (!disabled) {
-				query.add(new BasicNameValuePair("doV2Search", "true"));
+				query.add(new BasicNameValuePair("forceV2Search", "true"));
 			}
 		}
 
