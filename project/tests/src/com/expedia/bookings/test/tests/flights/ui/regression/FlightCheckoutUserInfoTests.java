@@ -294,7 +294,10 @@ public class FlightCheckoutUserInfoTests extends CustomActivityInstrumentationTe
 		mDriver.logInScreen().clickOnLoginButton();
 		mDriver.waitForStringToBeGone(mDriver.logInScreen().loggingInDialogString());
 		mDriver.delay();
-		assertTrue(mDriver.searchText(mUser.getLoginEmail(), 1, false, true));
+		mDriver.goBack();
+		mDriver.delay(1);
+		mDriver.flightsCheckoutScreen().clickCheckoutButton();
+		assertTrue(mDriver.searchText(mUser.getLoginEmail(), 1, true, true));
 		mDriver.enterLog(TAG, "Was able to log in, and the email used is now visible from the checkout screen");
 		mDriver.flightsCheckoutScreen().clickLogOutButton();
 		mDriver.flightsCheckoutScreen().clickLogOutString();
