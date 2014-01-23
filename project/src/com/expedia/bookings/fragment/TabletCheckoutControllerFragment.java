@@ -41,7 +41,7 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 	//frags
 	private ResultsTripBucketFlightFragment mBucketFlightFrag;
 	private ResultsTripBucketHotelFragment mBucketHotelFrag;
-	private FlightCheckoutFragment mCheckoutFragment;
+	private TabletCheckoutFormsFragment mCheckoutFragment;
 
 	//vars
 	private LineOfBusiness mLob = LineOfBusiness.FLIGHTS;
@@ -79,11 +79,11 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 	 * GETTERS/SETTERS
 	 */
 
-	public void setCheckoutMode(LineOfBusiness lob) {
+	public void setLob(LineOfBusiness lob) {
 		mLob = lob;
 	}
 
-	public LineOfBusiness getCheckoutMode() {
+	public LineOfBusiness getLob() {
 		return mLob;
 	}
 
@@ -93,9 +93,9 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 
 	public void attachCheckoutFragment() {
 		FragmentManager manager = getFragmentManager();
-		mCheckoutFragment = (FlightCheckoutFragment) manager.findFragmentByTag(FRAG_TAG_CHECKOUT_INFO);
+		mCheckoutFragment = (TabletCheckoutFormsFragment) manager.findFragmentByTag(FRAG_TAG_CHECKOUT_INFO);
 		if (mCheckoutFragment == null) {
-			mCheckoutFragment = FlightCheckoutFragment.newInstance();
+			mCheckoutFragment = TabletCheckoutFormsFragment.newInstance();
 		}
 
 		FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -107,6 +107,7 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 			transaction.add(R.id.checkout_forms_container, mCheckoutFragment, FRAG_TAG_CHECKOUT_INFO);
 			transaction.commit();
 		}
+		mCheckoutFragment.setLob(mLob);
 
 	}
 

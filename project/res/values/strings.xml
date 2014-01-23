@@ -197,6 +197,8 @@
     <!-- Tablet Checkout -->
     <!-- Your Trip -->
     <string name="your_trip">Your Trip</string>
+    <!-- now booking template (e.g. "Now Bookin Hotel Lancaster") -->
+    <string name="now_booking_TEMPLATE">Now Booking &lt;b&gt;%1$s&lt;/b&gt;</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->

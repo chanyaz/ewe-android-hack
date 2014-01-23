@@ -70,6 +70,7 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 			mTestDataLoaded = true;
 		}
 
+		//Loading checkout data, which will be slow, so we may want to pass false
 		loadCachedData(true);
 
 		//Containers
@@ -84,7 +85,7 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 		if (getIntent().hasExtra(ARG_LOB)) {
 			try {
 				LineOfBusiness lob = LineOfBusiness.valueOf(getIntent().getStringExtra(ARG_LOB));
-				mFragCheckoutController.setCheckoutMode(lob);
+				mFragCheckoutController.setLob(lob);
 			}
 			catch (Exception ex) {
 				Log.e("Exception parsing lob from intent.", ex);
