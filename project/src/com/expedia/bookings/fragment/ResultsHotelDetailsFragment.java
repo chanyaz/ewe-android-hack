@@ -394,17 +394,23 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		List<HotelTextSection> sections = property.getAllHotelText(getActivity());
 
-		if (sections != null && sections.size() > 1) {
+		if (sections != null && sections.size() > 0) {
 			LayoutInflater inflater = getActivity().getLayoutInflater();
-			for (int i = 1; i < sections.size(); i++) {
+			for (int i = 0; i < sections.size(); i++) {
 				HotelTextSection section = sections.get(i);
 				View sectionContainer = inflater.inflate(R.layout.include_hotel_description_section,
 						container, false);
 
 				TextView titleText = Ui.findView(sectionContainer, R.id.title_text);
 				TextView bodyText = Ui.findView(sectionContainer, R.id.body_text);
-				titleText.setVisibility(View.VISIBLE);
-				titleText.setText(section.getNameWithoutHtml());
+				// Hide the section title for the first description section
+				if (i == 0) {
+					titleText.setVisibility(View.GONE);
+				}
+				else {
+					titleText.setVisibility(View.VISIBLE);
+					titleText.setText(section.getNameWithoutHtml());
+				}
 				bodyText.setText(Html.fromHtml(section.getContentFormatted(getActivity())));
 				container.addView(sectionContainer);
 			}
