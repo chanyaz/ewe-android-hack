@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelAvailability;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
@@ -88,6 +89,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			@Override
 			public void onClick(View arg0) {
 				Db.getHotelSearch().setAddedProperty(Db.getHotelSearch().getSelectedProperty());
+				Db.kickOffBackgroundHotelSearchSave(getActivity());
 				mAddToTripListener.beginAddToTrip(getSelectedData(), getDestinationRect(), 0);
 			}
 
@@ -168,6 +170,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			setupAmenities(mRootC, property);
 			setupRoomRates(mRootC, property);
 			setupDescriptionSections(mRootC, property);
+			setDefaultSelectedRate();
 		}
 	}
 
@@ -320,6 +323,14 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		}
 	}
 
+	private OnClickListener mRateClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			Rate clickedRate = (Rate) v.getTag();
+			setSelectedRate(clickedRate);
+		}
+	};
+
 	private void setupRoomRates(View view, Property property) {
 		LinearLayout container = Ui.findView(view, R.id.rooms_rates_container);
 		container.removeAllViews();
@@ -327,13 +338,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		if (mResponse == null) {
 			return;
 		}
-
-		Rate lowestRate = property.getLowestRate();
-
-		Button addToTrip = Ui.findView(view, R.id.button_add_to_trip);
-		String addTripStr = getString(R.string.add_for_TEMPLATE,
-				lowestRate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL));
-		addToTrip.setText(addTripStr);
 
 		List<Rate> rates = mResponse.getRates();
 
@@ -344,6 +348,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		for (Rate rate : rates) {
 			View row = inflater.inflate(R.layout.row_tablet_room_rate, container, false);
+			row.setTag(rate);
+			row.setOnClickListener(mRateClickListener);
 			TextView description = Ui.findView(row, R.id.text_room_description);
 			TextView valueAdds = Ui.findView(row, R.id.text_value_adds);
 			TextView nonRefundable = Ui.findView(row, R.id.text_non_refundable);
@@ -380,12 +386,64 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			nonRefundable.setVisibility(rate.isNonRefundable() ? View.VISIBLE : View.GONE);
 
 			// Selected / +$20
-			checkmark.setVisibility(/*rate.equals(lowestRate)*/first ? View.VISIBLE : View.INVISIBLE);
-			select.setVisibility(/*rate.equals(lowestRate)*/first ? View.INVISIBLE : View.VISIBLE);
-			select.setText(rate.getRelativeDisplayPriceString(lowestRate));
+			checkmark.setVisibility(View.INVISIBLE);
+			select.setVisibility(View.INVISIBLE);
 			container.addView(row);
 			first = false;
 		}
+	}
+
+	/**
+	 * Makes the selection in the UI matches the selected rate in Db.
+	 */
+	private void setDefaultSelectedRate() {
+		String propertyId = Db.getHotelSearch().getSelectedPropertyId();
+		HotelAvailability availability = Db.getHotelSearch().getAvailability(propertyId);
+		Rate rate = availability.getSelectedRate();
+		if (rate == null) {
+			rate = mResponse.getRates().get(0);
+		}
+		setSelectedRate(rate);
+	}
+
+	/**
+	 * Called in response to a user click on a different room rate. Makes sure the
+	 * checkmark and relative prices are all in sync.
+	 *
+	 * @param selectedRate
+	 */
+	private void setSelectedRate(Rate selectedRate) {
+		String propertyId = Db.getHotelSearch().getSelectedPropertyId();
+		Db.getHotelSearch().getAvailability(propertyId).setSelectedRate(selectedRate);
+
+		Button addToTrip = Ui.findView(getView(), R.id.button_add_to_trip);
+		String addTripStr = getString(R.string.add_for_TEMPLATE,
+				selectedRate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL));
+		addToTrip.setText(addTripStr);
+
+		LinearLayout container = Ui.findView(getView(), R.id.rooms_rates_container);
+		for (int i = 0; i < container.getChildCount(); i++) {
+			View row = container.getChildAt(i);
+			Rate rowRate = (Rate) row.getTag();
+
+			// Skip if this is a separator row
+			if (rowRate == null) {
+				continue;
+			}
+
+			ImageView checkmark = Ui.findView(row, R.id.image_checkmark);
+			Button select = Ui.findView(row, R.id.button_select_new_room_rate);
+			if (rowRate.equals(selectedRate)) {
+				checkmark.setVisibility(View.VISIBLE);
+				select.setVisibility(View.INVISIBLE);
+			}
+			else {
+				checkmark.setVisibility(View.INVISIBLE);
+				select.setVisibility(View.VISIBLE);
+				select.setText(rowRate.getRelativeDisplayPriceString(selectedRate));
+			}
+		}
+
 	}
 
 	private void setupDescriptionSections(View view, Property property) {
