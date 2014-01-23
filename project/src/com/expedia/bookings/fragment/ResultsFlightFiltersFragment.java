@@ -79,33 +79,6 @@ public class ResultsFlightFiltersFragment extends Fragment {
 
 		mFilterGroupHeader = Ui.findView(view, R.id.stops_header);
 
-		FlightSearch.FlightTripQuery query = Db.getFlightSearch().queryTrips(mLegNumber);
-
-		List<Integer> numStopsList = query.getNumberOfStops();
-		mFilterGroup.removeAllViews();
-		if (query.getNumberOfStops().size() > 1) {
-			for (Integer integer : numStopsList) {
-				int stops = integer.intValue();
-				RadioButton rad = Ui.inflate(getActivity(), R.layout.snippet_flight_filter_radio_button, null);
-				String str;
-				if (stops == 0) {
-					str = getString(R.string.stop_description__nonstop);
-				}
-				else {
-					str = getResources().getQuantityString(R.plurals.x_Stops_TEMPLATE, stops, stops);
-				}
-				rad.setText(str);
-				rad.setId(FlightFilter.getStopsViewIdFromStopsValue(stops));
-				mFilterGroup.addView(rad);
-			}
-			mFilterGroup.setVisibility(View.VISIBLE);
-			mFilterGroupHeader.setVisibility(View.VISIBLE);
-		}
-		else {
-			mFilterGroup.setVisibility(View.GONE);
-			mFilterGroupHeader.setVisibility(View.GONE);
-		}
-
 		mAirlineContainer = Ui.findView(view, R.id.filter_airline_container);
 
 		mDepartureAirportsHeader = Ui.findView(view, R.id.departure_airports_header);
@@ -113,15 +86,6 @@ public class ResultsFlightFiltersFragment extends Fragment {
 
 		mArrivalAirportsHeader = Ui.findView(view, R.id.arrival_airports_header);
 		mArrivalAirportFilterWidget = Ui.findView(view, R.id.arrival_airports_widget);
-
-		Set<String> departureAirports = query.getDepartureAirportCodes();
-		mDepartureAirportFilterWidget
-				.bind(mLegNumber, true, departureAirports, mFilter, mAirportOnCheckedChangeListener, mAirportPopupListener);
-		mDepartureAirportsHeader.setVisibility(departureAirports.size() < 2 ? View.GONE : View.VISIBLE);
-
-		Set<String> arrivalAirports = query.getArrivalAirportCodes();
-		mArrivalAirportFilterWidget.bind(mLegNumber, false, arrivalAirports, mFilter, mAirportOnCheckedChangeListener, mAirportPopupListener);
-		mArrivalAirportsHeader.setVisibility(arrivalAirports.size() < 2 ? View.GONE : View.VISIBLE);
 
 		mSortOverlay = Ui.findView(view, R.id.flight_filter_sort_overlay);
 		mDepartureOverlay = Ui.findView(view, R.id.flight_filter_departure_airports_overlay);
@@ -150,13 +114,50 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	}
 
 	private void bindSortFilter() {
+		// Sort
 		mSortGroup.check(SORT_RADIO_BUTTON_MAP.get(mFilter.getSort()));
+
+		// Stops filter
+		FlightSearch.FlightTripQuery query = Db.getFlightSearch().queryTrips(mLegNumber);
+		List<Integer> numStopsList = query.getNumberOfStops();
+		mFilterGroup.removeAllViews();
+		if (query.getNumberOfStops().size() > 1) {
+			for (Integer integer : numStopsList) {
+				int stops = integer.intValue();
+				RadioButton rad = Ui.inflate(getActivity(), R.layout.snippet_flight_filter_radio_button, null);
+				String str;
+				if (stops == 0) {
+					str = getString(R.string.stop_description__nonstop);
+				}
+				else {
+					str = getResources().getQuantityString(R.plurals.x_Stops_TEMPLATE, stops, stops);
+				}
+				rad.setText(str);
+				rad.setId(FlightFilter.getStopsViewIdFromStopsValue(stops));
+				mFilterGroup.addView(rad);
+			}
+			mFilterGroup.setVisibility(View.VISIBLE);
+			mFilterGroupHeader.setVisibility(View.VISIBLE);
+		}
+		else {
+			mFilterGroup.setVisibility(View.GONE);
+			mFilterGroupHeader.setVisibility(View.GONE);
+		}
+
 		mFilterGroup.check(FlightFilter.getStopsViewIdFromStopsValue(mFilter.getStops()));
 	}
 
 	private void bindAirportFilter() {
-		mDepartureAirportFilterWidget.bindLabel();
-		mArrivalAirportFilterWidget.bindLabel();
+		FlightSearch.FlightTripQuery query = Db.getFlightSearch().queryTrips(mLegNumber);
+
+		Set<String> departureAirports = query.getDepartureAirportCodes();
+		mDepartureAirportFilterWidget
+				.bind(mLegNumber, true, departureAirports, mFilter, mAirportOnCheckedChangeListener, mAirportPopupListener);
+		mDepartureAirportsHeader.setVisibility(departureAirports.size() < 2 ? View.GONE : View.VISIBLE);
+
+		Set<String> arrivalAirports = query.getArrivalAirportCodes();
+		mArrivalAirportFilterWidget.bind(mLegNumber, false, arrivalAirports, mFilter, mAirportOnCheckedChangeListener, mAirportPopupListener);
+		mArrivalAirportsHeader.setVisibility(arrivalAirports.size() < 2 ? View.GONE : View.VISIBLE);
 	}
 
 	private void buildAirlineList() {
