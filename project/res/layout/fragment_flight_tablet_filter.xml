@@ -59,6 +59,7 @@
                 </com.expedia.bookings.widget.SlidingRadioGroup>
 
                 <com.expedia.bookings.widget.TextView
+                        android:id="@+id/stops_header"
                         style="@style/V2.Widget.TextView.FilterHeader"
                         android:layout_marginBottom="8dp"
                         android:text="@string/stops" />

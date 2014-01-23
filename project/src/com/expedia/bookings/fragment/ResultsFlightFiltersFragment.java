@@ -38,6 +38,8 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	private SlidingRadioGroup mSortGroup;
 	private SlidingRadioGroup mFilterGroup;
 
+	private TextView mFilterGroupHeader;
+
 	private ViewGroup mAirlineContainer;
 
 	private TextView mDepartureAirportsHeader;
@@ -75,23 +77,33 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		mSortGroup.setOnCheckedChangeListener(mControlKnobListener);
 		mFilterGroup.setOnCheckedChangeListener(mControlKnobListener);
 
+		mFilterGroupHeader = Ui.findView(view, R.id.stops_header);
+
 		FlightSearch.FlightTripQuery query = Db.getFlightSearch().queryTrips(mLegNumber);
 
 		List<Integer> numStopsList = query.getNumberOfStops();
 		mFilterGroup.removeAllViews();
-		for (Integer integer : numStopsList) {
-			int stops = integer.intValue();
-			RadioButton rad = Ui.inflate(getActivity(), R.layout.snippet_flight_filter_radio_button, null);
-			String str;
-			if (stops == 0) {
-				str = getString(R.string.stop_description__nonstop);
+		if (query.getNumberOfStops().size() > 1) {
+			for (Integer integer : numStopsList) {
+				int stops = integer.intValue();
+				RadioButton rad = Ui.inflate(getActivity(), R.layout.snippet_flight_filter_radio_button, null);
+				String str;
+				if (stops == 0) {
+					str = getString(R.string.stop_description__nonstop);
+				}
+				else {
+					str = getResources().getQuantityString(R.plurals.x_Stops_TEMPLATE, stops, stops);
+				}
+				rad.setText(str);
+				rad.setId(FlightFilter.getStopsViewIdFromStopsValue(stops));
+				mFilterGroup.addView(rad);
 			}
-			else {
-				str = getResources().getQuantityString(R.plurals.x_Stops_TEMPLATE, stops, stops);
-			}
-			rad.setText(str);
-			rad.setId(FlightFilter.getStopsViewIdFromStopsValue(stops));
-			mFilterGroup.addView(rad);
+			mFilterGroup.setVisibility(View.VISIBLE);
+			mFilterGroupHeader.setVisibility(View.VISIBLE);
+		}
+		else {
+			mFilterGroup.setVisibility(View.GONE);
+			mFilterGroupHeader.setVisibility(View.GONE);
 		}
 
 		mAirlineContainer = Ui.findView(view, R.id.filter_airline_container);
