@@ -23,6 +23,8 @@ class HockeyExtension {
         'com.expedia.bookings.tablet' : 'f2a4bda78f7b59aea9bb0f1a129c1b94',
 
         'com.expedia.bookings.vsc.latest' : '48567c64e3daad9bee274ab36e5d8498',
+
+        'com.travelocity.android.latest' : '1a4b859f1e9e0281742a761d5c92ff71',
     ]
 
     static def getHockeyId(buildVariant) {
