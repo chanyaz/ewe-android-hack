@@ -2113,7 +2113,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		// Here, we post it so that we have a few precious frames more of the progress bar before
 		// it's covered up by search results (or a lack thereof).  This keeps a black screen from
 		// showing up for a split second for reason I'm not entirely sure of.  ~dlew
-		mProgressBar.postDelayed(new Runnable() {
+		mProgressBarLayout.postDelayed(new Runnable() {
 			public void run() {
 				mProgressBarLayout.setVisibility(View.GONE);
 			}
