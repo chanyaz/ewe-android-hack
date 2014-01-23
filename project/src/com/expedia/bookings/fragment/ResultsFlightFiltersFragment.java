@@ -80,10 +80,17 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		List<Integer> numStopsList = query.getNumberOfStops();
 		mFilterGroup.removeAllViews();
 		for (Integer integer : numStopsList) {
+			int stops = integer.intValue();
 			RadioButton rad = Ui.inflate(getActivity(), R.layout.snippet_flight_filter_radio_button, null);
-			String str = getResources().getQuantityString(R.plurals.x_Stops_TEMPLATE, integer.intValue(), integer.intValue());
+			String str;
+			if (stops == 0) {
+				str = getString(R.string.stop_description__nonstop);
+			}
+			else {
+				str = getResources().getQuantityString(R.plurals.x_Stops_TEMPLATE, stops, stops);
+			}
 			rad.setText(str);
-			rad.setId(FlightFilter.getStopsViewIdFromStopsValue(integer.intValue()));
+			rad.setId(FlightFilter.getStopsViewIdFromStopsValue(stops));
 			mFilterGroup.addView(rad);
 		}
 
