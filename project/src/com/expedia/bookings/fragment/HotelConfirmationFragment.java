@@ -77,10 +77,10 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 		View v = super.onCreateView(inflater, container, savedInstanceState);
 
-		Ui.setText(v, R.id.hotel_name_text_view, Db.getHotelSearch().getSelectedProperty().getName());
+		Property property = Db.getBookingResponse().getProperty();
+		Ui.setText(v, R.id.hotel_name_text_view, property.getName());
 
 		// Construct the hotel card
-		Property property = Db.getHotelSearch().getSelectedProperty();
 		ImageView hotelImageView = Ui.findView(v, R.id.hotel_image_view);
 		HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
 		headerBitmapDrawable.setGradient(CARD_GRADIENT_COLORS, CARD_GRADIENT_POSITIONS);
@@ -272,8 +272,10 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		FlightSearchParams flightSearchParams = Db.getFlightSearch().getSearchParams();
 		flightSearchParams.reset();
 
+		Property property = Db.getBookingResponse().getProperty();
+
 		Location loc = new Location();
-		loc.setDestinationId(Db.getHotelSearch().getSelectedProperty().getLocation().toLongFormattedString());
+		loc.setDestinationId(property.getLocation().toLongFormattedString());
 		flightSearchParams.setArrivalLocation(loc);
 
 		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
@@ -293,7 +295,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		Context context = getActivity();
 
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
-		Property property = Db.getHotelSearch().getSelectedProperty();
+		Property property = Db.getBookingResponse().getProperty();
 
 		ShareUtils socialUtils = new ShareUtils(context);
 		LocalDate checkIn = searchParams.getCheckInDate();
@@ -302,8 +304,10 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		String phone = Db.getBookingResponse().getPhoneNumber();
 
 		//In this screen isShared & travelerName would not be relevant. So just set to false and null and pass it on to ShareUtils.
-		String subject = socialUtils.getHotelShareSubject(property.getLocation().getCity(), checkIn, checkOut, false, null);
-		String body = socialUtils.getHotelShareTextLong(property.getName(), address, phone, checkIn, checkOut, null, false, null);
+		String subject = socialUtils.getHotelShareSubject(property.getLocation().getCity(), checkIn, checkOut, false,
+				null);
+		String body = socialUtils.getHotelShareTextLong(property.getName(), address, phone, checkIn, checkOut, null,
+				false, null);
 
 		SocialUtils.email(context, subject, body);
 
@@ -322,7 +326,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 	}
 
 	private Intent generateHotelCalendarIntent(boolean checkIn) {
-		Property property = Db.getHotelSearch().getSelectedProperty();
+		Property property = Db.getBookingResponse().getProperty();
 		LocalDate date = checkIn ? Db.getHotelSearch().getSearchParams().getCheckInDate() : Db.getHotelSearch()
 				.getSearchParams().getCheckOutDate();
 		BookingResponse bookingResponse = Db.getBookingResponse();
@@ -411,7 +415,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		Log.d("SamsungWallet: Handle samsung wallet result: " + result);
 		// Ready to let the user click the button
 		if (result == SamsungWalletUtils.RESULT_TICKET_EXISTS ||
-			result == SamsungWalletUtils.RESULT_TICKET_NOT_FOUND) {
+				result == SamsungWalletUtils.RESULT_TICKET_NOT_FOUND) {
 
 			setSamsungWalletVisibility(View.VISIBLE);
 			mSamsungWalletButton.setTag(result);

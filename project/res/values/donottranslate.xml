@@ -90,6 +90,7 @@
     <string name="preference_force_fs_db_update">preference_force_fs_db_update</string>
     <string name="preference_push_notification_gcm_id">preference_push_notification_gcm_id</string>
     <string name="preference_disable_domain_v2_hotel_search">preference_disable_domain_v2_hotel_search</string>
+    <string name="preference_fake_invalid_google_wallet_line_item">preference_fake_invalid_google_wallet_line_item</string>
 
     <!-- Setting keys -->
     <string name="setting_hide_hotel_attach">setting_hide_hotel_attach</string>

@@ -332,10 +332,11 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			// 1. We were using GWallet (with coupon), but are no longer using GWallet
 			// 2. We were not using GWallet, but now are doing so (and thus want to apply the GWallet code)
 			boolean isUsingGoogleWallet = Db.getBillingInfo().isUsingGoogleWallet();
+			final boolean isCouponAvailable = WalletUtils.offerGoogleWalletCoupon(getActivity());
 			if (mWasUsingGoogleWallet && !isUsingGoogleWallet && usingWalletPromoCoupon()) {
 				clearWalletPromoCoupon();
 			}
-			else if (!mWasUsingGoogleWallet && isUsingGoogleWallet) {
+			else if (!mWasUsingGoogleWallet && isUsingGoogleWallet && isCouponAvailable) {
 				applyWalletCoupon();
 			}
 
