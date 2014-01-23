@@ -27,14 +27,22 @@
             android:id="@+id/overlay_shade"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#66000000" />
+            android:background="#DD000000" />
 
         <FrameLayout
             android:id="@+id/overlay_content_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp" />
+            android:layout_height="400dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:background="@drawable/bg_checkout_information_top_tab" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="FORM STUFF" />
+        </FrameLayout>
     </FrameLayout>
 
 </FrameLayout>

@@ -3,6 +3,12 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -20,6 +26,8 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.interfaces.IBackManageable;
+import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -33,8 +41,9 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.util.Ui;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TabletCheckoutFormsFragment extends Fragment implements AccountButtonClickListener,
-		ConfirmLogoutDialogFragment.DoLogoutListener {
+		ConfirmLogoutDialogFragment.DoLogoutListener, IBackManageable {
 
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
 
@@ -44,6 +53,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	private ViewGroup mOverlayContentC;
 	private View mOverlayShade;
 	private AccountButton mAccountButton;
+	private View mPaymentView;
 
 	private LineOfBusiness mLob;
 
@@ -81,6 +91,8 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 
 		//We disable this for sign in, but when the user comes back it should be enabled.
 		mAccountButton.setEnabled(true);
+
+		mBackManager.registerWithParent(this);
 	}
 
 	@Override
@@ -102,6 +114,8 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 		if (Db.getBillingInfoIsDirty()) {
 			Db.kickOffBackgroundBillingInfoSave(getActivity());
 		}
+
+		mBackManager.unregisterWithParent(this);
 	}
 
 	/*
@@ -167,9 +181,9 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 
 		//PAYMENT
 		addGroupHeading(R.string.payment_method);
-		View paymentView = Ui.inflate(R.layout.section_display_creditcard_btn, mCheckoutFormsC, false);
-		dressCheckoutView(paymentView, 0);
-		addActionable(paymentView, new Runnable() {
+		mPaymentView = Ui.inflate(R.layout.section_display_creditcard_btn, mCheckoutFormsC, false);
+		dressCheckoutView(mPaymentView, 0);
+		addActionable(mPaymentView, new Runnable() {
 			@Override
 			public void run() {
 				openPaymentForm();
@@ -247,7 +261,83 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	}
 
 	protected void openTravelerEntry(int travelerNumber) {
+		//finding index
+		View travSection = mTravelerViews.get(travelerNumber);
+		int viewNumber = -1;
+		for (int i = 0; i < mViews.size(); i++) {
+			if (mViews.get(i) == travSection) {
+				viewNumber = i;
+				break;
+			}
+		}
+		if (viewNumber >= 0) {
+			setFormShowing(!mFormShowing, true, viewNumber);
+		}
+	}
 
+	private boolean mFormShowing = false;
+	private int mShowingViewIndex = -1;
+
+	protected void setFormShowing(boolean show, boolean animate, int viewIndex) {
+		float startVal = show ? 0f : 1f;
+		float endVal = show ? 1f : 0f;
+
+		mFormShowing = show;
+		mShowingViewIndex = show ? viewIndex : -1;
+		mOverlayContentC.setAlpha(startVal);
+		mOverlayShade.setAlpha(startVal);
+		mOverlayC.setVisibility(View.VISIBLE);
+
+		int dist = mViews.get(viewIndex).getTop();
+
+		ValueAnimator anim = ValueAnimator.ofFloat(startVal, endVal);
+		anim.setDuration(1000);
+		anim.addUpdateListener(generateViewMoveListener(viewIndex, dist));
+		anim.addUpdateListener(entryFormFadeInListener);
+		anim.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animator) {
+				mOverlayC.setVisibility(mFormShowing ? View.VISIBLE : View.GONE);
+			}
+		});
+		anim.start();
+
+	}
+
+	protected AnimatorUpdateListener entryFormFadeInListener = new AnimatorUpdateListener() {
+
+		@Override
+		public void onAnimationUpdate(ValueAnimator animation) {
+			float val = (Float) animation.getAnimatedValue();
+			mOverlayContentC.setAlpha(val);
+			mOverlayShade.setAlpha(val);
+
+		}
+
+	};
+
+	protected AnimatorUpdateListener generateViewMoveListener(final int viewIndex, final int totalDistance) {
+		return new AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator arg0) {
+				float val = (Float) arg0.getAnimatedValue();
+				float activeScaleY = 1f + val
+						* ((mOverlayContentC.getHeight() / mViews.get(viewIndex).getHeight()) - 1f);
+				float aboveViewsTransY = val * totalDistance;
+				float activeViewTransY = val
+						* (mViews.get(viewIndex).getTop() / 2f - mViews.get(viewIndex).getHeight() / 2f);
+				float belowViewsTransY = val * (mOverlayContentC.getBottom() - mViews.get(viewIndex).getBottom());
+				for (int i = 0; i < viewIndex; i++) {
+					mViews.get(i).setTranslationY(-aboveViewsTransY);
+				}
+				mViews.get(viewIndex).setTranslationY(-activeViewTransY);
+				mViews.get(viewIndex).setAlpha(1f - val);
+				for (int i = viewIndex + 1; i < mViews.size(); i++) {
+					mViews.get(i).setTranslationY(belowViewsTransY);
+				}
+
+			}
+		};
 	}
 
 	protected void bindTravelers() {
@@ -294,7 +384,18 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	 */
 
 	protected void openPaymentForm() {
-
+		//finding index
+		int viewNumber = -1;
+		for (int i = 0; i < mViews.size(); i++) {
+			if (mViews.get(i) == mPaymentView) {
+				viewNumber = i;
+				break;
+			}
+		}
+		if (viewNumber >= 0) {
+			//moveViewsUp(viewNumber, travSection.getTop());
+			setFormShowing(!mFormShowing, true, viewNumber);
+		}
 	}
 
 	/*
@@ -409,5 +510,28 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 				onLoginCompleted();
 			}
 		}
+	};
+
+	/*
+	 * BACKMANAGEABLE
+	 */
+
+	@Override
+	public BackManager getBackManager() {
+		return mBackManager;
+	}
+
+	private BackManager mBackManager = new BackManager(this) {
+
+		@Override
+		public boolean handleBackPressed() {
+			if (mFormShowing) {
+				setFormShowing(!mFormShowing, true, mShowingViewIndex);
+				return true;
+			}
+
+			return false;
+		}
+
 	};
 }
