@@ -2,7 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="57dp"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:background="@drawable/bg_row"
+    android:paddingLeft="@dimen/tablet_detail_padding"
+    android:paddingRight="@dimen/tablet_detail_padding" >
 
     <LinearLayout
         android:layout_width="0dp"
@@ -36,7 +39,7 @@
         android:layout_marginRight="12dp"
         android:text="@string/Non_Refundable"
         android:textAllCaps="true"
-        android:textColor="#c4c6c9"
+        android:textColor="@color/non_refundable_text"
         android:paddingTop="@dimen/non_refundable_tweak"
         android:textSize="14sp"
         android:textStyle="bold" />
@@ -53,11 +56,12 @@
             android:layout_gravity="center"
             android:src="@drawable/ic_tablet_hotel_details_blue_checkmark" />
 
-        <Button
-            android:id="@+id/button_select_new_room_rate"
+        <TextView
+            android:id="@+id/new_room_rate"
             android:layout_width="48dp"
             android:layout_height="22dp"
             android:background="#245fb3"
+            android:gravity="center"
             android:textColor="#ffffff"
             android:textSize="14sp"
             android:textStyle="bold" />

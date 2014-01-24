@@ -261,9 +261,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/tablet_white_pane_bg"
-                        android:orientation="vertical"
-                        android:paddingLeft="@dimen/tablet_detail_padding"
-                        android:paddingRight="@dimen/tablet_detail_padding" />
+                        android:orientation="vertical" />
 
                     <!-- Hotel Description section -->
 

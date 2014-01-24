@@ -8,7 +8,6 @@ import java.util.Locale;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
@@ -360,14 +358,11 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			TextView valueAdds = Ui.findView(row, R.id.text_value_adds);
 			TextView nonRefundable = Ui.findView(row, R.id.text_non_refundable);
 			ImageView checkmark = Ui.findView(row, R.id.image_checkmark);
-			Button select = Ui.findView(row, R.id.button_select_new_room_rate);
+			TextView select = Ui.findView(row, R.id.new_room_rate);
 
 			// Separator
 			if (!first) {
-				View sep = new View(getActivity());
-				LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, 1);
-				sep.setLayoutParams(lp);
-				sep.setBackgroundColor(Color.rgb(0xd9, 0xdc, 0xe0));
+				View sep = inflater.inflate(R.layout.row_tablet_room_rate_separator, container, false);
 				container.addView(sep);
 			}
 
@@ -407,7 +402,12 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		HotelAvailability availability = Db.getHotelSearch().getAvailability(propertyId);
 		Rate rate = availability.getSelectedRate();
 		if (rate == null) {
-			rate = mResponse.getRates().get(0);
+			if (mResponse == null || mResponse.getRates() == null || mResponse.getRateCount() == 0) {
+				rate = Db.getHotelSearch().getSelectedProperty().getLowestRate();
+			}
+			else {
+				rate = mResponse.getRates().get(0);
+			}
 		}
 		setSelectedRate(rate);
 	}
@@ -437,7 +437,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			}
 
 			ImageView checkmark = Ui.findView(row, R.id.image_checkmark);
-			Button select = Ui.findView(row, R.id.button_select_new_room_rate);
+			TextView select = Ui.findView(row, R.id.new_room_rate);
 			if (rowRate.equals(selectedRate)) {
 				checkmark.setVisibility(View.VISIBLE);
 				select.setVisibility(View.INVISIBLE);
