@@ -13,8 +13,17 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.interfaces.IBackManageable;
+import com.expedia.bookings.interfaces.IStateListener;
+import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
+import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
+import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
+import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
+import com.expedia.bookings.interfaces.helpers.StateManager;
+import com.expedia.bookings.utils.FragmentAvailabilityUtils;
+import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -22,7 +31,8 @@ import com.mobiata.android.util.Ui;
  *  This controls all the fragments relating to tablet checkout
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-public class TabletCheckoutControllerFragment extends Fragment implements IBackManageable {
+public class TabletCheckoutControllerFragment extends Fragment implements IBackManageable,
+		IStateProvider<CheckoutState>, IFragmentAvailabilityProvider {
 
 	private static final String FRAG_TAG_BUCKET_FLIGHT = "FRAG_TAG_BUCKET_FLIGHT";
 	private static final String FRAG_TAG_BUCKET_HOTEL = "FRAG_TAG_BUCKET_HOTEL";
@@ -45,6 +55,8 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 
 	//vars
 	private LineOfBusiness mLob = LineOfBusiness.FLIGHTS;
+	private StateManager<CheckoutState> mStateManager = new StateManager<CheckoutState>(
+			CheckoutState.OVERVIEW, this);
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,6 +69,9 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 		mBucketDateRange = Ui.findView(view, R.id.trip_date_range);
 		mBucketDateRange.setText("FEB 8 - CAT 12");//TODO: real date range
 
+		registerStateListener(mStateHelper, false);
+		registerStateListener(new StateListenerLogger<CheckoutState>(), false);
+
 		return view;
 	}
 
@@ -64,9 +79,7 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 	public void onResume() {
 		super.onResume();
 		mBackManager.registerWithParent(this);
-
-		setupBucketFrags();
-		attachCheckoutFragment();
+		setCheckoutState(mStateManager.getState(), false);
 	}
 
 	@Override
@@ -87,79 +100,8 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 		return mLob;
 	}
 
-	/*
-	 * CHECKOUT INFO FRAGMENT
-	 */
-
-	public void attachCheckoutFragment() {
-		FragmentManager manager = getFragmentManager();
-		mCheckoutFragment = (TabletCheckoutFormsFragment) manager.findFragmentByTag(FRAG_TAG_CHECKOUT_INFO);
-		if (mCheckoutFragment == null) {
-			mCheckoutFragment = TabletCheckoutFormsFragment.newInstance();
-		}
-
-		FragmentTransaction transaction = getFragmentManager().beginTransaction();
-		if (mCheckoutFragment.isDetached()) {
-			transaction.attach(mCheckoutFragment);
-			transaction.commit();
-		}
-		else if (!mCheckoutFragment.isAdded()) {
-			transaction.add(R.id.checkout_forms_container, mCheckoutFragment, FRAG_TAG_CHECKOUT_INFO);
-			transaction.commit();
-		}
-		mCheckoutFragment.setLob(mLob);
-
-	}
-
-	/*
-	 * BUCKET FRAGMENTS
-	 */
-
-	private void setupBucketFrags() {
-
-		//TODO: WE ONLY WANT TO SHOW A PARTICULAR BUCKET FRAG IF WE HAVE DATA,
-		//WE SHOULD BE CHECKING THAT DATA HERE!
-
-		if (mBucketFlightFrag == null || !mBucketFlightFrag.isAdded()) {
-			attachBucketFlightFrag();
-			mBucketFlightFrag.setExpanded(mLob == LineOfBusiness.FLIGHTS);
-			mBucketFlightFrag.setShowButton(false);
-		}
-		if (mBucketHotelFrag == null || !mBucketHotelFrag.isAdded()) {
-			attachBucketHotelFrag();
-			mBucketHotelFrag.setExpanded(mLob == LineOfBusiness.HOTELS);
-			mBucketHotelFrag.setShowButton(false);
-		}
-	}
-
-	private void attachBucketFlightFrag() {
-		FragmentManager manager = getFragmentManager();
-		if (mBucketFlightFrag == null) {
-			mBucketFlightFrag = (ResultsTripBucketFlightFragment) manager.findFragmentByTag(FRAG_TAG_BUCKET_FLIGHT);
-		}
-		if (mBucketFlightFrag == null) {
-			mBucketFlightFrag = ResultsTripBucketFlightFragment.newInstance();
-		}
-		if (mBucketFlightFrag != null && !mBucketFlightFrag.isAdded()) {
-			FragmentTransaction transaction = manager.beginTransaction();
-			transaction.add(R.id.bucket_flight_frag_container, mBucketFlightFrag, FRAG_TAG_BUCKET_FLIGHT);
-			transaction.commit();
-		}
-	}
-
-	private void attachBucketHotelFrag() {
-		FragmentManager manager = getFragmentManager();
-		if (mBucketHotelFrag == null) {
-			mBucketHotelFrag = (ResultsTripBucketHotelFragment) manager.findFragmentByTag(FRAG_TAG_BUCKET_HOTEL);
-		}
-		if (mBucketHotelFrag == null) {
-			mBucketHotelFrag = ResultsTripBucketHotelFragment.newInstance();
-		}
-		if (mBucketHotelFrag != null && !mBucketHotelFrag.isAdded()) {
-			FragmentTransaction transaction = manager.beginTransaction();
-			transaction.add(R.id.bucket_hotel_frag_container, mBucketHotelFrag, FRAG_TAG_BUCKET_HOTEL);
-			transaction.commit();
-		}
+	public void setCheckoutState(CheckoutState state, boolean animate) {
+		mStateManager.setState(state, animate);
 	}
 
 	/*
@@ -179,5 +121,143 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 		}
 
 	};
+
+	/*
+	 * CheckoutState LISTENER
+	 */
+
+	private StateListenerHelper<CheckoutState> mStateHelper = new StateListenerHelper<CheckoutState>() {
+
+		@Override
+		public void onStateTransitionStart(CheckoutState stateOne, CheckoutState stateTwo) {
+		}
+
+		@Override
+		public void onStateTransitionUpdate(CheckoutState stateOne, CheckoutState stateTwo, float percentage) {
+		}
+
+		@Override
+		public void onStateTransitionEnd(CheckoutState stateOne, CheckoutState stateTwo) {
+		}
+
+		@Override
+		public void onStateFinalized(CheckoutState state) {
+			setFragmentState(state);
+		}
+	};
+
+	private void setFragmentState(CheckoutState state) {
+		FragmentManager manager = getChildFragmentManager();
+
+		//All of the fragment adds/removes come through this method, and we want to make sure our last call
+		//is complete before moving forward, so this is important
+		manager.executePendingTransactions();
+
+		//We will be adding all of our add/removes to this transaction
+
+		FragmentTransaction transaction = manager.beginTransaction();
+
+		boolean flightBucketItemAvailable = true;
+		boolean hotelBucketItemAvailable = true;
+		boolean checkoutFormsAvailable = true;
+
+		mBucketFlightFrag = (ResultsTripBucketFlightFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+				flightBucketItemAvailable, FRAG_TAG_BUCKET_FLIGHT,
+				manager, transaction, this, R.id.bucket_flight_frag_container, false);
+
+		mBucketHotelFrag = (ResultsTripBucketHotelFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+				hotelBucketItemAvailable, FRAG_TAG_BUCKET_HOTEL,
+				manager, transaction, this, R.id.bucket_hotel_frag_container, false);
+
+		mCheckoutFragment = (TabletCheckoutFormsFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+				checkoutFormsAvailable, FRAG_TAG_CHECKOUT_INFO, manager, transaction, this,
+				R.id.checkout_forms_container, false);
+
+		transaction.commit();
+	}
+
+	/*
+	 * CheckoutState ISTATEPROVIDER
+	 */
+
+	private StateListenerCollection<CheckoutState> mStateListeners = new StateListenerCollection<CheckoutState>(
+			mStateManager.getState());
+
+	@Override
+	public void startStateTransition(CheckoutState stateOne, CheckoutState stateTwo) {
+		mStateListeners.startStateTransition(stateOne, stateTwo);
+	}
+
+	@Override
+	public void updateStateTransition(CheckoutState stateOne, CheckoutState stateTwo, float percentage) {
+		mStateListeners.updateStateTransition(stateOne, stateTwo, percentage);
+	}
+
+	@Override
+	public void endStateTransition(CheckoutState stateOne, CheckoutState stateTwo) {
+		mStateListeners.endStateTransition(stateOne, stateTwo);
+	}
+
+	@Override
+	public void finalizeState(CheckoutState state) {
+		mStateListeners.finalizeState(state);
+	}
+
+	@Override
+	public void registerStateListener(IStateListener<CheckoutState> listener, boolean fireFinalizeState) {
+		mStateListeners.registerStateListener(listener, fireFinalizeState);
+	}
+
+	@Override
+	public void unRegisterStateListener(IStateListener<CheckoutState> listener) {
+		mStateListeners.unRegisterStateListener(listener);
+	}
+
+	/*
+	 * IFragmentAvailabilityProvider
+	 */
+
+	@Override
+	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+		if (FRAG_TAG_BUCKET_FLIGHT.equals(tag)) {
+			return mBucketFlightFrag;
+		}
+		else if (FRAG_TAG_BUCKET_HOTEL.equals(tag)) {
+			return mBucketHotelFrag;
+		}
+		else if (FRAG_TAG_CHECKOUT_INFO.equals(tag)) {
+			return mCheckoutFragment;
+		}
+		return null;
+	}
+
+	@Override
+	public Fragment getNewFragmentInstanceFromTag(String tag) {
+		if (FRAG_TAG_BUCKET_FLIGHT.equals(tag)) {
+			return ResultsTripBucketFlightFragment.newInstance();
+		}
+		else if (FRAG_TAG_BUCKET_HOTEL.equals(tag)) {
+			return ResultsTripBucketHotelFragment.newInstance();
+		}
+		else if (FRAG_TAG_CHECKOUT_INFO.equals(tag)) {
+			return TabletCheckoutFormsFragment.newInstance();
+		}
+		return null;
+	}
+
+	@Override
+	public void doFragmentSetup(String tag, Fragment frag) {
+		if (FRAG_TAG_BUCKET_FLIGHT.equals(tag)) {
+			((ResultsTripBucketFlightFragment) frag).setExpanded(mLob == LineOfBusiness.FLIGHTS);
+			((ResultsTripBucketFlightFragment) frag).setShowButton(false);
+		}
+		else if (FRAG_TAG_BUCKET_HOTEL.equals(tag)) {
+			((ResultsTripBucketHotelFragment) frag).setExpanded(mLob == LineOfBusiness.HOTELS);
+			((ResultsTripBucketHotelFragment) frag).setShowButton(false);
+		}
+		else if (FRAG_TAG_CHECKOUT_INFO.equals(tag)) {
+			((TabletCheckoutFormsFragment) frag).setLob(mLob);
+		}
+	}
 
 }
