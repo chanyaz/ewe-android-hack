@@ -1,18 +1,23 @@
 package com.expedia.bookings.fragment;
 
-import android.graphics.Color;
+import java.util.Calendar;
+
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.section.FlightLegSummarySectionTablet;
+import com.expedia.bookings.utils.Ui;
+import com.mobiata.flightlib.utils.DateTimeUtils;
 
 /**
  * ResultsTripBucketYourTripToFragment: A simple fragment for displaying destination information, in the trip overview column - Tablet 2013
@@ -32,8 +37,15 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 	}
 
 	private void bindToDb() {
-		if (mFlightSection != null && Db.getFlightSearch().getSelectedFlightTrip() != null) {
-			mFlightSection.bindForTripBucket(Db.getFlightSearch(), false);
+		if (mFlightSection != null) {
+			// TODO this logic is WHACK. improve selected/added FlightTrip notion
+			boolean isCheckout = getParentFragment() instanceof TabletCheckoutControllerFragment;
+			boolean hasSelected = Db.getFlightSearch().getSelectedFlightTrip() != null;
+			boolean hasAdded = Db.getFlightSearch().getAddedFlightTrip() != null;
+			boolean useAddedLeg = isCheckout || hasAdded;
+			if (hasSelected || hasAdded) {
+				mFlightSection.bindForTripBucket(Db.getFlightSearch(), useAddedLeg);
+			}
 		}
 	}
 
@@ -50,11 +62,33 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 
 	@Override
 	public void addExpandedView(LayoutInflater inflater, ViewGroup viewGroup) {
-		View view = new View(getActivity());
-		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, 200);
-		view.setLayoutParams(params);
-		view.setBackgroundColor(Color.BLUE);
-		viewGroup.addView(view);
+		ViewGroup vg = Ui.inflate(inflater, R.layout.snippet_trip_bucket_flight_expanded_dates_view, viewGroup, false);
+
+		FlightTrip trip = Db.getFlightSearch().getAddedFlightTrip();
+
+		// Dates
+		Calendar depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
+		Calendar retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime();
+		long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();
+		long end = DateTimeUtils.getTimeInLocalTimeZone(retDate).getTime();
+
+		String dateRange = DateUtils.formatDateRange(getActivity(), start, end, DateUtils.FORMAT_SHOW_DATE);
+		Ui.setText(vg, R.id.dates_text_view, dateRange);
+
+		// Num travelers
+		int numTravelers = Db.getFlightSearch().getSearchParams().getNumAdults();
+		String numTravStr = getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers, numTravelers);
+		Ui.setText(vg, R.id.num_travelers_text_view, numTravStr);
+
+		// Price
+		String price = trip.getTotalFareWithCardFee(Db.getBillingInfo()).getFormattedMoney(Money.F_NO_DECIMAL);
+		Ui.setText(vg, R.id.price_expanded_bucket_text_view, price);
+
+		// Hide price in the FlightLeg card
+		View priceTv = Ui.findView(mFlightSection, R.id.price_text_view);
+		priceTv.setVisibility(View.INVISIBLE);
+
+		viewGroup.addView(vg);
 	}
 
 	@Override

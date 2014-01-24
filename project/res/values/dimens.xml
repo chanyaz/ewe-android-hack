@@ -24,6 +24,9 @@
     <dimen name="tablet_detail_padding">24dp</dimen>
     <dimen name="non_refundable_tweak">0dp</dimen>
 
+    <!-- Tablet checkout -->
+    <dimen name="trip_bucket_expanded_card_padding">2dp</dimen>
+
     <!-- Launch dimens -->
     <dimen name="launch_tile_space_width">2dp</dimen>
     <dimen name="launch_header_height">100dp</dimen>

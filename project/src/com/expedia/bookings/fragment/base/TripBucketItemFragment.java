@@ -86,7 +86,7 @@ public abstract class TripBucketItemFragment extends Fragment {
 	private void updateVisibilities() {
 		if (mRootC != null) {
 			if (mExpanded) {
-				int padding = 2;
+				int padding = (int) getResources().getDimension(R.dimen.trip_bucket_expanded_card_padding);
 				mRootC.setBackgroundColor(mExpandedBgColor);
 				mRootC.setPadding(padding, padding, padding, padding);
 				mExpandedC.removeAllViews();

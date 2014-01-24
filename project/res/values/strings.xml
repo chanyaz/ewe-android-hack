@@ -192,6 +192,8 @@
     <!-- Tablet flight trip bucket -->
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Round Trip</string>
+    <!-- Label describing the total price of the flight or hotel that is going to be booked -->
+    <string name="total_with_tax">Total with tax</string>
     
     
     <!-- Tablet Checkout -->
