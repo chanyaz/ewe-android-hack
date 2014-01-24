@@ -114,6 +114,9 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	}
 
 	private void bindSortFilter() {
+		mSortGroup.setOnCheckedChangeListener(null);
+		mFilterGroup.setOnCheckedChangeListener(null);
+
 		// Sort
 		mSortGroup.check(SORT_RADIO_BUTTON_MAP.get(mFilter.getSort()));
 
@@ -121,6 +124,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		FlightSearch.FlightTripQuery query = Db.getFlightSearch().queryTrips(mLegNumber);
 		List<Integer> numStopsList = query.getNumberOfStops();
 		mFilterGroup.removeAllViews();
+		mFilterGroup.clearCheck();
 		if (query.getNumberOfStops().size() > 1) {
 			for (Integer integer : numStopsList) {
 				int stops = integer.intValue();
@@ -145,6 +149,9 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		}
 
 		mFilterGroup.check(FlightFilter.getStopsViewIdFromStopsValue(mFilter.getStops()));
+
+		mSortGroup.setOnCheckedChangeListener(mControlKnobListener);
+		mFilterGroup.setOnCheckedChangeListener(mControlKnobListener);
 	}
 
 	private void bindAirportFilter() {
