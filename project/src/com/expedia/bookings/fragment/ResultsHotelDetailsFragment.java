@@ -91,6 +91,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				HotelSearch search = Db.getHotelSearch();
 				Property property = search.getSelectedProperty();
 				Rate rate = search.getSelectedRate();
+				if (rate == null) {
+					rate = property.getLowestRate();
+				}
 				search.setAddedProperty(property, rate);
 				Db.kickOffBackgroundHotelSearchSave(getActivity());
 				mAddToTripListener.beginAddToTrip(getSelectedData(), getDestinationRect(), 0);
