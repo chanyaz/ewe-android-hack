@@ -3,10 +3,6 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
-import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,8 +22,15 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.interfaces.IBackManageable;
+import com.expedia.bookings.interfaces.IStateListener;
+import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
+import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
+import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
+import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
+import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -43,22 +46,22 @@ import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TabletCheckoutFormsFragment extends Fragment implements AccountButtonClickListener,
-		ConfirmLogoutDialogFragment.DoLogoutListener, IBackManageable {
-
-	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
+		ConfirmLogoutDialogFragment.DoLogoutListener, IBackManageable, IStateProvider<CheckoutFormState> {
 
 	private ViewGroup mRootC;
-	private LinearLayout mCheckoutFormsC;
+	private LinearLayout mCheckoutRowsC;
 	private ViewGroup mOverlayC;
 	private ViewGroup mOverlayContentC;
+	private ViewGroup mTravelerFormC;
+	private ViewGroup mPaymentFormC;
 	private View mOverlayShade;
-	private AccountButton mAccountButton;
 	private View mPaymentView;
 
 	private LineOfBusiness mLob;
+	private int mShowingViewIndex = -1;
 
-	//When we last refreshed user data.
-	private long mRefreshedUserTime = 0L;
+	private StateManager<CheckoutFormState> mStateManager = new StateManager<CheckoutFormState>(
+			CheckoutFormState.OVERVIEW, this);
 
 	public static TabletCheckoutFormsFragment newInstance() {
 		TabletCheckoutFormsFragment frag = new TabletCheckoutFormsFragment();
@@ -68,14 +71,19 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_checkout_forms, container, false);
-		mCheckoutFormsC = Ui.findView(mRootC, R.id.checkout_forms_container);
+		mCheckoutRowsC = Ui.findView(mRootC, R.id.checkout_forms_container);
 		mOverlayC = Ui.findView(mRootC, R.id.overlay_container);
 		mOverlayContentC = Ui.findView(mRootC, R.id.overlay_content_container);
 		mOverlayShade = Ui.findView(mRootC, R.id.overlay_shade);
+		mTravelerFormC = Ui.findView(mRootC, R.id.traveler_form_container);
+		mPaymentFormC = Ui.findView(mRootC, R.id.payment_form_container);
 
 		if (mLob != null) {
 			buildCheckoutForm();
 		}
+
+		registerStateListener(mStateHelper, false);
+		registerStateListener(new StateListenerLogger<CheckoutFormState>(), false);
 
 		return mRootC;
 	}
@@ -146,6 +154,10 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 		return mLob;
 	}
 
+	public void setState(CheckoutFormState state, boolean animate) {
+		mStateManager.setState(state, animate);
+	}
+
 	/*
 	 * CHECKOUT FORM BUILDING METHODS
 	 */
@@ -153,7 +165,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	protected void buildCheckoutForm() {
 
 		//CLEAR THE CONTAINER
-		mCheckoutFormsC.removeAllViews();
+		mCheckoutRowsC.removeAllViews();
 
 		//FIRST HEADING
 		String headingArg = "";
@@ -166,7 +178,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 		addGroupHeading(getString(R.string.now_booking_TEMPLATE, headingArg));
 
 		//LOGIN STUFF
-		mAccountButton = Ui.inflate(R.layout.include_account_button, mCheckoutFormsC, false);
+		mAccountButton = Ui.inflate(R.layout.include_account_button, mCheckoutRowsC, false);
 		mAccountButton.setListener(this);
 		add(mAccountButton);
 
@@ -179,7 +191,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 
 		//PAYMENT
 		addGroupHeading(R.string.payment_method);
-		mPaymentView = Ui.inflate(R.layout.section_display_creditcard_btn, mCheckoutFormsC, false);
+		mPaymentView = Ui.inflate(R.layout.section_display_creditcard_btn, mCheckoutRowsC, false);
 		dressCheckoutView(mPaymentView, 0);
 		addActionable(mPaymentView, new Runnable() {
 			@Override
@@ -198,13 +210,13 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	}
 
 	protected View addGroupHeading(CharSequence headingText) {
-		TextView tv = Ui.inflate(R.layout.checkout_form_tablet_heading, mCheckoutFormsC, false);
+		TextView tv = Ui.inflate(R.layout.checkout_form_tablet_heading, mCheckoutRowsC, false);
 		tv.setText(Html.fromHtml(headingText.toString()));
 		return add(tv);
 	}
 
 	protected View addActionable(int resId, final Runnable action) {
-		View view = Ui.inflate(resId, mCheckoutFormsC, false);
+		View view = Ui.inflate(resId, mCheckoutRowsC, false);
 		return addActionable(view, action);
 	}
 
@@ -221,7 +233,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	}
 
 	public View add(View view) {
-		mCheckoutFormsC.addView(view);
+		mCheckoutRowsC.addView(view);
 		return view;
 	}
 
@@ -243,7 +255,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	private ArrayList<SectionTravelerInfo> mTravelerViews = new ArrayList<SectionTravelerInfo>();
 
 	protected void addTravelerView(final int travelerNumber) {
-		SectionTravelerInfo travelerSection = Ui.inflate(R.layout.section_display_traveler_info_btn, mCheckoutFormsC,
+		SectionTravelerInfo travelerSection = Ui.inflate(R.layout.section_display_traveler_info_btn, mCheckoutRowsC,
 				false);
 		dressCheckoutView(travelerSection, travelerNumber);
 		addActionable(travelerSection, new Runnable() {
@@ -261,81 +273,51 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 		//finding index
 		View travSection = mTravelerViews.get(travelerNumber);
 		int viewNumber = -1;
-		for (int i = 0; i < mCheckoutFormsC.getChildCount(); i++) {
-			if (mCheckoutFormsC.getChildAt(i) == travSection) {
+		for (int i = 0; i < mCheckoutRowsC.getChildCount(); i++) {
+			if (mCheckoutRowsC.getChildAt(i) == travSection) {
 				viewNumber = i;
 				break;
 			}
 		}
 		if (viewNumber >= 0) {
-			setFormShowing(!mFormShowing, true, viewNumber);
+			mShowingViewIndex = viewNumber;
+			setState(CheckoutFormState.EDIT_TRAVELER, true);
 		}
 	}
 
-	private boolean mFormShowing = false;
-	private int mShowingViewIndex = -1;
-
-	protected void setFormShowing(boolean show, boolean animate, int viewIndex) {
-		float startVal = show ? 0f : 1f;
-		float endVal = show ? 1f : 0f;
-
-		mFormShowing = show;
-		mShowingViewIndex = show ? viewIndex : -1;
-		mOverlayContentC.setAlpha(startVal);
-		mOverlayShade.setAlpha(startVal);
-		mOverlayC.setVisibility(View.VISIBLE);
-
-		int dist = mCheckoutFormsC.getChildAt(viewIndex).getTop();
-
-		ValueAnimator anim = ValueAnimator.ofFloat(startVal, endVal);
-		anim.setDuration(300);
-		anim.addUpdateListener(generateViewMoveListener(viewIndex, dist));
-		anim.addUpdateListener(entryFormFadeInListener);
-		anim.addListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationEnd(Animator animator) {
-				mOverlayC.setVisibility(mFormShowing ? View.VISIBLE : View.GONE);
-			}
-		});
-		anim.start();
-
-	}
-
-	protected AnimatorUpdateListener entryFormFadeInListener = new AnimatorUpdateListener() {
-
-		@Override
-		public void onAnimationUpdate(ValueAnimator animation) {
-			float val = (Float) animation.getAnimatedValue();
-			mOverlayContentC.setAlpha(val);
-			mOverlayShade.setAlpha(val);
-
+	private void setEntryFormShowingPercentage(float percentage, int viewIndex) {
+		if (viewIndex < 0 || mCheckoutRowsC == null || mCheckoutRowsC.getChildCount() <= viewIndex) {
+			return;
 		}
 
-	};
-
-	protected AnimatorUpdateListener generateViewMoveListener(final int viewIndex, final int totalDistance) {
-		return new AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator arg0) {
-				View selectedView = mCheckoutFormsC.getChildAt(viewIndex);
-				float val = (Float) arg0.getAnimatedValue();
-				float activeScaleY = 1f + val
-						* ((mOverlayContentC.getHeight() / selectedView.getHeight()) - 1f);
-				float aboveViewsTransY = val * totalDistance;
-				float activeViewTransY = val
-						* (selectedView.getTop() / 2f - selectedView.getHeight() / 2f);
-				float belowViewsTransY = val * (mOverlayContentC.getBottom() - selectedView.getBottom());
-				for (int i = 0; i < viewIndex; i++) {
-					mCheckoutFormsC.getChildAt(i).setTranslationY(-aboveViewsTransY);
-				}
-				selectedView.setTranslationY(-activeViewTransY);
-				selectedView.setAlpha(1f - val);
-				for (int i = viewIndex + 1; i < mCheckoutFormsC.getChildCount(); i++) {
-					mCheckoutFormsC.getChildAt(i).setTranslationY(belowViewsTransY);
-				}
-
+		//Find bottom of the overlay
+		int overlayBottom = mOverlayContentC.getBottom();
+		for (int i = 0; i < mOverlayContentC.getChildCount(); i++) {
+			View child = mOverlayContentC.getChildAt(i);
+			if (child.getVisibility() == View.VISIBLE) {
+				overlayBottom = child.getBottom();
+				break;
 			}
-		};
+		}
+
+		//Slide views
+		View selectedView = mCheckoutRowsC.getChildAt(viewIndex);
+		float aboveViewsTransY = percentage * selectedView.getTop();
+		float activeViewTransY = percentage
+				* (selectedView.getTop() / 2f - selectedView.getHeight() / 2f);
+		float belowViewsTransY = percentage * (overlayBottom - selectedView.getBottom());
+		for (int i = 0; i < viewIndex; i++) {
+			mCheckoutRowsC.getChildAt(i).setTranslationY(-aboveViewsTransY);
+		}
+		selectedView.setTranslationY(-activeViewTransY);
+		selectedView.setAlpha(1f - percentage);
+		for (int i = viewIndex + 1; i < mCheckoutRowsC.getChildCount(); i++) {
+			mCheckoutRowsC.getChildAt(i).setTranslationY(belowViewsTransY);
+		}
+
+		//Form cross fade
+		mOverlayContentC.setAlpha(percentage);
+		mOverlayShade.setAlpha(percentage);
 	}
 
 	protected void bindTravelers() {
@@ -384,21 +366,188 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	protected void openPaymentForm() {
 		//finding index
 		int viewNumber = -1;
-		for (int i = 0; i < mCheckoutFormsC.getChildCount(); i++) {
-			if (mCheckoutFormsC.getChildAt(i) == mPaymentView) {
+		for (int i = 0; i < mCheckoutRowsC.getChildCount(); i++) {
+			if (mCheckoutRowsC.getChildAt(i) == mPaymentView) {
 				viewNumber = i;
 				break;
 			}
 		}
 		if (viewNumber >= 0) {
-			//moveViewsUp(viewNumber, travSection.getTop());
-			setFormShowing(!mFormShowing, true, viewNumber);
+			mShowingViewIndex = viewNumber;
+			setState(CheckoutFormState.EDIT_PAYMENT, true);
 		}
 	}
 
 	/*
-	 * ACCOUNT BUTTON
+	 * ACCOUNT REFRESH DOWNLOAD
 	 */
+
+	private final Download<SignInResponse> mRefreshUserDownload = new Download<SignInResponse>() {
+		@Override
+		public SignInResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(getActivity());
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_REFRESH_USER, services);
+			//Why flights AND hotels? Because the api will return blank for loyaltyMembershipNumber on flights
+			return services.signIn(ExpediaServices.F_FLIGHTS | ExpediaServices.F_HOTELS);
+		}
+	};
+
+	private final OnDownloadComplete<SignInResponse> mRefreshUserCallback = new OnDownloadComplete<SignInResponse>() {
+		@Override
+		public void onDownload(SignInResponse results) {
+			if (results == null || results.hasErrors()) {
+				//The refresh failed, so we just log them out. They can always try to login again.
+				doLogout();
+			}
+			else {
+				// Update our existing saved data
+				User user = results.getUser();
+				user.save(getActivity());
+				Db.setUser(user);
+
+				// Act as if a login just occurred
+				onLoginCompleted();
+			}
+		}
+	};
+
+	/*
+	 * BACKMANAGEABLE
+	 */
+
+	@Override
+	public BackManager getBackManager() {
+		return mBackManager;
+	}
+
+	private BackManager mBackManager = new BackManager(this) {
+
+		@Override
+		public boolean handleBackPressed() {
+			if (mStateManager.getState() != CheckoutFormState.OVERVIEW) {
+				setState(CheckoutFormState.OVERVIEW, true);
+				return true;
+			}
+			return false;
+		}
+
+	};
+
+	/*
+	 * ISTATELISTENER
+	 */
+
+	private StateListenerHelper<CheckoutFormState> mStateHelper = new StateListenerHelper<CheckoutFormState>() {
+
+		@Override
+		public void onStateTransitionStart(CheckoutFormState stateOne, CheckoutFormState stateTwo) {
+			if (stateTwo == CheckoutFormState.OVERVIEW) {
+				mOverlayC.setVisibility(View.VISIBLE);
+			}
+			else {
+
+				mOverlayContentC.setAlpha(0f);
+				mOverlayShade.setAlpha(0f);
+				mOverlayC.setVisibility(View.VISIBLE);
+				if (stateTwo == CheckoutFormState.EDIT_PAYMENT) {
+					mPaymentFormC.setVisibility(View.VISIBLE);
+				}
+				else if (stateTwo == CheckoutFormState.EDIT_TRAVELER) {
+					mTravelerFormC.setVisibility(View.VISIBLE);
+				}
+
+			}
+
+		}
+
+		@Override
+		public void onStateTransitionUpdate(CheckoutFormState stateOne, CheckoutFormState stateTwo, float percentage) {
+			if (stateTwo != CheckoutFormState.OVERVIEW) {
+				setEntryFormShowingPercentage(percentage, mShowingViewIndex);
+			}
+			else {
+				setEntryFormShowingPercentage(1f - percentage, mShowingViewIndex);
+			}
+		}
+
+		@Override
+		public void onStateTransitionEnd(CheckoutFormState stateOne, CheckoutFormState stateTwo) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onStateFinalized(CheckoutFormState state) {
+			if (state == CheckoutFormState.OVERVIEW) {
+				mOverlayC.setVisibility(View.INVISIBLE);
+				mPaymentFormC.setVisibility(View.INVISIBLE);
+				mTravelerFormC.setVisibility(View.INVISIBLE);
+
+				setEntryFormShowingPercentage(0f, mShowingViewIndex);
+				mShowingViewIndex = -1;
+			}
+			else {
+				mOverlayC.setVisibility(View.VISIBLE);
+				if (state == CheckoutFormState.EDIT_PAYMENT) {
+					mPaymentFormC.setVisibility(View.VISIBLE);
+					mTravelerFormC.setVisibility(View.INVISIBLE);
+				}
+				else if (state == CheckoutFormState.EDIT_TRAVELER) {
+					mTravelerFormC.setVisibility(View.VISIBLE);
+					mPaymentFormC.setVisibility(View.INVISIBLE);
+				}
+
+				setEntryFormShowingPercentage(1f, mShowingViewIndex);
+			}
+
+		}
+
+	};
+
+	/*
+	 * ISTATEPROVIDER 
+	 */
+	private StateListenerCollection<CheckoutFormState> mStateListeners = new StateListenerCollection<CheckoutFormState>(
+			mStateManager.getState());
+
+	@Override
+	public void startStateTransition(CheckoutFormState stateOne, CheckoutFormState stateTwo) {
+		mStateListeners.startStateTransition(stateOne, stateTwo);
+	}
+
+	@Override
+	public void updateStateTransition(CheckoutFormState stateOne, CheckoutFormState stateTwo, float percentage) {
+		mStateListeners.updateStateTransition(stateOne, stateTwo, percentage);
+	}
+
+	@Override
+	public void endStateTransition(CheckoutFormState stateOne, CheckoutFormState stateTwo) {
+		mStateListeners.endStateTransition(stateOne, stateTwo);
+	}
+
+	@Override
+	public void finalizeState(CheckoutFormState state) {
+		mStateListeners.finalizeState(state);
+	}
+
+	@Override
+	public void registerStateListener(IStateListener<CheckoutFormState> listener, boolean fireFinalizeState) {
+		mStateListeners.registerStateListener(listener, fireFinalizeState);
+	}
+
+	@Override
+	public void unRegisterStateListener(IStateListener<CheckoutFormState> listener) {
+		mStateListeners.unRegisterStateListener(listener);
+	}
+
+	/*
+	 * ACCOUNT BUTTON
+	 * TODO: WE SHOULD MOVE ALL OF THIS STUFF TO ITS OWN FRAGMENT
+	 */
+
+	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
+	private long mRefreshedUserTime = 0L;
+	private AccountButton mAccountButton;
 
 	private void refreshAccountButtonState() {
 		if (User.isLoggedIn(getActivity())) {
@@ -476,60 +625,4 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 		mAccountButton.bind(false, true, Db.getUser(), true);
 		mRefreshedUserTime = System.currentTimeMillis();
 	}
-
-	/*
-	 * ACCOUNT REFRESH DOWNLOAD
-	 */
-
-	private final Download<SignInResponse> mRefreshUserDownload = new Download<SignInResponse>() {
-		@Override
-		public SignInResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(getActivity());
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_REFRESH_USER, services);
-			//Why flights AND hotels? Because the api will return blank for loyaltyMembershipNumber on flights
-			return services.signIn(ExpediaServices.F_FLIGHTS | ExpediaServices.F_HOTELS);
-		}
-	};
-
-	private final OnDownloadComplete<SignInResponse> mRefreshUserCallback = new OnDownloadComplete<SignInResponse>() {
-		@Override
-		public void onDownload(SignInResponse results) {
-			if (results == null || results.hasErrors()) {
-				//The refresh failed, so we just log them out. They can always try to login again.
-				doLogout();
-			}
-			else {
-				// Update our existing saved data
-				User user = results.getUser();
-				user.save(getActivity());
-				Db.setUser(user);
-
-				// Act as if a login just occurred
-				onLoginCompleted();
-			}
-		}
-	};
-
-	/*
-	 * BACKMANAGEABLE
-	 */
-
-	@Override
-	public BackManager getBackManager() {
-		return mBackManager;
-	}
-
-	private BackManager mBackManager = new BackManager(this) {
-
-		@Override
-		public boolean handleBackPressed() {
-			if (mFormShowing) {
-				setFormShowing(!mFormShowing, true, mShowingViewIndex);
-				return true;
-			}
-
-			return false;
-		}
-
-	};
 }

@@ -21,27 +21,34 @@
         android:id="@+id/overlay_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" >
+        android:visibility="invisible" >
 
         <View
             android:id="@+id/overlay_shade"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#DD000000" />
+            android:background="#BB000000" />
 
         <FrameLayout
             android:id="@+id/overlay_content_container"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
-            android:background="@drawable/bg_checkout_information_top_tab" >
+            android:layout_marginRight="32dp" >
 
-            <TextView
+            <FrameLayout
+                android:id="@+id/traveler_form_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="FORM STUFF" />
+                android:layout_height="300dp"
+                android:background="#6600FF00"
+                android:visibility="invisible" />
+
+            <FrameLayout
+                android:id="@+id/payment_form_container"
+                android:layout_width="match_parent"
+                android:layout_height="450dp"
+                android:background="#66FF0000"
+                android:visibility="invisible" />
         </FrameLayout>
     </FrameLayout>
 
