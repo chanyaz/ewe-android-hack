@@ -150,8 +150,6 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	 * CHECKOUT FORM BUILDING METHODS
 	 */
 
-	private ArrayList<View> mViews = new ArrayList<View>();
-
 	protected void buildCheckoutForm() {
 
 		//CLEAR THE CONTAINER
@@ -223,7 +221,6 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	}
 
 	public View add(View view) {
-		mViews.add(view);
 		mCheckoutFormsC.addView(view);
 		return view;
 	}
@@ -264,8 +261,8 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 		//finding index
 		View travSection = mTravelerViews.get(travelerNumber);
 		int viewNumber = -1;
-		for (int i = 0; i < mViews.size(); i++) {
-			if (mViews.get(i) == travSection) {
+		for (int i = 0; i < mCheckoutFormsC.getChildCount(); i++) {
+			if (mCheckoutFormsC.getChildAt(i) == travSection) {
 				viewNumber = i;
 				break;
 			}
@@ -288,10 +285,10 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 		mOverlayShade.setAlpha(startVal);
 		mOverlayC.setVisibility(View.VISIBLE);
 
-		int dist = mViews.get(viewIndex).getTop();
+		int dist = mCheckoutFormsC.getChildAt(viewIndex).getTop();
 
 		ValueAnimator anim = ValueAnimator.ofFloat(startVal, endVal);
-		anim.setDuration(1000);
+		anim.setDuration(300);
 		anim.addUpdateListener(generateViewMoveListener(viewIndex, dist));
 		anim.addUpdateListener(entryFormFadeInListener);
 		anim.addListener(new AnimatorListenerAdapter() {
@@ -320,20 +317,21 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 		return new AnimatorUpdateListener() {
 			@Override
 			public void onAnimationUpdate(ValueAnimator arg0) {
+				View selectedView = mCheckoutFormsC.getChildAt(viewIndex);
 				float val = (Float) arg0.getAnimatedValue();
 				float activeScaleY = 1f + val
-						* ((mOverlayContentC.getHeight() / mViews.get(viewIndex).getHeight()) - 1f);
+						* ((mOverlayContentC.getHeight() / selectedView.getHeight()) - 1f);
 				float aboveViewsTransY = val * totalDistance;
 				float activeViewTransY = val
-						* (mViews.get(viewIndex).getTop() / 2f - mViews.get(viewIndex).getHeight() / 2f);
-				float belowViewsTransY = val * (mOverlayContentC.getBottom() - mViews.get(viewIndex).getBottom());
+						* (selectedView.getTop() / 2f - selectedView.getHeight() / 2f);
+				float belowViewsTransY = val * (mOverlayContentC.getBottom() - selectedView.getBottom());
 				for (int i = 0; i < viewIndex; i++) {
-					mViews.get(i).setTranslationY(-aboveViewsTransY);
+					mCheckoutFormsC.getChildAt(i).setTranslationY(-aboveViewsTransY);
 				}
-				mViews.get(viewIndex).setTranslationY(-activeViewTransY);
-				mViews.get(viewIndex).setAlpha(1f - val);
-				for (int i = viewIndex + 1; i < mViews.size(); i++) {
-					mViews.get(i).setTranslationY(belowViewsTransY);
+				selectedView.setTranslationY(-activeViewTransY);
+				selectedView.setAlpha(1f - val);
+				for (int i = viewIndex + 1; i < mCheckoutFormsC.getChildCount(); i++) {
+					mCheckoutFormsC.getChildAt(i).setTranslationY(belowViewsTransY);
 				}
 
 			}
@@ -386,8 +384,8 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	protected void openPaymentForm() {
 		//finding index
 		int viewNumber = -1;
-		for (int i = 0; i < mViews.size(); i++) {
-			if (mViews.get(i) == mPaymentView) {
+		for (int i = 0; i < mCheckoutFormsC.getChildCount(); i++) {
+			if (mCheckoutFormsC.getChildAt(i) == mPaymentView) {
 				viewNumber = i;
 				break;
 			}
