@@ -135,7 +135,7 @@ public class ResultsTripBucketYourTripToFragment extends Fragment {
 	 */
 	public int[] getBucketItemsPosition(int numCards, int cardHeight) {
 		int[] positions = new int[numCards];
-		int top = (int) (mSecondaryDestTv.getY() + mSecondaryDestTv.getHeight());
+		int top = (int) mSecondaryDestTv.getY() + (mSecondaryDestTv.getHeight() / 2);
 		int bottom = mRootC.getHeight();
 
 		switch (numCards) {
