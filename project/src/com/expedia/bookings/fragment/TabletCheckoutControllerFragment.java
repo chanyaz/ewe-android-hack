@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -64,6 +65,8 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 
 		mRootC = Ui.findView(view, R.id.root_layout);
 		mTripBucketContainer = Ui.findView(view, R.id.trip_bucket_container);
+		mBucketHotelContainer = Ui.findView(view, R.id.bucket_hotel_frag_container);
+		mBucketFlightContainer = Ui.findView(view, R.id.bucket_flight_frag_container);
 		mCheckoutFormsContainer = Ui.findView(view, R.id.checkout_forms_container);
 
 		mBucketDateRange = Ui.findView(view, R.id.trip_date_range);
@@ -80,12 +83,21 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 		super.onResume();
 		mBackManager.registerWithParent(this);
 		setCheckoutState(mStateManager.getState(), false);
+		checkForAddedTrips();
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		mBackManager.unregisterWithParent(this);
+	}
+
+	private void checkForAddedTrips() {
+		boolean hasHotel = Db.getHotelSearch().getAddedProperty() != null;
+		mBucketHotelContainer.setVisibility(hasHotel ? View.VISIBLE : View.GONE);
+
+		boolean hasFlight = Db.getFlightSearch().getAddedFlightTrip() != null;
+		mBucketFlightContainer.setVisibility(hasFlight ? View.VISIBLE : View.GONE);
 	}
 
 	/*
