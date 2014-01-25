@@ -2004,6 +2004,8 @@
     <string name="coupon_applied">Coupon Applied</string>
     <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
     <string name="coupon_saved_TEMPLATE">You saved %s!</string>
+    <!-- Message shown when a coupon is being removed -->
+    <string name="coupon_removing_dialog">Removing coupon</string>
 
     <!-- Coupon Error Strings -->
     <!-- Generic error when applying coupon, but we didn't get an error code back -->

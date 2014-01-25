@@ -755,6 +755,21 @@ public class ExpediaServices implements DownloadListener {
 		return query;
 	}
 
+	public CreateTripResponse createTrip(HotelSearchParams params, Property property) {
+		List<BasicNameValuePair> query = generateCreateTripParams(property, params);
+		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
+		return doE3Request("api/m/trip/create", query, responseHandler, F_SECURE_REQUEST);
+	}
+
+	public List<BasicNameValuePair> generateCreateTripParams(Property property, HotelSearchParams params) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		query.add(new BasicNameValuePair("productKey", Db.getHotelSearch().getSelectedRate().getRateKey()));
+		query.add(new BasicNameValuePair("roomInfoFields[0].room", "" + (params.getNumAdults() + params.getNumChildren())));
+
+		return query;
+	}
+
 	public CreateTripResponse createTripWithCoupon(String couponCode, HotelSearchParams params, Property property,
 			Rate rate) {
 		List<BasicNameValuePair> query = generateCreateTripWithCouponParams(couponCode, params, property, rate);
@@ -806,7 +821,7 @@ public class ExpediaServices implements DownloadListener {
 			}
 		}
 
-		return doE3Request("MobileHotel/Webapp/Checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
+		return doE3Request("api/hotel/checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
 	public List<BasicNameValuePair> generateHotelReservationParams(HotelSearchParams params, Property property,
@@ -817,6 +832,8 @@ public class ExpediaServices implements DownloadListener {
 
 		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
 		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
+		query.add(new BasicNameValuePair("expectedTotalFare", "" + rate.getTotalPriceWithMandatoryFees().getAmount()));
+		query.add(new BasicNameValuePair("expectedFareCurrencyCode", rate.getTotalPriceWithMandatoryFees().getCurrency()));
 
 		addHotelSearchParams(query, params);
 
@@ -840,6 +857,11 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("doIThinkImSignedIn", "true"));
 			query.add(new BasicNameValuePair("storeCreditCardInUserProfile",
 					billingInfo.getSaveCardToExpediaAccount() ? "true" : "false"));
+		}
+
+		// Checkout calls without this flag can make ACTUAL bookings!
+		if (suppressFinalBooking(mContext)) {
+			query.add(new BasicNameValuePair("suppressFinalBooking", "true"));
 		}
 
 		return query;
@@ -1091,6 +1113,7 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("lastName", billingInfo.getLastName()));
 			query.add(new BasicNameValuePair("phoneCountryCode", billingInfo.getTelephoneCountryCode()));
 			query.add(new BasicNameValuePair("phone", billingInfo.getTelephone()));
+			query.add(new BasicNameValuePair("nameOnCard", billingInfo.getNameOnCard()));
 		}
 
 		query.add(new BasicNameValuePair("email", billingInfo.getEmail()));
@@ -1137,6 +1160,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 		else {
 			query.add(new BasicNameValuePair("storedCreditCardId", billingInfo.getStoredCard().getId()));
+			query.add(new BasicNameValuePair("nameOnCard", billingInfo.getFirstName() + " " + billingInfo.getLastName()));
 		}
 		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
 	}

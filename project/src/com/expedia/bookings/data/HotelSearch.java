@@ -38,6 +38,9 @@ public class HotelSearch implements JSONable {
 	private Map<String, HotelAvailability> mAvailabilityMap;
 	private Map<String, ReviewsResponse> mReviewsResponses;
 
+	// Keep track if coupon is applied at checkout or not.
+	private boolean mIsCouponApplied;
+
 	public HotelSearch() {
 		mSearchParams = new HotelSearchParams();
 	}
@@ -128,10 +131,12 @@ public class HotelSearch implements JSONable {
 	 * @return the new Rate from the application of a coupon, null if no coupon has been applied
 	 */
 	public Rate getCouponRate() {
-		if (mCreateTripResponse == null) {
+		if (isCouponApplied()) {
+			return mCreateTripResponse.getNewRate();
+		}
+		else {
 			return null;
 		}
-		return mCreateTripResponse.getNewRate();
 	}
 
 	/**
@@ -143,11 +148,20 @@ public class HotelSearch implements JSONable {
 	 * rate.
 	 */
 	public Rate getBookingRate() {
-		Rate rate = getCouponRate();
-		if (rate == null) {
-			rate = getSelectedRate();
+		if (isCouponApplied()) {
+			return getCouponRate();
 		}
-		return rate;
+		else {
+			return getSelectedRate();
+		}
+	}
+
+	public boolean isCouponApplied() {
+		return mIsCouponApplied;
+	}
+
+	public void setCouponApplied(boolean isCouponApplied) {
+		this.mIsCouponApplied = isCouponApplied;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

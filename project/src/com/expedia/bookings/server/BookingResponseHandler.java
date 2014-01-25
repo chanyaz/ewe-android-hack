@@ -1,5 +1,6 @@
 package com.expedia.bookings.server;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,10 +27,15 @@ public class BookingResponseHandler extends JsonResponseHandler<BookingResponse>
 			bookingResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.CHECKOUT, response));
 
 			if (bookingResponse.isSuccess() || bookingResponse.succeededWithErrors()) {
-				bookingResponse.setHotelConfNumber(response.optString("hotelConfirmationNumber", null));
-				bookingResponse.setItineraryId(response.optString("itineraryNumber", null));
-				bookingResponse.setOrderNumber(response.optString("orderNumber", null));
-				bookingResponse.setPhoneNumber(response.optString("hotelNumber", null));
+
+				JSONObject checkoutJSON = response.getJSONObject("checkoutResponse");
+				JSONObject bookingJSON = checkoutJSON.getJSONObject("bookingResponse");
+
+				bookingResponse.setHotelConfNumber(bookingJSON.optString("hotelConfirmationNumber", null));
+				bookingResponse.setItineraryId(bookingJSON.optString("itineraryNumber", null));
+				bookingResponse.setPhoneNumber(bookingJSON.optString("hotelNumber", null));
+
+				bookingResponse.setOrderNumber(response.optString("orderId", null));
 			}
 		}
 		catch (JSONException e) {
