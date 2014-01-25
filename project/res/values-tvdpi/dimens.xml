@@ -4,4 +4,16 @@
     <!-- Tablet details -->
     <dimen name="non_refundable_tweak">1sp</dimen>
 
+    <!-- Tablet trip bucket dimens -->
+    <dimen name="tablet_tripbucket_card_height">120dp</dimen>
+    <dimen name="tablet_tripbucket_card_width">352dp</dimen>
+    <dimen name="tripbucket_bookbutton_height">40dp</dimen>
+    <dimen name="trip_bucket_item_horizontal_margin">32dp</dimen>
+    <dimen name="trip_bucket_swipe_out_distance">48dp</dimen>
+    <dimen name="trip_bucket_swipe_out_distance_half">24dp</dimen>
+    <dimen name="trip_bucket_primary_dest_size">46sp</dimen>
+    <dimen name="trip_bucket_root_layout_padding_top">80dp</dimen>
+    <dimen name="trip_bucket_empty_trip_container_padding_top">-40dp</dimen>
+    <dimen name="trip_bucket_suitcase_image_padding_top">100dp</dimen>
+
 </resources>
