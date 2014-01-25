@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="110dp" >
+    android:paddingTop="@dimen/trip_bucket_root_layout_padding_top" >
 
     <LinearLayout
         android:id="@+id/trip_to_layout"
@@ -51,7 +51,7 @@
         android:layout_marginTop="-10dp"
         android:textAllCaps="true"
         android:textColor="@android:color/white"
-        android:textSize="60sp"
+        android:textSize="@dimen/trip_bucket_primary_dest_size"
         android:textStyle="bold" />
 
     <com.mobiata.android.widget.AutoResizeTextView
@@ -70,6 +70,7 @@
         android:id="@+id/empty_trip_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/trip_bucket_empty_trip_container_padding_top"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
 
@@ -84,7 +85,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="166dp"
+            android:layout_marginTop="@dimen/trip_bucket_suitcase_image_padding_top"
             android:src="@drawable/ic_trip_empty_suitcase" />
 
         <TextView
