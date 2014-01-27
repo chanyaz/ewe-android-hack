@@ -35,6 +35,8 @@ import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -208,7 +210,10 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		RatingBar userRating = Ui.findView(view, R.id.user_rating_bar);
 		TextView starRatingText = Ui.findView(view, R.id.star_rating_text);
 		TextView userRatingText = Ui.findView(view, R.id.user_rating_text);
+		TextView vipText = Ui.findView(view, R.id.vip_badge);
+		TextView saleText = Ui.findView(view, R.id.sale_text_view);
 
+		// Hotel Image
 		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.hotelImagePlaceHolderDrawable);
 		if (property.getThumbnail() != null) {
 			property.getThumbnail().fillImageView(hotelImage, placeholderResId);
@@ -217,8 +222,27 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			hotelImage.setImageResource(placeholderResId);
 		}
 
+		// VIP Badge
+		boolean shouldShowVipIcon = PointOfSale.getPointOfSale().supportsVipAccess()
+				&& User.isElitePlus(getActivity())
+				&& property.isVipAccess();
+		vipText.setVisibility(shouldShowVipIcon ? View.VISIBLE : View.GONE);
+
+		// "25% OFF"
+		Rate rate = property.getLowestRate();
+		if (rate.isOnSale() && rate.isSaleTenPercentOrBetter()) {
+			saleText.setVisibility(View.VISIBLE);
+			saleText.setText(getString(R.string.x_percent_OFF_TEMPLATE,
+					rate.getDiscountPercent()));
+		}
+		else {
+			saleText.setVisibility(View.GONE);
+		}
+
+		// Hotel Name
 		hotelName.setText(property.getName());
 
+		// Star Rating
 		float starRatingValue = (float) property.getHotelRating();
 		if (starRatingValue == 0f) {
 			starRating.setVisibility(View.GONE);
@@ -233,6 +257,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			starRatingText.setText(getString(R.string.n_stars_TEMPLATE, starRatingValue));
 		}
 
+		// User Rating
 		float userRatingValue = (float) property.getAverageExpediaRating();
 		int totalReviews = property.getTotalReviews();
 		if (totalReviews == 0) {
