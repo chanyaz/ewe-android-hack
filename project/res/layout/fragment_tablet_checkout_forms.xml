@@ -39,8 +39,7 @@
             <FrameLayout
                 android:id="@+id/traveler_form_container"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="#6600FF00"
+                android:layout_height="wrap_content"
                 android:visibility="invisible" />
 
             <FrameLayout

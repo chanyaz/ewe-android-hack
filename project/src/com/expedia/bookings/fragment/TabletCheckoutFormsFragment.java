@@ -7,6 +7,8 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -48,6 +50,8 @@ import com.mobiata.android.util.Ui;
 public class TabletCheckoutFormsFragment extends Fragment implements AccountButtonClickListener,
 		ConfirmLogoutDialogFragment.DoLogoutListener, IBackManageable, IStateProvider<CheckoutFormState> {
 
+	private static final String FRAG_TAG_TRAVELER_FORM = "FRAG_TAG_TRAVELER_FORM";
+
 	private ViewGroup mRootC;
 	private LinearLayout mCheckoutRowsC;
 	private ViewGroup mOverlayC;
@@ -59,6 +63,8 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 
 	private LineOfBusiness mLob;
 	private int mShowingViewIndex = -1;
+
+	private TabletCheckoutTravelerForm mTravelerForm;
 
 	private StateManager<CheckoutFormState> mStateManager = new StateManager<CheckoutFormState>(
 			CheckoutFormState.OVERVIEW, this);
@@ -77,6 +83,8 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 		mOverlayShade = Ui.findView(mRootC, R.id.overlay_shade);
 		mTravelerFormC = Ui.findView(mRootC, R.id.traveler_form_container);
 		mPaymentFormC = Ui.findView(mRootC, R.id.payment_form_container);
+
+		attachTravelerForm();
 
 		if (mLob != null) {
 			buildCheckoutForm();
@@ -124,6 +132,21 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 		}
 
 		mBackManager.unregisterWithParent(this);
+	}
+
+	public void attachTravelerForm() {
+		FragmentManager manager = getChildFragmentManager();
+		if (mTravelerForm == null) {
+			mTravelerForm = (TabletCheckoutTravelerForm) manager.findFragmentByTag(FRAG_TAG_TRAVELER_FORM);
+		}
+		if (mTravelerForm == null) {
+			mTravelerForm = TabletCheckoutTravelerForm.newInstance();
+		}
+		if (!mTravelerForm.isAdded()) {
+			FragmentTransaction transaction = manager.beginTransaction();
+			transaction.add(R.id.traveler_form_container, mTravelerForm, FRAG_TAG_TRAVELER_FORM);
+			transaction.commit();
+		}
 	}
 
 	/*
@@ -286,6 +309,8 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	}
 
 	private void setEntryFormShowingPercentage(float percentage, int viewIndex) {
+		//TODO: Much of this stuff could be cached, which would speed up animation performance
+
 		if (viewIndex < 0 || mCheckoutRowsC == null || mCheckoutRowsC.getChildCount() <= viewIndex) {
 			return;
 		}
@@ -311,13 +336,20 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 		}
 		selectedView.setTranslationY(-activeViewTransY);
 		selectedView.setAlpha(1f - percentage);
+		selectedView.setPivotY(selectedView.getHeight());
+		selectedView.setScaleY(1f + (percentage / 2f) * (mOverlayContentC.getHeight() / selectedView.getHeight()));
 		for (int i = viewIndex + 1; i < mCheckoutRowsC.getChildCount(); i++) {
 			mCheckoutRowsC.getChildAt(i).setTranslationY(belowViewsTransY);
 		}
 
-		//Form cross fade
+		//Form cross fade/scale
 		mOverlayContentC.setAlpha(percentage);
 		mOverlayShade.setAlpha(percentage);
+
+		float minScaleY = selectedView.getHeight() / mOverlayContentC.getHeight();
+		float scaleYPercentage = minScaleY + percentage * (1f - minScaleY);
+		mOverlayContentC.setPivotY(selectedView.getBottom());
+		mOverlayContentC.setScaleY(scaleYPercentage);
 	}
 
 	protected void bindTravelers() {
