@@ -7,6 +7,21 @@
     android:padding="8dp" >
 
     <com.expedia.bookings.widget.TextView
+        android:id="@+id/primary_title_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:textStyle="bold" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/secondary_title_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        app:textStyle="normal" />
+
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/dates_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,8 +54,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/price_expanded_bucket_text_view"
-            android:text="@string/total_with_tax"
-            app:textStyle="bold" />
+            android:text="@string/total_with_tax" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@id/price_expanded_bucket_text_view"

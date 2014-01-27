@@ -1,23 +1,26 @@
 package com.expedia.bookings.fragment;
 
-import android.graphics.Color;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.HotelAvailability;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.section.HotelSummarySection;
+import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.TextView;
+
+import org.joda.time.LocalDate;
 
 /**
  * ResultsTripBucketYourTripToFragment: A simple fragment for displaying destination information, in the trip overview column - Tablet 2013
@@ -54,12 +57,42 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment {
 	}
 
 	@Override
-	public void addExpandedView(LayoutInflater inflater, ViewGroup viewGroup) {
-		View view = new View(getActivity());
-		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, 400);
-		view.setLayoutParams(params);
-		view.setBackgroundColor(Color.RED);
-		viewGroup.addView(view);
+	public void addExpandedView(LayoutInflater inflater, ViewGroup root) {
+		ViewGroup vg = Ui.inflate(inflater, R.layout.snippet_trip_bucket_expanded_dates_view, root, false);
+
+		Rate rate = Db.getHotelSearch().getAddedRate();
+
+		// Title stuff
+		TextView roomTypeTv = Ui.findView(vg, R.id.primary_title_text_view);
+		roomTypeTv.setVisibility(View.VISIBLE);
+		roomTypeTv.setText(rate.getRoomDescription());
+
+		TextView bedTypeTv = Ui.findView(vg, R.id.secondary_title_text_view);
+		bedTypeTv.setVisibility(View.VISIBLE);
+		bedTypeTv.setText(rate.getFormattedBedNames());
+
+		// Dates
+		LocalDate checkIn = Db.getHotelSearch().getSearchParams().getCheckInDate();
+		LocalDate checkOut = Db.getHotelSearch().getSearchParams().getCheckOutDate();
+		String dateRange = JodaUtils.formatDateRange(getActivity(), checkIn, checkOut, DateUtils.FORMAT_SHOW_DATE);
+		int numNights = Db.getHotelSearch().getSearchParams().getStayDuration();
+		String nightsStr = getResources().getQuantityString(R.plurals.length_of_stay, numNights, numNights);
+		String dateStr = getString(R.string.dates_and_nights_TEMPLATE, dateRange, nightsStr);
+		Ui.setText(vg, R.id.dates_text_view, dateStr);
+
+		// Num travelers
+		int numGuests = Db.getHotelSearch().getSearchParams().getNumAdults(); // TODO what about the CHILDREN?
+		String numGuestsStr = getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numGuests, numGuests);
+		Ui.setText(vg, R.id.num_travelers_text_view, numGuestsStr);
+
+		// Price
+		String price = rate.getDisplayTotalPrice().getFormattedMoney(Money.F_NO_DECIMAL);
+		Ui.setText(vg, R.id.price_expanded_bucket_text_view, price);
+
+		// Hide price in the picture
+		mHotelSection.findViewById(R.id.price_text_view).setVisibility(View.GONE);
+
+		root.addView(vg);
 	}
 
 	@Override

@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.Calendar;
-
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +16,8 @@ import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.section.FlightLegSummarySectionTablet;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.flightlib.utils.DateTimeUtils;
+
+import java.util.Calendar;
 
 /**
  * ResultsTripBucketYourTripToFragment: A simple fragment for displaying destination information, in the trip overview column - Tablet 2013
@@ -62,7 +62,7 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 
 	@Override
 	public void addExpandedView(LayoutInflater inflater, ViewGroup viewGroup) {
-		ViewGroup vg = Ui.inflate(inflater, R.layout.snippet_trip_bucket_flight_expanded_dates_view, viewGroup, false);
+		ViewGroup vg = Ui.inflate(inflater, R.layout.snippet_trip_bucket_expanded_dates_view, viewGroup, false);
 
 		FlightTrip trip = Db.getFlightSearch().getAddedFlightTrip();
 

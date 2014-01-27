@@ -193,7 +193,7 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Round Trip</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">Total with tax</string>
+    <string name="total_with_tax">Total, with tax</string>
     
     
     <!-- Tablet Checkout -->
@@ -201,6 +201,8 @@
     <string name="your_trip">Your Trip</string>
     <!-- now booking template (e.g. "Now Bookin Hotel Lancaster") -->
     <string name="now_booking_TEMPLATE">Now Booking &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights) -->
+    <string name="dates_and_nights_TEMPLATE">%1$s (%2$s)</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
