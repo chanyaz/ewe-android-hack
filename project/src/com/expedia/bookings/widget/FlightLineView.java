@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Shader;
@@ -103,6 +104,9 @@ public class FlightLineView extends View {
 			canvas.restore();
 
 			BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+			Matrix translation = new Matrix();
+			translation.postTranslate(left, top);
+			shader.setLocalMatrix(translation);
 
 			mErasePaint = new Paint();
 			mErasePaint.setAntiAlias(true);
