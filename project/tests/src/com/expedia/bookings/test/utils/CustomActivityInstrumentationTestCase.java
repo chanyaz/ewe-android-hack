@@ -7,8 +7,8 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.util.DisplayMetrics;
 
 import com.expedia.bookings.R;
-import com.jayway.android.robotium.solo.Solo;
 import com.mobiata.android.util.SettingUtils;
+import com.robotium.solo.Solo;
 
 public class CustomActivityInstrumentationTestCase<T> extends ActivityInstrumentationTestCase2 {
 
