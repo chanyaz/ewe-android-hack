@@ -2,6 +2,8 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Theme.Travelocity" parent="@style/Theme.Expedia">
+        <item name="hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_travelocity</item>
+        <item name="HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_travelocity</item>
     </style>
 
     <!-- Override the phone theme -->
