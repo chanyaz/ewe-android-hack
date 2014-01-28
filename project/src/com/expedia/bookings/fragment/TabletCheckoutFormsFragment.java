@@ -14,7 +14,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
@@ -33,7 +35,6 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
-import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.AccountButton;
@@ -294,21 +295,51 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	 * TRAVELER FORM STUFF
 	 */
 
-	private ArrayList<SectionTravelerInfo> mTravelerViews = new ArrayList<SectionTravelerInfo>();
+	private ArrayList<View> mTravelerViews = new ArrayList<View>();
+	private ArrayList<TravelerButtonFragment> mTravelerButtonFrags = new ArrayList<TravelerButtonFragment>();
 
 	protected void addTravelerView(final int travelerNumber) {
-		SectionTravelerInfo travelerSection = Ui.inflate(R.layout.section_display_traveler_info_btn, mCheckoutRowsC,
-				false);
-		dressCheckoutView(travelerSection, travelerNumber);
-		addActionable(travelerSection, new Runnable() {
 
+		//Add the container to the layout (and make it actionable)
+		FrameLayout frame = new FrameLayout(getActivity());
+		frame.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+		frame.setId(getTravelerButtonContainerId(travelerNumber));
+		addActionable(frame, new Runnable() {
 			@Override
 			public void run() {
 				openTravelerEntry(travelerNumber);
 			}
-
 		});
-		mTravelerViews.add(travelerSection);
+		dressCheckoutView(frame, travelerNumber);
+		mTravelerViews.add(frame);
+
+		//Add fragment to the new container
+		FragmentManager manager = getChildFragmentManager();
+		TravelerButtonFragment btnFrag = (TravelerButtonFragment) manager
+				.findFragmentByTag(getTravelerButtonFragTag(travelerNumber));
+		if (btnFrag == null) {
+			btnFrag = TravelerButtonFragment.newInstance(getLob(), travelerNumber);
+		}
+		if (!btnFrag.isAdded()) {
+			FragmentTransaction transaction = manager.beginTransaction();
+			transaction.add(getTravelerButtonContainerId(travelerNumber), btnFrag,
+					getTravelerButtonFragTag(travelerNumber));
+			transaction.commit();
+		}
+		if (!mTravelerButtonFrags.contains(btnFrag)) {
+			mTravelerButtonFrags.add(btnFrag);
+		}
+	}
+
+	private static final String FRAG_TAG_TRAV_BTN_BASE = "FRAG_TAG_TRAV_BTN_BASE_";
+	private static final int TRAV_BTN_ID_START = 1000000;
+
+	private String getTravelerButtonFragTag(int travNumber) {
+		return FRAG_TAG_TRAV_BTN_BASE + travNumber;
+	}
+
+	private int getTravelerButtonContainerId(int travNumber) {
+		return TRAV_BTN_ID_START + travNumber;
 	}
 
 	protected void openTravelerEntry(int travelerNumber) {
@@ -323,6 +354,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 		}
 		if (viewNumber >= 0) {
 			mShowingViewIndex = viewNumber;
+			mTravelerForm.bindToDb(travelerNumber);
 			setState(CheckoutFormState.EDIT_TRAVELER, true);
 		}
 	}
@@ -372,8 +404,8 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	}
 
 	protected void bindTravelers() {
-		for (int i = 0; i < mTravelerViews.size() && i < Db.getTravelers().size(); i++) {
-			mTravelerViews.get(i).bind(Db.getTravelers().get(i));
+		for (TravelerButtonFragment btn : mTravelerButtonFrags) {
+			btn.bindToDb();
 		}
 	}
 
@@ -534,6 +566,8 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 
 				setEntryFormShowingPercentage(0f, mShowingViewIndex);
 				mShowingViewIndex = -1;
+
+				bindAll();
 			}
 			else {
 				mOverlayC.setVisibility(View.VISIBLE);

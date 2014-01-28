@@ -45,9 +45,9 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		mTravelerNumber = travelerNumber;
 		if (mSectionTraveler != null && travelerNumber >= 0 && travelerNumber < Db.getTravelers().size()) {
 			mSectionTraveler.bind(Db.getTravelers().get(travelerNumber));
+			setTopLeftText(getString(R.string.traveler_num_and_category_TEMPLATE, travelerNumber + 1));
+			setTopRightText(getString(R.string.done));
 		}
-		setTopLeftText(getString(R.string.traveler_num_and_category_TEMPLATE, travelerNumber + 1));
-		setTopRightText(getString(R.string.done));
 	}
 
 	protected void setUpFormContent(ViewGroup formContainer) {

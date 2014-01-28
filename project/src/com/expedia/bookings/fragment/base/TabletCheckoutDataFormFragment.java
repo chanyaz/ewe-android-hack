@@ -41,15 +41,21 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment {
 	}
 
 	public void setTopLeftText(CharSequence seq) {
-		mTopLeftHeadingText.setText(seq);
+		if (mTopLeftHeadingText != null) {
+			mTopLeftHeadingText.setText(seq);
+		}
 	}
 
 	public void setTopRightText(CharSequence seq) {
-		mTopRightButton.setText(seq);
+		if (mTopRightButton != null) {
+			mTopRightButton.setText(seq);
+		}
 	}
 
 	public void setTopRightTextOnClick(OnClickListener listener) {
-		mTopRightButton.setOnClickListener(listener);
+		if (mTopRightButton != null) {
+			mTopRightButton.setOnClickListener(listener);
+		}
 	}
 
 	public TextView getTopLeftTextView() {
