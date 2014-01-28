@@ -136,6 +136,17 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 
 		@Override
 		public boolean handleBackPressed() {
+			if (mStateManager.isAnimating()) {
+				//If we are in the middle of state transition, just reverse it
+				setCheckoutState(mStateManager.getState(), true);
+				return true;
+			}
+			else {
+				if (mStateManager.getState() == CheckoutState.CVV) {
+					setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
+					return true;
+				}
+			}
 			return false;
 		}
 
