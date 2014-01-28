@@ -487,6 +487,11 @@ public class PointOfSale {
 				sCachedPOS = PointOfSaleId.VSC;
 				savePos = true;
 			}
+			//Travelocity default
+			else if (ExpediaBookingApp.IS_TRAVELOCITY) {
+				sCachedPOS = PointOfSaleId.TRAVELOCITY;
+				savePos = true;
+			}
 			else {
 				// Get the default POS.  This is rare, thus we can excuse this excessive code.
 				Locale locale = Locale.getDefault();
@@ -633,6 +638,9 @@ public class PointOfSale {
 			InputStream is;
 			if (ExpediaBookingApp.IS_VSC) {
 				is = context.getAssets().open("ExpediaSharedData/VSCPointOfSaleConfig.json");
+			}
+			else if (ExpediaBookingApp.IS_TRAVELOCITY) {
+				is = context.getAssets().open("ExpediaSharedData/TravelocityPointOfSaleConfig.json");
 			}
 			else {
 				is = context.getAssets().open("ExpediaSharedData/ExpediaPointOfSaleConfig.json");
