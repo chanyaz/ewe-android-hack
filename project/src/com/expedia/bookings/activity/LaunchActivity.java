@@ -5,8 +5,6 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +27,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItinCardData;
@@ -40,8 +37,8 @@ import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentListener;
 import com.expedia.bookings.fragment.LaunchFragment;
 import com.expedia.bookings.fragment.LaunchFragment.LaunchFragmentListener;
+import com.expedia.bookings.fragment.TravelocityLauncherFragment;
 import com.expedia.bookings.notification.Notification;
-import com.expedia.bookings.notification.Notification.StatusType;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
@@ -52,7 +49,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.BuildConfigUtils;
 
 public class LaunchActivity extends SherlockFragmentActivity implements OnListModeChangedListener,
 		ItinItemListFragmentListener, LaunchFragmentListener, DoLogoutListener {
@@ -505,13 +501,17 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		@Override
 		public Fragment getItem(int position) {
 			Fragment frag;
-
 			switch (position) {
 			case PAGER_POS_ITIN:
 				frag = ItinItemListFragment.newInstance(mJumpToItinId);
 				break;
 			case PAGER_POS_WATERFALL:
-				frag = LaunchFragment.newInstance();
+				if (ExpediaBookingApp.IS_TRAVELOCITY) {
+					frag = TravelocityLauncherFragment.newInstance();
+				}
+				else {
+					frag = LaunchFragment.newInstance();
+				}
 				break;
 			default:
 				throw new RuntimeException("Position out of bounds position=" + position);
