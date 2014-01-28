@@ -1068,7 +1068,14 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private final OnDownloadComplete<CreateTripResponse> mCreateTripCallback = new OnDownloadComplete<CreateTripResponse>() {
 		@Override
 		public void onDownload(CreateTripResponse response) {
-			if (response != null && !response.hasErrors()) {
+			if (response == null) {
+				showRetryErrorDialog();
+			}
+			else if (response.hasErrors()) {
+				handleCreateTripError(response);
+			}
+			else {
+
 				Db.getHotelSearch().setCreateTripResponse(response);
 
 				if (Db.getHotelSearch().isCouponApplied()) {
@@ -1081,14 +1088,24 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 					applyCoupon();
 				}
 			}
-			else {
-				handleCreateTripError(response);
-			}
 		}
 	};
 
 	private void handleCreateTripError(CreateTripResponse response) {
-		//TODO: Make sure you handle this.
+		ServerError firstError = response.getErrors().get(0);
+
+		switch (firstError.getErrorCode()) {
+		//TODO: Waiting for error codes. Make sure we handle all of them.
+		default: {
+			showRetryErrorDialog();
+			break;
+		}
+		}
+	}
+
+	private void showRetryErrorDialog() {
+		DialogFragment df = new RetryErrorDialogFragment();
+		df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "retryErrorDialog");
 	}
 
 	private void handleHotelProductError(HotelProductResponse response) {
@@ -1572,6 +1589,23 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			// Reset the coupon code
 			mCouponCode = null;
 		}
+	}
+
+	// Error handling for create retry dialog.
+
+	public void retryCoupon() {
+		onApplyCoupon(mCouponCode);
+	}
+
+	public void cancelRetryCouponDialog() {
+		if (mWalletPromoThrobberDialog != null && mWalletPromoThrobberDialog.isAdded()) {
+			mWalletPromoThrobberDialog.dismiss();
+		}
+
+		if (mCouponDialogFragment != null && mCouponDialogFragment.isAdded()) {
+			mCouponDialogFragment.dismiss();
+		}
+		onCancelApplyCoupon();
 	}
 
 	// CancelListener (for wallet promo dialog)

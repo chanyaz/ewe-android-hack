@@ -25,6 +25,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.fragment.HotelOverviewFragment;
 import com.expedia.bookings.fragment.HotelOverviewFragment.BookingOverviewFragmentListener;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
+import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -35,7 +36,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 
 public class HotelOverviewActivity extends SherlockFragmentActivity implements BookingOverviewFragmentListener,
-		LogInListener, ISlideToListener, SimpleCallbackDialogFragmentListener {
+		LogInListener, ISlideToListener, SimpleCallbackDialogFragmentListener, RetryErrorDialogFragmentListener {
 
 	public static final String STATE_TAG_LOADED_DB_INFO = "STATE_TAG_LOADED_DB_INFO";
 
@@ -312,5 +313,18 @@ public class HotelOverviewActivity extends SherlockFragmentActivity implements B
 	@Override
 	public void onSimpleDialogCancel(int callbackId) {
 		mBookingOverviewFragment.onSimpleDialogCancel(callbackId);
+	}
+
+	//////////////////////////////////////
+	// Checkout V2 - "create" call retry on error dialog handler.
+
+	@Override
+	public void onRetryError() {
+		mBookingOverviewFragment.retryCoupon();
+	}
+
+	@Override
+	public void onCancelError() {
+		mBookingOverviewFragment.cancelRetryCouponDialog();
 	}
 }

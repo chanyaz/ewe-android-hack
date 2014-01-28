@@ -2,6 +2,8 @@ package com.expedia.bookings.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
@@ -191,13 +193,15 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	private final OnDownloadComplete<CreateTripResponse> mCreateTripCallback = new OnDownloadComplete<CreateTripResponse>() {
 		@Override
 		public void onDownload(CreateTripResponse response) {
-
-			if (response != null && !response.hasErrors()) {
-				Db.getHotelSearch().setCreateTripResponse(response);
-				startBookingDownload();
+			if (response == null) {
+				showRetryErrorDialog();
+			}
+			else if (response.hasErrors()) {
+				handleCreateTripError(response);
 			}
 			else {
-				handleCreateTripError(response);
+				Db.getHotelSearch().setCreateTripResponse(response);
+				startBookingDownload();
 			}
 
 		}
@@ -206,7 +210,20 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	// Error handling
 
 	private void handleCreateTripError(CreateTripResponse response) {
-		//TODO: Make sure you handle this.
+		ServerError firstError = response.getErrors().get(0);
+
+		switch (firstError.getErrorCode()) {
+		//TODO: Waiting for error codes. Make sure we handle all of them.
+		default: {
+			showRetryErrorDialog();
+			break;
+		}
+		}
+	}
+
+	private void showRetryErrorDialog() {
+		DialogFragment df = new RetryErrorDialogFragment();
+		df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "retryErrorDialog");
 	}
 
 	@Override

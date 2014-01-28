@@ -30,6 +30,7 @@ import com.expedia.bookings.fragment.FlightUnavailableDialogFragment;
 import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment.PriceChangeDialogFragmentListener;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
+import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
@@ -43,7 +44,7 @@ import com.mobiata.android.SocialUtils;
 
 public class HotelBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener,
 		PriceChangeDialogFragmentListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener,
-		BookingFragmentListener {
+		BookingFragmentListener, RetryErrorDialogFragmentListener {
 
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
 
@@ -530,5 +531,18 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 			AdTracker.trackHotelBooked();
 			launchConfirmationActivity();
 		}
+	}
+
+	/////////////////////////////////////////////////
+	// Checkout V2 - "create" call retry on error dialog handler..
+	
+	@Override
+	public void onRetryError() {
+		mBookingFragment.doBooking();
+	}
+
+	@Override
+	public void onCancelError() {
+		dismissProgressDialog();
 	}
 }
