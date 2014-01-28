@@ -51,6 +51,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 		ConfirmLogoutDialogFragment.DoLogoutListener, IBackManageable, IStateProvider<CheckoutFormState> {
 
 	private static final String FRAG_TAG_TRAVELER_FORM = "FRAG_TAG_TRAVELER_FORM";
+	private static final String FRAG_TAG_PAYMENT_FORM = "FRAG_TAG_PAYMENT_FORM";
 
 	private ViewGroup mRootC;
 	private LinearLayout mCheckoutRowsC;
@@ -64,7 +65,8 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	private LineOfBusiness mLob;
 	private int mShowingViewIndex = -1;
 
-	private TabletCheckoutTravelerForm mTravelerForm;
+	private TabletCheckoutTravelerFormFragment mTravelerForm;
+	private TabletCheckoutPaymentFormFragment mPaymentForm;
 
 	private StateManager<CheckoutFormState> mStateManager = new StateManager<CheckoutFormState>(
 			CheckoutFormState.OVERVIEW, this);
@@ -83,8 +85,6 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 		mOverlayShade = Ui.findView(mRootC, R.id.overlay_shade);
 		mTravelerFormC = Ui.findView(mRootC, R.id.traveler_form_container);
 		mPaymentFormC = Ui.findView(mRootC, R.id.payment_form_container);
-
-		attachTravelerForm();
 
 		if (mLob != null) {
 			buildCheckoutForm();
@@ -137,14 +137,29 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	public void attachTravelerForm() {
 		FragmentManager manager = getChildFragmentManager();
 		if (mTravelerForm == null) {
-			mTravelerForm = (TabletCheckoutTravelerForm) manager.findFragmentByTag(FRAG_TAG_TRAVELER_FORM);
+			mTravelerForm = (TabletCheckoutTravelerFormFragment) manager.findFragmentByTag(FRAG_TAG_TRAVELER_FORM);
 		}
 		if (mTravelerForm == null) {
-			mTravelerForm = TabletCheckoutTravelerForm.newInstance();
+			mTravelerForm = TabletCheckoutTravelerFormFragment.newInstance(mLob);
 		}
 		if (!mTravelerForm.isAdded()) {
 			FragmentTransaction transaction = manager.beginTransaction();
 			transaction.add(R.id.traveler_form_container, mTravelerForm, FRAG_TAG_TRAVELER_FORM);
+			transaction.commit();
+		}
+	}
+
+	public void attachPaymentForm() {
+		FragmentManager manager = getChildFragmentManager();
+		if (mPaymentForm == null) {
+			mPaymentForm = (TabletCheckoutPaymentFormFragment) manager.findFragmentByTag(FRAG_TAG_PAYMENT_FORM);
+		}
+		if (mPaymentForm == null) {
+			mPaymentForm = TabletCheckoutPaymentFormFragment.newInstance(mLob);
+		}
+		if (!mPaymentForm.isAdded()) {
+			FragmentTransaction transaction = manager.beginTransaction();
+			transaction.add(R.id.payment_form_container, mPaymentForm, FRAG_TAG_PAYMENT_FORM);
 			transaction.commit();
 		}
 	}
@@ -186,6 +201,10 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	 */
 
 	protected void buildCheckoutForm() {
+
+		//SET UP THE FORM FRAGMENTS
+		attachTravelerForm();
+		attachPaymentForm();
 
 		//CLEAR THE CONTAINER
 		mCheckoutRowsC.removeAllViews();
@@ -487,9 +506,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 				else if (stateTwo == CheckoutFormState.EDIT_TRAVELER) {
 					mTravelerFormC.setVisibility(View.VISIBLE);
 				}
-
 			}
-
 		}
 
 		@Override

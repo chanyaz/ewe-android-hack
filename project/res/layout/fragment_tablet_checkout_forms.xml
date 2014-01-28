@@ -45,8 +45,7 @@
             <FrameLayout
                 android:id="@+id/payment_form_container"
                 android:layout_width="match_parent"
-                android:layout_height="450dp"
-                android:background="#66FF0000"
+                android:layout_height="wrap_content"
                 android:visibility="invisible" />
         </FrameLayout>
     </FrameLayout>
