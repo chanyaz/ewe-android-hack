@@ -650,6 +650,7 @@ public class PointOfSale {
 			}
 		}
 		catch (Exception e) {
+			Log.e("Failed to parse POS config", e);
 			// If the POSes fail to load, then we should fail horribly
 			throw new RuntimeException(e);
 		}
