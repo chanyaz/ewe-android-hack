@@ -258,6 +258,7 @@ public class CalendarPicker extends LinearLayout {
 	}
 
 	public void setSelectedDates(LocalDate startDate, LocalDate endDate) {
+		mState.setDisplayYearMonth(new YearMonth(startDate));
 		mState.setSelectedDates(startDate, endDate);
 	}
 
