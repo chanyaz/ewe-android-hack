@@ -1,76 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:baselineAligned="false"
-    android:orientation="horizontal" >
-
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:fillViewport="true">
-
-        <LinearLayout
-            android:id="@+id/trip_bucket_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#242C2E"
-            android:orientation="vertical"
-            android:paddingBottom="8dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:paddingTop="8dp" >
-
-            <LinearLayout
-                android:id="@+id/trip_bucket_header_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingBottom="16dp"
-                android:paddingTop="16dp" >
-
-                <TextView
-                    android:id="@+id/your_trip_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/your_trip"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:id="@+id/trip_date_range"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    android:textColor="#FFFFFF"
-                    android:textSize="18dp" />
-            </LinearLayout>
-
-            <FrameLayout
-                android:id="@+id/bucket_hotel_frag_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
-
-            <FrameLayout
-                android:id="@+id/bucket_flight_frag_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
-        </LinearLayout>
-    </ScrollView>
+    android:layout_height="match_parent" >
 
     <FrameLayout
-        android:id="@+id/checkout_forms_container"
-        android:layout_width="0dp"
+        android:id="@+id/cvv_container"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:background="#454235" />
+        android:background="#00FF00" />
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/checkout_mode_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <ScrollView
+            android:id="@+id/trip_bucket_scroll"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fillViewport="true" >
+
+            <LinearLayout
+                android:id="@+id/trip_bucket_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#242C2E"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:paddingTop="8dp" >
+
+                <LinearLayout
+                    android:id="@+id/trip_bucket_header_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="16dp"
+                    android:paddingTop="16dp" >
+
+                    <TextView
+                        android:id="@+id/your_trip_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/your_trip"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/trip_date_range"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:gravity="center_vertical"
+                        android:text=""
+                        android:textColor="#FFFFFF"
+                        android:textSize="18dp" />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/bucket_hotel_frag_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp" />
+
+                <FrameLayout
+                    android:id="@+id/bucket_flight_frag_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp" />
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/checkout_form_and_slide_container"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical" >
+
+            <FrameLayout
+                android:id="@+id/checkout_forms_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#454235" />
+
+            <FrameLayout
+                android:id="@+id/finish_checkout_container"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_weight="0"
+                android:background="#FF0000"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

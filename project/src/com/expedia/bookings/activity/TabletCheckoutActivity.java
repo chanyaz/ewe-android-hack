@@ -11,12 +11,13 @@ import android.view.ViewGroup;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.SubMenu;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
-import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.helpers.BackManager;
@@ -31,7 +32,7 @@ import com.mobiata.android.util.Ui;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletCheckoutActivity extends SherlockFragmentActivity implements IBackButtonLockListener,
-		IBackManageable, CheckoutInformationListener {
+		IBackManageable {
 
 	public static Intent createIntent(Context context, LineOfBusiness lob) {
 		Intent intent = new Intent(context, TabletCheckoutActivity.class);
@@ -124,6 +125,19 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 			mHockeyPuck.onCreateOptionsMenu(menu);
 		}
 
+		//We allow debug users to jump between states
+		if (!AndroidUtils.isRelease(this)) {
+			//We use ordinal() + 1 for all ids and groups because 0 == Menu.NONE
+			SubMenu subMen = menu.addSubMenu(Menu.NONE, Menu.NONE, 0, "Checkout State");
+			subMen.add(CheckoutState.OVERVIEW.ordinal() + 1, CheckoutState.OVERVIEW.ordinal() + 1,
+					CheckoutState.OVERVIEW.ordinal() + 1, CheckoutState.OVERVIEW.name());
+			subMen.add(CheckoutState.READY_FOR_CHECKOUT.ordinal() + 1, CheckoutState.READY_FOR_CHECKOUT.ordinal() + 1,
+					CheckoutState.READY_FOR_CHECKOUT.ordinal() + 1, CheckoutState.READY_FOR_CHECKOUT.name());
+			subMen.add(CheckoutState.CVV.ordinal() + 1, CheckoutState.CVV.ordinal() + 1,
+					CheckoutState.CVV.ordinal() + 1, CheckoutState.CVV.name());
+			return true;
+		}
+
 		return retVal;
 	}
 
@@ -153,6 +167,29 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 
 		if (!AndroidUtils.isRelease(this) && mHockeyPuck.onOptionsItemSelected(item)) {
 			return true;
+		}
+
+		//We allow debug users to jump between states
+		if (!AndroidUtils.isRelease(this) && mFragCheckoutController != null) {
+
+			//All of our groups/ids are .ordinal() + 1 so we subtract here to make things easier
+			int groupId = item.getGroupId() - 1;
+			int id = item.getItemId() - 1;
+
+			if (groupId == CheckoutState.OVERVIEW.ordinal() && id == CheckoutState.OVERVIEW.ordinal()) {
+				Log.d("JumpTo: OVERVIEW");
+				mFragCheckoutController.setCheckoutState(CheckoutState.OVERVIEW, true);
+				return true;
+			}
+			else if (groupId == CheckoutState.READY_FOR_CHECKOUT.ordinal()
+					&& id == CheckoutState.READY_FOR_CHECKOUT.ordinal()) {
+				mFragCheckoutController.setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
+				return true;
+			}
+			else if (groupId == CheckoutState.CVV.ordinal() && id == CheckoutState.CVV.ordinal()) {
+				mFragCheckoutController.setCheckoutState(CheckoutState.CVV, true);
+				return true;
+			}
 		}
 
 		return super.onOptionsItemSelected(item);
@@ -189,28 +226,6 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 	@Override
 	public void setBackButtonLockState(boolean locked) {
 		mBackButtonLocked = locked;
-	}
-
-	/*
-	 * CHECKOUT INFORMATION LISTENER
-	 */
-
-	@Override
-	public void checkoutInformationIsValid() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void checkoutInformationIsNotValid() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onBillingInfoChange() {
-		// TODO Auto-generated method stub
-
 	}
 
 	/*

@@ -9,12 +9,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.enums.CheckoutState;
+import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -33,18 +36,20 @@ import com.mobiata.android.util.Ui;
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletCheckoutControllerFragment extends Fragment implements IBackManageable,
-		IStateProvider<CheckoutState>, IFragmentAvailabilityProvider {
+		IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener {
 
 	private static final String FRAG_TAG_BUCKET_FLIGHT = "FRAG_TAG_BUCKET_FLIGHT";
 	private static final String FRAG_TAG_BUCKET_HOTEL = "FRAG_TAG_BUCKET_HOTEL";
 	private static final String FRAG_TAG_CHECKOUT_INFO = "FRAG_TAG_CHECKOUT_INFO";
+	private static final String FRAG_TAG_CVV = "FRAG_TAG_CVV";
 
 	//Containers
-	private ViewGroup mRootC;
-	private ViewGroup mTripBucketContainer;
+	private ScrollView mBucketScrollContainer;
 	private ViewGroup mBucketHotelContainer;
 	private ViewGroup mBucketFlightContainer;
-	private ViewGroup mCheckoutFormsContainer;
+	private ViewGroup mSlideContainer;
+	private ViewGroup mFormContainer;
+	private ViewGroup mCvvContainer;
 
 	//Views
 	private TextView mBucketDateRange;
@@ -53,6 +58,7 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 	private ResultsTripBucketFlightFragment mBucketFlightFrag;
 	private ResultsTripBucketHotelFragment mBucketHotelFrag;
 	private TabletCheckoutFormsFragment mCheckoutFragment;
+	private CVVEntryFragment mCvvFrag;
 
 	//vars
 	private LineOfBusiness mLob = LineOfBusiness.FLIGHTS;
@@ -63,11 +69,12 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_tablet_checkout_controller, null, false);
 
-		mRootC = Ui.findView(view, R.id.root_layout);
-		mTripBucketContainer = Ui.findView(view, R.id.trip_bucket_container);
+		mBucketScrollContainer = Ui.findView(view, R.id.trip_bucket_scroll);
 		mBucketHotelContainer = Ui.findView(view, R.id.bucket_hotel_frag_container);
 		mBucketFlightContainer = Ui.findView(view, R.id.bucket_flight_frag_container);
-		mCheckoutFormsContainer = Ui.findView(view, R.id.checkout_forms_container);
+		mFormContainer = Ui.findView(view, R.id.checkout_forms_container);
+		mSlideContainer = Ui.findView(view, R.id.finish_checkout_container);
+		mCvvContainer = Ui.findView(view, R.id.cvv_container);
 
 		mBucketDateRange = Ui.findView(view, R.id.trip_date_range);
 		mBucketDateRange.setText("FEB 8 - CAT 12");//TODO: real date range
@@ -142,21 +149,98 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 
 		@Override
 		public void onStateTransitionStart(CheckoutState stateOne, CheckoutState stateTwo) {
+			if (stateOne == CheckoutState.OVERVIEW && stateTwo == CheckoutState.READY_FOR_CHECKOUT) {
+				mSlideContainer.setVisibility(View.VISIBLE);
+				setShowReadyForCheckoutPercentage(0f);
+			}
+			else if (stateOne == CheckoutState.READY_FOR_CHECKOUT && stateTwo == CheckoutState.OVERVIEW) {
+
+			}
+			else if (stateOne == CheckoutState.READY_FOR_CHECKOUT && stateTwo == CheckoutState.CVV) {
+				setShowCvvPercentage(0f);
+				mCvvContainer.setVisibility(View.VISIBLE);
+			}
+			else if (stateOne == CheckoutState.CVV && stateTwo == CheckoutState.READY_FOR_CHECKOUT) {
+
+			}
 		}
 
 		@Override
 		public void onStateTransitionUpdate(CheckoutState stateOne, CheckoutState stateTwo, float percentage) {
+			if (stateOne == CheckoutState.OVERVIEW && stateTwo == CheckoutState.READY_FOR_CHECKOUT) {
+				setShowReadyForCheckoutPercentage(percentage);
+			}
+			else if (stateOne == CheckoutState.READY_FOR_CHECKOUT && stateTwo == CheckoutState.OVERVIEW) {
+				setShowReadyForCheckoutPercentage(1f - percentage);
+			}
+			else if (stateOne == CheckoutState.READY_FOR_CHECKOUT && stateTwo == CheckoutState.CVV) {
+				setShowCvvPercentage(percentage);
+			}
+			else if (stateOne == CheckoutState.CVV && stateTwo == CheckoutState.READY_FOR_CHECKOUT) {
+				setShowCvvPercentage(1f - percentage);
+			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(CheckoutState stateOne, CheckoutState stateTwo) {
+			if (stateOne == CheckoutState.OVERVIEW && stateTwo == CheckoutState.READY_FOR_CHECKOUT) {
+
+			}
+			else if (stateOne == CheckoutState.READY_FOR_CHECKOUT && stateTwo == CheckoutState.OVERVIEW) {
+
+			}
+			else if (stateOne == CheckoutState.READY_FOR_CHECKOUT && stateTwo == CheckoutState.CVV) {
+
+			}
+			else if (stateOne == CheckoutState.CVV && stateTwo == CheckoutState.READY_FOR_CHECKOUT) {
+
+			}
 		}
 
 		@Override
 		public void onStateFinalized(CheckoutState state) {
 			setFragmentState(state);
+			setVisibilityState(state);
+
+			if (state == CheckoutState.OVERVIEW) {
+				setShowCvvPercentage(0f);
+				setShowReadyForCheckoutPercentage(0f);
+			}
+			else if (state == CheckoutState.READY_FOR_CHECKOUT) {
+				setShowCvvPercentage(0f);
+				setShowReadyForCheckoutPercentage(1f);
+			}
+			else if (state == CheckoutState.CVV) {
+				setShowCvvPercentage(1f);
+				setShowReadyForCheckoutPercentage(1f);
+			}
 		}
 	};
+
+	private void setShowCvvPercentage(float percentage) {
+		mBucketScrollContainer.setTranslationX(percentage * -mBucketScrollContainer.getWidth());
+		mFormContainer.setTranslationX(percentage * mFormContainer.getWidth());
+		mCvvContainer.setTranslationX((1f - percentage) * mCvvContainer.getWidth());
+	}
+
+	private void setShowReadyForCheckoutPercentage(float percentage) {
+		mSlideContainer.setTranslationY((1f - percentage) * mSlideContainer.getHeight());
+	}
+
+	private void setVisibilityState(CheckoutState state) {
+		if (state == CheckoutState.OVERVIEW) {
+			mSlideContainer.setVisibility(View.GONE);
+			mCvvContainer.setVisibility(View.GONE);
+		}
+		else if (state == CheckoutState.READY_FOR_CHECKOUT) {
+			mSlideContainer.setVisibility(View.VISIBLE);
+			mCvvContainer.setVisibility(View.INVISIBLE);
+		}
+		else if (state == CheckoutState.CVV) {
+			mCvvContainer.setVisibility(View.VISIBLE);
+			mSlideContainer.setVisibility(View.GONE);
+		}
+	}
 
 	private void setFragmentState(CheckoutState state) {
 		FragmentManager manager = getChildFragmentManager();
@@ -172,6 +256,7 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 		boolean flightBucketItemAvailable = true;
 		boolean hotelBucketItemAvailable = true;
 		boolean checkoutFormsAvailable = true;
+		boolean cvvAvailable = state != CheckoutState.OVERVIEW;//If we are in cvv mode or are ready to enter it, we add cvv
 
 		mBucketFlightFrag = (ResultsTripBucketFlightFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 				flightBucketItemAvailable, FRAG_TAG_BUCKET_FLIGHT,
@@ -184,6 +269,9 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 		mCheckoutFragment = (TabletCheckoutFormsFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 				checkoutFormsAvailable, FRAG_TAG_CHECKOUT_INFO, manager, transaction, this,
 				R.id.checkout_forms_container, false);
+
+		mCvvFrag = (CVVEntryFragment) FragmentAvailabilityUtils.setFragmentAvailability(cvvAvailable, FRAG_TAG_CVV,
+				manager, transaction, this, R.id.cvv_container, false);
 
 		transaction.commit();
 	}
@@ -240,6 +328,9 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 		else if (FRAG_TAG_CHECKOUT_INFO.equals(tag)) {
 			return mCheckoutFragment;
 		}
+		else if (FRAG_TAG_CVV.equals(tag)) {
+			return mCvvFrag;
+		}
 		return null;
 	}
 
@@ -253,6 +344,13 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 		}
 		else if (FRAG_TAG_CHECKOUT_INFO.equals(tag)) {
 			return TabletCheckoutFormsFragment.newInstance();
+		}
+		else if (FRAG_TAG_CVV.equals(tag)) {
+			//return CVVEntryFragment.newInstance(getActivity(), Db.getBillingInfo());
+
+			//TODO: THIS IS SUPER FAKE
+			return CVVEntryFragment.newInstance("Cat Miggins", "Super Black Platinum Gold Card Premium",
+					CreditCardType.UNKNOWN);
 		}
 		return null;
 	}
@@ -270,6 +368,17 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 		else if (FRAG_TAG_CHECKOUT_INFO.equals(tag)) {
 			((TabletCheckoutFormsFragment) frag).setLob(mLob);
 		}
+	}
+
+	/*
+	 * CVVEntyrFragmentListener
+	 * @see com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener#onBook(java.lang.String)
+	 */
+
+	@Override
+	public void onBook(String cvv) {
+		// TODO: We should probably book or something.
+
 	}
 
 }
