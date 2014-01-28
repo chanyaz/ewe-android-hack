@@ -128,7 +128,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		if (query.getNumberOfStops().size() > 1) {
 			for (Integer integer : numStopsList) {
 				int stops = integer.intValue();
-				RadioButton rad = Ui.inflate(getActivity(), R.layout.snippet_flight_filter_radio_button, null);
+				RadioButton rad = Ui.inflate(R.layout.snippet_flight_filter_radio_button, mFilterGroup, false);
 				String str;
 				if (stops == 0) {
 					str = getString(R.string.stop_description__nonstop);
