@@ -61,7 +61,8 @@ public class FlightTripView extends View {
 	private enum DrawType {
 		AIRPORT_START_END,
 		AIRPORT_LAYOVER,
-		FLIGHT_LINE;
+		FLIGHT_LINE,
+		EMPTY_SPACE;
 	}
 
 	private class DrawComponent {
@@ -227,6 +228,9 @@ public class FlightTripView extends View {
 				pts[numPts + 3] = circleCenter;
 				numPts += 4;
 			}
+			else if (drawComponent.mDrawType == DrawType.EMPTY_SPACE) {
+				// No drawing takes place, we just advance left for the next component
+			}
 			else {
 				// Draw circle
 				mCircleBounds.left = left + halfStrokeWidth;
@@ -299,36 +303,84 @@ public class FlightTripView extends View {
 
 		mDrawComponents = new ArrayList<DrawComponent>();
 
-		DrawComponent start = new DrawComponent();
-		start.mDrawType = DrawType.AIRPORT_START_END;
-		start.mAirportCode = mFlightLeg.getAirport(true).mAirportCode;
-		start.mStartLeft = width * 0.19f;
+		// Arrive and leave from the same airport
+		if (mFlightLeg.getAirport(false).equals(mFlightLegTwo.getAirport(true))) {
+			DrawComponent start = new DrawComponent();
+			start.mDrawType = DrawType.AIRPORT_START_END;
+			start.mAirportCode = mFlightLeg.getAirport(true).mAirportCode;
+			start.mStartLeft = width * 0.19f;
 
-		float circleAndLineWeight = 0.275f;
-		float flightLineWidth = circleAndLineWeight * width - mCircleDiameter;
+			float circleAndLineWeight = 0.275f;
+			float flightLineWidth = circleAndLineWeight * width - mCircleDiameter;
 
-		DrawComponent startMiddle = new DrawComponent();
-		startMiddle.mDrawType = DrawType.FLIGHT_LINE;
-		startMiddle.mWidth = flightLineWidth;
+			DrawComponent startMiddle = new DrawComponent();
+			startMiddle.mDrawType = DrawType.FLIGHT_LINE;
+			startMiddle.mWidth = flightLineWidth;
 
-		DrawComponent middle = new DrawComponent();
-		middle.mDrawType = DrawType.AIRPORT_START_END;
-		middle.mCircleFilled = true;
-		middle.mAirportCode = mFlightLegTwo.getAirport(true).mAirportCode;
+			DrawComponent middle = new DrawComponent();
+			middle.mDrawType = DrawType.AIRPORT_START_END;
+			middle.mCircleFilled = true;
+			middle.mAirportCode = mFlightLegTwo.getAirport(true).mAirportCode;
 
-		DrawComponent middleEnd = new DrawComponent();
-		middleEnd.mDrawType = DrawType.FLIGHT_LINE;
-		middleEnd.mWidth = flightLineWidth;
+			DrawComponent middleEnd = new DrawComponent();
+			middleEnd.mDrawType = DrawType.FLIGHT_LINE;
+			middleEnd.mWidth = flightLineWidth;
 
-		DrawComponent end = new DrawComponent();
-		end.mDrawType = DrawType.AIRPORT_START_END;
-		end.mAirportCode = mFlightLegTwo.getAirport(false).mAirportCode;
+			DrawComponent end = new DrawComponent();
+			end.mDrawType = DrawType.AIRPORT_START_END;
+			end.mAirportCode = mFlightLegTwo.getAirport(false).mAirportCode;
 
-		mDrawComponents.add(start);
-		mDrawComponents.add(startMiddle);
-		mDrawComponents.add(middle);
-		mDrawComponents.add(middleEnd);
-		mDrawComponents.add(end);
+			mDrawComponents.add(start);
+			mDrawComponents.add(startMiddle);
+			mDrawComponents.add(middle);
+			mDrawComponents.add(middleEnd);
+			mDrawComponents.add(end);
+		}
+
+		// For roundtrip flights like SFO -> JFK and EWR -> SFO
+		else {
+			DrawComponent departStart = new DrawComponent();
+			departStart.mDrawType = DrawType.AIRPORT_START_END;
+			departStart.mAirportCode = mFlightLeg.getAirport(true).mAirportCode;
+			departStart.mStartLeft = width * 0.1485f;
+
+			float circleAndLineWeight = 0.248f;
+			float flightLineWidth = circleAndLineWeight * width - mCircleDiameter;
+
+			DrawComponent departLine = new DrawComponent();
+			departLine.mDrawType = DrawType.FLIGHT_LINE;
+			departLine.mWidth = flightLineWidth;
+
+			DrawComponent departEnd = new DrawComponent();
+			departEnd.mDrawType = DrawType.AIRPORT_START_END;
+			departEnd.mCircleFilled = true;
+			departEnd.mAirportCode = mFlightLeg.getAirport(false).mAirportCode;
+
+			DrawComponent emptyMiddle = new DrawComponent();
+			emptyMiddle.mDrawType = DrawType.EMPTY_SPACE;
+			emptyMiddle.mWidth = width * 0.0947f;
+
+			DrawComponent returnStart = new DrawComponent();
+			returnStart.mDrawType = DrawType.AIRPORT_START_END;
+			returnStart.mCircleFilled = true;
+			returnStart.mAirportCode = mFlightLegTwo.getAirport(true).mAirportCode;
+
+			DrawComponent returnLine = new DrawComponent();
+			returnLine.mDrawType = DrawType.FLIGHT_LINE;
+			returnLine.mWidth = flightLineWidth;
+
+			DrawComponent returnEnd = new DrawComponent();
+			returnEnd.mDrawType = DrawType.AIRPORT_START_END;
+			returnEnd.mAirportCode = mFlightLegTwo.getAirport(false).mAirportCode;
+
+			mDrawComponents.add(departStart);
+			mDrawComponents.add(departLine);
+			mDrawComponents.add(departEnd);
+			mDrawComponents.add(emptyMiddle);
+			mDrawComponents.add(returnStart);
+			mDrawComponents.add(returnLine);
+			mDrawComponents.add(returnEnd);
+		}
 	}
 
 	private void calculateWidths() {
