@@ -1,6 +1,7 @@
 package com.expedia.bookings.animation;
 
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
@@ -39,7 +40,8 @@ public class ResizeAnimator {
 		if (view.getVisibility() != View.VISIBLE) {
 			view.setVisibility(View.VISIBLE);
 		}
-		view.getLayoutParams().height = height;
+		ViewGroup.LayoutParams params = view.getLayoutParams();
+		params.height = height;
 		view.requestLayout();
 	}
 }

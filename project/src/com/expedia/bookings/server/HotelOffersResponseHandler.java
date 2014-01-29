@@ -135,7 +135,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 				for (int a = 0; a < len; a++) {
 					JSONObject jsonRate = roomRates.getJSONObject(a);
 					property.setIsLowestRateMobileExclusive(jsonRate
-							.optBoolean("isDiscountRestrictedToCurrentSourceType"));
+						.optBoolean("isDiscountRestrictedToCurrentSourceType"));
 					property.setIsLowestRateTonightOnly(jsonRate.optBoolean("isSameDayDRR"));
 					Rate rate = parseJsonHotelOffer(jsonRate, numberOfNights, checkInPolicy);
 					availResponse.addRate(rate);
@@ -328,7 +328,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 	}
 
 	public Rate parseJsonHotelOffer(JSONObject jsonRate, int numberOfNights, Policy checkInPolicy)
-			throws JSONException {
+		throws JSONException {
 		Rate rate = new Rate();
 		RateRules rateRules = new RateRules();
 		rate.setRateRules(rateRules);
@@ -368,19 +368,19 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		rate.setDailyAmountBeforeTax(averageRate);
 		rate.setAverageRate(averageRate);
 		rate.setAverageBaseRate(ParserUtils.createMoney(chargeableRateInfo.getString("averageBaseRate"),
-				currencyCode));
+			currencyCode));
 		rate.setDiscountPercent(chargeableRateInfo.getDouble("discountPercent"));
 
 		Money totalMandatoryFees = ParserUtils.createMoney(
-				chargeableRateInfo.optString("totalMandatoryFees", "0.0"), currencyCode);
+			chargeableRateInfo.optString("totalMandatoryFees", "0.0"), currencyCode);
 		rate.setTotalMandatoryFees(totalMandatoryFees);
 
 		Money totalPriceWithMandatoryFees = ParserUtils.createMoney(
-				chargeableRateInfo.optString("totalPriceWithMandatoryFees", "0.0"), currencyCode);
+			chargeableRateInfo.optString("totalPriceWithMandatoryFees", "0.0"), currencyCode);
 		rate.setTotalPriceWithMandatoryFees(totalPriceWithMandatoryFees);
 
 		Money surchargeTotalForEntireStay = ParserUtils.createMoney(
-				chargeableRateInfo.optString("surchargeTotalForEntireStay", "0.0"), currencyCode);
+			chargeableRateInfo.optString("surchargeTotalForEntireStay", "0.0"), currencyCode);
 		Money total = ParserUtils.createMoney(chargeableRateInfo.getString("total"), currencyCode);
 		Money totalBeforeTax = total.copy();
 		totalBeforeTax.subtract(surchargeTotalForEntireStay);
@@ -393,11 +393,11 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		rate.setCheckoutPriceType(chargeableRateInfo.optString("checkoutPriceType"));
 
 		Money priceToShowUsers = ParserUtils.createMoney(chargeableRateInfo.getString("priceToShowUsers"),
-				currencyCode);
+			currencyCode);
 		Money strikethroughPriceToShowUsers = ParserUtils.createMoney(
-				chargeableRateInfo.getString("strikethroughPriceToShowUsers"), currencyCode);
+			chargeableRateInfo.getString("strikethroughPriceToShowUsers"), currencyCode);
 		Money nightlyRateTotal = ParserUtils.createMoney(chargeableRateInfo.getString("nightlyRateTotal"),
-				currencyCode);
+			currencyCode);
 		rate.setNightlyRateTotal(nightlyRateTotal);
 
 		rate.setPriceToShowUsers(priceToShowUsers);
@@ -550,7 +550,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 				String ratePlanName = FormatUtils.series(mContext, bedTypeElements, ",", Conjunction.OR);
 				// Do not change the case of the first letter. This isn't ideal but it works for now
 				ratePlanName = ratePlanName.substring(0, 1)
-						+ ratePlanName.substring(1).toLowerCase(Locale.getDefault());
+					+ ratePlanName.substring(1).toLowerCase(Locale.getDefault());
 				rate.setRatePlanName(ratePlanName);
 			}
 		}

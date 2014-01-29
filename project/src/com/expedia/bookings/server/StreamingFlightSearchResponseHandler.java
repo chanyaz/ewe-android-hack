@@ -59,7 +59,7 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 	}
 
 	@Override
-	public FlightSearchResponse handleResponse(HttpResponse response) throws ClientProtocolException, IOException {
+	public FlightSearchResponse handleResponse(HttpResponse response) throws IOException {
 		if (response == null) {
 			return null;
 		}

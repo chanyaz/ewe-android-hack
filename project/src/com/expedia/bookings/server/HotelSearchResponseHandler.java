@@ -59,7 +59,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 	}
 
 	@Override
-	public HotelSearchResponse handleResponse(HttpResponse response) throws ClientProtocolException, IOException {
+	public HotelSearchResponse handleResponse(HttpResponse response) throws IOException {
 		if (response == null) {
 			return null;
 		}

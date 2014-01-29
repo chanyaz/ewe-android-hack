@@ -106,7 +106,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				mRootC.setPadding(paddingx, mRootC.getPaddingTop(), paddingx, mRootC.getPaddingBottom());
 
 				int headerHeight = (mRootC.getHeight() - mRootC.getPaddingTop() - mRootC.getPaddingBottom()) / 2;
-				Ui.findView(mRootC, R.id.hotel_header_container).getLayoutParams().height = headerHeight;
+				ViewGroup.LayoutParams params = Ui.findView(mRootC, R.id.hotel_header_container).getLayoutParams();
+				params.height = headerHeight;
 			}
 		});
 		return mRootC;

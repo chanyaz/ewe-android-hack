@@ -548,7 +548,8 @@ public class FlightTripView extends View {
 
 		// Put our calculations into vars for later use
 		mCircleDiameter = circleDiameter;
-		mDrawComponents.get(0).mStartLeft = left;
+		DrawComponent component = mDrawComponents.get(0);
+		component.mStartLeft = left;
 
 		if (DEBUG) {
 			Log.d("FlightTripView calc: " + ((System.nanoTime() - start) / 1000) + " microseconds");

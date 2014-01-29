@@ -71,7 +71,7 @@ public class ParserUtils {
 	}
 
 	public static boolean parseServerErrors(Context context, ApiMethod apiMethod, JSONObject jsonResponse,
-			Response response) throws JSONException {
+											Response response) throws JSONException {
 
 		if (jsonResponse.has("errors")) {
 			JSONArray errors = jsonResponse.getJSONArray("errors");
@@ -93,7 +93,7 @@ public class ParserUtils {
 	 * Parses an error if found; otherwise returns null
 	 */
 	public static ServerError parseEanError(Context context, ApiMethod apiMethod, JSONObject response)
-			throws JSONException {
+		throws JSONException {
 
 		if (response.has("EanWsError")) {
 			JSONObject error = response.getJSONObject("EanWsError");
@@ -118,7 +118,7 @@ public class ParserUtils {
 	}
 
 	public static List<ServerError> parseErrors(Context context, ApiMethod apiMethod, JSONObject response)
-			throws JSONException {
+		throws JSONException {
 
 		if (response.has("errors")) {
 			List<ServerError> errors = new ArrayList<ServerError>();
@@ -192,7 +192,7 @@ public class ParserUtils {
 	}
 
 	public static List<ServerError> parseWarnings(Context context, ApiMethod apiMethod, JSONObject response)
-			throws JSONException {
+		throws JSONException {
 
 		if (response.has("warnings")) {
 			List<ServerError> errors = new ArrayList<ServerError>();
@@ -210,7 +210,7 @@ public class ParserUtils {
 	}
 
 	private static ServerError getServerError(JSONObject error, ApiMethod apiMethod)
-			throws JSONException {
+		throws JSONException {
 
 		ServerError serverError = new ServerError(apiMethod);
 		final String code = error.getString("errorCode");
@@ -248,7 +248,7 @@ public class ParserUtils {
 
 		if (parser.getCurrentToken() != JsonToken.START_OBJECT && parser.nextToken() != JsonToken.START_OBJECT) {
 			throw new IOException("Expected readServerError() to start with an Object, started with "
-					+ parser.getCurrentToken() + " instead.");
+				+ parser.getCurrentToken() + " instead.");
 		}
 
 		// TODO: FIGURE OUT MESSAGE TO DISPLAY TO USER ON ERROR
@@ -263,7 +263,7 @@ public class ParserUtils {
 			else if (name.equals("errorInfo")) {
 				if (token != JsonToken.START_OBJECT) {
 					throw new IOException("Expected errorInfo to start with an Object, started with "
-							+ parser.getCurrentToken() + " instead.");
+						+ parser.getCurrentToken() + " instead.");
 				}
 				while (parser.nextToken() != JsonToken.END_OBJECT) {
 					String name2 = parser.getCurrentName();

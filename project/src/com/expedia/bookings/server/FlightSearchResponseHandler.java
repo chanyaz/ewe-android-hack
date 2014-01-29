@@ -49,7 +49,7 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 	}
 
 	@Override
-	public FlightSearchResponse handleResponse(HttpResponse response) throws ClientProtocolException, IOException {
+	public FlightSearchResponse handleResponse(HttpResponse response) throws IOException {
 		long start = System.nanoTime();
 		super.handleResponse(response);
 		Log.d("Flight search response parse time: " + ((System.nanoTime() - start) / 1000000) + " ms; # trips="

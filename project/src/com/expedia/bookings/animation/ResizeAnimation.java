@@ -1,6 +1,7 @@
 package com.expedia.bookings.animation;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
@@ -27,7 +28,7 @@ public class ResizeAnimation extends Animation {
 		mStartHeight = startHeight;
 		mEndHeight = endHeight;
 
-		mView.getLayoutParams().height = startHeight;
+		setViewHeight(startHeight);
 		mView.setVisibility(View.VISIBLE);
 	}
 
@@ -40,12 +41,10 @@ public class ResizeAnimation extends Animation {
 		super.applyTransformation(interpolatedTime, t);
 
 		if (interpolatedTime < 1) {
-			mView.getLayoutParams().height = (int) ((mEndHeight - mStartHeight) * interpolatedTime) + mStartHeight;
-			mView.requestLayout();
+			setViewHeight((int) ((mEndHeight - mStartHeight) * interpolatedTime) + mStartHeight);
 		}
 		else {
-			mView.getLayoutParams().height = mEndHeight;
-			mView.requestLayout();
+			setViewHeight(mEndHeight);
 		}
 
 		if (mAnimationStepListener != null) {
@@ -56,6 +55,12 @@ public class ResizeAnimation extends Animation {
 	@Override
 	public void cancel() {
 		super.cancel();
-		mView.getLayoutParams().height = mEndHeight;
+		setViewHeight(mEndHeight);
+	}
+
+	private void setViewHeight(int height) {
+		ViewGroup.LayoutParams params = mView.getLayoutParams();
+		params.height = height;
+		mView.requestLayout();
 	}
 }

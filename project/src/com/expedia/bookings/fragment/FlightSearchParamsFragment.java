@@ -83,8 +83,8 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 public class FlightSearchParamsFragment extends Fragment implements OnDateChangedListener, InputFilter,
-		SimpleProgressDialogFragmentListener, SimpleCallbackDialogFragmentListener, OnItemSelectedListener,
-		FlightRouteAdapterListener {
+	SimpleProgressDialogFragmentListener, SimpleCallbackDialogFragmentListener, OnItemSelectedListener,
+	FlightRouteAdapterListener {
 
 	public static final String TAG = FlightSearchParamsFragment.class.toString();
 	private static final String TAG_PROGRESS = TAG + ".DIALOG_PROGRESS";
@@ -105,7 +105,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private static final float EDITTEXT_EXPANSION_RATIO = .25f;
 
 	private static final int DATE_FORMAT_FLAGS = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH
-			| DateUtils.FORMAT_NO_YEAR;
+		| DateUtils.FORMAT_NO_YEAR;
 
 	private FlightSearchParamsFragmentListener mListener;
 
@@ -211,7 +211,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		// We want to use one of two airport pickers depending on our POS; inflate the correct one
 		int airportStubId = displayFlightDropDownRoutes ? R.id.stub_flight_search_airports_spinner
-				: R.id.stub_flight_search_airports;
+			: R.id.stub_flight_search_airports;
 		Ui.inflateViewStub(v, airportStubId);
 
 		// Cache views
@@ -239,14 +239,15 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		// In landscape, make the calendar date picker fill the screen
 		if (mIsLandscape && !mIsTablet) {
 			mCalendarShadow.setVisibility(View.GONE);
-			mCalendarContainer.getLayoutParams().height = LayoutParams.MATCH_PARENT;
+			LayoutParams params = mCalendarContainer.getLayoutParams();
+			params.height = LayoutParams.MATCH_PARENT;
 		}
 
 		// If it is set to MATCH_PARENT on tablet though we want
 		// to clamp it to the bottom of the other search params
 		if (mIsLandscape
-				&& mIsTablet
-				&& getResources().getDimensionPixelSize(R.dimen.flight_search_calendar_height) == LayoutParams.MATCH_PARENT) {
+			&& mIsTablet
+			&& getResources().getDimensionPixelSize(R.dimen.flight_search_calendar_height) == LayoutParams.MATCH_PARENT) {
 			RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mCalendarContainer.getLayoutParams();
 			lp.addRule(RelativeLayout.BELOW, R.id.header);
 		}
@@ -255,7 +256,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		if (isUsingEditTexts()) {
 			mAirportAdapter = new AirportDropDownAdapter(getActivity());
 
-			InputFilter[] filters = new InputFilter[] { this };
+			InputFilter[] filters = new InputFilter[] {this};
 			mDepartureAirportEditText.setFilters(filters);
 			mDepartureAirportEditText.setOnItemClickListener(new OnItemClickListener() {
 				@Override
@@ -315,7 +316,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			});
 
 			mArrivalAirportEditText.setImeOptions(mIsLandscape ? EditorInfo.IME_ACTION_DONE
-					: EditorInfo.IME_ACTION_NEXT);
+				: EditorInfo.IME_ACTION_NEXT);
 
 			// Always initially reset the airport texts (otherwise they start overlapping)
 			resetAirportEditTexts(false);
@@ -357,7 +358,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		// Initial calendar date picker variables
 		CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID,
-				LineOfBusiness.FLIGHTS);
+			LineOfBusiness.FLIGHTS);
 		mCalendarDatePicker.setOnDateChangedListener(this);
 
 		if (savedInstanceState != null) {
@@ -421,7 +422,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 						}
 
 						InputMethodManager imm = (InputMethodManager) context
-								.getSystemService(Context.INPUT_METHOD_SERVICE);
+							.getSystemService(Context.INPUT_METHOD_SERVICE);
 						imm.showSoftInput(mDepartureAirportEditText, 0);
 					}
 				}, 250);
@@ -447,7 +448,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 				if (mProgressDialog == null || !mProgressDialog.isAdded()) {
 					mProgressDialog = SimpleProgressDialogFragment
-							.newInstance(getString(R.string.loading_air_asia_routes));
+						.newInstance(getString(R.string.loading_air_asia_routes));
 					mProgressDialog.show(getChildFragmentManager(), TAG_PROGRESS);
 				}
 
@@ -462,7 +463,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		super.onPause();
 
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(CrossContextHelper.KEY_FLIGHT_ROUTES_DOWNLOAD,
-				mRoutesCallback);
+			mRoutesCallback);
 
 		if (isUsingEditTexts()) {
 			// Clear adapter so we don't fire off unnecessary requests to it
@@ -629,14 +630,14 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		if (mAirportsContainer instanceof LinearLayout) {
 			LinearLayout airportsContainer = (LinearLayout) mAirportsContainer;
 			View expandingView = focusView == mDepartureAirportEditText ? mDepartureAirportEditText
-					: mArrivalAirportEditText;
+				: mArrivalAirportEditText;
 			View shrinkingView = focusView == mDepartureAirportEditText ? mArrivalAirportEditText
-					: mDepartureAirportEditText;
+				: mDepartureAirportEditText;
 
 			final LinearLayout.LayoutParams expandingLayoutParams = (LinearLayout.LayoutParams) expandingView
-					.getLayoutParams();
+				.getLayoutParams();
 			final LinearLayout.LayoutParams shrinkingLayoutParams = (LinearLayout.LayoutParams) shrinkingView
-					.getLayoutParams();
+				.getLayoutParams();
 			final float totalWeight = airportsContainer.getWeightSum();
 			expandingLayoutParams.weight = totalWeight * (1 - ratio);
 			shrinkingLayoutParams.weight = totalWeight * ratio;
@@ -797,20 +798,20 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				}
 				else {
 					nightsStr = String.format(getString(R.string.calendar_instructions_range_selected_TEMPLATE),
-							nightCount);
+						nightCount);
 				}
 				mCalendarDatePicker.setHeaderInstructionText(nightsStr);
 			}
 			else if (dateStart != null && researchMode) {
 				mCalendarDatePicker
-						.setHeaderInstructionText(getString(R.string.calendar_instructions_nothing_selected));
+					.setHeaderInstructionText(getString(R.string.calendar_instructions_nothing_selected));
 			}
 			else if (dateStart != null) {
 				mCalendarDatePicker.setHeaderInstructionText(getString(R.string.calendar_instructions_start_selected));
 			}
 			else {
 				mCalendarDatePicker
-						.setHeaderInstructionText(getString(R.string.calendar_instructions_nothing_selected));
+					.setHeaderInstructionText(getString(R.string.calendar_instructions_nothing_selected));
 			}
 		}
 	}
@@ -831,7 +832,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			LocalDate returnDate = mSearchParams.getReturnDate();
 
 			CalendarUtils.configureCalendarDatePicker(mCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID,
-					LineOfBusiness.FLIGHTS);
+				LineOfBusiness.FLIGHTS);
 
 			CalendarUtils.updateCalendarPickerStartDate(mCalendarDatePicker, departureDate);
 			CalendarUtils.updateCalendarPickerEndDate(mCalendarDatePicker, returnDate);
@@ -978,7 +979,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	/**
 	 * Returns the HotelSearchParams represented by this screen.
-	 *
+	 * <p/>
 	 * Warning: doing this deselects all current fields (as a matter of
 	 * making sure we have current data).  You are only expected to call
 	 * this method when you're closing the fragment/starting a new search.
@@ -1013,8 +1014,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			if (results == null || results.hasErrors()) {
 				// Throw up an error dialog that routes the user back to the start
 				SimpleCallbackDialogFragment df = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.error_could_not_load_air_asia), getString(R.string.ok),
-						ROUTES_FAILURE_CALLBACK_ID);
+					getString(R.string.error_could_not_load_air_asia), getString(R.string.ok),
+					ROUTES_FAILURE_CALLBACK_ID);
 				df.show(getChildFragmentManager(), "error");
 			}
 			else {
@@ -1047,7 +1048,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	private void onRoutesLoaded() {
 		mRecentRouteSearches = new RecentList<Location>(Location.class, getActivity(), RECENT_ROUTES_AIRPORTS_FILE,
-				MAX_RECENTS);
+			MAX_RECENTS);
 
 		mDepartureRouteAdapter = new FlightRouteAdapter(getActivity(), Db.getFlightRoutes(), mRecentRouteSearches, true);
 		mArrivalRouteAdapter = new FlightRouteAdapter(getActivity(), Db.getFlightRoutes(), mRecentRouteSearches, false);
@@ -1120,7 +1121,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	public void onDateChanged(CalendarDatePicker view, int year, int yearMonth, int monthDay) {
 		if (mCalendarDatePicker.getStartTime() != null) {
 			mSearchParams.setDepartureDate(new LocalDate(mCalendarDatePicker.getStartYear(),
-					mCalendarDatePicker.getStartMonth() + 1, mCalendarDatePicker.getStartDayOfMonth()));
+				mCalendarDatePicker.getStartMonth() + 1, mCalendarDatePicker.getStartDayOfMonth()));
 		}
 		else {
 			mSearchParams.setDepartureDate(null);
@@ -1128,7 +1129,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		if (mCalendarDatePicker.getEndTime() != null) {
 			mSearchParams.setReturnDate(new LocalDate(mCalendarDatePicker.getEndYear(),
-					mCalendarDatePicker.getEndMonth() + 1, mCalendarDatePicker.getEndDayOfMonth()));
+				mCalendarDatePicker.getEndMonth() + 1, mCalendarDatePicker.getEndDayOfMonth()));
 		}
 		else {
 			mSearchParams.setReturnDate(null);

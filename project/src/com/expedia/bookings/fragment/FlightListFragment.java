@@ -140,7 +140,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		if (mLegPosition > 0) {
 			FlightTripQuery previousQuery = Db.getFlightSearch().queryTrips(mLegPosition - 1);
 			mAdapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegPosition), previousQuery.getMinTime(),
-					previousQuery.getMaxTime());
+				previousQuery.getMaxTime());
 		}
 		else {
 			mAdapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegPosition));
@@ -165,7 +165,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 			FlightSearch search = Db.getFlightSearch();
 			FlightTripQuery query = search.queryTrips(0);
 			mSectionFlightLeg.bind(null, search.getSelectedLegs()[0].getFlightLeg(), query.getMinTime(),
-					query.getMaxTime());
+				query.getMaxTime());
 		}
 
 		Ui.runOnNextLayout(v, new Runnable() {
@@ -231,7 +231,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 			// Animate each element of the listview away, at relative speeds (the further from position, the faster)
 			float maxTranslateY = getResources().getDisplayMetrics().density * MAX_TRANSLATE_Y_DP;
 			int skipPosition = mAdapter.getPosition(flightLeg) + mListView.getHeaderViewsCount()
-					- mListView.getFirstVisiblePosition();
+				- mListView.getFirstVisiblePosition();
 			Pair<Integer, Integer> cardTopAndBottom = getFlightCardTopAndBottom(flightLeg);
 			int targetTop = cardTopAndBottom.first;
 			int spaceBelow = mListView.getHeight() - targetTop;
@@ -313,7 +313,13 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 			// Animate the entire listview up (except header)
 			int translate = mListView.getHeight() - mListView.getChildAt(0).getHeight();
 			int childCount = mListView.getChildCount();
-			values = (enter) ? new float[] { translate, 0 } : new float[] { 0, translate };
+			values = (enter) ? new float[] {
+				translate,
+				0
+			} : new float[] {
+				0,
+				translate
+			};
 			PropertyValuesHolder pvhAlpha = AnimUtils.createFadePropertyValuesHolder(enter);
 			PropertyValuesHolder pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
 			for (int a = 1; a < childCount; a++) {
@@ -413,17 +419,15 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 				FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 				Location location = (mLegPosition == 0) ? params.getArrivalLocation() : params.getDepartureLocation();
 				boolean returnFlight = mLegPosition > 0;
-				if (returnFlight) {
-					mNumFlightsTextView.setText((getResources().getString(R.string.select_a_flight_back_to_TEMPLATE,
-							StrUtils.getLocationCityOrCode(location))).toUpperCase());
-				}
-				else {
-					mNumFlightsTextView.setText((getResources().getString(R.string.select_a_flight_to_TEMPLATE,
-							StrUtils.getLocationCityOrCode(location))).toUpperCase());
-				}
+				String code = StrUtils.getLocationCityOrCode(location).toUpperCase();
+				int templateResId = returnFlight
+					? R.string.select_a_flight_back_to_TEMPLATE
+					: R.string.select_a_flight_to_TEMPLATE;
+				mNumFlightsTextView.setText(getResources().getString(templateResId, code));
 			}
 		}
 	}
+
 
 	//////////////////////////////////////////////////////////////////////////
 	// Dataset observer
@@ -435,8 +439,8 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		}
 	};
 
-	//////////////////////////////////////////////////////////////////////////
-	// FlightListFragmentListener
+//////////////////////////////////////////////////////////////////////////
+// FlightListFragmentListener
 
 	public interface FlightListFragmentListener {
 		public void onFlightListLayout(FlightListFragment fragment);
@@ -446,6 +450,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		public void onDisableFade();
 
 		public void onFadeRangeChange(int startY, int endY);
+
 	}
 
 	//////////////////////////////////////////////////////////////////////////
