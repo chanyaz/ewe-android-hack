@@ -29,8 +29,8 @@ import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.FlightUnavailableDialogFragment;
 import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment.PriceChangeDialogFragmentListener;
-import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
+import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
@@ -535,7 +535,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 	/////////////////////////////////////////////////
 	// Checkout V2 - "create" call retry on error dialog handler..
-	
+
 	@Override
 	public void onRetryError() {
 		mBookingFragment.doBooking();

@@ -35,7 +35,6 @@ import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.server.CrossContextHelper;

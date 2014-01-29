@@ -376,8 +376,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		}
 	};
 
-	private final CompoundButton.OnCheckedChangeListener mVipAccessCheckedListener
-			= new CompoundButton.OnCheckedChangeListener() {
+	private final CompoundButton.OnCheckedChangeListener mVipAccessCheckedListener = new CompoundButton.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(CompoundButton button, boolean vipAccessOnly) {
 			HotelFilter filter = Db.getFilter();
