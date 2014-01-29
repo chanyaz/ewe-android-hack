@@ -38,6 +38,8 @@ import com.mobiata.android.util.Ui;
 public class TabletCheckoutControllerFragment extends Fragment implements IBackManageable,
 		IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener {
 
+	private static final String STATE_CHECKOUT_STATE = "STATE_CHECKOUT_STATE";
+
 	private static final String FRAG_TAG_BUCKET_FLIGHT = "FRAG_TAG_BUCKET_FLIGHT";
 	private static final String FRAG_TAG_BUCKET_HOTEL = "FRAG_TAG_BUCKET_HOTEL";
 	private static final String FRAG_TAG_CHECKOUT_INFO = "FRAG_TAG_CHECKOUT_INFO";
@@ -79,10 +81,22 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 		mBucketDateRange = Ui.findView(view, R.id.trip_date_range);
 		mBucketDateRange.setText("FEB 8 - CAT 12");//TODO: real date range
 
+		if (savedInstanceState != null) {
+			mStateManager.setDefaultState(CheckoutState.valueOf(savedInstanceState.getString(
+					STATE_CHECKOUT_STATE,
+					CheckoutState.OVERVIEW.name())));
+		}
+
 		registerStateListener(mStateHelper, false);
 		registerStateListener(new StateListenerLogger<CheckoutState>(), false);
 
 		return view;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString(STATE_CHECKOUT_STATE, mStateManager.getState().name());
 	}
 
 	@Override
@@ -242,16 +256,22 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 
 	private void setVisibilityState(CheckoutState state) {
 		if (state == CheckoutState.OVERVIEW) {
+			mFormContainer.setVisibility(View.VISIBLE);
+			mBucketScrollContainer.setVisibility(View.VISIBLE);
 			mSlideContainer.setVisibility(View.GONE);
-			mCvvContainer.setVisibility(View.GONE);
+			mCvvContainer.setVisibility(View.INVISIBLE);
 		}
 		else if (state == CheckoutState.READY_FOR_CHECKOUT) {
+			mFormContainer.setVisibility(View.VISIBLE);
+			mBucketScrollContainer.setVisibility(View.VISIBLE);
 			mSlideContainer.setVisibility(View.VISIBLE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
 		}
 		else if (state == CheckoutState.CVV) {
+			mFormContainer.setVisibility(View.INVISIBLE);
+			mBucketScrollContainer.setVisibility(View.INVISIBLE);
 			mCvvContainer.setVisibility(View.VISIBLE);
-			mSlideContainer.setVisibility(View.GONE);
+			mSlideContainer.setVisibility(View.INVISIBLE);
 		}
 	}
 
