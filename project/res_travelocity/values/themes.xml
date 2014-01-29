@@ -5,6 +5,9 @@
         <item name="hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_travelocity</item>
         <item name="HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_travelocity</item>
         <item name="hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg_travelocity</item>
+        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
+        <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
+
     </style>
 
     <!-- Override the phone theme -->

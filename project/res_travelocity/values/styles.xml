@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" xmlns:mobiata="http://schemas.android.com/apk/res-auto">
+
+
+<!-- Travelocity Rating bar -->
+<style name="RatingBar.UserReview.Blue">
+    <item name="android:progressDrawable">@drawable/ratingbar_userreview_blue</item>
+</style>
+
+</resources>
