@@ -1704,6 +1704,9 @@
     <string name="vip_access_message">At VIP Access hotels, Expedia Elite Plus members receive free room upgrades and other perks upon availability at check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Only VIP Access Hotels</string>
+    <!-- ON and OFF text for toggle switches -->
+    <string name="switch_on">ON</string>
+    <string name="switch_off">OFF</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- Discount percent shown in hotel results list -->

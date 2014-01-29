@@ -698,6 +698,22 @@
         <item name="android:background">@drawable/btn_tablet_filter</item>
         <item name="android:textColor">@color/sliding_group_text</item>
     </style>
+    <!-- Styles for our custom Switch -->
+    <style name="Widget.CompoundButton.Switch" parent="android:Widget.CompoundButton">
+        <item name="track">@drawable/btn_tablet_filter_normal</item>
+        <item name="thumb">@drawable/btn_tablet_filter_switch</item>
+        <item name="switchTextAppearance">@style/TextAppearance.Widget.Switch</item>
+        <item name="textOn">@string/switch_on</item>
+        <item name="textOff">@string/switch_off</item>
+        <item name="thumbTextPadding">22dip</item>
+        <item name="switchMinWidth">140dip</item>
+        <item name="switchPadding">16dip</item>
+    </style>
+    <style name="TextAppearance.Widget.Switch" parent="android:TextAppearance.Small">
+        <item name="android:textColor">@color/sliding_group_text_bright</item>
+    </style>
+    <!-- If we ever want to use the Switch elsewhere, we may need to move some things into here -->
+    <style name="Widget.CompoundButton.Switch.TabletFilterControls" />
 
     <style name="Widget.SegmentedControlGroup.DarkFilterControls">
         <item name="centerButton">@drawable/dark_segmented_center</item>
