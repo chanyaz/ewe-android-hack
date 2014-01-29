@@ -63,7 +63,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="19dp"
                 android:text="@string/Sort_By"
                 android:textAllCaps="true"
                 android:textColor="#7C7E7F" />
@@ -72,7 +73,7 @@
                 android:id="@+id/sort_by_button_group"
                 style="?attr/hotelListingFilterGroupStyle"
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/popup_filter_row_height"
+                android:layout_height="@dimen/sliding_filter_row_height"
                 android:layout_marginBottom="8dp" >
 
                 <RadioButton
@@ -124,7 +125,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="19dp"
                 android:text="@string/Filters"
                 android:textAllCaps="true"
                 android:textColor="#7C7E7F" />
@@ -133,8 +135,8 @@
                 android:id="@+id/price_filter_button_group"
                 style="?attr/hotelListingFilterGroupStyle"
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/popup_filter_row_height"
-                android:layout_marginBottom="8dp" >
+                android:layout_height="@dimen/sliding_filter_row_height"
+                android:layout_marginBottom="12dp" >
 
                 <RadioButton
                     android:id="@+id/price_cheap_button"
@@ -186,8 +188,8 @@
                 android:id="@+id/radius_filter_button_group"
                 style="?attr/hotelListingFilterGroupStyle"
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/popup_filter_row_height"
-                android:layout_marginBottom="8dp" >
+                android:layout_height="@dimen/sliding_filter_row_height"
+                android:layout_marginBottom="12dp" >
 
                 <RadioButton
                     android:id="@+id/radius_small_button"
@@ -236,8 +238,8 @@
                 android:id="@+id/rating_filter_button_group"
                 style="?attr/hotelListingFilterGroupStyle"
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/popup_filter_row_height"
-                android:layout_marginBottom="8dp" >
+                android:layout_height="@dimen/sliding_filter_row_height"
+                android:layout_marginBottom="12dp" >
 
                 <RadioButton
                     android:id="@+id/rating_low_button"
