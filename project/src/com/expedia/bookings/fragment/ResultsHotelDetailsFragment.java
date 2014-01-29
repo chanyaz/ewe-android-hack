@@ -224,7 +224,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		// VIP Badge
 		boolean shouldShowVipIcon = PointOfSale.getPointOfSale().supportsVipAccess()
-				&& User.isElitePlus(getActivity())
 				&& property.isVipAccess();
 		vipText.setVisibility(shouldShowVipIcon ? View.VISIBLE : View.GONE);
 
@@ -425,7 +424,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private void setDefaultSelectedRate() {
 		String propertyId = Db.getHotelSearch().getSelectedPropertyId();
 		HotelAvailability availability = Db.getHotelSearch().getAvailability(propertyId);
-		Rate rate = availability.getSelectedRate();
+		Rate rate = availability == null ? null : availability.getSelectedRate();
 		if (rate == null) {
 			if (mResponse == null || mResponse.getRates() == null || mResponse.getRateCount() == 0) {
 				rate = Db.getHotelSearch().getSelectedProperty().getLowestRate();
