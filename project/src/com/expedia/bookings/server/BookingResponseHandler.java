@@ -1,6 +1,5 @@
 package com.expedia.bookings.server;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

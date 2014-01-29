@@ -302,8 +302,8 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 				}
 				else {
 					distance = MapUtils.getDistance(
-							latitude, longitude,
-							loc.getLatitude(), loc.getLongitude());
+						latitude, longitude,
+						loc.getLatitude(), loc.getLongitude());
 				}
 
 				if (distance <= smallRadius) {
@@ -401,7 +401,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			if (searchDistance != null) {
 				if (property.getDistanceFromUser() != null) {
 					Distance distanceFromUser = new Distance(property.getDistanceFromUser().getDistance(), property
-							.getDistanceFromUser().getUnit());
+						.getDistanceFromUser().getUnit());
 					distanceFromUser.setDistance(Math.rint(distanceFromUser.getDistance() * 10.0d) / 10.0d);
 					if (distanceFromUser == null || distanceFromUser.compareTo(searchDistance) > 0) {
 						continue;
@@ -475,9 +475,9 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		// Separate out based on medoid values
 		@SuppressWarnings("unchecked")
 		ArrayList<Property>[] tiers = new ArrayList[] {
-				new ArrayList<Property>(),
-				new ArrayList<Property>(),
-				new ArrayList<Property>(),
+			new ArrayList<Property>(),
+			new ArrayList<Property>(),
+			new ArrayList<Property>(),
 		};
 		double closest;
 		double tmp;
@@ -536,14 +536,26 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 
 		// SPECIAL CASES: For fewer than 3 items
 		if (len == 2) {
-			return new double[] { prices[0], prices[0], prices[1] };
+			return new double[] {
+				prices[0],
+				prices[0],
+				prices[1]
+			};
 		}
 		else if (len == 1) {
-			return new double[] { prices[0], prices[0], prices[0] };
+			return new double[] {
+				prices[0],
+				prices[0],
+				prices[0]
+			};
 		}
 
 		// Pick three reasonable starting medoids
-		int[] medoidIndexes = new int[] { len / 6, len / 2, (len * 5) / 6 };
+		int[] medoidIndexes = new int[] {
+			len / 6,
+			len / 2,
+			(len * 5) / 6
+		};
 
 		// Determine initial clustering
 		double totalError = getTotalError(prices, medoidIndexes);
@@ -568,7 +580,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			if (changes[1] == null) {
 				System.arraycopy(medoidIndexes, 0, tmpMedoidIndexes, 0, 3);
 				tmpMedoidIndexes[0] = newMedoidIndex[1] = nextValidIndexRight(prices, medoidIndexes[0],
-						medoidIndexes[1] - 1);
+					medoidIndexes[1] - 1);
 				changes[1] = getTotalError(prices, tmpMedoidIndexes) - totalError;
 			}
 
@@ -576,7 +588,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			if (changes[2] == null) {
 				System.arraycopy(medoidIndexes, 0, tmpMedoidIndexes, 0, 3);
 				tmpMedoidIndexes[1] = newMedoidIndex[2] = nextValidIndexLeft(prices, medoidIndexes[1],
-						medoidIndexes[0] + 1);
+					medoidIndexes[0] + 1);
 				changes[2] = getTotalError(prices, tmpMedoidIndexes) - totalError;
 			}
 
@@ -584,7 +596,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			if (changes[3] == null) {
 				System.arraycopy(medoidIndexes, 0, tmpMedoidIndexes, 0, 3);
 				tmpMedoidIndexes[1] = newMedoidIndex[3] = nextValidIndexRight(prices, medoidIndexes[1],
-						medoidIndexes[2] - 1);
+					medoidIndexes[2] - 1);
 				changes[3] = getTotalError(prices, tmpMedoidIndexes) - totalError;
 			}
 
@@ -592,7 +604,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			if (changes[4] == null) {
 				System.arraycopy(medoidIndexes, 0, tmpMedoidIndexes, 0, 3);
 				tmpMedoidIndexes[2] = newMedoidIndex[4] = nextValidIndexLeft(prices, medoidIndexes[2],
-						medoidIndexes[1] + 1);
+					medoidIndexes[1] + 1);
 				changes[4] = getTotalError(prices, tmpMedoidIndexes) - totalError;
 			}
 
@@ -613,7 +625,11 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			}
 
 			if (mostSavings >= 0) {
-				return new double[] { prices[medoidIndexes[0]], prices[medoidIndexes[1]], prices[medoidIndexes[2]] };
+				return new double[] {
+					prices[medoidIndexes[0]],
+					prices[medoidIndexes[1]],
+					prices[medoidIndexes[2]]
+				};
 			}
 
 			switch (bestIndex) {

@@ -105,8 +105,9 @@ public class TravelerButtonFragment extends LobableFragment {
 			if (getLob() == LineOfBusiness.FLIGHTS) {
 				//TODO: THIS WAS BLOWING UP, BUT WE SHOULD NOT BE ASSUMING DOMESTIC
 				boolean international = Db.getFlightSearch() != null
-						&& Db.getFlightSearch().getSelectedFlightTrip() != null ? Db.getFlightSearch()
-						.getSelectedFlightTrip().isInternational() : false;
+					&& Db.getFlightSearch().getSelectedFlightTrip() != null
+					? Db.getFlightSearch().getSelectedFlightTrip().isInternational()
+					: false;
 				return TravelerFlowState.getInstance(getActivity()).allTravelerInfoValid(trav, international);
 			}
 			else {
@@ -143,8 +144,8 @@ public class TravelerButtonFragment extends LobableFragment {
 		}
 		else if (getLob() == LineOfBusiness.HOTELS) {
 			travSec = (SectionTravelerInfo) inflater.inflate(
-					R.layout.section_hotel_display_traveler_info_btn,
-					null);
+				R.layout.section_hotel_display_traveler_info_btn,
+				null);
 		}
 		if (travSec != null) {
 			group.addView(travSec);

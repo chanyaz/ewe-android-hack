@@ -13,8 +13,8 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -38,8 +38,8 @@ import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TabletCheckoutFormsFragment extends Fragment implements IBackManageable,
-		IStateProvider<CheckoutFormState>,
-		ICheckoutDataListener {
+	IStateProvider<CheckoutFormState>,
+	ICheckoutDataListener {
 
 	private static final String FRAG_TAG_TRAVELER_FORM = "FRAG_TAG_TRAVELER_FORM";
 	private static final String FRAG_TAG_PAYMENT_FORM = "FRAG_TAG_PAYMENT_FORM";
@@ -74,7 +74,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 	private ArrayList<TravelerButtonFragment> mTravelerButtonFrags = new ArrayList<TravelerButtonFragment>();
 
 	private StateManager<CheckoutFormState> mStateManager = new StateManager<CheckoutFormState>(
-			CheckoutFormState.OVERVIEW, this);
+		CheckoutFormState.OVERVIEW, this);
 
 	public static TabletCheckoutFormsFragment newInstance() {
 		TabletCheckoutFormsFragment frag = new TabletCheckoutFormsFragment();
@@ -352,14 +352,14 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 		//Add fragment to the new container
 		FragmentManager manager = getChildFragmentManager();
 		TravelerButtonFragment btnFrag = (TravelerButtonFragment) manager
-				.findFragmentByTag(getTravelerButtonFragTag(travelerNumber));
+			.findFragmentByTag(getTravelerButtonFragTag(travelerNumber));
 		if (btnFrag == null) {
 			btnFrag = TravelerButtonFragment.newInstance(getLob(), travelerNumber);
 		}
 		if (!btnFrag.isAdded()) {
 			FragmentTransaction transaction = manager.beginTransaction();
 			transaction.add(getTravelerButtonContainerId(travelerNumber), btnFrag,
-					getTravelerButtonFragTag(travelerNumber));
+				getTravelerButtonFragTag(travelerNumber));
 			transaction.commit();
 		}
 		if (!mTravelerButtonFrags.contains(btnFrag)) {
@@ -413,7 +413,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 		View selectedView = mCheckoutRowsC.getChildAt(viewIndex);
 		float aboveViewsTransY = percentage * selectedView.getTop();
 		float activeViewTransY = percentage
-				* (selectedView.getTop() / 2f - selectedView.getHeight() / 2f);
+			* (selectedView.getTop() / 2f - selectedView.getHeight() / 2f);
 		float belowViewsTransY = percentage * (overlayBottom - selectedView.getBottom());
 		for (int i = 0; i < viewIndex; i++) {
 			mCheckoutRowsC.getChildAt(i).setTranslationY(-aboveViewsTransY);
@@ -590,10 +590,10 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 	};
 
 	/*
-	 * ISTATEPROVIDER 
+	 * ISTATEPROVIDER
 	 */
 	private StateListenerCollection<CheckoutFormState> mStateListeners = new StateListenerCollection<CheckoutFormState>(
-			mStateManager.getState());
+		mStateManager.getState());
 
 	@Override
 	public void startStateTransition(CheckoutFormState stateOne, CheckoutFormState stateTwo) {

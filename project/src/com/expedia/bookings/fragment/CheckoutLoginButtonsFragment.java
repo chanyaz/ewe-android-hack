@@ -16,17 +16,17 @@ import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.AccountButton;
+import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
 import com.expedia.bookings.widget.WalletButton;
-import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.Log;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 public class CheckoutLoginButtonsFragment extends LobableFragment implements AccountButtonClickListener,
-		ConfirmLogoutDialogFragment.DoLogoutListener {
+	ConfirmLogoutDialogFragment.DoLogoutListener {
 
 	private static final String INSTANCE_REFRESHED_USER_TIME = "INSTANCE_REFRESHED_USER";
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
@@ -120,7 +120,7 @@ public class CheckoutLoginButtonsFragment extends LobableFragment implements Acc
 			}
 
 			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
-					&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
+				&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
 				//We have a user (either from memory, or loaded from disk)
 				int userRefreshInterval = getResources().getInteger(R.integer.account_sync_interval);
 				if (mRefreshedUserTime + userRefreshInterval < System.currentTimeMillis()) {
@@ -154,7 +154,7 @@ public class CheckoutLoginButtonsFragment extends LobableFragment implements Acc
 				String itinNum = Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber();
 				String tripId = Db.getItinerary(itinNum).getTripId();
 				args = LoginActivity.createArgumentsBundle(getLob(), new UserToTripAssocLoginExtender(
-						tripId));
+					tripId));
 				OmnitureTracking.trackPageLoadFlightLogin(getActivity());
 			}
 			else if (getLob() == LineOfBusiness.HOTELS) {

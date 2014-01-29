@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import org.joda.time.LocalDate;
+
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +21,6 @@ import com.expedia.bookings.section.HotelSummarySection;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
-
-import org.joda.time.LocalDate;
 
 /**
  * ResultsTripBucketYourTripToFragment: A simple fragment for displaying destination information, in the trip overview column - Tablet 2013

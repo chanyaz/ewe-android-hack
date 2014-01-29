@@ -31,12 +31,12 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilit
 import com.mobiata.android.util.Ui;
 
 /**
- *  TabletCheckoutControllerFragment: designed for tablet checkout 2014
- *  This controls all the fragments relating to tablet checkout
+ * TabletCheckoutControllerFragment: designed for tablet checkout 2014
+ * This controls all the fragments relating to tablet checkout
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletCheckoutControllerFragment extends Fragment implements IBackManageable,
-		IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener {
+	IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener {
 
 	private static final String STATE_CHECKOUT_STATE = "STATE_CHECKOUT_STATE";
 
@@ -65,7 +65,7 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 	//vars
 	private LineOfBusiness mLob = LineOfBusiness.FLIGHTS;
 	private StateManager<CheckoutState> mStateManager = new StateManager<CheckoutState>(
-			CheckoutState.OVERVIEW, this);
+		CheckoutState.OVERVIEW, this);
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,8 +83,8 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 
 		if (savedInstanceState != null) {
 			mStateManager.setDefaultState(CheckoutState.valueOf(savedInstanceState.getString(
-					STATE_CHECKOUT_STATE,
-					CheckoutState.OVERVIEW.name())));
+				STATE_CHECKOUT_STATE,
+				CheckoutState.OVERVIEW.name())));
 		}
 
 		registerStateListener(mStateHelper, false);
@@ -211,16 +211,16 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 		@Override
 		public void onStateTransitionEnd(CheckoutState stateOne, CheckoutState stateTwo) {
 			if (stateOne == CheckoutState.OVERVIEW && stateTwo == CheckoutState.READY_FOR_CHECKOUT) {
-
+				//TODO
 			}
 			else if (stateOne == CheckoutState.READY_FOR_CHECKOUT && stateTwo == CheckoutState.OVERVIEW) {
-
+				//TODO
 			}
 			else if (stateOne == CheckoutState.READY_FOR_CHECKOUT && stateTwo == CheckoutState.CVV) {
-
+				//TODO
 			}
 			else if (stateOne == CheckoutState.CVV && stateTwo == CheckoutState.READY_FOR_CHECKOUT) {
-
+				//TODO
 			}
 		}
 
@@ -292,19 +292,19 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 		boolean cvvAvailable = state != CheckoutState.OVERVIEW;//If we are in cvv mode or are ready to enter it, we add cvv
 
 		mBucketFlightFrag = (ResultsTripBucketFlightFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-				flightBucketItemAvailable, FRAG_TAG_BUCKET_FLIGHT,
-				manager, transaction, this, R.id.bucket_flight_frag_container, false);
+			flightBucketItemAvailable, FRAG_TAG_BUCKET_FLIGHT,
+			manager, transaction, this, R.id.bucket_flight_frag_container, false);
 
 		mBucketHotelFrag = (ResultsTripBucketHotelFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-				hotelBucketItemAvailable, FRAG_TAG_BUCKET_HOTEL,
-				manager, transaction, this, R.id.bucket_hotel_frag_container, false);
+			hotelBucketItemAvailable, FRAG_TAG_BUCKET_HOTEL,
+			manager, transaction, this, R.id.bucket_hotel_frag_container, false);
 
 		mCheckoutFragment = (TabletCheckoutFormsFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-				checkoutFormsAvailable, FRAG_TAG_CHECKOUT_INFO, manager, transaction, this,
-				R.id.checkout_forms_container, false);
+			checkoutFormsAvailable, FRAG_TAG_CHECKOUT_INFO, manager, transaction, this,
+			R.id.checkout_forms_container, false);
 
 		mCvvFrag = (CVVEntryFragment) FragmentAvailabilityUtils.setFragmentAvailability(cvvAvailable, FRAG_TAG_CVV,
-				manager, transaction, this, R.id.cvv_container, false);
+			manager, transaction, this, R.id.cvv_container, false);
 
 		transaction.commit();
 	}
@@ -314,7 +314,7 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 	 */
 
 	private StateListenerCollection<CheckoutState> mStateListeners = new StateListenerCollection<CheckoutState>(
-			mStateManager.getState());
+		mStateManager.getState());
 
 	@Override
 	public void startStateTransition(CheckoutState stateOne, CheckoutState stateTwo) {
@@ -383,7 +383,7 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 
 			//TODO: THIS IS SUPER FAKE
 			return CVVEntryFragment.newInstance("Cat Miggins", "Super Black Platinum Gold Card Premium",
-					CreditCardType.UNKNOWN);
+				CreditCardType.UNKNOWN);
 		}
 		return null;
 	}

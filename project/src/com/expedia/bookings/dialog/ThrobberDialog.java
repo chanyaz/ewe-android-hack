@@ -42,8 +42,8 @@ public class ThrobberDialog extends DialogFragment {
 	}
 
 	@Override
-	public void onCancel(DialogInterface dialog) {
-		super.onCancel(dialog);
+	public void onCancel(DialogInterface iDialog) {
+		super.onCancel(iDialog);
 
 		if (mCancelListener != null) {
 			mCancelListener.onCancel();
@@ -60,6 +60,7 @@ public class ThrobberDialog extends DialogFragment {
 	/**
 	 * Use this method to explicitly specify dialog cancelable behavior.
 	 * By default it's set to true.
+	 *
 	 * @param isCancelable
 	 */
 	public void isDialogCancelable(boolean isCancelable) {

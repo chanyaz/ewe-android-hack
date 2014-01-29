@@ -4,8 +4,8 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -58,11 +58,11 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		formContainer.removeAllViews();
 		if (getLob() == LineOfBusiness.HOTELS) {
 			mSectionBillingInfo = (SectionBillingInfo) View.inflate(getActivity(),
-					R.layout.section_hotel_edit_creditcard, null);
+				R.layout.section_hotel_edit_creditcard, null);
 		}
 		else if (getLob() == LineOfBusiness.FLIGHTS) {
 			mSectionBillingInfo = (SectionBillingInfo) View.inflate(getActivity(), R.layout.section_edit_creditcard,
-					null);
+				null);
 		}
 		formContainer.addView(mSectionBillingInfo);
 	}

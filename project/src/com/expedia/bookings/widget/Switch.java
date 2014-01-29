@@ -59,10 +59,10 @@ import com.expedia.bookings.R;
  * methods control the typeface and style of label text, whereas the
  * {@link #setSwitchTextAppearance(android.content.Context, int) switchTextAppearance} and the related
  * setSwitchTypeface() methods control that of the thumb.
- *
+ * <p/>
  * This is adapted from the android-switch-backport found here:
  * https://github.com/BoD/android-switch-backport
- *
+ * <p/>
  * I've modified the onMeasure method to work with EXACT height and width specifications.
  *
  * @author doug
@@ -109,7 +109,7 @@ public class Switch extends CompoundButton {
 
 	private final Rect mTempRect = new Rect();
 
-	private static final int[] CHECKED_STATE_SET = { android.R.attr.state_checked };
+	private static final int[] CHECKED_STATE_SET = {android.R.attr.state_checked};
 
 	/**
 	 * Construct a new Switch with default styling.
@@ -125,7 +125,7 @@ public class Switch extends CompoundButton {
 	 * attributes as requested.
 	 *
 	 * @param context The Context that will determine this widget's theming.
-	 * @param attrs Specification of attributes that should deviate from default styling.
+	 * @param attrs   Specification of attributes that should deviate from default styling.
 	 */
 	public Switch(Context context, AttributeSet attrs) {
 		this(context, attrs, R.attr.switchStyle);
@@ -135,10 +135,10 @@ public class Switch extends CompoundButton {
 	 * Construct a new Switch with a default style determined by the given theme attribute,
 	 * overriding specific style attributes as requested.
 	 *
-	 * @param context The Context that will determine this widget's theming.
-	 * @param attrs Specification of attributes that should deviate from the default styling.
+	 * @param context  The Context that will determine this widget's theming.
+	 * @param attrs    Specification of attributes that should deviate from the default styling.
 	 * @param defStyle An attribute ID within the active theme containing a reference to the
-	 * default style for this widget. e.g. android.R.attr.switchStyle.
+	 *                 default style for this widget. e.g. android.R.attr.switchStyle.
 	 */
 	public Switch(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -534,11 +534,6 @@ public class Switch extends CompoundButton {
 		int switchTop = 0;
 		int switchBottom = 0;
 		switch (getGravity() & Gravity.VERTICAL_GRAVITY_MASK) {
-		default:
-		case Gravity.TOP:
-			switchTop = getPaddingTop();
-			switchBottom = switchTop + mSwitchHeight;
-			break;
 
 		case Gravity.CENTER_VERTICAL:
 			switchTop = (getPaddingTop() + getHeight() - getPaddingBottom()) / 2 - mSwitchHeight / 2;
@@ -548,6 +543,12 @@ public class Switch extends CompoundButton {
 		case Gravity.BOTTOM:
 			switchBottom = getHeight() - getPaddingBottom();
 			switchTop = switchBottom - mSwitchHeight;
+			break;
+
+		case Gravity.TOP:
+		default:
+			switchTop = getPaddingTop();
+			switchBottom = switchTop + mSwitchHeight;
 			break;
 		}
 
