@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         android:visibility="invisible" >
 
-        <View
+        <com.expedia.bookings.widget.FrameLayoutTouchController
             android:id="@+id/overlay_shade"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -24,7 +24,7 @@
             android:textSize="18dp" />
 
         <TextView
-            android:id="@+id/done_btn"
+            android:id="@+id/top_right_text_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"

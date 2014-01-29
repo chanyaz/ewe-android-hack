@@ -28,6 +28,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.interfaces.IBackManageable;
+import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
@@ -38,6 +39,7 @@ import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.AccountButton;
+import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
@@ -49,7 +51,8 @@ import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TabletCheckoutFormsFragment extends Fragment implements AccountButtonClickListener,
-		ConfirmLogoutDialogFragment.DoLogoutListener, IBackManageable, IStateProvider<CheckoutFormState> {
+		ConfirmLogoutDialogFragment.DoLogoutListener, IBackManageable, IStateProvider<CheckoutFormState>,
+		ICheckoutDataListener {
 
 	private static final String FRAG_TAG_TRAVELER_FORM = "FRAG_TAG_TRAVELER_FORM";
 	private static final String FRAG_TAG_PAYMENT_FORM = "FRAG_TAG_PAYMENT_FORM";
@@ -60,7 +63,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	private ViewGroup mOverlayContentC;
 	private ViewGroup mTravelerFormC;
 	private ViewGroup mPaymentFormC;
-	private View mOverlayShade;
+	private FrameLayoutTouchController mOverlayShade;
 	private View mPaymentView;
 
 	private LineOfBusiness mLob;
@@ -172,6 +175,15 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	public void bindAll() {
 		refreshAccountButtonState();
 		bindTravelers();
+	}
+
+	/*
+	 * ICheckoutDataListener
+	 */
+
+	@Override
+	public void onCheckoutDataUpdated() {
+		bindAll();
 	}
 
 	/*
@@ -457,6 +469,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 		}
 		if (viewNumber >= 0) {
 			mShowingViewIndex = viewNumber;
+			mPaymentForm.bindToDb();
 			setState(CheckoutFormState.EDIT_PAYMENT, true);
 		}
 	}
@@ -563,6 +576,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 				mOverlayC.setVisibility(View.INVISIBLE);
 				mPaymentFormC.setVisibility(View.INVISIBLE);
 				mTravelerFormC.setVisibility(View.INVISIBLE);
+				mOverlayShade.setBlockNewEventsEnabled(false);
 
 				setEntryFormShowingPercentage(0f, mShowingViewIndex);
 				mShowingViewIndex = -1;
@@ -579,7 +593,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 					mTravelerFormC.setVisibility(View.VISIBLE);
 					mPaymentFormC.setVisibility(View.INVISIBLE);
 				}
-
+				mOverlayShade.setBlockNewEventsEnabled(true);
 				setEntryFormShowingPercentage(1f, mShowingViewIndex);
 			}
 
