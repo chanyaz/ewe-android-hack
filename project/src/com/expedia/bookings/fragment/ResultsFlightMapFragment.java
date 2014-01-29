@@ -149,28 +149,24 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 
 	public void forward() {
 		mIsForward = true;
-		Point2D.Double screen;
-
 		mFlightLine.forward();
-
-		screen = projectToScreen(mDepartureLat, mDepartureLng);
-		positionDeparturePin(screen);
-
-		screen = projectToScreen(mArrivalLat, mArrivalLng);
-		positionArrivalPin(screen);
+		positionPins(mDepartureLat, mDepartureLng, mArrivalLat, mArrivalLng);
 	}
 
 	// For reversing the flight line
 	public void backward() {
 		mIsForward = false;
+		mFlightLine.backward();
+		positionPins(mArrivalLat, mArrivalLng, mDepartureLat, mDepartureLng);
+	}
+
+	private void positionPins(double lat0, double lng0, double lat1, double lng1) {
 		Point2D.Double screen;
 
-		mFlightLine.backward();
-
-		screen = projectToScreen(mArrivalLat, mArrivalLng);
+		screen = projectToScreen(lat0, lng0);
 		positionDeparturePin(screen);
 
-		screen = projectToScreen(mDepartureLat, mDepartureLng);
+		screen = projectToScreen(lat1, lng1);
 		positionArrivalPin(screen);
 	}
 
