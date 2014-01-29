@@ -128,7 +128,7 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 			Point size = AndroidUtils.getScreenSize(this);
 			int height = size.y;
 			int bottomPadding = getResources().getDimensionPixelSize(R.dimen.itin_map_marker_bottom_padding);
-			int markerHeight = getResources().getDrawable(R.drawable.map_pin_normal).getIntrinsicHeight();
+			int markerHeight = Ui.obtainThemeDrawable(this, R.attr.hotelListMapMarkerDrawable).getIntrinsicHeight();
 			float offsetCenterY = (height / 2.0f) - markerHeight - bottomPadding;
 
 			mMapFragment.setCenterOffset(-offsetCenterX, -offsetCenterY);

@@ -140,7 +140,7 @@ public class HotelMapFragment extends SupportMapFragment {
 		});
 
 		// Load graphics
-		mPin = BitmapDescriptorFactory.fromResource(R.drawable.map_pin_normal);
+		mPin = BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.hotelListMapMarkerDrawable));
 		mPinSale = BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.hotelListMapMarkerSaleDrawable));
 
 		onRestoreSavedInstanceState(savedInstanceState);

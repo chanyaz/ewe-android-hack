@@ -230,6 +230,7 @@
     <!-- HotelCheckout Traveler Info screen after logged in, Logo to the left of the primary traveler -->
     <attr name="hotelPrimaryTravelerInfoLogoDrawable" format="reference" />
     <attr name="hotelListMapMarkerSaleDrawable" format="reference" />
+    <attr name="hotelListMapMarkerDrawable" format="reference" />
 
     <attr name="ccCheckoutHologramDrawable" format="reference" />
 

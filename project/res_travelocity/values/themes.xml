@@ -7,9 +7,10 @@
         <item name="hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg_travelocity</item>
         <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
         <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
-
+        <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal_travelocity</item>
     </style>
 
     <!-- Override the phone theme -->
     <style name="Theme.Phone" parent="@style/Theme.Travelocity"/>
+
 </resources>
