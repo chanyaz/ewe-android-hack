@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -24,7 +25,6 @@ import com.expedia.bookings.data.HotelFilter.PriceRange;
 import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.HotelFilter.Sort;
 import com.expedia.bookings.data.HotelSearch;
-import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -34,6 +34,7 @@ import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.HotelNeighborhoodLayout;
 import com.expedia.bookings.widget.HotelNeighborhoodLayout.OnNeighborhoodsChangedListener;
 import com.expedia.bookings.widget.SlidingRadioGroup;
+import com.expedia.bookings.widget.Switch;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
@@ -50,7 +51,8 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 	private SlidingRadioGroup mRadiusButtonGroup;
 	private SlidingRadioGroup mRatingButtonGroup;
 	private SlidingRadioGroup mPriceButtonGroup;
-	private View mVipAccessButton;
+	private View mVipAccessLabel;
+	private Switch mVipAccessSwitch;
 	private HotelNeighborhoodLayout mNeighborhoodLayout;
 	private List<ISortAndFilterListener> mSortAndFilterListeners = new ArrayList<ResultsHotelListFragment.ISortAndFilterListener>();
 	private ISortAndFilterListener mSortAndFilterListener;
@@ -85,7 +87,9 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		mRadiusButtonGroup = Ui.findView(view, R.id.radius_filter_button_group);
 		mRatingButtonGroup = Ui.findView(view, R.id.rating_filter_button_group);
 		mPriceButtonGroup = Ui.findView(view, R.id.price_filter_button_group);
-		mVipAccessButton = Ui.findView(view, R.id.filter_vip_access);
+		mVipAccessLabel = Ui.findView(view, R.id.filter_vip_access_label);
+		mVipAccessSwitch = Ui.findView(view, R.id.filter_vip_access_switch);
+
 		mNeighborhoodLayout = Ui.findView(view, R.id.areas_layout);
 
 		// Configure functionality of each filter control
@@ -94,7 +98,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		mRadiusButtonGroup.setOnCheckedChangeListener(mRadiusCheckedChangeListener);
 		mRatingButtonGroup.setOnCheckedChangeListener(mStarRatingCheckedChangeListener);
 		mPriceButtonGroup.setOnCheckedChangeListener(mPriceCheckedChangeListener);
-		mVipAccessButton.setOnClickListener(mVipAccessClickListener);
+		mVipAccessSwitch.setOnCheckedChangeListener(mVipAccessCheckedListener);
 		mNeighborhoodLayout.setOnNeighborhoodsChangedListener(mNeighborhoodsChangedListener);
 
 		return view;
@@ -195,10 +199,12 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		mPriceButtonGroup.check(checkId);
 
 		if (PointOfSale.getPointOfSale().supportsVipAccess()) {
-			mVipAccessButton.setVisibility(View.VISIBLE);
+			mVipAccessLabel.setVisibility(View.VISIBLE);
+			mVipAccessSwitch.setVisibility(View.VISIBLE);
 		}
 		else {
-			mVipAccessButton.setVisibility(View.GONE);
+			mVipAccessLabel.setVisibility(View.GONE);
+			mVipAccessSwitch.setVisibility(View.GONE);
 			filter.setVipAccessOnly(false);
 		}
 
@@ -370,12 +376,10 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		}
 	};
 
-	private final View.OnClickListener mVipAccessClickListener = new View.OnClickListener() {
+	private final CompoundButton.OnCheckedChangeListener mVipAccessCheckedListener
+			= new CompoundButton.OnCheckedChangeListener() {
 		@Override
-		public void onClick(View v) {
-			boolean vipAccessOnly = !mVipAccessButton.isSelected();
-			mVipAccessButton.setSelected(vipAccessOnly);
-
+		public void onCheckedChanged(CompoundButton button, boolean vipAccessOnly) {
 			HotelFilter filter = Db.getFilter();
 			filter.setVipAccessOnly(vipAccessOnly);
 			filter.notifyFilterChanged();

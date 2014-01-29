@@ -694,10 +694,6 @@
         <item name="unselectedDrawable">@drawable/btn_tablet_filter_normal</item>
     </style>
 
-    <style name="Widget.Button.TabletFilterControls">
-        <item name="android:background">@drawable/btn_tablet_filter</item>
-        <item name="android:textColor">@color/sliding_group_text</item>
-    </style>
     <!-- Styles for our custom Switch -->
     <style name="Widget.CompoundButton.Switch" parent="android:Widget.CompoundButton">
         <item name="track">@drawable/btn_tablet_filter_normal</item>
