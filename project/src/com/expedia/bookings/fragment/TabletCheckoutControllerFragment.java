@@ -161,18 +161,19 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 		@Override
 		public void onStateTransitionStart(CheckoutState stateOne, CheckoutState stateTwo) {
 			if (stateOne == CheckoutState.OVERVIEW && stateTwo == CheckoutState.READY_FOR_CHECKOUT) {
-				mSlideContainer.setVisibility(View.VISIBLE);
 				setShowReadyForCheckoutPercentage(0f);
+				mSlideContainer.setVisibility(View.VISIBLE);
 			}
 			else if (stateOne == CheckoutState.READY_FOR_CHECKOUT && stateTwo == CheckoutState.OVERVIEW) {
-
+				mSlideContainer.setVisibility(View.VISIBLE);
 			}
 			else if (stateOne == CheckoutState.READY_FOR_CHECKOUT && stateTwo == CheckoutState.CVV) {
 				setShowCvvPercentage(0f);
 				mCvvContainer.setVisibility(View.VISIBLE);
 			}
 			else if (stateOne == CheckoutState.CVV && stateTwo == CheckoutState.READY_FOR_CHECKOUT) {
-
+				setShowReadyForCheckoutPercentage(0f);
+				mSlideContainer.setVisibility(View.VISIBLE);
 			}
 		}
 
@@ -189,6 +190,7 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 			}
 			else if (stateOne == CheckoutState.CVV && stateTwo == CheckoutState.READY_FOR_CHECKOUT) {
 				setShowCvvPercentage(1f - percentage);
+				setShowReadyForCheckoutPercentage(percentage);
 			}
 		}
 
@@ -231,7 +233,7 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 	private void setShowCvvPercentage(float percentage) {
 		mBucketScrollContainer.setTranslationX(percentage * -mBucketScrollContainer.getWidth());
 		mFormContainer.setTranslationX(percentage * mFormContainer.getWidth());
-		mCvvContainer.setTranslationX((1f - percentage) * mCvvContainer.getWidth());
+		mCvvContainer.setTranslationX((1f - percentage) * -mCvvContainer.getWidth());
 	}
 
 	private void setShowReadyForCheckoutPercentage(float percentage) {
