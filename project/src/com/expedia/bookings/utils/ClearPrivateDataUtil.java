@@ -5,6 +5,7 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.BackgroundImageCache;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -88,6 +89,9 @@ public class ClearPrivateDataUtil {
 		// Clear airport dropdown suggestions
 		AirportDropDownAdapter.clearRecentAirports(context);
 		FlightSearchParamsFragment.clearRecentAirAsiaAirports(context);
+
+		// Clear suggestions from tablet search
+		SuggestionProvider.clearRecents(context);
 
 		// Clear previous hotel searches
 		Search.deleteAll();

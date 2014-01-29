@@ -47,6 +47,8 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	// On top when search params covers up everything
 	private static final String BACKSTACK_SEARCH_PARAMS = "BACKSTACK_SEARCH_PARAMS";
 
+	private static final int REQUEST_SETTINGS = 1234;
+
 	private MeasurableFragment mMapFragment;
 	private MeasurableFragment mTilesFragment;
 	private TabletSearchFragment mSearchFragment;
@@ -128,6 +130,14 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		mHockeyPuck.onSaveInstanceState(outState);
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == REQUEST_SETTINGS && resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
+			// TODO reset the state of the SuggestionFragments such that it redraws again, and won't show the recents
+		}
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Action bar
 
@@ -162,9 +172,8 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 			return true;
 		}
 		case R.id.menu_settings: {
-			// Possible TODO: Reset the activity when settings are changed?
 			Intent intent = new Intent(this, TabletPreferenceActivity.class);
-			startActivity(intent);
+			startActivityForResult(intent, REQUEST_SETTINGS);
 			return true;
 		}
 		case R.id.menu_about: {

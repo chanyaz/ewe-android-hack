@@ -315,4 +315,13 @@ public class SuggestionProvider extends ContentProvider {
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
 		throw new UnsupportedOperationException("You cannot delete suggestions.");
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Clear
+
+	public static void clearRecents(Context context) {
+		RecentList<SuggestionV2> recents = new RecentList<SuggestionV2>(SuggestionV2.class, context, RECENTS_FILENAME, MAX_RECENTS);
+		recents.clear();
+		recents.saveList(context, RECENTS_FILENAME);
+	}
 }
