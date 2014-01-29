@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,12 +19,9 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
@@ -36,26 +32,24 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
-import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TextView;
-import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
-import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.Log;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-public class TabletCheckoutFormsFragment extends Fragment implements AccountButtonClickListener,
-		ConfirmLogoutDialogFragment.DoLogoutListener, IBackManageable, IStateProvider<CheckoutFormState>,
+public class TabletCheckoutFormsFragment extends Fragment implements IBackManageable,
+		IStateProvider<CheckoutFormState>,
 		ICheckoutDataListener {
 
 	private static final String FRAG_TAG_TRAVELER_FORM = "FRAG_TAG_TRAVELER_FORM";
 	private static final String FRAG_TAG_PAYMENT_FORM = "FRAG_TAG_PAYMENT_FORM";
+	private static final String FRAG_TAG_LOGIN_BUTTONS = "FRAG_TAG_LOGIN_BUTTONS";
+
+	private static final String FRAG_TAG_TRAV_BTN_BASE = "FRAG_TAG_TRAV_BTN_BASE_";//We generate tags based on this
+
+	//These act as dummy view ids (or the basis there of) that help us dynamically create veiws we can bind to
+	private static final int TRAV_BTN_ID_START = 1000000;
+	private static final int LOGIN_FRAG_CONTAINER_ID = 2000000;
 
 	private ViewGroup mRootC;
 	private LinearLayout mCheckoutRowsC;
@@ -69,8 +63,12 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	private LineOfBusiness mLob;
 	private int mShowingViewIndex = -1;
 
+	private CheckoutLoginButtonsFragment mLoginButtons;
 	private TabletCheckoutTravelerFormFragment mTravelerForm;
 	private TabletCheckoutPaymentFormFragment mPaymentForm;
+
+	private ArrayList<View> mTravelerViews = new ArrayList<View>();
+	private ArrayList<TravelerButtonFragment> mTravelerButtonFrags = new ArrayList<TravelerButtonFragment>();
 
 	private StateManager<CheckoutFormState> mStateManager = new StateManager<CheckoutFormState>(
 			CheckoutFormState.OVERVIEW, this);
@@ -104,28 +102,12 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	public void onResume() {
 		super.onResume();
 
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_REFRESH_USER)) {
-			bd.registerDownloadCallback(KEY_REFRESH_USER, mRefreshUserCallback);
-		}
-
-		//We disable this for sign in, but when the user comes back it should be enabled.
-		mAccountButton.setEnabled(true);
-
 		mBackManager.registerWithParent(this);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (getActivity().isFinishing()) {
-			bd.cancelDownload(KEY_REFRESH_USER);
-		}
-		else {
-			bd.unregisterDownloadCallback(KEY_REFRESH_USER);
-		}
 
 		if (Db.getTravelersAreDirty()) {
 			Db.kickOffBackgroundTravelerSave(getActivity());
@@ -168,12 +150,29 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 		}
 	}
 
+	public void attachLoginButtons() {
+		FragmentManager manager = getChildFragmentManager();
+		if (mLoginButtons == null) {
+			mLoginButtons = (CheckoutLoginButtonsFragment) manager.findFragmentByTag(FRAG_TAG_LOGIN_BUTTONS);
+		}
+		if (mLoginButtons == null) {
+			mLoginButtons = CheckoutLoginButtonsFragment.newInstance(mLob);
+		}
+		if (!mLoginButtons.isAdded()) {
+			FragmentTransaction transaction = manager.beginTransaction();
+			transaction.add(LOGIN_FRAG_CONTAINER_ID, mLoginButtons, FRAG_TAG_LOGIN_BUTTONS);
+			transaction.commit();
+		}
+	}
+
 	/*
 	 * BINDING
 	 */
 
 	public void bindAll() {
-		refreshAccountButtonState();
+		if (mLoginButtons != null) {
+			mLoginButtons.bind();
+		}
 		bindTravelers();
 	}
 
@@ -233,9 +232,11 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 		addGroupHeading(getString(R.string.now_booking_TEMPLATE, headingArg));
 
 		//LOGIN STUFF
-		mAccountButton = Ui.inflate(R.layout.include_account_button, mCheckoutRowsC, false);
-		mAccountButton.setListener(this);
-		add(mAccountButton);
+		FrameLayout frame = new FrameLayout(getActivity());
+		frame.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+		frame.setId(LOGIN_FRAG_CONTAINER_ID);
+		add(frame);
+		attachLoginButtons();
 
 		//TRAVELERS
 		populateTravelerData();
@@ -307,9 +308,6 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	 * TRAVELER FORM STUFF
 	 */
 
-	private ArrayList<View> mTravelerViews = new ArrayList<View>();
-	private ArrayList<TravelerButtonFragment> mTravelerButtonFrags = new ArrayList<TravelerButtonFragment>();
-
 	protected void addTravelerView(final int travelerNumber) {
 
 		//Add the container to the layout (and make it actionable)
@@ -342,9 +340,6 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 			mTravelerButtonFrags.add(btnFrag);
 		}
 	}
-
-	private static final String FRAG_TAG_TRAV_BTN_BASE = "FRAG_TAG_TRAV_BTN_BASE_";
-	private static final int TRAV_BTN_ID_START = 1000000;
 
 	private String getTravelerButtonFragTag(int travNumber) {
 		return FRAG_TAG_TRAV_BTN_BASE + travNumber;
@@ -475,39 +470,6 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	}
 
 	/*
-	 * ACCOUNT REFRESH DOWNLOAD
-	 */
-
-	private final Download<SignInResponse> mRefreshUserDownload = new Download<SignInResponse>() {
-		@Override
-		public SignInResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(getActivity());
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_REFRESH_USER, services);
-			//Why flights AND hotels? Because the api will return blank for loyaltyMembershipNumber on flights
-			return services.signIn(ExpediaServices.F_FLIGHTS | ExpediaServices.F_HOTELS);
-		}
-	};
-
-	private final OnDownloadComplete<SignInResponse> mRefreshUserCallback = new OnDownloadComplete<SignInResponse>() {
-		@Override
-		public void onDownload(SignInResponse results) {
-			if (results == null || results.hasErrors()) {
-				//The refresh failed, so we just log them out. They can always try to login again.
-				doLogout();
-			}
-			else {
-				// Update our existing saved data
-				User user = results.getUser();
-				user.save(getActivity());
-				Db.setUser(user);
-
-				// Act as if a login just occurred
-				onLoginCompleted();
-			}
-		}
-	};
-
-	/*
 	 * BACKMANAGEABLE
 	 */
 
@@ -635,91 +597,5 @@ public class TabletCheckoutFormsFragment extends Fragment implements AccountButt
 	@Override
 	public void unRegisterStateListener(IStateListener<CheckoutFormState> listener) {
 		mStateListeners.unRegisterStateListener(listener);
-	}
-
-	/*
-	 * ACCOUNT BUTTON
-	 * TODO: WE SHOULD MOVE ALL OF THIS STUFF TO ITS OWN FRAGMENT
-	 */
-
-	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
-	private long mRefreshedUserTime = 0L;
-	private AccountButton mAccountButton;
-
-	private void refreshAccountButtonState() {
-		if (User.isLoggedIn(getActivity())) {
-			if (Db.getUser() == null) {
-				Db.loadUser(getActivity());
-			}
-
-			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
-					&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
-				//We have a user (either from memory, or loaded from disk)
-				int userRefreshInterval = getResources().getInteger(R.integer.account_sync_interval);
-				if (mRefreshedUserTime + userRefreshInterval < System.currentTimeMillis()) {
-					Log.d("Refreshing user profile...");
-
-					BackgroundDownloader bd = BackgroundDownloader.getInstance();
-					if (!bd.isDownloading(KEY_REFRESH_USER)) {
-						bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
-					}
-				}
-				mAccountButton.bind(false, true, Db.getUser(), true);
-			}
-			else {
-				//We thought the user was logged in, but the user appears to not contain the data we need, get rid of the user
-				User.signOut(getActivity());
-				mAccountButton.bind(false, false, null, true);
-			}
-		}
-		else {
-			mAccountButton.bind(false, false, null, true);
-		}
-	}
-
-	@Override
-	public void accountLoginClicked() {
-		if (mAccountButton.isEnabled()) {
-			mAccountButton.setEnabled(false);
-
-			Bundle args = null;
-			if (getLob() == LineOfBusiness.FLIGHTS) {
-				String itinNum = Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber();
-				String tripId = Db.getItinerary(itinNum).getTripId();
-				args = LoginActivity.createArgumentsBundle(mLob, new UserToTripAssocLoginExtender(
-						tripId));
-				OmnitureTracking.trackPageLoadFlightLogin(getActivity());
-			}
-			else if (getLob() == LineOfBusiness.HOTELS) {
-				args = LoginActivity.createArgumentsBundle(LineOfBusiness.HOTELS, null);
-				OmnitureTracking.trackPageLoadHotelsLogin(getActivity());
-			}
-
-			User.signIn(getActivity(), args);
-		}
-	}
-
-	@Override
-	public void accountLogoutClicked() {
-		ConfirmLogoutDialogFragment df = new ConfirmLogoutDialogFragment();
-		df.show(this.getFragmentManager(), ConfirmLogoutDialogFragment.TAG);
-	}
-
-	@Override
-	public void doLogout() {
-		// Stop refreshing user (if we're currently doing so)
-		BackgroundDownloader.getInstance().cancelDownload(KEY_REFRESH_USER);
-		mRefreshedUserTime = 0L;
-
-		// Sign out user
-		User.signOut(getActivity());
-
-		// Update UI
-		mAccountButton.bind(false, false, null, true);
-	}
-
-	public void onLoginCompleted() {
-		mAccountButton.bind(false, true, Db.getUser(), true);
-		mRefreshedUserTime = System.currentTimeMillis();
 	}
 }
