@@ -14,6 +14,7 @@ class AppNameLabels {
             'com.expedia.bookings.vsc.latest' : 'VSC Latest',
 
             'com.travelocity.android.debug' : 'Travelocity Debug',
+            'com.travelocity.android.latest' : 'Travelocity Latest',
     ]
 
     static def getAppName(buildVariant) {
