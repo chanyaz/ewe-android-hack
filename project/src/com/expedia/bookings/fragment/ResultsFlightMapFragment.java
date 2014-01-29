@@ -33,7 +33,7 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 	private ImageView mDepartureImage;
 	private ImageView mArrivalImage;
 
-	private LayerDrawable mBgDrawable;
+	private Drawable mBgDrawable;
 
 	private double mDepartureLat;
 	private double mDepartureLng;
@@ -42,6 +42,8 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 
 	private final static String INSTANCE_IS_FORWARD = "INSTANCE_IS_FORWARD";
 	private boolean mIsForward = true;
+	private boolean mIsDepartureSet = false;
+	private boolean mIsArrivalSet = false;
 
 	public static ResultsFlightMapFragment newInstance() {
 		ResultsFlightMapFragment frag = new ResultsFlightMapFragment();
@@ -106,11 +108,13 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 	}
 
 	public void setDepartureLatLng(double lat, double lng) {
+		mIsDepartureSet = true;
 		mDepartureLat = lat;
 		mDepartureLng = lng;
 	}
 
 	public void setArrivalLatLng(double lat, double lng) {
+		mIsArrivalSet = true;
 		mArrivalLat = lat;
 		mArrivalLng = lng;
 	}
@@ -119,32 +123,48 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 		int w = getMapView().getWidth();
 		int h = getMapView().getHeight();
 
-		// TODO make work for pacific ocean
-		setBounds(
-				mDepartureLat, mDepartureLng,
-				mArrivalLat, mArrivalLng);
-
 		ColorDrawable bgColorDrawable = new ColorDrawable(Color.parseColor("#687887"));
 		bgColorDrawable.setBounds(0, 0, w, h);
 
-		SvgDrawable mapDrawable = new SvgDrawable(getSvg(), getViewportMatrix());
-		mapDrawable.setBounds(0, 0, w, h);
+		SvgDrawable mapDrawable;
 
-		Drawable[] drawables = new Drawable[] {
-			bgColorDrawable,
-			mapDrawable,
-		};
-		mBgDrawable = new LayerDrawable(drawables);
+		// TODO make work for pacific ocean
+		if (mIsDepartureSet && mIsArrivalSet) {
+			setBounds(
+				mDepartureLat, mDepartureLng,
+				mArrivalLat, mArrivalLng
+			);
+
+			mapDrawable = new SvgDrawable(getSvg(), getViewportMatrix());
+			mapDrawable.setBounds(0, 0, w, h);
+
+			Drawable[] drawables = new Drawable[] {
+				bgColorDrawable,
+				mapDrawable,
+			};
+			mBgDrawable = new LayerDrawable(drawables);
+		}
+		else {
+			mBgDrawable = bgColorDrawable;
+		}
+
 		getMapView().setBackgroundDrawable(mBgDrawable);
 		mRoot.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
-		positionFlightLine();
-		if (mIsForward) {
-			forward();
+		if (mIsDepartureSet && mIsArrivalSet) {
+			positionFlightLine();
+			if (mIsForward) {
+				forward();
+			}
+			else {
+				backward();
+			}
 		}
-		else {
-			backward();
-		}
+	}
+
+	@Override
+	public boolean isMapGenerated() {
+		return super.isMapGenerated() && mIsDepartureSet && mIsArrivalSet;
 	}
 
 	public void forward() {
