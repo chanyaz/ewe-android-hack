@@ -3,7 +3,6 @@ package com.expedia.bookings.server;
 import java.io.IOException;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 
 import com.expedia.bookings.data.ScenarioSetResponse;

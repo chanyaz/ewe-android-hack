@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonParser;
@@ -114,7 +113,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 
 		if (parser.nextToken() != JsonToken.START_OBJECT) {
 			throw new IOException("Expected readSearchResponse() to start with an Object, started with "
-					+ parser.getCurrentToken() + " instead.");
+				+ parser.getCurrentToken() + " instead.");
 		}
 
 		String name;
@@ -129,7 +128,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			else if (name.equals("hotelList")) {
 				if (token != JsonToken.START_ARRAY) {
 					throw new IOException("Expected hotelList to start with an Array, started with "
-							+ parser.getCurrentToken() + " instead.");
+						+ parser.getCurrentToken() + " instead.");
 				}
 
 				while (parser.nextToken() != JsonToken.END_ARRAY) {
@@ -158,7 +157,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 
 		if (parser.getCurrentToken() != JsonToken.START_OBJECT && parser.nextToken() != JsonToken.START_OBJECT) {
 			throw new IOException("Expected readHotelSummary() to start with an Object, started with "
-					+ parser.getCurrentToken() + " instead.");
+				+ parser.getCurrentToken() + " instead.");
 		}
 
 		String name, mediaName;
@@ -247,13 +246,13 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			else if (name.equals("media")) {
 				if (token != JsonToken.START_ARRAY) {
 					throw new IOException("Expected media to start with an Array, started with "
-							+ parser.getCurrentToken() + " instead.");
+						+ parser.getCurrentToken() + " instead.");
 				}
 
 				while (parser.nextToken() != JsonToken.END_ARRAY) {
 					if (parser.getCurrentToken() != JsonToken.START_OBJECT) {
 						throw new IOException("Expected media item to start with an Object, started with "
-								+ parser.getCurrentToken() + " instead.");
+							+ parser.getCurrentToken() + " instead.");
 					}
 
 					while (parser.nextToken() != JsonToken.END_OBJECT) {
@@ -311,9 +310,9 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		// calculate the distance based on the params.
 		Distance distanceFromUser = property.getDistanceFromUser();
 		if ((distanceFromUser == null || distanceFromUser.getDistance() == 0) && mLatitude != 0 && mLongitude != 0
-				&& location.getLatitude() != 0 && location.getLongitude() != 0) {
+			&& location.getLatitude() != 0 && location.getLongitude() != 0) {
 			property.setDistanceFromUser(new Distance(mLatitude, mLongitude, location.getLatitude(), location
-					.getLongitude(), DistanceUnit.getDefaultDistanceUnit()));
+				.getLongitude(), DistanceUnit.getDefaultDistanceUnit()));
 		}
 
 		if (mIsRelease) {
@@ -334,7 +333,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 	private Rate readLowRateInfo(JsonParser parser) throws IOException {
 		if (parser.getCurrentToken() != JsonToken.START_OBJECT && parser.nextToken() != JsonToken.START_OBJECT) {
 			throw new IOException("Expected readLowRateInfo() to start with an Object, started with "
-					+ parser.getCurrentToken() + " instead.");
+				+ parser.getCurrentToken() + " instead.");
 		}
 
 		String currencyCode = null;
@@ -415,7 +414,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 
 		if (parser.getCurrentToken() != JsonToken.START_OBJECT && parser.nextToken() != JsonToken.START_OBJECT) {
 			throw new IOException("Expected readServerError() to start with an Object, started with "
-					+ parser.getCurrentToken() + " instead.");
+				+ parser.getCurrentToken() + " instead.");
 		}
 
 		// TODO: FIGURE OUT MESSAGE TO DISPLAY TO USER ON ERROR
@@ -430,7 +429,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			else if (name.equals("errorInfo")) {
 				if (token != JsonToken.START_OBJECT) {
 					throw new IOException("Expected errorInfo to start with an Object, started with "
-							+ parser.getCurrentToken() + " instead.");
+						+ parser.getCurrentToken() + " instead.");
 				}
 				while (parser.nextToken() != JsonToken.END_OBJECT) {
 					String name2 = parser.getCurrentName();

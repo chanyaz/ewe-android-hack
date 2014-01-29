@@ -157,7 +157,8 @@ public class FlightSearch implements JSONable {
 	}
 
 	public void setSelectedLeg(int position, FlightTripLeg leg) {
-		getSelectedLegs()[position] = leg;
+		FlightTripLeg[] legs = getSelectedLegs();
+		legs[position] = leg;
 	}
 
 	public FlightTripLeg[] getAddedLegs() {
@@ -165,7 +166,8 @@ public class FlightSearch implements JSONable {
 	}
 
 	public void setAddedLeg(int position, FlightTripLeg leg) {
-		getAddedLegs()[position] = leg;
+		FlightTripLeg[] legs = getAddedLegs();
+		legs[position] = leg;
 	}
 
 	public void commitSelectedLegs() {

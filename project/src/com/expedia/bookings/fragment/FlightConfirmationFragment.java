@@ -104,7 +104,8 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 				// For some reason, I can't get this layout to work unless I set an explicit
 				// height (probably because of a RelativeLayout circular dependency).
-				view.getLayoutParams().height = cardHeight + Math.round(offset * a);
+				ViewGroup.LayoutParams params = view.getLayoutParams();
+				params.height = cardHeight + Math.round(offset * a);
 			}
 
 			// Each card is offset below the last one

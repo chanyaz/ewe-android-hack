@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonParser;
@@ -35,7 +34,7 @@ import com.mobiata.flightlib.data.Waypoint;
 
 /**
  * A streaming flight search results parser.
- *
+ * <p/>
  * To avoid memory issues, use this!
  */
 public class StreamingFlightSearchResponseHandler implements ResponseHandler<FlightSearchResponse> {
@@ -102,7 +101,7 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		parser.close();
 
 		Log.d("Streaming flight search response parse time: " + ((System.nanoTime() - start) / 1000000)
-				+ " ms; # trips=" + mResponse.getTripCount() + ", # legs=" + mLegs.size());
+			+ " ms; # trips=" + mResponse.getTripCount() + ", # legs=" + mLegs.size());
 
 		return mResponse;
 	}
@@ -257,7 +256,7 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 				if (!TextUtils.isEmpty(distanceUnits) && !distanceUnits.equals("miles")) {
 					// Need to do this since I don't know what other values are possible.  Later we can convert
 					throw new RuntimeException("Parser does not yet handle non-miles distanceUnits.  Got: "
-							+ distanceUnits);
+						+ distanceUnits);
 				}
 			}
 			else if (name.equals("equipmentDescription")) {
@@ -299,10 +298,10 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		}
 
 		departure.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN,
-				depTimeEpochSeconds * 1000, depTimeZoneOffsetSeconds * 1000);
+			depTimeEpochSeconds * 1000, depTimeZoneOffsetSeconds * 1000);
 
 		arrival.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN,
-				arrTimeEpochSeconds * 1000, arrTimeZoneOffsetSeconds * 1000);
+			arrTimeEpochSeconds * 1000, arrTimeZoneOffsetSeconds * 1000);
 
 		return segment;
 	}
