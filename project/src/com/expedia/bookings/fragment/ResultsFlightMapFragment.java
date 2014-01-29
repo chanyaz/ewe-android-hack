@@ -40,6 +40,9 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 	private double mArrivalLat;
 	private double mArrivalLng;
 
+	private final static String INSTANCE_IS_FORWARD = "INSTANCE_IS_FORWARD";
+	private boolean mIsForward = true;
+
 	public static ResultsFlightMapFragment newInstance() {
 		ResultsFlightMapFragment frag = new ResultsFlightMapFragment();
 		frag.setMapResource(R.raw.map_flight_details);
@@ -53,6 +56,10 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 		mFlightLine = Ui.findView(mRoot, R.id.flight_line_view);
 		mDepartureImage = Ui.findView(mRoot, R.id.departure_image);
 		mArrivalImage = Ui.findView(mRoot, R.id.arrival_image);
+
+		if (savedInstanceState != null) {
+			savedInstanceState.getBoolean(INSTANCE_IS_FORWARD, true);
+		}
 
 		setMapView(mMapView);
 
@@ -92,6 +99,12 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 		return mRoot;
 	}
 
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(INSTANCE_IS_FORWARD, mIsForward);
+	}
+
 	public void setDepartureLatLng(double lat, double lng) {
 		mDepartureLat = lat;
 		mDepartureLng = lng;
@@ -126,10 +139,16 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 		mRoot.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
 		positionFlightLine();
-		forward();
+		if (mIsForward) {
+			forward();
+		}
+		else {
+			backward();
+		}
 	}
 
 	public void forward() {
+		mIsForward = true;
 		Point2D.Double screen;
 
 		mFlightLine.forward();
@@ -143,6 +162,7 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 
 	// For reversing the flight line
 	public void backward() {
+		mIsForward = false;
 		Point2D.Double screen;
 
 		mFlightLine.backward();

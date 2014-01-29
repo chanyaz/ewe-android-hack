@@ -173,6 +173,10 @@ public class SvgMapFragment extends MeasurableFragment {
 		return mProjection;
 	}
 
+	public boolean isMapGenerated() {
+		return mViewportMatrix != null;
+	}
+
 	public void setPadding(int left, int top, int right, int bottom) {
 		mPaddingLeft = left;
 		mPaddingTop = top;

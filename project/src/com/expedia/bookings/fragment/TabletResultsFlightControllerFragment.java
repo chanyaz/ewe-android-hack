@@ -1164,13 +1164,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			case FLIGHT_LIST_DOWN:
 			case FLIGHT_ONE_FILTERS:
 			case FLIGHT_ONE_DETAILS:
-				if (mFlightMapFrag.isAdded()) {
+				if (mFlightMapFrag.isAdded() && mFlightMapFrag.isMapGenerated()) {
 					mFlightMapFrag.forward();
 				}
 				break;
 			case FLIGHT_TWO_FILTERS:
 			case FLIGHT_TWO_DETAILS:
-				if (mFlightMapFrag.isAdded()) {
+				if (mFlightMapFrag.isAdded() && mFlightMapFrag.isMapGenerated()) {
 					mFlightMapFrag.backward();
 				}
 				break;
