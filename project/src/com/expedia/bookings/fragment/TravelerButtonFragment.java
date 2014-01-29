@@ -165,8 +165,7 @@ public class TravelerButtonFragment extends LobableFragment {
 			return v;
 		}
 		else if (getLob() == LineOfBusiness.HOTELS) {
-			return (SectionTravelerInfo) View.inflate(getActivity(), R.layout.snippet_booking_overview_traveler,
-					group);
+			return View.inflate(getActivity(), R.layout.snippet_booking_overview_traveler, group);
 		}
 		return null;
 	}

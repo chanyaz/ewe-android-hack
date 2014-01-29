@@ -44,12 +44,14 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 	private static final String FRAG_TAG_TRAVELER_FORM = "FRAG_TAG_TRAVELER_FORM";
 	private static final String FRAG_TAG_PAYMENT_FORM = "FRAG_TAG_PAYMENT_FORM";
 	private static final String FRAG_TAG_LOGIN_BUTTONS = "FRAG_TAG_LOGIN_BUTTONS";
+	private static final String FRAG_TAG_PAYMENT_BUTTON = "FRAG_TAG_PAYMENT_BUTTON";
 
 	private static final String FRAG_TAG_TRAV_BTN_BASE = "FRAG_TAG_TRAV_BTN_BASE_";//We generate tags based on this
 
 	//These act as dummy view ids (or the basis there of) that help us dynamically create veiws we can bind to
 	private static final int TRAV_BTN_ID_START = 1000000;
 	private static final int LOGIN_FRAG_CONTAINER_ID = 2000000;
+	private static final int PAYMENT_FRAG_CONTAINER_ID = 2000001;
 
 	private ViewGroup mRootC;
 	private LinearLayout mCheckoutRowsC;
@@ -64,6 +66,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 	private int mShowingViewIndex = -1;
 
 	private CheckoutLoginButtonsFragment mLoginButtons;
+	private PaymentButtonFragment mPaymentButton;
 	private TabletCheckoutTravelerFormFragment mTravelerForm;
 	private TabletCheckoutPaymentFormFragment mPaymentForm;
 
@@ -103,6 +106,8 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 		super.onResume();
 
 		mBackManager.registerWithParent(this);
+
+		bindAll();
 	}
 
 	@Override
@@ -165,6 +170,21 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 		}
 	}
 
+	public void attachPaymentButton() {
+		FragmentManager manager = getChildFragmentManager();
+		if (mPaymentButton == null) {
+			mPaymentButton = (PaymentButtonFragment) manager.findFragmentByTag(FRAG_TAG_PAYMENT_BUTTON);
+		}
+		if (mPaymentButton == null) {
+			mPaymentButton = PaymentButtonFragment.newInstance(mLob);
+		}
+		if (!mPaymentButton.isAdded()) {
+			FragmentTransaction transaction = manager.beginTransaction();
+			transaction.add(PAYMENT_FRAG_CONTAINER_ID, mPaymentButton, FRAG_TAG_PAYMENT_BUTTON);
+			transaction.commit();
+		}
+	}
+
 	/*
 	 * BINDING
 	 */
@@ -172,6 +192,9 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 	public void bindAll() {
 		if (mLoginButtons != null) {
 			mLoginButtons.bind();
+		}
+		if (mPaymentButton != null) {
+			mPaymentButton.bindToDb();
 		}
 		bindTravelers();
 	}
@@ -247,7 +270,9 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 
 		//PAYMENT
 		addGroupHeading(R.string.payment_method);
-		mPaymentView = Ui.inflate(R.layout.section_display_creditcard_btn, mCheckoutRowsC, false);
+		mPaymentView = new FrameLayout(getActivity());
+		mPaymentView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+		mPaymentView.setId(PAYMENT_FRAG_CONTAINER_ID);
 		dressCheckoutView(mPaymentView, 0);
 		addActionable(mPaymentView, new Runnable() {
 			@Override
@@ -255,6 +280,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 				openPaymentForm();
 			}
 		});
+		attachPaymentButton();
 
 		bindAll();
 

@@ -41,6 +41,23 @@ public class HotelPaymentFlowState {
 	}
 
 	/**
+	 * Looks at the billingInfo and determines whether or not it contains a valid, selected card of any type. A valid,
+	 * selected card means that the card in the billingInfo (either stored or manual) has a valid credit card and a
+	 * valid billing address
+	 * @param billingInfo
+	 * @return
+	 */
+	public boolean hasAValidCardSelected(BillingInfo billingInfo) {
+		if (billingInfo == null) {
+			return false;
+		}
+		if (billingInfo.hasStoredCard()) {
+			return true;
+		}
+		return hasValidBillingAddress(billingInfo) && hasValidCardInfo(billingInfo);
+	}
+
+	/**
 	 * For hotels flow we do not need billing address information for all POS that are not US
 	 */
 	public boolean hasValidBillingAddress(BillingInfo billingInfo) {
