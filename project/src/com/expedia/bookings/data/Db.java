@@ -34,11 +34,11 @@ import com.squareup.otto.Bus;
 
 /**
  * This represents an in-memory database of data for the app.
- *
+ * <p/>
  * Try to keep out information that is state data for a fragment.  For example,
  * keeping track of whether a field has been clicked is not for this.  This is
  * more for passing data between Activities.
- *
+ * <p/>
  * Also, be sure to NEVER add anything that could leak memory (such as a Context).
  */
 public class Db {
@@ -258,7 +258,7 @@ public class Db {
 
 	/**
 	 * WARNING: DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING.
-	 *
+	 * <p/>
 	 * Normally you just manipulate the FlightSearch in place,
 	 * this is just for restoring state.  Do not idly use it,
 	 * as you may mess up connections between objects otherwise.
@@ -498,8 +498,8 @@ public class Db {
 				IoUtils.writeStringToFile(HOTEL_SEARCH_DATA_FILE, hotelSearchString, context);
 
 				Log.d("Saved hotel data cache in " + (System.currentTimeMillis() - start)
-						+ " ms.  Size of data cache: "
-						+ hotelSearchString.length() + " chars");
+					+ " ms.  Size of data cache: "
+					+ hotelSearchString.length() + " chars");
 			}
 			catch (IOException e) {
 				Log.w("Failed to write hotel data to disk", e);
@@ -568,7 +568,7 @@ public class Db {
 	public static void saveFlightSearchParamsToDisk(Context context) {
 		Log.i("Saving flight search params to disk.");
 		SettingUtils.save(context, FLIGHT_SEARCH_PARAMS_SETTING, getFlightSearch().getSearchParams().toJson()
-				.toString());
+			.toString());
 	}
 
 	public static void loadFlightSearchParamsFromDisk(Context context) {
@@ -619,8 +619,8 @@ public class Db {
 				IoUtils.writeStringToFile(SAVED_FLIGHT_DATA_FILE, json, context);
 
 				Log.d("Saved flight data cache in " + (System.currentTimeMillis() - start)
-						+ " ms.  Size of data cache: "
-						+ json.length() + " chars");
+					+ " ms.  Size of data cache: "
+					+ json.length() + " chars");
 
 				return true;
 			}
@@ -656,7 +656,7 @@ public class Db {
 				IoUtils.writeStringToFile(SAVED_AIRLINE_DATA_FILE, json, context);
 
 				Log.d("Saved airline data cache in " + (System.currentTimeMillis() - start)
-						+ " ms.  Size of data cache: " + json.length() + " chars");
+					+ " ms.  Size of data cache: " + json.length() + " chars");
 
 				sDb.mAirlineNamesDirty = false;
 
@@ -693,7 +693,7 @@ public class Db {
 			}
 			if (obj.has("backgroundImageInfo")) {
 				sDb.mBackgroundImageInfo = JSONUtils.getJSONable(obj, "backgroundImageInfo",
-						BackgroundImageResponse.class);
+					BackgroundImageResponse.class);
 			}
 			if (obj.has("itineraries")) {
 				List<Itinerary> itineraries = JSONUtils.getJSONableList(obj, "itineraries", Itinerary.class);
@@ -855,8 +855,8 @@ public class Db {
 				IoUtils.writeStringToFile(SAVED_TRAVELER_DATA_FILE, json, context);
 
 				Log.d("Saved traveler data cache in " + (System.currentTimeMillis() - start)
-						+ " ms.  Size of data cache: "
-						+ json.length() + " chars");
+					+ " ms.  Size of data cache: "
+					+ json.length() + " chars");
 
 				Db.setTravelersAreDirty(false);
 				return true;
@@ -956,15 +956,15 @@ public class Db {
 	private static void safetyFirst(Context context) {
 		if (AndroidUtils.isRelease(context)) {
 			throw new RuntimeException(
-					"This debug method should NEVER be called in a release build"
-							+ " (you should probably even remove it from the codebase)");
+				"This debug method should NEVER be called in a release build"
+					+ " (you should probably even remove it from the codebase)");
 		}
 	}
 
 	/**
 	 * Call in onCreate(); will either save (if we are in the middle of the app)
 	 * or will reload (if you launched to this specific Activity)
-	 *
+	 * <p/>
 	 * Should be used for TESTING ONLY.  Do not check in any calls to this!
 	 */
 	public static void saveOrLoadDbForTesting(Activity activity) {
@@ -1035,7 +1035,7 @@ public class Db {
 			sDb.mUser = getJsonable(obj, "user", User.class, sDb.mUser);
 			sDb.mTravelers = getList(obj, "travelers", Traveler.class, sDb.mTravelers);
 			sDb.mBackgroundImageInfo = getJsonable(obj, "backgroundImageInfo", BackgroundImageResponse.class,
-					sDb.mBackgroundImageInfo);
+				sDb.mBackgroundImageInfo);
 		}
 		catch (Exception e) {
 			Log.w("Could not load db testing", e);
@@ -1047,7 +1047,7 @@ public class Db {
 	}
 
 	private static <T extends JSONable> T getJsonable(JSONObject obj, String key, Class<T> c, T defaultVal)
-			throws Exception {
+		throws Exception {
 		T t = JSONUtils.getJSONable(obj, key, c);
 		if (t != null) {
 			return t;
@@ -1061,7 +1061,7 @@ public class Db {
 
 	@SuppressWarnings("rawtypes")
 	private static <T extends JSONable> Map<String, T> getMap(JSONObject obj, String key, Class<T> c,
-			Map<String, T> defaultVal) throws Exception {
+															  Map<String, T> defaultVal) throws Exception {
 		return JSONUtils.getJSONableStringMap(obj, key, c, defaultVal);
 	}
 

@@ -9,8 +9,6 @@ import org.joda.time.Duration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.text.TextUtils;
-
 import com.expedia.bookings.data.trips.ItinShareInfo;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.utils.FlightUtils;
@@ -115,7 +113,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 					// else if block should be relatively uncommon
 					if (origin != null && destination != null) {
 						totalDistance += MapUtils.getDistance(origin.getLatitude(), origin.getLongitude(),
-								destination.getLatitude(), destination.getLongitude());
+							destination.getLatitude(), destination.getLongitude());
 					}
 				}
 			}
@@ -149,6 +147,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	/**
 	 * Returns the airline code for the *first* segment of this flight leg.
+	 *
 	 * @return string, or null if there are no segments.
 	 */
 	public String getFirstAirlineCode() {

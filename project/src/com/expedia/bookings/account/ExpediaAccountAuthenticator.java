@@ -19,7 +19,7 @@ import com.expedia.bookings.tracking.AdTracker;
 
 /**
  * ExpediaAccountAuthenticator - for using the AccountManager with expedia accounts.
- * 
+ * <p/>
  * NOTE: This AccountAuthenticator is in some ways breaking its contract based on the token returned.
  * Typically a AccountAuthenticator would return a valid signin token that can be used to authenticate with a service.
  * We are returning the Tuid of our logged in User, which can in no way be used to log into expedia. Why?
@@ -29,7 +29,7 @@ import com.expedia.bookings.tracking.AdTracker;
  * is likely to introduce insanity bugs, so the idea of getting cookies (and storing them) anywhere other than from
  * the web requests themselves seems too dangerous. Hence our Tuid approach which can be used to at least verify
  * the token against that of the logged in user.
- * 
+ * <p/>
  * Account name: expedia account email address
  * Token: Primary Traveler uuid
  */
@@ -44,8 +44,8 @@ public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator {
 
 	@Override
 	public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType,
-			String[] requiredFeatures, Bundle options)
-			throws NetworkErrorException {
+							 String[] requiredFeatures, Bundle options)
+		throws NetworkErrorException {
 
 		final Intent intent = LoginActivity.createIntent(mContext, options);
 		intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
@@ -56,7 +56,7 @@ public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator {
 
 	@Override
 	public Bundle confirmCredentials(AccountAuthenticatorResponse response, Account account, Bundle options)
-			throws NetworkErrorException {
+		throws NetworkErrorException {
 		// Default method implementation - currently not used.
 		return null;
 	}
@@ -69,15 +69,14 @@ public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator {
 
 	/**
 	 * See top of ExpediaAccountAuthenticator.java (this file) for detailed explaination of our token.
-	 * 
+	 *
 	 * @param options - This is an argument bundle that will be passed to the LoginActivity
 	 * @return Token = Expedia Account TUID - Not an actual authentication token.
-	 * 
 	 */
 	@Override
 	public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType,
-			Bundle options)
-			throws NetworkErrorException {
+							   Bundle options)
+		throws NetworkErrorException {
 
 		Bundle result = new Bundle();
 		String tuidStr = null;
@@ -130,15 +129,15 @@ public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator {
 
 	@Override
 	public Bundle hasFeatures(AccountAuthenticatorResponse response, Account account, String[] features)
-			throws NetworkErrorException {
+		throws NetworkErrorException {
 		// Default method implementation - currently not used.
 		return null;
 	}
 
 	@Override
 	public Bundle updateCredentials(AccountAuthenticatorResponse response, Account account, String authTokenType,
-			Bundle options)
-			throws NetworkErrorException {
+									Bundle options)
+		throws NetworkErrorException {
 		// Default method implementation - currently not used.
 		return null;
 	}

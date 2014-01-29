@@ -539,14 +539,14 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			return new double[] {
 				prices[0],
 				prices[0],
-				prices[1]
+				prices[1],
 			};
 		}
 		else if (len == 1) {
 			return new double[] {
 				prices[0],
 				prices[0],
-				prices[0]
+				prices[0],
 			};
 		}
 
@@ -554,7 +554,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		int[] medoidIndexes = new int[] {
 			len / 6,
 			len / 2,
-			(len * 5) / 6
+			(len * 5) / 6,
 		};
 
 		// Determine initial clustering
@@ -628,7 +628,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 				return new double[] {
 					prices[medoidIndexes[0]],
 					prices[medoidIndexes[1]],
-					prices[medoidIndexes[2]]
+					prices[medoidIndexes[2]],
 				};
 			}
 

@@ -39,7 +39,7 @@ import com.mobiata.android.util.SettingUtils;
 
 /**
  * All data related to a point of sale.
- *
+ * <p/>
  * You MUST call init() before using this (suggested usage: call in Application)
  */
 public class PointOfSale {
@@ -131,7 +131,7 @@ public class PointOfSale {
 
 	/**
 	 * There can be multiple different locales for a given POS.
-	 *
+	 * <p/>
 	 * I'm purposefully obscuring this from the POS, so you don't have to figure this stuff out
 	 * (we select the locale automatically based on the current Locale of the system).
 	 */
@@ -209,6 +209,7 @@ public class PointOfSale {
 
 	/**
 	 * If there is a locale-specific support number, use that over the generic POS support number.
+	 *
 	 * @return
 	 */
 	public String getSupportPhoneNumber() {
@@ -226,7 +227,7 @@ public class PointOfSale {
 	/**
 	 * If the user is an elite plus member, we return the elite plus number (if available)
 	 * otherwise if the user is null, or a normal user, return  the regular support number
-	 * 
+	 *
 	 * @param usr - The current logged in user, or null.
 	 * @return
 	 */
@@ -363,6 +364,7 @@ public class PointOfSale {
 	 * On phone, we'll underline and bold the entire second half of the statement,
 	 * which includes "Rules and Restrictions", "Terms and Conditions",
 	 * "Privacy Policy", and "Terms of Booking"
+	 *
 	 * @return Stylized CharSequence
 	 */
 	public CharSequence getStylizedHotelBookingStatement() {
@@ -373,6 +375,7 @@ public class PointOfSale {
 	 * On phone, we'll underline and bold the entire second half of the statement,
 	 * which includes "Rules and Restrictions", "Terms and Conditions",
 	 * "Privacy Policy", and "Terms of Booking"
+	 *
 	 * @return Stylized CharSequence
 	 */
 	public CharSequence getStylizedFlightBookingStatement() {
@@ -471,7 +474,7 @@ public class PointOfSale {
 	 * this unless you have reason to think sCachedPOS might be null!  This is not thread
 	 * safe, if you call it from multiple threads you might mess up sCachedPOS for someone
 	 * else!
-	 * 
+	 *
 	 * @return the current PointOfSale (or the default if none has been set yet)
 	 */
 	public static PointOfSale getPointOfSale(Context context) {
@@ -535,7 +538,7 @@ public class PointOfSale {
 
 		if (savePos) {
 			SettingUtils
-					.save(context, context.getString(R.string.PointOfSaleKey), Integer.toString(sCachedPOS.getId()));
+				.save(context, context.getString(R.string.PointOfSaleKey), Integer.toString(sCachedPOS.getId()));
 		}
 
 		return sPointOfSale.get(sCachedPOS);
@@ -678,7 +681,7 @@ public class PointOfSale {
 
 		// POS config
 		pos.mDistanceUnit = data.optString("distanceUnit", "").equals("miles") ? DistanceUnit.MILES
-				: DistanceUnit.KILOMETERS;
+			: DistanceUnit.KILOMETERS;
 		pos.mRequiresRulesRestrictionsCheckbox = data.optBoolean("explicitConsentRequired");
 		pos.mDisplayBestPriceGuarantee = data.optBoolean("shouldDisplayBestPriceGuarantee");
 		pos.mShowLastNameFirst = data.optBoolean("shouldShowLastNameFirst");
@@ -713,7 +716,7 @@ public class PointOfSale {
 	//  "AndroidTablet": "<Android tablet #>"
 	// },
 	private static String parseDeviceSpecificPhoneNumber(Context context, JSONObject data, String name)
-			throws JSONException {
+		throws JSONException {
 		if (!data.has(name)) {
 			return null;
 		}
@@ -814,7 +817,7 @@ public class PointOfSale {
 
 		try {
 			InputStream is = context.getAssets().open(
-					"ExpediaSharedData/ExpediaPaymentPostalCodeOptionalCountries.json");
+				"ExpediaSharedData/ExpediaPaymentPostalCodeOptionalCountries.json");
 			String data = IoUtils.convertStreamToString(is);
 			JSONArray countryArr = new JSONArray(data);
 			int len = countryArr.length();
