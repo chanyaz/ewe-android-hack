@@ -57,9 +57,6 @@ public class CheckoutLoginButtonsFragment extends LobableFragment implements Acc
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		//We do this to do the lob state restoration (but our super classes probably have no view...)
-		super.onCreateView(inflater, container, savedInstanceState);
-
 		View v = inflater.inflate(R.layout.fragment_checkout_login_buttons, null);
 
 		if (savedInstanceState != null) {

@@ -4,9 +4,6 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.interfaces.ILOBable;
@@ -23,7 +20,8 @@ public abstract class LobableFragment extends Fragment implements ILOBable {
 	private LineOfBusiness mLob;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey(STATE_LOB)) {
 				LineOfBusiness lob = LineOfBusiness.valueOf(savedInstanceState.getString(STATE_LOB));
@@ -32,7 +30,6 @@ public abstract class LobableFragment extends Fragment implements ILOBable {
 				}
 			}
 		}
-		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override

@@ -23,9 +23,6 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		//We do this to do the lob state restoration (but our super classes probably have no view...)
-		super.onCreateView(inflater, container, savedInstanceState);
-
 		if (getLob() == null) {
 			throw new RuntimeException("We should always have an LOB by the time onCreateView is being called.");
 		}

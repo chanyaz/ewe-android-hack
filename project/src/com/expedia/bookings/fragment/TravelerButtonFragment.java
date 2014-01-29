@@ -34,9 +34,6 @@ public class TravelerButtonFragment extends LobableFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		//We do this to do the lob state restoration (but our super classes probably have no view...)
-		super.onCreateView(inflater, container, savedInstanceState);
-
 		View rootView = inflater.inflate(R.layout.fragment_checkout_traveler_button, null);
 		mTravelerSectionContainer = Ui.findView(rootView, R.id.traveler_section_container);
 		mEmptyViewContainer = Ui.findView(rootView, R.id.empty_traveler_container);
@@ -45,7 +42,6 @@ public class TravelerButtonFragment extends LobableFragment {
 		addEmptyTravelerToLayout(mEmptyViewContainer);
 
 		return rootView;
-
 	}
 
 	public void enableShowValidMarker(boolean enabled) {
