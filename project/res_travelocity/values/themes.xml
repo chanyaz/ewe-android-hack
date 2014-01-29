@@ -12,5 +12,8 @@
 
     <!-- Override the phone theme -->
     <style name="Theme.Phone" parent="@style/Theme.Travelocity"/>
+        <item name="actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
+        <item name="android:actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
+    </style>
 
 </resources>
