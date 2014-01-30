@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.enums.CheckoutFormState;
+import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.interfaces.IStateListener;
@@ -65,6 +67,8 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 	private LineOfBusiness mLob;
 	private int mShowingViewIndex = -1;
 
+	private CheckoutInformationListener mCheckoutInfoListener;
+
 	private CheckoutLoginButtonsFragment mLoginButtons;
 	private PaymentButtonFragment mPaymentButton;
 	private TabletCheckoutTravelerFormFragment mTravelerForm;
@@ -79,6 +83,12 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 	public static TabletCheckoutFormsFragment newInstance() {
 		TabletCheckoutFormsFragment frag = new TabletCheckoutFormsFragment();
 		return frag;
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mCheckoutInfoListener = Ui.findFragmentListener(this, CheckoutInformationListener.class);
 	}
 
 	@Override
@@ -200,12 +210,26 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 	}
 
 	/*
+	 * VALIDATION
+	 */
+
+	public boolean hasValidCheckoutInfo() {
+		return validatePaymentInfo() && validateTravelers();
+	}
+
+	/*
 	 * ICheckoutDataListener
 	 */
 
 	@Override
 	public void onCheckoutDataUpdated() {
 		bindAll();
+		if (hasValidCheckoutInfo()) {
+			mCheckoutInfoListener.checkoutInformationIsValid();
+		}
+		else {
+			mCheckoutInfoListener.checkoutInformationIsNotValid();
+		}
 	}
 
 	/*
@@ -442,6 +466,17 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 		}
 	}
 
+	protected boolean validateTravelers() {
+		boolean retVal = false;
+		for (TravelerButtonFragment btn : mTravelerButtonFrags) {
+			retVal = btn.isValid();
+			if (!retVal) {
+				break;
+			}
+		}
+		return retVal;
+	}
+
 	private void populateTravelerData() {
 		List<Traveler> travelers = Db.getTravelers();
 		if (travelers == null) {
@@ -493,6 +528,13 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 			mPaymentForm.bindToDb();
 			setState(CheckoutFormState.EDIT_PAYMENT, true);
 		}
+	}
+
+	protected boolean validatePaymentInfo() {
+		if (mPaymentButton != null) {
+			return mPaymentButton.isValid();
+		}
+		return false;
 	}
 
 	/*

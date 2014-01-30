@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
+import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -36,7 +38,8 @@ import com.mobiata.android.util.Ui;
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletCheckoutControllerFragment extends Fragment implements IBackManageable,
-	IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener {
+		IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener,
+		CheckoutInformationListener {
 
 	private static final String STATE_CHECKOUT_STATE = "STATE_CHECKOUT_STATE";
 
@@ -77,6 +80,17 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 		mFormContainer = Ui.findView(view, R.id.checkout_forms_container);
 		mSlideContainer = Ui.findView(view, R.id.finish_checkout_container);
 		mCvvContainer = Ui.findView(view, R.id.cvv_container);
+
+		//TODO: This button stuff should be temporary
+		View cvvBtn = Ui.findView(view, R.id.goto_cvv_btn);
+		cvvBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				setCheckoutState(CheckoutState.CVV, true);
+			}
+
+		});
 
 		mBucketDateRange = Ui.findView(view, R.id.trip_date_range);
 		mBucketDateRange.setText("FEB 8 - CAT 12");//TODO: real date range
@@ -411,6 +425,32 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 	@Override
 	public void onBook(String cvv) {
 		// TODO: We should probably book or something.
+
+	}
+
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener#checkoutInformationIsValid()
+	 */
+
+	@Override
+	public void checkoutInformationIsValid() {
+		if (mStateManager.getState() == CheckoutState.OVERVIEW) {
+			setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
+		}
+	}
+
+	@Override
+	public void checkoutInformationIsNotValid() {
+		if (mStateManager.getState() == CheckoutState.READY_FOR_CHECKOUT) {
+			setCheckoutState(CheckoutState.OVERVIEW, true);
+		}
+	}
+
+	@Override
+	public void onBillingInfoChange() {
+		// TODO Auto-generated method stub
 
 	}
 

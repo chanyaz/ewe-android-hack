@@ -97,7 +97,19 @@
                 android:layout_height="200dp"
                 android:layout_weight="0"
                 android:background="#FF0000"
-                android:visibility="gone" />
+                android:visibility="gone" >
+
+                <!-- TODO: We will probably end up with a fragment here, or a much more complicated view based on the mocks -->
+
+                <TextView
+                    android:id="@+id/goto_cvv_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="GOTO CVV SCREEN"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32dp" />
+            </FrameLayout>
         </LinearLayout>
     </LinearLayout>
 
