@@ -37,7 +37,7 @@ public class ResultsTripBucketYourTripToFragment extends Fragment {
 	private View mRightDivider;
 	private LinearLayout mTripToLayout;
 	private LinearLayout mEmptyTripLayout;
-	private boolean isResized;
+	private boolean mIsResized;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -46,7 +46,7 @@ public class ResultsTripBucketYourTripToFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		isResized = false;
+		mIsResized = false;
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_tripbucket_your_trip_to, null);
 		mTripToHeaderTv = Ui.findView(mRootC, R.id.top_header_text);
 		mLeftDivider = Ui.findView(mRootC, R.id.left_divider);
@@ -76,7 +76,7 @@ public class ResultsTripBucketYourTripToFragment extends Fragment {
 
 			mPrimaryDestTv.setText(city);
 			mSecondaryDestTv.setText(country);
-			if (!isResized) {
+			if (!mIsResized) {
 				resizeDividers();
 			}
 
@@ -100,7 +100,7 @@ public class ResultsTripBucketYourTripToFragment extends Fragment {
 
 		int delta = requiredWidth - tripToWidth;
 		if (delta <= 1 && (priDestWidth != 0 || secDestWidth != 0)) {
-			isResized = true;
+			mIsResized = true;
 		}
 		else {
 			int eachDividerWidth = delta / 2;
