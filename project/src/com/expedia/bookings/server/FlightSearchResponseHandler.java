@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +26,7 @@ import com.mobiata.flightlib.data.Waypoint;
 
 /**
  * An E3 flight search response parser.
- *
+ * <p/>
  * While no longer used for flight search responses per se, parts of it are still used
  * for parsing other aspects which are repeated across the app (like flight trips).
  */
@@ -53,7 +52,7 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 		long start = System.nanoTime();
 		super.handleResponse(response);
 		Log.d("Flight search response parse time: " + ((System.nanoTime() - start) / 1000000) + " ms; # trips="
-				+ mResponse.getTripCount() + ", # legs=" + mLegs.size());
+			+ mResponse.getTripCount() + ", # legs=" + mLegs.size());
 		return mResponse;
 	}
 
@@ -161,7 +160,7 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 					if (!mOperatingAirlineNames.containsKey(opFlightCode.mAirlineCode)) {
 						mOperatingAirlineNames.put(opFlightCode.mAirlineCode,
-								segmentJson.optString("operatingAirlineName"));
+							segmentJson.optString("operatingAirlineName"));
 					}
 				}
 				else {
@@ -176,15 +175,15 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			Waypoint departure = segment.mOrigin = new Waypoint(Waypoint.ACTION_DEPARTURE);
 			departure.mAirportCode = segmentJson.optString("departureAirportCode");
 			departure.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN,
-					segmentJson.optLong("departureTimeEpochSeconds") * 1000,
-					segmentJson.optInt("departureTimeZoneOffsetSeconds") * 1000);
+				segmentJson.optLong("departureTimeEpochSeconds") * 1000,
+				segmentJson.optInt("departureTimeZoneOffsetSeconds") * 1000);
 
 			// Parse arrival
 			Waypoint arrival = segment.mDestination = new Waypoint(Waypoint.ACTION_ARRIVAL);
 			arrival.mAirportCode = segmentJson.optString("arrivalAirportCode");
 			arrival.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN,
-					segmentJson.optLong("arrivalTimeEpochSeconds") * 1000,
-					segmentJson.optInt("arrivalTimeZoneOffsetSeconds") * 1000);
+				segmentJson.optLong("arrivalTimeEpochSeconds") * 1000,
+				segmentJson.optInt("arrivalTimeZoneOffsetSeconds") * 1000);
 
 			// Add a default status code
 			segment.mStatusCode = Flight.STATUS_SCHEDULED;
@@ -196,8 +195,8 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 				if (!distanceUnits.equals("miles")) {
 					// Need to do this since I don't know what other values are possible.
 					throw new RuntimeException(
-							"DEVELOPER FIX THIS: Parser does not yet handle non-miles distanceUnits.  Got: "
-									+ distanceUnits);
+						"DEVELOPER FIX THIS: Parser does not yet handle non-miles distanceUnits.  Got: "
+							+ distanceUnits);
 				}
 
 				// TODO: Convert from other units to miles here

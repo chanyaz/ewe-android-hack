@@ -204,7 +204,7 @@ public class ExpediaServices implements DownloadListener {
 		String[] userCookieNames = {
 			"user",
 			"minfo",
-			"accttype"
+			"accttype",
 		};
 		cookieStore.removeAllCookiesByName(userCookieNames);
 		if (cookieStore.isDirty()) {
@@ -1635,9 +1635,8 @@ public class ExpediaServices implements DownloadListener {
 		}
 		else if (endPoint == EndPoint.CUSTOM_SERVER) {
 			String protocol = (flags & F_SECURE_REQUEST) != 0 ? "https" : "http";
-			return protocol + "://"
-				+ SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
-				"localhost:3000") + "/";
+			String server = SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
+			return protocol + "://" + server + "/";
 		}
 		else {
 			throw new RuntimeException("Didn't know how to handle EndPoint: " + endPoint);
