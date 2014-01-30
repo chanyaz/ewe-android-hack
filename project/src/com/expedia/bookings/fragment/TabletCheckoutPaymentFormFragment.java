@@ -13,6 +13,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.section.SectionBillingInfo;
+import com.expedia.bookings.section.SectionLocation;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -25,6 +26,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	}
 
 	SectionBillingInfo mSectionBillingInfo;
+	SectionLocation mSectionLocation;
 	private ICheckoutDataListener mListener;
 
 	@Override
@@ -42,6 +44,11 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		setTopLeftText(getString(R.string.payment_method));
 		setTopRightText(getString(R.string.done));
 		setTopRightTextOnClick(mTopRightClickListener);
+
+		if (mSectionLocation != null) {
+			mSectionLocation.bind(Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getLocation());
+		}
+
 	}
 
 	private OnClickListener mTopRightClickListener = new OnClickListener() {
@@ -65,5 +72,10 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 				null);
 		}
 		formContainer.addView(mSectionBillingInfo);
+
+		//TODO: REMOVE OR REARRANGE OR WHATEVER, WE WONT PROBABLY BE HAVING ONE FORM AFTER THE OTHER
+		mSectionLocation = (SectionLocation) View.inflate(getActivity(), R.layout.section_edit_address, null);
+		formContainer.addView(mSectionLocation);
+
 	}
 }

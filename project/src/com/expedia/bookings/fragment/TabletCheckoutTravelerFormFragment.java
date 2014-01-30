@@ -25,6 +25,9 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	private int mTravelerNumber = 0;
 	private SectionTravelerInfo mSectionTraveler;
 
+	private SectionTravelerInfo mSectionTravelerTwo;
+	private SectionTravelerInfo mSectionTravelerThree;
+
 	public static TabletCheckoutTravelerFormFragment newInstance(LineOfBusiness lob) {
 		TabletCheckoutTravelerFormFragment frag = new TabletCheckoutTravelerFormFragment();
 		frag.setLob(lob);
@@ -62,6 +65,13 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			setTopLeftText(getString(R.string.traveler_num_and_category_TEMPLATE, travelerNumber + 1));
 			setTopRightText(getString(R.string.done));
 			setTopRightTextOnClick(mTopRightClickListener);
+
+			if (mSectionTravelerTwo != null) {
+				mSectionTravelerTwo.bind(Db.getWorkingTravelerManager().getWorkingTraveler());
+			}
+			if (mSectionTravelerThree != null) {
+				mSectionTravelerThree.bind(Db.getWorkingTravelerManager().getWorkingTraveler());
+			}
 		}
 	}
 
@@ -86,5 +96,14 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 					null);
 		}
 		formContainer.addView(mSectionTraveler);
+
+		//TODO: These are just the remaining parts of the traveler form, they must be better configured based on lob
+		mSectionTravelerTwo = (SectionTravelerInfo) View.inflate(getActivity(),
+				R.layout.section_edit_traveler_pt2, null);
+		formContainer.addView(mSectionTravelerTwo);
+
+		mSectionTravelerThree = (SectionTravelerInfo) View.inflate(getActivity(),
+				R.layout.section_edit_traveler_pt3, null);
+		formContainer.addView(mSectionTravelerThree);
 	}
 }
