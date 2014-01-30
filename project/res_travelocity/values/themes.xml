@@ -8,6 +8,7 @@
         <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
         <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
         <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal_travelocity</item>
+        <item name="costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
     </style>
 
     <!-- Override the phone theme -->
