@@ -203,28 +203,6 @@
         <attr name="radius" format="dimension" />
     </declare-styleable>
 
-    <!-- CalendarPicker -->
-    <declare-styleable name="CalendarPicker">
-
-        <!-- The default color for elements on the calendar picker -->
-        <attr name="calendarBaseColor" format="color" />
-
-        <!-- Color used for secondary elements, like dates not in the current month -->
-        <attr name="calendarSecondaryColor" format="color" />
-
-        <!-- The highlight color; includes header buttons and selection -->
-        <attr name="calendarHighlightColor" format="color" />
-
-        <!-- Color used on top of the highlight color (should contrast) -->
-        <attr name="calendarHighlightInverseColor" format="color" />
-
-        <!-- Color used to indicate which day is today -->
-        <attr name="calendarTodayColor" format="color" />
-
-        <!-- Color used to indicate days which are not selectable for reasons -->
-        <attr name="calendarInvalidDaysColor" format="color" />
-    </declare-styleable>
-
     <!-- VSC/EB attributes used for style switching in themes -->
     <!-- Hotel Search price styles -->
     <attr name="hotelPriceStandardColor" format="reference|color" />
