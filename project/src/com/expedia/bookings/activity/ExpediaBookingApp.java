@@ -32,7 +32,6 @@ import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.AssetZoneInfoProvider;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -44,6 +43,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+import net.danlew.android.joda.ResourceZoneInfoProvider;
 
 public class ExpediaBookingApp extends Application implements UncaughtExceptionHandler {
 	// Don't change the actual string, updated identifier for clarity
@@ -84,7 +84,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		// We want this fairly high up there so that we set this as
 		// the Provider before anything tries to use Joda time
-		AssetZoneInfoProvider.init(this, "joda/data/");
+		ResourceZoneInfoProvider.init(this);
 		startupTimer.addSplit("Joda TZ Provider Init");
 
 		try {

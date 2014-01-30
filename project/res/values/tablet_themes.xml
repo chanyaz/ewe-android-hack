@@ -114,7 +114,7 @@
 
     <!-- Calendar styling -->
 
-    <style name="V2.Widget.CalendarPicker">
+    <style name="Widget.CalendarPicker">
         <item name="calendarBaseColor">#FFFFFF</item>
         <item name="calendarSecondaryColor">#6F787E</item>
         <item name="calendarHighlightColor">#FDDB4D</item>

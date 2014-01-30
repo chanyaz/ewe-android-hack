@@ -16,8 +16,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.graphics.ArrowDrawable;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.widget.CalendarPicker;
-import com.expedia.bookings.widget.CalendarPicker.DateSelectionChangedListener;
+import com.mobiata.android.time.widget.CalendarPicker;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -27,7 +26,7 @@ import com.mobiata.android.util.Ui;
  *    keep track of its own internal state; I don't want to risk duplicating any data and
  *    confusing the issue.
  */
-public class DatesFragment extends Fragment implements DateSelectionChangedListener {
+public class DatesFragment extends Fragment implements CalendarPicker.DateSelectionChangedListener {
 
 	private static final int DATE_BOX_FLAGS = DateUtils.FORMAT_SHOW_DATE;
 
