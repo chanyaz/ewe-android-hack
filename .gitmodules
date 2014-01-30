@@ -37,3 +37,6 @@
 [submodule "lib/ShareEverywhere"]
 	path = lib/ShareEverywhere
 	url = git@team.mobiata.com:Android/ShareEverywhere
+[submodule "lib/AndroidTime"]
+	path = lib/AndroidTime
+	url = git@team.mobiata.com:Android/AndroidTime.git
