@@ -12,6 +12,7 @@ dependencies {
     compile project(':lib:svg-android:svgandroid')
     compile project(':lib:Utils')
     compile project(':lib:ShareEverywhere:shareeverywhere')
+    compile project(':lib:AndroidTime')
 
     instrumentTestCompile fileTree('tests/libs').include('*.jar')
     instrumentTestCompile fileTree('../lib/TestUtils/project/libs/robotium-solo-5.0.1.jar')
