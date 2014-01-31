@@ -382,6 +382,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			bd.cancelDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
 			bd.cancelDownload(KEY_APPLY_COUPON);
 			bd.cancelDownload(KEY_CREATE_TRIP);
+			// Since we are exiting the screen, let's reset coupon.
+			Db.getHotelSearch().setCouponApplied(false);
 		}
 		else {
 			bd.unregisterDownloadCallback(KEY_REFRESH_USER);
