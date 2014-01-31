@@ -203,6 +203,7 @@
         <item name="hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder</item>
         <item name="hotelwebViewActionBarLogo">@drawable/ic_logo_hotels</item>
         <item name="travelerLabelOnCheckout">@string/guest_details</item>
+        <item name="hotelBookButtonString">@string/book_now</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

@@ -10,6 +10,8 @@
         <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal_travelocity</item>
         <item name="costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
         <item name="actionBarSpinnerBackground">@drawable/ab_spinner_travelocity</item>
+        <item name="loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
+        <item name="hotelBookButtonString">@string/travelocity_book_now</item>
     </style>
 
     <!-- Override the phone theme -->

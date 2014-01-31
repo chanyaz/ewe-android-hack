@@ -244,4 +244,7 @@
     
     <!-- for hotels and flights travel type -->
     <attr name="travelerLabelOnCheckout" format="reference|string" />
+
+    <!-- for hotels details book button -->
+    <attr name="hotelBookButtonString" format="reference|string" />
 </resources>

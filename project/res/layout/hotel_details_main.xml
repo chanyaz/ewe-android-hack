@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/loginBookNowButtonDrawable"
                 android:contentDescription="@string/cd_hotel_info_press_book_now"
-                android:text="@string/book_now"
+                android:text="?attr/hotelBookButtonString"
                 android:textSize="18sp" />
 
             <Button
