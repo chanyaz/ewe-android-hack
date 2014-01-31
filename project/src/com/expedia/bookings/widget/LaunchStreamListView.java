@@ -202,7 +202,7 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 
 	// If this is called twice quickly before a refresh, we need to just increase the distance
 	// instead of replacing it.
-	protected void scrollListBy(double deltaY) {
+	protected void scrollingListBy(double deltaY) {
 		int position = getFirstVisiblePosition();
 		int top = (getChildAt(0) == null ? 0 : getChildAt(0).getTop());
 		if (mScrollByPosition == position && mScrollByTop == top) {
@@ -226,7 +226,7 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 			return;
 		}
 
-		slaveView.scrollListBy(deltaY * (slaveView.mScrollMultiplier / mScrollMultiplier));
+		slaveView.scrollingListBy(deltaY * (slaveView.mScrollMultiplier / mScrollMultiplier));
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -319,7 +319,7 @@ public class LaunchStreamListView extends MeasureListView implements OnScrollLis
 				float scrollf = mScrollUnit + mRemainder;
 				int scroll = (int) scrollf;
 				mRemainder = scrollf - scroll;
-				listView.scrollListBy(-scroll);
+				listView.scrollingListBy(-scroll);
 				listView.scrollSlaveBy(-scroll);
 				sendEmptyMessageDelayed(MESSAGE_TICK, MARQUEE_RESOLUTION);
 				listView.invalidate();
