@@ -1516,9 +1516,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		public CreateTripResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_APPLY_COUPON, services);
-			Rate selectedRate = Db.getHotelSearch().getSelectedRate();
-			return services.createTripWithCoupon(mCouponCode, Db.getHotelSearch().getSearchParams(), Db
-					.getHotelSearch().getSelectedProperty(), selectedRate);
+			return services.applyCoupon(mCouponCode, Db.getHotelSearch().getSearchParams(), Db
+					.getHotelSearch().getSelectedProperty());
 		}
 	};
 

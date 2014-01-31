@@ -775,22 +775,19 @@ public class ExpediaServices implements DownloadListener {
 		return query;
 	}
 
-	public CreateTripResponse createTripWithCoupon(String couponCode, HotelSearchParams params, Property property,
-												   Rate rate) {
-		List<BasicNameValuePair> query = generateCreateTripWithCouponParams(couponCode, params, property, rate);
+	public CreateTripResponse applyCoupon(String couponCode, HotelSearchParams params, Property property) {
+		List<BasicNameValuePair> query = generateApplyCouponParams(couponCode);
 		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
-		return doE3Request("MobileHotel/Webapp/CreateTrip", query, responseHandler, F_SECURE_REQUEST);
+		return doE3Request("api/m/trip/coupon", query, responseHandler, F_SECURE_REQUEST);
 	}
 
-	public List<BasicNameValuePair> generateCreateTripWithCouponParams(String couponCode, HotelSearchParams params,
-																	   Property property, Rate rate) {
+	public List<BasicNameValuePair> generateApplyCouponParams(String couponCode) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
-		addHotelSearchParams(query, params);
 
-		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
-		query.add(new BasicNameValuePair("couponCode", couponCode));
+		query.add(new BasicNameValuePair("tripId", Db.getHotelSearch().getCreateTripResponse().getTripId()));
+		query.add(new BasicNameValuePair("coupon.code", couponCode));
 
 		return query;
 	}
@@ -835,8 +832,6 @@ public class ExpediaServices implements DownloadListener {
 
 		addCommonParams(query);
 
-		query.add(new BasicNameValuePair("hotelId", property.getPropertyId()));
-		query.add(new BasicNameValuePair("productKey", rate.getRateKey()));
 		query.add(new BasicNameValuePair("expectedTotalFare", "" + rate.getTotalPriceWithMandatoryFees().getAmount()));
 		query.add(new BasicNameValuePair("expectedFareCurrencyCode", rate.getTotalPriceWithMandatoryFees().getCurrency()));
 
