@@ -1460,7 +1460,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			@Override
 			public void run() {
 				mCouponRemoveThrobberDialog = ThrobberDialog.newInstance(getString(R.string.coupon_removing_dialog));
-				mCouponRemoveThrobberDialog.isDialogCancelable(false);
+				mCouponRemoveThrobberDialog.getDialog().setCancelable(false);
 				mCouponRemoveThrobberDialog.show(getFragmentManager(), ThrobberDialog.TAG);
 			}
 		});

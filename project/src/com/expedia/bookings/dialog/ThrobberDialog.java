@@ -12,7 +12,6 @@ public class ThrobberDialog extends DialogFragment {
 
 	public static final String TAG = ThrobberDialog.class.getName();
 
-	private static ThrobberDialog dialog;
 	private CancelListener mCancelListener;
 
 	public interface CancelListener {
@@ -22,7 +21,7 @@ public class ThrobberDialog extends DialogFragment {
 	private static String ARG_MESSAGE = "ARG_MESSAGE";
 
 	public static ThrobberDialog newInstance(CharSequence message) {
-		dialog = new ThrobberDialog();
+		ThrobberDialog dialog = new ThrobberDialog();
 		dialog.setCancelable(true);
 		Bundle args = new Bundle();
 		args.putCharSequence(ARG_MESSAGE, message);
@@ -56,16 +55,6 @@ public class ThrobberDialog extends DialogFragment {
 
 	public void setCancelListener(CancelListener listener) {
 		mCancelListener = listener;
-	}
-
-	/**
-	 * Use this method to explicitly specify dialog cancelable behavior.
-	 * By default it's set to true.
-	 *
-	 * @param isCancelable
-	 */
-	public void isDialogCancelable(boolean isCancelable) {
-		dialog.setCancelable(isCancelable);
 	}
 
 	public void setText(CharSequence text) {
