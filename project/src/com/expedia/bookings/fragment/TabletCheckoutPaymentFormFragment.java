@@ -36,6 +36,12 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		mListener = Ui.findFragmentListener(this, ICheckoutDataListener.class);
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		bindToDb();
+	}
+
 	public void bindToDb() {
 		if (mSectionBillingInfo != null) {
 			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(Db.getBillingInfo());

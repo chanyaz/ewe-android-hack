@@ -50,6 +50,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private static final String FRAG_TAG_CVV = "FRAG_TAG_CVV";
 
 	//Containers
+	private ViewGroup mRootC;
 	private ScrollView mBucketScrollContainer;
 	private ViewGroup mBucketHotelContainer;
 	private ViewGroup mBucketFlightContainer;
@@ -72,17 +73,17 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_tablet_checkout_controller, null, false);
+		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_checkout_controller, null, false);
 
-		mBucketScrollContainer = Ui.findView(view, R.id.trip_bucket_scroll);
-		mBucketHotelContainer = Ui.findView(view, R.id.bucket_hotel_frag_container);
-		mBucketFlightContainer = Ui.findView(view, R.id.bucket_flight_frag_container);
-		mFormContainer = Ui.findView(view, R.id.checkout_forms_container);
-		mSlideContainer = Ui.findView(view, R.id.finish_checkout_container);
-		mCvvContainer = Ui.findView(view, R.id.cvv_container);
+		mBucketScrollContainer = Ui.findView(mRootC, R.id.trip_bucket_scroll);
+		mBucketHotelContainer = Ui.findView(mRootC, R.id.bucket_hotel_frag_container);
+		mBucketFlightContainer = Ui.findView(mRootC, R.id.bucket_flight_frag_container);
+		mFormContainer = Ui.findView(mRootC, R.id.checkout_forms_container);
+		mSlideContainer = Ui.findView(mRootC, R.id.finish_checkout_container);
+		mCvvContainer = Ui.findView(mRootC, R.id.cvv_container);
 
 		//TODO: This button stuff should be temporary
-		View cvvBtn = Ui.findView(view, R.id.goto_cvv_btn);
+		View cvvBtn = Ui.findView(mRootC, R.id.goto_cvv_btn);
 		cvvBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -92,7 +93,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		});
 
-		mBucketDateRange = Ui.findView(view, R.id.trip_date_range);
+		mBucketDateRange = Ui.findView(mRootC, R.id.trip_date_range);
 		mBucketDateRange.setText("FEB 8 - CAT 12");//TODO: real date range
 
 		if (savedInstanceState != null) {
@@ -104,7 +105,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		registerStateListener(mStateHelper, false);
 		registerStateListener(new StateListenerLogger<CheckoutState>(), false);
 
-		return view;
+		return mRootC;
 	}
 
 	@Override
@@ -178,7 +179,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	};
 
 	/*
-     * CheckoutState LISTENER
+	 * CheckoutState LISTENER
 	 */
 
 	private StateListenerHelper<CheckoutState> mStateHelper = new StateListenerHelper<CheckoutState>() {

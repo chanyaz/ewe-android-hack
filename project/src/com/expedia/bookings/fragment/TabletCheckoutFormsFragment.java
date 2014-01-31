@@ -43,6 +43,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	IStateProvider<CheckoutFormState>,
 	ICheckoutDataListener {
 
+	private static final String STATE_CHECKOUTFORMSTATE = "STATE_CHECKOUTFORMSTATE";
+
 	private static final String FRAG_TAG_TRAVELER_FORM = "FRAG_TAG_TRAVELER_FORM";
 	private static final String FRAG_TAG_PAYMENT_FORM = "FRAG_TAG_PAYMENT_FORM";
 	private static final String FRAG_TAG_LOGIN_BUTTONS = "FRAG_TAG_LOGIN_BUTTONS";
@@ -100,6 +102,12 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		mTravelerFormC = Ui.findView(mRootC, R.id.traveler_form_container);
 		mPaymentFormC = Ui.findView(mRootC, R.id.payment_form_container);
 
+		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CHECKOUTFORMSTATE)) {
+			String stateName = savedInstanceState.getString(STATE_CHECKOUTFORMSTATE);
+			CheckoutFormState state = com.expedia.bookings.enums.CheckoutFormState.valueOf(stateName);
+			mStateManager.setDefaultState(state);
+		}
+
 		if (getLob() != null) {
 			buildCheckoutForm();
 		}
@@ -117,6 +125,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		mBackManager.registerWithParent(this);
 
 		bindAll();
+
+		setState(mStateManager.getState(), false);
 	}
 
 	@Override
@@ -132,6 +142,12 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		}
 
 		mBackManager.unregisterWithParent(this);
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString(STATE_CHECKOUTFORMSTATE, mStateManager.getState().name());
 	}
 
 	public void attachTravelerForm() {

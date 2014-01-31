@@ -44,6 +44,12 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		bindToDb(mTravelerNumber);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
 			mTravelerNumber = savedInstanceState.getInt(STATE_TRAVELER_NUMBER, mTravelerNumber);
@@ -89,21 +95,21 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		formContainer.removeAllViews();
 		if (getLob() == LineOfBusiness.HOTELS) {
 			mSectionTraveler = (SectionTravelerInfo) View.inflate(getActivity(),
-					R.layout.section_hotel_edit_traveler_pt1, null);
+				R.layout.section_hotel_edit_traveler_pt1, null);
 		}
 		else if (getLob() == LineOfBusiness.FLIGHTS) {
 			mSectionTraveler = (SectionTravelerInfo) View.inflate(getActivity(), R.layout.section_edit_traveler_pt1,
-					null);
+				null);
 		}
 		formContainer.addView(mSectionTraveler);
 
 		//TODO: These are just the remaining parts of the traveler form, they must be better configured based on lob
 		mSectionTravelerTwo = (SectionTravelerInfo) View.inflate(getActivity(),
-				R.layout.section_edit_traveler_pt2, null);
+			R.layout.section_edit_traveler_pt2, null);
 		formContainer.addView(mSectionTravelerTwo);
 
 		mSectionTravelerThree = (SectionTravelerInfo) View.inflate(getActivity(),
-				R.layout.section_edit_traveler_pt3, null);
+			R.layout.section_edit_traveler_pt3, null);
 		formContainer.addView(mSectionTravelerThree);
 	}
 }
