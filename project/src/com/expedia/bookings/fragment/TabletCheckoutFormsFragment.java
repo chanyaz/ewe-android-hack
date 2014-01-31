@@ -7,7 +7,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
@@ -25,6 +24,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
+import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.interfaces.IStateListener;
@@ -39,7 +39,7 @@ import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-public class TabletCheckoutFormsFragment extends Fragment implements IBackManageable,
+public class TabletCheckoutFormsFragment extends LobableFragment implements IBackManageable,
 	IStateProvider<CheckoutFormState>,
 	ICheckoutDataListener {
 
@@ -64,7 +64,6 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 	private FrameLayoutTouchController mOverlayShade;
 	private View mPaymentView;
 
-	private LineOfBusiness mLob;
 	private int mShowingViewIndex = -1;
 
 	private CheckoutInformationListener mCheckoutInfoListener;
@@ -101,7 +100,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 		mTravelerFormC = Ui.findView(mRootC, R.id.traveler_form_container);
 		mPaymentFormC = Ui.findView(mRootC, R.id.payment_form_container);
 
-		if (mLob != null) {
+		if (getLob() != null) {
 			buildCheckoutForm();
 		}
 
@@ -141,7 +140,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 			mTravelerForm = (TabletCheckoutTravelerFormFragment) manager.findFragmentByTag(FRAG_TAG_TRAVELER_FORM);
 		}
 		if (mTravelerForm == null) {
-			mTravelerForm = TabletCheckoutTravelerFormFragment.newInstance(mLob);
+			mTravelerForm = TabletCheckoutTravelerFormFragment.newInstance(getLob());
 		}
 		if (!mTravelerForm.isAdded()) {
 			FragmentTransaction transaction = manager.beginTransaction();
@@ -156,7 +155,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 			mPaymentForm = (TabletCheckoutPaymentFormFragment) manager.findFragmentByTag(FRAG_TAG_PAYMENT_FORM);
 		}
 		if (mPaymentForm == null) {
-			mPaymentForm = TabletCheckoutPaymentFormFragment.newInstance(mLob);
+			mPaymentForm = TabletCheckoutPaymentFormFragment.newInstance(getLob());
 		}
 		if (!mPaymentForm.isAdded()) {
 			FragmentTransaction transaction = manager.beginTransaction();
@@ -171,7 +170,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 			mLoginButtons = (CheckoutLoginButtonsFragment) manager.findFragmentByTag(FRAG_TAG_LOGIN_BUTTONS);
 		}
 		if (mLoginButtons == null) {
-			mLoginButtons = CheckoutLoginButtonsFragment.newInstance(mLob);
+			mLoginButtons = CheckoutLoginButtonsFragment.newInstance(getLob());
 		}
 		if (!mLoginButtons.isAdded()) {
 			FragmentTransaction transaction = manager.beginTransaction();
@@ -186,7 +185,7 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 			mPaymentButton = (PaymentButtonFragment) manager.findFragmentByTag(FRAG_TAG_PAYMENT_BUTTON);
 		}
 		if (mPaymentButton == null) {
-			mPaymentButton = PaymentButtonFragment.newInstance(mLob);
+			mPaymentButton = PaymentButtonFragment.newInstance(getLob());
 		}
 		if (!mPaymentButton.isAdded()) {
 			FragmentTransaction transaction = manager.beginTransaction();
@@ -236,19 +235,11 @@ public class TabletCheckoutFormsFragment extends Fragment implements IBackManage
 	 * GETTERS / SETTERS
 	 */
 
-	public void setLob(LineOfBusiness lob) {
-		boolean wasNull = false;
-		if (mLob == null) {
-			wasNull = true;
-		}
-		mLob = lob;
-		if (wasNull && mRootC != null) {
+	@Override
+	public void onLobSet(LineOfBusiness lob) {
+		if (mRootC != null) {
 			buildCheckoutForm();
 		}
-	}
-
-	public LineOfBusiness getLob() {
-		return mLob;
 	}
 
 	public void setState(CheckoutFormState state, boolean animate) {

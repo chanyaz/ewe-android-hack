@@ -20,6 +20,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
+import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -37,9 +38,9 @@ import com.mobiata.android.util.Ui;
  * This controls all the fragments relating to tablet checkout
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-public class TabletCheckoutControllerFragment extends Fragment implements IBackManageable,
-		IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener,
-		CheckoutInformationListener {
+public class TabletCheckoutControllerFragment extends LobableFragment implements IBackManageable,
+	IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener,
+	CheckoutInformationListener {
 
 	private static final String STATE_CHECKOUT_STATE = "STATE_CHECKOUT_STATE";
 
@@ -66,7 +67,6 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 	private CVVEntryFragment mCvvFrag;
 
 	//vars
-	private LineOfBusiness mLob = LineOfBusiness.FLIGHTS;
 	private StateManager<CheckoutState> mStateManager = new StateManager<CheckoutState>(
 		CheckoutState.OVERVIEW, this);
 
@@ -139,12 +139,9 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 	 * GETTERS/SETTERS
 	 */
 
-	public void setLob(LineOfBusiness lob) {
-		mLob = lob;
-	}
+	@Override
+	public void onLobSet(LineOfBusiness lob) {
 
-	public LineOfBusiness getLob() {
-		return mLob;
 	}
 
 	public void setCheckoutState(CheckoutState state, boolean animate) {
@@ -181,7 +178,7 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 	};
 
 	/*
-	 * CheckoutState LISTENER
+     * CheckoutState LISTENER
 	 */
 
 	private StateListenerHelper<CheckoutState> mStateHelper = new StateListenerHelper<CheckoutState>() {
@@ -324,7 +321,7 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 	}
 
 	/*
-	 * CheckoutState ISTATEPROVIDER
+     * CheckoutState ISTATEPROVIDER
 	 */
 
 	private StateListenerCollection<CheckoutState> mStateListeners = new StateListenerCollection<CheckoutState>(
@@ -361,7 +358,7 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 	}
 
 	/*
-	 * IFragmentAvailabilityProvider
+     * IFragmentAvailabilityProvider
 	 */
 
 	@Override
@@ -405,15 +402,15 @@ public class TabletCheckoutControllerFragment extends Fragment implements IBackM
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
 		if (FRAG_TAG_BUCKET_FLIGHT.equals(tag)) {
-			((ResultsTripBucketFlightFragment) frag).setExpanded(mLob == LineOfBusiness.FLIGHTS);
+			((ResultsTripBucketFlightFragment) frag).setExpanded(getLob() == LineOfBusiness.FLIGHTS);
 			((ResultsTripBucketFlightFragment) frag).setShowButton(false);
 		}
 		else if (FRAG_TAG_BUCKET_HOTEL.equals(tag)) {
-			((ResultsTripBucketHotelFragment) frag).setExpanded(mLob == LineOfBusiness.HOTELS);
+			((ResultsTripBucketHotelFragment) frag).setExpanded(getLob() == LineOfBusiness.HOTELS);
 			((ResultsTripBucketHotelFragment) frag).setShowButton(false);
 		}
 		else if (FRAG_TAG_CHECKOUT_INFO.equals(tag)) {
-			((TabletCheckoutFormsFragment) frag).setLob(mLob);
+			((TabletCheckoutFormsFragment) frag).setLob(getLob());
 		}
 	}
 

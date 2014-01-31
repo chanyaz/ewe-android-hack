@@ -32,7 +32,7 @@ import com.mobiata.android.util.Ui;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletCheckoutActivity extends SherlockFragmentActivity implements IBackButtonLockListener,
-		IBackManageable {
+	IBackManageable {
 
 	public static Intent createIntent(Context context, LineOfBusiness lob) {
 		Intent intent = new Intent(context, TabletCheckoutActivity.class);
@@ -80,7 +80,7 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 		//Fragments
 		FragmentManager manager = getSupportFragmentManager();
 		mFragCheckoutController = (TabletCheckoutControllerFragment) manager
-				.findFragmentById(R.id.tablet_checkout_controller_fragment);
+			.findFragmentById(R.id.tablet_checkout_controller_fragment);
 
 		//Args
 		if (getIntent().hasExtra(ARG_LOB)) {
@@ -91,7 +91,6 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 			catch (Exception ex) {
 				Log.e("Exception parsing lob from intent.", ex);
 			}
-
 		}
 
 		// HockeyApp init
@@ -130,11 +129,11 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 			//We use ordinal() + 1 for all ids and groups because 0 == Menu.NONE
 			SubMenu subMen = menu.addSubMenu(Menu.NONE, Menu.NONE, 0, "Checkout State");
 			subMen.add(CheckoutState.OVERVIEW.ordinal() + 1, CheckoutState.OVERVIEW.ordinal() + 1,
-					CheckoutState.OVERVIEW.ordinal() + 1, CheckoutState.OVERVIEW.name());
+				CheckoutState.OVERVIEW.ordinal() + 1, CheckoutState.OVERVIEW.name());
 			subMen.add(CheckoutState.READY_FOR_CHECKOUT.ordinal() + 1, CheckoutState.READY_FOR_CHECKOUT.ordinal() + 1,
-					CheckoutState.READY_FOR_CHECKOUT.ordinal() + 1, CheckoutState.READY_FOR_CHECKOUT.name());
+				CheckoutState.READY_FOR_CHECKOUT.ordinal() + 1, CheckoutState.READY_FOR_CHECKOUT.name());
 			subMen.add(CheckoutState.CVV.ordinal() + 1, CheckoutState.CVV.ordinal() + 1,
-					CheckoutState.CVV.ordinal() + 1, CheckoutState.CVV.name());
+				CheckoutState.CVV.ordinal() + 1, CheckoutState.CVV.name());
 			return true;
 		}
 
@@ -182,7 +181,7 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 				return true;
 			}
 			else if (groupId == CheckoutState.READY_FOR_CHECKOUT.ordinal()
-					&& id == CheckoutState.READY_FOR_CHECKOUT.ordinal()) {
+				&& id == CheckoutState.READY_FOR_CHECKOUT.ordinal()) {
 				mFragCheckoutController.setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
 				return true;
 			}
