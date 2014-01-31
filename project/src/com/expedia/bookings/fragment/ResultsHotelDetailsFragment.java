@@ -224,7 +224,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		// VIP Badge
 		boolean shouldShowVipIcon = PointOfSale.getPointOfSale().supportsVipAccess()
-				&& property.isVipAccess();
+			&& property.isVipAccess();
 		vipText.setVisibility(shouldShowVipIcon ? View.VISIBLE : View.GONE);
 
 		// "25% OFF"
@@ -232,7 +232,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		if (rate.isOnSale() && rate.isSaleTenPercentOrBetter()) {
 			saleText.setVisibility(View.VISIBLE);
 			saleText.setText(getString(R.string.x_percent_OFF_TEMPLATE,
-					rate.getDiscountPercent()));
+				rate.getDiscountPercent()));
 		}
 		else {
 			saleText.setVisibility(View.GONE);
@@ -400,7 +400,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			}
 			if (unique.size() > 0) {
 				valueAdds.setText(Html.fromHtml(getActivity().getString(R.string.value_add_template,
-						FormatUtils.series(getActivity(), unique, ",", null).toLowerCase(Locale.getDefault()))));
+					FormatUtils.series(getActivity(), unique, ",", null).toLowerCase(Locale.getDefault()))));
 				valueAdds.setVisibility(View.VISIBLE);
 			}
 			else {
@@ -447,7 +447,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		Button addToTrip = Ui.findView(getView(), R.id.button_add_to_trip);
 		String addTripStr = getString(R.string.add_for_TEMPLATE,
-				selectedRate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL));
+			selectedRate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL));
 		addToTrip.setText(addTripStr);
 
 		LinearLayout container = Ui.findView(getView(), R.id.rooms_rates_container);
@@ -486,7 +486,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			for (int i = 0; i < sections.size(); i++) {
 				HotelTextSection section = sections.get(i);
 				View sectionContainer = inflater.inflate(R.layout.include_hotel_description_section,
-						container, false);
+					container, false);
 
 				TextView titleText = Ui.findView(sectionContainer, R.id.title_text);
 				TextView bodyText = Ui.findView(sectionContainer, R.id.body_text);
@@ -540,8 +540,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				//showErrorDialog(messageResId);
 			}
 			else if (search.getAvailability(selectedId) != null && search.getSearchParams() != null
-					&& search.getAvailability(selectedId).getRateCount() == 0
-					&& search.getSearchParams().getSearchType() != SearchType.HOTEL) {
+				&& search.getAvailability(selectedId).getRateCount() == 0
+				&& search.getSearchParams().getSearchType() != SearchType.HOTEL) {
 				Log.w(getString(R.string.error_hotel_is_now_sold_out));
 				//showErrorDialog(R.string.error_hotel_is_now_sold_out);
 			}
