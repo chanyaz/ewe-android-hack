@@ -1161,6 +1161,11 @@ public class ExpediaServices implements DownloadListener {
 		}
 		else {
 			query.add(new BasicNameValuePair("storedCreditCardId", billingInfo.getStoredCard().getId()));
+			/*
+			 *  The new checkout API requires this field.
+			 *  As of this comment, after signIn we only get the storedCreditCardId. The API has to also send us back it's associated nameOnCard.
+			 *  We have already filed a defect with the API team, for now let's just send the first and lastName.
+			 */
 			query.add(new BasicNameValuePair("nameOnCard", billingInfo.getFirstName() + " " + billingInfo.getLastName()));
 		}
 		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
