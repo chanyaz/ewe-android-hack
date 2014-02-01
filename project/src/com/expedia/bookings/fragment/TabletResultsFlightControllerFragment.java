@@ -312,25 +312,28 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	@Override
 	public void onFlightSelected(int legNumber) {
-		if (mFlightsStateManager.getState() != ResultsFlightsState.FLIGHT_LIST_DOWN) {
-			if (legNumber == 0) {
-				setFlightsState(ResultsFlightsState.FLIGHT_ONE_DETAILS,
-						mFlightsStateManager.getState() != ResultsFlightsState.FLIGHT_ONE_DETAILS);
-				// Make sure to reset the query, as the flights present in the second leg depend upon the flight
-				// selected from the first leg. Frag is null for one-way flights.
-				if (mFlightTwoListFrag != null) {
-					mFlightTwoListFrag.resetQuery();
-				}
-				if (mFlightTwoFilterFrag != null) {
-					mFlightTwoFilterFrag.onFilterChanged();
-				}
+		if (legNumber == 0) {
+			//setFlightsState(ResultsFlightsState.FLIGHT_ONE_DETAILS,
+			//		mFlightsStateManager.getState() != ResultsFlightsState.FLIGHT_ONE_DETAILS);
+			setFlightsState(ResultsFlightsState.FLIGHT_ONE_DETAILS, true);
+			// Make sure to reset the query, as the flights present in the second leg depend upon the flight
+			// selected from the first leg. Frag is null for one-way flights.
+			if (mFlightTwoListFrag != null) {
+				mFlightTwoListFrag.resetQuery();
+			}
+			if (mFlightTwoFilterFrag != null) {
+				mFlightTwoFilterFrag.onFilterChanged();
+			}
 
+			if (mFlightOneDetailsFrag != null && mFlightOneDetailsFrag.isAdded()) {
 				mFlightOneDetailsFrag.bindWithDb();
 			}
-			else if (legNumber == 1) {
-				setFlightsState(ResultsFlightsState.FLIGHT_TWO_DETAILS,
-						mFlightsStateManager.getState() != ResultsFlightsState.FLIGHT_TWO_DETAILS);
+		}
+		else if (legNumber == 1) {
+			setFlightsState(ResultsFlightsState.FLIGHT_TWO_DETAILS,
+					mFlightsStateManager.getState() != ResultsFlightsState.FLIGHT_TWO_DETAILS);
 
+			if (mFlightTwoDetailsFrag != null && mFlightTwoDetailsFrag.isAdded()) {
 				mFlightTwoDetailsFrag.bindWithDb();
 			}
 		}
@@ -1116,13 +1119,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					mFlightOneFiltersC
 							.setTranslationY(mFlightOneListFrag.getMaxDistanceFromTop());
 					mFlightOneListFrag.setPercentage(1f, 0);
-					mFlightOneListFrag.setEnableOnListItemClick(false);
 				}
 			}
 			else {
-				if (mFlightOneListFrag != null && mFlightOneListFrag.hasList()) {
-					mFlightOneListFrag.setEnableOnListItemClick(true);
-				}
 				mFlightOneFiltersC.setAlpha(1f);
 				mFlightMapC.setAlpha(1f);
 				mFlightOneFiltersC.setTranslationY(0f);

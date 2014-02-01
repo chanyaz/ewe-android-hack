@@ -171,13 +171,16 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	 */
 	private void populateViews() {
 		Property property = Db.getHotelSearch().getSelectedProperty();
+		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		if (property != null) {
 			setupHeader(mRootC, property);
 			setupReviews(mRootC, property);
 			setupAmenities(mRootC, property);
 			setupRoomRates(mRootC, property);
 			setupDescriptionSections(mRootC, property);
-			setDefaultSelectedRate();
+			if (Db.getHotelSearch().getAvailability(selectedId) != null) {
+				setDefaultSelectedRate();
+			}
 		}
 	}
 

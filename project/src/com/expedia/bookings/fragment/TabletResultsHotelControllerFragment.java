@@ -442,13 +442,15 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Override
 	public void onHotelSelected() {
-		if (mHotelsStateManager.getState() != ResultsHotelsState.HOTEL_LIST_DOWN) {
+		if (mMapFragment != null && mMapFragment.isAdded()) {
 			mMapFragment.onHotelSelected();
+		}
+		if (mHotelDetailsFrag != null && mHotelDetailsFrag.isAdded()) {
 			mHotelDetailsFrag.onHotelSelected();
-			setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
-			for (IResultsHotelSelectedListener listener : mHotelSelectedListeners) {
-				listener.onHotelSelected();
-			}
+		}
+		setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
+		for (IResultsHotelSelectedListener listener : mHotelSelectedListeners) {
+			listener.onHotelSelected();
 		}
 	}
 

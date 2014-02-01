@@ -99,6 +99,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 	// Misc
 	private int mLegNumber = -1;
+	private boolean mBindInOnResume = false;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -145,6 +146,10 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		if (BackgroundDownloader.getInstance().isDownloading(BGD_KEY_RATINGS)) {
 			BackgroundDownloader.getInstance().registerDownloadCallback(BGD_KEY_RATINGS, mRatingsCallback);
 		}
+		if (mBindInOnResume) {
+			mBindInOnResume = false;
+			bindWithDb();
+		}
 	}
 
 	@Override
@@ -163,6 +168,11 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	}
 
 	public void bindWithDb() {
+		if (!isAdded()) {
+			mBindInOnResume = true;
+			return;
+		}
+
 		FlightTripLeg flightTripLeg = Db.getFlightSearch().getSelectedLegs()[mLegNumber];
 		FlightTrip trip = flightTripLeg.getFlightTrip();
 		FlightLeg flightLeg = flightTripLeg.getFlightLeg();
