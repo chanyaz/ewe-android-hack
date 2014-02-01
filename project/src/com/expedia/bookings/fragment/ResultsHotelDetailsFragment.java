@@ -19,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -442,12 +443,13 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	 *
 	 * @param selectedRate
 	 */
+	@TargetApi(14)
 	private void setSelectedRate(Rate selectedRate) {
 		Db.getHotelSearch().setSelectedRate(selectedRate);
 
 		Button addToTrip = Ui.findView(getView(), R.id.button_add_to_trip);
-		String addTripStr = getString(R.string.add_for_TEMPLATE,
-			selectedRate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL));
+		String displayPriceText = selectedRate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL);
+		String addTripStr = getString(R.string.add_for_TEMPLATE, displayPriceText);
 		addToTrip.setText(addTripStr);
 
 		LinearLayout container = Ui.findView(getView(), R.id.rooms_rates_container);
@@ -460,6 +462,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				continue;
 			}
 
+			FrameLayout frame = Ui.findView(row, R.id.rate_container);
+			frame.setVisibility(View.INVISIBLE);
 			ImageView checkmark = Ui.findView(row, R.id.image_checkmark);
 			TextView select = Ui.findView(row, R.id.new_room_rate);
 			if (rowRate.equals(selectedRate)) {
@@ -473,6 +477,39 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			}
 		}
 
+		// This will make all blue price squares the same width,
+		// and the one that's checked centered appropriately.
+		int largestWidth = 0;
+		for (int i = 0; i < container.getChildCount(); i++) {
+			View row = container.getChildAt(i);
+			TextView rateText = Ui.findView(row, R.id.new_room_rate);
+			if (rateText == null) {
+				continue;
+			}
+			int width = Math.max(rateText.getMinWidth(),
+				(int) rateText.getPaint().measureText(rateText.getText().toString())
+				+ rateText.getPaddingLeft() + rateText.getPaddingRight());
+			if (width > largestWidth) {
+				largestWidth = width;
+			}
+		}
+		for (int i = 0; i < container.getChildCount(); i++) {
+			View row = container.getChildAt(i);
+			View frame = row.findViewById(R.id.rate_container);
+			if (frame == null) {
+				continue;
+			}
+			ViewGroup.LayoutParams params = frame.getLayoutParams();
+			params.width = largestWidth;
+
+			TextView rateText = Ui.findView(row, R.id.new_room_rate);
+			if (rateText.getVisibility() != View.INVISIBLE) {
+				frame.setAlpha(0f);
+				frame.animate().alpha(1f).setDuration(500).start();
+			}
+			frame.setVisibility(View.VISIBLE);
+		}
+		container.requestLayout();
 	}
 
 	private void setupDescriptionSections(View view, Property property) {

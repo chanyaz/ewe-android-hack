@@ -45,6 +45,7 @@
         android:textStyle="bold" />
 
     <FrameLayout
+        android:id="@+id/rate_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical" >
