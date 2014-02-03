@@ -143,9 +143,15 @@ public class HotelSummarySection extends RelativeLayout {
 		final String hotelPrice = rate == null ? "" : StrUtils.formatHotelPrice(rate.getDisplayPrice());
 
 		if (rate == null) {
-			mStrikethroughPriceText.setVisibility(View.GONE);
-			mPriceText.setTextColor(mPriceTextColor);
-			mSaleText.setVisibility(View.GONE);
+			if (mStrikethroughPriceText != null) {
+				mStrikethroughPriceText.setVisibility(View.GONE);
+			}
+			if (mPriceText != null) {
+				mPriceText.setTextColor(mPriceTextColor);
+			}
+			if (mSaleText != null) {
+				mSaleText.setVisibility(View.GONE);
+			}
 			if (mSaleImageView != null) {
 				mSaleImageView.setVisibility(View.GONE);
 			}
