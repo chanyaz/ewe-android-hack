@@ -115,12 +115,26 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 				mDoBookingOnResume = true;
 			}
 			else {
-				startBookingProcess();
+				startBooking();
 			}
 		}
 	}
 
-	private void startBookingProcess() {
+	/**
+	 * Since both flight and hotel fragments use this and both have a different path to checkout,
+	 * let's send them on their respective ways.
+	 */
+	private void startBooking() {
+		if (this instanceof FlightBookingFragment) {
+			mListener.onStartBooking();
+			startBookingDownload();
+		}
+		else if (this instanceof HotelBookingFragment) {
+			startHotelBooking();
+		}
+	}
+
+	private void startHotelBooking() {
 		mListener.onStartBooking();
 		/*
 		 *  CheckoutV2 requires us to do a create call before making the checkout call.
@@ -177,7 +191,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	protected void onFullWalletLoaded(FullWallet wallet) {
 		WalletUtils.bindWalletToBillingInfo(wallet, Db.getBillingInfo());
 
-		startBookingProcess();
+		startBooking();
 	}
 
 	private final Download<CreateTripResponse> mCreateTripDownload = new Download<CreateTripResponse>() {
