@@ -182,7 +182,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 					attachCheckoutFragment();
 
 					if (mDisplayMode.compareTo(DisplayMode.CHECKOUT) == 0) {
-						gotoCheckoutMode(false, true);
+						gotoCheckoutMode(true, true);
 						if (mScrollViewListener.getScrollY() >= mScrollViewListener.getCheckoutScrollY()) {
 							mOverviewContainer.getViewTreeObserver().removeOnPreDrawListener(this);
 						}
