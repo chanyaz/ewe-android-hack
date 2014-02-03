@@ -1,6 +1,7 @@
 package com.expedia.bookings.activity;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -15,6 +16,7 @@ import com.actionbarsherlock.view.SubMenu;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
@@ -22,6 +24,7 @@ import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.utils.DebugMenu;
+import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
@@ -87,6 +90,26 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 			try {
 				LineOfBusiness lob = LineOfBusiness.valueOf(getIntent().getStringExtra(ARG_LOB));
 				mFragCheckoutController.setLob(lob);
+
+				//ActionBar title stuff
+				ActionBar ab = getActionBar();
+				String bookingArg = "";
+				if (lob == LineOfBusiness.FLIGHTS) {
+					if (Db.getFlightSearch() != null && Db.getFlightSearch().getAddedFlightTrip() != null) {
+						FlightTrip trip = Db.getFlightSearch().getAddedFlightTrip();
+						String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
+						bookingArg = getString(R.string.flights_to_TEMPLATE, cityName);
+					}
+				}
+				else {
+					if (Db.getHotelSearch() != null && Db.getHotelSearch().getSelectedProperty() != null && Db.getHotelSearch().getSelectedProperty().getName() != null) {
+						bookingArg = Db.getHotelSearch().getSelectedProperty().getName();
+					}
+				}
+
+				ab.setDisplayShowTitleEnabled(true);
+				ab.setTitle(android.text.Html.fromHtml(getString(R.string.now_booking_TEMPLATE, bookingArg)));
+
 			}
 			catch (Exception ex) {
 				Log.e("Exception parsing lob from intent.", ex);
@@ -109,6 +132,8 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 		super.onResume();
 		mHockeyPuck.onResume();
 	}
+
+
 
 	/*
 	 * MENU STUFF
