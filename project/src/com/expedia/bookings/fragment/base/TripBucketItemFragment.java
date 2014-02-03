@@ -49,9 +49,13 @@ public abstract class TripBucketItemFragment extends Fragment {
 
 		addTopView(inflater, mTopC);
 
-		bind();
-
 		return mRootC;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		bind();
 	}
 
 	public void setExpanded(boolean expanded) {
