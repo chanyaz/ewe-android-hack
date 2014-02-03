@@ -10,16 +10,16 @@ import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.v4.app.Fragment;
+import android.view.animation.Interpolator;
 
 import com.expedia.bookings.interfaces.IStateProvider;
 
 /**
  * StateManager is designed as a transition helper for IStateProvider.
- * 
+ * <p/>
  * This class can handle maintaining the current, default, and transition states
- *
+ * <p/>
  * This class can provide transitions between states, both animated and unanimated.
- *
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class StateManager<T> {
@@ -36,9 +36,9 @@ public class StateManager<T> {
 
 	/**
 	 * Create a new StateManager
-	 * 
+	 *
 	 * @param defaultState - the default state (what is returned from getState() if setState() is never called)
-	 * @param provider - the provider control
+	 * @param provider     - the provider control
 	 */
 	public StateManager(T defaultState, IStateProvider<T> provider) {
 		setDefaultState(defaultState);
@@ -70,8 +70,8 @@ public class StateManager<T> {
 
 	/**
 	 * Set the state.
-	 * 
-	 * @param state - the state to move towards
+	 *
+	 * @param state   - the state to move towards
 	 * @param animate - do we want to animate
 	 */
 	public void setState(T state, boolean animate) {
@@ -79,12 +79,24 @@ public class StateManager<T> {
 	}
 
 	/**
-	 * Set the state.
-	 * 
-	 * @param state - the state to move towards
+	 * Set the state
+	 *
+	 * @param state    - the state to move towards
 	 * @param duration - the duration of the animation ( if <= 0 no animation is performed)
 	 */
 	public void setState(T state, int duration) {
+		setState(state, duration, null);
+	}
+
+
+	/**
+	 * Set the state.
+	 *
+	 * @param state        - the state to move towards
+	 * @param duration     - the duration of the animation ( if <= 0 no animation is performed)
+	 * @param interpolator - the interpolator to use for the animation (if animating)
+	 */
+	public void setState(T state, int duration, Interpolator interpolator) {
 		if (duration <= 0) {
 			if (isAnimating()) {
 				mAnimator.cancel();
@@ -94,7 +106,7 @@ public class StateManager<T> {
 		else {
 			if (mAnimator == null) {
 				mDestinationState = state;
-				mAnimator = getTowardsStateAnimator(state, mProvider, duration);
+				mAnimator = getTowardsStateAnimator(state, mProvider, duration, interpolator);
 				if (mAnimator == null) {
 					finalizeState(state, mProvider);
 				}
@@ -144,8 +156,11 @@ public class StateManager<T> {
 		return true;
 	}
 
-	private ValueAnimator getTowardsStateAnimator(final T state, final IStateProvider<T> provider, int duration) {
+	private ValueAnimator getTowardsStateAnimator(final T state, final IStateProvider<T> provider, int duration, Interpolator interpolator) {
 		ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f).setDuration(duration);
+		if (interpolator != null) {
+			animator.setInterpolator(interpolator);
+		}
 		animator.addUpdateListener(new AnimatorUpdateListener() {
 			@Override
 			public void onAnimationUpdate(ValueAnimator arg0) {
