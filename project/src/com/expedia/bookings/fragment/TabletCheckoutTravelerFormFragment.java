@@ -103,13 +103,8 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		}
 		formContainer.addView(mSectionTraveler);
 
-		//TODO: These are just the remaining parts of the traveler form, they must be better configured based on lob
-		mSectionTravelerTwo = (SectionTravelerInfo) View.inflate(getActivity(),
-			R.layout.section_edit_traveler_pt2, null);
-		formContainer.addView(mSectionTravelerTwo);
-
 		mSectionTravelerThree = (SectionTravelerInfo) View.inflate(getActivity(),
-			R.layout.section_edit_traveler_pt3, null);
+			com.expedia.bookings.R.layout.section_edit_traveler_pt3_spinner, null);
 		formContainer.addView(mSectionTravelerThree);
 	}
 }

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/header_container"
@@ -11,7 +10,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="16dp" >
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/header_tv"
@@ -21,7 +20,7 @@
             android:gravity="center_vertical"
             android:text="@string/traveler_num_and_category_TEMPLATE"
             android:textColor="#FFFFFF"
-            android:textSize="18dp" />
+            android:textSize="18dp"/>
 
         <TextView
             android:id="@+id/top_right_text_button"
@@ -31,15 +30,20 @@
             android:gravity="center_vertical"
             android:text="@string/done"
             android:textColor="#FFFFFF"
-            android:textSize="18dp" />
+            android:textSize="18dp"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/content_container"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_checkout_information_middle_tab"
-        android:orientation="vertical"
-        android:padding="24dp" />
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/content_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_checkout_information_middle_tab"
+            android:orientation="vertical"
+            android:padding="24dp"/>
+    </ScrollView>
 
 </LinearLayout>
