@@ -7,12 +7,10 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 
 /**
- * 
  * This was developed for use in the actionbar.
- * 
+ * <p/>
  * We set a background color, we set a foreground color, and we set a percentage.
  * The percentage corresponds to the alpha of the foreground color.
- *
  */
 public class PercentageFadeColorDrawable extends Drawable {
 
@@ -43,9 +41,7 @@ public class PercentageFadeColorDrawable extends Drawable {
 	}
 
 	public void setPercentage(float percentage) {
-		if (percentage > 1 || percentage < 0) {
-			throw new RuntimeException("Percentage must be inclusive between 0f and 1f");
-		}
+		percentage = Math.max(Math.min(percentage, 1f), 0f);
 		mColorTwoA = (int) (percentage * mInitialColorTwoA);
 		invalidateSelf();
 	}
