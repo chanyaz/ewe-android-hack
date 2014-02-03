@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -17,11 +18,15 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.FlightRulesActivity;
+import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.base.LobableFragment;
@@ -35,7 +40,6 @@ import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
-import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -312,6 +316,22 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			}
 		});
 		attachPaymentButton();
+
+		//LEGAL
+		TextView legalBlurb = (TextView) addActionable(com.expedia.bookings.R.layout.include_tablet_legal_blurb_tv, new Runnable() {
+			@Override
+			public void run() {
+				Intent intent = new Intent(getActivity(), getLob() == LineOfBusiness.FLIGHTS ? FlightRulesActivity.class : HotelRulesActivity.class);
+				startActivity(intent);
+			}
+		});
+		if (getLob() == com.expedia.bookings.data.LineOfBusiness.FLIGHTS) {
+			legalBlurb.setText(PointOfSale.getPointOfSale().getStylizedFlightBookingStatement());
+		}
+		else {
+			legalBlurb.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
+		}
+
 
 		bindAll();
 
