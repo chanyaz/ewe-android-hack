@@ -14,16 +14,16 @@ public class FragmentAvailabilityUtils {
 		public void doFragmentSetup(String tag, Fragment frag);
 	}
 
-	public static Fragment setFragmentAvailability(boolean available, String tag, FragmentManager manager,
+	public static <T extends Fragment> T setFragmentAvailability(boolean available, String tag, FragmentManager manager,
 			FragmentTransaction transaction, IFragmentAvailabilityProvider provider, int container, boolean alwaysRunSetup) {
-		Fragment frag = provider.getExisitingLocalInstanceFromTag(tag);
+		T frag = (T) provider.getExisitingLocalInstanceFromTag(tag);
 		if (available) {
 			if (frag == null || !frag.isAdded()) {
 				if (frag == null) {
-					frag = manager.findFragmentByTag(tag);
+					frag = (T) manager.findFragmentByTag(tag);
 				}
 				if (frag == null) {
-					frag = provider.getNewFragmentInstanceFromTag(tag);
+					frag = (T) provider.getNewFragmentInstanceFromTag(tag);
 				}
 				if (!frag.isAdded()) {
 					transaction.add(container, frag, tag);
