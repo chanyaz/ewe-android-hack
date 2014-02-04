@@ -86,6 +86,9 @@ public class ClearPrivateDataUtil {
 		// Clear image cache, why not
 		TwoLevelImageCache.clearMemoryCache();
 
+		// AirAsia Flight routes
+		Db.deleteCachedFlightRoutes(context);
+
 		// Clear airport dropdown suggestions
 		AirportDropDownAdapter.clearRecentAirports(context);
 		FlightSearchParamsFragment.clearRecentAirAsiaAirports(context);
