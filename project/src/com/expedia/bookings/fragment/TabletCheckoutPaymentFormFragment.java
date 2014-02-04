@@ -47,9 +47,9 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(Db.getBillingInfo());
 			mSectionBillingInfo.bind(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
 		}
-		setTopLeftText(getString(R.string.payment_method));
-		setTopRightText(getString(R.string.done));
-		setTopRightTextOnClick(mTopRightClickListener);
+		setHeadingText(getString(R.string.payment_method));
+		setHeadingButtonText(getString(R.string.done));
+		setHeadingButtonOnClick(mTopRightClickListener);
 
 		if (mSectionLocation != null) {
 			mSectionLocation.bind(Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getLocation());

@@ -68,9 +68,9 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		if (mSectionTraveler != null && travelerNumber >= 0 && travelerNumber < Db.getTravelers().size()) {
 			Db.getWorkingTravelerManager().setWorkingTravelerAndBase(Db.getTravelers().get(travelerNumber));
 			mSectionTraveler.bind(Db.getWorkingTravelerManager().getWorkingTraveler());
-			setTopLeftText(getString(R.string.traveler_num_and_category_TEMPLATE, travelerNumber + 1));
-			setTopRightText(getString(R.string.done));
-			setTopRightTextOnClick(mTopRightClickListener);
+			setHeadingText(getString(R.string.traveler_num_and_category_TEMPLATE, travelerNumber + 1));
+			setHeadingButtonText(getString(R.string.done));
+			setHeadingButtonOnClick(mTopRightClickListener);
 
 			if (mSectionTravelerTwo != null) {
 				mSectionTravelerTwo.bind(Db.getWorkingTravelerManager().getWorkingTraveler());

@@ -18,8 +18,8 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment {
 
 	private ViewGroup mRootC;
 	private ViewGroup mFormContentC;
-	private TextView mTopLeftHeadingText;
-	private TextView mTopRightButton;
+	private TextView mHeadingText;
+	private TextView mHeadingButton;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,38 +29,38 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment {
 
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_checkout_data_form, container, false);
 		mFormContentC = Ui.findView(mRootC, R.id.content_container);
-		mTopLeftHeadingText = Ui.findView(mRootC, R.id.header_tv);
-		mTopRightButton = Ui.findView(mRootC, R.id.top_right_text_button);
+		mHeadingText = Ui.findView(mRootC, R.id.header_tv);
+		mHeadingButton = Ui.findView(mRootC, R.id.header_text_button_tv);
 
 		setUpFormContent(mFormContentC);
 
 		return mRootC;
 	}
 
-	public void setTopLeftText(CharSequence seq) {
-		if (mTopLeftHeadingText != null) {
-			mTopLeftHeadingText.setText(seq);
+	public void setHeadingText(CharSequence seq) {
+		if (mHeadingText != null) {
+			mHeadingText.setText(seq);
 		}
 	}
 
-	public void setTopRightText(CharSequence seq) {
-		if (mTopRightButton != null) {
-			mTopRightButton.setText(seq);
+	public void setHeadingButtonText(CharSequence seq) {
+		if (mHeadingButton != null) {
+			mHeadingButton.setText(seq);
 		}
 	}
 
-	public void setTopRightTextOnClick(OnClickListener listener) {
-		if (mTopRightButton != null) {
-			mTopRightButton.setOnClickListener(listener);
+	public void setHeadingButtonOnClick(OnClickListener listener) {
+		if (mHeadingButton != null) {
+			mHeadingButton.setOnClickListener(listener);
 		}
 	}
 
-	public TextView getTopLeftTextView() {
-		return mTopLeftHeadingText;
+	public TextView getHeadingTextView() {
+		return mHeadingText;
 	}
 
-	public TextView getTopRightButton() {
-		return mTopRightButton;
+	public TextView getHeadingButtonTextView() {
+		return mHeadingButton;
 	}
 
 	@Override
