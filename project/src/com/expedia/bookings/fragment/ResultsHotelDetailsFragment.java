@@ -483,13 +483,14 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		// This will make all blue price squares the same width,
 		// and the one that's checked centered appropriately.
 		int largestWidth = 0;
+		int minWidth = getResources().getDimensionPixelSize(R.dimen.add_rate_button_min_width);
 		for (int i = 0; i < container.getChildCount(); i++) {
 			View row = container.getChildAt(i);
 			TextView rateText = Ui.findView(row, R.id.new_room_rate);
 			if (rateText == null) {
 				continue;
 			}
-			int width = Math.max(rateText.getMinWidth(),
+			int width = Math.max(minWidth,
 				(int) rateText.getPaint().measureText(rateText.getText().toString())
 				+ rateText.getPaddingLeft() + rateText.getPaddingRight());
 			if (width > largestWidth) {
