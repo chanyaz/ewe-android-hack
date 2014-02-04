@@ -1,11 +1,16 @@
 package com.expedia.bookings.fragment;
 
+import java.util.Calendar;
+
+import org.joda.time.LocalDate;
+
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,6 +21,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
@@ -31,7 +37,9 @@ import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
+import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.util.Ui;
+import com.mobiata.flightlib.utils.DateTimeUtils;
 
 /**
  * TabletCheckoutControllerFragment: designed for tablet checkout 2014
@@ -94,7 +102,23 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		});
 
 		mBucketDateRange = Ui.findView(mRootC, R.id.trip_date_range);
-		mBucketDateRange.setText("FEB 8 - CAT 12");//TODO: real date range
+		String dateRange;
+		if (getLob() == LineOfBusiness.FLIGHTS) {
+			FlightTrip trip = Db.getFlightSearch().getAddedFlightTrip();
+			Calendar depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
+			Calendar retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime();
+			long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();
+			long end = DateTimeUtils.getTimeInLocalTimeZone(retDate).getTime();
+
+			dateRange = DateUtils.formatDateRange(getActivity(), start, end, DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY);
+		}
+		else {
+			// Hotels
+			LocalDate checkIn = Db.getHotelSearch().getSearchParams().getCheckInDate();
+			LocalDate checkOut = Db.getHotelSearch().getSearchParams().getCheckOutDate();
+			dateRange = JodaUtils.formatDateRange(getActivity(), checkIn, checkOut, DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY);
+		}
+		mBucketDateRange.setText(dateRange);
 
 		if (savedInstanceState != null) {
 			mStateManager.setDefaultState(CheckoutState.valueOf(savedInstanceState.getString(
