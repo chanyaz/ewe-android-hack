@@ -1606,6 +1606,10 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (mCouponDialogFragment != null && mCouponDialogFragment.isAdded()) {
 			mCouponDialogFragment.dismiss();
 		}
+
+		if (mCouponRemoveThrobberDialog != null && mCouponRemoveThrobberDialog.isAdded()) {
+			mCouponRemoveThrobberDialog.dismiss();
+		}
 		onCancelApplyCoupon();
 	}
 
