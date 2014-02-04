@@ -82,9 +82,9 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment {
 			String dateStr = getString(R.string.dates_and_nights_TEMPLATE, dateRange, nightsStr);
 			Ui.setText(vg, R.id.dates_text_view, dateStr);
 
-			// Num travelers
+			// Num guests
 			int numGuests = Db.getHotelSearch().getSearchParams().getNumAdults(); // TODO what about the CHILDREN?
-			String numGuestsStr = getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numGuests, numGuests);
+			String numGuestsStr = getResources().getQuantityString(R.plurals.number_of_guests, numGuests, numGuests);
 			Ui.setText(vg, R.id.num_travelers_text_view, numGuestsStr);
 
 			// Price
