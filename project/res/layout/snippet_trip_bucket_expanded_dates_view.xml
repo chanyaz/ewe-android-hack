@@ -25,17 +25,20 @@
         android:id="@+id/dates_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_field_date"
+        android:drawableLeft="@drawable/ic_tablet_checkout_calendar"
         android:drawablePadding="8dp"
-        app:textStyle="normal" />
+        android:layout_marginBottom="8dp"
+        app:textStyle="light" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/num_travelers_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_traveler"
+        android:drawableLeft="@drawable/ic_tablet_checkout_guest"
+        android:drawablePadding="8dp"
+        android:layout_marginBottom="16dp"
         android:gravity="center_vertical"
-        app:textStyle="normal" />
+        app:textStyle="light" />
 
     <View
         android:layout_width="match_parent"
@@ -62,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:drawableLeft="@drawable/ic_info"
+            android:drawableLeft="@drawable/ic_tablet_checkout_info"
             android:gravity="center_vertical"
             android:textColor="#2261B3"
             android:textSize="18sp"
