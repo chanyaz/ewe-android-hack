@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.SectionTravelerInfoTablet xmlns:android="http://schemas.android.com/apk/res/android"
+                                                        xmlns:gridlayout="http://schemas.android.com/apk/res-auto"
+                                                        xmlns:tools="http://schemas.android.com/tools"
+                                                        android:layout_width="match_parent"
+                                                        android:layout_height="wrap_content"
+                                                        android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="#CFCFCF"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/edit_names_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.gridlayout.GridLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                gridlayout:alignmentMode="alignMargins"
+                gridlayout:columnCount="3"
+                gridlayout:columnOrderPreserved="false"
+                gridlayout:useDefaultMargins="false"
+                tools:ignore="RequiredSize">
+
+                <com.expedia.bookings.widget.TelephoneSpinner
+                    android:id="@+id/edit_phone_number_country_code_spinner"
+                    style="@style/Widget.Spinner.Phone.Dark"
+                    android:layout_width="100dp"
+                    gridlayout:layout_columnSpan="1"/>
+
+                <EditText
+                    android:id="@+id/edit_phone_number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|fill_horizontal"
+                    gridlayout:layout_columnSpan="2"
+                    android:hint="@string/phone_number_hint"
+                    android:inputType="phone"
+                    android:singleLine="true"
+                    tools:ignore="RequiredSize"/>
+
+            </com.gridlayout.GridLayout>
+
+            <EditText
+                android:id="@+id/edit_email_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/email_address_hint"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/email_disclaimer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/email_disclaimer"
+            android:textColor="@color/data_review_grey"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
+</com.expedia.bookings.section.SectionTravelerInfoTablet>

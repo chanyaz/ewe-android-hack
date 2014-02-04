@@ -25,9 +25,6 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	private int mTravelerNumber = 0;
 	private SectionTravelerInfo mSectionTraveler;
 
-	private SectionTravelerInfo mSectionTravelerTwo;
-	private SectionTravelerInfo mSectionTravelerThree;
-
 	public static TabletCheckoutTravelerFormFragment newInstance(LineOfBusiness lob) {
 		TabletCheckoutTravelerFormFragment frag = new TabletCheckoutTravelerFormFragment();
 		frag.setLob(lob);
@@ -71,13 +68,6 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			setHeadingText(getString(R.string.traveler_num_and_category_TEMPLATE, travelerNumber + 1));
 			setHeadingButtonText(getString(R.string.done));
 			setHeadingButtonOnClick(mTopRightClickListener);
-
-			if (mSectionTravelerTwo != null) {
-				mSectionTravelerTwo.bind(Db.getWorkingTravelerManager().getWorkingTraveler());
-			}
-			if (mSectionTravelerThree != null) {
-				mSectionTravelerThree.bind(Db.getWorkingTravelerManager().getWorkingTraveler());
-			}
 		}
 	}
 
@@ -95,16 +85,12 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		formContainer.removeAllViews();
 		if (getLob() == LineOfBusiness.HOTELS) {
 			mSectionTraveler = (SectionTravelerInfo) View.inflate(getActivity(),
-				R.layout.section_hotel_edit_traveler_pt1, null);
+				R.layout.section_hotel_tablet_edit_traveler, null);
 		}
 		else if (getLob() == LineOfBusiness.FLIGHTS) {
-			mSectionTraveler = (SectionTravelerInfo) View.inflate(getActivity(), R.layout.section_edit_traveler_pt1,
+			mSectionTraveler = (SectionTravelerInfo) View.inflate(getActivity(), R.layout.section_flight_tablet_edit_traveler,
 				null);
 		}
 		formContainer.addView(mSectionTraveler);
-
-		mSectionTravelerThree = (SectionTravelerInfo) View.inflate(getActivity(),
-			com.expedia.bookings.R.layout.section_edit_traveler_pt3_spinner, null);
-		formContainer.addView(mSectionTravelerThree);
 	}
 }
