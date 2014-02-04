@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.view.ViewGroup;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -25,10 +24,10 @@ import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.Ui;
 
 /**
  * TabletCheckoutActivity: The checkout activity designed for tablet 2014
@@ -46,8 +45,7 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 	//Args
 	private static final String ARG_LOB = "ARG_LOB";
 
-	//State
-	private static final String STATE_DEBUG_DATA_LOADED = "STATE_DEBUG_DATA_LOADING";
+	private static final String CHECKOUT_FRAG_TAG = "CHECKOUT_FRAG_TAG";
 
 	//Containers..
 	private ViewGroup mRootC;
@@ -57,7 +55,6 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 
 	//Other
 	private boolean mBackButtonLocked = false;
-	private boolean mTestDataLoaded = false;
 	private HockeyPuck mHockeyPuck;
 
 	@Override
@@ -65,25 +62,42 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tablet_checkout);
 
-		//TODO: REMOVE TESTING DATA
-		if (savedInstanceState == null || !savedInstanceState.getBoolean(STATE_DEBUG_DATA_LOADED, false)) {
-			Db.saveOrLoadDbForTesting(this);
-			mTestDataLoaded = true;
-		}
-		else {
-			mTestDataLoaded = true;
+		// Loading checkout data and blocking. this is disk i/o but we need the data loaded at this
+		// point due to how the code is structured.
+		loadCachedData(true);
+
+		// TODO remove getAddedProperty/getAddedFlight and use selected
+		boolean hasAddedProperty = Db.getHotelSearch().getAddedProperty() != null;
+		boolean hasAddedFlightTrip = Db.getFlightSearch().getAddedFlightTrip() != null;
+
+		if (!hasAddedProperty) {
+			Db.loadHotelSearchFromDisk(this, true); // TODO REMOVE BYPASSTIMEOUT=TRUE before shipping
+			if (Db.getHotelSearch().getAddedProperty() != null) {
+				hasAddedProperty = true;
+			}
+			Log.i("TabletCheckoutActivity: loadedHotelSearch=" + hasAddedProperty);
 		}
 
-		//Loading checkout data, which will be slow, so we may want to pass false
-		loadCachedData(true);
+		if (!hasAddedFlightTrip) {
+			Db.loadCachedFlightData(this);
+			if (Db.getFlightSearch().getAddedFlightTrip() != null) {
+				hasAddedFlightTrip = true;
+				Db.loadFlightSearchParamsFromDisk(this);
+			}
+			Log.i("TabletCheckoutActivity: loadedFlightSearch=" + hasAddedFlightTrip);
+		}
+
+		if (!hasAddedFlightTrip && !hasAddedProperty) {
+			Log.i("Failed to load either Flight or Hotel search data. Were you trying to book something?");
+			finish();
+			return;
+		}
 
 		//Containers
 		mRootC = Ui.findView(this, R.id.root_layout);
 
 		//Fragments
-		FragmentManager manager = getSupportFragmentManager();
-		mFragCheckoutController = (TabletCheckoutControllerFragment) manager
-			.findFragmentById(R.id.tablet_checkout_controller_fragment);
+		mFragCheckoutController = Ui.findOrAddSupportFragment(this, R.id.root_layout, TabletCheckoutControllerFragment.class, CHECKOUT_FRAG_TAG);
 
 		//Args
 		if (getIntent().hasExtra(ARG_LOB)) {
@@ -122,18 +136,10 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		outState.putBoolean(STATE_DEBUG_DATA_LOADED, mTestDataLoaded);
-		super.onSaveInstanceState(outState);
-	}
-
-	@Override
 	public void onResume() {
 		super.onResume();
 		mHockeyPuck.onResume();
 	}
-
-
 
 	/*
 	 * MENU STUFF

@@ -350,6 +350,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			if (lastLegToSelect) {
 				setFlightsState(ResultsFlightsState.ADDING_FLIGHT_TO_TRIP, true);
 				Db.getFlightSearch().commitSelectedLegs();
+
+				Db.kickOffBackgroundFlightSearchSave(getActivity());
 			}
 			else {
 				setFlightsState(ResultsFlightsState.FLIGHT_TWO_FILTERS, true);

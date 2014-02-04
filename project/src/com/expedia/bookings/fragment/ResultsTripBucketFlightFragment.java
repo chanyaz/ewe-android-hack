@@ -62,35 +62,34 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 
 	@Override
 	public void addExpandedView(LayoutInflater inflater, ViewGroup viewGroup) {
-
 		FlightTrip trip = Db.getFlightSearch().getAddedFlightTrip();
-		if (trip != null) {
-			ViewGroup vg = Ui.inflate(inflater, R.layout.snippet_trip_bucket_expanded_dates_view, viewGroup, false);
-			// Dates
-			Calendar depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
-			Calendar retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime();
-			long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();
-			long end = DateTimeUtils.getTimeInLocalTimeZone(retDate).getTime();
 
-			String dateRange = DateUtils.formatDateRange(getActivity(), start, end, DateUtils.FORMAT_SHOW_DATE);
-			Ui.setText(vg, R.id.dates_text_view, dateRange);
+		ViewGroup vg = Ui.inflate(inflater, R.layout.snippet_trip_bucket_expanded_dates_view, viewGroup, false);
 
-			// Num travelers
-			int numTravelers = Db.getFlightSearch().getSearchParams().getNumAdults();
-			String numTravStr = getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers,
-					numTravelers);
-			Ui.setText(vg, R.id.num_travelers_text_view, numTravStr);
+		// Dates
+		Calendar depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
+		Calendar retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime();
+		long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();
+		long end = DateTimeUtils.getTimeInLocalTimeZone(retDate).getTime();
 
-			// Price
-			String price = trip.getTotalFareWithCardFee(Db.getBillingInfo()).getFormattedMoney(Money.F_NO_DECIMAL);
-			Ui.setText(vg, R.id.price_expanded_bucket_text_view, price);
+		String dateRange = DateUtils.formatDateRange(getActivity(), start, end, DateUtils.FORMAT_SHOW_DATE);
+		Ui.setText(vg, R.id.dates_text_view, dateRange);
 
-			// Hide price in the FlightLeg card
-			View priceTv = Ui.findView(mFlightSection, R.id.price_text_view);
-			priceTv.setVisibility(View.INVISIBLE);
+		// Num travelers
+		int numTravelers = Db.getFlightSearch().getSearchParams().getNumAdults();
+		String numTravStr = getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers,
+				numTravelers);
+		Ui.setText(vg, R.id.num_travelers_text_view, numTravStr);
 
-			viewGroup.addView(vg);
-		}
+		// Price
+		String price = trip.getTotalFareWithCardFee(Db.getBillingInfo()).getFormattedMoney(Money.F_NO_DECIMAL);
+		Ui.setText(vg, R.id.price_expanded_bucket_text_view, price);
+
+		// Hide price in the FlightLeg card
+		View priceTv = Ui.findView(mFlightSection, R.id.price_text_view);
+		priceTv.setVisibility(View.INVISIBLE);
+
+		viewGroup.addView(vg);
 	}
 
 	@Override

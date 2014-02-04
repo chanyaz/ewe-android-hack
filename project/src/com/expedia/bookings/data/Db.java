@@ -512,6 +512,10 @@ public class Db {
 	}
 
 	public static boolean loadHotelSearchFromDisk(Context context) {
+		return loadHotelSearchFromDisk(context, false);
+	}
+
+	public static boolean loadHotelSearchFromDisk(Context context, boolean bypassTimeout) {
 		synchronized (sDb) {
 			long start = System.currentTimeMillis();
 
@@ -522,7 +526,13 @@ public class Db {
 			}
 
 			long searchTimestamp = SettingUtils.get(context, HOTEL_SEARCH_START_TIME, (long) 0);
-			if (CalendarUtils.isExpired(searchTimestamp, HotelSearch.SEARCH_DATA_TIMEOUT)) {
+			if (bypassTimeout) {
+				Log.i("We don't care about hotel search timing out!!");
+				if (AndroidUtils.isRelease(context)) {
+					throw new RuntimeException("Bypassing hotel search timeout with an RC. bad!");
+				}
+			}
+			else if (CalendarUtils.isExpired(searchTimestamp, HotelSearch.SEARCH_DATA_TIMEOUT)) {
 				Log.d("There is cached hotel data but it has expired, not loading.");
 				Db.deleteHotelSearchData(context);
 				return false;
@@ -979,7 +989,7 @@ public class Db {
 		}
 	}
 
-	public static void saveDbForTesting(Context context) {
+	private static void saveDbForTesting(Context context) {
 		safetyFirst(context);
 
 		Log.i("Saving test data...");
@@ -1010,7 +1020,7 @@ public class Db {
 	}
 
 	// Fills the Db with test data that allows you to launch into just about any Activity
-	public static void loadTestData(Context context) {
+	private static void loadTestData(Context context) {
 		safetyFirst(context);
 
 		Log.i("Loading test data...");

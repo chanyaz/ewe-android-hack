@@ -72,7 +72,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	//State
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
-	private static final String STATE_DEBUG_DATA_LOADED = "STATE_DEBUG_DATA_LOADING";
 
 	//Tags
 	private static final String FTAG_FLIGHTS_CONTROLLER = "FTAG_FLIGHTS_CONTROLLER";
@@ -95,7 +94,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private ResultsState mState = ResultsState.OVERVIEW;
 	private boolean mPreDrawInitComplete = false;
 	private boolean mBackButtonLocked = false;
-	private boolean mTestDataLoaded = false;
 
 	private HockeyPuck mHockeyPuck;
 
@@ -109,13 +107,30 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tablet_results);
 
-		//TODO: REMOVE
-		if (savedInstanceState == null || !savedInstanceState.getBoolean(STATE_DEBUG_DATA_LOADED, false)) {
-			Db.saveOrLoadDbForTesting(this);
-			mTestDataLoaded = true;
+		boolean hasHotelData = Db.getHotelSearch().getSearchResponse() != null;
+		if (!hasHotelData) {
+			hasHotelData = Db.loadHotelSearchFromDisk(this, true); // TODO REMOVE BYPASSTIMEOUT=TRUE before shipping!
+			if (!hasHotelData) {
+				// TODO will this logic change when the search behavior changes?
+				Log.i("TabletResultsActivity: no hotel data in memory and did not load from disk, we must finish()");
+				finish();
+				return;
+			}
 		}
-		else {
-			mTestDataLoaded = true;
+
+		boolean hasFlightData = Db.getFlightSearch().getSearchResponse() != null;
+		if (!hasFlightData) {
+			hasFlightData = Db.loadCachedFlightData(this);
+
+			if (!hasFlightData) {
+				// TODO will this logic change when the search behavior changes?
+				Log.i("TabletResultsActivity: no flight data in memory and did not load from disk, we must finish()");
+				finish();
+				return;
+			}
+			else {
+				Db.loadFlightSearchParamsFromDisk(this);
+			}
 		}
 
 		//Containers
@@ -186,7 +201,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putString(STATE_CURRENT_STATE, mState.name());
-		outState.putBoolean(STATE_DEBUG_DATA_LOADED, mTestDataLoaded);
 		super.onSaveInstanceState(outState);
 	}
 

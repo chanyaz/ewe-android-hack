@@ -325,10 +325,13 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 			return;
 		case HOTEL_SEARCH:
 			Db.getHotelSearch().setSearchResponse((HotelSearchResponse) response);
+			Db.saveHotelSearchTimestamp(this);
+			Db.kickOffBackgroundHotelSearchSave(this);
 			break;
 		case FLIGHT_SEARCH:
 			Db.getFlightSearch().setSearchResponse((FlightSearchResponse) response);
 			if (response != null) {
+				Db.kickOffBackgroundFlightSearchSave(this);
 				Db.addAirlineNames(((FlightSearchResponse) response).getAirlineNames());
 			}
 			break;
