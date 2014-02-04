@@ -65,7 +65,6 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mLegNumber = getArguments().getInt(ARG_LEG_NUMBER);
-		mFilter = Db.getFlightSearch().getFilter(mLegNumber);
 	}
 
 	@Override
@@ -93,6 +92,12 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		mAirlineOverlay = Ui.findView(view, R.id.flight_filter_airline_overlay);
 
 		return view;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		mFilter = Db.getFlightSearch().getFilter(mLegNumber);
 	}
 
 	@Override
