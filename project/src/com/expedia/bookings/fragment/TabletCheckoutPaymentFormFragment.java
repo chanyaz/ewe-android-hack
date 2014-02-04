@@ -77,6 +77,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			mSectionBillingInfo = (SectionBillingInfo) View.inflate(getActivity(), R.layout.section_edit_creditcard,
 				null);
 		}
+		mSectionBillingInfo.setLineOfBusiness(getLob());
 		formContainer.addView(mSectionBillingInfo);
 
 		//TODO: REMOVE OR REARRANGE OR WHATEVER, WE WONT PROBABLY BE HAVING ONE FORM AFTER THE OTHER
