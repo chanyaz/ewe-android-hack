@@ -49,7 +49,7 @@ import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
 public class SectionBillingInfo extends LinearLayout implements ISection<BillingInfo>, ISectionEditable,
-		InvalidCharacterListener {
+	InvalidCharacterListener {
 
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
 	SectionFieldList<BillingInfo> mFields = new SectionFieldList<BillingInfo>();
@@ -114,7 +114,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mFields.add(this.mEditCardExpirationDateTextBtn);
 	}
 
-	/***
+	/**
 	 * Helper method, so when we update the card number we don't rebind everything
 	 */
 	protected void rebindNumDependantFields() {
@@ -219,7 +219,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	//////////////////////////////////////
 
 	SectionField<TextView, BillingInfo> mDisplayCreditCardNumberMasked = new SectionField<TextView, BillingInfo>(
-			R.id.display_creditcard_number_masked) {
+		R.id.display_creditcard_number_masked) {
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
 			if (!TextUtils.isEmpty(data.getNumber())) {
@@ -227,8 +227,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					String lastFourDigits = data.getNumber().substring(data.getNumber().length() - 4);
 					String brandName = (!TextUtils.isEmpty(data.getBrandName())) ? data.getBrandName() : "";
 					field.setText(Html.fromHtml(String.format(
-							getResources().getString(R.string.blanked_out_credit_card_TEMPLATE), brandName,
-							lastFourDigits)), TextView.BufferType.SPANNABLE);
+						getResources().getString(R.string.blanked_out_credit_card_TEMPLATE), brandName,
+						lastFourDigits)), TextView.BufferType.SPANNABLE);
 				}
 			}
 			else {
@@ -238,7 +238,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	};
 
 	SectionField<TextView, BillingInfo> mDisplayCreditCardExpiration = new SectionField<TextView, BillingInfo>(
-			R.id.display_creditcard_expiration) {
+		R.id.display_creditcard_expiration) {
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
 			if (data.getExpirationDate() != null) {
@@ -250,27 +250,33 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			}
 		}
 	};
-	
 
-	SectionField<TextView, 	BillingInfo> mDisplayEmailDisclaimer = new SectionField<TextView, BillingInfo>(
-			R.id.email_disclaimer) {
+
+	SectionField<TextView, BillingInfo> mDisplayEmailDisclaimer = new SectionField<TextView, BillingInfo>(
+		R.id.email_disclaimer) {
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
 			field.setText(R.string.email_disclaimer);
 		}
 	};
-	
+
 	SectionField<ImageView, BillingInfo> mDisplayCreditCardBrandIconGrey = new SectionField<ImageView, BillingInfo>(
-			R.id.display_credit_card_brand_icon_grey) {
+		R.id.display_credit_card_brand_icon_grey) {
 		@Override
 		public void onHasFieldAndData(ImageView field, BillingInfo data) {
 			if (!TextUtils.isEmpty(data.getBrandName())) {
 				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
 				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
-					if (mLineOfBusiness == LineOfBusiness.FLIGHTS
-							&& !Db.getFlightSearch().getSelectedFlightTrip()
-									.isCardTypeSupported(getData().getCardType())) {
-						field.setImageResource(R.drawable.ic_lcc_no_card_payment_entry);
+					if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
+						if (Db.getFlightSearch() != null
+							&& Db.getFlightSearch().getSelectedFlightTrip() != null
+							&& !Db.getFlightSearch().getSelectedFlightTrip().isCardTypeSupported(getData().getCardType())) {
+
+							field.setImageResource(R.drawable.ic_lcc_no_card_payment_entry);
+						}
+						else {
+							field.setImageResource(BookingInfoUtils.getGreyCardIcon(cardType));
+						}
 					}
 					else {
 						field.setImageResource(BookingInfoUtils.getGreyCardIcon(cardType));
@@ -287,7 +293,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	};
 
 	SectionField<ImageView, BillingInfo> mDisplayCreditCardBrandIconBlack = new SectionField<ImageView, BillingInfo>(
-			R.id.display_credit_card_brand_icon_black) {
+		R.id.display_credit_card_brand_icon_black) {
 		@Override
 		public void onHasFieldAndData(ImageView field, BillingInfo data) {
 			if (!TextUtils.isEmpty(data.getBrandName())) {
@@ -306,7 +312,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	};
 
 	SectionField<ImageView, BillingInfo> mDisplayCreditCardBrandIconWhite = new SectionField<ImageView, BillingInfo>(
-			R.id.display_credit_card_brand_icon_white) {
+		R.id.display_credit_card_brand_icon_white) {
 		@Override
 		public void onHasFieldAndData(ImageView field, BillingInfo data) {
 			if (!TextUtils.isEmpty(data.getBrandName())) {
@@ -325,7 +331,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	};
 
 	SectionField<ImageView, BillingInfo> mDisplayCreditCardBrandIconWhiteDefaultBlank = new SectionField<ImageView, BillingInfo>(
-			R.id.display_credit_card_brand_icon_white_default_blank) {
+		R.id.display_credit_card_brand_icon_white_default_blank) {
 		@Override
 		public void onHasFieldAndData(ImageView field, BillingInfo data) {
 			if (!TextUtils.isEmpty(data.getBrandName())) {
@@ -344,7 +350,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	};
 
 	SectionField<TextView, BillingInfo> mDisplayFullName = new SectionField<TextView, BillingInfo>(
-			R.id.display_full_name) {
+		R.id.display_full_name) {
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
 			if (!TextUtils.isEmpty(data.getFirstName()) || !TextUtils.isEmpty(data.getLastName())) {
@@ -361,7 +367,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	};
 
 	SectionField<SectionLocation, BillingInfo> mDisplayAddress = new SectionField<SectionLocation, BillingInfo>(
-			R.id.section_location_address) {
+		R.id.section_location_address) {
 		@Override
 		public void onHasFieldAndData(SectionLocation field, BillingInfo data) {
 			if (data.getLocation() != null) {
@@ -371,7 +377,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	};
 
 	SectionField<TextView, BillingInfo> mDisplayBrandAndExpirationColored = new SectionField<TextView, BillingInfo>(
-			R.id.display_brand_and_expiration_colored) {
+		R.id.display_brand_and_expiration_colored) {
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
 			if (data.getExpirationDate() != null && data.getBrandName() != null) {
@@ -388,7 +394,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	};
 
 	SectionField<com.expedia.bookings.widget.TextView, BillingInfo> mDisplayLccFeeWarning = new SectionField<com.expedia.bookings.widget.TextView, BillingInfo>(
-			R.id.card_fee_icon) {
+		R.id.card_fee_icon) {
 		@Override
 		public void onHasFieldAndData(com.expedia.bookings.widget.TextView field, BillingInfo billingInfo) {
 			if (mContext instanceof FragmentActivity && mFlightTrip != null) {
@@ -406,7 +412,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							String card = CreditCardType.getHumanReadableCardTypeName(mContext, type);
 							String text = mContext.getString(R.string.airline_card_fee_select_TEMPLATE, feeText, card);
 							SimpleSupportDialogFragment.newInstance(null, text).show(fa.getSupportFragmentManager(),
-									"lccDialog");
+								"lccDialog");
 						}
 					});
 				}
@@ -431,26 +437,26 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	////// VALIDATION INDICATOR FIELDS
 	//////////////////////////////////////
 	ValidationIndicatorExclaimation<BillingInfo> mValidCCNum = new ValidationIndicatorExclaimation<BillingInfo>(
-			R.id.edit_creditcard_number);
+		R.id.edit_creditcard_number);
 	ValidationIndicatorExclaimation<BillingInfo> mValidNameOnCard = new ValidationIndicatorExclaimation<BillingInfo>(
-			R.id.edit_name_on_card);
+		R.id.edit_name_on_card);
 	ValidationIndicatorExclaimation<BillingInfo> mValidFirstName = new ValidationIndicatorExclaimation<BillingInfo>(
-			R.id.edit_first_name);
+		R.id.edit_first_name);
 	ValidationIndicatorExclaimation<BillingInfo> mValidLastName = new ValidationIndicatorExclaimation<BillingInfo>(
-			R.id.edit_last_name);
+		R.id.edit_last_name);
 	ValidationIndicatorExclaimation<BillingInfo> mValidPhoneNumber = new ValidationIndicatorExclaimation<BillingInfo>(
-			R.id.edit_phone_number);
+		R.id.edit_phone_number);
 	ValidationIndicatorExclaimation<BillingInfo> mValidEmail = new ValidationIndicatorExclaimation<BillingInfo>(
-			R.id.edit_email_address);
+		R.id.edit_email_address);
 	ValidationIndicatorExclaimation<BillingInfo> mValidExpiration = new ValidationIndicatorExclaimation<BillingInfo>(
-			R.id.edit_creditcard_exp_text_btn);
+		R.id.edit_creditcard_exp_text_btn);
 
 	//////////////////////////////////////
 	////// EDIT FIELDS
 	//////////////////////////////////////
 
 	SectionFieldEditable<EditText, BillingInfo> mEditCreditCardNumber = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
-			R.id.edit_creditcard_number) {
+		R.id.edit_creditcard_number) {
 
 		private int mOriginalTextColor = -1;
 
@@ -479,9 +485,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 									getData().setBrandName(type.name());
 									if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
 										if (!Db.getFlightSearch().getSelectedFlightTrip()
-												.isCardTypeSupported(getData().getCardType())) {
+											.isCardTypeSupported(getData().getCardType())) {
 											field.setTextColor(getResources().getColor(
-													R.color.flight_card_invalid_cc_type_text_color));
+												R.color.flight_card_invalid_cc_type_text_color));
 										}
 										else {
 											field.setTextColor(mOriginalTextColor);
@@ -524,9 +530,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 						}
 						else {
 							if (mLineOfBusiness == LineOfBusiness.FLIGHTS
-									&& getData().getCardType() != null
-									&& !Db.getFlightSearch().getSelectedFlightTrip()
-											.isCardTypeSupported(getData().getCardType())) {
+								&& getData().getCardType() != null
+								&& !Db.getFlightSearch().getSelectedFlightTrip()
+								.isCardTypeSupported(getData().getCardType())) {
 
 								return ValidationError.ERROR_DATA_INVALID;
 
@@ -547,7 +553,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	};
 
 	SectionFieldEditable<EditText, BillingInfo> mEditFirstName = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
-			R.id.edit_first_name) {
+		R.id.edit_first_name) {
 
 		@Override
 		public void setChangeListener(EditText field) {
@@ -562,7 +568,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			});
 
 			field.addTextChangedListener(InvalidCharacterHelper
-					.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
+				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
 		}
 
 		@Override
@@ -592,7 +598,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	};
 
 	SectionFieldEditable<EditText, BillingInfo> mEditLastName = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
-			R.id.edit_last_name) {
+		R.id.edit_last_name) {
 
 		@Override
 		public void setChangeListener(EditText field) {
@@ -607,7 +613,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			});
 
 			field.addTextChangedListener(InvalidCharacterHelper
-					.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
+				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
 		}
 
 		@Override
@@ -637,7 +643,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	};
 
 	SectionFieldEditable<EditText, BillingInfo> mEditNameOnCard = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
-			R.id.edit_name_on_card) {
+		R.id.edit_name_on_card) {
 
 		@Override
 		public void setChangeListener(EditText field) {
@@ -652,7 +658,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			});
 
 			field.addTextChangedListener(InvalidCharacterHelper
-					.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
+				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
 		}
 
 		@Override
@@ -677,7 +683,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	};
 
 	SectionFieldEditable<EditText, BillingInfo> mEditEmailAddress = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
-			R.id.edit_email_address) {
+		R.id.edit_email_address) {
 
 		@Override
 		public void setChangeListener(EditText field) {
@@ -692,7 +698,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			});
 
 			field.addTextChangedListener(InvalidCharacterHelper
-					.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.EMAIL));
+				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.EMAIL));
 		}
 
 		@Override
@@ -722,7 +728,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	};
 
 	SectionFieldEditable<EditText, BillingInfo> mEditPhoneNumber = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
-			R.id.edit_phone_number) {
+		R.id.edit_phone_number) {
 
 		@Override
 		public void setChangeListener(EditText field) {
@@ -785,6 +791,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		/**
 		 * This won't directly update the gui, it will update the state, so that when create dialog is called this is what gets presented
+		 *
 		 * @param month 1 - 12 (not 0 - 11 like calendar)
 		 * @param year
 		 */
@@ -829,8 +836,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			View view = inflater.inflate(R.layout.fragment_dialog_expiration, null);
 
 			int themeResId = ExpediaBookingApp.useTabletInterface(getActivity())
-					? R.style.Theme_Light_Fullscreen_Panel
-					: R.style.ExpediaLoginDialog;
+				? R.style.Theme_Light_Fullscreen_Panel
+				: R.style.ExpediaLoginDialog;
 			Dialog dialog = new Dialog(getActivity(), themeResId);
 			dialog.requestWindowFeature(STYLE_NO_TITLE);
 			dialog.setContentView(view);
@@ -888,7 +895,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	}
 
 	SectionFieldEditable<TextView, BillingInfo> mEditCardExpirationDateTextBtn = new SectionFieldEditable<TextView, BillingInfo>(
-			R.id.edit_creditcard_exp_text_btn) {
+		R.id.edit_creditcard_exp_text_btn) {
 		private final static String TAG_EXPR_DATE_PICKER = "TAG_EXPR_DATE_PICKER";
 
 		@Override
