@@ -178,20 +178,16 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	@Override
 	public Fragment getNewFragmentInstanceFromTag(String tag) {
 		if (tag == FRAG_TAG_TRAVELER_FORM) {
-			mTravelerForm = TabletCheckoutTravelerFormFragment.newInstance(getLob());
-			return mTravelerForm;
+			return TabletCheckoutTravelerFormFragment.newInstance(getLob());
 		}
 		else if (tag == FRAG_TAG_PAYMENT_FORM) {
-			mPaymentForm = TabletCheckoutPaymentFormFragment.newInstance(getLob());
-			return mPaymentForm;
+			return TabletCheckoutPaymentFormFragment.newInstance(getLob());
 		}
 		else if (tag == FRAG_TAG_LOGIN_BUTTONS) {
-			mLoginButtons = CheckoutLoginButtonsFragment.newInstance(getLob());
-			return mLoginButtons;
+			return CheckoutLoginButtonsFragment.newInstance(getLob());
 		}
 		else if (tag == FRAG_TAG_PAYMENT_BUTTON) {
-			mPaymentButton = PaymentButtonFragment.newInstance(getLob());
-			return mPaymentButton;
+			return PaymentButtonFragment.newInstance(getLob());
 		}
 		return null;
 	}
@@ -316,10 +312,10 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		//SET UP THE FORM FRAGMENTS
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
-		FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_TRAVELER_FORM, fragmentManager, transaction, this, R.id.traveler_form_container, true);
-		FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_PAYMENT_FORM, fragmentManager, transaction, this, R.id.payment_form_container, true);
-		FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_LOGIN_BUTTONS, fragmentManager, transaction, this, LOGIN_FRAG_CONTAINER_ID, true);
-		FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_PAYMENT_BUTTON, fragmentManager, transaction, this, PAYMENT_FRAG_CONTAINER_ID, true);
+		mTravelerForm = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_TRAVELER_FORM, fragmentManager, transaction, this, R.id.traveler_form_container, true);
+		mPaymentForm = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_PAYMENT_FORM, fragmentManager, transaction, this, R.id.payment_form_container, true);
+		mLoginButtons = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_LOGIN_BUTTONS, fragmentManager, transaction, this, LOGIN_FRAG_CONTAINER_ID, true);
+		mPaymentButton = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_PAYMENT_BUTTON, fragmentManager, transaction, this, PAYMENT_FRAG_CONTAINER_ID, true);
 		transaction.commit();
 
 		bindAll();
