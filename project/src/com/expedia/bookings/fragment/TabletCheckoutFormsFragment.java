@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
@@ -39,13 +40,16 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
+import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.util.Ui;
+
+import static com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TabletCheckoutFormsFragment extends LobableFragment implements IBackManageable,
 	IStateProvider<CheckoutFormState>,
-	ICheckoutDataListener {
+	ICheckoutDataListener, IFragmentAvailabilityProvider {
 
 	private static final String STATE_CHECKOUTFORMSTATE = "STATE_CHECKOUTFORMSTATE";
 
@@ -154,64 +158,47 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		outState.putString(STATE_CHECKOUTFORMSTATE, mStateManager.getState().name());
 	}
 
-	public void attachTravelerForm() {
-		FragmentManager manager = getChildFragmentManager();
-		if (mTravelerForm == null) {
-			mTravelerForm = (TabletCheckoutTravelerFormFragment) manager.findFragmentByTag(FRAG_TAG_TRAVELER_FORM);
+	@Override
+	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+		if (tag == FRAG_TAG_TRAVELER_FORM) {
+			return mTravelerForm;
 		}
-		if (mTravelerForm == null) {
+		else if (tag == FRAG_TAG_PAYMENT_FORM) {
+			return mPaymentForm;
+		}
+		else if (tag == FRAG_TAG_LOGIN_BUTTONS) {
+			return mLoginButtons;
+		}
+		else if (tag == FRAG_TAG_PAYMENT_BUTTON) {
+			return mPaymentButton;
+		}
+		return null;
+	}
+
+	@Override
+	public Fragment getNewFragmentInstanceFromTag(String tag) {
+		if (tag == FRAG_TAG_TRAVELER_FORM) {
 			mTravelerForm = TabletCheckoutTravelerFormFragment.newInstance(getLob());
+			return mTravelerForm;
 		}
-		if (!mTravelerForm.isAdded()) {
-			FragmentTransaction transaction = manager.beginTransaction();
-			transaction.add(R.id.traveler_form_container, mTravelerForm, FRAG_TAG_TRAVELER_FORM);
-			transaction.commit();
-		}
-	}
-
-	public void attachPaymentForm() {
-		FragmentManager manager = getChildFragmentManager();
-		if (mPaymentForm == null) {
-			mPaymentForm = (TabletCheckoutPaymentFormFragment) manager.findFragmentByTag(FRAG_TAG_PAYMENT_FORM);
-		}
-		if (mPaymentForm == null) {
+		else if (tag == FRAG_TAG_PAYMENT_FORM) {
 			mPaymentForm = TabletCheckoutPaymentFormFragment.newInstance(getLob());
+			return mPaymentForm;
 		}
-		if (!mPaymentForm.isAdded()) {
-			FragmentTransaction transaction = manager.beginTransaction();
-			transaction.add(R.id.payment_form_container, mPaymentForm, FRAG_TAG_PAYMENT_FORM);
-			transaction.commit();
-		}
-	}
-
-	public void attachLoginButtons() {
-		FragmentManager manager = getChildFragmentManager();
-		if (mLoginButtons == null) {
-			mLoginButtons = (CheckoutLoginButtonsFragment) manager.findFragmentByTag(FRAG_TAG_LOGIN_BUTTONS);
-		}
-		if (mLoginButtons == null) {
+		else if (tag == FRAG_TAG_LOGIN_BUTTONS) {
 			mLoginButtons = CheckoutLoginButtonsFragment.newInstance(getLob());
+			return mLoginButtons;
 		}
-		if (!mLoginButtons.isAdded()) {
-			FragmentTransaction transaction = manager.beginTransaction();
-			transaction.add(LOGIN_FRAG_CONTAINER_ID, mLoginButtons, FRAG_TAG_LOGIN_BUTTONS);
-			transaction.commit();
+		else if (tag == FRAG_TAG_PAYMENT_BUTTON) {
+			mPaymentButton = PaymentButtonFragment.newInstance(getLob());
+			return mPaymentButton;
 		}
+		return null;
 	}
 
-	public void attachPaymentButton() {
-		FragmentManager manager = getChildFragmentManager();
-		if (mPaymentButton == null) {
-			mPaymentButton = (PaymentButtonFragment) manager.findFragmentByTag(FRAG_TAG_PAYMENT_BUTTON);
-		}
-		if (mPaymentButton == null) {
-			mPaymentButton = PaymentButtonFragment.newInstance(getLob());
-		}
-		if (!mPaymentButton.isAdded()) {
-			FragmentTransaction transaction = manager.beginTransaction();
-			transaction.add(PAYMENT_FRAG_CONTAINER_ID, mPaymentButton, FRAG_TAG_PAYMENT_BUTTON);
-			transaction.commit();
-		}
+	@Override
+	public void doFragmentSetup(String tag, Fragment frag) {
+		//None of our frags require setup...
 	}
 
 	/*
@@ -272,14 +259,10 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	protected void buildCheckoutForm() {
 
-		//SET UP THE FORM FRAGMENTS
-		attachTravelerForm();
-		attachPaymentForm();
-
 		//CLEAR THE CONTAINER
 		mCheckoutRowsC.removeAllViews();
 
-		//FIRST HEADING
+		//HEADING
 		String headingArg = "";
 		if (getLob() == LineOfBusiness.FLIGHTS) {
 			headingArg = "FLIGHT";
@@ -289,21 +272,20 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		}
 		addGroupHeading(getString(R.string.now_booking_TEMPLATE, headingArg));
 
-		//LOGIN STUFF
+		//LOGIN CONTAINER
 		FrameLayout frame = new FrameLayout(getActivity());
 		frame.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		frame.setId(LOGIN_FRAG_CONTAINER_ID);
 		add(frame);
-		attachLoginButtons();
 
-		//TRAVELERS
+		//TRAVELER CONTAINERS
 		populateTravelerData();
 		addGroupHeading(R.string.traveler_information);
 		for (int i = 0; i < Db.getTravelers().size(); i++) {
 			addTravelerView(i);
 		}
 
-		//PAYMENT
+		//PAYMENT CONTAINER
 		addGroupHeading(R.string.payment_method);
 		mPaymentView = new FrameLayout(getActivity());
 		mPaymentView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -315,9 +297,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				openPaymentForm();
 			}
 		});
-		attachPaymentButton();
 
-		//LEGAL
+		//LEGAL BLURB
 		TextView legalBlurb = (TextView) addActionable(com.expedia.bookings.R.layout.include_tablet_legal_blurb_tv, new Runnable() {
 			@Override
 			public void run() {
@@ -332,6 +313,14 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			legalBlurb.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
 		}
 
+		//SET UP THE FORM FRAGMENTS
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction transaction = fragmentManager.beginTransaction();
+		FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_TRAVELER_FORM, fragmentManager, transaction, this, R.id.traveler_form_container, true);
+		FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_PAYMENT_FORM, fragmentManager, transaction, this, R.id.payment_form_container, true);
+		FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_LOGIN_BUTTONS, fragmentManager, transaction, this, LOGIN_FRAG_CONTAINER_ID, true);
+		FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_PAYMENT_BUTTON, fragmentManager, transaction, this, PAYMENT_FRAG_CONTAINER_ID, true);
+		transaction.commit();
 
 		bindAll();
 
