@@ -268,10 +268,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
 				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
 					if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
-						if (Db.getFlightSearch() != null
-							&& Db.getFlightSearch().getSelectedFlightTrip() != null
-							&& !Db.getFlightSearch().getSelectedFlightTrip().isCardTypeSupported(getData().getCardType())) {
-
+						if (!hasValidFlightCardType(getData())) {
 							field.setImageResource(R.drawable.ic_lcc_no_card_payment_entry);
 						}
 						else {
@@ -484,8 +481,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 									getData().setBrandCode(type.getCode());
 									getData().setBrandName(type.name());
 									if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
-										if (!Db.getFlightSearch().getSelectedFlightTrip()
-											.isCardTypeSupported(getData().getCardType())) {
+										if (!hasValidFlightCardType(getData())) {
 											field.setTextColor(getResources().getColor(
 												R.color.flight_card_invalid_cc_type_text_color));
 										}
@@ -529,13 +525,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							return ValidationError.ERROR_DATA_INVALID;
 						}
 						else {
-							if (mLineOfBusiness == LineOfBusiness.FLIGHTS
-								&& getData().getCardType() != null
-								&& !Db.getFlightSearch().getSelectedFlightTrip()
-								.isCardTypeSupported(getData().getCardType())) {
-
+							if (mLineOfBusiness == LineOfBusiness.FLIGHTS && !hasValidFlightCardType(getData())) {
 								return ValidationError.ERROR_DATA_INVALID;
-
 							}
 							return ValidationError.NO_ERROR;
 						}
@@ -1010,5 +1001,11 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			return mValidator;
 		}
 	};
+
+	public static boolean hasValidFlightCardType(BillingInfo info) {
+		return info != null && info.getCardType() != null && Db.getFlightSearch() != null
+			&& Db.getFlightSearch().getSelectedFlightTrip() != null
+			&& Db.getFlightSearch().getSelectedFlightTrip().isCardTypeSupported(info.getCardType());
+	}
 
 }
