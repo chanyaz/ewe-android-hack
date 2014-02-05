@@ -54,4 +54,15 @@
         <item name="android:actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
     </style>
 
+    <style name="LaunchTheme" parent="@style/Theme.Sherlock">
+        <item name="logo">@drawable/ic_ab_travelocity_logo</item>
+        <item name="android:logo">@drawable/ic_ab_travelocity_logo</item>
+        <item name="actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
+        <item name="android:actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
+        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
+        <!-- PopupMenu -->
+        <item name="dropDownListViewStyle">@style/Widget.Sherlock.Light.ListView.DropDown</item>
+        <item name="android:dropDownListViewStyle">@style/Widget.Sherlock.Light.ListView.DropDown</item>
+    </style>
+
 </resources>
