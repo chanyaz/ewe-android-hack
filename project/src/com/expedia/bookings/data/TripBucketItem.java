@@ -3,8 +3,6 @@ package com.expedia.bookings.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.view.View;
-
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -16,6 +14,7 @@ import com.mobiata.android.json.JSONable;
 public abstract class TripBucketItem implements JSONable {
 
 	public abstract LineOfBusiness getLineOfBusiness();
+
 	private TripBucketItemState mState;
 
 	public TripBucketItemState getState() {

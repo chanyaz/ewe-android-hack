@@ -3,8 +3,6 @@ package com.expedia.bookings.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.view.View;
-
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 

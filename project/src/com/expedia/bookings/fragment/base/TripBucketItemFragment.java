@@ -153,9 +153,10 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mExpandedC.setVisibility(View.GONE);
 		}
 
-		if(state == TripBucketItemState.PURCHASED){
+		if (state == TripBucketItemState.PURCHASED) {
 			mPurchasedC.setVisibility(View.VISIBLE);
-		}else{
+		}
+		else {
 			mPurchasedC.setVisibility(View.GONE);
 		}
 	}
