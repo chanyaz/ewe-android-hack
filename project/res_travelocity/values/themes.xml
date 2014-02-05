@@ -10,6 +10,9 @@
         <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal_travelocity</item>
         <item name="costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
         <item name="actionBarSpinnerBackground">@drawable/ab_spinner_travelocity</item>
+        <item name="actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark_green_travelocity</item>
+        <item name="actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow_green_travelocity</item>
+        <item name="actionBarButtonTextColor">@color/action_bar_text_green_travelocity</item>
         <item name="loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
         <item name="hotelBookButtonString">@string/travelocity_book_now</item>
         <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
