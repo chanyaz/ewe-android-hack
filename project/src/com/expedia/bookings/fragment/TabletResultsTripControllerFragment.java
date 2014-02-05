@@ -25,6 +25,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.animation.CubicBezierAnimation;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.enums.ResultsState;
+import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.graphics.PercentageFadeColorDrawable;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -44,12 +45,12 @@ import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.Ui;
 
 /**
- *  TabletResultsTripControllerFragment: designed for tablet results 2013
- *  This controls all the fragments relating to the Trip Overview
+ * TabletResultsTripControllerFragment: designed for tablet results 2013
+ * This controls all the fragments relating to the Trip Overview
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsTripControllerFragment extends Fragment implements
-		IAddToTripListener, IFragmentAvailabilityProvider, IBackManageable {
+	IAddToTripListener, IFragmentAvailabilityProvider, IBackManageable {
 
 	private static final String FTAG_BLURRED_BG = "FTAG_BLURRED_BG";
 	private static final String FTAG_YOUR_TRIP_TO = "FTAG_YOUR_TRIP_TO";
@@ -212,7 +213,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 		//We just split the space evenly between views
 		int viewHeight = (mGrid.isLandscape() ? mGrid.getTotalHeight() : mGrid.getRowHeight(0)) / 3;
 		int[] bucketItemYPositions = mTripBucketTripToFrag.getBucketItemsPosition(getNumberOfBucketContainers() - 1,
-				(int) viewHeight);
+			(int) viewHeight);
 
 		if (mGrid.isLandscape()) {
 			if (!verticalOnly) {
@@ -223,12 +224,12 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 				int usableSpace = mGrid.getColWidth(2) - (2 * margin);
 
 				setHorizontalPos(mTripBucketFlightC,
-						mGrid.getColLeft(2) + margin - flightSwipeOutDistance,
-						usableSpace + flightSwipeOutDistance);
+					mGrid.getColLeft(2) + margin - flightSwipeOutDistance,
+					usableSpace + flightSwipeOutDistance);
 
 				setHorizontalPos(mTripBucketHotelC,
-						mGrid.getColLeft(2) + margin - hotelSwipeOutDistance,
-						usableSpace + hotelSwipeOutDistance);
+					mGrid.getColLeft(2) + margin - hotelSwipeOutDistance,
+					usableSpace + hotelSwipeOutDistance);
 			}
 		}
 		else {
@@ -238,9 +239,9 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 				int hotelSwipeOutDistance = (int) mHotelSwipeOut.getSwipeOutDistance();
 
 				setHorizontalPos(mTripFlightC, 0, mGrid.getTotalWidth() - mFlightSwipeOut.getPaddingLeft()
-						- mFlightSwipeOut.getPaddingRight() - flightSwipeOutDistance);
+					- mFlightSwipeOut.getPaddingRight() - flightSwipeOutDistance);
 				setHorizontalPos(mTripHotelC, 0, mGrid.getTotalWidth() - mHotelSwipeOut.getPaddingLeft()
-						- mHotelSwipeOut.getPaddingRight() - hotelSwipeOutDistance);
+					- mHotelSwipeOut.getPaddingRight() - hotelSwipeOutDistance);
 
 				setHorizontalPos(mTripBucketFlightC, 0, mGrid.getTotalWidth());
 				setHorizontalPos(mTripBucketHotelC, 0, mGrid.getTotalWidth());
@@ -409,21 +410,21 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 		boolean bucketHotelAvailable = true;
 
 		mTripBucketTripToFrag = (ResultsTripBucketYourTripToFragment) FragmentAvailabilityUtils
-				.setFragmentAvailability(yourTripToAvailable, FTAG_YOUR_TRIP_TO, manager, transaction, this,
-						R.id.trip_bucket_your_trip_to, true);
+			.setFragmentAvailability(yourTripToAvailable, FTAG_YOUR_TRIP_TO, manager, transaction, this,
+				R.id.trip_bucket_your_trip_to, true);
 
 		mTripBucketFlightFrag = (ResultsTripBucketFlightFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-				bucketFlightAvailable, FTAG_BUCKET_FLIGHT, manager, transaction, this, R.id.flight_trip_content, true);
+			bucketFlightAvailable, FTAG_BUCKET_FLIGHT, manager, transaction, this, R.id.flight_trip_content, true);
 
 		mTripBucketHotelFrag = (ResultsTripBucketHotelFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-				bucketHotelAvailable, FTAG_BUCKET_HOTEL, manager, transaction, this, R.id.hotel_trip_content, true);
+			bucketHotelAvailable, FTAG_BUCKET_HOTEL, manager, transaction, this, R.id.hotel_trip_content, true);
 
 		//Blurrred Background (for behind trip overview)
 		mBlurredBackgroundFrag = (ResultsBlurBackgroundImageFragment) FragmentAvailabilityUtils
-				.setFragmentAvailability(
-						blurredBackgroundAvailable, FTAG_BLURRED_BG, manager, transaction, this,
-						R.id.column_three_blurred_bg,
-						false);
+			.setFragmentAvailability(
+				blurredBackgroundAvailable, FTAG_BLURRED_BG, manager, transaction, this,
+				R.id.column_three_blurred_bg,
+				false);
 
 		transaction.commit();
 	}
@@ -470,9 +471,11 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 			((ResultsTripBucketYourTripToFragment) frag).bindToDb();
 		}
 		else if (tag == FTAG_BUCKET_FLIGHT) {
+			((ResultsTripBucketFlightFragment) frag).setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 			((ResultsTripBucketFlightFragment) frag).bind();
 		}
 		else if (tag == FTAG_BUCKET_HOTEL) {
+			((ResultsTripBucketHotelFragment) frag).setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 			((ResultsTripBucketHotelFragment) frag).bind();
 		}
 	}
@@ -541,17 +544,17 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 
 			int index = 0;
 			mTripBucketYourTripToC.setTranslationY(centers[index] - halfViewHeight
-					- ((viewHeight + centers[index] - halfViewHeight) * (1f - percentage)));
+				- ((viewHeight + centers[index] - halfViewHeight) * (1f - percentage)));
 			index++;
 			if (hasFlightTrip() || hasHotelTrip()) {
 				if (hasFlightTrip()) {
 					mTripBucketFlightC.setTranslationY(centers[index] - halfViewHeight
-							- ((viewHeight + centers[index] - halfViewHeight) * (1f - percentage)));
+						- ((viewHeight + centers[index] - halfViewHeight) * (1f - percentage)));
 					index++;
 				}
 				if (hasHotelTrip()) {
 					mTripBucketHotelC.setTranslationY(centers[index] - halfViewHeight
-							- ((viewHeight + centers[index] - halfViewHeight) * (1f - percentage)));
+						- ((viewHeight + centers[index] - halfViewHeight) * (1f - percentage)));
 					index++;
 				}
 			}
@@ -629,10 +632,10 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 	private void prepareAddToTripAnimation() {
 		//TODO: WE ARE NOT GOING TO ALWAYS BE PASSING ARBITRARY STRINGS AROUND
 		boolean isFlights = (mAddToTripData instanceof String && ((String) mAddToTripData)
-				.equalsIgnoreCase("FLIGHTS"));
+			.equalsIgnoreCase("FLIGHTS"));
 
 		Rect globalDestRect = ScreenPositionUtils.getGlobalScreenPosition(isFlights ? mTripFlightC : mTripHotelC, true,
-				false);
+			false);
 
 		Rect localDestRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(globalDestRect, mRootC);
 
@@ -643,10 +646,10 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 
 		LayoutParams params = (LayoutParams) mTripAnimationC.getLayoutParams();
 		if (!mHasPreppedAddToTripAnimation || params.leftMargin != localDestRect.left
-				|| params.topMargin != localDestRect.top) {
+			|| params.topMargin != localDestRect.top) {
 
 			Rect origRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(mAddToTripOriginCoordinates,
-					mRootC);
+				mRootC);
 
 			//Do calculations
 			int originWidth = origRect.right - origRect.left;
@@ -697,7 +700,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 	private View getAnimationView(boolean isFlights) {
 		if (isFlights) {
 			FlightLegSummarySectionTablet view = Ui.inflate(getActivity(), R.layout.flight_card_tablet_add_tripbucket,
-					null);
+				null);
 			view.bindForTripBucket(Db.getFlightSearch(), true);
 			return view;
 		}
@@ -742,7 +745,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 			//layer type
 			int layerType = View.LAYER_TYPE_HARDWARE;
 			if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.HOTELS)
-					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.HOTELS)) {
+				&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.HOTELS)) {
 				//Default -> Hotels or Hotels -> Default transition
 
 				mBlurredBackgroundC.setLayerType(layerType, null);
@@ -756,7 +759,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 			}
 
 			if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.FLIGHTS)
-					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.FLIGHTS)) {
+				&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.FLIGHTS)) {
 				//Default -> Flights or Flights -> Default transition
 
 				mBlurredBackgroundC.setLayerType(layerType, null);
@@ -797,7 +800,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 			//layer type
 			int layerType = View.LAYER_TYPE_NONE;
 			if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.HOTELS)
-					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.HOTELS)) {
+				&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.HOTELS)) {
 				//Default -> Hotels or Hotels -> Default transition
 
 				mBlurredBackgroundC.setLayerType(layerType, null);
@@ -811,7 +814,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 			}
 
 			if ((stateOne == ResultsState.OVERVIEW || stateOne == ResultsState.FLIGHTS)
-					&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.FLIGHTS)) {
+				&& (stateTwo == ResultsState.OVERVIEW || stateTwo == ResultsState.FLIGHTS)) {
 				//Default -> Flights or Flights -> Default transition
 
 				mBlurredBackgroundC.setLayerType(layerType, null);

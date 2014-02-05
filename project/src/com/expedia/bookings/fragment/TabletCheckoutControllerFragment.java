@@ -24,6 +24,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.enums.CheckoutState;
+import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.base.LobableFragment;
@@ -346,7 +347,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	/*
-     * CheckoutState ISTATEPROVIDER
+	 * CheckoutState ISTATEPROVIDER
 	 */
 
 	private StateListenerCollection<CheckoutState> mStateListeners = new StateListenerCollection<CheckoutState>(
@@ -427,12 +428,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
 		if (FRAG_TAG_BUCKET_FLIGHT.equals(tag)) {
-			((ResultsTripBucketFlightFragment) frag).setExpanded(getLob() == LineOfBusiness.FLIGHTS);
-			((ResultsTripBucketFlightFragment) frag).setShowButton(false);
+			((ResultsTripBucketFlightFragment) frag).setState(getLob() == LineOfBusiness.FLIGHTS ? TripBucketItemState.EXPANDED : TripBucketItemState.DEFAULT);
 		}
 		else if (FRAG_TAG_BUCKET_HOTEL.equals(tag)) {
-			((ResultsTripBucketHotelFragment) frag).setExpanded(getLob() == LineOfBusiness.HOTELS);
-			((ResultsTripBucketHotelFragment) frag).setShowButton(false);
+			((ResultsTripBucketHotelFragment) frag).setState(getLob() == LineOfBusiness.HOTELS ? TripBucketItemState.EXPANDED : TripBucketItemState.DEFAULT);
 		}
 		else if (FRAG_TAG_CHECKOUT_INFO.equals(tag)) {
 			((TabletCheckoutFormsFragment) frag).setLob(getLob());
