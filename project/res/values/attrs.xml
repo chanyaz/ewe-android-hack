@@ -181,6 +181,12 @@
     <attr name="calendarDatePickerPopupDrawable" format="reference" />
     <attr name="calendarDatePickerDateFormat" format="reference|string" />
 
+
+    <!--Flight Calendar related styling -->
+    <attr name="flightCalendarDatePickerCellDrawable" format="reference" />
+    <attr name="flightCalendarDatePickerPopupDrawable" format="reference" />
+
+
     <attr name="hotelCancellationPolicyDateFormat" format="reference|string" />
 
     <!-- Hotel promo pricing related styling -->

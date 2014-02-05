@@ -302,6 +302,8 @@
 		<item name="travelerLabelOnCheckout">@string/Add_Traveler</item>
         <!-- Only do this for ABS - newer versions will use latest holo radio button anyways -->
         <item name="actionBarWidgetTheme">@style/FlightActionBarWidgetTheme</item>
+        <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
+        <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
     </style>
 
     <style name="FlightTheme.DropDownSearch">
