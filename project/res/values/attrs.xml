@@ -223,6 +223,7 @@
     <attr name="loginWithExpediaButtonText" format="reference|string" />
     <attr name="loginWithExpediaTitleText" format="reference|string" />
     <attr name="hotelDetailPlaceHolderDrawable" format="reference" />
+    <attr name="loginWithExpediaContentDescription" format="reference|string" />
 
     <!-- Hotel Confirmation, Customer support option drawable -->
     <attr name="hotelConfirmationCallActionDrawable" format="reference" />
