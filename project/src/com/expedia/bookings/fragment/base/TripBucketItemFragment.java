@@ -31,6 +31,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private ViewGroup mRootC;
 	private ViewGroup mTopC;
 	private ViewGroup mExpandedC;
+	private ViewGroup mPurchasedC;
 	private Button mBookBtn;
 
 	//Colors
@@ -46,6 +47,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_tripbucket_item, null);
 		mTopC = Ui.findView(mRootC, R.id.trip_bucket_item_top_container);
 		mExpandedC = Ui.findView(mRootC, R.id.trip_bucket_item_expanded_container);
+		mPurchasedC = Ui.findView(mRootC, R.id.trip_bucket_item_purchased_container);
 		mBookBtn = Ui.findView(mRootC, R.id.checkout_button);
 		FontCache.setTypeface(mBookBtn, Font.ROBOTO_MEDIUM);
 
@@ -134,23 +136,29 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 			setVisibilityState(state);
 		}
-
-		protected void setVisibilityState(TripBucketItemState state) {
-			if (state == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
-				mBookBtn.setVisibility(View.VISIBLE);
-			}
-			else {
-				mBookBtn.setVisibility(View.GONE);
-			}
-
-			if (state == TripBucketItemState.EXPANDED) {
-				mExpandedC.setVisibility(View.VISIBLE);
-			}
-			else {
-				mExpandedC.setVisibility(View.GONE);
-			}
-		}
 	};
+
+	protected void setVisibilityState(TripBucketItemState state) {
+		if (state == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
+			mBookBtn.setVisibility(View.VISIBLE);
+		}
+		else {
+			mBookBtn.setVisibility(View.GONE);
+		}
+
+		if (state == TripBucketItemState.EXPANDED) {
+			mExpandedC.setVisibility(View.VISIBLE);
+		}
+		else {
+			mExpandedC.setVisibility(View.GONE);
+		}
+
+		if(state == TripBucketItemState.PURCHASED){
+			mPurchasedC.setVisibility(View.VISIBLE);
+		}else{
+			mPurchasedC.setVisibility(View.GONE);
+		}
+	}
 
 
 
