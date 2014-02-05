@@ -165,6 +165,10 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 				CheckoutState.READY_FOR_CHECKOUT.ordinal() + 1, CheckoutState.READY_FOR_CHECKOUT.name());
 			subMen.add(CheckoutState.CVV.ordinal() + 1, CheckoutState.CVV.ordinal() + 1,
 				CheckoutState.CVV.ordinal() + 1, CheckoutState.CVV.name());
+			subMen.add(CheckoutState.BOOKING.ordinal() + 1, CheckoutState.BOOKING.ordinal() + 1,
+				CheckoutState.BOOKING.ordinal() + 1, CheckoutState.BOOKING.name());
+			subMen.add(CheckoutState.CONFIRMATION.ordinal() + 1, CheckoutState.CONFIRMATION.ordinal() + 1,
+				CheckoutState.CONFIRMATION.ordinal() + 1, CheckoutState.CONFIRMATION.name());
 			return true;
 		}
 
@@ -218,6 +222,14 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 			}
 			else if (groupId == CheckoutState.CVV.ordinal() && id == CheckoutState.CVV.ordinal()) {
 				mFragCheckoutController.setCheckoutState(CheckoutState.CVV, true);
+				return true;
+			}
+			else if (groupId == CheckoutState.BOOKING.ordinal() && id == CheckoutState.BOOKING.ordinal()) {
+				mFragCheckoutController.setCheckoutState(CheckoutState.BOOKING, true);
+				return true;
+			}
+			else if (groupId == CheckoutState.CONFIRMATION.ordinal() && id == CheckoutState.CONFIRMATION.ordinal()) {
+				mFragCheckoutController.setCheckoutState(CheckoutState.CONFIRMATION, true);
 				return true;
 			}
 		}

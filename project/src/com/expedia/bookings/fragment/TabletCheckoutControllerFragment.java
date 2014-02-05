@@ -63,9 +63,13 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private ScrollView mBucketScrollContainer;
 	private ViewGroup mBucketHotelContainer;
 	private ViewGroup mBucketFlightContainer;
+
+	private ViewGroup mSlideAndFormContainer;
 	private ViewGroup mSlideContainer;
 	private ViewGroup mFormContainer;
 	private ViewGroup mCvvContainer;
+	private ViewGroup mBookingContainer;
+	private ViewGroup mConfirmationContainer;
 
 	//Views
 	private TextView mBucketDateRange;
@@ -87,20 +91,36 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		mBucketScrollContainer = Ui.findView(mRootC, R.id.trip_bucket_scroll);
 		mBucketHotelContainer = Ui.findView(mRootC, R.id.bucket_hotel_frag_container);
 		mBucketFlightContainer = Ui.findView(mRootC, R.id.bucket_flight_frag_container);
+
+		mSlideAndFormContainer = Ui.findView(mRootC, R.id.checkout_forms_and_slide_container);
 		mFormContainer = Ui.findView(mRootC, R.id.checkout_forms_container);
 		mSlideContainer = Ui.findView(mRootC, R.id.finish_checkout_container);
 		mCvvContainer = Ui.findView(mRootC, R.id.cvv_container);
+		mBookingContainer = Ui.findView(mRootC, R.id.booking_container);
+		mConfirmationContainer = Ui.findView(mRootC, R.id.confirmation_container);
 
 		//TODO: This button stuff should be temporary
 		View cvvBtn = Ui.findView(mRootC, R.id.goto_cvv_btn);
 		cvvBtn.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View arg0) {
 				setCheckoutState(CheckoutState.CVV, true);
 			}
-
 		});
+		mBookingContainer.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				setCheckoutState(CheckoutState.CONFIRMATION, true);
+			}
+		});
+		mConfirmationContainer.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				setCheckoutState(CheckoutState.OVERVIEW, true);
+			}
+		});
+		//END TODO ZONE
+
 
 		mBucketDateRange = Ui.findView(mRootC, R.id.trip_date_range);
 		String dateRange;
@@ -243,6 +263,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				setShowCvvPercentage(1f - percentage);
 				setShowReadyForCheckoutPercentage(percentage);
 			}
+			else if (stateOne == CheckoutState.CVV && stateTwo == CheckoutState.BOOKING) {
+				setShowBookingPercentage(percentage);
+			}
+			else if (stateOne == CheckoutState.BOOKING && stateTwo == CheckoutState.CONFIRMATION) {
+				setShowConfirmationPercentage(percentage);
+			}
 		}
 
 		@Override
@@ -278,6 +304,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				setShowCvvPercentage(1f);
 				setShowReadyForCheckoutPercentage(1f);
 			}
+			else if (state == CheckoutState.BOOKING) {
+				setShowBookingPercentage(1f);
+			}
+			else if (state == CheckoutState.CONFIRMATION) {
+				setShowConfirmationPercentage(1f);
+			}
 		}
 	};
 
@@ -291,24 +323,62 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		mSlideContainer.setTranslationY((1f - percentage) * mSlideContainer.getHeight());
 	}
 
+	private void setShowConfirmationPercentage(float percentage) {
+		mBucketScrollContainer.setTranslationX((1f - percentage) * -mBucketScrollContainer.getWidth());
+	}
+
+	private void setShowBookingPercentage(float percentage) {
+		mCvvContainer.setTranslationX(percentage * -mCvvContainer.getWidth());
+		mBookingContainer.setTranslationX((1f - percentage) * mBookingContainer.getWidth());
+	}
+
+
 	private void setVisibilityState(CheckoutState state) {
+		//TODO: This is a little out of control, we probably want to switch to a whitelisting method
 		if (state == CheckoutState.OVERVIEW) {
 			mFormContainer.setVisibility(View.VISIBLE);
 			mBucketScrollContainer.setVisibility(View.VISIBLE);
 			mSlideContainer.setVisibility(View.GONE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
+			mSlideAndFormContainer.setVisibility(View.VISIBLE);
+			mBookingContainer.setVisibility(View.GONE);
+			mConfirmationContainer.setVisibility(View.GONE);
 		}
 		else if (state == CheckoutState.READY_FOR_CHECKOUT) {
 			mFormContainer.setVisibility(View.VISIBLE);
 			mBucketScrollContainer.setVisibility(View.VISIBLE);
 			mSlideContainer.setVisibility(View.VISIBLE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
+			mSlideAndFormContainer.setVisibility(View.VISIBLE);
+			mBookingContainer.setVisibility(View.GONE);
+			mConfirmationContainer.setVisibility(View.GONE);
 		}
 		else if (state == CheckoutState.CVV) {
 			mFormContainer.setVisibility(View.INVISIBLE);
 			mBucketScrollContainer.setVisibility(View.INVISIBLE);
 			mCvvContainer.setVisibility(View.VISIBLE);
 			mSlideContainer.setVisibility(View.INVISIBLE);
+			mSlideAndFormContainer.setVisibility(View.INVISIBLE);
+			mBookingContainer.setVisibility(View.GONE);
+			mConfirmationContainer.setVisibility(View.GONE);
+		}
+		else if (state == CheckoutState.BOOKING) {
+			mFormContainer.setVisibility(View.INVISIBLE);
+			mBucketScrollContainer.setVisibility(View.INVISIBLE);
+			mCvvContainer.setVisibility(View.INVISIBLE);
+			mSlideContainer.setVisibility(View.INVISIBLE);
+			mSlideAndFormContainer.setVisibility(View.INVISIBLE);
+			mBookingContainer.setVisibility(View.VISIBLE);
+			mConfirmationContainer.setVisibility(View.INVISIBLE);
+		}
+		else if (state == CheckoutState.CONFIRMATION) {
+			mFormContainer.setVisibility(View.INVISIBLE);
+			mBucketScrollContainer.setVisibility(View.VISIBLE);
+			mCvvContainer.setVisibility(View.INVISIBLE);
+			mSlideContainer.setVisibility(View.INVISIBLE);
+			mSlideAndFormContainer.setVisibility(View.INVISIBLE);
+			mBookingContainer.setVisibility(View.INVISIBLE);
+			mConfirmationContainer.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -384,7 +454,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	/*
-     * IFragmentAvailabilityProvider
+	 * IFragmentAvailabilityProvider
 	 */
 
 	@Override
@@ -445,8 +515,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public void onBook(String cvv) {
-		// TODO: We should probably book or something.
-
+		//TODO: Use the cvv string
+		setCheckoutState(CheckoutState.BOOKING, true);
 	}
 
 
