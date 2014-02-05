@@ -1206,7 +1206,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					&& Db.getFlightSearch().getSelectedLegs().length > 0
 					&& Db.getFlightSearch().getSelectedLegs()[0] != null
 					&& Db.getFlightSearch().getSelectedLegs()[0].getFlightTrip() != null) {
-					mFlightOneSelectedRow.bind(Db.getFlightSearch(), 0, false);
+					mFlightOneSelectedRow.bind(Db.getFlightSearch(), 0);
 				}
 			}
 		}
