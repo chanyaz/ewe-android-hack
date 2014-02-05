@@ -14,6 +14,10 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
+/**
+ * Contains both the parameters (see {@link com.expedia.bookings.data.HotelSearchParams}) and search
+ * results (see {@link com.expedia.bookings.data.HotelSearchResponse}) for a hotel search.
+ */
 public class HotelSearch implements JSONable {
 
 	// Product key lifetime: http://ask.karmalab.net/question/4116/how-long-are-piidproductkeys-valid-for
@@ -25,10 +29,6 @@ public class HotelSearch implements JSONable {
 	private HotelSearchParams mSearchParams;
 	private HotelSearchResponse mSearchResponse;
 	private String mSelectedPropertyId;
-
-	// In tablet 4.0, we need to separately keep track of the hotel/rate that is added to the cart.
-	private String mAddedPropertyId;
-	private Rate mAddedRate;
 
 	// The result of a call to e3 for a coupon code discount
 	private CreateTripResponse mCreateTripResponse;
@@ -165,31 +165,6 @@ public class HotelSearch implements JSONable {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Relevant to Trip Bucket
-
-	public Property getAddedProperty() {
-		return getProperty(mAddedPropertyId);
-	}
-
-	public String getAddedPropertyId() {
-		return mAddedPropertyId;
-	}
-
-	public Rate getAddedRate() {
-		return mAddedRate;
-	}
-
-	public void setAddedProperty(Property property, Rate rate) {
-		mAddedPropertyId = property.getPropertyId();
-		mAddedRate = rate;
-	}
-
-	public void clearAddedProperty() {
-		mAddedPropertyId = null;
-		mAddedRate = null;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
 	// Update data
 
 	public void updateFrom(HotelOffersResponse offersResponse) {
@@ -276,7 +251,6 @@ public class HotelSearch implements JSONable {
 			JSONUtils.putJSONable(obj, "searchParams", mSearchParams);
 			JSONUtils.putJSONable(obj, "searchResponse", mSearchResponse);
 			obj.putOpt("selectedPropertyId", mSelectedPropertyId);
-			obj.putOpt("addedPropertyId", mAddedPropertyId);
 			JSONUtils.putJSONable(obj, "createTripResponse", mCreateTripResponse);
 
 			JSONUtils.putJSONableStringMap(obj, "availabilityMap", mAvailabilityMap);
@@ -296,7 +270,6 @@ public class HotelSearch implements JSONable {
 		setSearchResponse(JSONUtils.getJSONable(obj, "searchResponse", HotelSearchResponse.class));
 
 		mSelectedPropertyId = obj.optString("selectedPropertyId", null);
-		mAddedPropertyId = obj.optString("addedPropertyId", null);
 		mCreateTripResponse = JSONUtils.getJSONable(obj, "createTripResponse", CreateTripResponse.class);
 
 		Map<String, HotelAvailability> availabilityMap = JSONUtils.getJSONableStringMap(obj, "availabilityMap",

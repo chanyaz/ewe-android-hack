@@ -166,11 +166,11 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 	}
 
 	private boolean hasFlightTrip() {
-		return Db.getFlightSearch() != null && Db.getFlightSearch().getAddedLegs()[0] != null;
+		return Db.getTripBucket().getFlight() != null;
 	}
 
 	private boolean hasHotelTrip() {
-		return Db.getHotelSearch() != null && Db.getHotelSearch().getAddedProperty() != null;
+		return Db.getTripBucket().getHotel() != null;
 	}
 
 	private Animator perpareTripBucketItemRemovalAnimator(final int removalIndex) {
@@ -325,9 +325,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 		}
 
 		private void finalizeRemoveFlight() {
-			for (int i = 0; i < Db.getFlightSearch().getAddedLegs().length; i++) {
-				Db.getFlightSearch().setAddedLeg(i, null);
-			}
+			Db.getFlightSearch().clearSelectedLegs();
+			Db.getTripBucket().clearFlight();
 			positionTripBucketItems(true);
 			setVisibilityState(mGlobalState);
 
@@ -385,7 +384,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 		}
 
 		private void finalizeRemoveHotel() {
-			Db.getHotelSearch().clearAddedProperty();
+			Db.getTripBucket().clearHotel();
 			setVisibilityState(mGlobalState);
 			positionTripBucketItems(true);
 
@@ -699,9 +698,9 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 
 	private View getAnimationView(boolean isFlights) {
 		if (isFlights) {
-			FlightLegSummarySectionTablet view = Ui.inflate(getActivity(), R.layout.flight_card_tablet_add_tripbucket,
-				null);
-			view.bindForTripBucket(Db.getFlightSearch(), true);
+			FlightLegSummarySectionTablet view = Ui.inflate(getActivity(),
+				R.layout.flight_card_tablet_add_tripbucket, null);
+			view.bindForTripBucket(Db.getFlightSearch());
 			return view;
 		}
 		else {

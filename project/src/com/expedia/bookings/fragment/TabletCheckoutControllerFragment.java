@@ -105,7 +105,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		mBucketDateRange = Ui.findView(mRootC, R.id.trip_date_range);
 		String dateRange;
 		if (getLob() == LineOfBusiness.FLIGHTS) {
-			FlightTrip trip = Db.getFlightSearch().getAddedFlightTrip();
+			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 			Calendar depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
 			Calendar retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime();
 			long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();
@@ -154,10 +154,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	private void checkForAddedTrips() {
-		boolean hasHotel = Db.getHotelSearch().getAddedProperty() != null;
+		boolean hasHotel = Db.getTripBucket().getHotel() != null;
 		mBucketHotelContainer.setVisibility(hasHotel ? View.VISIBLE : View.GONE);
 
-		boolean hasFlight = Db.getFlightSearch().getAddedFlightTrip() != null;
+		boolean hasFlight = Db.getTripBucket().getFlight() != null;
 		mBucketFlightContainer.setVisibility(hasFlight ? View.VISIBLE : View.GONE);
 	}
 

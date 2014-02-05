@@ -16,6 +16,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.section.HotelSummarySection;
 import com.expedia.bookings.utils.JodaUtils;
@@ -36,10 +37,10 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment {
 
 	@Override
 	protected void doBind() {
-		HotelSearch search = Db.getHotelSearch();
-		if (mHotelSection != null && search != null && search.getAddedProperty() != null) {
-			Property property = search.getAddedProperty();
-			Rate rate = search.getAddedRate();
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		if (mHotelSection != null && hotel != null) {
+			Property property = hotel.getProperty();
+			Rate rate = hotel.getRate();
 
 			mHotelSection.bindForTripBucket(property, rate);
 		}
@@ -60,7 +61,7 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment {
 	public void addExpandedView(LayoutInflater inflater, ViewGroup root) {
 		ViewGroup vg = Ui.inflate(inflater, R.layout.snippet_trip_bucket_expanded_dates_view, root, false);
 
-		Rate rate = Db.getHotelSearch().getAddedRate();
+		Rate rate = Db.getTripBucket().getHotel().getRate();
 
 		// TODO remove this null check. it shouldn't be necessary once the active/selected/added rate gets persisted properly
 		if (rate != null) {

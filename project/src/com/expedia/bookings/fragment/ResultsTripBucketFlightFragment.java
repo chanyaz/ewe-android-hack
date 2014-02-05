@@ -38,13 +38,8 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 
 	private void bindToDb() {
 		if (mFlightSection != null) {
-			// TODO this logic is WHACK. improve selected/added FlightTrip notion
-			boolean isCheckout = getParentFragment() instanceof TabletCheckoutControllerFragment;
-			boolean hasSelected = Db.getFlightSearch().getSelectedFlightTrip() != null;
-			boolean hasAdded = Db.getFlightSearch().getAddedFlightTrip() != null;
-			boolean useAddedLeg = isCheckout || hasAdded;
-			if (hasSelected || hasAdded) {
-				mFlightSection.bindForTripBucket(Db.getFlightSearch(), useAddedLeg);
+			if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
+				mFlightSection.bindForTripBucket(Db.getFlightSearch());
 			}
 		}
 	}
@@ -62,7 +57,7 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 
 	@Override
 	public void addExpandedView(LayoutInflater inflater, ViewGroup viewGroup) {
-		FlightTrip trip = Db.getFlightSearch().getAddedFlightTrip();
+		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 
 		ViewGroup vg = Ui.inflate(inflater, R.layout.snippet_trip_bucket_expanded_dates_view, viewGroup, false);
 

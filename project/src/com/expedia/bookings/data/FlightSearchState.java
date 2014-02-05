@@ -20,14 +20,12 @@ import com.mobiata.android.json.JSONable;
 public class FlightSearchState implements JSONable {
 
 	private FlightTripLeg[] mSelectedLegs;
-	private FlightTripLeg[] mAddedLegs;
 
 	// We don't save Filters across executions because who cares?
 	private FlightFilter[] mFilters;
 
 	public void reset() {
 		mSelectedLegs = null;
-		mAddedLegs = null;
 		mFilters = null;
 	}
 
@@ -37,14 +35,6 @@ public class FlightSearchState implements JSONable {
 		}
 
 		return mSelectedLegs;
-	}
-
-	public FlightTripLeg[] getAddedLegs(int expectedLength) {
-		if (mAddedLegs == null || mAddedLegs.length != expectedLength) {
-			mAddedLegs = new FlightTripLeg[expectedLength];
-		}
-
-		return mAddedLegs;
 	}
 
 	public FlightFilter getFilter(int expectedLength, int legPosition, FlightSearch.FlightTripQuery query) {
@@ -70,9 +60,6 @@ public class FlightSearchState implements JSONable {
 			if (mSelectedLegs != null) {
 				JSONUtils.putJSONableList(obj, "selectedLegs", Arrays.asList(mSelectedLegs));
 			}
-			if (mAddedLegs != null) {
-				JSONUtils.putJSONableList(obj, "addedLegs", Arrays.asList(mAddedLegs));
-			}
 			return obj;
 		}
 		catch (JSONException e) {
@@ -85,10 +72,6 @@ public class FlightSearchState implements JSONable {
 		List<FlightTripLeg> selectedLegs = JSONUtils.getJSONableList(obj, "selectedLegs", FlightTripLeg.class);
 		if (selectedLegs != null) {
 			mSelectedLegs = selectedLegs.toArray(new FlightTripLeg[0]);
-		}
-		List<FlightTripLeg> addedLegs = JSONUtils.getJSONableList(obj, "addedLegs", FlightTripLeg.class);
-		if (addedLegs != null) {
-			mAddedLegs = addedLegs.toArray(new FlightTripLeg[0]);
 		}
 		return true;
 	}

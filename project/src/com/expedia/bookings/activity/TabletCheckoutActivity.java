@@ -67,12 +67,12 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 		loadCachedData(true);
 
 		// TODO remove getAddedProperty/getAddedFlight and use selected
-		boolean hasAddedProperty = Db.getHotelSearch().getAddedProperty() != null;
-		boolean hasAddedFlightTrip = Db.getFlightSearch().getAddedFlightTrip() != null;
+		boolean hasAddedProperty = Db.getTripBucket().getHotel() != null;
+		boolean hasAddedFlightTrip = Db.getTripBucket().getFlight() != null;
 
 		if (!hasAddedProperty) {
 			Db.loadHotelSearchFromDisk(this, true); // TODO REMOVE BYPASSTIMEOUT=TRUE before shipping
-			if (Db.getHotelSearch().getAddedProperty() != null) {
+			if (Db.getTripBucket().getHotel() != null) {
 				hasAddedProperty = true;
 			}
 			Log.i("TabletCheckoutActivity: loadedHotelSearch=" + hasAddedProperty);
@@ -80,7 +80,7 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 
 		if (!hasAddedFlightTrip) {
 			Db.loadCachedFlightData(this);
-			if (Db.getFlightSearch().getAddedFlightTrip() != null) {
+			if (Db.getTripBucket().getFlight() != null) {
 				hasAddedFlightTrip = true;
 				Db.loadFlightSearchParamsFromDisk(this);
 			}
@@ -109,8 +109,8 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 				ActionBar ab = getActionBar();
 				String bookingArg = "";
 				if (lob == LineOfBusiness.FLIGHTS) {
-					if (Db.getFlightSearch() != null && Db.getFlightSearch().getAddedFlightTrip() != null) {
-						FlightTrip trip = Db.getFlightSearch().getAddedFlightTrip();
+					if (Db.getTripBucket().getFlight() != null) {
+						FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 						String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
 						bookingArg = getString(R.string.flights_to_TEMPLATE, cityName);
 					}

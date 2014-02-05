@@ -219,7 +219,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		mAddTripTv.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mSelectedFlightLegAnimationRowSection.bind(Db.getFlightSearch(), mLegNumber, false);
+				mSelectedFlightLegAnimationRowSection.bind(Db.getFlightSearch(), mLegNumber);
 				mListener.onTripAdded(mLegNumber);
 			}
 		});

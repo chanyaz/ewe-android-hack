@@ -26,6 +26,10 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
 
+/**
+ * Contains both the parameters (see {@link com.expedia.bookings.data.FlightSearchParams}) and search
+ * results (see {@link com.expedia.bookings.data.FlightSearchResponse}) for a flight search.
+ */
 public class FlightSearch implements JSONable {
 
 	private FlightSearchParams mSearchParams = new FlightSearchParams();
@@ -96,7 +100,7 @@ public class FlightSearch implements JSONable {
 	 * are no legs selected on any other positions, then this will return
 	 * *every* trip.  But if there are legs selected, then the list of
 	 * trips you can select will be limited.
-	 *
+	 * <p/>
 	 * It also returns the trips sorted by price, and gets rid of more expensive
 	 * trips using the same leg
 	 */
@@ -115,7 +119,7 @@ public class FlightSearch implements JSONable {
 			boolean addLeg = true;
 			for (int b = 0; b < legCount; b++) {
 				if (b != legPosition && selectedLegs[b] != null
-						&& !selectedLegs[b].getFlightLeg().equals(trip.getLeg(b))) {
+					&& !selectedLegs[b].getFlightLeg().equals(trip.getLeg(b))) {
 					addLeg = false;
 					break;
 				}
@@ -161,41 +165,17 @@ public class FlightSearch implements JSONable {
 		legs[position] = leg;
 	}
 
-	public FlightTripLeg[] getAddedLegs() {
-		return mSearchState.getAddedLegs(mSearchParams.getQueryLegCount());
-	}
-
-	public void setAddedLeg(int position, FlightTripLeg leg) {
-		FlightTripLeg[] legs = getAddedLegs();
-		legs[position] = leg;
-	}
-
-	public void commitSelectedLegs() {
+	public void clearSelectedLegs() {
 		for (int i = 0; i < getSelectedLegs().length; i++) {
-			setAddedLeg(i, getSelectedLegs()[i]);
 			setSelectedLeg(i, null);
 		}
-	}
-
-	public FlightTrip getAddedFlightTrip() {
-		return getSelectedFlightTrip(true);
-	}
-
-	public FlightTrip getSelectedFlightTrip() {
-		return getSelectedFlightTrip(false);
 	}
 
 	// Returns the selected FlightTrip.
 	//
 	// Only valid if all legs are selected.  Otherwise, it returns null.
-	private FlightTrip getSelectedFlightTrip(boolean useAddedLegs) {
-		FlightTripLeg[] legs;
-		if (useAddedLegs) {
-			legs = getAddedLegs();
-		}
-		else {
-			legs = getSelectedLegs();
-		}
+	public FlightTrip getSelectedFlightTrip() {
+		FlightTripLeg[] legs = getSelectedLegs();
 		for (int a = 0; a < legs.length; a++) {
 			if (legs[a] == null) {
 				return null;
@@ -527,7 +507,7 @@ public class FlightSearch implements JSONable {
 		}
 
 		private void filterTripsByAirport(int legPos, List<FlightTrip> trips, Set<String> airports,
-				boolean departureAirport) {
+										  boolean departureAirport) {
 			if (airports.isEmpty()) {
 				return;
 			}
