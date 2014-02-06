@@ -179,14 +179,10 @@ public class Ui extends com.mobiata.android.util.Ui {
 		runOnNextLayout(fragment.getView(), runnable);
 	}
 
-	private static TypedArray obtainTypedArray(Activity activity, int attr) {
-		TypedArray a = activity.obtainStyledAttributes(new int[] {attr});
-		if (!a.hasValue(0)) {
-			throw new RuntimeException("Theme attribute not defined for attr=" + Integer.toHexString(attr));
-		}
-		return a;
-	}
 
+	//
+	// Be careful that the passed Context supports Theme information.
+	//
 	private static TypedArray obtainTypedArray(Context context, int attr) {
 		TypedArray a = context.obtainStyledAttributes(new int[] {attr});
 		if (!a.hasValue(0)) {
@@ -195,28 +191,20 @@ public class Ui extends com.mobiata.android.util.Ui {
 		return a;
 	}
 
-	public static int obtainThemeColor(Activity activity, int attr) {
-		TypedArray a = obtainTypedArray(activity, attr);
+	public static int obtainThemeColor(Context context, int attr) {
+		TypedArray a = obtainTypedArray(context, attr);
 		int color = a.getColor(0, 0);
 		a.recycle();
 
 		return color;
 	}
 
-	public static Drawable obtainThemeDrawable(Activity activity, int attr) {
-		TypedArray a = obtainTypedArray(activity, attr);
+	public static Drawable obtainThemeDrawable(Context context, int attr) {
+		TypedArray a = obtainTypedArray(context, attr);
 		Drawable drawable = a.getDrawable(0);
 		a.recycle();
 
 		return drawable;
-	}
-
-	public static int obtainThemeResID(Activity activity, int attr) {
-		TypedArray a = obtainTypedArray(activity, attr);
-		int resID = a.getResourceId(0, -1);
-		a.recycle();
-
-		return resID;
 	}
 
 	public static int obtainThemeResID(Context context, int attr) {
