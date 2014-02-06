@@ -37,8 +37,12 @@ public class CustomActivityInstrumentationTestCase<T> extends ActivityInstrument
 		mUser.setBookingServer(mConfigFileUtils.getConfigValue("Server"));
 
 		// Set Server API programatically
-		SettingUtils.save(this.getActivity().getApplicationContext(),
+		SettingUtils.save(getActivity().getApplicationContext(),
 				mRes.getString(R.string.preference_which_api_to_use_key), mUser.getBookingServer());
+
+		// Disable v2 automatically.
+		SettingUtils.save(getActivity().getApplicationContext(),
+			"preference_disable_domain_v2_hotel_search", true);
 	}
 
 	public String getString(int resourceID) {

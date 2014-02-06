@@ -9,6 +9,7 @@ import com.expedia.bookings.test.utils.ConfigFileUtils;
 import com.expedia.bookings.test.utils.HotelsTestDriver;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.TestPreferences;
+import com.mobiata.android.util.SettingUtils;
 
 public class HappyPathRunner extends ActivityInstrumentationTestCase2<SearchActivity> {
 
@@ -40,6 +41,9 @@ public class HappyPathRunner extends ActivityInstrumentationTestCase2<SearchActi
 		mUser.setBookingServer(mConfigFileUtils.getConfigValue("Server"));
 		mUser.setServerIP(mConfigFileUtils.getConfigValue("Mock Proxy IP"));
 		mUser.setServerPort(mConfigFileUtils.getConfigValue("Mock Proxy Port"));
+		// Disable v2 automatically.
+		SettingUtils.save(getActivity().getApplicationContext(),
+			"preference_disable_domain_v2_hotel_search", true);
 	}
 
 	// This test goes through a prototypical hotel booking
