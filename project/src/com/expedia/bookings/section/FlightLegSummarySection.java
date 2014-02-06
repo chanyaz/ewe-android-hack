@@ -103,10 +103,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 	}
 
 	public void bindForTripBucket(FlightTrip trip, FlightTripLeg[] legs, boolean isRoundTrip) {
-		Log.e("DOUG: trip: " + trip.toJson());
-		Log.e("DOUG: legs: " + (legs == null ? "null" : legs.toString()));
-		Log.e("DOUG: isRoundTrip: " + isRoundTrip);
-		if (isRoundTrip && legs.length >= 2) {
+		if (isRoundTrip) {
 			bind(trip, legs[0].getFlightLeg(), legs[1].getFlightLeg(), null, null, false, null);
 		}
 		else {
