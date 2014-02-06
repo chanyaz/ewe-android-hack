@@ -21,6 +21,8 @@ import com.mobiata.android.util.Ui;
 
 public abstract class BookingFragment<T extends Response> extends FullWalletFragment {
 
+	private static final String RETRY_CREATETRIP_DIALOG = "RETRY_CREATETRIP_DIALOG";
+
 	private BookingFragmentListener mListener;
 
 	private String mDownloadKey;
@@ -227,7 +229,13 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		ServerError firstError = response.getErrors().get(0);
 
 		switch (firstError.getErrorCode()) {
-		//TODO: Waiting for error codes. Make sure we handle all of them.
+		case TRIP_SERVICE_UNKNOWN_ERROR:
+			// Let's show a retry dialog here.
+		case INVALID_INPUT:
+			/*
+			 * Since we are only sending [productKey, roomInfoFields] params to the service, don't think users have control over the input.
+			 * Hence for now let's show a retry dialog here too (after a chat with API team)
+			 */
 		default: {
 			showRetryErrorDialog();
 			break;
@@ -237,7 +245,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 
 	private void showRetryErrorDialog() {
 		DialogFragment df = new RetryErrorDialogFragment();
-		df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "retryErrorDialog");
+		df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), RETRY_CREATETRIP_DIALOG);
 	}
 
 	@Override

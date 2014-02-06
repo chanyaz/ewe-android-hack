@@ -93,6 +93,8 @@ import com.nineoldandroids.view.ViewHelper;
 public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
 		CancelListener, SimpleCallbackDialogFragmentListener, CouponDialogFragmentListener {
 
+	private static final String RETRY_CREATE_TRIP_DIALOG = "RETRY_CREATE_TRIP_DIALOG";
+
 	public interface BookingOverviewFragmentListener {
 		public void checkoutStarted();
 
@@ -1097,7 +1099,13 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		ServerError firstError = response.getErrors().get(0);
 
 		switch (firstError.getErrorCode()) {
-		//TODO: Waiting for error codes. Make sure we handle all of them.
+		case TRIP_SERVICE_UNKNOWN_ERROR:
+			// Let's show a retry dialog here.
+		case INVALID_INPUT:
+			/*
+			 * Since we are only sending [productKey, roomInfoFields] params to the service, don't think users have control over the input.
+			 * Hence for now let's show a retry dialog here too (after a chat with API team)
+			 */
 		default: {
 			showRetryErrorDialog();
 			break;
@@ -1107,7 +1115,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private void showRetryErrorDialog() {
 		DialogFragment df = new RetryErrorDialogFragment();
-		df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "retryErrorDialog");
+		df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), RETRY_CREATE_TRIP_DIALOG);
 	}
 
 	private void handleHotelProductError(HotelProductResponse response) {
