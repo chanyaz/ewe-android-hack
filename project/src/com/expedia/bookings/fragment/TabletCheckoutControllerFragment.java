@@ -295,6 +295,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			if (state == CheckoutState.OVERVIEW) {
 				setShowCvvPercentage(0f);
 				setShowReadyForCheckoutPercentage(0f);
+				doCreateTrip();
 			}
 			else if (state == CheckoutState.READY_FOR_CHECKOUT) {
 				setShowCvvPercentage(0f);
@@ -379,6 +380,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mSlideAndFormContainer.setVisibility(View.INVISIBLE);
 			mBookingContainer.setVisibility(View.INVISIBLE);
 			mConfirmationContainer.setVisibility(View.VISIBLE);
+		}
+	}
+
+	private void doCreateTrip() {
+		if (getLob() == LineOfBusiness.FLIGHTS) {
+			mBucketFlightFrag.doCreateTrip();
 		}
 	}
 
