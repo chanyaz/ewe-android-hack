@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.CompatFragmentActivity;
@@ -179,7 +180,15 @@ public class Ui extends com.mobiata.android.util.Ui {
 	}
 
 	private static TypedArray obtainTypedArray(Activity activity, int attr) {
-		TypedArray a = activity.obtainStyledAttributes(new int[] { attr });
+		TypedArray a = activity.obtainStyledAttributes(new int[] {attr});
+		if (!a.hasValue(0)) {
+			throw new RuntimeException("Theme attribute not defined for attr=" + Integer.toHexString(attr));
+		}
+		return a;
+	}
+
+	private static TypedArray obtainTypedArray(Context context, int attr) {
+		TypedArray a = context.obtainStyledAttributes(new int[] {attr});
 		if (!a.hasValue(0)) {
 			throw new RuntimeException("Theme attribute not defined for attr=" + Integer.toHexString(attr));
 		}
@@ -204,6 +213,14 @@ public class Ui extends com.mobiata.android.util.Ui {
 
 	public static int obtainThemeResID(Activity activity, int attr) {
 		TypedArray a = obtainTypedArray(activity, attr);
+		int resID = a.getResourceId(0, -1);
+		a.recycle();
+
+		return resID;
+	}
+
+	public static int obtainThemeResID(Context context, int attr) {
+		TypedArray a = obtainTypedArray(context, attr);
 		int resID = a.getResourceId(0, -1);
 		a.recycle();
 

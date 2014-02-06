@@ -15,9 +15,9 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.util.HtmlUtils;
-import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
 
 public class HotelRulesFragment extends SherlockFragment {
@@ -114,7 +114,7 @@ public class HotelRulesFragment extends SherlockFragment {
 					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 					builder.setUrl(PointOfSale.getPointOfSale().getBestPriceGuaranteeUrl());
 					builder.setTheme(R.style.HotelWebViewTheme);
-					builder.setTitle(R.string.best_price_guarantee);
+					builder.setTitle(Ui.obtainThemeResID(getActivity(), R.attr.bestPriceGuaranteeString));
 					startActivity(builder.getIntent());
 				}
 			});
