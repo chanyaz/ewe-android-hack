@@ -56,6 +56,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	private static final String PREF_UPGRADED_TO_PRODUCTION_PUSH = "PREF_UPGRADED_TO_PRODUCTION_PUSH";
 
 	private static final int MIN_IMAGE_CACHE_SIZE = (1024 * 1024 * 6); // 6 MB
+	public static final boolean IS_EXPEDIA = AndroidUtils.getBuildConfigValue("IS_EXPEDIA"); // Check to see if this is an Expedia app build
 	public static final boolean IS_VSC = AndroidUtils.getBuildConfigValue("IS_VSC"); // Check to see if this is a VSC app build
 	public static final boolean IS_TRAVELOCITY = AndroidUtils.getBuildConfigValue("IS_TRAVELOCITY"); // Check to see if this is a Travelocity app build
 

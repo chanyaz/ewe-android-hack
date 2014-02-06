@@ -29,12 +29,14 @@ android {
         testPackageName "com.expedia.bookings.debug.test"
         testInstrumentationRunner "com.zutubi.android.junitreport.JUnitReportTestRunner"
 
+        buildConfigField "boolean", "IS_EXPEDIA", "false"
         buildConfigField "boolean", "IS_VSC", "false"
         buildConfigField "boolean", "IS_TRAVELOCITY", "false"
     }
 
     productFlavors {
         Expedia {
+            buildConfigField "boolean", "IS_EXPEDIA", "true"
             packageName "com.expedia.bookings"
         }
 
