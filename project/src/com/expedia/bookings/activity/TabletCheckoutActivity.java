@@ -67,27 +67,27 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 		loadCachedData(true);
 
 		// TODO remove getAddedProperty/getAddedFlight and use selected
-		boolean hasAddedProperty = Db.getTripBucket().getHotel() != null;
-		boolean hasAddedFlightTrip = Db.getTripBucket().getFlight() != null;
+		boolean hasSelectedProperty = Db.getHotelSearch().getSelectedProperty() != null;
+		boolean hasSelectedFlightTrip = Db.getFlightSearch().getSelectedFlightTrip() != null;
 
-		if (!hasAddedProperty) {
+		if (!hasSelectedProperty) {
 			Db.loadHotelSearchFromDisk(this, true); // TODO REMOVE BYPASSTIMEOUT=TRUE before shipping
-			if (Db.getTripBucket().getHotel() != null) {
-				hasAddedProperty = true;
+			if (Db.getHotelSearch().getSelectedProperty() != null) {
+				hasSelectedProperty = true;
 			}
-			Log.i("TabletCheckoutActivity: loadedHotelSearch=" + hasAddedProperty);
+			Log.i("TabletCheckoutActivity: loadedHotelSearch=" + hasSelectedProperty);
 		}
 
-		if (!hasAddedFlightTrip) {
+		if (!hasSelectedFlightTrip) {
 			Db.loadCachedFlightData(this);
-			if (Db.getTripBucket().getFlight() != null) {
-				hasAddedFlightTrip = true;
+			if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
+				hasSelectedFlightTrip = true;
 				Db.loadFlightSearchParamsFromDisk(this);
 			}
-			Log.i("TabletCheckoutActivity: loadedFlightSearch=" + hasAddedFlightTrip);
+			Log.i("TabletCheckoutActivity: loadedFlightSearch=" + hasSelectedFlightTrip);
 		}
 
-		if (!hasAddedFlightTrip && !hasAddedProperty) {
+		if (!hasSelectedFlightTrip && !hasSelectedProperty) {
 			Log.i("Failed to load either Flight or Hotel search data. Were you trying to book something?");
 			finish();
 			return;
@@ -97,7 +97,8 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 		mRootC = Ui.findView(this, R.id.root_layout);
 
 		//Fragments
-		mFragCheckoutController = Ui.findOrAddSupportFragment(this, R.id.root_layout, TabletCheckoutControllerFragment.class, CHECKOUT_FRAG_TAG);
+		mFragCheckoutController = Ui.findOrAddSupportFragment(this, R.id.root_layout,
+			TabletCheckoutControllerFragment.class, CHECKOUT_FRAG_TAG);
 
 		//Args
 		if (getIntent().hasExtra(ARG_LOB)) {
@@ -109,14 +110,16 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 				ActionBar ab = getActionBar();
 				String bookingArg = "";
 				if (lob == LineOfBusiness.FLIGHTS) {
-					if (Db.getTripBucket().getFlight() != null) {
-						FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
+					if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
+						FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 						String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
 						bookingArg = getString(R.string.flights_to_TEMPLATE, cityName);
 					}
 				}
 				else {
-					if (Db.getHotelSearch() != null && Db.getHotelSearch().getSelectedProperty() != null && Db.getHotelSearch().getSelectedProperty().getName() != null) {
+					if (Db.getHotelSearch() != null
+						&& Db.getHotelSearch().getSelectedProperty() != null
+						&& Db.getHotelSearch().getSelectedProperty().getName() != null) {
 						bookingArg = Db.getHotelSearch().getSelectedProperty().getName();
 					}
 				}
