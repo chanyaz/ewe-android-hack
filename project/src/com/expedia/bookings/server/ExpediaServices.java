@@ -502,7 +502,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		// Checkout calls without this flag can make ACTUAL bookings!
-		if (suppressFinalBooking(mContext)) {
+		if (suppressFinalFlightBooking(mContext)) {
 			query.add(new BasicNameValuePair("suppressFinalBooking", "true"));
 		}
 
@@ -518,9 +518,14 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	// Suppress final bookings if we're not in release mode and the preference is set to suppress
-	public static boolean suppressFinalBooking(Context context) {
+	private static boolean suppressFinalFlightBooking(Context context) {
 		return !AndroidUtils.isRelease(context)
-			&& SettingUtils.get(context, context.getString(R.string.preference_suppress_bookings), true);
+			&& SettingUtils.get(context, context.getString(R.string.preference_suppress_flight_bookings), true);
+	}
+
+	private static boolean suppressFinalHotelBooking(Context context) {
+		return !AndroidUtils.isRelease(context)
+			&& SettingUtils.get(context, context.getString(R.string.preference_suppress_hotel_bookings), true);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -797,32 +802,6 @@ public class ExpediaServices implements DownloadListener {
 		List<BasicNameValuePair> query = generateHotelReservationParams(params, property, rate, billingInfo, tripId,
 			userId, tuid);
 
-		// Simulate a valid checkout, to bypass the actual checkout process
-		if (!AndroidUtils.isRelease(mContext)) {
-			boolean spoofBookings = SettingUtils.get(mContext, mContext.getString(R.string.preference_spoof_bookings),
-				false);
-
-			if (spoofBookings) {
-				// Show a log of what URL would have been called had this not been spoofed
-				String serverUrl = getE3EndpointUrl(F_SECURE_REQUEST) + "Checkout";
-				Log.d(TAG_REQUEST, "Request (spoofed): " + serverUrl + "?" + NetUtils.getParamsForLogging(query));
-
-				String simulatedResponse = "{\"warnings\":[],\"cancellationPolicy\":\" \",\"nonLocalizedhotelName\":\"Hotel Deadbeef\",\"hotelName\":\"Hotel Deadbeef\",\"localizedHotelName\":\"Hotel Deadbeef\",\"hotelAddress\":\"250 W 43rd St\",\"hotelPostalCode\":\"10036\",\"hotelStateProvinceCode\":\"NY\",\"hotelCountryCode\":\"USA\",\"hotelCity\":\"New York\",\"hotelPhone\":\"1-212-944-6000\",\"hotelLongitude\":\"-73.98791\",\"hotelLatitude\":\"40.75731\",\"nightCount\":\"1\",\"maxGuestCount\":\"2\",\"checkInInstructions\":\"\",\"roomDescription\":\" Single/double\",\"checkInDate\":\"2013-06-05\",\"checkInDateForTracking\":\"6/5/2013\",\"checkOutDate\":\"2013-06-06\",\"pricePerDayBreakdown\":\"true\",\"averageDailyHotelPrice\":\"132.93\",\"taxes\":\"20.14\",\"fees\":\"13.85\",\"averageBaseRate\":\"98.94\",\"totalPrice\":\"132.93\",\"currencyCode\":\"USD\",\"nightlyRates\":[{\"promo\":\"false\",\"baseRate\":\"98.94\",\"rate\":\"98.94\"}],\"supplierType\":\"MERCHANT\",\"confirmationPending\":\"false\",\"itineraryNumber\":\"12345678901\",\"travelRecordLocator\":\"11890585\",\"numberOfRoomsBooked\":\"1\",\"nonRefundable\":\"false\",\"email\":\"qa-ehcc@mobiata.com\",\"guestFullName\":\"JexperCC MobiataTestaverde\",\"guestPhone\":{\"number\":\"9992222\",\"areaCode\":\"919\",\"category\":\"PRIMARY\",\"countryCode\":\"1\"},\"tripId\":\"deadbeef-feed-cede-bead-f00f00f00f00\",\"isMerchant\":true,\"isGDS\":false,\"isOpaque\":false,\"hotelInventoryTypeName\":\"MERCHANT\"}";
-				JSONObject json = null;
-				try {
-					json = new JSONObject(simulatedResponse);
-					Thread.sleep(5000);
-				}
-				catch (JSONException e) {
-					e.printStackTrace();
-				}
-				catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				return new BookingResponseHandler(mContext).handleJson(json);
-			}
-		}
-
 		return doE3Request("api/hotel/checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
@@ -860,7 +839,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		// Checkout calls without this flag can make ACTUAL bookings!
-		if (suppressFinalBooking(mContext)) {
+		if (suppressFinalHotelBooking(mContext)) {
 			query.add(new BasicNameValuePair("suppressFinalBooking", "true"));
 		}
 

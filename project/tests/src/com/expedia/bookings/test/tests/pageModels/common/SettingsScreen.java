@@ -19,7 +19,7 @@ public class SettingsScreen extends ScreenActions {
 	private static final int CLEAR_PRIVATE_DATE_STRING_ID = R.string.clear_private_data;
 	private static final int OK_STRING_ID = R.string.ok;
 	private static final int ACCEPT_STRING_ID = R.string.accept;
-	private static final int SPOOF_HOTEL_BOOKING_CHECKBOX_ID = R.id.preference_spoof_booking_checkbox;
+	private static final int SUPPRESS_HOTEL_BOOKING_CHECKBOX_ID = R.id.preference_suppress_hotel_booking_checkbox;
 	private static final int SUPPRESS_FLIGHT_BOOKING_CHECKBOX_ID = R.id.preference_suppress_flight_booking_checkbox;
 	private static final int CANCEL_STRING_ID = R.string.cancel;
 
@@ -27,7 +27,7 @@ public class SettingsScreen extends ScreenActions {
 	private static final String SELECT_API_STRING_ID = "Select API";
 	private static final String SERVER_PROXY_STRING_ID = "Server/Proxy Address";
 	private static final String STUB_CONFIGURATION_PAGE_STRING_ID = "Stub Configuration Page";
-	private static final String SPOOF_HOTELS_BOOKING_STRING_ID = "Spoof hotel bookings";
+	private static final String SUPPRESS_HOTELS_BOOKING_STRING_ID = "Suppress Hotel Bookings";
 	private static final String SUPPRESS_FLIGHTS_BOOKING_STRING_ID = "Suppress Flight Bookings";
 
 	public SettingsScreen(Instrumentation instrumentation, Activity activity, Resources res,
@@ -96,23 +96,23 @@ public class SettingsScreen extends ScreenActions {
 	}
 
 	public void setSpoofBookings() {
-		boolean spoofBookingsDone = false;
+		boolean suppressHotelsDone = false;
 		boolean suppressFlightsDone = false;
 		delay(5);
 		scrollDown();
 		ArrayList<View> currentViews = getCurrentViews();
 		for (int i = 0; i < currentViews.size(); i++) {
-			if (spoofBookingsDone && suppressFlightsDone) {
+			if (suppressHotelsDone && suppressFlightsDone) {
 				break;
 			}
 			View currentView = currentViews.get(i);
 			if (currentView instanceof CheckBox) {
 				CheckBox currentCheckBox = (CheckBox) currentView;
-				if (currentCheckBox.getId() == SPOOF_HOTEL_BOOKING_CHECKBOX_ID) {
+				if (currentCheckBox.getId() == SUPPRESS_HOTEL_BOOKING_CHECKBOX_ID) {
 					if (!currentCheckBox.isChecked()) {
-						clickOnText(SPOOF_HOTELS_BOOKING_STRING_ID);
+						clickOnText(SUPPRESS_HOTELS_BOOKING_STRING_ID);
 					}
-					spoofBookingsDone = true;
+					suppressHotelsDone = true;
 				}
 				else if (currentCheckBox.getId() == SUPPRESS_FLIGHT_BOOKING_CHECKBOX_ID) {
 					if (!currentCheckBox.isChecked()) {
