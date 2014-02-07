@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.util.Calendar;
+import java.util.List;
 
 import org.joda.time.LocalDate;
 
@@ -21,10 +22,14 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Response;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.enums.TripBucketItemState;
+import com.expedia.bookings.fragment.BookingFragment.BookingFragmentListener;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.base.LobableFragment;
@@ -39,6 +44,7 @@ import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.JodaUtils;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
@@ -49,7 +55,7 @@ import com.mobiata.flightlib.utils.DateTimeUtils;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletCheckoutControllerFragment extends LobableFragment implements IBackManageable,
 	IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener,
-	CheckoutInformationListener {
+	CheckoutInformationListener, BookingFragmentListener {
 
 	private static final String STATE_CHECKOUT_STATE = "STATE_CHECKOUT_STATE";
 
@@ -57,6 +63,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private static final String FRAG_TAG_BUCKET_HOTEL = "FRAG_TAG_BUCKET_HOTEL";
 	private static final String FRAG_TAG_CHECKOUT_INFO = "FRAG_TAG_CHECKOUT_INFO";
 	private static final String FRAG_TAG_CVV = "FRAG_TAG_CVV";
+	private static final String FRAG_TAG_BOOK_FLIGHT = "FRAG_TAG_BOOK_FLIGHT";
 
 	//Containers
 	private ViewGroup mRootC;
@@ -79,6 +86,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private ResultsTripBucketHotelFragment mBucketHotelFrag;
 	private TabletCheckoutFormsFragment mCheckoutFragment;
 	private CVVEntryFragment mCvvFrag;
+	private FlightBookingFragment mFlightBookingFrag;
 
 	//vars
 	private StateManager<CheckoutState> mStateManager = new StateManager<CheckoutState>(
@@ -105,12 +113,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			@Override
 			public void onClick(View arg0) {
 				setCheckoutState(CheckoutState.CVV, true);
-			}
-		});
-		mBookingContainer.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				setCheckoutState(CheckoutState.CONFIRMATION, true);
 			}
 		});
 		mConfirmationContainer.setOnClickListener(new OnClickListener() {
@@ -307,6 +309,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			}
 			else if (state == CheckoutState.BOOKING) {
 				setShowBookingPercentage(1f);
+				startBooking();
 			}
 			else if (state == CheckoutState.CONFIRMATION) {
 				setShowConfirmationPercentage(1f);
@@ -389,6 +392,16 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 	}
 
+	private void startBooking() {
+		if (getLob() == LineOfBusiness.FLIGHTS) {
+			doFlightBooking();
+		}
+	}
+
+	private void doFlightBooking() {
+		mFlightBookingFrag.doBooking();
+	}
+
 	private void setFragmentState(CheckoutState state) {
 		FragmentManager manager = getChildFragmentManager();
 
@@ -404,6 +417,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		boolean hotelBucketItemAvailable = true;
 		boolean checkoutFormsAvailable = true;
 		boolean cvvAvailable = state != CheckoutState.OVERVIEW;//If we are in cvv mode or are ready to enter it, we add cvv
+		boolean flightBookingFragAvail = state.ordinal() >= CheckoutState.READY_FOR_CHECKOUT.ordinal(); // TODO talk to Joel
 
 		mBucketFlightFrag = (ResultsTripBucketFlightFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			flightBucketItemAvailable, FRAG_TAG_BUCKET_FLIGHT,
@@ -419,6 +433,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		mCvvFrag = (CVVEntryFragment) FragmentAvailabilityUtils.setFragmentAvailability(cvvAvailable, FRAG_TAG_CVV,
 			manager, transaction, this, R.id.cvv_container, false);
+
+		mFlightBookingFrag = FragmentAvailabilityUtils.setFragmentAvailability(flightBookingFragAvail,
+			FRAG_TAG_BOOK_FLIGHT, manager, transaction, this, FragmentAvailabilityUtils.INVISIBLE_FRAG, false);
 
 		transaction.commit();
 	}
@@ -478,6 +495,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		else if (FRAG_TAG_CVV.equals(tag)) {
 			return mCvvFrag;
 		}
+		else if (FRAG_TAG_BOOK_FLIGHT.equals(tag)) {
+			return mFlightBookingFrag;
+		}
 		return null;
 	}
 
@@ -498,6 +518,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			//TODO: THIS IS SUPER FAKE
 			return CVVEntryFragment.newInstance("Cat Miggins", "Super Black Platinum Gold Card Premium",
 				CreditCardType.UNKNOWN);
+		}
+		else if (FRAG_TAG_BOOK_FLIGHT.equals(tag)) {
+			return new FlightBookingFragment();
 		}
 		return null;
 	}
@@ -522,7 +545,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public void onBook(String cvv) {
-		//TODO: Use the cvv string
+		Db.getBillingInfo().setSecurityCode(cvv);
+
 		setCheckoutState(CheckoutState.BOOKING, true);
 	}
 
@@ -550,6 +574,46 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public void onBillingInfoChange() {
 		// TODO Auto-generated method stub
 
+	}
+
+	/*
+	 * BookingFragmentListener
+	 */
+
+	@Override
+	public void onStartBooking() {
+		// TODO do something?
+	}
+
+	@Override
+	public void onBookingResponse(Response results) {
+		if (results instanceof FlightCheckoutResponse) {
+			FlightCheckoutResponse response = (FlightCheckoutResponse) results;
+
+			Db.setFlightCheckout(response);
+
+			if (response == null) {
+				Ui.showToast(getActivity(), "response == null, ruh roh");
+			}
+			else if (response.hasErrors()) {
+				Ui.showToast(getActivity(), "FLIGHT BOOKING ERROR, printing to logs!!");
+
+
+				List<ServerError> errors = response.getErrors();
+
+				// Log all errors, in case we need to see them
+				for (int a = 0; a < errors.size(); a++) {
+					Log.v("SERVER ERROR " + a + ": " + errors.get(a).toJson().toString());
+				}
+			}
+			else {
+				// TODO tracking ??
+
+				setCheckoutState(CheckoutState.CONFIRMATION, true);
+			}
+		}
+
+		setCheckoutState(CheckoutState.CONFIRMATION, true);
 	}
 
 }
