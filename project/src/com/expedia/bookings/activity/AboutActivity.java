@@ -86,11 +86,11 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 		if (contactUsFragment == null) {
 			builder = new AboutSectionFragment.Builder(this);
 			builder.addRow(Ui.obtainThemeResID(this, R.attr.aboutContactUsString), ROW_CONTACT_EXPEDIA);
-			if (!ExpediaBookingApp.IS_VSC) {
+			if (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_TRAVELOCITY) {
 				builder.addRow(Ui.obtainThemeResID(this, R.attr.aboutWebsiteString), ROW_EXPEDIA_WEBSITE);
 			}
 			builder.addRow(Ui.obtainThemeResID(this, R.attr.aboutAppSupportString), ROW_APP_SUPPORT);
-			if (!ExpediaBookingApp.IS_VSC && !ExpediaBookingApp.IS_TRAVELOCITY) {
+			if (ExpediaBookingApp.IS_EXPEDIA) {
 				builder.addRow(com.mobiata.android.R.string.WereHiring, ROW_WERE_HIRING);
 			}
 			// 1170. VSC Add clear private data in info/about screen
@@ -103,7 +103,7 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 
 		// Apps also by us
 		AboutSectionFragment alsoByFragment = Ui.findSupportFragment(this, TAG_ALSO_BY_US);
-		if (alsoByFragment == null && !ExpediaBookingApp.IS_TRAVELOCITY) {
+		if (alsoByFragment == null && (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC)) {
 			if (ExpediaBookingApp.IS_VSC) {
 				alsoByFragment = buildVSCOtherAppsSection(this);
 			}
