@@ -228,6 +228,9 @@
     <!-- Hotel Confirmation, Customer support option drawable -->
     <attr name="hotelConfirmationCallActionDrawable" format="reference" />
 
+    <!-- Hotel Confirmation Customer support text-->
+    <attr name="hotelConfirmationCallActionText" format="reference" />
+
     <!-- Hotel confirmation screen, login button text and icons -->
     <attr name="hotelCheckoutLoginButtonText" format="reference|string" />
     <attr name="hotelCheckoutLogoutLogoDrawable" format="reference" />
