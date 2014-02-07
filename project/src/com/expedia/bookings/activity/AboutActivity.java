@@ -85,14 +85,16 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 		AboutSectionFragment contactUsFragment = Ui.findSupportFragment(this, TAG_CONTACT_US);
 		if (contactUsFragment == null) {
 			builder = new AboutSectionFragment.Builder(this);
-			builder.addRow(R.string.contact_expedia, ROW_CONTACT_EXPEDIA);
-			builder.addRow(R.string.expedia_website, ROW_EXPEDIA_WEBSITE);
-			builder.addRow(R.string.app_support, ROW_APP_SUPPORT);
+			builder.addRow(Ui.obtainThemeResID(this, R.attr.aboutContactUsString), ROW_CONTACT_EXPEDIA);
 			if (!ExpediaBookingApp.IS_VSC) {
+				builder.addRow(Ui.obtainThemeResID(this, R.attr.aboutWebsiteString), ROW_EXPEDIA_WEBSITE);
+			}
+			builder.addRow(Ui.obtainThemeResID(this, R.attr.aboutAppSupportString), ROW_APP_SUPPORT);
+			if (!ExpediaBookingApp.IS_VSC && !ExpediaBookingApp.IS_TRAVELOCITY) {
 				builder.addRow(com.mobiata.android.R.string.WereHiring, ROW_WERE_HIRING);
 			}
 			// 1170. VSC Add clear private data in info/about screen
-			else {
+			else if(ExpediaBookingApp.IS_VSC) {
 				builder.addRow(R.string.clear_private_data, ROW_VSC_PRIVATE_DATA);
 			}
 			contactUsFragment = builder.build();
@@ -101,7 +103,7 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 
 		// Apps also by us
 		AboutSectionFragment alsoByFragment = Ui.findSupportFragment(this, TAG_ALSO_BY_US);
-		if (alsoByFragment == null) {
+		if (alsoByFragment == null && !ExpediaBookingApp.IS_TRAVELOCITY) {
 			if (ExpediaBookingApp.IS_VSC) {
 				alsoByFragment = buildVSCOtherAppsSection(this);
 			}
@@ -130,19 +132,10 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 		CopyrightFragment copyrightFragment = Ui.findSupportFragment(this, TAG_COPYRIGHT);
 		if (copyrightFragment == null) {
 			CopyrightFragment.Builder copyBuilder = new CopyrightFragment.Builder((Context) this);
-
-			//1247. VSC related copyright fragment
-			if (ExpediaBookingApp.IS_VSC) {
-				copyBuilder.setAppName(R.string.VSC_app_name);
-				copyBuilder.setCopyright(R.string.VSC_copyright);
-				copyBuilder.setLogo(R.drawable.ic_voyages_sncf);
-				copyBuilder.setLogoUrl(R.string.app_vsc_info_url);
-			}
-			else {
-				copyBuilder.setAppName(R.string.app_name);
-				copyBuilder.setCopyright(R.string.copyright);
-			}
-
+			copyBuilder.setAppName(Ui.obtainThemeResID(this, R.attr.aboutAppNameString));
+			copyBuilder.setCopyright(Ui.obtainThemeResID(this, R.attr.aboutCopyrightString));
+			copyBuilder.setLogo(Ui.obtainThemeResID(this, R.attr.aboutAppLogoDrawable));
+			copyBuilder.setLogoUrl(Ui.obtainThemeResID(this, R.attr.aboutInfoUrlString));
 			copyrightFragment = copyBuilder.build();
 			ft.add(R.id.section_copyright, copyrightFragment, TAG_COPYRIGHT);
 		}
@@ -218,8 +211,8 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
-		// #1242. For VSC don't add social media menu items.
-		if (!ExpediaBookingApp.IS_VSC) {
+		// #1242. For VSC and travelocity don't add social media menu items.
+		if (ExpediaBookingApp.IS_EXPEDIA) {
 			getSupportMenuInflater().inflate(R.menu.menu_about, menu);
 		}
 
@@ -272,6 +265,9 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 			// 1245. VSC Show app support url
 			if (ExpediaBookingApp.IS_VSC) {
 				mAboutUtils.openContactUsVSC();
+			}
+			else if(ExpediaBookingApp.IS_TRAVELOCITY) {
+				mAboutUtils.openContactUsTravelocity();
 			}
 			else {
 				showDialog(DIALOG_CONTACT_EXPEDIA);

@@ -259,4 +259,12 @@
     <attr name="bestPriceGuaranteeString" format="reference|string" />
     <!-- for hotels details book button -->
     <attr name="hotelBookButtonString" format="reference|string" />
+
+    <attr name="aboutContactUsString" format="reference|string" />
+    <attr name="aboutWebsiteString" format="reference|string" />
+    <attr name="aboutAppSupportString" format="reference|string" />
+    <attr name="aboutCopyrightString" format="reference|string" />
+    <attr name="aboutInfoUrlString" format="reference|string" />
+    <attr name="aboutAppNameString" format="reference|string" />
+    <attr name="aboutAppLogoDrawable" format="reference" />
 </resources>

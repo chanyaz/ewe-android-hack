@@ -14,4 +14,10 @@
     <string name="travelocity_account">Travelocity Account</string>
     <!-- Content description for action: Press to log in with your Travelocity account -->
     <string name="cd_checkout_log_in_with_travelocity">Press to log in to your Travelocity account</string>
+
+    <string name="contact_travelocity">Contact Travelocity</string>
+    <string name="travelocity_website">Travelocity Website</string>
+    <string name="travelocity_app_support">Travelocity App Support</string>
+    <string name="travelocity_copyright">© Copyright 2012-2014 Travelocity\nAll rights reserved.</string>
+    <string name="travelocity_info_url">http://www.travelocity.com/</string>
 </resources>
