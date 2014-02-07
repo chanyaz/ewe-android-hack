@@ -387,8 +387,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	private void doCreateTrip() {
-		if (getLob() == LineOfBusiness.FLIGHTS) {
+		LineOfBusiness lob = getLob();
+		if (lob == LineOfBusiness.FLIGHTS) {
 			mBucketFlightFrag.doCreateTrip();
+		}
+		else if(lob == LineOfBusiness.HOTELS) {
+			mBucketHotelFrag.doCheckoutPrep();
 		}
 	}
 

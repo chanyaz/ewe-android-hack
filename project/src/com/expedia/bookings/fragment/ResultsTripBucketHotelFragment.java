@@ -1,7 +1,13 @@
 package com.expedia.bookings.fragment;
 
+import java.math.BigDecimal;
+
 import org.joda.time.LocalDate;
 
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,22 +16,46 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
+import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.RateBreakdown;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.dialog.HotelErrorDialog;
+import com.expedia.bookings.dialog.HotelPriceChangeDialog;
+import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.section.HotelSummarySection;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.SettingUtils;
 
 /**
  * ResultsTripBucketYourTripToFragment: A simple fragment for displaying destination information, in the trip overview column - Tablet 2013
  */
 public class ResultsTripBucketHotelFragment extends TripBucketItemFragment {
+
+	private static final String KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE = "KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE";
+	private static final String KEY_CREATE_TRIP = "KEY_HOTEL_CREATE_TRIP";
+	private static final String TAG_HOTEL_CHECKOUT_PREP_DIALOG = "TAG_HOTEL_CHECKOUT_PREP_DIALOG";
+	private static final String TAG_HOTEL_CREATE_TRIP_DIALOG = "TAG_HOTEL_CREATE_TRIP_DIALOG";
+	public static final String HOTEL_OFFER_ERROR_DIALOG = "HOTEL_OFFER_ERROR_DIALOG";
+	private static final String RETRY_CREATE_TRIP_DIALOG = "RETRY_CREATE_TRIP_DIALOG";
+
+	private static final String INSTANCE_DONE_LOADING_PRICE_CHANGE = "INSTANCE_DONE_LOADING_PRICE_CHANGE";
+
+	private boolean mIsDoneLoadingPriceChange = false;
 
 	public static ResultsTripBucketHotelFragment newInstance() {
 		ResultsTripBucketHotelFragment frag = new ResultsTripBucketHotelFragment();
@@ -33,6 +63,54 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment {
 	}
 
 	private HotelSummarySection mHotelSection;
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE, mIsDoneLoadingPriceChange);
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		if (savedInstanceState != null) {
+			mIsDoneLoadingPriceChange = savedInstanceState.getBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE);
+		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (getActivity() != null && getActivity().isFinishing()) {
+			bd.cancelDownload(KEY_CREATE_TRIP);
+			bd.cancelDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
+		}
+		else {
+			bd.unregisterDownloadCallback(KEY_CREATE_TRIP);
+			bd.unregisterDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
+		}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		// Create Trip callback
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		boolean isCreatingTrip = bd.isDownloading(KEY_CREATE_TRIP);
+		boolean isOnCheckout = getParentFragment() instanceof TabletCheckoutControllerFragment;
+		if (isCreatingTrip && isOnCheckout) {
+			bd.registerDownloadCallback(KEY_CREATE_TRIP, mCreateTripCallback);
+		}
+		// HotelProduct callback
+		boolean isDownloadingHotelProd = bd.isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
+		if (isDownloadingHotelProd && isOnCheckout) {
+			bd.registerDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductCallback);
+		}
+	}
 
 	@Override
 	protected void doBind() {
@@ -114,4 +192,166 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment {
 			getActivity().startActivity(TabletCheckoutActivity.createIntent(getActivity(), LineOfBusiness.HOTELS));
 		}
 	};
+
+	public void doCheckoutPrep() {
+		getFragmentManager().executePendingTransactions();
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+
+		if (!bd.isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE) && !mIsDoneLoadingPriceChange) {
+			ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.calculating_taxes_and_fees));
+			df.show(getFragmentManager(), TAG_HOTEL_CHECKOUT_PREP_DIALOG);
+
+			BackgroundDownloader.getInstance().cancelDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
+			BackgroundDownloader.getInstance().startDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE,
+					mHotelProductDownload,
+					mHotelProductCallback);
+		}
+	}
+
+	private final Download<HotelProductResponse> mHotelProductDownload = new Download<HotelProductResponse>() {
+		@Override
+		public HotelProductResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(getActivity());
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, services);
+			Rate selectedRate = Db.getHotelSearch().getSelectedRate();
+			return services.hotelProduct(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch()
+					.getSelectedProperty(), selectedRate);
+		}
+	};
+
+	private final OnDownloadComplete<HotelProductResponse> mHotelProductCallback = new OnDownloadComplete<HotelProductResponse>() {
+		@Override
+		public void onDownload(HotelProductResponse response) {
+			ThrobberDialog df = Ui.findSupportFragment(ResultsTripBucketHotelFragment.this,
+					TAG_HOTEL_CHECKOUT_PREP_DIALOG);
+			df.dismiss();
+			if (response == null || response.hasErrors()) {
+				handleHotelProductError(response);
+			}
+			else {
+				final String selectedId = Db.getHotelSearch().getSelectedPropertyId();
+				Rate selectedRate = Db.getHotelSearch().getSelectedRate();
+				Rate newRate = response.getRate();
+
+				if (TextUtils.equals(selectedRate.getRateKey(), response.getOriginalProductKey())) {
+					if (!AndroidUtils.isRelease(getActivity())) {
+						String val = SettingUtils.get(getActivity(),
+								getString(R.string.preference_fake_hotel_price_change),
+								getString(R.string.preference_fake_price_change_default));
+						BigDecimal bigDecVal = new BigDecimal(val);
+
+						//Update total price
+						newRate.getDisplayTotalPrice().add(bigDecVal);
+
+						//Update all nights total and per/night totals
+						newRate.getNightlyRateTotal().add(bigDecVal);
+						if (newRate.getRateBreakdownList() != null) {
+							BigDecimal perNightChange = bigDecVal.divide(new BigDecimal(newRate
+									.getRateBreakdownList().size()));
+							for (RateBreakdown breakdown : newRate.getRateBreakdownList()) {
+								breakdown.getAmount().add(perNightChange);
+							}
+						}
+
+					}
+
+					int priceChange = selectedRate.compareForPriceChange(newRate);
+					if (priceChange != 0) {
+						boolean isPriceHigher = priceChange < 0;
+						HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher,
+								selectedRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());
+						dialog.show(getFragmentManager(), "priceChangeDialog");
+					}
+					mIsDoneLoadingPriceChange = true;
+					Db.getHotelSearch().getAvailability(selectedId).updateFrom(selectedRate.getRateKey(), response);
+					Db.getHotelSearch().getAvailability(selectedId).setSelectedRate(newRate);
+					createTrip();
+
+				}
+				else {
+					handleHotelProductError(response);
+				}
+			}
+		}
+
+	};
+
+	private void handleHotelProductError(HotelProductResponse response) {
+		HotelErrorDialog dialog = HotelErrorDialog.newInstance();
+		int messageId = R.string.e3_error_hotel_offers_hotel_service_failure;
+		if (response != null && response.getErrors() != null) {
+			for (ServerError error : response.getErrors()) {
+				if (error.getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
+					String selectedId = Db.getHotelSearch().getSelectedPropertyId();
+					messageId = R.string.e3_error_hotel_offers_hotel_room_unavailable;
+					Db.getHotelSearch().getAvailability(selectedId).removeRate(response.getOriginalProductKey());
+				}
+			}
+		}
+
+		dialog.setMessage(messageId);
+		dialog.show(getFragmentManager(), HOTEL_OFFER_ERROR_DIALOG);
+	}
+
+	private void createTrip() {
+		ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.spinner_text_hotel_create_trip));
+		df.show(getFragmentManager(), TAG_HOTEL_CREATE_TRIP_DIALOG);
+
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(KEY_CREATE_TRIP)) {
+			bd.cancelDownload(KEY_CREATE_TRIP);
+		}
+		bd.startDownload(KEY_CREATE_TRIP, mCreateTripDownload, mCreateTripCallback);
+	}
+
+	private final Download<CreateTripResponse> mCreateTripDownload = new Download<CreateTripResponse>() {
+		@Override
+		public CreateTripResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(getActivity());
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_CREATE_TRIP, services);
+			return services.createTrip(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty());
+		}
+	};
+
+	private final OnDownloadComplete<CreateTripResponse> mCreateTripCallback = new OnDownloadComplete<CreateTripResponse>() {
+		@Override
+		public void onDownload(CreateTripResponse response) {
+			ThrobberDialog df = Ui.findSupportFragment(ResultsTripBucketHotelFragment.this,
+					TAG_HOTEL_CREATE_TRIP_DIALOG);
+			df.dismiss();
+			if (response == null) {
+				showRetryErrorDialog();
+			}
+			else if (response.hasErrors()) {
+				handleCreateTripError(response);
+			}
+			else {
+				Db.getHotelSearch().setCreateTripResponse(response);
+			}
+		}
+	};
+
+	private void handleCreateTripError(CreateTripResponse response) {
+		ServerError firstError = response.getErrors().get(0);
+
+		switch (firstError.getErrorCode()) {
+		case TRIP_SERVICE_UNKNOWN_ERROR:
+			// Let's show a retry dialog here.
+		case INVALID_INPUT:
+			/*
+			 * Since we are only sending [productKey, roomInfoFields] params to the service, don't think users have control over the input.
+			 * Hence for now let's show a retry dialog here too (after a chat with API team)
+			 */
+		default: {
+			showRetryErrorDialog();
+			break;
+		}
+		}
+	}
+
+	private void showRetryErrorDialog() {
+		DialogFragment df = new RetryErrorDialogFragment();
+		df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), RETRY_CREATE_TRIP_DIALOG);
+	}
+
 }

@@ -194,7 +194,10 @@
     <string name="round_trip">Round Trip</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
     <string name="total_with_tax">Total with tax</string>
-    
+
+    <!-- Tablet hotel trip bucket -->
+    <!-- Progress dialog text while creating a trip -->
+    <string name="spinner_text_hotel_create_trip">Creating the trip ...</string>
     
     <!-- Tablet Checkout -->
     <!-- Your Trip -->
