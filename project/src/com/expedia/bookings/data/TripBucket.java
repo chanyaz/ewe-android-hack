@@ -96,6 +96,17 @@ public class TripBucket implements JSONable {
 	}
 
 	/**
+	 * Populates Db so that Db.getHotelSearch() and friends will reflect
+	 * the hotel that's stored in the bucket here at getHotel()
+	 */
+	public void selectHotel() {
+		TripBucketItemHotel item = getHotel();
+		Db.setHotelSearch(item.getHotelSearch());
+		Db.getHotelSearch().setSelectedProperty(item.getProperty());
+		Db.getHotelSearch().setSelectedRate(item.getRate());
+	}
+
+	/**
 	 * Returns the index of the first item of LineOfBusiness found in this TripBucket.
 	 * @param lineOfBusiness
 	 * @return -1 if not found
@@ -118,6 +129,22 @@ public class TripBucket implements JSONable {
 	public TripBucketItemFlight getFlight() {
 		int index = getIndexOf(LineOfBusiness.FLIGHTS);
 		return index == -1 ? null : (TripBucketItemFlight) mItems.get(index);
+	}
+
+	/**
+	 * Populates Db so that Db.getFlightSearch() and friends will reflect
+	 * the flight that's stored in the bucket here at getFlight()
+	 */
+	public void selectFlight() {
+		TripBucketItemFlight item = getFlight();
+		FlightTrip trip = item.getFlightTrip();
+		FlightSearch search = item.getFlightSearch();
+		Db.setFlightSearch(search);
+		Db.getFlightSearch().clearSelectedLegs();
+		int i = 0;
+		for (FlightLeg leg : item.getFlightTrip().getLegs()) {
+			search.setSelectedLeg(i++, new FlightTripLeg(trip, leg));
+		}
 	}
 
 	/**

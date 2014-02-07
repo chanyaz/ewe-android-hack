@@ -110,6 +110,7 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment {
 	private OnClickListener mBookOnClick = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
+			Db.getTripBucket().selectHotel();
 			getActivity().startActivity(TabletCheckoutActivity.createIntent(getActivity(), LineOfBusiness.HOTELS));
 		}
 	};

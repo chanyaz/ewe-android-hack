@@ -226,6 +226,7 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 	private OnClickListener mBookOnClick = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
+			Db.getTripBucket().selectFlight();
 			getActivity().startActivity(TabletCheckoutActivity.createIntent(getActivity(), LineOfBusiness.FLIGHTS));
 		}
 	};
