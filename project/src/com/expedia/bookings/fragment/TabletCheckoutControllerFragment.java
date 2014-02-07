@@ -67,6 +67,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private static final String FRAG_TAG_CVV = "FRAG_TAG_CVV";
 	private static final String FRAG_TAG_BOOK_FLIGHT = "FRAG_TAG_BOOK_FLIGHT";
 	private static final String FRAG_TAG_BOOK_HOTEL = "FRAG_TAG_BOOK_HOTEL";
+	private static final String FRAG_TAG_CONF_FLIGHT = "FRAG_TAG_CONF_FLIGHT";
+	private static final String FRAG_TAG_CONF_HOTEL = "FRAG_TAG_CONF_HOTEL";
 
 	//Containers
 	private ViewGroup mRootC;
@@ -91,6 +93,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private CVVEntryFragment mCvvFrag;
 	private FlightBookingFragment mFlightBookingFrag;
 	private HotelBookingFragment mHotelBookingFrag;
+
+	private FlightConfirmationFragment mFlightConfFrag;
+	private HotelConfirmationFragment mHotelConfFrag;
 
 	//vars
 	private StateManager<CheckoutState> mStateManager = new StateManager<CheckoutState>(
@@ -395,7 +400,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		if (lob == LineOfBusiness.FLIGHTS) {
 			mBucketFlightFrag.doCreateTrip();
 		}
-		else if(lob == LineOfBusiness.HOTELS) {
+		else if (lob == LineOfBusiness.HOTELS) {
 			mBucketHotelFrag.doCheckoutPrep();
 		}
 	}
@@ -435,6 +440,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		boolean flightBookingFragAvail = state.ordinal() >= CheckoutState.READY_FOR_CHECKOUT.ordinal(); // TODO talk to Joel
 		boolean hotelBookingFragAvail = state.ordinal() >= CheckoutState.READY_FOR_CHECKOUT.ordinal(); // TODO talk to Joel
 
+		boolean mFlightConfAvailable = state == CheckoutState.CONFIRMATION && getLob() == LineOfBusiness.FLIGHTS;
+		boolean mHotelConfAvailable = state == CheckoutState.CONFIRMATION && getLob() == LineOfBusiness.HOTELS;
+
 		mBucketFlightFrag = (ResultsTripBucketFlightFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			flightBucketItemAvailable, FRAG_TAG_BUCKET_FLIGHT,
 			manager, transaction, this, R.id.bucket_flight_frag_container, false);
@@ -451,10 +459,17 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			manager, transaction, this, R.id.cvv_container, false);
 
 		mFlightBookingFrag = FragmentAvailabilityUtils.setFragmentAvailability(flightBookingFragAvail,
-				FRAG_TAG_BOOK_FLIGHT, manager, transaction, this, FragmentAvailabilityUtils.INVISIBLE_FRAG, false);
+			FRAG_TAG_BOOK_FLIGHT, manager, transaction, this, FragmentAvailabilityUtils.INVISIBLE_FRAG, false);
 
 		mHotelBookingFrag = FragmentAvailabilityUtils.setFragmentAvailability(hotelBookingFragAvail,
-				FRAG_TAG_BOOK_HOTEL, manager, transaction, this, FragmentAvailabilityUtils.INVISIBLE_FRAG, false);
+			FRAG_TAG_BOOK_HOTEL, manager, transaction, this, FragmentAvailabilityUtils.INVISIBLE_FRAG, false);
+
+		mFlightConfFrag = FragmentAvailabilityUtils.setFragmentAvailability(mFlightConfAvailable,
+			FRAG_TAG_CONF_FLIGHT, manager, transaction, this, R.id.confirmation_container, false);
+
+		mHotelConfFrag = FragmentAvailabilityUtils.setFragmentAvailability(mHotelConfAvailable,
+			FRAG_TAG_CONF_HOTEL, manager, transaction, this, R.id.confirmation_container, false);
+
 
 		transaction.commit();
 	}
@@ -520,6 +535,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		else if (FRAG_TAG_BOOK_HOTEL.equals(tag)) {
 			return mHotelBookingFrag;
 		}
+		else if (FRAG_TAG_CONF_FLIGHT.equals(tag)) {
+			return mFlightConfFrag;
+		}
+		else if (FRAG_TAG_CONF_HOTEL.equals(tag)) {
+			return mHotelConfFrag;
+		}
 		return null;
 	}
 
@@ -546,6 +567,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else if (FRAG_TAG_BOOK_HOTEL.equals(tag)) {
 			return new HotelBookingFragment();
+		}
+		else if (FRAG_TAG_CONF_FLIGHT.equals(tag)) {
+			return new FlightConfirmationFragment();
+		}
+		else if (FRAG_TAG_CONF_HOTEL.equals(tag)) {
+			return new HotelConfirmationFragment();
 		}
 		return null;
 	}
