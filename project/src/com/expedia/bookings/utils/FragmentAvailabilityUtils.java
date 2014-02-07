@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentTransaction;
 
 public class FragmentAvailabilityUtils {
 
+	public static final int INVISIBLE_FRAG = -1;
+
 	public interface IFragmentAvailabilityProvider {
 		public Fragment getExisitingLocalInstanceFromTag(String tag);
 
@@ -26,7 +28,12 @@ public class FragmentAvailabilityUtils {
 					frag = (T) provider.getNewFragmentInstanceFromTag(tag);
 				}
 				if (!frag.isAdded()) {
-					transaction.add(container, frag, tag);
+					if (container != INVISIBLE_FRAG) {
+						transaction.add(container, frag, tag);
+					}
+					else {
+						transaction.add(frag, tag);
+					}
 				}
 				provider.doFragmentSetup(tag, frag);
 			}
