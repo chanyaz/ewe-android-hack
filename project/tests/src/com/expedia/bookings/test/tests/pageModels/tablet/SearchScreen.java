@@ -1,5 +1,14 @@
 package com.expedia.bookings.test.tests.pageModels.tablet;
 
+import org.joda.time.LocalDate;
+
+import android.app.Activity;
+
+import com.expedia.bookings.R;
+import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
+import com.mobiata.android.time.widget.CalendarPicker;
+import com.mobiata.android.util.Ui;
+
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -7,15 +16,6 @@ import static com.google.android.apps.common.testing.ui.espresso.action.ViewActi
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-
-import org.joda.time.LocalDate;
-
-import android.app.Activity;
-
-import com.expedia.bookings.R;
-import com.expedia.bookings.widget.CalendarPicker;
-import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
-import com.mobiata.android.util.Ui;
 
 public class SearchScreen {
 
