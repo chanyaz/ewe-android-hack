@@ -330,6 +330,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 			positionTripBucketItems(true);
 			setVisibilityState(mGlobalState);
 
+			Db.saveTripBucket(getActivity());
 			Db.kickOffBackgroundFlightSearchSave(getActivity());
 		}
 
@@ -388,7 +389,7 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 			setVisibilityState(mGlobalState);
 			positionTripBucketItems(true);
 
-			Db.kickOffBackgroundHotelSearchSave(getActivity());
+			Db.saveTripBucket(getActivity());
 		}
 
 	};

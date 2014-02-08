@@ -14,6 +14,10 @@ public class TripBucketItemFlight extends TripBucketItem {
 	FlightSearch mFlightSearch;
 	FlightTrip mFlightTrip;
 
+	public TripBucketItemFlight() {
+
+	}
+
 	public TripBucketItemFlight(FlightSearch flight, FlightTrip trip) {
 		mFlightSearch = flight;
 		mFlightTrip = trip;
@@ -41,6 +45,7 @@ public class TripBucketItemFlight extends TripBucketItem {
 			JSONObject obj = super.toJson();
 			JSONUtils.putJSONable(obj, "flightSearch", mFlightSearch);
 			JSONUtils.putJSONable(obj, "flightTrip", mFlightTrip);
+			obj.putOpt("type", "flight");
 			return obj;
 		}
 		catch (JSONException e) {

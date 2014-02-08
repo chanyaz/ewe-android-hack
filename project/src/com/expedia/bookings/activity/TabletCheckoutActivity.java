@@ -94,6 +94,10 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 			return;
 		}
 
+		if (Db.getTripBucket().isEmpty()) {
+			Db.loadTripBucket(this);
+		}
+
 		//Containers
 		mRootC = Ui.findView(this, R.id.root_layout);
 

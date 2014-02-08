@@ -88,6 +88,14 @@ public class TripBucket implements JSONable {
 	}
 
 	/**
+	 * Are there any items in the trip bucket?
+	 * @return
+	 */
+	public boolean isEmpty() {
+		return mItems.size() < 1;
+	}
+
+	/**
 	 * Returns the first hotel found in the bucket, or null if not found.
 	 *
 	 * @return

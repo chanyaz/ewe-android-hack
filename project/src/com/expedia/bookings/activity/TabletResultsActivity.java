@@ -133,6 +133,10 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			}
 		}
 
+		if (Db.getTripBucket().isEmpty()) {
+			Db.loadTripBucket(this);
+		}
+
 		//Containers
 		mRootC = Ui.findView(this, R.id.root_layout);
 		mBgDestImageC = Ui.findView(this, R.id.bg_dest_image_overlay);

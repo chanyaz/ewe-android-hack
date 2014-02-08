@@ -15,6 +15,10 @@ public class TripBucketItemHotel extends TripBucketItem {
 	Property mProperty;
 	Rate mRate;
 
+	public TripBucketItemHotel() {
+
+	}
+
 	public TripBucketItemHotel(HotelSearch hotelSearch, Property property, Rate rate) {
 		mHotelSearch = hotelSearch;
 		mProperty = property;
@@ -48,6 +52,7 @@ public class TripBucketItemHotel extends TripBucketItem {
 			JSONUtils.putJSONable(obj, "hotelSearch", mHotelSearch);
 			JSONUtils.putJSONable(obj, "property", mProperty);
 			JSONUtils.putJSONable(obj, "rate", mRate);
+			obj.put("type", "hotel");
 			return obj;
 		}
 		catch (JSONException e) {

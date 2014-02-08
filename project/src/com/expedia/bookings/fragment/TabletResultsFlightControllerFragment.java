@@ -354,6 +354,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			if (lastLegToSelect) {
 				setFlightsState(ResultsFlightsState.ADDING_FLIGHT_TO_TRIP, true);
 				Db.getTripBucket().add(Db.getFlightSearch(), Db.getFlightSearch().getSelectedFlightTrip());
+				Db.saveTripBucket(getActivity());
 			}
 			else {
 				setFlightsState(ResultsFlightsState.FLIGHT_TWO_FILTERS, true);

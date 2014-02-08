@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.util.Calendar;
 
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -13,7 +14,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError;
@@ -45,6 +48,14 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 
 	private ViewGroup mExpandedView;
 
+	boolean mIsOnCheckout;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mIsOnCheckout = getParentFragment() instanceof TabletCheckoutControllerFragment;
+	}
+
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -52,8 +63,7 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 		// Create Trip callback
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		boolean isDownloading = bd.isDownloading(KEY_CREATE_TRIP);
-		boolean isOnCheckout = getParentFragment() instanceof TabletCheckoutControllerFragment;
-		if (isDownloading && isOnCheckout) {
+		if (isDownloading && mIsOnCheckout) {
 			bd.registerDownloadCallback(KEY_CREATE_TRIP, mFlightDetailsCallback);
 		}
 
@@ -80,8 +90,24 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 
 	private void bindToDb() {
 		if (mFlightSection != null) {
-			if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
-				mFlightSection.bindForTripBucket(Db.getFlightSearch());
+			FlightTrip trip = null;
+			FlightTripLeg[] legs = null;
+			boolean isRoundTrip = false;
+
+			if (mIsOnCheckout) {
+				trip = Db.getFlightSearch().getSelectedFlightTrip();
+				legs = Db.getFlightSearch().getSelectedLegs();
+				isRoundTrip = legs.length > 1;
+			}
+			else {
+				if (Db.getTripBucket().getFlight() != null) {
+					trip = Db.getTripBucket().getFlight().getFlightTrip();
+					legs = Db.getTripBucket().getFlight().getFlightSearch().getSelectedLegs();
+					isRoundTrip = legs.length > 1;
+				}
+			}
+			if (trip != null && legs != null) {
+				mFlightSection.bindForTripBucket(trip, legs, isRoundTrip);
 			}
 		}
 		if (mExpandedView != null) {
@@ -112,6 +138,16 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 	}
 
 	private void bindExpandedView() {
+		FlightSearch search;
+		if (mIsOnCheckout) {
+			mFlightTrip = Db.getFlightSearch().getSelectedFlightTrip();
+			search = Db.getFlightSearch();
+		}
+		else {
+			mFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+			search = Db.getTripBucket().getFlight().getFlightSearch();
+		}
+
 		// Dates
 		Calendar depDate = mFlightTrip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
 		Calendar retDate = mFlightTrip.getLeg(mFlightTrip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime();
@@ -122,14 +158,19 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 		Ui.setText(mExpandedView, R.id.dates_text_view, dateRange);
 
 		// Num travelers
-		int numTravelers = Db.getFlightSearch().getSearchParams().getNumAdults();
+		int numTravelers = search.getSearchParams().getNumAdults();
 		String numTravStr = getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers,
 			numTravelers);
 		Ui.setText(mExpandedView, R.id.num_travelers_text_view, numTravStr);
 
 		// Price
-		String price = mFlightTrip.getTotalFareWithCardFee(Db.getBillingInfo()).getFormattedMoney(Money.F_NO_DECIMAL);
-		Ui.setText(mExpandedView, R.id.price_expanded_bucket_text_view, price);
+		if (Db.hasBillingInfo()) {
+			String price = mFlightTrip.getTotalFareWithCardFee(Db.getBillingInfo()).getFormattedMoney(Money.F_NO_DECIMAL);
+			Ui.setText(mExpandedView, R.id.price_expanded_bucket_text_view, price);
+		}
+		else {
+			Ui.showToast(getActivity(), "TODO fix billing data load timing issue!");
+		}
 
 		// Hide price in the FlightLeg card
 		View priceTv = Ui.findView(mFlightSection, R.id.price_text_view);

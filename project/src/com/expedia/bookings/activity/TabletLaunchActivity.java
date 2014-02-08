@@ -324,11 +324,19 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 			onCurrentLocationSuggestions(suggestResponse);
 			return;
 		case HOTEL_SEARCH:
+			// TODO ideally we keep trip bucket around, but right now it is just not compatible with new searches
+			Db.getTripBucket().clear();
+			Db.saveTripBucket(this);
+
 			Db.getHotelSearch().setSearchResponse((HotelSearchResponse) response);
 			Db.saveHotelSearchTimestamp(this);
 			Db.kickOffBackgroundHotelSearchSave(this);
 			break;
 		case FLIGHT_SEARCH:
+			// TODO ideally we keep trip bucket around, but right now it is just not compatible with new searches
+			Db.getTripBucket().clear();
+			Db.saveTripBucket(this);
+
 			Db.getFlightSearch().setSearchResponse((FlightSearchResponse) response);
 			if (response != null) {
 				Db.kickOffBackgroundFlightSearchSave(this);
