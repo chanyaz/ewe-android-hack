@@ -6,6 +6,9 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Region;
 import android.graphics.drawable.Drawable;
 
 import com.larvalabs.svgandroid.SVG;
@@ -22,17 +25,39 @@ public class SvgDrawable extends Drawable {
 	@Override
 	public void draw(Canvas canvas) {
 		final Canvas finalCanvas = canvas;
+		final Rect bounds = getBounds();
 		Canvas interceptingCanvas = new Canvas() {
+			private RectF pathBounds = new RectF();
+			private Path scaledPath = new Path();
+			private Path clippedPath = new Path();
+			private Region region = new Region();
+			private Region clipRegion = new Region(bounds);
+
+			final private Matrix identity = new Matrix();
+
 			@Override
 			public void drawPath(Path path, Paint paint) {
-				Path scaledPath = new Path();
-
 				// We do not want to alter the given paths in the SVG
 				// or bother inverting the transformation since we are
 				// not guarenteed to be able to invert the supplied
 				// 2d homogeneous matrix we are given
 				path.transform(getMatrix(), scaledPath);
-				finalCanvas.drawPath(scaledPath, paint);
+				scaledPath.computeBounds(pathBounds, false);
+
+				// Check and skip drawing if path is offscreen
+				if (pathBounds.intersects(bounds.left, bounds.top, bounds.right, bounds.bottom)) {
+					if (pathBounds.width() > bounds.width() || pathBounds.height() > bounds.height()) {
+						// Path is too large, we need to clip it
+						region.setPath(scaledPath, clipRegion);
+						scaledPath = region.getBoundaryPath();
+						scaledPath.transform(identity, clippedPath);
+						finalCanvas.drawPath(clippedPath, paint);
+					}
+					else {
+						// No clipping required
+						finalCanvas.drawPath(scaledPath, paint);
+					}
+				}
 			}
 		};
 
@@ -41,7 +66,7 @@ public class SvgDrawable extends Drawable {
 		finalCanvas.save();
 
 		// Respect the bounds
-		finalCanvas.clipRect(getBounds());
+		finalCanvas.clipRect(bounds);
 
 		mSvg.getRoot().render(interceptingCanvas, null, null);
 		finalCanvas.restore();
