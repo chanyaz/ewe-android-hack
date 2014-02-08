@@ -487,6 +487,130 @@ public class Db {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Saving/loading data - general utilities
+
+	/**
+	 * This interface helps to standardize the disk writing tasks that take place to persist Db data.
+	 * The method returns the number or characters saved to disk and it will thrown an Exception if
+	 * the disk write fails.
+	 */
+	interface IDiskWrite {
+		int doWrite(Context context) throws Exception, OutOfMemoryError;
+	}
+
+	/**
+	 * This interface helps standardize loading from disk tasks that seem to be repeated throughout
+	 * this class for various pieces of data.
+	 */
+	interface IDiskLoad {
+		boolean doLoad(JSONObject json) throws Exception, OutOfMemoryError;
+	}
+
+	/**
+	 * A general utility method that will spawn a new, low-priority thread to do work in the
+	 * background. This is work that need to notify the UI and is also not on a schedule, so the
+	 * timing isn't super important so long as it happens.
+	 * @param context
+	 * @param writer
+	 * @param statsTag
+	 */
+	private static void saveDbDataToDiskInBackground(final Context context, final IDiskWrite writer, final String statsTag) {
+		(new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Process.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
+
+				long start = System.currentTimeMillis();
+				Log.d("DbDisk - Saving " + statsTag + " to disk");
+
+				synchronized (sDb) {
+					try {
+						int numCharWritten = writer.doWrite(context);
+						Log.d("DbDisk - Saved " + statsTag + " in " + (System.currentTimeMillis() - start)
+							+ " ms.  Size of data cache: "
+							+ numCharWritten + " chars");
+					}
+					// TODO do we care enough about these exceptions to crash? the operations are not
+					// TODO mission critical for the app, so methinks not.
+					catch (Exception e) {
+						Log.e("DbDisk - Exception saving " + statsTag, e);
+					}
+					catch (OutOfMemoryError e) {
+						Log.e("DbDisk - Ran out of memory trying to save " + statsTag, e);
+					}
+				}
+			}
+		})).start();
+	}
+
+	/**
+	 * The companion of saveDbDataToDiskInBackground
+	 * @param context
+	 * @param loader
+	 * @param fileName
+	 * @param statsTag
+	 * @return
+	 */
+	private static boolean loadFromDisk(Context context, IDiskLoad loader, String fileName, String statsTag) {
+		Log.d("DbDisk - Trying to load cached " + statsTag + " from disk.");
+
+		long start = System.currentTimeMillis();
+
+		File file = context.getFileStreamPath(SAVED_FLIGHT_DATA_FILE);
+		if (!file.exists()) {
+			Log.d("DbDisk - There is no cached " + statsTag + " on disk to load.");
+			return false;
+		}
+
+		try {
+			JSONObject obj = new JSONObject(IoUtils.readStringFromFile(fileName, context));
+			boolean loadSuccess = loader.doLoad(obj);
+
+			Log.d("DbDisk - Loaded cached " + statsTag + " in " + (System.currentTimeMillis() - start) + " ms");
+
+			return loadSuccess;
+		}
+		catch (Exception e) {
+			Log.w("DbDisk - Could not load cached " + statsTag, e);
+			return false;
+		}
+		catch (OutOfMemoryError e) {
+			Log.w("DbDisk - Out of Memory loading " + statsTag, e);
+			return false;
+		}
+	}
+
+	/////////////////////////////////////////////////////////////////////////////
+	// Trip Bucket
+
+	private static final String SAVED_TRIP_BUCKET_FILE_NAME = "trip-bucket.db";
+
+	public static void saveTripBucket(Context context) {
+		saveDbDataToDiskInBackground(context, new IDiskWrite() {
+			@Override
+			public int doWrite(Context context) throws Exception, OutOfMemoryError {
+				JSONObject obj = new JSONObject();
+				putJsonable(obj, "tripBucket", sDb.mTripBucket);
+				String json = obj.toString();
+				IoUtils.writeStringToFile(SAVED_TRIP_BUCKET_FILE_NAME, json, context);
+				return json.length();
+			}
+		}, "TripBucket");
+	}
+
+	public static boolean loadTripBucket(Context context) {
+		return loadFromDisk(context, new IDiskLoad() {
+			@Override
+			public boolean doLoad(JSONObject json) throws Exception, OutOfMemoryError {
+				if (json.has("tripBucket")) {
+					sDb.mTripBucket = getJsonable(json, "tripBucket", TripBucket.class, sDb.mTripBucket);
+				}
+				return true;
+			}
+		}, SAVED_TRIP_BUCKET_FILE_NAME, "TripBucket");
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Saving/loading hotel data
 
 	private static final String HOTEL_SEARCH_START_TIME = "hotelsSearchTimestampSetting";
