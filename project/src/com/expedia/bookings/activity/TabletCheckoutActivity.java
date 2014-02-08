@@ -19,6 +19,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
+import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.helpers.BackManager;
@@ -34,7 +35,7 @@ import com.mobiata.android.util.AndroidUtils;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletCheckoutActivity extends SherlockFragmentActivity implements IBackButtonLockListener,
-	IBackManageable {
+	IBackManageable, RetryErrorDialogFragmentListener {
 
 	public static Intent createIntent(Context context, LineOfBusiness lob) {
 		Intent intent = new Intent(context, TabletCheckoutActivity.class);
@@ -288,6 +289,19 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 			};
 			CheckoutDataLoader.getInstance().loadCheckoutData(this, true, true, listener, wait);
 		}
+	}
+
+	////////////////////////////////////
+	/// RetryErrorDialogFragment handlers
+
+	@Override
+	public void onRetryError() {
+		// TODO You get here when createTrip fails and the user has requested to retry.
+	}
+
+	@Override
+	public void onCancelError() {
+		// TODO You get here when createTrip fails and the user has canceled retry.
 	}
 
 }

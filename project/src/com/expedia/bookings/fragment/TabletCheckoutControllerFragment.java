@@ -20,11 +20,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.enums.CheckoutState;
@@ -64,6 +66,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private static final String FRAG_TAG_CHECKOUT_INFO = "FRAG_TAG_CHECKOUT_INFO";
 	private static final String FRAG_TAG_CVV = "FRAG_TAG_CVV";
 	private static final String FRAG_TAG_BOOK_FLIGHT = "FRAG_TAG_BOOK_FLIGHT";
+	private static final String FRAG_TAG_BOOK_HOTEL = "FRAG_TAG_BOOK_HOTEL";
 
 	//Containers
 	private ViewGroup mRootC;
@@ -87,6 +90,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private TabletCheckoutFormsFragment mCheckoutFragment;
 	private CVVEntryFragment mCvvFrag;
 	private FlightBookingFragment mFlightBookingFrag;
+	private HotelBookingFragment mHotelBookingFrag;
 
 	//vars
 	private StateManager<CheckoutState> mStateManager = new StateManager<CheckoutState>(
@@ -400,10 +404,17 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		if (getLob() == LineOfBusiness.FLIGHTS) {
 			doFlightBooking();
 		}
+		else if (getLob() == LineOfBusiness.HOTELS) {
+			doHotelBooking();
+		}
 	}
 
 	private void doFlightBooking() {
 		mFlightBookingFrag.doBooking();
+	}
+
+	private void doHotelBooking() {
+		mHotelBookingFrag.doBooking();
 	}
 
 	private void setFragmentState(CheckoutState state) {
@@ -422,6 +433,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		boolean checkoutFormsAvailable = true;
 		boolean cvvAvailable = state != CheckoutState.OVERVIEW;//If we are in cvv mode or are ready to enter it, we add cvv
 		boolean flightBookingFragAvail = state.ordinal() >= CheckoutState.READY_FOR_CHECKOUT.ordinal(); // TODO talk to Joel
+		boolean hotelBookingFragAvail = state.ordinal() >= CheckoutState.READY_FOR_CHECKOUT.ordinal(); // TODO talk to Joel
 
 		mBucketFlightFrag = (ResultsTripBucketFlightFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			flightBucketItemAvailable, FRAG_TAG_BUCKET_FLIGHT,
@@ -439,7 +451,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			manager, transaction, this, R.id.cvv_container, false);
 
 		mFlightBookingFrag = FragmentAvailabilityUtils.setFragmentAvailability(flightBookingFragAvail,
-			FRAG_TAG_BOOK_FLIGHT, manager, transaction, this, FragmentAvailabilityUtils.INVISIBLE_FRAG, false);
+				FRAG_TAG_BOOK_FLIGHT, manager, transaction, this, FragmentAvailabilityUtils.INVISIBLE_FRAG, false);
+
+		mHotelBookingFrag = FragmentAvailabilityUtils.setFragmentAvailability(hotelBookingFragAvail,
+				FRAG_TAG_BOOK_HOTEL, manager, transaction, this, FragmentAvailabilityUtils.INVISIBLE_FRAG, false);
 
 		transaction.commit();
 	}
@@ -502,6 +517,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		else if (FRAG_TAG_BOOK_FLIGHT.equals(tag)) {
 			return mFlightBookingFrag;
 		}
+		else if (FRAG_TAG_BOOK_HOTEL.equals(tag)) {
+			return mHotelBookingFrag;
+		}
 		return null;
 	}
 
@@ -525,6 +543,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else if (FRAG_TAG_BOOK_FLIGHT.equals(tag)) {
 			return new FlightBookingFragment();
+		}
+		else if (FRAG_TAG_BOOK_HOTEL.equals(tag)) {
+			return new HotelBookingFragment();
 		}
 		return null;
 	}
@@ -616,8 +637,37 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				setCheckoutState(CheckoutState.CONFIRMATION, true);
 			}
 		}
+		// HotelBookingResponse
+		else if (results instanceof BookingResponse) {
+			BookingResponse response = (BookingResponse) results;
+			Property property = Db.getHotelSearch().getSelectedProperty();
 
+			Db.setBookingResponse(response);
+
+			if (results == null) {
+				Ui.showToast(getActivity(), "HotelBookingResponse == null, sob sob");
+			}
+			else if (response.hasErrors()) {
+				//TODO HandleErrorResponse here
+				response.setProperty(property);
+				Ui.showToast(getActivity(), "HOTEL BOOKING ERROR, printing to logs!!");
+
+				List<ServerError> errors = response.getErrors();
+
+				// Log all errors, in case we need to see them
+				for (int a = 0; a < errors.size(); a++) {
+					Log.v("SERVER ERROR " + a + ": " + errors.get(a).toJson().toString());
+				}
+			}
+			else {
+				response.setProperty(property);
+				setCheckoutState(CheckoutState.CONFIRMATION, true);
+			}
+		}
+
+		//TODO Get rid of this. Putting this here only to aid Joel to carry on dev for the confirmation screen.
 		setCheckoutState(CheckoutState.CONFIRMATION, true);
+
 	}
 
 }
