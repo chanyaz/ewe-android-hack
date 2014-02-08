@@ -1,8 +1,10 @@
 package com.expedia.bookings.data;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -165,7 +167,6 @@ public class TripBucket implements JSONable {
 		try {
 			JSONObject obj = new JSONObject();
 			JSONUtils.putJSONableList(obj, "items", mItems);
-
 			return obj;
 		}
 		catch (JSONException e) {
@@ -176,7 +177,36 @@ public class TripBucket implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mItems = JSONUtils.getJSONableList(obj, "items", TripBucketItem.class);
+		// We have a custom fromJson because of the way that this class is structured. Because
+		// mItems is a Collection of an abstract class, we cannot use the JSONUtils methods and
+		// provide TripBucketItem.class and have instantiations occur. Therefore, we store a tag
+		// in the toJson of the subclasses and refer to that here in order to build the TripBucket
+		// back up again.
+		final String key = "items";
+		if (obj != null && obj.has(key)) {
+			JSONArray arr = obj.optJSONArray(key);
+			if (arr != null) {
+				int len = arr.length();
+				mItems = new ArrayList<TripBucketItem>(len);
+
+				for (int a = 0; a < len; a++) {
+					JSONObject jsonObj = arr.optJSONObject(a);
+
+					String type = jsonObj.optString("type");
+					if ("hotel".equals(type)) {
+						TripBucketItemHotel hotel = new TripBucketItemHotel();
+						hotel.fromJson(jsonObj);
+						mItems.add(hotel);
+					}
+					else if ("flight".equals(type)) {
+						TripBucketItemFlight flight = new TripBucketItemFlight();
+						flight.fromJson(jsonObj);
+						mItems.add(flight);
+					}
+
+				}
+			}
+		}
 		return true;
 	}
 }
