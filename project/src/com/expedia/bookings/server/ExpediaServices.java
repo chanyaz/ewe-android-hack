@@ -799,14 +799,14 @@ public class ExpediaServices implements DownloadListener {
 
 	public BookingResponse reservation(HotelSearchParams params, Property property, Rate rate, BillingInfo billingInfo,
 									   String tripId, String userId, Long tuid) {
-		List<BasicNameValuePair> query = generateHotelReservationParams(params, property, rate, billingInfo, tripId,
-			userId, tuid);
+		List<BasicNameValuePair> query = generateHotelReservationParams(params, rate, billingInfo, tripId,
+				userId, tuid);
 
 		return doE3Request("api/hotel/checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
-	public List<BasicNameValuePair> generateHotelReservationParams(HotelSearchParams params, Property property,
-																   Rate rate, BillingInfo billingInfo, String tripId, String userId, Long tuid) {
+	public List<BasicNameValuePair> generateHotelReservationParams(HotelSearchParams params, Rate rate,
+			BillingInfo billingInfo, String tripId, String userId, Long tuid) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
