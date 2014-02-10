@@ -32,7 +32,6 @@ import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.widget.FlightTripView;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.Flight;
@@ -137,12 +136,12 @@ public class FlightLegSummarySection extends RelativeLayout {
 	}
 
 	public void bind(FlightTrip trip, final FlightLeg leg, Calendar minTime, Calendar maxTime,
-			boolean isIndividualFlight) {
+					 boolean isIndividualFlight) {
 		bind(trip, leg, null, minTime, maxTime, isIndividualFlight, null);
 	}
 
 	public void bind(FlightTrip trip, final FlightLeg leg, final FlightLeg legTwo, Calendar minTime,
-			Calendar maxTime, boolean isIndividualFlight, BillingInfo billingInfo) {
+					 Calendar maxTime, boolean isIndividualFlight, BillingInfo billingInfo) {
 		Context context = getContext();
 		Resources res = getResources();
 
@@ -160,7 +159,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 			if (trip != null) {
 				if (trip.hasBagFee()) {
 					mAirlineTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-							R.drawable.ic_suitcase_baggage_fee_blue, 0);
+						R.drawable.ic_suitcase_baggage_fee_blue, 0);
 				}
 				else {
 					mAirlineTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
@@ -198,7 +197,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 				builder.append(' ');
 				builder.append(daySpanString);
 				builder.setSpan(new ForegroundColorSpan(Color.GRAY),
-						builder.length() - daySpanString.length(), builder.length(), 0);
+					builder.length() - daySpanString.length(), builder.length(), 0);
 			}
 
 			mFlightTimeTextView.setText(builder);
@@ -245,7 +244,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 	}
 
 	private static String getAirlinesStr(Context context, Flight flight, FlightLeg leg, FlightLeg legTwo,
-			boolean isIndividualFlight) {
+										 boolean isIndividualFlight) {
 		if (isIndividualFlight) {
 			return FormatUtils.formatFlightNumber(flight, context);
 		}
@@ -268,7 +267,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 	/**
 	 * Perform any layout adjustments on this section, based on the data in this FlightLeg,
 	 * whether this is a summary card or an itin card, etc.
-	 *
+	 * <p/>
 	 * This is broken into its own method, so that descendent classes can make different
 	 * layout adjustments (looking at you, FlightLegSummarySectionTablet).
 	 */
@@ -324,8 +323,8 @@ public class FlightLegSummarySection extends RelativeLayout {
 			Resources res = getResources();
 			int rightMargin = res.getDimensionPixelSize(R.dimen.flight_leg_day_textview_margin_right);
 			int topMargin = res.getDimensionPixelSize(leg.getDaySpan() == 0
-					? R.dimen.flight_leg_day_textview_margin_top
-					: R.dimen.flight_leg_day_textview_margin_top_no_overlap);
+				? R.dimen.flight_leg_day_textview_margin_top
+				: R.dimen.flight_leg_day_textview_margin_top_no_overlap);
 			lp.setMargins(0, topMargin, rightMargin, 0);
 		}
 	}

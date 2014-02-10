@@ -202,8 +202,8 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment imple
 
 			BackgroundDownloader.getInstance().cancelDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
 			BackgroundDownloader.getInstance().startDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE,
-					mHotelProductDownload,
-					mHotelProductCallback);
+				mHotelProductDownload,
+				mHotelProductCallback);
 		}
 	}
 
@@ -214,7 +214,7 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment imple
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, services);
 			Rate selectedRate = Db.getHotelSearch().getSelectedRate();
 			return services.hotelProduct(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch()
-					.getSelectedProperty(), selectedRate);
+				.getSelectedProperty(), selectedRate);
 		}
 	};
 
@@ -222,7 +222,7 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment imple
 		@Override
 		public void onDownload(HotelProductResponse response) {
 			ThrobberDialog df = Ui.findSupportFragment(ResultsTripBucketHotelFragment.this,
-					TAG_HOTEL_CHECKOUT_PREP_DIALOG);
+				TAG_HOTEL_CHECKOUT_PREP_DIALOG);
 			df.dismiss();
 			if (response == null || response.hasErrors()) {
 				handleHotelProductError(response);
@@ -235,8 +235,8 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment imple
 				if (TextUtils.equals(selectedRate.getRateKey(), response.getOriginalProductKey())) {
 					if (!AndroidUtils.isRelease(getActivity())) {
 						String val = SettingUtils.get(getActivity(),
-								getString(R.string.preference_fake_hotel_price_change),
-								getString(R.string.preference_fake_price_change_default));
+							getString(R.string.preference_fake_hotel_price_change),
+							getString(R.string.preference_fake_price_change_default));
 						BigDecimal bigDecVal = new BigDecimal(val);
 
 						//Update total price
@@ -246,7 +246,7 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment imple
 						newRate.getNightlyRateTotal().add(bigDecVal);
 						if (newRate.getRateBreakdownList() != null) {
 							BigDecimal perNightChange = bigDecVal.divide(new BigDecimal(newRate
-									.getRateBreakdownList().size()));
+								.getRateBreakdownList().size()));
 							for (RateBreakdown breakdown : newRate.getRateBreakdownList()) {
 								breakdown.getAmount().add(perNightChange);
 							}
@@ -258,7 +258,7 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment imple
 					if (priceChange != 0) {
 						boolean isPriceHigher = priceChange < 0;
 						HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher,
-								selectedRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());
+							selectedRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());
 						dialog.show(getFragmentManager(), "priceChangeDialog");
 					}
 					mIsDoneLoadingPriceChange = true;
@@ -316,7 +316,7 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment imple
 		@Override
 		public void onDownload(CreateTripResponse response) {
 			ThrobberDialog df = Ui.findSupportFragment(ResultsTripBucketHotelFragment.this,
-					TAG_HOTEL_CREATE_TRIP_DIALOG);
+				TAG_HOTEL_CREATE_TRIP_DIALOG);
 			df.dismiss();
 			if (response == null) {
 				showRetryErrorDialog();
@@ -363,7 +363,7 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment imple
 
 	@Override
 	public void onCancelError() {
-		if(getActivity() != null) {
+		if (getActivity() != null) {
 			getActivity().finish();
 		}
 	}

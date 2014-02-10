@@ -253,7 +253,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	 * CHECKOUT FORM BUILDING METHODS
 	 */
 
-	protected void clearCheckoutForm(){
+	protected void clearCheckoutForm() {
 		//REMOVE ALL THE FRAGMENTS
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction removeFragsTransaction = fragmentManager.beginTransaction();
@@ -496,7 +496,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	protected void bindTravelers() {
 		for (TravelerButtonFragment btn : mTravelerButtonFrags) {
-			if(btn.isAdded()){
+			if (btn.isAdded()) {
 				btn.bindToDb();
 			}
 		}

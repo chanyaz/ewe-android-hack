@@ -190,7 +190,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public void onLobSet(LineOfBusiness lob) {
-		if(mCheckoutFragment != null){
+		if (mCheckoutFragment != null) {
 			mCheckoutFragment.setLob(lob);
 		}
 	}
