@@ -35,9 +35,10 @@
         <item name="aboutInfoUrlString">@string/travelocity_info_url</item>
         <item name="aboutAppNameString">@string/app_name</item>
         <item name="aboutAppLogoDrawable">@drawable/ic_launcher</item>
+        <item name="logoutConfirmationString">@string/logout_confirmation_travelocity</item>
     </style>
 
-    <style name="FlightTheme" parent="@style/Theme.Expedia">
+    <style name="FlightTheme" parent="@style/Theme.Travelocity">
         <item name="airPickerBackground">@android:color/white</item>
         <item name="airPickerHeaderBackground">@android:color/white</item>
         <item name="airPickerTextColor">@android:color/black</item>
@@ -53,8 +54,8 @@
         <item name="numberPickerStyle">@style/Widget.NumberPicker</item>
         <item name="logo">@drawable/ic_logo_flights</item>
         <item name="android:logo">@drawable/ic_logo_flights</item>
-        <item name="actionBarStyle">@style/FlightActionBar</item>
-        <item name="android:actionBarStyle">@style/FlightActionBar</item>
+        <item name="actionBarStyle">@style/FlightActionBarTravelocity</item>
+        <item name="android:actionBarStyle">@style/FlightActionBarTravelocity</item>
         <item name="actionMenuTextColor">@color/action_bar_flight_text_color</item>
         <item name="android:actionMenuTextColor">@color/action_bar_flight_text_color</item>
         <item name="actionModeCloseDrawable">@drawable/btn_navigation_cancel</item>
@@ -84,6 +85,13 @@
         <!-- PopupMenu -->
         <item name="dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
         <item name="android:dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
+    </style>
+
+    <style name="FlightActionBarTravelocity" parent="FlightActionBar">
+        <item name="background">@drawable/bg_action_bar_flight_top_travelocity</item>
+        <item name="android:background">@drawable/bg_action_bar_flight_top_travelocity</item>
+        <item name="backgroundSplit">@drawable/bg_action_bar_flight_bottom_travelocity</item>
+        <item name="android:backgroundSplit">@drawable/bg_action_bar_flight_bottom_travelocity</item>
     </style>
 
 </resources>

@@ -20,4 +20,8 @@
     <string name="travelocity_app_support">Travelocity App Support</string>
     <string name="travelocity_copyright">© Copyright 2012-2014 Travelocity\nAll rights reserved.</string>
     <string name="travelocity_info_url">http://www.travelocity.com/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_travelocity">Are you sure you want to log out of your Travelocity account?</string>
+
 </resources>

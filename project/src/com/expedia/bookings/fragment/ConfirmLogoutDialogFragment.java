@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.Ui;
 
 public class ConfirmLogoutDialogFragment extends DialogFragment {
 
@@ -44,7 +45,7 @@ public class ConfirmLogoutDialogFragment extends DialogFragment {
 		Builder builder = new Builder(getActivity());
 
 		// Defaults
-		String messageText = getResources().getString(R.string.logout_confirmation);
+		String messageText = getResources().getString(Ui.obtainThemeResID(getActivity(), R.attr.logoutConfirmationString));
 
 		// Args
 		Bundle args = getArguments();

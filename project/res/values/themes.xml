@@ -214,6 +214,7 @@
         <item name="aboutInfoUrlString">@string/app_mobiata_info_url</item>
         <item name="aboutAppNameString">@string/app_name</item>
         <item name="aboutAppLogoDrawable">@drawable/mobiata</item>
+        <item name="logoutConfirmationString">@string/logout_confirmation</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
