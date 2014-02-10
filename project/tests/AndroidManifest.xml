@@ -9,9 +9,6 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
 
     <instrumentation
-        android:name="com.zutubi.android.junitreport.JUnitReportTestRunner"
-        android:targetPackage="com.expedia.bookings" />
-    <instrumentation
         android:name="com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
         android:targetPackage="com.expedia.bookings" />
 
