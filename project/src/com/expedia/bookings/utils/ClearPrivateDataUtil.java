@@ -41,6 +41,8 @@ public class ClearPrivateDataUtil {
 
 		Db.deleteHotelSearchData(context);
 
+		Db.deleteTripBucket(context);
+
 		WorkingBillingInfoManager biManager = new WorkingBillingInfoManager();
 		biManager.deleteWorkingBillingInfoFile(context);
 

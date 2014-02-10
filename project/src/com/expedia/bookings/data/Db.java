@@ -580,6 +580,17 @@ public class Db {
 		}
 	}
 
+	private static boolean deleteFromDisk(Context context, String fileName, String statsTag) {
+		File file = context.getFileStreamPath(fileName);
+		if (!file.exists()) {
+			return true;
+		}
+		else {
+			Log.i("Deleting cached " + statsTag + " data.");
+			return file.delete();
+		}
+	}
+
 	/////////////////////////////////////////////////////////////////////////////
 	// Trip Bucket
 
@@ -608,6 +619,10 @@ public class Db {
 				return true;
 			}
 		}, SAVED_TRIP_BUCKET_FILE_NAME, "TripBucket");
+	}
+
+	public static boolean deleteTripBucket(Context context) {
+		return deleteFromDisk(context, SAVED_TRIP_BUCKET_FILE_NAME, "TripBucket");
 	}
 
 	//////////////////////////////////////////////////////////////////////////
