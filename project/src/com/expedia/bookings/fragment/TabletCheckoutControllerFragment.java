@@ -733,9 +733,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			}
 		}
 
-		//TODO Get rid of this. Putting this here only to aid Joel to carry on dev for the confirmation screen.
-		setCheckoutState(CheckoutState.CONFIRMATION, true);
-
 	}
 
 }

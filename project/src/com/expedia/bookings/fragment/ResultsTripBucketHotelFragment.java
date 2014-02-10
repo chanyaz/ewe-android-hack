@@ -6,7 +6,6 @@ import org.joda.time.LocalDate;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -29,6 +28,7 @@ import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
+import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.section.HotelSummarySection;
 import com.expedia.bookings.server.ExpediaServices;
@@ -44,7 +44,7 @@ import com.mobiata.android.util.SettingUtils;
 /**
  * ResultsTripBucketYourTripToFragment: A simple fragment for displaying destination information, in the trip overview column - Tablet 2013
  */
-public class ResultsTripBucketHotelFragment extends TripBucketItemFragment {
+public class ResultsTripBucketHotelFragment extends TripBucketItemFragment implements RetryErrorDialogFragmentListener {
 
 	private static final String KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE = "KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE";
 	private static final String KEY_CREATE_TRIP = "KEY_HOTEL_CREATE_TRIP";
@@ -351,7 +351,22 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment {
 
 	private void showRetryErrorDialog() {
 		DialogFragment df = new RetryErrorDialogFragment();
-		df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), RETRY_CREATE_TRIP_DIALOG);
+		df.show(getChildFragmentManager(), RETRY_CREATE_TRIP_DIALOG);
+	}
+
+	////////////////////////////////////
+	/// RetryErrorDialogFragment handlers
+
+	@Override
+	public void onRetryError() {
+		createTrip();
+	}
+
+	@Override
+	public void onCancelError() {
+		if(getActivity() != null) {
+			getActivity().finish();
+		}
 	}
 
 }

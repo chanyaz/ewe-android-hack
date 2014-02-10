@@ -35,7 +35,7 @@ import com.mobiata.android.util.AndroidUtils;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletCheckoutActivity extends SherlockFragmentActivity implements IBackButtonLockListener,
-	IBackManageable, RetryErrorDialogFragmentListener {
+	IBackManageable {
 
 	public static Intent createIntent(Context context, LineOfBusiness lob) {
 		Intent intent = new Intent(context, TabletCheckoutActivity.class);
@@ -305,19 +305,6 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 			};
 			CheckoutDataLoader.getInstance().loadCheckoutData(this, true, true, listener, wait);
 		}
-	}
-
-	////////////////////////////////////
-	/// RetryErrorDialogFragment handlers
-
-	@Override
-	public void onRetryError() {
-		// TODO You get here when createTrip fails and the user has requested to retry.
-	}
-
-	@Override
-	public void onCancelError() {
-		// TODO You get here when createTrip fails and the user has canceled retry.
 	}
 
 }
