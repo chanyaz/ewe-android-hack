@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Travelocity</string>
     <string name="travelocity_best_price_guarantee">Travelocity Price Guarantee</string>
 
@@ -23,5 +24,8 @@
 
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation_travelocity">Are you sure you want to log out of your Travelocity account?</string>
+
+    <!-- Expedia booking fee -->
+    <string name="travelocity_booking_fee">Travelocity Booking Fee</string>
 
 </resources>

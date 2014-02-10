@@ -10,6 +10,8 @@
         <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal_travelocity</item>
         <item name="bestPriceGuaranteeString">@string/travelocity_best_price_guarantee</item>
         <item name="costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
+        <item name="flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
+        <item name="costSummaryBookingFeesString">@string/travelocity_booking_fee</item>
         <item name="actionBarSpinnerBackground">@drawable/ab_spinner_travelocity</item>
         <item name="actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark_green_travelocity</item>
         <item name="actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow_green_travelocity</item>
