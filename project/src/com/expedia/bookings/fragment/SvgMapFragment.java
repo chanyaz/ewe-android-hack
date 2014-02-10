@@ -33,6 +33,8 @@ public class SvgMapFragment extends MeasurableFragment {
 	private int mPaddingTop = 0;
 	private int mPaddingBottom = 0;
 
+	private final float MAX_ZOOM = 4.0f;
+
 	public static SvgMapFragment newInstance() {
 		SvgMapFragment frag = new SvgMapFragment();
 		return frag;
@@ -110,7 +112,7 @@ public class SvgMapFragment extends MeasurableFragment {
 		float verticalScale = usableHeight / projectedHeight;
 
 		float scale = Math.min(horizontalScale, verticalScale);
-		scale = Math.min(4.0f, scale); // Cap the zooming
+		scale = Math.min(MAX_ZOOM, scale); // Cap the zooming
 		float yShift = 0.0f;
 		float xShift = 0.0f;
 
