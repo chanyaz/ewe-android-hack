@@ -1108,7 +1108,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				&& stateTwo == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
 
 				if (stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS) {
-					mFlightOneDetailsFrag.finalizeAddToTripFromDetailsAnimation();
+					mFlightOneDetailsFrag.finalizeAddToTripFromDepartureAnimation();
 				}
 				else {
 					mFlightOneDetailsFrag.finalizeAddToTripFromDepartureAnimation();
