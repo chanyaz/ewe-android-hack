@@ -95,7 +95,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 					rate = property.getLowestRate();
 				}
 				Db.getTripBucket().clearHotel();
-				Db.getTripBucket().add(search, property, rate);
+				Db.getTripBucket().add(property, rate);
 				Db.saveTripBucket(getActivity());
 				mAddToTripListener.beginAddToTrip(getSelectedData(), getDestinationRect(), 0);
 			}

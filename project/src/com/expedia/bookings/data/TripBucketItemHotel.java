@@ -7,11 +7,12 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 
 /**
+ * Store just enough information to populate Db.getHotelSearch() with the chosen room.
+ *
  * @author doug
  */
 public class TripBucketItemHotel extends TripBucketItem {
 
-	HotelSearch mHotelSearch;
 	Property mProperty;
 	Rate mRate;
 
@@ -19,8 +20,7 @@ public class TripBucketItemHotel extends TripBucketItem {
 
 	}
 
-	public TripBucketItemHotel(HotelSearch hotelSearch, Property property, Rate rate) {
-		mHotelSearch = hotelSearch;
+	public TripBucketItemHotel(Property property, Rate rate) {
 		mProperty = property;
 		mRate = rate;
 	}
@@ -28,10 +28,6 @@ public class TripBucketItemHotel extends TripBucketItem {
 	@Override
 	public LineOfBusiness getLineOfBusiness() {
 		return LineOfBusiness.HOTELS;
-	}
-
-	public HotelSearch getHotelSearch() {
-		return mHotelSearch;
 	}
 
 	public Property getProperty() {
@@ -49,7 +45,6 @@ public class TripBucketItemHotel extends TripBucketItem {
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = super.toJson();
-			JSONUtils.putJSONable(obj, "hotelSearch", mHotelSearch);
 			JSONUtils.putJSONable(obj, "property", mProperty);
 			JSONUtils.putJSONable(obj, "rate", mRate);
 			obj.put("type", "hotel");
@@ -64,7 +59,6 @@ public class TripBucketItemHotel extends TripBucketItem {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
-		mHotelSearch = JSONUtils.getJSONable(obj, "hotelSearch", HotelSearch.class);
 		mProperty = JSONUtils.getJSONable(obj, "property", Property.class);
 		mRate = JSONUtils.getJSONable(obj, "rate", Rate.class);
 		return true;

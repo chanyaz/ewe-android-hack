@@ -61,12 +61,11 @@ public class TripBucket implements JSONable {
 
 	/**
 	 * Adds a Hotel to the trip bucket. Must specify the property and room rate.
-	 * @param hotel
 	 * @param property
 	 * @param rate
 	 */
-	public void add(HotelSearch hotel, Property property, Rate rate) {
-		mItems.add(new TripBucketItemHotel(hotel, property, rate));
+	public void add(Property property, Rate rate) {
+		mItems.add(new TripBucketItemHotel(property, rate));
 	}
 
 	/**
@@ -102,6 +101,16 @@ public class TripBucket implements JSONable {
 	public TripBucketItemHotel getHotel() {
 		int index = getIndexOf(LineOfBusiness.HOTELS);
 		return index == -1 ? null : (TripBucketItemHotel) mItems.get(index);
+	}
+
+	/**
+	 * Populates Db so that Db.getHotelSearch() and friends will reflect
+	 * the hotel that's stored in the bucket here at getHotel()
+	 */
+	public void selectHotel() {
+		TripBucketItemHotel item = getHotel();
+		Db.getHotelSearch().setSelectedProperty(item.getProperty());
+		Db.getHotelSearch().setSelectedRate(item.getRate());
 	}
 
 	/**

@@ -182,17 +182,6 @@ public class Db {
 		return sDb.mHotelSearch;
 	}
 
-	/**
-	 * WARNING: DO NOT USE UNLESS YOU KNOW WHAT YOU ARE DOING.
-	 * <p/>
-	 * Normally you just manipulate the FlightSearch in place,
-	 * this is just for restoring state.  Do not idly use it,
-	 * as you may mess up connections between objects otherwise.
-	 */
-	public static void setHotelSearch(HotelSearch hotelSearch) {
-		sDb.mHotelSearch = hotelSearch;
-	}
-
 	public static void resetFilter() {
 		sDb.mFilter.reset();
 	}
