@@ -90,15 +90,11 @@ public class PaymentButtonFragment extends LobableFragment {
 		if (Db.hasBillingInfo()) {
 			if (getLob() == LineOfBusiness.FLIGHTS) {
 				FlightPaymentFlowState state = FlightPaymentFlowState.getInstance(getActivity());
-				return state.hasAValidCardSelected(Db.getBillingInfo())
-						&& (Db.getBillingInfo().hasStoredCard() ? true : state.hasValidBillingAddress(Db
-								.getBillingInfo()));
+				return state.hasAValidCardSelected(Db.getBillingInfo());
 			}
 			else if (getLob() == LineOfBusiness.HOTELS) {
 				HotelPaymentFlowState state = HotelPaymentFlowState.getInstance(getActivity());
-				return state.hasAValidCardSelected(Db.getBillingInfo())
-						&& (Db.getBillingInfo().hasStoredCard() ? true : state.hasValidBillingAddress(Db
-								.getBillingInfo()));
+				return state.hasAValidCardSelected(Db.getBillingInfo());
 			}
 		}
 		return false;
