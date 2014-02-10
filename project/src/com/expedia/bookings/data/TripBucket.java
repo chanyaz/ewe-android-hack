@@ -104,16 +104,6 @@ public class TripBucket implements JSONable {
 	}
 
 	/**
-	 * Populates Db so that Db.getHotelSearch() and friends will reflect
-	 * the hotel that's stored in the bucket here at getHotel()
-	 */
-	public void selectHotel() {
-		TripBucketItemHotel item = getHotel();
-		Db.getHotelSearch().setSelectedProperty(item.getProperty());
-		Db.getHotelSearch().setSelectedRate(item.getRate());
-	}
-
-	/**
 	 * Returns the index of the first item of LineOfBusiness found in this TripBucket.
 	 * @param lineOfBusiness
 	 * @return -1 if not found
@@ -153,7 +143,6 @@ public class TripBucket implements JSONable {
 	private void selectHotel() {
 		TripBucketItemHotel item = getHotel();
 		if (item != null) {
-			Db.setHotelSearch(item.getHotelSearch());
 			Db.getHotelSearch().setSelectedProperty(item.getProperty());
 			Db.getHotelSearch().setSelectedRate(item.getRate());
 		}
