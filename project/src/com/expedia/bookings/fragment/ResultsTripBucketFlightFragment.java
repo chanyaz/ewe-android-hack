@@ -14,7 +14,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -102,7 +101,8 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 			else {
 				if (Db.getTripBucket().getFlight() != null) {
 					trip = Db.getTripBucket().getFlight().getFlightTrip();
-					legs = Db.getTripBucket().getFlight().getFlightSearch().getSelectedLegs();
+					int numLegs = Db.getFlightSearch().getSearchParams().isRoundTrip() ? 2 : 1;
+					legs = Db.getTripBucket().getFlight().getFlightSearchState().getSelectedLegs(numLegs);
 					isRoundTrip = legs.length > 1;
 				}
 			}
@@ -138,14 +138,11 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 	}
 
 	private void bindExpandedView() {
-		FlightSearch search;
 		if (mIsOnCheckout) {
 			mFlightTrip = Db.getFlightSearch().getSelectedFlightTrip();
-			search = Db.getFlightSearch();
 		}
 		else {
 			mFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
-			search = Db.getTripBucket().getFlight().getFlightSearch();
 		}
 
 		// Dates
@@ -158,7 +155,7 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 		Ui.setText(mExpandedView, R.id.dates_text_view, dateRange);
 
 		// Num travelers
-		int numTravelers = search.getSearchParams().getNumAdults();
+		int numTravelers = Db.getFlightSearch().getSearchParams().getNumAdults();
 		String numTravStr = getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers,
 			numTravelers);
 		Ui.setText(mExpandedView, R.id.num_travelers_text_view, numTravStr);

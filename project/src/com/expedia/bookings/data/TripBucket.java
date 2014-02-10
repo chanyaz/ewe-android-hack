@@ -71,11 +71,10 @@ public class TripBucket implements JSONable {
 
 	/**
 	 * Adds a Flight to the trip bucket.
-	 * @param flight
-	 * @param trip
+	 * @param state
 	 */
-	public void add(FlightSearch flight, FlightTrip trip) {
-		mItems.add(new TripBucketItemFlight(flight, trip));
+	public void add(FlightSearchState state) {
+		mItems.add(new TripBucketItemFlight(state.clone()));
 	}
 
 	/**
@@ -146,15 +145,8 @@ public class TripBucket implements JSONable {
 	 * the flight that's stored in the bucket here at getFlight()
 	 */
 	public void selectFlight() {
-		TripBucketItemFlight item = getFlight();
-		FlightTrip trip = item.getFlightTrip();
-		FlightSearch search = item.getFlightSearch();
-		Db.setFlightSearch(search);
 		Db.getFlightSearch().clearSelectedLegs();
-		int i = 0;
-		for (FlightLeg leg : item.getFlightTrip().getLegs()) {
-			search.setSelectedLeg(i++, new FlightTripLeg(trip, leg));
-		}
+		Db.getFlightSearch().setSearchState(getFlight().getFlightSearchState().clone());
 	}
 
 	/**

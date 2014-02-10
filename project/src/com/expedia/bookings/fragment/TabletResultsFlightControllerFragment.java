@@ -353,7 +353,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			boolean lastLegToSelect = mOneWayFlight || legNumber == 1;
 			if (lastLegToSelect) {
 				Db.getTripBucket().clearFlight();
-				Db.getTripBucket().add(Db.getFlightSearch(), Db.getFlightSearch().getSelectedFlightTrip());
+				Db.getTripBucket().add(Db.getFlightSearch().getSearchState());
 				Db.saveTripBucket(getActivity());
 				setFlightsState(ResultsFlightsState.ADDING_FLIGHT_TO_TRIP, true);
 			}

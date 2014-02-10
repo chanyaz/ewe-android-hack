@@ -11,16 +11,14 @@ import com.mobiata.android.json.JSONUtils;
  */
 public class TripBucketItemFlight extends TripBucketItem {
 
-	FlightSearch mFlightSearch;
-	FlightTrip mFlightTrip;
+	FlightSearchState mFlightSearchState;
 
 	public TripBucketItemFlight() {
 
 	}
 
-	public TripBucketItemFlight(FlightSearch flight, FlightTrip trip) {
-		mFlightSearch = flight;
-		mFlightTrip = trip;
+	public TripBucketItemFlight(FlightSearchState state) {
+		mFlightSearchState = state;
 	}
 
 	@Override
@@ -28,13 +26,17 @@ public class TripBucketItemFlight extends TripBucketItem {
 		return LineOfBusiness.FLIGHTS;
 	}
 
-	public FlightSearch getFlightSearch() {
-		return mFlightSearch;
+	public FlightSearchState getFlightSearchState() {
+		return mFlightSearchState;
 	}
 
 	public FlightTrip getFlightTrip() {
-		return mFlightTrip;
+		int numLegs = Db.getFlightSearch().getSearchParams().isRoundTrip() ? 2 : 1;
+		FlightTripLeg[] legs = mFlightSearchState.getSelectedLegs(numLegs);
+
+		return FlightSearch.getSelectedFlightTrip(mFlightSearchState.getSelectedLegs(numLegs), Db.getFlightSearch().getSearchResponse());
 	}
+
 
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
@@ -43,8 +45,7 @@ public class TripBucketItemFlight extends TripBucketItem {
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = super.toJson();
-			JSONUtils.putJSONable(obj, "flightSearch", mFlightSearch);
-			JSONUtils.putJSONable(obj, "flightTrip", mFlightTrip);
+			JSONUtils.putJSONable(obj, "flightSearchState", mFlightSearchState);
 			obj.putOpt("type", "flight");
 			return obj;
 		}
@@ -57,8 +58,7 @@ public class TripBucketItemFlight extends TripBucketItem {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
-		mFlightSearch = JSONUtils.getJSONable(obj, "flightSearch", FlightSearch.class);
-		mFlightTrip = JSONUtils.getJSONable(obj, "flightTrip", FlightTrip.class);
+		mFlightSearchState = JSONUtils.getJSONable(obj, "flightSearchState", FlightSearchState.class);
 		return true;
 	}
 }

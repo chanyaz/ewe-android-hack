@@ -175,14 +175,17 @@ public class FlightSearch implements JSONable {
 	//
 	// Only valid if all legs are selected.  Otherwise, it returns null.
 	public FlightTrip getSelectedFlightTrip() {
-		FlightTripLeg[] legs = getSelectedLegs();
+		return getSelectedFlightTrip(getSelectedLegs(), mSearchResponse);
+	}
+
+	public static FlightTrip getSelectedFlightTrip(FlightTripLeg[] legs, FlightSearchResponse response) {
 		for (int a = 0; a < legs.length; a++) {
 			if (legs[a] == null) {
 				return null;
 			}
 		}
 
-		final List<FlightTrip> trips = mSearchResponse.getTrips();
+		final List<FlightTrip> trips = response.getTrips();
 		final int tripCount = trips.size();
 		for (int a = 0; a < tripCount; a++) {
 			FlightTrip candidate = trips.get(a);
