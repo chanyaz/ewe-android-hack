@@ -19,7 +19,6 @@ import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
@@ -166,7 +165,7 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment imple
 			Ui.setText(vg, R.id.num_travelers_text_view, numGuestsStr);
 
 			// Price
-			String price = rate.getDisplayTotalPrice().getFormattedMoney(Money.F_NO_DECIMAL);
+			String price = rate.getDisplayTotalPrice().getFormattedMoney();
 			Ui.setText(vg, R.id.price_expanded_bucket_text_view, price);
 
 			// Hide price in the picture

@@ -162,7 +162,7 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 
 		// Price
 		if (Db.hasBillingInfo()) {
-			String price = mFlightTrip.getTotalFareWithCardFee(Db.getBillingInfo()).getFormattedMoney(Money.F_NO_DECIMAL);
+			String price = mFlightTrip.getTotalFareWithCardFee(Db.getBillingInfo()).getFormattedMoney();
 			Ui.setText(mExpandedView, R.id.price_expanded_bucket_text_view, price);
 		}
 		else {
