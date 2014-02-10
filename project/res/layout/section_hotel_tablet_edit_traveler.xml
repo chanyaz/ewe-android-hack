@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.section.SectionTravelerInfoTablet xmlns:android="http://schemas.android.com/apk/res/android"
-                                                        xmlns:gridlayout="http://schemas.android.com/apk/res-auto"
+                                                        xmlns:app="http://schemas.android.com/apk/res-auto"
                                                         xmlns:tools="http://schemas.android.com/tools"
                                                         android:layout_width="match_parent"
                                                         android:layout_height="wrap_content"
@@ -31,24 +31,25 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                gridlayout:alignmentMode="alignMargins"
-                gridlayout:columnCount="3"
-                gridlayout:columnOrderPreserved="false"
-                gridlayout:useDefaultMargins="false"
+                app:alignmentMode="alignMargins"
+                app:columnCount="3"
+                app:columnOrderPreserved="false"
+                app:useDefaultMargins="false"
                 tools:ignore="RequiredSize">
 
                 <com.expedia.bookings.widget.TelephoneSpinner
                     android:id="@+id/edit_phone_number_country_code_spinner"
                     style="@style/Widget.Spinner.Phone.Dark"
+                    app:text_view_layout="@layout/simple_spinner_item_18"
                     android:layout_width="100dp"
-                    gridlayout:layout_columnSpan="1"/>
+                    app:layout_columnSpan="1"/>
 
                 <EditText
                     android:id="@+id/edit_phone_number"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|fill_horizontal"
-                    gridlayout:layout_columnSpan="2"
+                    app:layout_columnSpan="2"
                     android:hint="@string/phone_number_hint"
                     android:inputType="phone"
                     android:singleLine="true"
