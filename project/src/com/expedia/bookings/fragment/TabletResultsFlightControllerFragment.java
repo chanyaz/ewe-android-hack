@@ -352,9 +352,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		if (mFlightsStateManager.getState() != ResultsFlightsState.FLIGHT_LIST_DOWN) {
 			boolean lastLegToSelect = mOneWayFlight || legNumber == 1;
 			if (lastLegToSelect) {
-				setFlightsState(ResultsFlightsState.ADDING_FLIGHT_TO_TRIP, true);
+				Db.getTripBucket().clearFlight();
 				Db.getTripBucket().add(Db.getFlightSearch(), Db.getFlightSearch().getSelectedFlightTrip());
 				Db.saveTripBucket(getActivity());
+				setFlightsState(ResultsFlightsState.ADDING_FLIGHT_TO_TRIP, true);
 			}
 			else {
 				setFlightsState(ResultsFlightsState.FLIGHT_TWO_FILTERS, true);
