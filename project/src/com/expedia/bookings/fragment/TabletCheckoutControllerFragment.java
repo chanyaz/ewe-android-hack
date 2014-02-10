@@ -75,7 +75,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private ScrollView mBucketScrollContainer;
 	private ViewGroup mBucketHotelContainer;
 	private ViewGroup mBucketFlightContainer;
-
 	private ViewGroup mSlideAndFormContainer;
 	private ViewGroup mSlideContainer;
 	private ViewGroup mFormContainer;
@@ -93,7 +92,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private CVVEntryFragment mCvvFrag;
 	private FlightBookingFragment mFlightBookingFrag;
 	private HotelBookingFragment mHotelBookingFrag;
-
 	private FlightConfirmationFragment mFlightConfFrag;
 	private HotelConfirmationFragment mHotelConfFrag;
 
@@ -302,6 +300,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		public void onStateFinalized(CheckoutState state) {
 			setFragmentState(state);
 			setVisibilityState(state);
+			updateBucketForState(state);
 
 			if (state == CheckoutState.OVERVIEW) {
 				setShowCvvPercentage(0f);
@@ -393,6 +392,52 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mBookingContainer.setVisibility(View.INVISIBLE);
 			mConfirmationContainer.setVisibility(View.VISIBLE);
 		}
+	}
+
+	private void updateBucketForState(CheckoutState state) {
+
+		//SETUP Db.getTripBucket() state
+		if (state == CheckoutState.CONFIRMATION) {
+			if (Db.getTripBucket().getFlight() != null && getLob() == LineOfBusiness.FLIGHTS) {
+				Db.getTripBucket().getFlight().setState(TripBucketItemState.PURCHASED);
+				if (Db.getTripBucket().getHotel() != null && Db.getTripBucket().getHotel().getState() != TripBucketItemState.PURCHASED) {
+					Db.getTripBucket().getHotel().setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
+				}
+			}
+			else if (Db.getTripBucket().getHotel() != null) {
+				Db.getTripBucket().getHotel().setState(TripBucketItemState.PURCHASED);
+				if (Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().getState() != TripBucketItemState.PURCHASED) {
+					Db.getTripBucket().getFlight().setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
+				}
+			}
+		}
+		else {
+			if (getLob() == LineOfBusiness.FLIGHTS) {
+				if (Db.getTripBucket().getFlight() != null) {
+					Db.getTripBucket().getFlight().setState(TripBucketItemState.EXPANDED);
+				}
+				if (Db.getTripBucket().getHotel() != null && Db.getTripBucket().getHotel().getState() != TripBucketItemState.PURCHASED) {
+					Db.getTripBucket().getHotel().setState(TripBucketItemState.DEFAULT);
+				}
+			}
+			else {
+				if (Db.getTripBucket().getHotel() != null) {
+					Db.getTripBucket().getHotel().setState(TripBucketItemState.EXPANDED);
+				}
+				if (Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().getState() != TripBucketItemState.PURCHASED) {
+					Db.getTripBucket().getFlight().setState(TripBucketItemState.DEFAULT);
+				}
+			}
+		}
+
+		//Apply state to frags
+		if (Db.getTripBucket().getFlight() != null) {
+			mBucketFlightFrag.setState(Db.getTripBucket().getFlight().getState());
+		}
+		if (Db.getTripBucket().getHotel() != null) {
+			mBucketHotelFrag.setState(Db.getTripBucket().getHotel().getState());
+		}
+
 	}
 
 	private void doCreateTrip() {
