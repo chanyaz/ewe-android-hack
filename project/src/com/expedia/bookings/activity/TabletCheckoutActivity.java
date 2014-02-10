@@ -39,6 +39,7 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 
 	public static Intent createIntent(Context context, LineOfBusiness lob) {
 		Intent intent = new Intent(context, TabletCheckoutActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		intent.putExtra(ARG_LOB, lob.name());
 		return intent;
 	}
@@ -106,9 +107,30 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 			TabletCheckoutControllerFragment.class, CHECKOUT_FRAG_TAG);
 
 		//Args
-		if (getIntent().hasExtra(ARG_LOB)) {
+		updateLobFromIntent(getIntent());
+
+		// HockeyApp init
+		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
+		mHockeyPuck.onCreate(savedInstanceState);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		mHockeyPuck.onResume();
+	}
+
+	@Override
+	public void onNewIntent(Intent intent){
+		super.onNewIntent(intent);
+		updateLobFromIntent(intent);
+		mFragCheckoutController.setCheckoutState(CheckoutState.OVERVIEW, false);
+	}
+
+	private void updateLobFromIntent(Intent intent){
+		if (intent.hasExtra(ARG_LOB)) {
 			try {
-				LineOfBusiness lob = LineOfBusiness.valueOf(getIntent().getStringExtra(ARG_LOB));
+				LineOfBusiness lob = LineOfBusiness.valueOf(intent.getStringExtra(ARG_LOB));
 				mFragCheckoutController.setLob(lob);
 
 				//ActionBar title stuff
@@ -137,16 +159,6 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 				Log.e("Exception parsing lob from intent.", ex);
 			}
 		}
-
-		// HockeyApp init
-		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
-		mHockeyPuck.onCreate(savedInstanceState);
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		mHockeyPuck.onResume();
 	}
 
 	/*
