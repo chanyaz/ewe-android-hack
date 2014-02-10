@@ -122,12 +122,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				setCheckoutState(CheckoutState.CVV, true);
 			}
 		});
-		mConfirmationContainer.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				setCheckoutState(CheckoutState.OVERVIEW, true);
-			}
-		});
 		//END TODO ZONE
 
 
@@ -196,7 +190,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public void onLobSet(LineOfBusiness lob) {
-
+		if(mCheckoutFragment != null){
+			mCheckoutFragment.setLob(lob);
+		}
 	}
 
 	public void setCheckoutState(CheckoutState state, boolean animate) {

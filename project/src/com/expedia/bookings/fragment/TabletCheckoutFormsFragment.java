@@ -43,6 +43,7 @@ import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -252,10 +253,33 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	 * CHECKOUT FORM BUILDING METHODS
 	 */
 
-	protected void buildCheckoutForm() {
+	protected void clearCheckoutForm(){
+		//REMOVE ALL THE FRAGMENTS
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction removeFragsTransaction = fragmentManager.beginTransaction();
+		mTravelerForm = FragmentAvailabilityUtils.setFragmentAvailability(false, FRAG_TAG_TRAVELER_FORM, fragmentManager, removeFragsTransaction, this, R.id.traveler_form_container, false);
+		mPaymentForm = FragmentAvailabilityUtils.setFragmentAvailability(false, FRAG_TAG_PAYMENT_FORM, fragmentManager, removeFragsTransaction, this, R.id.payment_form_container, false);
+		mLoginButtons = FragmentAvailabilityUtils.setFragmentAvailability(false, FRAG_TAG_LOGIN_BUTTONS, fragmentManager, removeFragsTransaction, this, LOGIN_FRAG_CONTAINER_ID, false);
+		mPaymentButton = FragmentAvailabilityUtils.setFragmentAvailability(false, FRAG_TAG_PAYMENT_BUTTON, fragmentManager, removeFragsTransaction, this, PAYMENT_FRAG_CONTAINER_ID, false);
+		for (TravelerButtonFragment btnFrag : mTravelerButtonFrags) {
+			removeFragsTransaction.remove(btnFrag);
+		}
+		removeFragsTransaction.commit();
+		fragmentManager.executePendingTransactions();
 
-		//CLEAR THE CONTAINER
+		//REMOVE OLD REFS
+		mTravelerButtonFrags.clear();
+		mTravelerViews.clear();
+
+		//CLEAR ALL VIEWS
 		mCheckoutRowsC.removeAllViews();
+	}
+
+	protected void buildCheckoutForm() {
+		FragmentManager fragmentManager = getChildFragmentManager();
+
+		//CLEAN UP
+		clearCheckoutForm();
 
 		//HEADING
 		String headingArg = "";
@@ -309,7 +333,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		}
 
 		//SET UP THE FORM FRAGMENTS
-		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
 		mTravelerForm = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_TRAVELER_FORM, fragmentManager, transaction, this, R.id.traveler_form_container, true);
 		mPaymentForm = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_PAYMENT_FORM, fragmentManager, transaction, this, R.id.payment_form_container, true);
@@ -473,7 +496,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	protected void bindTravelers() {
 		for (TravelerButtonFragment btn : mTravelerButtonFrags) {
-			btn.bindToDb();
+			if(btn.isAdded()){
+				btn.bindToDb();
+			}
 		}
 	}
 
@@ -506,6 +531,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			//Hotels currently always just has one traveler object
 			numAdults = 1;
 		}
+		Log.d("TabletCheckoutFormsFragment - populateTravelerData - travelers.size():" + numTravelers + " numAdults:" + numAdults);
+
 		if (numTravelers < numAdults) {
 			for (int i = numTravelers; i < numAdults; i++) {
 				travelers.add(new Traveler());
