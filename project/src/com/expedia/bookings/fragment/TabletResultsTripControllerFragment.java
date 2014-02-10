@@ -414,10 +414,10 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 				R.id.trip_bucket_your_trip_to, true);
 
 		mTripBucketFlightFrag = (ResultsTripBucketFlightFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-			bucketFlightAvailable, FTAG_BUCKET_FLIGHT, manager, transaction, this, R.id.flight_trip_content, true);
+			bucketFlightAvailable, FTAG_BUCKET_FLIGHT, manager, transaction, this, R.id.flight_trip_content, false);
 
 		mTripBucketHotelFrag = (ResultsTripBucketHotelFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-			bucketHotelAvailable, FTAG_BUCKET_HOTEL, manager, transaction, this, R.id.hotel_trip_content, true);
+			bucketHotelAvailable, FTAG_BUCKET_HOTEL, manager, transaction, this, R.id.hotel_trip_content, false);
 
 		//Blurrred Background (for behind trip overview)
 		mBlurredBackgroundFrag = (ResultsBlurBackgroundImageFragment) FragmentAvailabilityUtils
@@ -768,6 +768,11 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 				for (View container : mBucketContainers) {
 					container.setLayerType(layerType, null);
 				}
+			}
+
+			if (stateTwo == ResultsState.OVERVIEW) {
+				mTripBucketFlightFrag.doBind();
+				mTripBucketHotelFrag.doBind();
 			}
 		}
 
