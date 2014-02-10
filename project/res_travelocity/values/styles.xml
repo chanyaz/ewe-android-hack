@@ -11,4 +11,7 @@
         <item name="android:backgroundSplit">@drawable/bg_action_bar_travelocity</item>
     </style>
 
+    <style name="Widget.ListView.DropDown.TVLY" parent="@style/Widget.Sherlock.Light.ListView.DropDown">
+        <item name="android:background">@drawable/bg_action_bar_travelocity</item>
+    </style>
 </resources>

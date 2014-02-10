@@ -82,8 +82,8 @@
         <item name="android:actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
         <!-- PopupMenu -->
-        <item name="dropDownListViewStyle">@style/Widget.Sherlock.Light.ListView.DropDown</item>
-        <item name="android:dropDownListViewStyle">@style/Widget.Sherlock.Light.ListView.DropDown</item>
+        <item name="dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
+        <item name="android:dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
     </style>
 
 </resources>
