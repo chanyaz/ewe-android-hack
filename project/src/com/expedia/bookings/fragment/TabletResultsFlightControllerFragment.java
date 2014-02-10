@@ -100,7 +100,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	//Other
 	private GridManager mGrid = new GridManager();
 	private float mFlightDetailsMarginPercentage = 0.1f;
-	private boolean mOneWayFlight = true;
+	private boolean mOneWayFlight;
 	private IAddToTripListener mParentAddToTripListener;
 
 	private StateManager<ResultsFlightsState> mFlightsStateManager = new StateManager<ResultsFlightsState>(
@@ -109,11 +109,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
-		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedLegs() != null
-			&& Db.getFlightSearch().getSelectedLegs().length > 1) {
-			mOneWayFlight = false;
-		}
 
 		mParentAddToTripListener = Ui.findFragmentListener(this, IAddToTripListener.class);
 	}
@@ -172,6 +167,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		mResultsStateHelper.registerWithProvider(this);
 		mMeasurementHelper.registerWithProvider(this);
 		mBackManager.registerWithParent(this);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		mOneWayFlight = !Db.getFlightSearch().getSearchParams().isRoundTrip();
 	}
 
 	@Override
