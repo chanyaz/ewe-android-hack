@@ -258,9 +258,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		}
 
 		mCvvErrorModeEnabled = enabled;
-
 		// Set header bg
-		int bgResId = (enabled) ? R.drawable.bg_flight_action_bar_top_red : R.drawable.bg_action_bar_flight_top;
+		int bgResId = (enabled) ? R.drawable.bg_flight_action_bar_top_red : Ui.obtainThemeResID(this,R.attr.actionBarBackgroundDrawable);
 
 		ActionBar ab = getSupportActionBar();
 		ab.setBackgroundDrawable(getResources().getDrawable(bgResId));

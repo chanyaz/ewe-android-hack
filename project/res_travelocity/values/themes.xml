@@ -41,6 +41,7 @@
         <item name="logoutConfirmationString">@string/logout_confirmation_travelocity</item>
         <item name="webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_travelocity_logo_small</item>
         <item name="actionBarBackgroundDrawable">@drawable/bg_action_bar_travelocity</item>
+        <item name="cvvBookButtonTextColor">@android:color/white</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">
@@ -73,6 +74,7 @@
         <item name="actionBarWidgetTheme">@style/FlightActionBarWidgetTheme</item>
         <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
         <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_blue</item>
+
     </style>
 
     <!-- Override the phone theme -->

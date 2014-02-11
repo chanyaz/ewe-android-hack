@@ -242,6 +242,7 @@
 
     <!-- HotelCheckout CVV, Book button -->
     <attr name="cvvBookButtonKeypadDrawable" format="reference" />
+    <attr name="cvvBookButtonTextColor" format="reference"/>
 
     <!-- HotelCheckout Traveler Info screen after logged in, Logo to the left of the primary traveler -->
     <attr name="hotelPrimaryTravelerInfoLogoDrawable" format="reference" />
