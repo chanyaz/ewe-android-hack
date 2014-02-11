@@ -101,7 +101,7 @@ public class HotelSummarySection extends RelativeLayout {
 	 * @param rate
 	 */
 	public void bindForTripBucket(Property property, Rate rate) {
-		bind(property, rate, false, 16, false, DistanceUnit.MILES, false);
+		bind(property, rate, false, 16, false, DistanceUnit.MILES, false, true);
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class HotelSummarySection extends RelativeLayout {
 					 boolean showDistance, DistanceUnit distanceUnit, boolean isSelected) {
 
 		Rate lowestRate = property.getLowestRate();
-		bind(property, lowestRate, shouldShowVipIcon, priceTextSize, showDistance, distanceUnit, isSelected);
+		bind(property, lowestRate, shouldShowVipIcon, priceTextSize, showDistance, distanceUnit, isSelected, false);
 	}
 
 	/**
@@ -134,13 +134,14 @@ public class HotelSummarySection extends RelativeLayout {
 	 * @param isSelected
 	 */
 	public void bind(final Property property, final Rate rate, boolean shouldShowVipIcon, float priceTextSize,
-					 boolean showDistance, DistanceUnit distanceUnit, boolean isSelected) {
+					 boolean showDistance, DistanceUnit distanceUnit, boolean isSelected, boolean showTotal) {
 		final Context context = getContext();
 		final Resources res = context.getResources();
 
 		mNameText.setText(property.getName());
 
-		final String hotelPrice = rate == null ? "" : StrUtils.formatHotelPrice(rate.getDisplayPrice());
+		Money thePrice = showTotal ? rate.getDisplayTotalPrice() : rate.getDisplayPrice();
+		final String hotelPrice = rate == null ? "" : thePrice.getFormattedMoney(Money.F_NO_DECIMAL);
 
 		if (rate == null) {
 			if (mStrikethroughPriceText != null) {
