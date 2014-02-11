@@ -96,17 +96,19 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 				billingInfo.setLastName(traveler.getLastName());
 				billingInfo.setTelephone(traveler.getPhoneNumber());
 				billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
-				//Save BillingInfo
-				billingInfo.save(getActivity());
 
 				String checkoutEmail = BookingInfoUtils.getCheckoutEmail(getActivity(), getLob());
 				if (!TextUtils.isEmpty(checkoutEmail)) {
-					Db.getBillingInfo().setEmail(checkoutEmail);
+					billingInfo.setEmail(checkoutEmail);
 				}
 				else {
 					//TODO this is highly unlikely to happen. Since tablet checkout is still in the works, let's come back here when UI is in place.
+					billingInfo.setEmail(null);
 					Ui.showToast(getActivity(), R.string.please_enter_a_valid_email_address);
 				}
+
+				//Save BillingInfo
+				billingInfo.save(getActivity());
 
 				mListener.onCheckoutDataUpdated();
 				clearForm();
