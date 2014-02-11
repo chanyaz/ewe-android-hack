@@ -71,4 +71,6 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment {
 	}
 
 	protected abstract void setUpFormContent(ViewGroup formContainer);
+
+	protected abstract void onFormClosed();
 }

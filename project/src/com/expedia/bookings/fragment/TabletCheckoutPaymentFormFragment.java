@@ -85,4 +85,9 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		formContainer.addView(mSectionLocation);
 
 	}
+
+	@Override
+	protected void onFormClosed() {
+
+	}
 }

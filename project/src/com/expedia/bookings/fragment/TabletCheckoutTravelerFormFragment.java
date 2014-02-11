@@ -84,13 +84,18 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			mAttemptToLeaveMade = true;
 			if (mSectionTraveler != null && mSectionTraveler.hasValidInput()) {
 				Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerNumber, getActivity());
-				Db.getWorkingTravelerManager().clearWorkingTraveler(getActivity());
 				mListener.onCheckoutDataUpdated();
+				clearForm();
 				getActivity().onBackPressed();
-				mTravelerNumber = -1;
+
 			}
 		}
 	};
+
+	private void clearForm() {
+		Db.getWorkingTravelerManager().clearWorkingTraveler(getActivity());
+		mTravelerNumber = -1;
+	}
 
 	@Override
 	protected void setUpFormContent(ViewGroup formContainer) {
@@ -128,5 +133,10 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 
 		formContainer.addView(mSectionTraveler);
 
+	}
+
+	@Override
+	protected void onFormClosed() {
+		clearForm();
 	}
 }

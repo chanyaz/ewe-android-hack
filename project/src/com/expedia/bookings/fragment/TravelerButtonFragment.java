@@ -25,7 +25,9 @@ public class TravelerButtonFragment extends LobableFragment {
 		return frag;
 	}
 
-	private int mTravelerNumber = 0;
+	private static final String STATE_TRAVELER_NUMBER = "STATE_TRAVELER_NUMBER";
+
+	private int mTravelerNumber = -1;
 	private SectionTravelerInfo mSectionTraveler;
 	private ViewGroup mTravelerSectionContainer;
 	private ViewGroup mEmptyViewContainer;
@@ -34,6 +36,10 @@ public class TravelerButtonFragment extends LobableFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			mTravelerNumber = savedInstanceState.getInt(STATE_TRAVELER_NUMBER, mTravelerNumber);
+		}
+
 		View rootView = inflater.inflate(R.layout.fragment_checkout_traveler_button, null);
 		mTravelerSectionContainer = Ui.findView(rootView, R.id.traveler_section_container);
 		mEmptyViewContainer = Ui.findView(rootView, R.id.empty_traveler_container);
@@ -42,6 +48,12 @@ public class TravelerButtonFragment extends LobableFragment {
 		addEmptyTravelerToLayout(mEmptyViewContainer);
 
 		return rootView;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt(STATE_TRAVELER_NUMBER, mTravelerNumber);
 	}
 
 	public void enableShowValidMarker(boolean enabled) {

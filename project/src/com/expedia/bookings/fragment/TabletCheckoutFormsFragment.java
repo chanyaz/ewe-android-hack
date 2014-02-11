@@ -589,6 +589,12 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		@Override
 		public boolean handleBackPressed() {
 			if (mStateManager.getState() != CheckoutFormState.OVERVIEW) {
+				if (mStateManager.getState() == CheckoutFormState.EDIT_TRAVELER) {
+					mTravelerForm.onFormClosed();
+				}
+				else if (mStateManager.getState() == CheckoutFormState.EDIT_PAYMENT) {
+					mPaymentForm.onFormClosed();
+				}
 				setState(CheckoutFormState.OVERVIEW, true);
 				return true;
 			}
