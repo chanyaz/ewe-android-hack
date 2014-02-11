@@ -39,6 +39,8 @@
         <item name="aboutAppNameString">@string/app_name</item>
         <item name="aboutAppLogoDrawable">@drawable/ic_launcher</item>
         <item name="logoutConfirmationString">@string/logout_confirmation_travelocity</item>
+        <item name="webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_travelocity_logo_small</item>
+        <item name="actionBarBackgroundDrawable">@drawable/bg_action_bar_travelocity</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">
