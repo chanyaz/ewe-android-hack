@@ -139,20 +139,19 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 					now, JodaUtils.FLAGS_LONG_DATE_FORMAT);
 			String expectedLongString = dayOfWeek + ", " + monthOfYear + " "
 					+ dayOfMonth + ", " + year;
-			assertEquals(nowLongDateFormat, expectedLongString);
+			assertEquals(expectedLongString, nowLongDateFormat);
 
 			String nowMediumDateFormat = JodaUtils.formatDateTime(getContext(),
 					now, JodaUtils.FLAGS_MEDIUM_DATE_FORMAT);
 			String expectedMediumString = monthShort + " " + dayOfMonth + ", "
 					+ year;
-			assertEquals(nowMediumDateFormat, expectedMediumString);
+			assertEquals(expectedMediumString, nowMediumDateFormat);
 
 			String dateFormat = JodaUtils.formatDateTime(getContext(), now,
 					JodaUtils.FLAGS_DATE_FORMAT);
 			String expectedDateString = now.monthOfYear().getAsString() + "/"
-					+ now.dayOfMonth().getAsString() + "/"
-					+ now.year().getAsString();
-			assertEquals(dateFormat, expectedDateString);
+					+ now.dayOfMonth().getAsString();
+			assertEquals(expectedDateString, dateFormat);
 		}
 	}
 
@@ -255,6 +254,9 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 		HotelSearchParams params = new HotelSearchParams();
 		Property property = new Property();
 		Rate rate = new Rate();
+		Money money = new Money();
+		money.setCurrency("USD");
+		rate.setTotalPriceWithMandatoryFees(money);
 		String tripId = "1234567";
 		String userId = "12345";
 		long tuid = 1234567;
