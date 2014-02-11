@@ -30,7 +30,7 @@ import com.mobiata.flightlib.utils.DateTimeUtils;
 /**
  * ResultsTripBucketYourTripToFragment: A simple fragment for displaying destination information, in the trip overview column - Tablet 2013
  */
-public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
+public class TripBucketFlightFragment extends TripBucketItemFragment {
 
 	private static final String KEY_CREATE_TRIP = "KEY_FLIGHT_CREATE_TRIP";
 
@@ -38,8 +38,8 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 
 	private FlightTrip mFlightTrip;
 
-	public static ResultsTripBucketFlightFragment newInstance() {
-		ResultsTripBucketFlightFragment frag = new ResultsTripBucketFlightFragment();
+	public static TripBucketFlightFragment newInstance() {
+		TripBucketFlightFragment frag = new TripBucketFlightFragment();
 		return frag;
 	}
 
@@ -206,7 +206,7 @@ public class ResultsTripBucketFlightFragment extends TripBucketItemFragment {
 	private BackgroundDownloader.OnDownloadComplete<CreateItineraryResponse> mFlightDetailsCallback = new BackgroundDownloader.OnDownloadComplete<CreateItineraryResponse>() {
 		@Override
 		public void onDownload(CreateItineraryResponse results) {
-			ThrobberDialog df = Ui.findSupportFragment(ResultsTripBucketFlightFragment.this, TAG_FLIGHT_LOADING_DIALOG);
+			ThrobberDialog df = Ui.findSupportFragment(TripBucketFlightFragment.this, TAG_FLIGHT_LOADING_DIALOG);
 			df.dismiss();
 
 			if (results == null) {

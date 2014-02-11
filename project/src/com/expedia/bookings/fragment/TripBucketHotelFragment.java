@@ -43,7 +43,7 @@ import com.mobiata.android.util.SettingUtils;
 /**
  * ResultsTripBucketYourTripToFragment: A simple fragment for displaying destination information, in the trip overview column - Tablet 2013
  */
-public class ResultsTripBucketHotelFragment extends TripBucketItemFragment implements RetryErrorDialogFragmentListener {
+public class TripBucketHotelFragment extends TripBucketItemFragment implements RetryErrorDialogFragmentListener {
 
 	private static final String KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE = "KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE";
 	private static final String KEY_CREATE_TRIP = "KEY_HOTEL_CREATE_TRIP";
@@ -56,8 +56,8 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment imple
 
 	private boolean mIsDoneLoadingPriceChange = false;
 
-	public static ResultsTripBucketHotelFragment newInstance() {
-		ResultsTripBucketHotelFragment frag = new ResultsTripBucketHotelFragment();
+	public static TripBucketHotelFragment newInstance() {
+		TripBucketHotelFragment frag = new TripBucketHotelFragment();
 		return frag;
 	}
 
@@ -215,7 +215,7 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment imple
 	private final OnDownloadComplete<HotelProductResponse> mHotelProductCallback = new OnDownloadComplete<HotelProductResponse>() {
 		@Override
 		public void onDownload(HotelProductResponse response) {
-			ThrobberDialog df = Ui.findSupportFragment(ResultsTripBucketHotelFragment.this,
+			ThrobberDialog df = Ui.findSupportFragment(TripBucketHotelFragment.this,
 				TAG_HOTEL_CHECKOUT_PREP_DIALOG);
 			df.dismiss();
 			if (response == null || response.hasErrors()) {
@@ -309,7 +309,7 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment imple
 	private final OnDownloadComplete<CreateTripResponse> mCreateTripCallback = new OnDownloadComplete<CreateTripResponse>() {
 		@Override
 		public void onDownload(CreateTripResponse response) {
-			ThrobberDialog df = Ui.findSupportFragment(ResultsTripBucketHotelFragment.this,
+			ThrobberDialog df = Ui.findSupportFragment(TripBucketHotelFragment.this,
 				TAG_HOTEL_CREATE_TRIP_DIALOG);
 			df.dismiss();
 			if (response == null) {

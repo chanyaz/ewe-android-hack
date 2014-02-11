@@ -61,8 +61,8 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 
 	private ResultsBlurBackgroundImageFragment mBlurredBackgroundFrag;
 	private ResultsTripBucketYourTripToFragment mTripBucketTripToFrag;
-	private ResultsTripBucketFlightFragment mTripBucketFlightFrag;
-	private ResultsTripBucketHotelFragment mTripBucketHotelFrag;
+	private TripBucketFlightFragment mTripBucketFlightFrag;
+	private TripBucketHotelFragment mTripBucketHotelFrag;
 
 	private ViewGroup mRootC;
 	private FixedTranslationFrameLayout mBlurredBackgroundC;
@@ -413,10 +413,10 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 			.setFragmentAvailability(yourTripToAvailable, FTAG_YOUR_TRIP_TO, manager, transaction, this,
 				R.id.trip_bucket_your_trip_to, true);
 
-		mTripBucketFlightFrag = (ResultsTripBucketFlightFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+		mTripBucketFlightFrag = (TripBucketFlightFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			bucketFlightAvailable, FTAG_BUCKET_FLIGHT, manager, transaction, this, R.id.flight_trip_content, false);
 
-		mTripBucketHotelFrag = (ResultsTripBucketHotelFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+		mTripBucketHotelFrag = (TripBucketHotelFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			bucketHotelAvailable, FTAG_BUCKET_HOTEL, manager, transaction, this, R.id.hotel_trip_content, false);
 
 		//Blurrred Background (for behind trip overview)
@@ -457,10 +457,10 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 			frag = ResultsTripBucketYourTripToFragment.newInstance();
 		}
 		else if (tag == FTAG_BUCKET_FLIGHT) {
-			frag = ResultsTripBucketFlightFragment.newInstance();
+			frag = TripBucketFlightFragment.newInstance();
 		}
 		else if (tag == FTAG_BUCKET_HOTEL) {
-			frag = ResultsTripBucketHotelFragment.newInstance();
+			frag = TripBucketHotelFragment.newInstance();
 		}
 		return frag;
 	}
@@ -471,12 +471,12 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 			((ResultsTripBucketYourTripToFragment) frag).bindToDb();
 		}
 		else if (tag == FTAG_BUCKET_FLIGHT) {
-			((ResultsTripBucketFlightFragment) frag).setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
-			((ResultsTripBucketFlightFragment) frag).bind();
+			((TripBucketFlightFragment) frag).setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
+			((TripBucketFlightFragment) frag).bind();
 		}
 		else if (tag == FTAG_BUCKET_HOTEL) {
-			((ResultsTripBucketHotelFragment) frag).setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
-			((ResultsTripBucketHotelFragment) frag).bind();
+			((TripBucketHotelFragment) frag).setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
+			((TripBucketHotelFragment) frag).bind();
 		}
 	}
 

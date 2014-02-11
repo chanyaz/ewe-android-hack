@@ -86,8 +86,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private TextView mBucketDateRange;
 
 	//frags
-	private ResultsTripBucketFlightFragment mBucketFlightFrag;
-	private ResultsTripBucketHotelFragment mBucketHotelFrag;
+	private TripBucketFlightFragment mBucketFlightFrag;
+	private TripBucketHotelFragment mBucketHotelFrag;
 	private TabletCheckoutFormsFragment mCheckoutFragment;
 	private CVVEntryFragment mCvvFrag;
 	private FlightBookingFragment mFlightBookingFrag;
@@ -484,11 +484,11 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		boolean mFlightConfAvailable = state == CheckoutState.CONFIRMATION && getLob() == LineOfBusiness.FLIGHTS;
 		boolean mHotelConfAvailable = state == CheckoutState.CONFIRMATION && getLob() == LineOfBusiness.HOTELS;
 
-		mBucketFlightFrag = (ResultsTripBucketFlightFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+		mBucketFlightFrag = (TripBucketFlightFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			flightBucketItemAvailable, FRAG_TAG_BUCKET_FLIGHT,
 			manager, transaction, this, R.id.bucket_flight_frag_container, false);
 
-		mBucketHotelFrag = (ResultsTripBucketHotelFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+		mBucketHotelFrag = (TripBucketHotelFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			hotelBucketItemAvailable, FRAG_TAG_BUCKET_HOTEL,
 			manager, transaction, this, R.id.bucket_hotel_frag_container, false);
 
@@ -588,10 +588,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Override
 	public Fragment getNewFragmentInstanceFromTag(String tag) {
 		if (FRAG_TAG_BUCKET_FLIGHT.equals(tag)) {
-			return ResultsTripBucketFlightFragment.newInstance();
+			return TripBucketFlightFragment.newInstance();
 		}
 		else if (FRAG_TAG_BUCKET_HOTEL.equals(tag)) {
-			return ResultsTripBucketHotelFragment.newInstance();
+			return TripBucketHotelFragment.newInstance();
 		}
 		else if (FRAG_TAG_CHECKOUT_INFO.equals(tag)) {
 			return TabletCheckoutFormsFragment.newInstance();
@@ -621,10 +621,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
 		if (FRAG_TAG_BUCKET_FLIGHT.equals(tag)) {
-			((ResultsTripBucketFlightFragment) frag).setState(getLob() == LineOfBusiness.FLIGHTS ? TripBucketItemState.EXPANDED : TripBucketItemState.DEFAULT);
+			((TripBucketFlightFragment) frag).setState(getLob() == LineOfBusiness.FLIGHTS ? TripBucketItemState.EXPANDED : TripBucketItemState.DEFAULT);
 		}
 		else if (FRAG_TAG_BUCKET_HOTEL.equals(tag)) {
-			((ResultsTripBucketHotelFragment) frag).setState(getLob() == LineOfBusiness.HOTELS ? TripBucketItemState.EXPANDED : TripBucketItemState.DEFAULT);
+			((TripBucketHotelFragment) frag).setState(getLob() == LineOfBusiness.HOTELS ? TripBucketItemState.EXPANDED : TripBucketItemState.DEFAULT);
 		}
 		else if (FRAG_TAG_CHECKOUT_INFO.equals(tag)) {
 			((TabletCheckoutFormsFragment) frag).setLob(getLob());
