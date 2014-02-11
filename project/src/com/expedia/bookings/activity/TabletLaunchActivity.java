@@ -41,8 +41,8 @@ import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
 public class TabletLaunchActivity extends FragmentActivity implements MeasurableFragmentListener,
-		SearchFragmentListener, ExpediaServicesFragmentListener, SimpleProgressDialogFragmentListener,
-		FusedLocationProviderListener {
+	SearchFragmentListener, ExpediaServicesFragmentListener, SimpleProgressDialogFragmentListener,
+	FusedLocationProviderListener {
 
 	// On top when search params covers up everything
 	private static final String BACKSTACK_SEARCH_PARAMS = "BACKSTACK_SEARCH_PARAMS";
@@ -214,7 +214,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 		// If either the origin or the destination are "current location", then fill that out before starting a search
 		if (searchParams.getOrigin().getResultType() == ResultType.CURRENT_LOCATION
-				|| searchParams.getDestination().getResultType() == ResultType.CURRENT_LOCATION) {
+			|| searchParams.getDestination().getResultType() == ResultType.CURRENT_LOCATION) {
 			mLocationFragment.find(this);
 		}
 		else {
@@ -289,9 +289,9 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	@Override
 	public void canMeasure(Fragment fragment) {
 		if ((fragment == mMapFragment || fragment == mSearchFragment || fragment == mTilesFragment)
-				&& mMapFragment.isMeasurable() && mSearchFragment.isMeasurable() && mTilesFragment.isMeasurable()) {
+			&& mMapFragment.isMeasurable() && mSearchFragment.isMeasurable() && mTilesFragment.isMeasurable()) {
 			mSearchFragment.setInitialTranslationY(mMapFragment.getView().getHeight()
-					- mTilesFragment.getView().getHeight());
+				- mTilesFragment.getView().getHeight());
 			mSearchFragment.collapse();
 		}
 	}
@@ -350,13 +350,13 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		FlightSearchResponse flighSearchResponse = Db.getFlightSearch().getSearchResponse();
 
 		if (hotelSearchResponse != null && !hotelSearchResponse.hasErrors() && flighSearchResponse != null
-				&& !flighSearchResponse.hasErrors()) {
+			&& !flighSearchResponse.hasErrors()) {
 			mLoadSearchDialogFragment.dismissAllowingStateLoss();
 			startActivity(new Intent(this, TabletResultsActivity.class));
 		}
 		else {
 			mLoadSearchDialogFragment.setMessage(checkResponse(hotelSearchResponse, "Hotel search")
-					+ checkResponse(flighSearchResponse, "Flight search"));
+				+ checkResponse(flighSearchResponse, "Flight search"));
 		}
 	}
 

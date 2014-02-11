@@ -128,8 +128,8 @@ import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.SegmentedControlGroup;
 
 public class PhoneSearchActivity extends SherlockFragmentActivity implements OnDrawStartedListener,
-		HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
-		LoaderManager.LoaderCallbacks<Cursor> {
+	HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
+	LoaderManager.LoaderCallbacks<Cursor> {
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// ENUMS
@@ -140,7 +140,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		KEYBOARD(true),
 		CALENDAR(true),
 		GUEST_PICKER(true),
-		FILTER(false), ;
+		FILTER(false),;
 
 		private boolean mIsSearchDisplay;
 
@@ -155,7 +155,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	private enum ActivityState {
 		NONE,
-		SEARCHING, ;
+		SEARCHING,;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -439,7 +439,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			mStartSearchOnResume = false;
 		}
 		else if (searchResponse != null && searchResponse.getPropertiesCount() > 0
-				&& searchResponse.getLocations() != null && searchResponse.getLocations().size() > 0) {
+			&& searchResponse.getLocations() != null && searchResponse.getLocations().size() > 0) {
 			showDialog(DIALOG_LOCATION_SUGGESTIONS);
 		}
 		else if (searchResponse != null && searchResponse.getPropertiesCount() == 0 && !searchResponse.hasErrors()) {
@@ -543,7 +543,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				}
 
 				if (Db.getHotelSearch().getSearchParams() != null
-						&& Db.getHotelSearch().getSearchParams().getSearchType() != null) {
+					&& Db.getHotelSearch().getSearchParams().getSearchType() != null) {
 					mShowDistance = Db.getHotelSearch().getSearchParams().getSearchType().shouldShowDistance();
 				}
 			}
@@ -589,7 +589,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		super.onPause();
 
 		((ExpediaBookingApp) getApplicationContext())
-				.unregisterSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
+			.unregisterSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
 
 		mIsActivityResumed = false;
 
@@ -614,7 +614,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	protected void onResume() {
 		super.onResume();
 		((ExpediaBookingApp) getApplicationContext())
-				.registerSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
+			.registerSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
 
 		Db.getFilter().addOnFilterChangedListener(this);
 
@@ -624,12 +624,12 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 
 		if (Db.getHotelSearch().getSearchResponse() != null
-				&& Db.getHotelSearch().getSearchResponse().getPropertiesCount() == 0) {
+			&& Db.getHotelSearch().getSearchResponse().getPropertiesCount() == 0) {
 			simulateErrorResponse(LayoutUtils.noHotelsFoundMessage(mContext));
 		}
 
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID,
-				LineOfBusiness.HOTELS);
+			LineOfBusiness.HOTELS);
 
 		// setDisplayType here because it could possibly add a TextWatcher before the view has restored causing the listener to fire
 		if (getIntent().hasExtra(Codes.EXTRA_OPEN_SEARCH)) {
@@ -663,8 +663,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			startSearch();
 		}
 		else if (Db.getHotelSearch().getSearchParams().getSearchType() != null
-				&& Db.getHotelSearch().getSearchParams().getSearchType() == SearchType.MY_LOCATION
-				&& !Db.getHotelSearch().getSearchParams().hasSearchLatLon()) {
+			&& Db.getHotelSearch().getSearchParams().getSearchType() == SearchType.MY_LOCATION
+			&& !Db.getHotelSearch().getSearchParams().hasSearchLatLon()) {
 			Log.d("onResume(): We were attempting to search by current location, but do not yet have valid coordinates. Starting a new search (and getting new coords if needed).");
 			Db.getHotelSearch().getSearchParams().ensureValidCheckInDate();
 			startSearch();
@@ -775,7 +775,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		// We have a settings menu for VSC app only. And is shown only for debug builds.
 		if (requestCode == REQUEST_SETTINGS
-				&& resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
+			&& resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
 			Db.getHotelSearch().resetSearchData();
 		}
 	}
@@ -1227,7 +1227,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		mProgressBarDimmer = findViewById(R.id.search_progress_dimmer);
 
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID,
-				LineOfBusiness.HOTELS);
+			LineOfBusiness.HOTELS);
 
 		mFilterLayout = getLayoutInflater().inflate(R.layout.popup_filter_options, null);
 		mFilterHotelNameEditText = (EditText) mFilterLayout.findViewById(R.id.filter_hotel_name_edit_text);
@@ -1244,14 +1244,14 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		// Special case for HTC keyboards, which seem to ignore the android:inputType="textFilter|textNoSuggestions" xml flag
 		mSearchEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
-				| InputType.TYPE_TEXT_VARIATION_FILTER);
+			| InputType.TYPE_TEXT_VARIATION_FILTER);
 
 		// Setup popup
 		mFilterLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 		mFilterPopupWindow = new PopupWindow(mFilterLayout, mFilterLayout.getMeasuredWidth(),
-				mFilterLayout.getMeasuredHeight(), true);
+			mFilterLayout.getMeasuredHeight(), true);
 		mFilterPopupWindow.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.abs__menu_dropdown_panel_holo_dark));
+			R.drawable.abs__menu_dropdown_panel_holo_dark));
 		mFilterPopupWindow.setAnimationStyle(R.style.Animation_Popup);
 		mFilterPopupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_FROM_FOCUSABLE);
 
@@ -1433,21 +1433,21 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			if (dateStart != null && dateEnd != null) {
 				int nightCount = params.getStayDuration();
 				String nightCountStr = getResources().getQuantityString(R.plurals.length_of_stay, nightCount,
-						nightCount);
+					nightCount);
 				mDatesCalendarDatePicker.setHeaderInstructionText(String.format(dateRangeNightsFormatStr,
-						format.print(dateStart), format.print(dateEnd), nightCountStr));
+					format.print(dateStart), format.print(dateEnd), nightCountStr));
 			}
 			else if (dateStart != null && researchMode) {
 				mDatesCalendarDatePicker
-						.setHeaderInstructionText(getString(R.string.calendar_instructions_hotels_no_dates_selected));
+					.setHeaderInstructionText(getString(R.string.calendar_instructions_hotels_no_dates_selected));
 			}
 			else if (dateStart != null) {
 				mDatesCalendarDatePicker.setHeaderInstructionText(String.format(dateRangeFormatStr,
-						format.print(dateStart), ""));
+					format.print(dateStart), ""));
 			}
 			else {
 				mDatesCalendarDatePicker
-						.setHeaderInstructionText(getString(R.string.calendar_instructions_hotels_no_dates_selected));
+					.setHeaderInstructionText(getString(R.string.calendar_instructions_hotels_no_dates_selected));
 			}
 		}
 	}
@@ -1617,7 +1617,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		SearchType type = Db.getHotelSearch().getSearchParams().getSearchType();
 		if (type != SearchType.MY_LOCATION && type != SearchType.VISIBLE_MAP_AREA
-				&& (type != SearchType.HOTEL || !getIntent().getBooleanExtra(Codes.FROM_DEEPLINK, false))) {
+			&& (type != SearchType.HOTEL || !getIntent().getBooleanExtra(Codes.FROM_DEEPLINK, false))) {
 			Search.add(this, Db.getHotelSearch().getSearchParams());
 		}
 
@@ -1694,7 +1694,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			mStartSearchOnResume = savedInstanceState.getBoolean(INSTANCE_START_SEARCH_ON_RESUME, false);
 			mLastSearchTime = JodaUtils.getDateTime(savedInstanceState, INSTANCE_LAST_SEARCH_TIME);
 			mIsWidgetNotificationShowing = savedInstanceState
-					.getBoolean(INSTANCE_IS_WIDGET_NOTIFICATION_SHOWING, false);
+				.getBoolean(INSTANCE_IS_WIDGET_NOTIFICATION_SHOWING, false);
 			mSearchTextSelectionStart = savedInstanceState.getInt(INSTANCE_SEARCH_TEXT_SELECTION_START);
 			mSearchTextSelectionEnd = savedInstanceState.getInt(INSTANCE_SEARCH_TEXT_SELECTION_END);
 			mAddresses = savedInstanceState.getParcelableArrayList(INSTANCE_ADDRESSES);
@@ -1702,9 +1702,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			mActivityState = ActivityState.values()[savedInstanceState.getInt(INSTANCE_ACTIVITY_STATE)];
 			mHasShownCalendar = savedInstanceState.getBoolean(INSTANCE_HAS_SHOWN_CALENDAR);
 			mOldSearchParams = JSONUtils
-					.getJSONable(savedInstanceState, INSTANCE_OLD_SEARCH_PARAMS, HotelSearchParams.class);
+				.getJSONable(savedInstanceState, INSTANCE_OLD_SEARCH_PARAMS, HotelSearchParams.class);
 			mEditedSearchParams = JSONUtils.getJSONable(savedInstanceState, INSTANCE_EDITED_SEARCH_PARAMS,
-					HotelSearchParams.class);
+				HotelSearchParams.class);
 			mOldFilter = JSONUtils.getJSONable(savedInstanceState, INSTANCE_OLD_FILTER, HotelFilter.class);
 		}
 	}
@@ -1937,7 +1937,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		if (mTag.equals(getString(R.string.tag_hotel_list))) {
 			newFragmentTag = getString(R.string.tag_hotel_map);
 			OmnitureTracking.trackAppHotelsSearchWithoutRefinements(this, Db.getHotelSearch().getSearchParams(), Db
-					.getHotelSearch().getSearchResponse());
+				.getHotelSearch().getSearchResponse());
 		}
 		else {
 			newFragmentTag = getString(R.string.tag_hotel_list);
@@ -2222,13 +2222,13 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 			int orientation = getWindowManager().getDefaultDisplay().getOrientation();
 			final int hidden = (orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180) ? View.GONE
-					: View.INVISIBLE;
+				: View.INVISIBLE;
 			mChildAgesLayout.setVisibility(numChildren == 0 ? hidden : View.VISIBLE);
 			mSelectChildAgeTextView.setText(getResources().getQuantityString(R.plurals.select_each_childs_age,
-					numChildren));
+				numChildren));
 
 			GuestsPickerUtils.showOrHideChildAgeSpinners(PhoneSearchActivity.this, searchParams.getChildren(),
-					mChildAgesLayout, mChildAgeSelectedListener);
+				mChildAgesLayout, mChildAgeSelectedListener);
 		}
 		else {
 			text = null;
@@ -2271,7 +2271,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				mChildrenNumberPicker.setMinValue(numChildren);
 				mChildrenNumberPicker.setMaxValue(numChildren);
 				GuestsPickerUtils.configureAndUpdateDisplayedValues(PhoneSearchActivity.this, mAdultsNumberPicker,
-						mChildrenNumberPicker);
+					mChildrenNumberPicker);
 			}
 		});
 
@@ -2721,7 +2721,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	private void onGuestsChanged() {
 		final String pageName = "App.Hotels.Search.Refine.NumberTravelers."
-				+ (mAdultsNumberPicker.getValue() + mChildrenNumberPicker.getValue());
+			+ (mAdultsNumberPicker.getValue() + mChildrenNumberPicker.getValue());
 
 		OmnitureTracking.trackSimpleEvent(this, pageName, null, null);
 	}
