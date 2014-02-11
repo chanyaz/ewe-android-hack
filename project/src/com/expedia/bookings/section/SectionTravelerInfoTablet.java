@@ -4,13 +4,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.interfaces.ILOBable;
 import com.expedia.bookings.utils.Ui;
 
 /*
 We introduce this class as a way to introduce tablet oriented name containers
  */
-public class SectionTravelerInfoTablet extends com.expedia.bookings.section.SectionTravelerInfo {
+public class SectionTravelerInfoTablet extends com.expedia.bookings.section.SectionTravelerInfo implements ILOBable {
+
+	private LineOfBusiness mLob = null;
 
 	public SectionTravelerInfoTablet(android.content.Context context) {
 		super(context);
@@ -39,9 +43,26 @@ public class SectionTravelerInfoTablet extends com.expedia.bookings.section.Sect
 		}
 	}
 
+	private void removeFieldsForLob(LineOfBusiness lob) {
+		if (LineOfBusiness.HOTELS == getLob()) {
+			mFields.removeField(mEditMiddleName);
+		}
+	}
+
 	@Override
 	protected void postFinishInflate() {
 		super.postFinishInflate();
+		removeFieldsForLob(getLob());
 	}
 
+	@Override
+	public void setLob(LineOfBusiness lob) {
+		mLob = lob;
+		removeFieldsForLob(lob);
+	}
+
+	@Override
+	public LineOfBusiness getLob() {
+		return mLob;
+	}
 }

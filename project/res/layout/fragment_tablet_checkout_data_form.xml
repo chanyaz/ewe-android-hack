@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="16dp"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/header_container"
@@ -14,14 +16,17 @@
         android:background="#FFFFFF"
         android:padding="16dp">
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/header_text_button_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:text="@string/done"
+            app:textAllCaps="true"
+            app:textStyle="medium"
+            android:drawableLeft="@drawable/ic_action_bar_checkmark_disabled"
             android:textStyle="bold"
-            android:textSize="18dp"/>
+            android:textSize="14dp"/>
 
         <View
             android:layout_width="1dp"
@@ -30,13 +35,14 @@
             android:layout_marginRight="16dp"
             android:background="@color/divider_grey"/>
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/header_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:text="@string/traveler_num_and_category_TEMPLATE"
-            android:textSize="18dp"/>
+            app:textStyle="light"
+            android:textSize="16dp"/>
     </LinearLayout>
 
     <ScrollView
@@ -47,9 +53,9 @@
             android:id="@+id/content_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_checkout_information_middle_tab"
+            android:background="#E5E5E5"
             android:orientation="vertical"
-            android:padding="24dp"/>
+            android:padding="16dp"/>
     </ScrollView>
 
 </LinearLayout>

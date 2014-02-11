@@ -7,9 +7,10 @@
                                                         android:orientation="horizontal">
 
     <ImageView
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:background="#CFCFCF"/>
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/ic_traveler"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -27,24 +28,30 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <com.expedia.bookings.widget.TelephoneSpinner
-                android:id="@+id/edit_phone_number_country_code_spinner"
-                style="@style/Widget.Spinner.Phone.Dark"
-                app:text_view_layout="@layout/simple_spinner_item_18"
-                android:layout_width="96dp"
-                android:layout_weight="0"
-                android:layout_height="wrap_content"
-                />
-
-            <EditText
-                android:id="@+id/edit_phone_number"
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/phone_number_hint"
-                android:inputType="phone"
-                android:singleLine="true"
-                tools:ignore="RequiredSize"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.expedia.bookings.widget.TelephoneSpinner
+                    android:id="@+id/edit_phone_number_country_code_spinner"
+                    style="@style/Widget.Spinner.Phone"
+                    app:text_view_layout="@layout/simple_spinner_item_18"
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+                    />
+
+                <EditText
+                    android:id="@+id/edit_phone_number"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/phone_number_hint"
+                    android:inputType="phone"
+                    android:singleLine="true"
+                    tools:ignore="RequiredSize"/>
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/edit_email_address"

@@ -1295,6 +1295,8 @@
     <string name="passport">Passport</string>
     <!-- Current traveler - <firstname> <lastname> -->
     <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;Current traveler -&lt;/font&gt; %1$s %2$s</string>
+    <!-- Traveler information Template. e.g. Traveler 2 Information -->
+    <string name="traveler_information_TEMPLATE">Traveler %1$s Information</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->

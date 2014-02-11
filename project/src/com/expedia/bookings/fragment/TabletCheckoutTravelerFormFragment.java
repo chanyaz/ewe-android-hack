@@ -19,8 +19,8 @@ import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.InvalidCharacterHelper;
-import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.section.SectionTravelerInfoTablet;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -35,7 +35,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	private static final String STATE_TRAVELER_NUMBER = "STATE_TRAVELER_NUMBER";
 
 	private int mTravelerNumber = -1;
-	private SectionTravelerInfo mSectionTraveler;
+	private SectionTravelerInfoTablet mSectionTraveler;
 	boolean mAttemptToLeaveMade = false;
 	private ICheckoutDataListener mListener;
 
@@ -76,13 +76,14 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		mTravelerNumber = travelerNumber;
 		if (mSectionTraveler != null && travelerNumber >= 0 && travelerNumber < Db.getTravelers().size()) {
 			mSectionTraveler.bind(Db.getWorkingTravelerManager().getWorkingTraveler());
-			setHeadingText(getString(R.string.traveler_num_and_category_TEMPLATE, travelerNumber + 1));
+
+			setHeadingText(getString(R.string.traveler_information_TEMPLATE, travelerNumber + 1));
 			setHeadingButtonText(getString(R.string.done));
-			setHeadingButtonOnClick(mTopRightClickListener);
+			setHeadingButtonOnClick(mHeaderButtonClickListener);
 		}
 	}
 
-	private OnClickListener mTopRightClickListener = new OnClickListener() {
+	private OnClickListener mHeaderButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
 			mAttemptToLeaveMade = true;
@@ -110,7 +111,6 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 				mListener.onCheckoutDataUpdated();
 				clearForm();
 				getActivity().onBackPressed();
-
 			}
 		}
 	};
@@ -125,13 +125,14 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		//This will probably end up having way more moving parts than this...
 		formContainer.removeAllViews();
 		if (getLob() == LineOfBusiness.HOTELS) {
-			mSectionTraveler = (SectionTravelerInfo) View.inflate(getActivity(),
+			mSectionTraveler = (SectionTravelerInfoTablet) View.inflate(getActivity(),
 				R.layout.section_hotel_tablet_edit_traveler, null);
 		}
 		else if (getLob() == LineOfBusiness.FLIGHTS) {
-			mSectionTraveler = (SectionTravelerInfo) View.inflate(getActivity(), R.layout.section_flight_tablet_edit_traveler,
+			mSectionTraveler = (SectionTravelerInfoTablet) View.inflate(getActivity(), R.layout.section_flight_tablet_edit_traveler,
 				null);
 		}
+		mSectionTraveler.setLob(getLob());
 
 		mSectionTraveler.addChangeListener(new ISectionEditable.SectionChangeListener() {
 			@Override

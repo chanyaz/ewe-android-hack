@@ -56,6 +56,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
 	SectionFieldList<Traveler> mFields = new SectionFieldList<Traveler>();
 
+
 	Context mContext;
 
 	private Traveler mTraveler;
@@ -114,6 +115,9 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		mFields.add(mEditPassportCountryListView);
 		mFields.add(mEditAssistancePreferenceSpinner);
 		mFields.add(mEditSeatPreferenceSpinner);
+	}
+
+	public void setViewEnabled(int viewId, boolean enabled) {
 
 	}
 

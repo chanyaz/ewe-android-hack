@@ -96,7 +96,7 @@ public class SectionFieldList<T> extends AbstractList<SectionField<?, T>> {
 	 * Remove field from layout by setting visibility to GONE
 	 * Remove field from field list so it is no longer validated against
 	 * Fix focus order if we removed a view that someone has set as nextFocus
-	 * @param field
+	 * @param sectionFieldForRemoval
 	 */
 	@SuppressLint("NewApi")
 	public void removeField(SectionField<?, T> sectionFieldForRemoval) {
