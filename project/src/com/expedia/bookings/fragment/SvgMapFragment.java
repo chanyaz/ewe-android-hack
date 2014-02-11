@@ -102,28 +102,27 @@ public class SvgMapFragment extends MeasurableFragment {
 		Point2D.Double tl = projectToSvg(maxLat, minLng);
 		Point2D.Double br = projectToSvg(minLat, maxLng);
 
-		float projectedWidth = (float) (br.x - tl.x);
-		float projectedHeight = (float) (br.y - tl.y);
+		final float projectedWidth = (float) (br.x - tl.x);
+		final float projectedHeight = (float) (br.y - tl.y);
 
-		int usableWidth = mMapView.getWidth() - mPaddingRight - mPaddingLeft;
-		float horizontalScale =  usableWidth / projectedWidth;
+		final int usableWidth = mMapView.getWidth() - mPaddingRight - mPaddingLeft;
+		final float horizontalScale =  usableWidth / projectedWidth;
 
-		int usableHeight = mMapView.getHeight() - mPaddingTop - mPaddingBottom;
-		float verticalScale = usableHeight / projectedHeight;
+		final int usableHeight = mMapView.getHeight() - mPaddingTop - mPaddingBottom;
+		final float verticalScale = usableHeight / projectedHeight;
 
 		float scale = Math.min(horizontalScale, verticalScale);
 		scale = Math.min(MAX_ZOOM, scale); // Cap the zooming
 		float yShift = 0.0f;
 		float xShift = 0.0f;
 
-		float actualHeight = projectedHeight * scale;
+		final float actualHeight = projectedHeight * scale;
 		yShift = (usableHeight - actualHeight) / 2;
-		float actualWidth = projectedWidth * scale;
+		final float actualWidth = projectedWidth * scale;
 		xShift = (usableWidth - actualWidth) / 2;
 
 		mViewportMatrix = new Matrix();
-		mViewportMatrix.preTranslate((float) -(tl.x - mPaddingLeft/scale), (float) -(tl.y - mPaddingTop/scale));
-		mViewportMatrix.postTranslate(xShift, yShift);
+		mViewportMatrix.preTranslate((float) -(tl.x - mPaddingLeft/scale - xShift/scale), (float) -(tl.y - mPaddingTop/scale - yShift/scale));
 		mViewportMatrix.postScale(scale, scale);
 	}
 
