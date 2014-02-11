@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,6 +20,7 @@ import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfo;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -93,9 +95,17 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 				billingInfo.setLastName(traveler.getLastName());
 				billingInfo.setTelephone(traveler.getPhoneNumber());
 				billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
-				billingInfo.setEmail(traveler.getEmail());
 				//Save BillingInfo
 				billingInfo.save(getActivity());
+
+				String checkoutEmail = BookingInfoUtils.getCheckoutEmail(getActivity(), getLob());
+				if (!TextUtils.isEmpty(checkoutEmail)) {
+					Db.getBillingInfo().setEmail(checkoutEmail);
+				}
+				else {
+					//TODO this is highly unlikely to happen. Since tablet checkout is still in the works, let's come back here when UI is in place.
+					Ui.showToast(getActivity(), R.string.please_enter_a_valid_email_address);
+				}
 
 				mListener.onCheckoutDataUpdated();
 				clearForm();
