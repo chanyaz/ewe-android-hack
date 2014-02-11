@@ -1091,19 +1091,23 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			}
 		};
 
+		private void updateData() {
+			if (getData() != null && getField() != null) {
+				TelephoneSpinner spinner = (TelephoneSpinner) getField();
+				String countryName = spinner.getSelectedTelephoneCountry();
+				String countryCode = "" + spinner.getSelectedTelephoneCountryCode();
+				getData().setPhoneCountryCode(countryCode);
+				getData().setPhoneCountryName(countryName);
+			}
+		}
+
 		@Override
 		public void setChangeListener(TelephoneSpinner field) {
 
 			field.setOnItemSelectedListener(new OnItemSelectedListener() {
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-					if (getData() != null) {
-						TelephoneSpinner spinner = (TelephoneSpinner) parent;
-						String countryName = spinner.getSelectedTelephoneCountry();
-						String countryCode = "" + spinner.getSelectedTelephoneCountryCode();
-						getData().setPhoneCountryCode(countryCode);
-						getData().setPhoneCountryName(countryName);
-					}
+					updateData();
 
 					if (!mSetFieldManually) {
 						onChange(SectionTravelerInfo.this);
@@ -1120,6 +1124,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 		}
 
+
 		@Override
 		protected void onHasFieldAndData(TelephoneSpinner field, Traveler data) {
 			TelephoneSpinnerAdapter adapter = (TelephoneSpinnerAdapter) field.getAdapter();
@@ -1132,6 +1137,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 						&& (TextUtils.isEmpty(targetCountryName) || targetCountryName.equals(adapter
 						.getCountryName(i)))) {
 						field.setSelection(i);
+						updateData();
 						mSetFieldManually = true;
 						break;
 					}
@@ -1146,7 +1152,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				}
 				for (int i = 0; i < adapter.getCount(); i++) {
 					if (targetCountry.equalsIgnoreCase(adapter.getCountryName(i))) {
-						getField().setSelection(i);
+						field.setSelection(i);
+						updateData();
 						mSetFieldManually = true;
 						break;
 					}
