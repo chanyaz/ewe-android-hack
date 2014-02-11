@@ -27,7 +27,6 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.test.utils.DataUtils;
 import com.expedia.bookings.utils.JodaUtils;
-import com.mobiata.android.Log;
 
 /*
  * A class of tests intended to be a "safety cushion" for the 
@@ -261,26 +260,26 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 		long tuid = 1234567;
 
 		mBillingInfo.setExpirationDate(mNow);
-		query = expediaServices.generateHotelReservationParams(params, property, rate, mBillingInfo, tripId, userId,
+		query = expediaServices.generateHotelReservationParams(params, rate, mBillingInfo, tripId, userId,
 				tuid);
 		verifyExpirationDates(query, mNow);
 
 		LocalDate tomorrow = LocalDate.now().plusDays(1);
 		mBillingInfo.setExpirationDate(tomorrow);
-		query = expediaServices.generateHotelReservationParams(params, property, rate, mBillingInfo, tripId, userId,
-				tuid);
+		query = expediaServices.generateHotelReservationParams(params, rate, mBillingInfo, tripId, userId,
+			tuid);
 		verifyExpirationDates(query, tomorrow);
 
 		LocalDate nextMonth = LocalDate.now().plusMonths(1);
 		mBillingInfo.setExpirationDate(nextMonth);
-		query = expediaServices.generateHotelReservationParams(params, property, rate, mBillingInfo, tripId, userId,
-				tuid);
+		query = expediaServices.generateHotelReservationParams(params, rate, mBillingInfo, tripId, userId,
+			tuid);
 		verifyExpirationDates(query, nextMonth);
 
 		LocalDate nextYear = LocalDate.now().plusYears(1);
 		mBillingInfo.setExpirationDate(nextYear);
-		query = expediaServices.generateHotelReservationParams(params, property, rate, mBillingInfo, tripId, userId,
-				tuid);
+		query = expediaServices.generateHotelReservationParams(params, rate, mBillingInfo, tripId, userId,
+			tuid);
 		verifyExpirationDates(query, nextYear);
 
 	}
