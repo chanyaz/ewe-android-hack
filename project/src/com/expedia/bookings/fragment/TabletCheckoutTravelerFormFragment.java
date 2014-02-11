@@ -10,8 +10,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.section.ISectionEditable;
@@ -84,6 +86,17 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			mAttemptToLeaveMade = true;
 			if (mSectionTraveler != null && mSectionTraveler.hasValidInput()) {
 				Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerNumber, getActivity());
+
+				BillingInfo billingInfo = Db.getBillingInfo();
+				Traveler traveler = Db.getTravelers().get(mTravelerNumber);
+				billingInfo.setFirstName(traveler.getFirstName());
+				billingInfo.setLastName(traveler.getLastName());
+				billingInfo.setTelephone(traveler.getPhoneNumber());
+				billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
+				billingInfo.setEmail(traveler.getEmail());
+				//Save BillingInfo
+				billingInfo.save(getActivity());
+
 				mListener.onCheckoutDataUpdated();
 				clearForm();
 				getActivity().onBackPressed();
