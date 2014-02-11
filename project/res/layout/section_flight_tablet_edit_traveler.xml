@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.section.SectionTravelerInfoTablet xmlns:android="http://schemas.android.com/apk/res/android"
-                                                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                        android:layout_width="match_parent"
-                                                        android:layout_height="wrap_content"
-                                                        android:orientation="horizontal"
-                                                        android:paddingLeft="2dp"
-                                                        android:paddingRight="2dp">
+<com.expedia.bookings.section.SectionTravelerInfoTablet
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp">
 
     <ImageView
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:background="#CFCFCF"/>
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/ic_traveler"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -30,23 +32,30 @@
             android:layout_marginBottom="4dp"
             android:orientation="horizontal">
 
-            <com.expedia.bookings.widget.TelephoneSpinner
-                android:id="@+id/edit_phone_number_country_code_spinner"
-                style="@style/Widget.Spinner.Phone.Flights"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                app:text_view_layout="@layout/simple_spinner_item_18"/>
-
-            <EditText
-                android:id="@+id/edit_phone_number"
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/phone_number_hint"
-                android:inputType="phone"
-                android:paddingBottom="12dp"
-                android:singleLine="true"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.expedia.bookings.widget.TelephoneSpinner
+                    android:id="@+id/edit_phone_number_country_code_spinner"
+                    style="@style/Widget.Spinner.Phone"
+                    app:text_view_layout="@layout/simple_spinner_item_18"
+                    android:layout_width="96dp"
+                    android:layout_height="wrap_content"
+                    />
+
+                <EditText
+                    android:id="@+id/edit_phone_number"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/phone_number_hint"
+                    android:inputType="phone"
+                    android:singleLine="true"
+                    />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/edit_birth_date_text_btn"
@@ -67,9 +76,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginBottom="4dp"
-                android:contentDescription="@string/cd_traveler_gender_edit" />
+                android:contentDescription="@string/cd_traveler_gender_edit"/>
         </LinearLayout>
 
+        <EditText
+            android:id="@+id/edit_email_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/email_address_hint"
+            android:inputType="textEmailAddress"
+            android:singleLine="true"/>
 
         <Spinner
             android:id="@+id/edit_passport_country_spinner"
@@ -77,6 +93,55 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:contentDescription="@string/passport_country"/>
+
+        <LinearLayout
+            android:id="@+id/bottom_buttons_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
+            android:orientation="horizontal">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/seating_pref_btn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/seating_preference"
+                app:textAllCaps="true"
+                app:textStyle="medium"
+                android:textColor="#2A4367"
+                android:textStyle="bold"
+                android:textSize="14dp"/>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/special_assistance_btn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/special_assistance"
+                app:textAllCaps="true"
+                app:textStyle="medium"
+                android:textColor="#2A4367"
+                android:textStyle="bold"
+                android:textSize="14dp"/>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/redress_btn"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/add_redress_num"
+                app:textAllCaps="true"
+                app:textStyle="medium"
+                android:textColor="#2A4367"
+                android:textStyle="bold"
+                android:textSize="14dp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

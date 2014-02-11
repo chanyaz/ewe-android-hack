@@ -1269,6 +1269,15 @@
     <string name="only_if_applicable">Redress # (if applicable)</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">Saving traveler information to your account…</string>
+    <!-- Traveler information Template. e.g. Traveler 2 Information -->
+    <string name="traveler_information_TEMPLATE">Traveler %1$s Information</string>
+    <!-- Seating Preference -->
+    <string name="seating_preference">Seating Preference</string>
+    <!-- Special Assistance -->
+    <string name="special_assistance">Special Assistance</string>
+    <!-- Add Redress # -->
+    <string name="add_redress_num">Add Redress #</string>
+
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -1295,8 +1304,6 @@
     <string name="passport">Passport</string>
     <!-- Current traveler - <firstname> <lastname> -->
     <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;Current traveler -&lt;/font&gt; %1$s %2$s</string>
-    <!-- Traveler information Template. e.g. Traveler 2 Information -->
-    <string name="traveler_information_TEMPLATE">Traveler %1$s Information</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
