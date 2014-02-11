@@ -192,6 +192,8 @@
         <item name="loginBookNowButtonDrawable">@drawable/btn_signin</item>
         <item name="loginWithExpediaButtonText">@string/Log_in_with_Expedia</item>
         <item name="loginWithExpediaTitleText">@string/expedia_account</item>
+        <item name="loginButtonColor">@android:color/black</item>
+        <item name="hotelBookButtonColor">@android:color/black</item>
         <item name="hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg</item>
         <item name="hotelConfirmationCallActionDrawable">@drawable/ic_phone</item>
         <item name="hotelConfirmationCallActionText">@string/call_expedia_customer_support</item>

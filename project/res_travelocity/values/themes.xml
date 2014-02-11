@@ -17,7 +17,6 @@
         <item name="actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow_green_travelocity</item>
         <item name="actionBarButtonTextColor">@color/action_bar_text_green_travelocity</item>
         <item name="loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
-        <item name="hotelBookButtonString">@string/travelocity_book_now</item>
         <item name="hotelConfirmationCallActionText">@string/call_travelocity_customer_support</item>
         <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
         <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_blue</item>
@@ -27,6 +26,8 @@
         <item name="loginWithExpediaTitleText">@string/travelocity_account</item>
         <item name="loginWithExpediaButtonText">@string/Log_in_with_Travelocity</item>
         <item name="loginWithExpediaContentDescription">@string/cd_checkout_log_in_with_travelocity</item>
+        <item name="loginButtonColor">@android:color/white</item>
+        <item name="hotelBookButtonColor">@android:color/white</item>
         <item name="ccCheckoutHologramDrawable">@drawable/ic_credit_card_hologram_tvly</item>
         <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_tvly</item>
         <item name="webViewPreferencesActionBarLogo">@drawable/ic_action_bar_travelocity_logo</item>

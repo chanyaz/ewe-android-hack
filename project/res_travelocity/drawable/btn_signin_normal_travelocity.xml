@@ -2,6 +2,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
        android:shape="rectangle" >
 
-    <solid android:color="@color/bg_blue_color_travelocity" />
+    <solid android:color="@color/bg_btn_color_travelocity" />
 
 </shape>
