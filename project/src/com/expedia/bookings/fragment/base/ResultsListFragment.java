@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -33,7 +34,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 
 	private static final String STATE_LIST_STATE = "STATE_LIST_STATE";
 
-	protected FruitList mListView;
+	private FruitList mListView;
 	private FrameLayoutTouchController mStickyHeader;
 	private TextView mStickyHeaderTv;
 	private TextView mTopRightTextButton;
@@ -106,6 +107,11 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		if (mListView != null) {
 			outState.putParcelable(STATE_LIST_STATE, mListView.onSaveInstanceState());
 		}
+	}
+
+	@Override
+	public ListView getListView() {
+		return mListView;
 	}
 
 	private OnPreDrawListener mHeaderUpdater = new OnPreDrawListener() {

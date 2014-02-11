@@ -98,7 +98,7 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 
 	public void setEnableOnListItemClick(boolean enable) {
 		mEnableOnListItemClick = enable;
-		mListView.setChoiceMode(enable ? AbsListView.CHOICE_MODE_SINGLE : AbsListView.CHOICE_MODE_NONE);
+		getListView().setChoiceMode(enable ? AbsListView.CHOICE_MODE_SINGLE : AbsListView.CHOICE_MODE_NONE);
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 				if (trip != null) {
 					Db.getFlightSearch().setSelectedLeg(mLegNumber, new FlightTripLeg(trip, trip.getLeg(mLegNumber)));
 					mFlightSelectedListener.onFlightSelected(mLegNumber);
-					mListView.setItemChecked(position, true);
+					getListView().setItemChecked(position, true);
 				}
 			}
 		}
