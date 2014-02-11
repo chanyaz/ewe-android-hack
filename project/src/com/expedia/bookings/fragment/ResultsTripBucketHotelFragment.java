@@ -139,43 +139,37 @@ public class ResultsTripBucketHotelFragment extends TripBucketItemFragment imple
 
 		Rate rate = Db.getTripBucket().getHotel().getRate();
 
-		// TODO remove this null check. it shouldn't be necessary once the active/selected/added rate gets persisted properly
-		if (rate != null) {
-			// Title stuff
-			TextView roomTypeTv = Ui.findView(vg, R.id.primary_title_text_view);
-			roomTypeTv.setVisibility(View.VISIBLE);
-			roomTypeTv.setText(rate.getRoomDescription());
+		// Title stuff
+		TextView roomTypeTv = Ui.findView(vg, R.id.primary_title_text_view);
+		roomTypeTv.setVisibility(View.VISIBLE);
+		roomTypeTv.setText(rate.getRoomDescription());
 
-			TextView bedTypeTv = Ui.findView(vg, R.id.secondary_title_text_view);
-			bedTypeTv.setVisibility(View.VISIBLE);
-			bedTypeTv.setText(rate.getFormattedBedNames());
+		TextView bedTypeTv = Ui.findView(vg, R.id.secondary_title_text_view);
+		bedTypeTv.setVisibility(View.VISIBLE);
+		bedTypeTv.setText(rate.getFormattedBedNames());
 
-			// Dates
-			LocalDate checkIn = Db.getHotelSearch().getSearchParams().getCheckInDate();
-			LocalDate checkOut = Db.getHotelSearch().getSearchParams().getCheckOutDate();
-			String dateRange = JodaUtils.formatDateRange(getActivity(), checkIn, checkOut, DateUtils.FORMAT_SHOW_DATE);
-			int numNights = Db.getHotelSearch().getSearchParams().getStayDuration();
-			String nightsStr = getResources().getQuantityString(R.plurals.length_of_stay, numNights, numNights);
-			String dateStr = getString(R.string.dates_and_nights_TEMPLATE, dateRange, nightsStr);
-			Ui.setText(vg, R.id.dates_text_view, dateStr);
+		// Dates
+		LocalDate checkIn = Db.getHotelSearch().getSearchParams().getCheckInDate();
+		LocalDate checkOut = Db.getHotelSearch().getSearchParams().getCheckOutDate();
+		String dateRange = JodaUtils.formatDateRange(getActivity(), checkIn, checkOut, DateUtils.FORMAT_SHOW_DATE);
+		int numNights = Db.getHotelSearch().getSearchParams().getStayDuration();
+		String nightsStr = getResources().getQuantityString(R.plurals.length_of_stay, numNights, numNights);
+		String dateStr = getString(R.string.dates_and_nights_TEMPLATE, dateRange, nightsStr);
+		Ui.setText(vg, R.id.dates_text_view, dateStr);
 
-			// Num guests
-			int numGuests = Db.getHotelSearch().getSearchParams().getNumAdults(); // TODO what about the CHILDREN?
-			String numGuestsStr = getResources().getQuantityString(R.plurals.number_of_guests, numGuests, numGuests);
-			Ui.setText(vg, R.id.num_travelers_text_view, numGuestsStr);
+		// Num guests
+		int numGuests = Db.getHotelSearch().getSearchParams().getNumAdults(); // TODO what about the CHILDREN?
+		String numGuestsStr = getResources().getQuantityString(R.plurals.number_of_guests, numGuests, numGuests);
+		Ui.setText(vg, R.id.num_travelers_text_view, numGuestsStr);
 
-			// Price
-			String price = rate.getDisplayTotalPrice().getFormattedMoney();
-			Ui.setText(vg, R.id.price_expanded_bucket_text_view, price);
+		// Price
+		String price = rate.getDisplayTotalPrice().getFormattedMoney();
+		Ui.setText(vg, R.id.price_expanded_bucket_text_view, price);
 
-			// Hide price in the picture
-			mHotelSection.findViewById(R.id.price_text_view).setVisibility(View.GONE);
+		// Hide price in the picture
+		mHotelSection.findViewById(R.id.price_text_view).setVisibility(View.GONE);
 
-			root.addView(vg);
-		}
-		else {
-			Ui.showToast(getActivity(), "TODO: hotel rate isn't present. was it saved to disk properly?");
-		}
+		root.addView(vg);
 
 	}
 
