@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/select_payment_sentence_case"
+            android:text="@string/enter_payment_information"
             android:textSize="16sp" />
     </LinearLayout>
 

@@ -305,7 +305,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		}
 
 		//PAYMENT CONTAINER
-		addGroupHeading(R.string.payment_method);
+		addGroupHeading(R.string.payment);
 		mPaymentView = new FrameLayout(getActivity());
 		mPaymentView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		mPaymentView.setId(PAYMENT_FRAG_CONTAINER_ID);
