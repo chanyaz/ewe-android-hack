@@ -14,7 +14,7 @@ import com.expedia.bookings.R;
 /**
  * Use this widget to give a parallax effect to a view. Wrap the desired view with this
  * container (which extends FrameLayout).
- *
+ * <p/>
  * <pre>
  * &lt;com.expedia.bookings.widget.ParallaxContainer
  *     android:layout_width="wrap_content"
@@ -31,17 +31,17 @@ import com.expedia.bookings.R;
  *         android:src="@drawable/tall_image" /&gt;
  * &lt;/com.expedia.bookings.widget.ParallaxContainer&gt;
  * </pre>
- *
+ * <p/>
  * <p>As this view is moved about the screen (either from layout changes or from a scroll event),
- * its scrollY will be modified based on it's on-screen position. <b>NOTE</b>: ParallaxContainer
+ * its scrollY will be modified based on its on-screen position. <b>NOTE</b>: ParallaxContainer
  * expects to be a descendant of a {@link com.expedia.bookings.widget.ScrollView}, and may not update
  * itself properly otherwise.</p>
- *
+ * <p/>
  * <p>As mentioned, this view will be scrolled depending on its location on the physical screen,
  * using {@link View.getLocationOnScreen(int[])}. If this view isn't expected to make it to the
  * very edge of the screen, {@link #setOffsetTop(int)} and {@link #setOffsetBottom(int)} will
  * adjust a distance away from the edges of the screen.</p>
- *
+ * <p/>
  * <p>To set the limits for which this container will be scrolled, use {@link #setScrollMin(int)}
  * and {@link #setScrollMax(int)}. You might try something like 0dp and 300dp (in the above example).
  * Making changes to these can cause a different parallax effect.</p>
@@ -185,12 +185,11 @@ public class ParallaxContainer extends FrameLayout {
 	 * Will return the expected y value for any passed x value. If the "x" value passed
 	 * in is outside the range of the given x values, then the first and last segments
 	 * will be extended to meet that value.
-	 *
+	 * <p/>
 	 * i.e., it will produce a function that looks like this:
-	 *
+	 * <p/>
 	 *         _______
 	 * _______/
-	 *
 	 */
 	private static class SegmentedLinearInterpolator {
 		PointF[] mPoints;
