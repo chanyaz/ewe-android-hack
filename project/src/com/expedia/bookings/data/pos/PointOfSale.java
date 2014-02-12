@@ -361,31 +361,50 @@ public class PointOfSale {
 	}
 
 	/**
-	 * On phone, we'll underline and bold the entire second half of the statement,
-	 * which includes "Rules and Restrictions", "Terms and Conditions",
-	 * "Privacy Policy", and "Terms of Booking"
+	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
 	 *
 	 * @return Stylized CharSequence
 	 */
 	public CharSequence getStylizedHotelBookingStatement() {
-		return getStylizedStatement(getPosLocale().mHotelBookingStatement);
+		return getStylizedStatement(getPosLocale().mHotelBookingStatement, false);
 	}
 
 	/**
-	 * On phone, we'll underline and bold the entire second half of the statement,
-	 * which includes "Rules and Restrictions", "Terms and Conditions",
-	 * "Privacy Policy", and "Terms of Booking"
+	 * Return the hotel booking statement with all hyperlinks underlined and bolded.
+	 *
+	 * @param keepHyperLinks - If this is false, the hyperlinks will no longer be URLSpan types
+	 *
+	 * @return Stylized CharSequence
+	 **/
+	public CharSequence getStylizedHotelBookingStatement(boolean keepHyperLinks) {
+		return getStylizedStatement(getPosLocale().mHotelBookingStatement, keepHyperLinks);
+	}
+
+	/**
+	 * This is equivalent to calling getStylizedFlightBookingState(false)
 	 *
 	 * @return Stylized CharSequence
 	 */
 	public CharSequence getStylizedFlightBookingStatement() {
+		return getStylizedFlightBookingStatement(false);
+	}
+
+	/**
+	 * Return the flight booking statement with all hyperlinks underlined and bolded.
+	 *
+	 * @param keepHyperLinks - If this is false, the hyperlinks will no longer be URLSpan types
+	 *
+	 * @return Stylized CharSequence
+	 **/
+	public CharSequence getStylizedFlightBookingStatement(boolean keepHyperLinks) {
 		if (!TextUtils.isEmpty(getPosLocale().mFlightBookingStatement)) {
-			return getStylizedStatement(getPosLocale().mFlightBookingStatement);
+			return getStylizedStatement(getPosLocale().mFlightBookingStatement, keepHyperLinks);
 		}
 		return "FAIL FAIL FAIL LOC NEEDED: flightBookingStatement";
 	}
 
-	private CharSequence getStylizedStatement(String statement) {
+
+	private CharSequence getStylizedStatement(String statement, boolean keepHyperLinks) {
 		SpannableStringBuilder text = new SpannableStringBuilder(Html.fromHtml(statement));
 
 		// Replace <a> spans with our own version: bold and underlined.
@@ -395,7 +414,9 @@ public class PointOfSale {
 		for (URLSpan o : spans) {
 			int start = text.getSpanStart(o);
 			int end = text.getSpanEnd(o);
-			text.removeSpan(o);
+			if (!keepHyperLinks) {
+				text.removeSpan(o);
+			}
 			text.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
 			text.setSpan(new UnderlineSpan(), start, end, 0);
 		}

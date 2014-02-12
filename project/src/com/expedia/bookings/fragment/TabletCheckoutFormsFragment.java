@@ -326,10 +326,10 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			}
 		});
 		if (getLob() == com.expedia.bookings.data.LineOfBusiness.FLIGHTS) {
-			legalBlurb.setText(PointOfSale.getPointOfSale().getStylizedFlightBookingStatement());
+			legalBlurb.setText(PointOfSale.getPointOfSale().getStylizedFlightBookingStatement(true));
 		}
 		else {
-			legalBlurb.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
+			legalBlurb.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement(true));
 		}
 
 		//SET UP THE FORM FRAGMENTS
