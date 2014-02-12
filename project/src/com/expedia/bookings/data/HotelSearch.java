@@ -112,6 +112,7 @@ public class HotelSearch implements JSONable {
 
 	/**
 	 * Helper method to grab the rate of the currently selected room, based solely on the availability (and not coupon)
+	 *
 	 * @return the currently selected rate, selected from the rooms and rates screen
 	 */
 	public Rate getSelectedRate() {
@@ -120,6 +121,7 @@ public class HotelSearch implements JSONable {
 
 	/**
 	 * Helper method to set the selected rate of the currently selected hotel.
+	 *
 	 * @param rate
 	 */
 	public void setSelectedRate(Rate rate) {
@@ -128,6 +130,7 @@ public class HotelSearch implements JSONable {
 
 	/**
 	 * Helper method to grab the new rate from the CreateTripResponse
+	 *
 	 * @return the new Rate from the application of a coupon, null if no coupon has been applied
 	 */
 	public Rate getCouponRate() {
@@ -142,7 +145,7 @@ public class HotelSearch implements JSONable {
 	/**
 	 * Returns the rate that we expect to book with, which will either be
 	 * the coupon rate (if a coupon is applied) or the selected rate.
-	 * 
+	 * <p/>
 	 * This should be the preferred method for retrieving the current rate,
 	 * unless you are specifically trying to get the original or coupon
 	 * rate.
@@ -273,13 +276,13 @@ public class HotelSearch implements JSONable {
 		mCreateTripResponse = JSONUtils.getJSONable(obj, "createTripResponse", CreateTripResponse.class);
 
 		Map<String, HotelAvailability> availabilityMap = JSONUtils.getJSONableStringMap(obj, "availabilityMap",
-				HotelAvailability.class, mAvailabilityMap);
+			HotelAvailability.class, mAvailabilityMap);
 		if (availabilityMap != null) {
 			mAvailabilityMap = new ConcurrentHashMap<String, HotelAvailability>(availabilityMap);
 		}
 
 		Map<String, ReviewsResponse> reviewsMap = JSONUtils.getJSONableStringMap(obj, "reviewsResponses",
-				ReviewsResponse.class, mReviewsResponses);
+			ReviewsResponse.class, mReviewsResponses);
 		if (reviewsMap != null) {
 			mReviewsResponses = new ConcurrentHashMap<String, ReviewsResponse>(reviewsMap);
 		}
