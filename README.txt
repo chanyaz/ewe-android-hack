@@ -24,3 +24,7 @@ found in your home directory's 'Library/Preferences' folder:
 $ cp common/MobiataIntellij.xml ~/Library/Preferences/AndroidStudioPreview/codestyles/
 
 Restart Android Studio and you should be able to select this codestyle from Preferences -> Codestyle -> Java -> Scheme.
+
+8. XML style can be set via Preferences -> Code Style -> XML - > Set from ... -> Predefined Style -> Android. This
+does not seem to persist across Android Studio restarts so if you notice your XML formatting is all off, be sure to
+do this step again.
