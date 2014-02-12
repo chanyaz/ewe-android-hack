@@ -166,21 +166,10 @@ public class TravelerButtonFragment extends LobableFragment {
 	}
 
 	public View addEmptyTravelerToLayout(ViewGroup group) {
-		if (getLob() == LineOfBusiness.FLIGHTS) {
-			View v = View.inflate(getActivity(), R.layout.snippet_booking_overview_traveler, group);
-			TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
-			if (Db.getTravelers().size() == 1) {
-				tv.setText(R.string.traveler_details);
-			}
-			else {
-				tv.setText(getString(R.string.add_traveler_number_TEMPLATE, mTravelerNumber + 1)); // no zero index for users
-			}
-			return v;
-		}
-		else if (getLob() == LineOfBusiness.HOTELS) {
-			return View.inflate(getActivity(), R.layout.snippet_booking_overview_traveler, group);
-		}
-		return null;
+		View v = View.inflate(getActivity(), R.layout.snippet_booking_overview_traveler, group);
+		TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
+		tv.setText(R.string.Add_Traveler);
+		return v;
 	}
 
 	//TODO: WE NEED TO FLESH THESE OUT

@@ -1124,6 +1124,15 @@
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Please enter a valid email address</string>
 
+    <!-- Tablet Checkout Activity -->
+    <!-- Travelers -->
+    <string name="travelers">Travelers</string>
+    <!-- Payment -->
+    <string name="payment">Payment</string>
+    <!-- Enter Payment Information -->
+    <string name="enter_payment_information">Enter payment information</string>
+
+
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
     <string name="menu_done">Done</string>

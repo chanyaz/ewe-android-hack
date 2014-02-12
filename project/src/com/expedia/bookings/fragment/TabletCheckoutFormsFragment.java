@@ -299,7 +299,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 		//TRAVELER CONTAINERS
 		populateTravelerData();
-		addGroupHeading(R.string.traveler_information);
+		addGroupHeading(R.string.travelers);
 		for (int i = 0; i < Db.getTravelers().size(); i++) {
 			addTravelerView(i);
 		}
