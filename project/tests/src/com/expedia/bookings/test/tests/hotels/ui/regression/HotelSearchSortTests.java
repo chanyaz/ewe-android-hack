@@ -203,7 +203,7 @@ public class HotelSearchSortTests extends CustomActivityInstrumentationTestCase<
 	}
 
 	public void testSearchByAiportYieldsSortByPopularity() throws Exception {
-		String airport = "SFO";
+		String airport = "JFK";
 		mDriver.hotelsSearchScreen().clickSearchEditText();
 		mDriver.hotelsSearchScreen().clickToClearSearchEditText();
 		mDriver.hotelsSearchScreen().enterSearchText(airport);
