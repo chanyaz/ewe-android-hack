@@ -128,7 +128,7 @@ public class HotelRoomsAndRatesTests extends CustomActivityInstrumentationTestCa
 		mDriver.scrollToTop();
 		if (mDriver.searchText(mDriver.hotelsRoomsRatesScreen().renovationNoticeString(), 1, false, true)) {
 			assertTrue(mDriver.searchText(mDriver.hotelsRoomsRatesScreen().propertyRenovationString(), 1, false, true));
-			mDriver.hotelsRoomsRatesScreen().renovationInfoButton();
+			mDriver.hotelsRoomsRatesScreen().clickRenovationInfoButton();
 			mDriver.delay();
 			assertTrue(mDriver.searchText(mDriver.hotelsRoomsRatesScreen().renovationNoticeString(), 1, false, true));
 			mDriver.goBack();
