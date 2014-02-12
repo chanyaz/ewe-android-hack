@@ -69,9 +69,9 @@ public class HotelSummarySection extends RelativeLayout {
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.hotel_summary_section);
 			mSelectedBackground = a.getDrawable(R.styleable.hotel_summary_section_selectedBackground);
 			mSalePriceTextColor = a.getColor(R.styleable.hotel_summary_section_salePriceTextColor,
-					R.color.hotel_price_sale_text_color);
+				R.color.hotel_price_sale_text_color);
 			mPriceTextColor = a.getColor(R.styleable.hotel_summary_section_priceTextColor,
-					R.color.hotel_price_text_color);
+				R.color.hotel_price_text_color);
 			a.recycle();
 		}
 	}
@@ -97,6 +97,7 @@ public class HotelSummarySection extends RelativeLayout {
 
 	/**
 	 * Convenience method for hotels shown in the trip bucket.
+	 *
 	 * @param property
 	 * @param rate
 	 */
@@ -110,7 +111,7 @@ public class HotelSummarySection extends RelativeLayout {
 	 *
 	 * @param property
 	 * @param shouldShowVipIcon
-	 * @param priceTextSize interpreted as "scaled pixel" units
+	 * @param priceTextSize     interpreted as "scaled pixel" units
 	 * @param showDistance
 	 * @param distanceUnit
 	 * @param isSelected
@@ -128,7 +129,7 @@ public class HotelSummarySection extends RelativeLayout {
 	 * @param property
 	 * @param rate
 	 * @param shouldShowVipIcon
-	 * @param priceTextSize interpreted as "scaled pixel" units
+	 * @param priceTextSize     interpreted as "scaled pixel" units
 	 * @param showDistance
 	 * @param distanceUnit
 	 * @param isSelected
@@ -168,9 +169,9 @@ public class HotelSummarySection extends RelativeLayout {
 				if (hotelPrice.length() < HOTEL_PRICE_TOO_LONG) {
 					mStrikethroughPriceText.setVisibility(View.VISIBLE);
 					mStrikethroughPriceText.setText(Html.fromHtml(
-							context.getString(R.string.strike_template,
-									StrUtils.formatHotelPrice(rate.getDisplayBasePrice())), null,
-							new StrikethroughTagHandler()));
+						context.getString(R.string.strike_template,
+							StrUtils.formatHotelPrice(rate.getDisplayBasePrice())), null,
+						new StrikethroughTagHandler()));
 				}
 				else {
 					mStrikethroughPriceText.setVisibility(View.GONE);
@@ -182,17 +183,17 @@ public class HotelSummarySection extends RelativeLayout {
 					mSaleImageView.setVisibility(View.VISIBLE);
 				}
 				mSaleText.setText(context.getString(R.string.percent_minus_template,
-						rate.getDiscountPercent()));
+					rate.getDiscountPercent()));
 			}
 
 			// Story #790. Expedia's way of making it seem like they are offering a discount.
 			else if (highestPriceFromSurvey != null
-					&& (highestPriceFromSurvey.compareTo(lowestRate.getDisplayPrice()) > 0)) {
+				&& (highestPriceFromSurvey.compareTo(lowestRate.getDisplayPrice()) > 0)) {
 				mStrikethroughPriceText.setVisibility(View.VISIBLE);
 				mStrikethroughPriceText.setText(Html.fromHtml(
-						context.getString(R.string.strike_template,
-								StrUtils.formatHotelPrice(highestPriceFromSurvey)), null,
-						new StrikethroughTagHandler()));
+					context.getString(R.string.strike_template,
+						StrUtils.formatHotelPrice(highestPriceFromSurvey)), null,
+					new StrikethroughTagHandler()));
 				mSaleText.setVisibility(View.GONE);
 				if (mSaleImageView != null) {
 					mSaleImageView.setVisibility(View.GONE);
