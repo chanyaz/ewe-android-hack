@@ -148,9 +148,9 @@ public class JodaUtilsTests extends ApplicationTestCase<ExpediaBookingApp> {
 			assertEquals(expectedMediumString, nowMediumDateFormat);
 
 			String dateFormat = JodaUtils.formatDateTime(getContext(), now,
-					JodaUtils.FLAGS_DATE_FORMAT);
+					JodaUtils.FLAGS_DATE_FORMAT | JodaUtils.FLAGS_MEDIUM_DATE_FORMAT);
 			String expectedDateString = now.monthOfYear().getAsString() + "/"
-					+ now.dayOfMonth().getAsString();
+					+ now.dayOfMonth().getAsString() + "/" + now.year().getAsString();
 			assertEquals(expectedDateString, dateFormat);
 		}
 	}
