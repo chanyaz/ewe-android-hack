@@ -80,7 +80,10 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		int headerCount = getListView().getHeaderViewsCount();
 		int itemPosition = position - headerCount;
 		if (itemPosition >= 0) {
-			Db.getHotelSearch().setSelectedProperty((Property) mAdapter.getItem(itemPosition));
+			mAdapter.setSelectedPosition(itemPosition);
+			mAdapter.notifyDataSetChanged();
+			Property property = (Property) mAdapter.getItem(itemPosition);
+			Db.getHotelSearch().setSelectedProperty(property);
 			mHotelSelectedListener.onHotelSelected();
 		}
 	}

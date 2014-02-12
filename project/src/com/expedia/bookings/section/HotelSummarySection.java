@@ -32,9 +32,25 @@ import com.mobiata.android.text.StrikethroughTagHandler;
  */
 public class HotelSummarySection extends RelativeLayout {
 
-	private static final int[] CARD_GRADIENT_COLORS = new int[] { 0x00000000, 0x40000000, 0xa4000000 };
+	private static final int[] DEFAULT_GRADIENT_COLORS = new int[] {
+		0x00000000,
+		0x40000000,
+		0xa4000000
+	};
+	private static final float[] DEFAULT_GRADIENT_POSITIONS = null; // Distribute the gradient colors evenly
 
-	private static final float[] CARD_GRADIENT_POSITIONS = null; // Distribute the gradient colors evenly
+	private static final int[] SELECTED_GRADIENT_COLORS = new int[] {
+		0xb34180d9,
+		0xb34180d9,
+		0xba3d72bc,
+		0xb33867a9
+	};
+	private static final float[] SELECTED_GRADIENT_POSITIONS = new float[] {
+		0f,
+		0.28f,
+		0.85f,
+		1f
+	};
 
 	private static final int ROOMS_LEFT_CUTOFF = 5;
 
@@ -272,9 +288,23 @@ public class HotelSummarySection extends RelativeLayout {
 			}
 		}
 
+		// There are 2 ways that we indicate that this hotel is selected:
+		// 1. Changing this View's background drawable. This is what's used by the Phone UI.
+		//    We'll detect this by testing whether mSelectedBackground exists.
+		// 2. Setting/changing the gradient on the header bitmap. This is what we're using on
+		//    the 2013 tablet UI.
+		//    We'll assume this is what we want if we're not using #1.
+		boolean useSelectedBackground = mSelectedBackground != null;
+		boolean useHeaderGradient = !useSelectedBackground;
+
 		if (mHotelBackgroundView != null && property.getThumbnail() != null) {
 			final HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
-			headerBitmapDrawable.setGradient(CARD_GRADIENT_COLORS, CARD_GRADIENT_POSITIONS);
+			if (useHeaderGradient && isSelected) {
+				headerBitmapDrawable.setGradient(SELECTED_GRADIENT_COLORS, SELECTED_GRADIENT_POSITIONS);
+			}
+			else {
+				headerBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
+			}
 			headerBitmapDrawable.setCornerMode(CornerMode.ALL);
 			headerBitmapDrawable.setCornerRadius(res.getDimensionPixelSize(R.dimen.tablet_result_corner_radius));
 			//TODO: headerBitmapDrawable.setOverlayDrawable(res.getDrawable(R.drawable.card_top_lighting));
@@ -284,11 +314,6 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 
 		// Set the background based on whether the row is selected or not
-		if (isSelected && mSelectedBackground != null) {
-			setBackgroundDrawable(mSelectedBackground);
-		}
-		else {
-			setBackgroundDrawable(mUnselectedBackground);
-		}
+		setBackgroundDrawable(useSelectedBackground && isSelected ? mSelectedBackground : mUnselectedBackground);
 	}
 }
