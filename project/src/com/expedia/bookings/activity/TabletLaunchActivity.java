@@ -13,7 +13,10 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchResponse;
+import com.expedia.bookings.data.HotelFilter;
+import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.SearchParams;
@@ -251,20 +254,31 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	}
 
 	private void doSearch() {
-		Db.getHotelSearch().setSearchResponse(null);
-		Db.getFlightSearch().setSearchResponse(null);
-		Db.getFilter().reset();
+		HotelSearch hotelSearch = Db.getHotelSearch();
+		FlightSearch flightSearch = Db.getFlightSearch();
 
-		mLoadSearchDialogFragment = SimpleProgressDialogFragment.newInstance("Loading results...");
-		mLoadSearchDialogFragment.show(getSupportFragmentManager(), TAG_LOAD_SEARCH_DIALOG);
+		// Search Params
+		hotelSearch.setSearchParams(mSearchParams.toHotelSearchParams());
+		flightSearch.setSearchParams(mSearchParams.toFlightSearchParams());
 
+		// Search results filters
+		HotelFilter filter = Db.getFilter();
+		filter.reset();
+		if (hotelSearch.getSearchParams().getSearchType().shouldShowDistance()) {
+			filter.setSort(HotelFilter.Sort.DISTANCE);
+		}
+		filter.notifyFilterChanged();
+
+		// Start the search
+		Log.i("Starting search with params: " + mSearchParams);
+		hotelSearch.setSearchResponse(null);
+		flightSearch.setSearchResponse(null);
 		mServicesFragment.startHotelSearch(mSearchParams, false);
 		mServicesFragment.startFlightSearch(mSearchParams, false);
 
-		Db.getHotelSearch().setSearchParams(mSearchParams.toHotelSearchParams());
-		Db.getFlightSearch().setSearchParams(mSearchParams.toFlightSearchParams());
-
-		Log.i("Starting search with params: " + mSearchParams);
+		// Create the results fragment. TODO: something else
+		mLoadSearchDialogFragment = SimpleProgressDialogFragment.newInstance("Loading results...");
+		mLoadSearchDialogFragment.show(getSupportFragmentManager(), TAG_LOAD_SEARCH_DIALOG);
 	}
 
 	private void showDevErrorDialog(String msg) {

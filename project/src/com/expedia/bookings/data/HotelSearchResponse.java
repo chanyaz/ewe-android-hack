@@ -340,7 +340,11 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		// Check that we have a filter, if not create a new one
 		if (mFilter == null) {
 			Log.v("performFiltering() - no filter set, setting default one");
-			setFilter(new HotelFilter());
+			HotelFilter filter = new HotelFilter();
+			if (searchParams.getSearchType().shouldShowDistance()) {
+				filter.setSort(Sort.DISTANCE);
+			}
+			setFilter(filter);
 		}
 
 		// Check if we've done the custom POPULAR sort for MY_LOCATION
