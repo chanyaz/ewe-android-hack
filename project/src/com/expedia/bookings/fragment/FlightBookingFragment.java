@@ -26,12 +26,12 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 	// BookingFragment
 
 	@Override
-	public String getDownloadKey() {
+	public String getBookingDownloadKey() {
 		return DOWNLOAD_KEY;
 	}
 
 	@Override
-	public Download<FlightCheckoutResponse> getDownload() {
+	public Download<FlightCheckoutResponse> getBookingDownload() {
 		return new Download<FlightCheckoutResponse>() {
 			@Override
 			public FlightCheckoutResponse doDownload() {
@@ -60,7 +60,7 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 	}
 
 	@Override
-	public Class<FlightCheckoutResponse> getResponseClass() {
+	public Class<FlightCheckoutResponse> getBookingResponseClass() {
 		return FlightCheckoutResponse.class;
 	}
 

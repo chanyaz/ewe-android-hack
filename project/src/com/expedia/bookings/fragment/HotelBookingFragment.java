@@ -24,12 +24,12 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> {
 	// BookingFragment
 
 	@Override
-	public String getDownloadKey() {
+	public String getBookingDownloadKey() {
 		return BOOKING_DOWNLOAD_KEY;
 	}
 
 	@Override
-	public Download<BookingResponse> getDownload() {
+	public Download<BookingResponse> getBookingDownload() {
 		return new Download<BookingResponse>() {
 			@Override
 			public BookingResponse doDownload() {
@@ -60,7 +60,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> {
 	}
 
 	@Override
-	public Class<BookingResponse> getResponseClass() {
+	public Class<BookingResponse> getBookingResponseClass() {
 		return BookingResponse.class;
 	}
 

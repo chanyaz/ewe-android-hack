@@ -37,13 +37,13 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	private int mGoogleWalletErrorCode;
 
 	//////////////////////////////////////////////////////////////////////////
-	// Abstractions/overrideables
+	// Abstractions/overrideables related to only booking
 
-	public abstract String getDownloadKey();
+	public abstract String getBookingDownloadKey();
 
-	public abstract Download<T> getDownload();
+	public abstract Download<T> getBookingDownload();
 
-	public abstract Class<T> getResponseClass();
+	public abstract Class<T> getBookingResponseClass();
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -53,7 +53,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		super.onCreate(savedInstanceState);
 
 		// Ensure a consistent download key; only grab it once
-		mDownloadKey = getDownloadKey();
+		mDownloadKey = getBookingDownloadKey();
 	}
 
 	@Override
@@ -159,7 +159,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			// Clear current results (if any)
 			Db.setBookingResponse(null);
 
-			bd.startDownload(mDownloadKey, getDownload(), mCallback);
+			bd.startDownload(mDownloadKey, getBookingDownload(), mCallback);
 		}
 	}
 
@@ -264,7 +264,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	private void simulateError(int errorCode) {
 		T response;
 		try {
-			response = getResponseClass().newInstance();
+			response = getBookingResponseClass().newInstance();
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
