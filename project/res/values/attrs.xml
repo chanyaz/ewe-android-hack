@@ -276,4 +276,7 @@
     <!-- for logout confirmation -->
     <attr name="logoutConfirmationString" format="reference|string" />
 
+    <!-- Flight loading screen message position -->
+    <attr name="flightLoadingMessagePosition" format="reference" />
+
 </resources>

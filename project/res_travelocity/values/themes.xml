@@ -42,6 +42,7 @@
         <item name="webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_travelocity_logo_small</item>
         <item name="actionBarBackgroundDrawable">@drawable/bg_action_bar_travelocity</item>
         <item name="cvvBookButtonTextColor">@android:color/white</item>
+        <item name="flightLoadingMessagePosition">@id/search_progress_flight_tvly</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">
