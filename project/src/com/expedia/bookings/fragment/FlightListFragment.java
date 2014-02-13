@@ -313,13 +313,9 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 			// Animate the entire listview up (except header)
 			int translate = mListView.getHeight() - mListView.getChildAt(0).getHeight();
 			int childCount = mListView.getChildCount();
-			values = enter ? new float[] {
-				translate,
-				0,
-			} : new float[] {
-				0,
-				translate,
-			};
+			values = enter
+				? new float[] {translate, 0}
+				: new float[] {0, translate};
 			PropertyValuesHolder pvhAlpha = AnimUtils.createFadePropertyValuesHolder(enter);
 			PropertyValuesHolder pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
 			for (int a = 1; a < childCount; a++) {
