@@ -33,7 +33,7 @@ public class SvgMapFragment extends MeasurableFragment {
 	private int mPaddingTop = 0;
 	private int mPaddingBottom = 0;
 
-	private final float MAX_ZOOM = 4.0f;
+	private static final float MAX_ZOOM = 4.0f;
 
 	public static SvgMapFragment newInstance() {
 		SvgMapFragment frag = new SvgMapFragment();
