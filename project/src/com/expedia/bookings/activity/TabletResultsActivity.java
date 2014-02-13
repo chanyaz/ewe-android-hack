@@ -26,6 +26,7 @@ import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
+import com.expedia.bookings.fragment.ResultsLoadingFragment;
 import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsTripControllerFragment;
@@ -53,22 +54,21 @@ import com.mobiata.android.util.Ui;
 
 /**
  * TabletResultsActivity: The results activity designed for tablet results 2013
- * 
+ * <p/>
  * This activity was designed keep track of global results state e.g. Are we in flights/hotels/overview mode?
  * Furthermore is houses (and sets up plumbing between) our various ITabletResultsControllers.
- * 
+ * <p/>
  * The ITabletResultsControllers control whole UI flows. So anything to do with hotels, is housed within
  * the ITabletResultsController instance fragment, which is in control over everything on screen when our
  * GlobalResultsState is set to HOTEL.
- * 
+ * <p/>
  * At the time of this writting (9/5/2013) this is also in control of background images, but hopefully this
  * will be offloaded to elsewhere in the app eventually (if for nothing other than performance/ load time reasons).
- * 
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsActivity extends SherlockFragmentActivity implements IBackButtonLockListener,
-		IAddToTripListener, IFragmentAvailabilityProvider, IStateProvider<ResultsState>, IMeasurementProvider,
-		IBackManageable {
+	IAddToTripListener, IFragmentAvailabilityProvider, IStateProvider<ResultsState>, IMeasurementProvider,
+	IBackManageable {
 
 	//State
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
@@ -78,16 +78,19 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private static final String FTAG_HOTELS_CONTROLLER = "FTAG_HOTELS_CONTROLLER";
 	private static final String FTAG_TRIP_CONTROLLER = "FTAG_TRIP_CONTROLLER";
 	private static final String FTAG_BACKGROUND_IMAGE = "FTAG_BACKGROUND_IMAGE";
+	private static final String FTAG_LOADING = "FTAG_LOADING";
 
 	//Containers..
 	private ViewGroup mRootC;
 	private FrameLayoutTouchController mBgDestImageC;
+	private FrameLayoutTouchController mLoadingC;
 
 	//Fragments
 	private ResultsBackgroundImageFragment mBackgroundImageFrag;
 	private TabletResultsFlightControllerFragment mFlightsController;
 	private TabletResultsHotelControllerFragment mHotelsController;
 	private TabletResultsTripControllerFragment mTripController;
+	private ResultsLoadingFragment mLoadingFrag;
 
 	//Other
 	private GridManager mGrid = new GridManager();
@@ -142,6 +145,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		mBgDestImageC = Ui.findView(this, R.id.bg_dest_image_overlay);
 		mBgDestImageC.setBlockNewEventsEnabled(true);
 		mBgDestImageC.setVisibility(View.VISIBLE);
+		mLoadingC = Ui.findView(this,R.id.loading_frag_container);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CURRENT_STATE)) {
 			String stateName = savedInstanceState.getString(STATE_CURRENT_STATE);
@@ -153,19 +157,23 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		mBackgroundImageFrag = (ResultsBackgroundImageFragment) FragmentAvailabilityUtils.setFragmentAvailability(true,
-				FTAG_BACKGROUND_IMAGE,
-				manager, transaction, this, R.id.bg_dest_image_overlay, false);
+			FTAG_BACKGROUND_IMAGE,
+			manager, transaction, this, R.id.bg_dest_image_overlay, false);
 		mTripController = (TabletResultsTripControllerFragment) FragmentAvailabilityUtils.setFragmentAvailability(true,
-				FTAG_TRIP_CONTROLLER,
-				manager, transaction, this, R.id.full_width_trip_controller_container, false);
+			FTAG_TRIP_CONTROLLER,
+			manager, transaction, this, R.id.full_width_trip_controller_container, false);
 		mFlightsController = (TabletResultsFlightControllerFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-				true,
-				FTAG_FLIGHTS_CONTROLLER, manager, transaction, this,
-				R.id.full_width_flights_controller_container, false);
+			true,
+			FTAG_FLIGHTS_CONTROLLER, manager, transaction, this,
+			R.id.full_width_flights_controller_container, false);
 		mHotelsController = (TabletResultsHotelControllerFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-				true,
-				FTAG_HOTELS_CONTROLLER, manager, transaction, this,
-				R.id.full_width_hotels_controller_container, false);
+			true,
+			FTAG_HOTELS_CONTROLLER, manager, transaction, this,
+			R.id.full_width_hotels_controller_container, false);
+		mLoadingFrag = (ResultsLoadingFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+			true,
+			FTAG_LOADING, manager, transaction, this,
+			R.id.loading_frag_container, false);
 		transaction.commit();
 		manager.executePendingTransactions();//These must be finished before we continue..
 
@@ -227,7 +235,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 				BackgroundImageCache cache = Db.getBackgroundImageCache(TabletResultsActivity.this);
 				String key = Db.getBackgroundImageKey();
 				if (cache.getBitmap(key, TabletResultsActivity.this) != null
-						&& cache.getBlurredBitmap(key, TabletResultsActivity.this) != null) {
+					&& cache.getBlurredBitmap(key, TabletResultsActivity.this) != null) {
 					mRootC.getViewTreeObserver().removeOnPreDrawListener(this);
 				}
 				return true;
@@ -253,18 +261,18 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			//We use ordinal() + 1 for all ids and groups because 0 == Menu.NONE
 			SubMenu subMen = menu.addSubMenu(Menu.NONE, Menu.NONE, 0, "Results State");
 			subMen.add(ResultsState.OVERVIEW.ordinal() + 1, ResultsState.OVERVIEW.ordinal() + 1,
-					ResultsState.OVERVIEW.ordinal() + 1, ResultsState.OVERVIEW.name());
+				ResultsState.OVERVIEW.ordinal() + 1, ResultsState.OVERVIEW.name());
 
 			SubMenu hotelSubMen = subMen.addSubMenu(Menu.NONE, Menu.NONE, 1, ResultsState.HOTELS.name());
 			SubMenu flightSubMen = subMen.addSubMenu(Menu.NONE, Menu.NONE, 2, ResultsState.FLIGHTS.name());
 			for (ResultsHotelsState hotelState : ResultsHotelsState.values()) {
 				hotelSubMen.add(ResultsState.HOTELS.ordinal() + 1, hotelState.ordinal() + 1, hotelState.ordinal() + 1,
-						hotelState.name());
+					hotelState.name());
 			}
 			for (ResultsFlightsState flightState : ResultsFlightsState.values()) {
 				flightSubMen.add(ResultsState.FLIGHTS.ordinal() + 1, flightState.ordinal() + 1,
-						flightState.ordinal() + 1,
-						flightState.name());
+					flightState.ordinal() + 1,
+					flightState.name());
 			}
 			return true;
 		}
@@ -357,6 +365,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
 			frag = mBackgroundImageFrag;
 		}
+		else if (tag == FTAG_LOADING) {
+			frag = mLoadingFrag;
+		}
 		return frag;
 	}
 
@@ -375,6 +386,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
 			String destination = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
 			frag = ResultsBackgroundImageFragment.newInstance(destination);
+		}
+		else if (tag == FTAG_LOADING) {
+			frag = ResultsLoadingFragment.newInstance();
 		}
 		return frag;
 	}
@@ -415,7 +429,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	 */
 
 	private StateListenerCollection<ResultsState> mResultsStateListeners = new StateListenerCollection<ResultsState>(
-			mState);
+		mState);
 
 	@Override
 	public void startStateTransition(ResultsState stateOne, ResultsState stateTwo) {
@@ -485,8 +499,11 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			mLastReportedHeight = totalHeight;
 
 			//Setup grid manager
-			mGrid.setGridSize(1, 3);
+			mGrid.setGridSize(2, 3);
 			mGrid.setDimensions(totalWidth, totalHeight);
+
+			mGrid.setContainerToColumnSpan(mLoadingC, 0,1);
+			mGrid.setContainerToRow(mLoadingC, 1);
 
 			for (IMeasurementListener listener : mMeasurementListeners) {
 				listener.onContentSizeUpdated(totalWidth, totalHeight, isLandscape);
@@ -499,7 +516,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		mMeasurementListeners.add(listener);
 		if (fireListener && mLastReportedWidth >= 0 && mLastReportedHeight >= 0) {
 			listener.onContentSizeUpdated(mLastReportedWidth, mLastReportedHeight,
-					mLastReportedWidth > mLastReportedHeight);
+				mLastReportedWidth > mLastReportedHeight);
 		}
 	}
 
@@ -545,7 +562,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		@Override
 		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo, float percentage) {
 			Log.d("ResultsHotelsState - onStateTransitionUpdate - stateOne:" + stateOne + " stateTwo:" + stateTwo
-					+ " percentage:" + percentage);
+				+ " percentage:" + percentage);
 			updateStateTransition(getResultsStateFromHotels(stateOne), getResultsStateFromHotels(stateTwo), percentage);
 		}
 
@@ -599,9 +616,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo, float percentage) {
 			Log.d("ResultsFlightsState - onStateTransitionUpdate - stateOne:" + stateOne + " stateTwo:" + stateTwo
-					+ " percentage:" + percentage);
+				+ " percentage:" + percentage);
 			updateStateTransition(getResultsStateFromFlights(stateOne), getResultsStateFromFlights(stateTwo),
-					percentage);
+				percentage);
 		}
 
 		@Override
