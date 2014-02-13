@@ -67,38 +67,38 @@ public class Ui extends com.mobiata.android.util.Ui {
 
 	@SuppressWarnings("unchecked")
 	public static <T extends android.support.v4.app.Fragment> T findChildSupportFragment(
-			android.support.v4.app.Fragment fragment, String tag) {
+		android.support.v4.app.Fragment fragment, String tag) {
 		return (T) fragment.getChildFragmentManager().findFragmentByTag(tag);
 	}
 
 	@SuppressWarnings("unchecked")
 	public static <T extends android.support.v4.app.Fragment> T findChildSupportFragment(
-			android.support.v4.app.Fragment fragment, int id) {
+		android.support.v4.app.Fragment fragment, int id) {
 		return (T) fragment.getChildFragmentManager().findFragmentById(id);
 	}
 
 	/**
 	 * Even more convenient method for adding a single Fragment.
-	 *
+	 * <p/>
 	 * Should only be used if there is a single Fragment that is in android.R.id.content.
 	 */
 	public static <T extends Fragment> T findOrAddSupportFragment(CompatFragmentActivity activity,
-			Class<T> fragmentClass, String tag) {
+																  Class<T> fragmentClass, String tag) {
 		return findOrAddSupportFragment(activity, android.R.id.content, fragmentClass, tag);
 	}
 
 	/**
 	 * Convenience method that either:
-	 *
+	 * <p/>
 	 * 1. Finds and returns the Fragment if already exists in FragmentManager
 	 * 2. Creates and adds the Fragment to containerViewId if doesn't exit
-	 *
+	 * <p/>
 	 * Either way, it returns the Fragment, ready for use.
-	 *
+	 * <p/>
 	 * Should only be used if there is a single Fragment that is in android.R.id.content.
 	 */
 	public static <T extends Fragment> T findOrAddSupportFragment(CompatFragmentActivity activity,
-			int containerViewId, Class<T> fragmentClass, String tag) {
+																  int containerViewId, Class<T> fragmentClass, String tag) {
 		T fragment = findSupportFragment(activity, tag);
 		if (fragment == null) {
 			try {
@@ -131,10 +131,10 @@ public class Ui extends com.mobiata.android.util.Ui {
 	public static int[] measureRatio(int widthMeasureSpec, int heightMeasureSpec, double aspectRatio) {
 		int widthMode = MeasureSpec.getMode(widthMeasureSpec);
 		int widthSize = widthMode == MeasureSpec.UNSPECIFIED ? Integer.MAX_VALUE : MeasureSpec
-				.getSize(widthMeasureSpec);
+			.getSize(widthMeasureSpec);
 		int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 		int heightSize = heightMode == MeasureSpec.UNSPECIFIED ? Integer.MAX_VALUE : MeasureSpec
-				.getSize(heightMeasureSpec);
+			.getSize(heightMeasureSpec);
 
 		int measuredWidth;
 		int measuredHeight;
@@ -166,12 +166,16 @@ public class Ui extends com.mobiata.android.util.Ui {
 
 		}
 
-		return new int[] { measuredWidth, measuredHeight };
+		return new int[] {
+			measuredWidth,
+			measuredHeight
+		};
 	}
 
 	/**
 	 * Run code once, on the next layout pass of the given View. This implements the
 	 * OnGlobalLayoutListener without having to worry about too much boilerplate.
+	 *
 	 * @param View
 	 * @param Runnable
 	 */
@@ -187,7 +191,8 @@ public class Ui extends com.mobiata.android.util.Ui {
 	/**
 	 * Run code once, on the next layout pass of the fragment's getView(). This implements
 	 * the OnGlobalLayoutListener without having to worry about too much boilerplate.
-	 * @param Support Fragment
+	 *
+	 * @param Support  Fragment
 	 * @param Runnable
 	 */
 	public static void runOnNextLayout(Fragment fragment, Runnable runnable) {
@@ -195,7 +200,7 @@ public class Ui extends com.mobiata.android.util.Ui {
 	}
 
 	private static TypedArray obtainTypedArray(Activity activity, int attr) {
-		TypedArray a = activity.obtainStyledAttributes(new int[] { attr });
+		TypedArray a = activity.obtainStyledAttributes(new int[] {attr});
 		if (!a.hasValue(0)) {
 			throw new RuntimeException("Theme attribute not defined for attr=" + Integer.toHexString(attr));
 		}
