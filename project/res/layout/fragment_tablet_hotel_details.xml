@@ -18,7 +18,8 @@
             android:layout_height="match_parent"
             app:radius="2dp" >
 
-            <ScrollView
+            <com.expedia.bookings.widget.ScrollView
+                android:id="@+id/scrolling_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="top" >
@@ -37,13 +38,22 @@
 
                         <!-- Hotel image (#1822) -->
 
-                        <ImageView
-                            android:id="@+id/hotel_header_image"
+                        <com.expedia.bookings.widget.ParallaxContainer
+                            android:id="@+id/parallax_container"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:scaleType="centerCrop"
-                            android:src="?attr/hotelImagePlaceHolderDrawable" />
+                            android:layout_height="200dp"
+                            app:scrollMax="0dp"
+                            app:scrollMin="-100dp" >
+
+                            <ImageView
+                                android:id="@+id/hotel_header_image"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:scaleType="centerCrop"
+                                android:src="?attr/hotelImagePlaceHolderDrawable" />
+
+                        </com.expedia.bookings.widget.ParallaxContainer>
 
                         <!-- VIP badge -->
 
@@ -310,7 +320,7 @@
                         android:paddingLeft="@dimen/tablet_detail_padding"
                         android:paddingRight="@dimen/tablet_detail_padding" />
                 </LinearLayout>
-            </ScrollView>
+            </com.expedia.bookings.widget.ScrollView>
         </com.expedia.bookings.widget.RoundedCornerFrameLayout>
     </FrameLayout>
 

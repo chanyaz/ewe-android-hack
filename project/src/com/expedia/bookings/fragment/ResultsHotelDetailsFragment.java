@@ -42,6 +42,7 @@ import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.ParallaxContainer;
 import com.expedia.bookings.widget.RingedCountView;
 import com.expedia.bookings.widget.ScrollView;
 import com.mobiata.android.BackgroundDownloader;
@@ -207,7 +208,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		return ScreenPositionUtils.getGlobalScreenPosition(mHotelHeaderContainer);
 	}
 
-	private void setupHeader(View view, Property property) {
+	private void setupHeader(final View view, Property property) {
 		ImageView hotelImage = Ui.findView(view, R.id.hotel_header_image);
 		TextView hotelName = Ui.findView(view, R.id.hotel_header_hotel_name);
 		TextView notRatedText = Ui.findView(view, R.id.not_rated_text_view);
@@ -217,6 +218,19 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		TextView userRatingText = Ui.findView(view, R.id.user_rating_text);
 		TextView vipText = Ui.findView(view, R.id.vip_badge);
 		TextView saleText = Ui.findView(view, R.id.sale_text_view);
+
+		// Parallax effect
+		Ui.runOnNextLayout(view, new Runnable() {
+			@Override
+			public void run() {
+				int offsetTop = Ui.getScreenLocationY(Ui.findView(view, R.id.scrolling_content));
+				int offsetBottom = getResources().getDisplayMetrics().heightPixels - offsetTop;
+				ParallaxContainer parallaxContainer = Ui.findView(view, R.id.parallax_container);
+				parallaxContainer.setOffsetTop(offsetTop);
+				parallaxContainer.setOffsetBottom(offsetBottom);
+			}
+		});
+		view.invalidate();
 
 		// Hotel Image
 		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.hotelImagePlaceHolderDrawable);
