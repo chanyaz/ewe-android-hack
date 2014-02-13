@@ -27,5 +27,12 @@
     <string name="travelocity_booking_fee">Travelocity Booking Fee</string>
 
     <string name="error_flight_unhandled_travelocity_TEMPLATE">Sorry, we don\'t seem to be able to process your order right now. Please try again or call Travelocity Customer Support and quote this itinerary number: %s</string>
+    <string name="error_server_travelocity">Sorry, we could not connect to Travelocity\'s servers.  Please try again later.</string>
+
+    <!-- save billing info message -->
+    <string name="save_billing_travelocity_info_message">Save this payment method under your Travelocity account to speed up future purchases?</string>
+
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_travelocity_message_TEMPLATE">Save %1$s\'s information under your Travelocity account to speed up future purchases?</string>
 
 </resources>

@@ -44,6 +44,9 @@
         <item name="cvvBookButtonTextColor">@android:color/white</item>
         <item name="flightLoadingMessagePosition">@id/search_progress_flight_tvly</item>
         <item name="flightUnhandledErrorMessage">@string/error_flight_unhandled_travelocity_TEMPLATE</item>
+        <item name="serverErrorMessageString">@string/error_server_travelocity</item>
+        <item name="savePaymentToAccountString">@string/save_billing_travelocity_info_message</item>
+        <item name="saveTravelerToAccountString">@string/save_traveler_travelocity_message_TEMPLATE</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">

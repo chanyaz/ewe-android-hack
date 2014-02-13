@@ -222,6 +222,9 @@
         <item name="cvvBookButtonTextColor">@android:color/black</item>
         <item name="flightLoadingMessagePosition">@id/plane_window_view</item>
         <item name="flightUnhandledErrorMessage">@string/error_flight_unhandled_TEMPLATE</item>
+        <item name="serverErrorMessageString">@string/error_server</item>
+        <item name="savePaymentToAccountString">@string/save_billing_info_message</item>
+        <item name="saveTravelerToAccountString">@string/save_traveler_message_TEMPLATE</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

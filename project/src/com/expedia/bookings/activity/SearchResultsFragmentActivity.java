@@ -1026,7 +1026,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 	private void loadHotelOffers(HotelOffersResponse offersResponse) {
 		if (offersResponse == null) {
 			Log.e("SearchResultsFragmentActivity: Problem downloading HotelOffersResponse");
-			simulateSearchErrorResponse(R.string.error_server);
+			simulateSearchErrorResponse(Ui.obtainThemeResID(this, R.attr.serverErrorMessageString));
 		}
 		else if (offersResponse.isHotelUnavailable()) {
 			// Start an info call, so we can show an unavailable hotel
@@ -1035,7 +1035,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			bd.startDownload(KEY_HOTEL_INFO, mHotelInfoDownload, mHotelInfoCallback);
 		}
 		else if (offersResponse.hasErrors()) {
-			String message = getString(R.string.error_server);
+			String message = getString(Ui.obtainThemeResID(this, R.attr.serverErrorMessageString));
 			for (ServerError error : offersResponse.getErrors()) {
 				message = error.getPresentableMessage(this);
 			}
@@ -1061,7 +1061,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		}
 		else {
 			Log.e("SearchResultsFragmentActivity: Problem downloading HotelOffersResponse");
-			simulateSearchErrorResponse(R.string.error_server);
+			simulateSearchErrorResponse(Ui.obtainThemeResID(this, R.attr.serverErrorMessageString));
 		}
 	}
 

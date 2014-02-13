@@ -280,5 +280,8 @@
     <attr name="flightLoadingMessagePosition" format="reference" />
 
     <attr name="flightUnhandledErrorMessage" format="reference|string" />
+    <attr name="serverErrorMessageString" format="reference|string" />
+    <attr name="savePaymentToAccountString" format="reference|string" />
+    <attr name="saveTravelerToAccountString" format="reference|string" />
 
 </resources>

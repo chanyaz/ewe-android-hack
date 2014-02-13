@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.FlightTravelerInfoOptionsFragment.TravelerInfoYoYoListener;
+import com.expedia.bookings.utils.Ui;
 
 public class FlightTravelerSaveDialogFragment extends DialogFragment {
 
@@ -25,7 +26,7 @@ public class FlightTravelerSaveDialogFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-		String messageTemplate = getString(R.string.save_traveler_message_TEMPLATE);
+		String messageTemplate = getString(Ui.obtainThemeResID(getActivity(), R.attr.saveTravelerToAccountString));
 		String message = String.format(messageTemplate, Db.getWorkingTravelerManager().getWorkingTraveler()
 				.getFirstName()
 				+ " " + Db.getWorkingTravelerManager().getWorkingTraveler().getLastName());
