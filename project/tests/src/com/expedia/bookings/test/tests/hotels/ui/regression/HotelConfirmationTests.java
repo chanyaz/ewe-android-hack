@@ -270,7 +270,8 @@ public class HotelConfirmationTests extends CustomActivityInstrumentationTestCas
 		assertEquals(mHotelName, displayedHotelName);
 
 		String itineraryConfirmationText = mDriver.hotelsConfirmationScreen().itineraryTextView().getText().toString();
-		String expectedItineraryConfirmationText = getString(R.string.itinerary_confirmation_TEMPLATE, "12345678901");
+        String expectedItineraryNumber = Db.getBookingResponse().getItineraryId();
+		String expectedItineraryConfirmationText = getString(R.string.itinerary_confirmation_TEMPLATE, expectedItineraryNumber);
 		assertEquals(expectedItineraryConfirmationText, itineraryConfirmationText);
 
 		String displayedEmailAddress = mDriver.hotelsConfirmationScreen().emailTextView().getText().toString();
