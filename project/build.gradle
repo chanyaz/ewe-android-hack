@@ -106,12 +106,17 @@ android {
         instrumentTest.manifest.srcFile 'tests/AndroidManifest.xml'
         instrumentTest.java.srcDirs = ['tests/src']
 
+        Expedia {
+            manifest.srcFile 'AndroidManifest-expedia.xml'
+        }
+
         VSC {
             manifest.srcFile 'AndroidManifest-vsc.xml'
             res.srcDirs 'res_vsc'
         }
 
         Travelocity {
+            manifest.srcFile 'AndroidManifest-travelocity.xml'
             res.srcDirs 'res_travelocity'
         }
 

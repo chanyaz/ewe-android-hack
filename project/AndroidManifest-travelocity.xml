@@ -1,0 +1,57 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.expedia.bookings" >
+
+    <application>
+
+        <!-- Deep link routing activity -->
+        <activity
+            android:name="com.expedia.bookings.activity.DeepLinkRouterActivity"
+            android:theme="@android:style/Theme.NoDisplay" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="trvly" />
+                <data android:host="home" />
+                <data android:host="trips" />
+                <data android:host="showTrips" />
+                <data android:host="hotelSearch" />
+                <data android:host="flightSearch" />
+
+                <!-- We will handle iOS implementation of ItinSharing as well, just cause we can -->
+                <data android:host="addSharedItinerary" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:pathPrefix="/m/trips/shared"
+                    android:scheme="https"/>
+
+                <data android:host="shop.travelocity.com" />
+                <data android:host="www.travelocity.com" />
+
+
+                <!-- Public integration -->
+                <data android:host="70.42.224.37" />
+
+                <!-- Dev Server -->
+                <data android:host="wwwtravelocitycom.chelwebestr37.bgb.karmalab.net" />
+
+                <!-- Integration Server -->
+                <data android:host="wwwtravelocitycom.integration.sb.karmalab.net" />
+
+                <!-- Trunk Server -->
+                <data android:host="wwwtravelocitycom.trunk.sb.karmalab.net" />
+            </intent-filter>
+        </activity>
+
+
+    </application>
+
+</manifest>
