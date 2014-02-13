@@ -126,7 +126,7 @@ public class NavUtils {
 		}
 
 		// 13820: Check if a booking is in process at this moment (in case BookingInfoActivity died)
-		if (BackgroundDownloader.getInstance().isDownloading(HotelBookingFragment.BOOKING_DOWNLOAD_KEY)) {
+		if (BackgroundDownloader.getInstance().isDownloading(HotelBookingFragment.KEY_DOWNLOAD_BOOKING)) {
 			routingTarget = HotelBookingActivity.class;
 		}
 		else {

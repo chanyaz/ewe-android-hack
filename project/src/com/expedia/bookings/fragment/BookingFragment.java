@@ -60,7 +60,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		mListener = Ui.findFragmentListener(this, BookingFragmentListener.class);
+		mListener = Ui.findFragmentListener(this, BookingFragmentListener.class, false);
 	}
 
 	@Override

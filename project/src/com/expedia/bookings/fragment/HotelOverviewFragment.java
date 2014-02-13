@@ -57,6 +57,7 @@ import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.dialog.ThrobberDialog.CancelListener;
+import com.expedia.bookings.fragment.HotelBookingFragment.HotelProductSuccessListener;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.model.HotelTravelerFlowState;
@@ -91,7 +92,7 @@ import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.view.ViewHelper;
 
 public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
-		CancelListener, SimpleCallbackDialogFragmentListener, CouponDialogFragmentListener {
+		CancelListener, SimpleCallbackDialogFragmentListener, CouponDialogFragmentListener, HotelProductSuccessListener {
 
 	private static final String RETRY_CREATE_TRIP_DIALOG = "RETRY_CREATE_TRIP_DIALOG";
 
@@ -112,7 +113,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private static final String INSTANCE_WAS_USING_GOOGLE_WALLET = "INSTANCE_WAS_USING_GOOGLE_WALLET";
 
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
-	private static final String KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE = "KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE";
 	private static final String KEY_APPLY_COUPON = "KEY_APPLY_COUPON";
 	private static final String KEY_CREATE_TRIP = "KEY_CREATE_TRIP";
 
@@ -171,6 +171,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private FragmentModificationSafeLock mFragmentModLock = new FragmentModificationSafeLock();
 
+	private HotelBookingFragment mHotelBookingFragment;
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -201,6 +203,17 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 
 		AdTracker.trackHotelCheckoutStarted();
+
+		mHotelBookingFragment = Ui.findSupportFragment(this, HotelBookingFragment.TAG);
+
+		if (mHotelBookingFragment == null) {
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			mHotelBookingFragment = new HotelBookingFragment();
+			ft.add(mHotelBookingFragment, HotelBookingFragment.TAG);
+			ft.commit();
+		}
+
+		mHotelBookingFragment.addHotelProductSuccessListener(this);
 	}
 
 	@Override
@@ -346,11 +359,11 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 			refreshData();
 
-			if (bd.isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE)) {
-				bd.registerDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductCallback);
+			if (bd.isDownloading(HotelBookingFragment.KEY_DOWNLOAD_BOOKING)) {
+				mHotelBookingFragment.registerForHotelProductDownload();
 			}
 			else if (!mIsDoneLoadingPriceChange) {
-				bd.startDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductDownload, mHotelProductCallback);
+				mHotelBookingFragment.startHotelProductDownload();
 			}
 		}
 
@@ -381,7 +394,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (getActivity().isFinishing()) {
 			bd.cancelDownload(KEY_REFRESH_USER);
-			bd.cancelDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
 			bd.cancelDownload(KEY_APPLY_COUPON);
 			bd.cancelDownload(KEY_CREATE_TRIP);
 			// Since we are exiting the screen, let's reset coupon.
@@ -389,7 +401,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 		else {
 			bd.unregisterDownloadCallback(KEY_REFRESH_USER);
-			bd.unregisterDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
 			bd.unregisterDownloadCallback(KEY_APPLY_COUPON);
 			bd.unregisterDownloadCallback(KEY_CREATE_TRIP);
 		}
@@ -992,74 +1003,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 	};
 
-	// Download updated rate information
-
-	private final Download<HotelProductResponse> mHotelProductDownload = new Download<HotelProductResponse>() {
-		@Override
-		public HotelProductResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(getActivity());
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, services);
-			Rate selectedRate = Db.getHotelSearch().getSelectedRate();
-			return services.hotelProduct(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch()
-					.getSelectedProperty(), selectedRate);
-		}
-	};
-
-	private final OnDownloadComplete<HotelProductResponse> mHotelProductCallback = new OnDownloadComplete<HotelProductResponse>() {
-		@Override
-		public void onDownload(HotelProductResponse response) {
-			if (response == null || response.hasErrors()) {
-				handleHotelProductError(response);
-			}
-			else {
-				final String selectedId = Db.getHotelSearch().getSelectedPropertyId();
-				Rate selectedRate = Db.getHotelSearch().getSelectedRate();
-				Rate newRate = response.getRate();
-
-				if (TextUtils.equals(selectedRate.getRateKey(), response.getOriginalProductKey())) {
-					if (!AndroidUtils.isRelease(getActivity())) {
-						String val = SettingUtils.get(getActivity(),
-								getString(R.string.preference_fake_hotel_price_change),
-								getString(R.string.preference_fake_price_change_default));
-						BigDecimal bigDecVal = new BigDecimal(val);
-
-						//Update total price
-						newRate.getDisplayTotalPrice().add(bigDecVal);
-
-						//Update all nights total and per/night totals
-						newRate.getNightlyRateTotal().add(bigDecVal);
-						if (newRate.getRateBreakdownList() != null) {
-							BigDecimal perNightChange = bigDecVal.divide(new BigDecimal(newRate
-									.getRateBreakdownList().size()));
-							for (RateBreakdown breakdown : newRate.getRateBreakdownList()) {
-								breakdown.getAmount().add(perNightChange);
-							}
-						}
-
-					}
-
-					int priceChange = selectedRate.compareForPriceChange(newRate);
-					if (priceChange != 0) {
-						boolean isPriceHigher = priceChange < 0;
-						HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher,
-								selectedRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());
-						dialog.show(getFragmentManager(), "priceChangeDialog");
-					}
-
-					Db.getHotelSearch().getAvailability(selectedId).updateFrom(selectedRate.getRateKey(), response);
-					Db.getHotelSearch().getAvailability(selectedId).setSelectedRate(newRate);
-
-					mIsDoneLoadingPriceChange = true;
-					updateViews();
-					updateViewVisibilities();
-				}
-				else {
-					handleHotelProductError(response);
-				}
-			}
-		}
-	};
-
 	private final Download<CreateTripResponse> mCreateTripDownload = new Download<CreateTripResponse>() {
 		@Override
 		public CreateTripResponse doDownload() {
@@ -1116,23 +1059,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private void showRetryErrorDialog() {
 		DialogFragment df = new RetryErrorDialogFragment();
 		df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), RETRY_CREATE_TRIP_DIALOG);
-	}
-
-	private void handleHotelProductError(HotelProductResponse response) {
-		HotelErrorDialog dialog = HotelErrorDialog.newInstance();
-		int messageId = R.string.e3_error_hotel_offers_hotel_service_failure;
-		if (response != null && response.getErrors() != null) {
-			for (ServerError error : response.getErrors()) {
-				if (error.getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
-					String selectedId = Db.getHotelSearch().getSelectedPropertyId();
-					messageId = R.string.e3_error_hotel_offers_hotel_room_unavailable;
-					Db.getHotelSearch().getAvailability(selectedId).removeRate(response.getOriginalProductKey());
-				}
-			}
-		}
-
-		dialog.setMessage(messageId);
-		dialog.show(getFragmentManager(), HOTEL_OFFER_ERROR_DIALOG);
 	}
 
 	// Listeners
@@ -1669,6 +1595,13 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (callbackId == CALLBACK_WALLET_PROMO_APPLY_ERROR) {
 			updateViewVisibilities();
 		}
+	}
+
+	@Override
+	public void onHotelProductSuccess() {
+		mIsDoneLoadingPriceChange = true;
+		updateViews();
+		updateViewVisibilities();
 	}
 
 }
