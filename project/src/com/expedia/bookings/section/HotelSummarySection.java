@@ -157,8 +157,11 @@ public class HotelSummarySection extends RelativeLayout {
 
 		mNameText.setText(property.getName());
 
-		Money thePrice = showTotal ? rate.getDisplayTotalPrice() : rate.getDisplayPrice();
-		final String hotelPrice = rate == null ? "" : thePrice.getFormattedMoney(Money.F_NO_DECIMAL);
+		Money thePrice = null;
+		if (rate != null) {
+			thePrice = showTotal ? rate.getDisplayTotalPrice() : rate.getDisplayPrice();
+		}
+		final String hotelPrice = thePrice == null ? "" : thePrice.getFormattedMoney(Money.F_NO_DECIMAL);
 
 		if (rate == null) {
 			if (mStrikethroughPriceText != null) {
