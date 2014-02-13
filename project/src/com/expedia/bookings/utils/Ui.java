@@ -354,4 +354,17 @@ public class Ui extends com.mobiata.android.util.Ui {
 			Log.v(TAG, "onWindowFocusChanged(hasFocus=" + hasFocus + ")");
 		}
 	}
+
+	/**
+	 * Convenience method to replace otherwise clunky code. Returns the Y coordinate of the
+	 * absolute screen position of the passed view.
+	 *
+	 * @param view
+	 * @return
+	 */
+	public static int getScreenLocationY(View view) {
+		int[] location = new int[2];
+		view.getLocationOnScreen(location);
+		return location[1];
+	}
 }
