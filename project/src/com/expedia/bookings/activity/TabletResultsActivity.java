@@ -24,6 +24,7 @@ import com.expedia.bookings.data.BackgroundImageCache;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
+import com.expedia.bookings.enums.ResultsLoadingState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
 import com.expedia.bookings.fragment.ResultsLoadingFragment;
@@ -274,6 +275,15 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 					flightState.ordinal() + 1,
 					flightState.name());
 			}
+
+
+			//TODO: REMOVE THIS, IT IS ONLY USEFUL FOR BUILDING THE LOADING STUFF
+			menu.add(100, ResultsLoadingState.ALL.ordinal() + 1,ResultsLoadingState.ALL.ordinal() + 1,ResultsLoadingState.ALL.name());
+			menu.add(100, ResultsLoadingState.HOTELS.ordinal() + 1,ResultsLoadingState.HOTELS.ordinal() + 1,ResultsLoadingState.HOTELS.name());
+			menu.add(100, ResultsLoadingState.FLIGHTS.ordinal() + 1,ResultsLoadingState.FLIGHTS.ordinal() + 1,ResultsLoadingState.FLIGHTS.name());
+
+
+
 			return true;
 		}
 
@@ -336,6 +346,19 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 				mFlightsController.setFlightsState(ResultsFlightsState.values()[id], false);
 				return true;
 			}
+
+			//TODO: REMOVE THE BELOW CODE, IT IS NOT USEFUL EXCEPT FOR WHILE BUILDING THE LOADING STUFF
+			if(item.getGroupId() == 100 && mLoadingFrag != null){
+				boolean anim = false;
+				if(id == ResultsLoadingState.ALL.ordinal()){
+					mLoadingFrag.setState(ResultsLoadingState.ALL, anim);
+				}else if(id == ResultsLoadingState.HOTELS.ordinal()){
+					mLoadingFrag.setState(ResultsLoadingState.HOTELS, anim);
+				}else if(id == ResultsLoadingState.FLIGHTS.ordinal()){
+					mLoadingFrag.setState(ResultsLoadingState.FLIGHTS, anim);
+				}
+			}
+
 		}
 
 		return super.onOptionsItemSelected(item);
