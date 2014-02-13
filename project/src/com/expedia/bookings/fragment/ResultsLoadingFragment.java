@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -27,7 +28,14 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 
 	private StateManager<ResultsLoadingState> mStateManager = new StateManager<ResultsLoadingState>(ResultsLoadingState.ALL, this);
 	private View mRootC;
+	private LinearLayout mTextC;
+
 	private TextView mLoadingTv;
+	private TextView mHotelsTv;
+	private TextView mFlightsTv;
+	private TextView mAndTv;
+	private TextView mEllipsisTv;
+
 	private FrameLayoutTouchController mBgLeft;
 	private FrameLayoutTouchController mBgRight;
 
@@ -39,7 +47,14 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = inflater.inflate(R.layout.fragment_results_loading, null);
-		mLoadingTv = Ui.findView(mRootC, R.id.loading_tv);
+
+		mTextC = Ui.findView(mRootC, R.id.loading_text_container);
+		mLoadingTv = Ui.findView(mTextC, R.id.loading_tv);
+		mHotelsTv = Ui.findView(mTextC, R.id.hotels_tv);
+		mFlightsTv = Ui.findView(mTextC, R.id.flights_tv);
+		mAndTv = Ui.findView(mTextC, R.id.and_tv);
+		mEllipsisTv = Ui.findView(mTextC, R.id.ellipsis_tv);
+
 
 		mBgLeft = Ui.findView(mRootC, R.id.bg_left);
 		mBgRight = Ui.findView(mRootC, R.id.bg_right);
@@ -77,9 +92,10 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 
 		@Override
 		public void onStateTransitionUpdate(ResultsLoadingState stateOne, ResultsLoadingState stateTwo, float percentage) {
-			if(stateOne == ResultsLoadingState.ALL && stateTwo == ResultsLoadingState.FLIGHTS){
+			if (stateOne == ResultsLoadingState.ALL && stateTwo == ResultsLoadingState.FLIGHTS) {
 				positionTextLabel(percentage, false);
-			}else if(stateOne == ResultsLoadingState.ALL && stateTwo == ResultsLoadingState.HOTELS){
+			}
+			else if (stateOne == ResultsLoadingState.ALL && stateTwo == ResultsLoadingState.HOTELS) {
 				positionTextLabel(percentage, true);
 			}
 		}
@@ -97,25 +113,34 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 		}
 	};
 
-	protected void positionTextForState(ResultsLoadingState state){
-		if(state == ResultsLoadingState.ALL){
+	protected void positionTextForState(ResultsLoadingState state) {
+		if (state == ResultsLoadingState.ALL) {
 			positionTextLabel(0f, false);
-		}else if(state == ResultsLoadingState.FLIGHTS){
+		}
+		else if (state == ResultsLoadingState.FLIGHTS) {
 			positionTextLabel(1f, false);
-		}else if(state == ResultsLoadingState.HOTELS){
+		}
+		else if (state == ResultsLoadingState.HOTELS) {
 			positionTextLabel(1f, true);
 		}
 	}
 
 	protected void setLoadingTextForState(ResultsLoadingState state) {
 		if (state == ResultsLoadingState.ALL) {
-			mLoadingTv.setText(R.string.loading);
+			mHotelsTv.setVisibility(View.VISIBLE);
+			mFlightsTv.setVisibility(View.VISIBLE);
+			mAndTv.setVisibility(View.VISIBLE);
 		}
-		else if (state == ResultsLoadingState.FLIGHTS) {
-			mLoadingTv.setText(R.string.loading_flights);
-		}
-		else if (state == ResultsLoadingState.HOTELS) {
-			mLoadingTv.setText(R.string.loading_hotels);
+		else {
+			mAndTv.setVisibility(View.GONE);
+			if (state == ResultsLoadingState.FLIGHTS) {
+				mHotelsTv.setVisibility(View.GONE);
+				mFlightsTv.setVisibility(View.VISIBLE);
+			}
+			else if (state == ResultsLoadingState.HOTELS) {
+				mHotelsTv.setVisibility(View.VISIBLE);
+				mFlightsTv.setVisibility(View.GONE);
+			}
 		}
 	}
 
@@ -134,12 +159,13 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 		}
 	}
 
-	protected void positionTextLabel(float percentage, boolean toLeft){
-		if(percentage == 0){
-			mLoadingTv.setTranslationX(0f);
-		}else{
-			float rootQuarter = mRootC.getWidth()/4f;
-			mLoadingTv.setTranslationX(percentage * (toLeft ? -rootQuarter : rootQuarter));
+	protected void positionTextLabel(float percentage, boolean toLeft) {
+		if (percentage == 0) {
+			mTextC.setTranslationX(0f);
+		}
+		else {
+			float rootQuarter = mRootC.getWidth() / 4f;
+			mTextC.setTranslationX(percentage * (toLeft ? -rootQuarter : rootQuarter));
 		}
 	}
 

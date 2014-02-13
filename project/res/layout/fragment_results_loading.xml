@@ -25,11 +25,50 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/loading_tv"
+    <LinearLayout
+        android:id="@+id/loading_text_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/loading"/>
+        android:animateLayoutChanges="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/loading_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loading"/>
+
+        <TextView
+            android:id="@+id/hotels_tv"
+            android:paddingLeft="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nav_hotels"/>
+
+        <TextView
+            android:id="@+id/and_tv"
+            android:paddingLeft="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/and"/>
+
+        <TextView
+            android:id="@+id/flights_tv"
+            android:paddingLeft="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nav_flights"/>
+
+        <TextView
+            android:id="@+id/ellipsis_tv"
+            android:paddingLeft="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&#8230;"/>
+
+    </LinearLayout>
+
+
 
 </FrameLayout>
