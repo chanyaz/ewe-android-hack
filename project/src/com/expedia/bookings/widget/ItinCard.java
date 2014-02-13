@@ -15,7 +15,6 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,12 +31,12 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.ShareUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.CalendarAPIUtils;
-import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -391,7 +390,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	/**
 	 * This method re-binds the ItinCard with the provided data, under the assumption that
 	 * the card is already expanded, and the views need updating.
-	 * 
+	 *
 	 * @param itinCardData - new data to bind
 	 * @throws RuntimeException if this card was not already in EXPANDED mode
 	 */
@@ -443,10 +442,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		// TODO: the "82" here is somewhat magical, and is related to the distance of mHeaderImageContainer
 		// from the top of the screen. The parallax is not perfect when an image scales up from mini to
 		// expanded, I don't know why.
-		WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-		DisplayMetrics metrics = new DisplayMetrics();
-		wm.getDefaultDisplay().getMetrics(metrics);
-		int offsetBottom = metrics.heightPixels - (int) (82 * metrics.density);
+		DisplayMetrics metrics = getResources().getDisplayMetrics();
+		int offsetBottom = metrics.heightPixels	- (int) (82 * metrics.density);
 		mHeaderImageContainer.setOffsetBottom(offsetBottom);
 
 		ResizeAnimator.setHeight(mHeaderImageView, height);

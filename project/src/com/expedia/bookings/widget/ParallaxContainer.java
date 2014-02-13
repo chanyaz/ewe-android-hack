@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.PointF;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.ViewParent;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.view.WindowManager;
 
 import com.expedia.bookings.R;
 
@@ -45,6 +43,12 @@ import com.expedia.bookings.R;
  * <p>To set the limits for which this container will be scrolled, use {@link #setScrollMin(int)}
  * and {@link #setScrollMax(int)}. You might try something like 0dp and 300dp (in the above example).
  * Making changes to these can cause a different parallax effect.</p>
+ * <p/>
+ * <p>These values are interpolated, such that when the bottom of this view is [offsetTop] pixels away
+ * from the top of the screen, it will be parallaxed by [scrollMax] pixels, and when the top of
+ * this view is [offsetBottom] pixels away from the bottom of the screen, it will be parallaxed by
+ * [scrollMin] pixels.
+ * </p>
  *
  * @author doug@mobiata.com
  */
@@ -165,10 +169,7 @@ public class ParallaxContainer extends FrameLayout {
 		// If mLocation were between minVisiblePosition and maxVisiblePostion,
 		// then this view would still be visible on the screen.
 		float minVisiblePosition = mOffsetTop - thisHeight;
-		WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-		DisplayMetrics metrics = new DisplayMetrics();
-		wm.getDefaultDisplay().getMetrics(metrics);
-		float maxVisiblePosition = metrics.heightPixels - mOffsetBottom;
+		float maxVisiblePosition = getResources().getDisplayMetrics().heightPixels - mOffsetBottom;
 
 		PointF p1 = new PointF(minVisiblePosition, mScrollMin);
 		PointF p2 = new PointF(maxVisiblePosition, mScrollMax);
