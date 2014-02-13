@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,11 +22,12 @@ import com.expedia.bookings.widget.FrameLayoutTouchController;
 /**
  * Results loading fragment for Tablet
  */
+@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ResultsLoadingFragment extends Fragment implements IStateProvider<ResultsLoadingState> {
 
 	private StateManager<ResultsLoadingState> mStateManager = new StateManager<ResultsLoadingState>(ResultsLoadingState.ALL, this);
+	private View mRootC;
 	private TextView mLoadingTv;
-
 	private FrameLayoutTouchController mBgLeft;
 	private FrameLayoutTouchController mBgRight;
 
@@ -35,15 +38,15 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_results_loading, null);
-		mLoadingTv = Ui.findView(view, R.id.loading_tv);
+		mRootC = inflater.inflate(R.layout.fragment_results_loading, null);
+		mLoadingTv = Ui.findView(mRootC, R.id.loading_tv);
 
-		mBgLeft = Ui.findView(view, R.id.bg_left);
-		mBgRight = Ui.findView(view, R.id.bg_right);
+		mBgLeft = Ui.findView(mRootC, R.id.bg_left);
+		mBgRight = Ui.findView(mRootC, R.id.bg_right);
 
 		registerStateListener(mStateHelper, false);
 
-		return view;
+		return mRootC;
 	}
 
 	@Override
@@ -74,7 +77,11 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 
 		@Override
 		public void onStateTransitionUpdate(ResultsLoadingState stateOne, ResultsLoadingState stateTwo, float percentage) {
-
+			if(stateOne == ResultsLoadingState.ALL && stateTwo == ResultsLoadingState.FLIGHTS){
+				positionTextLabel(percentage, false);
+			}else if(stateOne == ResultsLoadingState.ALL && stateTwo == ResultsLoadingState.HOTELS){
+				positionTextLabel(percentage, true);
+			}
 		}
 
 		@Override
@@ -86,8 +93,19 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 		public void onStateFinalized(ResultsLoadingState state) {
 			setLoadingTextForState(state);
 			setBackgroundForState(state);
+			positionTextForState(state);
 		}
 	};
+
+	protected void positionTextForState(ResultsLoadingState state){
+		if(state == ResultsLoadingState.ALL){
+			positionTextLabel(0f, false);
+		}else if(state == ResultsLoadingState.FLIGHTS){
+			positionTextLabel(1f, false);
+		}else if(state == ResultsLoadingState.HOTELS){
+			positionTextLabel(1f, true);
+		}
+	}
 
 	protected void setLoadingTextForState(ResultsLoadingState state) {
 		if (state == ResultsLoadingState.ALL) {
@@ -113,6 +131,15 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 		else if (state == ResultsLoadingState.HOTELS) {
 			setBgShowing(mBgLeft, true);
 			setBgShowing(mBgRight, false);
+		}
+	}
+
+	protected void positionTextLabel(float percentage, boolean toLeft){
+		if(percentage == 0){
+			mLoadingTv.setTranslationX(0f);
+		}else{
+			float rootQuarter = mRootC.getWidth()/4f;
+			mLoadingTv.setTranslationX(percentage * (toLeft ? -rootQuarter : rootQuarter));
 		}
 	}
 

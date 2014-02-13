@@ -349,7 +349,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 			//TODO: REMOVE THE BELOW CODE, IT IS NOT USEFUL EXCEPT FOR WHILE BUILDING THE LOADING STUFF
 			if(item.getGroupId() == 100 && mLoadingFrag != null){
-				boolean anim = false;
+				boolean anim = true;
 				if(id == ResultsLoadingState.ALL.ordinal()){
 					mLoadingFrag.setState(ResultsLoadingState.ALL, anim);
 				}else if(id == ResultsLoadingState.HOTELS.ordinal()){
@@ -358,7 +358,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 					mLoadingFrag.setState(ResultsLoadingState.FLIGHTS, anim);
 				}
 			}
-
 		}
 
 		return super.onOptionsItemSelected(item);
