@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.enums.ResultsFlightsState;
+import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsLoadingState;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -49,12 +51,12 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 		mRootC = inflater.inflate(R.layout.fragment_results_loading, null);
 
 		mTextC = Ui.findView(mRootC, R.id.loading_text_container);
+
 		mLoadingTv = Ui.findView(mTextC, R.id.loading_tv);
 		mHotelsTv = Ui.findView(mTextC, R.id.hotels_tv);
 		mFlightsTv = Ui.findView(mTextC, R.id.flights_tv);
 		mAndTv = Ui.findView(mTextC, R.id.and_tv);
 		mEllipsisTv = Ui.findView(mTextC, R.id.ellipsis_tv);
-
 
 		mBgLeft = Ui.findView(mRootC, R.id.bg_left);
 		mBgRight = Ui.findView(mRootC, R.id.bg_right);
@@ -74,10 +76,93 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 		super.onPause();
 	}
 
+	/**
+	 * LISTEN TO HOTELS STATE
+	 */
+
+	private ResultsHotelsState mHotelsState = ResultsHotelsState.LOADING;
+
+	public IStateListener<ResultsHotelsState> getHotelsStateListener() {
+		return mHotelsStateHelper;
+	}
+
+	private StateListenerHelper<ResultsHotelsState> mHotelsStateHelper = new StateListenerHelper<ResultsHotelsState>() {
+
+		@Override
+		public void onStateTransitionStart(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
+
+		}
+
+		@Override
+		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo, float percentage) {
+
+		}
+
+		@Override
+		public void onStateTransitionEnd(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
+
+		}
+
+		@Override
+		public void onStateFinalized(ResultsHotelsState state) {
+			mHotelsState = state;
+			setState(determineState(), true);
+		}
+	};
+
+	/**
+	 * LISTEN TO FLIGHTS STATE
+	 */
+	private ResultsFlightsState mFlightsState = ResultsFlightsState.LOADING;
+
+	public IStateListener<ResultsFlightsState> getFlightsStateListener() {
+		return mFlightsStateHelper;
+	}
+
+	private StateListenerHelper<ResultsFlightsState> mFlightsStateHelper = new StateListenerHelper<ResultsFlightsState>() {
+		@Override
+		public void onStateTransitionStart(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
+
+		}
+
+		@Override
+		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo, float percentage) {
+
+		}
+
+		@Override
+		public void onStateTransitionEnd(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
+
+		}
+
+		@Override
+		public void onStateFinalized(ResultsFlightsState state) {
+			mFlightsState = state;
+			setState(determineState(), true);
+		}
+	};
+
 
 	/**
 	 * LOADING STATE MANAGEMENT
 	 */
+
+	public ResultsLoadingState determineState() {
+		return determineState(mFlightsState, mHotelsState);
+	}
+
+	public ResultsLoadingState determineState(ResultsFlightsState flightsState, ResultsHotelsState hotelsState) {
+		if (flightsState == ResultsFlightsState.LOADING && hotelsState == ResultsHotelsState.LOADING) {
+			return ResultsLoadingState.ALL;
+		}
+		else if (flightsState == ResultsFlightsState.LOADING && hotelsState != ResultsHotelsState.LOADING) {
+			return ResultsLoadingState.FLIGHTS;
+		}
+		else if (flightsState != ResultsFlightsState.LOADING && hotelsState == ResultsHotelsState.LOADING) {
+			return ResultsLoadingState.HOTELS;
+		}
+		return ResultsLoadingState.NONE;
+	}
 
 	public void setState(ResultsLoadingState state, boolean animate) {
 		mStateManager.setState(state, animate);
@@ -107,9 +192,15 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 
 		@Override
 		public void onStateFinalized(ResultsLoadingState state) {
-			setLoadingTextForState(state);
-			setBackgroundForState(state);
-			positionTextForState(state);
+			if (state == ResultsLoadingState.NONE) {
+				mRootC.setVisibility(View.GONE);
+			}
+			else {
+				mRootC.setVisibility(View.VISIBLE);
+				setLoadingTextForState(state);
+				setBackgroundForState(state);
+				positionTextForState(state);
+			}
 		}
 	};
 

@@ -7,4 +7,5 @@ public enum ResultsLoadingState {
 	ALL,
 	HOTELS,
 	FLIGHTS,
+	NONE
 }
