@@ -81,7 +81,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotel_details, null);
-		mHotelHeaderContainer = Ui.findView(mRootC, R.id.hotel_header_container);
+		mHotelHeaderContainer = Ui.findView(mRootC, R.id.hotel_header_image_container);
 		mAddToTripButton = Ui.findView(mRootC, R.id.button_add_to_trip);
 
 		mAddToTripButton.setPivotY(0f);
@@ -109,7 +109,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				mRootC.setPadding(paddingx, mRootC.getPaddingTop(), paddingx, mRootC.getPaddingBottom());
 
 				int headerHeight = (mRootC.getHeight() - mRootC.getPaddingTop() - mRootC.getPaddingBottom()) / 2;
-				ViewGroup.LayoutParams params = Ui.findView(mRootC, R.id.hotel_header_container).getLayoutParams();
+				ViewGroup.LayoutParams params = Ui.findView(mRootC, R.id.hotel_header_image_container).getLayoutParams();
 				params.height = headerHeight;
 			}
 		});
@@ -225,7 +225,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			public void run() {
 				int offsetTop = Ui.getScreenLocationY(Ui.findView(view, R.id.scrolling_content));
 				int offsetBottom = getResources().getDisplayMetrics().heightPixels - offsetTop;
-				ParallaxContainer parallaxContainer = Ui.findView(view, R.id.parallax_container);
+				ParallaxContainer parallaxContainer = Ui.findView(view, R.id.hotel_header_image_container);
 				parallaxContainer.setOffsetTop(offsetTop);
 				parallaxContainer.setOffsetBottom(offsetBottom);
 			}
