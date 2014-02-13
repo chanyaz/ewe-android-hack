@@ -22,6 +22,8 @@ public class SvgMapFragment extends MeasurableFragment {
 
 	private static final String ARG_MAP_RESOURCE = "ARG_MAP_RESOURCE";
 
+	private static final float MAX_ZOOM = 4.0f;
+
 	private View mMapView;
 
 	private SVG mSvg;
@@ -32,8 +34,6 @@ public class SvgMapFragment extends MeasurableFragment {
 	private int mPaddingRight = 0;
 	private int mPaddingTop = 0;
 	private int mPaddingBottom = 0;
-
-	private static final float MAX_ZOOM = 4.0f;
 
 	public static SvgMapFragment newInstance() {
 		SvgMapFragment frag = new SvgMapFragment();
@@ -83,10 +83,10 @@ public class SvgMapFragment extends MeasurableFragment {
 			throw new IllegalArgumentException("Must pass lat lng in pairs, found an odd number of arguments");
 		}
 
-		double maxLat = - java.lang.Double.MAX_VALUE;
+		double maxLat = -java.lang.Double.MAX_VALUE;
 		double minLat = java.lang.Double.MAX_VALUE;
 
-		double maxLng = - java.lang.Double.MAX_VALUE;
+		double maxLng = -java.lang.Double.MAX_VALUE;
 		double minLng = java.lang.Double.MAX_VALUE;
 
 		for (int i = 0; i < latlngs.length; i += 2) {
@@ -106,7 +106,7 @@ public class SvgMapFragment extends MeasurableFragment {
 		final float projectedHeight = (float) (br.y - tl.y);
 
 		final int usableWidth = mMapView.getWidth() - mPaddingRight - mPaddingLeft;
-		final float horizontalScale =  usableWidth / projectedWidth;
+		final float horizontalScale = usableWidth / projectedWidth;
 
 		final int usableHeight = mMapView.getHeight() - mPaddingTop - mPaddingBottom;
 		final float verticalScale = usableHeight / projectedHeight;
@@ -122,7 +122,7 @@ public class SvgMapFragment extends MeasurableFragment {
 		xShift = (usableWidth - actualWidth) / 2;
 
 		mViewportMatrix = new Matrix();
-		mViewportMatrix.preTranslate((float) -(tl.x - mPaddingLeft/scale - xShift/scale), (float) -(tl.y - mPaddingTop/scale - yShift/scale));
+		mViewportMatrix.preTranslate((float) -(tl.x - mPaddingLeft / scale - xShift / scale), (float) -(tl.y - mPaddingTop / scale - yShift / scale));
 		mViewportMatrix.postScale(scale, scale);
 	}
 

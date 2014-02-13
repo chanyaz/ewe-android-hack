@@ -19,7 +19,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
-import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.helpers.BackManager;
@@ -121,13 +120,13 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 	}
 
 	@Override
-	public void onNewIntent(Intent intent){
+	public void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		updateLobFromIntent(intent);
 		mFragCheckoutController.setCheckoutState(CheckoutState.OVERVIEW, false);
 	}
 
-	private void updateLobFromIntent(Intent intent){
+	private void updateLobFromIntent(Intent intent) {
 		if (intent.hasExtra(ARG_LOB)) {
 			try {
 				LineOfBusiness lob = LineOfBusiness.valueOf(intent.getStringExtra(ARG_LOB));

@@ -168,7 +168,7 @@ public class Ui extends com.mobiata.android.util.Ui {
 
 		return new int[] {
 			measuredWidth,
-			measuredHeight
+			measuredHeight,
 		};
 	}
 

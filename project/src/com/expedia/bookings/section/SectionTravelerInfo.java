@@ -1138,8 +1138,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				String targetCountryName = data.getPhoneCountryName();
 				for (int i = 0; i < adapter.getCount(); i++) {
 					if (targetCountryCode.equalsIgnoreCase("" + adapter.getCountryCode(i))
-						&& (TextUtils.isEmpty(targetCountryName) || targetCountryName.equals(adapter
-						.getCountryName(i)))) {
+						&& (TextUtils.isEmpty(targetCountryName)
+						|| targetCountryName.equals(adapter.getCountryName(i)))) {
 						field.setSelection(i);
 						updateData();
 						mSetFieldManually = true;
