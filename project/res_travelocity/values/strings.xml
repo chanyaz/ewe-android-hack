@@ -26,4 +26,6 @@
     <!-- Expedia booking fee -->
     <string name="travelocity_booking_fee">Travelocity Booking Fee</string>
 
+    <string name="error_flight_unhandled_travelocity_TEMPLATE">Sorry, we don\'t seem to be able to process your order right now. Please try again or call Travelocity Customer Support and quote this itinerary number: %s</string>
+
 </resources>

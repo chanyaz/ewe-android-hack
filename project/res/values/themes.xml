@@ -221,6 +221,7 @@
         <item name="logoutConfirmationString">@string/logout_confirmation</item>
         <item name="cvvBookButtonTextColor">@android:color/black</item>
         <item name="flightLoadingMessagePosition">@id/plane_window_view</item>
+        <item name="flightUnhandledErrorMessage">@string/error_flight_unhandled_TEMPLATE</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

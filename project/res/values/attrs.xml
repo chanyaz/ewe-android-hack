@@ -279,4 +279,6 @@
     <!-- Flight loading screen message position -->
     <attr name="flightLoadingMessagePosition" format="reference" />
 
+    <attr name="flightUnhandledErrorMessage" format="reference|string" />
+
 </resources>

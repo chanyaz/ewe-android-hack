@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.Ui;
 
 public class UnhandledErrorDialogFragment extends DialogFragment implements OnClickListener {
 
@@ -45,7 +46,7 @@ public class UnhandledErrorDialogFragment extends DialogFragment implements OnCl
 		// This can happen when we get a null response from the server.
 		String caseNumber = getArguments().getString(ARG_CASE_NUMBER);
 		if (!TextUtils.isEmpty(caseNumber)) {
-			builder.setMessage(getString(R.string.error_flight_unhandled_TEMPLATE, caseNumber));
+			builder.setMessage(getString(Ui.obtainThemeResID(getActivity(), R.attr.flightUnhandledErrorMessage), caseNumber));
 			builder.setNeutralButton(R.string.call_support, this);
 		}
 		else {
