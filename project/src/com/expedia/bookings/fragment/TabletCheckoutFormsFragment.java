@@ -473,7 +473,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	private void setEntryFormShowingPercentage(float percentage, int viewIndex) {
 		//TODO: Much of this stuff could be cached, which would speed up animation performance
-
 		if (viewIndex < 0 || mCheckoutRowsC == null || mCheckoutRowsC.getChildCount() <= viewIndex) {
 			return;
 		}
@@ -504,11 +503,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		for (int i = viewIndex + 1; i < mCheckoutRowsC.getChildCount(); i++) {
 			mCheckoutRowsC.getChildAt(i).setTranslationY(belowViewsTransY);
 		}
-
 		//Form cross fade/scale
 		mOverlayContentC.setAlpha(percentage);
 		mOverlayShade.setAlpha(percentage);
-
 		float minScaleY = selectedView.getHeight() / mOverlayContentC.getHeight();
 		float scaleYPercentage = minScaleY + percentage * (1f - minScaleY);
 		mOverlayContentC.setPivotY(selectedView.getBottom());
@@ -574,14 +571,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	 */
 
 	protected void openPaymentForm() {
-		//finding index
-		int viewNumber = -1;
-		for (int i = 0; i < mCheckoutRowsC.getChildCount(); i++) {
-			if (mCheckoutRowsC.getChildAt(i) == mPaymentView) {
-				viewNumber = i;
-				break;
-			}
-		}
+		int viewNumber = getPaymentViewIndex();
 		if (viewNumber >= 0) {
 			mShowingViewIndex = viewNumber;
 			mPaymentForm.bindToDb();
@@ -594,6 +584,17 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			return mPaymentButton.isValid();
 		}
 		return false;
+	}
+
+	private int getPaymentViewIndex() {
+		int viewNumber = -1;
+		for (int i = 0; i < mCheckoutRowsC.getChildCount(); i++) {
+			if (mCheckoutRowsC.getChildAt(i) == mPaymentView) {
+				viewNumber = i;
+				break;
+			}
+		}
+		return viewNumber;
 	}
 
 	/*
@@ -683,6 +684,10 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				if (state == CheckoutFormState.EDIT_PAYMENT) {
 					mPaymentFormC.setVisibility(View.VISIBLE);
 					mTravelerFormC.setVisibility(View.INVISIBLE);
+					int viewNumber = getPaymentViewIndex();
+					if (viewNumber >= 0) {
+						mShowingViewIndex = viewNumber;
+					}
 				}
 				else if (state == CheckoutFormState.EDIT_TRAVELER) {
 					mTravelerFormC.setVisibility(View.VISIBLE);
@@ -691,7 +696,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				mOverlayShade.setBlockNewEventsEnabled(true);
 				setEntryFormShowingPercentage(1f, mShowingViewIndex);
 			}
-
 		}
 
 	};

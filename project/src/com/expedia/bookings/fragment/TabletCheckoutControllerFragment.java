@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.joda.time.LocalDate;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -30,6 +32,8 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.fragment.BookingFragment.BookingFragmentListener;
@@ -49,8 +53,14 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.Log;
+import com.mobiata.android.SocialUtils;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.utils.DateTimeUtils;
+
+import static com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
+import static com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
 
 /**
  * TabletCheckoutControllerFragment: designed for tablet checkout 2014
@@ -59,7 +69,7 @@ import com.mobiata.flightlib.utils.DateTimeUtils;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletCheckoutControllerFragment extends LobableFragment implements IBackManageable,
 	IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener,
-	CheckoutInformationListener, BookingFragmentListener, CouponStatusListener {
+	CheckoutInformationListener, BookingFragmentListener, SimpleCallbackDialogFragmentListener, CouponStatusListener, UnhandledErrorDialogFragmentListener {
 
 	private static final String STATE_CHECKOUT_STATE = "STATE_CHECKOUT_STATE";
 
@@ -96,6 +106,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private HotelBookingFragment mHotelBookingFrag;
 	private FlightConfirmationFragment mFlightConfFrag;
 	private HotelConfirmationFragment mHotelConfFrag;
+
+	private static final int DIALOG_CALLBACK_INVALID_CC = 1;
+	private static final int DIALOG_CALLBACK_EXPIRED_CC = 2;
+	private static final int DIALOG_CALLBACK_MINOR = 3;
 
 	//vars
 	private StateManager<CheckoutState> mStateManager = new StateManager<CheckoutState>(
@@ -204,6 +218,11 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	public void setCheckoutState(CheckoutState state, boolean animate) {
 		mStateManager.setState(state, animate);
+	}
+
+	private boolean bookingWithGoogleWallet() {
+		return (getLob() == LineOfBusiness.FLIGHTS && mFlightBookingFrag.willBookViaGoogleWallet()) ||
+			(getLob() == LineOfBusiness.HOTELS && mHotelBookingFrag.willBookViaGoogleWallet());
 	}
 
 	/*
@@ -646,7 +665,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Override
 	public void onBook(String cvv) {
 		Db.getBillingInfo().setSecurityCode(cvv);
-
 		setCheckoutState(CheckoutState.BOOKING, true);
 	}
 
@@ -696,19 +714,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				Ui.showToast(getActivity(), "response == null, ruh roh");
 			}
 			else if (response.hasErrors()) {
-				Ui.showToast(getActivity(), "FLIGHT BOOKING ERROR, printing to logs!!");
-
-
-				List<ServerError> errors = response.getErrors();
-
-				// Log all errors, in case we need to see them
-				for (int a = 0; a < errors.size(); a++) {
-					Log.v("SERVER ERROR " + a + ": " + errors.get(a).toJson().toString());
-				}
+				handleFlightsBookingErrors(response);
 			}
 			else {
 				// TODO tracking ??
-
 				setCheckoutState(CheckoutState.CONFIRMATION, true);
 			}
 		}
@@ -756,4 +765,178 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		mBucketHotelFrag.doBind();
 	}
 
+	// Error response handling
+	public void handleFlightsBookingErrors(FlightCheckoutResponse response) {
+		List<ServerError> errors = response.getErrors();
+		// Log the errors
+		Log.v("WE ENCOUNTERED SERVER ERROR. PRINTING.");
+		for (int a = 0; a < errors.size(); a++) {
+			Log.v("SERVER ERROR " + a + ": " + errors.get(a).toJson().toString());
+		}
+
+		/*	We assume that the first error is the most important. If there are
+			more than one errors, we assume that a generic dialog message is
+			what the user needs.
+		*/
+		ServerError firstError = errors.get(0);
+
+		// Handle the errors
+		switch (firstError.getErrorCode()) {
+		case PRICE_CHANGE:
+			FlightTrip currentOffer = Db.getFlightSearch().getSelectedFlightTrip();
+			FlightTrip newOffer = response.getNewOffer();
+			// If the debug setting is made to fake a price change, then fake the price here too
+			// This is sort of a second price change, to help figure out testing when we have obfees and a price change...
+			if (!AndroidUtils.isRelease(getActivity())) {
+				String val = SettingUtils.get(getActivity(),
+					getString(R.string.preference_fake_flight_price_change),
+					getString(R.string.preference_fake_price_change_default));
+				currentOffer.getTotalFare().add(new BigDecimal(val));
+				newOffer.getTotalFare().add(new BigDecimal(val));
+			}
+			PriceChangeDialogFragment fragment = PriceChangeDialogFragment.newInstance(currentOffer, newOffer);
+			fragment.show(getChildFragmentManager(), PriceChangeDialogFragment.TAG);
+			return;
+		case INVALID_INPUT:
+		case PAYMENT_FAILED:
+			String field = firstError.getExtra("field");
+			if (firstError.getErrorCode() == ServerError.ErrorCode.PAYMENT_FAILED) {
+			}
+			// Handle each type of failure differently
+			if ("cvv".equals(field)) {
+				//TODO: Need designs for CVV error
+				return;
+			}
+			else if ("creditCardNumber".equals(field)) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+					getString(R.string.error_invalid_card_number), getString(android.R.string.ok),
+					DIALOG_CALLBACK_INVALID_CC);
+				frag.show(getChildFragmentManager(), "badCcNumberDialog");
+				return;
+			}
+			else if ("expirationDate".equals(field)) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+					getString(R.string.error_expired_payment), getString(android.R.string.ok),
+					DIALOG_CALLBACK_EXPIRED_CC);
+				frag.show(getChildFragmentManager(), "expiredCcDialog");
+				return;
+			}
+			// 1643: Handle an odd API response. This is probably due to the transition
+			// to being able to handle booking tickets for minors. We shouldn't need this in the future.
+			else if ("mainFlightPassenger.birthDate".equals(field)) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+					getString(R.string.error_booking_with_minor), getString(android.R.string.ok),
+					DIALOG_CALLBACK_MINOR);
+				frag.show(getChildFragmentManager(), "cannotBookWithMinorDialog");
+				return;
+			}
+			break;
+		case TRIP_ALREADY_BOOKED:
+			// Send the user to their confirmation, since they ended up booking their flight already.
+			setCheckoutState(CheckoutState.CONFIRMATION, true);
+			return;
+		case FLIGHT_SOLD_OUT:
+			showUnavailableErrorDialog();
+			return;
+		case SESSION_TIMEOUT:
+			showUnavailableErrorDialog();
+			return;
+		case CANNOT_BOOK_WITH_MINOR: {
+			DialogFragment frag = SimpleCallbackDialogFragment
+				.newInstance(null,
+					getString(R.string.error_booking_with_minor), getString(android.R.string.ok),
+					DIALOG_CALLBACK_MINOR);
+			frag.show(getChildFragmentManager(), "cannotBookWithMinorDialog");
+			return;
+		}
+		case GOOGLE_WALLET_ERROR: {
+			DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+				getString(R.string.google_wallet_unavailable), getString(android.R.string.ok), 0);
+			frag.show(getChildFragmentManager(), "googleWalletErrorDialog");
+			return;
+		}
+		default:
+			break;
+		}
+		// At this point, we haven't handled the error - use a generic response
+		DialogFragment df = UnhandledErrorDialogFragment.newInstance(Db.getFlightSearch().getSelectedFlightTrip()
+			.getItineraryNumber());
+		df.show(getChildFragmentManager(), "unhandledErrorDialog");
+	}
+
+	/*
+		Some dialog methods.
+	 */
+
+	private void showUnavailableErrorDialog() {
+		boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
+		FlightUnavailableDialogFragment df = FlightUnavailableDialogFragment.newInstance(isPlural);
+		df.show(getChildFragmentManager(), "unavailableErrorDialog");
+	}
+
+	@Override
+	public void onSimpleDialogClick(int callbackId) {
+		if (bookingWithGoogleWallet()) {
+			setCheckoutState(CheckoutState.OVERVIEW, true);
+			return;
+		}
+		switch (callbackId) {
+		case DIALOG_CALLBACK_INVALID_CC:
+		case DIALOG_CALLBACK_EXPIRED_CC:
+			mCheckoutFragment.setState(CheckoutFormState.EDIT_PAYMENT, false);
+			setCheckoutState(CheckoutState.OVERVIEW, true);
+			break;
+		default:
+			// If neither of those is the thing, make user
+			// go back to RFC? We could just crash as a
+			// red flag for devs/QA.
+			setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
+			break;
+		}
+	}
+
+	@Override
+	public void onSimpleDialogCancel(int callbackId) {
+		// If we're booking via wallet, back out; otherwise sit on CVV screen
+		if (bookingWithGoogleWallet()) {
+			setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
+		}
+		else {
+			setCheckoutState(CheckoutState.CVV, true);
+		}
+	}
+
+	@Override
+	public void onRetryUnhandledException() {
+		LineOfBusiness lob = getLob();
+		if (lob == LineOfBusiness.FLIGHTS) {
+			doFlightBooking();
+		}
+		else if (lob == LineOfBusiness.HOTELS) {
+			doHotelBooking();
+		}
+		else {
+			// Maybe we should crash if the LOB is set to something
+			// weird. For now, let's just take them to the overview.
+			setCheckoutState(CheckoutState.OVERVIEW, true);
+		}
+	}
+
+	// We're not sure exactly what we want to do with call support on tablet.
+	// Right now, we just display the phone number, but it's ugly.
+	@Override
+	public void onCallCustomerSupport() {
+		SocialUtils.call(getActivity(), PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
+	}
+
+	@Override
+	public void onCancelUnhandledException() {
+		// If we're booking via wallet, back out; otherwise sit on CVV screen
+		if (bookingWithGoogleWallet()) {
+			setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
+		}
+		else {
+			setCheckoutState(CheckoutState.CVV, true);
+		}
+	}
 }
