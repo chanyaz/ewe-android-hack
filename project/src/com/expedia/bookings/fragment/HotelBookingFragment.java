@@ -110,6 +110,9 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 		if (bd.isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE)) {
 			bd.registerDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductCallback);
 		}
+		if (bd.isDownloading(KEY_DOWNLOAD_CREATE_TRIP)) {
+			bd.registerDownloadCallback(KEY_DOWNLOAD_CREATE_TRIP, mCreateTripCallback);
+		}
 	}
 
 	@Override
@@ -118,9 +121,11 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (getActivity().isFinishing()) {
 			bd.cancelDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
+			bd.cancelDownload(KEY_DOWNLOAD_CREATE_TRIP);
 		}
 		else {
 			bd.unregisterDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
+			bd.unregisterDownloadCallback(KEY_DOWNLOAD_CREATE_TRIP);
 		}
 	}
 
