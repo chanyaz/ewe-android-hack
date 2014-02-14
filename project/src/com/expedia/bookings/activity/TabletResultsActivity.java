@@ -236,7 +236,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 
 		mExpServicesFrag.startFlightSearch(Db.getFlightSearch().getSearchParams(), true);
-		mExpServicesFrag.startHotelSearch(Db.getHotelSearch().getSearchParams(),true);
 	}
 
 	@Override

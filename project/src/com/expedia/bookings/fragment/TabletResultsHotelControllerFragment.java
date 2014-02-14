@@ -63,6 +63,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private static final String FTAG_HOTEL_FILTERED_COUNT = "FTAG_HOTEL_FILTERED_COUNT";
 	private static final String FTAG_HOTEL_MAP = "FTAG_HOTEL_MAP";
 	private static final String FTAG_HOTEL_ROOMS_AND_RATES = "FTAG_HOTEL_ROOMS_AND_RATES";
+	private static final String FTAG_HOTEL_SEARCH_DOWNLOAD = "FTAG_HOTEL_SEARCH_DOWNLOAD";
 
 	//Containers
 	private ViewGroup mRootC;
@@ -80,6 +81,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private ResultsHotelsFiltersFragment mHotelFiltersFrag;
 	private ResultsHotelsFilterCountFragment mHotelFilteredCountFrag;
 	private ResultsHotelDetailsFragment mHotelDetailsFrag;
+	private HotelSearchDownloadFragment mHotelSearchDownloadFrag;
 
 	//Other
 	//private ResultsState mGlobalState = ResultsState.OVERVIEW;
@@ -132,7 +134,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		if (savedInstanceState != null) {
 			mHotelsStateManager.setDefaultState(ResultsHotelsState.valueOf(savedInstanceState.getString(
-				STATE_HOTELS_STATE,getBaseState().name())));
+				STATE_HOTELS_STATE, getBaseState().name())));
 		}
 
 		registerStateListener(mHotelsStateHelper, false);
@@ -285,6 +287,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		//We will be adding all of our add/removes to this transaction
 		FragmentTransaction transaction = manager.beginTransaction();
 
+		boolean hotelSearchDownloadAvailable = false;
 		boolean hotelListAvailable = true;
 		boolean hotelMapAvailable = true;
 		boolean hotelFiltersAvailable = true;
@@ -292,6 +295,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		boolean hotelRoomsAndRatesAvailable = true;
 
 		if (hotelsState == ResultsHotelsState.LOADING) {
+			hotelSearchDownloadAvailable = true;
 			hotelMapAvailable = false;
 			hotelFiltersAvailable = false;
 			hotelFilteredCountAvailable = false;
@@ -319,7 +323,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mHotelDetailsFrag = (ResultsHotelDetailsFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			hotelRoomsAndRatesAvailable,
 			FTAG_HOTEL_ROOMS_AND_RATES, manager, transaction, this, R.id.hotel_rooms_and_rates, false);
-
+		mHotelSearchDownloadFrag = (HotelSearchDownloadFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+			hotelSearchDownloadAvailable,
+			FTAG_HOTEL_SEARCH_DOWNLOAD, manager, transaction, this, 0, false);
 		transaction.commit();
 	}
 
@@ -395,6 +401,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		else if (tag == FTAG_HOTEL_ROOMS_AND_RATES) {
 			frag = mHotelDetailsFrag;
 		}
+		else if (tag == FTAG_HOTEL_SEARCH_DOWNLOAD) {
+			frag = mHotelSearchDownloadFrag;
+		}
 		return frag;
 	}
 
@@ -415,6 +424,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 		else if (tag == FTAG_HOTEL_ROOMS_AND_RATES) {
 			frag = ResultsHotelDetailsFragment.newInstance();
+		}
+		else if (tag == FTAG_HOTEL_SEARCH_DOWNLOAD) {
+			frag = HotelSearchDownloadFragment.newInstance(Db.getHotelSearch().getSearchParams());
 		}
 		return frag;
 	}
