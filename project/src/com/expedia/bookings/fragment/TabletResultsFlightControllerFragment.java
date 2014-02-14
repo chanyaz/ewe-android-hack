@@ -19,6 +19,8 @@ import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchResponse;
+import com.expedia.bookings.data.Response;
 import com.expedia.bookings.enums.ResultsFlightsListState;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsState;
@@ -52,7 +54,7 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsFlightControllerFragment extends Fragment implements IResultsFlightSelectedListener,
 	IResultsFlightLegSelected, IAddToTripListener, IFragmentAvailabilityProvider, IBackManageable,
-	IStateProvider<ResultsFlightsState>, IDoneClickedListener {
+	IStateProvider<ResultsFlightsState>, IDoneClickedListener,ExpediaServicesFragment.ExpediaServicesFragmentListener {
 
 	//State
 	private static final String STATE_FLIGHTS_STATE = "STATE_FLIGHTS_STATE";
@@ -1275,7 +1277,26 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				Db.getFlightSearch().setSelectedLeg(1, null);
 			}
 		}
-
 	};
+
+	/*
+	EXPEDIA SERVICES FRAG LISTENER
+	 */
+
+	@Override
+	public void onExpediaServicesDownload(ExpediaServicesFragment.ServiceType type, Response response) {
+		if(type == ExpediaServicesFragment.ServiceType.FLIGHT_SEARCH){
+			Db.getFlightSearch().setSearchResponse((FlightSearchResponse) response);
+			if (response != null) {
+				Db.kickOffBackgroundFlightSearchSave(getActivity());
+				Db.addAirlineNames(((FlightSearchResponse) response).getAirlineNames());
+			}
+
+			if(response != null && !response.hasErrors()){
+				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
+			}
+			//TODO: Error Handling
+		}
+	}
 
 }

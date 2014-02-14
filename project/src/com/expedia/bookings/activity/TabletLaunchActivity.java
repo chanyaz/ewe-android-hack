@@ -265,6 +265,10 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		Log.i("Starting search with params: " + mSearchParams);
 		hotelSearch.setSearchResponse(null);
 		flightSearch.setSearchResponse(null);
+
+		//Clear trip bucket before search
+		Db.getTripBucket().clear();
+
 		startActivity(new Intent(this, TabletResultsActivity.class));
 	}
 

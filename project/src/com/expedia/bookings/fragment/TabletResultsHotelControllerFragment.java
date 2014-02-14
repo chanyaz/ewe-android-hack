@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
@@ -18,7 +19,9 @@ import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Response;
 import com.expedia.bookings.enums.ResultsHotelsListState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsState;
@@ -52,7 +55,7 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsHotelControllerFragment extends Fragment implements
 	ISortAndFilterListener, IResultsHotelSelectedListener, IAddToTripListener, IFragmentAvailabilityProvider,
-	HotelMapFragmentListener, SupportMapFragmentListener, IBackManageable, IStateProvider<ResultsHotelsState> {
+	HotelMapFragmentListener, SupportMapFragmentListener, IBackManageable, IStateProvider<ResultsHotelsState>,ExpediaServicesFragment.ExpediaServicesFragmentListener {
 
 	//State
 	private static final String STATE_HOTELS_STATE = "STATE_HOTELS_STATE";
@@ -1118,4 +1121,24 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 		}
 	};
+
+	/*
+	EXPEDIA SERVICES FRAG LISTENER
+	 */
+
+	@Override
+	public void onExpediaServicesDownload(ExpediaServicesFragment.ServiceType type, Response response) {
+		if(type == ExpediaServicesFragment.ServiceType.HOTEL_SEARCH){
+			Context context = getActivity();
+
+			Db.getHotelSearch().setSearchResponse((HotelSearchResponse) response);
+			Db.saveHotelSearchTimestamp(context);
+			Db.kickOffBackgroundHotelSearchSave(context);
+
+			if(response != null && !response.hasErrors()){
+				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
+			}
+			//TODO: Error handling
+		}
+	}
 }
