@@ -14,10 +14,8 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearch;
-import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearch;
-import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SuggestionResponse;
@@ -38,14 +36,11 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
-import com.mobiata.android.app.SimpleProgressDialogFragment;
-import com.mobiata.android.app.SimpleProgressDialogFragment.SimpleProgressDialogFragmentListener;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
 public class TabletLaunchActivity extends FragmentActivity implements MeasurableFragmentListener,
-	SearchFragmentListener, ExpediaServicesFragmentListener, SimpleProgressDialogFragmentListener,
-	FusedLocationProviderListener {
+	SearchFragmentListener, ExpediaServicesFragmentListener,FusedLocationProviderListener {
 
 	// On top when search params covers up everything
 	private static final String BACKSTACK_SEARCH_PARAMS = "BACKSTACK_SEARCH_PARAMS";
@@ -59,10 +54,8 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	// TODO: REMOVE LATER, THIS IS DEV ONLY
 	// We're loading all results here right now, until we figure out where we need to load it later.
 	private static final String TAG_SERVICES = "TAG_SERVICES";
-	private static final String TAG_LOAD_SEARCH_DIALOG = "TAG_LOAD_SEARCH_DIALOG";
 	private ExpediaServicesFragment mServicesFragment;
 	private FusedLocationProviderFragment mLocationFragment;
-	private SimpleProgressDialogFragment mLoadSearchDialogFragment;
 	private SearchParams mSearchParams;
 
 	// HockeyApp
@@ -95,7 +88,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 			mTilesFragment = Ui.findSupportFragment(this, R.id.tiles_container);
 			mSearchFragment = Ui.findSupportFragment(this, R.id.search_container);
 			mServicesFragment = Ui.findSupportFragment(this, TAG_SERVICES);
-			mLoadSearchDialogFragment = Ui.findSupportFragment(this, TAG_LOAD_SEARCH_DIALOG);
 
 			if (BACKSTACK_SEARCH_PARAMS.equals(getTopBackStackName())) {
 				mSearchFragment.expand();
@@ -273,12 +265,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		Log.i("Starting search with params: " + mSearchParams);
 		hotelSearch.setSearchResponse(null);
 		flightSearch.setSearchResponse(null);
-		mServicesFragment.startHotelSearch(mSearchParams, false);
-		mServicesFragment.startFlightSearch(mSearchParams, false);
-
-		// Create the results fragment. TODO: something else
-		mLoadSearchDialogFragment = SimpleProgressDialogFragment.newInstance("Loading results...");
-		mLoadSearchDialogFragment.show(getSupportFragmentManager(), TAG_LOAD_SEARCH_DIALOG);
+		startActivity(new Intent(this, TabletResultsActivity.class));
 	}
 
 	private void showDevErrorDialog(String msg) {
@@ -332,45 +319,9 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 	@Override
 	public void onExpediaServicesDownload(ServiceType type, Response response) {
-		switch (type) {
-		case SUGGEST_NEARBY:
+		if(type == ServiceType.SUGGEST_NEARBY){
 			SuggestionResponse suggestResponse = (SuggestionResponse) response;
 			onCurrentLocationSuggestions(suggestResponse);
-			return;
-		case HOTEL_SEARCH:
-			// TODO ideally we keep trip bucket around, but right now it is just not compatible with new searches
-			Db.getTripBucket().clear();
-			Db.saveTripBucket(this);
-
-			Db.getHotelSearch().setSearchResponse((HotelSearchResponse) response);
-			Db.saveHotelSearchTimestamp(this);
-			Db.kickOffBackgroundHotelSearchSave(this);
-			break;
-		case FLIGHT_SEARCH:
-			// TODO ideally we keep trip bucket around, but right now it is just not compatible with new searches
-			Db.getTripBucket().clear();
-			Db.saveTripBucket(this);
-
-			Db.getFlightSearch().setSearchResponse((FlightSearchResponse) response);
-			if (response != null) {
-				Db.kickOffBackgroundFlightSearchSave(this);
-				Db.addAirlineNames(((FlightSearchResponse) response).getAirlineNames());
-			}
-			break;
-		}
-
-		// Update progress based on new results
-		HotelSearchResponse hotelSearchResponse = Db.getHotelSearch().getSearchResponse();
-		FlightSearchResponse flighSearchResponse = Db.getFlightSearch().getSearchResponse();
-
-		if (hotelSearchResponse != null && !hotelSearchResponse.hasErrors() && flighSearchResponse != null
-			&& !flighSearchResponse.hasErrors()) {
-			mLoadSearchDialogFragment.dismissAllowingStateLoss();
-			startActivity(new Intent(this, TabletResultsActivity.class));
-		}
-		else {
-			mLoadSearchDialogFragment.setMessage(checkResponse(hotelSearchResponse, "Hotel search")
-				+ checkResponse(flighSearchResponse, "Flight search"));
 		}
 	}
 
@@ -410,16 +361,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	@Override
 	public void onError() {
 		showDevErrorDialog("Tried current location search, but could not get current location.");
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// SimpleProgressDialogFragmentListener
-
-	@Override
-	public void onCancel() {
-		// Cancel the download
-		mServicesFragment.cancel(ServiceType.HOTEL_SEARCH);
-		mServicesFragment.cancel(ServiceType.FLIGHT_SEARCH);
 	}
 
 }
