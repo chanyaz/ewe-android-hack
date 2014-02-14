@@ -66,6 +66,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private static final String FTAG_FLIGHT_TWO_LIST = "FTAG_FLIGHT_TWO_LIST";
 	private static final String FTAG_FLIGHT_ONE_DETAILS = "FTAG_FLIGHT_ONE_DETAILS";
 	private static final String FTAG_FLIGHT_TWO_DETAILS = "FTAG_FLIGHT_TWO_DETAILS";
+	private static final String FTAG_FLIGHT_SEARCH_DOWNLOAD = "FTAG_FLIGHT_SEARCH_DOWNLOAD";
 
 	//Containers
 	private ViewGroup mRootC;
@@ -96,6 +97,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private ResultsFlightListFragment mFlightTwoListFrag;
 	private ResultsFlightFiltersFragment mFlightTwoFilterFrag;
 	private ResultsFlightDetailsFragment mFlightTwoDetailsFrag;
+	private FlightSearchDownloadFragment mFlightSearchDownloadFrag;
 
 	//Other
 	private GridManager mGrid = new GridManager();
@@ -227,6 +229,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		else if (tag == FTAG_FLIGHT_TWO_DETAILS) {
 			frag = this.mFlightTwoDetailsFrag;
 		}
+		else if (tag == FTAG_FLIGHT_SEARCH_DOWNLOAD) {
+			frag = mFlightSearchDownloadFrag;
+		}
 
 		return frag;
 	}
@@ -257,6 +262,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 		else if (tag == FTAG_FLIGHT_TWO_DETAILS) {
 			frag = ResultsFlightDetailsFragment.newInstance(1);
+		}
+		else if (tag == FTAG_FLIGHT_SEARCH_DOWNLOAD) {
+			frag = FlightSearchDownloadFragment.newInstance(Db.getFlightSearch().getSearchParams());
 		}
 
 		return frag;
@@ -513,6 +521,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		FragmentTransaction transaction = manager.beginTransaction();
 
+		boolean flightSearchDownloadAvailable = false;
 		boolean flightOneListAvailable = true;
 		boolean flightMapAvailable = true;
 		boolean flightAddToTripAvailable = true;
@@ -523,6 +532,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		boolean flightTwoDetailsAvailable = true;
 
 		if (flightsState == ResultsFlightsState.LOADING) {
+			flightSearchDownloadAvailable = true;
 			flightMapAvailable = false;
 			flightAddToTripAvailable = false;
 			flightOneFiltersAvailable = false;
@@ -567,7 +577,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		mFlightTwoDetailsFrag = (ResultsFlightDetailsFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			flightTwoDetailsAvailable,
 			FTAG_FLIGHT_TWO_DETAILS, manager, transaction, this, R.id.flight_two_details, true);
-
+		mFlightSearchDownloadFrag = (FlightSearchDownloadFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+			flightSearchDownloadAvailable,
+			FTAG_FLIGHT_SEARCH_DOWNLOAD, manager, transaction, this, 0, true);
 		transaction.commit();
 
 	}
@@ -578,7 +590,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			mFlightOneListFrag.setListLockedToTop(state != ResultsFlightsState.LOADING && state != ResultsFlightsState.FLIGHT_LIST_DOWN
 				&& state != ResultsFlightsState.FLIGHT_ONE_FILTERS);
 
-			if(state == ResultsFlightsState.FLIGHT_LIST_DOWN){
+			if (state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mFlightOneListFrag.resetQuery();
 			}
 

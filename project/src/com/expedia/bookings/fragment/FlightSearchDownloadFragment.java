@@ -6,25 +6,25 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.HotelSearchResponse;
+import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
-public class HotelSearchDownloadFragment extends Fragment {
+public class FlightSearchDownloadFragment extends Fragment {
 
 	private static final String STATE_PARAMS = "STATE_PARAMS";
-	private static final String DL_SEARCH = "DL_HOTEL_SEARCH";
+	private static final String DL_SEARCH = "DL_FLIGHT_SEARCH";
 
-	public static HotelSearchDownloadFragment newInstance(HotelSearchParams params) {
-		HotelSearchDownloadFragment frag = new HotelSearchDownloadFragment();
+	public static FlightSearchDownloadFragment newInstance(FlightSearchParams params) {
+		FlightSearchDownloadFragment frag = new FlightSearchDownloadFragment();
 		frag.setSearchParams(params);
 		return frag;
 	}
 
-	private HotelSearchParams mSearchParams;
+	private FlightSearchParams mSearchParams;
 	private ExpediaServices mServices;
 	private ExpediaServicesFragment.ExpediaServicesFragmentListener mListener;
 
@@ -38,7 +38,7 @@ public class HotelSearchDownloadFragment extends Fragment {
 			try {
 				String searchParamsStr = savedInstanceState.getString(STATE_PARAMS);
 				JSONObject searchParamsJson = new JSONObject(searchParamsStr);
-				HotelSearchParams params = new HotelSearchParams();
+				FlightSearchParams params = new FlightSearchParams();
 				params.fromJson(searchParamsJson);
 				mSearchParams = params;
 			}
@@ -83,7 +83,7 @@ public class HotelSearchDownloadFragment extends Fragment {
 	}
 
 	@Override
-	public void onDetach(){
+	public void onDetach() {
 		super.onDetach();
 
 		mListener = null;
@@ -95,21 +95,21 @@ public class HotelSearchDownloadFragment extends Fragment {
 		outState.putString(STATE_PARAMS, mSearchParams.toJson().toString());
 	}
 
-	protected void setSearchParams(HotelSearchParams params) {
+	protected void setSearchParams(FlightSearchParams params) {
 		mSearchParams = params;
 	}
 
-	private final BackgroundDownloader.Download<HotelSearchResponse> mSearchDownload = new BackgroundDownloader.Download<HotelSearchResponse>() {
+	private final BackgroundDownloader.Download<FlightSearchResponse> mSearchDownload = new BackgroundDownloader.Download<FlightSearchResponse>() {
 		@Override
-		public HotelSearchResponse doDownload() {
-			return mServices.search(mSearchParams, ExpediaServices.F_HOTELS);
+		public FlightSearchResponse doDownload() {
+			return mServices.flightSearch(mSearchParams, 0);
 		}
 	};
 
-	private final BackgroundDownloader.OnDownloadComplete<HotelSearchResponse> mSearchCallback = new BackgroundDownloader.OnDownloadComplete<HotelSearchResponse>() {
+	private final BackgroundDownloader.OnDownloadComplete<FlightSearchResponse> mSearchCallback = new BackgroundDownloader.OnDownloadComplete<FlightSearchResponse>() {
 		@Override
-		public void onDownload(HotelSearchResponse results) {
-			mListener.onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.HOTEL_SEARCH, results);
+		public void onDownload(FlightSearchResponse results) {
+			mListener.onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.FLIGHT_SEARCH, results);
 		}
 	};
 

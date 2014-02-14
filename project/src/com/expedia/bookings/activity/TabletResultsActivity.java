@@ -234,8 +234,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		//TODO: This is just for logging so it can be removed if we want to turn off state logging.
 		registerStateListener(new StateListenerLogger<ResultsState>(), true);
 
-
-		mExpServicesFrag.startFlightSearch(Db.getFlightSearch().getSearchParams(), true);
 	}
 
 	@Override
