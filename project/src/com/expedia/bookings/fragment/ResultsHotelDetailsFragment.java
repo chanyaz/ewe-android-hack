@@ -208,7 +208,21 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		return ScreenPositionUtils.getGlobalScreenPosition(mHotelHeaderContainer);
 	}
 
-	private void setupHeader(final View view, Property property) {
+	private Runnable mAdjustParallax = new Runnable() {
+		@Override
+		public void run() {
+			View view = getView();
+			if (view != null) {
+				int offsetTop = Ui.getScreenLocationY(Ui.findView(view, R.id.scrolling_content));
+				int offsetBottom = getResources().getDisplayMetrics().heightPixels - offsetTop;
+				ParallaxContainer parallaxContainer = Ui.findView(view, R.id.hotel_header_image_container);
+				parallaxContainer.setOffsetTop(offsetTop);
+				parallaxContainer.setOffsetBottom(offsetBottom);
+			}
+		}
+	};
+
+	private void setupHeader(View view, Property property) {
 		ImageView hotelImage = Ui.findView(view, R.id.hotel_header_image);
 		TextView hotelName = Ui.findView(view, R.id.hotel_header_hotel_name);
 		TextView notRatedText = Ui.findView(view, R.id.not_rated_text_view);
@@ -220,17 +234,10 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		TextView saleText = Ui.findView(view, R.id.sale_text_view);
 
 		// Parallax effect
-		Ui.runOnNextLayout(view, new Runnable() {
-			@Override
-			public void run() {
-				int offsetTop = Ui.getScreenLocationY(Ui.findView(view, R.id.scrolling_content));
-				int offsetBottom = getResources().getDisplayMetrics().heightPixels - offsetTop;
-				ParallaxContainer parallaxContainer = Ui.findView(view, R.id.hotel_header_image_container);
-				parallaxContainer.setOffsetTop(offsetTop);
-				parallaxContainer.setOffsetBottom(offsetBottom);
-			}
-		});
-		view.invalidate();
+		// Sometimes (like on rotation), Ui.runOnNextLayout happens too early, so post it too.
+		// If this doesn't work on all devices, we might need to add a repeating globalLayoutListener.
+		Ui.runOnNextLayout(view, mAdjustParallax);
+		view.post(mAdjustParallax);
 
 		// Hotel Image
 		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.hotelImagePlaceHolderDrawable);
@@ -507,7 +514,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			}
 			int width = Math.max(minWidth,
 				(int) rateText.getPaint().measureText(rateText.getText().toString())
-				+ rateText.getPaddingLeft() + rateText.getPaddingRight());
+					+ rateText.getPaddingLeft() + rateText.getPaddingRight());
 			if (width > largestWidth) {
 				largestWidth = width;
 			}
