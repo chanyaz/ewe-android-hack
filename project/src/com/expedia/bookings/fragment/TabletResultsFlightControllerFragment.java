@@ -104,7 +104,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private IAddToTripListener mParentAddToTripListener;
 
 	private StateManager<ResultsFlightsState> mFlightsStateManager = new StateManager<ResultsFlightsState>(
-		ResultsFlightsState.FLIGHT_LIST_DOWN, this);
+		ResultsFlightsState.LOADING, this);
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -146,7 +146,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		if (savedInstanceState != null) {
 			mFlightsStateManager.setDefaultState(ResultsFlightsState.valueOf(savedInstanceState.getString(
 				STATE_FLIGHTS_STATE,
-				ResultsFlightsState.FLIGHT_LIST_DOWN.name())));
+				getBaseState().name())));
 		}
 
 		registerStateListener(mFlightsStateHelper, false);
@@ -185,6 +185,15 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	private Rect getAddTripRect() {
 		return mAddToTripFrag.getRowRect();
+	}
+
+	private ResultsFlightsState getBaseState() {
+		if (Db.getFlightSearch() == null || Db.getFlightSearch().getSearchResponse() == null) {
+			return ResultsFlightsState.LOADING;
+		}
+		else {
+			return ResultsFlightsState.FLIGHT_LIST_DOWN;
+		}
 	}
 
 	/*
@@ -439,6 +448,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		ArrayList<ViewGroup> visibleViews = new ArrayList<ViewGroup>();
 
 		switch (flightsState) {
+		case LOADING:
 		case FLIGHT_LIST_DOWN: {
 			visibleViews.add(mFlightOneListC);
 			break;
@@ -512,7 +522,16 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		boolean flightOneDetailsAvailable = true;
 		boolean flightTwoDetailsAvailable = true;
 
-		if (flightsState == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+		if (flightsState == ResultsFlightsState.LOADING) {
+			flightMapAvailable = false;
+			flightAddToTripAvailable = false;
+			flightOneFiltersAvailable = false;
+			flightTwoListAvailable = false;
+			flightTwoFiltersAvailabe = false;
+			flightOneDetailsAvailable = false;
+			flightTwoDetailsAvailable = false;
+		}
+		else if (flightsState == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 			flightTwoListAvailable = false;
 			flightTwoFiltersAvailabe = false;
 			flightTwoDetailsAvailable = false;
@@ -556,12 +575,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private void setFirstFlightListState(ResultsFlightsState state) {
 		if (mFlightOneListFrag != null) {
 			//lock
-			mFlightOneListFrag.setListLockedToTop(state != ResultsFlightsState.FLIGHT_LIST_DOWN
+			mFlightOneListFrag.setListLockedToTop(state != ResultsFlightsState.LOADING && state != ResultsFlightsState.FLIGHT_LIST_DOWN
 				&& state != ResultsFlightsState.FLIGHT_ONE_FILTERS);
 
 			//List scroll position
 			mFlightOneListFrag.unRegisterStateListener(mListStateHelper);
-			if (state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+			if (state == ResultsFlightsState.LOADING || state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mFlightOneListFrag.setPercentage(1f, 0);
 			}
 			else if (mFlightOneListFrag.hasList()
@@ -641,7 +660,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				return ResultsFlightsState.FLIGHT_ONE_FILTERS;
 			}
 			else if (state == ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM) {
-				return ResultsFlightsState.FLIGHT_LIST_DOWN;
+				return getBaseState();
 			}
 			return null;
 		}
@@ -693,7 +712,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		@Override
 		public void onStateFinalized(ResultsState state) {
 			if (state != ResultsState.FLIGHTS) {
-				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, false);
+				setFlightsState(getBaseState(), false);
 			}
 			else if (mFlightsStateManager.getState() == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				setFlightsState(ResultsFlightsState.FLIGHT_ONE_FILTERS, false);
@@ -1125,7 +1144,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			setVisibilityState(state);
 			setFirstFlightListState(state);
 
-			if (state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+			if (state == ResultsFlightsState.LOADING || state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mFlightOneFiltersC.setAlpha(0f);
 				mFlightMapC.setAlpha(0f);
 				if (mFlightOneListFrag != null && mFlightOneListFrag.hasList()) {
@@ -1141,6 +1160,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			}
 
 			switch (state) {
+			case LOADING:
 			case FLIGHT_LIST_DOWN:
 				positionForFilters(mFlightOneFiltersC, mFlightOneListC);
 				bindDataForFilters(mFlightOneListC, 0);

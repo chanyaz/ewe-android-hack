@@ -84,7 +84,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	//Other
 	//private ResultsState mGlobalState = ResultsState.OVERVIEW;
 	private StateManager<ResultsHotelsState> mHotelsStateManager = new StateManager<ResultsHotelsState>(
-		ResultsHotelsState.HOTEL_LIST_DOWN, this);
+		ResultsHotelsState.LOADING, this);
 	private IAddToTripListener mParentAddToTripListener;
 	private GridManager mGrid = new GridManager();
 	private int mShadeColor = Color.argb(220, 0, 0, 0);
@@ -132,8 +132,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		if (savedInstanceState != null) {
 			mHotelsStateManager.setDefaultState(ResultsHotelsState.valueOf(savedInstanceState.getString(
-				STATE_HOTELS_STATE,
-				ResultsHotelsState.HOTEL_LIST_DOWN.name())));
+				STATE_HOTELS_STATE,getBaseState().name())));
 		}
 
 		registerStateListener(mHotelsStateHelper, false);
@@ -164,21 +163,40 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mBackManager.unregisterWithParent(this);
 	}
 
+
 	/**
 	 * STATE HELPERS
 	 */
+
+	private ResultsHotelsState getBaseState() {
+		if (Db.getHotelSearch() == null || Db.getHotelSearch().getSearchResponse() == null) {
+			return ResultsHotelsState.LOADING;
+		}
+		else {
+			return ResultsHotelsState.HOTEL_LIST_DOWN;
+		}
+	}
 
 	public void setHotelsState(ResultsHotelsState state, boolean animate) {
 		mHotelsStateManager.setState(state, animate);
 	}
 
 	public ResultsHotelsState getHotelsState(ResultsState state) {
-		return state != ResultsState.HOTELS ? ResultsHotelsState.HOTEL_LIST_DOWN : mHotelsStateManager
-			.getState();
+		if (state != ResultsState.HOTELS) {
+			return getBaseState();
+		}
+		else {
+			return mHotelsStateManager.getState();
+		}
 	}
 
 	private void setTouchState(ResultsHotelsState hotelsState) {
-		mHotelListC.setBlockNewEventsEnabled(false);
+		if (hotelsState == ResultsHotelsState.LOADING) {
+			mHotelListC.setBlockNewEventsEnabled(true);
+		}
+		else {
+			mHotelListC.setBlockNewEventsEnabled(false);
+		}
 
 		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN || hotelsState == ResultsHotelsState.ROOMS_AND_RATES) {
 			mBgHotelMapC.setTouchPassThroughEnabled(true);
@@ -220,7 +238,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	private void setVisibilityState(ResultsHotelsState hotelsState) {
 		mHotelListC.setVisibility(View.VISIBLE);
-		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN) {
+		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN || hotelsState == ResultsHotelsState.LOADING) {
 			mBgHotelMapC.setAlpha(0f);
 			mHotelFiltersC.setVisibility(View.INVISIBLE);
 			mHotelFilteredCountC.setVisibility(View.INVISIBLE);
@@ -273,7 +291,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		boolean hotelFilteredCountAvailable = true;
 		boolean hotelRoomsAndRatesAvailable = true;
 
-		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN) {
+		if (hotelsState == ResultsHotelsState.LOADING) {
+			hotelMapAvailable = false;
+			hotelFiltersAvailable = false;
+			hotelFilteredCountAvailable = false;
+			hotelRoomsAndRatesAvailable = false;
+		}
+		else if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN) {
 			hotelFiltersAvailable = false;
 			hotelFilteredCountAvailable = false;
 			hotelRoomsAndRatesAvailable = false;
@@ -303,6 +327,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		if (mHotelListFrag != null) {
 			//Button and locking
 			switch (state) {
+			case LOADING:
 			case HOTEL_LIST_DOWN:
 				mHotelListFrag.setPercentage(1f, 0);
 				mHotelListFrag.setListLockedToTop(false);
@@ -336,7 +361,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			//List scroll position
 			mHotelListFrag.unRegisterStateListener(mListStateHelper);
-			if (state == ResultsHotelsState.HOTEL_LIST_DOWN) {
+			if (state == ResultsHotelsState.HOTEL_LIST_DOWN || state == ResultsHotelsState.LOADING) {
 				mHotelListFrag.setPercentage(1f, 0);
 			}
 			else if (mHotelListFrag.hasList()
@@ -586,7 +611,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				return ResultsHotelsState.HOTEL_LIST_UP;
 			}
 			else if (state == ResultsHotelsListState.HOTELS_LIST_AT_BOTTOM) {
-				return ResultsHotelsState.HOTEL_LIST_DOWN;
+				return getBaseState();
 			}
 			return null;
 		}
@@ -661,7 +686,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 
 			if (state != ResultsState.HOTELS) {
-				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, false);
+				setHotelsState(getBaseState(), false);
 			}
 			else if (mHotelsStateManager.getState() == ResultsHotelsState.HOTEL_LIST_DOWN) {
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, false);
@@ -733,7 +758,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		@Override
 		public boolean handleBackPressed() {
 			ResultsHotelsState state = mHotelsStateManager.getState();
-			if (state != ResultsHotelsState.HOTEL_LIST_DOWN) {
+			if (state != getBaseState()) {
 				if (mHotelsStateManager.isAnimating()) {
 					//If we are in the middle of state transition, just reverse it
 					setHotelsState(state, true);
@@ -934,6 +959,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			setListState(state);
 
 			switch (state) {
+			case LOADING:
 			case HOTEL_LIST_DOWN:
 				mBgHotelMapC.setAlpha(0f);
 				setHotelsFiltersShownPercentage(0f);

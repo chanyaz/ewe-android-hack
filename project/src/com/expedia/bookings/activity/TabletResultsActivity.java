@@ -137,6 +137,11 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			}
 		}
 
+		//TODO: We clear these to test the loading code, but we should probably be doing the data loading inside the LOB specific controller fragments
+		Db.getHotelSearch().setSearchResponse(null);
+		Db.getFlightSearch().setSearchResponse(null);
+
+
 		if (Db.getTripBucket().isEmpty()) {
 			Db.loadTripBucket(this);
 		}
@@ -146,7 +151,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		mBgDestImageC = Ui.findView(this, R.id.bg_dest_image_overlay);
 		mBgDestImageC.setBlockNewEventsEnabled(true);
 		mBgDestImageC.setVisibility(View.VISIBLE);
-		mLoadingC = Ui.findView(this,R.id.loading_frag_container);
+		mLoadingC = Ui.findView(this, R.id.loading_frag_container);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CURRENT_STATE)) {
 			String stateName = savedInstanceState.getString(STATE_CURRENT_STATE);
@@ -199,6 +204,16 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		//the activity. Further it is not a fragment, so this is an easy place to set the listeners
 		registerStateListener(mActionBarView.mStateHelper, true);
 		registerMeasurementListener(mActionBarView, false);
+
+		//Set up the loading fragment to listen for hotel/flight events.
+		if (mLoadingFrag != null) {
+			if (mHotelsController != null) {
+				mHotelsController.registerStateListener(mLoadingFrag.getHotelsStateListener(), true);
+			}
+			if (mFlightsController != null) {
+				mFlightsController.registerStateListener(mLoadingFrag.getFlightsStateListener(), true);
+			}
+		}
 
 		ActionBar actionBar = getSupportActionBar();
 		mActionBarView.attachToActionBar(actionBar);
@@ -278,10 +293,10 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 
 			//TODO: REMOVE THIS, IT IS ONLY USEFUL FOR BUILDING THE LOADING STUFF
-			menu.add(100, ResultsLoadingState.ALL.ordinal() + 1,ResultsLoadingState.ALL.ordinal() + 1,ResultsLoadingState.ALL.name());
-			menu.add(100, ResultsLoadingState.HOTELS.ordinal() + 1,ResultsLoadingState.HOTELS.ordinal() + 1,ResultsLoadingState.HOTELS.name());
-			menu.add(100, ResultsLoadingState.FLIGHTS.ordinal() + 1,ResultsLoadingState.FLIGHTS.ordinal() + 1,ResultsLoadingState.FLIGHTS.name());
-
+			menu.add(100, ResultsLoadingState.ALL.ordinal() + 1, ResultsLoadingState.ALL.ordinal() + 1, ResultsLoadingState.ALL.name());
+			menu.add(100, ResultsLoadingState.HOTELS.ordinal() + 1, ResultsLoadingState.HOTELS.ordinal() + 1, ResultsLoadingState.HOTELS.name());
+			menu.add(100, ResultsLoadingState.FLIGHTS.ordinal() + 1, ResultsLoadingState.FLIGHTS.ordinal() + 1, ResultsLoadingState.FLIGHTS.name());
+			menu.add(100, ResultsLoadingState.NONE.ordinal() + 1, ResultsLoadingState.NONE.ordinal() + 1, ResultsLoadingState.NONE.name());
 
 
 			return true;
@@ -348,14 +363,19 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			}
 
 			//TODO: REMOVE THE BELOW CODE, IT IS NOT USEFUL EXCEPT FOR WHILE BUILDING THE LOADING STUFF
-			if(item.getGroupId() == 100 && mLoadingFrag != null){
+			if (item.getGroupId() == 100 && mLoadingFrag != null) {
 				boolean anim = true;
-				if(id == ResultsLoadingState.ALL.ordinal()){
+				if (id == ResultsLoadingState.ALL.ordinal()) {
 					mLoadingFrag.setState(ResultsLoadingState.ALL, anim);
-				}else if(id == ResultsLoadingState.HOTELS.ordinal()){
+				}
+				else if (id == ResultsLoadingState.HOTELS.ordinal()) {
 					mLoadingFrag.setState(ResultsLoadingState.HOTELS, anim);
-				}else if(id == ResultsLoadingState.FLIGHTS.ordinal()){
+				}
+				else if (id == ResultsLoadingState.FLIGHTS.ordinal()) {
 					mLoadingFrag.setState(ResultsLoadingState.FLIGHTS, anim);
+				}
+				else if (id == ResultsLoadingState.NONE.ordinal()) {
+					mLoadingFrag.setState(ResultsLoadingState.NONE, anim);
 				}
 			}
 		}
@@ -524,7 +544,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			mGrid.setGridSize(2, 3);
 			mGrid.setDimensions(totalWidth, totalHeight);
 
-			mGrid.setContainerToColumnSpan(mLoadingC, 0,1);
+			mGrid.setContainerToColumnSpan(mLoadingC, 0, 1);
 			mGrid.setContainerToRow(mLoadingC, 1);
 
 			for (IMeasurementListener listener : mMeasurementListeners) {
@@ -610,7 +630,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 
 		private ResultsState getResultsStateFromHotels(ResultsHotelsState state) {
-			if (state == ResultsHotelsState.HOTEL_LIST_DOWN) {
+			if (state == ResultsHotelsState.LOADING || state == ResultsHotelsState.HOTEL_LIST_DOWN) {
 				return ResultsState.OVERVIEW;
 			}
 			else {
@@ -666,7 +686,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 
 		private ResultsState getResultsStateFromFlights(ResultsFlightsState state) {
-			if (state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+			if (state == ResultsFlightsState.LOADING || state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				return ResultsState.OVERVIEW;
 			}
 			else {

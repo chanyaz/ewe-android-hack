@@ -136,14 +136,16 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 
 	private void resetAdapterQuery() {
 		FlightAdapter adapter = (FlightAdapter) mAdapter;
-		if (mLegNumber > 0) {
-			FlightTripQuery previousQuery = Db.getFlightSearch().queryTrips(mLegNumber - 1);
-			adapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegNumber),
+		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null) {
+			if (mLegNumber > 0) {
+				FlightTripQuery previousQuery = Db.getFlightSearch().queryTrips(mLegNumber - 1);
+				adapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegNumber),
 					previousQuery.getMinTime(),
 					previousQuery.getMaxTime());
-		}
-		else {
-			adapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegNumber));
+			}
+			else {
+				adapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegNumber));
+			}
 		}
 	}
 
