@@ -1294,8 +1294,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 			if(response != null && !response.hasErrors()){
 				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
+			}else{
+				//TODO: Better Error Handling
+				Ui.showToast(getActivity(), "FAIL FAIL FAIL - FLIGHT SEARCH ERROR");
 			}
-			//TODO: Error Handling
 		}
 	}
 

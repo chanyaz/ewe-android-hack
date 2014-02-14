@@ -1137,8 +1137,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			if(response != null && !response.hasErrors()){
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
+			}else{
+				//TODO: Better Error handling
+				Ui.showToast(context, "FAIL FAIL FAIL - HOTEL SEARCH ERROR");
 			}
-			//TODO: Error handling
 		}
 	}
 }
