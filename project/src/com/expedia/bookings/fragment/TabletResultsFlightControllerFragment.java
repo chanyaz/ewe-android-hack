@@ -578,6 +578,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			mFlightOneListFrag.setListLockedToTop(state != ResultsFlightsState.LOADING && state != ResultsFlightsState.FLIGHT_LIST_DOWN
 				&& state != ResultsFlightsState.FLIGHT_ONE_FILTERS);
 
+			if(state == ResultsFlightsState.FLIGHT_LIST_DOWN){
+				mFlightOneListFrag.resetQuery();
+			}
+
 			//List scroll position
 			mFlightOneListFrag.unRegisterStateListener(mListStateHelper);
 			if (state == ResultsFlightsState.LOADING || state == ResultsFlightsState.FLIGHT_LIST_DOWN) {

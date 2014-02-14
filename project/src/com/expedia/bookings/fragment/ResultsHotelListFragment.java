@@ -29,7 +29,7 @@ import com.mobiata.android.util.Ui;
  * ResultsHotelListFragment: The hotel list fragment designed for tablet results 2013
  */
 public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsListState> implements
-		OnFilterChangedListener {
+	OnFilterChangedListener {
 
 	public interface ISortAndFilterListener {
 		public void onSortAndFilterClicked();
@@ -55,7 +55,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 
 		if (getActivity() != null) {
 			boolean shouldShowVipIcon = PointOfSale.getPointOfSale().supportsVipAccess()
-					&& User.isElitePlus(getActivity());
+				&& User.isElitePlus(getActivity());
 			mAdapter.setShowVipIcon(shouldShowVipIcon);
 		}
 
@@ -99,17 +99,19 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		return mAdapter;
 	}
 
-	private void updateAdapter() {
-		HotelSearch search = Db.getHotelSearch();
-		mAdapter.setSearchResponse(search.getSearchResponse());
-		mAdapter.setShowDistance(
+	public void updateAdapter() {
+		if (mAdapter != null) {
+			HotelSearch search = Db.getHotelSearch();
+			mAdapter.setSearchResponse(search.getSearchResponse());
+			mAdapter.setShowDistance(
 				search != null
-						&& search.getSearchParams().getSearchType() != null
-						&& search.getSearchParams().getSearchType().shouldShowDistance());
+					&& search.getSearchParams().getSearchType() != null
+					&& search.getSearchParams().getSearchType().shouldShowDistance());
 
-		if (Db.getHotelSearch().getSelectedProperty() != null) {
-			// In case there is a currently selected property, select it on the screen.
-			mAdapter.setSelectedProperty(Db.getHotelSearch().getSelectedProperty());
+			if (Db.getHotelSearch().getSelectedProperty() != null) {
+				// In case there is a currently selected property, select it on the screen.
+				mAdapter.setSelectedProperty(Db.getHotelSearch().getSelectedProperty());
+			}
 		}
 	}
 

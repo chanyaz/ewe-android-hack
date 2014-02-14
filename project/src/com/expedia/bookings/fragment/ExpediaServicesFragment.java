@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.SuggestionSort;
@@ -101,20 +103,29 @@ public class ExpediaServicesFragment extends Fragment {
 	}
 
 	public void startHotelSearch(final SearchParams searchParams, boolean continueIfInProgress) {
+		startHotelSearch(searchParams.toHotelSearchParams(), continueIfInProgress);
+	}
+
+	public void startHotelSearch(final HotelSearchParams searchParams, boolean continueIfInProgress){
 		doDownload(ServiceType.HOTEL_SEARCH, continueIfInProgress, new ResponseDownload() {
 			public Response execute(ExpediaServices services) {
-				return services.search(searchParams.toHotelSearchParams(), 0);
+				return services.search(searchParams, 0);
 			}
 		});
 	}
 
 	public void startFlightSearch(final SearchParams searchParams, boolean continueIfInProgress) {
+		startFlightSearch(searchParams.toFlightSearchParams(), continueIfInProgress);
+	}
+
+	public void startFlightSearch(final FlightSearchParams searchParams, boolean continueIfInProgress) {
 		doDownload(ServiceType.FLIGHT_SEARCH, continueIfInProgress, new ResponseDownload() {
 			public Response execute(ExpediaServices services) {
-				return services.flightSearch(searchParams.toFlightSearchParams(), 0);
+				return services.flightSearch(searchParams, 0);
 			}
 		});
 	}
+
 
 	public boolean isDownloading(ServiceType type) {
 		return mRequesting.containsKey(type);

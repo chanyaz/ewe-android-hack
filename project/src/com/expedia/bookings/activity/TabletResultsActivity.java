@@ -22,10 +22,14 @@ import com.actionbarsherlock.view.SubMenu;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BackgroundImageCache;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchResponse;
+import com.expedia.bookings.data.HotelSearchResponse;
+import com.expedia.bookings.data.Response;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsLoadingState;
 import com.expedia.bookings.enums.ResultsState;
+import com.expedia.bookings.fragment.ExpediaServicesFragment;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
 import com.expedia.bookings.fragment.ResultsLoadingFragment;
 import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment;
@@ -69,7 +73,7 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsActivity extends SherlockFragmentActivity implements IBackButtonLockListener,
 	IAddToTripListener, IFragmentAvailabilityProvider, IStateProvider<ResultsState>, IMeasurementProvider,
-	IBackManageable {
+	IBackManageable,ExpediaServicesFragment.ExpediaServicesFragmentListener {
 
 	//State
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
@@ -80,6 +84,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private static final String FTAG_TRIP_CONTROLLER = "FTAG_TRIP_CONTROLLER";
 	private static final String FTAG_BACKGROUND_IMAGE = "FTAG_BACKGROUND_IMAGE";
 	private static final String FTAG_LOADING = "FTAG_LOADING";
+	private static final String FTAG_EXPEDIA_SERVICES = "FTAG_EXPEDIA_SERVICES";
 
 	//Containers..
 	private ViewGroup mRootC;
@@ -92,6 +97,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private TabletResultsHotelControllerFragment mHotelsController;
 	private TabletResultsTripControllerFragment mTripController;
 	private ResultsLoadingFragment mLoadingFrag;
+	private ExpediaServicesFragment mExpServicesFrag;
 
 	//Other
 	private GridManager mGrid = new GridManager();
@@ -180,6 +186,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			true,
 			FTAG_LOADING, manager, transaction, this,
 			R.id.loading_frag_container, false);
+		mExpServicesFrag = (ExpediaServicesFragment)  FragmentAvailabilityUtils.setFragmentAvailability(
+			true,
+			FTAG_EXPEDIA_SERVICES, manager, transaction, this,0, false);
 		transaction.commit();
 		manager.executePendingTransactions();//These must be finished before we continue..
 
@@ -224,6 +233,10 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 		//TODO: This is just for logging so it can be removed if we want to turn off state logging.
 		registerStateListener(new StateListenerLogger<ResultsState>(), true);
+
+
+		mExpServicesFrag.startFlightSearch(Db.getFlightSearch().getSearchParams(), true);
+		mExpServicesFrag.startHotelSearch(Db.getHotelSearch().getSearchParams(),true);
 	}
 
 	@Override
@@ -409,6 +422,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 		else if (tag == FTAG_LOADING) {
 			frag = mLoadingFrag;
+		}else if(tag == FTAG_EXPEDIA_SERVICES){
+			frag = mExpServicesFrag;
 		}
 		return frag;
 	}
@@ -431,6 +446,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 		else if (tag == FTAG_LOADING) {
 			frag = ResultsLoadingFragment.newInstance();
+		}else if(tag == FTAG_EXPEDIA_SERVICES){
+			frag = new ExpediaServicesFragment();
 		}
 		return frag;
 	}
@@ -695,4 +712,42 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 
 	};
+
+	/*
+	EXPEDIA SERVICES FRAG LISTENER
+	 */
+
+	@Override
+	public void onExpediaServicesDownload(ExpediaServicesFragment.ServiceType type, Response response) {
+		switch(type){
+		case HOTEL_SEARCH:
+			// TODO ideally we keep trip bucket around, but right now it is just not compatible with new searches
+			Db.getTripBucket().clear();
+			Db.saveTripBucket(this);
+
+			Db.getHotelSearch().setSearchResponse((HotelSearchResponse) response);
+			Db.saveHotelSearchTimestamp(this);
+			Db.kickOffBackgroundHotelSearchSave(this);
+
+			//TODO: DO NOT ASSUME SUCCESS...
+			mHotelsController.setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
+
+			break;
+		case FLIGHT_SEARCH:
+			// TODO ideally we keep trip bucket around, but right now it is just not compatible with new searches
+			Db.getTripBucket().clear();
+			Db.saveTripBucket(this);
+
+			Db.getFlightSearch().setSearchResponse((FlightSearchResponse) response);
+			if (response != null) {
+				Db.kickOffBackgroundFlightSearchSave(this);
+				Db.addAirlineNames(((FlightSearchResponse) response).getAirlineNames());
+			}
+
+			//TODO: DO NOT ASSUME SUCCESS...
+			mFlightsController.setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
+
+			break;
+		}
+	}
 }

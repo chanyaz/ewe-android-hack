@@ -329,6 +329,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			switch (state) {
 			case LOADING:
 			case HOTEL_LIST_DOWN:
+				mHotelListFrag.updateAdapter();
 				mHotelListFrag.setPercentage(1f, 0);
 				mHotelListFrag.setListLockedToTop(false);
 				mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
