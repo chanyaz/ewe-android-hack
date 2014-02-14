@@ -226,7 +226,7 @@
                     <!-- Hotel header section (#2058) -->
                     <!-- This is out of order down here so it can always be on z-top -->
 
-                    <RelativeLayout
+                    <com.expedia.bookings.widget.StickyRelativeLayout
                         android:id="@+id/sticky_container"
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
@@ -333,7 +333,7 @@
                                     app:textStyle="light"/>
                             </LinearLayout>
                         </LinearLayout>
-                    </RelativeLayout>
+                    </com.expedia.bookings.widget.StickyRelativeLayout>
                 </RelativeLayout>
             </com.expedia.bookings.widget.ScrollView>
         </com.expedia.bookings.widget.RoundedCornerFrameLayout>
