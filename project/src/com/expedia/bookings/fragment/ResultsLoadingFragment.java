@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import android.annotation.TargetApi;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -41,6 +42,16 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 	private FrameLayoutTouchController mBgLeft;
 	private FrameLayoutTouchController mBgRight;
 
+	//loading anim vars
+	private int mLoadingUpdateInterval = 250;
+	private int mLoadingNumber = 0;
+	private int mLoadingColorDark = Color.DKGRAY;
+	private int mLoadingColorLight = Color.LTGRAY;
+	private Runnable mLoadingAnimRunner;
+	private ViewGroup mLoadingLeft;
+	private ViewGroup mLoadingRight;
+
+
 	public static ResultsLoadingFragment newInstance() {
 		ResultsLoadingFragment frag = new ResultsLoadingFragment();
 		return frag;
@@ -61,6 +72,9 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 		mBgLeft = Ui.findView(mRootC, R.id.bg_left);
 		mBgRight = Ui.findView(mRootC, R.id.bg_right);
 
+		mLoadingLeft = Ui.findView(mRootC, R.id.loading_left_container);
+		mLoadingRight = Ui.findView(mRootC, R.id.loading_right_container);
+
 		registerStateListener(mStateHelper, false);
 
 		return mRootC;
@@ -75,6 +89,76 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 	public void onPause() {
 		super.onPause();
 	}
+
+	private void setLoadingAnimationEnabled(boolean loading) {
+		if (!loading) {
+			mLoadingAnimRunner = null;
+		}
+		else if (mRootC != null) {
+			mLoadingAnimRunner = new Runnable() {
+				@Override
+				public void run() {
+					if (this == mLoadingAnimRunner && mRootC != null && getActivity() != null) {
+						loadingAnimUpdate();
+						mRootC.postDelayed(this, mLoadingUpdateInterval);
+					}
+				}
+			};
+			mRootC.post(mLoadingAnimRunner);
+		}
+	}
+
+	private void loadingAnimUpdate() {
+		if (mLoadingLeft != null && mLoadingRight != null) {
+			mLoadingNumber++;
+			int leftDarkInd = -1;
+			int rightDarkInd = -1;
+
+			ResultsLoadingState state = mStateManager.getState();
+			switch (state) {
+			case ALL: {
+				mLoadingNumber = mLoadingNumber % (mLoadingLeft.getChildCount() + mLoadingRight.getChildCount());
+				if (mLoadingNumber < mLoadingRight.getChildCount()) {
+					rightDarkInd = mLoadingNumber;
+				}
+				else {
+					leftDarkInd = mLoadingLeft.getChildCount() - 1 - (mLoadingNumber % mLoadingLeft.getChildCount());
+				}
+				break;
+			}
+			case FLIGHTS: {
+				mLoadingNumber = mLoadingNumber % (mLoadingRight.getChildCount() * 2 - 2);
+				if (mLoadingNumber < mLoadingRight.getChildCount()) {
+					rightDarkInd = mLoadingNumber;
+				}
+				else {
+					int maxInd = mLoadingRight.getChildCount() - 1;
+					rightDarkInd = maxInd - (mLoadingNumber % maxInd);
+				}
+				break;
+			}
+			case HOTELS: {
+				mLoadingNumber = mLoadingNumber % (mLoadingLeft.getChildCount() * 2 - 2);
+				if (mLoadingNumber < mLoadingLeft.getChildCount()) {
+					leftDarkInd = mLoadingNumber;
+				}
+				else {
+					int maxInd = mLoadingLeft.getChildCount() - 1;
+					leftDarkInd = maxInd - (mLoadingNumber % maxInd);
+				}
+				break;
+			}
+			}
+
+			for (int i = 0; i < mLoadingLeft.getChildCount(); i++) {
+				mLoadingLeft.getChildAt(i).setBackgroundColor(i == leftDarkInd ? mLoadingColorDark : mLoadingColorLight);
+			}
+			for (int i = 0; i < mLoadingRight.getChildCount(); i++) {
+				mLoadingRight.getChildAt(i).setBackgroundColor(i == rightDarkInd ? mLoadingColorDark : mLoadingColorLight);
+			}
+		}
+	}
+
 
 	/**
 	 * LISTEN TO HOTELS STATE
@@ -179,9 +263,11 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 		public void onStateTransitionUpdate(ResultsLoadingState stateOne, ResultsLoadingState stateTwo, float percentage) {
 			if (stateOne == ResultsLoadingState.ALL && stateTwo == ResultsLoadingState.FLIGHTS) {
 				positionTextLabel(percentage, false);
+				positionRightLoadingBar(percentage);
 			}
 			else if (stateOne == ResultsLoadingState.ALL && stateTwo == ResultsLoadingState.HOTELS) {
 				positionTextLabel(percentage, true);
+				positionLeftLoadingBar(percentage);
 			}
 		}
 
@@ -193,6 +279,7 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 		@Override
 		public void onStateFinalized(ResultsLoadingState state) {
 			if (state == ResultsLoadingState.NONE) {
+				setLoadingAnimationEnabled(false);
 				mRootC.setVisibility(View.GONE);
 			}
 			else {
@@ -200,9 +287,25 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 				setLoadingTextForState(state);
 				setBackgroundForState(state);
 				positionTextForState(state);
+				positionLoadingBarsForState(state);
+				setLoadingBarVisibilityForState(state);
+				setLoadingAnimationEnabled(true);
 			}
 		}
 	};
+
+	protected void positionLoadingBarsForState(ResultsLoadingState state) {
+		if (state == ResultsLoadingState.FLIGHTS) {
+			positionRightLoadingBar(1f);
+		}
+		else if (state == ResultsLoadingState.HOTELS) {
+			positionLeftLoadingBar(1f);
+		}
+		else {
+			positionLeftLoadingBar(0f);
+			positionRightLoadingBar(0f);
+		}
+	}
 
 	protected void positionTextForState(ResultsLoadingState state) {
 		if (state == ResultsLoadingState.ALL) {
@@ -257,6 +360,51 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 		else {
 			float rootQuarter = mRootC.getWidth() / 4f;
 			mTextC.setTranslationX(percentage * (toLeft ? -rootQuarter : rootQuarter));
+		}
+	}
+
+	protected void setLoadingBarVisibilityForState(ResultsLoadingState state) {
+		if (state == ResultsLoadingState.ALL) {
+			mLoadingLeft.setVisibility(View.VISIBLE);
+			mLoadingRight.setVisibility(View.VISIBLE);
+		}
+		else if (state == ResultsLoadingState.FLIGHTS) {
+			mLoadingLeft.setVisibility(View.INVISIBLE);
+			mLoadingRight.setVisibility(View.VISIBLE);
+		}
+		else if (state == ResultsLoadingState.HOTELS) {
+			mLoadingLeft.setVisibility(View.VISIBLE);
+			mLoadingRight.setVisibility(View.INVISIBLE);
+		}
+		else {
+			mLoadingLeft.setVisibility(View.INVISIBLE);
+			mLoadingRight.setVisibility(View.INVISIBLE);
+		}
+	}
+
+	protected void positionLeftLoadingBar(float percentage) {
+		if (percentage == 0) {
+			mLoadingLeft.setTranslationX(0);
+		}
+		else {
+			float rootQuarter = mRootC.getWidth() / 4f;
+			float loadingHalf = mLoadingLeft.getWidth() / 2f;
+			float untranslatedCenterX = mLoadingLeft.getLeft() + loadingHalf;
+			float destTranslation = rootQuarter - untranslatedCenterX;
+			mLoadingLeft.setTranslationX(percentage * destTranslation);
+		}
+	}
+
+	protected void positionRightLoadingBar(float percentage) {
+		if (percentage == 0) {
+			mLoadingRight.setTranslationX(0);
+		}
+		else {
+			float rootQuarter = mRootC.getWidth() / 4f;
+			float loadingHalf = mLoadingRight.getWidth() / 2f;
+			float untranslatedCenterX = mLoadingRight.getLeft() + loadingHalf;
+			float destTranslation = (3 * rootQuarter) - untranslatedCenterX;
+			mLoadingRight.setTranslationX(percentage * destTranslation);
 		}
 	}
 
