@@ -54,7 +54,7 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsFlightControllerFragment extends Fragment implements IResultsFlightSelectedListener,
 	IResultsFlightLegSelected, IAddToTripListener, IFragmentAvailabilityProvider, IBackManageable,
-	IStateProvider<ResultsFlightsState>, IDoneClickedListener,ExpediaServicesFragment.ExpediaServicesFragmentListener {
+	IStateProvider<ResultsFlightsState>, IDoneClickedListener, ExpediaServicesFragment.ExpediaServicesFragmentListener {
 
 	//State
 	private static final String STATE_FLIGHTS_STATE = "STATE_FLIGHTS_STATE";
@@ -118,6 +118,26 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	}
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState != null) {
+			mFlightsStateManager.setDefaultState(ResultsFlightsState.valueOf(savedInstanceState.getString(
+				STATE_FLIGHTS_STATE,
+				getBaseState().name())));
+		}
+
+		if (Db.getFlightSearch() == null || Db.getFlightSearch().getSearchResponse() == null) {
+			if (!Db.loadCachedFlightData(getActivity())) {
+				mFlightsStateManager.setDefaultState(ResultsFlightsState.LOADING);
+			}
+			else {
+				Db.loadFlightSearchParamsFromDisk(getActivity());
+			}
+		}
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_tablet_results_flights, null, false);
 
@@ -147,14 +167,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		mFlightOneSelectedRow = Ui.findView(view, R.id.flight_one_row);
 
-		if (savedInstanceState != null) {
-			mFlightsStateManager.setDefaultState(ResultsFlightsState.valueOf(savedInstanceState.getString(
-				STATE_FLIGHTS_STATE,
-				getBaseState().name())));
-		}
-
-		registerStateListener(mFlightsStateHelper, false);
 		registerStateListener(new StateListenerLogger<ResultsFlightsState>(), false);
+		registerStateListener(mFlightsStateHelper, false);
 
 		return view;
 	}
@@ -1285,16 +1299,17 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	@Override
 	public void onExpediaServicesDownload(ExpediaServicesFragment.ServiceType type, Response response) {
-		if(type == ExpediaServicesFragment.ServiceType.FLIGHT_SEARCH){
+		if (type == ExpediaServicesFragment.ServiceType.FLIGHT_SEARCH) {
 			Db.getFlightSearch().setSearchResponse((FlightSearchResponse) response);
 			if (response != null) {
 				Db.kickOffBackgroundFlightSearchSave(getActivity());
 				Db.addAirlineNames(((FlightSearchResponse) response).getAirlineNames());
 			}
 
-			if(response != null && !response.hasErrors()){
+			if (response != null && !response.hasErrors()) {
 				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
-			}else{
+			}
+			else {
 				//TODO: Better Error Handling
 				Ui.showToast(getActivity(), "FAIL FAIL FAIL - FLIGHT SEARCH ERROR");
 			}

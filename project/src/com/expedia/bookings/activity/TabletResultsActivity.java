@@ -111,41 +111,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tablet_results);
 
-		boolean hasHotelData = Db.getHotelSearch().getSearchResponse() != null;
-		if (!hasHotelData) {
-			hasHotelData = Db.loadHotelSearchFromDisk(this, true); // TODO REMOVE BYPASSTIMEOUT=TRUE before shipping!
-			if (!hasHotelData) {
-				// TODO will this logic change when the search behavior changes?
-				Log.i("TabletResultsActivity: no hotel data in memory and did not load from disk, we must finish()");
-				finish();
-				return;
-			}
-		}
-
-		boolean hasFlightData = Db.getFlightSearch().getSearchResponse() != null;
-		if (!hasFlightData) {
-			hasFlightData = Db.loadCachedFlightData(this);
-
-			if (!hasFlightData) {
-				// TODO will this logic change when the search behavior changes?
-				Log.i("TabletResultsActivity: no flight data in memory and did not load from disk, we must finish()");
-				finish();
-				return;
-			}
-			else {
-				Db.loadFlightSearchParamsFromDisk(this);
-			}
-		}
-
-		//TODO: We clear these to test the loading code, but we should probably be doing the data loading inside the LOB specific controller fragments
-		Db.getHotelSearch().setSearchResponse(null);
-		Db.getFlightSearch().setSearchResponse(null);
-
-
-		if (Db.getTripBucket().isEmpty()) {
-			Db.loadTripBucket(this);
-		}
-
 		//Containers
 		mRootC = Ui.findView(this, R.id.root_layout);
 		mBgDestImageC = Ui.findView(this, R.id.bg_dest_image_overlay);

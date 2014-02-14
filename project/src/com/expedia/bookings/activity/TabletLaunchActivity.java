@@ -266,6 +266,9 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		hotelSearch.setSearchResponse(null);
 		flightSearch.setSearchResponse(null);
 
+		Db.deleteCachedFlightData(this);
+		Db.deleteHotelSearchData(this);
+
 		//Clear trip bucket before search
 		Db.getTripBucket().clear();
 

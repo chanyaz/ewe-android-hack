@@ -55,7 +55,7 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsHotelControllerFragment extends Fragment implements
 	ISortAndFilterListener, IResultsHotelSelectedListener, IAddToTripListener, IFragmentAvailabilityProvider,
-	HotelMapFragmentListener, SupportMapFragmentListener, IBackManageable, IStateProvider<ResultsHotelsState>,ExpediaServicesFragment.ExpediaServicesFragmentListener {
+	HotelMapFragmentListener, SupportMapFragmentListener, IBackManageable, IStateProvider<ResultsHotelsState>, ExpediaServicesFragment.ExpediaServicesFragmentListener {
 
 	//State
 	private static final String STATE_HOTELS_STATE = "STATE_HOTELS_STATE";
@@ -106,6 +106,20 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	}
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState != null) {
+			mHotelsStateManager.setDefaultState(ResultsHotelsState.valueOf(savedInstanceState.getString(
+				STATE_HOTELS_STATE, getBaseState().name())));
+		}
+
+		if ((Db.getHotelSearch() == null || Db.getHotelSearch().getSearchResponse() == null) && !Db.loadHotelSearchFromDisk(getActivity())) {
+			mHotelsStateManager.setDefaultState(ResultsHotelsState.LOADING);
+		}
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_tablet_results_hotels, null, false);
 
@@ -134,11 +148,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		//behind the view getting the original touch event, otherwise it will create a loop.
 		mBgHotelMapTouchDelegateC.setVisibility(View.INVISIBLE);
 		mBgHotelMapC.setTouchPassThroughReceiver(mBgHotelMapTouchDelegateC);
-
-		if (savedInstanceState != null) {
-			mHotelsStateManager.setDefaultState(ResultsHotelsState.valueOf(savedInstanceState.getString(
-				STATE_HOTELS_STATE, getBaseState().name())));
-		}
 
 		registerStateListener(mHotelsStateHelper, false);
 		registerStateListener(new StateListenerLogger<ResultsHotelsState>(), false);
@@ -1128,16 +1137,17 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Override
 	public void onExpediaServicesDownload(ExpediaServicesFragment.ServiceType type, Response response) {
-		if(type == ExpediaServicesFragment.ServiceType.HOTEL_SEARCH){
+		if (type == ExpediaServicesFragment.ServiceType.HOTEL_SEARCH) {
 			Context context = getActivity();
 
 			Db.getHotelSearch().setSearchResponse((HotelSearchResponse) response);
 			Db.saveHotelSearchTimestamp(context);
 			Db.kickOffBackgroundHotelSearchSave(context);
 
-			if(response != null && !response.hasErrors()){
+			if (response != null && !response.hasErrors()) {
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
-			}else{
+			}
+			else {
 				//TODO: Better Error handling
 				Ui.showToast(context, "FAIL FAIL FAIL - HOTEL SEARCH ERROR");
 			}
