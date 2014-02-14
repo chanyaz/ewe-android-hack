@@ -35,6 +35,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	private static final String STATE_LIST_STATE = "STATE_LIST_STATE";
 
 	private FruitList mListView;
+	private String mListViewContentDescription;
 	private FrameLayoutTouchController mStickyHeader;
 	private TextView mStickyHeaderTv;
 	private TextView mTopRightTextButton;
@@ -70,6 +71,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_tablet_results_list, null);
 		mListView = Ui.findView(view, android.R.id.list);
+		mListView.setContentDescription(mListViewContentDescription);
 		mStickyHeader = Ui.findView(view, R.id.sticky_header_container);
 		mStickyHeader.setConsumeTouch(true);
 		mStickyHeaderTv = Ui.findView(view, R.id.sticky_number_of_items);
@@ -244,7 +246,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 
 	@Override
 	public void updateStateTransition(T stateOne, T stateTwo,
-			float percentage) {
+									  float percentage) {
 		mListeners.updateStateTransition(stateOne, stateTwo, percentage);
 	}
 
@@ -266,6 +268,10 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	@Override
 	public void unRegisterStateListener(IStateListener<T> listener) {
 		mListeners.unRegisterStateListener(listener);
+	}
+
+	protected void setListViewContentDescription(int contentDescriptionId) {
+		mListViewContentDescription = getString(contentDescriptionId);
 	}
 
 	/*

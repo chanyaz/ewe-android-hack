@@ -2978,4 +2978,10 @@
     <!-- Content description for action: Press to view share options -->
     <string name="cd_share_menu_btn">Press to view itinerary sharing options</string>
 
+    <!-- Tablet Search Results Content Descriptions -->
+    <!-- Content description for Hotel Search Results -->
+    <string name="cd_tablet_results_hotel_list">Hotel Search Results</string>
+    <!-- Content description for Flight Search Results -->
+    <string name="cd_tablet_results_flight_list">Flight Search Results</string>
+
 </resources>

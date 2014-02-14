@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -47,6 +50,12 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		mSortAndFilterListener = Ui.findFragmentListener(this, ISortAndFilterListener.class, true);
 		mHotelSelectedListener = Ui.findFragmentListener(this, IResultsHotelSelectedListener.class, true);
 		mSortAndFilterListeners.add(mSortAndFilterListener);
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		setListViewContentDescription(R.string.cd_tablet_results_hotel_list);
+		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override
