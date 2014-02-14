@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,14 +37,11 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.CheckoutPriceType;
-import com.expedia.bookings.data.RateBreakdown;
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
@@ -54,9 +50,10 @@ import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.dialog.CouponDialogFragment;
 import com.expedia.bookings.dialog.CouponDialogFragment.CouponDialogFragmentListener;
 import com.expedia.bookings.dialog.HotelErrorDialog;
-import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.dialog.ThrobberDialog.CancelListener;
+import com.expedia.bookings.fragment.HotelBookingFragment.CreateTripRetryListener;
+import com.expedia.bookings.fragment.HotelBookingFragment.CreateTripSuccessListener;
 import com.expedia.bookings.fragment.HotelBookingFragment.HotelProductSuccessListener;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.model.HotelPaymentFlowState;
@@ -87,14 +84,11 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.view.ViewHelper;
 
 public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
-		CancelListener, SimpleCallbackDialogFragmentListener, CouponDialogFragmentListener, HotelProductSuccessListener {
-
-	private static final String RETRY_CREATE_TRIP_DIALOG = "RETRY_CREATE_TRIP_DIALOG";
+		CancelListener, SimpleCallbackDialogFragmentListener, CouponDialogFragmentListener, HotelProductSuccessListener, CreateTripSuccessListener, CreateTripRetryListener {
 
 	public interface BookingOverviewFragmentListener {
 		public void checkoutStarted();
@@ -114,7 +108,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
 	private static final String KEY_APPLY_COUPON = "KEY_APPLY_COUPON";
-	private static final String KEY_CREATE_TRIP = "KEY_CREATE_TRIP";
 
 	private static final int CALLBACK_WALLET_PROMO_APPLY_ERROR = 1;
 
@@ -214,6 +207,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 
 		mHotelBookingFragment.addHotelProductSuccessListener(this);
+		mHotelBookingFragment.addCreateTripSuccessListener(this);
+		mHotelBookingFragment.addCreateTripRetryListener(this);
 	}
 
 	@Override
@@ -375,10 +370,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			bd.registerDownloadCallback(KEY_APPLY_COUPON, mCouponCallback);
 		}
 
-		if (bd.isDownloading(KEY_CREATE_TRIP)) {
-			bd.registerDownloadCallback(KEY_CREATE_TRIP, mCreateTripCallback);
-		}
-
 		mFragmentModLock.setSafe(true);
 
 		//We disable this for sign in, but when the user comes back it should be enabled.
@@ -395,14 +386,12 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (getActivity().isFinishing()) {
 			bd.cancelDownload(KEY_REFRESH_USER);
 			bd.cancelDownload(KEY_APPLY_COUPON);
-			bd.cancelDownload(KEY_CREATE_TRIP);
 			// Since we are exiting the screen, let's reset coupon.
 			Db.getHotelSearch().setCouponApplied(false);
 		}
 		else {
 			bd.unregisterDownloadCallback(KEY_REFRESH_USER);
 			bd.unregisterDownloadCallback(KEY_APPLY_COUPON);
-			bd.unregisterDownloadCallback(KEY_CREATE_TRIP);
 		}
 
 		if (Db.getTravelersAreDirty()) {
@@ -1003,66 +992,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 	};
 
-	private final Download<CreateTripResponse> mCreateTripDownload = new Download<CreateTripResponse>() {
-		@Override
-		public CreateTripResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(getActivity());
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_CREATE_TRIP, services);
-			return services.createTrip(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty());
-		}
-	};
-
-	private final OnDownloadComplete<CreateTripResponse> mCreateTripCallback = new OnDownloadComplete<CreateTripResponse>() {
-		@Override
-		public void onDownload(CreateTripResponse response) {
-			if (response == null) {
-				showRetryErrorDialog();
-			}
-			else if (response.hasErrors()) {
-				handleCreateTripError(response);
-			}
-			else {
-
-				Db.getHotelSearch().setCreateTripResponse(response);
-
-				if (Db.getHotelSearch().isCouponApplied()) {
-					Db.getHotelSearch().setCouponApplied(false);
-					OmnitureTracking.trackHotelCouponRemoved(getActivity());
-					refreshData();
-					mCouponRemoveThrobberDialog.dismiss();
-				}
-				else {
-					applyCoupon();
-				}
-			}
-		}
-	};
-
-	private void handleCreateTripError(CreateTripResponse response) {
-		ServerError firstError = response.getErrors().get(0);
-
-		switch (firstError.getErrorCode()) {
-		case TRIP_SERVICE_UNKNOWN_ERROR:
-			// Let's show a retry dialog here.
-		case INVALID_INPUT:
-			/*
-			 * Since we are only sending [productKey, roomInfoFields] params to the service, don't think users have control over the input.
-			 * Hence for now let's show a retry dialog here too (after a chat with API team)
-			 */
-		default: {
-			showRetryErrorDialog();
-			break;
-		}
-		}
-	}
-
-	private void showRetryErrorDialog() {
-		DialogFragment df = new RetryErrorDialogFragment();
-		df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), RETRY_CREATE_TRIP_DIALOG);
-	}
-
 	// Listeners
-
 	private View.OnClickListener mOnClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -1403,10 +1333,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (bd.isDownloading(KEY_APPLY_COUPON)) {
 			bd.cancelDownload(KEY_APPLY_COUPON);
 		}
-		if (bd.isDownloading(KEY_CREATE_TRIP)) {
-			bd.cancelDownload(KEY_CREATE_TRIP);
-		}
-		bd.startDownload(KEY_CREATE_TRIP, mCreateTripDownload, mCreateTripCallback);
+		mHotelBookingFragment.startCreateTripDownload();
 	}
 
 	private boolean usingWalletPromoCoupon() {
@@ -1564,10 +1491,10 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mCouponCode = couponCode;
 		refreshData();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_CREATE_TRIP)) {
-			bd.cancelDownload(KEY_CREATE_TRIP);
+		if (bd.isDownloading(HotelBookingFragment.KEY_DOWNLOAD_CREATE_TRIP)) {
+			bd.cancelDownload(HotelBookingFragment.KEY_DOWNLOAD_CREATE_TRIP);
 		}
-		bd.startDownload(KEY_CREATE_TRIP, mCreateTripDownload, mCreateTripCallback);
+		mHotelBookingFragment.startCreateTripDownload();
 	}
 
 	@Override
@@ -1576,8 +1503,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (bd.isDownloading(KEY_APPLY_COUPON)) {
 			bd.cancelDownload(KEY_APPLY_COUPON);
 		}
-		if (bd.isDownloading(KEY_CREATE_TRIP)) {
-			bd.cancelDownload(KEY_CREATE_TRIP);
+		if (bd.isDownloading(HotelBookingFragment.KEY_DOWNLOAD_CREATE_TRIP)) {
+			mHotelBookingFragment.cancelCreateTripDownload();
 		}
 	}
 
@@ -1602,6 +1529,29 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mIsDoneLoadingPriceChange = true;
 		updateViews();
 		updateViewVisibilities();
+	}
+
+	@Override
+	public void onCreateTripSuccess() {
+		if (Db.getHotelSearch().isCouponApplied()) {
+			Db.getHotelSearch().setCouponApplied(false);
+			OmnitureTracking.trackHotelCouponRemoved(getActivity());
+			refreshData();
+			mCouponRemoveThrobberDialog.dismiss();
+		}
+		else {
+			applyCoupon();
+		}
+	}
+
+	@Override
+	public void retryCreateTrip() {
+		retryCoupon();
+	}
+
+	@Override
+	public void cancelCreateTripRetry() {
+		cancelRetryCouponDialog();
 	}
 
 }

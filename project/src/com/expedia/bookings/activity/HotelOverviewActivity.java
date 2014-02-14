@@ -36,7 +36,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 
 public class HotelOverviewActivity extends SherlockFragmentActivity implements BookingOverviewFragmentListener,
-		LogInListener, ISlideToListener, SimpleCallbackDialogFragmentListener, RetryErrorDialogFragmentListener {
+		LogInListener, ISlideToListener, SimpleCallbackDialogFragmentListener {
 
 	public static final String STATE_TAG_LOADED_DB_INFO = "STATE_TAG_LOADED_DB_INFO";
 
@@ -313,18 +313,5 @@ public class HotelOverviewActivity extends SherlockFragmentActivity implements B
 	@Override
 	public void onSimpleDialogCancel(int callbackId) {
 		mBookingOverviewFragment.onSimpleDialogCancel(callbackId);
-	}
-
-	//////////////////////////////////////
-	// Checkout V2 - "create" call retry on error dialog handler.
-
-	@Override
-	public void onRetryError() {
-		mBookingOverviewFragment.retryCoupon();
-	}
-
-	@Override
-	public void onCancelError() {
-		mBookingOverviewFragment.cancelRetryCouponDialog();
 	}
 }

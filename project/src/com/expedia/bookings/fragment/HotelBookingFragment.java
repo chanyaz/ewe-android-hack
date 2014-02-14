@@ -2,10 +2,13 @@ package com.expedia.bookings.fragment;
 
 import java.math.BigDecimal;
 
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.HotelSearch;
@@ -14,6 +17,7 @@ import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
+import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.wallet.FullWalletRequest;
@@ -29,16 +33,22 @@ import com.mobiata.android.util.SettingUtils;
  * It is separated into its own Fragment so that it can use the lifecycle on its own (and
  * can be derived from a Fragment, which will help with Google Wallet compatibility)
  */
-public class HotelBookingFragment extends BookingFragment<BookingResponse> {
+public class HotelBookingFragment extends BookingFragment<BookingResponse> implements RetryErrorDialogFragmentListener {
 
 	public static final String TAG = HotelBookingFragment.class.toString();
 
 	public static final String KEY_DOWNLOAD_BOOKING = "com.expedia.bookings.hotel.checkout";
 	public static final String KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE = "KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE";
+	public static final String KEY_DOWNLOAD_CREATE_TRIP = "KEY_DOWNLOAD_CREATE_TRIP";
 
+	private static final String RETRY_CREATE_TRIP_DIALOG = "RETRY_CREATE_TRIP_DIALOG";
 	private static final String HOTEL_OFFER_ERROR_DIALOG = "HOTEL_OFFER_ERROR_DIALOG";
 
 	private HotelProductSuccessListener mHotelProductSuccessListener;
+
+	private CreateTripSuccessListener mCreateTripSuccessListener;
+
+	private CreateTripRetryListener mCreateTripRetryListener;
 
 	// BookingFragment
 
@@ -240,5 +250,131 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> {
 	 */
 	public interface HotelProductSuccessListener {
 		public void onHotelProductSuccess();
+	}
+
+	/////////////////////////////////////////////////////
+	///// Create Trip service related
+
+	public void startCreateTripDownload() {
+		// Let's cancel download if already running.
+		cancelCreateTripDownload();
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.startDownload(KEY_DOWNLOAD_CREATE_TRIP, mCreateTripDownload, mCreateTripCallback);
+	}
+
+	public void registerForCreateTripDownload() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.registerDownloadCallback(KEY_DOWNLOAD_CREATE_TRIP, mCreateTripCallback);
+	}
+
+	public void cancelCreateTripDownload() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(KEY_DOWNLOAD_CREATE_TRIP)) {
+			bd.cancelDownload(KEY_DOWNLOAD_CREATE_TRIP);
+		}
+	}
+
+	private final Download<CreateTripResponse> mCreateTripDownload = new Download<CreateTripResponse>() {
+		@Override
+		public CreateTripResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(getActivity());
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_CREATE_TRIP, services);
+			return services
+					.createTrip(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty());
+		}
+	};
+
+	private final OnDownloadComplete<CreateTripResponse> mCreateTripCallback = new OnDownloadComplete<CreateTripResponse>() {
+		@Override
+		public void onDownload(CreateTripResponse response) {
+			if (response == null) {
+				showRetryErrorDialog();
+			}
+			else if (response.hasErrors()) {
+				handleCreateTripError(response);
+			}
+			else {
+				onCreateTripSuccess(response);
+			}
+
+		}
+
+	};
+
+	/**
+	 * This method takes care of all the updating upon createTrip download success
+	 * which is common for most cases.
+	 * If we want to add more UI functionality, then implement the CreateTripSuccessListener.
+	 */
+	private void onCreateTripSuccess(CreateTripResponse response) {
+		Db.getHotelSearch().setCreateTripResponse(response);
+		if (mCreateTripSuccessListener != null) {
+			mCreateTripSuccessListener.onCreateTripSuccess();
+		}
+	}
+
+	// Error handling
+	private void handleCreateTripError(CreateTripResponse response) {
+		ServerError firstError = response.getErrors().get(0);
+
+		switch (firstError.getErrorCode()) {
+		case TRIP_SERVICE_UNKNOWN_ERROR:
+			// Let's show a retry dialog here.
+		case INVALID_INPUT:
+			/*
+			 * Since we are only sending [productKey, roomInfoFields] params to the service, don't think users have control over the input.
+			 * Hence for now let's show a retry dialog here too (after a chat with API team)
+			 */
+		default: {
+			showRetryErrorDialog();
+			break;
+		}
+		}
+	}
+
+	private void showRetryErrorDialog() {
+		DialogFragment df = new RetryErrorDialogFragment();
+		df.show(getChildFragmentManager(), RETRY_CREATE_TRIP_DIALOG);
+	}
+
+	///////////// Retry dialog handlers
+	@Override
+	public void onRetryError() {
+		if (mCreateTripRetryListener != null) {
+			mCreateTripRetryListener.retryCreateTrip();
+		}
+	}
+
+	@Override
+	public void onCancelError() {
+		if (mCreateTripRetryListener != null) {
+			mCreateTripRetryListener.cancelCreateTripRetry();
+		}
+	}
+
+	/**
+	 * Post createTrip download success listener.
+	 * Implement this listener if you want to add more functionality.
+	 */
+	public interface CreateTripSuccessListener {
+		public void onCreateTripSuccess();
+	}
+
+	public void addCreateTripSuccessListener(CreateTripSuccessListener listener) {
+		mCreateTripSuccessListener = listener;
+	}
+
+	/**
+	 * Create Trip Error dialog related listener.
+	 * Implement this listener if you want to get a handler over retry dialog "Retry" and "Cancel" button clicks.
+	 */
+	public interface CreateTripRetryListener {
+		public void retryCreateTrip();
+
+		public void cancelCreateTripRetry();
+	}
+
+	public void addCreateTripRetryListener(CreateTripRetryListener listener) {
+		mCreateTripRetryListener = listener;
 	}
 }
