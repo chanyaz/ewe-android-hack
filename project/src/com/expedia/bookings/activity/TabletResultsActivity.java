@@ -20,7 +20,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.BackgroundImageCache;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
@@ -148,12 +147,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		transaction.commit();
 		manager.executePendingTransactions();//These must be finished before we continue..
 
-		//We load up the default backgrounds so they are ready to go later if/when we need them
-		//this is important, as we need to load images before our memory load gets too heavy
-		if (savedInstanceState == null || !Db.getBackgroundImageCache(this).isDefaultInCache()) {
-			Db.getBackgroundImageCache(this).loadDefaultsInThread(this);
-		}
-
 		//Ab search button
 		mActionBarView = new TabletResultsActionBarView(this);
 		mActionBarView.bindFromDb(this);
@@ -213,13 +206,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 					mPreDrawInitComplete = true;
 				}
 
-				//Wait for the defaults or the actual image, but we must have some image.
-				BackgroundImageCache cache = Db.getBackgroundImageCache(TabletResultsActivity.this);
-				String key = Db.getBackgroundImageKey();
-				if (cache.getBitmap(key, TabletResultsActivity.this) != null
-					&& cache.getBlurredBitmap(key, TabletResultsActivity.this) != null) {
-					mRootC.getViewTreeObserver().removeOnPreDrawListener(this);
-				}
+				mRootC.getViewTreeObserver().removeOnPreDrawListener(this);
+
 				return true;
 			}
 		});

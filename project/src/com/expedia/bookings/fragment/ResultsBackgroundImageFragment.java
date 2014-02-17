@@ -1,7 +1,9 @@
 package com.expedia.bookings.fragment;
 
+import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,27 +13,54 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
+import com.expedia.bookings.bitmaps.DestinationImageCache;
+import com.expedia.bookings.data.ExpediaImage;
+import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
-import com.expedia.bookings.interfaces.IBackgroundImageReceiver;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.Log;
+import com.mobiata.android.bitmaps.L2ImageCache;
+import com.mobiata.android.util.AndroidUtils;
 
 /**
  * ResultsBackgroundImageFragment: The fragment that acts as a background image for the whole
  * results activity designed for tablet results 2013
  */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-public class ResultsBackgroundImageFragment extends MeasurableFragment implements IBackgroundImageReceiver {
+public class ResultsBackgroundImageFragment extends MeasurableFragment {
 
-	private String mDestinationCode; //The destination code to use for background images...
+	private static final int FADE_ANIM_DURATION = 1200;
+
+	private static final String KEY_IMG_DL = "KEY_IMG_DL";
+
+	private static final String ARG_DEST_CODE = "ARG_DEST_CODE";
+
+	private String mDestinationCode;
 
 	private ImageView mImageView;
-	private Bitmap mBgBitmap;//We temporarily store a bitmap here if we have not yet initialized
+
+	private String mImgUrl; // Store the url if we need to hit the network
+	private Bitmap mBgBitmap; // We temporarily store a bitmap here if we have not yet initialized
 
 	public static ResultsBackgroundImageFragment newInstance(String destination) {
 		ResultsBackgroundImageFragment fragment = new ResultsBackgroundImageFragment();
-		fragment.mDestinationCode = destination;
+		Bundle args = new Bundle();
+		args.putString(ARG_DEST_CODE, destination);
+		fragment.setArguments(args);
 		return fragment;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		mDestinationCode = getArguments().getString(ARG_DEST_CODE);
+
+		// Check the availability of the destination image in the background
+		BackgroundDownloader downloader = BackgroundDownloader.getInstance();
+		if (!downloader.isDownloading(KEY_IMG_DL)) {
+			downloader.startDownload(KEY_IMG_DL, mDownload, mCallback);
+		}
 	}
 
 	@Override
@@ -41,27 +70,96 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		mImageView.setLayoutParams(params);
 
-		//TODO: make this match mDestinationCode. Will require network call(s)
-		mImageView.setImageResource(R.drawable.temporary_paris_backdrop);
-
 		if (mBgBitmap != null) {
-			mImageView.setImageBitmap(mBgBitmap);
-			mBgBitmap = null;//This is just temprorary storage for adding bitmap before initialization
+			handleBitmap(mBgBitmap, false);
 		}
 
 		return mImageView;
 	}
 
 	@Override
-	public void bgImageInDbUpdated(int totalRootViewWidth) {
-		Bitmap bmap = Db.getBackgroundImage(getActivity(), false);
-		if (bmap != null) {
-			if (mImageView != null) {
-				mImageView.setImageBitmap(bmap);
+	public void onResume() {
+		super.onResume();
+		if (BackgroundDownloader.getInstance().isDownloading(KEY_IMG_DL)) {
+			BackgroundDownloader.getInstance().registerDownloadCallback(KEY_IMG_DL, mCallback);
+		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		if (getActivity() != null && getActivity().isFinishing()) {
+			BackgroundDownloader.getInstance().cancelDownload(KEY_IMG_DL);
+		}
+		else {
+			BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_IMG_DL);
+		}
+	}
+
+	///////////////////////////////////////////////////////////////
+	// Download
+
+	private final BackgroundDownloader.Download<Bitmap> mDownload = new BackgroundDownloader.Download<Bitmap>() {
+		@Override
+		public Bitmap doDownload() {
+			// Screen size
+			Point p = AndroidUtils.getScreenSize(getActivity());
+
+			// Grab the image metadata, go to the network if need be
+			ExpediaImageManager imageManager = ExpediaImageManager.getInstance();
+			ExpediaImage expImage = imageManager.getDestinationImage(mDestinationCode, p.x, p.y, true);
+
+			// Attempt to grab the image from either memory or disk
+			L2ImageCache cache = DestinationImageCache.getInstance();
+			String url = expImage.getUrl();
+			Bitmap bitmap = cache.getImage(url, true);
+
+			if (bitmap != null) {
+				return bitmap;
 			}
 			else {
-				mBgBitmap = bmap;//Will get picked up in onCreateView
+				// We need to request the image from the network, store the URL for the request
+				mImgUrl = url;
+				return null;
+			}
+		}
+	};
+
+	private final BackgroundDownloader.OnDownloadComplete<Bitmap> mCallback = new BackgroundDownloader.OnDownloadComplete<Bitmap>() {
+		@Override
+		public void onDownload(Bitmap bitmap) {
+			if (bitmap == null) {
+				// We still don't have the image, so let's grab it from the network
+				DestinationImageCache.getInstance().loadImage(mImgUrl, new L2ImageCache.OnImageLoaded() {
+					@Override
+					public void onImageLoaded(String url, Bitmap bitmap) {
+						handleBitmap(bitmap, true);
+					}
+
+					@Override
+					public void onImageLoadFailed(String url) {
+						Log.e("unable to dl image");
+					}
+				});
+			}
+			else {
+				handleBitmap(bitmap, false);
+			}
+		}
+	};
+
+	private void handleBitmap(Bitmap bitmap, boolean fade) {
+		if (bitmap != null) {
+			if (mImageView != null) {
+				mImageView.setImageBitmap(bitmap);
+				if (fade) {
+					ObjectAnimator.ofFloat(mImageView, "alpha", 0.0f, 1.0f).setDuration(FADE_ANIM_DURATION).start();
+				}
+			}
+			else {
+				mBgBitmap = bitmap; // Store the Bitmap to get picked up in onCreateView
 			}
 		}
 	}
+
 }

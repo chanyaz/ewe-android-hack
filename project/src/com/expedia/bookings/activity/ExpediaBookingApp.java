@@ -17,6 +17,7 @@ import android.text.format.DateUtils;
 import com.activeandroid.ActiveAndroid;
 import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
+import com.expedia.bookings.bitmaps.DestinationImageCache;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -135,6 +136,9 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		ExpediaImageManager.init(this);
 		startupTimer.addSplit("ExpediaImageManager Init");
+
+		DestinationImageCache.init(this);
+		startupTimer.addSplit("DestinationImageCache Init");
 
 		LocalExpertSite.init(this);
 		startupTimer.addSplit("LocalExpertSite Init");
