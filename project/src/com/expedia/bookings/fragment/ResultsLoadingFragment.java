@@ -179,7 +179,14 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 
 		@Override
 		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo, float percentage) {
-
+			if (mStateManager.getState() == ResultsLoadingState.FLIGHTS) {
+				if (stateOne == ResultsHotelsState.HOTEL_LIST_DOWN && stateTwo == ResultsHotelsState.HOTEL_LIST_UP) {
+					mRootC.setAlpha(1f - percentage);
+				}
+				else if (stateOne == ResultsHotelsState.HOTEL_LIST_UP && stateTwo == ResultsHotelsState.HOTEL_LIST_DOWN) {
+					mRootC.setAlpha(percentage);
+				}
+			}
 		}
 
 		@Override
@@ -211,7 +218,14 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo, float percentage) {
-
+			if (mStateManager.getState() == ResultsLoadingState.HOTELS) {
+				if (stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN && stateTwo == ResultsFlightsState.FLIGHT_ONE_FILTERS) {
+					mRootC.setAlpha(1f - percentage);
+				}
+				else if (stateOne == ResultsFlightsState.FLIGHT_ONE_FILTERS && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+					mRootC.setAlpha(percentage);
+				}
+			}
 		}
 
 		@Override
@@ -284,6 +298,7 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 			}
 			else {
 				mRootC.setVisibility(View.VISIBLE);
+				mRootC.setAlpha(1f);
 				setLoadingTextForState(state);
 				setBackgroundForState(state);
 				positionTextForState(state);
