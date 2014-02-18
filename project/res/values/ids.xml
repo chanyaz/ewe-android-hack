@@ -17,6 +17,10 @@
     <item name="departure_airport_edit_text" type="id"/>
     <item name="arrival_airport_edit_text" type="id"/>
 
+    <!-- for using Ids while running Expedia or Travelocity (part of replacement for search_progress_animation)-->
+    <item name="search_progress_bar" type="id"/>
+    <item name="search_progress_image_tvly" type="id"/>
+
     <!-- QA Automation ids -->
     <item name="preference_spoof_booking_checkbox" type="id"/>
     <item name="preference_suppress_flight_booking_checkbox" type="id"/>

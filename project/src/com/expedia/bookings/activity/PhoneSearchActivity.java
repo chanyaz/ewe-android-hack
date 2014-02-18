@@ -128,8 +128,8 @@ import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.SegmentedControlGroup;
 
 public class PhoneSearchActivity extends SherlockFragmentActivity implements OnDrawStartedListener,
-		HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
-		LoaderManager.LoaderCallbacks<Cursor> {
+	HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
+	LoaderManager.LoaderCallbacks<Cursor> {
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// ENUMS
@@ -140,7 +140,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		KEYBOARD(true),
 		CALENDAR(true),
 		GUEST_PICKER(true),
-		FILTER(false), ;
+		FILTER(false),;
 
 		private boolean mIsSearchDisplay;
 
@@ -155,7 +155,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	private enum ActivityState {
 		NONE,
-		SEARCHING, ;
+		SEARCHING,;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -216,6 +216,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private View mRefinementDismissView;
 	private View mChildAgesLayout;
 	private View mSearchButton;
+	private View mProgressBrandImage;
 
 	private View mFilterLayout;
 	private PopupWindow mFilterPopupWindow;
@@ -444,7 +445,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			mStartSearchOnResume = false;
 		}
 		else if (searchResponse != null && searchResponse.getPropertiesCount() > 0
-				&& searchResponse.getLocations() != null && searchResponse.getLocations().size() > 0) {
+			&& searchResponse.getLocations() != null && searchResponse.getLocations().size() > 0) {
 			showDialog(DIALOG_LOCATION_SUGGESTIONS);
 		}
 		else if (searchResponse != null && searchResponse.getPropertiesCount() == 0 && !searchResponse.hasErrors()) {
@@ -548,7 +549,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				}
 
 				if (Db.getHotelSearch().getSearchParams() != null
-						&& Db.getHotelSearch().getSearchParams().getSearchType() != null) {
+					&& Db.getHotelSearch().getSearchParams().getSearchType() != null) {
 					mShowDistance = Db.getHotelSearch().getSearchParams().getSearchType().shouldShowDistance();
 				}
 			}
@@ -594,11 +595,14 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		super.onPause();
 
 		((ExpediaBookingApp) getApplicationContext())
-				.unregisterSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
+			.unregisterSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
 
 		mIsActivityResumed = false;
 
-		mProgressBar.onPause();
+		if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA) {
+			mProgressBar.onPause();
+		}
+
 		stopLocation();
 
 		Db.getFilter().removeOnFilterChangedListener(this);
@@ -619,22 +623,24 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	protected void onResume() {
 		super.onResume();
 		((ExpediaBookingApp) getApplicationContext())
-				.registerSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
+			.registerSearchParamsChangedInWidgetListener(mSearchParamsChangedListener);
 
 		Db.getFilter().addOnFilterChangedListener(this);
 
 		if (mDisplayType != DisplayType.CALENDAR) {
-			mProgressBar.onResume();
-			mProgressBar.reset();
+			if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA) {
+				mProgressBar.onResume();
+				mProgressBar.reset();
+			}
 		}
 
 		if (Db.getHotelSearch().getSearchResponse() != null
-				&& Db.getHotelSearch().getSearchResponse().getPropertiesCount() == 0) {
+			&& Db.getHotelSearch().getSearchResponse().getPropertiesCount() == 0) {
 			simulateErrorResponse(LayoutUtils.noHotelsFoundMessage(mContext));
 		}
 
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID,
-				LineOfBusiness.HOTELS);
+			LineOfBusiness.HOTELS);
 
 		// setDisplayType here because it could possibly add a TextWatcher before the view has restored causing the listener to fire
 		if (getIntent().hasExtra(Codes.EXTRA_OPEN_SEARCH)) {
@@ -668,8 +674,8 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			startSearch();
 		}
 		else if (Db.getHotelSearch().getSearchParams().getSearchType() != null
-				&& Db.getHotelSearch().getSearchParams().getSearchType() == SearchType.MY_LOCATION
-				&& !Db.getHotelSearch().getSearchParams().hasSearchLatLon()) {
+			&& Db.getHotelSearch().getSearchParams().getSearchType() == SearchType.MY_LOCATION
+			&& !Db.getHotelSearch().getSearchParams().hasSearchLatLon()) {
 			Log.d("onResume(): We were attempting to search by current location, but do not yet have valid coordinates. Starting a new search (and getting new coords if needed).");
 			Db.getHotelSearch().getSearchParams().ensureValidCheckInDate();
 			startSearch();
@@ -780,7 +786,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		// We have a settings menu for VSC app only. And is shown only for debug builds.
 		if (requestCode == REQUEST_SETTINGS
-				&& resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
+			&& resultCode == ExpediaBookingPreferenceActivity.RESULT_CHANGED_PREFS) {
 			Db.getHotelSearch().resetSearchData();
 		}
 	}
@@ -1226,13 +1232,20 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		mSelectChildAgeTextView = (TextView) findViewById(R.id.label_select_each_childs_age);
 
 		mProgressBarLayout = (ViewGroup) findViewById(R.id.search_progress_layout);
-		mProgressBar = (GLTagProgressBar) findViewById(R.id.search_progress_bar);
+
+		if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA) {
+			mProgressBar = (GLTagProgressBar) findViewById(R.id.search_progress_bar);
+		}
+
 		mProgressText = (TextView) findViewById(R.id.search_progress_text_view);
 		mProgressBarHider = findViewById(R.id.search_progress_hider);
 		mProgressBarDimmer = findViewById(R.id.search_progress_dimmer);
+		if (ExpediaBookingApp.IS_TRAVELOCITY) {
+			mProgressBrandImage = (ImageView) findViewById(R.id.search_progress_image_tvly);
+		}
 
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID,
-				LineOfBusiness.HOTELS);
+			LineOfBusiness.HOTELS);
 
 		mFilterLayout = getLayoutInflater().inflate(R.layout.popup_filter_options, null);
 		mFilterHotelNameEditText = (EditText) mFilterLayout.findViewById(R.id.filter_hotel_name_edit_text);
@@ -1249,19 +1262,20 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		// Special case for HTC keyboards, which seem to ignore the android:inputType="textFilter|textNoSuggestions" xml flag
 		mSearchEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
-				| InputType.TYPE_TEXT_VARIATION_FILTER);
+			| InputType.TYPE_TEXT_VARIATION_FILTER);
 
 		// Setup popup
 		mFilterLayout.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 		mFilterPopupWindow = new PopupWindow(mFilterLayout, mFilterLayout.getMeasuredWidth(),
-				mFilterLayout.getMeasuredHeight(), true);
+			mFilterLayout.getMeasuredHeight(), true);
 		mFilterPopupWindow.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.abs__menu_dropdown_panel_holo_dark));
+			R.drawable.abs__menu_dropdown_panel_holo_dark));
 		mFilterPopupWindow.setAnimationStyle(R.style.Animation_Popup);
 		mFilterPopupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_FROM_FOCUSABLE);
 
-		// Progress bar
-		mProgressBar.addOnDrawStartedListener(this);
+		if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA) {
+			mProgressBar.addOnDrawStartedListener(this);
+		}
 
 		// mProgressText is positioned differently based on orientation
 		// Could do this in XML, but more difficult due to include rules
@@ -1438,21 +1452,21 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			if (dateStart != null && dateEnd != null) {
 				int nightCount = params.getStayDuration();
 				String nightCountStr = getResources().getQuantityString(R.plurals.length_of_stay, nightCount,
-						nightCount);
+					nightCount);
 				mDatesCalendarDatePicker.setHeaderInstructionText(String.format(dateRangeNightsFormatStr,
-						format.print(dateStart), format.print(dateEnd), nightCountStr));
+					format.print(dateStart), format.print(dateEnd), nightCountStr));
 			}
 			else if (dateStart != null && researchMode) {
 				mDatesCalendarDatePicker
-						.setHeaderInstructionText(getString(R.string.calendar_instructions_hotels_no_dates_selected));
+					.setHeaderInstructionText(getString(R.string.calendar_instructions_hotels_no_dates_selected));
 			}
 			else if (dateStart != null) {
 				mDatesCalendarDatePicker.setHeaderInstructionText(String.format(dateRangeFormatStr,
-						format.print(dateStart), ""));
+					format.print(dateStart), ""));
 			}
 			else {
 				mDatesCalendarDatePicker
-						.setHeaderInstructionText(getString(R.string.calendar_instructions_hotels_no_dates_selected));
+					.setHeaderInstructionText(getString(R.string.calendar_instructions_hotels_no_dates_selected));
 			}
 		}
 	}
@@ -1622,7 +1636,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 		SearchType type = Db.getHotelSearch().getSearchParams().getSearchType();
 		if (type != SearchType.MY_LOCATION && type != SearchType.VISIBLE_MAP_AREA
-				&& (type != SearchType.HOTEL || !getIntent().getBooleanExtra(Codes.FROM_DEEPLINK, false))) {
+			&& (type != SearchType.HOTEL || !getIntent().getBooleanExtra(Codes.FROM_DEEPLINK, false))) {
 			Search.add(this, Db.getHotelSearch().getSearchParams());
 		}
 
@@ -1699,7 +1713,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			mStartSearchOnResume = savedInstanceState.getBoolean(INSTANCE_START_SEARCH_ON_RESUME, false);
 			mLastSearchTime = JodaUtils.getDateTime(savedInstanceState, INSTANCE_LAST_SEARCH_TIME);
 			mIsWidgetNotificationShowing = savedInstanceState
-					.getBoolean(INSTANCE_IS_WIDGET_NOTIFICATION_SHOWING, false);
+				.getBoolean(INSTANCE_IS_WIDGET_NOTIFICATION_SHOWING, false);
 			mSearchTextSelectionStart = savedInstanceState.getInt(INSTANCE_SEARCH_TEXT_SELECTION_START);
 			mSearchTextSelectionEnd = savedInstanceState.getInt(INSTANCE_SEARCH_TEXT_SELECTION_END);
 			mAddresses = savedInstanceState.getParcelableArrayList(INSTANCE_ADDRESSES);
@@ -1707,9 +1721,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			mActivityState = ActivityState.values()[savedInstanceState.getInt(INSTANCE_ACTIVITY_STATE)];
 			mHasShownCalendar = savedInstanceState.getBoolean(INSTANCE_HAS_SHOWN_CALENDAR);
 			mOldSearchParams = JSONUtils
-					.getJSONable(savedInstanceState, INSTANCE_OLD_SEARCH_PARAMS, HotelSearchParams.class);
+				.getJSONable(savedInstanceState, INSTANCE_OLD_SEARCH_PARAMS, HotelSearchParams.class);
 			mEditedSearchParams = JSONUtils.getJSONable(savedInstanceState, INSTANCE_EDITED_SEARCH_PARAMS,
-					HotelSearchParams.class);
+				HotelSearchParams.class);
 			mOldFilter = JSONUtils.getJSONable(savedInstanceState, INSTANCE_OLD_FILTER, HotelFilter.class);
 		}
 	}
@@ -1834,8 +1848,11 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 			hideFilterOptions();
 
-			mProgressBar.onResume();
-			mProgressBar.reset();
+			if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA) {
+				mProgressBar.onResume();
+				mProgressBar.reset();
+			}
+
 			mRefinementDismissView.setVisibility(View.INVISIBLE);
 			mButtonBarLayout.setVisibility(View.GONE);
 			mDatesLayout.setVisibility(View.GONE);
@@ -1866,7 +1883,10 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 			// make sure to draw/redraw the calendar
 			mDatesCalendarDatePicker.markAllCellsDirty();
 
-			mProgressBar.onPause();
+			if (ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_EXPEDIA) {
+				mProgressBar.onPause();
+			}
+
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
 			mDatesLayout.setVisibility(View.VISIBLE);
@@ -1942,7 +1962,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		if (mTag.equals(getString(R.string.tag_hotel_list))) {
 			newFragmentTag = getString(R.string.tag_hotel_map);
 			OmnitureTracking.trackAppHotelsSearchWithoutRefinements(this, Db.getHotelSearch().getSearchParams(), Db
-					.getHotelSearch().getSearchResponse());
+				.getHotelSearch().getSearchResponse());
 		}
 		else {
 			newFragmentTag = getString(R.string.tag_hotel_list);
@@ -2118,11 +2138,13 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		// Here, we post it so that we have a few precious frames more of the progress bar before
 		// it's covered up by search results (or a lack thereof).  This keeps a black screen from
 		// showing up for a split second for reason I'm not entirely sure of.  ~dlew
-		mProgressBar.postDelayed(new Runnable() {
-			public void run() {
-				mProgressBar.setVisibility(View.GONE);
-			}
-		}, 500);
+		if (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
+			mProgressBar.postDelayed(new Runnable() {
+				public void run() {
+					mProgressBar.setVisibility(View.GONE);
+				}
+			}, 500);
+		}
 	}
 
 	private void showLoading(boolean showProgress, int resId) {
@@ -2132,6 +2154,10 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private void showLoading(boolean showProgress, String text) {
 		mProgressBarLayout.setVisibility(View.VISIBLE);
 
+		if(ExpediaBookingApp.IS_TRAVELOCITY){
+			findViewById(R.id.search_progress_image_tvly).bringToFront();
+		}
+
 		if (mContentViewPager.getCurrentItem() == VIEWPAGER_PAGE_HOTEL) {
 			if (!mGLProgressBarStarted) {
 				mProgressBarHider.setVisibility(View.VISIBLE);
@@ -2139,14 +2165,16 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 			// In the case that the user is an emulator and this isn't a release build,
 			// disable the hanging tag for speed purposes
-			if (AndroidUtils.isEmulator() && !AndroidUtils.isRelease(mContext)) {
-				mProgressBar.setVisibility(View.GONE);
-			}
-			else {
-				mProgressBar.setVisibility(View.VISIBLE);
-				mProgressBar.setShowProgress(showProgress);
-			}
 
+			if (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
+				if (AndroidUtils.isEmulator() && !AndroidUtils.isRelease(mContext)) {
+					mProgressBar.setVisibility(View.GONE);
+				}
+				else {
+					mProgressBar.setVisibility(View.VISIBLE);
+					mProgressBar.setShowProgress(showProgress);
+				}
+			}
 			// Dark text on light background
 			mProgressText.setTextColor(getResources().getColor(R.color.hotel_list_progress_text_color));
 		}
@@ -2227,13 +2255,13 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 			int orientation = getWindowManager().getDefaultDisplay().getOrientation();
 			final int hidden = (orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180) ? View.GONE
-					: View.INVISIBLE;
+				: View.INVISIBLE;
 			mChildAgesLayout.setVisibility(numChildren == 0 ? hidden : View.VISIBLE);
 			mSelectChildAgeTextView.setText(getResources().getQuantityString(R.plurals.select_each_childs_age,
-					numChildren));
+				numChildren));
 
 			GuestsPickerUtils.showOrHideChildAgeSpinners(PhoneSearchActivity.this, searchParams.getChildren(),
-					mChildAgesLayout, mChildAgeSelectedListener);
+				mChildAgesLayout, mChildAgeSelectedListener);
 		}
 		else {
 			text = null;
@@ -2276,7 +2304,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 				mChildrenNumberPicker.setMinValue(numChildren);
 				mChildrenNumberPicker.setMaxValue(numChildren);
 				GuestsPickerUtils.configureAndUpdateDisplayedValues(PhoneSearchActivity.this, mAdultsNumberPicker,
-						mChildrenNumberPicker);
+					mChildrenNumberPicker);
 			}
 		});
 
@@ -2726,7 +2754,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	private void onGuestsChanged() {
 		final String pageName = "App.Hotels.Search.Refine.NumberTravelers."
-				+ (mAdultsNumberPicker.getValue() + mChildrenNumberPicker.getValue());
+			+ (mAdultsNumberPicker.getValue() + mChildrenNumberPicker.getValue());
 
 		OmnitureTracking.trackSimpleEvent(this, pageName, null, null);
 	}
