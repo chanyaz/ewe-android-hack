@@ -2,6 +2,10 @@ Welcome to the Android Expedia codebase. Here is some information about importin
 into Android Studio such that you can develop, compile, and install the APK. We'll try and keep
 this is up-to-date as possible. -Brad
 
+
+/////////////////////////
+Building
+
 1. Download Android Studio from the following link: http://developer.android.com/sdk/installing/studio.html
 
 2. Ensure you have the latest SDK components to build our application. Specifically, you should look at the
@@ -17,7 +21,11 @@ the Build Variants section via Help in the system bar.
 
 6. You should now be able to build the APK and then install on a device or emulator.
 
-7. If you're committing code, use the Mobiata Java codestyle which is found in common/MobiataIntellij.xml. You
+
+/////////////////////////
+Code Style
+
+1. If you're committing code, use the Mobiata Java codestyle which is found in common/MobiataIntellij.xml. You
 must copy this file in to your AndroidStudio codestyle preferences folder, which on a Mac will most likely be
 found in your home directory's 'Library/Preferences' folder:
 
@@ -25,6 +33,18 @@ $ cp common/MobiataIntellij.xml ~/Library/Preferences/AndroidStudioPreview/codes
 
 Restart Android Studio and you should be able to select this codestyle from Preferences -> Codestyle -> Java -> Scheme.
 
-8. XML style can be set via Preferences -> Code Style -> XML - > Set from ... -> Predefined Style -> Android. This
+2. XML style can be set via Preferences -> Code Style -> XML - > Set from ... -> Predefined Style -> Android. This
 does not seem to persist across Android Studio restarts so if you notice your XML formatting is all off, be sure to
 do this step again.
+
+
+/////////////////////////
+Unit Tests
+
+1. Run unit tests with the following command:
+
+$ ./gradlew connectedInstrumentTestExpediaDebug
+
+2. After the test run, you can view the test report:
+
+$ open project/build/reports/instrumentTests/connected/flavors/Expedia/index.html
