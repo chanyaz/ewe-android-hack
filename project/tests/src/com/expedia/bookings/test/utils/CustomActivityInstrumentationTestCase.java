@@ -25,6 +25,20 @@ public class CustomActivityInstrumentationTestCase<T> extends ActivityInstrument
 	protected ConfigFileUtils mConfigFileUtils;
 	protected TestPreferences mPreferences;
 	private Solo mSolo;
+	private ScreenshotUtils mScreen;
+
+	@Override
+	public void runTest() throws Throwable {
+		try {
+			super.runTest();
+		}
+		catch (Throwable t) {
+			String failedTestMethodName = t.getStackTrace()[0].getMethodName();
+			mScreen = new ScreenshotUtils("Robotium-Screenshots", mSolo);
+			mScreen.screenshot(failedTestMethodName + "--FAILURE");
+			throw t;
+		}
+	}
 
 	@Override
 	protected void setUp() throws Exception {
@@ -42,7 +56,7 @@ public class CustomActivityInstrumentationTestCase<T> extends ActivityInstrument
 
 		// Set Server API programatically
 		SettingUtils.save(getActivity().getApplicationContext(),
-				mRes.getString(R.string.preference_which_api_to_use_key), mUser.getBookingServer());
+			mRes.getString(R.string.preference_which_api_to_use_key), mUser.getBookingServer());
 
 		// Disable v2 automatically.
 		SettingUtils.save(getActivity().getApplicationContext(),
