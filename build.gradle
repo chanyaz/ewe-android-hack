@@ -5,12 +5,12 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.8.0'
+        classpath 'com.android.tools.build:gradle:0.8.3'
     }
 }
 
 // Sub-projects/library projects will refer to these top-level SDK and buildTools versions
 
-ext.compileSdkVersion=18
-ext.buildToolsVersion="19.0.0"
+ext.compileSdkVersion=19
+ext.buildToolsVersion="19.0.1"
 
