@@ -85,23 +85,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		mAddToTripButton = Ui.findView(mRootC, R.id.button_add_to_trip);
 
 		mAddToTripButton.setPivotY(0f);
-		mAddToTripButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				HotelSearch search = Db.getHotelSearch();
-				Property property = search.getSelectedProperty();
-				Rate rate = search.getSelectedRate();
-				if (rate == null) {
-					rate = property.getLowestRate();
-				}
-				Db.getTripBucket().clearHotel();
-				Db.getTripBucket().add(property, rate);
-				Db.saveTripBucket(getActivity());
-				mAddToTripListener.beginAddToTrip(getSelectedData(), getDestinationRect(), 0);
-			}
-
-		});
+		mAddToTripButton.setOnClickListener(mAddToTripButtonClickListener);
 
 		mRootC.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			public void onGlobalLayout() {
@@ -115,6 +99,25 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		});
 		return mRootC;
 	}
+
+	private OnClickListener mAddToTripButtonClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
+			scrollView.smoothScrollTo(0, 0);
+
+			HotelSearch search = Db.getHotelSearch();
+			Property property = search.getSelectedProperty();
+			Rate rate = search.getSelectedRate();
+			if (rate == null) {
+				rate = property.getLowestRate();
+			}
+			Db.getTripBucket().clearHotel();
+			Db.getTripBucket().add(property, rate);
+			Db.saveTripBucket(getActivity());
+			mAddToTripListener.beginAddToTrip(getSelectedData(), getDestinationRect(), 0);
+		}
+	};
 
 	@Override
 	public void onResume() {
