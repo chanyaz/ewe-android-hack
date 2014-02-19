@@ -31,7 +31,7 @@ android {
         buildConfigField "boolean", "IS_VSC", "false"
 
         testPackageName "com.expedia.bookings.debug.test"
-	testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
     }
 
     productFlavors {
