@@ -3,7 +3,6 @@ package com.expedia.bookings.fragment;
 import java.math.BigDecimal;
 
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
@@ -29,7 +28,7 @@ import com.mobiata.android.util.SettingUtils;
 
 /**
  * This is an View-less Fragment which performs a hotel booking.
- *
+ * <p/>
  * It is separated into its own Fragment so that it can use the lifecycle on its own (and
  * can be derived from a Fragment, which will help with Google Wallet compatibility)
  */
@@ -79,7 +78,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 
 				Rate selectedRate = search.getBookingRate();
 				BookingResponse response = services.reservation(search.getSearchParams(), search.getSelectedProperty(),
-						selectedRate, Db.getBillingInfo(), tripId, userId, tuid);
+					selectedRate, Db.getBillingInfo(), tripId, userId, tuid);
 
 				notifyWalletTransactionStatus(response);
 
@@ -158,7 +157,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, services);
 			Rate selectedRate = Db.getHotelSearch().getSelectedRate();
 			return services.hotelProduct(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch()
-					.getSelectedProperty(), selectedRate);
+				.getSelectedProperty(), selectedRate);
 		}
 	};
 
@@ -190,11 +189,11 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	 * If we want to add more UI functionality, then implement the HotelProductSuccessListener.
 	 */
 	private void onHotelProductSuccess(HotelProductResponse response, final String selectedId, Rate selectedRate,
-			Rate newRate) {
+									   Rate newRate) {
 		if (!AndroidUtils.isRelease(getActivity())) {
 			String val = SettingUtils.get(getActivity(),
-					getString(R.string.preference_fake_hotel_price_change),
-					getString(R.string.preference_fake_price_change_default));
+				getString(R.string.preference_fake_hotel_price_change),
+				getString(R.string.preference_fake_price_change_default));
 			BigDecimal bigDecVal = new BigDecimal(val);
 
 			//Update total price
@@ -204,7 +203,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			newRate.getNightlyRateTotal().add(bigDecVal);
 			if (newRate.getRateBreakdownList() != null) {
 				BigDecimal perNightChange = bigDecVal.divide(new BigDecimal(newRate
-						.getRateBreakdownList().size()));
+					.getRateBreakdownList().size()));
 				for (RateBreakdown breakdown : newRate.getRateBreakdownList()) {
 					breakdown.getAmount().add(perNightChange);
 				}
@@ -216,7 +215,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 		if (priceChange != 0) {
 			boolean isPriceHigher = priceChange < 0;
 			HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher,
-					selectedRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());
+				selectedRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());
 			dialog.show(getFragmentManager(), "priceChangeDialog");
 		}
 
@@ -285,7 +284,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_CREATE_TRIP, services);
 			return services
-					.createTrip(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty());
+				.createTrip(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty());
 		}
 	};
 

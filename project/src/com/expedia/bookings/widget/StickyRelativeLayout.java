@@ -9,8 +9,6 @@ import android.view.ViewParent;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.RelativeLayout;
 
-import com.mobiata.android.Log;
-
 /**
  * This widget "sticks" to the top or bottom of its parent when the parent scrolls. It employs
  * setTranslateY() on itself to make sure the whole view is visible on the screen at all times.

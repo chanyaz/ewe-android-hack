@@ -19,13 +19,13 @@ import com.mobiata.android.util.Ui;
 /**
  * This is a view-less Fragment which can be used to call methods
  * in ExpediaServices (to do downloads and whatnot).
- * 
+ * <p/>
  * It handles state on its own, and has callbacks for when downloads
  * succeed/fail.
- * 
+ * <p/>
  * To avoid confusion, only one of each download type may run at a time;
  * if you start a new one, it will
- * 
+ * <p/>
  * It should not manipulate Db; let the caller do that.
  */
 public class ExpediaServicesFragment extends Fragment {
@@ -106,7 +106,7 @@ public class ExpediaServicesFragment extends Fragment {
 		startHotelSearch(searchParams.toHotelSearchParams(), continueIfInProgress);
 	}
 
-	public void startHotelSearch(final HotelSearchParams searchParams, boolean continueIfInProgress){
+	public void startHotelSearch(final HotelSearchParams searchParams, boolean continueIfInProgress) {
 		doDownload(ServiceType.HOTEL_SEARCH, continueIfInProgress, new ResponseDownload() {
 			public Response execute(ExpediaServices services) {
 				return services.search(searchParams, 0);
@@ -158,12 +158,12 @@ public class ExpediaServicesFragment extends Fragment {
 
 	/**
 	 * Determines if we should start a new download thread for a ServiceType.
-	 * 
-	 * @param type The ServiceType of the download
+	 *
+	 * @param type                 The ServiceType of the download
 	 * @param continueIfInProgress true if we should not interrupt an
-	 *        existing download, false if we should cancel the download if it's found
+	 *                             existing download, false if we should cancel the download if it's found
 	 * @return true if you should start a new download, false if we're
-	 *         currently downloading and don't want to interrupt
+	 * currently downloading and don't want to interrupt
 	 */
 	private boolean shouldStartNewDownload(ServiceType type, boolean continueIfInProgress) {
 		if (isDownloading(type)) {

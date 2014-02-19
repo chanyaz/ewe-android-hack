@@ -40,7 +40,7 @@ import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
 public class TabletLaunchActivity extends FragmentActivity implements MeasurableFragmentListener,
-	SearchFragmentListener, ExpediaServicesFragmentListener,FusedLocationProviderListener {
+	SearchFragmentListener, ExpediaServicesFragmentListener, FusedLocationProviderListener {
 
 	// On top when search params covers up everything
 	private static final String BACKSTACK_SEARCH_PARAMS = "BACKSTACK_SEARCH_PARAMS";
@@ -326,7 +326,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 	@Override
 	public void onExpediaServicesDownload(ServiceType type, Response response) {
-		if(type == ServiceType.SUGGEST_NEARBY){
+		if (type == ServiceType.SUGGEST_NEARBY) {
 			SuggestionResponse suggestResponse = (SuggestionResponse) response;
 			onCurrentLocationSuggestions(suggestResponse);
 		}
