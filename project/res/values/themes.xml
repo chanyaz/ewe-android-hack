@@ -325,6 +325,10 @@
         <item name="actionBarWidgetTheme">@style/FlightActionBarWidgetTheme</item>
         <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
         <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
+        <item name="flightCheckoutAccountLabel">@string/expedia_account</item>
+
+        <item name="travellerInfoPageLogo">@drawable/ic_expedia_traveler_logo</item>
+        <item name="travellerInfoPageLogoDisabled">@drawable/ic_expedia_traveler_logo_disabled</item>
 
     </style>
 

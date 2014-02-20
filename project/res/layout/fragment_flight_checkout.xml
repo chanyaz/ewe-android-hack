@@ -8,12 +8,12 @@
     android:paddingRight="16dp" >
 
     <TextView
-        android:id="@+id/expedia_account_label"
+        android:id="@+id/flight_checkout_account_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="-10dp"
         android:layout_marginLeft="8dp"
-        android:text="@string/expedia_account"
+        android:text="?attr/flightCheckoutAccountLabel"
         android:textColor="#BBFFFFFF"
         android:textSize="@dimen/data_form_section_header_text"
         android:visibility="gone" />

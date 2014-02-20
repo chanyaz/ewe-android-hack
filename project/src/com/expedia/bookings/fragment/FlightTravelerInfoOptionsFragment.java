@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
@@ -71,7 +72,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 		if (!(activity instanceof TravelerInfoYoYoListener)) {
 			throw new RuntimeException(
-					"FlightTravelerInfoOptiosnFragment activity must implement TravelerInfoYoYoListener!");
+				"FlightTravelerInfoOptiosnFragment activity must implement TravelerInfoYoYoListener!");
 		}
 
 		mListener = (TravelerInfoYoYoListener) activity;
@@ -123,7 +124,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 			//We inflate the traveler as an option for the user to select
 			SectionTravelerInfo travelerInfo = (SectionTravelerInfo) inflater.inflate(
-					R.layout.section_display_traveler_info_btn, null);
+				R.layout.section_display_traveler_info_btn, null);
 			travelerInfo.bind(traveler);
 
 			toggleTravelerSection(travelerInfo, !alreadyInUse);
@@ -133,9 +134,9 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			//Add divider
 			View divider = new View(getActivity());
 			LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(
-					LayoutParams.MATCH_PARENT, res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
+				LayoutParams.MATCH_PARENT, res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
 			divLayoutParams.setMargins(0, res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_top), 0,
-					res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_bottom));
+				res.getDimensionPixelSize(R.dimen.simple_grey_divider_margin_bottom));
 			divider.setLayoutParams(divLayoutParams);
 			divider.setBackgroundColor(res.getColor(R.color.divider_grey));
 			mAssociatedTravelersContainer.addView(divider);
@@ -238,7 +239,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 		if (enable) {
 			if (section.getTraveler().hasTuid()) {
-				pic.setImageResource(R.drawable.ic_expedia_traveler_logo);
+				pic.setImageResource(Ui.obtainThemeResID(getActivity(), R.attr.travellerInfoPageLogo));
 			}
 			else {
 				pic.setImageResource(R.drawable.ic_traveler_blue_entered);
@@ -258,7 +259,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 						ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.loading_traveler_info));
 						df.show(getFragmentManager(), DIALOG_LOADING_TRAVELER);
 						bd.startDownload(TRAVELER_DETAILS_DOWNLOAD, mTravelerDetailsDownload,
-								mTravelerDetailsCallback);
+							mTravelerDetailsCallback);
 
 						OmnitureTracking.trackLinkFlightCheckoutTravelerSelectExisting(getActivity());
 					}
@@ -268,7 +269,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 		else {
 			if (section.getTraveler().hasTuid()) {
-				pic.setImageResource(R.drawable.ic_expedia_traveler_logo_disabled);
+				pic.setImageResource(Ui.obtainThemeResID(getActivity(), R.attr.travellerInfoPageLogoDisabled));
 			}
 			else {
 				pic.setImageResource(R.drawable.ic_traveler_grey);
@@ -318,7 +319,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
 		boolean international = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
 		boolean validDomesticTraveler = (state != null)
-				&& state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler);
+			&& state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler);
 		boolean validInternationalTraveler = validDomesticTraveler && state.hasValidTravelerPartThree(mCurrentTraveler);
 		boolean hasName = mCurrentTraveler.hasName();
 
@@ -368,12 +369,12 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		@Override
 		public void onDownload(SignInResponse results) {
 			ThrobberDialog df = Ui.findSupportFragment(getCompatibilityActivity(),
-					DIALOG_LOADING_TRAVELER);
+				DIALOG_LOADING_TRAVELER);
 			df.dismiss();
 
 			if (results == null || results.hasErrors()) {
 				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null,
-						getString(R.string.unable_to_load_traveler_message));
+					getString(R.string.unable_to_load_traveler_message));
 				dialogFragment.show(getFragmentManager(), "errorFragment");
 				if (results != null && results.hasErrors()) {
 					String error = results.getErrors().get(0).getPresentableMessage(getActivity());

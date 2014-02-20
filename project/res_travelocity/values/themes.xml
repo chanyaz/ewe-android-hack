@@ -47,6 +47,7 @@
         <item name="serverErrorMessageString">@string/error_server_travelocity</item>
         <item name="savePaymentToAccountString">@string/save_billing_travelocity_info_message</item>
         <item name="saveTravelerToAccountString">@string/save_traveler_travelocity_message_TEMPLATE</item>
+        <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_tvly_white_logo_small</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">
@@ -79,7 +80,10 @@
         <item name="actionBarWidgetTheme">@style/FlightActionBarWidgetTheme</item>
         <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
         <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_blue</item>
+        <item name="flightCheckoutAccountLabel">@string/travelocity_account</item>
 
+        <item name="travellerInfoPageLogo">@drawable/ic_tvly_traveller_logo</item>
+        <item name="travellerInfoPageLogoDisabled">@drawable/ic_tvly_white_logo_small</item>
     </style>
 
     <!-- Override the phone theme -->
