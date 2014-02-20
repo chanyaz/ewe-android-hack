@@ -275,6 +275,7 @@
         <!-- PopupMenu -->
         <item name="dropDownListViewStyle">@style/Widget.Sherlock.Light.ListView.DropDown</item>
         <item name="android:dropDownListViewStyle">@style/Widget.Sherlock.Light.ListView.DropDown</item>
+        <item name="logoutConfirmationString">@string/logout_confirmation</item>
     </style>
 
     <style name="ItineraryTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">

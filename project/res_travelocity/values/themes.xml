@@ -101,6 +101,7 @@
         <!-- PopupMenu -->
         <item name="dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
         <item name="android:dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
+        <item name="logoutConfirmationString">@string/logout_confirmation_travelocity</item>
     </style>
 
     <style name="FlightActionBarTravelocity" parent="FlightActionBar">
@@ -108,6 +109,17 @@
         <item name="android:background">@drawable/bg_action_bar_flight_top_travelocity</item>
         <item name="backgroundSplit">@drawable/bg_action_bar_flight_bottom_travelocity</item>
         <item name="android:backgroundSplit">@drawable/bg_action_bar_flight_bottom_travelocity</item>
+    </style>
+
+    <style name="ItineraryTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+        <item name="logo">@drawable/ic_action_bar_travelocity_logo_small</item>
+        <item name="android:logo">@drawable/ic_action_bar_travelocity_logo_small</item>
+    </style>
+
+    <style name="LoginTheme" parent="Theme.Phone.Dark">
+        <item name="logo">@drawable/ic_ab_travelocity_logo</item>
+        <item name="android:logo">@drawable/ic_ab_travelocity_logo</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
 </resources>
