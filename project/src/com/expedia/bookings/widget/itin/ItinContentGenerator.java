@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
@@ -421,7 +422,13 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		Log.d("ITIN: addItineraryNumber");
 		if (hasItinNumber() && !isSharedItin()) {
 			String itineraryNumber = this.getItinCardData().getTripComponent().getParentTrip().getTripNumber();
-			View view = getClickToCopyItinDetailItem(R.string.expedia_itinerary, itineraryNumber, false);
+
+			int itineraryLabelResId = R.string.expedia_itinerary;
+			if(ExpediaBookingApp.IS_TRAVELOCITY){
+				itineraryLabelResId = R.string.tvly_itinerary;
+			}
+
+			View view = getClickToCopyItinDetailItem(itineraryLabelResId, itineraryNumber, false);
 			if (view != null) {
 				Log.d("ITIN: addItineraryNumber to container");
 				container.addView(view);
