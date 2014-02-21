@@ -144,7 +144,7 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 		// Copyright
 		CopyrightFragment copyrightFragment = Ui.findSupportFragment(this, TAG_COPYRIGHT);
 		if (copyrightFragment == null) {
-			CopyrightFragment.Builder copyBuilder = new CopyrightFragment.Builder((Context) this);
+			CopyrightFragment.Builder copyBuilder = new CopyrightFragment.Builder();
 			copyBuilder.setAppName(Ui.obtainThemeResID(this, R.attr.aboutAppNameString));
 			copyBuilder.setCopyright(Ui.obtainThemeResID(this, R.attr.aboutCopyrightString));
 			copyBuilder.setLogo(Ui.obtainThemeResID(this, R.attr.aboutAppLogoDrawable));
@@ -339,11 +339,6 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 			return true;
 		}
 
-		// Track app row clicks - return false, because we want the default behaviour
-		case AboutSectionFragment.ROW_FLIGHT_TRACK_FREE: {
-			mAboutUtils.trackFlightTrackFreeLink();
-			return false;
-		}
 		case AboutSectionFragment.ROW_FLIGHT_TRACK: {
 			mAboutUtils.trackFlightTrackLink();
 			return false;
