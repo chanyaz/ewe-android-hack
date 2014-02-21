@@ -2149,7 +2149,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private void showLoading(boolean showProgress, String text) {
 		mProgressBarLayout.setVisibility(View.VISIBLE);
 
-		if(ExpediaBookingApp.IS_TRAVELOCITY){
+		if (ExpediaBookingApp.IS_TRAVELOCITY) {
 			findViewById(R.id.search_progress_image_tvly).bringToFront();
 		}
 

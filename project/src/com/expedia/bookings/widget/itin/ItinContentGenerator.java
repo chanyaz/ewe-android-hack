@@ -423,7 +423,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			String itineraryNumber = this.getItinCardData().getTripComponent().getParentTrip().getTripNumber();
 
 			int itineraryLabelResId = R.string.expedia_itinerary;
-			if(ExpediaBookingApp.IS_TRAVELOCITY){
+			if (ExpediaBookingApp.IS_TRAVELOCITY) {
 				itineraryLabelResId = R.string.tvly_itinerary;
 			}
 

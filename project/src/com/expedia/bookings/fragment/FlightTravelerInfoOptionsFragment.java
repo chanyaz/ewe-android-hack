@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;

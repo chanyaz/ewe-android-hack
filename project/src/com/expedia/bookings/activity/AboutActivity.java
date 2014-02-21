@@ -107,7 +107,7 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 				builder.addRow(com.mobiata.android.R.string.WereHiring, ROW_WERE_HIRING);
 			}
 			// 1170. VSC Add clear private data in info/about screen
-			else if(ExpediaBookingApp.IS_VSC) {
+			else if (ExpediaBookingApp.IS_VSC) {
 				builder.addRow(R.string.clear_private_data, ROW_VSC_PRIVATE_DATA);
 			}
 			contactUsFragment = builder.build();
@@ -279,7 +279,7 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 			if (ExpediaBookingApp.IS_VSC) {
 				mAboutUtils.openContactUsVSC();
 			}
-			else if(ExpediaBookingApp.IS_TRAVELOCITY) {
+			else if (ExpediaBookingApp.IS_TRAVELOCITY) {
 				mAboutUtils.openContactUsTravelocity();
 			}
 			else {

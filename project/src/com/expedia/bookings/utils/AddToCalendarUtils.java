@@ -67,7 +67,7 @@ public class AddToCalendarUtils {
 			if (ExpediaBookingApp.IS_TRAVELOCITY) {
 				sb.append(context.getString(R.string.calendar_flight_desc_itinerary_TEMPLATE_tvly, itineraryNumber));
 			}
-			else{
+			else {
 				sb.append(context.getString(R.string.calendar_flight_desc_itinerary_TEMPLATE, itineraryNumber));
 			}
 			sb.append("\n\n");

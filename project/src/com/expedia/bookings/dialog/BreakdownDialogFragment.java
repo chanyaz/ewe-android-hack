@@ -3,7 +3,6 @@ package com.expedia.bookings.dialog;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -273,7 +272,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		// Title
 		builder.setTitle(context.getString(R.string.cost_summary));
-		builder.setTitleDivider(Ui.obtainThemeResID((Activity)context, R.attr.flightsCostSummaryDialogStripeDrawable));
+		builder.setTitleDivider(Ui.obtainThemeResID(context, R.attr.flightsCostSummaryDialogStripeDrawable));
 
 		// Per traveler price
 		for (int i = 0; i < params.getNumAdults(); i++) {

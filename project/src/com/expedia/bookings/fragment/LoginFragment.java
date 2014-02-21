@@ -527,7 +527,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 				mSignInWithExpediaBtn.setEnabled(!(mEmptyUsername || mEmptyPassword));
 
 				// FB not supported for Travelocity yet
-				if(ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
+				if (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
 					if (mEmptyUsername && !mVisibilityState.equals(VisibilityState.EXPEDIA_WTIH_FB_BUTTON)) {
 						setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, true);
 					}
@@ -540,7 +540,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		mExpediaUserName.addTextChangedListener(usernameWatcher);
 
 		// FB not supported for Travelocity yet
-		if(ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
+		if (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
 			mLinkPassword.addTextChangedListener(new TextWatcher() {
 				@Override
 				public void afterTextChanged(Editable arg0) {
