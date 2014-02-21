@@ -218,6 +218,9 @@
     <attr name="webViewPreferencesActionBarLogoWithTitle" format="reference" />
     <!-- ActionBar icon/logo in HotelRulesActivities -->
     <attr name="hotelwebViewActionBarLogo" format="reference" />
+
+    <attr name="actionBarSpinnerBackground" format="reference" />
+
     <attr name="actionBarBackgroundDrawable" format="reference" />
     <!-- ActionBar checkmark drawable -->
     <attr name="actionBarCheckMarkDrawable" format="reference" />
@@ -234,6 +237,12 @@
     <attr name="calendarDatePickerCellDrawable" format="reference" />
     <attr name="calendarDatePickerPopupDrawable" format="reference" />
     <attr name="calendarDatePickerDateFormat" format="reference|string" />
+
+
+    <!--Flight Calendar related styling -->
+    <attr name="flightCalendarDatePickerCellDrawable" format="reference" />
+    <attr name="flightCalendarDatePickerPopupDrawable" format="reference" />
+
     <attr name="hotelCancellationPolicyDateFormat" format="reference|string" />
 
     <!-- Hotel promo pricing related styling -->
@@ -273,6 +282,8 @@
 
     <!-- Cost Summary Breakdown Dialog Stripe -->
     <attr name="costSummaryDialogStripeDrawable" format="reference" />
+    <attr name="flightsCostSummaryDialogStripeDrawable" format="reference" />
+    <attr name="costSummaryBookingFeesString" format="reference|string" />
 
     <!-- Log in with Expedia/VSC screen -->
     <!-- This drawable is used in hotel detail for Book Now button as well -->
@@ -280,9 +291,15 @@
     <attr name="loginWithExpediaButtonText" format="reference|string" />
     <attr name="loginWithExpediaTitleText" format="reference|string" />
     <attr name="hotelDetailPlaceHolderDrawable" format="reference" />
+    <attr name="loginWithExpediaContentDescription" format="reference|string" />
+    <attr name="loginButtonColor" format="reference" />
+    <attr name="hotelBookButtonColor" format="reference" />
 
     <!-- Hotel Confirmation, Customer support option drawable -->
     <attr name="hotelConfirmationCallActionDrawable" format="reference" />
+
+    <!-- Hotel Confirmation Customer support text-->
+    <attr name="hotelConfirmationCallActionText" format="reference" />
 
     <!-- Hotel confirmation screen, login button text and icons -->
     <attr name="hotelCheckoutLoginButtonText" format="reference|string" />
@@ -291,10 +308,12 @@
 
     <!-- HotelCheckout CVV, Book button -->
     <attr name="cvvBookButtonKeypadDrawable" format="reference" />
+    <attr name="cvvBookButtonTextColor" format="reference"/>
 
     <!-- HotelCheckout Traveler Info screen after logged in, Logo to the left of the primary traveler -->
     <attr name="hotelPrimaryTravelerInfoLogoDrawable" format="reference" />
     <attr name="hotelListMapMarkerSaleDrawable" format="reference" />
+    <attr name="hotelListMapMarkerDrawable" format="reference" />
     <attr name="ccCheckoutHologramDrawable" format="reference" />
 
     <!-- Placeholder image used in hotelReciept, Rooms&RatesListActivity -->
@@ -318,7 +337,7 @@
         <attr name="swipeOutContentId" format="reference" />
         <attr name="swipeOutIndicatorId" format="reference" />
     </declare-styleable>
-    
+
     <!-- FruitList style -->
     <declare-styleable name="FruitList">
         <attr name="headerSpacerColor" format="reference|color" />
@@ -367,5 +386,36 @@
         <!-- Color of the links. -->
         <attr name="android:textColorLink" />
     </declare-styleable>
+
+    <!-- for flight showing Expedia/ Tvly Account label-->
+    <attr name="flightCheckoutAccountLabel" format="reference|string"/>
+
+    <!-- for hotels best price guarantee type -->
+    <attr name="bestPriceGuaranteeString" format="reference|string" />
+    <!-- for hotels details book button -->
+    <attr name="hotelBookButtonString" format="reference|string" />
+
+    <attr name="aboutContactUsString" format="reference|string" />
+    <attr name="aboutWebsiteString" format="reference|string" />
+    <attr name="aboutAppSupportString" format="reference|string" />
+    <attr name="aboutCopyrightString" format="reference|string" />
+    <attr name="aboutInfoUrlString" format="reference|string" />
+    <attr name="aboutAppNameString" format="reference|string" />
+    <attr name="aboutAppLogoDrawable" format="reference" />
+
+    <!-- for logout confirmation -->
+    <attr name="logoutConfirmationString" format="reference|string" />
+
+    <!-- Flight loading screen message position -->
+    <attr name="flightLoadingMessagePosition" format="reference" />
+
+    <attr name="flightUnhandledErrorMessage" format="reference|string" />
+    <attr name="serverErrorMessageString" format="reference|string" />
+    <attr name="savePaymentToAccountString" format="reference|string" />
+    <attr name="saveTravelerToAccountString" format="reference|string" />
+
+    <!-- for traveller_info_page logo-->
+    <attr name="travellerInfoPageLogo" format="reference"/>
+    <attr name="travellerInfoPageLogoDisabled" format="reference"/>
 
 </resources>

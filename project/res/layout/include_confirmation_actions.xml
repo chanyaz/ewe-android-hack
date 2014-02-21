@@ -47,7 +47,7 @@
         android:layout_marginTop="4dp"
         android:drawableLeft="?attr/hotelConfirmationCallActionDrawable"
         android:drawablePadding="5dp"
-        android:text="@string/call_expedia_customer_support"
+        android:text="?attr/hotelConfirmationCallActionText"
         android:textSize="14dp"
         android:textStyle="bold" />
 

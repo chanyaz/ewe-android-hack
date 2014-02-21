@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Travelocity</string>
+    <string name="travelocity_best_price_guarantee">Travelocity Price Guarantee</string>
+
+    <string name="customer_support_text">Call Travelocity Customer Support</string>
+    <string name="call_travelocity_customer_support">Call Travelocity Customer Support</string>
+
+    <!-- Log in with Travelocity -->
+    <string name="Log_in_with_Travelocity">Log in with Travelocity</string>
+    <!-- Label for signin screen -->
+    <string name="travelocity_account">Travelocity Account</string>
+    <!-- Content description for action: Press to log in with your Travelocity account -->
+    <string name="cd_checkout_log_in_with_travelocity">Press to log in to your Travelocity account</string>
+
+    <string name="contact_travelocity">Contact Travelocity</string>
+    <string name="travelocity_website">Travelocity Website</string>
+    <string name="travelocity_app_support">Travelocity App Support</string>
+    <string name="travelocity_copyright">© Copyright 2012-2014 Travelocity\nAll rights reserved.</string>
+    <string name="travelocity_info_url">http://www.travelocity.com/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_travelocity">Are you sure you want to log out of your Travelocity account?</string>
+
+    <!-- Expedia booking fee -->
+    <string name="travelocity_booking_fee">Travelocity Booking Fee</string>
+
+    <string name="error_flight_unhandled_travelocity_TEMPLATE">Sorry, we don\'t seem to be able to process your order right now. Please try again or call Travelocity Customer Support and quote this itinerary number: %s</string>
+    <string name="error_server_travelocity">Sorry, we could not connect to Travelocity\'s servers.  Please try again later.</string>
+
+    <!-- save billing info message -->
+    <string name="save_billing_travelocity_info_message">Save this payment method under your Travelocity account to speed up future purchases?</string>
+
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_travelocity_message_TEMPLATE">Save %1$s\'s information under your Travelocity account to speed up future purchases?</string>
+
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE_tvly">Travelocity Itinerary #: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE_tvly">Travelocity Customer Support: %s</string>
+
+</resources>

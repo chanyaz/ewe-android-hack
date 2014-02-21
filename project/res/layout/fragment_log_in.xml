@@ -127,10 +127,10 @@
                     android:id="@+id/log_in_with_expedia_btn"
                     style="@style/LoginFormButton"
                     android:background="?attr/loginBookNowButtonDrawable"
-                    android:contentDescription="@string/cd_checkout_log_in_with_expedia"
+                    android:contentDescription="?attr/loginWithExpediaContentDescription"
                     android:gravity="center"
                     android:text="?attr/loginWithExpediaButtonText"
-                    android:textColor="@android:color/black" />
+                    android:textColor="?attr/loginButtonColor" />
 
                 <TextView
                     android:id="@+id/forgot_your_password_link"

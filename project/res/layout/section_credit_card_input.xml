@@ -99,7 +99,7 @@
             android:background="?attr/cvvBookButtonKeypadDrawable"
             android:includeFontPadding="true"
             android:text="@string/book"
-            android:textColor="@android:color/black"
+            android:textColor="?attr/cvvBookButtonTextColor"
             android:textSize="@dimen/cvv_keypad_book_text_size" />
     </TableRow>
 

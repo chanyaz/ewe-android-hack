@@ -16,6 +16,7 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncAdapter;
 import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.maps.SupportMapFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,7 +29,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.maps.MapAnimationUtils;
 
 public class ItineraryMapFragment extends SupportMapFragment implements OnMyLocationChangeListener {
@@ -146,7 +146,7 @@ public class ItineraryMapFragment extends SupportMapFragment implements OnMyLoca
 
 				MarkerOptions opts = new MarkerOptions();
 				opts.position(loc);
-				opts.icon(BitmapDescriptorFactory.fromResource(R.drawable.map_pin_normal));
+				opts.icon(BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.hotelListMapMarkerDrawable)));
 				Marker marker = map.addMarker(opts);
 
 				mMarkerToCard.put(marker, card);

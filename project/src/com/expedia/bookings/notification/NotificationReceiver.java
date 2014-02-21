@@ -277,6 +277,11 @@ public class NotificationReceiver extends BroadcastReceiver {
 					.setContentIntent(clickPendingIntent)
 					.setLights(0xfbc51e, 200, 8000); // Expedia suitcase color
 
+			if (ExpediaBookingApp.IS_TRAVELOCITY) {
+				builder.setSmallIcon(R.drawable.ic_stat_travelocity);
+				builder.setLights(0x072b61, 200, 8000); // Travelocity blue color
+			}
+
 			long flags = mNotification.getFlags();
 			ItinCardData data = ItineraryManager.getInstance().getItinCardDataFromItinId(mNotification.getItinId());
 

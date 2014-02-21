@@ -46,7 +46,7 @@
             android:layout_width="@dimen/actionbar_refinement_width"
             android:layout_height="fill_parent"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/ab_spinner"
+            android:background="?attr/actionBarSpinnerBackground"
             android:padding="0dp"
             android:src="@drawable/ic_menu_guests" />
 
@@ -79,7 +79,7 @@
             android:layout_height="fill_parent"
             android:layout_gravity="center_vertical"
             android:layout_margin="0dp"
-            android:background="@drawable/ab_spinner"
+            android:background="?attr/actionBarSpinnerBackground"
             android:padding="0dp"
             android:src="@drawable/ic_menu_date" />
 

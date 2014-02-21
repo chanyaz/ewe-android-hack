@@ -32,16 +32,28 @@ android {
 
         testPackageName "com.expedia.bookings.debug.test"
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+
+        buildConfigField "boolean", "IS_EXPEDIA", "false"
+        buildConfigField "boolean", "IS_VSC", "false"
+        buildConfigField "boolean", "IS_TRAVELOCITY", "false"
     }
 
     productFlavors {
         Expedia {
+            buildConfigField "boolean", "IS_EXPEDIA", "true"
             packageName "com.expedia.bookings"
         }
 
         VSC {
             buildConfigField "boolean", "IS_VSC", "true"
             packageName "com.expedia.bookings.vsc"
+            versionCode 1
+            versionName "1.0"
+        }
+
+        Travelocity {
+            buildConfigField "boolean", "IS_TRAVELOCITY", "true"
+            packageName "com.travelocity.android"
             versionCode 1
             versionName "1.0"
         }
@@ -104,9 +116,18 @@ android {
             res.srcDirs = ['tests/res']
         }
 
+        Expedia {
+            manifest.srcFile 'AndroidManifest-expedia.xml'
+        }
+
         VSC {
             manifest.srcFile 'AndroidManifest-vsc.xml'
             res.srcDirs 'res_vsc'
+        }
+
+        Travelocity {
+            manifest.srcFile 'AndroidManifest-travelocity.xml'
+            res.srcDirs 'res_travelocity'
         }
 
         signingConfigs {

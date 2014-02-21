@@ -10,7 +10,7 @@ import android.support.v4.app.DialogFragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.FlightPaymentOptionsFragment.FlightPaymentYoYoListener;
-import com.mobiata.android.util.Ui;
+import com.expedia.bookings.utils.Ui;
 
 public class FlightPaymentSaveDialogFragment extends DialogFragment {
 
@@ -28,7 +28,7 @@ public class FlightPaymentSaveDialogFragment extends DialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		return new AlertDialog.Builder(getActivity())
 				.setTitle(R.string.save_billing_info)
-				.setMessage(R.string.save_billing_info_message)
+				.setMessage(Ui.obtainThemeResID(getActivity(), R.attr.savePaymentToAccountString))
 				.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setSaveCardToExpediaAccount(true);

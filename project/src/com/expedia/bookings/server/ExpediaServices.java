@@ -1384,7 +1384,9 @@ public class ExpediaServices implements DownloadListener {
 		params.add(new BasicNameValuePair("sortBy", sort.getSortByApiParam()));
 		params.add(new BasicNameValuePair("start", Integer.toString(pageNumber * numReviewsPerPage)));
 		params.add(new BasicNameValuePair("items", Integer.toString(numReviewsPerPage)));
-
+		if(ExpediaBookingApp.IS_TRAVELOCITY) {
+			params.add(new BasicNameValuePair("origin", "TRAVELOCITY"));
+		}
 		return doReviewsRequest(getReviewsUrl(property), params, new ReviewsResponseHandler());
 	}
 

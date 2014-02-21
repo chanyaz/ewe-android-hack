@@ -901,7 +901,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 					error.setPresentationMessage(getString(R.string.error_no_internet));
 				}
 				else {
-					error.setPresentationMessage(getString(R.string.error_server));
+					error.setPresentationMessage(getString(Ui.obtainThemeResID(mContext, R.attr.serverErrorMessageString)));
 				}
 				error.setCode(ERROR_CODE_SIMULATED);
 				response.addError(error);

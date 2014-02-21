@@ -37,6 +37,7 @@ import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentListener;
 import com.expedia.bookings.fragment.LaunchFragment;
 import com.expedia.bookings.fragment.LaunchFragment.LaunchFragmentListener;
+import com.expedia.bookings.fragment.TravelocityLauncherFragment;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
@@ -500,13 +501,17 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		@Override
 		public Fragment getItem(int position) {
 			Fragment frag;
-
 			switch (position) {
 			case PAGER_POS_ITIN:
 				frag = ItinItemListFragment.newInstance(mJumpToItinId);
 				break;
 			case PAGER_POS_WATERFALL:
-				frag = LaunchFragment.newInstance();
+				if (ExpediaBookingApp.IS_TRAVELOCITY) {
+					frag = TravelocityLauncherFragment.newInstance();
+				}
+				else {
+					frag = LaunchFragment.newInstance();
+				}
 				break;
 			default:
 				throw new RuntimeException("Position out of bounds position=" + position);

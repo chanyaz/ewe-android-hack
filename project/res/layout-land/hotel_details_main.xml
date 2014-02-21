@@ -68,7 +68,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="?attr/loginBookNowButtonDrawable"
-                        android:text="@string/book_now"
+                        android:text="?attr/hotelBookButtonString"
                         android:textSize="18sp" />
 
                     <Button

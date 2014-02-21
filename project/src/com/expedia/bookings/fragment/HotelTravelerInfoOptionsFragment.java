@@ -243,7 +243,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 
 			if (results == null) {
 				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null,
-						getString(R.string.error_server));
+						getString(Ui.obtainThemeResID(getActivity(), R.attr.serverErrorMessageString)));
 				dialogFragment.show(getFragmentManager(), "errorFragment");
 			}
 			else if (results.hasErrors()) {

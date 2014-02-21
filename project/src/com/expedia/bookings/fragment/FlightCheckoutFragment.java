@@ -145,7 +145,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		mCreditCardSectionButton = Ui.findView(v, R.id.creditcard_section_button);
 		mSectionLocation = Ui.findView(v, R.id.section_location_address);
 		mAccountButton = Ui.findView(v, R.id.account_button_root);
-		mAccountLabel = Ui.findView(v, R.id.expedia_account_label);
+		mAccountLabel = Ui.findView(v, R.id.flight_checkout_account_label);
 		mWalletButton = Ui.findView(v, R.id.wallet_button_layout);
 		mTravelerContainer = Ui.findView(v, R.id.traveler_container);
 		mCardFeeTextView = Ui.findView(v, R.id.lcc_card_fee_warning);

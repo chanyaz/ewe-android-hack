@@ -4,12 +4,18 @@ class AppNameLabels {
     // overriden for your build variant, define a packageName/label pair in this class and it
     // will be picked up and overridden in the build.gradle script.
 
-    static def appNameLabels = ['com.expedia.bookings.latest' : 'Expedia Latest',
+    static def appNameLabels = [
             'com.expedia.bookings.debug' : 'Expedia Debug',
+            'com.expedia.bookings.latest' : 'Expedia Latest',
             'com.expedia.bookings.tablet' : 'Expedia Tablet',
             'com.expedia.bookings.next' : 'Expedia Next',
+
             'com.expedia.bookings.vsc.debug' : 'VSC Debug',
-            'com.expedia.bookings.vsc.latest' : 'VSC Latest']
+            'com.expedia.bookings.vsc.latest' : 'VSC Latest',
+
+            'com.travelocity.android.debug' : 'Travelocity Debug',
+            'com.travelocity.android.latest' : 'Travelocity Latest',
+    ]
 
     static def getAppName(buildVariant) {
         def packageName = GradleUtil.getPackageName(buildVariant)

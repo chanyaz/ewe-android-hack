@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.PlaneWindowView;
@@ -24,6 +25,7 @@ public class StatusFragment extends Fragment implements PlaneWindowListener {
 	private PlaneWindowView mPlaneWindowView;
 	private TextView mMessageTextView;
 	private View mCoverUpView;
+	private View mflightSearchView;
 
 	private CharSequence mText;
 	private boolean mIsGrounded;
@@ -47,8 +49,15 @@ public class StatusFragment extends Fragment implements PlaneWindowListener {
 		mPlaneWindowView = Ui.findView(v, R.id.plane_window_view);
 		mMessageTextView = Ui.findView(v, R.id.message_text_view);
 		mCoverUpView = Ui.findView(v, R.id.cover_up_view);
+		mflightSearchView = Ui.findView(v, R.id.search_progress_flight_tvly);
 
-		mPlaneWindowView.setListener(this);
+		if (ExpediaBookingApp.IS_TRAVELOCITY) {
+			mMessageTextView.bringToFront();
+			mflightSearchView.bringToFront();
+		}
+		else {
+			mPlaneWindowView.setListener(this);
+		}
 
 		displayStatus();
 
@@ -58,8 +67,9 @@ public class StatusFragment extends Fragment implements PlaneWindowListener {
 	@Override
 	public void onStart() {
 		super.onStart();
-
-		mPlaneWindowView.setRendering(true);
+		if (ExpediaBookingApp.IS_EXPEDIA) {
+			mPlaneWindowView.setRendering(true);
+		}
 
 		OmnitureTracking.trackPageLoadFlightSearchResultsPlaneLoadingFragment(getActivity());
 	}
@@ -75,8 +85,9 @@ public class StatusFragment extends Fragment implements PlaneWindowListener {
 	@Override
 	public void onStop() {
 		super.onStop();
-
-		mPlaneWindowView.setRendering(false);
+		if (ExpediaBookingApp.IS_EXPEDIA) {
+			mPlaneWindowView.setRendering(false);
+		}
 	}
 
 	// The cover lets you cover up the tears between showing/hiding the SurfaceView

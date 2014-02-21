@@ -227,6 +227,10 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		FontCache.setTypeface(mLinkPassword, Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(v, R.id.or_tv, Font.ROBOTO_LIGHT);
 
+		if (ExpediaBookingApp.IS_TRAVELOCITY) {
+			setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON, false);
+			mSignInWithExpediaBtn.setEnabled(!(mEmptyUsername || mEmptyPassword));
+		}
 		return v;
 	}
 
@@ -477,24 +481,6 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			}
 		});
 
-		mLogInWithFacebookBtn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				//Cancel regular login download if it is happening...
-				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				if (bd.isDownloading(NET_MANUAL_LOGIN)) {
-					bd.cancelDownload(NET_MANUAL_LOGIN);
-				}
-
-				// Do facebook things!!!
-				loginWithFacebook = true;
-				doFacebookLogin();
-
-				setVisibilityState(VisibilityState.FACEBOOK_LINK, false);
-			}
-		});
-
 		//1607. VSC Update forgot pwd link.
 		final String forgotPwdLink = ExpediaBookingApp.IS_VSC ? "http://%s/pub/agent.dll?qscr=apwd"
 				: "http://www.%s/pub/agent.dll?qscr=apwd";
@@ -540,14 +526,94 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 				mEmptyUsername = TextUtils.isEmpty(s);
 				mSignInWithExpediaBtn.setEnabled(!(mEmptyUsername || mEmptyPassword));
 
-				if (mEmptyUsername && !mVisibilityState.equals(VisibilityState.EXPEDIA_WTIH_FB_BUTTON)) {
-					setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, true);
-				}
-				else if (!mEmptyUsername && !mVisibilityState.equals(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON)) {
-					setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON, true);
+				// FB not supported for Travelocity yet
+				if(ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
+					if (mEmptyUsername && !mVisibilityState.equals(VisibilityState.EXPEDIA_WTIH_FB_BUTTON)) {
+						setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, true);
+					}
+					else if (!mEmptyUsername && !mVisibilityState.equals(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON)) {
+						setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON, true);
+					}
 				}
 			}
 		};
+		mExpediaUserName.addTextChangedListener(usernameWatcher);
+
+		// FB not supported for Travelocity yet
+		if(ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
+			mLinkPassword.addTextChangedListener(new TextWatcher() {
+				@Override
+				public void afterTextChanged(Editable arg0) {
+					if (arg0.length() > 0) {
+						mLinkAccountsBtn.setEnabled(true);
+					}
+					else {
+						mLinkAccountsBtn.setEnabled(false);
+					}
+				}
+
+				@Override
+				public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+				}
+
+				@Override
+				public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+				}
+			});
+
+			mLogInWithFacebookBtn.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					//Cancel regular login download if it is happening...
+					BackgroundDownloader bd = BackgroundDownloader.getInstance();
+					if (bd.isDownloading(NET_MANUAL_LOGIN)) {
+						bd.cancelDownload(NET_MANUAL_LOGIN);
+					}
+
+					// Do facebook things!!!
+					loginWithFacebook = true;
+					doFacebookLogin();
+
+					setVisibilityState(VisibilityState.FACEBOOK_LINK, false);
+				}
+			});
+
+			mLinkAccountsBtn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					BackgroundDownloader bd = BackgroundDownloader.getInstance();
+					if (!bd.isDownloading(NET_LINK_EXISTING_USER)) {
+						setLoadingText(R.string.linking_your_accounts);
+						setIsLoading(true);
+						bd.startDownload(NET_LINK_EXISTING_USER, mFbLinkExistingUserDownload,
+							mFbLinkExistingUserHandler);
+					}
+				}
+			});
+
+			mCancelLinkAccountsBtn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					//Cancel fbconnect downloads
+					BackgroundDownloader.getInstance().cancelDownload(NET_AUTO_LOGIN);
+					BackgroundDownloader.getInstance().cancelDownload(NET_LINK_EXISTING_USER);
+					BackgroundDownloader.getInstance().cancelDownload(NET_LINK_NEW_USER);
+					BackgroundDownloader.getInstance().cancelDownload(NET_LOG_IN);
+
+					//goto previous state...
+					if (TextUtils.isEmpty(mExpediaUserName.getText())) {
+						setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, false);
+					}
+					else {
+						setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON, false);
+					}
+
+					setStatusText(mStatusTextContent, true);
+				}
+			});
+		}
+
 		final TextWatcher passwordWatcher = new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -565,7 +631,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 				mSignInWithExpediaBtn.setEnabled(!(mEmptyUsername || mEmptyPassword));
 			}
 		};
-		mExpediaUserName.addTextChangedListener(usernameWatcher);
+
 		mExpediaPassword.addTextChangedListener(passwordWatcher);
 
 		mExpediaPassword.setOnEditorActionListener(new OnEditorActionListener() {
@@ -584,60 +650,6 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 					Log.d("EditorInfo IME_ACTION unrecognized actionId=" + actionId);
 					return false;
 				}
-			}
-		});
-
-		mLinkPassword.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void afterTextChanged(Editable arg0) {
-				if (arg0.length() > 0) {
-					mLinkAccountsBtn.setEnabled(true);
-				}
-				else {
-					mLinkAccountsBtn.setEnabled(false);
-				}
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-			}
-
-			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-			}
-		});
-
-		mLinkAccountsBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				if (!bd.isDownloading(NET_LINK_EXISTING_USER)) {
-					setLoadingText(R.string.linking_your_accounts);
-					setIsLoading(true);
-					bd.startDownload(NET_LINK_EXISTING_USER, mFbLinkExistingUserDownload,
-							mFbLinkExistingUserHandler);
-				}
-			}
-		});
-
-		mCancelLinkAccountsBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				//Cancel fbconnect downloads
-				BackgroundDownloader.getInstance().cancelDownload(NET_AUTO_LOGIN);
-				BackgroundDownloader.getInstance().cancelDownload(NET_LINK_EXISTING_USER);
-				BackgroundDownloader.getInstance().cancelDownload(NET_LINK_NEW_USER);
-				BackgroundDownloader.getInstance().cancelDownload(NET_LOG_IN);
-
-				//goto previous state...
-				if (TextUtils.isEmpty(mExpediaUserName.getText())) {
-					setVisibilityState(VisibilityState.EXPEDIA_WTIH_FB_BUTTON, false);
-				}
-				else {
-					setVisibilityState(VisibilityState.EXPEDIA_WITH_EXPEDIA_BUTTON, false);
-				}
-
-				setStatusText(mStatusTextContent, true);
 			}
 		});
 

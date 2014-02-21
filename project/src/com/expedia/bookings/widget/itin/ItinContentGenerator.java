@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -91,8 +92,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	}
 
 	// Convenience method
-	public static ItinContentGenerator<? extends ItinCardData> createGenerator(Context context,
-			ItinCardData itinCardData) {
+	public static ItinContentGenerator<? extends ItinCardData> createGenerator(Context context, ItinCardData itinCardData) {
 		if (itinCardData instanceof ItinCardDataHotel) {
 			return new HotelItinContentGenerator(context, (ItinCardDataHotel) itinCardData);
 		}
@@ -179,6 +179,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	/**
 	 * This method is used to fetch the bitmap icon for imported shared itins.
 	 * The icon will consist of the shared user's initials and the background color will change based on LOB (Line of Business)
+	 *
 	 * @return Bitmap which can be used as the itinCardIcon.
 	 */
 	public Bitmap getSharedItinCardIcon() {
@@ -195,7 +196,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			else {
 				fallBackIcon = R.drawable.ic_itin_shared_placeholder_generic;
 			}
-			return BitmapFactory.decodeResource(getResources(),fallBackIcon);
+			return BitmapFactory.decodeResource(getResources(), fallBackIcon);
 		}
 		else {
 			return fetchIconBitmap(name);
@@ -211,6 +212,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * Generic - #FF373F4A
 	 * Hotel - #FF3B5866
 	 * Packages - #FF2E5539
+	 *
 	 * @return Hex color for the icon background based on LOB
 	 */
 	public int getSharedItinIconBackground() {
@@ -219,6 +221,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	/**
 	 * Override this in respective LOB to get the appropriate user name.
+	 *
 	 * @return The full name of the shared user
 	 */
 	public String getSharedItinName() {
@@ -348,6 +351,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	/**
 	 * Extend this method to return any local notifications related to this trip component.
+	 *
 	 * @return
 	 */
 	public List<Notification> generateNotifications() {
@@ -362,25 +366,26 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 */
 	protected SummaryButton getSupportSummaryButton() {
 		return new SummaryButton(R.drawable.ic_phone, getContext().getString(R.string.itin_action_support),
-				new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						SocialUtils.call(getContext(), PointOfSale.getPointOfSale().getSupportPhoneNumber());
-					}
-				});
+			new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					SocialUtils.call(getContext(), PointOfSale.getPointOfSale().getSupportPhoneNumber());
+				}
+			});
 	}
 
 	/**
 	 * Itin cards share a lot of gui elements. They don't share layouts, but a container can be passed here and filled with said shared elements.
-	 *
+	 * <p/>
 	 * Currently supported shared elemenets (in this order)
 	 * - Confirmation Code (selectable)
 	 * - Itinerary number
 	 * - Elite Plus support phone number
 	 * - Booking Info (additional information link)
 	 * - Insurance
-	 *
+	 * <p/>
 	 * These get added to the viewgroup only if they exist (or have fallback behavior defined)
+	 *
 	 * @param container
 	 * @param infalter
 	 */
@@ -392,15 +397,15 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		boolean addedInsurance = addInsurance(container);
 		boolean addedSharedoptions = addSharedOptions(container);
 		Log.d("ITIN: ItinCard.addSharedGuiElements - addedConfNumber:" + addedConfNumber + " addedItinNumber:"
-				+ addedItinNumber + " addedElitePlusNumber:" + addedElitePlusNumber + " addedBookingInfo:"
-				+ addedBookingInfo + " addedInsurance:" + addedInsurance + " addedSharedoptions:" + addedSharedoptions);
+			+ addedItinNumber + " addedElitePlusNumber:" + addedElitePlusNumber + " addedBookingInfo:"
+			+ addedBookingInfo + " addedInsurance:" + addedInsurance + " addedSharedoptions:" + addedSharedoptions);
 	}
 
 	protected boolean addConfirmationNumber(ViewGroup container) {
 		Log.d("ITIN: addConfirmationNumber");
 		if (hasConfirmationNumber() && !isSharedItin()) {
 			String confirmationText = ((ConfirmationNumberable) this.getItinCardData())
-					.getFormattedConfirmationNumbers();
+				.getFormattedConfirmationNumbers();
 			int labelResId = ((ConfirmationNumberable) this.getItinCardData()).getConfirmationNumberLabelResId();
 			View view = getClickToCopyItinDetailItem(labelResId, confirmationText, true);
 			if (view != null) {
@@ -416,7 +421,13 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		Log.d("ITIN: addItineraryNumber");
 		if (hasItinNumber() && !isSharedItin()) {
 			String itineraryNumber = this.getItinCardData().getTripComponent().getParentTrip().getTripNumber();
-			View view = getClickToCopyItinDetailItem(R.string.expedia_itinerary, itineraryNumber, false);
+
+			int itineraryLabelResId = R.string.expedia_itinerary;
+			if(ExpediaBookingApp.IS_TRAVELOCITY){
+				itineraryLabelResId = R.string.tvly_itinerary;
+			}
+
+			View view = getClickToCopyItinDetailItem(itineraryLabelResId, itineraryNumber, false);
 			if (view != null) {
 				Log.d("ITIN: addItineraryNumber to container");
 				container.addView(view);
@@ -431,12 +442,12 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		if (hasElitePlusNumber() && !isSharedItin()) {
 			final String elitePlusNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus();
 			View view = getItinDetailItem(R.string.elite_plus_customer_support, elitePlusNumber, false,
-					new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							SocialUtils.call(getContext(), elitePlusNumber);
-						}
-					});
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						SocialUtils.call(getContext(), elitePlusNumber);
+					}
+				});
 			if (view != null) {
 				Log.d("ITIN: addElitePlusNumber to container");
 				container.addView(view);
@@ -479,8 +490,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		return getClickToCopyItinDetailItem(getResources().getString(headerResId), text, isConfNumber);
 	}
 
-	protected View getClickToCopyItinDetailItem(String label, final String text,
-			final boolean isConfNumber) {
+	protected View getClickToCopyItinDetailItem(String label, final String text, final boolean isConfNumber) {
 
 		return getItinDetailItem(label, text, isConfNumber, new OnClickListener() {
 			@Override
@@ -494,13 +504,11 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		});
 	}
 
-	protected View getItinDetailItem(int headerResId, final String text, final boolean isConfNumber,
-			OnClickListener onClickListener) {
+	protected View getItinDetailItem(int headerResId, final String text, final boolean isConfNumber, OnClickListener onClickListener) {
 		return getItinDetailItem(getResources().getString(headerResId), text, isConfNumber, onClickListener);
 	}
 
-	protected View getItinDetailItem(String label, final String text, final boolean isConfNumber,
-			OnClickListener onClickListener) {
+	protected View getItinDetailItem(String label, final String text, final boolean isConfNumber, OnClickListener onClickListener) {
 		View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_generic, null);
 		TextView headingTv = Ui.findView(item, R.id.item_label);
 		TextView textTv = Ui.findView(item, R.id.item_text);
@@ -515,7 +523,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	protected boolean addBookingInfo(ViewGroup container) {
 		Log.d("ITIN: addBookingInfo");
 		if (getItinCardData() != null
-				&& (!TextUtils.isEmpty(getItinCardData().getDetailsUrl()) || isSharedItin())) {
+			&& (!TextUtils.isEmpty(getItinCardData().getDetailsUrl()) || isSharedItin())) {
 
 			View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_booking_info, null);
 
@@ -541,7 +549,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 						getContext().startActivity(builder.getIntent());
 
 						OmnitureTracking.trackItinInfoClicked(getContext(), getItinCardData().getTripComponent()
-								.getType());
+							.getType());
 					}
 
 				});
@@ -579,6 +587,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	/**
 	 * Add this trip's insurance to the passed in container
+	 *
 	 * @param inflater
 	 * @param insuranceContainer
 	 */
@@ -590,7 +599,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			int divPadding = getResources().getDimensionPixelSize(R.dimen.itin_flight_segment_divider_padding);
 			int viewAddedCount = 0;
 			List<Insurance> insuranceList = this.getItinCardData().getTripComponent().getParentTrip()
-					.getTripInsurance();
+				.getTripInsurance();
 
 			for (final Insurance insurance : insuranceList) {
 				//Air insurance should only be added for flights, other types should be added to all itin card details
@@ -627,15 +636,16 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	/**
 	 * Does this particular card have displayable insurance info
+	 *
 	 * @return
 	 */
 	protected boolean hasInsurance() {
 		boolean hasInsurance = false;
 		if (this.getItinCardData() != null && this.getItinCardData().getTripComponent() != null
-				&& this.getItinCardData().getTripComponent().getParentTrip() != null) {
+			&& this.getItinCardData().getTripComponent().getParentTrip() != null) {
 
 			List<Insurance> insuranceList = this.getItinCardData().getTripComponent().getParentTrip()
-					.getTripInsurance();
+				.getTripInsurance();
 			if (insuranceList != null && insuranceList.size() > 0) {
 				for (int i = 0; i < insuranceList.size(); i++) {
 					Insurance ins = insuranceList.get(i);
@@ -654,7 +664,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	protected boolean hasItinNumber() {
 		boolean hasItinNum = false;
 		if (this.getItinCardData() != null && this.getItinCardData().getTripComponent() != null
-				&& this.getItinCardData().getTripComponent().getParentTrip() != null) {
+			&& this.getItinCardData().getTripComponent().getParentTrip() != null) {
 			hasItinNum = !TextUtils.isEmpty(this.getItinCardData().getTripComponent().getParentTrip().getTripNumber());
 		}
 		return hasItinNum;
@@ -674,6 +684,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	/**
 	 * Get a horizontal divider view with the itin divider color
+	 *
 	 * @return
 	 */
 	protected View getHorizontalDividerView(int margin) {
@@ -693,9 +704,9 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * Returns a descriptive CharSequence of the start date relative to today.
 	 * (Examples: "Today" or "May 15" or "10/25/2022")
 	 * Rules defined here: https://mingle.karmalab.net/projects/eb_ad_app/cards/234
+	 *
 	 * @param context
 	 * @return
-	 *
 	 * @see #getItinRelativeTimeSpan(Context context, DateTime time, DateTime now) for relative time span
 	 */
 	public CharSequence getItinRelativeStartDate() {
@@ -766,11 +777,11 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * 1. If less than one minute ago, or less than one minute in the future, "in 1 minute"
 	 * 2. If between 1 and 24 hours, "in 2 hours and 27 minutes" or "in 5 hours"
 	 * 3. Otherwise, we'll use JodaUtils.getRelativeTimeSpanString, "in 5 days" or "in 35 minutes"
+	 *
 	 * @param context
 	 * @param time
 	 * @param now
 	 * @return
-	 * 
 	 * @see #getItinRelativeStartDate() for relative date
 	 */
 	public CharSequence getItinRelativeTimeSpan(Context context, DateTime time, DateTime now) {
@@ -784,7 +795,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		// we want to show both Hours and Minutes, which isn't supported by getRelativeTimeSpanString()
 		if (hours < 24 && hours >= 1 && minutes != 0) {
 			int templateResId = past ? R.string.hours_minutes_past_TEMPLATE
-					: R.string.hours_minutes_future_TEMPLATE;
+				: R.string.hours_minutes_future_TEMPLATE;
 			Resources res = context.getResources();
 			String hourStr = res.getQuantityString(R.plurals.hours_from_now, hours, hours);
 			String minStr = res.getQuantityString(R.plurals.minutes_from_now, minutes, minutes);

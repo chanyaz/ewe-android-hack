@@ -184,7 +184,7 @@ public class HotelReceipt extends LinearLayout {
 
 		mExtrasLayout.removeAllViews();
 		if (PointOfSale.getPointOfSale().displayBestPriceGuarantee()) {
-			addExtraRow(R.string.best_price_guarantee);
+			addExtraRow(Ui.obtainThemeResID(getContext(), R.attr.bestPriceGuaranteeString));
 		}
 
 		if (rate.shouldShowFreeCancellation()) {

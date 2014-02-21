@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Traveler;
@@ -107,9 +108,15 @@ public class AccountButton extends LinearLayout {
 
 		// Some styling, based on whether this is a hotels or flights button
 		Resources res = getResources();
-		mLoginContainer.setBackgroundResource(isFlights ? R.drawable.btn_login_flights : R.drawable.btn_login_hotels);
-		mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(isFlights ? R.drawable.ic_expedia_logo
-				: Ui.obtainThemeResID((Activity) mContext, R.attr.hotelCheckoutLoginLogoDrawable), 0, 0, 0);
+		if(ExpediaBookingApp.IS_EXPEDIA) {
+			mLoginContainer.setBackgroundResource(isFlights ? R.drawable.btn_login_flights : R.drawable.btn_login_hotels);
+			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(isFlights ? R.drawable.ic_expedia_logo
+				: Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLoginLogoDrawable), 0, 0, 0);
+		}
+		else {
+			mLoginContainer.setBackgroundResource(R.drawable.btn_login_hotels);
+			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLoginLogoDrawable), 0, 0, 0);
+		}
 		mLoginTextView.setTextColor(isFlights ? res.getColor(R.color.login_text_flight) : res
 				.getColor(R.color.login_text_hotels));
 		mLogoutContainer.setBackgroundResource(isFlights ? R.drawable.bg_checkout_logged_in
@@ -117,7 +124,7 @@ public class AccountButton extends LinearLayout {
 
 		//Reset some defaults if we are not an elitePlusMember (but are logged in)
 		if (isLoggedIn && !isElitePlusMember) {
-			mExpediaLogo.setImageResource(Ui.obtainThemeResID((Activity) mContext,
+			mExpediaLogo.setImageResource(Ui.obtainThemeResID(mContext,
 					R.attr.hotelCheckoutLogoutLogoDrawable));
 			mRewardsContainer.setBackgroundResource(R.drawable.bg_checkout_information_rewards_tab);
 		}

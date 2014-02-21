@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="Theme.Travelocity" parent="@style/Theme.Expedia">
+        <item name="hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_travelocity</item>
+        <item name="HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_travelocity</item>
+        <item name="hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg_travelocity</item>
+        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
+        <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
+        <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal_travelocity</item>
+        <item name="bestPriceGuaranteeString">@string/travelocity_best_price_guarantee</item>
+        <item name="costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
+        <item name="flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
+        <item name="costSummaryBookingFeesString">@string/travelocity_booking_fee</item>
+        <item name="actionBarSpinnerBackground">@drawable/ab_spinner_travelocity</item>
+        <item name="actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark_green_travelocity</item>
+        <item name="actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow_green_travelocity</item>
+        <item name="actionBarButtonTextColor">@color/action_bar_text_green_travelocity</item>
+        <item name="loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
+        <item name="hotelConfirmationCallActionText">@string/call_travelocity_customer_support</item>
+        <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
+        <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_blue</item>
+        <item name="hotelCheckoutLoginButtonText">@string/Log_in_with_Travelocity</item>
+        <item name="hotelCheckoutLoginLogoDrawable">@drawable/ic_log_in_travelocity</item>
+        <item name="hotelCheckoutLogoutLogoDrawable">@drawable/ic_travelocity_logo</item>
+        <item name="loginWithExpediaTitleText">@string/travelocity_account</item>
+        <item name="loginWithExpediaButtonText">@string/Log_in_with_Travelocity</item>
+        <item name="loginWithExpediaContentDescription">@string/cd_checkout_log_in_with_travelocity</item>
+        <item name="loginButtonColor">@android:color/white</item>
+        <item name="hotelBookButtonColor">@android:color/white</item>
+        <item name="ccCheckoutHologramDrawable">@drawable/ic_credit_card_hologram_tvly</item>
+        <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_tvly</item>
+        <item name="webViewPreferencesActionBarLogo">@drawable/ic_action_bar_travelocity_logo</item>
+        <item name="aboutContactUsString">@string/contact_travelocity</item>
+        <item name="aboutWebsiteString">@string/travelocity_website</item>
+        <item name="aboutAppSupportString">@string/travelocity_app_support</item>
+        <item name="aboutCopyrightString">@string/travelocity_copyright</item>
+        <item name="aboutInfoUrlString">@string/travelocity_info_url</item>
+        <item name="aboutAppNameString">@string/app_name</item>
+        <item name="aboutAppLogoDrawable">@drawable/ic_launcher</item>
+        <item name="logoutConfirmationString">@string/logout_confirmation_travelocity</item>
+        <item name="webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_travelocity_logo_small</item>
+        <item name="actionBarBackgroundDrawable">@drawable/bg_action_bar_travelocity</item>
+        <item name="cvvBookButtonTextColor">@android:color/white</item>
+        <item name="flightLoadingMessagePosition">@id/search_progress_flight_tvly</item>
+        <item name="flightUnhandledErrorMessage">@string/error_flight_unhandled_travelocity_TEMPLATE</item>
+        <item name="serverErrorMessageString">@string/error_server_travelocity</item>
+        <item name="savePaymentToAccountString">@string/save_billing_travelocity_info_message</item>
+        <item name="saveTravelerToAccountString">@string/save_traveler_travelocity_message_TEMPLATE</item>
+        <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_tvly_white_logo_small</item>
+    </style>
+
+    <style name="FlightTheme" parent="@style/Theme.Travelocity">
+        <item name="airPickerBackground">@android:color/white</item>
+        <item name="airPickerHeaderBackground">@android:color/white</item>
+        <item name="airPickerTextColor">@android:color/black</item>
+        <item name="airPickerMessageTextColor">@android:color/black</item>
+        <item name="airPickerActionTextColor">@android:color/black</item>
+        <item name="rowDividerBackground">@android:color/black</item>
+        <item name="rowBackground">@android:color/white</item>
+        <item name="rowHeaderBackground">@android:color/white</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
+        <item name="numberPickerUpButtonStyle">@style/Widget.ImageButton.NumberPickerUpButton</item>
+        <item name="numberPickerDownButtonStyle">@style/Widget.ImageButton.NumberPickerDownButton</item>
+        <item name="numberPickerInputTextStyle">@style/Widget.EditText.NumberPickerInputText</item>
+        <item name="numberPickerStyle">@style/Widget.NumberPicker</item>
+        <item name="logo">@drawable/ic_logo_flights</item>
+        <item name="android:logo">@drawable/ic_logo_flights</item>
+        <item name="actionBarStyle">@style/FlightActionBarTravelocity</item>
+        <item name="android:actionBarStyle">@style/FlightActionBarTravelocity</item>
+        <item name="actionMenuTextColor">@color/action_bar_flight_text_color</item>
+        <item name="android:actionMenuTextColor">@color/action_bar_flight_text_color</item>
+        <item name="actionModeCloseDrawable">@drawable/btn_navigation_cancel</item>
+        <item name="android:actionModeCloseDrawable">@drawable/btn_navigation_cancel</item>
+        <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
+        <item name="android:spinnerStyle">@style/Widget.Spinner.Phone.Flights</item>
+        <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoComplete</item>
+        <item name="travelerLabelOnCheckout">@string/Add_Traveler</item>
+        <!-- Only do this for ABS - newer versions will use latest holo radio button anyways -->
+        <item name="actionBarWidgetTheme">@style/FlightActionBarWidgetTheme</item>
+        <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
+        <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_blue</item>
+        <item name="flightCheckoutAccountLabel">@string/travelocity_account</item>
+
+        <item name="travellerInfoPageLogo">@drawable/ic_tvly_traveller_logo</item>
+        <item name="travellerInfoPageLogoDisabled">@drawable/ic_tvly_white_logo_small</item>
+    </style>
+
+    <!-- Override the phone theme -->
+    <style name="Theme.Phone" parent="@style/Theme.Travelocity">
+        <item name="actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
+        <item name="android:actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
+    </style>
+
+    <style name="LaunchTheme" parent="@style/Theme.Sherlock">
+        <item name="logo">@drawable/ic_ab_travelocity_logo</item>
+        <item name="android:logo">@drawable/ic_ab_travelocity_logo</item>
+        <item name="actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
+        <item name="android:actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
+        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
+        <!-- PopupMenu -->
+        <item name="dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
+        <item name="android:dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
+        <item name="logoutConfirmationString">@string/logout_confirmation_travelocity</item>
+    </style>
+
+    <style name="FlightActionBarTravelocity" parent="FlightActionBar">
+        <item name="background">@drawable/bg_action_bar_flight_top_travelocity</item>
+        <item name="android:background">@drawable/bg_action_bar_flight_top_travelocity</item>
+        <item name="backgroundSplit">@drawable/bg_action_bar_flight_bottom_travelocity</item>
+        <item name="android:backgroundSplit">@drawable/bg_action_bar_flight_bottom_travelocity</item>
+    </style>
+
+    <style name="ItineraryTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+        <item name="logo">@drawable/ic_action_bar_travelocity_logo_small</item>
+        <item name="android:logo">@drawable/ic_action_bar_travelocity_logo_small</item>
+    </style>
+
+    <style name="LoginTheme" parent="Theme.Phone.Dark">
+        <item name="logo">@drawable/ic_ab_travelocity_logo</item>
+        <item name="android:logo">@drawable/ic_ab_travelocity_logo</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+</resources>

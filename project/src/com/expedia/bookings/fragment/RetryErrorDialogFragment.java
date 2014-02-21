@@ -10,7 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.mobiata.android.util.Ui;
+import com.expedia.bookings.utils.Ui;
 
 // For now spits out a single message, but could be modified to spit out
 // a given message.
@@ -60,7 +60,7 @@ public class RetryErrorDialogFragment extends DialogFragment implements OnClickL
 			}
 		}
 
-		return getString(R.string.error_server);
+		return getString(Ui.obtainThemeResID(getActivity(), R.attr.serverErrorMessageString));
 	}
 
 	//////////////////////////////////////////////////////////////////////////

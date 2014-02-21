@@ -304,6 +304,8 @@
     <string name="find_itinerary_pound">Find Itinerary #</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia Itinerary #</string>
+    <!-- Travelocity Itinerary -->
+    <string name="tvly_itinerary">Travelocity Itinerary #</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus Customer Support</string>
     <!-- No upcoming trips -->
@@ -758,6 +760,8 @@
     <string name="share_template_long_hotel_5_more_info">More Information\n%s</string>
     <!-- App download link -->
     <string name="share_template_long_ad">Book hotels, flights and view &amp; share your itineraries. Download the free Expedia mobile app today.\n%s</string>
+    <!-- Travelocity App download link -->
+    <string name="share_template_long_ad_tvly">Book hotels, flights and view &amp; share your itineraries. Download the free Travelocity mobile app today.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">I\&apos;m flying to %1$s on %2$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1956,6 +1960,8 @@
     <string name="confirmation_email">Confirmation Email</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">If you have questions about your reservation, please call Expedia at %s.</string>
+    <!-- Travelocity- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_tvly">If you have questions about your reservation, please call Travelocity at %s.</string>
 
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->

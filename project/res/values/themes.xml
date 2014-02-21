@@ -22,7 +22,6 @@
         <item name="android:actionOverflowButtonStyle">@style/Widget.Sherlock.Light.ActionButton.Overflow</item>
         <item name="homeAsUpIndicator">@drawable/abs__ic_ab_back_holo_light</item>
         <item name="android:homeAsUpIndicator">@drawable/abs__ic_ab_back_holo_light</item>
-
         <!-- NumberPicker styles -->
         <item name="numberPickerUpButtonStyle">@style/Widget.ImageButton.NumberPickerUpButton</item>
         <item name="numberPickerDownButtonStyle">@style/Widget.ImageButton.NumberPickerDownButton</item>
@@ -157,7 +156,7 @@
         <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_hotels</item>
         <item name="logo">@drawable/ic_logo_hotels</item>
-
+        <item name="actionBarSpinnerBackground">@drawable/ab_spinner</item>
         <!-- Custom attrs for Expedia/VSC switching -->
         <item name="hotelPriceStandardColor">@color/hotel_price_text_color</item>
         <item name="hotelPriceSaleColor">@color/hotel_price_sale_text_color</item>
@@ -190,21 +189,44 @@
         <item name="hangTagKnobBackgroundDrawable">@drawable/gl_progress_knob_bg</item>
         <item name="HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder</item>
         <item name="costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
+        <item name="flightsCostSummaryDialogStripeDrawable">@drawable/border_horizontal_expedia_striped</item>
+        <item name="costSummaryBookingFeesString">@string/expedia_booking_fee</item>
         <item name="loginBookNowButtonDrawable">@drawable/btn_signin</item>
         <item name="loginWithExpediaButtonText">@string/Log_in_with_Expedia</item>
         <item name="loginWithExpediaTitleText">@string/expedia_account</item>
+        <item name="loginButtonColor">@android:color/black</item>
+        <item name="hotelBookButtonColor">@android:color/black</item>
         <item name="hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg</item>
         <item name="hotelConfirmationCallActionDrawable">@drawable/ic_phone</item>
+        <item name="hotelConfirmationCallActionText">@string/call_expedia_customer_support</item>
         <item name="hotelCheckoutLogoutLogoDrawable">@drawable/ic_expedia_logo</item>
         <item name="hotelCheckoutLoginLogoDrawable">@drawable/ic_log_in</item>
         <item name="hotelCheckoutLoginButtonText">@string/Log_in_with_Expedia</item>
+        <item name="loginWithExpediaContentDescription">@string/cd_checkout_log_in_with_expedia</item>
         <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
         <item name="hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale</item>
+        <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal</item>
         <item name="ccCheckoutHologramDrawable">@drawable/ic_credit_card_hologram</item>
         <item name="hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder</item>
         <item name="hotelwebViewActionBarLogo">@drawable/ic_logo_hotels</item>
         <item name="travelerLabelOnCheckout">@string/guest_details</item>
+        <item name="bestPriceGuaranteeString">@string/best_price_guarantee</item>
+        <item name="hotelBookButtonString">@string/book_now</item>
+        <item name="aboutContactUsString">@string/contact_expedia</item>
+        <item name="aboutWebsiteString">@string/expedia_website</item>
+        <item name="aboutAppSupportString">@string/app_support</item>
+        <item name="aboutCopyrightString">@string/copyright</item>
+        <item name="aboutInfoUrlString">@string/app_mobiata_info_url</item>
+        <item name="aboutAppNameString">@string/app_name</item>
+        <item name="aboutAppLogoDrawable">@drawable/mobiata</item>
+        <item name="logoutConfirmationString">@string/logout_confirmation</item>
+        <item name="cvvBookButtonTextColor">@android:color/black</item>
+        <item name="flightLoadingMessagePosition">@id/plane_window_view</item>
+        <item name="flightUnhandledErrorMessage">@string/error_flight_unhandled_TEMPLATE</item>
+        <item name="serverErrorMessageString">@string/error_server</item>
+        <item name="savePaymentToAccountString">@string/save_billing_info_message</item>
+        <item name="saveTravelerToAccountString">@string/save_traveler_message_TEMPLATE</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
@@ -255,6 +277,7 @@
         <!-- PopupMenu -->
         <item name="dropDownListViewStyle">@style/Widget.Sherlock.Light.ListView.DropDown</item>
         <item name="android:dropDownListViewStyle">@style/Widget.Sherlock.Light.ListView.DropDown</item>
+        <item name="logoutConfirmationString">@string/logout_confirmation</item>
     </style>
 
     <style name="ItineraryTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
@@ -303,6 +326,13 @@
         <item name="travelerLabelOnCheckout">@string/Add_Traveler</item>
         <!-- Only do this for ABS - newer versions will use latest holo radio button anyways -->
         <item name="actionBarWidgetTheme">@style/FlightActionBarWidgetTheme</item>
+        <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
+        <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
+        <item name="flightCheckoutAccountLabel">@string/expedia_account</item>
+
+        <item name="travellerInfoPageLogo">@drawable/ic_expedia_traveler_logo</item>
+        <item name="travellerInfoPageLogoDisabled">@drawable/ic_expedia_traveler_logo_disabled</item>
+
     </style>
 
     <style name="FlightTheme.DropDownSearch">

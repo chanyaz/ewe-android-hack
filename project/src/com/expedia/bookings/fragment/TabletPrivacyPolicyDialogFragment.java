@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.Ui;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletPrivacyPolicyDialogFragment extends DialogFragment {
@@ -48,7 +49,7 @@ public class TabletPrivacyPolicyDialogFragment extends DialogFragment {
 		itemUrls.add(PointOfSale.getPointOfSale().getPrivacyPolicyUrl());
 
 		if (PointOfSale.getPointOfSale().displayBestPriceGuarantee()) {
-			itemNames.add(getString(R.string.best_price_guarantee));
+			itemNames.add(getString(Ui.obtainThemeResID(getActivity(), R.attr.bestPriceGuaranteeString)));
 			itemUrls.add(PointOfSale.getPointOfSale().getBestPriceGuaranteeUrl());
 		}
 
