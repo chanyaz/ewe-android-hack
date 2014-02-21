@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
@@ -36,6 +37,8 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	// If we need to defer handling till later
 	private int mGoogleWalletErrorCode;
 
+	private HotelBookingFragment mHotelBookingFragment;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Abstractions/overrideables related to only booking
 
@@ -54,6 +57,15 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 
 		// Ensure a consistent download key; only grab it once
 		mDownloadKey = getBookingDownloadKey();
+
+		mHotelBookingFragment = com.expedia.bookings.utils.Ui.findSupportFragment(this, HotelBookingFragment.TAG);
+
+		if (mHotelBookingFragment == null) {
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			mHotelBookingFragment = new HotelBookingFragment();
+			ft.add(mHotelBookingFragment, HotelBookingFragment.TAG);
+			ft.commit();
+		}
 	}
 
 	@Override
@@ -145,8 +157,9 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		 *  In that case just start the checkout else call create.
 		 */
 		if (Db.getHotelSearch().getCreateTripResponse() == null) {
-			BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			bd.startDownload(KEY_CREATE_TRIP, mCreateTripDownload, mCreateTripCallback);
+			//BackgroundDownloader bd = BackgroundDownloader.getInstance();
+			//bd.startDownload(KEY_CREATE_TRIP, mCreateTripDownload, mCreateTripCallback);
+			mHotelBookingFragment.startCreateTripForCheckout();
 		}
 		else {
 			startBookingDownload();
@@ -196,7 +209,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		startBooking();
 	}
 
-	private final Download<CreateTripResponse> mCreateTripDownload = new Download<CreateTripResponse>() {
+	/*private final Download<CreateTripResponse> mCreateTripDownload = new Download<CreateTripResponse>() {
 		@Override
 		public CreateTripResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
@@ -221,7 +234,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			}
 
 		}
-	};
+	};*/
 
 	// Error handling
 

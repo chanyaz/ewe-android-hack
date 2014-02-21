@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -35,7 +34,6 @@ import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
-import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
@@ -52,8 +50,7 @@ import com.expedia.bookings.dialog.CouponDialogFragment.CouponDialogFragmentList
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.dialog.ThrobberDialog.CancelListener;
-import com.expedia.bookings.fragment.HotelBookingFragment.CreateTripRetryListener;
-import com.expedia.bookings.fragment.HotelBookingFragment.CreateTripSuccessListener;
+import com.expedia.bookings.fragment.HotelBookingFragment.CouponDownloadStatusListener;
 import com.expedia.bookings.fragment.HotelBookingFragment.HotelProductSuccessListener;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.model.HotelPaymentFlowState;
@@ -88,7 +85,8 @@ import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.view.ViewHelper;
 
 public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
-		CancelListener, SimpleCallbackDialogFragmentListener, CouponDialogFragmentListener, HotelProductSuccessListener, CreateTripSuccessListener, CreateTripRetryListener {
+		CancelListener, SimpleCallbackDialogFragmentListener, CouponDialogFragmentListener,
+		HotelProductSuccessListener, CouponDownloadStatusListener {
 
 	public interface BookingOverviewFragmentListener {
 		public void checkoutStarted();
@@ -107,7 +105,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private static final String INSTANCE_WAS_USING_GOOGLE_WALLET = "INSTANCE_WAS_USING_GOOGLE_WALLET";
 
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
-	private static final String KEY_APPLY_COUPON = "KEY_APPLY_COUPON";
 
 	private static final int CALLBACK_WALLET_PROMO_APPLY_ERROR = 1;
 
@@ -207,8 +204,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 
 		mHotelBookingFragment.addHotelProductSuccessListener(this);
-		mHotelBookingFragment.addCreateTripSuccessListener(this);
-		mHotelBookingFragment.addCreateTripRetryListener(this);
+		mHotelBookingFragment.addCouponDownloadStatusListener(this);
 	}
 
 	@Override
@@ -366,10 +362,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			bd.registerDownloadCallback(KEY_REFRESH_USER, mRefreshUserCallback);
 		}
 
-		if (bd.isDownloading(KEY_APPLY_COUPON)) {
-			bd.registerDownloadCallback(KEY_APPLY_COUPON, mCouponCallback);
-		}
-
 		mFragmentModLock.setSafe(true);
 
 		//We disable this for sign in, but when the user comes back it should be enabled.
@@ -385,13 +377,11 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (getActivity().isFinishing()) {
 			bd.cancelDownload(KEY_REFRESH_USER);
-			bd.cancelDownload(KEY_APPLY_COUPON);
 			// Since we are exiting the screen, let's reset coupon.
 			Db.getHotelSearch().setCouponApplied(false);
 		}
 		else {
 			bd.unregisterDownloadCallback(KEY_REFRESH_USER);
-			bd.unregisterDownloadCallback(KEY_APPLY_COUPON);
 		}
 
 		if (Db.getTravelersAreDirty()) {
@@ -643,7 +633,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		boolean travelerValid = hasValidTravelers();
 
 		mShowSlideToWidget = travelerValid && paymentAddressValid && paymentCCValid && mIsDoneLoadingPriceChange
-				&& !BackgroundDownloader.getInstance().isDownloading(KEY_APPLY_COUPON);
+				&& !BackgroundDownloader.getInstance().isDownloading(HotelBookingFragment.KEY_DOWNLOAD_APPLY_COUPON);
 		if (isInCheckout() && mShowSlideToWidget) {
 			showPurchaseViews();
 		}
@@ -1280,7 +1270,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		// apply the Google Wallet code).
 		boolean offeredPromo = WalletUtils.offerGoogleWalletCoupon(getActivity());
 		boolean codeIsPromo = usingWalletPromoCoupon();
-		boolean applyingCoupon = BackgroundDownloader.getInstance().isDownloading(KEY_APPLY_COUPON);
+		boolean applyingCoupon = BackgroundDownloader.getInstance().isDownloading(HotelBookingFragment.KEY_DOWNLOAD_APPLY_COUPON);
 		boolean appliedCoupon = Db.getHotelSearch().isCouponApplied();
 		if (mCouponButton.getVisibility() == View.VISIBLE) {
 			mCouponButton.setVisibility(mBillingInfo.isUsingGoogleWallet()
@@ -1295,14 +1285,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	public void applyCoupon() {
 		Log.i("Trying to apply coupon code: " + mCouponCode);
 
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_APPLY_COUPON)) {
-			Log.w("Somehow, we were already trying to apply a coupon when we tried to apply another one."
-					+ "  Cancelling previous coupon code attempt.");
-			bd.cancelDownload(KEY_APPLY_COUPON);
-		}
-
-		bd.startDownload(KEY_APPLY_COUPON, mCouponDownload, mCouponCallback);
+		mHotelBookingFragment.applyCoupon(mCouponCode);
 
 		updateViewVisibilities();
 
@@ -1329,11 +1312,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			}
 		});
 
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_APPLY_COUPON)) {
-			bd.cancelDownload(KEY_APPLY_COUPON);
-		}
-		mHotelBookingFragment.startCreateTripDownload();
+		mHotelBookingFragment.clearCoupon();
 	}
 
 	private boolean usingWalletPromoCoupon() {
@@ -1366,69 +1345,13 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private void clearWalletPromoCoupon() {
 		mCouponCode = null;
-		BackgroundDownloader.getInstance().cancelDownload(KEY_APPLY_COUPON);
+		mHotelBookingFragment.cancelCoupon();
 		Db.getHotelSearch().setCreateTripResponse(null);
 
 		if (mWalletPromoThrobberDialog != null) {
 			mWalletPromoThrobberDialog.dismiss();
 		}
 	}
-
-	private final Download<CreateTripResponse> mCouponDownload = new Download<CreateTripResponse>() {
-		@Override
-		public CreateTripResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(getActivity());
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_APPLY_COUPON, services);
-			return services.applyCoupon(mCouponCode, Db.getHotelSearch().getSearchParams(), Db
-					.getHotelSearch().getSelectedProperty());
-		}
-	};
-
-	private final OnDownloadComplete<CreateTripResponse> mCouponCallback = new OnDownloadComplete<CreateTripResponse>() {
-		@Override
-		public void onDownload(CreateTripResponse response) {
-			// Don't execute if we were killed before finishing
-			if (!isAdded()) {
-				return;
-			}
-
-			if (mWalletPromoThrobberDialog != null && mWalletPromoThrobberDialog.isAdded()) {
-				mWalletPromoThrobberDialog.dismiss();
-			}
-
-			if (mCouponDialogFragment != null && mCouponDialogFragment.isAdded()) {
-				mCouponDialogFragment.dismiss();
-			}
-
-			if (response == null) {
-				Log.w("Failed to apply coupon code (null response): " + mCouponCode);
-
-				DialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_error_no_code));
-				df.show(getChildFragmentManager(), "couponError");
-
-				handleWalletPromoErrorIfApplicable();
-			}
-			else if (response.hasErrors()) {
-				Log.w("Failed to apply coupon code (server errors): " + mCouponCode);
-
-				DialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_error_no_code));
-				df.show(getChildFragmentManager(), "couponError");
-
-				handleWalletPromoErrorIfApplicable();
-			}
-			else {
-				Log.i("Applied coupon code: " + mCouponCode);
-
-				Db.getHotelSearch().setCouponApplied(true);
-				Db.getHotelSearch().setCreateTripResponse(response);
-
-				OmnitureTracking.trackHotelCouponApplied(getActivity(), mCouponCode);
-			}
-
-			// Regardless of what happened, let's refresh the page
-			refreshData();
-		}
-	};
 
 	private void handleWalletPromoErrorIfApplicable() {
 		// We're just detecting if the user is using the Google Wallet coupon code for this
@@ -1489,23 +1412,12 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	@Override
 	public void onApplyCoupon(String couponCode) {
 		mCouponCode = couponCode;
-		refreshData();
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(HotelBookingFragment.KEY_DOWNLOAD_CREATE_TRIP)) {
-			bd.cancelDownload(HotelBookingFragment.KEY_DOWNLOAD_CREATE_TRIP);
-		}
-		mHotelBookingFragment.startCreateTripDownload();
+		mHotelBookingFragment.applyCoupon(mCouponCode);
 	}
 
 	@Override
 	public void onCancelApplyCoupon() {
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_APPLY_COUPON)) {
-			bd.cancelDownload(KEY_APPLY_COUPON);
-		}
-		if (bd.isDownloading(HotelBookingFragment.KEY_DOWNLOAD_CREATE_TRIP)) {
-			mHotelBookingFragment.cancelCreateTripDownload();
-		}
+		mHotelBookingFragment.cancelCoupon();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1532,26 +1444,37 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	}
 
 	@Override
-	public void onCreateTripSuccess() {
-		if (Db.getHotelSearch().isCouponApplied()) {
-			Db.getHotelSearch().setCouponApplied(false);
-			OmnitureTracking.trackHotelCouponRemoved(getActivity());
-			refreshData();
+	public void onFinishHandleWalletError() {
+		handleWalletPromoErrorIfApplicable();
+	}
+
+	@Override
+	public void onPostApply(Rate rate) {
+		dismissDialogs();
+		refreshData();
+	}
+
+	@Override
+	public void onPostRemove(Rate rate) {
+		dismissDialogs();
+		refreshData();
+	}
+
+	@Override
+	public void onCouponCancel() {
+		dismissDialogs();
+	}
+
+	private void dismissDialogs() {
+		if (mCouponDialogFragment != null && mCouponDialogFragment.isAdded()) {
+			mCouponDialogFragment.dismiss();
+		}
+		if (mWalletPromoThrobberDialog != null && mWalletPromoThrobberDialog.isAdded()) {
+			mWalletPromoThrobberDialog.dismiss();
+		}
+		if (mCouponRemoveThrobberDialog != null && mCouponRemoveThrobberDialog.isAdded()) {
 			mCouponRemoveThrobberDialog.dismiss();
 		}
-		else {
-			applyCoupon();
-		}
-	}
-
-	@Override
-	public void retryCreateTrip() {
-		retryCoupon();
-	}
-
-	@Override
-	public void cancelCreateTripRetry() {
-		cancelRetryCouponDialog();
 	}
 
 }

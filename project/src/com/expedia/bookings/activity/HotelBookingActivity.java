@@ -16,6 +16,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
@@ -28,8 +29,8 @@ import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.FlightUnavailableDialogFragment;
 import com.expedia.bookings.fragment.HotelBookingFragment;
+import com.expedia.bookings.fragment.HotelBookingFragment.CreateTripDownloadStatusListener;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment.PriceChangeDialogFragmentListener;
-import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
@@ -44,7 +45,7 @@ import com.mobiata.android.SocialUtils;
 
 public class HotelBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener,
 		PriceChangeDialogFragmentListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener,
-		BookingFragmentListener, RetryErrorDialogFragmentListener {
+		BookingFragmentListener, CreateTripDownloadStatusListener {
 
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
 
@@ -112,6 +113,8 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 			ft.commit();
 		}
 
+		mBookingFragment.addCreateTripDownloadStatusListener(this);
+
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
@@ -157,7 +160,6 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		if (shouldBail()) {
 			return;
 		}
-
 
 		OmnitureTracking.onPause();
 	}
@@ -534,15 +536,25 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	}
 
 	/////////////////////////////////////////////////
-	// Checkout V2 - "create" call retry on error dialog handler..
+	// Checkout V2 - "create" call listener
 
 	@Override
-	public void onRetryError() {
+	public void onCreateTripSuccess() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onCreateTripError(CreateTripResponse response) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onCreateTripRetry() {
 		mBookingFragment.doBooking();
 	}
 
 	@Override
-	public void onCancelError() {
+	public void onCreateTripRetryCancel() {
 		dismissProgressDialog();
 	}
 }

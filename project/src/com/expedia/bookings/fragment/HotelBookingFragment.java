@@ -18,11 +18,14 @@ import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.wallet.FullWalletRequest;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
+import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
@@ -39,15 +42,21 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	public static final String KEY_DOWNLOAD_BOOKING = "com.expedia.bookings.hotel.checkout";
 	public static final String KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE = "KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE";
 	public static final String KEY_DOWNLOAD_CREATE_TRIP = "KEY_DOWNLOAD_CREATE_TRIP";
+	public static final String KEY_DOWNLOAD_APPLY_COUPON = "KEY_DOWNLOAD_APPLY_COUPON";
 
 	private static final String RETRY_CREATE_TRIP_DIALOG = "RETRY_CREATE_TRIP_DIALOG";
 	private static final String HOTEL_OFFER_ERROR_DIALOG = "HOTEL_OFFER_ERROR_DIALOG";
 
 	private HotelProductSuccessListener mHotelProductSuccessListener;
 
-	private CreateTripSuccessListener mCreateTripSuccessListener;
+	private CreateTripDownloadStatusListener mCreateTripDownloadStatusListener;
 
-	private CreateTripRetryListener mCreateTripRetryListener;
+	private CouponDownloadStatusListener mCouponDownloadStatusListener;
+	private String mCouponCode;
+	private boolean mApplyCouponInitiated;
+	private boolean mRemoveCouponInitiated;
+
+	private boolean mCheckoutInitiated;
 
 	// BookingFragment
 
@@ -112,6 +121,9 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 		if (bd.isDownloading(KEY_DOWNLOAD_CREATE_TRIP)) {
 			bd.registerDownloadCallback(KEY_DOWNLOAD_CREATE_TRIP, mCreateTripCallback);
 		}
+		if (bd.isDownloading(KEY_DOWNLOAD_APPLY_COUPON)) {
+			bd.registerDownloadCallback(KEY_DOWNLOAD_APPLY_COUPON, mCouponCallback);
+		}
 	}
 
 	@Override
@@ -121,10 +133,12 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 		if (getActivity().isFinishing()) {
 			bd.cancelDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
 			bd.cancelDownload(KEY_DOWNLOAD_CREATE_TRIP);
+			bd.cancelDownload(KEY_DOWNLOAD_APPLY_COUPON);
 		}
 		else {
 			bd.unregisterDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
 			bd.unregisterDownloadCallback(KEY_DOWNLOAD_CREATE_TRIP);
+			bd.unregisterDownloadCallback(KEY_DOWNLOAD_APPLY_COUPON);
 		}
 	}
 
@@ -259,19 +273,19 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	/////////////////////////////////////////////////////
 	///// Create Trip service related
 
-	public void startCreateTripDownload() {
+	public void startCreateTripForCheckout() {
+		mCheckoutInitiated = true;
+		startCreateTripDownload();
+	}
+
+	private void startCreateTripDownload() {
 		// Let's cancel download if already running.
 		cancelCreateTripDownload();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.startDownload(KEY_DOWNLOAD_CREATE_TRIP, mCreateTripDownload, mCreateTripCallback);
 	}
 
-	public void registerForCreateTripDownload() {
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		bd.registerDownloadCallback(KEY_DOWNLOAD_CREATE_TRIP, mCreateTripCallback);
-	}
-
-	public void cancelCreateTripDownload() {
+	private void cancelCreateTripDownload() {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_DOWNLOAD_CREATE_TRIP)) {
 			bd.cancelDownload(KEY_DOWNLOAD_CREATE_TRIP);
@@ -298,22 +312,32 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 				handleCreateTripError(response);
 			}
 			else {
-				onCreateTripSuccess(response);
+				onCreateTripCallSuccess(response);
 			}
 
 		}
 
 	};
 
-	/**
-	 * This method takes care of all the updating upon createTrip download success
-	 * which is common for most cases.
-	 * If we want to add more UI functionality, then implement the CreateTripSuccessListener.
-	 */
-	private void onCreateTripSuccess(CreateTripResponse response) {
+	private void onCreateTripCallSuccess(CreateTripResponse response) {
 		Db.getHotelSearch().setCreateTripResponse(response);
-		if (mCreateTripSuccessListener != null) {
-			mCreateTripSuccessListener.onCreateTripSuccess();
+		if (mCreateTripDownloadStatusListener != null) {
+			mCreateTripDownloadStatusListener.onCreateTripSuccess();
+		}
+		if (mApplyCouponInitiated) {
+			mApplyCouponInitiated = false;
+			startApplyCouponDownloader(mCouponCode);
+		}
+		else if (mRemoveCouponInitiated) {
+			mCouponCode = null;
+			mRemoveCouponInitiated = false;
+			Db.getHotelSearch().setCouponApplied(false);
+			OmnitureTracking.trackHotelCouponRemoved(getActivity());
+			mCouponDownloadStatusListener.onPostRemove(response.getNewRate());
+		}
+		else if (mCheckoutInitiated) {
+			mCheckoutInitiated = false;
+			doBooking();
 		}
 	}
 
@@ -341,44 +365,172 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 		df.show(getChildFragmentManager(), RETRY_CREATE_TRIP_DIALOG);
 	}
 
-	///////////// Retry dialog handlers
+	/**
+	 * CreateTrip download status listener.
+	 * Implement this listener if you want to add more functionality.
+	 */
+	public interface CreateTripDownloadStatusListener {
+		public void onCreateTripSuccess();
+
+		public void onCreateTripError(CreateTripResponse response);
+
+		public void onCreateTripRetry();
+
+		public void onCreateTripRetryCancel();
+	}
+
+	public void addCreateTripDownloadStatusListener(CreateTripDownloadStatusListener listener) {
+		mCreateTripDownloadStatusListener = listener;
+	}
+
+	///////////// Retry CreateTrip call dialog handlers
 	@Override
 	public void onRetryError() {
-		if (mCreateTripRetryListener != null) {
-			mCreateTripRetryListener.retryCreateTrip();
+		//Restart calls again depending on the status
+		if (mApplyCouponInitiated) {
+			applyCoupon(mCouponCode);
+		}
+		else if (mRemoveCouponInitiated) {
+			clearCoupon();
+		}
+		else if (mCheckoutInitiated) {
+			startCreateTripForCheckout();
 		}
 	}
 
 	@Override
 	public void onCancelError() {
-		if (mCreateTripRetryListener != null) {
-			mCreateTripRetryListener.cancelCreateTripRetry();
+		//On cancelling the retry dialog do appropriately
+		if (mApplyCouponInitiated || mRemoveCouponInitiated) {
+			cancelCoupon();
+			mCouponDownloadStatusListener.onCouponCancel();
+		}
+		else {
+			mCreateTripDownloadStatusListener.onCreateTripRetryCancel();
 		}
 	}
 
-	/**
-	 * Post createTrip download success listener.
-	 * Implement this listener if you want to add more functionality.
-	 */
-	public interface CreateTripSuccessListener {
-		public void onCreateTripSuccess();
-	}
-
-	public void addCreateTripSuccessListener(CreateTripSuccessListener listener) {
-		mCreateTripSuccessListener = listener;
-	}
+	/////////////////////////////////////////////////////
+	///// Coupon service related
 
 	/**
-	 * Create Trip Error dialog related listener.
-	 * Implement this listener if you want to get a handler over retry dialog "Retry" and "Cancel" button clicks.
+	 * This method initiates the coupon application process during checkout.
+	 * This fragment handles all the callbacks, errors and retries. 
+	 * Add {@link CouponDownloadStatusListener} to listen to coupon download status updates.
+	 * As of now coupons are applied for Hotels only.
+	 * @param couponCode
 	 */
-	public interface CreateTripRetryListener {
-		public void retryCreateTrip();
-
-		public void cancelCreateTripRetry();
+	public void applyCoupon(String couponCode) {
+		mApplyCouponInitiated = true;
+		mRemoveCouponInitiated = false;
+		mCouponCode = couponCode;
+		startCreateTripDownload();
 	}
 
-	public void addCreateTripRetryListener(CreateTripRetryListener listener) {
-		mCreateTripRetryListener = listener;
+	/**
+	 * This method initiates the coupon removal process during checkout.
+	 * Add {@link CouponDownloadStatusListener} to listen to coupon download status updates.
+	 */
+	public void clearCoupon() {
+		mApplyCouponInitiated = false;
+		mRemoveCouponInitiated = true;
+		cancelApplyCouponDownloader();
+		startCreateTripDownload();
+	}
+
+	/**
+	 * This method cancels an ongoing coupon application/removal calls.
+	 */
+	public void cancelCoupon() {
+		mApplyCouponInitiated = false;
+		mRemoveCouponInitiated = false;
+		cancelCreateTripDownload();
+		cancelApplyCouponDownloader();
+	}
+
+	private void startApplyCouponDownloader(String couponCode) {
+		mCouponCode = couponCode;
+		// Let's cancel download if already running.
+		cancelHotelProductDownload();
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		bd.startDownload(KEY_DOWNLOAD_APPLY_COUPON, mCouponDownload, mCouponCallback);
+	}
+
+	private void cancelApplyCouponDownloader() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(KEY_DOWNLOAD_APPLY_COUPON)) {
+			bd.cancelDownload(KEY_DOWNLOAD_APPLY_COUPON);
+		}
+	}
+
+	private final Download<CreateTripResponse> mCouponDownload = new Download<CreateTripResponse>() {
+		@Override
+		public CreateTripResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(getActivity());
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_APPLY_COUPON, services);
+			return services.applyCoupon(mCouponCode, Db.getHotelSearch().getSearchParams(), Db
+					.getHotelSearch().getSelectedProperty());
+		}
+	};
+
+	private final OnDownloadComplete<CreateTripResponse> mCouponCallback = new OnDownloadComplete<CreateTripResponse>() {
+		@Override
+		public void onDownload(CreateTripResponse response) {
+			mApplyCouponInitiated = false;
+			// Don't execute if we were killed before finishing
+			if (!isAdded()) {
+				return;
+			}
+
+			if (mCouponDownloadStatusListener != null) {
+				if (response == null) {
+					Log.w("Failed to apply coupon code (null response): " + mCouponCode);
+
+					DialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_error_no_code));
+					df.show(getChildFragmentManager(), "couponError");
+
+					mCouponDownloadStatusListener.onFinishHandleWalletError();
+				}
+				else if (response.hasErrors()) {
+					Log.w("Failed to apply coupon code (server errors): " + mCouponCode);
+
+					DialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_error_no_code));
+					df.show(getChildFragmentManager(), "couponError");
+
+					mCouponDownloadStatusListener.onFinishHandleWalletError();
+				}
+				else {
+					Log.i("Applied coupon code: " + mCouponCode);
+
+					Db.getHotelSearch().setCouponApplied(true);
+					Db.getHotelSearch().setCreateTripResponse(response);
+
+					OmnitureTracking.trackHotelCouponApplied(getActivity(), mCouponCode);
+				}
+
+				// Regardless of what happened, let's refresh the data
+				mCouponDownloadStatusListener.onPostApply(response.getNewRate());
+			}
+			else {
+				Log.w("Coupon download completed. Please add a CouponDownloadListener to get handle for all the onDownload finish methods.");
+			}
+		}
+	};
+
+	/**
+	 * Coupon download response status listener.
+	 */
+	public interface CouponDownloadStatusListener {
+		public void onFinishHandleWalletError();
+
+		public void onPostApply(Rate rate);
+
+		public void onPostRemove(Rate rate);
+
+		public void onCouponCancel();
+	}
+
+	public void addCouponDownloadStatusListener(CouponDownloadStatusListener listener) {
+		mCouponDownloadStatusListener = listener;
 	}
 }
