@@ -2,16 +2,12 @@ package com.expedia.bookings.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
-import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.StoredCreditCard;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.wallet.FullWallet;
 import com.google.android.gms.wallet.MaskedWallet;
@@ -22,12 +18,9 @@ import com.mobiata.android.util.Ui;
 
 public abstract class BookingFragment<T extends Response> extends FullWalletFragment {
 
-	private static final String RETRY_CREATETRIP_DIALOG = "RETRY_CREATETRIP_DIALOG";
-
 	private BookingFragmentListener mListener;
 
 	private String mDownloadKey;
-	private static final String KEY_CREATE_TRIP = "KEY_CREATE_TRIP";
 
 	// Sometimes we want to display dialogs but can't yet; in that case, defer until onResume()
 	private boolean mCanModifyFragmentStack;
@@ -157,8 +150,6 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		 *  In that case just start the checkout else call create.
 		 */
 		if (Db.getHotelSearch().getCreateTripResponse() == null) {
-			//BackgroundDownloader bd = BackgroundDownloader.getInstance();
-			//bd.startDownload(KEY_CREATE_TRIP, mCreateTripDownload, mCreateTripCallback);
 			mHotelBookingFragment.startCreateTripForCheckout();
 		}
 		else {
@@ -207,58 +198,6 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		WalletUtils.bindWalletToBillingInfo(wallet, Db.getBillingInfo());
 
 		startBooking();
-	}
-
-	/*private final Download<CreateTripResponse> mCreateTripDownload = new Download<CreateTripResponse>() {
-		@Override
-		public CreateTripResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(getActivity());
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_CREATE_TRIP, services);
-			return services
-					.createTrip(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty());
-		}
-	};
-
-	private final OnDownloadComplete<CreateTripResponse> mCreateTripCallback = new OnDownloadComplete<CreateTripResponse>() {
-		@Override
-		public void onDownload(CreateTripResponse response) {
-			if (response == null) {
-				showRetryErrorDialog();
-			}
-			else if (response.hasErrors()) {
-				handleCreateTripError(response);
-			}
-			else {
-				Db.getHotelSearch().setCreateTripResponse(response);
-				startBookingDownload();
-			}
-
-		}
-	};*/
-
-	// Error handling
-
-	private void handleCreateTripError(CreateTripResponse response) {
-		ServerError firstError = response.getErrors().get(0);
-
-		switch (firstError.getErrorCode()) {
-		case TRIP_SERVICE_UNKNOWN_ERROR:
-			// Let's show a retry dialog here.
-		case INVALID_INPUT:
-			/*
-			 * Since we are only sending [productKey, roomInfoFields] params to the service, don't think users have control over the input.
-			 * Hence for now let's show a retry dialog here too (after a chat with API team)
-			 */
-		default: {
-			showRetryErrorDialog();
-			break;
-		}
-		}
-	}
-
-	private void showRetryErrorDialog() {
-		DialogFragment df = new RetryErrorDialogFragment();
-		df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), RETRY_CREATETRIP_DIALOG);
 	}
 
 	@Override
