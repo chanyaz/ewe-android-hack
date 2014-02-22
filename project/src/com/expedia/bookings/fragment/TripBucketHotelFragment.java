@@ -328,7 +328,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment implements R
 		ServerError firstError = response.getErrors().get(0);
 
 		switch (firstError.getErrorCode()) {
-		case TRIP_SERVICE_UNKNOWN_ERROR:
+		case TRIP_SERVICE_ERROR:
 			// Let's show a retry dialog here.
 		case INVALID_INPUT:
 			/*
