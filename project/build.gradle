@@ -58,12 +58,15 @@ android {
             versionName "1.0"
         }
 
-        Automation {
+        ExpediaAutomation {
             packageName "com.expedia.bookings.auto"
         }
 
         TravelocityAutomation {
+            buildConfigField "boolean", "IS_TRAVELOCITY", "true"
             packageName "com.travelocity.android.auto"
+            versionCode 1
+            versionName "1.0"
         }
     }
 
