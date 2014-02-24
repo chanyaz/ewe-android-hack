@@ -106,6 +106,9 @@
     <string name="actionbar_tablet_results_hotels_title_TEMPLATE">%1$s Hotels</string>
     <!-- Label for VIP badge -->
     <string name="VIP">VIP</string>
+    <!-- Loading Hotels and Flights... -->
+    <string name="loading_hotels_and_flights">Loading Hotels and Flights&#8230;</string>
+
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->

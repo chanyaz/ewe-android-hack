@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import java.util.Locale;
+
 import android.annotation.TargetApi;
 import android.graphics.Color;
 import android.os.Build;
@@ -31,13 +33,17 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 
 	private StateManager<ResultsLoadingState> mStateManager = new StateManager<ResultsLoadingState>(ResultsLoadingState.ALL, this);
 	private View mRootC;
-	private LinearLayout mTextC;
+	private LinearLayout mTextC;//Container for all loading text (the split up text views, and the unified one)
+	private ViewGroup mUsTextC;//Container of the split up TVs for English where we're doing text animations
 
+	//These are for doing text animations (English language only)
 	private TextView mLoadingTv;
 	private TextView mHotelsTv;
 	private TextView mFlightsTv;
 	private TextView mAndTv;
 	private TextView mEllipsisTv;
+	//This is for non-English locales who will have to do without nifty text animations
+	private TextView mAllInOneLoadingTv;
 
 	private FrameLayoutTouchController mBgLeft;
 	private FrameLayoutTouchController mBgRight;
@@ -62,12 +68,15 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 		mRootC = inflater.inflate(R.layout.fragment_results_loading, null);
 
 		mTextC = Ui.findView(mRootC, R.id.loading_text_container);
+		mUsTextC = Ui.findView(mRootC, R.id.split_text_container);
 
 		mLoadingTv = Ui.findView(mTextC, R.id.loading_tv);
 		mHotelsTv = Ui.findView(mTextC, R.id.hotels_tv);
 		mFlightsTv = Ui.findView(mTextC, R.id.flights_tv);
 		mAndTv = Ui.findView(mTextC, R.id.and_tv);
 		mEllipsisTv = Ui.findView(mTextC, R.id.ellipsis_tv);
+
+		mAllInOneLoadingTv = Ui.findView(mTextC, R.id.all_in_one_loading_tv);
 
 		mBgLeft = Ui.findView(mRootC, R.id.bg_left);
 		mBgRight = Ui.findView(mRootC, R.id.bg_right);
@@ -335,20 +344,44 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 	}
 
 	protected void setLoadingTextForState(ResultsLoadingState state) {
-		if (state == ResultsLoadingState.ALL) {
-			mHotelsTv.setVisibility(View.VISIBLE);
-			mFlightsTv.setVisibility(View.VISIBLE);
-			mAndTv.setVisibility(View.VISIBLE);
+		if (getResources().getConfiguration().locale.getLanguage().equals(Locale.US.getLanguage())) {
+			//For English we use all of these separate text views to animate text changes.
+			mAllInOneLoadingTv.setVisibility(View.GONE);
+			mUsTextC.setVisibility(View.VISIBLE);
+			if (state == ResultsLoadingState.ALL) {
+				mHotelsTv.setVisibility(View.VISIBLE);
+				mFlightsTv.setVisibility(View.VISIBLE);
+				mAndTv.setVisibility(View.VISIBLE);
+			}
+			else {
+				mAndTv.setVisibility(View.GONE);
+				if (state == ResultsLoadingState.FLIGHTS) {
+					mHotelsTv.setVisibility(View.GONE);
+					mFlightsTv.setVisibility(View.VISIBLE);
+				}
+				else if (state == ResultsLoadingState.HOTELS) {
+					mHotelsTv.setVisibility(View.VISIBLE);
+					mFlightsTv.setVisibility(View.GONE);
+				}
+			}
 		}
 		else {
-			mAndTv.setVisibility(View.GONE);
-			if (state == ResultsLoadingState.FLIGHTS) {
-				mHotelsTv.setVisibility(View.GONE);
-				mFlightsTv.setVisibility(View.VISIBLE);
+			//For other locales/languages we don't use fancy text animations
+			mUsTextC.setVisibility(View.GONE);
+			mAllInOneLoadingTv.setVisibility(View.VISIBLE);
+			switch (state) {
+			case ALL: {
+				mAllInOneLoadingTv.setText(R.string.loading_hotels_and_flights);
+				break;
 			}
-			else if (state == ResultsLoadingState.HOTELS) {
-				mHotelsTv.setVisibility(View.VISIBLE);
-				mFlightsTv.setVisibility(View.GONE);
+			case FLIGHTS: {
+				mAllInOneLoadingTv.setText(R.string.loading_flights);
+				break;
+			}
+			case HOTELS: {
+				mAllInOneLoadingTv.setText(R.string.loading_hotels);
+				break;
+			}
 			}
 		}
 	}
