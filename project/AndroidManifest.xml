@@ -4,7 +4,7 @@
     android:versionName="3.5.1" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="9"
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -78,6 +78,11 @@
         <meta-data
             android:name="NOMACADDRESS"
             android:value="ON" />
+
+        <!-- Google Play Services -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <!-- Make sure activity uses full path, i.e. com.expedia.bookings.activity.* -->
 
