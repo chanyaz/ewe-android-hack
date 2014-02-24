@@ -22,7 +22,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -85,12 +84,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		if (mMap == null) {
 			// To initialize CameraUpdateFactory and BitmapDescriptorFactory
 			// since the GoogleMap is not ready
-			try {
-				MapsInitializer.initialize(activity);
-			}
-			catch (GooglePlayServicesNotAvailableException e) {
-				Log.e("Google Play Services not availiable", e);
-			}
+			MapsInitializer.initialize(activity);
 		}
 
 		mListener = Ui.findFragmentListener(this, HotelMapFragmentListener.class);
