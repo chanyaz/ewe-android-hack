@@ -1,6 +1,9 @@
 package com.expedia.bookings.test.utils;
 
+import android.content.Context;
 import android.util.Pair;
+
+import com.expedia.bookings.debug.test.R;
 
 /* This class serves as a data structure to hold all Hotel Booking info
  * and to provide methods to easily change that data as desired.
@@ -45,9 +48,7 @@ public class HotelsUserData {
 	private String mProxyPort;
 	private boolean mLogInForCheckout;
 
-	//Default Constructor sets info
-	// to the qa-ehcc@mobiata.com account info
-	public HotelsUserData() {
+	public HotelsUserData(Context context) {
 		setFirstName("JexperCC");
 		setLastName("MobiataTestaverde");
 
@@ -57,8 +58,8 @@ public class HotelsUserData {
 		setAddressStateCode("MI");
 		setAddressPostalCode("48104");
 
-		setLoginEmail("qa-ehcc@mobiata.com");
-		setLoginPassword("3xp3d1acc");
+		setLoginEmail(context.getString(R.string.user_name));
+		setLoginPassword(context.getString(R.string.user_password));
 
 		setCreditCardNumber("4111111111111111");
 		setCardExpMonth("12");

@@ -61,6 +61,10 @@ android {
         Automation {
             packageName "com.expedia.bookings.auto"
         }
+
+        TravelocityAutomation {
+            packageName "com.travelocity.android.auto"
+        }
     }
 
     // Add the HockeyMeta extension to all build types
@@ -114,6 +118,12 @@ android {
             manifest.srcFile 'tests/AndroidManifest.xml'
             java.srcDirs = ['tests/src']
             res.srcDirs = ['tests/res']
+        }
+
+        instrumentTestTravelocityAutomation {
+            manifest.srcFile 'tests/AndroidManifest-travelocity.xml'
+            java.srcDirs = ['tests/src']
+            res.srcDirs = ['tests/res_travelocity']
         }
 
         Expedia {

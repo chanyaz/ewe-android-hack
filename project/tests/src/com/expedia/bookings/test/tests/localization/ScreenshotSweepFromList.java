@@ -39,7 +39,7 @@ public class ScreenshotSweepFromList extends
 		mPreferences.setRotationPermission(false);
 		mPreferences.setScreenshotPermission(true);
 		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
-		mUser = new HotelsUserData();
+		mUser = new HotelsUserData(getActivity());
 		mUser.setHotelCityToRandomUSCity();
 		mUser.setBookingServer("Production");
 	}

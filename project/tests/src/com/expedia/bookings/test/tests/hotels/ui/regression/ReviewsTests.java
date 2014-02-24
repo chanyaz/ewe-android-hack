@@ -31,7 +31,7 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 		mPreferences.setRotationPermission(false);
 		mPreferences.setScreenshotPermission(false);
 		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
-		mUser = new HotelsUserData();
+		mUser = new HotelsUserData(getActivity());
 		mUser.setHotelCityToRandomUSCity();
 	}
 
