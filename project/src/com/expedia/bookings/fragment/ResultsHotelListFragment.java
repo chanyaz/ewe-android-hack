@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,6 +80,12 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	}
 
 	@Override
+	public void onDetach() {
+		super.onDetach();
+		mAdapter.unregisterDataSetObserver(mDataSetObserver);
+	}
+
+	@Override
 	public void onFilterChanged() {
 		updateAdapter();
 		setStickyHeaderText(initializeStickyHeaderString());
@@ -101,6 +108,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	protected ListAdapter initializeAdapter() {
 		TabletHotelAdapter adapter = new TabletHotelAdapter(getActivity());
 		mAdapter = adapter;
+		mAdapter.registerDataSetObserver(mDataSetObserver);
 		adapter.highlightSelectedPosition(true);
 
 		updateAdapter();
@@ -167,6 +175,13 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 			mSortAndFilterListeners.add(sortAndFilterListener);
 		}
 	}
+
+	private final DataSetObserver mDataSetObserver = new DataSetObserver() {
+		@Override
+		public void onChanged() {
+			setStickyHeaderText(initializeStickyHeaderString());
+		}
+	};
 
 	@Override
 	protected ResultsHotelsListState translateState(ResultsListState state) {
