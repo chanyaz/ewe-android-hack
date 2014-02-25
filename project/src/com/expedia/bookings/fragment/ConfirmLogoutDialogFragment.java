@@ -35,9 +35,7 @@ public class ConfirmLogoutDialogFragment extends DialogFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		if (activity instanceof DoLogoutListener) {
-			mListener = (DoLogoutListener) activity;
-		}
+		mListener = Ui.findFragmentListener(this, DoLogoutListener.class, false);
 	}
 
 	@Override

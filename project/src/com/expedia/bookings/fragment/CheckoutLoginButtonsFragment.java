@@ -11,6 +11,7 @@ import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SignInResponse;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.server.ExpediaServices;
@@ -25,8 +26,7 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
-public class CheckoutLoginButtonsFragment extends LobableFragment implements AccountButtonClickListener,
-	ConfirmLogoutDialogFragment.DoLogoutListener {
+public class CheckoutLoginButtonsFragment extends LobableFragment implements AccountButtonClickListener, ConfirmLogoutDialogFragment.DoLogoutListener {
 
 	private static final String INSTANCE_REFRESHED_USER_TIME = "INSTANCE_REFRESHED_USER";
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
@@ -169,7 +169,7 @@ public class CheckoutLoginButtonsFragment extends LobableFragment implements Acc
 	@Override
 	public void accountLogoutClicked() {
 		ConfirmLogoutDialogFragment df = new ConfirmLogoutDialogFragment();
-		df.show(this.getFragmentManager(), ConfirmLogoutDialogFragment.TAG);
+		df.show(getChildFragmentManager(), ConfirmLogoutDialogFragment.TAG);
 	}
 
 	@Override
@@ -179,7 +179,13 @@ public class CheckoutLoginButtonsFragment extends LobableFragment implements Acc
 		mRefreshedUserTime = 0L;
 
 		// Sign out user
+		int travCount = Db.getTravelers().size();
 		User.signOut(getActivity());
+
+		//Signing out the user clears the travelers. Lets re-add empty ones for now...
+		for (int i = 0; i < travCount; i++) {
+			Db.getTravelers().add(new Traveler());
+		}
 
 		// Update UI
 		mAccountButton.bind(false, false, null, true);
