@@ -409,9 +409,6 @@ public class WalletUtils {
 
 	public static void logError(int errorCode) {
 		switch (errorCode) {
-		case WalletConstants.ERROR_CODE_BUYER_CANCELLED:
-			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_BUYER_CANCELLED");
-			break;
 		case WalletConstants.ERROR_CODE_SPENDING_LIMIT_EXCEEDED:
 			Log.e(WalletUtils.TAG, "Error: ERROR_CODE_SPENDING_LIMIT_EXCEEDED");
 			break;

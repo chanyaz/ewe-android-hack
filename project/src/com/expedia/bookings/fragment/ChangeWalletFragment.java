@@ -7,6 +7,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.wallet.MaskedWallet;
+import com.google.android.gms.wallet.Wallet;
 import com.google.android.gms.wallet.WalletConstants;
 
 /**
@@ -31,8 +32,7 @@ public abstract class ChangeWalletFragment extends WalletFragment {
 		}
 		else {
 			MaskedWallet maskedWallet = Db.getMaskedWallet();
-			mWalletClient.changeMaskedWallet(maskedWallet.getGoogleTransactionId(),
-					maskedWallet.getMerchantTransactionId(), this);
+			Wallet.changeMaskedWallet(mWalletClient, maskedWallet.getGoogleTransactionId(), maskedWallet.getMerchantTransactionId(), REQUEST_CODE_RESOLVE_CHANGE_MASKED_WALLET);
 		}
 	}
 
@@ -63,6 +63,7 @@ public abstract class ChangeWalletFragment extends WalletFragment {
 				break;
 			case Activity.RESULT_CANCELED:
 				// Who cares if they canceled?  Just stay as before
+				// No action needed, the user did not change their payment method
 				break;
 			default:
 				handleError(errorCode);
@@ -77,20 +78,14 @@ public abstract class ChangeWalletFragment extends WalletFragment {
 	protected void handleError(int errorCode) {
 		super.handleError(errorCode);
 
-		switch (errorCode) {
-		case WalletConstants.ERROR_CODE_BUYER_CANCELLED:
-			// No action needed, the user did not change their payment method
-			break;
-		default:
-			// If we get an error trying to change the wallet, kick the user back
-			// to the previous page (so they can click the "buy with google wallet"
-			// button again if they want to use it) and unbind Google Wallet.
-			displayGoogleWalletUnavailableToast();
+		// If we get an error trying to change the wallet, kick the user back
+		// to the previous page (so they can click the "buy with google wallet"
+		// button again if they want to use it) and unbind Google Wallet.
+		displayGoogleWalletUnavailableToast();
 
-			WalletUtils.unbindAllWalletDataFromBillingInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+		WalletUtils.unbindAllWalletDataFromBillingInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
 
-			onCriticalWalletError();
-		}
+		onCriticalWalletError();
 	}
 
 	// OnMaskedWalletLoadedListener

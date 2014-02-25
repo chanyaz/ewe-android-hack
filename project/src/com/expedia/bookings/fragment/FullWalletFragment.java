@@ -13,6 +13,7 @@ import com.google.android.gms.wallet.FullWallet;
 import com.google.android.gms.wallet.FullWalletRequest;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.google.android.gms.wallet.NotifyTransactionStatusRequest;
+import com.google.android.gms.wallet.Wallet;
 import com.google.android.gms.wallet.WalletConstants;
 import com.mobiata.android.Log;
 
@@ -64,7 +65,7 @@ public abstract class FullWalletFragment extends WalletFragment {
 				notifyBuilder.setStatus(status);
 
 				if (mWalletClient.isConnected()) {
-					mWalletClient.notifyTransactionStatus(notifyBuilder.build());
+					Wallet.notifyTransactionStatus(mWalletClient, notifyBuilder.build());
 				}
 				else {
 					Log.w("Somehow Google Wallet disconnected before we could notify them of transaction status!");
@@ -87,7 +88,7 @@ public abstract class FullWalletFragment extends WalletFragment {
 		}
 
 		// Load the full wallet
-		mWalletClient.loadFullWallet(fwRequest, this);
+		Wallet.loadFullWallet(mWalletClient, fwRequest, REQUEST_CODE_RESOLVE_LOAD_FULL_WALLET);
 	}
 
 	private void onFullWalletReceived(FullWallet wallet) {
@@ -169,8 +170,6 @@ public abstract class FullWalletFragment extends WalletFragment {
 			requestFullWallet();
 		}
 	}
-
-	// OnFullWalletLoadedListener
 
 	@Override
 	public void onFullWalletLoaded(ConnectionResult status, FullWallet wallet) {

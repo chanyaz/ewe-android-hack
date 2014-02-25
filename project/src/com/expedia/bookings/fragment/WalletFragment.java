@@ -20,15 +20,13 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
-import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.wallet.FullWallet;
 import com.google.android.gms.wallet.MaskedWallet;
-import com.google.android.gms.wallet.WalletClient;
-import com.google.android.gms.wallet.WalletClient.OnFullWalletLoadedListener;
-import com.google.android.gms.wallet.WalletClient.OnMaskedWalletLoadedListener;
-import com.google.android.gms.wallet.WalletClient.OnPreAuthorizationDeterminedListener;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.wallet.Wallet;
 import com.google.android.gms.wallet.WalletConstants;
 import com.mobiata.android.Log;
 
@@ -40,40 +38,45 @@ import com.mobiata.android.Log;
  * TODO: Improve progress dialog so it's a fragment?  Or possibly leave it up
  * to a listener to determine how loading should be shown?
  */
-public class WalletFragment extends Fragment implements ConnectionCallbacks, OnConnectionFailedListener,
-		OnPreAuthorizationDeterminedListener, OnMaskedWalletLoadedListener, OnFullWalletLoadedListener {
+public class WalletFragment extends Fragment implements ConnectionCallbacks, OnConnectionFailedListener {
 
 	/**
 	 * Request code used when attempting to resolve issues with connecting to Google Play Services.
-	 * Only use this request code when calling {@link ConnectionResult#startResolutionForResult(
-	 * android.app.Activity, int)}.
+	 * Only use this request code when calling {@link Wallet} methods.
 	 */
 	public static final int REQUEST_CODE_RESOLVE_ERR = 1000;
 
 	/**
 	 * Request code used when attempting to resolve issues with loading a masked wallet
-	 * Only use this request code when calling {@link ConnectionResult#startResolutionForResult(
-	 * android.app.Activity, int)}.
+	 * Only use this request code when calling {@link Wallet.loadMaskedWallet(
+	 * GoogleApiClient googleApiClient, MaskedWalletRequest request, int requestCode)}.
 	 */
 	public static final int REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET = 1001;
 
 	/**
 	 * Request code used when attempting to resolve issues with loading a full wallet
-	 * Only use this request code when calling {@link ConnectionResult#startResolutionForResult(
-	 * android.app.Activity, int)}.
+	 * Only use this request code when calling {@link Wallet.loadFullWallet(
+	 * GoogleApiClient googleApiClient, FullWalletRequest request, int requestCode)}.
 	 */
 	public static final int REQUEST_CODE_RESOLVE_LOAD_FULL_WALLET = 1002;
 
 	/**
 	 * Request code used when attempting to resolve issues with changing a masked wallet
-	 * Only use this request code when calling {@link ConnectionResult#startResolutionForResult(
-	 * android.app.Activity, int)}.
+	 * Only use this request code when calling {@link Wallet.changeMaskedWallet(
+	 * GoogleApiClient googleApiClient, String googleTransactionId, String merchantTransactionId, int requestCode)}.
 	 */
 	public static final int REQUEST_CODE_RESOLVE_CHANGE_MASKED_WALLET = 1003;
 
+	/**
+	 * Request code used when attempting to for pre-authorization of the wallet
+	 * Only use this request code when calling {@link Wallet.checkForPreAuthorization(
+	 * GoogleApiClient googleApiClient, int requestCode)}.
+	 */
+	public static final int REQUEST_CODE_RESOLVE_CHECK_FOR_PRE_AUTHORIZATION = 1004;
+
 	private static final String INSTANCE_GOOGLE_WALLET_ENABLED = "INSTANCE_GOOGLE_WALLET_ENABLED";
 
-	protected WalletClient mWalletClient;
+	protected GoogleApiClient mWalletClient;
 
 	// Whether the user tried to do an action that requires a masked wallet (i.e.: loadMaskedWallet)
 	// before a masked wallet was acquired (i.e. still waiting for mWalletClient to connect)
@@ -126,7 +129,14 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 
 		// Set up a wallet client
 		Context context = getActivity();
-		mWalletClient = new WalletClient(context, WalletUtils.getWalletEnvironment(context), null, this, this);
+		Wallet.WalletOptions walletOptions = new Wallet.WalletOptions.Builder()
+			.setEnvironment(WalletUtils.getWalletEnvironment(context))
+			.build();
+		mWalletClient = new GoogleApiClient.Builder(context)
+			.addApi(Wallet.API, walletOptions)
+			.addConnectionCallbacks(this)
+			.addOnConnectionFailedListener(this)
+			.build();
 		mRetryHandler = new RetryHandler(this);
 	}
 
@@ -198,7 +208,8 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 		return requestCode == REQUEST_CODE_RESOLVE_ERR
 				|| requestCode == REQUEST_CODE_RESOLVE_CHANGE_MASKED_WALLET
 				|| requestCode == REQUEST_CODE_RESOLVE_LOAD_FULL_WALLET
-				|| requestCode == REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET;
+				|| requestCode == REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET
+				|| requestCode == REQUEST_CODE_RESOLVE_CHECK_FOR_PRE_AUTHORIZATION;
 	}
 
 	/**
@@ -263,8 +274,8 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	}
 
 	@Override
-	public void onDisconnected() {
-		Log.d(WalletUtils.TAG, "onDisconnected()");
+	public void onConnectionSuspended(int cause) {
+		Log.d(WalletUtils.TAG, "onConnectionSuspended(" + cause + ")");
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -288,17 +299,14 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// OnPreAuthorizationDeterminedListener
+	// Wallet event Logging
+	// These used to be listeners for the WalletClient, but GPS removed them
+	// to simplify the API
 
-	@Override
-	public void onPreAuthorizationDetermined(ConnectionResult status, boolean isUserPreAuthorized) {
-		Log.d(WalletUtils.TAG, "onPreAuthorizationDetermined(" + status + ", " + isUserPreAuthorized + ")");
+	public void onPreAuthorizationDetermined(boolean isUserPreAuthorized) {
+		Log.d(WalletUtils.TAG, "onPreAuthorizationDetermined(" + isUserPreAuthorized + ")");
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// OnMaskedWalletLoadedListener
-
-	@Override
 	public void onMaskedWalletLoaded(ConnectionResult status, MaskedWallet wallet) {
 		Log.d(WalletUtils.TAG, "onMaskedWalletLoaded(" + status + ", " + wallet + ")");
 
@@ -307,10 +315,6 @@ public class WalletFragment extends Fragment implements ConnectionCallbacks, OnC
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// OnFullWalletLoadedListener
-
-	@Override
 	public void onFullWalletLoaded(ConnectionResult status, FullWallet wallet) {
 		Log.d(WalletUtils.TAG, "onFullWalletLoaded(" + status + ", " + wallet + ")");
 

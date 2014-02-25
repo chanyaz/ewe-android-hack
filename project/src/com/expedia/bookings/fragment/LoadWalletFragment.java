@@ -13,6 +13,7 @@ import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.google.android.gms.wallet.MaskedWalletRequest;
+import com.google.android.gms.wallet.Wallet;
 import com.google.android.gms.wallet.WalletConstants;
 import com.mobiata.android.Log;
 
@@ -79,10 +80,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 			resolveUnsuccessfulConnectionResult();
 		}
 		else {
-			// Still waiting for the WalletClient to connect so wait for
-			// mWalletClient.loadMaskedWallet() to be called from onConnected()
-			mProgressDialog.show();
-			mHandleMaskedWalletWhenReady = true;
+			Wallet.loadMaskedWallet(mWalletClient, buildMaskedWalletRequest(), REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET);
 		}
 	}
 
@@ -183,6 +181,7 @@ public abstract class LoadWalletFragment extends WalletFragment {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		Log.d("HERE onActivityResult(" + requestCode + ", " + resultCode + ")");
 
 		switch (requestCode) {
 		case REQUEST_CODE_RESOLVE_ERR:
@@ -194,21 +193,23 @@ public abstract class LoadWalletFragment extends WalletFragment {
 		case REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET:
 			switch (resultCode) {
 			case Activity.RESULT_OK:
-				onMaskedWalletReceived((MaskedWallet) data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET),
-						false);
+				onMaskedWalletReceived((MaskedWallet) data.getParcelableExtra(WalletConstants.EXTRA_MASKED_WALLET), false);
 				break;
 			case Activity.RESULT_CANCELED:
-				if (mWalletClient != null && mWalletClient.isConnected()) {
-					Log.w("Masked wallet request: received RESULT_CANCELED");
-					// Need to load a new ConnectionResult (even if user canceled)
-					// in case they want to try it again
-					mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), this);
-				}
 				break;
 			default:
+				Log.d("HERE load masked wallet, error bitch");
 				int errorCode = data.getIntExtra(WalletConstants.EXTRA_ERROR_CODE, -1);
 				handleError(errorCode);
 				break;
+			}
+			break;
+		case REQUEST_CODE_RESOLVE_CHECK_FOR_PRE_AUTHORIZATION:
+			Log.d("HERE check for pre auth");
+			switch (resultCode) {
+			case Activity.RESULT_OK:
+				Log.d("HERE check for pre auth, result ok");
+				onPreAuthorizationDetermined(data.getBooleanExtra(WalletConstants.EXTRA_IS_USER_PREAUTHORIZED, false));
 			}
 			break;
 		}
@@ -221,11 +222,6 @@ public abstract class LoadWalletFragment extends WalletFragment {
 		super.handleError(errorCode);
 
 		switch (errorCode) {
-		case WalletConstants.ERROR_CODE_BUYER_CANCELLED:
-			// Fetch a new ConnectionResult by calling loadMaskedWallet() again.
-			// This is necessary because ConnectionResults cannot be reused
-			mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), this);
-			break;
 		case WalletConstants.ERROR_CODE_SPENDING_LIMIT_EXCEEDED:
 			Log.d("disableGoogleWallet: LoadWalletFragment.handleError");
 			disableGoogleWallet();
@@ -256,33 +252,27 @@ public abstract class LoadWalletFragment extends WalletFragment {
 		// Don't re-request the masked wallet if we already have it
 		if (isGoogleWalletEnabled() && Db.getMaskedWallet() == null) {
 			if (mCheckPreAuth) {
-				mWalletClient.checkForPreAuthorization(this);
+				Wallet.checkForPreAuthorization(mWalletClient, REQUEST_CODE_RESOLVE_CHECK_FOR_PRE_AUTHORIZATION);
 			}
 			else {
 				// For state purposes, act like we checked it (and we're just not pre-authed)
 				mCheckedPreAuth = true;
 			}
-
-			// Immediately start requesting the wallet (even if we don't have product back yet)
-			// We can just ballpark the final cost for the masked wallet.
-			mWalletClient.loadMaskedWallet(buildMaskedWalletRequest(), this);
 		}
 
 		updateWalletViewVisibilities();
 	}
 
 	@Override
-	public void onDisconnected() {
-		super.onDisconnected();
+	public void onConnectionSuspended(int cause) {
+		super.onConnectionSuspended(cause);
 
 		updateWalletViewVisibilities();
 	}
 
-	// OnPreAuthorizationDeterminedListener
-
 	@Override
-	public void onPreAuthorizationDetermined(ConnectionResult status, boolean isUserPreAuthorized) {
-		super.onPreAuthorizationDetermined(status, isUserPreAuthorized);
+	public void onPreAuthorizationDetermined(boolean isUserPreAuthorized) {
+		super.onPreAuthorizationDetermined(isUserPreAuthorized);
 
 		mCheckedPreAuth = true;
 		mIsUserPreAuthorized = isUserPreAuthorized;
