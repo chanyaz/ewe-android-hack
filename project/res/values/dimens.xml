@@ -271,9 +271,8 @@
     <dimen name="trip_bucket_item_horizontal_margin">32dp</dimen>
     <dimen name="trip_bucket_swipe_out_distance">48dp</dimen>
     <dimen name="trip_bucket_swipe_out_distance_half">24dp</dimen>
-    <dimen name="trip_bucket_primary_dest_size">60sp</dimen>
+    <dimen name="trip_bucket_primary_dest_size">60dp</dimen>
     <dimen name="trip_bucket_root_layout_padding_top">110dp</dimen>
     <dimen name="trip_bucket_empty_trip_container_padding_top">0dp</dimen>
-    <dimen name="trip_bucket_suitcase_image_padding_top">166dp</dimen>
 
 </resources>
