@@ -133,6 +133,71 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		else if (getLob() == LineOfBusiness.FLIGHTS) {
 			mSectionTraveler = (SectionTravelerInfoTablet) View.inflate(getActivity(), R.layout.section_flight_tablet_edit_traveler,
 				null);
+
+			//Here we setup our flights specific animations, namely just
+
+			final View seatingPrefBtn = Ui.findView(mSectionTraveler, R.id.seating_pref_btn);
+			final View specialAssistanceBtn = Ui.findView(mSectionTraveler, R.id.special_assistance_btn);
+			final View redressBtn = Ui.findView(mSectionTraveler, R.id.redress_btn);
+
+			final View seatPrefField = Ui.findView(mSectionTraveler, R.id.edit_seat_preference_spinner);
+			final View specialAssistanceField = Ui.findView(mSectionTraveler, R.id.edit_assistance_preference_spinner);
+			final View redressField = Ui.findView(mSectionTraveler, R.id.edit_redress_number);
+
+			final View okBtn = Ui.findView(mSectionTraveler, R.id.ok_btn);
+
+			okBtn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					okBtn.setVisibility(View.GONE);
+					seatPrefField.setVisibility(View.GONE);
+					specialAssistanceField.setVisibility(View.GONE);
+					redressField.setVisibility(View.GONE);
+					seatingPrefBtn.setVisibility(View.VISIBLE);
+					specialAssistanceBtn.setVisibility(View.VISIBLE);
+					redressBtn.setVisibility(View.VISIBLE);
+				}
+			});
+
+			seatingPrefBtn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					okBtn.setVisibility(View.VISIBLE);
+					seatPrefField.setVisibility(View.VISIBLE);
+					specialAssistanceField.setVisibility(View.GONE);
+					redressField.setVisibility(View.GONE);
+					seatingPrefBtn.setVisibility(View.GONE);
+					specialAssistanceBtn.setVisibility(View.GONE);
+					redressBtn.setVisibility(View.GONE);
+				}
+			});
+
+			specialAssistanceBtn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					okBtn.setVisibility(View.VISIBLE);
+					seatPrefField.setVisibility(View.GONE);
+					specialAssistanceField.setVisibility(View.VISIBLE);
+					redressField.setVisibility(View.GONE);
+					seatingPrefBtn.setVisibility(View.GONE);
+					specialAssistanceBtn.setVisibility(View.GONE);
+					redressBtn.setVisibility(View.GONE);
+				}
+			});
+
+
+			redressBtn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					okBtn.setVisibility(View.VISIBLE);
+					seatPrefField.setVisibility(View.GONE);
+					specialAssistanceField.setVisibility(View.GONE);
+					redressField.setVisibility(View.VISIBLE);
+					seatingPrefBtn.setVisibility(View.GONE);
+					specialAssistanceBtn.setVisibility(View.GONE);
+					redressBtn.setVisibility(View.GONE);
+				}
+			});
 		}
 		mSectionTraveler.setLob(getLob());
 

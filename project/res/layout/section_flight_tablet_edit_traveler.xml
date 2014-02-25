@@ -98,8 +98,10 @@
             android:id="@+id/bottom_buttons_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:paddingTop="16dp"
             android:paddingBottom="8dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <com.expedia.bookings.widget.TextView
@@ -115,6 +117,15 @@
                 android:textStyle="bold"
                 android:textSize="14dp"/>
 
+            <Spinner
+                android:id="@+id/edit_seat_preference_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:visibility="gone"
+                android:contentDescription="@string/cd_traveler_seat_preference_edit"
+                android:minHeight="43dp"/>
+
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/special_assistance_btn"
                 android:layout_width="0dp"
@@ -128,6 +139,14 @@
                 android:textStyle="bold"
                 android:textSize="14dp"/>
 
+            <Spinner
+                android:id="@+id/edit_assistance_preference_spinner"
+                android:layout_width="0dp"
+                android:visibility="gone"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cd_traveler_special_assistance_edit"/>
+
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/redress_btn"
                 android:layout_width="0dp"
@@ -140,6 +159,27 @@
                 android:textColor="#2A4367"
                 android:textStyle="bold"
                 android:textSize="14dp"/>
+
+            <EditText
+                android:id="@+id/edit_redress_number"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:hint="@string/only_if_applicable"
+                android:inputType="number"
+                android:maxLength="7"
+                android:paddingBottom="12dp"
+                android:singleLine="true"/>
+
+            <Button
+                android:id="@+id/ok_btn"
+                android:layout_weight="0"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ok"/>
+
 
         </LinearLayout>
 
