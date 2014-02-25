@@ -57,6 +57,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private static final String FRAG_TAG_PAYMENT_FORM = "FRAG_TAG_PAYMENT_FORM";
 	private static final String FRAG_TAG_LOGIN_BUTTONS = "FRAG_TAG_LOGIN_BUTTONS";
 	private static final String FRAG_TAG_PAYMENT_BUTTON = "FRAG_TAG_PAYMENT_BUTTON";
+	private static final String FRAG_TAG_COUPON_CONTAINER = "FRAG_TAG_COUPON_CONTAINER";
 
 	private static final String FRAG_TAG_TRAV_BTN_BASE = "FRAG_TAG_TRAV_BTN_BASE_";//We generate tags based on this
 
@@ -64,6 +65,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private static final int TRAV_BTN_ID_START = 1000000;
 	private static final int LOGIN_FRAG_CONTAINER_ID = 2000000;
 	private static final int PAYMENT_FRAG_CONTAINER_ID = 2000001;
+	private static final int COUPON_FRAG_CONTAINER_ID = 2000002;
 
 	private ViewGroup mRootC;
 	private LinearLayout mCheckoutRowsC;
@@ -82,6 +84,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private PaymentButtonFragment mPaymentButton;
 	private TabletCheckoutTravelerFormFragment mTravelerForm;
 	private TabletCheckoutPaymentFormFragment mPaymentForm;
+	private CheckoutCouponFragment mCouponContainer;
 
 	private ArrayList<View> mTravelerViews = new ArrayList<View>();
 	private ArrayList<TravelerButtonFragment> mTravelerButtonFrags = new ArrayList<TravelerButtonFragment>();
@@ -172,6 +175,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		else if (tag == FRAG_TAG_PAYMENT_BUTTON) {
 			return mPaymentButton;
 		}
+		else if (tag == FRAG_TAG_COUPON_CONTAINER) {
+			return mCouponContainer;
+		}
 		return null;
 	}
 
@@ -188,6 +194,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		}
 		else if (tag == FRAG_TAG_PAYMENT_BUTTON) {
 			return PaymentButtonFragment.newInstance(getLob());
+		}
+		else if (tag == FRAG_TAG_COUPON_CONTAINER) {
+			return CheckoutCouponFragment.newInstance(getLob());
 		}
 		return null;
 	}
@@ -261,6 +270,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		mPaymentForm = FragmentAvailabilityUtils.setFragmentAvailability(false, FRAG_TAG_PAYMENT_FORM, fragmentManager, removeFragsTransaction, this, R.id.payment_form_container, false);
 		mLoginButtons = FragmentAvailabilityUtils.setFragmentAvailability(false, FRAG_TAG_LOGIN_BUTTONS, fragmentManager, removeFragsTransaction, this, LOGIN_FRAG_CONTAINER_ID, false);
 		mPaymentButton = FragmentAvailabilityUtils.setFragmentAvailability(false, FRAG_TAG_PAYMENT_BUTTON, fragmentManager, removeFragsTransaction, this, PAYMENT_FRAG_CONTAINER_ID, false);
+		mCouponContainer = FragmentAvailabilityUtils.setFragmentAvailability(false, FRAG_TAG_COUPON_CONTAINER, fragmentManager, removeFragsTransaction, this, COUPON_FRAG_CONTAINER_ID, false);
 		for (TravelerButtonFragment btnFrag : mTravelerButtonFrags) {
 			removeFragsTransaction.remove(btnFrag);
 		}
@@ -317,6 +327,14 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			}
 		});
 
+		//COUPON CONTAINER
+		if (getLob() == LineOfBusiness.HOTELS) {
+			FrameLayout couponFrame = new FrameLayout(getActivity());
+			couponFrame.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+			couponFrame.setId(COUPON_FRAG_CONTAINER_ID);
+			add(couponFrame);
+		}
+
 		//LEGAL BLURB
 		TextView legalBlurb = (TextView) addActionable(com.expedia.bookings.R.layout.include_tablet_legal_blurb_tv, new Runnable() {
 			@Override
@@ -338,6 +356,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		mPaymentForm = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_PAYMENT_FORM, fragmentManager, transaction, this, R.id.payment_form_container, true);
 		mLoginButtons = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_LOGIN_BUTTONS, fragmentManager, transaction, this, LOGIN_FRAG_CONTAINER_ID, true);
 		mPaymentButton = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_PAYMENT_BUTTON, fragmentManager, transaction, this, PAYMENT_FRAG_CONTAINER_ID, true);
+		mCouponContainer = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_COUPON_CONTAINER, fragmentManager, transaction, this, COUPON_FRAG_CONTAINER_ID, true);
 		transaction.commit();
 
 		bindAll();
@@ -710,4 +729,5 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	public void unRegisterStateListener(IStateListener<CheckoutFormState> listener) {
 		mStateListeners.unRegisterStateListener(listener);
 	}
+
 }

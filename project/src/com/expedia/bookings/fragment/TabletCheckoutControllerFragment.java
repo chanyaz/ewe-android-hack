@@ -27,12 +27,14 @@ import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.fragment.BookingFragment.BookingFragmentListener;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
+import com.expedia.bookings.fragment.CheckoutCouponFragment.CouponStatusListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -57,7 +59,7 @@ import com.mobiata.flightlib.utils.DateTimeUtils;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletCheckoutControllerFragment extends LobableFragment implements IBackManageable,
 	IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener,
-	CheckoutInformationListener, BookingFragmentListener {
+	CheckoutInformationListener, BookingFragmentListener, CouponStatusListener {
 
 	private static final String STATE_CHECKOUT_STATE = "STATE_CHECKOUT_STATE";
 
@@ -174,6 +176,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public void onPause() {
 		super.onPause();
 		mBackManager.unregisterWithParent(this);
+		if (getActivity().isFinishing()) {
+			Db.getTripBucket().getHotel().setIsCouponApplied(false);
+		}
 	}
 
 	private void checkForAddedTrips() {
@@ -733,6 +738,20 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			}
 		}
 
+	}
+
+	@Override
+	public void onCouponApplied(Rate rate) {
+		Db.getTripBucket().getHotel().setIsCouponApplied(true);
+		Db.getTripBucket().getHotel().setCouponRate(rate);
+		mBucketHotelFrag.doBind();
+	}
+
+	@Override
+	public void onCouponRemoved(Rate rate) {
+		Db.getTripBucket().getHotel().setIsCouponApplied(false);
+		Db.getTripBucket().getHotel().setCouponRate(null);
+		mBucketHotelFrag.doBind();
 	}
 
 }

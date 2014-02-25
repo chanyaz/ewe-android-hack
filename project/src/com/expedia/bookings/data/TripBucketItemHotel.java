@@ -15,6 +15,8 @@ public class TripBucketItemHotel extends TripBucketItem {
 
 	Property mProperty;
 	Rate mRate;
+	Rate mCouponRate;
+	boolean mIsCouponApplied;
 
 	public TripBucketItemHotel() {
 
@@ -35,7 +37,28 @@ public class TripBucketItemHotel extends TripBucketItem {
 	}
 
 	public Rate getRate() {
-		return mRate;
+		if (mIsCouponApplied) {
+			return mCouponRate;
+		}
+		else {
+			return mRate;
+		}
+	}
+
+	public void setRate(Rate rate) {
+		mRate = rate;
+	}
+
+	public boolean isCouponApplied() {
+		return mIsCouponApplied;
+	}
+
+	public void setIsCouponApplied(boolean isCouponApplied) {
+		this.mIsCouponApplied = isCouponApplied;
+	}
+
+	public void setCouponRate(Rate mCouponRate) {
+		this.mCouponRate = mCouponRate;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -48,6 +71,8 @@ public class TripBucketItemHotel extends TripBucketItem {
 			JSONUtils.putJSONable(obj, "property", mProperty);
 			JSONUtils.putJSONable(obj, "rate", mRate);
 			obj.put("type", "hotel");
+			obj.put("couponApplied", mIsCouponApplied);
+			JSONUtils.putJSONable(obj, "couponRate", mCouponRate);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -61,6 +86,8 @@ public class TripBucketItemHotel extends TripBucketItem {
 		super.fromJson(obj);
 		mProperty = JSONUtils.getJSONable(obj, "property", Property.class);
 		mRate = JSONUtils.getJSONable(obj, "rate", Rate.class);
+		mIsCouponApplied = obj.optBoolean("couponApplied");
+		mCouponRate = JSONUtils.getJSONable(obj, "couponRate", Rate.class);
 		return true;
 	}
 }
