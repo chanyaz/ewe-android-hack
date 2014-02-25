@@ -356,7 +356,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		mPaymentForm = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_PAYMENT_FORM, fragmentManager, transaction, this, R.id.payment_form_container, true);
 		mLoginButtons = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_LOGIN_BUTTONS, fragmentManager, transaction, this, LOGIN_FRAG_CONTAINER_ID, true);
 		mPaymentButton = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_PAYMENT_BUTTON, fragmentManager, transaction, this, PAYMENT_FRAG_CONTAINER_ID, true);
-		mCouponContainer = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_COUPON_CONTAINER, fragmentManager, transaction, this, COUPON_FRAG_CONTAINER_ID, true);
+		if (getLob() == LineOfBusiness.HOTELS) {
+			mCouponContainer = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_COUPON_CONTAINER, fragmentManager, transaction, this, COUPON_FRAG_CONTAINER_ID, true);
+		}
 		transaction.commit();
 
 		bindAll();

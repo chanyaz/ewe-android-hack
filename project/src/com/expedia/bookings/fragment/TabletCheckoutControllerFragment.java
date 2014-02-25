@@ -177,7 +177,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		super.onPause();
 		mBackManager.unregisterWithParent(this);
 		if (getActivity().isFinishing()) {
-			Db.getTripBucket().getHotel().setIsCouponApplied(false);
+			if (Db.getTripBucket().getHotel() != null) {
+				Db.getTripBucket().getHotel().setIsCouponApplied(false);
+			}
 		}
 	}
 
