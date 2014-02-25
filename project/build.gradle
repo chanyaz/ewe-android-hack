@@ -59,6 +59,7 @@ android {
         }
 
         ExpediaAutomation {
+            buildConfigField "boolean", "IS_EXPEDIA", "true"
             packageName "com.expedia.bookings.auto"
         }
 
