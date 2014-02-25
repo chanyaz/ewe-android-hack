@@ -117,7 +117,7 @@ android {
             res.srcDirs = ['unitTests/res']
         }
 
-        instrumentTestAutomation {
+        instrumentTestExpediaAutomation {
             manifest.srcFile 'tests/AndroidManifest.xml'
             java.srcDirs = ['tests/src']
             res.srcDirs = ['tests/res']
