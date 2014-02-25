@@ -144,6 +144,15 @@ android {
             res.srcDirs 'res_travelocity'
         }
 
+        ExpediaAutomation {
+            manifest.srcFile 'AndroidManifest-expedia.xml'
+        }
+
+        TravelocityAutomation {
+            manifest.srcFile 'AndroidManifest-travelocity.xml'
+            res.srcDirs 'res_travelocity'
+        }
+
         signingConfigs {
             debug {
                 storeFile file("../common/debug.keystore")
