@@ -13,11 +13,11 @@ import android.graphics.BitmapFactory;
 import android.support.v4.util.LruCache;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.utils.BitmapUtils;
 import com.jakewharton.disklrucache.DiskLruCache;
 import com.jakewharton.disklrucache.DiskLruCache.Editor;
 import com.jakewharton.disklrucache.DiskLruCache.Snapshot;
 import com.mobiata.android.Log;
+import com.mobiata.android.bitmaps.BitmapUtils;
 import com.mobiata.android.util.AndroidUtils;
 
 public class BackgroundImageCache {
@@ -130,7 +130,7 @@ public class BackgroundImageCache {
 					Bitmap blurred = null;
 					if (blur) {
 						blurred = BitmapUtils.stackBlurAndDarken(bitmap, context, BLURRED_IMAGE_SIZE_REDUCTION_FACTOR,
-								STACK_BLUR_RADIUS, DARKEN_MULTIPLIER);
+							STACK_BLUR_RADIUS, DARKEN_MULTIPLIER);
 						if (mCancelAddBitmap) {
 							throw new Exception("Canceled after blur");
 						}
