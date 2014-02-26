@@ -8,6 +8,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -54,8 +55,8 @@ public class BookingInfoUtils {
 		for (int j = 0; j < Db.getTravelers().size(); j++) {
 			Traveler inUseTraveler = Db.getTravelers().get(j);
 			if ((traveler.hasTuid() && inUseTraveler.hasTuid()
-					&& traveler.getTuid().compareTo(inUseTraveler.getTuid()) == 0)
-					|| (traveler.fromGoogleWallet() && inUseTraveler.fromGoogleWallet())) {
+				&& traveler.getTuid().compareTo(inUseTraveler.getTuid()) == 0)
+				|| (traveler.fromGoogleWallet() && inUseTraveler.fromGoogleWallet())) {
 				return true;
 			}
 		}
@@ -86,12 +87,12 @@ public class BookingInfoUtils {
 				if (Db.getFlightSearch().getSelectedFlightTrip().isInternational()) {
 					// International
 					useNewTraveler = !state.allTravelerInfoIsValidForInternationalFlight(currentFirstTraveler)
-							&& state.allTravelerInfoIsValidForInternationalFlight(traveler);
+						&& state.allTravelerInfoIsValidForInternationalFlight(traveler);
 				}
 				else {
 					// Domestic
 					useNewTraveler = !state.allTravelerInfoIsValidForDomesticFlight(currentFirstTraveler)
-							&& state.allTravelerInfoIsValidForDomesticFlight(traveler);
+						&& state.allTravelerInfoIsValidForDomesticFlight(traveler);
 				}
 			}
 
@@ -105,16 +106,17 @@ public class BookingInfoUtils {
 	 * Go through the Db.getTravelers list:
 	 * If we are logged in, try to fill Db.getTravelers with our User's account travelers.
 	 * If we are logged out, remove any user account travelers that might still be around.
+	 *
 	 * @param context
 	 * @param lob
 	 */
 	public static void populateTravelerDataFromUser(Context context, LineOfBusiness lob) {
 		if (User.isLoggedIn(context)) {
-			if(Db.getUser() == null){
+			if (Db.getUser() == null) {
 				Db.loadUser(context);
 			}
 			//Populate traveler data
-			BookingInfoUtils.insertTravelerDataIfNotFilled(context, Db.getUser().getPrimaryTraveler(),lob);
+			BookingInfoUtils.insertTravelerDataIfNotFilled(context, Db.getUser().getPrimaryTraveler(), lob);
 		}
 		else {
 			for (int i = 0; i < Db.getTravelers().size(); i++) {
@@ -129,8 +131,86 @@ public class BookingInfoUtils {
 	}
 
 	/**
+	 * Rectify the provided BillingInfo object with the logged in user
+	 *
+	 * @param context
+	 * @return true if billing info was updated;
+	 */
+	public static boolean populatePaymentDataFromUser(Context context, LineOfBusiness lob) {
+		BillingInfo info = Db.getBillingInfo();
+		if (User.isLoggedIn(context)) {
+			// Populate Credit Card only if the user doesn't have any manually entered (or selected) data
+			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() == 1
+				&& !hasSomeManuallyEnteredData(info) && !info.hasStoredCard()) {
+				StoredCreditCard scc = Db.getUser().getStoredCreditCards().get(0);
+
+				if (lob == LineOfBusiness.FLIGHTS) {
+					// Make sure the card is supported by this flight trip before automatically selecting it
+					if (Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedFlightTrip() != null &&
+						Db.getFlightSearch().getSelectedFlightTrip().isCardTypeSupported(scc.getType())) {
+
+						info.setStoredCard(scc);
+
+						Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
+						//mListener.onBillingInfoChange();
+						return true;
+					}
+				}
+				else{
+					//TODO: Investigate hotel restrictions
+					info.setStoredCard(scc);
+					return true;
+				}
+			}
+		}
+		else if (Db.getMaskedWallet() == null) {
+			//Remove stored card(s)
+			info.setStoredCard(null);
+			//Turn off the save to expedia account flag
+			info.setSaveCardToExpediaAccount(false);
+		}
+		return false;
+	}
+
+	/**
+	 * Return true if the provided billing info object contains manually entered data.
+	 *
+	 * @param info
+	 * @return
+	 */
+	public static boolean hasSomeManuallyEnteredData(BillingInfo info) {
+		if (info == null) {
+			return false;
+		}
+
+		if (info.getLocation() == null) {
+			return false;
+		}
+		//Checkout the major fields, if any of them have data, then we know some data has been manually enetered
+		if (!TextUtils.isEmpty(info.getLocation().getStreetAddressString())) {
+			return true;
+		}
+		if (!TextUtils.isEmpty(info.getLocation().getCity())) {
+			return true;
+		}
+		if (!TextUtils.isEmpty(info.getLocation().getPostalCode())) {
+			return true;
+		}
+		if (!TextUtils.isEmpty(info.getLocation().getStateCode())) {
+			return true;
+		}
+		if (!TextUtils.isEmpty(info.getNameOnCard())) {
+			return true;
+		}
+		if (!TextUtils.isEmpty(info.getNumber())) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * This looks through our various static data and tries to determine the email address to use at checkout.
-	 * 
+	 *
 	 * @param context
 	 * @return email address to use for checkout or null if no valid email addresses were found
 	 */
@@ -148,7 +228,7 @@ public class BookingInfoUtils {
 				Db.loadUser(context);
 			}
 			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
-					&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
+				&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
 				String email = Db.getUser().getPrimaryTraveler().getEmail();
 				if (email.matches(CommonSectionValidators.STRICT_EMAIL_VALIDATION_REGEX)) {
 					Log.d("getCheckoutEmail - found Db.getUser().getPrimaryTraveler().getEmail():" + email);
@@ -172,7 +252,7 @@ public class BookingInfoUtils {
 		//Get traveler email
 		String travelerEmail = null;
 		if (Db.getTravelers() != null && Db.getTravelers().size() > 0 && Db.getTravelers().get(0) != null
-				&& !TextUtils.isEmpty(Db.getTravelers().get(0).getEmail())) {
+			&& !TextUtils.isEmpty(Db.getTravelers().get(0).getEmail())) {
 			String email = Db.getTravelers().get(0).getEmail();
 			if (email.matches(CommonSectionValidators.STRICT_EMAIL_VALIDATION_REGEX)) {
 				Log.d("getCheckoutEmail - found Db.getTravelers().get(0).getEmail():" + email);

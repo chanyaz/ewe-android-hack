@@ -28,7 +28,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SignInResponse;
-import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -541,38 +540,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		}
 	}
 
-
-
-	private boolean hasSomeManuallyEnteredData(BillingInfo info) {
-		if (info == null) {
-			return false;
-		}
-
-		if (info.getLocation() == null) {
-			return false;
-		}
-		//Checkout the major fields, if any of them have data, then we know some data has been manually enetered
-		if (!TextUtils.isEmpty(info.getLocation().getStreetAddressString())) {
-			return true;
-		}
-		if (!TextUtils.isEmpty(info.getLocation().getCity())) {
-			return true;
-		}
-		if (!TextUtils.isEmpty(info.getLocation().getPostalCode())) {
-			return true;
-		}
-		if (!TextUtils.isEmpty(info.getLocation().getStateCode())) {
-			return true;
-		}
-		if (!TextUtils.isEmpty(info.getNameOnCard())) {
-			return true;
-		}
-		if (!TextUtils.isEmpty(info.getNumber())) {
-			return true;
-		}
-		return false;
-	}
-
 	private void loadUser() {
 		if (Db.getUser() == null) {
 			if (User.isLoggedIn(getActivity())) {
@@ -582,25 +549,9 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	}
 
 	private void populatePaymentDataFromUser() {
-		if (User.isLoggedIn(getActivity())) {
-			// Populate Credit Card only if the user doesn't have any manually entered (or selected) data
-			if (Db.getUser().getStoredCreditCards() != null && Db.getUser().getStoredCreditCards().size() == 1
-					&& !hasSomeManuallyEnteredData(mBillingInfo) && !mBillingInfo.hasStoredCard()) {
-				StoredCreditCard scc = Db.getUser().getStoredCreditCards().get(0);
-				// Make sure the card is supported by this flight trip before automatically selecting it
-				if (Db.getFlightSearch().getSelectedFlightTrip().isCardTypeSupported(scc.getType())) {
-					mBillingInfo.setStoredCard(scc);
-
-					Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
-					mListener.onBillingInfoChange();
-				}
-			}
-		}
-		else if (Db.getMaskedWallet() == null) {
-			//Remove stored card(s)
-			Db.getBillingInfo().setStoredCard(null);
-			//Turn off the save to expedia account flag
-			Db.getBillingInfo().setSaveCardToExpediaAccount(false);
+		if(BookingInfoUtils.populatePaymentDataFromUser(getActivity(), LineOfBusiness.FLIGHTS)){
+			mListener.onBillingInfoChange();
+			mBillingInfo = Db.getBillingInfo();
 		}
 	}
 
