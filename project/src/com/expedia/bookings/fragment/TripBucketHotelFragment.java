@@ -46,7 +46,7 @@ import com.mobiata.android.util.SettingUtils;
 public class TripBucketHotelFragment extends TripBucketItemFragment implements RetryErrorDialogFragmentListener {
 
 	private static final String KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE = "KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE";
-	private static final String KEY_CREATE_TRIP = "KEY_HOTEL_CREATE_TRIP";
+	private static final String KEY_DOWNLOAD_CREATE_TRIP = "KEY_DOWNLOAD_CREATE_TRIP";
 	private static final String TAG_HOTEL_CHECKOUT_PREP_DIALOG = "TAG_HOTEL_CHECKOUT_PREP_DIALOG";
 	private static final String TAG_HOTEL_CREATE_TRIP_DIALOG = "TAG_HOTEL_CREATE_TRIP_DIALOG";
 	public static final String HOTEL_OFFER_ERROR_DIALOG = "HOTEL_OFFER_ERROR_DIALOG";
@@ -84,11 +84,11 @@ public class TripBucketHotelFragment extends TripBucketItemFragment implements R
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (getActivity() != null && getActivity().isFinishing()) {
-			bd.cancelDownload(KEY_CREATE_TRIP);
+			bd.cancelDownload(KEY_DOWNLOAD_CREATE_TRIP);
 			bd.cancelDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
 		}
 		else {
-			bd.unregisterDownloadCallback(KEY_CREATE_TRIP);
+			bd.unregisterDownloadCallback(KEY_DOWNLOAD_CREATE_TRIP);
 			bd.unregisterDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
 		}
 	}
@@ -99,10 +99,10 @@ public class TripBucketHotelFragment extends TripBucketItemFragment implements R
 
 		// Create Trip callback
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		boolean isCreatingTrip = bd.isDownloading(KEY_CREATE_TRIP);
+		boolean isCreatingTrip = bd.isDownloading(KEY_DOWNLOAD_CREATE_TRIP);
 		boolean isOnCheckout = getParentFragment() instanceof TabletCheckoutControllerFragment;
 		if (isCreatingTrip && isOnCheckout) {
-			bd.registerDownloadCallback(KEY_CREATE_TRIP, mCreateTripCallback);
+			bd.registerDownloadCallback(KEY_DOWNLOAD_CREATE_TRIP, mCreateTripCallback);
 		}
 		// HotelProduct callback
 		boolean isDownloadingHotelProd = bd.isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
@@ -291,17 +291,17 @@ public class TripBucketHotelFragment extends TripBucketItemFragment implements R
 		df.show(getFragmentManager(), TAG_HOTEL_CREATE_TRIP_DIALOG);
 
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_CREATE_TRIP)) {
-			bd.cancelDownload(KEY_CREATE_TRIP);
+		if (bd.isDownloading(KEY_DOWNLOAD_CREATE_TRIP)) {
+			bd.cancelDownload(KEY_DOWNLOAD_CREATE_TRIP);
 		}
-		bd.startDownload(KEY_CREATE_TRIP, mCreateTripDownload, mCreateTripCallback);
+		bd.startDownload(KEY_DOWNLOAD_CREATE_TRIP, mCreateTripDownload, mCreateTripCallback);
 	}
 
 	private final Download<CreateTripResponse> mCreateTripDownload = new Download<CreateTripResponse>() {
 		@Override
 		public CreateTripResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_CREATE_TRIP, services);
+			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_CREATE_TRIP, services);
 			return services.createTrip(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch().getSelectedProperty());
 		}
 	};
