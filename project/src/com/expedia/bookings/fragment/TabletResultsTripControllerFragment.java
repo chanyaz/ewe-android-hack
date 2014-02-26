@@ -409,22 +409,22 @@ public class TabletResultsTripControllerFragment extends Fragment implements
 		boolean bucketFlightAvailable = true;
 		boolean bucketHotelAvailable = true;
 
-		mTripBucketTripToFrag = (ResultsTripBucketYourTripToFragment) FragmentAvailabilityUtils
-			.setFragmentAvailability(yourTripToAvailable, FTAG_YOUR_TRIP_TO, manager, transaction, this,
-				R.id.trip_bucket_your_trip_to, true);
+		mTripBucketTripToFrag = FragmentAvailabilityUtils.setFragmentAvailability(
+			yourTripToAvailable, FTAG_YOUR_TRIP_TO, manager, transaction, this,
+			R.id.trip_bucket_your_trip_to, true);
 
-		mTripBucketFlightFrag = (TripBucketFlightFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-			bucketFlightAvailable, FTAG_BUCKET_FLIGHT, manager, transaction, this, R.id.flight_trip_content, false);
+		mTripBucketFlightFrag = FragmentAvailabilityUtils.setFragmentAvailability(
+			bucketFlightAvailable, FTAG_BUCKET_FLIGHT, manager, transaction,
+			this, R.id.flight_trip_content, false);
 
-		mTripBucketHotelFrag = (TripBucketHotelFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-			bucketHotelAvailable, FTAG_BUCKET_HOTEL, manager, transaction, this, R.id.hotel_trip_content, false);
+		mTripBucketHotelFrag = FragmentAvailabilityUtils.setFragmentAvailability(
+			bucketHotelAvailable, FTAG_BUCKET_HOTEL, manager, transaction,
+			this, R.id.hotel_trip_content, false);
 
 		//Blurrred Background (for behind trip overview)
-		mBlurredBackgroundFrag = (ResultsBlurBackgroundImageFragment) FragmentAvailabilityUtils
-			.setFragmentAvailability(
-				blurredBackgroundAvailable, FTAG_BLURRED_BG, manager, transaction, this,
-				R.id.column_three_blurred_bg,
-				false);
+		mBlurredBackgroundFrag = FragmentAvailabilityUtils.setFragmentAvailability(
+			blurredBackgroundAvailable, FTAG_BLURRED_BG, manager, transaction,
+			this, R.id.column_three_blurred_bg, false);
 
 		transaction.commit();
 	}
