@@ -350,7 +350,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 			refreshData();
 
-			if (bd.isDownloading(HotelBookingFragment.KEY_DOWNLOAD_BOOKING)) {
+			if (bd.isDownloading(HotelBookingFragment.KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE)) {
 				mHotelBookingFragment.registerForHotelProductDownload();
 			}
 			else if (!mIsDoneLoadingPriceChange) {
