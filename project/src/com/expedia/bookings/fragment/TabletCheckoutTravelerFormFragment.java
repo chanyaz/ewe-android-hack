@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
@@ -20,6 +21,7 @@ import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfoTablet;
+import com.expedia.bookings.section.TravelerSpinnerAdapter;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.mobiata.android.util.Ui;
 
@@ -80,6 +82,47 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			setHeadingText(getString(R.string.traveler_information_TEMPLATE, travelerNumber + 1));
 			setHeadingButtonText(getString(R.string.done));
 			setHeadingButtonOnClick(mHeaderButtonClickListener);
+		}
+
+		TravelerSpinnerAdapter adapter;
+		if (getHeadingSpinner().getAdapter() != null) {
+			adapter = (TravelerSpinnerAdapter) getHeadingSpinner().getAdapter();
+		}
+		else {
+			adapter = new TravelerSpinnerAdapter(getActivity());
+		}
+		if (adapter.getCount() > 0) {
+			getHeadingSpinner().setVisibility(View.VISIBLE);
+
+			//The adapter draws from static sources, so if we already have one adapter we dont need a new one
+			if (getHeadingSpinner().getAdapter() == null) {
+				getHeadingSpinner().setAdapter(adapter);
+				getHeadingSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+					@Override
+					public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+						//The first item is just a place holder
+						if (i == 0) {
+							return;
+						}
+						Traveler trav = (Traveler) getHeadingSpinner().getItemAtPosition(i);
+						if (trav != null) {
+							Db.getWorkingTravelerManager().setWorkingTravelerAndBase(trav);
+							bindToDb(mTravelerNumber);
+						}
+						//Always show the top item
+						adapterView.setSelection(0);
+					}
+
+					@Override
+					public void onNothingSelected(AdapterView<?> adapterView) {
+
+					}
+				});
+			}
+		}
+		else {
+			getHeadingSpinner().setAdapter(null);
+			getHeadingSpinner().setVisibility(View.GONE);
 		}
 	}
 

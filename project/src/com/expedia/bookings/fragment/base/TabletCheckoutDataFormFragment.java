@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -20,6 +21,7 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment {
 	private ViewGroup mFormContentC;
 	private TextView mHeadingText;
 	private TextView mHeadingButton;
+	private Spinner mHeadingSpinner;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment {
 		mFormContentC = Ui.findView(mRootC, R.id.content_container);
 		mHeadingText = Ui.findView(mRootC, R.id.header_tv);
 		mHeadingButton = Ui.findView(mRootC, R.id.header_text_button_tv);
+		mHeadingSpinner = Ui.findView(mRootC, R.id.header_spinner);
 
 		setUpFormContent(mFormContentC);
 
@@ -53,6 +56,10 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment {
 		if (mHeadingButton != null) {
 			mHeadingButton.setOnClickListener(listener);
 		}
+	}
+
+	public Spinner getHeadingSpinner() {
+		return mHeadingSpinner;
 	}
 
 	public TextView getHeadingTextView() {
