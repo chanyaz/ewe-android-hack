@@ -117,8 +117,9 @@
         <item name="android:displayOptions">showHome|useLogo</item>
     </style>
 
-    <style name="V2.Widget.ActionBar.TabletResults">
+    <style name="V2.Widget.ActionBar.TabletResults" tools:targetApi="14">
         <item name="android:background">@android:color/transparent</item>
+        <item name="android:titleTextStyle">@android:style/TextAppearance.Holo.Widget.ActionBar.Title.Inverse</item>
     </style>
 
     <style name="V2.Widget.ActionBar.TabletCheckout" parent="@android:style/Widget.Holo.Light.ActionBar" tools:targetApi="14">

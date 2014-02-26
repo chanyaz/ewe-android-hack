@@ -10,11 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -45,7 +43,6 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
-import com.expedia.bookings.widget.TabletResultsActionBarView;
 import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
@@ -97,9 +94,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	private HockeyPuck mHockeyPuck;
 
-	//ActionBar
-	private TabletResultsActionBarView mActionBarView;
-
 	private ArrayList<IAddToTripListener> mAddToTripListeners = new ArrayList<IAddToTripListener>();
 
 	@Override
@@ -141,21 +135,11 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		transaction.commit();
 		manager.executePendingTransactions();//These must be finished before we continue..
 
-		//Ab search button
-		mActionBarView = new TabletResultsActionBarView(this);
-		mActionBarView.bindFromDb(this);
-		mActionBarView.setSearchBarOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				if (mState == ResultsState.OVERVIEW) {
-					onBackPressed();
-				}
-			}
-		});
-		//Register the actionbar - this never gets unregistered because it is paired with
-		//the activity. Further it is not a fragment, so this is an easy place to set the listeners
-		registerStateListener(mActionBarView.mStateHelper, true);
-		registerMeasurementListener(mActionBarView, false);
+		//We load up the default backgrounds so they are ready to go later if/when we need them
+		//this is important, as we need to load images before our memory load gets too heavy
+		if (savedInstanceState == null || !Db.getBackgroundImageCache(this).isDefaultInCache()) {
+			Db.getBackgroundImageCache(this).loadDefaultsInThread(this);
+		}
 
 		//Set up the loading fragment to listen for hotel/flight events.
 		if (mLoadingFrag != null) {
@@ -166,9 +150,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 				mFlightsController.registerStateListener(mLoadingFrag.getFlightsStateListener(), true);
 			}
 		}
-
-		ActionBar actionBar = getSupportActionBar();
-		mActionBarView.attachToActionBar(actionBar);
 
 		// HockeyApp init
 		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
@@ -241,10 +222,14 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 
 			//TODO: REMOVE THIS, IT IS ONLY USEFUL FOR BUILDING THE LOADING STUFF
-			menu.add(100, ResultsLoadingState.ALL.ordinal() + 1, ResultsLoadingState.ALL.ordinal() + 1, ResultsLoadingState.ALL.name());
-			menu.add(100, ResultsLoadingState.HOTELS.ordinal() + 1, ResultsLoadingState.HOTELS.ordinal() + 1, ResultsLoadingState.HOTELS.name());
-			menu.add(100, ResultsLoadingState.FLIGHTS.ordinal() + 1, ResultsLoadingState.FLIGHTS.ordinal() + 1, ResultsLoadingState.FLIGHTS.name());
-			menu.add(100, ResultsLoadingState.NONE.ordinal() + 1, ResultsLoadingState.NONE.ordinal() + 1, ResultsLoadingState.NONE.name());
+			menu.add(100, ResultsLoadingState.ALL.ordinal() + 1, ResultsLoadingState.ALL.ordinal() + 1,
+				ResultsLoadingState.ALL.name());
+			menu.add(100, ResultsLoadingState.HOTELS.ordinal() + 1, ResultsLoadingState.HOTELS.ordinal() + 1,
+				ResultsLoadingState.HOTELS.name());
+			menu.add(100, ResultsLoadingState.FLIGHTS.ordinal() + 1, ResultsLoadingState.FLIGHTS.ordinal() + 1,
+				ResultsLoadingState.FLIGHTS.name());
+			menu.add(100, ResultsLoadingState.NONE.ordinal() + 1, ResultsLoadingState.NONE.ordinal() + 1,
+				ResultsLoadingState.NONE.name());
 
 
 			return true;
@@ -542,7 +527,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 
 		@Override
-		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo, float percentage) {
+		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo,
+			float percentage) {
 			Log.d("ResultsHotelsState - onStateTransitionUpdate - stateOne:" + stateOne + " stateTwo:" + stateTwo
 				+ " percentage:" + percentage);
 			updateStateTransition(getResultsStateFromHotels(stateOne), getResultsStateFromHotels(stateTwo), percentage);
@@ -596,7 +582,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 
 		@Override
-		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo, float percentage) {
+		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
+			float percentage) {
 			Log.d("ResultsFlightsState - onStateTransitionUpdate - stateOne:" + stateOne + " stateTwo:" + stateTwo
 				+ " percentage:" + percentage);
 			updateStateTransition(getResultsStateFromFlights(stateOne), getResultsStateFromFlights(stateTwo),
