@@ -872,7 +872,7 @@ public class ShareUtils {
 		if (generator instanceof FlightItinContentGenerator) {
 			intents.add(((FlightItinContentGenerator) generator).getShareWithFlightTrackIntent());
 		}
-		if (AndroidUtils.isPackageInstalled(mContext, "com.facebook.katana")) {
+		if ((ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) && AndroidUtils.isPackageInstalled(mContext, "com.facebook.katana")) {
 			intents.add(FacebookShareActivity.createIntent(mContext, generator));
 		}
 
