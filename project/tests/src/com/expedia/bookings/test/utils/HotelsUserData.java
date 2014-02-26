@@ -1,6 +1,6 @@
 package com.expedia.bookings.test.utils;
 
-import android.content.Context;
+import android.app.Instrumentation;
 import android.util.Pair;
 
 import com.expedia.bookings.debug.test.R;
@@ -48,7 +48,7 @@ public class HotelsUserData {
 	private String mProxyPort;
 	private boolean mLogInForCheckout;
 
-	public HotelsUserData(Context context) {
+	public HotelsUserData(Instrumentation instrumentation) {
 		setFirstName("JexperCC");
 		setLastName("MobiataTestaverde");
 
@@ -58,8 +58,8 @@ public class HotelsUserData {
 		setAddressStateCode("MI");
 		setAddressPostalCode("48104");
 
-		setLoginEmail(context.getString(R.string.user_name));
-		setLoginPassword(context.getString(R.string.user_password));
+		setLoginEmail(instrumentation.getContext().getString(R.string.user_name));
+		setLoginPassword(instrumentation.getContext().getString(R.string.user_password));
 
 		setCreditCardNumber("4111111111111111");
 		setCardExpMonth("12");

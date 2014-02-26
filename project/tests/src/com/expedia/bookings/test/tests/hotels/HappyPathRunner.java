@@ -33,7 +33,7 @@ public class HappyPathRunner extends ActivityInstrumentationTestCase2<SearchActi
 		mPreferences.setRotationPermission(false);
 		mPreferences.setScreenshotPermission(false);
 		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
-		mUser = new HotelsUserData(getActivity());
+		mUser = new HotelsUserData(getInstrumentation());
 		mUser.setHotelCityToRandomUSCity();
 		mConfigFileUtils = new ConfigFileUtils();
 		mPreferences.setRotationPermission(mConfigFileUtils.getBooleanConfigValue("Rotations"));

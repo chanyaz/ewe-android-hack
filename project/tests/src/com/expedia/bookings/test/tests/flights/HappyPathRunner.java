@@ -25,7 +25,7 @@ public class HappyPathRunner extends ActivityInstrumentationTestCase2<SearchActi
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		mUser = new HotelsUserData(getActivity());
+		mUser = new HotelsUserData(getInstrumentation());
 		mRes = getActivity().getResources();
 		mPreferences = new TestPreferences();
 		mDriver = new FlightsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);

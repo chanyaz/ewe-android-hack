@@ -33,7 +33,7 @@ public class MockDataTests extends ActivityInstrumentationTestCase2<SearchActivi
 		mPreferences.setRotationPermission(false);
 		mPreferences.setScreenshotPermission(false);
 		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
-		mUser = new HotelsUserData(getActivity());
+		mUser = new HotelsUserData(getInstrumentation());
 		mConfigFileUtils = new ConfigFileUtils();
 
 		mUser.setBookingServer("Mock Server");
