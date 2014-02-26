@@ -126,10 +126,10 @@ public class CheckoutLoginButtonsFragment extends LobableFragment implements Acc
 	}
 
 	public void testForLoginStateChange() {
-		if (User.isLoggedIn(getActivity()) != mWasLoggedIn){
-			BookingInfoUtils.populateTravelerDataFromUser(getActivity(), LineOfBusiness.FLIGHTS);
-
-			if(mListener != null){
+		if (User.isLoggedIn(getActivity()) != mWasLoggedIn) {
+			BookingInfoUtils.populateTravelerDataFromUser(getActivity(), getLob());
+			BookingInfoUtils.populatePaymentDataFromUser(getActivity(), getLob());
+			if (mListener != null) {
 				mListener.onLoginStateChanged();
 			}
 
