@@ -108,6 +108,7 @@
         <item name="itinHotelPlaceholderDrawable">@drawable/placeholder_lg_travelocity</item>
         <item name="itinFlightPlaceholderDrawable">@drawable/bg_itin_travelocity_placeholder_flight</item>
         <item name="itinDefaultPlaceholderDrawable">@drawable/bg_itin_travelocity_fallback_activity</item>
+        <item name="itinCardTitleBackground">@drawable/bg_itin_card_title_travelocity</item>
     </style>
 
     <style name="FlightActionBarTravelocity" parent="FlightActionBar">

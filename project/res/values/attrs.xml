@@ -298,5 +298,6 @@
     <attr name="itinHotelPlaceholderDrawable" format="reference" />
     <attr name="itinFlightPlaceholderDrawable" format="reference" />
     <attr name="itinDefaultPlaceholderDrawable" format="reference" />
+    <attr name="itinCardTitleBackground" format="reference" />
 
 </resources>
