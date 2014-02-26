@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.enums.ResultsSearchState;
@@ -20,6 +21,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.utils.GridManager;
+import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -34,11 +36,34 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	//Containers
 	private ViewGroup mRootC;
+	private FrameLayoutTouchController mTopHalfC;
+	private FrameLayoutTouchController mSearchBarC;
+	private ViewGroup mRightButtonsC;
+	private FrameLayoutTouchController mWidgetC;
+
+	//Search action buttons
+	private TextView mDestBtn;
+	private TextView mOrigBtn;
+	private TextView mCalBtn;
+	private TextView mTravBtn;
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_tablet_results_search, null, false);
+
 		mRootC = Ui.findView(view, R.id.root_layout);
+		mTopHalfC = Ui.findView(view, R.id.top_half_container);
+		mSearchBarC = Ui.findView(view,R.id.search_bar_conatiner);
+		mRightButtonsC = Ui.findView(view,R.id.right_buttons_container);
+		mWidgetC = Ui.findView(view,R.id.widget_container);
+
+		mDestBtn = Ui.findView(view, R.id.dest_btn);
+		mOrigBtn = Ui.findView(view, R.id.origin_btn);
+		mCalBtn = Ui.findView(view, R.id.calendar_btn);
+		mTravBtn = Ui.findView(view, R.id.traveler_btn);
+
+
 		return view;
 	}
 
@@ -133,6 +158,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		@Override
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
 			mGrid.setDimensions(totalWidth, totalHeight);
+			mGrid.setNumRows(2);
+			mGrid.setNumCols(3);
+
+			mGrid.setContainerToRow(mTopHalfC,0);
+			mGrid.setContainerToRow(mWidgetC,1);
+			mGrid.setContainerToColumn(mWidgetC,2);
 		}
 	};
 
