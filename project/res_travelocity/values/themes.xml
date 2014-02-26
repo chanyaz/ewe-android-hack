@@ -102,6 +102,12 @@
         <item name="dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
         <item name="android:dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
         <item name="logoutConfirmationString">@string/logout_confirmation_travelocity</item>
+        <item name="itinActivityPlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_activities</item>
+        <item name="itinCarPlaceholderDrawable">@drawable/default_cars_travelocity_background</item>
+        <item name="itinCruisePlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_cruises</item>
+        <item name="itinHotelPlaceholderDrawable">@drawable/placeholder_lg_travelocity</item>
+        <item name="itinFlightPlaceholderDrawable">@drawable/bg_itin_travelocity_placeholder_flight</item>
+        <item name="itinDefaultPlaceholderDrawable">@drawable/bg_itin_travelocity_fallback_activity</item>
     </style>
 
     <style name="FlightActionBarTravelocity" parent="FlightActionBar">

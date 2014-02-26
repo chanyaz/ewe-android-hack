@@ -291,4 +291,12 @@
     <attr name="travellerInfoPageLogo" format="reference"/>
     <attr name="travellerInfoPageLogoDisabled" format="reference"/>
 
+    <!-- Itin placeholder drawables -->
+    <attr name="itinActivityPlaceholderDrawable" format="reference" />
+    <attr name="itinCarPlaceholderDrawable" format="reference" />
+    <attr name="itinCruisePlaceholderDrawable" format="reference" />
+    <attr name="itinHotelPlaceholderDrawable" format="reference" />
+    <attr name="itinFlightPlaceholderDrawable" format="reference" />
+    <attr name="itinDefaultPlaceholderDrawable" format="reference" />
+
 </resources>

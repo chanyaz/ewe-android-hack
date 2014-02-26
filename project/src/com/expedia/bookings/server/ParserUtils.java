@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Response;
@@ -43,7 +44,7 @@ public class ParserUtils {
 		}
 
 		if (!TextUtils.isEmpty(url) && !url.startsWith("http://")) {
-			url = "http://media.expedia.com" + url;
+			url = ExpediaBookingApp.MEDIA_URL + url;
 		}
 
 		return new Media(url);

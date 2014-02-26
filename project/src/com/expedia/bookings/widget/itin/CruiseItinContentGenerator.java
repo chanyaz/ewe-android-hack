@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class CruiseItinContentGenerator extends ItinContentGenerator<ItinCardData> {
@@ -51,7 +52,7 @@ public class CruiseItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 	@Override
 	public int getHeaderImagePlaceholderResId() {
-		return R.drawable.itin_header_placeholder_cruises;
+		return Ui.obtainThemeResID(getContext(), R.attr.itinCruisePlaceholderDrawable);
 	}
 
 	@Override

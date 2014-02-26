@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardDataFallback;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardDataFallback> {
@@ -69,15 +70,15 @@ public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardD
 	public int getHeaderImagePlaceholderResId() {
 		switch (this.getItinCardData().getTripComponentType()) {
 		case FLIGHT:
-			return R.drawable.bg_itin_fallback_flight;
+			return Ui.obtainThemeResID(getContext(), R.attr.itinFlightPlaceholderDrawable);
 		case HOTEL:
-			return R.drawable.bg_itin_fallback_hotel;
+			return Ui.obtainThemeResID(getContext(), R.attr.itinHotelPlaceholderDrawable);
 		case CAR:
-			return R.drawable.bg_itin_fallback_car;
+			return Ui.obtainThemeResID(getContext(), R.attr.itinCarPlaceholderDrawable);
 		case CRUISE:
-			return R.drawable.itin_header_placeholder_cruises;
+			return Ui.obtainThemeResID(getContext(), R.attr.itinCruisePlaceholderDrawable);
 		default:
-			return R.drawable.bg_itin_fallback_activity;
+			return Ui.obtainThemeResID(getContext(), R.attr.itinDefaultPlaceholderDrawable);
 		}
 	}
 
