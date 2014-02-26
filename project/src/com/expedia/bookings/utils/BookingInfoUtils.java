@@ -102,6 +102,33 @@ public class BookingInfoUtils {
 	}
 
 	/**
+	 * Go through the Db.getTravelers list:
+	 * If we are logged in, try to fill Db.getTravelers with our User's account travelers.
+	 * If we are logged out, remove any user account travelers that might still be around.
+	 * @param context
+	 * @param lob
+	 */
+	public static void populateTravelerDataFromUser(Context context, LineOfBusiness lob) {
+		if (User.isLoggedIn(context)) {
+			if(Db.getUser() == null){
+				Db.loadUser(context);
+			}
+			//Populate traveler data
+			BookingInfoUtils.insertTravelerDataIfNotFilled(context, Db.getUser().getPrimaryTraveler(),lob);
+		}
+		else {
+			for (int i = 0; i < Db.getTravelers().size(); i++) {
+				//Travelers that have tuids are from the account and thus should be removed.
+				if (Db.getTravelers().get(i).hasTuid()) {
+					Db.getTravelers().set(i, new Traveler());
+				}
+				//We can't save travelers to an account if we aren't logged in, so we unset the flag
+				Db.getTravelers().get(i).setSaveTravelerToExpediaAccount(false);
+			}
+		}
+	}
+
+	/**
 	 * This looks through our various static data and tries to determine the email address to use at checkout.
 	 * 
 	 * @param context
