@@ -27,6 +27,7 @@ import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
 import com.expedia.bookings.fragment.ResultsLoadingFragment;
 import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
+import com.expedia.bookings.fragment.TabletResultsSearchControllerFragment;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -72,6 +73,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	//Tags
 	private static final String FTAG_FLIGHTS_CONTROLLER = "FTAG_FLIGHTS_CONTROLLER";
 	private static final String FTAG_HOTELS_CONTROLLER = "FTAG_HOTELS_CONTROLLER";
+	private static final String FTAG_SEARCH_CONTROLLER = "FTAG_SEARCH_CONTROLLER";
 	private static final String FTAG_BACKGROUND_IMAGE = "FTAG_BACKGROUND_IMAGE";
 	private static final String FTAG_LOADING = "FTAG_LOADING";
 
@@ -84,6 +86,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private ResultsBackgroundImageFragment mBackgroundImageFrag;
 	private TabletResultsFlightControllerFragment mFlightsController;
 	private TabletResultsHotelControllerFragment mHotelsController;
+	private TabletResultsSearchControllerFragment mSearchController;
 	private ResultsLoadingFragment mLoadingFrag;
 
 	//Other
@@ -128,6 +131,10 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			true,
 			FTAG_HOTELS_CONTROLLER, manager, transaction, this,
 			R.id.full_width_hotels_controller_container, false);
+		mSearchController = (TabletResultsSearchControllerFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+			true,
+			FTAG_SEARCH_CONTROLLER, manager, transaction, this,
+			R.id.full_width_trip_controller_container, false);
 		mLoadingFrag = (ResultsLoadingFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			true,
 			FTAG_LOADING, manager, transaction, this,
@@ -333,6 +340,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 		else if (tag == FTAG_HOTELS_CONTROLLER) {
 			frag = mHotelsController;
+		}else if(tag == FTAG_SEARCH_CONTROLLER){
+			frag = mSearchController;
 		}
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
 			frag = mBackgroundImageFrag;
@@ -351,6 +360,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 		else if (tag == FTAG_HOTELS_CONTROLLER) {
 			frag = new TabletResultsHotelControllerFragment();
+		}else if(tag == FTAG_SEARCH_CONTROLLER){
+			frag = new TabletResultsSearchControllerFragment();
 		}
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
 			String destination = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
