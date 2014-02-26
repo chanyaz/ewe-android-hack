@@ -19,6 +19,7 @@ import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
+import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
@@ -54,15 +55,17 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		mRootC = Ui.findView(view, R.id.root_layout);
 		mTopHalfC = Ui.findView(view, R.id.top_half_container);
-		mSearchBarC = Ui.findView(view,R.id.search_bar_conatiner);
-		mRightButtonsC = Ui.findView(view,R.id.right_buttons_container);
-		mWidgetC = Ui.findView(view,R.id.widget_container);
+		mSearchBarC = Ui.findView(view, R.id.search_bar_conatiner);
+		mRightButtonsC = Ui.findView(view, R.id.right_buttons_container);
+		mWidgetC = Ui.findView(view, R.id.widget_container);
 
 		mDestBtn = Ui.findView(view, R.id.dest_btn);
 		mOrigBtn = Ui.findView(view, R.id.origin_btn);
 		mCalBtn = Ui.findView(view, R.id.calendar_btn);
 		mTravBtn = Ui.findView(view, R.id.traveler_btn);
 
+		registerStateListener(mSearchStateHelper, false);
+		registerStateListener(new StateListenerLogger<ResultsSearchState>(), false);
 
 		return view;
 	}
@@ -83,8 +86,73 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mBackManager.unregisterWithParent(this);
 	}
 
+	/*
+	 * SEARCH STATE LISTENER
+	 */
 
-		/*
+	private StateListenerHelper<ResultsSearchState> mSearchStateHelper = new StateListenerHelper<ResultsSearchState>() {
+		@Override
+		public void onStateTransitionStart(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+
+		}
+
+		@Override
+		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo, float percentage) {
+			boolean goingUp = (stateOne == ResultsSearchState.DEFAULT && (stateTwo == ResultsSearchState.FLIGHTS_UP || stateTwo == ResultsSearchState.HOTELS_UP));
+			boolean goingDown = ((stateOne == ResultsSearchState.FLIGHTS_UP || stateOne == ResultsSearchState.HOTELS_UP) && stateTwo == ResultsSearchState.DEFAULT);
+
+			if (goingUp || goingDown) {
+				float perc = goingUp ? percentage : (1f - percentage);
+				setSlideUpAnimationPercentage(perc);
+				if (stateOne == ResultsSearchState.HOTELS_UP || stateTwo == ResultsSearchState.HOTELS_UP) {
+					//For hotels we also fade
+					setSlideUpHotelsOnlyAnimationPercentage(perc);
+				}
+			}
+		}
+
+		@Override
+		public void onStateTransitionEnd(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+
+		}
+
+		@Override
+		public void onStateFinalized(ResultsSearchState state) {
+			switch (state) {
+			case HOTELS_UP: {
+				setSlideUpAnimationPercentage(1f);
+				setSlideUpHotelsOnlyAnimationPercentage(1f);
+				break;
+			}
+			case FLIGHTS_UP: {
+				setSlideUpAnimationPercentage(1f);
+				setSlideUpHotelsOnlyAnimationPercentage(0f);
+				break;
+			}
+			default: {
+				setSlideUpAnimationPercentage(0f);
+				setSlideUpHotelsOnlyAnimationPercentage(0f);
+			}
+			}
+		}
+
+		private void setSlideUpAnimationPercentage(float percentage) {
+			int barTransDistance = mTopHalfC.getHeight() - mSearchBarC.getHeight();
+			mSearchBarC.setTranslationY(percentage * -barTransDistance);
+			mWidgetC.setTranslationY(percentage * mWidgetC.getHeight());
+			mDestBtn.setTranslationY(percentage * mSearchBarC.getHeight());
+			mDestBtn.setAlpha(1f - percentage);
+			//TODO: Use better number (this is to move to the left of the action bar buttons)
+			mRightButtonsC.setTranslationX(percentage * -(getActivity().getActionBar().getHeight()));
+		}
+
+		private void setSlideUpHotelsOnlyAnimationPercentage(float percentage) {
+			mOrigBtn.setAlpha(1f - percentage);
+		}
+	};
+
+
+	/*
 	 * RESULTS STATE LISTENER
 	 */
 
@@ -96,55 +164,36 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateTransitionStart(ResultsState stateOne, ResultsState stateTwo) {
-			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.HOTELS) {
-
-			}
-			else if (stateOne == ResultsState.HOTELS && stateTwo == ResultsState.OVERVIEW) {
-
-			}
-			else if (stateOne == ResultsState.FLIGHTS && stateTwo == ResultsState.OVERVIEW) {
-
-			}
-			else if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.FLIGHTS) {
-
-			}
+			startStateTransition(translateState(stateOne), translateState(stateTwo));
 		}
 
 		@Override
 		public void onStateTransitionUpdate(ResultsState stateOne, ResultsState stateTwo, float percentage) {
-			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.HOTELS) {
-
-			}
-			else if (stateOne == ResultsState.HOTELS && stateTwo == ResultsState.OVERVIEW) {
-
-			}
-			else if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.FLIGHTS) {
-
-			}
-			else if (stateOne == ResultsState.FLIGHTS && stateTwo == ResultsState.OVERVIEW) {
-
-			}
+			updateStateTransition(translateState(stateOne), translateState(stateTwo), percentage);
 		}
 
 		@Override
 		public void onStateTransitionEnd(ResultsState stateOne, ResultsState stateTwo) {
-			if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.HOTELS) {
-
-			}
-			else if (stateOne == ResultsState.HOTELS && stateTwo == ResultsState.OVERVIEW) {
-
-			}
-			else if (stateOne == ResultsState.OVERVIEW && stateTwo == ResultsState.FLIGHTS) {
-
-			}
-			else if (stateOne == ResultsState.FLIGHTS && stateTwo == ResultsState.OVERVIEW) {
-
-			}
+			endStateTransition(translateState(stateOne), translateState(stateTwo));
 		}
 
 		@Override
 		public void onStateFinalized(ResultsState state) {
+			finalizeState(translateState(state));
+		}
 
+		public ResultsSearchState translateState(ResultsState state) {
+			switch (state) {
+			case FLIGHTS: {
+				return ResultsSearchState.FLIGHTS_UP;
+			}
+			case HOTELS: {
+				return ResultsSearchState.HOTELS_UP;
+			}
+			default: {
+				return ResultsSearchState.DEFAULT;
+			}
+			}
 		}
 
 	};
@@ -161,9 +210,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mGrid.setNumRows(2);
 			mGrid.setNumCols(3);
 
-			mGrid.setContainerToRow(mTopHalfC,0);
-			mGrid.setContainerToRow(mWidgetC,1);
-			mGrid.setContainerToColumn(mWidgetC,2);
+			mGrid.setContainerToRow(mTopHalfC, 0);
+			mGrid.setContainerToRow(mWidgetC, 1);
+			mGrid.setContainerToColumn(mWidgetC, 2);
 		}
 	};
 
