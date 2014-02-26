@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
@@ -29,10 +31,18 @@ import com.mobiata.android.util.Ui;
 public class CheckoutLoginButtonsFragment extends LobableFragment implements AccountButtonClickListener, ConfirmLogoutDialogFragment.DoLogoutListener {
 
 	private static final String INSTANCE_REFRESHED_USER_TIME = "INSTANCE_REFRESHED_USER";
+	private static final String INSTANCE_WAS_LOGGED_IN = "INSTANCE_WAS_LOGGED_IN";
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
+
+	public interface ILoginStateChangedListener {
+		public void onLoginStateChanged();
+	}
 
 	private AccountButton mAccountButton;
 	private WalletButton mWalletButton;
+
+	private ILoginStateChangedListener mListener;
+	private boolean mWasLoggedIn = false;
 
 	private long mRefreshedUserTime = 0L;
 
@@ -43,25 +53,29 @@ public class CheckoutLoginButtonsFragment extends LobableFragment implements Acc
 	}
 
 	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mListener = Ui.findFragmentListener(this, ILoginStateChangedListener.class, false);
+	}
+
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		if (savedInstanceState != null) {
 			mRefreshedUserTime = savedInstanceState.getLong(INSTANCE_REFRESHED_USER_TIME);
+			mWasLoggedIn = savedInstanceState.getBoolean(INSTANCE_WAS_LOGGED_IN);
 		}
 		else {
 			// Reset Google Wallet state each time we get here
 			Db.clearGoogleWallet();
+			mWasLoggedIn = User.isLoggedIn(getActivity());
 		}
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_checkout_login_buttons, null);
-
-		if (savedInstanceState != null) {
-			mRefreshedUserTime = savedInstanceState.getLong(INSTANCE_REFRESHED_USER_TIME);
-		}
 
 		mAccountButton = Ui.findView(v, R.id.account_button_root);
 		mAccountButton.setListener(this);
@@ -86,6 +100,8 @@ public class CheckoutLoginButtonsFragment extends LobableFragment implements Acc
 
 		//We disable this for sign in, but when the user comes back it should be enabled.
 		mAccountButton.setEnabled(true);
+
+		testForLoginStateChange();
 	}
 
 	@Override
@@ -98,6 +114,26 @@ public class CheckoutLoginButtonsFragment extends LobableFragment implements Acc
 		}
 		else {
 			bd.unregisterDownloadCallback(KEY_REFRESH_USER);
+		}
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putLong(INSTANCE_REFRESHED_USER_TIME, mRefreshedUserTime);
+		outState.putBoolean(INSTANCE_WAS_LOGGED_IN, mWasLoggedIn);
+	}
+
+	public void testForLoginStateChange() {
+		if (User.isLoggedIn(getActivity()) != mWasLoggedIn){
+			BookingInfoUtils.populateTravelerDataFromUser(getActivity(), LineOfBusiness.FLIGHTS);
+
+			if(mListener != null){
+				mListener.onLoginStateChanged();
+			}
+
+			mWasLoggedIn = User.isLoggedIn(getActivity());
 		}
 	}
 
@@ -189,11 +225,15 @@ public class CheckoutLoginButtonsFragment extends LobableFragment implements Acc
 
 		// Update UI
 		mAccountButton.bind(false, false, null, true);
+
+		testForLoginStateChange();
 	}
 
 	public void onLoginCompleted() {
 		mAccountButton.bind(false, true, Db.getUser(), true);
 		mRefreshedUserTime = System.currentTimeMillis();
+
+		testForLoginStateChange();
 	}
 
 	/*

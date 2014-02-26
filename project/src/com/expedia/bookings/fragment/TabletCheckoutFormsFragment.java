@@ -49,7 +49,7 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TabletCheckoutFormsFragment extends LobableFragment implements IBackManageable,
 	IStateProvider<CheckoutFormState>,
-	ICheckoutDataListener, IFragmentAvailabilityProvider {
+	ICheckoutDataListener, IFragmentAvailabilityProvider, CheckoutLoginButtonsFragment.ILoginStateChangedListener {
 
 	private static final String STATE_CHECKOUTFORMSTATE = "STATE_CHECKOUTFORMSTATE";
 
@@ -736,4 +736,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		mStateListeners.unRegisterStateListener(listener);
 	}
 
+	@Override
+	public void onLoginStateChanged() {
+		bindAll();
+	}
 }
