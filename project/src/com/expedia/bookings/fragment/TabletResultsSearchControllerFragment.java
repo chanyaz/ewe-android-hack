@@ -73,7 +73,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private static final String FTAG_ORIG_CHOOSER = "FTAG_ORIG_CHOOSER";
 
 	private SuggestionsFragment mOriginsFragment;
-	private DatesFragment mDatesFragment;
+	private ResultsDatesFragment mDatesFragment;
 	private GuestsDialogFragment mGuestsFragment;
 
 
@@ -193,7 +193,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	@Override
 	public void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion) {
-		if(fragment == mOriginsFragment){
+		if (fragment == mOriginsFragment) {
 			Sp.getParams().setOrigin(suggestion);
 			Sp.reportSpUpdate();
 		}
@@ -324,8 +324,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		boolean mTravAvail = state == ResultsSearchState.TRAVELER_PICKER;
 		boolean mOrigAvail = state == ResultsSearchState.FLIGHT_ORIGIN;
 
-		mDatesFragment = (DatesFragment) FragmentAvailabilityUtils.setFragmentAvailability(mCalAvail, FTAG_CALENDAR, manager,
-			transaction, this, R.id.calendar_container, false);
+		mDatesFragment = (ResultsDatesFragment) FragmentAvailabilityUtils.setFragmentAvailability(mCalAvail, FTAG_CALENDAR, manager,
+			transaction, this, R.id.calendar_container, true);
 
 		mGuestsFragment = (GuestsDialogFragment) FragmentAvailabilityUtils.setFragmentAvailability(mTravAvail, FTAG_TRAV_PICKER, manager,
 			transaction, this, R.id.traveler_container, false);
@@ -353,7 +353,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	@Override
 	public Fragment getNewFragmentInstanceFromTag(String tag) {
 		if (tag == FTAG_CALENDAR) {
-			return new DatesFragment();
+			return new ResultsDatesFragment();
 		}
 		else if (tag == FTAG_TRAV_PICKER) {
 			return GuestsDialogFragment.newInstance(Sp.getParams().getNumAdults(), Sp.getParams().getChildAges());
@@ -366,7 +366,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
-
+		if (tag == FTAG_CALENDAR) {
+			((ResultsDatesFragment) frag).setDatesFromParams(Sp.getParams());
+		}
 	}
 
 
@@ -397,7 +399,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateFinalized(ResultsState state) {
-			finalizeState(translateState(state));
+
+			boolean currentlyDown = mSearchStateManager.getState() != ResultsSearchState.FLIGHTS_UP && mSearchStateManager.getState() != ResultsSearchState.HOTELS_UP;
+			if (!currentlyDown || translateState(state) != ResultsSearchState.DEFAULT) {
+				//We respond to things where we move from the up to the down state, but we dont listen to the parent
+				finalizeState(translateState(state));
+			}
 		}
 
 		public ResultsSearchState translateState(ResultsState state) {
