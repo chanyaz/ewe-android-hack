@@ -138,6 +138,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		startupTimer.addSplit("ExpediaImageManager Init");
 
 		DestinationImageCache.init(this);
+		DestinationImageCache.getInstance().setVerboseDebugLoggingEnabled(true);
 		startupTimer.addSplit("DestinationImageCache Init");
 
 		LocalExpertSite.init(this);

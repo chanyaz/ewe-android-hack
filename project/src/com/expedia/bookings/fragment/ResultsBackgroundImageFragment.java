@@ -119,6 +119,8 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 			L2ImageCache cache = DestinationImageCache.getInstance();
 			String url = expImage.getUrl();
 
+			Log.d("DestinationImageCache", "ResultsBackgroundImageFragment - loading " + mDestinationCode + " " + url + " blur=" + mBlur);
+
 			Bitmap bitmap;
 			if (mBlur) {
 				bitmap = cache.getBlurredImage(url, true);
