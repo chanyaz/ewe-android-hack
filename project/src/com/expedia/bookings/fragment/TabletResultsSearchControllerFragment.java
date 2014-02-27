@@ -193,7 +193,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	@Override
 	public void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion) {
-
+		if(fragment == mOriginsFragment){
+			Sp.getParams().setOrigin(suggestion);
+			Sp.reportSpUpdate();
+		}
 	}
 
 	/*
