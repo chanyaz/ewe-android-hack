@@ -124,6 +124,8 @@
     <style name="ItineraryTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
         <item name="logo">@drawable/ic_action_bar_travelocity_logo_small</item>
         <item name="android:logo">@drawable/ic_action_bar_travelocity_logo_small</item>
+        <item name="actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
+        <item name="android:actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
