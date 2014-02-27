@@ -48,6 +48,7 @@
         <item name="savePaymentToAccountString">@string/save_billing_travelocity_info_message</item>
         <item name="saveTravelerToAccountString">@string/save_traveler_travelocity_message_TEMPLATE</item>
         <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_tvly_white_logo_small</item>
+        <item name="bgFindItineraryButton">@drawable/btn_find_tvly</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">

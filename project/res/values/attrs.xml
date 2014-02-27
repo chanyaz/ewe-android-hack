@@ -291,6 +291,8 @@
     <attr name="travellerInfoPageLogo" format="reference"/>
     <attr name="travellerInfoPageLogoDisabled" format="reference"/>
 
+    <!-- for itinerary in Trips tab -->
+    <attr name="bgFindItineraryButton" format="reference"/>
     <!-- Itin placeholder drawables -->
     <attr name="itinActivityPlaceholderDrawable" format="reference" />
     <attr name="itinCarPlaceholderDrawable" format="reference" />

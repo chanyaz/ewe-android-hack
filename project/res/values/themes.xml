@@ -225,6 +225,7 @@
         <item name="serverErrorMessageString">@string/error_server</item>
         <item name="savePaymentToAccountString">@string/save_billing_info_message</item>
         <item name="saveTravelerToAccountString">@string/save_traveler_message_TEMPLATE</item>
+        <item name="bgFindItineraryButton">@drawable/btn_find</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
