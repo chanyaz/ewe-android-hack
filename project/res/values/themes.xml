@@ -291,6 +291,7 @@
     <style name="ItineraryTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
         <item name="logo">@drawable/ic_action_bar_expedia_logo_small</item>
         <item name="android:logo">@drawable/ic_action_bar_expedia_logo_small</item>
+        <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal</item>
     </style>
 
     <style name="LaunchActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
