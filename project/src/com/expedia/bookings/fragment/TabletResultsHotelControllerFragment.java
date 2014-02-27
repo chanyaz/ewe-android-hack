@@ -22,6 +22,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
+import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.ResultsHotelsListState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsState;
@@ -47,6 +48,7 @@ import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.mobiata.android.util.Ui;
+import com.squareup.otto.Subscribe;
 
 /**
  * TabletResultsHotelControllerFragment: designed for tablet results 2013
@@ -167,6 +169,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mResultsStateHelper.registerWithProvider(this);
 		mMeasurementHelper.registerWithProvider(this);
 		mBackManager.registerWithParent(this);
+		Sp.getBus().register(this);
 	}
 
 	@Override
@@ -175,6 +178,24 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mResultsStateHelper.unregisterWithProvider(this);
 		mMeasurementHelper.unregisterWithProvider(this);
 		mBackManager.unregisterWithParent(this);
+		Sp.getBus().unregister(this);
+	}
+
+	/*
+	 * NEW SEARCH PARAMS
+	 */
+
+	@Subscribe
+	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
+		Db.getHotelSearch().setSearchResponse(null);
+		Db.getHotelSearch().setSearchParams(Sp.getParams().toHotelSearchParams());
+		if (mHotelsStateManager.getState() != ResultsHotelsState.LOADING) {
+			setHotelsState(ResultsHotelsState.LOADING, false);
+		}
+		else {
+			mHotelSearchDownloadFrag.setSearchParams(Sp.getParams().toHotelSearchParams());
+			mHotelSearchDownloadFrag.startOrRestart();
+		}
 	}
 
 

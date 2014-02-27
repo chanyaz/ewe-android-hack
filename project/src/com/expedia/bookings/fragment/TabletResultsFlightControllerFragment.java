@@ -21,6 +21,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.Response;
+import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.ResultsFlightsListState;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsState;
@@ -46,6 +47,7 @@ import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.FruitList;
 import com.mobiata.android.util.Ui;
+import com.squareup.otto.Subscribe;
 
 /**
  * TabletResultsFlightControllerFragment: designed for tablet results 2013
@@ -185,6 +187,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		mResultsStateHelper.registerWithProvider(this);
 		mMeasurementHelper.registerWithProvider(this);
 		mBackManager.registerWithParent(this);
+		Sp.getBus().register(this);
 	}
 
 	@Override
@@ -199,6 +202,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		mResultsStateHelper.unregisterWithProvider(this);
 		mMeasurementHelper.unregisterWithProvider(this);
 		mBackManager.unregisterWithParent(this);
+		Sp.getBus().unregister(this);
 	}
 
 	private Rect getAddTripRect() {
@@ -211,6 +215,22 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 		else {
 			return ResultsFlightsState.FLIGHT_LIST_DOWN;
+		}
+	}
+
+	/*
+	 * NEW SEARCH PARAMS
+	 */
+
+	@Subscribe
+	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
+		Db.getFlightSearch().setSearchResponse(null);
+		Db.getFlightSearch().setSearchParams(Sp.getParams().toFlightSearchParams());
+		if(mFlightsStateManager.getState() != ResultsFlightsState.LOADING){
+			setFlightsState(ResultsFlightsState.LOADING, false);
+		}else{
+			mFlightSearchDownloadFrag.setSearchParams(Sp.getParams().toFlightSearchParams());
+			mFlightSearchDownloadFrag.startOrRestart();
 		}
 	}
 
