@@ -1,15 +1,22 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+
+import org.joda.time.LocalDate;
+
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -21,6 +28,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
+import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.util.Ui;
@@ -30,7 +38,10 @@ import com.mobiata.android.util.Ui;
  * This controls all the fragments relating to searching on the results screen
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-public class TabletResultsSearchControllerFragment extends Fragment implements IBackManageable, IStateProvider<ResultsSearchState> {
+public class TabletResultsSearchControllerFragment extends Fragment implements IBackManageable,
+	IStateProvider<ResultsSearchState>, FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
+	DatesFragment.DatesFragmentListener, GuestsDialogFragment.GuestsDialogFragmentListener,
+	SuggestionsFragment.SuggestionsFragmentListener {
 
 	private GridManager mGrid = new GridManager();
 	private StateManager<ResultsSearchState> mSearchStateManager = new StateManager<ResultsSearchState>(ResultsSearchState.DEFAULT, this);
@@ -41,12 +52,24 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private FrameLayoutTouchController mSearchBarC;
 	private ViewGroup mRightButtonsC;
 	private FrameLayoutTouchController mWidgetC;
+	//Fragment Containers
+	private FrameLayoutTouchController mCalC;
+	private FrameLayoutTouchController mTravC;
+	private FrameLayoutTouchController mOrigC;
 
 	//Search action buttons
 	private TextView mDestBtn;
 	private TextView mOrigBtn;
 	private TextView mCalBtn;
 	private TextView mTravBtn;
+
+	private static final String FTAG_CALENDAR = "FTAG_CALENDAR";
+	private static final String FTAG_TRAV_PICKER = "FTAG_TRAV_PICKER";
+	private static final String FTAG_ORIG_CHOOSER = "FTAG_ORIG_CHOOSER";
+
+	private SuggestionsFragment mOriginsFragment;
+	private DatesFragment mDatesFragment;
+	private GuestsDialogFragment mGuestsFragment;
 
 
 	@Override
@@ -63,6 +86,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mOrigBtn = Ui.findView(view, R.id.origin_btn);
 		mCalBtn = Ui.findView(view, R.id.calendar_btn);
 		mTravBtn = Ui.findView(view, R.id.traveler_btn);
+
+		mDestBtn.setOnClickListener(mDestClick);
+		mOrigBtn.setOnClickListener(mOrigClick);
+		mCalBtn.setOnClickListener(mCalClick);
+		mTravBtn.setOnClickListener(mTravClick);
 
 		registerStateListener(mSearchStateHelper, false);
 		registerStateListener(new StateListenerLogger<ResultsSearchState>(), false);
@@ -86,9 +114,67 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mBackManager.unregisterWithParent(this);
 	}
 
+	/**
+	 * FRAG LISTENERS
+	 */
+
+	@Override
+	public void onDatesChanged(LocalDate startDate, LocalDate endDate) {
+
+	}
+
+	@Override
+	public void onGuestsChanged(int numAdults, ArrayList<Integer> numChildren) {
+
+	}
+
+	@Override
+	public void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion) {
+
+	}
+
+	/*
+	 * SEARCH BAR BUTTON STUFF
+	 */
+
+	private final boolean mAnimateButtonClicks = false;
+
+	private View.OnClickListener mDestClick = new View.OnClickListener() {
+		@Override
+		public void onClick(View view) {
+
+		}
+	};
+
+	private View.OnClickListener mOrigClick = new View.OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			setState(ResultsSearchState.FLIGHT_ORIGIN, mAnimateButtonClicks);
+		}
+	};
+
+	private View.OnClickListener mCalClick = new View.OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			setState(ResultsSearchState.CALENDAR, mAnimateButtonClicks);
+		}
+	};
+
+	private View.OnClickListener mTravClick = new View.OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			setState(ResultsSearchState.TRAVELER_PICKER, mAnimateButtonClicks);
+		}
+	};
+
+
 	/*
 	 * SEARCH STATE LISTENER
 	 */
+
+	public void setState(ResultsSearchState state, boolean animate) {
+		mSearchStateManager.setState(state, animate);
+	}
 
 	private StateListenerHelper<ResultsSearchState> mSearchStateHelper = new StateListenerHelper<ResultsSearchState>() {
 		@Override
@@ -118,6 +204,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateFinalized(ResultsSearchState state) {
+			setFragmentState(state);
+
 			switch (state) {
 			case HOTELS_UP: {
 				setSlideUpAnimationPercentage(1f);
@@ -150,6 +238,70 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mOrigBtn.setAlpha(1f - percentage);
 		}
 	};
+
+
+	/**
+	 * FRAGMENT PROVIDER
+	 */
+
+	private void setFragmentState(ResultsSearchState state) {
+		FragmentManager manager = getChildFragmentManager();
+
+		//All of the fragment adds/removes come through this method, and we want to make sure our last call
+		//is complete before moving forward, so this is important
+		manager.executePendingTransactions();
+
+		//We will be adding all of our add/removes to this transaction
+		FragmentTransaction transaction = manager.beginTransaction();
+
+		boolean mCalAvail = state == ResultsSearchState.CALENDAR;
+		boolean mTravAvail = state == ResultsSearchState.TRAVELER_PICKER;
+		boolean mOrigAvail = state == ResultsSearchState.FLIGHT_ORIGIN;
+
+		mDatesFragment = (DatesFragment) FragmentAvailabilityUtils.setFragmentAvailability(mCalAvail, FTAG_CALENDAR, manager,
+			transaction, this, R.id.calendar_container, false);
+
+		mGuestsFragment = (GuestsDialogFragment) FragmentAvailabilityUtils.setFragmentAvailability(mTravAvail, FTAG_TRAV_PICKER, manager,
+			transaction, this, R.id.traveler_container, false);
+
+		mOriginsFragment = (SuggestionsFragment) FragmentAvailabilityUtils.setFragmentAvailability(mOrigAvail, FTAG_ORIG_CHOOSER, manager,
+			transaction, this, R.id.origin_container, false);
+
+		transaction.commit();
+	}
+
+	@Override
+	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+		if (tag == FTAG_CALENDAR) {
+			return mDatesFragment;
+		}
+		else if (tag == FTAG_TRAV_PICKER) {
+			return mGuestsFragment;
+		}
+		else if (tag == FTAG_ORIG_CHOOSER) {
+			return mOriginsFragment;
+		}
+		return null;
+	}
+
+	@Override
+	public Fragment getNewFragmentInstanceFromTag(String tag) {
+		if (tag == FTAG_CALENDAR) {
+			return new DatesFragment();
+		}
+		else if (tag == FTAG_TRAV_PICKER) {
+			return GuestsDialogFragment.newInstance(1, new ArrayList<Integer>());
+		}
+		else if (tag == FTAG_ORIG_CHOOSER) {
+			return new SuggestionsFragment();
+		}
+		return null;
+	}
+
+	@Override
+	public void doFragmentSetup(String tag, Fragment frag) {
+
+	}
 
 
 	/*
