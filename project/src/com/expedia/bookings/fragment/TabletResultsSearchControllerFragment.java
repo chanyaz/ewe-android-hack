@@ -10,12 +10,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.enums.ResultsState;
@@ -30,8 +33,10 @@ import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.util.Ui;
+import com.squareup.otto.Subscribe;
 
 /**
  * TabletResultsSearchControllerFragment: designed for tablet results 2014
@@ -104,6 +109,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mResultsStateHelper.registerWithProvider(this);
 		mMeasurementHelper.registerWithProvider(this);
 		mBackManager.registerWithParent(this);
+		Sp.getBus().register(this);
+		bind();
 	}
 
 	@Override
@@ -112,7 +119,59 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mResultsStateHelper.unregisterWithProvider(this);
 		mMeasurementHelper.unregisterWithProvider(this);
 		mBackManager.unregisterWithParent(this);
+		Sp.getBus().unregister(this);
 	}
+
+	/**
+	 * BINDING STUFF
+	 */
+
+	public void bind() {
+		SearchParams params = Sp.getParams();
+
+		//TODO: Improve string formats
+
+		if (params.hasDestination()) {
+			mDestBtn.setText(params.getDestination().getAirportCode());
+		}
+		else {
+			mDestBtn.setText("");
+		}
+
+		if (params.hasOrigin()) {
+			mOrigBtn.setText(getString(R.string.fly_from_TEMPLATE, params.getOrigin().getAirportCode()));
+		}
+		else {
+			mOrigBtn.setText("");
+		}
+
+		if (params.getStartDate() != null) {
+			String dateStr;
+			int flags = DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_ABBREV_WEEKDAY;
+			LocalDate startDate = params.getStartDate();
+			if (params.getEndDate() != null) {
+				LocalDate endDate = params.getEndDate();
+				dateStr = JodaUtils.formatDateRange(getActivity(), startDate, endDate, flags);
+			}
+			else {
+				dateStr = JodaUtils.formatLocalDate(getActivity(), startDate, flags);
+			}
+			mCalBtn.setText(dateStr);
+		}
+		else {
+			mCalBtn.setText("");
+		}
+
+		int numTravelers = params.getNumAdults() + params.getNumChildren();
+		String travStr = getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers, numTravelers);
+		mTravBtn.setText(travStr);
+	}
+
+	@Subscribe
+	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
+		bind();
+	}
+
 
 	/**
 	 * FRAG LISTENERS
@@ -120,12 +179,16 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	@Override
 	public void onDatesChanged(LocalDate startDate, LocalDate endDate) {
-
+		Sp.getParams().setStartDate(startDate);
+		Sp.getParams().setEndDate(endDate);
+		Sp.reportSpUpdate();
 	}
 
 	@Override
 	public void onGuestsChanged(int numAdults, ArrayList<Integer> numChildren) {
-
+		Sp.getParams().setNumAdults(numAdults);
+		Sp.getParams().setChildAges(numChildren);
+		Sp.reportSpUpdate();
 	}
 
 	@Override
@@ -290,7 +353,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			return new DatesFragment();
 		}
 		else if (tag == FTAG_TRAV_PICKER) {
-			return GuestsDialogFragment.newInstance(1, new ArrayList<Integer>());
+			return GuestsDialogFragment.newInstance(Sp.getParams().getNumAdults(), Sp.getParams().getChildAges());
 		}
 		else if (tag == FTAG_ORIG_CHOOSER) {
 			return new SuggestionsFragment();

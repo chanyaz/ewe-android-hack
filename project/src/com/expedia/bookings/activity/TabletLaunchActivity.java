@@ -18,6 +18,7 @@ import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.SuggestionV2.ResultType;
@@ -271,6 +272,8 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 		//Clear trip bucket before search
 		Db.getTripBucket().clear();
+
+		Sp.setParams(mSearchParams,false);
 
 		startActivity(new Intent(this, TabletResultsActivity.class));
 	}
