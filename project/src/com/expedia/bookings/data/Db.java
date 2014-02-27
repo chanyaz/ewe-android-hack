@@ -30,7 +30,6 @@ import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-import com.squareup.otto.Bus;
 
 /**
  * This represents an in-memory database of data for the app.
@@ -54,17 +53,6 @@ public class Db {
 
 	private Db() {
 		// Cannot be instantiated
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Other singletons
-	//
-
-	// The event bus is a singleton for now
-	private static final Bus sBus = new Bus();
-
-	public static Bus getBus() {
-		return sBus;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

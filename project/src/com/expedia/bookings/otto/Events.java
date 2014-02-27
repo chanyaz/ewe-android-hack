@@ -4,7 +4,6 @@ import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
 
@@ -41,89 +40,78 @@ import com.squareup.otto.Bus;
  * Always unregister in the onPause() to ensure that events are not consumed when not needed.
  * </code>
  * </p>
- * @author Supreeth
  *
  */
 public class Events {
 
-	private static final String TAG_EVENT = "OttoEventBus";
-
-	private static Bus mBus = Db.getBus();
-
-	private static final Events INSTANCE = new Events();
+	private static final String TAG = "ExpediaOtto";
+	private static final Bus sBus = new Bus();
 
 	private Events() {
 		// Singleton - Cannot be instantiated
 	}
 
-	public static Events getInstance() {
-		return INSTANCE;
-	}
-
 	public static void register(Object obj) {
-		Log.d(TAG_EVENT, "Registering OttoEvents to : " + obj);
-		mBus.register(obj);
+		Log.v(TAG, "Registering: " + obj);
+		sBus.register(obj);
 	}
 
 	public static void unregister(Object obj) {
-		Log.d(TAG_EVENT, "UnRegistering OttoEvents for : " + obj);
-		mBus.unregister(obj);
+		Log.v(TAG, "Unregistering: " + obj);
+		sBus.unregister(obj);
 	}
 
 	public static void post(Object obj) {
-		Log.d(TAG_EVENT, "Posting OttoEvent : " + obj);
-		mBus.post(obj);
+		Log.v(TAG, "Posting event: " + obj);
+		sBus.post(obj);
 	}
 
 	/////////////////////////////////////////////////////////
 	/// HotelBookingFragment related
 
 	/**
-	 * This event notifies HotelProductDownload call success by {@link HotelBookingFragment}
+	 * This event notifies HotelProductDownload call has succedded
 	 */
-	public class HotelProductDownloadSuccess {
+	public static class HotelProductDownloadSuccess {
 		private HotelProductResponse mHotelProductResponse;
 
 		public HotelProductDownloadSuccess(HotelProductResponse hotelProductResponse) {
 			this.mHotelProductResponse = hotelProductResponse;
 		}
-
 	}
 
 	/**
-	 * This event notifies CreateTripDownload call success by {@link HotelBookingFragment}
+	 * This event notifies CreateTripDownload call has succedded
 	 */
-	public class CreateTripDownloadSuccess {
+	public static class CreateTripDownloadSuccess {
 		private CreateTripResponse mCreateTripResponse;
 
 		public CreateTripDownloadSuccess(CreateTripResponse createTripResponse) {
 			this.mCreateTripResponse = createTripResponse;
 		}
-
 	}
 
 	/**
-	 * This event notifies CreateTripDownload call error by {@link HotelBookingFragment}
+	 * This event notifies CreateTripDownload call completed with an error
 	 */
-	public class CreateTripDownloadError {
+	public static class CreateTripDownloadError {
 		private ServerError mServerError;
 
 		public CreateTripDownloadError(ServerError serverError) {
 			this.mServerError = serverError;
 		}
-
 	}
 
 	/**
-	 * This event notifies that the CreateTripDownload retry dialog's "retry" operation has been initiated by {@link HotelBookingFragment}
+	 * This event notifies that the user has requested we retry our CreateTripDownload
 	 */
-	public class CreateTripDownloadRetry {
+	public static class CreateTripDownloadRetry {
 	}
 
 	/**
-	 * This event notifies that the CreateTripDownload retry dialog's "cancel" operation has been initiated by {@link HotelBookingFragment}
+	 * This event notifies that the user does not want to retry the CreateTripDownload
 	 */
-	public class CreateTripDownloadRetryCancel {
+	public static class CreateTripDownloadRetryCancel {
 	}
 
 }
