@@ -98,7 +98,7 @@
         <item name="android:logo">@drawable/ic_ab_travelocity_logo</item>
         <item name="actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
         <item name="android:actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
-        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
+        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabTravelocityStyle</item>
         <!-- PopupMenu -->
         <item name="dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
         <item name="android:dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
@@ -112,6 +112,11 @@
         <item name="itinCardTitleBackground">@drawable/bg_itin_card_title_travelocity</item>
         <item name="itinCardBackground">@drawable/bg_itin_card_tvly</item>
         <item name="itinFlightsTripLineColor">@color/itin_flight_line_color_tvly</item>
+    </style>
+
+    <style name="LaunchActionBarTabTravelocityStyle" parent="@style/Widget.Sherlock.ActionBar.TabView">
+        <item name="background">@drawable/tab_indicator_ab_travelocity_launch</item>
+        <item name="android:background">@drawable/tab_indicator_ab_travelocity_launch</item>
     </style>
 
     <style name="FlightActionBarTravelocity" parent="FlightActionBar">
