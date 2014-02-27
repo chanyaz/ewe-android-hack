@@ -381,7 +381,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
 			String destination = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
-			frag = ResultsBackgroundImageFragment.newInstance(destination);
+			frag = ResultsBackgroundImageFragment.newInstance(destination, false);
 		}
 		else if (tag == FTAG_LOADING) {
 			frag = ResultsLoadingFragment.newInstance();

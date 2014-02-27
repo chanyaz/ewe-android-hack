@@ -27,7 +27,7 @@ public class DestinationImageCache {
 	public static void init(Context context) {
 		L2ImageCache.EvictionPolicy policy = new L2ImageCache.NumberEvictionPolicy(context, MAX_NUM_MEM_CACHE_ENTRIES,
 			SIZE_DISK_CACHE_IN_BYTES, LOGGING_TAG);
-		sInstance = new L2ImageCache(LOGGING_TAG, policy);
+		sInstance = new L2ImageCache(context, LOGGING_TAG, policy);
 	}
 
 }

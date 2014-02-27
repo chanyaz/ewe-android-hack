@@ -5,6 +5,11 @@
              android:layout_height="match_parent"
              android:background="#454235">
 
+    <com.expedia.bookings.widget.FrameLayoutTouchController
+        android:id="@+id/blurred_dest_image_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <FrameLayout
         android:id="@+id/cvv_container"
         android:layout_width="match_parent"
@@ -28,7 +33,7 @@
                 android:id="@+id/trip_bucket_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#242C2E"
+                android:background="#40000000"
                 android:orientation="vertical"
                 android:paddingBottom="8dp"
                 android:paddingLeft="24dp"

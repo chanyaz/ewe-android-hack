@@ -34,18 +34,21 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 	private static final String KEY_IMG_DL = "KEY_IMG_DL";
 
 	private static final String ARG_DEST_CODE = "ARG_DEST_CODE";
+	private static final String ARG_BLUR = "ARG_BLUR";
 
 	private String mDestinationCode;
+	private boolean mBlur;
 
 	private ImageView mImageView;
 
 	private String mImgUrl; // Store the url if we need to hit the network
 	private Bitmap mBgBitmap; // We temporarily store a bitmap here if we have not yet initialized
 
-	public static ResultsBackgroundImageFragment newInstance(String destination) {
+	public static ResultsBackgroundImageFragment newInstance(String destination, boolean blur) {
 		ResultsBackgroundImageFragment fragment = new ResultsBackgroundImageFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_DEST_CODE, destination);
+		args.putBoolean(ARG_BLUR, blur);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -54,7 +57,10 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mDestinationCode = getArguments().getString(ARG_DEST_CODE);
+		// Fragment arguments
+		Bundle args = getArguments();
+		mDestinationCode = args.getString(ARG_DEST_CODE);
+		mBlur = args.getBoolean(ARG_BLUR);
 
 		// Check the availability of the destination image in the background
 		BackgroundDownloader downloader = BackgroundDownloader.getInstance();
@@ -112,7 +118,14 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 			// Attempt to grab the image from either memory or disk
 			L2ImageCache cache = DestinationImageCache.getInstance();
 			String url = expImage.getUrl();
-			Bitmap bitmap = cache.getImage(url, true);
+
+			Bitmap bitmap;
+			if (mBlur) {
+				bitmap = cache.getBlurredImage(url, true);
+			}
+			else {
+				bitmap = cache.getImage(url, true);
+			}
 
 			if (bitmap != null) {
 				return bitmap;
@@ -130,7 +143,8 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 		public void onDownload(Bitmap bitmap) {
 			if (bitmap == null) {
 				// We still don't have the image, so let's grab it from the network
-				DestinationImageCache.getInstance().loadImage(mImgUrl, new L2ImageCache.OnImageLoaded() {
+				L2ImageCache cache = DestinationImageCache.getInstance();
+				L2ImageCache.OnImageLoaded callback = new L2ImageCache.OnImageLoaded() {
 					@Override
 					public void onImageLoaded(String url, Bitmap bitmap) {
 						handleBitmap(bitmap, true);
@@ -140,7 +154,14 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 					public void onImageLoadFailed(String url) {
 						Log.e("unable to dl image");
 					}
-				});
+				};
+
+				if (mBlur) {
+					cache.loadBlurredImage(mImgUrl, mImgUrl, callback);
+				}
+				else {
+					cache.loadImage(mImgUrl, callback);
+				}
 			}
 			else {
 				handleBitmap(bitmap, false);
@@ -159,6 +180,9 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 			else {
 				mBgBitmap = bitmap; // Store the Bitmap to get picked up in onCreateView
 			}
+		}
+		else {
+			Log.v("bitmap null null null");
 		}
 	}
 

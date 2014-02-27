@@ -81,6 +81,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private static final String FRAG_TAG_BOOK_HOTEL = "FRAG_TAG_BOOK_HOTEL";
 	private static final String FRAG_TAG_CONF_FLIGHT = "FRAG_TAG_CONF_FLIGHT";
 	private static final String FRAG_TAG_CONF_HOTEL = "FRAG_TAG_CONF_HOTEL";
+	private static final String FRAG_TAG_BLUR_BG = "FRAG_TAG_BLUR_BG";
 
 	//Containers
 	private ViewGroup mRootC;
@@ -93,6 +94,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private ViewGroup mCvvContainer;
 	private ViewGroup mBookingContainer;
 	private ViewGroup mConfirmationContainer;
+	private ViewGroup mBlurredDestImageOverlay;
 
 	//Views
 	private TextView mBucketDateRange;
@@ -106,6 +108,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private HotelBookingFragment mHotelBookingFrag;
 	private FlightConfirmationFragment mFlightConfFrag;
 	private HotelConfirmationFragment mHotelConfFrag;
+	private ResultsBackgroundImageFragment mBlurredBgFrag;
 
 	private static final int DIALOG_CALLBACK_INVALID_CC = 1;
 	private static final int DIALOG_CALLBACK_EXPIRED_CC = 2;
@@ -118,6 +121,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_checkout_controller, null, false);
+
+		Ui.findView(mRootC, R.id.blurred_dest_image_overlay);
 
 		mBucketScrollContainer = Ui.findView(mRootC, R.id.trip_bucket_scroll);
 		mBucketHotelContainer = Ui.findView(mRootC, R.id.bucket_hotel_frag_container);
@@ -537,6 +542,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		mHotelConfFrag = FragmentAvailabilityUtils.setFragmentAvailability(mHotelConfAvailable,
 			FRAG_TAG_CONF_HOTEL, manager, transaction, this, R.id.confirmation_container, false);
 
+		mBlurredBgFrag = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_BLUR_BG,
+			manager, transaction, this, R.id.blurred_dest_image_overlay, false);
+
 
 		transaction.commit();
 	}
@@ -608,6 +616,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		else if (FRAG_TAG_CONF_HOTEL.equals(tag)) {
 			return mHotelConfFrag;
 		}
+		else if (FRAG_TAG_BLUR_BG.equals(tag)) {
+			return mBlurredBgFrag;
+		}
 		return null;
 	}
 
@@ -640,6 +651,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else if (FRAG_TAG_CONF_HOTEL.equals(tag)) {
 			return new HotelConfirmationFragment();
+		}
+		else if (FRAG_TAG_BLUR_BG.equals(tag)) {
+			String dest = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+			return ResultsBackgroundImageFragment.newInstance(dest, true);
 		}
 		return null;
 	}
