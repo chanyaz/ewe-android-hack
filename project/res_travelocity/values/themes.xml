@@ -19,7 +19,7 @@
         <item name="loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
         <item name="hotelConfirmationCallActionText">@string/call_travelocity_customer_support</item>
         <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
-        <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_blue</item>
+        <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_tvly</item>
         <item name="hotelCheckoutLoginButtonText">@string/Log_in_with_Travelocity</item>
         <item name="hotelCheckoutLoginLogoDrawable">@drawable/ic_log_in_travelocity</item>
         <item name="hotelCheckoutLogoutLogoDrawable">@drawable/ic_travelocity_logo</item>
@@ -80,7 +80,7 @@
         <!-- Only do this for ABS - newer versions will use latest holo radio button anyways -->
         <item name="actionBarWidgetTheme">@style/FlightActionBarWidgetTheme</item>
         <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
-        <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_blue</item>
+        <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_tvly</item>
         <item name="flightCheckoutAccountLabel">@string/travelocity_account</item>
 
         <item name="travellerInfoPageLogo">@drawable/ic_tvly_traveller_logo</item>
