@@ -9,6 +9,7 @@ import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 import com.mobiata.android.time.widget.CalendarPicker;
 import com.mobiata.android.util.Ui;
 
+import static com.expedia.bookings.test.utils.ViewActions.clickDates;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -21,8 +22,6 @@ public class SearchScreen {
 
 	public SearchScreen() {
 	}
-
-	private static CalendarPicker sPicker;
 
 	// Object access
 
@@ -54,11 +53,8 @@ public class SearchScreen {
 		return onView(withId(R.id.guests_text_view));
 	}
 
-	public static CalendarPicker calendarPicker(Activity a) {
-		if (sPicker == null) {
-			sPicker = Ui.findView(a, R.id.calendar_picker);
-		}
-		return sPicker;
+	public static ViewInteraction calendarPicker() {
+		return onView(withId(R.id.calendar_picker));
 	}
 
 	// Object interaction
@@ -109,11 +105,7 @@ public class SearchScreen {
 		guestsTextView().perform(click());
 	}
 
-	public static void clickDate(final Activity a, final LocalDate start, final LocalDate end) {
-		a.runOnUiThread(new Runnable() {
-			public void run() {
-				calendarPicker(a).setSelectedDates(start, end);
-			}
-		});
+	public static void clickDate(final LocalDate start, final LocalDate end) {
+		calendarPicker().perform(clickDates(start, end));
 	}
 }
