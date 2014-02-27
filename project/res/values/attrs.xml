@@ -300,4 +300,8 @@
     <attr name="itinDefaultPlaceholderDrawable" format="reference" />
     <attr name="itinCardTitleBackground" format="reference" />
 
+    <!-- trips tab related -->
+    <attr name="itinCardBackground" format="reference"/>
+    <attr name="itinFlightsTripLineColor" format="reference"/>
+
 </resources>

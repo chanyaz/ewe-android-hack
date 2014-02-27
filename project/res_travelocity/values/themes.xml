@@ -109,6 +109,8 @@
         <item name="itinFlightPlaceholderDrawable">@drawable/bg_itin_travelocity_placeholder_flight</item>
         <item name="itinDefaultPlaceholderDrawable">@drawable/bg_itin_travelocity_fallback_activity</item>
         <item name="itinCardTitleBackground">@drawable/bg_itin_card_title_travelocity</item>
+        <item name="itinCardBackground">@drawable/bg_itin_card_tvly</item>
+        <item name="itinFlightsTripLineColor">@color/itin_flight_line_color_tvly</item>
     </style>
 
     <style name="FlightActionBarTravelocity" parent="FlightActionBar">

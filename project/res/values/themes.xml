@@ -283,6 +283,8 @@
         <item name="itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
         <item name="itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
         <item name="itinCardTitleBackground">@drawable/bg_itin_card_title</item>
+        <item name="itinCardBackground">@drawable/bg_itin_card</item>
+        <item name="itinFlightsTripLineColor">@color/itin_flight_line_color</item>
     </style>
 
     <style name="ItineraryTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
