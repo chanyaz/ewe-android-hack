@@ -181,7 +181,6 @@ public abstract class LoadWalletFragment extends WalletFragment {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Log.d("HERE onActivityResult(" + requestCode + ", " + resultCode + ")");
 
 		switch (requestCode) {
 		case REQUEST_CODE_RESOLVE_ERR:
@@ -198,17 +197,14 @@ public abstract class LoadWalletFragment extends WalletFragment {
 			case Activity.RESULT_CANCELED:
 				break;
 			default:
-				Log.d("HERE load masked wallet, error bitch");
 				int errorCode = data.getIntExtra(WalletConstants.EXTRA_ERROR_CODE, -1);
 				handleError(errorCode);
 				break;
 			}
 			break;
 		case REQUEST_CODE_RESOLVE_CHECK_FOR_PRE_AUTHORIZATION:
-			Log.d("HERE check for pre auth");
 			switch (resultCode) {
 			case Activity.RESULT_OK:
-				Log.d("HERE check for pre auth, result ok");
 				onPreAuthorizationDetermined(data.getBooleanExtra(WalletConstants.EXTRA_IS_USER_PREAUTHORIZED, false));
 			}
 			break;
