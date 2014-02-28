@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.Location;
@@ -81,7 +82,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 	@Override
 	public int getHeaderImagePlaceholderResId() {
-		return R.drawable.default_flights_background;
+		return Ui.obtainThemeResID(getContext(), R.attr.itinCarPlaceholderDrawable);
 	}
 
 	@Override
@@ -90,7 +91,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		DestinationBitmapDrawable bitmapDrawable = new DestinationBitmapDrawable(getResources(),
 				getHeaderImagePlaceholderResId(),
 				car.getCategory(), car.getType(), width, height);
-		setSharableImageURL("http://media.expedia.com/mobiata/mobile/car/convertible_720_500.jpg");
+		setSharableImageURL(ExpediaBookingApp.MEDIA_URL + "/mobiata/mobile/car/convertible_720_500.jpg");
 		return bitmapDrawable;
 	}
 

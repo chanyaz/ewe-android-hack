@@ -19,7 +19,7 @@
         <item name="loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
         <item name="hotelConfirmationCallActionText">@string/call_travelocity_customer_support</item>
         <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
-        <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_blue</item>
+        <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_tvly</item>
         <item name="hotelCheckoutLoginButtonText">@string/Log_in_with_Travelocity</item>
         <item name="hotelCheckoutLoginLogoDrawable">@drawable/ic_log_in_travelocity</item>
         <item name="hotelCheckoutLogoutLogoDrawable">@drawable/ic_travelocity_logo</item>
@@ -48,6 +48,7 @@
         <item name="savePaymentToAccountString">@string/save_billing_travelocity_info_message</item>
         <item name="saveTravelerToAccountString">@string/save_traveler_travelocity_message_TEMPLATE</item>
         <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_tvly_white_logo_small</item>
+        <item name="bgFindItineraryButton">@drawable/btn_find_tvly</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">
@@ -79,7 +80,7 @@
         <!-- Only do this for ABS - newer versions will use latest holo radio button anyways -->
         <item name="actionBarWidgetTheme">@style/FlightActionBarWidgetTheme</item>
         <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
-        <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_blue</item>
+        <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_tvly</item>
         <item name="flightCheckoutAccountLabel">@string/travelocity_account</item>
 
         <item name="travellerInfoPageLogo">@drawable/ic_tvly_traveller_logo</item>
@@ -97,11 +98,25 @@
         <item name="android:logo">@drawable/ic_ab_travelocity_logo</item>
         <item name="actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
         <item name="android:actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
-        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
+        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabTravelocityStyle</item>
         <!-- PopupMenu -->
         <item name="dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
         <item name="android:dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
         <item name="logoutConfirmationString">@string/logout_confirmation_travelocity</item>
+        <item name="itinActivityPlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_activities</item>
+        <item name="itinCarPlaceholderDrawable">@drawable/default_cars_travelocity_background</item>
+        <item name="itinCruisePlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_cruises</item>
+        <item name="itinHotelPlaceholderDrawable">@drawable/placeholder_lg_travelocity</item>
+        <item name="itinFlightPlaceholderDrawable">@drawable/bg_itin_travelocity_placeholder_flight</item>
+        <item name="itinDefaultPlaceholderDrawable">@drawable/bg_itin_travelocity_fallback_activity</item>
+        <item name="itinCardTitleBackground">@drawable/bg_itin_card_title_travelocity</item>
+        <item name="itinCardBackground">@drawable/bg_itin_card_tvly</item>
+        <item name="itinFlightsTripLineColor">@color/itin_flight_line_color_tvly</item>
+    </style>
+
+    <style name="LaunchActionBarTabTravelocityStyle" parent="@style/Widget.Sherlock.ActionBar.TabView">
+        <item name="background">@drawable/tab_indicator_ab_travelocity_launch</item>
+        <item name="android:background">@drawable/tab_indicator_ab_travelocity_launch</item>
     </style>
 
     <style name="FlightActionBarTravelocity" parent="FlightActionBar">
@@ -114,6 +129,9 @@
     <style name="ItineraryTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
         <item name="logo">@drawable/ic_action_bar_travelocity_logo_small</item>
         <item name="android:logo">@drawable/ic_action_bar_travelocity_logo_small</item>
+        <item name="actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
+        <item name="android:actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
+        <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal</item>
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">

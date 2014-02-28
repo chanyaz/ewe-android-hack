@@ -36,16 +36,19 @@ android {
         buildConfigField "boolean", "IS_EXPEDIA", "false"
         buildConfigField "boolean", "IS_VSC", "false"
         buildConfigField "boolean", "IS_TRAVELOCITY", "false"
+        buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
     }
 
     productFlavors {
         Expedia {
             buildConfigField "boolean", "IS_EXPEDIA", "true"
+            buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
             packageName "com.expedia.bookings"
         }
 
         VSC {
             buildConfigField "boolean", "IS_VSC", "true"
+            buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
             packageName "com.expedia.bookings.vsc"
             versionCode 1
             versionName "1.0"
@@ -53,6 +56,7 @@ android {
 
         Travelocity {
             buildConfigField "boolean", "IS_TRAVELOCITY", "true"
+            buildConfigField "String", "MEDIA_URL", "\"http://media.travelocitycustomercare.com\""
             packageName "com.travelocity.android"
             versionCode 1
             versionName "1.0"

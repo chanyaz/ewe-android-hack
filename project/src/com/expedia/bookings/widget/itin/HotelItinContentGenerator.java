@@ -93,7 +93,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public int getHeaderImagePlaceholderResId() {
-		return R.drawable.bg_itin_placeholder;
+		return Ui.obtainThemeResID(getContext(), R.attr.itinHotelPlaceholderDrawable);
 	}
 
 	@Override

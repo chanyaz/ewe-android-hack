@@ -6,4 +6,5 @@
     <color name="action_bar_text_green_travelocity">#7abb00</color>
     <color name="bg_btn_color_travelocity">#7bae00</color>
     <color name="bg_btn_pressed_color_travelocity">#295600</color>
+    <color name="itin_flight_line_color_tvly">#7da426</color>
 </resources>
