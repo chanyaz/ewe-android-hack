@@ -25,6 +25,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightRulesActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -42,6 +43,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
@@ -294,12 +296,20 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		//HEADING
 		String headingArg = "";
 		if (getLob() == LineOfBusiness.FLIGHTS) {
-			headingArg = "FLIGHT";
+			if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
+				FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+				String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
+				headingArg = getString(R.string.flights_to_TEMPLATE, cityName);
+			}
 		}
 		else if (getLob() == LineOfBusiness.HOTELS) {
-			headingArg = "HOTEL";
+			if (Db.getHotelSearch() != null
+				&& Db.getHotelSearch().getSelectedProperty() != null
+				&& Db.getHotelSearch().getSelectedProperty().getName() != null) {
+				headingArg = Db.getHotelSearch().getSelectedProperty().getName();
+			}
 		}
-		addGroupHeading(getString(R.string.now_booking_TEMPLATE, headingArg));
+		addGroupHeading(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, headingArg)));
 
 		//LOGIN CONTAINER
 		FrameLayout frame = new FrameLayout(getActivity());

@@ -131,32 +131,15 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 			try {
 				LineOfBusiness lob = LineOfBusiness.valueOf(intent.getStringExtra(ARG_LOB));
 				mFragCheckoutController.setLob(lob);
-
-				//ActionBar title stuff
-				ActionBar ab = getActionBar();
-				String bookingArg = "";
-				if (lob == LineOfBusiness.FLIGHTS) {
-					if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
-						FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
-						String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
-						bookingArg = getString(R.string.flights_to_TEMPLATE, cityName);
-					}
-				}
-				else {
-					if (Db.getHotelSearch() != null
-						&& Db.getHotelSearch().getSelectedProperty() != null
-						&& Db.getHotelSearch().getSelectedProperty().getName() != null) {
-						bookingArg = Db.getHotelSearch().getSelectedProperty().getName();
-					}
-				}
-
-				ab.setDisplayShowTitleEnabled(true);
-				ab.setTitle(android.text.Html.fromHtml(getString(R.string.now_booking_TEMPLATE, bookingArg)));
-
 			}
 			catch (Exception ex) {
 				Log.e("Exception parsing lob from intent.", ex);
 			}
+
+			// ActionBar title
+			ActionBar ab = getActionBar();
+			ab.setDisplayShowTitleEnabled(true);
+			ab.setTitle(getString(R.string.Checkout));
 		}
 	}
 

@@ -205,11 +205,13 @@
     <string name="spinner_text_hotel_create_trip">Creating the trip ...</string>
     
     <!-- Tablet Checkout -->
+    <!-- Actionbar Title - "Checkout" -->
+    <string name="Checkout">Checkout</string>
     <!-- Your Trip -->
     <string name="your_trip">Your Trip</string>
-    <!-- now booking template (e.g. "Now Bookin Hotel Lancaster") -->
+    <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
     <string name="now_booking_TEMPLATE">Now Booking &lt;b&gt;%1$s&lt;/b&gt;</string>
-    <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights) -->
+    <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights)" -->
     <string name="dates_and_nights_TEMPLATE">%1$s (%2$s)</string>
 
     <!-- Facebook -->
