@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.math.BigDecimal;
 
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 
@@ -48,14 +49,11 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	private static final String RETRY_CREATE_TRIP_DIALOG = "RETRY_CREATE_TRIP_DIALOG";
 	private static final String HOTEL_OFFER_ERROR_DIALOG = "HOTEL_OFFER_ERROR_DIALOG";
 
+	private static final String INSTANCE_HOTELBOOKING_STATE = "INSTANCE_HOTELBOOKING_STATE";
+
 	private CreateTripDownloadStatusListener mCreateTripDownloadStatusListener;
 
-	private CouponDownloadStatusListener mCouponDownloadStatusListener;
 	private String mCouponCode;
-	private boolean mApplyCouponInitiated;
-	private boolean mRemoveCouponInitiated;
-
-	private boolean mCheckoutInitiated;
 
 	private HotelBookingState mState = HotelBookingState.DEFAULT;
 
@@ -111,6 +109,20 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 		return BookingResponse.class;
 	}
 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		if (savedInstanceState != null) {
+			mState = (HotelBookingState) savedInstanceState.getSerializable(INSTANCE_HOTELBOOKING_STATE);
+		}
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putSerializable(INSTANCE_HOTELBOOKING_STATE, mState);
+	}
+
 	// FullWalletFragment
 
 	@Override
@@ -162,6 +174,25 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 		case CREATE_TRIP:
 			startCreateTripDownload();
 			break;
+		case COUPON_APPLY:
+			if (mCouponCode == null) {
+				Log.w("Coupon Code is null or not set. Please call startDownload(HotelBookingState, String) instead and pass the coupon code.");
+			}
+			else {
+				applyCoupon(mCouponCode);
+			}
+			break;
+		case COUPON_REMOVE:
+			clearCoupon();
+			break;
+		case CHECKOUT:
+			if (Db.getHotelSearch().getCreateTripResponse() == null) {
+				startCreateTripDownload();
+			}
+			else {
+				doBooking();
+			}
+			break;
 		default:
 			break;
 		}
@@ -174,6 +205,24 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 		}
 		else {
 			startDownload(state);
+		}
+	}
+
+	public void cancelDownload(HotelBookingState state) {
+		Log.v("HotelBookingFragment cancelDownload requested for : " + state);
+		mState = state;
+		switch (state) {
+		case COUPON_APPLY:
+			cancelCreateTripDownload();
+			cancelApplyCouponDownloader();
+			// Post event to the Otto Bus.
+			Events.post(new Events.CouponDownloadCancel());
+			break;
+		case COUPON_REMOVE:
+			cancelCreateTripDownload();
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -290,11 +339,6 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	/////////////////////////////////////////////////////
 	///// Create Trip service related
 
-	public void startCreateTripForCheckout() {
-		mCheckoutInitiated = true;
-		startCreateTripDownload();
-	}
-
 	private void startCreateTripDownload() {
 		// Let's cancel download if already running.
 		cancelCreateTripDownload();
@@ -334,24 +378,25 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 
 	private void onCreateTripCallSuccess(CreateTripResponse response) {
 		Db.getHotelSearch().setCreateTripResponse(response);
-		if (mApplyCouponInitiated) {
-			mApplyCouponInitiated = false;
+		switch (mState) {
+		case COUPON_APPLY:
 			startApplyCouponDownloader(mCouponCode);
-		}
-		else if (mRemoveCouponInitiated) {
+			break;
+		case COUPON_REMOVE:
 			mCouponCode = null;
-			mRemoveCouponInitiated = false;
 			Db.getHotelSearch().setCouponApplied(false);
 			OmnitureTracking.trackHotelCouponRemoved(getActivity());
-			mCouponDownloadStatusListener.onPostRemove(response.getNewRate());
-		}
-		else if (mCheckoutInitiated) {
-			mCheckoutInitiated = false;
+			// Post coupon successfully removed event to the Otto Bus.
+			Events.post(new Events.CouponRemoveDownloadSuccess(response.getNewRate()));
+			break;
+		case CHECKOUT:
 			doBooking();
-		}
-		else {
+			break;
+
+		default:
 			// Post success event to the Otto Bus.
 			Events.post(new Events.CreateTripDownloadSuccess(response));
+			break;
 		}
 	}
 
@@ -410,27 +455,33 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	@Override
 	public void onRetryError() {
 		//Restart calls again depending on the status
-		if (mApplyCouponInitiated) {
+
+		switch (mState) {
+		case COUPON_APPLY:
 			applyCoupon(mCouponCode);
-		}
-		else if (mRemoveCouponInitiated) {
+			break;
+		case COUPON_REMOVE:
 			clearCoupon();
-		}
-		else if (mCheckoutInitiated) {
-			startCreateTripForCheckout();
-		}
-		else {
+			break;
+		case CHECKOUT:
+			startCreateTripDownload();
+			break;
+
+		default:
 			// Post event to the Otto Bus.
 			Events.post(new Events.CreateTripDownloadRetry());
+			break;
 		}
+
 	}
 
 	@Override
 	public void onCancelError() {
 		//On cancelling the retry dialog do appropriately
-		if (mApplyCouponInitiated || mRemoveCouponInitiated) {
-			cancelCoupon();
-			mCouponDownloadStatusListener.onCouponCancel();
+		if (mState == HotelBookingState.COUPON_APPLY || mState == HotelBookingState.COUPON_REMOVE) {
+			cancelDownload(mState);
+			// Post event to the Otto Bus.
+			Events.post(new Events.CouponDownloadCancel());
 		}
 		else {
 			if (mCreateTripDownloadStatusListener != null) {
@@ -451,32 +502,23 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	 * As of now coupons are applied for Hotels only.
 	 * @param couponCode
 	 */
-	public void applyCoupon(String couponCode) {
-		mApplyCouponInitiated = true;
-		mRemoveCouponInitiated = false;
+	private void applyCoupon(String couponCode) {
 		mCouponCode = couponCode;
-		startCreateTripDownload();
+		if (Db.getHotelSearch().getCreateTripResponse() == null) {
+			startCreateTripDownload();
+		}
+		else {
+			startApplyCouponDownloader(mCouponCode);
+		}
 	}
 
 	/**
 	 * This method initiates the coupon removal process during checkout.
 	 * Add {@link CouponDownloadStatusListener} to listen to coupon download status updates.
 	 */
-	public void clearCoupon() {
-		mApplyCouponInitiated = false;
-		mRemoveCouponInitiated = true;
+	private void clearCoupon() {
 		cancelApplyCouponDownloader();
 		startCreateTripDownload();
-	}
-
-	/**
-	 * This method cancels an ongoing coupon application/removal calls.
-	 */
-	public void cancelCoupon() {
-		mApplyCouponInitiated = false;
-		mRemoveCouponInitiated = false;
-		cancelCreateTripDownload();
-		cancelApplyCouponDownloader();
 	}
 
 	private void startApplyCouponDownloader(String couponCode) {
@@ -507,61 +549,39 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	private final OnDownloadComplete<CreateTripResponse> mCouponCallback = new OnDownloadComplete<CreateTripResponse>() {
 		@Override
 		public void onDownload(CreateTripResponse response) {
-			mApplyCouponInitiated = false;
 			// Don't execute if we were killed before finishing
 			if (!isAdded()) {
 				return;
 			}
 
-			if (mCouponDownloadStatusListener != null) {
-				if (response == null) {
-					Log.w("Failed to apply coupon code (null response): " + mCouponCode);
+			if (response == null) {
+				Log.w("Failed to apply coupon code (null response): " + mCouponCode);
 
-					DialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_error_no_code));
-					df.show(getChildFragmentManager(), "couponError");
+				DialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_error_no_code));
+				df.show(getChildFragmentManager(), "couponError");
 
-					mCouponDownloadStatusListener.onFinishHandleWalletError();
-				}
-				else if (response.hasErrors()) {
-					Log.w("Failed to apply coupon code (server errors): " + mCouponCode);
+				// Post event to the Otto Bus.
+				Events.post(new Events.CouponDownloadError());
+			}
+			else if (response.hasErrors()) {
+				Log.w("Failed to apply coupon code (server errors): " + mCouponCode);
 
-					DialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_error_no_code));
-					df.show(getChildFragmentManager(), "couponError");
+				DialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_error_no_code));
+				df.show(getChildFragmentManager(), "couponError");
 
-					mCouponDownloadStatusListener.onFinishHandleWalletError();
-				}
-				else {
-					Log.i("Applied coupon code: " + mCouponCode);
-
-					Db.getHotelSearch().setCouponApplied(true);
-					Db.getHotelSearch().setCreateTripResponse(response);
-
-					OmnitureTracking.trackHotelCouponApplied(getActivity(), mCouponCode);
-				}
-
-				// Regardless of what happened, let's refresh the data
-				mCouponDownloadStatusListener.onPostApply(response.getNewRate());
+				// Post event to the Otto Bus.
+				Events.post(new Events.CouponDownloadError());
 			}
 			else {
-				Log.w("Coupon download completed. Please add a CouponDownloadListener to get handle for all the onDownload finish methods.");
+				Log.i("Applied coupon code: " + mCouponCode);
+
+				Db.getHotelSearch().setCouponApplied(true);
+				Db.getHotelSearch().setCreateTripResponse(response);
+
+				OmnitureTracking.trackHotelCouponApplied(getActivity(), mCouponCode);
+				// Post event to the Otto Bus.
+				Events.post(new Events.CouponApplyDownloadSuccess(response.getNewRate()));
 			}
 		}
 	};
-
-	/**
-	 * Coupon download response status listener.
-	 */
-	public interface CouponDownloadStatusListener {
-		public void onFinishHandleWalletError();
-
-		public void onPostApply(Rate rate);
-
-		public void onPostRemove(Rate rate);
-
-		public void onCouponCancel();
-	}
-
-	public void addCouponDownloadStatusListener(CouponDownloadStatusListener listener) {
-		mCouponDownloadStatusListener = listener;
-	}
 }

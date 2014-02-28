@@ -17,13 +17,14 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.dialog.CouponDialogFragment;
 import com.expedia.bookings.dialog.CouponDialogFragment.CouponDialogFragmentListener;
 import com.expedia.bookings.dialog.ThrobberDialog;
-import com.expedia.bookings.fragment.HotelBookingFragment.CouponDownloadStatusListener;
+import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingState;
 import com.expedia.bookings.fragment.base.LobableFragment;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
-import com.mobiata.android.util.Ui;
+import com.expedia.bookings.utils.Ui;
+import com.squareup.otto.Subscribe;
 
-public class CheckoutCouponFragment extends LobableFragment implements OnClickListener, CouponDialogFragmentListener,
-		CouponDownloadStatusListener {
+public class CheckoutCouponFragment extends LobableFragment implements OnClickListener, CouponDialogFragmentListener {
 
 	private TextView mCouponTextButton;
 	private ViewGroup mCouponAppliedContainer;
@@ -33,8 +34,6 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 	private CouponDialogFragment mCouponDialogFragment;
 	private ThrobberDialog mCouponRemoveThrobberDialog;
 	private HotelBookingFragment mHotelBookingFragment;
-
-	private CouponStatusListener mCouponStatusListener;
 
 	private FragmentModificationSafeLock mFragmentModLock = new FragmentModificationSafeLock();
 
@@ -56,8 +55,6 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 			ft.add(mHotelBookingFragment, HotelBookingFragment.TAG);
 			ft.commit();
 		}
-		mHotelBookingFragment.addCouponDownloadStatusListener(this);
-		mCouponStatusListener = Ui.findFragmentListener(this, CouponStatusListener.class);
 	}
 
 	@Override
@@ -81,6 +78,17 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 	public void onResume() {
 		super.onResume();
 		mFragmentModLock.setSafe(true);
+		// Register on Otto bus
+		Events.register(this);
+		updateViews();
+		updateViewVisibilities();
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		// UnRegister on Otto bus
+		Events.unregister(this);
 	}
 
 	@Override
@@ -120,41 +128,17 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 			}
 		});
 
-		mHotelBookingFragment.clearCoupon();
+		mHotelBookingFragment.startDownload(HotelBookingState.COUPON_REMOVE);
 	}
 
 	@Override
-	public void onApplyCoupon(String code) {
-		mHotelBookingFragment.applyCoupon(code);
+	public void onApplyCoupon(String couponCode) {
+		mHotelBookingFragment.startDownload(HotelBookingState.COUPON_APPLY, couponCode);
 	}
 
 	@Override
 	public void onCancelApplyCoupon() {
-		mHotelBookingFragment.cancelCoupon();
-	}
-
-	@Override
-	public void onFinishHandleWalletError() {
-	}
-
-	@Override
-	public void onPostApply(Rate rate) {
-		dismissDialogs();
-		updateViews();
-		updateViewVisibilities();
-		mCouponStatusListener.onCouponApplied(rate);
-	}
-
-	@Override
-	public void onPostRemove(Rate rate) {
-		updateViewVisibilities();
-		dismissDialogs();
-		mCouponStatusListener.onCouponRemoved(rate);
-	}
-
-	@Override
-	public void onCouponCancel() {
-		dismissDialogs();
+		mHotelBookingFragment.cancelDownload(HotelBookingState.COUPON_APPLY);
 	}
 
 	private void updateViews() {
@@ -190,18 +174,41 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 	}
 
 	private void dismissDialogs() {
+		mCouponRemoveThrobberDialog = Ui.findSupportFragment(this, ThrobberDialog.TAG);
 		if (mCouponRemoveThrobberDialog != null && mCouponRemoveThrobberDialog.isAdded()) {
 			mCouponRemoveThrobberDialog.dismiss();
 		}
+		mCouponDialogFragment = Ui.findChildSupportFragment(this, CouponDialogFragment.TAG);
 		if (mCouponDialogFragment != null && mCouponDialogFragment.isAdded()) {
 			mCouponDialogFragment.dismiss();
 		}
 	}
 
-	public interface CouponStatusListener {
-		public void onCouponApplied(Rate rate);
+	///////////////////////////////////
+	/// Otto Event Subscriptions
 
-		public void onCouponRemoved(Rate rate);
+	@Subscribe
+	public void onCouponApplied(Events.CouponApplyDownloadSuccess event) {
+		dismissDialogs();
+		updateViews();
+		updateViewVisibilities();
+	}
+
+	@Subscribe
+	public void onCouponRemoved(Events.CouponRemoveDownloadSuccess event) {
+		updateViewVisibilities();
+		dismissDialogs();
+	}
+
+	@Subscribe
+	public void onCouponCancel(Events.CouponDownloadCancel event) {
+		dismissDialogs();
+	}
+
+	@Subscribe
+	public void onCouponDownloadError(Events.CouponDownloadError event) {
+		dismissDialogs();
+		// Do something on error
 	}
 
 }

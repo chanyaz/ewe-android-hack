@@ -1,8 +1,8 @@
 package com.expedia.bookings.otto;
 
 import com.expedia.bookings.data.CreateTripResponse;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelProductResponse;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
@@ -112,6 +112,41 @@ public class Events {
 	 * This event notifies that the user does not want to retry the CreateTripDownload
 	 */
 	public static class CreateTripDownloadRetryCancel {
+	}
+
+	/**
+	 * This event notifies CouponApplyDownload call has succeeded
+	 */
+	public static class CouponApplyDownloadSuccess {
+		public final Rate newRate;
+
+		public CouponApplyDownloadSuccess(Rate rate) {
+			this.newRate = rate;
+		}
+	}
+
+	/**
+	 * This event notifies CouponRemoveDownload call has succeeded
+	 */
+	public static class CouponRemoveDownloadSuccess {
+		public final Rate rate;
+
+		public CouponRemoveDownloadSuccess(Rate rate) {
+			this.rate = rate;
+		}
+	}
+
+	/**
+	 * This event notifies that user has requested to cancel applying the coupon
+	 */
+	public static class CouponDownloadCancel {
+	}
+
+	/**
+	 * This event notifies that the CouponDownload call completed with an error
+	 */
+	public static class CouponDownloadError {
+
 	}
 
 }

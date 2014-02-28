@@ -50,7 +50,6 @@ import com.expedia.bookings.dialog.CouponDialogFragment.CouponDialogFragmentList
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.dialog.ThrobberDialog.CancelListener;
-import com.expedia.bookings.fragment.HotelBookingFragment.CouponDownloadStatusListener;
 import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingState;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.model.HotelPaymentFlowState;
@@ -87,8 +86,7 @@ import com.nineoldandroids.view.ViewHelper;
 import com.squareup.otto.Subscribe;
 
 public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
-		CancelListener, SimpleCallbackDialogFragmentListener, CouponDialogFragmentListener,
-		CouponDownloadStatusListener {
+		CancelListener, SimpleCallbackDialogFragmentListener, CouponDialogFragmentListener {
 
 	public interface BookingOverviewFragmentListener {
 		public void checkoutStarted();
@@ -205,7 +203,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			ft.commit();
 		}
 
-		mHotelBookingFragment.addCouponDownloadStatusListener(this);
 	}
 
 	@Override
@@ -1289,7 +1286,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	public void applyCoupon() {
 		Log.i("Trying to apply coupon code: " + mCouponCode);
 
-		mHotelBookingFragment.applyCoupon(mCouponCode);
+		mHotelBookingFragment.startDownload(HotelBookingState.COUPON_APPLY, mCouponCode);
 
 		updateViewVisibilities();
 
@@ -1316,7 +1313,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			}
 		});
 
-		mHotelBookingFragment.clearCoupon();
+		mHotelBookingFragment.startDownload(HotelBookingState.COUPON_REMOVE);
 	}
 
 	private boolean usingWalletPromoCoupon() {
@@ -1349,7 +1346,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private void clearWalletPromoCoupon() {
 		mCouponCode = null;
-		mHotelBookingFragment.cancelCoupon();
+		mHotelBookingFragment.cancelDownload(HotelBookingState.COUPON_APPLY);
 		Db.getHotelSearch().setCreateTripResponse(null);
 
 		if (mWalletPromoThrobberDialog != null) {
@@ -1416,12 +1413,12 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	@Override
 	public void onApplyCoupon(String couponCode) {
 		mCouponCode = couponCode;
-		mHotelBookingFragment.applyCoupon(mCouponCode);
+		applyCoupon();
 	}
 
 	@Override
 	public void onCancelApplyCoupon() {
-		mHotelBookingFragment.cancelCoupon();
+		mHotelBookingFragment.cancelDownload(HotelBookingState.COUPON_APPLY);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1440,35 +1437,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 	}
 
-	@Subscribe
-	public void onHotelProductDownloadSuccess(Events.HotelProductDownloadSuccess response) {
-		mIsDoneLoadingPriceChange = true;
-		updateViews();
-		updateViewVisibilities();
-	}
-
-	@Override
-	public void onFinishHandleWalletError() {
-		handleWalletPromoErrorIfApplicable();
-	}
-
-	@Override
-	public void onPostApply(Rate rate) {
-		dismissDialogs();
-		refreshData();
-	}
-
-	@Override
-	public void onPostRemove(Rate rate) {
-		dismissDialogs();
-		refreshData();
-	}
-
-	@Override
-	public void onCouponCancel() {
-		dismissDialogs();
-	}
-
 	private void dismissDialogs() {
 		if (mCouponDialogFragment != null && mCouponDialogFragment.isAdded()) {
 			mCouponDialogFragment.dismiss();
@@ -1479,6 +1447,38 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (mCouponRemoveThrobberDialog != null && mCouponRemoveThrobberDialog.isAdded()) {
 			mCouponRemoveThrobberDialog.dismiss();
 		}
+	}
+
+	///////////////////////////////////
+	/// Otto Event Subscriptions
+
+	@Subscribe
+	public void onHotelProductDownloadSuccess(Events.HotelProductDownloadSuccess event) {
+		mIsDoneLoadingPriceChange = true;
+		updateViews();
+		updateViewVisibilities();
+	}
+
+	@Subscribe
+	public void onCouponApplied(Events.CouponApplyDownloadSuccess event) {
+		dismissDialogs();
+		refreshData();
+	}
+
+	@Subscribe
+	public void onCouponRemoved(Events.CouponRemoveDownloadSuccess event) {
+		dismissDialogs();
+		refreshData();
+	}
+
+	@Subscribe
+	public void onCouponCancel(Events.CouponDownloadCancel event) {
+		dismissDialogs();
+	}
+
+	@Subscribe
+	public void onCouponDownloadError(Events.CouponDownloadError event) {
+		handleWalletPromoErrorIfApplicable();
 	}
 
 }

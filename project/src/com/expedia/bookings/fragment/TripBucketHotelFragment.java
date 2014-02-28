@@ -108,4 +108,15 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		}
 	};
 
+	public void refreshRate() {
+		// Update the price in the expanded tripbucket.
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		if (mHotelSection != null && hotel != null) {
+			Rate rate = hotel.getRate();
+			String price = rate.getDisplayTotalPrice().getFormattedMoney();
+			Ui.setText(getActivity(), R.id.price_expanded_bucket_text_view, price);
+		}
+
+	}
+
 }

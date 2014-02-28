@@ -8,6 +8,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingState;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.wallet.FullWallet;
 import com.google.android.gms.wallet.MaskedWallet;
@@ -150,7 +151,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		 *  In that case just start the checkout else call create.
 		 */
 		if (Db.getHotelSearch().getCreateTripResponse() == null) {
-			mHotelBookingFragment.startCreateTripForCheckout();
+			mHotelBookingFragment.startDownload(HotelBookingState.CHECKOUT);
 		}
 		else {
 			startBookingDownload();

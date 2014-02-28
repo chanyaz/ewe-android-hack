@@ -30,7 +30,6 @@ import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -40,9 +39,10 @@ import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.fragment.BookingFragment.BookingFragmentListener;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
-import com.expedia.bookings.fragment.CheckoutCouponFragment.CouponStatusListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingState;
+import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
+import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IStateListener;
@@ -53,6 +53,8 @@ import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.otto.Events.CouponApplyDownloadSuccess;
+import com.expedia.bookings.otto.Events.CouponRemoveDownloadSuccess;
 import com.expedia.bookings.otto.Events.CreateTripDownloadError;
 import com.expedia.bookings.otto.Events.CreateTripDownloadRetry;
 import com.expedia.bookings.otto.Events.CreateTripDownloadRetryCancel;
@@ -70,9 +72,6 @@ import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.squareup.otto.Subscribe;
 
-import static com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
-import static com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
-
 /**
  * TabletCheckoutControllerFragment: designed for tablet checkout 2014
  * This controls all the fragments relating to tablet checkout
@@ -80,7 +79,7 @@ import static com.expedia.bookings.fragment.UnhandledErrorDialogFragment.Unhandl
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletCheckoutControllerFragment extends LobableFragment implements IBackManageable,
 	IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener,
-	CheckoutInformationListener, BookingFragmentListener, SimpleCallbackDialogFragmentListener, CouponStatusListener, UnhandledErrorDialogFragmentListener {
+	CheckoutInformationListener, BookingFragmentListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener {
 
 	private static final String STATE_CHECKOUT_STATE = "STATE_CHECKOUT_STATE";
 
@@ -815,20 +814,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	}
 
-	@Override
-	public void onCouponApplied(Rate rate) {
-		Db.getTripBucket().getHotel().setIsCouponApplied(true);
-		Db.getTripBucket().getHotel().setCouponRate(rate);
-		mBucketHotelFrag.doBind();
-	}
-
-	@Override
-	public void onCouponRemoved(Rate rate) {
-		Db.getTripBucket().getHotel().setIsCouponApplied(false);
-		Db.getTripBucket().getHotel().setCouponRate(null);
-		mBucketHotelFrag.doBind();
-	}
-
 	// Error response handling
 	public void handleFlightsBookingErrors(FlightCheckoutResponse response) {
 		List<ServerError> errors = response.getErrors();
@@ -1056,4 +1041,19 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			getActivity().finish();
 		}
 	}
+
+	@Subscribe
+	public void onCouponApplySuccess(CouponApplyDownloadSuccess event) {
+		Db.getTripBucket().getHotel().setIsCouponApplied(true);
+		Db.getTripBucket().getHotel().setCouponRate(event.newRate);
+		mBucketHotelFrag.refreshRate();
+	}
+
+	@Subscribe
+	public void onCouponRemoveSuccess(CouponRemoveDownloadSuccess event) {
+		Db.getTripBucket().getHotel().setIsCouponApplied(false);
+		Db.getTripBucket().getHotel().setCouponRate(null);
+		mBucketHotelFrag.refreshRate();
+	}
+
 }
