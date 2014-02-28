@@ -397,7 +397,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	};
 
 	private void setShowCvvPercentage(float percentage) {
-		mBucketScrollContainer.setTranslationX(percentage * -mBucketScrollContainer.getWidth());
 		mFormContainer.setTranslationX(percentage * mFormContainer.getWidth());
 		mCvvContainer.setTranslationX((1f - percentage) * -mCvvContainer.getWidth());
 	}
@@ -438,7 +437,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else if (state == CheckoutState.CVV) {
 			mFormContainer.setVisibility(View.INVISIBLE);
-			mBucketScrollContainer.setVisibility(View.INVISIBLE);
+			mBucketScrollContainer.setVisibility(View.VISIBLE);
 			mCvvContainer.setVisibility(View.VISIBLE);
 			mSlideContainer.setVisibility(View.INVISIBLE);
 			mSlideAndFormContainer.setVisibility(View.INVISIBLE);
