@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.format.DateUtils;
@@ -33,6 +34,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.enums.TripBucketItemState;
@@ -40,6 +42,7 @@ import com.expedia.bookings.fragment.BookingFragment.BookingFragmentListener;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.CheckoutCouponFragment.CouponStatusListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
+import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingState;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IStateListener;
@@ -49,15 +52,23 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
+import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.otto.Events.CreateTripDownloadError;
+import com.expedia.bookings.otto.Events.CreateTripDownloadRetry;
+import com.expedia.bookings.otto.Events.CreateTripDownloadRetryCancel;
+import com.expedia.bookings.otto.Events.CreateTripDownloadSuccess;
+import com.expedia.bookings.otto.Events.HotelProductDownloadSuccess;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.JodaUtils;
+import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.utils.DateTimeUtils;
+import com.squareup.otto.Subscribe;
 
 import static com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import static com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
@@ -114,9 +125,35 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private static final int DIALOG_CALLBACK_EXPIRED_CC = 2;
 	private static final int DIALOG_CALLBACK_MINOR = 3;
 
+	private static final String TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG = "TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG";
+	private static final String TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG = "TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG";
+
+	private static final String INSTANCE_DONE_LOADING_PRICE_CHANGE = "INSTANCE_DONE_LOADING_PRICE_CHANGE";
+
+	private boolean mIsDoneLoadingPriceChange = false;
+
 	//vars
 	private StateManager<CheckoutState> mStateManager = new StateManager<CheckoutState>(
-		CheckoutState.OVERVIEW, this);
+			CheckoutState.OVERVIEW, this);
+
+	private ThrobberDialog mHotelProductDownloadThrobber;
+	private ThrobberDialog mCreateTripDownloadThrobber;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// We should ALWAYS have an instance of the HotelBookingFragment.
+		// Hence we necessarily don't have to use FragmentAvailabilityUtils.setFragmentAvailability
+		mHotelBookingFrag = Ui.findSupportFragment((FragmentActivity) getActivity(), HotelBookingFragment.TAG);
+
+		if (mHotelBookingFrag == null) {
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			mHotelBookingFrag = new HotelBookingFragment();
+			ft.add(mHotelBookingFrag, HotelBookingFragment.TAG);
+			ft.commit();
+		}
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -167,8 +204,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		if (savedInstanceState != null) {
 			mStateManager.setDefaultState(CheckoutState.valueOf(savedInstanceState.getString(
-				STATE_CHECKOUT_STATE,
-				CheckoutState.OVERVIEW.name())));
+					STATE_CHECKOUT_STATE,
+					CheckoutState.OVERVIEW.name())));
+			mIsDoneLoadingPriceChange = savedInstanceState.getBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE);
 		}
 
 		registerStateListener(mStateHelper, false);
@@ -181,11 +219,16 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(STATE_CHECKOUT_STATE, mStateManager.getState().name());
+		outState.putBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE, mIsDoneLoadingPriceChange);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		// Register on Otto bus
+		Events.register(this);
+
 		mBackManager.registerWithParent(this);
 		setCheckoutState(mStateManager.getState(), false);
 		checkForAddedTrips();
@@ -194,6 +237,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Override
 	public void onPause() {
 		super.onPause();
+
+		// UnRegister on Otto bus
+		Events.unregister(this);
+
 		mBackManager.unregisterWithParent(this);
 		if (getActivity().isFinishing()) {
 			if (Db.getTripBucket().getHotel() != null) {
@@ -473,7 +520,14 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mBucketFlightFrag.doCreateTrip();
 		}
 		else if (lob == LineOfBusiness.HOTELS) {
-			mBucketHotelFrag.doCheckoutPrep();
+			getFragmentManager().executePendingTransactions();
+			BackgroundDownloader bd = BackgroundDownloader.getInstance();
+
+			if (!bd.isDownloading(HotelBookingFragment.KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE) && !mIsDoneLoadingPriceChange) {
+				mHotelProductDownloadThrobber = ThrobberDialog.newInstance(getString(R.string.calculating_taxes_and_fees));
+				mHotelProductDownloadThrobber.show(getFragmentManager(), TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG);
+				mHotelBookingFrag.startDownload(HotelBookingState.HOTEL_PRODUCT);
+			}
 		}
 	}
 
@@ -510,7 +564,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		boolean checkoutFormsAvailable = true;
 		boolean cvvAvailable = state != CheckoutState.OVERVIEW;//If we are in cvv mode or are ready to enter it, we add cvv
 		boolean flightBookingFragAvail = state.ordinal() >= CheckoutState.READY_FOR_CHECKOUT.ordinal(); // TODO talk to Joel
-		boolean hotelBookingFragAvail = state.ordinal() >= CheckoutState.READY_FOR_CHECKOUT.ordinal(); // TODO talk to Joel
 
 		boolean mFlightConfAvailable = state == CheckoutState.CONFIRMATION && getLob() == LineOfBusiness.FLIGHTS;
 		boolean mHotelConfAvailable = state == CheckoutState.CONFIRMATION && getLob() == LineOfBusiness.HOTELS;
@@ -533,9 +586,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		mFlightBookingFrag = FragmentAvailabilityUtils.setFragmentAvailability(flightBookingFragAvail,
 			FRAG_TAG_BOOK_FLIGHT, manager, transaction, this, FragmentAvailabilityUtils.INVISIBLE_FRAG, false);
 
-		mHotelBookingFrag = FragmentAvailabilityUtils.setFragmentAvailability(hotelBookingFragAvail,
-			FRAG_TAG_BOOK_HOTEL, manager, transaction, this, FragmentAvailabilityUtils.INVISIBLE_FRAG, false);
-
 		mFlightConfFrag = FragmentAvailabilityUtils.setFragmentAvailability(mFlightConfAvailable,
 			FRAG_TAG_CONF_FLIGHT, manager, transaction, this, R.id.confirmation_container, false);
 
@@ -544,7 +594,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		mBlurredBgFrag = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_BLUR_BG,
 			manager, transaction, this, R.id.blurred_dest_image_overlay, false);
-
 
 		transaction.commit();
 	}
@@ -952,6 +1001,59 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else {
 			setCheckoutState(CheckoutState.CVV, true);
+		}
+	}
+
+	private void startCreateTripDownload() {
+		if (mCreateTripDownloadThrobber == null) {
+			mCreateTripDownloadThrobber = ThrobberDialog.newInstance(getString(R.string.spinner_text_hotel_create_trip));
+			mCreateTripDownloadThrobber.show(getFragmentManager(), TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
+		}
+		mHotelBookingFrag.startDownload(HotelBookingState.CREATE_TRIP);
+	}
+
+	private void dismissLoadingDialogs() {
+		mHotelProductDownloadThrobber = Ui.findSupportFragment((FragmentActivity) getActivity(),
+				TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG);
+		if (mHotelProductDownloadThrobber != null && mHotelProductDownloadThrobber.isAdded()) {
+			mHotelProductDownloadThrobber.dismiss();
+		}
+		mCreateTripDownloadThrobber = Ui.findSupportFragment((FragmentActivity) getActivity(),
+				TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
+		if (mCreateTripDownloadThrobber != null && mCreateTripDownloadThrobber.isAdded()) {
+			mCreateTripDownloadThrobber.dismiss();
+		}
+	}
+
+	///////////////////////////////////
+	/// Otto Event Subscriptions
+
+	@Subscribe
+	public void onHotelProductDownloadSuccess(HotelProductDownloadSuccess event) {
+		mIsDoneLoadingPriceChange = true;
+		dismissLoadingDialogs();
+		startCreateTripDownload();
+	}
+
+	@Subscribe
+	public void onCreateTripDownloadSuccess(CreateTripDownloadSuccess event) {
+		dismissLoadingDialogs();
+	}
+
+	@Subscribe
+	public void onCreateTripDownloadError(CreateTripDownloadError event) {
+		dismissLoadingDialogs();
+	}
+
+	@Subscribe
+	public void onCreateTripDownloadRetry(CreateTripDownloadRetry event) {
+		startCreateTripDownload();
+	}
+
+	@Subscribe
+	public void onCreateTripDownloadRetryCancel(CreateTripDownloadRetryCancel event) {
+		if (getActivity() != null) {
+			getActivity().finish();
 		}
 	}
 }

@@ -17,6 +17,7 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.WalletUtils;
@@ -47,8 +48,6 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	private static final String RETRY_CREATE_TRIP_DIALOG = "RETRY_CREATE_TRIP_DIALOG";
 	private static final String HOTEL_OFFER_ERROR_DIALOG = "HOTEL_OFFER_ERROR_DIALOG";
 
-	private HotelProductSuccessListener mHotelProductSuccessListener;
-
 	private CreateTripDownloadStatusListener mCreateTripDownloadStatusListener;
 
 	private CouponDownloadStatusListener mCouponDownloadStatusListener;
@@ -57,6 +56,17 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	private boolean mRemoveCouponInitiated;
 
 	private boolean mCheckoutInitiated;
+
+	private HotelBookingState mState = HotelBookingState.DEFAULT;
+
+	public enum HotelBookingState {
+		DEFAULT,
+		HOTEL_PRODUCT,
+		CREATE_TRIP,
+		COUPON_APPLY,
+		COUPON_REMOVE,
+		CHECKOUT
+	}
 
 	// BookingFragment
 
@@ -112,7 +122,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	}
 
 	@Override
-	public void onStart() {
+	public void onResume() {
 		super.onStart();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE)) {
@@ -142,22 +152,42 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 		}
 	}
 
+	public void startDownload(HotelBookingState state) {
+		Log.v("HotelBookingFragment startDowload requested for : " + state);
+		mState = state;
+		switch (state) {
+		case HOTEL_PRODUCT:
+			startHotelProductDownload();
+			break;
+		case CREATE_TRIP:
+			startCreateTripDownload();
+			break;
+		default:
+			break;
+		}
+	}
+
+	public void startDownload(HotelBookingState state, String couponCode) {
+		if (state == HotelBookingState.COUPON_APPLY) {
+			mCouponCode = couponCode;
+			startDownload(HotelBookingState.COUPON_APPLY);
+		}
+		else {
+			startDownload(state);
+		}
+	}
+
 	/////////////////////////////////////////////////////
 	///// Hotel Product service related
 
-	public void startHotelProductDownload() {
+	private void startHotelProductDownload() {
 		// Let's cancel download if already running.
 		cancelHotelProductDownload();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		bd.startDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductDownload, mHotelProductCallback);
 	}
 
-	public void registerForHotelProductDownload() {
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		bd.registerDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductCallback);
-	}
-
-	public void cancelHotelProductDownload() {
+	private void cancelHotelProductDownload() {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE)) {
 			bd.cancelDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
@@ -200,7 +230,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	/**
 	 * This method takes care of all the updating upon hotelProduct download success
 	 * which is common for most cases.
-	 * If we want to add more UI functionality, then implement the HotelProductSuccessListener.
+	 * If we want to add more UI functionality, then Subscribe to Events.HotelProductDownloadSuccess class.
 	 */
 	private void onHotelProductSuccess(HotelProductResponse response, final String selectedId, Rate selectedRate,
 									   Rate newRate) {
@@ -236,9 +266,8 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 		Db.getHotelSearch().getAvailability(selectedId).updateFrom(selectedRate.getRateKey(), response);
 		Db.getHotelSearch().getAvailability(selectedId).setSelectedRate(newRate);
 
-		if (mHotelProductSuccessListener != null) {
-			mHotelProductSuccessListener.onHotelProductSuccess();
-		}
+		// Post success event to the Otto Bus.
+		Events.post(new Events.HotelProductDownloadSuccess(response));
 	}
 
 	private void handleHotelProductError(HotelProductResponse response) {
@@ -256,18 +285,6 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 
 		dialog.setMessage(messageId);
 		dialog.show(getFragmentManager(), HOTEL_OFFER_ERROR_DIALOG);
-	}
-
-	public void addHotelProductSuccessListener(HotelProductSuccessListener listener) {
-		mHotelProductSuccessListener = listener;
-	}
-
-	/**
-	 * Post hotelProduct download success listener.
-	 * Implement this listener if you want to add more functionality.
-	 */
-	public interface HotelProductSuccessListener {
-		public void onHotelProductSuccess();
 	}
 
 	/////////////////////////////////////////////////////
@@ -305,25 +322,18 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	private final OnDownloadComplete<CreateTripResponse> mCreateTripCallback = new OnDownloadComplete<CreateTripResponse>() {
 		@Override
 		public void onDownload(CreateTripResponse response) {
-			if (response == null) {
-				showRetryErrorDialog();
-			}
-			else if (response.hasErrors()) {
+			if (response == null || response.hasErrors()) {
 				handleCreateTripError(response);
 			}
 			else {
 				onCreateTripCallSuccess(response);
 			}
-
 		}
 
 	};
 
 	private void onCreateTripCallSuccess(CreateTripResponse response) {
 		Db.getHotelSearch().setCreateTripResponse(response);
-		if (mCreateTripDownloadStatusListener != null) {
-			mCreateTripDownloadStatusListener.onCreateTripSuccess();
-		}
 		if (mApplyCouponInitiated) {
 			mApplyCouponInitiated = false;
 			startApplyCouponDownloader(mCouponCode);
@@ -339,24 +349,37 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			mCheckoutInitiated = false;
 			doBooking();
 		}
+		else {
+			// Post success event to the Otto Bus.
+			Events.post(new Events.CreateTripDownloadSuccess(response));
+		}
 	}
 
 	// Error handling
 	private void handleCreateTripError(CreateTripResponse response) {
-		ServerError firstError = response.getErrors().get(0);
-
-		switch (firstError.getErrorCode()) {
-		case TRIP_SERVICE_ERROR:
-			// Let's show a retry dialog here.
-		case INVALID_INPUT:
-			/*
-			 * Since we are only sending [productKey, roomInfoFields] params to the service, don't think users have control over the input.
-			 * Hence for now let's show a retry dialog here too (after a chat with API team)
-			 */
-		default: {
+		if (response == null) {
+			// Post error event to the Otto Bus.
+			Events.post(new Events.CreateTripDownloadError(null));
 			showRetryErrorDialog();
-			break;
 		}
+		else {
+			ServerError firstError = response.getErrors().get(0);
+			// Post error event to the Otto Bus.
+			Events.post(new Events.CreateTripDownloadError(firstError));
+
+			switch (firstError.getErrorCode()) {
+			case TRIP_SERVICE_ERROR:
+				// Let's show a retry dialog here.
+			case INVALID_INPUT:
+				/*
+				 * Since we are only sending [productKey, roomInfoFields] params to the service, don't think users have control over the input.
+				 * Hence for now let's show a retry dialog here too (after a chat with API team)
+				 */
+			default: {
+				showRetryErrorDialog();
+				break;
+			}
+			}
 		}
 	}
 
@@ -396,6 +419,10 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 		else if (mCheckoutInitiated) {
 			startCreateTripForCheckout();
 		}
+		else {
+			// Post event to the Otto Bus.
+			Events.post(new Events.CreateTripDownloadRetry());
+		}
 	}
 
 	@Override
@@ -406,7 +433,11 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			mCouponDownloadStatusListener.onCouponCancel();
 		}
 		else {
-			mCreateTripDownloadStatusListener.onCreateTripRetryCancel();
+			if (mCreateTripDownloadStatusListener != null) {
+				mCreateTripDownloadStatusListener.onCreateTripRetryCancel();
+			}
+			// Post event to the Otto Bus.
+			Events.post(new Events.CreateTripDownloadRetryCancel());
 		}
 	}
 

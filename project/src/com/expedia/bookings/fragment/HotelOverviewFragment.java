@@ -51,10 +51,11 @@ import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.dialog.ThrobberDialog.CancelListener;
 import com.expedia.bookings.fragment.HotelBookingFragment.CouponDownloadStatusListener;
-import com.expedia.bookings.fragment.HotelBookingFragment.HotelProductSuccessListener;
+import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingState;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.model.HotelTravelerFlowState;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.section.SectionTravelerInfo;
@@ -83,10 +84,11 @@ import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.view.ViewHelper;
+import com.squareup.otto.Subscribe;
 
 public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
 		CancelListener, SimpleCallbackDialogFragmentListener, CouponDialogFragmentListener,
-		HotelProductSuccessListener, CouponDownloadStatusListener {
+		CouponDownloadStatusListener {
 
 	public interface BookingOverviewFragmentListener {
 		public void checkoutStarted();
@@ -203,7 +205,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			ft.commit();
 		}
 
-		mHotelBookingFragment.addHotelProductSuccessListener(this);
 		mHotelBookingFragment.addCouponDownloadStatusListener(this);
 	}
 
@@ -324,6 +325,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	public void onResume() {
 		super.onResume();
 
+		// Register on Otto bus
+		Events.register(this);
+
 		mWalletPromoThrobberDialog = Ui.findSupportFragment((FragmentActivity) getActivity(), ThrobberDialog.TAG);
 		if (mWalletPromoThrobberDialog != null && mWalletPromoThrobberDialog.isAdded()) {
 			mWalletPromoThrobberDialog.setCancelListener(this);
@@ -350,11 +354,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 			refreshData();
 
-			if (bd.isDownloading(HotelBookingFragment.KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE)) {
-				mHotelBookingFragment.registerForHotelProductDownload();
-			}
-			else if (!mIsDoneLoadingPriceChange) {
-				mHotelBookingFragment.startHotelProductDownload();
+			if (!bd.isDownloading(HotelBookingFragment.KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE) &&!mIsDoneLoadingPriceChange) {
+				mHotelBookingFragment.startDownload(HotelBookingState.HOTEL_PRODUCT);
 			}
 		}
 
@@ -371,6 +372,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	@Override
 	public void onPause() {
 		super.onPause();
+
+		// UnRegister on Otto bus
+		Events.unregister(this);
 
 		mWasUsingGoogleWallet = mBillingInfo.isUsingGoogleWallet();
 
@@ -1436,8 +1440,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 	}
 
-	@Override
-	public void onHotelProductSuccess() {
+	@Subscribe
+	public void onHotelProductDownloadSuccess(Events.HotelProductDownloadSuccess response) {
 		mIsDoneLoadingPriceChange = true;
 		updateViews();
 		updateViewVisibilities();

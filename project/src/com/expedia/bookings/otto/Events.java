@@ -70,24 +70,24 @@ public class Events {
 	/// HotelBookingFragment related
 
 	/**
-	 * This event notifies HotelProductDownload call has succedded
+	 * This event notifies HotelProductDownload call has succeeded
 	 */
 	public static class HotelProductDownloadSuccess {
-		private HotelProductResponse mHotelProductResponse;
+		public final HotelProductResponse hotelProductResponse;
 
-		public HotelProductDownloadSuccess(HotelProductResponse hotelProductResponse) {
-			this.mHotelProductResponse = hotelProductResponse;
+		public HotelProductDownloadSuccess(HotelProductResponse response) {
+			this.hotelProductResponse = response;
 		}
 	}
 
 	/**
-	 * This event notifies CreateTripDownload call has succedded
+	 * This event notifies CreateTripDownload call has succeeded
 	 */
 	public static class CreateTripDownloadSuccess {
-		private CreateTripResponse mCreateTripResponse;
+		public final CreateTripResponse createTripResponse;
 
-		public CreateTripDownloadSuccess(CreateTripResponse createTripResponse) {
-			this.mCreateTripResponse = createTripResponse;
+		public CreateTripDownloadSuccess(CreateTripResponse response) {
+			this.createTripResponse = response;
 		}
 	}
 
