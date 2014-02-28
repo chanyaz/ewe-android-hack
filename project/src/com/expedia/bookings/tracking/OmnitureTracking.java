@@ -1638,20 +1638,6 @@ public class OmnitureTracking {
 		}
 		String pageName = String.format(LOGIN_SUCCESS_TEMPLATE, lobParam);
 		ADMS_Measurement s = createTrackLinkEvent(ctx, pageName);
-
-		String var55;
-		if (loggedInWithFb) {
-			var55 = "Facebook";
-		}
-		else {
-			var55 = "Registered";
-		}
-
-		if (isRewards) {
-			var55 += " Rewards";
-		}
-
-		s.setEvar(55, var55);
 		s.setEvents("event26");
 
 		internalTrackLink(s);
@@ -2012,6 +1998,22 @@ public class OmnitureTracking {
 			s.setProp(40, bestLastLocation.getLatitude() + "," + bestLastLocation.getLongitude() + "|"
 					+ bestLastLocation.getAccuracy());
 		}
+
+		// User logged in state
+		String var55 = User.isLoggedIn(context) ? "loggedin" : "unknown user";
+		s.setEvar(55, var55);
+
+		// User rewards status
+		String var56 = "notRewardsMember";
+		if (Db.getUser() != null) {
+			if (Db.getUser().isElitePlusMember()) {
+				var56 = "elitePlusMember";
+			}
+			else if (Db.getUser().isRewardsUser()) {
+				var56 = "rewardsMember";
+			}
+		}
+		s.setEvar(56, var56);
 	}
 
 	private static void addDeepLinkData(ADMS_Measurement s) {
