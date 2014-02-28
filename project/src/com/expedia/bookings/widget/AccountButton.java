@@ -94,11 +94,10 @@ public class AccountButton extends LinearLayout {
 
 	public void bind(boolean isLoading, boolean isLoggedIn, User u, boolean isFlights) {
 		Traveler traveler = null;
+		boolean isElitePlusMember = false;
 		if (u != null) {
-			traveler = u.getPrimaryTraveler();
+			isElitePlusMember = u.isElitePlusMember();
 		}
-
-		boolean isElitePlusMember = isLoggedIn && traveler != null && traveler.getIsElitePlusMember();
 
 		mErrorContainer.setVisibility(View.GONE);
 		if (mRewardsContainer != null) {

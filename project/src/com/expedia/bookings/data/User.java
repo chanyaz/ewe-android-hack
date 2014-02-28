@@ -110,6 +110,13 @@ public class User implements JSONable {
 		return false;
 	}
 
+	public boolean isElitePlusMember() {
+		if (mPrimaryTraveler != null) {
+			return mPrimaryTraveler.getIsElitePlusMember();
+		}
+		return false;
+	}
+
 	public String getTuidString() {
 		if (this.getPrimaryTraveler() != null && this.getPrimaryTraveler().getTuid() != null
 				&& this.getPrimaryTraveler().getTuid() >= 0) {
