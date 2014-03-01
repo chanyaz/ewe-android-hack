@@ -51,8 +51,10 @@ public class CustomActivityInstrumentationTestCase<T> extends ActivityInstrument
 		mPreferences.setScreenshotPermission(false);
 		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 		mUser = new HotelsUserData(getInstrumentation());
-		mConfigFileUtils = new ConfigFileUtils();
-		mUser.setBookingServer(mConfigFileUtils.getConfigValue("Server"));
+		if (ConfigFileUtils.doesConfigFileExist()) {
+			mConfigFileUtils = new ConfigFileUtils();
+			mUser.setBookingServer(mConfigFileUtils.getConfigValue("Server"));
+		}
 
 		// Set Server API programatically
 		SettingUtils.save(getActivity().getApplicationContext(),

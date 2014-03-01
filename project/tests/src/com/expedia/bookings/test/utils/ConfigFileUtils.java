@@ -81,4 +81,8 @@ public class ConfigFileUtils {
 	public int getIntegerConfigValue(String keyword) throws JSONException {
 		return mJsonObject.getInt(keyword);
 	}
+
+	public static boolean doesConfigFileExist() {
+		return new File(CONFIG_FILE_PATH, CONFIG_FILE_NAME).exists();
+	}
 }
