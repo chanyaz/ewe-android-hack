@@ -24,19 +24,15 @@ public class TabletDemo extends CustomActivityInstrumentationTestCase<SearchActi
 	}
 
 	public void testOne() throws InterruptedException {
-		Thread.sleep(1000);
 		SearchScreen.clickToStartSearch();
-		Thread.sleep(3000);
 		SearchScreen.clickDestinationEditText();
-		Thread.sleep(3000);
 		SearchScreen.typeInDestinationEditText("Detroit, MI");
-		Thread.sleep(1000);
+		Thread.sleep(3000);
 		SearchScreen.clickInListWithText("Detroit, MI");
 		SearchScreen.clickOriginEditText();
 		SearchScreen.typeInOriginEditText("San Francisco, CA");
-		Thread.sleep(1000);
-		SearchScreen.clickInListWithText("San Francisco, CA");
 		Thread.sleep(3000);
+		SearchScreen.clickInListWithText("San Francisco, CA");
 		LocalDate ld1 = LocalDate.now();
 		SearchScreen.clickDate(ld1, ld1.plusDays(2));
 		SearchScreen.clickSearchButton();
