@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.LocalExpertSite.Destination;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -208,7 +209,9 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		addHotelAttachData(mItinCardDatasSync);
 
 		// Add local expert cards
-		addLocalExpertData(mItinCardDatasSync);
+		if(ExpediaBookingApp.IS_EXPEDIA) {
+			addLocalExpertData(mItinCardDatasSync);
+		}
 
 		// Do some calculations on the data
 		Pair<Integer, Integer> summaryCardPositions = calculateSummaryCardPositions(mItinCardDatasSync);
