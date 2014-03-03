@@ -45,6 +45,17 @@ public class StateManager<T> {
 		setProvider(provider);
 	}
 
+	/**
+	 * Has setState been called?
+	 *
+	 * getState() will return a value based on the default, but sometimes it is useful to know if setState has been called.
+	 *
+	 * @return true if setState() has been called.
+	 */
+	public boolean hasState(){
+		return (mState != null);
+	}
+
 	public T getState() {
 		return mState != null ? mState : mDefaultState;
 	}

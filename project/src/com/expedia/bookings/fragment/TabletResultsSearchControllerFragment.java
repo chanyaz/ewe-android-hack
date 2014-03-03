@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.joda.time.LocalDate;
 
 import android.annotation.TargetApi;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.data.SuggestionResponse;
+import com.expedia.bookings.data.SuggestionSort;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.enums.ResultsState;
@@ -31,10 +34,12 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
 
@@ -46,7 +51,7 @@ import com.squareup.otto.Subscribe;
 public class TabletResultsSearchControllerFragment extends Fragment implements IBackManageable,
 	IStateProvider<ResultsSearchState>, FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
 	DatesFragment.DatesFragmentListener, GuestsDialogFragment.GuestsDialogFragmentListener,
-	SuggestionsFragment.SuggestionsFragmentListener {
+	SuggestionsFragment.SuggestionsFragmentListener, FusedLocationProviderFragment.FusedLocationProviderListener {
 
 	private GridManager mGrid = new GridManager();
 	private StateManager<ResultsSearchState> mSearchStateManager = new StateManager<ResultsSearchState>(ResultsSearchState.DEFAULT, this);
@@ -71,10 +76,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private static final String FTAG_CALENDAR = "FTAG_CALENDAR";
 	private static final String FTAG_TRAV_PICKER = "FTAG_TRAV_PICKER";
 	private static final String FTAG_ORIG_CHOOSER = "FTAG_ORIG_CHOOSER";
+	private static final String FTAG_LOCATION = "FTAG_LOCATION";
 
 	private SuggestionsFragment mOriginsFragment;
 	private ResultsDatesFragment mDatesFragment;
 	private GuestsDialogFragment mGuestsFragment;
+	private FusedLocationProviderFragment mLocationFragment;
 
 
 	@Override
@@ -116,6 +123,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	@Override
 	public void onPause() {
 		super.onPause();
+		if (mLocationFragment != null) {
+			mLocationFragment.stop();
+		}
 		mResultsStateHelper.unregisterWithProvider(this);
 		mMeasurementHelper.unregisterWithProvider(this);
 		mBackManager.unregisterWithParent(this);
@@ -323,15 +333,21 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		boolean mCalAvail = state == ResultsSearchState.CALENDAR;
 		boolean mTravAvail = state == ResultsSearchState.TRAVELER_PICKER;
 		boolean mOrigAvail = state == ResultsSearchState.FLIGHT_ORIGIN;
+		boolean mLocAvail = !Sp.getParams().hasOrigin();//TODO: Write some current location expiration logic
 
-		mDatesFragment = (ResultsDatesFragment) FragmentAvailabilityUtils.setFragmentAvailability(mCalAvail, FTAG_CALENDAR, manager,
+
+		mDatesFragment = FragmentAvailabilityUtils.setFragmentAvailability(mCalAvail, FTAG_CALENDAR, manager,
 			transaction, this, R.id.calendar_container, true);
 
-		mGuestsFragment = (GuestsDialogFragment) FragmentAvailabilityUtils.setFragmentAvailability(mTravAvail, FTAG_TRAV_PICKER, manager,
+		mGuestsFragment = FragmentAvailabilityUtils.setFragmentAvailability(mTravAvail, FTAG_TRAV_PICKER, manager,
 			transaction, this, R.id.traveler_container, false);
 
-		mOriginsFragment = (SuggestionsFragment) FragmentAvailabilityUtils.setFragmentAvailability(mOrigAvail, FTAG_ORIG_CHOOSER, manager,
+		mOriginsFragment = FragmentAvailabilityUtils.setFragmentAvailability(mOrigAvail, FTAG_ORIG_CHOOSER, manager,
 			transaction, this, R.id.origin_container, false);
+
+		//Hidden location fragment
+		mLocationFragment = FragmentAvailabilityUtils.setFragmentAvailability(mLocAvail, FTAG_LOCATION, manager,
+			transaction, this, 0, true);
 
 		transaction.commit();
 	}
@@ -347,6 +363,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		else if (tag == FTAG_ORIG_CHOOSER) {
 			return mOriginsFragment;
 		}
+		else if (tag == FTAG_LOCATION) {
+			return mLocationFragment;
+		}
 		return null;
 	}
 
@@ -361,6 +380,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		else if (tag == FTAG_ORIG_CHOOSER) {
 			return new SuggestionsFragment();
 		}
+		else if (tag == FTAG_LOCATION) {
+			return new FusedLocationProviderFragment();
+		}
 		return null;
 	}
 
@@ -368,6 +390,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	public void doFragmentSetup(String tag, Fragment frag) {
 		if (tag == FTAG_CALENDAR) {
 			((ResultsDatesFragment) frag).setDatesFromParams(Sp.getParams());
+		}
+		else if (tag == FTAG_LOCATION) {
+			((FusedLocationProviderFragment) frag).find(this);
 		}
 	}
 
@@ -401,7 +426,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		public void onStateFinalized(ResultsState state) {
 
 			boolean currentlyDown = mSearchStateManager.getState() != ResultsSearchState.FLIGHTS_UP && mSearchStateManager.getState() != ResultsSearchState.HOTELS_UP;
-			if (!currentlyDown || translateState(state) != ResultsSearchState.DEFAULT) {
+			if (!mSearchStateManager.hasState() || !currentlyDown || translateState(state) != ResultsSearchState.DEFAULT) {
 				//We respond to things where we move from the up to the down state, but we dont listen to the parent
 				finalizeState(translateState(state));
 			}
@@ -494,5 +519,43 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	@Override
 	public void unRegisterStateListener(IStateListener<ResultsSearchState> listener) {
 		mLis.unRegisterStateListener(listener);
+	}
+
+	/**
+	 * FUSED LOCATION PROVIDER
+	 */
+
+	@Override
+	public void onFound(final Location currentLocation) {
+		// If the current origin is blank, get a suggestion for the nearest location
+		if (currentLocation != null && !Sp.getParams().hasOrigin()) {
+			// Do this in another thread because of network access; don't worry if this gets thrown away (short process)
+			(new Thread(new Runnable() {
+				@Override
+				public void run() {
+					ExpediaServices services = new ExpediaServices(getActivity());
+					SuggestionResponse response = services.suggestionsNearby(currentLocation.getLatitude(),
+						currentLocation.getLongitude(), SuggestionSort.DISTANCE, 0);
+
+					if (response != null && !response.hasErrors() && response.getSuggestions().size() != 0 && !Sp.getParams().hasOrigin()) {
+						Sp.getParams().setOrigin(response.getSuggestions().get(0));
+						if (getActivity() != null && mRootC != null) {
+							mRootC.post(new Runnable() {
+								@Override
+								public void run() {
+									//Report the update on the UI thread
+									Sp.reportSpUpdate();
+								}
+							});
+						}
+					}
+				}
+			})).start();
+		}
+	}
+
+	@Override
+	public void onError() {
+		Log.e("Fused Location Provider - onError()");
 	}
 }
