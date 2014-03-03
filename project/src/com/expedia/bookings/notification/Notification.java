@@ -21,6 +21,7 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
@@ -213,6 +214,12 @@ public class Notification extends Model implements JSONable {
 
 	public int getIconResId() {
 		int resId = unmarshallResId(mIconId);
+
+		// Show travelocity logo in notification for Tvly app
+		if (ExpediaBookingApp.IS_TRAVELOCITY && (resId == 0 || mIconId == 1)) {
+			return R.drawable.ic_stat_travelocity;
+		}
+
 		return resId == 0 ? R.drawable.ic_stat_expedia : resId;
 	}
 
