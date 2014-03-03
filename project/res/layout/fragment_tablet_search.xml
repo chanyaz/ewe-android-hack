@@ -68,20 +68,6 @@
                     android:singleLine="true"
                     android:textSize="18dp" />
 
-                <com.expedia.bookings.widget.BackgroundView
-                    android:id="@+id/search_divider_view"
-                    android:layout_width="1dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:background="@android:color/black" />
-
-                <TextView
-                    android:id="@+id/search_dates_text_view"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="18dp" />
             </LinearLayout>
 
             <TextView
@@ -97,44 +83,6 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:textSize="18dp" />
-
-            <LinearLayout
-                android:id="@+id/search_header_bottom_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/search_header_top_container"
-                android:layout_alignRight="@+id/search_header_top_container"
-                android:layout_below="@+id/search_header_top_container"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp" >
-
-                <EditText
-                    android:id="@+id/origin_edit_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/origins_hint"
-                    android:inputType="textNoSuggestions"
-                    android:singleLine="true"
-                    android:textColor="@android:color/white"
-                    android:textSize="18dp" />
-
-                <Space
-                    android:layout_width="1dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp" />
-
-                <TextView
-                    android:id="@+id/guests_text_view"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@android:color/white"
-                    android:textSize="18dp" />
-            </LinearLayout>
         </RelativeLayout>
 
         <FrameLayout

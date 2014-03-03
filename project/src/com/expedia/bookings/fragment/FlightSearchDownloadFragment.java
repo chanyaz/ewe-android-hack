@@ -110,7 +110,13 @@ public class FlightSearchDownloadFragment extends Fragment {
 	private final BackgroundDownloader.Download<FlightSearchResponse> mSearchDownload = new BackgroundDownloader.Download<FlightSearchResponse>() {
 		@Override
 		public FlightSearchResponse doDownload() {
-			return mServices.flightSearch(mSearchParams, 0);
+			//TODO: Remove try catch, write good search param validation so we don't kick off if we don't have data.
+			try{
+				return mServices.flightSearch(mSearchParams, 0);
+			}catch(Exception ex){
+				Log.e("Flight search download exception",ex);
+			}
+			return null;
 		}
 	};
 

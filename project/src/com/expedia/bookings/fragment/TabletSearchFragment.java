@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.Hours;
-import org.joda.time.LocalDate;
 import org.json.JSONObject;
 
 import android.animation.Animator;
@@ -28,7 +25,6 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,20 +36,12 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SearchParams;
-import com.expedia.bookings.data.SuggestionResponse;
-import com.expedia.bookings.data.SuggestionSort;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.SuggestionV2.ResultType;
-import com.expedia.bookings.fragment.DatesFragment.DatesFragmentListener;
-import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
-import com.expedia.bookings.fragment.GuestsDialogFragment.GuestsDialogFragmentListener;
 import com.expedia.bookings.fragment.SuggestionsFragment.SuggestionsFragmentListener;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.section.AfterChangeTextWatcher;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.AnimUtils;
-import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.Log;
@@ -64,8 +52,7 @@ import com.mobiata.android.util.IoUtils;
  * A large search fragment only suitable for tablet sizes.
  */
 @TargetApi(14)
-public class TabletSearchFragment extends MeasurableFragment implements OnClickListener, SuggestionsFragmentListener,
-		FusedLocationProviderListener, DatesFragmentListener, GuestsDialogFragmentListener {
+public class TabletSearchFragment extends MeasurableFragment implements OnClickListener, SuggestionsFragmentListener {
 
 	// This is a debug option - disable if you want to avoid the keyboard IME on expand, thus
 	// helping for testing other performance issues.
@@ -81,9 +68,6 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	private static final String INSTANCE_SEARCH_PARAMS = "INSTANCE_SEARCH_PARAMS";
 
 	private static final String TAG_DESTINATIONS = "fragment.destinations";
-	private static final String TAG_ORIGINS = "fragment.origins";
-	private static final String TAG_DATES = "fragment.dates";
-	private static final String TAG_GUESTS = "fragment.guests";
 
 	private SearchParams mSearchParams;
 
@@ -98,24 +82,13 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	private View mCancelButton;
 	private ViewGroup mHeaderTopContainer;
 	private EditText mDestinationEditText;
-	private View mSearchDivider;
-	private TextView mSearchDatesTextView;
 	private View mSearchButton;
-	private ViewGroup mHeaderBottomContainer;
-	private EditText mOriginEditText;
-	private TextView mGuestsTextView;
 
 	// Cached views (content)
 	private ViewGroup mContentContainer;
 
 	// Child fragments, shown in the content container
 	private SuggestionsFragment mDestinationsFragment;
-	private SuggestionsFragment mOriginsFragment;
-	private DatesFragment mDatesFragment;
-	private GuestsDialogFragment mGuestsFragment;
-
-	// Utility fragments
-	private FusedLocationProviderFragment mLocationFragment;
 
 	// Special positioning of Views
 	private float mInitialTranslationY;
@@ -196,29 +169,16 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mCancelButton = Ui.findView(view, R.id.cancel_button);
 		mHeaderTopContainer = Ui.findView(view, R.id.search_header_top_container);
 		mDestinationEditText = Ui.findView(view, R.id.destination_edit_text);
-		mSearchDivider = Ui.findView(view, R.id.search_divider_view);
-		mSearchDatesTextView = Ui.findView(view, R.id.search_dates_text_view);
 		mSearchButton = Ui.findView(view, R.id.search_button);
-		mHeaderBottomContainer = Ui.findView(view, R.id.search_header_bottom_container);
-		mOriginEditText = Ui.findView(view, R.id.origin_edit_text);
-		mGuestsTextView = Ui.findView(view, R.id.guests_text_view);
 		mContentContainer = Ui.findView(view, R.id.content_container);
 
 		// Setup child fragments
 		mDestinationsFragment = Ui.findChildSupportFragment(this, TAG_DESTINATIONS);
-		mOriginsFragment = Ui.findChildSupportFragment(this, TAG_ORIGINS);
-		mDatesFragment = Ui.findChildSupportFragment(this, TAG_DATES);
-		mGuestsFragment = Ui.findChildSupportFragment(this, TAG_GUESTS);
-
-		mLocationFragment = FusedLocationProviderFragment.getInstance(this);
 
 		// Setup on click listeners
 		mSearchStatusTextView.setOnClickListener(this);
 		mDestinationEditText.setOnClickListener(this);
-		mSearchDatesTextView.setOnClickListener(this);
 		mCancelButton.setOnClickListener(this);
-		mOriginEditText.setOnClickListener(this);
-		mGuestsTextView.setOnClickListener(this);
 		mSearchButton.setOnClickListener(this);
 
 		// Configure hiding views (that change alpha during expand/collapse)
@@ -226,10 +186,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mHiddenWhenCollapsedViews.add(mHeaderBackground);
 		mHiddenWhenCollapsedViews.add(mCancelButton);
 		mHiddenWhenCollapsedViews.add(mDestinationEditText);
-		mHiddenWhenCollapsedViews.add(mSearchDivider);
-		mHiddenWhenCollapsedViews.add(mSearchDatesTextView);
 		mHiddenWhenCollapsedViews.add(mSearchButton);
-		mHiddenWhenCollapsedViews.add(mHeaderBottomContainer);
 		mHiddenWhenCollapsedViews.add(mContentContainer);
 
 		if (!mStartExpanded) {
@@ -257,10 +214,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		mExpandCollapseHwLayerViews.add(mHeaderBackground);
 		mExpandCollapseHwLayerViews.add(mCancelButton);
 		mExpandCollapseHwLayerViews.add(mDestinationEditText);
-		mExpandCollapseHwLayerViews.add(mSearchDivider);
-		mExpandCollapseHwLayerViews.add(mSearchDatesTextView);
 		mExpandCollapseHwLayerViews.add(mSearchButton);
-		mExpandCollapseHwLayerViews.add(mHeaderBottomContainer);
 		mExpandCollapseHwLayerViews.add(mContentContainer);
 
 		if (Build.VERSION.SDK_INT < 16) {
@@ -281,25 +235,15 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			setupViewsForChildFragment(getCurrentChildFragmentTag());
 		}
 
-		// Configure views which aren't dependent on which child fragment is showing
-		updateSearchDates();
-		updateGuests();
-
 		// Always make sure that we at least have the destinations/origins fragments so we can start filtering
 		// before it's shown; otherwise it may not cross-fade in a pretty manner the first time.
 		createDestinationsFragment();
-		createOriginsFragment();
 
-		// If we recreated the dates fragment on rotation, set it up with the proper dates
-		if (mDatesFragment != null) {
-			mDatesFragment.setDatesFromParams(mSearchParams);
-		}
 
 		// Add a search edit text watcher.  We purposefully add it before
 		// we restore the edit text's state so that it will fire and update
 		// the UI properly to restore its state.
 		mDestinationEditText.addTextChangedListener(new MyWatcher(mDestinationEditText));
-		mOriginEditText.addTextChangedListener(new MyWatcher(mOriginEditText));
 
 		return view;
 	}
@@ -307,13 +251,6 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		// Try to keep current location up-to-date
-		if (mCurrentLocation == null
-				|| JodaUtils.isExpired(new DateTime(mCurrentLocation.getTime(), DateTimeZone.UTC),
-						CURRENT_LOCATION_CUTOFF)) {
-			mLocationFragment.find(this);
-		}
 	}
 
 	@Override
@@ -331,8 +268,6 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		if (mCurrentAnimation != null) {
 			mCurrentAnimation.cancel();
 		}
-
-		mLocationFragment.stop();
 	}
 
 	@Override
@@ -388,9 +323,6 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			updateFilter(mDestinationsFragment, editText.isFocusableInTouchMode() ? mDestinationEditText.getText()
 					: null);
 		}
-		else if (editText == mOriginEditText) {
-			updateFilter(mOriginsFragment, editText.isFocusableInTouchMode() ? mOriginEditText.getText() : null);
-		}
 	}
 
 	private void updateFilter(SuggestionsFragment fragment, CharSequence text) {
@@ -423,26 +355,6 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			createDestinationsFragment();
 			fragmentToShow = mDestinationsFragment;
 		}
-		else if (tag.equals(TAG_ORIGINS)) {
-			createOriginsFragment();
-			fragmentToShow = mOriginsFragment;
-		}
-		else if (tag.equals(TAG_DATES)) {
-			if (mDatesFragment == null) {
-				mDatesFragment = new DatesFragment();
-			}
-			fragmentToShow = mDatesFragment;
-
-			// Setup initial dates to show
-			mDatesFragment.setDatesFromParams(mSearchParams);
-		}
-		else if (tag.equals(TAG_GUESTS)) {
-			if (mGuestsFragment == null) {
-				mGuestsFragment = GuestsDialogFragment.newInstance(mSearchParams.getNumAdults(),
-						mSearchParams.getChildAges());
-			}
-			fragmentToShow = mGuestsFragment;
-		}
 		else {
 			throw new RuntimeException("I do not understand the tag \"" + tag + "\"");
 		}
@@ -459,36 +371,19 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	// This configures the views related to a child Fragment
 	private void setupViewsForChildFragment(String tag) {
 		// We want to make sure the origin/destination text is properly updated
-		boolean displayDest = true;
-		boolean displayOrigin = true;
 		if (tag.equals(TAG_DESTINATIONS) && isExpanded()) {
-			clearEditTextFocus(mOriginEditText);
 			requestEditTextFocus(mDestinationEditText);
-			displayDest = false;
-		}
-		else if (tag.equals(TAG_ORIGINS) && isExpanded()) {
-			clearEditTextFocus(mDestinationEditText);
-			requestEditTextFocus(mOriginEditText);
-			displayOrigin = false;
 		}
 		else {
 			clearEditTextFocus(mDestinationEditText);
-			clearEditTextFocus(mOriginEditText);
 		}
-		mDestinationEditText.setText(displayDest ? getString(R.string.to_TEMPLATE,
+		mDestinationEditText.setText(mSearchParams.getDestination() != null ? getString(R.string.to_TEMPLATE,
 				getSuggestionText(mSearchParams.getDestination())) : null);
-		mOriginEditText.setText(displayOrigin ? getOriginText() : null);
 	}
 
 	private void createDestinationsFragment() {
 		if (mDestinationsFragment == null) {
 			mDestinationsFragment = new SuggestionsFragment();
-		}
-	}
-
-	private void createOriginsFragment() {
-		if (mOriginsFragment == null) {
-			mOriginsFragment = new SuggestionsFragment();
 		}
 	}
 
@@ -526,50 +421,6 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		return text;
 	}
 
-	private String getOriginText() {
-		return getString(R.string.from_TEMPLATE, getSuggestionText(mSearchParams.getOrigin()));
-	}
-
-	/**
-	 * Updates the TextView currently showing the search dates
-	 */
-	private void updateSearchDates() {
-		boolean hasStart = mSearchParams.getStartDate() != null;
-		boolean hasEnd = mSearchParams.getEndDate() != null;
-
-		String text;
-		int flags = DateUtils.FORMAT_SHOW_DATE;
-		if (hasStart && hasEnd) {
-			text = JodaUtils.formatDateRange(getActivity(), mSearchParams.getStartDate(), mSearchParams.getEndDate(),
-					flags);
-		}
-		else if (hasStart) {
-			text = JodaUtils.formatLocalDate(getActivity(), mSearchParams.getStartDate(), flags);
-		}
-		else {
-			text = getString(R.string.select_dates);
-		}
-
-		mSearchDatesTextView.setText(text);
-	}
-
-	/**
-	 * Updates the TextView currently showing the guests
-	 */
-	private void updateGuests() {
-		int numAdults = mSearchParams.getNumAdults();
-		int numChildren = mSearchParams.getNumChildren();
-
-		String text;
-		if (numAdults + numChildren == 1) {
-			text = getString(R.string.just_you);
-		}
-		else {
-			text = StrUtils.formatGuests(getActivity(), numAdults, numChildren);
-		}
-
-		mGuestsTextView.setText(text);
-	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Animation
@@ -727,7 +578,6 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				mSearchStatusTextView.setVisibility(View.VISIBLE);
 
 				clearEditTextFocus(mDestinationEditText);
-				clearEditTextFocus(mOriginEditText);
 			}
 			else {
 				for (View view : mHiddenWhenCollapsedViews) {
@@ -780,9 +630,9 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	/**
 	 * We don't get to control the duration of the action bar showing/hiding, so we instead show/hide
 	 * based on how much through the animation we are.
-	 * 
+	 *
 	 * When expanding, hide at any time.
-	 * 
+	 *
 	 * When collapsing, hide once the top is past where the action bar shows up.
 	 */
 	private AnimatorUpdateListener mActionBarUpdateListener = new AnimatorUpdateListener() {
@@ -840,15 +690,6 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			if (v == mDestinationEditText) {
 				switchToFragment(TAG_DESTINATIONS);
 			}
-			else if (v == mOriginEditText) {
-				switchToFragment(TAG_ORIGINS);
-			}
-			else if (v == mSearchDatesTextView) {
-				switchToFragment(TAG_DATES);
-			}
-			else if (v == mGuestsTextView) {
-				switchToFragment(TAG_GUESTS);
-			}
 			else {
 				// What was clicked was not a fragment tag; don't react
 				return;
@@ -863,75 +704,8 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	public void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion) {
 		if (fragment.getTag().equals(TAG_DESTINATIONS)) {
 			mSearchParams.setDestination(suggestion);
-			switchToFragment(TAG_ORIGINS);
+			setupViewsForChildFragment(TAG_DESTINATIONS);
 		}
-		else {
-			mSearchParams.setOrigin(suggestion);
-			switchToFragment(TAG_DATES);
-		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// FusedLocationProviderListener
-
-	@Override
-	public void onFound(final android.location.Location currentLocation) {
-		mCurrentLocation = currentLocation;
-
-		// If the current origin is blank, get a suggestion for the nearest location
-		if (currentLocation != null && !mSearchParams.hasOrigin()) {
-			// Do this in another thread because of network access; don't worry if this gets thrown away (short process)
-			(new Thread(new Runnable() {
-				@Override
-				public void run() {
-					ExpediaServices services = new ExpediaServices(getActivity());
-					SuggestionResponse response = services.suggestionsNearby(currentLocation.getLatitude(),
-							currentLocation.getLongitude(), SuggestionSort.DISTANCE, 0);
-
-					if (response != null && !response.hasErrors() && response.getSuggestions().size() != 0) {
-						mSearchParams.setOrigin(response.getSuggestions().get(0));
-
-						// Update the UI on the UI thread.
-						if (getActivity() != null) {
-							mOriginEditText.post(new Runnable() {
-								@Override
-								public void run() {
-									if (!mOriginEditText.isFocusableInTouchMode()) {
-										mOriginEditText.setText(getOriginText());
-									}
-								}
-							});
-						}
-
-					}
-				}
-			})).start();
-		}
-	}
-
-	@Override
-	public void onError() {
-		onFound(null);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// DatesFragmentListener
-
-	@Override
-	public void onDatesChanged(LocalDate startDate, LocalDate endDate) {
-		mSearchParams.setStartDate(startDate);
-		mSearchParams.setEndDate(endDate);
-		updateSearchDates();
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// GuestsDialogFragmentListener
-
-	@Override
-	public void onGuestsChanged(int numAdults, ArrayList<Integer> numChildren) {
-		mSearchParams.setNumAdults(numAdults);
-		mSearchParams.setChildAges(numChildren);
-		updateGuests();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

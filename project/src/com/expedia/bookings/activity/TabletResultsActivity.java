@@ -19,6 +19,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsLoadingState;
@@ -340,7 +341,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 		else if (tag == FTAG_HOTELS_CONTROLLER) {
 			frag = mHotelsController;
-		}else if(tag == FTAG_SEARCH_CONTROLLER){
+		}
+		else if (tag == FTAG_SEARCH_CONTROLLER) {
 			frag = mSearchController;
 		}
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
@@ -360,11 +362,12 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 		else if (tag == FTAG_HOTELS_CONTROLLER) {
 			frag = new TabletResultsHotelControllerFragment();
-		}else if(tag == FTAG_SEARCH_CONTROLLER){
+		}
+		else if (tag == FTAG_SEARCH_CONTROLLER) {
 			frag = new TabletResultsSearchControllerFragment();
 		}
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
-			String destination = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+			String destination = Sp.getParams().getDestination().getLocation().getDestinationId();
 			frag = ResultsBackgroundImageFragment.newInstance(destination, false);
 		}
 		else if (tag == FTAG_LOADING) {

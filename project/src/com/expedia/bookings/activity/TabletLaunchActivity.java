@@ -197,25 +197,13 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 	private void startSearch(SearchParams searchParams) {
 		// Validate that we have all data we need
-		if (!searchParams.hasOrigin()) {
-			Toast.makeText(this, "Origin is required for search (Loc String TODO)", Toast.LENGTH_LONG).show();
-			return;
-		}
-		else if (!searchParams.hasDestination()) {
+		if (!searchParams.hasDestination()) {
 			Toast.makeText(this, "Destination is required for search (Loc String TODO)", Toast.LENGTH_LONG).show();
 			return;
 		}
 
 		mSearchParams = searchParams;
-
-		// If either the origin or the destination are "current location", then fill that out before starting a search
-		if (searchParams.getOrigin().getResultType() == ResultType.CURRENT_LOCATION
-			|| searchParams.getDestination().getResultType() == ResultType.CURRENT_LOCATION) {
-			mLocationFragment.find(this);
-		}
-		else {
-			doSearch();
-		}
+		doSearch();
 	}
 
 	private void onCurrentLocationSuggestions(SuggestionResponse suggestResponse) {
@@ -250,16 +238,9 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		HotelSearch hotelSearch = Db.getHotelSearch();
 		FlightSearch flightSearch = Db.getFlightSearch();
 
-		// Search Params
-		hotelSearch.setSearchParams(mSearchParams.toHotelSearchParams());
-		flightSearch.setSearchParams(mSearchParams.toFlightSearchParams());
-
 		// Search results filters
 		HotelFilter filter = Db.getFilter();
 		filter.reset();
-		if (hotelSearch.getSearchParams().getSearchType().shouldShowDistance()) {
-			filter.setSort(HotelFilter.Sort.DISTANCE);
-		}
 		filter.notifyFilterChanged();
 
 		// Start the search
