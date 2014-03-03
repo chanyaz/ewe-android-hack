@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionResponse;
@@ -183,6 +184,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		bind();
 	}
 
+	protected void doSpUpdate(){
+		Db.getTripBucket().clear();
+		Sp.reportSpUpdate();
+	}
+
 
 	/**
 	 * FRAG LISTENERS
@@ -192,14 +198,14 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	public void onDatesChanged(LocalDate startDate, LocalDate endDate) {
 		Sp.getParams().setStartDate(startDate);
 		Sp.getParams().setEndDate(endDate);
-		Sp.reportSpUpdate();
+		doSpUpdate();
 	}
 
 	@Override
 	public void onGuestsChanged(int numAdults, ArrayList<Integer> numChildren) {
 		Sp.getParams().setNumAdults(numAdults);
 		Sp.getParams().setChildAges(numChildren);
-		Sp.reportSpUpdate();
+		doSpUpdate();
 	}
 
 	/*
@@ -565,7 +571,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 								@Override
 								public void run() {
 									//Report the update on the UI thread
-									Sp.reportSpUpdate();
+									doSpUpdate();
 								}
 							});
 						}
@@ -589,7 +595,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		if(suggest != null){
 			if(caller == mOriginsFragment){
 				Sp.getParams().setOrigin(suggest);
-				Sp.reportSpUpdate();
+				doSpUpdate();
 			}
 		}
 		setState(ResultsSearchState.DEFAULT, false);
