@@ -291,6 +291,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				setSlideUpHotelsOnlyAnimationPercentage(0f);
 			}
 			}
+
+			if(state == ResultsSearchState.CALENDAR || state == ResultsSearchState.TRAVELER_PICKER){
+				mWidgetC.setVisibility(View.VISIBLE);
+			}else{
+				mWidgetC.setVisibility(View.INVISIBLE);
+			}
 		}
 
 		private void setSlideUpAnimationPercentage(float percentage) {
