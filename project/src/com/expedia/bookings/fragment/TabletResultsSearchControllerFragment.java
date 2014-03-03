@@ -225,14 +225,22 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mCalClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			setState(ResultsSearchState.CALENDAR, mAnimateButtonClicks);
+			if(mSearchStateManager.getState() != ResultsSearchState.CALENDAR){
+				setState(ResultsSearchState.CALENDAR, mAnimateButtonClicks);
+			}else{
+				setState(ResultsSearchState.DEFAULT, mAnimateButtonClicks);
+			}
 		}
 	};
 
 	private View.OnClickListener mTravClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			setState(ResultsSearchState.TRAVELER_PICKER, mAnimateButtonClicks);
+			if(mSearchStateManager.getState() != ResultsSearchState.TRAVELER_PICKER){
+				setState(ResultsSearchState.TRAVELER_PICKER, mAnimateButtonClicks);
+			}else{
+				setState(ResultsSearchState.DEFAULT, mAnimateButtonClicks);
+			}
 		}
 	};
 
