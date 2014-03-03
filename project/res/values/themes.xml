@@ -44,6 +44,7 @@
         <item name="simpleNumberPickerDownButtonStyle">@style/NumberPickerButton.Down</item>
         <item name="simpleNumberPickerInputTextStyle">@style/NumberPickerText</item>
         <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
+        <item name="hotelSearchButtonStyle">@style/Widget.Button.Yellow.Search</item>
     </style>
 
     <style name="TabletLauncherActionBar" parent="Widget.Sherlock.ActionBar">

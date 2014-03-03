@@ -112,7 +112,7 @@
 
                 <Button
                     android:id="@+id/search_button"
-                    style="@style/Widget.Button.Yellow.Search"
+                    style="?attr/hotelSearchButtonStyle"
                     android:layout_width="fill_parent"
                     android:layout_height="96dp"
                     android:text="@string/search_for_hotels"

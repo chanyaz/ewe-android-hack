@@ -140,4 +140,28 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style name="Theme.Tablet.Launcher" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/TabletLauncherActionBarTravelocity</item>
+        <item name="actionBarStyle">@style/TabletLauncherActionBarTravelocity</item>
+
+        <!-- NumberPicker styles -->
+        <item name="numberPickerUpButtonStyle">@style/Widget.ImageButton.NumberPickerUpButton</item>
+        <item name="numberPickerDownButtonStyle">@style/Widget.ImageButton.NumberPickerDownButton</item>
+        <item name="numberPickerInputTextStyle">@style/Widget.EditText.NumberPickerInputText</item>
+        <item name="numberPickerStyle">@style/Widget.NumberPicker</item>
+        <item name="simpleNumberPickerDownButtonStyle">@style/NumberPickerButton.Down</item>
+        <item name="simpleNumberPickerInputTextStyle">@style/NumberPickerText</item>
+        <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
+        <item name="hotelSearchButtonStyle">@style/Widget.Button.Search.Travelocity</item>
+    </style>
+
+    <style name="TabletLauncherActionBarTravelocity" parent="Widget.Sherlock.ActionBar">
+        <item name="android:background">@drawable/bg_action_bar_travelocity</item>
+        <item name="background">@drawable/bg_action_bar_travelocity</item>
+        <item name="android:logo">@drawable/ic_action_bar_travelocity_logo</item>
+        <item name="logo">@drawable/ic_action_bar_travelocity_logo</item>
+        <item name="android:displayOptions">showHome|useLogo</item>
+        <item name="displayOptions">showHome|useLogo</item>
+    </style>
+
 </resources>

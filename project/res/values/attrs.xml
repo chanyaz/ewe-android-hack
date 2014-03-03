@@ -306,4 +306,6 @@
     <attr name="itinCardBackground" format="reference"/>
     <attr name="itinFlightsTripLineColor" format="reference"/>
 
+    <attr name="hotelSearchButtonStyle" format="reference"/>
+
 </resources>
