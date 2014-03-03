@@ -12,6 +12,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.DebugUtils;
@@ -113,6 +115,12 @@ public class AboutWebViewActivity extends WebViewActivity {
 		body.append(getMC1CookieStr());
 
 		body.append("\n\n");
+
+		if (User.isLoggedIn(this) && Db.getUser() != null) {
+			body.append("Expedia user name: " + Db.getUser().getPrimaryTraveler().getEmail());
+
+			body.append("\n\n");
+		}
 
 		body.append(DebugUtils.getBuildInfo());
 
