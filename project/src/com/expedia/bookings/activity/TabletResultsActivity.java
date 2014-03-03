@@ -427,7 +427,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	public void setState(ResultsState state, boolean animate){
 		mStateManager.setState(state,animate);
-	}	
+	}
+
 	public ResultsState getState(){
 		return mStateManager.getState();
 	}
@@ -435,17 +436,21 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private StateListenerHelper<ResultsState> mStateListener = new StateListenerHelper<ResultsState>() {
 		@Override
 		public void onStateTransitionStart(ResultsState stateOne, ResultsState stateTwo) {
-
+			mTripBucketC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 		}
 
 		@Override
 		public void onStateTransitionUpdate(ResultsState stateOne, ResultsState stateTwo, float percentage) {
-
+			if(stateOne == ResultsState.OVERVIEW && stateTwo != ResultsState.OVERVIEW){
+				setTripBucketSlideOutPercentage(percentage);
+			}else if(stateOne != ResultsState.OVERVIEW && stateTwo == ResultsState.OVERVIEW){
+				setTripBucketSlideOutPercentage(1f - percentage);
+			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(ResultsState stateOne, ResultsState stateTwo) {
-
+			mTripBucketC.setLayerType(View.LAYER_TYPE_NONE, null);
 		}
 
 		@Override
@@ -455,8 +460,24 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			if (mTripBucketFrag != null) {
 				mTripBucketFrag.bindToDb();
 			}
+
+			if(state == ResultsState.OVERVIEW){
+				setTripBucketSlideOutPercentage(0f);
+			}else{
+				setTripBucketSlideOutPercentage(1f);
+			}
 		}
 	};
+
+	/**
+	 * TRANSITIONS
+	 */
+
+	private void setTripBucketSlideOutPercentage(float percentage){
+		if(mTripBucketC != null){
+			mTripBucketC.setTranslationY(percentage * mTripBucketC.getHeight());
+		}
+	}
 
 
 	/**
@@ -615,7 +636,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			mResultsStateListeners.setListenerInactive(mHotelsController.getResultsListener());
 
 			//DO WORK
-			setState(getResultsStateFromHotels(state),false);
+			setState(getResultsStateFromHotels(state), false);
 
 			mResultsStateListeners.setListenerActive(mHotelsController.getResultsListener());
 		}
@@ -672,7 +693,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			mResultsStateListeners.setListenerInactive(mFlightsController.getResultsListener());
 
 			//DO WORK
-			setState(getResultsStateFromFlights(state),false);
+			setState(getResultsStateFromFlights(state), false);
 
 			mResultsStateListeners.setListenerActive(mFlightsController.getResultsListener());
 		}
