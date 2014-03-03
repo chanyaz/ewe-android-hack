@@ -94,7 +94,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		}
 		if (showHotel) {
 			mTripBucketHotelFrag.bind();
-			mTripBucketFlightFrag.setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
+			mTripBucketHotelFrag.setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 		}
 	}
 
