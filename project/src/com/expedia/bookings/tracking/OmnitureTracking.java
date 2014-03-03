@@ -2000,7 +2000,7 @@ public class OmnitureTracking {
 		}
 
 		// User logged in state
-		String var55 = User.isLoggedIn(context) ? "loggedin" : "unknown user";
+		String var55 = User.isLoggedIn(context) ? "loggedin | hard" : "unknown user";
 		s.setEvar(55, var55);
 
 		// User rewards status
