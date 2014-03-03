@@ -175,10 +175,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	@Override
 	public void onPause() {
 		super.onPause();
+		Sp.getBus().unregister(this);
 		mResultsStateHelper.unregisterWithProvider(this);
 		mMeasurementHelper.unregisterWithProvider(this);
 		mBackManager.unregisterWithParent(this);
-		Sp.getBus().unregister(this);
 	}
 
 	/*

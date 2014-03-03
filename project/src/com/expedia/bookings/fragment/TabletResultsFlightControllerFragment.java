@@ -106,7 +106,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	//Other
 	private GridManager mGrid = new GridManager();
 	private float mFlightDetailsMarginPercentage = 0.1f;
-	private boolean mOneWayFlight;
+	private boolean mOneWayFlight = true;
 	private IAddToTripListener mParentAddToTripListener;
 
 	private StateManager<ResultsFlightsState> mFlightsStateManager = new StateManager<ResultsFlightsState>(
@@ -117,6 +117,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		super.onAttach(activity);
 
 		mParentAddToTripListener = Ui.findFragmentListener(this, IAddToTripListener.class);
+
+		if(Db.getFlightSearch() != null && Db.getFlightSearch().getSearchParams() != null){
+			mOneWayFlight = !Db.getFlightSearch().getSearchParams().isRoundTrip();
+		}
 	}
 
 	@Override
@@ -191,18 +195,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		mOneWayFlight = !Db.getFlightSearch().getSearchParams().isRoundTrip();
-	}
-
-	@Override
 	public void onPause() {
 		super.onPause();
+		Sp.getBus().unregister(this);
+
 		mResultsStateHelper.unregisterWithProvider(this);
 		mMeasurementHelper.unregisterWithProvider(this);
 		mBackManager.unregisterWithParent(this);
-		Sp.getBus().unregister(this);
 	}
 
 	private Rect getAddTripRect() {
@@ -1191,6 +1190,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		@Override
 		public void onStateFinalized(ResultsFlightsState state) {
 
+
+
 			setFragmentState(state);
 			setTouchState(state);
 			setVisibilityState(state);
@@ -1327,6 +1328,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			}
 
 			if (response != null && !response.hasErrors()) {
+				mOneWayFlight = !Db.getFlightSearch().getSearchParams().isRoundTrip();
 				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
 			}
 			else {
