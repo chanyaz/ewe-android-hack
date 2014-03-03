@@ -41,6 +41,7 @@ import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
+import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
@@ -96,7 +97,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	//Other
 	private GridManager mGrid = new GridManager();
-	private ResultsState mState = ResultsState.OVERVIEW;
+	private StateManager<ResultsState> mStateManager = new StateManager<ResultsState>(ResultsState.OVERVIEW, this);
 	private boolean mPreDrawInitComplete = false;
 	private boolean mBackButtonLocked = false;
 
@@ -115,12 +116,11 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		mBgDestImageC.setBlockNewEventsEnabled(true);
 		mBgDestImageC.setVisibility(View.VISIBLE);
 		mLoadingC = Ui.findView(this, R.id.loading_frag_container);
-		mTripBucketC = Ui.findView(this,R.id.trip_bucket_container);
+		mTripBucketC = Ui.findView(this, R.id.trip_bucket_container);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CURRENT_STATE)) {
 			String stateName = savedInstanceState.getString(STATE_CURRENT_STATE);
-			mState = ResultsState.valueOf(stateName);
-			mResultsStateListeners.finalizeState(mState);//Note at this point there are no listeners, so no worries.
+			mStateManager.setDefaultState(ResultsState.valueOf(stateName));
 		}
 
 		//Add default fragments
@@ -145,7 +145,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			true,
 			FTAG_LOADING, manager, transaction, this,
 			R.id.loading_frag_container, false);
-		mTripBucketFrag =  FragmentAvailabilityUtils.setFragmentAvailability(true,
+		mTripBucketFrag = FragmentAvailabilityUtils.setFragmentAvailability(true,
 			FTAG_BUCKET, manager, transaction, this,
 			R.id.trip_bucket_container, false);
 
@@ -174,12 +174,13 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 		//TODO: This is just for logging so it can be removed if we want to turn off state logging.
 		registerStateListener(new StateListenerLogger<ResultsState>(), true);
+		registerStateListener(mStateListener, false);
 
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putString(STATE_CURRENT_STATE, mState.name());
+		outState.putString(STATE_CURRENT_STATE, mStateManager.getState().name());
 		super.onSaveInstanceState(outState);
 	}
 
@@ -194,7 +195,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			public boolean onPreDraw() {
 				if (!mPreDrawInitComplete) {
 					updateContentSize(mRootC.getWidth(), mRootC.getHeight());
-					finalizeState(mState);
+					mStateManager.setState(mStateManager.getState(), false);
 					mPreDrawInitComplete = true;
 				}
 
@@ -292,21 +293,21 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 			if (groupId == ResultsState.OVERVIEW.ordinal() && id == ResultsState.OVERVIEW.ordinal()) {
 				Log.d("JumpTo: OVERVIEW");
-				finalizeState(ResultsState.OVERVIEW);
+				setState(ResultsState.OVERVIEW, false);
 				return true;
 			}
 			else if (groupId == ResultsState.HOTELS.ordinal()) {
 				Log.d("JumpTo: HOTELS - state:" + ResultsHotelsState.values()[id].name());
-				if (mState != ResultsState.HOTELS) {
-					finalizeState(ResultsState.HOTELS);
+				if (getState() != ResultsState.HOTELS) {
+					setState(ResultsState.HOTELS, false);
 				}
 				mHotelsController.setHotelsState(ResultsHotelsState.values()[id], false);
 				return true;
 			}
 			else if (groupId == ResultsState.FLIGHTS.ordinal()) {
 				Log.d("JumpTo: FLIGHTS - state:" + ResultsFlightsState.values()[id].name());
-				if (mState != ResultsState.FLIGHTS) {
-					finalizeState(ResultsState.FLIGHTS);
+				if (getState() != ResultsState.FLIGHTS) {
+					setState(ResultsState.FLIGHTS, false);
 				}
 				mFlightsController.setFlightsState(ResultsFlightsState.values()[id], false);
 				return true;
@@ -424,8 +425,46 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	 * State management
 	 */
 
+	public void setState(ResultsState state, boolean animate){
+		mStateManager.setState(state,animate);
+	}	
+	public ResultsState getState(){
+		return mStateManager.getState();
+	}
+
+	private StateListenerHelper<ResultsState> mStateListener = new StateListenerHelper<ResultsState>() {
+		@Override
+		public void onStateTransitionStart(ResultsState stateOne, ResultsState stateTwo) {
+
+		}
+
+		@Override
+		public void onStateTransitionUpdate(ResultsState stateOne, ResultsState stateTwo, float percentage) {
+
+		}
+
+		@Override
+		public void onStateTransitionEnd(ResultsState stateOne, ResultsState stateTwo) {
+
+		}
+
+		@Override
+		public void onStateFinalized(ResultsState state) {
+			setListenerState(state);
+
+			if (mTripBucketFrag != null) {
+				mTripBucketFrag.bindToDb();
+			}
+		}
+	};
+
+
+	/**
+	 * STATE PROVIDER
+	 */
+
 	private StateListenerCollection<ResultsState> mResultsStateListeners = new StateListenerCollection<ResultsState>(
-		mState);
+		mStateManager.getDefaultState());
 
 	@Override
 	public void startStateTransition(ResultsState stateOne, ResultsState stateTwo) {
@@ -444,16 +483,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 	@Override
 	public void finalizeState(ResultsState state) {
-
-		setListenerState(state);
-
-		mState = state;
 		mResultsStateListeners.finalizeState(state);
-
-		if (mTripBucketFrag != null) {
-			mTripBucketFrag.bindToDb();
-		}
-
 	}
 
 	private void setListenerState(ResultsState state) {
@@ -505,7 +535,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			mGrid.setContainerToColumnSpan(mLoadingC, 0, 1);
 			mGrid.setContainerToRow(mLoadingC, 1);
 			mGrid.setContainerToColumn(mTripBucketC, 2);
-			mGrid.setContainerToRow(mTripBucketC,1);
+			mGrid.setContainerToRow(mTripBucketC, 1);
 
 			for (IMeasurementListener listener : mMeasurementListeners) {
 				listener.onContentSizeUpdated(totalWidth, totalHeight, isLandscape);
@@ -585,7 +615,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			mResultsStateListeners.setListenerInactive(mHotelsController.getResultsListener());
 
 			//DO WORK
-			finalizeState(getResultsStateFromHotels(state));
+			setState(getResultsStateFromHotels(state),false);
 
 			mResultsStateListeners.setListenerActive(mHotelsController.getResultsListener());
 		}
@@ -642,7 +672,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			mResultsStateListeners.setListenerInactive(mFlightsController.getResultsListener());
 
 			//DO WORK
-			finalizeState(getResultsStateFromFlights(state));
+			setState(getResultsStateFromFlights(state),false);
 
 			mResultsStateListeners.setListenerActive(mFlightsController.getResultsListener());
 		}
