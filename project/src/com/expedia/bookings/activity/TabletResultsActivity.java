@@ -29,6 +29,7 @@ import com.expedia.bookings.fragment.ResultsLoadingFragment;
 import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsSearchControllerFragment;
+import com.expedia.bookings.fragment.TripBucketFragment;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -77,11 +78,13 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private static final String FTAG_SEARCH_CONTROLLER = "FTAG_SEARCH_CONTROLLER";
 	private static final String FTAG_BACKGROUND_IMAGE = "FTAG_BACKGROUND_IMAGE";
 	private static final String FTAG_LOADING = "FTAG_LOADING";
+	private static final String FTAG_BUCKET = "FTAG_BUCKET";
 
 	//Containers..
 	private ViewGroup mRootC;
 	private FrameLayoutTouchController mBgDestImageC;
 	private FrameLayoutTouchController mLoadingC;
+	private FrameLayoutTouchController mTripBucketC;
 
 	//Fragments
 	private ResultsBackgroundImageFragment mBackgroundImageFrag;
@@ -89,6 +92,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private TabletResultsHotelControllerFragment mHotelsController;
 	private TabletResultsSearchControllerFragment mSearchController;
 	private ResultsLoadingFragment mLoadingFrag;
+	private TripBucketFragment mTripBucketFrag;
 
 	//Other
 	private GridManager mGrid = new GridManager();
@@ -111,6 +115,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		mBgDestImageC.setBlockNewEventsEnabled(true);
 		mBgDestImageC.setVisibility(View.VISIBLE);
 		mLoadingC = Ui.findView(this, R.id.loading_frag_container);
+		mTripBucketC = Ui.findView(this,R.id.trip_bucket_container);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CURRENT_STATE)) {
 			String stateName = savedInstanceState.getString(STATE_CURRENT_STATE);
@@ -135,11 +140,15 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		mSearchController = (TabletResultsSearchControllerFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			true,
 			FTAG_SEARCH_CONTROLLER, manager, transaction, this,
-			R.id.full_width_trip_controller_container, false);
+			R.id.full_width_search_controller_container, false);
 		mLoadingFrag = (ResultsLoadingFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			true,
 			FTAG_LOADING, manager, transaction, this,
 			R.id.loading_frag_container, false);
+		mTripBucketFrag =  FragmentAvailabilityUtils.setFragmentAvailability(true,
+			FTAG_BUCKET, manager, transaction, this,
+			R.id.trip_bucket_container, false);
+
 		transaction.commit();
 		manager.executePendingTransactions();//These must be finished before we continue..
 
@@ -351,6 +360,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		else if (tag == FTAG_LOADING) {
 			frag = mLoadingFrag;
 		}
+		else if (tag == FTAG_BUCKET) {
+			frag = mTripBucketFrag;
+		}
 		return frag;
 	}
 
@@ -372,6 +384,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 		else if (tag == FTAG_LOADING) {
 			frag = ResultsLoadingFragment.newInstance();
+		}
+		else if (tag == FTAG_BUCKET) {
+			frag = new TripBucketFragment();
 		}
 		return frag;
 	}
@@ -435,6 +450,10 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		mState = state;
 		mResultsStateListeners.finalizeState(state);
 
+		if (mTripBucketFrag != null) {
+			mTripBucketFrag.bindToDb();
+		}
+
 	}
 
 	private void setListenerState(ResultsState state) {
@@ -485,6 +504,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 			mGrid.setContainerToColumnSpan(mLoadingC, 0, 1);
 			mGrid.setContainerToRow(mLoadingC, 1);
+			mGrid.setContainerToColumn(mTripBucketC, 2);
+			mGrid.setContainerToRow(mTripBucketC,1);
 
 			for (IMeasurementListener listener : mMeasurementListeners) {
 				listener.onContentSizeUpdated(totalWidth, totalHeight, isLandscape);

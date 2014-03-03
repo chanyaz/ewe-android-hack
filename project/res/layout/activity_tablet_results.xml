@@ -24,7 +24,13 @@
         android:layout_height="match_parent" />
 
     <com.expedia.bookings.widget.FixedTranslationFrameLayout
-        android:id="@+id/full_width_trip_controller_container"
+        android:id="@+id/full_width_search_controller_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- TRIP BUCKET -->
+    <com.expedia.bookings.widget.FixedTranslationFrameLayout
+        android:id="@+id/trip_bucket_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
