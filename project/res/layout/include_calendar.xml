@@ -16,7 +16,7 @@
         mobiata:cellTextColor="@color/calendar_cell_text"
         mobiata:drawGridLines="false"
         mobiata:headerHeight="52dp"
-        mobiata:popupBackground="@drawable/calendar_date_picker_popup"
-        mobiata:stateCellDrawable="@drawable/calendar_date_picker_cell" />
+        mobiata:popupBackground="?attr/calendarDatePickerPopupDrawable"
+        mobiata:stateCellDrawable="?attr/calendarDatePickerCellDrawable" />
 
 </FrameLayout>
