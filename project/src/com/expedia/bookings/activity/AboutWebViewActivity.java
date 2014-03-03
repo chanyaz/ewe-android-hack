@@ -6,7 +6,9 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -15,6 +17,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.SocialUtils;
@@ -118,6 +121,36 @@ public class AboutWebViewActivity extends WebViewActivity {
 
 		if (User.isLoggedIn(this) && Db.getUser() != null) {
 			body.append("Expedia user name: " + Db.getUser().getPrimaryTraveler().getEmail());
+
+			body.append("\n\n");
+		}
+
+		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		if (lm != null) {
+			boolean gpsEnabled = false;
+			boolean networkEnabled = false;
+
+			try{
+				gpsEnabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+			}
+			catch (Exception ex) {
+				//ignore
+			}
+
+			try {
+				networkEnabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+			}
+			catch (Exception ex) {
+				//ignore
+			}
+
+			body.append("Location Services: GPS=" + gpsEnabled + ", Network=" + networkEnabled);
+
+			body.append("\n\n");
+		}
+
+		if (GCMRegistrationKeeper.getInstance(this) != null && !TextUtils.isEmpty(GCMRegistrationKeeper.getInstance(this).getRegistrationId(this))) {
+			body.append("GCM Push Token: " + GCMRegistrationKeeper.getInstance(this).getRegistrationId(this));
 
 			body.append("\n\n");
 		}
