@@ -66,6 +66,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImageManager.ImageType;
 import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FlightCheckoutResponse;
+import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightStatsFlightResponse;
@@ -868,6 +869,31 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Global Deals Engine API (GDE) - Flights
+	//
+	// Documentation: https://confluence/display/MTTFG/Global+Deals+Engine+-+GDE
+	//
+	// Flights: https://confluence/display/MTTFG/GDE+Flights+API+Documentation
+
+	public FlightSearchHistogramResponse flightSearchHistogram(FlightSearchParams params) {
+		List<BasicNameValuePair> query = generateFlightSearchHistogramParams(params);
+		return doGdeRequest(getGdeEndpointUrl(), query, new FlightSearchHistogramResponseHandler());
+	}
+
+	public List<BasicNameValuePair> generateFlightSearchHistogramParams(FlightSearchParams params) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		Location destination = params.getArrivalLocation();
+		String destKey = destination.isMetroCode() ? "tripToMetroAirportCode" : "tripTo";
+		query.add(new BasicNameValuePair(destKey, destination.getDestinationId()));
+
+		// TODO the API might update and no longer require this field
+		query.add(new BasicNameValuePair("pos", PointOfSale.getPointOfSale().getTwoLetterCountryCode()));
+
+		return query;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Expedia Itinerary API
 	//
 	// Documentation: https://www.expedia.com/static/mobile/APIConsole/trip.html
@@ -1443,6 +1469,16 @@ public class ExpediaServices implements DownloadListener {
 		return doRequest(base, responseHandler, flags);
 	}
 
+	private <T extends Response> T doGdeRequest(String url, List<BasicNameValuePair> params,
+												ResponseHandler<T> responseHandler) {
+
+		HttpRequestBase base = NetUtils.createHttpGet(url, params);
+
+		Log.d(TAG_REQUEST, "Request: " + base.getURI().toString());
+
+		return doRequest(base, responseHandler, F_IGNORE_COOKIES);
+	}
+
 	private <T extends Response> T doFlightStatsRequest(String baseUrl, List<BasicNameValuePair> params,
 														ResponseHandler<T> responseHandler) {
 		HttpRequestBase base = NetUtils.createHttpGet(baseUrl, params);
@@ -1622,6 +1658,38 @@ public class ExpediaServices implements DownloadListener {
 		else {
 			throw new RuntimeException("Didn't know how to handle EndPoint: " + endPoint);
 		}
+	}
+
+	// TODO move to ESD, make more like E3 URL construction
+	private static Map<String, String> sGdePosUrlMap = new HashMap<String, String>() {
+		{
+			put("AU", "http://deals.expedia.com/beta/deals/flights.json");
+			put("CA", "http://deals.expedia.com/beta/stats/flights.json");
+			put("NZ", "http://deals.expedia.com/beta/stats/flights.json");
+			put("US", "http://deals.expedia.com/beta/stats/flights.json");
+			put("AT", "http://deals.expedia.at/beta/stats/flights.json");
+			put("BE", "http://deals.expedia.be/beta/stats/flights.json");
+			put("DE", "http://deals.expedia.de/beta/stats/flights.json");
+			put("DK", "http://deals.expedia.dk/beta/stats/flights.json");
+			put("ES", "http://deals.expedia.es/beta/stats/flights.json");
+			put("FR", "http://deals.expedia.fr/beta/stats/flights.json");
+			put("IE", "http://deals.expedia.ie/beta/stats/flights.json");
+			put("IT", "http://deals.expedia.it/beta/stats/flights.json");
+			put("NL", "http://deals.expedia.nl/beta/stats/flights.json");
+			put("NO", "http://deals.expedia.no/beta/stats/flights.json");
+			put("SE", "http://deals.expedia.se/beta/stats/flights.json");
+			put("UK", "http://deals.expedia.co.uk/beta/stats/flights.json");
+			put("IN", "http://deals.expedia.co.in/beta/stats/flights.json");
+			put("JP", "http://deals.expedia.co.jp/beta/stats/flights.json");
+			put("MY", "http://deals.expedia.com.my/beta/stats/flights.json");
+			put("SG", "http://deals.expedia.com.sg/beta/stats/flights.json");
+			put("TH", "http://deals.expedia.co.th/beta/stats/flights.json");
+		}
+	};
+
+	public String getGdeEndpointUrl() {
+		String key = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toUpperCase();
+		return sGdePosUrlMap.get(key);
 	}
 
 	public static EndPoint getEndPoint(Context context) {

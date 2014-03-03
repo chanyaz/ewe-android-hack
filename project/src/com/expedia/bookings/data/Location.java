@@ -156,6 +156,10 @@ public class Location implements JSONable, Parcelable {
 		mSearchType = searchType;
 	}
 
+	public boolean isMetroCode() {
+		return "METROCODE".equals(mSearchType);
+	}
+
 	// Update this Location's fields with data from another, without blowing
 	// away any data currently stored here (if there's no new value)
 	public void updateFrom(Location other) {
