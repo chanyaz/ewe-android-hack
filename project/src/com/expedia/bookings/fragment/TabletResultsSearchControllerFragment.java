@@ -51,7 +51,7 @@ import com.squareup.otto.Subscribe;
 public class TabletResultsSearchControllerFragment extends Fragment implements IBackManageable,
 	IStateProvider<ResultsSearchState>, FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
 	DatesFragment.DatesFragmentListener, GuestsDialogFragment.GuestsDialogFragmentListener,
-	SuggestionsFragment.SuggestionsFragmentListener, FusedLocationProviderFragment.FusedLocationProviderListener {
+	FusedLocationProviderFragment.FusedLocationProviderListener, ResultsWaypointFragment.IResultsWaypointFragmentListener {
 
 	private GridManager mGrid = new GridManager();
 	private StateManager<ResultsSearchState> mSearchStateManager = new StateManager<ResultsSearchState>(ResultsSearchState.DEFAULT, this);
@@ -78,7 +78,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private static final String FTAG_ORIG_CHOOSER = "FTAG_ORIG_CHOOSER";
 	private static final String FTAG_LOCATION = "FTAG_LOCATION";
 
-	private SuggestionsFragment mOriginsFragment;
+	private ResultsWaypointFragment mOriginsFragment;
 	private ResultsDatesFragment mDatesFragment;
 	private GuestsDialogFragment mGuestsFragment;
 	private FusedLocationProviderFragment mLocationFragment;
@@ -93,6 +93,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mSearchBarC = Ui.findView(view, R.id.search_bar_conatiner);
 		mRightButtonsC = Ui.findView(view, R.id.right_buttons_container);
 		mWidgetC = Ui.findView(view, R.id.widget_container);
+		mOrigC = Ui.findView(view, R.id.origin_container);
 
 		mDestBtn = Ui.findView(view, R.id.dest_btn);
 		mOrigBtn = Ui.findView(view, R.id.origin_btn);
@@ -199,14 +200,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		Sp.getParams().setNumAdults(numAdults);
 		Sp.getParams().setChildAges(numChildren);
 		Sp.reportSpUpdate();
-	}
-
-	@Override
-	public void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion) {
-		if (fragment == mOriginsFragment) {
-			Sp.getParams().setOrigin(suggestion);
-			Sp.reportSpUpdate();
-		}
 	}
 
 	/*
@@ -378,7 +371,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			return GuestsDialogFragment.newInstance(Sp.getParams().getNumAdults(), Sp.getParams().getChildAges());
 		}
 		else if (tag == FTAG_ORIG_CHOOSER) {
-			return new SuggestionsFragment();
+			return new ResultsWaypointFragment();
 		}
 		else if (tag == FTAG_LOCATION) {
 			return new FusedLocationProviderFragment();
@@ -457,12 +450,19 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		@Override
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
 			mGrid.setDimensions(totalWidth, totalHeight);
-			mGrid.setNumRows(2);
+			mGrid.setNumRows(4);
 			mGrid.setNumCols(3);
 
-			mGrid.setContainerToRow(mTopHalfC, 0);
-			mGrid.setContainerToRow(mWidgetC, 1);
+			mGrid.setRowSize(0,getActivity().getActionBar().getHeight());
+			mGrid.setRowSize(2,getActivity().getActionBar().getHeight());
+			mGrid.setRowPercentage(3,0.5f);
+
+			mGrid.setContainerToRowSpan(mTopHalfC, 0,2);
+			mGrid.setContainerToRowSpan(mOrigC,0,3);
+			mGrid.setContainerToRow(mWidgetC, 3);
 			mGrid.setContainerToColumn(mWidgetC, 2);
+
+
 		}
 	};
 
@@ -479,6 +479,13 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		@Override
 		public boolean handleBackPressed() {
+			ResultsSearchState state = mSearchStateManager.getState();
+			if(state == ResultsSearchState.FLIGHTS_UP || state == ResultsSearchState.HOTELS_UP){
+				return false;
+			}else if(state != ResultsSearchState.DEFAULT){
+				setState(ResultsSearchState.DEFAULT,true);
+				return true;
+			}
 			return false;
 		}
 
@@ -557,5 +564,20 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	@Override
 	public void onError() {
 		Log.e("Fused Location Provider - onError()");
+	}
+
+	/**
+	 * IResultsWaypointFragmentListener
+	 */
+
+	@Override
+	public void onWaypointSearchComplete(ResultsWaypointFragment caller, SuggestionV2 suggest) {
+		if(suggest != null){
+			if(caller == mOriginsFragment){
+				Sp.getParams().setOrigin(suggest);
+				Sp.reportSpUpdate();
+			}
+		}
+		setState(ResultsSearchState.DEFAULT, false);
 	}
 }

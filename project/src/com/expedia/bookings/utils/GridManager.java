@@ -292,7 +292,7 @@ public class GridManager {
 
 			//Set sizes
 			int nonSpecifiedItemCount = mNumItems - preDefinedItems;
-			int nonSpecifiedItemBaseSize = remainingSize / nonSpecifiedItemCount;
+			int nonSpecifiedItemBaseSize = nonSpecifiedItemCount > 0 ? (remainingSize / nonSpecifiedItemCount) : 0;
 			int edge = 0;
 			int totalUsedSize = 0;
 			for (int i = 0; i < mNumItems; i++) {
