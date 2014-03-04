@@ -13,7 +13,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -786,21 +785,33 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			mGrid.setDimensions(totalWidth, totalHeight);
 
 			if (isLandscape) {
-				mGrid.setGridSize(1, 5);
+				mGrid.setGridSize(2, 5);
 
+				//The top row matches the height of the actionbar
+				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
+
+				//These columns are just the spacers between content columns
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
 				mGrid.setColumnSize(1,spacerSize);
 				mGrid.setColumnSize(3,spacerSize);
 
+				//Horizontal alignment
 				mGrid.setContainerToColumnSpan(mFlightMapC, 0, 4);
-
 				mGrid.setContainerToColumn(mFlightOneFiltersC, 0);
 				mGrid.setContainerToColumn(mFlightOneListC, 2);
 				mGrid.setContainerToColumnSpan(mFlightOneDetailsC, 0, 4);
-
 				mGrid.setContainerToColumn(mFlightTwoFiltersC, 0);
 				mGrid.setContainerToColumn(mFlightTwoListColumnC, 2);
 				mGrid.setContainerToColumnSpan(mFlightTwoDetailsC, 0, 4);
+
+				//Vertical alignment - All content except for the map sit in row 1 (below the actionbar)
+				mGrid.setContainerToRowSpan(mFlightMapC, 0, 1);
+				mGrid.setContainerToRow(mFlightOneFiltersC, 1);
+				mGrid.setContainerToRow(mFlightOneListC, 1);
+				mGrid.setContainerToRow(mFlightOneDetailsC, 1);
+				mGrid.setContainerToRow(mFlightTwoFiltersC, 1);
+				mGrid.setContainerToRow(mFlightTwoListColumnC, 1);
+				mGrid.setContainerToRow(mFlightTwoDetailsC, 1);
 			}
 			else {
 				mGrid.setGridSize(2, 2);
@@ -819,12 +830,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			updateDetailsFragSizes(mFlightOneDetailsFrag);
 			updateDetailsFragSizes(mFlightTwoDetailsFrag);
 			updateMapFragSizes(mFlightMapFrag);
-
-			//since the actionbar is an overlay, we must compensate by setting the root layout to have a top margin
-			int actionBarHeight = getActivity().getActionBar().getHeight();
-			FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) mRootC.getLayoutParams();
-			params.topMargin = actionBarHeight;
-			mRootC.setLayoutParams(params);
 
 			//If we are already initialized, we should reset our state so things get positioned properly.
 			if (mFlightOneListFrag != null) {

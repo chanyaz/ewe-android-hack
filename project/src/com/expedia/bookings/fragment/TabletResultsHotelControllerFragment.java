@@ -15,7 +15,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -756,7 +755,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mGrid.setDimensions(totalWidth, totalHeight);
 
 			if (mGrid.isLandscape()) {
-				mGrid.setGridSize(1, 5);//3 columns, 2 spacers
+				mGrid.setGridSize(2, 5);
+
+				//The top row matches the height of the actionbar
+				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
 
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
 				mGrid.setColumnSize(1,spacerSize);
@@ -770,6 +772,15 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mGrid.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 4);
 				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 2, 4);
 				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesShadeC, 0, 4);
+
+				//All of the views except for the map sit below the action bar
+				mGrid.setContainerToRow(mHotelListC, 1);
+				mGrid.setContainerToRow(mHotelFiltersC, 1);
+				mGrid.setContainerToRow(mHotelFilteredCountC, 1);
+				mGrid.setContainerToRowSpan(mBgHotelMapC, 0, 1);
+				mGrid.setContainerToRowSpan(mBgHotelMapTouchDelegateC, 0, 1);
+				mGrid.setContainerToRow(mHotelRoomsAndRatesC, 1);
+				mGrid.setContainerToRow(mHotelRoomsAndRatesShadeC, 1);
 			}
 			else {
 				mGrid.setGridSize(2, 2);
@@ -782,11 +793,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 0, 1);
 				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesShadeC, 0, 1);
 			}
-			//since the actionbar is an overlay, we must compensate by setting the root layout to have a top margin
-			int actionBarHeight = getActivity().getActionBar().getHeight();
-			FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) mRootC.getLayoutParams();
-			params.topMargin = actionBarHeight;
-			mRootC.setLayoutParams(params);
 
 			//tell the map where its bounds are
 			updateMapFragmentPositioningInfo(mMapFragment);
