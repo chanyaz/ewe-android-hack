@@ -16,36 +16,36 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
-import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.fragment.BookingFragment.BookingFragmentListener;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.FlightUnavailableDialogFragment;
 import com.expedia.bookings.fragment.HotelBookingFragment;
-import com.expedia.bookings.fragment.HotelBookingFragment.CreateTripDownloadStatusListener;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment.PriceChangeDialogFragmentListener;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
 import com.expedia.bookings.fragment.WalletFragment;
+import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.otto.Events.CreateTripDownloadRetry;
+import com.expedia.bookings.otto.Events.CreateTripDownloadRetryCancel;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
+import com.squareup.otto.Subscribe;
 
 public class HotelBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener,
-		PriceChangeDialogFragmentListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener,
-		BookingFragmentListener, CreateTripDownloadStatusListener {
+		PriceChangeDialogFragmentListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener {
 
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
 
@@ -113,8 +113,6 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 			ft.commit();
 		}
 
-		mBookingFragment.addCreateTripDownloadStatusListener(this);
-
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
@@ -132,6 +130,8 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	@Override
 	protected void onResume() {
 		super.onResume();
+		// Register on Otto bus
+		Events.register(this);
 
 		if (shouldBail()) {
 			return;
@@ -156,6 +156,8 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	@Override
 	protected void onPause() {
 		super.onPause();
+		// UnRegister on Otto bus
+		Events.unregister(this);
 
 		if (shouldBail()) {
 			return;
@@ -500,16 +502,17 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// BookingFragmentListener
+	///////////////////////////////////
+	/// Otto Event Subscriptions
 
-	@Override
-	public void onStartBooking() {
+	@Subscribe
+	public void onStartBooking(Events.BookingDownloadStarted event) {
 		showProgressDialog();
 	}
 
-	@Override
-	public void onBookingResponse(Response results) {
+	@Subscribe
+	public void onBookingResponse(Events.BookingDownloadResponse event) {
+		Response results = event.response;
 		BookingResponse response = (BookingResponse) results;
 		Property property = Db.getHotelSearch().getSelectedProperty();
 
@@ -535,26 +538,13 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		}
 	}
 
-	/////////////////////////////////////////////////
-	// Checkout V2 - "create" call listener
-
-	@Override
-	public void onCreateTripSuccess() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onCreateTripError(CreateTripResponse response) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onCreateTripRetry() {
+	@Subscribe
+	public void onCreateTripDownloadRetry(CreateTripDownloadRetry event) {
 		mBookingFragment.doBooking();
 	}
 
-	@Override
-	public void onCreateTripRetryCancel() {
+	@Subscribe
+	public void onCreateTripDownloadRetryCancel(CreateTripDownloadRetryCancel event) {
 		dismissProgressDialog();
 	}
 }

@@ -1,25 +1,20 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.StoredCreditCard;
-import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingState;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.wallet.FullWallet;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.util.Ui;
 
 public abstract class BookingFragment<T extends Response> extends FullWalletFragment {
-
-	private BookingFragmentListener mListener;
 
 	private String mDownloadKey;
 
@@ -31,8 +26,6 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	// If we need to defer handling till later
 	private int mGoogleWalletErrorCode;
 
-	private HotelBookingFragment mHotelBookingFragment;
-
 	//////////////////////////////////////////////////////////////////////////
 	// Abstractions/overrideables related to only booking
 
@@ -41,6 +34,9 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	public abstract Download<T> getBookingDownload();
 
 	public abstract Class<T> getBookingResponseClass();
+
+	// Use this method if we need to gather/prepare more information before calling booking download.
+	public abstract void doBookingPrep();
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -52,27 +48,13 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		// Ensure a consistent download key; only grab it once
 		mDownloadKey = getBookingDownloadKey();
 
-		mHotelBookingFragment = com.expedia.bookings.utils.Ui.findSupportFragment(this, HotelBookingFragment.TAG);
-
-		if (mHotelBookingFragment == null) {
-			FragmentTransaction ft = getFragmentManager().beginTransaction();
-			mHotelBookingFragment = new HotelBookingFragment();
-			ft.add(mHotelBookingFragment, HotelBookingFragment.TAG);
-			ft.commit();
-		}
-	}
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		mListener = Ui.findFragmentListener(this, BookingFragmentListener.class, false);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-
+		// Register on Otto bus
+		Events.register(this);
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(mDownloadKey)) {
 			bd.registerDownloadCallback(mDownloadKey, mCallback);
@@ -97,7 +79,8 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	@Override
 	public void onPause() {
 		super.onPause();
-
+		// UnRegister on Otto bus
+		Events.unregister(this);
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(mDownloadKey);
 
 		// When we leave this Fragment, we want to unbind any data we might have gotten
@@ -123,35 +106,17 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 				mDoBookingOnResume = true;
 			}
 			else {
-				startBooking();
+				startBookingProcess();
 			}
 		}
+
 	}
 
-	/**
-	 * Since both flight and hotel fragments use this and both have a different path to checkout,
-	 * let's send them on their respective ways.
-	 */
-	private void startBooking() {
-		if (this instanceof FlightBookingFragment) {
-			mListener.onStartBooking();
-			startBookingDownload();
-		}
-		else if (this instanceof HotelBookingFragment) {
-			startHotelBooking();
-		}
-	}
-
-	private void startHotelBooking() {
-		mListener.onStartBooking();
-		/*
-		 *  CheckoutV2 requires us to do a create call before making the checkout call.
-		 *  Check to see if create has been called before. If a coupon has been added/removed,
-		 *  this call will already be made and a new tripId and productKey will be obtained.
-		 *  In that case just start the checkout else call create.
-		 */
-		if (Db.getHotelSearch().getCreateTripResponse() == null) {
-			mHotelBookingFragment.startDownload(HotelBookingState.CHECKOUT);
+	private void startBookingProcess() {
+		// Post event to Otto bus
+		Events.post(new Events.BookingDownloadStarted());
+		if ((this instanceof HotelBookingFragment) && Db.getHotelSearch().getCreateTripResponse() == null) {
+			doBookingPrep();
 		}
 		else {
 			startBookingDownload();
@@ -171,7 +136,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	private OnDownloadComplete<T> mCallback = new OnDownloadComplete<T>() {
 		@Override
 		public void onDownload(T results) {
-			mListener.onBookingResponse(results);
+			Events.post(new Events.BookingDownloadResponse(results));
 		}
 	};
 
@@ -198,7 +163,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	protected void onFullWalletLoaded(FullWallet wallet) {
 		WalletUtils.bindWalletToBillingInfo(wallet, Db.getBillingInfo());
 
-		startBooking();
+		startBookingProcess();
 	}
 
 	@Override
@@ -226,15 +191,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		ServerError error = new ServerError();
 		error.setCode("GOOGLE_WALLET_ERROR");
 		response.addError(error);
-		mListener.onBookingResponse(response);
+		Events.post(new Events.BookingDownloadResponse(response));
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Listener
-
-	public interface BookingFragmentListener {
-		public void onStartBooking();
-
-		public void onBookingResponse(Response results);
-	}
 }

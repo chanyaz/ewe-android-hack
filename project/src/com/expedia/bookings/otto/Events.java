@@ -3,6 +3,7 @@ package com.expedia.bookings.otto;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
@@ -147,6 +148,24 @@ public class Events {
 	 */
 	public static class CouponDownloadError {
 
+	}
+
+	/**
+	 * This event notifies when Booking Download has started
+	 */
+	public static class BookingDownloadStarted {
+
+	}
+
+	/**
+	 * This event notifies that BookingDownload call has succeeded
+	 */
+	public static class BookingDownloadResponse {
+		public final Response response;
+
+		public BookingDownloadResponse(Response response) {
+			this.response = response;
+		}
 	}
 
 }

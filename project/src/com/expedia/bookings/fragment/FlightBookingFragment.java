@@ -73,4 +73,9 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 		walletRequestBuilder.setCart(WalletUtils.buildFlightCart(getActivity()));
 		return walletRequestBuilder.build();
 	}
+
+	@Override
+	public void doBookingPrep() {
+		// No pre-booking check or prep required for flights. Ignore
+	}
 }

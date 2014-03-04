@@ -23,11 +23,9 @@ import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.fragment.BookingFragment.BookingFragmentListener;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
@@ -40,6 +38,7 @@ import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallback
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
 import com.expedia.bookings.fragment.WalletFragment;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.JodaUtils;
@@ -49,10 +48,10 @@ import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
+import com.squareup.otto.Subscribe;
 
 public class FlightBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener,
-		PriceChangeDialogFragmentListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener,
-		BookingFragmentListener {
+		PriceChangeDialogFragmentListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener {
 
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
 
@@ -162,7 +161,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		// Register on Otto bus
+		Events.register(this);
 		if (shouldBail()) {
 			return;
 		}
@@ -182,7 +182,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	@Override
 	protected void onPause() {
 		super.onPause();
-
+		// UnRegister on Otto bus
+		Events.unregister(this);
 		if (shouldBail()) {
 			return;
 		}
@@ -508,17 +509,17 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// BookingFragmentListener
+	///////////////////////////////////
+	/// Otto Event Subscriptions
 
-	@Override
-	public void onStartBooking() {
+	@Subscribe
+	public void onStartBooking(Events.BookingDownloadStarted event) {
 		showProgressDialog();
 	}
 
-	@Override
-	public void onBookingResponse(Response results) {
-		FlightCheckoutResponse response = (FlightCheckoutResponse) results;
+	@Subscribe
+	public void onBookingResponse(Events.BookingDownloadResponse event) {
+		FlightCheckoutResponse response = (FlightCheckoutResponse) event.response;
 
 		dismissProgressDialog();
 

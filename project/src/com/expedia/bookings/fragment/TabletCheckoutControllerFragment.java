@@ -37,7 +37,6 @@ import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.enums.TripBucketItemState;
-import com.expedia.bookings.fragment.BookingFragment.BookingFragmentListener;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingState;
@@ -79,7 +78,7 @@ import com.squareup.otto.Subscribe;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletCheckoutControllerFragment extends LobableFragment implements IBackManageable,
 	IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener,
-	CheckoutInformationListener, BookingFragmentListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener {
+	CheckoutInformationListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener {
 
 	private static final String STATE_CHECKOUT_STATE = "STATE_CHECKOUT_STATE";
 
@@ -88,7 +87,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private static final String FRAG_TAG_CHECKOUT_INFO = "FRAG_TAG_CHECKOUT_INFO";
 	private static final String FRAG_TAG_CVV = "FRAG_TAG_CVV";
 	private static final String FRAG_TAG_BOOK_FLIGHT = "FRAG_TAG_BOOK_FLIGHT";
-	private static final String FRAG_TAG_BOOK_HOTEL = "FRAG_TAG_BOOK_HOTEL";
 	private static final String FRAG_TAG_CONF_FLIGHT = "FRAG_TAG_CONF_FLIGHT";
 	private static final String FRAG_TAG_CONF_HOTEL = "FRAG_TAG_CONF_HOTEL";
 	private static final String FRAG_TAG_BLUR_BG = "FRAG_TAG_BLUR_BG";
@@ -655,9 +653,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		else if (FRAG_TAG_BOOK_FLIGHT.equals(tag)) {
 			return mFlightBookingFrag;
 		}
-		else if (FRAG_TAG_BOOK_HOTEL.equals(tag)) {
-			return mHotelBookingFrag;
-		}
 		else if (FRAG_TAG_CONF_FLIGHT.equals(tag)) {
 			return mFlightConfFrag;
 		}
@@ -690,9 +685,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else if (FRAG_TAG_BOOK_FLIGHT.equals(tag)) {
 			return new FlightBookingFragment();
-		}
-		else if (FRAG_TAG_BOOK_HOTEL.equals(tag)) {
-			return new HotelBookingFragment();
 		}
 		else if (FRAG_TAG_CONF_FLIGHT.equals(tag)) {
 			return new FlightConfirmationFragment();
@@ -757,17 +749,17 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	}
 
-	/*
-	 * BookingFragmentListener
-	 */
+	///////////////////////////////////
+	/// Otto Event Subscriptions
 
-	@Override
-	public void onStartBooking() {
+	@Subscribe
+	public void onStartBooking(Events.BookingDownloadStarted event) {
 		// TODO do something?
 	}
 
-	@Override
-	public void onBookingResponse(Response results) {
+	@Subscribe
+	public void onBookingResponse(Events.BookingDownloadResponse event) {
+		Response results = event.response;
 		if (results instanceof FlightCheckoutResponse) {
 			FlightCheckoutResponse response = (FlightCheckoutResponse) results;
 

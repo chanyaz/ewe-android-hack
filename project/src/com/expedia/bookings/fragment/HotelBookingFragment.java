@@ -51,8 +51,6 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 
 	private static final String INSTANCE_HOTELBOOKING_STATE = "INSTANCE_HOTELBOOKING_STATE";
 
-	private CreateTripDownloadStatusListener mCreateTripDownloadStatusListener;
-
 	private String mCouponCode;
 
 	private HotelBookingState mState = HotelBookingState.DEFAULT;
@@ -164,6 +162,14 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 		}
 	}
 
+	@Override
+	public void doBookingPrep() {
+		mState = HotelBookingState.CHECKOUT;
+		if (Db.getHotelSearch().getCreateTripResponse() == null) {
+			startCreateTripDownload();
+		}
+	}
+
 	public void startDownload(HotelBookingState state) {
 		Log.v("HotelBookingFragment startDowload requested for : " + state);
 		mState = state;
@@ -186,6 +192,8 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			clearCoupon();
 			break;
 		case CHECKOUT:
+			// Post event to Otto Bus
+			Events.post(new Events.BookingDownloadStarted());
 			if (Db.getHotelSearch().getCreateTripResponse() == null) {
 				startCreateTripDownload();
 			}
@@ -433,24 +441,6 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 		df.show(getChildFragmentManager(), RETRY_CREATE_TRIP_DIALOG);
 	}
 
-	/**
-	 * CreateTrip download status listener.
-	 * Implement this listener if you want to add more functionality.
-	 */
-	public interface CreateTripDownloadStatusListener {
-		public void onCreateTripSuccess();
-
-		public void onCreateTripError(CreateTripResponse response);
-
-		public void onCreateTripRetry();
-
-		public void onCreateTripRetryCancel();
-	}
-
-	public void addCreateTripDownloadStatusListener(CreateTripDownloadStatusListener listener) {
-		mCreateTripDownloadStatusListener = listener;
-	}
-
 	///////////// Retry CreateTrip call dialog handlers
 	@Override
 	public void onRetryError() {
@@ -484,9 +474,6 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			Events.post(new Events.CouponDownloadCancel());
 		}
 		else {
-			if (mCreateTripDownloadStatusListener != null) {
-				mCreateTripDownloadStatusListener.onCreateTripRetryCancel();
-			}
 			// Post event to the Otto Bus.
 			Events.post(new Events.CreateTripDownloadRetryCancel());
 		}
@@ -584,4 +571,5 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			}
 		}
 	};
+
 }
