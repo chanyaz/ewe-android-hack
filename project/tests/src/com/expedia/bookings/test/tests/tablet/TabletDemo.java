@@ -36,9 +36,6 @@ public class TabletDemo extends CustomActivityInstrumentationTestCase<SearchActi
 		SearchScreen.typeInDestinationEditText("Detroit, MI");
 		SearchScreen.clickSuggestion("Detroit, MI");
 
-		LocalDate now = LocalDate.now();
-		SearchScreen.clickDate(now, now.plusDays(2));
-
 		SearchScreen.clickSearchButton();
 
 		Thread.sleep(30000);
