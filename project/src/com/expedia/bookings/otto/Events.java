@@ -220,4 +220,10 @@ public class Events {
 		}
 	}
 
+	// Suggestion query events
+	public static class SuggestionQueryStarted {
+	}
+
+	public static class SuggestionResultsDelivered {
+	}
 }

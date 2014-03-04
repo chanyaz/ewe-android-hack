@@ -22,6 +22,7 @@ import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.SuggestionV2.RegionType;
 import com.expedia.bookings.data.SuggestionV2.ResultType;
 import com.expedia.bookings.data.SuggestionV2.SearchType;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 
 public class SuggestionProvider extends ContentProvider {
@@ -120,6 +121,7 @@ public class SuggestionProvider extends ContentProvider {
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		String query = "";
+		Events.post(new Events.SuggestionQueryStarted());
 
 		if (uri.getPathSegments().size() > 0) {
 			// uri.getLastPathSegment automatically URLDecodes

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.otto.Events;
 
 public class SuggestionsAdapter extends CursorAdapter {
 
@@ -30,6 +31,12 @@ public class SuggestionsAdapter extends CursorAdapter {
 		Cursor c = getCursor();
 		c.moveToPosition(position);
 		return SuggestionProvider.rowToSuggestion(c);
+	}
+
+	@Override
+	public void notifyDataSetChanged() {
+		super.notifyDataSetChanged();
+		Events.post(new Events.SuggestionResultsDelivered());
 	}
 
 	@Override
