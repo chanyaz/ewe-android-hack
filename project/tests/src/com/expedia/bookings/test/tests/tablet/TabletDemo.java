@@ -37,8 +37,8 @@ public class TabletDemo extends CustomActivityInstrumentationTestCase<SearchActi
 		SearchScreen.clickOriginEditText();
 		SearchScreen.typeInOriginEditText("San Francisco, CA");
 		SearchScreen.clickInListWithText("San Francisco, CA");
-		LocalDate ld1 = LocalDate.now();
-		SearchScreen.clickDate(ld1, ld1.plusDays(2));
+		LocalDate now = LocalDate.now();
+		SearchScreen.clickDate(now, now.plusDays(2));
 		SearchScreen.clickSearchButton();
 		Thread.sleep(30000);
 		SearchResults.swipeUpHotelList();
