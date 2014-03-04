@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.Html;
@@ -613,17 +614,30 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 					insuranceName.setText(Html.fromHtml(insurance.getPolicyName()).toString());
 
 					View insuranceLinkView = Ui.findView(insuranceRow, R.id.insurance_button);
-					insuranceLinkView.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View arg0) {
-							WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
-							builder.setUrl(insurance.getTermsUrl());
-							builder.setTheme(R.style.ItineraryTheme);
-							builder.setTitle(R.string.insurance);
-							builder.setAllowMobileRedirects(false);
-							getContext().startActivity(builder.getIntent());
-						}
-					});
+
+					if(ExpediaBookingApp.IS_TRAVELOCITY) {
+						insuranceLinkView.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View arg0) {
+								Intent viewInsuranceIntent = new Intent(Intent.ACTION_VIEW);
+								viewInsuranceIntent.setData(Uri.parse(insurance.getTermsUrl()));
+								getContext().startActivity(viewInsuranceIntent);
+							}
+						});
+					}
+					else {
+						insuranceLinkView.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View arg0) {
+								WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
+								builder.setUrl(insurance.getTermsUrl());
+								builder.setTheme(R.style.ItineraryTheme);
+								builder.setTitle(R.string.insurance);
+								builder.setAllowMobileRedirects(false);
+								getContext().startActivity(builder.getIntent());
+							}
+						});
+					}
 
 					insuranceContainer.addView(insuranceRow);
 					viewAddedCount++;
