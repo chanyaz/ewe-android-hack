@@ -756,16 +756,20 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mGrid.setDimensions(totalWidth, totalHeight);
 
 			if (mGrid.isLandscape()) {
-				mGrid.setGridSize(1, 3);
+				mGrid.setGridSize(1, 5);//3 columns, 2 spacers
+
+				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
+				mGrid.setColumnSize(1,spacerSize);
+				mGrid.setColumnSize(3,spacerSize);
 
 				//Tell all of the containers where they belong
 				mGrid.setContainerToColumn(mHotelListC, 0);
-				mGrid.setContainerToColumn(mHotelFiltersC, 1);
-				mGrid.setContainerToColumn(mHotelFilteredCountC, 2);
-				mGrid.setContainerToColumnSpan(mBgHotelMapC, 0, 2);
-				mGrid.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 2);
-				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 1, 2);
-				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesShadeC, 0, 2);
+				mGrid.setContainerToColumnSpan(mHotelFiltersC, 1, 2);
+				mGrid.setContainerToColumnSpan(mHotelFilteredCountC, 3, 4);
+				mGrid.setContainerToColumnSpan(mBgHotelMapC, 0, 4);
+				mGrid.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 4);
+				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 2, 4);
+				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesShadeC, 0, 4);
 			}
 			else {
 				mGrid.setGridSize(2, 2);
@@ -1060,10 +1064,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 
 		private void setHotelsFiltersShownPercentage(float percentage) {
-			float filtersLeft = -(1f - percentage) * mGrid.getColWidth(1);
+			float filtersLeft = -(1f - percentage) * mGrid.getColLeft(2);
 			mHotelFiltersC.setTranslationX(filtersLeft);
 
-			float filteredCountLeft = mGrid.getColWidth(2) * (1f - percentage);
+			float filteredCountLeft = mGrid.getColWidth(4) * (1f - percentage);
 			mHotelFilteredCountC.setTranslationX(filteredCountLeft);
 		}
 

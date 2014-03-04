@@ -471,7 +471,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
 			mGrid.setDimensions(totalWidth, totalHeight);
 			mGrid.setNumRows(4);
-			mGrid.setNumCols(3);
+			mGrid.setNumCols(5);
+
+			int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
+			mGrid.setColumnSize(1,spacerSize);
+			mGrid.setColumnSize(3,spacerSize);
 
 			mGrid.setRowSize(0,getActivity().getActionBar().getHeight());
 			mGrid.setRowSize(2,getActivity().getActionBar().getHeight());
@@ -480,7 +484,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mGrid.setContainerToRowSpan(mTopHalfC, 0,2);
 			mGrid.setContainerToRowSpan(mOrigC,0,3);
 			mGrid.setContainerToRow(mWidgetC, 3);
-			mGrid.setContainerToColumn(mWidgetC, 2);
+			mGrid.setContainerToColumn(mWidgetC, 4);
 
 
 		}

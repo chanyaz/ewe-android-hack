@@ -550,12 +550,16 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			mLastReportedHeight = totalHeight;
 
 			//Setup grid manager
-			mGrid.setGridSize(2, 3);
+			mGrid.setGridSize(2, 5);
 			mGrid.setDimensions(totalWidth, totalHeight);
 
-			mGrid.setContainerToColumnSpan(mLoadingC, 0, 1);
+			int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
+			mGrid.setColumnSize(1,spacerSize);
+			mGrid.setColumnSize(3,spacerSize);
+
+			mGrid.setContainerToColumnSpan(mLoadingC, 0, 2);
 			mGrid.setContainerToRow(mLoadingC, 1);
-			mGrid.setContainerToColumn(mTripBucketC, 2);
+			mGrid.setContainerToColumn(mTripBucketC, 4);
 			mGrid.setContainerToRow(mTripBucketC, 1);
 
 			for (IMeasurementListener listener : mMeasurementListeners) {

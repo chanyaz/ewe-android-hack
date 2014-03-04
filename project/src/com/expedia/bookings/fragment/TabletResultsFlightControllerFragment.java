@@ -331,8 +331,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private void updateDetailsFragSizes(ResultsFlightDetailsFragment frag) {
 		if (frag != null && mGrid.getTotalWidth() > 0) {
 			int actionbarHeight = getActivity().getActionBar().getHeight();
-			int leftCol = 1;
-			int rightCol = 2;
+			int leftCol = 2;
+			int rightCol = 4;
 			if (!mGrid.isLandscape()) {
 				leftCol = 0;
 				rightCol = 1;
@@ -786,17 +786,21 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			mGrid.setDimensions(totalWidth, totalHeight);
 
 			if (isLandscape) {
-				mGrid.setGridSize(1, 3);
+				mGrid.setGridSize(1, 5);
 
-				mGrid.setContainerToColumnSpan(mFlightMapC, 0, 2);
+				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
+				mGrid.setColumnSize(1,spacerSize);
+				mGrid.setColumnSize(3,spacerSize);
+
+				mGrid.setContainerToColumnSpan(mFlightMapC, 0, 4);
 
 				mGrid.setContainerToColumn(mFlightOneFiltersC, 0);
-				mGrid.setContainerToColumn(mFlightOneListC, 1);
-				mGrid.setContainerToColumnSpan(mFlightOneDetailsC, 0, 2);
+				mGrid.setContainerToColumn(mFlightOneListC, 2);
+				mGrid.setContainerToColumnSpan(mFlightOneDetailsC, 0, 4);
 
 				mGrid.setContainerToColumn(mFlightTwoFiltersC, 0);
-				mGrid.setContainerToColumn(mFlightTwoListColumnC, 1);
-				mGrid.setContainerToColumnSpan(mFlightTwoDetailsC, 0, 2);
+				mGrid.setContainerToColumn(mFlightTwoListColumnC, 2);
+				mGrid.setContainerToColumnSpan(mFlightTwoDetailsC, 0, 4);
 			}
 			else {
 				mGrid.setGridSize(2, 2);

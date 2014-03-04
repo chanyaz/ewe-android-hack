@@ -14,6 +14,7 @@
     <!-- Tablet results -->
     <dimen name="checkbox_filter_widget_padding_left">38dp</dimen>
     <dimen name="sliding_filter_row_height">44dp</dimen>
+    <dimen name="results_column_spacing">2dp</dimen>
 
     <!-- Flights -->
     <dimen name="tablet_filter_white_space">32dp</dimen>
