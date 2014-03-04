@@ -267,21 +267,22 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private StateListenerHelper<ResultsSearchState> mSearchStateHelper = new StateListenerHelper<ResultsSearchState>() {
 		@Override
 		public void onStateTransitionStart(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-
+			if (performingSlideUpOrDownTransition(stateOne, stateTwo)) {
+				setSlideUpAnimationHardwareLayers(true);
+				if (isHotelsUpTransition(stateOne, stateTwo)) {
+					//For hotels we also fade
+					setSlideUpHotelsOnlyHardwareLayers(true);
+				}
+			}
 		}
 
 		@Override
 		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo,
 			float percentage) {
-			boolean goingUp = (stateOne == ResultsSearchState.DEFAULT && (stateTwo == ResultsSearchState.FLIGHTS_UP
-				|| stateTwo == ResultsSearchState.HOTELS_UP));
-			boolean goingDown = ((stateOne == ResultsSearchState.FLIGHTS_UP || stateOne == ResultsSearchState.HOTELS_UP)
-				&& stateTwo == ResultsSearchState.DEFAULT);
-
-			if (goingUp || goingDown) {
-				float perc = goingUp ? percentage : (1f - percentage);
+			if (performingSlideUpOrDownTransition(stateOne, stateTwo)) {
+				float perc = goingUp(stateOne, stateTwo) ? percentage : (1f - percentage);
 				setSlideUpAnimationPercentage(perc);
-				if (stateOne == ResultsSearchState.HOTELS_UP || stateTwo == ResultsSearchState.HOTELS_UP) {
+				if (isHotelsUpTransition(stateOne, stateTwo)) {
 					//For hotels we also fade
 					setSlideUpHotelsOnlyAnimationPercentage(perc);
 				}
@@ -290,7 +291,13 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateTransitionEnd(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-
+			if (performingSlideUpOrDownTransition(stateOne, stateTwo)) {
+				setSlideUpAnimationHardwareLayers(false);
+				if (isHotelsUpTransition(stateOne, stateTwo)) {
+					//For hotels we also fade
+					setSlideUpHotelsOnlyHardwareLayers(false);
+				}
+			}
 		}
 
 		@Override
@@ -322,6 +329,34 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			}
 		}
 
+		private boolean performingSlideUpOrDownTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			boolean goingUp = goingUp(stateOne, stateTwo);
+			boolean goingDown = goingDown(stateOne, stateTwo);
+
+			return goingUp || goingDown;
+		}
+
+		private boolean goingUp(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			return (stateOne == ResultsSearchState.DEFAULT && (stateTwo == ResultsSearchState.FLIGHTS_UP
+				|| stateTwo == ResultsSearchState.HOTELS_UP));
+		}
+
+		private boolean goingDown(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			return ((stateOne == ResultsSearchState.FLIGHTS_UP || stateOne == ResultsSearchState.HOTELS_UP)
+				&& stateTwo == ResultsSearchState.DEFAULT);
+		}
+
+		private boolean isHotelsUpTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			return stateOne == ResultsSearchState.HOTELS_UP || stateTwo == ResultsSearchState.HOTELS_UP;
+		}
+
+		private void setSlideUpAnimationHardwareLayers(boolean enabled) {
+			int layerType = enabled ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
+
+			mWidgetC.setLayerType(layerType, null);
+			mDestBtn.setLayerType(layerType, null);
+		}
+
 		private void setSlideUpAnimationPercentage(float percentage) {
 			int barTransDistance = mTopHalfC.getHeight() - mSearchBarC.getHeight();
 			mSearchBarC.setTranslationY(percentage * -barTransDistance);
@@ -330,6 +365,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mDestBtn.setAlpha(1f - percentage);
 			//TODO: Use better number (this is to move to the left of the action bar buttons)
 			mRightButtonsC.setTranslationX(percentage * -(getActivity().getActionBar().getHeight()));
+		}
+
+		private void setSlideUpHotelsOnlyHardwareLayers(boolean enabled) {
+			int layerType = enabled ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
+			mOrigC.setLayerType(layerType, null);
 		}
 
 		private void setSlideUpHotelsOnlyAnimationPercentage(float percentage) {
