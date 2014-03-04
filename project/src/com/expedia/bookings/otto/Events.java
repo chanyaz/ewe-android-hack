@@ -1,5 +1,8 @@
 package com.expedia.bookings.otto;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.Rate;
@@ -46,7 +49,7 @@ import com.squareup.otto.Bus;
 public class Events {
 
 	private static final String TAG = "ExpediaOtto";
-	private static final Bus sBus = new Bus();
+	private static final Bus sBus = new BetterBus();
 
 	private Events() {
 		// Singleton - Cannot be instantiated
@@ -65,6 +68,55 @@ public class Events {
 	public static void post(Object obj) {
 		Log.v(TAG, "Posting event: " + obj);
 		sBus.post(obj);
+	}
+
+	private static class BetterBus extends Bus {
+		private static final Handler mHandler = new Handler(Looper.getMainLooper());
+
+		@Override
+		public void register(final Object listener) {
+			if (Looper.myLooper() == Looper.getMainLooper()) {
+				BetterBus.super.register(listener);
+			}
+			else {
+				mHandler.post(new Runnable() {
+					@Override
+					public void run() {
+						BetterBus.super.register(listener);
+					}
+				});
+			}
+		}
+
+		@Override
+		public void unregister(final Object listener) {
+			if (Looper.myLooper() == Looper.getMainLooper()) {
+				BetterBus.super.unregister(listener);
+			}
+			else {
+				mHandler.post(new Runnable() {
+					@Override
+					public void run() {
+						BetterBus.super.unregister(listener);
+					}
+				});
+			}
+		}
+
+		@Override
+		public void post(final Object event) {
+			if (Looper.myLooper() == Looper.getMainLooper()) {
+				BetterBus.super.post(event);
+			}
+			else {
+				mHandler.post(new Runnable() {
+					@Override
+					public void run() {
+						BetterBus.super.post(event);
+					}
+				});
+			}
+		}
 	}
 
 	/////////////////////////////////////////////////////////
