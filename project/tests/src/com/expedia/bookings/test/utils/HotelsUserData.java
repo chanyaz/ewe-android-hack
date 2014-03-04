@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.utils;
 
+import java.util.Locale;
+
 import android.app.Instrumentation;
 import android.util.Pair;
 
@@ -103,6 +105,17 @@ public class HotelsUserData {
 		LocationSelectUtils citySelect = new LocationSelectUtils();
 		String hotelCity = citySelect.getRandomAmericanAndInternationalCity().first;
 		setHotelSearchCity(hotelCity);
+	}
+
+	public void setAirportsToLocaleDefault(Locale l) {
+		Pair<String, String> airports = MarketingSearchParamsUtils.getAirportPairForLocale(l);
+		setDepartureAirport(airports.first);
+		setArrivalAirport(airports.second);
+	}
+
+	public void setHotelDestinationToLocaleDefault(Locale l) {
+		String hotelDestination = MarketingSearchParamsUtils.getHotelDestinationForLocale(l);
+		setHotelSearchCity(hotelDestination);
 	}
 
 	/*
