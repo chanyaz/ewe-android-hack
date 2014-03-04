@@ -72,6 +72,7 @@ import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightStatsFlightResponse;
 import com.expedia.bookings.data.FlightStatsRatingResponse;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.HotelAffinitySearchResponse;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -869,6 +870,40 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Hotels Affinity Search
+	//
+	// Documentation: https://confluence/display/POS/Affinity+Search+API
+	//
+
+
+	// TODO determine the correct endpoint to hit
+	private static final String HOTELS_AFFINITY_SEARCH_BASE_URL = "http://afs.integration.bgb.karmalab.net:52418/affinity/api/v1/get/hotels";
+
+	public HotelAffinitySearchResponse hotelAffinitySearch(HotelSearchParams params) {
+		List<BasicNameValuePair> query = generateHotelAffinitySearchParams(params);
+		return doBasicGetRequest(HOTELS_AFFINITY_SEARCH_BASE_URL, query, new HotelAffinitySearchResponseHandler());
+	}
+
+	public List<BasicNameValuePair> generateHotelAffinitySearchParams(HotelSearchParams params) {
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		query.add(new BasicNameValuePair("format", "json"));
+
+		query.add(new BasicNameValuePair("userId", "ama")); // TODO get real client ID
+
+		if (params.hasRegionId()) {
+			Log.d("Searching by regionId...");
+			query.add(new BasicNameValuePair("regionId", params.getRegionId()));
+		}
+		else {
+			// TODO support current loc, etc..
+			throw new RuntimeException("Attempting an affinity search that is not yet supported");
+		}
+
+		return query;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Global Deals Engine API (GDE) - Flights
 	//
 	// Documentation: https://confluence/display/MTTFG/Global+Deals+Engine+-+GDE
@@ -877,7 +912,7 @@ public class ExpediaServices implements DownloadListener {
 
 	public FlightSearchHistogramResponse flightSearchHistogram(FlightSearchParams params) {
 		List<BasicNameValuePair> query = generateFlightSearchHistogramParams(params);
-		return doGdeRequest(getGdeEndpointUrl(), query, new FlightSearchHistogramResponseHandler());
+		return doBasicGetRequest(getGdeEndpointUrl(), query, new FlightSearchHistogramResponseHandler());
 	}
 
 	public List<BasicNameValuePair> generateFlightSearchHistogramParams(FlightSearchParams params) {
@@ -1469,12 +1504,12 @@ public class ExpediaServices implements DownloadListener {
 		return doRequest(base, responseHandler, flags);
 	}
 
-	private <T extends Response> T doGdeRequest(String url, List<BasicNameValuePair> params,
-												ResponseHandler<T> responseHandler) {
+	private <T extends Response> T doBasicGetRequest(String url, List<BasicNameValuePair> params,
+		ResponseHandler<T> responseHandler) {
 
 		HttpRequestBase base = NetUtils.createHttpGet(url, params);
 
-		Log.d(TAG_REQUEST, "Request: " + base.getURI().toString());
+		Log.d(TAG_REQUEST, "" + base.getURI().toString());
 
 		return doRequest(base, responseHandler, F_IGNORE_COOKIES);
 	}
