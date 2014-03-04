@@ -47,6 +47,8 @@
         <item name="hotelSearchButtonStyle">@style/Widget.Button.Yellow.Search</item>
         <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
         <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
+        <item name="searchBackgroundPortraitDrawable">@drawable/bg_search_portrait</item>
+        <item name="searchBackgroundLandscapeDrawable">@drawable/bg_search_landscape</item>
     </style>
 
     <style name="TabletLauncherActionBar" parent="Widget.Sherlock.ActionBar">

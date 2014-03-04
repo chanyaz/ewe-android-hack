@@ -155,6 +155,8 @@
         <item name="hotelSearchButtonStyle">@style/Widget.Button.Search.Travelocity</item>
         <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
         <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_tvly</item>
+        <item name="searchBackgroundPortraitDrawable">@drawable/bg_search_portrait_travelocity</item>
+        <item name="searchBackgroundLandscapeDrawable">@drawable/bg_search_landscape_travelocity</item>
     </style>
 
     <style name="TabletLauncherActionBarTravelocity" parent="Widget.Sherlock.ActionBar">

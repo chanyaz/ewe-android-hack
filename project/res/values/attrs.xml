@@ -307,5 +307,7 @@
     <attr name="itinFlightsTripLineColor" format="reference"/>
 
     <attr name="hotelSearchButtonStyle" format="reference"/>
+    <attr name="searchBackgroundPortraitDrawable" format="reference"/>
+    <attr name="searchBackgroundLandscapeDrawable" format="reference"/>
 
 </resources>
