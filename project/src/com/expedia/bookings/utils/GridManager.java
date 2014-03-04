@@ -118,7 +118,8 @@ public class GridManager {
 
 	/**
 	 * Set the container so it is positioned to fill the provided column
-	 * @param view - what we want to size/position
+	 *
+	 * @param view   - what we want to size/position
 	 * @param column - which column should we size/position it to
 	 */
 	public void setContainerToColumn(View view, int column) {
@@ -127,9 +128,10 @@ public class GridManager {
 
 	/**
 	 * Set the container so it is positioned to fill the provided column span
-	 * @param view - what we want to size/position
+	 *
+	 * @param view     - what we want to size/position
 	 * @param startCol - the start column where the left edge will be placed
-	 * @param endCol - the end column, the contianers right edge will match this columns right edge
+	 * @param endCol   - the end column, the contianers right edge will match this columns right edge
 	 */
 	public void setContainerToColumnSpan(View view, int startCol, int endCol) {
 		int width = mCols.getItemFarEdge(endCol) - mCols.getItemEdge(startCol);
@@ -139,8 +141,9 @@ public class GridManager {
 
 	/**
 	 * Set the container so it is positioned to fill the provider row
+	 *
 	 * @param view - what we want to size/position
-	 * @param row - which row we should size/position it to
+	 * @param row  - which row we should size/position it to
 	 */
 	public void setContainerToRow(View view, int row) {
 		setContainerToRowSpan(view, row, row);
@@ -148,10 +151,10 @@ public class GridManager {
 
 	/**
 	 * Set the container so it is positioned to fill the provided row span
-	 * 
-	 * @param view - what we want to size/position
+	 *
+	 * @param view     - what we want to size/position
 	 * @param startRow - the start row where the top edge will be placed
-	 * @param endRow - the end row, the contianers bottom edge will match this columns bottom edge
+	 * @param endRow   - the end row, the contianers bottom edge will match this columns bottom edge
 	 */
 	public void setContainerToRowSpan(View view, int startRow, int endRow) {
 		int height = mRows.getItemFarEdge(endRow) - mRows.getItemEdge(startRow);
@@ -163,9 +166,9 @@ public class GridManager {
 	 * Set the frame width and position from the left edge of the screen using layout params.
 	 * This assumes the parent container is a FrameLayout as it will be setting the layout params
 	 * as FrameLayout.LayoutParams.
-	 * 
-	 * @param view - what we want to position
-	 * @param width - how wide?
+	 *
+	 * @param view       - what we want to position
+	 * @param width      - how wide?
 	 * @param leftMargin - how far from the left of the parent
 	 */
 	public static void setFrameWidthAndPosition(View view, int width, int leftMargin) {
@@ -182,9 +185,9 @@ public class GridManager {
 	 * Set the frame height and position from the top edge of the screen using layout params.
 	 * This assumes the parent container is a FrameLayout as it will be setting the layout params
 	 * as FrameLayout.LayoutParams.
-	 * 
-	 * @param view - what we want to position
-	 * @param height - how tall?
+	 *
+	 * @param view      - what we want to position
+	 * @param height    - how tall?
 	 * @param topMargin - how far from the top of the parent
 	 */
 	public static void setFrameHeightAndPosition(View view, int height, int topMargin) {

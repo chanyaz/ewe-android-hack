@@ -56,7 +56,8 @@ import com.squareup.otto.Subscribe;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsHotelControllerFragment extends Fragment implements
 	ISortAndFilterListener, IResultsHotelSelectedListener, IAddToTripListener, IFragmentAvailabilityProvider,
-	HotelMapFragmentListener, SupportMapFragmentListener, IBackManageable, IStateProvider<ResultsHotelsState>, ExpediaServicesFragment.ExpediaServicesFragmentListener {
+	HotelMapFragmentListener, SupportMapFragmentListener, IBackManageable, IStateProvider<ResultsHotelsState>,
+	ExpediaServicesFragment.ExpediaServicesFragmentListener {
 
 	//State
 	private static final String STATE_HOTELS_STATE = "STATE_HOTELS_STATE";
@@ -115,7 +116,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				STATE_HOTELS_STATE, getBaseState().name())));
 		}
 
-		if ((Db.getHotelSearch() == null || Db.getHotelSearch().getSearchResponse() == null) && !Db.loadHotelSearchFromDisk(getActivity())) {
+		if ((Db.getHotelSearch() == null || Db.getHotelSearch().getSearchResponse() == null) && !Db
+			.loadHotelSearchFromDisk(getActivity())) {
 			mHotelsStateManager.setDefaultState(ResultsHotelsState.LOADING);
 		}
 	}
@@ -625,7 +627,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionUpdate(ResultsHotelsListState stateOne, ResultsHotelsListState stateTwo,
-											float percentage) {
+			float percentage) {
 			if (shouldWeListenToScroll()) {
 				updateStateTransition(getHotelsStateFromListState(stateOne), getHotelsStateFromListState(stateTwo),
 					percentage);
@@ -761,8 +763,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
 
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
-				mGrid.setColumnSize(1,spacerSize);
-				mGrid.setColumnSize(3,spacerSize);
+				mGrid.setColumnSize(1, spacerSize);
+				mGrid.setColumnSize(3, spacerSize);
 
 				//Tell all of the containers where they belong
 				mGrid.setContainerToColumn(mHotelListC, 0);
@@ -861,7 +863,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Override
 	public void updateStateTransition(ResultsHotelsState stateOne, ResultsHotelsState stateTwo,
-									  float percentage) {
+		float percentage) {
 		mHotelsStateListeners.updateStateTransition(stateOne, stateTwo, percentage);
 	}
 
@@ -932,7 +934,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 
 		@Override
-		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo, float percentage) {
+		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo,
+			float percentage) {
 			if (stateOne == ResultsHotelsState.HOTEL_LIST_DOWN && stateTwo == ResultsHotelsState.HOTEL_LIST_UP) {
 				//ENTERING HOTELS
 				mBgHotelMapC.setAlpha(percentage);

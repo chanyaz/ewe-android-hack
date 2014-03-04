@@ -260,7 +260,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		mSearchParams.setStartDate(new LocalDate());
 
 		//Copy the local search params to the global store.
-		Sp.setParams(mSearchParams,false);
+		Sp.setParams(mSearchParams, false);
 
 		startActivity(new Intent(this, TabletResultsActivity.class));
 	}

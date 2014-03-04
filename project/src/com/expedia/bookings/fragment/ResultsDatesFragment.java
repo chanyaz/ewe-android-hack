@@ -18,10 +18,10 @@ import com.mobiata.android.util.Ui;
 
 /**
  * One important detail
- * 
+ * <p/>
  * 1. This is designed to work in conjunction with TabletSearchFragment.  As such, it does not
- *    keep track of its own internal state; I don't want to risk duplicating any data and
- *    confusing the issue.
+ * keep track of its own internal state; I don't want to risk duplicating any data and
+ * confusing the issue.
  */
 public class ResultsDatesFragment extends Fragment implements CalendarPicker.DateSelectionChangedListener {
 

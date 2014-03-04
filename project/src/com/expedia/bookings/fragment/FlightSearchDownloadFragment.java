@@ -95,9 +95,9 @@ public class FlightSearchDownloadFragment extends Fragment {
 		outState.putString(STATE_PARAMS, mSearchParams.toJson().toString());
 	}
 
-	public void startOrRestart(){
+	public void startOrRestart() {
 		BackgroundDownloader dl = BackgroundDownloader.getInstance();
-		if(dl.isDownloading(DL_SEARCH)){
+		if (dl.isDownloading(DL_SEARCH)) {
 			dl.cancelDownload(DL_SEARCH);
 		}
 		dl.startDownload(DL_SEARCH, mSearchDownload, mSearchCallback);
@@ -111,10 +111,11 @@ public class FlightSearchDownloadFragment extends Fragment {
 		@Override
 		public FlightSearchResponse doDownload() {
 			//TODO: Remove try catch, write good search param validation so we don't kick off if we don't have data.
-			try{
+			try {
 				return mServices.flightSearch(mSearchParams, 0);
-			}catch(Exception ex){
-				Log.e("Flight search download exception",ex);
+			}
+			catch (Exception ex) {
+				Log.e("Flight search download exception", ex);
 			}
 			return null;
 		}

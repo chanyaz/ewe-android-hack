@@ -52,10 +52,12 @@ import com.squareup.otto.Subscribe;
 public class TabletResultsSearchControllerFragment extends Fragment implements IBackManageable,
 	IStateProvider<ResultsSearchState>, FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
 	DatesFragment.DatesFragmentListener, GuestsDialogFragment.GuestsDialogFragmentListener,
-	FusedLocationProviderFragment.FusedLocationProviderListener, ResultsWaypointFragment.IResultsWaypointFragmentListener {
+	FusedLocationProviderFragment.FusedLocationProviderListener,
+	ResultsWaypointFragment.IResultsWaypointFragmentListener {
 
 	private GridManager mGrid = new GridManager();
-	private StateManager<ResultsSearchState> mSearchStateManager = new StateManager<ResultsSearchState>(ResultsSearchState.DEFAULT, this);
+	private StateManager<ResultsSearchState> mSearchStateManager = new StateManager<ResultsSearchState>(
+		ResultsSearchState.DEFAULT, this);
 
 	//Containers
 	private ViewGroup mRootC;
@@ -175,7 +177,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 
 		int numTravelers = params.getNumAdults() + params.getNumChildren();
-		String travStr = getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers, numTravelers);
+		String travStr = getResources()
+			.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers, numTravelers);
 		mTravBtn.setText(travStr);
 	}
 
@@ -184,7 +187,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		bind();
 	}
 
-	protected void doSpUpdate(){
+	protected void doSpUpdate() {
 		Db.getTripBucket().clear();
 		Sp.reportSpUpdate();
 	}
@@ -231,9 +234,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mCalClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			if(mSearchStateManager.getState() != ResultsSearchState.CALENDAR){
+			if (mSearchStateManager.getState() != ResultsSearchState.CALENDAR) {
 				setState(ResultsSearchState.CALENDAR, mAnimateButtonClicks);
-			}else{
+			}
+			else {
 				setState(ResultsSearchState.DEFAULT, mAnimateButtonClicks);
 			}
 		}
@@ -242,9 +246,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mTravClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			if(mSearchStateManager.getState() != ResultsSearchState.TRAVELER_PICKER){
+			if (mSearchStateManager.getState() != ResultsSearchState.TRAVELER_PICKER) {
 				setState(ResultsSearchState.TRAVELER_PICKER, mAnimateButtonClicks);
-			}else{
+			}
+			else {
 				setState(ResultsSearchState.DEFAULT, mAnimateButtonClicks);
 			}
 		}
@@ -266,9 +271,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 
 		@Override
-		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo, float percentage) {
-			boolean goingUp = (stateOne == ResultsSearchState.DEFAULT && (stateTwo == ResultsSearchState.FLIGHTS_UP || stateTwo == ResultsSearchState.HOTELS_UP));
-			boolean goingDown = ((stateOne == ResultsSearchState.FLIGHTS_UP || stateOne == ResultsSearchState.HOTELS_UP) && stateTwo == ResultsSearchState.DEFAULT);
+		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo,
+			float percentage) {
+			boolean goingUp = (stateOne == ResultsSearchState.DEFAULT && (stateTwo == ResultsSearchState.FLIGHTS_UP
+				|| stateTwo == ResultsSearchState.HOTELS_UP));
+			boolean goingDown = ((stateOne == ResultsSearchState.FLIGHTS_UP || stateOne == ResultsSearchState.HOTELS_UP)
+				&& stateTwo == ResultsSearchState.DEFAULT);
 
 			if (goingUp || goingDown) {
 				float perc = goingUp ? percentage : (1f - percentage);
@@ -306,9 +314,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			}
 			}
 
-			if(state == ResultsSearchState.CALENDAR || state == ResultsSearchState.TRAVELER_PICKER){
+			if (state == ResultsSearchState.CALENDAR || state == ResultsSearchState.TRAVELER_PICKER) {
 				mWidgetC.setVisibility(View.VISIBLE);
-			}else{
+			}
+			else {
 				mWidgetC.setVisibility(View.INVISIBLE);
 			}
 		}
@@ -438,8 +447,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		@Override
 		public void onStateFinalized(ResultsState state) {
 
-			boolean currentlyDown = mSearchStateManager.getState() != ResultsSearchState.FLIGHTS_UP && mSearchStateManager.getState() != ResultsSearchState.HOTELS_UP;
-			if (!mSearchStateManager.hasState() || !currentlyDown || translateState(state) != ResultsSearchState.DEFAULT) {
+			boolean currentlyDown = mSearchStateManager.getState() != ResultsSearchState.FLIGHTS_UP
+				&& mSearchStateManager.getState() != ResultsSearchState.HOTELS_UP;
+			if (!mSearchStateManager.hasState() || !currentlyDown
+				|| translateState(state) != ResultsSearchState.DEFAULT) {
 				//We respond to things where we move from the up to the down state, but we dont listen to the parent
 				finalizeState(translateState(state));
 			}
@@ -474,15 +485,15 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mGrid.setNumCols(5);
 
 			int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
-			mGrid.setColumnSize(1,spacerSize);
-			mGrid.setColumnSize(3,spacerSize);
+			mGrid.setColumnSize(1, spacerSize);
+			mGrid.setColumnSize(3, spacerSize);
 
-			mGrid.setRowSize(0,getActivity().getActionBar().getHeight());
-			mGrid.setRowSize(2,getActivity().getActionBar().getHeight());
-			mGrid.setRowPercentage(3,0.5f);
+			mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
+			mGrid.setRowSize(2, getActivity().getActionBar().getHeight());
+			mGrid.setRowPercentage(3, 0.5f);
 
-			mGrid.setContainerToRowSpan(mTopHalfC, 0,2);
-			mGrid.setContainerToRowSpan(mOrigC,0,3);
+			mGrid.setContainerToRowSpan(mTopHalfC, 0, 2);
+			mGrid.setContainerToRowSpan(mOrigC, 0, 3);
 			mGrid.setContainerToRow(mWidgetC, 3);
 			mGrid.setContainerToColumn(mWidgetC, 4);
 
@@ -504,10 +515,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		@Override
 		public boolean handleBackPressed() {
 			ResultsSearchState state = mSearchStateManager.getState();
-			if(state == ResultsSearchState.FLIGHTS_UP || state == ResultsSearchState.HOTELS_UP){
+			if (state == ResultsSearchState.FLIGHTS_UP || state == ResultsSearchState.HOTELS_UP) {
 				return false;
-			}else if(state != ResultsSearchState.DEFAULT){
-				setState(ResultsSearchState.DEFAULT,true);
+			}
+			else if (state != ResultsSearchState.DEFAULT) {
+				setState(ResultsSearchState.DEFAULT, true);
 				return true;
 			}
 			return false;
@@ -520,7 +532,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	 * RESULTS SEARCH STATE PROVIDER
 	 */
 
-	private StateListenerCollection<ResultsSearchState> mLis = new StateListenerCollection<ResultsSearchState>(mSearchStateManager.getState());
+	private StateListenerCollection<ResultsSearchState> mLis = new StateListenerCollection<ResultsSearchState>(
+		mSearchStateManager.getState());
 
 	@Override
 	public void startStateTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
@@ -568,7 +581,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					SuggestionResponse response = services.suggestionsNearby(currentLocation.getLatitude(),
 						currentLocation.getLongitude(), SuggestionSort.DISTANCE, 0);
 
-					if (response != null && !response.hasErrors() && response.getSuggestions().size() != 0 && !Sp.getParams().hasOrigin()) {
+					if (response != null && !response.hasErrors() && response.getSuggestions().size() != 0 && !Sp
+						.getParams().hasOrigin()) {
 						Sp.getParams().setOrigin(response.getSuggestions().get(0));
 						if (getActivity() != null && mRootC != null) {
 							mRootC.post(new Runnable() {
@@ -596,8 +610,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	@Override
 	public void onWaypointSearchComplete(ResultsWaypointFragment caller, SuggestionV2 suggest) {
-		if(suggest != null){
-			if(caller == mOriginsFragment){
+		if (suggest != null) {
+			if (caller == mOriginsFragment) {
 				Sp.getParams().setOrigin(suggest);
 				doSpUpdate();
 			}

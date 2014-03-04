@@ -380,7 +380,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			frag = new TabletResultsSearchControllerFragment();
 		}
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
-			String destination = Sp.getParams().getDestination().getLocation().getDestinationId();
+			String destination = Sp.getParams().getDestination().getLocation()
+				.getDestinationId();
 			frag = ResultsBackgroundImageFragment.newInstance(destination, false);
 		}
 		else if (tag == FTAG_LOADING) {
@@ -425,11 +426,11 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	 * State management
 	 */
 
-	public void setState(ResultsState state, boolean animate){
-		mStateManager.setState(state,animate);
+	public void setState(ResultsState state, boolean animate) {
+		mStateManager.setState(state, animate);
 	}
 
-	public ResultsState getState(){
+	public ResultsState getState() {
 		return mStateManager.getState();
 	}
 
@@ -441,9 +442,10 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 		@Override
 		public void onStateTransitionUpdate(ResultsState stateOne, ResultsState stateTwo, float percentage) {
-			if(stateOne == ResultsState.OVERVIEW && stateTwo != ResultsState.OVERVIEW){
+			if (stateOne == ResultsState.OVERVIEW && stateTwo != ResultsState.OVERVIEW) {
 				setTripBucketSlideOutPercentage(percentage);
-			}else if(stateOne != ResultsState.OVERVIEW && stateTwo == ResultsState.OVERVIEW){
+			}
+			else if (stateOne != ResultsState.OVERVIEW && stateTwo == ResultsState.OVERVIEW) {
 				setTripBucketSlideOutPercentage(1f - percentage);
 			}
 		}
@@ -461,9 +463,10 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 				mTripBucketFrag.bindToDb();
 			}
 
-			if(state == ResultsState.OVERVIEW){
+			if (state == ResultsState.OVERVIEW) {
 				setTripBucketSlideOutPercentage(0f);
-			}else{
+			}
+			else {
 				setTripBucketSlideOutPercentage(1f);
 			}
 		}
@@ -473,8 +476,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	 * TRANSITIONS
 	 */
 
-	private void setTripBucketSlideOutPercentage(float percentage){
-		if(mTripBucketC != null){
+	private void setTripBucketSlideOutPercentage(float percentage) {
+		if (mTripBucketC != null) {
 			mTripBucketC.setTranslationY(percentage * mTripBucketC.getHeight());
 		}
 	}
@@ -554,8 +557,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			mGrid.setDimensions(totalWidth, totalHeight);
 
 			int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
-			mGrid.setColumnSize(1,spacerSize);
-			mGrid.setColumnSize(3,spacerSize);
+			mGrid.setColumnSize(1, spacerSize);
+			mGrid.setColumnSize(3, spacerSize);
 
 			mGrid.setContainerToColumnSpan(mLoadingC, 0, 2);
 			mGrid.setContainerToRow(mLoadingC, 1);

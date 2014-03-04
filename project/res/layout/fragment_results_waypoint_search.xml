@@ -1,5 +1,4 @@
-<com.expedia.bookings.widget.FrameLayoutTouchController
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.widget.FrameLayoutTouchController xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:background="#CC000000"
@@ -17,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-            android:text="@string/cancel"/>
+            android:text="@string/cancel" />
 
         <EditText
             android:id="@+id/waypoint_edit_text"
@@ -28,14 +27,14 @@
             android:hint="@string/destinations_hint"
             android:inputType="textNoSuggestions"
             android:singleLine="true"
-            android:textSize="18dp"/>
+            android:textSize="18dp" />
 
         <Button
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="@string/search"/>
+            android:text="@string/search" />
 
     </LinearLayout>
 
@@ -48,6 +47,6 @@
         android:layout_below="@+id/search_header"
         android:layout_centerHorizontal="true"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"/>
+        android:paddingRight="16dp" />
 
 </com.expedia.bookings.widget.FrameLayoutTouchController>

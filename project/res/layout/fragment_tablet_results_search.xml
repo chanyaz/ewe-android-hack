@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
@@ -31,7 +30,7 @@
                 android:layout_margin="8dp"
                 android:drawablePadding="8dp"
                 android:layout_gravity="center_vertical|left"
-                android:drawableLeft="@drawable/ic_action_bar_magnifying_glass"/>
+                android:drawableLeft="@drawable/ic_action_bar_magnifying_glass" />
 
 
             <LinearLayout
@@ -52,7 +51,7 @@
                     android:gravity="center_vertical"
                     android:layout_marginRight="16dp"
                     android:drawablePadding="8dp"
-                    android:drawableLeft="@drawable/ic_suggest_current_location"/>
+                    android:drawableLeft="@drawable/ic_suggest_current_location" />
 
 
                 <TextView
@@ -64,7 +63,7 @@
                     android:gravity="center_vertical"
                     android:layout_marginRight="16dp"
                     android:drawablePadding="8dp"
-                    android:drawableLeft="@drawable/ic_calendar"/>
+                    android:drawableLeft="@drawable/ic_calendar" />
 
 
                 <TextView
@@ -76,7 +75,7 @@
                     android:gravity="center_vertical"
                     android:layout_marginRight="16dp"
                     android:drawablePadding="8dp"
-                    android:drawableLeft="@drawable/ic_traveler_white"/>
+                    android:drawableLeft="@drawable/ic_traveler_white" />
 
 
             </LinearLayout>
@@ -92,18 +91,18 @@
         <com.expedia.bookings.widget.FrameLayoutTouchController
             android:id="@+id/calendar_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <com.expedia.bookings.widget.FrameLayoutTouchController
             android:id="@+id/traveler_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
     </com.expedia.bookings.widget.FrameLayoutTouchController>
 
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/origin_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </FrameLayout>

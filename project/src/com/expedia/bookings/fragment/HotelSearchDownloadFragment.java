@@ -95,9 +95,9 @@ public class HotelSearchDownloadFragment extends Fragment {
 		outState.putString(STATE_PARAMS, mSearchParams.toJson().toString());
 	}
 
-	public void startOrRestart(){
+	public void startOrRestart() {
 		BackgroundDownloader dl = BackgroundDownloader.getInstance();
-		if(dl.isDownloading(DL_SEARCH)){
+		if (dl.isDownloading(DL_SEARCH)) {
 			dl.cancelDownload(DL_SEARCH);
 		}
 		dl.startDownload(DL_SEARCH, mSearchDownload, mSearchCallback);

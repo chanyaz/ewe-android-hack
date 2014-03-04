@@ -47,12 +47,12 @@ public class StateManager<T> {
 
 	/**
 	 * Has setState been called?
-	 *
+	 * <p/>
 	 * getState() will return a value based on the default, but sometimes it is useful to know if setState has been called.
 	 *
 	 * @return true if setState() has been called.
 	 */
-	public boolean hasState(){
+	public boolean hasState() {
 		return (mState != null);
 	}
 
@@ -167,7 +167,8 @@ public class StateManager<T> {
 		return true;
 	}
 
-	private ValueAnimator getTowardsStateAnimator(final T state, final IStateProvider<T> provider, int duration, Interpolator interpolator) {
+	private ValueAnimator getTowardsStateAnimator(final T state, final IStateProvider<T> provider, int duration,
+		Interpolator interpolator) {
 		ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f).setDuration(duration);
 		if (interpolator != null) {
 			animator.setInterpolator(interpolator);

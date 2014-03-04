@@ -30,7 +30,8 @@ import com.mobiata.android.util.AndroidUtils;
  * A large search fragment only suitable for tablet sizes.
  */
 @TargetApi(14)
-public class ResultsWaypointFragment extends Fragment implements SuggestionsFragmentListener, FragmentAvailabilityUtils.IFragmentAvailabilityProvider {
+public class ResultsWaypointFragment extends Fragment
+	implements SuggestionsFragmentListener, FragmentAvailabilityUtils.IFragmentAvailabilityProvider {
 
 	private static final String FTAG_SUGGESTIONS = "FTAG_SUGGESTIONS";
 

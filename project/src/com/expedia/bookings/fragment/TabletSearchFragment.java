@@ -144,7 +144,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			if (DEBUG_SAVE_SEARCH_PARAMS) {
 				try {
 					String searchParamsJsonStr = IoUtils.readStringFromFile(DEBUG_SAVE_SEARCH_PARAMS_PATH,
-							getActivity());
+						getActivity());
 					if (!TextUtils.isEmpty(searchParamsJsonStr)) {
 						JSONObject searchParamsJson = new JSONObject(searchParamsJsonStr);
 						mSearchParams.fromJson(searchParamsJson);
@@ -314,14 +314,16 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		public void afterTextChanged(Editable s) {
 			doAfterTextChanged(mEditText);
 		}
-	};
+	}
+
+	;
 
 	// We check if the edit text is focusable; if it's not, we want it to be the default when the fragment
 	// would be re-visible (aka, empty).  That way we don't have to wait for autocomplete results to load.
 	void doAfterTextChanged(EditText editText) {
 		if (editText == mDestinationEditText) {
 			updateFilter(mDestinationsFragment, editText.isFocusableInTouchMode() ? mDestinationEditText.getText()
-					: null);
+				: null);
 		}
 	}
 
@@ -362,10 +364,10 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 		setupViewsForChildFragment(tag);
 
 		getChildFragmentManager()
-				.beginTransaction()
-				.setCustomAnimations(R.anim.fragment_tablet_search_in, R.anim.fragment_tablet_search_out)
-				.replace(R.id.content_container, fragmentToShow, tag)
-				.commit();
+			.beginTransaction()
+			.setCustomAnimations(R.anim.fragment_tablet_search_in, R.anim.fragment_tablet_search_out)
+			.replace(R.id.content_container, fragmentToShow, tag)
+			.commit();
 	}
 
 	// This configures the views related to a child Fragment
@@ -378,7 +380,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 			clearEditTextFocus(mDestinationEditText);
 		}
 		mDestinationEditText.setText(mSearchParams.getDestination() != null ? getString(R.string.to_TEMPLATE,
-				getSuggestionText(mSearchParams.getDestination())) : null);
+			getSuggestionText(mSearchParams.getDestination())) : null);
 	}
 
 	private void createDestinationsFragment() {
@@ -508,7 +510,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				PropertyValuesHolder fadeInPvh = PropertyValuesHolder.ofFloat("alpha", 1);
 				PropertyValuesHolder fadeOutPvh = PropertyValuesHolder.ofFloat("alpha", 0);
 				PropertyValuesHolder translateYPvh = PropertyValuesHolder
-						.ofFloat("translationY", mInitialTranslationY);
+					.ofFloat("translationY", mInitialTranslationY);
 				PropertyValuesHolder scaleYPvh = PropertyValuesHolder.ofFloat("scaleY", HEADER_BG_SCALE_Y);
 
 				anims.add(ObjectAnimator.ofPropertyValuesHolder(mHeader, translateYPvh));
@@ -630,9 +632,9 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 	/**
 	 * We don't get to control the duration of the action bar showing/hiding, so we instead show/hide
 	 * based on how much through the animation we are.
-	 *
+	 * <p/>
 	 * When expanding, hide at any time.
-	 *
+	 * <p/>
 	 * When collapsing, hide once the top is past where the action bar shows up.
 	 */
 	private AnimatorUpdateListener mActionBarUpdateListener = new AnimatorUpdateListener() {
@@ -645,7 +647,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 				actionBar.hide();
 			}
 			else if (!isActionBarShowing && !mIsExpanding
-					&& (Float) animation.getAnimatedValue() > mActionBarHeight) {
+				&& (Float) animation.getAnimatedValue() > mActionBarHeight) {
 				actionBar.show();
 			}
 		}
@@ -672,7 +674,7 @@ public class TabletSearchFragment extends MeasurableFragment implements OnClickL
 						try {
 							long start = System.nanoTime();
 							IoUtils.writeStringToFile(DEBUG_SAVE_SEARCH_PARAMS_PATH, mSearchParams.toJson().toString(),
-									getActivity());
+								getActivity());
 							long end = System.nanoTime();
 							Log.d("DEBUG: Saved search params in " + ((end - start) / 1000000) + " ms");
 						}

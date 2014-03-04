@@ -1,12 +1,11 @@
 <com.expedia.bookings.widget.FrameLayoutTouchController xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/block_event_frame_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <com.expedia.bookings.widget.BackgroundView
             android:id="@+id/background"
@@ -27,7 +26,7 @@
             android:layout_width="@dimen/tablet_search_width"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:padding="16dp" >
+            android:padding="16dp">
 
             <Button
                 android:id="@+id/cancel_button"
@@ -55,7 +54,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="4dp"
-                android:paddingRight="4dp" >
+                android:paddingRight="4dp">
 
                 <EditText
                     android:id="@+id/destination_edit_text"
