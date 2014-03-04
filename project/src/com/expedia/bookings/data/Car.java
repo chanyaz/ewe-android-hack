@@ -12,33 +12,39 @@ import com.mobiata.android.json.JSONable;
 public class Car implements JSONable {
 
 	public static enum Category {
-		MINI(R.string.car_category_mini),
-		ECONOMY(R.string.car_category_economy),
-		COMPACT(R.string.car_category_compact),
-		MIDSIZE(R.string.car_category_midsize),
-		STANDARD(R.string.car_category_standard),
-		FULLSIZE(R.string.car_category_fullsize),
-		PREMIUM(R.string.car_category_premium),
-		LUXURY(R.string.car_category_luxury),
-		SPECIAL(R.string.car_category_special),
-		MINI_ELITE(R.string.car_category_mini_elite),
-		ECONOMY_ELITE(R.string.car_category_economy_elite),
-		COMPACT_ELITE(R.string.car_category_compact_elite),
-		MIDSIZE_ELITE(R.string.car_category_midsize_elite),
-		STANDARD_ELITE(R.string.car_category_standard_elite),
-		FULLSIZE_ELITE(R.string.car_category_fullsize_elite),
-		PREMIUM_ELITE(R.string.car_category_premium_elite),
-		LUXURY_ELITE(R.string.car_category_luxury_elite),
-		OVERSIZE(R.string.car_category_oversize);
+		MINI(R.string.car_category_mini, R.string.share_template_short_car_type_mini),
+		ECONOMY(R.string.car_category_economy, R.string.share_template_short_car_type_economy),
+		COMPACT(R.string.car_category_compact, R.string.share_template_short_car_type_compact),
+		MIDSIZE(R.string.car_category_midsize, R.string.share_template_short_car_type_midsize),
+		STANDARD(R.string.car_category_standard, R.string.share_template_short_car_type_standard),
+		FULLSIZE(R.string.car_category_fullsize, R.string.share_template_short_car_type_fullsize),
+		PREMIUM(R.string.car_category_premium, R.string.share_template_short_car_type_premium),
+		LUXURY(R.string.car_category_luxury, R.string.share_template_short_car_type_luxury),
+		SPECIAL(R.string.car_category_special, R.string.share_template_short_car_type_special),
+		MINI_ELITE(R.string.car_category_mini_elite, R.string.share_template_short_car_type_mini_elite),
+		ECONOMY_ELITE(R.string.car_category_economy_elite, R.string.share_template_short_car_type_economy_elite),
+		COMPACT_ELITE(R.string.car_category_compact_elite, R.string.share_template_short_car_type_compact_elite),
+		MIDSIZE_ELITE(R.string.car_category_midsize_elite, R.string.share_template_short_car_type_midsize_elite),
+		STANDARD_ELITE(R.string.car_category_standard_elite, R.string.share_template_short_car_type_standard_elite),
+		FULLSIZE_ELITE(R.string.car_category_fullsize_elite, R.string.share_template_short_car_type_fullsize_elite),
+		PREMIUM_ELITE(R.string.car_category_premium_elite, R.string.share_template_short_car_type_premium_elite),
+		LUXURY_ELITE(R.string.car_category_luxury_elite, R.string.share_template_short_car_type_luxury_elite),
+		OVERSIZE(R.string.car_category_oversize, R.string.share_template_short_car_type_oversize);
 
 		private int mResId;
+		private int mShareId;
 
-		private Category(int resId) {
+		private Category(int resId, int shareId) {
 			mResId = resId;
+			mShareId = shareId;
 		}
 
 		public int getCategoryResId() {
 			return mResId;
+		}
+
+		public int getShareMessageResId() {
+			return mShareId;
 		}
 	}
 

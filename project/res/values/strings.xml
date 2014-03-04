@@ -782,6 +782,24 @@
     <!-- 1: vehicle type -->
     <string name="share_template_short_car_type">I\&apos;ve rented a %1$s </string>
     <string name="share_template_short_car_type_an">I\&apos;ve rented an %1$s </string>
+    <string name="share_template_short_car_type_mini">I\&apos;ve rented a Mini Car</string>
+    <string name="share_template_short_car_type_compact">I\&apos;ve rented a Compact Car</string>
+    <string name="share_template_short_car_type_midsize">I\&apos;ve rented a Mid-size Car</string>
+    <string name="share_template_short_car_type_standard">I\&apos;ve rented a Standard Car</string>
+    <string name="share_template_short_car_type_fullsize">I\&apos;ve rented a Full-size Car</string>
+    <string name="share_template_short_car_type_premium">I\&apos;ve rented a Premium Car</string>
+    <string name="share_template_short_car_type_luxury">I\&apos;ve rented a Luxury Car</string>
+    <string name="share_template_short_car_type_special">I\&apos;ve rented a Special Car</string>
+    <string name="share_template_short_car_type_mini_elite">I\&apos;ve rented a Mini Elite Car</string>
+    <string name="share_template_short_car_type_compact_elite">I\&apos;ve rented a Compact Elite Car</string>
+    <string name="share_template_short_car_type_midsize_elite">I\&apos;ve rented a Mid-size Elite Car</string>
+    <string name="share_template_short_car_type_standard_elite">I\&apos;ve rented a Standrd Elite Car</string>
+    <string name="share_template_short_car_type_fullsize_elite">I\&apos;ve rented a Full-size Elite Car</string>
+    <string name="share_template_short_car_type_premium_elite">I\&apos;ve rented a Premium Elite Car</string>
+    <string name="share_template_short_car_type_luxury_elite">I\&apos;ve rented a Luxury Elite Car</string>
+    <string name="share_template_short_car_type_economy">I\&apos;ve rented an Economy Car</string>
+    <string name="share_template_short_car_type_economy_elite">I\&apos;ve rented an Economy Elite Car</string>
+    <string name="share_template_short_car_type_oversize">I\&apos;ve rented an Oversized Car</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">from %1$s – %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
