@@ -51,10 +51,6 @@ public class SearchScreen {
 		return onView(withId(R.id.search_dates_text_view));
 	}
 
-	public static ViewInteraction originEditText() {
-		return onView(withId(R.id.origin_edit_text));
-	}
-
 	public static ViewInteraction guestsTextView() {
 		return onView(withId(R.id.guests_text_view));
 	}
@@ -91,18 +87,6 @@ public class SearchScreen {
 
 	public static void typeInDestinationEditText(String text) {
 		destinationEditText().perform(typeText(text));
-	}
-
-	public static void clickOriginEditText() {
-		originEditText().perform(click());
-	}
-
-	public static void clearOriginEditText() {
-		originEditText().perform(clearText());
-	}
-
-	public static void typeInOriginEditText(String text) {
-		originEditText().perform(typeText(text));
 	}
 
 	public static void clickGuestsButton() {
