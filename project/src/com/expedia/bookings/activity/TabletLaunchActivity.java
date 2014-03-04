@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import org.joda.time.LocalDate;
+
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -254,6 +256,10 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		//Clear trip bucket before search
 		Db.getTripBucket().clear();
 
+		//Set the search date to be for today as a default
+		mSearchParams.setStartDate(new LocalDate());
+
+		//Copy the local search params to the global store.
 		Sp.setParams(mSearchParams,false);
 
 		startActivity(new Intent(this, TabletResultsActivity.class));
