@@ -5,6 +5,7 @@ import android.app.Instrumentation;
 import android.content.res.Resources;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -79,6 +80,14 @@ public class FlightsSearchScreen extends ScreenActions {
 		return getString(OK_STRING_ID);
 	}
 
+	public Spinner departureAirportSpinner() {
+		return (Spinner) getView(R.id.departure_airport_spinner);
+	}
+
+	public Spinner arrivalAirportSpinner() {
+		return (Spinner) getView(R.id.arrival_airport_spinner);
+	}
+
 	// Object interactions 
 
 	public void enterDepartureAirport(String text) {
@@ -131,4 +140,11 @@ public class FlightsSearchScreen extends ScreenActions {
 		CalendarTouchUtils.clickOnFutureMonthDay(this, calendarDatePicker(), time);
 	}
 
+	public void clickDepartureSpinner() {
+		clickOnView(departureAirportSpinner());
+	}
+
+	public void clickArrivalSpinner() {
+		clickOnView(arrivalAirportSpinner());
+	}
 }
