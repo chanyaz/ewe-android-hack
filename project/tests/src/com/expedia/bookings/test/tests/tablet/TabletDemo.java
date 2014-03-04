@@ -33,10 +33,10 @@ public class TabletDemo extends CustomActivityInstrumentationTestCase<SearchActi
 		SearchScreen.clickToStartSearch();
 		SearchScreen.clickDestinationEditText();
 		SearchScreen.typeInDestinationEditText("Detroit, MI");
-		SearchScreen.clickInListWithText("Detroit, MI");
+		SearchScreen.clickSuggestion("Detroit, MI");
 		SearchScreen.clickOriginEditText();
 		SearchScreen.typeInOriginEditText("San Francisco, CA");
-		SearchScreen.clickInListWithText("San Francisco, CA");
+		SearchScreen.clickSuggestion("San Francisco, CA");
 		LocalDate now = LocalDate.now();
 		SearchScreen.clickDate(now, now.plusDays(2));
 		SearchScreen.clickSearchButton();

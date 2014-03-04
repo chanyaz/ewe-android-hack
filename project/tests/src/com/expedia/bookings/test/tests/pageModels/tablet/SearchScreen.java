@@ -12,6 +12,7 @@ import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
 
 import static com.expedia.bookings.test.utils.ViewActions.clickDates;
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -19,6 +20,9 @@ import static com.google.android.apps.common.testing.ui.espresso.action.ViewActi
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 
 public class SearchScreen {
 
@@ -61,10 +65,8 @@ public class SearchScreen {
 
 	// Object interaction
 
-	@SuppressWarnings("unchecked")
-	public static void clickInListWithText(String text) {
-		//TextView in suggestion row with the passed String as its text
-		onView(allOf(withId(android.R.id.text1), withText(text))).perform(click());
+	public static void clickSuggestion(String text) {
+		onData(allOf(is(instanceOf(String.class)), equalTo(text))).usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()).perform(click());
 	}
 
 	public static void clickToStartSearch() {
