@@ -60,6 +60,20 @@ public class ServerError implements JSONable {
 		CANNOT_BOOK_WITH_MINOR,
 		GOOGLE_WALLET_ERROR,
 		TRIP_SERVICE_ERROR,
+		// Coupon Error Codes
+		COUPON_UNRECOGNIZED,
+		COUPON_EXPIRED,
+		COUPON_NOT_REDEEMED,
+		COUPON_DUPLICATE,
+		COUPON_PRICE_CHANGE,
+		COUPON_INVALID_REGION,
+		COUPON_MIN_STAY_NOT_MET,
+		COUPON_INVALID_TRAVEL_DATES,
+		COUPON_MIN_PURCHASE_AMOUNT_NOT_MET,
+		COUPON_INVALID_PRODUCT,
+		COUPON_HOTEL_EXCLUDED,
+		COUPON_SERVICE_DOWN,
+		COUPON_FALLBACK,
 	}
 
 	public static final String FLAG_ITINERARY_BOOKED = "itineraryBooked";
@@ -120,6 +134,42 @@ public class ServerError implements JSONable {
 		}
 	};
 
+	private static final HashMap<String, ErrorCode> COUPON_ERROR_MAP_TYPE = new HashMap<String, ErrorCode>() {
+		{
+			put("Duplicate", ErrorCode.COUPON_DUPLICATE);
+			put("Expired", ErrorCode.COUPON_EXPIRED);
+			put("FallBack", ErrorCode.COUPON_FALLBACK);
+			put("HotelExcluded", ErrorCode.COUPON_HOTEL_EXCLUDED);
+			put("InvalidProduct", ErrorCode.COUPON_INVALID_PRODUCT);
+			put("InvalidRegion", ErrorCode.COUPON_INVALID_REGION);
+			put("InvalidTravelDates", ErrorCode.COUPON_INVALID_TRAVEL_DATES);
+			put("MinPurchaseAmountNotMet", ErrorCode.COUPON_MIN_PURCHASE_AMOUNT_NOT_MET);
+			put("MinStayNotMet", ErrorCode.COUPON_MIN_STAY_NOT_MET);
+			put("NotRedeemed", ErrorCode.COUPON_NOT_REDEEMED);
+			put("PriceChange", ErrorCode.COUPON_PRICE_CHANGE);
+			put("ServiceDown", ErrorCode.COUPON_SERVICE_DOWN);
+			put("Unrecognized", ErrorCode.COUPON_UNRECOGNIZED);
+		}
+	};
+
+	public static final HashMap<ErrorCode, Integer> ERROR_MAP_COUPON_MESSAGES = new HashMap<ErrorCode, Integer>() {
+		{
+			put(ErrorCode.COUPON_DUPLICATE, R.string.coupon_error_duplicate);
+			put(ErrorCode.COUPON_EXPIRED, R.string.coupon_error_expired);
+			put(ErrorCode.COUPON_FALLBACK, R.string.coupon_error_fallback);
+			put(ErrorCode.COUPON_HOTEL_EXCLUDED, R.string.coupon_error_hotel_excluded);
+			put(ErrorCode.COUPON_INVALID_PRODUCT, R.string.coupon_error_invalid_product);
+			put(ErrorCode.COUPON_INVALID_REGION, R.string.coupon_error_invalid_region);
+			put(ErrorCode.COUPON_INVALID_TRAVEL_DATES, R.string.coupon_error_invalid_travel_dates);
+			put(ErrorCode.COUPON_MIN_PURCHASE_AMOUNT_NOT_MET, R.string.coupon_error_min_purchase_amount_not_met);
+			put(ErrorCode.COUPON_MIN_STAY_NOT_MET, R.string.coupon_error_min_stay_not_met);
+			put(ErrorCode.COUPON_NOT_REDEEMED, R.string.coupon_error_not_redeemed);
+			put(ErrorCode.COUPON_PRICE_CHANGE, R.string.coupon_error_price_change);
+			put(ErrorCode.COUPON_SERVICE_DOWN, R.string.coupon_error_service_down);
+			put(ErrorCode.COUPON_UNRECOGNIZED, R.string.coupon_error_unrecognized);
+		}
+	};
+
 	private ApiMethod mApiMethod = null;
 	private ErrorCode mErrorCode;
 	private String mCode;
@@ -134,6 +184,10 @@ public class ServerError implements JSONable {
 	// Expedia-specific error handling codes
 	private String mCategory;
 	private String mHandling;
+
+	// Coupon specific error
+	private String mCouponErrorType;
+	private ErrorCode mCouponErrorCode;
 
 	private Map<String, String> mExtras;
 
@@ -169,6 +223,17 @@ public class ServerError implements JSONable {
 
 	public ErrorCode getErrorCode() {
 		return mErrorCode;
+	}
+
+	public String getCouponErrorType() {
+		return mCouponErrorType;
+	}
+
+	public void setCouponErrorType(String couponErrorType) {
+		this.mCouponErrorType = couponErrorType;
+		if (mCouponErrorType != null && COUPON_ERROR_MAP_TYPE.containsKey(mCouponErrorType)) {
+			mCouponErrorCode = COUPON_ERROR_MAP_TYPE.get(mCouponErrorType);
+		}
 	}
 
 	/**
@@ -334,6 +399,19 @@ public class ServerError implements JSONable {
 		return message;
 	}
 
+	public ErrorCode getCouponErrorCode() {
+		return mCouponErrorCode;
+	}
+
+	public String getCouponErrorMessage(Context context) {
+		// Let's make this the default message in case the errorCode sent is either null or not recognized.
+		String message = context.getString(R.string.coupon_error_no_code);
+		if (mCouponErrorCode != null && ERROR_MAP_COUPON_MESSAGES.containsKey(mCouponErrorCode)) {
+			message = context.getString(ERROR_MAP_COUPON_MESSAGES.get(mCouponErrorCode));
+		}
+		return message;
+	}
+
 	@Override
 	public JSONObject toJson() {
 		try {
@@ -345,6 +423,7 @@ public class ServerError implements JSONable {
 			obj.putOpt("presentationMessage", mPresentationMessage);
 			obj.putOpt("category", mCategory);
 			obj.putOpt("handling", mHandling);
+			obj.putOpt("couponErrorType", mCouponErrorType);
 			JSONUtils.putStringMap(obj, "extras", mExtras);
 			return obj;
 		}
@@ -364,6 +443,10 @@ public class ServerError implements JSONable {
 		mCategory = obj.optString("category");
 		mHandling = obj.optString("handling");
 		mExtras = JSONUtils.getStringMap(obj, "extras");
+		mCouponErrorType = obj.optString("couponErrorType");
+		if (mCouponErrorType != null && COUPON_ERROR_MAP_TYPE.containsKey(mCouponErrorType)) {
+			mCouponErrorCode = COUPON_ERROR_MAP_TYPE.get(mCouponErrorType);
+		}
 		return true;
 	}
 }

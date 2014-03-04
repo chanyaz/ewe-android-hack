@@ -229,6 +229,7 @@ public class ParserUtils {
 			serverError.addExtra("field", info.optString("field", null));
 			serverError.addExtra("itineraryBooked", info.optString("itineraryBooked", null));
 			serverError.addExtra("emailSent", info.optString("emailSent", null));
+			serverError.setCouponErrorType(info.optString("couponErrorType", null));
 		}
 
 		if (error.has("message")) {

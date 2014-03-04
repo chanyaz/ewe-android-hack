@@ -540,24 +540,8 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			if (!isAdded()) {
 				return;
 			}
-
-			if (response == null) {
-				Log.w("Failed to apply coupon code (null response): " + mCouponCode);
-
-				DialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_error_no_code));
-				df.show(getChildFragmentManager(), "couponError");
-
-				// Post event to the Otto Bus.
-				Events.post(new Events.CouponDownloadError());
-			}
-			else if (response.hasErrors()) {
-				Log.w("Failed to apply coupon code (server errors): " + mCouponCode);
-
-				DialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_error_no_code));
-				df.show(getChildFragmentManager(), "couponError");
-
-				// Post event to the Otto Bus.
-				Events.post(new Events.CouponDownloadError());
+			if (response == null || response.hasErrors()) {
+				handleCouponError(response);
 			}
 			else {
 				Log.i("Applied coupon code: " + mCouponCode);
@@ -571,5 +555,23 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			}
 		}
 	};
+
+	private void handleCouponError(CreateTripResponse response) {
+		Log.w("Failed to apply coupon code : " + mCouponCode);
+
+		String errorMessage;
+		if (response == null) {
+			errorMessage = getString(R.string.coupon_error_no_code);
+		}
+		else {
+			errorMessage = response.getErrors().get(0).getCouponErrorMessage(getActivity());
+		}
+
+		DialogFragment df = SimpleDialogFragment.newInstance(null, errorMessage);
+		df.show(getChildFragmentManager(), "couponError");
+
+		// Post event to the Otto Bus.
+		Events.post(new Events.CouponDownloadError());
+	}
 
 }

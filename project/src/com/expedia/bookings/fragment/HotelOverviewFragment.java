@@ -1478,6 +1478,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	@Subscribe
 	public void onCouponDownloadError(Events.CouponDownloadError event) {
+		dismissDialogs();
 		handleWalletPromoErrorIfApplicable();
 	}
 
