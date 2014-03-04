@@ -23,7 +23,7 @@ public class ScreenshotUtils {
 	}
 
 	public void screenshot(String title) {
-		View currentView = mSolo.getCurrentActivity().getWindow().getDecorView().findViewById(android.R.id.content);
+		View currentView = mSolo.getCurrentActivity().findViewById(android.R.id.content).getRootView();
 		takeScreenshot(currentView, title);
 	}
 
