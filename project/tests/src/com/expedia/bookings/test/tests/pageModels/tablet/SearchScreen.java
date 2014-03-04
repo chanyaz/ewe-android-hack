@@ -2,12 +2,14 @@ package com.expedia.bookings.test.tests.pageModels.tablet;
 
 import org.joda.time.LocalDate;
 
-import android.app.Activity;
-
 import com.expedia.bookings.R;
+import com.expedia.bookings.otto.Events;
+import com.google.android.apps.common.testing.ui.espresso.Espresso;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
+import com.google.android.apps.common.testing.ui.espresso.contrib.CountingIdlingResource;
 import com.mobiata.android.time.widget.CalendarPicker;
 import com.mobiata.android.util.Ui;
+import com.squareup.otto.Subscribe;
 
 import static com.expedia.bookings.test.utils.ViewActions.clickDates;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
@@ -108,4 +110,40 @@ public class SearchScreen {
 	public static void clickDate(final LocalDate start, final LocalDate end) {
 		calendarPicker().perform(clickDates(start, end));
 	}
+
+	// Idling Resources
+
+	private static final SuggestionResource sSuggestionResource = new SuggestionResource();
+
+	public static void registerSuggestionResource() {
+		Events.register(sSuggestionResource);
+		Espresso.registerIdlingResources(sSuggestionResource.getIdlingResource());
+	}
+
+	public static void unregisterSuggestionResource() {
+		Events.unregister(sSuggestionResource);
+	}
+
+	private static class SuggestionResource {
+		private CountingIdlingResource mIdlingResource;
+
+		public SuggestionResource() {
+			mIdlingResource = new CountingIdlingResource("SuggestionResource");
+		}
+
+		public CountingIdlingResource getIdlingResource() {
+			return mIdlingResource;
+		}
+
+		@Subscribe
+		public void on(Events.SuggestionQueryStarted event) {
+			mIdlingResource.increment();
+		}
+
+		@Subscribe
+		public void on(Events.SuggestionResultsDelivered event) {
+			mIdlingResource.decrement();
+		}
+	}
+
 }
