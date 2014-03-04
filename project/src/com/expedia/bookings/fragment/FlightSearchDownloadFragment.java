@@ -97,6 +97,7 @@ public class FlightSearchDownloadFragment extends Fragment {
 
 	public void startOrRestart() {
 		BackgroundDownloader dl = BackgroundDownloader.getInstance();
+		dl.unregisterDownloadCallback(DL_SEARCH);
 		if (dl.isDownloading(DL_SEARCH)) {
 			dl.cancelDownload(DL_SEARCH);
 		}

@@ -97,6 +97,7 @@ public class HotelSearchDownloadFragment extends Fragment {
 
 	public void startOrRestart() {
 		BackgroundDownloader dl = BackgroundDownloader.getInstance();
+		dl.unregisterDownloadCallback(DL_SEARCH);
 		if (dl.isDownloading(DL_SEARCH)) {
 			dl.cancelDownload(DL_SEARCH);
 		}
@@ -110,7 +111,14 @@ public class HotelSearchDownloadFragment extends Fragment {
 	private final BackgroundDownloader.Download<HotelSearchResponse> mSearchDownload = new BackgroundDownloader.Download<HotelSearchResponse>() {
 		@Override
 		public HotelSearchResponse doDownload() {
-			return mServices.search(mSearchParams, ExpediaServices.F_HOTELS);
+			//TODO: Remove try catch, write good search param validation so we don't kick off if we don't have data.
+			try{
+				return mServices.search(mSearchParams, ExpediaServices.F_HOTELS);
+			}catch(Exception ex){
+				Log.e("Hotel Search download exception.",ex);
+			}
+			return null;
+
 		}
 	};
 
