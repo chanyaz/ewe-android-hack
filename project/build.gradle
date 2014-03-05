@@ -42,6 +42,10 @@ android {
             versionCode 1
             versionName "1.0"
         }
+
+        ExpediaAutomation {
+            packageName "com.expedia.bookings.auto"
+        }
     }
 
     // Add the HockeyMeta extension to all build types
