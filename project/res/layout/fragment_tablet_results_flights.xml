@@ -63,6 +63,12 @@
         android:layout_width="0dp"
         android:layout_height="match_parent" />
 
+    <!-- GDE HISTOGRAM -->
+    <com.expedia.bookings.widget.FrameLayoutTouchController
+        android:id="@+id/flight_histogram_container"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+
     <!-- ADD TO TRIP -->
 
     <com.expedia.bookings.widget.FrameLayoutTouchController

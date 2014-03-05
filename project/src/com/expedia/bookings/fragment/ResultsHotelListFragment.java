@@ -166,6 +166,12 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	}
 
 	@Override
+	protected OnClickListener initializeStickyLeftOnClickListener() {
+		// Do nothing for now
+		return null;
+	}
+
+	@Override
 	protected boolean initializeTopRightTextButtonEnabled() {
 		return true;
 	}

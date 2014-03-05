@@ -184,8 +184,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	public void onResume() {
 		super.onResume();
 
-		// TODO: make background image dynamic, we'll probably want it in its own fragment
-
 		mRootC.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
@@ -202,7 +200,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		});
 
 		mHockeyPuck.onResume();
-
 	}
 
 	@Override
@@ -682,7 +679,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 
 		private ResultsState getResultsStateFromFlights(ResultsFlightsState state) {
-			if (state == ResultsFlightsState.LOADING || state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+			if (state == ResultsFlightsState.LOADING || state == ResultsFlightsState.FLIGHT_LIST_DOWN ||
+				state == ResultsFlightsState.FLIGHT_HISTOGRAM) {
 				return ResultsState.OVERVIEW;
 			}
 			else {

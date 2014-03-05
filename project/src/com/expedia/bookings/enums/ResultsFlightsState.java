@@ -2,6 +2,7 @@ package com.expedia.bookings.enums;
 
 public enum ResultsFlightsState {
 	LOADING,
+	FLIGHT_HISTOGRAM,
 	FLIGHT_LIST_DOWN,
 	FLIGHT_ONE_FILTERS,
 	FLIGHT_ONE_DETAILS,

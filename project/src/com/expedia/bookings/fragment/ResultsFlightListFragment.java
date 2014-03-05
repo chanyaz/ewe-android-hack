@@ -34,6 +34,7 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 
 	public interface IDoneClickedListener {
 		public void onDoneClicked();
+		public void onStickyHeaderClicked();
 	}
 
 	private static final String STATE_LEG_NUMBER = "STATE_LEG_NUMBER";
@@ -137,7 +138,7 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 
 	private void resetAdapterQuery() {
 		FlightAdapter adapter = (FlightAdapter) mAdapter;
-		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null) {
+		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null && adapter != null) {
 			if (mLegNumber > 0) {
 				FlightTripQuery previousQuery = Db.getFlightSearch().queryTrips(mLegNumber - 1);
 				adapter.setFlightTripQuery(Db.getFlightSearch().queryTrips(mLegNumber),
@@ -171,6 +172,16 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 				}
 			}
 
+		};
+	}
+
+	@Override
+	protected OnClickListener initializeStickyLeftOnClickListener() {
+		return new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mDoneClickedListener.onStickyHeaderClicked();
+			}
 		};
 	}
 

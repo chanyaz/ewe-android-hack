@@ -95,6 +95,9 @@ public class Db {
 	// the returned results
 	private FlightSearch mFlightSearch = new FlightSearch();
 
+	// GDE Flight histogram data
+	private FlightSearchHistogramResponse mFlightSearchHistogramResponse;
+
 	// Map of airline code --> airline name
 	//
 	// This data can be cached between requests, and we only need to save
@@ -245,6 +248,14 @@ public class Db {
 
 	public static FlightRoutes getFlightRoutes() {
 		return sDb.mFlightRoutes;
+	}
+
+	public static void setFlightSearchHistogramResponse(FlightSearchHistogramResponse response) {
+		sDb.mFlightSearchHistogramResponse = response;
+	}
+
+	public static FlightSearchHistogramResponse getFlightSearchHistogramResponse() {
+		return sDb.mFlightSearchHistogramResponse;
 	}
 
 	/**

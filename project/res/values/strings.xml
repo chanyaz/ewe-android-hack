@@ -110,6 +110,8 @@
     <string name="VIP">VIP</string>
     <!-- Loading Hotels and Flights... -->
     <string name="loading_hotels_and_flights">Loading Hotels and Flights&#8230;</string>
+    <!-- Flight fare calendar header for a list of dates to fly -->
+    <string name="when_to_fly">When To Fly</string>
 
 
     <!-- Tablet hotel filters -->

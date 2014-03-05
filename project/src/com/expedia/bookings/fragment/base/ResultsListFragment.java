@@ -73,7 +73,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		mListView = Ui.findView(view, android.R.id.list);
 		mListView.setContentDescription(mListViewContentDescription);
 		mStickyHeader = Ui.findView(view, R.id.sticky_header_container);
-		mStickyHeader.setConsumeTouch(true);
+		mStickyHeader.setConsumeTouch(false);
 		mStickyHeaderTv = Ui.findView(view, R.id.sticky_number_of_items);
 		mTopRightTextButton = Ui.findView(view, R.id.top_right_text_button);
 
@@ -85,6 +85,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 
 		setTopRightTextButtonEnabled(initializeTopRightTextButtonEnabled());
 
+		mStickyHeaderTv.setOnClickListener(initializeStickyLeftOnClickListener());
 		mTopRightTextButton.setOnClickListener(initializeTopRightTextButtonOnClickListener());
 
 		if (savedInstanceState != null) {
@@ -285,6 +286,8 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	protected abstract ListAdapter initializeAdapter();
 
 	protected abstract CharSequence initializeStickyHeaderString();
+
+	protected abstract OnClickListener initializeStickyLeftOnClickListener();
 
 	protected abstract OnClickListener initializeTopRightTextButtonOnClickListener();
 

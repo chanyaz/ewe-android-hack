@@ -328,10 +328,12 @@ public class SearchParams implements Parcelable, JSONable {
 		FlightSearchParams params = new FlightSearchParams();
 
 		SuggestionV2 origin = mOriginAirport != null ? mOriginAirport : mOrigin;
-		Location depLocation = new Location(origin.getLocation());
-		depLocation.setDestinationId(origin.getAirportCode());
-		depLocation.setDescription(origin.getFullName());
-		params.setDepartureLocation(depLocation);
+		if (origin.getLocation() != null) {
+			Location depLocation = new Location(origin.getLocation());
+			depLocation.setDestinationId(origin.getAirportCode());
+			depLocation.setDescription(origin.getFullName());
+			params.setDepartureLocation(depLocation);
+		}
 
 		SuggestionV2 destination = mDestinationAirport != null ? mDestinationAirport : mDestination;
 		Location arrLocation = new Location(destination.getLocation());
