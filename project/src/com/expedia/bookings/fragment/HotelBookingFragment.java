@@ -135,13 +135,13 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	public void onResume() {
 		super.onStart();
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE)) {
+		if (isDownloadingHotelProduct()) {
 			bd.registerDownloadCallback(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, mHotelProductCallback);
 		}
-		if (bd.isDownloading(KEY_DOWNLOAD_CREATE_TRIP)) {
+		if (isDownloadingCreateTrip()) {
 			bd.registerDownloadCallback(KEY_DOWNLOAD_CREATE_TRIP, mCreateTripCallback);
 		}
-		if (bd.isDownloading(KEY_DOWNLOAD_APPLY_COUPON)) {
+		if (isDownloadingCoupon()) {
 			bd.registerDownloadCallback(KEY_DOWNLOAD_APPLY_COUPON, mCouponCallback);
 		}
 	}
@@ -245,10 +245,13 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	}
 
 	private void cancelHotelProductDownload() {
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE)) {
-			bd.cancelDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
+		if (isDownloadingHotelProduct()) {
+			BackgroundDownloader.getInstance().cancelDownload(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
 		}
+	}
+
+	public boolean isDownloadingHotelProduct() {
+		return BackgroundDownloader.getInstance().isDownloading(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE);
 	}
 
 	private final Download<HotelProductResponse> mHotelProductDownload = new Download<HotelProductResponse>() {
@@ -355,10 +358,13 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	}
 
 	private void cancelCreateTripDownload() {
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_DOWNLOAD_CREATE_TRIP)) {
-			bd.cancelDownload(KEY_DOWNLOAD_CREATE_TRIP);
+		if (isDownloadingCreateTrip()) {
+			BackgroundDownloader.getInstance().cancelDownload(KEY_DOWNLOAD_CREATE_TRIP);
 		}
+	}
+
+	public boolean isDownloadingCreateTrip() {
+		return BackgroundDownloader.getInstance().isDownloading(KEY_DOWNLOAD_CREATE_TRIP);
 	}
 
 	private final Download<CreateTripResponse> mCreateTripDownload = new Download<CreateTripResponse>() {
@@ -518,9 +524,13 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 
 	private void cancelApplyCouponDownloader() {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_DOWNLOAD_APPLY_COUPON)) {
+		if (isDownloadingCoupon()) {
 			bd.cancelDownload(KEY_DOWNLOAD_APPLY_COUPON);
 		}
+	}
+
+	public boolean isDownloadingCoupon() {
+		return BackgroundDownloader.getInstance().isDownloading(KEY_DOWNLOAD_APPLY_COUPON);
 	}
 
 	private final Download<CreateTripResponse> mCouponDownload = new Download<CreateTripResponse>() {

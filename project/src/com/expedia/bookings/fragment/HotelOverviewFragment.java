@@ -351,7 +351,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 			refreshData();
 
-			if (!bd.isDownloading(HotelBookingFragment.KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE) &&!mIsDoneLoadingPriceChange) {
+			if (!mHotelBookingFragment.isDownloadingHotelProduct() &&!mIsDoneLoadingPriceChange) {
 				mHotelBookingFragment.startDownload(HotelBookingState.HOTEL_PRODUCT);
 			}
 		}
@@ -634,7 +634,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		boolean travelerValid = hasValidTravelers();
 
 		mShowSlideToWidget = travelerValid && paymentAddressValid && paymentCCValid && mIsDoneLoadingPriceChange
-				&& !BackgroundDownloader.getInstance().isDownloading(HotelBookingFragment.KEY_DOWNLOAD_APPLY_COUPON);
+				&& !mHotelBookingFragment.isDownloadingCoupon();
 		if (isInCheckout() && mShowSlideToWidget) {
 			showPurchaseViews();
 		}
@@ -1271,7 +1271,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		// apply the Google Wallet code).
 		boolean offeredPromo = WalletUtils.offerGoogleWalletCoupon(getActivity());
 		boolean codeIsPromo = usingWalletPromoCoupon();
-		boolean applyingCoupon = BackgroundDownloader.getInstance().isDownloading(HotelBookingFragment.KEY_DOWNLOAD_APPLY_COUPON);
+		boolean applyingCoupon = mHotelBookingFragment.isDownloadingCoupon();
 		boolean appliedCoupon = Db.getHotelSearch().isCouponApplied();
 		if (mCouponButton.getVisibility() == View.VISIBLE) {
 			mCouponButton.setVisibility(mBillingInfo.isUsingGoogleWallet()

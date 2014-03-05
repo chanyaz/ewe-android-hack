@@ -518,9 +518,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else if (lob == LineOfBusiness.HOTELS) {
 			getFragmentManager().executePendingTransactions();
-			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
-			if (!bd.isDownloading(HotelBookingFragment.KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE) && !mIsDoneLoadingPriceChange) {
+			if (!mHotelBookingFrag.isDownloadingHotelProduct() && !mIsDoneLoadingPriceChange) {
 				mHotelProductDownloadThrobber = ThrobberDialog.newInstance(getString(R.string.calculating_taxes_and_fees));
 				mHotelProductDownloadThrobber.show(getFragmentManager(), TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG);
 				mHotelBookingFrag.startDownload(HotelBookingState.HOTEL_PRODUCT);
