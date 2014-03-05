@@ -172,6 +172,7 @@ public class LayoutUtils {
 				addAmenity(context, container, ai.amenity, ai.resId);
 			}
 		}
+		container.scheduleLayoutAnimation();
 	}
 
 	private static void addAmenity(Context context, ViewGroup amenitiesTable, Amenity amenity, int iconResourceId) {
