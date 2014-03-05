@@ -13,13 +13,13 @@
 
         <item
             android:id="@+id/menu_guests"
-            android:icon="@drawable/ic_action_guests"
+            android:icon="?attr/actionBarTabletGuestsDrawable"
             android:showAsAction="always|withText"
             android:title="@string/GuestsLabel" />
 
         <item
             android:id="@+id/menu_dates"
-            android:icon="@drawable/ic_action_dates"
+            android:icon="?attr/actionBarTabletDateDrawable"
             android:showAsAction="always|withText"
             android:title="@string/select_dates" />
     </group>

@@ -30,7 +30,18 @@
         <item name="simpleNumberPickerDownButtonStyle">@style/NumberPickerButton.Down</item>
         <item name="simpleNumberPickerInputTextStyle">@style/NumberPickerText</item>
         <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
+
         <item name="companyLogoForReceipt">@drawable/expedia_logo_126dp</item>
+
+        <!-- Tablet menu drawables -->
+        <item name="actionBarTabletGuestsDrawable">@drawable/ic_action_guests</item>
+        <item name="actionBarTabletDateDrawable">@drawable/ic_action_dates</item>
+
+        <!-- Hotel details search calendar drawables -->
+        <item name="calendarBackgroundCellDrawable">@drawable/bg_calendar_cell_tablet</item>
+        <item name="calendarRangeStartCellDrawable">@drawable/bg_calendar_cell_range_start</item>
+        <item name="calendarRangeEndCellDrawable">@drawable/bg_calendar_cell_range_end</item>
+
     </style>
 
     <style name="Theme.Tablet.Launcher" parent="@style/Theme.Sherlock.Light.DarkActionBar">

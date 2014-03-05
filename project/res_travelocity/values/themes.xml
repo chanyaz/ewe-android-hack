@@ -184,6 +184,22 @@
 
     <style name="Theme.Tablet" parent="Theme.Travelocity">
         <item name="companyLogoForReceipt">@drawable/ic_travelocity_launch</item>
+
+        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
+        <item name="actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
+        <item name="android:actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
+
+        <!-- Tablet menu drawables -->
+        <item name="actionBarTabletGuestsDrawable">@drawable/ic_action_guests_travelocity</item>
+        <item name="actionBarTabletDateDrawable">@drawable/ic_action_dates_travelocity</item>
+        <item name="actionBarTabletSearchDefaultTextColor">@color/actionbar_text_travelocity</item>
+        <item name="actionBarTabletSearchHintTextColor">@color/actionbar_text_hint_travelocity</item>
+
+        <!-- Hotel details search calendar drawables -->
+        <item name="calendarBackgroundCellDrawable">@drawable/bg_calendar_cell_tablet_travelocity</item>
+        <item name="calendarRangeStartCellDrawable">@drawable/bg_calendar_cell_range_start_travelocity</item>
+        <item name="calendarRangeEndCellDrawable">@drawable/bg_calendar_cell_range_end_travelocity</item>
+
     </style>
 
 </resources>

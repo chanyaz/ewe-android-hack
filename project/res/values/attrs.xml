@@ -312,4 +312,14 @@
 
     <attr name="companyLogoForReceipt" format="reference"/>
 
+    <attr name="actionBarTabletGuestsDrawable" format="reference"/>
+    <attr name="actionBarTabletDateDrawable" format="reference"/>
+    <attr name="actionBarTabletSearchDefaultTextColor" format="reference"/>
+    <attr name="actionBarTabletSearchHintTextColor" format="reference"/>
+
+    <!-- hotel details search calendar tablet -->
+    <attr name="calendarBackgroundCellDrawable" format="reference"/>
+    <attr name="calendarRangeStartCellDrawable" format="reference"/>
+    <attr name="calendarRangeEndCellDrawable" format="reference"/>
+
 </resources>

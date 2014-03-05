@@ -511,6 +511,18 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 			mGuestsTextView = (TextView) mGuestsActionView.findViewById(R.id.guests_text_view);
 		}
 
+		if(ExpediaBookingApp.IS_TRAVELOCITY) {
+			int searchPlateId = mSearchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
+			View searchPlate = mSearchView.findViewById(searchPlateId);
+			if (searchPlate!=null) {
+				int searchTextId = searchPlate.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+				TextView searchText = (TextView) searchPlate.findViewById(searchTextId);
+				if (searchText!=null) {
+					searchText.setTextColor(Ui.obtainThemeColor(this, R.attr.actionBarTabletSearchDefaultTextColor));
+					searchText.setHintTextColor(Ui.obtainThemeColor(this, R.attr.actionBarTabletSearchHintTextColor));
+				}
+			}
+		}
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
 		mHockeyPuck.onCreateOptionsMenu(menu);

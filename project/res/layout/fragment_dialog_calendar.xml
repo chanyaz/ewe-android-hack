@@ -9,17 +9,17 @@
         android:id="@+id/dates_date_picker"
         android:layout_width="fill_parent"
         android:layout_height="300dp"
-        mobiata:cellBackground="@drawable/bg_calendar_cell_tablet"
+        mobiata:cellBackground="?attr/calendarBackgroundCellDrawable"
         mobiata:cellTextColor="@color/cell_text"
         mobiata:drawGridLines="false"
         mobiata:calendarHeaderBackground="@color/calendar_header"
         mobiata:nextMonthBackground="@drawable/bg_calendar_next"
         mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell_tablet"
         mobiata:otherMonthCellTextColor="@color/cell_text_other_month"
-        mobiata:popupBackground="@drawable/calendar_date_picker_popup"
+        mobiata:popupBackground="?attr/calendarDatePickerPopupDrawable"
         mobiata:previousMonthBackground="@drawable/bg_calendar_previous"
-        mobiata:rangeEndCellBackground="@drawable/bg_calendar_cell_range_end"
-        mobiata:rangeStartCellBackground="@drawable/bg_calendar_cell_range_start"
+        mobiata:rangeEndCellBackground="?attr/calendarRangeEndCellDrawable"
+        mobiata:rangeStartCellBackground="?attr/calendarRangeStartCellDrawable"
         mobiata:todayCellBackground="@drawable/bg_calendar_cell_today_tablet" />
 
 </LinearLayout>
