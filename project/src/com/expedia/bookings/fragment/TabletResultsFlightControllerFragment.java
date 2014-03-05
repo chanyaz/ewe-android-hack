@@ -175,6 +175,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		registerStateListener(new StateListenerLogger<ResultsFlightsState>(), false);
 		registerStateListener(mFlightsStateHelper, false);
 
+		mFlightMapC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+
 		return view;
 	}
 

@@ -149,7 +149,6 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 		}
 
 		getMapView().setBackgroundDrawable(mBgDrawable);
-		mRoot.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
 		if (mIsDepartureSet && mIsArrivalSet) {
 			positionFlightLine();
