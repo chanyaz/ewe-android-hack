@@ -26,4 +26,7 @@ public class FlightsTravelerInfoScreen extends CommonTravelerInformationScreen {
 		typeText(redressEditText(), redressText);
 	}
 
+	public String passportString() {
+		return getString(R.string.passport);
+	}
 }
