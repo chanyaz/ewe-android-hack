@@ -26,10 +26,10 @@ import com.expedia.bookings.enums.ResultsLoadingState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
 import com.expedia.bookings.fragment.ResultsLoadingFragment;
+import com.expedia.bookings.fragment.ResultsTripBucketFragment;
 import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsSearchControllerFragment;
-import com.expedia.bookings.fragment.TripBucketFragment;
 import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -93,7 +93,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private TabletResultsHotelControllerFragment mHotelsController;
 	private TabletResultsSearchControllerFragment mSearchController;
 	private ResultsLoadingFragment mLoadingFrag;
-	private TripBucketFragment mTripBucketFrag;
+	private ResultsTripBucketFragment mTripBucketFrag;
 
 	//Other
 	private GridManager mGrid = new GridManager();
@@ -387,7 +387,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			frag = ResultsLoadingFragment.newInstance();
 		}
 		else if (tag == FTAG_BUCKET) {
-			frag = new TripBucketFragment();
+			frag = new ResultsTripBucketFragment();
 		}
 		return frag;
 	}

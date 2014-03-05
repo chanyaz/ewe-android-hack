@@ -14,7 +14,7 @@
     <!-- TRIP BUCKET -->
     <com.expedia.bookings.widget.FixedTranslationFrameLayout
         android:id="@+id/trip_bucket_container"
-        android:background="#FFFFFF"
+        android:background="#CFCFCF"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
