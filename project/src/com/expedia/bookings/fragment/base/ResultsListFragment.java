@@ -204,12 +204,16 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		if (percentage == 0) {
 			mStickyHeader.setTranslationY(0);
 		}
-		else if (percentage == 1) {
-			mStickyHeader.setTranslationY(mListView.getHeaderSpacerHeight());
-		}
 		else {
-			int stickyHeaderBottom = mListView.getListDistanceFromTop();
-			mStickyHeader.setTranslationY(stickyHeaderBottom);
+			float maxHeaderTransY =
+				mListView.getTop() + mListView.getMaxDistanceFromTop() + mListView.getPaddingTop() - mStickyHeader
+					.getTop() - mStickyHeader.getHeight();
+			if (percentage == 1) {
+				mStickyHeader.setTranslationY(maxHeaderTransY);
+			}
+			else {
+				mStickyHeader.setTranslationY(maxHeaderTransY * percentage);
+			}
 		}
 	}
 
@@ -246,7 +250,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 
 	@Override
 	public void updateStateTransition(T stateOne, T stateTwo,
-									  float percentage) {
+		float percentage) {
 		mListeners.updateStateTransition(stateOne, stateTwo, percentage);
 	}
 

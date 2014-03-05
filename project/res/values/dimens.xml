@@ -15,6 +15,10 @@
     <dimen name="checkbox_filter_widget_padding_left">38dp</dimen>
     <dimen name="sliding_filter_row_height">44dp</dimen>
     <dimen name="results_column_spacing">2dp</dimen>
+    <dimen name="results_list_spacer_height">8dp</dimen>
+    <dimen name="results_list_margin_top">40dp</dimen>
+    <dimen name="results_column_header_height">48dp</dimen>
+
 
     <!-- Flights -->
     <dimen name="tablet_filter_white_space">32dp</dimen>
