@@ -310,4 +310,6 @@
     <attr name="searchBackgroundPortraitDrawable" format="reference"/>
     <attr name="searchBackgroundLandscapeDrawable" format="reference"/>
 
+    <attr name="companyLogoForReceipt" format="reference"/>
+
 </resources>

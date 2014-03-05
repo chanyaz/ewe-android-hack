@@ -168,4 +168,8 @@
         <item name="displayOptions">showHome|useLogo</item>
     </style>
 
+    <style name="Theme.Tablet" parent="Theme.Travelocity">
+        <item name="companyLogoForReceipt">@drawable/ic_travelocity_launch</item>
+    </style>
+
 </resources>
