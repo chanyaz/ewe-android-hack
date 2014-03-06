@@ -4,6 +4,10 @@
     <!-- Special dimensions for 7" tablets -->
     <dimen name="receipt_portrait_horizontal_margin">0dp</dimen>
 
+    <!-- CVV text entry for tablet -->
+    <dimen name="cvv_keypad_text_size">30sp</dimen>
+    <dimen name="cvv_keypad_book_text_size">18dp</dimen>
+
     <!-- Tablet Flights -->
     <dimen name="flight_header_bottom_margin">140dp</dimen>
     <dimen name="plane_window_height">600dp</dimen>

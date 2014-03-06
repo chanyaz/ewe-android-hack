@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/MarginPoint"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <!-- This is a dummy center view, from which we can align things above/below -->
@@ -12,22 +13,72 @@
         android:layout_centerInParent="true"
         android:visibility="invisible" />
 
-    <!-- Credit card at top of screen -->
+    <!-- "Security Code for Doug's VISA" prompt -->
 
-    <include
-        android:id="@+id/credit_card_section"
-        style="@style/CvvScreenCreditCard"
-        layout="@layout/section_credit_card" />
-
-    <!-- The entry overlay/shade, included here for z-order -->
-
-    <include
-        android:id="@+id/cvv_entry_section"
+    <com.mobiata.android.widget.AutoResizeTextView
+        android:id="@+id/cvv_prompt_text_view"
+        style="@style/Widget.TextView.CVVPrompt"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        layout="@layout/section_cvv" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:gravity="center_horizontal" />
 
-    <!-- Input buttons at bottom -->
+    <!-- "See back of card" prompt -->
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/cvv_subprompt_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/cvv_prompt_text_view"
+        android:textSize="18sp"
+        android:gravity="center_horizontal"
+        android:text="@string/See_back_of_card"
+        android:textColor="@android:color/white"
+        app:textStyle="light" />
+
+
+    <!-- Credit card at top of screen (or to the left on tablet) -->
+
+    <FrameLayout
+        android:id="@+id/credit_card_section_holder"
+        style="@style/CvvScreenCreditCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <!-- Credit card with logo and signature -->
+
+        <include
+            android:id="@+id/credit_card_section"
+            android:layout_width="302dp"
+            android:layout_height="190dp"
+            android:layout_gravity="center_vertical|right"
+            layout="@layout/section_credit_card" />
+
+        <!-- CVV text entry -->
+
+        <com.expedia.bookings.widget.CVVTextView
+            android:id="@+id/cvv_text_view"
+            android:layout_width="84dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/div_cvv"
+            android:freezesText="true"
+            android:gravity="center_horizontal"
+            android:maxLength="4"
+            android:paddingTop="14dp"
+            android:textColor="@color/cvv_normal"
+            android:textSize="20dp" />
+
+    </FrameLayout>
+
+    <!-- Input buttons at bottom (or right on tablet) -->
 
     <include
         android:id="@+id/credit_card_input_section"

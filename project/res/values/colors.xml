@@ -65,7 +65,7 @@
     <color name="login_text_flight">#232323</color>
 
     <!-- CVV entry colors -->
-    <color name="cvv_normal">#326096</color>
+    <color name="cvv_normal">#FFFFFF</color>
     <color name="cvv_error">#D4472B</color>
 
     <!-- These colors are ripped from the iOS version, and are not finalized -->

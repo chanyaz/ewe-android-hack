@@ -43,7 +43,6 @@
         <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_vsc</item>
         <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_vsc_white_logo_small</item>
         <item name="hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale_vsc</item>
-        <item name="ccCheckoutHologramDrawable">@drawable/ic_credit_card_hologram_vsc</item>
         <item name="hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_vsc</item>
         <item name="hotelwebViewActionBarLogo">@drawable/ic_logo_vsc</item>
 		<item name="cvvEntryExplainationText">@string/cvv_explaination_vsc</item>

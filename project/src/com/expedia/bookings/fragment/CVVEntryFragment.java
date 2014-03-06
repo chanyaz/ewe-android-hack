@@ -8,6 +8,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -16,12 +17,12 @@ import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.section.CVVSection;
 import com.expedia.bookings.section.CreditCardInputSection;
 import com.expedia.bookings.section.CreditCardInputSection.CreditCardInputListener;
 import com.expedia.bookings.section.CreditCardSection;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.CVVTextView;
 import com.mobiata.android.json.JSONUtils;
 
 public class CVVEntryFragment extends Fragment implements CreditCardInputListener {
@@ -34,7 +35,7 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 	private CreditCardSection mCreditCardSection;
 
-	private CVVSection mCVVSection;
+	private CVVTextView mCVVTextView;
 
 	private CreditCardInputSection mCreditCardInputSection;
 
@@ -92,7 +93,7 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 		// Cache views
 		mCreditCardSection = Ui.findView(v, R.id.credit_card_section);
-		mCVVSection = Ui.findView(v, R.id.cvv_entry_section);
+		mCVVTextView = Ui.findView(v, R.id.cvv_text_view);
 		mCreditCardInputSection = Ui.findView(v, R.id.credit_card_input_section);
 
 		// Set this up to listen to the credit card IME
@@ -103,13 +104,15 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		String personName = args.getString(ARG_PERSON_NAME);
 		String cardName = args.getString(ARG_CARD_NAME);
 		CreditCardType cardType = JSONUtils.getEnum(args, ARG_CARD_TYPE, CreditCardType.class);
-		//1752. VSC Change cvv explaination text
+		//1752. VSC Change cvv prompt text
 		if (ExpediaBookingApp.IS_VSC) {
-			mCVVSection.setExplanationText(getString(Ui
-					.obtainThemeResID(getActivity(), R.attr.cvvEntryExplainationText)));
+			TextView cvvPromptTextView = Ui.findView(v, R.id.cvv_prompt_text_view);
+			cvvPromptTextView.setText(getString(Ui
+				.obtainThemeResID(getActivity(), R.attr.cvvEntryExplainationText)));
 		}
 		else {
-			mCVVSection.setExplanationText(Html.fromHtml(getString(R.string.cvv_code_TEMPLATE, cardName)));
+			TextView cvvPromptTextView = Ui.findView(v, R.id.cvv_prompt_text_view);
+			cvvPromptTextView.setText(Html.fromHtml(getString(R.string.cvv_code_TEMPLATE, cardName)));
 		}
 		mCreditCardSection.bind(personName, cardType);
 
@@ -127,11 +130,11 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 	}
 
 	private void syncBookButtonState() {
-		mCreditCardInputSection.setBookButtonEnabled(mCVVSection.getCvv().length() >= mMinCvvLen);
+		mCreditCardInputSection.setBookButtonEnabled(mCVVTextView.getCvv().length() >= mMinCvvLen);
 	}
 
 	public void setCvvErrorMode(boolean enabled) {
-		mCVVSection.setCvvErrorMode(enabled);
+		mCVVTextView.setCvvErrorMode(enabled);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -140,10 +143,10 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 	@Override
 	public void onKeyPress(int code) {
 		if (code == CreditCardInputSection.CODE_BOOK) {
-			mListener.onBook(mCVVSection.getCvv());
+			mListener.onBook(mCVVTextView.getCvv());
 		}
 		else {
-			mCVVSection.onKeyPress(code);
+			mCVVTextView.onKeyPress(code);
 
 			syncBookButtonState();
 		}

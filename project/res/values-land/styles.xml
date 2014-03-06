@@ -4,8 +4,6 @@
     xmlns:mobiata="http://schemas.android.com/apk/res-auto" >
 
     <style name="CvvScreenCreditCard">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">240dp</item>
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_marginRight">8dp</item>

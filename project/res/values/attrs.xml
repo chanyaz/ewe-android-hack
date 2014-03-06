@@ -314,7 +314,6 @@
     <attr name="hotelPrimaryTravelerInfoLogoDrawable" format="reference" />
     <attr name="hotelListMapMarkerSaleDrawable" format="reference" />
     <attr name="hotelListMapMarkerDrawable" format="reference" />
-    <attr name="ccCheckoutHologramDrawable" format="reference" />
 
     <!-- Placeholder image used in hotelReciept, Rooms&RatesListActivity -->
     <attr name="hotelImagePlaceHolderDrawable" format="reference" />

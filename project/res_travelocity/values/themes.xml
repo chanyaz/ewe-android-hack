@@ -28,7 +28,6 @@
         <item name="loginWithExpediaContentDescription">@string/cd_checkout_log_in_with_travelocity</item>
         <item name="loginButtonColor">@android:color/white</item>
         <item name="hotelBookButtonColor">@android:color/white</item>
-        <item name="ccCheckoutHologramDrawable">@drawable/ic_credit_card_hologram_tvly</item>
         <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_tvly</item>
         <item name="webViewPreferencesActionBarLogo">@drawable/ic_action_bar_travelocity_logo</item>
         <item name="aboutContactUsString">@string/contact_travelocity</item>

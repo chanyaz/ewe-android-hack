@@ -1,37 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- This is a RelativeLayout -->
 <com.expedia.bookings.section.CVVSection xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#80ff0000">
 
-    <!-- This is a dummy center view, from which we can align things above/below -->
-
-    <View
-        android:id="@+id/center"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_centerInParent="true"
-        android:visibility="invisible" />
-
-    <!-- The marginTop of this view is specifically set to hit the right spot -->
-
-    <TextView
-        android:id="@+id/cvv_text_view"
-        style="@style/CvvScreenCvvInput"
-        android:layout_width="84dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/div_cvv"
-        android:freezesText="true"
-        android:gravity="center_horizontal"
-        android:maxLength="4"
-        android:paddingTop="14dp"
-        android:textColor="@color/cvv_normal"
-        android:textSize="20dp" />
-
-    <com.mobiata.android.widget.AutoResizeTextView
-        android:id="@+id/cvv_explanation_text_view"
-        style="@style/Widget.TextView.CVVPrompt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
 </com.expedia.bookings.section.CVVSection>

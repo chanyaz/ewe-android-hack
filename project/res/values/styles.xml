@@ -108,22 +108,18 @@
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:layout_marginLeft">16dp</item>
-        <item name="android:layout_marginRight">64dp</item>
         <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:layout_marginRight">4dp</item>
         <item name="android:shadowColor">#2D000000</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">.1</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">15dp</item>
-        <item name="maxTextSize">15dp</item>
-        <item name="minTextSize">13dp</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="Widget.TextView.CVVPrompt" parent="Widget.TextView.CVVPromptBase">
-        <item name="android:layout_below">@+id/cvv_text_view</item>
-    </style>
+    <style name="Widget.TextView.CVVPrompt" parent="Widget.TextView.CVVPromptBase" />
 
     <style name="TextAppearance" parent="@android:style/TextAppearance" />
 
@@ -831,7 +827,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:textSize">@dimen/cvv_keypad_text_size</item>
-        <item name="android:textStyle">bold</item>
+        <item name="textStyle">medium</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@drawable/btn_cvv_keypad</item>
     </style>
@@ -954,12 +950,11 @@
     </style>
 
     <style name="CvvScreenCreditCard">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_above">@+id/center</item>
-        <item name="android:layout_alignParentTop">true</item>
-        <item name="android:layout_marginRight">41dp</item>
-        <item name="android:layout_marginTop">40dp</item>
+        <item name="android:layout_above">@id/center</item>
+        <item name="android:layout_below">@id/cvv_subprompt_text_view</item>
+        <item name="android:layout_alignRight">@id/center</item>
+        <item name="android:layout_marginRight">-50dp</item>
+        <item name="android:layoutAnimation">@anim/layout_slide_in_left</item>
     </style>
 
     <style name="CvvScreenInput">
@@ -983,15 +978,6 @@
     </style>
 
     <style name="CvvScreenCreditCardSignatureBackground" />
-
-    <style name="CvvScreenCreditCardSignatureSection">
-        <item name="android:background">@drawable/bg_credit_card_back</item>
-    </style>
-
-    <style name="CvvScreenCvvInput">
-        <item name="android:layout_alignParentTop">true</item>
-        <item name="android:layout_marginTop">110dp</item>
-    </style>
 
     <!-- Rooms and rates notices (construction notice, resort fees, etc) -->
     <style name="TextAppearance.RoomsAndRatesNoticeTop" parent="@android:style/TextAppearance">

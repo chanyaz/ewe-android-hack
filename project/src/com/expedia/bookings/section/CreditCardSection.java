@@ -18,7 +18,6 @@ public class CreditCardSection extends LinearLayout {
 
 	private ImageView mLogoImageView;
 	private TextView mSignatureTextView;
-	private TextView mNameTextView;
 
 	public CreditCardSection(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -31,7 +30,6 @@ public class CreditCardSection extends LinearLayout {
 		// Cache views
 		mLogoImageView = Ui.findView(this, R.id.cc_logo_image_view);
 		mSignatureTextView = Ui.findView(this, R.id.signature_text_view);
-		mNameTextView = Ui.findView(this, R.id.name_text_view);
 
 		// Configure custom typefaces
 		// #2350: 4.4 kitkat has issue with custom fonts and bolding
@@ -42,8 +40,6 @@ public class CreditCardSection extends LinearLayout {
 		else {
 			mSignatureTextView.setTypeface(FontCache.getTypeface(Font.SIGNERICA_FAT), Typeface.BOLD);
 		}
-
-		mNameTextView.setTypeface(FontCache.getTypeface(Font.OCRA_STD));
 	}
 
 	public void bind(String name, CreditCardType type) {
@@ -85,11 +81,11 @@ public class CreditCardSection extends LinearLayout {
 				break;
 			}
 		}
+
 		mLogoImageView.setImageResource(resId);
 
 		// #1116 - For some reason this typeface calculates the left edge
 		// bounds incorrectly, so we add a space just in case.
 		mSignatureTextView.setText(" " + name);
-		mNameTextView.setText(name.toUpperCase());
 	}
 }
