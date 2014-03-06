@@ -27,11 +27,8 @@ import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.BookingUnavailableDialogFragment;
 import com.expedia.bookings.fragment.HotelBookingFragment;
-import com.expedia.bookings.fragment.PriceChangeDialogFragment.PriceChangeDialogFragmentListener;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
-import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
-import com.expedia.bookings.fragment.UnhandledErrorDialogFragment.UnhandledErrorDialogFragmentListener;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.otto.Events.CreateTripDownloadRetry;
@@ -44,8 +41,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.squareup.otto.Subscribe;
 
-public class HotelBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener,
-		PriceChangeDialogFragmentListener, SimpleCallbackDialogFragmentListener, UnhandledErrorDialogFragmentListener {
+public class HotelBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener {
 
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
 
@@ -434,24 +430,28 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		doBooking();
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// PriceChangeDialogFragmentListener
+	///////////////////////////////////
+	/// Otto Event Subscriptions
 
-	@Override
-	public void onAcceptPriceChange() {
+	//////////////////////////////////////////////////////////////////////////
+	// PriceChangeDialogFragment
+
+	@Subscribe
+	public void onAcceptPriceChange(Events.PriceChangeDialogAccept event) {
 		doBooking();
 	}
 
-	@Override
-	public void onCancelPriceChange() {
+	@Subscribe
+	public void onCancelPriceChange(Events.PriceChangeDialogCancel event) {
 		finish();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// SimpleCallbackDialogFragmentListener
+	// SimpleCallbackDialogFragment
 
-	@Override
-	public void onSimpleDialogClick(int callbackId) {
+	@Subscribe
+	public void onSimpleDialogClick(Events.SimpleCallBackDialogOnClick event) {
+		int callbackId = event.callBackId;
 		switch (callbackId) {
 		case DIALOG_CALLBACK_INVALID_CC:
 		case DIALOG_CALLBACK_INVALID_POSTALCODE:
@@ -473,8 +473,8 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		}
 	}
 
-	@Override
-	public void onSimpleDialogCancel(int callbackId) {
+	@Subscribe
+	public void onSimpleDialogCancel(Events.SimpleCallBackDialogOnCancel event) {
 		// If we're booking via wallet, back out; otherwise sit on CVV screen
 		if (mBookingFragment.willBookViaGoogleWallet()) {
 			finish();
@@ -482,20 +482,20 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// UnhandledErrorDialogFragmentListener
+	// UnhandledErrorDialogFragment
 
-	@Override
-	public void onRetryUnhandledException() {
+	@Subscribe
+	public void onRetryUnhandledException(Events.UnhandledErrorDialogRetry event) {
 		doBooking();
 	}
 
-	@Override
-	public void onCallCustomerSupport() {
+	@Subscribe
+	public void onCallCustomerSupport(Events.UnhandledErrorDialogCallCustomerSupport event) {
 		SocialUtils.call(this, PointOfSale.getPointOfSale().getSupportPhoneNumber());
 	}
 
-	@Override
-	public void onCancelUnhandledException() {
+	@Subscribe
+	public void onCancelUnhandledException(Events.UnhandledErrorDialogCancel event) {
 		// If we're booking via wallet, back out; otherwise sit on CVV screen
 		if (mBookingFragment.willBookViaGoogleWallet()) {
 			finish();
@@ -503,7 +503,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	}
 
 	///////////////////////////////////
-	/// Otto Event Subscriptions
+	/// Booking download related
 
 	@Subscribe
 	public void onStartBooking(Events.BookingDownloadStarted event) {

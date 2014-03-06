@@ -8,7 +8,9 @@ import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.fragment.PriceChangeDialogFragment;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
+import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
 
@@ -260,6 +262,36 @@ public class Events {
 		public SimpleCallBackDialogOnCancel(int id) {
 			this.callBackId = id;
 		}
+	}
+
+	/**
+	 * This event notifies that the user clicked the Accept button for {@link PriceChangeDialogFragment}
+	 */
+	public static class PriceChangeDialogAccept {
+	}
+
+	/**
+	 * This event notifies that the user clicked the Cancel button for {@link PriceChangeDialogFragment}
+	 */
+	public static class PriceChangeDialogCancel {
+	}
+
+	/**
+	 * This event notifies that the user clicked the Retry button for {@link UnhandledErrorDialogFragment}
+	 */
+	public static class UnhandledErrorDialogRetry {
+	}
+
+	/**
+	 * This event notifies that the user clicked the CallCustomerSupport button for {@link UnhandledErrorDialogFragment}
+	 */
+	public static class UnhandledErrorDialogCallCustomerSupport {
+	}
+
+	/**
+	 * This event notifies that the user clicked the Cancel button for {@link UnhandledErrorDialogFragment}
+	 */
+	public static class UnhandledErrorDialogCancel {
 	}
 
 	// Suggestion query events

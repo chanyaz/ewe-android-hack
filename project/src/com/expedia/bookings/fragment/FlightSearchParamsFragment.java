@@ -59,7 +59,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.RecentList;
 import com.expedia.bookings.data.RoutesResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -81,9 +81,10 @@ import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
+import com.squareup.otto.Subscribe;
 
 public class FlightSearchParamsFragment extends Fragment implements OnDateChangedListener, InputFilter,
-	SimpleProgressDialogFragmentListener, SimpleCallbackDialogFragmentListener, OnItemSelectedListener,
+	SimpleProgressDialogFragmentListener, OnItemSelectedListener,
 	FlightRouteAdapterListener {
 
 	public static final String TAG = FlightSearchParamsFragment.class.toString();
@@ -400,6 +401,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	@Override
 	public void onResume() {
 		super.onResume();
+		Events.register(this);
 
 		if (isUsingEditTexts()) {
 			// Don't set the focus change listener until now, so that we can properly
@@ -461,6 +463,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	@Override
 	public void onPause() {
 		super.onPause();
+		Events.unregister(this);
 
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(CrossContextHelper.KEY_FLIGHT_ROUTES_DOWNLOAD,
 			mRoutesCallback);
@@ -1207,15 +1210,15 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// SimpleCallbackDialogFragmentListener
+	// Otto event subscriptions
 
-	@Override
-	public void onSimpleDialogClick(int callbackId) {
+	@Subscribe
+	public void onSimpleDialogClick(Events.SimpleCallBackDialogOnClick event) {
 		onRoutesLoadFailed();
 	}
 
-	@Override
-	public void onSimpleDialogCancel(int callbackId) {
+	@Subscribe
+	public void onSimpleDialogCancel(Events.SimpleCallBackDialogOnCancel event) {
 		onRoutesLoadFailed();
 	}
 

@@ -51,7 +51,6 @@ import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.dialog.ThrobberDialog.CancelListener;
 import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingState;
-import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.otto.Events;
@@ -86,7 +85,7 @@ import com.nineoldandroids.view.ViewHelper;
 import com.squareup.otto.Subscribe;
 
 public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
-		CancelListener, SimpleCallbackDialogFragmentListener, CouponDialogFragmentListener {
+		CancelListener, CouponDialogFragmentListener {
 
 	public interface BookingOverviewFragmentListener {
 		public void checkoutStarted();
@@ -1421,22 +1420,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mHotelBookingFragment.cancelDownload(HotelBookingState.COUPON_APPLY);
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// SimpleCallbackDialogFragmentListener
-
-	@Override
-	public void onSimpleDialogClick(int callbackId) {
-		onSimpleDialogCancel(callbackId);
-	}
-
-	@Override
-	public void onSimpleDialogCancel(int callbackId) {
-		// #1687: Make sure to update view visibilities, as the slide-to-purchase may still have a state change yet
-		if (callbackId == CALLBACK_WALLET_PROMO_APPLY_ERROR) {
-			updateViewVisibilities();
-		}
-	}
-
 	private void dismissDialogs() {
 		if (mCouponDialogFragment != null && mCouponDialogFragment.isAdded()) {
 			mCouponDialogFragment.dismiss();
@@ -1451,6 +1434,21 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	///////////////////////////////////
 	/// Otto Event Subscriptions
+
+	@Subscribe
+	public void onSimpleDialogClick(Events.SimpleCallBackDialogOnClick event) {
+		if (event.callBackId == CALLBACK_WALLET_PROMO_APPLY_ERROR) {
+			updateViewVisibilities();
+		}
+	}
+
+	@Subscribe
+	public void onSimpleDialogCancel(Events.SimpleCallBackDialogOnCancel event) {
+		// #1687: Make sure to update view visibilities, as the slide-to-purchase may still have a state change yet
+		if (event.callBackId == CALLBACK_WALLET_PROMO_APPLY_ERROR) {
+			updateViewVisibilities();
+		}
+	}
 
 	@Subscribe
 	public void onHotelProductDownloadSuccess(Events.HotelProductDownloadSuccess event) {

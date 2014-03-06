@@ -69,8 +69,8 @@ import com.expedia.bookings.fragment.NoFlightsFragment.NoFlightsFragmentListener
 import com.expedia.bookings.fragment.RetryErrorDialogFragment;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
-import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.fragment.StatusFragment;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
@@ -91,10 +91,11 @@ import com.mobiata.android.util.ViewUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.AnimatorSet;
+import com.squareup.otto.Subscribe;
 
 public class FlightSearchResultsActivity extends SherlockFragmentActivity implements FlightListFragmentListener,
 		OnBackStackChangedListener, RetryErrorDialogFragmentListener, NoFlightsFragmentListener,
-		FlightDetailsFragmentListener, SimpleCallbackDialogFragmentListener {
+		FlightDetailsFragmentListener {
 
 	public static final String EXTRA_DESELECT_LEG_ID = "EXTRA_DESELECT_LEG_ID";
 
@@ -254,6 +255,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Events.register(this);
 		OmnitureTracking.onResume(this);
 	}
 
@@ -289,6 +291,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	@Override
 	protected void onPause() {
 		super.onPause();
+		Events.unregister(this);
 
 		if (!isFinishing()) {
 			BackgroundDownloader.getInstance().unregisterDownloadCallback(DOWNLOAD_KEY);
@@ -1294,18 +1297,18 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// SimpleCallbackDialogFragmentListener
+	// Otto event subscriptions
 
-	@Override
-	public void onSimpleDialogClick(int callbackId) {
-		if (callbackId == SIMPLE_CALLBACK_DIALOG_CODE_INDIA_DOMESTIC) {
+	@Subscribe
+	public void onSimpleDialogClick(Events.SimpleCallBackDialogOnClick event) {
+		if (event.callBackId == SIMPLE_CALLBACK_DIALOG_CODE_INDIA_DOMESTIC) {
 			finish();
 		}
 	}
 
-	@Override
-	public void onSimpleDialogCancel(int callbackId) {
-		if (callbackId == SIMPLE_CALLBACK_DIALOG_CODE_INDIA_DOMESTIC) {
+	@Subscribe
+	public void onSimpleDialogCancel(Events.SimpleCallBackDialogOnCancel event) {
+		if (event.callBackId == SIMPLE_CALLBACK_DIALOG_CODE_INDIA_DOMESTIC) {
 			finish();
 		}
 	}

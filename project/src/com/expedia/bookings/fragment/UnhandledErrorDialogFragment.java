@@ -10,13 +10,12 @@ import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Ui;
 
 public class UnhandledErrorDialogFragment extends DialogFragment implements OnClickListener {
 
 	private static final String ARG_CASE_NUMBER = "ARG_CASE_NUMBER";
-
-	private UnhandledErrorDialogFragmentListener mListener;
 
 	public static UnhandledErrorDialogFragment newInstance(String caseNumber) {
 		UnhandledErrorDialogFragment fragment = new UnhandledErrorDialogFragment();
@@ -27,10 +26,15 @@ public class UnhandledErrorDialogFragment extends DialogFragment implements OnCl
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onPause() {
+		super.onPause();
+		Events.unregister(this);
+	}
 
-		mListener = Ui.findFragmentListener(this, UnhandledErrorDialogFragmentListener.class);
+	@Override
+	public void onResume() {
+		super.onResume();
+		Events.register(this);
 	}
 
 	@Override
@@ -58,7 +62,7 @@ public class UnhandledErrorDialogFragment extends DialogFragment implements OnCl
 	public void onCancel(DialogInterface dialog) {
 		super.onCancel(dialog);
 
-		mListener.onCancelUnhandledException();
+		Events.post(new Events.UnhandledErrorDialogCancel());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -68,25 +72,15 @@ public class UnhandledErrorDialogFragment extends DialogFragment implements OnCl
 	public void onClick(DialogInterface dialog, int which) {
 		switch (which) {
 		case DialogInterface.BUTTON_POSITIVE:
-			mListener.onRetryUnhandledException();
+			Events.post(new Events.UnhandledErrorDialogRetry());
 			break;
 		case DialogInterface.BUTTON_NEUTRAL:
-			mListener.onCallCustomerSupport();
+			Events.post(new Events.UnhandledErrorDialogCallCustomerSupport());
 			break;
 		case DialogInterface.BUTTON_NEGATIVE:
-			mListener.onCancelUnhandledException();
+			Events.post(new Events.UnhandledErrorDialogCancel());
 			break;
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Listener
-
-	public interface UnhandledErrorDialogFragmentListener {
-		public void onRetryUnhandledException();
-
-		public void onCallCustomerSupport();
-
-		public void onCancelUnhandledException();
-	}
 }

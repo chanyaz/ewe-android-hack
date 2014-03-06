@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -10,7 +9,6 @@ import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.Ui;
 
 /**
  * Simple fragment that allows callbacks when the button is pressed.
@@ -23,8 +21,6 @@ public class SimpleCallbackDialogFragment extends DialogFragment {
 	private static final String ARG_MESSAGE = "ARG_MESSAGE";
 	private static final String ARG_BUTTON = "ARG_BUTTON";
 	private static final String ARG_CALLBACK = "ARG_CALLBACK";
-
-	private SimpleCallbackDialogFragmentListener mListener;
 
 	public static SimpleCallbackDialogFragment newInstance(CharSequence title, CharSequence message,
 			CharSequence button, int callbackId) {
@@ -51,13 +47,6 @@ public class SimpleCallbackDialogFragment extends DialogFragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		mListener = Ui.findFragmentListener(this, SimpleCallbackDialogFragmentListener.class, false);
-	}
-
-	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		// Collect arguments
 		Bundle args = getArguments();
@@ -81,9 +70,6 @@ public class SimpleCallbackDialogFragment extends DialogFragment {
 		builder.setNeutralButton(button, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				if (mListener != null) {
-					mListener.onSimpleDialogClick(getArguments().getInt(ARG_CALLBACK));
-				}
 				Events.post(new Events.SimpleCallBackDialogOnClick(getArguments().getInt(ARG_CALLBACK)));
 			}
 		});
@@ -94,15 +80,6 @@ public class SimpleCallbackDialogFragment extends DialogFragment {
 	@Override
 	public void onCancel(DialogInterface dialog) {
 		super.onCancel(dialog);
-		if (mListener != null) {
-			mListener.onSimpleDialogCancel(getArguments().getInt(ARG_CALLBACK));
-		}
 		Events.post(new Events.SimpleCallBackDialogOnCancel(getArguments().getInt(ARG_CALLBACK)));
-	}
-
-	public interface SimpleCallbackDialogFragmentListener {
-		public void onSimpleDialogClick(int callbackId);
-
-		public void onSimpleDialogCancel(int callbackId);
 	}
 }

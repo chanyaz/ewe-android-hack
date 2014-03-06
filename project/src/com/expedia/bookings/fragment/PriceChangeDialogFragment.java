@@ -15,6 +15,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.otto.Events;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.Ui;
 
@@ -24,8 +25,6 @@ public class PriceChangeDialogFragment extends DialogFragment {
 
 	private static final String ARG_CURRENT_OFFER = "ARG_CURRENT_OFFER";
 	private static final String ARG_NEW_OFFER = "ARG_NEW_OFFER";
-
-	private PriceChangeDialogFragmentListener mListener;
 
 	public static PriceChangeDialogFragment newInstance(FlightTrip currentOffer, FlightTrip newOffer) {
 		PriceChangeDialogFragment fragment = new PriceChangeDialogFragment();
@@ -37,10 +36,15 @@ public class PriceChangeDialogFragment extends DialogFragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onPause() {
+		super.onPause();
+		Events.unregister(this);
+	}
 
-		mListener = Ui.findFragmentListener(this, PriceChangeDialogFragmentListener.class);
+	@Override
+	public void onResume() {
+		super.onResume();
+		Events.register(this);
 	}
 
 	@Override
@@ -107,25 +111,17 @@ public class PriceChangeDialogFragment extends DialogFragment {
 				Db.getFlightSearch().getSelectedFlightTrip().updateFrom(newOffer);
 				Db.kickOffBackgroundFlightSearchSave(getActivity());
 
-				mListener.onAcceptPriceChange();
+				Events.post(new Events.PriceChangeDialogAccept());
 			}
 		});
 		builder.setNegativeButton(R.string.cancel, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				mListener.onCancelPriceChange();
+				Events.post(new Events.PriceChangeDialogCancel());
 			}
 		});
 
 		return builder.create();
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Listener
-
-	public interface PriceChangeDialogFragmentListener {
-		public void onAcceptPriceChange();
-
-		public void onCancelPriceChange();
-	}
 }

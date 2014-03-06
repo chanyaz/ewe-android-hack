@@ -25,17 +25,18 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.fragment.HotelOverviewFragment;
 import com.expedia.bookings.fragment.HotelOverviewFragment.BookingOverviewFragmentListener;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
-import com.expedia.bookings.fragment.SimpleCallbackDialogFragment.SimpleCallbackDialogFragmentListener;
 import com.expedia.bookings.fragment.WalletFragment;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
+import com.squareup.otto.Subscribe;
 
 public class HotelOverviewActivity extends SherlockFragmentActivity implements BookingOverviewFragmentListener,
-	LogInListener, ISlideToListener, SimpleCallbackDialogFragmentListener {
+	LogInListener, ISlideToListener {
 
 	public static final String STATE_TAG_LOADED_DB_INFO = "STATE_TAG_LOADED_DB_INFO";
 
@@ -84,12 +85,14 @@ public class HotelOverviewActivity extends SherlockFragmentActivity implements B
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Events.register(this);
 		OmnitureTracking.onResume(this);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
+		Events.unregister(this);
 		OmnitureTracking.onPause();
 
 		if (isFinishing()) {
@@ -298,19 +301,19 @@ public class HotelOverviewActivity extends SherlockFragmentActivity implements B
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// SimpleCallbackDialogFragmentListener
+	// Otto event subscriptions
 	//
 	// Note: If you're on anything but the 3.2.2 branch this can be removed;
 	// it's only here while SimpleCallbackDialogFragment has no easy way of
 	// listening from a child Fragment.
 
-	@Override
-	public void onSimpleDialogClick(int callbackId) {
-		mBookingOverviewFragment.onSimpleDialogClick(callbackId);
+	@Subscribe
+	public void onSimpleDialogClick(Events.SimpleCallBackDialogOnClick event) {
+		mBookingOverviewFragment.onSimpleDialogClick(event);
 	}
 
-	@Override
-	public void onSimpleDialogCancel(int callbackId) {
-		mBookingOverviewFragment.onSimpleDialogCancel(callbackId);
+	@Subscribe
+	public void onSimpleDialogCancel(Events.SimpleCallBackDialogOnCancel event) {
+		mBookingOverviewFragment.onSimpleDialogCancel(event);
 	}
 }
