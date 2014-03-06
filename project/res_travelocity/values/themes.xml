@@ -111,6 +111,8 @@
         <item name="itinCardTitleBackground">@drawable/bg_itin_card_title_travelocity</item>
         <item name="itinCardBackground">@drawable/bg_itin_card_tvly</item>
         <item name="itinFlightsTripLineColor">@color/itin_flight_line_color_tvly</item>
+        <item name="itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach_travelocity</item>
+        <item name="itinDismissListSelectorDrawable">@drawable/list_selector_travelocity</item>
     </style>
 
     <style name="LaunchActionBarTabTravelocityStyle" parent="@style/Widget.Sherlock.ActionBar.TabView">
@@ -145,6 +147,10 @@
         <item name="itinCardTitleBackground">@drawable/bg_itin_card_title_travelocity</item>
         <item name="itinCardBackground">@drawable/bg_itin_card_tvly</item>
         <item name="itinFlightsTripLineColor">@color/itin_flight_line_color_tvly</item>
+
+        <item name="itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach_travelocity</item>
+        <item name="itinDismissListSelectorDrawable">@drawable/list_selector_travelocity</item>
+
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">

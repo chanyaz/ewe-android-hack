@@ -433,4 +433,9 @@
     <attr name="itinCardBackground" format="reference"/>
     <attr name="itinFlightsTripLineColor" format="reference"/>
 
+    <attr name="companyLogoForReceipt" format="reference"/>
+
+    <attr name="itinHotelAttachButtonDrawable" format="reference"/>
+    <attr name="itinDismissListSelectorDrawable" format="reference"/>
+
 </resources>
