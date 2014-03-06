@@ -322,4 +322,8 @@
     <attr name="calendarRangeStartCellDrawable" format="reference"/>
     <attr name="calendarRangeEndCellDrawable" format="reference"/>
 
+    <attr name="itinHotelAttachButtonDrawable" format="reference"/>
+    <attr name="itinDismissListSelectorDrawable" format="reference"/>
+
+
 </resources>

@@ -303,6 +303,8 @@
         <item name="itinCardTitleBackground">@drawable/bg_itin_card_title</item>
         <item name="itinCardBackground">@drawable/bg_itin_card</item>
         <item name="itinFlightsTripLineColor">@color/itin_flight_line_color</item>
+        <item name="itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
+        <item name="itinDismissListSelectorDrawable">@drawable/list_selector_holo_dark</item>
     </style>
 
     <style name="ItineraryTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
@@ -323,6 +325,10 @@
         <item name="itinCardTitleBackground">@drawable/bg_itin_card_title</item>
         <item name="itinCardBackground">@drawable/bg_itin_card</item>
         <item name="itinFlightsTripLineColor">@color/itin_flight_line_color</item>
+
+        <item name="itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
+        <item name="itinDismissListSelectorDrawable">@drawable/list_selector_holo_dark</item>
+
     </style>
 
     <style name="LaunchActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
