@@ -25,7 +25,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
-import com.expedia.bookings.fragment.FlightUnavailableDialogFragment;
+import com.expedia.bookings.fragment.BookingUnavailableDialogFragment;
 import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment.PriceChangeDialogFragmentListener;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
@@ -420,7 +420,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 	private void showUnavailableErrorDialog() {
 		boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
-		FlightUnavailableDialogFragment df = FlightUnavailableDialogFragment.newInstance(isPlural, false);
+		BookingUnavailableDialogFragment df = BookingUnavailableDialogFragment.newInstance(isPlural, false);
 		df.show(getSupportFragmentManager(), "unavailableErrorDialog");
 	}
 

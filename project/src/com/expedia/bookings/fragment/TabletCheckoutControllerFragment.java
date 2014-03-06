@@ -909,7 +909,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	private void showUnavailableErrorDialog() {
 		boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
-		FlightUnavailableDialogFragment df = FlightUnavailableDialogFragment.newInstance(isPlural, true);
+		BookingUnavailableDialogFragment df = BookingUnavailableDialogFragment.newInstance(isPlural, true);
 		df.show(getChildFragmentManager(), "unavailableErrorDialog");
 	}
 

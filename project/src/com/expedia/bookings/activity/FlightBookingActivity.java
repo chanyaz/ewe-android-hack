@@ -30,7 +30,7 @@ import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.FlightBookingFragment;
-import com.expedia.bookings.fragment.FlightUnavailableDialogFragment;
+import com.expedia.bookings.fragment.BookingUnavailableDialogFragment;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment.PriceChangeDialogFragmentListener;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
@@ -414,7 +414,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 	private void showUnavailableErrorDialog() {
 		boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
-		FlightUnavailableDialogFragment df = FlightUnavailableDialogFragment.newInstance(isPlural, true);
+		BookingUnavailableDialogFragment df = BookingUnavailableDialogFragment.newInstance(isPlural, true);
 		df.show(getSupportFragmentManager(), "unavailableErrorDialog");
 	}
 

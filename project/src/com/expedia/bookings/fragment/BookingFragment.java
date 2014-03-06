@@ -407,7 +407,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		if (isFlightLOB) {
 			isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
 		}
-		FlightUnavailableDialogFragment df = FlightUnavailableDialogFragment.newInstance(isPlural, isFlightLOB);
+		BookingUnavailableDialogFragment df = BookingUnavailableDialogFragment.newInstance(isPlural, isFlightLOB);
 		df.show(getFragmentManager(), "unavailableErrorDialog");
 	}
 

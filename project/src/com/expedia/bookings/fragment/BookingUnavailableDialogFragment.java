@@ -10,17 +10,17 @@ import android.support.v4.app.DialogFragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.NavUtils;
 
-public class FlightUnavailableDialogFragment extends DialogFragment implements OnClickListener {
+public class BookingUnavailableDialogFragment extends DialogFragment implements OnClickListener {
 
-	public static final String TAG = FlightUnavailableDialogFragment.class.getName();
+	public static final String TAG = BookingUnavailableDialogFragment.class.getName();
 
 	private static final String ARG_IS_PLURAL = "ARG_IS_PLURAL";
 	private static final String ARG_IS_FLIGHT = "ARG_IS_FLIGHT";
 
 	private boolean mIsFlightLOB;
 
-	public static FlightUnavailableDialogFragment newInstance(boolean isPlural, boolean isFlightLOB) {
-		FlightUnavailableDialogFragment fragment = new FlightUnavailableDialogFragment();
+	public static BookingUnavailableDialogFragment newInstance(boolean isPlural, boolean isFlightLOB) {
+		BookingUnavailableDialogFragment fragment = new BookingUnavailableDialogFragment();
 		Bundle args = new Bundle();
 		args.putBoolean(ARG_IS_PLURAL, isPlural);
 		args.putBoolean(ARG_IS_FLIGHT, isFlightLOB);
