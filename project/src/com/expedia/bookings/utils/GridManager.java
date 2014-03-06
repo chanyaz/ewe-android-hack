@@ -92,8 +92,24 @@ public class GridManager {
 		return mRows.getItemSize(rowNum);
 	}
 
+	public int getRowSpanHeight(int rowStart, int rowEnd) {
+		int height = 0;
+		for (int i = rowStart; i < rowEnd; i++) {
+			height += getRowHeight(i);
+		}
+		return height;
+	}
+
 	public int getColWidth(int colNum) {
 		return mCols.getItemSize(colNum);
+	}
+
+	public int getColSpanWidth(int colStart, int colEnd) {
+		int width = 0;
+		for (int i = colStart; i < colEnd; i++) {
+			width += getColWidth(i);
+		}
+		return width;
 	}
 
 	public int getColLeft(int colNum) {

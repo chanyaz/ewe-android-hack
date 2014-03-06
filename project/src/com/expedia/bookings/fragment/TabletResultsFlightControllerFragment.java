@@ -1095,10 +1095,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				boolean forward = stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS;
 				percentage = forward ? percentage : 1f - percentage;
 
-				int flightOneListTranslationX = (int) (-mGrid.getColWidth(1) + percentage
-					* -mGrid.getColWidth(1));
-				int flightTwoTranslationX = (int) ((1f - percentage) * (mGrid.getColWidth(1) / 2f + mGrid
-					.getColLeft(1)));
+				int flightOneListTranslationX = (int) (-mGrid.getColLeft(2) + percentage
+					* -mGrid.getColSpanWidth(0, 1));
+
+				int flightTwoTranslationX = (int) ((1f - percentage) * (mGrid.getColWidth(2) / 2f + mGrid
+					.getColLeft(2)));
 
 				if (!mGrid.isLandscape()) {
 					flightOneListTranslationX = -mGrid.getColRight(1);
@@ -1128,8 +1129,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				if (mTransitionFiltersC != null) {
 
 					if (mGrid.isLandscape()) {
-						mTransitionFiltersC.setTranslationX(percentage * -mGrid.getColWidth(0));
-						mTransitionListC.setTranslationX(percentage * -mGrid.getColWidth(0));
+						mTransitionFiltersC.setTranslationX(percentage * -mGrid.getColSpanWidth(0, 1));
+						mTransitionListC.setTranslationX(percentage * -mGrid.getColSpanWidth(0, 1));
 					}
 					else {
 						mTransitionFiltersC.setTranslationX(percentage * -mGrid.getColRight(0));
@@ -1137,7 +1138,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					}
 
 					if (mTransitionDetailsFrag != null) {
-						int detailsTranslateDistance = mGrid.getColWidth(1) + mGrid.getColWidth(2);
+						int detailsTranslateDistance = mGrid.getColSpanWidth(1, 4);
 						mTransitionDetailsFrag.setDetailsSlideInAnimationState(percentage, detailsTranslateDistance,
 							true);
 					}
@@ -1331,8 +1332,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		private void positionForDetails(ViewGroup filtersC, ViewGroup listC, ResultsFlightDetailsFragment detailsFrag) {
 			if (mGrid.isLandscape()) {
 				filtersC.setTranslationX(-mGrid.getColWidth(0));
-				listC.setTranslationX(-mGrid.getColLeft(1));
-				int detailsTranslateDistance = mGrid.getColWidth(1) + mGrid.getColWidth(2);
+				listC.setTranslationX(-mGrid.getColLeft(2));
+				int detailsTranslateDistance = mGrid.getColSpanWidth(1, 4);
 				detailsFrag.setDetailsSlideInAnimationState(1f, detailsTranslateDistance, true);
 			}
 			else {
