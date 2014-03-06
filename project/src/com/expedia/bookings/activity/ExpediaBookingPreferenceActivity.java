@@ -167,6 +167,9 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(R.string.dialog_title_logged_out_and_cleared_private_data);
 			builder.setMessage(R.string.dialog_message_logged_out_and_cleared_private_data);
+			if (ExpediaBookingApp.IS_TRAVELOCITY) {
+				builder.setMessage(R.string.dialog_message_logged_out_and_cleared_private_data_tvly);
+			}
 			builder.setOnCancelListener(new OnCancelListener() {
 				@Override
 				public void onCancel(DialogInterface dialog) {
