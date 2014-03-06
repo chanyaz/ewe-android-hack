@@ -83,7 +83,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	private ResultsWaypointFragment mOriginsFragment;
 	private ResultsDatesFragment mDatesFragment;
-	private GuestsDialogFragment mGuestsFragment;
+	private ResultsGuestPicker mGuestsFragment;
 	private FusedLocationProviderFragment mLocationFragment;
 
 
@@ -437,7 +437,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			return new ResultsDatesFragment();
 		}
 		else if (tag == FTAG_TRAV_PICKER) {
-			return GuestsDialogFragment.newInstance(Sp.getParams().getNumAdults(), Sp.getParams().getChildAges());
+			return ResultsGuestPicker.newInstance(Sp.getParams().getNumAdults(), Sp.getParams().getChildAges());
 		}
 		else if (tag == FTAG_ORIG_CHOOSER) {
 			return new ResultsWaypointFragment();
