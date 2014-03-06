@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Ui;
 
 /**
@@ -38,10 +39,22 @@ public class SimpleCallbackDialogFragment extends DialogFragment {
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		Events.register(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		Events.unregister(this);
+	}
+
+	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		mListener = Ui.findFragmentListener(this, SimpleCallbackDialogFragmentListener.class);
+		mListener = Ui.findFragmentListener(this, SimpleCallbackDialogFragmentListener.class, false);
 	}
 
 	@Override
@@ -68,7 +81,10 @@ public class SimpleCallbackDialogFragment extends DialogFragment {
 		builder.setNeutralButton(button, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				mListener.onSimpleDialogClick(getArguments().getInt(ARG_CALLBACK));
+				if (mListener != null) {
+					mListener.onSimpleDialogClick(getArguments().getInt(ARG_CALLBACK));
+				}
+				Events.post(new Events.SimpleCallBackDialogOnClick(getArguments().getInt(ARG_CALLBACK)));
 			}
 		});
 
@@ -78,8 +94,10 @@ public class SimpleCallbackDialogFragment extends DialogFragment {
 	@Override
 	public void onCancel(DialogInterface dialog) {
 		super.onCancel(dialog);
-
-		mListener.onSimpleDialogCancel(getArguments().getInt(ARG_CALLBACK));
+		if (mListener != null) {
+			mListener.onSimpleDialogCancel(getArguments().getInt(ARG_CALLBACK));
+		}
+		Events.post(new Events.SimpleCallBackDialogOnCancel(getArguments().getInt(ARG_CALLBACK)));
 	}
 
 	public interface SimpleCallbackDialogFragmentListener {

@@ -14,6 +14,7 @@ import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
+import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
@@ -582,6 +583,11 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 
 		// Post event to the Otto Bus.
 		Events.post(new Events.CouponDownloadError());
+	}
+
+	@Override
+	public void handleBookingErrorResponse(Response response) {
+		super.handleBookingErrorResponse(response, false);
 	}
 
 }

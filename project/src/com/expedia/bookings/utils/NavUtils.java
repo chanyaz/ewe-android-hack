@@ -180,6 +180,17 @@ public class NavUtils {
 		context.startActivity(intent);
 	}
 
+	public static void restartHotelSearch(Context context) {
+		// Clear out old data
+		Db.resetBillingInfo();
+		Db.getHotelSearch().setSearchResponse(null);
+
+		// Launch search activity (new search should start automatically due to blank data)
+		Intent intent = new Intent(context, PhoneSearchActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		context.startActivity(intent);
+	}
+
 	public static void goToFlightSearch(Context context) {
 		// Clear out old data
 		Db.resetBillingInfo();

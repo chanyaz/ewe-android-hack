@@ -420,7 +420,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 	private void showUnavailableErrorDialog() {
 		boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
-		FlightUnavailableDialogFragment df = FlightUnavailableDialogFragment.newInstance(isPlural);
+		FlightUnavailableDialogFragment df = FlightUnavailableDialogFragment.newInstance(isPlural, false);
 		df.show(getSupportFragmentManager(), "unavailableErrorDialog");
 	}
 

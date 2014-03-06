@@ -1,20 +1,41 @@
 package com.expedia.bookings.fragment;
 
-import android.os.Bundle;
+import java.math.BigDecimal;
+import java.util.List;
 
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
+
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightCheckoutResponse;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.wallet.FullWallet;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.SettingUtils;
 
 public abstract class BookingFragment<T extends Response> extends FullWalletFragment {
+
+	public static final int DIALOG_CALLBACK_INVALID_CC = 1001;
+	public static final int DIALOG_CALLBACK_INVALID_PAYMENT = 1002;
+	public static final int DIALOG_CALLBACK_INVALID_PHONENUMBER = 1003;
+	public static final int DIALOG_CALLBACK_INVALID_POSTALCODE = 1004;
+	public static final int DIALOG_CALLBACK_INVALID_MINOR = 1005;
+	public static final int DIALOG_CALLBACK_EXPIRED_CC = 1006;
+	public static final int DIALOG_CALLBACK_MINOR = 1007;
 
 	private String mDownloadKey;
 
@@ -37,6 +58,8 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 
 	// Use this method if we need to gather/prepare more information before calling booking download.
 	public abstract void doBookingPrep();
+
+	public abstract void handleBookingErrorResponse(Response response);
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -192,6 +215,200 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		error.setCode("GOOGLE_WALLET_ERROR");
 		response.addError(error);
 		Events.post(new Events.BookingDownloadResponse(response));
+	}
+
+	public void handleBookingErrorResponse(Response response, boolean isFlightLOB) {
+		List<ServerError> errors = response.getErrors();
+
+		boolean hasCVVError = false;
+		boolean hasExpirationDateError = false;
+		boolean hasCreditCardNumberError = false;
+		boolean hasPhoneError = false;
+		boolean hasPostalCodeError = false;
+		boolean hasFlightMinorError = false;
+
+		// Log all errors, in case we need to see them
+		for (int a = 0; a < errors.size(); a++) {
+			ServerError error = errors.get(a);
+			Log.v("SERVER ERROR " + a + ": " + error.toJson().toString());
+
+			String field = error.getExtra("field");
+			if (TextUtils.isEmpty(field)) {
+				continue;
+			}
+
+			if (field.equals("creditCardNumber")) {
+				hasCreditCardNumberError = true;
+			}
+			else if (field.equals("expirationDate")) {
+				hasExpirationDateError = true;
+			}
+			else if (field.equals("cvv")) {
+				hasCVVError = true;
+			}
+			else if (field.equals("phone")) {
+				hasPhoneError = true;
+			}
+			else if (field.equals("postalCode")) {
+				hasPostalCodeError = true;
+			}
+			else if (field.equals("mainFlightPassenger.birthDate")) {
+				hasFlightMinorError = true;
+			}
+		}
+
+		// We make the assumption that if we get an error we can handle in a special manner
+		// that it will be the first one.  If there are multiple errors, we assume right
+		// now that it will require a generic response.
+		ServerError firstError = errors.get(0);
+
+		// Check for special errors; return if we handled it
+		switch (firstError.getErrorCode()) {
+		// We get this error for ONLY flights.
+		case PRICE_CHANGE:
+			FlightTrip currentOffer = Db.getFlightSearch().getSelectedFlightTrip();
+			FlightTrip newOffer = ((FlightCheckoutResponse) response).getNewOffer();
+
+			// If the debug setting is made to fake a price change, then fake the price here too
+			// This is sort of a second price change, to help figure out testing when we have obfees and a price change...
+			if (!AndroidUtils.isRelease(getActivity())) {
+				String val = SettingUtils.get(getActivity(),
+						getString(R.string.preference_fake_flight_price_change),
+						getString(R.string.preference_fake_price_change_default));
+				currentOffer.getTotalFare().add(new BigDecimal(val));
+				newOffer.getTotalFare().add(new BigDecimal(val));
+			}
+
+			PriceChangeDialogFragment fragment = PriceChangeDialogFragment.newInstance(currentOffer, newOffer);
+			fragment.show(getFragmentManager(), PriceChangeDialogFragment.TAG);
+
+			OmnitureTracking.trackErrorPageLoadFlightPriceChangeTicket(getActivity());
+			return;
+		case BOOKING_FAILED: {
+			if (firstError.getDiagnosticFullText().contains("INVALID_CCNUMBER")) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+						getString(R.string.error_invalid_card_number), getString(android.R.string.ok),
+						DIALOG_CALLBACK_INVALID_CC);
+				frag.show(getFragmentManager(), "badCcNumberDialog");
+				return;
+			}
+			break;
+		}
+		case PAYMENT_FAILED:
+		case INVALID_INPUT: {
+
+			if (firstError.getErrorCode() == ErrorCode.PAYMENT_FAILED && isFlightLOB) {
+				OmnitureTracking.trackErrorPageLoadFlightPaymentFailed(getActivity());
+			}
+
+			if (hasCreditCardNumberError && hasExpirationDateError && hasCVVError) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+						getString(R.string.e3_error_checkout_payment_failed), getString(android.R.string.ok),
+						DIALOG_CALLBACK_INVALID_PAYMENT);
+				frag.show(getFragmentManager(), "badPaymentDialog");
+
+				if (isFlightLOB) {
+					OmnitureTracking.trackErrorPageLoadFlightIncorrectCVV(getActivity());
+				}
+				return;
+			}
+			else if (hasCVVError) {
+				Events.post(new Events.BookingResponseErrorCVV(true));
+				if (isFlightLOB) {
+					OmnitureTracking.trackErrorPageLoadFlightIncorrectCVV(getActivity());
+				}
+				return;
+			}
+			else if (hasCreditCardNumberError) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+						getString(R.string.error_invalid_card_number), getString(android.R.string.ok),
+						DIALOG_CALLBACK_INVALID_CC);
+				frag.show(getFragmentManager(), "badCcNumberDialog");
+				return;
+			}
+			else if (hasPhoneError) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+						getString(R.string.ean_error_invalid_phone_number), getString(android.R.string.ok),
+						DIALOG_CALLBACK_INVALID_PHONENUMBER);
+				frag.show(getFragmentManager(), "badPhoneNumberDialog");
+				return;
+			}
+			else if (hasPostalCodeError) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+						getString(R.string.invalid_postal_code), getString(android.R.string.ok),
+						DIALOG_CALLBACK_INVALID_POSTALCODE);
+				frag.show(getFragmentManager(), "badPostalCodeDialog");
+				return;
+			}
+			else if (hasExpirationDateError) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+						getString(R.string.error_expired_payment), getString(android.R.string.ok),
+						DIALOG_CALLBACK_EXPIRED_CC);
+				frag.show(getFragmentManager(), "expiredCcDialog");
+				return;
+			}
+			// 1643: Handle an odd API response. This is probably due to the transition
+			// to being anble to handle booking tickets for minors. We shouldn't need this in the future.
+			else if (hasFlightMinorError) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+						getString(R.string.error_booking_with_minor), getString(android.R.string.ok),
+						DIALOG_CALLBACK_INVALID_MINOR);
+				frag.show(getFragmentManager(), "cannotBookWithMinorDialog");
+				return;
+			}
+			break;
+		}
+		case TRIP_ALREADY_BOOKED:
+			// If the trip was already booked, just act like everything is fine and launch the confirmation screen.
+			Events.post(new Events.BookingResponseErrorTripBooked());
+			return;
+		case FLIGHT_SOLD_OUT:
+			showBookingUnavailableErrorDialog(isFlightLOB);
+			OmnitureTracking.trackErrorPageLoadFlightSoldOut(getActivity());
+		case SESSION_TIMEOUT:
+			showBookingUnavailableErrorDialog(isFlightLOB);
+			if (isFlightLOB) {
+				OmnitureTracking.trackErrorPageLoadFlightSearchExpired(getActivity());
+			}
+			return;
+		case CANNOT_BOOK_WITH_MINOR: {
+			DialogFragment frag = SimpleCallbackDialogFragment
+					.newInstance(null,
+							getString(R.string.error_booking_with_minor), getString(android.R.string.ok),
+							DIALOG_CALLBACK_MINOR);
+			frag.show(getFragmentManager(), "cannotBookWithMinorDialog");
+			return;
+		}
+		case GOOGLE_WALLET_ERROR:
+			DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+					getString(R.string.google_wallet_unavailable), getString(android.R.string.ok), 0);
+			frag.show(getFragmentManager(), "googleWalletErrorDialog");
+			return;
+		default:
+			OmnitureTracking.trackErrorPageLoadFlightCheckout(getActivity());
+			break;
+		}
+
+		// At this point, we haven't handled the error - use a generic response
+		String caseNumber;
+		if (isFlightLOB) {
+			caseNumber = Db.getFlightSearch().getSelectedFlightTrip()
+					.getItineraryNumber();
+		}
+		else {
+			caseNumber = "";
+		}
+		DialogFragment df = UnhandledErrorDialogFragment.newInstance(caseNumber);
+		df.show(getFragmentManager(), "unhandledErrorDialog");
+	}
+
+	private void showBookingUnavailableErrorDialog(boolean isFlightLOB) {
+		boolean isPlural = false;
+		if (isFlightLOB) {
+			isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
+		}
+		FlightUnavailableDialogFragment df = FlightUnavailableDialogFragment.newInstance(isPlural, isFlightLOB);
+		df.show(getFragmentManager(), "unavailableErrorDialog");
 	}
 
 }

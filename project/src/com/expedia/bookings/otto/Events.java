@@ -8,6 +8,7 @@ import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
 
@@ -217,6 +218,47 @@ public class Events {
 
 		public BookingDownloadResponse(Response r) {
 			this.response = r;
+		}
+	}
+
+	/**
+	 * This event notifies that BookingDownload call finished with a CVV error
+	 */
+	public static class BookingResponseErrorCVV {
+		public final boolean setCVVMode;
+
+		public BookingResponseErrorCVV(boolean isSetCVVMode) {
+			this.setCVVMode = isSetCVVMode;
+		}
+	}
+
+	/**
+	 * This event notifies that BookingDownload call finished with a Trip already booked error
+	 */
+	public static class BookingResponseErrorTripBooked {
+	}
+
+	/**
+	 * This event notifies that user clicked the Ok button of {@link SimpleCallbackDialogFragment}.
+	 * It is primarily used for showing booking errors.
+	 */
+	public static class SimpleCallBackDialogOnClick {
+		public final int callBackId;
+
+		public SimpleCallBackDialogOnClick(int id) {
+			this.callBackId = id;
+		}
+	}
+
+	/**
+	 * This event notifies that {@link SimpleCallbackDialogFragment} has been cancelled by the user.
+	 * It is primarily used for showing booking errors.
+	 */
+	public static class SimpleCallBackDialogOnCancel {
+		public final int callBackId;
+
+		public SimpleCallBackDialogOnCancel(int id) {
+			this.callBackId = id;
 		}
 	}
 

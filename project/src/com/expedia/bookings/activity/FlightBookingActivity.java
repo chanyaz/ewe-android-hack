@@ -414,7 +414,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 	private void showUnavailableErrorDialog() {
 		boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
-		FlightUnavailableDialogFragment df = FlightUnavailableDialogFragment.newInstance(isPlural);
+		FlightUnavailableDialogFragment df = FlightUnavailableDialogFragment.newInstance(isPlural, true);
 		df.show(getSupportFragmentManager(), "unavailableErrorDialog");
 	}
 

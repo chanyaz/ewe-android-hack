@@ -242,7 +242,7 @@ public class FlightTripPriceFragment extends Fragment {
 		case FLIGHT_SOLD_OUT:
 		case SESSION_TIMEOUT: {
 			boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
-			FlightUnavailableDialogFragment df = FlightUnavailableDialogFragment.newInstance(isPlural);
+			FlightUnavailableDialogFragment df = FlightUnavailableDialogFragment.newInstance(isPlural, true);
 			df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "unavailableErrorDialog");
 			return;
 		}

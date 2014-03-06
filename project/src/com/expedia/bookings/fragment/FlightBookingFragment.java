@@ -10,6 +10,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
+import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.WalletUtils;
@@ -78,4 +79,10 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 	public void doBookingPrep() {
 		// No pre-booking check or prep required for flights. Ignore
 	}
+
+	@Override
+	public void handleBookingErrorResponse(Response response) {
+		super.handleBookingErrorResponse(response, true);
+	}
+
 }

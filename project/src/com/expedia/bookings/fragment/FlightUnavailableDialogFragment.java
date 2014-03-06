@@ -15,11 +15,15 @@ public class FlightUnavailableDialogFragment extends DialogFragment implements O
 	public static final String TAG = FlightUnavailableDialogFragment.class.getName();
 
 	private static final String ARG_IS_PLURAL = "ARG_IS_PLURAL";
+	private static final String ARG_IS_FLIGHT = "ARG_IS_FLIGHT";
 
-	public static FlightUnavailableDialogFragment newInstance(boolean isPlural) {
+	private boolean mIsFlightLOB;
+
+	public static FlightUnavailableDialogFragment newInstance(boolean isPlural, boolean isFlightLOB) {
 		FlightUnavailableDialogFragment fragment = new FlightUnavailableDialogFragment();
 		Bundle args = new Bundle();
 		args.putBoolean(ARG_IS_PLURAL, isPlural);
+		args.putBoolean(ARG_IS_FLIGHT, isFlightLOB);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -35,9 +39,17 @@ public class FlightUnavailableDialogFragment extends DialogFragment implements O
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		Builder builder = new Builder(getActivity());
 		boolean isPlural = getArguments().getBoolean(ARG_IS_PLURAL);
-		builder.setMessage(isPlural ? R.string.error_flights_no_longer_available
-				: R.string.error_flight_no_longer_available);
-		builder.setNeutralButton(isPlural ? R.string.pick_new_flights : R.string.pick_new_flight, this);
+		mIsFlightLOB = getArguments().getBoolean(ARG_IS_FLIGHT);
+		if (mIsFlightLOB) {
+			builder.setMessage(isPlural ? R.string.error_flights_no_longer_available
+					: R.string.error_flight_no_longer_available);
+			builder.setNeutralButton(isPlural ? R.string.pick_new_flights : R.string.pick_new_flight, this);
+		}
+		else {
+			builder.setMessage(R.string.error_hotel_no_longer_available);
+			builder.setNeutralButton(R.string.pick_new_hotel, this);
+		}
+
 		return builder.create();
 	}
 
@@ -46,6 +58,11 @@ public class FlightUnavailableDialogFragment extends DialogFragment implements O
 
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
-		NavUtils.restartFlightSearch(getActivity());
+		if (mIsFlightLOB) {
+			NavUtils.restartFlightSearch(getActivity());
+		}
+		else {
+			NavUtils.restartHotelSearch(getActivity());
+		}
 	}
 }
