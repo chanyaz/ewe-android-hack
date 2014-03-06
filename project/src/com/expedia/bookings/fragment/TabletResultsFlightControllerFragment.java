@@ -26,7 +26,6 @@ import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsFlightListFragment.IDoneClickedListener;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
-import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IResultsFlightLegSelected;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
@@ -54,7 +53,7 @@ import com.squareup.otto.Subscribe;
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsFlightControllerFragment extends Fragment implements IResultsFlightSelectedListener,
-	IResultsFlightLegSelected, IAddToTripListener, IFragmentAvailabilityProvider, IBackManageable,
+	IResultsFlightLegSelected, IFragmentAvailabilityProvider, IBackManageable,
 	IStateProvider<ResultsFlightsState>, IDoneClickedListener, ExpediaServicesFragment.ExpediaServicesFragmentListener {
 
 	//State
@@ -106,7 +105,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private GridManager mGrid = new GridManager();
 	private float mFlightDetailsMarginPercentage = 0.1f;
 	private boolean mOneWayFlight = true;
-	private IAddToTripListener mParentAddToTripListener;
 
 	private StateManager<ResultsFlightsState> mFlightsStateManager = new StateManager<ResultsFlightsState>(
 		ResultsFlightsState.LOADING, this);
@@ -114,8 +112,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
-		mParentAddToTripListener = Ui.findFragmentListener(this, IAddToTripListener.class);
 
 		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchParams() != null) {
 			mOneWayFlight = !Db.getFlightSearch().getSearchParams().isRoundTrip();
@@ -417,25 +413,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				setFlightsState(ResultsFlightsState.FLIGHT_TWO_FILTERS, true);
 			}
 		}
-	}
-
-	/*
-	 * IAddToTripListener Functions
-	 */
-
-	@Override
-	public void beginAddToTrip(Object data, Rect globalCoordinates, int shadeColor) {
-		//TODO: Block touches during this transition...
-		mParentAddToTripListener.beginAddToTrip(data, globalCoordinates, shadeColor);
-	}
-
-	@Override
-	public void performTripHandoff() {
-		//Tell the trip overview to do its thing...
-		mParentAddToTripListener.performTripHandoff();
-
-		//begin the transition
-		setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
 	}
 
 	/*
@@ -1281,7 +1258,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				break;
 			}
 			case ADDING_FLIGHT_TO_TRIP: {
-				mAddToTripFrag.beginOrResumeAddToTrip();
+				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
 				break;
 			}
 			}

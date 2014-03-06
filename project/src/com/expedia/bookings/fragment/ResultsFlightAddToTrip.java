@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,7 +12,8 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.interfaces.IAddToTripListener;
+import com.expedia.bookings.enums.ResultsFlightsState;
+import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.section.FlightLegSummarySectionTablet;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.mobiata.android.util.Ui;
@@ -31,66 +31,74 @@ public class ResultsFlightAddToTrip extends Fragment {
 
 	// Views
 	private ViewGroup mRootC;
-	private ViewGroup mAddToTripRowC;
-	private ViewGroup mAddingToTripLoadingC;
 
 	private FlightLegSummarySectionTablet mFlightCard;
-
-	private IAddToTripListener mAddToTripListener;
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
-		mAddToTripListener = Ui.findFragmentListener(this, IAddToTripListener.class);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_flight_add_to_trip, null);
-		mAddToTripRowC = Ui.findView(mRootC, R.id.add_to_trip_row);
-		mAddingToTripLoadingC = Ui.findView(mRootC, R.id.add_to_trip_loading_message_container);
 		mFlightCard = Ui.findView(mRootC, R.id.flight_row);
 		return mRootC;
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		mFlightsStateHelper.registerWithProvider(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		mFlightsStateHelper.unregisterWithProvider(this);
+	}
+
 	public Rect getRowRect() {
-		return ScreenPositionUtils.getGlobalScreenPosition(mAddToTripRowC);
+		return ScreenPositionUtils.getGlobalScreenPosition(mFlightCard);
 	}
 
-	public void beginOrResumeAddToTrip() {
-		mAddToTripListener.beginAddToTrip("FLIGHTS", getRowRect(), Color.TRANSPARENT);
-		mAddToTripRowC.setVisibility(View.VISIBLE);
-		mAddingToTripLoadingC.setVisibility(View.VISIBLE);
-		bindFlightCard();
-		doAddToTripDownloadStuff();
-	}
-
-	private void bindFlightCard() {
-		mFlightCard.bindForTripBucket(Db.getFlightSearch());
-	}
-
-	/**
-	 * ADD TO TRIP DOWNLOAD....
-	 */
-	// NOTE THIS IS JUST A PLACEHOLDER SO THAT WE GET THE FLOW IDEA
-	private Runnable mDownloadRunner;
-
-	private void doAddToTripDownloadStuff() {
-		if (mDownloadRunner == null) {
-			mDownloadRunner = new Runnable() {
-				@Override
-				public void run() {
-					if (getActivity() != null) {
-						mAddToTripListener.performTripHandoff();
-						mAddToTripRowC.setVisibility(View.INVISIBLE);
-						mAddingToTripLoadingC.setVisibility(View.INVISIBLE);
-					}
-					mDownloadRunner = null;
-				}
-			};
-			mRootC.postDelayed(mDownloadRunner, 2000);
+	private StateListenerHelper<ResultsFlightsState> mFlightsStateHelper = new StateListenerHelper<ResultsFlightsState>() {
+		@Override
+		public void onStateTransitionStart(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
+			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
+				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				mFlightCard.setTranslationY(0f);
+				mFlightCard.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+			}
 		}
-	}
 
+		@Override
+		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
+			float percentage) {
+			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
+				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				mFlightCard.setTranslationY(mFlightCard.getBottom() * -percentage);
+			}
+		}
+
+		@Override
+		public void onStateTransitionEnd(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
+			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
+				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				mFlightCard.setLayerType(View.LAYER_TYPE_NONE, null);
+			}
+		}
+
+		@Override
+		public void onStateFinalized(ResultsFlightsState state) {
+			mFlightCard.setTranslationY(0f);
+			if (state == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
+				mFlightCard.bindForTripBucket(Db.getFlightSearch());
+				mFlightCard.setVisibility(View.VISIBLE);
+			}
+			else {
+				mFlightCard.setVisibility(View.INVISIBLE);
+			}
+		}
+	};
 }

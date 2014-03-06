@@ -8,7 +8,6 @@ import java.util.Locale;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.res.Resources;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -37,10 +36,9 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.interfaces.IAddToTripListener;
+import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.LayoutUtils;
-import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ParallaxContainer;
 import com.expedia.bookings.widget.RingedCountView;
@@ -66,7 +64,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private ViewGroup mHotelHeaderContainer;
 	private Button mAddToTripButton;
 
-	private IAddToTripListener mAddToTripListener;
+	private IAddToBucketListener mAddToBucketListener;
 
 	HotelOffersResponse mResponse;
 
@@ -74,7 +72,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		mAddToTripListener = Ui.findFragmentListener(this, IAddToTripListener.class);
+		mAddToBucketListener = Ui.findFragmentListener(this, IAddToBucketListener.class);
 	}
 
 	@Override
@@ -115,7 +113,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			Db.getTripBucket().clearHotel();
 			Db.getTripBucket().add(property, rate);
 			Db.saveTripBucket(getActivity());
-			mAddToTripListener.beginAddToTrip(getSelectedData(), getDestinationRect(), 0);
+
+			mAddToBucketListener.onItemAddedToBucket();
 		}
 	};
 
@@ -194,6 +193,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		//		if (mAddToTripButton != null) {
 		//			mAddToTripButton.setScaleY(1f - percentage);
 		//		}
+
+
 	}
 
 	public void setTransitionToAddTripHardwareLayer(int layerType) {
@@ -201,14 +202,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		//		if (mAddToTripButton != null) {
 		//			mAddToTripButton.setLayerType(layerType, null);
 		//		}
-	}
-
-	public Object getSelectedData() {
-		return "SOME DATA";
-	}
-
-	public Rect getDestinationRect() {
-		return ScreenPositionUtils.getGlobalScreenPosition(mHotelHeaderContainer);
 	}
 
 	private Runnable mAdjustParallax = new Runnable() {

@@ -3,7 +3,6 @@ package com.expedia.bookings.activity;
 import java.util.ArrayList;
 
 import android.annotation.TargetApi;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,7 +29,6 @@ import com.expedia.bookings.fragment.ResultsTripBucketFragment;
 import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsSearchControllerFragment;
-import com.expedia.bookings.interfaces.IAddToTripListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IMeasurementListener;
@@ -67,7 +65,7 @@ import com.mobiata.android.util.Ui;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsActivity extends SherlockFragmentActivity implements IBackButtonLockListener,
-	IAddToTripListener, IFragmentAvailabilityProvider, IStateProvider<ResultsState>, IMeasurementProvider,
+	IFragmentAvailabilityProvider, IStateProvider<ResultsState>, IMeasurementProvider,
 	IBackManageable {
 
 	//State
@@ -102,8 +100,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private boolean mBackButtonLocked = false;
 
 	private HockeyPuck mHockeyPuck;
-
-	private ArrayList<IAddToTripListener> mAddToTripListeners = new ArrayList<IAddToTripListener>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -400,25 +396,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	@Override
 	public void setBackButtonLockState(boolean locked) {
 		mBackButtonLocked = locked;
-	}
-
-	/**
-	 * IAddToTripListener Stuff
-	 */
-
-	@Override
-	public void beginAddToTrip(Object data, Rect globalCoordinates, int shadeColor) {
-		for (IAddToTripListener listener : mAddToTripListeners) {
-			listener.beginAddToTrip(data, globalCoordinates, shadeColor);
-		}
-
-	}
-
-	@Override
-	public void performTripHandoff() {
-		for (IAddToTripListener listener : mAddToTripListeners) {
-			listener.performTripHandoff();
-		}
 	}
 
 	/*

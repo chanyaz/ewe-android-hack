@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <!-- BACKGROUND CONTAINERS -->
 
@@ -17,7 +17,6 @@
         android:layout_height="match_parent" />
 
     <!-- FORGROUND CONTAINERS -->
-s
 
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/column_two_hotel_filters"
@@ -31,11 +30,6 @@ s
 
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/column_three_hotel_filtered_count"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <com.expedia.bookings.widget.FrameLayoutTouchController
-        android:id="@+id/hotel_rooms_and_rates_shade"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -3,10 +3,8 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,7 +25,7 @@ import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
 import com.expedia.bookings.graphics.PercentageFadeColorDrawable;
-import com.expedia.bookings.interfaces.IAddToTripListener;
+import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
 import com.expedia.bookings.interfaces.IStateListener;
@@ -46,6 +44,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilit
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
 
@@ -55,9 +54,9 @@ import com.squareup.otto.Subscribe;
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsHotelControllerFragment extends Fragment implements
-	ISortAndFilterListener, IResultsHotelSelectedListener, IAddToTripListener, IFragmentAvailabilityProvider,
+	ISortAndFilterListener, IResultsHotelSelectedListener, IFragmentAvailabilityProvider,
 	HotelMapFragmentListener, SupportMapFragmentListener, IBackManageable, IStateProvider<ResultsHotelsState>,
-	ExpediaServicesFragment.ExpediaServicesFragmentListener {
+	ExpediaServicesFragment.ExpediaServicesFragmentListener, IAddToBucketListener {
 
 	//State
 	private static final String STATE_HOTELS_STATE = "STATE_HOTELS_STATE";
@@ -78,7 +77,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private FrameLayoutTouchController mHotelFiltersC;
 	private FrameLayoutTouchController mHotelFilteredCountC;
 	private FrameLayoutTouchController mHotelRoomsAndRatesC;
-	private FrameLayoutTouchController mHotelRoomsAndRatesShadeC;
 
 	// Fragments
 	private HotelMapFragment mMapFragment;
@@ -89,23 +87,14 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private HotelSearchDownloadFragment mHotelSearchDownloadFrag;
 
 	//Other
-	//private ResultsState mGlobalState = ResultsState.OVERVIEW;
 	private StateManager<ResultsHotelsState> mHotelsStateManager = new StateManager<ResultsHotelsState>(
 		ResultsHotelsState.LOADING, this);
-	private IAddToTripListener mParentAddToTripListener;
 	private GridManager mGrid = new GridManager();
-	private int mShadeColor = Color.argb(220, 0, 0, 0);
+	//private int mShadeColor = Color.argb(220, 0, 0, 0);
 	private boolean mRoomsAndRatesInFront = true;//They start in front
 	private PercentageFadeColorDrawable mBgHotelMapDimmerDrawable;
 
 	private ArrayList<IResultsHotelSelectedListener> mHotelSelectedListeners = new ArrayList<IResultsHotelSelectedListener>();
-
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		mParentAddToTripListener = Ui.findFragmentListener(this, IAddToTripListener.class);
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -133,10 +122,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mHotelFiltersC = Ui.findView(view, R.id.column_two_hotel_filters);
 		mHotelFilteredCountC = Ui.findView(view, R.id.column_three_hotel_filtered_count);
 		mHotelRoomsAndRatesC = Ui.findView(view, R.id.hotel_rooms_and_rates);
-		mHotelRoomsAndRatesShadeC = Ui.findView(view, R.id.hotel_rooms_and_rates_shade);
-
-		//Set shade color
-		mHotelRoomsAndRatesShadeC.setBackgroundColor(mShadeColor);
 
 		//Default maps to be invisible (they get ignored by our setVisibilityState function so this is important)
 		mBgHotelMapC.setAlpha(0f);
@@ -188,14 +173,20 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Subscribe
 	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
-		Db.getHotelSearch().setSearchResponse(null);
-		Db.getHotelSearch().setSearchParams(Sp.getParams().toHotelSearchParams());
-		if (mHotelsStateManager.getState() != ResultsHotelsState.LOADING) {
-			setHotelsState(ResultsHotelsState.LOADING, false);
+		//TODO: This try catch is here because the StateManager throws exceptions because we are removing listeners in onFinalize state.
+		try {
+			Db.getHotelSearch().setSearchResponse(null);
+			Db.getHotelSearch().setSearchParams(Sp.getParams().toHotelSearchParams());
+			if (mHotelsStateManager.getState() != ResultsHotelsState.LOADING) {
+				setHotelsState(ResultsHotelsState.LOADING, false);
+			}
+			else {
+				mHotelSearchDownloadFrag.setSearchParams(Sp.getParams().toHotelSearchParams());
+				mHotelSearchDownloadFrag.startOrRestart();
+			}
 		}
-		else {
-			mHotelSearchDownloadFrag.setSearchParams(Sp.getParams().toHotelSearchParams());
-			mHotelSearchDownloadFrag.startOrRestart();
+		catch (Exception ex) {
+			Log.e("TabletResultsHotelControllerFragment.answerSearchParamUpdate - ex:", ex);
 		}
 	}
 
@@ -256,13 +247,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(true);
 		}
 
-		if (hotelsState == ResultsHotelsState.ADDING_HOTEL_TO_TRIP) {
-			mHotelRoomsAndRatesShadeC.setBlockNewEventsEnabled(true);
-		}
-		else {
-			mHotelRoomsAndRatesShadeC.setBlockNewEventsEnabled(false);
-		}
-
 		if (hotelsState == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
 			|| hotelsState == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
 			mHotelFiltersC.setBlockNewEventsEnabled(false);
@@ -279,7 +263,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mHotelFiltersC.setVisibility(View.INVISIBLE);
 			mHotelFilteredCountC.setVisibility(View.INVISIBLE);
 			mHotelRoomsAndRatesC.setVisibility(View.INVISIBLE);
-			mHotelRoomsAndRatesShadeC.setVisibility(View.INVISIBLE);
 		}
 		else {
 			mBgHotelMapC.setAlpha(1f);
@@ -300,13 +283,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 			else {
 				mHotelRoomsAndRatesC.setVisibility(View.INVISIBLE);
-			}
-
-			if (hotelsState == ResultsHotelsState.ADDING_HOTEL_TO_TRIP) {
-				mHotelRoomsAndRatesShadeC.setVisibility(View.VISIBLE);
-			}
-			else {
-				mHotelRoomsAndRatesShadeC.setVisibility(View.INVISIBLE);
 			}
 		}
 	}
@@ -527,45 +503,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	}
 
 	/*
-	 * IAddToTripListener Functions
-	 */
-
-	@Override
-	public void beginAddToTrip(Object data, Rect globalCoordinates, int shadeColor) {
-		setHotelsState(ResultsHotelsState.ADDING_HOTEL_TO_TRIP, true);
-	}
-
-	@Override
-	public void performTripHandoff() {
-		//Tell the trip overview to do its thing...
-		mParentAddToTripListener.performTripHandoff();
-
-		//begin the transition
-		setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
-	}
-
-	/*
-	 * ADD TO TRIP DOWNLOAD....
-	 */
-	//NOTE THIS IS JUST A PLACEHOLDER SO THAT WE GET THE FLOW IDEA
-	private Runnable mDownloadRunner;
-
-	private void doAddToTripDownloadStuff() {
-		if (mDownloadRunner == null) {
-			mDownloadRunner = new Runnable() {
-				@Override
-				public void run() {
-					if (getActivity() != null) {
-						performTripHandoff();
-					}
-					mDownloadRunner = null;
-				}
-			};
-			mRootC.postDelayed(mDownloadRunner, 3000);
-		}
-	}
-
-	/*
 	 * HotelMapFragmentListener
 	 */
 
@@ -773,7 +710,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mGrid.setContainerToColumnSpan(mBgHotelMapC, 0, 4);
 				mGrid.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 4);
 				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 2, 4);
-				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesShadeC, 0, 4);
 
 				//All of the views except for the map sit below the action bar
 				mGrid.setContainerToRow(mHotelListC, 1);
@@ -782,7 +718,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mGrid.setContainerToRowSpan(mBgHotelMapC, 0, 1);
 				mGrid.setContainerToRowSpan(mBgHotelMapTouchDelegateC, 0, 1);
 				mGrid.setContainerToRow(mHotelRoomsAndRatesC, 1);
-				mGrid.setContainerToRow(mHotelRoomsAndRatesShadeC, 1);
 			}
 			else {
 				mGrid.setGridSize(2, 2);
@@ -793,7 +728,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mGrid.setContainerToColumnSpan(mBgHotelMapC, 0, 1);
 				mGrid.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 1);
 				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 0, 1);
-				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesShadeC, 0, 1);
 			}
 
 			//tell the map where its bounds are
@@ -968,6 +902,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 			else if (stateOne == ResultsHotelsState.ADDING_HOTEL_TO_TRIP
 				&& stateTwo == ResultsHotelsState.HOTEL_LIST_DOWN) {
+				setRoomsAndRatesShownPercentage(1f - percentage);
+				mBgHotelMapC.setAlpha(1f - percentage);
 				mHotelListFrag.setPercentage(percentage, 0);
 			}
 			else if (stateTwo == ResultsHotelsState.ADDING_HOTEL_TO_TRIP) {
@@ -1046,9 +982,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 			case ADDING_HOTEL_TO_TRIP: {
 				setAddToTripPercentage(1f);
-				mParentAddToTripListener.beginAddToTrip(mHotelDetailsFrag.getSelectedData(),
-					mHotelDetailsFrag.getDestinationRect(), mShadeColor);
-				doAddToTripDownloadStuff();
+				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
 				break;
 			}
 			}
@@ -1114,12 +1048,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		 * ADD TO TRIP ANIMATION STUFF
 		 */
 		private void setAddToTripAnimationVis(boolean start) {
-			mHotelRoomsAndRatesShadeC.setVisibility(View.VISIBLE);
+
 		}
 
 		private void setAddToTripAnimationHardwareRendering(boolean useHardwareLayer) {
 			int layerType = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
-			mHotelRoomsAndRatesShadeC.setLayerType(layerType, null);
 			mHotelDetailsFrag.setTransitionToAddTripHardwareLayer(layerType);
 		}
 
@@ -1127,7 +1060,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			if (mHotelDetailsFrag != null) {
 				mHotelDetailsFrag.setTransitionToAddTripPercentage(percentage);
 			}
-			mHotelRoomsAndRatesShadeC.setAlpha(percentage);
 		}
 
 		/*
@@ -1138,7 +1070,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			if (state == ResultsHotelsState.ADDING_HOTEL_TO_TRIP) {
 				if (!mRoomsAndRatesInFront) {
-					mHotelRoomsAndRatesShadeC.bringToFront();
 					mHotelRoomsAndRatesC.bringToFront();
 					mRoomsAndRatesInFront = true;
 				}
@@ -1186,5 +1117,14 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				Ui.showToast(context, "FAIL FAIL FAIL - HOTEL SEARCH ERROR");
 			}
 		}
+	}
+
+	/**
+	 * IAddToBucketListener
+	 */
+	@Override
+	public void onItemAddedToBucket() {
+		//TODO: EVENTUALLY WE WANT TO ANIMATE THIS THING!
+		setHotelsState(ResultsHotelsState.ADDING_HOTEL_TO_TRIP, false);
 	}
 }

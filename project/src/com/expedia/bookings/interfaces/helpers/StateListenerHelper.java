@@ -43,16 +43,6 @@ public abstract class StateListenerHelper<T> implements IStateListener<T> {
 
 	@SuppressWarnings("unchecked")
 	private IStateProvider<T> findProvider(Fragment fragment) {
-
-		//TODO: We might want to do some crazy ass reflection here to find the correct state provider...
-
-		IStateProvider<T> retVal = null;
-		try {
-			retVal = Ui.findFragmentListener(fragment, IStateProvider.class);
-		}
-		catch (Exception ex) {
-			// ignore
-		}
-		return retVal;
+		return Ui.findFragmentListener(fragment, IStateProvider.class, false);
 	}
 }
