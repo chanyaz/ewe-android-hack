@@ -549,7 +549,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	}
 
 	private void populatePaymentDataFromUser() {
-		if(BookingInfoUtils.populatePaymentDataFromUser(getActivity(), LineOfBusiness.FLIGHTS)){
+		if (BookingInfoUtils.populatePaymentDataFromUser(getActivity(), LineOfBusiness.FLIGHTS)) {
 			mListener.onBillingInfoChange();
 			mBillingInfo = Db.getBillingInfo();
 		}

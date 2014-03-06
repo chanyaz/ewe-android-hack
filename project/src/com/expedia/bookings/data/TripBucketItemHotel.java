@@ -54,11 +54,11 @@ public class TripBucketItemHotel extends TripBucketItem {
 	}
 
 	public void setIsCouponApplied(boolean isCouponApplied) {
-		this.mIsCouponApplied = isCouponApplied;
+		mIsCouponApplied = isCouponApplied;
 	}
 
-	public void setCouponRate(Rate mCouponRate) {
-		this.mCouponRate = mCouponRate;
+	public void setCouponRate(Rate couponRate) {
+		mCouponRate = couponRate;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

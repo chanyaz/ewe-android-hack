@@ -62,7 +62,6 @@ import com.expedia.bookings.otto.Events.HotelProductDownloadSuccess;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.JodaUtils;
-import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -840,6 +839,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		case PAYMENT_FAILED:
 			String field = firstError.getExtra("field");
 			if (firstError.getErrorCode() == ServerError.ErrorCode.PAYMENT_FAILED) {
+				//TODO: probably shouldn't ignore
 			}
 			// Handle each type of failure differently
 			if ("cvv".equals(field)) {

@@ -105,10 +105,10 @@ public class TextView extends android.widget.TextView {
 		//			FontCache.setTypeface(view, Font.ROBOTO_MEDIUM_ITALIC);
 		//			break;
 		//		}
-				case MEDIUM: {
-					FontCache.setTypeface(view, Font.ROBOTO_MEDIUM);
-					break;
-				}
+		case MEDIUM: {
+			FontCache.setTypeface(view, Font.ROBOTO_MEDIUM);
+			break;
+		}
 		//		case ITALIC: {
 		//			FontCache.setTypeface(view, Font.ROBOTO_ITALIC);
 		//			break;

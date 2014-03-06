@@ -156,7 +156,7 @@ public class BookingInfoUtils {
 						return true;
 					}
 				}
-				else{
+				else {
 					//TODO: Investigate hotel restrictions
 					info.setStoredCard(scc);
 					return true;

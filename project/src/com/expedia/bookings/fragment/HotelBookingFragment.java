@@ -490,7 +490,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 
 	/**
 	 * This method initiates the coupon application process during checkout.
-	 * This fragment handles all the callbacks, errors and retries. 
+	 * This fragment handles all the callbacks, errors and retries.
 	 * Add {@link CouponDownloadStatusListener} to listen to coupon download status updates.
 	 * As of now coupons are applied for Hotels only.
 	 * @param couponCode

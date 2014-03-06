@@ -173,8 +173,8 @@ public class Events {
 	public static class CouponApplyDownloadSuccess {
 		public final Rate newRate;
 
-		public CouponApplyDownloadSuccess(Rate rate) {
-			this.newRate = rate;
+		public CouponApplyDownloadSuccess(Rate r) {
+			this.newRate = r;
 		}
 	}
 
@@ -184,8 +184,8 @@ public class Events {
 	public static class CouponRemoveDownloadSuccess {
 		public final Rate rate;
 
-		public CouponRemoveDownloadSuccess(Rate rate) {
-			this.rate = rate;
+		public CouponRemoveDownloadSuccess(Rate r) {
+			this.rate = r;
 		}
 	}
 
@@ -215,8 +215,8 @@ public class Events {
 	public static class BookingDownloadResponse {
 		public final Response response;
 
-		public BookingDownloadResponse(Response response) {
-			this.response = response;
+		public BookingDownloadResponse(Response r) {
+			this.response = r;
 		}
 	}
 

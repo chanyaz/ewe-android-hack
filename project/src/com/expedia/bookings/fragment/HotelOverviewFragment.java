@@ -351,7 +351,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 			refreshData();
 
-			if (!mHotelBookingFragment.isDownloadingHotelProduct() &&!mIsDoneLoadingPriceChange) {
+			if (!mHotelBookingFragment.isDownloadingHotelProduct() && !mIsDoneLoadingPriceChange) {
 				mHotelBookingFragment.startDownload(HotelBookingState.HOTEL_PRODUCT);
 			}
 		}
