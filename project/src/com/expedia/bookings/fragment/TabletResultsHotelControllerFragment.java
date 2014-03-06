@@ -44,7 +44,6 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilit
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
 
@@ -173,20 +172,14 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Subscribe
 	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
-		//TODO: This try catch is here because the StateManager throws exceptions because we are removing listeners in onFinalize state.
-		try {
-			Db.getHotelSearch().setSearchResponse(null);
-			Db.getHotelSearch().setSearchParams(Sp.getParams().toHotelSearchParams());
-			if (mHotelsStateManager.getState() != ResultsHotelsState.LOADING) {
-				setHotelsState(ResultsHotelsState.LOADING, false);
-			}
-			else {
-				mHotelSearchDownloadFrag.setSearchParams(Sp.getParams().toHotelSearchParams());
-				mHotelSearchDownloadFrag.startOrRestart();
-			}
+		Db.getHotelSearch().setSearchResponse(null);
+		Db.getHotelSearch().setSearchParams(Sp.getParams().toHotelSearchParams());
+		if (mHotelsStateManager.getState() != ResultsHotelsState.LOADING) {
+			setHotelsState(ResultsHotelsState.LOADING, false);
 		}
-		catch (Exception ex) {
-			Log.e("TabletResultsHotelControllerFragment.answerSearchParamUpdate - ex:", ex);
+		else {
+			mHotelSearchDownloadFrag.setSearchParams(Sp.getParams().toHotelSearchParams());
+			mHotelSearchDownloadFrag.startOrRestart();
 		}
 	}
 
