@@ -208,6 +208,17 @@
 
         <item name="hotelRoomRateRibbonLeft">@drawable/bg_normal_ribbon_left_travelocity</item>
         <item name="hotelDetailsTabletButtonStyle">@style/Widget.Button.Green</item>
+
+        <item name="userRatingTabletSnippetStyle">@style/RatingBarSmall.UserReview.Travelocity</item>
+        <item name="reviewsTitleTabletStyle">@style/RatingBarSmall.Shadowed.UserReview.Travelocity</item>
+
+    </style>
+
+    <!-- This is basically only used for TabletUserReviewsListActivity -->
+    <style name="Theme.Light.Fullscreen.Panel" parent="@style/Theme.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
     </style>
 
 </resources>

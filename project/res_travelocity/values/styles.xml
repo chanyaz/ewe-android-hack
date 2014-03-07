@@ -27,4 +27,13 @@
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">1</item>
     </style>
+
+    <style name="RatingBarSmall.UserReview.Travelocity">
+        <item name="android:progressDrawable">@drawable/user_rating_small_travelocity</item>
+    </style>
+
+    <style name="RatingBarSmall.Shadowed.UserReview.Travelocity">
+        <item name="android:progressDrawable">@drawable/user_rating_light_travelocity</item>
+    </style>
+
 </resources>

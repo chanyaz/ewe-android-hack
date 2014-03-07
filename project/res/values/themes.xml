@@ -44,6 +44,10 @@
 
         <item name="hotelRoomRateRibbonLeft">@drawable/bg_normal_ribbon_left</item>
         <item name="hotelDetailsTabletButtonStyle">@style/Widget.Button.Yellow</item>
+
+        <item name="userRatingTabletSnippetStyle">@style/RatingBarSmall.UserReview</item>
+        <item name="reviewsTitleTabletStyle">@style/RatingBarSmall.Shadowed.UserReview</item>
+
     </style>
 
     <style name="Theme.Tablet.Launcher" parent="@style/Theme.Sherlock.Light.DarkActionBar">
@@ -63,6 +67,7 @@
         <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
         <item name="searchBackgroundPortraitDrawable">@drawable/bg_search_portrait</item>
         <item name="searchBackgroundLandscapeDrawable">@drawable/bg_search_landscape</item>
+
     </style>
 
     <style name="TabletLauncherActionBar" parent="Widget.Sherlock.ActionBar">
