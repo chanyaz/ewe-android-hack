@@ -48,6 +48,8 @@
         <item name="userRatingTabletSnippetStyle">@style/RatingBarSmall.UserReview</item>
         <item name="reviewsTitleTabletStyle">@style/RatingBarSmall.Shadowed.UserReview</item>
 
+        <item name="hotelTabletStarRatingStyle">@style/RatingBarSmall.Shadowed.Star</item>
+
     </style>
 
     <style name="Theme.Tablet.Launcher" parent="@style/Theme.Sherlock.Light.DarkActionBar">

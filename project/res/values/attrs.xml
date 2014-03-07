@@ -334,4 +334,6 @@
     <attr name="userRatingTabletSnippetStyle" format="reference"/>
     <attr name="reviewsTitleTabletStyle" format="reference"/>
 
+    <attr name="hotelTabletStarRatingStyle" format="reference"/>
+
 </resources>

@@ -44,7 +44,7 @@
 
                     <RatingBar
                         android:id="@+id/hotel_rating_bar"
-                        style="@style/RatingBarSmall.Shadowed.Star"
+                        style="?attr/hotelTabletStarRatingStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"

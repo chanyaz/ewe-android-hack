@@ -219,6 +219,7 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
+        <item name="hotelTabletStarRatingStyle">@style/RatingBarSmall.Shadowed.StarTravelocity</item>
     </style>
 
 </resources>
