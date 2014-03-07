@@ -438,4 +438,7 @@
     <attr name="itinHotelAttachButtonDrawable" format="reference"/>
     <attr name="itinDismissListSelectorDrawable" format="reference"/>
 
+    <attr name="itinTabletCardPopupBackgroundDrawable" format="reference"/>
+    <attr name="itinTabletCardPopupHeaderDrawable" format="reference"/>
+
 </resources>
