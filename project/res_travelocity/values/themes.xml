@@ -172,7 +172,7 @@
         <item name="simpleNumberPickerDownButtonStyle">@style/NumberPickerButton.Down</item>
         <item name="simpleNumberPickerInputTextStyle">@style/NumberPickerText</item>
         <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
-        <item name="hotelSearchButtonStyle">@style/Widget.Button.Search.Travelocity</item>
+        <item name="hotelSearchButtonStyle">@style/Widget.Button.Green.Travelocity</item>
         <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
         <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_tvly</item>
         <item name="searchBackgroundPortraitDrawable">@drawable/bg_search_portrait_travelocity</item>
@@ -207,6 +207,7 @@
         <item name="calendarRangeEndCellDrawable">@drawable/bg_calendar_cell_range_end_travelocity</item>
 
         <item name="hotelRoomRateRibbonLeft">@drawable/bg_normal_ribbon_left_travelocity</item>
+        <item name="hotelDetailsTabletButtonStyle">@style/Widget.Button.Green</item>
     </style>
 
 </resources>

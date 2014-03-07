@@ -153,7 +153,7 @@
 
     <com.mobiata.android.widget.AutoResizeTextView
         android:id="@+id/more_button"
-        style="@style/Widget.Button.Yellow"
+        style="?attr/hotelDetailsTabletButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginBottom="10dp"

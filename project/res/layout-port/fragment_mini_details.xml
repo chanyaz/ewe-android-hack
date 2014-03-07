@@ -99,7 +99,7 @@
 
     <Button
         android:id="@+id/more_button"
-        style="@style/Widget.Button.Yellow"
+        style="?attr/hotelDetailsTabletButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

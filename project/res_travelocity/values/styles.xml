@@ -15,11 +15,11 @@
         <item name="android:background">@drawable/bg_action_bar_travelocity</item>
     </style>
 
-    <style name="Widget.Button.Search.Travelocity">
+    <style name="Widget.Button.Green.Travelocity">
         <item name="android:background">@drawable/btn_search_hotels_travelocity</item>
     </style>
 
-    <style name="Widget.Button.Search" parent="@android:style/Widget.Button">
+    <style name="Widget.Button.Green" parent="@android:style/Widget.Button">
         <item name="android:background">@drawable/btn_green</item>
         <item name="android:textColor">@color/btn_green_text_color</item>
         <item name="android:shadowColor">#a5ffffff</item>

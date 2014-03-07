@@ -329,5 +329,6 @@
     <attr name="itinTabletCardPopupHeaderDrawable" format="reference"/>
 
     <attr name="hotelRoomRateRibbonLeft" format="reference"/>
+    <attr name="hotelDetailsTabletButtonStyle" format="reference"/>
 
 </resources>
