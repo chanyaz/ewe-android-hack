@@ -95,12 +95,6 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		mFilter = Db.getFlightSearch().getFilter(mLegNumber);
-	}
-
-	@Override
 	public void onResume() {
 		super.onResume();
 		bindAll();
@@ -108,14 +102,24 @@ public class ResultsFlightFiltersFragment extends Fragment {
 
 	public void onFilterChanged() {
 		mFilter.notifyFilterChanged();
-
 		bindAll();
 	}
 
-	private void bindAll() {
-		bindSortFilter();
-		bindAirportFilter();
-		buildAirlineList();
+	public boolean requiredDataInDb() {
+		return Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null;
+	}
+
+	public void bindAll() {
+		if (mSortGroup != null && requiredDataInDb()) {
+			refreshDbFilter();
+			bindSortFilter();
+			bindAirportFilter();
+			buildAirlineList();
+		}
+	}
+
+	public void refreshDbFilter() {
+		mFilter = Db.getFlightSearch().getFilter(mLegNumber);
 	}
 
 	private void bindSortFilter() {
@@ -164,11 +168,12 @@ public class ResultsFlightFiltersFragment extends Fragment {
 
 		Set<String> departureAirports = query.getDepartureAirportCodes();
 		mDepartureAirportFilterWidget
-				.bind(mLegNumber, true, departureAirports, mFilter, mAirportOnCheckedChangeListener, mAirportPopupListener);
+			.bind(mLegNumber, true, departureAirports, mFilter, mAirportOnCheckedChangeListener, mAirportPopupListener);
 		mDepartureAirportsHeader.setVisibility(departureAirports.size() < 2 ? View.GONE : View.VISIBLE);
 
 		Set<String> arrivalAirports = query.getArrivalAirportCodes();
-		mArrivalAirportFilterWidget.bind(mLegNumber, false, arrivalAirports, mFilter, mAirportOnCheckedChangeListener, mAirportPopupListener);
+		mArrivalAirportFilterWidget
+			.bind(mLegNumber, false, arrivalAirports, mFilter, mAirportOnCheckedChangeListener, mAirportPopupListener);
 		mArrivalAirportsHeader.setVisibility(arrivalAirports.size() < 2 ? View.GONE : View.VISIBLE);
 	}
 

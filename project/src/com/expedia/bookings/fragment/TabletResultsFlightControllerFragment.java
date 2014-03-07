@@ -324,6 +324,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		else if (tag == FTAG_FLIGHT_TWO_DETAILS) {
 			updateDetailsFragSizes((ResultsFlightDetailsFragment) frag);
 		}
+		else if (tag == FTAG_FLIGHT_ONE_FILTERS) {
+			((ResultsFlightFiltersFragment) frag).bindAll();
+		}
+		else if (tag == FTAG_FLIGHT_TWO_FILTERS) {
+			((ResultsFlightFiltersFragment) frag).bindAll();
+		}
 	}
 
 	private void updateDetailsFragSizes(ResultsFlightDetailsFragment frag) {
@@ -579,7 +585,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			FTAG_FLIGHT_ONE_LIST, manager, transaction, this, R.id.flight_one_list, false);
 		mFlightOneFilterFrag = (ResultsFlightFiltersFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			flightOneFiltersAvailable,
-			FTAG_FLIGHT_ONE_FILTERS, manager, transaction, this, R.id.flight_one_filters, false);
+			FTAG_FLIGHT_ONE_FILTERS, manager, transaction, this, R.id.flight_one_filters, true);
 		mFlightOneDetailsFrag = (ResultsFlightDetailsFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			flightOneDetailsAvailable,
 			FTAG_FLIGHT_ONE_DETAILS, manager, transaction, this, R.id.flight_one_details, true);
@@ -588,7 +594,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			FTAG_FLIGHT_TWO_LIST, manager, transaction, this, R.id.flight_two_list, false);
 		mFlightTwoFilterFrag = (ResultsFlightFiltersFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			flightTwoFiltersAvailabe,
-			FTAG_FLIGHT_TWO_FILTERS, manager, transaction, this, R.id.flight_two_filters, false);
+			FTAG_FLIGHT_TWO_FILTERS, manager, transaction, this, R.id.flight_two_filters, true);
 		mFlightTwoDetailsFrag = (ResultsFlightDetailsFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			flightTwoDetailsAvailable,
 			FTAG_FLIGHT_TWO_DETAILS, manager, transaction, this, R.id.flight_two_details, true);
