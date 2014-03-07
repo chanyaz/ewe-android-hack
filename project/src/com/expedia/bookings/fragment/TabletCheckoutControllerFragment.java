@@ -82,6 +82,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private static final String FRAG_TAG_BUCKET_FLIGHT = "FRAG_TAG_BUCKET_FLIGHT";
 	private static final String FRAG_TAG_BUCKET_HOTEL = "FRAG_TAG_BUCKET_HOTEL";
 	private static final String FRAG_TAG_CHECKOUT_INFO = "FRAG_TAG_CHECKOUT_INFO";
+	private static final String FRAG_TAG_SLIDE_TO_PURCHASE = "FRAG_TAG_SLIDE_TO_PURCHASE";
 	private static final String FRAG_TAG_CVV = "FRAG_TAG_CVV";
 	private static final String FRAG_TAG_BOOK_FLIGHT = "FRAG_TAG_BOOK_FLIGHT";
 	private static final String FRAG_TAG_CONF_FLIGHT = "FRAG_TAG_CONF_FLIGHT";
@@ -108,6 +109,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private TripBucketFlightFragment mBucketFlightFrag;
 	private TripBucketHotelFragment mBucketHotelFrag;
 	private TabletCheckoutFormsFragment mCheckoutFragment;
+	private TabletCheckoutSlideFragment mSlideFragment;
 	private CVVEntryFragment mCvvFrag;
 	private FlightBookingFragment mFlightBookingFrag;
 	private HotelBookingFragment mHotelBookingFrag;
@@ -161,21 +163,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		mSlideAndFormContainer = Ui.findView(mRootC, R.id.checkout_forms_and_slide_container);
 		mFormContainer = Ui.findView(mRootC, R.id.checkout_forms_container);
-		mSlideContainer = Ui.findView(mRootC, R.id.finish_checkout_container);
+		mSlideContainer = Ui.findView(mRootC, R.id.slide_container);
 		mCvvContainer = Ui.findView(mRootC, R.id.cvv_container);
 		mBookingContainer = Ui.findView(mRootC, R.id.booking_container);
 		mConfirmationContainer = Ui.findView(mRootC, R.id.confirmation_container);
-
-		//TODO: This button stuff should be temporary
-		View cvvBtn = Ui.findView(mRootC, R.id.goto_cvv_btn);
-		cvvBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				setCheckoutState(CheckoutState.CVV, true);
-			}
-		});
-		//END TODO ZONE
-
 
 		mBucketDateRange = Ui.findView(mRootC, R.id.trip_date_range);
 		String dateRange;
@@ -259,6 +250,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public void onLobSet(LineOfBusiness lob) {
 		if (mCheckoutFragment != null) {
 			mCheckoutFragment.setLob(lob);
+		}
+		if (mSlideFragment != null) {
+			mSlideFragment.setLob(lob);
 		}
 	}
 
@@ -554,25 +548,30 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		boolean flightBucketItemAvailable = true;
 		boolean hotelBucketItemAvailable = true;
 		boolean checkoutFormsAvailable = true;
+		boolean slideToPurchaseAvailable = true;
 		boolean cvvAvailable = state != CheckoutState.OVERVIEW;//If we are in cvv mode or are ready to enter it, we add cvv
 		boolean flightBookingFragAvail = state.ordinal() >= CheckoutState.READY_FOR_CHECKOUT.ordinal(); // TODO talk to Joel
 
 		boolean mFlightConfAvailable = state == CheckoutState.CONFIRMATION && getLob() == LineOfBusiness.FLIGHTS;
 		boolean mHotelConfAvailable = state == CheckoutState.CONFIRMATION && getLob() == LineOfBusiness.HOTELS;
 
-		mBucketFlightFrag = (TripBucketFlightFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+		mBucketFlightFrag = FragmentAvailabilityUtils.setFragmentAvailability(
 			flightBucketItemAvailable, FRAG_TAG_BUCKET_FLIGHT,
 			manager, transaction, this, R.id.bucket_flight_frag_container, false);
 
-		mBucketHotelFrag = (TripBucketHotelFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+		mBucketHotelFrag = FragmentAvailabilityUtils.setFragmentAvailability(
 			hotelBucketItemAvailable, FRAG_TAG_BUCKET_HOTEL,
 			manager, transaction, this, R.id.bucket_hotel_frag_container, false);
 
-		mCheckoutFragment = (TabletCheckoutFormsFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+		mCheckoutFragment = FragmentAvailabilityUtils.setFragmentAvailability(
 			checkoutFormsAvailable, FRAG_TAG_CHECKOUT_INFO, manager, transaction, this,
 			R.id.checkout_forms_container, false);
 
-		mCvvFrag = (CVVEntryFragment) FragmentAvailabilityUtils.setFragmentAvailability(cvvAvailable, FRAG_TAG_CVV,
+		mSlideFragment = FragmentAvailabilityUtils.setFragmentAvailability(
+			slideToPurchaseAvailable, FRAG_TAG_SLIDE_TO_PURCHASE, manager, transaction, this,
+			R.id.slide_container, false);
+
+		mCvvFrag = FragmentAvailabilityUtils.setFragmentAvailability(cvvAvailable, FRAG_TAG_CVV,
 			manager, transaction, this, R.id.cvv_container, false);
 
 		mFlightBookingFrag = FragmentAvailabilityUtils.setFragmentAvailability(flightBookingFragAvail,
@@ -642,6 +641,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		else if (FRAG_TAG_CHECKOUT_INFO.equals(tag)) {
 			return mCheckoutFragment;
 		}
+		else if (FRAG_TAG_SLIDE_TO_PURCHASE.equals(tag)) {
+			return mSlideFragment;
+		}
 		else if (FRAG_TAG_CVV.equals(tag)) {
 			return mCvvFrag;
 		}
@@ -670,6 +672,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else if (FRAG_TAG_CHECKOUT_INFO.equals(tag)) {
 			return TabletCheckoutFormsFragment.newInstance();
+		}
+		else if (FRAG_TAG_SLIDE_TO_PURCHASE.equals(tag)) {
+			return TabletCheckoutSlideFragment.newInstance();
 		}
 		else if (FRAG_TAG_CVV.equals(tag)) {
 			//return CVVEntryFragment.newInstance(getActivity(), Db.getBillingInfo());
@@ -704,6 +709,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else if (FRAG_TAG_CHECKOUT_INFO.equals(tag)) {
 			((TabletCheckoutFormsFragment) frag).setLob(getLob());
+		}
+		else if (FRAG_TAG_SLIDE_TO_PURCHASE.equals(tag)) {
+			((TabletCheckoutSlideFragment)frag).setLob(getLob());
 		}
 	}
 

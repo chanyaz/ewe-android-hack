@@ -121,7 +121,7 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 	public void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		updateLobFromIntent(intent);
-		mFragCheckoutController.setCheckoutState(CheckoutState.OVERVIEW, false);
+		setCheckoutState(CheckoutState.OVERVIEW, false);
 	}
 
 	private void updateLobFromIntent(Intent intent) {
@@ -212,29 +212,35 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 
 			if (groupId == CheckoutState.OVERVIEW.ordinal() && id == CheckoutState.OVERVIEW.ordinal()) {
 				Log.d("JumpTo: OVERVIEW");
-				mFragCheckoutController.setCheckoutState(CheckoutState.OVERVIEW, true);
+				setCheckoutState(CheckoutState.OVERVIEW, true);
 				return true;
 			}
 			else if (groupId == CheckoutState.READY_FOR_CHECKOUT.ordinal()
 				&& id == CheckoutState.READY_FOR_CHECKOUT.ordinal()) {
-				mFragCheckoutController.setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
+				setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
 				return true;
 			}
 			else if (groupId == CheckoutState.CVV.ordinal() && id == CheckoutState.CVV.ordinal()) {
-				mFragCheckoutController.setCheckoutState(CheckoutState.CVV, true);
+				setCheckoutState(CheckoutState.CVV, true);
 				return true;
 			}
 			else if (groupId == CheckoutState.BOOKING.ordinal() && id == CheckoutState.BOOKING.ordinal()) {
-				mFragCheckoutController.setCheckoutState(CheckoutState.BOOKING, true);
+				setCheckoutState(CheckoutState.BOOKING, true);
 				return true;
 			}
 			else if (groupId == CheckoutState.CONFIRMATION.ordinal() && id == CheckoutState.CONFIRMATION.ordinal()) {
-				mFragCheckoutController.setCheckoutState(CheckoutState.CONFIRMATION, true);
+				setCheckoutState(CheckoutState.CONFIRMATION, true);
 				return true;
 			}
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	public void setCheckoutState(CheckoutState state, boolean animate) {
+		if (mFragCheckoutController != null) {
+			mFragCheckoutController.setCheckoutState(state, animate);
+		}
 	}
 
 	/*
