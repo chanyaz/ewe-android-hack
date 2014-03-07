@@ -42,6 +42,7 @@
         <item name="calendarRangeStartCellDrawable">@drawable/bg_calendar_cell_range_start</item>
         <item name="calendarRangeEndCellDrawable">@drawable/bg_calendar_cell_range_end</item>
 
+        <item name="hotelRoomRateRibbonLeft">@drawable/bg_normal_ribbon_left</item>
     </style>
 
     <style name="Theme.Tablet.Launcher" parent="@style/Theme.Sherlock.Light.DarkActionBar">

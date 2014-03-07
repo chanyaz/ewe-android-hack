@@ -328,4 +328,6 @@
     <attr name="itinTabletCardPopupBackgroundDrawable" format="reference"/>
     <attr name="itinTabletCardPopupHeaderDrawable" format="reference"/>
 
+    <attr name="hotelRoomRateRibbonLeft" format="reference"/>
+
 </resources>

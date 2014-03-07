@@ -206,6 +206,7 @@
         <item name="calendarRangeStartCellDrawable">@drawable/bg_calendar_cell_range_start_travelocity</item>
         <item name="calendarRangeEndCellDrawable">@drawable/bg_calendar_cell_range_end_travelocity</item>
 
+        <item name="hotelRoomRateRibbonLeft">@drawable/bg_normal_ribbon_left_travelocity</item>
     </style>
 
 </resources>
