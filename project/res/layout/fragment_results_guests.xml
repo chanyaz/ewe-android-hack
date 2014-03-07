@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -23,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textSize="96dp"
-                android:textColor="#FFFFFF"
+                android:textColor="#3F3F3F"
                 android:layout_weight="1"
                 android:text="-" />
 
@@ -34,14 +35,15 @@
                 android:layout_weight="0"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                app:backgroundColor="#80000000"
-                app:captionTextColor="#ffffff"
-                app:captionTextSize="14sp"
+                app:backgroundColor="#6F6F6F"
                 app:countTextColor="#ffffff"
+                app:captionTextColor="#ffffff"
+                app:primaryColor="#0FCFCF"
+                app:secondaryColor="#3f3f3f"
+                app:captionTextSize="14sp"
                 app:countTextSize="36sp"
-                app:primaryColor="#66ace3"
                 app:ringThickness="8dp"
-                app:secondaryColor="#ffffff" />
+                 />
 
             <TextView
                 android:id="@+id/adults_plus"
@@ -49,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_weight="1"
-                android:textColor="#FFFFFF"
+                android:textColor="#3F3F3F"
                 android:textSize="64dp"
                 android:text="+" />
         </LinearLayout>
@@ -67,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textSize="96dp"
-                android:textColor="#FFFFFF"
+                android:textColor="#3F3F3F"
                 android:layout_weight="1"
                 android:text="-" />
 
@@ -78,14 +80,15 @@
                 android:layout_weight="0"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                app:backgroundColor="#80000000"
-                app:captionTextColor="#ffffff"
-                app:captionTextSize="12sp"
+                app:backgroundColor="#6F6F6F"
                 app:countTextColor="#ffffff"
-                app:countTextSize="32sp"
-                app:primaryColor="#66ace3"
+                app:captionTextColor="#ffffff"
+                app:primaryColor="#0FCFCF"
+                app:secondaryColor="#3f3f3f"
                 app:ringThickness="6dp"
-                app:secondaryColor="#ffffff" />
+                app:captionTextSize="12sp"
+                app:countTextSize="32sp"
+                 />
 
             <TextView
                 android:id="@+id/children_plus"
@@ -93,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_weight="1"
-                android:textColor="#FFFFFF"
+                android:textColor="#3F3F3F"
                 android:textSize="64dp"
                 android:text="+" />
         </LinearLayout>

@@ -86,7 +86,7 @@
         android:id="@+id/widget_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#CC000000">
+        android:background="#FFFFFF">
 
         <com.expedia.bookings.widget.FrameLayoutTouchController
             android:id="@+id/calendar_container"
