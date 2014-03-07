@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import com.expedia.bookings.data.FlightHistogram;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.mobiata.android.Log;
-import com.mobiata.android.net.JsonResponseHandler;
 
 public class FlightSearchHistogramResponseHandler extends JsonResponseHandler<FlightSearchHistogramResponse> {
 

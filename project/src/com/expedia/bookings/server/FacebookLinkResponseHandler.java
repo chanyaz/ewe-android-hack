@@ -7,7 +7,6 @@ import android.content.Context;
 import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FacebookLinkResponse.FacebookLinkResponseCode;
 import com.mobiata.android.Log;
-import com.mobiata.android.net.JsonResponseHandler;
 
 public class FacebookLinkResponseHandler extends JsonResponseHandler<FacebookLinkResponse> {
 

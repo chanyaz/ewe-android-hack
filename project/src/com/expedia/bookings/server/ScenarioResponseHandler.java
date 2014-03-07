@@ -4,7 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.expedia.bookings.data.ScenarioResponse;
-import com.mobiata.android.net.JsonResponseHandler;
 
 public class ScenarioResponseHandler extends JsonResponseHandler<ScenarioResponse> {
 

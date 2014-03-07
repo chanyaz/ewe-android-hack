@@ -3,7 +3,6 @@ package com.expedia.bookings.server;
 import org.json.JSONObject;
 
 import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
-import com.mobiata.android.net.JsonResponseHandler;
 
 public class TripShareUrlShortenerHandler extends JsonResponseHandler<TripShareUrlShortenerResponse> {
 

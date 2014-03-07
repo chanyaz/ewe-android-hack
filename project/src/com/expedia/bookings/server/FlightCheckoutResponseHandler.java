@@ -11,7 +11,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
-import com.mobiata.android.net.JsonResponseHandler;
 
 public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightCheckoutResponse> {
 

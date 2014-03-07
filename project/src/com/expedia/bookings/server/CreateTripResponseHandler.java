@@ -14,7 +14,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.ServerError;
 import com.mobiata.android.Log;
-import com.mobiata.android.net.JsonResponseHandler;
 
 public class CreateTripResponseHandler extends JsonResponseHandler<CreateTripResponse> {
 

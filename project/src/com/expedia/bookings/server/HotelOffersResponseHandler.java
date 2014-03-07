@@ -34,7 +34,6 @@ import com.mobiata.android.FormatUtils;
 import com.mobiata.android.FormatUtils.Conjunction;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.net.JsonResponseHandler;
 
 public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersResponse> {
 

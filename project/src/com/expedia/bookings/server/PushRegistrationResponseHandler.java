@@ -6,7 +6,6 @@ import android.content.Context;
 
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.mobiata.android.Log;
-import com.mobiata.android.net.JsonResponseHandler;
 
 public class PushRegistrationResponseHandler extends JsonResponseHandler<PushNotificationRegistrationResponse> {
 

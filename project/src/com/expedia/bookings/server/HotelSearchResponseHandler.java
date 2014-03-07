@@ -5,10 +5,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ResponseHandler;
 import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonToken;
 
@@ -28,7 +26,6 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.utils.LoggingInputStream;
 import com.mobiata.android.Log;
-import com.mobiata.android.net.AndroidHttpClient;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
@@ -58,22 +55,20 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 	}
 
 	@Override
-	public HotelSearchResponse handleResponse(HttpResponse response) throws IOException {
+	public HotelSearchResponse handleResponse(com.squareup.okhttp.Response response) throws IOException {
 		if (response == null) {
 			return null;
 		}
 
 		if (Log.isLoggingEnabled()) {
 			StringBuilder httpInfo = new StringBuilder();
-			httpInfo.append(response.getStatusLine().toString());
-			for (Header header : response.getAllHeaders()) {
-				httpInfo.append(" ");
-				httpInfo.append(header.toString());
-			}
+			httpInfo.append(response.statusLine());
+			httpInfo.append("\n");
+			httpInfo.append(response.headers().toString());
 			Log.v(httpInfo.toString());
 		}
 
-		InputStream in = AndroidHttpClient.getUngzippedContent(response.getEntity());
+		InputStream in = response.body().byteStream();
 		if (!mIsRelease) {
 			// Only wire this up on debug builds
 			in = new LoggingInputStream(in);
@@ -84,9 +79,14 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 
 		Log.d("Starting to read streaming search response...");
 
-		HotelSearchResponse searchResponse = readSearchResponse(parser);
-
-		parser.close();
+		HotelSearchResponse searchResponse = null;
+		try {
+			searchResponse = readSearchResponse(parser);
+		}
+		catch (JsonParseException e) {
+			searchResponse = null;
+			in.close();
+		}
 
 		return searchResponse;
 	}
@@ -102,6 +102,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		HotelSearchResponse searchResponse = readSearchResponse(parser);
 
 		parser.close();
+		in.close();
 
 		return searchResponse;
 	}

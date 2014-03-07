@@ -7,7 +7,6 @@ import android.content.Context;
 import com.expedia.bookings.data.BackgroundImageResponse;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
-import com.mobiata.android.net.JsonResponseHandler;
 
 public class BackgroundImageResponseHandler extends JsonResponseHandler<BackgroundImageResponse> {
 	private Context mContext;

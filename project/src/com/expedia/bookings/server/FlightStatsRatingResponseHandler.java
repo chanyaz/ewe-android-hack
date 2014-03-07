@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import com.expedia.bookings.data.FlightStatsRating;
 import com.expedia.bookings.data.FlightStatsRatingResponse;
 import com.mobiata.android.Log;
-import com.mobiata.android.net.JsonResponseHandler;
 
 public class FlightStatsRatingResponseHandler extends JsonResponseHandler<FlightStatsRatingResponse> {
 

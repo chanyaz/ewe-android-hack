@@ -6,7 +6,6 @@ import org.json.JSONObject;
 
 import com.expedia.bookings.data.FlightStatsFlightResponse;
 import com.mobiata.android.Log;
-import com.mobiata.android.net.JsonResponseHandler;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;

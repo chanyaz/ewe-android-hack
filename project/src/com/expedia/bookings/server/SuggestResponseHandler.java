@@ -9,7 +9,6 @@ import com.expedia.bookings.data.Suggestion;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.net.JsonResponseHandler;
 
 public class SuggestResponseHandler extends JsonResponseHandler<SuggestResponse> {
 

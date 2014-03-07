@@ -13,7 +13,6 @@ import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.net.JsonResponseHandler;
 
 public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse> {
 

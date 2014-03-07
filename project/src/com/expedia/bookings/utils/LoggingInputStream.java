@@ -36,7 +36,7 @@ public class LoggingInputStream extends FilterInputStream {
 	}
 
 	private void recordBytes(byte[] buffer, int offset, int readBytes) {
-		if (!isFull()) {
+		if (!isFull() && readBytes > 0) {
 			String str = new String(buffer, offset, offset + readBytes);
 			mData.append(str);
 		}

@@ -25,7 +25,6 @@ import com.expedia.bookings.data.UserPreference;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.net.JsonResponseHandler;
 
 public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 

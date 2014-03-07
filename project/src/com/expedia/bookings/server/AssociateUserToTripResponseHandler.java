@@ -11,7 +11,6 @@ import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
-import com.mobiata.android.net.JsonResponseHandler;
 
 public class AssociateUserToTripResponseHandler extends JsonResponseHandler<AssociateUserToTripResponse> {
 

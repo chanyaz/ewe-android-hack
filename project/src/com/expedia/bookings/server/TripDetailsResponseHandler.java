@@ -8,7 +8,6 @@ import android.content.Context;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.mobiata.android.Log;
-import com.mobiata.android.net.JsonResponseHandler;
 
 public class TripDetailsResponseHandler extends JsonResponseHandler<TripDetailsResponse> {
 

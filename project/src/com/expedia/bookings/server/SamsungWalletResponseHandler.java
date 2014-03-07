@@ -11,7 +11,6 @@ import android.content.Context;
 import com.expedia.bookings.data.SamsungWalletResponse;
 import com.expedia.bookings.data.ServerError;
 import com.mobiata.android.Log;
-import com.mobiata.android.net.JsonResponseHandler;
 
 public class SamsungWalletResponseHandler extends JsonResponseHandler<SamsungWalletResponse> {
 

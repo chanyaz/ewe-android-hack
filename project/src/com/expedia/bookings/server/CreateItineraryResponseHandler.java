@@ -18,7 +18,6 @@ import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.data.ValidPayment;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.mobiata.android.Log;
-import com.mobiata.android.net.JsonResponseHandler;
 
 public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateItineraryResponse> {
 

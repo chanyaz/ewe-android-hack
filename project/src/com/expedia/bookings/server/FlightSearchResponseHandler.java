@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,10 +18,10 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
-import com.mobiata.android.net.JsonResponseHandler;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
+import com.squareup.okhttp.Response;
 
 /**
  * An E3 flight search response parser.
@@ -48,7 +47,7 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 	}
 
 	@Override
-	public FlightSearchResponse handleResponse(HttpResponse response) throws IOException {
+	public FlightSearchResponse handleResponse(Response response) throws IOException {
 		long start = System.nanoTime();
 		super.handleResponse(response);
 		Log.d("Flight search response parse time: " + ((System.nanoTime() - start) / 1000000) + " ms; # trips="

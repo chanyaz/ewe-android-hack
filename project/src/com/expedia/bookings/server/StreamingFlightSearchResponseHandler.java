@@ -7,9 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ResponseHandler;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonToken;
@@ -26,11 +23,11 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.utils.LoggingInputStream;
 import com.mobiata.android.Log;
-import com.mobiata.android.net.AndroidHttpClient;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
+import com.squareup.okhttp.Response;
 
 /**
  * A streaming flight search results parser.
@@ -58,22 +55,20 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 	}
 
 	@Override
-	public FlightSearchResponse handleResponse(HttpResponse response) throws IOException {
+	public FlightSearchResponse handleResponse(Response response) throws IOException {
 		if (response == null) {
 			return null;
 		}
 
 		if (Log.isLoggingEnabled()) {
 			StringBuilder httpInfo = new StringBuilder();
-			httpInfo.append(response.getStatusLine().toString());
-			for (Header header : response.getAllHeaders()) {
-				httpInfo.append(" ");
-				httpInfo.append(header.toString());
-			}
+			httpInfo.append(response.statusLine());
+			httpInfo.append("\n");
+			httpInfo.append(response.headers().toString());
 			Log.v(httpInfo.toString());
 		}
 
-		InputStream in = AndroidHttpClient.getUngzippedContent(response.getEntity());
+		InputStream in = response.body().byteStream();
 		if (!mIsRelease) {
 			// Only wire this up on debug builds
 			in = new LoggingInputStream(in);

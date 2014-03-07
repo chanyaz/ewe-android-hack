@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import com.expedia.bookings.data.HotelAffinitySearchResponse;
 import com.expedia.bookings.data.Property;
 import com.mobiata.android.Log;
-import com.mobiata.android.net.JsonResponseHandler;
 
 public class HotelAffinitySearchResponseHandler extends JsonResponseHandler<HotelAffinitySearchResponse> {
 

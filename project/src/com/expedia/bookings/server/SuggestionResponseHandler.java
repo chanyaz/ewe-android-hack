@@ -16,7 +16,6 @@ import com.expedia.bookings.data.SuggestionV2.RegionType;
 import com.expedia.bookings.data.SuggestionV2.ResultType;
 import com.expedia.bookings.data.SuggestionV2.SearchType;
 import com.mobiata.android.Log;
-import com.mobiata.android.net.JsonResponseHandler;
 
 /**
  * Parses results from the Expedia suggest API

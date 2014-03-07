@@ -13,7 +13,6 @@ import com.expedia.bookings.data.RoutesResponse;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.net.JsonResponseHandler;
 import com.mobiata.flightlib.data.Airport;
 
 public class RoutesResponseHandler extends JsonResponseHandler<RoutesResponse> {

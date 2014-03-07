@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
@@ -19,28 +21,14 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.params.HttpClientParams;
-import org.apache.http.client.protocol.ClientContext;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.cookie.CookieSpecRegistry;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -123,6 +111,10 @@ import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.MediaType;
+
 @SuppressLint("SimpleDateFormat")
 public class ExpediaServices implements DownloadListener {
 
@@ -178,7 +170,8 @@ public class ExpediaServices implements DownloadListener {
 	private Context mContext;
 
 	// For cancelling requests
-	private HttpRequestBase mRequest;
+	private OkHttpClient mClient;
+	private Request mRequest;
 
 	// This is just so that the error messages aren't treated severely when a download is canceled - naturally,
 	// things kind of crash and burn when you kill the connection midway through.
@@ -295,7 +288,7 @@ public class ExpediaServices implements DownloadListener {
 			responseHandler.setType(SuggestResponseHandler.Type.HOTELS);
 		}
 
-		HttpGet get = NetUtils.createHttpGet(url, params);
+		Request.Builder get = createHttpGet(url, params);
 		get.addHeader("Accept", "application/json");
 
 		// Some logging before passing the request along^M
@@ -338,7 +331,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private SuggestionResponse doSuggestionRequest(String url, List<BasicNameValuePair> params) {
-		HttpGet get = NetUtils.createHttpGet(url, params);
+		Request.Builder get = createHttpGet(url, params);
 
 		// Make sure the response comes back as JSON
 		get.addHeader("Accept", "application/json");
@@ -1006,7 +999,9 @@ public class ExpediaServices implements DownloadListener {
 			Log.e("Couldn't add the long_url to the argument json");
 		}
 
-		HttpPost post = NetUtils.createHttpPost("http://e.xpda.co/v1/shorten", args.toString());
+		Request.Builder post = new Request.Builder().url("http://e.xpda.co/v1/shorten");
+		Request.Body body = Request.Body.create(MediaType.parse("application/json"), args.toString());
+		post.post(body);
 
 		// Make sure the response comes back as JSON
 		post.addHeader("Accept", "application/json");
@@ -1384,21 +1379,18 @@ public class ExpediaServices implements DownloadListener {
 		JSONObject payload, String regId) {
 
 		// Create the request
-		HttpPost post = NetUtils.createHttpPost(serverUrl, (List<BasicNameValuePair>) null);
-		post.setHeader("Content-type", "application/json");
+		Request.Builder post = new Request.Builder().url(serverUrl);
+		String data = payload.toString();
+		Request.Body body = Request.Body.create(MediaType.parse("application/json"), data);
+
+		// Adding the body sets the Content-type header for us
+		post.post(body);
+
 		if (PushNotificationUtils.REGISTRATION_URL_PRODUCTION.equals(serverUrl)) {
 			post.addHeader("MobiataPushName", "ExpediaBookings");
 		}
 		else {
 			post.addHeader("MobiataPushName", "ExpediaBookingsAlpha");
-		}
-
-		try {
-			StringEntity strEntity = new StringEntity(payload.toString());
-			post.setEntity(strEntity);
-		}
-		catch (UnsupportedEncodingException e) {
-			Log.e("Failure to create StringEntity", e);
 		}
 
 		if (!ExpediaBookingApp.IS_VSC && (AndroidUtils.isRelease(mContext)
@@ -1427,8 +1419,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 	}
 
-	public PushNotificationRegistrationResponse registerForPushNotifications(
-		ResponseHandler<PushNotificationRegistrationResponse> responseHandler, JSONObject payload, String regId) {
+	public PushNotificationRegistrationResponse registerForPushNotifications(ResponseHandler<PushNotificationRegistrationResponse> responseHandler, JSONObject payload, String regId) {
 		String serverUrl = PushNotificationUtils.getRegistrationUrl(mContext);
 		return registerForPushNotifications(serverUrl, responseHandler, payload, regId);
 	}
@@ -1472,14 +1463,11 @@ public class ExpediaServices implements DownloadListener {
 	//////////////////////////////////////////////////////////////////////////
 	// Request code
 
-	private <T extends Response> T doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
-													ResponseHandler<T> responseHandler, int flags) {
+	private <T extends Response> T doFlightsRequest(String targetUrl, List<BasicNameValuePair> params, ResponseHandler<T> responseHandler, int flags) {
 		return doE3Request(targetUrl, params, responseHandler, flags | F_FLIGHTS);
 	}
 
-	private <T extends Response> T doE3Request(String targetUrl, List<BasicNameValuePair> params,
-											   ResponseHandler<T> responseHandler, int flags) {
-
+	private <T extends Response> T doE3Request(String targetUrl, List<BasicNameValuePair> params, ResponseHandler<T> responseHandler, int flags) {
 		String serverUrl;
 
 		/*
@@ -1496,12 +1484,12 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		// Create the request
-		HttpRequestBase base;
+		Request.Builder base;
 		if ((flags & F_GET) != 0) {
-			base = NetUtils.createHttpGet(serverUrl, params);
+			base = createHttpGet(serverUrl, params);
 		}
 		else {
-			base = NetUtils.createHttpPost(serverUrl, params);
+			base = createHttpPost(serverUrl, params);
 		}
 
 		// Some logging before passing the request along
@@ -1513,64 +1501,59 @@ public class ExpediaServices implements DownloadListener {
 	private <T extends Response> T doBasicGetRequest(String url, List<BasicNameValuePair> params,
 		ResponseHandler<T> responseHandler) {
 
-		HttpRequestBase base = NetUtils.createHttpGet(url, params);
+		Request.Builder base = createHttpGet(url, params);
 
-		Log.d(TAG_REQUEST, "" + base.getURI().toString());
-
-		return doRequest(base, responseHandler, F_IGNORE_COOKIES);
-	}
-
-	private <T extends Response> T doFlightStatsRequest(String baseUrl, List<BasicNameValuePair> params,
-														ResponseHandler<T> responseHandler) {
-		HttpRequestBase base = NetUtils.createHttpGet(baseUrl, params);
+		Log.d(TAG_REQUEST, "" + url + "?" + NetUtils.getParamsForLogging(params));
 
 		return doRequest(base, responseHandler, F_IGNORE_COOKIES);
 	}
 
-	private <T extends Response> T doReviewsRequest(String url, List<BasicNameValuePair> params,
-													ResponseHandler<T> responseHandler) {
-		HttpGet get = NetUtils.createHttpGet(url, params);
+	private <T extends Response> T doFlightStatsRequest(String baseUrl, List<BasicNameValuePair> params, ResponseHandler<T> responseHandler) {
+		Request.Builder base = createHttpGet(baseUrl, params);
+		return doRequest(base, responseHandler, F_IGNORE_COOKIES);
+	}
 
-		Log.d(TAG_REQUEST, "User reviews request: " + get.getURI().toString());
+	private <T extends Response> T doReviewsRequest(String url, List<BasicNameValuePair> params, ResponseHandler<T> responseHandler) {
+		Request.Builder get = createHttpGet(url, params);
+
+		Log.d(TAG_REQUEST, "User reviews request: " + url + "?" + NetUtils.getParamsForLogging(params));
 
 		return doRequest(get, responseHandler, 0);
 	}
 
-	private <T extends Response> T doRequest(HttpRequestBase request, ResponseHandler<T> responseHandler, int flags) {
-		String userAgent = getUserAgentString(mContext);
+	private <T extends Response> T doRequest(Request.Builder request, ResponseHandler<T> responseHandler, int flags) {
+		final String userAgent = getUserAgentString(mContext);
 
-		mRequest = request;
-		AndroidHttpClient client = AndroidHttpClient.newInstance(userAgent, mContext);
-		AndroidHttpClient.modifyRequestToAcceptGzipResponse(mRequest);
-		HttpParams httpParameters = client.getParams();
-		HttpConnectionParams.setSoTimeout(httpParameters, 100000);
+		mClient = new OkHttpClient();
+		request.setUserAgent(userAgent);
+		//FIXME: Does this work already? AndroidHttpClient.modifyRequestToAcceptGzipResponse(mRequest);
+		mClient.setReadTimeout(100L, TimeUnit.SECONDS);
 
 		boolean ignoreCookies = (flags & F_IGNORE_COOKIES) != 0;
 		boolean logCookies = !AndroidUtils.isRelease(mContext)
 			&& SettingUtils.get(mContext, mContext.getString(R.string.preference_cookie_logging), false);
 
-		HttpContext httpContext = new BasicHttpContext();
 		PersistantCookieStore cookieStore = null;
 		boolean cookiesAreLoggedIn = User.isLoggedIn(mContext);
 		if (!ignoreCookies) {
 			// TODO: Find some way to keep this easily in memory so we're not saving/loading after each request.
 			cookieStore = getCookieStore(mContext);
-			httpContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
-			CookieSpecRegistry cookieSpecRegistry = new CookieSpecRegistry();
-			cookieSpecRegistry.register("EXPEDIA", new ExpediaCookieSpecFactory(mContext));
-			httpContext.setAttribute(ClientContext.COOKIESPEC_REGISTRY, cookieSpecRegistry);
+			//mClient.setCookieHandler(new CookieManager(cookieStore, CookiePolicy.ACCEPT_ALL));
+			// FIXME cookie store
+			// FIXME original cookie enforcement
 
 			if (logCookies) {
 				Log.v("Sending cookies:");
 				cookieStore.log();
 			}
-
-			HttpClientParams.setCookiePolicy(httpParameters, "EXPEDIA");
 		}
 
 		// 1902 - Allow redirecting from API calls
 		if ((flags & F_ALLOW_REDIRECT) != 0) {
-			HttpClientParams.setRedirecting(httpParameters, true);
+			mClient.setFollowProtocolRedirects(true);
+		}
+		else {
+			mClient.setFollowProtocolRedirects(false);
 		}
 
 		// When not a release build, allow SSL from all connections
@@ -1579,13 +1562,9 @@ public class ExpediaServices implements DownloadListener {
 				KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
 				trustStore.load(null, null);
 
-				SSLSocketFactory sf = new TrustingSSLSocketFactory(trustStore);
-				sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-
-				ClientConnectionManager ccm = client.getConnectionManager();
-				SchemeRegistry registry = ccm.getSchemeRegistry();
-				registry.unregister("https");
-				registry.register(new Scheme("https", sf, 443));
+				SSLSocketFactory trustingSocketFactory = new TrustingSSLSocketFactory(trustStore);
+				trustingSocketFactory.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+				//FIXME: mClient.setSslSocketFactory(trustingSocketFactory);
 			}
 			catch (Exception e) {
 				Log.w("Something sad happened during manipulation of SSL", e);
@@ -1595,8 +1574,11 @@ public class ExpediaServices implements DownloadListener {
 		// Make the request
 		long start = System.currentTimeMillis();
 		mCancellingDownload = false;
+		com.squareup.okhttp.Response response = null;
 		try {
-			T response = client.execute(mRequest, responseHandler, httpContext);
+			mRequest = request.build();
+			response = mClient.execute(mRequest);
+			Response processedResponse = responseHandler.handleResponse(response);
 			if (!ignoreCookies && !mCancellingDownload) {
 				if (cookiesAreLoggedIn != User.isLoggedIn(mContext)) {
 					//The login state has changed, so we should redo the network request with the appropriate new cookies
@@ -1613,7 +1595,7 @@ public class ExpediaServices implements DownloadListener {
 				cookieStore.save(mContext, COOKIES_FILE);
 
 			}
-			return response;
+			return (T) processedResponse;
 		}
 		catch (IOException e) {
 			if (mCancellingDownload) {
@@ -1624,7 +1606,14 @@ public class ExpediaServices implements DownloadListener {
 			}
 		}
 		finally {
-			client.close();
+			if (response != null) {
+				try {
+					response.body().close();
+				}
+				catch (IOException e) {
+					Log.e("Response body failed to close:", e);
+				}
+			}
 			Log.d("Total request time: " + (System.currentTimeMillis() - start) + " ms");
 			mRequest = null;
 		}
@@ -1800,14 +1789,14 @@ public class ExpediaServices implements DownloadListener {
 						// request has finished by the time we get here.  In
 						// that case, let's not NPE.
 						if (mRequest != null) {
-							mRequest.abort();
+							mClient.cancel(mRequest);
 							mRequest = null;
 						}
 					}
 				})).start();
 			}
 			else {
-				mRequest.abort();
+				mClient.cancel(mRequest);
 				mRequest = null;
 			}
 		}
@@ -1825,7 +1814,7 @@ public class ExpediaServices implements DownloadListener {
 	public ScenarioSetResponse setScenario(Scenario config) {
 		String serverUrl = getE3EndpointUrl(0) + config.getUrl();
 		Log.d(TAG_REQUEST, "Hitting scenario: " + serverUrl);
-		HttpGet get = new HttpGet(serverUrl);
+		Request.Builder get = new Request.Builder().url(serverUrl);
 		return doRequest(get, new ScenarioSetResponseHandler(), F_ALLOW_REDIRECT);
 	}
 
@@ -1876,5 +1865,19 @@ public class ExpediaServices implements DownloadListener {
 			Log.e("Exception getting the long url", e);
 		}
 		return null;
+	}
+
+	private Request.Builder createHttpGet(String url, List<BasicNameValuePair> params) {
+		Request.Builder req = new Request.Builder().url(url + "?" + NetUtils.getParamsForLogging(params));
+		return req;
+	}
+
+
+	private Request.Builder createHttpPost(String url, List<BasicNameValuePair> params) {
+		Request.Builder req = new Request.Builder().url(url);
+		String data = NetUtils.getParamsForLogging(params);
+		Request.Body body = Request.Body.create(MediaType.parse("application/x-www-form-urlencoded"), data);
+		req.post(body);
+		return req;
 	}
 }
