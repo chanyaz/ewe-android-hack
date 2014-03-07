@@ -9,11 +9,6 @@ import java.net.CookiePolicy;
 import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -27,7 +22,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
@@ -1559,12 +1553,9 @@ public class ExpediaServices implements DownloadListener {
 		// When not a release build, allow SSL from all connections
 		if ((flags & F_SECURE_REQUEST) != 0 && !AndroidUtils.isRelease(mContext)) {
 			try {
-				KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-				trustStore.load(null, null);
-
-				SSLSocketFactory trustingSocketFactory = new TrustingSSLSocketFactory(trustStore);
-				trustingSocketFactory.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-				//FIXME: mClient.setSslSocketFactory(trustingSocketFactory);
+				SSLContext socketContext = SSLContext.getInstance("TLS");
+				socketContext.init(null, mEasyTrustManager, new java.security.SecureRandom());
+				mClient.setSslSocketFactory(socketContext.getSocketFactory());
 			}
 			catch (Exception e) {
 				Log.w("Something sad happened during manipulation of SSL", e);
@@ -1819,38 +1810,22 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	// Automatically trusts all SSL certificates.  ONLY USE IN TESTING!
-	private class TrustingSSLSocketFactory extends SSLSocketFactory {
-		SSLContext sslContext = SSLContext.getInstance("TLS");
+	private static final TrustManager[] mEasyTrustManager = new TrustManager[] {
+		new X509TrustManager() {
+			public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+				// So easy
+			}
 
-		public TrustingSSLSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException,
-			KeyStoreException, UnrecoverableKeyException {
-			super(truststore);
+			public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+				// So easy
+			}
 
-			TrustManager tm = new X509TrustManager() {
-				public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-				}
-
-				public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-				}
-
-				public X509Certificate[] getAcceptedIssuers() {
-					return null;
-				}
-			};
-
-			sslContext.init(null, new TrustManager[] {tm}, null);
+			public X509Certificate[] getAcceptedIssuers() {
+				// So easy
+				return null;
+			}
 		}
-
-		@Override
-		public Socket createSocket(Socket socket, String host, int port, boolean autoClose) throws IOException {
-			return sslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
-		}
-
-		@Override
-		public Socket createSocket() throws IOException {
-			return sslContext.getSocketFactory().createSocket();
-		}
-	}
+	};
 
 	public String getLongUrl(String shortUrl) {
 		try {
