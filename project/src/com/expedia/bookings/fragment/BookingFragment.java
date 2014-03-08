@@ -218,6 +218,15 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	}
 
 	public void handleBookingErrorResponse(Response response, boolean isFlightLOB) {
+		/*
+		 *  If response is null let's just show a popup message
+		 *  and have users pick from "Retry" "Call Customer Support" or "Cancel" options.
+		 */
+		if (response == null) {
+			showBookingUnhandledErrorDialog(isFlightLOB);
+			return;
+		}
+
 		List<ServerError> errors = response.getErrors();
 
 		boolean hasCVVError = false;
@@ -385,11 +394,17 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			frag.show(getFragmentManager(), "googleWalletErrorDialog");
 			return;
 		default:
-			OmnitureTracking.trackErrorPageLoadFlightCheckout(getActivity());
+			if (isFlightLOB) {
+				OmnitureTracking.trackErrorPageLoadFlightCheckout(getActivity());
+			}
 			break;
 		}
 
 		// At this point, we haven't handled the error - use a generic response
+		showBookingUnhandledErrorDialog(isFlightLOB);
+	}
+
+	private void showBookingUnhandledErrorDialog(boolean isFlightLOB) {
 		String caseNumber;
 		if (isFlightLOB) {
 			caseNumber = Db.getFlightSearch().getSelectedFlightTrip()
@@ -399,7 +414,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			caseNumber = "";
 		}
 		DialogFragment df = UnhandledErrorDialogFragment.newInstance(caseNumber);
-		df.show(getFragmentManager(), "unhandledErrorDialog");
+		df.show(getFragmentManager(), "unhandledOrNoResultsErrorDialog");
 	}
 
 	private void showBookingUnavailableErrorDialog(boolean isFlightLOB) {

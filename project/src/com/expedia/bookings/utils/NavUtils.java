@@ -22,7 +22,9 @@ import com.expedia.bookings.activity.HotelBookingActivity;
 import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.PhoneSearchActivity;
+import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.activity.TabletLaunchActivity;
+import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -169,26 +171,42 @@ public class NavUtils {
 
 	// Assumes we are already searching in flights, but are not on the flight
 	// search screen anymore
-	public static void restartFlightSearch(Context context) {
+	public static void restartFlightSearch(Activity activity) {
+		Context context = activity;
 		// Clear out old data
 		Db.resetBillingInfo();
 		Db.getFlightSearch().setSearchResponse(null);
 
-		// Launch search activity (new search should start automatically due to blank data)
-		Intent intent = new Intent(context, FlightSearchResultsActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		context.startActivity(intent);
+		// If tablet then let's just close the checkout activity to expose the results activity. A new search with old params will kick off.
+		if (activity instanceof TabletCheckoutActivity) {
+			Db.getTripBucket().clearFlight();
+			activity.finish();
+		}
+		else {
+			// Launch search activity (new search should start automatically due to blank data)
+			Intent intent = new Intent(context, FlightSearchResultsActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			context.startActivity(intent);
+		}
 	}
 
-	public static void restartHotelSearch(Context context) {
+	public static void restartHotelSearch(Activity activity) {
+		Context context = activity;
 		// Clear out old data
 		Db.resetBillingInfo();
 		Db.getHotelSearch().setSearchResponse(null);
 
-		// Launch search activity (new search should start automatically due to blank data)
-		Intent intent = new Intent(context, PhoneSearchActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		context.startActivity(intent);
+		// If tablet then let's just close the checkout activity to expose the results activity. A new search with old params will kick off.
+		if (activity instanceof TabletCheckoutActivity) {
+			Db.getTripBucket().clearHotel();
+			activity.finish();
+		}
+		else {
+			// Launch search activity (new search should start automatically due to blank data)
+			Intent intent = new Intent(context, PhoneSearchActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			context.startActivity(intent);
+		}
 	}
 
 	public static void goToFlightSearch(Context context) {

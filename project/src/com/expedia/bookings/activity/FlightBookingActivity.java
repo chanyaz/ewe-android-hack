@@ -29,6 +29,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
+import com.expedia.bookings.fragment.BookingFragment;
 import com.expedia.bookings.fragment.FlightBookingFragment;
 import com.expedia.bookings.fragment.BookingUnavailableDialogFragment;
 import com.expedia.bookings.fragment.PriceChangeDialogFragment;
@@ -50,10 +51,6 @@ import com.squareup.otto.Subscribe;
 public class FlightBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener {
 
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
-
-	private static final int DIALOG_CALLBACK_INVALID_CC = 1;
-	private static final int DIALOG_CALLBACK_EXPIRED_CC = 2;
-	private static final int DIALOG_CALLBACK_MINOR = 3;
 
 	private Context mContext;
 
@@ -293,128 +290,6 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Error handling code
-	//
-	// Split out just for ease-of-reading
-
-	public void handleErrorResponse(FlightCheckoutResponse response) {
-		List<ServerError> errors = response.getErrors();
-
-		// Log all errors, in case we need to see them
-		for (int a = 0; a < errors.size(); a++) {
-			Log.v("SERVER ERROR " + a + ": " + errors.get(a).toJson().toString());
-		}
-
-		// We make the assumption that if we get an error we can handle in a special manner
-		// that it will be the first one.  If there are multiple errors, we assume right
-		// now that it will require a generic response.
-		ServerError firstError = errors.get(0);
-
-		// Check for special errors; return if we handled it
-		switch (firstError.getErrorCode()) {
-		case PRICE_CHANGE:
-			FlightTrip currentOffer = Db.getFlightSearch().getSelectedFlightTrip();
-			FlightTrip newOffer = response.getNewOffer();
-
-			// If the debug setting is made to fake a price change, then fake the price here too
-			// This is sort of a second price change, to help figure out testing when we have obfees and a price change...
-			if (!AndroidUtils.isRelease(this)) {
-				String val = SettingUtils.get(this,
-						getString(R.string.preference_fake_flight_price_change),
-						getString(R.string.preference_fake_price_change_default));
-				currentOffer.getTotalFare().add(new BigDecimal(val));
-				newOffer.getTotalFare().add(new BigDecimal(val));
-			}
-
-			PriceChangeDialogFragment fragment = PriceChangeDialogFragment.newInstance(currentOffer, newOffer);
-			fragment.show(getSupportFragmentManager(), PriceChangeDialogFragment.TAG);
-
-			OmnitureTracking.trackErrorPageLoadFlightPriceChangeTicket(mContext);
-			return;
-		case INVALID_INPUT:
-		case PAYMENT_FAILED:
-			String field = firstError.getExtra("field");
-
-			if (firstError.getErrorCode() == ErrorCode.PAYMENT_FAILED) {
-				OmnitureTracking.trackErrorPageLoadFlightPaymentFailed(mContext);
-			}
-
-			// Handle each type of failure differently
-			if ("cvv".equals(field)) {
-				setCvvErrorMode(true);
-
-				OmnitureTracking.trackErrorPageLoadFlightIncorrectCVV(mContext);
-				return;
-			}
-			else if ("creditCardNumber".equals(field)) {
-				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.error_invalid_card_number), getString(android.R.string.ok),
-						DIALOG_CALLBACK_INVALID_CC);
-				frag.show(getSupportFragmentManager(), "badCcNumberDialog");
-				return;
-			}
-			else if ("expirationDate".equals(field)) {
-				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.error_expired_payment), getString(android.R.string.ok),
-						DIALOG_CALLBACK_EXPIRED_CC);
-				frag.show(getSupportFragmentManager(), "expiredCcDialog");
-				return;
-			}
-			// 1643: Handle an odd API response. This is probably due to the transition
-			// to being anble to handle booking tickets for minors. We shouldn't need this in the future.
-			else if ("mainFlightPassenger.birthDate".equals(field)) {
-				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.error_booking_with_minor), getString(android.R.string.ok),
-						DIALOG_CALLBACK_MINOR);
-				frag.show(getSupportFragmentManager(), "cannotBookWithMinorDialog");
-				return;
-			}
-
-			break;
-		case TRIP_ALREADY_BOOKED:
-			// If the trip was already booked, just act like everything is hunky-dory
-			launchConfirmationActivity();
-			return;
-		case FLIGHT_SOLD_OUT:
-			showUnavailableErrorDialog();
-			OmnitureTracking.trackErrorPageLoadFlightSoldOut(mContext);
-			return;
-		case SESSION_TIMEOUT:
-			showUnavailableErrorDialog();
-			OmnitureTracking.trackErrorPageLoadFlightSearchExpired(mContext);
-			return;
-		case CANNOT_BOOK_WITH_MINOR: {
-			DialogFragment frag = SimpleCallbackDialogFragment
-					.newInstance(null,
-							getString(R.string.error_booking_with_minor), getString(android.R.string.ok),
-							DIALOG_CALLBACK_MINOR);
-			frag.show(getSupportFragmentManager(), "cannotBookWithMinorDialog");
-			return;
-		}
-		case GOOGLE_WALLET_ERROR: {
-			DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-					getString(R.string.google_wallet_unavailable), getString(android.R.string.ok), 0);
-			frag.show(getSupportFragmentManager(), "googleWalletErrorDialog");
-			return;
-		}
-		default:
-			OmnitureTracking.trackErrorPageLoadFlightCheckout(mContext);
-			break;
-		}
-
-		// At this point, we haven't handled the error - use a generic response
-		DialogFragment df = UnhandledErrorDialogFragment.newInstance(Db.getFlightSearch().getSelectedFlightTrip()
-				.getItineraryNumber());
-		df.show(getSupportFragmentManager(), "unhandledErrorDialog");
-	}
-
-	private void showUnavailableErrorDialog() {
-		boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
-		BookingUnavailableDialogFragment df = BookingUnavailableDialogFragment.newInstance(isPlural, true);
-		df.show(getSupportFragmentManager(), "unavailableErrorDialog");
-	}
-
-	//////////////////////////////////////////////////////////////////////////
 	// CVVEntryFragmentListener
 
 	@Override
@@ -426,6 +301,16 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 	///////////////////////////////////
 	/// Otto Event Subscriptions
+
+	@Subscribe
+	public void onBookingResponseErrorCVV(Events.BookingResponseErrorCVV event) {
+		setCvvErrorMode(event.setCVVMode);
+	}
+
+	@Subscribe
+	public void onBookingResponseErrorTripBooked(Events.BookingResponseErrorTripBooked event) {
+		launchConfirmationActivity();
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// PriceChangeDialogFragment
@@ -453,7 +338,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		}
 
 		switch (callbackId) {
-		case DIALOG_CALLBACK_INVALID_CC:
+		case BookingFragment.DIALOG_CALLBACK_INVALID_CC:
 			//Go to CC number entry page
 			Intent gotoCCEntryIntent = new Intent(FlightBookingActivity.this, FlightPaymentOptionsActivity.class);
 			if (Db.getBillingInfo() != null && Db.getBillingInfo().hasStoredCard()) {
@@ -466,7 +351,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			}
 			startActivity(gotoCCEntryIntent);
 			break;
-		case DIALOG_CALLBACK_EXPIRED_CC:
+		case BookingFragment.DIALOG_CALLBACK_EXPIRED_CC:
 			//Go to CC overview page
 			Intent gotoCCOverviewIntent = new Intent(FlightBookingActivity.this, FlightPaymentOptionsActivity.class);
 			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(Db.getBillingInfo());
@@ -532,12 +417,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 		Db.setFlightCheckout(response);
 
-		if (response == null) {
-			DialogFragment df = UnhandledErrorDialogFragment.newInstance(null);
-			df.show(getSupportFragmentManager(), "noResultsErrorDialog");
-		}
-		else if (response.hasErrors()) {
-			handleErrorResponse(response);
+		if (response == null || response.hasErrors()) {
+			mBookingFragment.handleBookingErrorResponse(response);
 		}
 		else {
 			// Tracking

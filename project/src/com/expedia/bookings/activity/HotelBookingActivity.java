@@ -25,6 +25,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
+import com.expedia.bookings.fragment.BookingFragment;
 import com.expedia.bookings.fragment.BookingUnavailableDialogFragment;
 import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
@@ -44,11 +45,6 @@ import com.squareup.otto.Subscribe;
 public class HotelBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener {
 
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
-
-	private static final int DIALOG_CALLBACK_INVALID_CC = 1;
-	private static final int DIALOG_CALLBACK_INVALID_PAYMENT = 2;
-	private static final int DIALOG_CALLBACK_INVALID_PHONENUMBER = 3;
-	private static final int DIALOG_CALLBACK_INVALID_POSTALCODE = 4;
 
 	private Context mContext;
 
@@ -300,127 +296,6 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Error handling code
-	//
-	// Split out just for ease-of-reading
-
-	public void handleErrorResponse(BookingResponse response) {
-		List<ServerError> errors = response.getErrors();
-
-		boolean hasCVVError = false;
-		boolean hasExpirationDateError = false;
-		boolean hasCreditCardNumberError = false;
-		boolean hasPhoneError = false;
-		boolean hasPostalCodeError = false;
-
-		// Log all errors, in case we need to see them
-		for (int a = 0; a < errors.size(); a++) {
-			ServerError error = errors.get(a);
-			Log.v("SERVER ERROR " + a + ": " + error.toJson().toString());
-
-			String field = error.getExtra("field");
-			if (TextUtils.isEmpty(field)) {
-				continue;
-			}
-
-			if (field.equals("creditCardNumber")) {
-				hasCreditCardNumberError = true;
-			}
-			else if (field.equals("expirationDate")) {
-				hasExpirationDateError = true;
-			}
-			else if (field.equals("cvv")) {
-				hasCVVError = true;
-			}
-			else if (field.equals("phone")) {
-				hasPhoneError = true;
-			}
-			else if (field.equals("postalCode")) {
-				hasPostalCodeError = true;
-			}
-		}
-
-		// We make the assumption that if we get an error we can handle in a special manner
-		// that it will be the first one.  If there are multiple errors, we assume right
-		// now that it will require a generic response.
-		ServerError firstError = errors.get(0);
-
-		// Check for special errors; return if we handled it
-		switch (firstError.getErrorCode()) {
-		case BOOKING_FAILED: {
-			if (firstError.getDiagnosticFullText().contains("INVALID_CCNUMBER")) {
-				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.error_invalid_card_number), getString(android.R.string.ok),
-						DIALOG_CALLBACK_INVALID_CC);
-				frag.show(getSupportFragmentManager(), "badCcNumberDialog");
-				return;
-			}
-			break;
-		}
-		case INVALID_INPUT: {
-			if (hasCreditCardNumberError && hasExpirationDateError && hasCVVError) {
-				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.e3_error_checkout_payment_failed), getString(android.R.string.ok),
-						DIALOG_CALLBACK_INVALID_PAYMENT);
-				frag.show(getSupportFragmentManager(), "badPaymentDialog");
-				return;
-			}
-			else if (hasCVVError) {
-				setCvvErrorMode(true);
-				dismissProgressDialog();
-				return;
-			}
-			else if (hasCreditCardNumberError) {
-				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.error_invalid_card_number), getString(android.R.string.ok),
-						DIALOG_CALLBACK_INVALID_CC);
-				frag.show(getSupportFragmentManager(), "badCcNumberDialog");
-				return;
-			}
-			else if (hasPhoneError) {
-				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.ean_error_invalid_phone_number), getString(android.R.string.ok),
-						DIALOG_CALLBACK_INVALID_PHONENUMBER);
-				frag.show(getSupportFragmentManager(), "badPhoneNumberDialog");
-				return;
-			}
-			else if (hasPostalCodeError) {
-				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.invalid_postal_code), getString(android.R.string.ok),
-						DIALOG_CALLBACK_INVALID_POSTALCODE);
-				frag.show(getSupportFragmentManager(), "badPostalCodeDialog");
-				return;
-			}
-			break;
-		}
-		case TRIP_ALREADY_BOOKED:
-			// If the trip was already booked, just act like everything is hunky-dory
-			launchConfirmationActivity();
-			return;
-		case SESSION_TIMEOUT:
-			showUnavailableErrorDialog();
-			return;
-		case GOOGLE_WALLET_ERROR:
-			DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-					getString(R.string.google_wallet_unavailable), getString(android.R.string.ok), 0);
-			frag.show(getSupportFragmentManager(), "googleWalletErrorDialog");
-			return;
-		default:
-			break;
-		}
-
-		// At this point, we haven't handled the error - use a generic response
-		DialogFragment df = UnhandledErrorDialogFragment.newInstance("");
-		df.show(getSupportFragmentManager(), "unhandledErrorDialog");
-	}
-
-	private void showUnavailableErrorDialog() {
-		boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
-		BookingUnavailableDialogFragment df = BookingUnavailableDialogFragment.newInstance(isPlural, false);
-		df.show(getSupportFragmentManager(), "unavailableErrorDialog");
-	}
-
-	//////////////////////////////////////////////////////////////////////////
 	// CVVEntryFragmentListener
 
 	@Override
@@ -432,6 +307,16 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 	///////////////////////////////////
 	/// Otto Event Subscriptions
+
+	@Subscribe
+	public void onBookingResponseErrorCVV(Events.BookingResponseErrorCVV event) {
+		setCvvErrorMode(event.setCVVMode);
+	}
+
+	@Subscribe
+	public void onBookingResponseErrorTripBooked(Events.BookingResponseErrorTripBooked event) {
+		launchConfirmationActivity();
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// PriceChangeDialogFragment
@@ -453,9 +338,9 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	public void onSimpleDialogClick(Events.SimpleCallBackDialogOnClick event) {
 		int callbackId = event.callBackId;
 		switch (callbackId) {
-		case DIALOG_CALLBACK_INVALID_CC:
-		case DIALOG_CALLBACK_INVALID_POSTALCODE:
-		case DIALOG_CALLBACK_INVALID_PAYMENT:
+		case BookingFragment.DIALOG_CALLBACK_INVALID_CC:
+		case BookingFragment.DIALOG_CALLBACK_INVALID_POSTALCODE:
+		case BookingFragment.DIALOG_CALLBACK_INVALID_PAYMENT:
 			// #1269: Don't do the invalid CC page jump if we're booking using Google Wallet
 			if (!mBookingFragment.willBookViaGoogleWallet()) {
 				launchHotelPaymentCreditCardFragment();
@@ -463,7 +348,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 			finish();
 			break;
-		case DIALOG_CALLBACK_INVALID_PHONENUMBER:
+		case BookingFragment.DIALOG_CALLBACK_INVALID_PHONENUMBER:
 			launchHotelTravelerPhoneNumberFragment();
 			finish();
 			break;
@@ -529,7 +414,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		}
 		else if (!results.isSuccess() && !response.succeededWithErrors()) {
 			response.setProperty(property);
-			handleErrorResponse(response);
+			mBookingFragment.handleBookingErrorResponse(response);
 		}
 		else {
 			response.setProperty(property);

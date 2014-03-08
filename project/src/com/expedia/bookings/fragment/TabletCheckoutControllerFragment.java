@@ -760,11 +760,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 			Db.setFlightCheckout(response);
 
-			if (response == null) {
-				Ui.showToast(getActivity(), "response == null, ruh roh");
-			}
-			else if (response.hasErrors()) {
-				handleFlightsBookingErrors(response);
+			if (response == null || response.hasErrors()) {
+				mFlightBookingFrag.handleBookingErrorResponse(response);
 			}
 			else {
 				// TODO tracking ??
@@ -778,20 +775,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 			Db.setBookingResponse(response);
 
-			if (results == null) {
-				Ui.showToast(getActivity(), "HotelBookingResponse == null, sob sob");
-			}
-			else if (response.hasErrors()) {
-				//TODO HandleErrorResponse here
+			if (results == null || response.hasErrors()) {
 				response.setProperty(property);
-				Ui.showToast(getActivity(), "HOTEL BOOKING ERROR, printing to logs!!");
-
-				List<ServerError> errors = response.getErrors();
-
-				// Log all errors, in case we need to see them
-				for (int a = 0; a < errors.size(); a++) {
-					Log.v("SERVER ERROR " + a + ": " + errors.get(a).toJson().toString());
-				}
+				mHotelBookingFrag.handleBookingErrorResponse(response);
 			}
 			else {
 				response.setProperty(property);
@@ -799,116 +785,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			}
 		}
 
-	}
-
-	// Error response handling
-	public void handleFlightsBookingErrors(FlightCheckoutResponse response) {
-		List<ServerError> errors = response.getErrors();
-		// Log the errors
-		Log.v("WE ENCOUNTERED SERVER ERROR. PRINTING.");
-		for (int a = 0; a < errors.size(); a++) {
-			Log.v("SERVER ERROR " + a + ": " + errors.get(a).toJson().toString());
-		}
-
-		/*	We assume that the first error is the most important. If there are
-			more than one errors, we assume that a generic dialog message is
-			what the user needs.
-		*/
-		ServerError firstError = errors.get(0);
-
-		// Handle the errors
-		switch (firstError.getErrorCode()) {
-		case PRICE_CHANGE:
-			FlightTrip currentOffer = Db.getFlightSearch().getSelectedFlightTrip();
-			FlightTrip newOffer = response.getNewOffer();
-			// If the debug setting is made to fake a price change, then fake the price here too
-			// This is sort of a second price change, to help figure out testing when we have obfees and a price change...
-			if (!AndroidUtils.isRelease(getActivity())) {
-				String val = SettingUtils.get(getActivity(),
-					getString(R.string.preference_fake_flight_price_change),
-					getString(R.string.preference_fake_price_change_default));
-				currentOffer.getTotalFare().add(new BigDecimal(val));
-				newOffer.getTotalFare().add(new BigDecimal(val));
-			}
-			PriceChangeDialogFragment fragment = PriceChangeDialogFragment.newInstance(currentOffer, newOffer);
-			fragment.show(getChildFragmentManager(), PriceChangeDialogFragment.TAG);
-			return;
-		case INVALID_INPUT:
-		case PAYMENT_FAILED:
-			String field = firstError.getExtra("field");
-			if (firstError.getErrorCode() == ServerError.ErrorCode.PAYMENT_FAILED) {
-				//TODO: probably shouldn't ignore
-			}
-			// Handle each type of failure differently
-			if ("cvv".equals(field)) {
-				//TODO: Need designs for CVV error
-				return;
-			}
-			else if ("creditCardNumber".equals(field)) {
-				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-					getString(R.string.error_invalid_card_number), getString(android.R.string.ok),
-					BookingFragment.DIALOG_CALLBACK_INVALID_CC);
-				frag.show(getChildFragmentManager(), "badCcNumberDialog");
-				return;
-			}
-			else if ("expirationDate".equals(field)) {
-				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-					getString(R.string.error_expired_payment), getString(android.R.string.ok),
-					BookingFragment.DIALOG_CALLBACK_EXPIRED_CC);
-				frag.show(getChildFragmentManager(), "expiredCcDialog");
-				return;
-			}
-			// 1643: Handle an odd API response. This is probably due to the transition
-			// to being able to handle booking tickets for minors. We shouldn't need this in the future.
-			else if ("mainFlightPassenger.birthDate".equals(field)) {
-				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-					getString(R.string.error_booking_with_minor), getString(android.R.string.ok),
-					BookingFragment.DIALOG_CALLBACK_MINOR);
-				frag.show(getChildFragmentManager(), "cannotBookWithMinorDialog");
-				return;
-			}
-			break;
-		case TRIP_ALREADY_BOOKED:
-			// Send the user to their confirmation, since they ended up booking their flight already.
-			setCheckoutState(CheckoutState.CONFIRMATION, true);
-			return;
-		case FLIGHT_SOLD_OUT:
-			showUnavailableErrorDialog();
-			return;
-		case SESSION_TIMEOUT:
-			showUnavailableErrorDialog();
-			return;
-		case CANNOT_BOOK_WITH_MINOR: {
-			DialogFragment frag = SimpleCallbackDialogFragment
-				.newInstance(null,
-					getString(R.string.error_booking_with_minor), getString(android.R.string.ok),
-					BookingFragment.DIALOG_CALLBACK_MINOR);
-			frag.show(getChildFragmentManager(), "cannotBookWithMinorDialog");
-			return;
-		}
-		case GOOGLE_WALLET_ERROR: {
-			DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-				getString(R.string.google_wallet_unavailable), getString(android.R.string.ok), 0);
-			frag.show(getChildFragmentManager(), "googleWalletErrorDialog");
-			return;
-		}
-		default:
-			break;
-		}
-		// At this point, we haven't handled the error - use a generic response
-		DialogFragment df = UnhandledErrorDialogFragment.newInstance(Db.getFlightSearch().getSelectedFlightTrip()
-			.getItineraryNumber());
-		df.show(getChildFragmentManager(), "unhandledErrorDialog");
-	}
-
-	/*
-		Some dialog methods.
-	 */
-
-	private void showUnavailableErrorDialog() {
-		boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
-		BookingUnavailableDialogFragment df = BookingUnavailableDialogFragment.newInstance(isPlural, true);
-		df.show(getChildFragmentManager(), "unavailableErrorDialog");
 	}
 
 	private void startCreateTripDownload() {
@@ -1050,4 +926,15 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 	}
 
+	@Subscribe
+	public void onBookingErrorTripBooked(Events.BookingResponseErrorTripBooked event) {
+		// Send the user to their confirmation screen, since they ended up booking their trip already.
+		setCheckoutState(CheckoutState.CONFIRMATION, true);
+	}
+
+	@Subscribe
+	public void onBookingResponseErrorCVV(Events.BookingResponseErrorCVV event) {
+		mCvvFrag.setCvvErrorMode(true);
+		setCheckoutState(CheckoutState.CVV, true);
+	}
 }
