@@ -251,9 +251,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		if (mCheckoutFragment != null) {
 			mCheckoutFragment.setLob(lob);
 		}
-		if (mSlideFragment != null) {
-			mSlideFragment.setLob(lob);
-		}
 	}
 
 	public void setCheckoutState(CheckoutState state, boolean animate) {
@@ -711,7 +708,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			((TabletCheckoutFormsFragment) frag).setLob(getLob());
 		}
 		else if (FRAG_TAG_SLIDE_TO_PURCHASE.equals(tag)) {
-			((TabletCheckoutSlideFragment)frag).setLob(getLob());
+			// nothing needed here
 		}
 	}
 

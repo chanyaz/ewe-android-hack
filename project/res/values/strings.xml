@@ -1124,6 +1124,8 @@
     <string name="Amount_to_be_paid_now_TEMPLATE">Amount to be paid now %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">To be collected by hotel: %1$s</string>
+    <!-- "Finish Booking" button that appears after CVV is entered -->
+    <string name="Finish_Booking">Finish Booking</string>
     <!-- Checkout menu item -->
     <string name="menu_checkout">Checkout</string>
     <!-- Our best price gaurentee string -->
