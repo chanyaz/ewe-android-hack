@@ -2088,9 +2088,16 @@ public class OmnitureTracking {
 		String id;
 		boolean usingTabletInterface = (ExpediaBookingApp.useTabletInterface(context));
 		if (AndroidUtils.isRelease(context)) {
-			id = (usingTabletInterface) ? "expedia1tabletandroid" : "expedia1androidcom";
+			if(ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
+				id = (usingTabletInterface) ? "expedia1tabletandroid" : "expedia1androidcom";
+			}
+
 			if (ExpediaBookingApp.IS_VSC) {
 				id += ",expedia7androidapp";
+			}
+			//for Travelocity we will only send data to 1 Omniture Report Suite
+			else if(ExpediaBookingApp.IS_TRAVELOCITY) {
+				id = "tvlglobalapp";
 			}
 			else {
 				id += ",expediaglobalapp";
@@ -2098,9 +2105,15 @@ public class OmnitureTracking {
 
 		}
 		else {
-			id = (usingTabletInterface) ? "expedia1tabletandroiddev" : "expedia1androidcomdev";
+			if(ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
+				id = (usingTabletInterface) ? "expedia1tabletandroiddev" : "expedia1androidcomdev";
+			}
+
 			if (ExpediaBookingApp.IS_VSC) {
 				id += ",expedia7androidappdev";
+			}
+			else if(ExpediaBookingApp.IS_TRAVELOCITY) {
+				id = "tvlglobalappdev";
 			}
 			else {
 				id += ",expediaglobalappdev";
@@ -2110,7 +2123,12 @@ public class OmnitureTracking {
 	}
 
 	private static String getTrackingServer() {
-		return "om.expedia.com";
+		if(ExpediaBookingApp.IS_TRAVELOCITY) {
+			return "om.travelocity.com";
+		}
+		else {
+			return "om.expedia.com";
+		}
 	}
 
 	private static String md5(String s) {
