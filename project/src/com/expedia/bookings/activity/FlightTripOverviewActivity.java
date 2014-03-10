@@ -383,7 +383,9 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		setContainerHeights();
 
 		addPriceBarFragment(true);
-		mPriceBottomFragment.showPriceChange();
+		if(mPriceBottomFragment != null) {
+			mPriceBottomFragment.showPriceChange();
+		}
 
 		if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
 			if (animate) {
