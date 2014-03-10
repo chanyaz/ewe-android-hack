@@ -797,6 +797,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mCreateTripDownloadThrobber = ThrobberDialog.newInstance(getString(R.string.spinner_text_hotel_create_trip));
 			mCreateTripDownloadThrobber.show(getFragmentManager(), TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
 		}
+		else {
+			mCreateTripDownloadThrobber.show(getFragmentManager(), TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
+		}
 		mHotelBookingFrag.startDownload(HotelBookingState.CREATE_TRIP);
 	}
 
