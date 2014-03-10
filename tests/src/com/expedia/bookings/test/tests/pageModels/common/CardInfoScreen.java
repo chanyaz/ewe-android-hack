@@ -63,6 +63,10 @@ public class CardInfoScreen extends ScreenActions {
 		return (EditText) getView(POSTAL_CODE_EDIT_TEXT_ID);
 	}
 
+	public String cardInfo() {
+		return getString(R.string.card_info);
+	}
+
 	// Object access expiration date dialog
 	public View monthUpButton() {
 		return getView(MONTH_UP_BUTTON_ID);

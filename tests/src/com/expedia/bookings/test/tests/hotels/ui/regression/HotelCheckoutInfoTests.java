@@ -1,6 +1,5 @@
 package com.expedia.bookings.test.tests.hotels.ui.regression;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -10,6 +9,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.PhoneSearchActivity;
 import com.expedia.bookings.test.tests.pageModels.hotels.HotelReceiptModel;
 import com.expedia.bookings.test.tests.pageModels.hotels.RoomsAndRatesRow;
+import com.expedia.bookings.test.utils.CalendarTouchUtils;
 import com.expedia.bookings.test.utils.CustomActivityInstrumentationTestCase;
 import com.mobiata.android.text.format.Time;
 
@@ -159,6 +159,9 @@ public class HotelCheckoutInfoTests extends CustomActivityInstrumentationTestCas
 			mDriver.enterLog(TAG, "Searching for hotels in city: " + mUser.getHotelSearchCity());
 			mDriver.hotelsSearchScreen().clickOnCalendarButton();
 			mDriver.delay();
+
+			//Always do this just in case.
+			CalendarTouchUtils.clickPrevMonth(mDriver, mDriver.hotelsSearchScreen().calendarDatePicker());
 
 			Time now = new Time();
 			now.setToNow();

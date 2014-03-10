@@ -4,7 +4,6 @@ import java.util.Calendar;
 
 import org.joda.time.LocalDate;
 
-import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;

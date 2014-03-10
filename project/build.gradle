@@ -14,7 +14,7 @@ dependencies {
     compile project(':lib:ShareEverywhere:shareeverywhere')
 
     instrumentTestCompile fileTree('../tests/libs').include('*.jar')
-    instrumentTestCompile fileTree('../lib/TestUtils/project/libs').include('espresso-1.1-bundled.jar')
+    instrumentTestCompile fileTree('../lib/TestUtils/project/libs').include('*.jar')
 }
 
 android {

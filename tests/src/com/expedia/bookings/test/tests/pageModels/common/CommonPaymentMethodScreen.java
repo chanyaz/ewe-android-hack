@@ -3,11 +3,10 @@ package com.expedia.bookings.test.tests.pageModels.common;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.res.Resources;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.utils.TestPreferences;
-
-import android.widget.TextView;
 
 public class CommonPaymentMethodScreen extends ScreenActions {
 

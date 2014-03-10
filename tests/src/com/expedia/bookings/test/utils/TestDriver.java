@@ -9,7 +9,6 @@ import com.expedia.bookings.test.tests.pageModels.common.CVVEntryScreen;
 import com.expedia.bookings.test.tests.pageModels.common.CardInfoScreen;
 import com.expedia.bookings.test.tests.pageModels.common.CommonPaymentMethodScreen;
 import com.expedia.bookings.test.tests.pageModels.common.CommonSelectTravelerScreen;
-import com.expedia.bookings.test.tests.pageModels.common.CommonTravelerInformationScreen;
 import com.expedia.bookings.test.tests.pageModels.common.FindItineraryScreen;
 import com.expedia.bookings.test.tests.pageModels.common.LaunchScreen;
 import com.expedia.bookings.test.tests.pageModels.common.LogInScreen;
@@ -26,7 +25,6 @@ public class TestDriver extends ScreenActions {
 	private SettingsScreen mSettingsScreen;
 	private CommonPaymentMethodScreen mCommonPaymentMethod;
 	private CommonSelectTravelerScreen mSelectTravelerScreen;
-	private CommonTravelerInformationScreen mTravelerInformationScreen;
 	private BillingAddressScreen mBillingAddressScreen;
 	private CardInfoScreen mCardInfoScreen;
 	private CVVEntryScreen mCVVEntryScreen;
@@ -76,14 +74,6 @@ public class TestDriver extends ScreenActions {
 					mRes, mPreferences);
 		}
 		return mSelectTravelerScreen;
-	}
-
-	public CommonTravelerInformationScreen travelerInformationScreen() {
-		if (mTravelerInformationScreen == null) {
-			mTravelerInformationScreen = new CommonTravelerInformationScreen(mInstrumentation, getCurrentActivity(),
-					mRes, mPreferences);
-		}
-		return mTravelerInformationScreen;
 	}
 
 	public CommonPaymentMethodScreen commonPaymentMethodScreen() {

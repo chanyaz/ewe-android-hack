@@ -11,7 +11,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.utils.ScreenshotUtils;
 import com.expedia.bookings.test.utils.TestPreferences;
 import com.expedia.bookings.test.utils.UserLocaleUtils;
-import com.jayway.android.robotium.solo.Solo;
+import com.robotium.solo.Solo;
 
 /*
  * This is the parent class for all page models.
@@ -94,6 +94,7 @@ public class ScreenActions extends Solo {
 	public void waitForStringToBeGone(String s, int timeoutMax) throws Exception {
 		int count_max = timeoutMax;
 		int count = 0;
+		delay();
 		while (searchText(s, 1, false, true) && count < count_max) {
 			delay(1);
 			count++;
@@ -104,7 +105,7 @@ public class ScreenActions extends Solo {
 	}
 
 	public void waitForStringToBeGone(String s) throws Exception {
-		waitForStringToBeGone(s, 20);
+		waitForStringToBeGone(s, 60);
 	}
 
 	public void waitForViewToBeGone(View v, int timeoutMax) throws Exception {

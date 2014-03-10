@@ -2,10 +2,7 @@ package com.expedia.bookings.test.tests.localization;
 
 import java.util.Locale;
 
-import ErrorsAndExceptions.OutOfPOSException;
-import android.content.res.Configuration;
 import android.os.Environment;
-import android.util.Log;
 
 import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.data.pos.PointOfSale;

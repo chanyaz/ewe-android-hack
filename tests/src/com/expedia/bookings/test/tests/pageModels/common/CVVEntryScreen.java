@@ -25,7 +25,6 @@ public class CVVEntryScreen extends ScreenActions {
 	private static final int ZERO_BUTTON_ID = R.id.zero_button;
 	private static final int BOOKING_BUTTON_ID = R.id.book_button;
 	private static final int DELETE_BUTTON_ID = R.id.delete_button;
-	private static final int INVALID_SECURITY_CODE_STRING_ID = R.string.invalid_security_code;
 
 	private static final int sBookingStringID = R.string.booking_loading;
 
@@ -63,8 +62,12 @@ public class CVVEntryScreen extends ScreenActions {
 		return getString(sBookingStringID);
 	}
 
-	public String invalidSecurityCode() {
-		return getString(INVALID_SECURITY_CODE_STRING_ID);
+	public String creditCardNumberInvalid() {
+		return getString(R.string.error_invalid_card_number);
+	}
+
+	public String okString() {
+		return getString(android.R.string.ok);
 	}
 
 	// Object interaction
@@ -90,5 +93,9 @@ public class CVVEntryScreen extends ScreenActions {
 
 	public void clickDeleteButton() {
 		clickOnView(deleteButton());
+	}
+
+	public void clickOkButton() {
+		clickOnText(okString());
 	}
 }

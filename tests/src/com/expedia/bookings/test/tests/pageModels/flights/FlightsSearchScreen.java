@@ -5,14 +5,15 @@ import android.app.Instrumentation;
 import android.content.res.Resources;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModels.common.ScreenActions;
+import com.expedia.bookings.test.utils.CalendarTouchUtils;
 import com.expedia.bookings.test.utils.TestPreferences;
 import com.mobiata.android.text.format.Time;
 import com.mobiata.android.widget.CalendarDatePicker;
-import com.expedia.bookings.test.utils.CalendarTouchUtils;
 
 public class FlightsSearchScreen extends ScreenActions {
 
@@ -26,6 +27,7 @@ public class FlightsSearchScreen extends ScreenActions {
 	private static final int SEARCH_BUTTON_ID = R.id.search_button;
 	private static final int DEPARTURE_ARRIVAL_SAME_ERROR_MESSAGE_ID = R.string.error_same_flight_departure_arrival;
 	private static final int ADULTS_PLURAL_STRING_FORMAT_ID = R.plurals.number_of_adults_TEMPLATE;
+	private static final int OK_STRING_ID = R.string.ok;
 
 	public FlightsSearchScreen(Instrumentation instrumentation, Activity activity, Resources res,
 			TestPreferences preferences) {
@@ -72,6 +74,18 @@ public class FlightsSearchScreen extends ScreenActions {
 
 	public CalendarDatePicker calendarDatePicker() {
 		return (CalendarDatePicker) getView(CALENDAR_DATE_PICKER_ID);
+	}
+
+	public String okString() {
+		return getString(OK_STRING_ID);
+	}
+
+	public Spinner departureAirportSpinner() {
+		return (Spinner) getView(R.id.departure_airport_spinner);
+	}
+
+	public Spinner arrivalAirportSpinner() {
+		return (Spinner) getView(R.id.arrival_airport_spinner);
 	}
 
 	// Object interactions 
@@ -126,4 +140,11 @@ public class FlightsSearchScreen extends ScreenActions {
 		CalendarTouchUtils.clickOnFutureMonthDay(this, calendarDatePicker(), time);
 	}
 
+	public void clickDepartureSpinner() {
+		clickOnView(departureAirportSpinner());
+	}
+
+	public void clickArrivalSpinner() {
+		clickOnView(arrivalAirportSpinner());
+	}
 }

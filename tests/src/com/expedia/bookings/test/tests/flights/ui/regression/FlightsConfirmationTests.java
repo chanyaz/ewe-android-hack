@@ -3,7 +3,6 @@ package com.expedia.bookings.test.tests.flights.ui.regression;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.test.tests.pageModels.flights.FlightsSearchResultRow;
-import com.expedia.bookings.test.utils.ConfigFileUtils;
 import com.expedia.bookings.test.utils.CustomActivityInstrumentationTestCase;
 import com.expedia.bookings.test.utils.FlightsTestDriver;
 
@@ -26,6 +25,29 @@ public class FlightsConfirmationTests extends CustomActivityInstrumentationTestC
 		super.setUp();
 		mDriver = new FlightsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
 		mUser.setAirportsToRandomUSAirports();
+		mDriver.launchScreen().openMenuDropDown();
+		mDriver.launchScreen().pressSettings();
+		mDriver.settingsScreen().clickToClearPrivateData();
+		if (mDriver.searchText(mDriver.settingsScreen().OKString())) {
+			mDriver.settingsScreen().clickOKString();
+		}
+		else if (mDriver.searchText(mDriver.settingsScreen().AcceptString())) {
+			mDriver.settingsScreen().clickAcceptString();
+		}
+		else {
+			mDriver.clickOnText("OK");
+		}
+		mDriver.delay();
+		if (mDriver.searchText(mDriver.settingsScreen().OKString())) {
+			mDriver.settingsScreen().clickOKString();
+		}
+		else if (mDriver.searchText(mDriver.settingsScreen().AcceptString())) {
+			mDriver.settingsScreen().clickAcceptString();
+		}
+		else {
+			mDriver.clickOnText("OK");
+		}
+		mDriver.goBack();
 	}
 
 	public void testGuestBookingConfirmation() throws Exception {
@@ -36,7 +58,12 @@ public class FlightsConfirmationTests extends CustomActivityInstrumentationTestC
 		mDriver.travelerInformationScreen().enterLastName(mUser.getLastName());
 		mDriver.travelerInformationScreen().enterPhoneNumber(mUser.getPhoneNumber());
 		mDriver.travelerInformationScreen().clickBirthDateButton();
-		mDriver.travelerInformationScreen().clickSetButton();
+		if (mDriver.searchText(mDriver.travelerInformationScreen().set())) {
+			mDriver.travelerInformationScreen().clickSetButton();
+		}
+		else {
+			mDriver.travelerInformationScreen().clickDoneString();
+		}
 		mDriver.travelerInformationScreen().clickNextButton();
 		mDriver.travelerInformationScreen().clickDoneButton();
 

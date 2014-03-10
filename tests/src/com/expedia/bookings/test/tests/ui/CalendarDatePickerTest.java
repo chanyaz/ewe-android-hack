@@ -1,18 +1,18 @@
 package com.expedia.bookings.test.tests.ui;
 
-import android.annotation.SuppressLint;
+import java.util.List;
+
 import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
+
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.test.activity.CalendarDatePickerTestActivity;
+import com.expedia.bookings.test.utils.CalendarTouchUtils;
 import com.expedia.bookings.utils.CalendarUtils;
-import com.jayway.android.robotium.solo.Solo;
 import com.mobiata.android.text.format.Time;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.widget.CalendarDatePicker;
-import com.expedia.bookings.test.utils.CalendarTouchUtils;
-import com.expedia.bookings.data.LineOfBusiness;
-
-import java.util.List;
+import com.robotium.solo.Solo;
 
 public class CalendarDatePickerTest extends ActivityInstrumentationTestCase2<CalendarDatePickerTestActivity> {
 

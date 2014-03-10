@@ -2,6 +2,7 @@ package com.expedia.bookings.test.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+
 import com.expedia.bookings.R;
 
 /**

@@ -28,56 +28,40 @@ public class HotelCheckoutUserInfoTests extends CustomActivityInstrumentationTes
 	}
 
 	public void testCheckHotels() throws Exception {
-		final int numberOfHotels = 3;
-		for (int i = 0; i < numberOfHotels; i++) {
-			mDriver.launchScreen().launchHotels();
-			mDriver.delay();
-			mUser.setHotelCityToRandomUSCity();
-			mDriver.hotelsSearchScreen().clickSearchEditText();
-			mDriver.hotelsSearchScreen().clickToClearSearchEditText();
-			mDriver.enterLog(TAG, "Hotel search city is: " + mUser.getHotelSearchCity());
-			mDriver.hotelsSearchScreen().enterSearchText(mUser.getHotelSearchCity());
-			mDriver.hotelsSearchScreen().clickOnGuestsButton();
-			mDriver.hotelsSearchScreen().guestPicker().clickOnSearchButton();
-			mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
-			mDriver.hotelsSearchScreen().selectHotelFromList(1);
-			mDriver.delay();
-			mDriver.hotelsDetailsScreen().clickSelectButton();
-			mDriver.waitForStringToBeGone(mDriver.hotelsRoomsRatesScreen().findingAvailableRooms());
-			mDriver.hotelsRoomsRatesScreen().selectRoom(0);
-			mDriver.waitForStringToBeGone(mDriver.hotelsCheckoutScreen().calculatingTaxesAndFees());
-			// A dialog pops up for a hotel, just skip that iteration.
+		mDriver.launchScreen().launchHotels();
+		mDriver.delay();
+		mUser.setHotelCityToRandomUSCity();
+		mDriver.hotelsSearchScreen().clickSearchEditText();
+		mDriver.hotelsSearchScreen().clickToClearSearchEditText();
+		mDriver.enterLog(TAG, "Hotel search city is: " + mUser.getHotelSearchCity());
+		mDriver.hotelsSearchScreen().enterSearchText(mUser.getHotelSearchCity());
+		mDriver.hotelsSearchScreen().clickOnGuestsButton();
+		mDriver.hotelsSearchScreen().guestPicker().clickOnSearchButton();
+		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
+		mDriver.hotelsSearchScreen().selectHotelFromList(1);
+		mDriver.delay();
+		mDriver.hotelsDetailsScreen().clickSelectButton();
+		mDriver.waitForStringToBeGone(mDriver.hotelsRoomsRatesScreen().findingAvailableRooms());
+		mDriver.hotelsRoomsRatesScreen().selectRoom(0);
+		mDriver.waitForStringToBeGone(mDriver.hotelsCheckoutScreen().calculatingTaxesAndFees());
+		// A dialog pops up for a hotel, just skip that iteration.
+		if (!handleDialogPopupPresent()) {
+			mDriver.enterLog(TAG, "Hotel name is: "
+					+ mDriver.hotelsCheckoutScreen().hotelNameView().getText().toString());
+			mDriver.hotelsCheckoutScreen().clickCheckoutButton();
+			mDriver.delay(3);
+			verifyEnterCouponButton();
+			verifyRulesAndRestrictionsButton();
+			verifyMissingTravelerInformationAlerts();
+			verifyMissingCardInfoAlerts();
+			verifyLoginButtonNotAppearing();
+		}
+		else {
 			if (!handleDialogPopupPresent()) {
-				mDriver.enterLog(TAG, "Hotel name is: "
-						+ mDriver.hotelsCheckoutScreen().hotelNameView().getText().toString());
-				mDriver.hotelsCheckoutScreen().clickCheckoutButton();
-				mDriver.delay(3);
-				verifyEnterCouponButton();
-				verifyRulesAndRestrictionsButton();
-				verifyMissingTravelerInformationAlerts();
-				verifyMissingCardInfoAlerts();
-				verifyLoginButtonNotAppearing();
-				mDriver.hotelsCheckoutScreen().slideToCheckout();
-				doBookingAndReturnToLaunchScreen();
-				mDriver.launchScreen().openMenuDropDown();
-				mDriver.launchScreen().pressSettings();
-				mDriver.settingsScreen().clickToClearPrivateData();
-				mDriver.delay(1);
-				mDriver.settingsScreen().clickOKString();
-				mDriver.delay(1);
-				mDriver.settingsScreen().clickOKString();
-				mDriver.delay(1);
 				mDriver.goBack();
-				mDriver.delay(1);
 			}
-			else {
-				if (!handleDialogPopupPresent()) {
-					mDriver.goBack();
-				}
-				mDriver.goBack();
-				mDriver.goBack();
-				continue;
-			}
+			mDriver.goBack();
+			mDriver.goBack();
 		}
 	}
 

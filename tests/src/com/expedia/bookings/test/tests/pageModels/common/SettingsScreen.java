@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.utils.TestDriver;
 import com.expedia.bookings.test.utils.TestPreferences;
 
 public class SettingsScreen extends ScreenActions {
@@ -22,12 +21,13 @@ public class SettingsScreen extends ScreenActions {
 	private static final int ACCEPT_STRING_ID = R.string.accept;
 	private static final int SPOOF_HOTEL_BOOKING_CHECKBOX_ID = R.id.preference_spoof_booking_checkbox;
 	private static final int SUPPRESS_FLIGHT_BOOKING_CHECKBOX_ID = R.id.preference_suppress_flight_booking_checkbox;
+	private static final int CANCEL_STRING_ID = R.string.cancel;
 
 	private static final int COUNTRY_STRING_ID = R.string.preference_point_of_sale_title;
 	private static final String SELECT_API_STRING_ID = "Select API";
 	private static final String SERVER_PROXY_STRING_ID = "Server/Proxy Address";
 	private static final String STUB_CONFIGURATION_PAGE_STRING_ID = "Stub Configuration Page";
-	private static final String SPOOF_HOTELS_BOOKING_STRING_ID = "Spoof hotel bookings";
+	private static final String SPOOF_HOTELS_BOOKING_STRING_ID = "Spoof Hotel Bookings";
 	private static final String SUPPRESS_FLIGHTS_BOOKING_STRING_ID = "Suppress Flight Bookings";
 
 	public SettingsScreen(Instrumentation instrumentation, Activity activity, Resources res,
@@ -42,6 +42,10 @@ public class SettingsScreen extends ScreenActions {
 
 	public String OKString() {
 		return mRes.getString(OK_STRING_ID);
+	}
+
+	public String cancelString() {
+		return mRes.getString(CANCEL_STRING_ID);
 	}
 
 	public String AcceptString() {
@@ -66,6 +70,10 @@ public class SettingsScreen extends ScreenActions {
 		clickOnText(OKString());
 	}
 
+	public void clickCancelString() {
+		clickOnText(cancelString());
+	}
+
 	public void clickAcceptString() {
 		clickOnText(AcceptString());
 	}
@@ -88,13 +96,13 @@ public class SettingsScreen extends ScreenActions {
 	}
 
 	public void setSpoofBookings() {
-		boolean spoofBookingsDone = false;
+		boolean suppressHotelsDone = false;
 		boolean suppressFlightsDone = false;
 		delay(5);
 		scrollDown();
 		ArrayList<View> currentViews = getCurrentViews();
 		for (int i = 0; i < currentViews.size(); i++) {
-			if (spoofBookingsDone && suppressFlightsDone) {
+			if (suppressHotelsDone && suppressFlightsDone) {
 				break;
 			}
 			View currentView = currentViews.get(i);
@@ -104,7 +112,7 @@ public class SettingsScreen extends ScreenActions {
 					if (!currentCheckBox.isChecked()) {
 						clickOnText(SPOOF_HOTELS_BOOKING_STRING_ID);
 					}
-					spoofBookingsDone = true;
+					suppressHotelsDone = true;
 				}
 				else if (currentCheckBox.getId() == SUPPRESS_FLIGHT_BOOKING_CHECKBOX_ID) {
 					if (!currentCheckBox.isChecked()) {

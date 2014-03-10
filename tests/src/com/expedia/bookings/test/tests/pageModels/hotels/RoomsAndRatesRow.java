@@ -8,6 +8,7 @@ import com.expedia.bookings.R;
 public class RoomsAndRatesRow {
 
 	private static final int SALE_TEXT_VIEW_ID = R.id.sale_text_view;
+	private static final int ROOM_TYPE_TEXT_VIEW_ID = R.id.room_type_text_view;
 	private static final int ROOM_DESCRIPTION_TEXT_VIEW_ID = R.id.room_description_text_view;
 	private static final int PRICE_EXPLANATION_TEXT_VIEW_ID = R.id.price_explanation_text_view;
 	private static final int PRICE_TEXT_VIEW_ID = R.id.price_text_view;
@@ -16,6 +17,7 @@ public class RoomsAndRatesRow {
 	private static final int VALUE_ADDS_BEDS_TEXT_VIEW_ID = R.id.value_adds_beds_text_view;
 
 	private TextView mSaleTextView;
+	private TextView mRoomTypeTextView;
 	private TextView mRoomDescriptionTextView;
 	private TextView mPriceExplanationTextView;
 	private TextView mPriceTextView;
@@ -25,6 +27,7 @@ public class RoomsAndRatesRow {
 
 	public RoomsAndRatesRow(View rowView) {
 		mSaleTextView = (TextView) rowView.findViewById(SALE_TEXT_VIEW_ID);
+		mRoomTypeTextView = (TextView) rowView.findViewById(ROOM_TYPE_TEXT_VIEW_ID);
 		mRoomDescriptionTextView = (TextView) rowView.findViewById(ROOM_DESCRIPTION_TEXT_VIEW_ID);
 		mPriceExplanationTextView = (TextView) rowView.findViewById(PRICE_EXPLANATION_TEXT_VIEW_ID);
 		mPriceTextView = (TextView) rowView.findViewById(PRICE_TEXT_VIEW_ID);
@@ -35,6 +38,10 @@ public class RoomsAndRatesRow {
 
 	public TextView saleTextView() {
 		return mSaleTextView;
+	}
+
+	public TextView roomTypeTextView() {
+		return mRoomTypeTextView;
 	}
 
 	public TextView roomDescriptionTextView() {
