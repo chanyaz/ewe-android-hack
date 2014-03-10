@@ -2085,10 +2085,10 @@ public class OmnitureTracking {
 	}
 
 	private static String getReportSuiteIds(Context context) {
-		String id;
+		String id = "";
 		boolean usingTabletInterface = (ExpediaBookingApp.useTabletInterface(context));
 		if (AndroidUtils.isRelease(context)) {
-			if(ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
+			if (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
 				id = (usingTabletInterface) ? "expedia1tabletandroid" : "expedia1androidcom";
 			}
 
@@ -2105,14 +2105,14 @@ public class OmnitureTracking {
 
 		}
 		else {
-			if(ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
+			if (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
 				id = (usingTabletInterface) ? "expedia1tabletandroiddev" : "expedia1androidcomdev";
 			}
 
 			if (ExpediaBookingApp.IS_VSC) {
 				id += ",expedia7androidappdev";
 			}
-			else if(ExpediaBookingApp.IS_TRAVELOCITY) {
+			else if (ExpediaBookingApp.IS_TRAVELOCITY) {
 				id = "tvlglobalappdev";
 			}
 			else {
