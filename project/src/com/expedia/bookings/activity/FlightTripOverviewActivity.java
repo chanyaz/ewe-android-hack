@@ -640,6 +640,10 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(mCheckoutFragment == null) {
+			mSafeToAttach = true;
+			attachCheckoutFragment();
+		}
 		if (WalletFragment.isRequestCodeFromWalletFragment(requestCode)) {
 			mCheckoutFragment.onActivityResult(requestCode, resultCode, data);
 		}
