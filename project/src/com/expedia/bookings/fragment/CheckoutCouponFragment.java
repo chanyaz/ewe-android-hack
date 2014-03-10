@@ -20,6 +20,7 @@ import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingState;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
@@ -106,6 +107,7 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.coupon_button: {
+			OmnitureTracking.trackHotelCouponExpand(getActivity());
 			mCouponDialogFragment = new CouponDialogFragment();
 			mCouponDialogFragment.show(getChildFragmentManager(), CouponDialogFragment.TAG);
 			break;

@@ -133,8 +133,6 @@ public class OmnitureTracking {
 	private static final String HOTELS_SEARCH_REFINE_PRICE_RANGE = "App.Hotels.Search.Refine.PriceRange";
 	private static final String HOTELS_SEARCH_REFINE_SEARCH_RADIUS = "App.Hotels.Search.Refine.SearchRadius";
 	private static final String HOTELS_SEARCH_REFINE_VIP = "App.Hotels.Search.Refine.VIPAccess";
-	private static final String HOTELS_COUPON_APPLIED = "Coupon Applied";
-	private static final String HOTELS_COUPON_REMOVED = "Coupon Removed";
 	private static final String HOTELS_CONF_CROSSSELL_FLIGHTS = "CrossSell.Hotels.Flights";
 	private static final String HOTELS_CONF_ADD_TO_CALENDAR = "App.Hotels.Checkout.Confirmation.Add.Calendar";
 	private static final String HOTELS_CONF_SHARE_EMAIL = "App.Hotels.Checkout.Confirmation.Share.Mail";
@@ -144,6 +142,14 @@ public class OmnitureTracking {
 	public static final String HOTELS_SEARCH_SORT_DISTANCE = "App.Hotels.Search.Sort.Distance";
 	public static final String HOTELS_SEARCH_SORT_RATING = "App.Hotels.Search.Sort.Rating";
 	public static final String HOTELS_SEARCH_SORT_DEALS = "App.Hotels.Search.Sort.Deals";
+
+	//////////////////////////////
+	// Coupon tracking
+	public static final String HOTELS_COUPON_LINK_NAME = "CKO:Coupon Action";
+	public static final String HOTELS_COUPON_EXPAND = "App.CKO.Coupon.Expand";
+	public static final String HOTELS_COUPON_SUCCESS = "App.CKO.Coupon.Success";
+	public static final String HOTELS_COUPON_REMOVE = "App.CKO.Coupon.Remove";
+	public static final String HOTELS_COUPON_FAIL = "App.CKO.Coupon.Fail";
 
 	public static void trackAppHotelsSearchWithoutRefinements(Context context, HotelSearchParams searchParams,
 			HotelSearchResponse searchResponse) {
@@ -636,21 +642,41 @@ public class OmnitureTracking {
 
 	// Coupon tracking: https://mingle/projects/eb_ad_app/cards/1003
 
-	public static void trackHotelCouponApplied(Context context, String couponCode) {
-		Log.d(TAG, "Tracking \"" + HOTELS_COUPON_APPLIED + "\" click");
-		ADMS_Measurement s = getFreshTrackingObject(context);
+	private static void addCouponFields(Context context, ADMS_Measurement s, String refererId) {
 		addStandardFields(context, s);
-		s.setEvents("event21");
-		s.setEvar(24, couponCode);
-		s.trackLink(null, "o", HOTELS_COUPON_APPLIED, null, null);
+		s.setEvar(28, refererId);
+		s.setProp(16, refererId);
+		s.trackLink(null, "o", HOTELS_COUPON_LINK_NAME, null, null);
 	}
 
-	public static void trackHotelCouponRemoved(Context context) {
-		Log.d(TAG, "Tracking \"" + HOTELS_COUPON_REMOVED + "\" click");
+	public static void trackHotelCouponExpand(Context context) {
+		Log.d(TAG, "Tracking \"" + HOTELS_COUPON_EXPAND + "\" click");
 		ADMS_Measurement s = getFreshTrackingObject(context);
-		addStandardFields(context, s);
-		s.setEvar(24, HOTELS_COUPON_REMOVED);
-		s.trackLink(null, "o", HOTELS_COUPON_REMOVED, null, null);
+		addCouponFields(context, s, HOTELS_COUPON_EXPAND);
+	}
+
+	public static void trackHotelCouponApplied(Context context, String couponCode) {
+		Log.d(TAG, "Tracking \"" + HOTELS_COUPON_SUCCESS + "\" click");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		s.setEvents("event21");
+		s.setEvar(24, couponCode);
+		addCouponFields(context, s, HOTELS_COUPON_SUCCESS);
+	}
+
+	public static void trackHotelCouponRemoved(Context context, String couponCode) {
+		Log.d(TAG, "Tracking \"" + HOTELS_COUPON_REMOVE + "\" click");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		s.setEvar(24, couponCode);
+		addCouponFields(context, s, HOTELS_COUPON_REMOVE);
+	}
+
+	public static void trackHotelCouponFail(Context context, String couponCode, String errorCode) {
+		Log.d(TAG, "Tracking \"" + HOTELS_COUPON_FAIL + "\" click");
+		ADMS_Measurement s = getFreshTrackingObject(context);
+		s.setEvents("event22");
+		s.setEvar(24, couponCode);
+		s.setProp(36, errorCode);
+		addCouponFields(context, s, HOTELS_COUPON_FAIL);
 	}
 
 	public static void trackHotelConfirmationFlightsXSell(Context context) {

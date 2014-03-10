@@ -1007,6 +1007,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				break;
 			}
 			case R.id.coupon_button: {
+				OmnitureTracking.trackHotelCouponExpand(getActivity());
 				mCouponDialogFragment = new CouponDialogFragment();
 				mCouponDialogFragment.show(getChildFragmentManager(), CouponDialogFragment.TAG);
 				break;

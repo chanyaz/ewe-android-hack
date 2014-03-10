@@ -398,9 +398,9 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			startApplyCouponDownloader(mCouponCode);
 			break;
 		case COUPON_REMOVE:
-			mCouponCode = null;
 			Db.getHotelSearch().setCouponApplied(false);
-			OmnitureTracking.trackHotelCouponRemoved(getActivity());
+			OmnitureTracking.trackHotelCouponRemoved(getActivity(), mCouponCode);
+			mCouponCode = null;
 			// Post coupon successfully removed event to the Otto Bus.
 			Events.post(new Events.CouponRemoveDownloadSuccess(response.getNewRate()));
 			break;
@@ -575,7 +575,9 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			errorMessage = getString(R.string.coupon_error_no_code);
 		}
 		else {
-			errorMessage = response.getErrors().get(0).getCouponErrorMessage(getActivity());
+			ServerError serverError = response.getErrors().get(0);
+			errorMessage = serverError.getCouponErrorMessage(getActivity());
+			OmnitureTracking.trackHotelCouponFail(getActivity(), mCouponCode, serverError.getCouponErrorType());
 		}
 
 		DialogFragment df = SimpleDialogFragment.newInstance(null, errorMessage);
