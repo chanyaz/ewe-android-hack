@@ -46,6 +46,7 @@ android {
 
         ExpediaAutomation {
             packageName "com.expedia.bookings.auto"
+	    buildConfig "public static final boolean IS_VSC = false;"
         }
     }
 
