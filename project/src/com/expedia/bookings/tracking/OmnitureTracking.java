@@ -663,10 +663,10 @@ public class OmnitureTracking {
 		addCouponFields(context, s, HOTELS_COUPON_SUCCESS);
 	}
 
-	public static void trackHotelCouponRemoved(Context context, String couponCode) {
+	public static void trackHotelCouponRemoved(Context context) {
 		Log.d(TAG, "Tracking \"" + HOTELS_COUPON_REMOVE + "\" click");
 		ADMS_Measurement s = getFreshTrackingObject(context);
-		s.setEvar(24, couponCode);
+		s.setEvar(24, "Coupon Removed");
 		addCouponFields(context, s, HOTELS_COUPON_REMOVE);
 	}
 

@@ -399,7 +399,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			break;
 		case COUPON_REMOVE:
 			Db.getHotelSearch().setCouponApplied(false);
-			OmnitureTracking.trackHotelCouponRemoved(getActivity(), mCouponCode);
+			OmnitureTracking.trackHotelCouponRemoved(getActivity());
 			mCouponCode = null;
 			// Post coupon successfully removed event to the Otto Bus.
 			Events.post(new Events.CouponRemoveDownloadSuccess(response.getNewRate()));
