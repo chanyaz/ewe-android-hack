@@ -27,7 +27,7 @@ public class SettingsScreen extends ScreenActions {
 	private static final String SELECT_API_STRING_ID = "Select API";
 	private static final String SERVER_PROXY_STRING_ID = "Server/Proxy Address";
 	private static final String STUB_CONFIGURATION_PAGE_STRING_ID = "Stub Configuration Page";
-	private static final String SPOOF_HOTELS_BOOKING_STRING_ID = "Spoof Hotel Bookings";
+	private static final String SPOOF_HOTELS_BOOKING_STRING_ID = "Spoof hotel bookings";
 	private static final String SUPPRESS_FLIGHTS_BOOKING_STRING_ID = "Suppress Flight Bookings";
 
 	public SettingsScreen(Instrumentation instrumentation, Activity activity, Resources res,
