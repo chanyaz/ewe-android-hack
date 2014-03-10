@@ -334,6 +334,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	private void setListState(ResultsHotelsState state) {
 		if (mHotelListFrag != null) {
+
+			mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
+
 			//Button and locking
 			switch (state) {
 			case LOADING:
@@ -341,18 +344,15 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mHotelListFrag.updateAdapter();
 				mHotelListFrag.setPercentage(1f, 0);
 				mHotelListFrag.setListLockedToTop(false);
-				mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
-				mHotelListFrag.setTopRightTextButtonEnabled(false);
+				mHotelListFrag.setTopRightTextButtonEnabled(true);
 				break;
 			case HOTEL_LIST_UP:
 				mHotelListFrag.setPercentage(0f, 0);
 				mHotelListFrag.setListLockedToTop(false);
-				mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
 				mHotelListFrag.setTopRightTextButtonEnabled(true);
 				break;
 			case ROOMS_AND_RATES: {
 				mHotelListFrag.setListLockedToTop(true);
-				mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
 				mHotelListFrag.setTopRightTextButtonEnabled(true);
 				break;
 			}
