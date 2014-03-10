@@ -40,4 +40,8 @@
         <item name="android:progressDrawable">@drawable/star_rating_light_travelocity</item>
     </style>
 
+    <style name="Widget.Button.Green.Confirmation">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

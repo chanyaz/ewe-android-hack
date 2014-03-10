@@ -177,6 +177,8 @@
         <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_tvly</item>
         <item name="searchBackgroundPortraitDrawable">@drawable/bg_search_portrait_travelocity</item>
         <item name="searchBackgroundLandscapeDrawable">@drawable/bg_search_landscape_travelocity</item>
+
+        <item name="hotelDetailsTabletButtonStyle">@style/Widget.Button.Green</item>
     </style>
 
     <style name="TabletLauncherActionBarTravelocity" parent="Widget.Sherlock.ActionBar">
@@ -220,6 +222,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
         <item name="hotelTabletStarRatingStyle">@style/RatingBarSmall.Shadowed.StarTravelocity</item>
+        <item name="hotelBookingInfoButtonStyle">@style/Widget.Button.Green.Confirmation</item>
     </style>
 
 </resources>

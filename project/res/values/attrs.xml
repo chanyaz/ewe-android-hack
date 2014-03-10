@@ -330,6 +330,7 @@
 
     <attr name="hotelRoomRateRibbonLeft" format="reference"/>
     <attr name="hotelDetailsTabletButtonStyle" format="reference"/>
+    <attr name="hotelBookingInfoButtonStyle" format="reference"/>
 
     <attr name="userRatingTabletSnippetStyle" format="reference"/>
     <attr name="reviewsTitleTabletStyle" format="reference"/>

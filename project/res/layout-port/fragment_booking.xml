@@ -21,7 +21,7 @@
 
         <Button
             android:id="@+id/complete_booking_info_button"
-            style="@style/Widget.Button.Yellow.Confirmation"
+            style="?attr/hotelBookingInfoButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

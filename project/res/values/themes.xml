@@ -50,6 +50,7 @@
 
         <item name="hotelTabletStarRatingStyle">@style/RatingBarSmall.Shadowed.Star</item>
 
+        <item name="hotelBookingInfoButtonStyle">@style/Widget.Button.Yellow.Confirmation</item>
     </style>
 
     <style name="Theme.Tablet.Launcher" parent="@style/Theme.Sherlock.Light.DarkActionBar">
@@ -69,7 +70,7 @@
         <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
         <item name="searchBackgroundPortraitDrawable">@drawable/bg_search_portrait</item>
         <item name="searchBackgroundLandscapeDrawable">@drawable/bg_search_landscape</item>
-
+        <item name="hotelDetailsTabletButtonStyle">@style/Widget.Button.Yellow</item>
     </style>
 
     <style name="TabletLauncherActionBar" parent="Widget.Sherlock.ActionBar">
