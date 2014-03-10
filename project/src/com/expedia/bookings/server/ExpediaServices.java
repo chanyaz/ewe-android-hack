@@ -1520,7 +1520,7 @@ public class ExpediaServices implements DownloadListener {
 
 		mClient = new OkHttpClient();
 		request.setUserAgent(userAgent);
-		//FIXME: Does this work already? AndroidHttpClient.modifyRequestToAcceptGzipResponse(mRequest);
+		request.addHeader("Accept-Encoding", "gzip");
 		mClient.setReadTimeout(100L, TimeUnit.SECONDS);
 
 		boolean ignoreCookies = (flags & F_IGNORE_COOKIES) != 0;

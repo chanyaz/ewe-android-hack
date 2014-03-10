@@ -1,8 +1,10 @@
 package com.expedia.bookings.server;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.GZIPInputStream;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,7 +13,7 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 import com.mobiata.android.Log;
-import com.mobiata.android.util.NetUtils;
+import com.mobiata.android.util.IoUtils;
 import com.squareup.okhttp.Response;
 
 /**
@@ -46,7 +48,16 @@ public abstract class JsonResponseHandler<T> implements ResponseHandler<T> {
 				Log.v(httpInfo.toString());
 			}
 
-			String responseStr = response.body().string();
+			String contentEncoding = response.headers().get("Content-Encoding");
+			String responseStr;
+			if (!TextUtils.isEmpty(contentEncoding) && "gzip".equalsIgnoreCase(contentEncoding)) {
+				InputStream is = new GZIPInputStream(response.body().byteStream());
+				responseStr = IoUtils.convertStreamToString(is);
+				// convertStreamToString closes for us
+			}
+			else {
+				responseStr = response.body().string();
+			}
 			response.body().close();
 			if (Log.isLoggingEnabled()) {
 				Log.v("Response length: " + responseStr.length());

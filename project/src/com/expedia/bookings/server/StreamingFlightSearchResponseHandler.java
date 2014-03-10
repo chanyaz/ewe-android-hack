@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonParser;
@@ -69,6 +70,11 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		}
 
 		InputStream in = response.body().byteStream();
+		String contentEncoding = response.headers().get("Content-Encoding");
+		if (!TextUtils.isEmpty(contentEncoding) && "gzip".equalsIgnoreCase(contentEncoding)) {
+			in = new GZIPInputStream(in);
+		}
+
 		if (!mIsRelease) {
 			// Only wire this up on debug builds
 			in = new LoggingInputStream(in);

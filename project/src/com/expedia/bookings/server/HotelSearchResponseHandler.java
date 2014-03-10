@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
 
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonParseException;
@@ -12,6 +13,7 @@ import org.codehaus.jackson.JsonToken;
 
 import android.content.Context;
 import android.text.Html;
+import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance;
@@ -69,6 +71,11 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		}
 
 		InputStream in = response.body().byteStream();
+		String contentEncoding = response.headers().get("Content-Encoding");
+		if (!TextUtils.isEmpty(contentEncoding) && "gzip".equalsIgnoreCase(contentEncoding)) {
+			in = new GZIPInputStream(in);
+		}
+
 		if (!mIsRelease) {
 			// Only wire this up on debug builds
 			in = new LoggingInputStream(in);
