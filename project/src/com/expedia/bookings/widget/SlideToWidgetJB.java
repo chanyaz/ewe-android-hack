@@ -1,0 +1,343 @@
+package com.expedia.bookings.widget;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Shader;
+import android.os.Build;
+import android.util.AttributeSet;
+import android.view.HapticFeedbackConstants;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.utils.Ui;
+
+/**
+ * Implements a Slide-to-* widget with visual styling similar to the Jelly Bean lock screen.
+ *
+ * Created by Doug Melton on 3/10/14.
+ */
+public class SlideToWidgetJB extends RelativeLayout {
+
+	private ImageView mTouchTarget;
+	private ImageView mDestinationImage;
+	private View mSliderLine;
+	private TextView mSliderText;
+
+	// Dots mask
+	private Bitmap mMask;
+	private Bitmap mTargetBitmap;
+	private final Paint mPaint = new Paint();
+
+	private float mPartialSlide = -1;
+	private boolean mIsSliding = false;
+	private boolean mHitDestination = false;
+
+	public SlideToWidgetJB(Context context) {
+		super(context);
+		init(context, null);
+	}
+
+	public SlideToWidgetJB(Context context, AttributeSet attr) {
+		super(context, attr);
+		init(context, attr);
+	}
+
+	public SlideToWidgetJB(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+		init(context, attrs);
+	}
+
+	private void init(Context context, AttributeSet attr) {
+		LayoutInflater inflater = LayoutInflater.from(context);
+		View widget = inflater.inflate(R.layout.widget_slide_to_jb, this);
+
+		mTouchTarget = Ui.findView(widget, R.id.touch_target);
+		mSliderLine = Ui.findView(widget, R.id.slider_line);
+		mSliderText = Ui.findView(widget, R.id.slider_text);
+		mDestinationImage = Ui.findView(widget, R.id.destination_image);
+
+		setWillNotDraw(false);
+
+		mTouchTarget.setOnTouchListener(new SliderTouchListener());
+
+		if (attr != null) {
+			TypedArray ta = context.obtainStyledAttributes(attr, R.styleable.SlideToWidget, 0, 0);
+			setText(ta.getText(R.styleable.SlideToWidget_sliderText));
+			ta.recycle();
+		}
+
+		// Setup alpha mask
+		mMask = convertToAlphaMask(BitmapFactory.decodeResource(getResources(), R.drawable.slide_dots_mask));
+		mTargetBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.slide_dots_pattern);
+		Shader targetShader = new BitmapShader(mTargetBitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+		mPaint.setShader(targetShader);
+
+		resetSlider();
+	}
+
+	public void resetSlider() {
+		abortSlide();
+	}
+
+	@Override
+	protected void onDraw(Canvas canvas) {
+		super.onDraw(canvas);
+
+		if (mMask != null && mIsSliding && !mHitDestination) {
+			canvas.drawBitmap(mMask, mPartialSlide, 0.0f, mPaint);
+		}
+	}
+
+	/*
+	 * Getters and setters
+	 */
+
+	public void setText(CharSequence text) {
+		mSliderText.setText(text);
+	}
+
+	/*
+	 * Sliding motion
+	 */
+
+	private class SliderTouchListener implements OnTouchListener {
+		private float mInitialTouchOffsetX;
+		private float mTotalSlide;
+
+		@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+
+			switch (event.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				mInitialTouchOffsetX = event.getX();
+				activateSlide();
+				fireSlideStart();
+
+				performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+				mHitDestination = false;
+
+				mPartialSlide = 0;
+				mTotalSlide = mDestinationImage.getLeft() - mTouchTarget.getLeft() - mTouchTarget.getWidth() / 2;
+
+				mSliderLine.setPivotX(calculateSliderLineWidth());
+
+				break;
+			case MotionEvent.ACTION_MOVE:
+				float pixels = event.getX() - mInitialTouchOffsetX;
+				pixels = Math.min(mTotalSlide, Math.max(0, pixels));
+
+				// Don't fire slide progress over and over if the progress hasn't changed
+				if (pixels != mPartialSlide) {
+					mPartialSlide = pixels;
+
+					mSliderLine.setScaleX(1.0f - (mPartialSlide / mTotalSlide));
+
+					if (mPartialSlide == mTotalSlide) {
+						if (!mHitDestination) {
+							performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+							mHitDestination = true;
+							mDestinationImage.setImageResource(R.drawable.slide_finished_checked);
+						}
+					}
+					else {
+						if (mHitDestination) {
+							mHitDestination = false;
+							mDestinationImage.setImageResource(R.drawable.slide_finish_unchecked);
+						}
+					}
+					fireSlideProgress(mPartialSlide, mTotalSlide);
+				}
+
+				break;
+			case MotionEvent.ACTION_UP:
+
+				if (mHitDestination) {
+					fireSlideAllTheWay();
+				}
+				else {
+					abortSlide();
+					fireSlideAbort();
+				}
+
+				break;
+			default:
+				return false;
+			}
+			invalidate();
+			return true;
+		}
+	}
+
+	private static Bitmap convertToAlphaMask(Bitmap b) {
+		Bitmap a = Bitmap.createBitmap(b.getWidth(), b.getHeight(), Bitmap.Config.ALPHA_8);
+		Canvas c = new Canvas(a);
+		c.drawBitmap(b, 0.0f, 0.0f, null);
+		return a;
+	}
+
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private void activateSlide() {
+		mIsSliding = true;
+		mHitDestination = false;
+
+		if (mTouchTarget != null) {
+			mTouchTarget.setVisibility(View.INVISIBLE);
+		}
+		if (mSliderText != null) {
+			mSliderText.setVisibility(View.INVISIBLE);
+		}
+		if (mDestinationImage != null) {
+			mDestinationImage.setImageResource(R.drawable.slide_finish_unchecked);
+		}
+
+		AnimatorSet animSet = new AnimatorSet();
+		animSet.playTogether(getDrawLineAnimator(), getShowDestAnimator());
+		animSet.setDuration(100);
+		animSet.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationStart(Animator arg0) {
+				mSliderLine.setVisibility(View.VISIBLE);
+				mDestinationImage.setVisibility(View.VISIBLE);
+			}
+		});
+		animSet.start();
+	}
+
+	private void abortSlide() {
+		mIsSliding = false;
+		mHitDestination = false;
+
+		if (mTouchTarget != null) {
+			mTouchTarget.setVisibility(View.VISIBLE);
+		}
+		if (mSliderText != null) {
+			mSliderText.setVisibility(View.VISIBLE);
+		}
+		if (mSliderLine != null) {
+			mSliderLine.setVisibility(View.INVISIBLE);
+		}
+		if (mDestinationImage != null) {
+			mDestinationImage.setVisibility(View.INVISIBLE);
+			mDestinationImage.setImageResource(R.drawable.slide_finish_unchecked);
+		}
+
+		mPartialSlide = -1;
+	}
+
+	private int calculateSliderLineWidth() {
+		LayoutParams params = (LayoutParams) mSliderLine.getLayoutParams();
+		return getWidth() - params.leftMargin - params.rightMargin;
+	}
+
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private Animator getDrawLineAnimator() {
+		LayoutParams params = (LayoutParams) mSliderLine.getLayoutParams();
+		params.leftMargin = mTouchTarget.getRight() - 24;
+		params.rightMargin = getWidth() - mDestinationImage.getLeft() - 24;
+		params.width = calculateSliderLineWidth();
+
+		mSliderLine.setLayoutParams(params);
+
+		mSliderLine.setPivotX(0);
+
+		return ObjectAnimator.ofFloat(mSliderLine, "scaleX", 0, 1);
+	}
+
+	/**
+	 * This animation gets run when the touch target is touched from a rest state.
+	 *
+	 * @return
+	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private Animator getShowDestAnimator() {
+		PropertyValuesHolder trans = PropertyValuesHolder.ofFloat("translationX", -200f, 0f);
+		PropertyValuesHolder alpha = PropertyValuesHolder.ofFloat("alpha", 0f, 1f);
+		return ObjectAnimator.ofPropertyValuesHolder(mDestinationImage, trans, alpha);
+	}
+
+	/*
+	 * Listeners
+	 */
+
+	private List<ISlideToListener> mSlideToListeners = new ArrayList<ISlideToListener>();
+
+	public boolean addSlideToListener(ISlideToListener listener) {
+		return mSlideToListeners.add(listener);
+	}
+
+	public boolean removeSlideToListener(ISlideToListener listener) {
+		return mSlideToListeners.remove(listener);
+	}
+
+	public void clearSlideToListeners() {
+		mSlideToListeners.clear();
+	}
+
+	protected void fireSlideStart() {
+		for (ISlideToListener listener : mSlideToListeners) {
+			listener.onSlideStart();
+		}
+	}
+
+	protected void fireSlideProgress(float pixels, float total) {
+		for (ISlideToListener listener : mSlideToListeners) {
+			listener.onSlideProgress(pixels, total);
+		}
+	}
+
+	protected void fireSlideAllTheWay() {
+		for (ISlideToListener listener : mSlideToListeners) {
+			listener.onSlideAllTheWay();
+		}
+	}
+
+	protected void fireSlideAbort() {
+		for (ISlideToListener listener : mSlideToListeners) {
+			listener.onSlideAbort();
+		}
+	}
+
+	public interface ISlideToListener {
+		/**
+		 * The user has clicked on the slider...
+		 */
+		public void onSlideStart();
+
+		/**
+		 * The slider has slid partially across. The fraction of the distance can be computed
+		 * by: pixels / total.
+		 */
+		public void onSlideProgress(float pixels, float total);
+
+		/**
+		 * If the user slides the widget all the way over.
+		 */
+		public void onSlideAllTheWay();
+
+		/**
+		 * If the user starts a slide, but doesn't make it all the way, and the slide is reset
+		 */
+		public void onSlideAbort();
+	}
+
+}

@@ -21,6 +21,7 @@ import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.widget.SlideToWidget;
+import com.expedia.bookings.widget.SlideToWidgetJB;
 import com.mobiata.android.util.Ui;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -37,7 +38,7 @@ public class TabletCheckoutSlideFragment extends Fragment implements ICheckoutDa
 	private ViewGroup mAcceptContainer;
 	private ViewGroup mSlideContainer;
 	private ViewGroup mBookContainer;
-	private SlideToWidget mSlideToWidget;
+	private SlideToWidgetJB mSlideToWidget;
 
 	private boolean mHasAcceptedTOS;
 
@@ -157,9 +158,14 @@ public class TabletCheckoutSlideFragment extends Fragment implements ICheckoutDa
 	 * ISlideToListener
 	 */
 
-	SlideToWidget.ISlideToListener mSlideListener = new SlideToWidget.ISlideToListener() {
+	SlideToWidgetJB.ISlideToListener mSlideListener = new SlideToWidgetJB.ISlideToListener() {
 		@Override
 		public void onSlideStart() {
+		}
+
+		@Override
+		public void onSlideProgress(float pixels, float total) {
+
 		}
 
 		@Override
