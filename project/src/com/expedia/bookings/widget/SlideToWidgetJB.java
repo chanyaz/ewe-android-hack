@@ -252,8 +252,9 @@ public class SlideToWidgetJB extends RelativeLayout {
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private Animator getDrawLineAnimator() {
 		LayoutParams params = (LayoutParams) mSliderLine.getLayoutParams();
-		params.leftMargin = mTouchTarget.getRight() - 24;
-		params.rightMargin = getWidth() - mDestinationImage.getLeft() - 24;
+		int padding = (int)(12 * getResources().getDisplayMetrics().density);
+		params.leftMargin = mTouchTarget.getRight() - padding;
+		params.rightMargin = getWidth() - mDestinationImage.getLeft() - padding;
 		params.width = calculateSliderLineWidth();
 
 		mSliderLine.setLayoutParams(params);
@@ -270,7 +271,8 @@ public class SlideToWidgetJB extends RelativeLayout {
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private Animator getShowDestAnimator() {
-		PropertyValuesHolder trans = PropertyValuesHolder.ofFloat("translationX", -200f, 0f);
+		float xstart = -getWidth() / 3;
+		PropertyValuesHolder trans = PropertyValuesHolder.ofFloat("translationX", xstart, 0f);
 		PropertyValuesHolder alpha = PropertyValuesHolder.ofFloat("alpha", 0f, 1f);
 		return ObjectAnimator.ofPropertyValuesHolder(mDestinationImage, trans, alpha);
 	}
