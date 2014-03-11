@@ -1532,10 +1532,14 @@ public class ExpediaServices implements DownloadListener {
 		if (!ignoreCookies) {
 			// TODO: Find some way to keep this easily in memory so we're not saving/loading after each request.
 			cookieStore = getCookieStore(mContext);
+
 			HttpCookieStore store = new HttpCookieStore();
 			store.updateSettings(mContext);
-			mClient.setCookieHandler(new CookieManager(store, CookiePolicy.ACCEPT_ALL));
-			// FIXME original cookie enforcement
+
+			ExpediaCookiePolicy policy = new ExpediaCookiePolicy();
+			policy.updateSettings(mContext);
+
+			mClient.setCookieHandler(new CookieManager(store, policy));
 
 			if (logCookies) {
 				Log.v("Sending cookies:");
