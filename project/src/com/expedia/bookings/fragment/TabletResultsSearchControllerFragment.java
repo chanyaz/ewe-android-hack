@@ -67,6 +67,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private FrameLayoutTouchController mSearchBarC;
 	private ViewGroup mRightButtonsC;
 	private FrameLayoutTouchController mWidgetC;
+	private View mWidgetBg;
 	//Fragment Containers
 	private FrameLayoutTouchController mCalC;
 	private FrameLayoutTouchController mTravC;
@@ -99,6 +100,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mRightButtonsC = Ui.findView(view, R.id.right_buttons_container);
 		mWidgetC = Ui.findView(view, R.id.widget_container);
 		mOrigC = Ui.findView(view, R.id.origin_container);
+		mTravC = Ui.findView(view, R.id.traveler_container);
+		mCalC = Ui.findView(view, R.id.calendar_container);
+		mWidgetBg = Ui.findView(view, R.id.widget_container_bg);
 
 		mDestBtn = Ui.findView(view, R.id.dest_btn);
 		mOrigBtn = Ui.findView(view, R.id.origin_btn);
@@ -217,7 +221,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	 * SEARCH BAR BUTTON STUFF
 	 */
 
-	private final boolean mAnimateButtonClicks = false;
+	private final boolean mAnimateButtonClicks = true;
 
 	private View.OnClickListener mDestClick = new View.OnClickListener() {
 		@Override
@@ -230,7 +234,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		@Override
 		public void onClick(View view) {
 			//TODO: Use set state and default animate value
-			setState(ResultsSearchState.FLIGHT_ORIGIN, true);
+			setState(ResultsSearchState.FLIGHT_ORIGIN, mAnimateButtonClicks);
 		}
 	};
 
@@ -279,12 +283,20 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				}
 			}
 			else {
-				if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.FLIGHT_ORIGIN) {
+				if (stateOne == ResultsSearchState.FLIGHT_ORIGIN || stateTwo == ResultsSearchState.FLIGHT_ORIGIN) {
 					mOrigC.setVisibility(View.VISIBLE);
 				}
-				else if (stateOne == ResultsSearchState.FLIGHT_ORIGIN && stateTwo == ResultsSearchState.DEFAULT) {
-					mOrigC.setVisibility(View.VISIBLE);
+
+				if (stateOne == ResultsSearchState.CALENDAR || stateTwo == ResultsSearchState.CALENDAR) {
+					mWidgetC.setVisibility(View.VISIBLE);
+					mCalC.setVisibility(View.VISIBLE);
 				}
+
+				if (stateOne == ResultsSearchState.TRAVELER_PICKER || stateTwo == ResultsSearchState.TRAVELER_PICKER) {
+					mWidgetC.setVisibility(View.VISIBLE);
+					mTravC.setVisibility(View.VISIBLE);
+				}
+
 			}
 			setActionbarShowingState(stateTwo);
 		}
@@ -299,6 +311,33 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					//For hotels we also fade
 					setSlideUpHotelsOnlyAnimationPercentage(perc);
 				}
+			}
+			else {
+				if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.CALENDAR) {
+					mCalC.setTranslationY((1f - percentage) * -mWidgetC.getHeight());
+					mWidgetBg.setTranslationY((1f - percentage) * -mWidgetBg.getHeight());
+				}
+				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.DEFAULT) {
+					mCalC.setTranslationY(percentage * -mWidgetC.getHeight());
+					mWidgetBg.setTranslationY(percentage * -mWidgetBg.getHeight());
+				}
+				else if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
+					mTravC.setTranslationY((1f - percentage) * -mWidgetC.getHeight());
+					mWidgetBg.setTranslationY((1f - percentage) * -mWidgetBg.getHeight());
+				}
+				else if (stateOne == ResultsSearchState.TRAVELER_PICKER && stateTwo == ResultsSearchState.DEFAULT) {
+					mTravC.setTranslationY(percentage * -mWidgetC.getHeight());
+					mWidgetBg.setTranslationY(percentage * -mWidgetBg.getHeight());
+				}
+				else if (stateOne == ResultsSearchState.TRAVELER_PICKER && stateTwo == ResultsSearchState.CALENDAR) {
+					mTravC.setTranslationX(percentage * mTravC.getWidth());
+					mCalC.setTranslationX((1f - percentage) * -mCalC.getWidth());
+				}
+				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
+					mTravC.setTranslationX((1f - percentage) * mTravC.getWidth());
+					mCalC.setTranslationX(percentage * -mCalC.getWidth());
+				}
+
 			}
 		}
 
@@ -315,12 +354,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateFinalized(ResultsSearchState state) {
-
-			mOrigC.setVisibility(state == ResultsSearchState.FLIGHT_ORIGIN ? View.VISIBLE : View.INVISIBLE);
-
-
 			setActionbarShowingState(state);
 			setFragmentState(state);
+			setVisibilitiesForState(state);
+			resetWidgetTranslations();
 
 			switch (state) {
 			case HOTELS_UP: {
@@ -337,13 +374,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				setSlideUpAnimationPercentage(0f);
 				setSlideUpHotelsOnlyAnimationPercentage(0f);
 			}
-			}
-
-			if (state == ResultsSearchState.CALENDAR || state == ResultsSearchState.TRAVELER_PICKER) {
-				mWidgetC.setVisibility(View.VISIBLE);
-			}
-			else {
-				mWidgetC.setVisibility(View.INVISIBLE);
 			}
 		}
 
@@ -394,12 +424,34 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mOrigBtn.setAlpha(1f - percentage);
 		}
 
-		private void setActionbarShowingState(ResultsSearchState state){
-			if(state == ResultsSearchState.FLIGHT_ORIGIN){
+		private void setActionbarShowingState(ResultsSearchState state) {
+			if (state == ResultsSearchState.FLIGHT_ORIGIN) {
 				getActivity().getActionBar().hide();
-			}else{
+			}
+			else {
 				getActivity().getActionBar().show();
 			}
+		}
+
+		private void setVisibilitiesForState(ResultsSearchState state) {
+			mOrigC.setVisibility(state == ResultsSearchState.FLIGHT_ORIGIN ? View.VISIBLE : View.INVISIBLE);
+			mTravC.setVisibility(state == ResultsSearchState.TRAVELER_PICKER ? View.VISIBLE : View.INVISIBLE);
+			mCalC.setVisibility(state == ResultsSearchState.CALENDAR ? View.VISIBLE : View.INVISIBLE);
+			mWidgetC.setVisibility(
+				mCalC.getVisibility() == View.VISIBLE || mTravC.getVisibility() == View.VISIBLE ? View.VISIBLE
+					: View.INVISIBLE);
+		}
+
+		private void resetWidgetTranslations() {
+			//These are only altered for animations, and we dont want things to get into odd places.
+			mCalC.setTranslationX(0f);
+			mCalC.setTranslationY(0f);
+			mTravC.setTranslationX(0f);
+			mTravC.setTranslationY(0f);
+			mWidgetC.setTranslationX(0f);
+			mWidgetC.setTranslationY(0f);
+			mWidgetBg.setTranslationX(0f);
+			mWidgetBg.setTranslationY(0f);
 		}
 	};
 
@@ -418,9 +470,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		//We will be adding all of our add/removes to this transaction
 		FragmentTransaction transaction = manager.beginTransaction();
 
-		boolean mCalAvail = state == ResultsSearchState.CALENDAR;
-		boolean mTravAvail = state == ResultsSearchState.TRAVELER_PICKER;
-		boolean mOrigAvail = true;//state == ResultsSearchState.FLIGHT_ORIGIN;
+		//We want most of our frags available so they can animate in real nice like
+		boolean mParamFragsAvailable = state != ResultsSearchState.HOTELS_UP && state != ResultsSearchState.FLIGHTS_UP;
+
+		boolean mCalAvail = mParamFragsAvailable;
+		boolean mTravAvail = mParamFragsAvailable;
+		boolean mOrigAvail = mParamFragsAvailable;
 		boolean mLocAvail = !Sp.getParams().hasOrigin();//TODO: Write some current location expiration logic
 
 
