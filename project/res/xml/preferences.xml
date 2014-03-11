@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-	xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
 	<PreferenceCategory
 		android:title="@string/preference_category_general">
+
         <com.expedia.bookings.dialog.DomainPreference
             android:key="@string/PointOfSaleKey"
             android:title="@string/preference_point_of_sale_title" />
+
 		<com.expedia.bookings.dialog.ClearPrivateDataDialogPreference
 			android:key="@string/preference_clear_private_data_key"
 			android:title="@string/clear_private_data"
@@ -13,5 +15,12 @@
 			android:dialogMessage="@string/dialog_log_out_and_clear_private_data_msg"
 			android:positiveButtonText="@android:string/ok"
 			android:negativeButtonText="@android:string/cancel" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/preference_tracking_optout"
+            android:summary="@string/tracking_optout_description"
+            android:title="@string/tracking_optout" />
+
 	</PreferenceCategory>
 </PreferenceScreen>

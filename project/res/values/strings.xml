@@ -1771,6 +1771,10 @@
     <string name="disclaimer_expedia_points">If you have an Expedia Rewards account, please book with the same email address and your points will automatically post after your stay. Please note that it may take up to 30 days for your points to appear.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Confirm &amp; Book</string>
+    <!-- Label for advertising optout setting -->
+    <string name="tracking_optout">Tracking Opt-out</string>
+    <!-- Description for advertising optout setting -->
+    <string name="tracking_optout_description">Disable 3rd party tracking the next time the app restarts</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">Clear Private Data</string>
     <!-- Title for dialog confirming the clearing of private data -->

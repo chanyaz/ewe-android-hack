@@ -3,6 +3,7 @@ package com.expedia.bookings.tracking;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -12,15 +13,19 @@ import com.expedia.bookings.data.Rate;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.Item;
 import com.google.analytics.tracking.android.Transaction;
+import com.mobiata.android.util.SettingUtils;
 
 public class AdTracker {
 
 	public static void initialize(Context context) {
+		boolean trackingOptout = SettingUtils.get(context, context.getString(R.string.preference_tracking_optout), false);
+
 		// Google
 		EasyTracker.getInstance().setContext(context);
 
 		// AdX
-		AdX.initialize(context, true);
+		boolean adxEnabled = !trackingOptout;
+		AdX.initialize(context, adxEnabled);
 	}
 
 	public static void trackFirstLaunch() {
