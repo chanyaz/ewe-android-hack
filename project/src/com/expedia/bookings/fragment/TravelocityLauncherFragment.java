@@ -29,16 +29,15 @@ public class TravelocityLauncherFragment extends Fragment {
 	}
 
 	private static final Integer[] BACKGROUND_RES_IDS = new Integer[] {
-		R.drawable.bg_launch_sf_placeholder,
-		R.drawable.bg_launch_london,
-		R.drawable.bg_launch_ny,
-		R.drawable.bg_launch_paris,
-		R.drawable.bg_launch_sea,
-		R.drawable.bg_launch_sf,
-		R.drawable.bg_launch_toronto,
-		R.drawable.bg_launch_hongkong,
-		R.drawable.bg_launch_petronas,
-		R.drawable.bg_launch_vegas,
+		R.drawable.bg_launch_tvly_sf,
+		R.drawable.bg_launch_tvly_las_vegas,
+		R.drawable.bg_launch_tvly_london,
+		R.drawable.bg_launch_tvly_paris,
+		R.drawable.bg_launch_tvly_swiss,
+		R.drawable.bg_launch_tvly_japan,
+		R.drawable.bg_launch_tvly_rome,
+		R.drawable.bg_launch_tvly_venice,
+		R.drawable.bg_launch_tvly_maldives
 	};
 
 	@Override
