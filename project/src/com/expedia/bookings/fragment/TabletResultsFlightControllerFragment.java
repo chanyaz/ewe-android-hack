@@ -1347,21 +1347,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				mFlightOneListC.setLayerType(layerType, null);
 			}
 
-			// Some animation cleanup
-			if (stateTwo == ResultsFlightsState.FLIGHT_HISTOGRAM) {
-				mFlightHistogramC.setAlpha(1f);
-				mFlightOneListC.setAlpha(0f);
-				mFlightHistogramC.setRotationY(0f);
-				mFlightHistogramC.setTouchPassThroughEnabled(false);
-			}
-
-			if (stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-				mFlightOneListC.setAlpha(1f);
-				mFlightHistogramC.setAlpha(0f);
-				mFlightOneListC.setRotationY(0f);
-				mFlightHistogramC.setTouchPassThroughEnabled(true);
-				mFlightHistogramC.setTouchPassThroughReceiver(mFlightOneListC);
-			}
 		}
 
 		@Override
@@ -1417,6 +1402,22 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
 				break;
 			}
+			}
+
+			// Some histogram/list card flip animation cleanup
+			if (state == ResultsFlightsState.FLIGHT_HISTOGRAM) {
+				mFlightHistogramC.setAlpha(1f);
+				mFlightOneListC.setAlpha(0f);
+				mFlightHistogramC.setRotationY(0f);
+				mFlightHistogramC.setTouchPassThroughEnabled(false);
+			}
+
+			if (state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				mFlightOneListC.setAlpha(1f);
+				mFlightHistogramC.setAlpha(0f);
+				mFlightOneListC.setRotationY(0f);
+				mFlightHistogramC.setTouchPassThroughEnabled(true);
+				mFlightHistogramC.setTouchPassThroughReceiver(mFlightOneListC);
 			}
 
 			// Switch the flight line around
