@@ -80,20 +80,22 @@ public class TravelocityLauncherFragment extends Fragment {
 			Bundle animOptions = AnimUtils.createActivityScaleBundle(v);
 
 			switch (v.getId()) {
-			case R.id.tvly_hotels:
+			case R.id.tvly_hotels: {
 				if (!mLaunchingActivity) {
 					mLaunchingActivity = true;
 					NavUtils.goToHotels(getActivity(), animOptions);
 					OmnitureTracking.trackLinkLaunchScreenToHotels(getActivity());
 				}
 				break;
-			case R.id.tvly_flights:
+			}
+			case R.id.tvly_flights: {
 				if (!mLaunchingActivity) {
 					mLaunchingActivity = true;
 					NavUtils.goToFlights(getActivity(), animOptions);
 					OmnitureTracking.trackLinkLaunchScreenToFlights(getActivity());
 				}
 				break;
+			}
 			}
 		}
 	};
