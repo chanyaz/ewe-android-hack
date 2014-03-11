@@ -214,6 +214,9 @@
         <item name="userRatingTabletSnippetStyle">@style/RatingBarSmall.UserReview.Travelocity</item>
         <item name="reviewsTitleTabletStyle">@style/RatingBarSmall.Shadowed.UserReview.Travelocity</item>
 
+        <item name="hotelTabletStarRatingStyle">@style/RatingBarSmall.Shadowed.StarTravelocity</item>
+        <item name="hotelBookingInfoButtonStyle">@style/Widget.Button.Green.Confirmation</item>
+
     </style>
 
     <!-- This is basically only used for TabletUserReviewsListActivity -->
@@ -221,8 +224,6 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
-        <item name="hotelTabletStarRatingStyle">@style/RatingBarSmall.Shadowed.StarTravelocity</item>
-        <item name="hotelBookingInfoButtonStyle">@style/Widget.Button.Green.Confirmation</item>
     </style>
 
 </resources>
