@@ -93,6 +93,9 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		ResourceZoneInfoProvider.init(this);
 		startupTimer.addSplit("Joda TZ Provider Init");
 
+		ExpediaServices.init(this);
+		startupTimer.addSplit("ExpediaServices init");
+
 		try {
 			if (!isRelease) {
 				FlightStatsDbUtils.setUpgradeCutoff(DateUtils.DAY_IN_MILLIS); // 1 day cutoff for upgrading FS.db

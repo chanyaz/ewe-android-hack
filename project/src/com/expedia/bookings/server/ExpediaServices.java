@@ -163,7 +163,9 @@ public class ExpediaServices implements DownloadListener {
 
 	private Context mContext;
 
-	// For cancelling requests
+	// We want to use the cached client for all our requests except the ones that ignore cookies
+	private static OkHttpClient sCachedClient;
+	private static HttpCookieStore sCookieStore;
 	private OkHttpClient mClient;
 	private Request mRequest;
 
@@ -173,6 +175,42 @@ public class ExpediaServices implements DownloadListener {
 
 	public ExpediaServices(Context context) {
 		mContext = context;
+	}
+
+	public static void init(Context context) {
+		sCachedClient = makeOkHttpClient(context);
+
+		sCookieStore = new HttpCookieStore();
+		sCookieStore.updateSettings(context);
+
+		ExpediaCookiePolicy policy = new ExpediaCookiePolicy();
+		policy.updateSettings(context);
+
+		sCachedClient.setCookieHandler(new CookieManager(sCookieStore, policy));
+	}
+
+	private static OkHttpClient makeOkHttpClient(Context context) {
+		OkHttpClient client = new OkHttpClient();
+
+		client.setReadTimeout(100L, TimeUnit.SECONDS);
+
+		// 1902 - Allow redirecting from API calls
+		client.setFollowProtocolRedirects(true);
+
+		// When not a release build, allow SSL from all connections
+		// Our test servers use self signed certs
+		if (!AndroidUtils.isRelease(context)) {
+			try {
+				SSLContext socketContext = SSLContext.getInstance("TLS");
+				socketContext.init(null, sEasyTrustManager, new java.security.SecureRandom());
+				client.setSslSocketFactory(socketContext.getSocketFactory());
+			}
+			catch (Exception e) {
+				Log.w("Something sad happened during manipulation of SSL", e);
+			}
+		}
+
+		return client;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1518,54 +1556,18 @@ public class ExpediaServices implements DownloadListener {
 	private <T extends Response> T doRequest(Request.Builder request, ResponseHandler<T> responseHandler, int flags) {
 		final String userAgent = getUserAgentString(mContext);
 
-		mClient = new OkHttpClient();
+		mClient = sCachedClient;
 		request.setUserAgent(userAgent);
 		request.addHeader("Accept-Encoding", "gzip");
-		mClient.setReadTimeout(100L, TimeUnit.SECONDS);
 
-		boolean ignoreCookies = (flags & F_IGNORE_COOKIES) != 0;
-		boolean logCookies = !AndroidUtils.isRelease(mContext)
-			&& SettingUtils.get(mContext, mContext.getString(R.string.preference_cookie_logging), false);
-
-		PersistantCookieStore cookieStore = null;
-		boolean cookiesAreLoggedIn = User.isLoggedIn(mContext);
-		if (!ignoreCookies) {
-			// TODO: Find some way to keep this easily in memory so we're not saving/loading after each request.
-			cookieStore = getCookieStore(mContext);
-
-			HttpCookieStore store = new HttpCookieStore();
-			store.updateSettings(mContext);
-
-			ExpediaCookiePolicy policy = new ExpediaCookiePolicy();
-			policy.updateSettings(mContext);
-
-			mClient.setCookieHandler(new CookieManager(store, policy));
-
-			if (logCookies) {
-				Log.v("Sending cookies:");
-				cookieStore.log();
-			}
+		final boolean ignoreCookies = (flags & F_IGNORE_COOKIES) != 0;
+		if (ignoreCookies) {
+			// We don't want cookies so we cannot use the cached client
+			mClient = makeOkHttpClient(mContext);
+			mClient.setCookieHandler(sBlackHoleCookieManager);
 		}
 
-		// 1902 - Allow redirecting from API calls
-		if ((flags & F_ALLOW_REDIRECT) != 0) {
-			mClient.setFollowProtocolRedirects(true);
-		}
-		else {
-			mClient.setFollowProtocolRedirects(false);
-		}
-
-		// When not a release build, allow SSL from all connections
-		if ((flags & F_SECURE_REQUEST) != 0 && !AndroidUtils.isRelease(mContext)) {
-			try {
-				SSLContext socketContext = SSLContext.getInstance("TLS");
-				socketContext.init(null, mEasyTrustManager, new java.security.SecureRandom());
-				mClient.setSslSocketFactory(socketContext.getSocketFactory());
-			}
-			catch (Exception e) {
-				Log.w("Something sad happened during manipulation of SSL", e);
-			}
-		}
+		final boolean cookiesAreLoggedIn = User.isLoggedIn(mContext);
 
 		// Make the request
 		long start = System.currentTimeMillis();
@@ -1583,13 +1585,8 @@ public class ExpediaServices implements DownloadListener {
 						+ (cookiesAreLoggedIn ? "IN" : "OUT") + " state.");
 					return doRequest(request, responseHandler, flags);
 				}
-				if (logCookies) {
-					Log.v("Received cookies: ");
-					cookieStore.log();
-				}
 
-				cookieStore.save(mContext, COOKIES_FILE);
-
+				// FIXME : cookieStore.save(mContext, COOKIES_FILE);
 			}
 			return (T) processedResponse;
 		}
@@ -1815,7 +1812,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	// Automatically trusts all SSL certificates.  ONLY USE IN TESTING!
-	private static final TrustManager[] mEasyTrustManager = new TrustManager[] {
+	private static final TrustManager[] sEasyTrustManager = new TrustManager[] {
 		new X509TrustManager() {
 			public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
 				// So easy
@@ -1831,6 +1828,8 @@ public class ExpediaServices implements DownloadListener {
 			}
 		}
 	};
+
+	private static final CookieManager sBlackHoleCookieManager = new CookieManager(null, CookiePolicy.ACCEPT_NONE);
 
 	public String getLongUrl(String shortUrl) {
 		try {
