@@ -146,7 +146,7 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 	private void updateViews() {
 		Rate rate = Db.getHotelSearch().getSelectedRate();
 		// Configure the total cost and (if necessary) total cost paid to Expedia
-		if (Db.getHotelSearch().isCouponApplied()) {
+		if (Db.getTripBucket().getHotel() != null && Db.getTripBucket().getHotel().isCouponApplied()) {
 			rate = Db.getHotelSearch().getCouponRate();
 
 			// Show off the savings!
@@ -158,7 +158,7 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 	private void updateViewVisibilities() {
 		// Show/hide either the coupon button or the coupon applied layout
 		View couponShow;
-		if (Db.getHotelSearch().isCouponApplied()) {
+		if (Db.getTripBucket().getHotel() != null && Db.getTripBucket().getHotel().isCouponApplied()) {
 			couponShow = mCouponAppliedContainer;
 			mCouponTextButton.setVisibility(View.GONE);
 		}
