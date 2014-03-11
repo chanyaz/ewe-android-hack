@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.joda.time.LocalDate;
 
 import android.annotation.TargetApi;
+import android.graphics.Rect;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
@@ -227,7 +229,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mOrigClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			setState(ResultsSearchState.FLIGHT_ORIGIN, mAnimateButtonClicks);
+			//TODO: Use set state and default animate value
+			setState(ResultsSearchState.FLIGHT_ORIGIN, true);
 		}
 	};
 
@@ -265,6 +268,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	}
 
 	private StateListenerHelper<ResultsSearchState> mSearchStateHelper = new StateListenerHelper<ResultsSearchState>() {
+
 		@Override
 		public void onStateTransitionStart(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
 			if (performingSlideUpOrDownTransition(stateOne, stateTwo)) {
@@ -274,6 +278,15 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					setSlideUpHotelsOnlyHardwareLayers(true);
 				}
 			}
+			else {
+				if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.FLIGHT_ORIGIN) {
+					mOrigC.setVisibility(View.VISIBLE);
+				}
+				else if (stateOne == ResultsSearchState.FLIGHT_ORIGIN && stateTwo == ResultsSearchState.DEFAULT) {
+					mOrigC.setVisibility(View.VISIBLE);
+				}
+			}
+			setActionbarShowingState(stateTwo);
 		}
 
 		@Override
@@ -302,6 +315,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateFinalized(ResultsSearchState state) {
+
+			mOrigC.setVisibility(state == ResultsSearchState.FLIGHT_ORIGIN ? View.VISIBLE : View.INVISIBLE);
+
+
+			setActionbarShowingState(state);
 			setFragmentState(state);
 
 			switch (state) {
@@ -375,6 +393,14 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		private void setSlideUpHotelsOnlyAnimationPercentage(float percentage) {
 			mOrigBtn.setAlpha(1f - percentage);
 		}
+
+		private void setActionbarShowingState(ResultsSearchState state){
+			if(state == ResultsSearchState.FLIGHT_ORIGIN){
+				getActivity().getActionBar().hide();
+			}else{
+				getActivity().getActionBar().show();
+			}
+		}
 	};
 
 
@@ -394,7 +420,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		boolean mCalAvail = state == ResultsSearchState.CALENDAR;
 		boolean mTravAvail = state == ResultsSearchState.TRAVELER_PICKER;
-		boolean mOrigAvail = state == ResultsSearchState.FLIGHT_ORIGIN;
+		boolean mOrigAvail = true;//state == ResultsSearchState.FLIGHT_ORIGIN;
 		boolean mLocAvail = !Sp.getParams().hasOrigin();//TODO: Write some current location expiration logic
 
 
@@ -644,6 +670,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		Log.e("Fused Location Provider - onError()");
 	}
 
+
 	/**
 	 * IResultsWaypointFragmentListener
 	 */
@@ -656,6 +683,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				doSpUpdate();
 			}
 		}
-		setState(ResultsSearchState.DEFAULT, false);
+		setState(ResultsSearchState.DEFAULT, true);
+	}
+
+	@Override
+	public Rect getAnimOrigin() {
+		return ScreenPositionUtils.getGlobalScreenPosition(mOrigBtn);
 	}
 }

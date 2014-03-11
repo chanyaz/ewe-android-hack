@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,8 +18,10 @@ import android.widget.EditText;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.SuggestionV2.ResultType;
+import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.fragment.SuggestionsFragment.SuggestionsFragmentListener;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
+import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.section.AfterChangeTextWatcher;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
@@ -36,6 +39,8 @@ public class ResultsWaypointFragment extends Fragment
 	private static final String FTAG_SUGGESTIONS = "FTAG_SUGGESTIONS";
 
 	public static interface IResultsWaypointFragmentListener {
+		public Rect getAnimOrigin();
+
 		public void onWaypointSearchComplete(ResultsWaypointFragment caller, SuggestionV2 suggest);
 	}
 
@@ -45,6 +50,7 @@ public class ResultsWaypointFragment extends Fragment
 	private IResultsWaypointFragmentListener mListener;
 
 	private FrameLayoutTouchController mRootC;
+	private View mBg;
 	private ViewGroup mSearchBarC;
 	private ViewGroup mSuggestionsC;
 	private View mSearchBtn;
@@ -67,6 +73,7 @@ public class ResultsWaypointFragment extends Fragment
 		mRootC = Ui.findView(view, R.id.root_layout);
 		mRootC.setConsumeTouch(true);
 
+		mBg = Ui.findView(view, R.id.bg);
 		mWaypointEditText = Ui.findView(view, R.id.waypoint_edit_text);
 		mSearchBarC = Ui.findView(view, R.id.search_bar_conatiner);
 		mSuggestionsC = Ui.findView(view, R.id.suggestions_container);
@@ -98,13 +105,14 @@ public class ResultsWaypointFragment extends Fragment
 	public void onResume() {
 		super.onResume();
 		mMeasurementHelper.registerWithProvider(this);
-		getActivity().getActionBar().hide();
+		mSearchStateListener.registerWithProvider(this);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		mMeasurementHelper.unregisterWithProvider(this);
+		mSearchStateListener.unregisterWithProvider(this);
 		getActivity().getActionBar().show();
 	}
 
@@ -154,6 +162,76 @@ public class ResultsWaypointFragment extends Fragment
 			fragment.filter(text);
 		}
 	}
+
+	///////////////////////////////////////////////////////////////////////////
+	///// StateListenerHelper<ResultsSearchState>
+
+	private StateListenerHelper<ResultsSearchState> mSearchStateListener = new StateListenerHelper<ResultsSearchState>() {
+
+		private Rect mAnimFrom;
+		private float mMultX;
+		private float mMultY;
+
+		@Override
+		public void onStateTransitionStart(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			if (stateTwo == ResultsSearchState.FLIGHT_ORIGIN || (stateOne == ResultsSearchState.FLIGHT_ORIGIN
+				&& stateTwo == ResultsSearchState.DEFAULT)) {
+				mAnimFrom = mListener.getAnimOrigin();
+				mMultX = (mAnimFrom.width() / (float) mSearchBarC.getWidth());
+				mMultY = (mAnimFrom.height() / (float) mSearchBarC.getHeight());
+
+				mSuggestionsC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+				mBg.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+				mSearchBarC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+
+				mSearchBarC.setPivotX(0);
+				mSearchBarC.setPivotY(0);
+			}
+		}
+
+		@Override
+		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo,
+			float percentage) {
+			if (stateTwo == ResultsSearchState.FLIGHT_ORIGIN || (stateOne == ResultsSearchState.FLIGHT_ORIGIN
+				&& stateTwo == ResultsSearchState.DEFAULT)) {
+				float perc = stateTwo == ResultsSearchState.FLIGHT_ORIGIN ? percentage : (1f - percentage);
+
+				float transX = (1f - perc) * (mAnimFrom.left - mSearchBarC.getLeft());
+				float transY = (1f - perc) * (mAnimFrom.bottom - (mSearchBarC.getBottom()));
+				float scaleX = mMultX + perc * (1f - mMultX);
+				float scaleY = mMultY + perc * (1f - mMultY);
+
+				mSearchBarC.setTranslationX(transX);
+				mSearchBarC.setTranslationY(transY);
+				mSearchBarC.setScaleX(scaleX);
+				mSearchBarC.setScaleY(scaleY);
+				mSuggestionsC.setTranslationY((1f - perc) * mSuggestionsC.getHeight());
+				mBg.setAlpha(perc);
+			}
+		}
+
+		@Override
+		public void onStateTransitionEnd(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			if (stateTwo == ResultsSearchState.FLIGHT_ORIGIN || (stateOne == ResultsSearchState.FLIGHT_ORIGIN
+				&& stateTwo == ResultsSearchState.DEFAULT)) {
+				mSuggestionsC.setLayerType(View.LAYER_TYPE_NONE, null);
+				mBg.setLayerType(View.LAYER_TYPE_NONE, null);
+				mSearchBarC.setLayerType(View.LAYER_TYPE_NONE, null);
+			}
+		}
+
+		@Override
+		public void onStateFinalized(ResultsSearchState state) {
+			if (state == ResultsSearchState.FLIGHT_ORIGIN) {
+				mSearchBarC.setTranslationX(0);
+				mSearchBarC.setTranslationY(0);
+				mSearchBarC.setScaleX(1f);
+				mSearchBarC.setScaleY(1f);
+				mSuggestionsC.setTranslationY(0);
+			}
+		}
+	};
+
 
 	//////////////////////////////////////////////////////////////////////////
 	// Clicks
