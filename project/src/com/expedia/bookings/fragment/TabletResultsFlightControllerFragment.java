@@ -251,7 +251,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			mFlightSearchDownloadFrag.setSearchParams(Sp.getParams().toFlightSearchParams());
 
 			// Kick off the gde download
-			mFlightSearchDownloadFrag.startGdeSearch();
+			mFlightSearchDownloadFrag.startOrRestartGdeSearch();
 
 			// Kick off the flight search download
 			mFlightSearchDownloadFrag.startOrRestartSearch();

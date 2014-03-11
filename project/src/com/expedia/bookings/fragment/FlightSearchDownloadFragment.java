@@ -66,7 +66,7 @@ public class FlightSearchDownloadFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 
-		startGdeSearch();
+		startOrRestartGdeSearch();
 	}
 
 	@Override
