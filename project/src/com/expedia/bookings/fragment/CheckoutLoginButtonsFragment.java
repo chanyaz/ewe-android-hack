@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.fragment.base.LobableFragment;
+import com.expedia.bookings.interfaces.ILOBable;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
@@ -28,11 +29,17 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
-public class CheckoutLoginButtonsFragment extends LobableFragment implements AccountButtonClickListener, ConfirmLogoutDialogFragment.DoLogoutListener {
+import static android.view.View.OnClickListener;
+
+public class CheckoutLoginButtonsFragment extends Fragment implements AccountButtonClickListener, ConfirmLogoutDialogFragment.DoLogoutListener, ILOBable {
 
 	private static final String INSTANCE_REFRESHED_USER_TIME = "INSTANCE_REFRESHED_USER";
 	private static final String INSTANCE_WAS_LOGGED_IN = "INSTANCE_WAS_LOGGED_IN";
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
+
+	// LOB
+	private static final String STATE_LOB = "STATE_LOB";
+	private LineOfBusiness mLob;
 
 	public interface ILoginStateChangedListener {
 		public void onLoginStateChanged();
@@ -65,6 +72,12 @@ public class CheckoutLoginButtonsFragment extends LobableFragment implements Acc
 		if (savedInstanceState != null) {
 			mRefreshedUserTime = savedInstanceState.getLong(INSTANCE_REFRESHED_USER_TIME);
 			mWasLoggedIn = savedInstanceState.getBoolean(INSTANCE_WAS_LOGGED_IN);
+			if (savedInstanceState.containsKey(STATE_LOB)) {
+				LineOfBusiness lob = LineOfBusiness.valueOf(savedInstanceState.getString(STATE_LOB));
+				if (lob != null) {
+					setLob(lob);
+				}
+			}
 		}
 		else {
 			// Reset Google Wallet state each time we get here
@@ -82,6 +95,7 @@ public class CheckoutLoginButtonsFragment extends LobableFragment implements Acc
 
 		mWalletButton = Ui.findView(v, R.id.wallet_button_layout);
 		//TODO: SET UP WALLET STUFF
+		mWalletButton.setOnClickListener(mWalletButtonClickListener);
 
 		bind();
 
@@ -123,6 +137,7 @@ public class CheckoutLoginButtonsFragment extends LobableFragment implements Acc
 
 		outState.putLong(INSTANCE_REFRESHED_USER_TIME, mRefreshedUserTime);
 		outState.putBoolean(INSTANCE_WAS_LOGGED_IN, mWasLoggedIn);
+		outState.putString(STATE_LOB, mLob.name());
 	}
 
 	public void testForLoginStateChange() {
@@ -141,12 +156,6 @@ public class CheckoutLoginButtonsFragment extends LobableFragment implements Acc
 		if (mAccountButton != null) {
 			refreshAccountButtonState();
 		}
-	}
-
-	@Override
-	public void onLobSet(LineOfBusiness lob) {
-		// TODO Auto-generated method stub
-
 	}
 
 	private void refreshAccountButtonState() {
@@ -268,5 +277,31 @@ public class CheckoutLoginButtonsFragment extends LobableFragment implements Acc
 			}
 		}
 	};
+
+	/*
+	 * Google Wallet
+	 */
+
+	private OnClickListener mWalletButtonClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			Ui.showToast(getActivity(), "We are buying some GOOGLE WALLET STUFF");
+		}
+	};
+
+	/*
+	 * ILOBable
+	 */
+
+	public void setLob(LineOfBusiness lob) {
+		if (lob != mLob) {
+			mLob = lob;
+		}
+	}
+
+	public LineOfBusiness getLob() {
+		return mLob;
+	}
+
 
 }
