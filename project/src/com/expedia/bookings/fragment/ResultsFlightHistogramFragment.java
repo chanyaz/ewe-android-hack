@@ -71,6 +71,7 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 	public void onResume() {
 		super.onResume();
 		setShowProgressBar(mShowProgress);
+		mShowProgress = false;
 	}
 
 	public void setHistogramData(FlightSearchHistogramResponse data) {
