@@ -133,6 +133,14 @@ public class FlightSearchDownloadFragment extends Fragment {
 		dl.startDownload(DL_GDE_SEARCH, mGdeSearchDownload, mGdeSearchCallback);
 	}
 
+	public boolean isDownloadingFlightSearch() {
+		return BackgroundDownloader.getInstance().isDownloading(DL_SEARCH);
+	}
+
+	public boolean isDownloadingGdeSearch() {
+		return BackgroundDownloader.getInstance().isDownloading(DL_GDE_SEARCH);
+	}
+
 	protected void setSearchParams(FlightSearchParams params) {
 		mSearchParams = params;
 	}

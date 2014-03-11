@@ -45,7 +45,6 @@ import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.FruitList;
-import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
 
@@ -365,8 +364,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			((ResultsFlightFiltersFragment) frag).bindAll();
 		}
 		else if (tag == FTAG_FLIGHT_HISTOGRAM) {
-			((ResultsFlightHistogramFragment) frag).setShowProgressBar(
-				BackgroundDownloader.getInstance().isDownloading("DL_FLIGHT_SEARCH"));
+			if (mFlightSearchDownloadFrag != null) {
+				ResultsFlightHistogramFragment histFrag = (ResultsFlightHistogramFragment) frag;
+				histFrag.setShowProgressBar(mFlightSearchDownloadFrag.isDownloadingFlightSearch());
+			}
 		}
 	}
 

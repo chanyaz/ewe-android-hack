@@ -17,7 +17,6 @@ import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightHistogramAdapter;
 import com.expedia.bookings.widget.TextView;
-import com.mobiata.android.BackgroundDownloader;
 
 /**
  * ResultsFlightHistogramFragment: The flight histogram fragment designed for tablet results 2014
@@ -30,6 +29,8 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 	private ProgressBar mProgressBar;
 
 	private HistogramFragmentListener mListener;
+
+	private boolean mShowProgress = false;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -69,7 +70,7 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		setShowProgressBar(BackgroundDownloader.getInstance().isDownloading("DL_FLIGHT_SEARCH"));
+		setShowProgressBar(mShowProgress);
 	}
 
 	public void setHistogramData(FlightSearchHistogramResponse data) {
@@ -81,6 +82,10 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 	public void setShowProgressBar(boolean show) {
 		if (mProgressBar != null) {
 			mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+		}
+		else {
+			// pick this up after onCreateView
+			mShowProgress = show;
 		}
 	}
 
