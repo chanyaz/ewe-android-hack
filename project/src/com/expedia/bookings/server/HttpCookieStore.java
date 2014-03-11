@@ -9,6 +9,7 @@ import java.net.HttpCookie;
 import java.net.URI;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.Log;
@@ -17,7 +18,8 @@ import com.mobiata.android.util.SettingUtils;
 
 public class HttpCookieStore implements CookieStore {
 	private static final String TAG = "EBCookie";
-	private HashMap<URI, List<CookieHolder>> mMap = new HashMap<URI, List<CookieHolder>>();
+	private List<HttpCookie> mCookies = new ArrayList<HttpCookie>();
+	private HashMap<HttpCookie, Long> mCreatedTimes = new HashMap<HttpCookie, Long>();
 	private boolean mShouldLog = false;
 
 	public void updateSettings(Context context) {
@@ -30,37 +32,23 @@ public class HttpCookieStore implements CookieStore {
 			log("add:", uri, cookie);
 		}
 
-		List<CookieHolder> holders;
-		if (mMap.containsKey(uri)) {
-			holders = mMap.get(uri);
-		}
-		else {
-			holders = new ArrayList<CookieHolder>();
-			mMap.put(uri, holders);
+		for (int i = 0; i < mCookies.size(); i++) {
+			HttpCookie stored = mCookies.get(i);
+			if (sameCookie(stored, cookie)) {
+				mCookies.set(i, cookie);
+				updateCookieCreatedTime(stored, cookie);
+				return;
+			}
 		}
 
-		add(uri, holders, cookie);
-	}
-
-	private void add(URI uri, List<CookieHolder> holders, HttpCookie cookie) {
-		remove(holders, cookie);
-		CookieHolder newHolder = new CookieHolder(uri, cookie);
-		holders.add(newHolder);
+		// Didn't find it in the list, just add to the end
+		mCookies.add(cookie);
+		mCreatedTimes.put(cookie, currentTimeSeconds());
 	}
 
 	@Override
 	public List<HttpCookie> get(URI uri) {
-		List<HttpCookie> results = new ArrayList<HttpCookie>();
-
-		List<CookieHolder> holders = mMap.get(uri);
-		if (holders != null) {
-			for (CookieHolder holder : holders) {
-				if (!holder.isExpired()) {
-					results.add(holder.getCookie());
-				}
-			}
-		}
-
+		List<HttpCookie> results = getCookies();
 		if (mShouldLog) {
 			log("get:", uri, results);
 		}
@@ -69,76 +57,70 @@ public class HttpCookieStore implements CookieStore {
 
 	@Override
 	public List<HttpCookie> getCookies() {
-		List<HttpCookie> allCookies = new ArrayList<HttpCookie>();
-		for (URI uri : getURIs()) {
-			List<HttpCookie> cookies = get(uri);
-			allCookies.addAll(cookies);
+		List<HttpCookie> results = new ArrayList<HttpCookie>();
+		List<HttpCookie> deads = new ArrayList<HttpCookie>();
+		for (HttpCookie cookie : mCookies) {
+			if (!isExpired(cookie)) {
+				results.add(cookie);
+			}
+			else {
+				deads.add(cookie);
+			}
 		}
-
-		return allCookies;
+		cleanup(deads);
+		return results;
 	}
 
 	@Override
 	public List<URI> getURIs() {
-		ArrayList<URI> uris = new ArrayList<URI>(mMap.keySet().size());
-		for (URI uri: mMap.keySet()) {
-			uris.add(uri);
-		}
-		return uris;
+		return new ArrayList<URI>();
 	}
 
 	@Override
 	public boolean remove(URI uri, HttpCookie cookie) {
-		if (mMap.containsKey(uri)) {
-			List<CookieHolder> holders = mMap.get(uri);
-			return remove(holders, cookie);
-		}
-
-		return false;
-	}
-
-	private boolean remove(List<CookieHolder> holders, HttpCookie cookie) {
-		List<CookieHolder> deads = new ArrayList<CookieHolder>();
-
-		for (CookieHolder holder : holders) {
-			if (holder.getCookie().equals(cookie)) {
-				deads.add(holder);
+		List<HttpCookie> deads = new ArrayList<HttpCookie>();
+		for (HttpCookie stored : mCookies) {
+			if (sameCookie(stored, cookie)) {
+				deads.add(stored);
 			}
 		}
+		cleanup(deads);
 
-		holders.removeAll(deads);
 		return deads.size() > 0;
 	}
 
 	@Override
 	public boolean removeAll() {
-		boolean ret = mMap.size() > 0;
-		mMap.clear();
+		boolean ret = mCookies.size() > 0;
+		mCookies.clear();
+		mCreatedTimes.clear();
 		return ret;
 	}
 
-	private static class CookieHolder {
-		private URI mURI;
-		private HttpCookie mCookie;
-		private long mCreated;
-
-		public CookieHolder(URI uri, HttpCookie cookie) {
-			mURI = uri;
-			mCookie = cookie;
-			mCreated = currentTimeSeconds();
+	private void cleanup(List<HttpCookie> deads) {
+		if (deads != null && deads.size() > 0) {
+			for (HttpCookie dead : deads) {
+				mCreatedTimes.remove(dead);
+			}
+			mCookies.removeAll(deads);
 		}
+	}
 
-		public HttpCookie getCookie() {
-			return mCookie;
-		}
+	private void updateCookieCreatedTime(HttpCookie old, HttpCookie fresh) {
+		long time = mCreatedTimes.remove(old);
+		mCreatedTimes.put(fresh, time);
+	}
 
-		public boolean isExpired() {
-			return mCookie.getMaxAge() != -1 && mCreated + mCookie.getMaxAge() <= currentTimeSeconds();
-		}
+	private boolean isExpired(HttpCookie cookie) {
+		return cookie.getMaxAge() != -1 && mCreatedTimes.get(cookie) + cookie.getMaxAge() <= currentTimeSeconds();
+	}
 
-		private long currentTimeSeconds() {
-			return System.currentTimeMillis() / 1000;
-		}
+	private long currentTimeSeconds() {
+		return System.currentTimeMillis() / 1000;
+	}
+
+	private boolean sameCookie(HttpCookie a, HttpCookie b) {
+		return TextUtils.equals(a.getDomain(), b.getDomain()) && TextUtils.equals(a.getName(), b.getName());
 	}
 
 	private void log(String prefix, URI uri, HttpCookie cookie) {

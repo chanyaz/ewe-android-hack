@@ -40,24 +40,6 @@ public class HttpCookieStoreTest extends TestCase {
 		assertTrue(cs.remove(uri, secondCookie));
 	}
 
-	public void testGetUris() {
-		final HttpCookieStore cs = new HttpCookieStore();
-
-		final URI firstUri = newURI("http://expedia.com");
-		final HttpCookie firstCookie = newCookie("expedia.com", "party", "hard");
-
-		final URI secondUri = newURI("http://expedia.co.uk");
-		final HttpCookie secondCookie = newCookie("expedia.co.uk", "party", "harder");
-
-		cs.add(firstUri, firstCookie);
-		cs.add(secondUri, secondCookie);
-
-		final List<URI> uris = cs.getURIs();
-		assertEquals(2, uris.size());
-		assertTrue(uris.contains(firstUri));
-		assertTrue(uris.contains(secondUri));
-	}
-
 	public void testGetCookies() {
 		final HttpCookieStore cs = new HttpCookieStore();
 		final URI uri = newURI("http://expedia.com");
@@ -161,6 +143,26 @@ public class HttpCookieStoreTest extends TestCase {
 		assertEquals(5, cookie.getMaxAge());
 	}
 
+	public void testUriPathHandling() {
+		final HttpCookieStore cs = new HttpCookieStore();
+		final URI searchUri = newURI("http://www.expedia.com/MobileHotel/Webapp/SearchResults");
+		final URI detailsUri = newURI("http://www.expedia.com/MobileHotel/Webapp/HotelOffers");
+		final URI secureDetailsUri = newURI("https://www.expedia.com/MobileHotel/Webapp/HotelOffers");
+
+		final HttpCookie cookie = newCookie("expedia.com", "party", "hard");
+
+		List<HttpCookie> cookies;
+		cs.add(searchUri, cookie);
+
+		cookies = cs.get(detailsUri);
+		assertEquals(1, cookies.size());
+		assertEquals(cookie, cookies.get(0));
+
+		cookies = cs.get(secureDetailsUri);
+		assertEquals(1, cookies.size());
+		assertEquals(cookie, cookies.get(0));
+	}
+
 	private URI newURI(String str) {
 		URI ret;
 		try {
@@ -174,6 +176,7 @@ public class HttpCookieStoreTest extends TestCase {
 
 	private HttpCookie newCookie(String domain, String key, String value) {
 		HttpCookie cookie = new HttpCookie(key, value);
+		cookie.setPath("/");
 		cookie.setDomain(domain);
 		cookie.setMaxAge(-1);
 		return cookie;
