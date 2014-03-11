@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:background="@drawable/bg_launch_sf_placeholder"
+            android:background="@drawable/bg_launch_tvly_maldives"
             android:layout_alignParentStart="false" />
 
         <View
