@@ -1137,11 +1137,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				mFlightOneListC.setVisibility(View.VISIBLE);
 				positionForFilters(mFlightOneFiltersC, mFlightOneListC);
 			}
-			else if ((stateOne == ResultsFlightsState.FLIGHT_HISTOGRAM &&
-				stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) ||
-				(stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN &&
-				stateTwo == ResultsFlightsState.FLIGHT_HISTOGRAM)) {
-
+			else if (isHistogramAndListCardFlipTransition(stateOne, stateTwo)) {
 				mFlightHistogramC.setLayerType(layerType, null);
 				mFlightOneListC.setLayerType(layerType, null);
 			}
@@ -1253,11 +1249,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				mFlightOneListC.setAlpha(percentage);
 				mFlightMapC.setAlpha(1f - percentage);
 			}
-			else if ((stateOne == ResultsFlightsState.FLIGHT_HISTOGRAM &&
-				stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) ||
-				(stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN &&
-				stateTwo == ResultsFlightsState.FLIGHT_HISTOGRAM)) {
-
+			else if (isHistogramAndListCardFlipTransition(stateOne, stateTwo)) {
 				boolean forward = stateOne == ResultsFlightsState.FLIGHT_HISTOGRAM;
 				ViewGroup outC;
 				ViewGroup inC;
@@ -1350,9 +1342,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					mFlightTwoDetailsFrag.finalizeAddToTripFromDetailsAnimation();
 				}
 			}
-			else if (stateOne == ResultsFlightsState.FLIGHT_HISTOGRAM &&
-				stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-
+			else if (isHistogramAndListCardFlipTransition(stateOne, stateTwo)) {
 				mFlightHistogramC.setLayerType(layerType, null);
 				mFlightOneListC.setLayerType(layerType, null);
 			}
@@ -1445,6 +1435,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				}
 				break;
 			}
+		}
+
+		private boolean isHistogramAndListCardFlipTransition(ResultsFlightsState one, ResultsFlightsState two) {
+			return (one == ResultsFlightsState.FLIGHT_HISTOGRAM && two == ResultsFlightsState.FLIGHT_LIST_DOWN) ||
+				(one == ResultsFlightsState.FLIGHT_LIST_DOWN && two == ResultsFlightsState.FLIGHT_HISTOGRAM);
 		}
 
 		private void positionForFilters(ViewGroup filtersC, ViewGroup listC) {
