@@ -52,7 +52,8 @@ public class TabletCheckoutSlideFragment extends Fragment implements ICheckoutDa
 		super.onAttach(activity);
 		boolean isCheckout = getParentFragment() instanceof TabletCheckoutControllerFragment;
 		if (isCheckout) {
-			((TabletCheckoutControllerFragment) getParentFragment()).registerStateListener(mStateHelper, true);
+			TabletCheckoutControllerFragment frag = (TabletCheckoutControllerFragment) getParentFragment();
+			frag.registerStateListener(mStateHelper, true);
 		}
 	}
 
@@ -100,7 +101,9 @@ public class TabletCheckoutSlideFragment extends Fragment implements ICheckoutDa
 		});
 
 		mSlideToWidget = Ui.findView(mRootC, R.id.slide_to_purchase_widget);
-		mSlideToWidget.addSlideToListener(mSlideListener);
+		if (getParentFragment() instanceof SlideToWidgetJB.ISlideToListener) {
+			mSlideToWidget.addSlideToListener((SlideToWidgetJB.ISlideToListener) getParentFragment());
+		}
 
 		return mRootC;
 	}
@@ -153,33 +156,6 @@ public class TabletCheckoutSlideFragment extends Fragment implements ICheckoutDa
 			mSlideToWidget.resetSlider();
 		}
 	}
-
-	/*
-	 * ISlideToListener
-	 */
-
-	SlideToWidgetJB.ISlideToListener mSlideListener = new SlideToWidgetJB.ISlideToListener() {
-		@Override
-		public void onSlideStart() {
-		}
-
-		@Override
-		public void onSlideProgress(float pixels, float total) {
-
-		}
-
-		@Override
-		public void onSlideAllTheWay() {
-			Activity activity = getActivity();
-			if (activity instanceof TabletCheckoutActivity) {
-				((TabletCheckoutActivity) activity).setCheckoutState(CheckoutState.CVV, true);
-			}
-		}
-
-		@Override
-		public void onSlideAbort() {
-		}
-	};
 
 	/*
 	 * ICheckoutDataListener

@@ -1,15 +1,12 @@
 package com.expedia.bookings.fragment;
 
-import java.math.BigDecimal;
 import java.util.Calendar;
-import java.util.List;
 
 import org.joda.time.LocalDate;
 
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -17,7 +14,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -31,7 +27,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.enums.CheckoutFormState;
@@ -60,10 +55,8 @@ import com.expedia.bookings.otto.Events.HotelProductDownloadSuccess;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.JodaUtils;
-import com.mobiata.android.Log;
+import com.expedia.bookings.widget.SlideToWidgetJB;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.squareup.otto.Subscribe;
@@ -75,7 +68,7 @@ import com.squareup.otto.Subscribe;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletCheckoutControllerFragment extends LobableFragment implements IBackManageable,
 	IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener,
-	CheckoutInformationListener {
+	CheckoutInformationListener, SlideToWidgetJB.ISlideToListener {
 
 	private static final String STATE_CHECKOUT_STATE = "STATE_CHECKOUT_STATE";
 
@@ -710,6 +703,32 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		else if (FRAG_TAG_SLIDE_TO_PURCHASE.equals(tag)) {
 			// nothing needed here
 		}
+	}
+
+	/*
+	 * SlideToWidgetJB.ISlideToListener
+	 */
+
+	@Override
+	public void onSlideStart() {
+		startStateTransition(CheckoutState.READY_FOR_CHECKOUT, CheckoutState.CVV);
+	}
+
+	@Override
+	public void onSlideProgress(float pixels, float total) {
+		updateStateTransition(CheckoutState.READY_FOR_CHECKOUT, CheckoutState.CVV, pixels / total);
+	}
+
+	@Override
+	public void onSlideAllTheWay() {
+		endStateTransition(CheckoutState.READY_FOR_CHECKOUT, CheckoutState.CVV);
+		setCheckoutState(CheckoutState.CVV, false);
+	}
+
+	@Override
+	public void onSlideAbort() {
+		endStateTransition(CheckoutState.READY_FOR_CHECKOUT, CheckoutState.CVV);
+		setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, false);
 	}
 
 	/*
