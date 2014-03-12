@@ -181,7 +181,7 @@ public class ExpediaServices implements DownloadListener {
 		sCachedClient = makeOkHttpClient(context);
 
 		sCookieStore = new HttpCookieStore();
-		sCookieStore.updateSettings(context);
+		sCookieStore.init(context);
 
 		ExpediaCookiePolicy policy = new ExpediaCookiePolicy();
 		policy.updateSettings(context);

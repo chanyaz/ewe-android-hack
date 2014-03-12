@@ -163,6 +163,69 @@ public class HttpCookieStoreTest extends TestCase {
 		assertEquals(cookie, cookies.get(0));
 	}
 
+	public void testSavingAfterAdd() {
+		final HttpCookieStore cs = new HttpCookieStore();
+		final URI searchUri = newURI("http://www.expedia.com/MobileHotel/Webapp/SearchResults");
+		final HttpCookie cookie = newCookie("expedia.com", "party", "hard");
+		final HttpCookie sameCookie = newCookie("expedia.com", "party", "hard");
+		final HttpCookie differentCookie = newCookie("expedia.com", "party", "harder");
+
+		List<HttpCookie> cookies;
+		cs.add(searchUri, cookie);
+
+		cookies = cs.get(searchUri);
+		assertEquals(1, cookies.size());
+		assertEquals(cookie, cookies.get(0));
+		assertEquals(1, cs.getTimesSavedToDisk());
+
+		cs.add(searchUri, sameCookie);
+
+		cookies = cs.get(searchUri);
+		assertEquals(1, cookies.size());
+		assertEquals(sameCookie, cookies.get(0));
+		assertEquals(1, cs.getTimesSavedToDisk());
+
+		cs.add(searchUri, differentCookie);
+
+		cookies = cs.get(searchUri);
+		assertEquals(1, cookies.size());
+		assertEquals(differentCookie, cookies.get(0));
+		assertEquals(2, cs.getTimesSavedToDisk());
+	}
+
+	public void testSavingAfterRemove() {
+		final HttpCookieStore cs = new HttpCookieStore();
+		final URI searchUri = newURI("http://www.expedia.com/MobileHotel/Webapp/SearchResults");
+		final HttpCookie cookie = newCookie("expedia.com", "party", "hard");
+		final HttpCookie differentCookie = newCookie("expedia.com", "much", "opinion");
+		List<HttpCookie> cookies;
+
+		// Jar is empty, no work being done means not dirty
+		cs.remove(searchUri, cookie);
+		assertEquals(0, cs.getTimesSavedToDisk());
+
+		cs.removeAll();
+		assertEquals(0, cs.getTimesSavedToDisk());
+
+		cs.add(searchUri, cookie);
+		assertEquals(1, cs.getTimesSavedToDisk());
+
+		// Cookie not in jar, no work, no save
+		cs.remove(searchUri, differentCookie);
+		assertEquals(1, cs.getTimesSavedToDisk());
+
+		// Cookie is in jar, jar is dirty
+		cs.remove(searchUri, cookie);
+		assertEquals(2, cs.getTimesSavedToDisk());
+
+		cs.add(searchUri, cookie);
+		assertEquals(3, cs.getTimesSavedToDisk());
+
+		// Something in jar, clearing all makes jar dirty
+		cs.removeAll();
+		assertEquals(4, cs.getTimesSavedToDisk());
+	}
+
 	private URI newURI(String str) {
 		URI ret;
 		try {

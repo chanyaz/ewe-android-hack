@@ -20,10 +20,14 @@ public class HttpCookieStore implements CookieStore {
 	private static final String TAG = "EBCookie";
 	private List<HttpCookie> mCookies = new ArrayList<HttpCookie>();
 	private HashMap<HttpCookie, Long> mCreatedTimes = new HashMap<HttpCookie, Long>();
+	private Context mContext = null;
 	private boolean mShouldLog = false;
+	private int mTimesSavedToDisk = 0;
 
-	public void updateSettings(Context context) {
+	public void init(Context context) {
+		mContext = context;
 		mShouldLog = !AndroidUtils.isRelease(context) && SettingUtils.get(context, context.getString(R.string.preference_cookie_logging), false);
+		load();
 	}
 
 	@Override
@@ -35,8 +39,12 @@ public class HttpCookieStore implements CookieStore {
 		for (int i = 0; i < mCookies.size(); i++) {
 			HttpCookie stored = mCookies.get(i);
 			if (sameCookie(stored, cookie)) {
-				mCookies.set(i, cookie);
-				updateCookieCreatedTime(stored, cookie);
+				if (!TextUtils.equals(stored.getValue(), cookie.getValue())) {
+					// We only want to update and save if the cookie is actually different
+					mCookies.set(i, cookie);
+					updateCookieCreatedTime(stored, cookie);
+					save();
+				}
 				return;
 			}
 		}
@@ -44,6 +52,7 @@ public class HttpCookieStore implements CookieStore {
 		// Didn't find it in the list, just add to the end
 		mCookies.add(cookie);
 		mCreatedTimes.put(cookie, currentTimeSeconds());
+		save();
 	}
 
 	@Override
@@ -86,6 +95,9 @@ public class HttpCookieStore implements CookieStore {
 		}
 		cleanup(deads);
 
+		if (deads.size() > 0) {
+			save();
+		}
 		return deads.size() > 0;
 	}
 
@@ -94,7 +106,33 @@ public class HttpCookieStore implements CookieStore {
 		boolean ret = mCookies.size() > 0;
 		mCookies.clear();
 		mCreatedTimes.clear();
+		if (ret) {
+			save();
+		}
 		return ret;
+	}
+
+	private void save() {
+		mTimesSavedToDisk ++;
+		if (mContext != null) {
+			// FIXME implement
+		}
+		else {
+			Log.v(TAG, "Could not save, no context configured");
+		}
+	}
+
+	public int getTimesSavedToDisk() {
+		return mTimesSavedToDisk;
+	}
+
+	private void load() {
+		if (mContext != null) {
+			// FIXME implement
+		}
+		else {
+			Log.v(TAG, "Could not load, no context configured");
+		}
 	}
 
 	private void cleanup(List<HttpCookie> deads) {
