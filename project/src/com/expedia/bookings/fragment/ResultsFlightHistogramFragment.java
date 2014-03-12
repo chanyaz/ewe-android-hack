@@ -75,7 +75,7 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 	}
 
 	public void setHistogramData(FlightSearchHistogramResponse data) {
-		if (mAdapter != null) {
+		if (mAdapter != null && data != null) {
 			mAdapter.setHistogramData(data.getFlightHistograms());
 			mAdapter.notifyDataSetChanged();
 		}
