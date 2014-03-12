@@ -1120,6 +1120,10 @@
     <string name="I_Accept">I Accept</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Slide to purchase.</string>
+    <!-- Slide-to-book widget prompt for hotels -->
+    <string name="slide_to_book_hotel">slide to book hotel</string>
+    <!-- Slide-to-book widget prompt for flights -->
+    <string name="slide_to_book_flight">slide to book flight</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Your card will be charged %1$s</string>
     <!-- Amount to be paid now -->

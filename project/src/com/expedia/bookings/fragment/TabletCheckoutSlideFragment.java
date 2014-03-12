@@ -13,22 +13,23 @@ import android.app.Activity;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.CheckoutState;
+import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.widget.SlideToWidgetJB;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-public class TabletCheckoutSlideFragment extends Fragment implements ICheckoutDataListener,
+public class TabletCheckoutSlideFragment extends LobableFragment implements ICheckoutDataListener,
 	CheckoutLoginButtonsFragment.ILoginStateChangedListener {
 
 	private static final String HAS_ACCEPTED_TOS = "HAS_ACCEPTED_TOS";
@@ -133,6 +134,15 @@ public class TabletCheckoutSlideFragment extends Fragment implements ICheckoutDa
 	}
 
 	/*
+	 * LobableFragment
+	 */
+
+	@Override
+	public void onLobSet(LineOfBusiness lob) {
+		bindAll();
+	}
+
+	/*
 	 * BINDING
 	 */
 
@@ -147,6 +157,20 @@ public class TabletCheckoutSlideFragment extends Fragment implements ICheckoutDa
 		}
 		else {
 			showAcceptTOS();
+		}
+
+		LineOfBusiness lob = getLob();
+		if (lob != null) {
+			switch (lob) {
+			case FLIGHTS:
+				mSlideToWidget.setText(R.string.slide_to_book_flight);
+				break;
+			case HOTELS:
+				mSlideToWidget.setText(R.string.slide_to_book_flight);
+				break;
+			default:
+				//should not get here
+			}
 		}
 	}
 

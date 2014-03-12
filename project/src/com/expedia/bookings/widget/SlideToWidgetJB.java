@@ -115,6 +115,10 @@ public class SlideToWidgetJB extends RelativeLayout {
 		mSliderText.setText(text);
 	}
 
+	public void setText(int resId) {
+		mSliderText.setText(resId);
+	}
+
 	/*
 	 * Sliding motion
 	 */

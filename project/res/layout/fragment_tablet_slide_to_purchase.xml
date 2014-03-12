@@ -71,7 +71,7 @@
             android:id="@+id/slide_to_purchase_widget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:sliderText="@string/slide_to_purchase"/>
+            app:sliderText="@string/slide_to_book_hotel"/>
 
         <TextView
             android:id="@+id/purchase_total_text_view"

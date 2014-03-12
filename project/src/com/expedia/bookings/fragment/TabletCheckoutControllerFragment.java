@@ -238,7 +238,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	/*
-	 * GETTERS/SETTERS
+	 * LobableFragment
 	 */
 
 	@Override
@@ -246,7 +246,14 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		if (mCheckoutFragment != null) {
 			mCheckoutFragment.setLob(lob);
 		}
+		if (mSlideFragment != null) {
+			mSlideFragment.setLob(lob);
+		}
 	}
+
+	/*
+	 * GETTERS/SETTERS
+	 */
 
 	public void setCheckoutState(CheckoutState state, boolean animate) {
 		mStateManager.setState(state, animate);
@@ -586,6 +593,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			manager, transaction, this, R.id.blurred_dest_image_overlay, false);
 
 		transaction.commit();
+
+		// For make benefit of all of the LOBable fragments that we just created
+		onLobSet(getLob());
 	}
 
 	/*
