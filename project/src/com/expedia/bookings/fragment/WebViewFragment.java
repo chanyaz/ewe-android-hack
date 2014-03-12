@@ -1,10 +1,9 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
+import java.net.HttpCookie;
 import java.util.Collections;
 import java.util.Comparator;
-
-import org.apache.http.cookie.Cookie;
+import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -28,7 +27,7 @@ import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.server.PersistantCookieStore;
+import com.expedia.bookings.server.HttpCookieStore;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -399,50 +398,51 @@ public class WebViewFragment extends DialogFragment {
 		CookieManager cookieManager = CookieManager.getInstance();
 
 		// Set the Expedia cookies for loading the URL properly
-		PersistantCookieStore persistantCookieStore = ExpediaServices.getCookieStore(getActivity());
+		List<HttpCookie> cookies = ExpediaServices.getCookies(getActivity());
 		cookieManager.setAcceptCookie(true);
 		cookieManager.removeSessionCookie();
-		if (persistantCookieStore != null) {
-			//Sort cookies by name and expiration, so newest cookies are last (and will squash old cookies when added to the manager)
-			ArrayList<Cookie> cookies = new ArrayList<Cookie>();
-			cookies.addAll(persistantCookieStore.getCookies());
-			Collections.sort(cookies, new Comparator<Cookie>() {
-				@Override
-				public int compare(Cookie lhs, Cookie rhs) {
-					int nameCompare = lhs.getName().compareTo(rhs.getName());
-					if (nameCompare == 0) {
-						if (lhs.getExpiryDate() != null && rhs.getExpiryDate() != null) {
-							return lhs.getExpiryDate().compareTo(rhs.getExpiryDate());
-						}
-						else if (lhs.getExpiryDate() != null) {
-							//The first expiration is null so it has no expiration and thus comes after the other
-							return 1;
-						}
-						else if (rhs.getExpiryDate() != null) {
-							return -1;
-						}
-						else {
-							return 0;
-						}
+		Collections.sort(cookies, new Comparator<HttpCookie>() {
+			@Override
+			public int compare(HttpCookie lhs, HttpCookie rhs) {
+				int nameCompare = lhs.getName().compareTo(rhs.getName());
+				if (nameCompare == 0) {
+					long lage = lhs.getMaxAge();
+					long rage = rhs.getMaxAge();
+
+					// -1 is a special case and means it never expires
+					if (lage == -1 && rage == -1) {
+						return 0;
+					}
+					if (lage == -1) {
+						return 1;
+					}
+					if (rage == -1) {
+						return -1;
+					}
+					if (lage > rage) {
+						return 1;
 					}
 					else {
-						return nameCompare;
+						return -1;
 					}
+
 				}
-			});
-
-			//for (Cookie cookie : persistantCookieStore.getCookies()) {
-			for (Cookie cookie : cookies) {
-				String cookieString = PersistantCookieStore.generateSetCookieString(cookie);
-
-				// Note: this is getting set to two different URLs for Android compatibility reasons. ".expedia.com"
-				//       works with ICS, using the url works with 2.1
-
-				cookieManager.setCookie(mUrl, cookieString);
-				cookieManager.setCookie(cookie.getDomain(), cookieString);
+				else {
+					return nameCompare;
+				}
 			}
-			cookieSyncManager.sync();
+		});
+
+		for (HttpCookie cookie : cookies) {
+			String cookieString = cookie.toString();
+
+			// Note: this is getting set to two different URLs for Android compatibility reasons. ".expedia.com"
+			//       works with ICS, using the url works with 2.1
+
+			cookieManager.setCookie(mUrl, cookieString);
+			cookieManager.setCookie(cookie.getDomain(), cookieString);
 		}
+		cookieSyncManager.sync();
 	}
 
 	public interface WebViewFragmentListener {

@@ -3,9 +3,10 @@ package com.expedia.bookings.server;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
+import java.net.HttpCookie;
+import java.net.HttpURLConnection;
 import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
@@ -218,10 +219,11 @@ public class ExpediaServices implements DownloadListener {
 
 	// Allows one to get the cookie store out of services, in case we need to
 	// inject the cookies elsewhere (e.g., a WebView)
-	public static PersistantCookieStore getCookieStore(Context context) {
-		PersistantCookieStore cookieStore = new PersistantCookieStore();
-		cookieStore.load(context, COOKIES_FILE);
-		return cookieStore;
+	public static List<HttpCookie> getCookies(Context context) {
+		HttpCookieStore cs = new HttpCookieStore();
+		// Load what we have on disk
+		cs.init(context);
+		return cs.getCookies();
 	}
 
 	public static void removeUserLoginCookies(Context context) {

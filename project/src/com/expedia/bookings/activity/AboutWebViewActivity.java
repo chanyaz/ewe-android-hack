@@ -1,9 +1,8 @@
 package com.expedia.bookings.activity;
 
+import java.net.HttpCookie;
 import java.util.List;
 import java.util.Locale;
-
-import org.apache.http.cookie.Cookie;
 
 import android.content.Context;
 import android.content.Intent;
@@ -121,9 +120,9 @@ public class AboutWebViewActivity extends WebViewActivity {
 	}
 
 	private String getMC1CookieStr() {
-		List<Cookie> cookies = ExpediaServices.getCookieStore(this).getCookies();
+		List<HttpCookie> cookies = ExpediaServices.getCookies(this);
 		if (cookies != null) {
-			for (Cookie cookie : cookies) {
+			for (HttpCookie cookie : cookies) {
 				if (cookie.getName() != null && cookie.getName().equals("MC1")) {
 					return cookie.getValue();
 				}
