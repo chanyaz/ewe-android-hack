@@ -10,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -1840,8 +1841,18 @@ public class ExpediaServices implements DownloadListener {
 		return null;
 	}
 
+	public String urlEncode(String url) {
+		try {
+			return URLEncoder.encode(url, "UTF-8");
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
+
 	private Request.Builder createHttpGet(String url, List<BasicNameValuePair> params) {
-		Request.Builder req = new Request.Builder().url(url + "?" + NetUtils.getParamsForLogging(params));
+		String encodedUrl = url + "?" + urlEncode(NetUtils.getParamsForLogging(params));
+		Request.Builder req = new Request.Builder().url(encodedUrl);
 		return req;
 	}
 
