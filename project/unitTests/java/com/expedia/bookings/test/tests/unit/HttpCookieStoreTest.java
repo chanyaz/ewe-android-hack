@@ -27,7 +27,6 @@ public class HttpCookieStoreTest extends TestCase {
 		// I want these to be ref different
 		final HttpCookie secondCookie = newCookie("expedia.com", "party", "hard");
 
-
 		// No cookies in store means no work to be done
 		assertFalse(cs.remove(uri, firstCookie));
 
@@ -38,6 +37,27 @@ public class HttpCookieStoreTest extends TestCase {
 		// Test that it is doing deep equality
 		cs.add(uri, firstCookie);
 		assertTrue(cs.remove(uri, secondCookie));
+	}
+
+	public void testRemoveByName() {
+		final HttpCookieStore cs = new HttpCookieStore();
+		final URI comUri = newURI("http://expedia.com");
+		final URI ukUri = newURI("http://expedia.co.uk");
+		final HttpCookie firstCookie = newCookie("expedia.com", "party", "hard");
+		final HttpCookie secondCookie = newCookie("expedia.co.uk", "party", "harder");
+		final HttpCookie thirdCookie = newCookie("expedia.com", "dont", "touchme");
+
+		cs.add(comUri, firstCookie);
+		cs.add(ukUri, secondCookie);
+		cs.add(comUri, thirdCookie);
+
+		List<HttpCookie> cookies = cs.getCookies();
+		assertEquals(3, cookies.size());
+
+		cs.removeAllCookiesByName(new String[] {"party"});
+		cookies = cs.getCookies();
+		assertEquals(1, cookies.size());
+		assertEquals(thirdCookie, cookies.get(0));
 	}
 
 	public void testGetCookies() {

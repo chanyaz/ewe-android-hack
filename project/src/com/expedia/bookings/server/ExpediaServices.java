@@ -226,25 +226,17 @@ public class ExpediaServices implements DownloadListener {
 
 	public static void removeUserLoginCookies(Context context) {
 		Log.d("Cookies: Removing user login cookies");
-		PersistantCookieStore cookieStore = new PersistantCookieStore();
-		cookieStore.load(context, COOKIES_FILE);
 		String[] userCookieNames = {
 			"user",
 			"minfo",
 			"accttype",
 		};
-		cookieStore.removeAllCookiesByName(userCookieNames);
-		if (cookieStore.isDirty()) {
-			cookieStore.save(context, COOKIES_FILE);
-		}
+		sCookieStore.removeAllCookiesByName(userCookieNames);
 	}
 
 	public void clearCookies() {
 		Log.d("Cookies: Clearing!");
-
-		PersistantCookieStore cookieStore = new PersistantCookieStore();
-		cookieStore.clear();
-		cookieStore.save(mContext, COOKIES_FILE);
+		sCookieStore.removeAll();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

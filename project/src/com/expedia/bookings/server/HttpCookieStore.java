@@ -112,10 +112,27 @@ public class HttpCookieStore implements CookieStore {
 		return ret;
 	}
 
+	public boolean removeAllCookiesByName(String[] names) {
+		List<HttpCookie> deads = new ArrayList<HttpCookie>();
+		for (String name : names) {
+			for (HttpCookie stored : mCookies) {
+				if (TextUtils.equals(stored.getName(), name)) {
+					deads.add(stored);
+				}
+			}
+		}
+		cleanup(deads);
+
+		if (deads.size() > 0) {
+			save();
+		}
+		return deads.size() > 0;
+	}
+
 	private void save() {
 		mTimesSavedToDisk ++;
 		if (mContext != null) {
-			// FIXME implement
+			HttpCookieDiskManager.save(mContext, mCookies, mCreatedTimes);
 		}
 		else {
 			Log.v(TAG, "Could not save, no context configured");
@@ -128,7 +145,9 @@ public class HttpCookieStore implements CookieStore {
 
 	private void load() {
 		if (mContext != null) {
-			// FIXME implement
+			mCookies.clear();
+			mCreatedTimes.clear();
+			HttpCookieDiskManager.load(mContext, mCookies, mCreatedTimes);
 		}
 		else {
 			Log.v(TAG, "Could not load, no context configured");
