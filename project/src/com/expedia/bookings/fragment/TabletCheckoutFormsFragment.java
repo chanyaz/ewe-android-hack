@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -27,7 +26,6 @@ import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
@@ -41,11 +39,11 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -317,8 +315,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		frame.setId(LOGIN_FRAG_CONTAINER_ID);
 		add(frame);
 
-		// TRAVELER CONTAINERS
-		populateTravelerData();
+
+		//TRAVELER CONTAINERS
+		BookingInfoUtils.populateTravelerData(getLob());
 		addGroupHeading(R.string.travelers);
 		for (int i = 0; i < Db.getTravelers().size(); i++) {
 			addTravelerView(i);
@@ -539,41 +538,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			}
 		}
 		return retVal;
-	}
-
-	private void populateTravelerData() {
-		List<Traveler> travelers = Db.getTravelers();
-		if (travelers == null) {
-			travelers = new ArrayList<Traveler>();
-			Db.setTravelers(travelers);
-		}
-
-		// If there are more numAdults from HotelSearchParams, add empty Travelers to the Db to anticipate the addition of
-		// new Travelers in order for check out
-		final int numTravelers = travelers.size();
-		int numAdults = travelers.size();
-		if (getLob() == LineOfBusiness.FLIGHTS) {
-			numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
-		}
-		else {
-			//Hotels currently always just has one traveler object
-			numAdults = 1;
-		}
-		Log.d("TabletCheckoutFormsFragment - populateTravelerData - travelers.size():" + numTravelers + " numAdults:" + numAdults);
-
-		if (numTravelers < numAdults) {
-			for (int i = numTravelers; i < numAdults; i++) {
-				travelers.add(new Traveler());
-			}
-		}
-
-		// If there are more Travelers than number of adults required by the HotelSearchParams, remove the extra Travelers,
-		// although, keep the first numAdults Travelers.
-		else if (numTravelers > numAdults) {
-			for (int i = numTravelers - 1; i >= numAdults; i--) {
-				travelers.remove(i);
-			}
-		}
 	}
 
 	/*

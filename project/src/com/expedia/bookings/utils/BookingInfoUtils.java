@@ -102,6 +102,41 @@ public class BookingInfoUtils {
 		}
 	}
 
+	public static void populateTravelerData(LineOfBusiness lob) {
+		List<Traveler> travelers = Db.getTravelers();
+		if (travelers == null) {
+			travelers = new ArrayList<Traveler>();
+			Db.setTravelers(travelers);
+		}
+
+		// If there are more numAdults from HotelSearchParams, add empty Travelers to the Db to anticipate the addition of
+		// new Travelers in order for check out
+		final int numTravelers = travelers.size();
+		int numAdults = travelers.size();
+		if (lob == LineOfBusiness.FLIGHTS) {
+			numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
+		}
+		else {
+			//Hotels currently always just has one traveler object
+			numAdults = 1;
+		}
+		Log.d("BookingInfoUtils - populateTravelerData - travelers.size():" + numTravelers + " numAdults:" + numAdults);
+
+		if (numTravelers < numAdults) {
+			for (int i = numTravelers; i < numAdults; i++) {
+				travelers.add(new Traveler());
+			}
+		}
+
+		// If there are more Travelers than number of adults required by the HotelSearchParams, remove the extra Travelers,
+		// although, keep the first numAdults Travelers.
+		else if (numTravelers > numAdults) {
+			for (int i = numTravelers - 1; i >= numAdults; i--) {
+				travelers.remove(i);
+			}
+		}
+	}
+
 	/**
 	 * Go through the Db.getTravelers list:
 	 * If we are logged in, try to fill Db.getTravelers with our User's account travelers.
