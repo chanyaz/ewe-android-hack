@@ -51,6 +51,12 @@ public class PaymentButtonFragment extends LobableFragment {
 		//We do everything at bind time
 	}
 
+	public void setEnabled(boolean enable) {
+		mEmptyPaymentBtn.setEnabled(enable);
+		mStoredCreditCardBtn.setEnabled(enable);
+		mManualCreditCardBtn.setEnabled(enable);
+	}
+
 	public void bindToDb() {
 		if (mStoredCreditCardBtn != null && Db.hasBillingInfo()) {
 			BillingInfo bi = Db.getBillingInfo();
