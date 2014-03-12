@@ -10,7 +10,7 @@ public class FlightHistogram implements JSONable {
 	private LocalDate mDate;
 	private int mCount;
 	private float mTotalPrice;
-	private float mMinPrice;
+	private double mMinPrice;
 	private float mMaxPrice;
 
 	// TODO priceAsStr is temporary!
@@ -40,11 +40,11 @@ public class FlightHistogram implements JSONable {
 		mTotalPrice = totalPrice;
 	}
 
-	public float getMinPrice() {
+	public double getMinPrice() {
 		return mMinPrice;
 	}
 
-	public void setMinPrice(float minPrice) {
+	public void setMinPrice(double minPrice) {
 		mMinPrice = minPrice;
 	}
 

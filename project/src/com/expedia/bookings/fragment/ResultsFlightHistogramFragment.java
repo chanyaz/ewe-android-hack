@@ -32,6 +32,8 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 
 	private boolean mShowProgress = false;
 
+	private int mColWidth = 0;
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -47,7 +49,8 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 			mAdapter = new FlightHistogramAdapter(getActivity());
 		}
 		if (Db.getFlightSearchHistogramResponse() != null) {
-			mAdapter.setHistogramData(Db.getFlightSearchHistogramResponse().getFlightHistograms());
+			mAdapter.setHistogramData(Db.getFlightSearchHistogramResponse());
+			mAdapter.setColWidth(mColWidth);
 		}
 		ListView lv = Ui.findView(view, android.R.id.list);
 		lv.setAdapter(mAdapter);
@@ -72,12 +75,25 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 		super.onResume();
 		setShowProgressBar(mShowProgress);
 		mShowProgress = false;
+
+		if (mAdapter != null && mColWidth != 0) {
+			mAdapter.setColWidth(mColWidth);
+		}
 	}
 
 	public void setHistogramData(FlightSearchHistogramResponse data) {
 		if (mAdapter != null && data != null) {
-			mAdapter.setHistogramData(data.getFlightHistograms());
+			mAdapter.setHistogramData(data);
 			mAdapter.notifyDataSetChanged();
+		}
+	}
+
+	public void setColWidth(int width) {
+		if (mAdapter != null) {
+			mAdapter.setColWidth(width);
+		}
+		else {
+			mColWidth = width;
 		}
 	}
 

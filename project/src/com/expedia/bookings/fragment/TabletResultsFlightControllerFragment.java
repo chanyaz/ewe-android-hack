@@ -366,6 +366,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		else if (tag == FTAG_FLIGHT_HISTOGRAM) {
 			ResultsFlightHistogramFragment histFrag = (ResultsFlightHistogramFragment) frag;
 			histFrag.setHistogramData(Db.getFlightSearchHistogramResponse());
+			histFrag.setColWidth(mGrid.getColWidth(2));
 
 			if (mFlightSearchDownloadFrag != null) {
 				histFrag.setShowProgressBar(mFlightSearchDownloadFrag.isDownloadingFlightSearch());

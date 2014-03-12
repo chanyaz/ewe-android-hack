@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="6dp"
-    android:paddingLeft="12dp"
-    android:paddingRight="12dp"
-    android:paddingTop="6dp"
     android:background="@android:color/white">
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/flight_histogram_date"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:padding="4dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="@dimen/results_flight_histogram_horizontal_padding"
+        android:paddingRight="@dimen/results_flight_histogram_horizontal_padding"
+        android:paddingTop="10dp"
         android:textSize="16sp"
         android:textColor="@android:color/white"
+        android:singleLine="true"
         android:background="@drawable/bg_flight_summary_row_tablet"
         app:textStyle="normal" />
 
@@ -26,8 +23,11 @@
         android:id="@+id/flight_histogram_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="6dp"
+        android:layout_marginLeft="@dimen/results_flight_histogram_price_margin_left"
+        android:layout_marginRight="@dimen/results_flight_histogram_price_margin_left"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:textSize="16sp"
         app:textStyle="bold" />
 
-</LinearLayout>
+</RelativeLayout>

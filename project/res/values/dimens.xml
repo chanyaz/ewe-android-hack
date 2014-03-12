@@ -19,6 +19,8 @@
     <dimen name="results_list_margin_top">40dp</dimen>
     <dimen name="results_column_header_height">48dp</dimen>
 
+    <dimen name="results_flight_histogram_horizontal_padding">16dp</dimen>
+    <dimen name="results_flight_histogram_price_margin_left">10dp</dimen>
 
     <!-- Flights -->
     <dimen name="tablet_filter_white_space">32dp</dimen>
