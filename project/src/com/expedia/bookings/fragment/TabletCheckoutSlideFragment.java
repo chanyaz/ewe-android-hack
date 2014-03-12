@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -33,6 +34,7 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 	CheckoutLoginButtonsFragment.ILoginStateChangedListener {
 
 	private static final String HAS_ACCEPTED_TOS = "HAS_ACCEPTED_TOS";
+	private static final String ARG_TOTAL_PRICE_STRING = "ARG_TOTAL_PRICE";
 
 	private ViewGroup mRootC;
 	private ViewGroup mAcceptContainer;
@@ -41,6 +43,7 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 	private SlideToWidgetJB mSlideToWidget;
 
 	private boolean mHasAcceptedTOS;
+	private String mTotalPriceString;
 
 	public static TabletCheckoutSlideFragment newInstance() {
 		TabletCheckoutSlideFragment frag = new TabletCheckoutSlideFragment();
@@ -88,6 +91,13 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 			mHasAcceptedTOS = !(PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox());
 		}
 
+		// Total price string
+		if (savedInstanceState != null && savedInstanceState.containsKey(ARG_TOTAL_PRICE_STRING)) {
+			mTotalPriceString = savedInstanceState.getString(ARG_TOTAL_PRICE_STRING);
+		}
+		TextView price = Ui.findView(mRootC, R.id.purchase_total_text_view);
+		price.setText(mTotalPriceString);
+
 		mAcceptContainer = Ui.findView(mRootC, R.id.accept_tos_container);
 		mSlideContainer = Ui.findView(mRootC, R.id.slide_container);
 		mBookContainer = Ui.findView(mRootC, R.id.book_container);
@@ -131,6 +141,7 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(HAS_ACCEPTED_TOS, mHasAcceptedTOS);
+		outState.putString(ARG_TOTAL_PRICE_STRING, mTotalPriceString);
 	}
 
 	/*
@@ -171,6 +182,15 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 			default:
 				//should not get here
 			}
+		}
+	}
+
+	public void setTotalPriceString(String totalPriceString) {
+		mTotalPriceString = totalPriceString;
+
+		if (mRootC != null) {
+			TextView price = Ui.findView(mRootC, R.id.purchase_total_text_view);
+			price.setText(mTotalPriceString);
 		}
 	}
 

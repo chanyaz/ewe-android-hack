@@ -24,8 +24,10 @@ import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;
@@ -52,8 +54,10 @@ import com.expedia.bookings.otto.Events.CreateTripDownloadRetry;
 import com.expedia.bookings.otto.Events.CreateTripDownloadRetryCancel;
 import com.expedia.bookings.otto.Events.CreateTripDownloadSuccess;
 import com.expedia.bookings.otto.Events.HotelProductDownloadSuccess;
+import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.SlideToWidgetJB;
 import com.mobiata.android.SocialUtils;
@@ -575,7 +579,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		mSlideFragment = FragmentAvailabilityUtils.setFragmentAvailability(
 			slideToPurchaseAvailable, FRAG_TAG_SLIDE_TO_PURCHASE, manager, transaction, this,
-			R.id.slide_container, false);
+			R.id.slide_container, true);
 
 		mCvvFrag = FragmentAvailabilityUtils.setFragmentAvailability(cvvAvailable, FRAG_TAG_CVV,
 			manager, transaction, this, R.id.cvv_container, false);
@@ -593,9 +597,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			manager, transaction, this, R.id.blurred_dest_image_overlay, false);
 
 		transaction.commit();
-
-		// For make benefit of all of the LOBable fragments that we just created
-		onLobSet(getLob());
 	}
 
 	/*
@@ -711,18 +712,34 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
 		if (FRAG_TAG_BUCKET_FLIGHT.equals(tag)) {
-			((TripBucketFlightFragment) frag).setState(
-				getLob() == LineOfBusiness.FLIGHTS ? TripBucketItemState.EXPANDED : TripBucketItemState.DEFAULT);
+			TripBucketFlightFragment f = (TripBucketFlightFragment) frag;
+			f.setState(getLob() == LineOfBusiness.FLIGHTS ? TripBucketItemState.EXPANDED : TripBucketItemState.DEFAULT);
 		}
 		else if (FRAG_TAG_BUCKET_HOTEL.equals(tag)) {
-			((TripBucketHotelFragment) frag).setState(
-				getLob() == LineOfBusiness.HOTELS ? TripBucketItemState.EXPANDED : TripBucketItemState.DEFAULT);
+			TripBucketHotelFragment f = (TripBucketHotelFragment) frag;
+			f.setState(getLob() == LineOfBusiness.HOTELS ? TripBucketItemState.EXPANDED : TripBucketItemState.DEFAULT);
 		}
 		else if (FRAG_TAG_CHECKOUT_INFO.equals(tag)) {
-			((TabletCheckoutFormsFragment) frag).setLob(getLob());
+			TabletCheckoutFormsFragment f = (TabletCheckoutFormsFragment) frag;
+			f.setLob(getLob());
 		}
 		else if (FRAG_TAG_SLIDE_TO_PURCHASE.equals(tag)) {
-			// nothing needed here
+			TabletCheckoutSlideFragment f = (TabletCheckoutSlideFragment) frag;
+			LineOfBusiness lob = getLob();
+			f.setLob(lob);
+			if (lob == LineOfBusiness.FLIGHTS) {
+				FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+				f.setTotalPriceString(FlightUtils.getSlideToPurchaseString(getActivity(), trip));
+			}
+			else if (lob == LineOfBusiness.HOTELS) {
+				HotelSearch search = Db.getHotelSearch();
+				Property property = search.getSelectedProperty();
+				Rate rate = search.getSelectedRate();
+				if (search.isCouponApplied()) {
+					rate = search.getCouponRate();
+				}
+				f.setTotalPriceString(HotelUtils.getSlideToPurchaseString(getActivity(), property, rate));
+			}
 		}
 	}
 
