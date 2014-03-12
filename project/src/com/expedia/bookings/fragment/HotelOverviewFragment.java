@@ -35,9 +35,12 @@ import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelSearch;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.SignInResponse;
@@ -62,6 +65,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.AccountButton;
@@ -591,33 +595,24 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	public void updateViews() {
 		mLegalInformationTextView.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement());
 
-		Rate rate = Db.getHotelSearch().getSelectedRate();
+		HotelSearch search = Db.getHotelSearch();
+		HotelSearchParams searchParams = search.getSearchParams();
+		Property property = search.getSelectedProperty();
+		Rate rate = search.getSelectedRate();
 
 		// Configure the total cost and (if necessary) total cost paid to Expedia
-		if (Db.getHotelSearch().isCouponApplied()) {
-			rate = Db.getHotelSearch().getCouponRate();
+		if (search.isCouponApplied()) {
+			rate = search.getCouponRate();
 
 			// Show off the savings!
-			mCouponSavedTextView.setText(getString(R.string.coupon_saved_TEMPLATE, rate
-					.getTotalPriceAdjustments().getFormattedMoney()));
+			mCouponSavedTextView.setText(getString(R.string.coupon_saved_TEMPLATE,
+				rate.getTotalPriceAdjustments().getFormattedMoney()));
 		}
 
-		// Configure slide to purchase string
-		int chargeTypeMessageId = 0;
-		if (!Db.getHotelSearch().getSelectedProperty().isMerchant()) {
-			chargeTypeMessageId = R.string.collected_by_the_hotel_TEMPLATE;
-		}
-		else if (rate.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
-			chargeTypeMessageId = R.string.Amount_to_be_paid_now_TEMPLATE;
-		}
-		else {
-			chargeTypeMessageId = R.string.your_card_will_be_charged_TEMPLATE;
-		}
-		mSlideToPurchasePriceString = getString(chargeTypeMessageId, rate.getTotalAmountAfterTax().getFormattedMoney());
+		mSlideToPurchasePriceString = HotelUtils.getSlideToPurchaseString(getActivity(), property, rate);
 		mSlideToPurchaseFragment.setTotalPriceString(mSlideToPurchasePriceString);
 
-		mHotelReceipt.bind(mIsDoneLoadingPriceChange, Db.getHotelSearch().getSelectedProperty(), Db.getHotelSearch()
-				.getSearchParams(), rate, appliedWalletPromoCoupon());
+		mHotelReceipt.bind(mIsDoneLoadingPriceChange, property, searchParams, rate, appliedWalletPromoCoupon());
 	}
 
 	public void updateViewVisibilities() {

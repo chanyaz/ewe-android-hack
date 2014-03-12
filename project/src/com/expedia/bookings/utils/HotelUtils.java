@@ -2,6 +2,7 @@ package com.expedia.bookings.utils;
 
 import java.util.List;
 
+import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -92,5 +93,28 @@ public class HotelUtils {
 		menuItem.setActionView(tv);
 
 		return tv;
+	}
+
+	/**
+	 * Returns the string meant to be displayed below the slide-to-purchase view; i.e. the final
+	 * prompt displayed before the card is actually charged. We want this message to be consistent
+	 * between phone and tablet.
+	 * @param context
+	 * @param property
+	 * @param rate
+	 * @return
+	 */
+	public static String getSlideToPurchaseString(Context context, Property property, Rate rate) {
+		int chargeTypeMessageId = 0;
+		if (!property.isMerchant()) {
+			chargeTypeMessageId = R.string.collected_by_the_hotel_TEMPLATE;
+		}
+		else if (rate.getCheckoutPriceType() == Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
+			chargeTypeMessageId = R.string.Amount_to_be_paid_now_TEMPLATE;
+		}
+		else {
+			chargeTypeMessageId = R.string.your_card_will_be_charged_TEMPLATE;
+		}
+		return context.getString(chargeTypeMessageId, rate.getTotalAmountAfterTax().getFormattedMoney());
 	}
 }

@@ -48,6 +48,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -334,10 +335,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 			mSlideToPurchaseFragment = Ui.findSupportFragment(this, TAG_SLIDE_TO_PURCHASE_FRAG);
 			if (mSlideToPurchaseFragment == null) {
-				Money totalFare = Db.getFlightSearch().getSelectedFlightTrip()
-						.getTotalFareWithCardFee(Db.getBillingInfo());
-				String template = getString(R.string.your_card_will_be_charged_TEMPLATE);
-				String text = String.format(template, totalFare.getFormattedMoney());
+				String text = FlightUtils.getSlideToPurchaseString(this, Db.getFlightSearch().getSelectedFlightTrip());
 				mSlideToPurchaseFragment = SlideToPurchaseFragment.newInstance(text);
 			}
 			if (!mSlideToPurchaseFragment.isAdded()) {

@@ -10,6 +10,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -26,8 +28,8 @@ public class FlightUtils {
 		Resources res = context.getResources();
 		if (waypoint.hasGate() && waypoint.hasTerminal()) {
 			return waypoint.isInternationalTerminal()
-					? res.getString(R.string.International_Terminal_Gate_X_TEMPLATE, waypoint.getGate())
-					: res.getString(R.string.Terminal_X_Gate_Y_TEMPLATE, waypoint.getTerminal(), waypoint.getGate());
+				? res.getString(R.string.International_Terminal_Gate_X_TEMPLATE, waypoint.getGate())
+				: res.getString(R.string.Terminal_X_Gate_Y_TEMPLATE, waypoint.getTerminal(), waypoint.getGate());
 		}
 		else if (waypoint.hasGate()) {
 			//gate only
@@ -36,8 +38,8 @@ public class FlightUtils {
 		else if (waypoint.hasTerminal()) {
 			//terminal only
 			return waypoint.isInternationalTerminal()
-					? res.getString(R.string.International_Terminal)
-					: res.getString(R.string.Terminal_X_TEMPLATE, waypoint.getTerminal());
+				? res.getString(R.string.International_Terminal)
+				: res.getString(R.string.Terminal_X_TEMPLATE, waypoint.getTerminal());
 		}
 		else {
 			//no gate or terminal info
@@ -46,8 +48,9 @@ public class FlightUtils {
 	}
 
 	public static String formatDistance(Context context, FlightLeg leg, boolean longTemplate) {
-		int flags = PointOfSale.getPointOfSale().getDistanceUnit() == Distance.DistanceUnit.MILES ? FormatUtils.F_IMPERIAL
-				: FormatUtils.F_METRIC;
+		int flags = PointOfSale.getPointOfSale().getDistanceUnit() == Distance.DistanceUnit.MILES
+			? FormatUtils.F_IMPERIAL
+			: FormatUtils.F_METRIC;
 		if (longTemplate) {
 			flags |= FormatUtils.F_LONG;
 		}
@@ -71,6 +74,21 @@ public class FlightUtils {
 			}
 		}
 		return sb.toString();
+	}
+
+	/**
+	 * Returns the string meant to be displayed below the slide-to-purchase view; i.e. the final
+	 * prompt displayed before the card is actually charged. We want this message to be consistent
+	 * between phone and tablet.
+	 *
+	 * @param context
+	 * @param trip
+	 * @return
+	 */
+	public static String getSlideToPurchaseString(Context context, FlightTrip trip) {
+		Money totalFare = trip.getTotalFareWithCardFee(Db.getBillingInfo());
+		String template = context.getString(R.string.your_card_will_be_charged_TEMPLATE);
+		return String.format(template, totalFare.getFormattedMoney());
 	}
 
 }
