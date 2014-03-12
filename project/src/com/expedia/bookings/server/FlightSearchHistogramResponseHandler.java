@@ -34,7 +34,11 @@ public class FlightSearchHistogramResponseHandler extends JsonResponseHandler<Fl
 				histogram.setCount(entryJson.getInt("count"));
 
 				// TODO better money parsing once API sends currency information
-				histogram.setPriceAsStr(entryJson.getString("min"));
+				String minStr = entryJson.getString("min");
+				if (minStr.contains(".")) {
+					minStr = minStr.split("\\.", 0)[0];
+				}
+				histogram.setPriceAsStr(minStr);
 
 				histograms.add(histogram);
 			}
