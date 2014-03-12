@@ -427,7 +427,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else if (state == CheckoutState.BOOKING) {
 			mFormContainer.setVisibility(View.INVISIBLE);
-			mBucketScrollContainer.setVisibility(View.INVISIBLE);
+			mBucketScrollContainer.setVisibility(View.VISIBLE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
 			mSlideContainer.setVisibility(View.INVISIBLE);
 			mSlideAndFormContainer.setVisibility(View.INVISIBLE);

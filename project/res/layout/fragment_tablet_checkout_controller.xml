@@ -88,6 +88,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
+            <FrameLayout
+                android:id="@+id/booking_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <ProgressBar
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:indeterminate="true" />
+                </LinearLayout>
+            </FrameLayout>
+
             <LinearLayout
                 android:id="@+id/checkout_forms_and_slide_container"
                 android:layout_width="match_parent"
@@ -123,25 +140,4 @@
             </FrameLayout>
         </FrameLayout>
     </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/booking_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
-        <!-- TODO: Remove dummy TextView -->
-        <TextView
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:textSize="32dp"
-            android:text="Booking it..."/>
-        <ProgressBar
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:indeterminate="true"/>
-    </LinearLayout>
-
 </FrameLayout>
