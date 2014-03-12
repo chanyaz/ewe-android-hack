@@ -42,7 +42,7 @@ public class FlightSearchHistogramResponseHandler extends JsonResponseHandler<Fl
 			histogramResponse.setFlightHistograms(histograms);
 		}
 		catch (JSONException e) {
-			Log.e("Unable to parse Flight Search Histogram response");
+			Log.e("Unable to parse Flight Search Histogram response", e);
 		}
 
 		return histogramResponse;

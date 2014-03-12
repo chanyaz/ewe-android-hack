@@ -364,8 +364,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			((ResultsFlightFiltersFragment) frag).bindAll();
 		}
 		else if (tag == FTAG_FLIGHT_HISTOGRAM) {
+			ResultsFlightHistogramFragment histFrag = (ResultsFlightHistogramFragment) frag;
+			histFrag.setHistogramData(Db.getFlightSearchHistogramResponse());
+
 			if (mFlightSearchDownloadFrag != null) {
-				ResultsFlightHistogramFragment histFrag = (ResultsFlightHistogramFragment) frag;
 				histFrag.setShowProgressBar(mFlightSearchDownloadFrag.isDownloadingFlightSearch());
 			}
 		}
@@ -646,7 +648,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			flightAddToTripAvailable,
 			FTAG_FLIGHT_ADD_TO_TRIP, manager, transaction, this, R.id.flights_add_to_trip, false);
 		mFlightHistogramFrag = FragmentAvailabilityUtils.setFragmentAvailability(flightHistogramAvailable,
-			FTAG_FLIGHT_HISTOGRAM, manager, transaction, this, R.id.flight_histogram_container, false);
+			FTAG_FLIGHT_HISTOGRAM, manager, transaction, this, R.id.flight_histogram_container, true);
 		mFlightOneListFrag = (ResultsFlightListFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			flightOneListAvailable,
 			FTAG_FLIGHT_ONE_LIST, manager, transaction, this, R.id.flight_one_list, false);

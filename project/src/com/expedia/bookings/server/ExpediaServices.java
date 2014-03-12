@@ -922,6 +922,12 @@ public class ExpediaServices implements DownloadListener {
 		String destKey = destination.isMetroCode() ? "tripToMetroAirportCode" : "tripTo";
 		query.add(new BasicNameValuePair(destKey, destination.getDestinationId()));
 
+		Location origin = params.getDepartureLocation();
+		if (origin != null) {
+			String origKey = origin.isMetroCode() ? "tripFromMetroAirportCode" : "tripFrom";
+			query.add(new BasicNameValuePair(origKey, origin.getDestinationId()));
+		}
+
 		// TODO the API might update and no longer require this field
 		query.add(new BasicNameValuePair("pos", PointOfSale.getPointOfSale().getTwoLetterCountryCode()));
 
