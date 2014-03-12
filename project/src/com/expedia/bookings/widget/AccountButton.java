@@ -96,6 +96,7 @@ public class AccountButton extends LinearLayout {
 		Traveler traveler = null;
 		boolean isElitePlusMember = false;
 		if (u != null) {
+			traveler = u.getPrimaryTraveler();
 			isElitePlusMember = u.isElitePlusMember();
 		}
 
