@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +21,10 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionResponse;
-import com.expedia.bookings.data.SuggestionSort;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.enums.ResultsState;
@@ -36,7 +37,6 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.JodaUtils;
@@ -55,7 +55,14 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	IStateProvider<ResultsSearchState>, FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
 	DatesFragment.DatesFragmentListener, GuestsDialogFragment.GuestsDialogFragmentListener,
 	FusedLocationProviderFragment.FusedLocationProviderListener,
-	ResultsWaypointFragment.IResultsWaypointFragmentListener {
+	ResultsWaypointFragment.IResultsWaypointFragmentListener,
+	ExpediaServicesFragment.ExpediaServicesFragmentListener {
+
+	private static final String FTAG_CALENDAR = "FTAG_CALENDAR";
+	private static final String FTAG_TRAV_PICKER = "FTAG_TRAV_PICKER";
+	private static final String FTAG_ORIG_CHOOSER = "FTAG_ORIG_CHOOSER";
+	private static final String FTAG_LOCATION = "FTAG_LOCATION";
+	private static final String FTAG_LOCATION_SUGGEST = "FTAG_LOCATION_SUGGEST";
 
 	private GridManager mGrid = new GridManager();
 	private StateManager<ResultsSearchState> mSearchStateManager = new StateManager<ResultsSearchState>(
@@ -79,15 +86,18 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private TextView mCalBtn;
 	private TextView mTravBtn;
 
-	private static final String FTAG_CALENDAR = "FTAG_CALENDAR";
-	private static final String FTAG_TRAV_PICKER = "FTAG_TRAV_PICKER";
-	private static final String FTAG_ORIG_CHOOSER = "FTAG_ORIG_CHOOSER";
-	private static final String FTAG_LOCATION = "FTAG_LOCATION";
-
+	//Frags
 	private ResultsWaypointFragment mOriginsFragment;
 	private ResultsDatesFragment mDatesFragment;
 	private ResultsGuestPicker mGuestsFragment;
 	private FusedLocationProviderFragment mLocationFragment;
+	private LocationSuggestionsDownloadFragment mLocationSuggestionFragment;
+
+	//Location
+	private static final long LOCATION_EXPIRATION_MS = 1000 * 60 * 15;//15 minutes
+	private Location mLastLocation;
+	private SuggestionV2 mLocationSuggestion;
+	private long mLastLocationTime;
 
 
 	@Override
@@ -142,6 +152,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		Sp.getBus().unregister(this);
 	}
 
+
 	/**
 	 * BINDING STUFF
 	 */
@@ -152,7 +163,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		//TODO: Improve string formats
 
 		if (params.hasDestination()) {
-			mDestBtn.setText(params.getDestination().getAirportCode());
+			mDestBtn.setText(Html.fromHtml(params.getDestination().getDisplayName()));
 		}
 		else {
 			mDestBtn.setText("");
@@ -186,6 +197,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		String travStr = getResources()
 			.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers, numTravelers);
 		mTravBtn.setText(travStr);
+
+		if (needFreshLocation()) {
+			fetchLocation();
+		}
 	}
 
 	@Subscribe
@@ -476,8 +491,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		boolean mCalAvail = mParamFragsAvailable;
 		boolean mTravAvail = mParamFragsAvailable;
 		boolean mOrigAvail = mParamFragsAvailable;
-		boolean mLocAvail = !Sp.getParams().hasOrigin();//TODO: Write some current location expiration logic
-
 
 		mDatesFragment = FragmentAvailabilityUtils.setFragmentAvailability(mCalAvail, FTAG_CALENDAR, manager,
 			transaction, this, R.id.calendar_container, true);
@@ -488,9 +501,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mOriginsFragment = FragmentAvailabilityUtils.setFragmentAvailability(mOrigAvail, FTAG_ORIG_CHOOSER, manager,
 			transaction, this, R.id.origin_container, false);
 
-		//Hidden location fragment
-		mLocationFragment = FragmentAvailabilityUtils.setFragmentAvailability(mLocAvail, FTAG_LOCATION, manager,
-			transaction, this, 0, true);
 
 		transaction.commit();
 	}
@@ -509,6 +519,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		else if (tag == FTAG_LOCATION) {
 			return mLocationFragment;
 		}
+		else if (tag == FTAG_LOCATION_SUGGEST) {
+			return mLocationSuggestionFragment;
+		}
 		return null;
 	}
 
@@ -525,6 +538,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 		else if (tag == FTAG_LOCATION) {
 			return new FusedLocationProviderFragment();
+		}
+		else if (tag == FTAG_LOCATION_SUGGEST) {
+			return new LocationSuggestionsDownloadFragment();
 		}
 		return null;
 	}
@@ -686,40 +702,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mLis.unRegisterStateListener(listener);
 	}
 
-	/**
-	 * FUSED LOCATION PROVIDER
-	 */
-
-	@Override
-	public void onFound(final Location currentLocation) {
-		// If the current origin is blank, get a suggestion for the nearest location
-		if (currentLocation != null && !Sp.getParams().hasOrigin()) {
-			// Do this in another thread because of network access; don't worry if this gets thrown away (short process)
-			(new Thread(new Runnable() {
-				@Override
-				public void run() {
-					ExpediaServices services = new ExpediaServices(getActivity());
-					SuggestionResponse response = services.suggestionsNearby(currentLocation.getLatitude(),
-						currentLocation.getLongitude(), SuggestionSort.DISTANCE, 0);
-
-					if (response != null && !response.hasErrors() && response.getSuggestions().size() != 0 && !Sp
-						.getParams().hasOrigin()) {
-						Sp.getParams().setOrigin(response.getSuggestions().get(0));
-						if (getActivity() != null && mRootC != null) {
-							mRootC.post(new Runnable() {
-								@Override
-								public void run() {
-									//Report the update on the UI thread
-									doSpUpdate();
-								}
-							});
-						}
-					}
-				}
-			})).start();
-		}
-	}
-
 	@Override
 	public void onError() {
 		Log.e("Fused Location Provider - onError()");
@@ -734,8 +716,19 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	public void onWaypointSearchComplete(ResultsWaypointFragment caller, SuggestionV2 suggest) {
 		if (suggest != null) {
 			if (caller == mOriginsFragment) {
-				Sp.getParams().setOrigin(suggest);
-				doSpUpdate();
+				if (suggest.getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION) {
+					if (needFreshLocation()) {
+						fetchLocation();
+					}
+					else {
+						Sp.getParams().setOrigin(mLocationSuggestion);
+						doSpUpdate();
+					}
+				}
+				else {
+					Sp.getParams().setOrigin(suggest);
+					doSpUpdate();
+				}
 			}
 		}
 		setState(ResultsSearchState.DEFAULT, true);
@@ -744,5 +737,99 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	@Override
 	public Rect getAnimOrigin() {
 		return ScreenPositionUtils.getGlobalScreenPosition(mOrigBtn);
+	}
+
+	/**
+	 * LOCATION SEARCH
+	 */
+
+
+	protected void fetchLocation() {
+		setLocationFragAttached(true);
+	}
+
+	protected boolean needFreshLocation() {
+		if (mLocationSuggestion == null || mLastLocation == null
+			|| System.currentTimeMillis() - mLastLocationTime > LOCATION_EXPIRATION_MS) {
+			return true;
+		}
+		return false;
+	}
+
+	private void setLocationFragAttached(boolean attached) {
+		FragmentManager manager = getChildFragmentManager();
+		FragmentTransaction transaction = manager.beginTransaction();
+		mLocationFragment = FragmentAvailabilityUtils.setFragmentAvailability(attached, FTAG_LOCATION, manager,
+			transaction, this, 0, true);
+		transaction.commit();
+	}
+
+	private void setServicesFragmentAttached(boolean attached) {
+		FragmentManager manager = getChildFragmentManager();
+		FragmentTransaction transaction = manager.beginTransaction();
+		mLocationSuggestionFragment = FragmentAvailabilityUtils
+			.setFragmentAvailability(attached, FTAG_LOCATION_SUGGEST, manager,
+				transaction, this, 0, true);
+		transaction.commit();
+	}
+
+
+	protected void onLocationSuggestion(SuggestionV2 suggestion) {
+		if (suggestion != null) {
+			mLocationSuggestion = suggestion;
+
+			//TODO: We are assuming this is always for the ORIGIN - but that will need to change eventually
+			if (!Sp.getParams().hasOrigin() || (
+				Sp.getParams().getOrigin().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION
+					&& Sp.getParams().getOrigin().getLocation().getLatitude() == 0)) {
+				Sp.getParams().setOrigin(mLocationSuggestion);
+				Sp.reportSpUpdate();
+			}
+			else {
+				Log.d("onLocationSuggestion got a suggestion, but decided not to do anything with it.");
+			}
+		}
+		else {
+			Log.e("onLocationSuggestion received a null suggestion");
+		}
+
+	}
+
+	@Override
+	public void onFound(final Location currentLocation) {
+		if (currentLocation != null) {
+			setLocationFragAttached(false);
+
+			mLastLocation = currentLocation;
+			mLastLocationTime = System.currentTimeMillis();
+			mLocationSuggestion = null;
+
+			setServicesFragmentAttached(true);
+			mLocationSuggestionFragment.setLatLon(currentLocation.getLatitude(), currentLocation.getLongitude());
+			mLocationSuggestionFragment.startOrRestart();
+		}
+		else {
+			//TODO: Try to fetch location again or something...
+			Log.e("onLocation received a null location");
+		}
+	}
+
+	@Override
+	public void onExpediaServicesDownload(ExpediaServicesFragment.ServiceType type, Response response) {
+		if (type == ExpediaServicesFragment.ServiceType.SUGGEST_NEARBY) {
+			if (response != null && !response.hasErrors() && response instanceof SuggestionResponse) {
+				SuggestionResponse suggestResponse = (SuggestionResponse) response;
+				if (suggestResponse.getSuggestions() != null && suggestResponse.getSuggestions().size() > 0) {
+					onLocationSuggestion(suggestResponse.getSuggestions().get(0));
+				}
+				else {
+					Log.e("Suggestion for nearby search returned no results");
+				}
+			}
+			else {
+				Log.e(
+					"Suggestion for nearby search returned a null response, an error response, or the response is not a SuggestionResponse");
+			}
+		}
 	}
 }

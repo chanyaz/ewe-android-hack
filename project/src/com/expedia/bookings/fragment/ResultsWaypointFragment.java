@@ -27,7 +27,6 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
-import com.mobiata.android.util.AndroidUtils;
 
 /**
  * A large search fragment only suitable for tablet sizes.
@@ -128,10 +127,7 @@ public class ResultsWaypointFragment extends Fragment
 	private void requestEditTextFocus(EditText editText) {
 		editText.setFocusableInTouchMode(true);
 		editText.requestFocus();
-
-		if (AndroidUtils.isRelease(getActivity())) {
-			Ui.showKeyboard(editText, null);
-		}
+		Ui.showKeyboard(editText, null);
 	}
 
 	private class MyWatcher extends AfterChangeTextWatcher {
@@ -155,6 +151,7 @@ public class ResultsWaypointFragment extends Fragment
 			updateFilter(mSuggestionsFragment, editText.isFocusableInTouchMode() ? mWaypointEditText.getText()
 				: null);
 		}
+
 	}
 
 	private void updateFilter(SuggestionsFragment fragment, CharSequence text) {
@@ -228,6 +225,11 @@ public class ResultsWaypointFragment extends Fragment
 				mSearchBarC.setScaleX(1f);
 				mSearchBarC.setScaleY(1f);
 				mSuggestionsC.setTranslationY(0);
+
+				requestEditTextFocus(mWaypointEditText);
+			}
+			else {
+				clearEditTextFocus(mWaypointEditText);
 			}
 		}
 	};
@@ -240,8 +242,15 @@ public class ResultsWaypointFragment extends Fragment
 		@Override
 		public void onClick(View view) {
 			if (mSuggest == null) {
-				//TODO: Remove
-				Ui.showToast(getActivity(), "FAIL FAIL FAIL, must select waypoing");
+				if (mSuggestionsFragment != null && mSuggestionsFragment.getBestChoiceForFilter() != null) {
+					mListener.onWaypointSearchComplete(ResultsWaypointFragment.this,
+						mSuggestionsFragment.getBestChoiceForFilter());
+				}
+				else {
+					//TODO: Remove
+					Ui.showToast(getActivity(),
+						"FAIL FAIL FAIL, currently we must have suggestions showing for search button to work.");
+				}
 			}
 			else {
 				mListener.onWaypointSearchComplete(ResultsWaypointFragment.this, mSuggest);
@@ -296,7 +305,7 @@ public class ResultsWaypointFragment extends Fragment
 	@Override
 	public void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion) {
 		mSuggest = suggestion;
-		mWaypointEditText.setText(getSuggestionText(suggestion));
+		mListener.onWaypointSearchComplete(this, mSuggest);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

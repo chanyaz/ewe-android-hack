@@ -123,7 +123,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	//vars
 	private StateManager<CheckoutState> mStateManager = new StateManager<CheckoutState>(
-			CheckoutState.OVERVIEW, this);
+		CheckoutState.OVERVIEW, this);
 
 	private ThrobberDialog mHotelProductDownloadThrobber;
 	private ThrobberDialog mCreateTripDownloadThrobber;
@@ -170,20 +170,22 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();
 			long end = DateTimeUtils.getTimeInLocalTimeZone(retDate).getTime();
 
-			dateRange = DateUtils.formatDateRange(getActivity(), start, end, DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY);
+			dateRange = DateUtils.formatDateRange(getActivity(), start, end,
+				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY);
 		}
 		else {
 			// Hotels
 			LocalDate checkIn = Db.getHotelSearch().getSearchParams().getCheckInDate();
 			LocalDate checkOut = Db.getHotelSearch().getSearchParams().getCheckOutDate();
-			dateRange = JodaUtils.formatDateRange(getActivity(), checkIn, checkOut, DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY);
+			dateRange = JodaUtils.formatDateRange(getActivity(), checkIn, checkOut,
+				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_WEEKDAY);
 		}
 		mBucketDateRange.setText(dateRange);
 
 		if (savedInstanceState != null) {
 			mStateManager.setDefaultState(CheckoutState.valueOf(savedInstanceState.getString(
-					STATE_CHECKOUT_STATE,
-					CheckoutState.OVERVIEW.name())));
+				STATE_CHECKOUT_STATE,
+				CheckoutState.OVERVIEW.name())));
 			mIsDoneLoadingPriceChange = savedInstanceState.getBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE);
 		}
 
@@ -451,13 +453,15 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		if (state == CheckoutState.CONFIRMATION) {
 			if (Db.getTripBucket().getFlight() != null && getLob() == LineOfBusiness.FLIGHTS) {
 				Db.getTripBucket().getFlight().setState(TripBucketItemState.PURCHASED);
-				if (Db.getTripBucket().getHotel() != null && Db.getTripBucket().getHotel().getState() != TripBucketItemState.PURCHASED) {
+				if (Db.getTripBucket().getHotel() != null
+					&& Db.getTripBucket().getHotel().getState() != TripBucketItemState.PURCHASED) {
 					Db.getTripBucket().getHotel().setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 				}
 			}
 			else if (Db.getTripBucket().getHotel() != null) {
 				Db.getTripBucket().getHotel().setState(TripBucketItemState.PURCHASED);
-				if (Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().getState() != TripBucketItemState.PURCHASED) {
+				if (Db.getTripBucket().getFlight() != null
+					&& Db.getTripBucket().getFlight().getState() != TripBucketItemState.PURCHASED) {
 					Db.getTripBucket().getFlight().setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 				}
 			}
@@ -467,7 +471,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				if (Db.getTripBucket().getFlight() != null) {
 					Db.getTripBucket().getFlight().setState(TripBucketItemState.EXPANDED);
 				}
-				if (Db.getTripBucket().getHotel() != null && Db.getTripBucket().getHotel().getState() != TripBucketItemState.PURCHASED) {
+				if (Db.getTripBucket().getHotel() != null
+					&& Db.getTripBucket().getHotel().getState() != TripBucketItemState.PURCHASED) {
 					Db.getTripBucket().getHotel().setState(TripBucketItemState.DEFAULT);
 				}
 			}
@@ -475,7 +480,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				if (Db.getTripBucket().getHotel() != null) {
 					Db.getTripBucket().getHotel().setState(TripBucketItemState.EXPANDED);
 				}
-				if (Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().getState() != TripBucketItemState.PURCHASED) {
+				if (Db.getTripBucket().getFlight() != null
+					&& Db.getTripBucket().getFlight().getState() != TripBucketItemState.PURCHASED) {
 					Db.getTripBucket().getFlight().setState(TripBucketItemState.DEFAULT);
 				}
 			}
@@ -500,7 +506,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			getFragmentManager().executePendingTransactions();
 
 			if (!mHotelBookingFrag.isDownloadingHotelProduct() && !mIsDoneLoadingPriceChange) {
-				mHotelProductDownloadThrobber = ThrobberDialog.newInstance(getString(R.string.calculating_taxes_and_fees));
+				mHotelProductDownloadThrobber = ThrobberDialog
+					.newInstance(getString(R.string.calculating_taxes_and_fees));
 				mHotelProductDownloadThrobber.show(getFragmentManager(), TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG);
 				mHotelBookingFrag.startDownload(HotelBookingState.HOTEL_PRODUCT);
 			}
@@ -539,8 +546,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		boolean hotelBucketItemAvailable = true;
 		boolean checkoutFormsAvailable = true;
 		boolean slideToPurchaseAvailable = true;
-		boolean cvvAvailable = state != CheckoutState.OVERVIEW;//If we are in cvv mode or are ready to enter it, we add cvv
-		boolean flightBookingFragAvail = state.ordinal() >= CheckoutState.READY_FOR_CHECKOUT.ordinal(); // TODO talk to Joel
+		boolean cvvAvailable =
+			state != CheckoutState.OVERVIEW;//If we are in cvv mode or are ready to enter it, we add cvv
+		boolean flightBookingFragAvail =
+			state.ordinal() >= CheckoutState.READY_FOR_CHECKOUT.ordinal(); // TODO talk to Joel
 
 		boolean mFlightConfAvailable = state == CheckoutState.CONFIRMATION && getLob() == LineOfBusiness.FLIGHTS;
 		boolean mHotelConfAvailable = state == CheckoutState.CONFIRMATION && getLob() == LineOfBusiness.HOTELS;
@@ -692,10 +701,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
 		if (FRAG_TAG_BUCKET_FLIGHT.equals(tag)) {
-			((TripBucketFlightFragment) frag).setState(getLob() == LineOfBusiness.FLIGHTS ? TripBucketItemState.EXPANDED : TripBucketItemState.DEFAULT);
+			((TripBucketFlightFragment) frag).setState(
+				getLob() == LineOfBusiness.FLIGHTS ? TripBucketItemState.EXPANDED : TripBucketItemState.DEFAULT);
 		}
 		else if (FRAG_TAG_BUCKET_HOTEL.equals(tag)) {
-			((TripBucketHotelFragment) frag).setState(getLob() == LineOfBusiness.HOTELS ? TripBucketItemState.EXPANDED : TripBucketItemState.DEFAULT);
+			((TripBucketHotelFragment) frag).setState(
+				getLob() == LineOfBusiness.HOTELS ? TripBucketItemState.EXPANDED : TripBucketItemState.DEFAULT);
 		}
 		else if (FRAG_TAG_CHECKOUT_INFO.equals(tag)) {
 			((TabletCheckoutFormsFragment) frag).setLob(getLob());
@@ -813,7 +824,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	private void startCreateTripDownload() {
 		if (mCreateTripDownloadThrobber == null) {
-			mCreateTripDownloadThrobber = ThrobberDialog.newInstance(getString(R.string.spinner_text_hotel_create_trip));
+			mCreateTripDownloadThrobber = ThrobberDialog
+				.newInstance(getString(R.string.spinner_text_hotel_create_trip));
 			mCreateTripDownloadThrobber.show(getFragmentManager(), TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
 		}
 		else {
@@ -824,12 +836,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	private void dismissLoadingDialogs() {
 		mHotelProductDownloadThrobber = Ui.findSupportFragment((FragmentActivity) getActivity(),
-				TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG);
+			TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG);
 		if (mHotelProductDownloadThrobber != null && mHotelProductDownloadThrobber.isAdded()) {
 			mHotelProductDownloadThrobber.dismiss();
 		}
 		mCreateTripDownloadThrobber = Ui.findSupportFragment((FragmentActivity) getActivity(),
-				TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
+			TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
 		if (mCreateTripDownloadThrobber != null && mCreateTripDownloadThrobber.isAdded()) {
 			mCreateTripDownloadThrobber.dismiss();
 		}

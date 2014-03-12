@@ -73,6 +73,13 @@ public class SuggestionsFragment extends ListFragment {
 		}
 	}
 
+	public SuggestionV2 getBestChoiceForFilter() {
+		if (mAdapter != null && mAdapter.getCount() > 0) {
+			return mAdapter.getSuggestion(0);
+		}
+		return null;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Listener
 
