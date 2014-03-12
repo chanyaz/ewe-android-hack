@@ -3,6 +3,11 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Rect;
@@ -14,19 +19,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
-import com.expedia.bookings.widget.SlideToWidget;
 import com.expedia.bookings.widget.SlideToWidgetJB;
 import com.mobiata.android.util.Ui;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.view.ViewHelper;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TabletCheckoutSlideFragment extends Fragment implements ICheckoutDataListener,
@@ -201,7 +200,7 @@ public class TabletCheckoutSlideFragment extends Fragment implements ICheckoutDa
 		View iAcceptCenter = Ui.findView(mAcceptContainer, R.id.i_accept_center_text);
 		View iAcceptRight = Ui.findView(mAcceptContainer, R.id.i_accept_right_image);
 		View labelDoYouAccept = Ui.findView(mAcceptContainer, R.id.do_you_accept_label);
-		View sliderImage = Ui.findView(mSlideContainer, R.id.slider_image_holder);
+		View sliderImage = Ui.findView(mSlideContainer, R.id.touch_target);
 
 		List<Animator> iAcceptList = new ArrayList<Animator>();
 
@@ -215,21 +214,29 @@ public class TabletCheckoutSlideFragment extends Fragment implements ICheckoutDa
 		// I accept layout should move itself and its children over
 		// to fit on top of the slide to purchase button.
 		Rect iAcceptRect = new Rect();
-		iAccept.getGlobalVisibleRect(iAcceptRect);
-		float translateX = (float) sliderRect.left - iAcceptRect.left + 28;
-		float translateY = (float) sliderRect.top - iAcceptRect.top + 28;
-		iAcceptList.add(ObjectAnimator.ofFloat(iAccept, "translationX", 0f, translateX));
-		iAcceptList.add(ObjectAnimator.ofFloat(iAccept, "translationY", 0f, translateY));
+		iAcceptLeft.getGlobalVisibleRect(iAcceptRect);
+		float translateX = (float) sliderRect.left - iAcceptRect.left + 68;
+		float translateY = (float) sliderRect.top - iAcceptRect.top + 32;
+		iAcceptList.add(ObjectAnimator.ofPropertyValuesHolder(iAccept,
+			PropertyValuesHolder.ofFloat("translationX", 0f, translateX),
+			PropertyValuesHolder.ofFloat("translationY", 0f, translateY),
+			PropertyValuesHolder.ofFloat("scaleX", 1f, 1.34f),
+			PropertyValuesHolder.ofFloat("scaleY", 1f, 1.34f)
+		));
 
 		// Right half of the I accept button
 		// should slide over to butt up against the left half
 		translateX = iAcceptLeft.getRight() - iAcceptRight.getLeft();
-		iAcceptList.add(ObjectAnimator.ofFloat(iAcceptRight, "translationX", 0f, translateX));
+		iAcceptList.add(ObjectAnimator.ofPropertyValuesHolder(iAcceptRight,
+			PropertyValuesHolder.ofFloat("translationX", 0f, translateX)
+		));
 
 		// Middle of the I accept button should shrink down to nothing
 		translateX = -iAcceptCenter.getWidth() / 2.0f;
-		iAcceptList.add(ObjectAnimator.ofFloat(iAcceptCenter, "scaleX", 1f, 0f));
-		iAcceptList.add(ObjectAnimator.ofFloat(iAcceptCenter, "translationX", 0f, translateX));
+		iAcceptList.add(ObjectAnimator.ofPropertyValuesHolder(iAcceptCenter,
+			PropertyValuesHolder.ofFloat("translationX", 0f, translateX),
+			PropertyValuesHolder.ofFloat("scaleX", 1f, 0f)
+		));
 
 		// All of the "I accept" animators put together
 		AnimatorSet iAcceptAnim = new AnimatorSet();
@@ -242,12 +249,11 @@ public class TabletCheckoutSlideFragment extends Fragment implements ICheckoutDa
 
 		AnimatorSet allAnim = new AnimatorSet();
 		allAnim.playSequentially(iAcceptAnim, slideToAnim);
-		allAnim.addListener(new Animator.AnimatorListener() {
+		allAnim.addListener(new AnimatorListenerAdapter() {
 
 			@Override
 			public void onAnimationCancel(Animator arg0) {
-				mAcceptContainer.setVisibility(View.INVISIBLE);
-				mSlideContainer.setVisibility(View.VISIBLE);
+				onAnimationEnd(arg0);
 			}
 
 			@Override
@@ -257,15 +263,9 @@ public class TabletCheckoutSlideFragment extends Fragment implements ICheckoutDa
 			}
 
 			@Override
-			public void onAnimationRepeat(Animator arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
 			public void onAnimationStart(Animator arg0) {
 				mAcceptContainer.setVisibility(View.VISIBLE);
-				ViewHelper.setAlpha(mSlideContainer, 0f);
+				mSlideContainer.setAlpha(0f);
 				mSlideContainer.setVisibility(View.VISIBLE);
 			}
 		});
@@ -285,6 +285,8 @@ public class TabletCheckoutSlideFragment extends Fragment implements ICheckoutDa
 		labelDoYouAccept.setAlpha(1f);
 		iAccept.setTranslationX(0f);
 		iAccept.setTranslationY(0f);
+		iAccept.setScaleX(1f);
+		iAccept.setScaleY(1f);
 		iAcceptRight.setTranslationX(0f);
 		iAcceptCenter.setScaleX(1f);
 		iAcceptCenter.setTranslationX(0f);
