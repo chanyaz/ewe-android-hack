@@ -192,7 +192,6 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	@Override
 	protected void handleError(int errorCode) {
 		super.handleError(errorCode);
-
 		if (mCanModifyFragmentStack) {
 			mGoogleWalletErrorCode = 0;
 			simulateError(errorCode);

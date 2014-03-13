@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +9,10 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.LoginActivity;
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
@@ -19,10 +20,13 @@ import com.expedia.bookings.interfaces.ILOBable;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
 import com.expedia.bookings.widget.WalletButton;
+import com.google.android.gms.wallet.MaskedWallet;
+import com.google.android.gms.wallet.MaskedWalletRequest;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -31,8 +35,7 @@ import com.mobiata.android.util.Ui;
 
 import static android.view.View.OnClickListener;
 
-public class CheckoutLoginButtonsFragment extends Fragment implements AccountButtonClickListener, ConfirmLogoutDialogFragment.DoLogoutListener, ILOBable {
-
+public class CheckoutLoginButtonsFragment extends LoadWalletFragment implements AccountButtonClickListener, ConfirmLogoutDialogFragment.DoLogoutListener, ILOBable {
 	private static final String INSTANCE_REFRESHED_USER_TIME = "INSTANCE_REFRESHED_USER";
 	private static final String INSTANCE_WAS_LOGGED_IN = "INSTANCE_WAS_LOGGED_IN";
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
@@ -45,10 +48,16 @@ public class CheckoutLoginButtonsFragment extends Fragment implements AccountBut
 		public void onLoginStateChanged();
 	}
 
+	public interface IWalletButtonStateChangedListener {
+		public void onWalletButtonStateChanged(boolean enableButtons);
+	}
+
 	private AccountButton mAccountButton;
 	private WalletButton mWalletButton;
 
 	private ILoginStateChangedListener mListener;
+	private IWalletButtonStateChangedListener mWalletListener;
+
 	private boolean mWasLoggedIn = false;
 
 	private long mRefreshedUserTime = 0L;
@@ -63,6 +72,7 @@ public class CheckoutLoginButtonsFragment extends Fragment implements AccountBut
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		mListener = Ui.findFragmentListener(this, ILoginStateChangedListener.class, false);
+		mWalletListener = Ui.findFragmentListener(this, IWalletButtonStateChangedListener.class, false);
 	}
 
 	@Override
@@ -89,12 +99,9 @@ public class CheckoutLoginButtonsFragment extends Fragment implements AccountBut
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_checkout_login_buttons, null);
-
 		mAccountButton = Ui.findView(v, R.id.account_button_root);
 		mAccountButton.setListener(this);
-
 		mWalletButton = Ui.findView(v, R.id.wallet_button_layout);
-		//TODO: SET UP WALLET STUFF
 		mWalletButton.setOnClickListener(mWalletButtonClickListener);
 
 		bind();
@@ -285,9 +292,104 @@ public class CheckoutLoginButtonsFragment extends Fragment implements AccountBut
 	private OnClickListener mWalletButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Ui.showToast(getActivity(), "We are buying some GOOGLE WALLET STUFF");
+			buyWithGoogleWallet();
 		}
 	};
+
+	@Override
+	protected Money getEstimatedTotal() {
+		LineOfBusiness lob = getLob();
+		Money estimatedTotal = null;
+		if (lob == LineOfBusiness.FLIGHTS) {
+			estimatedTotal = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
+		}
+		else if (lob == LineOfBusiness.HOTELS) {
+			estimatedTotal = Db.getHotelSearch().getSelectedRate().getTotalAmountAfterTax();
+		}
+		return estimatedTotal;
+	}
+
+	@Override
+	protected void modifyMaskedWalletBuilder(MaskedWalletRequest.Builder builder) {
+		LineOfBusiness lob = getLob();
+		if (lob == LineOfBusiness.FLIGHTS) {
+			modifyFlightsMaskedWalletBuilder(builder);
+		}
+		else if (lob == LineOfBusiness.HOTELS) {
+			modifyHotelsMaskedWalletBuilder(builder);
+		}
+	}
+
+	private void modifyFlightsMaskedWalletBuilder(MaskedWalletRequest.Builder builder) {
+		builder.setCart(WalletUtils.buildFlightCart(getActivity()));
+		builder.setPhoneNumberRequired(true);
+	}
+
+	private void modifyHotelsMaskedWalletBuilder(MaskedWalletRequest.Builder builder) {
+		builder.setCart(WalletUtils.buildHotelCart(getActivity()));
+		builder.setPhoneNumberRequired(true);
+		builder.setUseMinimalBillingAddress(true);
+	}
+
+	@Override
+	protected void onMaskedWalletFullyLoaded(boolean fromPreauth) {
+		BillingInfo billingInfo = Db.getBillingInfo();
+		BookingInfoUtils.populateTravelerData(getLob());
+
+		MaskedWallet maskedWallet = Db.getMaskedWallet();
+
+		// If we don't currently have traveler data, and the wallet gives us sufficient data, use it
+		// NOTE: At the moment we are *guaranteed* not to get sufficient data, but there's no reason
+		// not to hope someday we will get it!
+		Traveler traveler = WalletUtils.addWalletAsTraveler(getActivity(), maskedWallet);
+
+		// If the traveler is null, just set it to our primary user.
+		if (traveler == null) {
+			traveler = Db.getTravelers().get(0);
+		}
+
+		BookingInfoUtils.insertTravelerDataIfNotFilled(getActivity(), traveler, getLob());
+
+		// Bind credit card data, but only if they explicitly clicked "buy with wallet" or they have
+		// no existing credit card info entered
+		if (!fromPreauth || (TextUtils.isEmpty(billingInfo.getNumber()) && !billingInfo.hasStoredCard())) {
+			WalletUtils.bindWalletToBillingInfo(maskedWallet, billingInfo);
+		}
+
+		// Add primary traveler info to billing info
+		billingInfo.setFirstName(traveler.getFirstName());
+		billingInfo.setLastName(traveler.getLastName());
+		billingInfo.setTelephone(traveler.getPhoneNumber());
+		billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
+
+		String checkoutEmail = BookingInfoUtils.getCheckoutEmail(getActivity(), getLob());
+		if (!TextUtils.isEmpty(checkoutEmail)) {
+			billingInfo.setEmail(checkoutEmail);
+		}
+		else {
+			//TODO this is highly unlikely to happen. Since tablet checkout is still in the works, let's come back here when UI is in place.
+			billingInfo.setEmail(null);
+			Ui.showToast(getActivity(), R.string.please_enter_a_valid_email_address);
+		}
+
+		bind();
+		refreshAccountButtonState();
+		updateWalletViewVisibilities();
+	}
+
+	@Override
+	protected void updateWalletViewVisibilities() {
+		boolean showWalletButton = showWalletButton();
+		boolean isWalletLoading = isWalletLoading();
+
+		mWalletButton.setVisibility(showWalletButton ? View.VISIBLE : View.GONE);
+		mWalletButton.setEnabled(!isWalletLoading);
+
+		// Enable buttons if we're either not showing the wallet button or we're not loading a masked wallet
+		boolean enableButtons = !showWalletButton || !isWalletLoading;
+		mAccountButton.setEnabled(enableButtons);
+		mWalletListener.onWalletButtonStateChanged(enableButtons);
+	}
 
 	/*
 	 * ILOBable
@@ -302,6 +404,4 @@ public class CheckoutLoginButtonsFragment extends Fragment implements AccountBut
 	public LineOfBusiness getLob() {
 		return mLob;
 	}
-
-
 }

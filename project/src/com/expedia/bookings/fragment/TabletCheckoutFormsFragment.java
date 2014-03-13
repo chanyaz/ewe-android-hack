@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,10 +47,12 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.util.Ui;
 
+import static com.expedia.bookings.fragment.CheckoutLoginButtonsFragment.IWalletButtonStateChangedListener;
+
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TabletCheckoutFormsFragment extends LobableFragment implements IBackManageable,
 	IStateProvider<CheckoutFormState>,
-	ICheckoutDataListener, IFragmentAvailabilityProvider, CheckoutLoginButtonsFragment.ILoginStateChangedListener {
+	ICheckoutDataListener, IFragmentAvailabilityProvider, CheckoutLoginButtonsFragment.ILoginStateChangedListener, IWalletButtonStateChangedListener {
 
 	private static final String STATE_CHECKOUTFORMSTATE = "STATE_CHECKOUTFORMSTATE";
 
@@ -540,6 +543,14 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		return retVal;
 	}
 
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (mLoginButtons != null) {
+			mLoginButtons.onActivityResult(requestCode, resultCode, data);
+		}
+	}
+
 	/*
 	 * PAYMENT FORM STUFF
 	 */
@@ -611,7 +622,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				mOverlayC.setVisibility(View.VISIBLE);
 			}
 			else {
-
 				mOverlayContentC.setAlpha(0f);
 				mOverlayShade.setAlpha(0f);
 				mOverlayC.setVisibility(View.VISIBLE);
@@ -713,5 +723,19 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	@Override
 	public void onLoginStateChanged() {
 		bindAll();
+	}
+
+	/*
+	 * IWalletButtonStateChangedListener
+	 */
+
+	@Override
+	public void onWalletButtonStateChanged(boolean enable) {
+		Log.d("TabletCheckoutFormsFrag", "onWalletButtonStateChanged(" + enable + ")");
+		onCheckoutDataUpdated();
+		mPaymentButton.setEnabled(!enable);
+		for (TravelerButtonFragment tbf : mTravelerButtonFrags) {
+			tbf.setEnabled(enable);
+		}
 	}
 }

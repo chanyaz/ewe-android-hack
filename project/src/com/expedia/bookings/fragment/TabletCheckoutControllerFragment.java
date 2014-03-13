@@ -8,6 +8,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,7 +24,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
-import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
@@ -217,14 +217,18 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		Events.register(this);
 
 		mBackManager.registerWithParent(this);
-		setCheckoutState(mStateManager.getState(), false);
+		if (bookingWithGoogleWallet()) {
+			setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
+		}
+		else {
+			setCheckoutState(mStateManager.getState(), false);
+		}
 		checkForAddedTrips();
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-
 		// UnRegister on Otto bus
 		Events.unregister(this);
 
@@ -242,6 +246,17 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		boolean hasFlight = Db.getTripBucket().getFlight() != null;
 		mBucketFlightContainer.setVisibility(hasFlight ? View.VISIBLE : View.GONE);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		mCheckoutFragment.onActivityResult(requestCode, resultCode, data);
+		if (getLob() == LineOfBusiness.HOTELS && mHotelBookingFrag != null) {
+			mHotelBookingFrag.onActivityResult(requestCode,resultCode,data);
+		} else if (mFlightBookingFrag != null) {
+			mFlightBookingFrag.onActivityResult(requestCode,resultCode,data);
+		}
 	}
 
 	/*
@@ -267,8 +282,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	private boolean bookingWithGoogleWallet() {
-		return (getLob() == LineOfBusiness.FLIGHTS && mFlightBookingFrag.willBookViaGoogleWallet()) ||
-			(getLob() == LineOfBusiness.HOTELS && mHotelBookingFrag.willBookViaGoogleWallet());
+		return (getLob() == LineOfBusiness.HOTELS && mHotelBookingFrag != null && mHotelBookingFrag.willBookViaGoogleWallet()) ||
+			((getLob() == LineOfBusiness.FLIGHTS && mFlightBookingFrag != null && mFlightBookingFrag.willBookViaGoogleWallet()));
 	}
 
 	public void rebindCheckoutFragment() {
@@ -352,10 +367,14 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			else if (stateOne == CheckoutState.BOOKING && stateTwo == CheckoutState.CONFIRMATION) {
 				setShowConfirmationPercentage(percentage);
 			}
+			else if (stateOne == CheckoutState.READY_FOR_CHECKOUT && stateTwo == CheckoutState.BOOKING) {
+				setShowBookingPercentage(percentage);
+			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(CheckoutState stateOne, CheckoutState stateTwo) {
+
 			if (stateOne == CheckoutState.OVERVIEW && stateTwo == CheckoutState.READY_FOR_CHECKOUT) {
 				//TODO
 			}
@@ -765,22 +784,25 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public void onSlideStart() {
-		startStateTransition(CheckoutState.READY_FOR_CHECKOUT, CheckoutState.CVV);
+		CheckoutState stateTwo = bookingWithGoogleWallet() ? CheckoutState.BOOKING : CheckoutState.CVV;
+		startStateTransition(CheckoutState.READY_FOR_CHECKOUT, stateTwo);
 	}
 
 	@Override
 	public void onSlideProgress(float pixels, float total) {
+		CheckoutState stateTwo = bookingWithGoogleWallet() ? CheckoutState.BOOKING : CheckoutState.CVV;
 		mSlideProgress = pixels / mSlideFragment.getView().getWidth();
-		updateStateTransition(CheckoutState.READY_FOR_CHECKOUT, CheckoutState.CVV, mSlideProgress);
+		updateStateTransition(CheckoutState.READY_FOR_CHECKOUT, stateTwo, mSlideProgress);
 	}
 
 	@Override
 	public void onSlideAllTheWay() {
+		final CheckoutState stateTwo = bookingWithGoogleWallet() ? CheckoutState.BOOKING : CheckoutState.CVV;
 		ValueAnimator anim = ValueAnimator.ofFloat(mSlideProgress, 1f);
 		anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 			@Override
 			public void onAnimationUpdate(ValueAnimator valueAnimator) {
-				updateStateTransition(CheckoutState.READY_FOR_CHECKOUT, CheckoutState.CVV,
+				updateStateTransition(CheckoutState.READY_FOR_CHECKOUT, stateTwo,
 					(Float) valueAnimator.getAnimatedValue());
 				setShowReadyForCheckoutPercentage(1f - valueAnimator.getAnimatedFraction());
 			}
@@ -788,8 +810,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		anim.addListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator animator) {
-				endStateTransition(CheckoutState.READY_FOR_CHECKOUT, CheckoutState.CVV);
-				setCheckoutState(CheckoutState.CVV, false);
+				endStateTransition(CheckoutState.READY_FOR_CHECKOUT, stateTwo);
+				setCheckoutState(stateTwo, false);
 			}
 		});
 		anim.start();
@@ -797,7 +819,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public void onSlideAbort() {
-		endStateTransition(CheckoutState.READY_FOR_CHECKOUT, CheckoutState.CVV);
+		CheckoutState stateTwo = bookingWithGoogleWallet() ? CheckoutState.BOOKING : CheckoutState.CVV;
+		endStateTransition(CheckoutState.READY_FOR_CHECKOUT, stateTwo);
 		setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, false);
 	}
 

@@ -34,6 +34,12 @@ public class TravelerButtonFragment extends LobableFragment {
 
 	private boolean mShowValidMarker = false;
 
+	public void setEnabled(boolean enable) {
+		mTravelerSectionContainer.setEnabled(enable);
+		mEmptyViewContainer.setEnabled(enable);
+		mSectionTraveler.setEnabled(enable);
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
