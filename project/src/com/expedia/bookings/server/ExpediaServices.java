@@ -1850,8 +1850,8 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private Request.Builder createHttpGet(String url, List<BasicNameValuePair> params) {
-		if (params != null) {
-			String outUrl = url;
+		String outUrl = url;
+		if (params != null && params.size() > 0) {
 			if (!outUrl.endsWith("?")) {
 				outUrl += "?";
 			}
@@ -1860,18 +1860,25 @@ public class ExpediaServices implements DownloadListener {
 			if (encodedParams != null) {
 				outUrl += encodedParams;
 			}
-
-			Request.Builder req = new Request.Builder().url(outUrl);
-			return req;
 		}
-		return new Request.Builder().url(url);
+		return new Request.Builder().url(outUrl);
 
 	}
 
-
 	private Request.Builder createHttpPost(String url, List<BasicNameValuePair> params) {
+		String data = "";
+		if (params != null && params.size() > 0) {
+			StringBuilder sb = new StringBuilder();
+			for (BasicNameValuePair param : params) {
+				sb.append(param.getName());
+				sb.append("=");
+				sb.append(param.getValue());
+				sb.append("&");
+			}
+			data = sb.toString();
+		}
+
 		Request.Builder req = new Request.Builder().url(url);
-		String data = NetUtils.getParamsForLogging(params);
 		Request.Body body = Request.Body.create(MediaType.parse("application/x-www-form-urlencoded"), data);
 		req.post(body);
 		return req;
