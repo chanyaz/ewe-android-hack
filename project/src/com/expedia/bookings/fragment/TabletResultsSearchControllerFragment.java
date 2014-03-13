@@ -295,7 +295,21 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	 */
 
 	public void setState(ResultsSearchState state, boolean animate) {
-		mSearchStateManager.setState(state, animate);
+		ResultsSearchState curState = mSearchStateManager.getState();
+		if (animate && stateShowsWidget(curState) && stateShowsWaypoint(state)) {
+			mSearchStateManager.animateThroughStates(200, false, ResultsSearchState.DEFAULT, state);
+		}
+		else {
+			mSearchStateManager.setState(state, animate);
+		}
+	}
+
+	private boolean stateShowsWaypoint(ResultsSearchState state) {
+		return state == ResultsSearchState.FLIGHT_ORIGIN || state == ResultsSearchState.DESTINATION;
+	}
+
+	private boolean stateShowsWidget(ResultsSearchState state) {
+		return state == ResultsSearchState.TRAVELER_PICKER || state == ResultsSearchState.CALENDAR;
 	}
 
 	private StateListenerHelper<ResultsSearchState> mSearchStateHelper = new StateListenerHelper<ResultsSearchState>() {
@@ -410,10 +424,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				setSlideUpHotelsOnlyAnimationPercentage(0f);
 			}
 			}
-		}
-
-		private boolean stateShowsWaypoint(ResultsSearchState state) {
-			return state == ResultsSearchState.FLIGHT_ORIGIN || state == ResultsSearchState.DESTINATION;
 		}
 
 		private boolean performingSlideUpOrDownTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {

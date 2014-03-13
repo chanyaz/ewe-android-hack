@@ -10,6 +10,7 @@ import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.v4.app.Fragment;
+import android.util.Pair;
 import android.view.animation.Interpolator;
 
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -32,7 +33,7 @@ public class StateManager<T> {
 	private T mDestinationState;
 	private boolean mProviderIsFrag = false;
 	private boolean mAcceptAnimationUpdates = false;
-	private Queue<T> mStateChain;
+	private Queue<Pair<T, Integer>> mStateChain;
 
 	/**
 	 * Create a new StateManager
@@ -132,19 +133,48 @@ public class StateManager<T> {
 		}
 	}
 
+	/**
+	 * Same as calling animateThroughStates(false, states);
+	 *
+	 * @param states
+	 */
 	public void animateThroughStates(T... states) {
-		mStateChain = new LinkedList<T>();
+		animateThroughStates(false, states);
+	}
+
+	/**
+	 * Same as calling animateThroughStates(STATE_CHANGE_ANIMATION_DURATION, durationIsTotal, states);
+	 *
+	 * @param durationIsTotal
+	 * @param states
+	 */
+	public void animateThroughStates(boolean durationIsTotal, T... states) {
+		animateThroughStates(STATE_CHANGE_ANIMATION_DURATION, durationIsTotal, states);
+	}
+
+	/**
+	 * This method allows us to walk through states.
+	 *
+	 * @param duration        - animation duration (ms)
+	 * @param durationIsTotal - if true, each state transition will take (duration divided by # of states) (ms) to complete
+	 *                        - if false, each transition will take duration (ms) to complete
+	 * @param states          - the states to animate through
+	 */
+	public void animateThroughStates(int duration, boolean durationIsTotal, T... states) {
+		mStateChain = new LinkedList<Pair<T, Integer>>();
+		int perAnimDur = durationIsTotal ? (int) ((float) duration / states.length) : duration;
 		for (T s : states) {
-			mStateChain.add(s);
+			mStateChain.add(new Pair<T, Integer>(s, perAnimDur));
 		}
 		doStateChainWork();
 	}
 
+
 	private void doStateChainWork() {
 		if (mStateChain != null) {
-			T state = mStateChain.poll();
-			if (state != null) {
-				setState(state, true);
+			Pair<T, Integer> pair = mStateChain.poll();
+			if (pair != null) {
+				setState(pair.first, pair.second);
 			}
 			else {
 				mStateChain = null;
