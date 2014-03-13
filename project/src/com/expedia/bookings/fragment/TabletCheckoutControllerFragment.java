@@ -4,6 +4,9 @@ import java.util.Calendar;
 
 import org.joda.time.LocalDate;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
@@ -396,7 +399,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	private void setShowReadyForCheckoutPercentage(float percentage) {
-		mSlideContainer.setTranslationY((1f - percentage) * mSlideContainer.getHeight());
+		mSlideContainer.setTranslationY((1f - percentage)
+			* getResources().getDimension(R.dimen.slide_to_purchase_container_height));
 	}
 
 	private void setShowConfirmationPercentage(float percentage) {
@@ -747,6 +751,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	 * SlideToWidgetJB.ISlideToListener
 	 */
 
+	float mSlideProgress = 0f;
+
 	@Override
 	public void onSlideStart() {
 		startStateTransition(CheckoutState.READY_FOR_CHECKOUT, CheckoutState.CVV);
@@ -754,13 +760,28 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public void onSlideProgress(float pixels, float total) {
-		updateStateTransition(CheckoutState.READY_FOR_CHECKOUT, CheckoutState.CVV, pixels / total);
+		mSlideProgress = pixels / mSlideFragment.getView().getWidth();
+		updateStateTransition(CheckoutState.READY_FOR_CHECKOUT, CheckoutState.CVV, mSlideProgress);
 	}
 
 	@Override
 	public void onSlideAllTheWay() {
-		endStateTransition(CheckoutState.READY_FOR_CHECKOUT, CheckoutState.CVV);
-		setCheckoutState(CheckoutState.CVV, false);
+		ValueAnimator anim = ValueAnimator.ofFloat(mSlideProgress, 1f);
+		anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator valueAnimator) {
+				updateStateTransition(CheckoutState.READY_FOR_CHECKOUT, CheckoutState.CVV, (Float) valueAnimator.getAnimatedValue());
+				mSlideContainer.setTranslationY(valueAnimator.getAnimatedFraction() * mSlideContainer.getHeight());
+			}
+		});
+		anim.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animator) {
+				endStateTransition(CheckoutState.READY_FOR_CHECKOUT, CheckoutState.CVV);
+				setCheckoutState(CheckoutState.CVV, false);
+			}
+		});
+		anim.start();
 	}
 
 	@Override

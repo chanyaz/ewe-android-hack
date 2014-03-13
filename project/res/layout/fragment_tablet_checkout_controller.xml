@@ -105,7 +105,7 @@
                 </LinearLayout>
             </FrameLayout>
 
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/checkout_forms_and_slide_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -115,15 +115,15 @@
                     android:id="@+id/checkout_forms_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:layout_gravity="top"/>
 
                 <FrameLayout
                     android:id="@+id/slide_container"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_weight="0"
+                    android:layout_height="@dimen/slide_to_purchase_container_height"
+                    android:layout_gravity="bottom"
                     android:visibility="gone"/>
-            </LinearLayout>
+            </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/confirmation_container"
