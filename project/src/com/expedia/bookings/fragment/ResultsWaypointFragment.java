@@ -171,8 +171,7 @@ public class ResultsWaypointFragment extends Fragment
 
 		@Override
 		public void onStateTransitionStart(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			if (stateTwo == ResultsSearchState.FLIGHT_ORIGIN || (stateOne == ResultsSearchState.FLIGHT_ORIGIN
-				&& stateTwo == ResultsSearchState.DEFAULT)) {
+			if (waypointTransition(stateOne, stateTwo)) {
 				mAnimFrom = mListener.getAnimOrigin();
 				mMultX = (mAnimFrom.width() / (float) mSearchBarC.getWidth());
 				mMultY = (mAnimFrom.height() / (float) mSearchBarC.getHeight());
@@ -189,9 +188,8 @@ public class ResultsWaypointFragment extends Fragment
 		@Override
 		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo,
 			float percentage) {
-			if (stateTwo == ResultsSearchState.FLIGHT_ORIGIN || (stateOne == ResultsSearchState.FLIGHT_ORIGIN
-				&& stateTwo == ResultsSearchState.DEFAULT)) {
-				float perc = stateTwo == ResultsSearchState.FLIGHT_ORIGIN ? percentage : (1f - percentage);
+			if (waypointTransition(stateOne, stateTwo)) {
+				float perc = waypointHiding(stateOne, stateTwo) ? (1f - percentage) : percentage;
 
 				float transX = (1f - perc) * (mAnimFrom.left - mSearchBarC.getLeft());
 				float transY = (1f - perc) * (mAnimFrom.bottom - (mSearchBarC.getBottom()));
@@ -209,8 +207,7 @@ public class ResultsWaypointFragment extends Fragment
 
 		@Override
 		public void onStateTransitionEnd(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			if (stateTwo == ResultsSearchState.FLIGHT_ORIGIN || (stateOne == ResultsSearchState.FLIGHT_ORIGIN
-				&& stateTwo == ResultsSearchState.DEFAULT)) {
+			if (waypointTransition(stateOne, stateTwo)) {
 				mSuggestionsC.setLayerType(View.LAYER_TYPE_NONE, null);
 				mBg.setLayerType(View.LAYER_TYPE_NONE, null);
 				mSearchBarC.setLayerType(View.LAYER_TYPE_NONE, null);
@@ -219,7 +216,7 @@ public class ResultsWaypointFragment extends Fragment
 
 		@Override
 		public void onStateFinalized(ResultsSearchState state) {
-			if (state == ResultsSearchState.FLIGHT_ORIGIN) {
+			if (isWaypointState(state)) {
 				mSearchBarC.setTranslationX(0);
 				mSearchBarC.setTranslationY(0);
 				mSearchBarC.setScaleX(1f);
@@ -232,7 +229,39 @@ public class ResultsWaypointFragment extends Fragment
 				clearEditTextFocus(mWaypointEditText);
 			}
 		}
+
+		private boolean isWaypointState(ResultsSearchState state) {
+			return state == ResultsSearchState.FLIGHT_ORIGIN || state == ResultsSearchState.DESTINATION;
+		}
+
+		private boolean isDefault(ResultsSearchState state) {
+			return state == ResultsSearchState.DEFAULT;
+		}
+
+		private boolean waypointShowing(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			return isDefault(stateOne) && isWaypointState(stateTwo);
+		}
+
+		private boolean waypointHiding(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			return isWaypointState(stateOne) && isDefault(stateTwo);
+		}
+
+		private boolean waypointTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			return waypointShowing(stateOne, stateTwo) || waypointHiding(stateOne, stateTwo);
+		}
 	};
+
+	public void updateViewsForOrigin() {
+		if (mWaypointEditText != null) {
+			mWaypointEditText.setHint(R.string.origins_hint);
+		}
+	}
+
+	public void updateViewsForDestination() {
+		if (mWaypointEditText != null) {
+			mWaypointEditText.setHint(R.string.destinations_hint);
+		}
+	}
 
 
 	//////////////////////////////////////////////////////////////////////////

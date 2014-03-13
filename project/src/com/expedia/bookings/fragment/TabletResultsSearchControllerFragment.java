@@ -58,15 +58,18 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	ResultsWaypointFragment.IResultsWaypointFragmentListener,
 	ExpediaServicesFragment.ExpediaServicesFragmentListener {
 
+	private static final String STATE_ANIM_FROM_ORIGIN = "STATE_ANIM_FROM_ORIGIN";
+
 	private static final String FTAG_CALENDAR = "FTAG_CALENDAR";
 	private static final String FTAG_TRAV_PICKER = "FTAG_TRAV_PICKER";
-	private static final String FTAG_ORIG_CHOOSER = "FTAG_ORIG_CHOOSER";
+	private static final String FTAG_WAYPOINT = "FTAG_WAYPOINT";
 	private static final String FTAG_LOCATION = "FTAG_LOCATION";
 	private static final String FTAG_LOCATION_SUGGEST = "FTAG_LOCATION_SUGGEST";
 
 	private GridManager mGrid = new GridManager();
 	private StateManager<ResultsSearchState> mSearchStateManager = new StateManager<ResultsSearchState>(
 		ResultsSearchState.DEFAULT, this);
+	private boolean mWaypointAnimFromOrigin = true;
 
 	//Containers
 	private ViewGroup mRootC;
@@ -78,7 +81,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	//Fragment Containers
 	private FrameLayoutTouchController mCalC;
 	private FrameLayoutTouchController mTravC;
-	private FrameLayoutTouchController mOrigC;
+	private FrameLayoutTouchController mWaypointC;
 
 	//Search action buttons
 	private TextView mDestBtn;
@@ -87,7 +90,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private TextView mTravBtn;
 
 	//Frags
-	private ResultsWaypointFragment mOriginsFragment;
+	private ResultsWaypointFragment mWaypointFragment;
 	private ResultsDatesFragment mDatesFragment;
 	private ResultsGuestPicker mGuestsFragment;
 	private FusedLocationProviderFragment mLocationFragment;
@@ -109,7 +112,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mSearchBarC = Ui.findView(view, R.id.search_bar_conatiner);
 		mRightButtonsC = Ui.findView(view, R.id.right_buttons_container);
 		mWidgetC = Ui.findView(view, R.id.widget_container);
-		mOrigC = Ui.findView(view, R.id.origin_container);
+		mWaypointC = Ui.findView(view, R.id.waypoint_container);
 		mTravC = Ui.findView(view, R.id.traveler_container);
 		mCalC = Ui.findView(view, R.id.calendar_container);
 		mWidgetBg = Ui.findView(view, R.id.widget_container_bg);
@@ -126,6 +129,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		registerStateListener(mSearchStateHelper, false);
 		registerStateListener(new StateListenerLogger<ResultsSearchState>(), false);
+
+		if (savedInstanceState != null) {
+			mWaypointAnimFromOrigin = savedInstanceState.getBoolean(STATE_ANIM_FROM_ORIGIN, mWaypointAnimFromOrigin);
+		}
 
 		return view;
 	}
@@ -150,6 +157,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mMeasurementHelper.unregisterWithProvider(this);
 		mBackManager.unregisterWithParent(this);
 		Sp.getBus().unregister(this);
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(STATE_ANIM_FROM_ORIGIN, mWaypointAnimFromOrigin);
 	}
 
 
@@ -241,14 +254,13 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mDestClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-
+			setState(ResultsSearchState.DESTINATION, mAnimateButtonClicks);
 		}
 	};
 
 	private View.OnClickListener mOrigClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			//TODO: Use set state and default animate value
 			setState(ResultsSearchState.FLIGHT_ORIGIN, mAnimateButtonClicks);
 		}
 	};
@@ -298,8 +310,16 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				}
 			}
 			else {
-				if (stateOne == ResultsSearchState.FLIGHT_ORIGIN || stateTwo == ResultsSearchState.FLIGHT_ORIGIN) {
-					mOrigC.setVisibility(View.VISIBLE);
+				if (stateShowsWaypoint(stateOne) || stateShowsWaypoint(stateTwo)) {
+					mWaypointC.setVisibility(View.VISIBLE);
+
+					//Here we set up where the search bar animation will originate from
+					if (stateOne == ResultsSearchState.FLIGHT_ORIGIN || stateTwo == ResultsSearchState.FLIGHT_ORIGIN) {
+						mWaypointAnimFromOrigin = true;
+					}
+					else {
+						mWaypointAnimFromOrigin = false;
+					}
 				}
 
 				if (stateOne == ResultsSearchState.CALENDAR || stateTwo == ResultsSearchState.CALENDAR) {
@@ -392,6 +412,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			}
 		}
 
+		private boolean stateShowsWaypoint(ResultsSearchState state) {
+			return state == ResultsSearchState.FLIGHT_ORIGIN || state == ResultsSearchState.DESTINATION;
+		}
+
 		private boolean performingSlideUpOrDownTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
 			boolean goingUp = goingUp(stateOne, stateTwo);
 			boolean goingDown = goingDown(stateOne, stateTwo);
@@ -432,7 +456,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		private void setSlideUpHotelsOnlyHardwareLayers(boolean enabled) {
 			int layerType = enabled ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
-			mOrigC.setLayerType(layerType, null);
+			mWaypointC.setLayerType(layerType, null);
 		}
 
 		private void setSlideUpHotelsOnlyAnimationPercentage(float percentage) {
@@ -440,7 +464,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 
 		private void setActionbarShowingState(ResultsSearchState state) {
-			if (state == ResultsSearchState.FLIGHT_ORIGIN) {
+			if (stateShowsWaypoint(state)) {
 				getActivity().getActionBar().hide();
 			}
 			else {
@@ -449,7 +473,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 
 		private void setVisibilitiesForState(ResultsSearchState state) {
-			mOrigC.setVisibility(state == ResultsSearchState.FLIGHT_ORIGIN ? View.VISIBLE : View.INVISIBLE);
+			mWaypointC.setVisibility(stateShowsWaypoint(state) ? View.VISIBLE : View.INVISIBLE);
 			mTravC.setVisibility(state == ResultsSearchState.TRAVELER_PICKER ? View.VISIBLE : View.INVISIBLE);
 			mCalC.setVisibility(state == ResultsSearchState.CALENDAR ? View.VISIBLE : View.INVISIBLE);
 			mWidgetC.setVisibility(
@@ -498,8 +522,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mGuestsFragment = FragmentAvailabilityUtils.setFragmentAvailability(mTravAvail, FTAG_TRAV_PICKER, manager,
 			transaction, this, R.id.traveler_container, false);
 
-		mOriginsFragment = FragmentAvailabilityUtils.setFragmentAvailability(mOrigAvail, FTAG_ORIG_CHOOSER, manager,
-			transaction, this, R.id.origin_container, false);
+		mWaypointFragment = FragmentAvailabilityUtils.setFragmentAvailability(mOrigAvail, FTAG_WAYPOINT, manager,
+			transaction, this, R.id.waypoint_container, false);
 
 
 		transaction.commit();
@@ -513,8 +537,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		else if (tag == FTAG_TRAV_PICKER) {
 			return mGuestsFragment;
 		}
-		else if (tag == FTAG_ORIG_CHOOSER) {
-			return mOriginsFragment;
+		else if (tag == FTAG_WAYPOINT) {
+			return mWaypointFragment;
 		}
 		else if (tag == FTAG_LOCATION) {
 			return mLocationFragment;
@@ -533,7 +557,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		else if (tag == FTAG_TRAV_PICKER) {
 			return ResultsGuestPicker.newInstance(Sp.getParams().getNumAdults(), Sp.getParams().getChildAges());
 		}
-		else if (tag == FTAG_ORIG_CHOOSER) {
+		else if (tag == FTAG_WAYPOINT) {
 			return new ResultsWaypointFragment();
 		}
 		else if (tag == FTAG_LOCATION) {
@@ -630,7 +654,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mGrid.setRowPercentage(3, 0.5f);
 
 			mGrid.setContainerToRowSpan(mTopHalfC, 0, 2);
-			mGrid.setContainerToRowSpan(mOrigC, 0, 3);
+			mGrid.setContainerToRowSpan(mWaypointC, 0, 3);
 			mGrid.setContainerToRow(mWidgetC, 3);
 			mGrid.setContainerToColumn(mWidgetC, 4);
 
@@ -715,18 +739,29 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	@Override
 	public void onWaypointSearchComplete(ResultsWaypointFragment caller, SuggestionV2 suggest) {
 		if (suggest != null) {
-			if (caller == mOriginsFragment) {
+			if (caller == mWaypointFragment) {
+				boolean usingOrigin = mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN;
 				if (suggest.getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION) {
 					if (needFreshLocation()) {
 						fetchLocation();
 					}
 					else {
-						Sp.getParams().setOrigin(mLocationSuggestion);
+						if (usingOrigin) {
+							Sp.getParams().setOrigin(mLocationSuggestion);
+						}
+						else {
+							Sp.getParams().setDestination(mLocationSuggestion);
+						}
 						doSpUpdate();
 					}
 				}
 				else {
-					Sp.getParams().setOrigin(suggest);
+					if (usingOrigin) {
+						Sp.getParams().setOrigin(suggest);
+					}
+					else {
+						Sp.getParams().setDestination(suggest);
+					}
 					doSpUpdate();
 				}
 			}
@@ -736,7 +771,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	@Override
 	public Rect getAnimOrigin() {
-		return ScreenPositionUtils.getGlobalScreenPosition(mOrigBtn);
+		if (mWaypointAnimFromOrigin || mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN) {
+			return ScreenPositionUtils.getGlobalScreenPosition(mOrigBtn);
+		}
+		else {
+			return ScreenPositionUtils.getGlobalScreenPosition(mDestBtn);
+		}
 	}
 
 	/**
@@ -778,15 +818,13 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		if (suggestion != null) {
 			mLocationSuggestion = suggestion;
 
-			//TODO: We are assuming this is always for the ORIGIN - but that will need to change eventually
-			if (!Sp.getParams().hasOrigin() || (
-				Sp.getParams().getOrigin().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION
-					&& Sp.getParams().getOrigin().getLocation().getLatitude() == 0)) {
+			if (!Sp.getParams().hasOrigin() || needsLocation(Sp.getParams().getOrigin())) {
 				Sp.getParams().setOrigin(mLocationSuggestion);
 				Sp.reportSpUpdate();
 			}
-			else {
-				Log.d("onLocationSuggestion got a suggestion, but decided not to do anything with it.");
+			if (!Sp.getParams().hasDestination() || needsLocation(Sp.getParams().getDestination())) {
+				Sp.getParams().setDestination(mLocationSuggestion);
+				Sp.reportSpUpdate();
 			}
 		}
 		else {
@@ -794,6 +832,13 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 
 	}
+
+	protected boolean needsLocation(SuggestionV2 suggestion) {
+		return suggestion.getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION && (
+			suggestion.getLocation() == null || (suggestion.getLocation().getLatitude() == 0
+				&& suggestion.getLocation().getLongitude() == 0));
+	}
+
 
 	@Override
 	public void onFound(final Location currentLocation) {
