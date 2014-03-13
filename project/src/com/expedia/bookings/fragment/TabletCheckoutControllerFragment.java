@@ -401,8 +401,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	private void setShowReadyForCheckoutPercentage(float percentage) {
-		mSlideContainer.setTranslationY((1f - percentage)
-			* getResources().getDimension(R.dimen.slide_to_purchase_container_height));
+		mSlideContainer.setAlpha(percentage);
 	}
 
 	private void setShowConfirmationPercentage(float percentage) {
