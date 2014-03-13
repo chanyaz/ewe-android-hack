@@ -223,6 +223,13 @@ public class ResultsWaypointFragment extends Fragment
 				mSearchBarC.setScaleY(1f);
 				mSuggestionsC.setTranslationY(0);
 
+				if (state == ResultsSearchState.FLIGHT_ORIGIN) {
+					updateViewsForOrigin();
+				}
+				else if (state == ResultsSearchState.DESTINATION) {
+					updateViewsForDestination();
+				}
+
 				requestEditTextFocus(mWaypointEditText);
 			}
 			else {
