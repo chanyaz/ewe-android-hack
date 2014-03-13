@@ -54,38 +54,35 @@ public class AdTracker {
 				.doubleValue() : 0;
 
 		// Other
-		AdX.trackHotelBooked(currency, totalPrice);
+		AdX.trackHotelBooked(Db.getHotelSearch(), currency, totalPrice, avgPrice);
 	}
 
 	public static void trackFlightBooked(String currency, double value, int days, String destAirport) {
-		AdX.trackFlightBooked(currency, value);
+		AdX.trackFlightBooked(Db.getFlightSearch(), currency, value);
 	}
 
 	public static void trackHotelCheckoutStarted() {
 		final Rate rate = Db.getHotelSearch().getSelectedRate();
 		final Money totalPrice = rate.getTotalAmountAfterTax();
-		AdX.trackHotelCheckoutStarted(totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
+		AdX.trackHotelCheckoutStarted(Db.getHotelSearch(), totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 	}
 
 	public static void trackFlightCheckoutStarted() {
 		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedFlightTrip() != null) {
 			Money totalPrice = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
-			AdX.trackFlightCheckoutStarted(totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
+			AdX.trackFlightCheckoutStarted(Db.getFlightSearch(), totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 		}
 	}
 
 	public static void trackHotelSearch() {
-		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
-		if (params != null && !TextUtils.isEmpty(params.getRegionId())) {
-			AdX.trackHotelSearch(params.getRegionId());
+		if (Db.getHotelSearch() != null) {
+			AdX.trackHotelSearch(Db.getHotelSearch());
 		}
 	}
 
 	public static void trackFlightSearch() {
 		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchParams() != null) {
-			FlightSearchParams searchParams = Db.getFlightSearch().getSearchParams();
-			String dest = searchParams.getArrivalLocation().getDestinationId();
-			AdX.trackFlightSearch(dest);
+			AdX.trackFlightSearch(Db.getFlightSearch());
 		}
 	}
 }
