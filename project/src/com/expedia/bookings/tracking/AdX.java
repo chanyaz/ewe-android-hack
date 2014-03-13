@@ -1,12 +1,23 @@
 package com.expedia.bookings.tracking;
 
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+
 import android.content.Context;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.AdX.tag.AdXConnect;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearch;
+import com.expedia.bookings.data.FlightSearchParams;
+import com.expedia.bookings.data.HotelSearch;
+import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -45,6 +56,11 @@ public class AdX {
 			Log.i("AdX first launch event PointOfSale=" + pos);
 
 			reportReferralToOmniture();
+
+			// Retargeting
+			AdXConnect.startNewExtendedEvent(sAppContext);
+			addCommonRetargeting();
+			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_HOMEPAGE);
 		}
 	}
 
@@ -54,6 +70,11 @@ public class AdX {
 			connect(pos, true);
 			AdXConnect.getAdXConnectEventInstance(sAppContext, "Launch", "", "");
 			Log.i("AdX launch event PointOfSale=" + pos);
+
+			// Retargeting
+			AdXConnect.startNewExtendedEvent(sAppContext);
+			addCommonRetargeting();
+			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_HOMEPAGE);
 		}
 	}
 
@@ -81,45 +102,190 @@ public class AdX {
 		}
 	}
 
-	public static void trackHotelBooked(String currency, double totalPrice) {
+	public static void trackHotelBooked(HotelSearch search, String currency, double totalPrice, double avgPrice) {
 		if (sEnabled) {
 			AdXConnect.getAdXConnectEventInstance(sAppContext, "Sale", String.valueOf(totalPrice), currency, "Hotel");
 			Log.i("AdX hotel booking event currency=" + currency + " total=" + totalPrice);
+
+			// Retargeting event
+			HotelSearchParams params = search.getSearchParams();
+			DateTimeFormatter dtf = ISODateTimeFormat.date();
+
+			AdXConnect.startNewExtendedEvent(sAppContext);
+			addCommonRetargeting();
+			if (search.getSearchResponse().getPropertiesCount() > 0) {
+				Location location = search.getSelectedProperty().getLocation();
+				if (location != null) {
+					addCommonProductRetargeting(location.getCity(), location.getStateCode(), location.getCountryCode());
+					AdXConnect.setEventParameter(AdXConnect.ADX_DESTINATION_ID, location.getCity());
+				}
+			}
+			AdXConnect.setEventParameter(AdXConnect.ADX_START_DATE, dtf.print(params.getCheckInDate()));
+			AdXConnect.setEventParameter(AdXConnect.ADX_END_DATE, dtf.print(params.getCheckOutDate()));
+			AdXConnect.setEventParameterOfName("b_win", params.getStayDuration());
+			AdXConnect.setEventParameterOfName("p_type", "HOTEL");
+
+			AdXConnect.addProductToList("16955", avgPrice, params.getStayDuration());
+			AdXConnect.setEventParameterOfName("currency", currency);
+
+			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_PRODUCTVIEW);
 		}
 	}
 
-	public static void trackFlightBooked(String currency, double totalPrice) {
+	public static void trackFlightBooked(FlightSearch search, String currency, double totalPrice) {
 		if (sEnabled) {
 			AdXConnect.getAdXConnectEventInstance(sAppContext, "Sale", String.valueOf(totalPrice), currency, "Flight");
 			Log.i("AdX flight booking event currency=" + currency + " total=" + totalPrice);
+
+			// Retargeting event
+			FlightSearchParams params = search.getSearchParams();
+			DateTimeFormatter dtf = ISODateTimeFormat.date();
+
+			AdXConnect.startNewExtendedEvent(sAppContext);
+			addCommonRetargeting();
+			Location location = params.getArrivalLocation();
+			if (location != null) {
+				addCommonProductRetargeting(location.getCity(), location.getStateCode(), location.getCountryCode());
+			}
+
+			AdXConnect.setEventParameter(AdXConnect.ADX_SOURCE_ID, params.getDepartureLocation().getDestinationId());
+			AdXConnect.setEventParameter(AdXConnect.ADX_DESTINATION_ID, params.getArrivalLocation().getDestinationId());
+			AdXConnect.setEventParameter(AdXConnect.ADX_START_DATE, dtf.print(params.getDepartureDate()));
+			if (params.isRoundTrip()) {
+				AdXConnect.setEventParameter(AdXConnect.ADX_END_DATE, dtf.print(params.getReturnDate()));
+			}
+			int duration = params.isRoundTrip() ? JodaUtils.daysBetween(params.getDepartureDate(), params.getReturnDate()) : 1;
+			AdXConnect.setEventParameterOfName("b_win", duration);
+			AdXConnect.setEventParameterOfName("p_type", "FLIGHT");
+
+			int numberOfTravelers = params.getNumAdults();
+			AdXConnect.addProductToList("16955", totalPrice / numberOfTravelers, numberOfTravelers);
+			AdXConnect.setEventParameterOfName("currency", currency);
+
+			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_PRODUCTVIEW);
 		}
 	}
 
-	public static void trackHotelCheckoutStarted(String currency, double totalPrice) {
+	public static void trackHotelCheckoutStarted(HotelSearch search, String currency, double totalPrice) {
 		if (sEnabled) {
 			AdXConnect.getAdXConnectEventInstance(sAppContext, "Checkout", String.valueOf(totalPrice), currency, "Hotel");
 			Log.i("AdX hotel checkout started currency=" + currency + " total=" + totalPrice);
+
+			// Retargeting event
+			HotelSearchParams params = search.getSearchParams();
+			DateTimeFormatter dtf = ISODateTimeFormat.date();
+
+			AdXConnect.startNewExtendedEvent(sAppContext);
+			addCommonRetargeting();
+			if (search.getSearchResponse().getPropertiesCount() > 0) {
+				Location location = search.getSelectedProperty().getLocation();
+				if (location != null) {
+					addCommonProductRetargeting(location.getCity(), location.getStateCode(), location.getCountryCode());
+					AdXConnect.setEventParameter(AdXConnect.ADX_DESTINATION_ID, location.getCity());
+				}
+			}
+			AdXConnect.setEventParameter(AdXConnect.ADX_START_DATE, dtf.print(params.getCheckInDate()));
+			AdXConnect.setEventParameter(AdXConnect.ADX_END_DATE, dtf.print(params.getCheckOutDate()));
+			AdXConnect.setEventParameterOfName("b_win", params.getStayDuration());
+			AdXConnect.setEventParameterOfName("p_type", "HOTEL");
+
+			AdXConnect.setEventParameterOfName("pr", String.valueOf(totalPrice));
+			AdXConnect.setEventParameterOfName("currency", currency);
+
+			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_PRODUCTVIEW);
 		}
 	}
 
-	public static void trackFlightCheckoutStarted(String currency, double totalPrice) {
+	public static void trackFlightCheckoutStarted(FlightSearch search, String currency, double totalPrice) {
 		if (sEnabled) {
 			AdXConnect.getAdXConnectEventInstance(sAppContext, "Checkout", String.valueOf(totalPrice), currency, "Flight");
 			Log.i("AdX flight checkout started currency=" + currency + " total=" + totalPrice);
+
+			// Retargeting event
+			FlightSearchParams params = search.getSearchParams();
+			DateTimeFormatter dtf = ISODateTimeFormat.date();
+
+			AdXConnect.startNewExtendedEvent(sAppContext);
+			addCommonRetargeting();
+			Location location = params.getArrivalLocation();
+			if (location != null) {
+				addCommonProductRetargeting(location.getCity(), location.getStateCode(), location.getCountryCode());
+			}
+
+			AdXConnect.setEventParameter(AdXConnect.ADX_SOURCE_ID, params.getDepartureLocation().getDestinationId());
+			AdXConnect.setEventParameter(AdXConnect.ADX_DESTINATION_ID, params.getArrivalLocation().getDestinationId());
+			AdXConnect.setEventParameter(AdXConnect.ADX_START_DATE, dtf.print(params.getDepartureDate()));
+			if (params.isRoundTrip()) {
+				AdXConnect.setEventParameter(AdXConnect.ADX_END_DATE, dtf.print(params.getReturnDate()));
+			}
+			int duration = params.isRoundTrip() ? JodaUtils.daysBetween(params.getDepartureDate(), params.getReturnDate()) : 1;
+			AdXConnect.setEventParameterOfName("b_win", duration);
+			AdXConnect.setEventParameterOfName("p_type", "FLIGHT");
+
+			AdXConnect.setEventParameterOfName("pr", String.valueOf(totalPrice));
+			AdXConnect.setEventParameterOfName("currency", currency);
+
+			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_PRODUCTVIEW);
 		}
 	}
 
-	public static void trackHotelSearch(String regionId) {
+	public static void trackHotelSearch(HotelSearch search) {
 		if (sEnabled) {
-			AdXConnect.getAdXConnectEventInstance(sAppContext, "Search", "", regionId, "Hotel");
-			Log.i("AdX hotel search regionId=" + regionId);
+			HotelSearchParams params = search.getSearchParams();
+			if (!TextUtils.isEmpty(params.getRegionId())) {
+				AdXConnect.getAdXConnectEventInstance(sAppContext, "Search", "", params.getRegionId(), "Hotel");
+				Log.i("AdX hotel search regionId=" + params.getRegionId());
+			}
+
+			DateTimeFormatter dtf = ISODateTimeFormat.date();
+
+			// Retargeting event
+			AdXConnect.startNewExtendedEvent(sAppContext);
+			addCommonRetargeting();
+			if (search.getSearchResponse().getPropertiesCount() > 0) {
+				Location location = search.getSearchResponse().getProperty(0).getLocation();
+				if (location != null) {
+					addCommonProductRetargeting(location.getCity(), location.getStateCode(), location.getCountryCode());
+					AdXConnect.setEventParameter(AdXConnect.ADX_DESTINATION_ID, location.getCity());
+				}
+			}
+			AdXConnect.setEventParameter(AdXConnect.ADX_START_DATE, dtf.print(params.getCheckInDate()));
+			AdXConnect.setEventParameter(AdXConnect.ADX_END_DATE, dtf.print(params.getCheckOutDate()));
+			AdXConnect.setEventParameterOfName("b_win", params.getStayDuration());
+			AdXConnect.setEventParameterOfName("p_type", "HOTEL");
+
+			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_SEARCH);
 		}
 	}
 
-	public static void trackFlightSearch(String destinationAirport) {
+	public static void trackFlightSearch(FlightSearch flightSearch) {
 		if (sEnabled) {
+			FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+			String destinationAirport = params.getArrivalLocation().getDestinationId();
 			AdXConnect.getAdXConnectEventInstance(sAppContext, "Search", "", destinationAirport, "Flight");
 			Log.i("AdX flight search destination=" + destinationAirport);
+
+			DateTimeFormatter dtf = ISODateTimeFormat.date();
+
+			// Retargeting event
+			AdXConnect.startNewExtendedEvent(sAppContext);
+			addCommonRetargeting();
+			Location location = params.getArrivalLocation();
+			if (location != null) {
+				addCommonProductRetargeting(location.getCity(), location.getStateCode(), location.getCountryCode());
+			}
+
+			AdXConnect.setEventParameter(AdXConnect.ADX_SOURCE_ID, params.getDepartureLocation().getDestinationId());
+			AdXConnect.setEventParameter(AdXConnect.ADX_DESTINATION_ID, params.getArrivalLocation().getDestinationId());
+			AdXConnect.setEventParameter(AdXConnect.ADX_START_DATE, dtf.print(params.getDepartureDate()));
+			if (params.isRoundTrip()) {
+				AdXConnect.setEventParameter(AdXConnect.ADX_END_DATE, dtf.print(params.getReturnDate()));
+			}
+			int duration = params.isRoundTrip() ? JodaUtils.daysBetween(params.getDepartureDate(), params.getReturnDate()) : 1;
+			AdXConnect.setEventParameterOfName("b_win", duration);
+			AdXConnect.setEventParameterOfName("p_type", "FLIGHT");
+
+			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_SEARCH);
 		}
 	}
 
@@ -147,5 +313,31 @@ public class AdX {
 				}
 			}
 		}).start();
+	}
+
+	private static void addCommonRetargeting() {
+			AdXConnect.setEventParameterOfName("a", "2601");
+			if (Db.getUser() != null) {
+				final String customerId = Db.getUser().getTuidString();
+				AdXConnect.setEventParameter(AdXConnect.ADX_CUSTOMERID, customerId);
+			}
+			AdXConnect.setEventParameterOfName("pos", PointOfSale.getPointOfSale().getTwoLetterCountryCode());
+			final String loggedIn = User.isLoggedIn(sAppContext) ? "loggedin | hard" : "unknown user";
+			AdXConnect.setEventParameterOfName("fb_logged_in", loggedIn);
+			final String rewardStatus = Db.getUser() != null && Db.getUser().isRewardsUser() ? "rewardsMember" : "notRewardsMember";
+			AdXConnect.setEventParameterOfName("fb_reward_status", rewardStatus);
+	}
+
+	private static void addCommonProductRetargeting(String city, String state, String country) {
+			// common except home page view/ itin view
+			if (!TextUtils.isEmpty(city)) {
+				AdXConnect.setEventParameterOfName("fb_city", city);
+			}
+			if (!TextUtils.isEmpty(state)) {
+				AdXConnect.setEventParameterOfName("fb_state", state);
+			}
+			if (!TextUtils.isEmpty(country)) {
+				AdXConnect.setEventParameterOfName("fb_country", country);
+			}
 	}
 }
