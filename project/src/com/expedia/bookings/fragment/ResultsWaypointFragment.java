@@ -222,6 +222,7 @@ public class ResultsWaypointFragment extends Fragment
 				mSearchBarC.setScaleX(1f);
 				mSearchBarC.setScaleY(1f);
 				mSuggestionsC.setTranslationY(0);
+				mBg.setAlpha(1f);
 
 				if (state == ResultsSearchState.FLIGHT_ORIGIN) {
 					updateViewsForOrigin();
@@ -233,6 +234,7 @@ public class ResultsWaypointFragment extends Fragment
 				requestEditTextFocus(mWaypointEditText);
 			}
 			else {
+				mBg.setAlpha(0f);
 				clearEditTextFocus(mWaypointEditText);
 			}
 		}
