@@ -36,11 +36,16 @@ public class HttpCookieStore implements CookieStore {
 			log("add:", uri, cookie);
 		}
 
+		if (TextUtils.isEmpty(cookie.getDomain())) {
+			cookie.setDomain(uri.getHost());
+		}
+
 		for (int i = 0; i < mCookies.size(); i++) {
 			HttpCookie stored = mCookies.get(i);
 			if (sameCookie(stored, cookie)) {
 				if (!TextUtils.equals(stored.getValue(), cookie.getValue())) {
 					// We only want to update and save if the cookie is actually different
+					cookie.setDomain(stored.getDomain());
 					mCookies.set(i, cookie);
 					updateCookieCreatedTime(stored, cookie);
 					save();
@@ -177,7 +182,9 @@ public class HttpCookieStore implements CookieStore {
 	}
 
 	private boolean sameCookie(HttpCookie a, HttpCookie b) {
-		return TextUtils.equals(a.getDomain(), b.getDomain()) && TextUtils.equals(a.getName(), b.getName());
+		boolean domainMatches = HttpCookie.domainMatches(a.getDomain(), b.getDomain());
+		boolean nameMatches = TextUtils.equals(a.getName(), b.getName());
+		return domainMatches && nameMatches;
 	}
 
 	private void log(String prefix, URI uri, HttpCookie cookie) {

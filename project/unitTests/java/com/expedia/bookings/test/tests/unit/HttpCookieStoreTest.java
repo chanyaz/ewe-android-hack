@@ -134,10 +134,10 @@ public class HttpCookieStoreTest extends TestCase {
 
 	public void testAdd() {
 		final HttpCookieStore cs = new HttpCookieStore();
-		final URI uri = newURI("http://expedia.com");
-		final HttpCookie firstCookie = new HttpCookie("party", "hard");
-		final HttpCookie secondCookie = new HttpCookie("tons", "fun");
-		final HttpCookie thirdCookie = new HttpCookie("lots", "beer");
+		final URI uri = newURI("http://www.expedia.com");
+		final HttpCookie firstCookie = newCookie(".expedia.com", "party", "hard");
+		final HttpCookie secondCookie = newCookie(".expedia.com", "tons", "fun");
+		final HttpCookie thirdCookie = newCookie(".expedia.com", "lots", "beer");
 		List<HttpCookie> cookies;
 
 		// test expiry
@@ -244,6 +244,44 @@ public class HttpCookieStoreTest extends TestCase {
 		// Something in jar, clearing all makes jar dirty
 		cs.removeAll();
 		assertEquals(4, cs.getTimesSavedToDisk());
+	}
+
+	public void testAddingDuplicatesWithDifferentDomains() {
+		final HttpCookieStore cs = new HttpCookieStore();
+		final URI searchUri = newURI("http://www.expedia.com/MobileHotel/Webapp/SearchResults");
+		final HttpCookie cookie = newCookie(".expedia.com", "party", "hard");
+		final HttpCookie sameCookie = newCookie("www.expedia.com", "party", "harder");
+		final HttpCookie anotherSameCookie = newCookie(null, "party", "hardest");
+		final HttpCookie yetAnotherSameCookie = newCookie("expedia.com", "party", "thehardest");
+		List<HttpCookie> cookies;
+		HttpCookie testCookie;
+
+		cs.add(searchUri, cookie);
+		cookies = cs.getCookies();
+		assertEquals(1, cookies.size());
+
+		// .expedia.com matches www.expedia.com so it is the same cookie
+		cs.add(searchUri, sameCookie);
+		cookies = cs.getCookies();
+		assertEquals(1, cookies.size());
+		testCookie = cookies.get(0);
+		assertEquals("harder", testCookie.getValue());
+		// Cookie should take on the domain of what it matched
+		assertEquals(".expedia.com", testCookie.getDomain());
+
+		// If there is no domain it should take on the domain of the uri
+		cs.add(searchUri, anotherSameCookie);
+		cookies = cs.getCookies();
+		assertEquals(1, cookies.size());
+		testCookie = cookies.get(0);
+		assertEquals("hardest", testCookie.getValue());
+		assertEquals(".expedia.com", testCookie.getDomain());
+
+		cs.add(searchUri, yetAnotherSameCookie);
+		cookies = cs.getCookies();
+		assertEquals(1, cookies.size());
+		testCookie = cookies.get(0);
+		assertEquals("thehardest", testCookie.getValue());
 	}
 
 	private URI newURI(String str) {
