@@ -322,6 +322,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			else if (stateOne == CheckoutState.CVV && stateTwo == CheckoutState.READY_FOR_CHECKOUT) {
 				setShowReadyForCheckoutPercentage(0f);
 				mSlideContainer.setVisibility(View.VISIBLE);
+				mFormContainer.setVisibility(View.VISIBLE);
+				mSlideAndFormContainer.setVisibility(View.VISIBLE);
 			}
 		}
 
@@ -381,7 +383,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			}
 			else if (state == CheckoutState.CVV) {
 				setShowCvvPercentage(1f);
-				setShowReadyForCheckoutPercentage(1f);
+				setShowReadyForCheckoutPercentage(0f);
 			}
 			else if (state == CheckoutState.BOOKING) {
 				setShowBookingPercentage(1f);
@@ -771,7 +773,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			@Override
 			public void onAnimationUpdate(ValueAnimator valueAnimator) {
 				updateStateTransition(CheckoutState.READY_FOR_CHECKOUT, CheckoutState.CVV, (Float) valueAnimator.getAnimatedValue());
-				mSlideContainer.setTranslationY(valueAnimator.getAnimatedFraction() * mSlideContainer.getHeight());
+				setShowReadyForCheckoutPercentage(1f - valueAnimator.getAnimatedFraction());
 			}
 		});
 		anim.addListener(new AnimatorListenerAdapter() {
