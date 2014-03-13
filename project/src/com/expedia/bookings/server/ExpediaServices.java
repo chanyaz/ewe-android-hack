@@ -2,15 +2,12 @@ package com.expedia.bookings.server;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.HttpCookie;
 import java.net.HttpURLConnection;
-import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -20,10 +17,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
+
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
@@ -99,17 +98,15 @@ import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
 import com.mobiata.android.Log;
-import com.mobiata.android.net.AndroidHttpClient;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
-
+import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
-import com.squareup.okhttp.MediaType;
 
 @SuppressLint("SimpleDateFormat")
 public class ExpediaServices implements DownloadListener {
@@ -483,7 +480,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public FlightCheckoutResponse flightCheckout(FlightTrip flightTrip, Itinerary itinerary, BillingInfo billingInfo,
-												 List<Traveler> travelers, int flags) {
+		List<Traveler> travelers, int flags) {
 		List<BasicNameValuePair> query = generateFlightCheckoutParams(flightTrip, itinerary, billingInfo, travelers,
 			flags);
 		return doFlightsRequest("api/flight/checkout", query, new FlightCheckoutResponseHandler(mContext), flags
@@ -491,7 +488,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public List<BasicNameValuePair> generateFlightCheckoutParams(FlightTrip flightTrip, Itinerary itinerary,
-																 BillingInfo billingInfo, List<Traveler> travelers, int flags) {
+		BillingInfo billingInfo, List<Traveler> travelers, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		query.add(new BasicNameValuePair("tripId", itinerary.getTripId()));
@@ -681,7 +678,8 @@ public class ExpediaServices implements DownloadListener {
 		rh.setNumNights(params.getStayDuration());
 
 		if (!AndroidUtils.isRelease(mContext)) {
-			boolean disabled = SettingUtils.get(mContext, mContext.getString(R.string.preference_disable_domain_v2_hotel_search), false);
+			boolean disabled = SettingUtils
+				.get(mContext, mContext.getString(R.string.preference_disable_domain_v2_hotel_search), false);
 
 			if (!disabled) {
 				query.add(new BasicNameValuePair("forceV2Search", "true"));
@@ -797,7 +795,8 @@ public class ExpediaServices implements DownloadListener {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		query.add(new BasicNameValuePair("productKey", Db.getHotelSearch().getSelectedRate().getRateKey()));
-		query.add(new BasicNameValuePair("roomInfoFields[0].room", "" + (params.getNumAdults() + params.getNumChildren())));
+		query.add(
+			new BasicNameValuePair("roomInfoFields[0].room", "" + (params.getNumAdults() + params.getNumChildren())));
 
 		return query;
 	}
@@ -820,21 +819,22 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public BookingResponse reservation(HotelSearchParams params, Property property, Rate rate, BillingInfo billingInfo,
-									   String tripId, String userId, Long tuid) {
+		String tripId, String userId, Long tuid) {
 		List<BasicNameValuePair> query = generateHotelReservationParams(params, rate, billingInfo, tripId,
-				userId, tuid);
+			userId, tuid);
 
 		return doE3Request("api/hotel/checkout", query, new BookingResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
 	public List<BasicNameValuePair> generateHotelReservationParams(HotelSearchParams params, Rate rate,
-			BillingInfo billingInfo, String tripId, String userId, Long tuid) {
+		BillingInfo billingInfo, String tripId, String userId, Long tuid) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
 
 		query.add(new BasicNameValuePair("expectedTotalFare", "" + rate.getTotalPriceWithMandatoryFees().getAmount()));
-		query.add(new BasicNameValuePair("expectedFareCurrencyCode", rate.getTotalPriceWithMandatoryFees().getCurrency()));
+		query.add(
+			new BasicNameValuePair("expectedFareCurrencyCode", rate.getTotalPriceWithMandatoryFees().getCurrency()));
 
 		addHotelSearchParams(query, params);
 
@@ -1234,7 +1234,8 @@ public class ExpediaServices implements DownloadListener {
 			 *  As of this comment, after signIn we only get the storedCreditCardId. The API has to also send us back it's associated nameOnCard.
 			 *  We have already filed a defect with the API team, for now let's just send the first and lastName.
 			 */
-			query.add(new BasicNameValuePair("nameOnCard", billingInfo.getFirstName() + " " + billingInfo.getLastName()));
+			query.add(
+				new BasicNameValuePair("nameOnCard", billingInfo.getFirstName() + " " + billingInfo.getLastName()));
 		}
 		query.add(new BasicNameValuePair("cvv", billingInfo.getSecurityCode()));
 	}
@@ -1354,7 +1355,7 @@ public class ExpediaServices implements DownloadListener {
 	 * @return
 	 */
 	public FacebookLinkResponse facebookLinkNewUser(String facebookUserId, String facebookAccessToken,
-													String facebookEmailAddress) {
+		String facebookEmailAddress) {
 
 		Session fbSession = Session.getActiveSession();
 		if (fbSession == null || fbSession.isClosed()) {
@@ -1381,7 +1382,7 @@ public class ExpediaServices implements DownloadListener {
 	 * @return
 	 */
 	public FacebookLinkResponse facebookLinkExistingUser(String facebookUserId, String facebookAccessToken,
-														 String facebookEmailAddress, String expediaPassword) {
+		String facebookEmailAddress, String expediaPassword) {
 		Session fbSession = Session.getActiveSession();
 		if (fbSession == null || fbSession.isClosed()) {
 			throw new RuntimeException("We must be logged into facebook inorder to call facebookLinkNewUser");
@@ -1446,7 +1447,8 @@ public class ExpediaServices implements DownloadListener {
 		}
 	}
 
-	public PushNotificationRegistrationResponse registerForPushNotifications(ResponseHandler<PushNotificationRegistrationResponse> responseHandler, JSONObject payload, String regId) {
+	public PushNotificationRegistrationResponse registerForPushNotifications(
+		ResponseHandler<PushNotificationRegistrationResponse> responseHandler, JSONObject payload, String regId) {
 		String serverUrl = PushNotificationUtils.getRegistrationUrl(mContext);
 		return registerForPushNotifications(serverUrl, responseHandler, payload, regId);
 	}
@@ -1490,11 +1492,13 @@ public class ExpediaServices implements DownloadListener {
 	//////////////////////////////////////////////////////////////////////////
 	// Request code
 
-	private <T extends Response> T doFlightsRequest(String targetUrl, List<BasicNameValuePair> params, ResponseHandler<T> responseHandler, int flags) {
+	private <T extends Response> T doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
+		ResponseHandler<T> responseHandler, int flags) {
 		return doE3Request(targetUrl, params, responseHandler, flags | F_FLIGHTS);
 	}
 
-	private <T extends Response> T doE3Request(String targetUrl, List<BasicNameValuePair> params, ResponseHandler<T> responseHandler, int flags) {
+	private <T extends Response> T doE3Request(String targetUrl, List<BasicNameValuePair> params,
+		ResponseHandler<T> responseHandler, int flags) {
 		String serverUrl;
 
 		/*
@@ -1535,12 +1539,14 @@ public class ExpediaServices implements DownloadListener {
 		return doRequest(base, responseHandler, F_IGNORE_COOKIES);
 	}
 
-	private <T extends Response> T doFlightStatsRequest(String baseUrl, List<BasicNameValuePair> params, ResponseHandler<T> responseHandler) {
+	private <T extends Response> T doFlightStatsRequest(String baseUrl, List<BasicNameValuePair> params,
+		ResponseHandler<T> responseHandler) {
 		Request.Builder base = createHttpGet(baseUrl, params);
 		return doRequest(base, responseHandler, F_IGNORE_COOKIES);
 	}
 
-	private <T extends Response> T doReviewsRequest(String url, List<BasicNameValuePair> params, ResponseHandler<T> responseHandler) {
+	private <T extends Response> T doReviewsRequest(String url, List<BasicNameValuePair> params,
+		ResponseHandler<T> responseHandler) {
 		Request.Builder get = createHttpGet(url, params);
 
 		Log.d(TAG_REQUEST, "User reviews request: " + url + "?" + NetUtils.getParamsForLogging(params));
@@ -1576,8 +1582,9 @@ public class ExpediaServices implements DownloadListener {
 				if (cookiesAreLoggedIn != User.isLoggedIn(mContext)) {
 					//The login state has changed, so we should redo the network request with the appropriate new cookies
 					//this prevents us from overwritting our cookies with bunk loggedin/loggedout cookie states.
-					Log.d("Login state has changed since the request began - we are going to resend the request using appropriate cookies. The request began in the logged "
-						+ (cookiesAreLoggedIn ? "IN" : "OUT") + " state.");
+					Log.d(
+						"Login state has changed since the request began - we are going to resend the request using appropriate cookies. The request began in the logged "
+							+ (cookiesAreLoggedIn ? "IN" : "OUT") + " state.");
 					return doRequest(request, responseHandler, flags);
 				}
 
@@ -1670,7 +1677,8 @@ public class ExpediaServices implements DownloadListener {
 		}
 		else if (endPoint == EndPoint.CUSTOM_SERVER) {
 			String protocol = (flags & F_SECURE_REQUEST) != 0 ? "https" : "http";
-			String server = SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
+			String server = SettingUtils
+				.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
 			return protocol + "://" + server + "/";
 		}
 		else {
@@ -1841,19 +1849,23 @@ public class ExpediaServices implements DownloadListener {
 		return null;
 	}
 
-	public String urlEncode(String url) {
-		try {
-			return URLEncoder.encode(url, "UTF-8");
-		}
-		catch (Exception e) {
-			return null;
-		}
-	}
-
 	private Request.Builder createHttpGet(String url, List<BasicNameValuePair> params) {
-		String encodedUrl = url + "?" + urlEncode(NetUtils.getParamsForLogging(params));
-		Request.Builder req = new Request.Builder().url(encodedUrl);
-		return req;
+		if (params != null) {
+			String outUrl = url;
+			if (!outUrl.endsWith("?")) {
+				outUrl += "?";
+			}
+
+			String encodedParams = URLEncodedUtils.format(params, "UTF-8");
+			if (encodedParams != null) {
+				outUrl += encodedParams;
+			}
+
+			Request.Builder req = new Request.Builder().url(outUrl);
+			return req;
+		}
+		return new Request.Builder().url(url);
+
 	}
 
 
