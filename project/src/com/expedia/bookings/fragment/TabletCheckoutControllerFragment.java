@@ -750,6 +750,15 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	/*
 	 * SlideToWidgetJB.ISlideToListener
+	 *
+	 * This manages the "slide to book hotel" animation. onSlideStart/Progress/AllTheWay/Abort
+	 * callbacks come from the SlideToWidgetJB View. It's more of a two-step animation, which
+	 * needs some clever coding here:
+	 * 1. As the user is dragging his finger, we want to transition the fragments along with
+	 * the user's finger. We have to calculate the percentage based on the number of pixels the
+	 * user's finger has travelled.
+	 * 2. After the user slides all the way, we want to transition the rest of the way. We'll just
+	 * set up a ValueAnimator to do that.
 	 */
 
 	float mSlideProgress = 0f;
@@ -771,7 +780,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 			@Override
 			public void onAnimationUpdate(ValueAnimator valueAnimator) {
-				updateStateTransition(CheckoutState.READY_FOR_CHECKOUT, CheckoutState.CVV, (Float) valueAnimator.getAnimatedValue());
+				updateStateTransition(CheckoutState.READY_FOR_CHECKOUT, CheckoutState.CVV,
+					(Float) valueAnimator.getAnimatedValue());
 				setShowReadyForCheckoutPercentage(1f - valueAnimator.getAnimatedFraction());
 			}
 		});
