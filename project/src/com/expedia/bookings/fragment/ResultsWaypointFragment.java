@@ -52,8 +52,6 @@ public class ResultsWaypointFragment extends Fragment
 	private View mBg;
 	private ViewGroup mSearchBarC;
 	private ViewGroup mSuggestionsC;
-	private View mSearchBtn;
-	private View mCancelBtn;
 	private EditText mWaypointEditText;
 
 
@@ -76,11 +74,6 @@ public class ResultsWaypointFragment extends Fragment
 		mWaypointEditText = Ui.findView(view, R.id.waypoint_edit_text);
 		mSearchBarC = Ui.findView(view, R.id.search_bar_conatiner);
 		mSuggestionsC = Ui.findView(view, R.id.suggestions_container);
-		mSearchBtn = Ui.findView(view, R.id.search_button);
-		mCancelBtn = Ui.findView(view, R.id.cancel_button);
-
-		mSearchBtn.setOnClickListener(mSearchClick);
-		mCancelBtn.setOnClickListener(mCancelClick);
 
 		//Setup the suggestions fragment
 		FragmentManager manager = getChildFragmentManager();
@@ -201,6 +194,7 @@ public class ResultsWaypointFragment extends Fragment
 				mSearchBarC.setScaleX(scaleX);
 				mSearchBarC.setScaleY(scaleY);
 				mSuggestionsC.setTranslationY((1f - perc) * mSuggestionsC.getHeight());
+				mSearchBarC.setAlpha(perc);
 				mBg.setAlpha(perc);
 			}
 		}
@@ -222,6 +216,7 @@ public class ResultsWaypointFragment extends Fragment
 				mSearchBarC.setScaleX(1f);
 				mSearchBarC.setScaleY(1f);
 				mSuggestionsC.setTranslationY(0);
+				mSearchBarC.setAlpha(1f);
 				mBg.setAlpha(1f);
 
 				if (state == ResultsSearchState.FLIGHT_ORIGIN) {
@@ -235,7 +230,9 @@ public class ResultsWaypointFragment extends Fragment
 			}
 			else {
 				mBg.setAlpha(0f);
+				mWaypointEditText.setText("");
 				clearEditTextFocus(mWaypointEditText);
+
 			}
 		}
 
@@ -271,37 +268,6 @@ public class ResultsWaypointFragment extends Fragment
 			mWaypointEditText.setHint(R.string.destinations_hint);
 		}
 	}
-
-
-	//////////////////////////////////////////////////////////////////////////
-	// Clicks
-
-	private View.OnClickListener mSearchClick = new View.OnClickListener() {
-		@Override
-		public void onClick(View view) {
-			if (mSuggest == null) {
-				if (mSuggestionsFragment != null && mSuggestionsFragment.getBestChoiceForFilter() != null) {
-					mListener.onWaypointSearchComplete(ResultsWaypointFragment.this,
-						mSuggestionsFragment.getBestChoiceForFilter());
-				}
-				else {
-					//TODO: Remove
-					Ui.showToast(getActivity(),
-						"FAIL FAIL FAIL, currently we must have suggestions showing for search button to work.");
-				}
-			}
-			else {
-				mListener.onWaypointSearchComplete(ResultsWaypointFragment.this, mSuggest);
-			}
-		}
-	};
-
-	private View.OnClickListener mCancelClick = new View.OnClickListener() {
-		@Override
-		public void onClick(View view) {
-			mListener.onWaypointSearchComplete(ResultsWaypointFragment.this, null);
-		}
-	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// Formatting
@@ -378,20 +344,20 @@ public class ResultsWaypointFragment extends Fragment
 		@Override
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
 			mGrid.setDimensions(totalWidth, totalHeight);
-			mGrid.setNumRows(2);
-			mGrid.setNumCols(3);
+			mGrid.setNumRows(4);//top space - Search bar - spacer - suggestion results
+			mGrid.setNumCols(3);//Left padding - content - right padding
 
-			mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
+			mGrid.setRowPercentage(0, 0.05f);
+			mGrid.setRowSize(1, getResources().getDimensionPixelSize(R.dimen.tablet_search_header_height));
+			mGrid.setRowPercentage(2, 0.05f);
 
-			mGrid.setColumnPercentage(0, 0.2f);
-			mGrid.setColumnPercentage(1, 0.6f);
-			mGrid.setColumnPercentage(2, 0.2f);
+			mGrid.setColumnSize(1, getResources().getDimensionPixelSize(R.dimen.tablet_search_width));
 
-			mGrid.setContainerToRow(mSearchBarC, 0);
+			mGrid.setContainerToRow(mSearchBarC, 1);
 			mGrid.setContainerToColumn(mSearchBarC, 1);
 
-			mGrid.setContainerToRow(mSuggestionsC, 1);
-			mGrid.setContainerToColumnSpan(mSuggestionsC, 0, 2);
+			mGrid.setContainerToRow(mSuggestionsC, 3);
+			mGrid.setContainerToColumn(mSuggestionsC, 1);
 
 		}
 	};
