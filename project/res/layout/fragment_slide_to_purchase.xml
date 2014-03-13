@@ -3,7 +3,7 @@
     xmlns:slideto="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#66000000" >
+    android:background="@color/slide_to_purchase_background" >
 
     <LinearLayout
         android:id="@+id/layout_confirm_tos"
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
             android:text="@string/Do_you_accept"
-            android:textColor="#FCFCFC" />
+            android:textColor="@color/slide_to_purchase_text" />
 
         <!-- We build this whole oval manually instead of as a simple 9patch for l337 animation effects -->
 
@@ -45,7 +45,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:text="@string/I_Accept"
-                android:textColor="#FCFCFC"
+                android:textColor="@color/slide_to_purchase_text"
                 android:textSize="26sp" />
 
             <ImageView
@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textColor="#FCFCFC"
+            android:textColor="@color/slide_to_purchase_text"
             android:textSize="@dimen/slide_to_purchase_price_text_size" />
     </LinearLayout>
 

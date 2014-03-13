@@ -85,6 +85,10 @@
     <color name="hotel_mini_receipt_text">#414040</color>
     <color name="hotel_mini_receipt_price_text">#103a71</color>
 
+    <!-- Slide To Purchase -->
+    <color name="slide_to_purchase_background">#66000000</color>
+    <color name="slide_to_purchase_text">#fcfcfc</color>
+
     <!--
     Divider on tablet dialog box (not public accessible)
 	https://github.com/android/platform_frameworks_base/blob/master/core/res/res/drawable-hdpi/divider_strong_holo.9.png
