@@ -1523,6 +1523,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		else if (type == ExpediaServicesFragment.ServiceType.FLIGHT_GDE_SEARCH) {
 			if (response != null && !response.hasErrors()) {
 				Db.setFlightSearchHistogramResponse((FlightSearchHistogramResponse) response);
+				if (Db.getFlightSearch() == null || (Db.getFlightSearch() != null &&
+					Db.getFlightSearch().getSearchResponse() == null))
 				setFlightsState(ResultsFlightsState.FLIGHT_HISTOGRAM, true);
 			}
 			else {
