@@ -43,4 +43,6 @@
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_logged_out_and_cleared_private_data_tvly">You are logged out of your Travelocity account, and all saved billing and contact information has been removed.</string>
 
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure_tvly">We\'re sorry, but we couldn\'t connect to Travelocity. Please try again.</string>
 </resources>

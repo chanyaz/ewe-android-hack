@@ -10,6 +10,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -98,7 +99,12 @@ public class ServerError implements JSONable {
 		{
 			put(ErrorCode.HOTEL_OFFER_UNAVAILABLE, R.string.e3_error_hotel_offers_hotel_offer_unavailable);
 			put(ErrorCode.HOTEL_ROOM_UNAVAILABLE, R.string.e3_error_hotel_offers_hotel_room_unavailable);
-			put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_offers_hotel_service_failure);
+			if (ExpediaBookingApp.IS_TRAVELOCITY) {
+				put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_offers_hotel_service_failure_tvly);
+			}
+			else {
+				put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_offers_hotel_service_failure);
+			}
 			put(ErrorCode.INVALID_INPUT, R.string.e3_error_hotel_offers_invalid_input);
 			put(ErrorCode.UNKNOWN_ERROR, R.string.e3_error_hotel_offers_unknown_error);
 		}

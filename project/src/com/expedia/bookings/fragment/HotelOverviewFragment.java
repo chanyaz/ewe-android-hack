@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
@@ -1055,7 +1056,11 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private void handleHotelProductError(HotelProductResponse response) {
 		HotelErrorDialog dialog = HotelErrorDialog.newInstance();
+
 		int messageId = R.string.e3_error_hotel_offers_hotel_service_failure;
+		if (ExpediaBookingApp.IS_TRAVELOCITY) {
+			messageId = R.string.e3_error_hotel_offers_hotel_service_failure_tvly;
+		}
 		if (response != null && response.getErrors() != null) {
 			for (ServerError error : response.getErrors()) {
 				if (error.getErrorCode() == ServerError.ErrorCode.HOTEL_ROOM_UNAVAILABLE) {
