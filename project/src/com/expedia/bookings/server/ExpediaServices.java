@@ -23,6 +23,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
@@ -207,6 +208,8 @@ public class ExpediaServices implements DownloadListener {
 			catch (Exception e) {
 				Log.w("Something sad happened during manipulation of SSL", e);
 			}
+
+			client.setHostnameVerifier(new AllowAllHostnameVerifier());
 		}
 
 		return client;
