@@ -45,7 +45,7 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 
 	public int getColorResIdForPrice(FlightHistogram gram) {
 		double price = gram.getMinPrice();
-		if (price > mMin && price <= mQ1) {
+		if (price >= mMin && price <= mQ1) {
 			return R.color.tablet_flight_histogram_green;
 		}
 		else if (price > mQ1 && price <= mMedian) {
