@@ -39,18 +39,7 @@ public class FlightSearchHistogramResponseHandler extends JsonResponseHandler<Fl
 				}
 				histogram.setPriceAsStr(minStr);
 
-
 				histogram.setMinPrice(entryJson.getDouble("min"));
-
-				// TODO move this meta processing outside of the parsing? would require more cycles to
-				// TODO loop through again, so I think it makes sense to do here
-				if (histogram.getMinPrice() > histogramResponse.getMaxPrice()) {
-					histogramResponse.setMaxPrice(histogram.getMinPrice());
-				}
-
-				if (histogram.getMinPrice() < histogramResponse.getMinPrice()) {
-					histogramResponse.setMinPrice(histogram.getMinPrice());
-				}
 
 				histograms.add(histogram);
 			}

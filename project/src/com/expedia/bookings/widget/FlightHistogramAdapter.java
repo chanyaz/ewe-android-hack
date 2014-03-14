@@ -1,7 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.util.List;
-
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -16,13 +14,12 @@ import com.expedia.bookings.data.FlightHistogram;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.utils.Ui;
 
+// TODO better edge case handling, i.e if result set is small (less than 3)
 public class FlightHistogramAdapter extends BaseAdapter {
 
 	private Context mContext;
 
-	private List<FlightHistogram> mFlightHistograms;
-	private double mMinPrice;
-	private double mMaxPrice;
+	private FlightSearchHistogramResponse mFlightHistogramResponse;
 
 	private int mColWidth;
 
@@ -33,13 +30,10 @@ public class FlightHistogramAdapter extends BaseAdapter {
 	}
 
 	public void setHistogramData(FlightSearchHistogramResponse histogramResponse) {
-		if (histogramResponse != null) {
-			mFlightHistograms = histogramResponse.getFlightHistograms();
-			mMinPrice = histogramResponse.getMinPrice();
-			mMaxPrice = histogramResponse.getMaxPrice();
-			processData();
-			notifyDataSetChanged();
-		}
+		mFlightHistogramResponse = histogramResponse;
+
+		processData();
+		notifyDataSetChanged();
 	}
 
 	public void setColWidth(int width) {
@@ -50,7 +44,7 @@ public class FlightHistogramAdapter extends BaseAdapter {
 	private int mMaxPriceWidth;
 
 	private void processData() {
-		if (mFlightHistograms == null) {
+		if (mFlightHistogramResponse.getFlightHistograms() == null) {
 			return;
 		}
 		// Let us measure some things
@@ -60,7 +54,7 @@ public class FlightHistogramAdapter extends BaseAdapter {
 
 		mMaxDateWidth = 0;
 		mMaxPriceWidth = 0;
-		for (FlightHistogram gram : mFlightHistograms) {
+		for (FlightHistogram gram : mFlightHistogramResponse.getFlightHistograms()) {
 			dateTv.setText(sDateFormatter.print(gram.getDate()));
 			priceTv.setText(gram.getPriceAsStr());
 
@@ -78,16 +72,16 @@ public class FlightHistogramAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		if (mFlightHistograms != null) {
-			return mFlightHistograms.size();
+		if (mFlightHistogramResponse.getFlightHistograms() != null) {
+			return mFlightHistogramResponse.getFlightHistograms().size();
 		}
 		return 0;
 	}
 
 	@Override
 	public FlightHistogram getItem(int position) {
-		if (mFlightHistograms != null) {
-			mFlightHistograms.get(position);
+		if (mFlightHistogramResponse.getFlightHistograms() != null) {
+			mFlightHistogramResponse.getFlightHistograms().get(position);
 		}
 		return null;
 	}
@@ -106,13 +100,15 @@ public class FlightHistogramAdapter extends BaseAdapter {
 		TextView dateTv = Ui.findView(row, R.id.flight_histogram_date);
 		TextView priceTv = Ui.findView(row, R.id.flight_histogram_price);
 
-		FlightHistogram gram = mFlightHistograms.get(position);
+		FlightHistogram gram = mFlightHistogramResponse.getFlightHistograms().get(position);
 
 		dateTv.setText(sDateFormatter.print(gram.getDate()));
 		priceTv.setText(gram.getPriceAsStr());
 
 		// relative width
-		double barPerc = (gram.getMinPrice() - mMinPrice) / (mMaxPrice - mMinPrice);
+		double minPrice = mFlightHistogramResponse.getMinPrice();
+		double maxPrice = mFlightHistogramResponse.getMaxPrice();
+		double barPerc = (gram.getMinPrice() - minPrice) / (maxPrice - minPrice);
 		int extraWidthToAdd = mColWidth - mMaxPriceWidth - mMaxDateWidth;
 		int totalDateWidth = mMaxDateWidth + ((int) (extraWidthToAdd * barPerc));
 
