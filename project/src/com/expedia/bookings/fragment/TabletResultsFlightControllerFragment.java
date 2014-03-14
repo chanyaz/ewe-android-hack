@@ -1540,9 +1540,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	@Override
 	public void onHeaderClick() {
-		// If we have flight search data in the Db then hop over to the actual flight results
-		if (Db.getFlightSearch() != null & Db.getFlightSearch().getSearchResponse() != null) {
-			setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
+		// If we have flight search data in the Db then hop over to the actual flight results,
+		// but only if the click happened during FLIGHT_LIST_DOWN state
+		if (mFlightsStateManager.getState() == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+			if (Db.getFlightSearch() != null & Db.getFlightSearch().getSearchResponse() != null) {
+				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
+			}
 		}
 	}
 
