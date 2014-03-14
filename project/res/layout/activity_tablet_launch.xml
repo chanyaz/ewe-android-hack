@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <FrameLayout
         android:id="@+id/map_container"
@@ -10,9 +10,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content"
+        android:gravity="bottom|center_horizontal"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+        <include
+            android:layout_width="@dimen/tablet_search_width"
+            android:layout_height="@dimen/tablet_search_header_height"
+            layout="@layout/include_tablet_waypoint_search_bar" />
 
         <FrameLayout
             android:id="@+id/tiles_container"
@@ -22,8 +28,9 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/search_container"
+        android:id="@+id/waypoint_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="invisible" />
 
 </FrameLayout>

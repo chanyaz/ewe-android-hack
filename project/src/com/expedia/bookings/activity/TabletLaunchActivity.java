@@ -1,9 +1,13 @@
 package com.expedia.bookings.activity;
 
+import java.util.ArrayList;
+
 import org.joda.time.LocalDate;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
-import android.location.Location;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -11,55 +15,49 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearch;
-import com.expedia.bookings.data.Response;
-import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
-import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
-import com.expedia.bookings.data.SuggestionV2.ResultType;
+import com.expedia.bookings.enums.WaypointChooserState;
 import com.expedia.bookings.fragment.DestinationTilesFragment;
-import com.expedia.bookings.fragment.ExpediaServicesFragment;
-import com.expedia.bookings.fragment.ExpediaServicesFragment.ExpediaServicesFragmentListener;
-import com.expedia.bookings.fragment.ExpediaServicesFragment.ServiceType;
-import com.expedia.bookings.fragment.FusedLocationProviderFragment;
-import com.expedia.bookings.fragment.FusedLocationProviderFragment.FusedLocationProviderListener;
 import com.expedia.bookings.fragment.TabletLaunchMapFragment;
-import com.expedia.bookings.fragment.TabletSearchFragment;
-import com.expedia.bookings.fragment.TabletSearchFragment.SearchFragmentListener;
+import com.expedia.bookings.fragment.TabletWaypointFragment;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.fragment.base.MeasurableFragmentListener;
+import com.expedia.bookings.interfaces.IMeasurementListener;
+import com.expedia.bookings.interfaces.IMeasurementProvider;
+import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.utils.DebugMenu;
+import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
+@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletLaunchActivity extends FragmentActivity implements MeasurableFragmentListener,
-	SearchFragmentListener, ExpediaServicesFragmentListener, FusedLocationProviderListener {
+	IMeasurementProvider, TabletWaypointFragment.ITabletWaypointFragmentListener {
 
-	// On top when search params covers up everything
-	private static final String BACKSTACK_SEARCH_PARAMS = "BACKSTACK_SEARCH_PARAMS";
-
+	private static final String STATE_SEARCH_SHOWING = "STATE_SEARCH_SHOWING";
 	private static final int REQUEST_SETTINGS = 1234;
 
+	//Views
+	private ViewGroup mRootC;
+	private ViewGroup mSearchBarC;
+	private ViewGroup mWaypointC;
+
+	//UI FRAGs
 	private MeasurableFragment mMapFragment;
 	private MeasurableFragment mTilesFragment;
-	private TabletSearchFragment mSearchFragment;
-
-	// TODO: REMOVE LATER, THIS IS DEV ONLY
-	// We're loading all results here right now, until we figure out where we need to load it later.
-	private static final String TAG_SERVICES = "TAG_SERVICES";
-	private ExpediaServicesFragment mServicesFragment;
-	private FusedLocationProviderFragment mLocationFragment;
-	private SearchParams mSearchParams;
+	private TabletWaypointFragment mWaypointFragment;
 
 	// HockeyApp
 	private HockeyPuck mHockeyPuck;
@@ -72,32 +70,39 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 		getWindow().setBackgroundDrawable(null);
 
+		mRootC = Ui.findView(this, R.id.root_container);
+		mWaypointC = Ui.findView(mRootC, R.id.waypoint_container);
+		mSearchBarC = Ui.findView(mRootC, R.id.search_bar_conatiner);
+
 		FragmentManager fm = getSupportFragmentManager();
 		if (savedInstanceState == null) {
 			mMapFragment = TabletLaunchMapFragment.newInstance();
 			mTilesFragment = DestinationTilesFragment.newInstance();
-			mSearchFragment = new TabletSearchFragment();
-			mServicesFragment = new ExpediaServicesFragment();
+			mWaypointFragment = new TabletWaypointFragment();
 
 			FragmentTransaction ft = fm.beginTransaction();
 			ft.add(R.id.map_container, mMapFragment);
 			ft.add(R.id.tiles_container, mTilesFragment);
-			ft.add(R.id.search_container, mSearchFragment);
-			ft.add(mServicesFragment, TAG_SERVICES);
+			ft.add(R.id.waypoint_container, mWaypointFragment);
+
 			ft.commit();
 		}
 		else {
 			mMapFragment = Ui.findSupportFragment(this, R.id.map_container);
 			mTilesFragment = Ui.findSupportFragment(this, R.id.tiles_container);
-			mSearchFragment = Ui.findSupportFragment(this, R.id.search_container);
-			mServicesFragment = Ui.findSupportFragment(this, TAG_SERVICES);
+			mWaypointFragment = Ui.findSupportFragment(this, R.id.waypoint_container);
 
-			if (BACKSTACK_SEARCH_PARAMS.equals(getTopBackStackName())) {
-				mSearchFragment.expand();
+			if (savedInstanceState.getBoolean(STATE_SEARCH_SHOWING, false)) {
+				mWaypointFragment.setState(WaypointChooserState.VISIBLE, false);
 			}
 		}
 
-		mLocationFragment = FusedLocationProviderFragment.getInstance(this);
+		mSearchBarC.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mWaypointFragment.setState(WaypointChooserState.VISIBLE, true);
+			}
+		});
 
 		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
 		mHockeyPuck.onCreate(savedInstanceState);
@@ -107,25 +112,34 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	protected void onResume() {
 		super.onResume();
 		mHockeyPuck.onResume();
+		mWaypointFragment.registerStateListener(mWaypointStateHelper, true);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		mLocationFragment.stop();
+		mWaypointFragment.unRegisterStateListener(mWaypointStateHelper);
 	}
 
 	@Override
 	public void onBackPressed() {
-		if (!mSearchFragment.onBackPressed()) {
-			super.onBackPressed();
+		if (mWaypointFragment.getState() == WaypointChooserState.VISIBLE) {
+			mWaypointFragment.setState(WaypointChooserState.HIDDEN, true);
+			return;
 		}
+		super.onBackPressed();
 	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		mHockeyPuck.onSaveInstanceState(outState);
+		if (mWaypointFragment != null && mWaypointFragment.getState() == WaypointChooserState.VISIBLE) {
+			outState.putBoolean(STATE_SEARCH_SHOWING, true);
+		}
+		else {
+			outState.putBoolean(STATE_SEARCH_SHOWING, false);
+		}
 	}
 
 	@Override
@@ -193,48 +207,40 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Search code
-	//
-	// This should eventually all get moved into TabletSearchActivity
+	// Search state listener
 
-	private void startSearch(SearchParams searchParams) {
-		// Validate that we have all data we need
-		if (!searchParams.hasDestination()) {
-			Toast.makeText(this, "Destination is required for search (Loc String TODO)", Toast.LENGTH_LONG).show();
-			return;
+	private StateListenerHelper<WaypointChooserState> mWaypointStateHelper = new StateListenerHelper<WaypointChooserState>() {
+		@Override
+		public void onStateTransitionStart(WaypointChooserState stateOne, WaypointChooserState stateTwo) {
+			if (stateTwo == WaypointChooserState.VISIBLE) {
+				mWaypointC.setVisibility(View.VISIBLE);
+				getActionBar().hide();
+			}
 		}
 
-		mSearchParams = searchParams;
-		doSearch();
-	}
+		@Override
+		public void onStateTransitionUpdate(WaypointChooserState stateOne, WaypointChooserState stateTwo,
+			float percentage) {
 
-	private void onCurrentLocationSuggestions(SuggestionResponse suggestResponse) {
-		if (suggestResponse == null) {
-			showDevErrorDialog("No current location suggestions: null response.");
-			return;
-		}
-		else if (suggestResponse.hasErrors()) {
-			showDevErrorDialog("No current location suggestions: error response.");
-			return;
-		}
-		else if (suggestResponse.getSuggestions().size() == 0) {
-			showDevErrorDialog("No current location suggestions: nothing nearby!.");
-			return;
 		}
 
-		// Use the 1st suggestion
-		SuggestionV2 suggestion = suggestResponse.getSuggestions().get(0);
+		@Override
+		public void onStateTransitionEnd(WaypointChooserState stateOne, WaypointChooserState stateTwo) {
 
-		if (mSearchParams.getOrigin().getResultType() == ResultType.CURRENT_LOCATION) {
-			mSearchParams.setOriginAirport(suggestion);
 		}
 
-		if (mSearchParams.getDestination().getResultType() == ResultType.CURRENT_LOCATION) {
-			mSearchParams.setDestinationAirport(suggestion);
+		@Override
+		public void onStateFinalized(WaypointChooserState state) {
+			if (state == WaypointChooserState.VISIBLE) {
+				mWaypointC.setVisibility(View.VISIBLE);
+				getActionBar().hide();
+			}
+			else {
+				mWaypointC.setVisibility(View.INVISIBLE);
+				getActionBar().show();
+			}
 		}
-
-		doSearch();
-	}
+	};
 
 	private void doSearch() {
 		HotelSearch hotelSearch = Db.getHotelSearch();
@@ -246,7 +252,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		filter.notifyFilterChanged();
 
 		// Start the search
-		Log.i("Starting search with params: " + mSearchParams);
+		Log.i("Starting search with params: " + Sp.getParams());
 		hotelSearch.setSearchResponse(null);
 		flightSearch.setSearchResponse(null);
 
@@ -257,10 +263,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		Db.getTripBucket().clear();
 
 		//Set the search date to be for today as a default
-		mSearchParams.setStartDate(new LocalDate());
-
-		//Copy the local search params to the global store.
-		Sp.setParams(mSearchParams, false);
+		Sp.getParams().setStartDate(new LocalDate());
 
 		startActivity(new Intent(this, TabletResultsActivity.class));
 	}
@@ -270,94 +273,71 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Back stack utils
-
-	public String getTopBackStackName() {
-		FragmentManager fm = getSupportFragmentManager();
-		int backStackEntryCount = fm.getBackStackEntryCount();
-		if (backStackEntryCount > 0) {
-			return fm.getBackStackEntryAt(backStackEntryCount - 1).getName();
-		}
-		return "";
-	}
-
-	//////////////////////////////////////////////////////////////////////////
 	// MeasureableFragmentListener
 
 	@Override
 	public void canMeasure(Fragment fragment) {
-		if ((fragment == mMapFragment || fragment == mSearchFragment || fragment == mTilesFragment)
-			&& mMapFragment.isMeasurable() && mSearchFragment.isMeasurable() && mTilesFragment.isMeasurable()) {
-			mSearchFragment.setInitialTranslationY(mMapFragment.getView().getHeight()
-				- mTilesFragment.getView().getHeight());
-			mSearchFragment.collapse();
+		if ((fragment == mMapFragment || fragment == mTilesFragment)
+			&& mMapFragment.isMeasurable() && mTilesFragment.isMeasurable()) {
+
+			updateContentSize(mRootC.getWidth(), mRootC.getHeight());
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// SearchFragmentListener
+	/*
+	 * IMeasurementProvider
+	 */
+
+	private int mLastReportedWidth = -1;
+	private int mLastReportedHeight = -1;
+	private ArrayList<IMeasurementListener> mMeasurementListeners = new ArrayList<IMeasurementListener>();
 
 	@Override
-	public void onFinishExpand() {
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		ft.detach(mMapFragment);
-		ft.detach(mTilesFragment);
-		ft.addToBackStack(BACKSTACK_SEARCH_PARAMS);
-		ft.commit();
-	}
+	public void updateContentSize(int totalWidth, int totalHeight) {
 
-	@Override
-	public void onSearch(SearchParams searchParams) {
-		startSearch(searchParams);
-	}
+		if (totalWidth != mLastReportedWidth || totalHeight != mLastReportedHeight) {
+			boolean isLandscape = totalWidth > totalHeight;
 
-	//////////////////////////////////////////////////////////////////////////
-	// ExpediaServicesFragmentListener
+			mLastReportedWidth = totalWidth;
+			mLastReportedHeight = totalHeight;
 
-	@Override
-	public void onExpediaServicesDownload(ServiceType type, Response response) {
-		if (type == ServiceType.SUGGEST_NEARBY) {
-			SuggestionResponse suggestResponse = (SuggestionResponse) response;
-			onCurrentLocationSuggestions(suggestResponse);
+			for (IMeasurementListener listener : mMeasurementListeners) {
+				listener.onContentSizeUpdated(totalWidth, totalHeight, isLandscape);
+			}
 		}
-	}
-
-	private String checkResponse(Response response, String prefix) {
-		if (response == null) {
-			return prefix + " response is null; ";
-		}
-		else if (response.hasErrors()) {
-			return prefix + " response has errors; ";
-		}
-		else {
-			return prefix + " response loaded; ";
-		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// FusedLocationProviderListener
-
-	@Override
-	public void onFound(Location currentLocation) {
-		// Update any "current location" fields
-		com.expedia.bookings.data.Location location = new com.expedia.bookings.data.Location();
-		location.setLatitude(currentLocation.getLatitude());
-		location.setLongitude(currentLocation.getLongitude());
-
-		if (mSearchParams.getOrigin().getResultType() == ResultType.CURRENT_LOCATION) {
-			mSearchParams.getOrigin().setLocation(location);
-		}
-
-		if (mSearchParams.getDestination().getResultType() == ResultType.CURRENT_LOCATION) {
-			mSearchParams.getDestination().setLocation(location);
-		}
-
-		mServicesFragment.startSuggestionsNearby(currentLocation.getLatitude(), currentLocation.getLongitude(), false);
 	}
 
 	@Override
-	public void onError() {
-		showDevErrorDialog("Tried current location search, but could not get current location.");
+	public void registerMeasurementListener(IMeasurementListener listener, boolean fireListener) {
+		mMeasurementListeners.add(listener);
+		if (fireListener && mLastReportedWidth >= 0 && mLastReportedHeight >= 0) {
+			listener.onContentSizeUpdated(mLastReportedWidth, mLastReportedHeight,
+				mLastReportedWidth > mLastReportedHeight);
+		}
 	}
 
+	@Override
+	public void unRegisterMeasurementListener(IMeasurementListener listener) {
+		mMeasurementListeners.remove(listener);
+	}
+
+	/*
+	 * ITabletWaypointFragmentListener
+	 */
+
+	@Override
+	public Rect getAnimOrigin() {
+		if (mSearchBarC != null) {
+			return ScreenPositionUtils.getGlobalScreenPosition(mSearchBarC);
+		}
+		return new Rect();
+	}
+
+	@Override
+	public void onWaypointSearchComplete(TabletWaypointFragment caller, SuggestionV2 suggest) {
+		if (suggest != null) {
+			Sp.getParams().setDestination(suggest);
+			doSearch();
+		}
+	}
 }

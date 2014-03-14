@@ -299,20 +299,22 @@ public class TabletWaypointFragment extends Fragment
 
 		@Override
 		public void onStateFinalized(WaypointChooserState state) {
-			if (state == WaypointChooserState.VISIBLE) {
-				mSearchBarC.setTranslationX(0);
-				mSearchBarC.setTranslationY(0);
-				mSearchBarC.setScaleX(1f);
-				mSearchBarC.setScaleY(1f);
-				mSuggestionsC.setTranslationY(0);
-				mSearchBarC.setAlpha(1f);
-				mBg.setAlpha(1f);
-				requestEditTextFocus(mWaypointEditText);
-			}
-			else {
-				mBg.setAlpha(0f);
-				mWaypointEditText.setText("");
-				clearEditTextFocus(mWaypointEditText);
+			if (mRootC != null) {
+				if (state == WaypointChooserState.VISIBLE) {
+					mSearchBarC.setTranslationX(0);
+					mSearchBarC.setTranslationY(0);
+					mSearchBarC.setScaleX(1f);
+					mSearchBarC.setScaleY(1f);
+					mSuggestionsC.setTranslationY(0);
+					mSearchBarC.setAlpha(1f);
+					mBg.setAlpha(1f);
+					requestEditTextFocus(mWaypointEditText);
+				}
+				else {
+					mBg.setAlpha(0f);
+					mWaypointEditText.setText("");
+					clearEditTextFocus(mWaypointEditText);
+				}
 			}
 		}
 	};
