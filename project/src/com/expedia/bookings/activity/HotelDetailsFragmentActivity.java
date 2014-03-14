@@ -480,7 +480,12 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			}
 
 			if (response == null) {
-				showErrorDialog(R.string.e3_error_hotel_offers_hotel_service_failure);
+				if (ExpediaBookingApp.IS_TRAVELOCITY) {
+					showErrorDialog(R.string.e3_error_hotel_offers_hotel_service_failure_tvly);
+				}
+				else {
+					showErrorDialog(R.string.e3_error_hotel_offers_hotel_service_failure);
+				}
 				return;
 			}
 			else if (response.hasErrors()) {
@@ -489,7 +494,12 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 					messageResId = R.string.error_hotel_is_now_sold_out_expedia;
 				}
 				else {
-					messageResId = R.string.e3_error_hotel_offers_hotel_service_failure;
+					if (ExpediaBookingApp.IS_TRAVELOCITY) {
+						messageResId = R.string.e3_error_hotel_offers_hotel_service_failure_tvly;
+					}
+					else {
+						messageResId = R.string.e3_error_hotel_offers_hotel_service_failure;
+					}
 				}
 				showErrorDialog(messageResId);
 			}
