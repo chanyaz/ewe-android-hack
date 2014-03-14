@@ -178,6 +178,11 @@
     <color name="tablet_flight_trip_view_airport_text_color">#aaffffff</color>
     <color name="tablet_flight_details_primary_text_color">#4c4c4c</color>
 
+    <color name="tablet_flight_histogram_green">#A3A2D104</color>
+    <color name="tablet_flight_histogram_yellow">#A3F7DE08</color>
+    <color name="tablet_flight_histogram_orange">#A3FF9900</color>
+    <color name="tablet_flight_histogram_red">#A3C42126</color>
+
     <!-- Tablet Checkout -->
     <color name="tablet_checkout_light">#E5E6E5</color>
     <color name="tablet_checkout_dark">#464D51</color>

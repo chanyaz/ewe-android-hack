@@ -104,6 +104,7 @@ public class FlightHistogramAdapter extends BaseAdapter {
 
 		dateTv.setText(sDateFormatter.print(gram.getDate()));
 		priceTv.setText(gram.getPriceAsStr());
+		priceTv.setBackgroundColor(mContext.getResources().getColor(mFlightHistogramResponse.getColorResIdForPrice(gram)));
 
 		// relative width
 		double minPrice = mFlightHistogramResponse.getMinPrice();

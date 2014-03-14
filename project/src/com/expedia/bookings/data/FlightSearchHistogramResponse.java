@@ -9,6 +9,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.R;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -40,6 +41,22 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 
 	public double getMaxPrice() {
 		return mMax;
+	}
+
+	public int getColorResIdForPrice(FlightHistogram gram) {
+		double price = gram.getMinPrice();
+		if (price > mMin && price <= mQ1) {
+			return R.color.tablet_flight_histogram_green;
+		}
+		else if (price > mQ1 && price <= mMedian) {
+			return R.color.tablet_flight_histogram_yellow;
+		}
+		else if (price > mMedian && price <= mQ3) {
+			return R.color.tablet_flight_histogram_orange;
+		}
+		else {
+			return R.color.tablet_flight_histogram_red;
+		}
 	}
 
 	//////////////////////////////////////////////////////
