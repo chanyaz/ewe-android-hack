@@ -1275,10 +1275,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					inC.setAlpha(1f);
 				}
 
-				if (forward) {
-
-				}
-
 				float outRotateY;
 				float inRotateY;
 
