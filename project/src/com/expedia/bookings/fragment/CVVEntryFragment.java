@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -29,9 +28,7 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 	public static final String TAG = CVVEntryFragment.class.getName();
 
-	private static final String ARG_PERSON_NAME = "ARG_PERSON_NAME";
-	private static final String ARG_CARD_NAME = "ARG_CARD_NAME";
-	private static final String ARG_CARD_TYPE = "ARG_CARD_TYPE";
+	private static final String ARG_BILLING_INFO = "ARG_BILLING_INFO";
 
 	private CreditCardSection mCreditCardSection;
 
@@ -43,41 +40,15 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 	private int mMinCvvLen;
 
-	public static CVVEntryFragment newInstance(Context context, BillingInfo billingInfo) {
-		// Determine the data displayed on the CVVEntryFragment
-		StoredCreditCard cc = billingInfo.getStoredCard();
-
-		String personName;
-		String cardName;
-		CreditCardType cardType;
-		if (cc != null) {
-			Traveler traveler = Db.getTravelers().get(0);
-			personName = traveler.getFirstName() + " " + traveler.getLastName();
-
-			cardName = cc.getDescription();
-
-			cardType = cc.getType();
-		}
-		else {
-			personName = billingInfo.getNameOnCard();
-
-			String ccNumber = billingInfo.getNumber();
-			cardName = context.getString(R.string.card_ending_TEMPLATE, ccNumber.substring(ccNumber.length() - 4));
-
-			cardType = CurrencyUtils.detectCreditCardBrand(ccNumber);
-		}
-
-		return CVVEntryFragment.newInstance(personName, cardName, cardType);
-	}
-
-	public static CVVEntryFragment newInstance(String personName, String cardName, CreditCardType cardType) {
+	public static CVVEntryFragment newInstance(BillingInfo billingInfo) {
 		CVVEntryFragment fragment = new CVVEntryFragment();
 		Bundle args = new Bundle();
-		args.putString(ARG_PERSON_NAME, personName);
-		args.putString(ARG_CARD_NAME, cardName);
-		JSONUtils.putEnum(args, ARG_CARD_TYPE, cardType);
-		fragment.setArguments(args);
+		JSONUtils.putJSONable(args, ARG_BILLING_INFO, billingInfo);
 		return fragment;
+	}
+
+	public static CVVEntryFragment newInstance() {
+		return new CVVEntryFragment();
 	}
 
 	@Override
@@ -99,27 +70,13 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		// Set this up to listen to the credit card IME
 		mCreditCardInputSection.setListener(this);
 
-		// Bind data to views
-		Bundle args = getArguments();
-		String personName = args.getString(ARG_PERSON_NAME);
-		String cardName = args.getString(ARG_CARD_NAME);
-		CreditCardType cardType = JSONUtils.getEnum(args, ARG_CARD_TYPE, CreditCardType.class);
-		//1752. VSC Change cvv prompt text
-		if (ExpediaBookingApp.IS_VSC) {
-			TextView cvvPromptTextView = Ui.findView(v, R.id.cvv_prompt_text_view);
-			cvvPromptTextView.setText(getString(Ui
-				.obtainThemeResID(getActivity(), R.attr.cvvEntryExplainationText)));
-		}
-		else {
-			TextView cvvPromptTextView = Ui.findView(v, R.id.cvv_prompt_text_view);
-			cvvPromptTextView.setText(Html.fromHtml(getString(R.string.cvv_code_TEMPLATE, cardName)));
-		}
-		mCreditCardSection.bind(personName, cardType);
-
-		// Configure vars that drive this fragment
-		mMinCvvLen = (cardType == CreditCardType.AMERICAN_EXPRESS) ? 4 : 3;
-
 		return v;
+	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		bind();
 	}
 
 	@Override
@@ -135,6 +92,53 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 	public void setCvvErrorMode(boolean enabled) {
 		mCVVTextView.setCvvErrorMode(enabled);
+	}
+
+	public void bind() {
+		View v = getView();
+
+		BillingInfo billingInfo = Db.getBillingInfo();
+		if (getArguments() != null && getArguments().containsKey(ARG_BILLING_INFO)) {
+			// If we passed BillingInfo to getInstance, make that sticky.
+			billingInfo = JSONUtils.getJSONable(getArguments(), ARG_BILLING_INFO, BillingInfo.class);
+		}
+
+		StoredCreditCard cc = billingInfo.getStoredCard();
+
+		String personName;
+		String cardName;
+		CreditCardType cardType;
+		if (cc != null) {
+			Traveler traveler = Db.getTravelers().get(0);
+			personName = traveler.getFirstName() + " " + traveler.getLastName();
+
+			cardName = cc.getDescription();
+
+			cardType = cc.getType();
+		}
+		else {
+			personName = billingInfo.getNameOnCard();
+
+			String ccNumber = billingInfo.getNumber();
+			cardName = getString(R.string.card_ending_TEMPLATE, ccNumber.substring(ccNumber.length() - 4));
+
+			cardType = CurrencyUtils.detectCreditCardBrand(ccNumber);
+		}
+
+		//1752. VSC Change cvv prompt text
+		if (ExpediaBookingApp.IS_VSC) {
+			TextView cvvPromptTextView = Ui.findView(v, R.id.cvv_prompt_text_view);
+			cvvPromptTextView.setText(getString(Ui
+				.obtainThemeResID(getActivity(), R.attr.cvvEntryExplainationText)));
+		}
+		else {
+			TextView cvvPromptTextView = Ui.findView(v, R.id.cvv_prompt_text_view);
+			cvvPromptTextView.setText(Html.fromHtml(getString(R.string.cvv_code_TEMPLATE, cardName)));
+		}
+		mCreditCardSection.bind(personName, cardType);
+
+		// Configure vars that drive this fragment
+		mMinCvvLen = (cardType == CreditCardType.AMERICAN_EXPRESS) ? 4 : 3;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

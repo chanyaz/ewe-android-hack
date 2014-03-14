@@ -115,7 +115,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 				mBookingFragment.doBooking();
 			}
 			else {
-				mCVVEntryFragment = CVVEntryFragment.newInstance(this, Db.getBillingInfo());
+				mCVVEntryFragment = CVVEntryFragment.newInstance(Db.getBillingInfo());
 				ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
 			}
 

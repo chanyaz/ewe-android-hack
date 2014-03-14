@@ -692,11 +692,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			return TabletCheckoutSlideFragment.newInstance();
 		}
 		else if (FRAG_TAG_CVV.equals(tag)) {
-			//return CVVEntryFragment.newInstance(getActivity(), Db.getBillingInfo());
-
-			//TODO: THIS IS SUPER FAKE
-			return CVVEntryFragment.newInstance("Cat Miggins", "Super Black Platinum Gold Card Premium",
-				CreditCardType.UNKNOWN);
+			return CVVEntryFragment.newInstance();
 		}
 		else if (FRAG_TAG_BOOK_FLIGHT.equals(tag)) {
 			return new FlightBookingFragment();
@@ -834,8 +830,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public void onBillingInfoChange() {
-		// TODO Auto-generated method stub
-
+		mCvvFrag.bind();
 	}
 
 	///////////////////////////////////
