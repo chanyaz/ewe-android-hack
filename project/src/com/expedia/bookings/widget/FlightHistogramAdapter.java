@@ -44,7 +44,7 @@ public class FlightHistogramAdapter extends BaseAdapter {
 	private int mMaxPriceWidth;
 
 	private void processData() {
-		if (mFlightHistogramResponse.getFlightHistograms() == null) {
+		if (mFlightHistogramResponse == null || mFlightHistogramResponse.getFlightHistograms() == null) {
 			return;
 		}
 		// Let us measure some things
@@ -72,7 +72,7 @@ public class FlightHistogramAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		if (mFlightHistogramResponse.getFlightHistograms() != null) {
+		if (mFlightHistogramResponse != null && mFlightHistogramResponse.getFlightHistograms() != null) {
 			return mFlightHistogramResponse.getFlightHistograms().size();
 		}
 		return 0;
@@ -80,7 +80,7 @@ public class FlightHistogramAdapter extends BaseAdapter {
 
 	@Override
 	public FlightHistogram getItem(int position) {
-		if (mFlightHistogramResponse.getFlightHistograms() != null) {
+		if (mFlightHistogramResponse != null && mFlightHistogramResponse.getFlightHistograms() != null) {
 			mFlightHistogramResponse.getFlightHistograms().get(position);
 		}
 		return null;
