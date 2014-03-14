@@ -55,7 +55,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	IStateProvider<ResultsSearchState>, FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
 	DatesFragment.DatesFragmentListener, GuestsDialogFragment.GuestsDialogFragmentListener,
 	FusedLocationProviderFragment.FusedLocationProviderListener,
-	ResultsWaypointFragment.IResultsWaypointFragmentListener,
+	TabletWaypointFragment.ITabletWaypointFragmentListener,
 	ExpediaServicesFragment.ExpediaServicesFragmentListener {
 
 	private static final String STATE_ANIM_FROM_ORIGIN = "STATE_ANIM_FROM_ORIGIN";
@@ -743,11 +743,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 
 	/**
-	 * IResultsWaypointFragmentListener
+	 * ITabletWaypointFragmentListener
 	 */
 
 	@Override
-	public void onWaypointSearchComplete(ResultsWaypointFragment caller, SuggestionV2 suggest) {
+	public void onWaypointSearchComplete(TabletWaypointFragment caller, SuggestionV2 suggest) {
 		if (suggest != null) {
 			if (caller == mWaypointFragment) {
 				boolean usingOrigin = mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN;
