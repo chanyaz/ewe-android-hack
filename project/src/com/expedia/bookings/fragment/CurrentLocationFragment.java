@@ -23,8 +23,8 @@ public class CurrentLocationFragment extends Fragment
 		public void onCurrentLocation(Location location, SuggestionV2 suggestion);
 	}
 
-	private static final String FTAG_LOCATION = "FTAG_LOCATION";
-	private static final String FTAG_LOCATION_SUGGEST = "FTAG_LOCATION_SUGGEST";
+	private static final String FTAG_CURLOCFRAG_LOCATION = "FTAG_CURLOCFRAG_LOCATION";
+	private static final String FTAG_CURLOCFRAG_LOC_SUG = "FTAG_CURLOCFRAG_LOC_SUG";
 
 	//Frags
 	private FusedLocationProviderFragment mLocationFragment;
@@ -89,10 +89,10 @@ public class CurrentLocationFragment extends Fragment
 
 	@Override
 	public Fragment getExisitingLocalInstanceFromTag(String tag) {
-		if (tag == FTAG_LOCATION) {
+		if (tag == FTAG_CURLOCFRAG_LOCATION) {
 			return mLocationFragment;
 		}
-		else if (tag == FTAG_LOCATION_SUGGEST) {
+		else if (tag == FTAG_CURLOCFRAG_LOC_SUG) {
 			return mLocationSuggestionFragment;
 		}
 		return null;
@@ -100,10 +100,10 @@ public class CurrentLocationFragment extends Fragment
 
 	@Override
 	public Fragment getNewFragmentInstanceFromTag(String tag) {
-		if (tag == FTAG_LOCATION) {
+		if (tag == FTAG_CURLOCFRAG_LOCATION) {
 			return new FusedLocationProviderFragment();
 		}
-		else if (tag == FTAG_LOCATION_SUGGEST) {
+		else if (tag == FTAG_CURLOCFRAG_LOC_SUG) {
 			return new LocationSuggestionsDownloadFragment();
 		}
 		return null;
@@ -111,7 +111,7 @@ public class CurrentLocationFragment extends Fragment
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
-		if (tag == FTAG_LOCATION) {
+		if (tag == FTAG_CURLOCFRAG_LOCATION) {
 			((FusedLocationProviderFragment) frag).find(this);
 		}
 	}
@@ -138,17 +138,20 @@ public class CurrentLocationFragment extends Fragment
 
 	private void setLocationFragAttached(boolean attached) {
 		FragmentManager manager = getChildFragmentManager();
+		manager.executePendingTransactions();
 		FragmentTransaction transaction = manager.beginTransaction();
-		mLocationFragment = FragmentAvailabilityUtils.setFragmentAvailability(attached, FTAG_LOCATION, manager,
-			transaction, this, 0, true);
+		mLocationFragment = FragmentAvailabilityUtils
+			.setFragmentAvailability(attached, FTAG_CURLOCFRAG_LOCATION, manager,
+				transaction, this, 0, true);
 		transaction.commit();
 	}
 
 	private void setServicesFragmentAttached(boolean attached) {
 		FragmentManager manager = getChildFragmentManager();
+		manager.executePendingTransactions();
 		FragmentTransaction transaction = manager.beginTransaction();
 		mLocationSuggestionFragment = FragmentAvailabilityUtils
-			.setFragmentAvailability(attached, FTAG_LOCATION_SUGGEST, manager,
+			.setFragmentAvailability(attached, FTAG_CURLOCFRAG_LOC_SUG, manager,
 				transaction, this, 0, true);
 		transaction.commit();
 	}

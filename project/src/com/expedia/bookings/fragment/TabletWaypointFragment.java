@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Rect;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -38,9 +39,12 @@ import com.expedia.bookings.widget.FrameLayoutTouchController;
 @TargetApi(14)
 public class TabletWaypointFragment extends Fragment
 	implements SuggestionsFragmentListener, FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
-	IStateProvider<WaypointChooserState> {
+	IStateProvider<WaypointChooserState>, CurrentLocationFragment.ICurrentLocationListener {
 
 	private static final String FTAG_SUGGESTIONS = "FTAG_SUGGESTIONS";
+	private static final String FTAG_LOCATION = "FTAG_LOCATION";
+
+	private static final String STATE_WAITING_FOR_LOCATION = "STATE_WAITING_FOR_LOCATION";
 
 	public static interface ITabletWaypointFragmentListener {
 		public Rect getAnimOrigin();
@@ -48,10 +52,10 @@ public class TabletWaypointFragment extends Fragment
 		public void onWaypointSearchComplete(TabletWaypointFragment caller, SuggestionV2 suggest);
 	}
 
-	private SuggestionV2 mSuggest;
 	private GridManager mGrid = new GridManager();
 	private SuggestionsFragment mSuggestionsFragment;
 	private ITabletWaypointFragmentListener mListener;
+	private CurrentLocationFragment mLocationFragment;
 
 	private FrameLayoutTouchController mRootC;
 	private View mBg;
@@ -61,6 +65,8 @@ public class TabletWaypointFragment extends Fragment
 
 	private StateManager<WaypointChooserState> mStateManager = new StateManager<WaypointChooserState>(
 		WaypointChooserState.HIDDEN, this);
+
+	private boolean mWaitingForLocation;
 
 
 	//////////////////////////////////////////////////////////////////////////
@@ -83,12 +89,21 @@ public class TabletWaypointFragment extends Fragment
 		mSearchBarC = Ui.findView(view, R.id.search_bar_conatiner);
 		mSuggestionsC = Ui.findView(view, R.id.suggestions_container);
 
+		//State
+		if(savedInstanceState != null){
+			mWaitingForLocation = savedInstanceState.getBoolean(STATE_WAITING_FOR_LOCATION);
+		}
+
 		//Setup the suggestions fragment
 		FragmentManager manager = getChildFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
 		mSuggestionsFragment = FragmentAvailabilityUtils.setFragmentAvailability(
 			true, FTAG_SUGGESTIONS, manager,
 			transaction, this, R.id.suggestions_container, false);
+		mLocationFragment = FragmentAvailabilityUtils.setFragmentAvailability(
+			true, FTAG_LOCATION, manager,
+			transaction, this, 0, false);
+
 
 		transaction.commit();
 
@@ -114,6 +129,12 @@ public class TabletWaypointFragment extends Fragment
 		super.onPause();
 		mMeasurementHelper.unregisterWithProvider(this);
 		getActivity().getActionBar().show();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState){
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(STATE_WAITING_FOR_LOCATION, mWaitingForLocation);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -208,12 +229,27 @@ public class TabletWaypointFragment extends Fragment
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Utils
+
+	protected boolean needsLocation(SuggestionV2 suggestion) {
+		return suggestion.getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION && (
+			suggestion.getLocation() == null || (suggestion.getLocation().getLatitude() == 0
+				&& suggestion.getLocation().getLongitude() == 0));
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// SuggestionsFragmentListener
 
 	@Override
 	public void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion) {
-		mSuggest = suggestion;
-		mListener.onWaypointSearchComplete(this, mSuggest);
+		if(needsLocation(suggestion)){
+			mWaitingForLocation = true;
+			//This will fire the listener when the location is found
+			mLocationFragment.getCurrentLocation();
+		}else{
+			mWaitingForLocation = false;
+			mListener.onWaypointSearchComplete(this, suggestion);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -222,7 +258,9 @@ public class TabletWaypointFragment extends Fragment
 	@Override
 	public Fragment getExisitingLocalInstanceFromTag(String tag) {
 		if (tag == FTAG_SUGGESTIONS) {
-			mSuggestionsFragment = new SuggestionsFragment();
+			return mSuggestionsFragment;
+		}else if(tag == FTAG_LOCATION){
+			return mLocationFragment;
 		}
 		return null;
 	}
@@ -230,7 +268,9 @@ public class TabletWaypointFragment extends Fragment
 	@Override
 	public Fragment getNewFragmentInstanceFromTag(String tag) {
 		if (tag == FTAG_SUGGESTIONS) {
-			return mSuggestionsFragment;
+			return new SuggestionsFragment();
+		}else if(tag == FTAG_LOCATION){
+			return new CurrentLocationFragment();
 		}
 		return null;
 	}
@@ -380,4 +420,16 @@ public class TabletWaypointFragment extends Fragment
 	public void unRegisterStateListener(IStateListener<WaypointChooserState> listener) {
 		mL.unRegisterStateListener(listener);
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// ICurrentLocationListener
+
+	@Override
+	public void onCurrentLocation(Location location, SuggestionV2 suggestion) {
+		if(mWaitingForLocation){
+			mWaitingForLocation = false;
+			mListener.onWaypointSearchComplete(this, suggestion);
+		}
+	}
+
 }

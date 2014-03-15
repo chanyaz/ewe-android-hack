@@ -59,7 +59,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private static final String FTAG_CALENDAR = "FTAG_CALENDAR";
 	private static final String FTAG_TRAV_PICKER = "FTAG_TRAV_PICKER";
 	private static final String FTAG_WAYPOINT = "FTAG_WAYPOINT";
-	private static final String FTAG_CURRENT_LOCATION = "FTAG_CURRENT_LOCATION";
+	private static final String FTAG_ORIGIN_LOCATION = "FTAG_ORIGIN_LOCATION";
 
 
 	private GridManager mGrid = new GridManager();
@@ -518,7 +518,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			transaction, this, R.id.waypoint_container, false);
 
 		mCurrentLocationFragment = FragmentAvailabilityUtils
-			.setFragmentAvailability(true, FTAG_CURRENT_LOCATION, manager, transaction, this, 0, false);
+			.setFragmentAvailability(!Sp.getParams().hasOrigin(), FTAG_ORIGIN_LOCATION, manager, transaction, this, 0, true);
 
 		transaction.commit();
 	}
@@ -534,7 +534,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		else if (tag == FTAG_WAYPOINT) {
 			return mWaypointFragment;
 		}
-		else if (tag == FTAG_CURRENT_LOCATION) {
+		else if (tag == FTAG_ORIGIN_LOCATION) {
 			return mCurrentLocationFragment;
 		}
 		return null;
@@ -551,7 +551,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		else if (tag == FTAG_WAYPOINT) {
 			return new ResultsWaypointFragment();
 		}
-		else if (tag == FTAG_CURRENT_LOCATION) {
+		else if (tag == FTAG_ORIGIN_LOCATION) {
 			return new CurrentLocationFragment();
 		}
 		return null;
@@ -562,8 +562,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		if (tag == FTAG_CALENDAR) {
 			((ResultsDatesFragment) frag).setDatesFromParams(Sp.getParams());
 		}
-		else if (tag == FTAG_CURRENT_LOCATION) {
-			if (!Sp.getParams().hasOrigin() || needsLocation(Sp.getParams().getOrigin())) {
+		else if (tag == FTAG_ORIGIN_LOCATION) {
+			if (!Sp.getParams().hasOrigin()) {
 				//Will notify listener
 				((CurrentLocationFragment) frag).getCurrentLocation();
 			}
@@ -723,21 +723,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	@Override
 	public void onWaypointSearchComplete(TabletWaypointFragment caller, SuggestionV2 suggest) {
-		if (suggest != null && caller == mWaypointFragment) {
-			applySuggestion(suggest);
-		}
-		else {
-			setState(ResultsSearchState.DEFAULT, true);
-		}
-	}
-
-	protected boolean applySuggestion(SuggestionV2 suggest) {
-		if (needsLocation(suggest)) {
-			mCurrentLocationFragment.getCurrentLocation();
-			return false;
-		}
-		else if (mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN
-			|| mSearchStateManager.getState() == ResultsSearchState.DESTINATION) {
+		if (suggest != null && (mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN
+			|| mSearchStateManager.getState() == ResultsSearchState.DESTINATION)) {
 			boolean usingOrigin = mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN;
 			if (usingOrigin) {
 				Sp.getParams().setOrigin(suggest);
@@ -746,29 +733,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				Sp.getParams().setDestination(suggest);
 			}
 			doSpUpdate();
-			setState(ResultsSearchState.DEFAULT, true);
-			return true;
 		}
-		else {
-			//If we dont know what to do with this, set the origin.
-			if (!Sp.getParams().hasOrigin() || needsLocation(Sp.getParams().getOrigin())) {
-				Sp.getParams().setOrigin(suggest);
-				doSpUpdate();
-				return true;
-			}
-			else if (!Sp.getParams().hasDestination() || needsLocation(Sp.getParams().getDestination())) {
-				Sp.getParams().setDestination(suggest);
-				doSpUpdate();
-				return true;
-			}
-		}
-		return false;
-	}
-
-	protected boolean needsLocation(SuggestionV2 suggestion) {
-		return suggestion.getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION && (
-			suggestion.getLocation() == null || (suggestion.getLocation().getLatitude() == 0
-				&& suggestion.getLocation().getLongitude() == 0));
+		setState(ResultsSearchState.DEFAULT, true);
 	}
 
 	@Override
@@ -783,6 +749,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	@Override
 	public void onCurrentLocation(Location location, SuggestionV2 suggestion) {
-		applySuggestion(suggestion);
+		if(!Sp.getParams().hasOrigin()){
+			Sp.getParams().setOrigin(suggestion);
+			doSpUpdate();
+		}
 	}
 }
