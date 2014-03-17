@@ -720,6 +720,23 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="Confirmation.Tablet" />
+
+    <style name="Confirmation.Tablet.Action">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:layout_marginRight">12dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingLeft">14dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#2970CC</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:drawablePadding">10dp</item>
+    </style>
+
     <style name="Confirmation" />
 
     <style name="Confirmation.Header">
@@ -732,6 +749,7 @@
 
     <style name="Confirmation.Action">
         <item name="android:layout_height">wrap_content</item>
+
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_marginLeft">12dp</item>
         <item name="android:layout_marginRight">12dp</item>

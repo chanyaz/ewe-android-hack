@@ -29,6 +29,9 @@ public class FontCache {
 		ROBOTOSLAB_REGULAR("fonts/RobotoSlab-Regular.ttf"),
 		ROBOTOSLAB_THIN("fonts/RobotoSlab-Thin.ttf"),
 		SIGNERICA_FAT("fonts/Signerica_Fat.ttf"),
+		ROBOTO_CONDENSED_BOLD("fonts/RobotoCondensed-Bold.ttf"),
+		ROBOTO_CONDENSED_LIGHT("fonts/RobotoCondensed-Light.ttf"),
+		ROBOTO_CONDENSED_REGULAR("fonts/RobotoCondensed-Regular.ttf"),
 		BEBAS_NEUE("fonts/BebasNeue.otf");
 
 		private String mPath;

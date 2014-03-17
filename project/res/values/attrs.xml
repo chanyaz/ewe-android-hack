@@ -13,6 +13,8 @@
             <enum name="light" value="32" />
             <enum name="medium" value="64" />
             <enum name="thin" value="128" />
+            <enum name="condensed_bold" value="256" />
+            <enum name="condensed_light" value="512" />
         </attr>
         <attr name="textAllCaps" format="boolean" />
     </declare-styleable>
