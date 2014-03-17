@@ -177,7 +177,7 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 				mSlideToWidget.setText(R.string.slide_to_book_flight);
 				break;
 			case HOTELS:
-				mSlideToWidget.setText(R.string.slide_to_book_flight);
+				mSlideToWidget.setText(R.string.slide_to_book_hotel);
 				break;
 			default:
 				//should not get here
