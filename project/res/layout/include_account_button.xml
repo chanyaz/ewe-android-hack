@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.widget.AccountButton xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:mobiata="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="12dp" >
+    android:paddingTop="@dimen/account_button_margin_top" >
 
     <LinearLayout
         android:id="@+id/error_container"
@@ -67,16 +67,33 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:paddingTop="@dimen/account_button_padding"
+        android:paddingBottom="@dimen/account_button_padding"
         android:visibility="gone" >
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/login_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/card_icon_padding"
             android:gravity="center_vertical"
             android:text="?attr/hotelCheckoutLoginButtonText"
-            android:textSize="16sp" />
+            android:textColor="#363636"
+            android:textSize="18sp"
+            app:textStyle="light" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/login_blurb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:gravity="right"
+            android:text="@string/Earn_points_and_book_fast"
+            android:textColor="#cc363636"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:textStyle="light" />
     </LinearLayout>
 
     <LinearLayout

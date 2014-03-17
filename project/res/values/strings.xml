@@ -2048,6 +2048,8 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to log into account -->
     <string name="log_in">Log In</string>
+    <!-- Login blurb: descriptive second line of text on login button on larger screens -->
+    <string name="Earn_points_and_book_fast">Earn points and book fast.</string>
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">Password</string>
     <!-- Progress dialog text when we are logging the user into Expedia -->

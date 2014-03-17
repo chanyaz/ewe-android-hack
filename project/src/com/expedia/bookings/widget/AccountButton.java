@@ -19,6 +19,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.AndroidUtils;
 
 public class AccountButton extends LinearLayout {
 	private Context mContext;
@@ -99,6 +100,7 @@ public class AccountButton extends LinearLayout {
 		}
 
 		boolean isElitePlusMember = isLoggedIn && traveler != null && traveler.getIsElitePlusMember();
+		boolean isTablet = AndroidUtils.isTablet(getContext());
 
 		mErrorContainer.setVisibility(View.GONE);
 		if (mRewardsContainer != null) {
@@ -107,7 +109,12 @@ public class AccountButton extends LinearLayout {
 
 		// Some styling, based on whether this is a hotels or flights button
 		Resources res = getResources();
-		if (ExpediaBookingApp.IS_EXPEDIA) {
+		if (isTablet) {
+			mLoginContainer.setBackgroundResource(R.drawable.bg_checkout_information_single);
+			Ui.findView(mLoginContainer, R.id.login_blurb).setVisibility(View.VISIBLE);
+			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_tablet_checkout_expedia_logo, 0, 0, 0);
+		}
+		else if (ExpediaBookingApp.IS_EXPEDIA) {
 			mLoginContainer.setBackgroundResource(isFlights
 				? R.drawable.btn_login_flights
 				: R.drawable.btn_login_hotels);
@@ -123,9 +130,10 @@ public class AccountButton extends LinearLayout {
 		mLoginTextView.setTextColor(isFlights
 			? res.getColor(R.color.login_text_flight)
 			: res.getColor(R.color.login_text_hotels));
-		mLogoutContainer.setBackgroundResource(isFlights
-			? R.drawable.bg_checkout_logged_in
-			: R.drawable.bg_hotel_checkout_information);
+		mLogoutContainer.setBackgroundResource(
+			isTablet ? R.drawable.bg_checkout_information_single
+				: isFlights ? R.drawable.bg_checkout_logged_in
+				: R.drawable.bg_hotel_checkout_information);
 
 		//Reset some defaults if we are not an elitePlusMember (but are logged in)
 		if (isLoggedIn && !isElitePlusMember) {

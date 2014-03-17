@@ -231,6 +231,10 @@
     <dimen name="login_field_spacing">2dp</dimen>
     <dimen name="login_bottom_room_spacing">6dp</dimen>
 
+    <!-- Account / Login button -->
+    <dimen name="account_button_margin_top">12dp</dimen>
+    <dimen name="account_button_padding">0dp</dimen>
+
     <!-- SearchParamsFragment -->
     <dimen name="child_ages_layout_width">500dp</dimen>
 

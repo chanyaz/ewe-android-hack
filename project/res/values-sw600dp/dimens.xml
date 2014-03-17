@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Account / Login button -->
+    <dimen name="account_button_margin_top">0dp</dimen>
+    <dimen name="account_button_padding">10dp</dimen>
+
     <!-- Special dimensions for 7" tablets -->
     <dimen name="receipt_portrait_horizontal_margin">0dp</dimen>
 
