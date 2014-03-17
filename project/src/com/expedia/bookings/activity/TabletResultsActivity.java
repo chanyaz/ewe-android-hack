@@ -24,7 +24,6 @@ import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsLoadingState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
-import com.expedia.bookings.fragment.ResultsLoadingFragment;
 import com.expedia.bookings.fragment.ResultsTripBucketFragment;
 import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
@@ -76,7 +75,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private static final String FTAG_HOTELS_CONTROLLER = "FTAG_HOTELS_CONTROLLER";
 	private static final String FTAG_SEARCH_CONTROLLER = "FTAG_SEARCH_CONTROLLER";
 	private static final String FTAG_BACKGROUND_IMAGE = "FTAG_BACKGROUND_IMAGE";
-	private static final String FTAG_LOADING = "FTAG_LOADING";
 	private static final String FTAG_BUCKET = "FTAG_BUCKET";
 
 	//Containers..
@@ -90,7 +88,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private TabletResultsFlightControllerFragment mFlightsController;
 	private TabletResultsHotelControllerFragment mHotelsController;
 	private TabletResultsSearchControllerFragment mSearchController;
-	private ResultsLoadingFragment mLoadingFrag;
 	private ResultsTripBucketFragment mTripBucketFrag;
 
 	//Other
@@ -137,10 +134,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			true,
 			FTAG_SEARCH_CONTROLLER, manager, transaction, this,
 			R.id.full_width_search_controller_container, false);
-		mLoadingFrag = (ResultsLoadingFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-			true,
-			FTAG_LOADING, manager, transaction, this,
-			R.id.loading_frag_container, false);
 		mTripBucketFrag = FragmentAvailabilityUtils.setFragmentAvailability(true,
 			FTAG_BUCKET, manager, transaction, this,
 			R.id.trip_bucket_container, false);
@@ -152,16 +145,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		//this is important, as we need to load images before our memory load gets too heavy
 		if (savedInstanceState == null || !Db.getBackgroundImageCache(this).isDefaultInCache()) {
 			Db.getBackgroundImageCache(this).loadDefaultsInThread(this);
-		}
-
-		//Set up the loading fragment to listen for hotel/flight events.
-		if (mLoadingFrag != null) {
-			if (mHotelsController != null) {
-				mHotelsController.registerStateListener(mLoadingFrag.getHotelsStateListener(), true);
-			}
-			if (mFlightsController != null) {
-				mFlightsController.registerStateListener(mLoadingFrag.getFlightsStateListener(), true);
-			}
 		}
 
 		// HockeyApp init
@@ -305,23 +288,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 				mFlightsController.setFlightsState(ResultsFlightsState.values()[id], false);
 				return true;
 			}
-
-			//TODO: REMOVE THE BELOW CODE, IT IS NOT USEFUL EXCEPT FOR WHILE BUILDING THE LOADING STUFF
-			if (item.getGroupId() == 100 && mLoadingFrag != null) {
-				boolean anim = true;
-				if (id == ResultsLoadingState.ALL.ordinal()) {
-					mLoadingFrag.setState(ResultsLoadingState.ALL, anim);
-				}
-				else if (id == ResultsLoadingState.HOTELS.ordinal()) {
-					mLoadingFrag.setState(ResultsLoadingState.HOTELS, anim);
-				}
-				else if (id == ResultsLoadingState.FLIGHTS.ordinal()) {
-					mLoadingFrag.setState(ResultsLoadingState.FLIGHTS, anim);
-				}
-				else if (id == ResultsLoadingState.NONE.ordinal()) {
-					mLoadingFrag.setState(ResultsLoadingState.NONE, anim);
-				}
-			}
 		}
 
 		return super.onOptionsItemSelected(item);
@@ -351,9 +317,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
 			frag = mBackgroundImageFrag;
 		}
-		else if (tag == FTAG_LOADING) {
-			frag = mLoadingFrag;
-		}
 		else if (tag == FTAG_BUCKET) {
 			frag = mTripBucketFrag;
 		}
@@ -375,9 +338,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		else if (tag == FTAG_BACKGROUND_IMAGE) {
 			String destination = Sp.getParams().getDestination().getAirportCode();
 			frag = ResultsBackgroundImageFragment.newInstance(destination, false);
-		}
-		else if (tag == FTAG_LOADING) {
-			frag = ResultsLoadingFragment.newInstance();
 		}
 		else if (tag == FTAG_BUCKET) {
 			frag = new ResultsTripBucketFragment();
