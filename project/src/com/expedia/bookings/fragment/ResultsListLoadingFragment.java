@@ -19,6 +19,8 @@ import com.expedia.bookings.utils.Ui;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ResultsListLoadingFragment extends Fragment {
 
+	private final static String STATE_LOADING_TEXT = "STATE_LOADING_TEXT";
+
 	private View mRootC;
 	private TextView mLoadingTv;
 
@@ -32,9 +34,11 @@ public class ResultsListLoadingFragment extends Fragment {
 	private int mLoadingNumber = 0;
 	private boolean mLoadingMovingUp = false;
 
+	private String mLoadingText;
 
-	public static ResultsListLoadingFragment newInstance() {
+	public static ResultsListLoadingFragment newInstance(String loadingText) {
 		ResultsListLoadingFragment frag = new ResultsListLoadingFragment();
+		frag.setLoadingText(loadingText);
 		return frag;
 	}
 
@@ -43,6 +47,17 @@ public class ResultsListLoadingFragment extends Fragment {
 		mRootC = inflater.inflate(R.layout.fragment_results_list_loading, null);
 		mLoadingTv = Ui.findView(mRootC, R.id.loading_tv);
 		mLoadingC = Ui.findView(mRootC, R.id.loading_bars_container);
+
+		if (savedInstanceState != null) {
+			if (savedInstanceState.containsKey(STATE_LOADING_TEXT)) {
+				setLoadingText(savedInstanceState.getString(STATE_LOADING_TEXT));
+			}
+		}
+
+		if(mLoadingText != null){
+			setLoadingText(mLoadingText);
+		}
+
 		return mRootC;
 	}
 
@@ -56,6 +71,21 @@ public class ResultsListLoadingFragment extends Fragment {
 	public void onPause() {
 		setLoadingAnimationEnabled(false);
 		super.onPause();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		if (mLoadingText != null) {
+			outState.putString(STATE_LOADING_TEXT, mLoadingText);
+		}
+	}
+
+	public void setLoadingText(String text) {
+		mLoadingText = text;
+		if (mLoadingTv != null) {
+			mLoadingTv.setText(mLoadingText);
+		}
 	}
 
 	private void setLoadingAnimationEnabled(boolean loading) {

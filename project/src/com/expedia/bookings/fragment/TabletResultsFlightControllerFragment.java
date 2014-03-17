@@ -333,7 +333,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			frag = FlightSearchDownloadFragment.newInstance(Sp.getParams().toFlightSearchParams());
 		}
 		else if (tag == FTAG_FLIGHT_LOADING_INDICATOR) {
-			frag = ResultsListLoadingFragment.newInstance();
+			frag = ResultsListLoadingFragment.newInstance(getString(R.string.loading_flights));
 		}
 
 		return frag;

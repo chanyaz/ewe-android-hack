@@ -448,7 +448,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			frag = HotelSearchDownloadFragment.newInstance(Db.getHotelSearch().getSearchParams());
 		}
 		else if (tag == FTAG_HOTEL_LOADING_INDICATOR) {
-			frag = ResultsListLoadingFragment.newInstance();
+			frag = ResultsListLoadingFragment.newInstance(getString(R.string.loading_hotels));
 		}
 		return frag;
 	}
