@@ -235,27 +235,19 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 	@Subscribe
 	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
-		// Set the Db
+		if (mFlightsStateManager.getState() != ResultsFlightsState.LOADING) {
+			setFlightsState(ResultsFlightsState.LOADING, false);
+		}
+		else {
+			importSearchParams();
+			mFlightSearchDownloadFrag.startOrResumeForParams(Db.getFlightSearch().getSearchParams());
+		}
+	}
+
+	public void importSearchParams() {
 		Db.getFlightSearch().setSearchResponse(null);
-		Db.getFlightSearch().setSearchParams(Sp.getParams().toFlightSearchParams());
-
 		Db.setFlightSearchHistogramResponse(null);
-
-		// Show progress
-		if (mFlightHistogramFrag != null) {
-			mFlightHistogramFrag.setShowProgressBar(true);
-		}
-
-		// Downloads
-		if (mFlightSearchDownloadFrag != null) {
-			mFlightSearchDownloadFrag.setSearchParams(Sp.getParams().toFlightSearchParams());
-
-			// Kick off the gde download
-			mFlightSearchDownloadFrag.startOrRestartGdeSearch();
-
-			// Kick off the flight search download
-			mFlightSearchDownloadFrag.startOrRestartSearch();
-		}
+		Db.getFlightSearch().setSearchParams(Sp.getParams().toFlightSearchParams());
 	}
 
 	/*
@@ -680,7 +672,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			//lock
 			mFlightOneListFrag.setListLockedToTop(
 				state != ResultsFlightsState.LOADING && state != ResultsFlightsState.FLIGHT_LIST_DOWN
-					&& state != ResultsFlightsState.FLIGHT_ONE_FILTERS && state != ResultsFlightsState.FLIGHT_HISTOGRAM);
+					&& state != ResultsFlightsState.FLIGHT_ONE_FILTERS
+					&& state != ResultsFlightsState.FLIGHT_HISTOGRAM);
 
 			if (state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mFlightOneListFrag.resetQuery();
@@ -688,7 +681,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 			//List scroll position
 			mFlightOneListFrag.unRegisterStateListener(mListStateHelper);
-			if (state == ResultsFlightsState.LOADING || state == ResultsFlightsState.FLIGHT_LIST_DOWN || state == ResultsFlightsState.FLIGHT_HISTOGRAM) {
+			if (state == ResultsFlightsState.LOADING || state == ResultsFlightsState.FLIGHT_LIST_DOWN
+				|| state == ResultsFlightsState.FLIGHT_HISTOGRAM) {
 				mFlightOneListFrag.setPercentage(1f, 0);
 			}
 			else if (mFlightOneListFrag.hasList()
@@ -1285,7 +1279,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					inRotateY = (1f - percentage) * 180;
 				}
 				else {
-					outRotateY =  percentage * 180;
+					outRotateY = percentage * 180;
 					inRotateY = (1f - percentage) * -180;
 				}
 
@@ -1357,7 +1351,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			setVisibilityState(state);
 			setFirstFlightListState(state);
 
-			if (state == ResultsFlightsState.LOADING || state == ResultsFlightsState.FLIGHT_LIST_DOWN || state == ResultsFlightsState.FLIGHT_HISTOGRAM) {
+			if (state == ResultsFlightsState.LOADING || state == ResultsFlightsState.FLIGHT_LIST_DOWN
+				|| state == ResultsFlightsState.FLIGHT_HISTOGRAM) {
 				mFlightOneFiltersC.setAlpha(0f);
 				mFlightMapC.setAlpha(0f);
 				if (mFlightOneListFrag != null && mFlightOneListFrag.hasList()) {
@@ -1436,6 +1431,17 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					mFlightMapFrag.backward();
 				}
 				break;
+			}
+
+			//Make sure we are loading using the most recent params
+			if (mFlightSearchDownloadFrag != null && state == ResultsFlightsState.LOADING) {
+				importSearchParams();
+				mFlightSearchDownloadFrag.startOrResumeForParams(Db.getFlightSearch().getSearchParams());
+			}
+
+			//The histogram spinner should show if we dont have flight resutls
+			if (mFlightHistogramFrag != null && state == ResultsFlightsState.FLIGHT_HISTOGRAM) {
+				mFlightHistogramFrag.setShowProgressBar(Db.getFlightSearch().getSearchResponse() == null);
 			}
 		}
 
@@ -1526,8 +1532,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			if (response != null && !response.hasErrors()) {
 				Db.setFlightSearchHistogramResponse((FlightSearchHistogramResponse) response);
 				if (Db.getFlightSearch() == null || (Db.getFlightSearch() != null &&
-					Db.getFlightSearch().getSearchResponse() == null))
-				setFlightsState(ResultsFlightsState.FLIGHT_HISTOGRAM, true);
+					Db.getFlightSearch().getSearchResponse() == null)) {
+					setFlightsState(ResultsFlightsState.FLIGHT_HISTOGRAM, true);
+				}
 			}
 			else {
 				//TODO: Better Error Handling

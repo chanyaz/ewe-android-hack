@@ -28,6 +28,8 @@ public class HotelSearchDownloadFragment extends Fragment {
 	private ExpediaServices mServices;
 	private ExpediaServicesFragment.ExpediaServicesFragmentListener mListener;
 
+	private boolean mStartOrResumeOnAttach = false;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,6 +58,10 @@ public class HotelSearchDownloadFragment extends Fragment {
 		super.onAttach(activity);
 
 		mListener = Ui.findFragmentListener(this, ExpediaServicesFragment.ExpediaServicesFragmentListener.class);
+
+		if (mStartOrResumeOnAttach && mSearchParams != null) {
+			startOrResumeForParams(mSearchParams);
+		}
 	}
 
 	@Override
@@ -65,9 +71,6 @@ public class HotelSearchDownloadFragment extends Fragment {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(DL_SEARCH)) {
 			bd.registerDownloadCallback(DL_SEARCH, mSearchCallback);
-		}
-		else {
-			bd.startDownload(DL_SEARCH, mSearchDownload, mSearchCallback);
 		}
 	}
 
@@ -87,12 +90,41 @@ public class HotelSearchDownloadFragment extends Fragment {
 		super.onDetach();
 
 		mListener = null;
+		mStartOrResumeOnAttach = false;
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(STATE_PARAMS, mSearchParams.toJson().toString());
+	}
+
+	public void startOrResumeForParams(HotelSearchParams params) {
+		if (mListener == null) {
+			setSearchParams(params);
+			mStartOrResumeOnAttach = true;
+		}
+		else {
+			BackgroundDownloader dl = BackgroundDownloader.getInstance();
+			dl.unregisterDownloadCallback(DL_SEARCH);
+			if (dl.isDownloading(DL_SEARCH)) {
+				if (mSearchParams != null && !mSearchParams.equals(params)) {
+					//We're in the middle of a download and we just got new (and different) params.
+					dl.cancelDownload(DL_SEARCH);
+					setSearchParams(params);
+					startOrRestart();
+				}
+				else {
+					//Our params haven't changed so just listen for the existing download
+					dl.registerDownloadCallback(DL_SEARCH, mSearchCallback);
+				}
+			}
+			else {
+				//We weren't downloading, so we should start
+				setSearchParams(params);
+				startOrRestart();
+			}
+		}
 	}
 
 	public void startOrRestart() {
@@ -116,7 +148,7 @@ public class HotelSearchDownloadFragment extends Fragment {
 				return mServices.search(mSearchParams, ExpediaServices.F_HOTELS);
 			}
 			catch (Exception ex) {
-				Log.e("Hotel Search download exception.",ex);
+				Log.e("Hotel Search download exception.", ex);
 			}
 			return null;
 

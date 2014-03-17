@@ -172,15 +172,18 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Subscribe
 	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
-		Db.getHotelSearch().setSearchResponse(null);
-		Db.getHotelSearch().setSearchParams(Sp.getParams().toHotelSearchParams());
 		if (mHotelsStateManager.getState() != ResultsHotelsState.LOADING) {
 			setHotelsState(ResultsHotelsState.LOADING, false);
 		}
 		else {
-			mHotelSearchDownloadFrag.setSearchParams(Sp.getParams().toHotelSearchParams());
-			mHotelSearchDownloadFrag.startOrRestart();
+			importSearchParams();
+			mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
 		}
+	}
+
+	public void importSearchParams(){
+		Db.getHotelSearch().setSearchResponse(null);
+		Db.getHotelSearch().setSearchParams(Sp.getParams().toHotelSearchParams());
 	}
 
 
@@ -529,7 +532,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	@Override
 	public void onHotelMapFragmentAttached(HotelMapFragment fragment) {
 		fragment.setInitialCameraPosition(CameraUpdateFactory.newLatLngBounds(HotelMapFragment.getAmericaBounds(), 0));
-		this.mMapFragment = fragment;
+		mMapFragment = fragment;
 	}
 
 	/*
@@ -982,6 +985,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			if (mMapFragment != null && state != ResultsHotelsState.ROOMS_AND_RATES) {
 				mMapFragment.setMapPaddingFromFilterState(state == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
 					|| state == ResultsHotelsState.ROOMS_AND_RATES_FILTERS);
+			}
+
+			//Ensure we are downloading the correct data.
+			if(state == ResultsHotelsState.LOADING && mHotelSearchDownloadFrag != null){
+				importSearchParams();
+				mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
 			}
 		}
 

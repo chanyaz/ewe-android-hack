@@ -32,6 +32,8 @@ public class FlightSearchDownloadFragment extends Fragment {
 	private ExpediaServices mServices;
 	private ExpediaServicesFragment.ExpediaServicesFragmentListener mListener;
 
+	private boolean mStartOrResumeOnAttach = false;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,13 +62,15 @@ public class FlightSearchDownloadFragment extends Fragment {
 		super.onAttach(activity);
 
 		mListener = Ui.findFragmentListener(this, ExpediaServicesFragment.ExpediaServicesFragmentListener.class);
+
+		if(mStartOrResumeOnAttach && mSearchParams != null){
+			startOrResumeForParams(mSearchParams);
+		}
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		startOrRestartGdeSearch();
 	}
 
 	@Override
@@ -87,6 +91,7 @@ public class FlightSearchDownloadFragment extends Fragment {
 		super.onDetach();
 
 		mListener = null;
+		mStartOrResumeOnAttach = false;
 	}
 
 	@Override
@@ -102,6 +107,41 @@ public class FlightSearchDownloadFragment extends Fragment {
 		}
 		else {
 			bd.startDownload(DL_SEARCH, mSearchDownload, mSearchCallback);
+		}
+	}
+
+	public void startOrResumeForParams(FlightSearchParams params) {
+		if (mListener == null) {
+			setSearchParams(params);
+			mStartOrResumeOnAttach = true;
+		}
+		else {
+			BackgroundDownloader dl = BackgroundDownloader.getInstance();
+			dl.unregisterDownloadCallback(DL_SEARCH);
+			dl.unregisterDownloadCallback(DL_GDE_SEARCH);
+			if (dl.isDownloading(DL_SEARCH) || dl.isDownloading(DL_GDE_SEARCH)) {
+				if (mSearchParams != null && !mSearchParams.equals(params)) {
+					//We're in the middle of a download and we just got new (and different) params.
+					dl.cancelDownload(DL_SEARCH);
+					dl.cancelDownload(DL_GDE_SEARCH);
+
+					setSearchParams(params);
+
+					startOrRestartSearch();
+					startOrRestartGdeSearch();
+				}
+				else {
+					//Our params haven't changed so just listen for the existing download
+					dl.registerDownloadCallback(DL_SEARCH, mSearchCallback);
+					dl.registerDownloadCallback(DL_GDE_SEARCH, mGdeSearchCallback);
+				}
+			}
+			else {
+				//We weren't downloading, so we should start
+				setSearchParams(params);
+				startOrRestartSearch();
+				startOrRestartGdeSearch();
+			}
 		}
 	}
 
@@ -188,7 +228,6 @@ public class FlightSearchDownloadFragment extends Fragment {
 			mListener.onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.FLIGHT_GDE_SEARCH, results);
 		}
 	};
-
 
 
 }
