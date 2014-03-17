@@ -108,18 +108,24 @@ public class AccountButton extends LinearLayout {
 		// Some styling, based on whether this is a hotels or flights button
 		Resources res = getResources();
 		if (ExpediaBookingApp.IS_EXPEDIA) {
-			mLoginContainer.setBackgroundResource(isFlights ? R.drawable.btn_login_flights : R.drawable.btn_login_hotels);
-			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(isFlights ? R.drawable.ic_expedia_logo
+			mLoginContainer.setBackgroundResource(isFlights
+				? R.drawable.btn_login_flights
+				: R.drawable.btn_login_hotels);
+			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(isFlights
+				? R.drawable.ic_expedia_logo
 				: Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLoginLogoDrawable), 0, 0, 0);
 		}
 		else {
 			mLoginContainer.setBackgroundResource(R.drawable.btn_login_hotels);
-			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLoginLogoDrawable), 0, 0, 0);
+			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
+				Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLoginLogoDrawable), 0, 0, 0);
 		}
-		mLoginTextView.setTextColor(isFlights ? res.getColor(R.color.login_text_flight) : res
-				.getColor(R.color.login_text_hotels));
-		mLogoutContainer.setBackgroundResource(isFlights ? R.drawable.bg_checkout_logged_in
-				: R.drawable.bg_hotel_checkout_information);
+		mLoginTextView.setTextColor(isFlights
+			? res.getColor(R.color.login_text_flight)
+			: res.getColor(R.color.login_text_hotels));
+		mLogoutContainer.setBackgroundResource(isFlights
+			? R.drawable.bg_checkout_logged_in
+			: R.drawable.bg_hotel_checkout_information);
 
 		//Reset some defaults if we are not an elitePlusMember (but are logged in)
 		if (isLoggedIn && !isElitePlusMember) {
@@ -147,7 +153,7 @@ public class AccountButton extends LinearLayout {
 				else {
 					top.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
 					int resId = isElitePlusMember ? R.string.enrolled_in_expedia_elite_plus_rewards
-							: R.string.enrolled_in_expedia_rewards;
+						: R.string.enrolled_in_expedia_rewards;
 					bottom.setText(mContext.getString(resId));
 
 					FlightTrip flightTrip = Db.getFlightSearch().getSelectedFlightTrip();
@@ -161,7 +167,7 @@ public class AccountButton extends LinearLayout {
 						mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_top_tab);
 						if (isElitePlusMember) {
 							mRewardsContainer
-									.setBackgroundResource(R.drawable.bg_checkout_information_elite_rewards_tab);
+								.setBackgroundResource(R.drawable.bg_checkout_information_elite_rewards_tab);
 							mExpediaLogo.setImageResource(R.drawable.ic_expedia_logo_blue);
 						}
 					}
@@ -176,17 +182,17 @@ public class AccountButton extends LinearLayout {
 				else {
 					top.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));
 					bottom.setText(mContext
-							.getString(isElitePlusMember ? R.string.enrolled_in_expedia_elite_plus_rewards
-									: R.string.enrolled_in_expedia_rewards));
+						.getString(isElitePlusMember ? R.string.enrolled_in_expedia_elite_plus_rewards
+							: R.string.enrolled_in_expedia_rewards));
 					if (isElitePlusMember) {
 						String rewardsString = getResources().getString(
-								R.string.youll_earn_bonus_points_for_this_booking);
+							R.string.youll_earn_bonus_points_for_this_booking);
 						TextView rewards = Ui.findView(mRewardsContainer, R.id.account_rewards_textview);
 						rewards.setText(rewardsString);
 						mRewardsContainer.setVisibility(View.VISIBLE);
 						mLogoutContainer.setBackgroundResource(R.drawable.bg_hotel_checkout_information_top_tab);
 						mRewardsContainer
-								.setBackgroundResource(R.drawable.bg_checkout_information_elite_rewards_hotel_tab);
+							.setBackgroundResource(R.drawable.bg_checkout_information_elite_rewards_hotel_tab);
 						mExpediaLogo.setImageResource(R.drawable.ic_expedia_logo_blue);
 					}
 				}
