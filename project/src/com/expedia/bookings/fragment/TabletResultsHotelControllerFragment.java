@@ -67,6 +67,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private static final String FTAG_HOTEL_MAP = "FTAG_HOTEL_MAP";
 	private static final String FTAG_HOTEL_ROOMS_AND_RATES = "FTAG_HOTEL_ROOMS_AND_RATES";
 	private static final String FTAG_HOTEL_SEARCH_DOWNLOAD = "FTAG_HOTEL_SEARCH_DOWNLOAD";
+	private static final String FTAG_HOTEL_LOADING_INDICATOR = "FTAG_HOTEL_LOADING_INDICATOR";
 
 	//Containers
 	private ViewGroup mRootC;
@@ -76,6 +77,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private FrameLayoutTouchController mHotelFiltersC;
 	private FrameLayoutTouchController mHotelFilteredCountC;
 	private FrameLayoutTouchController mHotelRoomsAndRatesC;
+	private FrameLayoutTouchController mLoadingC;
 
 	// Fragments
 	private HotelMapFragment mMapFragment;
@@ -84,6 +86,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private ResultsHotelsFilterCountFragment mHotelFilteredCountFrag;
 	private ResultsHotelDetailsFragment mHotelDetailsFrag;
 	private HotelSearchDownloadFragment mHotelSearchDownloadFrag;
+	private ResultsListLoadingFragment mLoadingGuiFrag;
 
 	//Other
 	private StateManager<ResultsHotelsState> mHotelsStateManager = new StateManager<ResultsHotelsState>(
@@ -121,6 +124,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mHotelFiltersC = Ui.findView(view, R.id.column_two_hotel_filters);
 		mHotelFilteredCountC = Ui.findView(view, R.id.column_three_hotel_filtered_count);
 		mHotelRoomsAndRatesC = Ui.findView(view, R.id.hotel_rooms_and_rates);
+		mLoadingC = Ui.findView(view, R.id.loading_container);
 
 		//Default maps to be invisible (they get ignored by our setVisibilityState function so this is important)
 		mBgHotelMapC.setAlpha(0f);
@@ -181,7 +185,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 	}
 
-	public void importSearchParams(){
+	public void importSearchParams() {
 		Db.getHotelSearch().setSearchResponse(null);
 		Db.getHotelSearch().setSearchParams(Sp.getParams().toHotelSearchParams());
 	}
@@ -294,6 +298,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		FragmentTransaction transaction = manager.beginTransaction();
 
 		boolean hotelSearchDownloadAvailable = false;
+		boolean loadingGuiAvailable = false;
 		boolean hotelListAvailable = true;
 		boolean hotelMapAvailable = true;
 		boolean hotelFiltersAvailable = true;
@@ -302,6 +307,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		if (hotelsState == ResultsHotelsState.LOADING) {
 			hotelSearchDownloadAvailable = true;
+			loadingGuiAvailable = true;
+			hotelListAvailable = false;
 			hotelMapAvailable = false;
 			hotelFiltersAvailable = false;
 			hotelFilteredCountAvailable = false;
@@ -332,6 +339,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mHotelSearchDownloadFrag = (HotelSearchDownloadFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			hotelSearchDownloadAvailable,
 			FTAG_HOTEL_SEARCH_DOWNLOAD, manager, transaction, this, 0, false);
+		mLoadingGuiFrag = (ResultsListLoadingFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+			loadingGuiAvailable,
+			FTAG_HOTEL_LOADING_INDICATOR, manager, transaction, this, R.id.loading_container, false);
 		transaction.commit();
 	}
 
@@ -410,6 +420,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		else if (tag == FTAG_HOTEL_SEARCH_DOWNLOAD) {
 			frag = mHotelSearchDownloadFrag;
 		}
+		else if (tag == FTAG_HOTEL_LOADING_INDICATOR) {
+			frag = mLoadingGuiFrag;
+		}
 		return frag;
 	}
 
@@ -433,6 +446,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 		else if (tag == FTAG_HOTEL_SEARCH_DOWNLOAD) {
 			frag = HotelSearchDownloadFragment.newInstance(Db.getHotelSearch().getSearchParams());
+		}
+		else if (tag == FTAG_HOTEL_LOADING_INDICATOR) {
+			frag = ResultsListLoadingFragment.newInstance();
 		}
 		return frag;
 	}
@@ -690,16 +706,20 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mGrid.setDimensions(totalWidth, totalHeight);
 
 			if (mGrid.isLandscape()) {
-				mGrid.setGridSize(2, 5);
+				//3 rows (AB,top half, bottom half)
+				//5 columns - left, spacer,center,spacer,right
+				mGrid.setGridSize(3, 5);
 
 				//The top row matches the height of the actionbar
 				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
+				mGrid.setRowPercentage(2, 0.5f);
 
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
 				mGrid.setColumnSize(1, spacerSize);
 				mGrid.setColumnSize(3, spacerSize);
 
 				//Tell all of the containers where they belong
+				mGrid.setContainerToColumn(mLoadingC, 0);
 				mGrid.setContainerToColumn(mHotelListC, 0);
 				mGrid.setContainerToColumnSpan(mHotelFiltersC, 1, 2);
 				mGrid.setContainerToColumnSpan(mHotelFilteredCountC, 3, 4);
@@ -708,12 +728,14 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 2, 4);
 
 				//All of the views except for the map sit below the action bar
-				mGrid.setContainerToRow(mHotelListC, 1);
-				mGrid.setContainerToRow(mHotelFiltersC, 1);
-				mGrid.setContainerToRow(mHotelFilteredCountC, 1);
-				mGrid.setContainerToRowSpan(mBgHotelMapC, 0, 1);
-				mGrid.setContainerToRowSpan(mBgHotelMapTouchDelegateC, 0, 1);
-				mGrid.setContainerToRow(mHotelRoomsAndRatesC, 1);
+				mGrid.setContainerToRow(mLoadingC, 2);
+				mGrid.setContainerToRowSpan(mHotelListC, 1, 2);
+				mGrid.setContainerToRowSpan(mHotelFiltersC, 1, 2);
+				mGrid.setContainerToRowSpan(mHotelFilteredCountC, 1, 2);
+				mGrid.setContainerToRowSpan(mBgHotelMapC, 0, 2);
+				mGrid.setContainerToRowSpan(mBgHotelMapTouchDelegateC, 0, 2);
+				mGrid.setContainerToRowSpan(mHotelRoomsAndRatesC, 1, 2);
+
 			}
 			else {
 				mGrid.setGridSize(2, 2);
@@ -988,7 +1010,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 
 			//Ensure we are downloading the correct data.
-			if(state == ResultsHotelsState.LOADING && mHotelSearchDownloadFrag != null){
+			if (state == ResultsHotelsState.LOADING && mHotelSearchDownloadFrag != null) {
 				importSearchParams();
 				mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
 			}

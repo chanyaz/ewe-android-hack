@@ -72,6 +72,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private static final String FTAG_FLIGHT_ONE_DETAILS = "FTAG_FLIGHT_ONE_DETAILS";
 	private static final String FTAG_FLIGHT_TWO_DETAILS = "FTAG_FLIGHT_TWO_DETAILS";
 	private static final String FTAG_FLIGHT_SEARCH_DOWNLOAD = "FTAG_FLIGHT_SEARCH_DOWNLOAD";
+	private static final String FTAG_FLIGHT_LOADING_INDICATOR = "FTAG_FLIGHT_LOADING_INDICATOR";
 
 	//Containers
 	private ViewGroup mRootC;
@@ -89,6 +90,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private FrameLayoutTouchController mFlightTwoListC;
 	private FrameLayoutTouchController mFlightTwoFiltersC;
 	private FrameLayoutTouchController mFlightTwoDetailsC;
+	private FrameLayoutTouchController mLoadingC;
 
 	private ArrayList<ViewGroup> mContainers = new ArrayList<ViewGroup>();
 
@@ -106,6 +108,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	private ResultsFlightFiltersFragment mFlightTwoFilterFrag;
 	private ResultsFlightDetailsFragment mFlightTwoDetailsFrag;
 	private FlightSearchDownloadFragment mFlightSearchDownloadFrag;
+	private ResultsListLoadingFragment mLoadingGuiFrag;
 
 	//Other
 	private GridManager mGrid = new GridManager();
@@ -162,6 +165,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		mFlightTwoListC = Ui.findView(view, R.id.flight_two_list);
 		mFlightTwoFiltersC = Ui.findView(view, R.id.flight_two_filters);
 		mFlightTwoDetailsC = Ui.findView(view, R.id.flight_two_details);
+		mLoadingC = Ui.findView(view, R.id.loading_container);
 
 		mContainers.add(mFlightMapC);
 		mContainers.add(mAddToTripC);
@@ -173,6 +177,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		mContainers.add(mFlightTwoListC);
 		mContainers.add(mFlightTwoFiltersC);
 		mContainers.add(mFlightTwoDetailsC);
+		mContainers.add(mLoadingC);
 
 		mFlightOneSelectedRow = Ui.findView(view, R.id.flight_one_row);
 
@@ -287,6 +292,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		else if (tag == FTAG_FLIGHT_SEARCH_DOWNLOAD) {
 			frag = mFlightSearchDownloadFrag;
 		}
+		else if (tag == FTAG_FLIGHT_LOADING_INDICATOR) {
+			frag = mLoadingGuiFrag;
+		}
 
 		return frag;
 	}
@@ -323,6 +331,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 		else if (tag == FTAG_FLIGHT_SEARCH_DOWNLOAD) {
 			frag = FlightSearchDownloadFragment.newInstance(Sp.getParams().toFlightSearchParams());
+		}
+		else if (tag == FTAG_FLIGHT_LOADING_INDICATOR) {
+			frag = ResultsListLoadingFragment.newInstance();
 		}
 
 		return frag;
@@ -516,6 +527,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		switch (flightsState) {
 		case LOADING:
+			visibleViews.add(mLoadingC);
 		case FLIGHT_HISTOGRAM:
 		case FLIGHT_LIST_DOWN: {
 			visibleViews.add(mFlightHistogramC);
@@ -582,6 +594,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		FragmentTransaction transaction = manager.beginTransaction();
 
+		boolean loadingAvailable = false;
 		boolean flightSearchDownloadAvailable = false;
 		boolean flightHistogramAvailable = false;
 		boolean flightOneListAvailable = true;
@@ -596,6 +609,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		if (flightsState == ResultsFlightsState.LOADING) {
 			// This case kicks off the downloads
 			flightSearchDownloadAvailable = true;
+
+			loadingAvailable = true;
 
 			flightMapAvailable = false;
 			flightAddToTripAvailable = false;
@@ -663,6 +678,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		mFlightSearchDownloadFrag = (FlightSearchDownloadFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			flightSearchDownloadAvailable,
 			FTAG_FLIGHT_SEARCH_DOWNLOAD, manager, transaction, this, 0, true);
+		mLoadingGuiFrag = FragmentAvailabilityUtils.setFragmentAvailability(
+			loadingAvailable,
+			FTAG_FLIGHT_LOADING_INDICATOR, manager, transaction, this, R.id.loading_container, true);
 		transaction.commit();
 
 	}
@@ -866,6 +884,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				mGrid.setContainerToColumn(mFlightTwoFiltersC, 0);
 				mGrid.setContainerToColumn(mFlightTwoListColumnC, 2);
 				mGrid.setContainerToColumnSpan(mFlightTwoDetailsC, 0, 4);
+				mGrid.setContainerToColumn(mLoadingC, 2);
 
 				//Vertical alignment
 
@@ -880,6 +899,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				//Special cases
 				mGrid.setContainerToRowSpan(mFlightMapC, 0, 2);
 				mGrid.setContainerToRow(mFlightHistogramC, 2);
+				mGrid.setContainerToRow(mLoadingC, 2);
 			}
 			else {
 				mGrid.setGridSize(2, 2);

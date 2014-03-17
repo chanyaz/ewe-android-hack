@@ -69,6 +69,12 @@
         android:layout_width="0dp"
         android:layout_height="match_parent" />
 
+    <com.expedia.bookings.widget.FrameLayoutTouchController
+        android:id="@+id/loading_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
     <!-- ADD TO TRIP -->
 
     <com.expedia.bookings.widget.FrameLayoutTouchController
