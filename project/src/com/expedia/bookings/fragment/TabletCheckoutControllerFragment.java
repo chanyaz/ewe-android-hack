@@ -114,7 +114,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private FlightBookingFragment mFlightBookingFrag;
 	private HotelBookingFragment mHotelBookingFrag;
 	private FlightConfirmationFragment mFlightConfFrag;
-	private HotelConfirmationFragment mHotelConfFrag;
+	private TabletHotelConfirmationFragment mHotelConfFrag;
 	private ResultsBackgroundImageFragment mBlurredBgFrag;
 
 	private static final int DIALOG_CALLBACK_INVALID_CC = 1;
@@ -701,7 +701,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			return new FlightConfirmationFragment();
 		}
 		else if (FRAG_TAG_CONF_HOTEL.equals(tag)) {
-			return new HotelConfirmationFragment();
+			return new TabletHotelConfirmationFragment();
 		}
 		else if (FRAG_TAG_BLUR_BG.equals(tag)) {
 			String dest = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
@@ -1029,5 +1029,16 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public void onBookingResponseErrorCVV(Events.BookingResponseErrorCVV event) {
 		mCvvFrag.setCvvErrorMode(true);
 		setCheckoutState(CheckoutState.CVV, true);
+	}
+
+	@Subscribe
+	public void onBookNext(Events.BookingConfirmationBookNext event) {
+		if (Db.getTripBucket().getFlight().getState() == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
+			setLob(LineOfBusiness.FLIGHTS);
+		}
+		else {
+			setLob(LineOfBusiness.HOTELS);
+		}
+		setCheckoutState(CheckoutState.OVERVIEW, true);
 	}
 }

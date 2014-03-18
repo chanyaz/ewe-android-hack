@@ -294,6 +294,12 @@ public class Events {
 	public static class UnhandledErrorDialogCancel {
 	}
 
+	/**
+	 * This event notifies that the user clicked the Book Next Item button in the Confirmation Screen.
+	 */
+	public static class BookingConfirmationBookNext {
+	}
+
 	// Suggestion query events
 	public static class SuggestionQueryStarted {
 	}

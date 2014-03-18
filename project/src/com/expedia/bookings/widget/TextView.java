@@ -18,6 +18,8 @@ public class TextView extends android.widget.TextView {
 	private static final int LIGHT = 32;
 	private static final int MEDIUM = 64;
 	private static final int THIN = 128;
+	private static final int CONDENSED_BOLD = 256;
+	private static final int CONDENSED_LIGHT = 512;
 
 	private boolean mAllCaps = false;
 
@@ -115,6 +117,18 @@ public class TextView extends android.widget.TextView {
 		//		}
 		case NORMAL: {
 			FontCache.setTypeface(view, Font.ROBOTO_REGULAR);
+			break;
+		}
+		case CONDENSED: {
+			FontCache.setTypeface(view, Font.ROBOTO_CONDENSED_REGULAR);
+			break;
+		}
+		case CONDENSED_BOLD: {
+			FontCache.setTypeface(view, Font.ROBOTO_CONDENSED_BOLD);
+			break;
+		}
+		case CONDENSED_LIGHT: {
+			FontCache.setTypeface(view, Font.ROBOTO_CONDENSED_LIGHT);
 			break;
 		}
 		}
