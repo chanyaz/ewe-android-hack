@@ -506,7 +506,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		boolean mCalAvail = mParamFragsAvailable;
 		boolean mTravAvail = mParamFragsAvailable;
-		boolean mOrigAvail = mParamFragsAvailable;
+		boolean mWaypointAvailable = mParamFragsAvailable;
 
 		mDatesFragment = FragmentAvailabilityUtils.setFragmentAvailability(mCalAvail, FTAG_CALENDAR, manager,
 			transaction, this, R.id.calendar_container, true);
@@ -514,8 +514,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mGuestsFragment = FragmentAvailabilityUtils.setFragmentAvailability(mTravAvail, FTAG_TRAV_PICKER, manager,
 			transaction, this, R.id.traveler_container, false);
 
-		mWaypointFragment = FragmentAvailabilityUtils.setFragmentAvailability(mOrigAvail, FTAG_WAYPOINT, manager,
-			transaction, this, R.id.waypoint_container, false);
+		mWaypointFragment = FragmentAvailabilityUtils
+			.setFragmentAvailability(mWaypointAvailable, FTAG_WAYPOINT, manager,
+				transaction, this, R.id.waypoint_container, false);
 
 		mCurrentLocationFragment = FragmentAvailabilityUtils
 			.setFragmentAvailability(!Sp.getParams().hasOrigin(), FTAG_ORIGIN_LOCATION, manager, transaction, this, 0,
@@ -615,7 +616,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			//If we have not yet set a state, or if the Results state is moving between modes, we update our state, otherwise
 			//results state doesnt matter to us.
 			if (!mSearchStateManager.hasState() || (lastStateUp != newStateUp)) {
-				finalizeState(newState);
+				mSearchStateManager.setState(newState, false);
 			}
 		}
 
