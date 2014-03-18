@@ -382,10 +382,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			int actionbarHeight = getActivity().getActionBar().getHeight();
 			int leftCol = 2;
 			int rightCol = 4;
-			if (!mGrid.isLandscape()) {
-				leftCol = 0;
-				rightCol = 1;
-			}
 
 			Rect position = new Rect();
 			position.left = mGrid.getColLeft(leftCol);
@@ -861,61 +857,47 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
 			mGrid.setDimensions(totalWidth, totalHeight);
 
-			if (isLandscape) {
-				mGrid.setGridSize(3, 5);
 
-				//The top row matches the height of the actionbar
-				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
+			mGrid.setGridSize(3, 5);
 
-				//The bottom row
-				mGrid.setRowPercentage(2, .50f);
+			//The top row matches the height of the actionbar
+			mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
 
-				//These columns are just the spacers between content columns
-				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
-				mGrid.setColumnSize(1, spacerSize);
-				mGrid.setColumnSize(3, spacerSize);
+			//The bottom row
+			mGrid.setRowPercentage(2, .50f);
 
-				//Horizontal alignment
-				mGrid.setContainerToColumnSpan(mFlightMapC, 0, 4);
-				mGrid.setContainerToColumn(mFlightOneFiltersC, 0);
-				mGrid.setContainerToColumn(mFlightOneListC, 2);
-				mGrid.setContainerToColumn(mFlightHistogramC, 2);
-				mGrid.setContainerToColumnSpan(mFlightOneDetailsC, 0, 4);
-				mGrid.setContainerToColumn(mFlightTwoFiltersC, 0);
-				mGrid.setContainerToColumn(mFlightTwoListColumnC, 2);
-				mGrid.setContainerToColumnSpan(mFlightTwoDetailsC, 0, 4);
-				mGrid.setContainerToColumn(mLoadingC, 2);
+			//These columns are just the spacers between content columns
+			int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
+			mGrid.setColumnSize(1, spacerSize);
+			mGrid.setColumnSize(3, spacerSize);
 
-				//Vertical alignment
+			//Horizontal alignment
+			mGrid.setContainerToColumnSpan(mFlightMapC, 0, 4);
+			mGrid.setContainerToColumn(mFlightOneFiltersC, 0);
+			mGrid.setContainerToColumn(mFlightOneListC, 2);
+			mGrid.setContainerToColumn(mFlightHistogramC, 2);
+			mGrid.setContainerToColumnSpan(mFlightOneDetailsC, 0, 4);
+			mGrid.setContainerToColumn(mFlightTwoFiltersC, 0);
+			mGrid.setContainerToColumn(mFlightTwoListColumnC, 2);
+			mGrid.setContainerToColumnSpan(mFlightTwoDetailsC, 0, 4);
+			mGrid.setContainerToColumn(mLoadingC, 2);
 
-				//Most content sits in rows 1 and 2 (below the actionbar)
-				mGrid.setContainerToRowSpan(mFlightOneFiltersC, 1, 2);
-				mGrid.setContainerToRowSpan(mFlightOneListC, 1, 2);
-				mGrid.setContainerToRowSpan(mFlightOneDetailsC, 1, 2);
-				mGrid.setContainerToRowSpan(mFlightTwoFiltersC, 1, 2);
-				mGrid.setContainerToRowSpan(mFlightTwoListColumnC, 1, 2);
-				mGrid.setContainerToRowSpan(mFlightTwoDetailsC, 1, 2);
+			//Vertical alignment
 
-				//Special cases
-				mGrid.setContainerToRowSpan(mFlightMapC, 0, 2);
-				mGrid.setContainerToRow(mFlightHistogramC, 2);
-				mGrid.setContainerToRow(mLoadingC, 2);
-			}
-			else {
-				mGrid.setGridSize(2, 2);
+			//Most content sits in rows 1 and 2 (below the actionbar)
+			mGrid.setContainerToRowSpan(mFlightOneFiltersC, 1, 2);
+			mGrid.setContainerToRowSpan(mFlightOneListC, 1, 2);
+			mGrid.setContainerToRowSpan(mFlightOneDetailsC, 1, 2);
+			mGrid.setContainerToRowSpan(mFlightTwoFiltersC, 1, 2);
+			mGrid.setContainerToRowSpan(mFlightTwoListColumnC, 1, 2);
+			mGrid.setContainerToRowSpan(mFlightTwoDetailsC, 1, 2);
 
-				mGrid.setContainerToColumnSpan(mFlightMapC, 0, 1);
+			//Special cases
+			mGrid.setContainerToRowSpan(mFlightMapC, 0, 2);
+			mGrid.setContainerToRow(mFlightHistogramC, 2);
+			mGrid.setContainerToRow(mLoadingC, 2);
 
-				mGrid.setContainerToColumn(mFlightOneFiltersC, 0);
-				mGrid.setContainerToColumn(mFlightOneListC, 1);
-				mGrid.setContainerToColumn(mFlightHistogramC, 1);
-				mGrid.setContainerToColumnSpan(mFlightOneDetailsC, 0, 1);
-
-				mGrid.setContainerToColumn(mFlightTwoFiltersC, 0);
-				mGrid.setContainerToColumn(mFlightTwoListColumnC, 1);
-				mGrid.setContainerToColumnSpan(mFlightTwoDetailsC, 0, 1);
-			}
-
+			//Frag stuff
 			updateDetailsFragSizes(mFlightOneDetailsFrag);
 			updateDetailsFragSizes(mFlightTwoDetailsFrag);
 			updateMapFragSizes(mFlightMapFrag);
@@ -1133,13 +1115,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					mFlightOneDetailsFrag.prepareAddToTripFromDetailsAnimation(addToTripDestination);
 				}
 				else {
-					if (mGrid.isLandscape()) {
-						Rect departureFlightLocation = ScreenPositionUtils
-							.getGlobalScreenPosition(mFlightTwoFlightOneHeaderC);
-						mFlightOneDetailsFrag.prepareAddToTripFromDepartureAnimation(departureFlightLocation,
-							addToTripDestination);
-						mFlightOneDetailsC.setVisibility(View.VISIBLE);
-					}
+
+					Rect departureFlightLocation = ScreenPositionUtils
+						.getGlobalScreenPosition(mFlightTwoFlightOneHeaderC);
+					mFlightOneDetailsFrag.prepareAddToTripFromDepartureAnimation(departureFlightLocation,
+						addToTripDestination);
+					mFlightOneDetailsC.setVisibility(View.VISIBLE);
+
 
 					mFlightTwoListColumnC.setVisibility(View.VISIBLE);
 					mFlightTwoListC.setVisibility(View.VISIBLE);
@@ -1191,10 +1173,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				int flightTwoTranslationX = (int) ((1f - percentage) * (mGrid.getColWidth(2) / 2f + mGrid
 					.getColLeft(2)));
 
-				if (!mGrid.isLandscape()) {
-					flightOneListTranslationX = -mGrid.getColRight(1);
-				}
-
 				mFlightOneListC.setTranslationX(flightOneListTranslationX);
 				mFlightTwoFiltersC.setTranslationX(flightTwoTranslationX);
 				mFlightTwoListColumnC.setTranslationX(flightTwoTranslationX);
@@ -1218,14 +1196,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 				//Between filters and details
 				if (mTransitionFiltersC != null) {
 
-					if (mGrid.isLandscape()) {
-						mTransitionFiltersC.setTranslationX(percentage * -mGrid.getColSpanWidth(0, 1));
-						mTransitionListC.setTranslationX(percentage * -mGrid.getColSpanWidth(0, 1));
-					}
-					else {
-						mTransitionFiltersC.setTranslationX(percentage * -mGrid.getColRight(0));
-						mTransitionListC.setTranslationX(percentage * -mGrid.getColRight(1));
-					}
+
+					mTransitionFiltersC.setTranslationX(percentage * -mGrid.getColSpanWidth(0, 1));
+					mTransitionListC.setTranslationX(percentage * -mGrid.getColSpanWidth(0, 1));
+
 
 					if (mTransitionDetailsFrag != null) {
 						int detailsTranslateDistance = mGrid.getColSpanWidth(1, 4);
@@ -1242,19 +1216,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 					mFlightOneDetailsFrag.setAddToTripFromDetailsAnimationState(percentage);
 				}
 				else {
-					if (mGrid.isLandscape()) {
-						mFlightOneDetailsFrag.setAddToTripFromDepartureAnimationState(percentage);
-					}
+					mFlightOneDetailsFrag.setAddToTripFromDepartureAnimationState(percentage);
 					mFlightTwoDetailsFrag.setAddToTripFromDetailsAnimationState(percentage);
 				}
 
 				//Move flight list out of view
 				float flightListTranslationX = -mGrid.getColWidth(0) + -percentage
 					* mGrid.getColWidth(0);
-
-				if (!mGrid.isLandscape()) {
-					flightListTranslationX = -mGrid.getColRight(1);
-				}
 
 				if (stateOne == ResultsFlightsState.FLIGHT_ONE_DETAILS) {
 					mFlightOneListC.setTranslationX(flightListTranslationX);
@@ -1496,18 +1464,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 
 		private void positionForDetails(ViewGroup filtersC, ViewGroup listC, ResultsFlightDetailsFragment detailsFrag) {
-			if (mGrid.isLandscape()) {
-				filtersC.setTranslationX(-mGrid.getColWidth(0));
-				listC.setTranslationX(-mGrid.getColLeft(2));
-				int detailsTranslateDistance = mGrid.getColSpanWidth(1, 4);
-				detailsFrag.setDetailsSlideInAnimationState(1f, detailsTranslateDistance, true);
-			}
-			else {
-				filtersC.setTranslationX(-mGrid.getColWidth(0));
-				listC.setTranslationX(-mGrid.getColRight(1));
-				int detailsTranslateDistance = mGrid.getColWidth(0) + mGrid.getColWidth(1);
-				detailsFrag.setDetailsSlideInAnimationState(1f, detailsTranslateDistance, true);
-			}
+			filtersC.setTranslationX(-mGrid.getColWidth(0));
+			listC.setTranslationX(-mGrid.getColLeft(2));
+			int detailsTranslateDistance = mGrid.getColSpanWidth(1, 4);
+			detailsFrag.setDetailsSlideInAnimationState(1f, detailsTranslateDistance, true);
 		}
 
 		private void bindDataForDetails(ResultsFlightDetailsFragment detailsFrag, int pos) {

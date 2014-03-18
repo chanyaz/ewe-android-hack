@@ -705,48 +705,35 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
 			mGrid.setDimensions(totalWidth, totalHeight);
 
-			if (mGrid.isLandscape()) {
-				//3 rows (AB,top half, bottom half)
-				//5 columns - left, spacer,center,spacer,right
-				mGrid.setGridSize(3, 5);
+			//3 rows (AB,top half, bottom half)
+			//5 columns - left, spacer,center,spacer,right
+			mGrid.setGridSize(3, 5);
 
-				//The top row matches the height of the actionbar
-				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
-				mGrid.setRowPercentage(2, 0.5f);
+			//The top row matches the height of the actionbar
+			mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
+			mGrid.setRowPercentage(2, 0.5f);
 
-				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
-				mGrid.setColumnSize(1, spacerSize);
-				mGrid.setColumnSize(3, spacerSize);
+			int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
+			mGrid.setColumnSize(1, spacerSize);
+			mGrid.setColumnSize(3, spacerSize);
 
-				//Tell all of the containers where they belong
-				mGrid.setContainerToColumn(mLoadingC, 0);
-				mGrid.setContainerToColumn(mHotelListC, 0);
-				mGrid.setContainerToColumnSpan(mHotelFiltersC, 1, 2);
-				mGrid.setContainerToColumnSpan(mHotelFilteredCountC, 3, 4);
-				mGrid.setContainerToColumnSpan(mBgHotelMapC, 0, 4);
-				mGrid.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 4);
-				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 2, 4);
+			//Tell all of the containers where they belong
+			mGrid.setContainerToColumn(mLoadingC, 0);
+			mGrid.setContainerToColumn(mHotelListC, 0);
+			mGrid.setContainerToColumnSpan(mHotelFiltersC, 1, 2);
+			mGrid.setContainerToColumnSpan(mHotelFilteredCountC, 3, 4);
+			mGrid.setContainerToColumnSpan(mBgHotelMapC, 0, 4);
+			mGrid.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 4);
+			mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 2, 4);
 
-				//All of the views except for the map sit below the action bar
-				mGrid.setContainerToRow(mLoadingC, 2);
-				mGrid.setContainerToRowSpan(mHotelListC, 1, 2);
-				mGrid.setContainerToRowSpan(mHotelFiltersC, 1, 2);
-				mGrid.setContainerToRowSpan(mHotelFilteredCountC, 1, 2);
-				mGrid.setContainerToRowSpan(mBgHotelMapC, 0, 2);
-				mGrid.setContainerToRowSpan(mBgHotelMapTouchDelegateC, 0, 2);
-				mGrid.setContainerToRowSpan(mHotelRoomsAndRatesC, 1, 2);
-
-			}
-			else {
-				mGrid.setGridSize(2, 2);
-
-				mGrid.setContainerToColumn(mHotelListC, 0);
-				mGrid.setContainerToColumn(mHotelFiltersC, 1);
-				mGrid.setContainerToColumn(mHotelFilteredCountC, 0);
-				mGrid.setContainerToColumnSpan(mBgHotelMapC, 0, 1);
-				mGrid.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 1);
-				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 0, 1);
-			}
+			//All of the views except for the map sit below the action bar
+			mGrid.setContainerToRow(mLoadingC, 2);
+			mGrid.setContainerToRowSpan(mHotelListC, 1, 2);
+			mGrid.setContainerToRowSpan(mHotelFiltersC, 1, 2);
+			mGrid.setContainerToRowSpan(mHotelFilteredCountC, 1, 2);
+			mGrid.setContainerToRowSpan(mBgHotelMapC, 0, 2);
+			mGrid.setContainerToRowSpan(mBgHotelMapTouchDelegateC, 0, 2);
+			mGrid.setContainerToRowSpan(mHotelRoomsAndRatesC, 1, 2);
 
 			//tell the map where its bounds are
 			updateMapFragmentPositioningInfo(mMapFragment);
@@ -1049,22 +1036,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		private void setRoomsAndRatesAnimationHardwareRendering(boolean useHardwareLayer) {
 			int layerValue = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
 			mHotelRoomsAndRatesC.setLayerType(layerValue, null);
-			if (!mGrid.isLandscape()) {
-				mHotelListC.setLayerType(layerValue, null);
-			}
 		}
 
 		private void setRoomsAndRatesShownPercentage(float percentage) {
-			if (mGrid.isLandscape()) {
-				mHotelRoomsAndRatesC.setTranslationY(-(1f - percentage) * mGrid.getTotalHeight());
-			}
-			else {
-				float roomsAndRatesTransX = (1f - percentage) * mGrid.getTotalWidth();
-				float hotelListTransX = percentage * -mGrid.getColWidth(0);
-				mHotelRoomsAndRatesC.setTranslationX(roomsAndRatesTransX);
-				mHotelListC.setTranslationX(hotelListTransX);
-			}
-
+			mHotelRoomsAndRatesC.setTranslationY(-(1f - percentage) * mGrid.getTotalHeight());
 			mBgHotelMapDimmerDrawable.setPercentage(percentage);
 		}
 
