@@ -155,6 +155,9 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		registerStateListener(new StateListenerLogger<ResultsState>(), true);
 		registerStateListener(mStateListener, false);
 
+		//We want the up button
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+
 	}
 
 	@Override
