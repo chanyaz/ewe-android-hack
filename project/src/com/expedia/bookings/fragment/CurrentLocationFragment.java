@@ -19,12 +19,23 @@ public class CurrentLocationFragment extends Fragment
 	FusedLocationProviderFragment.FusedLocationProviderListener,
 	FragmentAvailabilityUtils.IFragmentAvailabilityProvider {
 
-	public interface ICurrentLocationListener {
-		public void onCurrentLocation(Location location, SuggestionV2 suggestion);
-	}
+	//Errors for reporting to the listener
+	public static final int ERROR_LOCATION_SERVICE = 1;//Service reports an error.
+	public static final int ERROR_LOCATION_DATA = 2;//We get back bad/missing data from location frag
+	public static final int ERROR_SUGGEST_SERVICE = 4;//Networking service failure
+	public static final int ERROR_SUGGEST_DATA = 8;//Invalid data returned from suggest service
 
+	//Frag tags
 	private static final String FTAG_CURLOCFRAG_LOCATION = "FTAG_CURLOCFRAG_LOCATION";
 	private static final String FTAG_CURLOCFRAG_LOC_SUG = "FTAG_CURLOCFRAG_LOC_SUG";
+
+
+	public interface ICurrentLocationListener {
+		public void onCurrentLocation(Location location, SuggestionV2 suggestion);
+
+		public void onCurrentLocationError(int errorCode);
+	}
+
 
 	//Frags
 	private FusedLocationProviderFragment mLocationFragment;
@@ -164,6 +175,7 @@ public class CurrentLocationFragment extends Fragment
 		}
 		else {
 			Log.e("onLocationSuggestion received a null suggestion");
+			mListener.onCurrentLocationError(ERROR_SUGGEST_DATA);
 		}
 	}
 
@@ -182,14 +194,15 @@ public class CurrentLocationFragment extends Fragment
 			mLocationSuggestionFragment.startOrRestart();
 		}
 		else {
-			//TODO: Try to fetch location again or something...
 			Log.e("onLocation received a null location");
+			mListener.onCurrentLocationError(ERROR_LOCATION_DATA);
 		}
 	}
 
 	@Override
 	public void onError() {
 		Log.e("Fused Location Provider - onError()");
+		mListener.onCurrentLocationError(ERROR_LOCATION_SERVICE);
 	}
 
 	@Override
@@ -202,11 +215,13 @@ public class CurrentLocationFragment extends Fragment
 				}
 				else {
 					Log.e("Suggestion for nearby search returned no results");
+					mListener.onCurrentLocationError(ERROR_SUGGEST_DATA);
 				}
 			}
 			else {
 				Log.e(
 					"Suggestion for nearby search returned a null response, an error response, or the response is not a SuggestionResponse");
+				mListener.onCurrentLocationError(ERROR_SUGGEST_SERVICE);
 			}
 		}
 	}

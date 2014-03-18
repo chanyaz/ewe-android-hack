@@ -58,7 +58,12 @@ public class ResultsWaypointFragment extends TabletWaypointFragment {
 
 		private WaypointChooserState translateState(ResultsSearchState state) {
 			if (state == ResultsSearchState.FLIGHT_ORIGIN || state == ResultsSearchState.DESTINATION) {
-				return WaypointChooserState.VISIBLE;
+				if (getState() == WaypointChooserState.VISIBLE || getState() == WaypointChooserState.LOADING_LOCATION) {
+					return getState();
+				}
+				else {
+					return WaypointChooserState.VISIBLE;
+				}
 			}
 			return WaypointChooserState.HIDDEN;
 		}

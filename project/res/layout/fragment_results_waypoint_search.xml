@@ -13,27 +13,40 @@
         android:id="@+id/search_bar_conatiner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_tablet_search_header"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp">
+        android:animateLayoutChanges="true"
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/waypoint_edit_text"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:textColor="@android:color/black"
             android:focusableInTouchMode="false"
             android:hint="@string/search_all_hint"
-            android:background="@null"
+            android:background="@drawable/bg_tablet_search_header"
             android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:drawableLeft="@drawable/ic_searchbox"
             android:drawablePadding="8dp"
             android:inputType="textNoSuggestions"
             android:imeOptions="actionSearch"
             android:singleLine="true"
             android:textSize="18dp" />
+
+        <ProgressBar
+            android:id="@+id/location_loading_progress"
+            android:layout_weight="0"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:gravity="center_vertical|right"
+            android:indeterminate="true"
+            android:visibility="gone" />
     </LinearLayout>
 
     <FrameLayout

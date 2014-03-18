@@ -212,7 +212,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	private StateListenerHelper<WaypointChooserState> mWaypointStateHelper = new StateListenerHelper<WaypointChooserState>() {
 		@Override
 		public void onStateTransitionStart(WaypointChooserState stateOne, WaypointChooserState stateTwo) {
-			if (stateTwo == WaypointChooserState.VISIBLE) {
+			if (stateTwo != WaypointChooserState.HIDDEN) {
 				mWaypointC.setVisibility(View.VISIBLE);
 				getActionBar().hide();
 			}
@@ -231,13 +231,13 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 		@Override
 		public void onStateFinalized(WaypointChooserState state) {
-			if (state == WaypointChooserState.VISIBLE) {
-				mWaypointC.setVisibility(View.VISIBLE);
-				getActionBar().hide();
-			}
-			else {
+			if (state == WaypointChooserState.HIDDEN) {
 				mWaypointC.setVisibility(View.INVISIBLE);
 				getActionBar().show();
+			}
+			else {
+				mWaypointC.setVisibility(View.VISIBLE);
+				getActionBar().hide();
 			}
 		}
 	};

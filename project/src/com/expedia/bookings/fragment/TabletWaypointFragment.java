@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -47,7 +48,7 @@ public class TabletWaypointFragment extends Fragment
 	private static final String FTAG_SUGGESTIONS = "FTAG_SUGGESTIONS";
 	private static final String FTAG_LOCATION = "FTAG_LOCATION";
 
-	private static final String STATE_WAITING_FOR_LOCATION = "STATE_WAITING_FOR_LOCATION";
+	private static final String STATE_WAYPOINT_CHOOSER_STATE = "STATE_WAYPOINT_CHOOSER_STATE";
 
 	public static interface ITabletWaypointFragmentListener {
 		public Rect getAnimOrigin();
@@ -65,12 +66,10 @@ public class TabletWaypointFragment extends Fragment
 	private ViewGroup mSearchBarC;
 	private ViewGroup mSuggestionsC;
 	private EditText mWaypointEditText;
+	private ProgressBar mLocationProgressBar;
 
 	private StateManager<WaypointChooserState> mStateManager = new StateManager<WaypointChooserState>(
 		WaypointChooserState.HIDDEN, this);
-
-	private boolean mWaitingForLocation;
-
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -91,10 +90,12 @@ public class TabletWaypointFragment extends Fragment
 		mWaypointEditText = Ui.findView(view, R.id.waypoint_edit_text);
 		mSearchBarC = Ui.findView(view, R.id.search_bar_conatiner);
 		mSuggestionsC = Ui.findView(view, R.id.suggestions_container);
+		mLocationProgressBar = Ui.findView(view, R.id.location_loading_progress);
 
 		//State
 		if (savedInstanceState != null) {
-			mWaitingForLocation = savedInstanceState.getBoolean(STATE_WAITING_FOR_LOCATION);
+			mStateManager.setDefaultState(
+				WaypointChooserState.valueOf(savedInstanceState.getString(STATE_WAYPOINT_CHOOSER_STATE)));
 		}
 
 		//Setup the suggestions fragment
@@ -140,7 +141,7 @@ public class TabletWaypointFragment extends Fragment
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putBoolean(STATE_WAITING_FOR_LOCATION, mWaitingForLocation);
+		outState.putString(STATE_WAYPOINT_CHOOSER_STATE, mStateManager.getState().name());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -178,6 +179,10 @@ public class TabletWaypointFragment extends Fragment
 		if (editText == mWaypointEditText) {
 			updateFilter(mSuggestionsFragment, editText.isFocusableInTouchMode() ? mWaypointEditText.getText()
 				: null);
+			//We were loading the location, but the user started typing, so lets not look like we are waiting on location
+			if (mStateManager.getState() == WaypointChooserState.LOADING_LOCATION) {
+				setState(WaypointChooserState.VISIBLE, false);
+			}
 		}
 
 	}
@@ -269,12 +274,13 @@ public class TabletWaypointFragment extends Fragment
 	@Override
 	public void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion) {
 		if (needsLocation(suggestion)) {
-			mWaitingForLocation = true;
+			//mWaitingForLocation = true;
 			//This will fire the listener when the location is found
+			setState(WaypointChooserState.LOADING_LOCATION, false);
 			mLocationFragment.getCurrentLocation();
 		}
 		else {
-			mWaitingForLocation = false;
+			setState(WaypointChooserState.VISIBLE, false);
 			mListener.onWaypointSearchComplete(this, suggestion);
 		}
 	}
@@ -328,48 +334,60 @@ public class TabletWaypointFragment extends Fragment
 
 		@Override
 		public void onStateTransitionStart(WaypointChooserState stateOne, WaypointChooserState stateTwo) {
-			mAnimFrom = mListener.getAnimOrigin();
-			mMultX = (mAnimFrom.width() / (float) mSearchBarC.getWidth());
-			mMultY = (mAnimFrom.height() / (float) mSearchBarC.getHeight());
+			if (transitionIsTopToBottom(stateOne, stateTwo)) {
+				mAnimFrom = mListener.getAnimOrigin();
+				mMultX = (mAnimFrom.width() / (float) mSearchBarC.getWidth());
+				mMultY = (mAnimFrom.height() / (float) mSearchBarC.getHeight());
 
-			mSuggestionsC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-			mBg.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-			mSearchBarC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+				mSuggestionsC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+				mBg.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+				mSearchBarC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
-			mSearchBarC.setPivotX(0);
-			mSearchBarC.setPivotY(0);
+				mSearchBarC.setPivotX(0);
+				mSearchBarC.setPivotY(0);
+			}
 		}
 
 		@Override
 		public void onStateTransitionUpdate(WaypointChooserState stateOne, WaypointChooserState stateTwo,
 			float percentage) {
-			float perc = stateTwo == WaypointChooserState.HIDDEN ? 1f - percentage : percentage;
+			if (transitionIsTopToBottom(stateOne, stateTwo)) {
+				float perc = stateTwo == WaypointChooserState.HIDDEN ? 1f - percentage : percentage;
 
-			float transX = (1f - perc) * (mAnimFrom.left - mSearchBarC.getLeft());
-			float transY = (1f - perc) * (mAnimFrom.bottom - (mSearchBarC.getBottom()));
-			float scaleX = mMultX + perc * (1f - mMultX);
-			float scaleY = mMultY + perc * (1f - mMultY);
+				float transX = (1f - perc) * (mAnimFrom.left - mSearchBarC.getLeft());
+				float transY = (1f - perc) * (mAnimFrom.bottom - (mSearchBarC.getBottom()));
+				float scaleX = mMultX + perc * (1f - mMultX);
+				float scaleY = mMultY + perc * (1f - mMultY);
 
-			mSearchBarC.setTranslationX(transX);
-			mSearchBarC.setTranslationY(transY);
-			mSearchBarC.setScaleX(scaleX);
-			mSearchBarC.setScaleY(scaleY);
-			mSuggestionsC.setTranslationY((1f - perc) * mSuggestionsC.getHeight());
-			mSearchBarC.setAlpha(perc);
-			mBg.setAlpha(perc);
+				mSearchBarC.setTranslationX(transX);
+				mSearchBarC.setTranslationY(transY);
+				mSearchBarC.setScaleX(scaleX);
+				mSearchBarC.setScaleY(scaleY);
+				mSuggestionsC.setTranslationY((1f - perc) * mSuggestionsC.getHeight());
+				mSearchBarC.setAlpha(perc);
+				mBg.setAlpha(perc);
+			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(WaypointChooserState stateOne, WaypointChooserState stateTwo) {
-			mSuggestionsC.setLayerType(View.LAYER_TYPE_NONE, null);
-			mBg.setLayerType(View.LAYER_TYPE_NONE, null);
-			mSearchBarC.setLayerType(View.LAYER_TYPE_NONE, null);
+			if (transitionIsTopToBottom(stateOne, stateTwo)) {
+				mSuggestionsC.setLayerType(View.LAYER_TYPE_NONE, null);
+				mBg.setLayerType(View.LAYER_TYPE_NONE, null);
+				mSearchBarC.setLayerType(View.LAYER_TYPE_NONE, null);
+			}
 		}
 
 		@Override
 		public void onStateFinalized(WaypointChooserState state) {
 			if (mRootC != null) {
-				if (state == WaypointChooserState.VISIBLE) {
+				if (state == WaypointChooserState.HIDDEN) {
+					mBg.setAlpha(0f);
+					mWaypointEditText.setText("");
+					mLocationProgressBar.setVisibility(View.GONE);
+					clearEditTextFocus(mWaypointEditText);
+				}
+				else {
 					mSearchBarC.setTranslationX(0);
 					mSearchBarC.setTranslationY(0);
 					mSearchBarC.setScaleX(1f);
@@ -377,15 +395,28 @@ public class TabletWaypointFragment extends Fragment
 					mSuggestionsC.setTranslationY(0);
 					mSearchBarC.setAlpha(1f);
 					mBg.setAlpha(1f);
+
+					if (state == WaypointChooserState.LOADING_LOCATION) {
+						mLocationProgressBar.setVisibility(View.VISIBLE);
+						mLocationFragment.getCurrentLocation();
+					}
+					else {
+						mLocationProgressBar.setVisibility(View.GONE);
+					}
+
 					requestEditTextFocus(mWaypointEditText);
-				}
-				else {
-					mBg.setAlpha(0f);
-					mWaypointEditText.setText("");
-					clearEditTextFocus(mWaypointEditText);
 				}
 			}
 		}
+
+		private boolean transitionIsTopToBottom(WaypointChooserState stateOne, WaypointChooserState stateTwo) {
+			return (stateOne == WaypointChooserState.HIDDEN && (stateTwo == WaypointChooserState.VISIBLE
+				|| stateTwo == WaypointChooserState.LOADING_LOCATION)) || (
+				(stateOne == WaypointChooserState.VISIBLE || stateOne == WaypointChooserState.LOADING_LOCATION)
+					&& stateTwo == WaypointChooserState.HIDDEN);
+		}
+
+
 	};
 
 	//////////////////////////////////////////////////////////////////////////
@@ -455,10 +486,14 @@ public class TabletWaypointFragment extends Fragment
 
 	@Override
 	public void onCurrentLocation(Location location, SuggestionV2 suggestion) {
-		if (mWaitingForLocation) {
-			mWaitingForLocation = false;
+		if (mStateManager.getState() == WaypointChooserState.LOADING_LOCATION) {
 			mListener.onWaypointSearchComplete(this, suggestion);
 		}
+	}
+
+	@Override
+	public void onCurrentLocationError(int errorCode) {
+		//TODO: HANDLE ERRORS
 	}
 
 }

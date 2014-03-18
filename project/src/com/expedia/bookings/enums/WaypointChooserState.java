@@ -5,5 +5,6 @@ package com.expedia.bookings.enums;
  */
 public enum WaypointChooserState {
 	HIDDEN,
-	VISIBLE
+	VISIBLE,
+	LOADING_LOCATION
 }

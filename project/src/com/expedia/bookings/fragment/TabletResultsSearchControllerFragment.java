@@ -777,4 +777,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			doSpUpdate();
 		}
 	}
+
+	@Override
+	public void onCurrentLocationError(int errorCode) {
+		//TODO: HANDLE ERRORS?
+	}
 }
