@@ -79,8 +79,8 @@
             android:gravity="center_vertical"
             android:text="?attr/hotelCheckoutLoginButtonText"
             android:textColor="#363636"
-            android:textSize="18sp"
-            app:textStyle="light" />
+            android:textSize="@dimen/login_button_text_size"
+            app:textStyle="@integer/login_button_text_style" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/login_blurb"

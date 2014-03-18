@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- login button font style: 0 = normal, 32 = light -->
+    <integer name="login_button_text_style">32</integer>
+
+</resources>
