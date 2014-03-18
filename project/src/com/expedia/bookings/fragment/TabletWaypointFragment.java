@@ -11,10 +11,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SuggestionV2;
@@ -90,7 +93,7 @@ public class TabletWaypointFragment extends Fragment
 		mSuggestionsC = Ui.findView(view, R.id.suggestions_container);
 
 		//State
-		if(savedInstanceState != null){
+		if (savedInstanceState != null) {
 			mWaitingForLocation = savedInstanceState.getBoolean(STATE_WAITING_FOR_LOCATION);
 		}
 
@@ -112,6 +115,9 @@ public class TabletWaypointFragment extends Fragment
 		// the UI properly to restore its state.
 		mWaypointEditText.addTextChangedListener(new MyWatcher(mWaypointEditText));
 
+		//Add the search action listener to the edit text
+		mWaypointEditText.setOnEditorActionListener(mSearchActionListener);
+
 		registerStateListener(mStateHelper, false);
 
 		return view;
@@ -132,7 +138,7 @@ public class TabletWaypointFragment extends Fragment
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState){
+	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(STATE_WAITING_FOR_LOCATION, mWaitingForLocation);
 	}
@@ -194,6 +200,26 @@ public class TabletWaypointFragment extends Fragment
 		}
 	}
 
+	private TextView.OnEditorActionListener mSearchActionListener = new TextView.OnEditorActionListener() {
+		@Override
+		public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+				if (mSuggestionsFragment != null && getState() == WaypointChooserState.VISIBLE) {
+					SuggestionV2 suggest = mSuggestionsFragment.getBestChoiceForFilter();
+					if (suggest != null) {
+						onSuggestionClicked(mSuggestionsFragment, suggest);
+						return true;
+					}
+					else {
+						Ui.showToast(getActivity(), R.string.waypoint_suggestion_fail);
+						requestEditTextFocus(mWaypointEditText);
+					}
+				}
+			}
+			return false;
+		}
+	};
+
 	//////////////////////////////////////////////////////////////////////////
 	// Formatting
 
@@ -242,11 +268,12 @@ public class TabletWaypointFragment extends Fragment
 
 	@Override
 	public void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion) {
-		if(needsLocation(suggestion)){
+		if (needsLocation(suggestion)) {
 			mWaitingForLocation = true;
 			//This will fire the listener when the location is found
 			mLocationFragment.getCurrentLocation();
-		}else{
+		}
+		else {
 			mWaitingForLocation = false;
 			mListener.onWaypointSearchComplete(this, suggestion);
 		}
@@ -259,7 +286,8 @@ public class TabletWaypointFragment extends Fragment
 	public Fragment getExisitingLocalInstanceFromTag(String tag) {
 		if (tag == FTAG_SUGGESTIONS) {
 			return mSuggestionsFragment;
-		}else if(tag == FTAG_LOCATION){
+		}
+		else if (tag == FTAG_LOCATION) {
 			return mLocationFragment;
 		}
 		return null;
@@ -269,7 +297,8 @@ public class TabletWaypointFragment extends Fragment
 	public Fragment getNewFragmentInstanceFromTag(String tag) {
 		if (tag == FTAG_SUGGESTIONS) {
 			return new SuggestionsFragment();
-		}else if(tag == FTAG_LOCATION){
+		}
+		else if (tag == FTAG_LOCATION) {
 			return new CurrentLocationFragment();
 		}
 		return null;
@@ -426,7 +455,7 @@ public class TabletWaypointFragment extends Fragment
 
 	@Override
 	public void onCurrentLocation(Location location, SuggestionV2 suggestion) {
-		if(mWaitingForLocation){
+		if (mWaitingForLocation) {
 			mWaitingForLocation = false;
 			mListener.onWaypointSearchComplete(this, suggestion);
 		}
