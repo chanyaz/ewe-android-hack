@@ -22,6 +22,9 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ResultsGuestPicker extends Fragment {
 
+	private static final String STATE_ADULT_COUNT = "STATE_ADULT_COUNT";
+	private static final String STATE_CHILDREN = "STATE_CHILDREN";
+
 	public static final int MAX_ADULTS = 6;
 	public static final int MAX_CHILDREN = 6;
 
@@ -34,7 +37,7 @@ public class ResultsGuestPicker extends Fragment {
 	private View mChildPlus;
 
 	private int mAdultCount;
-	private ArrayList<Integer> mChildren;
+	private ArrayList<Integer> mChildren = new ArrayList<Integer>();
 
 	private GuestsDialogFragment.GuestsDialogFragmentListener mListener;
 
@@ -52,6 +55,12 @@ public class ResultsGuestPicker extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+		if(savedInstanceState != null){
+			mAdultCount = savedInstanceState.getInt(STATE_ADULT_COUNT);
+			mChildren = savedInstanceState.getIntegerArrayList(STATE_CHILDREN);
+		}
+
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_results_guests, null);
 		mAdultRing = Ui.findView(mRootC, R.id.adults_ring);
 		mAdultMinus = Ui.findView(mRootC, R.id.adults_minus);
@@ -97,6 +106,13 @@ public class ResultsGuestPicker extends Fragment {
 	public void onResume() {
 		super.onResume();
 		bind();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState){
+		super.onSaveInstanceState(outState);
+		outState.putIntegerArrayList(STATE_CHILDREN, mChildren);
+		outState.putInt(STATE_ADULT_COUNT, mAdultCount);
 	}
 
 	private void initializeGuests(int initialAdultCount, List<Integer> initialChildren) {
