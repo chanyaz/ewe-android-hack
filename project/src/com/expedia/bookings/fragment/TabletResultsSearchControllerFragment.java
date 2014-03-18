@@ -518,7 +518,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			transaction, this, R.id.waypoint_container, false);
 
 		mCurrentLocationFragment = FragmentAvailabilityUtils
-			.setFragmentAvailability(!Sp.getParams().hasOrigin(), FTAG_ORIGIN_LOCATION, manager, transaction, this, 0, true);
+			.setFragmentAvailability(!Sp.getParams().hasOrigin(), FTAG_ORIGIN_LOCATION, manager, transaction, this, 0,
+				true);
 
 		transaction.commit();
 	}
@@ -583,29 +584,51 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateTransitionStart(ResultsState stateOne, ResultsState stateTwo) {
-			startStateTransition(translateState(stateOne), translateState(stateTwo));
+			if (reactToTransition(stateOne, stateTwo)) {
+				startStateTransition(translateState(stateOne), translateState(stateTwo));
+			}
 		}
 
 		@Override
 		public void onStateTransitionUpdate(ResultsState stateOne, ResultsState stateTwo, float percentage) {
-			updateStateTransition(translateState(stateOne), translateState(stateTwo), percentage);
+			if (reactToTransition(stateOne, stateTwo)) {
+				updateStateTransition(translateState(stateOne), translateState(stateTwo), percentage);
+			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(ResultsState stateOne, ResultsState stateTwo) {
-			endStateTransition(translateState(stateOne), translateState(stateTwo));
+			if (reactToTransition(stateOne, stateTwo)) {
+				endStateTransition(translateState(stateOne), translateState(stateTwo));
+			}
 		}
 
 		@Override
 		public void onStateFinalized(ResultsState state) {
+			ResultsSearchState lastState = mSearchStateManager.getState();
+			ResultsSearchState newState = translateState(state);
+			boolean lastStateUp = (lastState == ResultsSearchState.FLIGHTS_UP
+				|| lastState == ResultsSearchState.HOTELS_UP);
+			boolean newStateUp = (newState == ResultsSearchState.FLIGHTS_UP
+				|| newState == ResultsSearchState.HOTELS_UP);
 
-			boolean currentlyDown = mSearchStateManager.getState() != ResultsSearchState.FLIGHTS_UP
-				&& mSearchStateManager.getState() != ResultsSearchState.HOTELS_UP;
-			if (!mSearchStateManager.hasState() || !currentlyDown
-				|| translateState(state) != ResultsSearchState.DEFAULT) {
-				//We respond to things where we move from the up to the down state, but we dont listen to the parent
-				finalizeState(translateState(state));
+			//If we have not yet set a state, or if the Results state is moving between modes, we update our state, otherwise
+			//results state doesnt matter to us.
+			if (!mSearchStateManager.hasState() || (lastStateUp != newStateUp)) {
+				finalizeState(newState);
 			}
+		}
+
+		public boolean reactToTransition(ResultsState stateOne, ResultsState stateTwo) {
+			if (stateOne == ResultsState.OVERVIEW && (stateTwo == ResultsState.FLIGHTS
+				|| stateTwo == ResultsState.HOTELS)) {
+				return true;
+			}
+			else if ((stateOne == ResultsState.FLIGHTS || stateOne == ResultsState.HOTELS)
+				&& stateTwo == ResultsState.OVERVIEW) {
+				return true;
+			}
+			return false;
 		}
 
 		public ResultsSearchState translateState(ResultsState state) {
@@ -749,7 +772,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	@Override
 	public void onCurrentLocation(Location location, SuggestionV2 suggestion) {
-		if(!Sp.getParams().hasOrigin()){
+		if (!Sp.getParams().hasOrigin()) {
 			Sp.getParams().setOrigin(suggestion);
 			doSpUpdate();
 		}
