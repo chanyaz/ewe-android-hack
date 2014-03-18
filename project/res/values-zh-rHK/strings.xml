@@ -28,6 +28,8 @@
     <string name="end_date_optional">結束日期：(選填)</string>
     <!-- End date display, when there is an end date selected.  %s is the date, e.g. "End Date: September 15" -->
     <string name="end_date_TEMPLATE">結束日期：%s</string>
+    <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
+    <string name="fly_from_TEMPLATE">由%1$s起飛</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -92,7 +94,7 @@
     </plurals>
     <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
     <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
-    <!-- Trip To -->
+    <!-- Trip bucket title intro, "Trip To" (e.g., "Trip To New York, USA") -->
     <string name="trip_to">前往</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">您的行程留空了。</string>
@@ -106,6 +108,11 @@
     <string name="actionbar_tablet_results_hotels_title_TEMPLATE">%1$s酒店</string>
     <!-- Label for VIP badge -->
     <string name="VIP">VIP</string>
+    <!-- Loading Hotels and Flights… -->
+    <string name="loading_hotels_and_flights">正載入酒店和機票…</string>
+    <!-- Flight fare calendar header for a list of dates to fly -->
+    <string name="when_to_fly">出發日期</string>
+
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -140,6 +147,16 @@
     <string name="stops">停站數目</string>
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">航空公司</string>
+
+    <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
+    <plurals name="x_Stops_TEMPLATE">
+        <item quantity="zero">不停站</item>
+        <item quantity="one">%s 站</item>
+        <item quantity="two">%s 站</item>
+        <item quantity="few">%s 站</item>
+        <item quantity="many">%s 站</item>
+        <item quantity="other">%s 站</item>
+    </plurals>
 
     <!-- Header for a dropdown to select from a list of available departure airports -->
     <string name="departure_airports">出發機場</string>
@@ -182,6 +199,22 @@
     <!-- Tablet flight trip bucket -->
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">來回</string>
+    <!-- Label describing the total price of the flight or hotel that is going to be booked -->
+    <string name="total_with_tax">總計 (連稅)</string>
+
+    <!-- Tablet hotel trip bucket -->
+    <!-- Progress dialog text while creating a trip -->
+    <string name="spinner_text_hotel_create_trip">正在建立行程…</string>
+
+    <!-- Tablet Checkout -->
+    <!-- Actionbar Title - "Checkout" -->
+    <string name="Checkout">結帳</string>
+    <!-- Your Trip -->
+    <string name="your_trip">您的旅行</string>
+    <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
+    <string name="now_booking_TEMPLATE">立即預訂 &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights)" -->
+    <string name="dates_and_nights_TEMPLATE">%1$s (%2$s)</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -280,6 +313,8 @@
     <string name="find_itinerary_pound">尋找行程編號</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia 行程編號：</string>
+    <!-- Travelocity Itinerary -->
+    <string name="tvly_itinerary">Travelocity 行程編號：</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus 客戶支援</string>
     <!-- No upcoming trips -->
@@ -571,7 +606,7 @@
 
     <!-- Car category -->
     <!-- Car category: mini -->
-    <string name="car_category_mini">迷您車</string>
+    <string name="car_category_mini">迷你車</string>
     <!-- Car category: economy -->
     <string name="car_category_economy">經濟車</string>
     <!-- Car category: compact -->
@@ -587,7 +622,7 @@
     <!-- Car category: luxury -->
     <string name="car_category_luxury">豪華車</string>
     <!-- Car category: mini elite -->
-    <string name="car_category_mini_elite">迷您房車</string>
+    <string name="car_category_mini_elite">迷你房車</string>
     <!-- Car category: economy elite -->
     <string name="car_category_economy_elite">經濟房車</string>
     <!-- Car category: compact elite -->
@@ -733,7 +768,9 @@
     <!-- Link to more information about the hotel -->
     <string name="share_template_long_hotel_5_more_info">詳情\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">預訂酒店和機票，並查看及分享您的行程。立即下載免費的 Expedia 流動裝置應用程式吧！\n%s</string>
+    <string name="share_template_long_ad">預訂酒店和機票，並查看及分享您的行程。立即下載免費的 Expedia App 吧！\n%s</string>
+    <!-- Travelocity App download link -->
+    <string name="share_template_long_ad_tvly">預訂酒店和機票，並查看及分享您的行程。立即下載免費的 Travelocity App 吧！\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">我將於 %2$s 飛往%1$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -749,8 +786,26 @@
     <!-- Car rental share subject (no dates) -->
     <string name="share_template_subject_car_no_dates">我的租車資料</string>
     <!-- 1: vehicle type -->
-    <string name="share_template_short_car_type">我租了一部%1$s，</string>
-    <string name="share_template_short_car_type_an">我租了一部%1$s，</string>
+    <string name="share_template_short_car_type">我租了一部%1$s</string>
+    <string name="share_template_short_car_type_an">我租了一部%1$s</string>
+    <string name="share_template_short_car_type_mini">我租了一部迷你汽車</string>
+    <string name="share_template_short_car_type_compact">我租了一部小型汽車</string>
+    <string name="share_template_short_car_type_midsize">我租了一部中型汽車</string>
+    <string name="share_template_short_car_type_standard">我租了一部標準汽車</string>
+    <string name="share_template_short_car_type_fullsize">我租了一部全尺寸汽車</string>
+    <string name="share_template_short_car_type_premium">我租了一部高級汽車</string>
+    <string name="share_template_short_car_type_luxury">我租了一部豪華汽車</string>
+    <string name="share_template_short_car_type_special">我租了一部特別汽車</string>
+    <string name="share_template_short_car_type_mini_elite">我租了一部迷你房車</string>
+    <string name="share_template_short_car_type_compact_elite">我租了一部小型房車</string>
+    <string name="share_template_short_car_type_midsize_elite">我租了一部中型房車</string>
+    <string name="share_template_short_car_type_standard_elite">我租了一部標準房車</string>
+    <string name="share_template_short_car_type_fullsize_elite">我租了一部全尺寸房車</string>
+    <string name="share_template_short_car_type_premium_elite">我租了一部高級房車</string>
+    <string name="share_template_short_car_type_luxury_elite">我租了一部豪華房車</string>
+    <string name="share_template_short_car_type_economy">我租了一部經濟汽車</string>
+    <string name="share_template_short_car_type_economy_elite">我租了一部經濟房車</string>
+    <string name="share_template_short_car_type_oversize">我租了一部特大汽車</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">日期：%1$s – %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
@@ -1071,6 +1126,8 @@
     <string name="Amount_to_be_paid_now_TEMPLATE">現需支付金額：%1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">酒店將收取：%1$s</string>
+    <!-- "Finish Booking" button that appears after CVV is entered -->
+    <string name="Finish_Booking">完成預訂</string>
     <!-- Checkout menu item -->
     <string name="menu_checkout">結帳</string>
     <!-- Our best price gaurentee string -->
@@ -1099,6 +1156,15 @@
     <string name="please_use_the_roman_alphabet">請使用英文字母</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">請輸入有效的電郵地址</string>
+
+    <!-- Tablet Checkout Activity -->
+    <!-- Travelers -->
+    <string name="travelers">旅客</string>
+    <!-- Payment -->
+    <string name="payment">付款</string>
+    <!-- Enter Payment Information -->
+    <string name="enter_payment_information">輸入付款資料</string>
+
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -1245,6 +1311,15 @@
     <string name="only_if_applicable">修改 # (如適用)</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">正儲存旅客資料至您的帳戶…</string>
+    <!-- Traveler information Template. e.g. Traveler 2 Information -->
+    <string name="traveler_information_TEMPLATE">旅客 %1$s 資料</string>
+    <!-- Seating Preference -->
+    <string name="seating_preference">座位喜好</string>
+    <!-- Special Assistance -->
+    <string name="special_assistance">特別協助</string>
+    <!-- Add Redress # -->
+    <string name="add_redress_num">新增申訴號碼</string>
+
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -1412,6 +1487,12 @@
     <!-- Button label imploring users to pick flights due to unavailability -->
     <string name="pick_new_flights">選擇新的航班</string>
 
+    <!-- Hotel booking dialog errors -->
+    <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
+    <string name="error_hotel_no_longer_available">很抱歉，您預留這間客房的時間已過</string>
+    <!-- Button label imploring users to pick a new hotel room due to unavailability -->
+    <string name="pick_new_hotel">選擇另一間酒店</string>
+
     <!-- Credit card input section -->
     <string name="one">1</string>
     <string name="two">2</string>
@@ -1427,11 +1508,20 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
-    <string name="cvv_code_TEMPLATE">&lt;b&gt;%s&lt;/b&gt; 的 CVV 代碼</string>
+    <string name="cvv_code_TEMPLATE">&lt;center&gt;&lt;b&gt;%s 的 CVV 代碼&lt;/b&gt;&lt;/center&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">信用卡尾數：%s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">完成預訂</string>
+    <!-- Security label above signature strip on credit card mockup, on CVV screen -->
+    <string name="Authorized_Signature">授權簽署</string>
+    <!-- Security label below signature strip on credit card mockup, on CVV screen -->
+    <string name="Not_Valid_Unless_Signed">簽署後才可作實</string>
+    <!-- Hint on CVV fragment title for where to look for CVV code -->
+    <string name="See_back_of_card">請參閱信用卡背面</string>
+    <!-- Hint on CVV fragment title for where to look for CVV code -->
+    <string name="See_font_of_card">請參閱信用卡正面</string>
+
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -1683,9 +1773,16 @@
     <string name="vip_access_message">於 VIP Access 酒店，Expedia Elite Plus 會員可視乎入住時的供應情況而享有免費客房升級和其他優惠。</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">只查看 VIP Access 酒店</string>
+    <!-- ON and OFF text for toggle switches -->
+    <string name="switch_on">於</string>
+    <string name="switch_off">折扣</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
+    <!-- Discount percent shown in hotel results list -->
     <string name="minus_x_percent">-%2.0f%%</string>
+    <!-- Discount percent shown in hotel details fragment -->
+    <string name="x_percent_OFF_TEMPLATE">%2.0f%% 折扣</string>
+    <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% 的房客推薦這酒店。</string>
 
     <!-- Amenity strings -->
@@ -1907,6 +2004,8 @@
     <string name="confirmation_email">確認電郵</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">如對您的預訂有任何疑問，請致電 Expedia，電話：%s。</string>
+    <!-- Travelocity- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_tvly">如對您的預訂有任何疑問，請致電 Travelocity，電話：%s。</string>
 
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
@@ -1985,6 +2084,8 @@
     <string name="coupon_applied">已使用優惠券</string>
     <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
     <string name="coupon_saved_TEMPLATE">您慳了%s！</string>
+    <!-- Message shown when a coupon is being removed -->
+    <string name="coupon_removing_dialog">移除優惠券</string>
 
     <!-- Coupon Error Strings -->
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
@@ -2040,7 +2141,7 @@
     <!-- Label for "Expedia website" button in info page -->
     <string name="expedia_website">Expedia 網站</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">應用程式支援</string>
+    <string name="app_support">App 技術支援</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
@@ -2926,5 +3027,11 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="cd_share_menu_btn">按下即可查看行程分享選項</string>
+
+    <!-- Tablet Search Results Content Descriptions -->
+    <!-- Content description for Hotel Search Results -->
+    <string name="cd_tablet_results_hotel_list">酒店搜尋結果</string>
+    <!-- Content description for Flight Search Results -->
+    <string name="cd_tablet_results_flight_list">機票搜尋結果</string>
 
 </resources>

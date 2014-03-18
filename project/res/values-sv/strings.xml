@@ -28,6 +28,8 @@
     <string name="end_date_optional">Slutdatum: (valfritt)</string>
     <!-- End date display, when there is an end date selected.  %s is the date, e.g. "End Date: September 15" -->
     <string name="end_date_TEMPLATE">Slutdatum: %s</string>
+    <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
+    <string name="fly_from_TEMPLATE">Flyg från %1$s</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -92,7 +94,7 @@
     </plurals>
     <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
     <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
-    <!-- Trip To -->
+    <!-- Trip bucket title intro, "Trip To" (e.g., "Trip To New York, USA") -->
     <string name="trip_to">Resa till</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Din resa är tom.</string>
@@ -106,6 +108,11 @@
     <string name="actionbar_tablet_results_hotels_title_TEMPLATE">Hotell i %1$s</string>
     <!-- Label for VIP badge -->
     <string name="VIP">VIP</string>
+    <!-- Loading Hotels and Flights… -->
+    <string name="loading_hotels_and_flights">Hämtar flyg och hotell…</string>
+    <!-- Flight fare calendar header for a list of dates to fly -->
+    <string name="when_to_fly">Utresa</string>
+
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -140,6 +147,16 @@
     <string name="stops">Stopp</string>
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">Flygbolag</string>
+
+    <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
+    <plurals name="x_Stops_TEMPLATE">
+        <item quantity="zero">Inga stopp</item>
+        <item quantity="one">%s stopp</item>
+        <item quantity="two">%s stopp</item>
+        <item quantity="few">%s stopp</item>
+        <item quantity="many">%s stopp</item>
+        <item quantity="other">%s stopp</item>
+    </plurals>
 
     <!-- Header for a dropdown to select from a list of available departure airports -->
     <string name="departure_airports">Avgångsflygplatser</string>
@@ -182,6 +199,22 @@
     <!-- Tablet flight trip bucket -->
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Tur och retur</string>
+    <!-- Label describing the total price of the flight or hotel that is going to be booked -->
+    <string name="total_with_tax">Totalt med skatter</string>
+
+    <!-- Tablet hotel trip bucket -->
+    <!-- Progress dialog text while creating a trip -->
+    <string name="spinner_text_hotel_create_trip">Skapar resa…</string>
+
+    <!-- Tablet Checkout -->
+    <!-- Actionbar Title - "Checkout" -->
+    <string name="Checkout">Betala</string>
+    <!-- Your Trip -->
+    <string name="your_trip">Din resa</string>
+    <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
+    <string name="now_booking_TEMPLATE">Bokar nu &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights)" -->
+    <string name="dates_and_nights_TEMPLATE">%1$s (%2$s)</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -191,13 +224,13 @@
     <!-- Log in with facebook (button text) -->
     <string name="Log_in_with_Facebook">Logga in med Facebook</string>
     <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Hämtar information från facebook…</string>
+    <string name="fetching_facebook_info">Hämtar information från Facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
-    <string name="attempting_to_log_in_with_facebook">Försöker logga in dig med dina facebook-uppgifter…</string>
+    <string name="attempting_to_log_in_with_facebook">Försöker logga in dig med dina Facebook-uppgifter…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Vi har stött på ett ospecificerat fel. Försök igen senare.</string>
     <!-- Unable to log in to Facebook -->
-    <string name="unable_to_log_into_facebook">Inloggningen på facebook misslyckades.</string>
+    <string name="unable_to_log_into_facebook">Inloggningen på Facebook misslyckades.</string>
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">Inloggningen misslyckades. Om din e-postadress och ditt lösenord stämmer ber vi dig bekräfta att din app är inställd på rätt land.</string>
     <!-- Facebook connect expedia password hint -->
@@ -280,6 +313,8 @@
     <string name="find_itinerary_pound">Hitta resplan #</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedias resplansnummer</string>
+    <!-- Travelocity Itinerary -->
+    <string name="tvly_itinerary">Travelocity resplan #</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus kundsupport</string>
     <!-- No upcoming trips -->
@@ -734,6 +769,8 @@
     <string name="share_template_long_hotel_5_more_info">Mer information\n%s</string>
     <!-- App download link -->
     <string name="share_template_long_ad">Boka hotell och flyg samt se och dela dina resplaner Hämta Expedias gratisapp idag.\n%s</string>
+    <!-- Travelocity App download link -->
+    <string name="share_template_long_ad_tvly">Boka flyg och hotell och se och dela dina resplaner Hämta Travelocitys gratisapp idag.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Jag flyger till %1$s %2$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -751,6 +788,24 @@
     <!-- 1: vehicle type -->
     <string name="share_template_short_car_type">Jag har hyrt en %1$s</string>
     <string name="share_template_short_car_type_an">Jag har hyrt en %1$s</string>
+    <string name="share_template_short_car_type_mini">Jag har hyrt en minibil</string>
+    <string name="share_template_short_car_type_compact">Jag har hyrt en kompakt bil</string>
+    <string name="share_template_short_car_type_midsize">Jag har hyrt en mellanstor bil</string>
+    <string name="share_template_short_car_type_standard">Jag har hyrt en standardbil</string>
+    <string name="share_template_short_car_type_fullsize">Jag har hyrt en normalstor bil</string>
+    <string name="share_template_short_car_type_premium">Jag har hyrt en premiumbil</string>
+    <string name="share_template_short_car_type_luxury">Jag har hyrt en lyxbil</string>
+    <string name="share_template_short_car_type_special">Jag har hyrt en specialbil</string>
+    <string name="share_template_short_car_type_mini_elite">Jag har hyrt en minielitbil</string>
+    <string name="share_template_short_car_type_compact_elite">Jag har hyrt en kompakt elitbil</string>
+    <string name="share_template_short_car_type_midsize_elite">Jag har hyrt en mellanstor elitbil</string>
+    <string name="share_template_short_car_type_standard_elite">Jag har hyrt en standardelitbil</string>
+    <string name="share_template_short_car_type_fullsize_elite">Jag har hyrt en normalstor elitbil</string>
+    <string name="share_template_short_car_type_premium_elite">Jag har hyrt en premiumelitbil</string>
+    <string name="share_template_short_car_type_luxury_elite">Jag har hyrt en lyxelitbil</string>
+    <string name="share_template_short_car_type_economy">Jag har hyrt en ekonomibil</string>
+    <string name="share_template_short_car_type_economy_elite">Jag har hyrt en ekonomielitbil</string>
+    <string name="share_template_short_car_type_oversize">Jag har hyrt en stor bil</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">från %1$s – %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
@@ -1044,7 +1099,7 @@
         <item quantity="other">%1$d resenärer</item>
     </plurals>
     <!-- Checkout button text -->
-    <string name="checkout_btn">Utcheckning</string>
+    <string name="checkout_btn">Betala</string>
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">Kollar efter prisändringar</string>
     <!-- Price changed from -->
@@ -1071,8 +1126,10 @@
     <string name="Amount_to_be_paid_now_TEMPLATE">Belopp att betala nu %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">Hotellet debiterar följande: %1$s</string>
+    <!-- "Finish Booking" button that appears after CVV is entered -->
+    <string name="Finish_Booking">Avsluta bokning</string>
     <!-- Checkout menu item -->
-    <string name="menu_checkout">Utcheckning</string>
+    <string name="menu_checkout">Betala</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Prisgaranti</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
@@ -1100,6 +1157,15 @@
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Ange en giltig e-postadress</string>
 
+    <!-- Tablet Checkout Activity -->
+    <!-- Travelers -->
+    <string name="travelers">Resenärer</string>
+    <!-- Payment -->
+    <string name="payment">Betalning</string>
+    <!-- Enter Payment Information -->
+    <string name="enter_payment_information">Ange betalningsinformation</string>
+
+
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
     <string name="menu_done">Klar</string>
@@ -1118,7 +1184,7 @@
     <!-- Flight -->
     <string name="flight">Flyg</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE">resenär%1$d</string>
+    <string name="traveler_num_and_category_TEMPLATE">Resenär %1$d</string>
 
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
@@ -1242,9 +1308,18 @@
     <!-- Passport country / origin heading -->
     <string name="passport_country_origin">Passets utfärdandeland / hemland</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">Referensnummer (om du har ett)</string>
+    <string name="only_if_applicable">Redress-nummer (om du har ett)</string>
     <!-- Saving traveler info spinner dialog -->
-    <string name="saving_traveler">Sparar resenärsuppgifter på ditt konto…</string>
+    <string name="saving_traveler">Sparar resenärsinfo på ditt konto…</string>
+    <!-- Traveler information Template. e.g. Traveler 2 Information -->
+    <string name="traveler_information_TEMPLATE">Information för resenär %1$s</string>
+    <!-- Seating Preference -->
+    <string name="seating_preference">Platspreferens</string>
+    <!-- Special Assistance -->
+    <string name="special_assistance">Specialassistans</string>
+    <!-- Add Redress # -->
+    <string name="add_redress_num">Lägg till redress #</string>
+
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -1266,7 +1341,7 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Föredrar &lt;/font&gt;%1$s</string>
     <!-- loading traveler info -->
-    <string name="loading_traveler_info">Hämtar resenärs uppgifter…</string>
+    <string name="loading_traveler_info">Hämtar resenärens uppgifter…</string>
     <!-- Passport -->
     <string name="passport">Pass</string>
     <!-- Current traveler - <firstname> <lastname> -->
@@ -1412,6 +1487,12 @@
     <!-- Button label imploring users to pick flights due to unavailability -->
     <string name="pick_new_flights">Välj nya flyg</string>
 
+    <!-- Hotel booking dialog errors -->
+    <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
+    <string name="error_hotel_no_longer_available">Vi beklagar, vi kunde inte inte hålla rummet längre</string>
+    <!-- Button label imploring users to pick a new hotel room due to unavailability -->
+    <string name="pick_new_hotel">Välj ett nytt hotell</string>
+
     <!-- Credit card input section -->
     <string name="one">1</string>
     <string name="two">2</string>
@@ -1427,11 +1508,20 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
-    <string name="cvv_code_TEMPLATE">CVV-kod för &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="cvv_code_TEMPLATE">&lt;center&gt;CVV-kod för &lt;b&gt;%s&lt;/b&gt;&lt;/center&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">kortnummer slutar på %s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">Slutför bokning</string>
+    <!-- Security label above signature strip on credit card mockup, on CVV screen -->
+    <string name="Authorized_Signature">Auktoriserad signatur</string>
+    <!-- Security label below signature strip on credit card mockup, on CVV screen -->
+    <string name="Not_Valid_Unless_Signed">Ogiltig om den inte signeras</string>
+    <!-- Hint on CVV fragment title for where to look for CVV code -->
+    <string name="See_back_of_card">Se kortets baksida</string>
+    <!-- Hint on CVV fragment title for where to look for CVV code -->
+    <string name="See_font_of_card">Se kortets framsida</string>
+
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -1683,10 +1773,17 @@
     <string name="vip_access_message">På hotell med VIP Access får Expedia Elite Plus-medlemmar gratis rumsuppgraderingar och andra förmåner som är tillgängliga vid incheckning.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Endast hotell med VIP Access</string>
+    <!-- ON and OFF text for toggle switches -->
+    <string name="switch_on">AV</string>
+    <string name="switch_off">PÅ</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
+    <!-- Discount percent shown in hotel results list -->
     <string name="minus_x_percent">-%2.0f%%</string>
-    <string name="x_percent_guests_recommend">%2.0f%% av gästerna rekommenderar hotellet.</string>
+    <!-- Discount percent shown in hotel details fragment -->
+    <string name="x_percent_OFF_TEMPLATE">%2.0f%% RABATT</string>
+    <!-- Recommended string shown in hotel details -->
+    <string name="x_percent_guests_recommend">%2.0f%% rekommenderar det här hotellet.</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
@@ -1907,6 +2004,8 @@
     <string name="confirmation_email">Bokningsbekräftelse via e-post</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">Om du har några frågor gällande din bokning, ring Expedia på %s.</string>
+    <!-- Travelocity- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_tvly">Om du har frågor gällande din bokning, kan du ringa Travelocity på %s.</string>
 
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
@@ -1985,6 +2084,8 @@
     <string name="coupon_applied">Kupong har tillämpats</string>
     <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
     <string name="coupon_saved_TEMPLATE">Du sparade %s!</string>
+    <!-- Message shown when a coupon is being removed -->
+    <string name="coupon_removing_dialog">Raderar kupong</string>
 
     <!-- Coupon Error Strings -->
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
@@ -2821,7 +2922,7 @@
     <!-- Content description for action: Press to clear selected dates -->
     <string name="cd_flights_clear_selected_dates">Tryck för att rensa valda datum</string>
     <!-- Content description for action: Press to edit number of travelers -->
-    <string name="cd_flights_search_number_of_travelers_edit">Tryck för att rensa antalet resenärer</string>
+    <string name="cd_flights_search_number_of_travelers_edit">Tryck för att ändra antalet resenärer</string>
     <!-- Flight Search Results -->
     <!-- Content description for action: Press to return to flight search -->
     <string name="cd_flights_search_search_button">Tryck för att gå tillbaka till flygsökningen</string>
@@ -2876,7 +2977,7 @@
     <!-- Content description for action: Press to edit traveler information -->
     <string name="cd_traveler_edit_traveler_information">Tryck för att ändra resenärsinfo</string>
     <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="cd_traveler_edit_passport_country">Ange utfärdandeland för resenärens pass</string>
+    <string name="cd_traveler_edit_passport_country">Ändra utfärdandeland för resenärens pass</string>
     <!-- Traveler Information edit/entry screen -->
     <!-- Content description for action: Enter first name -->
     <string name="cd_traveler_first_name_edit_text">Ange förnamn</string>
@@ -2896,7 +2997,7 @@
     <!-- Content description for action: Press to select traveler's gender -->
     <string name="cd_traveler_gender_edit">Tryck för att välja resenärens kön</string>
     <!-- Content description for action: Enter redress number, if applicable -->
-    <string name="cd_traveler_redress_number_edit_text">Ange \&apos;redress number\&apos;, ej obligatoriskt</string>
+    <string name="cd_traveler_redress_number_edit_text">Ange \&apos;redress-nummer\&apos;, ej obligatoriskt</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
     <string name="cd_traveler_special_assistance_edit">Välj typ av specialassistans som resenären behöver</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
@@ -2926,5 +3027,11 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="cd_share_menu_btn">Tryck för att se alternativ för resplansdelning</string>
+
+    <!-- Tablet Search Results Content Descriptions -->
+    <!-- Content description for Hotel Search Results -->
+    <string name="cd_tablet_results_hotel_list">Resultat för din hotellsökning</string>
+    <!-- Content description for Flight Search Results -->
+    <string name="cd_tablet_results_flight_list">Resultat för din flygsökning</string>
 
 </resources>

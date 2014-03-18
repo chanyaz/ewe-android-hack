@@ -28,6 +28,8 @@
     <string name="end_date_optional">วันสิ้นสุด: (ไม่บังคับ)</string>
     <!-- End date display, when there is an end date selected.  %s is the date, e.g. "End Date: September 15" -->
     <string name="end_date_TEMPLATE">วันสิ้นสุด: %s</string>
+    <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
+    <string name="fly_from_TEMPLATE">บินจาก%1$s</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -92,7 +94,7 @@
     </plurals>
     <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
     <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
-    <!-- Trip To -->
+    <!-- Trip bucket title intro, "Trip To" (e.g., "Trip To New York, USA") -->
     <string name="trip_to">ทริปไปยัง</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">ทริปของคุณว่างเปล่า</string>
@@ -106,6 +108,11 @@
     <string name="actionbar_tablet_results_hotels_title_TEMPLATE">โรงแรมใน%1$s</string>
     <!-- Label for VIP badge -->
     <string name="VIP">VIP</string>
+    <!-- Loading Hotels and Flights… -->
+    <string name="loading_hotels_and_flights">กำลังโหลดโรงแรมและเที่ยวบิน…</string>
+    <!-- Flight fare calendar header for a list of dates to fly -->
+    <string name="when_to_fly">ต้องการบินเมื่อไหร่</string>
+
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -140,6 +147,16 @@
     <string name="stops">แวะพัก</string>
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">สายการบิน</string>
+
+    <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
+    <plurals name="x_Stops_TEMPLATE">
+        <item quantity="zero">ไม่แวะพัก</item>
+        <item quantity="one">%s แวะพัก</item>
+        <item quantity="two">%s แวะพัก</item>
+        <item quantity="few">%s แวะพัก</item>
+        <item quantity="many">%s แวะพัก</item>
+        <item quantity="other">%s แวะพัก</item>
+    </plurals>
 
     <!-- Header for a dropdown to select from a list of available departure airports -->
     <string name="departure_airports">สนามบินต้นทาง</string>
@@ -182,6 +199,22 @@
     <!-- Tablet flight trip bucket -->
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">ไป-กลับ</string>
+    <!-- Label describing the total price of the flight or hotel that is going to be booked -->
+    <string name="total_with_tax">ราคารวมภาษี</string>
+
+    <!-- Tablet hotel trip bucket -->
+    <!-- Progress dialog text while creating a trip -->
+    <string name="spinner_text_hotel_create_trip">กำลังสร้างการเดินทาง …</string>
+
+    <!-- Tablet Checkout -->
+    <!-- Actionbar Title - "Checkout" -->
+    <string name="Checkout">จอง</string>
+    <!-- Your Trip -->
+    <string name="your_trip">การเดินทางของคุณ</string>
+    <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
+    <string name="now_booking_TEMPLATE">จอง &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights)" -->
+    <string name="dates_and_nights_TEMPLATE">%1$s (%2$s)</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -273,13 +306,15 @@
     <!-- Itinerary -->
     <string name="itinerary">แผนการเดินทาง</string>
     <!-- Shop -->
-    <string name="shop">ช้อป</string>
+    <string name="shop">จอง</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">ค้นหาแผนการเดินทาง</string>
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">ค้นหาหมายเลขแผนการเดินทาง</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">หมายเลขแผนการเดินทางเอ็กซ์พีเดีย</string>
+    <!-- Travelocity Itinerary -->
+    <string name="tvly_itinerary">หมายเลขแผนการเดินทาง Travelocity</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">ฝ่ายบริการลูกค้า Elite Plus</string>
     <!-- No upcoming trips -->
@@ -733,7 +768,9 @@
     <!-- Link to more information about the hotel -->
     <string name="share_template_long_hotel_5_more_info">ข้อมูลเพิ่มเติม\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">จองโรงแรม เที่ยวบิน ดูและแบ่งปันแผนการเดินทางของคุณ ดาวน์โหลดแอพฟรีสำหรับมือถือจากเอ็กซ์พีเดียวันนี้\n%s</string>
+    <string name="share_template_long_ad">จองโรงแรม เที่ยวบิน ดูและแบ่งปันแผนการเดินทางของคุณ ดาวน์โหลดแอพฟรีจากเอ็กซ์พีเดียวันนี้\n%s</string>
+    <!-- Travelocity App download link -->
+    <string name="share_template_long_ad_tvly">จองโรงแรม เที่ยวบิน ดูและแชร์แผนการเดินทางของคุณ ดาวน์โหลดแอพฟรีจาก Travelocity วันนี้\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">ฉันกำลังจะบินไป %1$s ในวันที่ %2$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -749,8 +786,26 @@
     <!-- Car rental share subject (no dates) -->
     <string name="share_template_subject_car_no_dates">รถเช่าของฉัน</string>
     <!-- 1: vehicle type -->
-    <string name="share_template_short_car_type">ฉันเช่า %1$s</string>
-    <string name="share_template_short_car_type_an">ฉันเช่า %1$s</string>
+    <string name="share_template_short_car_type">ฉันเช่า%1$s</string>
+    <string name="share_template_short_car_type_an">ฉันเช่า%1$s</string>
+    <string name="share_template_short_car_type_mini">ฉันเช่ารถขนาดมินิ</string>
+    <string name="share_template_short_car_type_compact">ฉันเช่ารถขนาดเล็ก</string>
+    <string name="share_template_short_car_type_midsize">ฉันเช่ารถขนาดกลาง</string>
+    <string name="share_template_short_car_type_standard">ฉันเช่ารถขนาดมาตรฐาน</string>
+    <string name="share_template_short_car_type_fullsize">ฉันเช่ารถขนาดใหญ่</string>
+    <string name="share_template_short_car_type_premium">ฉันเช่ารถระดับพรีเมียม</string>
+    <string name="share_template_short_car_type_luxury">ฉันเช่ารถหรู</string>
+    <string name="share_template_short_car_type_special">ฉันเช่ารถพิเศษ</string>
+    <string name="share_template_short_car_type_mini_elite">ฉันเช่ารถขนาดมินิแบบหรู</string>
+    <string name="share_template_short_car_type_compact_elite">ฉันเช่ารถขนาดเล็กแบบหรู</string>
+    <string name="share_template_short_car_type_midsize_elite">ฉันเช่ารถขนาดกลางแบบหรู</string>
+    <string name="share_template_short_car_type_standard_elite">ฉันเช่ารถขนาดมาตรฐานแบบหรู</string>
+    <string name="share_template_short_car_type_fullsize_elite">ฉันเช่ารถขนาดใหญ่แบบหรู</string>
+    <string name="share_template_short_car_type_premium_elite">ฉันเช่ารถพรีเมียมแบบหรู</string>
+    <string name="share_template_short_car_type_luxury_elite">ฉันเช่ารถเอลีทหรูหรา</string>
+    <string name="share_template_short_car_type_economy">ฉันเช่ารถประหยัดน้ำมัน</string>
+    <string name="share_template_short_car_type_economy_elite">ฉันเช่ารถประหยัดน้ำมันแบบหรู</string>
+    <string name="share_template_short_car_type_oversize">ฉันเช่ารถขนาดใหญ่พิเศษ</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">ตั้งแต่ %1$s - %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
@@ -941,7 +996,7 @@
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">ตั๋วเที่ยวเดียวในราคา &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Round trip from $994" -->
-    <string name="round_trip_price_TEMPLATE">ตั๋วไปกลับราคาเริ่มที่ &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="round_trip_price_TEMPLATE">ตั๋วไป-กลับเริ่มที่ &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">จองเลยในราคา &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
@@ -1044,7 +1099,7 @@
         <item quantity="other">ผู้เดินทาง %1$d คน</item>
     </plurals>
     <!-- Checkout button text -->
-    <string name="checkout_btn">เช็คเอาท์</string>
+    <string name="checkout_btn">จอง</string>
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">กำลังตรวจสอบการเปลี่ยนแปลงราคา…</string>
     <!-- Price changed from -->
@@ -1071,8 +1126,10 @@
     <string name="Amount_to_be_paid_now_TEMPLATE">จำนวนเงินที่ต้องชำระตอนนี้ %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">เรียกเก็บโดยโรงแรม: %1$s</string>
+    <!-- "Finish Booking" button that appears after CVV is entered -->
+    <string name="Finish_Booking">จองให้เสร็จ</string>
     <!-- Checkout menu item -->
-    <string name="menu_checkout">เช็คเอาท์</string>
+    <string name="menu_checkout">จอง</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">รับประกันราคาที่ดีที่สุด</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
@@ -1099,6 +1156,15 @@
     <string name="please_use_the_roman_alphabet">โปรดใช้ตัวอักษรภาษาอังกฤษ</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">โปรดป้อนอีเมลที่ถูกต้อง</string>
+
+    <!-- Tablet Checkout Activity -->
+    <!-- Travelers -->
+    <string name="travelers">ผู้เดินทาง</string>
+    <!-- Payment -->
+    <string name="payment">การชำระเงิน</string>
+    <!-- Enter Payment Information -->
+    <string name="enter_payment_information">ป้อนข้อมูลการชำระเงิน</string>
+
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -1150,7 +1216,7 @@
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
-    <string name="name_on_card_hint">ชื่อในบัตร</string>
+    <string name="name_on_card_hint">ชื่อบนบัตร</string>
     <!-- email hint -->
     <string name="email_address_hint">อีเมล</string>
     <!-- phone number hint -->
@@ -1178,7 +1244,7 @@
     <!-- Expiration date label -->
     <string name="expiration_date">วันหมดอายุ</string>
     <!-- Set expiration date button -->
-    <string name="btn_set">ตั้ง</string>
+    <string name="btn_set">เลือก</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -1240,11 +1306,20 @@
     <!-- Passport country label -->
     <string name="passport_country">ประเทศที่ทำหนังสือเดินทาง</string>
     <!-- Passport country / origin heading -->
-    <string name="passport_country_origin">ประเทศ / ต้นทางที่ทำหนังสือเดินทาง</string>
+    <string name="passport_country_origin">ต้นทาง/ประเทศที่ทำหนังสือเดินทาง</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">หมายเลข Redress (หากมี)</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">กำลังบันทึกข้อมูลของผู้เดินทางไว้ในบัญชีของคุณ…</string>
+    <!-- Traveler information Template. e.g. Traveler 2 Information -->
+    <string name="traveler_information_TEMPLATE">ข้อมูลผู้เดินทาง %1$s</string>
+    <!-- Seating Preference -->
+    <string name="seating_preference">เลือกที่นั่ง</string>
+    <!-- Special Assistance -->
+    <string name="special_assistance">ความช่วยเหลือพิเศษ</string>
+    <!-- Add Redress # -->
+    <string name="add_redress_num">เพิ่มหมายเลข Redress</string>
+
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -1412,6 +1487,12 @@
     <!-- Button label imploring users to pick flights due to unavailability -->
     <string name="pick_new_flights">เลือกเที่ยวบินใหม่</string>
 
+    <!-- Hotel booking dialog errors -->
+    <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
+    <string name="error_hotel_no_longer_available">ขออภัย ห้องที่คุณเลือกไม่มีแล้ว</string>
+    <!-- Button label imploring users to pick a new hotel room due to unavailability -->
+    <string name="pick_new_hotel">เลือกโรงแรมใหม่</string>
+
     <!-- Credit card input section -->
     <string name="one">1</string>
     <string name="two">2</string>
@@ -1427,11 +1508,20 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
-    <string name="cvv_code_TEMPLATE">รหัส CVV สำหรับ &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="cvv_code_TEMPLATE">&lt;center&gt;รหัส CVV สำหรับ &lt;b&gt;%s&lt;/b&gt;&lt;/center&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">บัตรลงท้ายด้วย %s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">จองให้เสร็จ</string>
+    <!-- Security label above signature strip on credit card mockup, on CVV screen -->
+    <string name="Authorized_Signature">ลายเซ็นต์ผู้ถือบัตร</string>
+    <!-- Security label below signature strip on credit card mockup, on CVV screen -->
+    <string name="Not_Valid_Unless_Signed">ใช้ไม่ได้หากไม่มีลายเซ็นต์</string>
+    <!-- Hint on CVV fragment title for where to look for CVV code -->
+    <string name="See_back_of_card">ดูด้านหลังบัตร</string>
+    <!-- Hint on CVV fragment title for where to look for CVV code -->
+    <string name="See_font_of_card">ดูด้านหน้าบัตร</string>
+
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -1683,9 +1773,16 @@
     <string name="vip_access_message">ที่โรงแรม VIP Access สมาชิก Expedia Elite Plus จะได้รับการอัพเกรดห้องพักฟรี รวมถึงสิทธิประโยชน์อื่นๆ ที่มีพร้อมบริการขณะเข้าเช็คอิน</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">โรงแรม VIP Access เท่านั้น</string>
+    <!-- ON and OFF text for toggle switches -->
+    <string name="switch_on">เปิด</string>
+    <string name="switch_off">ปิด</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
+    <!-- Discount percent shown in hotel results list -->
     <string name="minus_x_percent">-%2.0f%%</string>
+    <!-- Discount percent shown in hotel details fragment -->
+    <string name="x_percent_OFF_TEMPLATE">ลด %2.0f%%</string>
+    <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">ผู้เข้าพัก %2.0f%% แนะนำโรงแรมนี้</string>
 
     <!-- Amenity strings -->
@@ -1906,7 +2003,9 @@
     <!-- Confirmation email label -->
     <string name="confirmation_email">อีเมลยืนยัน</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">หากมีคำถามเกี่ยวกับการจอง โปรดติดต่อเอ็กซ์พีเดียที่%s</string>
+    <string name="contact_phone_template">หากคุณมีคำถามเกี่ยวกับการจอง โปรดโทรติดต่อเอ็กซ์พีเดียที่ %s</string>
+    <!-- Travelocity- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_tvly">หากคุณมีคำถามเกี่ยวกับการจอง โปรดโทรติดต่อ Travelocity ที่%s</string>
 
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
@@ -1958,7 +2057,7 @@
     <!-- Loading rewards points message -->
     <string name="loading_your_rewards_points">กำลังโหลดคะแนนของคุณ…</string>
     <!-- Label for account name -->
-    <string name="logged_in_as">เข้าสู่ระบบของ</string>
+    <string name="logged_in_as">เข้าสู่ระบบในฐานะ</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">บัญชีเอ็กซ์พีเดีย</string>
     <!-- Label for signin screen -->
@@ -1985,6 +2084,8 @@
     <string name="coupon_applied">ใช้คูปองแล้ว</string>
     <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
     <string name="coupon_saved_TEMPLATE">คุณประหยัด %s!</string>
+    <!-- Message shown when a coupon is being removed -->
+    <string name="coupon_removing_dialog">กำลังลบคูปอง</string>
 
     <!-- Coupon Error Strings -->
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
@@ -2164,11 +2265,11 @@
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
-    <string name="ean_error_no_results">ขออภัย ระบบไม่พบโรงแรมที่้มีห้องว่างตามวันเข้าพักที่คุณระบุ โปรดระบุวันเข้าพักและสถานที่ใหม่อีกครั้ง</string>
+    <string name="ean_error_no_results">ขออภัย เราไม่สามารถหาโรงแรมที่มีห้องว่างได้ในขณะนี้ โปรดลองเปลี่ยนวันเข้าพักหรือสถานที่ใหม่</string>
     <!-- Replaces "result was null" for no result search -->
     <string name="ean_error_connect_unavailable">ระบบไม่สามารถเชื่อมข้อมูลห้องว่างของโรงแรมที่เลือกได้</string>
     <!-- Error message displayed when the phone number sent via booking is invalid -->
-    <string name="ean_error_invalid_phone_number">โปรดระบุหมายเลขโทรศัพท์</string>
+    <string name="ean_error_invalid_phone_number">โปรดป้อนหมายเลขโทรศัพท์ที่ถูกต้อง</string>
 
     <!-- Checkout API method -->
     <!-- The hotel booking failed -->
@@ -2922,9 +3023,15 @@
     <string name="cd_card_info_billing_address_country">เลือกประเทศ</string>
     <!-- Common actionbar elements -->
     <!-- Content description for action: Press to go back to previous screen -->
-    <string name="cd_go_back">กดเพื่อกลับไปยังเพจก่อนหน้า</string>
+    <string name="cd_go_back">กดเพื่อกลับไปยังหน้าก่อนหน้านี้</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="cd_share_menu_btn">กดเพื่อดูตัวเลือกการแชร์แผนการเดินทาง</string>
+
+    <!-- Tablet Search Results Content Descriptions -->
+    <!-- Content description for Hotel Search Results -->
+    <string name="cd_tablet_results_hotel_list">ผลการค้นหาโรงแรม</string>
+    <!-- Content description for Flight Search Results -->
+    <string name="cd_tablet_results_flight_list">ผลการค้นหาเที่ยวบิน</string>
 
 </resources>

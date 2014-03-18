@@ -28,6 +28,8 @@
     <string name="end_date_optional">Slutdato: (valgfrit)</string>
     <!-- End date display, when there is an end date selected.  %s is the date, e.g. "End Date: September 15" -->
     <string name="end_date_TEMPLATE">Slutdato: %s</string>
+    <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
+    <string name="fly_from_TEMPLATE">Flyv fra %1$s</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -92,7 +94,7 @@
     </plurals>
     <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
     <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
-    <!-- Trip To -->
+    <!-- Trip bucket title intro, "Trip To" (e.g., "Trip To New York, USA") -->
     <string name="trip_to">Rejse til</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Din rejse er tom.</string>
@@ -106,6 +108,11 @@
     <string name="actionbar_tablet_results_hotels_title_TEMPLATE">Hoteller i %1$s</string>
     <!-- Label for VIP badge -->
     <string name="VIP">VIP</string>
+    <!-- Loading Hotels and Flights… -->
+    <string name="loading_hotels_and_flights">Henter hoteller og flyrejser…</string>
+    <!-- Flight fare calendar header for a list of dates to fly -->
+    <string name="when_to_fly">Afrejsedatoer</string>
+
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -140,6 +147,16 @@
     <string name="stops">Antal stop</string>
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">Flyselskaber</string>
+
+    <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
+    <plurals name="x_Stops_TEMPLATE">
+        <item quantity="zero">Ingen stop</item>
+        <item quantity="one">%s stop</item>
+        <item quantity="two">%s stop</item>
+        <item quantity="few">%s stop</item>
+        <item quantity="many">%s stop</item>
+        <item quantity="other">%s stop</item>
+    </plurals>
 
     <!-- Header for a dropdown to select from a list of available departure airports -->
     <string name="departure_airports">Afgangslufthavne</string>
@@ -182,6 +199,22 @@
     <!-- Tablet flight trip bucket -->
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Returrejse</string>
+    <!-- Label describing the total price of the flight or hotel that is going to be booked -->
+    <string name="total_with_tax">Samlet pris inkl. skat</string>
+
+    <!-- Tablet hotel trip bucket -->
+    <!-- Progress dialog text while creating a trip -->
+    <string name="spinner_text_hotel_create_trip">Opretter rejsen…</string>
+
+    <!-- Tablet Checkout -->
+    <!-- Actionbar Title - "Checkout" -->
+    <string name="Checkout">Til kassen</string>
+    <!-- Your Trip -->
+    <string name="your_trip">Din rejse</string>
+    <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
+    <string name="now_booking_TEMPLATE">Booker nu &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights)" -->
+    <string name="dates_and_nights_TEMPLATE">%1$s (%2$s)</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -280,6 +313,8 @@
     <string name="find_itinerary_pound">Find rejseplansnummer</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia-rejseplansnummer</string>
+    <!-- Travelocity Itinerary -->
+    <string name="tvly_itinerary">Travelocity-rejseplansnummer</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus-kundeservice</string>
     <!-- No upcoming trips -->
@@ -734,6 +769,8 @@
     <string name="share_template_long_hotel_5_more_info">Flere oplysninger\n%s</string>
     <!-- App download link -->
     <string name="share_template_long_ad">Book hoteller, flyrejser og se/del dine rejseplaner. Download Expedias gratis mobil-app i dag.\n%s</string>
+    <!-- Travelocity App download link -->
+    <string name="share_template_long_ad_tvly">Book hoteller, flyrejser og se/del dine rejseplaner. Download Travelocitys gratis mobil-app i dag.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Jeg rejser til %1$s d. %2$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -751,6 +788,24 @@
     <!-- 1: vehicle type -->
     <string name="share_template_short_car_type">Jeg har lejet en %1$s</string>
     <string name="share_template_short_car_type_an">Jeg har lejet en %1$s</string>
+    <string name="share_template_short_car_type_mini">Jeg har lejet en minibil</string>
+    <string name="share_template_short_car_type_compact">Jeg har lejet en kompakt bil</string>
+    <string name="share_template_short_car_type_midsize">Jeg har lejet en mellemstor bil</string>
+    <string name="share_template_short_car_type_standard">Jeg har lejet en standardbil</string>
+    <string name="share_template_short_car_type_fullsize">Jeg har lejet en stor bil</string>
+    <string name="share_template_short_car_type_premium">Jeg har lejet en Premium-bil</string>
+    <string name="share_template_short_car_type_luxury">Jeg har lejet en luksusbil</string>
+    <string name="share_template_short_car_type_special">Jeg har lejet en specialbil</string>
+    <string name="share_template_short_car_type_mini_elite">Jeg har lejet en Elite-minibil</string>
+    <string name="share_template_short_car_type_compact_elite">Jeg har lejet en kompakt Elite-bil</string>
+    <string name="share_template_short_car_type_midsize_elite">Jeg har lejet en mellemstor Elite-bil</string>
+    <string name="share_template_short_car_type_standard_elite">Jeg har lejet en Elite-standardbil</string>
+    <string name="share_template_short_car_type_fullsize_elite">Jeg har lejet en stor Elite-bil</string>
+    <string name="share_template_short_car_type_premium_elite">Jeg har lejet en Elite Premium-bil</string>
+    <string name="share_template_short_car_type_luxury_elite">Jeg har lejet en Elite luksusbil</string>
+    <string name="share_template_short_car_type_economy">Jeg har lejet en økonomibil</string>
+    <string name="share_template_short_car_type_economy_elite">Jeg har lejet en Elite-økonomibil</string>
+    <string name="share_template_short_car_type_oversize">Jeg har lejet en ekstra stor bil</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">fra %1$s – %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
@@ -1071,6 +1126,8 @@
     <string name="Amount_to_be_paid_now_TEMPLATE">Beløb til betaling nu %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">Opkræves på hotellet: %1$s</string>
+    <!-- "Finish Booking" button that appears after CVV is entered -->
+    <string name="Finish_Booking">Afslut reservation</string>
     <!-- Checkout menu item -->
     <string name="menu_checkout">Til kassen</string>
     <!-- Our best price gaurentee string -->
@@ -1099,6 +1156,15 @@
     <string name="please_use_the_roman_alphabet">Anvend latinske bogstaver</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Indtast en gyldig e-mailadresse</string>
+
+    <!-- Tablet Checkout Activity -->
+    <!-- Travelers -->
+    <string name="travelers">Rejsende</string>
+    <!-- Payment -->
+    <string name="payment">Betaling</string>
+    <!-- Enter Payment Information -->
+    <string name="enter_payment_information">Indtast betalingsoplysninger</string>
+
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -1245,6 +1311,15 @@
     <string name="only_if_applicable">Klagenummer (hvis relevant)</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">Gemmer oplysninger om rejsende på din konto…</string>
+    <!-- Traveler information Template. e.g. Traveler 2 Information -->
+    <string name="traveler_information_TEMPLATE">Oplysninger om rejsende %1$s</string>
+    <!-- Seating Preference -->
+    <string name="seating_preference">Pladspræferencer</string>
+    <!-- Special Assistance -->
+    <string name="special_assistance">Særlig assistance</string>
+    <!-- Add Redress # -->
+    <string name="add_redress_num">Tilføj klagenummer</string>
+
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -1412,6 +1487,12 @@
     <!-- Button label imploring users to pick flights due to unavailability -->
     <string name="pick_new_flights">Vælg nye fly</string>
 
+    <!-- Hotel booking dialog errors -->
+    <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
+    <string name="error_hotel_no_longer_available">Vi beklager meget, men tiden er udløbet, og værelset er ikke længere til rådighed</string>
+    <!-- Button label imploring users to pick a new hotel room due to unavailability -->
+    <string name="pick_new_hotel">Vælg et nyt hotel</string>
+
     <!-- Credit card input section -->
     <string name="one">1</string>
     <string name="two">2</string>
@@ -1427,11 +1508,20 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
-    <string name="cvv_code_TEMPLATE">Kontrolcifre for: &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="cvv_code_TEMPLATE">&lt;center&gt;Kontrolcifre for: &lt;b&gt;%s&lt;/b&gt;&lt;/center&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">kort, der ender med %s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">Færdiggør reservation</string>
+    <!-- Security label above signature strip on credit card mockup, on CVV screen -->
+    <string name="Authorized_Signature">Autoriseret underskrift</string>
+    <!-- Security label below signature strip on credit card mockup, on CVV screen -->
+    <string name="Not_Valid_Unless_Signed">Kun gyldig med underskrift</string>
+    <!-- Hint on CVV fragment title for where to look for CVV code -->
+    <string name="See_back_of_card">Se bagsiden af kortet</string>
+    <!-- Hint on CVV fragment title for where to look for CVV code -->
+    <string name="See_font_of_card">Se forsiden af kortet</string>
+
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -1683,9 +1773,16 @@
     <string name="vip_access_message">På VIP Access-hoteller kan Expedia Elite Plus-medlemmer få gratis værelsesopgraderinger og andre fordele, der er tilgængelige ved indtjekning.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Kun VIP Access-hoteller</string>
+    <!-- ON and OFF text for toggle switches -->
+    <string name="switch_on">TIL</string>
+    <string name="switch_off">FRA</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
+    <!-- Discount percent shown in hotel results list -->
     <string name="minus_x_percent">-%2.0f%%</string>
+    <!-- Discount percent shown in hotel details fragment -->
+    <string name="x_percent_OFF_TEMPLATE">SPAR %2.0f%%</string>
+    <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% af gæsterne anbefaler dette hotel.</string>
 
     <!-- Amenity strings -->
@@ -1907,6 +2004,8 @@
     <string name="confirmation_email">Bekræftelsesmail</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">Hvis du har spørgsmål til din reservation, så ring venligst til Expedia på %s.</string>
+    <!-- Travelocity- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_tvly">Hvis du har spørgsmål til din reservation, så ring venligst til Travelocity på %s</string>
 
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
@@ -1985,6 +2084,8 @@
     <string name="coupon_applied">Kupon anvendt</string>
     <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
     <string name="coupon_saved_TEMPLATE">Du har sparet %s!</string>
+    <!-- Message shown when a coupon is being removed -->
+    <string name="coupon_removing_dialog">Fjerner kupon</string>
 
     <!-- Coupon Error Strings -->
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
@@ -2926,5 +3027,11 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="cd_share_menu_btn">Tryk for at vise muligheder for at dele rejseplan</string>
+
+    <!-- Tablet Search Results Content Descriptions -->
+    <!-- Content description for Hotel Search Results -->
+    <string name="cd_tablet_results_hotel_list">Søgeresultater for hoteller</string>
+    <!-- Content description for Flight Search Results -->
+    <string name="cd_tablet_results_flight_list">Søgeresultater for flyrejser</string>
 
 </resources>

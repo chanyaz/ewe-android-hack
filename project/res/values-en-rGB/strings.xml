@@ -28,6 +28,8 @@
     <string name="end_date_optional">End Date: (Optional)</string>
     <!-- End date display, when there is an end date selected.  %s is the date, e.g. "End Date: September 15" -->
     <string name="end_date_TEMPLATE">End Date: %s</string>
+    <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
+    <string name="fly_from_TEMPLATE">Fly from %1$s</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -92,7 +94,7 @@
     </plurals>
     <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
     <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
-    <!-- Trip To -->
+    <!-- Trip bucket title intro, "Trip To" (e.g., "Trip To New York, USA") -->
     <string name="trip_to">Trip To</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Your trip is empty.</string>
@@ -106,6 +108,11 @@
     <string name="actionbar_tablet_results_hotels_title_TEMPLATE">%1$s Hotels</string>
     <!-- Label for VIP badge -->
     <string name="VIP">VIP</string>
+    <!-- Loading Hotels and Flights… -->
+    <string name="loading_hotels_and_flights">Loading Hotels and Flights…</string>
+    <!-- Flight fare calendar header for a list of dates to fly -->
+    <string name="when_to_fly">When To Fly</string>
+
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -140,6 +147,16 @@
     <string name="stops">Stops</string>
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">Airlines</string>
+
+    <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
+    <plurals name="x_Stops_TEMPLATE">
+        <item quantity="zero">No Stops</item>
+        <item quantity="one">%s Stop</item>
+        <item quantity="two">%s Stops</item>
+        <item quantity="few">%s Stops</item>
+        <item quantity="many">%s Stops</item>
+        <item quantity="other">%s Stops</item>
+    </plurals>
 
     <!-- Header for a dropdown to select from a list of available departure airports -->
     <string name="departure_airports">Departure Airports</string>
@@ -182,6 +199,22 @@
     <!-- Tablet flight trip bucket -->
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Return</string>
+    <!-- Label describing the total price of the flight or hotel that is going to be booked -->
+    <string name="total_with_tax">Total with tax</string>
+
+    <!-- Tablet hotel trip bucket -->
+    <!-- Progress dialog text while creating a trip -->
+    <string name="spinner_text_hotel_create_trip">Creating the trip …</string>
+
+    <!-- Tablet Checkout -->
+    <!-- Actionbar Title - "Checkout" -->
+    <string name="Checkout">Checkout</string>
+    <!-- Your Trip -->
+    <string name="your_trip">Your Trip</string>
+    <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
+    <string name="now_booking_TEMPLATE">Now Booking &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights)" -->
+    <string name="dates_and_nights_TEMPLATE">%1$s (%2$s)</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -280,6 +313,8 @@
     <string name="find_itinerary_pound">Find Itinerary #</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia Itinerary #</string>
+    <!-- Travelocity Itinerary -->
+    <string name="tvly_itinerary">Travelocity Itinerary #</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus Customer Support</string>
     <!-- No upcoming trips -->
@@ -734,6 +769,8 @@
     <string name="share_template_long_hotel_5_more_info">More Information\n%s</string>
     <!-- App download link -->
     <string name="share_template_long_ad">Book hotels, flights and view &amp; share your itineraries. Download the free Expedia mobile app today.\n%s</string>
+    <!-- Travelocity App download link -->
+    <string name="share_template_long_ad_tvly">Book hotels, flights and view &amp; share your itineraries. Download the free Travelocity mobile app today.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">I\&apos;m flying to %1$s on %2$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -751,6 +788,24 @@
     <!-- 1: vehicle type -->
     <string name="share_template_short_car_type">I\&apos;ve hired a %1$s</string>
     <string name="share_template_short_car_type_an">I\&apos;ve hired an %1$s</string>
+    <string name="share_template_short_car_type_mini">I\&apos;ve hired a Mini Car</string>
+    <string name="share_template_short_car_type_compact">I\&apos;ve hired a Compact Car</string>
+    <string name="share_template_short_car_type_midsize">I\&apos;ve hired a Mid-size Car</string>
+    <string name="share_template_short_car_type_standard">I\&apos;ve hired a Standard Car</string>
+    <string name="share_template_short_car_type_fullsize">I\&apos;ve hired a Full-size Car</string>
+    <string name="share_template_short_car_type_premium">I\&apos;ve hired a Premium Car</string>
+    <string name="share_template_short_car_type_luxury">I\&apos;ve hired a Luxury Car</string>
+    <string name="share_template_short_car_type_special">I\&apos;ve hired a Special Car</string>
+    <string name="share_template_short_car_type_mini_elite">I\&apos;ve hired a Mini Elite Car</string>
+    <string name="share_template_short_car_type_compact_elite">I\&apos;ve hired a Compact Elite Car</string>
+    <string name="share_template_short_car_type_midsize_elite">I\&apos;ve hired a Mid-size Elite Car</string>
+    <string name="share_template_short_car_type_standard_elite">I\&apos;ve hired a Standrd Elite Car</string>
+    <string name="share_template_short_car_type_fullsize_elite">I\&apos;ve hired a Full-size Elite Car</string>
+    <string name="share_template_short_car_type_premium_elite">I\&apos;ve hired a Premium Elite Car</string>
+    <string name="share_template_short_car_type_luxury_elite">I\&apos;ve hired a Luxury Elite Car</string>
+    <string name="share_template_short_car_type_economy">I\&apos;ve hired an Economy Car</string>
+    <string name="share_template_short_car_type_economy_elite">I\&apos;ve hired an Economy Elite Car</string>
+    <string name="share_template_short_car_type_oversize">I\&apos;ve hired an Oversized Car</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">from %1$s – %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
@@ -1071,6 +1126,8 @@
     <string name="Amount_to_be_paid_now_TEMPLATE">Amount to be paid now %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">To be collected by hotel: %1$s</string>
+    <!-- "Finish Booking" button that appears after CVV is entered -->
+    <string name="Finish_Booking">Finish Booking</string>
     <!-- Checkout menu item -->
     <string name="menu_checkout">Checkout</string>
     <!-- Our best price gaurentee string -->
@@ -1099,6 +1156,15 @@
     <string name="please_use_the_roman_alphabet">Please use the Roman alphabet</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Please enter a valid email address</string>
+
+    <!-- Tablet Checkout Activity -->
+    <!-- Travelers -->
+    <string name="travelers">Travellers</string>
+    <!-- Payment -->
+    <string name="payment">Payment</string>
+    <!-- Enter Payment Information -->
+    <string name="enter_payment_information">Enter payment information</string>
+
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -1245,6 +1311,15 @@
     <string name="only_if_applicable">Redress # (if applicable)</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">Saving traveller information to your account…</string>
+    <!-- Traveler information Template. e.g. Traveler 2 Information -->
+    <string name="traveler_information_TEMPLATE">Traveller %1$s Information</string>
+    <!-- Seating Preference -->
+    <string name="seating_preference">Seating Preference</string>
+    <!-- Special Assistance -->
+    <string name="special_assistance">Special Assistance</string>
+    <!-- Add Redress # -->
+    <string name="add_redress_num">Add Redress #</string>
+
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -1412,6 +1487,12 @@
     <!-- Button label imploring users to pick flights due to unavailability -->
     <string name="pick_new_flights">Pick New Flights</string>
 
+    <!-- Hotel booking dialog errors -->
+    <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
+    <string name="error_hotel_no_longer_available">We\&apos;re really sorry, your hold on this room has expired</string>
+    <!-- Button label imploring users to pick a new hotel room due to unavailability -->
+    <string name="pick_new_hotel">Pick a New Hotel</string>
+
     <!-- Credit card input section -->
     <string name="one">1</string>
     <string name="two">2</string>
@@ -1427,11 +1508,20 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
-    <string name="cvv_code_TEMPLATE">CVV code for &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="cvv_code_TEMPLATE">&lt;center&gt;CVV code for &lt;b&gt;%s&lt;/b&gt;&lt;/center&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">card ending in %s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">Complete Booking</string>
+    <!-- Security label above signature strip on credit card mockup, on CVV screen -->
+    <string name="Authorized_Signature">Authorized Signature</string>
+    <!-- Security label below signature strip on credit card mockup, on CVV screen -->
+    <string name="Not_Valid_Unless_Signed">Not Valid Unless Signed</string>
+    <!-- Hint on CVV fragment title for where to look for CVV code -->
+    <string name="See_back_of_card">See back of card</string>
+    <!-- Hint on CVV fragment title for where to look for CVV code -->
+    <string name="See_font_of_card">See front of card</string>
+
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -1683,9 +1773,16 @@
     <string name="vip_access_message">At VIP Access hotels, Expedia Elite Plus members receive free room upgrades and other perks upon availability at check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Only VIP Access Hotels</string>
+    <!-- ON and OFF text for toggle switches -->
+    <string name="switch_on">ON</string>
+    <string name="switch_off">OFF</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
+    <!-- Discount percent shown in hotel results list -->
     <string name="minus_x_percent">-%2.0f%%</string>
+    <!-- Discount percent shown in hotel details fragment -->
+    <string name="x_percent_OFF_TEMPLATE">%2.0f%% OFF</string>
+    <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% of guests recommend this hotel.</string>
 
     <!-- Amenity strings -->
@@ -1907,6 +2004,8 @@
     <string name="confirmation_email">Confirmation Email</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">If you have questions about your reservation, please call Expedia at %s.</string>
+    <!-- Travelocity- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_tvly">If you have questions about your reservation, please call Travelocity at %s.</string>
 
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
@@ -1985,6 +2084,8 @@
     <string name="coupon_applied">Coupon Applied</string>
     <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
     <string name="coupon_saved_TEMPLATE">You saved %s!</string>
+    <!-- Message shown when a coupon is being removed -->
+    <string name="coupon_removing_dialog">Removing coupon</string>
 
     <!-- Coupon Error Strings -->
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
@@ -2926,5 +3027,11 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="cd_share_menu_btn">Press to view itinerary sharing options</string>
+
+    <!-- Tablet Search Results Content Descriptions -->
+    <!-- Content description for Hotel Search Results -->
+    <string name="cd_tablet_results_hotel_list">Hotel Search Results</string>
+    <!-- Content description for Flight Search Results -->
+    <string name="cd_tablet_results_flight_list">Flight Search Results</string>
 
 </resources>

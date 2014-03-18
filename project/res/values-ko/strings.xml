@@ -28,6 +28,8 @@
     <string name="end_date_optional">완료일: (선택 사항)</string>
     <!-- End date display, when there is an end date selected.  %s is the date, e.g. "End Date: September 15" -->
     <string name="end_date_TEMPLATE">완료일: %s</string>
+    <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
+    <string name="fly_from_TEMPLATE">%1$s발 항공편</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -92,7 +94,7 @@
     </plurals>
     <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
     <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
-    <!-- Trip To -->
+    <!-- Trip bucket title intro, "Trip To" (e.g., "Trip To New York, USA") -->
     <string name="trip_to">여행 목적지:</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">고객님의 여행이 비어 있습니다.</string>
@@ -106,6 +108,11 @@
     <string name="actionbar_tablet_results_hotels_title_TEMPLATE">%1$s 호텔</string>
     <!-- Label for VIP badge -->
     <string name="VIP">VIP</string>
+    <!-- Loading Hotels and Flights… -->
+    <string name="loading_hotels_and_flights">호텔 및 항공편 로드 중…</string>
+    <!-- Flight fare calendar header for a list of dates to fly -->
+    <string name="when_to_fly">떠나는 날짜</string>
+
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
@@ -140,6 +147,16 @@
     <string name="stops">경유 횟수</string>
     <!-- Header for a flight filter, showing a list of flights from different airlines -->
     <string name="airlines">항공사</string>
+
+    <!-- Pluralization for number of stops (layovers) on a given flight "2 stops" -->
+    <plurals name="x_Stops_TEMPLATE">
+        <item quantity="zero">직항</item>
+        <item quantity="one">%s번 경유</item>
+        <item quantity="two">%s번 경유</item>
+        <item quantity="few">%s번 경유</item>
+        <item quantity="many">%s번 경유</item>
+        <item quantity="other">%s번 경유</item>
+    </plurals>
 
     <!-- Header for a dropdown to select from a list of available departure airports -->
     <string name="departure_airports">출발 공항</string>
@@ -182,6 +199,22 @@
     <!-- Tablet flight trip bucket -->
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">왕복</string>
+    <!-- Label describing the total price of the flight or hotel that is going to be booked -->
+    <string name="total_with_tax">세금 포함 총계</string>
+
+    <!-- Tablet hotel trip bucket -->
+    <!-- Progress dialog text while creating a trip -->
+    <string name="spinner_text_hotel_create_trip">여행 작성 중…</string>
+
+    <!-- Tablet Checkout -->
+    <!-- Actionbar Title - "Checkout" -->
+    <string name="Checkout">예약하기</string>
+    <!-- Your Trip -->
+    <string name="your_trip">내 여행</string>
+    <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
+    <string name="now_booking_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; 지금 예약</string>
+    <!-- Template for a string that describes a hotel stay, example: "August 8 - 10 (2 nights)" -->
+    <string name="dates_and_nights_TEMPLATE">%1$s (%2$s)</string>
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
@@ -280,6 +313,8 @@
     <string name="find_itinerary_pound">일정 번호 찾기</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia 일정 번호</string>
+    <!-- Travelocity Itinerary -->
+    <string name="tvly_itinerary">Travelocity 일정 번호</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus 고객 지원</string>
     <!-- No upcoming trips -->
@@ -734,6 +769,8 @@
     <string name="share_template_long_hotel_5_more_info">자세한 정보:\n%s</string>
     <!-- App download link -->
     <string name="share_template_long_ad">호텔과 항공편을 예약하고 일정을 확인 및 공유하실 수 있어요. 오늘 바로 Expedia 모바일 앱을 다운로드하세요.\n%s</string>
+    <!-- Travelocity App download link -->
+    <string name="share_template_long_ad_tvly">호텔과 항공편을 예약하고 일정을 확인 및 공유하실 수 있어요. 오늘 바로 무료 Travelocity 모바일 앱을 다운로드하세요.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">항공편으로 %1$s에 가요!(%2$s)</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -751,6 +788,24 @@
     <!-- 1: vehicle type -->
     <string name="share_template_short_car_type">제가 %1$s 차량을</string>
     <string name="share_template_short_car_type_an">제가 %1$s 차량을</string>
+    <string name="share_template_short_car_type_mini">미니카를 렌트했어요.</string>
+    <string name="share_template_short_car_type_compact">중소형차를 렌트했어요.</string>
+    <string name="share_template_short_car_type_midsize">중형차를 렌트했어요.</string>
+    <string name="share_template_short_car_type_standard">표준 차량을 렌트했어요.</string>
+    <string name="share_template_short_car_type_fullsize">대형차를 렌트했어요.</string>
+    <string name="share_template_short_car_type_premium">프리미엄 차량을 렌트했어요.</string>
+    <string name="share_template_short_car_type_luxury">고급대형차를 렌트했어요.</string>
+    <string name="share_template_short_car_type_special">스페셜 차량을 렌트했어요.</string>
+    <string name="share_template_short_car_type_mini_elite">미니 엘리트 차량을 렌트했어요.</string>
+    <string name="share_template_short_car_type_compact_elite">중소형 엘리트 차량을 렌트했어요.</string>
+    <string name="share_template_short_car_type_midsize_elite">중형 엘리트 차량을 렌트했어요.</string>
+    <string name="share_template_short_car_type_standard_elite">표준 엘리트 차량을 렌트했어요.</string>
+    <string name="share_template_short_car_type_fullsize_elite">대형 엘리트 차량을 렌트했어요.</string>
+    <string name="share_template_short_car_type_premium_elite">프리미엄 엘리트 차량을 렌트했어요.</string>
+    <string name="share_template_short_car_type_luxury_elite">고급대형 엘리트 차량을 렌트했어요.</string>
+    <string name="share_template_short_car_type_economy">소형차를 렌트했어요.</string>
+    <string name="share_template_short_car_type_economy_elite">소형 엘리트 차량을 렌트했어요.</string>
+    <string name="share_template_short_car_type_oversize">특대형차를 렌트했어요.</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">%1$s ~ %2$s 동안 예약했어요.</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
@@ -982,7 +1037,7 @@
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">기내 반입 휴대 수하물 요금이 적용됩니다.</string>
     <!-- A message for a flight that does not include baggage fees in the fare total -->
-    <string name="checked_baggage_not_included">체크인한 수하물은 포함되어 있지 않습니다.</string>
+    <string name="checked_baggage_not_included">위탁 수하물은 포함되어 있지 않습니다.</string>
     <!-- Payment and baggage fees may apply -->
     <string name="payment_and_baggage_fees_may_apply">결제 수수료가 적용될 수 있습니다.</string>
     <!-- Additional Flight fare fees -->
@@ -1071,6 +1126,8 @@
     <string name="Amount_to_be_paid_now_TEMPLATE">지금 결제할 금액은 %1$s입니다.</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">호텔에서 결제: %1$s</string>
+    <!-- "Finish Booking" button that appears after CVV is entered -->
+    <string name="Finish_Booking">예약 완료</string>
     <!-- Checkout menu item -->
     <string name="menu_checkout">예약하기</string>
     <!-- Our best price gaurentee string -->
@@ -1099,6 +1156,15 @@
     <string name="please_use_the_roman_alphabet">영문자를 사용해 주세요.</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">유효한 이메일 주소를 입력해 주세요.</string>
+
+    <!-- Tablet Checkout Activity -->
+    <!-- Travelers -->
+    <string name="travelers">여행객</string>
+    <!-- Payment -->
+    <string name="payment">결제</string>
+    <!-- Enter Payment Information -->
+    <string name="enter_payment_information">결제 정보 입력</string>
+
 
     <!-- Hotel Traveler Info Options Activity -->
     <!-- Done menu item -->
@@ -1245,6 +1311,15 @@
     <string name="only_if_applicable">리드레스 번호(해당하는 경우)</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">고객님 계정에 여행객 정보 저장 중…</string>
+    <!-- Traveler information Template. e.g. Traveler 2 Information -->
+    <string name="traveler_information_TEMPLATE">여행객 %1$s 정보</string>
+    <!-- Seating Preference -->
+    <string name="seating_preference">좌석 선호사항</string>
+    <!-- Special Assistance -->
+    <string name="special_assistance">특별 요청</string>
+    <!-- Add Redress # -->
+    <string name="add_redress_num">리드레스 번호 추가</string>
+
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -1412,6 +1487,12 @@
     <!-- Button label imploring users to pick flights due to unavailability -->
     <string name="pick_new_flights">새 항공편 선택</string>
 
+    <!-- Hotel booking dialog errors -->
+    <!-- Error shown to user if their hotel is no longer available (sold out, session expired, whatever) -->
+    <string name="error_hotel_no_longer_available">죄송스럽게도 이 객실에 대한 고객님의 확보가 만료되었습니다.</string>
+    <!-- Button label imploring users to pick a new hotel room due to unavailability -->
+    <string name="pick_new_hotel">새 호텔 선택</string>
+
     <!-- Credit card input section -->
     <string name="one">1</string>
     <string name="two">2</string>
@@ -1427,11 +1508,20 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
-    <string name="cvv_code_TEMPLATE">&lt;b&gt;%s&lt;/b&gt;의 CVC 번호</string>
+    <string name="cvv_code_TEMPLATE">&lt;center&gt;&lt;b&gt;%s&lt;/b&gt;의 CVC 번호&lt;/center&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">%s 번호로 끝나는 카드</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">예약 완료</string>
+    <!-- Security label above signature strip on credit card mockup, on CVV screen -->
+    <string name="Authorized_Signature">서명</string>
+    <!-- Security label below signature strip on credit card mockup, on CVV screen -->
+    <string name="Not_Valid_Unless_Signed">서명이 없는 경우 무효</string>
+    <!-- Hint on CVV fragment title for where to look for CVV code -->
+    <string name="See_back_of_card">카드 뒷면을 확인하세요.</string>
+    <!-- Hint on CVV fragment title for where to look for CVV code -->
+    <string name="See_font_of_card">카드 앞면을 확인하세요.</string>
+
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -1683,9 +1773,16 @@
     <string name="vip_access_message">VIP Access 호텔에서 Expedia Elite Plus 회원은 체크인 시 이용 가능한 경우 무료 객실 업그레이드와 기타 특전을 받으시게 됩니다.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">VIP Access 호텔만</string>
+    <!-- ON and OFF text for toggle switches -->
+    <string name="switch_on">켜기</string>
+    <string name="switch_off">끄기</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
+    <!-- Discount percent shown in hotel results list -->
     <string name="minus_x_percent">-%2.0f%%</string>
+    <!-- Discount percent shown in hotel details fragment -->
+    <string name="x_percent_OFF_TEMPLATE">%2.0f%% 할인</string>
+    <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">고객 중 %2.0f%%가 이 호텔을 추천하셨습니다!</string>
 
     <!-- Amenity strings -->
@@ -1907,6 +2004,8 @@
     <string name="confirmation_email">확인용 이메일</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
     <string name="contact_phone_template">예약 관련 문의 사항이 있으시면 Expedia 전화 %s번으로 연락해 주세요.</string>
+    <!-- Travelocity- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_tvly">예약 관련 문의 사항이 있으시면 Travelocity 전화 %s번으로 연락해 주세요.</string>
 
     <!-- Rate template strings -->
     <!-- Label for the number of guests the booking is for. -->
@@ -1985,34 +2084,36 @@
     <string name="coupon_applied">쿠폰 적용됨</string>
     <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
     <string name="coupon_saved_TEMPLATE">%s 할인되었습니다!</string>
+    <!-- Message shown when a coupon is being removed -->
+    <string name="coupon_removing_dialog">쿠폰 제거 중</string>
 
     <!-- Coupon Error Strings -->
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
     <string name="coupon_error_no_code">죄송합니다. 쿠폰을 적용할 수 없습니다.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">죄송합니다. 알 수 없는 쿠폰 코드입니다..</string>
+    <string name="coupon_error_unrecognized">죄송합니다. 알 수 없는 쿠폰 코드입니다.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">죄송합니다. 이 쿠폰은 만료되었습니다..</string>
+    <string name="coupon_error_expired">죄송합니다. 이 쿠폰은 만료되었습니다.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">죄송합니다. 문제가 있는 것 같습니다. 다시 시도해 주세요.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">죄송합니다. 이 쿠폰 코드는 이미 사용되었습니다..</string>
+    <string name="coupon_error_duplicate">죄송합니다. 이 쿠폰 코드는 이미 사용되었습니다.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">죄송합니다. 문제가 있는 것 같습니다. 다시 시도해 주세요.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">예약 비용이 변경되었기 때문에 쿠폰을 적용해 드리지 못했습니다. 확인하고 다시 시도해 주세요..</string>
+    <string name="coupon_error_price_change">예약 비용이 변경되었기 때문에 쿠폰을 적용해 드리지 못했습니다. 확인하고 다시 시도해 주세요.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">죄송합니다. 이 쿠폰 코드는 다른 국가용입니다..</string>
+    <string name="coupon_error_invalid_region">죄송합니다. 이 쿠폰 코드는 다른 국가용입니다.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">죄송합니다. 최소 숙박 일수를 선택하지 않으셨습니다..</string>
+    <string name="coupon_error_min_stay_not_met">죄송합니다. 최소 숙박 일수를 선택하지 않으셨습니다.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">죄송합니다. 이 쿠폰 코드는 이들 날짜에 사용하실 수 없습니다..</string>
+    <string name="coupon_error_invalid_travel_dates">죄송합니다. 이 쿠폰 코드는 이들 날짜에 사용하실 수 없습니다.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">죄송합니다. 이 호텔 예약에는 쿠폰을 사용하실 수 없습니다..</string>
+    <string name="coupon_error_invalid_product">죄송합니다. 이 호텔 예약에는 쿠폰을 사용하실 수 없습니다.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">죄송합니다. 최소 비용 요구 조건을 충족하지 않습니다..</string>
+    <string name="coupon_error_min_purchase_amount_not_met">죄송합니다. 최소 비용 요구 조건을 충족하지 않습니다.</string>
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
-    <string name="coupon_error_hotel_excluded">죄송합니다. 이 호텔 예약에는 쿠폰을 사용하실 수 없습니다..</string>
+    <string name="coupon_error_hotel_excluded">죄송합니다. 이 호텔 예약에는 쿠폰을 사용하실 수 없습니다.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">죄송합니다. 현재 쿠폰을 처리할 수 없습니다.  다시 시도해 주세요.</string>
 
@@ -2040,7 +2141,7 @@
     <!-- Label for "Expedia website" button in info page -->
     <string name="expedia_website">Expedia 웹사이트</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">앱 지원</string>
+    <string name="app_support">앱 기술 지원</string>
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hotels</string>
     <!-- Message body for "tell a friend" feature -->
@@ -2154,7 +2255,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s%2$s</string>
+    <string name="distance_template_short">%1$s %2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
@@ -2614,7 +2715,7 @@
     <!-- Your flight to _ now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_gate_GATE">고객님의 %1$s행 항공편이 게이트 %2$s에서 출발합니다.</string>
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
-    <string name="S_Push_baggage_BAGGAGE">수하물 찾는 곳 %1$s에서 고객님의 수하물을 찾으실 수 있습니다.</string>
+    <string name="S_Push_baggage_BAGGAGE">수하물 찾는 곳 %1$s에서 고객님의 짐을 찾으실 수 있습니다.</string>
 
     <!--
     Shortened Push Notification Loc Strings
@@ -2926,5 +3027,11 @@
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="cd_share_menu_btn">일정 공유 옵션을 보려면 누르세요.</string>
+
+    <!-- Tablet Search Results Content Descriptions -->
+    <!-- Content description for Hotel Search Results -->
+    <string name="cd_tablet_results_hotel_list">호텔 검색 결과</string>
+    <!-- Content description for Flight Search Results -->
+    <string name="cd_tablet_results_flight_list">항공편 검색 결과</string>
 
 </resources>
