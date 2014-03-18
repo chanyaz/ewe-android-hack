@@ -32,7 +32,6 @@ import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.section.AfterChangeTextWatcher;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
-import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 
@@ -56,7 +55,6 @@ public class TabletWaypointFragment extends Fragment
 		public void onWaypointSearchComplete(TabletWaypointFragment caller, SuggestionV2 suggest);
 	}
 
-	private GridManager mGrid = new GridManager();
 	private SuggestionsFragment mSuggestionsFragment;
 	private ITabletWaypointFragmentListener mListener;
 	private CurrentLocationFragment mLocationFragment;
@@ -416,6 +414,11 @@ public class TabletWaypointFragment extends Fragment
 					mLocationProgressBar.setVisibility(View.GONE);
 					clearEditTextFocus(mWaypointEditText);
 					setErrorMessage(null);
+					if (mSuggestionsFragment != null && mSuggestionsFragment.getListAdapter() != null
+						&& mSuggestionsFragment.getListAdapter().getCount() > 0) {
+						//Reset the scroll position of the suggestions frag
+						mSuggestionsFragment.setSelection(0);
+					}
 				}
 				else {
 					mSearchBarC.setTranslationX(0);
