@@ -54,6 +54,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	TabletWaypointFragment.ITabletWaypointFragmentListener,
 	CurrentLocationFragment.ICurrentLocationListener {
 
+	private static final String STATE_RESULTS_SEARCH_STATE = "STATE_RESULTS_SEARCH_STATE";
 	private static final String STATE_ANIM_FROM_ORIGIN = "STATE_ANIM_FROM_ORIGIN";
 
 	private static final String FTAG_CALENDAR = "FTAG_CALENDAR";
@@ -69,7 +70,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	//Containers
 	private ViewGroup mRootC;
-	private FrameLayoutTouchController mTopHalfC;
 	private FrameLayoutTouchController mSearchBarC;
 	private ViewGroup mRightButtonsC;
 	private FrameLayoutTouchController mWidgetC;
@@ -93,11 +93,21 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		if (savedInstanceState != null) {
+			mWaypointAnimFromOrigin = savedInstanceState.getBoolean(STATE_ANIM_FROM_ORIGIN, mWaypointAnimFromOrigin);
+			mSearchStateManager.setDefaultState(ResultsSearchState.valueOf(savedInstanceState.getString(
+				STATE_RESULTS_SEARCH_STATE,
+				ResultsSearchState.DEFAULT.name())));
+		}
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_tablet_results_search, null, false);
 
 		mRootC = Ui.findView(view, R.id.root_layout);
-		mTopHalfC = Ui.findView(view, R.id.top_half_container);
 		mSearchBarC = Ui.findView(view, R.id.search_bar_conatiner);
 		mRightButtonsC = Ui.findView(view, R.id.right_buttons_container);
 		mWidgetC = Ui.findView(view, R.id.widget_container);
@@ -118,10 +128,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		registerStateListener(mSearchStateHelper, false);
 		registerStateListener(new StateListenerLogger<ResultsSearchState>(), false);
-
-		if (savedInstanceState != null) {
-			mWaypointAnimFromOrigin = savedInstanceState.getBoolean(STATE_ANIM_FROM_ORIGIN, mWaypointAnimFromOrigin);
-		}
 
 		return view;
 	}
@@ -149,6 +155,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putBoolean(STATE_ANIM_FROM_ORIGIN, mWaypointAnimFromOrigin);
+		outState.putString(STATE_RESULTS_SEARCH_STATE, mSearchStateManager.getState().name());
 	}
 
 
@@ -437,13 +444,17 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 
 		private void setSlideUpAnimationPercentage(float percentage) {
-			int barTransDistance = mTopHalfC.getHeight() - mSearchBarC.getHeight();
+			//Grid manager dimensions work before onMeasure
+			int searchBarHeight = mGrid.getRowHeight(2);
+			int widgetHeight = mGrid.getRowSpanHeight(0, 3);
+			int barTransDistance = mGrid.getRowSpanHeight(0, 2);
+
 			mSearchBarC.setTranslationY(percentage * -barTransDistance);
-			mWidgetC.setTranslationY(percentage * mWidgetC.getHeight());
-			mDestBtn.setTranslationY(percentage * mSearchBarC.getHeight());
+			mWidgetC.setTranslationY(percentage * widgetHeight);
+			mDestBtn.setTranslationY(percentage * searchBarHeight);
 			mDestBtn.setAlpha(1f - percentage);
-			//TODO: Use better number (this is to move to the left of the action bar buttons)
-			mRightButtonsC.setTranslationX(percentage * -(getActivity().getActionBar().getHeight()));
+			//TODO: Use better number than searchBarHeight (this is to move to the left of the action bar buttons)
+			mRightButtonsC.setTranslationX(percentage * -searchBarHeight);
 		}
 
 		private void setSlideUpHotelsOnlyHardwareLayers(boolean enabled) {
@@ -645,7 +656,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			}
 			}
 		}
-
 	};
 
 
@@ -657,8 +667,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		@Override
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
 			mGrid.setDimensions(totalWidth, totalHeight);
-			mGrid.setNumRows(4);
-			mGrid.setNumCols(5);
+			mGrid.setNumRows(4);// 1 - 3 = top half, 4 = bottom half, 1 = AB, 2 = space, 3 = AB (down)
+			mGrid.setNumCols(5);//3 columns, 2 spacers
 
 			int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
 			mGrid.setColumnSize(1, spacerSize);
@@ -668,12 +678,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mGrid.setRowSize(2, getActivity().getActionBar().getHeight());
 			mGrid.setRowPercentage(3, 0.5f);
 
-			mGrid.setContainerToRowSpan(mTopHalfC, 0, 2);
+			mGrid.setContainerToRow(mSearchBarC, 2);
 			mGrid.setContainerToRowSpan(mWaypointC, 0, 3);
 			mGrid.setContainerToRow(mWidgetC, 3);
 			mGrid.setContainerToColumn(mWidgetC, 4);
-
-
 		}
 	};
 
