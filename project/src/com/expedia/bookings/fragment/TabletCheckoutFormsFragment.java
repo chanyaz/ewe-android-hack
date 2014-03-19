@@ -290,10 +290,10 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	protected void buildCheckoutForm() {
 		FragmentManager fragmentManager = getChildFragmentManager();
 
-		//CLEAN UP
+		// CLEAN UP
 		clearCheckoutForm();
 
-		//HEADING
+		// HEADING
 		String headingArg = "";
 		if (getLob() == LineOfBusiness.FLIGHTS) {
 			if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
@@ -311,20 +311,20 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		}
 		addGroupHeading(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, headingArg)));
 
-		//LOGIN CONTAINER
+		// LOGIN CONTAINER
 		FrameLayout frame = new FrameLayout(getActivity());
 		frame.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		frame.setId(LOGIN_FRAG_CONTAINER_ID);
 		add(frame);
 
-		//TRAVELER CONTAINERS
+		// TRAVELER CONTAINERS
 		populateTravelerData();
 		addGroupHeading(R.string.travelers);
 		for (int i = 0; i < Db.getTravelers().size(); i++) {
 			addTravelerView(i);
 		}
 
-		//PAYMENT CONTAINER
+		// PAYMENT CONTAINER
 		addGroupHeading(R.string.payment);
 		mPaymentView = new FrameLayout(getActivity());
 		mPaymentView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -337,7 +337,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			}
 		});
 
-		//COUPON CONTAINER
+		// COUPON CONTAINER
 		if (getLob() == LineOfBusiness.HOTELS) {
 			FrameLayout couponFrame = new FrameLayout(getActivity());
 			couponFrame.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -345,7 +345,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			add(couponFrame);
 		}
 
-		//LEGAL BLURB
+		// LEGAL BLURB
 		TextView legalBlurb = (TextView) addActionable(com.expedia.bookings.R.layout.include_tablet_legal_blurb_tv, new Runnable() {
 			@Override
 			public void run() {
@@ -395,8 +395,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		if (action != null) {
 			view.setOnClickListener(new OnClickListener() {
 				@Override
-				public void onClick(View arg0) {
-					arg0.post(action);
+				public void onClick(View view) {
+					view.post(action);
 				}
 			});
 		}
@@ -425,7 +425,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	protected void addTravelerView(final int travelerNumber) {
 
-		//Add the container to the layout (and make it actionable)
+		// Add the container to the layout (and make it actionable)
 		FrameLayout frame = new FrameLayout(getActivity());
 		frame.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		frame.setId(getTravelerButtonContainerId(travelerNumber));

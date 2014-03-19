@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <!-- Overview of all checkout information: logged in user, travelers, payment -->
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/checkout_forms_container"
@@ -14,39 +15,45 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="32dp"
-            android:paddingRight="32dp" />
+            android:paddingRight="32dp">
+
+            <!-- TabletCheckoutFormsFragment builds the checkout forms inside here, dynamically -->
+
+        </LinearLayout>
     </ScrollView>
+
+    <!-- Overlay for editing of a single checkout form: travelers, payment -->
 
     <FrameLayout
         android:id="@+id/overlay_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible" >
+        android:visibility="invisible">
 
         <com.expedia.bookings.widget.FrameLayoutTouchController
             android:id="@+id/overlay_shade"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#BB000000" />
+            android:background="#BB000000"/>
 
         <FrameLayout
             android:id="@+id/overlay_content_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp" >
+            android:layout_marginRight="32dp">
 
             <FrameLayout
                 android:id="@+id/traveler_form_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="invisible" />
+                android:visibility="invisible"/>
 
             <FrameLayout
                 android:id="@+id/payment_form_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="invisible" />
+                android:visibility="invisible"/>
         </FrameLayout>
     </FrameLayout>
 
