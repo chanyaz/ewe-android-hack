@@ -282,16 +282,16 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 						bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
 					}
 				}
-				mAccountButton.bind(false, true, Db.getUser(), true);
+				mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.FLIGHTS);
 			}
 			else {
 				//We thought the user was logged in, but the user appears to not contain the data we need, get rid of the user
 				User.signOut(getActivity());
-				mAccountButton.bind(false, false, null, true);
+				mAccountButton.bind(false, false, null, LineOfBusiness.FLIGHTS);
 			}
 		}
 		else {
-			mAccountButton.bind(false, false, null, true);
+			mAccountButton.bind(false, false, null, LineOfBusiness.FLIGHTS);
 		}
 	}
 
@@ -595,7 +595,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		}
 
 		// Update UI
-		mAccountButton.bind(false, false, null, true);
+		mAccountButton.bind(false, false, null, LineOfBusiness.FLIGHTS);
 
 		//After logout this will clear stored cards
 		populateTravelerData();
@@ -613,7 +613,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	}
 
 	public void onLoginCompleted() {
-		mAccountButton.bind(false, true, Db.getUser(), true);
+		mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.FLIGHTS);
 		mRefreshedUserTime = System.currentTimeMillis();
 
 		populateTravelerData();

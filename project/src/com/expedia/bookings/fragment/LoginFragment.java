@@ -259,7 +259,7 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			if (!mDoLoginExtenderWork && Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
 					&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
 				//We have a user (either from memory, or loaded from disk)
-				mAccountButton.bind(false, true, Db.getUser(), true);
+				mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.FLIGHTS);
 				mVisibilityState = VisibilityState.LOGGED_IN;
 			}
 		}
@@ -665,10 +665,10 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 		}
 
 		if (User.isLoggedIn(getActivity())) {
-			mAccountButton.bind(false, true, Db.getUser(), true);
+			mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.FLIGHTS);
 		}
 		else {
-			mAccountButton.bind(false, false, null, true);
+			mAccountButton.bind(false, false, null, LineOfBusiness.FLIGHTS);
 		}
 	}
 

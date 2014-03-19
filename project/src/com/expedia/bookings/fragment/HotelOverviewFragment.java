@@ -579,16 +579,16 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 						bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
 					}
 				}
-				mAccountButton.bind(false, true, Db.getUser(), false);
+				mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.HOTELS);
 			}
 			else {
 				//We thought the user was logged in, but the user appears to not contain the data we need, get rid of the user
 				User.signOutAsync(getActivity(), null);
-				mAccountButton.bind(false, false, null, false);
+				mAccountButton.bind(false, false, null, LineOfBusiness.HOTELS);
 			}
 		}
 		else {
-			mAccountButton.bind(false, false, null, false);
+			mAccountButton.bind(false, false, null, LineOfBusiness.HOTELS);
 		}
 	}
 

@@ -14,6 +14,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -93,7 +94,7 @@ public class AccountButton extends LinearLayout {
 		mListener = listener;
 	}
 
-	public void bind(boolean isLoading, boolean isLoggedIn, User u, boolean isFlights) {
+	public void bind(boolean isLoading, boolean isLoggedIn, User u, LineOfBusiness lob) {
 		Traveler traveler = null;
 		if (u != null) {
 			traveler = u.getPrimaryTraveler();
@@ -120,18 +121,19 @@ public class AccountButton extends LinearLayout {
 		// Login container
 		mLoginContainer.setVisibility(!isLoading && !isLoggedIn ? View.VISIBLE : View.GONE);
 		if (!isLoggedIn) {
-			bindLoginContainer(isFlights);
+			bindLoginContainer(lob);
 		}
 
 		// Logout container
 		mLogoutContainer.setVisibility(!isLoading && isLoggedIn ? View.VISIBLE : View.GONE);
 		if (isLoggedIn) {
-			bindLogoutContainer(traveler, isFlights, isElitePlusMember);
+			bindLogoutContainer(traveler, lob, isElitePlusMember);
 		}
 	}
 
 	// Do some runtime styling, based on whether this is a hotels or flights button
-	private void bindLoginContainer(boolean isFlights) {
+	private void bindLoginContainer(LineOfBusiness lob) {
+		boolean isFlights = lob == LineOfBusiness.FLIGHTS;
 		boolean isTablet = AndroidUtils.isTablet(getContext());
 
 		Resources res = getResources();
@@ -158,7 +160,8 @@ public class AccountButton extends LinearLayout {
 			: res.getColor(R.color.login_text_hotels));
 	}
 
-	private void bindLogoutContainer(Traveler traveler, boolean isFlights, boolean isElitePlusMember) {
+	private void bindLogoutContainer(Traveler traveler, LineOfBusiness lob, boolean isElitePlusMember) {
+		boolean isFlights = lob == LineOfBusiness.FLIGHTS;
 		boolean isTablet = AndroidUtils.isTablet(getContext());
 		boolean hasLoyaltyMembership = traveler.getLoyaltyMembershipNumber() != null;
 
@@ -256,7 +259,7 @@ public class AccountButton extends LinearLayout {
 	}
 
 	public void bind(boolean isLoading, boolean isLoggedIn, User u) {
-		bind(isLoading, isLoggedIn, u, false);
+		bind(isLoading, isLoggedIn, u, LineOfBusiness.FLIGHTS);
 	}
 
 	public void error() {
