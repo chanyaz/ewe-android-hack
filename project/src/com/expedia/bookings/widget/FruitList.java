@@ -11,8 +11,6 @@ import android.database.DataSetObserver;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,11 +32,6 @@ import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 public class FruitList extends ListView implements OnScrollListener, IStateProvider<ResultsListState> {
 	//Constants
 	private static final int DURATION_SNAP_TO_POS = 100;
-
-	//State
-	private static final String STATE_DEFAULT_SAVESTATE = "STATE_DEFAULT_SAVESTATE";
-	private static final String STATE_LOCKED_TO_TOP = "STATE_LOCKED_TO_TOP";
-	private static final String STATE_PERCENTAGE = "STATE_PERCENTAGE";
 
 	//Our heights
 	private int mTotalHeight = 0;
@@ -132,36 +125,6 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 		Adapter adapter = getAdapter();
 		if (adapter != null) {
 			adapter.unregisterDataSetObserver(mDataSetObserver);
-		}
-	}
-
-	/*
-	 * VIEW STATE
-	 */
-	@Override
-	public Parcelable onSaveInstanceState() {
-		Bundle state = new Bundle();
-
-		//super state.
-		state.putParcelable(STATE_DEFAULT_SAVESTATE, super.onSaveInstanceState());
-		state.putBoolean(STATE_LOCKED_TO_TOP, mListLockedToTop);
-		state.putFloat(STATE_PERCENTAGE, Math.round(mPercentage));
-
-		return state;
-	}
-
-	@Override
-	public void onRestoreInstanceState(Parcelable savedInstanceState) {
-		if (savedInstanceState instanceof Bundle) {
-			Bundle stateBundle = (Bundle) savedInstanceState;
-
-			super.onRestoreInstanceState(stateBundle.getParcelable(STATE_DEFAULT_SAVESTATE));
-
-			mPercentage = stateBundle.getFloat(STATE_PERCENTAGE);
-			mListLockedToTop = stateBundle.getBoolean(STATE_LOCKED_TO_TOP);
-		}
-		else {
-			super.onRestoreInstanceState(savedInstanceState);
 		}
 	}
 
