@@ -73,8 +73,6 @@ public class ResultsFlightFiltersFragment extends Fragment {
 
 		mSortGroup = Ui.findView(view, R.id.flight_sort_control);
 		mFilterGroup = Ui.findView(view, R.id.flight_filter_control);
-		mSortGroup.setOnCheckedChangeListener(mControlKnobListener);
-		mFilterGroup.setOnCheckedChangeListener(mControlKnobListener);
 
 		mFilterGroupHeader = Ui.findView(view, R.id.stops_header);
 
