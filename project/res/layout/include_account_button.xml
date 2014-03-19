@@ -78,7 +78,6 @@
             android:drawablePadding="@dimen/card_icon_padding"
             android:gravity="center_vertical"
             android:text="?attr/hotelCheckoutLoginButtonText"
-            android:textColor="#363636"
             android:textSize="@dimen/login_button_text_size"
             app:textStyle="@integer/login_button_text_style" />
 

@@ -63,6 +63,7 @@
     <color name="login_shade_flights">#32000000</color>
     <color name="login_text_hotels">#FFFFFF</color>
     <color name="login_text_flight">#232323</color>
+    <color name="login_text_tablet">#363636</color>
 
     <!-- CVV entry colors -->
     <color name="cvv_normal">#FFFFFF</color>

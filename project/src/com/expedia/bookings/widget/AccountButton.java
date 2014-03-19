@@ -155,9 +155,11 @@ public class AccountButton extends LinearLayout {
 			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
 				Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLoginLogoDrawable), 0, 0, 0);
 		}
-		mLoginTextView.setTextColor(isFlights
-			? res.getColor(R.color.login_text_flight)
-			: res.getColor(R.color.login_text_hotels));
+		mLoginTextView.setTextColor(res.getColor(isTablet
+			? R.color.login_text_tablet
+			: isFlights
+			? R.color.login_text_flight
+			: R.color.login_text_hotels));
 	}
 
 	private void bindLogoutContainer(Traveler traveler, LineOfBusiness lob, boolean isElitePlusMember) {
