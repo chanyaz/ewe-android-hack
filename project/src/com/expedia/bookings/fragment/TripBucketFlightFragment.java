@@ -235,6 +235,8 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 					// no price change occurred
 				}
 
+				// Coax a rebind
+				((TabletCheckoutControllerFragment)getParentFragment()).rebindCheckoutFragment();
 			}
 		}
 	};

@@ -271,6 +271,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			(getLob() == LineOfBusiness.HOTELS && mHotelBookingFrag.willBookViaGoogleWallet());
 	}
 
+	public void rebindCheckoutFragment() {
+		mCheckoutFragment.bindAll();
+	}
+
 	/*
 	 * BACK STACK MANAGEMENT
 	 */
