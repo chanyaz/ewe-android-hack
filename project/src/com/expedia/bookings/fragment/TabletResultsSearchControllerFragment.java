@@ -626,8 +626,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 			//If we have not yet set a state, or if the Results state is moving between modes, we update our state, otherwise
 			//results state doesnt matter to us.
-			if (!mSearchStateManager.hasState() || (lastStateUp != newStateUp)) {
-				mSearchStateManager.setState(newState, false);
+			if (lastStateUp != newStateUp) {
+				setState(newState, false);
+			}
+			else if (!mSearchStateManager.hasState()) {
+				setState(mSearchStateManager.getState(), false);
 			}
 		}
 
