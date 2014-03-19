@@ -97,7 +97,6 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		mStickyHeader.getViewTreeObserver().addOnPreDrawListener(mHeaderUpdater);
 
 		registerStateListener(new StateListenerLogger<T>(), false);
-		mListView.registerStateListener(mListStateHelper, false);
 		mListView.setListLockedToTop(mLockedToTop);
 		setStickyHeaderText(initializeStickyHeaderString());
 
@@ -110,6 +109,18 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		if (mListView != null) {
 			outState.putParcelable(STATE_LIST_STATE, mListView.onSaveInstanceState());
 		}
+	}
+
+	@Override
+	public void onResume(){
+		super.onResume();
+		mListView.registerStateListener(mListStateHelper, false);
+	}
+
+	@Override
+	public void onPause(){
+		mListView.unRegisterStateListener(mListStateHelper);
+		super.onPause();
 	}
 
 	@Override
