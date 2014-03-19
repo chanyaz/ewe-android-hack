@@ -84,11 +84,13 @@ public class AdTracker {
 		EasyTracker.getTracker().trackTransaction(transaction);
 
 		// Other
-		AdX.trackHotelBooked(Db.getHotelSearch(), currency, totalPrice, avgPrice);
+		String orderNumber = Db.getBookingResponse() != null ? Db.getBookingResponse().getOrderNumber() : "";
+		AdX.trackHotelBooked(Db.getHotelSearch(), orderNumber, currency, totalPrice, avgPrice);
 	}
 
 	public static void trackFlightBooked(String currency, double value, int days, String destAirport) {
-		AdX.trackFlightBooked(Db.getFlightSearch(), currency, value);
+		String orderNumber = Db.getFlightCheckout() != null ? Db.getFlightCheckout().getOrderId() : "";
+		AdX.trackFlightBooked(Db.getFlightSearch(), orderNumber, currency, value);
 	}
 
 	public static void trackHotelCheckoutStarted() {
