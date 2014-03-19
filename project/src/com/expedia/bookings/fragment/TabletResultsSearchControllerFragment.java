@@ -135,7 +135,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	@Override
 	public void onResume() {
 		super.onResume();
-		mResultsStateHelper.registerWithProvider(this);
+		mResultsStateHelper.registerWithProvider(this, false);
 		mMeasurementHelper.registerWithProvider(this);
 		mBackManager.registerWithParent(this);
 		Sp.getBus().register(this);

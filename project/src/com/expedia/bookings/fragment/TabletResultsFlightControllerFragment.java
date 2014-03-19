@@ -198,7 +198,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 	@Override
 	public void onResume() {
 		super.onResume();
-		mResultsStateHelper.registerWithProvider(this);
+		mResultsStateHelper.registerWithProvider(this, false);
 		mMeasurementHelper.registerWithProvider(this);
 		mBackManager.registerWithParent(this);
 		Sp.getBus().register(this);
@@ -719,11 +719,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 		}
 		else if (mFlightsStateManager.getState() == ResultsFlightsState.FLIGHT_ONE_FILTERS) {
 			//Animate the list down
-			mFlightsStateManager.setState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
+			setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
 		}
 		else {
 			//We are done but we don't know how to get back, so we just go back without animation.
-			mFlightsStateManager.setState(ResultsFlightsState.FLIGHT_LIST_DOWN, false);
+			setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, false);
 		}
 	}
 
@@ -772,7 +772,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 
 		private boolean getFlightsListActionsEnabled() {
 			ResultsFlightsState state = mFlightsStateManager.getState();
-			if (state == ResultsFlightsState.FLIGHT_ONE_FILTERS || state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+			if (mFlightsStateManager.hasState() && (state == ResultsFlightsState.FLIGHT_ONE_FILTERS
+				|| state == ResultsFlightsState.FLIGHT_LIST_DOWN)) {
 				return true;
 			}
 			return false;
@@ -837,12 +838,17 @@ public class TabletResultsFlightControllerFragment extends Fragment implements I
 			if (state != ResultsState.FLIGHTS) {
 				setFlightsState(getBaseState(), false);
 			}
-			else if (mFlightsStateManager.getState() == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-				setFlightsState(ResultsFlightsState.FLIGHT_ONE_FILTERS, false);
-			}
 			else {
-				//The activity is still telling us something, so we better refresh our state.
-				setFlightsState(mFlightsStateManager.getState(), false);
+				//We are in flights mode
+				if (mFlightsStateManager.hasState()
+					&& mFlightsStateManager.getState() == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+					//If we have a state, and that state is DOWN, lets go up
+					setFlightsState(ResultsFlightsState.FLIGHT_ONE_FILTERS, false);
+				}
+				else {
+					//The activity is still telling us something, so we better refresh our state.
+					setFlightsState(mFlightsStateManager.getState(), false);
+				}
 			}
 		}
 	};

@@ -93,7 +93,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	//Other
 	private GridManager mGrid = new GridManager();
 	private StateManager<ResultsState> mStateManager = new StateManager<ResultsState>(ResultsState.OVERVIEW, this);
-	private boolean mPreDrawInitComplete = false;
 	private boolean mBackButtonLocked = false;
 
 	private HockeyPuck mHockeyPuck;
@@ -152,7 +151,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		mHockeyPuck.onCreate(savedInstanceState);
 
 		//TODO: This is just for logging so it can be removed if we want to turn off state logging.
-		registerStateListener(new StateListenerLogger<ResultsState>(), true);
+		registerStateListener(new StateListenerLogger<ResultsState>(), false);
 		registerStateListener(mStateListener, false);
 
 		//We want the up button
@@ -173,13 +172,11 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		mRootC.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
-				if (!mPreDrawInitComplete) {
+				if (mRootC.getWidth() > 0 && mRootC.getHeight() > 0) {
 					updateContentSize(mRootC.getWidth(), mRootC.getHeight());
 					mStateManager.setState(mStateManager.getState(), false);
-					mPreDrawInitComplete = true;
+					mRootC.getViewTreeObserver().removeOnPreDrawListener(this);
 				}
-
-				mRootC.getViewTreeObserver().removeOnPreDrawListener(this);
 
 				return true;
 			}

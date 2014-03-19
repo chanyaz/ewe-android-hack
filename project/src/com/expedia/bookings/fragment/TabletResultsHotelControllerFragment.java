@@ -155,7 +155,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
-		mResultsStateHelper.registerWithProvider(this);
+		mResultsStateHelper.registerWithProvider(this, false);
 		mMeasurementHelper.registerWithProvider(this);
 		mBackManager.registerWithParent(this);
 		Sp.getBus().register(this);
@@ -598,8 +598,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 
 		private boolean shouldWeListenToScroll() {
-			return mHotelsStateManager.getState() == ResultsHotelsState.HOTEL_LIST_DOWN
-				|| mHotelsStateManager.getState() == ResultsHotelsState.HOTEL_LIST_UP;
+			return mHotelsStateManager.hasState() && (
+				mHotelsStateManager.getState() == ResultsHotelsState.HOTEL_LIST_DOWN
+					|| mHotelsStateManager.getState() == ResultsHotelsState.HOTEL_LIST_UP);
 		}
 
 		private ResultsHotelsState getHotelsStateFromListState(ResultsHotelsListState state) {
@@ -684,12 +685,14 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			if (state != ResultsState.HOTELS) {
 				setHotelsState(getBaseState(), false);
 			}
-			else if (mHotelsStateManager.getState() == ResultsHotelsState.HOTEL_LIST_DOWN) {
-				setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, false);
-			}
 			else {
-				//The activity is still telling us something, so we better refresh our state.
-				setHotelsState(mHotelsStateManager.getState(), false);
+				if (mHotelsStateManager.hasState() && mHotelsStateManager.getState() == ResultsHotelsState.HOTEL_LIST_DOWN) {
+					setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, false);
+				}
+				else {
+					//The activity is still telling us something, so we better refresh our state.
+					setHotelsState(mHotelsStateManager.getState(), false);
+				}
 			}
 		}
 
