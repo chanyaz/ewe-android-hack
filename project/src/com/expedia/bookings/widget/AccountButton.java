@@ -174,8 +174,30 @@ public class AccountButton extends LinearLayout {
 			mExpediaLogo.setImageResource(Ui.obtainThemeResID(mContext, R.attr.hotelCheckoutLogoutLogoDrawable));
 		}
 
+		// Tablet
+		if (isTablet) {
+			View logoutButton = Ui.findView(mLogoutContainer, R.id.account_logout_logout_button);
+			logoutButton.setVisibility(View.GONE);
+			top.setText(traveler.getEmail());
+
+			String points = "";
+			if (isFlights) {
+				FlightTrip flightTrip = Db.getFlightSearch().getSelectedFlightTrip();
+				points = flightTrip == null ? "" : flightTrip.getRewardsPoints();
+			}
+			else {
+				//TODO: do we know points for hotel stays?
+			}
+
+			bottom.setText(!TextUtils.isEmpty(points)
+				? String.format(mContext.getString(R.string.x_points_for_this_trip_TEMPLATE), points)
+				: isElitePlusMember
+				? mContext.getString(R.string.youll_earn_bonus_points_for_this_booking)
+				: mContext.getString(R.string.enrolled_in_expedia_rewards));
+		}
+
 		// Flights + Membership
-		if (isFlights && hasLoyaltyMembership) {
+		else if (isFlights && hasLoyaltyMembership) {
 			mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_logged_in);
 			top.setText(mContext.getString(R.string.logged_in_as));
 			bottom.setText(Html.fromHtml("<b>" + traveler.getEmail() + "</b>"));

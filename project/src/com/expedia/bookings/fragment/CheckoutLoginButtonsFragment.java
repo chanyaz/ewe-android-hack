@@ -167,16 +167,16 @@ public class CheckoutLoginButtonsFragment extends LobableFragment implements Acc
 						bd.startDownload(KEY_REFRESH_USER, mRefreshUserDownload, mRefreshUserCallback);
 					}
 				}
-				mAccountButton.bind(false, true, Db.getUser(), true);
+				mAccountButton.bind(false, true, Db.getUser(), getLob() == LineOfBusiness.FLIGHTS);
 			}
 			else {
 				//We thought the user was logged in, but the user appears to not contain the data we need, get rid of the user
 				User.signOut(getActivity());
-				mAccountButton.bind(false, false, null, true);
+				mAccountButton.bind(false, false, null, getLob() == LineOfBusiness.FLIGHTS);
 			}
 		}
 		else {
-			mAccountButton.bind(false, false, null, true);
+			mAccountButton.bind(false, false, null, getLob() == LineOfBusiness.FLIGHTS);
 		}
 	}
 
@@ -224,13 +224,13 @@ public class CheckoutLoginButtonsFragment extends LobableFragment implements Acc
 		}
 
 		// Update UI
-		mAccountButton.bind(false, false, null, true);
+		mAccountButton.bind(false, false, null, getLob() == LineOfBusiness.FLIGHTS);
 
 		testForLoginStateChange();
 	}
 
 	public void onLoginCompleted() {
-		mAccountButton.bind(false, true, Db.getUser(), true);
+		mAccountButton.bind(false, true, Db.getUser(), getLob() == LineOfBusiness.FLIGHTS);
 		mRefreshedUserTime = System.currentTimeMillis();
 
 		testForLoginStateChange();

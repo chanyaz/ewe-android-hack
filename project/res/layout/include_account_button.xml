@@ -102,7 +102,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:visibility="gone" >
 
         <ImageView
@@ -119,19 +118,19 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical" >
+            style="@style/HorizontalOnTablet" >
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/account_top_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_dark" />
+                style="@style/LoginButtonTopTextStyle" />
 
             <com.mobiata.android.widget.AutoResizeTextView
                 android:id="@+id/account_bottom_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_dark" />
+                style="@style/LoginButtonBottomTextStyle" />
         </LinearLayout>
 
         <ImageView
