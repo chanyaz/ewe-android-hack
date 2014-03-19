@@ -108,6 +108,11 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 	private final BackgroundDownloader.Download<Bitmap> mDownload = new BackgroundDownloader.Download<Bitmap>() {
 		@Override
 		public Bitmap doDownload() {
+			if(getActivity() == null || !isAdded()){
+				//Safety first.
+				return null;
+			}
+
 			// Screen size
 			Point p = AndroidUtils.getScreenSize(getActivity());
 
@@ -144,6 +149,11 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 		@Override
 		public void onDownload(Bitmap bitmap) {
 			if (bitmap == null) {
+				if(mImgUrl == null || getActivity() == null || !isAdded()){
+					//Safety first.
+					return;
+				}
+
 				// We still don't have the image, so let's grab it from the network
 				L2ImageCache cache = DestinationImageCache.getInstance();
 				L2ImageCache.OnImageLoaded callback = new L2ImageCache.OnImageLoaded() {
