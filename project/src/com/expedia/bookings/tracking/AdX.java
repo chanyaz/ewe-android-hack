@@ -102,7 +102,7 @@ public class AdX {
 		}
 	}
 
-	public static void trackHotelBooked(HotelSearch search, String currency, double totalPrice, double avgPrice) {
+	public static void trackHotelBooked(HotelSearch search, String orderNumber, String currency, double totalPrice, double avgPrice) {
 		if (sEnabled) {
 			AdXConnect.getAdXConnectEventInstance(sAppContext, "Sale", String.valueOf(totalPrice), currency, "Hotel");
 			Log.i("AdX hotel booking event currency=" + currency + " total=" + totalPrice);
@@ -127,12 +127,13 @@ public class AdX {
 
 			AdXConnect.addProductToList("16955", avgPrice, params.getStayDuration());
 			AdXConnect.setEventParameterOfName("currency", currency);
+			AdXConnect.setEventParameterOfName("id", orderNumber);
 
 			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_PRODUCTVIEW);
 		}
 	}
 
-	public static void trackFlightBooked(FlightSearch search, String currency, double totalPrice) {
+	public static void trackFlightBooked(FlightSearch search, String orderId, String currency, double totalPrice) {
 		if (sEnabled) {
 			AdXConnect.getAdXConnectEventInstance(sAppContext, "Sale", String.valueOf(totalPrice), currency, "Flight");
 			Log.i("AdX flight booking event currency=" + currency + " total=" + totalPrice);
@@ -161,6 +162,7 @@ public class AdX {
 			int numberOfTravelers = params.getNumAdults();
 			AdXConnect.addProductToList("16955", totalPrice / numberOfTravelers, numberOfTravelers);
 			AdXConnect.setEventParameterOfName("currency", currency);
+			AdXConnect.setEventParameterOfName("id", orderId);
 
 			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_PRODUCTVIEW);
 		}
