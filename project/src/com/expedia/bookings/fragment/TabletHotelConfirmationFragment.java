@@ -106,11 +106,10 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 	@Override
 	protected String getConfirmationSummaryText() {
 		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
-		int numGuests = params.getNumAdults() + params.getNumChildren();
 		String hotelName = Db.getTripBucket().getHotel().getProperty().getName();
 		String duration = CalendarUtils.formatDateRange(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
 				| DateUtils.FORMAT_ABBREV_MONTH);
-		return getString(R.string.tablet_confirmation_summary, hotelName, duration, numGuests);
+		return getString(R.string.tablet_confirmation_summary, hotelName, duration);
 	}
 
 	@Override

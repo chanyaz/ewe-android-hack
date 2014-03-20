@@ -141,12 +141,11 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 	@Override
 	protected String getConfirmationSummaryText() {
 		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
-		int numGuests = params.getNumAdults() + params.getNumChildren();
 		String duration = CalendarUtils.formatDateRange(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
 				| DateUtils.FORMAT_ABBREV_MONTH);
 		String fromTo = getString(R.string.tablet_confirmation_flights_from_to,
 				params.getDepartureLocation().getCity(), params.getArrivalLocation().getCity());
-		return getString(R.string.tablet_confirmation_summary, fromTo, duration, numGuests);
+		return getString(R.string.tablet_confirmation_summary, fromTo, duration);
 	}
 
 	@Override
