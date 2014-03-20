@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -334,9 +335,15 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	}
 
 	@Override
-	public void onWaypointSearchComplete(TabletWaypointFragment caller, SuggestionV2 suggest) {
+	public void onWaypointSearchComplete(TabletWaypointFragment caller, SuggestionV2 suggest, String qryText) {
 		if (suggest != null) {
 			Sp.getParams().setDestination(suggest);
+			if (!TextUtils.isEmpty(qryText)) {
+				Sp.getParams().setCustomDestinationQryText(qryText);
+			}
+			else {
+				Sp.getParams().setDefaultCustomDestinationQryText();
+			}
 			doSearch();
 		}
 	}

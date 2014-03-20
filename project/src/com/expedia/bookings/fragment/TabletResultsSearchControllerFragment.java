@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -759,7 +760,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	 */
 
 	@Override
-	public void onWaypointSearchComplete(TabletWaypointFragment caller, SuggestionV2 suggest) {
+	public void onWaypointSearchComplete(TabletWaypointFragment caller, SuggestionV2 suggest, String qryText) {
 		if (suggest != null && (mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN
 			|| mSearchStateManager.getState() == ResultsSearchState.DESTINATION)) {
 			boolean usingOrigin = mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN;
@@ -768,6 +769,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			}
 			else {
 				Sp.getParams().setDestination(suggest);
+				if (!TextUtils.isEmpty(qryText)) {
+					Sp.getParams().setCustomDestinationQryText(qryText);
+				}
+				else {
+					Sp.getParams().setDefaultCustomDestinationQryText();
+				}
 			}
 			doSpUpdate();
 		}

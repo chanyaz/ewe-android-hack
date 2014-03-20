@@ -52,7 +52,7 @@ public class TabletWaypointFragment extends Fragment
 	public static interface ITabletWaypointFragmentListener {
 		public Rect getAnimOrigin();
 
-		public void onWaypointSearchComplete(TabletWaypointFragment caller, SuggestionV2 suggest);
+		public void onWaypointSearchComplete(TabletWaypointFragment caller, SuggestionV2 suggest, String qryText);
 	}
 
 	private SuggestionsFragment mSuggestionsFragment;
@@ -238,7 +238,7 @@ public class TabletWaypointFragment extends Fragment
 				if (mSuggestionsFragment != null && getState() == WaypointChooserState.VISIBLE) {
 					SuggestionV2 suggest = mSuggestionsFragment.getBestChoiceForFilter();
 					if (suggest != null) {
-						onSuggestionClicked(mSuggestionsFragment, suggest);
+						handleSuggestion(suggest, mWaypointEditText.getText().toString());
 						return true;
 					}
 					else {
@@ -294,13 +294,8 @@ public class TabletWaypointFragment extends Fragment
 				&& suggestion.getLocation().getLongitude() == 0));
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// SuggestionsFragmentListener
-
-	@Override
-	public void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion) {
+	protected void handleSuggestion(SuggestionV2 suggestion, String qryText) {
 		if (needsLocation(suggestion)) {
-			//mWaitingForLocation = true;
 			//This will fire the listener when the location is found
 			setErrorMessage(null);
 			setState(WaypointChooserState.LOADING_LOCATION, false);
@@ -308,8 +303,16 @@ public class TabletWaypointFragment extends Fragment
 		}
 		else {
 			unsetLoadingAndError();
-			mListener.onWaypointSearchComplete(this, suggestion);
+			mListener.onWaypointSearchComplete(this, suggestion, qryText);
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// SuggestionsFragmentListener
+
+	@Override
+	public void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion) {
+		handleSuggestion(suggestion, null);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -495,7 +498,7 @@ public class TabletWaypointFragment extends Fragment
 	public void onCurrentLocation(Location location, SuggestionV2 suggestion) {
 		if (mStateManager.getState() == WaypointChooserState.LOADING_LOCATION) {
 			unsetLoadingAndError();
-			mListener.onWaypointSearchComplete(this, suggestion);
+			mListener.onWaypointSearchComplete(this, suggestion, null);
 		}
 	}
 

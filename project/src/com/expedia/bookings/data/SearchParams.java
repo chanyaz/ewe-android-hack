@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -20,16 +21,16 @@ import com.mobiata.android.json.JSONable;
 /**
  * A mega-search params object that can handle any search that
  * we do in the application.
- *
+ * <p/>
  * This object is purposefully dumb about validating its data; for example,
  * you could set an end date that is before a start date.  This is to avoid
  * issues that might otherwise arise when setting multiple fields at once.
- *
+ * <p/>
  * If you want to save/restore state (for example, during editing) then use
  * saveToMemento() to save a backup copy and restoreFromMemento() to pop back
  * to a previous state.  Note that Memento uses Parcels so it should not be
  * persisted.
- *
+ * <p/>
  * !!!NEW FIELD CHECKLIST!!!
  * 1. Add a getter/setter
  * 2. Add a setDefault() for that field (or set of fields, if it makes sense)
@@ -39,7 +40,7 @@ import com.mobiata.android.json.JSONable;
  * and writeToParcel()
  * 6. Add the field to restoreFromMemento()
  * 7. Add field to JSONable interface, i.e. toJson() and fromJson()
- *
+ * <p/>
  * Future ideas:
  * - canSearch(LineOfBusiness)
  * - Alternatively, convert ExpediaServices to use this, and add
@@ -60,6 +61,9 @@ public class SearchParams implements Parcelable, JSONable {
 
 	private int mNumAdults;
 	private List<Integer> mChildAges;
+
+	//This is intended to store the text manually entered by the user in the case of a manual query
+	private String mCustomDestinationQryText;
 
 	public SearchParams() {
 		restoreToDefaults();
@@ -150,6 +154,14 @@ public class SearchParams implements Parcelable, JSONable {
 		return getChildAges().size();
 	}
 
+	public String getCustomDestinationQryText() {
+		return mCustomDestinationQryText;
+	}
+
+	public void setCustomDestinationQryText(String mCustomDestinationQryText) {
+		this.mCustomDestinationQryText = mCustomDestinationQryText;
+	}
+
 	public SearchParams setChildAges(List<Integer> childAges) {
 		mChildAges = childAges;
 		return this;
@@ -185,6 +197,7 @@ public class SearchParams implements Parcelable, JSONable {
 		setDefaultLocations();
 		setDefaultDuration();
 		setDefaultGuests();
+		setDefaultCustomDestinationQryText();
 	}
 
 	public void setDefaultLocations() {
@@ -202,6 +215,10 @@ public class SearchParams implements Parcelable, JSONable {
 	public void setDefaultGuests() {
 		mNumAdults = 1;
 		mChildAges = null;
+	}
+
+	public void setDefaultCustomDestinationQryText() {
+		mCustomDestinationQryText = null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -236,7 +253,7 @@ public class SearchParams implements Parcelable, JSONable {
 		int maxChildren = GuestsPickerUtils.getMaxChildren(mNumAdults);
 		if (mNumAdults > maxAdults || numChildren > maxChildren) {
 			Log.w("SearchParams validation error: too many adults or children.  numAdults=" + mNumAdults
-					+ " maxAdults=" + maxAdults + " numChildren=" + numChildren + " maxChildren=" + maxChildren);
+				+ " maxAdults=" + maxAdults + " numChildren=" + numChildren + " maxChildren=" + maxChildren);
 			ret = false;
 		}
 
@@ -259,25 +276,6 @@ public class SearchParams implements Parcelable, JSONable {
 	public HotelSearchParams toHotelSearchParams() {
 		HotelSearchParams params = new HotelSearchParams();
 
-		if (!mDestination.equals(new SuggestionV2())) {
-			// TODO: Make this more comprehensive - right now it doesn't do
-			// specialized searches like single-hotels or attractions
-
-			if (mDestination.getRegionId() != 0) {
-				params.setRegionId(Integer.toString(mDestination.getRegionId()));
-			}
-
-			Location destLoc = mDestination.getLocation();
-			if (destLoc.getLatitude() != 0 || destLoc.getLongitude() != 0) {
-				params.setSearchLatLon(destLoc.getLatitude(), destLoc.getLongitude());
-			}
-
-			// Fallback
-			if (mDestination.getRegionId() == 0 && destLoc.getLatitude() == 0 && destLoc.getLongitude() == 0) {
-				params.setQuery(destLoc.getCity());
-			}
-		}
-
 		if (mStartDate != null) {
 			params.setCheckInDate(mStartDate);
 		}
@@ -297,10 +295,19 @@ public class SearchParams implements Parcelable, JSONable {
 		params.setNumAdults(mNumAdults);
 		params.setChildren(getChildAges());
 
+		Location destLoc = mDestination.getLocation();
 
 		// Map SuggestionV2.SearchType to HotelSearchParams.SearchType
-		if (mDestination.getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION) {
+		if (mDestination.getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION && (destLoc.getLatitude() != 0
+			|| destLoc.getLongitude() != 0)) {
+			params.setSearchLatLon(destLoc.getLatitude(), destLoc.getLongitude());
 			params.setSearchType(HotelSearchParams.SearchType.MY_LOCATION);
+		}
+		else if (!TextUtils.isEmpty(mCustomDestinationQryText)) {
+			//If we have a custom query, we consider this freeform
+			params.setUserQuery(mCustomDestinationQryText);
+			params.setQuery(mCustomDestinationQryText);
+			params.setSearchType(HotelSearchParams.SearchType.FREEFORM);
 		}
 		else {
 			switch (mDestination.getSearchType()) {
@@ -319,6 +326,19 @@ public class SearchParams implements Parcelable, JSONable {
 			default:
 				params.setSearchType(HotelSearchParams.SearchType.FREEFORM);
 				break;
+			}
+
+			//This seems to work pretty well. Almost everything has a location that seems to return good hotel results.
+			//RegionId is sort of a mystery.
+			//Just feed text to the hotel service if all else fails.
+			if (destLoc.getLatitude() != 0 || destLoc.getLongitude() != 0) {
+				params.setSearchLatLon(destLoc.getLatitude(), destLoc.getLongitude());
+			}
+			else if (mDestination.getRegionId() != 0) {
+				params.setRegionId(Integer.toString(mDestination.getRegionId()));
+			}
+			else {
+				params.setQuery(mDestination.getFullName());
 			}
 		}
 		return params;
@@ -380,6 +400,8 @@ public class SearchParams implements Parcelable, JSONable {
 
 		mNumAdults = params.mNumAdults;
 		mChildAges = params.mChildAges;
+
+		mCustomDestinationQryText = params.mCustomDestinationQryText;
 	}
 
 	public static final class Memento implements Parcelable {
@@ -450,6 +472,9 @@ public class SearchParams implements Parcelable, JSONable {
 		mEndDate = JodaUtils.readLocalDate(in);
 
 		mNumAdults = in.readInt();
+
+		mCustomDestinationQryText = in.readString();
+
 		in.readList(getChildAges(), cl);
 	}
 
@@ -466,6 +491,8 @@ public class SearchParams implements Parcelable, JSONable {
 
 		dest.writeInt(mNumAdults);
 		dest.writeList(getChildAges());
+
+		dest.writeString(mCustomDestinationQryText == null ? "" : mCustomDestinationQryText);
 	}
 
 	@Override
@@ -503,6 +530,8 @@ public class SearchParams implements Parcelable, JSONable {
 			obj.putOpt("numAdults", mNumAdults);
 			JSONUtils.putIntList(obj, "childAges", mChildAges);
 
+			obj.putOpt("customDestinationQryText", mCustomDestinationQryText);
+
 			return obj;
 		}
 		catch (JSONException e) {
@@ -523,6 +552,8 @@ public class SearchParams implements Parcelable, JSONable {
 
 		mNumAdults = obj.optInt("numAdults", 1);
 		mChildAges = JSONUtils.getIntList(obj, "childAges");
+
+		mCustomDestinationQryText = obj.optString("customDestinationQryText");
 
 		return true;
 	}
