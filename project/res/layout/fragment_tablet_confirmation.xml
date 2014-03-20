@@ -21,13 +21,13 @@
             android:orientation="vertical" >
 
             <LinearLayout
-                android:id="@+id/hotel_card"
+                android:id="@+id/confirmation_card_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1" >
 
                 <com.expedia.bookings.widget.OptimizedImageView
-                    android:id="@+id/hotel_image_view"
+                    android:id="@+id/confirmation_image_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop" />

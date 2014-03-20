@@ -57,7 +57,7 @@ public abstract class TabletConfirmationFragment extends Fragment {
 
 		// Setup a dropping animation with the image card.  Only animate on versions of Android
 		// that will allow us to make the animation nice and smooth.
-		mImageCard = Ui.findView(v, R.id.hotel_card);
+		mImageCard = Ui.findView(v, R.id.confirmation_card_container);
 		if (savedInstanceState == null && Build.VERSION.SDK_INT >= 14) {
 			mImageCard.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 				@Override

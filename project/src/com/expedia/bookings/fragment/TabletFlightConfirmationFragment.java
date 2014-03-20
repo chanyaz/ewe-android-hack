@@ -66,7 +66,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 		mShareButtonText.setText(R.string.tablet_confirmation_share_flight);
 
 		// Construct the destination card
-		mDestinationImageView = Ui.findView(v, R.id.hotel_image_view);
+		mDestinationImageView = Ui.findView(v, R.id.confirmation_image_view);
 		mHeaderBitmapDrawable = new HeaderBitmapDrawable();
 		mHeaderBitmapDrawable.setGradient(CARD_GRADIENT_COLORS, CARD_GRADIENT_POSITIONS);
 		mHeaderBitmapDrawable.setCornerMode(CornerMode.ALL);
@@ -122,12 +122,12 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 
 	@Override
 	protected int getLayoutId() {
-		return R.layout.fragment_tablet_hotel_confirmation;
+		return R.layout.fragment_tablet_confirmation;
 	}
 
 	@Override
 	protected int getActionsLayoutId() {
-		return R.layout.include_tablet_confirmation_actions_hotels;
+		return R.layout.include_tablet_confirmation_actions_layout;
 	}
 
 	@Override

@@ -48,7 +48,6 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 
 	private static final float[] CARD_GRADIENT_POSITIONS = new float[] { 0f, .82f, 1f };
 
-	private ViewGroup mHotelCard;
 	private TextView mConfirmationTitleText;
 	private TextView mShareButtonText;
 
@@ -65,7 +64,7 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 		Property property = Db.getBookingResponse().getProperty();
 
 		// Construct the hotel card
-		ImageView hotelImageView = Ui.findView(v, R.id.hotel_image_view);
+		ImageView hotelImageView = Ui.findView(v, R.id.confirmation_image_view);
 		HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
 		headerBitmapDrawable.setGradient(CARD_GRADIENT_COLORS, CARD_GRADIENT_POSITIONS);
 		headerBitmapDrawable.setCornerMode(CornerMode.ALL);
@@ -91,12 +90,12 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 
 	@Override
 	protected int getLayoutId() {
-		return R.layout.fragment_tablet_hotel_confirmation;
+		return R.layout.fragment_tablet_confirmation;
 	}
 
 	@Override
 	protected int getActionsLayoutId() {
-		return R.layout.include_tablet_confirmation_actions_hotels;
+		return R.layout.include_tablet_confirmation_actions_layout;
 	}
 
 	@Override
