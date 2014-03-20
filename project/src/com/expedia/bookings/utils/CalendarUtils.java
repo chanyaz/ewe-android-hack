@@ -8,6 +8,7 @@ import android.text.Html;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.mobiata.android.text.format.Time;
@@ -146,6 +147,20 @@ public class CalendarUtils {
 	public static String formatDateRange(Context context, HotelSearchParams searchParams, int flags) {
 		return DateUtils.formatDateRange(context, searchParams.getCheckInDate().toDateTimeAtStartOfDay().getMillis(),
 				searchParams.getCheckOutDate().toDateTimeAtStartOfDay().getMillis() + DATE_RANGE_BUFFER, flags);
+	}
+
+	public static String formatDateRange(Context context, FlightSearchParams searchParams, int flags) {
+		// If it's a two-way flight, let's format the date range from departure - arrival
+		if (searchParams.getReturnDate() != null) {
+			return DateUtils.formatDateRange(context, searchParams.getDepartureDate().toDateTimeAtStartOfDay()
+					.getMillis(),
+					searchParams.getReturnDate().toDateTimeAtStartOfDay().getMillis() + DATE_RANGE_BUFFER, flags);
+		}
+		else {
+			// If it's a one-way flight, let's just send the formatted departure date.
+			return DateUtils.formatDateTime(context, searchParams.getDepartureDate().toDateTimeAtStartOfDay()
+					.getMillis(), flags);
+		}
 	}
 
 	/**

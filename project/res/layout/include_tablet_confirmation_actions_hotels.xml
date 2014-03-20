@@ -19,7 +19,6 @@
         android:id="@+id/share_action_text_view"
         style="@style/Confirmation.Tablet.Action"
         android:drawableLeft="@drawable/ic_tablet_confirmation_share"
-        android:text="@string/tablet_confirmation_share"
         android:textAllCaps="true"
         app:textStyle="condensed_bold" />
 

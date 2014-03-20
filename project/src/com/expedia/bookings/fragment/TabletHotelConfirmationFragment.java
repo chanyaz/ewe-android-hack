@@ -9,49 +9,36 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.SamsungWalletResponse;
-import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.HotelUtils;
-import com.expedia.bookings.utils.NavUtils;
-import com.expedia.bookings.utils.SamsungWalletUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.Log;
+import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.bitmaps.UrlBitmapDrawable;
-import com.mobiata.android.util.CalendarAPIUtils;
 import com.mobiata.android.util.Ui;
-import com.mobiata.android.util.ViewUtils;
 
 public class TabletHotelConfirmationFragment extends TabletConfirmationFragment {
 
@@ -62,10 +49,18 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 	private static final float[] CARD_GRADIENT_POSITIONS = new float[] { 0f, .82f, 1f };
 
 	private ViewGroup mHotelCard;
+	private TextView mConfirmationTitleText;
+	private TextView mShareButtonText;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = super.onCreateView(inflater, container, savedInstanceState);
+
+		mConfirmationTitleText = Ui.findView(v, R.id.confirmation_title_text);
+		mConfirmationTitleText.setText(R.string.tablet_confirmation_hotel_booked);
+
+		mShareButtonText = Ui.findView(v, R.id.share_action_text_view);
+		mShareButtonText.setText(R.string.tablet_confirmation_share_hotel);
 
 		Property property = Db.getBookingResponse().getProperty();
 
@@ -88,49 +83,7 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 					.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
 		}
 
-		// Setup a dropping animation with the hotel card.  Only animate on versions of Android
-		// that will allow us to make the animation nice and smooth.
-		mHotelCard = Ui.findView(v, R.id.hotel_card);
-		if (savedInstanceState == null && Build.VERSION.SDK_INT >= 14) {
-			mHotelCard.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
-				@Override
-				public boolean onPreDraw() {
-					mHotelCard.getViewTreeObserver().removeOnPreDrawListener(this);
-					animateHotelCard();
-					return false;
-				}
-			});
-		}
-
 		return v;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Animation
-
-	private void animateHotelCard() {
-		// Animate the card from -height to 0
-		mHotelCard.setTranslationY(-mHotelCard.getHeight());
-
-		ViewPropertyAnimator animator = mHotelCard.animate();
-		animator.translationY(0);
-		animator.setDuration(getResources().getInteger(android.R.integer.config_longAnimTime));
-		animator.setInterpolator(new OvershootInterpolator());
-
-		if (Build.VERSION.SDK_INT >= 16) {
-			animator.withLayer();
-		}
-		else {
-			mHotelCard.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-			animator.setListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					mHotelCard.setLayerType(View.LAYER_TYPE_NONE, null);
-				}
-			});
-		}
-
-		animator.start();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -204,6 +157,17 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 
 		return AddToCalendarUtils.generateHotelAddToCalendarIntent(getActivity(), property, date, checkIn, confNumber,
 				itinNumber);
+	}
+
+	@Override
+	protected LineOfBusiness getNextBookingItem() {
+		if (Db.getTripBucket().getFlight() != null
+				&& Db.getTripBucket().getFlight().getState() == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
+			return LineOfBusiness.FLIGHTS;
+		}
+		else {
+			return null;
+		}
 	}
 
 }

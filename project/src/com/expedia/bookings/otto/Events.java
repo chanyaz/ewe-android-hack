@@ -5,6 +5,7 @@ import android.os.Looper;
 
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.HotelProductResponse;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
@@ -298,6 +299,11 @@ public class Events {
 	 * This event notifies that the user clicked the Book Next Item button in the Confirmation Screen.
 	 */
 	public static class BookingConfirmationBookNext {
+		public final LineOfBusiness nextItem;
+
+		public BookingConfirmationBookNext(LineOfBusiness item) {
+			this.nextItem = item;
+		}
 	}
 
 	// Suggestion query events

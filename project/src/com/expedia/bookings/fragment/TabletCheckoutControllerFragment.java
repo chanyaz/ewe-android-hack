@@ -113,7 +113,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private CVVEntryFragment mCvvFrag;
 	private FlightBookingFragment mFlightBookingFrag;
 	private HotelBookingFragment mHotelBookingFrag;
-	private FlightConfirmationFragment mFlightConfFrag;
+	private TabletFlightConfirmationFragment mFlightConfFrag;
 	private TabletHotelConfirmationFragment mHotelConfFrag;
 	private ResultsBackgroundImageFragment mBlurredBgFrag;
 
@@ -721,7 +721,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			return new FlightBookingFragment();
 		}
 		else if (FRAG_TAG_CONF_FLIGHT.equals(tag)) {
-			return new FlightConfirmationFragment();
+			return new TabletFlightConfirmationFragment();
 		}
 		else if (FRAG_TAG_CONF_HOTEL.equals(tag)) {
 			return new TabletHotelConfirmationFragment();
@@ -1060,12 +1060,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Subscribe
 	public void onBookNext(Events.BookingConfirmationBookNext event) {
-		if (Db.getTripBucket().getFlight().getState() == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
-			setLob(LineOfBusiness.FLIGHTS);
+		if (event.nextItem != null) {
+			setLob(event.nextItem);
+			setCheckoutState(CheckoutState.OVERVIEW, true);
 		}
-		else {
-			setLob(LineOfBusiness.HOTELS);
-		}
-		setCheckoutState(CheckoutState.OVERVIEW, true);
 	}
 }
