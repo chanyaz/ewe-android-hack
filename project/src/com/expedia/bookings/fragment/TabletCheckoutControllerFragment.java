@@ -1062,7 +1062,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public void onBookNext(Events.BookingConfirmationBookNext event) {
 		if (event.nextItem != null) {
 			setLob(event.nextItem);
-			setCheckoutState(CheckoutState.OVERVIEW, true);
+			setCheckoutState(CheckoutState.OVERVIEW, false);
 		}
 	}
 }
