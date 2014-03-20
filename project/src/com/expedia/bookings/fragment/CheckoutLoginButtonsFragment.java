@@ -79,6 +79,11 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment implements 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// Disable Google Wallet on non-merchant hotels
+		if (!Db.getHotelSearch().getSelectedProperty().isMerchant()) {
+			disableGoogleWallet();
+		}
+
 		if (savedInstanceState != null) {
 			mRefreshedUserTime = savedInstanceState.getLong(INSTANCE_REFRESHED_USER_TIME);
 			mWasLoggedIn = savedInstanceState.getBoolean(INSTANCE_WAS_LOGGED_IN);
