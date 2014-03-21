@@ -217,7 +217,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		Events.register(this);
 
 		mBackManager.registerWithParent(this);
-		if (bookingWithGoogleWallet()) {
+		//TODO - There might be a better way of determining this?
+		if (bookingWithGoogleWallet() && mStateManager.getState() != CheckoutState.BOOKING) {
 			setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
 		}
 		else {
@@ -253,9 +254,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		super.onActivityResult(requestCode, resultCode, data);
 		mCheckoutFragment.onActivityResult(requestCode, resultCode, data);
 		if (getLob() == LineOfBusiness.HOTELS && mHotelBookingFrag != null) {
-			mHotelBookingFrag.onActivityResult(requestCode,resultCode,data);
-		} else if (mFlightBookingFrag != null) {
-			mFlightBookingFrag.onActivityResult(requestCode,resultCode,data);
+			mHotelBookingFrag.onActivityResult(requestCode, resultCode, data);
+		}
+		else if (mFlightBookingFrag != null) {
+			mFlightBookingFrag.onActivityResult(requestCode, resultCode, data);
 		}
 	}
 
@@ -338,6 +340,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				setShowCvvPercentage(0f);
 				mCvvContainer.setVisibility(View.VISIBLE);
 			}
+			else if (stateOne == CheckoutState.READY_FOR_CHECKOUT && stateTwo == CheckoutState.BOOKING) {
+				setShowBookingPercentage(0f);
+			}
 			else if (stateOne == CheckoutState.CVV && stateTwo == CheckoutState.READY_FOR_CHECKOUT) {
 				setShowReadyForCheckoutPercentage(0f);
 				mSlideContainer.setVisibility(View.VISIBLE);
@@ -387,6 +392,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			else if (stateOne == CheckoutState.CVV && stateTwo == CheckoutState.READY_FOR_CHECKOUT) {
 				//TODO
 			}
+			else if (stateOne == CheckoutState.READY_FOR_CHECKOUT && stateTwo == CheckoutState.BOOKING) {
+				//TODO
+			}
 		}
 
 		@Override
@@ -410,6 +418,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			}
 			else if (state == CheckoutState.BOOKING) {
 				setShowBookingPercentage(1f);
+				if (bookingWithGoogleWallet()) {
+					setShowReadyForCheckoutPercentage(0f);
+				}
 				startBooking();
 			}
 			else if (state == CheckoutState.CONFIRMATION) {
@@ -432,7 +443,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	private void setShowBookingPercentage(float percentage) {
-		mCvvContainer.setTranslationX(percentage * -mCvvContainer.getWidth());
+		if (bookingWithGoogleWallet()) {
+			mFormContainer.setTranslationX(percentage * mFormContainer.getWidth());
+		}
+		else {
+			mCvvContainer.setTranslationX(percentage * -mCvvContainer.getWidth());
+		}
 		mBookingContainer.setTranslationX((1f - percentage) * mBookingContainer.getWidth());
 	}
 
