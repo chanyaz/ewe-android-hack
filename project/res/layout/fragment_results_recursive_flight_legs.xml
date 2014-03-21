@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Next Flight Leg -->
+    <!-- This ends up being below the active flight, due to how the transition animations work -->
+
+    <com.expedia.bookings.widget.FrameLayoutTouchController
+        android:id="@+id/next_leg_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <!-- Active flight leg -->
+    <com.expedia.bookings.widget.FrameLayoutTouchController
+        android:id="@+id/details_container"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+
+    <com.expedia.bookings.widget.FrameLayoutTouchController
+        android:id="@+id/filters_container"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+
+    <com.expedia.bookings.widget.FrameLayoutTouchController
+        android:id="@+id/list_container"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+
+
+    <!-- ADD TO TRIP -->
+
+    <com.expedia.bookings.widget.FrameLayoutTouchController
+        android:id="@+id/add_to_trip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>
