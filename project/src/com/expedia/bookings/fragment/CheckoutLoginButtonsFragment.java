@@ -80,7 +80,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment implements 
 		super.onCreate(savedInstanceState);
 
 		// Disable Google Wallet on non-merchant hotels
-		if (!Db.getHotelSearch().getSelectedProperty().isMerchant()) {
+		if (getLob() == LineOfBusiness.HOTELS && !Db.getHotelSearch().getSelectedProperty().isMerchant()) {
 			disableGoogleWallet();
 		}
 
