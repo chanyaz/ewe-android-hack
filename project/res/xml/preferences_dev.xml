@@ -40,6 +40,12 @@
             android:summary="If you think the internal FS.db is out of date"
             android:title="Force FlightStats DB Update" />
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/preference_force_google_wallet_error"
+            android:summary="Force the GOOGLE_WALLET error to be added to the checkout response. Will be the primary error, no matter what."
+            android:title="Force Google Wallet error" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Hotels" >

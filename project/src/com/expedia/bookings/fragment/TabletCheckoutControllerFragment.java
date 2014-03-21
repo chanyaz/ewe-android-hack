@@ -32,6 +32,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.enums.CheckoutFormState;
@@ -64,6 +65,8 @@ import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.SlideToWidgetJB;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.squareup.otto.Subscribe;
@@ -887,6 +890,13 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Subscribe
 	public void onBookingResponse(Events.BookingDownloadResponse event) {
 		Response results = event.response;
+
+		if (!AndroidUtils.isRelease(getActivity()) && SettingUtils.get(getActivity(), R.string.preference_force_google_wallet_error, false)) {
+			ServerError googleWalletError = new ServerError();
+			googleWalletError.setCode("GOOGLE_WALLET_ERROR");
+			results.addErrorToFront(googleWalletError);
+		}
+
 		if (results instanceof FlightCheckoutResponse) {
 			FlightCheckoutResponse response = (FlightCheckoutResponse) results;
 

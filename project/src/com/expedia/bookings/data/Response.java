@@ -37,6 +37,16 @@ public class Response implements JSONable {
 		mErrors.add(error);
 	}
 
+	public void addErrorToFront(ServerError error) {
+		if (error == null) {
+			return;
+		}
+		if (mErrors == null) {
+			mErrors = new ArrayList<ServerError>();
+		}
+		mErrors.add(0, error);
+	}
+
 	public void addErrors(List<ServerError> errors) {
 		if (errors == null) {
 			return;
