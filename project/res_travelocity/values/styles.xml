@@ -7,7 +7,9 @@
     </style>
 
     <style name="Dark.ActionBar.Travelocity" parent="Dark.ActionBar">
+        <item name="background">@drawable/bg_action_bar_travelocity</item>
         <item name="android:background">@drawable/bg_action_bar_travelocity</item>
+        <item name="backgroundSplit">@drawable/bg_action_bar_bottom_travelocity</item>
         <item name="android:backgroundSplit">@drawable/bg_action_bar_bottom_travelocity</item>
     </style>
 
