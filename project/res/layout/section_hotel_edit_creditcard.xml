@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.section.SectionBillingInfo xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
@@ -17,7 +18,7 @@
             android:layout_weight="0"
             android:src="@drawable/ic_credit_card_white" />
 
-        <EditText
+        <com.expedia.bookings.widget.NumberMaskEditText
             android:id="@+id/edit_creditcard_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,10 +26,8 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:hint="@string/credit_card_hint"
-            android:inputType="number"
-            android:maxLength="@integer/max_credit_card_length"
-            android:singleLine="true" >
-        </EditText>
+            app:numberFormat="creditcard"
+            android:singleLine="true" />
     </LinearLayout>
 
     <include
