@@ -205,6 +205,15 @@
         <attr name="radius" format="dimension" />
     </declare-styleable>
 
+    <!-- NumberMaskEditText -->
+    <declare-styleable name="NumberMaskEditText">
+        <attr name="numberFormat" format="enum">
+            <enum name="phone" value="0"/>
+            <enum name="creditcard" value="1"/>
+        </attr>
+        <attr name="customNumberFormat" format="string" />
+    </declare-styleable>
+
     <!-- VSC/EB attributes used for style switching in themes -->
     <!-- Hotel Search price styles -->
     <attr name="hotelPriceStandardColor" format="reference|color" />
