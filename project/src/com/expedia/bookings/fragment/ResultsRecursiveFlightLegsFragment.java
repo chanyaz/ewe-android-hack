@@ -36,7 +36,7 @@ import com.mobiata.android.util.Ui;
  * a single flight leg, and attaching another instance of itself to select a future leg,
  * and so on.
  *
- * This fragment is architected this way inorder to both allow N flight legs, AND to work
+ * This fragment is architected this way in order to both allow N flight legs, AND to work
  * with our StateProvider/Manager/... system. Where a state represents a definitive ui state.
  *
  */
@@ -90,6 +90,10 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		mStateListeners = new StateListenerCollection<ResultsFlightLegState>(defaultState);
 	}
 
+	/**
+	 * LIFE CYCLE
+	 */
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_results_recursive_flight_legs, null, false);
@@ -113,7 +117,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	public void onResume() {
 		super.onResume();
 		mMeasurementHelper.registerWithProvider(this);
-		mStateListener.registerWithProvider(this);
+		registerStateListener(mStateListener, true);
 	}
 
 	@Override

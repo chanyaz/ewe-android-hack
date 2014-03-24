@@ -11,55 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- FLIGHT TWO -->
-    <!-- This ends up being below flight one, due to how the transition animations work -->
+    <!-- FLIGHT LEG CONTAINER -->
 
     <com.expedia.bookings.widget.FrameLayoutTouchController
-        android:id="@+id/flight_two_details"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
-
-    <com.expedia.bookings.widget.FrameLayoutTouchController
-        android:id="@+id/flight_two_filters"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
-
-    <RelativeLayout
-        android:id="@+id/flight_two_list_and_header_container"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" >
-
-        <com.expedia.bookings.widget.FrameLayoutTouchController
-            android:id="@+id/flight_two_header_with_flight_one_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <include
-                android:id="@+id/flight_one_row"
-                layout="@layout/section_flight_leg_tablet_blue_card_checked" />
-        </com.expedia.bookings.widget.FrameLayoutTouchController>
-
-        <com.expedia.bookings.widget.FrameLayoutTouchController
-            android:id="@+id/flight_two_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/flight_two_header_with_flight_one_info" />
-    </RelativeLayout>
-
-    <!-- FLIGHT ONE -->
-
-    <com.expedia.bookings.widget.FrameLayoutTouchController
-        android:id="@+id/flight_one_details"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
-
-    <com.expedia.bookings.widget.FrameLayoutTouchController
-        android:id="@+id/flight_one_filters"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
-
-    <com.expedia.bookings.widget.FrameLayoutTouchController
-        android:id="@+id/flight_one_list"
+        android:id="@+id/flight_leg_container"
         android:layout_width="0dp"
         android:layout_height="match_parent" />
 
@@ -67,7 +22,8 @@
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/flight_histogram_container"
         android:layout_width="0dp"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/loading_container"
