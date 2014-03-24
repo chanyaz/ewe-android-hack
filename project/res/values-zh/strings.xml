@@ -112,6 +112,8 @@
     <string name="loading_hotels_and_flights">正在加载酒店和航班…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">出发日期</string>
+    <!-- Waypoint fail message for when no suggestion is available. -->
+    <string name="waypoint_suggestion_fail">未找到航点信息！请修改查询，然后再试一次。</string>
 
 
     <!-- Tablet hotel filters -->
@@ -1120,6 +1122,10 @@
     <string name="I_Accept">我接受</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">滑动屏幕即可预订。</string>
+    <!-- Slide-to-book widget prompt for hotels -->
+    <string name="slide_to_book_hotel">滑动屏幕可预订酒店</string>
+    <!-- Slide-to-book widget prompt for flights -->
+    <string name="slide_to_book_flight">滑动屏幕可预订航班</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">您的卡将被收取 %1$s</string>
     <!-- Amount to be paid now -->
@@ -1508,7 +1514,7 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
-    <string name="cvv_code_TEMPLATE">&lt;center&gt;&lt;b&gt;%s&lt;/b&gt;的 CVV 码&lt;/center&gt;</string>
+    <string name="cvv_code_TEMPLATE">&lt;b&gt;%s&lt;/b&gt;的 CVV 码</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">以 %s 结尾的信用卡</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
@@ -3033,5 +3039,21 @@
     <string name="cd_tablet_results_hotel_list">酒店搜索结果</string>
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">航班搜索结果</string>
+
+    <!-- Tablet Confirmation Screen -->
+    <!-- Header text to indicating booking confirmed for hotel -->
+    <string name="tablet_confirmation_hotel_booked">酒店预订完成</string>
+    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date, %4$s is no of guests-->
+    <string name="tablet_confirmation_summary">%3$s 人，%2$s入住%1$s</string>
+    <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
+    <string name="tablet_itinerary_confirmation_TEMPLATE">行程单 %1$s 已发送到%2$s</string>
+    <!-- Share button text -->
+    <string name="tablet_confirmation_share">分享行程</string>
+    <!-- Call support button text -->
+    <string name="tablet_confirmation_call_support">致电支持服务部</string>
+    <!-- Book Next Item button text -->
+    <string name="tablet_confirmation_book_next">继续预订</string>
+    <!-- Done Booking button text -->
+    <string name="tablet_confirmation_done_booking">完成预订</string>
 
 </resources>

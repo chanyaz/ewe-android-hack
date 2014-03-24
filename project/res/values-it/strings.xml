@@ -112,6 +112,8 @@
     <string name="loading_hotels_and_flights">Caricamento di hotel e voli in corso…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">Andata</string>
+    <!-- Waypoint fail message for when no suggestion is available. -->
+    <string name="waypoint_suggestion_fail">Nessuna informazione sulla geolocalizzazione disponibile. Modifica la ricerca e riprova.</string>
 
 
     <!-- Tablet hotel filters -->
@@ -1120,6 +1122,10 @@
     <string name="I_Accept">Accetto</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Vai al pagamento.</string>
+    <!-- Slide-to-book widget prompt for hotels -->
+    <string name="slide_to_book_hotel">scorrere per prenotare l\&apos;hotel</string>
+    <!-- Slide-to-book widget prompt for flights -->
+    <string name="slide_to_book_flight">scorrere per prenotare il volo</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">%1$s saranno addebitati sulla tua carta di credito</string>
     <!-- Amount to be paid now -->
@@ -1508,7 +1514,7 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
-    <string name="cvv_code_TEMPLATE">&lt;center&gt;Codice di sicurezza CVV per &lt;b&gt;%s&lt;/b&gt;&lt;/center&gt;</string>
+    <string name="cvv_code_TEMPLATE">Codice di sicurezza CVV per &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">Le ultime cifre della carta sono %s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
@@ -3033,5 +3039,21 @@
     <string name="cd_tablet_results_hotel_list">Risultati della ricerca hotel</string>
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">Risultati della ricerca voli</string>
+
+    <!-- Tablet Confirmation Screen -->
+    <!-- Header text to indicating booking confirmed for hotel -->
+    <string name="tablet_confirmation_hotel_booked">Hotel prenotato!</string>
+    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date, %4$s is no of guests-->
+    <string name="tablet_confirmation_summary">%1$s, %2$s per %3$s</string>
+    <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
+    <string name="tablet_itinerary_confirmation_TEMPLATE">Itinerario #%1$s inviato all\&apos;indirizzo %2$s</string>
+    <!-- Share button text -->
+    <string name="tablet_confirmation_share">Condividi</string>
+    <!-- Call support button text -->
+    <string name="tablet_confirmation_call_support">Chiama il supporto</string>
+    <!-- Book Next Item button text -->
+    <string name="tablet_confirmation_book_next">Altra prenotazione</string>
+    <!-- Done Booking button text -->
+    <string name="tablet_confirmation_done_booking">Fine</string>
 
 </resources>

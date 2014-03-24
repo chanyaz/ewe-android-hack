@@ -112,6 +112,8 @@
     <string name="loading_hotels_and_flights">호텔 및 항공편 로드 중…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">떠나는 날짜</string>
+    <!-- Waypoint fail message for when no suggestion is available. -->
+    <string name="waypoint_suggestion_fail">위치 정보를 찾을 수 없습니다! 검색 조건을 변경하고 다시 시도해 주세요.</string>
 
 
     <!-- Tablet hotel filters -->
@@ -1120,6 +1122,10 @@
     <string name="I_Accept">동의</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">밀어서 구매하기</string>
+    <!-- Slide-to-book widget prompt for hotels -->
+    <string name="slide_to_book_hotel">밀어서 호텔 예약하기</string>
+    <!-- Slide-to-book widget prompt for flights -->
+    <string name="slide_to_book_flight">밀어서 항공편 예약하기</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">고객님의 신용카드로 %1$s의 금액이 청구됩니다.</string>
     <!-- Amount to be paid now -->
@@ -1508,7 +1514,7 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
-    <string name="cvv_code_TEMPLATE">&lt;center&gt;&lt;b&gt;%s&lt;/b&gt;의 CVC 번호&lt;/center&gt;</string>
+    <string name="cvv_code_TEMPLATE">&lt;b&gt;%s&lt;/b&gt;의 CVC 번호</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">%s 번호로 끝나는 카드</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
@@ -2255,7 +2261,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">%1$s%2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
@@ -3033,5 +3039,21 @@
     <string name="cd_tablet_results_hotel_list">호텔 검색 결과</string>
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">항공편 검색 결과</string>
+
+    <!-- Tablet Confirmation Screen -->
+    <!-- Header text to indicating booking confirmed for hotel -->
+    <string name="tablet_confirmation_hotel_booked">고객님 호텔이 예약되었습니다!</string>
+    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date, %4$s is no of guests-->
+    <string name="tablet_confirmation_summary">%1$s, %2$s, %3$s</string>
+    <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
+    <string name="tablet_itinerary_confirmation_TEMPLATE">일정 번호(%1$s)가 %2$s 주소로 전송되었습니다.</string>
+    <!-- Share button text -->
+    <string name="tablet_confirmation_share">숙박 공유하기</string>
+    <!-- Call support button text -->
+    <string name="tablet_confirmation_call_support">전화 문의</string>
+    <!-- Book Next Item button text -->
+    <string name="tablet_confirmation_book_next">다음 항목 예약</string>
+    <!-- Done Booking button text -->
+    <string name="tablet_confirmation_done_booking">예약 완료</string>
 
 </resources>

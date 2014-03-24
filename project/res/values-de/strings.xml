@@ -112,6 +112,8 @@
     <string name="loading_hotels_and_flights">Hotels und Flüge werden geladen…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">Datum des Hinfluges</string>
+    <!-- Waypoint fail message for when no suggestion is available. -->
+    <string name="waypoint_suggestion_fail">Keine Standortinformationen gefunden! Bitte ändern Sie Ihren Suchauftrag und versuchen Sie es noch mal.</string>
 
 
     <!-- Tablet hotel filters -->
@@ -643,9 +645,9 @@
     <string name="car_category_oversize">Übergroß</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">Zweitürer PKW</string>
-    <string name="car_type_three_door">Dreitürer PKW</string>
-    <string name="car_type_four_door">Viertürer PKW</string>
+    <string name="car_type_two_door">Zweitürer</string>
+    <string name="car_type_three_door">Dreitürer</string>
+    <string name="car_type_four_door">Viertürer</string>
     <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Kombi</string>
     <string name="car_type_limousine">Limousine</string>
@@ -1120,6 +1122,10 @@
     <string name="I_Accept">Ich akzeptiere</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Streichen, um zu buchen.</string>
+    <!-- Slide-to-book widget prompt for hotels -->
+    <string name="slide_to_book_hotel">Streichen, um Hotel zu buchen</string>
+    <!-- Slide-to-book widget prompt for flights -->
+    <string name="slide_to_book_flight">Streichen, um Flug zu buchen</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Ihre Kreditkarte wird mit %1$s belastet</string>
     <!-- Amount to be paid now -->
@@ -1509,7 +1515,7 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
-    <string name="cvv_code_TEMPLATE">&lt;center&gt;Prüfnummer für &lt;b&gt;%s&lt;/b&gt;&lt;/center&gt;</string>
+    <string name="cvv_code_TEMPLATE">Prüfnummer für &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">Karte endet auf %s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
@@ -1884,11 +1890,11 @@
     -->
     <string name="user_review_name_and_location_signature">%1$s aus %2$s</string>
     <!-- User review no critical reviews -->
-    <string name="user_review_no_critical_reviews">Zu diesem Hotel wurden keine kritischen Bewertungen abgegeben..</string>
+    <string name="user_review_no_critical_reviews">Zu diesem Hotel wurden keine kritischen Bewertungen abgegeben.</string>
     <!-- User review no favorable reviews -->
-    <string name="user_review_no_favorable_reviews">Zu diesem Hotel wurden keine positiven Bewertungen abgegeben..</string>
+    <string name="user_review_no_favorable_reviews">Zu diesem Hotel wurden keine positiven Bewertungen abgegeben.</string>
     <!-- User review no recent reviews -->
-    <string name="user_review_no_recent_reviews">Zu diesem Hotel wurden keine neuen Bewertungen abgegeben..</string>
+    <string name="user_review_no_recent_reviews">Zu diesem Hotel wurden keine neuen Bewertungen abgegeben.</string>
 
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">Bewertungen sind zurzeit nicht verfügbar</string>
@@ -2092,29 +2098,29 @@
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
     <string name="coupon_error_no_code">Der Gutschein kann leider nicht eingelöst werden.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Das ist leider kein gültiger Gutscheincode..</string>
+    <string name="coupon_error_unrecognized">Das ist leider kein gültiger Gutscheincode.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Dieser Gutschein ist leider schon verfallen..</string>
+    <string name="coupon_error_expired">Dieser Gutschein ist leider schon verfallen.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Leider gibt es ein Problem. Bitte versuchen Sie es erneut.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Dieser Gutscheincode wurde leider schon verwendet..</string>
+    <string name="coupon_error_duplicate">Dieser Gutscheincode wurde leider schon verwendet.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Leider gibt es ein Problem. Bitte versuchen Sie es erneut.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
     <string name="coupon_error_price_change">Der Buchungsbetrag hat sich geändert, daher haben wir den Gutschein nicht eingelöst. Bitte schauen Sie noch mal drüber und versuchen Sie es erneut.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Leider gilt dieser Gutscheincode nicht für dieses Land..</string>
+    <string name="coupon_error_invalid_region">Leider gilt dieser Gutscheincode nicht für dieses Land.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">Leider liegen Sie unter der Mindestaufenthaltsdauer..</string>
+    <string name="coupon_error_min_stay_not_met">Leider liegen Sie unter der Mindestaufenthaltsdauer.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">Leider gilt dieser Gutschein nicht für diesen Reisezeitraum..</string>
+    <string name="coupon_error_invalid_travel_dates">Leider gilt dieser Gutschein nicht für diesen Reisezeitraum.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">Leider akzeptiert dieses Hotel keine Gutscheine..</string>
+    <string name="coupon_error_invalid_product">Leider akzeptiert dieses Hotel keine Gutscheine.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">Leider erreicht Ihre Buchung nicht den geforderten Mindestbetrag..</string>
+    <string name="coupon_error_min_purchase_amount_not_met">Leider erreicht Ihre Buchung nicht den geforderten Mindestbetrag.</string>
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
-    <string name="coupon_error_hotel_excluded">Leider akzeptiert dieses Hotel keine Gutscheine..</string>
+    <string name="coupon_error_hotel_excluded">Leider akzeptiert dieses Hotel keine Gutscheine.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">Leider können wir im Moment keine Gutscheine verarbeiten.  Bitte versuchen Sie es erneut.</string>
 
@@ -3034,5 +3040,21 @@
     <string name="cd_tablet_results_hotel_list">Hotel-Suchergebnisse</string>
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">Flug-Suchergebnisse</string>
+
+    <!-- Tablet Confirmation Screen -->
+    <!-- Header text to indicating booking confirmed for hotel -->
+    <string name="tablet_confirmation_hotel_booked">Ihr Hotel ist gebucht!</string>
+    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date, %4$s is no of guests-->
+    <string name="tablet_confirmation_summary">%1$s, %2$s für %3$s</string>
+    <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
+    <string name="tablet_itinerary_confirmation_TEMPLATE">Reiseplannr. %1$s versendet an %2$s</string>
+    <!-- Share button text -->
+    <string name="tablet_confirmation_share">Aufenthalt teilen</string>
+    <!-- Call support button text -->
+    <string name="tablet_confirmation_call_support">Kundenservice</string>
+    <!-- Book Next Item button text -->
+    <string name="tablet_confirmation_book_next">Nächste Buchung</string>
+    <!-- Done Booking button text -->
+    <string name="tablet_confirmation_done_booking">Fertig mit buchen</string>
 
 </resources>

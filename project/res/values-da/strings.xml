@@ -112,6 +112,8 @@
     <string name="loading_hotels_and_flights">Henter hoteller og flyrejser…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">Afrejsedatoer</string>
+    <!-- Waypoint fail message for when no suggestion is available. -->
+    <string name="waypoint_suggestion_fail">Der blev ikke fundet nogen oplysninger om destinationen! Rediger din søgning, og prøv igen.</string>
 
 
     <!-- Tablet hotel filters -->
@@ -1120,6 +1122,10 @@
     <string name="I_Accept">Jeg accepterer</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Skub for at købe.</string>
+    <!-- Slide-to-book widget prompt for hotels -->
+    <string name="slide_to_book_hotel">skub for at booke hotel</string>
+    <!-- Slide-to-book widget prompt for flights -->
+    <string name="slide_to_book_flight">skub for at booke flyrejse</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Der trækkes %1$s fra dit kort</string>
     <!-- Amount to be paid now -->
@@ -1508,7 +1514,7 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
-    <string name="cvv_code_TEMPLATE">&lt;center&gt;Kontrolcifre for: &lt;b&gt;%s&lt;/b&gt;&lt;/center&gt;</string>
+    <string name="cvv_code_TEMPLATE">Kontrolcifre for: &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">kort, der ender med %s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
@@ -3033,5 +3039,21 @@
     <string name="cd_tablet_results_hotel_list">Søgeresultater for hoteller</string>
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">Søgeresultater for flyrejser</string>
+
+    <!-- Tablet Confirmation Screen -->
+    <!-- Header text to indicating booking confirmed for hotel -->
+    <string name="tablet_confirmation_hotel_booked">Dit hotel er reserveret!</string>
+    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date, %4$s is no of guests-->
+    <string name="tablet_confirmation_summary">%1$s, %2$s for %3$s</string>
+    <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
+    <string name="tablet_itinerary_confirmation_TEMPLATE">Rejseplansnummer %1$s er sendt til%2$s</string>
+    <!-- Share button text -->
+    <string name="tablet_confirmation_share">Del ophold</string>
+    <!-- Call support button text -->
+    <string name="tablet_confirmation_call_support">Ring til kundeservice</string>
+    <!-- Book Next Item button text -->
+    <string name="tablet_confirmation_book_next">Book næste emne</string>
+    <!-- Done Booking button text -->
+    <string name="tablet_confirmation_done_booking">Reservation færdig</string>
 
 </resources>

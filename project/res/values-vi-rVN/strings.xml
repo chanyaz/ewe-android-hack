@@ -112,6 +112,8 @@
     <string name="loading_hotels_and_flights">Đang tải Khách sạn và chuyến bay…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">Ngày bay</string>
+    <!-- Waypoint fail message for when no suggestion is available. -->
+    <string name="waypoint_suggestion_fail">Không tìm được địa điểm! Vui lòng thay đổi yêu cầu và thử lại.</string>
 
 
     <!-- Tablet hotel filters -->
@@ -371,7 +373,7 @@
     <!-- Shared Itin - Template for hotelcard header text (will be filled in with "FirstName at HotelName") -->
     <string name="SharedItin_Title_Hotel_TEMPLATE">%1$s nghỉ tại %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
-    <string name="Flight">Chuyến bay</string>
+    <string name="Flight">Chuyến\nbay</string>
     <!-- Default (fallback) itin card title for HOTEL -->
     <string name="Hotel">Khách sạn</string>
     <!-- Default (fallback) itin card title for CAR -->
@@ -878,7 +880,7 @@
     <!-- Label for when flights are loading -->
     <string name="loading_flights">Đang tải chuyến bay…</string>
     <!-- Label for screen that is doing searches -->
-    <string name="searching">Đang tìm kiếm…</string>
+    <string name="searching">Đang tìm…</string>
     <!-- Error message when we find no flights -->
     <string name="error_no_flights_found">Không tìm thấy chuyến bay</string>
     <!-- Error message when we find no flights because of an invalid departure airport -->
@@ -1120,6 +1122,10 @@
     <string name="I_Accept">Tôi đồng ý</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Trượt để thanh toán</string>
+    <!-- Slide-to-book widget prompt for hotels -->
+    <string name="slide_to_book_hotel">trượt để đặt phòng khách sạn</string>
+    <!-- Slide-to-book widget prompt for flights -->
+    <string name="slide_to_book_flight">trượt để đặt chuyến bay</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Thẻ của quý vị sẽ được tính phí %1$s</string>
     <!-- Amount to be paid now -->
@@ -1182,7 +1188,7 @@
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">Phí thẻ hãng hàng không</string>
     <!-- Flight -->
-    <string name="flight">Chuyến bay</string>
+    <string name="flight">Chuyến\nbay</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
     <string name="traveler_num_and_category_TEMPLATE">Khách %1$d</string>
 
@@ -1383,7 +1389,7 @@
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
     <string name="yay_going_somewhere_TEMPLATE">Quý vị sẽ đi %s!</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">Lịch trình #%s đã được gửi tới</string>
+    <string name="itinerary_confirmation_TEMPLATE">Lịch trình số %s đã được gửi tới</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">Tìm phòng</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
@@ -1508,7 +1514,7 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
-    <string name="cvv_code_TEMPLATE">&lt;center&gt;Mã CVV của &lt;b&gt;%s&lt;/b&gt;&lt;/center&gt;</string>
+    <string name="cvv_code_TEMPLATE">Mã CVV của &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">thẻ kết thúc bằng %s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
@@ -1703,7 +1709,7 @@
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
     <string name="progress_finding_location">Đang tìm địa điểm hiện tại…</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels">Đang tìm kiếm khách sạn…</string>
+    <string name="progress_searching_hotels">Đang tìm khách sạn…</string>
     <!-- Message displayed when app is searching for a particular hotel -->
     <string name="progress_searching_selected_hotel">Đang tìm khách sạn…</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -3033,5 +3039,21 @@
     <string name="cd_tablet_results_hotel_list">Kết quả tìm khách sạn</string>
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">Kết quả tìm chuyến bay</string>
+
+    <!-- Tablet Confirmation Screen -->
+    <!-- Header text to indicating booking confirmed for hotel -->
+    <string name="tablet_confirmation_hotel_booked">Đã đặt phòng khách sạn cho quý vị!</string>
+    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date, %4$s is no of guests-->
+    <string name="tablet_confirmation_summary">%1$s, %2$s cho %3$s</string>
+    <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
+    <string name="tablet_itinerary_confirmation_TEMPLATE">Đã gửi lịch trình số %1$s đến %2$s</string>
+    <!-- Share button text -->
+    <string name="tablet_confirmation_share">Chia sẻ thời gian lưu trú</string>
+    <!-- Call support button text -->
+    <string name="tablet_confirmation_call_support">Gọi Hỗ trợ</string>
+    <!-- Book Next Item button text -->
+    <string name="tablet_confirmation_book_next">Đặt yêu cầu tiếp theo</string>
+    <!-- Done Booking button text -->
+    <string name="tablet_confirmation_done_booking">Hoàn tất đặt</string>
 
 </resources>

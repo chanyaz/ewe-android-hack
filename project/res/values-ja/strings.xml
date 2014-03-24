@@ -112,6 +112,8 @@
     <string name="loading_hotels_and_flights">ホテルとフライトを読み込み中…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">出発日</string>
+    <!-- Waypoint fail message for when no suggestion is available. -->
+    <string name="waypoint_suggestion_fail">ロケーション情報が見つかりませんでした ! 検索条件を変更して、もう一度お試しください。</string>
 
 
     <!-- Tablet hotel filters -->
@@ -643,9 +645,9 @@
     <string name="car_category_oversize">オーバーサイズカー</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア 自動車</string>
-    <string name="car_type_three_door">3 ドア 自動車</string>
-    <string name="car_type_four_door">4 ドア 自動車</string>
+    <string name="car_type_two_door">2 ドア自動車</string>
+    <string name="car_type_three_door">3 ドア自動車</string>
+    <string name="car_type_four_door">4 ドア自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -1120,6 +1122,10 @@
     <string name="I_Accept">同意する</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">スライドして購入。</string>
+    <!-- Slide-to-book widget prompt for hotels -->
+    <string name="slide_to_book_hotel">スライドしてホテルを予約</string>
+    <!-- Slide-to-book widget prompt for flights -->
+    <string name="slide_to_book_flight">スライドして航空券を予約</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">カードに %1$s が課金されます</string>
     <!-- Amount to be paid now -->
@@ -1508,7 +1514,7 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
-    <string name="cvv_code_TEMPLATE">&lt;center&gt;&lt;b&gt;%s様のセキュリティコード&lt;/b&gt;&lt;/center&gt;</string>
+    <string name="cvv_code_TEMPLATE">&lt;b&gt;%s&lt;/b&gt;様のセキュリティコード</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">末尾が %s のクレジットカード</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
@@ -3033,5 +3039,21 @@
     <string name="cd_tablet_results_hotel_list">ホテルの検索結果</string>
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">フライトの検索結果</string>
+
+    <!-- Tablet Confirmation Screen -->
+    <!-- Header text to indicating booking confirmed for hotel -->
+    <string name="tablet_confirmation_hotel_booked">ホテルのご予約が完了しました !</string>
+    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date, %4$s is no of guests-->
+    <string name="tablet_confirmation_summary">%1$sに %2$s まで %3$s 名様でご宿泊</string>
+    <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
+    <string name="tablet_itinerary_confirmation_TEMPLATE">旅程番号 %1$s が %2$s に送信されます</string>
+    <!-- Share button text -->
+    <string name="tablet_confirmation_share">宿泊をシェア</string>
+    <!-- Call support button text -->
+    <string name="tablet_confirmation_call_support">電話で問合せ</string>
+    <!-- Book Next Item button text -->
+    <string name="tablet_confirmation_book_next">次のアイテムを予約する</string>
+    <!-- Done Booking button text -->
+    <string name="tablet_confirmation_done_booking">予約完了</string>
 
 </resources>

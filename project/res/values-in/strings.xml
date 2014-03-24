@@ -112,6 +112,8 @@
     <string name="loading_hotels_and_flights">Memuat Hotel dan Penerbangan…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">Waktu Penerbangan</string>
+    <!-- Waypoint fail message for when no suggestion is available. -->
+    <string name="waypoint_suggestion_fail">Informasi lokasi tidak ditemukan! Ubah pencarian, lalu coba lagi.</string>
 
 
     <!-- Tablet hotel filters -->
@@ -1120,6 +1122,10 @@
     <string name="I_Accept">Saya Menerima</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">Geser untuk membeli.</string>
+    <!-- Slide-to-book widget prompt for hotels -->
+    <string name="slide_to_book_hotel">geser untuk memesan hotel</string>
+    <!-- Slide-to-book widget prompt for flights -->
+    <string name="slide_to_book_flight">geser untuk memesan penerbangan</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Kartu kredit Anda akan dikenai %1$s</string>
     <!-- Amount to be paid now -->
@@ -1508,7 +1514,7 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
-    <string name="cvv_code_TEMPLATE">&lt;center&gt;Kode CVV untuk &lt;b&gt;%s&lt;/b&gt;&lt;/center&gt;</string>
+    <string name="cvv_code_TEMPLATE">Kode CVV untuk &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">kartu dengan nomor terakhir %s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
@@ -3033,5 +3039,21 @@
     <string name="cd_tablet_results_hotel_list">Hasil Pencarian Hotel</string>
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">Hasil Pencarian Penerbangan</string>
+
+    <!-- Tablet Confirmation Screen -->
+    <!-- Header text to indicating booking confirmed for hotel -->
+    <string name="tablet_confirmation_hotel_booked">Hotel Anda telah dipesan!</string>
+    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date, %4$s is no of guests-->
+    <string name="tablet_confirmation_summary">%1$s, %2$s untuk %3$s</string>
+    <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
+    <string name="tablet_itinerary_confirmation_TEMPLATE">Rencana perjalanan no. %1$s telah dikirim ke %2$s</string>
+    <!-- Share button text -->
+    <string name="tablet_confirmation_share">Bagikan Pengalaman Menginap</string>
+    <!-- Call support button text -->
+    <string name="tablet_confirmation_call_support">Hubungi Bantuan</string>
+    <!-- Book Next Item button text -->
+    <string name="tablet_confirmation_book_next">Pesan Item Berikutnya</string>
+    <!-- Done Booking button text -->
+    <string name="tablet_confirmation_done_booking">Selesaikan Pemesanan</string>
 
 </resources>

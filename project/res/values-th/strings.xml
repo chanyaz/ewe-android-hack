@@ -112,6 +112,8 @@
     <string name="loading_hotels_and_flights">กำลังโหลดโรงแรมและเที่ยวบิน…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">ต้องการบินเมื่อไหร่</string>
+    <!-- Waypoint fail message for when no suggestion is available. -->
+    <string name="waypoint_suggestion_fail">ไม่พบข้อมูลสถานที่ตั้ง โปรดปรับการค้นหาของคุณแล้วลองใหม่</string>
 
 
     <!-- Tablet hotel filters -->
@@ -1120,6 +1122,10 @@
     <string name="I_Accept">ยอมรับ</string>
     <!-- Slide to purchase -->
     <string name="slide_to_purchase">เลื่อนเพื่อซื้อ</string>
+    <!-- Slide-to-book widget prompt for hotels -->
+    <string name="slide_to_book_hotel">เลื่อนเพื่อจองโรงแรม</string>
+    <!-- Slide-to-book widget prompt for flights -->
+    <string name="slide_to_book_flight">เลื่อนเพื่อจองเที่ยวบิน</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">จะมีการตัดยอดบัตรเป็นจำนวน %1$s บาท</string>
     <!-- Amount to be paid now -->
@@ -1508,7 +1514,7 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
-    <string name="cvv_code_TEMPLATE">&lt;center&gt;รหัส CVV สำหรับ &lt;b&gt;%s&lt;/b&gt;&lt;/center&gt;</string>
+    <string name="cvv_code_TEMPLATE">รหัส CVV สำหรับ &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">บัตรลงท้ายด้วย %s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
@@ -3033,5 +3039,21 @@
     <string name="cd_tablet_results_hotel_list">ผลการค้นหาโรงแรม</string>
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">ผลการค้นหาเที่ยวบิน</string>
+
+    <!-- Tablet Confirmation Screen -->
+    <!-- Header text to indicating booking confirmed for hotel -->
+    <string name="tablet_confirmation_hotel_booked">คุณได้จองโรงแรมแล้ว!</string>
+    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date, %4$s is no of guests-->
+    <string name="tablet_confirmation_summary">%1$s, %2$s สำหรับ %3$s</string>
+    <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
+    <string name="tablet_itinerary_confirmation_TEMPLATE">ส่งหมายเลขการเดินทาง %1$s ไปยัง %2$s</string>
+    <!-- Share button text -->
+    <string name="tablet_confirmation_share">แชร์การเข้าพัก</string>
+    <!-- Call support button text -->
+    <string name="tablet_confirmation_call_support">โทรหาฝ่ายบริการลูกค้า</string>
+    <!-- Book Next Item button text -->
+    <string name="tablet_confirmation_book_next">จองรายการถัดไป</string>
+    <!-- Done Booking button text -->
+    <string name="tablet_confirmation_done_booking">จองเสร็จแล้ว</string>
 
 </resources>
