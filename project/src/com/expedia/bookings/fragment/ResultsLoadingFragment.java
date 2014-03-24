@@ -228,10 +228,10 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo, float percentage) {
 			if (mStateManager.getState() == ResultsLoadingState.HOTELS) {
-				if (stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN && stateTwo == ResultsFlightsState.FLIGHT_ONE_FILTERS) {
+				if (stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN && stateTwo == ResultsFlightsState.CHOOSING_FLIGHT) {
 					mRootC.setAlpha(1f - percentage);
 				}
-				else if (stateOne == ResultsFlightsState.FLIGHT_ONE_FILTERS && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				else if (stateOne == ResultsFlightsState.CHOOSING_FLIGHT && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 					mRootC.setAlpha(percentage);
 				}
 			}

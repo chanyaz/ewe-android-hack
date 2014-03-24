@@ -14,8 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.enums.ResultsFlightLegState;
 import com.expedia.bookings.interfaces.IBackManageable;
+import com.expedia.bookings.interfaces.IResultsFlightLegSelected;
+import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
@@ -31,18 +34,18 @@ import com.mobiata.android.util.Ui;
 
 /**
  * ResultsRecursiveFlightLegsFragment
- *
+ * <p/>
  * This fragment allows us to select N flight legs, by providing us the means to select
  * a single flight leg, and attaching another instance of itself to select a future leg,
  * and so on.
- *
+ * <p/>
  * This fragment is architected this way in order to both allow N flight legs, AND to work
  * with our StateProvider/Manager/... system. Where a state represents a definitive ui state.
- *
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ResultsRecursiveFlightLegsFragment extends Fragment implements IStateProvider<ResultsFlightLegState>,
-	FragmentAvailabilityUtils.IFragmentAvailabilityProvider, IBackManageable {
+	FragmentAvailabilityUtils.IFragmentAvailabilityProvider, IBackManageable, IResultsFlightLegSelected,
+	IResultsFlightSelectedListener {
 
 	public static ResultsRecursiveFlightLegsFragment newInstance(int legNumber) {
 		ResultsRecursiveFlightLegsFragment frag = new ResultsRecursiveFlightLegsFragment(legNumber);
@@ -125,6 +128,24 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		mStateListener.unregisterWithProvider(this);
 		mMeasurementHelper.unregisterWithProvider(this);
 		super.onPause();
+	}
+
+	/*
+	 * IResultsFlightSelectedListener
+	 */
+
+	@Override
+	public void onFlightSelected(int legNumber) {
+		int totalLegs = Db.getFlightSearch().getSearchParams().getQueryLegCount();
+	}
+
+	/*
+	 * IResultsFlightSelectedListener
+	 */
+
+	@Override
+	public void onTripAdded(int legNumber) {
+
 	}
 
 	/**
