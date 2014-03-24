@@ -1,6 +1,11 @@
 package com.expedia.bookings.test.utils;
 
+import java.util.Locale;
+
+import android.app.Instrumentation;
 import android.util.Pair;
+
+import com.expedia.bookings.debug.test.R;
 
 /* This class serves as a data structure to hold all Hotel Booking info
  * and to provide methods to easily change that data as desired.
@@ -45,9 +50,7 @@ public class HotelsUserData {
 	private String mProxyPort;
 	private boolean mLogInForCheckout;
 
-	//Default Constructor sets info
-	// to the qa-ehcc@mobiata.com account info
-	public HotelsUserData() {
+	public HotelsUserData(Instrumentation instrumentation) {
 		setFirstName("JexperCC");
 		setLastName("MobiataTestaverde");
 
@@ -57,8 +60,8 @@ public class HotelsUserData {
 		setAddressStateCode("MI");
 		setAddressPostalCode("48104");
 
-		setLoginEmail("qa-ehcc@mobiata.com");
-		setLoginPassword("3xp3d1acc");
+		setLoginEmail(instrumentation.getContext().getString(R.string.user_name));
+		setLoginPassword(instrumentation.getContext().getString(R.string.user_password));
 
 		setCreditCardNumber("4111111111111111");
 		setCardExpMonth("12");
@@ -102,6 +105,17 @@ public class HotelsUserData {
 		LocationSelectUtils citySelect = new LocationSelectUtils();
 		String hotelCity = citySelect.getRandomAmericanAndInternationalCity().first;
 		setHotelSearchCity(hotelCity);
+	}
+
+	public void setAirportsToLocaleDefault(Locale l) {
+		Pair<String, String> airports = MarketingSearchParamsUtils.getAirportPairForLocale(l);
+		setDepartureAirport(airports.first);
+		setArrivalAirport(airports.second);
+	}
+
+	public void setHotelDestinationToLocaleDefault(Locale l) {
+		String hotelDestination = MarketingSearchParamsUtils.getHotelDestinationForLocale(l);
+		setHotelSearchCity(hotelDestination);
 	}
 
 	/*

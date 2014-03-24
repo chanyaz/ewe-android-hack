@@ -38,7 +38,7 @@ public class CreditCardInfoEditTest extends ActivityInstrumentationTestCase2<Hot
 		mPreferences.setRotationPermission(false);
 		mPreferences.setScreenshotPermission(false);
 		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
-		mUser = new HotelsUserData();
+		mUser = new HotelsUserData(getInstrumentation());
 		mUser.setHotelCityToRandomUSCity();
 	}
 

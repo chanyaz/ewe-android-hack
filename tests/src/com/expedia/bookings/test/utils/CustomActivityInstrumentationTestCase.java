@@ -50,7 +50,7 @@ public class CustomActivityInstrumentationTestCase<T> extends ActivityInstrument
 		mPreferences.setRotationPermission(false);
 		mPreferences.setScreenshotPermission(false);
 		mDriver = new HotelsTestDriver(getInstrumentation(), getActivity(), mRes, mPreferences);
-		mUser = new HotelsUserData();
+		mUser = new HotelsUserData(getInstrumentation());
 		if (ConfigFileUtils.doesConfigFileExist()) {
 			mConfigFileUtils = new ConfigFileUtils();
 			mUser.setBookingServer(mConfigFileUtils.getConfigValue("Server"));
