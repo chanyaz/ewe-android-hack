@@ -6,24 +6,29 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.mobiata.android.Log;
+
 /**
  * A FrameLayout that can manipulate touch handling.
- * 
+ * <p/>
  * Touch handling is handled by the following methods and in the following order
- * 
+ * <p/>
  * setBlockNewEventsEnabled(true):
  * This will cause the FrameLayout to intercept all new touch events and consume them
- * 
+ * <p/>
  * setTouchPassThroughEnabled(true);
  * setTouchPassThroughReceiver(View);
  * These work together so that all touch events will be passed to the provided view.
- * 
+ * <p/>
  * setConsumeTouch(true);
  * This wont always intercept the touch event but if the touch event is ours to deal with
  * we return true indicating that we have handled the touch event so it wont be passed along
- * 
  */
 public class FrameLayoutTouchController extends FrameLayout {
+
+	//logging settings
+	private boolean mLoggingEnabled = false;
+	private String mLoggingTag = "";
 
 	//For preventing touches from firing
 	private boolean mBlockNewEvents = false;
@@ -67,14 +72,27 @@ public class FrameLayoutTouchController extends FrameLayout {
 		mConsumeTouch = enabled;
 	}
 
+
+	public void setLoggingEnabled(boolean enabled) {
+		mLoggingEnabled = enabled;
+	}
+
+	public void setLoggingTag(String tag) {
+		mLoggingTag = tag == null ? "" : tag;
+	}
+
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		// Don't allow any new actions to be used by children
 		if (mBlockNewEvents && ev.getAction() == MotionEvent.ACTION_DOWN) {
+			log("onInterceptTouchEvent:mBlockNewEvents returning true");
 			return true;
 		}
 		//Pass touches
 		else if (mPassThroughTouches && mTouchGetter != null) {
+
+			log("onInterceptTouchEvent:mPassThroughTouches returning true");
+
 			return true;
 		}
 
@@ -85,18 +103,27 @@ public class FrameLayoutTouchController extends FrameLayout {
 	public boolean onTouchEvent(MotionEvent event) {
 		// Don't allow any actions to be used by parents
 		if (mBlockNewEvents) {
+			log("onTouchEvent:mBlockNewEvents returning true");
 			return true;
 		}
 		//pass touches
 		else if (mPassThroughTouches && mTouchGetter != null) {
 			mTouchGetter.dispatchTouchEvent(event);
+			log("onTouchEvent:mPassThroughTouches returning false");
 			return false;
 		}
 		else if (mConsumeTouch) {
+			log("onTouchEvent:mConsumeTouch returning true");
 			return true;
 		}
 
 		return super.onTouchEvent(event);
+	}
+
+	private void log(String msg) {
+		if (mLoggingEnabled) {
+			Log.d(mLoggingTag + " FrameLayoutTouchController " + msg);
+		}
 	}
 
 }
