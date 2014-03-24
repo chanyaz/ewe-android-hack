@@ -19,7 +19,7 @@
         android:id="@+id/credit_card_section_holder"
         style="@style/CvvScreenCreditCard"
         android:layout_width="318dp"
-        android:layout_height="219dp">
+        android:layout_height="219dp" >
 
         <!-- Credit card with logo and signature -->
 
@@ -38,14 +38,22 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
             android:layout_marginRight="82dp"
+            android:layout_marginTop="-9dp"
             android:background="@drawable/div_cvv"
             android:freezesText="true"
             android:gravity="center_horizontal"
             android:maxLength="4"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
             android:textColor="@color/cvv_normal"
             android:textSize="20dp" />
-
     </FrameLayout>
+
+    <com.expedia.bookings.widget.MaskView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:exposedPadding="-4dp"
+        app:exposedView="@id/cvv_text_view" />
 
     <!-- Input buttons at bottom (or right on tablet) -->
 
