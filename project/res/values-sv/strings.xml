@@ -9,13 +9,13 @@
     <!-- Log in with facebook (button text) -->
     <string name="Log_in_with_Facebook">Logga in med Facebook</string>
     <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Hämtar information från facebook…</string>
+    <string name="fetching_facebook_info">Hämtar information från Facebook…</string>
     <!-- Attempting to log you in with facebook credentials -->
-    <string name="attempting_to_log_in_with_facebook">Försöker logga in dig med dina facebook-uppgifter…</string>
+    <string name="attempting_to_log_in_with_facebook">Försöker logga in dig med dina Facebook-uppgifter…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Vi har stött på ett ospecificerat fel. Försök igen senare.</string>
     <!-- Unable to log in to Facebook -->
-    <string name="unable_to_log_into_facebook">Inloggningen på facebook misslyckades.</string>
+    <string name="unable_to_log_into_facebook">Inloggningen på Facebook misslyckades.</string>
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">Inloggningen misslyckades. Om din e-postadress och ditt lösenord stämmer ber vi dig bekräfta att din app är inställd på rätt land.</string>
     <!-- Facebook connect expedia password hint -->
@@ -660,7 +660,7 @@
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">Returflyg till %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">Vi kunde tyvärr inte ansluta till Expedias servrar. Vänligen försök senare.</string>
+    <string name="error_server">Vi kunde tyvärr inte ansluta till Expedias servrar. Försök igen senare.</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">Avgår</string>
     <!-- Sort by arrival time label -->
@@ -865,7 +865,7 @@
         <item quantity="other">%1$d resenärer</item>
     </plurals>
     <!-- Checkout button text -->
-    <string name="checkout_btn">Utcheckning</string>
+    <string name="checkout_btn">Betala</string>
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">Kollar efter prisändringar</string>
     <!-- Price changed from -->
@@ -893,7 +893,7 @@
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">Hotellet debiterar följande: %1$s</string>
     <!-- Checkout menu item -->
-    <string name="menu_checkout">Utcheckning</string>
+    <string name="menu_checkout">Betala</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Prisgaranti</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
@@ -941,7 +941,7 @@
     <!-- Flight -->
     <string name="flight">Flyg</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE">resenär%1$d</string>
+    <string name="traveler_num_and_category_TEMPLATE">Resenär %1$d</string>
 
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
@@ -1070,9 +1070,9 @@
     <!-- Passport country / origin heading -->
     <string name="passport_country_origin">Passets utfärdandeland / hemland</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">Referensnummer (om du har ett)</string>
+    <string name="only_if_applicable">Redress-nummer (om du har ett)</string>
     <!-- Saving traveler info spinner dialog -->
-    <string name="saving_traveler">Sparar resenärsuppgifter på ditt konto…</string>
+    <string name="saving_traveler">Sparar resenärsinfo på ditt konto…</string>
 
     <!-- Traveler Info spinner values -->
     <!-- None -->
@@ -1094,7 +1094,7 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Föredrar &lt;/font&gt;%1$s</string>
     <!-- loading traveler info -->
-    <string name="loading_traveler_info">Hämtar resenärs uppgifter…</string>
+    <string name="loading_traveler_info">Hämtar resenärens uppgifter…</string>
     <!-- Passport -->
     <string name="passport">Pass</string>
     <!-- Current traveler - <firstname> <lastname> -->
@@ -1400,9 +1400,9 @@
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">För att använda Min Position, måste du först aktivera en positioneringskälla i dina inställningar. \nGå till inställningar och aktivera nu?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
-    <string name="ProviderDisabled">Ditt positioneringssystem har avaktiverats. Gör det åter möjligt för den att söka efter din plats.</string>
+    <string name="ProviderDisabled">Ditt positioneringssystem har avaktiverats. Gör det möjligt för den igen att söka efter din plats.</string>
     <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
-    <string name="ProviderOutOfService">Ditt positioneringssystem fungerar inte. Vänligen försök senare.</string>
+    <string name="ProviderOutOfService">Ditt positioneringssystem fungerar inte. Försök igen senare.</string>
     <!-- Message displayed when the location provider is temporarily unavailable. -->
     <string name="ProviderTemporarilyUnavailable">Ditt positioneringssystem är tillfälligt otillgängligt. Försök igen om några minuter.</string>
 
@@ -1548,7 +1548,7 @@
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
-    <string name="x_percent_guests_recommend">%2.0f%% av gästerna rekommenderar hotellet.</string>
+    <string name="x_percent_guests_recommend">%2.0f%% rekommenderar det här hotellet.</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
@@ -1771,6 +1771,10 @@
     <string name="disclaimer_expedia_points">Om du har ett Expedia Rewards-konto och bokar med samma e-postadress registreras dina poäng automatiskt efter vistelsen. Tänk på att det kan ta upp till 30 dagar innan poängen visas.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Bekräfta och boka</string>
+    <!-- Label for advertising optout setting -->
+    <string name="tracking_optout">Begränsa Ad Tracking</string>
+    <!-- Description for advertising optout setting -->
+    <string name="tracking_optout_description">Avaktivera Ad Tracking av tredje part. Kräver omstart av appen.</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">Radera personliga uppgifter</string>
     <!-- Title for dialog confirming the clearing of private data -->
@@ -2026,7 +2030,7 @@
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Integritetspolicy</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2014 Expedia, Inc.\nAlla rättigheter förbehålles.</string>
+    <string name="copyright">© Copyright 2012-2014 Expedia, Inc.\nMed ensamrätt.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">Utloggad och data raderad</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -2811,7 +2815,7 @@
     <!-- Content description for action: Press to clear selected dates -->
     <string name="cd_flights_clear_selected_dates">Tryck för att rensa valda datum</string>
     <!-- Content description for action: Press to edit number of travelers -->
-    <string name="cd_flights_search_number_of_travelers_edit">Tryck för att rensa antalet resenärer</string>
+    <string name="cd_flights_search_number_of_travelers_edit">Tryck för att ändra antalet resenärer</string>
     <!-- Flight Search Results -->
     <!-- Content description for action: Press to return to flight search -->
     <string name="cd_flights_search_search_button">Tryck för att gå tillbaka till flygsökningen</string>
@@ -2866,7 +2870,7 @@
     <!-- Content description for action: Press to edit traveler information -->
     <string name="cd_traveler_edit_traveler_information">Tryck för att ändra resenärsinfo</string>
     <!-- Content description for action: Press to edit traveler's passport country -->
-    <string name="cd_traveler_edit_passport_country">Ange utfärdandeland för resenärens pass</string>
+    <string name="cd_traveler_edit_passport_country">Ändra utfärdandeland för resenärens pass</string>
     <!-- Traveler Information edit/entry screen -->
     <!-- Content description for action: Enter first name -->
     <string name="cd_traveler_first_name_edit_text">Ange förnamn</string>
@@ -2886,7 +2890,7 @@
     <!-- Content description for action: Press to select traveler's gender -->
     <string name="cd_traveler_gender_edit">Tryck för att välja resenärens kön</string>
     <!-- Content description for action: Enter redress number, if applicable -->
-    <string name="cd_traveler_redress_number_edit_text">Ange \&apos;redress number\&apos;, ej obligatoriskt</string>
+    <string name="cd_traveler_redress_number_edit_text">Ange \&apos;redress-nummer\&apos;, ej obligatoriskt</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
     <string name="cd_traveler_special_assistance_edit">Välj typ av specialassistans som resenären behöver</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->

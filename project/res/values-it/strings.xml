@@ -1771,6 +1771,10 @@
     <string name="disclaimer_expedia_points">Se disponi di un account Expedia Rewards, prenota usando lo stesso indirizzo e-mail e i tuoi punti verranno aggiunti automaticamente al termine del tuo soggiorno. I punti risulteranno sul tuo account entro i prossimi 30 giorni.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Conferma e prenota</string>
+    <!-- Label for advertising optout setting -->
+    <string name="tracking_optout">Limitare il monitoraggio pubblicitario</string>
+    <!-- Description for advertising optout setting -->
+    <string name="tracking_optout_description">Disattivare il monitoraggio pubblicitario di terze parti. È necessario riavviare l\&apos;app.</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">Elimina dati personali</string>
     <!-- Title for dialog confirming the clearing of private data -->

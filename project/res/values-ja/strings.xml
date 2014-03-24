@@ -931,7 +931,7 @@
 
     <!-- Cost breakdown dialog -->
     <!-- Cost Summary -->
-    <string name="cost_summary">コスト サマリー</string>
+    <string name="cost_summary">料金の概要</string>
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">税金 &amp; サービス料</string>
     <!-- Expedia booking fee -->
@@ -1771,6 +1771,10 @@
     <string name="disclaimer_expedia_points">Expedia Rewards アカウントをお持ちの方は、アカウント登録時に使用した E メールアドレスでご予約いただくと、ご滞在後にポイントが自動的に付与されます。ポイントが反映されるまでには最長 30 日間かかりますので予めご了承ください。</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">確認 &amp; 予約</string>
+    <!-- Label for advertising optout setting -->
+    <string name="tracking_optout">Ad Tracking を制限</string>
+    <!-- Description for advertising optout setting -->
+    <string name="tracking_optout_description">第三者の追跡型広告を無効にします。アプリを再起動してください。</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">個人データの削除</string>
     <!-- Title for dialog confirming the clearing of private data -->
@@ -1822,7 +1826,7 @@
     <!-- Friendly message at the top of the receipt -->
     <string name="Enjoy_your_stay">素敵なご滞在を。</string>
     <!-- Format for a first/last name -->
-    <string name="name_template">%2$s %1$s</string>
+    <string name="name_template">%1$s %2$s</string>
     <!-- Reservation summary label -->
     <string name="reservation_summary">予約の概要</string>
     <!-- Confirmation number label -->

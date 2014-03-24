@@ -91,7 +91,7 @@
     <!-- Itinerary -->
     <string name="itinerary">Lịch trình</string>
     <!-- Shop -->
-    <string name="shop">Mua sắm</string>
+    <string name="shop">Đặt</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Tìm lịch trình</string>
     <!-- Find Itinerary # -->
@@ -154,7 +154,7 @@
     <!-- Shared Itin - Template for hotelcard header text (will be filled in with "FirstName at HotelName") -->
     <string name="SharedItin_Title_Hotel_TEMPLATE">%1$s nghỉ tại %2$s</string>
     <!-- Default (fallback) itin card title for FLIGHT -->
-    <string name="Flight">Chuyến bay</string>
+    <string name="Flight">Chuyến\nbay</string>
     <!-- Default (fallback) itin card title for HOTEL -->
     <string name="Hotel">Khách sạn</string>
     <!-- Default (fallback) itin card title for CAR -->
@@ -248,7 +248,7 @@
     <!-- Flight has been diverted to {airport} template -->
     <string name="flight_diverted_TEMPLATE">Chuyến bay đã chuyển hướng đến %1$s</string>
     <!-- Flight departs on {date} template -->
-    <string name="flight_departs_on_TEMPLATE">K.hành %1$s</string>
+    <string name="flight_departs_on_TEMPLATE">Khởi hành %1$s</string>
     <!-- Departs early {duration from now} -->
     <string name="flight_departs_early_TEMPLATE">Khởi hành sớm %1$s</string>
     <!-- Departs late {duration from now} -->
@@ -359,7 +359,7 @@
     <!-- Second half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
     <string name="attraction_scuba_second">lặn biển</string>
     <!-- First half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_first">Thử vận may cùng</string>
+    <string name="attraction_casinos_first">Thử vận may tại</string>
     <!-- Second half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
     <string name="attraction_casinos_second">những sòng bạc đẳng cấp thế giới</string>
     <!-- First half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
@@ -539,7 +539,7 @@
     <!-- 1: traveler name 2: hotel name 3: date(mm/dd/yyyy) 4: SharableURL -->
     <string name="share_msg_template_short_hotel_reshare">%1$s lưu trú tại %2$s vào %3$s!\n%4$s</string>
     <!-- 1: Hotel name, 2: Formatted length of stay -->
-    <string name="share_template_long_hotel_1_greeting">Xin chào,\n\nTôi nghỉ tại %1$s trong %2$s.</string>
+    <string name="share_template_long_hotel_1_greeting">Chào,\n\nTôi lưu trú tại %1$s trong vòng %2$s.</string>
     <!-- 1: Traveler name 2: Hotel name, 3: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting_reshare">Chào,\n\n%1$s lưu trú tại %2$s trong vòng %3$s.</string>
     <!-- 1: Check in date, 2: Check out date -->
@@ -642,7 +642,7 @@
     <!-- Label for when flights are loading -->
     <string name="loading_flights">Đang tải chuyến bay…</string>
     <!-- Label for screen that is doing searches -->
-    <string name="searching">Đang tìm kiếm…</string>
+    <string name="searching">Đang tìm…</string>
     <!-- Error message when we find no flights -->
     <string name="error_no_flights_found">Không tìm thấy chuyến bay</string>
     <!-- Error message when we find no flights because of an invalid departure airport -->
@@ -662,7 +662,7 @@
     <!-- Error when we simple can't connect to E3 servers -->
     <string name="error_server">Rất tiếc, chúng tôi không thể kết nối đến máy chủ Expedia.  Vui lòng thử lại sau.</string>
     <!-- Sort by departure timelabel -->
-    <string name="sort_description_departure">K.hành</string>
+    <string name="sort_description_departure">Khởi hành</string>
     <!-- Sort by arrival time label -->
     <string name="sort_description_arrival">Đến</string>
     <!-- Sort by duration label -->
@@ -939,7 +939,7 @@
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">Phí thẻ hãng hàng không</string>
     <!-- Flight -->
-    <string name="flight">Chuyến bay</string>
+    <string name="flight">Chuyến\nbay</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
     <string name="traveler_num_and_category_TEMPLATE">Khách %1$d</string>
 
@@ -1136,7 +1136,7 @@
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
     <string name="yay_going_somewhere_TEMPLATE">Quý vị sẽ đi %s!</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
-    <string name="itinerary_confirmation_TEMPLATE">Lịch trình #%s đã được gửi tới</string>
+    <string name="itinerary_confirmation_TEMPLATE">Lịch trình số %s đã được gửi tới</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">Tìm phòng</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
@@ -1455,7 +1455,7 @@
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
     <string name="progress_finding_location">Đang tìm địa điểm hiện tại…</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels">Đang tìm kiếm khách sạn…</string>
+    <string name="progress_searching_hotels">Đang tìm khách sạn…</string>
     <!-- Message displayed when app is searching for a particular hotel -->
     <string name="progress_searching_selected_hotel">Đang tìm khách sạn…</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1771,10 +1771,14 @@
     <string name="disclaimer_expedia_points">Nếu đã có tài khoản Expedia Rewards, vui lòng đặt phòng với cùng địa chỉ email và điểm của quý vị sẽ tự động được cập nhật sau khi thời gian lưu trú. Xin lưu ý rằng có thể mất tối đa 30 ngày để điểm tích lũy xuất hiện.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Xác nhận &amp; Đặt phòng</string>
+    <!-- Label for advertising optout setting -->
+    <string name="tracking_optout">Giới hạn thăm dò quảng cáo</string>
+    <!-- Description for advertising optout setting -->
+    <string name="tracking_optout_description">Tắt chức năng thăm dò quảng cáo của bên thứ 3. Cần khởi động lại app.</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">Xóa Dữ liệu Cá nhân</string>
     <!-- Title for dialog confirming the clearing of private data -->
-    <string name="dialog_clear_private_data_title">Xóa Dữ liệu C nhân?</string>
+    <string name="dialog_clear_private_data_title">Xóa Dữ liệu Cá nhân?</string>
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_msg">Thao tác này sẽ xóa tất cả thông tin thanh toán và liên hệ đã lưu.</string>
     <!-- Message for dialog confirming the clearing of private data -->
@@ -1820,7 +1824,7 @@
 
     <!-- Confirmation activity -->
     <!-- Friendly message at the top of the receipt -->
-    <string name="Enjoy_your_stay">Tận hưởng thời gian lưu trú của quý vị!</string>
+    <string name="Enjoy_your_stay">Chúc quý vị những ngày lưu trú tốt đẹp!</string>
     <!-- Format for a first/last name -->
     <string name="name_template">%1$s %2$s</string>
     <!-- Reservation summary label -->
@@ -1834,7 +1838,7 @@
     <!-- ActionBar button for starting a new search -->
     <string name="NEW_SEARCH">TÌM KIẾM MỚI</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">Nếu có bất kỳ câu hỏi nào về việc đặt phòng, vui lòng gọi cho Expedia theo số %s.</string>
+    <string name="contact_phone_template">Nếu có bất kỳ câu hỏi về đặt chỗ/đặt phòng của mình, vui lòng gọi Expedia qua số %s.</string>
 
     <!-- Confirmation Fragment -->
     <!-- Label to share booking information after a booking confirmation -->
@@ -2180,7 +2184,7 @@
     <!-- There were no results matching the input -->
     <string name="e3_error_search_results_invalid_input">Rất tiếc, chúng tôi không thể trả lại kết quả cho cụm từ tìm kiếm của quý vị. Vui lòng thử lại.</string>
     <!-- There were no results matching the input -->
-    <string name="e3_error_search_results_invalid_input_unknown">Rất tiếc, chúng tôi không thể trả lại kết quả cho cụm từ tìm kiếm của quý vị. Vui lòng thử lại.</string>
+    <string name="e3_error_search_results_invalid_input_unknown">Rất tiếc, chúng tôi không tìm được kết quả với từ khóa của quý vị. Vui lòng thử lại.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_search_results_unknown_error">Rất tiếc, nhưng chúng tôi không thể hoàn thành tìm kiếm của quý vị. Vui lòng thử lại.</string>
 

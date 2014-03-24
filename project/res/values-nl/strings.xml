@@ -1771,6 +1771,10 @@
     <string name="disclaimer_expedia_points">Als je een Expedia Rewards-account hebt, boek dan met hetzelfde e-mailadres om je punten automatisch na je verblijf toe te voegen. Let op: het kan maximaal 30 dagen duren voordat je punten verschijnen.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Bevestigen en boeken</string>
+    <!-- Label for advertising optout setting -->
+    <string name="tracking_optout">Ad tracking beperken</string>
+    <!-- Description for advertising optout setting -->
+    <string name="tracking_optout_description">Third-party ad tracking uitschakelen. App reboot vereist.</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">Privégegevens wissen</string>
     <!-- Title for dialog confirming the clearing of private data -->

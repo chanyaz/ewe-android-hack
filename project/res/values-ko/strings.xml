@@ -3,7 +3,7 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt; 님! Expedia 계정을 갖고 계신 것 같네요. Facebook과 Expedia 계정을 연결하려면 아래에 Expedia 비밀번호를 입력해 주세요.</string>
+    <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt; 님! 익스피디아 계정을 갖고 계신 것 같네요. Facebook과 익스피디아 계정을 연결하려면 아래에 익스피디아 비밀번호를 입력해 주세요.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt; 님! 고객님의 Facebook 정보를 가져왔습니다.</string>
     <!-- Log in with facebook (button text) -->
@@ -19,7 +19,7 @@
     <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
     <string name="login_failed_try_again">로그인하지 못했습니다. 이메일과 비밀번호가 올바른 경우 앱의 국가 설정이 올바른지 확인해 주세요.</string>
     <!-- Facebook connect expedia password hint -->
-    <string name="expedia_password_hint">Expedia 비밀번호</string>
+    <string name="expedia_password_hint">익스피디아 비밀번호</string>
     <!-- Link accounts -->
     <string name="link_accounts">계정 연결</string>
     <!-- Failure to update the user -->
@@ -29,7 +29,7 @@
     <!-- Log In -->
     <string name="Log_In">로그인</string>
     <!-- Log in with Expedia -->
-    <string name="Log_in_with_Expedia">Expedia로 로그인</string>
+    <string name="Log_in_with_Expedia">익스피디아로 로그인</string>
     <!-- or -->
     <string name="or">또는</string>
     <!-- Already logged in -->
@@ -37,7 +37,7 @@
 
     <!-- Restricted Profile -->
     <!-- Restricted profile login message -->
-    <string name="restricted_profile_login_message">Expedia에 로그인하려면 기기에서 무제한 사용자 프로필을 사용해야 합니다.</string>
+    <string name="restricted_profile_login_message">익스피디아에 로그인하려면 기기에서 무제한 사용자 프로필을 사용해야 합니다.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Home -->
@@ -67,7 +67,7 @@
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
-    <string name="Check_in_available">체크인 가능</string>
+    <string name="Check_in_available">탑승 수속 가능</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%2$s행 %1$s 항공편</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -97,7 +97,7 @@
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">일정 번호 찾기</string>
     <!-- Expedia Itinerary -->
-    <string name="expedia_itinerary">Expedia 일정 번호</string>
+    <string name="expedia_itinerary">익스피디아 일정 번호</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus 고객 지원</string>
     <!-- No upcoming trips -->
@@ -551,7 +551,7 @@
     <!-- Link to more information about the hotel -->
     <string name="share_template_long_hotel_5_more_info">자세한 정보:\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">호텔과 항공편을 예약하고 일정을 확인 및 공유하실 수 있어요. 오늘 바로 Expedia 모바일 앱을 다운로드하세요.\n%s</string>
+    <string name="share_template_long_ad">호텔과 항공편을 예약하고 일정을 확인 및 공유하실 수 있어요. 오늘 바로 익스피디아 모바일 앱을 다운로드하세요.\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">항공편으로 %1$s에 가요!(%2$s)</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -630,7 +630,7 @@
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
-    <string name="Expedia_Flights">Expedia 항공편</string>
+    <string name="Expedia_Flights">익스피디아 항공편</string>
     <!-- Label for Flight Confirmation activity in task manager -->
     <string name="Flights_Confirmation">항공편 확인</string>
     <!-- Label for flight search part of app -->
@@ -660,7 +660,7 @@
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">%s행 귀국 항공편</string>
     <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">죄송합니다. Expedia 서버에 연결할 수 없습니다. 나중에 다시 시도해 주세요.</string>
+    <string name="error_server">죄송합니다. 익스피디아 서버에 연결할 수 없습니다. 나중에 다시 시도해 주세요.</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">출발</string>
     <!-- Sort by arrival time label -->
@@ -801,7 +801,7 @@
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">기내 반입 휴대 수하물 요금이 적용됩니다.</string>
     <!-- A message for a flight that does not include baggage fees in the fare total -->
-    <string name="checked_baggage_not_included">체크인한 수하물은 포함되어 있지 않습니다.</string>
+    <string name="checked_baggage_not_included">위탁 수하물은 포함되어 있지 않습니다.</string>
     <!-- Payment and baggage fees may apply -->
     <string name="payment_and_baggage_fees_may_apply">결제 수수료가 적용될 수 있습니다.</string>
     <!-- Additional Flight fare fees -->
@@ -935,7 +935,7 @@
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">세금 및 수수료</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">Expedia 예약 수수료</string>
+    <string name="expedia_booking_fee">익스피디아 예약 수수료</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">카드 결제 수수료</string>
     <!-- Flight -->
@@ -1026,7 +1026,7 @@
     <!-- save billing info -->
     <string name="save_billing_info">청구 정보 저장</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">앞으로 더욱 간편한 구매를 위해 고객님의 Expedia 계정에 이 결제 방법을 저장하시겠습니까?</string>
+    <string name="save_billing_info_message">앞으로 더욱 간편한 구매를 위해 고객님의 익스피디아 계정에 이 결제 방법을 저장하시겠어요?</string>
     <!-- save -->
     <string name="save">저장</string>
 
@@ -1034,7 +1034,7 @@
     <!-- save traveler -->
     <string name="save_traveler">여행객 저장</string>
     <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">앞으로 더욱 간편한 구매를 위해 고객님의 Expedia 계정에 %1$s 님 정보를 저장하시겠습니까?</string>
+    <string name="save_traveler_message_TEMPLATE">앞으로 더욱 간편한 구매를 위해 고객님의 익스피디아 계정에 %1$s 님 정보를 저장하시겠어요?</string>
     <!-- no thanks -->
     <string name="no_thanks">나중에 하기</string>
 
@@ -1152,7 +1152,7 @@
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
     <string name="add_to_flighttrack">FlightTrack으로 항공편 정보 확인</string>
     <!-- Button label for calling expedia customer support -->
-    <string name="call_expedia_customer_support">Expedia 고객 지원에 연락</string>
+    <string name="call_expedia_customer_support">익스피디아 고객 지원에 연락</string>
     <!-- Button label for VSC support webpage link -->
     <string name="vsc_customer_support">문의</string>
     <!-- Add Insurance label -->
@@ -1174,11 +1174,11 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">Expedia 일정 번호: %s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">익스피디아 일정 번호: %s</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">공항까지 가는 길 안내: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE">Expedia 고객 지원: %s</string>
+    <string name="calendar_flight_desc_support_TEMPLATE">익스피디아 고객 지원: %s</string>
 
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
@@ -1230,7 +1230,7 @@
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">죄송합니다. 현재 고객님의 주문을 처리해 드릴 수 없습니다. 다시 시도해 주세요.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">죄송합니다. 현재 고객님의 주문을 처리해 드릴 수 없습니다. 다시 시도하시거나 Expedia 고객 지원에 연락하여 이 일정 번호를 말씀해 주세요: %s</string>
+    <string name="error_flight_unhandled_TEMPLATE">죄송합니다. 현재 고객님의 주문을 처리해 드릴 수 없습니다. 다시 시도하시거나 익스피디아 고객 지원에 연락하여 이 일정 번호를 말씀해 주세요: %s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
     <string name="error_flight_no_longer_available">정말 죄송합니다. 고객님 항공편은 더 이상 이용하실 수 없습니다.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
@@ -1288,7 +1288,7 @@
     <string name="share_flight_section_outbound">출국편:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">귀국편:</string>
-    <string name="app_name">Expedia</string>
+    <string name="app_name">익스피디아</string>
 
     <!-- Search Fragment -->
     <!-- Initial hint for the search location field - invites the user to enter information here -->
@@ -1387,7 +1387,7 @@
     <!-- Search Error title text "Search Error" -->
     <string name="search_error">검색 오류</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
-    <string name="search_hotel_id_TEMPLATE">호텔%s</string>
+    <string name="search_hotel_id_TEMPLATE">호텔 %s</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -1771,6 +1771,10 @@
     <string name="disclaimer_expedia_points">Expedia Rewards 계정이 있으시면 예약 시 동일한 이메일을 사용하셔야 고객님의 포인트가 숙박 후 자동으로 적립됩니다. 포인트 적용에는 최대 30일이 소요될 수 있습니다.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">확인 및 예약</string>
+    <!-- Label for advertising optout setting -->
+    <string name="tracking_optout">광고 추적 제한</string>
+    <!-- Description for advertising optout setting -->
+    <string name="tracking_optout_description">제3자 광고 추적을 해제합니다. 앱을 다시 시작해야 합니다.</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">개인 정보 삭제</string>
     <!-- Title for dialog confirming the clearing of private data -->
@@ -1806,7 +1810,7 @@
     <!-- Title for error dialog when booking fails -->
     <string name="error_booking_title">오류</string>
     <!-- Error message when we couldn't get a response -->
-    <string name="error_booking_null">Expedia 서버에 연결할 수 없습니다.  연결 상태를 확인하고 다시 시도해 주세요.</string>
+    <string name="error_booking_null">익스피디아 서버에 연결할 수 없습니다.  연결 상태를 확인하고 다시 시도해 주세요.</string>
     <!-- Error message when booking completed with errors -->
     <string name="error_booking_succeeded_with_errors">호텔 객실이 예약되었습니다. 그러나 다음 오류가 발생했습니다: %s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
@@ -1834,7 +1838,7 @@
     <!-- ActionBar button for starting a new search -->
     <string name="NEW_SEARCH">새로 검색</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">예약 관련 문의 사항이 있으시면 Expedia 전화 %s번으로 연락해 주세요.</string>
+    <string name="contact_phone_template">예약 관련 문의 사항이 있으시면 익스피디아 전화 %s번으로 연락해 주세요.</string>
 
     <!-- Confirmation Fragment -->
     <!-- Label to share booking information after a booking confirmation -->
@@ -1856,7 +1860,7 @@
     <!-- Label for the total cost of the booking. -->
     <string name="Total">총계</string>
     <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
-    <string name="PayToExpedia">Expedia에 결제</string>
+    <string name="PayToExpedia">익스피디아에 결제</string>
     <!-- Label for "check in" information. Used both as header for check in policies and for the date of check in. -->
     <string name="CheckIn">체크인</string>
     <!-- Label for "check out" information. Used both as header for check out policies and for the date of check out. -->
@@ -1868,7 +1872,7 @@
     <!-- Policy displayed to user when an immediate charge is required -->
     <string name="PolicyImmediateChargeRequired">예약하시면 고객님의 신용카드로 총 예약 금액이 바로 청구됩니다.</string>
     <!-- Policy displayed to user when the room is non-refundable -->
-    <string name="PolicyNonRefundable">Expedia는 이 호텔에 대해 특별 할인 요금을 제공하고 있습니다. 따라서 이 호텔 요금은 환불되지 않습니다. 이 예약을 취소하시는 경우에도 결제하신 금액이 환불되지 않습니다.</string>
+    <string name="PolicyNonRefundable">익스피디아는 이 호텔에 대해 특별 할인 요금을 제공하고 있습니다. 따라서 이 호텔 요금은 환불되지 않습니다. 이 예약을 취소하시는 경우에도 결제하신 금액이 환불되지 않습니다.</string>
     <!-- Policy displayed to user when a deposit is required -->
     <string name="PolicyDepositRequired">고객님의 신용카드로 예약을 위한 보증금이 청구됩니다. 예약을 완료하시면 호텔 측에서 직접 고객님의 신용카드에 청구합니다.</string>
     <!-- Policy displayed to user when a guarantee is required -->
@@ -1888,7 +1892,7 @@
     <!-- Message that tells user they failed to log in -->
     <string name="login_failed">다시 로그인해 주세요.</string>
     <!-- Label for logout confirmation -->
-    <string name="logout_confirmation">Expedia 계정에서 로그아웃하시겠어요?</string>
+    <string name="logout_confirmation">익스피디아 계정에서 로그아웃하시겠어요?</string>
     <!-- Label for login widget additional text -->
     <string name="log_in_for_faster_booking">로그인하시면 예약이 보다 간편합니다.</string>
     <!-- Label for account status -->
@@ -1900,11 +1904,11 @@
     <!-- Label for account name -->
     <string name="logged_in_as">로그인된 고객님:</string>
     <!-- Label for signin screen -->
-    <string name="expedia_account">Expedia 계정</string>
+    <string name="expedia_account">익스피디아 계정</string>
     <!-- Label for signin screen -->
     <string name="vsc_account">VSC 계정</string>
     <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">Expedia 계정 로드 중</string>
+    <string name="loading_expedia_account">익스피디아 계정 로드 중</string>
     <!-- Label for password recovery -->
     <string name="forgot_your_password">비밀번호를 잊으셨나요?</string>
     <!-- Webview title for password recovery -->
@@ -1940,29 +1944,29 @@
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
     <string name="coupon_error_no_code">죄송합니다. 쿠폰을 적용할 수 없습니다.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">죄송합니다. 알 수 없는 쿠폰 코드입니다..</string>
+    <string name="coupon_error_unrecognized">죄송합니다. 알 수 없는 쿠폰 코드입니다.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">죄송합니다. 이 쿠폰은 만료되었습니다..</string>
+    <string name="coupon_error_expired">죄송합니다. 이 쿠폰은 만료되었습니다.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">죄송합니다. 문제가 있는 것 같습니다. 다시 시도해 주세요.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">죄송합니다. 이 쿠폰 코드는 이미 사용되었습니다..</string>
+    <string name="coupon_error_duplicate">죄송합니다. 이 쿠폰 코드는 이미 사용되었습니다.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">죄송합니다. 문제가 있는 것 같습니다. 다시 시도해 주세요.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">예약 비용이 변경되었기 때문에 쿠폰을 적용해 드리지 못했습니다. 확인하고 다시 시도해 주세요..</string>
+    <string name="coupon_error_price_change">예약 비용이 변경되었기 때문에 쿠폰을 적용해 드리지 못했습니다. 확인하고 다시 시도해 주세요.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">죄송합니다. 이 쿠폰 코드는 다른 국가용입니다..</string>
+    <string name="coupon_error_invalid_region">죄송합니다. 이 쿠폰 코드는 다른 국가용입니다.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
-    <string name="coupon_error_min_stay_not_met">죄송합니다. 최소 숙박 일수를 선택하지 않으셨습니다..</string>
+    <string name="coupon_error_min_stay_not_met">죄송합니다. 최소 숙박 일수를 선택하지 않으셨습니다.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">죄송합니다. 이 쿠폰 코드는 이들 날짜에 사용하실 수 없습니다..</string>
+    <string name="coupon_error_invalid_travel_dates">죄송합니다. 이 쿠폰 코드는 이들 날짜에 사용하실 수 없습니다.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">죄송합니다. 이 호텔 예약에는 쿠폰을 사용하실 수 없습니다..</string>
+    <string name="coupon_error_invalid_product">죄송합니다. 이 호텔 예약에는 쿠폰을 사용하실 수 없습니다.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">죄송합니다. 최소 비용 요구 조건을 충족하지 않습니다..</string>
+    <string name="coupon_error_min_purchase_amount_not_met">죄송합니다. 최소 비용 요구 조건을 충족하지 않습니다.</string>
     <!-- Error when applying coupon - the hotel does not accept this coupon -->
-    <string name="coupon_error_hotel_excluded">죄송합니다. 이 호텔 예약에는 쿠폰을 사용하실 수 없습니다..</string>
+    <string name="coupon_error_hotel_excluded">죄송합니다. 이 호텔 예약에는 쿠폰을 사용하실 수 없습니다.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">죄송합니다. 현재 쿠폰을 처리할 수 없습니다.  다시 시도해 주세요.</string>
 
@@ -1970,9 +1974,9 @@
     <!-- Subject property name template, will say "Expedia Itinerary - dates and other information" -->
     <string name="share_subject_dash_template">%1$s - %2$s</string>
     <!-- The title of the share subject line -->
-    <string name="share_subject_title">Expedia 일정</string>
+    <string name="share_subject_title">익스피디아 일정</string>
     <!-- Subject property name template. -->
-    <string name="share_subject_template">Expedia 일정 -</string>
+    <string name="share_subject_template">익스피디아 일정 -</string>
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
     <string name="share_subject_template_dates">(%1$s - %2$s)</string>
     <!-- Preset at the top of the share body message -->
@@ -1990,27 +1994,27 @@
 
     <!-- About activity -->
     <!-- Label for "contact Expedia" button in info page -->
-    <string name="contact_expedia">Expedia에 문의하기</string>
+    <string name="contact_expedia">익스피디아에 문의하기</string>
     <!-- Extra description for "contact Expedia" button, when space allows -->
     <string name="contact_expedia_description">24시간 내내 운영합니다.</string>
     <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_expedia_via">Expedia 고객센터 문의 방법</string>
+    <string name="contact_expedia_via">익스피디아 고객센터 문의 방법</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">전화</string>
     <!-- Contact Expedia via email -->
     <string name="contact_expedia_email">이메일</string>
     <!-- Contact Expedia via email subject -->
-    <string name="contact_expedia_email_subject">Expedia 예약 지원</string>
+    <string name="contact_expedia_email_subject">익스피디아 예약 지원</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">웹사이트</string>
     <!-- Label for "Expedia website" button in info page -->
-    <string name="expedia_website">Expedia 웹사이트</string>
+    <string name="expedia_website">익스피디아 웹사이트</string>
     <!-- Extra description for "Expedia website" button, when space allows -->
-    <string name="expedia_website_description">Expedia 웹사이트에서 항공편, 렌터카, 에어텔 등을 예약하실 수 있습니다.</string>
+    <string name="expedia_website_description">익스피디아 웹사이트에서 항공편, 렌터카, 에어텔 등을 예약하실 수 있습니다.</string>
     <!-- Extra description for "app feedback" button, when space allows -->
     <string name="app_feedback_description">이 앱에 대한 의견을 들려주세요.</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">앱 지원</string>
+    <string name="app_support">앱 기술 지원</string>
     <!-- Extra description for "app support" button, when space allows -->
     <string name="app_support_description">간단히 적어주시면 곧 답변을 드리겠습니다.</string>
     <!-- Extra description for "tell a friend" button, when space allows -->
@@ -2018,9 +2022,9 @@
     <!-- Section header for other apps by Mobiata -->
     <string name="travel_smart">똑똑한 여행을 위한 선택</string>
     <!-- Subject line for "tell a friend" feature -->
-    <string name="tell_a_friend_subject">Expedia Hotels</string>
+    <string name="tell_a_friend_subject">익스피디아 호텔</string>
     <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">안녕하세요.\n\niPhone과 Android 스마트폰용 Expedia Hotels 앱을 다운로드해 보세요. 무료입니다! 전 세계 140,000여 개의 호텔을 간편하게 검색하고 예약하실 수 있습니다. 휴대폰에서 호텔을 예약하는 가장 쉬운 방법이에요.\n\nhttp://www.expedia.com/app</string>
+    <string name="tell_a_friend_body">안녕하세요.\n\niPhone과 Android 스마트폰용 익스피디아 호텔 앱을 다운로드해 보세요. 무료입니다! 전 세계 140,000여 개의 호텔을 간편하게 검색하고 예약하실 수 있습니다. 휴대폰에서 호텔을 예약하는 가장 쉬운 방법이에요.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">이용약관</string>
     <!-- Label for link to privacy policy -->
@@ -2030,13 +2034,13 @@
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_logged_out_and_cleared_private_data">로그아웃되고 데이터가 삭제되었습니다.</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">Expedia 계정에서 로그아웃되었습니다. 저장된 모든 청구 및 연락처 정보가 삭제되었습니다.</string>
+    <string name="dialog_message_logged_out_and_cleared_private_data">익스피디아 계정에서 로그아웃되었습니다. 저장된 모든 청구 및 연락처 정보가 삭제되었습니다.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">개인 정보가 삭제되었습니다.</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">저장된 모든 청구 및 연락처 정보가 삭제되었습니다.</string>
     <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
-    <string name="dialog_message_launch_expedia_mobile_site">Expedia 모바일 웹사이트를 실행할까요?</string>
+    <string name="dialog_message_launch_expedia_mobile_site">익스피디아 모바일 웹사이트를 실행할까요?</string>
     <!-- Action button label to Subscribe to our mailing list -->
     <string name="Subscribe">가입하기</string>
     <!-- Action button label to follow on twitter -->
@@ -2142,7 +2146,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">%1$s%2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
@@ -2164,7 +2168,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">오류가 발생하여 예약을 완료하지 못했습니다. 다시 시도해 주세요.</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">호텔 예약이 완료되었습니다! 여행 일정이 당장 필요하시면 Expedia 고객 지원에 연락해 주세요.</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors">호텔 예약이 완료되었습니다! 여행 일정이 당장 필요하시면 익스피디아 고객 지원에 연락해 주세요.</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">죄송합니다. 요청하신 객실은 더 이상 이용하실 수 없습니다.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
@@ -2189,7 +2193,7 @@
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">죄송합니다. 이 객실에 대한 프로모션은 끝났지만 다른 프로모션이 진행 중입니다. 확인해 보세요.</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">죄송합니다. 요청하신 객실은 더 이상 이용하실 수 없습니다.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">죄송합니다. Expedia에 연결할 수 없습니다. 다시 시도해 주세요.</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure">죄송합니다. 익스피디아에 연결할 수 없습니다. 다시 시도해 주세요.</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">죄송합니다. 이 객실에 대한 프로모션은 끝났지만 다른 프로모션이 진행 중입니다. 확인해 보세요.</string>
     <!-- There are no longer any rooms for the hotel offer -->
@@ -2476,7 +2480,7 @@
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">Google Wallet 쿠폰 이용약관</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">쿠폰은 Expedia Android 앱에서 2013년 6월 17일 ~ 2013년 12월 31일에 해당하는 여행을 예약하는 경우 사용하실 수 있습니다. 이 혜택은 Expedia.com에서 제공하는 것이며 Expedia.com 미국 고객께만 적용됩니다.\n\n또한 예약 시 Expedia 요금 호텔이 이용 가능한 경우에만 해당하며 모든 해당 이용약관이 적용됩니다. 이 쿠폰은 다른 쿠폰이나 프로모션 또는 특별 혜택과 함께 사용하실 수 없습니다. 쿠폰 할인은 세금, 공급업체가 부과하는 요금, 취소 또는 변경에 대한 위약금, 행정 수수료 및 기타 부과금에는 적용되지 않으며 이러한 부과금은 고객님 본인의 단독 책임입니다. 예약의 전체 또는 일부를 변경하거나 취소하는 경우, 변경된 일정의 여행에는 이 쿠폰이 적용되지 않습니다.\n\n이 쿠폰의 이용약관은 기술된 바와 같으며 Expedia, Inc.의 직원을 포함하여 누구도 승인 없이 대표로 변경할 수 없습니다. 쿠폰은 양도가 불가능하며 현금으로 환급되지 않습니다. 법으로 금지되는 경우에는 효력이 없습니다. Expedia, Inc.는 언제든지 이 혜택을 취소 또는 변경할 수 있습니다.</string>
+    <string name="wallet_promo_tc_message">쿠폰은 익스피디아 안드로이드 앱에서 2013년 6월 17일 ~ 2013년 12월 31일에 해당하는 여행을 예약하는 경우 사용하실 수 있습니다. 이 혜택은 Expedia.com에서 제공하는 것이며 Expedia.com 미국 고객께만 적용됩니다.\n\n또한 예약 시 익스피디아 요금 호텔이 이용 가능한 경우에만 해당하며 모든 해당 이용약관이 적용됩니다. 이 쿠폰은 다른 쿠폰이나 프로모션 또는 특별 혜택과 함께 사용하실 수 없습니다. 쿠폰 할인은 세금, 공급업체가 부과하는 요금, 취소 또는 변경에 대한 위약금, 행정 수수료 및 기타 부과금에는 적용되지 않으며 이러한 부과금은 고객님 본인의 단독 책임입니다. 예약의 전체 또는 일부를 변경하거나 취소하는 경우, 변경된 일정의 여행에는 이 쿠폰이 적용되지 않습니다.\n\n이 쿠폰의 이용약관은 기술된 바와 같으며 Expedia, Inc.의 직원을 포함하여 누구도 승인 없이 대표로 변경할 수 없습니다. 쿠폰은 양도가 불가능하며 현금으로 환급되지 않습니다. 법으로 금지되는 경우에는 효력이 없습니다. Expedia, Inc.는 언제든지 이 혜택을 취소 또는 변경할 수 있습니다.</string>
     <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
     <string name="wallet_promo_expired">죄송합니다. Google Wallet 할인은 2013년 여행에만 적용됩니다.</string>
 
@@ -2604,7 +2608,7 @@
     <!-- Your flight to _ now departs from gate _  TEMPLATE -->
     <string name="S_Push_flight_CITY_gate_GATE">고객님의 %1$s행 항공편이 게이트 %2$s에서 출발합니다.</string>
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
-    <string name="S_Push_baggage_BAGGAGE">수하물 찾는 곳 %1$s에서 고객님의 수하물을 찾으실 수 있습니다.</string>
+    <string name="S_Push_baggage_BAGGAGE">수하물 찾는 곳 %1$s에서 고객님의 짐을 찾으실 수 있습니다.</string>
 
     <!--
     Shortened Push Notification Loc Strings
@@ -2715,15 +2719,15 @@
     <!-- Content Description Labels -->
     <!-- Expedia Bookings Launch Screen -->
     <!-- Content description for action: Press button to launch Expedia Hotels -->
-    <string name="cd_launch_hotels">Expedia 호텔 화면을 실행합니다.</string>
+    <string name="cd_launch_hotels">익스피디아 호텔 화면을 실행합니다.</string>
     <!-- Content description for action: Press button to launch Expedia Flights -->
-    <string name="cd_launch_flights">Expedia 항공편 화면을 실행합니다.</string>
+    <string name="cd_launch_flights">익스피디아 항공편 화면을 실행합니다.</string>
     <!-- Content description for action: Press button to open menu list -->
     <string name="cd_launch_open_menu_list">메뉴 목록을 엽니다.</string>
     <!-- Content description for action: Open Settings Menu -->
     <string name="cd_launch_open_settings_menu">설정 메뉴를 엽니다.</string>
     <!-- Content description for action: Open App Info Screen -->
-    <string name="cd_launch_open_eb_info_screen">Expedia 예약 정보 화면을 엽니다.</string>
+    <string name="cd_launch_open_eb_info_screen">익스피디아 예약 정보 화면을 엽니다.</string>
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">누르면 여행 목록이 새로고침됩니다.</string>
@@ -2840,7 +2844,7 @@
     <!-- Content description for action: Press to begin checkout -->
     <string name="cd_checkout">누르면 예약 진행이 시작됩니다.</string>
     <!-- Content description for action: Press to log in with your Expedia account -->
-    <string name="cd_checkout_log_in_with_expedia">누르면 고객님의 Expedia 계정으로 로그인하실 수 있습니다.</string>
+    <string name="cd_checkout_log_in_with_expedia">누르면 고객님의 익스피디아 계정으로 로그인하실 수 있습니다.</string>
     <!-- Content description for action: Press to make this purchase with Google Wallet -->
     <string name="cd_checkout_buy_with_google">누르면 Google Wallet을 사용하여 이 상품을 구매하실 수 있습니다.</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
@@ -2855,11 +2859,11 @@
     <string name="cd_checkout_apply_coupon_button">누르면 쿠폰이 적용됩니다.</string>
     <!-- Log in screen -->
     <!-- Content description for action: Enter Expedia account email address -->
-    <string name="cd_log_in_email_edit_text">Expedia 계정 이메일 주소를 입력합니다.</string>
+    <string name="cd_log_in_email_edit_text">익스피디아 계정 이메일 주소를 입력합니다.</string>
     <!-- Content description for action: Enter Expedia account password -->
-    <string name="cd_log_in_password_edit_text">Expedia 계정 비밀번호를 입력합니다.</string>
+    <string name="cd_log_in_password_edit_text">익스피디아 계정 비밀번호를 입력합니다.</string>
     <!-- Content description for action: Press to log into Expedia with your Facebook account -->
-    <string name="cd_log_in_with_facebook">누르면 Facebook 계정을 사용하여 Expedia에 로그인하실 수 있습니다.</string>
+    <string name="cd_log_in_with_facebook">누르면 Facebook 계정을 사용하여 익스피디아에 로그인하실 수 있습니다.</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">누르면 새로운 여행객을 입력하실 수 있습니다.</string>

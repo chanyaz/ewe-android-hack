@@ -1771,6 +1771,10 @@
     <string name="disclaimer_expedia_points">Se você possui uma conta Expedia Rewards, faça sua reserva com o mesmo endereço de e-mail e seus pontos serão automaticamente acreditados após sua estadia. Porém, pode levar até mais de 30 dias para que os pontos apareçam na sua conta.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Confirmar e reservar</string>
+    <!-- Label for advertising optout setting -->
+    <string name="tracking_optout">Limitar publicidade rastreada</string>
+    <!-- Description for advertising optout setting -->
+    <string name="tracking_optout_description">Desativar publicidade rastreada de terceiros. É necessário reiniciar o aplicativo.</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">Apagar dados privados</string>
     <!-- Title for dialog confirming the clearing of private data -->

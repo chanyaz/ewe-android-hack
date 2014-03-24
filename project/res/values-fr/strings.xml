@@ -3,9 +3,9 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt;, nous avons trouvé votre compte Expedia ! Veuillez saisir votre mot de passe Expedia ci-dessous afin de lier vos comptes Facebook et Expedia.</string>
+    <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt;, nous avons trouvé votre compte Expedia ! Veuillez saisir votre mot de passe Expedia ci-dessous afin de lier vos comptes Facebook et Expedia.</string>
     <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt;, nous avons chargé vos informations Facebook !</string>
+    <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt;, nous avons chargé vos informations Facebook !</string>
     <!-- Log in with facebook (button text) -->
     <string name="Log_in_with_Facebook">Se connecter avec Facebook</string>
     <!-- fetching information from Facebook -->
@@ -67,7 +67,7 @@
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
-    <string name="Check_in_available">Arrivée possible</string>
+    <string name="Check_in_available">Enregistrement disponible</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">Vol %1$s à destination de %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
@@ -304,9 +304,9 @@
 
     <!-- Itin Buttons -->
     <!-- Dialog title for removing shared itin -->
-    <string name="remove_shared_itin_title">Supprimer le voyage partagé ?</string>
+    <string name="remove_shared_itin_title">Supprimer le voyage partagé ?</string>
     <!-- Dialog message for removing shared itin -->
-    <string name="remove_shared_itin_message">Êtes-vous sûr de vouloir supprimer ce voyage partagé de votre appareil ?</string>
+    <string name="remove_shared_itin_message">Êtes-vous sûr de vouloir supprimer ce voyage partagé de votre appareil ?</string>
     <!-- Popup menu -->
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Masquer</string>
@@ -315,7 +315,7 @@
 
     <!-- Hotel attach -->
     <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
-    <string name="add_hotel_TEMPLATE">Ajouter un hôtel ici : %1$s</string>
+    <string name="add_hotel_TEMPLATE">Ajouter un hôtel ici : %1$s</string>
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">Ajouter un hôtel dans votre destination</string>
 
@@ -333,7 +333,7 @@
     <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
     <string name="local_expert_title_TEMPLATE">Bon voyage à %1$s</string>
     <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="local_expert_description">Besoin d\&apos;aide pour votre voyage ?\nAppelez notre Local Expert !</string>
+    <string name="local_expert_description">Besoin d\&apos;aide pour votre voyage ?\nAppelez notre Local Expert !</string>
     <!-- Text for the button on Local Expert pages, to call the concierge -->
     <string name="local_expert_call_button_text">Appelez-nous</string>
 
@@ -533,11 +533,11 @@
     <!-- 1: hotel name 2: check in date 3: check out date -->
     <string name="share_template_subject_hotel">Je vais séjourner ici : %1$s (du %2$s – au %3$s)</string>
     <!-- 1: travelerName 2: hotel name 3: check in date 4: check out date -->
-    <string name="share_template_subject_hotel_reshare">%1$s va séjourner ici : %2$s (du %3$s – au %4$s)</string>
+    <string name="share_template_subject_hotel_reshare">%1$s va séjourner ici : %2$s (du %3$s – au %4$s)</string>
     <!-- 1: hotel name 2: date(mm/dd/yyyy) 3: SharableURL -->
-    <string name="share_msg_template_short_hotel">Je vais séjourner ici : %1$s, le %2$s !\n%3$s</string>
+    <string name="share_msg_template_short_hotel">Je vais séjourner ici : %1$s, le %2$s !\n%3$s</string>
     <!-- 1: traveler name 2: hotel name 3: date(mm/dd/yyyy) 4: SharableURL -->
-    <string name="share_msg_template_short_hotel_reshare">%1$s va séjourner ici : %2$s le %3$s !\n%4$s</string>
+    <string name="share_msg_template_short_hotel_reshare">%1$s va séjourner ici : %2$s le %3$s !\n%4$s</string>
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Bonjour,\n\nJe vais séjourner ici : %1$s, pendant %2$s.</string>
     <!-- 1: Traveler name 2: Hotel name, 3: Formatted length of stay -->
@@ -551,7 +551,7 @@
     <!-- Link to more information about the hotel -->
     <string name="share_template_long_hotel_5_more_info">Plus d\&apos;infos\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">Réservez des hôtels et des billets d\&apos;avion. Consultez et partagez vos voyages. Téléchargez l\&apos;appli gratuite Expedia !\n%s</string>
+    <string name="share_template_long_ad">Réservez des hôtels et des billets d\&apos;avion. Consultez et partagez vos voyages. Téléchargez l\&apos;appli gratuite Expedia !\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Le %2$s, je pars pour %1$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -559,9 +559,9 @@
     <!-- Email subject line for multiple travelers 1: city 2: date string -->
     <string name="share_template_subject_flight_multiple_travelers">Nous partons pour %1$s, le %2$s</string>
     <!-- 1: city name 2: date(mm/dd/yyyy) 3: SharableURL -->
-    <string name="share_msg_template_short_flight">Le %2$s, je pars pour %1$s !\n%3$s</string>
+    <string name="share_msg_template_short_flight">Le %2$s, je pars pour %1$s !\n%3$s</string>
     <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
-    <string name="share_msg_template_short_flight_reshare">Le %3$s, %1$s part pour %2$s !\n%4$s</string>
+    <string name="share_msg_template_short_flight_reshare">Le %3$s, %1$s part pour %2$s !\n%4$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
     <string name="share_template_subject_car">Ma location de voiture (du %1$s au %2$s)</string>
     <!-- Car rental share subject (no dates) -->
@@ -585,7 +585,7 @@
     <!-- Section header for the location of the car rental drop off. -->
     <string name="share_car_dropoff_location_section">Lieu de retour :</string>
     <!-- Section header for the Itin sharable link -->
-    <string name="share_link_section">Suivez ce voyage en direct :\n%s</string>
+    <string name="share_link_section">Suivez ce voyage en direct :\n%s</string>
     <!-- Shared options label -->
     <string name="shared_options">Options voyage partagé</string>
 
@@ -598,7 +598,7 @@
     <!-- activity valid date -->
     <string name="share_template_short_activity_valid">Valable à partir du : %1$s</string>
     <!-- activity expiration date -->
-    <string name="share_template_short_activity_expires">Valable jusqu\&apos;au : %1$s</string>
+    <string name="share_template_short_activity_expires">Valable jusqu\&apos;au : %1$s</string>
     <!-- message for activity message for 1: title -->
     <string name="share_template_long_activity_title">Bonjour,\n\nVoici les détails de mon activité (%1$s)</string>
     <!-- label for activity 1: valid date -->
@@ -901,7 +901,7 @@
     <!-- Log out -->
     <string name="log_out">Se déconnecter</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">Vous gagnerez %1$s points avec ce voyage !</string>
+    <string name="youll_earn_points_TEMPLATE">Vous gagnerez %1$s points avec ce voyage !</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">Vous gagnerez des points de bonus avec cette réservation</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -911,7 +911,7 @@
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">Désolés, l\&apos;hôtel vient d\&apos;augmenter le prix total du séjour de %1$s à %2$s.</string>
     <!-- String to use when a price change alert should be shown to the user -->
-    <string name="the_hotel_lowered_the_total_price_TEMPLATE">Bonne nouvelle ! Le prix de votre séjour est passé de %1$s à %2$s.</string>
+    <string name="the_hotel_lowered_the_total_price_TEMPLATE">Bonne nouvelle ! Le prix de votre séjour est passé de %1$s à %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Terminé</string>
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
@@ -966,7 +966,7 @@
     <string name="name_must_match_warning">Si le nom du voyageur ne correspond pas à celui sur la pièce d\&apos;identité, l\&apos;embarquement pourrait être refusé.</string>
 
     <!-- Special Assistance label template -->
-    <string name="special_assistance_label_TEMPLATE">Assistance spéciale : %1$s</string>
+    <string name="special_assistance_label_TEMPLATE">Assistance spéciale : %1$s</string>
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
     <!-- Born on -->
@@ -1034,7 +1034,7 @@
     <!-- save traveler -->
     <string name="save_traveler">Enregistrer le voyageur</string>
     <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">Enregistrer les informations sur %1$s dans votre compte Expedia pour réserver plus rapidement dans le futur ?</string>
+    <string name="save_traveler_message_TEMPLATE">Enregistrer les informations sur %1$s dans votre compte Expedia pour réserver plus rapidement dans le futur ?</string>
     <!-- no thanks -->
     <string name="no_thanks">Non, merci</string>
 
@@ -1134,7 +1134,7 @@
     <!-- Title for flight confirmation page -->
     <string name="booking_complete">Réservation complétée</string>
     <!-- Message telling you where you've booked a flight.  %s is the city name, e.g. "You're going to Venice!" -->
-    <string name="yay_going_somewhere_TEMPLATE">Vous allez à %s !</string>
+    <string name="yay_going_somewhere_TEMPLATE">Vous allez à %s !</string>
     <!-- Message telling user itinerary # and where it was sent.  %s is the itinerary number, e.g. "Itinerary #5123532 sent to" -->
     <string name="itinerary_confirmation_TEMPLATE">Voyage n° %s envoyé à</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
@@ -1174,11 +1174,11 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">N° de voyage Expedia : %s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">N° de voyage Expedia : %s</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">Pour rejoindre l\&apos;aéroport : %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE">Assistance clientèle Expedia : %s</string>
+    <string name="calendar_flight_desc_support_TEMPLATE">Assistance clientèle Expedia : %s</string>
 
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
@@ -1212,15 +1212,15 @@
     <!-- Button label for calling -->
     <string name="call_support">Assistance</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">La compagnie aérienne vient d\&apos;augmenter le prix de %1$s. Acceptez-vous de payer le nouveau total de %2$s ?</string>
+    <string name="error_flight_price_increased">La compagnie aérienne vient d\&apos;augmenter le prix de %1$s. Acceptez-vous de payer le nouveau total de %2$s ?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_decreased">Nous venons de trouver les vols que vous avez demandés pour %1$s de moins. Souhaitez-vous payer le nouveau total de %2$s ?</string>
+    <string name="error_flight_price_decreased">Nous venons de trouver les vols que vous avez demandés pour %1$s de moins. Souhaitez-vous payer le nouveau total de %2$s ?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
-    <string name="error_flight_added_processing_fee">La compagnie aérienne applique des frais de réservation de %1$s. Acceptez-vous de payer le nouveau total de %2$s ?</string>
+    <string name="error_flight_added_processing_fee">La compagnie aérienne applique des frais de réservation de %1$s. Acceptez-vous de payer le nouveau total de %2$s ?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_increased_with_fee">La compagnie aérienne applique des frais de réservation %1$s et le prix de votre billet a augmenté de %2$s. Acceptez-vous de payer le nouveau total de %3$s ?</string>
+    <string name="error_flight_price_increased_with_fee">La compagnie aérienne applique des frais de réservation %1$s et le prix de votre billet a augmenté de %2$s. Acceptez-vous de payer le nouveau total de %3$s ?</string>
     <!-- Error shown to user if the flight's airline adds a payment processinge fee and the flight's price has decrased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_decreased_with_fee">La compagnie aérienne applique des frais de réservation de %1$s, mais nous venons de trouver votre vol à %2$s de moins. Acceptez-vous de payer le nouveau total de %3$s ?</string>
+    <string name="error_flight_price_decreased_with_fee">La compagnie aérienne applique des frais de réservation de %1$s, mais nous venons de trouver votre vol à %2$s de moins. Acceptez-vous de payer le nouveau total de %3$s ?</string>
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">Le numéro de carte de paiement que vous avez saisi est invalide. Veuillez réessayer.</string>
     <!-- Error shown to user if their credit card has expired -->
@@ -1230,7 +1230,7 @@
     <!-- Error shown to user if we don't know what exaclty what went wrong. -->
     <string name="error_flight_unhandled">Désolés, nous ne sommes pas en mesure de traiter votre demande pour le moment. Veuillez réessayer.</string>
     <!-- Error shown to user if we don't know what exaclty what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">Désolés, nous ne sommes pas en mesure de traiter votre demande pour le moment. Veuillez réessayer ou appeler l\&apos;assistance clientèle d\&apos;Expedia et communiquer le numéro de voyage suivant : %s</string>
+    <string name="error_flight_unhandled_TEMPLATE">Désolés, nous ne sommes pas en mesure de traiter votre demande pour le moment. Veuillez réessayer ou appeler l\&apos;assistance clientèle d\&apos;Expedia et communiquer le numéro de voyage suivant : %s</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
     <string name="error_flight_no_longer_available">Désolés, votre vol n\&apos;est plus disponible.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
@@ -1320,13 +1320,13 @@
     <string name="prompt_select_child_age">Sélectionner l\&apos;âge de l\&apos;enfant (%1$s - %2$s)</string>
     <!-- Text for child's age on search refinements and in spinner -->
     <plurals name="child_age">
-        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; an</item>
-        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; ans</item>
-        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; ans</item>
-        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; ans</item>
+        <item quantity="one">&lt;b&gt;%d&lt;/b&gt; an</item>
+        <item quantity="two">&lt;b&gt;%d&lt;/b&gt; ans</item>
+        <item quantity="many">&lt;b&gt;%d&lt;/b&gt; ans</item>
+        <item quantity="other">&lt;b&gt;%d&lt;/b&gt; ans</item>
     </plurals>
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
-    <string name="child_age_less_than_one">&lt;b&gt;Moins d\&apos;1 an&lt;/b&gt;</string>
+    <string name="child_age_less_than_one">&lt;b&gt;Moins d\&apos;1 an&lt;/b&gt;</string>
 
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
@@ -1449,7 +1449,7 @@
     <!-- Filter option template for filtering hotels by distance in miles.  (E.g., "5 mi"). -->
     <string name="filter_distance_miles_template">%s mi</string>
     <!-- Filter option template for filtering hotels by distance in kilometers.  (E.g., "7.5 km"). -->
-    <string name="filter_distance_kilometers_template">%s km</string>
+    <string name="filter_distance_kilometers_template">%s km</string>
 
     <!-- Progress messages -->
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
@@ -1771,6 +1771,10 @@
     <string name="disclaimer_expedia_points">Si vous disposez d\&apos;un compte Expedia Rewards, veuillez réserver avec la même adresse email et vos points seront automatiquement crédités après votre séjour. Veuillez noter que vos points apparaîtront dans un délai de 30 jours.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Confirmer et réserver</string>
+    <!-- Label for advertising optout setting -->
+    <string name="tracking_optout">Limiter le suivi publicitaire</string>
+    <!-- Description for advertising optout setting -->
+    <string name="tracking_optout_description">Désactiver le suivi publicitaire par des tiers Il est nécessaire de redémarrer l\&apos;app.</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">Effacer vos données</string>
     <!-- Title for dialog confirming the clearing of private data -->
@@ -1808,7 +1812,7 @@
     <!-- Error message when we couldn't get a response -->
     <string name="error_booking_null">Impossible de se connecter aux serveurs Expedia.  Veuillez vérifier votre connexion et réessayer plus tard.</string>
     <!-- Error message when booking completed with errors -->
-    <string name="error_booking_succeeded_with_errors">Votre chambre d\&apos;hôtel a bien été réservée. Cependant, nous avons relevé les erreurs suivantes : %s</string>
+    <string name="error_booking_succeeded_with_errors">Votre chambre d\&apos;hôtel a bien été réservée. Cependant, nous avons relevé les erreurs suivantes : %s</string>
     <!-- Error message when booking completed with errors - specifically if email was not sent -->
     <string name="error_unable_to_send_email">Nous ne sommes pas en mesure de vous envoyer la confirmation par email.</string>
     <!-- Label for button pressing which brings up a dialog to enter info to book a room -->
@@ -1934,7 +1938,7 @@
     <!-- Message shown when a coupon was successfully applied -->
     <string name="coupon_applied">Code promotionnel appliqué</string>
     <!-- Message showing the user how much they saved by applying a coupon.  %s is a money amount, e.g. "You saved $5.00!" -->
-    <string name="coupon_saved_TEMPLATE">Vous avez économisé %s !</string>
+    <string name="coupon_saved_TEMPLATE">Vous avez économisé %s !</string>
 
     <!-- Coupon Error Strings -->
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
@@ -1976,7 +1980,7 @@
     <!-- Subject dates template. 1$ and 2$ are the ` ranges (e.g., 3/21 - 3/24) -->
     <string name="share_subject_template_dates">(%1$s - %2$s)</string>
     <!-- Preset at the top of the share body message -->
-    <string name="share_body_start">Ci-après les informations de ma réservation d\&apos;hôtel :</string>
+    <string name="share_body_start">Ci-après les informations de ma réservation d\&apos;hôtel :</string>
     <!-- Name of user -->
     <string name="name">Nom</string>
     <!-- Number of adults label -->
@@ -2020,7 +2024,7 @@
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Expedia Hôtels</string>
     <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Bonjour,\n\nVenez découvrir Expedia Hôtels pour iPhone et téléphones Android. Cette application est gratuite et vous permettra de rechercher et de réserver plus de 140 000 hôtels dans le monde entier. C\&apos;est le moyen le plus simple de réserver un hôtel avec votre téléphone !\n\nhttp://www.expedia.com/app</string>
+    <string name="tell_a_friend_body">Bonjour,\n\nVenez découvrir Expedia Hôtels pour iPhone et téléphones Android. Cette application est gratuite et vous permettra de rechercher et de réserver plus de 140 000 hôtels dans le monde entier. C\&apos;est le moyen le plus simple de réserver un hôtel avec votre téléphone !\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Conditions d\&apos;utilisation</string>
     <!-- Label for link to privacy policy -->
@@ -2070,7 +2074,7 @@
     <!-- Hint to type in email address -->
     <string name="email_address">Adresse email</string>
     <!-- Hint to type in comments -->
-    <string name="feedback_hint">Qu\&apos;est-ce que nous pourrions améliorer ?</string>
+    <string name="feedback_hint">Qu\&apos;est-ce que nous pourrions améliorer ?</string>
 
     <!-- Preferences -->
     <!-- Category name for general preferences -->
@@ -2164,7 +2168,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">Une erreur nous empêche de finaliser votre réservation. Veuillez réessayer.</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">Votre hôtel a bien été réservé ! Veuillez contacter le service clients Expedia si vous avez besoin d\&apos;un voyage immédiatement.</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors">Votre hôtel a bien été réservé ! Veuillez contacter le service clients Expedia si vous avez besoin d\&apos;un voyage immédiatement.</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">Désolés, la chambre que vous avez demandée n\&apos;est plus disponible.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
@@ -2468,7 +2472,7 @@
     <!-- Message informing users that they are saving money with the Google Wallet promo -->
     <string name="wallet_promo_in_use_message">Vous avez économisé 10 % en utilisant Google Wallet !</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Un seul bon par réservation. Nous avons remplacé votre bon précédent par la réduction de 10 % pour avoir utilisé Google Wallet.</string>
+    <string name="coupon_replaced_message">Un seul bon par réservation. Nous avons remplacé votre bon précédent par la réduction de 10 % pour avoir utilisé Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Application de la réduction Google Wallet…</string>
     <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->

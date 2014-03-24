@@ -953,7 +953,7 @@
     <!-- Label for "Add Payment" in task manager -->
     <string name="Add_Payment">Añadir método de pago</string>
     <!-- Enter travler info button text -->
-    <string name="enter_traveler_info">Información del pasajero</string>
+    <string name="enter_traveler_info">Datos del viajero</string>
     <!-- Add traveler -->
     <string name="add_traveler">Añadir pasajero</string>
     <!-- Traveler Details (for flights) -->
@@ -1771,6 +1771,10 @@
     <string name="disclaimer_expedia_points">Si dispones de una cuenta Expedia Rewards, haz la reserva con la misma dirección de correo electrónico y recibirás automáticamente los puntos después de tu estancia. Los puntos pueden tardar hasta 30 días en aparecer.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Confirmar y reservar</string>
+    <!-- Label for advertising optout setting -->
+    <string name="tracking_optout">Limitar el rastreo publicitario</string>
+    <!-- Description for advertising optout setting -->
+    <string name="tracking_optout_description">Desactivar el rastreo publicitario de terceras partes Es necesario reiniciar la aplicación.</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">Borrar datos privados</string>
     <!-- Title for dialog confirming the clearing of private data -->

@@ -91,7 +91,7 @@
     <!-- Itinerary -->
     <string name="itinerary">แผนการเดินทาง</string>
     <!-- Shop -->
-    <string name="shop">ช้อป</string>
+    <string name="shop">จอง</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">ค้นหาแผนการเดินทาง</string>
     <!-- Find Itinerary # -->
@@ -551,7 +551,7 @@
     <!-- Link to more information about the hotel -->
     <string name="share_template_long_hotel_5_more_info">ข้อมูลเพิ่มเติม\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">จองโรงแรม เที่ยวบิน ดูและแบ่งปันแผนการเดินทางของคุณ ดาวน์โหลดแอพฟรีสำหรับมือถือจากเอ็กซ์พีเดียวันนี้\n%s</string>
+    <string name="share_template_long_ad">จองโรงแรม เที่ยวบิน ดูและแบ่งปันแผนการเดินทางของคุณ ดาวน์โหลดแอพฟรีจากเอ็กซ์พีเดียวันนี้\n%s</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">ฉันกำลังจะบินไป %1$s ในวันที่ %2$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -567,7 +567,7 @@
     <!-- Car rental share subject (no dates) -->
     <string name="share_template_subject_car_no_dates">รถเช่าของฉัน</string>
     <!-- 1: vehicle type -->
-    <string name="share_template_short_car_type">ฉันเช่า %1$s</string>
+    <string name="share_template_short_car_type">ฉันเช่า%1$s</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">ตั้งแต่ %1$s - %2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
@@ -760,7 +760,7 @@
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">ตั๋วเที่ยวเดียวในราคา &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Round trip from $994" -->
-    <string name="round_trip_price_TEMPLATE">ตั๋วไปกลับราคาเริ่มที่ &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="round_trip_price_TEMPLATE">ตั๋วไป-กลับเริ่มที่ &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">จองเลยในราคา &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
@@ -865,7 +865,7 @@
         <item quantity="other">ผู้เดินทาง %1$d คน</item>
     </plurals>
     <!-- Checkout button text -->
-    <string name="checkout_btn">เช็คเอาท์</string>
+    <string name="checkout_btn">จอง</string>
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">กำลังตรวจสอบการเปลี่ยนแปลงราคา…</string>
     <!-- Price changed from -->
@@ -893,7 +893,7 @@
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">เรียกเก็บโดยโรงแรม: %1$s</string>
     <!-- Checkout menu item -->
-    <string name="menu_checkout">เช็คเอาท์</string>
+    <string name="menu_checkout">จอง</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">รับประกันราคาที่ดีที่สุด</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
@@ -978,7 +978,7 @@
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
-    <string name="name_on_card_hint">ชื่อในบัตร</string>
+    <string name="name_on_card_hint">ชื่อบนบัตร</string>
     <!-- email hint -->
     <string name="email_address_hint">อีเมล</string>
     <!-- phone number hint -->
@@ -1006,7 +1006,7 @@
     <!-- Expiration date label -->
     <string name="expiration_date">วันหมดอายุ</string>
     <!-- Set expiration date button -->
-    <string name="btn_set">ตั้ง</string>
+    <string name="btn_set">เลือก</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -1068,7 +1068,7 @@
     <!-- Passport country label -->
     <string name="passport_country">ประเทศที่ทำหนังสือเดินทาง</string>
     <!-- Passport country / origin heading -->
-    <string name="passport_country_origin">ประเทศ / ต้นทางที่ทำหนังสือเดินทาง</string>
+    <string name="passport_country_origin">ต้นทาง/ประเทศที่ทำหนังสือเดินทาง</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">หมายเลข Redress (หากมี)</string>
     <!-- Saving traveler info spinner dialog -->
@@ -1771,6 +1771,10 @@
     <string name="disclaimer_expedia_points">หากคุณมีบัญชี Expedia Rewards โปรดใช้อีเมลที่ระบุในบัญชีในการจอง เพื่อให้ระบบเพิ่มคะแนนให้คุณโดยอัตโนมัติ หลังการเข้าพัก หมายเหตุ: อาจใช้เวลานานกว่า 30 วัน ในการแสดงคะแนนที่เพิ่ม</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">ยืนยันและจอง</string>
+    <!-- Label for advertising optout setting -->
+    <string name="tracking_optout">จำกัดการติดตามโฆษณา</string>
+    <!-- Description for advertising optout setting -->
+    <string name="tracking_optout_description">ปิดการติดตามโฆษณาโดยบุคคลที่สาม ต้องรีสตาร์ทแอพใหม่</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">ล้างข้อมูลส่วนตัว</string>
     <!-- Title for dialog confirming the clearing of private data -->
@@ -1834,7 +1838,7 @@
     <!-- ActionBar button for starting a new search -->
     <string name="NEW_SEARCH">ค้นหาใหม่</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">หากมีคำถามเกี่ยวกับการจอง โปรดติดต่อเอ็กซ์พีเดียที่%s</string>
+    <string name="contact_phone_template">หากคุณมีคำถามเกี่ยวกับการจอง โปรดโทรติดต่อเอ็กซ์พีเดียที่ %s</string>
 
     <!-- Confirmation Fragment -->
     <!-- Label to share booking information after a booking confirmation -->
@@ -1898,7 +1902,7 @@
     <!-- Loading rewards points message -->
     <string name="loading_your_rewards_points">กำลังโหลดคะแนนของคุณ…</string>
     <!-- Label for account name -->
-    <string name="logged_in_as">เข้าสู่ระบบของ</string>
+    <string name="logged_in_as">เข้าสู่ระบบในฐานะ</string>
     <!-- Label for signin screen -->
     <string name="expedia_account">บัญชีเอ็กซ์พีเดีย</string>
     <!-- Label for signin screen -->
@@ -2154,11 +2158,11 @@
 
     <!-- Error strings - replacements for default EAN errors -->
     <!-- Replaces "result was null" for no result search -->
-    <string name="ean_error_no_results">ขออภัย ระบบไม่พบโรงแรมที่้มีห้องว่างตามวันเข้าพักที่คุณระบุ โปรดระบุวันเข้าพักและสถานที่ใหม่อีกครั้ง</string>
+    <string name="ean_error_no_results">ขออภัย เราไม่สามารถหาโรงแรมที่มีห้องว่างได้ในขณะนี้ โปรดลองเปลี่ยนวันเข้าพักหรือสถานที่ใหม่</string>
     <!-- Replaces "result was null" for no result search -->
     <string name="ean_error_connect_unavailable">ระบบไม่สามารถเชื่อมข้อมูลห้องว่างของโรงแรมที่เลือกได้</string>
     <!-- Error message displayed when the phone number sent via booking is invalid -->
-    <string name="ean_error_invalid_phone_number">โปรดระบุหมายเลขโทรศัพท์</string>
+    <string name="ean_error_invalid_phone_number">โปรดป้อนหมายเลขโทรศัพท์ที่ถูกต้อง</string>
 
     <!-- Checkout API method -->
     <!-- The hotel booking failed -->
@@ -2912,7 +2916,7 @@
     <string name="cd_card_info_billing_address_country">เลือกประเทศ</string>
     <!-- Common actionbar elements -->
     <!-- Content description for action: Press to go back to previous screen -->
-    <string name="cd_go_back">กดเพื่อกลับไปยังเพจก่อนหน้า</string>
+    <string name="cd_go_back">กดเพื่อกลับไปยังหน้าก่อนหน้านี้</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="cd_share_menu_btn">กดเพื่อดูตัวเลือกการแชร์แผนการเดินทาง</string>

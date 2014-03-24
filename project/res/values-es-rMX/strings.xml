@@ -184,21 +184,21 @@
     <!-- Booking info label -->
     <string name="booking_info">Información de reservación</string>
     <!-- Itin flight generic terminal and gate template -->
-    <string name="Terminal_X_Gate_Y_TEMPLATE">Terminal %1$s, puerta de embarque %2$s</string>
+    <string name="Terminal_X_Gate_Y_TEMPLATE">Terminal %1$s, puerta %2$s</string>
     <!-- Itin flight international terminal and gate template -->
-    <string name="International_Terminal_Gate_X_TEMPLATE">Terminal internacional, puerta de embarque %1$s</string>
+    <string name="International_Terminal_Gate_X_TEMPLATE">Terminal internacional, puerta %1$s</string>
     <!-- Itin flight arrival terminal and gate template -->
-    <string name="Arrive_Terminal_X_Gate_Y_TEMPLATE">Terminal de llegada %1$s, puerta de embarque %2$s</string>
+    <string name="Arrive_Terminal_X_Gate_Y_TEMPLATE">Terminal de llegada %1$s, puerta %2$s</string>
     <!-- Itin flight arrival international terminal and gate template -->
-    <string name="Arrive_International_Terminal_Gate_X_TEMPLATE">Terminal de llegada internacional, puerta de embarque %1$s</string>
+    <string name="Arrive_International_Terminal_Gate_X_TEMPLATE">Terminal de llegada internacional, puerta %1$s</string>
     <!-- Itin flight departure terminal and gate template -->
-    <string name="Depart_Terminal_X_Gate_Y_TEMPLATE">Terminal de salida %1$s, puerta de embarque %2$s</string>
+    <string name="Depart_Terminal_X_Gate_Y_TEMPLATE">Terminal de salida %1$s, puerta %2$s</string>
     <!-- Itin flight departure international terminal and gate template -->
-    <string name="Depart_International_Terminal_Gate_X_TEMPLATE">Terminal de salida internacional, puerta de embarque %1$s</string>
+    <string name="Depart_International_Terminal_Gate_X_TEMPLATE">Terminal de salida internacional, puerta %1$s</string>
     <!-- "Gate To Be Determined", with "To Be Determined" abbreviated if possible -->
-    <string name="Gate_To_Be_Determined_abbrev">Puerta de embarque por confirmar</string>
+    <string name="Gate_To_Be_Determined_abbrev">Puerta por confirmar</string>
     <!-- Itin flight gate only template -->
-    <string name="Gate_X_TEMPLATE">Puerta de embarque %1$s</string>
+    <string name="Gate_X_TEMPLATE">Puerta %1$s</string>
     <!-- Itin flight arrive gate only template -->
     <string name="Arrive_Gate_X_TEMPLATE">Puerta de llegada %1$s</string>
     <!-- Itin flight depart gate only template -->
@@ -905,7 +905,7 @@
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">¡Obtendrás puntos extra por este viaje!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
-    <string name="calculating_taxes_and_fees">Estamos calculando los impuestos y cargos</string>
+    <string name="calculating_taxes_and_fees">Estamos calculando los impuestos y cargos…</string>
     <!-- Label to show next to the total price on the checkout receipt -->
     <string name="grand_total">Total</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -1042,7 +1042,7 @@
     <!-- Can't Save Traveler -->
     <string name="cant_save_traveler">No se puede guardar al pasajero</string>
     <!-- You already have a saved traveler with the name “[ traveler name ]”. -->
-    <string name="you_already_have_traveler_TEMPLATE">Ya has guardado un pasajero con el nombre \&apos;%1$s\&apos;.</string>
+    <string name="you_already_have_traveler_TEMPLATE">Ya has guardado un pasajero con el nombre \"%1$s\".</string>
     <!-- Don't save -->
     <string name="dont_save">No guardar</string>
     <!-- Overwrite -->
@@ -1070,7 +1070,7 @@
     <!-- Passport country / origin heading -->
     <string name="passport_country_origin">Origen/país del pasaporte</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">No. de rectificación (si aplica)</string>
+    <string name="only_if_applicable">Núm. de rectificación (si aplica)</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">Se está guardando la información del pasajero en tu cuenta…</string>
 
@@ -1371,7 +1371,7 @@
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">Busca en el mapa</string>
     <!-- Message when app is loading saved search results -->
-    <string name="loading_previous">Cargando los resultados de búsqueda previos</string>
+    <string name="loading_previous">Cargando los resultados de búsqueda previos…</string>
     <!-- Label for sort hotels in hotel list on tablet -->
     <string name="sort_hotels_tablet">ORDENAR</string>
     <!-- Label for sort hotels in hotel list -->
@@ -1771,6 +1771,10 @@
     <string name="disclaimer_expedia_points">Si tienes una cuenta de Expedia Rewards, favor de reservar con el mismo correo electrónico, y tus puntos aparecerán automáticamente después de tu estadía. Favor de notar que pueden pasar hasta 30 días para que los puntos aparezcan.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Confirmar y reservar</string>
+    <!-- Label for advertising optout setting -->
+    <string name="tracking_optout">Limitar el seguimiento de la publicidad</string>
+    <!-- Description for advertising optout setting -->
+    <string name="tracking_optout_description">Desactivar el seguimiento de publicidad de terceros. Es necesario reiniciar la aplicación.</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">Eliminar datos privados</string>
     <!-- Title for dialog confirming the clearing of private data -->
@@ -2020,7 +2024,7 @@
     <!-- Subject line for "tell a friend" feature -->
     <string name="tell_a_friend_subject">Hoteles de Expedia</string>
     <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Hola, \n\n visita los Hoteles de Expedia para iPhone y para los teléfonos Android. Es GRATIS, y puedes fácilmente buscar y reservar habitaciones en más de 140.000 hoteles en el mundo. Es la mejor forma de reservar hoteles en tu teléfono.\n\nhttps://www.expedia.com/app</string>
+    <string name="tell_a_friend_body">Hola, \n\n visita los Hoteles de Expedia para iPhone y para los teléfonos Android. Es GRATIS, y puedes fácilmente buscar y reservar habitaciones en más de 140.000 hoteles en el mundo. Es la mejor forma de reservar hoteles en tu teléfono.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Términos y condiciones</string>
     <!-- Label for link to privacy policy -->
@@ -2554,37 +2558,37 @@
     <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTES">Tu vuelo a %1$s saldrá con %2$s horas %3$s minutos de anticipación.</string>
     <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s minuto y ahora saldrá de la puerta de embarque %3$s.</string>
+    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s minuto y ahora saldrá de la puerta %3$s.</string>
     <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s minutos y ahora saldrá de la puerta de embarque %3$s.</string>
+    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s minutos y ahora saldrá de la puerta %3$s.</string>
     <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s hora y ahora saldrá de la puerta de embarque %3$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s hora y ahora saldrá de la puerta %3$s.</string>
     <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s horas y ahora saldrá de la puerta de embarque %3$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s horas y ahora saldrá de la puerta %3$s.</string>
     <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s hora %3$s minuto y ahora saldrá de la puerta de embarque %4$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s hora %3$s minuto y ahora saldrá de la puerta %4$s.</string>
     <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s horas %3$s minuto y ahora saldrá de la puerta de embarque %4$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s horas %3$s minuto y ahora saldrá de la puerta %4$s.</string>
     <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s hora %3$s minutos y ahora saldrá de la puerta de embarque %4$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s hora %3$s minutos y ahora saldrá de la puerta %4$s.</string>
     <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s horas %3$s minutos y ahora saldrá de la puerta de embarque %4$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE">Tu vuelo a %1$s tiene un retraso de %2$s horas %3$s minutos y ahora saldrá de la puerta %4$s.</string>
     <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">Tu vuelo a %1$s ahora sale con %2$s minuto de anticipación de la puerta de embarque %3$s.</string>
+    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE">Tu vuelo a %1$s ahora sale con %2$s minuto de anticipación de la puerta %3$s.</string>
     <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">Tu vuelo a %1$s ahora sale con %2$s minutos de anticipación de la puerta de embarque %3$s.</string>
+    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE">Tu vuelo a %1$s ahora sale con %2$s minutos de anticipación de la puerta %3$s.</string>
     <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">Tu vuelo a %1$s ahora sale con %2$s hora de anticipación de la puerta de embarque %3$s.</string>
+    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE">Tu vuelo a %1$s ahora sale con %2$s hora de anticipación de la puerta %3$s.</string>
     <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">Tu vuelo a %1$s ahora sale con %2$s horas de anticipación de la puerta de embarque %3$s.</string>
+    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE">Tu vuelo a %1$s ahora sale con %2$s horas de anticipación de la puerta %3$s.</string>
     <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">Tu vuelo a %1$s ahora sale con %2$s hora %3$s minuto de anticipación de la puerta de embarque %4$s.</string>
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE">Tu vuelo a %1$s ahora sale con %2$s hora %3$s minuto de anticipación de la puerta %4$s.</string>
     <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">Tu vuelo a %1$s ahora sale con %2$s horas %3$s minuto de anticipación de la puerta de embarque %4$s.</string>
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE">Tu vuelo a %1$s ahora sale con %2$s horas %3$s minuto de anticipación de la puerta %4$s.</string>
     <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">Tu vuelo a %1$s ahora sale con %2$s hora %3$s minutos de anticipación de la puerta de embarque %4$s.</string>
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE">Tu vuelo a %1$s ahora sale con %2$s hora %3$s minutos de anticipación de la puerta %4$s.</string>
     <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">Tu vuelo a %1$s ahora sale con %2$s horas %3$s minutos de anticipación de la puerta de embarque %4$s.</string>
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE">Tu vuelo a %1$s ahora sale con %2$s horas %3$s minutos de anticipación de la puerta %4$s.</string>
     <!-- Your flight from _ to _ has been cancelled TEMPLATE -->
     <string name="S_Push_flight_from_CITY_to_CITY_cancelled">Tu vuelo de %1$s a %2$s ha sido cancelado.</string>
     <!-- Your flight to _ departs in _ hour TEMPLATE -->
@@ -2602,7 +2606,7 @@
     <!-- Your flight to _ departs in _ minutes TEMPLATE -->
     <string name="S_Push_flight_CITY_departs_in_MINUTES">Tu vuelo a %1$s sale en %2$s minutos.</string>
     <!-- Your flight to _ now departs from gate _  TEMPLATE -->
-    <string name="S_Push_flight_CITY_gate_GATE">Tu vuelo a %1$s ahora sale de la puerta de embarque %2$s.</string>
+    <string name="S_Push_flight_CITY_gate_GATE">Tu vuelo a %1$s ahora sale de la puerta %2$s.</string>
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">Tu equipaje estará en la banda de entrega de equipaje %1$s.</string>
 
@@ -2648,37 +2652,37 @@
     <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_early_HOURS_MINUTES_short">Sale con %2$s horas %3$s minutos de anticipación.</string>
     <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE_short">Retrasado %2$s minuto y ahora sale de la puerta de embarque %3$s.</string>
+    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE_short">Retrasado %2$s minuto y ahora sale de la puerta %3$s.</string>
     <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE_short">Retrasado %2$s minutos y ahora sale de la puerta de embarque %3$s.</string>
+    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE_short">Retrasado %2$s minutos y ahora sale de la puerta %3$s.</string>
     <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE_short">Retrasado %2$s hora y ahora sale de la puerta de embarque %3$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE_short">Retrasado %2$s hora y ahora sale de la puerta %3$s.</string>
     <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE_short">Retrasado %2$s horas y ahora sale de la puerta de embarque %3$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE_short">Retrasado %2$s horas y ahora sale de la puerta %3$s.</string>
     <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE_short">Retrasado %2$s hora %3$s minuto y ahora sale de la puerta de embarque %4$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE_short">Retrasado %2$s hora %3$s minuto y ahora sale de la puerta %4$s.</string>
     <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE_short">Retrasado %2$s horas %3$s minuto y ahora sale de la puerta de embarque %4$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE_short">Retrasado %2$s horas %3$s minuto y ahora sale de la puerta %4$s.</string>
     <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE_short">Retrasado %2$s hora %3$s minutos y ahora sale de la puerta de embarque %4$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE_short">Retrasado %2$s hora %3$s minutos y ahora sale de la puerta %4$s.</string>
     <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE_short">Retrasado %2$s horas %3$s minutos y ahora sale de la puerta de embarque %4$s.</string>
+    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE_short">Retrasado %2$s horas %3$s minutos y ahora sale de la puerta %4$s.</string>
     <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE_short">Sale con %2$s minuto de anticipación de la puerta de embarque %3$s.</string>
+    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE_short">Sale con %2$s minuto de anticipación de la puerta %3$s.</string>
     <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE_short">Sale con %2$s minutos de anticipación de la puerta de embarque %3$s.</string>
+    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE_short">Sale con %2$s minutos de anticipación de la puerta %3$s.</string>
     <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE_short">Sale con %2$s hora de anticipación de la puerta de embarque %3$s.</string>
+    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE_short">Sale con %2$s hora de anticipación de la puerta %3$s.</string>
     <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE_short">Sale con %2$s horas de anticipación de la puerta de embarque %3$s.</string>
+    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE_short">Sale con %2$s horas de anticipación de la puerta %3$s.</string>
     <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE_short">Sale con %2$s hora y %3$s minuto de anticipación de la puerta de embarque %4$s.</string>
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE_short">Sale con %2$s hora y %3$s minuto de anticipación de la puerta %4$s.</string>
     <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE_short">Sale con %2$s horas y %3$s minuto de anticipación de la puerta de embarque %4$s.</string>
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE_short">Sale con %2$s horas y %3$s minuto de anticipación de la puerta %4$s.</string>
     <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE_short">Sale con %2$s hora %3$s minutos de anticipación de la puerta de embarque %4$s.</string>
+    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE_short">Sale con %2$s hora %3$s minutos de anticipación de la puerta %4$s.</string>
     <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE_short">Sale con %2$s horas %3$s minutos de anticipación de la puerta de embarque %4$s.</string>
+    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE_short">Sale con %2$s horas %3$s minutos de anticipación de la puerta %4$s.</string>
     <!-- Your flight from _ to _ has been cancelled TEMPLATE (short version) -->
     <string name="S_Push_flight_from_CITY_to_CITY_cancelled_short">El vuelo de %1$s está cancelado.</string>
     <!-- Your flight to _ departs in _ hour TEMPLATE (short version) -->
@@ -2696,7 +2700,7 @@
     <!-- Your flight to _ departs in _ minutes TEMPLATE (short version) -->
     <string name="S_Push_flight_CITY_departs_in_MINUTES_short">Sale en %2$s minutos.</string>
     <!-- Your flight to _ now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_gate_GATE_short">Sale de la puerta de embarque %2$s.</string>
+    <string name="S_Push_flight_CITY_gate_GATE_short">Sale de la puerta %2$s.</string>
 
     <!-- VSC Info Screen -->
     <!-- Header for a list of apps also written by VSC -->
@@ -2706,7 +2710,7 @@
     <!-- Description for FT Free app -->
     <string name="VSC_Voyages_SNF_description">Aplicación de Voyages-SNCF</string>
     <!-- VSC Copyright information -->
-    <string name="VSC_copyright">© Marca registrada 2012-2014 Agence Voyages-SNCF, Inc.\nTodos los derechos reservados.</string>
+    <string name="VSC_copyright">© Copyright 2012-2014 Agence Voyages-SNCF, Inc.\nTodos los derechos reservados.</string>
     <!-- VSC app name -->
     <string name="VSC_app_name">Hoteles VSC</string>
     <!-- Link to open when VSC logo is clicked on -->

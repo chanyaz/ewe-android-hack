@@ -1510,7 +1510,7 @@
     <!-- Default Loading message for widget -->
     <string name="loading_hotels">Henter hoteller…</string>
     <!-- Template for sale element in widget. The parameter is for the sale % -->
-    <string name="widget_savings_template">Spar %2.0f %%</string>
+    <string name="widget_savings_template">Spar %2.0f%%</string>
     <!-- Indicator to user to tap the widget to cause it to refresh -->
     <string name="refresh_widget">Tryk for at opdatere</string>
     <!-- Error string for widget when internet connection is unavailable -->
@@ -1771,6 +1771,10 @@
     <string name="disclaimer_expedia_points">Har du en Expedia Rewards-konto, reserver da venligst med samme e-mailadresse, så dine point automatisk vil blive tilføjet efter dit ophold. Bemærk venligst, at der kan gå op til 30 dage, før dine point fremgår.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Bekræft og reserver</string>
+    <!-- Label for advertising optout setting -->
+    <string name="tracking_optout">Begræns annoncesporing</string>
+    <!-- Description for advertising optout setting -->
+    <string name="tracking_optout_description">Deaktiver annoncesporing fra tredjepart. Kræver at app\&apos;en genstartes.</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">Slet personlige oplysninger</string>
     <!-- Title for dialog confirming the clearing of private data -->
@@ -2258,7 +2262,7 @@
     <string name="country_cr">Costa Rica</string>
     <string name="country_hr">Kroatien</string>
     <string name="country_cu">Cuba</string>
-    <string name="country_cy">Kypern</string>
+    <string name="country_cy">Cypern</string>
     <string name="country_cz">Tjekkiet</string>
     <string name="country_ci">Elfenbenskysten</string>
     <string name="country_dk">Danmark</string>

@@ -426,9 +426,9 @@
     <string name="car_category_oversize">特大型车</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">两个门 轿车</string>
-    <string name="car_type_three_door">三个门 轿车</string>
-    <string name="car_type_four_door">四个门 轿车</string>
+    <string name="car_type_two_door">双门轿车</string>
+    <string name="car_type_three_door">三门轿车</string>
+    <string name="car_type_four_door">四门轿车</string>
     <string name="car_type_van">箱型车</string>
     <string name="car_type_wagon">旅行车</string>
     <string name="car_type_limousine">豪华轿车</string>
@@ -1400,7 +1400,7 @@
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">若要使用“我的位置”，您必须先在“设置”中开启“位置”服务来源。\n现在就转到“设置”，开启服务？</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
-    <string name="ProviderDisabled">您的位置服务提供商已被禁用。请将其重新启用以搜索您的位置。</string>
+    <string name="ProviderDisabled">您的位置服务提供商已被禁用。请重新启用，以按所在位置进行搜索。</string>
     <!-- Message displayed when the location provider is not working at the moment (e.g., network location fails). -->
     <string name="ProviderOutOfService">您的位置服务提供商没有服务。请稍后重试。</string>
     <!-- Message displayed when the location provider is temporarily unavailable. -->
@@ -1771,6 +1771,10 @@
     <string name="disclaimer_expedia_points">如果您具有 Expedia 奖励计划帐户，请使用相同的电子邮件地址进行预订，在您住宿后，您的积分将自动过帐。请注意，可能最多需要 30 天才能显示您的积分。</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">确认并预订</string>
+    <!-- Label for advertising optout setting -->
+    <string name="tracking_optout">限制广告跟踪</string>
+    <!-- Description for advertising optout setting -->
+    <string name="tracking_optout_description">禁用第三方广告跟踪。要求应用重新启动。</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">清除隐私数据</string>
     <!-- Title for dialog confirming the clearing of private data -->
@@ -2706,7 +2710,7 @@
     <!-- Description for FT Free app -->
     <string name="VSC_Voyages_SNF_description">Voyages-sncf.com 应用程序</string>
     <!-- VSC Copyright information -->
-    <string name="VSC_copyright">© 版权所有 2012–2013 Agence Voyages-SNCF, Inc.\n 保留所有权利。</string>
+    <string name="VSC_copyright">© 版权所有 2012–2014 Agence Voyages-SNCF, Inc.\n 保留所有权利。</string>
     <!-- VSC app name -->
     <string name="VSC_app_name">VSC Hotels</string>
     <!-- Link to open when VSC logo is clicked on -->

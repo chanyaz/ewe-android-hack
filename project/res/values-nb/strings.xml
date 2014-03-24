@@ -63,7 +63,7 @@
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Reiser</string>
     <!-- Google play services unrecoverable error dialog message -->
-    <string name="google_play_services_unrecoverable_error">Denne appen krever tjenester fra Google Play. Vennligst innstaller den siste versjonen av tjenester for Google Play.</string>
+    <string name="google_play_services_unrecoverable_error">Denne appen krever tjenester fra Google Play. Vennligst installer den siste versjonen av tjenester for Google Play.</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -333,7 +333,7 @@
     <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
     <string name="local_expert_title_TEMPLATE">Opplev %1$s</string>
     <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="local_expert_description">Din Local Expert er kun en telefonsamtale \nunna hvis du skulle trenge hjelp til ferirplanlegging.</string>
+    <string name="local_expert_description">Din Local Expert er kun en telefonsamtale \nunna hvis du skulle trenge hjelp til ferieplanlegging.</string>
     <!-- Text for the button on Local Expert pages, to call the concierge -->
     <string name="local_expert_call_button_text">Ring dem nå</string>
 
@@ -1070,7 +1070,7 @@
     <!-- Passport country / origin heading -->
     <string name="passport_country_origin">Land/opprinnelse i passet</string>
     <!-- Redress number hint -->
-    <string name="only_if_applicable">Klagenummer (hvis gjeldende)</string>
+    <string name="only_if_applicable">Kontrollnummer (hvis gjeldende)</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">Lagrer informasjon om reisende på kontoen din…</string>
 
@@ -1548,7 +1548,7 @@
 
     <!-- HotelDetailsFragmentActivity and friends -->
     <string name="minus_x_percent">-%2.0f%%</string>
-    <string name="x_percent_guests_recommend">%2.0f%% av våre gjester anbefaler dette hotellet.</string>
+    <string name="x_percent_guests_recommend">%2.0f%% av gjestene anbefaler dette hotellet.</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
@@ -1771,6 +1771,10 @@
     <string name="disclaimer_expedia_points">Dersom du har en Expedia Rewards™-konto, må du bestille med den samme e-postadressen for at poengene dine automatisk skal bli lagt til etter endt opphold. Vær oppmerksom på at det kan ta opptil 30 dager før poengene dine vises.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Bekreft og bestill</string>
+    <!-- Label for advertising optout setting -->
+    <string name="tracking_optout">Begrens annonsesporing</string>
+    <!-- Description for advertising optout setting -->
+    <string name="tracking_optout_description">Deaktiver tredjeparts annonsesporing. Krever omstart av appen.</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">Fjern private opplysninger</string>
     <!-- Title for dialog confirming the clearing of private data -->

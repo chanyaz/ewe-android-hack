@@ -523,7 +523,7 @@
     <string name="itin_action_directions">Wegbeschreibung</string>
     <string name="itin_action_call_hotel">Hotel anrufen</string>
     <string name="itin_action_redeem">Einlösen</string>
-    <string name="itin_action_support">Support</string>
+    <string name="itin_action_support">Kundenservice</string>
     <string name="itin_action_share">Teilen</string>
 
     <!-- Itin webview titles -->
@@ -1210,7 +1210,7 @@
     <!-- Button label for retrying after getting an error -->
     <string name="retry">Wiederholen</string>
     <!-- Button label for calling -->
-    <string name="call_support">Support</string>
+    <string name="call_support">Kundenservice</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_increased">Die Fluglinie hat den Preis für Ihr Ticket leider gerade um %1$s erhöht.  Sind Sie mit dem neuen Gesamtpreis (%2$s) einverstanden?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
@@ -1772,6 +1772,10 @@
     <string name="disclaimer_expedia_points">Wenn Sie ein Expedia Rewards-Konto haben, buchen Sie bitte mit der gleichen E-Mail-Adresse. Nach Ihrem Aufenthalt werden Ihnen dann automatisch Punkte gutgeschrieben. Bitte beachten Sie, dass es bis zu 30 Tage dauern kann, bis Sie Ihre Punkte erhalten.</string>
     <!-- Button label for confirming your booking -->
     <string name="confirm_book">Bestätigen &amp; Buchen</string>
+    <!-- Label for advertising optout setting -->
+    <string name="tracking_optout">Ad-Tracking beschränken</string>
+    <!-- Description for advertising optout setting -->
+    <string name="tracking_optout_description">Ad-Tracking von Dritten deaktivieren Erfordert einen Neustart der App</string>
     <!-- Label for clearing private data -->
     <string name="clear_private_data">Private Daten löschen</string>
     <!-- Title for dialog confirming the clearing of private data -->
