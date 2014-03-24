@@ -71,4 +71,17 @@ public class ExpediaImage extends Model {
 						height)
 				.executeSingle();
 	}
+
+	/////////////////////////////////////////
+	// Thumbor
+
+	// TODO !!!TEST TEST TEST URL!!! DO NOT SHIP WITH THIS URL
+	private static final String THUMBOR_SERVICE_URL_TEMPLATE = "http://ewetest.img.mobiata.com/unsafe/%s/smart/%s";
+
+	public String getThumborUrl(final int width, final int height) {
+		String dimensionsStrParam = String.valueOf(width) + "x" + String.valueOf(height);
+		String imgKey = mUrl.substring(7, mUrl.length()); // "http://" is 7 chars
+		return String.format(THUMBOR_SERVICE_URL_TEMPLATE, dimensionsStrParam, imgKey);
+	}
+
 }
