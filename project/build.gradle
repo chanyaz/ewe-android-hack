@@ -14,8 +14,8 @@ dependencies {
     compile project(':lib:ShareEverywhere:shareeverywhere')
     compile project(':lib:AndroidTime')
 
-    instrumentTestCompile fileTree('tests/libs').include('*.jar')
-    instrumentTestCompile fileTree('../lib/TestUtils/project/libs').include('*.jar')
+    androidTestCompile fileTree('tests/libs').include('*.jar')
+    androidTestCompile fileTree('../lib/TestUtils/project/libs').include('*.jar')
 }
 
 android {
