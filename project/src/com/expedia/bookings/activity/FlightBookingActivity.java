@@ -1,7 +1,6 @@
 package com.expedia.bookings.activity;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.joda.time.DateTime;
 
@@ -9,9 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -23,18 +23,12 @@ import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.fragment.BookingFragment;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
-import com.expedia.bookings.fragment.BookingFragment;
 import com.expedia.bookings.fragment.FlightBookingFragment;
-import com.expedia.bookings.fragment.BookingUnavailableDialogFragment;
-import com.expedia.bookings.fragment.PriceChangeDialogFragment;
-import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
-import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
@@ -96,7 +90,11 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		ImageView bgImageView = Ui.findView(this, R.id.background_bg_view);
 		bgImageView.setImageBitmap(Db.getBackgroundImage(this, true));
 
-		setTitle(R.string.title_complete_booking);
+		ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_cvv, null);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setCustomView(titleView);
 
 		mCVVEntryFragment = Ui.findSupportFragment(this, CVVEntryFragment.TAG);
 		mProgressFragment = Ui.findSupportFragment(this, BookingInProgressDialogFragment.TAG);
@@ -242,6 +240,17 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		return super.onOptionsItemSelected(item);
 	}
 
+	private void setActionBarText(boolean isError) {
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowCustomEnabled(true);
+
+		ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_cvv, null);
+		int titleResId = (isError) ? R.string.title_invalid_security_code : R.string.title_complete_booking;
+		((TextView) titleView.findViewById(R.id.title)).setText(titleResId);
+
+		actionBar.setCustomView(titleView);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Invalid CVV modes
 
@@ -259,8 +268,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		ab.setBackgroundDrawable(getResources().getDrawable(bgResId));
 
 		// Set the new title
-		int titleResId = (enabled) ? R.string.title_invalid_security_code : R.string.title_complete_booking;
-		ab.setTitle(titleResId);
+		setActionBarText(enabled);
 
 		// Pass this along to the fragment
 		mCVVEntryFragment.setCvvErrorMode(enabled);

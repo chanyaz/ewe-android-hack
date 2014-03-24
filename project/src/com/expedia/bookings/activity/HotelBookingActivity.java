@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -79,7 +81,12 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		}
 
 		setContentView(R.layout.activity_hotel_booking);
-		setTitle(R.string.title_complete_booking);
+
+		ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_cvv, null);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setCustomView(titleView);
 
 		mCVVEntryFragment = Ui.findSupportFragment(this, CVVEntryFragment.TAG);
 		mProgressFragment = Ui.findSupportFragment(this, BookingInProgressDialogFragment.TAG);
@@ -247,6 +254,17 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		return super.onOptionsItemSelected(item);
 	}
 
+	private void setActionBarText(boolean isError) {
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowCustomEnabled(true);
+
+		ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_cvv, null);
+		int titleResId = (isError) ? R.string.title_invalid_security_code : R.string.title_complete_booking;
+		((TextView) titleView.findViewById(R.id.title)).setText(titleResId);
+
+		actionBar.setCustomView(titleView);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Invalid CVV modes
 
@@ -265,8 +283,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		ab.setBackgroundDrawable(actionBarDrawable);
 
 		// Set the new title
-		int titleResId = (enabled) ? R.string.title_invalid_security_code : R.string.title_complete_booking;
-		ab.setTitle(titleResId);
+		setActionBarText(enabled);
 
 		// Pass this along to the fragment
 		mCVVEntryFragment.setCvvErrorMode(enabled);
