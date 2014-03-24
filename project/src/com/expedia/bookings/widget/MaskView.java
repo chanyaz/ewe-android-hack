@@ -48,6 +48,8 @@ public class MaskView extends View {
 
 	// Pre-allocate for rendering
 	private Rect mClipBounds;
+	private int[] mThisLocation = new int[2];
+	private int[] mExposedLocation = new int[2];
 
 	public MaskView(Context context) {
 		super(context);
@@ -96,13 +98,13 @@ public class MaskView extends View {
 		if (getParent() instanceof View) {
 			View exposedView = ((View) getParent()).findViewById(mExposedViewResId);
 			if (exposedView != null) {
-				// Using .getLeft() etc here is basically an optimization. If needed, we could
-				// use View.getLocationInWindow on this and exposedView instead.
+				exposedView.getLocationInWindow(mExposedLocation);
+				getLocationInWindow(mThisLocation);
 				canvas.drawRect(
-					exposedView.getLeft() - mExposedPadding - getLeft(),
-					exposedView.getTop() - mExposedPadding - getTop(),
-					exposedView.getRight() + mExposedPadding - getLeft(),
-					exposedView.getBottom() + mExposedPadding - getTop(),
+					mExposedLocation[0] - mExposedPadding - mThisLocation[0],
+					mExposedLocation[1] - mExposedPadding - mThisLocation[1],
+					mExposedLocation[0] + mExposedPadding - mThisLocation[0] + exposedView.getWidth(),
+					mExposedLocation[1] + mExposedPadding - mThisLocation[1] + exposedView.getHeight(),
 					mPlainPaint);
 			}
 		}
