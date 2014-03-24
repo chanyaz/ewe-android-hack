@@ -1392,6 +1392,7 @@ public class SearchResultsFragmentActivity extends SherlockFragmentActivity impl
 		if (mHotelMapFragment != null && mHotelMapFragment.isAdded()) {
 			mHotelMapFragment.notifySearchComplete();
 		}
+		AdTracker.trackHotelSearch();
 	}
 
 	private void notifyPropertySelected() {
