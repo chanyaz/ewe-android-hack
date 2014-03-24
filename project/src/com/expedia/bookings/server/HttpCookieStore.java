@@ -4,6 +4,7 @@ import java.net.CookieStore;
 import java.net.HttpCookie;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,7 +26,8 @@ public class HttpCookieStore implements CookieStore {
 
 	public void init(Context context) {
 		mContext = context;
-		mShouldLog = !AndroidUtils.isRelease(context) && SettingUtils.get(context, context.getString(R.string.preference_cookie_logging), false);
+		mShouldLog = !AndroidUtils.isRelease(context) && SettingUtils
+			.get(context, context.getString(R.string.preference_cookie_logging), false);
 		load();
 	}
 
@@ -73,11 +75,13 @@ public class HttpCookieStore implements CookieStore {
 		List<HttpCookie> results = new ArrayList<HttpCookie>();
 		List<HttpCookie> deads = new ArrayList<HttpCookie>();
 		for (HttpCookie cookie : mCookies) {
-			if (!isExpired(cookie)) {
-				results.add(cookie);
-			}
-			else {
-				deads.add(cookie);
+			if (cookie != null) {
+				if (!isExpired(cookie)) {
+					results.add(cookie);
+				}
+				else {
+					deads.add(cookie);
+				}
 			}
 		}
 		cleanup(deads);
@@ -134,7 +138,7 @@ public class HttpCookieStore implements CookieStore {
 	}
 
 	private void save() {
-		mTimesSavedToDisk ++;
+		mTimesSavedToDisk++;
 		if (mContext != null) {
 			HttpCookieDiskManager.save(mContext, mCookies, mCreatedTimes);
 		}
@@ -159,12 +163,15 @@ public class HttpCookieStore implements CookieStore {
 	}
 
 	private void cleanup(List<HttpCookie> deads) {
+		//Remove items in the deads list
 		if (deads != null && deads.size() > 0) {
 			for (HttpCookie dead : deads) {
 				mCreatedTimes.remove(dead);
 			}
 			mCookies.removeAll(deads);
 		}
+		//Remove any null entries in our list
+		mCookies.removeAll(Collections.singleton(null));
 	}
 
 	private void updateCookieCreatedTime(HttpCookie old, HttpCookie fresh) {
