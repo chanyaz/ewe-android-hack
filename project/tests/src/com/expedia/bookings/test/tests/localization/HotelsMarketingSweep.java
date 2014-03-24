@@ -62,84 +62,85 @@ public class HotelsMarketingSweep extends CustomActivityInstrumentationTestCase<
 		}
 
 		mDriver.waitForStringToBeGone(mDriver.hotelsSearchScreen().searchingForHotels());
-		// Sort
-		mDriver.hotelsSearchScreen().clickOnSortButton();
-		mDriver.hotelsSearchScreen().sortMenu().clickSortByPopularityString();
-		mDriver.hotelsSearchScreen().clickOnFilterButton();
-		mDriver.hotelsSearchScreen().filterMenu().clickMediumRatingFilterButton();
-		mDriver.goBack();
-		mDriver.delay();
-		mDriver.screenshot("Hotel Search Results");
+		if (mDriver.hotelsSearchScreen().hotelResultsListView().getChildAt(1) != null) {
+			// Sort
+			mDriver.hotelsSearchScreen().clickOnSortButton();
+			mDriver.hotelsSearchScreen().sortMenu().clickSortByPopularityString();
+			mDriver.hotelsSearchScreen().clickOnFilterButton();
+			mDriver.hotelsSearchScreen().filterMenu().clickMediumRatingFilterButton();
+			mDriver.goBack();
+			mDriver.delay();
+			mDriver.screenshot("Hotel Search Results");
+			//Select hotel
+			mDriver.hotelsSearchScreen().selectHotelFromList(0);
+			mDriver.delay(10);
+			mDriver.screenshot("Hotel details");
+			mDriver.delay(1);
+			mDriver.screenshot("Hotel details 2");
+			mDriver.hotelsDetailsScreen().clickReviewsTitle();
+			mDriver.delay();
+			mDriver.screenshot("Reviews");
+			mDriver.hotelsReviewsScreen().clickSelectButton();
+			mDriver.delay();
+			mDriver.screenshot("Hotel rooms and rates");
+			mDriver.hotelsRoomsRatesScreen().selectRoom(0);
+			mDriver.delay();
+			mDriver.waitForStringToBeGone(mDriver.hotelsCheckoutScreen().calculatingTaxesAndFees());
 
-		//Select hotel
-		mDriver.hotelsSearchScreen().selectHotelFromList(0);
-		mDriver.delay(10);
-		mDriver.screenshot("Hotel details");
-		mDriver.delay(1);
-		mDriver.screenshot("Hotel details 2");
-		mDriver.hotelsDetailsScreen().clickReviewsTitle();
-		mDriver.delay();
-		mDriver.screenshot("Reviews");
-		mDriver.hotelsReviewsScreen().clickSelectButton();
-		mDriver.delay();
-		mDriver.screenshot("Hotel rooms and rates");
-		mDriver.hotelsRoomsRatesScreen().selectRoom(0);
-		mDriver.delay();
-		mDriver.waitForStringToBeGone(mDriver.hotelsCheckoutScreen().calculatingTaxesAndFees());
+			mDriver.screenshot("Hotels checkout overview");
+			mDriver.hotelsCheckoutScreen().clickCheckoutButton();
+			mDriver.delay(5);
+			mDriver.screenshot("Hotels checkout 2");
+			mDriver.delay();
 
-		mDriver.screenshot("Hotels checkout overview");
-		mDriver.hotelsCheckoutScreen().clickCheckoutButton();
-		mDriver.delay(5);
-		mDriver.screenshot("Hotels checkout 2");
-		mDriver.delay();
+			// Log in
+			mDriver.hotelsCheckoutScreen().clickLogInButton();
+			mDriver.delay();
+			mDriver.hideSoftKeyboard();
+			mDriver.delay(1);
+			mDriver.screenshot("Log in screen");
+			mDriver.goBack();
+			mDriver.delay();
 
-		// Log in
-		mDriver.hotelsCheckoutScreen().clickLogInButton();
-		mDriver.delay();
-		mDriver.hideSoftKeyboard();
-		mDriver.delay(1);
-		mDriver.screenshot("Log in screen");
-		mDriver.goBack();
-		mDriver.delay();
+			// Open Traveler information
+			mDriver.hotelsCheckoutScreen().clickAddTravelerButton();
+			mDriver.selectTravelerScreen().clickEnterInfoManuallyButton();
+			mDriver.delay();
+			mDriver.hideSoftKeyboard();
+			mDriver.delay(1);
+			mDriver.screenshot("Traveler Details");
+			mDriver.travelerInformationScreen().enterFirstName(mUser.getFirstName());
+			mDriver.travelerInformationScreen().enterLastName(mUser.getLastName());
+			mDriver.travelerInformationScreen().enterPhoneNumber(mUser.getPhoneNumber());
+			mDriver.travelerInformationScreen().enterEmailAddress(mUser.getLoginEmail());
+			mDriver.travelerInformationScreen().clickDoneButton();
 
-		// Open Traveler information
-		mDriver.hotelsCheckoutScreen().clickAddTravelerButton();
-		mDriver.selectTravelerScreen().clickEnterInfoManuallyButton();
-		mDriver.delay();
-		mDriver.hideSoftKeyboard();
-		mDriver.delay(1);
-		mDriver.screenshot("Traveler Details");
-		mDriver.travelerInformationScreen().enterFirstName(mUser.getFirstName());
-		mDriver.travelerInformationScreen().enterLastName(mUser.getLastName());
-		mDriver.travelerInformationScreen().enterPhoneNumber(mUser.getPhoneNumber());
-		mDriver.travelerInformationScreen().enterEmailAddress(mUser.getLoginEmail());
-		mDriver.travelerInformationScreen().clickDoneButton();
+			// Open billing information
+			mDriver.hotelsCheckoutScreen().clickSelectPaymentButton();
+			mDriver.hideSoftKeyboard();
+			mDriver.delay(1);
+			mDriver.screenshot("Payment Details");
+			mDriver.enterLog(TAG, "Entering credit card with number: " + mUser.getCreditCardNumber());
+			mDriver.cardInfoScreen().typeTextCreditCardEditText(mUser.getCreditCardNumber());
+			mDriver.cardInfoScreen().typeTextPostalCode(mUser.getAddressPostalCode());
+			mDriver.cardInfoScreen().clickOnExpirationDateButton();
+			mDriver.enterLog(TAG, "Incrementing credit card exp. month and year by 1");
+			mDriver.cardInfoScreen().clickMonthUpButton();
+			mDriver.cardInfoScreen().clickYearUpButton();
+			mDriver.cardInfoScreen().clickSetButton();
+			mDriver.cardInfoScreen().typeTextNameOnCardEditText(mUser.getFirstName() + " " + mUser.getLastName());
+			mDriver.cardInfoScreen().clickOnDoneButton();
+			mDriver.delay();
 
-		// Open billing information
-		mDriver.hotelsCheckoutScreen().clickSelectPaymentButton();
-		mDriver.hideSoftKeyboard();
-		mDriver.delay(1);
-		mDriver.screenshot("Payment Details");
-		mDriver.enterLog(TAG, "Entering credit card with number: " + mUser.getCreditCardNumber());
-		mDriver.cardInfoScreen().typeTextCreditCardEditText(mUser.getCreditCardNumber());
-		mDriver.cardInfoScreen().typeTextPostalCode(mUser.getAddressPostalCode());
-		mDriver.cardInfoScreen().clickOnExpirationDateButton();
-		mDriver.enterLog(TAG, "Incrementing credit card exp. month and year by 1");
-		mDriver.cardInfoScreen().clickMonthUpButton();
-		mDriver.cardInfoScreen().clickYearUpButton();
-		mDriver.cardInfoScreen().clickSetButton();
-		mDriver.cardInfoScreen().typeTextNameOnCardEditText(mUser.getFirstName() + " " + mUser.getLastName());
-		mDriver.cardInfoScreen().clickOnDoneButton();
-		mDriver.delay();
-
-		if (mDriver.searchText(mDriver.hotelsCheckoutScreen().acceptString(), 1, false, true)) {
-			mDriver.screenshot("Accept TOS");
-			mDriver.hotelsCheckoutScreen().clickOnAcceptString();
+			if (mDriver.searchText(mDriver.hotelsCheckoutScreen().acceptString(), 1, false, true)) {
+				mDriver.screenshot("Accept TOS");
+				mDriver.hotelsCheckoutScreen().clickOnAcceptString();
+			}
+			mDriver.screenshot("Slide to checkout");
+			mDriver.hotelsCheckoutScreen().slideToCheckout();
+			mDriver.delay();
+			mDriver.screenshot("CVV Entry");
 		}
-		mDriver.screenshot("Slide to checkout");
-		mDriver.hotelsCheckoutScreen().slideToCheckout();
-		mDriver.delay();
-		mDriver.screenshot("CVV Entry");
 	}
 
 
