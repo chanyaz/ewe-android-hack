@@ -14,6 +14,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -641,7 +642,9 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		protected void onHasFieldAndData(Spinner field, Location data) {
 			CountrySpinnerAdapter adapter = (CountrySpinnerAdapter) field.getAdapter();
 			if (TextUtils.isEmpty(data.getCountryCode())) {
-				field.setSelection(adapter.getDefaultLocalePosition());
+				int localePosition = adapter.getDefaultLocalePosition();
+				field.setSelection(localePosition);
+				updateData(localePosition);
 				mSetFieldManually = true;
 			}
 			else {
