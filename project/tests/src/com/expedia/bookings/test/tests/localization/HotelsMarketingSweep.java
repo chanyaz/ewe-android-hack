@@ -140,6 +140,16 @@ public class HotelsMarketingSweep extends CustomActivityInstrumentationTestCase<
 			mDriver.hotelsCheckoutScreen().slideToCheckout();
 			mDriver.delay();
 			mDriver.screenshot("CVV Entry");
+			mDriver.cvvEntryScreen().parseAndEnterCVV("111");
+			mDriver.cvvEntryScreen().clickBookButton();
+
+			mDriver.waitForStringToBeGone(mDriver.cvvEntryScreen().booking());
+			mDriver.delay(1);
+			mDriver.screenshot("Confirmation Screen");
+
+			mDriver.hotelsConfirmationScreen().clickDoneButton();
+			mDriver.delay();
+			mDriver.screenshot("Empty Trips");
 		}
 	}
 
