@@ -2101,7 +2101,7 @@
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
     <string name="coupon_error_no_code">Sorry, coupon can’t be applied.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Sorry, but this isn’t a known coupon code.</string>
+    <string name="coupon_error_unrecognized">Sorry, but this isn’t a valid coupon code.</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Sorry, but this coupon has expired.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
@@ -2126,6 +2126,8 @@
     <string name="coupon_error_hotel_excluded">Sorry, but this hotel doesn’t accept coupons.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">Sorry, but we cannot process coupons currently.  Please try again.</string>
+    <!-- Error when applying coupon - session timeout -->
+    <string name="coupon_error_service_timeout">Sorry, but it took too long to apply the code. Please try again.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Number of adults label -->
