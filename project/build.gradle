@@ -117,18 +117,18 @@ android {
             assets.srcDirs = ['assets']
         }
 
-        instrumentTest {
+        androidTest {
             java.srcDirs = ['unitTests/java']
             res.srcDirs = ['unitTests/res']
         }
 
-        instrumentTestExpediaAutomation {
+        androidTestExpediaAutomation {
             manifest.srcFile 'tests/AndroidManifest.xml'
             java.srcDirs = ['tests/src']
             res.srcDirs = ['tests/res']
         }
 
-        instrumentTestTravelocityAutomation {
+        androidTestTravelocityAutomation {
             manifest.srcFile 'tests/AndroidManifest-travelocity.xml'
             java.srcDirs = ['tests/src']
             res.srcDirs = ['tests/res_travelocity']
