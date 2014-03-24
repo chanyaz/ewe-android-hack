@@ -214,6 +214,13 @@
         <attr name="customNumberFormat" format="string" />
     </declare-styleable>
 
+    <!-- MaskView -->
+    <declare-styleable name="MaskView">
+        <attr name="exposedView" format="reference"/>
+        <attr name="exposedPadding" format="dimension"/>
+        <attr name="maskColor" format="color"/>
+    </declare-styleable>
+
     <!-- VSC/EB attributes used for style switching in themes -->
     <!-- Hotel Search price styles -->
     <attr name="hotelPriceStandardColor" format="reference|color" />
