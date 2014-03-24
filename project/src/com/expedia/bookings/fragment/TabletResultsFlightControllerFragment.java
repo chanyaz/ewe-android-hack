@@ -20,6 +20,7 @@ import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.enums.ResultsFlightLegState;
 import com.expedia.bookings.enums.ResultsFlightsListState;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsState;
@@ -268,6 +269,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			if (mFlightSearchDownloadFrag != null) {
 				histFrag.setShowProgressBar(mFlightSearchDownloadFrag.isDownloadingFlightSearch());
 			}
+		}
+		else if (tag == FTAG_FLIGHT_LEGS_CHOOSER) {
+			ResultsRecursiveFlightLegsFragment legsFrag = (ResultsRecursiveFlightLegsFragment) frag;
+			legsFrag.registerStateListener(mLegStateListener, false);
 		}
 	}
 
@@ -855,5 +860,39 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
 		}
 	}
+
+
+	private StateListenerHelper<ResultsFlightLegState> mLegStateListener = new StateListenerHelper<ResultsFlightLegState>() {
+		@Override
+		public void onStateTransitionStart(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo) {
+			startStateTransition(translate(stateOne), translate(stateTwo));
+		}
+
+		@Override
+		public void onStateTransitionUpdate(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo,
+			float percentage) {
+			updateStateTransition(translate(stateOne), translate(stateTwo), percentage);
+		}
+
+		@Override
+		public void onStateTransitionEnd(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo) {
+			endStateTransition(translate(stateOne), translate(stateTwo));
+		}
+
+		@Override
+		public void onStateFinalized(ResultsFlightLegState state) {
+			setFlightsState(translate(state), false);
+		}
+
+		private ResultsFlightsState translate(ResultsFlightLegState state) {
+			if (state == ResultsFlightLegState.LIST_DOWN) {
+				return getBaseState();
+			}
+			else {
+				return ResultsFlightsState.CHOOSING_FLIGHT;
+			}
+		}
+	};
+
 
 }

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.enums.ResultsFlightLegState;
+import com.expedia.bookings.enums.ResultsFlightsListState;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IResultsFlightLegSelected;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
@@ -151,6 +152,38 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	/**
 	 * State Listeners
 	 */
+
+	private StateListenerHelper<ResultsFlightsListState> mListStateListener = new StateListenerHelper<ResultsFlightsListState>() {
+		@Override
+		public void onStateTransitionStart(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo) {
+			startStateTransition(translate(stateOne), translate(stateTwo));
+		}
+
+		@Override
+		public void onStateTransitionUpdate(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo,
+			float percentage) {
+			updateStateTransition(translate(stateOne), translate(stateTwo), percentage);
+		}
+
+		@Override
+		public void onStateTransitionEnd(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo) {
+			endStateTransition(translate(stateOne), translate(stateTwo));
+		}
+
+		@Override
+		public void onStateFinalized(ResultsFlightsListState state) {
+			setState(translate(state), false);
+		}
+
+		private ResultsFlightLegState translate(ResultsFlightsListState state) {
+			if (state == ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM) {
+				return ResultsFlightLegState.LIST_DOWN;
+			}
+			else {
+				return ResultsFlightLegState.FILTERS;
+			}
+		}
+	};
 
 	private StateListenerHelper<ResultsFlightLegState> mStateListener = new StateListenerHelper<ResultsFlightLegState>() {
 		@Override
@@ -325,7 +358,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		}
 		else if (tag == FTAG_LIST) {
 			ResultsFlightListFragment listFrag = (ResultsFlightListFragment) frag;
-			//listFrag.registerStateListener(mListStateHelper, false);
+			listFrag.registerStateListener(mListStateListener, false);
 			if (mLegNumber == 0) {
 				listFrag.setTopRightTextButtonText(getString(R.string.Done));
 			}
