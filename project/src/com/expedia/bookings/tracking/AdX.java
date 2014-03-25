@@ -129,7 +129,7 @@ public class AdX {
 			AdXConnect.setEventParameterOfName("currency", currency);
 			AdXConnect.setEventParameterOfName("id", orderNumber);
 
-			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_PRODUCTVIEW);
+			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_CONFIRMATION);
 		}
 	}
 
@@ -164,7 +164,7 @@ public class AdX {
 			AdXConnect.setEventParameterOfName("currency", currency);
 			AdXConnect.setEventParameterOfName("id", orderId);
 
-			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_PRODUCTVIEW);
+			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_CONFIRMATION);
 		}
 	}
 
