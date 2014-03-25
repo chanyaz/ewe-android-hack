@@ -34,6 +34,7 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 
 	public interface IDoneClickedListener {
 		public void onDoneClicked();
+
 		public void onStickyHeaderClicked();
 	}
 
@@ -78,7 +79,9 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		mAdapter.unregisterDataSetObserver(mDataSetObserver);
+		if (mAdapter != null) {
+			mAdapter.unregisterDataSetObserver(mDataSetObserver);
+		}
 	}
 
 	public void setLegPosition(int legNumber) {

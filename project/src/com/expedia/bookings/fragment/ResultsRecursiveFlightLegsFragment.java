@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.FruitList;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -82,6 +84,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	private StateManager<ResultsFlightLegState> mStateManager;
 	private StateListenerCollection<ResultsFlightLegState> mStateListeners;
 
+	private IResultsFlightLegSelected mParentLegSelectedListener;
+	private IResultsFlightSelectedListener mParentFlightSelectedListener;
+
 
 	public ResultsRecursiveFlightLegsFragment() {
 		this(0);
@@ -102,6 +107,13 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	/**
 	 * LIFE CYCLE
 	 */
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mParentLegSelectedListener = Ui.findFragmentListener(this, IResultsFlightLegSelected.class, false);
+		mParentFlightSelectedListener = Ui.findFragmentListener(this, IResultsFlightSelectedListener.class, false);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -128,10 +140,16 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		mMeasurementHelper.registerWithProvider(this);
 		registerStateListener(mStateListener, true);
 		mBackManager.registerWithParent(this);
+		if (mNextLegFrag != null) {
+			mNextLegFrag.registerStateListener(mNextLegStateListener, false);
+		}
 	}
 
 	@Override
 	public void onPause() {
+		if (mNextLegFrag != null) {
+			mNextLegFrag.unRegisterStateListener(mNextLegStateListener);
+		}
 		mBackManager.unregisterWithParent(this);
 		mStateListener.unregisterWithProvider(this);
 		mMeasurementHelper.unregisterWithProvider(this);
@@ -163,18 +181,24 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	@Override
 	public void onFlightSelected(int legNumber) {
-		if (mStateManager.getState() == ResultsFlightLegState.LIST_DOWN) {
-			mStateManager.animateThroughStates(ResultsFlightLegState.FILTERS, ResultsFlightLegState.DETAILS);
-		}
-		else {
-			setState(ResultsFlightLegState.DETAILS, true);
-		}
-		if (mNextLegFrag != null) {
-			mNextLegFrag.resetQuery();
-		}
+		Log.d("onFlightSelected mLegNumber:" + mLegNumber + " legNumber:" + legNumber);
+		if (legNumber == mLegNumber) {
+			if (mStateManager.getState() == ResultsFlightLegState.LIST_DOWN) {
+				mStateManager.animateThroughStates(ResultsFlightLegState.FILTERS, ResultsFlightLegState.DETAILS);
+			}
+			else {
+				setState(ResultsFlightLegState.DETAILS, true);
+			}
+			if (mNextLegFrag != null) {
+				mNextLegFrag.resetQuery();
+			}
 
-		if (mDetailsFrag != null && mDetailsFrag.isAdded()) {
-			mDetailsFrag.bindWithDb();
+			if (mDetailsFrag != null && mDetailsFrag.isAdded()) {
+				mDetailsFrag.bindWithDb();
+			}
+		}
+		if (mParentFlightSelectedListener != null) {
+			mParentFlightSelectedListener.onFlightSelected(legNumber);
 		}
 	}
 
@@ -184,12 +208,21 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	@Override
 	public void onTripAdded(int legNumber) {
-		int totalLegs = Db.getFlightSearch().getSearchParams().getQueryLegCount();
-		if (legNumber < (totalLegs - 1)) {
-			setState(ResultsFlightLegState.LATER_LEG, true);
+		Log.d("onTripAdded mLegNumber:" + mLegNumber + " legNumber:" + legNumber);
+		if (legNumber == mLegNumber) {
+			int totalLegs = Db.getFlightSearch().getSearchParams().getQueryLegCount();
+			if (legNumber < (totalLegs - 1)) {
+				setState(ResultsFlightLegState.LATER_LEG, true);
+			}
+			else {
+				Db.getTripBucket().clearFlight();
+				Db.getTripBucket().add(Db.getFlightSearch().getSearchState());
+				Db.saveTripBucket(getActivity());
+				setState(ResultsFlightLegState.ADDING_TO_TRIP, true);
+			}
 		}
-		else {
-			setState(ResultsFlightLegState.ADDING_TO_TRIP, true);
+		if (mParentLegSelectedListener != null) {
+			mParentLegSelectedListener.onTripAdded(legNumber);
 		}
 	}
 
@@ -224,7 +257,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				return ResultsFlightLegState.LIST_DOWN;
 			}
 			else {
-				return ResultsFlightLegState.FILTERS;
+				if (mStateManager.getState() == ResultsFlightLegState.LIST_DOWN) {
+					return ResultsFlightLegState.FILTERS;
+				}
+				else {
+					return mStateManager.getState();
+				}
 			}
 		}
 	};
@@ -252,14 +290,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			updateFragmentsForState(state);
 			updateListForState(state);
 
-			//Details state
-			if (state == ResultsFlightLegState.DETAILS) {
-				setDetailsShowingPercentage(1f);
-			}
-			else {
-				setDetailsShowingPercentage(0f);
-			}
-
 			//List and filters state
 			if (state == ResultsFlightLegState.LIST_DOWN) {
 				mFiltersC.setAlpha(0f);
@@ -272,8 +302,53 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				mFiltersC.setAlpha(1f);
 				mFiltersC.setTranslationY(0f);
 			}
+
+			//Details state
+			if (state == ResultsFlightLegState.DETAILS) {
+				setDetailsShowingPercentage(1f);
+				mDetailsFrag.bindWithDb();
+			}
+			else {
+				setDetailsShowingPercentage(0f);
+			}
+
+			//Next Leg State
+			if (state == ResultsFlightLegState.LATER_LEG) {
+				setNextLegShowingPercentage(1f);
+			}
+			else if (mNextLegFrag != null) {
+				//If we are showing, the next leg should always be in the filters state.
+				mNextLegFrag.setState(ResultsFlightLegState.FILTERS, false);
+			}
 		}
 	};
+
+
+	private StateListenerHelper<ResultsFlightLegState> mNextLegStateListener = new StateListenerHelper<ResultsFlightLegState>() {
+		@Override
+		public void onStateTransitionStart(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo) {
+
+		}
+
+		@Override
+		public void onStateTransitionUpdate(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo,
+			float percentage) {
+
+		}
+
+		@Override
+		public void onStateTransitionEnd(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo) {
+
+		}
+
+		@Override
+		public void onStateFinalized(ResultsFlightLegState state) {
+			if (getState() == ResultsFlightLegState.LATER_LEG && state == ResultsFlightLegState.ADDING_TO_TRIP) {
+				setState(ResultsFlightLegState.ADDING_TO_TRIP, false);
+			}
+		}
+	};
+
 
 	/**
 	 * State Helpers
@@ -301,6 +376,13 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			}
 		}
 	}
+
+	protected void setNextLegShowingPercentage(float percentage) {
+		int transX = mGrid.getColSpanWidth(0, 1);
+		mNextLegC.setTranslationX((1f - percentage) * transX);
+		mNextLegC.setAlpha(percentage);
+	}
+
 
 	protected void updateListForState(ResultsFlightLegState state) {
 		if (mListFrag != null) {
@@ -478,7 +560,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			}
 		}
 		else if (tag == FTAG_NEXT_LEG) {
-
+			((ResultsRecursiveFlightLegsFragment) frag).registerStateListener(mNextLegStateListener, false);
 		}
 	}
 
@@ -564,6 +646,10 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			}
 			else {
 				if (state == ResultsFlightLegState.LATER_LEG) {
+					if (mNextLegFrag != null && mNextLegFrag.getState() == ResultsFlightLegState.FILTERS) {
+						setState(ResultsFlightLegState.DETAILS, true);
+						return true;
+					}
 					return false;
 				}
 				else if (state == ResultsFlightLegState.DETAILS) {

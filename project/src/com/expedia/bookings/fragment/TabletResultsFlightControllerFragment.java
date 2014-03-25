@@ -331,8 +331,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		case LOADING:
 			visibleViews.add(mLoadingC);
 		case FLIGHT_HISTOGRAM:
+			visibleViews.add(mFlightHistogramC);
+			break;
 		case FLIGHT_LIST_DOWN: {
-			//visibleViews.add(mFlightHistogramC);
 			visibleViews.add(mFlightLegsC);
 			break;
 		}
@@ -702,43 +703,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mFlightMapC.setAlpha(1f - percentage);
 			}
 			else if (isHistogramAndListCardFlipTransition(stateOne, stateTwo)) {
-				boolean forward = stateOne == ResultsFlightsState.FLIGHT_HISTOGRAM;
-				ViewGroup outC;
-				ViewGroup inC;
-
-				if (forward) {
-					outC = mFlightHistogramC;
-					inC = mFlightHistogramC;
-				}
-				else {
-					outC = mFlightHistogramC;
-					inC = mFlightHistogramC;
-				}
-
-				if (percentage < .5f) {
-					outC.setAlpha(1f);
-					inC.setAlpha(0f);
-				}
-				else {
-					outC.setAlpha(0f);
-					inC.setAlpha(1f);
-				}
-
-				float outRotateY;
-				float inRotateY;
-
-				if (forward) {
-					outRotateY = percentage * -180;
-					inRotateY = (1f - percentage) * 180;
-				}
-				else {
-					outRotateY = percentage * 180;
-					inRotateY = (1f - percentage) * -180;
-				}
-
-				outC.setRotationY(outRotateY);
-				inC.setRotationY(inRotateY);
-
+				float perc = stateOne == ResultsFlightsState.FLIGHT_HISTOGRAM ? 1f - percentage : percentage;
+				mFlightHistogramC.setAlpha(perc);
+				mFlightLegsC.setAlpha(1f - perc);
 			}
 		}
 
@@ -759,7 +726,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 			if (state == ResultsFlightsState.LOADING || state == ResultsFlightsState.FLIGHT_LIST_DOWN
 				|| state == ResultsFlightsState.FLIGHT_HISTOGRAM) {
-
 				mFlightMapC.setAlpha(0f);
 			}
 			else {
@@ -778,10 +744,22 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mFlightHistogramC.setAlpha(1f);
 				mFlightHistogramC.setRotationY(0f);
 				mFlightHistogramC.setTouchPassThroughEnabled(false);
+				mFlightLegsC.setAlpha(0f);
 			}
 
 			if (state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				mFlightLegsC.setAlpha(1f);
+				mFlightLegsC.setRotationY(0f);
 				mFlightHistogramC.setAlpha(0f);
+				mFlightHistogramC.setTouchPassThroughEnabled(true);
+				mFlightHistogramC.setTouchPassThroughReceiver(mFlightLegsC);
+
+				if (mFlightLegsFrag != null) {
+					if (mFlightLegsFrag.getState() != ResultsFlightLegState.LIST_DOWN) {
+						mFlightLegsFrag.setState(ResultsFlightLegState.LIST_DOWN, false);
+					}
+					mFlightLegsFrag.resetQuery();
+				}
 			}
 
 			//Make sure we are loading using the most recent params
@@ -886,6 +864,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		private ResultsFlightsState translate(ResultsFlightLegState state) {
 			if (state == ResultsFlightLegState.LIST_DOWN) {
 				return getBaseState();
+			}
+			else if (state == ResultsFlightLegState.ADDING_TO_TRIP) {
+				return ResultsFlightsState.ADDING_FLIGHT_TO_TRIP;
 			}
 			else {
 				return ResultsFlightsState.CHOOSING_FLIGHT;
