@@ -256,11 +256,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		mCheckoutFragment.onActivityResult(requestCode, resultCode, data);
-		if (getLob() == LineOfBusiness.HOTELS && mHotelBookingFrag != null) {
-			mHotelBookingFrag.onActivityResult(requestCode, resultCode, data);
-		}
-		else if (mFlightBookingFrag != null) {
-			mFlightBookingFrag.onActivityResult(requestCode, resultCode, data);
+		if (getCurrentBookingFragment() != null) {
+			getCurrentBookingFragment().onActivityResult(requestCode, resultCode, data);
 		}
 	}
 
@@ -287,12 +284,23 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	private boolean bookingWithGoogleWallet() {
-		return (getLob() == LineOfBusiness.HOTELS && mHotelBookingFrag != null && mHotelBookingFrag.willBookViaGoogleWallet()) ||
-			((getLob() == LineOfBusiness.FLIGHTS && mFlightBookingFrag != null && mFlightBookingFrag.willBookViaGoogleWallet()));
+		if (getCurrentBookingFragment() != null) {
+			return getCurrentBookingFragment().willBookViaGoogleWallet();
+		}
+		return false;
 	}
 
 	public void rebindCheckoutFragment() {
 		mCheckoutFragment.bindAll();
+	}
+
+	private BookingFragment getCurrentBookingFragment() {
+		if (getLob() == LineOfBusiness.FLIGHTS) {
+			return mFlightBookingFrag;
+		}
+		else {
+			return mHotelBookingFrag;
+		}
 	}
 
 	/*
