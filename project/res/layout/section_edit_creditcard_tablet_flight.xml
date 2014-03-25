@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.SectionBillingInfo xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp">
+
+    <ImageView
+        android:id="@+id/display_credit_card_brand_icon_tablet"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/ic_tablet_checkout_generic_credit_card"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.expedia.bookings.widget.NumberMaskEditText
+                android:id="@+id/edit_creditcard_number"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/credit_card_hint"
+                android:imeOptions="flagNoExtractUi"
+                android:paddingBottom="12dp"
+                android:singleLine="true"
+                app:numberFormat="creditcard"/>
+
+            <TextView
+                android:id="@+id/edit_creditcard_exp_text_btn"
+                style="@style/FakeSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:bufferType="spannable"
+                android:gravity="center_vertical"
+                android:hint="@string/expiration_date"
+                android:paddingLeft="5dp"
+                android:textSize="18dp"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edit_name_on_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginBottom="4dp"
+                android:hint="@string/name_on_card_hint"
+                android:inputType="textPersonName|textCapWords"
+                android:paddingBottom="12dp"
+                android:singleLine="true"/>
+
+            <EditText
+                android:id="@+id/edit_email_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/email_address_hint"
+                android:inputType="textEmailAddress"
+                android:paddingBottom="12dp"
+                android:singleLine="true"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/email_disclaimer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="8dp"
+                android:textColor="@color/data_review_grey"
+                android:textSize="12sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</com.expedia.bookings.section.SectionBillingInfo>

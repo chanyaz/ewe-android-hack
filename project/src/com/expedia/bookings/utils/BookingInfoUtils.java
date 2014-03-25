@@ -373,6 +373,13 @@ public class BookingInfoUtils {
 		return R.drawable.ic_generic_card_white;
 	}
 
+	public static final int getTabletCardIcon(CreditCardType type) {
+		if (CREDIT_CARD_TABLET_ICONS.containsKey(type)) {
+			return CREDIT_CARD_TABLET_ICONS.get(type);
+		}
+		return R.drawable.ic_tablet_checkout_generic_credit_card;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// More static data (that just takes up a lot of space, so at bottom)
 
@@ -424,6 +431,22 @@ public class BookingInfoUtils {
 			put(CreditCardType.MAESTRO, R.drawable.ic_maestro_white);
 			put(CreditCardType.MASTERCARD, R.drawable.ic_master_card_white);
 			put(CreditCardType.VISA, R.drawable.ic_visa_white);
+		}
+	};
+
+	@SuppressWarnings("serial")
+	private static final HashMap<CreditCardType, Integer> CREDIT_CARD_TABLET_ICONS = new HashMap<CreditCardType, Integer>() {
+		{
+			put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_tablet_checkout_amex);
+			put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_tablet_checkout_carte_blanche);
+			put(CreditCardType.CARTE_BLEUE, R.drawable.ic_tablet_checkout_carte_bleue);
+			put(CreditCardType.CHINA_UNION_PAY, R.drawable.ic_tablet_checkout_union_pay);
+			put(CreditCardType.DINERS_CLUB, R.drawable.ic_tablet_checkout_diners_club);
+			put(CreditCardType.DISCOVER, R.drawable.ic_tablet_checkout_discover);
+			put(CreditCardType.JAPAN_CREDIT_BUREAU, R.drawable.ic_tablet_checkout_jcb);
+			put(CreditCardType.MAESTRO, R.drawable.ic_tablet_checkout_maestro);
+			put(CreditCardType.MASTERCARD, R.drawable.ic_tablet_checkout_mastercard);
+			put(CreditCardType.VISA, R.drawable.ic_tablet_checkout_visa);
 		}
 	};
 

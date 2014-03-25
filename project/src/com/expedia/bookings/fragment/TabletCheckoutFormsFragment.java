@@ -411,12 +411,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	}
 
 	private void dressCheckoutView(View dressableView, int groupIndex) {
-		if (groupIndex == 0) {
-			dressableView.setBackgroundResource(R.drawable.bg_checkout_information_top_tab);
-		}
-		else {
-			dressableView.setBackgroundResource(R.drawable.bg_checkout_information_middle_tab);
-		}
+		dressableView.setBackgroundResource(R.drawable.bg_checkout_information_single);
 		int padding = getResources().getDimensionPixelSize(R.dimen.traveler_button_padding);
 		dressableView.setPadding(padding, padding, padding, padding);
 	}

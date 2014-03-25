@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="#11000000"/>
+        </shape>
+    </item>
+    <item>
+        <nine-patch android:src="@drawable/fake_spinner_default_holo_light_normal"/>
+    </item>
+</layer-list>
