@@ -89,16 +89,6 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 	// TabletConfirmationFragment
 
 	@Override
-	protected int getLayoutId() {
-		return R.layout.fragment_tablet_confirmation;
-	}
-
-	@Override
-	protected int getActionsLayoutId() {
-		return R.layout.include_tablet_confirmation_actions_layout;
-	}
-
-	@Override
 	protected String getItinNumber() {
 		return Db.getBookingResponse().getItineraryId();
 	}

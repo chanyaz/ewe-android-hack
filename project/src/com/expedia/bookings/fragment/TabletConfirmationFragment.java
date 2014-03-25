@@ -25,10 +25,6 @@ import com.mobiata.android.util.Ui;
 
 public abstract class TabletConfirmationFragment extends Fragment {
 
-	protected abstract int getLayoutId();
-
-	protected abstract int getActionsLayoutId();
-
 	protected abstract String getItinNumber();
 
 	protected abstract LineOfBusiness getNextBookingItem();
@@ -45,7 +41,7 @@ public abstract class TabletConfirmationFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(getLayoutId(), container, false);
+		View v = inflater.inflate(R.layout.fragment_tablet_confirmation, container, false);
 
 		Ui.setText(v, R.id.confirmation_summary_text, getConfirmationSummaryText());
 
@@ -53,7 +49,7 @@ public abstract class TabletConfirmationFragment extends Fragment {
 
 		// Inflate the custom actions layout id
 		ViewGroup actionContainer = Ui.findView(v, R.id.custom_actions_container);
-		inflater.inflate(getActionsLayoutId(), actionContainer, true);
+		inflater.inflate(R.layout.include_tablet_confirmation_actions_layout, actionContainer, true);
 
 		// Setup a dropping animation with the image card.  Only animate on versions of Android
 		// that will allow us to make the animation nice and smooth.
