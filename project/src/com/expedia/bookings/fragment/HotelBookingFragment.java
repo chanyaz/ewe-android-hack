@@ -49,6 +49,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 
 	private static final String RETRY_CREATE_TRIP_DIALOG = "RETRY_CREATE_TRIP_DIALOG";
 	private static final String HOTEL_OFFER_ERROR_DIALOG = "HOTEL_OFFER_ERROR_DIALOG";
+	private static final String HOTEL_PRODUCT_RATEUP_DIALOG = "HOTEL_PRODUCT_RATEUP_DIALOG";
 
 	private static final String INSTANCE_HOTELBOOKING_STATE = "INSTANCE_HOTELBOOKING_STATE";
 
@@ -321,7 +322,9 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			boolean isPriceHigher = priceChange < 0;
 			HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher,
 				selectedRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());
-			dialog.show(getFragmentManager(), "priceChangeDialog");
+			dialog.show(getChildFragmentManager(), HOTEL_PRODUCT_RATEUP_DIALOG);
+			// Post event to the Otto Bus.
+			Events.post(new Events.HotelProductRateUp(newRate));
 		}
 
 		Db.getHotelSearch().getAvailability(selectedId).updateFrom(selectedRate.getRateKey(), response);

@@ -58,6 +58,7 @@ import com.expedia.bookings.otto.Events.CreateTripDownloadRetry;
 import com.expedia.bookings.otto.Events.CreateTripDownloadRetryCancel;
 import com.expedia.bookings.otto.Events.CreateTripDownloadSuccess;
 import com.expedia.bookings.otto.Events.HotelProductDownloadSuccess;
+import com.expedia.bookings.otto.Events.HotelProductRateUp;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
@@ -1004,6 +1005,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		mIsDoneLoadingPriceChange = true;
 		dismissLoadingDialogs();
 		startCreateTripDownload();
+	}
+
+	@Subscribe
+	public void onHotelProductRateUp(HotelProductRateUp event) {
+		Db.getTripBucket().getHotel().setRate(event.newRate);
+		mBucketHotelFrag.refreshRate();
 	}
 
 	@Subscribe
