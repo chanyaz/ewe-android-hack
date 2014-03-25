@@ -74,7 +74,6 @@ public class ServerError implements JSONable {
 		COUPON_HOTEL_EXCLUDED,
 		COUPON_SERVICE_DOWN,
 		COUPON_FALLBACK,
-		COUPON_SESSION_TIMEOUT,
 	}
 
 	public static final String FLAG_ITINERARY_BOOKED = "itineraryBooked";
@@ -150,7 +149,6 @@ public class ServerError implements JSONable {
 			put("PriceChange", ErrorCode.COUPON_PRICE_CHANGE);
 			put("ServiceDown", ErrorCode.COUPON_SERVICE_DOWN);
 			put("Unrecognized", ErrorCode.COUPON_UNRECOGNIZED);
-			put("SESSION_TIMEOUT", ErrorCode.COUPON_SESSION_TIMEOUT);
 		}
 	};
 
@@ -169,7 +167,6 @@ public class ServerError implements JSONable {
 			put(ErrorCode.COUPON_PRICE_CHANGE, R.string.coupon_error_price_change);
 			put(ErrorCode.COUPON_SERVICE_DOWN, R.string.coupon_error_service_down);
 			put(ErrorCode.COUPON_UNRECOGNIZED, R.string.coupon_error_unrecognized);
-			put(ErrorCode.COUPON_SESSION_TIMEOUT, R.string.coupon_error_service_timeout);
 		}
 	};
 

@@ -572,7 +572,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 
 		String errorMessage;
 		if (response == null) {
-			errorMessage = getString(R.string.coupon_error_no_code);
+			errorMessage = getString(R.string.coupon_error_service_timeout);
 		}
 		else {
 			ServerError serverError = response.getErrors().get(0);
