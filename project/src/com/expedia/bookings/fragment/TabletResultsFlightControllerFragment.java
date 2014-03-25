@@ -273,6 +273,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		else if (tag == FTAG_FLIGHT_LEGS_CHOOSER) {
 			ResultsRecursiveFlightLegsFragment legsFrag = (ResultsRecursiveFlightLegsFragment) frag;
 			legsFrag.registerStateListener(mLegStateListener, false);
+			legsFrag.resetQuery();
 		}
 	}
 
@@ -620,15 +621,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			else {
 
 				// TODO add Histogram state in here?
-
-				if (state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-					return false;
-				}
-				else if (state == ResultsFlightsState.CHOOSING_FLIGHT) {
-					setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
-					return true;
-				}
-				else if (state == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
+				if (state == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
 					return true;
 				}
 			}
@@ -800,6 +793,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			//The histogram spinner should show if we dont have flight resutls
 			if (mFlightHistogramFrag != null && state == ResultsFlightsState.FLIGHT_HISTOGRAM) {
 				mFlightHistogramFrag.setShowProgressBar(Db.getFlightSearch().getSearchResponse() == null);
+			}
+
+			if (mFlightLegsFrag != null && state == ResultsFlightsState.CHOOSING_FLIGHT && (
+				mFlightLegsFrag.getState() == ResultsFlightLegState.FILTERS
+					|| mFlightLegsFrag.getState() == ResultsFlightLegState.LIST_DOWN)) {
+				mFlightLegsFrag.resetQuery();
 			}
 		}
 

@@ -99,7 +99,9 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	}
 
 	public void onFilterChanged() {
-		mFilter.notifyFilterChanged();
+		if (mFilter != null) {
+			mFilter.notifyFilterChanged();
+		}
 		bindAll();
 	}
 
