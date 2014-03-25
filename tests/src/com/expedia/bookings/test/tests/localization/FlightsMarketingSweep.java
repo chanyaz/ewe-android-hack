@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.test.utils.CalendarTouchUtils;
 import com.expedia.bookings.test.utils.CustomActivityInstrumentationTestCase;
 import com.expedia.bookings.test.utils.FlightsTestDriver;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
@@ -44,6 +45,17 @@ public class FlightsMarketingSweep extends CustomActivityInstrumentationTestCase
 		mDriver.delay(2);
 		mDriver.screenshot("Launch Screen 4");
 		mDriver.enterLog(TAG, "Launching flights application");
+
+		mDriver.delay();
+		mDriver.launchScreen().openMenuDropDown();
+		mDriver.launchScreen().pressSettings();
+		mDriver.screenshot("Settings screen 1");
+		mDriver.scrollDown();
+		mDriver.screenshot("Settings screen 2");
+		mDriver.scrollDown();
+		mDriver.screenshot("Settings screen 3");
+		mDriver.goBack();
+		mDriver.delay();
 		mDriver.launchScreen().launchFlights();
 
 		// Flights search screen
@@ -59,12 +71,15 @@ public class FlightsMarketingSweep extends CustomActivityInstrumentationTestCase
 			mDriver.enterLog(TAG, "Set arrival airport: " + mUser.getArrivalAirport());
 			mDriver.flightsSearchScreen().enterArrivalAirport(mUser.getArrivalAirport());
 		}
-
+		mDriver.delay(2);
 		mDriver.flightsSearchScreen().clickSelectDepartureButton();
-		int dateOffset = 5;
+		int dateOffset = 15;
+		mDriver.delay(2);
+		CalendarTouchUtils.clickNextMonth(mDriver, mDriver.flightsSearchScreen().calendarDatePicker());
+		mDriver.delay(2);
 		mDriver.enterLog(TAG, "Selecting date with offset from current date: " + dateOffset);
 		mDriver.flightsSearchScreen().clickDate(dateOffset);
-		mDriver.flightsSearchScreen().clickDate(dateOffset);
+		mDriver.flightsSearchScreen().clickDate(dateOffset + 3);
 		mDriver.delay();
 		mDriver.screenshot("Flights Search");
 		mDriver.enterLog(TAG, "Click search button");
@@ -76,7 +91,6 @@ public class FlightsMarketingSweep extends CustomActivityInstrumentationTestCase
 		// Search results
 		mDriver.enterLog(TAG, "Flight search results loaded");
 		mDriver.screenshot("Flight search results");
-		//mDriver.enterLog(TAG,"check: "+mDriver.flightsSearchResultsScreen().searchResultListView().getChildAt(1));
 		if (mDriver.flightsSearchResultsScreen().searchResultListView().getChildAt(1) != null) {
 			int flightIndex = 0;
 			mDriver.enterLog(TAG, "Selecting flight at index: " + flightIndex);

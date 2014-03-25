@@ -63,6 +63,9 @@ public class CustomActivityInstrumentationTestCase<T> extends ActivityInstrument
 		// Disable v2 automatically.
 		SettingUtils.save(getActivity().getApplicationContext(),
 			"preference_disable_domain_v2_hotel_search", true);
+
+		SettingUtils.save(getActivity().getApplicationContext(),
+			R.string.preference_spoof_bookings, true);
 	}
 
 	public String getString(int resourceID) {
