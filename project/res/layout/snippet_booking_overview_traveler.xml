@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:paddingTop="2.5dp"
+    android:paddingBottom="5.5dp" >
 
     <ImageView
         android:id="@+id/display_picture"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="@dimen/checkout_info_container_padding"
-        android:src="@drawable/ic_traveler" />
+        android:src="@drawable/ic_tablet_checkout_generic_traveler" />
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/traveler_empty_text_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical|left"
         android:text="@string/enter_traveler_info"
-        android:textSize="16sp" />
+        android:textSize="18sp"
+        app:textStyle="light" />
 
 </LinearLayout>

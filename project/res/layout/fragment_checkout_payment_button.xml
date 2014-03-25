@@ -12,24 +12,27 @@
         android:id="@+id/payment_info_btn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:paddingTop="2.5dp"
+        android:paddingBottom="5.5dp"
         android:visibility="visible" >
 
         <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
             android:layout_marginRight="@dimen/checkout_info_container_padding"
             android:layout_weight="0"
-            android:src="@drawable/ic_credit_card" />
+            android:src="@drawable/ic_tablet_checkout_generic_credit_card" />
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_gravity="center_vertical"
             android:text="@string/enter_payment_information"
-            android:textSize="16sp" />
+            app:textStyle="light"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <include
