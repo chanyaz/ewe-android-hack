@@ -318,7 +318,7 @@ public class AdX {
 	}
 
 	private static void addCommonRetargeting() {
-			AdXConnect.setEventParameterOfName("a", "2601");
+			AdXConnect.setEventParameterOfName("a", 2601);
 			if (Db.getUser() != null) {
 				final String customerId = Db.getUser().getTuidString();
 				AdXConnect.setEventParameter(AdXConnect.ADX_CUSTOMERID, customerId);
