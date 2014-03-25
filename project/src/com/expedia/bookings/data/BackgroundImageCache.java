@@ -37,11 +37,13 @@ public class BackgroundImageCache {
 	private static final int DECODE_IN_SAMPLE_SIZE = 1;//1 is lossless, but it takes lots of memory
 	private static final int DECODE_IN_SAMPLE_SIZE_BLURRED = 1;//1 is lossless, but it takes lots of memory
 	private static final int BLURRED_IMAGE_SIZE_REDUCTION_FACTOR = 4;
-	private static final int DEFAULT_STACK_BLUR_RADIUS = 28;
+	private static final int DEFAULT_STACK_BLUR_RADIUS = 25;
 
 	private int mBlurRadius;
 
 	public BackgroundImageCache(Context context) {
+		float density = context.getResources().getDisplayMetrics().density;
+		mBlurRadius = Math.round(DEFAULT_STACK_BLUR_RADIUS * density);
 		initMemCache();
 		initDiskCache(context);
 	}
@@ -132,7 +134,7 @@ public class BackgroundImageCache {
 					Bitmap blurred = null;
 					if (blur) {
 						blurred = BitmapUtils.stackBlurAndDarken(bitmap, context, BLURRED_IMAGE_SIZE_REDUCTION_FACTOR,
-							getBlurRadius(context), DARKEN_MULTIPLIER);
+							mBlurRadius, DARKEN_MULTIPLIER);
 						if (mCancelAddBitmap) {
 							throw new Exception("Canceled after blur");
 						}
@@ -187,32 +189,6 @@ public class BackgroundImageCache {
 		};
 		Thread updateThread = new Thread(putBitmapRunner);
 		updateThread.start();
-	}
-
-	private int getBlurRadius(Context context) {
-		return mBlurRadius == 0 ? getBlurRadiusByDensity(context) : mBlurRadius;
-	}
-
-	private int getBlurRadiusByDensity(Context context) {
-		float density = context.getResources().getDisplayMetrics().density;
-		mBlurRadius = DEFAULT_STACK_BLUR_RADIUS;
-		// xxhdpi
-		if (density == 3.0) {
-			mBlurRadius = 75;
-		}
-		// xhdpi
-		else if (density == 2.0) {
-			mBlurRadius = 50;
-		}
-		// hdpi
-		else if (density == 1.5) {
-			mBlurRadius = 38;
-		}
-		// mdpi
-		else if (density == 1.0) {
-			mBlurRadius = 25;
-		}
-		return mBlurRadius;
 	}
 
 	public void clearMemCache() {
