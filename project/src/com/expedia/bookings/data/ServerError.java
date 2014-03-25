@@ -405,7 +405,7 @@ public class ServerError implements JSONable {
 
 	public String getCouponErrorMessage(Context context) {
 		// Let's make this the default message in case the errorCode sent is either null or not recognized.
-		String message = context.getString(R.string.coupon_error_no_code);
+		String message = context.getString(R.string.coupon_error_service_timeout);
 		if (mCouponErrorCode != null && ERROR_MAP_COUPON_MESSAGES.containsKey(mCouponErrorCode)) {
 			message = context.getString(ERROR_MAP_COUPON_MESSAGES.get(mCouponErrorCode));
 		}
