@@ -77,13 +77,11 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			mSectionBillingInfo = (SectionBillingInfo) View.inflate(getActivity(),
 				R.layout.section_edit_creditcard_tablet_flight, null);
 		}
+
 		mSectionBillingInfo.setLineOfBusiness(getLob());
 		formContainer.addView(mSectionBillingInfo);
 
-		//TODO: REMOVE OR REARRANGE OR WHATEVER, WE WONT PROBABLY BE HAVING ONE FORM AFTER THE OTHER
-		mSectionLocation = (SectionLocation) View.inflate(getActivity(), R.layout.section_edit_address, null);
-		formContainer.addView(mSectionLocation);
-
+		mSectionLocation = Ui.findView(mSectionBillingInfo, R.id.section_location_address);
 	}
 
 	@Override

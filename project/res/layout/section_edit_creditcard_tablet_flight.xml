@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingLeft="2dp"
-    android:paddingRight="2dp">
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/display_credit_card_brand_icon_tablet"
@@ -34,9 +32,8 @@
                 android:focusableInTouchMode="true"
                 android:hint="@string/credit_card_hint"
                 android:imeOptions="flagNoExtractUi"
-                android:paddingBottom="12dp"
-                android:singleLine="true"
-                app:numberFormat="creditcard"/>
+                app:numberFormat="creditcard"
+                android:singleLine="true"/>
 
             <TextView
                 android:id="@+id/edit_creditcard_exp_text_btn"
@@ -98,6 +95,13 @@
                 android:textColor="@color/data_review_grey"
                 android:textSize="12sp"/>
         </LinearLayout>
+
+        <include
+            android:id="@+id/section_location_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/section_edit_address"/>
+
     </LinearLayout>
 
 </com.expedia.bookings.section.SectionBillingInfo>
