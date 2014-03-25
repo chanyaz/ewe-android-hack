@@ -2,8 +2,6 @@ package com.expedia.bookings.bitmaps;
 
 import android.content.Context;
 
-import com.mobiata.android.bitmaps.L2ImageCache;
-
 public class DestinationImageCache {
 
 	private static final String LOGGING_TAG = "DestinationImageCache";

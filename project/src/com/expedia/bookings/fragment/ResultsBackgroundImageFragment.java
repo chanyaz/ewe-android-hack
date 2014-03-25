@@ -15,13 +15,13 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import com.expedia.bookings.bitmaps.DestinationImageCache;
+import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
-import com.mobiata.android.bitmaps.L2ImageCache;
 import com.squareup.otto.Subscribe;
 
 /**

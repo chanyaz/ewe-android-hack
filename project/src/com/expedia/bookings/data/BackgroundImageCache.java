@@ -13,11 +13,11 @@ import android.graphics.BitmapFactory;
 import android.support.v4.util.LruCache;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.jakewharton.disklrucache.DiskLruCache;
 import com.jakewharton.disklrucache.DiskLruCache.Editor;
 import com.jakewharton.disklrucache.DiskLruCache.Snapshot;
 import com.mobiata.android.Log;
-import com.mobiata.android.bitmaps.BitmapUtils;
 import com.mobiata.android.util.AndroidUtils;
 
 public class BackgroundImageCache {
