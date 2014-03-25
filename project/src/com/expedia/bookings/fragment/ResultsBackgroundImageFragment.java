@@ -1,10 +1,12 @@
 package com.expedia.bookings.fragment;
 
-import android.animation.ObjectAnimator;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +17,12 @@ import android.widget.ImageView;
 import com.expedia.bookings.bitmaps.DestinationImageCache;
 import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
+import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.L2ImageCache;
-import com.mobiata.android.util.AndroidUtils;
+import com.squareup.otto.Subscribe;
 
 /**
  * ResultsBackgroundImageFragment: The fragment that acts as a background image for the whole
@@ -28,7 +31,7 @@ import com.mobiata.android.util.AndroidUtils;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class ResultsBackgroundImageFragment extends MeasurableFragment {
 
-	private static final int FADE_ANIM_DURATION = 1200;
+	private static final int HALF_FADE_IN_TIME = 500;
 
 	private static final String KEY_IMG_DL = "KEY_IMG_DL";
 
@@ -95,6 +98,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		Sp.getBus().register(this);
 		if (BackgroundDownloader.getInstance().isDownloading(KEY_IMG_DL)) {
 			BackgroundDownloader.getInstance().registerDownloadCallback(KEY_IMG_DL, mCallback);
 		}
@@ -103,11 +107,31 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 	@Override
 	public void onPause() {
 		super.onPause();
+		Sp.getBus().unregister(this);
 		if (getActivity() != null && getActivity().isFinishing()) {
 			BackgroundDownloader.getInstance().cancelDownload(KEY_IMG_DL);
 		}
 		else {
 			BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_IMG_DL);
+		}
+	}
+
+	///////////////////////////////////////////////////////////////
+	// Otto
+
+	@Subscribe
+	public void onSpChange(Sp.SpUpdateEvent event) {
+		String newCode = Sp.getParams().getDestination().getAirportCode();
+		if (!TextUtils.isEmpty(newCode) && !newCode.equals(mDestinationCode)) {
+			getArguments().putString(ARG_DEST_CODE, newCode);
+			mDestinationCode = newCode;
+
+			// Start new dl
+			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
+			if (downloader.isDownloading(KEY_IMG_DL)) {
+				downloader.cancelDownload(KEY_IMG_DL);
+			}
+			downloader.startDownload(KEY_IMG_DL, mDownload, mCallback);
 		}
 	}
 
@@ -195,12 +219,30 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 		}
 	};
 
-	private void handleBitmap(Bitmap bitmap, boolean fade) {
+	private void handleBitmap(final Bitmap bitmap, boolean fade) {
 		if (bitmap != null) {
 			if (mImageView != null) {
-				mImageView.setImageBitmap(bitmap);
 				if (fade) {
-					ObjectAnimator.ofFloat(mImageView, "alpha", 0.0f, 1.0f).setDuration(FADE_ANIM_DURATION).start();
+					// Use ViewPropertyAnimator to run a simple fade in + fade out animation to update the
+					// ImageView
+					mImageView.animate()
+						.alpha(0f)
+						.setDuration(mImageView.getDrawable() == null ? 0 : HALF_FADE_IN_TIME)
+						.setListener(new AnimatorListenerAdapter() {
+							@Override
+							public void onAnimationEnd(Animator animation) {
+								mImageView.setImageBitmap(bitmap);
+								mImageView.animate()
+									.alpha(1f)
+									.scaleY(1f)
+									.scaleX(1f)
+									.setDuration(HALF_FADE_IN_TIME)
+									.setListener(null);
+							}
+						});
+				}
+				else {
+					mImageView.setImageBitmap(bitmap);
 				}
 			}
 			else {
