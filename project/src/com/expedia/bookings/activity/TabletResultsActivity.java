@@ -17,7 +17,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
@@ -139,12 +138,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 		transaction.commit();
 		manager.executePendingTransactions();//These must be finished before we continue..
-
-		//We load up the default backgrounds so they are ready to go later if/when we need them
-		//this is important, as we need to load images before our memory load gets too heavy
-		if (savedInstanceState == null || !Db.getBackgroundImageCache(this).isDefaultInCache()) {
-			Db.getBackgroundImageCache(this).loadDefaultsInThread(this);
-		}
 
 		// HockeyApp init
 		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
