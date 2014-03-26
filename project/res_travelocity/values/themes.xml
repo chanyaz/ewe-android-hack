@@ -30,7 +30,7 @@
         <item name="hotelBookButtonColor">@android:color/white</item>
         <item name="ccCheckoutHologramDrawable">@drawable/ic_credit_card_hologram_tvly</item>
         <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_tvly</item>
-        <item name="webViewPreferencesActionBarLogo">@drawable/ic_action_bar_travelocity_logo</item>
+        <item name="webViewPreferencesActionBarLogo">@drawable/ic_action_bar_travelocity_logo_small</item>
         <item name="aboutContactUsString">@string/contact_travelocity</item>
         <item name="aboutWebsiteString">@string/travelocity_website</item>
         <item name="aboutAppSupportString">@string/travelocity_app_support</item>
