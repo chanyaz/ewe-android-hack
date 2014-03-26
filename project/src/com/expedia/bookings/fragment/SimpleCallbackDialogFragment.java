@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
 
 /**
@@ -64,7 +65,7 @@ public class SimpleCallbackDialogFragment extends DialogFragment {
 
 		// Default to "ok" for button name
 		if (TextUtils.isEmpty(button)) {
-			button = getString(android.R.string.ok);
+			button = getString(R.string.ok);
 		}
 
 		builder.setNeutralButton(button, new OnClickListener() {

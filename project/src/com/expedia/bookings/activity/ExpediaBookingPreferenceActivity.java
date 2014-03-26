@@ -154,7 +154,7 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 					removeDialog(DIALOG_CLEAR_DATA);
 				}
 			});
-			builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
+			builder.setPositiveButton(R.string.ok, new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					removeDialog(DIALOG_CLEAR_DATA);
@@ -176,7 +176,7 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 					removeDialog(DIALOG_CLEAR_DATA);
 				}
 			});
-			builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
+			builder.setPositiveButton(R.string.ok, new OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					removeDialog(DIALOG_CLEAR_DATA);

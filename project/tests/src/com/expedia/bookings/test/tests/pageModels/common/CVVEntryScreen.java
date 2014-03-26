@@ -67,7 +67,7 @@ public class CVVEntryScreen extends ScreenActions {
 	}
 
 	public String okString() {
-		return getString(android.R.string.ok);
+		return getString(R.string.ok);
 	}
 
 	// Object interaction

@@ -11,7 +11,7 @@
 			android:title="@string/clear_private_data"
 			android:dialogTitle="@string/dialog_clear_private_data_title"
 			android:dialogMessage="@string/dialog_log_out_and_clear_private_data_msg"
-			android:positiveButtonText="@android:string/ok"
-			android:negativeButtonText="@android:string/cancel" />
+			android:positiveButtonText="@string/ok"
+			android:negativeButtonText="@string/cancel" />
 	</PreferenceCategory>
 </PreferenceScreen>

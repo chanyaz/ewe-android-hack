@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
+import com.expedia.bookings.R;
+
 /**
  * A copy of com.mobiata.android.app.SimpleDialogFragment
  * that uses the android.support.v4 libraries.
@@ -29,7 +31,7 @@ public class SimpleSupportDialogFragment extends DialogFragment {
 		Builder builder = new Builder(getActivity());
 		builder.setTitle(getArguments().getString(TITLE));
 		builder.setMessage(getArguments().getString(MESSAGE));
-		builder.setNeutralButton(android.R.string.ok, null);
+		builder.setNeutralButton(R.string.ok, null);
 		return builder.create();
 	}
 }

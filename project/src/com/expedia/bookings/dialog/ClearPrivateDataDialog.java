@@ -26,7 +26,7 @@ public class ClearPrivateDataDialog extends DialogFragment {
 		else {
 			builder.setMessage(R.string.dialog_clear_private_data_msg);
 		}
-		builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 
 				boolean signedIn = User.isLoggedIn(getActivity());

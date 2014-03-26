@@ -295,7 +295,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		case BOOKING_FAILED: {
 			if (firstError.getDiagnosticFullText().contains("INVALID_CCNUMBER")) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.error_invalid_card_number), getString(android.R.string.ok),
+						getString(R.string.error_invalid_card_number), getString(R.string.ok),
 						DIALOG_CALLBACK_INVALID_CC);
 				frag.show(getFragmentManager(), "badCcNumberDialog");
 				return;
@@ -311,7 +311,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 
 			if (hasCreditCardNumberError && hasExpirationDateError && hasCVVError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.e3_error_checkout_payment_failed), getString(android.R.string.ok),
+						getString(R.string.e3_error_checkout_payment_failed), getString(R.string.ok),
 						DIALOG_CALLBACK_INVALID_PAYMENT);
 				frag.show(getFragmentManager(), "badPaymentDialog");
 
@@ -329,28 +329,28 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			}
 			else if (hasCreditCardNumberError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.error_invalid_card_number), getString(android.R.string.ok),
+						getString(R.string.error_invalid_card_number), getString(R.string.ok),
 						DIALOG_CALLBACK_INVALID_CC);
 				frag.show(getFragmentManager(), "badCcNumberDialog");
 				return;
 			}
 			else if (hasPhoneError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.ean_error_invalid_phone_number), getString(android.R.string.ok),
+						getString(R.string.ean_error_invalid_phone_number), getString(R.string.ok),
 						DIALOG_CALLBACK_INVALID_PHONENUMBER);
 				frag.show(getFragmentManager(), "badPhoneNumberDialog");
 				return;
 			}
 			else if (hasPostalCodeError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.invalid_postal_code), getString(android.R.string.ok),
+						getString(R.string.invalid_postal_code), getString(R.string.ok),
 						DIALOG_CALLBACK_INVALID_POSTALCODE);
 				frag.show(getFragmentManager(), "badPostalCodeDialog");
 				return;
 			}
 			else if (hasExpirationDateError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.error_expired_payment), getString(android.R.string.ok),
+						getString(R.string.error_expired_payment), getString(R.string.ok),
 						DIALOG_CALLBACK_EXPIRED_CC);
 				frag.show(getFragmentManager(), "expiredCcDialog");
 				return;
@@ -359,7 +359,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			// to being anble to handle booking tickets for minors. We shouldn't need this in the future.
 			else if (hasFlightMinorError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.error_booking_with_minor), getString(android.R.string.ok),
+						getString(R.string.error_booking_with_minor), getString(R.string.ok),
 						DIALOG_CALLBACK_INVALID_MINOR);
 				frag.show(getFragmentManager(), "cannotBookWithMinorDialog");
 				return;
@@ -382,14 +382,14 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		case CANNOT_BOOK_WITH_MINOR: {
 			DialogFragment frag = SimpleCallbackDialogFragment
 					.newInstance(null,
-							getString(R.string.error_booking_with_minor), getString(android.R.string.ok),
+							getString(R.string.error_booking_with_minor), getString(R.string.ok),
 							DIALOG_CALLBACK_MINOR);
 			frag.show(getFragmentManager(), "cannotBookWithMinorDialog");
 			return;
 		}
 		case GOOGLE_WALLET_ERROR:
 			DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-					getString(R.string.google_wallet_unavailable), getString(android.R.string.ok), 0);
+					getString(R.string.google_wallet_unavailable), getString(R.string.ok), 0);
 			frag.show(getFragmentManager(), "googleWalletErrorDialog");
 			return;
 		default:

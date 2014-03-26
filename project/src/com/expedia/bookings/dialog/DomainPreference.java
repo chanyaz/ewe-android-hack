@@ -112,7 +112,7 @@ public class DomainPreference extends ListPreference {
 			else {
 				builder.setMessage(R.string.dialog_clear_private_data_msg);
 			}
-			builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+			builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					// We are breaking contract a bit here; we change the value regardless
 					// of what the change listener says.  This is so that we can use the

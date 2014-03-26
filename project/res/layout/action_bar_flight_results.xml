@@ -55,7 +55,7 @@
                 android:id="@+id/cancel_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@android:string/cancel"
+                android:text="@string/cancel"
                 android:textAppearance="?attr/actionMenuTextAppearance"
                 android:textColor="#E9E9E9" />
         </LinearLayout>

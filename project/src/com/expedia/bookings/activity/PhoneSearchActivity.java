@@ -852,7 +852,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		case DIALOG_ENABLE_LOCATIONS: {
 			AlertDialog.Builder builder = new Builder(this);
 			builder.setMessage(R.string.EnableLocationSettings);
-			builder.setPositiveButton(android.R.string.ok, new Dialog.OnClickListener() {
+			builder.setPositiveButton(R.string.ok, new Dialog.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
 					Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 					if (NavUtils.isIntentAvailable(mContext, intent)) {
