@@ -47,28 +47,12 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		// Create Trip callback
-		/*BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		boolean isDownloading = bd.isDownloading(KEY_CREATE_TRIP);
-		if (isDownloading && mIsOnCheckout) {
-			bd.registerDownloadCallback(KEY_CREATE_TRIP, mFlightDetailsCallback);
-		}*/
-
 		doBind();
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-
-		// Create Trip
-		/*if (getActivity() != null && getActivity().isFinishing()) {
-			BackgroundDownloader.getInstance().cancelDownload(KEY_CREATE_TRIP);
-		}
-		else {
-			BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_CREATE_TRIP);
-		}*/
 	}
 
 	@Override
