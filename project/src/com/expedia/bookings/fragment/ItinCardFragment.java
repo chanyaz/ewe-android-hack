@@ -16,6 +16,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.dgmltn.shareeverywhere.ShareView;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ShareUtils;
@@ -96,6 +97,11 @@ public class ItinCardFragment extends Fragment implements AbsPopupMenu.OnMenuIte
 
 			if (scrollToTop) {
 				mItinCardContainer.fullScroll(View.FOCUS_UP);
+			}
+
+			//Remove share and add to calendar for travelocity
+			if(ExpediaBookingApp.IS_TRAVELOCITY) {
+				Ui.findView(activity, R.id.fragment_title_menu_layout).setVisibility(View.GONE);
 			}
 
 			return true;
