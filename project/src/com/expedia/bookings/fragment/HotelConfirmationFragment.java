@@ -97,7 +97,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		}
 		else {
 			headerBitmapDrawable
-					.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
+					.setBitmap(BitmapFactory.decodeResource(getResources(), com.expedia.bookings.utils.Ui.obtainThemeResID(getActivity(), R.attr.hotelConfirmationPlaceholderDrawable)));
 		}
 
 		HotelSearchParams params = Db.getHotelSearch().getSearchParams();

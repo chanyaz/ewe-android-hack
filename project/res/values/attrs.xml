@@ -340,4 +340,6 @@
     <!--Tablet Hotel ImageGallery border for selected & non-selected  photo-->
     <attr name="tabletHotelImageGalleryPhotoBorder" format="reference"/>
 
+    <attr name="hotelConfirmationPlaceholderDrawable" format="reference" />
+
 </resources>

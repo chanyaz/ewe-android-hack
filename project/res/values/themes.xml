@@ -254,6 +254,7 @@
         <item name="saveTravelerToAccountString">@string/save_traveler_message_TEMPLATE</item>
         <item name="bgFindItineraryButton">@drawable/btn_find</item>
         <item name="tabletHotelImageGalleryPhotoBorder">@drawable/bg_gallery_photo</item>
+        <item name="hotelConfirmationPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
