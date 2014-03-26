@@ -10,4 +10,6 @@
     <color name="actionbar_text_travelocity">#dddfe1</color>
     <color name="actionbar_text_hint_travelocity">#505c69</color>
     <color name="bg_actionbar_gallery_tvly">#b3003e74</color>
+    <color name="login_text_hotels">#FFFFFF</color>
+    <color name="login_text_flight">#FFFFFF</color>
 </resources>
