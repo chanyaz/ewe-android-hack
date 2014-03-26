@@ -24,11 +24,28 @@
         android:layout_width="0dp"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
-        android:id="@+id/list_container"
+    <RelativeLayout
+        android:id="@+id/list_column_container"
         android:layout_width="0dp"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
+        <com.expedia.bookings.widget.FrameLayoutTouchController
+            android:id="@+id/last_flight_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <include
+                android:id="@+id/last_flight_row"
+                layout="@layout/section_flight_leg_tablet_blue_card_checked" />
+        </com.expedia.bookings.widget.FrameLayoutTouchController>
+
+        <com.expedia.bookings.widget.FrameLayoutTouchController
+            android:id="@+id/list_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/last_flight_container" />
+    </RelativeLayout>
 
     <!-- ADD TO TRIP -->
 

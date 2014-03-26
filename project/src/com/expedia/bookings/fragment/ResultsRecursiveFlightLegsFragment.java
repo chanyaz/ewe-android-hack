@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -28,6 +29,7 @@ import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateManager;
+import com.expedia.bookings.section.FlightLegSummarySectionTablet;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
@@ -74,9 +76,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	private ArrayList<ViewGroup> mContainers = new ArrayList<ViewGroup>();
 	private FrameLayoutTouchController mDetailsC;
 	private FrameLayoutTouchController mFiltersC;
-	private FrameLayoutTouchController mListC;
+	private RelativeLayout mListColumnC;
 	private FrameLayoutTouchController mAddToTripC;
 	private FrameLayoutTouchController mNextLegC;
+	private FrameLayoutTouchController mLastLegC;
+
+	private FlightLegSummarySectionTablet mLastFLightRow;
 
 	//Other
 	private int mLegNumber;
@@ -121,15 +126,21 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		mDetailsC = Ui.findView(view, R.id.details_container);
 		mFiltersC = Ui.findView(view, R.id.filters_container);
-		mListC = Ui.findView(view, R.id.list_container);
+		mListColumnC = Ui.findView(view, R.id.list_column_container);
 		mAddToTripC = Ui.findView(view, R.id.add_to_trip);
 		mNextLegC = Ui.findView(view, R.id.next_leg_container);
+		mLastLegC = Ui.findView(view, R.id.last_flight_container);
+		mLastFLightRow = Ui.findView(view, R.id.last_flight_row);
 
 		mContainers.add(mDetailsC);
 		mContainers.add(mFiltersC);
-		mContainers.add(mListC);
 		mContainers.add(mAddToTripC);
 		mContainers.add(mNextLegC);
+		mContainers.add(mListColumnC);
+
+		if (mLegNumber > 0) {
+			mLastLegC.setVisibility(View.VISIBLE);
+		}
 
 		return view;
 	}
@@ -250,7 +261,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		private ResultsFlightLegState translate(ResultsFlightsListState state) {
 			if (state == ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM) {
-				return ResultsFlightLegState.LIST_DOWN;
+				if (mLegNumber == 0) {
+					return ResultsFlightLegState.LIST_DOWN;
+				}
+				else {
+					return ResultsFlightLegState.FILTERS;
+				}
 			}
 			else {
 				if (mStateManager.getState() == ResultsFlightLegState.LIST_DOWN) {
@@ -316,6 +332,18 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				//If we are showing, the next leg should always be in the filters state.
 				mNextLegFrag.setState(ResultsFlightLegState.FILTERS, false);
 			}
+
+			//Last leg state
+			if (mLegNumber > 0 && mLastFLightRow != null) {
+				int lastFlightIndex = mLegNumber - 1;
+				if (Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedLegs() != null
+					&& Db.getFlightSearch().getSelectedLegs().length > lastFlightIndex
+					&& Db.getFlightSearch().getSelectedLegs()[lastFlightIndex] != null
+					&& Db.getFlightSearch().getSelectedLegs()[lastFlightIndex].getFlightTrip() != null) {
+					mLastFLightRow.bind(Db.getFlightSearch(), lastFlightIndex);
+				}
+			}
+
 		}
 	};
 
@@ -361,11 +389,11 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	protected void setDetailsShowingPercentage(float percentage) {
 		if (percentage == 0) {
 			mFiltersC.setTranslationX(0f);
-			mListC.setTranslationX(0f);
+			mListColumnC.setTranslationX(0f);
 		}
 		else {
 			mFiltersC.setTranslationX(percentage * -mGrid.getColRight(0));
-			mListC.setTranslationX(percentage * -mGrid.getColLeft(2));
+			mListColumnC.setTranslationX(percentage * -mGrid.getColLeft(2));
 			if (mDetailsFrag != null) {
 				int slideInDistance = mGrid.getColSpanWidth(1, 4);
 				mDetailsFrag.setDetailsSlideInAnimationState(percentage, slideInDistance, true);
@@ -414,16 +442,16 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		switch (state) {
 		case LIST_DOWN: {
-			visibleViews.add(mListC);
+			visibleViews.add(mListColumnC);
 			break;
 		}
 		case FILTERS: {
-			visibleViews.add(mListC);
+			visibleViews.add(mListColumnC);
 			visibleViews.add(mFiltersC);
 			break;
 		}
 		case DETAILS: {
-			visibleViews.add(mListC);
+			visibleViews.add(mListColumnC);
 			visibleViews.add(mFiltersC);
 			visibleViews.add(mDetailsC);
 			break;
@@ -609,14 +637,14 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 			//Horizontal alignment
 			mGrid.setContainerToColumn(mFiltersC, 0);
-			mGrid.setContainerToColumn(mListC, 2);
+			mGrid.setContainerToColumn(mListColumnC, 2);
 			mGrid.setContainerToColumnSpan(mDetailsC, 0, 4);
 
 			//Vertical alignment
 
 			//Most content sits in rows 1 and 2 (below the actionbar)
 			mGrid.setContainerToRowSpan(mFiltersC, 1, 2);
-			mGrid.setContainerToRowSpan(mListC, 1, 2);
+			mGrid.setContainerToRowSpan(mListColumnC, 1, 2);
 			mGrid.setContainerToRowSpan(mDetailsC, 1, 2);
 
 			//Frag stuff
