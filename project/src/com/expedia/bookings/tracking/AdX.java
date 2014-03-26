@@ -125,7 +125,9 @@ public class AdX {
 			AdXConnect.setEventParameterOfName("b_win", params.getStayDuration());
 			AdXConnect.setEventParameterOfName("p_type", "HOTEL");
 
-			AdXConnect.addProductToList("16955", avgPrice, params.getStayDuration());
+			if (search.getSelectedProperty() != null) {
+				AdXConnect.addProductToList(search.getSelectedProperty().getPropertyId(), avgPrice, params.getStayDuration());
+			}
 			AdXConnect.setEventParameterOfName("currency", currency);
 			AdXConnect.setEventParameterOfName("id", orderNumber);
 
@@ -160,7 +162,8 @@ public class AdX {
 			AdXConnect.setEventParameterOfName("p_type", "FLIGHT");
 
 			int numberOfTravelers = params.getNumAdults();
-			AdXConnect.addProductToList("16955", totalPrice / numberOfTravelers, numberOfTravelers);
+			String productId = params.getDepartureLocation().getDestinationId() + "/" + params.getArrivalLocation().getDestinationId();
+			AdXConnect.addProductToList(productId, totalPrice / numberOfTravelers, numberOfTravelers);
 			AdXConnect.setEventParameterOfName("currency", currency);
 			AdXConnect.setEventParameterOfName("id", orderId);
 
