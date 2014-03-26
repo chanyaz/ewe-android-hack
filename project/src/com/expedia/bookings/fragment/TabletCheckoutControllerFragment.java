@@ -64,6 +64,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.SlideToWidgetJB;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -1102,6 +1103,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Subscribe
 	public void onBookNext(Events.BookingConfirmationBookNext event) {
 		if (event.nextItem != null) {
+			Db.clearGoogleWallet();
+			WalletUtils.unbindAllWalletDataFromBillingInfo(Db.getBillingInfo());
 			setLob(event.nextItem);
 			setCheckoutState(CheckoutState.OVERVIEW, false);
 		}
