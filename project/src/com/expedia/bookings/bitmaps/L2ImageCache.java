@@ -313,7 +313,7 @@ public class L2ImageCache {
 	 * @return true if image was already in cache, and callback was immediately called
 	 */
 	public boolean loadImage(String url, OnImageLoaded callback) {
-		return loadImage(url, url, callback);
+		return loadImage(url, url, false, callback);
 	}
 
 	/**
@@ -339,7 +339,7 @@ public class L2ImageCache {
 			}
 		};
 
-		return loadImage(key, url, callback);
+		return loadImage(key, url, false, callback);
 	}
 
 	/**
@@ -349,12 +349,12 @@ public class L2ImageCache {
 	 * @param callback the method to call after loading the image
 	 * @return true if image was already in cache, and callback was immediately called
 	 */
-	public boolean loadImage(String callbackKey, String url, OnImageLoaded callback) {
+	public boolean loadImage(String callbackKey, String url, boolean blur, OnImageLoaded callback) {
 		// If this key was originally associated with another download, disassociate it
 		clearCallbacks(callbackKey);
 
 		// First check if we already have the image in memory; if we do, just do the callback
-		Bitmap image = getImage(url, false);
+		Bitmap image = getImage(url, false, blur);
 		if (image != null) {
 			callback.onImageLoaded(url, image);
 			return true;
@@ -368,40 +368,7 @@ public class L2ImageCache {
 		// If we don't have the image cached in memory, either latch onto an existing download or start a new one
 		ImageTask task;
 		if (!mDownloadsByUrl.containsKey(url)) {
-			task = createImageTask(url);
-			mDownloadsByUrl.put(url, task);
-			sExecutor.execute(task);
-		}
-		else {
-			task = mDownloadsByUrl.get(url);
-		}
-
-		task.addCallback(callbackKey, callback);
-		mDownloadsByKey.put(callbackKey, task);
-
-		return false;
-	}
-
-	public boolean loadBlurredImage(String callbackKey, String url, OnImageLoaded callback) {
-		// If this key was originally associated with another download, disassociate it
-		clearCallbacks(callbackKey);
-
-		// Is the blurred image already loaded in memory?
-		Bitmap image = getBlurredImage(url, false);
-		if (image != null) {
-			callback.onImageLoaded(url, image);
-			return true;
-		}
-		else if (mIgnore.contains(url)) {
-			Log.v(mLogTag, "Url has been ignored because it previously could not be found: " + url);
-			callback.onImageLoadFailed(url);
-			return false;
-		}
-
-		// If we don't have the image cached in memory, either latch onto an existing download or start a new one
-		ImageTask task;
-		if (!mDownloadsByUrl.containsKey(url)) {
-			task = createBlurTask(url);
+			task = createImageTask(url, blur);
 			mDownloadsByUrl.put(url, task);
 			sExecutor.execute(task);
 		}
@@ -713,12 +680,15 @@ public class L2ImageCache {
 		}
 	}
 
-	public ImageTask createImageTask(String url) {
-		return new ImageTask(new BitmapDownload(url));
-	}
-
-	public ImageTask createBlurTask(String url) {
-		return new ImageTask(new BitmapBlur(url));
+	public ImageTask createImageTask(String url, boolean blur) {
+		BitmapCallable callable;
+		if (blur) {
+			callable = new BitmapBlur(url);
+		}
+		else {
+			callable = new BitmapDownload(url);
+		}
+		return new ImageTask(callable);
 	}
 
 	private abstract class BitmapCallable implements Callable<Bitmap> {

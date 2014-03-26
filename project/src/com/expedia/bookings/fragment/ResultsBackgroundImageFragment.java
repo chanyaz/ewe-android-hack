@@ -164,14 +164,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 
 			Log.d("DestinationImageCache", "ResultsBackgroundImageFragment - loading " + mDestinationCode + " " + url + " blur=" + mBlur);
 
-			Bitmap bitmap;
-			if (mBlur) {
-				bitmap = cache.getBlurredImage(url, true);
-			}
-			else {
-				bitmap = cache.getImage(url, true);
-			}
-
+			Bitmap bitmap = cache.getBlurredImage(url, mBlur);
 			if (bitmap != null) {
 				return bitmap;
 			}
@@ -206,12 +199,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 					}
 				};
 
-				if (mBlur) {
-					cache.loadBlurredImage(mImgUrl, mImgUrl, callback);
-				}
-				else {
-					cache.loadImage(mImgUrl, callback);
-				}
+				cache.loadImage(mImgUrl, mImgUrl, mBlur, callback);
 			}
 			else {
 				handleBitmap(bitmap, false);
