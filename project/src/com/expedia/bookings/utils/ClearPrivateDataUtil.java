@@ -5,6 +5,7 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.DestinationImageCache;
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.BackgroundImageCache;
 import com.expedia.bookings.data.BillingInfo;
@@ -87,6 +88,9 @@ public class ClearPrivateDataUtil {
 
 		// Clear image cache, why not
 		TwoLevelImageCache.clearMemoryCache();
+
+		DestinationImageCache.getInstance().clearDiskCache();
+		DestinationImageCache.getInstance().clearMemoryCache();
 
 		// AirAsia Flight routes
 		Db.deleteCachedFlightRoutes(context);

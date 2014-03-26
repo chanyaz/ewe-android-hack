@@ -218,7 +218,9 @@ public class L2ImageCache {
 	}
 
 	public void clearDiskCache() {
-		getDiskCacheDir(mContext, mLogTag).delete();
+		for (File file : getDiskCacheDir(mContext, mLogTag).listFiles()) {
+			file.delete();
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
