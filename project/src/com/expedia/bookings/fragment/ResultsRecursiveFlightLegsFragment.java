@@ -192,10 +192,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			if (mNextLegFrag != null) {
 				mNextLegFrag.resetQuery();
 			}
-
-			if (mDetailsFrag != null && mDetailsFrag.isAdded()) {
-				mDetailsFrag.bindWithDb();
-			}
 		}
 		if (mParentFlightSelectedListener != null) {
 			mParentFlightSelectedListener.onFlightSelected(legNumber);
@@ -396,7 +392,8 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				mListFrag.setListLockedToTop(false);
 			}
 
-			if (state == ResultsFlightLegState.LIST_DOWN) {
+			if (state == ResultsFlightLegState.LIST_DOWN || (mLegNumber > 0
+				&& state == ResultsFlightLegState.FILTERS)) {
 				mListFrag.resetQuery();
 			}
 

@@ -758,7 +758,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 					if (mFlightLegsFrag.getState() != ResultsFlightLegState.LIST_DOWN) {
 						mFlightLegsFrag.setState(ResultsFlightLegState.LIST_DOWN, false);
 					}
-					mFlightLegsFrag.resetQuery();
 				}
 			}
 
@@ -773,9 +772,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mFlightHistogramFrag.setShowProgressBar(Db.getFlightSearch().getSearchResponse() == null);
 			}
 
-			if (mFlightLegsFrag != null && state == ResultsFlightsState.CHOOSING_FLIGHT && (
-				mFlightLegsFrag.getState() == ResultsFlightLegState.FILTERS
-					|| mFlightLegsFrag.getState() == ResultsFlightLegState.LIST_DOWN)) {
+			if (mFlightLegsFrag != null && state != ResultsFlightsState.CHOOSING_FLIGHT
+				&& state != ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
 				mFlightLegsFrag.resetQuery();
 			}
 		}
