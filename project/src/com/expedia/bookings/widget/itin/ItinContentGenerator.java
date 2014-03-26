@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
+import org.joda.time.LocalDate;
 
 import android.content.Context;
 import android.content.Intent;
@@ -724,12 +725,15 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * @see #getItinRelativeTimeSpan(Context context, DateTime time, DateTime now) for relative time span
 	 */
 	public CharSequence getItinRelativeStartDate() {
-		DateTime dateTime = getItinCardData().getStartDate();
-		DateTime today = DateTime.now();
-		long time = dateTime.getMillis();
-		long now = today.getMillis();
+		long time = getItinCardData().getStartDate().getMillis();
+		long now = DateTime.now().getMillis();
 		long duration = time - now;
-		int daysBetween = JodaUtils.daysBetween(today.withZone(dateTime.getZone()), dateTime);
+
+		DateTime dateTime = getItinCardData().getStartDate();
+		LocalDate localDate = new LocalDate(getItinCardData().getStartDate());
+		LocalDate today = new LocalDate(DateTime.now());
+		// We use LocalDate because we don't care about the instant in time just the Year Month and Day
+		final int daysBetween = JodaUtils.daysBetween(today, localDate);
 
 		CharSequence ret = null;
 
