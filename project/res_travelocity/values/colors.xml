@@ -7,4 +7,6 @@
     <color name="bg_btn_color_travelocity">#7bae00</color>
     <color name="bg_btn_pressed_color_travelocity">#295600</color>
     <color name="itin_flight_line_color_tvly">#7da426</color>
+    <color name="login_text_hotels">#FFFFFF</color>
+    <color name="login_text_flight">#FFFFFF</color>
 </resources>
