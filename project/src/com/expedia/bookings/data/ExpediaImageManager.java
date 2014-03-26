@@ -9,6 +9,7 @@ import android.graphics.Point;
 import android.text.format.DateUtils;
 import android.widget.ImageView;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
@@ -227,6 +228,9 @@ public class ExpediaImageManager {
 	 */
 	public void setDestinationBitmap(Context context, ImageView imageView, FlightSearch flightSearch, boolean blur) {
 		Bitmap bitmap = getDestinationBitmap(context, flightSearch, blur);
+		if (bitmap == null) {
+			bitmap = L2ImageCache.sDestination.getImage(context.getResources(), R.drawable.default_flights_background, blur);
+		}
 		imageView.setImageBitmap(bitmap);
 	}
 

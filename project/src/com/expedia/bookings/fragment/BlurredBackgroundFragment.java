@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -56,6 +57,12 @@ public class BlurredBackgroundFragment extends Fragment {
 	public void loadBitmapFromCache(Context context) {
 		Bitmap og = ExpediaImageManager.getInstance().getDestinationBitmap(context, Db.getFlightSearch(), false);
 		Bitmap bl = ExpediaImageManager.getInstance().getDestinationBitmap(context, Db.getFlightSearch(), true);
+
+		// If Bitmaps according to our FlightSearch aren't in memory, then we should default to the clouds from resources
+		if (og == null || bl == null) {
+			og = L2ImageCache.sDestination.getImage(context.getResources(), R.drawable.default_flights_background, false);
+			bl = L2ImageCache.sDestination.getImage(context.getResources(), R.drawable.default_flights_background, true);
+		}
 		setBitmap(og, bl);
 	}
 

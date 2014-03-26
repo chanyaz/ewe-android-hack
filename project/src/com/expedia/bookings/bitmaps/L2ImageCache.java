@@ -285,29 +285,59 @@ public class L2ImageCache {
 	 * meaning that images may not have to be reloaded from Resources.
 	 *
 	 * This is synchronous, so if you're loading a huge image, you may want to throw
-	 * this in another thread.
+	 * this in another thread. ESPECIALLY if you are blurring.
 	 */
-	public Bitmap getImage(Resources res, int resId) {
+	public Bitmap getImage(Resources res, int resId, boolean blur) {
 		// Don't ever try to load invalid resources
 		if (resId == 0) {
 			return null;
 		}
 
-		String key = RESOURCE_CACHE_PREFIX + resId;
-
+		String key = getMemCacheKeyForResDrawable(resId, blur);
 		Bitmap bitmap = mMemoryCache.get(key);
 		if (bitmap == null) {
 			try {
-				bitmap = BitmapFactory.decodeResource(res, resId);
+				if (blur) {
+					// Is the regular in memory?
+					Bitmap regBitmap = mMemoryCache.get(getMemCacheKeyForResDrawable(resId, false));
+					if (regBitmap == null) {
+						regBitmap = BitmapFactory.decodeResource(res, resId);
+					}
+
+					bitmap = BitmapUtils.stackBlurAndDarken(regBitmap, mContext,
+						BLURRED_IMAGE_SIZE_REDUCTION_FACTOR, STACK_BLUR_RADIUS, DARKEN_MULTIPLIER);
+				}
+				else {
+					bitmap = BitmapFactory.decodeResource(res, resId);
+				}
 			}
 			catch (OutOfMemoryError e) {
 				Log.w("Could not load native resource " + resId + ", ran out of memory.", e);
 				return null;
 			}
+
 			mMemoryCache.put(key, bitmap);
 		}
 
 		return bitmap;
+	}
+
+	private String getMemCacheKeyForResDrawable(int resId, boolean blur) {
+		String key = RESOURCE_CACHE_PREFIX + resId;
+		if (blur) {
+			key += BLUR_KEY_SUFFIX;
+		}
+		return key;
+	}
+
+	/**
+	 * Whether or not the given drawable from resources is in the memory cache
+	 * @param resId
+	 * @return
+	 */
+	public boolean hasInMemCache(int resId, boolean blur) {
+		String key = getMemCacheKeyForResDrawable(resId, blur);
+		return mMemoryCache.get(key) != null;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -65,12 +65,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 			Db.loadFlightSearchParamsFromDisk(this);
 		}
 
-		//We load up the default backgrounds so they are ready to go later if/when we need them
-		//this is important, as we need to load images before our memory load gets too heavy
-		// FIXME add default cloud reg/blur bitmaps to destination cache
-		//		if (savedInstanceState == null || !Db.getBackgroundImageCache(this).isDefaultInCache()) {
-		//			Db.getBackgroundImageCache(this).loadDefaultsInThread(this);
-		//		}
+		checkForDefaultDestinationImage(savedInstanceState);
 
 		if (savedInstanceState != null) {
 			mUpdateOnResume = savedInstanceState.getBoolean(INSTANCE_UPDATE_ON_RESUME);
@@ -99,6 +94,29 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 		ActionBar actionBar = this.getSupportActionBar();
 		actionBar.setTitle(R.string.search_flights);
 		actionBar.setDisplayHomeAsUpEnabled(true);
+	}
+
+	private static final int PHONE_FLIGHTS_DEFAULT_RES_ID = R.drawable.default_flights_background;
+
+	private static final Object sDefaultsLock = new Object();
+
+	// We load up the default backgrounds so they are ready to go later if/when we need them
+	// this is important, as we need to load images before our memory load gets too heavy
+	private void checkForDefaultDestinationImage(final Bundle savedInstanceState) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				boolean hasReg = L2ImageCache.sDestination.hasInMemCache(PHONE_FLIGHTS_DEFAULT_RES_ID, false);
+				boolean hasBlur = L2ImageCache.sDestination.hasInMemCache(PHONE_FLIGHTS_DEFAULT_RES_ID, true);
+
+				if (savedInstanceState == null || !hasReg || !hasBlur) {
+					synchronized (sDefaultsLock) {
+						L2ImageCache.sDestination.getImage(getResources(), PHONE_FLIGHTS_DEFAULT_RES_ID, false);
+						L2ImageCache.sDestination.getImage(getResources(), PHONE_FLIGHTS_DEFAULT_RES_ID, true);
+					}
+				}
+			}
+		}).start();
 	}
 
 	@Override
