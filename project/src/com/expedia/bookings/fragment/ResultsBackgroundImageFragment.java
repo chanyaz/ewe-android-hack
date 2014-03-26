@@ -164,7 +164,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 
 			Log.d("DestinationImageCache", "ResultsBackgroundImageFragment - loading " + mDestinationCode + " " + url + " blur=" + mBlur);
 
-			Bitmap bitmap = cache.getBlurredImage(url, mBlur);
+			Bitmap bitmap = cache.getImage(url, true, mBlur);
 			if (bitmap != null) {
 				return bitmap;
 			}
