@@ -1058,4 +1058,8 @@
         <item name="android:textColor">@color/text_dark</item>
     </style>
 
+    <style name="LoginButtonLogoutImageStyle">
+        <item name="android:padding">8dp</item>
+    </style>
+
 </resources>

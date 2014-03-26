@@ -129,6 +129,7 @@
                 android:id="@+id/account_bottom_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
                 style="@style/LoginButtonBottomTextStyle" />
         </LinearLayout>
 
@@ -136,8 +137,8 @@
             android:id="@+id/account_logout_logout_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:src="@drawable/ic_log_out" />
+            android:src="@drawable/ic_log_out"
+            style="@style/LoginButtonLogoutImageStyle" />
     </LinearLayout>
 
     <LinearLayout

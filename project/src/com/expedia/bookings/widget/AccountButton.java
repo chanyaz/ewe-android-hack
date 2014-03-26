@@ -181,8 +181,6 @@ public class AccountButton extends LinearLayout {
 
 		// Tablet
 		if (isTablet) {
-			View logoutButton = Ui.findView(mLogoutContainer, R.id.account_logout_logout_button);
-			logoutButton.setVisibility(View.GONE);
 			top.setText(traveler.getEmail());
 
 			String points = "";
