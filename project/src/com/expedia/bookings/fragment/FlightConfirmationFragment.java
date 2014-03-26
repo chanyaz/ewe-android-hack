@@ -21,6 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -138,24 +139,32 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 			Ui.findView(v, R.id.get_a_room_divider).setVisibility(View.GONE);
 		}
 
-		Ui.setOnClickListener(v, R.id.share_action_text_view, new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				share();
-			}
-		});
-
-		if (CalendarAPIUtils.deviceSupportsCalendarAPI(getActivity())) {
-			Ui.setOnClickListener(v, R.id.calendar_action_text_view, new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					addToCalendar();
-				}
-			});
-		}
-		else {
+		//Remove share and add to calendar
+		if(ExpediaBookingApp.IS_TRAVELOCITY) {
+			Ui.findView(v, R.id.share_action_text_view).setVisibility(View.GONE);
+			Ui.findView(v, R.id.ca_insurance_divider).setVisibility(View.GONE);
 			Ui.findView(v, R.id.calendar_action_text_view).setVisibility(View.GONE);
 			Ui.findView(v, R.id.calendar_divider).setVisibility(View.GONE);
+		}
+		else {
+			Ui.setOnClickListener(v, R.id.share_action_text_view, new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					share();
+				}
+			});
+			if (CalendarAPIUtils.deviceSupportsCalendarAPI(getActivity())) {
+				Ui.setOnClickListener(v, R.id.calendar_action_text_view, new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						addToCalendar();
+					}
+				});
+			}
+			else {
+				Ui.findView(v, R.id.calendar_action_text_view).setVisibility(View.GONE);
+				Ui.findView(v, R.id.calendar_divider).setVisibility(View.GONE);
+			}
 		}
 
 		if (canTrackWithFlightTrack()) {
