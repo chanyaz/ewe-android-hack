@@ -697,10 +697,6 @@ public class L2ImageCache {
 		public abstract String getUrl();
 	}
 
-	// 4k of memory is alright for a permanent buffer (as long as
-	// we are only doing one download at once).
-	private final byte[] mBuffer = new byte[4096];
-
 	/**
 	 * This will load a bitmap either from the DiskLruCache or the
 	 * network (at which point it adds the image to the DiskLruCache).
@@ -725,7 +721,8 @@ public class L2ImageCache {
 				return getImage(mUrl, true);
 			}
 
-			URL imageUrl = null;
+			// Construct URL
+			URL imageUrl;
 			try {
 				imageUrl = new URL(mUrl);
 			}
@@ -734,48 +731,16 @@ public class L2ImageCache {
 				return null;
 			}
 
-			Editor editor = null;
+			// Open HTTP network connection and store Bitmap in disk cache
 			try {
-				// Open connection and write the image directly to the disk cache
-				mConn = (HttpURLConnection) imageUrl.openConnection();
-				mConn.setDoInput(true);
-				mConn.connect();
-				InputStream in = mConn.getInputStream();
-
-				// IMPORTANT DETAIL: Since our pool size is one, we can
-				// safely edit one entry at a time.  If you ever want
-				// concurrent downloads, you'll have to wait setup some
-				// method for safely concurrently editing the disk cache.
-				editor = mDiskCache.edit(getDiskKey(mUrl));
-				OutputStream stream = editor.newOutputStream(0);
-				int available = 0;
-				while ((available = in.read(mBuffer)) >= 0) {
-					stream.write(mBuffer, 0, available);
-				}
-				editor.commit();
-
-				// Use the cache to get the image now
-				return getImage(mUrl, true);
-			}
-			catch (FileNotFoundException e) {
-				Log.w(mLogTag, "Ignoring url because it could not be found: " + mUrl);
-				mIgnore.add(mUrl);
-				return null;
+				mConn = makeHttpBitmapConn(imageUrl);
+				return downloadBitmapToDiskCacheFromNetwork(mUrl, mConn);
 			}
 			catch (IOException e) {
 				if (!mCancelled) {
 					Log.w(mLogTag, "Could not fetch image, could not load.", e);
 				}
 				return null;
-			}
-			catch (OutOfMemoryError e) {
-				Log.e(mLogTag, "Could not fetch image, ran out of memory.", e);
-				return null;
-			}
-			finally {
-				if (editor != null) {
-					editor.abortUnlessCommitted();
-				}
 			}
 		}
 
@@ -795,8 +760,9 @@ public class L2ImageCache {
 	}
 
 	private class BitmapBlur extends BitmapCallable {
-
 		private String mOrigUrl;
+		private HttpURLConnection mConn;
+		private boolean mNetworkDownloadCancelled;
 
 		public BitmapBlur(String url) {
 			mOrigUrl = url;
@@ -819,15 +785,13 @@ public class L2ImageCache {
 				// Grab the original Bitmap from the cache
 				Bitmap origBitmap = getImage(mOrigUrl, true);
 				if (origBitmap == null) {
-					// TODO NOTE:
-					// A quick fix is to return null here. Ideally we just download the original image in this case,
-					// but we shouldn't just copy/paste from the BitmapDownload task. Either we have just one overloaded
-					// bitmap processing Callable (i.e. move this logic in to BitmapDownload) or we instead refactor the
-					// logic into some utility method that can be used in both places
-					if (mVerboseDebugLoggingEnabled) {
-						Log.d(mLogTag, "Attempting to blur an image that is not in memory, nor disk! returning null. let's improve this, url=" + mOrigUrl);
-					}
-					return null;
+					Log.i(mLogTag, "Attempting to load blurred Bitmap where original Bitmap is not in cache. Downloading original from network, url=" + mOrigUrl);
+
+					// Download the regular bitmap and load into memory
+					URL imageUrl = new URL(mOrigUrl);
+					mConn = makeHttpBitmapConn(imageUrl);
+					downloadBitmapToDiskCacheFromNetwork(mOrigUrl, mConn);
+					origBitmap = getImage(mOrigUrl, true);
 				}
 
 				// Allocate a new Bitmap for the blurred Bitmap
@@ -842,8 +806,14 @@ public class L2ImageCache {
 
 				mDiskCache.flush();
 			}
+			catch (MalformedURLException e) {
+				Log.w(mLogTag, "Could not fetch image, bad url.", e);
+				return null;
+			}
 			catch (IOException e) {
-				Log.w(mLogTag, "Could not open editor for writing blurred image to disk");
+				if (!mNetworkDownloadCancelled) {
+					Log.w(mLogTag, "Could not fetch image, could not load.", e);
+				}
 				return null;
 			}
 			catch (OutOfMemoryError e) {
@@ -871,12 +841,72 @@ public class L2ImageCache {
 
 		@Override
 		public void interruptDownload() {
-			// TODO do something??
+			mNetworkDownloadCancelled = true;
+			if (mConn != null) {
+				mConn.disconnect();
+			}
 		}
 
 		@Override
 		public String getUrl() {
 			return mOrigUrl;
+		}
+	}
+
+	private static HttpURLConnection makeHttpBitmapConn(URL imageUrl) throws IOException {
+		HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
+		conn.setDoInput(true);
+		conn.connect();
+		return conn;
+	}
+
+	// 4k of memory is alright for a permanent buffer (as long as
+	// we are only doing one download at once).
+	private final byte[] mBuffer = new byte[4096];
+
+	/**
+	 * This utility method will download a Bitmap from the network, writing it directly to the disk
+	 * cache, and then return the in-memory instance of the Bitmap.
+	 * @param url
+	 * @param conn
+	 * @return
+	 * @throws IOException
+	 */
+	private Bitmap downloadBitmapToDiskCacheFromNetwork(String url, HttpURLConnection conn) throws IOException {
+		Log.i(mLogTag, "Downloading bitmap from network, url=" + url);
+
+		Editor editor = null;
+		try {
+			InputStream in = conn.getInputStream();
+
+			// IMPORTANT DETAIL: Since our pool size is one, we can
+			// safely edit one entry at a time.  If you ever want
+			// concurrent downloads, you'll have to wait setup some
+			// method for safely concurrently editing the disk cache.
+			editor = mDiskCache.edit(getDiskKey(url));
+			OutputStream stream = editor.newOutputStream(0);
+			int available = 0;
+			while ((available = in.read(mBuffer)) >= 0) {
+				stream.write(mBuffer, 0, available);
+			}
+			editor.commit();
+
+			// Use the cache to get the image now
+			return getImage(url, true);
+		}
+		catch (FileNotFoundException e) {
+			Log.w(mLogTag, "Ignoring url because it could not be found: " + url);
+			mIgnore.add(url);
+			return null;
+		}
+		catch (OutOfMemoryError e) {
+			Log.e(mLogTag, "Could not fetch image, ran out of memory.", e);
+			return null;
+		}
+		finally {
+			if (editor != null) {
+				editor.abortUnlessCommitted();
+			}
 		}
 	}
 
