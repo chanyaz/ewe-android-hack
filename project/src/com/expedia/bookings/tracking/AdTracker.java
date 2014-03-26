@@ -34,6 +34,10 @@ public class AdTracker {
 		AdX.trackLogin();
 	}
 
+	public static void trackViewHomepage() {
+		AdX.trackViewHomepage();
+	}
+
 	public static void trackViewItinList() {
 		AdX.trackViewItinList();
 	}

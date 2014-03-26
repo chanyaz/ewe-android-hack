@@ -59,8 +59,7 @@ public class AdX {
 
 			// Retargeting
 			AdXConnect.startNewExtendedEvent(sAppContext);
-			addCommonRetargeting();
-			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_HOMEPAGE);
+			AdXConnect.sendExtendedEventOfName("launch");
 		}
 	}
 
@@ -73,8 +72,7 @@ public class AdX {
 
 			// Retargeting
 			AdXConnect.startNewExtendedEvent(sAppContext);
-			addCommonRetargeting();
-			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_HOMEPAGE);
+			AdXConnect.sendExtendedEventOfName("launch");
 		}
 	}
 
@@ -92,6 +90,14 @@ public class AdX {
 		if (sEnabled) {
 			AdXConnect.getAdXConnectEventInstance(sAppContext, "Login", "", "");
 			Log.i("AdX login event");
+		}
+	}
+
+	public static void trackViewHomepage() {
+		if (sEnabled) {
+			AdXConnect.startNewExtendedEvent(sAppContext);
+			addCommonRetargeting();
+			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_HOMEPAGE);
 		}
 	}
 
