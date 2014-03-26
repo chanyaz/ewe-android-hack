@@ -222,8 +222,6 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 								mImageView.setImageBitmap(bitmap);
 								mImageView.animate()
 									.alpha(1f)
-									.scaleY(1f)
-									.scaleX(1f)
 									.setDuration(HALF_FADE_IN_TIME)
 									.setListener(null);
 							}
