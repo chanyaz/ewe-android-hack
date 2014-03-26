@@ -13,6 +13,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.fragment.SearchParamsFragment;
 import com.expedia.bookings.fragment.SearchParamsFragment.SearchParamsFragmentListener;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
@@ -105,6 +106,7 @@ public class SearchFragmentActivity extends SherlockFragmentActivity implements 
 		gpsd.startChecking();
 
 		OmnitureTracking.onResume(this);
+		AdTracker.trackViewHomepage();
 	}
 
 	@Override
