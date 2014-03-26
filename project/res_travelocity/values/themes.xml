@@ -104,8 +104,6 @@
         <item name="android:actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabTravelocityStyle</item>
         <!-- PopupMenu -->
-        <item name="dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
-        <item name="android:dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
         <item name="logoutConfirmationString">@string/logout_confirmation_travelocity</item>
         <item name="itinActivityPlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_activities</item>
         <item name="itinCarPlaceholderDrawable">@drawable/default_cars_travelocity_background</item>
