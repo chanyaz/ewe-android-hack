@@ -3,7 +3,6 @@ package com.expedia.bookings.otto;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Rate;
@@ -149,9 +148,9 @@ public class Events {
 	 * This event notifies CreateTripDownload call has succeeded
 	 */
 	public static class CreateTripDownloadSuccess {
-		public final CreateTripResponse createTripResponse;
+		public final Response createTripResponse;
 
-		public CreateTripDownloadSuccess(CreateTripResponse response) {
+		public CreateTripDownloadSuccess(Response response) {
 			this.createTripResponse = response;
 		}
 	}
@@ -311,6 +310,17 @@ public class Events {
 
 		public BookingConfirmationBookNext(LineOfBusiness item) {
 			this.nextItem = item;
+		}
+	}
+
+	/**
+	 * This event notifies that the Flight createTrip succeeded with a price change.
+	 */
+	public static class FlightPriceChange {
+		public final String changeString;
+
+		public FlightPriceChange(String changeText) {
+			this.changeString = changeText;
 		}
 	}
 

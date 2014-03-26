@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,7 @@ import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
+import com.expedia.bookings.fragment.FlightBookingFragment.FlightBookingState;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingState;
 import com.expedia.bookings.fragment.base.LobableFragment;
@@ -89,7 +91,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private static final String FRAG_TAG_CHECKOUT_INFO = "FRAG_TAG_CHECKOUT_INFO";
 	private static final String FRAG_TAG_SLIDE_TO_PURCHASE = "FRAG_TAG_SLIDE_TO_PURCHASE";
 	private static final String FRAG_TAG_CVV = "FRAG_TAG_CVV";
-	private static final String FRAG_TAG_BOOK_FLIGHT = "FRAG_TAG_BOOK_FLIGHT";
 	private static final String FRAG_TAG_CONF_FLIGHT = "FRAG_TAG_CONF_FLIGHT";
 	private static final String FRAG_TAG_CONF_HOTEL = "FRAG_TAG_CONF_HOTEL";
 	private static final String FRAG_TAG_BLUR_BG = "FRAG_TAG_BLUR_BG";
@@ -128,10 +129,13 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	private static final String TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG = "TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG";
 	private static final String TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG = "TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG";
+	private static final String TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG = "TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG";
 
 	private static final String INSTANCE_DONE_LOADING_PRICE_CHANGE = "INSTANCE_DONE_LOADING_PRICE_CHANGE";
+	private static final String INSTANCE_FLIGHT_TRIP_ERROR = "INSTANCE_FLIGHT_TRIP_ERROR";
 
 	private boolean mIsDoneLoadingPriceChange = false;
+	private boolean mIsFlightTripDone = false;
 
 	//vars
 	private StateManager<CheckoutState> mStateManager = new StateManager<CheckoutState>(
@@ -139,12 +143,13 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	private ThrobberDialog mHotelProductDownloadThrobber;
 	private ThrobberDialog mCreateTripDownloadThrobber;
+	private ThrobberDialog mFlightCreateTripDownloadThrobber;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// We should ALWAYS have an instance of the HotelBookingFragment.
+		// We should ALWAYS have an instance of the HotelBookingFragment and FlightBookingFragment.
 		// Hence we necessarily don't have to use FragmentAvailabilityUtils.setFragmentAvailability
 		mHotelBookingFrag = Ui.findSupportFragment((FragmentActivity) getActivity(), HotelBookingFragment.TAG);
 
@@ -152,6 +157,15 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			FragmentTransaction ft = getFragmentManager().beginTransaction();
 			mHotelBookingFrag = new HotelBookingFragment();
 			ft.add(mHotelBookingFrag, HotelBookingFragment.TAG);
+			ft.commit();
+		}
+
+		mFlightBookingFrag = Ui.findSupportFragment((FragmentActivity) getActivity(), FlightBookingFragment.TAG);
+
+		if (mFlightBookingFrag == null) {
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			mFlightBookingFrag = new FlightBookingFragment();
+			ft.add(mFlightBookingFrag, FlightBookingFragment.TAG);
 			ft.commit();
 		}
 	}
@@ -199,6 +213,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				STATE_CHECKOUT_STATE,
 				CheckoutState.OVERVIEW.name())));
 			mIsDoneLoadingPriceChange = savedInstanceState.getBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE);
+			mIsFlightTripDone = savedInstanceState.getBoolean(INSTANCE_FLIGHT_TRIP_ERROR);
 		}
 
 		registerStateListener(mStateHelper, false);
@@ -212,6 +227,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		super.onSaveInstanceState(outState);
 		outState.putString(STATE_CHECKOUT_STATE, mStateManager.getState().name());
 		outState.putBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE, mIsDoneLoadingPriceChange);
+		outState.putBoolean(INSTANCE_FLIGHT_TRIP_ERROR, mIsFlightTripDone);
 	}
 
 	@Override
@@ -568,7 +584,17 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private void doCreateTrip() {
 		LineOfBusiness lob = getLob();
 		if (lob == LineOfBusiness.FLIGHTS) {
-			mBucketFlightFrag.doCreateTrip();
+			//mBucketFlightFrag.doCreateTrip();
+			getFragmentManager().executePendingTransactions();
+
+			if (!mFlightBookingFrag.isDownloadingCreateTrip()
+					&& TextUtils.isEmpty(Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber())
+					&& !mIsFlightTripDone) {
+				mFlightCreateTripDownloadThrobber = ThrobberDialog
+						.newInstance(getString(R.string.loading_flight_details));
+				mFlightCreateTripDownloadThrobber.show(getFragmentManager(), TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG);
+				mFlightBookingFrag.startDownload(FlightBookingState.CREATE_TRIP);
+			}
 		}
 		else if (lob == LineOfBusiness.HOTELS) {
 			getFragmentManager().executePendingTransactions();
@@ -616,8 +642,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		boolean slideToPurchaseAvailable = true;
 		boolean cvvAvailable =
 			state != CheckoutState.OVERVIEW;//If we are in cvv mode or are ready to enter it, we add cvv
-		boolean flightBookingFragAvail =
-			state.ordinal() >= CheckoutState.READY_FOR_CHECKOUT.ordinal(); // TODO talk to Joel
 
 		boolean mFlightConfAvailable = state == CheckoutState.CONFIRMATION && getLob() == LineOfBusiness.FLIGHTS;
 		boolean mHotelConfAvailable = state == CheckoutState.CONFIRMATION && getLob() == LineOfBusiness.HOTELS;
@@ -640,9 +664,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		mCvvFrag = FragmentAvailabilityUtils.setFragmentAvailability(cvvAvailable, FRAG_TAG_CVV,
 			manager, transaction, this, R.id.cvv_container, false);
-
-		mFlightBookingFrag = FragmentAvailabilityUtils.setFragmentAvailability(flightBookingFragAvail,
-			FRAG_TAG_BOOK_FLIGHT, manager, transaction, this, FragmentAvailabilityUtils.INVISIBLE_FRAG, false);
 
 		mFlightConfFrag = FragmentAvailabilityUtils.setFragmentAvailability(mFlightConfAvailable,
 			FRAG_TAG_CONF_FLIGHT, manager, transaction, this, R.id.confirmation_container, false);
@@ -714,9 +735,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		else if (FRAG_TAG_CVV.equals(tag)) {
 			return mCvvFrag;
 		}
-		else if (FRAG_TAG_BOOK_FLIGHT.equals(tag)) {
-			return mFlightBookingFrag;
-		}
 		else if (FRAG_TAG_CONF_FLIGHT.equals(tag)) {
 			return mFlightConfFrag;
 		}
@@ -745,9 +763,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else if (FRAG_TAG_CVV.equals(tag)) {
 			return CVVEntryFragment.newInstance();
-		}
-		else if (FRAG_TAG_BOOK_FLIGHT.equals(tag)) {
-			return new FlightBookingFragment();
 		}
 		else if (FRAG_TAG_CONF_FLIGHT.equals(tag)) {
 			return new TabletFlightConfirmationFragment();
@@ -953,14 +968,19 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	private void dismissLoadingDialogs() {
 		mHotelProductDownloadThrobber = Ui.findSupportFragment((FragmentActivity) getActivity(),
-			TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG);
+				TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG);
 		if (mHotelProductDownloadThrobber != null && mHotelProductDownloadThrobber.isAdded()) {
 			mHotelProductDownloadThrobber.dismiss();
 		}
 		mCreateTripDownloadThrobber = Ui.findSupportFragment((FragmentActivity) getActivity(),
-			TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
+				TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
 		if (mCreateTripDownloadThrobber != null && mCreateTripDownloadThrobber.isAdded()) {
 			mCreateTripDownloadThrobber.dismiss();
+		}
+		mFlightCreateTripDownloadThrobber = Ui.findSupportFragment((FragmentActivity) getActivity(),
+				TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG);
+		if (mFlightCreateTripDownloadThrobber != null && mFlightCreateTripDownloadThrobber.isAdded()) {
+			mFlightCreateTripDownloadThrobber.dismiss();
 		}
 	}
 
@@ -1017,16 +1037,30 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Subscribe
 	public void onCreateTripDownloadSuccess(CreateTripDownloadSuccess event) {
 		dismissLoadingDialogs();
+		if (getLob() == LineOfBusiness.FLIGHTS) {
+			mIsFlightTripDone = true;
+			mBucketFlightFrag.doBind();
+			rebindCheckoutFragment();
+		}
 	}
 
 	@Subscribe
 	public void onCreateTripDownloadError(CreateTripDownloadError event) {
 		dismissLoadingDialogs();
+		if (getLob() == LineOfBusiness.FLIGHTS) {
+			mIsFlightTripDone = true;
+		}
 	}
 
 	@Subscribe
 	public void onCreateTripDownloadRetry(CreateTripDownloadRetry event) {
-		startCreateTripDownload();
+		if (getLob() == LineOfBusiness.HOTELS) {
+			startCreateTripDownload();
+		}
+		else if (getLob() == LineOfBusiness.FLIGHTS) {
+			mIsFlightTripDone = false;
+			doCreateTrip();
+		}
 	}
 
 	@Subscribe
@@ -1107,6 +1141,14 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			WalletUtils.unbindAllWalletDataFromBillingInfo(Db.getBillingInfo());
 			setLob(event.nextItem);
 			setCheckoutState(CheckoutState.OVERVIEW, false);
+		}
+	}
+
+	@Subscribe
+	public void onFlightTripPriceChange(Events.FlightPriceChange event) {
+		String changeString = event.changeString;
+		if (changeString != null) {
+			Ui.showToast(getActivity(), changeString);
 		}
 	}
 }
