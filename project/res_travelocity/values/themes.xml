@@ -230,7 +230,7 @@
         <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
     </style>
 
-    <!-- Adding declaration. This theme  is used in Hotel Image Gallery in tablets.-->
+    <!-- Adding declaration. This theme  is used in Hotel Image Gallery in tablets. -->
     <style name="Theme.Tablet.Dark" parent="@style/Theme.Travelocity">
         <item name="android:actionBarStyle">@style/Widget.ActionBar.Travelocity</item>
     </style>
