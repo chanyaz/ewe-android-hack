@@ -152,12 +152,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	@Override
 	public void onPause() {
-		super.onPause();
 		Sp.getBus().unregister(this);
-
-		mResultsStateHelper.unregisterWithProvider(this);
-		mMeasurementHelper.unregisterWithProvider(this);
 		mBackManager.unregisterWithParent(this);
+		mMeasurementHelper.unregisterWithProvider(this);
+		mResultsStateHelper.unregisterWithProvider(this);
+		super.onPause();
 	}
 
 	private Rect getAddTripRect() {
@@ -269,11 +268,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			if (mFlightSearchDownloadFrag != null) {
 				histFrag.setShowProgressBar(mFlightSearchDownloadFrag.isDownloadingFlightSearch());
 			}
-		}
-		else if (tag == FTAG_FLIGHT_LEGS_CHOOSER) {
-			ResultsRecursiveFlightLegsFragment legsFrag = (ResultsRecursiveFlightLegsFragment) frag;
-			legsFrag.registerStateListener(mLegStateListener, false);
-			legsFrag.resetQuery();
 		}
 	}
 
@@ -753,12 +747,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mFlightHistogramC.setAlpha(0f);
 				mFlightHistogramC.setTouchPassThroughEnabled(true);
 				mFlightHistogramC.setTouchPassThroughReceiver(mFlightLegsC);
-
-				if (mFlightLegsFrag != null) {
-					if (mFlightLegsFrag.getState() != ResultsFlightLegState.LIST_DOWN) {
-						mFlightLegsFrag.setState(ResultsFlightLegState.LIST_DOWN, false);
-					}
-				}
 			}
 
 			//Make sure we are loading using the most recent params
@@ -775,6 +763,15 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			if (mFlightLegsFrag != null && state != ResultsFlightsState.CHOOSING_FLIGHT
 				&& state != ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
 				mFlightLegsFrag.resetQuery();
+				mFlightLegsFrag.setState(ResultsFlightLegState.LIST_DOWN, false);
+			}
+
+			if (mFlightLegsFrag != null && (state == ResultsFlightsState.LOADING
+				|| state == ResultsFlightsState.FLIGHT_HISTOGRAM)) {
+				mFlightLegsFrag.unRegisterStateListener(mLegStateListener);
+			}
+			else if (mFlightLegsFrag != null) {
+				mFlightLegsFrag.registerStateListener(mLegStateListener, false);
 			}
 		}
 
@@ -856,7 +853,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateFinalized(ResultsFlightLegState state) {
-			setFlightsState(translate(state), false);
+			if (mFlightsStateManager.getState() != translate(state)) {
+				setFlightsState(translate(state), false);
+			}
 		}
 
 		private ResultsFlightsState translate(ResultsFlightLegState state) {
