@@ -1,5 +1,7 @@
 package com.expedia.bookings.tracking;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
@@ -128,7 +130,7 @@ public class AdX {
 			}
 			AdXConnect.setEventParameter(AdXConnect.ADX_START_DATE, dtf.print(params.getCheckInDate()));
 			AdXConnect.setEventParameter(AdXConnect.ADX_END_DATE, dtf.print(params.getCheckOutDate()));
-			AdXConnect.setEventParameterOfName("b_win", params.getStayDuration());
+			AdXConnect.setEventParameterOfName("b_win", getBookingWindow(params.getCheckInDate()));
 			AdXConnect.setEventParameterOfName("p_type", "HOTEL");
 
 			if (search.getSelectedProperty() != null) {
@@ -163,8 +165,7 @@ public class AdX {
 			if (params.isRoundTrip()) {
 				AdXConnect.setEventParameter(AdXConnect.ADX_END_DATE, dtf.print(params.getReturnDate()));
 			}
-			int duration = params.isRoundTrip() ? JodaUtils.daysBetween(params.getDepartureDate(), params.getReturnDate()) : 1;
-			AdXConnect.setEventParameterOfName("b_win", duration);
+			AdXConnect.setEventParameterOfName("b_win", getBookingWindow(params.getDepartureDate()));
 			AdXConnect.setEventParameterOfName("p_type", "FLIGHT");
 
 			int numberOfTravelers = params.getNumAdults();
@@ -197,7 +198,7 @@ public class AdX {
 			}
 			AdXConnect.setEventParameter(AdXConnect.ADX_START_DATE, dtf.print(params.getCheckInDate()));
 			AdXConnect.setEventParameter(AdXConnect.ADX_END_DATE, dtf.print(params.getCheckOutDate()));
-			AdXConnect.setEventParameterOfName("b_win", params.getStayDuration());
+			AdXConnect.setEventParameterOfName("b_win", getBookingWindow(params.getCheckInDate()));
 			AdXConnect.setEventParameterOfName("p_type", "HOTEL");
 
 			if (search.getSelectedProperty() != null) {
@@ -232,8 +233,7 @@ public class AdX {
 			if (params.isRoundTrip()) {
 				AdXConnect.setEventParameter(AdXConnect.ADX_END_DATE, dtf.print(params.getReturnDate()));
 			}
-			int duration = params.isRoundTrip() ? JodaUtils.daysBetween(params.getDepartureDate(), params.getReturnDate()) : 1;
-			AdXConnect.setEventParameterOfName("b_win", duration);
+			AdXConnect.setEventParameterOfName("b_win", getBookingWindow(params.getDepartureDate()));
 			AdXConnect.setEventParameterOfName("p_type", "FLIGHT");
 
 			String productId = params.getDepartureLocation().getDestinationId() + "/" + params.getArrivalLocation().getDestinationId();
@@ -267,7 +267,7 @@ public class AdX {
 			}
 			AdXConnect.setEventParameter(AdXConnect.ADX_START_DATE, dtf.print(params.getCheckInDate()));
 			AdXConnect.setEventParameter(AdXConnect.ADX_END_DATE, dtf.print(params.getCheckOutDate()));
-			AdXConnect.setEventParameterOfName("b_win", params.getStayDuration());
+			AdXConnect.setEventParameterOfName("b_win", getBookingWindow(params.getCheckInDate()));
 			AdXConnect.setEventParameterOfName("p_type", "HOTEL");
 
 			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_SEARCH);
@@ -297,8 +297,7 @@ public class AdX {
 			if (params.isRoundTrip()) {
 				AdXConnect.setEventParameter(AdXConnect.ADX_END_DATE, dtf.print(params.getReturnDate()));
 			}
-			int duration = params.isRoundTrip() ? JodaUtils.daysBetween(params.getDepartureDate(), params.getReturnDate()) : 1;
-			AdXConnect.setEventParameterOfName("b_win", duration);
+			AdXConnect.setEventParameterOfName("b_win", getBookingWindow(params.getDepartureDate()));
 			AdXConnect.setEventParameterOfName("p_type", "FLIGHT");
 
 			AdXConnect.sendExtendedEvent(AdXConnect.ADX_EVENT_SEARCH);
@@ -355,5 +354,13 @@ public class AdX {
 			if (!TextUtils.isEmpty(country)) {
 				AdXConnect.setEventParameterOfName("fb_country", country);
 			}
+	}
+
+	private static int getBookingWindow(LocalDate time) {
+		return JodaUtils.daysBetween(LocalDate.now(), time);
+	}
+
+	private static int getBookingWindow(DateTime time) {
+		return JodaUtils.daysBetween(LocalDate.now(), new LocalDate(time));
 	}
 }
