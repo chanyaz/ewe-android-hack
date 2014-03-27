@@ -70,7 +70,29 @@ public class L2ImageCache {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Cache
+	// Static cache instances
+
+	public static L2ImageCache sDestination;
+
+	public static void initAllCacheInstances(Context applicationContext) {
+		initDestinationImageCache(applicationContext);
+	}
+
+	private static void initDestinationImageCache(Context context) {
+		// Cache params
+		final String logTag = "DestinationImageCache";
+		final int numMemCacheEntries = 2;
+		final int diskCacheSize = 1024 * 1024 * 20; // 20 mb
+
+		// Construct cache
+		EvictionPolicy policy = new NumberEvictionPolicy(context, numMemCacheEntries, diskCacheSize, logTag);
+		sDestination = new L2ImageCache(context, logTag, policy);
+		sDestination.setVerboseDebugLoggingEnabled(true);
+	}
+
+
+	//////////////////////////////////////////////////////////////////////////
+	// Cache implementation
 
 	private LruCache<String, Bitmap> mMemoryCache;
 

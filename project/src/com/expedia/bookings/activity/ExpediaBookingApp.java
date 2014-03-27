@@ -17,7 +17,7 @@ import android.text.format.DateUtils;
 import com.activeandroid.ActiveAndroid;
 import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
-import com.expedia.bookings.bitmaps.DestinationImageCache;
+import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -45,6 +45,7 @@ import com.mobiata.android.util.BuildConfigUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+
 import net.danlew.android.joda.ResourceZoneInfoProvider;
 
 public class ExpediaBookingApp extends Application implements UncaughtExceptionHandler {
@@ -143,9 +144,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		ExpediaImageManager.init(this);
 		startupTimer.addSplit("ExpediaImageManager Init");
 
-		DestinationImageCache.init(this);
-		DestinationImageCache.getInstance().setVerboseDebugLoggingEnabled(true);
-		startupTimer.addSplit("DestinationImageCache Init");
+		L2ImageCache.initAllCacheInstances(this);
+		startupTimer.addSplit("L2ImageCache Init");
 
 		LocalExpertSite.init(this);
 		startupTimer.addSplit("LocalExpertSite Init");

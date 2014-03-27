@@ -14,7 +14,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
-import com.expedia.bookings.bitmaps.DestinationImageCache;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
@@ -159,12 +158,10 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 			ExpediaImage expImage = imageManager.getDestinationImage(mDestinationCode, mWidth, mHeight, true);
 
 			// Attempt to grab the image from either memory or disk
-			L2ImageCache cache = DestinationImageCache.getInstance();
 			String url = expImage.getThumborUrl(mWidth, mHeight);
-
 			Log.d("DestinationImageCache", "ResultsBackgroundImageFragment - loading " + mDestinationCode + " " + url + " blur=" + mBlur);
 
-			Bitmap bitmap = cache.getImage(url, true, mBlur);
+			Bitmap bitmap = L2ImageCache.sDestination.getImage(url, true, mBlur);
 			if (bitmap != null) {
 				return bitmap;
 			}
@@ -186,7 +183,6 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 				}
 
 				// We still don't have the image, so let's grab it from the network
-				L2ImageCache cache = DestinationImageCache.getInstance();
 				L2ImageCache.OnBitmapLoaded callback = new L2ImageCache.OnBitmapLoaded() {
 					@Override
 					public void onImageLoaded(String url, Bitmap bitmap) {
@@ -199,7 +195,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 					}
 				};
 
-				cache.loadImage(mImgUrl, mImgUrl, mBlur, callback);
+				L2ImageCache.sDestination.loadImage(mImgUrl, mImgUrl, mBlur, callback);
 			}
 			else {
 				handleBitmap(bitmap, false);
