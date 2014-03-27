@@ -54,7 +54,7 @@ public class ResultsListLoadingFragment extends Fragment {
 			}
 		}
 
-		if(mLoadingText != null){
+		if (mLoadingText != null) {
 			setLoadingText(mLoadingText);
 		}
 

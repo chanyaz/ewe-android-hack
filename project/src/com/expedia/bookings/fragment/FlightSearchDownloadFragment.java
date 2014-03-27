@@ -63,7 +63,7 @@ public class FlightSearchDownloadFragment extends Fragment {
 
 		mListener = Ui.findFragmentListener(this, ExpediaServicesFragment.ExpediaServicesFragmentListener.class);
 
-		if(mStartOrResumeOnAttach && mSearchParams != null){
+		if (mStartOrResumeOnAttach && mSearchParams != null) {
 			startOrResumeForParams(mSearchParams);
 		}
 	}

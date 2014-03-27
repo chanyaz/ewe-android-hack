@@ -9,9 +9,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.fragment.PriceChangeDialogFragment;
-import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
-import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
 

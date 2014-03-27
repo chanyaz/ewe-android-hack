@@ -56,7 +56,7 @@ public class ResultsGuestPicker extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		if(savedInstanceState != null){
+		if (savedInstanceState != null) {
 			mAdultCount = savedInstanceState.getInt(STATE_ADULT_COUNT);
 			mChildren = savedInstanceState.getIntegerArrayList(STATE_CHILDREN);
 		}
@@ -109,7 +109,7 @@ public class ResultsGuestPicker extends Fragment {
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState){
+	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putIntegerArrayList(STATE_CHILDREN, mChildren);
 		outState.putInt(STATE_ADULT_COUNT, mAdultCount);

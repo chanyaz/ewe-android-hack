@@ -1,7 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -9,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -21,16 +18,13 @@ import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.fragment.BookingFragment;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
-import com.expedia.bookings.fragment.BookingFragment;
-import com.expedia.bookings.fragment.BookingUnavailableDialogFragment;
 import com.expedia.bookings.fragment.HotelBookingFragment;
-import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.otto.Events;
@@ -40,7 +34,6 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.squareup.otto.Subscribe;
 

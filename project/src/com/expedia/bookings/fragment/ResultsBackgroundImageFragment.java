@@ -149,7 +149,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 	private final BackgroundDownloader.Download<Bitmap> mDownload = new BackgroundDownloader.Download<Bitmap>() {
 		@Override
 		public Bitmap doDownload() {
-			if(getActivity() == null || !isAdded()){
+			if (getActivity() == null || !isAdded()) {
 				//Safety first.
 				return null;
 			}
@@ -180,7 +180,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 		@Override
 		public void onDownload(Bitmap bitmap) {
 			if (bitmap == null) {
-				if(mImgUrl == null || getActivity() == null || !isAdded()){
+				if (mImgUrl == null || getActivity() == null || !isAdded()) {
 					//Safety first.
 					return;
 				}

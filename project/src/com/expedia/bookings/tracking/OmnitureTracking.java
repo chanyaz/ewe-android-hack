@@ -2096,7 +2096,7 @@ public class OmnitureTracking {
 				id += ",expedia7androidapp";
 			}
 			//for Travelocity we will only send data to 1 Omniture Report Suite
-			else if(ExpediaBookingApp.IS_TRAVELOCITY) {
+			else if (ExpediaBookingApp.IS_TRAVELOCITY) {
 				id = "tvlglobalapp";
 			}
 			else {
@@ -2123,7 +2123,7 @@ public class OmnitureTracking {
 	}
 
 	private static String getTrackingServer() {
-		if(ExpediaBookingApp.IS_TRAVELOCITY) {
+		if (ExpediaBookingApp.IS_TRAVELOCITY) {
 			return "om.travelocity.com";
 		}
 		else {

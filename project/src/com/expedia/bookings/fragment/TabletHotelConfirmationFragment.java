@@ -2,20 +2,14 @@ package com.expedia.bookings.fragment;
 
 import org.joda.time.LocalDate;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
-import android.view.ViewTreeObserver.OnPreDrawListener;
-import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;

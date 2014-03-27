@@ -112,13 +112,13 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	}
 
 	@Override
-	public void onResume(){
+	public void onResume() {
 		super.onResume();
 		mListView.registerStateListener(mListStateHelper, false);
 	}
 
 	@Override
-	public void onPause(){
+	public void onPause() {
 		mListView.unRegisterStateListener(mListStateHelper);
 		super.onPause();
 	}

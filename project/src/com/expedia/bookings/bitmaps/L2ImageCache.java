@@ -172,8 +172,24 @@ public class L2ImageCache {
 	}
 
 	// Used in getDiskKey() for converting from bytes to a hex string
-	private static final char[] HEX_DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
-			'e', 'f' };
+	private static final char[] HEX_DIGITS = {
+		'0',
+		'1',
+		'2',
+		'3',
+		'4',
+		'5',
+		'6',
+		'7',
+		'8',
+		'9',
+		'a',
+		'b',
+		'c',
+		'd',
+		'e',
+		'f',
+	};
 
 	/**
 	 * DiskLruCache is limited to keys of the form [a-z0-9_-]{1,64}, so we need a way to

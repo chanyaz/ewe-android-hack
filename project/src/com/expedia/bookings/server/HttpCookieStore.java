@@ -1,12 +1,11 @@
 package com.expedia.bookings.server;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import java.net.CookieStore;
 import java.net.HttpCookie;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import android.content.Context;
 import android.text.TextUtils;

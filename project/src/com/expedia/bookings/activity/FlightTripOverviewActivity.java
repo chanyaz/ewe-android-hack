@@ -31,7 +31,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.fragment.ConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment;
@@ -381,7 +380,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		setContainerHeights();
 
 		addPriceBarFragment(true);
-		if(mPriceBottomFragment != null) {
+		if (mPriceBottomFragment != null) {
 			mPriceBottomFragment.showPriceChange();
 		}
 
@@ -640,7 +639,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(mCheckoutFragment == null) {
+		if (mCheckoutFragment == null) {
 			mSafeToAttach = true;
 			attachCheckoutFragment();
 		}
