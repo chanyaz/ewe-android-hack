@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.activity.RoomsAndRatesFragmentActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
@@ -149,14 +148,6 @@ public class RoomsAndRatesFragment extends ListFragment {
 		final Rate selectedRate = Db.getHotelSearch().getSelectedRate();
 		if (selectedRate == null || getPositionOfRate(selectedRate) == -1) {
 			mAdapter.setSelectedPosition(0);
-			if (mListener instanceof RoomsAndRatesFragmentActivity) {
-				if (mAdapter.getCount() > 0) {
-					mListener.onRateSelected((Rate) mAdapter.getItem(0));
-				}
-				else {
-					mListener.noRatesAvailable();
-				}
-			}
 		}
 		else {
 			mAdapter.setSelectedPosition(getPositionOfRate(selectedRate));
