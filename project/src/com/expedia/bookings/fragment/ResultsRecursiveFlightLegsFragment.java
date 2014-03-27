@@ -276,12 +276,13 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		Log.d("onTripAdded mLegNumber:" + mLegNumber + " legNumber:" + legNumber);
 		if (legNumber == mLegNumber) {
 			int totalLegs = Db.getFlightSearch().getSearchParams().getQueryLegCount();
-			if(isLastLeg()){
+			if (isLastLeg()) {
 				Db.getTripBucket().clearFlight();
 				Db.getTripBucket().add(Db.getFlightSearch().getSearchState());
 				Db.saveTripBucket(getActivity());
 				setState(ResultsFlightLegState.ADDING_TO_TRIP, true);
-			}else{
+			}
+			else {
 				if (mNextLegFrag != null) {
 					mNextLegFrag.resetQuery();
 					mNextLegFrag.setState(ResultsFlightLegState.FILTERS, false);
@@ -457,18 +458,33 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	private StateListenerHelper<ResultsFlightLegState> mStateListener = new StateListenerHelper<ResultsFlightLegState>() {
 		@Override
 		public void onStateTransitionStart(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo) {
-
+			if (stateOne == ResultsFlightLegState.FILTERS && stateTwo == ResultsFlightLegState.DETAILS) {
+				showDetailsAnimPrep(0f);
+			}
+			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.FILTERS) {
+				showDetailsAnimPrep(1f);
+			}
 		}
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo,
 			float percentage) {
-
+			if (stateOne == ResultsFlightLegState.FILTERS && stateTwo == ResultsFlightLegState.DETAILS) {
+				showDetailsAnimUpdate(percentage);
+			}
+			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.FILTERS) {
+				showDetailsAnimUpdate(1f - percentage);
+			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo) {
-
+			if (stateOne == ResultsFlightLegState.FILTERS && stateTwo == ResultsFlightLegState.DETAILS) {
+				showDetailsAnimCleanUp();
+			}
+			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.FILTERS) {
+				showDetailsAnimCleanUp();
+			}
 		}
 
 		@Override
@@ -492,11 +508,11 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 			//Details state
 			if (state == ResultsFlightLegState.DETAILS) {
-				setDetailsShowingPercentage(1f);
+				showDetailsAnimUpdate(1f);
 				mDetailsFrag.bindWithDb();
 			}
 			else {
-				setDetailsShowingPercentage(0f);
+				showDetailsAnimUpdate(0f);
 			}
 
 			//Next Leg State
@@ -530,14 +546,34 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	 */
 
 	public void setState(ResultsFlightLegState state, boolean animate) {
-		mStateManager.setState(state, false);
+		mStateManager.setState(state, animate);
 	}
 
 	public ResultsFlightLegState getState() {
 		return mStateManager.getState();
 	}
 
-	protected void setDetailsShowingPercentage(float percentage) {
+	protected void showDetailsAnimPrep(float startPercentage) {
+		if (mDetailsFrag != null) {
+			if (hasValidDataForDetails()) {
+				mDetailsFrag.bindWithDb();
+			}
+
+			int slideInDistance = mGrid.getColSpanWidth(1, 4);
+			mDetailsFrag.setDetailsSlideInAnimationState(startPercentage, slideInDistance, true);
+			mDetailsFrag.prepareSlideInAnimation();
+			mDetailsFrag.setSlideInAnimationLayer(View.LAYER_TYPE_HARDWARE);
+		}
+
+		mFiltersC.setVisibility(View.VISIBLE);
+		mListColumnC.setVisibility(View.VISIBLE);
+		mDetailsC.setVisibility(View.VISIBLE);
+
+		mFiltersC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+		mListColumnC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+	}
+
+	protected void showDetailsAnimUpdate(float percentage) {
 		if (percentage == 0) {
 			mFiltersC.setTranslationX(0f);
 			mListColumnC.setTranslationX(0f);
@@ -550,6 +586,15 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				mDetailsFrag.setDetailsSlideInAnimationState(percentage, slideInDistance, true);
 			}
 		}
+	}
+
+	protected void showDetailsAnimCleanUp() {
+		if (mDetailsFrag != null) {
+			int slideInDistance = mGrid.getColSpanWidth(1, 4);
+			mDetailsFrag.setSlideInAnimationLayer(View.LAYER_TYPE_NONE);
+		}
+		mFiltersC.setLayerType(View.LAYER_TYPE_NONE, null);
+		mListColumnC.setLayerType(View.LAYER_TYPE_NONE, null);
 	}
 
 	protected void setNextLegShowingPercentage(float percentage) {
