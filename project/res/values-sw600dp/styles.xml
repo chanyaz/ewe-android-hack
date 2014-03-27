@@ -19,6 +19,7 @@
     <style name="BookingSection">
         <item name="android:padding">8dp</item>
         <item name="android:background">@drawable/bg_checkout_information_single</item>
+        <item name="android:minHeight">52dp</item>
     </style>
 
     <style name="HorizontalOnTablet">
@@ -38,6 +39,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">right</item>
         <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
     </style>
 
     <style name="LoginButtonLogoutImageStyle">

@@ -101,6 +101,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:paddingTop="@dimen/account_button_padding"
+        android:paddingBottom="@dimen/account_button_padding"
         android:visibility="gone" >
 
         <ImageView
@@ -129,7 +131,6 @@
                 android:id="@+id/account_bottom_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
                 style="@style/LoginButtonBottomTextStyle" />
         </LinearLayout>
 
