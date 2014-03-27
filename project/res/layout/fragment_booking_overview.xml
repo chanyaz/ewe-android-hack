@@ -227,7 +227,7 @@
                         android:layout_below="@+id/coupon_applied_text_view"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:textColor="#FFE115"
+                        android:textColor="?attr/couponSuccessMessageColor"
                         android:textSize="16dp" />
                 </RelativeLayout>
 

@@ -341,5 +341,6 @@
     <attr name="tabletHotelImageGalleryPhotoBorder" format="reference"/>
 
     <attr name="hotelConfirmationPlaceholderDrawable" format="reference" />
+    <attr name="couponSuccessMessageColor" fomrat="reference|color"/>
 
 </resources>

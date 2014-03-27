@@ -12,4 +12,5 @@
     <color name="bg_actionbar_gallery_tvly">#b3003e74</color>
     <color name="login_text_hotels">#FFFFFF</color>
     <color name="login_text_flight">#FFFFFF</color>
+    <color name="coupon_success_message_color_tvly">#7baed4</color>
 </resources>

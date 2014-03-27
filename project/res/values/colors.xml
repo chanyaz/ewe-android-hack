@@ -153,4 +153,6 @@
     <!-- From ABS, Sherlock Light DialogWindowTitle -->
     <color name="dialog_window_holo_blue_light">#ff33b5e5</color>
 
+    <color name="coupon_success_message_color">#FFE115</color>
+
 </resources>
