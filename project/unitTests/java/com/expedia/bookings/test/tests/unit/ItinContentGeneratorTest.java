@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.tests.unit;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeZone;
 
 import android.content.res.Resources;
@@ -142,5 +143,18 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 		headerText = getHeaderTextDate(ci, co);
 		dateString = getContext().getString(R.string.yesterday);
 		assertEquals(dateString, headerText);
+	}
+
+	public void testHotelHeaderTextAtFixedTimes() {
+		ArrayList<Long> times = new ArrayList<Long>();
+		final DateTime elevenFifty = DateTime.now(DateTimeZone.UTC).withHourOfDay(23).withMinuteOfHour(50);
+		DateTimeUtils.setCurrentMillisFixed(elevenFifty.getMillis());
+
+		// Run tests
+		testHotelHeaderTextTomorrowNextTimeZone();
+		testHotelHeaderTextYesterdayPreviousTimeZone();
+
+		// Reset JodaTime to system clock
+		DateTimeUtils.setCurrentMillisSystem();
 	}
 }
