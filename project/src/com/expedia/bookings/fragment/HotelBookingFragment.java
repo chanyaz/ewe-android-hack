@@ -44,10 +44,10 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 
 	public static final String KEY_DOWNLOAD_BOOKING = "com.expedia.bookings.hotel.checkout";
 	public static final String KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE = "KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE";
-	public static final String KEY_DOWNLOAD_CREATE_TRIP = "KEY_DOWNLOAD_CREATE_TRIP";
-	public static final String KEY_DOWNLOAD_APPLY_COUPON = "KEY_DOWNLOAD_APPLY_COUPON";
+	public static final String KEY_DOWNLOAD_CREATE_TRIP = "KEY_DOWNLOAD_HOTEL_CREATE_TRIP";
+	public static final String KEY_DOWNLOAD_APPLY_COUPON = "KEY_DOWNLOAD_HOTEL_APPLY_COUPON";
 
-	private static final String RETRY_CREATE_TRIP_DIALOG = "RETRY_CREATE_TRIP_DIALOG";
+	private static final String RETRY_CREATE_TRIP_DIALOG = "RETRY_HOTELCREATE_TRIP_DIALOG";
 	private static final String HOTEL_OFFER_ERROR_DIALOG = "HOTEL_OFFER_ERROR_DIALOG";
 	private static final String HOTEL_PRODUCT_RATEUP_DIALOG = "HOTEL_PRODUCT_RATEUP_DIALOG";
 
