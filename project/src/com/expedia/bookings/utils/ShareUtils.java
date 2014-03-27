@@ -431,12 +431,9 @@ public class ShareUtils {
 		body.append("\n");
 
 		//1683. VSC Don't show Android App crossSell text and link.
+		// Tvly also do not show Android App CrossSell
 		if (ExpediaBookingApp.IS_EXPEDIA) {
 			body.append(mContext.getString(R.string.share_template_long_ad, PointOfSale.getPointOfSale()
-				.getAppInfoUrl()));
-		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			body.append(mContext.getString(R.string.share_template_long_ad_tvly, PointOfSale.getPointOfSale()
 				.getAppInfoUrl()));
 		}
 
@@ -548,11 +545,9 @@ public class ShareUtils {
 
 		//1683. VSC Don't show Android App crossSell text and link.
 		//1754. VSC Show the requested text which doesn't contain link to app.
+		// Tvly also do not show Android App CrossSell
 		if (ExpediaBookingApp.IS_EXPEDIA) {
 			builder.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
-		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			builder.append(mContext.getString(R.string.share_template_long_ad_tvly, downloadUrl));
 		}
 
 		return builder.toString();
@@ -696,10 +691,8 @@ public class ShareUtils {
 		sb.append("\n");
 
 		//1683. VSC Don't show Android App crossSell text and link.
-		if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			sb.append(mContext.getString(R.string.share_template_long_ad_tvly, PointOfSale.getPointOfSale().getAppInfoUrl()));
-		}
-		else if (ExpediaBookingApp.IS_EXPEDIA) {
+		//  Disabling Android App crossSell for Tvly app also.
+		if (ExpediaBookingApp.IS_EXPEDIA) {
 			sb.append(mContext.getString(R.string.share_template_long_ad, PointOfSale.getPointOfSale().getAppInfoUrl()));
 		}
 
@@ -792,11 +785,9 @@ public class ShareUtils {
 		sb.append("\n");
 
 		//1683. VSC Don't show Android App crossSell text and link.
+		// Tvly also dont show the App CrossSell text and link
 		if (ExpediaBookingApp.IS_EXPEDIA) {
 			sb.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
-		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			sb.append(mContext.getString(R.string.share_template_long_ad_tvly, downloadUrl));
 		}
 
 		return sb.toString();
