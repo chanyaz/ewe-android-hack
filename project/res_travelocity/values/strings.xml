@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Google Wallet -->
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name_tvly">Travelocity</string>
     <string name="app_name">Travelocity</string>
     <string name="travelocity_best_price_guarantee">Travelocity Price Guarantee</string>
 

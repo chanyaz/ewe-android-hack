@@ -12,7 +12,6 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -105,9 +104,6 @@ public class WalletUtils {
 	public static void addStandardFieldsToMaskedWalletRequest(Context context, MaskedWalletRequest.Builder builder,
 			Money total) {
 		builder.setMerchantName(context.getString(R.string.merchant_name));
-		if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			builder.setMerchantName(context.getString(R.string.merchant_name_tvly));
-		}
 		builder.setCurrencyCode(total.getCurrency());
 		builder.setEstimatedTotalPrice(formatAmount(total));
 	}

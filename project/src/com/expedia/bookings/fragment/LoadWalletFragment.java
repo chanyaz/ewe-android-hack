@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.StoredCreditCard;
@@ -124,9 +123,6 @@ public abstract class LoadWalletFragment extends WalletFragment {
 
 		MaskedWalletRequest.Builder builder = MaskedWalletRequest.newBuilder();
 		builder.setMerchantName(getString(R.string.merchant_name));
-		if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			builder.setMerchantName(getString(R.string.merchant_name_tvly));
-		}
 		builder.setCurrencyCode(total.getCurrency());
 		builder.setEstimatedTotalPrice(WalletUtils.formatAmount(total));
 
