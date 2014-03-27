@@ -3,6 +3,7 @@ package com.expedia.bookings.tracking;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -20,7 +21,12 @@ public class AdTracker {
 		EasyTracker.getInstance().setContext(context);
 
 		// AdX
-		AdX.initialize(context, true);
+		if(ExpediaBookingApp.IS_TRAVELOCITY) {
+			AdX.initialize(context, false);
+		}
+		else {
+			AdX.initialize(context, true);
+		}
 	}
 
 	public static void trackFirstLaunch() {
