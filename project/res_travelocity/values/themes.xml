@@ -197,7 +197,7 @@
     </style>
 
     <style name="Theme.Tablet" parent="Theme.Travelocity">
-        <item name="companyLogoForReceipt">@drawable/ic_travelocity_launch</item>
+        <item name="companyLogoForReceipt">@drawable/ic_travelocity_tablet_receipt</item>
 
         <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
         <item name="actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
