@@ -209,7 +209,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		addHotelAttachData(mItinCardDatasSync);
 
 		// Add local expert cards
-		if(ExpediaBookingApp.IS_EXPEDIA) {
+		if (ExpediaBookingApp.IS_EXPEDIA) {
 			addLocalExpertData(mItinCardDatasSync);
 		}
 

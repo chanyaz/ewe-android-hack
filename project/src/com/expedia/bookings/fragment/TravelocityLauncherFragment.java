@@ -37,7 +37,7 @@ public class TravelocityLauncherFragment extends Fragment {
 		R.drawable.bg_launch_tvly_japan,
 		R.drawable.bg_launch_tvly_rome,
 		R.drawable.bg_launch_tvly_venice,
-		R.drawable.bg_launch_tvly_maldives
+		R.drawable.bg_launch_tvly_maldives,
 	};
 
 	@Override

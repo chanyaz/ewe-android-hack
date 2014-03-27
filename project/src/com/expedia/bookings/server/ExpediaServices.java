@@ -1832,7 +1832,7 @@ public class ExpediaServices implements DownloadListener {
 				// So easy
 				return null;
 			}
-		}
+		},
 	};
 
 	private static final CookieManager sBlackHoleCookieManager = new CookieManager(null, CookiePolicy.ACCEPT_NONE);

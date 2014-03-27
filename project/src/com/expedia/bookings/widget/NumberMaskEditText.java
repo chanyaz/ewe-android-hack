@@ -1,6 +1,6 @@
 package com.expedia.bookings.widget;
 
-import java.lang.String;import android.content.Context;
+import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.InputFilter;
 import android.text.InputType;

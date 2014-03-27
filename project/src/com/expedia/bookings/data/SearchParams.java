@@ -158,8 +158,8 @@ public class SearchParams implements Parcelable, JSONable {
 		return mCustomDestinationQryText;
 	}
 
-	public void setCustomDestinationQryText(String mCustomDestinationQryText) {
-		this.mCustomDestinationQryText = mCustomDestinationQryText;
+	public void setCustomDestinationQryText(String customDestinationQryText) {
+		mCustomDestinationQryText = customDestinationQryText;
 	}
 
 	public SearchParams setChildAges(List<Integer> childAges) {

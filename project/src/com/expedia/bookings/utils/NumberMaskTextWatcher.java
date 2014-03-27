@@ -16,7 +16,6 @@ package com.expedia.bookings.utils;
  */
 
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 
 public class NumberMaskTextWatcher implements TextWatcher {

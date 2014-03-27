@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import java.math.BigDecimal;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -17,7 +16,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.otto.Events;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.util.Ui;
 
 public class PriceChangeDialogFragment extends DialogFragment {
 
