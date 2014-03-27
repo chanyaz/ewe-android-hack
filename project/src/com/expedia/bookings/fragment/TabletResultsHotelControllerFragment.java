@@ -557,8 +557,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Override
 	public void onMapLayout() {
-		mMapFragment.setShowInfoWindow(false);
-		updateMapFragmentPositioningInfo(mMapFragment);
+		if (mMapFragment != null && isResumed()) {
+			mMapFragment.setShowInfoWindow(false);
+			updateMapFragmentPositioningInfo(mMapFragment);
+		}
 	}
 
 	/*
@@ -686,7 +688,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setHotelsState(getBaseState(), false);
 			}
 			else {
-				if (mHotelsStateManager.hasState() && mHotelsStateManager.getState() == ResultsHotelsState.HOTEL_LIST_DOWN) {
+				if (mHotelsStateManager.hasState()
+					&& mHotelsStateManager.getState() == ResultsHotelsState.HOTEL_LIST_DOWN) {
 					setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, false);
 				}
 				else {
