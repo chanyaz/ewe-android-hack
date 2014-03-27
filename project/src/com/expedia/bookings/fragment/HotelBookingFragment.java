@@ -167,8 +167,16 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	@Override
 	public void doBookingPrep() {
 		mState = HotelBookingState.CHECKOUT;
+		/*
+		 * Let's check to see if trip has already been created i.e. createTrip called already.
+		 * If not then let's call that first.
+		 * Else let's start the booking.
+		 */
 		if (Db.getHotelSearch().getCreateTripResponse() == null) {
 			startCreateTripDownload();
+		}
+		else {
+			startBookingDownload();
 		}
 	}
 

@@ -138,15 +138,10 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	private void startBookingProcess() {
 		// Post event to Otto bus
 		Events.post(new Events.BookingDownloadStarted());
-		if ((this instanceof HotelBookingFragment) && Db.getHotelSearch().getCreateTripResponse() == null) {
-			doBookingPrep();
-		}
-		else {
-			startBookingDownload();
-		}
+		doBookingPrep();
 	}
 
-	private void startBookingDownload() {
+	protected void startBookingDownload() {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (!bd.isDownloading(mDownloadKey)) {
 			// Clear current results (if any)

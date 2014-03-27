@@ -108,7 +108,8 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 
 	@Override
 	public void doBookingPrep() {
-		// No pre-booking check or prep required for flights. Ignore
+		// No pre-booking check or prep required for flights so let's just start the booking.
+		startBookingDownload();
 	}
 
 	@Override
