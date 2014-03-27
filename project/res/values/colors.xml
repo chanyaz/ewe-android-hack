@@ -145,6 +145,7 @@
     <!-- From ABS, Sherlock Light DialogWindowTitle -->
     <color name="dialog_window_holo_blue_light">#ff33b5e5</color>
 
+    <color name="coupon_success_message_color">#FFE115</color>
     <!-- Price pins on map -->
     <color name="map_price_pin_text_color">#ffffff</color>
 

@@ -470,5 +470,6 @@
     <attr name="itinTabletCardPopupHeaderDrawable" format="reference"/>
 
     <attr name="hotelConfirmationPlaceholderDrawable" format="reference" />
+    <attr name="couponSuccessMessageColor" fomrat="reference|color"/>
 
 </resources>
