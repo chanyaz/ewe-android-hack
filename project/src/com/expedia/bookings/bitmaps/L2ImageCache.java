@@ -301,7 +301,7 @@ public class L2ImageCache {
 	/**
 	 * Callback which is called when the image is loaded.
 	 */
-	public interface OnImageLoaded {
+	public interface OnBitmapLoaded {
 		/**
 		 * Called when an image is successfully loaded.
 		 *
@@ -330,7 +330,7 @@ public class L2ImageCache {
 	 * @param callback the method to call after loading the image
 	 * @return true if image was already in cache, and callback was immediately called
 	 */
-	public boolean loadImage(String url, OnImageLoaded callback) {
+	public boolean loadImage(String url, OnBitmapLoaded callback) {
 		return loadImage(url, url, false, callback);
 	}
 
@@ -346,7 +346,7 @@ public class L2ImageCache {
 		Log.v(mLogTag, "Loading ImageView " + key + " with " + url);
 
 		// Begin a load on the ImageView
-		OnImageLoaded callback = new OnImageLoaded() {
+		OnBitmapLoaded callback = new OnBitmapLoaded() {
 			public void onImageLoaded(String url, Bitmap bitmap) {
 				BitmapDrawable drawable = new BitmapDrawable(imageView.getContext().getResources(), bitmap);
 				imageView.setImageDrawable(drawable);
@@ -367,7 +367,7 @@ public class L2ImageCache {
 	 * @param callback the method to call after loading the image
 	 * @return true if image was already in cache, and callback was immediately called
 	 */
-	public boolean loadImage(String callbackKey, String url, boolean blur, OnImageLoaded callback) {
+	public boolean loadImage(String callbackKey, String url, boolean blur, OnBitmapLoaded callback) {
 		// If this key was originally associated with another download, disassociate it
 		clearCallbacks(callbackKey);
 
@@ -583,12 +583,12 @@ public class L2ImageCache {
 			switch (msg.what) {
 			case MESSAGE_FINISHED:
 				if (task.mBitmap != null) {
-					for (OnImageLoaded callback : task.mCallbacks.values()) {
+					for (OnBitmapLoaded callback : task.mCallbacks.values()) {
 						callback.onImageLoaded(url, task.mBitmap);
 					}
 				}
 				else {
-					for (OnImageLoaded callback : task.mCallbacks.values()) {
+					for (OnBitmapLoaded callback : task.mCallbacks.values()) {
 						callback.onImageLoadFailed(url);
 					}
 				}
@@ -620,7 +620,7 @@ public class L2ImageCache {
 		public final BitmapCallable mBitmapCallable;
 
 		// Post execution
-		public ConcurrentHashMap<String, OnImageLoaded> mCallbacks;
+		public ConcurrentHashMap<String, OnBitmapLoaded> mCallbacks;
 		public Bitmap mBitmap;
 
 		// Solely for comparing which download should go first
@@ -631,7 +631,7 @@ public class L2ImageCache {
 
 			mBitmapCallable = bitmapCallable;
 
-			mCallbacks = new ConcurrentHashMap<String, OnImageLoaded>();
+			mCallbacks = new ConcurrentHashMap<String, OnBitmapLoaded>();
 
 			mCreateTime = System.currentTimeMillis();
 		}
@@ -662,7 +662,7 @@ public class L2ImageCache {
 			message.sendToTarget();
 		}
 
-		public void addCallback(String key, OnImageLoaded callback) {
+		public void addCallback(String key, OnBitmapLoaded callback) {
 			if (isDone()) {
 				String url = mBitmapCallable.getUrl();
 				Bitmap bitmap = getImage(url, true);

@@ -187,7 +187,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 
 				// We still don't have the image, so let's grab it from the network
 				L2ImageCache cache = DestinationImageCache.getInstance();
-				L2ImageCache.OnImageLoaded callback = new L2ImageCache.OnImageLoaded() {
+				L2ImageCache.OnBitmapLoaded callback = new L2ImageCache.OnBitmapLoaded() {
 					@Override
 					public void onImageLoaded(String url, Bitmap bitmap) {
 						handleBitmap(bitmap, true);
