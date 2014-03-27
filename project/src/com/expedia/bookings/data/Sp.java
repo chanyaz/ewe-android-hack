@@ -7,12 +7,14 @@ import com.squareup.otto.Bus;
  */
 public class Sp {
 
+	public static final String BUS_NAME = "SP_BUS";
+
 	private static SearchParams sSearchParams;
 	private static Bus sBus;
 
 	public static Bus getBus() {
 		if (sBus == null) {
-			sBus = new Bus();
+			sBus = new Bus(BUS_NAME);
 		}
 		return sBus;
 	}
