@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:mobiata="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+                xmlns:mobiata="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <!-- Dummy focus clear -->
 
@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:focusable="true"
-        android:focusableInTouchMode="true" />
+        android:focusableInTouchMode="true"/>
 
     <!-- Dimmer that can be placed on top of content fragment -->
 
@@ -21,7 +21,7 @@
         android:layout_height="match_parent"
         android:background="#C000"
         android:clickable="true"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
     <!-- Header drop-down -->
 
@@ -34,25 +34,25 @@
         android:paddingBottom="@dimen/flight_search_header_padding_bottom"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:paddingTop="@dimen/flight_search_header_padding_top" >
+        android:paddingTop="@dimen/flight_search_header_padding_top">
 
         <ViewStub
             android:id="@+id/stub_flight_search_airports"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/flight_search_space_between_rows"
-            android:layout="@layout/include_flight_search_airports" />
+            android:layout="@layout/include_flight_search_airports"/>
 
         <ViewStub
             android:id="@+id/stub_flight_search_airports_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/flight_search_space_between_rows"
-            android:layout="@layout/include_flight_search_airports_spinner" />
+            android:layout="@layout/include_flight_search_airports_spinner"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/dates_button"
@@ -70,7 +70,7 @@
                 android:inputType="textNoSuggestions"
                 android:longClickable="false"
                 android:singleLine="true"
-                android:textColor="#999999" />
+                android:textColor="#999999"/>
 
             <ImageView
                 android:id="@+id/clear_dates_btn"
@@ -83,13 +83,13 @@
                 android:paddingTop="1dp"
                 android:scaleType="center"
                 android:src="@drawable/ic_clear_edittext"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <RelativeLayout
                 android:id="@id/num_travelers_container"
                 android:layout_width="52dp"
                 android:layout_height="48dp"
-                android:layout_alignParentRight="true" >
+                android:layout_alignParentRight="true">
 
                 <ImageButton
                     android:id="@+id/num_travelers_button"
@@ -99,7 +99,7 @@
                     android:background="@drawable/ab_spinner"
                     android:contentDescription="@string/cd_flights_search_number_of_travelers_edit"
                     android:padding="0dp"
-                    android:src="@drawable/ic_traveler_picker" />
+                    android:src="@drawable/ic_traveler_picker"/>
 
                 <TextView
                     android:id="@+id/num_travelers_text_view"
@@ -114,7 +114,7 @@
                     android:paddingTop="4dp"
                     android:textColor="@android:color/black"
                     android:textSize="12dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
@@ -123,7 +123,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/header"
-        android:background="@drawable/search_param_shadow" />
+        android:background="@drawable/search_param_shadow"/>
 
     <LinearLayout
         android:id="@+id/calendar_container"
@@ -131,7 +131,7 @@
         android:layout_height="@dimen/flight_search_calendar_height"
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/calendar_shadow"
@@ -139,7 +139,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/cd_top_flight_calendar"
             android:scaleType="fitXY"
-            android:src="@drawable/calendar_shadow" />
+            android:src="@drawable/calendar_shadow"/>
 
         <!-- Calendar pop-up -->
 
@@ -162,7 +162,112 @@
             mobiata:toolTipStartBottomText="@string/calendar_tooltip_bottom_select_return_date"
             mobiata:toolTipTailDrawable="@drawable/calendar_tooltip_tail"
             mobiata:toolTipTailMarginMin="8dp"
-            mobiata:toolTipTextColor="#FFFFFF" />
+            mobiata:toolTipTextColor="#FFFFFF"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/refinement_dismiss_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/header"
+        android:background="@color/dismiss"
+        android:visibility="invisible"/>
+
+    <include
+        android:id="@+id/button_bar_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/guests_layout"
+        layout="@layout/include_button_bar"/>
+
+    <LinearLayout
+        android:id="@id/guests_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/child_ages_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/label_select_each_childs_age"
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text=""
+                android:textColor="@android:color/black"
+                android:textStyle="bold"/>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:gravity="left|top"
+                android:weightSum="100">
+
+                <LinearLayout
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:orientation="vertical">
+
+                    <include
+                        android:id="@+id/child_1_age_layout"
+                        layout="@layout/include_child_age_row"
+                        android:visibility="gone"/>
+
+                    <include
+                        android:id="@+id/child_2_age_layout"
+                        layout="@layout/include_child_age_row"
+                        android:visibility="gone"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50"
+                    android:orientation="vertical">
+
+                    <include
+                        android:id="@+id/child_3_age_layout"
+                        layout="@layout/include_child_age_row"
+                        android:visibility="gone"/>
+
+                    <include
+                        android:id="@+id/child_4_age_layout"
+                        layout="@layout/include_child_age_row"
+                        android:visibility="gone"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#eeeeee"
+            android:orientation="horizontal">
+
+            <com.expedia.bookings.widget.SimpleNumberPicker
+                android:id="@+id/adults_number_picker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <com.expedia.bookings.widget.SimpleNumberPicker
+                android:id="@+id/children_number_picker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

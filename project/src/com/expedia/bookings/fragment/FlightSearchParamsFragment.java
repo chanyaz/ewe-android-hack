@@ -62,12 +62,14 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.expedia.bookings.widget.FlightRouteAdapter;
 import com.expedia.bookings.widget.FlightRouteAdapter.FlightRouteAdapterListener;
 import com.expedia.bookings.widget.NumTravelersPopupDropdown;
+import com.expedia.bookings.widget.SimpleNumberPicker;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.app.SimpleProgressDialogFragment;
@@ -128,6 +130,16 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private ImageButton mNumTravelersButton;
 	private TextView mNumTravelersTextView;
 	private PopupWindow mNumTravelersPopup;
+
+	private SimpleNumberPicker mAdultsNumberPicker;
+	private SimpleNumberPicker mChildrenNumberPicker;
+	private View mGuestsLayout;
+	private View mRefinementDismissView;
+	private View mChildAgesLayout;
+	private View mSearchButton;
+	private View mButtonBarLayout;
+	private TextView mRefinementInfoTextView;
+	private TextView mSelectChildAgeTextView;
 
 	private FlightSearchParams mSearchParams;
 
@@ -231,6 +243,16 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mClearDatesButton = Ui.findView(v, R.id.clear_dates_btn);
 		mNumTravelersButton = Ui.findView(v, R.id.num_travelers_button);
 		mNumTravelersTextView = Ui.findView(v, R.id.num_travelers_text_view);
+
+		mGuestsLayout = Ui.findView(v, R.id.guests_layout);
+		mChildAgesLayout = Ui.findView(v, R.id.child_ages_layout);
+		mAdultsNumberPicker = Ui.findView(v, R.id.adults_number_picker);
+		mChildrenNumberPicker = Ui.findView(v, R.id.children_number_picker);
+		mButtonBarLayout = Ui.findView(v, R.id.button_bar_layout);
+		mRefinementInfoTextView = Ui.findView(v, R.id.refinement_info_text_view);
+		mRefinementDismissView = Ui.findView(v, R.id.refinement_dismiss_view);
+		mSelectChildAgeTextView = Ui.findView(v, R.id.label_select_each_childs_age);
+		mSearchButton = Ui.findView(v, R.id.search_button);
 
 		// Configure views
 		if (getArguments().getBoolean(ARG_DIM_BACKGROUND)) {
@@ -380,7 +402,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mNumTravelersButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				toggleNumAdultsDropdown();
+				toggleGuestPicker(true, true);
 			}
 		});
 
@@ -392,6 +414,16 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				onNumTravelersSelected(position + 1);
 			}
 		});
+
+		mAdultsNumberPicker.setFormatter(mAdultsNumberPickerFormatter);
+		mAdultsNumberPicker.setMinValue(1);
+		mAdultsNumberPicker.setMaxValue(GuestsPickerUtils.getMaxAdults(0));
+		mAdultsNumberPicker.setValue(mSearchParams.getNumAdults());
+
+		mChildrenNumberPicker.setFormatter(mChildrenNumberPickerFormatter);
+		mChildrenNumberPicker.setMinValue(0);
+		mChildrenNumberPicker.setMaxValue(GuestsPickerUtils.getMaxChildren(1));
+		mChildrenNumberPicker.setValue(mSearchParams.getNumChildren());
 
 		updateNumTravelersText();
 
@@ -507,6 +539,10 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 		else if (mCalendarContainer.getVisibility() == View.VISIBLE) {
 			toggleCalendarDatePicker(false);
+			return true;
+		}
+		else if (mGuestsLayout.getVisibility() == View.VISIBLE) {
+			toggleGuestPicker(false, true);
 			return true;
 		}
 		else {
@@ -828,6 +864,10 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			return;
 		}
 
+		if (mGuestsLayout.getVisibility() == View.VISIBLE) {
+			toggleGuestPicker(false, true);
+		}
+
 		if (enabled) {
 			Ui.hideKeyboard(getActivity());
 
@@ -951,17 +991,29 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 	}
 
-	// Traveler dropdown methods
+	// Traveler selection methods
 
-	private void toggleNumAdultsDropdown() {
-		if (mNumTravelersPopup.isShowing()) {
-			mNumTravelersPopup.dismiss();
+	private void toggleGuestPicker(boolean enabled) {
+		toggleCalendarDatePicker(enabled, true);
+	}
+
+	private void toggleGuestPicker(boolean enabled, boolean animate) {
+		if (enabled == (mGuestsLayout.getVisibility() == View.VISIBLE)) {
+			return;
+		}
+
+		if (enabled == false) {
+			mGuestsLayout.setVisibility(View.INVISIBLE);
+			mRefinementDismissView.setVisibility(View.INVISIBLE);
+			mButtonBarLayout.setVisibility(View.INVISIBLE);
 		}
 		else {
-			toggleCalendarDatePicker(false);
 			clearEditTextFocus();
-			mNumTravelersPopup.showAsDropDown(mNumTravelersButton);
-
+			toggleCalendarDatePicker(false, false);
+			Ui.hideKeyboard(getActivity());
+			mGuestsLayout.setVisibility(View.VISIBLE);
+			mRefinementDismissView.setVisibility(View.VISIBLE);
+			mButtonBarLayout.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -976,6 +1028,21 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			mNumTravelersTextView.setText(Integer.toString(mSearchParams.getNumAdults()));
 		}
 	}
+
+	// Number picker formatters
+	private final SimpleNumberPicker.Formatter mAdultsNumberPickerFormatter = new SimpleNumberPicker.Formatter() {
+		@Override
+		public String format(int value) {
+			return getActivity().getResources().getQuantityString(R.plurals.number_of_adults, value, value);
+		}
+	};
+
+	private final SimpleNumberPicker.Formatter mChildrenNumberPickerFormatter = new SimpleNumberPicker.Formatter() {
+		@Override
+		public String format(int value) {
+			return getActivity().getResources().getQuantityString(R.plurals.number_of_children, value, value);
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// Access
