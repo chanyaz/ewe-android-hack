@@ -4,27 +4,27 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
-import com.expedia.bookings.data.BackgroundImageResponse;
+import com.expedia.bookings.data.ExpediaImageResponse;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 
-public class BackgroundImageResponseHandler extends JsonResponseHandler<BackgroundImageResponse> {
+public class ExpediaImageResponseHandler extends JsonResponseHandler<ExpediaImageResponse> {
 	private Context mContext;
 
-	public BackgroundImageResponseHandler(Context context) {
+	public ExpediaImageResponseHandler(Context context) {
 		mContext = context;
 	}
 
 	@Override
-	public BackgroundImageResponse handleJson(JSONObject response) {
-		BackgroundImageResponse resp = new BackgroundImageResponse();
+	public ExpediaImageResponse handleJson(JSONObject response) {
+		ExpediaImageResponse resp = new ExpediaImageResponse();
 		ParserUtils.logActivityId(response);
 		try {
 			resp.fromJson(response);
 			resp.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.BACKGROUND_IMAGE, response));
 		}
 		catch (Exception e) {
-			Log.e("Could not parse flight checkout response", e);
+			Log.e("Could not parse Expedia image response", e);
 			return null;
 		}
 

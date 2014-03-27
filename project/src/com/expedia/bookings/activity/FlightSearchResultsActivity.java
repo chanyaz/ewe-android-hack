@@ -39,7 +39,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BackgroundImageCache;
-import com.expedia.bookings.data.BackgroundImageResponse;
+import com.expedia.bookings.data.ExpediaImageResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
@@ -972,9 +972,9 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 				Log.e("Errors downloading background image info");
 			}
 			else {
-				// We convert this back to a BackgroundImageResponse for the sake of compatibility,
+				// We convert this back to a ExpediaImageResponse for the sake of compatibility,
 				// but at some point in the future we should really fix this up.
-				BackgroundImageResponse response = new BackgroundImageResponse();
+				ExpediaImageResponse response = new ExpediaImageResponse();
 				response.setImageUrl(image.getUrl());
 				response.setCacheKey(image.getCacheKey());
 

@@ -84,7 +84,7 @@ public class ExpediaImageManager {
 				// If disk is nonexistant or  old, then resort to network
 				if (image == null || image.getTimestamp() + EXPIRATION < System.currentTimeMillis()) {
 					ExpediaServices services = new ExpediaServices(mContext);
-					BackgroundImageResponse newResponse = services.getExpediaImage(imageType, imageCode, width, height);
+					ExpediaImageResponse newResponse = services.getExpediaImage(imageType, imageCode, width, height);
 
 					// We'll fall back to the old URL if we don't get a new one
 					if (newResponse != null && !newResponse.hasErrors()) {

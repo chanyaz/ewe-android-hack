@@ -136,7 +136,7 @@ public class Db {
 	private BackgroundImageCache mBackgroundImageCache;
 
 	//Info about the current backgroundImage
-	private BackgroundImageResponse mBackgroundImageInfo;
+	private ExpediaImageResponse mBackgroundImageInfo;
 
 	// To store the samsung ticketId we get from the server
 	// Do not persist!
@@ -386,7 +386,7 @@ public class Db {
 		return sDb.mBackgroundImageCache;
 	}
 
-	public static BackgroundImageResponse getBackgroundImageInfo() {
+	public static ExpediaImageResponse getBackgroundImageInfo() {
 		if (sDb == null) {
 			return null;
 		}
@@ -419,7 +419,7 @@ public class Db {
 		}
 	}
 
-	public static void setBackgroundImageInfo(BackgroundImageResponse info) {
+	public static void setBackgroundImageInfo(ExpediaImageResponse info) {
 		if (sDb == null) {
 			return;
 		}
@@ -850,7 +850,7 @@ public class Db {
 			}
 			if (obj.has("backgroundImageInfo")) {
 				sDb.mBackgroundImageInfo = JSONUtils.getJSONable(obj, "backgroundImageInfo",
-					BackgroundImageResponse.class);
+					ExpediaImageResponse.class);
 			}
 			if (obj.has("itineraries")) {
 				List<Itinerary> itineraries = JSONUtils.getJSONableList(obj, "itineraries", Itinerary.class);
@@ -1193,7 +1193,7 @@ public class Db {
 			sDb.mItineraries = getMap(obj, "itineraries", Itinerary.class, sDb.mItineraries);
 			sDb.mUser = getJsonable(obj, "user", User.class, sDb.mUser);
 			sDb.mTravelers = getList(obj, "travelers", Traveler.class, sDb.mTravelers);
-			sDb.mBackgroundImageInfo = getJsonable(obj, "backgroundImageInfo", BackgroundImageResponse.class,
+			sDb.mBackgroundImageInfo = getJsonable(obj, "backgroundImageInfo", ExpediaImageResponse.class,
 				sDb.mBackgroundImageInfo);
 		}
 		catch (Exception e) {

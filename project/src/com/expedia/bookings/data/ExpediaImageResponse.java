@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
-public class BackgroundImageResponse extends Response implements JSONable {
+public class ExpediaImageResponse extends Response implements JSONable {
 
 	private static final String JSON_KEY_IMAGEURL = "imageUrl";
 	private static final String JSON_KEY_CACHEKEY = "cacheKey";
@@ -37,7 +37,7 @@ public class BackgroundImageResponse extends Response implements JSONable {
 			out.putOpt(JSON_KEY_IMAGEURL, mImageUrl);
 		}
 		catch (Exception ex) {
-			Log.e("Exception in toJson", ex);
+			Log.e("Exception in ExpediaImageResponse.toJson", ex);
 		}
 		return out;
 	}

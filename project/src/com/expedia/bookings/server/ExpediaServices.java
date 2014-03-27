@@ -41,7 +41,7 @@ import android.text.TextUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.AssociateUserToTripResponse;
-import com.expedia.bookings.data.BackgroundImageResponse;
+import com.expedia.bookings.data.ExpediaImageResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.CreateItineraryResponse;
@@ -553,7 +553,7 @@ public class ExpediaServices implements DownloadListener {
 	//////////////////////////////////////////////////////////////////////////
 	// Images API
 
-	public BackgroundImageResponse getExpediaImage(ImageType imageType, String imageCode, int width, int height) {
+	public ExpediaImageResponse getExpediaImage(ImageType imageType, String imageCode, int width, int height) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
@@ -563,7 +563,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("imageWidth", Integer.toString(width)));
 		query.add(new BasicNameValuePair("imageHeight", Integer.toString(height)));
 
-		return doFlightsRequest("api/mobile/image", query, new BackgroundImageResponseHandler(mContext), 0);
+		return doFlightsRequest("api/mobile/image", query, new ExpediaImageResponseHandler(mContext), 0);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
