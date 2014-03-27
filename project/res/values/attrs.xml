@@ -343,4 +343,8 @@
     <attr name="hotelConfirmationPlaceholderDrawable" format="reference" />
     <attr name="couponSuccessMessageColor" fomrat="reference|color"/>
 
+    <!-- Tablet Hotel Deal Left Ribbon-->
+    <attr name="tabletRibbonSaleRateTextColor" format="reference"/>
+    <attr name="tabletRibbonRateQualifierTextColor" format="reference"/>
+
 </resources>

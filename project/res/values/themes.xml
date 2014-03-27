@@ -256,6 +256,8 @@
         <item name="tabletHotelImageGalleryPhotoBorder">@drawable/bg_gallery_photo</item>
         <item name="hotelConfirmationPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
         <item name="couponSuccessMessageColor">@color/coupon_success_message_color</item>
+        <item name="tabletRibbonSaleRateTextColor">@color/hotel_price_text_color</item>
+        <item name="tabletRibbonRateQualifierTextColor">@android:color/black</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

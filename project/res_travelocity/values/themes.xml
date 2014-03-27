@@ -55,6 +55,8 @@
         <item name="tabletHotelImageGalleryPhotoBorder">@drawable/bg_gallery_photo_tvly</item>
         <item name="hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_travelocity</item>
         <item name="couponSuccessMessageColor">@color/coupon_success_message_color_tvly</item>
+        <item name="tabletRibbonSaleRateTextColor">@android:color/white</item>
+        <item name="tabletRibbonRateQualifierTextColor">@android:color/white</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">

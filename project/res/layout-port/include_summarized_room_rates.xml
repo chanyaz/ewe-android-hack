@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/base_rate_text_view"
-            android:textColor="@color/hotel_price_text_color"
+            android:textColor="?attr/tabletRibbonSaleRateTextColor"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/sale_rate_text_view"
             android:layout_toRightOf="@+id/sale_rate_text_view"
-            android:textColor="@android:color/black" />
+            android:textColor="?attr/tabletRibbonRateQualifierTextColor" />
     </RelativeLayout>
 
     <com.mobiata.android.widget.AutoResizeTextView
