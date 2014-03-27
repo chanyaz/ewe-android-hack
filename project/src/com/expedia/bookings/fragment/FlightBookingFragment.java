@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 
@@ -18,9 +19,11 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.wallet.FullWalletRequest;
 import com.mobiata.android.BackgroundDownloader;
@@ -38,6 +41,8 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 	private static final String FLIGHT_UNAVAILABLE_DIALOG = "FLIGHT_UNAVAILABLE_DIALOG";
 
 	private FlightBookingState mState = FlightBookingState.DEFAULT;
+
+	private FragmentModificationSafeLock mFragmentModLock = new FragmentModificationSafeLock();
 
 	private FlightTrip mFlightTrip;
 
@@ -118,6 +123,13 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 		if (isDownloadingCreateTrip()) {
 			bd.registerDownloadCallback(KEY_DOWNLOAD_CREATE_TRIP, mFlightTripCallback);
 		}
+		mFragmentModLock.setSafe(true);
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		mFragmentModLock.setSafe(false);
 	}
 
 	@Override
@@ -132,13 +144,26 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 		}
 	}
 
-	public void startDownload(FlightBookingState state) {
-		mState = state;
+	public void startDownload(final FlightBookingState state) {
+		mFragmentModLock.runWhenSafe(new Runnable() {
+			@Override
+			public void run() {
+				mState = state;
+				switch (state) {
+				case CREATE_TRIP:
+					startCreateTripDownload();
+					break;
+				default:
+					break;
+				}
+			}
+		});
+	}
+
+	public void cancelDownload(FlightBookingState state) {
 		switch (state) {
 		case CREATE_TRIP:
-			startCreateTripDownload();
-			break;
-		default:
+			cancelCreateTripDownload();
 			break;
 		}
 	}
@@ -211,7 +236,7 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 		}
 		else {
 			ServerError firstError = response.getErrors().get(0);
-
+			Events.post(new Events.CreateTripDownloadError(firstError));
 			switch (firstError.getErrorCode()) {
 			case FLIGHT_PRODUCT_NOT_FOUND:
 			case FLIGHT_SOLD_OUT:

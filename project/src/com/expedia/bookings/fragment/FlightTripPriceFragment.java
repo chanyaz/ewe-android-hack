@@ -1,10 +1,10 @@
 package com.expedia.bookings.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,19 +13,16 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.CheckoutDataLoader;
-import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.dialog.ThrobberDialog;
+import com.expedia.bookings.fragment.FlightBookingFragment.FlightBookingState;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.section.SectionFlightTrip;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.squareup.otto.Subscribe;
 
 public class FlightTripPriceFragment extends Fragment {
 
@@ -43,6 +40,8 @@ public class FlightTripPriceFragment extends Fragment {
 	private View mFragmentContent;
 
 	private FlightTripPriceFragmentListener mListener;
+
+	private FlightBookingFragment mFlightBookingFragment;
 
 	public interface FlightTripPriceFragmentListener {
 		void onCreateTripFinished();
@@ -67,12 +66,20 @@ public class FlightTripPriceFragment extends Fragment {
 		}
 
 		mListener = Ui.findFragmentListener(this, FlightTripPriceFragmentListener.class, false);
+
+		mFlightBookingFragment = Ui.findSupportFragment(this, FlightBookingFragment.TAG);
+
+		if (mFlightBookingFragment == null) {
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			mFlightBookingFragment = new FlightBookingFragment();
+			ft.add(mFlightBookingFragment, FlightBookingFragment.TAG);
+			ft.commit();
+		}
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mFragmentContent = inflater.inflate(R.layout.fragment_flight_price_bar, container, false);
-
 		mTripSection = Ui.findView(mFragmentContent, R.id.price_section);
 		if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
 			mTrip = Db.getFlightSearch().getSelectedFlightTrip();
@@ -113,27 +120,19 @@ public class FlightTripPriceFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-
+		Events.register(this);
 		if (Db.getFlightSearch().getSelectedFlightTrip() != null) {
 			mTrip = Db.getFlightSearch().getSelectedFlightTrip();
 			bind();
-		}
-
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (bd.isDownloading(KEY_DETAILS)) {
-			bd.registerDownloadCallback(KEY_DETAILS, mFlightDetailsCallback);
 		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-
+		Events.unregister(this);
 		if (getActivity().isFinishing()) {
-			BackgroundDownloader.getInstance().cancelDownload(KEY_DETAILS);
-		}
-		else {
-			BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_DETAILS);
+			mFlightBookingFragment.cancelDownload(FlightBookingState.CREATE_TRIP);
 		}
 	}
 
@@ -173,89 +172,61 @@ public class FlightTripPriceFragment extends Fragment {
 	// Flight details download
 
 	public void startCreateTripDownload() {
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (!bd.isDownloading(KEY_DETAILS)) {
+		if (!mFlightBookingFragment.isDownloadingCreateTrip()) {
 			mRequestedDetails = false;
 
 			// Show a loading dialog
 			ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.loading_flight_details));
 			df.show(getFragmentManager(), DIALOG_LOADING_DETAILS);
 
-			BackgroundDownloader.getInstance().startDownload(KEY_DETAILS, mFlightDetailsDownload,
-					mFlightDetailsCallback);
+			mFlightBookingFragment.startDownload(FlightBookingState.CREATE_TRIP);
 		}
 	}
 
-	private Download<CreateItineraryResponse> mFlightDetailsDownload = new Download<CreateItineraryResponse>() {
-		@Override
-		public CreateItineraryResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(getActivity());
-			BackgroundDownloader.getInstance().addDownloadListener(KEY_DETAILS, services);
-			return services.createItinerary(mTrip.getProductKey(), 0);
-		}
-	};
+	private void dismissDialog() {
+		ThrobberDialog df = Ui.findSupportFragment(getCompatibilityActivity(), DIALOG_LOADING_DETAILS);
+		df.dismiss();
+	}
 
-	private OnDownloadComplete<CreateItineraryResponse> mFlightDetailsCallback = new OnDownloadComplete<CreateItineraryResponse>() {
-		@Override
-		public void onDownload(CreateItineraryResponse results) {
-			ThrobberDialog df = Ui.findSupportFragment(getCompatibilityActivity(), DIALOG_LOADING_DETAILS);
-			df.dismiss();
+	///////////////////////////////
+	/// Otto Subscriptions
 
-			mRequestedDetails = true;
-
-			if (results == null) {
-				showRetryErrorDialog();
-			}
-			else if (results.hasErrors()) {
-				handleErrors(results);
-			}
-			else {
-				Db.addItinerary(results.getItinerary());
-				Money originalPrice = mTrip.getTotalFare();
-
-				mTrip.updateFrom(results.getOffer());
-				mTripSection.bind(mTrip); // rebind to update price
-
-				Db.kickOffBackgroundFlightSearchSave(getActivity());
-
-				if (mTrip.notifyPriceChanged()) {
-					String priceChangeTemplate = getResources().getString(R.string.price_changed_from_TEMPLATE);
-					mPriceChangeString = String.format(priceChangeTemplate, originalPrice.getFormattedMoney());
-					showPriceChange();
-				}
-				else {
-					hidePriceChange();
-				}
-
-				if (mListener != null) {
-					mListener.onCreateTripFinished();
-				}
-			}
-		}
-	};
-
-	private void handleErrors(CreateItineraryResponse response) {
-		ServerError firstError = response.getErrors().get(0);
-
-		switch (firstError.getErrorCode()) {
-		case FLIGHT_PRODUCT_NOT_FOUND:
-		case FLIGHT_SOLD_OUT:
-		case SESSION_TIMEOUT: {
-			boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
-			BookingUnavailableDialogFragment df = BookingUnavailableDialogFragment.newInstance(isPlural, true);
-			df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "unavailableErrorDialog");
-			return;
-		}
-		default: {
-			showRetryErrorDialog();
-			break;
-		}
+	@Subscribe
+	public void onCreateTripDownloadSuccess(Events.CreateTripDownloadSuccess event) {
+		dismissDialog();
+		mRequestedDetails = true;
+		mTripSection.bind(mTrip);
+		if (mListener != null) {
+			mListener.onCreateTripFinished();
 		}
 	}
 
-	private void showRetryErrorDialog() {
-		DialogFragment df = new RetryErrorDialogFragment();
-		df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), "retryErrorDialog");
+	@Subscribe
+	public void onFlightPriceChange(Events.FlightPriceChange event) {
+		String changeString = event.changeString;
+		if (changeString != null) {
+			mPriceChangeString = changeString;
+			showPriceChange();
+		}
+		else {
+			hidePriceChange();
+		}
+	}
+
+	@Subscribe
+	public void onCreateTripRetry(Events.CreateTripDownloadRetry event) {
+		startCreateTripDownload();
+	}
+
+	@Subscribe
+	public void onCreateTripRetryCancel(Events.CreateTripDownloadRetryCancel event) {
+		getActivity().finish();
+	}
+
+	@Subscribe
+	public void onCreateTripError(Events.CreateTripDownloadError event) {
+		dismissDialog();
+		mRequestedDetails = true;
 	}
 
 }
