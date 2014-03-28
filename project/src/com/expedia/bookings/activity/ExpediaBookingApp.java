@@ -199,7 +199,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		// in that it requires the app to be launched at least once before it can be disabled, but it's
 		// the best we can do for the time being.
 		// #1807. VSC Disable widgets
-		if (AndroidUtils.isHoneycombTablet(this) || ExpediaBookingApp.IS_VSC) {
+		if (AndroidUtils.isHoneycombTablet(this) || ExpediaBookingApp.IS_VSC || ExpediaBookingApp.IS_TRAVELOCITY) {
 			try {
 				PackageManager pm = getPackageManager();
 				ComponentName cn = new ComponentName(this, ExpediaBookingsWidgetProvider.class);
