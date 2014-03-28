@@ -772,6 +772,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 			else if (mFlightLegsFrag != null) {
 				mFlightLegsFrag.registerStateListener(mLegStateListener, false);
+				mFlightLegsFrag.setAddToTripRect(getAddTripRect());
 			}
 		}
 

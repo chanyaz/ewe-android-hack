@@ -87,6 +87,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	private FrameLayoutTouchController mNextLegC;
 	private FrameLayoutTouchController mLastLegC;
 
+	//Views
 	private FlightLegSummarySectionTablet mLastFLightRow;
 
 	//Other
@@ -98,6 +99,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	private IResultsFlightLegSelected mParentLegSelectedListener;
 	private IResultsFlightSelectedListener mParentFlightSelectedListener;
 
+	private Rect mAddToTripAnimRect = new Rect();
 
 	public ResultsRecursiveFlightLegsFragment() {
 		this(0);
@@ -210,6 +212,13 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	/**
 	 * General  methods
 	 */
+
+	public void setAddToTripRect(Rect addToTripRect) {
+		mAddToTripAnimRect = addToTripRect;
+		if (mNextLegFrag != null) {
+			mNextLegFrag.setAddToTripRect(mAddToTripAnimRect);
+		}
+	}
 
 	public void resetQuery() {
 		if (mListFrag != null && mListFrag.isAdded()) {
@@ -477,6 +486,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			else if (stateOne == ResultsFlightLegState.LATER_LEG && stateTwo == ResultsFlightLegState.DETAILS) {
 				showNextLegAnimPrep(1f);
 			}
+			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.ADDING_TO_TRIP) {
+				showAddToTripAnimPrep(0f);
+			}
 		}
 
 		@Override
@@ -500,6 +512,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			else if (stateOne == ResultsFlightLegState.LATER_LEG && stateTwo == ResultsFlightLegState.DETAILS) {
 				showNextLegPercentage(1f - percentage);
 			}
+			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.ADDING_TO_TRIP) {
+				showAddToTripPercentage(percentage);
+			}
 		}
 
 		@Override
@@ -521,6 +536,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			}
 			else if (stateOne == ResultsFlightLegState.LATER_LEG && stateTwo == ResultsFlightLegState.DETAILS) {
 				showNextLegAnimCleanup();
+			}
+			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.ADDING_TO_TRIP) {
+				showAddToTripAnimCleanUp();
 			}
 		}
 
@@ -558,6 +576,8 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				if (!mNextLegFrag.hasValidDataForDetails()) {
 					mNextLegFrag.setState(ResultsFlightLegState.FILTERS, false);
 				}
+				//Always propogate this
+				mNextLegFrag.setAddToTripRect(mAddToTripAnimRect);
 			}
 			else if (mNextLegFrag != null && state != ResultsFlightLegState.ADDING_TO_TRIP) {
 				//If we are showing, the next leg should always be in the filters state.
@@ -632,7 +652,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	protected void showDetailsAnimCleanUp() {
 		if (mDetailsFrag != null) {
 			int slideInDistance = mGrid.getColSpanWidth(1, 4);
-			mDetailsFrag.setSlideInAnimationLayer(View.LAYER_TYPE_NONE);
+			mDetailsFrag.finalizeSlideInPercentage();
 		}
 		mFiltersC.setLayerType(View.LAYER_TYPE_NONE, null);
 		mListColumnC.setLayerType(View.LAYER_TYPE_NONE, null);
@@ -688,7 +708,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		mListColumnC.setLayerType(View.LAYER_TYPE_NONE, null);
 		mNextLegC.setLayerType(View.LAYER_TYPE_NONE, null);
 		if (mDetailsFrag != null) {
-			mDetailsFrag.setDepartureTripSelectedAnimationLayer(View.LAYER_TYPE_NONE);
+			mDetailsFrag.finalizeDepartureFlightSelectedAnimation();
 		}
 	}
 
@@ -714,6 +734,32 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	protected void showFiltersAnimCleanUp() {
 		mFiltersC.setLayerType(View.LAYER_TYPE_NONE, null);
+	}
+
+	/*
+	LIST UP AND DOWN ANIM HELPERS
+	 */
+
+	protected void showAddToTripAnimPrep(float startPercentage) {
+		if (isLastLeg()) {
+			mDetailsFrag.setAddToTripFromDetailsAnimationLayer(View.LAYER_TYPE_HARDWARE);
+			mDetailsFrag.prepareAddToTripFromDetailsAnimation(mAddToTripAnimRect);
+		}
+	}
+
+	protected void showAddToTripPercentage(float percentage) {
+		if (isLastLeg()) {
+			mDetailsFrag.setAddToTripFromDetailsAnimationState(percentage);
+			float listTransX = (int) (-mGrid.getColLeft(2) + percentage
+				* -mGrid.getColSpanWidth(0, 1));
+			mListColumnC.setTranslationX(listTransX);
+		}
+	}
+
+	protected void showAddToTripAnimCleanUp() {
+		if (isLastLeg()) {
+			mDetailsFrag.finalizeAddToTripFromDetailsAnimation();
+		}
 	}
 
 	/*

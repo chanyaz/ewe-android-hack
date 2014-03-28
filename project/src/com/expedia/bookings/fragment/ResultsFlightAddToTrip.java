@@ -59,7 +59,10 @@ public class ResultsFlightAddToTrip extends Fragment {
 	}
 
 	public Rect getRowRect() {
-		return ScreenPositionUtils.getGlobalScreenPosition(mFlightCard);
+		if (mFlightCard != null) {
+			return ScreenPositionUtils.getGlobalScreenPosition(mFlightCard);
+		}
+		return new Rect();
 	}
 
 	private StateListenerHelper<ResultsFlightsState> mFlightsStateHelper = new StateListenerHelper<ResultsFlightsState>() {
