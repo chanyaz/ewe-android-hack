@@ -51,6 +51,13 @@
             </intent-filter>
         </activity>
 
+        <receiver
+            android:name="com.expedia.bookings.activity.TravelocityLocaleChangeReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.expedia.bookings.action.travelocity_locale_changed" />
+            </intent-filter>
+        </receiver>
 
     </application>
 
