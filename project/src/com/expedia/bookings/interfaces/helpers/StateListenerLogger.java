@@ -1,5 +1,7 @@
 package com.expedia.bookings.interfaces.helpers;
 
+import android.text.TextUtils;
+
 import com.expedia.bookings.interfaces.IStateListener;
 import com.mobiata.android.Log;
 
@@ -37,7 +39,10 @@ public class StateListenerLogger<T> implements IStateListener<T> {
 	}
 
 	private String getStateTypeStr(T state) {
-		return state.getClass().getSimpleName();
+		if (state != null && state.getClass() != null && !TextUtils.isEmpty(state.getClass().getSimpleName())) {
+			return state.getClass().getSimpleName();
+		}
+		return "<FAILURE TO GET THE STATE TYPE!>";
 	}
 
 }
