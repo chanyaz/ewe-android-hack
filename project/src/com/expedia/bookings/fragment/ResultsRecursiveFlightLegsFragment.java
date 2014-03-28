@@ -459,7 +459,13 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	private StateListenerHelper<ResultsFlightLegState> mStateListener = new StateListenerHelper<ResultsFlightLegState>() {
 		@Override
 		public void onStateTransitionStart(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo) {
-			if (stateOne == ResultsFlightLegState.FILTERS && stateTwo == ResultsFlightLegState.DETAILS) {
+			if (stateOne == ResultsFlightLegState.LIST_DOWN && stateTwo == ResultsFlightLegState.FILTERS) {
+				showFiltersAnimPrep(0f);
+			}
+			else if (stateOne == ResultsFlightLegState.FILTERS && stateTwo == ResultsFlightLegState.LIST_DOWN) {
+				showFiltersAnimPrep(1f);
+			}
+			else if (stateOne == ResultsFlightLegState.FILTERS && stateTwo == ResultsFlightLegState.DETAILS) {
 				showDetailsAnimPrep(0f);
 			}
 			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.FILTERS) {
@@ -476,7 +482,13 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo,
 			float percentage) {
-			if (stateOne == ResultsFlightLegState.FILTERS && stateTwo == ResultsFlightLegState.DETAILS) {
+			if (stateOne == ResultsFlightLegState.LIST_DOWN && stateTwo == ResultsFlightLegState.FILTERS) {
+				showFiltersPercentage(percentage);
+			}
+			else if (stateOne == ResultsFlightLegState.FILTERS && stateTwo == ResultsFlightLegState.LIST_DOWN) {
+				showFiltersPercentage(1f - percentage);
+			}
+			else if (stateOne == ResultsFlightLegState.FILTERS && stateTwo == ResultsFlightLegState.DETAILS) {
 				showDetailsAnimUpdate(percentage);
 			}
 			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.FILTERS) {
@@ -492,7 +504,13 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		@Override
 		public void onStateTransitionEnd(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo) {
-			if (stateOne == ResultsFlightLegState.FILTERS && stateTwo == ResultsFlightLegState.DETAILS) {
+			if (stateOne == ResultsFlightLegState.LIST_DOWN && stateTwo == ResultsFlightLegState.FILTERS) {
+				showFiltersAnimCleanUp();
+			}
+			else if (stateOne == ResultsFlightLegState.FILTERS && stateTwo == ResultsFlightLegState.LIST_DOWN) {
+				showFiltersAnimCleanUp();
+			}
+			else if (stateOne == ResultsFlightLegState.FILTERS && stateTwo == ResultsFlightLegState.DETAILS) {
 				showDetailsAnimCleanUp();
 			}
 			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.FILTERS) {
@@ -673,6 +691,34 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			mDetailsFrag.setDepartureTripSelectedAnimationLayer(View.LAYER_TYPE_NONE);
 		}
 	}
+
+	/*
+	LIST UP AND DOWN ANIM HELPERS
+	 */
+
+	protected void showFiltersAnimPrep(float startPercentage) {
+		mFiltersC.setAlpha(startPercentage);
+		mFiltersC.setVisibility(View.VISIBLE);
+		mFiltersC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+		mListFrag.setListLockedToTop(false);
+		mListFrag.setPercentage(1f - startPercentage, 0);
+	}
+
+	protected void showFiltersPercentage(float percentage) {
+		mFiltersC.setAlpha(percentage);
+		float filterPaneTopTranslation = (1f - percentage)
+			* mListFrag.getMaxDistanceFromTop();
+		mFiltersC.setTranslationY(filterPaneTopTranslation);
+		mListFrag.setPercentage(1f - percentage, 0);
+	}
+
+	protected void showFiltersAnimCleanUp() {
+		mFiltersC.setLayerType(View.LAYER_TYPE_NONE, null);
+	}
+
+	/*
+	FINALIZE HELPERS
+	 */
 
 	protected void updateListForState(ResultsFlightLegState state) {
 		if (mListFrag != null) {
