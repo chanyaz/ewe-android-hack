@@ -52,7 +52,7 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ResultsRecursiveFlightLegsFragment extends Fragment implements IStateProvider<ResultsFlightLegState>,
 	FragmentAvailabilityUtils.IFragmentAvailabilityProvider, IBackManageable, IResultsFlightLegSelected,
-	IResultsFlightSelectedListener {
+	IResultsFlightSelectedListener, ResultsFlightListFragment.IDoneClickedListener {
 
 	public static ResultsRecursiveFlightLegsFragment newInstance(int legNumber) {
 		ResultsRecursiveFlightLegsFragment frag = new ResultsRecursiveFlightLegsFragment(legNumber);
@@ -829,12 +829,16 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 					mListFrag.resetQuery();
 				}
 				if (state != ResultsFlightLegState.LIST_DOWN && state != ResultsFlightLegState.FILTERS) {
-					mListFrag.setPercentage(0f, 0);
+					if (mListFrag.hasList() && mListFrag.getPercentage() > 0) {
+						mListFrag.setPercentage(0f, 0);
+					}
 					mListFrag.setListLockedToTop(true);
 				}
 				else if (state == ResultsFlightLegState.LIST_DOWN) {
 					mListFrag.setListLockedToTop(false);
-					mListFrag.setPercentage(1f, 0);
+					if (mListFrag.hasList() && mListFrag.getPercentage() < 1) {
+						mListFrag.setPercentage(1f, 0);
+					}
 				}
 				else if (mListFrag.hasList() && mListFrag.getPercentage() > 0) {
 					mListFrag.setPercentage(0f, 0);
@@ -1047,6 +1051,11 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		else if (tag == FTAG_FILTERS) {
 			((ResultsFlightFiltersFragment) frag).bindAll();
 		}
+		else if (tag == FTAG_LIST) {
+			if (isFirstLeg()) {
+				((ResultsFlightListFragment) frag).setTopRightTextButtonText(getString(R.string.Done));
+			}
+		}
 	}
 
 	/**
@@ -1185,5 +1194,26 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	@Override
 	public void unRegisterStateListener(IStateListener<ResultsFlightLegState> listener) {
 		mStateListeners.unRegisterStateListener(listener);
+	}
+
+	/*
+	 * FLIGHT LIST FRAGMENT LISTENER
+	 */
+	@Override
+	public void onDoneClicked() {
+		if (isFirstLeg()) {
+			if (getState() == ResultsFlightLegState.FILTERS) {
+				setState(ResultsFlightLegState.LIST_DOWN, true);
+			}
+			else if (getState() == ResultsFlightLegState.DETAILS) {
+				mStateManager
+					.animateThroughStates(ResultsFlightLegState.FILTERS, ResultsFlightLegState.LIST_DOWN);
+			}
+		}
+	}
+
+	@Override
+	public void onStickyHeaderClicked() {
+		//THIS IS WHERE GOTO HISTOGRAM USED TO BE...
 	}
 }

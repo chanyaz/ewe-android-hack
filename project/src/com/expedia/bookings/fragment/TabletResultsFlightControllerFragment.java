@@ -24,7 +24,6 @@ import com.expedia.bookings.enums.ResultsFlightLegState;
 import com.expedia.bookings.enums.ResultsFlightsListState;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsState;
-import com.expedia.bookings.fragment.ResultsFlightListFragment.IDoneClickedListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -48,7 +47,7 @@ import com.squareup.otto.Subscribe;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsFlightControllerFragment extends Fragment implements
 	IFragmentAvailabilityProvider, IBackManageable,
-	IStateProvider<ResultsFlightsState>, IDoneClickedListener, ExpediaServicesFragment.ExpediaServicesFragmentListener,
+	IStateProvider<ResultsFlightsState>, ExpediaServicesFragment.ExpediaServicesFragmentListener,
 	ResultsFlightHistogramFragment.HistogramFragmentListener {
 
 	//State
@@ -410,28 +409,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			FTAG_FLIGHT_LEGS_CHOOSER, manager, transaction, this, R.id.flight_leg_container, false);
 		transaction.commit();
 
-	}
-
-	/*
-	 * FLIGHT LIST FRAGMENT LISTENER
-	 */
-	@Override
-	public void onDoneClicked() {
-		if (mFlightsStateManager.getState() == ResultsFlightsState.CHOOSING_FLIGHT) {
-			//Animate the list down
-			setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
-		}
-		else {
-			//We are done but we don't know how to get back, so we just go back without animation.
-			setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, false);
-		}
-	}
-
-	@Override
-	public void onStickyHeaderClicked() {
-		if (mFlightsStateManager.getState() == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-			setFlightsState(ResultsFlightsState.FLIGHT_HISTOGRAM, true);
-		}
 	}
 
 	/*
