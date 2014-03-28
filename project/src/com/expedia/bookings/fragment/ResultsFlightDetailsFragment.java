@@ -462,7 +462,8 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	}
 
 	public void finalizeDepartureFlightSelectedAnimation() {
-
+		resetDetailsC();
+		resetAnimationRow();
 	}
 
 	/*
@@ -485,7 +486,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	}
 
 	public void finalizeAddToTripFromDetailsAnimation() {
-
+		finalizeDepartureFlightSelectedAnimation();
 	}
 
 	/*

@@ -672,6 +672,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		if (mDetailsFrag != null) {
 			int slideInDistance = mGrid.getColSpanWidth(1, 4);
 			mDetailsFrag.finalizeSlideInPercentage();
+			mDetailsFrag.setSlideInAnimationLayer(View.LAYER_TYPE_NONE);
 		}
 		mFiltersC.setLayerType(View.LAYER_TYPE_NONE, null);
 		mListColumnC.setLayerType(View.LAYER_TYPE_NONE, null);
@@ -728,6 +729,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		mNextLegC.setLayerType(View.LAYER_TYPE_NONE, null);
 		if (mDetailsFrag != null) {
 			mDetailsFrag.finalizeDepartureFlightSelectedAnimation();
+			mDetailsFrag.setDepartureTripSelectedAnimationLayer(View.LAYER_TYPE_NONE);
 		}
 	}
 
@@ -761,7 +763,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	protected void showAddToTripAnimPrep(float startPercentage) {
 		if (isLastLeg()) {
-			mDetailsFrag.setAddToTripFromDetailsAnimationLayer(View.LAYER_TYPE_HARDWARE);
+			mDetailsFrag.setAddToTripFromDepartureAnimationLayer(View.LAYER_TYPE_HARDWARE);
 			mDetailsFrag.prepareAddToTripFromDetailsAnimation(mAddToTripAnimRect);
 		}
 	}
@@ -777,6 +779,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	protected void showAddToTripAnimCleanUp() {
 		if (isLastLeg()) {
+			mDetailsFrag.setAddToTripFromDepartureAnimationLayer(View.LAYER_TYPE_NONE);
 			mDetailsFrag.finalizeAddToTripFromDetailsAnimation();
 		}
 	}
