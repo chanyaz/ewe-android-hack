@@ -1,5 +1,7 @@
 package com.expedia.bookings.section;
 
+import android.content.Context;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,15 +18,15 @@ public class SectionTravelerInfoTablet extends com.expedia.bookings.section.Sect
 
 	private LineOfBusiness mLob = null;
 
-	public SectionTravelerInfoTablet(android.content.Context context) {
+	public SectionTravelerInfoTablet(Context context) {
 		super(context);
 	}
 
-	public SectionTravelerInfoTablet(android.content.Context context, android.util.AttributeSet attrs) {
+	public SectionTravelerInfoTablet(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	public SectionTravelerInfoTablet(android.content.Context context, android.util.AttributeSet attrs, int defStyle) {
+	public SectionTravelerInfoTablet(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
 

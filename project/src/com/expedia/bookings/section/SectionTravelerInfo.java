@@ -50,12 +50,11 @@ import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
-public class SectionTravelerInfo extends LinearLayout implements ISection<Traveler>, ISectionEditable,
-	InvalidCharacterListener {
+public class SectionTravelerInfo extends LinearLayout implements ISection<Traveler>,
+	ISectionEditable, InvalidCharacterListener {
 
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
 	SectionFieldList<Traveler> mFields = new SectionFieldList<Traveler>();
-
 
 	Context mContext;
 

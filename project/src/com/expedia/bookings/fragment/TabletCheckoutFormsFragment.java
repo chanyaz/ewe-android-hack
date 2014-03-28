@@ -51,7 +51,10 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TabletCheckoutFormsFragment extends LobableFragment implements IBackManageable,
 	IStateProvider<CheckoutFormState>,
-	ICheckoutDataListener, IFragmentAvailabilityProvider, CheckoutLoginButtonsFragment.ILoginStateChangedListener, IWalletButtonStateChangedListener {
+	ICheckoutDataListener,
+	IFragmentAvailabilityProvider,
+	CheckoutLoginButtonsFragment.ILoginStateChangedListener,
+	IWalletButtonStateChangedListener {
 
 	private static final String STATE_CHECKOUTFORMSTATE = "STATE_CHECKOUTFORMSTATE";
 
