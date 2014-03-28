@@ -60,6 +60,10 @@ public class FlightSearchParams implements JSONable {
 		return mChildren;
 	}
 
+	public int getNumTravelers() {
+		return getNumAdults() + getNumChildren();
+	}
+
 	public int getNumChildren() {
 		return mChildren.size();
 	}
