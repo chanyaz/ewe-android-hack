@@ -57,6 +57,8 @@
         <item name="couponSuccessMessageColor">@color/coupon_success_message_color_tvly</item>
         <item name="tabletRibbonSaleRateTextColor">@android:color/white</item>
         <item name="tabletRibbonRateQualifierTextColor">@android:color/white</item>
+        <item name="homeAsUpIndicator">@drawable/ic_action_bar_back_arrow_travelocity</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_action_bar_back_arrow_travelocity</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">
@@ -223,6 +225,8 @@
         <item name="hotelTabletStarRatingStyle">@style/RatingBarSmall.Shadowed.StarTravelocity</item>
         <item name="hotelBookingInfoButtonStyle">@style/Widget.Button.Green.Confirmation</item>
 
+        <item name="homeAsUpIndicator">@drawable/ic_action_bar_back_arrow_travelocity</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_action_bar_back_arrow_travelocity</item>
     </style>
 
     <!-- This is basically only used for TabletUserReviewsListActivity -->
@@ -235,6 +239,28 @@
     <!-- Adding declaration. This theme  is used in Hotel Image Gallery in tablets. -->
     <style name="Theme.Tablet.Dark" parent="@style/Theme.Travelocity">
         <item name="android:actionBarStyle">@style/Widget.ActionBar.Travelocity</item>
+    </style>
+
+    <style name="HotelWebViewActionBar" parent="Widget.Sherlock.ActionBar">
+        <item name="android:background">?attr/actionBarBackgroundDrawable</item>
+        <item name="background">?attr/actionBarBackgroundDrawable</item>
+        <item name="android:logo">?attr/hotelwebViewActionBarLogo</item>
+        <item name="logo">?attr/hotelwebViewActionBarLogo</item>
+        <item name="titleTextStyle">@style/FlightActionBarTextAppearance</item>
+        <item name="android:titleTextStyle">@style/FlightActionBarTextAppearance</item>
+        <item name="homeAsUpIndicator">@drawable/ic_action_bar_back_arrow_travelocity</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_action_bar_back_arrow_travelocity</item>
+    </style>
+
+    <style name="FlightActionBar" parent="Widget.Sherlock.ActionBar">
+        <item name="background">@drawable/bg_action_bar_flight_top</item>
+        <item name="android:background">@drawable/bg_action_bar_flight_top</item>
+        <item name="backgroundSplit">@drawable/bg_action_bar_flight_bottom</item>
+        <item name="android:backgroundSplit">@drawable/bg_action_bar_flight_bottom</item>
+        <item name="titleTextStyle">@style/FlightActionBarTextAppearance</item>
+        <item name="android:titleTextStyle">@style/FlightActionBarTextAppearance</item>
+        <item name="homeAsUpIndicator">@drawable/ic_action_bar_back_arrow_travelocity</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_action_bar_back_arrow_travelocity</item>
     </style>
 
 </resources>
