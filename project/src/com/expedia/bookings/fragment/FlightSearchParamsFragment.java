@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.io.File;
+import java.util.List;
 
 import org.joda.time.LocalDate;
 
@@ -20,6 +21,7 @@ import android.text.format.DateUtils;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Surface;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -64,6 +66,7 @@ import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.expedia.bookings.widget.FlightRouteAdapter;
@@ -402,7 +405,12 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mNumTravelersButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				toggleGuestPicker(true, true);
+				if (mGuestsLayout.getVisibility() == View.VISIBLE) {
+					toggleGuestPicker(false, true);
+				}
+				else {
+					toggleGuestPicker(true, true);
+				}
 			}
 		});
 
@@ -415,12 +423,16 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			}
 		});
 
+		mSearchButton.setOnClickListener(mDoneButtonClickListener);
+
 		mAdultsNumberPicker.setFormatter(mAdultsNumberPickerFormatter);
+		mAdultsNumberPicker.setOnValueChangeListener(mNumberPickerChangedListener);
 		mAdultsNumberPicker.setMinValue(1);
 		mAdultsNumberPicker.setMaxValue(GuestsPickerUtils.getMaxAdults(0));
 		mAdultsNumberPicker.setValue(mSearchParams.getNumAdults());
 
 		mChildrenNumberPicker.setFormatter(mChildrenNumberPickerFormatter);
+		mChildrenNumberPicker.setOnValueChangeListener(mNumberPickerChangedListener);
 		mChildrenNumberPicker.setMinValue(0);
 		mChildrenNumberPicker.setMaxValue(GuestsPickerUtils.getMaxChildren(1));
 		mChildrenNumberPicker.setValue(mSearchParams.getNumChildren());
@@ -993,10 +1005,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	// Traveler selection methods
 
-	private void toggleGuestPicker(boolean enabled) {
-		toggleCalendarDatePicker(enabled, true);
-	}
-
 	private void toggleGuestPicker(boolean enabled, boolean animate) {
 		if (enabled == (mGuestsLayout.getVisibility() == View.VISIBLE)) {
 			return;
@@ -1014,7 +1022,28 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			mGuestsLayout.setVisibility(View.VISIBLE);
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
+			displayRefinementInfo();
 		}
+	}
+
+	public void displayRefinementInfo() {
+		FlightSearchParams searchParams = getSearchParams(false);
+		final int numAdults = searchParams.getNumAdults();
+		final int numChildren = searchParams.getNumChildren();
+		String text = StrUtils.formatGuests(getActivity(), numAdults, numChildren);
+
+		int orientation = getActivity().getWindowManager().getDefaultDisplay().getOrientation();
+		final int hidden = (orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180) ? View.GONE
+			: View.INVISIBLE;
+		mChildAgesLayout.setVisibility(numChildren == 0 ? hidden : View.VISIBLE);
+
+		mSelectChildAgeTextView.setText(getResources().getQuantityString(R.plurals.select_each_childs_age,
+			numChildren));
+
+		GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), searchParams.getChildren(),
+			mChildAgesLayout, mChildAgeSelectedListener);
+
+		mRefinementInfoTextView.setText(text);
 	}
 
 	private void onNumTravelersSelected(int num) {
@@ -1025,9 +1054,36 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	private void updateNumTravelersText() {
 		if (mNumTravelersTextView != null) {
-			mNumTravelersTextView.setText(Integer.toString(mSearchParams.getNumAdults()));
+			mNumTravelersTextView.setText(Integer.toString(mSearchParams.getNumAdults() + mSearchParams.getNumChildren()));
 		}
 	}
+
+	private final SimpleNumberPicker.OnValueChangeListener mNumberPickerChangedListener = new SimpleNumberPicker.OnValueChangeListener() {
+		@Override
+		public void onValueChange(SimpleNumberPicker picker, int oldVal, int newVal) {
+			int numAdults = mAdultsNumberPicker.getValue();
+			int numChildren = mChildrenNumberPicker.getValue();
+			FlightSearchParams searchParams = getSearchParams(false);
+			searchParams.setNumAdults(numAdults);
+			GuestsPickerUtils.resizeChildrenList(getActivity(), searchParams.getChildren(), numChildren);
+			GuestsPickerUtils.configureAndUpdateDisplayedValues(getActivity(), mAdultsNumberPicker, mChildrenNumberPicker);
+			displayRefinementInfo();
+			updateNumTravelersText();
+		}
+	};
+
+	private final OnItemSelectedListener mChildAgeSelectedListener = new OnItemSelectedListener() {
+
+		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+			List<Integer> children = getSearchParams(false).getChildren();
+			GuestsPickerUtils.setChildrenFromSpinners(getActivity(), mChildAgesLayout, children);
+			GuestsPickerUtils.updateDefaultChildAges(getActivity(), children);
+		}
+
+		public void onNothingSelected(AdapterView<?> parent) {
+			// Do nothing.
+		}
+	};
 
 	// Number picker formatters
 	private final SimpleNumberPicker.Formatter mAdultsNumberPickerFormatter = new SimpleNumberPicker.Formatter() {
@@ -1041,6 +1097,13 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		@Override
 		public String format(int value) {
 			return getActivity().getResources().getQuantityString(R.plurals.number_of_children, value, value);
+		}
+	};
+
+	private final View.OnClickListener mDoneButtonClickListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			toggleGuestPicker(false, true);
 		}
 	};
 
