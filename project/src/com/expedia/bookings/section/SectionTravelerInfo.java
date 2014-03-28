@@ -155,14 +155,21 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	}
 
 	protected void postFinishInflate() {
-		//If we have the middle name field, but it isnt supported by this pos
-		//then we hide it and remove it from our list of fields
+		removeFieldsForPos();
+		removeFieldsForLoggedIn();
+	}
+
+	//If we have the middle name field, but it isnt supported by this pos
+	//then we hide it and remove it from our list of fields
+	private void removeFieldsForPos() {
 		PointOfSale pos = PointOfSale.getPointOfSale();
 		if (pos.hideMiddleName()) {
 			mFields.removeField(mEditMiddleName);
 		}
+	}
 
-		// Remove email fields if user is logged in
+	// Remove email fields if user is logged in
+	private void removeFieldsForLoggedIn() {
 		if (User.isLoggedIn(mContext)) {
 			mFields.removeField(mEditEmailAddress);
 			mFields.removeField(mDisplayEmailDisclaimer);

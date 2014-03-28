@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -152,14 +153,16 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment implements 
 	}
 
 	public void testForLoginStateChange() {
-		if (User.isLoggedIn(getActivity()) != mWasLoggedIn) {
-			BookingInfoUtils.populateTravelerDataFromUser(getActivity(), getLob());
-			BookingInfoUtils.populatePaymentDataFromUser(getActivity(), getLob());
+		Context context = getActivity();
+		boolean loggedIn = User.isLoggedIn(context);
+		if (loggedIn != mWasLoggedIn) {
+			BookingInfoUtils.populateTravelerDataFromUser(context, getLob());
+			BookingInfoUtils.populatePaymentDataFromUser(context, getLob());
 			if (mListener != null) {
 				mListener.onLoginStateChanged();
 			}
 
-			mWasLoggedIn = User.isLoggedIn(getActivity());
+			mWasLoggedIn = loggedIn;
 		}
 	}
 
