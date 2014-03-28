@@ -34,6 +34,8 @@ public class StateManager<T> {
 	private boolean mProviderIsFrag = false;
 	private boolean mAcceptAnimationUpdates = false;
 	private Queue<Pair<T, Integer>> mStateChain;
+	private float mLastAnimPercentage = 0f;
+	private float mSnapThreshold = 0.05f;
 
 	/**
 	 * Create a new StateManager
@@ -207,7 +209,11 @@ public class StateManager<T> {
 			@Override
 			public void onAnimationUpdate(ValueAnimator arg0) {
 				if (mAcceptAnimationUpdates) {
-					provider.updateStateTransition(getState(), state, (Float) arg0.getAnimatedValue());
+					mLastAnimPercentage = (Float) arg0.getAnimatedValue();
+					if (mLastAnimPercentage + mSnapThreshold >= 1 || mLastAnimPercentage - mSnapThreshold <= 0) {
+						mLastAnimPercentage = Math.round(mLastAnimPercentage);
+					}
+					provider.updateStateTransition(getState(), state, mLastAnimPercentage);
 				}
 			}
 		});
