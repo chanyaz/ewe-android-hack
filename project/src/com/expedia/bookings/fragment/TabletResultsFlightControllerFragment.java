@@ -836,7 +836,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private StateListenerHelper<ResultsFlightLegState> mLegStateListener = new StateListenerHelper<ResultsFlightLegState>() {
 		@Override
 		public void onStateTransitionStart(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo) {
-			if (stateOne != ResultsFlightLegState.ADDING_TO_TRIP) {
+			if (validTransition(stateOne, stateTwo)) {
 				startStateTransition(translate(stateOne), translate(stateTwo));
 			}
 		}
@@ -844,14 +844,14 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo,
 			float percentage) {
-			if (stateOne != ResultsFlightLegState.ADDING_TO_TRIP) {
+			if (validTransition(stateOne, stateTwo)) {
 				updateStateTransition(translate(stateOne), translate(stateTwo), percentage);
 			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo) {
-			if (stateOne != ResultsFlightLegState.ADDING_TO_TRIP) {
+			if (validTransition(stateOne, stateTwo)) {
 				endStateTransition(translate(stateOne), translate(stateTwo));
 			}
 		}
@@ -861,6 +861,16 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			if (mFlightsStateManager.getState() != translate(state)) {
 				setFlightsState(translate(state), false);
 			}
+		}
+
+		private boolean validTransition(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo) {
+			if (stateOne == ResultsFlightLegState.ADDING_TO_TRIP) {
+				return false;
+			}
+			if (stateOne == stateTwo) {
+				return false;
+			}
+			return true;
 		}
 
 		private ResultsFlightsState translate(ResultsFlightLegState state) {
