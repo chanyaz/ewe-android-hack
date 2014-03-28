@@ -651,6 +651,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	@Override
 	public void finalizeState(ResultsFlightsState state) {
 		mFlightsStateListeners.finalizeState(state);
+
+		//If we have arrived at the ADDING_FLIGHT_TO_TRIP state, we want to immediately move to the list down state.
+		//We do this here so that finalize has been called on all listeners before moving on.
+		if (state == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
+			setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
+		}
 	}
 
 	@Override
@@ -709,7 +715,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			if (isHistogramAndListCardFlipTransition(stateOne, stateTwo)) {
 				mFlightHistogramC.setLayerType(layerType, null);
 			}
-
 		}
 
 		@Override
@@ -724,13 +729,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 			else {
 				mFlightMapC.setAlpha(1f);
-			}
-
-			switch (state) {
-			case ADDING_FLIGHT_TO_TRIP: {
-				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
-				break;
-			}
 			}
 
 			// Some histogram/list card flip animation cleanup
@@ -838,18 +836,24 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private StateListenerHelper<ResultsFlightLegState> mLegStateListener = new StateListenerHelper<ResultsFlightLegState>() {
 		@Override
 		public void onStateTransitionStart(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo) {
-			startStateTransition(translate(stateOne), translate(stateTwo));
+			if (stateOne != ResultsFlightLegState.ADDING_TO_TRIP) {
+				startStateTransition(translate(stateOne), translate(stateTwo));
+			}
 		}
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo,
 			float percentage) {
-			updateStateTransition(translate(stateOne), translate(stateTwo), percentage);
+			if (stateOne != ResultsFlightLegState.ADDING_TO_TRIP) {
+				updateStateTransition(translate(stateOne), translate(stateTwo), percentage);
+			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo) {
-			endStateTransition(translate(stateOne), translate(stateTwo));
+			if (stateOne != ResultsFlightLegState.ADDING_TO_TRIP) {
+				endStateTransition(translate(stateOne), translate(stateTwo));
+			}
 		}
 
 		@Override

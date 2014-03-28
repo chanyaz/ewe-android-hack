@@ -425,18 +425,28 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		@Override
 		public void onStateTransitionStart(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
-
+			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
+				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				startStateTransition(ResultsFlightLegState.ADDING_TO_TRIP, ResultsFlightLegState.LIST_DOWN);
+			}
 		}
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
 			float percentage) {
-
+			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
+				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				updateStateTransition(ResultsFlightLegState.ADDING_TO_TRIP, ResultsFlightLegState.LIST_DOWN,
+					percentage);
+			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
-
+			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
+				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				endStateTransition(ResultsFlightLegState.ADDING_TO_TRIP, ResultsFlightLegState.LIST_DOWN);
+			}
 		}
 
 		@Override
@@ -489,6 +499,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.ADDING_TO_TRIP) {
 				showAddToTripAnimPrep(0f);
 			}
+			else if (stateOne == ResultsFlightLegState.ADDING_TO_TRIP && stateTwo == ResultsFlightLegState.LIST_DOWN) {
+				showAddingBackToDownAnimPrep(0f);
+			}
 		}
 
 		@Override
@@ -515,6 +528,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.ADDING_TO_TRIP) {
 				showAddToTripPercentage(percentage);
 			}
+			else if (stateOne == ResultsFlightLegState.ADDING_TO_TRIP && stateTwo == ResultsFlightLegState.LIST_DOWN) {
+				showAddingBackToDownPercentage(percentage);
+			}
 		}
 
 		@Override
@@ -539,6 +555,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			}
 			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.ADDING_TO_TRIP) {
 				showAddToTripAnimCleanUp();
+			}
+			else if (stateOne == ResultsFlightLegState.ADDING_TO_TRIP && stateTwo == ResultsFlightLegState.LIST_DOWN) {
+				showAddingBackToDownAnimCleanUp();
 			}
 		}
 
@@ -763,6 +782,34 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	}
 
 	/*
+	ADD_TO_TRIP back to OVERVIEW Anim helpers
+	 */
+
+	protected void showAddingBackToDownAnimPrep(float startPercentage) {
+		if (isFirstLeg()) {
+			mListColumnC.setTranslationY((1f - startPercentage) * mGrid.getRowBottom(2));
+			mListColumnC.setTranslationX(0);
+			mListColumnC.setVisibility(View.VISIBLE);
+			mListColumnC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+			mListFrag.setListLockedToTop(false);
+			mListFrag.setPercentage(1f, 0);
+		}
+	}
+
+	protected void showAddingBackToDownPercentage(float percentage) {
+		if (isFirstLeg()) {
+			mListColumnC.setTranslationY((1f - percentage) * mGrid.getRowBottom(2));
+		}
+	}
+
+	protected void showAddingBackToDownAnimCleanUp() {
+		if (isFirstLeg()) {
+			mListColumnC.setLayerType(View.LAYER_TYPE_NONE, null);
+		}
+	}
+
+
+	/*
 	FINALIZE HELPERS
 	 */
 
@@ -898,6 +945,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			}
 			else {
 				nextLegAvail = true;
+				if (isFirstLeg()) {
+					listAvail = true;
+				}
 			}
 			break;
 		}
