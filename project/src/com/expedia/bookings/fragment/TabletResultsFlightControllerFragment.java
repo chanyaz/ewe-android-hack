@@ -838,6 +838,17 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			if (mFlightsStateManager.getState() != translate(state)) {
 				setFlightsState(translate(state), false);
 			}
+			if (state == ResultsFlightLegState.LATER_LEG) {
+				if (mFlightMapFrag != null && mFlightMapFrag.isAdded() && mFlightMapFrag.isMapGenerated()) {
+					mFlightMapFrag.backward();
+				}
+			}
+			else if (state == ResultsFlightLegState.LIST_DOWN || state == ResultsFlightLegState.FILTERS
+				|| state == ResultsFlightLegState.DETAILS) {
+				if (mFlightMapFrag != null && mFlightMapFrag.isAdded() && mFlightMapFrag.isMapGenerated()) {
+					mFlightMapFrag.forward();
+				}
+			}
 		}
 
 		private boolean validTransition(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo) {
