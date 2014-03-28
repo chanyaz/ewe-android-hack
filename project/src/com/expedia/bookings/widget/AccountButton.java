@@ -197,6 +197,8 @@ public class AccountButton extends LinearLayout {
 				: isElitePlusMember
 				? mContext.getString(R.string.youll_earn_bonus_points_for_this_booking)
 				: mContext.getString(R.string.enrolled_in_expedia_rewards));
+
+			mExpediaLogo.setImageResource(R.drawable.ic_tablet_checkout_expedia_logo);
 		}
 
 		// Flights + Membership

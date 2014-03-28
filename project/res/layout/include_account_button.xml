@@ -75,6 +75,7 @@
             android:id="@+id/login_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/account_button_padding"
             android:drawablePadding="@dimen/card_icon_padding"
             android:gravity="center_vertical"
             android:text="?attr/hotelCheckoutLoginButtonText"
@@ -86,7 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="17dp"
             android:gravity="right"
             android:text="@string/Earn_points_and_book_fast"
             android:textColor="#cc363636"
@@ -109,10 +110,9 @@
             android:id="@+id/card_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/card_icon_padding"
-            android:paddingLeft="17dp"
-            android:paddingRight="8dp"
-            android:paddingTop="@dimen/card_icon_padding"
+            android:layout_marginLeft="@dimen/account_button_padding"
+            android:paddingLeft="@dimen/card_icon_padding_left"
+            android:paddingRight="@dimen/card_icon_padding"
             android:src="?attr/hotelCheckoutLoginLogoDrawable" />
 
         <LinearLayout

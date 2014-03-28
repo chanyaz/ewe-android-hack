@@ -200,6 +200,7 @@
     <dimen name="child_ages_button_height_restored">60dp</dimen>
 
     <!-- Account support dimensions -->
+    <dimen name="card_icon_padding_left">15dp</dimen>
     <dimen name="card_icon_padding">5dp</dimen>
 
     <!-- Coupon code dimensions -->

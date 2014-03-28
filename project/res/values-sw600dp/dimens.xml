@@ -5,6 +5,8 @@
     <dimen name="account_button_margin_top">0dp</dimen>
     <dimen name="account_button_padding">10dp</dimen>
     <dimen name="login_button_text_size">18sp</dimen>
+    <dimen name="card_icon_padding_left">0dp</dimen>
+    <dimen name="card_icon_padding">12dp</dimen>
 
     <!-- Special dimensions for 7" tablets -->
     <dimen name="receipt_portrait_horizontal_margin">0dp</dimen>
