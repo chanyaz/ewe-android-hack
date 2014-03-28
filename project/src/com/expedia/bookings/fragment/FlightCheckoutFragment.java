@@ -305,17 +305,17 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		// If there are more numAdults from HotelSearchParams, add empty Travelers to the Db to anticipate the addition of
 		// new Travelers in order for check out
 		final int numTravelers = travelers.size();
-		final int numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
-		if (numTravelers < numAdults) {
-			for (int i = numTravelers; i < numAdults; i++) {
+		final int numAdultsAndChildren = Db.getFlightSearch().getSearchParams().getNumTravelers();
+		if (numTravelers < numAdultsAndChildren) {
+			for (int i = numTravelers; i < numAdultsAndChildren; i++) {
 				travelers.add(new Traveler());
 			}
 		}
 
 		// If there are more Travelers than number of adults required by the HotelSearchParams, remove the extra Travelers,
 		// although, keep the first numAdults Travelers.
-		else if (numTravelers > numAdults) {
-			for (int i = numTravelers - 1; i >= numAdults; i--) {
+		else if (numTravelers > numAdultsAndChildren) {
+			for (int i = numTravelers - 1; i >= numAdultsAndChildren; i--) {
 				travelers.remove(i);
 			}
 		}
@@ -327,18 +327,18 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		mAddTravelerSections.clear();
 
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
-		final int numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
+		final int numTravelers = Db.getFlightSearch().getSearchParams().getNumTravelers();
 		List<Traveler> travelers = Db.getTravelers();
 
 		// Not sure if this state could happen, but there was a LOT of defensive code
 		// I've removed, so I might as well keep everything from breaking.
-		if (travelers == null || numAdults != travelers.size()) {
+		if (travelers == null || numTravelers != travelers.size()) {
 			populateTravelerData();
 		}
 
 		TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
 		boolean isInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
-		for (int index = 0; index < numAdults; index++) {
+		for (int index = 0; index < numTravelers; index++) {
 			Traveler traveler = travelers.get(index);
 
 			if (traveler != null && state.allTravelerInfoValid(traveler, isInternational)) {
@@ -359,7 +359,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 				TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
 
-				if (numAdults == 1) {
+				if (numTravelers == 1) {
 					tv.setText(R.string.traveler_details);
 				}
 				else {
