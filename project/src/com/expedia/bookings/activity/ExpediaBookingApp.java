@@ -122,14 +122,14 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 		startupTimer.addSplit("FS.db Init");
 
-		if (IS_VSC) {
-			Locale locale = new Locale("fr", "FR");
+		if (IS_VSC || IS_TRAVELOCITY) {
+			Locale locale = IS_VSC ? new Locale("fr", "FR") : new Locale("en", "US");
 			Configuration myConfig = new Configuration(getResources().getConfiguration());
 			Locale.setDefault(locale);
 
 			myConfig.locale = locale;
 			getBaseContext().getResources().updateConfiguration(myConfig, getResources().getDisplayMetrics());
-			startupTimer.addSplit("VSC force fr locale");
+			startupTimer.addSplit("Force locale to " + locale.getLanguage());
 		}
 		// Pull down advertising ID
 		AdvertisingIdUtils.loadIDFA(this);
@@ -334,8 +334,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 	@Override
 	public void onConfigurationChanged(final Configuration newConfig) {
-		if (IS_VSC) {
-			handleVscConfigurationChanged(newConfig);
+		if (IS_VSC || IS_TRAVELOCITY) {
+			handleConfigurationChanged(newConfig);
 		}
 		else {
 			// Default behaviour, we want to ignore this completely
@@ -343,10 +343,10 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		}
 	}
 
-	private void handleVscConfigurationChanged(final Configuration newConfig) {
-		Locale locale = new Locale("fr", "FR");
+	private void handleConfigurationChanged(final Configuration newConfig) {
+		Locale locale = IS_VSC ? new Locale("fr", "FR") : new Locale("en", "US");;
 		if (!newConfig.locale.equals(locale)) {
-			Log.d("VSC: Forcing fr locale");
+			Log.d("Forcing locale to " + locale.getLanguage());
 			Configuration myConfig = new Configuration(newConfig);
 			Locale.setDefault(locale);
 
@@ -354,10 +354,11 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			getBaseContext().getResources().updateConfiguration(myConfig, getResources().getDisplayMetrics());
 
 			// Send broadcast so that we can re-create activities
-			Intent intent = new Intent(VSCLocaleChangeReceiver.ACTION_LOCALE_CHANGED);
+			Intent intent = IS_VSC ? new Intent(VSCLocaleChangeReceiver.ACTION_LOCALE_CHANGED) : new Intent(TravelocityLocaleChangeReceiver.ACTION_LOCALE_CHANGED);;
 			sendBroadcast(intent);
 		}
 
 		super.onConfigurationChanged(newConfig);
 	}
+
 }
