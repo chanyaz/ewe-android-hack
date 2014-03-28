@@ -146,7 +146,6 @@ public class ItinContentGeneratorTest extends AndroidTestCase {
 	}
 
 	public void testHotelHeaderTextAtFixedTimes() {
-		ArrayList<Long> times = new ArrayList<Long>();
 		final DateTime elevenFifty = DateTime.now(DateTimeZone.UTC).withHourOfDay(23).withMinuteOfHour(50);
 		DateTimeUtils.setCurrentMillisFixed(elevenFifty.getMillis());
 
