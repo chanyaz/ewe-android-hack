@@ -719,7 +719,11 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	@Override
 	public void onLoginStateChanged() {
-		bindAll();
+		mTravelerForm.onLoginStateChanged();
+		mPaymentForm.onLoginStateChanged();
+
+		// This calls bindAll() and changes the state if needed
+		onCheckoutDataUpdated();
 	}
 
 	/*

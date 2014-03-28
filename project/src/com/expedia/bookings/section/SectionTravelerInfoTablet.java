@@ -59,6 +59,9 @@ public class SectionTravelerInfoTablet extends com.expedia.bookings.section.Sect
 
 	@Override
 	public void setLob(LineOfBusiness lob) {
+		if (mLob != null) {
+			throw new RuntimeException("Once set, LOB cannot be changed on SectionTravelerInfoTablet");
+		}
 		mLob = lob;
 		removeFieldsForLob(lob);
 	}

@@ -12,10 +12,11 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.fragment.CheckoutLoginButtonsFragment;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-public abstract class TabletCheckoutDataFormFragment extends LobableFragment {
+public abstract class TabletCheckoutDataFormFragment extends LobableFragment implements CheckoutLoginButtonsFragment.ILoginStateChangedListener {
 
 	private ViewGroup mRootC;
 	private ViewGroup mFormContentC;
@@ -76,6 +77,19 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment {
 			setUpFormContent(mFormContentC);
 		}
 	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// CheckoutLoginButtonsFragment.ILoginStateChangedListener
+	///////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public void onLoginStateChanged() {
+		setUpFormContent(mFormContentC);
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Abstract methods to be implemented by concrete children
+	///////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected abstract void setUpFormContent(ViewGroup formContainer);
 
