@@ -33,6 +33,7 @@ import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.section.FlightLegSummarySectionTablet;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
+import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.FruitList;
 import com.mobiata.android.Log;
@@ -151,7 +152,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		mContainers.add(mNextLegC);
 		mContainers.add(mListColumnC);
 
-		if (mLegNumber > 0) {
+		if (!isFirstLeg()) {
 			mLastLegC.setVisibility(View.VISIBLE);
 		}
 
@@ -464,6 +465,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.FILTERS) {
 				showDetailsAnimPrep(1f);
 			}
+			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.LATER_LEG) {
+				showNextLegAnimPrep(0f);
+			}
+			else if (stateOne == ResultsFlightLegState.LATER_LEG && stateTwo == ResultsFlightLegState.DETAILS) {
+				showNextLegAnimPrep(1f);
+			}
 		}
 
 		@Override
@@ -475,6 +482,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.FILTERS) {
 				showDetailsAnimUpdate(1f - percentage);
 			}
+			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.LATER_LEG) {
+				showNextLegPercentage(percentage);
+			}
+			else if (stateOne == ResultsFlightLegState.LATER_LEG && stateTwo == ResultsFlightLegState.DETAILS) {
+				showNextLegPercentage(1f - percentage);
+			}
 		}
 
 		@Override
@@ -484,6 +497,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			}
 			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.FILTERS) {
 				showDetailsAnimCleanUp();
+			}
+			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.LATER_LEG) {
+				showNextLegAnimCleanup();
+			}
+			else if (stateOne == ResultsFlightLegState.LATER_LEG && stateTwo == ResultsFlightLegState.DETAILS) {
+				showNextLegAnimCleanup();
 			}
 		}
 
@@ -517,12 +536,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 			//Next Leg State
 			if (state == ResultsFlightLegState.LATER_LEG) {
-				setNextLegShowingPercentage(1f);
+				showNextLegPercentage(1f);
 				if (!mNextLegFrag.hasValidDataForDetails()) {
 					mNextLegFrag.setState(ResultsFlightLegState.FILTERS, false);
 				}
 			}
-			else if (mNextLegFrag != null) {
+			else if (mNextLegFrag != null && state != ResultsFlightLegState.ADDING_TO_TRIP) {
 				//If we are showing, the next leg should always be in the filters state.
 				mNextLegFrag.setState(ResultsFlightLegState.FILTERS, false);
 			}
@@ -553,6 +572,10 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		return mStateManager.getState();
 	}
 
+
+	/*
+	SHOW & HIDE DETAILS ANIMATION HELPERS
+	 */
 	protected void showDetailsAnimPrep(float startPercentage) {
 		if (mDetailsFrag != null) {
 			if (hasValidDataForDetails()) {
@@ -597,12 +620,59 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		mListColumnC.setLayerType(View.LAYER_TYPE_NONE, null);
 	}
 
-	protected void setNextLegShowingPercentage(float percentage) {
-		int transX = mGrid.getColSpanWidth(0, 1);
-		mNextLegC.setTranslationX((1f - percentage) * transX);
-		mNextLegC.setAlpha(percentage);
+	/*
+	SHOW & HIDE NEXT LEG ANIMATION HELPERS
+	 */
+
+	protected Rect getColumnHeaderRect() {
+		if (mLastLegC != null) {
+			return ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mLastLegC);
+		}
+		return null;
 	}
 
+	protected void showNextLegAnimPrep(float startPercentage) {
+		mListColumnC.setVisibility(View.VISIBLE);
+		mDetailsC.setVisibility(View.VISIBLE);
+		mNextLegC.setAlpha(startPercentage);
+		mNextLegC.setVisibility(View.VISIBLE);
+
+		//Rendering
+		mListColumnC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+		mNextLegC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+		if (mDetailsFrag != null) {
+			mDetailsFrag.setDepartureTripSelectedAnimationLayer(View.LAYER_TYPE_HARDWARE);
+			if (mNextLegFrag != null) {
+				Rect animateTowardsRect = mNextLegFrag.getColumnHeaderRect();
+				if (animateTowardsRect != null) {
+					mDetailsFrag.prepareDepartureFlightSelectedAnimation(animateTowardsRect);
+				}
+			}
+		}
+	}
+
+	protected void showNextLegPercentage(float percentage) {
+		float nextLegTransX = (1f - percentage) * mGrid.getColSpanWidth(0, 1);
+		float listTransX = (int) (-mGrid.getColLeft(2) + percentage
+			* -mGrid.getColSpanWidth(0, 1));
+
+
+		mNextLegC.setTranslationX(nextLegTransX);
+		mNextLegC.setAlpha(percentage);
+		mListColumnC.setTranslationX(listTransX);
+
+		if (mDetailsFrag != null) {
+			mDetailsFrag.setDepartureTripSelectedAnimationState(percentage);
+		}
+	}
+
+	protected void showNextLegAnimCleanup() {
+		mListColumnC.setLayerType(View.LAYER_TYPE_NONE, null);
+		mNextLegC.setLayerType(View.LAYER_TYPE_NONE, null);
+		if (mDetailsFrag != null) {
+			mDetailsFrag.setDepartureTripSelectedAnimationLayer(View.LAYER_TYPE_NONE);
+		}
+	}
 
 	protected void updateListForState(ResultsFlightLegState state) {
 		if (mListFrag != null) {
@@ -668,6 +738,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			visibleViews.add(mNextLegC);
 			break;
 		}
+		case ADDING_TO_TRIP: {
+			if (!isLastLeg()) {
+				visibleViews.add(mNextLegC);
+			}
+			break;
+		}
 		}
 
 		for (ViewGroup vg : mContainers) {
@@ -699,6 +775,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		case LIST_DOWN: {
 			listAvail = true;
 			filterAvail = true;
+			detailsAvail = true;
 			break;
 		}
 		case FILTERS: {
@@ -714,12 +791,22 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			nextLegAvail = !isLastLeg();
 			break;
 		}
-		case LATER_LEG:
-		case ADDING_TO_TRIP: {
+		case LATER_LEG: {
 			listAvail = true;
 			filterAvail = true;
 			detailsAvail = true;
-			nextLegAvail = !isLastLeg();
+			nextLegAvail = true;
+			break;
+		}
+		case ADDING_TO_TRIP: {
+			if (isLastLeg()) {
+				listAvail = true;
+				filterAvail = true;
+				detailsAvail = true;
+			}
+			else {
+				nextLegAvail = true;
+			}
 			break;
 		}
 		}
