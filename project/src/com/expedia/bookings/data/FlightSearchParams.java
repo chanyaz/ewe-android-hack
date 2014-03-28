@@ -52,6 +52,14 @@ public class FlightSearchParams implements JSONable {
 		}
 	}
 
+	public List<Integer> getChildren() {
+		if (mChildren == null) {
+			mChildren = new ArrayList<Integer>();
+		}
+
+		return mChildren;
+	}
+
 	public int getNumChildren() {
 		return mChildren.size();
 	}
