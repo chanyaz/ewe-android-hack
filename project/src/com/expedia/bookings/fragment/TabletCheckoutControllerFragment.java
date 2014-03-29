@@ -890,6 +890,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		if (mStateManager.getState() == CheckoutState.OVERVIEW) {
 			setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
 		}
+		// CheckoutInfo has changed, so let's reset CVV text to start fresh.
+		if (mCvvFrag != null) {
+			mCvvFrag.resetCVVText();
+		}
 	}
 
 	@Override

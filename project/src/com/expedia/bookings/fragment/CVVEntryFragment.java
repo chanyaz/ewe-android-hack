@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,12 +83,39 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 	@Override
 	public void onResume() {
 		super.onResume();
-
 		syncBookButtonState();
 	}
 
 	private void syncBookButtonState() {
 		mCreditCardInputSection.setBookButtonEnabled(mCVVTextView.getCvv().length() >= mMinCvvLen);
+	}
+
+	private void syncCVVTextFilter() {
+		InputFilter[] filters = new InputFilter[1];
+		if (getCurrentCCType() == CreditCardType.AMERICAN_EXPRESS) {
+			filters[0] = new InputFilter.LengthFilter(4);
+		}
+		else {
+			filters[0] = new InputFilter.LengthFilter(3);
+		}
+		mCVVTextView.setFilters(filters);
+
+	}
+
+	public void resetCVVText() {
+		mCVVTextView.setText("");
+		syncCVVTextFilter();
+	}
+
+	private CreditCardType getCurrentCCType() {
+		StoredCreditCard cc = Db.getBillingInfo().getStoredCard();
+		if (cc != null) {
+			return cc.getType();
+		}
+		else {
+			String ccNumber = Db.getBillingInfo().getNumber();
+			return CurrencyUtils.detectCreditCardBrand(ccNumber);
+		}
 	}
 
 	public void setCvvErrorMode(boolean enabled) {
@@ -107,23 +135,21 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 		String personName;
 		String cardName;
-		CreditCardType cardType;
+		CreditCardType cardType = getCurrentCCType();
 		if (cc != null) {
 			Traveler traveler = Db.getTravelers().get(0);
 			personName = traveler.getFirstName() + " " + traveler.getLastName();
 
 			cardName = cc.getDescription();
-
-			cardType = cc.getType();
 		}
 		else {
 			personName = billingInfo.getNameOnCard();
 
 			String ccNumber = billingInfo.getNumber();
 			cardName = getString(R.string.card_ending_TEMPLATE, ccNumber.substring(ccNumber.length() - 4));
-
-			cardType = CurrencyUtils.detectCreditCardBrand(ccNumber);
 		}
+
+		resetCVVText();
 
 		//1752. VSC Change cvv prompt text
 		if (ExpediaBookingApp.IS_VSC) {
@@ -141,6 +167,8 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		mMinCvvLen = (cardType == CreditCardType.AMERICAN_EXPRESS) ? 4 : 3;
 	}
 
+
+
 	//////////////////////////////////////////////////////////////////////////
 	// CreditCardInputListener
 
@@ -151,7 +179,6 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		}
 		else {
 			mCVVTextView.onKeyPress(code);
-
 			syncBookButtonState();
 		}
 	}
