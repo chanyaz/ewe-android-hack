@@ -901,6 +901,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			if (!isLastLeg()) {
 				visibleViews.add(mNextLegC);
 			}
+			if (isFirstLeg()) {
+				visibleViews.add(mListColumnC);
+			}
 			break;
 		}
 		}
