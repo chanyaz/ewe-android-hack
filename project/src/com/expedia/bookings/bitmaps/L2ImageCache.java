@@ -111,15 +111,20 @@ public class L2ImageCache {
 	 * @param blur whether or not to grab the blurred version of the image
 	 * @return the Bitmap if cached, null if not
 	 */
-	public Bitmap getImage(String url, boolean checkDisk, boolean blur) {
+	public Bitmap getImage(String url, final boolean checkDisk, final boolean blur) {
 		// Try to retrieve from memory cache
 		String memKey = blur ? url + BLUR_KEY_SUFFIX : url;
 		Bitmap bitmap = mMemoryCache.get(memKey);
 		if (bitmap != null) {
 			if (mVerboseDebugLoggingEnabled) {
-				Log.d(mLogTag, "mem cache hit url=" + memKey + " blur=" + blur);
+				Log.d(mLogTag, "Mem cache hit url=" + memKey + " blur=" + blur);
 			}
 			return bitmap;
+		}
+		else {
+			if (mVerboseDebugLoggingEnabled) {
+				Log.d(mLogTag, "Mem cache miss url=" + memKey + " blur=" + blur);
+			}
 		}
 
 		// Try to retrieve from disk cache (and load into memory cache if we get a hit).
@@ -128,12 +133,17 @@ public class L2ImageCache {
 				Snapshot snapshot = mDiskCache.get(blur ? getDiskKeyForBlurred(url) : getDiskKey(url));
 				if (snapshot != null) {
 					if (mVerboseDebugLoggingEnabled) {
-						Log.d(mLogTag, "disk cache hit url=" + url + " blur=" + blur);
+						Log.d(mLogTag, "Disk cache hit url=" + url + " blur=" + blur);
 					}
 					bitmap = BitmapFactory.decodeStream(snapshot.getInputStream(0));
 					if (bitmap != null) {
 						mMemoryCache.put(memKey, bitmap);
 						return bitmap;
+					}
+				}
+				else {
+					if (mVerboseDebugLoggingEnabled) {
+						Log.d(mLogTag, "Disk cache miss url=" + memKey + " blur=" + blur);
 					}
 				}
 			}
