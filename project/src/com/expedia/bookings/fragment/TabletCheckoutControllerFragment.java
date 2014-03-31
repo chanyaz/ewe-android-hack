@@ -905,7 +905,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public void onBillingInfoChange() {
-		mCvvFrag.bind();
+		if (mCvvFrag != null) {
+			mCvvFrag.bind();
+		}
 	}
 
 	///////////////////////////////////

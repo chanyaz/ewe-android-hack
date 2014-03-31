@@ -240,6 +240,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	@Override
 	public void onCheckoutDataUpdated() {
 		bindAll();
+		mCheckoutInfoListener.onBillingInfoChange();
 		if (hasValidCheckoutInfo()) {
 			mCheckoutInfoListener.checkoutInformationIsValid();
 		}
