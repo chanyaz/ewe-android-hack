@@ -112,9 +112,12 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		if (cc != null) {
 			return cc.getType();
 		}
-		else {
+		else if (Db.getBillingInfo().getNumber() != null) {
 			String ccNumber = Db.getBillingInfo().getNumber();
 			return CurrencyUtils.detectCreditCardBrand(ccNumber);
+		}
+		else {
+			return CreditCardType.UNKNOWN;
 		}
 	}
 
@@ -133,18 +136,16 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 		StoredCreditCard cc = billingInfo.getStoredCard();
 
-		String personName;
-		String cardName;
+		String personName = "";
+		String cardName = "";
 		CreditCardType cardType = getCurrentCCType();
 		if (cc != null) {
 			Traveler traveler = Db.getTravelers().get(0);
 			personName = traveler.getFirstName() + " " + traveler.getLastName();
-
 			cardName = cc.getDescription();
 		}
-		else {
+		else if (billingInfo.getNumber() != null && billingInfo.getNumber().length() >= 4) {
 			personName = billingInfo.getNameOnCard();
-
 			String ccNumber = billingInfo.getNumber();
 			cardName = getString(R.string.card_ending_TEMPLATE, ccNumber.substring(ccNumber.length() - 4));
 		}
