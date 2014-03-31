@@ -28,6 +28,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -40,10 +41,8 @@ import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
 import com.expedia.bookings.fragment.FlightTripPriceFragment;
 import com.expedia.bookings.fragment.FlightTripPriceFragment.FlightTripPriceFragmentListener;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
-import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.fragment.SlideToPurchaseFragment;
 import com.expedia.bookings.fragment.WalletFragment;
-import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
@@ -58,7 +57,6 @@ import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.utils.DateTimeUtils;
-import com.squareup.otto.Subscribe;
 
 public class FlightTripOverviewActivity extends SherlockFragmentActivity implements LogInListener,
 		CheckoutInformationListener, ISlideToListener, DoLogoutListener,
@@ -133,7 +131,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		}
 
 		ImageView bgImageView = Ui.findView(this, R.id.background_bg_view);
-		bgImageView.setImageBitmap(Db.getBackgroundImage(this, true));
+		ExpediaImageManager.getInstance().setDestinationBitmap(this, bgImageView, Db.getFlightSearch(), true);
 
 		mContentRoot = Ui.findView(this, R.id.content_root);
 		mContentScrollView = Ui.findView(this, R.id.content_scroll_view);

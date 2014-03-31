@@ -27,6 +27,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItinCardData;
@@ -112,9 +113,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 
 		//Clear mem caches
 		TwoLevelImageCache.clearMemoryCache();
-		if (Db.isBackgroundImageCacheInitialized()) {
-			Db.getBackgroundImageCache(this).clearMemCache();
-		}
+		L2ImageCache.sDestination.clearMemoryCache();
 
 		// View Pager
 		mPagerAdapter = new PagerAdapter(getSupportFragmentManager());

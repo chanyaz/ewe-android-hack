@@ -8,6 +8,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.User;
@@ -56,7 +57,7 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 		getWindow().setBackgroundDrawable(null);
 
 		ImageView bgImageView = Ui.findView(this, R.id.background_bg_view);
-		bgImageView.setImageBitmap(Db.getBackgroundImage(this, true));
+		ExpediaImageManager.getInstance().setDestinationBitmap(this, bgImageView, Db.getFlightSearch(), true);
 	}
 
 	@Override

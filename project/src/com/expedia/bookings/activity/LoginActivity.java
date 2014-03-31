@@ -12,6 +12,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.fragment.LoginExtender;
 import com.expedia.bookings.fragment.LoginFragment;
@@ -122,7 +123,7 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 
 		// Set the background (based on mode)
 		if (mLob.equals(LineOfBusiness.FLIGHTS)) {
-			mBgImageView.setImageBitmap(Db.getBackgroundImage(this, true));
+			ExpediaImageManager.getInstance().setDestinationBitmap(this, mBgImageView, Db.getFlightSearch(), true);
 			mBgShadeView.setBackgroundColor(getResources().getColor(R.color.login_shade_flights));
 		}
 

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.BoundedBottomImageView;
 import com.expedia.bookings.widget.FadingImageView;
@@ -37,7 +38,7 @@ public class BlurredBackgroundFragment extends Fragment {
 		mBackgroundBgView = Ui.findView(v, R.id.background_bg_view);
 		mBackgroundFgView = Ui.findView(v, R.id.background_fg_view);
 
-		loadBitmapFromDb(getActivity());
+		loadBitmapFromCache(getActivity());
 
 		return v;
 	}
@@ -52,8 +53,10 @@ public class BlurredBackgroundFragment extends Fragment {
 		mBlurredBgBitmap = null;
 	}
 
-	public void loadBitmapFromDb(Context context) {
-		setBitmap(Db.getBackgroundImage(context, false), Db.getBackgroundImage(context, true));
+	public void loadBitmapFromCache(Context context) {
+		Bitmap og = ExpediaImageManager.getInstance().getDestinationBitmap(context, Db.getFlightSearch(), false);
+		Bitmap bl = ExpediaImageManager.getInstance().getDestinationBitmap(context, Db.getFlightSearch(), true);
+		setBitmap(og, bl);
 	}
 
 	public void setBitmap(Bitmap bgBitmap, Bitmap blurredBgBitmap) {

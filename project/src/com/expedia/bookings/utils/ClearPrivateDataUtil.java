@@ -7,7 +7,6 @@ import android.webkit.CookieSyncManager;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.content.SuggestionProvider;
-import com.expedia.bookings.data.BackgroundImageCache;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
@@ -62,13 +61,6 @@ public class ClearPrivateDataUtil {
 
 			Db.getBillingInfo().delete(context);
 			Db.getTravelers().clear();
-
-			BackgroundImageCache cache = Db.getBackgroundImageCache(context);
-			if (cache != null) {
-				cache.clearDiskCache(context);
-				cache.clearMemCache();
-			}
-
 		}
 		catch (Exception ex) {
 			//Don't care

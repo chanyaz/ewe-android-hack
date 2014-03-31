@@ -19,6 +19,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoPosition;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
@@ -88,7 +89,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		setContentView(R.layout.activity_flight_booking);
 
 		ImageView bgImageView = Ui.findView(this, R.id.background_bg_view);
-		bgImageView.setImageBitmap(Db.getBackgroundImage(this, true));
+		ExpediaImageManager.getInstance().setDestinationBitmap(this, bgImageView, Db.getFlightSearch(), true);
 
 		ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_cvv, null);
 		ActionBar actionBar = getSupportActionBar();

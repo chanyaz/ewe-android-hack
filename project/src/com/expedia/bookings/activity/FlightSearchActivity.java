@@ -10,6 +10,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
@@ -66,9 +67,10 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 
 		//We load up the default backgrounds so they are ready to go later if/when we need them
 		//this is important, as we need to load images before our memory load gets too heavy
-		if (savedInstanceState == null || !Db.getBackgroundImageCache(this).isDefaultInCache()) {
-			Db.getBackgroundImageCache(this).loadDefaultsInThread(this);
-		}
+		// FIXME add default cloud reg/blur bitmaps to destination cache
+		//		if (savedInstanceState == null || !Db.getBackgroundImageCache(this).isDefaultInCache()) {
+		//			Db.getBackgroundImageCache(this).loadDefaultsInThread(this);
+		//		}
 
 		if (savedInstanceState != null) {
 			mUpdateOnResume = savedInstanceState.getBoolean(INSTANCE_UPDATE_ON_RESUME);
@@ -131,9 +133,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 		super.onPause();
 
 		if (isFinishing()) {
-			if (Db.isBackgroundImageCacheInitialized()) {
-				Db.getBackgroundImageCache(this).clearMemCache();
-			}
+			L2ImageCache.sDestination.clearMemoryCache();
 		}
 
 		OmnitureTracking.onPause();

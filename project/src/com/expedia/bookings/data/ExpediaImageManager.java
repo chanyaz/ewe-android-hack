@@ -4,10 +4,17 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.text.format.DateUtils;
+import android.widget.ImageView;
 
+import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.server.ExpediaServices;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.Log;
 import com.mobiata.android.bitmaps.TwoLevelImageCache;
+import com.mobiata.android.util.AndroidUtils;
 
 /**
  * Manages images retrieved from Expedia's database.
@@ -140,4 +147,197 @@ public class ExpediaImageManager {
 	public static String getImageCode(Car.Category category, Car.Type type) {
 		return category.toString().replace("_", "") + "_" + type.toString().replace("_", "");
 	}
+
+	public static class ImageParams {
+
+		private int mWidth;
+		private int mHeight;
+		private boolean mBlur;
+
+		public int getWidth() {
+			return mWidth;
+		}
+
+		public ImageParams setWidth(int x) {
+			mWidth = x;
+			return this;
+		}
+
+		public int getHeight() {
+			return mHeight;
+		}
+
+		public ImageParams setHeight(int y) {
+			mHeight = y;
+			return this;
+
+		}
+
+		public boolean isBlur() {
+			return mBlur;
+		}
+
+		public ImageParams setBlur(boolean blur) {
+			mBlur = blur;
+			return this;
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Bitmap download utility helper methods!! WIN WIN WIN
+
+
+	/**
+	 * This is a specialized helper method designed for a specific use-case. This method will grab the
+	 * full-screen destination background image. This method is particularly useful for the phone checkout
+	 * flow. This method makes many assumptions:
+	 *
+	 * 	1. The image is the resolution of the full screen size via AndroidUtils.getDisplaySize()
+	 * 	2. The ExpediaImage metadata has been downloading from the network and is present in memory
+	 * 	3. The Bitmap is present in the memory cache
+	 *
+	 * With these assumptions in mind, use the method appropriately.
+	 *
+	 * @param context
+	 * @param flightSearch
+	 * @param blur
+	 * @return
+	 */
+	public Bitmap getDestinationBitmap(Context context, FlightSearch flightSearch, boolean blur) {
+		Point p = AndroidUtils.getDisplaySize(context);
+		int temp;
+		if (p.x > p.y) {
+			temp = p.x;
+			p.x = p.y;
+			p.y = temp;
+		}
+
+		final String airportCode = flightSearch.getSearchParams().getArrivalLocation().getDestinationId();
+		ExpediaImage expImage = getDestinationImage(airportCode, p.x, p.y, false); // should be in memory
+		String url = expImage.getThumborUrl(p.x, p.y);
+		return L2ImageCache.sDestination.getImage(url, true, blur); // at very least should be in disk
+	}
+
+	/**
+	 * This helper method will set the ImageView Bitmap to the full-screen destination Bitmap sitting in memory.
+	 * @param context
+	 * @param imageView
+	 * @param flightSearch
+	 * @param blur
+	 */
+	public void setDestinationBitmap(Context context, ImageView imageView, FlightSearch flightSearch, boolean blur) {
+		Bitmap bitmap = getDestinationBitmap(context, flightSearch, blur);
+		imageView.setImageBitmap(bitmap);
+	}
+
+	/**
+	 * For use within the phone flow
+	 * @param context
+	 * @param flightSearch
+	 * @param blur
+	 */
+	public void loadDestinationBitmap(Context context, FlightSearch flightSearch, final boolean blur) {
+		// the params
+		final String airportCode = flightSearch.getSearchParams().getArrivalLocation().getDestinationId();
+		final String bgdKey = generateBackgroundDownloaderKey(flightSearch, blur);
+		final Point p = AndroidUtils.getDisplaySize(context);
+
+		// Start background download
+		BackgroundDownloader.getInstance().startDownload(bgdKey, new BackgroundDownloader.Download<Bitmap>() {
+			@Override
+			public Bitmap doDownload() {
+				// Grab the ExpediaImage metadata
+				ExpediaImage expImage = getDestinationImage(airportCode, p.x, p.y, true);
+
+				// Image url - use Thumbor for correct size
+				String url = expImage.getThumborUrl(p.x, p.y);
+
+				// Invoke the callback with the Bitmap
+				Bitmap bitmap = L2ImageCache.sDestination.getImage(url, true, blur);
+				if (bitmap == null) {
+					L2ImageCache.sDestination.loadImage(url, url, blur, new L2ImageCache.OnBitmapLoaded() {
+						@Override
+						public void onImageLoaded(String url, Bitmap bitmap) {
+							Log.d("DestinationImageCache", "expimg mgr loadbmap onImageLoaded success url=" + url);
+						}
+
+						@Override
+						public void onImageLoadFailed(String url) {
+							Log.d("DestinationImageCache", "expimg mgr loadbmap onImageLoadedFailed url=" + url);
+						}
+					});
+				}
+
+				return null;
+			}
+		}, new BackgroundDownloader.OnDownloadComplete<Bitmap>() {
+			@Override
+			public void onDownload(Bitmap results) {
+
+			}
+		});
+	}
+
+
+	/**
+	 * Use within the new tablet flow
+	 * @param params
+	 * @param callback
+	 */
+	public void loadDestinationBitmap(final ImageParams params, final L2ImageCache.OnBitmapLoaded callback) {
+		// Which destination?
+		final String airportCode = Sp.getParams().getDestination().getAirportCode();
+		final String bgdKey = generateBackgroundDownloaderKey(params.isBlur());
+
+		// Start background download
+		BackgroundDownloader.getInstance().startDownload(bgdKey, new BackgroundDownloader.Download<Bitmap>() {
+			@Override
+			public Bitmap doDownload() {
+				// Grab the ExpediaImage metadata
+				ExpediaImage expImage = getDestinationImage(airportCode, params.getWidth(), params.getHeight(), true);
+
+				// Image url - use Thumbor for correct size
+				String url = expImage.getThumborUrl(params.getWidth(), params.getHeight());
+
+				// Invoke the callback with the Bitmap
+				Bitmap bitmap = L2ImageCache.sDestination.getImage(url, true, params.isBlur());
+				if (bitmap != null) {
+					callback.onImageLoaded(url, bitmap);
+				}
+				else {
+					L2ImageCache.sDestination.loadImage(url, callback);
+				}
+
+				return null;
+			}
+		}, new BackgroundDownloader.OnDownloadComplete<Bitmap>() {
+			@Override
+			public void onDownload(Bitmap results) {
+
+			}
+		});
+	}
+
+	public boolean isDownloadingDestinationImage(boolean blur) {
+		return BackgroundDownloader.getInstance().isDownloading(generateBackgroundDownloaderKey(blur));
+	}
+
+	public void cancelDownloadingDestinationImage(FlightSearch flightSearch, boolean blur) {
+		BackgroundDownloader.getInstance().cancelDownload(generateBackgroundDownloaderKey(flightSearch, blur));
+	}
+
+	public void cancelDownloadingDestinationImage(boolean blur) {
+		BackgroundDownloader.getInstance().cancelDownload(generateBackgroundDownloaderKey(blur));
+	}
+
+	private static final String BGD_DESTINATION_DL_KEY_BASE = "BGD_DESTINATION_DL_KEY_BASE";
+
+	private static String generateBackgroundDownloaderKey(boolean blur) {
+		return BGD_DESTINATION_DL_KEY_BASE + Sp.getParams().getDestination().getAirportCode() + String.valueOf(blur);
+	}
+
+	private static String generateBackgroundDownloaderKey(FlightSearch flightSearch, boolean blur) {
+		return BGD_DESTINATION_DL_KEY_BASE + flightSearch.getSearchParams().getArrivalLocation().getDestinationId()+ String.valueOf(blur);
+	}
+
 }

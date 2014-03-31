@@ -14,7 +14,6 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Process;
 import android.text.TextUtils;
 
@@ -131,12 +130,6 @@ public class Db {
 
 	//The working copy manager of billingInfo
 	private WorkingBillingInfoManager mWorkingBillingInfoManager;
-
-	//The cache for backgroundImages in flights
-	private BackgroundImageCache mBackgroundImageCache;
-
-	//Info about the current backgroundImage
-	private ExpediaImageResponse mBackgroundImageInfo;
 
 	// To store the samsung ticketId we get from the server
 	// Do not persist!
@@ -364,68 +357,6 @@ public class Db {
 		return sDb.mBillingInfoIsDirty;
 	}
 
-	public static boolean isBackgroundImageCacheInitialized() {
-		if (sDb == null) {
-			return false;
-		}
-		else if (sDb.mBackgroundImageCache == null) {
-			return false;
-		}
-		else {
-			return true;
-		}
-	}
-
-	public static BackgroundImageCache getBackgroundImageCache(Context context) {
-		if (sDb == null) {
-			return null;
-		}
-		if (sDb.mBackgroundImageCache == null) {
-			sDb.mBackgroundImageCache = new BackgroundImageCache(context);
-		}
-		return sDb.mBackgroundImageCache;
-	}
-
-	public static ExpediaImageResponse getBackgroundImageInfo() {
-		if (sDb == null) {
-			return null;
-		}
-		return sDb.mBackgroundImageInfo;
-	}
-
-	public static String getBackgroundImageKey() {
-		//This is intended to be a bunk value, causing the cache to load the defaults
-		String defaultKey = "none";
-
-		if (sDb == null) {
-			return defaultKey;
-		}
-		if (sDb.mBackgroundImageInfo == null) {
-			return defaultKey;
-		}
-		if (TextUtils.isEmpty(sDb.mBackgroundImageInfo.getCacheKey())) {
-			return defaultKey;
-		}
-
-		return sDb.mBackgroundImageInfo.getCacheKey();
-	}
-
-	public static Bitmap getBackgroundImage(Context context, boolean blurred) {
-		if (blurred) {
-			return getBackgroundImageCache(context).getBlurredBitmap(getBackgroundImageKey(), context);
-		}
-		else {
-			return getBackgroundImageCache(context).getBitmap(getBackgroundImageKey(), context);
-		}
-	}
-
-	public static void setBackgroundImageInfo(ExpediaImageResponse info) {
-		if (sDb == null) {
-			return;
-		}
-		sDb.mBackgroundImageInfo = info;
-	}
-
 	public static WorkingTravelerManager getWorkingTravelerManager() {
 		if (sDb.mWorkingTravelerManager == null) {
 			sDb.mWorkingTravelerManager = new WorkingTravelerManager();
@@ -462,7 +393,6 @@ public class Db {
 
 		sDb.mBookingResponse = null;
 		sDb.mUser = null;
-		sDb.mBackgroundImageCache = null;
 		sDb.mLaunchHotelData = null;
 		sDb.mLaunchHotelFallbackData = null;
 		sDb.mLaunchFlightData = null;
@@ -767,7 +697,6 @@ public class Db {
 			try {
 				JSONObject obj = new JSONObject();
 				JSONUtils.putJSONable(obj, "flightSearch", sDb.mFlightSearch);
-				JSONUtils.putJSONable(obj, "backgroundImageInfo", sDb.mBackgroundImageInfo);
 
 				List<Itinerary> itineraryList = new ArrayList<Itinerary>(sDb.mItineraries.values());
 				JSONUtils.putJSONableList(obj, "itineraries", itineraryList);
@@ -847,10 +776,6 @@ public class Db {
 
 			if (obj.has("flightSearch")) {
 				sDb.mFlightSearch = JSONUtils.getJSONable(obj, "flightSearch", FlightSearch.class);
-			}
-			if (obj.has("backgroundImageInfo")) {
-				sDb.mBackgroundImageInfo = JSONUtils.getJSONable(obj, "backgroundImageInfo",
-					ExpediaImageResponse.class);
 			}
 			if (obj.has("itineraries")) {
 				List<Itinerary> itineraries = JSONUtils.getJSONableList(obj, "itineraries", Itinerary.class);
@@ -1155,7 +1080,6 @@ public class Db {
 			putMap(obj, "itineraries", sDb.mItineraries);
 			putJsonable(obj, "user", sDb.mUser);
 			putList(obj, "travelers", sDb.mTravelers);
-			putJsonable(obj, "backgroundImageInfo", sDb.mBackgroundImageInfo);
 
 			IoUtils.writeStringToFile(TEST_DATA_FILE, obj.toString(), context);
 		}
@@ -1193,8 +1117,6 @@ public class Db {
 			sDb.mItineraries = getMap(obj, "itineraries", Itinerary.class, sDb.mItineraries);
 			sDb.mUser = getJsonable(obj, "user", User.class, sDb.mUser);
 			sDb.mTravelers = getList(obj, "travelers", Traveler.class, sDb.mTravelers);
-			sDb.mBackgroundImageInfo = getJsonable(obj, "backgroundImageInfo", ExpediaImageResponse.class,
-				sDb.mBackgroundImageInfo);
 		}
 		catch (Exception e) {
 			Log.w("Could not load db testing", e);

@@ -15,11 +15,9 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
-import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
@@ -28,7 +26,7 @@ import com.squareup.otto.Subscribe;
  * results activity designed for tablet results 2013
  */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-public class ResultsBackgroundImageFragment extends MeasurableFragment {
+public class ResultsBackgroundImageFragment extends MeasurableFragment implements L2ImageCache.OnBitmapLoaded {
 
 	private static final int HALF_FADE_IN_TIME = 500;
 
@@ -40,12 +38,11 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 	private String mDestinationCode;
 	private boolean mBlur;
 
+	private int mWidth = -1;
+	private int mHeight = -1;
+
 	private ImageView mImageView;
 
-	private int mWidth;
-	private int mHeight;
-
-	private String mImgUrl; // Store the url if we need to hit the network
 	private Bitmap mBgBitmap; // We temporarily store a bitmap here if we have not yet initialized
 
 	public static ResultsBackgroundImageFragment newInstance(String destination, boolean blur) {
@@ -73,19 +70,22 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		mImageView.setLayoutParams(params);
 
+		final ExpediaImageManager imageManager = ExpediaImageManager.getInstance();
+
 		// Check to see if bitmap was retrieved before onCreateView
 		if (mBgBitmap != null) {
 			handleBitmap(mBgBitmap, false);
 			mBgBitmap = null;
 		}
-		else if (!isDownloading()) {
+		else if (!imageManager.isDownloadingDestinationImage(mBlur)) {
 			mImageView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 				@Override
 				public boolean onPreDraw() {
 					mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
 					mWidth = mImageView.getWidth();
 					mHeight = mImageView.getHeight();
-					startDownload();
+
+					imageManager.loadDestinationBitmap(makeImageParams(), ResultsBackgroundImageFragment.this);
 					return true;
 				}
 			});
@@ -98,21 +98,12 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 	public void onResume() {
 		super.onResume();
 		Sp.getBus().register(this);
-		if (BackgroundDownloader.getInstance().isDownloading(KEY_IMG_DL)) {
-			BackgroundDownloader.getInstance().registerDownloadCallback(KEY_IMG_DL, mCallback);
-		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		Sp.getBus().unregister(this);
-		if (getActivity() != null && getActivity().isFinishing()) {
-			BackgroundDownloader.getInstance().cancelDownload(KEY_IMG_DL);
-		}
-		else {
-			BackgroundDownloader.getInstance().unregisterDownloadCallback(KEY_IMG_DL);
-		}
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -126,82 +117,48 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 			mDestinationCode = newCode;
 
 			// Start new dl
-			BackgroundDownloader downloader = BackgroundDownloader.getInstance();
-			if (downloader.isDownloading(KEY_IMG_DL)) {
-				downloader.cancelDownload(KEY_IMG_DL);
+			ExpediaImageManager.getInstance().cancelDownloadingDestinationImage(mBlur);
+			if (hasDimensions()) {
+				ExpediaImageManager.getInstance().loadDestinationBitmap(makeImageParams(), this);
 			}
-			downloader.startDownload(KEY_IMG_DL, mDownload, mCallback);
+			else {
+				if (mImageView != null) {
+					mImageView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+						@Override
+						public boolean onPreDraw() {
+							mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
+							mWidth = mImageView.getWidth();
+							mHeight = mImageView.getHeight();
+
+							ExpediaImageManager.getInstance().loadDestinationBitmap(makeImageParams(), ResultsBackgroundImageFragment.this);
+							return true;
+						}
+					});
+				}
+			}
 		}
+	}
+
+	private boolean hasDimensions() {
+		return mWidth != -1 && mHeight != - 1;
+	}
+
+	private ExpediaImageManager.ImageParams makeImageParams() {
+		return new ExpediaImageManager.ImageParams().setBlur(mBlur).setWidth(mWidth).setHeight(mHeight);
 	}
 
 	///////////////////////////////////////////////////////////////
-	// Download
+	// OnBitmapLoaded
 
-	private void startDownload() {
-		BackgroundDownloader.getInstance().startDownload(KEY_IMG_DL, mDownload, mCallback);
+	@Override
+	public void onImageLoaded(String url, Bitmap bitmap) {
+		handleBitmap(bitmap, true);
 	}
 
-	private boolean isDownloading() {
-		return BackgroundDownloader.getInstance().isDownloading(KEY_IMG_DL);
+	@Override
+	public void onImageLoadFailed(String url) {
+		Log.e("ResultsBackgroundImageFragment - onImageLoadFailed");
 	}
-
-	private final BackgroundDownloader.Download<Bitmap> mDownload = new BackgroundDownloader.Download<Bitmap>() {
-		@Override
-		public Bitmap doDownload() {
-			if (getActivity() == null || !isAdded()) {
-				//Safety first.
-				return null;
-			}
-
-			// Grab the image metadata, go to the network if need be
-			ExpediaImageManager imageManager = ExpediaImageManager.getInstance();
-			ExpediaImage expImage = imageManager.getDestinationImage(mDestinationCode, mWidth, mHeight, true);
-
-			// Attempt to grab the image from either memory or disk
-			String url = expImage.getThumborUrl(mWidth, mHeight);
-			Log.d("DestinationImageCache", "ResultsBackgroundImageFragment - loading " + mDestinationCode + " " + url + " blur=" + mBlur);
-
-			Bitmap bitmap = L2ImageCache.sDestination.getImage(url, true, mBlur);
-			if (bitmap != null) {
-				return bitmap;
-			}
-			else {
-				// We need to request the image from the network, store the URL for the request
-				mImgUrl = url;
-				return null;
-			}
-		}
-	};
-
-	private final BackgroundDownloader.OnDownloadComplete<Bitmap> mCallback = new BackgroundDownloader.OnDownloadComplete<Bitmap>() {
-		@Override
-		public void onDownload(Bitmap bitmap) {
-			if (bitmap == null) {
-				if (mImgUrl == null || getActivity() == null || !isAdded()) {
-					//Safety first.
-					return;
-				}
-
-				// We still don't have the image, so let's grab it from the network
-				L2ImageCache.OnBitmapLoaded callback = new L2ImageCache.OnBitmapLoaded() {
-					@Override
-					public void onImageLoaded(String url, Bitmap bitmap) {
-						handleBitmap(bitmap, true);
-					}
-
-					@Override
-					public void onImageLoadFailed(String url) {
-						Log.e("unable to dl image");
-					}
-				};
-
-				L2ImageCache.sDestination.loadImage(mImgUrl, mImgUrl, mBlur, callback);
-			}
-			else {
-				handleBitmap(bitmap, false);
-			}
-		}
-	};
 
 	private void handleBitmap(final Bitmap bitmap, boolean fade) {
 		if (bitmap != null) {
