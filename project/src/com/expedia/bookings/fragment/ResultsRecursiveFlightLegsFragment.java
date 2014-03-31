@@ -824,10 +824,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				//Dont let these changes throw us into a loop
 				mListFrag.unRegisterStateListener(mListStateListener);
 
-				//List down is our default state, so lets always reset our query if we are here.
-				if (state == ResultsFlightLegState.LIST_DOWN) {
-					mListFrag.resetQuery();
-				}
 				if (state != ResultsFlightLegState.LIST_DOWN && state != ResultsFlightLegState.FILTERS) {
 					if (mListFrag.hasList() && mListFrag.getPercentage() > 0) {
 						mListFrag.setPercentage(0f, 0);
@@ -846,12 +842,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				mListFrag.registerStateListener(mListStateListener, false);
 			}
 			else {
-				//This is the default state for legs > 0, so if we are in our default state
-				//we clear the query for ourselves (and all future legs).
-				if (state == ResultsFlightLegState.FILTERS) {
-					resetQuery();
-				}
-
 				//Other legs are always locked to the top.
 				mListFrag.setListLockedToTop(true);
 				if (mListFrag.hasList() && mListFrag.getPercentage() > 0) {

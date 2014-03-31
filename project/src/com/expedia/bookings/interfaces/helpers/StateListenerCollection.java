@@ -25,7 +25,7 @@ public class StateListenerCollection<T> {
 	//These are temporary stores that help us add and remove things while iterating.
 	private boolean mIsIterating = false;
 	private LinkedHashMap<IStateListener<T>, ListenerAction> mPendingActions = new LinkedHashMap<IStateListener<T>, ListenerAction>();
-	private boolean mProfilingEnabled = true;
+	private boolean mProfilingEnabled = false;
 
 	private enum ListenerAction {
 		ADD,

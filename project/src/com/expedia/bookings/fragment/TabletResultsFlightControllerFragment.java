@@ -84,6 +84,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private StateManager<ResultsFlightsState> mFlightsStateManager = new StateManager<ResultsFlightsState>(
 		ResultsFlightsState.LOADING, this);
 
+	//When we are downloading new data, we set this to true, so that we remember to resetQuery on our legs chooser.
+	private boolean mNeedsQueryReset = true;
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -716,6 +719,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mFlightLegsC.setAlpha(0f);
 			}
 
+
 			if (state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mFlightLegsC.setAlpha(1f);
 				mFlightLegsC.setRotationY(0f);
@@ -723,6 +727,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mFlightHistogramC.setTouchPassThroughEnabled(true);
 				mFlightHistogramC.setTouchPassThroughReceiver(mFlightLegsC);
 			}
+
 
 			//Make sure we are loading using the most recent params
 			if (mFlightSearchDownloadFrag != null && state == ResultsFlightsState.LOADING) {
@@ -735,10 +740,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mFlightHistogramFrag.setShowProgressBar(Db.getFlightSearch().getSearchResponse() == null);
 			}
 
-			if (mFlightLegsFrag != null && state != ResultsFlightsState.CHOOSING_FLIGHT
-				&& state != ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
-				mFlightLegsFrag.resetQuery();
-				mFlightLegsFrag.setState(ResultsFlightLegState.LIST_DOWN, false);
+			if (mFlightLegsFrag != null && state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				if (mNeedsQueryReset || mFlightLegsFrag.getState() != ResultsFlightLegState.LIST_DOWN) {
+					mFlightLegsFrag.resetQuery();
+					mFlightLegsFrag.setState(ResultsFlightLegState.LIST_DOWN, false);
+					mNeedsQueryReset = false;
+				}
 			}
 
 			if (mFlightLegsFrag != null && (state == ResultsFlightsState.LOADING
@@ -748,6 +755,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			else if (mFlightLegsFrag != null) {
 				mFlightLegsFrag.registerStateListener(mLegStateListener, false);
 				mFlightLegsFrag.setAddToTripRect(getAddTripRect());
+			}
+
+			if (state == ResultsFlightsState.LOADING) {
+				mNeedsQueryReset = true;
 			}
 		}
 
