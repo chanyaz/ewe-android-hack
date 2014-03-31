@@ -689,7 +689,23 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		return null;
 	}
 
+	protected void hideLastLeg() {
+		if (mLastLegC != null) {
+			mLastLegC.setVisibility(View.INVISIBLE);
+		}
+	}
+
+	protected void showLastLeg() {
+		if (mLastLegC != null) {
+			mLastLegC.setVisibility(View.VISIBLE);
+		}
+	}
+
 	protected void showNextLegAnimPrep(float startPercentage) {
+		if (mNextLegFrag != null) {
+			mNextLegFrag.hideLastLeg();
+		}
+
 		mListColumnC.setVisibility(View.VISIBLE);
 		mDetailsC.setVisibility(View.VISIBLE);
 		mNextLegC.setAlpha(startPercentage);
@@ -707,6 +723,8 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				}
 			}
 		}
+
+
 	}
 
 	protected void showNextLegPercentage(float percentage) {
@@ -730,6 +748,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		if (mDetailsFrag != null) {
 			mDetailsFrag.finalizeDepartureFlightSelectedAnimation();
 			mDetailsFrag.setDepartureTripSelectedAnimationLayer(View.LAYER_TYPE_NONE);
+		}
+		if (mNextLegFrag != null) {
+			mNextLegFrag.showLastLeg();
 		}
 	}
 
@@ -847,13 +868,15 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				if (mListFrag.hasList() && mListFrag.getPercentage() > 0) {
 					mListFrag.setPercentage(0f, 0);
 				}
+
+				//This is the previous leg row that should always be visible if we aren't leg == 0
+				mLastLegC.setVisibility(View.VISIBLE);
 			}
 		}
 	}
 
 	protected void updateVisibilitiesForState(ResultsFlightLegState state) {
 		ArrayList<ViewGroup> visibleViews = new ArrayList<ViewGroup>();
-
 		switch (state) {
 		case LIST_DOWN: {
 			visibleViews.add(mListColumnC);
