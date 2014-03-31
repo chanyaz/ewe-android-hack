@@ -14,6 +14,7 @@ import android.util.Pair;
 import android.view.animation.Interpolator;
 
 import com.expedia.bookings.interfaces.IStateProvider;
+import com.mobiata.android.Log;
 
 /**
  * StateManager is designed as a transition helper for IStateProvider.
@@ -34,8 +35,12 @@ public class StateManager<T> {
 	private boolean mProviderIsFrag = false;
 	private boolean mAcceptAnimationUpdates = false;
 	private Queue<Pair<T, Integer>> mStateChain;
-	private float mLastAnimPercentage = 0f;
-	private float mSnapThreshold = 0.05f;
+
+	private int mFrames;
+	private float mLastAnimPercentage;
+	private float mAvgFrameDuration;
+	private boolean mSnapAnimation = true;
+
 
 	/**
 	 * Create a new StateManager
@@ -199,6 +204,21 @@ public class StateManager<T> {
 		return true;
 	}
 
+	private void resetAnimStats() {
+		mLastAnimPercentage = 0;
+		mFrames = 0;
+		mAvgFrameDuration = 0;
+	}
+
+	private void logAnimStats() {
+		float avgFramePercentageChange = mLastAnimPercentage / mFrames;
+		float animFrameRate = 1000f / mAvgFrameDuration;
+		Log.d("StateManager.AnimationStats (" + getState() + "," + mDestinationState + ") FrameRate:" + animFrameRate
+			+ "f/s. TotalFrames:" + mFrames + ". AverageFrameDuration:" + mAvgFrameDuration
+			+ "ms. AverageFramePercentageChange:" + avgFramePercentageChange + ". LastPercentageFromAnimator:"
+			+ mLastAnimPercentage);
+	}
+
 	private ValueAnimator getTowardsStateAnimator(final T state, final IStateProvider<T> provider, int duration,
 		Interpolator interpolator) {
 		ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f).setDuration(duration);
@@ -209,11 +229,25 @@ public class StateManager<T> {
 			@Override
 			public void onAnimationUpdate(ValueAnimator arg0) {
 				if (mAcceptAnimationUpdates) {
+					long remainingDuration = arg0.getDuration() - arg0.getCurrentPlayTime();
+
+					//Our animation percentage
 					mLastAnimPercentage = (Float) arg0.getAnimatedValue();
-					if (mLastAnimPercentage + mSnapThreshold >= 1 || mLastAnimPercentage - mSnapThreshold <= 0) {
+
+					//Update our stats
+					mFrames++;
+					mAvgFrameDuration = ((float) arg0.getCurrentPlayTime()) / mFrames;
+
+					if (mSnapAnimation && (remainingDuration < mAvgFrameDuration || remainingDuration < 0)) {
+						//If we are nearing the final frame, and we haven't reached one of our maximum values, lets do
+						//so now, preventing some draw glitches between now and onStateFinalized.
 						mLastAnimPercentage = Math.round(mLastAnimPercentage);
+						provider.updateStateTransition(getState(), state, mLastAnimPercentage);
 					}
-					provider.updateStateTransition(getState(), state, mLastAnimPercentage);
+					else {
+						//Tell the provider
+						provider.updateStateTransition(getState(), state, mLastAnimPercentage);
+					}
 				}
 			}
 		});
@@ -223,12 +257,14 @@ public class StateManager<T> {
 				if (allowAnimationActions()) {
 					provider.startStateTransition(getState(), state);
 				}
+				resetAnimStats();
 				mAcceptAnimationUpdates = true;
 			}
 
 			@Override
 			public void onAnimationEnd(Animator arg0) {
 				mAcceptAnimationUpdates = false;
+				logAnimStats();
 				if (allowAnimationActions()) {
 					provider.endStateTransition(getState(), state);
 					finalizeState(mDestinationState, provider);
@@ -238,6 +274,7 @@ public class StateManager<T> {
 			@Override
 			public void onAnimationCancel(Animator arg0) {
 				mAcceptAnimationUpdates = false;
+				logAnimStats();
 			}
 		});
 		return animator;

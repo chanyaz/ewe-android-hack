@@ -683,8 +683,8 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	 */
 
 	protected Rect getColumnHeaderRect() {
-		if (mLastLegC != null) {
-			return ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mLastLegC);
+		if (mLastFLightRow != null) {
+			return ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mLastFLightRow);
 		}
 		return null;
 	}
