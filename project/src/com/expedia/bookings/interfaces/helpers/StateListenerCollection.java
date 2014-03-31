@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.expedia.bookings.interfaces.IStateListener;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.TimingLogger;
 
 /**
  * This class is designed to ease the implementation of IStateProvider.
@@ -24,6 +25,7 @@ public class StateListenerCollection<T> {
 	//These are temporary stores that help us add and remove things while iterating.
 	private boolean mIsIterating = false;
 	private LinkedHashMap<IStateListener<T>, ListenerAction> mPendingActions = new LinkedHashMap<IStateListener<T>, ListenerAction>();
+	private boolean mProfilingEnabled = true;
 
 	private enum ListenerAction {
 		ADD,
@@ -60,10 +62,20 @@ public class StateListenerCollection<T> {
 			mTransStartState = stateOne;
 			mTransEndState = stateTwo;
 			preIterate();
+			TimingLogger logger = null;
+			if (mProfilingEnabled) {
+				logger = new TimingLogger("StateListenerCollection", "startStateTransition");
+			}
 			for (IStateListener<T> listener : mStateChangeListeners) {
 				if (!mInactiveStateChangeListeners.contains(listener)) {
 					listener.onStateTransitionStart(stateOne, stateTwo);
+					if (mProfilingEnabled) {
+						logger.addSplit(getProfilingString(listener, stateOne, stateTwo));
+					}
 				}
+			}
+			if (mProfilingEnabled) {
+				logger.dumpToLog();
 			}
 			postIterate();
 		}
@@ -80,14 +92,25 @@ public class StateListenerCollection<T> {
 					+ " stateOne:"
 					+ stateOne
 					+ " stateTwo:"
-					+ stateTwo);
+					+ stateTwo
+			);
 		}
 		else {
 			preIterate();
+			TimingLogger logger = null;
+			if (mProfilingEnabled) {
+				logger = new TimingLogger("StateListenerCollection", "updateStateTransition");
+			}
 			for (IStateListener<T> listener : mStateChangeListeners) {
 				if (!mInactiveStateChangeListeners.contains(listener)) {
 					listener.onStateTransitionUpdate(stateOne, stateTwo, percentage);
+					if (mProfilingEnabled) {
+						logger.addSplit(getProfilingString(listener, stateOne, stateTwo) + " percentage:" + percentage);
+					}
 				}
+			}
+			if (mProfilingEnabled) {
+				logger.dumpToLog();
 			}
 			postIterate();
 		}
@@ -104,14 +127,25 @@ public class StateListenerCollection<T> {
 					+ " stateOne:"
 					+ stateOne
 					+ " stateTwo:"
-					+ stateTwo);
+					+ stateTwo
+			);
 		}
 		else {
 			preIterate();
+			TimingLogger logger = null;
+			if (mProfilingEnabled) {
+				logger = new TimingLogger("StateListenerCollection", "endStateTransition");
+			}
 			for (IStateListener<T> listener : mStateChangeListeners) {
 				if (!mInactiveStateChangeListeners.contains(listener)) {
 					listener.onStateTransitionEnd(stateOne, stateTwo);
+					if (mProfilingEnabled) {
+						logger.addSplit(getProfilingString(listener, stateOne, stateTwo));
+					}
 				}
+			}
+			if (mProfilingEnabled) {
+				logger.dumpToLog();
 			}
 			postIterate();
 			mTransStartState = null;
@@ -125,15 +159,26 @@ public class StateListenerCollection<T> {
 				"finalizeState may not be called until after endStateTransition has been called on the transition. Transition that needs to end startStateOne:"
 					+ mTransStartState
 					+ " startStateTwo:"
-					+ mTransEndState);
+					+ mTransEndState
+			);
 		}
 		else {
 			mLastFinalizedState = state;
 			preIterate();
+			TimingLogger logger = null;
+			if (mProfilingEnabled) {
+				logger = new TimingLogger("StateListenerCollection", "finalizeState");
+			}
 			for (IStateListener<T> listener : mStateChangeListeners) {
 				if (!mInactiveStateChangeListeners.contains(listener)) {
 					listener.onStateFinalized(state);
+					if (mProfilingEnabled) {
+						logger.addSplit(getProfilingString(listener, state));
+					}
 				}
+			}
+			if (mProfilingEnabled) {
+				logger.dumpToLog();
 			}
 			postIterate();
 		}
@@ -193,5 +238,13 @@ public class StateListenerCollection<T> {
 			}
 			iter.remove();
 		}
+	}
+
+	private String getProfilingString(IStateListener<T> listener, T... states) {
+		String retStr = "listener:" + listener.getClass().getName();
+		for (int i = 0; i < states.length; i++) {
+			retStr += " State #" + i + ":" + states[i];
+		}
+		return retStr;
 	}
 }
