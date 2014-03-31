@@ -6,15 +6,21 @@
     android:layout_height="190dp"
     android:layout_gravity="right"
     android:background="@drawable/bg_credit_card_back_full"
-    android:orientation="vertical"
-    android:paddingBottom="15dp"
-    android:paddingRight="8dp"
-    android:paddingTop="68dp"
-    android:paddingLeft="10dp">
+    android:orientation="vertical" >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:background="#1e000000" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="7.5dp"
         android:text="@string/Authorized_Signature"
         android:textAllCaps="true"
         android:textColor="#ffffff"
@@ -22,7 +28,9 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
         <View
             android:id="@+id/credit_card_signature_bg_view"
@@ -40,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:singleLine="true"
-            android:textColor="@android:color/black"
+            android:textColor="#BEB2C2"
             android:textScaleX=".8"
             android:textSize="20dp" />
     </FrameLayout>
@@ -48,6 +56,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="-2dp"
         android:text="@string/Not_Valid_Unless_Signed"
         android:textColor="#ffffff"
         android:textSize="8dp" />
@@ -65,6 +75,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:layout_marginRight="6dp" />
+        android:layout_marginRight="16dp" />
 
 </com.expedia.bookings.section.CreditCardSection>

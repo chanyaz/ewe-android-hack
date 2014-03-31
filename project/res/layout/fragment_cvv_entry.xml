@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
             android:layout_marginRight="82dp"
-            android:layout_marginTop="-9dp"
+            android:layout_marginTop="-15dp"
             android:background="@drawable/div_cvv"
             android:freezesText="true"
             android:gravity="center_horizontal"
@@ -54,6 +54,21 @@
         android:layout_height="match_parent"
         app:exposedPadding="-4dp"
         app:exposedView="@id/cvv_text_view" />
+
+    <!-- "Security Code for Doug's VISA" prompt -->
+
+    <com.mobiata.android.widget.AutoResizeTextView
+        android:id="@+id/cvv_prompt_text_view"
+        style="@style/Widget.TextView.CVVPrompt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/credit_card_section_holder"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="80dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true" />
 
     <!-- Input buttons at bottom (or right on tablet) -->
 

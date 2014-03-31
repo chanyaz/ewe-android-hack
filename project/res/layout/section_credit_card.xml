@@ -6,16 +6,21 @@
     android:layout_height="219dp"
     android:layout_gravity="right"
     android:background="@drawable/bg_credit_card_back_full"
-    android:orientation="vertical"
-    android:paddingBottom="15dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="8dp"
-    android:paddingTop="68dp" >
+    android:orientation="vertical" >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:background="#1e000000" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="7dp"
         android:text="@string/Authorized_Signature"
         android:textAllCaps="true"
         android:textColor="#ffffff"
@@ -24,7 +29,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="75dp" >
+        android:layout_marginRight="84dp" >
 
         <View
             android:id="@+id/credit_card_signature_bg_view"
@@ -42,28 +47,15 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:singleLine="true"
-            android:textColor="@android:color/black"
+            android:textColor="#BEB2C2"
             android:textScaleX=".8"
             android:textSize="20dp" />
     </FrameLayout>
-
-    <!-- Fill space, make room for the text that goes on top -->
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
-
-    <!-- "Security Code for Doug's VISA" prompt -->
-
-    <com.mobiata.android.widget.AutoResizeTextView
-        android:id="@+id/cvv_prompt_text_view"
-        style="@style/Widget.TextView.CVVPrompt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:gravity="right"
-        android:singleLine="true" />
 
     <!-- Visa, AMEX, etc. logo -->
 
@@ -72,7 +64,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:layout_marginRight="6dp"
+        android:layout_marginBottom="18dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="15dp" />
 
 </com.expedia.bookings.section.CreditCardSection>
