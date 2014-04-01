@@ -34,7 +34,7 @@ import com.expedia.bookings.utils.Ui;
 
 /**
  * Generalized class which displays a breakdown of some sort - i.e., line items.
- * 
+ *
  * Use the builder to construct the fragment, then show it.
  */
 public class BreakdownDialogFragment extends DialogFragment {
@@ -274,11 +274,24 @@ public class BreakdownDialogFragment extends DialogFragment {
 		builder.setTitle(context.getString(R.string.cost_summary));
 		builder.setTitleDivider(Ui.obtainThemeResID(context, R.attr.flightsCostSummaryDialogStripeDrawable));
 
+		int numberOfSeatedTravelers = params.getNumberOfSeatedTravelers();
+		int numAdults = params.getNumAdults();
+		int numSeatedChildren = params.getNumberOfSeatedChildren();
+
 		// Per traveler price
-		for (int i = 0; i < params.getNumAdults(); i++) {
+		for (int i = 0; i < numberOfSeatedTravelers; i++) {
+			int travelerHeaderStringId;
+			int index;
+			if (i < numAdults) {
+				travelerHeaderStringId = R.string.add_adult_number_TEMPLATE;
+				index = i + 1;
+			} else {
+				travelerHeaderStringId = R.string.add_child_number_TEMPLATE;
+				index = i - numAdults + 1;
+			}
 			builder.addLineItem((new LineItemBuilder())
 					.setItemLeft((new ItemBuilder())
-							.setText(context.getString(R.string.traveler_num_and_category_TEMPLATE, i + 1))
+							.setText(context.getString(travelerHeaderStringId, index))
 							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium_Bold)
 							.build())
 					.setItemRight((new ItemBuilder())

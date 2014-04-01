@@ -46,6 +46,20 @@ public class FlightSearchParams implements JSONable {
 		return mAdults;
 	}
 
+	public int getNumberOfSeatedTravelers() {
+		return getNumAdults() + getNumberOfSeatedChildren();
+	}
+
+	public int getNumberOfSeatedChildren() {
+		int numberOfUnseatedTravelers = 0;
+		for(ChildTraveler child : getChildren()) {
+			if (!child.usingSeat()) {
+				numberOfUnseatedTravelers++;
+			}
+		}
+		return getNumChildren() - numberOfUnseatedTravelers;
+	}
+
 	public void setChildren(List<ChildTraveler> children) {
 		if (children != null) {
 			mChildren = children;

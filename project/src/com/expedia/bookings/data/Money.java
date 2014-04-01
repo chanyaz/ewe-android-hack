@@ -115,7 +115,7 @@ public class Money implements JSONable {
 	}
 
 	public String getFormattedMoneyPerTraveler() {
-		return formatRate(mAmount.divide(new BigDecimal(Db.getFlightSearch().getSearchParams().getNumAdults())),
+		return formatRate(mAmount.divide(new BigDecimal(Db.getFlightSearch().getSearchParams().getNumberOfSeatedTravelers())),
 				mCurrency, 0);
 	}
 
