@@ -123,6 +123,14 @@ public class TabletWaypointFragment extends Fragment
 		//Add the search action listener to the edit text
 		mWaypointEditText.setOnEditorActionListener(mSearchActionListener);
 
+		//Add a click listener incase they want to re-request focus
+		mWaypointEditText.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				requestEditTextFocus(mWaypointEditText);
+			}
+		});
+
 		registerStateListener(mStateHelper, false);
 
 		return view;
