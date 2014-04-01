@@ -170,7 +170,7 @@ public class Media implements JSONable {
 				i + 5, i - 5, i + 6, i - 6, i + 7, i - 7, i + 8, i - 8);
 	}
 
-	private List<String> getBestUrls(int width) {
+	public List<String> getBestUrls(int width) {
 		return getBestUrls(sMediaTypes.length, width);
 	}
 

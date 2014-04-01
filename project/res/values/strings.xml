@@ -1778,6 +1778,7 @@
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">From %s</string>
+    <string name="From_x_per_night_template">From &lt;font color="#3c7cf2"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/night</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->

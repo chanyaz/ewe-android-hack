@@ -576,8 +576,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Override
 	public void onPropertyBubbleClicked(Property property) {
-		// TODO Auto-generated method stub
-
+		if (mMapFragment != null && mMapFragment.isAdded()) {
+			mMapFragment.hideBallon(property);
+		}
+		onPropertyClicked(property);
 	}
 
 	@Override

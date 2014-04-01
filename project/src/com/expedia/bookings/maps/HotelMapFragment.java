@@ -6,11 +6,20 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
@@ -18,6 +27,7 @@ import com.expedia.bookings.data.HotelFilter.OnFilterChangedListener;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.StrUtils;
@@ -25,6 +35,7 @@ import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
@@ -45,7 +56,9 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	private static float DEFAULT_ZOOM = 12.0f;
 
 	private GoogleMap mMap;
+	private LayoutInflater mInflater;
 
+	private boolean mIsTablet = false;
 	private boolean mShowDistances;
 	private boolean mAddPropertiesWhenReady = false;
 	private boolean mAddExactMarkerWhenReady = false;
@@ -87,6 +100,8 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 			MapsInitializer.initialize(activity);
 		}
 
+		mIsTablet = ExpediaBookingApp.useTabletInterface(activity);
+
 		mListener = Ui.findFragmentListener(this, HotelMapFragmentListener.class);
 		mListener.onHotelMapFragmentAttached(this);
 		Db.getFilter().addOnFilterChangedListener(this);
@@ -104,6 +119,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		super.onViewCreated(view, savedInstanceState);
 
 		mMap = getMap();
+		mInflater = LayoutInflater.from(getActivity());
 
 		// Initial configuration
 		mMap.setMyLocationEnabled(true);
@@ -120,7 +136,10 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 			public boolean onMarkerClick(Marker marker) {
 				if (mListener != null) {
 					Property property = mMarkersToProperties.get(marker);
-					if (property != null) {
+					if (mIsTablet && !marker.isInfoWindowShown()) {
+						marker.showInfoWindow();
+					}
+					else if (property != null) {
 						mListener.onPropertyClicked(property);
 					}
 					else {
@@ -139,6 +158,87 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 				}
 			}
 		});
+
+		if (mIsTablet) {
+			mMap.setInfoWindowAdapter(new InfoWindowAdapter() {
+				@Override
+				public View getInfoContents(Marker marker) {
+					return null;
+				}
+
+				@Override
+				public View getInfoWindow(Marker marker) {
+					final Marker theMarker = marker;
+					View v = mInflater.inflate(R.layout.snippet_tablet_map_hotel_info_window, null);
+					Property property = mMarkersToProperties.get(marker);
+
+					TextView name = Ui.findView(v, R.id.hotel_name);
+					name.setText(property.getName());
+
+					final int totalReviews = property.getTotalReviews();
+					if (totalReviews == 0) {
+						Ui.findView(v, R.id.hotel_user_rating_container).setVisibility(View.GONE);
+					}
+					else {
+						RatingBar ratingBar = Ui.findView(v, R.id.hotel_user_rating);
+						ratingBar.setRating((float) property.getHotelRating());
+
+						TextView numReviews = Ui.findView(v, R.id.hotel_number_reviews);
+						numReviews.setText(getString(R.string.n_reviews_TEMPLATE, totalReviews));
+					}
+
+					TextView price = Ui.findView(v, R.id.hotel_price);
+					Rate lowestRate = property.getLowestRate();
+					if (lowestRate != null) {
+						String formattedMoney = StrUtils.formatHotelPrice(lowestRate.getDisplayPrice());
+						if (lowestRate.getUserPriceType() == Rate.UserPriceType.PER_NIGHT_RATE_NO_TAXES) {
+							price.setText(Html.fromHtml(getString(R.string.From_x_per_night_template, formattedMoney)));
+						}
+						else {
+							price.setText(Html.fromHtml(getString(R.string.map_snippet_price_template, formattedMoney)));
+						}
+					}
+					else {
+						price.setVisibility(View.GONE);
+					}
+
+
+					Media media = property.getThumbnail();
+					final ImageView image = Ui.findView(v, R.id.hotel_thumbnail);
+					if (media == null) {
+						image.setVisibility(View.GONE);
+					}
+					else {
+						List<String> urls = media.getBestUrls((int) (getResources().getDimension(R.dimen.tablet_hotel_map_popup_thumbnail_width)));
+						Bitmap bitmap = null;
+						for (String url : urls) {
+							bitmap = L2ImageCache.sGeneralPurpose.getImage(url, false);
+							if (bitmap != null) {
+								image.setImageBitmap(bitmap);
+								break;
+							}
+						}
+
+						if (bitmap == null) {
+							UrlBitmapDrawable drawable = new UrlBitmapDrawable(getActivity().getResources(), urls);
+							drawable.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
+								@Override
+								public void onBitmapLoaded(String url, Bitmap bitmap) {
+									theMarker.showInfoWindow();
+								}
+
+								@Override
+								public void onBitmapLoadFailed(String url) {
+									// ignore
+								}
+							});
+						}
+					}
+
+					return v;
+				}
+			});
+		}
 
 		// Load graphics
 		mPin = BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.hotelListMapMarkerDrawable));
@@ -508,15 +608,15 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	// Listeners
 
 	public void setResultsViewWidth(int resultsViewWidth) {
-		this.mResultsViewWidth = resultsViewWidth;
+		mResultsViewWidth = resultsViewWidth;
 	}
 
 	public void setFilterViewWidth(int filterViewWidth) {
-		this.mFilterViewWidth = filterViewWidth;
+		mFilterViewWidth = filterViewWidth;
 	}
 
 	public void setShowInfoWindow(boolean showInfoWindow) {
-		this.mShowInfoWindow = showInfoWindow;
+		mShowInfoWindow = showInfoWindow;
 	}
 
 	public interface HotelMapFragmentListener {
