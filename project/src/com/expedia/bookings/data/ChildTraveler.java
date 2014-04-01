@@ -3,13 +3,17 @@ package com.expedia.bookings.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.text.TextUtils;
+
 import com.mobiata.android.json.JSONable;
 
 /**
  * A class for encapsulating both a child's age and whether or not he
  * is going to use an airplane seat.
  */
-public class ChildTraveler implements JSONable {
+public class ChildTraveler implements JSONable, Parcelable {
 
 	private int mAge;
 	private boolean mUsingSeat;
@@ -70,4 +74,16 @@ public class ChildTraveler implements JSONable {
 		return true;
 	}
 
+	// Parcelable
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		TextUtils.writeToParcel(Integer.toString(mAge), dest, flags);
+		TextUtils.writeToParcel(Boolean.toString(mUsingSeat), dest, flags);
+	}
 }
