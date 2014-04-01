@@ -95,6 +95,15 @@ public class TabletWaypointFragment extends Fragment
 		mLocationProgressBar = Ui.findView(view, R.id.location_loading_progress);
 		mErrorTv = Ui.findView(view, R.id.error_text_view);
 
+		//Set up clear text button
+		View clearWaypointTextView = Ui.findView(view, R.id.clear_waypoint_text);
+		clearWaypointTextView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				mWaypointEditText.setText("");
+			}
+		});
+
 		//State
 		if (savedInstanceState != null) {
 			mErrorMessage = savedInstanceState.getString(STATE_ERROR_MESSAGE);
