@@ -34,6 +34,7 @@ import android.widget.RemoteViews;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.activity.SearchActivity;
+import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
@@ -52,11 +53,9 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
-import com.mobiata.android.bitmaps.TwoLevelImageCache;
-import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 
 public class ExpediaAppWidgetService extends Service implements ConnectionCallbacks, OnConnectionFailedListener,
-		LocationListener, OnImageLoaded {
+		LocationListener, L2ImageCache.OnBitmapLoaded {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -349,14 +348,14 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 				Media thumbnail = property.getThumbnail();
 				if (thumbnail != null) {
 					String url = thumbnail.getOriginalUrl();
-					Bitmap bitmap = TwoLevelImageCache.getImage(url, false);
+					Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(url, false);
 					if (bitmap != null) {
 						remoteViews.setImageViewBitmap(R.id.hotel_image_view, bitmap);
 					}
 					else {
 						remoteViews.setImageViewResource(R.id.hotel_image_view, R.drawable.widget_thumbnail_background);
 
-						TwoLevelImageCache.loadImage(WIDGET_THUMBNAIL_KEY_PREFIX + url, url, this);
+						L2ImageCache.sGeneralPurpose.loadImage(WIDGET_THUMBNAIL_KEY_PREFIX + url, url, false, this);
 					}
 				}
 
@@ -584,16 +583,16 @@ public class ExpediaAppWidgetService extends Service implements ConnectionCallba
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// OnImageLoaded
+	// L2ImageCache.OnBitmapLoaded
 
 	@Override
-	public void onImageLoaded(String url, Bitmap bitmap) {
+	public void onBitmapLoaded(String url, Bitmap bitmap) {
 		Log.d(TAG, "Loaded widget image: " + url);
 		updateWidgets(false);
 	}
 
 	@Override
-	public void onImageLoadFailed(String url) {
+	public void onBitmapLoadFailed(String url) {
 		// Ignore
 	}
 
