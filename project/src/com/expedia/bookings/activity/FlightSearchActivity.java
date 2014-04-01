@@ -21,7 +21,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
-import com.mobiata.android.bitmaps.TwoLevelImageCache;
 
 public class FlightSearchActivity extends SherlockFragmentActivity implements FlightSearchParamsFragmentListener {
 
@@ -55,8 +54,8 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 		// (besides destination images) so this just takes up unnecessary space
 		// all throughout the flights part of the app.
 		if (savedInstanceState == null) {
-			Log.i("Clearing image cache because we just launched flights");
-			TwoLevelImageCache.clearMemoryCache();
+			Log.i("Clearing general-purpose image cache because we just launched flights");
+			L2ImageCache.sGeneralPurpose.clearMemoryCache();
 		}
 
 		// On first launch, try to restore cached flight data (in this case, just for the search params)

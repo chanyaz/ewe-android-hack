@@ -19,7 +19,6 @@ import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.mobiata.android.Log;
-import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.util.SettingUtils;
 
 public class ClearPrivateDataUtil {
@@ -78,8 +77,9 @@ public class ClearPrivateDataUtil {
 		SettingUtils.remove(context, R.string.setting_hide_local_expert);
 		DismissedItinButton.clear();
 
-		// Clear image cache, why not
-		TwoLevelImageCache.clearMemoryCache();
+		// Clear image caches, why not
+		L2ImageCache.sGeneralPurpose.clearDiskCache();
+		L2ImageCache.sGeneralPurpose.clearMemoryCache();
 
 		L2ImageCache.sDestination.clearDiskCache();
 		L2ImageCache.sDestination.clearMemoryCache();

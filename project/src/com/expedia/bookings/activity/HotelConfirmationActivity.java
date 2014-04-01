@@ -8,6 +8,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Rate;
@@ -89,7 +90,7 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity {
 			Db.getHotelSearch().resetSearchParams();
 
 			// Clear the cache just to be safe
-			TwoLevelImageCache.clearMemoryCache();
+			L2ImageCache.sGeneralPurpose.clearMemoryCache();
 		}
 
 		OmnitureTracking.onPause();

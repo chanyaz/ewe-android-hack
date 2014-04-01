@@ -289,7 +289,8 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 			Log.d("ExpediaBookingApp exception handler w/ class:" + ex.getClass() + "; root cause="
 					+ rootCause.getClass());
 			if (OutOfMemoryError.class.equals(rootCause.getClass())) {
-				TwoLevelImageCache.debugInfo();
+				L2ImageCache.sGeneralPurpose.debugInfo();
+				L2ImageCache.sDestination.debugInfo();
 
 				if (MemoryUtils.dumpMemoryStateToDisk(getApplicationContext())) {
 					SettingUtils.save(this, getString(R.string.preference_debug_notify_oom_crash), true);
