@@ -15,11 +15,11 @@ import com.mobiata.android.json.JSONable;
 public class FlightSearchParams implements JSONable {
 
 	private int mAdults;
-	private List<Integer> mChildren;
+	private List<ChildTraveler> mChildren;
 	private List<FlightSearchLeg> mQueryLegs;
 
 	public FlightSearchParams() {
-		mChildren = new ArrayList<Integer>();
+		mChildren = new ArrayList<ChildTraveler>();
 		mQueryLegs = new ArrayList<FlightSearchLeg>();
 
 		reset();
@@ -46,15 +46,15 @@ public class FlightSearchParams implements JSONable {
 		return mAdults;
 	}
 
-	public void setChildren(List<Integer> childAges) {
-		if (childAges != null) {
-			mChildren = childAges;
+	public void setChildren(List<ChildTraveler> children) {
+		if (children != null) {
+			mChildren = children;
 		}
 	}
 
-	public List<Integer> getChildren() {
+	public List<ChildTraveler> getChildren() {
 		if (mChildren == null) {
-			mChildren = new ArrayList<Integer>();
+			mChildren = new ArrayList<ChildTraveler>();
 		}
 
 		return mChildren;
@@ -65,7 +65,7 @@ public class FlightSearchParams implements JSONable {
 	}
 
 	public int getNumChildren() {
-		return mChildren.size();
+		return mChildren == null ? 0 : mChildren.size();
 	}
 
 	public void addQueryLeg(FlightSearchLeg queryLeg) {
@@ -235,7 +235,7 @@ public class FlightSearchParams implements JSONable {
 		try {
 			JSONObject obj = new JSONObject();
 			obj.put("adults", mAdults);
-			JSONUtils.putIntList(obj, "children", mChildren);
+			JSONUtils.putJSONableList(obj, "children", mChildren);
 			JSONUtils.putJSONableList(obj, "queryLegs", mQueryLegs);
 			return obj;
 		}
@@ -247,7 +247,7 @@ public class FlightSearchParams implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mAdults = obj.optInt("adults");
-		mChildren = JSONUtils.getIntList(obj, "children");
+		mChildren = JSONUtils.getJSONableList(obj, "children", ChildTraveler.class);
 		mQueryLegs = JSONUtils.getJSONableList(obj, "queryLegs", FlightSearchLeg.class);
 		return true;
 	}

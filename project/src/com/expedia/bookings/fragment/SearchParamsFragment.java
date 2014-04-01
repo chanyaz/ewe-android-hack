@@ -53,6 +53,7 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.content.AutocompleteProvider;
+import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
@@ -395,7 +396,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 			if (!isHidden()) {
 				HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
-				List<Integer> children = searchParams.getChildren();
+				List<ChildTraveler> children = searchParams.getChildren();
 				Activity activity = getActivity();
 				GuestsPickerUtils.resizeChildrenList(activity, children, mChildrenNumberPicker.getValue());
 
@@ -468,7 +469,7 @@ public class SearchParamsFragment extends Fragment implements LoaderCallbacks<Cu
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 			Context context = getActivity();
-			List<Integer> children = Db.getHotelSearch().getSearchParams().getChildren();
+			List<ChildTraveler> children = Db.getHotelSearch().getSearchParams().getChildren();
 			GuestsPickerUtils.setChildrenFromSpinners(context, mChildAgesLayout, children);
 			GuestsPickerUtils.updateDefaultChildAges(context, children);
 		}

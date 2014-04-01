@@ -20,6 +20,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.widget.SimpleNumberPicker;
@@ -37,11 +38,11 @@ public class GuestsDialogFragment extends DialogFragment {
 	private View mChildAgesLayout;
 
 	private int mAdultCount;
-	private ArrayList<Integer> mChildren;
+	private ArrayList<ChildTraveler> mChildren;
 
 	private GuestsDialogFragmentListener mListener;
 
-	public static GuestsDialogFragment newInstance(int initialAdultCount, List<Integer> initialChildren) {
+	public static GuestsDialogFragment newInstance(int initialAdultCount, List<ChildTraveler> initialChildren) {
 		GuestsDialogFragment dialog = new GuestsDialogFragment();
 		dialog.initializeGuests(initialAdultCount, initialChildren);
 		return dialog;
@@ -104,7 +105,7 @@ public class GuestsDialogFragment extends DialogFragment {
 		// Set initial values for pickers
 		if (savedInstanceState != null) {
 			mAdultCount = savedInstanceState.getInt(KEY_NUM_ADULTS);
-			mChildren = savedInstanceState.getIntegerArrayList(KEY_CHILDREN);
+			mChildren = savedInstanceState.getParcelableArrayList(KEY_CHILDREN);
 		}
 
 		mAdultsNumberPicker.setValue(mAdultCount);
@@ -121,7 +122,7 @@ public class GuestsDialogFragment extends DialogFragment {
 		super.onSaveInstanceState(outState);
 
 		outState.putInt(KEY_NUM_ADULTS, mAdultsNumberPicker.getValue());
-		outState.putIntegerArrayList(KEY_CHILDREN, mChildren);
+		outState.putParcelableArrayList(KEY_CHILDREN, mChildren);
 	}
 
 	public String getTitleText() {
@@ -131,15 +132,15 @@ public class GuestsDialogFragment extends DialogFragment {
 	}
 
 	// Creates a copy of the list argument
-	private void initializeGuests(int initialAdultCount, List<Integer> initialChildren) {
+	private void initializeGuests(int initialAdultCount, List<ChildTraveler> initialChildren) {
 		mAdultCount = initialAdultCount;
 		if (initialChildren == null) {
-			mChildren = new ArrayList<Integer>();
+			mChildren = new ArrayList<ChildTraveler>();
 			return;
 		}
-		mChildren = new ArrayList<Integer>(initialChildren.size());
-		for (int i : initialChildren) {
-			mChildren.add(i);
+		mChildren = new ArrayList<ChildTraveler>(initialChildren.size());
+		for (ChildTraveler child : initialChildren) {
+			mChildren.add(child);
 		}
 	}
 
@@ -217,6 +218,6 @@ public class GuestsDialogFragment extends DialogFragment {
 	// Listener
 
 	public interface GuestsDialogFragmentListener {
-		public void onGuestsChanged(int numAdults, ArrayList<Integer> numChildren);
+		public void onGuestsChanged(int numAdults, ArrayList<ChildTraveler> numChildren);
 	}
 }

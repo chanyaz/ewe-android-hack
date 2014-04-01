@@ -58,7 +58,7 @@ public class HotelSearchParams implements JSONable {
 	private LocalDate mCheckInDate;
 	private LocalDate mCheckOutDate;
 	private int mNumAdults;
-	private List<Integer> mChildren;
+	private List<ChildTraveler> mChildren;
 
 	// These may be out of sync with freeform location; make sure to sync before
 	// using.
@@ -334,13 +334,13 @@ public class HotelSearchParams implements JSONable {
 		return mNumAdults;
 	}
 
-	public void setChildren(List<Integer> children) {
+	public void setChildren(List<ChildTraveler> children) {
 		mChildren = children;
 	}
 
-	public List<Integer> getChildren() {
+	public List<ChildTraveler> getChildren() {
 		if (mChildren == null) {
-			mChildren = new ArrayList<Integer>();
+			mChildren = new ArrayList<ChildTraveler>();
 		}
 
 		return mChildren;
@@ -467,7 +467,7 @@ public class HotelSearchParams implements JSONable {
 		mCheckOutDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "checkOutLocalDate", "checkoutDate");
 
 		mNumAdults = obj.optInt("numAdults", 0);
-		mChildren = JSONUtils.getIntList(obj, "children");
+		mChildren = JSONUtils.getJSONableList(obj, "children", ChildTraveler.class);
 
 		if (obj.has("searchType")) {
 			// TODO: remove the "if" part of this later. It's for backwards compatibility.
@@ -503,7 +503,7 @@ public class HotelSearchParams implements JSONable {
 			JodaUtils.putLocalDateInJson(obj, "checkOutLocalDate", mCheckOutDate);
 
 			obj.put("numAdults", mNumAdults);
-			JSONUtils.putIntList(obj, "children", mChildren);
+			JSONUtils.putJSONableList(obj, "children", mChildren);
 
 			if (mSearchType != null) {
 				obj.put("searchType", mSearchType);

@@ -54,6 +54,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.animation.AnimationListenerAdapter;
+import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -1075,9 +1076,9 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private final OnItemSelectedListener mChildAgeSelectedListener = new OnItemSelectedListener() {
 
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-			List<Integer> children = getSearchParams(false).getChildren();
+			List<ChildTraveler> children = getSearchParams(false).getChildren();
 			GuestsPickerUtils.setChildrenFromSpinners(getActivity(), mChildAgesLayout, children);
-			GuestsPickerUtils.updateDefaultChildAges(getActivity(), children);
+			GuestsPickerUtils.updateDefaultChildTravelers(getActivity(), children);
 		}
 
 		public void onNothingSelected(AdapterView<?> parent) {

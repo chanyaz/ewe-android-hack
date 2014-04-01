@@ -11,7 +11,10 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Spinner;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.FlightSearchActivity;
+import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.widget.ChildAgeSpinnerAdapter;
+import com.expedia.bookings.widget.FlightsChildAgeSpinnerAdapter;
 import com.mobiata.android.util.SettingUtils;
 
 public class GuestsPickerUtils {
@@ -26,7 +29,7 @@ public class GuestsPickerUtils {
 	public static final int MAX_CHILD_AGE = 17;
 
 	public static void updateNumberPickerRanges(com.expedia.bookings.widget.NumberPicker adultsNumberPicker,
-			com.expedia.bookings.widget.NumberPicker childrenNumberPicker) {
+												com.expedia.bookings.widget.NumberPicker childrenNumberPicker) {
 		adultsNumberPicker.setMinValue(MIN_ADULTS);
 		adultsNumberPicker.setMaxValue(getMaxAdults(childrenNumberPicker.getValue()));
 		childrenNumberPicker.setMinValue(MIN_CHILDREN);
@@ -42,8 +45,8 @@ public class GuestsPickerUtils {
 	}
 
 	public static void configureAndUpdateDisplayedValues(Context context,
-			com.expedia.bookings.widget.SimpleNumberPicker adultsNumberPicker,
-			com.expedia.bookings.widget.SimpleNumberPicker childrenNumberPicker) {
+														 com.expedia.bookings.widget.SimpleNumberPicker adultsNumberPicker,
+														 com.expedia.bookings.widget.SimpleNumberPicker childrenNumberPicker) {
 		int numAdults = adultsNumberPicker.getValue();
 		int numChildren = childrenNumberPicker.getValue();
 
@@ -56,13 +59,12 @@ public class GuestsPickerUtils {
 		childrenNumberPicker.setValue(numChildren);
 	}
 
-	public static void showOrHideChildAgeSpinners(Context context, List<Integer> children, View container,
-			OnItemSelectedListener listener) {
+	public static void showOrHideChildAgeSpinners(Context context, List<ChildTraveler> children, View container, OnItemSelectedListener listener) {
 		showOrHideChildAgeSpinners(context, children, container, listener, View.GONE);
 	}
 
-	public static void showOrHideChildAgeSpinners(Context context, List<Integer> children, View container,
-			OnItemSelectedListener listener, int hiddenState) {
+	public static void showOrHideChildAgeSpinners(Context context, List<ChildTraveler> children, View container,
+												  OnItemSelectedListener listener, int hiddenState) {
 		if (container == null) {
 			return;
 		}
@@ -96,47 +98,96 @@ public class GuestsPickerUtils {
 					// Use the row's Tag to determine if we've initialized this label/spinner yet.
 					row.setTag(i);
 					spinner.setPrompt(context.getString(R.string.prompt_select_child_age,
-							GuestsPickerUtils.MIN_CHILD_AGE, GuestsPickerUtils.MAX_CHILD_AGE));
-					spinner.setAdapter(new ChildAgeSpinnerAdapter(context));
+						GuestsPickerUtils.MIN_CHILD_AGE, GuestsPickerUtils.MAX_CHILD_AGE));
+					if (calledFromFlightsSearchActivity(context)) {
+						spinner.setAdapter(new FlightsChildAgeSpinnerAdapter(context));
+						spinner.setSelection(getChildSpinnerSelection(children.get(i)) - MIN_CHILD_AGE);
+					}
+					else {
+						spinner.setAdapter(new ChildAgeSpinnerAdapter(context));
+						spinner.setSelection(children.get(i).getAge() - MIN_CHILD_AGE);
+					}
 					spinner.setOnItemSelectedListener(listener);
 				}
-				spinner.setSelection(children.get(i) - MIN_CHILD_AGE);
 			}
 		}
 	}
 
-	public static void resizeChildrenList(Context context, List<Integer> children, int count) {
+	public static int getChildSpinnerSelection(ChildTraveler child) {
+		int selection;
+		if (child.getAge() == 0) {
+			selection = child.usingSeat() ? 1 : 0;
+		}
+		else if (child.getAge() == 1) {
+			selection = child.usingSeat() ? 3 : 2;
+		}
+		else {
+			selection = child.getAge() + 2;
+		}
+		return selection;
+	}
+
+	public static void resizeChildrenList(Context context, List<ChildTraveler> children, int count) {
 		while (children.size() > count) {
 			children.remove(children.size() - 1);
 		}
 		while (children.size() < count) {
-			children.add(getDefaultChildAge(context, children.size()));
+			children.add(getDefaultChildTraveler(context, children.size()));
 		}
 	}
 
-	public static int getDefaultChildAge(Context context, int index) {
-		return SettingUtils.get(context, "default_child_age_" + index, DEFAULT_CHILD_AGE);
+	public static ChildTraveler getDefaultChildTraveler(Context context, int index) {
+		int defaultAge = SettingUtils.get(context, "default_child_age_" + index, DEFAULT_CHILD_AGE);
+		boolean defaultSeatUse = SettingUtils.get(context, "default_child_seat_use_" + index, false);
+		return new ChildTraveler(defaultAge, defaultSeatUse);
 	}
 
-	public static void updateDefaultChildAges(Context context, List<Integer> children) {
+	public static void updateDefaultChildAges(Context context, List<ChildTraveler> children) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = prefs.edit();
 		for (int i = 0; i < children.size(); i++) {
-			editor.putInt("default_child_age_" + i, children.get(i));
+			editor.putInt("default_child_age_" + i, children.get(i).getAge());
 		}
 		SettingUtils.commitOrApply(editor);
 	}
 
-	public static void setChildrenFromSpinners(Context context, View container, List<Integer> children) {
+	public static void updateDefaultChildTravelers(Context context, List<ChildTraveler> children) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = prefs.edit();
+		for (int i = 0; i < children.size(); i++) {
+			editor.putInt("default_child_age_" + i, children.get(i).getAge());
+			editor.putBoolean("default_child_seat_use_" + i, children.get(i).usingSeat());
+		}
+		SettingUtils.commitOrApply(editor);
+	}
+
+	public static void setChildrenFromSpinners(Context context, View container, List<ChildTraveler> children) {
 		for (int i = 0; i < children.size(); i++) {
 			View row = getChildAgeLayout(container, i);
 			if (row == null) {
 				continue;
 			}
-
-			Integer age = (Integer) ((Spinner) row).getSelectedItem();
-			children.set(i, age);
+			Integer position = (Integer) ((Spinner) row).getSelectedItem();
+			ChildTraveler child = calledFromFlightsSearchActivity(context) ? spinnerPositionToChildTraveler(position) : new ChildTraveler(position, false);
+			children.set(i, child);
 		}
+	}
+
+	public static ChildTraveler spinnerPositionToChildTraveler(int position) {
+		ChildTraveler child = new ChildTraveler();
+		if (position != 0 && position != 2) {
+			child.setSeatUse(true);
+		}
+		if (position <= 1) {
+			child.setAge(0);
+		}
+		else if (position == 2 || position == 3) {
+			child.setAge(1);
+		}
+		else {
+			child.setAge(position -= 2);
+		}
+		return child;
 	}
 
 	public static View getChildAgeLayout(View parent, int index) {
@@ -156,6 +207,10 @@ public class GuestsPickerUtils {
 			break;
 		}
 		return parent.findViewById(resId);
+	}
+
+	private static boolean calledFromFlightsSearchActivity(Context context) {
+		return context instanceof FlightSearchActivity ? true : false;
 	}
 
 }

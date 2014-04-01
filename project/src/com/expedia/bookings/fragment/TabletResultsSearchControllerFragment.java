@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
@@ -231,9 +232,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	}
 
 	@Override
-	public void onGuestsChanged(int numAdults, ArrayList<Integer> numChildren) {
+	public void onGuestsChanged(int numAdults, ArrayList<ChildTraveler> numChildren) {
 		Sp.getParams().setNumAdults(numAdults);
-		Sp.getParams().setChildAges(numChildren);
+		Sp.getParams().setChildTravelers(numChildren);
 		doSpUpdate();
 	}
 
@@ -562,7 +563,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			return new ResultsDatesFragment();
 		}
 		else if (tag == FTAG_TRAV_PICKER) {
-			return ResultsGuestPicker.newInstance(Sp.getParams().getNumAdults(), Sp.getParams().getChildAges());
+			return ResultsGuestPicker.newInstance(Sp.getParams().getNumAdults(), Sp.getParams().getChildTravelers());
 		}
 		else if (tag == FTAG_WAYPOINT) {
 			return new ResultsWaypointFragment();

@@ -71,6 +71,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWidgetListener;
 import com.expedia.bookings.content.AutocompleteProvider;
+import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelFilter;
@@ -2500,9 +2501,9 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 	private final OnItemSelectedListener mChildAgeSelectedListener = new OnItemSelectedListener() {
 
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-			List<Integer> children = getCurrentSearchParams().getChildren();
+			List<ChildTraveler> children = getCurrentSearchParams().getChildren();
 			GuestsPickerUtils.setChildrenFromSpinners(PhoneSearchActivity.this, mChildAgesLayout, children);
-			GuestsPickerUtils.updateDefaultChildAges(PhoneSearchActivity.this, children);
+			GuestsPickerUtils.updateDefaultChildTravelers(PhoneSearchActivity.this, children);
 		}
 
 		public void onNothingSelected(AdapterView<?> parent) {

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.TimeFormatException;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -262,12 +263,12 @@ public class DeepLinkRouterActivity extends Activity {
 	}
 
 	// Note that we still abide by the max guests - we bias towards # adults first
-	private List<Integer> parseChildAges(String childAgesStr, int numAdults) {
+	private List<ChildTraveler> parseChildAges(String childAgesStr, int numAdults) {
 		String[] childAgesArr = childAgesStr.split(",");
 		int maxChildren = GuestsPickerUtils.getMaxChildren(numAdults);
-		List<Integer> childAges = new ArrayList<Integer>();
+		List<ChildTraveler> children = new ArrayList<ChildTraveler>();
 		try {
-			for (int a = 0; a < childAgesArr.length && childAges.size() < maxChildren; a++) {
+			for (int a = 0; a < childAgesArr.length && children.size() < maxChildren; a++) {
 				int childAge = Integer.parseInt(childAgesArr[a]);
 
 				if (childAge <= GuestsPickerUtils.MIN_CHILD_AGE) {
@@ -278,13 +279,13 @@ public class DeepLinkRouterActivity extends Activity {
 					Log.w(TAG, "Child age (" + childAge + ") not an actual child, ignoring: " + childAge);
 				}
 				else {
-					childAges.add(childAge);
+					children.add(new ChildTraveler(childAge, false));
 				}
 			}
 
-			if (childAges.size() > 0) {
-				Log.d(TAG, "Setting children ages: " + Arrays.toString(childAges.toArray(new Integer[0])));
-				return childAges;
+			if (children.size() > 0) {
+				Log.d(TAG, "Setting children ages: " + Arrays.toString(children.toArray(new Integer[0])));
+				return children;
 			}
 		}
 		catch (NumberFormatException e) {

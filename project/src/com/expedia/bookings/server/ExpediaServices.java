@@ -41,6 +41,7 @@ import android.text.TextUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.AssociateUserToTripResponse;
+import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.ExpediaImageResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
@@ -474,11 +475,16 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private void addFlightChildTravelerParameters(List <BasicNameValuePair> query, FlightSearchParams params) {
-		List<Integer> children = params.getChildren();
+		List<ChildTraveler> children = params.getChildren();
+		boolean infantSeatingInLap = false;
 		if (children != null) {
-			for (int child : children) {
-				query.add(new BasicNameValuePair("childTravelerAge", Integer.toString(child)));
+			for (ChildTraveler child : children) {
+				if(!child.usingSeat() && child.getAge() <= 1) {
+					infantSeatingInLap = true;
+				}
+				query.add(new BasicNameValuePair("childTravelerAge", Integer.toString(child.getAge())));
 			}
+			query.add(new BasicNameValuePair("infantSeatingInLap", Boolean.toString(infantSeatingInLap)));
 		}
 	}
 
@@ -892,10 +898,10 @@ public class ExpediaServices implements DownloadListener {
 	private void addHotelGuestParamater(List<BasicNameValuePair> query, HotelSearchParams params) {
 		StringBuilder guests = new StringBuilder();
 		guests.append(params.getNumAdults());
-		List<Integer> children = params.getChildren();
+		List<ChildTraveler> children = params.getChildren();
 		if (children != null) {
-			for (int child : children) {
-				guests.append("," + child);
+			for (ChildTraveler child : children) {
+				guests.append("," + child.getAge());
 			}
 		}
 

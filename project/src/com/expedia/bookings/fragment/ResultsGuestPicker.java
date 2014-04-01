@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.widget.RingedCountView;
 import com.mobiata.android.util.Ui;
 
@@ -37,11 +38,11 @@ public class ResultsGuestPicker extends Fragment {
 	private View mChildPlus;
 
 	private int mAdultCount;
-	private ArrayList<Integer> mChildren = new ArrayList<Integer>();
+	private ArrayList<ChildTraveler> mChildren = new ArrayList<ChildTraveler>();
 
 	private GuestsDialogFragment.GuestsDialogFragmentListener mListener;
 
-	public static ResultsGuestPicker newInstance(int initialAdultCount, List<Integer> initialChildren) {
+	public static ResultsGuestPicker newInstance(int initialAdultCount, List<ChildTraveler> initialChildren) {
 		ResultsGuestPicker frag = new ResultsGuestPicker();
 		frag.initializeGuests(initialAdultCount, initialChildren);
 		return frag;
@@ -58,7 +59,7 @@ public class ResultsGuestPicker extends Fragment {
 
 		if (savedInstanceState != null) {
 			mAdultCount = savedInstanceState.getInt(STATE_ADULT_COUNT);
-			mChildren = savedInstanceState.getIntegerArrayList(STATE_CHILDREN);
+			mChildren = savedInstanceState.getParcelableArrayList(STATE_CHILDREN);
 		}
 
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_results_guests, null);
@@ -111,19 +112,19 @@ public class ResultsGuestPicker extends Fragment {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putIntegerArrayList(STATE_CHILDREN, mChildren);
+		outState.putParcelableArrayList(STATE_CHILDREN, mChildren);
 		outState.putInt(STATE_ADULT_COUNT, mAdultCount);
 	}
 
-	private void initializeGuests(int initialAdultCount, List<Integer> initialChildren) {
+	private void initializeGuests(int initialAdultCount, List<ChildTraveler> initialChildren) {
 		mAdultCount = initialAdultCount;
 		if (initialChildren == null) {
-			mChildren = new ArrayList<Integer>();
+			mChildren = new ArrayList<ChildTraveler>();
 			return;
 		}
-		mChildren = new ArrayList<Integer>(initialChildren.size());
-		for (int i : initialChildren) {
-			mChildren.add(i);
+		mChildren = new ArrayList<ChildTraveler>(initialChildren.size());
+		for (ChildTraveler c : initialChildren) {
+			mChildren.add(c);
 		}
 	}
 
@@ -145,7 +146,7 @@ public class ResultsGuestPicker extends Fragment {
 
 	public void addChild(int age) {
 		if (mChildren.size() < MAX_CHILDREN) {
-			mChildren.add(age);
+			mChildren.add(new ChildTraveler(age, false));
 			mListener.onGuestsChanged(mAdultCount, mChildren);
 			bind();
 		}

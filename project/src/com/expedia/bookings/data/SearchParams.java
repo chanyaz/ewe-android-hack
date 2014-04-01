@@ -60,7 +60,7 @@ public class SearchParams implements Parcelable, JSONable {
 	private LocalDate mEndDate;
 
 	private int mNumAdults;
-	private List<Integer> mChildAges;
+	private List<ChildTraveler> mChildTravelers;
 
 	//This is intended to store the text manually entered by the user in the case of a manual query
 	private String mCustomDestinationQryText;
@@ -143,11 +143,23 @@ public class SearchParams implements Parcelable, JSONable {
 	}
 
 	public List<Integer> getChildAges() {
-		if (mChildAges == null) {
-			mChildAges = new ArrayList<Integer>();
+		if (mChildTravelers == null) {
+			mChildTravelers = new ArrayList<ChildTraveler>();
 		}
 
-		return mChildAges;
+		List<Integer> childAges = new ArrayList<Integer>();
+		for(ChildTraveler c : mChildTravelers) {
+			childAges.add(c.getAge());
+		}
+
+		return childAges;
+	}
+
+	public List<ChildTraveler> getChildTravelers() {
+		if (mChildTravelers == null) {
+			mChildTravelers = new ArrayList<ChildTraveler>();
+		}
+		return mChildTravelers;
 	}
 
 	public int getNumChildren() {
@@ -162,8 +174,8 @@ public class SearchParams implements Parcelable, JSONable {
 		mCustomDestinationQryText = customDestinationQryText;
 	}
 
-	public SearchParams setChildAges(List<Integer> childAges) {
-		mChildAges = childAges;
+	public SearchParams setChildTravelers(List<ChildTraveler> children) {
+		mChildTravelers = children;
 		return this;
 	}
 
@@ -214,7 +226,7 @@ public class SearchParams implements Parcelable, JSONable {
 
 	public void setDefaultGuests() {
 		mNumAdults = 1;
-		mChildAges = null;
+		mChildTravelers = null;
 	}
 
 	public void setDefaultCustomDestinationQryText() {
@@ -257,9 +269,9 @@ public class SearchParams implements Parcelable, JSONable {
 			ret = false;
 		}
 
-		for (int age : getChildAges()) {
-			if (age > GuestsPickerUtils.MAX_CHILD_AGE || age < GuestsPickerUtils.MIN_CHILD_AGE) {
-				Log.w("SearchParams validation error: invalid child age (" + age + ")");
+		for (ChildTraveler child : mChildTravelers) {
+			if (child.getAge() > GuestsPickerUtils.MAX_CHILD_AGE || child.getAge() < GuestsPickerUtils.MIN_CHILD_AGE) {
+				Log.w("SearchParams validation error: invalid child age (" + child.getAge() + ")");
 				ret = false;
 			}
 		}
@@ -293,7 +305,7 @@ public class SearchParams implements Parcelable, JSONable {
 		}
 
 		params.setNumAdults(mNumAdults);
-		params.setChildren(getChildAges());
+		params.setChildren(mChildTravelers);
 
 		Location destLoc = mDestination.getLocation();
 
@@ -374,7 +386,7 @@ public class SearchParams implements Parcelable, JSONable {
 		}
 
 		params.setNumAdults(mNumAdults);
-		params.setChildren(getChildAges());
+		params.setChildren(mChildTravelers);
 
 		return params;
 	}
@@ -399,7 +411,7 @@ public class SearchParams implements Parcelable, JSONable {
 		mEndDate = params.mEndDate;
 
 		mNumAdults = params.mNumAdults;
-		mChildAges = params.mChildAges;
+		mChildTravelers = params.mChildTravelers;
 
 		mCustomDestinationQryText = params.mCustomDestinationQryText;
 	}
@@ -528,7 +540,7 @@ public class SearchParams implements Parcelable, JSONable {
 			JodaUtils.putLocalDateInJson(obj, "endDate", mEndDate);
 
 			obj.putOpt("numAdults", mNumAdults);
-			JSONUtils.putIntList(obj, "childAges", mChildAges);
+			JSONUtils.putJSONableList(obj, "children", mChildTravelers);
 
 			obj.putOpt("customDestinationQryText", mCustomDestinationQryText);
 
@@ -551,7 +563,7 @@ public class SearchParams implements Parcelable, JSONable {
 		mEndDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "endDate", null);
 
 		mNumAdults = obj.optInt("numAdults", 1);
-		mChildAges = JSONUtils.getIntList(obj, "childAges");
+		mChildTravelers = JSONUtils.getJSONableList(obj, "children", ChildTraveler.class);
 
 		mCustomDestinationQryText = obj.optString("customDestinationQryText");
 
