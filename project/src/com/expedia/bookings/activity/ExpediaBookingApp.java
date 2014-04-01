@@ -160,8 +160,14 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		LocalExpertSite.init(this);
 		startupTimer.addSplit("LocalExpertSite Init");
 
-		String serverUrlPath = IS_VSC ? "ExpediaSharedData/VSCServerURLs.json"
-				: "ExpediaSharedData/ExpediaServerURLs.json";
+		String serverUrlPath = "ExpediaSharedData/ExpediaServerURLs.json";
+		if (IS_VSC) {
+			serverUrlPath = "ExpediaSharedData/VSCServerURLs.json";
+		}
+		else if (IS_TRAVELOCITY) {
+			serverUrlPath = "ExpediaSharedData/TVLYServerURLs.json";
+		}
+
 		ExpediaServices.initEndPoints(this, serverUrlPath);
 		startupTimer.addSplit("ExpediaServices endpoints init");
 
