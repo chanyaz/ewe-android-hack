@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -27,6 +28,7 @@ import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
+import com.mobiata.android.util.AndroidUtils;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class FruitList extends ListView implements OnScrollListener, IStateProvider<ResultsListState> {
@@ -204,11 +206,29 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 
 	private void sizeOrDataChanged() {
 		updateSpacerSizes();
+		updateBackgroundColor();
 	}
 
 	private void updateSpacerSizes() {
 		setHeaderSpacerHeight(calculateHeaderSpacerHeight());
 		setFooterSpacerHeight(calculateFooterSpacerHeight());
+	}
+
+
+	@SuppressLint("NewApi")
+	private void updateBackgroundColor() {
+		if (mListLockedToTop) {
+			//We use the footer color here, since the footer color is chosen to be the fill color.
+			setBackgroundColor(mFooterSpacerColor);
+		}
+		else {
+			if (AndroidUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN) {
+				setBackground(null);
+			}
+			else {
+				setBackgroundDrawable(null);
+			}
+		}
 	}
 
 	private void setHeaderSpacerHeight(int height) {
@@ -542,7 +562,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 		float perc = getScrollDownPercentage();
 		int headerViewCount = getHeaderViewsCount();
 		if (mIsFlinging && !mIsTouching && mFlingFirstVisiblePosition > headerViewCount
-				&& firstVisibleItem <= headerViewCount && firstVisibleItem < mFlingFirstVisiblePosition) {
+			&& firstVisibleItem <= headerViewCount && firstVisibleItem < mFlingFirstVisiblePosition) {
 			//So we are flinging, but we dont want people to fling past the top if we started below it, so we go to the top
 			gotoTop(0);
 			perc = 0;
@@ -611,7 +631,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 	 */
 
 	private StateListenerCollection<ResultsListState> mStateListeners = new StateListenerCollection<ResultsListState>(
-			ResultsListState.AT_BOTTOM);
+		ResultsListState.AT_BOTTOM);
 
 	@Override
 	public void startStateTransition(ResultsListState stateOne, ResultsListState stateTwo) {
@@ -620,7 +640,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 
 	@Override
 	public void updateStateTransition(ResultsListState stateOne, ResultsListState stateTwo,
-			float percentage) {
+		float percentage) {
 		mStateListeners.updateStateTransition(stateOne, stateTwo, percentage);
 	}
 
