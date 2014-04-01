@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <!-- BG FLIGHT MAP -->
 
@@ -23,10 +23,17 @@
         android:id="@+id/flight_histogram_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
+    <!-- LOADING  -->
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/loading_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- SEARCH ERROR -->
+    <com.expedia.bookings.widget.FrameLayoutTouchController
+        android:id="@+id/search_error_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

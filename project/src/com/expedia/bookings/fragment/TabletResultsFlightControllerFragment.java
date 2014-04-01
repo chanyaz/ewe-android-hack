@@ -58,8 +58,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private static final String FTAG_FLIGHT_ADD_TO_TRIP = "FTAG_FLIGHT_ADD_TO_TRIP";
 	private static final String FTAG_FLIGHT_HISTOGRAM = "FTAG_FLIGHT_HISTOGRAM";
 	private static final String FTAG_FLIGHT_SEARCH_DOWNLOAD = "FTAG_FLIGHT_SEARCH_DOWNLOAD";
+	private static final String FTAG_FLIGHT_SEARCH_ERROR = "FTAG_FLIGHT_SEARCH_ERROR";
 	private static final String FTAG_FLIGHT_LOADING_INDICATOR = "FTAG_FLIGHT_LOADING_INDICATOR";
 	private static final String FTAG_FLIGHT_LEGS_CHOOSER = "FTAG_FLIGHT_LEGS_CHOOSER";
+
 
 	//Containers
 	private ViewGroup mRootC;
@@ -68,6 +70,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private FrameLayoutTouchController mFlightHistogramC;
 	private FrameLayoutTouchController mFlightLegsC;
 	private FrameLayoutTouchController mLoadingC;
+	private FrameLayoutTouchController mSearchErrorC;
 
 	private ArrayList<ViewGroup> mContainers = new ArrayList<ViewGroup>();
 
@@ -78,6 +81,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private FlightSearchDownloadFragment mFlightSearchDownloadFrag;
 	private ResultsListLoadingFragment mLoadingGuiFrag;
 	private ResultsRecursiveFlightLegsFragment mFlightLegsFrag;
+	private ResultsListSearchErrorFragment mSearchErrorFrag;
 
 	//Other
 	private GridManager mGrid = new GridManager();
@@ -122,12 +126,14 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		mFlightHistogramC = Ui.findView(view, R.id.flight_histogram_container);
 		mLoadingC = Ui.findView(view, R.id.loading_container);
 		mFlightLegsC = Ui.findView(view, R.id.flight_leg_container);
+		mSearchErrorC = Ui.findView(view, R.id.search_error_container);
 
 		mContainers.add(mFlightMapC);
 		mContainers.add(mAddToTripC);
 		mContainers.add(mLoadingC);
 		mContainers.add(mFlightHistogramC);
 		mContainers.add(mFlightLegsC);
+		mContainers.add(mSearchErrorC);
 
 		registerStateListener(new StateListenerLogger<ResultsFlightsState>(), false);
 		registerStateListener(mFlightsStateHelper, false);
@@ -227,6 +233,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		else if (tag == FTAG_FLIGHT_LEGS_CHOOSER) {
 			frag = mFlightLegsFrag;
 		}
+		else if (tag == FTAG_FLIGHT_SEARCH_ERROR) {
+			frag = mSearchErrorFrag;
+		}
 
 		return frag;
 	}
@@ -251,6 +260,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		}
 		else if (tag == FTAG_FLIGHT_LEGS_CHOOSER) {
 			frag = ResultsRecursiveFlightLegsFragment.newInstance(0);
+		}
+		else if (tag == FTAG_FLIGHT_SEARCH_ERROR) {
+			frag = ResultsListSearchErrorFragment.newInstance(getString(R.string.search_error));
 		}
 
 		return frag;
@@ -324,6 +336,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		ArrayList<ViewGroup> visibleViews = new ArrayList<ViewGroup>();
 
 		switch (flightsState) {
+		case SEARCH_ERROR: {
+			visibleViews.add(mSearchErrorC);
+			break;
+		}
 		case LOADING:
 			visibleViews.add(mLoadingC);
 		case FLIGHT_HISTOGRAM:
@@ -369,16 +385,26 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		FragmentTransaction transaction = manager.beginTransaction();
 
 		boolean loadingAvailable = false;
+		boolean searchErrorAvailable = false;
 		boolean flightSearchDownloadAvailable = false;
 		boolean flightHistogramAvailable = false;
 		boolean flightMapAvailable = true;
 		boolean flightAddToTripAvailable = true;
 		boolean flightLegsFragAvailable = true;
 
-		if (flightsState == ResultsFlightsState.LOADING) {
+		if (flightsState == ResultsFlightsState.LOADING || flightsState == ResultsFlightsState.SEARCH_ERROR) {
 			// This case kicks off the downloads
-			flightSearchDownloadAvailable = true;
-			loadingAvailable = true;
+			if (flightsState == ResultsFlightsState.LOADING) {
+				flightSearchDownloadAvailable = true;
+				loadingAvailable = true;
+				searchErrorAvailable = false;
+			}
+			else {
+				flightSearchDownloadAvailable = false;
+				loadingAvailable = false;
+				searchErrorAvailable = true;
+			}
+
 			flightLegsFragAvailable = false;
 			flightMapAvailable = false;
 			flightAddToTripAvailable = false;
@@ -393,15 +419,15 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			flightHistogramAvailable = true;
 		}
 
-		mFlightMapFrag = (ResultsFlightMapFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+		mFlightMapFrag = FragmentAvailabilityUtils.setFragmentAvailability(
 			flightMapAvailable, FTAG_FLIGHT_MAP,
 			manager, transaction, this, R.id.bg_flight_map, false);
-		mAddToTripFrag = (ResultsFlightAddToTrip) FragmentAvailabilityUtils.setFragmentAvailability(
+		mAddToTripFrag = FragmentAvailabilityUtils.setFragmentAvailability(
 			flightAddToTripAvailable,
 			FTAG_FLIGHT_ADD_TO_TRIP, manager, transaction, this, R.id.flights_add_to_trip, false);
 		mFlightHistogramFrag = FragmentAvailabilityUtils.setFragmentAvailability(flightHistogramAvailable,
 			FTAG_FLIGHT_HISTOGRAM, manager, transaction, this, R.id.flight_histogram_container, true);
-		mFlightSearchDownloadFrag = (FlightSearchDownloadFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+		mFlightSearchDownloadFrag = FragmentAvailabilityUtils.setFragmentAvailability(
 			flightSearchDownloadAvailable,
 			FTAG_FLIGHT_SEARCH_DOWNLOAD, manager, transaction, this, 0, true);
 		mLoadingGuiFrag = FragmentAvailabilityUtils.setFragmentAvailability(
@@ -410,6 +436,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		mFlightLegsFrag = FragmentAvailabilityUtils.setFragmentAvailability(
 			flightLegsFragAvailable,
 			FTAG_FLIGHT_LEGS_CHOOSER, manager, transaction, this, R.id.flight_leg_container, false);
+		mSearchErrorFrag = FragmentAvailabilityUtils
+			.setFragmentAvailability(searchErrorAvailable, FTAG_FLIGHT_SEARCH_ERROR, manager, transaction, this,
+				R.id.search_error_container, false);
 		transaction.commit();
 
 	}
@@ -561,12 +590,14 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			mGrid.setContainerToColumnSpan(mFlightMapC, 0, 4);
 			mGrid.setContainerToColumn(mFlightHistogramC, 2);
 			mGrid.setContainerToColumn(mLoadingC, 2);
+			mGrid.setContainerToColumn(mSearchErrorC, 2);
 			mGrid.setContainerToColumnSpan(mFlightLegsC, 0, 4);
 
 			//Special cases
 			mGrid.setContainerToRowSpan(mFlightMapC, 0, 2);
 			mGrid.setContainerToRow(mFlightHistogramC, 2);
 			mGrid.setContainerToRow(mLoadingC, 2);
+			mGrid.setContainerToRow(mSearchErrorC, 2);
 
 			//Frag stuff
 			updateMapFragSizes(mFlightMapFrag);
@@ -785,8 +816,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
 			}
 			else {
-				//TODO: Better Error Handling
-				Ui.showToast(getActivity(), "FAIL FAIL FAIL - FLIGHT SEARCH ERROR");
+				setFlightsState(ResultsFlightsState.SEARCH_ERROR, false);
 			}
 
 			if (mFlightHistogramFrag != null) {
