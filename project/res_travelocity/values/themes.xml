@@ -210,6 +210,7 @@
         <item name="actionBarTabletDateDrawable">@drawable/ic_action_dates_travelocity</item>
         <item name="actionBarTabletSearchDefaultTextColor">@color/actionbar_text_travelocity</item>
         <item name="actionBarTabletSearchHintTextColor">@color/actionbar_text_hint_travelocity</item>
+        <item name="actionBarTabletGuestCountTextColor">@android:color/white</item>
 
         <!-- Hotel details search calendar drawables -->
         <item name="calendarBackgroundCellDrawable">@drawable/bg_calendar_cell_tablet_travelocity</item>

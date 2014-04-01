@@ -346,5 +346,6 @@
     <!-- Tablet Hotel Deal Left Ribbon-->
     <attr name="tabletRibbonSaleRateTextColor" format="reference"/>
     <attr name="tabletRibbonRateQualifierTextColor" format="reference"/>
+    <attr name="actionBarTabletGuestCountTextColor" format="reference"/>
 
 </resources>

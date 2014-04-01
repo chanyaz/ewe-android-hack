@@ -155,4 +155,6 @@
 
     <color name="coupon_success_message_color">#FFE115</color>
 
+    <color name="tabletGuestCountTextColor">#505966</color>
+
 </resources>
