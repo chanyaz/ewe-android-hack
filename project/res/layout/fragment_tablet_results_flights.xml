@@ -5,25 +5,16 @@
     android:layout_height="match_parent">
 
     <!-- BG FLIGHT MAP -->
-
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/bg_flight_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <!-- FLIGHT LEG CONTAINER -->
-
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/flight_leg_container"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <!-- GDE HISTOGRAM -->
-    <com.expedia.bookings.widget.FrameLayoutTouchController
-        android:id="@+id/flight_histogram_container"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
 
     <!-- LOADING  -->
     <com.expedia.bookings.widget.FrameLayoutTouchController
@@ -37,9 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-
     <!-- ADD TO TRIP -->
-
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/flights_add_to_trip"
         android:layout_width="match_parent"

@@ -175,7 +175,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		mParentFlightSelectedListener = Ui.findFragmentListener(this, IResultsFlightSelectedListener.class, false);
 
 		if (isFirstLeg()) {
-			mResultsFlightsStateListener.registerWithProvider(this, false);
+			mResultsFlightsStateListener.registerWithProvider(this, true);
 		}
 		else {
 			mParentLegStateListener.registerWithProvider(this, false);
@@ -236,7 +236,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	}
 
 	public ResultsFlightLegState getBaseState() {
-		return mLegNumber > 0 ? ResultsFlightLegState.FILTERS : ResultsFlightLegState.LIST_DOWN;
+		return isFirstLeg() ? ResultsFlightLegState.LIST_DOWN : ResultsFlightLegState.FILTERS;
 	}
 
 	public boolean hasValidDataForDetails() {
@@ -464,7 +464,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				}
 			}
 			else if (flightsState == ResultsFlightsState.LOADING
-				|| flightsState == ResultsFlightsState.FLIGHT_HISTOGRAM
+				|| flightsState == ResultsFlightsState.SEARCH_ERROR
 				|| flightsState == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				setState(getBaseState(), false);
 			}
@@ -629,7 +629,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		return mStateManager.getState();
 	}
 
-
 	/*
 	SHOW & HIDE DETAILS ANIMATION HELPERS
 	 */
@@ -723,15 +722,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				}
 			}
 		}
-
-
 	}
 
 	protected void showNextLegPercentage(float percentage) {
 		float nextLegTransX = (1f - percentage) * mGrid.getColSpanWidth(0, 1);
 		float listTransX = (int) (-mGrid.getColLeft(2) + percentage
 			* -mGrid.getColSpanWidth(0, 1));
-
 
 		mNextLegC.setTranslationX(nextLegTransX);
 		mNextLegC.setAlpha(percentage);

@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
@@ -56,7 +55,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	//Frag tags
 	private static final String FTAG_FLIGHT_MAP = "FTAG_FLIGHT_MAP";
 	private static final String FTAG_FLIGHT_ADD_TO_TRIP = "FTAG_FLIGHT_ADD_TO_TRIP";
-	private static final String FTAG_FLIGHT_HISTOGRAM = "FTAG_FLIGHT_HISTOGRAM";
 	private static final String FTAG_FLIGHT_SEARCH_DOWNLOAD = "FTAG_FLIGHT_SEARCH_DOWNLOAD";
 	private static final String FTAG_FLIGHT_SEARCH_ERROR = "FTAG_FLIGHT_SEARCH_ERROR";
 	private static final String FTAG_FLIGHT_LOADING_INDICATOR = "FTAG_FLIGHT_LOADING_INDICATOR";
@@ -67,7 +65,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private ViewGroup mRootC;
 	private FrameLayoutTouchController mFlightMapC;
 	private FrameLayoutTouchController mAddToTripC;
-	private FrameLayoutTouchController mFlightHistogramC;
 	private FrameLayoutTouchController mFlightLegsC;
 	private FrameLayoutTouchController mLoadingC;
 	private FrameLayoutTouchController mSearchErrorC;
@@ -77,7 +74,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	//Fragments
 	private ResultsFlightMapFragment mFlightMapFrag;
 	private ResultsFlightAddToTrip mAddToTripFrag;
-	private ResultsFlightHistogramFragment mFlightHistogramFrag;
 	private FlightSearchDownloadFragment mFlightSearchDownloadFrag;
 	private ResultsListLoadingFragment mLoadingGuiFrag;
 	private ResultsRecursiveFlightLegsFragment mFlightLegsFrag;
@@ -123,7 +119,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		mRootC = Ui.findView(view, R.id.root_layout);
 		mFlightMapC = Ui.findView(view, R.id.bg_flight_map);
 		mAddToTripC = Ui.findView(view, R.id.flights_add_to_trip);
-		mFlightHistogramC = Ui.findView(view, R.id.flight_histogram_container);
 		mLoadingC = Ui.findView(view, R.id.loading_container);
 		mFlightLegsC = Ui.findView(view, R.id.flight_leg_container);
 		mSearchErrorC = Ui.findView(view, R.id.search_error_container);
@@ -131,7 +126,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		mContainers.add(mFlightMapC);
 		mContainers.add(mAddToTripC);
 		mContainers.add(mLoadingC);
-		mContainers.add(mFlightHistogramC);
 		mContainers.add(mFlightLegsC);
 		mContainers.add(mSearchErrorC);
 
@@ -179,8 +173,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null) {
 			return ResultsFlightsState.FLIGHT_LIST_DOWN;
 		}
-		else if (Db.getFlightSearchHistogramResponse() != null) {
-			return ResultsFlightsState.FLIGHT_HISTOGRAM;
+		else if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null && Db
+			.getFlightSearch().getSearchResponse().hasErrors()) {
+			return ResultsFlightsState.SEARCH_ERROR;
 		}
 		else {
 			return ResultsFlightsState.LOADING;
@@ -221,9 +216,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		else if (tag == FTAG_FLIGHT_ADD_TO_TRIP) {
 			frag = this.mAddToTripFrag;
 		}
-		else if (tag == FTAG_FLIGHT_HISTOGRAM) {
-			frag = mFlightHistogramFrag;
-		}
 		else if (tag == FTAG_FLIGHT_SEARCH_DOWNLOAD) {
 			frag = mFlightSearchDownloadFrag;
 		}
@@ -249,9 +241,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		else if (tag == FTAG_FLIGHT_ADD_TO_TRIP) {
 			frag = ResultsFlightAddToTrip.newInstance();
 		}
-		else if (tag == FTAG_FLIGHT_HISTOGRAM) {
-			frag = new ResultsFlightHistogramFragment();
-		}
 		else if (tag == FTAG_FLIGHT_SEARCH_DOWNLOAD) {
 			frag = FlightSearchDownloadFragment.newInstance(Sp.getParams().toFlightSearchParams());
 		}
@@ -274,15 +263,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		if (tag == FTAG_FLIGHT_MAP) {
 			updateMapFragSizes((ResultsFlightMapFragment) frag);
 		}
-		else if (tag == FTAG_FLIGHT_HISTOGRAM) {
-			ResultsFlightHistogramFragment histFrag = (ResultsFlightHistogramFragment) frag;
-			histFrag.setHistogramData(Db.getFlightSearchHistogramResponse());
-			histFrag.setColWidth(mGrid.getColWidth(2));
-
-			if (mFlightSearchDownloadFrag != null) {
-				histFrag.setShowProgressBar(mFlightSearchDownloadFrag.isDownloadingFlightSearch());
-			}
-		}
 	}
 
 	private void updateMapFragSizes(ResultsFlightMapFragment frag) {
@@ -303,10 +283,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private void setTouchState(ResultsFlightsState flightsState) {
 		ArrayList<ViewGroup> touchableViews = new ArrayList<ViewGroup>();
 		switch (flightsState) {
-		case FLIGHT_HISTOGRAM: {
-			touchableViews.add(mFlightHistogramC);
-			break;
-		}
 		case FLIGHT_LIST_DOWN: {
 			touchableViews.add(mFlightLegsC);
 			break;
@@ -340,11 +316,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			visibleViews.add(mSearchErrorC);
 			break;
 		}
-		case LOADING:
+		case LOADING: {
 			visibleViews.add(mLoadingC);
-		case FLIGHT_HISTOGRAM:
-			visibleViews.add(mFlightHistogramC);
 			break;
+		}
 		case FLIGHT_LIST_DOWN: {
 			visibleViews.add(mFlightLegsC);
 			break;
@@ -387,7 +362,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		boolean loadingAvailable = false;
 		boolean searchErrorAvailable = false;
 		boolean flightSearchDownloadAvailable = false;
-		boolean flightHistogramAvailable = false;
 		boolean flightMapAvailable = true;
 		boolean flightAddToTripAvailable = true;
 		boolean flightLegsFragAvailable = true;
@@ -409,15 +383,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			flightMapAvailable = false;
 			flightAddToTripAvailable = false;
 		}
-		else if (flightsState == ResultsFlightsState.FLIGHT_HISTOGRAM) {
-			flightSearchDownloadAvailable = true;
-			flightHistogramAvailable = true;
-			flightMapAvailable = false;
-			flightAddToTripAvailable = false;
-		}
-		else if (flightsState == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-			flightHistogramAvailable = true;
-		}
 
 		mFlightMapFrag = FragmentAvailabilityUtils.setFragmentAvailability(
 			flightMapAvailable, FTAG_FLIGHT_MAP,
@@ -425,8 +390,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		mAddToTripFrag = FragmentAvailabilityUtils.setFragmentAvailability(
 			flightAddToTripAvailable,
 			FTAG_FLIGHT_ADD_TO_TRIP, manager, transaction, this, R.id.flights_add_to_trip, false);
-		mFlightHistogramFrag = FragmentAvailabilityUtils.setFragmentAvailability(flightHistogramAvailable,
-			FTAG_FLIGHT_HISTOGRAM, manager, transaction, this, R.id.flight_histogram_container, true);
 		mFlightSearchDownloadFrag = FragmentAvailabilityUtils.setFragmentAvailability(
 			flightSearchDownloadAvailable,
 			FTAG_FLIGHT_SEARCH_DOWNLOAD, manager, transaction, this, 0, true);
@@ -588,14 +551,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 			//Horizontal alignment
 			mGrid.setContainerToColumnSpan(mFlightMapC, 0, 4);
-			mGrid.setContainerToColumn(mFlightHistogramC, 2);
 			mGrid.setContainerToColumn(mLoadingC, 2);
 			mGrid.setContainerToColumn(mSearchErrorC, 2);
 			mGrid.setContainerToColumnSpan(mFlightLegsC, 0, 4);
 
 			//Special cases
 			mGrid.setContainerToRowSpan(mFlightMapC, 0, 2);
-			mGrid.setContainerToRow(mFlightHistogramC, 2);
 			mGrid.setContainerToRow(mLoadingC, 2);
 			mGrid.setContainerToRow(mSearchErrorC, 2);
 
@@ -694,9 +655,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN)) {
 				mFlightMapC.setVisibility(View.VISIBLE);
 			}
-			else if (isHistogramAndListCardFlipTransition(stateOne, stateTwo)) {
-				mFlightHistogramC.setLayerType(layerType, null);
-			}
 
 		}
 
@@ -713,19 +671,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mFlightMapC.setAlpha(1f - percentage);
 			}
-			else if (isHistogramAndListCardFlipTransition(stateOne, stateTwo)) {
-				float perc = stateOne == ResultsFlightsState.FLIGHT_HISTOGRAM ? 1f - percentage : percentage;
-				mFlightHistogramC.setAlpha(perc);
-				mFlightLegsC.setAlpha(1f - perc);
-			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
-			int layerType = View.LAYER_TYPE_NONE;
-			if (isHistogramAndListCardFlipTransition(stateOne, stateTwo)) {
-				mFlightHistogramC.setLayerType(layerType, null);
-			}
+
 		}
 
 		@Override
@@ -735,40 +685,17 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			setVisibilityState(state);
 
 			if (state == ResultsFlightsState.LOADING || state == ResultsFlightsState.FLIGHT_LIST_DOWN
-				|| state == ResultsFlightsState.FLIGHT_HISTOGRAM) {
+				|| state == ResultsFlightsState.SEARCH_ERROR) {
 				mFlightMapC.setAlpha(0f);
 			}
 			else {
 				mFlightMapC.setAlpha(1f);
 			}
 
-			// Some histogram/list card flip animation cleanup
-			if (state == ResultsFlightsState.FLIGHT_HISTOGRAM) {
-				mFlightHistogramC.setAlpha(1f);
-				mFlightHistogramC.setRotationY(0f);
-				mFlightHistogramC.setTouchPassThroughEnabled(false);
-				mFlightLegsC.setAlpha(0f);
-			}
-
-
-			if (state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-				mFlightLegsC.setAlpha(1f);
-				mFlightLegsC.setRotationY(0f);
-				mFlightHistogramC.setAlpha(0f);
-				mFlightHistogramC.setTouchPassThroughEnabled(true);
-				mFlightHistogramC.setTouchPassThroughReceiver(mFlightLegsC);
-			}
-
-
 			//Make sure we are loading using the most recent params
 			if (mFlightSearchDownloadFrag != null && state == ResultsFlightsState.LOADING) {
 				importSearchParams();
 				mFlightSearchDownloadFrag.startOrResumeForParams(Db.getFlightSearch().getSearchParams());
-			}
-
-			//The histogram spinner should show if we dont have flight resutls
-			if (mFlightHistogramFrag != null && state == ResultsFlightsState.FLIGHT_HISTOGRAM) {
-				mFlightHistogramFrag.setShowProgressBar(Db.getFlightSearch().getSearchResponse() == null);
 			}
 
 			if (mFlightLegsFrag != null && state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
@@ -780,7 +707,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 
 			if (mFlightLegsFrag != null && (state == ResultsFlightsState.LOADING
-				|| state == ResultsFlightsState.FLIGHT_HISTOGRAM)) {
+				|| state == ResultsFlightsState.SEARCH_ERROR)) {
 				mFlightLegsFrag.unRegisterStateListener(mLegStateListener);
 			}
 			else if (mFlightLegsFrag != null) {
@@ -791,11 +718,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			if (state == ResultsFlightsState.LOADING) {
 				mNeedsQueryReset = true;
 			}
-		}
-
-		private boolean isHistogramAndListCardFlipTransition(ResultsFlightsState one, ResultsFlightsState two) {
-			return (one == ResultsFlightsState.FLIGHT_HISTOGRAM && two == ResultsFlightsState.FLIGHT_LIST_DOWN) ||
-				(one == ResultsFlightsState.FLIGHT_LIST_DOWN && two == ResultsFlightsState.FLIGHT_HISTOGRAM);
 		}
 	};
 
@@ -817,23 +739,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 			else {
 				setFlightsState(ResultsFlightsState.SEARCH_ERROR, false);
-			}
-
-			if (mFlightHistogramFrag != null) {
-				mFlightHistogramFrag.setShowProgressBar(false);
-			}
-		}
-		else if (type == ExpediaServicesFragment.ServiceType.FLIGHT_GDE_SEARCH) {
-			if (response != null && !response.hasErrors()) {
-				Db.setFlightSearchHistogramResponse((FlightSearchHistogramResponse) response);
-				if (Db.getFlightSearch() == null || (Db.getFlightSearch() != null &&
-					Db.getFlightSearch().getSearchResponse() == null)) {
-					setFlightsState(ResultsFlightsState.FLIGHT_HISTOGRAM, true);
-				}
-			}
-			else {
-				//TODO: Better Error Handling
-				Ui.showToast(getActivity(), "FAIL FAIL FAIL - GDE DATA DOWNLOAD!");
 			}
 		}
 	}

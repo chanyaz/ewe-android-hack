@@ -634,7 +634,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 
 		private ResultsState getResultsStateFromFlights(ResultsFlightsState state) {
 			if (state == ResultsFlightsState.LOADING || state == ResultsFlightsState.FLIGHT_LIST_DOWN ||
-				state == ResultsFlightsState.FLIGHT_HISTOGRAM || state == ResultsFlightsState.SEARCH_ERROR) {
+				state == ResultsFlightsState.SEARCH_ERROR) {
 				return ResultsState.OVERVIEW;
 			}
 			else {
