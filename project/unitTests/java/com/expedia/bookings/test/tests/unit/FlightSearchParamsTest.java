@@ -2,13 +2,13 @@ package com.expedia.bookings.test.tests.unit;
 
 import java.util.LinkedList;
 
-import junit.framework.TestCase;
-
 import org.joda.time.LocalDate;
 
+import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.FlightSearchLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.Location;
+import junit.framework.TestCase;
 
 public class FlightSearchParamsTest extends TestCase {
 
@@ -23,11 +23,11 @@ public class FlightSearchParamsTest extends TestCase {
 
 	public void testNumChildren() {
 		FlightSearchParams searchParams = new FlightSearchParams();
-		LinkedList<Integer> children = new LinkedList<Integer>();
+		LinkedList<ChildTraveler> children = new LinkedList<ChildTraveler>();
 
 		int expectedNumChildren = 2;
-		children.add(3);
-		children.add(5);
+		children.add(new ChildTraveler(3, true));
+		children.add(new ChildTraveler(5, true));
 
 		searchParams.setChildren(children);
 
