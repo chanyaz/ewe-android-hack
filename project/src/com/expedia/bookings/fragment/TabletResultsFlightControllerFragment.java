@@ -20,7 +20,6 @@ import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.ResultsFlightLegState;
-import com.expedia.bookings.enums.ResultsFlightsListState;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -405,63 +404,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		transaction.commit();
 
 	}
-
-	/*
-	 * LIST STATE LISTENER
-	 */
-
-	private StateListenerHelper<ResultsFlightsListState> mListStateHelper = new StateListenerHelper<ResultsFlightsListState>() {
-
-		@Override
-		public void onStateTransitionStart(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo) {
-			if (getFlightsListActionsEnabled()) {
-				startStateTransition(getFlightsStateFromListState(stateOne), getFlightsStateFromListState(stateTwo));
-			}
-		}
-
-		@Override
-		public void onStateTransitionUpdate(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo,
-			float percentage) {
-			if (getFlightsListActionsEnabled()) {
-				updateStateTransition(getFlightsStateFromListState(stateOne), getFlightsStateFromListState(stateTwo),
-					percentage);
-			}
-		}
-
-		@Override
-		public void onStateTransitionEnd(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo) {
-			if (getFlightsListActionsEnabled()) {
-				endStateTransition(getFlightsStateFromListState(stateOne), getFlightsStateFromListState(stateTwo));
-			}
-		}
-
-		@Override
-		public void onStateFinalized(ResultsFlightsListState state) {
-			if (getFlightsListActionsEnabled()) {
-				setFlightsState(getFlightsStateFromListState(state), false);
-			}
-		}
-
-		private boolean getFlightsListActionsEnabled() {
-			ResultsFlightsState state = mFlightsStateManager.getState();
-			if (mFlightsStateManager.hasState() && (state == ResultsFlightsState.CHOOSING_FLIGHT
-				|| state == ResultsFlightsState.FLIGHT_LIST_DOWN)) {
-				return true;
-			}
-			return false;
-		}
-
-		private ResultsFlightsState getFlightsStateFromListState(ResultsFlightsListState state) {
-			if (state == ResultsFlightsListState.FLIGHTS_LIST_AT_TOP) {
-				return ResultsFlightsState.CHOOSING_FLIGHT;
-			}
-			else if (state == ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM) {
-				return getBaseState();
-			}
-			return null;
-		}
-
-	};
 
 	/*
 	 * RESULTS STATE LISTENER
