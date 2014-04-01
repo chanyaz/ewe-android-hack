@@ -140,7 +140,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private View mGuestsLayout;
 	private View mRefinementDismissView;
 	private View mChildAgesLayout;
-	private View mSearchButton;
+	private View mDoneButton;
 	private View mButtonBarLayout;
 	private TextView mRefinementInfoTextView;
 	private TextView mSelectChildAgeTextView;
@@ -256,7 +256,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mRefinementInfoTextView = Ui.findView(v, R.id.refinement_info_text_view);
 		mRefinementDismissView = Ui.findView(v, R.id.refinement_dismiss_view);
 		mSelectChildAgeTextView = Ui.findView(v, R.id.label_select_each_childs_age);
-		mSearchButton = Ui.findView(v, R.id.search_button);
+		mDoneButton = Ui.findView(v, R.id.guest_done_button);
 
 		// Configure views
 		if (getArguments().getBoolean(ARG_DIM_BACKGROUND)) {
@@ -424,7 +424,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			}
 		});
 
-		mSearchButton.setOnClickListener(mDoneButtonClickListener);
+		mDoneButton.setOnClickListener(mDoneButtonClickListener);
 
 		mAdultsNumberPicker.setFormatter(mAdultsNumberPickerFormatter);
 		mAdultsNumberPicker.setOnValueChangeListener(mNumberPickerChangedListener);

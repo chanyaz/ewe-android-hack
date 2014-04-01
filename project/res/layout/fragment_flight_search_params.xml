@@ -178,7 +178,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/guests_layout"
-        layout="@layout/include_button_bar"/>
+        layout="@layout/include_flights_guest_button_bar"/>
 
     <LinearLayout
         android:id="@id/guests_layout"

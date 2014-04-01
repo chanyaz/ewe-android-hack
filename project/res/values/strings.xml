@@ -1640,6 +1640,8 @@
     <string name="upgrade">Upgrade</string>
     <!-- Button label for searching with newly selected parameters -->
     <string name="SEARCH">SEARCH</string>
+    <!-- Button label for dismissing the flight guest picker -->
+    <string name="DONE">DONE</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">Search Map</string>
     <!-- Label for sort hotels in hotel list on tablet -->
