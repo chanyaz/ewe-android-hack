@@ -406,25 +406,25 @@ public class L2ImageCache {
 	 */
 	public interface OnBitmapLoaded {
 		/**
-		 * Called when an image is successfully loaded.
+		 * Called when a bitmap is successfully loaded.
 		 *
 		 * @param url the url of the Bitmap
 		 * @param bitmap the Bitmap that was just loaded
 		 */
-		public void onImageLoaded(String url, Bitmap bitmap);
+		public void onBitmapLoaded(String url, Bitmap bitmap);
 
 		/**
-		 * Called when an image fails to load for any reason.  A few of the possible reasons:
+		 * Called when a bitmap fails to load for any reason.  A few of the possible reasons:
 		 * - The URL is bad.
 		 * - The URL is known bad (from a previous call), so we fail it again
 		 * - Internet connectivity is down.
 		 *
-		 * This is NOT called when the image download is explicitly cancelled.  It is assumed in this case
-		 * that the caller is handling any repercussions of cancelling the download.
+		 * This is NOT called when the bitmap download is explicitly cancelled.  It is assumed in
+		 * this case that the caller is handling any repercussions of cancelling the download.
 		 *
 		 * @param url the url that failed to load
 		 */
-		public void onImageLoadFailed(String url);
+		public void onBitmapLoadFailed(String url);
 	}
 
 	/**
@@ -450,12 +450,12 @@ public class L2ImageCache {
 
 		// Begin a load on the ImageView
 		OnBitmapLoaded callback = new OnBitmapLoaded() {
-			public void onImageLoaded(String url, Bitmap bitmap) {
+			public void onBitmapLoaded(String url, Bitmap bitmap) {
 				BitmapDrawable drawable = new BitmapDrawable(imageView.getContext().getResources(), bitmap);
 				imageView.setImageDrawable(drawable);
 			}
 
-			public void onImageLoadFailed(String url) {
+			public void onBitmapLoadFailed(String url) {
 				// Do nothing
 			}
 		};
@@ -477,12 +477,12 @@ public class L2ImageCache {
 		// First check if we already have the image in memory; if we do, just do the callback
 		Bitmap image = getImage(url, false, blur);
 		if (image != null) {
-			callback.onImageLoaded(url, image);
+			callback.onBitmapLoaded(url, image);
 			return true;
 		}
 		else if (mIgnore.contains(url)) {
 			Log.v(mLogTag, "Url has been ignored because it previously could not be found: " + url);
-			callback.onImageLoadFailed(url);
+			callback.onBitmapLoadFailed(url);
 			return false;
 		}
 
@@ -687,12 +687,12 @@ public class L2ImageCache {
 			case MESSAGE_FINISHED:
 				if (task.mBitmap != null) {
 					for (OnBitmapLoaded callback : task.mCallbacks.values()) {
-						callback.onImageLoaded(url, task.mBitmap);
+						callback.onBitmapLoaded(url, task.mBitmap);
 					}
 				}
 				else {
 					for (OnBitmapLoaded callback : task.mCallbacks.values()) {
-						callback.onImageLoadFailed(url);
+						callback.onBitmapLoadFailed(url);
 					}
 				}
 				break;
@@ -770,10 +770,10 @@ public class L2ImageCache {
 				String url = mBitmapCallable.getUrl();
 				Bitmap bitmap = getImage(url, true);
 				if (bitmap != null) {
-					callback.onImageLoaded(url, getImage(url, true));
+					callback.onBitmapLoaded(url, getImage(url, true));
 				}
 				else {
-					callback.onImageLoadFailed(url);
+					callback.onBitmapLoadFailed(url);
 				}
 			}
 			else {

@@ -151,13 +151,13 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	// OnBitmapLoaded
 
 	@Override
-	public void onImageLoaded(String url, Bitmap bitmap) {
+	public void onBitmapLoaded(String url, Bitmap bitmap) {
 		handleBitmap(bitmap, true);
 	}
 
 	@Override
-	public void onImageLoadFailed(String url) {
-		Log.e("ResultsBackgroundImageFragment - onImageLoadFailed");
+	public void onBitmapLoadFailed(String url) {
+		Log.e("ResultsBackgroundImageFragment - onBitmapLoadFailed");
 	}
 
 	private void handleBitmap(final Bitmap bitmap, boolean fade) {

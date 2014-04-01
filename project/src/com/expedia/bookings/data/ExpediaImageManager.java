@@ -261,13 +261,13 @@ public class ExpediaImageManager {
 				if (bitmap == null) {
 					L2ImageCache.sDestination.loadImage(url, url, blur, new L2ImageCache.OnBitmapLoaded() {
 						@Override
-						public void onImageLoaded(String url, Bitmap bitmap) {
-							Log.d("DestinationImageCache", "expimg mgr loadbmap onImageLoaded success url=" + url);
+						public void onBitmapLoaded(String url, Bitmap bitmap) {
+							Log.d("DestinationImageCache", "expimg mgr loadbmap onBitmapLoaded success url=" + url);
 						}
 
 						@Override
-						public void onImageLoadFailed(String url) {
-							Log.d("DestinationImageCache", "expimg mgr loadbmap onImageLoadedFailed url=" + url);
+						public void onBitmapLoadFailed(String url) {
+							Log.d("DestinationImageCache", "expimg mgr loadbmap onBitmapLoadFailed url=" + url);
 						}
 					});
 				}
@@ -306,7 +306,7 @@ public class ExpediaImageManager {
 				// Invoke the callback with the Bitmap
 				Bitmap bitmap = L2ImageCache.sDestination.getImage(url, true, params.isBlur());
 				if (bitmap != null) {
-					callback.onImageLoaded(url, bitmap);
+					callback.onBitmapLoaded(url, bitmap);
 				}
 				else {
 					L2ImageCache.sDestination.loadImage(url, callback);
