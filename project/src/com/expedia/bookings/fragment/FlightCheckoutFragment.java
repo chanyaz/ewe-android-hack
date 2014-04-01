@@ -56,7 +56,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 
 public class FlightCheckoutFragment extends LoadWalletFragment implements AccountButtonClickListener,
-		ConfirmLogoutDialogFragment.DoLogoutListener {
+	ConfirmLogoutDialogFragment.DoLogoutListener {
 
 	private static final String INSTANCE_REFRESHED_USER_TIME = "INSTANCE_REFRESHED_USER";
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
@@ -96,7 +96,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		}
 		else {
 			throw new RuntimeException(
-					"FlightCheckoutFragment must bind to an activity that implements CheckoutInformationListener");
+				"FlightCheckoutFragment must bind to an activity that implements CheckoutInformationListener");
 		}
 	}
 
@@ -271,7 +271,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			}
 
 			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
-					&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
+				&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
 				//We have a user (either from memory, or loaded from disk)
 				int userRefreshInterval = getResources().getInteger(R.integer.account_sync_interval);
 				if (mRefreshedUserTime + userRefreshInterval < System.currentTimeMillis()) {
@@ -328,6 +328,8 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		final int numTravelers = Db.getFlightSearch().getSearchParams().getNumTravelers();
+		final int numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
+		final int numChildren = Db.getFlightSearch().getSearchParams().getNumChildren();
 		List<Traveler> travelers = Db.getTravelers();
 
 		// Not sure if this state could happen, but there was a LOT of defensive code
@@ -344,7 +346,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			if (traveler != null && state.allTravelerInfoValid(traveler, isInternational)) {
 				// The traveler has information, fill it in
 				SectionTravelerInfo travelerSection = (SectionTravelerInfo) inflater.inflate(
-						R.layout.section_display_traveler_info_btn, null);
+					R.layout.section_display_traveler_info_btn, null);
 
 				dressSectionTraveler(travelerSection, index);
 				mTravelerSections.add(travelerSection);
@@ -363,7 +365,13 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 					tv.setText(R.string.traveler_details);
 				}
 				else {
-					tv.setText(getString(R.string.add_traveler_number_TEMPLATE, index + 1)); // no zero index for users
+					if (index >= (numTravelers - numChildren)) {
+						int childIndex = index - numTravelers + numChildren;
+						tv.setText(getString(R.string.add_child_number_TEMPLATE, childIndex + 1)); // no zero index for users
+					}
+					else {
+						tv.setText(getString(R.string.add_adult_number_TEMPLATE, index + 1)); // no zero index for users
+					}
 				}
 
 				mAddTravelerSections.add(v);
@@ -396,7 +404,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		@Override
 		public void onClick(View v) {
 			Intent editTravelerIntent = new Intent(getActivity(),
-					FlightTravelerInfoOptionsActivity.class);
+				FlightTravelerInfoOptionsActivity.class);
 
 			// We tell the traveler edit activity which index we are editing.
 			editTravelerIntent.putExtra(Codes.TRAVELER_INDEX, mTravelerIndex);
@@ -502,7 +510,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			setPaymentContainerBg(R.drawable.bg_lcc_checkout_information_bottom_tab, false);
 
 			mCardFeeTextView.setText(Html.fromHtml(getString(R.string.airline_card_fee_TEMPLATE,
-					cardFee.getFormattedMoney())));
+				cardFee.getFormattedMoney())));
 			mCardFeeTextView.setVisibility(View.VISIBLE);
 			mLccTriangle.setVisibility(View.VISIBLE);
 		}
@@ -524,6 +532,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 	/**
 	 * Sets the background resource and also makes sure to (re)-set the padding (otherwise it gets blown away)
+	 *
 	 * @param bgResId drawable resource id to set the background of the payment container
 	 */
 	private void setPaymentContainerBg(int bgResId, boolean padBottom) {
@@ -563,7 +572,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		String itinNum = Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber();
 		String tripId = Db.getItinerary(itinNum).getTripId();
 		Bundle args = LoginActivity.createArgumentsBundle(LineOfBusiness.FLIGHTS, new UserToTripAssocLoginExtender(
-				tripId));
+			tripId));
 		User.signIn(getActivity(), args);
 
 		OmnitureTracking.trackPageLoadFlightLogin(getActivity());
