@@ -58,8 +58,10 @@ public class L2ImageCache {
 	// TODO make this configurable
 	private static final float DARKEN_MULTIPLIER = 0.65f;
 	private static final int BLURRED_IMAGE_SIZE_REDUCTION_FACTOR = 4;
-	private static final int STACK_BLUR_RADIUS = 38;
 	private static final String BLUR_KEY_SUFFIX = "blurred";
+	private static final int DEFAULT_STACK_BLUR_RADIUS = 25;
+
+	private int mBlurRadius;
 
 	public L2ImageCache(Context context, String logTag, EvictionPolicy evictionPolicy) {
 		mContext = context;
@@ -67,6 +69,10 @@ public class L2ImageCache {
 
 		mMemoryCache = evictionPolicy.generateMemCache();
 		mDiskCache = evictionPolicy.generateDiskCache();
+
+		// Compute the blur radius
+		float density = context.getResources().getDisplayMetrics().density;
+		mBlurRadius = Math.round(DEFAULT_STACK_BLUR_RADIUS * density);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -89,7 +95,6 @@ public class L2ImageCache {
 		sDestination = new L2ImageCache(context, logTag, policy);
 		sDestination.setVerboseDebugLoggingEnabled(true);
 	}
-
 
 	//////////////////////////////////////////////////////////////////////////
 	// Cache implementation
@@ -305,7 +310,7 @@ public class L2ImageCache {
 					}
 
 					bitmap = BitmapUtils.stackBlurAndDarken(regBitmap, mContext,
-						BLURRED_IMAGE_SIZE_REDUCTION_FACTOR, STACK_BLUR_RADIUS, DARKEN_MULTIPLIER);
+						BLURRED_IMAGE_SIZE_REDUCTION_FACTOR, mBlurRadius, DARKEN_MULTIPLIER);
 				}
 				else {
 					bitmap = BitmapFactory.decodeResource(res, resId);
@@ -876,7 +881,7 @@ public class L2ImageCache {
 
 				// Allocate a new Bitmap for the blurred Bitmap
 				blurBitmap = BitmapUtils.stackBlurAndDarken(origBitmap, mContext,
-					BLURRED_IMAGE_SIZE_REDUCTION_FACTOR, STACK_BLUR_RADIUS, DARKEN_MULTIPLIER);
+					BLURRED_IMAGE_SIZE_REDUCTION_FACTOR, mBlurRadius, DARKEN_MULTIPLIER);
 
 				// Write the Blurred bitmap into the disk cache
 				editor = mDiskCache.edit(getDiskKeyForBlurred(mOrigUrl));
