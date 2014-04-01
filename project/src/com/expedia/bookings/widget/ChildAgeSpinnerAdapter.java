@@ -14,8 +14,8 @@ import com.expedia.bookings.utils.GuestsPickerUtils;
 
 
 public class ChildAgeSpinnerAdapter extends BaseAdapter {
-	private LayoutInflater mInflater;
-	private Resources mResources;
+	protected LayoutInflater mInflater;
+	protected Resources mResources;
 
 	public ChildAgeSpinnerAdapter(Context context) {
 		mInflater = LayoutInflater.from(context);
@@ -30,7 +30,7 @@ public class ChildAgeSpinnerAdapter extends BaseAdapter {
 		return createViewFromResource(position, convertView, parent, R.layout.simple_spinner_item);
 	}
 
-	private View createViewFromResource(int position, View convertView, ViewGroup parent, int resource) {
+	protected View createViewFromResource(int position, View convertView, ViewGroup parent, int resource) {
 		View view;
 
 		if (convertView == null) {
