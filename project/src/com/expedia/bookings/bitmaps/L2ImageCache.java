@@ -22,6 +22,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -78,16 +79,51 @@ public class L2ImageCache {
 	//////////////////////////////////////////////////////////////////////////
 	// Static cache instances
 
+	/**
+	 * A general-purpose cache appropriate for most things. This cache may be cleared aggressively.
+	 */
+	public static L2ImageCache sGeneralPurpose;
+
+	/**
+	 * A cache intended to store large images (usually about full-screen) of the destination.
+	 */
 	public static L2ImageCache sDestination;
 
 	public static void initAllCacheInstances(Context applicationContext) {
+		initGeneralPurposeImageCache(applicationContext);
 		initDestinationImageCache(applicationContext);
+	}
+
+	private static void initGeneralPurposeImageCache(Context context) {
+		final String logTag = "GeneralPurposeImageCache";
+
+		// Inspect on device memory class
+		long maxMemory = Runtime.getRuntime().maxMemory();
+		int memoryClass = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
+		Log.i(logTag, "Init - Device MaxMemory=" + maxMemory + " bytes (" + (maxMemory / 1048576) + "mb) MemoryClass=" + memoryClass + "mb");
+
+		// Here's what we're aiming for, in terms of memory cache size:
+		// 1. At least minCacheSize
+		// 2. No greater than 1/5th the memory available
+		final int minCacheSize = (1024 * 1024 * 6); // 6 MB
+		int memCacheSize = (1024 * 1024 * memoryClass) / 5;
+		if (memCacheSize < minCacheSize) {
+			memCacheSize = minCacheSize;
+		}
+		Log.i(logTag, "Creating mem cache of size " + (memCacheSize / (1024 * 1024)) + " mb");
+
+		final int diskCacheSize = 1024 * 1024 * 20; // 20 mb
+
+		// Construct cache
+		EvictionPolicy policy = new SizeEvictionPolicy(context, memCacheSize, diskCacheSize, logTag);
+		sGeneralPurpose = new L2ImageCache(context, logTag, policy);
+		sGeneralPurpose.setVerboseDebugLoggingEnabled(true);
 	}
 
 	private static void initDestinationImageCache(Context context) {
 		// Cache params
 		final String logTag = "DestinationImageCache";
-		final int numMemCacheEntries = 2;
+		final int numMemCacheEntries = 2; // One regular, one blur. or one portrait, one landscape
 		final int diskCacheSize = 1024 * 1024 * 20; // 20 mb
 
 		// Construct cache
