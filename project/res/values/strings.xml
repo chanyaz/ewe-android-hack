@@ -1598,6 +1598,12 @@
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
     <string name="child_age_less_than_one">&lt;b&gt;Less than 1&lt;/b&gt; year old</string>
 
+    <!-- For flights, children ages < 2 can have their own seat or sit in an adult's lap -->
+    <string name="child_age_less_than_one_on_lap">&lt;b&gt;Less than 1&lt;/b&gt; – in adult’s lap</string>
+    <string name="child_age_less_than_one_own_seat">&lt;b&gt;Less than 1&lt;/b&gt; – own seat</string>
+    <string name="child_age_one_on_lap">&lt;b&gt;1&lt;/b&gt; year old – in adult’s lap</string>
+    <string name="child_age_one_own_seat">&lt;b&gt;1&lt;/b&gt; year old – own seat</string>
+
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
     <string name="suggestion_times_square">Times Square, New York, NY</string>
