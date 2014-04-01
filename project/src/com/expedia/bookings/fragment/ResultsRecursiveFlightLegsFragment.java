@@ -851,14 +851,16 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 					}
 					mListFrag.setListLockedToTop(true);
 				}
-				else if (state == ResultsFlightLegState.LIST_DOWN) {
+				else if (state == ResultsFlightLegState.LIST_DOWN || state == ResultsFlightLegState.FILTERS) {
 					mListFrag.setListLockedToTop(false);
-					if (mListFrag.hasList() && mListFrag.getPercentage() < 1) {
-						mListFrag.setPercentage(1f, 0);
+					if (mListFrag.hasList()) {
+						if (state == ResultsFlightLegState.LIST_DOWN && mListFrag.getPercentage() < 1) {
+							mListFrag.setPercentage(1f, 0);
+						}
+						else if (state == ResultsFlightLegState.FILTERS && mListFrag.getPercentage() > 0) {
+							mListFrag.setPercentage(0f, 0);
+						}
 					}
-				}
-				else if (mListFrag.hasList() && mListFrag.getPercentage() > 0) {
-					mListFrag.setPercentage(0f, 0);
 				}
 				mListFrag.registerStateListener(mListStateListener, false);
 			}
