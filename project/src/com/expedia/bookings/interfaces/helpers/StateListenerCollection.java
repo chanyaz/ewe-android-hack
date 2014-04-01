@@ -38,7 +38,7 @@ public class StateListenerCollection<T> {
 	private T mTransEndState;
 
 	public StateListenerCollection(T startState) {
-		mLastFinalizedState = startState;
+
 	}
 
 	public boolean setListenerInactive(IStateListener<T> listener) {
@@ -196,7 +196,7 @@ public class StateListenerCollection<T> {
 			if (mInactiveStateChangeListeners.contains(listener)) {
 				mInactiveStateChangeListeners.remove(listener);
 			}
-			if (fireFinalizeState) {
+			if (fireFinalizeState && mLastFinalizedState != null) {
 				listener.onStateFinalized(mLastFinalizedState);
 			}
 		}
