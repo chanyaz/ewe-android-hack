@@ -396,7 +396,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 			if (percentage == 1f) {
 				setSelectionFromTop(0, 0);
 			}
-			else {
+			else if (!(fromOutside && mIsTouching)) {
 				int scrollY = (int) (percentage * mHeaderSpacerHeight) + getDividerHeight();
 				setSelectionFromTop(getHeaderViewsCount(), scrollY);
 			}
