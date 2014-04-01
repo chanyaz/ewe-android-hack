@@ -428,4 +428,7 @@
     <string name="state_code_wy" tools:ignore="UnusedResources">WY</string>
     <string name="state_code_yt" tools:ignore="UnusedResources">YT</string>
 
+    <!-- For app launcher name -->
+    <string name="launcher_name">@string/app_name</string>
+
 </resources>

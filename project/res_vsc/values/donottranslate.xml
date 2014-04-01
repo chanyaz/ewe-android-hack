@@ -9,4 +9,6 @@
     <string name="calendar_date_picker_date_format_vsc">dd MMM</string>
     <string name="hotel_receipt_cancellation_policy_date_format_vsc">"k'h'mm, MMM dd"</string>
 
+    <!-- For app launcher name -->
+    <string name="launcher_name">@string/vsc_app_name</string>
 </resources>
