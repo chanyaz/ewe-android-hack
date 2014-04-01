@@ -143,6 +143,7 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		String personName = "";
 		String cardName = "";
 		CreditCardType cardType = getCurrentCCType();
+		String cardNumber = billingInfo.getNumber();
 		if (cc != null) {
 			Traveler traveler = Db.getTravelers().get(0);
 			personName = traveler.getFirstName() + " " + traveler.getLastName();
@@ -166,7 +167,8 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 			TextView cvvPromptTextView = Ui.findView(v, R.id.cvv_prompt_text_view);
 			cvvPromptTextView.setText(Html.fromHtml(getString(R.string.cvv_code_TEMPLATE, cardName)));
 		}
-		mCreditCardSection.bind(personName, cardType);
+		//String name, CreditCardType type, String cardNumber
+		mCreditCardSection.bind(personName, cardType, cardNumber);
 
 		// Configure vars that drive this fragment
 		mMinCvvLen = (cardType == CreditCardType.AMERICAN_EXPRESS) ? 4 : 3;

@@ -45,12 +45,7 @@ public class CreditCardSection extends LinearLayout {
 		}
 	}
 
-	//TODO: we shouldn't need this
-	public void bind(String name, CreditCardType type) {
-		bind(name, type, "370000000000000", null);
-	}
-
-	public void bind(String name, CreditCardType type, String cardNumber, String memberName) {
+	public void bind(String name, CreditCardType type, String cardNumber) {
 		int resId = 0;
 		if (type != null) {
 			switch (type) {
@@ -103,11 +98,11 @@ public class CreditCardSection extends LinearLayout {
 
 		// Fill in member name
 		TextView memberNameText = Ui.findView(this, R.id.member_name_text);
-		if (TextUtils.isEmpty(memberName)) {
+		if (TextUtils.isEmpty(name)) {
 			memberNameText.setText(R.string.Preferred_Customer);
 		}
 		else {
-			memberNameText.setText(memberName);
+			memberNameText.setText(name);
 		}
 
 		// Show front or back of card (front for amex, back for everything else)
