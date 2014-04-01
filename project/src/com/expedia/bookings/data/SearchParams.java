@@ -148,7 +148,7 @@ public class SearchParams implements Parcelable, JSONable {
 		}
 
 		List<Integer> childAges = new ArrayList<Integer>();
-		for(ChildTraveler c : mChildTravelers) {
+		for (ChildTraveler c : mChildTravelers) {
 			childAges.add(c.getAge());
 		}
 

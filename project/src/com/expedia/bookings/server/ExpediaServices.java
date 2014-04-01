@@ -474,12 +474,12 @@ public class ExpediaServices implements DownloadListener {
 		return query;
 	}
 
-	private void addFlightChildTravelerParameters(List <BasicNameValuePair> query, FlightSearchParams params) {
+	private void addFlightChildTravelerParameters(List<BasicNameValuePair> query, FlightSearchParams params) {
 		List<ChildTraveler> children = params.getChildren();
 		boolean infantSeatingInLap = false;
 		if (children != null) {
 			for (ChildTraveler child : children) {
-				if(!child.usingSeat() && child.getAge() <= 1) {
+				if (!child.usingSeat() && child.getAge() <= 1) {
 					infantSeatingInLap = true;
 				}
 				query.add(new BasicNameValuePair("childTravelerAge", Integer.toString(child.getAge())));
@@ -499,7 +499,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public FlightCheckoutResponse flightCheckout(FlightTrip flightTrip, Itinerary itinerary, BillingInfo billingInfo,
-		List<Traveler> travelers, int flags) {
+												 List<Traveler> travelers, int flags) {
 		List<BasicNameValuePair> query = generateFlightCheckoutParams(flightTrip, itinerary, billingInfo, travelers,
 			flags);
 		return doFlightsRequest("api/flight/checkout", query, new FlightCheckoutResponseHandler(mContext), flags
@@ -507,7 +507,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public List<BasicNameValuePair> generateFlightCheckoutParams(FlightTrip flightTrip, Itinerary itinerary,
-		BillingInfo billingInfo, List<Traveler> travelers, int flags) {
+																 BillingInfo billingInfo, List<Traveler> travelers, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		query.add(new BasicNameValuePair("tripId", itinerary.getTripId()));
@@ -838,7 +838,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public BookingResponse reservation(HotelSearchParams params, Property property, Rate rate, BillingInfo billingInfo,
-		String tripId, String userId, Long tuid) {
+									   String tripId, String userId, Long tuid) {
 		List<BasicNameValuePair> query = generateHotelReservationParams(params, rate, billingInfo, tripId,
 			userId, tuid);
 
@@ -846,7 +846,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public List<BasicNameValuePair> generateHotelReservationParams(HotelSearchParams params, Rate rate,
-		BillingInfo billingInfo, String tripId, String userId, Long tuid) {
+																   BillingInfo billingInfo, String tripId, String userId, Long tuid) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
@@ -1374,7 +1374,7 @@ public class ExpediaServices implements DownloadListener {
 	 * @return
 	 */
 	public FacebookLinkResponse facebookLinkNewUser(String facebookUserId, String facebookAccessToken,
-		String facebookEmailAddress) {
+													String facebookEmailAddress) {
 
 		Session fbSession = Session.getActiveSession();
 		if (fbSession == null || fbSession.isClosed()) {
@@ -1401,7 +1401,7 @@ public class ExpediaServices implements DownloadListener {
 	 * @return
 	 */
 	public FacebookLinkResponse facebookLinkExistingUser(String facebookUserId, String facebookAccessToken,
-		String facebookEmailAddress, String expediaPassword) {
+														 String facebookEmailAddress, String expediaPassword) {
 		Session fbSession = Session.getActiveSession();
 		if (fbSession == null || fbSession.isClosed()) {
 			throw new RuntimeException("We must be logged into facebook inorder to call facebookLinkNewUser");
@@ -1512,12 +1512,12 @@ public class ExpediaServices implements DownloadListener {
 	// Request code
 
 	private <T extends Response> T doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
-		ResponseHandler<T> responseHandler, int flags) {
+													ResponseHandler<T> responseHandler, int flags) {
 		return doE3Request(targetUrl, params, responseHandler, flags | F_FLIGHTS);
 	}
 
 	private <T extends Response> T doE3Request(String targetUrl, List<BasicNameValuePair> params,
-		ResponseHandler<T> responseHandler, int flags) {
+											   ResponseHandler<T> responseHandler, int flags) {
 		String serverUrl;
 
 		/*
@@ -1549,7 +1549,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private <T extends Response> T doBasicGetRequest(String url, List<BasicNameValuePair> params,
-		ResponseHandler<T> responseHandler) {
+													 ResponseHandler<T> responseHandler) {
 
 		Request.Builder base = createHttpGet(url, params);
 
@@ -1559,13 +1559,13 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private <T extends Response> T doFlightStatsRequest(String baseUrl, List<BasicNameValuePair> params,
-		ResponseHandler<T> responseHandler) {
+														ResponseHandler<T> responseHandler) {
 		Request.Builder base = createHttpGet(baseUrl, params);
 		return doRequest(base, responseHandler, F_IGNORE_COOKIES);
 	}
 
 	private <T extends Response> T doReviewsRequest(String url, List<BasicNameValuePair> params,
-		ResponseHandler<T> responseHandler) {
+													ResponseHandler<T> responseHandler) {
 		Request.Builder get = createHttpGet(url, params);
 
 		Log.d(TAG_REQUEST, "User reviews request: " + url + "?" + NetUtils.getParamsForLogging(params));
@@ -1603,7 +1603,8 @@ public class ExpediaServices implements DownloadListener {
 					//this prevents us from overwritting our cookies with bunk loggedin/loggedout cookie states.
 					Log.d(
 						"Login state has changed since the request began - we are going to resend the request using appropriate cookies. The request began in the logged "
-							+ (cookiesAreLoggedIn ? "IN" : "OUT") + " state.");
+							+ (cookiesAreLoggedIn ? "IN" : "OUT") + " state."
+					);
 					return doRequest(request, responseHandler, flags);
 				}
 

@@ -341,7 +341,7 @@ public class ExpediaImageManager {
 	}
 
 	private static String generateBackgroundDownloaderKey(FlightSearch flightSearch, boolean blur) {
-		return BGD_DESTINATION_DL_KEY_BASE + flightSearch.getSearchParams().getArrivalLocation().getDestinationId()+ String.valueOf(blur);
+		return BGD_DESTINATION_DL_KEY_BASE + flightSearch.getSearchParams().getArrivalLocation().getDestinationId() + String.valueOf(blur);
 	}
 
 }
