@@ -4,5 +4,5 @@
         android:state_pressed="true"
         android:drawable="@drawable/ic_ab_arrow_pressed_travelocity" />
     <item
-        android:drawable="@drawable/ic_ab_arrow"/>
+        android:drawable="@drawable/ic_ab_arrow_travelocity"/>
 </selector>
