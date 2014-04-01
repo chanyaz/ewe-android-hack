@@ -16,8 +16,6 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.mobiata.android.Log;
-import com.mobiata.android.bitmaps.TwoLevelImageCache;
-import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 
 /**
  * This is a version of BitmapDrawable that's associated with a particular URL.
@@ -26,9 +24,9 @@ import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
  * When using this with an ImageView, use  loadImageView() or configureImageView(),
  * as there is some special handling needed when using ImageViews.
  */
-public class UrlBitmapDrawable extends BitmapDrawable implements OnImageLoaded {
+public class UrlBitmapDrawable extends BitmapDrawable implements L2ImageCache.OnBitmapLoaded {
 
-	private String mKey = toString();
+	private String mKey = ((Object) this).toString();
 
 	// We allow you to define a series of URLs to try (in order, from 0 and up).
 	private List<String> mUrls;
@@ -43,7 +41,15 @@ public class UrlBitmapDrawable extends BitmapDrawable implements OnImageLoaded {
 
 	private WeakReference<ImageView> mImageView;
 
-	private OnImageLoaded mCallback;
+	private L2ImageCache.OnBitmapLoaded mCallback;
+
+	/**
+	 * This class must be associated with an instance of L2ImageCache in order to reload Bitmaps in
+	 * the event the Bitmap has been flushed from the cache and/or recycled. It defaults to using
+	 * the general-purpose cache. You can configure which cache if you'd like, though.
+	 */
+	private static final L2ImageCache DEFAULT_IMAGE_CACHE_IMPL = L2ImageCache.sGeneralPurpose;
+	private static L2ImageCache sL2ImageCache;
 
 	/**
 	 * Create a drawable that loads the requested URL
@@ -63,7 +69,7 @@ public class UrlBitmapDrawable extends BitmapDrawable implements OnImageLoaded {
 	 * @param urls the urls to try for this image
 	 */
 	public UrlBitmapDrawable(Resources resources, List<String> urls) {
-		this(resources, urls, 0);
+		this(resources, urls, 0, DEFAULT_IMAGE_CACHE_IMPL);
 	}
 
 	/**
@@ -75,7 +81,7 @@ public class UrlBitmapDrawable extends BitmapDrawable implements OnImageLoaded {
 	 * @param defaultResId the default image when not loading
 	 */
 	public UrlBitmapDrawable(Resources resources, String url, int defaultResId) {
-		this(resources, Arrays.asList(url), defaultResId);
+		this(resources, Arrays.asList(url), defaultResId, DEFAULT_IMAGE_CACHE_IMPL);
 	}
 
 	/**
@@ -86,13 +92,14 @@ public class UrlBitmapDrawable extends BitmapDrawable implements OnImageLoaded {
 	 * @param urls the urls to try for this image
 	 * @param defaultResId the default image when not loading
 	 */
-	public UrlBitmapDrawable(Resources resources, List<String> urls, int defaultResId) {
-		super(resources, loadBitmap(resources, defaultResId));
+	public UrlBitmapDrawable(Resources resources, List<String> urls, int defaultResId, L2ImageCache cache) {
+		super(resources, loadBitmap(cache, resources, defaultResId));
 
 		mResources = new WeakReference<Resources>(resources);
 		mUrls = urls;
 		mIndex = 0;
 		mDefaultResId = defaultResId;
+		sL2ImageCache = cache;
 
 		// Kick off an initial load for the URL
 		retrieveImage(false);
@@ -129,7 +136,8 @@ public class UrlBitmapDrawable extends BitmapDrawable implements OnImageLoaded {
 	 * to the ImageView.  Also includes a default loading icon.
 	 */
 	public static UrlBitmapDrawable loadImageView(List<String> urls, ImageView imageView, int defaultResId) {
-		UrlBitmapDrawable drawable = new UrlBitmapDrawable(imageView.getContext().getResources(), urls, defaultResId);
+		UrlBitmapDrawable drawable = new UrlBitmapDrawable(imageView.getContext().getResources(), urls,
+			defaultResId, DEFAULT_IMAGE_CACHE_IMPL);
 		drawable.configureImageView(imageView);
 		return drawable;
 	}
@@ -163,16 +171,16 @@ public class UrlBitmapDrawable extends BitmapDrawable implements OnImageLoaded {
 	 * Note that while it returns a Bitmap and Url, it probably should not be used;
 	 * the UrlBitmapDrawable should be handling the display itself.  If you want
 	 * to manipulate the Bitmap directly, you should probably be using
-	 * TwoLevelImageCache directly instead of going through a UrlBitmapDrawable.
+	 * L2ImagCache directly instead of going through a UrlBitmapDrawable.
 	 */
-	public void setOnImageLoadedCallback(OnImageLoaded callback) {
+	public void setOnBitmapLoadedCallback(L2ImageCache.OnBitmapLoaded callback) {
 		if (callback != mCallback) {
 			if (callback != null) {
 				if (!mFailed && !mRetrieving && getBitmap() != null) {
-					callback.onImageLoaded(getUrl(), getBitmap());
+					callback.onBitmapLoaded(getUrl(), getBitmap());
 				}
 				else if (mFailed) {
-					callback.onImageLoadFailed(getUrl());
+					callback.onBitmapLoadFailed(getUrl());
 				}
 			}
 
@@ -189,7 +197,7 @@ public class UrlBitmapDrawable extends BitmapDrawable implements OnImageLoaded {
 			if (!TextUtils.isEmpty(url)) {
 				mRetrieving = true;
 
-				TwoLevelImageCache.loadImage(mKey, getUrl(), UrlBitmapDrawable.this);
+				sL2ImageCache.loadImage(mKey, getUrl(), false, UrlBitmapDrawable.this); //by default, no blur
 			}
 		}
 	}
@@ -209,7 +217,7 @@ public class UrlBitmapDrawable extends BitmapDrawable implements OnImageLoaded {
 			if (mDefaultResId != 0) {
 				Resources res = mResources.get();
 				if (res != null) {
-					setBitmap(loadBitmap(res, mDefaultResId));
+					setBitmap(loadBitmap(sL2ImageCache, res, mDefaultResId));
 				}
 			}
 			retrieveImage(false);
@@ -236,10 +244,10 @@ public class UrlBitmapDrawable extends BitmapDrawable implements OnImageLoaded {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// OnImageLoaded
+	// L2ImageCache.OnBitmapLoaded
 
 	@Override
-	public void onImageLoaded(String url, Bitmap bitmap) {
+	public void onBitmapLoaded(String url, Bitmap bitmap) {
 		setBitmap(bitmap);
 
 		// This is a hack to get the ImageView to re-measure the
@@ -257,7 +265,7 @@ public class UrlBitmapDrawable extends BitmapDrawable implements OnImageLoaded {
 		mRetrieving = false;
 
 		if (mCallback != null) {
-			mCallback.onImageLoaded(url, bitmap);
+			mCallback.onBitmapLoaded(url, bitmap);
 		}
 
 		if (sReportingEnabled) {
@@ -266,7 +274,7 @@ public class UrlBitmapDrawable extends BitmapDrawable implements OnImageLoaded {
 	}
 
 	@Override
-	public void onImageLoadFailed(String url) {
+	public void onBitmapLoadFailed(String url) {
 		if (mIndex + 1 < mUrls.size()) {
 			mIndex++;
 			retrieveImage(true);
@@ -276,7 +284,7 @@ public class UrlBitmapDrawable extends BitmapDrawable implements OnImageLoaded {
 			mFailed = true;
 
 			if (mCallback != null) {
-				mCallback.onImageLoadFailed(url);
+				mCallback.onBitmapLoadFailed(url);
 			}
 		}
 	}
@@ -284,14 +292,14 @@ public class UrlBitmapDrawable extends BitmapDrawable implements OnImageLoaded {
 	//////////////////////////////////////////////////////////////////////////
 	// Default Bitmaps
 	//
-	// We cache them in TwoLevelImageCache because often times the same
+	// We cache them in L2ImageCache because often times the same
 	// default bitmap is used over and over again (and there's no reason to
 	// keep reloading it).
 
 	private static final Object mLock = new Object();
 
 	// Conditionally loads a bitmap if passed a real resId
-	private static Bitmap loadBitmap(Resources res, int resId) {
+	private static Bitmap loadBitmap(L2ImageCache cache, Resources res, int resId) {
 		if (resId == 0) {
 			return null;
 		}
@@ -299,7 +307,7 @@ public class UrlBitmapDrawable extends BitmapDrawable implements OnImageLoaded {
 		// Synchronized so that we don't try to load the same default image
 		// multiple times at once.
 		synchronized (mLock) {
-			return TwoLevelImageCache.getImage(res, resId);
+			return cache.getImage(res, resId, false);
 		}
 	}
 
