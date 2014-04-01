@@ -1529,6 +1529,10 @@
     <string name="Authorized_Signature">Authorized Signature</string>
     <!-- Security label below signature strip on credit card mockup, on CVV screen -->
     <string name="Not_Valid_Unless_Signed">Not Valid Unless Signed</string>
+    <!-- Label above cardholder's name on front of credit card on CVV screen -->
+    <string name="Member">Member</string>
+    <!-- Default cardholder name on front of credit card on CVV screen -->
+    <string name="Preferred_Customer">Preferred Customer</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_back_of_card">See back of card</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->

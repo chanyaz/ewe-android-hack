@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- This is a LinearLayout -->
 <com.expedia.bookings.section.CreditCardSection xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/credit_card_section"
     android:layout_width="302dp"
     android:layout_height="190dp"
@@ -8,7 +9,61 @@
     android:background="@drawable/bg_credit_card_back_full"
     android:orientation="vertical" >
 
+    <!-- Views to display the FRONT of the card; for AMEX -->
+
+    <com.larvalabs.svgandroid.widget.SVGView
+        android:id="@+id/svg_amex_logo"
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:layout_marginTop="22dp"
+        android:alpha=".7"
+        app:src="@raw/american_express_logo"
+        app:zoomMode="fitHeight" />
+
+    <com.larvalabs.svgandroid.widget.SVGView
+        android:id="@+id/svg_amex_head"
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        android:layout_marginTop="9dp"
+        android:alpha=".1"
+        app:src="@raw/ic_amex_head"
+        app:zoomMode="fitHeight" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/obscured_card_digits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-22dp"
+        android:gravity="center"
+        android:alpha=".7"
+        android:textColor="@android:color/white"
+        app:textStyle="bold"/>
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/member_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="25dp"
+        android:alpha=".2"
+        android:text="@string/Member"
+        android:textColor="@android:color/white"
+        app:textStyle="bold"/>
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/member_name_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:alpha=".7"
+        android:layout_marginLeft="25dp"
+        android:textColor="@android:color/white"
+        app:textStyle="bold"/>
+
+    <!-- Views to display the BACK of the card; for all cards other than AMEX -->
+
     <View
+        android:id="@+id/magnetic_stripe"
         android:layout_width="match_parent"
         android:layout_height="38dp"
         android:layout_marginTop="17dp"
@@ -17,6 +72,7 @@
         android:background="#1e000000" />
 
     <TextView
+        android:id="@+id/authorized_signature_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -27,6 +83,7 @@
         android:textSize="8dp" />
 
     <FrameLayout
+        android:id="@+id/signature_strip_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -54,6 +111,7 @@
     </FrameLayout>
 
     <TextView
+        android:id="@+id/not_valid_unless_signed_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -65,6 +123,7 @@
     <!-- Fill space, make room for the text that goes on top -->
 
     <View
+        android:id="@+id/spring"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />

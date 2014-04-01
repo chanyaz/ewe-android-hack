@@ -2,7 +2,9 @@ package com.expedia.bookings.section;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,6 +13,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
+import com.expedia.bookings.utils.NumberMaskFormatter;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -42,7 +45,12 @@ public class CreditCardSection extends LinearLayout {
 		}
 	}
 
+	//TODO: we shouldn't need this
 	public void bind(String name, CreditCardType type) {
+		bind(name, type, "370000000000000", null);
+	}
+
+	public void bind(String name, CreditCardType type, String cardNumber, String memberName) {
 		int resId = 0;
 		if (type != null) {
 			switch (type) {
@@ -87,5 +95,47 @@ public class CreditCardSection extends LinearLayout {
 		// #1116 - For some reason this typeface calculates the left edge
 		// bounds incorrectly, so we add a space just in case.
 		mSignatureTextView.setText(" " + name);
+
+		// Fill in card digits
+		TextView cardDigitsText = Ui.findView(this, R.id.obscured_card_digits);
+		String cardDigitsString = new NumberMaskFormatter(NumberMaskFormatter.CREDIT_CARD).applyTo(cardNumber);
+		cardDigitsText.setText(obscureCreditCardNumber(cardDigitsString));
+
+		// Fill in member name
+		TextView memberNameText = Ui.findView(this, R.id.member_name_text);
+		if (TextUtils.isEmpty(memberName)) {
+			memberNameText.setText(R.string.Preferred_Customer);
+		}
+		else {
+			memberNameText.setText(memberName);
+		}
+
+		// Show front or back of card (front for amex, back for everything else)
+		boolean amex = type == CreditCardType.AMERICAN_EXPRESS;
+		showHide(amex, R.id.svg_amex_logo, R.id.svg_amex_head, R.id.obscured_card_digits, R.id.member_text, R.id.member_name_text);
+		showHide(!amex, R.id.magnetic_stripe, R.id.authorized_signature_text, R.id.signature_strip_frame, R.id.not_valid_unless_signed_text, R.id.spring, R.id.cc_logo_image_view);
+	}
+
+	private void showHide(boolean visible, int... resIds) {
+		for (int r : resIds) {
+			View v = Ui.findView(this, r);
+			if (v != null) {
+				v.setVisibility(visible ? View.VISIBLE : View.GONE);
+			}
+		}
+	}
+
+	private String obscureCreditCardNumber(String number) {
+		if (number == null || number.length() <= 4) {
+			return number;
+		}
+
+		char[] obscured = new char[number.length()];
+		char mask = '✳';
+		for (int i = 0; i < number.length(); i++) {
+			char oldChar = number.charAt(i);
+			obscured[i] = oldChar >= '0' && oldChar <= '9' && i < number.length() - 4 ? mask : oldChar;
+		}
+		return new String(obscured);
 	}
 }

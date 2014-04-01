@@ -91,19 +91,23 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 	}
 
 	private void syncCVVTextFilter() {
-		InputFilter[] filters = new InputFilter[1];
-		if (getCurrentCCType() == CreditCardType.AMERICAN_EXPRESS) {
-			filters[0] = new InputFilter.LengthFilter(4);
+		if (mCVVTextView != null) {
+			InputFilter[] filters = new InputFilter[1];
+			if (getCurrentCCType() == CreditCardType.AMERICAN_EXPRESS) {
+				filters[0] = new InputFilter.LengthFilter(4);
+			}
+			else {
+				filters[0] = new InputFilter.LengthFilter(3);
+			}
+			mCVVTextView.setFilters(filters);
 		}
-		else {
-			filters[0] = new InputFilter.LengthFilter(3);
-		}
-		mCVVTextView.setFilters(filters);
 
 	}
 
 	public void resetCVVText() {
-		mCVVTextView.setText("");
+		if (mCVVTextView != null) {
+			mCVVTextView.setText("");
+		}
 		syncCVVTextFilter();
 	}
 
