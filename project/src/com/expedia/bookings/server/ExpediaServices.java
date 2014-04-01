@@ -447,6 +447,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		query.add(new BasicNameValuePair("numberOfAdultTravelers", Integer.toString(params.getNumAdults())));
+		addFlightChildTravelerParameters(query, params);
 
 		addCommonParams(query);
 
@@ -470,6 +471,15 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("lccAndMerchantFareCheckoutAllowed", "true"));
 
 		return query;
+	}
+
+	private void addFlightChildTravelerParameters(List <BasicNameValuePair> query, FlightSearchParams params) {
+		List<Integer> children = params.getChildren();
+		if (children != null) {
+			for (int child : children) {
+				query.add(new BasicNameValuePair("childTravelerAge", Integer.toString(child)));
+			}
+		}
 	}
 
 	public CreateItineraryResponse createItinerary(String productKey, int flags) {
