@@ -29,6 +29,11 @@
         android:layout_height="match_parent" />
 
     <com.expedia.bookings.widget.FrameLayoutTouchController
+        android:id="@+id/column_one_hotel_search_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/column_three_hotel_filtered_count"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

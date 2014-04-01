@@ -68,6 +68,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private static final String FTAG_HOTEL_ROOMS_AND_RATES = "FTAG_HOTEL_ROOMS_AND_RATES";
 	private static final String FTAG_HOTEL_SEARCH_DOWNLOAD = "FTAG_HOTEL_SEARCH_DOWNLOAD";
 	private static final String FTAG_HOTEL_LOADING_INDICATOR = "FTAG_HOTEL_LOADING_INDICATOR";
+	private static final String FTAG_HOTEL_SEARCH_ERROR = "FTAG_HOTEL_SEARCH_ERROR";
 
 	//Containers
 	private ViewGroup mRootC;
@@ -78,6 +79,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private FrameLayoutTouchController mHotelFilteredCountC;
 	private FrameLayoutTouchController mHotelRoomsAndRatesC;
 	private FrameLayoutTouchController mLoadingC;
+	private FrameLayoutTouchController mSearchErrorC;
 
 	// Fragments
 	private HotelMapFragment mMapFragment;
@@ -87,6 +89,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private ResultsHotelDetailsFragment mHotelDetailsFrag;
 	private HotelSearchDownloadFragment mHotelSearchDownloadFrag;
 	private ResultsListLoadingFragment mLoadingGuiFrag;
+	private ResultsListSearchErrorFragment mSearchErrorFrag;
 
 	//Other
 	private StateManager<ResultsHotelsState> mHotelsStateManager = new StateManager<ResultsHotelsState>(
@@ -125,6 +128,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mHotelFilteredCountC = Ui.findView(view, R.id.column_three_hotel_filtered_count);
 		mHotelRoomsAndRatesC = Ui.findView(view, R.id.hotel_rooms_and_rates);
 		mLoadingC = Ui.findView(view, R.id.loading_container);
+		mSearchErrorC = Ui.findView(view, R.id.column_one_hotel_search_error);
 
 		//Default maps to be invisible (they get ignored by our setVisibilityState function so this is important)
 		mBgHotelMapC.setAlpha(0f);
@@ -299,15 +303,25 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		boolean hotelSearchDownloadAvailable = false;
 		boolean loadingGuiAvailable = false;
+		boolean searchErrorAvailable = false;
 		boolean hotelListAvailable = true;
 		boolean hotelMapAvailable = true;
 		boolean hotelFiltersAvailable = true;
 		boolean hotelFilteredCountAvailable = true;
 		boolean hotelRoomsAndRatesAvailable = true;
 
-		if (hotelsState == ResultsHotelsState.LOADING) {
-			hotelSearchDownloadAvailable = true;
-			loadingGuiAvailable = true;
+		if (hotelsState == ResultsHotelsState.LOADING || hotelsState == ResultsHotelsState.SEARCH_ERROR) {
+			if (hotelsState == ResultsHotelsState.LOADING) {
+				hotelSearchDownloadAvailable = true;
+				loadingGuiAvailable = true;
+				searchErrorAvailable = false;
+			}
+			else {
+				hotelSearchDownloadAvailable = false;
+				loadingGuiAvailable = false;
+				searchErrorAvailable = true;
+			}
+
 			hotelListAvailable = false;
 			hotelMapAvailable = false;
 			hotelFiltersAvailable = false;
@@ -342,6 +356,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mLoadingGuiFrag = (ResultsListLoadingFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			loadingGuiAvailable,
 			FTAG_HOTEL_LOADING_INDICATOR, manager, transaction, this, R.id.loading_container, false);
+		mSearchErrorFrag = FragmentAvailabilityUtils
+			.setFragmentAvailability(searchErrorAvailable, FTAG_HOTEL_SEARCH_ERROR, manager, transaction, this,
+				R.id.column_one_hotel_search_error, false);
 		transaction.commit();
 	}
 
@@ -353,6 +370,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			//Button and locking
 			switch (state) {
 			case LOADING:
+			case SEARCH_ERROR:
 			case HOTEL_LIST_DOWN:
 				mHotelListFrag.updateAdapter();
 				mHotelListFrag.setPercentage(1f, 0);
@@ -384,7 +402,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			//List scroll position
 			mHotelListFrag.unRegisterStateListener(mListStateHelper);
-			if (state == ResultsHotelsState.HOTEL_LIST_DOWN || state == ResultsHotelsState.LOADING) {
+			if (state == ResultsHotelsState.HOTEL_LIST_DOWN || state == ResultsHotelsState.LOADING
+				|| state == ResultsHotelsState.SEARCH_ERROR) {
 				mHotelListFrag.setPercentage(1f, 0);
 			}
 			else if (mHotelListFrag.hasList()
@@ -423,6 +442,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		else if (tag == FTAG_HOTEL_LOADING_INDICATOR) {
 			frag = mLoadingGuiFrag;
 		}
+		else if (tag == FTAG_HOTEL_SEARCH_ERROR) {
+			frag = mSearchErrorFrag;
+		}
 		return frag;
 	}
 
@@ -449,6 +471,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 		else if (tag == FTAG_HOTEL_LOADING_INDICATOR) {
 			frag = ResultsListLoadingFragment.newInstance(getString(R.string.loading_hotels));
+		}
+		else if (tag == FTAG_HOTEL_SEARCH_ERROR) {
+			frag = ResultsListSearchErrorFragment.newInstance(getString(R.string.search_error));
 		}
 		return frag;
 	}
@@ -725,6 +750,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			//Tell all of the containers where they belong
 			mGrid.setContainerToColumn(mLoadingC, 0);
+			mGrid.setContainerToColumn(mSearchErrorC, 0);
 			mGrid.setContainerToColumn(mHotelListC, 0);
 			mGrid.setContainerToColumnSpan(mHotelFiltersC, 1, 2);
 			mGrid.setContainerToColumnSpan(mHotelFilteredCountC, 3, 4);
@@ -734,6 +760,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			//All of the views except for the map sit below the action bar
 			mGrid.setContainerToRow(mLoadingC, 2);
+			mGrid.setContainerToRow(mSearchErrorC, 2);
 			mGrid.setContainerToRowSpan(mHotelListC, 1, 2);
 			mGrid.setContainerToRowSpan(mHotelFiltersC, 1, 2);
 			mGrid.setContainerToRowSpan(mHotelFilteredCountC, 1, 2);
@@ -1118,8 +1145,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
 			}
 			else {
-				//TODO: Better Error handling
-				Ui.showToast(context, "FAIL FAIL FAIL - HOTEL SEARCH ERROR");
+				setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
 			}
 		}
 	}

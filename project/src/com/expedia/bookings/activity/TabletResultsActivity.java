@@ -575,7 +575,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 
 		private ResultsState getResultsStateFromHotels(ResultsHotelsState state) {
-			if (state == ResultsHotelsState.LOADING || state == ResultsHotelsState.HOTEL_LIST_DOWN) {
+			if (state == ResultsHotelsState.LOADING || state == ResultsHotelsState.HOTEL_LIST_DOWN
+				|| state == ResultsHotelsState.SEARCH_ERROR) {
 				return ResultsState.OVERVIEW;
 			}
 			else {
