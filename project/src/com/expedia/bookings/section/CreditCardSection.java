@@ -93,8 +93,7 @@ public class CreditCardSection extends LinearLayout {
 
 		// Fill in card digits
 		TextView cardDigitsText = Ui.findView(this, R.id.obscured_card_digits);
-		String cardDigitsString = new NumberMaskFormatter(NumberMaskFormatter.CREDIT_CARD).applyTo(cardNumber);
-		cardDigitsText.setText(obscureCreditCardNumber(cardDigitsString));
+		cardDigitsText.setText(NumberMaskFormatter.obscureCreditCardNumber(cardNumber));
 
 		// Fill in member name
 		TextView memberNameText = Ui.findView(this, R.id.member_name_text);
@@ -118,19 +117,5 @@ public class CreditCardSection extends LinearLayout {
 				v.setVisibility(visible ? View.VISIBLE : View.GONE);
 			}
 		}
-	}
-
-	private String obscureCreditCardNumber(String number) {
-		if (number == null || number.length() <= 4) {
-			return number;
-		}
-
-		char[] obscured = new char[number.length()];
-		char mask = '✳';
-		for (int i = 0; i < number.length(); i++) {
-			char oldChar = number.charAt(i);
-			obscured[i] = oldChar >= '0' && oldChar <= '9' && i < number.length() - 4 ? mask : oldChar;
-		}
-		return new String(obscured);
 	}
 }

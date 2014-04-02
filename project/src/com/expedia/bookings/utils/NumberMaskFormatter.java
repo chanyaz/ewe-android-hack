@@ -162,4 +162,36 @@ public class NumberMaskFormatter {
 
 		editable.clearSpans();
 	}
+
+	/**
+	 * Convenience method that just formats a credit card number with spaces in the right spots.
+	 *
+	 * @param number
+	 * @return
+	 */
+	public static String formatCreditCardNumber(String number) {
+		return new NumberMaskFormatter(NumberMaskFormatter.CREDIT_CARD).applyTo(number);
+	}
+
+	/**
+	 * Convenience method that returns a String of an obscured credit card number
+	 * (for display purposes).
+	 *
+	 * @param number
+	 * @return
+	 */
+	public static String obscureCreditCardNumber(String number) {
+		if (number == null || number.length() <= 4) {
+			return number;
+		}
+		number = formatCreditCardNumber(number);
+
+		char[] obscured = new char[number.length()];
+		char mask = '✳';
+		for (int i = 0; i < number.length(); i++) {
+			char oldChar = number.charAt(i);
+			obscured[i] = oldChar >= '0' && oldChar <= '9' && i < number.length() - 4 ? mask : oldChar;
+		}
+		return new String(obscured);
+	}
 }
