@@ -137,6 +137,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	private SimpleNumberPicker mAdultsNumberPicker;
 	private SimpleNumberPicker mChildrenNumberPicker;
+	private ViewGroup mGuestsContainer;
 	private View mGuestsLayout;
 	private View mRefinementDismissView;
 	private View mChildAgesLayout;
@@ -153,7 +154,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private FlightRouteAdapter mArrivalRouteAdapter;
 
 	// Animator for calendar
-	private Animation mCalendarAnimation;
+	private Animation mCalendarAndGuestAnimation;
 
 	// We have to store this due to the way the airport adapter works.
 	// If you've rotated the screen, we prevent the adapter from
@@ -248,6 +249,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mNumTravelersButton = Ui.findView(v, R.id.num_travelers_button);
 		mNumTravelersTextView = Ui.findView(v, R.id.num_travelers_text_view);
 
+		mGuestsContainer = Ui.findView(v, R.id.guest_picker_container);
 		mGuestsLayout = Ui.findView(v, R.id.guests_layout);
 		mChildAgesLayout = Ui.findView(v, R.id.child_ages_layout);
 		mAdultsNumberPicker = Ui.findView(v, R.id.adults_number_picker);
@@ -406,7 +408,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mNumTravelersButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (mGuestsLayout.getVisibility() == View.VISIBLE) {
+				if (mGuestsContainer.getVisibility() == View.VISIBLE) {
 					toggleGuestPicker(false, true);
 				}
 				else {
@@ -546,7 +548,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	public boolean onBackPressed() {
-		if (mCalendarAnimation != null && !mCalendarAnimation.hasEnded()) {
+		if (mCalendarAndGuestAnimation != null && !mCalendarAndGuestAnimation.hasEnded()) {
 			// Block back during animation
 			return true;
 		}
@@ -948,16 +950,23 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		else {
 			if (enabled) {
 				mCalendarContainer.setVisibility(View.VISIBLE);
-				mCalendarAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up);
+				mCalendarAndGuestAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up);
 			}
 			else {
-				mCalendarAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down);
-				mCalendarAnimation.setAnimationListener(mCalAnimationListener);
+				mCalendarAndGuestAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down);
+				mCalendarAndGuestAnimation.setAnimationListener(mCalAnimationListener);
 			}
 
-			mCalendarContainer.startAnimation(mCalendarAnimation);
+			mCalendarContainer.startAnimation(mCalendarAndGuestAnimation);
 		}
 	}
+
+	private AnimationListener mGuestAnimationListener = new AnimationListenerAdapter() {
+		@Override
+		public void onAnimationEnd(Animation animation) {
+			mGuestsContainer.setVisibility(View.GONE);
+		}
+	};
 
 	private AnimationListener mCalAnimationListener = new AnimationListenerAdapter() {
 		@Override
@@ -1007,23 +1016,40 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	// Traveler selection methods
 
 	private void toggleGuestPicker(boolean enabled, boolean animate) {
-		if (enabled == (mGuestsLayout.getVisibility() == View.VISIBLE)) {
+		if (enabled == (mGuestsContainer.getVisibility() == View.VISIBLE)) {
 			return;
 		}
 
-		if (enabled == false) {
-			mGuestsLayout.setVisibility(View.INVISIBLE);
-			mRefinementDismissView.setVisibility(View.INVISIBLE);
-			mButtonBarLayout.setVisibility(View.INVISIBLE);
-		}
-		else {
-			clearEditTextFocus();
+		if (mCalendarContainer.getVisibility() == View.VISIBLE) {
 			toggleCalendarDatePicker(false, false);
+		}
+
+		if (enabled) {
+			clearEditTextFocus();
 			Ui.hideKeyboard(getActivity());
 			mGuestsLayout.setVisibility(View.VISIBLE);
 			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
 			displayRefinementInfo();
+		}
+		else {
+			mRefinementDismissView.setVisibility(View.GONE);
+		}
+
+		if (!animate) {
+			mGuestsContainer.setVisibility(enabled ? View.VISIBLE : View.GONE);
+		}
+		else {
+			if (enabled) {
+				mGuestsContainer.setVisibility(View.VISIBLE);
+				mCalendarAndGuestAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up);
+			}
+			else {
+				mCalendarAndGuestAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down);
+				mCalendarAndGuestAnimation.setAnimationListener(mGuestAnimationListener);
+			}
+
+			mGuestsContainer.startAnimation(mCalendarAndGuestAnimation);
 		}
 	}
 

@@ -173,101 +173,110 @@
         android:background="@color/dismiss"
         android:visibility="invisible"/>
 
-    <include
-        android:id="@+id/button_bar_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/guests_layout"
-        layout="@layout/include_flights_guest_button_bar"/>
-
-    <LinearLayout
-        android:id="@id/guests_layout"
-        android:layout_width="fill_parent"
+    <RelativeLayout
+        android:id="@+id/guest_picker_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
         android:visibility="gone">
 
-        <LinearLayout
-            android:id="@+id/child_ages_layout"
+        <include
+            android:id="@+id/button_bar_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:orientation="vertical"
-            android:visibility="visible">
+            android:layout_above="@+id/guests_layout"
+            layout="@layout/include_flights_guest_button_bar"/>
 
-            <TextView
-                android:id="@+id/label_select_each_childs_age"
+        <LinearLayout
+            android:id="@id/guests_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/child_ages_layout"
                 android:layout_width="fill_parent"
-                android:layout_height="30dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text=""
-                android:textColor="@android:color/black"
-                android:textStyle="bold"/>
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/label_select_each_childs_age"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text=""
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:gravity="left|top"
+                    android:weightSum="100">
+
+                    <LinearLayout
+                        android:layout_width="0px"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:orientation="vertical">
+
+                        <include
+                            android:id="@+id/child_1_age_layout"
+                            layout="@layout/include_child_age_row"
+                            android:visibility="gone"/>
+
+                        <include
+                            android:id="@+id/child_2_age_layout"
+                            layout="@layout/include_child_age_row"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0px"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:orientation="vertical">
+
+                        <include
+                            android:id="@+id/child_3_age_layout"
+                            layout="@layout/include_child_age_row"
+                            android:visibility="gone"/>
+
+                        <include
+                            android:id="@+id/child_4_age_layout"
+                            layout="@layout/include_child_age_row"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:baselineAligned="false"
-                android:gravity="left|top"
-                android:weightSum="100">
+                android:background="#eeeeee"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="0px"
+                <com.expedia.bookings.widget.SimpleNumberPicker
+                    android:id="@+id/adults_number_picker"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="50"
-                    android:orientation="vertical">
+                    android:layout_weight="1"/>
 
-                    <include
-                        android:id="@+id/child_1_age_layout"
-                        layout="@layout/include_child_age_row"
-                        android:visibility="gone"/>
-
-                    <include
-                        android:id="@+id/child_2_age_layout"
-                        layout="@layout/include_child_age_row"
-                        android:visibility="gone"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0px"
+                <com.expedia.bookings.widget.SimpleNumberPicker
+                    android:id="@+id/children_number_picker"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="50"
-                    android:orientation="vertical">
-
-                    <include
-                        android:id="@+id/child_3_age_layout"
-                        layout="@layout/include_child_age_row"
-                        android:visibility="gone"/>
-
-                    <include
-                        android:id="@+id/child_4_age_layout"
-                        layout="@layout/include_child_age_row"
-                        android:visibility="gone"/>
-                </LinearLayout>
+                    android:layout_weight="1"/>
             </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#eeeeee"
-            android:orientation="horizontal">
-
-            <com.expedia.bookings.widget.SimpleNumberPicker
-                android:id="@+id/adults_number_picker"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <com.expedia.bookings.widget.SimpleNumberPicker
-                android:id="@+id/children_number_picker"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-        </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>
