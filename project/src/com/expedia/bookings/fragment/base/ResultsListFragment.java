@@ -286,6 +286,15 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		mListeners.unRegisterStateListener(listener);
 	}
 
+	public void setListenerEnabled(IStateListener<T> listener, boolean enabled) {
+		if (enabled) {
+			mListeners.setListenerActive(listener);
+		}
+		else {
+			mListeners.setListenerInactive(listener);
+		}
+	}
+
 	protected void setListViewContentDescription(int contentDescriptionId) {
 		mListViewContentDescription = getString(contentDescriptionId);
 	}

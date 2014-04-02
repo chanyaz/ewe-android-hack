@@ -839,8 +839,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				//We only care about list state for the first leg (as it is this list we use for the overview -> flights transition)
 
 				//Dont let these changes throw us into a loop
-				mListFrag.unRegisterStateListener(mListStateListener);
-
+				mListFrag.setListenerEnabled(mListStateListener, false);
 				if (state != ResultsFlightLegState.LIST_DOWN && state != ResultsFlightLegState.FILTERS
 					&& state != ResultsFlightLegState.ADDING_TO_TRIP) {
 					if (mListFrag.hasList() && mListFrag.getPercentage() > 0) {
@@ -860,7 +859,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 						}
 					}
 				}
-				mListFrag.registerStateListener(mListStateListener, false);
+				mListFrag.setListenerEnabled(mListStateListener, true);
 			}
 			else {
 				//Other legs are always locked to the top.

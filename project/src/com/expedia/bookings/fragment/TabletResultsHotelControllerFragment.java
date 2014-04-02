@@ -401,7 +401,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 
 			//List scroll position
-			mHotelListFrag.unRegisterStateListener(mListStateHelper);
+			mHotelListFrag.setListenerEnabled(mListStateHelper, false);
 			if (state == ResultsHotelsState.HOTEL_LIST_DOWN || state == ResultsHotelsState.LOADING
 				|| state == ResultsHotelsState.SEARCH_ERROR) {
 				mHotelListFrag.setPercentage(1f, 0);
@@ -410,7 +410,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				&& mHotelListFrag.getPercentage() > 0) {
 				mHotelListFrag.setPercentage(0f, 0);
 			}
-			mHotelListFrag.registerStateListener(mListStateHelper, false);
+			mHotelListFrag.setListenerEnabled(mListStateHelper, true);
 		}
 	}
 

@@ -1,10 +1,10 @@
 package com.expedia.bookings.interfaces.helpers;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import com.expedia.bookings.interfaces.IStateListener;
 import com.mobiata.android.Log;
@@ -19,8 +19,8 @@ import com.mobiata.android.util.TimingLogger;
  */
 public class StateListenerCollection<T> {
 	//These are the persistant lists of our class
-	private ArrayList<IStateListener<T>> mStateChangeListeners = new ArrayList<IStateListener<T>>();
-	private HashSet<IStateListener<T>> mInactiveStateChangeListeners = new HashSet<IStateListener<T>>();
+	private CopyOnWriteArrayList<IStateListener<T>> mStateChangeListeners = new CopyOnWriteArrayList<IStateListener<T>>();
+	private CopyOnWriteArraySet<IStateListener<T>> mInactiveStateChangeListeners = new CopyOnWriteArraySet<IStateListener<T>>();
 
 	//These are temporary stores that help us add and remove things while iterating.
 	private boolean mIsIterating = false;
@@ -185,20 +185,14 @@ public class StateListenerCollection<T> {
 	}
 
 	public void registerStateListener(IStateListener<T> listener, boolean fireFinalizeState) {
-		if (isIterating()) {
-			//If we are iterating, lets wait until we are done before we add our new listener
-			mPendingActions.put(listener, (fireFinalizeState ? ListenerAction.ADD_AND_FIRE : ListenerAction.ADD));
+		if (!mStateChangeListeners.contains(listener)) {
+			mStateChangeListeners.add(listener);
 		}
-		else {
-			if (!mStateChangeListeners.contains(listener)) {
-				mStateChangeListeners.add(listener);
-			}
-			if (mInactiveStateChangeListeners.contains(listener)) {
-				mInactiveStateChangeListeners.remove(listener);
-			}
-			if (fireFinalizeState && mLastFinalizedState != null) {
-				listener.onStateFinalized(mLastFinalizedState);
-			}
+		if (mInactiveStateChangeListeners.contains(listener)) {
+			mInactiveStateChangeListeners.remove(listener);
+		}
+		if (fireFinalizeState && mLastFinalizedState != null) {
+			listener.onStateFinalized(mLastFinalizedState);
 		}
 	}
 
