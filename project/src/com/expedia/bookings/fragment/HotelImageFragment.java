@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Media;
-import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.json.JSONUtils;
 
 public class HotelImageFragment extends Fragment {
@@ -33,16 +33,16 @@ public class HotelImageFragment extends Fragment {
 		final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.hotel_image_progress_bar);
 
 		Media hotelMedia = JSONUtils.getJSONable(getArguments(), MEDIA, Media.class);
-		hotelMedia.loadHighResImage(imageView, new TwoLevelImageCache.OnImageLoaded() {
+		hotelMedia.loadHighResImage(imageView, new L2ImageCache.OnBitmapLoaded() {
 
 			@Override
-			public void onImageLoaded(String url, Bitmap bitmap) {
+			public void onBitmapLoaded(String url, Bitmap bitmap) {
 				progressBar.setVisibility(View.GONE);
 				imageView.setVisibility(View.VISIBLE);
 			}
 
 			@Override
-			public void onImageLoadFailed(String url) {
+			public void onBitmapLoadFailed(String url) {
 				progressBar.setVisibility(View.GONE);
 				imageView.setVisibility(View.VISIBLE);
 			}

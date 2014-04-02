@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.Location;
@@ -36,7 +37,6 @@ import com.expedia.bookings.widget.EventSummaryView;
 import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCar> {
 

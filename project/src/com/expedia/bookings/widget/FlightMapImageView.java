@@ -10,9 +10,9 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.Log;
-import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
-import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.services.GoogleServices;
 import com.mobiata.android.services.GoogleServices.MapType;
 import com.mobiata.flightlib.data.Flight;
@@ -84,14 +84,14 @@ public class FlightMapImageView extends ImageView {
 
 		if (!mStaticMapUri.equals(oldUri)) {
 			UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(mStaticMapUri, this);
-			drawable.setOnImageLoadedCallback(new OnImageLoaded() {
+			drawable.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
 				@Override
-				public void onImageLoaded(String url, Bitmap bitmap) {
+				public void onBitmapLoaded(String url, Bitmap bitmap) {
 					FlightMapImageView.this.setBackgroundDrawable(null);
 				}
 
 				@Override
-				public void onImageLoadFailed(String url) {
+				public void onBitmapLoadFailed(String url) {
 					// nothing
 				}
 			});

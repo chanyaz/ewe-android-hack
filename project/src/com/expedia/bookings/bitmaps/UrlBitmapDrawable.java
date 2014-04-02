@@ -84,6 +84,10 @@ public class UrlBitmapDrawable extends BitmapDrawable implements L2ImageCache.On
 		this(resources, Arrays.asList(url), defaultResId, DEFAULT_IMAGE_CACHE_IMPL);
 	}
 
+	public UrlBitmapDrawable(Resources resources, List<String> urls, int defaultResId) {
+		this(resources, urls, defaultResId, DEFAULT_IMAGE_CACHE_IMPL);
+	}
+
 	/**
 	 * Create a drawable that loads one of a list of URLs, in order
 	 * from index 0...n; it also has a default image set while it's loading

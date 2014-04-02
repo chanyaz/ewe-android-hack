@@ -11,10 +11,9 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Location;
-import com.mobiata.android.bitmaps.TwoLevelImageCache;
-import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
-import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.services.GoogleServices;
 import com.mobiata.android.services.GoogleServices.MapType;
 
@@ -58,7 +57,7 @@ public class MapImageView extends ImageView {
 			PIXEL_COEFFICIENT = 4096 * 256;
 		}
 
-		mPoiBitmap = TwoLevelImageCache.getImage(res, R.drawable.search_center_purple);
+		mPoiBitmap = L2ImageCache.sGeneralPurpose.getImage(res, R.drawable.search_center_purple, false);
 
 		mCircleRadius = res.getDimensionPixelSize(R.dimen.mini_map_circle_radius);
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -114,14 +113,14 @@ public class MapImageView extends ImageView {
 
 		if (!mStaticMapUri.equals(oldUri)) {
 			UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(mStaticMapUri, this);
-			drawable.setOnImageLoadedCallback(new OnImageLoaded() {
+			drawable.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
 				@Override
-				public void onImageLoaded(String url, Bitmap bitmap) {
+				public void onBitmapLoaded(String url, Bitmap bitmap) {
 					MapImageView.this.setBackgroundDrawable(null);
 				}
 
 				@Override
-				public void onImageLoadFailed(String url) {
+				public void onBitmapLoadFailed(String url) {
 					// nothing
 				}
 			});

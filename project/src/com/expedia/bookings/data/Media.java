@@ -12,10 +12,10 @@ import android.content.Context;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.ImageView;
 
+import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.mobiata.android.Log;
-import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
-import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.json.JSONable;
 
 /**
@@ -212,15 +212,15 @@ public class Media implements JSONable {
 	 * @param imageView
 	 * @param callback
 	 */
-	public void loadHighResImage(ImageView imageView, OnImageLoaded callback) {
+	public void loadHighResImage(ImageView imageView, L2ImageCache.OnBitmapLoaded callback) {
 		UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(getHighResUrls(), imageView);
-		drawable.setOnImageLoadedCallback(callback);
+		drawable.setOnBitmapLoadedCallback(callback);
 	}
 
-	public void preloadHighResImage(Context context, OnImageLoaded callback) {
+	public void preloadHighResImage(Context context, L2ImageCache.OnBitmapLoaded callback) {
 		// It may make sense to someday rewrite this not to abuse UrlBitmapDrawable (e.g. go straight to the cache)
 		UrlBitmapDrawable drawable = new UrlBitmapDrawable(context.getResources(), getHighResUrls());
-		drawable.setOnImageLoadedCallback(callback);
+		drawable.setOnBitmapLoadedCallback(callback);
 	}
 
 	public List<String> getHighResUrls() {

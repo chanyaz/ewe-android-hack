@@ -6,10 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.Log;
-import com.mobiata.android.bitmaps.TwoLevelImageCache;
-import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
-import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.util.AndroidUtils;
 import com.nineoldandroids.animation.ObjectAnimator;
 
@@ -44,12 +43,13 @@ public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> imple
 	// Utility
 
 	protected void loadImageForLaunchStream(String url, final ViewGroup row, final ImageView bgView) {
-		final boolean animate = TwoLevelImageCache.getImage(url, false) == null;
+		final boolean animate = L2ImageCache.sGeneralPurpose.getImage(url, false) == null;
 
 		UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(url, bgView);
-		drawable.setOnImageLoadedCallback(new OnImageLoaded() {
-			public void onImageLoaded(String url, Bitmap bitmap) {
-				Log.v("ImageLoaded: " + url);
+		drawable.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
+			@Override
+			public void onBitmapLoaded(String url, Bitmap bitmap) {
+				Log.v("Launch Bitmap loaded: " + url);
 
 				row.setVisibility(View.VISIBLE);
 
@@ -58,8 +58,9 @@ public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> imple
 				}
 			}
 
-			public void onImageLoadFailed(String url) {
-				Log.v("Image load failed: " + url);
+			@Override
+			public void onBitmapLoadFailed(String url) {
+				Log.v("Launch Bitmap load failed: " + url);
 			}
 		});
 	}

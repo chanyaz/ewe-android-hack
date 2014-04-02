@@ -9,10 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.trips.ItinCardDataFallback;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardDataFallback> {
 

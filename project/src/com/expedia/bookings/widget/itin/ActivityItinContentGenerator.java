@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -38,7 +39,6 @@ import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.InfoTripletView;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardDataActivity> {
 

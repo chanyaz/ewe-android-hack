@@ -8,8 +8,8 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.trips.ItinCardData;
-import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public abstract class ItinButtonContentGenerator<T extends ItinCardData> extends ItinContentGenerator<T> {
 	public ItinButtonContentGenerator(Context context, T itinCardData) {

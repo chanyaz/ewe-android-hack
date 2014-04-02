@@ -34,10 +34,10 @@ import android.widget.LinearLayout;
 import android.widget.Scroller;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Media;
 import com.mobiata.android.Log;
-import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
-import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class Gallery extends AbsSpinner implements OnGestureListener {
 
@@ -1567,9 +1567,9 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 			imageView.setLayoutParams(LAYOUT_WIDE);
 			imageView.setBackgroundDrawable(null);
 			UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(media.getHighResUrls(), imageView);
-			drawable.setOnImageLoadedCallback(new OnImageLoaded() {
+			drawable.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
 				@Override
-				public void onImageLoaded(String url, Bitmap bitmap) {
+				public void onBitmapLoaded(String url, Bitmap bitmap) {
 					if (bitmap.getWidth() > bitmap.getHeight()) {
 						imageView.setLayoutParams(LAYOUT_WIDE);
 					}
@@ -1580,7 +1580,7 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 				}
 
 				@Override
-				public void onImageLoadFailed(String url) {
+				public void onBitmapLoadFailed(String url) {
 					// Be sad
 				}
 			});

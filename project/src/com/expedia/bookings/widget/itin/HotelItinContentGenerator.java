@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -36,8 +38,6 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.bitmaps.TwoLevelImageCache;
-import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardDataHotel> {
 
@@ -510,10 +510,10 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		 *  In the case it doesn't exist, then we will get the list of urls and then go thru each to find one.
 		 */
 		String sharableImgURL = super.getSharableImageURL();
-		if (!TwoLevelImageCache.hasImageInDiskCache(sharableImgURL)) {
+		if (!L2ImageCache.sGeneralPurpose.hasImageInDiskCache(sharableImgURL)) {
 			List<String> urls = getItinCardData().getHeaderImageUrls();
 			for (String url : urls) {
-				if (TwoLevelImageCache.hasImageInDiskCache(url)) {
+				if (L2ImageCache.sGeneralPurpose.hasImageInDiskCache(url)) {
 					sharableImgURL = url;
 					break;
 				}

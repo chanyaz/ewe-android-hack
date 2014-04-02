@@ -13,8 +13,8 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 
-import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
-import com.mobiata.android.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 
 /**
  * Used for creating drawables with some special formatting for headers
@@ -28,7 +28,7 @@ import com.mobiata.android.bitmaps.UrlBitmapDrawable;
  * 
  * Possible TODO: Add ScaleType so that we can center images differently
  */
-public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
+public class HeaderBitmapDrawable extends Drawable implements L2ImageCache.OnBitmapLoaded {
 
 	public enum CornerMode {
 		ALL,
@@ -111,7 +111,7 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 
 	private void clearState() {
 		if (mUrlBitmapDrawable != null) {
-			mUrlBitmapDrawable.setOnImageLoadedCallback(null);
+			mUrlBitmapDrawable.setOnBitmapLoadedCallback(null);
 		}
 
 		mUrlBitmapDrawable = null;
@@ -138,7 +138,7 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 		clearState();
 
 		mUrlBitmapDrawable = urlBitmapDrawable;
-		mUrlBitmapDrawable.setOnImageLoadedCallback(this);
+		mUrlBitmapDrawable.setOnBitmapLoadedCallback(this);
 
 		invalidateSelf();
 	}
@@ -418,15 +418,15 @@ public class HeaderBitmapDrawable extends Drawable implements OnImageLoaded {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// OnImageLoaded
+	// L2ImageCache.OnBitmapLoaded
 
 	@Override
-	public void onImageLoaded(String url, Bitmap bitmap) {
+	public void onBitmapLoaded(String url, Bitmap bitmap) {
 		setBitmap(bitmap);
 	}
 
 	@Override
-	public void onImageLoadFailed(String url) {
+	public void onBitmapLoadFailed(String url) {
 		invalidateSelf();
 	}
 

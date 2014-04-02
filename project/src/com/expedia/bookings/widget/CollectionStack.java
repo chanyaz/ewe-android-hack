@@ -14,10 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.bitmaps.UrlBitmapDrawable;
 
 public class CollectionStack extends FrameLayout {
 	public CollectionStack(Context context) {
