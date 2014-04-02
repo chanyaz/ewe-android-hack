@@ -659,13 +659,7 @@ public class L2ImageCache {
 		// Explicitly recycle the bitmap if it's been evicted or replaced;
 		// older Android phones need the push.
 		if (evicted || newValue != null) {
-			// TODO NOTE:
-			// This code is a holdover from the TwoLevelImageCache extraction. The reason this code worked
-			// seamlessly without throwing the "attempting to use recycle bitmap" exception is because
-			// it was tightly coupled with the UrlBitmapDrawable. Either we fix the DestinationImageViews
-			// to use UrlBitmapDrawable or we don't force recycle for now.
-
-			//			oldValue.recycle();
+			oldValue.recycle();
 		}
 	}
 
