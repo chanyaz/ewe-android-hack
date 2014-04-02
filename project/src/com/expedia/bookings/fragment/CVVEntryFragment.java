@@ -200,13 +200,15 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 		ActionBar actionBar = ((SherlockFragmentActivity) getActivity()).getSupportActionBar();
 		View actionBarView = actionBar.getCustomView();
-		TextView abSubpromptTextView = Ui.findView(actionBarView, R.id.subtitle);
-		if (abSubpromptTextView != null) {
-			abSubpromptTextView.setText(
-				cardType == CreditCardType.AMERICAN_EXPRESS
-					? R.string.See_front_of_card
-					: R.string.See_back_of_card
-			);
+		if (actionBarView != null) {
+			TextView abSubpromptTextView = Ui.findView(actionBarView, R.id.subtitle);
+			if (abSubpromptTextView != null) {
+				abSubpromptTextView.setText(
+					cardType == CreditCardType.AMERICAN_EXPRESS
+						? R.string.See_front_of_card
+						: R.string.See_back_of_card
+				);
+			}
 		}
 	}
 
