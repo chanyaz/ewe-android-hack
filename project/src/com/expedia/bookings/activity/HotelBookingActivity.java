@@ -75,11 +75,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 		setContentView(R.layout.activity_hotel_booking);
 
-		ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_cvv, null);
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayShowCustomEnabled(true);
-		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setCustomView(titleView);
+		setupActionBar(false);
 
 		mCVVEntryFragment = Ui.findSupportFragment(this, CVVEntryFragment.TAG);
 		mProgressFragment = Ui.findSupportFragment(this, BookingInProgressDialogFragment.TAG);
@@ -104,8 +100,6 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 			ft.commit();
 		}
-
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
@@ -247,12 +241,23 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void setActionBarText(boolean isError) {
+	private void setupActionBar(boolean isError) {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+
+		Drawable actionBarDrawable = isError
+			? getResources().getDrawable(R.drawable.bg_flight_action_bar_top_red)
+			: Ui.obtainThemeDrawable(this, R.attr.actionBarBackgroundDrawable);
+
+		actionBar.setBackgroundDrawable(actionBarDrawable);
+
+		int titleResId = isError
+			? R.string.title_invalid_security_code
+			: R.string.title_complete_booking;
 
 		ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_cvv, null);
-		int titleResId = (isError) ? R.string.title_invalid_security_code : R.string.title_complete_booking;
 		((TextView) titleView.findViewById(R.id.title)).setText(titleResId);
 
 		actionBar.setCustomView(titleView);
@@ -269,14 +274,8 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 		mCvvErrorModeEnabled = enabled;
 
-		Drawable actionBarDrawable = (enabled) ? getResources().getDrawable(R.drawable.bg_flight_action_bar_top_red)
-				: Ui.obtainThemeDrawable(this, R.attr.actionBarBackgroundDrawable);
-
-		ActionBar ab = getSupportActionBar();
-		ab.setBackgroundDrawable(actionBarDrawable);
-
 		// Set the new title
-		setActionBarText(enabled);
+		setupActionBar(enabled);
 
 		// Pass this along to the fragment
 		mCVVEntryFragment.setCvvErrorMode(enabled);
