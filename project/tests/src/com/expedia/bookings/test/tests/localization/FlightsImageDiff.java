@@ -1,13 +1,10 @@
 package com.expedia.bookings.test.tests.localization;
 
-import java.util.Locale;
-
 import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.test.utils.CustomActivityInstrumentationTestCase;
 import com.expedia.bookings.test.utils.FlightsTestDriver;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
-import com.mobiata.android.util.SettingUtils;
 
 /**
  * Created by dmadan on 3/27/14.
@@ -50,13 +47,14 @@ public class FlightsImageDiff extends CustomActivityInstrumentationTestCase<Laun
 
 		mDriver.flightsSearchScreen().clickSelectDepartureButton();
 		int dateOffset = 5;
+		mDriver.delay(5);
 		mDriver.enterLog(TAG, "Selecting date with offset from current date: " + dateOffset);
 		mDriver.flightsSearchScreen().clickDate(dateOffset);
-		mDriver.flightsSearchScreen().clickDate(dateOffset);
-		mDriver.delay();
-		mDriver.screenshot("Flights Search");
+		mDriver.flightsSearchScreen().clickDate(dateOffset + 5);
 		mDriver.enterLog(TAG, "Click search button");
+		mDriver.delay(5);
 		mDriver.flightsSearchScreen().clickSearchButton();
+		mDriver.delay(5);
 
 		// Searching
 		mDriver.waitForStringToBeGone(mDriver.flightsSearchLoading().getLoadingFlightsString(), 60);
