@@ -1536,7 +1536,7 @@
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_back_of_card">See back of card</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
-    <string name="See_font_of_card">See front of card</string>
+    <string name="See_front_of_card">See front of card</string>
 
 
     <!-- Flight booking sharing -->

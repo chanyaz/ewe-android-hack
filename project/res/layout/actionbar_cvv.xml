@@ -15,6 +15,7 @@
         android:textSize="17sp" />
 
     <TextView
+        android:id="@+id/subtitle"
         style="@style/ActionBarMenu.NoCaps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

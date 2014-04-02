@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
@@ -127,6 +129,8 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 	public void setCvvErrorMode(boolean enabled) {
 		mCVVTextView.setCvvErrorMode(enabled);
+
+		updateSherlockActionBar();
 	}
 
 	public void bind() {
@@ -167,14 +171,44 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 			TextView cvvPromptTextView = Ui.findView(v, R.id.cvv_prompt_text_view);
 			cvvPromptTextView.setText(Html.fromHtml(getString(R.string.cvv_code_TEMPLATE, cardName)));
 		}
-		//String name, CreditCardType type, String cardNumber
+
+		// Subprompt, i.e. "see front/back of card"
+		TextView cvvSubpromptTextView = Ui.findView(v, R.id.cvv_subprompt_text_view);
+		if (cvvSubpromptTextView != null) {
+			cvvSubpromptTextView.setText(
+				cardType == CreditCardType.AMERICAN_EXPRESS
+					? R.string.See_front_of_card
+					: R.string.See_back_of_card
+			);
+		}
+
+		updateSherlockActionBar();
+
 		mCreditCardSection.bind(personName, cardType, cardNumber);
 
 		// Configure vars that drive this fragment
 		mMinCvvLen = (cardType == CreditCardType.AMERICAN_EXPRESS) ? 4 : 3;
 	}
 
+	// Special case for the subprompt ("see back of card"), if it's in the ActionBar (for phone)
+	private void updateSherlockActionBar() {
+		if (!(getActivity() instanceof SherlockFragmentActivity)) {
+			return;
+		}
 
+		CreditCardType cardType = getCurrentCCType();
+
+		ActionBar actionBar = ((SherlockFragmentActivity) getActivity()).getSupportActionBar();
+		View actionBarView = actionBar.getCustomView();
+		TextView abSubpromptTextView = Ui.findView(actionBarView, R.id.subtitle);
+		if (abSubpromptTextView != null) {
+			abSubpromptTextView.setText(
+				cardType == CreditCardType.AMERICAN_EXPRESS
+					? R.string.See_front_of_card
+					: R.string.See_back_of_card
+			);
+		}
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// CreditCardInputListener
