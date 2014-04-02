@@ -2,9 +2,6 @@ package com.expedia.bookings.interfaces.helpers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import com.expedia.bookings.interfaces.IStateListener;
 import com.mobiata.android.Log;
@@ -22,16 +19,7 @@ public class StateListenerCollection<T> {
 	private ArrayList<IStateListener<T>> mStateChangeListeners = new ArrayList<IStateListener<T>>();
 	private HashSet<IStateListener<T>> mInactiveStateChangeListeners = new HashSet<IStateListener<T>>();
 
-	//These are temporary stores that help us add and remove things while iterating.
-	private boolean mIsIterating = false;
-	private LinkedHashMap<IStateListener<T>, ListenerAction> mPendingActions = new LinkedHashMap<IStateListener<T>, ListenerAction>();
 	private boolean mProfilingEnabled = false;
-
-	private enum ListenerAction {
-		ADD,
-		ADD_AND_FIRE,
-		REMOVE
-	}
 
 	private T mLastFinalizedState;
 	private T mTransStartState;
@@ -53,6 +41,14 @@ public class StateListenerCollection<T> {
 		return mInactiveStateChangeListeners.remove(listener);
 	}
 
+	private ArrayList<IStateListener<T>> getSafeListeners() {
+		return (ArrayList<IStateListener<T>>) mStateChangeListeners.clone();
+	}
+
+	private HashSet<IStateListener<T>> getSafeInactiveListeners() {
+		return (HashSet<IStateListener<T>>) mInactiveStateChangeListeners.clone();
+	}
+
 	public void startStateTransition(T stateOne, T stateTwo) {
 		if (mTransStartState != null || mTransEndState != null) {
 			Log.e(
@@ -61,13 +57,13 @@ public class StateListenerCollection<T> {
 		else {
 			mTransStartState = stateOne;
 			mTransEndState = stateTwo;
-			preIterate();
 			TimingLogger logger = null;
 			if (mProfilingEnabled) {
 				logger = new TimingLogger("StateListenerCollection", "startStateTransition");
 			}
-			for (IStateListener<T> listener : mStateChangeListeners) {
-				if (!mInactiveStateChangeListeners.contains(listener)) {
+			HashSet<IStateListener<T>> inactive = getSafeInactiveListeners();
+			for (IStateListener<T> listener : getSafeListeners()) {
+				if (!inactive.contains(listener)) {
 					listener.onStateTransitionStart(stateOne, stateTwo);
 					if (mProfilingEnabled) {
 						logger.addSplit(getProfilingString(listener, stateOne, stateTwo));
@@ -77,7 +73,6 @@ public class StateListenerCollection<T> {
 			if (mProfilingEnabled) {
 				logger.dumpToLog();
 			}
-			postIterate();
 		}
 	}
 
@@ -96,13 +91,13 @@ public class StateListenerCollection<T> {
 			);
 		}
 		else {
-			preIterate();
 			TimingLogger logger = null;
 			if (mProfilingEnabled) {
 				logger = new TimingLogger("StateListenerCollection", "updateStateTransition");
 			}
-			for (IStateListener<T> listener : mStateChangeListeners) {
-				if (!mInactiveStateChangeListeners.contains(listener)) {
+			HashSet<IStateListener<T>> inactive = getSafeInactiveListeners();
+			for (IStateListener<T> listener : getSafeListeners()) {
+				if (!inactive.contains(listener)) {
 					listener.onStateTransitionUpdate(stateOne, stateTwo, percentage);
 					if (mProfilingEnabled) {
 						logger.addSplit(getProfilingString(listener, stateOne, stateTwo) + " percentage:" + percentage);
@@ -112,7 +107,6 @@ public class StateListenerCollection<T> {
 			if (mProfilingEnabled) {
 				logger.dumpToLog();
 			}
-			postIterate();
 		}
 	}
 
@@ -131,13 +125,13 @@ public class StateListenerCollection<T> {
 			);
 		}
 		else {
-			preIterate();
 			TimingLogger logger = null;
 			if (mProfilingEnabled) {
 				logger = new TimingLogger("StateListenerCollection", "endStateTransition");
 			}
-			for (IStateListener<T> listener : mStateChangeListeners) {
-				if (!mInactiveStateChangeListeners.contains(listener)) {
+			HashSet<IStateListener<T>> inactive = getSafeInactiveListeners();
+			for (IStateListener<T> listener : getSafeListeners()) {
+				if (!inactive.contains(listener)) {
 					listener.onStateTransitionEnd(stateOne, stateTwo);
 					if (mProfilingEnabled) {
 						logger.addSplit(getProfilingString(listener, stateOne, stateTwo));
@@ -147,7 +141,6 @@ public class StateListenerCollection<T> {
 			if (mProfilingEnabled) {
 				logger.dumpToLog();
 			}
-			postIterate();
 			mTransStartState = null;
 			mTransEndState = null;
 		}
@@ -164,13 +157,13 @@ public class StateListenerCollection<T> {
 		}
 		else {
 			mLastFinalizedState = state;
-			preIterate();
 			TimingLogger logger = null;
 			if (mProfilingEnabled) {
 				logger = new TimingLogger("StateListenerCollection", "finalizeState");
 			}
-			for (IStateListener<T> listener : mStateChangeListeners) {
-				if (!mInactiveStateChangeListeners.contains(listener)) {
+			HashSet<IStateListener<T>> inactive = getSafeInactiveListeners();
+			for (IStateListener<T> listener : getSafeListeners()) {
+				if (!inactive.contains(listener)) {
 					listener.onStateFinalized(state);
 					if (mProfilingEnabled) {
 						logger.addSplit(getProfilingString(listener, state));
@@ -180,64 +173,24 @@ public class StateListenerCollection<T> {
 			if (mProfilingEnabled) {
 				logger.dumpToLog();
 			}
-			postIterate();
 		}
 	}
 
 	public void registerStateListener(IStateListener<T> listener, boolean fireFinalizeState) {
-		if (isIterating()) {
-			//If we are iterating, lets wait until we are done before we add our new listener
-			mPendingActions.put(listener, (fireFinalizeState ? ListenerAction.ADD_AND_FIRE : ListenerAction.ADD));
+		if (!mStateChangeListeners.contains(listener)) {
+			mStateChangeListeners.add(listener);
 		}
-		else {
-			if (!mStateChangeListeners.contains(listener)) {
-				mStateChangeListeners.add(listener);
-			}
-			if (mInactiveStateChangeListeners.contains(listener)) {
-				mInactiveStateChangeListeners.remove(listener);
-			}
-			if (fireFinalizeState && mLastFinalizedState != null) {
-				listener.onStateFinalized(mLastFinalizedState);
-			}
+		if (mInactiveStateChangeListeners.contains(listener)) {
+			mInactiveStateChangeListeners.remove(listener);
+		}
+		if (fireFinalizeState && mLastFinalizedState != null) {
+			listener.onStateFinalized(mLastFinalizedState);
 		}
 	}
 
 	public void unRegisterStateListener(IStateListener<T> listener) {
-		if (isIterating()) {
-			//If we are iterating, we set the listener inactive (so it stops receiving events)
-			mInactiveStateChangeListeners.add(listener);
-			//And we slate it for removal
-			mPendingActions.put(listener, ListenerAction.REMOVE);
-		}
-		else {
-			mStateChangeListeners.remove(listener);
-			mInactiveStateChangeListeners.remove(listener);
-		}
-	}
-
-	private boolean isIterating() {
-		return mIsIterating;
-	}
-
-	private void preIterate() {
-		mIsIterating = true;
-	}
-
-	private void postIterate() {
-		mIsIterating = false;
-
-		Iterator<Map.Entry<IStateListener<T>, ListenerAction>> iter = mPendingActions.entrySet().iterator();
-		while (!mIsIterating && iter.hasNext()) {
-			Map.Entry<IStateListener<T>, ListenerAction> entry = iter.next();
-			if (entry.getValue().compareTo(ListenerAction.REMOVE) == 0) {
-				unRegisterStateListener(entry.getKey());
-			}
-			else {
-				boolean fireFinalize = entry.getValue().compareTo(ListenerAction.ADD_AND_FIRE) == 0;
-				registerStateListener(entry.getKey(), fireFinalize);
-			}
-			iter.remove();
-		}
+		mStateChangeListeners.remove(listener);
+		mInactiveStateChangeListeners.remove(listener);
 	}
 
 	private String getProfilingString(IStateListener<T> listener, T... states) {
