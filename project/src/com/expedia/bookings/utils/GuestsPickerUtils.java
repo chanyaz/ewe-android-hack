@@ -12,6 +12,7 @@ import android.widget.Spinner;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightSearchActivity;
+import com.expedia.bookings.activity.FlightSearchOverlayActivity;
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.widget.ChildAgeSpinnerAdapter;
 import com.expedia.bookings.widget.FlightsChildAgeSpinnerAdapter;
@@ -210,7 +211,7 @@ public class GuestsPickerUtils {
 	}
 
 	private static boolean calledFromFlightsSearchActivity(Context context) {
-		return context instanceof FlightSearchActivity ? true : false;
+		return context instanceof FlightSearchActivity || context instanceof FlightSearchOverlayActivity ? true : false;
 	}
 
 }
