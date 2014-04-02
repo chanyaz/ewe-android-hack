@@ -37,6 +37,11 @@ public class FrameLayoutTouchController extends FrameLayout {
 	private boolean mPassThroughTouches = false;
 	private View mTouchGetter;
 
+	//For key mashing prevention
+	private boolean mPreventMashing = false;
+	private long mTouchCooldown = 150;//Arbitrary and small time
+	private long mLastTouchTime = 0;
+
 	//If we get the touch event (this does not interfere with touch intercept)
 	//we just return true to indicate that we have handled the touch event.
 	private boolean mConsumeTouch = false;
@@ -72,6 +77,14 @@ public class FrameLayoutTouchController extends FrameLayout {
 		mConsumeTouch = enabled;
 	}
 
+	public void setPreventMashing(boolean enabled) {
+		mPreventMashing = enabled;
+	}
+
+	public void setPreventMashing(boolean enabled, long touchCooldownMs) {
+		mTouchCooldown = touchCooldownMs;
+		mPreventMashing = enabled;
+	}
 
 	public void setLoggingEnabled(boolean enabled) {
 		mLoggingEnabled = enabled;
@@ -84,7 +97,8 @@ public class FrameLayoutTouchController extends FrameLayout {
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		// Don't allow any new actions to be used by children
-		if (mBlockNewEvents && ev.getAction() == MotionEvent.ACTION_DOWN) {
+		if (mBlockNewEvents && (ev.getAction() == MotionEvent.ACTION_DOWN
+			|| ev.getAction() == MotionEvent.ACTION_POINTER_DOWN)) {
 			log("onInterceptTouchEvent:mBlockNewEvents returning true");
 			return true;
 		}
@@ -95,6 +109,17 @@ public class FrameLayoutTouchController extends FrameLayout {
 
 			return true;
 		}
+		//Cooldown
+		else if (mPreventMashing &&
+			(ev.getAction() == MotionEvent.ACTION_DOWN || ev.getAction() == MotionEvent.ACTION_POINTER_DOWN)) {
+			if (mLastTouchTime > System.currentTimeMillis() - mTouchCooldown) {
+				mLastTouchTime = System.currentTimeMillis();
+				log("onInterceptTouchEvent:mPreventMashing returning true");
+				return true;
+			}
+			mLastTouchTime = System.currentTimeMillis();
+		}
+
 
 		return super.onInterceptTouchEvent(ev);
 	}
@@ -114,6 +139,11 @@ public class FrameLayoutTouchController extends FrameLayout {
 		}
 		else if (mConsumeTouch) {
 			log("onTouchEvent:mConsumeTouch returning true");
+			return true;
+		}
+		else if (mPreventMashing && (event.getAction() == MotionEvent.ACTION_DOWN
+			|| event.getAction() == MotionEvent.ACTION_POINTER_DOWN)) {
+			log("onTouchEvent:mPreventMashing returning true");
 			return true;
 		}
 
