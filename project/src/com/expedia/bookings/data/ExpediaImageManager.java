@@ -79,7 +79,7 @@ public class ExpediaImageManager {
 	 * @return the URL if available, or null if not
 	 */
 	public ExpediaImage getExpediaImage(ImageType imageType, String imageCode, int width, int height,
-			boolean useNetwork) {
+			boolean useNetwork, L2ImageCache cache) {
 		// The key should be unique for each request
 		String cacheUrl = getImageKey(imageType, imageCode, width, height);
 
@@ -98,7 +98,7 @@ public class ExpediaImageManager {
 					if (newResponse != null && !newResponse.hasErrors()) {
 						// See if we should expire the old cached image out of our image cache
 						if (image != null && !image.getCacheKey().equals(newResponse.getCacheKey())) {
-							TwoLevelImageCache.removeImage(image.getUrl());
+							cache.removeImage(image.getUrl());
 						}
 
 						if (image == null) {
@@ -124,6 +124,14 @@ public class ExpediaImageManager {
 	}
 
 	/**
+	 * Defaults to expiring image from general-purpose cache
+	 */
+	public ExpediaImage getExpediaImage(ImageType imageType, String imageCode, int width, int height,
+			boolean useNetwork) {
+		return getExpediaImage(imageType, imageCode, width, height, useNetwork, L2ImageCache.sGeneralPurpose);
+	}
+
+	/**
 	 * Retrieves a car image.
 	 */
 	public ExpediaImage getCarImage(Car.Category category, Car.Type type, int width, int height,
@@ -135,7 +143,8 @@ public class ExpediaImageManager {
 	 * Retrieves a destination image.
 	 */
 	public ExpediaImage getDestinationImage(String destinationCode, int width, int height, boolean useNetwork) {
-		return getExpediaImage(ImageType.DESTINATION, destinationCode, width, height, useNetwork);
+		return getExpediaImage(ImageType.DESTINATION, destinationCode, width, height, useNetwork,
+			L2ImageCache.sDestination);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
