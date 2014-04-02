@@ -39,6 +39,7 @@ import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.SectionBillingInfo.ExpirationPickerFragment.OnSetExpirationListener;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.NumberMaskFormatter;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ExpirationPicker;
 import com.expedia.bookings.widget.ExpirationPicker.IExpirationListener;
@@ -88,6 +89,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mFields.add(this.mDisplayCreditCardBrandIconWhiteDefaultBlank);
 		mFields.add(this.mDisplayCreditCardBrandIconTablet);
 		mFields.add(this.mDisplayCreditCardExpiration);
+		mFields.add(this.mDisplayCreditCardExpirationLongForm);
+		mFields.add(this.mDisplayCreditCardGenericName);
 		mFields.add(this.mDisplayCreditCardNumberMasked);
 		mFields.add(this.mDisplayFullName);
 		mFields.add(this.mDisplayAddress);
@@ -220,22 +223,21 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	////// DISPLAY FIELDS
 	//////////////////////////////////////
 
+	SectionField<TextView, BillingInfo> mDisplayCreditCardGenericName = new SectionField<TextView, BillingInfo>(
+		R.id.display_creditcard_generic_name) {
+		@Override
+		public void onHasFieldAndData(TextView field, BillingInfo data) {
+			String cardName = data.getCardType().getHumanReadableName(getContext());
+			String last4Digits = data.getNumber().substring(data.getNumber().length() - 4);
+			field.setText(getContext().getString(R.string.x_card_ending_in_y_digits_TEMPLATE, cardName, last4Digits));
+		}
+	};
+
 	SectionField<TextView, BillingInfo> mDisplayCreditCardNumberMasked = new SectionField<TextView, BillingInfo>(
 		R.id.display_creditcard_number_masked) {
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			if (!TextUtils.isEmpty(data.getNumber())) {
-				if (data.getNumber().length() > 4) {
-					String lastFourDigits = data.getNumber().substring(data.getNumber().length() - 4);
-					String brandName = (!TextUtils.isEmpty(data.getBrandName())) ? data.getBrandName() : "";
-					field.setText(Html.fromHtml(String.format(
-						getResources().getString(R.string.blanked_out_credit_card_TEMPLATE), brandName,
-						lastFourDigits)), TextView.BufferType.SPANNABLE);
-				}
-			}
-			else {
-				field.setText("");
-			}
+			field.setText(NumberMaskFormatter.obscureCreditCardNumber(data.getNumber()));
 		}
 	};
 
@@ -253,6 +255,19 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
+	SectionField<TextView, BillingInfo> mDisplayCreditCardExpirationLongForm = new SectionField<TextView, BillingInfo>(
+		R.id.display_creditcard_expiration_long_form) {
+		@Override
+		public void onHasFieldAndData(TextView field, BillingInfo data) {
+			if (data.getExpirationDate() != null) {
+				String exprStr = MONTHYEAR_FORMATTER.print(data.getExpirationDate());
+				field.setText(getContext().getString(R.string.Expires_TEMPLATE, exprStr));
+			}
+			else {
+				field.setText("");
+			}
+		}
+	};
 
 	SectionField<TextView, BillingInfo> mDisplayEmailDisclaimer = new SectionField<TextView, BillingInfo>(
 		R.id.email_disclaimer) {

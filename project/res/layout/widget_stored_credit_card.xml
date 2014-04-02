@@ -10,8 +10,8 @@
 
         <ImageView
             android:id="@+id/icon_view"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/checkout_info_container_padding" />
 
         <LinearLayout

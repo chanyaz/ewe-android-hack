@@ -8,6 +8,8 @@
     android:gravity="center_vertical"
     android:orientation="vertical" >
 
+    <!-- Section for no credit card entered yet -->
+
     <LinearLayout
         android:id="@+id/payment_info_btn"
         android:layout_width="fill_parent"
@@ -35,18 +37,68 @@
             android:textSize="18sp" />
     </LinearLayout>
 
-    <include
+    <!-- Section for a newly entered credit card -->
+
+    <com.expedia.bookings.section.SectionBillingInfo
         android:id="@+id/creditcard_section_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/section_display_creditcard_btn"
-        android:visibility="gone" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="2.5dp"
+        android:paddingBottom="5.5dp"
+        android:visibility="gone" >
+
+        <ImageView
+            android:id="@+id/display_credit_card_brand_icon_tablet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0"
+            android:src="@drawable/ic_tablet_checkout_generic_credit_card" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/display_creditcard_generic_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                app:textStyle="light" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/display_creditcard_expiration_long_form"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#cccccc"
+                android:textSize="16sp"
+                app:textStyle="light" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/validation_checkmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0"
+            android:src="@drawable/ic_checkout_checkmark"
+            android:visibility="gone" />
+
+    </com.expedia.bookings.section.SectionBillingInfo>
+
+    <!-- Section for a stored credit card -->
 
     <com.expedia.bookings.section.SectionStoredCreditCard
         android:id="@+id/stored_creditcard_section_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:cardIcon="@drawable/ic_credit_card_blue_entered" />
+        app:cardIcon="@drawable/ic_tablet_checkout_generic_credit_card" />
 
 </LinearLayout>

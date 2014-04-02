@@ -1259,6 +1259,8 @@
     <string name="expiration_date">Expiration Date</string>
     <!-- Set expiration date button -->
     <string name="btn_set">Set</string>
+    <!-- Describes credit card expiration (e.g. "Expires 01/18") -->
+    <string name="Expires_TEMPLATE">Exipres %1$s</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -1525,6 +1527,8 @@
     <string name="cvv_code_TEMPLATE">CVV code for &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">card ending in %s</string>
+    <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
+    <string name="x_card_ending_in_y_digits_TEMPLATE">%1$s ending in %2$s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">Complete Booking</string>
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->
@@ -1539,7 +1543,6 @@
     <string name="See_back_of_card">See back of card</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_front_of_card">See front of card</string>
-
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->

@@ -25,7 +25,9 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.AndroidUtils;
 
 public class SectionStoredCreditCard extends LinearLayout implements ISection<StoredCreditCard> {
 
@@ -181,6 +183,10 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 			int iconResId;
 			if (mStoredCard.isGoogleWallet()) {
 				iconResId = R.drawable.ic_google_wallet_logo;
+			}
+			// Show a credit card logo on tablet
+			else if (AndroidUtils.isTablet(getContext())) {
+				iconResId = BookingInfoUtils.getTabletCardIcon(data.getType());
 			}
 			else {
 				iconResId = mCardIconResId;
