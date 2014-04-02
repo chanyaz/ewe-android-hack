@@ -165,14 +165,6 @@
             mobiata:toolTipTextColor="#FFFFFF"/>
     </LinearLayout>
 
-    <View
-        android:id="@+id/refinement_dismiss_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/header"
-        android:background="@color/dismiss"
-        android:visibility="invisible"/>
-
     <RelativeLayout
         android:id="@+id/guest_picker_container"
         android:layout_width="match_parent"

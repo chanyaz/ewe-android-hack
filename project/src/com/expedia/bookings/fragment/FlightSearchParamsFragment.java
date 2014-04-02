@@ -139,7 +139,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private SimpleNumberPicker mChildrenNumberPicker;
 	private ViewGroup mGuestsContainer;
 	private View mGuestsLayout;
-	private View mRefinementDismissView;
 	private View mChildAgesLayout;
 	private View mDoneButton;
 	private View mButtonBarLayout;
@@ -256,7 +255,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mChildrenNumberPicker = Ui.findView(v, R.id.children_number_picker);
 		mButtonBarLayout = Ui.findView(v, R.id.button_bar_layout);
 		mRefinementInfoTextView = Ui.findView(v, R.id.refinement_info_text_view);
-		mRefinementDismissView = Ui.findView(v, R.id.refinement_dismiss_view);
 		mSelectChildAgeTextView = Ui.findView(v, R.id.label_select_each_childs_age);
 		mDoneButton = Ui.findView(v, R.id.guest_done_button);
 
@@ -408,12 +406,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mNumTravelersButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (mGuestsContainer.getVisibility() == View.VISIBLE) {
-					toggleGuestPicker(false, true);
-				}
-				else {
-					toggleGuestPicker(true, true);
-				}
+				toggleGuestPicker(true, true);
 			}
 		});
 
@@ -544,6 +537,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
 			mCalendarContainer.removeAllViewsInLayout();
 			mCalendarDatePicker = null;
+			mGuestsContainer.removeAllViewsInLayout();
 		}
 	}
 
@@ -556,7 +550,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			toggleCalendarDatePicker(false);
 			return true;
 		}
-		else if (mGuestsLayout.getVisibility() == View.VISIBLE) {
+		else if (mGuestsContainer.getVisibility() == View.VISIBLE) {
 			toggleGuestPicker(false, true);
 			return true;
 		}
@@ -1028,12 +1022,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			clearEditTextFocus();
 			Ui.hideKeyboard(getActivity());
 			mGuestsLayout.setVisibility(View.VISIBLE);
-			mRefinementDismissView.setVisibility(View.VISIBLE);
 			mButtonBarLayout.setVisibility(View.VISIBLE);
 			displayRefinementInfo();
-		}
-		else {
-			mRefinementDismissView.setVisibility(View.GONE);
 		}
 
 		if (!animate) {
