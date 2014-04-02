@@ -234,16 +234,20 @@ public class ExpediaImageManager {
 		imageView.setImageBitmap(bitmap);
 	}
 
+	public void loadDestinationBitmap(Context context, FlightSearch flightSearch, final boolean blur) {
+		final String airportCode = flightSearch.getSearchParams().getArrivalLocation().getDestinationId();
+		loadDestinationBitmap(context, airportCode, blur, null);
+	}
+
 	/**
 	 * For use within the phone flow
 	 * @param context
 	 * @param flightSearch
 	 * @param blur
 	 */
-	public void loadDestinationBitmap(Context context, FlightSearch flightSearch, final boolean blur) {
+	public void loadDestinationBitmap(Context context, final String airportCode, final boolean blur, final L2ImageCache.OnBitmapLoaded callback) {
 		// the params
-		final String airportCode = flightSearch.getSearchParams().getArrivalLocation().getDestinationId();
-		final String bgdKey = generateBackgroundDownloaderKey(flightSearch, blur);
+		final String bgdKey = generateBackgroundDownloaderKey(airportCode, blur);
 		final Point p = AndroidUtils.getDisplaySize(context);
 
 		// Start background download
@@ -262,12 +266,16 @@ public class ExpediaImageManager {
 					L2ImageCache.sDestination.loadImage(url, url, blur, new L2ImageCache.OnBitmapLoaded() {
 						@Override
 						public void onBitmapLoaded(String url, Bitmap bitmap) {
-							Log.d("DestinationImageCache", "expimg mgr loadbmap onBitmapLoaded success url=" + url);
+							if (callback != null) {
+								callback.onBitmapLoaded(url, bitmap);
+							}
 						}
 
 						@Override
 						public void onBitmapLoadFailed(String url) {
-							Log.d("DestinationImageCache", "expimg mgr loadbmap onBitmapLoadFailed url=" + url);
+							if (callback != null) {
+								callback.onBitmapLoadFailed(url);
+							}
 						}
 					});
 				}
@@ -281,7 +289,6 @@ public class ExpediaImageManager {
 			}
 		});
 	}
-
 
 	/**
 	 * Use within the new tablet flow
@@ -336,12 +343,16 @@ public class ExpediaImageManager {
 
 	private static final String BGD_DESTINATION_DL_KEY_BASE = "BGD_DESTINATION_DL_KEY_BASE";
 
-	private static String generateBackgroundDownloaderKey(boolean blur) {
-		return BGD_DESTINATION_DL_KEY_BASE + Sp.getParams().getDestination().getAirportCode() + String.valueOf(blur);
+	private static String generateBackgroundDownloaderKey(FlightSearch flightSearch, boolean blur) {
+		return generateBackgroundDownloaderKey(flightSearch.getSearchParams().getArrivalLocation().getDestinationId(), blur);
 	}
 
-	private static String generateBackgroundDownloaderKey(FlightSearch flightSearch, boolean blur) {
-		return BGD_DESTINATION_DL_KEY_BASE + flightSearch.getSearchParams().getArrivalLocation().getDestinationId() + String.valueOf(blur);
+	private static String generateBackgroundDownloaderKey(boolean blur) {
+		return generateBackgroundDownloaderKey(Sp.getParams().getDestination().getAirportCode(), blur);
+	}
+
+	private static String generateBackgroundDownloaderKey(final String airportCode, final boolean blur) {
+		return BGD_DESTINATION_DL_KEY_BASE + "-" + airportCode + "-" + String.valueOf(blur);
 	}
 
 }

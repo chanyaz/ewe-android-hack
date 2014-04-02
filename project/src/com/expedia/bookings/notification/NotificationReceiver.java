@@ -6,7 +6,6 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -14,7 +13,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
@@ -23,7 +21,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.LaunchActivity;
 import com.expedia.bookings.activity.StandaloneShareActivity;
-import com.expedia.bookings.data.ExpediaImage;
+import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
@@ -35,13 +33,8 @@ import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.notification.Notification.StatusType;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
-import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.BackgroundDownloader.Download;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.bitmaps.TwoLevelImageCache;
-import com.mobiata.android.bitmaps.TwoLevelImageCache.OnImageLoaded;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Airport;
 
@@ -158,9 +151,8 @@ public class NotificationReceiver extends BroadcastReceiver {
 				loadNextUrl();
 				break;
 			case DESTINATION:
-				BackgroundDownloader bd = BackgroundDownloader.getInstance();
-				bd.startDownload(mNotification.getItinId(), mDestinationImageUrlDownload,
-						mDestinationImageUrlCallback);
+				ExpediaImageManager.getInstance().loadDestinationBitmap(mContext,
+					mNotification.getImageValue(), false, mDestinationImageLoaded);
 				break;
 			case CAR:
 			case ACTIVITY:
@@ -170,36 +162,15 @@ public class NotificationReceiver extends BroadcastReceiver {
 			}
 		}
 
-		// For BackgroundDownloader, the object that will download the Destination Image
-		private Download<ExpediaImage> mDestinationImageUrlDownload = new Download<ExpediaImage>() {
-			@SuppressLint("NewApi")
+		private L2ImageCache.OnBitmapLoaded mDestinationImageLoaded = new L2ImageCache.OnBitmapLoaded() {
 			@Override
-			public ExpediaImage doDownload() {
-				String code = mNotification.getImageValue();
-				Point size = AndroidUtils.getScreenSize(mContext);
-				return ExpediaImageManager.getInstance().getDestinationImage(code, size.x, size.y, true);
-			}
-		};
-
-		// Callback for BackgroundDownloader for the Destination Image
-		private OnDownloadComplete<ExpediaImage> mDestinationImageUrlCallback = new OnDownloadComplete<ExpediaImage>() {
-			@Override
-			public void onDownload(ExpediaImage image) {
-				TwoLevelImageCache.loadImage(image.getUrl(), mDestinationImageLoaded);
-			}
-		};
-
-		// Callbacks for TwoLevelImageCache image loader. Special for Destination Image because
-		// we have to crop the returned bitmap.
-		private OnImageLoaded mDestinationImageLoaded = new OnImageLoaded() {
-			@Override
-			public void onImageLoadFailed(String url) {
+			public void onBitmapLoadFailed(String url) {
 				mBitmap = null;
 				display();
 			}
 
 			@Override
-			public void onImageLoaded(String url, Bitmap bitmap) {
+			public void onBitmapLoaded(String url, Bitmap bitmap) {
 				// These are tailored to the specific size of our destination images (720x1140 on xhdpi).
 				// They don't need to be exact anyway.
 				int left = 0;
@@ -218,18 +189,18 @@ public class NotificationReceiver extends BroadcastReceiver {
 				return;
 			}
 			String url = mUrls.remove(0);
-			TwoLevelImageCache.loadImage(url, mTwoLevelImageLoaded);
+			L2ImageCache.sGeneralPurpose.loadImage(url, mTwoLevelImageLoaded);
 		}
 
 		// Callbacks for TwoLevelImageCache image loader
-		private OnImageLoaded mTwoLevelImageLoaded = new OnImageLoaded() {
+		private L2ImageCache.OnBitmapLoaded mTwoLevelImageLoaded = new L2ImageCache.OnBitmapLoaded() {
 			@Override
-			public void onImageLoadFailed(String url) {
+			public void onBitmapLoadFailed(String url) {
 				loadNextUrl();
 			}
 
 			@Override
-			public void onImageLoaded(String url, Bitmap bitmap) {
+			public void onBitmapLoaded(String url, Bitmap bitmap) {
 				try {
 					// #1457 - We make a copy so that the TwoLevelImageCache can't recycle it from underneath us
 					mBitmap = bitmap.copy(bitmap.getConfig(), false);
