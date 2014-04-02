@@ -13,8 +13,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
-import com.mobiata.android.Log;
-import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.util.AndroidUtils;
 
 /**

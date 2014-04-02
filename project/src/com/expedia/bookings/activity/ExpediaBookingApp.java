@@ -5,7 +5,6 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import android.app.ActivityManager;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
@@ -38,7 +37,6 @@ import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
-import com.mobiata.android.bitmaps.TwoLevelImageCache;
 import com.mobiata.android.debug.MemoryUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.BuildConfigUtils;
@@ -221,24 +219,6 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		}
 
 		startupTimer.addSplit("Disable ICS Tablet & VSC Widgets");
-
-		// Some useful info to have on hand in case of memory crashes
-		long maxMemory = Runtime.getRuntime().maxMemory();
-		int memoryClass = ((ActivityManager) getSystemService(ACTIVITY_SERVICE)).getMemoryClass();
-		Log.i("MaxMemory=" + maxMemory + " bytes (" + (maxMemory / 1048576) + "MB) MemoryClass=" + memoryClass + "MB");
-
-		// Here's what we're aiming for, in terms of memory cache size:
-		// 1. At least MIN_IMAGE_CACHE_SIZE
-		// 2. No greater than 1/5th the memory available
-		int maxCacheSize = (1024 * 1024 * memoryClass) / 5;
-		if (maxCacheSize < MIN_IMAGE_CACHE_SIZE) {
-			maxCacheSize = MIN_IMAGE_CACHE_SIZE;
-		}
-
-		// Init TwoLevelImageCache
-		TwoLevelImageCache.init(this, maxCacheSize);
-
-		startupTimer.addSplit("TwoLevelImageCache init");
 
 		// Kick off thread to determine if the Google Wallet promo is still available
 		(new Thread(new Runnable() {

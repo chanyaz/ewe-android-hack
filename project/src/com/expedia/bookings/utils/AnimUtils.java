@@ -3,13 +3,10 @@ package com.expedia.bookings.utils;
 import java.util.Collection;
 import java.util.Stack;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
-import android.widget.ImageView;
 
-import com.mobiata.android.bitmaps.BitmapDrawable;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -109,17 +106,6 @@ public class AnimUtils {
 	 */
 	public static Bundle createActivityScaleBundle(View v) {
 		return ActivityOptionsCompat.makeScaleUpAnimation(v, 0, 0, v.getWidth(), v.getHeight()).toBundle();
-	}
-
-	/**
-	 * Creates an animation bundle for an Activity thumbnail scale animation.
-	 * @param v - view for animation reference frame
-	 * @return
-	 */
-	public static Bundle createActivityThumbnailScaleBundle(ImageView v) {
-		BitmapDrawable drawable = (BitmapDrawable) v.getDrawable();
-		Bitmap bm = drawable.getBitmap();
-		return ActivityOptionsCompat.makeThumbnailScaleUpAnimation(v, bm, 0, 0).toBundle();
 	}
 
 }
