@@ -533,10 +533,18 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		if (mHotelDetailsFrag != null && mHotelDetailsFrag.isAdded()) {
 			mHotelDetailsFrag.onHotelSelected();
 		}
-		setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
 		for (IResultsHotelSelectedListener listener : mHotelSelectedListeners) {
 			listener.onHotelSelected();
 		}
+		if (mHotelsStateManager.getState() == ResultsHotelsState.HOTEL_LIST_DOWN) {
+			mHotelsStateManager
+				.animateThroughStates(ResultsHotelsState.HOTEL_LIST_UP, ResultsHotelsState.ROOMS_AND_RATES);
+		}
+		else {
+			setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
+		}
+
+
 	}
 
 	/*
