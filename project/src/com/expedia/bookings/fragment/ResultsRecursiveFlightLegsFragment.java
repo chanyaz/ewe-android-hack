@@ -627,7 +627,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	 */
 
 	public void setState(ResultsFlightLegState state, boolean animate) {
-		if (!mStateListeners.isTransitioning()) {
+		//If we are transitioning we typically dont want to allow state changes, but
+		//if we are going back to the original state, we allow animation reversals
+		if (!mStateListeners.isTransitioning() || state == mStateManager.getState()) {
 			mStateManager.setState(state, animate);
 		}
 		else {

@@ -147,7 +147,10 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	}
 
 	public float getPercentage() {
-		return mListView.getScrollDownPercentage();
+		if(hasList()) {
+			return mListView.getScrollDownPercentage();
+		}
+		return 0f;
 	}
 
 	public boolean hasList() {

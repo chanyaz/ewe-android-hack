@@ -492,6 +492,8 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 			else {
 				retVal = 0f;
 			}
+		}else if(mListLockedToTop){
+			return 0f;
 		}
 		retVal = Math.max(Math.min(retVal, 1f), 0f);
 		mPercentage = retVal;
