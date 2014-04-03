@@ -53,6 +53,10 @@ public class StateListenerCollection<T> {
 		return mInactiveStateChangeListeners.remove(listener);
 	}
 
+	public boolean isTransitioning() {
+		return mTransStartState != null && mTransEndState != null;
+	}
+
 	public void startStateTransition(T stateOne, T stateTwo) {
 		if (mTransStartState != null || mTransEndState != null) {
 			Log.e(

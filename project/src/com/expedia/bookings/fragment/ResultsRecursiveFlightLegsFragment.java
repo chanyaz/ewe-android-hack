@@ -83,6 +83,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	private FrameLayoutTouchController mDetailsC;
 	private FrameLayoutTouchController mFiltersC;
 	private RelativeLayout mListColumnC;
+	private FrameLayoutTouchController mListC;
 	private FrameLayoutTouchController mAddToTripC;
 	private FrameLayoutTouchController mNextLegC;
 	private FrameLayoutTouchController mLastLegC;
@@ -143,6 +144,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		mDetailsC = Ui.findView(view, R.id.details_container);
 		mFiltersC = Ui.findView(view, R.id.filters_container);
 		mListColumnC = Ui.findView(view, R.id.list_column_container);
+		mListC = Ui.findView(view, R.id.list_container);
 		mAddToTripC = Ui.findView(view, R.id.add_to_trip);
 		mNextLegC = Ui.findView(view, R.id.next_leg_container);
 		mLastLegC = Ui.findView(view, R.id.last_flight_container);
@@ -157,6 +159,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		if (!isFirstLeg()) {
 			mLastLegC.setVisibility(View.VISIBLE);
 		}
+
+		//We just cant have people mashing the list
+		mListC.setPreventMashing(true, 200);
 
 		//Always listen to the local State provider
 		registerStateListener(new StateListenerLogger<ResultsFlightLegState>(), false);
@@ -622,7 +627,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	 */
 
 	public void setState(ResultsFlightLegState state, boolean animate) {
-		mStateManager.setState(state, animate);
+		if (!mStateListeners.isTransitioning()) {
+			mStateManager.setState(state, animate);
+		}
+		else {
+			Log.e("setState may not be called while we are transitioning");
+		}
 	}
 
 	public ResultsFlightLegState getState() {

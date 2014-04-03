@@ -103,12 +103,14 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 
 	public void setEnableOnListItemClick(boolean enable) {
 		mEnableOnListItemClick = enable;
-		getListView().setChoiceMode(enable ? AbsListView.CHOICE_MODE_SINGLE : AbsListView.CHOICE_MODE_NONE);
+		if (hasList()) {
+			getListView().setChoiceMode(enable ? AbsListView.CHOICE_MODE_SINGLE : AbsListView.CHOICE_MODE_NONE);
+		}
 	}
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		if (mEnableOnListItemClick) {
+		if (mEnableOnListItemClick && (getPercentage() == 1 || getPercentage() == 0)) {
 			int headerCount = getListView().getHeaderViewsCount();
 			int itemPosition = position - headerCount;
 			if (itemPosition >= 0) {
