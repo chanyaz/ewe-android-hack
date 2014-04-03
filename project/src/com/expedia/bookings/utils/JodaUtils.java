@@ -1,13 +1,10 @@
 package com.expedia.bookings.utils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.Days;
-import org.joda.time.Duration;
 import org.joda.time.LocalDate;
 import org.joda.time.ReadableInstant;
 import org.joda.time.ReadablePartial;
@@ -21,7 +18,6 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
@@ -73,109 +69,6 @@ public class JodaUtils extends com.mobiata.android.time.util.JodaUtils {
 	public static String formatDateRange(Context context, DateTime start, DateTime end, int flags) {
 		return DateUtils.formatDateRange(context, start.getMillis(), end.getMillis() + 1000, flags
 				| DateUtils.FORMAT_UTC);
-	}
-
-	/**
-	 * This method is mostly ripped from DateUtils.getRelativeTimeSpanString(), and
-	 * works in much the same way.  The major difference is that it doesn't suck
-	 * and actually calculates everything correctly, using durations (instead of
-	 * millisecond math, which is prone to be off if you're comparing two different
-	 * timezones).
-	 */
-	public static CharSequence getRelativeTimeSpanString(Context context, DateTime time, DateTime now,
-			long minResolution, int flags) {
-		Resources r = context.getResources();
-		boolean abbrevRelative = (flags & (DateUtils.FORMAT_ABBREV_RELATIVE | DateUtils.FORMAT_ABBREV_ALL)) != 0;
-
-		boolean past = now.isAfter(time);
-		Duration duration = past ? new Duration(time, now) : new Duration(now, time);
-
-		int resId;
-		long count;
-		if (duration.isShorterThan(Duration.standardMinutes(1)) && minResolution < DateUtils.MINUTE_IN_MILLIS) {
-			count = duration.getStandardMinutes();
-			if (past) {
-				if (abbrevRelative) {
-					resId = R.plurals.abbrev_num_seconds_ago;
-				}
-				else {
-					resId = R.plurals.num_seconds_ago;
-				}
-			}
-			else {
-				if (abbrevRelative) {
-					resId = R.plurals.abbrev_in_num_seconds;
-				}
-				else {
-					resId = R.plurals.in_num_seconds;
-				}
-			}
-		}
-		else if (duration.isShorterThan(Duration.standardHours(1)) && minResolution < DateUtils.HOUR_IN_MILLIS) {
-			count = duration.getStandardMinutes();
-			if (past) {
-				if (abbrevRelative) {
-					resId = R.plurals.abbrev_num_minutes_ago;
-				}
-				else {
-					resId = R.plurals.num_minutes_ago;
-				}
-			}
-			else {
-				if (abbrevRelative) {
-					resId = R.plurals.abbrev_in_num_minutes;
-				}
-				else {
-					resId = R.plurals.in_num_minutes;
-				}
-			}
-		}
-		else if (duration.isShorterThan(Duration.standardDays(1)) && minResolution < DateUtils.DAY_IN_MILLIS) {
-			count = duration.getStandardHours();
-			if (past) {
-				if (abbrevRelative) {
-					resId = R.plurals.abbrev_num_hours_ago;
-				}
-				else {
-					resId = R.plurals.num_hours_ago;
-				}
-			}
-			else {
-				if (abbrevRelative) {
-					resId = R.plurals.abbrev_in_num_hours;
-				}
-				else {
-					resId = R.plurals.in_num_hours;
-				}
-			}
-		}
-		else if (duration.isShorterThan(Duration.standardDays(7)) && minResolution < DateUtils.WEEK_IN_MILLIS) {
-			count = Math.abs(daysBetween(time, now.withZone(time.getZone())));
-			if (past) {
-				if (abbrevRelative) {
-					resId = R.plurals.abbrev_num_days_ago;
-				}
-				else {
-					resId = R.plurals.num_days_ago;
-				}
-			}
-			else {
-				if (abbrevRelative) {
-					resId = R.plurals.abbrev_in_num_days;
-				}
-				else {
-					resId = R.plurals.in_num_days;
-				}
-			}
-		}
-		else {
-			// We know that we won't be showing the time, so it is safe to pass
-			// in a null context.
-			return DateUtils.formatDateRange(null, time.getMillis(), time.getMillis(), flags);
-		}
-
-		String format = r.getQuantityString(resId, (int) count);
-		return String.format(format, count);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
