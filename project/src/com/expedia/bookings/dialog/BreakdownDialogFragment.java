@@ -276,18 +276,30 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		int numberOfSeatedTravelers = params.getNumberOfSeatedTravelers();
 		int numAdults = params.getNumAdults();
-		int numSeatedChildren = params.getNumberOfSeatedChildren();
+		String totalFarePerTraveler = trip.getTotalFare().getFormattedMoneyPerTraveler();
+		String totalBaseFarePerTraveler = trip.getBaseFare().getFormattedMoneyPerTraveler();
+		String totalTaxesPerTraveler = trip.getTaxes().getFormattedMoneyPerTraveler();
 
 		// Per traveler price
-		for (int i = 0; i < numberOfSeatedTravelers; i++) {
+		for (int i = 0; i < params.getNumTravelers(); i++) {
 			int travelerHeaderStringId;
 			int index;
 			if (i < numAdults) {
 				travelerHeaderStringId = R.string.add_adult_number_TEMPLATE;
 				index = i + 1;
-			} else {
+			} else if(i < numberOfSeatedTravelers) {
 				travelerHeaderStringId = R.string.add_child_number_TEMPLATE;
 				index = i - numAdults + 1;
+			} else {
+				//Must be a lap infant, so they fly for free!
+				Money zeroDollars = new Money();
+				zeroDollars.setCurrency(trip.getTotalFare().getCurrency());
+				totalFarePerTraveler = zeroDollars.getFormattedMoney();
+				totalBaseFarePerTraveler = totalFarePerTraveler;
+				totalTaxesPerTraveler = totalFarePerTraveler;
+
+				travelerHeaderStringId = R.string.add_infant_in_lap_number_TEMPLATE;
+				index = i - numberOfSeatedTravelers + 1;
 			}
 			builder.addLineItem((new LineItemBuilder())
 					.setItemLeft((new ItemBuilder())
@@ -295,7 +307,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium_Bold)
 							.build())
 					.setItemRight((new ItemBuilder())
-							.setText(trip.getTotalFare().getFormattedMoneyPerTraveler())
+							.setText(totalFarePerTraveler)
 							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium_Bold)
 							.build())
 					.build());
@@ -307,7 +319,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 							.build())
 					.setItemRight((new ItemBuilder())
-							.setText(trip.getBaseFare().getFormattedMoneyPerTraveler())
+							.setText(totalBaseFarePerTraveler)
 							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 							.build())
 					.build());
@@ -319,7 +331,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 							.build())
 					.setItemRight((new ItemBuilder())
-							.setText(trip.getTaxes().getFormattedMoneyPerTraveler())
+							.setText(totalTaxesPerTraveler)
 							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 							.build())
 					.build());
