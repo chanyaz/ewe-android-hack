@@ -29,7 +29,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Date;
 import com.mobiata.android.json.JSONUtils;
 
-public class JodaUtils {
+public class JodaUtils extends com.mobiata.android.time.util.JodaUtils {
 
 	public static DateTime fromMillisAndOffset(long millisFromEpoch, int tzOffsetMillis) {
 		return new org.joda.time.DateTime(millisFromEpoch, DateTimeZone.forOffsetMillis(tzOffsetMillis));
@@ -41,22 +41,6 @@ public class JodaUtils {
 
 	public static boolean isBeforeOrEquals(AbstractPartial first, AbstractPartial second) {
 		return first.isBefore(second) || first.isEqual(second);
-	}
-
-	/**
-	 * Handles null cases while checking for equality.
-	 * @return true if they are equal, or if they are both null
-	 */
-	public static boolean isEqual(AbstractPartial first, AbstractPartial second) {
-		if (first == second) {
-			return true;
-		}
-
-		if (first != null && second != null) {
-			return first.isEqual(second);
-		}
-
-		return false;
 	}
 
 	/**
@@ -76,20 +60,6 @@ public class JodaUtils {
 
 		DateTime now = DateTime.now();
 		return now.isBefore(timestamp) || timestamp.plusMillis((int) cutoff).isBefore(now);
-	}
-
-	/**
-	 * @return # of days between, positive if start is before end, negative if end is before start
-	 */
-	public static int daysBetween(ReadablePartial start, ReadablePartial end) {
-		return Days.daysBetween(start, end).getDays();
-	}
-
-	/**
-	 * @return # of days between, positive if start is before end, negative if end is before start
-	 */
-	public static int daysBetween(DateTime start, DateTime end) {
-		return daysBetween(start.toLocalDate(), end.toLocalDate());
 	}
 
 	public static String formatTimeZone(DateTime dateTime) {
@@ -208,23 +178,6 @@ public class JodaUtils {
 		return String.format(format, count);
 	}
 
-	/**
-	 * @return the constant representing the first day of the week, according to Joda Time
-	 */
-	public static int getFirstDayOfWeek() {
-		// In Java, the first day of the week (1) is == Sunday
-		// In Joda, the first day of the week (1) is == Monday
-		return ((Calendar.getInstance().getFirstDayOfWeek() + 5) % 7) + 1;
-	}
-
-	/**
-	 * @return a value from 0-6 which can be used to compare whether one date is before or after
-	 * another one (by simply looking at a calendar)
-	 */
-	public static int getDayOfWeekNormalized(LocalDate date) {
-		return (date.getDayOfWeek() - getFirstDayOfWeek() + 7) % 7;
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Formatting
 
@@ -250,15 +203,6 @@ public class JodaUtils {
 	 */
 	public static final int FLAGS_TIME_FORMAT = DateUtils.FORMAT_SHOW_TIME;
 
-	public static String formatLocalDate(Context context, LocalDate localDate, int flags) {
-		return formatDateTime(context, localDate.toDateTimeAtStartOfDay(), flags);
-	}
-
-	public static String formatDateTime(Context context, DateTime dateTime, int flags) {
-		DateTime utcDateTime = dateTime.withZoneRetainFields(DateTimeZone.UTC);
-		return DateUtils.formatDateTime(context, utcDateTime.getMillis(), flags | DateUtils.FORMAT_UTC);
-	}
-
 	/**
 	 * Note: you should first check ISODateTimeFormat for the correct format
 	 * before using this.  Also, if you need to repeatedly format anything,
@@ -273,8 +217,6 @@ public class JodaUtils {
 		DateTimeFormatter fmt = DateTimeFormat.forPattern(pattern);
 		return fmt.print(partial);
 	}
-
-
 
 	//////////////////////////////////////////////////////////////////////////
 	// JSON
@@ -362,43 +304,6 @@ public class JodaUtils {
 		}
 
 		return null;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Parcelable
-
-	public static void writeLocalDate(Parcel parcel, LocalDate localDate) {
-		if (localDate == null) {
-			parcel.writeString(null);
-		}
-		else {
-			parcel.writeString(localDate.toString());
-		}
-	}
-
-	public static LocalDate readLocalDate(Parcel parcel) {
-		String str = parcel.readString();
-		if (TextUtils.isEmpty(str)) {
-			return null;
-		}
-		return LocalDate.parse(str);
-	}
-
-	public static void writeDateTime(Parcel parcel, DateTime dateTime) {
-		if (dateTime == null) {
-			parcel.writeString(null);
-		}
-		else {
-			parcel.writeString(dateTime.toString());
-		}
-	}
-
-	public static DateTime readDateTime(Parcel parcel) {
-		String str = parcel.readString();
-		if (TextUtils.isEmpty(str)) {
-			return null;
-		}
-		return DateTime.parse(str);
 	}
 
 }
