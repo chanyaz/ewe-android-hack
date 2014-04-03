@@ -43,8 +43,8 @@ Unit Tests
 
 1. Run unit tests with the following command:
 
-$ ./gradlew connectedInstrumentTestExpediaDebug
+$ ./gradlew connectedAndroidTestExpediaDebug
 
 2. After the test run, you can view the test report:
 
-$ open project/build/reports/instrumentTests/connected/flavors/Expedia/index.html
+$ open project/build/reports/androidTests/connected/flavors/Expedia/index.html
