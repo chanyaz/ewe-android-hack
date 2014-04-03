@@ -223,7 +223,7 @@ public class ExpediaImageManager {
 		final String airportCode = flightSearch.getSearchParams().getArrivalLocation().getDestinationId();
 		ExpediaImage expImage = getDestinationImage(airportCode, p.x, p.y, false); // should be in memory
 		String url = expImage.getThumborUrl(p.x, p.y);
-		return L2ImageCache.sDestination.getImage(url, true, blur); // at very least should be in disk
+		return L2ImageCache.sDestination.getImage(url, blur, true); // at very least should be in disk
 	}
 
 	/**
@@ -268,9 +268,9 @@ public class ExpediaImageManager {
 				String url = expImage.getThumborUrl(p.x, p.y);
 
 				// Invoke the callback with the Bitmap
-				Bitmap bitmap = L2ImageCache.sDestination.getImage(url, true, blur);
+				Bitmap bitmap = L2ImageCache.sDestination.getImage(url, blur, true);
 				if (bitmap == null) {
-					L2ImageCache.sDestination.loadImage(url, url, blur, new L2ImageCache.OnBitmapLoaded() {
+					L2ImageCache.sDestination.loadImage(url, blur, new L2ImageCache.OnBitmapLoaded() {
 						@Override
 						public void onBitmapLoaded(String url, Bitmap bitmap) {
 							if (callback != null) {
@@ -318,12 +318,12 @@ public class ExpediaImageManager {
 				String url = expImage.getThumborUrl(params.getWidth(), params.getHeight());
 
 				// Invoke the callback with the Bitmap
-				Bitmap bitmap = L2ImageCache.sDestination.getImage(url, true, params.isBlur());
+				Bitmap bitmap = L2ImageCache.sDestination.getImage(url, params.isBlur(), true);
 				if (bitmap != null) {
 					callback.onBitmapLoaded(url, bitmap);
 				}
 				else {
-					L2ImageCache.sDestination.loadImage(url, callback);
+					L2ImageCache.sDestination.loadImage(url, params.isBlur(), callback);
 				}
 
 				return null;

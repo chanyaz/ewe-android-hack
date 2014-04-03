@@ -110,7 +110,6 @@ public class L2ImageCache {
 		if (memCacheSize < minCacheSize) {
 			memCacheSize = minCacheSize;
 		}
-		Log.i(logTag, "Creating mem cache of size " + (memCacheSize / (1024 * 1024)) + " mb");
 
 		final int diskCacheSize = 1024 * 1024 * 20; // 20 mb
 
@@ -140,19 +139,29 @@ public class L2ImageCache {
 	private DiskLruCache mDiskCache;
 
 	public Bitmap getImage(String url, boolean checkDisk) {
-		return getImage(url, checkDisk, false);
+		return getImage(url, false, checkDisk);
+	}
+
+	/**
+	 * Returns a blurred Bitmap from the cache.
+	 * @param url - the base URL of the image (unblurred)
+	 * @param checkDisk - whether or not to try to retrieve from disk
+	 * @return
+	 */
+	public Bitmap getBlurredImage(String url, boolean checkDisk) {
+		return getImage(url, true, checkDisk);
 	}
 
 	/**
 	 * Returns a Bitmap for the given URL from the cache.
 	 *
 	 * @param url the url to retrieve
+	 * @param blur whether or not to grab the blurred version of the image
 	 * @param checkDisk whether or not to try to retrieve from disk.  This will cause file IO, which should
 	 * 		be avoided if possible.  As such, this should only be true on non-UI threads.
-	 * @param blur whether or not to grab the blurred version of the image
 	 * @return the Bitmap if cached, null if not
 	 */
-	public Bitmap getImage(String url, final boolean checkDisk, final boolean blur) {
+	public Bitmap getImage(String url, final boolean blur, final boolean checkDisk) {
 		// Try to retrieve from memory cache
 		String memKey = blur ? url + BLUR_KEY_SUFFIX : url;
 		Bitmap bitmap = mMemoryCache.get(memKey);
@@ -197,16 +206,6 @@ public class L2ImageCache {
 		}
 
 		return null;
-	}
-
-	/**
-	 * Returns a blurred Bitmap from the cache.
-	 * @param url - the base URL of the image (unblurred)
-	 * @param checkDisk - whether or not to try to retrieve from disk
-	 * @return
-	 */
-	public Bitmap getBlurredImage(String url, boolean checkDisk) {
-		return getImage(url, checkDisk, true);
 	}
 
 	public boolean hasImageInDiskCache(String url) {
@@ -437,6 +436,10 @@ public class L2ImageCache {
 		return loadImage(url, url, false, callback);
 	}
 
+	public boolean loadImage(String url, boolean blur, OnBitmapLoaded callback) {
+		return loadImage(url, url, blur, callback);
+	}
+
 	/**
 	 * Convenience class which takes the common callback case - loading an image
 	 * into an ImageView - and wraps it.
@@ -475,7 +478,7 @@ public class L2ImageCache {
 		clearCallbacks(callbackKey);
 
 		// First check if we already have the image in memory; if we do, just do the callback
-		Bitmap image = getImage(url, false, blur);
+		Bitmap image = getImage(url, blur, false);
 		if (image != null) {
 			callback.onBitmapLoaded(url, image);
 			return true;
