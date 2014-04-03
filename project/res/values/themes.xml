@@ -259,6 +259,7 @@
         <item name="couponSuccessMessageColor">@color/coupon_success_message_color</item>
         <item name="tabletRibbonSaleRateTextColor">@color/hotel_price_text_color</item>
         <item name="tabletRibbonRateQualifierTextColor">@android:color/black</item>
+        <item name="tabletSelectedRowBackground">@drawable/bg_row_selected</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

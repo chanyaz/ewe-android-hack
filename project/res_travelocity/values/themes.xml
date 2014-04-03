@@ -59,6 +59,7 @@
         <item name="tabletRibbonRateQualifierTextColor">@android:color/white</item>
         <item name="homeAsUpIndicator">@drawable/ic_action_bar_back_arrow_travelocity</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_action_bar_back_arrow_travelocity</item>
+        <item name="tabletSelectedRowBackground">@drawable/bg_row_selected_travelocity</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">

@@ -365,7 +365,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
 		// Set the background based on whether the row is selected or not
 		if (getItemViewType(position) == ROW_SELECTED) {
-			convertView.setBackgroundResource(R.drawable.bg_row_selected);
+			convertView.setBackgroundResource(Ui.obtainThemeResID(mContext, R.attr.tabletSelectedRowBackground));
 		}
 		else {
 			convertView.setBackgroundResource(R.drawable.bg_row);

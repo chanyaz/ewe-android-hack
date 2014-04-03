@@ -348,4 +348,6 @@
     <attr name="tabletRibbonRateQualifierTextColor" format="reference"/>
     <attr name="actionBarTabletGuestCountTextColor" format="reference"/>
 
+    <attr name="tabletSelectedRowBackground" format="reference"/>
+
 </resources>
