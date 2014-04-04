@@ -8,6 +8,7 @@ import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -26,6 +27,7 @@ import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVTextView;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.AndroidUtils;
 
 public class CVVEntryFragment extends Fragment implements CreditCardInputListener {
 
@@ -155,8 +157,7 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		}
 		else if (billingInfo.getNumber() != null && billingInfo.getNumber().length() >= 4) {
 			personName = billingInfo.getNameOnCard();
-			String ccNumber = billingInfo.getNumber();
-			cardName = getString(R.string.card_ending_TEMPLATE, ccNumber.substring(ccNumber.length() - 4));
+			cardName = getString(R.string.card_ending_TEMPLATE, cardNumber.substring(cardNumber.length() - 4));
 		}
 
 		resetCVVText();
@@ -185,6 +186,19 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		updateSherlockActionBar();
 
 		mCreditCardSection.bind(personName, cardType, cardNumber);
+
+		// A few minor UI tweaks on phone, depending on if amex
+		if (!AndroidUtils.isTablet(getActivity())) {
+			boolean amex = cardType == CreditCardType.AMERICAN_EXPRESS;
+			Ui.findView(v, R.id.cvv_prompt_text_view).setVisibility(amex ? View.GONE : View.VISIBLE);
+			View cvvTextView = Ui.findView(v, R.id.cvv_text_view);
+			FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) cvvTextView.getLayoutParams();
+			int right = amex ? R.dimen.cvv_text_view_right_margin_amex : R.dimen.cvv_text_view_right_margin_other;
+			int top = amex ? R.dimen.cvv_text_view_top_margin_amex : R.dimen.cvv_text_view_top_margin_other;
+			params.rightMargin = getResources().getDimensionPixelOffset(right);
+			params.topMargin = getResources().getDimensionPixelOffset(top);
+			cvvTextView.setLayoutParams(params);
+		}
 
 		// Configure vars that drive this fragment
 		mMinCvvLen = (cardType == CreditCardType.AMERICAN_EXPRESS) ? 4 : 3;

@@ -111,10 +111,11 @@ public class CreditCardSection extends LinearLayout {
 	}
 
 	private void showHide(boolean visible, int... resIds) {
+		int visibility = visible ? View.VISIBLE : View.GONE;
 		for (int r : resIds) {
 			View v = Ui.findView(this, r);
 			if (v != null) {
-				v.setVisibility(visible ? View.VISIBLE : View.GONE);
+				v.setVisibility(visibility);
 			}
 		}
 	}
