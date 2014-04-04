@@ -533,10 +533,11 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		private void updatePostalCodeInput() {
 			if (this.hasBoundField()) {
 				Location location = this.getData();
+				PointOfSaleId posId = PointOfSale.getPointOfSale().getPointOfSaleId();
 				//If we set the country to USA (or we dont select a country, but POS is USA) use the number keyboard and set hint to use zip code (instead of postal code)
 				if ((location != null && location.getCountryCode() != null
-					&& location.getCountryCode().equalsIgnoreCase("USA"))
-					|| (!mEditCountrySpinner.hasBoundField() && PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.UNITED_STATES)) {
+						&& location.getCountryCode().equalsIgnoreCase("USA"))
+						|| (!mEditCountrySpinner.hasBoundField() && (posId == PointOfSaleId.UNITED_STATES || posId == PointOfSaleId.TRAVELOCITY))) {
 					this.getField().setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
 					this.getField().setHint(R.string.address_postal_code_hint_US);
 				}
