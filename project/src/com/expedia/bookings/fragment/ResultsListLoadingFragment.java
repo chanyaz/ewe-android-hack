@@ -1,9 +1,12 @@
 package com.expedia.bookings.fragment;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import android.annotation.TargetApi;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,15 +28,9 @@ public class ResultsListLoadingFragment extends Fragment {
 	private TextView mLoadingTv;
 
 	//loading anim vars
-	private int mLoadingUpdateInterval = 250;
 	private int mLoadingColorDark = Color.DKGRAY;
 	private int mLoadingColorLight = Color.LTGRAY;
-	private Runnable mLoadingAnimRunner;
 	private ViewGroup mLoadingC;
-
-	private int mLoadingNumber = 0;
-	private boolean mLoadingMovingUp = false;
-
 	private String mLoadingText;
 
 	public static ResultsListLoadingFragment newInstance(String loadingText) {
@@ -64,12 +61,12 @@ public class ResultsListLoadingFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		setLoadingAnimationEnabled(true);
+		registerForAnimUpdates(this);
 	}
 
 	@Override
 	public void onPause() {
-		setLoadingAnimationEnabled(false);
+		unRegisterForAnimUpdates(this);
 		super.onPause();
 	}
 
@@ -88,51 +85,146 @@ public class ResultsListLoadingFragment extends Fragment {
 		}
 	}
 
-	private void setLoadingAnimationEnabled(boolean loading) {
-		if (!loading) {
-			mLoadingAnimRunner = null;
-		}
-		else if (mRootC != null) {
-			mLoadingAnimRunner = new Runnable() {
-				@Override
-				public void run() {
-					if (this == mLoadingAnimRunner && mRootC != null && getActivity() != null) {
-						loadingAnimUpdate();
-						mRootC.postDelayed(this, mLoadingUpdateInterval);
-					}
-				}
-			};
-			mRootC.post(mLoadingAnimRunner);
-		}
-	}
-
-	private void loadingAnimUpdate() {
-		if (mLoadingC != null) {
-			if (mLoadingMovingUp) {
-				if (mLoadingNumber <= 0) {
-					mLoadingMovingUp = false;
-					loadingAnimUpdate();
-					return;
-				}
-				else {
-					mLoadingNumber--;
-				}
-			}
-			else {
-				if (mLoadingC.getChildCount() > 0 && mLoadingNumber >= (mLoadingC.getChildCount() - 1)) {
-					mLoadingMovingUp = true;
-					loadingAnimUpdate();
-					return;
-				}
-				else {
-					mLoadingNumber++;
-				}
-			}
-
+	private void loadingAnimUpdate(int animNumber) {
+		if (mLoadingC != null && getActivity() != null && isResumed()) {
 			for (int i = 0; i < mLoadingC.getChildCount(); i++) {
 				mLoadingC.getChildAt(i)
-					.setBackgroundColor(i == mLoadingNumber ? mLoadingColorDark : mLoadingColorLight);
+					.setBackgroundColor(i == animNumber ? mLoadingColorDark : mLoadingColorLight);
 			}
 		}
 	}
+
+	private int getNumberOfAnimationItems() {
+		if (mLoadingC != null) {
+			return mLoadingC.getChildCount();
+		}
+		return 0;
+	}
+
+
+	/**
+	 * BELOW LIES THE STATIC CODE WE USE TO COORDINATE OUR ANIMATIONS BETWEEN INSTANCES OF THIS LIST CLASS
+	 * <p/>
+	 * The basic way that this works is that we have a single instance of a Runnable loop. We run the loop if any
+	 * listeners are registered, otherwise it dies. The loop simply increments the sAnimNumber. This basically just
+	 * acts as the number of animation ticks.
+	 * <p/>
+	 * The loop then posts a runnable that handles converting sAnimNumber into something useful for our instances.
+	 * This way we can change the behavior of the individual instances, but in a coordinated way.
+	 */
+
+	private static final int ANIM_UPDATE_TIME = 250;
+
+	private static final Handler sHandler = new Handler();
+	private static int sAnimNumber = 0;
+	private static CopyOnWriteArrayList<ResultsListLoadingFragment> sLoadingFrags = new CopyOnWriteArrayList<ResultsListLoadingFragment>();
+	private static Runnable sAnimRunner;
+
+	private static void registerForAnimUpdates(ResultsListLoadingFragment frag) {
+		synchronized (sLoadingFrags) {
+			sAnimNumber = 0;//Reset the ticker if we have a new listener
+			if (sLoadingFrags.size() == 0) {
+				sLoadingFrags.add(frag);
+
+				//This is animation loop that updates sAnimNumber
+				sAnimRunner = new Runnable() {
+					@Override
+					public void run() {
+						if (sAnimRunner != null && sAnimRunner == this && sLoadingFrags.size() > 0) {
+							sAnimNumber++;
+
+							//This is the runnable that determines how the animNumber is interpreted
+							if (sLoadingFrags.size() == 2) {
+								sHandler.post(new UpOneDownTheOtherAnimRunnable());
+							}
+							else {
+								sHandler.post(new SynchronizedAnimRunnable());
+							}
+							sHandler.postDelayed(this, ANIM_UPDATE_TIME);
+						}
+					}
+				};
+				sHandler.postDelayed(sAnimRunner, ANIM_UPDATE_TIME);
+			}
+			else {
+				sLoadingFrags.add(frag);
+			}
+		}
+	}
+
+	private static void unRegisterForAnimUpdates(ResultsListLoadingFragment frag) {
+		synchronized (sLoadingFrags) {
+			sLoadingFrags.remove(frag);
+			sAnimNumber = 0;//Reset the ticker when we lose a listener
+			if (sLoadingFrags.size() == 0) {
+				sAnimRunner = null;
+			}
+		}
+	}
+
+	private static int getTotalAnimCount() {
+		int retVal = 0;
+		synchronized (sLoadingFrags) {
+			for (ResultsListLoadingFragment frag : sLoadingFrags) {
+				retVal += frag.getNumberOfAnimationItems();
+			}
+		}
+		return retVal;
+	}
+
+	private static int getMaxIndividualAnimCount() {
+		int maxLength = 0;
+		synchronized (sLoadingFrags) {
+			for (int i = 0; i < sLoadingFrags.size(); i++) {
+				if (sLoadingFrags.get(i).getNumberOfAnimationItems() > maxLength) {
+					maxLength = sLoadingFrags.get(i).getNumberOfAnimationItems();
+				}
+			}
+		}
+		return maxLength;
+	}
+
+	//This will make all of the loading bars behave identically (assuming they have the same number of items)
+	private static class SynchronizedAnimRunnable implements Runnable {
+		@Override
+		public void run() {
+			int max = getMaxIndividualAnimCount() - 1;
+			if (max > 0) {
+				boolean reverse = (sAnimNumber / max) % 2 == 1;
+				int val = sAnimNumber % max;
+				if (reverse) {
+					val = max - val;
+				}
+				for (int i = 0; i < sLoadingFrags.size(); i++) {
+					sLoadingFrags.get(i)
+						.loadingAnimUpdate(val);
+				}
+			}
+		}
+	}
+
+	//This will make the loading bar to be animating one instance at a time, and when it switches between instances it
+	//switches between going up and going down.
+	private static class UpOneDownTheOtherAnimRunnable implements Runnable {
+		@Override
+		public void run() {
+			int max = getMaxIndividualAnimCount();
+			int mod = sAnimNumber % getTotalAnimCount(); //0 - total for all loading frags
+			int val = mod % max;
+
+			for (int i = 0; i < sLoadingFrags.size(); i++) {
+				ResultsListLoadingFragment frag = sLoadingFrags.get(i);
+				int iMin = i * max;
+				int iMax = iMin + max;
+				if (mod >= iMin && mod < iMax) {
+					//Active loading bar
+					frag.loadingAnimUpdate(i % 2 == 0 ? val : max - 1 - val);
+				}
+				else {
+					frag.loadingAnimUpdate(-1);
+				}
+			}
+		}
+	}
+
 }
