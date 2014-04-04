@@ -14,7 +14,7 @@ public class HotelRulesActivity extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 
 		setTitle(R.string.legal_information);
-		setTheme(R.style.Theme_Phone_WebView);
+		setTheme(ExpediaBookingApp.IS_TRAVELOCITY ? R.style.Theme_Phone_WebView_WithTitle : R.style.Theme_Phone_WebView);
 		setContentView(R.layout.activity_hotel_rules);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
