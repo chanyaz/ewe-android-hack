@@ -472,4 +472,7 @@
     <attr name="hotelConfirmationPlaceholderDrawable" format="reference" />
     <attr name="couponSuccessMessageColor" fomrat="reference|color"/>
 
+    <attr name="infoContactUsString" format="reference|string"/>
+    <attr name="infoContactEmailSubjectString" format="reference|string"/>
+
 </resources>

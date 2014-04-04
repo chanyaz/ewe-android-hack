@@ -154,6 +154,8 @@
         <item name="bgFindItineraryButton">@drawable/btn_find</item>
         <item name="hotelConfirmationPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
         <item name="couponSuccessMessageColor">@color/coupon_success_message_color</item>
+        <item name="infoContactUsString">@string/contact_expedia_via</item>
+        <item name="infoContactEmailSubjectString">@string/contact_expedia_email_subject</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

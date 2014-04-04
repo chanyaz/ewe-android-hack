@@ -40,7 +40,7 @@ public class AboutUtils {
 	public Dialog createContactExpediaDialog(final Runnable onDismiss) {
 		AlertDialog.Builder builder = new Builder(mActivity, R.style.LightDialog);
 
-		builder.setTitle(R.string.contact_expedia_via);
+		builder.setTitle(Ui.obtainThemeResID(mActivity, R.attr.infoContactUsString));
 
 		// Figure out which items to display to the user
 		List<String> items = new ArrayList<String>();
@@ -133,13 +133,13 @@ public class AboutUtils {
 	}
 
 	public void contactViaWeb() {
-		openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), false);
+		openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
 	}
 
 	public void contactViaEmail() {
 		trackEmailSupport();
 		SocialUtils.email(mActivity, PointOfSale.getPointOfSale().getSupportEmail(),
-				mActivity.getString(R.string.contact_expedia_email_subject), null);
+				mActivity.getString(Ui.obtainThemeResID(mActivity, R.attr.infoContactEmailSubjectString)), null);
 	}
 
 	public void openExpediaWebsite() {
@@ -150,10 +150,6 @@ public class AboutUtils {
 		openWebsite(mActivity, "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/pagecontactandroid.html", false, false);
 	}
 
-	public void openContactUsTravelocity() {
-		openWebsite(mActivity, "http://shop.travelocity.com/p/support.htm", false, false);
-	}
-
 	public void openAppSupport() {
 		//1247. VSC App support link
 		if (ExpediaBookingApp.IS_VSC) {
@@ -161,7 +157,7 @@ public class AboutUtils {
 		}
 		// Travelocity App support
 		if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			openWebsite(mActivity, "http://shop.travelocity.com/p/support.htm", false, false);
+			openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), false, false);
 		}
 		else {
 			openWebsite(mActivity, "http://www.mobiata.com/support/expedia-android", false, true);

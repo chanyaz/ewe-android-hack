@@ -287,9 +287,6 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 			if (ExpediaBookingApp.IS_VSC) {
 				mAboutUtils.openContactUsVSC();
 			}
-			else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				mAboutUtils.openContactUsTravelocity();
-			}
 			else {
 				showDialog(DIALOG_CONTACT_EXPEDIA);
 			}
