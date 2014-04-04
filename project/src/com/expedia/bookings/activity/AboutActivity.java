@@ -266,9 +266,6 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 			if (ExpediaBookingApp.IS_VSC) {
 				mAboutUtils.openContactUsVSC();
 			}
-			else if(ExpediaBookingApp.IS_TRAVELOCITY) {
-				mAboutUtils.openContactUsTravelocity();
-			}
 			else {
 				showDialog(DIALOG_CONTACT_EXPEDIA);
 			}

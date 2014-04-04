@@ -260,6 +260,8 @@
         <item name="tabletRibbonSaleRateTextColor">@color/hotel_price_text_color</item>
         <item name="tabletRibbonRateQualifierTextColor">@android:color/black</item>
         <item name="tabletSelectedRowBackground">@drawable/bg_row_selected</item>
+        <item name="infoContactUsString">@string/contact_expedia_via</item>
+        <item name="infoContactEmailSubjectString">@string/contact_expedia_email_subject</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->

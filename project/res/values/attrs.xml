@@ -350,4 +350,7 @@
 
     <attr name="tabletSelectedRowBackground" format="reference"/>
 
+    <attr name="infoContactUsString" format="reference|string"/>
+    <attr name="infoContactEmailSubjectString" format="reference|string"/>
+
 </resources>
