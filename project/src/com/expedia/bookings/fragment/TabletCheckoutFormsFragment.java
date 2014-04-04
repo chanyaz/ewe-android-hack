@@ -445,6 +445,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		if (btnFrag == null) {
 			btnFrag = TravelerButtonFragment.newInstance(getLob(), travelerNumber);
 		}
+		btnFrag.enableShowValidMarker(true);
 		if (!btnFrag.isAdded()) {
 			FragmentTransaction transaction = manager.beginTransaction();
 			transaction.add(getTravelerButtonContainerId(travelerNumber), btnFrag,
@@ -531,14 +532,17 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	}
 
 	protected boolean validateTravelers() {
-		boolean retVal = false;
+		if (mTravelerButtonFrags.size() == 0) {
+			return false;
+		}
+
 		for (TravelerButtonFragment btn : mTravelerButtonFrags) {
-			retVal = btn.isValid();
-			if (!retVal) {
-				break;
+			if (!btn.isValid()) {
+				return false;
 			}
 		}
-		return retVal;
+
+		return true;
 	}
 
 	@Override
@@ -546,6 +550,13 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		super.onActivityResult(requestCode, resultCode, data);
 		if (mLoginButtons != null) {
 			mLoginButtons.onActivityResult(requestCode, resultCode, data);
+		}
+	}
+
+	private void setValidationViewVisibility(View view, int validationViewId, boolean valid) {
+		View validationView = Ui.findView(view, validationViewId);
+		if (validationView != null) {
+			validationView.setVisibility(valid ? View.VISIBLE : View.GONE);
 		}
 	}
 
@@ -564,7 +575,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	protected boolean validatePaymentInfo() {
 		if (mPaymentButton != null) {
-			return mPaymentButton.isValid();
+			boolean valid = mPaymentButton.isValid();
+			setValidationViewVisibility(mPaymentButton.getView(), R.id.validation_checkmark, valid);
+			return valid;
 		}
 		return false;
 	}

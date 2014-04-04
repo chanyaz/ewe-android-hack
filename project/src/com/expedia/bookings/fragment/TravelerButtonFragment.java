@@ -14,6 +14,7 @@ import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionTravelerInfo;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 public class TravelerButtonFragment extends LobableFragment {
@@ -136,7 +137,8 @@ public class TravelerButtonFragment extends LobableFragment {
 	}
 
 	private void setShowValidMarker(boolean showMarker, boolean valid) {
-
+		int visibility = showMarker && valid ? View.VISIBLE : View.GONE;
+		Ui.findView(mTravelerSectionContainer, R.id.validation_checkmark).setVisibility(visibility);
 	}
 
 	private void setShowTravelerView(boolean showTraveler) {
@@ -176,16 +178,6 @@ public class TravelerButtonFragment extends LobableFragment {
 		TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
 		tv.setText(R.string.Add_Traveler);
 		return v;
-	}
-
-	//TODO: WE NEED TO FLESH THESE OUT
-
-	public View addValidIndicator(ViewGroup group) {
-		return null;
-	}
-
-	public View addInvalidIndicator(ViewGroup group) {
-		return null;
 	}
 
 }
