@@ -21,7 +21,10 @@ import com.expedia.bookings.data.FlightSegmentAttributes;
 import com.expedia.bookings.data.FlightSegmentAttributes.CabinCode;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.ServerError.ApiMethod;
+import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.utils.LoggingInputStream;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
@@ -322,7 +325,6 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		while (parser.nextToken() != JsonToken.END_OBJECT) {
 			name = parser.getCurrentName();
 			parser.nextToken();
-
 			if (name.equals("productKey")) {
 				trip.setProductKey(parser.getText());
 			}
@@ -364,6 +366,12 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 				while (parser.nextToken() != JsonToken.END_ARRAY) {
 					String legId = parser.getText();
 					trip.addLeg(mLegs.get(legId));
+				}
+			}
+			else if (name.equals("pricePerPassengerCategory")) {
+				expectToken(parser, JsonToken.START_ARRAY);
+				while (parser.nextToken() != JsonToken.END_ARRAY) {
+					trip.addPassenger(readPricePerPassengerCategory(parser, currencyCode));
 				}
 			}
 			else {
@@ -416,6 +424,60 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		}
 
 		return attrArray;
+	}
+
+	private PassengerCategoryPrice readPricePerPassengerCategory(JsonParser parser, String currencyCode) throws IOException {
+		PassengerCategory passengerCategory = null;
+		Money totalPrice = new Money();
+		Money basePrice = new Money();
+		Money taxesPrice = new Money();
+
+		String name;
+		expectToken(parser, JsonToken.START_OBJECT);
+		while (parser.nextToken() != JsonToken.END_OBJECT) {
+			name = parser.getCurrentName();
+			parser.nextToken();
+			if (name.equals("passengerCategory")) {
+				passengerCategory = Enum.valueOf(PassengerCategory.class, parser.getText());
+			}
+			else if (name.equals("totalPrice")) {
+				totalPrice.setCurrency(currencyCode);
+				totalPrice.setAmount(getRawAmount(parser));
+			}
+			else if (name.equals("basePrice")) {
+				basePrice.setCurrency(currencyCode);
+				totalPrice.setAmount(getRawAmount(parser));
+			}
+			else if (name.equals("taxesPrice")) {
+				taxesPrice.setCurrency(currencyCode);
+				taxesPrice.setAmount(getRawAmount(parser));
+			}
+			else {
+				parser.skipChildren();
+			}
+		}
+		return new PassengerCategoryPrice(passengerCategory, totalPrice, basePrice, taxesPrice);
+	}
+
+	// The MobilePrice object does not include its currency type. Instead,
+	// we can just grab the amount as a String, and format into a money object
+	// as needed.
+
+	private String getRawAmount(JsonParser parser) throws IOException {
+		String amount = null;
+		String name;
+		expectToken(parser, JsonToken.START_OBJECT);
+		while (parser.nextToken() != JsonToken.END_OBJECT) {
+			parser.nextToken();
+			name = parser.getCurrentName();
+			if (name.equals("amount")) {
+				amount = parser.getText();
+			}
+			else {
+				parser.skipChildren();
+			}
+		}
+		return amount;
 	}
 
 	private FlightSegmentAttributes readSegmentAttributes(JsonParser parser) throws IOException {

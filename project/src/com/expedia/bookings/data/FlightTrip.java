@@ -33,6 +33,8 @@ public class FlightTrip implements JSONable {
 
 	private List<FlightLeg> mLegs = new ArrayList<FlightLeg>();
 
+	private List<PassengerCategoryPrice> mPassengers = new ArrayList<PassengerCategoryPrice>();
+
 	private Money mBaseFare;
 	private Money mTotalFare;
 	private Money mTaxes;
@@ -114,6 +116,22 @@ public class FlightTrip implements JSONable {
 
 	public List<FlightLeg> getLegs() {
 		return mLegs;
+	}
+
+	public void addPassenger(PassengerCategoryPrice passenger) {
+		mPassengers.add(passenger);
+	}
+
+	public int getPassengerCount() {
+		return mPassengers.size();
+	}
+
+	public PassengerCategoryPrice getPassenger(int position) {
+		return mPassengers.get(position);
+	}
+
+	public List<PassengerCategoryPrice> getPassengers() {
+		return mPassengers;
 	}
 
 	public Money getBaseFare() {
@@ -618,9 +636,11 @@ public class FlightTrip implements JSONable {
 			mTotalFare = other.mTotalFare;
 			mTaxes = other.mTaxes;
 			mFees = other.mFees;
+			mPassengers = other.mPassengers;
 		}
 
 		if (other.hasPriceChanged()) {
+			mPassengers = other.mPassengers;
 			mPriceChangeAmount = other.mPriceChangeAmount;
 		}
 

@@ -16,7 +16,10 @@ import com.expedia.bookings.data.FlightSegmentAttributes;
 import com.expedia.bookings.data.FlightSegmentAttributes.CabinCode;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.ServerError.ApiMethod;
+import com.expedia.bookings.enums.PassengerCategory;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
@@ -195,7 +198,8 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 					// Need to do this since I don't know what other values are possible.
 					throw new RuntimeException(
 						"DEVELOPER FIX THIS: Parser does not yet handle non-miles distanceUnits.  Got: "
-							+ distanceUnits);
+							+ distanceUnits
+					);
 				}
 
 				// TODO: Convert from other units to miles here
@@ -226,6 +230,37 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			trip.setTotalFare(ParserUtils.createMoney(tripJson.optString("totalFare"), currencyCode));
 			trip.setTaxes(ParserUtils.createMoney(tripJson.optString("taxes"), currencyCode));
 			trip.setFees(ParserUtils.createMoney(tripJson.optString("fees"), currencyCode));
+
+			JSONArray passengerCategories = tripJson.optJSONArray("pricePerPassengerCategory");
+
+			Money totalPrice;
+			Money basePrice;
+			Money taxesPrice;
+
+			String totalPriceStr;
+			String basePriceStr;
+			String taxesPriceStr;
+			for (int i = 0; i < passengerCategories.length(); i++) {
+				JSONObject passengerJson = passengerCategories.optJSONObject(i);
+				PassengerCategory category = Enum.valueOf(PassengerCategory.class, passengerJson.optString("passengerCategory"));
+
+				totalPriceStr = passengerJson.optJSONObject("totalPrice").optString("amount");
+				totalPrice = new Money();
+				totalPrice.setAmount(totalPriceStr);
+				totalPrice.setCurrency(currencyCode);
+
+				basePriceStr = passengerJson.optJSONObject("basePrice").optString("amount");
+				basePrice = new Money();
+				basePrice.setAmount(basePriceStr);
+				basePrice.setCurrency(currencyCode);
+
+				taxesPriceStr = passengerJson.optJSONObject("taxesPrice").optString("amount");
+				taxesPrice = new Money();
+				taxesPrice.setAmount(taxesPriceStr);
+				taxesPrice.setCurrency(currencyCode);
+
+				trip.addPassenger(new PassengerCategoryPrice(category, totalPrice, basePrice, taxesPrice));
+			}
 		}
 
 		trip.setSeatsRemaining(tripJson.optInt("seatsRemaining"));
