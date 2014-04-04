@@ -1,5 +1,6 @@
 package com.expedia.bookings.data;
 
+import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
 
 /**
@@ -34,7 +35,12 @@ public class Sp {
 	}
 
 	public static void reportSpUpdate() {
-		getBus().post(new SpUpdateEvent());
+		try {
+			getBus().post(new SpUpdateEvent());
+		}
+		catch (Exception ex) {
+			Log.e("Exception posting the Sp event bus.", ex);
+		}
 	}
 
 	public static class SpUpdateEvent {
