@@ -536,37 +536,60 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		//SETUP Db.getTripBucket() state
 		if (state == CheckoutState.CONFIRMATION) {
 			if (Db.getTripBucket().getFlight() != null && getLob() == LineOfBusiness.FLIGHTS) {
-				Db.getTripBucket().getFlight().setState(TripBucketItemState.PURCHASED);
+				Db.getTripBucket().getFlight().setState(TripBucketItemState.CONFIRMATION);
 				if (Db.getTripBucket().getHotel() != null
 					&& Db.getTripBucket().getHotel().getState() != TripBucketItemState.PURCHASED) {
 					Db.getTripBucket().getHotel().setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 				}
 			}
 			else if (Db.getTripBucket().getHotel() != null) {
-				Db.getTripBucket().getHotel().setState(TripBucketItemState.PURCHASED);
+				Db.getTripBucket().getHotel().setState(TripBucketItemState.CONFIRMATION);
 				if (Db.getTripBucket().getFlight() != null
 					&& Db.getTripBucket().getFlight().getState() != TripBucketItemState.PURCHASED) {
 					Db.getTripBucket().getFlight().setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 				}
 			}
 		}
+		// When in booking state let's disable "Book" button for existing trips in the bucket.
+		else if (state == CheckoutState.BOOKING) {
+			if (getLob() == LineOfBusiness.FLIGHTS) {
+				if (Db.getTripBucket().getHotel() != null
+					&& Db.getTripBucket().getHotel().getState() == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
+					Db.getTripBucket().getHotel().setState(TripBucketItemState.DISABLED);
+				}
+			}
+			else {
+				if (Db.getTripBucket().getFlight() != null
+					&& Db.getTripBucket().getFlight().getState() == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
+					Db.getTripBucket().getFlight().setState(TripBucketItemState.DISABLED);
+				}
+			}
+		}
 		else {
 			if (getLob() == LineOfBusiness.FLIGHTS) {
+				if (Db.getTripBucket().getHotel() != null
+					&& Db.getTripBucket().getHotel().getState() == TripBucketItemState.CONFIRMATION) {
+					Db.getTripBucket().getHotel().setState(TripBucketItemState.PURCHASED);
+				}
 				if (Db.getTripBucket().getFlight() != null) {
 					Db.getTripBucket().getFlight().setState(TripBucketItemState.EXPANDED);
 				}
 				if (Db.getTripBucket().getHotel() != null
 					&& Db.getTripBucket().getHotel().getState() != TripBucketItemState.PURCHASED) {
-					Db.getTripBucket().getHotel().setState(TripBucketItemState.DEFAULT);
+					Db.getTripBucket().getHotel().setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 				}
 			}
 			else {
+				if (Db.getTripBucket().getFlight() != null
+					&& Db.getTripBucket().getFlight().getState() == TripBucketItemState.CONFIRMATION) {
+					Db.getTripBucket().getFlight().setState(TripBucketItemState.PURCHASED);
+				}
 				if (Db.getTripBucket().getHotel() != null) {
 					Db.getTripBucket().getHotel().setState(TripBucketItemState.EXPANDED);
 				}
 				if (Db.getTripBucket().getFlight() != null
 					&& Db.getTripBucket().getFlight().getState() != TripBucketItemState.PURCHASED) {
-					Db.getTripBucket().getFlight().setState(TripBucketItemState.DEFAULT);
+					Db.getTripBucket().getFlight().setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 				}
 			}
 		}
@@ -1045,7 +1068,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		dismissLoadingDialogs();
 		if (getLob() == LineOfBusiness.FLIGHTS) {
 			mIsFlightTripDone = true;
-			mBucketFlightFrag.doBind();
 			rebindCheckoutFragment();
 		}
 	}

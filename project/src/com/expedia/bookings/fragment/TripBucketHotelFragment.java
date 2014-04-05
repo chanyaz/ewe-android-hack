@@ -2,21 +2,25 @@ package com.expedia.bookings.fragment;
 
 import org.joda.time.LocalDate;
 
+import android.app.Activity;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
-import com.expedia.bookings.section.HotelSummarySection;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
+import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
@@ -31,28 +35,9 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		return frag;
 	}
 
-	private HotelSummarySection mHotelSection;
-
-	@Override
-	protected void doBind() {
-		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-		if (mHotelSection != null && hotel != null) {
-			Property property = hotel.getProperty();
-			Rate rate = hotel.getRate();
-
-			mHotelSection.bindForTripBucket(property, rate);
-		}
-	}
-
 	@Override
 	public CharSequence getBookButtonText() {
 		return getString(R.string.trip_bucket_book_hotel);
-	}
-
-	@Override
-	public void addTopView(LayoutInflater inflater, ViewGroup viewGroup) {
-		ViewGroup root = (ViewGroup) inflater.inflate(R.layout.hotel_card_tablet_add_tripbucket, viewGroup);
-		mHotelSection = (HotelSummarySection) root.getChildAt(0);
 	}
 
 	@Override
@@ -73,7 +58,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		// Dates
 		LocalDate checkIn = Db.getHotelSearch().getSearchParams().getCheckInDate();
 		LocalDate checkOut = Db.getHotelSearch().getSearchParams().getCheckOutDate();
-		String dateRange = JodaUtils.formatDateRange(getActivity(), checkIn, checkOut, DateUtils.FORMAT_SHOW_DATE);
+		String dateRange =  JodaUtils.formatDateRange(getActivity(), checkIn, checkOut, DateUtils.FORMAT_SHOW_DATE);
 		int numNights = Db.getHotelSearch().getSearchParams().getStayDuration();
 		String nightsStr = getResources().getQuantityString(R.plurals.length_of_stay, numNights, numNights);
 		String dateStr = getString(R.string.dates_and_nights_TEMPLATE, dateRange, nightsStr);
@@ -88,11 +73,57 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		String price = rate.getDisplayTotalPrice().getFormattedMoney();
 		Ui.setText(vg, R.id.price_expanded_bucket_text_view, price);
 
-		// Hide price in the picture
-		mHotelSection.findViewById(R.id.price_text_view).setVisibility(View.GONE);
-
 		root.addView(vg);
 
+	}
+
+	@Override
+	public void addTripBucketImage(ImageView imageView) {
+		final HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
+		headerBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
+		headerBitmapDrawable.setCornerMode(HeaderBitmapDrawable.CornerMode.ALL);
+		headerBitmapDrawable.setCornerRadius(getActivity().getResources().getDimensionPixelSize(R.dimen.tablet_result_corner_radius));
+
+		int placeholderResId = Ui.obtainThemeResID((Activity) getActivity(), R.attr.HotelRowThumbPlaceHolderDrawable);
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		if (hotel != null) {
+			hotel.getProperty().getThumbnail().fillHeaderBitmapDrawable(imageView, headerBitmapDrawable, placeholderResId);
+		}
+	}
+
+	@Override
+	public String getNameText() {
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		if (hotel != null) {
+			return hotel.getProperty().getName();
+		}
+		else {
+			return null;
+		}
+	}
+
+	@Override
+	public String getDateRangeText() {
+		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
+		return CalendarUtils.formatDateRange(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
+			| DateUtils.FORMAT_ABBREV_MONTH);
+	}
+
+	@Override
+	public String getTripPrice() {
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		if (hotel != null) {
+			Rate rate = hotel.getRate();
+			return rate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL);
+		}
+		else {
+			return null;
+		}
+	}
+
+	@Override
+	public int getOverLayColor() {
+		return 0xE66b4d36;
 	}
 
 	@Override
@@ -111,7 +142,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	public void refreshRate() {
 		// Update the price in the expanded tripbucket.
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-		if (mHotelSection != null && hotel != null) {
+		if (hotel != null) {
 			Rate rate = hotel.getRate();
 			String price = rate.getDisplayTotalPrice().getFormattedMoney();
 			Ui.setText(getActivity(), R.id.price_expanded_bucket_text_view, price);

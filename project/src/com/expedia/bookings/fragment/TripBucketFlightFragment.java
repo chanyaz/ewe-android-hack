@@ -2,22 +2,33 @@ package com.expedia.bookings.fragment;
 
 import java.util.Calendar;
 
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
+import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.ExpediaImage;
+import com.expedia.bookings.data.ExpediaImageManager;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
-import com.expedia.bookings.section.FlightLegSummarySectionTablet;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
+import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
 /**
@@ -25,14 +36,18 @@ import com.mobiata.flightlib.utils.DateTimeUtils;
  */
 public class TripBucketFlightFragment extends TripBucketItemFragment {
 
+	private static final String DESTINATION_IMAGE_INFO_DOWNLOAD_KEY = "DESTINATION_IMAGE_INFO_DOWNLOAD_KEY";
+
 	private FlightTrip mFlightTrip;
+	private ImageView mDestinationImageView;
+	private HeaderBitmapDrawable mHeaderBitmapDrawable;
+
+	private boolean mIsDestinationImageFetched;
 
 	public static TripBucketFlightFragment newInstance() {
 		TripBucketFlightFragment frag = new TripBucketFlightFragment();
 		return frag;
 	}
-
-	private FlightLegSummarySectionTablet mFlightSection;
 
 	private ViewGroup mExpandedView;
 
@@ -44,10 +59,18 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		mIsOnCheckout = getParentFragment() instanceof TabletCheckoutControllerFragment;
 	}
 
+	private void refreshFlightTrip() {
+		if (mIsOnCheckout) {
+			mFlightTrip = Db.getFlightSearch().getSelectedFlightTrip();
+		}
+		else {
+			mFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+		}
+	}
+
 	@Override
 	public void onResume() {
 		super.onResume();
-		doBind();
 	}
 
 	@Override
@@ -56,53 +79,12 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	}
 
 	@Override
-	protected void doBind() {
-		bindToDb();
-	}
-
-	private void bindToDb() {
-		if (mFlightSection != null) {
-			FlightTrip trip = null;
-			FlightTripLeg[] legs = null;
-			boolean isRoundTrip = false;
-
-			if (mIsOnCheckout) {
-				trip = Db.getFlightSearch().getSelectedFlightTrip();
-				legs = Db.getFlightSearch().getSelectedLegs();
-				isRoundTrip = legs.length > 1;
-			}
-			else {
-				if (Db.getTripBucket().getFlight() != null) {
-					trip = Db.getTripBucket().getFlight().getFlightTrip();
-					int numLegs = Db.getFlightSearch().getSearchParams().isRoundTrip() ? 2 : 1;
-					legs = Db.getTripBucket().getFlight().getFlightSearchState().getSelectedLegs(numLegs);
-					isRoundTrip = legs.length > 1;
-				}
-			}
-			if (trip != null && legs != null) {
-				mFlightSection.bindForTripBucket(trip, legs, isRoundTrip);
-			}
-		}
-		if (mExpandedView != null) {
-			bindExpandedView();
-		}
-	}
-
-	@Override
 	public CharSequence getBookButtonText() {
 		return getString(R.string.trip_bucket_book_flight);
 	}
 
 	@Override
-	public void addTopView(LayoutInflater inflater, ViewGroup viewGroup) {
-		ViewGroup root = (ViewGroup) inflater.inflate(R.layout.flight_card_tablet_add_tripbucket, viewGroup);
-		mFlightSection = (FlightLegSummarySectionTablet) root.getChildAt(0);
-	}
-
-	@Override
 	public void addExpandedView(LayoutInflater inflater, ViewGroup root) {
-		mFlightTrip = Db.getFlightSearch().getSelectedFlightTrip();
-
 		mExpandedView = Ui.inflate(inflater, R.layout.snippet_trip_bucket_expanded_dates_view, root, false);
 
 		bindExpandedView();
@@ -110,13 +92,82 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		root.addView(mExpandedView);
 	}
 
-	private void bindExpandedView() {
-		if (mIsOnCheckout) {
-			mFlightTrip = Db.getFlightSearch().getSelectedFlightTrip();
+	@Override
+	public void addTripBucketImage(ImageView imageView) {
+		if (!mIsDestinationImageFetched && !BackgroundDownloader.getInstance().isDownloading(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY)) {
+			mDestinationImageView = imageView;
+			mHeaderBitmapDrawable = new HeaderBitmapDrawable();
+			mHeaderBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
+			mHeaderBitmapDrawable.setCornerMode(HeaderBitmapDrawable.CornerMode.ALL);
+			mHeaderBitmapDrawable.setCornerRadius(getActivity().getResources().getDimensionPixelSize(R.dimen.tablet_result_corner_radius));
+			mDestinationImageView.setImageDrawable(mHeaderBitmapDrawable);
+
+			mHeaderBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
+			ViewTreeObserver vto = mDestinationImageView.getViewTreeObserver();
+			vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+				@Override
+				public void onGlobalLayout() {
+					if (mIsDestinationImageFetched) {
+						return;
+					}
+					String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+					ExpediaImage bgImage = ExpediaImageManager.getInstance().getDestinationImage(code,
+						mDestinationImageView.getMeasuredWidth(), mDestinationImageView.getMeasuredHeight(), false);
+
+					if (bgImage == null) {
+						startDestinationImageDownload();
+					}
+					else {
+						mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), bgImage.getUrl(),
+							R.drawable.bg_itin_placeholder));
+						mIsDestinationImageFetched = true;
+					}
+				}
+			});
+		}
+	}
+
+	@Override
+	public String getNameText() {
+		refreshFlightTrip();
+		if (mFlightTrip != null) {
+			String cityName = StrUtils.getWaypointCityOrCode(mFlightTrip.getLeg(0).getLastWaypoint());
+			if (mFlightTrip.getLegCount() > 1) {
+				return getResources().getString(R.string.trip_bucket_label_flight_roundtrip, cityName);
+			}
+			else {
+				return getResources().getString(R.string.trip_bucket_label_flight_trip, cityName);
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String getDateRangeText() {
+		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+		return CalendarUtils.formatDateRange(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
+			| DateUtils.FORMAT_ABBREV_MONTH);
+	}
+
+	@Override
+	public String getTripPrice() {
+		refreshFlightTrip();
+		if (Db.hasBillingInfo() && mFlightTrip != null) {
+			return mFlightTrip.getTotalFareWithCardFee(Db.getBillingInfo()).getFormattedMoney(Money.F_NO_DECIMAL);
 		}
 		else {
-			mFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+			return null;
 		}
+	}
+
+	@Override
+	public int getOverLayColor() {
+		return 0xE636566b;
+	}
+
+	private void bindExpandedView() {
+		refreshFlightTrip();
 
 		// Dates
 		Calendar depDate = mFlightTrip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
@@ -124,7 +175,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();
 		long end = DateTimeUtils.getTimeInLocalTimeZone(retDate).getTime();
 
-		String dateRange = DateUtils.formatDateRange(getActivity(), start, end, DateUtils.FORMAT_SHOW_DATE);
+		String dateRange =  DateUtils.formatDateRange(getActivity(), start, end, DateUtils.FORMAT_SHOW_DATE);
 		Ui.setText(mExpandedView, R.id.dates_text_view, dateRange);
 
 		// Num travelers
@@ -141,10 +192,6 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		else {
 			Ui.showToast(getActivity(), "TODO fix billing data load timing issue!");
 		}
-
-		// Hide price in the FlightLeg card
-		View priceTv = Ui.findView(mFlightSection, R.id.price_text_view);
-		priceTv.setVisibility(View.INVISIBLE);
 	}
 
 	@Override
@@ -157,6 +204,39 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		public void onClick(View arg0) {
 			Db.getTripBucket().selectHotelAndFlight();
 			getActivity().startActivity(TabletCheckoutActivity.createIntent(getActivity(), LineOfBusiness.FLIGHTS));
+		}
+	};
+
+	private void startDestinationImageDownload() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (!bd.isDownloading(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY)) {
+			bd.startDownload(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY, mDestinationImageInfoDownload,
+				mDestinationImageInfoDownloadCallback);
+		}
+	}
+
+	private BackgroundDownloader.Download<ExpediaImage> mDestinationImageInfoDownload = new BackgroundDownloader.Download<ExpediaImage>() {
+		@Override
+		public ExpediaImage doDownload() {
+			ExpediaServices services = new ExpediaServices(getActivity());
+			BackgroundDownloader.getInstance().addDownloadListener(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY, services);
+			String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+			return ExpediaImageManager.getInstance().getDestinationImage(code,
+				mDestinationImageView.getMeasuredWidth(), mDestinationImageView.getMeasuredHeight(), true);
+		}
+	};
+
+	private BackgroundDownloader.OnDownloadComplete<ExpediaImage> mDestinationImageInfoDownloadCallback = new BackgroundDownloader.OnDownloadComplete<ExpediaImage>() {
+		@Override
+		public void onDownload(ExpediaImage image) {
+			if (image != null) {
+				mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), image.getUrl(),
+					R.drawable.bg_itin_placeholder));
+				mIsDestinationImageFetched = true;
+			}
+			else {
+				mIsDestinationImageFetched = false;
+			}
 		}
 	};
 }

@@ -37,6 +37,7 @@ public class ResultsTripBucketFragment extends Fragment
 
 		FragmentManager manager = getChildFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
+
 		mBucketFrag = FragmentAvailabilityUtils
 			.setFragmentAvailability(true, FTAG_BUCKET, manager, transaction, this, R.id.trip_bucket_container,
 				true);
@@ -60,7 +61,7 @@ public class ResultsTripBucketFragment extends Fragment
 			mTripBucketC.setVisibility(View.INVISIBLE);
 		}
 
-		if (mBucketFrag != null && mBucketFrag.isAdded()) {
+		if (mBucketFrag != null && mBucketFrag.isAdded() && showBucket) {
 			mBucketFrag.bind(bucket);
 		}
 	}

@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.enums.TripBucketItemState;
@@ -16,8 +16,7 @@ import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateManager;
-import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.FontCache.Font;
+import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -27,12 +26,25 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 	private static final String STATE_BUCKET_ITEM_STATE = "STATE_BUCKET_ITEM_STATE";
 
+	protected static final int[] DEFAULT_GRADIENT_COLORS = new int[] {
+		0x00000000,
+		0x40000000,
+		0xa4000000,
+	};
+	protected static final float[] DEFAULT_GRADIENT_POSITIONS = null; // Distribute the gradient colors evenly
+
 	//Views
 	private ViewGroup mRootC;
 	private ViewGroup mTopC;
 	private ViewGroup mExpandedC;
-	private ViewGroup mPurchasedC;
-	private Button mBookBtn;
+	private ViewGroup mBookBtnContainer;
+	private ImageView mTripBucketImageView;
+	private TextView mBookBtnText;
+	private TextView mTripPriceText;
+	private TextView mNameText;
+	private TextView mDurationText;
+	private View mOverLayView;
+	private ImageView mBookingCompleteCheckImg;
 
 	//Colors
 	private int mExpandedBgColor = Color.WHITE;
@@ -47,9 +59,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_tripbucket_item, null);
 		mTopC = Ui.findView(mRootC, R.id.trip_bucket_item_top_container);
 		mExpandedC = Ui.findView(mRootC, R.id.trip_bucket_item_expanded_container);
-		mPurchasedC = Ui.findView(mRootC, R.id.trip_bucket_item_purchased_container);
-		mBookBtn = Ui.findView(mRootC, R.id.checkout_button);
-		FontCache.setTypeface(mBookBtn, Font.ROBOTO_MEDIUM);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_BUCKET_ITEM_STATE)) {
 			String stateName = savedInstanceState.getString(STATE_BUCKET_ITEM_STATE);
@@ -62,6 +71,18 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		registerStateListener(mStateHelper, false);
 
 		return mRootC;
+	}
+
+	private void addTopView(LayoutInflater inflater, ViewGroup viewGroup) {
+		ViewGroup root = (ViewGroup) inflater.inflate(R.layout.tablet_card_tripbucket, viewGroup);
+		mTripBucketImageView = Ui.findView(root, R.id.tripbucket_card_background_view);
+		mBookBtnContainer = Ui.findView(root, R.id.book_button_container);
+		mBookBtnText = Ui.findView(root, R.id.book_button_text);
+		mTripPriceText = Ui.findView(root, R.id.trip_bucket_price_text);
+		mNameText = Ui.findView(root, R.id.name_text_view);
+		mDurationText = Ui.findView(root, R.id.trip_duration_text_view);
+		mOverLayView = Ui.findView(root, R.id.trip_bucket_overlay);
+		mBookingCompleteCheckImg = Ui.findView(root, R.id.booking_complete_check);
 	}
 
 	@Override
@@ -89,10 +110,14 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			//refresh the state...
 			setState(mStateManager.getState());
 
-			mBookBtn.setText(getBookButtonText());
-			mBookBtn.setOnClickListener(getOnBookClickListener());
+			mBookBtnText.setText(getBookButtonText());
+			mBookBtnContainer.setOnClickListener(getOnBookClickListener());
 
-			doBind();
+			mTripPriceText.setText(getTripPrice());
+			mNameText.setText(getNameText());
+			mDurationText.setText(getDateRangeText());
+			mOverLayView.setBackgroundColor(getOverLayColor());
+			addTripBucketImage(mTripBucketImageView);
 		}
 	}
 
@@ -119,7 +144,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 		@Override
 		public void onStateFinalized(TripBucketItemState state) {
-			if (state == TripBucketItemState.EXPANDED) {
+			if (state == TripBucketItemState.EXPANDED || state == TripBucketItemState.CONFIRMATION) {
 				int padding = (int) getResources().getDimension(R.dimen.trip_bucket_expanded_card_padding);
 				mRootC.setBackgroundColor(mExpandedBgColor);
 				mRootC.setPadding(padding, padding, padding, padding);
@@ -139,25 +164,42 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	};
 
 	protected void setVisibilityState(TripBucketItemState state) {
-		if (state == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
-			mBookBtn.setVisibility(View.VISIBLE);
-		}
-		else {
-			mBookBtn.setVisibility(View.GONE);
-		}
-
-		if (state == TripBucketItemState.EXPANDED) {
-			mExpandedC.setVisibility(View.VISIBLE);
-		}
-		else {
+		switch (state) {
+		case DEFAULT:
+		case SHOWING_CHECKOUT_BUTTON:
+			mBookingCompleteCheckImg.setVisibility(View.GONE);
+			mOverLayView.setVisibility(View.VISIBLE);
+			mBookBtnContainer.setVisibility(View.VISIBLE);
 			mExpandedC.setVisibility(View.GONE);
-		}
+			break;
 
-		if (state == TripBucketItemState.PURCHASED) {
-			mPurchasedC.setVisibility(View.VISIBLE);
-		}
-		else {
-			mPurchasedC.setVisibility(View.GONE);
+		case DISABLED:
+			mBookingCompleteCheckImg.setVisibility(View.GONE);
+			mOverLayView.setVisibility(View.VISIBLE);
+			mBookBtnContainer.setVisibility(View.INVISIBLE);
+			mExpandedC.setVisibility(View.GONE);
+			break;
+
+		case EXPANDED:
+			mBookingCompleteCheckImg.setVisibility(View.GONE);
+			mOverLayView.setVisibility(View.GONE);
+			mBookBtnContainer.setVisibility(View.GONE);
+			mExpandedC.setVisibility(View.VISIBLE);
+			break;
+
+		case PURCHASED:
+			mBookingCompleteCheckImg.setVisibility(View.VISIBLE);
+			mOverLayView.setVisibility(View.VISIBLE);
+			mBookBtnContainer.setVisibility(View.GONE);
+			mExpandedC.setVisibility(View.GONE);
+			break;
+
+		case CONFIRMATION:
+			mBookingCompleteCheckImg.setVisibility(View.VISIBLE);
+			mOverLayView.setVisibility(View.VISIBLE);
+			mBookBtnContainer.setVisibility(View.GONE);
+			mExpandedC.setVisibility(View.VISIBLE);
+			break;
 		}
 	}
 
@@ -204,13 +246,19 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	ABSTRACT METHODS
  	*/
 
-	protected abstract void doBind();
-
 	public abstract CharSequence getBookButtonText();
 
-	public abstract void addTopView(LayoutInflater inflater, ViewGroup viewGroup);
-
 	public abstract void addExpandedView(LayoutInflater inflater, ViewGroup viewGroup);
+
+	public abstract void addTripBucketImage(ImageView imageView);
+
+	public abstract String getNameText();
+
+	public abstract String getDateRangeText();
+
+	public abstract String getTripPrice();
+
+	public abstract int getOverLayColor();
 
 	public abstract OnClickListener getOnBookClickListener();
 

@@ -5,7 +5,9 @@ package com.expedia.bookings.enums;
  */
 public enum TripBucketItemState {
 	DEFAULT,
+	DISABLED,
 	SHOWING_CHECKOUT_BUTTON,
 	EXPANDED,
-	PURCHASED
+	PURCHASED,
+	CONFIRMATION
 }
