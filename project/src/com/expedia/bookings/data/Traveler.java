@@ -13,6 +13,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.UserPreference.Category;
+import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.json.JSONUtils;
@@ -49,6 +50,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private List<String> mPassportCountries;
 	private SeatPreference mSeatPreference = SeatPreference.WINDOW;
 	private AssistanceType mAssistance = AssistanceType.NONE;
+	private PassengerCategory mPassengerCategory;
 
 	// Activities
 	private boolean mIsRedeemer;
@@ -311,6 +313,14 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		}
 
 		return retStr;
+	}
+
+	public void setPassengerCategory(PassengerCategory passengerCategory) {
+		mPassengerCategory = passengerCategory;
+	}
+
+	public PassengerCategory getPassengerCategory() {
+		return mPassengerCategory;
 	}
 
 	/***
