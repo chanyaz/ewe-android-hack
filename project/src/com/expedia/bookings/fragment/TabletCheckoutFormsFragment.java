@@ -574,12 +574,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	}
 
 	protected boolean validatePaymentInfo() {
-		if (mPaymentButton != null) {
-			boolean valid = mPaymentButton.isValid();
-			setValidationViewVisibility(mPaymentButton.getView(), R.id.validation_checkmark, valid);
-			return valid;
-		}
-		return false;
+		return mPaymentButton != null && mPaymentButton.validate();
 	}
 
 	private int getPaymentViewIndex() {

@@ -96,17 +96,32 @@ public class PaymentButtonFragment extends LobableFragment {
 		}
 	}
 
-	public boolean isValid() {
+	/**
+	 * Returns whether a valid credit card is selected. Updates the button to show or hide a validation
+	 * checkmark image.
+	 *
+	 * @return
+	 */
+	public boolean validate() {
 		if (Db.hasBillingInfo()) {
-			if (getLob() == LineOfBusiness.FLIGHTS) {
+			BillingInfo bi = Db.getBillingInfo();
+			if (bi.hasStoredCard()) {
+				Ui.findView(mStoredCreditCardBtn, R.id.validation_checkmark).setVisibility(View.VISIBLE);
+				return true;
+			}
+			else if (getLob() == LineOfBusiness.FLIGHTS) {
 				FlightPaymentFlowState state = FlightPaymentFlowState.getInstance(getActivity());
-				return state.hasAValidCardSelected(Db.getBillingInfo());
+				Ui.findView(mManualCreditCardBtn, R.id.validation_checkmark).setVisibility(View.VISIBLE);
+				return state.hasAValidCardSelected(bi);
 			}
 			else if (getLob() == LineOfBusiness.HOTELS) {
 				HotelPaymentFlowState state = HotelPaymentFlowState.getInstance(getActivity());
-				return state.hasAValidCardSelected(Db.getBillingInfo());
+				Ui.findView(mManualCreditCardBtn, R.id.validation_checkmark).setVisibility(View.VISIBLE);
+				return state.hasAValidCardSelected(bi);
 			}
 		}
+		Ui.findView(mStoredCreditCardBtn, R.id.validation_checkmark).setVisibility(View.GONE);
+		Ui.findView(mManualCreditCardBtn, R.id.validation_checkmark).setVisibility(View.GONE);
 		return false;
 	}
 }
