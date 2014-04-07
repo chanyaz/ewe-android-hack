@@ -26,6 +26,7 @@ import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.enums.WaypointChooserState;
 import com.expedia.bookings.fragment.DestinationTilesFragment;
 import com.expedia.bookings.fragment.TabletLaunchMapFragment;
@@ -112,6 +113,10 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		GooglePlayServicesDialog gpsd = new GooglePlayServicesDialog(this);
+		gpsd.startChecking();
+
 		mHockeyPuck.onResume();
 		mWaypointFragment.registerStateListener(mWaypointStateHelper, true);
 	}
