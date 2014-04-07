@@ -9,32 +9,20 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.Item;
-import com.google.analytics.tracking.android.Transaction;
 
 public class AdTracker {
 
 	public static void initialize(Context context) {
-		// Google
-		EasyTracker.getInstance().setContext(context);
-
 		// AdX
 		AdX.initialize(context, true);
 	}
 
 	public static void trackFirstLaunch() {
-		// Google Analytics
-		EasyTracker.getTracker().trackEvent("user_action", "first_launch", "launch", null);
-
 		// Other
 		AdX.trackFirstLaunch();
 	}
 
 	public static void trackLaunch(Context context) {
-		// Google Analytics
-		EasyTracker.getTracker().trackEvent("user_action", "launch", "launch", null);
-
 		// Other
 		AdX.trackLaunch();
 
@@ -42,9 +30,6 @@ public class AdTracker {
 	}
 
 	public static void trackLogin() {
-		// Google Analytics
-		EasyTracker.getTracker().trackEvent("user_action", "login", "login", null);
-
 		// Other
 		AdX.trackLogin();
 	}
@@ -67,16 +52,6 @@ public class AdTracker {
 		final Double totalPrice = rate.getTotalAmountAfterTax().getAmount().doubleValue();
 		final Double totalTax = rate.getTaxesAndFeesPerRoom() != null ? rate.getTaxesAndFeesPerRoom().getAmount()
 				.doubleValue() : 0;
-
-		// Google Analytics
-		Transaction transaction = new Transaction.Builder(currency, (long) (totalPrice * 1000000))
-				.setAffiliation("Expedia").setTotalTaxInMicros((long) (totalTax * 1000000)).setShippingCostInMicros(0)
-				.build();
-
-		transaction.addItem(new Item.Builder(propertyId, propertyName, (long) (avgPrice * 1000000),
-				(long) (duration * 1000000)).setProductCategory("Hotel").build());
-
-		EasyTracker.getTracker().trackTransaction(transaction);
 
 		// Other
 		AdX.trackHotelBooked(currency, totalPrice);
