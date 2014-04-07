@@ -8,11 +8,9 @@ import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.ViewTreeObserver.OnPreDrawListener;
@@ -20,8 +18,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.WebViewActivity;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
@@ -30,11 +26,11 @@ import com.expedia.bookings.section.FlightInfoSection;
 import com.expedia.bookings.section.FlightSegmentSection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -148,71 +144,8 @@ public class FlightDetailsFragment extends Fragment {
 		mInfoContainer.addView(arriveAtSection);
 
 		// Footer: https://mingle/projects/eb_ad_app/cards/660
-
-		// Configure the first TextView, "Baggage Fee Information"
-		int textViewResId;
-		int drawableResId;
-		if (leg.isSpirit()) {
-			textViewResId = R.string.carry_on_baggage_fees_apply;
-			drawableResId = R.drawable.ic_suitcase_baggage_fee;
-		}
-		else if (trip.hasBagFee()) {
-			textViewResId = R.string.checked_baggage_not_included;
-			drawableResId = R.drawable.ic_suitcase_baggage_fee;
-		}
-		else {
-			textViewResId = R.string.baggage_fee_info;
-			drawableResId = R.drawable.ic_suitcase_small;
-		}
-
-		ViewUtils.setAllCaps(mFeesTextView);
-		mFeesTextView.setText(textViewResId);
-		mFeesTextView.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
-
-		// Configure the second TextView, "Payment Fees Apply"
-		if (trip.getMayChargeObFees()) {
-			mFeesSecondaryTextView.setVisibility(View.VISIBLE);
-			mFeesSecondaryTextView.setText(getString(R.string.payment_and_baggage_fees_may_apply));
-			ViewUtils.setAllCaps(mFeesSecondaryTextView);
-
-			mFeesContainer.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					AdditionalFeesDialogFragment dialogFragment = AdditionalFeesDialogFragment.newInstance(
-							trip.getBaggageFeesUrl(), Db.getFlightSearch().getSearchResponse().getObFeesDetails());
-					dialogFragment.show(((FragmentActivity) getActivity()).getSupportFragmentManager(),
-							"additionalFeesDialog");
-				}
-			});
-		}
-		else {
-			mFeesContainer.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					int legPosition = getArguments().getInt(ARG_LEG_POSITION, 0);
-					String trackingName = null;
-					if (legPosition == 0) {
-						if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
-							trackingName = WebViewFragment.TrackingName.BaggageFeeOutbound.name();
-						}
-						else {
-							trackingName = WebViewFragment.TrackingName.BaggageFeeOneWay.name();
-						}
-					}
-					else if (legPosition == 1) {
-						trackingName = WebViewFragment.TrackingName.BaggageFeeInbound.name();
-					}
-
-					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
-					builder.setUrl(trip.getBaggageFeesUrl());
-					builder.setTheme(R.style.FlightTheme);
-					builder.setTitle(R.string.baggage_fees);
-					builder.setTrackingName(trackingName);
-					builder.setAllowMobileRedirects(false);
-					getActivity().startActivity(builder.getIntent());
-				}
-			});
-		}
+		FlightUtils.configureBaggageFeeViews(getActivity(), trip, leg, getArguments().getInt(ARG_LEG_POSITION, 0),
+			mFeesTextView, mFeesContainer, mFeesSecondaryTextView);
 
 		mFirstLayoutPass = true;
 		v.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {

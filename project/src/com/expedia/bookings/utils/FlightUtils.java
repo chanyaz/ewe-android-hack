@@ -4,15 +4,23 @@ import java.util.Set;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.fragment.AdditionalFeesDialogFragment;
+import com.expedia.bookings.fragment.WebViewFragment;
+import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
@@ -89,6 +97,77 @@ public class FlightUtils {
 		Money totalFare = trip.getTotalFareWithCardFee(Db.getBillingInfo());
 		String template = context.getString(R.string.your_card_will_be_charged_TEMPLATE);
 		return String.format(template, totalFare.getFormattedMoney());
+	}
+
+	////////////////////////////////////////////
+	// Flight Details Baggage Fees
+
+	public static void configureBaggageFeeViews(final Context context, final FlightTrip trip, FlightLeg leg, final int legPosition,
+		TextView feesTv, ViewGroup mFeesContainer, TextView secondaryFeesTv) {
+
+		// Configure the first TextView, "Baggage Fee Information"
+		int textViewResId;
+		int drawableResId;
+		if (leg.isSpirit()) {
+			textViewResId = R.string.carry_on_baggage_fees_apply;
+			drawableResId = R.drawable.ic_suitcase_baggage_fee;
+		}
+		else if (trip.hasBagFee()) {
+			textViewResId = R.string.checked_baggage_not_included;
+			drawableResId = R.drawable.ic_suitcase_baggage_fee;
+		}
+		else {
+			textViewResId = R.string.baggage_fee_info;
+			drawableResId = R.drawable.ic_suitcase_small;
+		}
+
+		ViewUtils.setAllCaps(feesTv);
+		feesTv.setText(textViewResId);
+		feesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
+
+		// Configure the second TextView, "Payment Fees Apply"
+		if (trip.getMayChargeObFees()) {
+			secondaryFeesTv.setVisibility(View.VISIBLE);
+			secondaryFeesTv.setText(context.getString(R.string.payment_and_baggage_fees_may_apply));
+			ViewUtils.setAllCaps(secondaryFeesTv);
+
+			mFeesContainer.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					AdditionalFeesDialogFragment dialogFragment = AdditionalFeesDialogFragment.newInstance(
+						trip.getBaggageFeesUrl(), Db.getFlightSearch().getSearchResponse().getObFeesDetails());
+					dialogFragment.show(((FragmentActivity) context).getSupportFragmentManager(),
+						"additionalFeesDialog");
+				}
+			});
+		}
+		else {
+			mFeesContainer.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					String trackingName = null;
+					if (legPosition == 0) {
+						if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
+							trackingName = WebViewFragment.TrackingName.BaggageFeeOutbound.name();
+						}
+						else {
+							trackingName = WebViewFragment.TrackingName.BaggageFeeOneWay.name();
+						}
+					}
+					else if (legPosition == 1) {
+						trackingName = WebViewFragment.TrackingName.BaggageFeeInbound.name();
+					}
+
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(context);
+					builder.setUrl(trip.getBaggageFeesUrl());
+					builder.setTheme(R.style.FlightTheme);
+					builder.setTitle(R.string.baggage_fees);
+					builder.setTrackingName(trackingName);
+					builder.setAllowMobileRedirects(false);
+					context.startActivity(builder.getIntent());
+				}
+			});
+		}
 	}
 
 }

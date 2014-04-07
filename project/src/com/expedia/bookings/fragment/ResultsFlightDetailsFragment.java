@@ -80,6 +80,10 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 	private ViewGroup mFlightLegsC;
 
+	private TextView mFeesTextView;
+	private TextView mFeesSecondaryTextView;
+	private ViewGroup mFeesContainer;
+
 	private FlightLegSummarySectionTablet mSelectedFlightLegAnimationRowSection;
 
 	private IResultsFlightLegSelected mListener;
@@ -129,6 +133,10 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		mFlightDurationTv = Ui.findView(mRootC, R.id.flight_overall_duration_text_view);
 
 		mFlightLegsC = Ui.findView(mRootC, R.id.flight_legs_container);
+
+		mFeesContainer =Ui.findView(mRootC, R.id.fees_container);
+		mFeesTextView = Ui.findView(mRootC, R.id.fees_text_view);
+		mFeesSecondaryTextView = Ui.findView(mRootC, R.id.fees_secondary_text_view);
 
 		mSelectedFlightLegAnimationRowSection = Ui.findView(mRootC, R.id.details_animation_row);
 
@@ -268,6 +276,10 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 			mFlightLegsC.addView(flightSegmentSection);
 		}
+
+		// Baggage fees
+		FlightUtils.configureBaggageFeeViews(getActivity(), trip, flightLeg, mLegNumber,
+			mFeesTextView, mFeesContainer, mFeesSecondaryTextView);
 	}
 
 	private String formatTime(Calendar cal) {
