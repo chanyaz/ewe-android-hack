@@ -552,6 +552,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			}
 			JSONUtils.putEnum(obj, "assistance", mAssistance);
 
+			obj.putOpt("passengerCategory", mPassengerCategory);
+
 			obj.putOpt("isRedeemer", mIsRedeemer);
 
 			obj.putOpt("saveToExpediaAccount", mSaveTravelerToExpediaAccount);
@@ -593,6 +595,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			mSeatPreference = SeatPreference.WINDOW;
 		}
 		mAssistance = JSONUtils.getEnum(obj, "assistance", AssistanceType.class);
+
+		mPassengerCategory = JSONUtils.getEnum(obj, "passengerCategory", PassengerCategory.class);
 
 		mIsRedeemer = obj.optBoolean("isRedeemer");
 
