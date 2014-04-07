@@ -1220,6 +1220,8 @@
     <string name="add_child_number_TEMPLATE">Child %1$s details</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Infant in Lap %1$s details</string>
+    <!-- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_TEMPLATE">Infant in Seat %1$s details</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Boarding may be denied if traveler name does not match government-issued photo ID.</string>
 

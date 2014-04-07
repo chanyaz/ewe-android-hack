@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
@@ -302,20 +304,21 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			Db.setTravelers(travelers);
 		}
 
+		int numPassengers = Db.getFlightSearch().getSelectedFlightTrip().getPassengerCount();
+
 		// If there are more numAdults from HotelSearchParams, add empty Travelers to the Db to anticipate the addition of
 		// new Travelers in order for check out
 		final int numTravelers = travelers.size();
-		final int numAdultsAndChildren = Db.getFlightSearch().getSearchParams().getNumTravelers();
-		if (numTravelers < numAdultsAndChildren) {
-			for (int i = numTravelers; i < numAdultsAndChildren; i++) {
+		if (numTravelers < numPassengers) {
+			for (int i = numTravelers; i < numPassengers; i++) {
 				travelers.add(new Traveler());
 			}
 		}
 
 		// If there are more Travelers than number of adults required by the HotelSearchParams, remove the extra Travelers,
 		// although, keep the first numAdults Travelers.
-		else if (numTravelers > numAdultsAndChildren) {
-			for (int i = numTravelers - 1; i >= numAdultsAndChildren; i--) {
+		else if (numTravelers > numPassengers) {
+			for (int i = numTravelers - 1; i >= numPassengers; i--) {
 				travelers.remove(i);
 			}
 		}
@@ -327,22 +330,30 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		mAddTravelerSections.clear();
 
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
+
+		List<PassengerCategoryPrice> passengers = Db.getFlightSearch().getSelectedFlightTrip().getPassengers();
+		Collections.sort(passengers);
+
 		final int numTravelers = Db.getFlightSearch().getSearchParams().getNumTravelers();
-		final int numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
-		final int numChildren = Db.getFlightSearch().getSearchParams().getNumChildren();
 		List<Traveler> travelers = Db.getTravelers();
 
 		// Not sure if this state could happen, but there was a LOT of defensive code
 		// I've removed, so I might as well keep everything from breaking.
-		if (travelers == null || numTravelers != travelers.size()) {
+		if (travelers == null || passengers.size() != travelers.size()) {
 			populateTravelerData();
 		}
 
 		TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
 		boolean isInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
+
+		int numAdultsAdded = 0;
+		int numChildrenAdded = 0;
+		int numInfantsInSeat = 0;
+		int numInfantsInLap = 0;
+
 		for (int index = 0; index < numTravelers; index++) {
 			Traveler traveler = travelers.get(index);
-
+			traveler.setPassengerCategory(passengers.get(index).getPassengerCategory());
 			if (traveler != null && state.allTravelerInfoValid(traveler, isInternational)) {
 				// The traveler has information, fill it in
 				SectionTravelerInfo travelerSection = (SectionTravelerInfo) inflater.inflate(
@@ -356,6 +367,8 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 			// This traveler is likely blank, show the empty label, prompt user to fill in
 			else {
+				int sectionLabelId;
+				int displayIndex;
 				View v = inflater.inflate(R.layout.snippet_booking_overview_traveler, null);
 				dressSectionTraveler(v, index);
 
@@ -365,15 +378,30 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 					tv.setText(R.string.traveler_details);
 				}
 				else {
-					if (index >= (numTravelers - numChildren)) {
-						int childIndex = index - numTravelers + numChildren;
-						tv.setText(getString(R.string.add_child_number_TEMPLATE, childIndex + 1)); // no zero index for users
+					switch (traveler.getPassengerCategory()) {
+						case ADULT:
+						case SENIOR:
+							sectionLabelId = R.string.add_adult_number_TEMPLATE;
+							displayIndex = ++numAdultsAdded;
+							break;
+						case CHILD:
+						case ADULT_CHILD:
+							sectionLabelId = R.string.add_child_number_TEMPLATE;
+							displayIndex = ++numChildrenAdded;
+							break;
+						case INFANT_IN_LAP:
+							sectionLabelId = R.string.add_infant_in_seat_number_TEMPLATE;
+							displayIndex = ++numInfantsInLap;
+							break;
+						case INFANT_IN_SEAT:
+							sectionLabelId = R.string.add_infant_in_lap_number_TEMPLATE;
+							displayIndex = ++numInfantsInSeat;
+							break;
+						default:
+							throw new RuntimeException("Unidentified passenger category");
 					}
-					else {
-						tv.setText(getString(R.string.add_adult_number_TEMPLATE, index + 1)); // no zero index for users
-					}
+					tv.setText(getString(sectionLabelId, displayIndex));
 				}
-
 				mAddTravelerSections.add(v);
 				mTravelerContainer.addView(v);
 			}
