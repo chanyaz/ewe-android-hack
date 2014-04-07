@@ -8,9 +8,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -24,7 +26,7 @@ public class ResultsListLoadingFragment extends Fragment {
 
 	private final static String STATE_LOADING_TEXT = "STATE_LOADING_TEXT";
 
-	private View mRootC;
+	private LinearLayout mRootC;
 	private TextView mLoadingTv;
 
 	//loading anim vars
@@ -32,16 +34,21 @@ public class ResultsListLoadingFragment extends Fragment {
 	private int mLoadingColorLight = Color.LTGRAY;
 	private ViewGroup mLoadingC;
 	private String mLoadingText;
+	private int mLastListenerCount = 0;
+	private int mLoadingAloneGravity = Gravity.NO_GRAVITY;
+	private int mLoadingWithOthersGravity = Gravity.NO_GRAVITY;
 
-	public static ResultsListLoadingFragment newInstance(String loadingText) {
+	public static ResultsListLoadingFragment newInstance(String loadingText, int loadingAloneGravity,
+		int loadingWithOthersGravity) {
 		ResultsListLoadingFragment frag = new ResultsListLoadingFragment();
 		frag.setLoadingText(loadingText);
+		frag.setLoadingGravity(loadingAloneGravity, loadingWithOthersGravity);
 		return frag;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = inflater.inflate(R.layout.fragment_results_list_loading, null);
+		mRootC = (LinearLayout) inflater.inflate(R.layout.fragment_results_list_loading, null);
 		mLoadingTv = Ui.findView(mRootC, R.id.loading_tv);
 		mLoadingC = Ui.findView(mRootC, R.id.loading_bars_container);
 
@@ -85,14 +92,39 @@ public class ResultsListLoadingFragment extends Fragment {
 		}
 	}
 
+	public void setLoadingGravity(int aloneGravity, int withOthersGravity) {
+		mLoadingAloneGravity = aloneGravity;
+		mLoadingWithOthersGravity = withOthersGravity;
+		updateGravities(sLoadingFrags.size() <= 1);
+	}
+
+
 	private void loadingAnimUpdate(int animNumber) {
 		if (mLoadingC != null && getActivity() != null && isResumed()) {
 			for (int i = 0; i < mLoadingC.getChildCount(); i++) {
 				mLoadingC.getChildAt(i)
 					.setBackgroundColor(i == animNumber ? mLoadingColorDark : mLoadingColorLight);
 			}
+
+			int currentListenerCount = sLoadingFrags.size();
+			if (mLastListenerCount != currentListenerCount) {
+				updateGravities(currentListenerCount <= 1);
+				mLastListenerCount = currentListenerCount;
+			}
 		}
 	}
+
+	private void updateGravities(boolean alone) {
+		if (mRootC != null) {
+			if (alone) {
+				mRootC.setGravity(mLoadingAloneGravity);
+			}
+			else {
+				mRootC.setGravity(mLoadingWithOthersGravity);
+			}
+		}
+	}
+
 
 	private int getNumberOfAnimationItems() {
 		if (mLoadingC != null) {

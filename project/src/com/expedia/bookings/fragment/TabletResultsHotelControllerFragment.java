@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -470,7 +471,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			frag = HotelSearchDownloadFragment.newInstance(Db.getHotelSearch().getSearchParams());
 		}
 		else if (tag == FTAG_HOTEL_LOADING_INDICATOR) {
-			frag = ResultsListLoadingFragment.newInstance(getString(R.string.loading_hotels));
+			frag = ResultsListLoadingFragment.newInstance(getString(R.string.loading_hotels), Gravity.CENTER,
+				Gravity.RIGHT | Gravity.CENTER_VERTICAL);
 		}
 		else if (tag == FTAG_HOTEL_SEARCH_ERROR) {
 			frag = ResultsListSearchErrorFragment.newInstance(getString(R.string.search_error));

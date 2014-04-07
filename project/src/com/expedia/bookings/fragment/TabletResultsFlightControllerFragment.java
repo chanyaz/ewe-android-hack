@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -244,7 +245,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			frag = FlightSearchDownloadFragment.newInstance(Sp.getParams().toFlightSearchParams());
 		}
 		else if (tag == FTAG_FLIGHT_LOADING_INDICATOR) {
-			frag = ResultsListLoadingFragment.newInstance(getString(R.string.loading_flights));
+			frag = ResultsListLoadingFragment.newInstance(getString(R.string.loading_flights), Gravity.CENTER,
+				Gravity.LEFT | Gravity.CENTER_VERTICAL);
 		}
 		else if (tag == FTAG_FLIGHT_LEGS_CHOOSER) {
 			frag = ResultsRecursiveFlightLegsFragment.newInstance(0);
