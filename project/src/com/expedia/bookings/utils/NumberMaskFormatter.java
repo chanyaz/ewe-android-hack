@@ -187,7 +187,7 @@ public class NumberMaskFormatter {
 		number = formatCreditCardNumber(number);
 
 		char[] obscured = new char[number.length()];
-		char mask = '✳';
+		char mask = 'X';
 		for (int i = 0; i < number.length(); i++) {
 			char oldChar = number.charAt(i);
 			obscured[i] = oldChar >= '0' && oldChar <= '9' && i < number.length() - 4 ? mask : oldChar;
