@@ -1,6 +1,7 @@
 package com.expedia.bookings.dialog;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.content.Context;
@@ -25,6 +26,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.RateBreakdown;
@@ -34,7 +36,7 @@ import com.expedia.bookings.utils.Ui;
 
 /**
  * Generalized class which displays a breakdown of some sort - i.e., line items.
- *
+ * <p/>
  * Use the builder to construct the fragment, then show it.
  */
 public class BreakdownDialogFragment extends DialogFragment {
@@ -76,7 +78,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 			}
 			else {
 				LinearLayout row = (LinearLayout) inflater.inflate(R.layout.snippet_breakdown_row, breakdownContainer,
-						false);
+					false);
 
 				if (lineItem.mIndent) {
 					LayoutUtils.addPadding(row, mIndentPixels, 0, 0, 0);
@@ -143,15 +145,15 @@ public class BreakdownDialogFragment extends DialogFragment {
 		// Breakdown summary
 		int numNights = params.getStayDuration();
 		builder.addLineItem((new LineItemBuilder())
-				.setItemLeft((new ItemBuilder())
-						.setText(res.getQuantityString(R.plurals.number_of_nights, numNights, numNights))
-						.setTextAppearance(R.style.TextAppearance_Breakdown_Medium_Bold)
-						.build())
-				.setItemRight((new ItemBuilder())
-						.setText(originalRate.getNightlyRateTotal().getFormattedMoney())
-						.setTextAppearance(R.style.TextAppearance_Breakdown_Medium_Bold)
-						.build())
-				.build());
+			.setItemLeft((new ItemBuilder())
+				.setText(res.getQuantityString(R.plurals.number_of_nights, numNights, numNights))
+				.setTextAppearance(R.style.TextAppearance_Breakdown_Medium_Bold)
+				.build())
+			.setItemRight((new ItemBuilder())
+				.setText(originalRate.getNightlyRateTotal().getFormattedMoney())
+				.setTextAppearance(R.style.TextAppearance_Breakdown_Medium_Bold)
+				.build())
+			.build());
 
 		// Breakdown of each night
 		if (originalRate.getRateBreakdownList() != null) {
@@ -159,65 +161,65 @@ public class BreakdownDialogFragment extends DialogFragment {
 				String date = JodaUtils.formatLocalDate(context, breakdown.getDate(), JodaUtils.FLAGS_DATE_FORMAT);
 				Money amount = breakdown.getAmount();
 				CharSequence amountStr = (amount.isZero()) ? context.getString(R.string.free) :
-						amount.getFormattedMoney();
+					amount.getFormattedMoney();
 
 				builder.addLineItem((new LineItemBuilder())
-						.indent()
-						.setItemLeft((new ItemBuilder())
-								.setText(date)
-								.setTextAppearance(R.style.TextAppearance_Breakdown_Light)
-								.build())
-						.setItemRight((new ItemBuilder())
-								.setText(amountStr)
-								.setTextAppearance(R.style.TextAppearance_Breakdown_Light)
-								.build())
-						.build());
+					.indent()
+					.setItemLeft((new ItemBuilder())
+						.setText(date)
+						.setTextAppearance(R.style.TextAppearance_Breakdown_Light)
+						.build())
+					.setItemRight((new ItemBuilder())
+						.setText(amountStr)
+						.setTextAppearance(R.style.TextAppearance_Breakdown_Light)
+						.build())
+					.build());
 			}
 		}
 
 		// Discount
 		if (couponRate != null) {
 			builder.addLineItem((new LineItemBuilder())
-					.setItemLeft((new ItemBuilder())
-							.setText(context.getString(R.string.discount))
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
-							.build())
-					.setItemRight((new ItemBuilder())
-							.setText("(" + couponRate.getTotalPriceAdjustments().getFormattedMoney() + ")")
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium_Green)
-							.build())
-					.build());
+				.setItemLeft((new ItemBuilder())
+					.setText(context.getString(R.string.discount))
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+					.build())
+				.setItemRight((new ItemBuilder())
+					.setText("(" + couponRate.getTotalPriceAdjustments().getFormattedMoney() + ")")
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium_Green)
+					.build())
+				.build());
 		}
 
 		// Taxes & Fees
 		if (originalRate.getTotalSurcharge() != null) {
 			String surcharge = (originalRate.getTotalSurcharge().isZero()) ? context.getString(R.string.included)
-					: originalRate.getTotalSurcharge().getFormattedMoney();
+				: originalRate.getTotalSurcharge().getFormattedMoney();
 
 			builder.addLineItem((new LineItemBuilder())
-					.setItemLeft((new ItemBuilder())
-							.setText(context.getString(R.string.taxes_and_fees))
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
-							.build())
-					.setItemRight((new ItemBuilder())
-							.setText(surcharge)
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
-							.build())
-					.build());
+				.setItemLeft((new ItemBuilder())
+					.setText(context.getString(R.string.taxes_and_fees))
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+					.build())
+				.setItemRight((new ItemBuilder())
+					.setText(surcharge)
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+					.build())
+				.build());
 		}
 
 		// Extra guest fees
 		if (originalRate.getExtraGuestFee() != null && !originalRate.getExtraGuestFee().isZero()) {
 			builder.addLineItem((new LineItemBuilder())
-					.setItemLeft((new ItemBuilder())
-							.setText(context.getString(R.string.extra_guest_charge))
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
-							.build())
-					.setItemRight((new ItemBuilder())
-							.setText(originalRate.getExtraGuestFee().getFormattedMoney())
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
-							.build())
-					.build());
+				.setItemLeft((new ItemBuilder())
+					.setText(context.getString(R.string.extra_guest_charge))
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+					.build())
+				.setItemRight((new ItemBuilder())
+					.setText(originalRate.getExtraGuestFee().getFormattedMoney())
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+					.build())
+				.build());
 		}
 
 		builder.addDivider();
@@ -225,46 +227,46 @@ public class BreakdownDialogFragment extends DialogFragment {
 		// Mandatory fees
 		if (originalRate.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
 			builder.addLineItem((new LineItemBuilder())
-					.setItemLeft((new ItemBuilder())
-							.setText(context.getString(R.string.total_due_today))
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
-							.build())
-					.setItemRight((new ItemBuilder())
-							.setText(originalRate.getTotalAmountAfterTax().getFormattedMoney())
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
-							.build())
-					.build());
+				.setItemLeft((new ItemBuilder())
+					.setText(context.getString(R.string.total_due_today))
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+					.build())
+				.setItemRight((new ItemBuilder())
+					.setText(originalRate.getTotalAmountAfterTax().getFormattedMoney())
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+					.build())
+				.build());
 
 			builder.addLineItem((new LineItemBuilder())
-					.setItemLeft((new ItemBuilder())
-							.setText(context.getString(R.string.MandatoryFees))
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
-							.build())
-					.setItemRight((new ItemBuilder())
-							.setText(originalRate.getTotalMandatoryFees().getFormattedMoney())
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
-							.build())
-					.build());
+				.setItemLeft((new ItemBuilder())
+					.setText(context.getString(R.string.MandatoryFees))
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+					.build())
+				.setItemRight((new ItemBuilder())
+					.setText(originalRate.getTotalMandatoryFees().getFormattedMoney())
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+					.build())
+				.build());
 		}
 
 		// Total
 		Money total = couponRate == null ? originalRate.getDisplayTotalPrice() : couponRate.getDisplayTotalPrice();
 		builder.addLineItem((new LineItemBuilder())
-				.setItemLeft((new ItemBuilder())
-						.setText(context.getString(R.string.total_price_label))
-						.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy_Bold)
-						.build())
-				.setItemRight((new ItemBuilder())
-						.setText(total.getFormattedMoney())
-						.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy)
-						.build())
-				.build());
+			.setItemLeft((new ItemBuilder())
+				.setText(context.getString(R.string.total_price_label))
+				.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy_Bold)
+				.build())
+			.setItemRight((new ItemBuilder())
+				.setText(total.getFormattedMoney())
+				.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy)
+				.build())
+			.build());
 
 		return builder.build();
 	}
 
 	public static BreakdownDialogFragment buildFlightBreakdownDialog(Context context, FlightSearch search,
-			BillingInfo billingInfo) {
+																	 BillingInfo billingInfo) {
 		FlightSearchParams params = search.getSearchParams();
 		FlightTrip trip = search.getSelectedFlightTrip();
 
@@ -276,65 +278,80 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		int numberOfSeatedTravelers = params.getNumberOfSeatedTravelers();
 		int numAdults = params.getNumAdults();
-		String totalFarePerTraveler = trip.getTotalFare().getFormattedMoneyPerTraveler();
-		String totalBaseFarePerTraveler = trip.getBaseFare().getFormattedMoneyPerTraveler();
-		String totalTaxesPerTraveler = trip.getTaxes().getFormattedMoneyPerTraveler();
+		Money totalFarePerTraveler;
+		Money totalBaseFarePerTraveler;
+		Money totalTaxesPerTraveler;
 
+		int travelerHeaderStringId = 0;
+		int index = 0;
+		boolean throwUnhandledPassengerCatError = false;
+		Collections.sort(trip.getPassengers());
 		// Per traveler price
-		for (int i = 0; i < params.getNumTravelers(); i++) {
-			int travelerHeaderStringId;
-			int index;
-			if (i < numAdults) {
+		for (int i = 0; i < trip.getPassengers().size(); i++) {
+			PassengerCategoryPrice p = trip.getPassenger(i);
+			switch (p.getPassengerCategory()) {
+			case ADULT:
+			case SENIOR:
 				travelerHeaderStringId = R.string.add_adult_number_TEMPLATE;
 				index = i + 1;
-			} else if(i < numberOfSeatedTravelers) {
+				break;
+			case CHILD:
+			case ADULT_CHILD:
 				travelerHeaderStringId = R.string.add_child_number_TEMPLATE;
 				index = i - numAdults + 1;
-			} else {
-				//Must be a lap infant, so they fly for free!
-				Money zeroDollars = new Money();
-				zeroDollars.setCurrency(trip.getTotalFare().getCurrency());
-				totalFarePerTraveler = zeroDollars.getFormattedMoney();
-				totalBaseFarePerTraveler = totalFarePerTraveler;
-				totalTaxesPerTraveler = totalFarePerTraveler;
-
+				break;
+			case INFANT_IN_LAP:
+			case INFANT_IN_SEAT:
 				travelerHeaderStringId = R.string.add_infant_in_lap_number_TEMPLATE;
 				index = i - numberOfSeatedTravelers + 1;
+				break;
+			default:
+				throwUnhandledPassengerCatError = true;
+				break;
 			}
-			builder.addLineItem((new LineItemBuilder())
-					.setItemLeft((new ItemBuilder())
-							.setText(context.getString(travelerHeaderStringId, index))
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium_Bold)
-							.build())
-					.setItemRight((new ItemBuilder())
-							.setText(totalFarePerTraveler)
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium_Bold)
-							.build())
-					.build());
+
+			if (throwUnhandledPassengerCatError) {
+				throw new RuntimeException("PassengerType: " + p.getPassengerCategory() + " not recognized.");
+			}
+
+			totalFarePerTraveler = p.getTotalPrice();
+			totalBaseFarePerTraveler = p.getBasePrice();
+			totalTaxesPerTraveler = p.getTaxes();
 
 			builder.addLineItem((new LineItemBuilder())
-					.setTopPaddingEnabled(false)
-					.setItemLeft((new ItemBuilder())
-							.setText(context.getString(R.string.flight))
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
-							.build())
-					.setItemRight((new ItemBuilder())
-							.setText(totalBaseFarePerTraveler)
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
-							.build())
-					.build());
+				.setItemLeft((new ItemBuilder())
+					.setText(context.getString(travelerHeaderStringId, index))
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium_Bold)
+					.build())
+				.setItemRight((new ItemBuilder())
+					.setText(totalFarePerTraveler.getFormattedMoney())
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium_Bold)
+					.build())
+				.build());
 
 			builder.addLineItem((new LineItemBuilder())
-					.setTopPaddingEnabled(false)
-					.setItemLeft((new ItemBuilder())
-							.setText(context.getString(R.string.taxes_and_airline_fees))
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
-							.build())
-					.setItemRight((new ItemBuilder())
-							.setText(totalTaxesPerTraveler)
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
-							.build())
-					.build());
+				.setTopPaddingEnabled(false)
+				.setItemLeft((new ItemBuilder())
+					.setText(context.getString(R.string.flight))
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+					.build())
+				.setItemRight((new ItemBuilder())
+					.setText(totalBaseFarePerTraveler.getFormattedMoney())
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+					.build())
+				.build());
+
+			builder.addLineItem((new LineItemBuilder())
+				.setTopPaddingEnabled(false)
+				.setItemLeft((new ItemBuilder())
+					.setText(context.getString(R.string.taxes_and_airline_fees))
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+					.build())
+				.setItemRight((new ItemBuilder())
+					.setText(totalTaxesPerTraveler.getFormattedMoney())
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+					.build())
+				.build());
 
 			builder.addDivider();
 		}
@@ -343,15 +360,15 @@ public class BreakdownDialogFragment extends DialogFragment {
 		Money cardFee = trip.getCardFee(billingInfo);
 		if (cardFee != null && trip.showFareWithCardFee(context, billingInfo)) {
 			builder.addLineItem((new LineItemBuilder())
-					.setItemLeft((new ItemBuilder())
-							.setText(context.getString(R.string.airline_card_fee))
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
-							.build())
-					.setItemRight((new ItemBuilder())
-							.setText(cardFee.getFormattedMoney())
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
-							.build())
-					.build());
+				.setItemLeft((new ItemBuilder())
+					.setText(context.getString(R.string.airline_card_fee))
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+					.build())
+				.setItemRight((new ItemBuilder())
+					.setText(cardFee.getFormattedMoney())
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+					.build())
+				.build());
 
 			builder.addDivider();
 		}
@@ -359,15 +376,15 @@ public class BreakdownDialogFragment extends DialogFragment {
 		// OB fees
 		if (trip.getFees() != null) {
 			builder.addLineItem((new LineItemBuilder())
-					.setItemLeft((new ItemBuilder())
-							.setText(context.getString(Ui.obtainThemeResID(context, R.attr.costSummaryBookingFeesString)))
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
-							.build())
-					.setItemRight((new ItemBuilder())
-							.setText(trip.getFees().getFormattedMoney())
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
-							.build())
-					.build());
+				.setItemLeft((new ItemBuilder())
+					.setText(context.getString(Ui.obtainThemeResID(context, R.attr.costSummaryBookingFeesString)))
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+					.build())
+				.setItemRight((new ItemBuilder())
+					.setText(trip.getFees().getFormattedMoney())
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
+					.build())
+				.build());
 
 			builder.addDivider();
 		}
@@ -383,15 +400,15 @@ public class BreakdownDialogFragment extends DialogFragment {
 			}
 
 			builder.addLineItem((new LineItemBuilder())
-					.setItemLeft((new ItemBuilder())
-							.setText(context.getString(R.string.total_price_label))
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy_Bold)
-							.build())
-					.setItemRight((new ItemBuilder())
-							.setText(text)
-							.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy)
-							.build())
-					.build());
+				.setItemLeft((new ItemBuilder())
+					.setText(context.getString(R.string.total_price_label))
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy_Bold)
+					.build())
+				.setItemRight((new ItemBuilder())
+					.setText(text)
+					.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy)
+					.build())
+				.build());
 		}
 
 		return builder.build();
