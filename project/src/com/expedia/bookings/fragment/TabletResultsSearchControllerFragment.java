@@ -74,12 +74,16 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private ViewGroup mRootC;
 	private FrameLayoutTouchController mSearchBarC;
 	private ViewGroup mRightButtonsC;
-	private FrameLayoutTouchController mWidgetC;
-	private View mWidgetBg;
+	private FrameLayoutTouchController mBottomRightC;
+	private FrameLayoutTouchController mBottomCenterC;
+	private View mBottomRightBg;
+	private View mBottomCenterBg;
 	//Fragment Containers
 	private FrameLayoutTouchController mCalC;
 	private FrameLayoutTouchController mTravC;
 	private FrameLayoutTouchController mWaypointC;
+	private FrameLayoutTouchController mGdeC;
+
 
 	//Search action buttons
 	private TextView mDestBtn;
@@ -112,11 +116,14 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mRootC = Ui.findView(view, R.id.root_layout);
 		mSearchBarC = Ui.findView(view, R.id.search_bar_conatiner);
 		mRightButtonsC = Ui.findView(view, R.id.right_buttons_container);
-		mWidgetC = Ui.findView(view, R.id.widget_container);
+		mBottomRightC = Ui.findView(view, R.id.bottom_right_container);
+		mBottomCenterC = Ui.findView(view, R.id.bottom_center_container);
 		mWaypointC = Ui.findView(view, R.id.waypoint_container);
 		mTravC = Ui.findView(view, R.id.traveler_container);
 		mCalC = Ui.findView(view, R.id.calendar_container);
-		mWidgetBg = Ui.findView(view, R.id.widget_container_bg);
+		mGdeC = Ui.findView(view, R.id.gde_container);
+		mBottomRightBg = Ui.findView(view, R.id.bottom_right_bg);
+		mBottomCenterBg = Ui.findView(view, R.id.bottom_center_bg);
 
 		mDestBtn = Ui.findView(view, R.id.dest_btn);
 		mOrigBtn = Ui.findView(view, R.id.origin_btn);
@@ -330,15 +337,16 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				}
 
 				if (stateOne == ResultsSearchState.CALENDAR || stateTwo == ResultsSearchState.CALENDAR) {
-					mWidgetC.setVisibility(View.VISIBLE);
+					mBottomRightC.setVisibility(View.VISIBLE);
+					mBottomCenterC.setVisibility(View.VISIBLE);
 					mCalC.setVisibility(View.VISIBLE);
+					mGdeC.setVisibility(View.VISIBLE);
 				}
 
 				if (stateOne == ResultsSearchState.TRAVELER_PICKER || stateTwo == ResultsSearchState.TRAVELER_PICKER) {
-					mWidgetC.setVisibility(View.VISIBLE);
+					mBottomRightC.setVisibility(View.VISIBLE);
 					mTravC.setVisibility(View.VISIBLE);
 				}
-
 			}
 			setActionbarShowingState(stateTwo);
 		}
@@ -356,28 +364,36 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			}
 			else {
 				if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.CALENDAR) {
-					mCalC.setTranslationY((1f - percentage) * -mWidgetC.getHeight());
-					mWidgetBg.setTranslationY((1f - percentage) * -mWidgetBg.getHeight());
+					mCalC.setTranslationY((1f - percentage) * -mBottomRightC.getHeight());
+					mGdeC.setTranslationY((1f - percentage) * -mBottomCenterC.getHeight());
+					mBottomRightBg.setTranslationY((1f - percentage) * -mBottomRightBg.getHeight());
+					mBottomCenterBg.setTranslationY((1f - percentage) * -mBottomCenterBg.getHeight());
 				}
 				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.DEFAULT) {
-					mCalC.setTranslationY(percentage * -mWidgetC.getHeight());
-					mWidgetBg.setTranslationY(percentage * -mWidgetBg.getHeight());
+					mCalC.setTranslationY(percentage * -mBottomRightC.getHeight());
+					mGdeC.setTranslationY(percentage * -mBottomCenterC.getHeight());
+					mBottomRightBg.setTranslationY(percentage * -mBottomRightBg.getHeight());
+					mBottomCenterBg.setTranslationY(percentage * -mBottomCenterBg.getHeight());
 				}
 				else if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
-					mTravC.setTranslationY((1f - percentage) * -mWidgetC.getHeight());
-					mWidgetBg.setTranslationY((1f - percentage) * -mWidgetBg.getHeight());
+					mTravC.setTranslationY((1f - percentage) * -mBottomRightC.getHeight());
+					mBottomRightBg.setTranslationY((1f - percentage) * -mBottomRightBg.getHeight());
 				}
 				else if (stateOne == ResultsSearchState.TRAVELER_PICKER && stateTwo == ResultsSearchState.DEFAULT) {
-					mTravC.setTranslationY(percentage * -mWidgetC.getHeight());
-					mWidgetBg.setTranslationY(percentage * -mWidgetBg.getHeight());
+					mTravC.setTranslationY(percentage * -mBottomRightC.getHeight());
+					mBottomRightBg.setTranslationY(percentage * -mBottomRightBg.getHeight());
 				}
 				else if (stateOne == ResultsSearchState.TRAVELER_PICKER && stateTwo == ResultsSearchState.CALENDAR) {
 					mTravC.setTranslationX(percentage * mTravC.getWidth());
 					mCalC.setTranslationX((1f - percentage) * -mCalC.getWidth());
+					mGdeC.setTranslationY((1f - percentage) * -mBottomCenterC.getHeight());
+					mBottomCenterBg.setTranslationY((1f - percentage) * -mBottomCenterBg.getHeight());
 				}
 				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
 					mTravC.setTranslationX((1f - percentage) * mTravC.getWidth());
 					mCalC.setTranslationX(percentage * -mCalC.getWidth());
+					mGdeC.setTranslationY(percentage * -mBottomCenterC.getHeight());
+					mBottomCenterBg.setTranslationY(percentage * -mBottomCenterBg.getHeight());
 				}
 
 			}
@@ -443,7 +459,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		private void setSlideUpAnimationHardwareLayers(boolean enabled) {
 			int layerType = enabled ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
 
-			mWidgetC.setLayerType(layerType, null);
+			mBottomRightC.setLayerType(layerType, null);
+			mBottomCenterC.setLayerType(layerType, null);
 			mDestBtn.setLayerType(layerType, null);
 		}
 
@@ -454,7 +471,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			int barTransDistance = mGrid.getRowSpanHeight(0, 2);
 
 			mSearchBarC.setTranslationY(percentage * -barTransDistance);
-			mWidgetC.setTranslationY(percentage * widgetHeight);
+			mBottomRightC.setTranslationY(percentage * widgetHeight);
+			mBottomCenterC.setTranslationY(percentage * widgetHeight);
 			mDestBtn.setTranslationY(percentage * searchBarHeight);
 			mDestBtn.setAlpha(1f - percentage);
 			//TODO: Use better number than searchBarHeight (this is to move to the left of the action bar buttons)
@@ -483,21 +501,31 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mWaypointC.setVisibility(stateShowsWaypoint(state) ? View.VISIBLE : View.INVISIBLE);
 			mTravC.setVisibility(state == ResultsSearchState.TRAVELER_PICKER ? View.VISIBLE : View.INVISIBLE);
 			mCalC.setVisibility(state == ResultsSearchState.CALENDAR ? View.VISIBLE : View.INVISIBLE);
-			mWidgetC.setVisibility(
+			mBottomRightC.setVisibility(
 				mCalC.getVisibility() == View.VISIBLE || mTravC.getVisibility() == View.VISIBLE ? View.VISIBLE
-					: View.INVISIBLE);
+					: View.INVISIBLE
+			);
+			mBottomCenterC.setVisibility(mCalC.getVisibility());
+			mGdeC.setVisibility(mCalC.getVisibility());
+
 		}
 
 		private void resetWidgetTranslations() {
 			//These are only altered for animations, and we dont want things to get into odd places.
 			mCalC.setTranslationX(0f);
 			mCalC.setTranslationY(0f);
+			mGdeC.setTranslationX(0f);
+			mGdeC.setTranslationY(0f);
 			mTravC.setTranslationX(0f);
 			mTravC.setTranslationY(0f);
-			mWidgetC.setTranslationX(0f);
-			mWidgetC.setTranslationY(0f);
-			mWidgetBg.setTranslationX(0f);
-			mWidgetBg.setTranslationY(0f);
+			mBottomRightC.setTranslationX(0f);
+			mBottomRightC.setTranslationY(0f);
+			mBottomCenterC.setTranslationY(0f);
+			mBottomCenterC.setTranslationX(0f);
+			mBottomRightBg.setTranslationX(0f);
+			mBottomRightBg.setTranslationY(0f);
+			mBottomCenterBg.setTranslationX(0f);
+			mBottomCenterBg.setTranslationY(0f);
 		}
 	};
 
@@ -687,8 +715,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 			mGrid.setContainerToRow(mSearchBarC, 2);
 			mGrid.setContainerToRowSpan(mWaypointC, 0, 3);
-			mGrid.setContainerToRow(mWidgetC, 3);
-			mGrid.setContainerToColumn(mWidgetC, 4);
+			mGrid.setContainerToRow(mBottomRightC, 3);
+			mGrid.setContainerToColumn(mBottomRightC, 4);
+			mGrid.setContainerToRow(mBottomCenterC, 3);
+			mGrid.setContainerToColumn(mBottomCenterC, 2);
 		}
 	};
 
