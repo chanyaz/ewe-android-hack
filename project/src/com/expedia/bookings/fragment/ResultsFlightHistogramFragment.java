@@ -8,15 +8,13 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
-import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightHistogramAdapter;
-import com.expedia.bookings.widget.TextView;
 
 /**
  * ResultsFlightHistogramFragment: The flight histogram fragment designed for tablet results 2014
@@ -24,25 +22,18 @@ import com.expedia.bookings.widget.TextView;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ResultsFlightHistogramFragment extends ListFragment {
 
+	private ListView mList;
 	private FlightHistogramAdapter mAdapter;
-
-	private ProgressBar mProgressBar;
-
-	private HistogramFragmentListener mListener;
-
-	private boolean mShowProgress = false;
-
 	private int mColWidth = 0;
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		mListener = Ui.findFragmentListener(this, HistogramFragmentListener.class, false);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_tablet_results_flight_histogram, container, false);
+		mList = (ListView) inflater.inflate(R.layout.fragment_tablet_results_flight_histogram, container, false);
 
 		// Adapter setup
 		if (mAdapter == null) {
@@ -52,34 +43,39 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 			mAdapter.setHistogramData(Db.getFlightSearchHistogramResponse());
 			mAdapter.setColWidth(mColWidth);
 		}
-		ListView lv = Ui.findView(view, android.R.id.list);
-		lv.setAdapter(mAdapter);
+		mList.setAdapter(mAdapter);
 
-		TextView headerTv = Ui.findView(view, R.id.flight_histogram_header);
-		headerTv.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (mListener != null) {
-					mListener.onHeaderClick();
-				}
-			}
-		});
-
-		mProgressBar = Ui.findView(view, R.id.flight_histogram_progress_bar);
-
-		return view;
+		return mList;
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		setShowProgressBar(mShowProgress);
-		mShowProgress = false;
+
+		mList.getViewTreeObserver().addOnPreDrawListener(mColWidthListener);
 
 		if (mAdapter != null && mColWidth != 0) {
 			mAdapter.setColWidth(mColWidth);
 		}
 	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		mList.getViewTreeObserver().removeOnPreDrawListener(mColWidthListener);
+	}
+
+
+	private ViewTreeObserver.OnPreDrawListener mColWidthListener = new ViewTreeObserver.OnPreDrawListener() {
+		@Override
+		public boolean onPreDraw() {
+			if (mList != null && mList.getWidth() > 0 && mList.getWidth() != mColWidth) {
+				setColWidth(mList.getWidth());
+			}
+			return true;
+		}
+	};
+
 
 	public void setHistogramData(FlightSearchHistogramResponse data) {
 		if (mAdapter != null && data != null) {
@@ -95,19 +91,5 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 		else {
 			mColWidth = width;
 		}
-	}
-
-	public void setShowProgressBar(boolean show) {
-		if (mProgressBar != null) {
-			mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-		}
-		else {
-			// pick this up after onCreateView
-			mShowProgress = show;
-		}
-	}
-
-	public interface HistogramFragmentListener {
-		void onHeaderClick();
 	}
 }

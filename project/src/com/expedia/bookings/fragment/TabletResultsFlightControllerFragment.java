@@ -46,8 +46,7 @@ import com.squareup.otto.Subscribe;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsFlightControllerFragment extends Fragment implements
 	IFragmentAvailabilityProvider, IBackManageable,
-	IStateProvider<ResultsFlightsState>, ExpediaServicesFragment.ExpediaServicesFragmentListener,
-	ResultsFlightHistogramFragment.HistogramFragmentListener {
+	IStateProvider<ResultsFlightsState>, ExpediaServicesFragment.ExpediaServicesFragmentListener {
 
 	//State
 	private static final String STATE_FLIGHTS_STATE = "STATE_FLIGHTS_STATE";
@@ -688,17 +687,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	}
 
 	/*
-	HISTOGRAM FRAG LISTENER
+	LEG STATE LISTENER
 	 */
-
-	@Override
-	public void onHeaderClick() {
-		// If we have flight search data in the Db then hop over to the actual flight results,
-		if (Db.getFlightSearch() != null & Db.getFlightSearch().getSearchResponse() != null) {
-			setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
-		}
-	}
-
 
 	private StateListenerHelper<ResultsFlightLegState> mLegStateListener = new StateListenerHelper<ResultsFlightLegState>() {
 		@Override

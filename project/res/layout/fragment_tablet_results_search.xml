@@ -89,16 +89,7 @@
             android:id="@+id/gde_container"
             android:visibility="invisible"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <!-- TODO: REMOVE THIS TextView, and attach a fragment to this container instead -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="GDE STUFF" />
-
-        </com.expedia.bookings.widget.FrameLayoutTouchController>
+            android:layout_height="match_parent" />
 
     </com.expedia.bookings.widget.FrameLayoutTouchController>
 

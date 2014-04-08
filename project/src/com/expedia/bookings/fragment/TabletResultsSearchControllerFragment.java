@@ -63,6 +63,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private static final String FTAG_TRAV_PICKER = "FTAG_TRAV_PICKER";
 	private static final String FTAG_WAYPOINT = "FTAG_WAYPOINT";
 	private static final String FTAG_ORIGIN_LOCATION = "FTAG_ORIGIN_LOCATION";
+	private static final String FTAG_FLIGHTS_GDE = "FTAG_FLIGHTS_GDE";
 
 
 	private GridManager mGrid = new GridManager();
@@ -96,6 +97,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private ResultsDatesFragment mDatesFragment;
 	private ResultsGuestPicker mGuestsFragment;
 	private CurrentLocationFragment mCurrentLocationFragment;
+	private ResultsGdeFlightsFragment mGdeFragment;
 
 
 	@Override
@@ -225,7 +227,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			Sp.reportSpUpdate();
 		}
 	}
-
 
 	/**
 	 * FRAG LISTENERS
@@ -433,6 +434,13 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				setSlideUpHotelsOnlyAnimationPercentage(0f);
 			}
 			}
+
+			if (state == ResultsSearchState.CALENDAR) {
+				if (mGdeFragment != null) {
+					SearchParams params = Sp.getParams();
+					mGdeFragment.setRoute(params.getOriginLocation(true), params.getDestinationLocation(true));
+				}
+			}
 		}
 
 		private boolean performingSlideUpOrDownTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
@@ -548,11 +556,16 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		boolean mParamFragsAvailable = state != ResultsSearchState.HOTELS_UP && state != ResultsSearchState.FLIGHTS_UP;
 
 		boolean mCalAvail = mParamFragsAvailable;
+		boolean mGdeAvail = mCalAvail;//Always shown with the calendar
 		boolean mTravAvail = mParamFragsAvailable;
 		boolean mWaypointAvailable = mParamFragsAvailable;
 
+
 		mDatesFragment = FragmentAvailabilityUtils.setFragmentAvailability(mCalAvail, FTAG_CALENDAR, manager,
 			transaction, this, R.id.calendar_container, true);
+
+		mGdeFragment = FragmentAvailabilityUtils.setFragmentAvailability(mGdeAvail, FTAG_FLIGHTS_GDE, manager,
+			transaction, this, R.id.gde_container, true);
 
 		mGuestsFragment = FragmentAvailabilityUtils.setFragmentAvailability(mTravAvail, FTAG_TRAV_PICKER, manager,
 			transaction, this, R.id.traveler_container, false);
@@ -564,6 +577,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mCurrentLocationFragment = FragmentAvailabilityUtils
 			.setFragmentAvailability(!Sp.getParams().hasOrigin(), FTAG_ORIGIN_LOCATION, manager, transaction, this, 0,
 				true);
+
 
 		transaction.commit();
 	}
@@ -582,6 +596,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		else if (tag == FTAG_ORIGIN_LOCATION) {
 			return mCurrentLocationFragment;
 		}
+		else if (tag == FTAG_FLIGHTS_GDE) {
+			return mGdeFragment;
+		}
 		return null;
 	}
 
@@ -599,6 +616,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		else if (tag == FTAG_ORIGIN_LOCATION) {
 			return new CurrentLocationFragment();
 		}
+		else if (tag == FTAG_FLIGHTS_GDE) {
+			return ResultsGdeFlightsFragment.newInstance();
+		}
 		return null;
 	}
 
@@ -612,6 +632,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				//Will notify listener
 				((CurrentLocationFragment) frag).getCurrentLocation();
 			}
+		}
+		else if (tag == FTAG_FLIGHTS_GDE) {
+			SearchParams params = Sp.getParams();
+			((ResultsGdeFlightsFragment) frag).setRoute(params.getOriginLocation(true),
+				params.getDestinationLocation(true));
 		}
 	}
 

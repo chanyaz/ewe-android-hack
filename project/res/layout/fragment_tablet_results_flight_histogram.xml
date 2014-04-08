@@ -1,57 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/list"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <!-- The list view -->
-
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="48dp"
-        android:cacheColorHint="@color/tablet_white_pane_bg"
-        android:choiceMode="singleChoice"
-        android:divider="@color/tablet_white_pane_bg"
-        android:dividerHeight="8dp"
-        android:listSelector="@android:color/transparent"
-        android:scrollbars="none" />
-
-    <!-- The sticky header view -->
-
-
-    <!-- Note that the layout_height on this container equals ( layout_marginTop + dividerHeight ) on @android:id/list -->
-
-    <com.expedia.bookings.widget.FrameLayoutTouchController
-        android:id="@+id/sticky_header_container"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/tablet_white_pane_bg"
-        android:gravity="center_vertical"
-        android:visibility="visible" >
-
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/flight_histogram_header"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical|left"
-            android:layout_marginLeft="16dp"
-            android:gravity="center_vertical|left"
-            android:text="@string/when_to_fly"
-            android:textSize="18sp"
-            app:textStyle="light" />
-
-        <ProgressBar
-            android:id="@+id/flight_histogram_progress_bar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="8dp"
-            android:gravity="center_vertical|right"
-            android:indeterminate="true"
-            android:visibility="gone"/>
-
-    </com.expedia.bookings.widget.FrameLayoutTouchController>
-
-</FrameLayout>
+    android:layout_height="match_parent"
+    android:cacheColorHint="@color/tablet_white_pane_bg"
+    android:choiceMode="singleChoice"
+    android:divider="@color/tablet_white_pane_bg"
+    android:dividerHeight="8dp"
+    android:listSelector="@android:color/transparent"
+    android:scrollbars="none" />
