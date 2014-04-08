@@ -73,6 +73,19 @@ public class SearchParams implements Parcelable, JSONable {
 		return mOrigin;
 	}
 
+	public Location getOriginLocation(boolean useAirport) {
+		if (hasOrigin()) {
+			SuggestionV2 origin = (useAirport && mOriginAirport != null ? mOriginAirport : mOrigin);
+			if (origin != null && origin.getLocation() != null) {
+				Location depLocation = new Location(origin.getLocation());
+				depLocation.setDestinationId(origin.getAirportCode());
+				depLocation.setDescription(origin.getFullName());
+				return depLocation;
+			}
+		}
+		return null;
+	}
+
 	public SearchParams setOrigin(SuggestionV2 origin) {
 		mOrigin = origin;
 		mOriginAirport = null; // Assume this is no longer valid with a new origin
@@ -85,6 +98,19 @@ public class SearchParams implements Parcelable, JSONable {
 
 	public SuggestionV2 getDestination() {
 		return mDestination;
+	}
+
+	public Location getDestinationLocation(boolean useAirport) {
+		if (hasDestination()) {
+			SuggestionV2 destination = (useAirport && mDestinationAirport != null ? mDestinationAirport : mDestination);
+			if (destination != null) {
+				Location loc = new Location(destination.getLocation());
+				loc.setDestinationId(destination.getAirportCode());
+				loc.setDescription(destination.getFullName());
+				return loc;
+			}
+		}
+		return null;
 	}
 
 	public SearchParams setDestination(SuggestionV2 destination) {
@@ -307,7 +333,7 @@ public class SearchParams implements Parcelable, JSONable {
 		params.setNumAdults(mNumAdults);
 		params.setChildren(mChildTravelers);
 
-		Location destLoc = mDestination.getLocation();
+		Location destLoc = getDestinationLocation(false);
 
 		// Map SuggestionV2.SearchType to HotelSearchParams.SearchType
 		if (mDestination.getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION && (destLoc.getLatitude() != 0
@@ -359,19 +385,15 @@ public class SearchParams implements Parcelable, JSONable {
 	public FlightSearchParams toFlightSearchParams() {
 		FlightSearchParams params = new FlightSearchParams();
 
-		SuggestionV2 origin = mOriginAirport != null ? mOriginAirport : mOrigin;
-		if (origin.getLocation() != null) {
-			Location depLocation = new Location(origin.getLocation());
-			depLocation.setDestinationId(origin.getAirportCode());
-			depLocation.setDescription(origin.getFullName());
-			params.setDepartureLocation(depLocation);
-		}
+		Location origLoc = getOriginLocation(true);
+		Location destLoc = getDestinationLocation(true);
 
-		SuggestionV2 destination = mDestinationAirport != null ? mDestinationAirport : mDestination;
-		Location arrLocation = new Location(destination.getLocation());
-		arrLocation.setDestinationId(destination.getAirportCode());
-		arrLocation.setDescription(destination.getFullName());
-		params.setArrivalLocation(arrLocation);
+		if (origLoc != null) {
+			params.setDepartureLocation(origLoc);
+		}
+		if (destLoc != null) {
+			params.setArrivalLocation(destLoc);
+		}
 
 		if (mStartDate != null) {
 			params.setDepartureDate(mStartDate);
