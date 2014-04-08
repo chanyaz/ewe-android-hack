@@ -1,7 +1,8 @@
 package com.expedia.bookings.fragment;
 
+import java.util.Random;
+
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +21,6 @@ public class TravelocityLauncherFragment extends Fragment {
 	private boolean mLaunchingActivity = false;
 	private ImageView mSlidingImage;
 	private int mCurrentImageIndex = 0;
-	private static final int IMAGE_ROTATION_PERIOD = 8000;
-	private Handler mHandler;
-	private Runnable mUpdateResults;
 
 	public static TravelocityLauncherFragment newInstance() {
 		return new TravelocityLauncherFragment();
@@ -52,13 +50,10 @@ public class TravelocityLauncherFragment extends Fragment {
 		Ui.findView(view, R.id.tvly_flights).setOnClickListener(mHeaderItemOnClickListener);
 		Ui.findView(view, R.id.tvly_hotels).setOnClickListener(mHeaderItemOnClickListener);
 		mSlidingImage = Ui.findView(view, R.id.tvly_home_bg_view);
-		mHandler = new Handler();
-		mUpdateResults = new Runnable() {
-			public void run() {
-				animateAndSlideShow();
-				mHandler.postDelayed(this, IMAGE_ROTATION_PERIOD);
-			}
-		};
+
+		//Randomly select an image to display
+		mCurrentImageIndex = new Random().nextInt(BACKGROUND_RES_IDS.length);
+		mSlidingImage.setImageResource(BACKGROUND_RES_IDS[mCurrentImageIndex]);
 		return view;
 	}
 
@@ -66,18 +61,6 @@ public class TravelocityLauncherFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		mLaunchingActivity = false;
-		mHandler.postDelayed(mUpdateResults, IMAGE_ROTATION_PERIOD);
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		mHandler.removeCallbacks(mUpdateResults);
-	}
-
-	private void animateAndSlideShow() {
-		mCurrentImageIndex = (mCurrentImageIndex + 1) % BACKGROUND_RES_IDS.length;
-		mSlidingImage.setImageResource(BACKGROUND_RES_IDS[mCurrentImageIndex]);
 	}
 
 	private final View.OnClickListener mHeaderItemOnClickListener = new View.OnClickListener() {
