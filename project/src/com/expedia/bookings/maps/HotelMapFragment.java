@@ -173,7 +173,11 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 					Property property = mMarkersToProperties.get(marker);
 
 					TextView name = Ui.findView(v, R.id.hotel_name);
-					name.setText(property.getName());
+					String hotelName = property.getName();
+					if (hotelName.length() > 35) {
+						hotelName = getString(R.string.ellipsize_text_template, hotelName.substring(0, 30));
+					}
+					name.setText(hotelName);
 
 					final int totalReviews = property.getTotalReviews();
 					if (totalReviews == 0) {
