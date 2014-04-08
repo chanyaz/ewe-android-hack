@@ -28,6 +28,6 @@ ssh "buildbot@buildbot.mobiata.com" 'cd /home/buildbot/artifacts ; for i in *.ta
 
 ## Cleanup locally
 rm -rf "spoon"
-rm -f "spoon-unit-*.tar.gz"
+rm -f spoon-unit-*.tar.gz
 
 exit "$SPOON_RESULT"
