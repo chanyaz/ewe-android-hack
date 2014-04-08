@@ -276,15 +276,19 @@ public class BreakdownDialogFragment extends DialogFragment {
 		builder.setTitle(context.getString(R.string.cost_summary));
 		builder.setTitleDivider(Ui.obtainThemeResID(context, R.attr.flightsCostSummaryDialogStripeDrawable));
 
-		int numberOfSeatedTravelers = params.getNumberOfSeatedTravelers();
-		int numAdults = params.getNumAdults();
 		Money totalFarePerTraveler;
 		Money totalBaseFarePerTraveler;
 		Money totalTaxesPerTraveler;
 
+		int numAdultsAdded = 0;
+		int numChildrenAdded = 0;
+		int numInfantsInSeat = 0;
+		int numInfantsInLap = 0;
+
 		int travelerHeaderStringId = 0;
 		int index = 0;
 		boolean throwUnhandledPassengerCatError = false;
+
 		Collections.sort(trip.getPassengers());
 		// Per traveler price
 		for (int i = 0; i < trip.getPassengers().size(); i++) {
@@ -293,17 +297,20 @@ public class BreakdownDialogFragment extends DialogFragment {
 			case ADULT:
 			case SENIOR:
 				travelerHeaderStringId = R.string.add_adult_number_TEMPLATE;
-				index = i + 1;
+				index = ++numAdultsAdded;
 				break;
 			case CHILD:
 			case ADULT_CHILD:
 				travelerHeaderStringId = R.string.add_child_number_TEMPLATE;
-				index = i - numAdults + 1;
+				index = ++numChildrenAdded;
 				break;
 			case INFANT_IN_LAP:
-			case INFANT_IN_SEAT:
 				travelerHeaderStringId = R.string.add_infant_in_lap_number_TEMPLATE;
-				index = i - numberOfSeatedTravelers + 1;
+				index = ++numInfantsInLap;
+				break;
+			case INFANT_IN_SEAT:
+				travelerHeaderStringId = R.string.add_infant_in_seat_number_TEMPLATE;
+				index = ++numInfantsInSeat;
 				break;
 			default:
 				throwUnhandledPassengerCatError = true;
