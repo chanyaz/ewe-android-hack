@@ -1,0 +1,199 @@
+package com.expedia.bookings.fragment;
+
+import org.json.JSONObject;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+
+import com.expedia.bookings.data.FlightSearchHistogramResponse;
+import com.expedia.bookings.data.Location;
+import com.expedia.bookings.server.ExpediaServices;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
+import com.mobiata.android.Log;
+import com.mobiata.android.util.Ui;
+
+public class GdeDownloadFragment extends Fragment {
+
+	private static final String STATE_ORIGIN = "STATE_ORIGIN";
+	private static final String STATE_DESTINATION = "STATE_DESTINATION";
+	private static final String DL_GDE_SEARCH = "DL_FLIGHT_GDE_SEARCH";
+
+	public static GdeDownloadFragment newInstance() {
+		GdeDownloadFragment frag = new GdeDownloadFragment();
+		return frag;
+	}
+
+	private Location mOrigin;
+	private Location mDestination;
+	private ExpediaServices mServices;
+	private ExpediaServicesFragment.ExpediaServicesFragmentListener mListener;
+
+	private boolean mStartOrResumeOnAttach = false;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+
+		if (savedInstanceState != null) {
+			try {
+				if (savedInstanceState.containsKey(STATE_ORIGIN)) {
+					String originStr = savedInstanceState.getString(STATE_ORIGIN);
+					JSONObject originJson = new JSONObject(originStr);
+					Location location = new Location();
+					location.fromJson(originJson);
+					mOrigin = location;
+				}
+				if (savedInstanceState.containsKey(STATE_DESTINATION)) {
+					String destStr = savedInstanceState.getString(STATE_DESTINATION);
+					JSONObject destJson = new JSONObject(destStr);
+					Location location = new Location();
+					location.fromJson(destJson);
+					mDestination = location;
+				}
+			}
+			catch (Exception ex) {
+				Log.w("Exception trying to parse saved search params", ex);
+			}
+		}
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mServices = new ExpediaServices(activity);
+		mListener = Ui.findFragmentListener(this, ExpediaServicesFragment.ExpediaServicesFragmentListener.class);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		if (mStartOrResumeOnAttach && mOrigin != null && mDestination != null) {
+			startOrResumeForRoute(mOrigin, mDestination);
+		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		if (getActivity().isFinishing()) {
+			BackgroundDownloader.getInstance().cancelDownload(DL_GDE_SEARCH);
+		}
+		else {
+			BackgroundDownloader.getInstance().unregisterDownloadCallback(DL_GDE_SEARCH);
+		}
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+
+		mListener = null;
+		mStartOrResumeOnAttach = false;
+		mServices = null;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		if (mOrigin != null) {
+			outState.putString(STATE_ORIGIN, mOrigin.toJson().toString());
+		}
+		if (mDestination != null) {
+			outState.putString(STATE_DESTINATION, mDestination.toJson().toString());
+		}
+	}
+
+	public void startOrResumeForRoute(Location origin, Location destination) {
+		if (mListener == null) {
+			setRoute(origin, destination);
+			mStartOrResumeOnAttach = true;
+		}
+		else {
+			BackgroundDownloader dl = BackgroundDownloader.getInstance();
+			dl.unregisterDownloadCallback(DL_GDE_SEARCH);
+			if (dl.isDownloading(DL_GDE_SEARCH)) {
+				boolean originNew =
+					((mOrigin == null) != (origin == null)) || (mOrigin != null && origin != null && mOrigin
+						.equals(origin));
+				boolean destNew =
+					((mDestination == null) != (destination == null)) || (mDestination != null && destination != null
+						&& mDestination.equals(destination));
+
+				if (origin == null || destination == null || originNew || destNew) {
+					//Something has changed, so we cancel the previous download
+					dl.cancelDownload(DL_GDE_SEARCH);
+
+					setRoute(origin, destination);
+
+					if (origin != null && destination != null && (originNew || destNew)) {
+						//Something has changed and we have valid data, so we kick off the new search
+						startOrRestartGdeSearch();
+					}
+				}
+				else {
+					//Our Locations haven't changed so we just resume the existing dl
+					dl.registerDownloadCallback(DL_GDE_SEARCH, mGdeSearchCallback);
+				}
+			}
+			else {
+				//We weren't downloading, so we should start
+				setRoute(origin, destination);
+				startOrRestartGdeSearch();
+			}
+		}
+	}
+
+
+	public void startGdeSearch() {
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (bd.isDownloading(DL_GDE_SEARCH)) {
+			bd.registerDownloadCallback(DL_GDE_SEARCH, mGdeSearchCallback);
+		}
+		else {
+			bd.startDownload(DL_GDE_SEARCH, mGdeSearchDownload, mGdeSearchCallback);
+		}
+	}
+
+	public void startOrRestartGdeSearch() {
+		BackgroundDownloader dl = BackgroundDownloader.getInstance();
+		dl.unregisterDownloadCallback(DL_GDE_SEARCH);
+		if (dl.isDownloading(DL_GDE_SEARCH)) {
+			dl.cancelDownload(DL_GDE_SEARCH);
+		}
+		dl.startDownload(DL_GDE_SEARCH, mGdeSearchDownload, mGdeSearchCallback);
+	}
+
+	public boolean isDownloadingGdeSearch() {
+		return BackgroundDownloader.getInstance().isDownloading(DL_GDE_SEARCH);
+	}
+
+	protected void setRoute(Location origin, Location destination) {
+		mOrigin = origin;
+		mDestination = destination;
+	}
+
+	// GDE Histogram Download
+	private final Download<FlightSearchHistogramResponse> mGdeSearchDownload = new Download<FlightSearchHistogramResponse>() {
+		@Override
+		public FlightSearchHistogramResponse doDownload() {
+			if (mOrigin != null && mDestination != null) {
+				return mServices.flightSearchHistogram(mOrigin, mDestination);
+			}
+			return null;
+		}
+	};
+
+	private final OnDownloadComplete<FlightSearchHistogramResponse> mGdeSearchCallback = new OnDownloadComplete<FlightSearchHistogramResponse>() {
+		@Override
+		public void onDownload(FlightSearchHistogramResponse results) {
+			mListener.onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.FLIGHT_GDE_SEARCH, results);
+		}
+	};
+
+
+}

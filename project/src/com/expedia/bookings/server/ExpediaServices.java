@@ -954,14 +954,21 @@ public class ExpediaServices implements DownloadListener {
 		return doBasicGetRequest(getGdeEndpointUrl(), query, new FlightSearchHistogramResponseHandler());
 	}
 
+	public FlightSearchHistogramResponse flightSearchHistogram(Location origin, Location destination) {
+		List<BasicNameValuePair> query = generateFlightHistogramParams(origin, destination);
+		return doBasicGetRequest(getGdeEndpointUrl(), query, new FlightSearchHistogramResponseHandler());
+	}
+
 	public List<BasicNameValuePair> generateFlightSearchHistogramParams(FlightSearchParams params) {
+		return generateFlightHistogramParams(params.getDepartureLocation(), params.getArrivalLocation());
+	}
+
+	public List<BasicNameValuePair> generateFlightHistogramParams(Location origin, Location destination) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
-		Location destination = params.getArrivalLocation();
 		String destKey = destination.isMetroCode() ? "tripToMetroAirportCode" : "tripTo";
 		query.add(new BasicNameValuePair(destKey, destination.getDestinationId()));
 
-		Location origin = params.getDepartureLocation();
 		if (origin != null) {
 			String origKey = origin.isMetroCode() ? "tripFromMetroAirportCode" : "tripFrom";
 			query.add(new BasicNameValuePair(origKey, origin.getDestinationId()));
