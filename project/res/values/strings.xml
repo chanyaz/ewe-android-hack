@@ -1264,7 +1264,7 @@
     <!-- Set expiration date button -->
     <string name="btn_set">Set</string>
     <!-- Describes credit card expiration (e.g. "Expires 01/18") -->
-    <string name="Expires_TEMPLATE">Exipres %1$s</string>
+    <string name="Expires_TEMPLATE">Expires %1$s</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
