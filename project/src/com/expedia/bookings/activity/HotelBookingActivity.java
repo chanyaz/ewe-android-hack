@@ -46,6 +46,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	private CVVEntryFragment mCVVEntryFragment;
 	private BookingInProgressDialogFragment mProgressFragment;
 	private HotelBookingFragment mBookingFragment;
+	private ViewGroup mActionBarTextView;
 
 	private boolean mCvvErrorModeEnabled;
 
@@ -74,6 +75,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 		}
 
 		setContentView(R.layout.activity_hotel_booking);
+		mActionBarTextView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_cvv, null);
 
 		setupActionBar(false);
 
@@ -257,10 +259,9 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 			? R.string.title_invalid_security_code
 			: R.string.title_complete_booking;
 
-		ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_cvv, null);
-		((TextView) titleView.findViewById(R.id.title)).setText(titleResId);
+		((TextView) mActionBarTextView.findViewById(R.id.title)).setText(titleResId);
 
-		actionBar.setCustomView(titleView);
+		actionBar.setCustomView(mActionBarTextView);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
