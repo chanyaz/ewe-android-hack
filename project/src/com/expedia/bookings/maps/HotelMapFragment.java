@@ -641,6 +641,11 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	}
 
 	public void onHotelSelected() {
+		for (Marker marker : mMarkersToProperties.keySet()) {
+			if (marker.isInfoWindowShown()) {
+				marker.hideInfoWindow();
+			}
+		}
 		setPadding(mResultsViewWidth, getHeight()
 				- getResources().getDimensionPixelSize(R.dimen.hotels_map_pin_padding), 0, 0);
 		focusProperty(Db.getHotelSearch().getSelectedProperty(), true);
