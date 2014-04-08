@@ -93,6 +93,7 @@ import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
 import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
+import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.facebook.Session;
@@ -534,6 +535,10 @@ public class ExpediaServices implements DownloadListener {
 			addFlightTraveler(query, travelers.get(i), prefix);
 		}
 
+		if (flightBookingHasKids(travelers)) {
+			query.add(new BasicNameValuePair("validateWithChildren", "true"));
+		}
+
 		String nameOnCard = billingInfo.getNameOnCard();
 		if (!TextUtils.isEmpty(nameOnCard)) {
 			query.add(new BasicNameValuePair("nameOnCard", nameOnCard));
@@ -564,6 +569,16 @@ public class ExpediaServices implements DownloadListener {
 	private static boolean suppressFinalHotelBooking(Context context) {
 		return !AndroidUtils.isRelease(context)
 			&& SettingUtils.get(context, context.getString(R.string.preference_suppress_hotel_bookings), true);
+	}
+
+	private static boolean flightBookingHasKids(List<Traveler> travelers) {
+		for(Traveler traveler : travelers) {
+			PassengerCategory category = traveler.getPassengerCategory();
+			if (category != PassengerCategory.ADULT && category != PassengerCategory.SENIOR) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1275,7 +1290,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair(prefix + "lastName", traveler.getLastName()));
 		query.add(new BasicNameValuePair(prefix + "birthDate", dtf.print(traveler.getBirthDate())));
 		query.add(new BasicNameValuePair(prefix + "gender", (traveler.getGender() == Gender.MALE) ? "MALE" : "FEMALE"));
-
+		query.add(new BasicNameValuePair(prefix + "passengerCategory", traveler.getPassengerCategory().toString()));
 		String assistanceOption;
 		if (traveler.getAssistance() != null) {
 			assistanceOption = traveler.getAssistance().name();
