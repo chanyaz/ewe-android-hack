@@ -78,7 +78,7 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 
 		// If necessary, initialize mCheckedNeighborhoods with all neighborhoods checked
 		if (mCheckedNeighborhoods == null) {
-			mCheckedNeighborhoods = new HashSet<Integer>(mAllNeighborhoods);
+			mCheckedNeighborhoods = new HashSet<Integer>();
 		}
 
 		// Initialize all neighborhoods, disabled for now
@@ -167,7 +167,7 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 	};
 
 	private void triggerOnNeighborhoodsChanged() {
-		mListener.onNeighborhoodsChanged(areAllNeighborhoodsChecked() ? null : mCheckedNeighborhoods);
+		mListener.onNeighborhoodsChanged(areAllNeighborhoodsChecked() || mCheckedNeighborhoods.size() == 0 ? null : mCheckedNeighborhoods);
 	}
 
 	private boolean areAllNeighborhoodsChecked() {
