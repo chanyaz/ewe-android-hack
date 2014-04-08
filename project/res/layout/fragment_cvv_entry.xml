@@ -18,15 +18,15 @@
     <FrameLayout
         android:id="@+id/credit_card_section_holder"
         style="@style/CvvScreenCreditCard"
-        android:layout_width="318dp"
-        android:layout_height="219dp" >
+        android:layout_width="@dimen/credit_card_checkout_width"
+        android:layout_height="@dimen/credit_card_checkout_height" >
 
         <!-- Credit card with logo and signature -->
 
         <include
             android:id="@+id/credit_card_section"
-            android:layout_width="318dp"
-            android:layout_height="219dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical|right"
             layout="@layout/section_credit_card" />
 

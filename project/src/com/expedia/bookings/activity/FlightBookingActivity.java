@@ -52,6 +52,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	private CVVEntryFragment mCVVEntryFragment;
 	private BookingInProgressDialogFragment mProgressFragment;
 	private FlightBookingFragment mBookingFragment;
+	private ViewGroup mActionBarTextView;
 
 	private boolean mCvvErrorModeEnabled;
 
@@ -90,6 +91,8 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 
 		ImageView bgImageView = Ui.findView(this, R.id.background_bg_view);
 		ExpediaImageManager.getInstance().setDestinationBitmap(this, bgImageView, Db.getFlightSearch(), true);
+
+		mActionBarTextView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_cvv, null);
 
 		setupActionBar(false);
 
@@ -252,10 +255,9 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			? R.string.title_invalid_security_code
 			: R.string.title_complete_booking;
 
-		ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_cvv, null);
-		((TextView) titleView.findViewById(R.id.title)).setText(titleResId);
+		((TextView) mActionBarTextView.findViewById(R.id.title)).setText(titleResId);
 
-		actionBar.setCustomView(titleView);
+		actionBar.setCustomView(mActionBarTextView);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

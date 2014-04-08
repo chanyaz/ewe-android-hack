@@ -3,8 +3,8 @@
 <com.expedia.bookings.section.CreditCardSection xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/credit_card_section"
-    android:layout_width="318dp"
-    android:layout_height="219dp"
+    android:layout_width="@dimen/credit_card_checkout_width"
+    android:layout_height="@dimen/credit_card_checkout_height"
     android:layout_gravity="right"
     android:background="@drawable/bg_credit_card_back_full"
     android:orientation="vertical" >

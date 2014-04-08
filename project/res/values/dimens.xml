@@ -297,4 +297,8 @@
     <dimen name="tablet_hotel_map_popup_thumbnail_height">126dp</dimen>
     <dimen name="tablet_hotel_map_popup_thumbnail_width">111dp</dimen>
 
+    <!-- Credit card dimens phone -->
+    <dimen name="credit_card_checkout_width">318dp</dimen>
+    <dimen name="credit_card_checkout_height">219dp</dimen>
+
 </resources>
