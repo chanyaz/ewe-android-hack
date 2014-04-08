@@ -24,7 +24,7 @@ SPOON_RESULT=$?
 # Archive to the master
 tar cvzf "$OUTPUT_TAR" 'spoon/unit'
 scp "$OUTPUT_TAR" "buildbot@buildbot.mobiata.com:/home/buildbot/artifacts/."
-ssh "buildbot@buildbot.mobiata.com" 'cd /home/buildbot/artifacts ; for i in *.tar.gz ; do echo Extrating "$i" ; tar xzf "$i" ; rm -f "$i" ; done ;'
+ssh "buildbot@buildbot.mobiata.com" 'cd /home/buildbot/artifacts ; umask 022 ; for i in *.tar.gz ; do echo Extrating "$i" ; tar xzf "$i" ; rm -f "$i" ; done'
 
 ## Cleanup locally
 rm -rf "spoon"
