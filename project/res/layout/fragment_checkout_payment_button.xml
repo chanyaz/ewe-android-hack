@@ -75,7 +75,7 @@
                 android:id="@+id/display_creditcard_expiration_long_form"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#cccccc"
+                android:textColor="#6b6b6b"
                 android:textSize="16sp"
                 app:textStyle="light" />
         </LinearLayout>
