@@ -38,6 +38,8 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 	private CreditCardSection mCreditCardSection;
 
 	private CVVTextView mCVVTextView;
+	private TextView mCVVPromptTextView;
+	private TextView mCVVSubpromptTextView;
 
 	private CreditCardInputSection mCreditCardInputSection;
 
@@ -71,6 +73,8 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		mCreditCardSection = Ui.findView(v, R.id.credit_card_section);
 		mCVVTextView = Ui.findView(v, R.id.cvv_text_view);
 		mCreditCardInputSection = Ui.findView(v, R.id.credit_card_input_section);
+		mCVVPromptTextView = Ui.findView(v, R.id.cvv_prompt_text_view);
+		mCVVSubpromptTextView = Ui.findView(v, R.id.cvv_subprompt_text_view);
 
 		// Set this up to listen to the credit card IME
 		mCreditCardInputSection.setListener(this);
@@ -136,8 +140,6 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 	}
 
 	public void bind() {
-		View v = getView();
-
 		BillingInfo billingInfo = Db.getBillingInfo();
 		if (getArguments() != null && getArguments().containsKey(ARG_BILLING_INFO)) {
 			// If we passed BillingInfo to getInstance, make that sticky.
@@ -164,19 +166,16 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 		//1752. VSC Change cvv prompt text
 		if (ExpediaBookingApp.IS_VSC) {
-			TextView cvvPromptTextView = Ui.findView(v, R.id.cvv_prompt_text_view);
-			cvvPromptTextView.setText(getString(Ui
+			mCVVPromptTextView.setText(getString(Ui
 				.obtainThemeResID(getActivity(), R.attr.cvvEntryExplainationText)));
 		}
 		else {
-			TextView cvvPromptTextView = Ui.findView(v, R.id.cvv_prompt_text_view);
-			cvvPromptTextView.setText(Html.fromHtml(getString(R.string.cvv_code_TEMPLATE, cardName)));
+			mCVVPromptTextView.setText(Html.fromHtml(getString(R.string.cvv_code_TEMPLATE, cardName)));
 		}
 
 		// Subprompt, i.e. "see front/back of card"
-		TextView cvvSubpromptTextView = Ui.findView(v, R.id.cvv_subprompt_text_view);
-		if (cvvSubpromptTextView != null) {
-			cvvSubpromptTextView.setText(
+		if (mCVVSubpromptTextView != null) {
+			mCVVSubpromptTextView.setText(
 				cardType == CreditCardType.AMERICAN_EXPRESS
 					? R.string.See_front_of_card
 					: R.string.See_back_of_card
@@ -190,14 +189,13 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		// A few minor UI tweaks on phone, depending on if amex
 		if (!AndroidUtils.isTablet(getActivity())) {
 			boolean amex = cardType == CreditCardType.AMERICAN_EXPRESS;
-			Ui.findView(v, R.id.cvv_prompt_text_view).setVisibility(amex ? View.GONE : View.VISIBLE);
-			View cvvTextView = Ui.findView(v, R.id.cvv_text_view);
-			FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) cvvTextView.getLayoutParams();
+			mCVVPromptTextView.setVisibility(amex ? View.GONE : View.VISIBLE);
+			FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mCVVTextView.getLayoutParams();
 			int right = amex ? R.dimen.cvv_text_view_right_margin_amex : R.dimen.cvv_text_view_right_margin_other;
 			int top = amex ? R.dimen.cvv_text_view_top_margin_amex : R.dimen.cvv_text_view_top_margin_other;
 			params.rightMargin = getResources().getDimensionPixelOffset(right);
 			params.topMargin = getResources().getDimensionPixelOffset(top);
-			cvvTextView.setLayoutParams(params);
+			mCVVTextView.setLayoutParams(params);
 		}
 
 		// Configure vars that drive this fragment
