@@ -350,12 +350,37 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		int numChildrenAdded = 0;
 		int numInfantsInSeat = 0;
 		int numInfantsInLap = 0;
+		int sectionLabelId;
+		int displayIndex;
 
 		for (int index = 0; index < numTravelers; index++) {
 			Traveler traveler = travelers.get(index);
-			traveler.setPassengerCategory(passengers.get(index).getPassengerCategory());
+			switch (traveler.getPassengerCategory()) {
+			case ADULT:
+			case SENIOR:
+				sectionLabelId = R.string.add_adult_number_TEMPLATE;
+				displayIndex = ++numAdultsAdded;
+				break;
+			case CHILD:
+			case ADULT_CHILD:
+				sectionLabelId = R.string.add_child_number_TEMPLATE;
+				displayIndex = ++numChildrenAdded;
+				break;
+			case INFANT_IN_LAP:
+				sectionLabelId = R.string.add_infant_in_lap_number_TEMPLATE;
+				displayIndex = ++numInfantsInLap;
+				break;
+			case INFANT_IN_SEAT:
+				sectionLabelId = R.string.add_infant_in_seat_number_TEMPLATE;
+				displayIndex = ++numInfantsInSeat;
+				break;
+			default:
+				throw new RuntimeException("Unidentified passenger category");
+			}
+
 			if (traveler != null && state.allTravelerInfoValid(traveler, isInternational)) {
 				// The traveler has information, fill it in
+				// and ignore the sectionLabelId and display index
 				SectionTravelerInfo travelerSection = (SectionTravelerInfo) inflater.inflate(
 					R.layout.section_display_traveler_info_btn, null);
 
@@ -367,8 +392,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 			// This traveler is likely blank, show the empty label, prompt user to fill in
 			else {
-				int sectionLabelId;
-				int displayIndex;
 				View v = inflater.inflate(R.layout.snippet_booking_overview_traveler, null);
 				dressSectionTraveler(v, index);
 
@@ -378,28 +401,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 					tv.setText(R.string.traveler_details);
 				}
 				else {
-					switch (traveler.getPassengerCategory()) {
-						case ADULT:
-						case SENIOR:
-							sectionLabelId = R.string.add_adult_number_TEMPLATE;
-							displayIndex = ++numAdultsAdded;
-							break;
-						case CHILD:
-						case ADULT_CHILD:
-							sectionLabelId = R.string.add_child_number_TEMPLATE;
-							displayIndex = ++numChildrenAdded;
-							break;
-						case INFANT_IN_LAP:
-							sectionLabelId = R.string.add_infant_in_seat_number_TEMPLATE;
-							displayIndex = ++numInfantsInLap;
-							break;
-						case INFANT_IN_SEAT:
-							sectionLabelId = R.string.add_infant_in_lap_number_TEMPLATE;
-							displayIndex = ++numInfantsInSeat;
-							break;
-						default:
-							throw new RuntimeException("Unidentified passenger category");
-					}
 					tv.setText(getString(sectionLabelId, displayIndex));
 				}
 				mAddTravelerSections.add(v);
