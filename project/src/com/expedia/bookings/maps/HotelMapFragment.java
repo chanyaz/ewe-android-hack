@@ -185,7 +185,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 					}
 					else {
 						RatingBar ratingBar = Ui.findView(v, R.id.hotel_user_rating);
-						ratingBar.setRating((float) property.getHotelRating());
+						ratingBar.setRating((float) property.getAverageExpediaRating());
 
 						TextView numReviews = Ui.findView(v, R.id.hotel_number_reviews);
 						numReviews.setText(getString(R.string.n_reviews_TEMPLATE, totalReviews));
