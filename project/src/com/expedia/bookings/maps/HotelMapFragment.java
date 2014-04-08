@@ -444,12 +444,12 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 
 		Marker actualMarker = mMap.addMarker(marker);
 
+		mPropertiesToMarkers.put(property, actualMarker);
+		mMarkersToProperties.put(actualMarker, property);
+
 		if (mInstanceInfoWindowShowing != null && mInstanceInfoWindowShowing.equals(property.getPropertyId())) {
 			actualMarker.showInfoWindow();
 		}
-
-		mPropertiesToMarkers.put(property, actualMarker);
-		mMarkersToProperties.put(actualMarker, property);
 	}
 
 	public void notifyFilterChanged() {
