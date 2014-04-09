@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.AssociateUserToTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.fragment.LoginExtender;
@@ -57,8 +58,9 @@ public class UserToTripAssocLoginExtender extends LoginExtender {
 			bd.registerDownloadCallback(NET_ASSOCIATE_USER_TO_TRIP, mAssociateUserAndTripCompleteHandler);
 		}
 
-		setExtenderStatus(mContext.getString(R.string.loading_your_rewards_points));
-
+		if(ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
+			setExtenderStatus(mContext.getString(R.string.loading_your_rewards_points));
+		}
 	}
 
 	@Override
@@ -87,7 +89,7 @@ public class UserToTripAssocLoginExtender extends LoginExtender {
 	private OnDownloadComplete<AssociateUserToTripResponse> mAssociateUserAndTripCompleteHandler = new OnDownloadComplete<AssociateUserToTripResponse>() {
 		@Override
 		public void onDownload(AssociateUserToTripResponse results) {
-			if (results != null && results.isSuccess() && !TextUtils.isEmpty(results.getRewardsPoints())) {
+			if (results != null && results.isSuccess()) {
 				Db.getFlightSearch().getSelectedFlightTrip().setRewardsPoints(results.getRewardsPoints());
 			}
 			else {
