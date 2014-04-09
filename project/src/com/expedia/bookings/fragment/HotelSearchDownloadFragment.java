@@ -158,7 +158,13 @@ public class HotelSearchDownloadFragment extends Fragment {
 	private final BackgroundDownloader.OnDownloadComplete<HotelSearchResponse> mSearchCallback = new BackgroundDownloader.OnDownloadComplete<HotelSearchResponse>() {
 		@Override
 		public void onDownload(HotelSearchResponse results) {
-			mListener.onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.HOTEL_SEARCH, results);
+			if (mListener != null && getActivity() != null) {
+				mListener.onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.HOTEL_SEARCH, results);
+			}
+			else {
+				Log.e("Our HotelSearch returned, but we cannot use it. mListener == null:" + (mListener == null)
+					+ " getActivity() == null:" + (getActivity() == null));
+			}
 		}
 	};
 

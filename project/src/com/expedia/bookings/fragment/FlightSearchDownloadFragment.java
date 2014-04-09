@@ -171,7 +171,14 @@ public class FlightSearchDownloadFragment extends Fragment {
 	private final OnDownloadComplete<FlightSearchResponse> mSearchCallback = new OnDownloadComplete<FlightSearchResponse>() {
 		@Override
 		public void onDownload(FlightSearchResponse results) {
-			mListener.onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.FLIGHT_SEARCH, results);
+			if (mListener != null && getActivity() != null) {
+				mListener.onExpediaServicesDownload(ExpediaServicesFragment.ServiceType.FLIGHT_SEARCH, results);
+			}
+			else {
+				Log.e("Our FlightSearch returned, but we cannot use it. mListener == null:" + (mListener == null)
+					+ " getActivity() == null:" + (getActivity() == null));
+			}
+
 		}
 	};
 
