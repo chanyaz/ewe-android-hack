@@ -16,6 +16,7 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.renderscript.ScriptIntrinsicColorMatrix;
 import android.renderscript.Type;
 
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.TimingLogger;
 
@@ -150,159 +151,171 @@ public class BitmapUtils {
 
 		tictoc.addSplit("Variable setup");
 
-		for (y = 0; y < h; y++) {
-			rinsum = ginsum = binsum = routsum = goutsum = boutsum = rsum = gsum = bsum = 0;
-			for (i = -radius; i <= radius; i++) {
-				p = pix[yi + Math.min(wm, Math.max(i, 0))];
-				sir = stack[i + radius];
-				sir[0] = (p & 0xff0000) >> 16;
-				sir[1] = (p & 0x00ff00) >> 8;
-				sir[2] = (p & 0x0000ff);
-				rbs = r1 - Math.abs(i);
-				rsum += sir[0] * rbs;
-				gsum += sir[1] * rbs;
-				bsum += sir[2] * rbs;
-				if (i > 0) {
-					rinsum += sir[0];
-					ginsum += sir[1];
-					binsum += sir[2];
-				}
-				else {
-					routsum += sir[0];
-					goutsum += sir[1];
-					boutsum += sir[2];
-				}
-			}
-			stackpointer = radius;
-
-			for (x = 0; x < w; x++) {
-
-				r[yi] = dv[rsum];
-				g[yi] = dv[gsum];
-				b[yi] = dv[bsum];
-
-				rsum -= routsum;
-				gsum -= goutsum;
-				bsum -= boutsum;
-
-				stackstart = stackpointer - radius + div;
-				sir = stack[stackstart % div];
-
-				routsum -= sir[0];
-				goutsum -= sir[1];
-				boutsum -= sir[2];
-
-				if (y == 0) {
-					vmin[x] = Math.min(x + radius + 1, wm);
-				}
-				p = pix[yw + vmin[x]];
-
-				sir[0] = (p & 0xff0000) >> 16;
-				sir[1] = (p & 0x00ff00) >> 8;
-				sir[2] = (p & 0x0000ff);
-
-				rinsum += sir[0];
-				ginsum += sir[1];
-				binsum += sir[2];
-
-				rsum += rinsum;
-				gsum += ginsum;
-				bsum += binsum;
-
-				stackpointer = (stackpointer + 1) % div;
-				sir = stack[(stackpointer) % div];
-
-				routsum += sir[0];
-				goutsum += sir[1];
-				boutsum += sir[2];
-
-				rinsum -= sir[0];
-				ginsum -= sir[1];
-				binsum -= sir[2];
-
-				yi++;
-			}
-			yw += w;
-		}
-		for (x = 0; x < w; x++) {
-			rinsum = ginsum = binsum = routsum = goutsum = boutsum = rsum = gsum = bsum = 0;
-			yp = -radius * w;
-			for (i = -radius; i <= radius; i++) {
-				yi = Math.max(0, yp) + x;
-
-				sir = stack[i + radius];
-
-				sir[0] = r[yi];
-				sir[1] = g[yi];
-				sir[2] = b[yi];
-
-				rbs = r1 - Math.abs(i);
-
-				rsum += r[yi] * rbs;
-				gsum += g[yi] * rbs;
-				bsum += b[yi] * rbs;
-
-				if (i > 0) {
-					rinsum += sir[0];
-					ginsum += sir[1];
-					binsum += sir[2];
-				}
-				else {
-					routsum += sir[0];
-					goutsum += sir[1];
-					boutsum += sir[2];
-				}
-
-				if (i < hm) {
-					yp += w;
-				}
-			}
-			yi = x;
-			stackpointer = radius;
+		try {
 			for (y = 0; y < h; y++) {
-				pix[yi] = 0xff000000 | (dv[rsum] << 16) | (dv[gsum] << 8) | dv[bsum];
-
-				rsum -= routsum;
-				gsum -= goutsum;
-				bsum -= boutsum;
-
-				stackstart = stackpointer - radius + div;
-				sir = stack[stackstart % div];
-
-				routsum -= sir[0];
-				goutsum -= sir[1];
-				boutsum -= sir[2];
-
-				if (x == 0) {
-					vmin[y] = Math.min(y + r1, hm) * w;
+				rinsum = ginsum = binsum = routsum = goutsum = boutsum = rsum = gsum = bsum = 0;
+				for (i = -radius; i <= radius; i++) {
+					p = pix[yi + Math.min(wm, Math.max(i, 0))];
+					sir = stack[i + radius];
+					sir[0] = (p & 0xff0000) >> 16;
+					sir[1] = (p & 0x00ff00) >> 8;
+					sir[2] = (p & 0x0000ff);
+					rbs = r1 - Math.abs(i);
+					rsum += sir[0] * rbs;
+					gsum += sir[1] * rbs;
+					bsum += sir[2] * rbs;
+					if (i > 0) {
+						rinsum += sir[0];
+						ginsum += sir[1];
+						binsum += sir[2];
+					}
+					else {
+						routsum += sir[0];
+						goutsum += sir[1];
+						boutsum += sir[2];
+					}
 				}
-				p = x + vmin[y];
+				stackpointer = radius;
 
-				sir[0] = r[p];
-				sir[1] = g[p];
-				sir[2] = b[p];
+				for (x = 0; x < w; x++) {
 
-				rinsum += sir[0];
-				ginsum += sir[1];
-				binsum += sir[2];
+					r[yi] = dv[rsum];
+					g[yi] = dv[gsum];
+					b[yi] = dv[bsum];
 
-				rsum += rinsum;
-				gsum += ginsum;
-				bsum += binsum;
+					rsum -= routsum;
+					gsum -= goutsum;
+					bsum -= boutsum;
 
-				stackpointer = (stackpointer + 1) % div;
-				sir = stack[stackpointer];
+					stackstart = stackpointer - radius + div;
+					sir = stack[stackstart % div];
 
-				routsum += sir[0];
-				goutsum += sir[1];
-				boutsum += sir[2];
+					routsum -= sir[0];
+					goutsum -= sir[1];
+					boutsum -= sir[2];
 
-				rinsum -= sir[0];
-				ginsum -= sir[1];
-				binsum -= sir[2];
+					if (y == 0) {
+						vmin[x] = Math.min(x + radius + 1, wm);
+					}
+					p = pix[yw + vmin[x]];
 
-				yi += w;
+					sir[0] = (p & 0xff0000) >> 16;
+					sir[1] = (p & 0x00ff00) >> 8;
+					sir[2] = (p & 0x0000ff);
+
+					rinsum += sir[0];
+					ginsum += sir[1];
+					binsum += sir[2];
+
+					rsum += rinsum;
+					gsum += ginsum;
+					bsum += binsum;
+
+					stackpointer = (stackpointer + 1) % div;
+					sir = stack[(stackpointer) % div];
+
+					routsum += sir[0];
+					goutsum += sir[1];
+					boutsum += sir[2];
+
+					rinsum -= sir[0];
+					ginsum -= sir[1];
+					binsum -= sir[2];
+
+					yi++;
+				}
+				yw += w;
 			}
+		}
+		catch (ArrayIndexOutOfBoundsException e) {
+			// Genymotion likes to throw this due to some bug in creating bitmaps
+			Log.e("stackBlurAndDarkenJava threw exception", e);
+		}
+		try {
+			for (x = 0; x < w; x++) {
+				rinsum = ginsum = binsum = routsum = goutsum = boutsum = rsum = gsum = bsum = 0;
+				yp = -radius * w;
+				for (i = -radius; i <= radius; i++) {
+					yi = Math.max(0, yp) + x;
+
+					sir = stack[i + radius];
+
+					sir[0] = r[yi];
+					sir[1] = g[yi];
+					sir[2] = b[yi];
+
+					rbs = r1 - Math.abs(i);
+
+					rsum += r[yi] * rbs;
+					gsum += g[yi] * rbs;
+					bsum += b[yi] * rbs;
+
+					if (i > 0) {
+						rinsum += sir[0];
+						ginsum += sir[1];
+						binsum += sir[2];
+					}
+					else {
+						routsum += sir[0];
+						goutsum += sir[1];
+						boutsum += sir[2];
+					}
+
+					if (i < hm) {
+						yp += w;
+					}
+				}
+				yi = x;
+				stackpointer = radius;
+				for (y = 0; y < h; y++) {
+					pix[yi] = 0xff000000 | (dv[rsum] << 16) | (dv[gsum] << 8) | dv[bsum];
+
+					rsum -= routsum;
+					gsum -= goutsum;
+					bsum -= boutsum;
+
+					stackstart = stackpointer - radius + div;
+					sir = stack[stackstart % div];
+
+					routsum -= sir[0];
+					goutsum -= sir[1];
+					boutsum -= sir[2];
+
+					if (x == 0) {
+						vmin[y] = Math.min(y + r1, hm) * w;
+					}
+					p = x + vmin[y];
+
+					sir[0] = r[p];
+					sir[1] = g[p];
+					sir[2] = b[p];
+
+					rinsum += sir[0];
+					ginsum += sir[1];
+					binsum += sir[2];
+
+					rsum += rinsum;
+					gsum += ginsum;
+					bsum += binsum;
+
+					stackpointer = (stackpointer + 1) % div;
+					sir = stack[stackpointer];
+
+					routsum += sir[0];
+					goutsum += sir[1];
+					boutsum += sir[2];
+
+					rinsum -= sir[0];
+					ginsum -= sir[1];
+					binsum -= sir[2];
+
+					yi += w;
+				}
+			}
+		}
+		catch (ArrayIndexOutOfBoundsException e) {
+			// Genymotion likes to throw this due to some bug in creating bitmaps
+			Log.e("stackBlurAndDarkenJava threw exception", e);
 		}
 		tictoc.addSplit("Blur");
 
