@@ -645,9 +645,9 @@
     <string name="car_category_oversize">オーバーサイズカー</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア自動車</string>
-    <string name="car_type_three_door">3 ドア自動車</string>
-    <string name="car_type_four_door">4 ドア自動車</string>
+    <string name="car_type_two_door">2 ドア 自動車</string>
+    <string name="car_type_three_door">3 ドア 自動車</string>
+    <string name="car_type_four_door">4 ドア 自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -1144,6 +1144,8 @@
     <string name="log_out">ログアウト</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">今回の旅行で %1$s ポイント取得します !</string>
+    <!-- Blurb text displayed on account login button when already logged in -->
+    <string name="x_points_for_this_trip_TEMPLATE">今回の旅行で %1$s ポイント取得 !</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">今回のご予約で、ボーナス ポイントを取得します !</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2048,6 +2050,8 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to log into account -->
     <string name="log_in">ログイン</string>
+    <!-- Login blurb: descriptive second line of text on login button on larger screens -->
+    <string name="Earn_points_and_book_fast">ポイントを獲得してすばやく予約</string>
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">パスワード</string>
     <!-- Progress dialog text when we are logging the user into Expedia -->
@@ -2097,7 +2101,7 @@
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
     <string name="coupon_error_no_code">申し訳ありません。クーポンをご利用いただけせん。</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">申し訳ありません。このクーポン コードは存在しません.</string>
+    <string name="coupon_error_unrecognized">申し訳ありません。このクーポン コードは無効です。</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">申し訳ありません。このクーポンの有効期限が過ぎています.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
@@ -2122,6 +2126,8 @@
     <string name="coupon_error_hotel_excluded">申し訳ありません。このホテルではクーポンをご利用いただけません.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">申し訳ありません。現在クーポンを処理できません。もう一度お試しください。</string>
+    <!-- Error when applying coupon - session timeout -->
+    <string name="coupon_error_service_timeout">申し訳ありません。クーポンコードの適用に時間がかかりすぎました。もう一度お試しください。</string>
 
     <!-- Sharing bookings via email -->
     <!-- Number of adults label -->
@@ -3043,17 +3049,23 @@
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">ホテルのご予約が完了しました !</string>
-    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date, %4$s is no of guests-->
-    <string name="tablet_confirmation_summary">%1$sに %2$s まで %3$s 名様でご宿泊</string>
+    <!-- Header text to indicating booking confirmed for flight -->
+    <string name="tablet_confirmation_flight_booked">フライトのご予約が完了しました !</string>
+    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
+    <string name="tablet_confirmation_summary">%1$s, %2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
     <string name="tablet_itinerary_confirmation_TEMPLATE">旅程番号 %1$s が %2$s に送信されます</string>
-    <!-- Share button text -->
-    <string name="tablet_confirmation_share">宿泊をシェア</string>
+    <!-- Share button text for hotels -->
+    <string name="tablet_confirmation_share_hotel">宿泊をシェア</string>
+    <!-- Share button text for flights -->
+    <string name="tablet_confirmation_share_flight">フライトをシェア</string>
     <!-- Call support button text -->
     <string name="tablet_confirmation_call_support">電話で問合せ</string>
     <!-- Book Next Item button text -->
     <string name="tablet_confirmation_book_next">次のアイテムを予約する</string>
     <!-- Done Booking button text -->
     <string name="tablet_confirmation_done_booking">予約完了</string>
+    <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->
+    <string name="tablet_confirmation_flights_from_to">%1$s → %2$s</string>
 
 </resources>

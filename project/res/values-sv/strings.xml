@@ -898,7 +898,7 @@
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">Returflyg till %s</string>
     <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">Vi kunde tyvärr inte ansluta till Expedias servrar. Vänligen försök senare.</string>
+    <string name="error_server">Vi kunde tyvärr inte ansluta till Expedias servrar. Försök igen senare.</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">Avgår</string>
     <!-- Sort by arrival time label -->
@@ -1144,6 +1144,8 @@
     <string name="log_out">Logga ut</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Du samlar %1$s poäng på den här resan!</string>
+    <!-- Blurb text displayed on account login button when already logged in -->
+    <string name="x_points_for_this_trip_TEMPLATE">%1$s poäng för den här resan!</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">Du kommer att tjäna bonuspoäng med den här bokningen</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2048,6 +2050,8 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to log into account -->
     <string name="log_in">Logga in</string>
+    <!-- Login blurb: descriptive second line of text on login button on larger screens -->
+    <string name="Earn_points_and_book_fast">Tjäna poäng och boka snabbt.</string>
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">Lösenord</string>
     <!-- Progress dialog text when we are logging the user into Expedia -->
@@ -2097,7 +2101,7 @@
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
     <string name="coupon_error_no_code">Tyvärr kan kupongen inte användas.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Tyvärr känner vi inte igen kupongkoden.</string>
+    <string name="coupon_error_unrecognized">Tyvärr är inte kupongkoden giltig.</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Tyvärr har kupongen gått ut.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
@@ -2122,6 +2126,8 @@
     <string name="coupon_error_hotel_excluded">Det här hotellet accepterar tyvärr inte kuponger.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">Vi kan tyvärr inte tillämpa kuponger just nu. Försök igen.</string>
+    <!-- Error when applying coupon - session timeout -->
+    <string name="coupon_error_service_timeout">Tyvärr tog det för lång tid att tillämpa koden. Försök igen.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Number of adults label -->
@@ -3043,17 +3049,23 @@
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">Ditt hotell är bokat!</string>
-    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date, %4$s is no of guests-->
-    <string name="tablet_confirmation_summary">%1$s, %2$s för %3$s</string>
+    <!-- Header text to indicating booking confirmed for flight -->
+    <string name="tablet_confirmation_flight_booked">Ditt flyg är bokat!</string>
+    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
+    <string name="tablet_confirmation_summary">%1$s, %2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
     <string name="tablet_itinerary_confirmation_TEMPLATE">Resplansnummer %1$s skickades till %2$s</string>
-    <!-- Share button text -->
-    <string name="tablet_confirmation_share">Dela vistelse</string>
+    <!-- Share button text for hotels -->
+    <string name="tablet_confirmation_share_hotel">Dela vistelse</string>
+    <!-- Share button text for flights -->
+    <string name="tablet_confirmation_share_flight">Dela flyg</string>
     <!-- Call support button text -->
     <string name="tablet_confirmation_call_support">Ring kundtjänst</string>
     <!-- Book Next Item button text -->
     <string name="tablet_confirmation_book_next">Fortsätt boka</string>
     <!-- Done Booking button text -->
     <string name="tablet_confirmation_done_booking">Färdigbokad</string>
+    <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->
+    <string name="tablet_confirmation_flights_from_to">%1$s till %2$s</string>
 
 </resources>

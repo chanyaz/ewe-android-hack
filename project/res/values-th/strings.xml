@@ -1144,6 +1144,8 @@
     <string name="log_out">ออกจากระบบ</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">คุณจะได้รับ %1$s คะแนนจากทริปนี้!</string>
+    <!-- Blurb text displayed on account login button when already logged in -->
+    <string name="x_points_for_this_trip_TEMPLATE">%1$s คะแนนสำหรับการเดินทางนี้!</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">คุณจะได้รับคะแนนจากการจองนี้!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2048,6 +2050,8 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to log into account -->
     <string name="log_in">เข้าสู่ระบบ</string>
+    <!-- Login blurb: descriptive second line of text on login button on larger screens -->
+    <string name="Earn_points_and_book_fast">รับคะแนนสะสมและจองได้เร็วยิ่งขึ้น</string>
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">รหัสผ่าน</string>
     <!-- Progress dialog text when we are logging the user into Expedia -->
@@ -2097,7 +2101,7 @@
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
     <string name="coupon_error_no_code">ขออภัย ไม่สามารถใช้คูปองได้</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">ขออภัย ระบบไม่พบรหัสคูปองนี้</string>
+    <string name="coupon_error_unrecognized">ขออภัย รหัสคูปองนี้ไม่ถูกต้อง</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">ขออภัย คูปองนี้หมดอายุแล้ว</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
@@ -2122,6 +2126,8 @@
     <string name="coupon_error_hotel_excluded">ขออภัย โรงแรมนี้ไม่รับคูปอง</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">ขออภัย เราไม่สามารถดำเนินการใช้คูปองได้ในขณะนี้ โปรดลองใหม่อีกครั้ง</string>
+    <!-- Error when applying coupon - session timeout -->
+    <string name="coupon_error_service_timeout">ขออภัย คุณใช้เวลาในการใช้รหัสนานเกินไป โปรดลองใหม่อีกครั้ง</string>
 
     <!-- Sharing bookings via email -->
     <!-- Number of adults label -->
@@ -3043,17 +3049,23 @@
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">คุณได้จองโรงแรมแล้ว!</string>
-    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date, %4$s is no of guests-->
-    <string name="tablet_confirmation_summary">%1$s, %2$s สำหรับ %3$s</string>
+    <!-- Header text to indicating booking confirmed for flight -->
+    <string name="tablet_confirmation_flight_booked">จองเที่ยวบินของคุณแล้ว!</string>
+    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
+    <string name="tablet_confirmation_summary">%1$s, %2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
     <string name="tablet_itinerary_confirmation_TEMPLATE">ส่งหมายเลขการเดินทาง %1$s ไปยัง %2$s</string>
-    <!-- Share button text -->
-    <string name="tablet_confirmation_share">แชร์การเข้าพัก</string>
+    <!-- Share button text for hotels -->
+    <string name="tablet_confirmation_share_hotel">แชร์การเข้าพัก</string>
+    <!-- Share button text for flights -->
+    <string name="tablet_confirmation_share_flight">แชร์เที่ยวบิน</string>
     <!-- Call support button text -->
     <string name="tablet_confirmation_call_support">โทรหาฝ่ายบริการลูกค้า</string>
     <!-- Book Next Item button text -->
     <string name="tablet_confirmation_book_next">จองรายการถัดไป</string>
     <!-- Done Booking button text -->
     <string name="tablet_confirmation_done_booking">จองเสร็จแล้ว</string>
+    <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->
+    <string name="tablet_confirmation_flights_from_to">%1$s ไปยัง %2$s</string>
 
 </resources>

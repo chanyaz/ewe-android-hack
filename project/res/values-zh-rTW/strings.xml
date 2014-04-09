@@ -1144,6 +1144,8 @@
     <string name="log_out">登出</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">此趟旅程您將可獲得 %1$s 點！</string>
+    <!-- Blurb text displayed on account login button when already logged in -->
+    <string name="x_points_for_this_trip_TEMPLATE">此行程可獲得 %1$s 點！</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">此次預訂您將可獲得額外獎勵點數！</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2048,6 +2050,8 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to log into account -->
     <string name="log_in">登入</string>
+    <!-- Login blurb: descriptive second line of text on login button on larger screens -->
+    <string name="Earn_points_and_book_fast">賺取點數，同時加快預訂速度。</string>
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">密碼</string>
     <!-- Progress dialog text when we are logging the user into Expedia -->
@@ -2097,9 +2101,9 @@
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
     <string name="coupon_error_no_code">很抱歉，無法套用此優惠代碼。</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">很抱歉，這不是有效的優惠代碼。</string>
+    <string name="coupon_error_unrecognized">很抱歉，此優惠代碼無效。</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">很抱歉，此優惠券已經過期。</string>
+    <string name="coupon_error_expired">很抱歉，此優惠代碼已經過期。</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">很抱歉，系統出現問題。請再試一次。</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
@@ -2122,6 +2126,8 @@
     <string name="coupon_error_hotel_excluded">很抱歉，此飯店不接受優惠券。</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">很抱歉，目前無法處理優惠券。請再試一次。</string>
+    <!-- Error when applying coupon - session timeout -->
+    <string name="coupon_error_service_timeout">很抱歉，套用優惠代碼的時間太長。請再試一次。</string>
 
     <!-- Sharing bookings via email -->
     <!-- Number of adults label -->
@@ -3043,17 +3049,23 @@
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">飯店預訂完成！</string>
-    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date, %4$s is no of guests-->
-    <string name="tablet_confirmation_summary">%1$s，%2$s，入住人數：%3$s</string>
+    <!-- Header text to indicating booking confirmed for flight -->
+    <string name="tablet_confirmation_flight_booked">您的班機預訂完成！</string>
+    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
+    <string name="tablet_confirmation_summary">%1$s, %2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
     <string name="tablet_itinerary_confirmation_TEMPLATE">行程編號 %1$s 已傳送到%2$s</string>
-    <!-- Share button text -->
-    <string name="tablet_confirmation_share">分享住宿資訊</string>
+    <!-- Share button text for hotels -->
+    <string name="tablet_confirmation_share_hotel">分享住宿資訊</string>
+    <!-- Share button text for flights -->
+    <string name="tablet_confirmation_share_flight">分享班機資訊</string>
     <!-- Call support button text -->
     <string name="tablet_confirmation_call_support">聯絡客服中心</string>
     <!-- Book Next Item button text -->
     <string name="tablet_confirmation_book_next">預訂下一個項目</string>
     <!-- Done Booking button text -->
     <string name="tablet_confirmation_done_booking">完成預訂</string>
+    <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->
+    <string name="tablet_confirmation_flights_from_to">%1$s到%2$s</string>
 
 </resources>

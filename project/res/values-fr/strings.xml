@@ -1144,6 +1144,8 @@
     <string name="log_out">Se déconnecter</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Vous gagnerez %1$s points avec ce voyage !</string>
+    <!-- Blurb text displayed on account login button when already logged in -->
+    <string name="x_points_for_this_trip_TEMPLATE">%1$s points pour ce voyage !</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">Vous gagnerez des points de bonus avec cette réservation</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2048,6 +2050,8 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to log into account -->
     <string name="log_in">Se connecter</string>
+    <!-- Login blurb: descriptive second line of text on login button on larger screens -->
+    <string name="Earn_points_and_book_fast">Gagnez des points et réservez rapidement.</string>
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">Mot de passe</string>
     <!-- Progress dialog text when we are logging the user into Expedia -->
@@ -2097,7 +2101,7 @@
     <!-- Generic error when applying coupon, but we didn't get an error code back -->
     <string name="coupon_error_no_code">Désolés, ce bon de réduction n\&apos;est pas applicable.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Désolé, ce code promotionnel est inconnu.</string>
+    <string name="coupon_error_unrecognized">Désolé, ce bon de réduction n\&apos;est pas valide.</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Désolé, ce bon de réduction a expiré.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
@@ -2122,6 +2126,8 @@
     <string name="coupon_error_hotel_excluded">Désolé, cet hôtel n\&apos;accepte pas les bons de réduction.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">Désolé, nous ne sommes pas en mesure d\&apos;accepter les bons de réduction pour le moment. Veuillez réessayer.</string>
+    <!-- Error when applying coupon - session timeout -->
+    <string name="coupon_error_service_timeout">Désolé, l\&apos;application du bon de réduction a pris trop longtemps. Veuillez réessayer.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Number of adults label -->
@@ -3043,17 +3049,23 @@
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">Votre hôtel est réservé !</string>
-    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date, %4$s is no of guests-->
-    <string name="tablet_confirmation_summary">%1$s, %2$s pour %3$s</string>
+    <!-- Header text to indicating booking confirmed for flight -->
+    <string name="tablet_confirmation_flight_booked">Votre vol est réservé !</string>
+    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
+    <string name="tablet_confirmation_summary">%1$s, %2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
     <string name="tablet_itinerary_confirmation_TEMPLATE">Voyage n° %1$s envoyé à %2$s</string>
-    <!-- Share button text -->
-    <string name="tablet_confirmation_share">Partager le séjour</string>
+    <!-- Share button text for hotels -->
+    <string name="tablet_confirmation_share_hotel">Partager le séjour</string>
+    <!-- Share button text for flights -->
+    <string name="tablet_confirmation_share_flight">Partager vol</string>
     <!-- Call support button text -->
     <string name="tablet_confirmation_call_support">Assistance</string>
     <!-- Book Next Item button text -->
     <string name="tablet_confirmation_book_next">Réserver l\&apos;article suivant</string>
     <!-- Done Booking button text -->
     <string name="tablet_confirmation_done_booking">Fin de la réservation</string>
+    <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->
+    <string name="tablet_confirmation_flights_from_to">%1$s à %2$s</string>
 
 </resources>

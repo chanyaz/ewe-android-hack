@@ -1144,6 +1144,8 @@
     <string name="log_out">Abmelden</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Für diese Reise erhalten Sie %1$s Punkte!</string>
+    <!-- Blurb text displayed on account login button when already logged in -->
+    <string name="x_points_for_this_trip_TEMPLATE">%1$s Punkte für diese Reise!</string>
     <!-- You'll earn bonus points for this booking -->
     <string name="youll_earn_bonus_points_for_this_booking">Für diese Reise gibt es Bonuspunkte</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2049,6 +2051,8 @@
     <!-- Expedia Accounts -->
     <!-- Label for menu item to log into account -->
     <string name="log_in">Anmelden</string>
+    <!-- Login blurb: descriptive second line of text on login button on larger screens -->
+    <string name="Earn_points_and_book_fast">Sammeln Sie Punkte und buchen Sie noch schneller!</string>
     <!-- Hint for user to enter password into a field -->
     <string name="hint_password">Passwort</string>
     <!-- Progress dialog text when we are logging the user into Expedia -->
@@ -2123,6 +2127,8 @@
     <string name="coupon_error_hotel_excluded">Leider akzeptiert dieses Hotel keine Gutscheine.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">Leider können wir im Moment keine Gutscheine verarbeiten.  Bitte versuchen Sie es erneut.</string>
+    <!-- Error when applying coupon - session timeout -->
+    <string name="coupon_error_service_timeout">Leider hat das Einlösen des Gutscheins zu lange gedauert. Bitte versuchen Sie es erneut.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Number of adults label -->
@@ -3044,17 +3050,23 @@
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">Ihr Hotel ist gebucht!</string>
-    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date, %4$s is no of guests-->
-    <string name="tablet_confirmation_summary">%1$s, %2$s für %3$s</string>
+    <!-- Header text to indicating booking confirmed for flight -->
+    <string name="tablet_confirmation_flight_booked">Ihr Flug ist gebucht!</string>
+    <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
+    <string name="tablet_confirmation_summary">%1$s, %2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
     <string name="tablet_itinerary_confirmation_TEMPLATE">Reiseplannr. %1$s versendet an %2$s</string>
-    <!-- Share button text -->
-    <string name="tablet_confirmation_share">Aufenthalt teilen</string>
+    <!-- Share button text for hotels -->
+    <string name="tablet_confirmation_share_hotel">Aufenthalt teilen</string>
+    <!-- Share button text for flights -->
+    <string name="tablet_confirmation_share_flight">Flug teilen</string>
     <!-- Call support button text -->
     <string name="tablet_confirmation_call_support">Kundenservice</string>
     <!-- Book Next Item button text -->
     <string name="tablet_confirmation_book_next">Nächste Buchung</string>
     <!-- Done Booking button text -->
     <string name="tablet_confirmation_done_booking">Fertig mit buchen</string>
+    <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->
+    <string name="tablet_confirmation_flights_from_to">%1$s bis %2$s</string>
 
 </resources>
