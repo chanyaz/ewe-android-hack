@@ -13,7 +13,7 @@ import com.mobiata.android.json.JSONable;
  * A class for encapsulating both a child's age and whether or not he
  * is going to use an airplane seat.
  */
-public class ChildTraveler implements JSONable, Parcelable {
+public class ChildTraveler implements JSONable, Parcelable, Comparable<ChildTraveler> {
 
 	private int mAge;
 	private boolean mUsingSeat;
@@ -86,4 +86,13 @@ public class ChildTraveler implements JSONable, Parcelable {
 		TextUtils.writeToParcel(Integer.toString(mAge), dest, flags);
 		TextUtils.writeToParcel(Boolean.toString(mUsingSeat), dest, flags);
 	}
+
+	// Comparator
+	// We want to compare by age
+
+	@Override
+	public int compareTo(ChildTraveler another) {
+		return this.getAge() - another.getAge();
+	}
+
 }

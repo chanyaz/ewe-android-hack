@@ -51,6 +51,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private SeatPreference mSeatPreference = SeatPreference.WINDOW;
 	private AssistanceType mAssistance = AssistanceType.NONE;
 	private PassengerCategory mPassengerCategory;
+	private int mSearchedAge;
 
 	// Activities
 	private boolean mIsRedeemer;
@@ -347,6 +348,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return mIsRedeemer;
 	}
 
+	public int getSearchedAge() {
+		return mSearchedAge;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Setters
 
@@ -473,6 +478,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mFromGoogleWallet = fromGoogleWallet;
 	}
 
+	public void setSearchedAge(int searchedAge) {
+		mSearchedAge = searchedAge;
+	}
+
 	public boolean fromGoogleWallet() {
 		return mFromGoogleWallet;
 	}
@@ -554,6 +563,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 			obj.putOpt("passengerCategory", mPassengerCategory);
 
+			obj.putOpt("searchedAge", mSearchedAge);
+
 			obj.putOpt("isRedeemer", mIsRedeemer);
 
 			obj.putOpt("saveToExpediaAccount", mSaveTravelerToExpediaAccount);
@@ -597,6 +608,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mAssistance = JSONUtils.getEnum(obj, "assistance", AssistanceType.class);
 
 		mPassengerCategory = JSONUtils.getEnum(obj, "passengerCategory", PassengerCategory.class);
+
+		mSearchedAge = obj.optInt("searchedAge");
 
 		mIsRedeemer = obj.optBoolean("isRedeemer");
 

@@ -24,6 +24,7 @@ import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity;
 import com.expedia.bookings.activity.LoginActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
+import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -448,13 +449,37 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			}
 		}
 
+		public void assignAgesToChildTravelers() {
+			List<ChildTraveler> children = Db.getFlightSearch().getSearchParams().getChildren();
+			Collections.sort(children, Collections.reverseOrder());
+			Collections.sort(mTravelerList, byPassengerCategory);
+			int firstChildIndex = 0;
+			for (int i = 0; i < mTravelerList.size(); i++) {
+				PassengerCategory pc = mTravelerList.get(i).getPassengerCategory();
+				if (pc != PassengerCategory.ADULT && pc != PassengerCategory.SENIOR) {
+					firstChildIndex = i;
+					break;
+				}
+				else {
+					mTravelerList.get(i).setSearchedAge(-1); // Age does not matter for adults.
+				}
+			}
+			if (children.size() != 0) {
+				int childStart = 0;
+				for (int j = firstChildIndex; j < mTravelerList.size(); j++) {
+					int age = children.get(childStart++).getAge();
+					mTravelerList.get(j).setSearchedAge(age);
+				}
+			}
+		}
+
 		public ArrayList<Traveler> generateTravelerList() {
 			addDesiredNumberOfTravelers();
 			removeUndesiredTravelers();
 			Collections.sort(mTravelerList, byPassengerCategory);
+			assignAgesToChildTravelers();
 			return mTravelerList;
 		}
-
 	}
 
 	private void populateTravelerData() {
@@ -499,28 +524,30 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		int numInfantsInSeat = 0;
 		int numInfantsInLap = 0;
 		int sectionLabelId;
-		int displayIndex;
+		int displayNumber;
 
 		for (int index = 0; index < numTravelers; index++) {
 			Traveler traveler = travelers.get(index);
-			switch (traveler.getPassengerCategory()) {
+			PassengerCategory travelerPassengerCategory = traveler.getPassengerCategory();
+			switch (travelerPassengerCategory) {
 			case ADULT:
 			case SENIOR:
 				sectionLabelId = R.string.add_adult_number_TEMPLATE;
-				displayIndex = ++numAdultsAdded;
+				displayNumber = ++numAdultsAdded;
 				break;
 			case CHILD:
 			case ADULT_CHILD:
-				sectionLabelId = R.string.add_child_number_TEMPLATE;
-				displayIndex = ++numChildrenAdded;
+				sectionLabelId = R.string.add_child_with_age_TEMPLATE;
+				displayNumber = traveler.getSearchedAge();
+				++numChildrenAdded;
 				break;
 			case INFANT_IN_LAP:
 				sectionLabelId = R.string.add_infant_in_lap_number_TEMPLATE;
-				displayIndex = ++numInfantsInLap;
+				displayNumber = ++numInfantsInLap;
 				break;
 			case INFANT_IN_SEAT:
 				sectionLabelId = R.string.add_infant_in_seat_number_TEMPLATE;
-				displayIndex = ++numInfantsInSeat;
+				displayNumber = ++numInfantsInSeat;
 				break;
 			default:
 				throw new RuntimeException("Unidentified passenger category");
@@ -549,7 +576,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 					tv.setText(R.string.traveler_details);
 				}
 				else {
-					tv.setText(getString(sectionLabelId, displayIndex));
+					tv.setText(getString(sectionLabelId, displayNumber));
 				}
 
 				// We need to add traveler sections for all passengers in order to best

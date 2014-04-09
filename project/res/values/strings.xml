@@ -1218,6 +1218,8 @@
     <string name="add_adult_number_TEMPLATE">Adult %1$s details</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Child %1$s details</string>
+    <!-- Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_TEMPLATE">%1$s yr old details</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Infant in Lap %1$s details</string>
     <!-- Add infant in seat traveler number template -->
