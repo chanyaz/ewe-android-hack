@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,6 +34,7 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -297,6 +299,164 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		}
 	}
 
+	private class TravelerContainer {
+		public Comparator<Traveler> byPassengerCategory = new Comparator<Traveler>() {
+			@Override
+			public int compare(Traveler lhs, Traveler rhs) {
+				PassengerCategory lhsCategory = lhs.getPassengerCategory();
+				PassengerCategory rhsCategory = rhs.getPassengerCategory();
+				if (lhsCategory != rhsCategory) {
+					return lhs.getPassengerCategory().compareTo(rhs.getPassengerCategory());
+				}
+				else {
+					TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
+					boolean tripIsInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
+					if (state.allTravelerInfoValid(lhs, tripIsInternational) && state.allTravelerInfoValid(rhs, tripIsInternational)) {
+						return 0;
+					}
+					else if (state.allTravelerInfoValid(lhs, tripIsInternational) && !state.allTravelerInfoValid(rhs, tripIsInternational)) {
+						return -1;
+					}
+					else {
+						return 1;
+					}
+				}
+			}
+		};
+
+		private ArrayList<Traveler> mTravelerList;
+
+		private int mNumDesiredAdults = 0;
+		private int mNumDesiredAdultChildren = 0;
+		private int mNumDesiredChildren = 0;
+		private int mNumDesiredLapInfants = 0;
+		private int mNumDesiredSeatInfants = 0;
+
+		private int mNumAddedAdults = 0;
+		private int mNumAddedAdultChildren = 0;
+		private int mNumAddedChildren = 0;
+		private int mNumAddedLapInfants = 0;
+		private int mNumAddedSeatInfants = 0;
+
+
+		public TravelerContainer(final List<PassengerCategoryPrice> passengerList, final List<Traveler> travelers) {
+			mTravelerList = new ArrayList<Traveler>(passengerList.size());
+			for (int i = 0; i < passengerList.size(); i++) {
+				switch (passengerList.get(i).getPassengerCategory()) {
+				case SENIOR:
+				case ADULT:
+					mNumDesiredAdults++;
+					break;
+				case ADULT_CHILD:
+					mNumDesiredAdultChildren++;
+					break;
+				case CHILD:
+					mNumDesiredChildren++;
+					break;
+				case INFANT_IN_LAP:
+					mNumDesiredLapInfants++;
+					break;
+				case INFANT_IN_SEAT:
+					mNumDesiredSeatInfants++;
+					break;
+				default:
+					break;
+				}
+			}
+			for (Traveler traveler : travelers) {
+				mTravelerList.add(traveler);
+				switch (traveler.getPassengerCategory()) {
+				case SENIOR:
+				case ADULT:
+					mNumAddedAdults++;
+					break;
+				case ADULT_CHILD:
+					mNumAddedAdultChildren++;
+					break;
+				case CHILD:
+					mNumAddedChildren++;
+					break;
+				case INFANT_IN_LAP:
+					mNumAddedLapInfants++;
+					break;
+				case INFANT_IN_SEAT:
+					mNumAddedSeatInfants++;
+					break;
+				default:
+					break;
+				}
+			}
+		}
+
+		private void addDesiredNumberOfTravelers() {
+			while (mNumAddedAdults < mNumDesiredAdults) {
+				addPassengerOfCategory(PassengerCategory.ADULT);
+				mNumAddedAdults++;
+			}
+			while (mNumAddedAdultChildren < mNumDesiredAdultChildren) {
+				addPassengerOfCategory(PassengerCategory.ADULT_CHILD);
+				mNumAddedAdultChildren++;
+			}
+			while (mNumAddedChildren < mNumDesiredChildren) {
+				addPassengerOfCategory(PassengerCategory.CHILD);
+				mNumAddedChildren++;
+			}
+			while (mNumAddedLapInfants < mNumDesiredLapInfants) {
+				addPassengerOfCategory(PassengerCategory.INFANT_IN_LAP);
+				mNumAddedLapInfants++;
+			}
+			while (mNumAddedSeatInfants < mNumDesiredSeatInfants) {
+				addPassengerOfCategory(PassengerCategory.INFANT_IN_SEAT);
+				mNumAddedSeatInfants++;
+			}
+		}
+
+		private void addPassengerOfCategory(PassengerCategory passengerCategory) {
+			Traveler newPassenger = new Traveler();
+			newPassenger.setPassengerCategory(passengerCategory);
+			mTravelerList.add(newPassenger);
+		}
+
+		private void removePassengerOfCategory(PassengerCategory passengerCategory, int numberToRemove) {
+			// Prioritize the traveler list, so that the ones at the end
+			// are more likely to be travelers we want to remove
+			// (i.e. they are less likely to have stored info
+			Collections.sort(mTravelerList, byPassengerCategory);
+			for (int i = mTravelerList.size() - 1; i > 0; i--) {
+				Traveler traveler = mTravelerList.get(i);
+				if (traveler.getPassengerCategory() == passengerCategory) {
+					mTravelerList.remove(traveler);
+				}
+			}
+		}
+
+		private void removeUndesiredTravelers() {
+			if (mNumAddedAdults > mNumDesiredAdults) {
+				removePassengerOfCategory(PassengerCategory.ADULT, mNumAddedAdults - mNumDesiredAdults);
+			}
+			if (mNumAddedAdultChildren > mNumDesiredAdultChildren) {
+				removePassengerOfCategory(PassengerCategory.ADULT_CHILD, mNumAddedAdultChildren - mNumDesiredAdultChildren);
+			}
+			if (mNumAddedChildren > mNumDesiredChildren) {
+				removePassengerOfCategory(PassengerCategory.CHILD, mNumAddedChildren - mNumDesiredChildren);
+			}
+			if (mNumAddedLapInfants > mNumDesiredLapInfants) {
+				removePassengerOfCategory(PassengerCategory.INFANT_IN_LAP, mNumAddedLapInfants - mNumDesiredLapInfants);
+			}
+			if (mNumAddedSeatInfants > mNumDesiredSeatInfants) {
+				removePassengerOfCategory(PassengerCategory.INFANT_IN_SEAT, mNumAddedSeatInfants - mNumDesiredSeatInfants);
+			}
+		}
+
+		public ArrayList<Traveler> generateTravelerList() {
+			addDesiredNumberOfTravelers();
+			removeUndesiredTravelers();
+			Collections.sort(mTravelerList, byPassengerCategory);
+			return mTravelerList;
+		}
+
+	}
+
 	private void populateTravelerData() {
 		List<Traveler> travelers = Db.getTravelers();
 		if (travelers == null) {
@@ -304,24 +464,10 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			Db.setTravelers(travelers);
 		}
 
-		int numPassengers = Db.getFlightSearch().getSelectedFlightTrip().getPassengerCount();
-
-		// If there are more numAdults from HotelSearchParams, add empty Travelers to the Db to anticipate the addition of
-		// new Travelers in order for check out
-		final int numTravelers = travelers.size();
-		if (numTravelers < numPassengers) {
-			for (int i = numTravelers; i < numPassengers; i++) {
-				travelers.add(new Traveler());
-			}
-		}
-
-		// If there are more Travelers than number of adults required by the HotelSearchParams, remove the extra Travelers,
-		// although, keep the first numAdults Travelers.
-		else if (numTravelers > numPassengers) {
-			for (int i = numTravelers - 1; i >= numPassengers; i--) {
-				travelers.remove(i);
-			}
-		}
+		List<PassengerCategoryPrice> passengers = Db.getFlightSearch().getSelectedFlightTrip().getPassengers();
+		TravelerContainer travelerContainer = new TravelerContainer(passengers, travelers);
+		List<Traveler> newTravelerList = travelerContainer.generateTravelerList();
+		Db.setTravelers(newTravelerList);
 	}
 
 	private void buildTravelerBox() {
@@ -334,7 +480,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		List<PassengerCategoryPrice> passengers = Db.getFlightSearch().getSelectedFlightTrip().getPassengers();
 		Collections.sort(passengers);
 
-		final int numTravelers = Db.getFlightSearch().getSearchParams().getNumTravelers();
 		List<Traveler> travelers = Db.getTravelers();
 
 		// Not sure if this state could happen, but there was a LOT of defensive code
@@ -342,6 +487,9 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		if (travelers == null || passengers.size() != travelers.size()) {
 			populateTravelerData();
 		}
+
+		travelers = Db.getTravelers();
+		final int numTravelers = travelers.size();
 
 		TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
 		boolean isInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
@@ -402,6 +550,15 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				}
 				else {
 					tv.setText(getString(sectionLabelId, displayIndex));
+				}
+
+				// We need to add traveler sections for all passengers in order to best
+				// maintain matched indexing between travelers and their info sections
+				if (mTravelerSections.size() < numTravelers) {
+					SectionTravelerInfo travelerSection = (SectionTravelerInfo) inflater.inflate(
+						R.layout.section_display_traveler_info_btn, null);
+					dressSectionTraveler(travelerSection, index);
+					mTravelerSections.add(travelerSection);
 				}
 				mAddTravelerSections.add(v);
 				mTravelerContainer.addView(v);
