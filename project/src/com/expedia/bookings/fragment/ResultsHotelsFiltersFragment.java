@@ -51,7 +51,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 	private SlidingRadioGroup mRadiusButtonGroup;
 	private SlidingRadioGroup mRatingButtonGroup;
 	private SlidingRadioGroup mPriceButtonGroup;
-	private View mVipAccessLabel;
+	private View mVipAccessContainer;
 	private Switch mVipAccessSwitch;
 	private HotelNeighborhoodLayout mNeighborhoodLayout;
 	private List<ISortAndFilterListener> mSortAndFilterListeners = new ArrayList<ResultsHotelListFragment.ISortAndFilterListener>();
@@ -87,7 +87,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		mRadiusButtonGroup = Ui.findView(view, R.id.radius_filter_button_group);
 		mRatingButtonGroup = Ui.findView(view, R.id.rating_filter_button_group);
 		mPriceButtonGroup = Ui.findView(view, R.id.price_filter_button_group);
-		mVipAccessLabel = Ui.findView(view, R.id.filter_vip_access_label);
+		mVipAccessContainer = Ui.findView(view, R.id.filter_vip_container);
 		mVipAccessSwitch = Ui.findView(view, R.id.filter_vip_access_switch);
 
 		mNeighborhoodLayout = Ui.findView(view, R.id.areas_layout);
@@ -199,12 +199,10 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		mPriceButtonGroup.check(checkId);
 
 		if (PointOfSale.getPointOfSale().supportsVipAccess()) {
-			mVipAccessLabel.setVisibility(View.VISIBLE);
-			mVipAccessSwitch.setVisibility(View.VISIBLE);
+			mVipAccessContainer.setVisibility(View.VISIBLE);
 		}
 		else {
-			mVipAccessLabel.setVisibility(View.GONE);
-			mVipAccessSwitch.setVisibility(View.GONE);
+			mVipAccessContainer.setVisibility(View.GONE);
 			filter.setVipAccessOnly(false);
 		}
 

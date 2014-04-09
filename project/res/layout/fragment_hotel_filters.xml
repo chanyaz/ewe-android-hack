@@ -285,23 +285,30 @@
                     android:textColor="@color/sliding_group_text" />
             </com.expedia.bookings.widget.SlidingRadioGroup>
 
-            <TextView
-                android:id="@+id/filter_vip_access_label"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/filter_vip_container"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="15dp"
-                android:text="@string/filter_vip_access"
-                android:textAllCaps="true"
-                android:visibility="gone"
-                android:textColor="#7C7E7F" />
+                android:visibility="gone" >
 
-            <com.expedia.bookings.widget.Switch
-                android:id="@+id/filter_vip_access_switch"
-                style="?attr/hotelListingFilterToggleButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:visibility="gone" />
+                <TextView
+                    android:id="@+id/filter_vip_access_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/filter_vip_access"
+                    android:textAllCaps="true"
+                    android:textColor="#7C7E7F" />
+
+                <com.expedia.bookings.widget.Switch
+                    android:id="@+id/filter_vip_access_switch"
+                    style="?attr/hotelListingFilterToggleButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp" />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"

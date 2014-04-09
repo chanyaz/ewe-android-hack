@@ -698,9 +698,9 @@
         <item name="switchTextAppearance">@style/TextAppearance.Widget.Switch</item>
         <item name="textOn">@string/switch_on</item>
         <item name="textOff">@string/switch_off</item>
-        <item name="thumbTextPadding">22dip</item>
-        <item name="switchMinWidth">140dip</item>
-        <item name="switchPadding">16dip</item>
+        <item name="thumbTextPadding">13dip</item>
+        <item name="switchMinWidth">100dip</item>
+        <item name="switchPadding">15dip</item>
     </style>
     <style name="TextAppearance.Widget.Switch" parent="android:TextAppearance.Small">
         <item name="android:textColor">@color/sliding_group_text_bright</item>
