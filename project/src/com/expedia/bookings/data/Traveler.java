@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.joda.time.Years;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,7 +52,11 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private SeatPreference mSeatPreference = SeatPreference.WINDOW;
 	private AssistanceType mAssistance = AssistanceType.NONE;
 	private PassengerCategory mPassengerCategory;
-	private int mSearchedAge;
+	private int mSearchedAge = -1;
+
+	private static final int MIN_CHILD_AGE = 2;
+	private static final int MIN_ADULT_CHILD_AGE = 12;
+	private static final int MIN_ADULT_AGE = 18;
 
 	// Activities
 	private boolean mIsRedeemer;
@@ -320,8 +325,40 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mPassengerCategory = passengerCategory;
 	}
 
+	public void setPassengerCategory(LocalDate birthdate) {
+		LocalDate endOfTrip = Db.getFlightSearch().getSearchParams().getReturnDate() != null ? Db.getFlightSearch().getSearchParams().getReturnDate() : Db.getFlightSearch().getSearchParams().getDepartureDate();
+		int yearsOld = Years.yearsBetween(mBirthDate, endOfTrip).getYears();
+		mPassengerCategory = yearsToPassengerCategory(yearsOld);
+	}
+
 	public PassengerCategory getPassengerCategory() {
+		// If we haven't assigned a passengerCategory yet (e.g. passenger is from account)
+		// Passenger category is determine by their max age during the duration of their trip
+		if (mPassengerCategory == null) {
+			setPassengerCategory(mBirthDate);
+		}
 		return mPassengerCategory;
+	}
+
+	private PassengerCategory yearsToPassengerCategory(int years) {
+		if (years < MIN_CHILD_AGE) {
+			if (Db.getFlightSearch().getSearchParams().infantSeatingInLap()) {
+				return PassengerCategory.INFANT_IN_SEAT;
+			}
+			else {
+				return PassengerCategory.INFANT_IN_LAP;
+			}
+		}
+		else if (years < MIN_ADULT_CHILD_AGE) {
+			return PassengerCategory.CHILD;
+		}
+		else if (years < MIN_ADULT_AGE) {
+			return PassengerCategory.ADULT_CHILD;
+		}
+		else {
+			return PassengerCategory.ADULT;
+		}
+		// The API never returns "SENIOR" right now, so we don't need to, either.
 	}
 
 	/***
