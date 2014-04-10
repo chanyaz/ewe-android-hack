@@ -11,11 +11,14 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.enums.TripBucketItemState;
+import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateManager;
+import com.expedia.bookings.bitmaps.ColorScheme;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.Ui;
 
@@ -45,6 +48,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private TextView mDurationText;
 	private View mOverLayView;
 	private ImageView mBookingCompleteCheckImg;
+	private HeaderBitmapColorAveragedDrawable mHeaderBitmapDrawable;
 
 	//Colors
 	private int mExpandedBgColor = Color.WHITE;
@@ -83,6 +87,13 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		mDurationText = Ui.findView(root, R.id.trip_duration_text_view);
 		mOverLayView = Ui.findView(root, R.id.trip_bucket_overlay);
 		mBookingCompleteCheckImg = Ui.findView(root, R.id.booking_complete_check);
+
+		mHeaderBitmapDrawable = new HeaderBitmapColorAveragedDrawable();
+		mHeaderBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
+		mHeaderBitmapDrawable.setCornerMode(HeaderBitmapDrawable.CornerMode.ALL);
+		mHeaderBitmapDrawable.setCornerRadius(getActivity().getResources().getDimensionPixelSize(R.dimen.tablet_result_corner_radius));
+		mTripBucketImageView.setImageDrawable(mHeaderBitmapDrawable);
+		mHeaderBitmapDrawable.setOnBitmapColorAverageListener(bitmapColorAverageDoneListener);
 	}
 
 	@Override
@@ -116,12 +127,30 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mTripPriceText.setText(getTripPrice());
 			mNameText.setText(getNameText());
 			mDurationText.setText(getDateRangeText());
-			mOverLayView.setBackgroundColor(getOverLayColor());
-			addTripBucketImage(mTripBucketImageView);
+			mOverLayView.setVisibility(View.INVISIBLE);
+			mHeaderBitmapDrawable.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.REFRESH);
+			addTripBucketImage(mTripBucketImageView, mHeaderBitmapDrawable);
 		}
 	}
 
-	/*
+	private HeaderBitmapColorAveragedDrawable.BitmapColorAverageDoneListener bitmapColorAverageDoneListener = new HeaderBitmapColorAveragedDrawable.BitmapColorAverageDoneListener() {
+		@Override
+		public void onDominantColorCalculated(ColorScheme colorScheme) {
+
+			int overLayWithAlpha = 0xE6000000 | 0xffffff & colorScheme.primaryAccent;
+			mOverLayView.setBackgroundColor(overLayWithAlpha);
+			// Due to timing issues this might get called after setVisibilityState, so let's take care of that.
+			if (mStateManager.getState() == TripBucketItemState.EXPANDED) {
+				mOverLayView.setVisibility(View.GONE);
+			}
+			else {
+				mOverLayView.setVisibility(View.VISIBLE);
+			}
+
+		}
+	};
+
+/*
 	ISTATELISTENER
 	*/
 
@@ -250,15 +279,13 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 	public abstract void addExpandedView(LayoutInflater inflater, ViewGroup viewGroup);
 
-	public abstract void addTripBucketImage(ImageView imageView);
+	public abstract void addTripBucketImage(ImageView imageView, HeaderBitmapColorAveragedDrawable headerBitmapDrawable);
 
 	public abstract String getNameText();
 
 	public abstract String getDateRangeText();
 
 	public abstract String getTripPrice();
-
-	public abstract int getOverLayColor();
 
 	public abstract OnClickListener getOnBookClickListener();
 

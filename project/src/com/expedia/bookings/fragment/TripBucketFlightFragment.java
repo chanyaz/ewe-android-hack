@@ -23,7 +23,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
+import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -40,7 +40,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 
 	private FlightTrip mFlightTrip;
 	private ImageView mDestinationImageView;
-	private HeaderBitmapDrawable mHeaderBitmapDrawable;
+	private HeaderBitmapColorAveragedDrawable mHeaderBitmapDrawable;
 
 	private boolean mIsDestinationImageFetched;
 
@@ -93,15 +93,13 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	}
 
 	@Override
-	public void addTripBucketImage(ImageView imageView) {
+	public void addTripBucketImage(ImageView imageView, HeaderBitmapColorAveragedDrawable headerBitmapDrawable) {
+		mHeaderBitmapDrawable = headerBitmapDrawable;
+		mDestinationImageView = imageView;
 		if (!mIsDestinationImageFetched && !BackgroundDownloader.getInstance().isDownloading(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY)) {
-			mDestinationImageView = imageView;
-			mHeaderBitmapDrawable = new HeaderBitmapDrawable();
-			mHeaderBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
-			mHeaderBitmapDrawable.setCornerMode(HeaderBitmapDrawable.CornerMode.ALL);
-			mHeaderBitmapDrawable.setCornerRadius(getActivity().getResources().getDimensionPixelSize(R.dimen.tablet_result_corner_radius));
 			mDestinationImageView.setImageDrawable(mHeaderBitmapDrawable);
 
+			mHeaderBitmapDrawable.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.PLACEHOLDER);
 			mHeaderBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
 			ViewTreeObserver vto = mDestinationImageView.getViewTreeObserver();
 			vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -111,6 +109,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 					if (mIsDestinationImageFetched) {
 						return;
 					}
+
 					String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
 					ExpediaImage bgImage = ExpediaImageManager.getInstance().getDestinationImage(code,
 						mDestinationImageView.getMeasuredWidth(), mDestinationImageView.getMeasuredHeight(), false);
@@ -119,6 +118,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 						startDestinationImageDownload();
 					}
 					else {
+						mHeaderBitmapDrawable.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.REFRESH);
 						mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), bgImage.getUrl(),
 							R.drawable.bg_itin_placeholder));
 						mIsDestinationImageFetched = true;
@@ -159,11 +159,6 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		else {
 			return null;
 		}
-	}
-
-	@Override
-	public int getOverLayColor() {
-		return 0xE636566b;
 	}
 
 	private void bindExpandedView() {
@@ -230,6 +225,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		@Override
 		public void onDownload(ExpediaImage image) {
 			if (image != null) {
+				mHeaderBitmapDrawable.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.REFRESH);
 				mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), image.getUrl(),
 					R.drawable.bg_itin_placeholder));
 				mIsDestinationImageFetched = true;

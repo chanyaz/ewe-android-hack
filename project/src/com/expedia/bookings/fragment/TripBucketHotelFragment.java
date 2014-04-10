@@ -19,7 +19,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
+import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
@@ -78,12 +78,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	}
 
 	@Override
-	public void addTripBucketImage(ImageView imageView) {
-		final HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
-		headerBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
-		headerBitmapDrawable.setCornerMode(HeaderBitmapDrawable.CornerMode.ALL);
-		headerBitmapDrawable.setCornerRadius(getActivity().getResources().getDimensionPixelSize(R.dimen.tablet_result_corner_radius));
-
+	public void addTripBucketImage(ImageView imageView, HeaderBitmapColorAveragedDrawable headerBitmapDrawable) {
 		int placeholderResId = Ui.obtainThemeResID((Activity) getActivity(), R.attr.HotelRowThumbPlaceHolderDrawable);
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel != null) {
@@ -122,11 +117,6 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	}
 
 	@Override
-	public int getOverLayColor() {
-		return 0xE66b4d36;
-	}
-
-	@Override
 	public OnClickListener getOnBookClickListener() {
 		return mBookOnClick;
 	}
@@ -149,5 +139,4 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		}
 
 	}
-
 }
