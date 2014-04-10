@@ -117,6 +117,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 					String dateOfBirth = tsaDetails.optString("dateOfBirth", null);
 					if (dateOfBirth != null) {
 						traveler.setBirthDate(LocalDate.parse(dateOfBirth));
+						traveler.setPassengerCategory(LocalDate.parse(dateOfBirth));
 					}
 
 					traveler.setRedressNumber(tsaDetails.optString("redressNumber", null));
