@@ -193,6 +193,8 @@
     <string name="No_Reviews">No Reviews</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">Non Refundable</string>
+    <!-- Title for the reviews section after we get the property name -->
+    <string name="reviews_for_TEMPLATE">Reviews for %1$s</string>
 
     <!-- Tablet flight details -->
     <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->

@@ -31,9 +31,9 @@ public class UserReviewsFragmentPagerAdapter extends FragmentPagerAdapter {
 		super(fm);
 
 		mFragments = new ArrayList<UserReviewsFragment>(TABS.length);
-		mFragments.add(null);
-		mFragments.add(null);
-		mFragments.add(null);
+		for (int i = 0; i < TABS.length; i++) {
+			mFragments.add(null);
+		}
 
 		if (savedInstanceState != null) {
 			for (int i = 0; i < TABS.length; i++) {
@@ -67,6 +67,12 @@ public class UserReviewsFragmentPagerAdapter extends FragmentPagerAdapter {
 		return TABS.length;
 	}
 
+	public void bind() {
+		if (mFragments.get(0) != null) {
+			mFragments.get(0).bind();
+		}
+	}
+
 	public void cancelDownloads() {
 		for (UserReviewsFragment f : mFragments) {
 			if (f != null) {
@@ -77,6 +83,6 @@ public class UserReviewsFragmentPagerAdapter extends FragmentPagerAdapter {
 
 	public void attemptNextDownload(UserReviewsFragment fragmentDone) {
 		int indexStart = (mFragments.indexOf(fragmentDone) + 1) % TABS.length;
-		mFragments.get(indexStart).attemptReviewsDownload();
+		mFragments.get(indexStart).bind();
 	}
 }

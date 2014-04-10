@@ -28,6 +28,7 @@ import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterList
 import com.expedia.bookings.graphics.PercentageFadeColorDrawable;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IBackManageable;
+import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -56,7 +57,8 @@ import com.squareup.otto.Subscribe;
 public class TabletResultsHotelControllerFragment extends Fragment implements
 	ISortAndFilterListener, IResultsHotelSelectedListener, IFragmentAvailabilityProvider,
 	HotelMapFragmentListener, SupportMapFragmentListener, IBackManageable, IStateProvider<ResultsHotelsState>,
-	ExpediaServicesFragment.ExpediaServicesFragmentListener, IAddToBucketListener {
+	ExpediaServicesFragment.ExpediaServicesFragmentListener, IAddToBucketListener,
+	IResultsHotelReviewsClickedListener {
 
 	//State
 	private static final String STATE_HOTELS_STATE = "STATE_HOTELS_STATE";
@@ -70,6 +72,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private static final String FTAG_HOTEL_SEARCH_DOWNLOAD = "FTAG_HOTEL_SEARCH_DOWNLOAD";
 	private static final String FTAG_HOTEL_LOADING_INDICATOR = "FTAG_HOTEL_LOADING_INDICATOR";
 	private static final String FTAG_HOTEL_SEARCH_ERROR = "FTAG_HOTEL_SEARCH_ERROR";
+	private static final String FTAG_HOTEL_REVIEWS = "FTAG_HOTEL_REVIEWS";
 
 	//Containers
 	private ViewGroup mRootC;
@@ -79,6 +82,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private FrameLayoutTouchController mHotelFiltersC;
 	private FrameLayoutTouchController mHotelFilteredCountC;
 	private FrameLayoutTouchController mHotelRoomsAndRatesC;
+	private FrameLayoutTouchController mHotelReviewsC;
 	private FrameLayoutTouchController mLoadingC;
 	private FrameLayoutTouchController mSearchErrorC;
 
@@ -91,6 +95,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private HotelSearchDownloadFragment mHotelSearchDownloadFrag;
 	private ResultsListLoadingFragment mLoadingGuiFrag;
 	private ResultsListSearchErrorFragment mSearchErrorFrag;
+	private ResultsHotelReviewsFragment mHotelReviewsFrag;
 
 	//Other
 	private StateManager<ResultsHotelsState> mHotelsStateManager = new StateManager<ResultsHotelsState>(
@@ -128,6 +133,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mHotelFiltersC = Ui.findView(view, R.id.column_two_hotel_filters);
 		mHotelFilteredCountC = Ui.findView(view, R.id.column_three_hotel_filtered_count);
 		mHotelRoomsAndRatesC = Ui.findView(view, R.id.hotel_rooms_and_rates);
+		mHotelReviewsC = Ui.findView(view, R.id.hotel_reviews);
 		mLoadingC = Ui.findView(view, R.id.loading_container);
 		mSearchErrorC = Ui.findView(view, R.id.column_one_hotel_search_error);
 
@@ -241,7 +247,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(true);
 		}
 		else {
-
 			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(false);
 		}
 
@@ -268,6 +273,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mHotelFiltersC.setVisibility(View.INVISIBLE);
 			mHotelFilteredCountC.setVisibility(View.INVISIBLE);
 			mHotelRoomsAndRatesC.setVisibility(View.INVISIBLE);
+			mHotelReviewsC.setVisibility(View.INVISIBLE);
 		}
 		else {
 			mBgHotelMapC.setAlpha(1f);
@@ -288,6 +294,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 			else {
 				mHotelRoomsAndRatesC.setVisibility(View.INVISIBLE);
+			}
+
+			if (hotelsState == ResultsHotelsState.REVIEWS) {
+				mHotelReviewsC.setVisibility(View.VISIBLE);
+			}
+			else {
+				mHotelReviewsC.setVisibility(View.INVISIBLE);
 			}
 		}
 	}
@@ -310,6 +323,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		boolean hotelFiltersAvailable = true;
 		boolean hotelFilteredCountAvailable = true;
 		boolean hotelRoomsAndRatesAvailable = true;
+		boolean hotelReviewsAvailable = false;
 
 		if (hotelsState == ResultsHotelsState.LOADING || hotelsState == ResultsHotelsState.SEARCH_ERROR) {
 			if (hotelsState == ResultsHotelsState.LOADING) {
@@ -335,6 +349,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			hotelRoomsAndRatesAvailable = false;
 		}
 
+		if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES || hotelsState == ResultsHotelsState.REVIEWS) {
+			hotelReviewsAvailable = true;
+		}
+
 		//TODO: WE MAY WANT TO REMOVE SOME HEAVIER FRAGMENTS SOMETIMES, ESPECIALLY IF WE ARE IN FLIGHTS MODE OR SOMETHING
 
 		mHotelListFrag = (ResultsHotelListFragment) FragmentAvailabilityUtils.setFragmentAvailability(
@@ -351,6 +369,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mHotelDetailsFrag = (ResultsHotelDetailsFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			hotelRoomsAndRatesAvailable,
 			FTAG_HOTEL_ROOMS_AND_RATES, manager, transaction, this, R.id.hotel_rooms_and_rates, false);
+		mHotelReviewsFrag = (ResultsHotelReviewsFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+			hotelReviewsAvailable,
+			FTAG_HOTEL_REVIEWS, manager, transaction, this, R.id.hotel_reviews, false);
 		mHotelSearchDownloadFrag = (HotelSearchDownloadFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			hotelSearchDownloadAvailable,
 			FTAG_HOTEL_SEARCH_DOWNLOAD, manager, transaction, this, 0, false);
@@ -446,6 +467,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		else if (tag == FTAG_HOTEL_SEARCH_ERROR) {
 			frag = mSearchErrorFrag;
 		}
+		else if (tag == FTAG_HOTEL_REVIEWS) {
+			frag = mHotelReviewsFrag;
+		}
 		return frag;
 	}
 
@@ -476,6 +500,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 		else if (tag == FTAG_HOTEL_SEARCH_ERROR) {
 			frag = ResultsListSearchErrorFragment.newInstance(getString(R.string.search_error));
+		}
+		else if (tag == FTAG_HOTEL_REVIEWS) {
+			frag = ResultsHotelReviewsFragment.newInstance();
 		}
 		return frag;
 	}
@@ -538,6 +565,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		for (IResultsHotelSelectedListener listener : mHotelSelectedListeners) {
 			listener.onHotelSelected();
 		}
+
 		if (mHotelsStateManager.getState() == ResultsHotelsState.HOTEL_LIST_DOWN) {
 			mHotelsStateManager
 				.animateThroughStates(ResultsHotelsState.HOTEL_LIST_UP, ResultsHotelsState.ROOMS_AND_RATES);
@@ -545,8 +573,15 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		else {
 			setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
 		}
+	}
 
+	/*
+	 * IResultsHotelSelectedListener Functions
+	 */
 
+	@Override
+	public void onHotelReviewsClicked() {
+		setHotelsState(ResultsHotelsState.REVIEWS, true);
 	}
 
 	/*
@@ -769,6 +804,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mGrid.setContainerToColumnSpan(mBgHotelMapC, 0, 4);
 			mGrid.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 4);
 			mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 2, 4);
+			mGrid.setContainerToColumnSpan(mHotelReviewsC, 2, 4);
 
 			//All of the views except for the map sit below the action bar
 			mGrid.setContainerToRow(mLoadingC, 2);
@@ -779,6 +815,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mGrid.setContainerToRowSpan(mBgHotelMapC, 0, 2);
 			mGrid.setContainerToRowSpan(mBgHotelMapTouchDelegateC, 0, 2);
 			mGrid.setContainerToRowSpan(mHotelRoomsAndRatesC, 1, 2);
+			mGrid.setContainerToRowSpan(mHotelReviewsC, 1, 2);
 
 			//tell the map where its bounds are
 			updateMapFragmentPositioningInfo(mMapFragment);
@@ -820,6 +857,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 						return true;
 					}
 					else if (state == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
+						setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
+						return true;
+					}
+					else if (state == ResultsHotelsState.REVIEWS) {
 						setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
 						return true;
 					}
@@ -1036,7 +1077,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				break;
 			}
 			}
-			if (mMapFragment != null && state != ResultsHotelsState.ROOMS_AND_RATES) {
+			if (mMapFragment != null && state != ResultsHotelsState.ROOMS_AND_RATES && state != ResultsHotelsState.REVIEWS) {
 				mMapFragment.setMapPaddingFromFilterState(state == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
 					|| state == ResultsHotelsState.ROOMS_AND_RATES_FILTERS);
 			}

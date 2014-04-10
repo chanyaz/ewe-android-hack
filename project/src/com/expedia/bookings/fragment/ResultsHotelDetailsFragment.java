@@ -37,6 +37,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
+import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
@@ -63,8 +64,10 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private ViewGroup mRootC;
 	private ViewGroup mHotelHeaderContainer;
 	private Button mAddToTripButton;
+	private View mReviewsButton;
 
 	private IAddToBucketListener mAddToBucketListener;
+	private IResultsHotelReviewsClickedListener mHotelReviewsClickedListener;
 
 	HotelOffersResponse mResponse;
 
@@ -73,6 +76,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		super.onAttach(activity);
 
 		mAddToBucketListener = Ui.findFragmentListener(this, IAddToBucketListener.class);
+		mHotelReviewsClickedListener = Ui.findFragmentListener(this, IResultsHotelReviewsClickedListener.class);
 	}
 
 	@Override
@@ -81,9 +85,12 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotel_details, null);
 		mHotelHeaderContainer = Ui.findView(mRootC, R.id.hotel_header_image_container);
 		mAddToTripButton = Ui.findView(mRootC, R.id.button_add_to_trip);
+		mReviewsButton = Ui.findView(mRootC, R.id.read_reviews_text);
 
 		mAddToTripButton.setPivotY(0f);
 		mAddToTripButton.setOnClickListener(mAddToTripButtonClickListener);
+
+		mReviewsButton.setOnClickListener(mReviewsButtonClickedListener);
 
 		mRootC.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			public void onGlobalLayout() {
@@ -115,6 +122,13 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			Db.saveTripBucket(getActivity());
 
 			mAddToBucketListener.onItemAddedToBucket();
+		}
+	};
+
+	private OnClickListener mReviewsButtonClickedListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			mHotelReviewsClickedListener.onHotelReviewsClicked();
 		}
 	};
 

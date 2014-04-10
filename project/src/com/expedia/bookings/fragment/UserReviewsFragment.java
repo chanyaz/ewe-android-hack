@@ -21,6 +21,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Review;
@@ -34,6 +35,8 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.Ui;
+
+import com.mobiata.android.Log;
 
 public class UserReviewsFragment extends ListFragment implements OnScrollListener {
 
@@ -100,7 +103,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mProperty = Db.getHotelSearch().getSelectedProperty();
 		mReviewSort = ReviewSort.valueOf(getArguments().getString(ARGUMENT_SORT_STRING));
 		mReviewsDownloadKey = REVIEWS_DOWNLOAD_KEY_PREFIX + mReviewSort.name();
 		mScrollListenerSet = false;
@@ -109,23 +111,20 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_user_review_list, container, false);
-
-		if (mHeaderView == null) {
+		if (!ExpediaBookingApp.useTabletInterface(getActivity())) {
 			mHeaderView = inflater.inflate(R.layout.header_user_reviews_list, null, false);
 		}
-
-		populateListHeader();
-
 		return view;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		ListView listView = getListView();
 
-		// must add the header/footer views in onActivityCreated, and before setListAdapter
-		listView.addHeaderView(mHeaderView, null, false);
+		ListView listView = getListView();
+		if (mHeaderView != null) {
+			listView.addHeaderView(mHeaderView, null, false);
+		}
 
 		mUserReviewsAdapter = new UserReviewsAdapter(getActivity(), listView);
 
@@ -136,6 +135,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			mHasFilteredOutAReview = savedInstanceState.getBoolean(INSTANCE_HAS_FILTERED_REVIEW, false);
 			boolean reincarnatedReviews = savedInstanceState.getBoolean(INSTANCE_HAS_REVIEWS, false);
 			if (reincarnatedReviews) {
+				mProperty = Db.getHotelSearch().getSelectedProperty();
 				mUserReviews = mUserReviewsUtils.getReviews(mProperty.getPropertyId(), mReviewSort);
 				if (mUserReviews != null) {
 					mUserReviewsAdapter.setUserReviews(mUserReviews);
@@ -151,22 +151,22 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	}
 
 	@Override
-	public void onPause() {
-		super.onPause();
-		mBackgroundDownloader.unregisterDownloadCallback(mReviewsDownloadKey);
-	}
-
-	@Override
 	public void onResume() {
 		super.onResume();
+
 		if (mBackgroundDownloader.isDownloading(mReviewsDownloadKey)) {
 			mBackgroundDownloader.registerDownloadCallback(mReviewsDownloadKey, mUserReviewDownloadCallback);
 		}
 
-		// This kicks off the chain of downloads on first launch
-		if (!mAttemptedDownload && mReviewSort == ReviewSort.NEWEST_REVIEW_FIRST) {
-			startReviewsDownload();
+		if (mReviewSort == ReviewSort.NEWEST_REVIEW_FIRST) {
+			bind();
 		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		mBackgroundDownloader.unregisterDownloadCallback(mReviewsDownloadKey);
 	}
 
 	@Override
@@ -189,17 +189,21 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		outState.putInt(INSTANCE_NUM_DOWNLOADED, mNumReviewsDownloaded);
 	}
 
+	public void bind() {
+		mProperty = Db.getHotelSearch().getSelectedProperty();
+
+		attemptReviewsDownload();
+
+		populateListHeader();
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Reviews Download
 
 	public void attemptReviewsDownload() {
-		if (!mAttemptedDownload) {
-			startReviewsDownload();
+		if (!mAttemptedDownload && mProperty != null) {
+			mBackgroundDownloader.startDownload(mReviewsDownloadKey, mUserReviewDownload, mUserReviewDownloadCallback);
 		}
-	}
-
-	private void startReviewsDownload() {
-		mBackgroundDownloader.startDownload(mReviewsDownloadKey, mUserReviewDownload, mUserReviewDownloadCallback);
 	}
 
 	public void cancelReviewsDownload() {
@@ -209,6 +213,8 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	private final Download<ReviewsResponse> mUserReviewDownload = new Download<ReviewsResponse>() {
 		@Override
 		public ReviewsResponse doDownload() {
+			mAttemptedDownload = true;
+
 			ExpediaServices expediaServices = new ExpediaServices(getActivity());
 			mBackgroundDownloader.addDownloadListener(mReviewsDownloadKey, expediaServices);
 			return expediaServices.reviews(mProperty, mReviewSort, mPageNumber);
@@ -218,8 +224,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	private final OnDownloadComplete<ReviewsResponse> mUserReviewDownloadCallback = new OnDownloadComplete<ReviewsResponse>() {
 		@Override
 		public void onDownload(ReviewsResponse response) {
-			mAttemptedDownload = true;
-
 			if (response == null || response.hasErrors()) {
 				showReviewsUnavailableMessage();
 			}
@@ -252,13 +256,17 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		if (Db.getHotelSearch() == null || Db.getHotelSearch().getSelectedProperty() == null) {
+			return;
+		}
+
 		boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
 		boolean hasMore = mNumReviewsDownloaded < Db.getHotelSearch().getSelectedProperty().getTotalReviews();
 		boolean shouldAttempt = !mHasFilteredOutAReview;
 		boolean isDownloading = mBackgroundDownloader.isDownloading(mReviewsDownloadKey);
 
 		if (mScrollListenerSet && loadMore && hasMore && shouldAttempt && !isDownloading) {
-			startReviewsDownload();
+			bind();
 			addLoadingFooter();
 		}
 
@@ -287,17 +295,15 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	// Views
 
 	private void populateListHeader() {
-		if (mHeaderView == null) {
+		if (mHeaderView == null || mProperty == null) {
 			return;
 		}
 
-		Property property = Db.getHotelSearch().getSelectedProperty();
-
 		TextView recommendText = Ui.findView(mHeaderView, R.id.user_reviews_recommendation_tag);
 
-		int numRec = property.getTotalRecommendations();
-		int numTotal = property.getTotalReviews();
-		float percentRecommend = property.getPercentRecommended();
+		int numRec = mProperty.getTotalRecommendations();
+		int numTotal = mProperty.getTotalReviews();
+		float percentRecommend = mProperty.getPercentRecommended();
 		String text = getString(R.string.user_review_recommendation_tag_text, numRec, numTotal);
 		CharSequence styledText = Html.fromHtml(text);
 
@@ -316,12 +322,11 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		}
 		RatingBar userRating = Ui.findView(mHeaderView, R.id.user_rating);
 		if (userRating != null) {
-			float rating = (float) property.getAverageExpediaRating();
+			float rating = (float) mProperty.getAverageExpediaRating();
 			userRating.setRating(rating);
 			userRating.setVisibility(View.VISIBLE);
 
 		}
-
 	}
 
 	private void showReviewsUnavailableMessage() {
