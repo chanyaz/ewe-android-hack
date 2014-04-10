@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import org.joda.time.LocalDate;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +29,14 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	FragmentAvailabilityUtils.IFragmentAvailabilityProvider, ExpediaServicesFragment.ExpediaServicesFragmentListener,
 	ResultsFlightHistogramFragment.IFlightHistogramListener {
 
+	public interface IGdeFlightsListener {
+		public void onGdeFirstDateSelected(LocalDate date);
+
+		public void onGdeOneWayTrip(LocalDate date);
+
+		public void onGdeTwoWayTrip(LocalDate depDate, LocalDate retDate);
+	}
+
 	private static final String STATE_ORIGIN = "STATE_ORIGIN";
 	private static final String STATE_DESTINATION = "STATE_DESTINATION";
 
@@ -44,9 +53,17 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	private Location mDestination;
 	private LocalDate mDepartureDate;
 
+	private IGdeFlightsListener mListener;
+
 	public static ResultsGdeFlightsFragment newInstance() {
 		ResultsGdeFlightsFragment frag = new ResultsGdeFlightsFragment();
 		return frag;
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mListener = Ui.findFragmentListener(this, IGdeFlightsListener.class);
 	}
 
 	@Override
@@ -113,6 +130,12 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		if (mDestination != null) {
 			outState.putString(STATE_DESTINATION, mDestination.toJson().toString());
 		}
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		mListener = null;
 	}
 
 	/*
@@ -189,6 +212,19 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 	@Override
 	public void onGdeDateSelected(LocalDate date) {
-		setGdeInfo(mOrigin, mDestination, date);
+		if (mDepartureDate == null) {
+			//Selecting the first gde date
+			setGdeInfo(mOrigin, mDestination, date);
+			if (mListener != null) {
+				mListener.onGdeFirstDateSelected(date);
+			}
+		}
+		else {
+			//Selecting a second gde date
+			if (mListener != null) {
+				mListener.onGdeTwoWayTrip(mDepartureDate, date);
+			}
+		}
+
 	}
 }

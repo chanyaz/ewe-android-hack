@@ -54,7 +54,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	IStateProvider<ResultsSearchState>, FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
 	DatesFragment.DatesFragmentListener, GuestsDialogFragment.GuestsDialogFragmentListener,
 	TabletWaypointFragment.ITabletWaypointFragmentListener,
-	CurrentLocationFragment.ICurrentLocationListener {
+	CurrentLocationFragment.ICurrentLocationListener, ResultsGdeFlightsFragment.IGdeFlightsListener {
 
 	private static final String STATE_RESULTS_SEARCH_STATE = "STATE_RESULTS_SEARCH_STATE";
 	private static final String STATE_ANIM_FROM_ORIGIN = "STATE_ANIM_FROM_ORIGIN";
@@ -232,11 +232,15 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	 * FRAG LISTENERS
 	 */
 
+	private boolean mIgnoreDatePicker = false;
+
 	@Override
 	public void onDatesChanged(LocalDate startDate, LocalDate endDate) {
-		Sp.getParams().setStartDate(startDate);
-		Sp.getParams().setEndDate(endDate);
-		doSpUpdate();
+		if (!mIgnoreDatePicker) {
+			Sp.getParams().setStartDate(startDate);
+			Sp.getParams().setEndDate(endDate);
+			doSpUpdate();
+		}
 	}
 
 	@Override
@@ -245,6 +249,26 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		Sp.getParams().setChildTravelers(numChildren);
 		doSpUpdate();
 	}
+
+	@Override
+	public void onGdeFirstDateSelected(LocalDate date) {
+		//TODO: If we have a first date selected, the ui should reflect this, but not yet kick off a search.
+	}
+
+	@Override
+	public void onGdeOneWayTrip(LocalDate date) {
+		if (mDatesFragment != null) {
+			mDatesFragment.setDates(date, null);
+		}
+	}
+
+	@Override
+	public void onGdeTwoWayTrip(LocalDate depDate, LocalDate retDate) {
+		if (mDatesFragment != null) {
+			mDatesFragment.setDates(depDate, retDate);
+		}
+	}
+
 
 	/*
 	 * SEARCH BAR BUTTON STUFF

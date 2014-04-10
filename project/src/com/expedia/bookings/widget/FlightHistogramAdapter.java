@@ -55,7 +55,7 @@ public class FlightHistogramAdapter extends BaseAdapter {
 		mMaxDateWidth = 0;
 		mMaxPriceWidth = 0;
 		for (FlightHistogram gram : mFlightHistogramResponse.getFlightHistograms()) {
-			dateTv.setText(sDateFormatter.print(gram.getDate()));
+			dateTv.setText(sDateFormatter.print(gram.getKeyDate()));
 			priceTv.setText(gram.getPriceAsStr());
 
 			dateTv.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
@@ -102,7 +102,7 @@ public class FlightHistogramAdapter extends BaseAdapter {
 
 		FlightHistogram gram = getItem(position);
 
-		dateTv.setText(sDateFormatter.print(gram.getDate()));
+		dateTv.setText(sDateFormatter.print(gram.getKeyDate()));
 		priceTv.setText(gram.getPriceAsStr());
 		priceTv
 			.setBackgroundColor(mContext.getResources().getColor(mFlightHistogramResponse.getColorResIdForPrice(gram)));

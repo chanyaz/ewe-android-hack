@@ -131,11 +131,11 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 	private static final Comparator<FlightHistogram> sDateComparator = new Comparator<FlightHistogram>() {
 		@Override
 		public int compare(FlightHistogram lhs, FlightHistogram rhs) {
-			if (lhs.getDate().isEqual(rhs.getDate())) {
+			if (lhs.getKeyDate().isEqual(rhs.getKeyDate())) {
 				return 0;
 			}
 			else {
-				boolean isBefore = lhs.getDate().isBefore(rhs.getDate());
+				boolean isBefore = lhs.getKeyDate().isBefore(rhs.getKeyDate());
 				return isBefore ? -1 : 1;
 			}
 		}

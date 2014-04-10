@@ -109,7 +109,7 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 		if (list == mList && list.getAdapter() != null && list.getAdapter() == mAdapter) {
 			FlightHistogram histo = mAdapter.getItem(pos);
 			if (histo != null) {
-				mListener.onGdeDateSelected(histo.getDate());
+				mListener.onGdeDateSelected(histo.getKeyDate());
 			}
 		}
 	}

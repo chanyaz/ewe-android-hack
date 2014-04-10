@@ -7,7 +7,7 @@ import com.mobiata.android.json.JSONable;
 
 public class FlightHistogram implements JSONable {
 
-	private LocalDate mDate;
+	private LocalDate mKeyDate;
 	private int mCount;
 	private float mTotalPrice;
 	private double mMinPrice;
@@ -16,12 +16,12 @@ public class FlightHistogram implements JSONable {
 	// TODO priceAsStr is temporary!
 	private String mPriceAsStr;
 
-	public LocalDate getDate() {
-		return mDate;
+	public LocalDate getKeyDate() {
+		return mKeyDate;
 	}
 
-	public void setDate(LocalDate date) {
-		mDate = date;
+	public void setKeyDate(LocalDate date) {
+		mKeyDate = date;
 	}
 
 	public int getCount() {

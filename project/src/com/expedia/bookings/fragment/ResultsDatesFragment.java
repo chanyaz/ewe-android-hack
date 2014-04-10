@@ -59,8 +59,12 @@ public class ResultsDatesFragment extends Fragment implements CalendarPicker.Dat
 	}
 
 	public void setDatesFromParams(SearchParams searchParams) {
-		mStartDate = searchParams.getStartDate();
-		mEndDate = searchParams.getEndDate();
+		setDates(searchParams.getStartDate(), searchParams.getEndDate());
+	}
+
+	public void setDates(LocalDate startDate, LocalDate endDate){
+		mStartDate = startDate;
+		mEndDate = endDate;
 
 		if (mCalendarPicker != null) {
 			mCalendarPicker.setSelectedDates(mStartDate, mEndDate);

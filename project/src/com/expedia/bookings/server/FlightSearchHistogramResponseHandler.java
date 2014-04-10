@@ -29,7 +29,7 @@ public class FlightSearchHistogramResponseHandler extends JsonResponseHandler<Fl
 				JSONObject entryJson = entries.getJSONObject(i);
 				FlightHistogram histogram = new FlightHistogram();
 
-				histogram.setDate(LocalDate.parse(entryJson.getString("key")));
+				histogram.setKeyDate(LocalDate.parse(entryJson.getString("key")));
 				histogram.setCount(entryJson.getInt("count"));
 
 				// TODO better money parsing once API sends currency information
