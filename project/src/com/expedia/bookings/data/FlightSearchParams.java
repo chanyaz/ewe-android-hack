@@ -17,6 +17,7 @@ public class FlightSearchParams implements JSONable {
 	private int mAdults;
 	private List<ChildTraveler> mChildren;
 	private List<FlightSearchLeg> mQueryLegs;
+	private boolean mInfantSeatingInLap;
 
 	public FlightSearchParams() {
 		mChildren = new ArrayList<ChildTraveler>();
@@ -58,6 +59,18 @@ public class FlightSearchParams implements JSONable {
 			}
 		}
 		return getNumChildren() - numberOfUnseatedTravelers;
+	}
+
+	public boolean infantSeatingInLap() {
+		boolean mInfantSeatingInLap = false;
+		if (getChildren() != null) {
+			for (ChildTraveler child : getChildren()) {
+				if (!child.usingSeat() && child.getAge() <= 1) {
+					mInfantSeatingInLap = true;
+				}
+			}
+		}
+		return mInfantSeatingInLap;
 	}
 
 	public void setChildren(List<ChildTraveler> children) {
