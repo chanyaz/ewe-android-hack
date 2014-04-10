@@ -112,7 +112,6 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		Resources res = getResources();
 		for (int i = 0; i < numAltTravelers; i++) {
 			final Traveler traveler = alternativeTravelers.get(i);
-
 			//We check if this traveler is already in the list of travelers
 			boolean alreadyInUse = BookingInfoUtils.travelerInUse(traveler);
 
@@ -241,11 +240,17 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			section.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
 					mCurrentTraveler = section.getTraveler();
 
 					BackgroundDownloader bd = BackgroundDownloader.getInstance();
 					if (mCurrentTraveler.fromGoogleWallet()) {
 						onTravelerDetailsReceived(mCurrentTraveler);
+					}
+					else if (!state.allTravelerInfoValid(mCurrentTraveler, Db.getFlightSearch().getSelectedFlightTrip().isInternational())) {
+						Db.getWorkingTravelerManager().setWorkingTravelerAndBase(mCurrentTraveler);
+						mListener.setMode(YoYoMode.EDIT);
+						mListener.displayTravelerEntryOne();
 					}
 					else if (!bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
 						// Begin loading flight details in the background, if we haven't already

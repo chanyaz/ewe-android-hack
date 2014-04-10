@@ -310,17 +310,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 					return lhs.getPassengerCategory().compareTo(rhs.getPassengerCategory());
 				}
 				else {
-					TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
-					boolean tripIsInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
-					if (state.allTravelerInfoValid(lhs, tripIsInternational) && state.allTravelerInfoValid(rhs, tripIsInternational)) {
-						return 0;
-					}
-					else if (state.allTravelerInfoValid(lhs, tripIsInternational) && !state.allTravelerInfoValid(rhs, tripIsInternational)) {
-						return -1;
-					}
-					else {
-						return 1;
-					}
+					return lhs.getSearchedAge() - rhs.getSearchedAge();
 				}
 			}
 		};
@@ -468,7 +458,10 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				int childStart = 0;
 				for (int j = firstChildIndex; j < mTravelerList.size(); j++) {
 					int age = children.get(childStart++).getAge();
-					mTravelerList.get(j).setSearchedAge(age);
+					Traveler t = mTravelerList.get(j);
+					if (t.getSearchedAge() != 0) {
+						mTravelerList.get(j).setSearchedAge(age);
+					}
 				}
 			}
 		}
