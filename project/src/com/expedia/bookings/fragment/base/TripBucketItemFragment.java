@@ -94,7 +94,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		bind();
+		bind(true);
 	}
 
 	public void setState(TripBucketItemState state) {
@@ -105,8 +105,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		return mStateManager.getState();
 	}
 
-	public void bind() {
-		if (mRootC != null) {
+	public void bind(boolean refresh) {
+		if (mRootC != null && refresh) {
 			//refresh the state...
 			setState(mStateManager.getState());
 

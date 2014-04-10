@@ -69,10 +69,10 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	 */
 
 	public void bindToDb() {
-		bind(Db.getTripBucket());
+		bind(Db.getTripBucket(), false);
 	}
 
-	public void bind(TripBucket bucket) {
+	public void bind(TripBucket bucket, boolean refresh) {
 		//TODO: In the future, this thing should iterate over the trip bucket items and support N items etc.
 
 		FragmentManager manager = getChildFragmentManager();
@@ -93,11 +93,11 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		transaction.commit();
 
 		if (showFlight) {
-			mTripBucketFlightFrag.bind();
+			mTripBucketFlightFrag.bind(refresh);
 			mTripBucketFlightFrag.setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 		}
 		if (showHotel) {
-			mTripBucketHotelFrag.bind();
+			mTripBucketHotelFrag.bind(refresh);
 			mTripBucketHotelFrag.setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 		}
 	}

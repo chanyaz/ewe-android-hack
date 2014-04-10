@@ -20,6 +20,7 @@ import com.mobiata.android.json.JSONable;
  */
 public class TripBucket implements JSONable {
 
+	private int mRefreshCount;
 	private List<TripBucketItem> mItems;
 
 	public TripBucket() {
@@ -30,6 +31,7 @@ public class TripBucket implements JSONable {
 	 * Removes all items from this TripBucket.
 	 */
 	public void clear() {
+		mRefreshCount = 0;
 		mItems.clear();
 	}
 
@@ -60,11 +62,26 @@ public class TripBucket implements JSONable {
 	}
 
 	/**
+	 * Convenience method to determine when we really need to refresh this TripBucket.
+	 * @return
+	 */
+	public boolean doRefresh() {
+		if (mRefreshCount <= 0) {
+			return false;
+		}
+		else {
+			mRefreshCount--;
+			return true;
+		}
+	}
+
+	/**
 	 * Adds a Hotel to the trip bucket. Must specify the property and room rate.
 	 * @param property
 	 * @param rate
 	 */
 	public void add(Property property, Rate rate) {
+		mRefreshCount++;
 		mItems.add(new TripBucketItemHotel(property, rate));
 	}
 
@@ -73,6 +90,7 @@ public class TripBucket implements JSONable {
 	 * @param state
 	 */
 	public void add(FlightSearchState state) {
+		mRefreshCount++;
 		mItems.add(new TripBucketItemFlight(state.clone()));
 	}
 
@@ -166,6 +184,9 @@ public class TripBucket implements JSONable {
 	public void remove(int index) {
 		if (index >= 0 && index < mItems.size()) {
 			mItems.remove(index);
+			if (mRefreshCount > 0) {
+				mRefreshCount--;
+			}
 		}
 	}
 

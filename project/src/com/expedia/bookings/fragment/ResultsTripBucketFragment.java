@@ -52,6 +52,7 @@ public class ResultsTripBucketFragment extends Fragment
 
 	public void bind(TripBucket bucket) {
 		boolean showBucket = bucket != null && bucket.size() > 0;
+		boolean refreshBucket = bucket.doRefresh();
 		if (showBucket) {
 			mEmptyTripC.setVisibility(View.GONE);
 			mTripBucketC.setVisibility(View.VISIBLE);
@@ -62,7 +63,7 @@ public class ResultsTripBucketFragment extends Fragment
 		}
 
 		if (mBucketFrag != null && mBucketFrag.isAdded() && showBucket) {
-			mBucketFrag.bind(bucket);
+			mBucketFrag.bind(bucket, refreshBucket);
 		}
 	}
 
