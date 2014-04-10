@@ -134,22 +134,13 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// FragmentListener
 
-	/**
-	 * This override is part of the FragmentListener implementation. The fragment will invoke this callback
-	 * once it has completed downloading a set of reviews. This method determines the logic for "chaining" of
-	 * reviews, that is download the first page of all three sets of reviews automatically, one after the other
-	 * such that no two downloads are happening at once
-	 */
 	@Override
-	public void onDownloadComplete(UserReviewsFragment fragmentDone) {
-		mPagerAdapter.attemptNextDownload(fragmentDone);
+	public void onUserReviewsFragmentReady(UserReviewsFragment frag) {
+		frag.bind();
 	}
 
-	/**
-	 * This override is used to track the number of reviews seen
-	 */
 	@Override
 	public void addMoreReviewsSeen(Set<String> reviews) {
-		//mViewedReviews.addAll(reviews);
+		// TODO: Omniture tracking
 	}
 }

@@ -36,8 +36,6 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.Ui;
 
-import com.mobiata.android.Log;
-
 public class UserReviewsFragment extends ListFragment implements OnScrollListener {
 
 	// Constants
@@ -70,7 +68,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 	private List<ReviewWrapper> mUserReviews;
 
-	private boolean mAttemptedDownload = false;
+	private boolean mAttemptedInitialDownload = false;
 	private boolean mHasFilteredOutAReview = false;
 	private int mStatusResId;
 
@@ -97,14 +95,10 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		super.onAttach(activity);
 
 		mUserReviewsFragmentListener = Ui.findFragmentListener(this, UserReviewsFragmentListener.class);
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 
 		mReviewSort = ReviewSort.valueOf(getArguments().getString(ARGUMENT_SORT_STRING));
 		mReviewsDownloadKey = REVIEWS_DOWNLOAD_KEY_PREFIX + mReviewSort.name();
+
 		mScrollListenerSet = false;
 	}
 
@@ -115,6 +109,13 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			mHeaderView = inflater.inflate(R.layout.header_user_reviews_list, null, false);
 		}
 		return view;
+	}
+
+	@Override
+	public void onViewCreated(View v, Bundle savedInstanceState) {
+		if (mUserReviewsFragmentListener != null) {
+			mUserReviewsFragmentListener.onUserReviewsFragmentReady(this);
+		}
 	}
 
 	@Override
@@ -131,7 +132,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		if (savedInstanceState != null) {
 			mPageNumber = savedInstanceState.getInt(INSTANCE_PAGE_NUMBER);
 			mNumReviewsDownloaded = savedInstanceState.getInt(INSTANCE_NUM_DOWNLOADED);
-			mAttemptedDownload = savedInstanceState.getBoolean(INSTANCE_ATTEMPTED_DOWNLOAD, false);
+			mAttemptedInitialDownload = savedInstanceState.getBoolean(INSTANCE_ATTEMPTED_DOWNLOAD, false);
 			mHasFilteredOutAReview = savedInstanceState.getBoolean(INSTANCE_HAS_FILTERED_REVIEW, false);
 			boolean reincarnatedReviews = savedInstanceState.getBoolean(INSTANCE_HAS_REVIEWS, false);
 			if (reincarnatedReviews) {
@@ -157,10 +158,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		if (mBackgroundDownloader.isDownloading(mReviewsDownloadKey)) {
 			mBackgroundDownloader.registerDownloadCallback(mReviewsDownloadKey, mUserReviewDownloadCallback);
 		}
-
-		if (mReviewSort == ReviewSort.NEWEST_REVIEW_FIRST) {
-			bind();
-		}
 	}
 
 	@Override
@@ -178,7 +175,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		outState.putBoolean(INSTANCE_ATTEMPTED_DOWNLOAD, mAttemptedDownload);
+		outState.putBoolean(INSTANCE_ATTEMPTED_DOWNLOAD, mAttemptedInitialDownload);
 		outState.putBoolean(INSTANCE_HAS_FILTERED_REVIEW, mHasFilteredOutAReview);
 
 		boolean hasReviews = false;
@@ -196,17 +193,22 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 	public void bind() {
 		mProperty = Db.getHotelSearch().getSelectedProperty();
-
-		attemptReviewsDownload();
-
+		attemptInitialReviewsDownload();
 		populateListHeader();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Reviews Download
 
-	public void attemptReviewsDownload() {
-		if (!mAttemptedDownload && mProperty != null) {
+	private void attemptInitialReviewsDownload() {
+		if (!mAttemptedInitialDownload && mProperty != null) {
+			mAttemptedInitialDownload = true;
+			startReviewsDownload();
+		}
+	}
+
+	private void startReviewsDownload() {
+		if (mProperty != null) {
 			mBackgroundDownloader.startDownload(mReviewsDownloadKey, mUserReviewDownload, mUserReviewDownloadCallback);
 		}
 	}
@@ -214,8 +216,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	private final Download<ReviewsResponse> mUserReviewDownload = new Download<ReviewsResponse>() {
 		@Override
 		public ReviewsResponse doDownload() {
-			mAttemptedDownload = true;
-
 			ExpediaServices expediaServices = new ExpediaServices(getActivity());
 			mBackgroundDownloader.addDownloadListener(mReviewsDownloadKey, expediaServices);
 			return expediaServices.reviews(mProperty, mReviewSort, mPageNumber);
@@ -246,9 +246,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 				mUserReviewsUtils.putReviews(mProperty.getPropertyId(), mReviewSort, mUserReviews);
 				mUserReviewsAdapter.setUserReviews(mUserReviews);
-
 			}
-			mUserReviewsFragmentListener.onDownloadComplete(UserReviewsFragment.this);
 		}
 	};
 
@@ -267,7 +265,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		boolean isDownloading = mBackgroundDownloader.isDownloading(mReviewsDownloadKey);
 
 		if (mScrollListenerSet && loadMore && hasMore && shouldAttempt && !isDownloading) {
-			bind();
+			startReviewsDownload();
 			addLoadingFooter();
 		}
 
@@ -443,20 +441,13 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	// Fragment listener
 
 	/**
-	 * Fragment listener interface used to communicate from fragment to enclosing activity. By defining an interface
-	 * that the enclosing activity must define, the fragment is not as tightly coupled to its enclosing activity. Invoke
-	 * onDownloadComplete after a set of reviews is downloaded in order to trigger the activity to chain (or not) the downloads
-	 * for the other review sorts
-	 *
+	 * Fragment listener interface used to communicate what reviews the user looked at for tracking purposes.
 	 * @author brad
 	 *
 	 */
 	public interface UserReviewsFragmentListener {
-
-		public void onDownloadComplete(UserReviewsFragment fragment);
-
+		public void onUserReviewsFragmentReady(UserReviewsFragment frag);
 		public void addMoreReviewsSeen(Set<String> reviews);
-
 	}
 
 }

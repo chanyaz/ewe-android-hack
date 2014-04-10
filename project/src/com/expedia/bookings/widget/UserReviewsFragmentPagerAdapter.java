@@ -68,13 +68,10 @@ public class UserReviewsFragmentPagerAdapter extends FragmentPagerAdapter {
 	}
 
 	public void bind() {
-		if (mFragments.get(0) != null) {
-			mFragments.get(0).bind();
+		for (int i = 0; i < TABS.length; i++) {
+			if (mFragments.get(i) != null) {
+				mFragments.get(i).bind();
+			}
 		}
-	}
-
-	public void attemptNextDownload(UserReviewsFragment fragmentDone) {
-		int indexStart = (mFragments.indexOf(fragmentDone) + 1) % TABS.length;
-		mFragments.get(indexStart).bind();
 	}
 }
