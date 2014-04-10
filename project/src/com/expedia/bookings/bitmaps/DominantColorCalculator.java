@@ -39,20 +39,22 @@ public class DominantColorCalculator {
     private final MedianCutQuantizer.ColorNode[] mWeightedPalette;
     private ColorScheme mColorScheme;
 
-    public DominantColorCalculator(Bitmap bitmap) {
-        final int width = bitmap.getWidth();
-        final int height = bitmap.getHeight();
+	public DominantColorCalculator(Bitmap bitmap) {
+		// Let's rescale the bitmap by half to get a performance boost.
+		Bitmap rescaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / 2, bitmap.getHeight() / 2, true);
+		final int width = rescaledBitmap.getWidth();
+		final int height = rescaledBitmap.getHeight();
 
-        final int[] rgbPixels = new int[width * height];
-        bitmap.getPixels(rgbPixels, 0, width, 0, 0, width, height);
+		final int[] rgbPixels = new int[width * height];
+		bitmap.getPixels(rgbPixels, 0, width, 0, 0, width, height);
 
-        final MedianCutQuantizer mcq = new MedianCutQuantizer(rgbPixels, NUM_COLORS);
+		final MedianCutQuantizer mcq = new MedianCutQuantizer(rgbPixels, NUM_COLORS);
 
-        mPalette = mcq.getQuantizedColors();
-        mWeightedPalette = weight(mPalette);
+		mPalette = mcq.getQuantizedColors();
+		mWeightedPalette = weight(mPalette);
 
-        findColors();
-    }
+		findColors();
+	}
 
     public ColorScheme getColorScheme() {
         return mColorScheme;

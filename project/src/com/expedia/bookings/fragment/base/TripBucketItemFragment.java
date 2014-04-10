@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.ColorAvgUtils;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
@@ -136,8 +137,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private HeaderBitmapColorAveragedDrawable.BitmapColorAverageDoneListener bitmapColorAverageDoneListener = new HeaderBitmapColorAveragedDrawable.BitmapColorAverageDoneListener() {
 		@Override
 		public void onDominantColorCalculated(ColorScheme colorScheme) {
-
-			int overLayWithAlpha = 0xE6000000 | 0xffffff & colorScheme.primaryAccent;
+			int colorDarkened = ColorAvgUtils.darken(colorScheme.primaryAccent, 0.4f);
+			int overLayWithAlpha = 0xCC000000 | 0xffffff & colorDarkened;
 			mOverLayView.setBackgroundColor(overLayWithAlpha);
 			// Due to timing issues this might get called after setVisibilityState, so let's take care of that.
 			if (mStateManager.getState() == TripBucketItemState.EXPANDED) {
