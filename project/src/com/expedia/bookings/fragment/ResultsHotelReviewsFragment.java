@@ -81,11 +81,15 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 			Property property = Db.getHotelSearch().getSelectedProperty();
 			bind(property);
 		}
-		mPagerAdapter.bind();
 	}
 
 	private void bind(Property property) {
 		mReviewSectionTitle.setText(getString(R.string.reviews_for_TEMPLATE, property.getName()));
+		mPagerAdapter.bind();
+	}
+
+	public void onHotelSelected() {
+		bind(Db.getHotelSearch().getSelectedProperty());
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

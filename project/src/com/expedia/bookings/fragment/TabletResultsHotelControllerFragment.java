@@ -562,6 +562,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		if (mHotelDetailsFrag != null && mHotelDetailsFrag.isAdded()) {
 			mHotelDetailsFrag.onHotelSelected();
 		}
+		if (mHotelReviewsFrag != null && mHotelReviewsFrag.isAdded()) {
+			mHotelReviewsFrag.onHotelSelected();
+		}
 		for (IResultsHotelSelectedListener listener : mHotelSelectedListeners) {
 			listener.onHotelSelected();
 		}

@@ -61,6 +61,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 	private ReviewSort mReviewSort;
 	private Property mProperty;
+	private Property mCurrentProperty;
 
 	private String mReviewsDownloadKey;
 	private int mPageNumber = 0;
@@ -201,8 +202,17 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	// Reviews Download
 
 	private void attemptInitialReviewsDownload() {
+		if (mAttemptedInitialDownload && mCurrentProperty != null && mCurrentProperty != mProperty) {
+			mAttemptedInitialDownload = false;
+			mUserReviews = null;
+			if (mBackgroundDownloader.isDownloading(mReviewsDownloadKey)) {
+				mBackgroundDownloader.cancelDownload(mReviewsDownloadKey);
+			}
+		}
+
 		if (!mAttemptedInitialDownload && mProperty != null) {
 			mAttemptedInitialDownload = true;
+			mCurrentProperty = mProperty;
 			startReviewsDownload();
 		}
 	}
