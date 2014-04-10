@@ -95,13 +95,17 @@
     <!-- Destination and date range e.g. "Maui, Aug 5 - Aug 12 -->
     <string name="destination_and_date_range_TEMPLATE">%1$s, %2$s</string>
     <!-- Trip bucket title intro, "Trip To" (e.g., "Trip To New York, USA") -->
-    <string name="trip_to">여행 목적지:</string>
+    <string name="trip_to">여행 목적지</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">고객님의 여행이 비어 있습니다.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
     <string name="trip_bucket_book_flight">항공편 예약</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
     <string name="trip_bucket_book_hotel">호텔 예약</string>
+    <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
+    <string name="trip_bucket_label_flight_roundtrip">%1$s 왕복 여행</string>
+    <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
+    <string name="trip_bucket_label_flight_trip">%1$s 여행</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">%1$s행 항공편</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -1208,6 +1212,12 @@
     <string name="guest_details">숙박객 정보</string>
     <!-- Add traveler number template -->
     <string name="add_traveler_number_TEMPLATE">여행객 %1$s 정보</string>
+    <!-- Add adult traveler number template -->
+    <string name="add_adult_number_TEMPLATE">어른 %1$s 정보</string>
+    <!-- Add child traveler number template -->
+    <string name="add_child_number_TEMPLATE">아동 %1$s 정보</string>
+    <!-- Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_TEMPLATE">무릎에 앉히는 영유아 %1$s 정보</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">여행객 이름이 정부가 발급한 사진이 부착된 ID와 맞지 않는 경우 탑승이 거부될 수 있습니다.</string>
 
@@ -1253,6 +1263,8 @@
     <string name="expiration_date">만료일</string>
     <!-- Set expiration date button -->
     <string name="btn_set">설정</string>
+    <!-- Describes credit card expiration (e.g. "Expires 01/18") -->
+    <string name="Expires_TEMPLATE">만료일: %1$s</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -1519,17 +1531,22 @@
     <string name="cvv_code_TEMPLATE">&lt;b&gt;%s&lt;/b&gt;의 CVC 번호</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">%s 번호로 끝나는 카드</string>
+    <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
+    <string name="x_card_ending_in_y_digits_TEMPLATE">%1$s, 끝자리 번호: %2$s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">예약 완료</string>
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->
     <string name="Authorized_Signature">서명</string>
     <!-- Security label below signature strip on credit card mockup, on CVV screen -->
     <string name="Not_Valid_Unless_Signed">서명이 없는 경우 무효</string>
+    <!-- Label above cardholder's name on front of credit card on CVV screen -->
+    <string name="Member">회원</string>
+    <!-- Default cardholder name on front of credit card on CVV screen -->
+    <string name="Preferred_Customer">우수 고객</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_back_of_card">카드 뒷면을 확인하세요.</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
-    <string name="See_font_of_card">카드 앞면을 확인하세요.</string>
-
+    <string name="See_front_of_card">카드 앞면을 확인하세요.</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -1598,6 +1615,12 @@
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
     <string name="child_age_less_than_one">&lt;b&gt;만 1세 미만&lt;/b&gt;</string>
 
+    <!-- For flights, children ages < 2 can have their own seat or sit in an adult's lap -->
+    <string name="child_age_less_than_one_on_lap">&lt;b&gt;만 1세 미만&lt;/b&gt; - 어른 무릎에 앉힘</string>
+    <string name="child_age_less_than_one_own_seat">&lt;b&gt;만 1세 미만&lt;/b&gt; - 개별 좌석</string>
+    <string name="child_age_one_on_lap">&lt;b&gt;만 1&lt;/b&gt;세 - 어른 무릎에 앉힘</string>
+    <string name="child_age_one_own_seat">&lt;b&gt;만 1&lt;/b&gt;세 - 개별 좌석</string>
+
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
     <string name="suggestion_times_square">타임스 스퀘어, 뉴욕</string>
@@ -1630,6 +1653,8 @@
     <string name="upgrade">업그레이드</string>
     <!-- Button label for searching with newly selected parameters -->
     <string name="SEARCH">검색</string>
+    <!-- Button label for dismissing the flight guest picker -->
+    <string name="DONE">완료</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">지도 검색</string>
     <!-- Label for sort hotels in hotel list on tablet -->
@@ -1753,6 +1778,7 @@
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">%s~</string>
+    <string name="From_x_per_night_template">1박당 &lt;font color="#3c7cf2"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;~</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2267,7 +2293,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s%2$s</string>
+    <string name="distance_template_short">%1$s %2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->

@@ -102,6 +102,10 @@
     <string name="trip_bucket_book_flight">Réserver un vol</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
     <string name="trip_bucket_book_hotel">Réserver un hôtel</string>
+    <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
+    <string name="trip_bucket_label_flight_roundtrip">Voyage aller-retour à %1$s</string>
+    <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
+    <string name="trip_bucket_label_flight_trip">Voyage à %1$s</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">Vols à destination de %1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -1208,6 +1212,12 @@
     <string name="guest_details">Informations du client</string>
     <!-- Add traveler number template -->
     <string name="add_traveler_number_TEMPLATE">Informations du voyageur %1$s</string>
+    <!-- Add adult traveler number template -->
+    <string name="add_adult_number_TEMPLATE">Informations Adulte %1$s</string>
+    <!-- Add child traveler number template -->
+    <string name="add_child_number_TEMPLATE">Informations Enfant %1$s</string>
+    <!-- Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_TEMPLATE">Informations Enfant - 2 ans sur les genoux %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Si le nom du voyageur ne correspond pas à celui sur la pièce d\&apos;identité, l\&apos;embarquement pourrait être refusé.</string>
 
@@ -1253,6 +1263,8 @@
     <string name="expiration_date">Date d\&apos;expiration</string>
     <!-- Set expiration date button -->
     <string name="btn_set">Configurer</string>
+    <!-- Describes credit card expiration (e.g. "Expires 01/18") -->
+    <string name="Expires_TEMPLATE">Valable jusqu\&apos;au %1$s</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -1519,17 +1531,22 @@
     <string name="cvv_code_TEMPLATE">Code de sécurité pour &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">Derniers chiffres de la carte : %s</string>
+    <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
+    <string name="x_card_ending_in_y_digits_TEMPLATE">%1$s se termine par %2$s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">Finaliser la réservation</string>
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->
     <string name="Authorized_Signature">Signature autorisée</string>
     <!-- Security label below signature strip on credit card mockup, on CVV screen -->
     <string name="Not_Valid_Unless_Signed">Non valide à moins d\&apos;être signé</string>
+    <!-- Label above cardholder's name on front of credit card on CVV screen -->
+    <string name="Member">Membre</string>
+    <!-- Default cardholder name on front of credit card on CVV screen -->
+    <string name="Preferred_Customer">Client préféré</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_back_of_card">Voir au verso de la carte</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
-    <string name="See_font_of_card">Voir au recto de la carte</string>
-
+    <string name="See_front_of_card">Voir au recto de la carte</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -1598,6 +1615,12 @@
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
     <string name="child_age_less_than_one">&lt;b&gt;Moins d\&apos;1 an&lt;/b&gt;</string>
 
+    <!-- For flights, children ages < 2 can have their own seat or sit in an adult's lap -->
+    <string name="child_age_less_than_one_on_lap">&lt;b&gt;Moins d\&apos;1 an&lt;/b&gt; - sur les genoux d\&apos;un adulte</string>
+    <string name="child_age_less_than_one_own_seat">&lt;b&gt;Moins d\&apos;1 an&lt;/b&gt; - propre siège</string>
+    <string name="child_age_one_on_lap">&lt;b&gt;1&lt;/b&gt; an - sur les genoux d\&apos;un adulte</string>
+    <string name="child_age_one_own_seat">&lt;b&gt;1&lt;/b&gt; an - propre siège</string>
+
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
     <string name="suggestion_times_square">Times Square, New York</string>
@@ -1630,6 +1653,8 @@
     <string name="upgrade">Mettre à jour</string>
     <!-- Button label for searching with newly selected parameters -->
     <string name="SEARCH">RECHERCHER</string>
+    <!-- Button label for dismissing the flight guest picker -->
+    <string name="DONE">OK</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">Rechercher</string>
     <!-- Label for sort hotels in hotel list on tablet -->
@@ -1753,6 +1778,7 @@
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">À partir de %s</string>
+    <string name="From_x_per_night_template">À partir de &lt;font color="#3c7cf2"&gt;/nuit&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->

@@ -102,6 +102,10 @@
     <string name="trip_bucket_book_flight">Book flyrejse</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
     <string name="trip_bucket_book_hotel">Reserver hotel</string>
+    <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
+    <string name="trip_bucket_label_flight_roundtrip">Returrejse til %1$s</string>
+    <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
+    <string name="trip_bucket_label_flight_trip">Rejse til %1$s</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">Fly til %1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -1208,6 +1212,12 @@
     <string name="guest_details">Oplysninger om gæst</string>
     <!-- Add traveler number template -->
     <string name="add_traveler_number_TEMPLATE">Oplysninger om rejsende %1$s</string>
+    <!-- Add adult traveler number template -->
+    <string name="add_adult_number_TEMPLATE">Oplysninger for voksen %1$s</string>
+    <!-- Add child traveler number template -->
+    <string name="add_child_number_TEMPLATE">Oplysninger for barn %1$s</string>
+    <!-- Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_TEMPLATE">Oplysninger for spædbarn på skødet %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Boarding kan nægtes, hvis den rejsendes navn ikke stemmer overens med det officielle billed-id.</string>
 
@@ -1253,6 +1263,8 @@
     <string name="expiration_date">Udløbsdato</string>
     <!-- Set expiration date button -->
     <string name="btn_set">Indstil</string>
+    <!-- Describes credit card expiration (e.g. "Expires 01/18") -->
+    <string name="Expires_TEMPLATE">Udløber %1$s</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -1519,17 +1531,22 @@
     <string name="cvv_code_TEMPLATE">Kontrolcifre for: &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">kort, der ender med %s</string>
+    <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
+    <string name="x_card_ending_in_y_digits_TEMPLATE">%1$s slutter med %2$s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">Færdiggør reservation</string>
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->
     <string name="Authorized_Signature">Autoriseret underskrift</string>
     <!-- Security label below signature strip on credit card mockup, on CVV screen -->
     <string name="Not_Valid_Unless_Signed">Kun gyldig med underskrift</string>
+    <!-- Label above cardholder's name on front of credit card on CVV screen -->
+    <string name="Member">Medlem</string>
+    <!-- Default cardholder name on front of credit card on CVV screen -->
+    <string name="Preferred_Customer">Foretrukken kunde</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_back_of_card">Se bagsiden af kortet</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
-    <string name="See_font_of_card">Se forsiden af kortet</string>
-
+    <string name="See_front_of_card">Se forsiden af kortet</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -1596,7 +1613,13 @@
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; år</item>
     </plurals>
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
-    <string name="child_age_less_than_one">&lt;b&gt;Mindre end 1 år&lt;/b&gt;</string>
+    <string name="child_age_less_than_one">&lt;b&gt;Mindre end 1&lt;/b&gt; år</string>
+
+    <!-- For flights, children ages < 2 can have their own seat or sit in an adult's lap -->
+    <string name="child_age_less_than_one_on_lap">&lt;b&gt;Mindre end 1&lt;/b&gt; - på skødet af en voksen</string>
+    <string name="child_age_less_than_one_own_seat">&lt;b&gt;Mindre end 1&lt;/b&gt; - eget sæde</string>
+    <string name="child_age_one_on_lap">&lt;b&gt;1&lt;/b&gt; år - på skødet af en voksen</string>
+    <string name="child_age_one_own_seat">&lt;b&gt;1&lt;/b&gt; år - eget sæde</string>
 
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
@@ -1630,6 +1653,8 @@
     <string name="upgrade">Opgrader</string>
     <!-- Button label for searching with newly selected parameters -->
     <string name="SEARCH">SØG</string>
+    <!-- Button label for dismissing the flight guest picker -->
+    <string name="DONE">AFSLUT</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">Søg på kort</string>
     <!-- Label for sort hotels in hotel list on tablet -->
@@ -1753,6 +1778,7 @@
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">Fra %s</string>
+    <string name="From_x_per_night_template">Fra &lt;font color="#3c7cf2"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/nat</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->

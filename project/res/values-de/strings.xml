@@ -102,6 +102,10 @@
     <string name="trip_bucket_book_flight">Flug buchen</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
     <string name="trip_bucket_book_hotel">Hotel buchen</string>
+    <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
+    <string name="trip_bucket_label_flight_roundtrip">Hin- und Rückflug nach %1$s</string>
+    <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
+    <string name="trip_bucket_label_flight_trip">Reise nach %1$s</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">Flüge nach %1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -844,7 +848,7 @@
     <!-- label for activity 1: valid date -->
     <string name="share_template_long_activity_valid">Gültig ab: %1$s</string>
     <!-- label for activity 1: expiration date -->
-    <string name="share_template_long_activity_expires">Gültig bis:%1$s</string>
+    <string name="share_template_long_activity_expires">Gültig bis %1$s</string>
     <!-- label for activity 1: number of guests 2: list of guests -->
     <string name="share_template_long_activity_guests_with_count">Personen (%1$s)\n%2$s</string>
 
@@ -1208,6 +1212,12 @@
     <string name="guest_details">Gästedetails</string>
     <!-- Add traveler number template -->
     <string name="add_traveler_number_TEMPLATE">Angaben zum %1$s. Reisenden</string>
+    <!-- Add adult traveler number template -->
+    <string name="add_adult_number_TEMPLATE">Angaben zum %1$s. Erwachsenen</string>
+    <!-- Add child traveler number template -->
+    <string name="add_child_number_TEMPLATE">Angaben zum %1$s. Kind</string>
+    <!-- Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_TEMPLATE">Angaben zum %1$s. Kleinkind auf dem Schoß</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Wenn der Name des Reisenden nicht mit dem Namen im Lichtbildausweis übereinstimmt, kann das Boarding verwehrt werden.</string>
 
@@ -1253,6 +1263,8 @@
     <string name="expiration_date">Ablaufdatum</string>
     <!-- Set expiration date button -->
     <string name="btn_set">Konfigurieren</string>
+    <!-- Describes credit card expiration (e.g. "Expires 01/18") -->
+    <string name="Expires_TEMPLATE">Gültig bis %1$s</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -1520,17 +1532,22 @@
     <string name="cvv_code_TEMPLATE">Prüfnummer für &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">Karte endet auf %s</string>
+    <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
+    <string name="x_card_ending_in_y_digits_TEMPLATE">%1$s, endet auf %2$s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">Buchung abschließen</string>
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->
     <string name="Authorized_Signature">Autorisierte Unterschrift</string>
     <!-- Security label below signature strip on credit card mockup, on CVV screen -->
     <string name="Not_Valid_Unless_Signed">Ohne Unterschrift nicht gültig</string>
+    <!-- Label above cardholder's name on front of credit card on CVV screen -->
+    <string name="Member">Mitglied</string>
+    <!-- Default cardholder name on front of credit card on CVV screen -->
+    <string name="Preferred_Customer">Bevorzugter Kunde</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_back_of_card">Siehe Rückseite der Karte</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
-    <string name="See_font_of_card">Siehe Vorderseite der Karte</string>
-
+    <string name="See_front_of_card">Siehe Vorderseite der Karte</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -1599,6 +1616,12 @@
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
     <string name="child_age_less_than_one">&lt;b&gt;Unter 1 Jahr&lt;/b&gt; alt</string>
 
+    <!-- For flights, children ages < 2 can have their own seat or sit in an adult's lap -->
+    <string name="child_age_less_than_one_on_lap">&lt;b&gt;Unter 1 Jahr&lt;/b&gt; – auf dem Schoß</string>
+    <string name="child_age_less_than_one_own_seat">&lt;b&gt;Unter 1 Jahr&lt;/b&gt; – eigener Sitzplatz</string>
+    <string name="child_age_one_on_lap">&lt;b&gt;1&lt;/b&gt; Jahr alt – auf dem Schoß</string>
+    <string name="child_age_one_own_seat">&lt;b&gt;1&lt;/b&gt; Jahr alt – eigener Sitzplatz</string>
+
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
     <string name="suggestion_times_square">Times Square, New York, NY</string>
@@ -1631,6 +1654,8 @@
     <string name="upgrade">Upgrade</string>
     <!-- Button label for searching with newly selected parameters -->
     <string name="SEARCH">SUCHEN</string>
+    <!-- Button label for dismissing the flight guest picker -->
+    <string name="DONE">FERTIG</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">Karte durchsuchen</string>
     <!-- Label for sort hotels in hotel list on tablet -->
@@ -1754,6 +1779,7 @@
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">Ab %s</string>
+    <string name="From_x_per_night_template">Ab &lt;font color="#3c7cf2"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/Nacht</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->

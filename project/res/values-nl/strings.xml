@@ -102,6 +102,10 @@
     <string name="trip_bucket_book_flight">Boek vlucht</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
     <string name="trip_bucket_book_hotel">Boek hotel</string>
+    <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
+    <string name="trip_bucket_label_flight_roundtrip">Retourreis naar %1$s</string>
+    <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
+    <string name="trip_bucket_label_flight_trip">Reis naar %1$s</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">Vluchten naar %1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -1208,6 +1212,12 @@
     <string name="guest_details">Gastinfo</string>
     <!-- Add traveler number template -->
     <string name="add_traveler_number_TEMPLATE">Info reiziger %1$s</string>
+    <!-- Add adult traveler number template -->
+    <string name="add_adult_number_TEMPLATE">Volwassene %1$s gegevens</string>
+    <!-- Add child traveler number template -->
+    <string name="add_child_number_TEMPLATE">Kind %1$s gegevens</string>
+    <!-- Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_TEMPLATE">Baby op schoot %1$s gegevens</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Mogelijk wordt toegang tot het vliegtuig geweigerd als de naam van de reiziger niet overeenstemt met die op het identiteitsbewijs.</string>
 
@@ -1253,6 +1263,8 @@
     <string name="expiration_date">Vervaldatum</string>
     <!-- Set expiration date button -->
     <string name="btn_set">Kies</string>
+    <!-- Describes credit card expiration (e.g. "Expires 01/18") -->
+    <string name="Expires_TEMPLATE">Vervaldatum: %1$s</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -1519,17 +1531,22 @@
     <string name="cvv_code_TEMPLATE">CVV-code voor &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">creditcard eindigend op %s</string>
+    <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
+    <string name="x_card_ending_in_y_digits_TEMPLATE">%1$s eindigend op %2$s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">Voltooi je boeking</string>
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->
     <string name="Authorized_Signature">Handtekening kaarthouder</string>
     <!-- Security label below signature strip on credit card mockup, on CVV screen -->
     <string name="Not_Valid_Unless_Signed">Niet geldig tenzij getekend</string>
+    <!-- Label above cardholder's name on front of credit card on CVV screen -->
+    <string name="Member">Lid</string>
+    <!-- Default cardholder name on front of credit card on CVV screen -->
+    <string name="Preferred_Customer">Klant</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_back_of_card">Zie achterkant kaart</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
-    <string name="See_font_of_card">Zie voorkant kaart</string>
-
+    <string name="See_front_of_card">Zie voorkant creditcard</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -1598,6 +1615,12 @@
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
     <string name="child_age_less_than_one">&lt;b&gt;Minder dan 1 jaar oud&lt;/b&gt;</string>
 
+    <!-- For flights, children ages < 2 can have their own seat or sit in an adult's lap -->
+    <string name="child_age_less_than_one_on_lap">&lt;b&gt;Minder dan 1&lt;/b&gt; - op schoot volwassene</string>
+    <string name="child_age_less_than_one_own_seat">&lt;b&gt;Minder dan 1&lt;/b&gt; - in eigen stoel</string>
+    <string name="child_age_one_on_lap">&lt;b&gt;1&lt;/b&gt; jaar oud - op schoot volwassene</string>
+    <string name="child_age_one_own_seat">&lt;b&gt;1&lt;/b&gt; jaar oud - in eigen stoel</string>
+
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
     <string name="suggestion_times_square">Times Square, New York, New York</string>
@@ -1627,9 +1650,11 @@
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
     <string name="ChooseLocation">Bedoelde je soms…</string>
     <!-- Button label for upgrading the app -->
-    <string name="upgrade">Upgrade</string>
+    <string name="upgrade">Upgraden</string>
     <!-- Button label for searching with newly selected parameters -->
     <string name="SEARCH">ZOEKEN</string>
+    <!-- Button label for dismissing the flight guest picker -->
+    <string name="DONE">KLAAR</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">Op kaart zoeken</string>
     <!-- Label for sort hotels in hotel list on tablet -->
@@ -1753,6 +1778,7 @@
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">Vanaf %s</string>
+    <string name="From_x_per_night_template">Vanaf &lt;font color="#3c7cf2"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/nacht</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->

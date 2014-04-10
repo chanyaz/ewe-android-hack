@@ -102,6 +102,10 @@
     <string name="trip_bucket_book_flight">航空券を予約</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
     <string name="trip_bucket_book_hotel">ホテルを予約</string>
+    <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
+    <string name="trip_bucket_label_flight_roundtrip">%1$sへの往復フライト</string>
+    <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
+    <string name="trip_bucket_label_flight_trip">目的地 : %1$s</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">%1$sへのフライト</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -437,11 +441,11 @@
     <!-- Itin flight international terminal only -->
     <string name="Depart_International_Terminal">国際線ターミナルを出発</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
-    <string name="at_airport_TEMPLATE">&lt;b&gt;%1$sに到着&lt;/b&gt;</string>
+    <string name="at_airport_TEMPLATE">&lt;b&gt;%1$s に到着&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
-    <string name="from_airport_TEMPLATE">&lt;b&gt;%1$s ～&lt;/b&gt;</string>
+    <string name="from_airport_TEMPLATE">&lt;b&gt;%1$s から出発&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
-    <string name="from_airport_time_TEMPLATE">&lt;b&gt;%1$sから&lt;/b&gt;%2$sに出発</string>
+    <string name="from_airport_time_TEMPLATE">&lt;b&gt;%1$s から&lt;/b&gt; %2$s に出発</string>
     <!-- Itin flight summary second line for arrival waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight arrives/d -->
     <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$s に到着&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
@@ -645,9 +649,9 @@
     <string name="car_category_oversize">オーバーサイズカー</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア 自動車</string>
-    <string name="car_type_three_door">3 ドア 自動車</string>
-    <string name="car_type_four_door">4 ドア 自動車</string>
+    <string name="car_type_two_door">2 ドア自動車</string>
+    <string name="car_type_three_door">3 ドア自動車</string>
+    <string name="car_type_four_door">4 ドア自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -998,7 +1002,7 @@
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">片道 &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Round trip from $994" -->
-    <string name="round_trip_price_TEMPLATE">往復 &lt;b&gt;%s&lt;/b&gt; から</string>
+    <string name="round_trip_price_TEMPLATE">往復 &lt;b&gt;%s&lt;/b&gt; ～</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">今すぐ予約で &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
@@ -1208,6 +1212,12 @@
     <string name="guest_details">ゲストの詳細</string>
     <!-- Add traveler number template -->
     <string name="add_traveler_number_TEMPLATE">旅行者 %1$s の詳細</string>
+    <!-- Add adult traveler number template -->
+    <string name="add_adult_number_TEMPLATE">大人 %1$s の詳細</string>
+    <!-- Add child traveler number template -->
+    <string name="add_child_number_TEMPLATE">お子様 %1$s の詳細</string>
+    <!-- Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_TEMPLATE">膝抱きの乳幼児 %1$s の詳細</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">旅行者名がパスポートなど写真付きの公的証明書に記載された名前と一致しない場合は搭乗できません。</string>
 
@@ -1253,6 +1263,8 @@
     <string name="expiration_date">有効期限</string>
     <!-- Set expiration date button -->
     <string name="btn_set">設定</string>
+    <!-- Describes credit card expiration (e.g. "Expires 01/18") -->
+    <string name="Expires_TEMPLATE">有効期限 %1$s</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -1519,17 +1531,22 @@
     <string name="cvv_code_TEMPLATE">&lt;b&gt;%s&lt;/b&gt;様のセキュリティコード</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">末尾が %s のクレジットカード</string>
+    <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
+    <string name="x_card_ending_in_y_digits_TEMPLATE">カード番号末尾が %2$s の %1$s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">予約を完了する</string>
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->
     <string name="Authorized_Signature">お客様の署名</string>
     <!-- Security label below signature strip on credit card mockup, on CVV screen -->
     <string name="Not_Valid_Unless_Signed">署名されるまで無効です</string>
+    <!-- Label above cardholder's name on front of credit card on CVV screen -->
+    <string name="Member">会員</string>
+    <!-- Default cardholder name on front of credit card on CVV screen -->
+    <string name="Preferred_Customer">カード名義人名</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_back_of_card">クレジットカードの裏面をご参照ください</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
-    <string name="See_font_of_card">クレジットカードの表面をご参照ください</string>
-
+    <string name="See_front_of_card">クレジットカードの表面をご参照ください</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -1598,6 +1615,12 @@
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
     <string name="child_age_less_than_one">&lt;b&gt;1 歳未満&lt;/b&gt;</string>
 
+    <!-- For flights, children ages < 2 can have their own seat or sit in an adult's lap -->
+    <string name="child_age_less_than_one_on_lap">&lt;b&gt;1 歳未満&lt;/b&gt; - 大人が膝抱き</string>
+    <string name="child_age_less_than_one_own_seat">&lt;b&gt;1 歳未満&lt;/b&gt; - 座席使用</string>
+    <string name="child_age_one_on_lap">&lt;b&gt;1&lt;/b&gt; 歳 - 大人が膝抱き</string>
+    <string name="child_age_one_own_seat">&lt;b&gt;1&lt;/b&gt; 歳 - 座席使用</string>
+
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
     <string name="suggestion_times_square">ニューヨーク州ニューヨーク、タイムズ スクエア</string>
@@ -1627,9 +1650,11 @@
     <!-- Title of geocoding location disambiguation dialog (when a location may have multiple choices). -->
     <string name="ChooseLocation">もしかして…</string>
     <!-- Button label for upgrading the app -->
-    <string name="upgrade">アップグレードする</string>
+    <string name="upgrade">アップグレード</string>
     <!-- Button label for searching with newly selected parameters -->
     <string name="SEARCH">検索</string>
+    <!-- Button label for dismissing the flight guest picker -->
+    <string name="DONE">完了</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">マップの検索</string>
     <!-- Label for sort hotels in hotel list on tablet -->
@@ -1752,7 +1777,8 @@
 
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-    <string name="map_snippet_price_template">最低料金 %s</string>
+    <string name="map_snippet_price_template">%s ～</string>
+    <string name="From_x_per_night_template">&lt;font color="#3c7cf2"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/ 泊 ～</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->

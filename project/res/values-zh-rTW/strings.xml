@@ -102,6 +102,10 @@
     <string name="trip_bucket_book_flight">訂機票</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
     <string name="trip_bucket_book_hotel">訂飯店</string>
+    <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
+    <string name="trip_bucket_label_flight_roundtrip">%1$s來回行程</string>
+    <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
+    <string name="trip_bucket_label_flight_trip">%1$s行程</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">班機前往%1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -1207,7 +1211,13 @@
     <!-- Add Guest for hotels -->
     <string name="guest_details">旅客資料</string>
     <!-- Add traveler number template -->
-    <string name="add_traveler_number_TEMPLATE">旅客%1$s的資料</string>
+    <string name="add_traveler_number_TEMPLATE">旅客 %1$s 資料</string>
+    <!-- Add adult traveler number template -->
+    <string name="add_adult_number_TEMPLATE">成人 %1$s 資料</string>
+    <!-- Add child traveler number template -->
+    <string name="add_child_number_TEMPLATE">兒童 %1$s 資料</string>
+    <!-- Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_TEMPLATE">嬰兒不佔位 %1$s 資料</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">如果旅客姓名與政府機關所核發之附相片的身份證明不同，可能會被拒絕登機。</string>
 
@@ -1253,6 +1263,8 @@
     <string name="expiration_date">到期日</string>
     <!-- Set expiration date button -->
     <string name="btn_set">設定</string>
+    <!-- Describes credit card expiration (e.g. "Expires 01/18") -->
+    <string name="Expires_TEMPLATE">到期日：%1$s</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -1519,17 +1531,22 @@
     <string name="cvv_code_TEMPLATE">&lt;b&gt;%s&lt;/b&gt; 的信用卡安全驗証碼</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">信用卡末四碼為 %s</string>
+    <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
+    <string name="x_card_ending_in_y_digits_TEMPLATE">%1$s 末四位數為 %2$s</string>
     <!-- Title for screen telling you to complete your booking by entering a CVV # -->
     <string name="title_complete_booking">完成預訂</string>
     <!-- Security label above signature strip on credit card mockup, on CVV screen -->
     <string name="Authorized_Signature">授權者簽名</string>
     <!-- Security label below signature strip on credit card mockup, on CVV screen -->
     <string name="Not_Valid_Unless_Signed">未簽名者無效</string>
+    <!-- Label above cardholder's name on front of credit card on CVV screen -->
+    <string name="Member">會員</string>
+    <!-- Default cardholder name on front of credit card on CVV screen -->
+    <string name="Preferred_Customer">喜好客戶</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_back_of_card">請查看卡片背面</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
-    <string name="See_font_of_card">請查看卡片正面</string>
-
+    <string name="See_front_of_card">請查看卡片正面</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -1598,6 +1615,12 @@
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
     <string name="child_age_less_than_one">&lt;b&gt;未滿 1&lt;/b&gt; 歲</string>
 
+    <!-- For flights, children ages < 2 can have their own seat or sit in an adult's lap -->
+    <string name="child_age_less_than_one_on_lap">&lt;b&gt;1 歲以下&lt;/b&gt; – 不佔位</string>
+    <string name="child_age_less_than_one_own_seat">&lt;b&gt;1 歲以下&lt;/b&gt; – 佔位</string>
+    <string name="child_age_one_on_lap">&lt;b&gt;1&lt;/b&gt; 歲 – 不佔位</string>
+    <string name="child_age_one_own_seat">&lt;b&gt;1&lt;/b&gt; 歲 – 佔位</string>
+
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
     <string name="suggestion_times_square">時報廣場, 紐約, 紐約</string>
@@ -1630,6 +1653,8 @@
     <string name="upgrade">升級</string>
     <!-- Button label for searching with newly selected parameters -->
     <string name="SEARCH">搜尋</string>
+    <!-- Button label for dismissing the flight guest picker -->
+    <string name="DONE">完成</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">搜尋地圖</string>
     <!-- Label for sort hotels in hotel list on tablet -->
@@ -1752,7 +1777,8 @@
 
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-    <string name="map_snippet_price_template">起價 %s</string>
+    <string name="map_snippet_price_template">最低價 %s</string>
+    <string name="From_x_per_night_template">最低價 &lt;font color="#3c7cf2"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/晚</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
