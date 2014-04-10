@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -379,7 +380,12 @@ public class AvailabilitySummaryWidget {
 			mHeaderViewGroup.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 				@Override
 				public void onGlobalLayout() {
-					mHeaderViewGroup.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+					if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+						mHeaderViewGroup.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+					}
+					else {
+						mHeaderViewGroup.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+					}
 
 					boolean fits = true;
 					int len = mHeaderViewGroup.getChildCount();
