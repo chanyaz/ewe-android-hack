@@ -298,7 +298,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/filter_vip_access"
+                    android:text="@string/VIP_Access_Only"
                     android:textAllCaps="true"
                     android:textColor="#7C7E7F" />
 
