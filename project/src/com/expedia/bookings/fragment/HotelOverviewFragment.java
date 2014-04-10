@@ -324,7 +324,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	public void onResume() {
 		super.onResume();
 
-		// Register on Otto bus
 		Events.register(this);
 
 		mWalletPromoThrobberDialog = Ui.findSupportFragment((FragmentActivity) getActivity(), ThrobberDialog.TAG);
@@ -372,7 +371,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	public void onPause() {
 		super.onPause();
 
-		// UnRegister on Otto bus
 		Events.unregister(this);
 
 		mWasUsingGoogleWallet = mBillingInfo.isUsingGoogleWallet();

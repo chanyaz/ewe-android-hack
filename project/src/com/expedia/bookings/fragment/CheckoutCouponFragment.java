@@ -79,7 +79,6 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 	public void onResume() {
 		super.onResume();
 		mFragmentModLock.setSafe(true);
-		// Register on Otto bus
 		Events.register(this);
 		updateViews();
 		updateViewVisibilities();
@@ -88,7 +87,6 @@ public class CheckoutCouponFragment extends LobableFragment implements OnClickLi
 	@Override
 	public void onPause() {
 		super.onPause();
-		// UnRegister on Otto bus
 		Events.unregister(this);
 	}
 

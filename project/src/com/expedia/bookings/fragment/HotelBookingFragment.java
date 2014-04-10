@@ -202,7 +202,6 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			clearCoupon();
 			break;
 		case CHECKOUT:
-			// Post event to Otto Bus
 			Events.post(new Events.BookingDownloadStarted());
 			if (Db.getHotelSearch().getCreateTripResponse() == null) {
 				startCreateTripDownload();
@@ -233,7 +232,6 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 		case COUPON_APPLY:
 			cancelCreateTripDownload();
 			cancelApplyCouponDownloader();
-			// Post event to the Otto Bus.
 			Events.post(new Events.CouponDownloadCancel());
 			break;
 		case COUPON_REMOVE:
@@ -331,14 +329,12 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher,
 				selectedRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());
 			dialog.show(getChildFragmentManager(), HOTEL_PRODUCT_RATEUP_DIALOG);
-			// Post event to the Otto Bus.
 			Events.post(new Events.HotelProductRateUp(newRate));
 		}
 
 		Db.getHotelSearch().getAvailability(selectedId).updateFrom(selectedRate.getRateKey(), response);
 		Db.getHotelSearch().getAvailability(selectedId).setSelectedRate(newRate);
 
-		// Post success event to the Otto Bus.
 		Events.post(new Events.HotelProductDownloadSuccess(response));
 	}
 
@@ -412,7 +408,6 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			Db.getHotelSearch().setCouponApplied(false);
 			OmnitureTracking.trackHotelCouponRemoved(getActivity());
 			mCouponCode = null;
-			// Post coupon successfully removed event to the Otto Bus.
 			Events.post(new Events.CouponRemoveDownloadSuccess(response.getNewRate()));
 			break;
 		case CHECKOUT:
@@ -420,7 +415,6 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			break;
 
 		default:
-			// Post success event to the Otto Bus.
 			Events.post(new Events.CreateTripDownloadSuccess(response));
 			break;
 		}
@@ -429,13 +423,11 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 	// Error handling
 	private void handleCreateTripError(CreateTripResponse response) {
 		if (response == null) {
-			// Post error event to the Otto Bus.
 			Events.post(new Events.CreateTripDownloadError(null));
 			showRetryErrorDialog();
 		}
 		else {
 			ServerError firstError = response.getErrors().get(0);
-			// Post error event to the Otto Bus.
 			Events.post(new Events.CreateTripDownloadError(firstError));
 
 			switch (firstError.getErrorCode()) {
@@ -476,7 +468,6 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			break;
 
 		default:
-			// Post event to the Otto Bus.
 			Events.post(new Events.CreateTripDownloadRetry());
 			break;
 		}
@@ -488,11 +479,9 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 		//On cancelling the retry dialog do appropriately
 		if (mState == HotelBookingState.COUPON_APPLY || mState == HotelBookingState.COUPON_REMOVE) {
 			cancelDownload(mState);
-			// Post event to the Otto Bus.
 			Events.post(new Events.CouponDownloadCancel());
 		}
 		else {
-			// Post event to the Otto Bus.
 			Events.post(new Events.CreateTripDownloadRetryCancel());
 		}
 	}
@@ -572,7 +561,6 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 				Db.getHotelSearch().setCreateTripResponse(response);
 
 				OmnitureTracking.trackHotelCouponApplied(getActivity(), mCouponCode);
-				// Post event to the Otto Bus.
 				Events.post(new Events.CouponApplyDownloadSuccess(response.getNewRate()));
 			}
 		}
@@ -594,7 +582,6 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 		DialogFragment df = SimpleDialogFragment.newInstance(null, errorMessage);
 		df.show(getChildFragmentManager(), "couponError");
 
-		// Post event to the Otto Bus.
 		Events.post(new Events.CouponDownloadError());
 	}
 

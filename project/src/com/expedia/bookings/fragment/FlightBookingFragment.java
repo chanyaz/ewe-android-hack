@@ -224,13 +224,11 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 			Events.post(new Events.FlightPriceChange(null));
 		}
 
-		// Post event to the Otto Bus.
 		Events.post(new Events.CreateTripDownloadSuccess(response));
 	}
 
 	private void handleCreateTripError(CreateItineraryResponse response) {
 		if (response == null) {
-			// Post error event to the Otto Bus.
 			Events.post(new Events.CreateTripDownloadError(null));
 			showRetryErrorDialog();
 		}
@@ -259,13 +257,11 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 
 	@Override
 	public void onRetryError() {
-		// Post event to the Otto Bus.
 		Events.post(new Events.CreateTripDownloadRetry());
 	}
 
 	@Override
 	public void onCancelError() {
-		// Post event to the Otto Bus.
 		Events.post(new Events.CreateTripDownloadRetryCancel());
 	}
 }

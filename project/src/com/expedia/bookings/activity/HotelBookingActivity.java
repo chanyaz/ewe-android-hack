@@ -118,7 +118,6 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	@Override
 	protected void onResume() {
 		super.onResume();
-		// Register on Otto bus
 		Events.register(this);
 
 		if (shouldBail()) {
@@ -144,7 +143,6 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	@Override
 	protected void onPause() {
 		super.onPause();
-		// UnRegister on Otto bus
 		Events.unregister(this);
 
 		if (shouldBail()) {
@@ -316,7 +314,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	}
 
 	///////////////////////////////////
-	/// Otto Event Subscriptions
+	/// Bookings events
 
 	@Subscribe
 	public void onBookingResponseErrorCVV(Events.BookingResponseErrorCVV event) {
@@ -329,7 +327,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// PriceChangeDialogFragment
+	// Price Change events
 
 	@Subscribe
 	public void onAcceptPriceChange(Events.PriceChangeDialogAccept event) {

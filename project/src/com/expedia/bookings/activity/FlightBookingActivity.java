@@ -150,7 +150,6 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	@Override
 	protected void onResume() {
 		super.onResume();
-		// Register on Otto bus
 		Events.register(this);
 		if (shouldBail()) {
 			return;
@@ -171,7 +170,6 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	@Override
 	protected void onPause() {
 		super.onPause();
-		// UnRegister on Otto bus
 		Events.unregister(this);
 		if (shouldBail()) {
 			return;
@@ -312,7 +310,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	}
 
 	///////////////////////////////////
-	/// Otto Event Subscriptions
+	/// Booking events
 
 	@Subscribe
 	public void onBookingResponseErrorCVV(Events.BookingResponseErrorCVV event) {
@@ -325,7 +323,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// PriceChangeDialogFragment
+	// Price Change events
 
 	@Subscribe
 	public void onAcceptPriceChange(Events.PriceChangeDialogAccept event) {

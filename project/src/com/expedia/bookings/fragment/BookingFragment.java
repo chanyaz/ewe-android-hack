@@ -76,7 +76,6 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	@Override
 	public void onResume() {
 		super.onResume();
-		// Register on Otto bus
 		Events.register(this);
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(mDownloadKey)) {
@@ -102,7 +101,6 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	@Override
 	public void onPause() {
 		super.onPause();
-		// UnRegister on Otto bus
 		Events.unregister(this);
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(mDownloadKey);
 
@@ -136,7 +134,6 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	}
 
 	private void startBookingProcess() {
-		// Post event to Otto bus
 		Events.post(new Events.BookingDownloadStarted());
 		doBookingPrep();
 	}

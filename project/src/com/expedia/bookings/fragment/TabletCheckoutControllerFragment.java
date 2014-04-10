@@ -234,7 +234,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public void onResume() {
 		super.onResume();
 
-		// Register on Otto bus
 		Events.register(this);
 
 		mBackManager.registerWithParent(this);
@@ -251,7 +250,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Override
 	public void onPause() {
 		super.onPause();
-		// UnRegister on Otto bus
 		Events.unregister(this);
 
 		mBackManager.unregisterWithParent(this);
@@ -934,7 +932,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	///////////////////////////////////
-	/// Otto Event Subscriptions
+	/// Bookings events
 
 	@Subscribe
 	public void onStartBooking(Events.BookingDownloadStarted event) {
@@ -1014,7 +1012,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	///////////////////////////////////
-	/// Otto Event Subscriptions
+	/// Booking error events
 
 	@Subscribe
 	public void onRetryUnhandledException(Events.UnhandledErrorDialogRetry event) {
