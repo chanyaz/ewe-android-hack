@@ -1019,7 +1019,7 @@
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
     <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">BAGGAGE FEE INFORMATION</string>
+    <string name="baggage_fee_info">Baggage Fee Information</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s layover&lt;/b&gt; in %2$s</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->

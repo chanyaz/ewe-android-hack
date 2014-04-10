@@ -392,6 +392,13 @@ public class WebViewFragment extends DialogFragment {
 		super.onDestroyView();
 	}
 
+	public void bind(String url) {
+		if (mWebView != null) {
+			mWebView.loadUrl(url);
+			mWebView.scrollTo(0, 0);
+		}
+	}
+
 	private void loadCookies() {
 		CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(getActivity());
 		CookieManager cookieManager = CookieManager.getInstance();

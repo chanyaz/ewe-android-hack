@@ -589,6 +589,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			if (state == ResultsFlightLegState.DETAILS) {
 				showDetailsAnimUpdate(1f);
 				mDetailsFrag.bindWithDb();
+				mDetailsFrag.showFlightDetails();
 			}
 			else {
 				showDetailsAnimUpdate(0f);
@@ -649,6 +650,8 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			if (hasValidDataForDetails()) {
 				mDetailsFrag.bindWithDb();
 			}
+
+			mDetailsFrag.showFlightDetails();
 
 			int slideInDistance = mGrid.getColSpanWidth(1, 4);
 			mDetailsFrag.setDetailsSlideInAnimationState(startPercentage, slideInDistance, true);

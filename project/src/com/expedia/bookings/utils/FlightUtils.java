@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.FlightLeg;
@@ -19,7 +18,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.AdditionalFeesDialogFragment;
-import com.expedia.bookings.fragment.WebViewFragment;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -102,8 +100,12 @@ public class FlightUtils {
 	////////////////////////////////////////////
 	// Flight Details Baggage Fees
 
-	public static void configureBaggageFeeViews(final Context context, final FlightTrip trip, FlightLeg leg, final int legPosition,
-		TextView feesTv, ViewGroup mFeesContainer, TextView secondaryFeesTv) {
+	public interface OnBaggageFeeViewClicked {
+		void onBaggageFeeViewClicked(String title, String url);
+	}
+
+	public static void configureBaggageFeeViews(final Context context, final FlightTrip trip, FlightLeg leg, TextView feesTv,
+		ViewGroup mFeesContainer, TextView secondaryFeesTv, final OnBaggageFeeViewClicked callback) {
 
 		// Configure the first TextView, "Baggage Fee Information"
 		int textViewResId;
@@ -135,36 +137,17 @@ public class FlightUtils {
 				@Override
 				public void onClick(View v) {
 					AdditionalFeesDialogFragment dialogFragment = AdditionalFeesDialogFragment.newInstance(
-						trip.getBaggageFeesUrl(), Db.getFlightSearch().getSearchResponse().getObFeesDetails());
-					dialogFragment.show(((FragmentActivity) context).getSupportFragmentManager(),
-						"additionalFeesDialog");
+						trip.getBaggageFeesUrl(), Db.getFlightSearch().getSearchResponse().getObFeesDetails(), callback);
+					dialogFragment.show(((FragmentActivity) context).getSupportFragmentManager(), "additionalFeesDialog");
 				}
 			});
 		}
 		else {
+			secondaryFeesTv.setVisibility(View.GONE);
 			mFeesContainer.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					String trackingName = null;
-					if (legPosition == 0) {
-						if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
-							trackingName = WebViewFragment.TrackingName.BaggageFeeOutbound.name();
-						}
-						else {
-							trackingName = WebViewFragment.TrackingName.BaggageFeeOneWay.name();
-						}
-					}
-					else if (legPosition == 1) {
-						trackingName = WebViewFragment.TrackingName.BaggageFeeInbound.name();
-					}
-
-					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(context);
-					builder.setUrl(trip.getBaggageFeesUrl());
-					builder.setTheme(R.style.FlightTheme);
-					builder.setTitle(R.string.baggage_fees);
-					builder.setTrackingName(trackingName);
-					builder.setAllowMobileRedirects(false);
-					context.startActivity(builder.getIntent());
+					callback.onBaggageFeeViewClicked(context.getString(R.string.baggage_fees), trip.getBaggageFeesUrl());
 				}
 			});
 		}

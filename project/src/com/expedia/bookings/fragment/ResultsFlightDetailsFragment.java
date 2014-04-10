@@ -1,8 +1,15 @@
 package com.expedia.bookings.fragment;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -11,10 +18,15 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.FrameLayout.LayoutParams;
 
 import com.expedia.bookings.R;
@@ -32,11 +44,11 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.RingedCountView;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -47,7 +59,11 @@ import com.mobiata.flightlib.utils.DateTimeUtils;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ResultsFlightDetailsFragment extends Fragment {
 
+	private static final String FRAG_TAG_WEB_VIEW = "FRAG_TAG_WEB_VIEW";
+
 	private static final String ARG_LEG_NUMBER = "ARG_LEG_NUMBER";
+
+	private static final String INSTANCE_IS_SHOWING_DETAILS = "INSTANCE_IS_SHOWING_DETAILS";
 
 	private static final String BGD_KEY_RATINGS = "BGD_KEY_RATINGS";
 
@@ -80,9 +96,20 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 	private ViewGroup mFlightLegsC;
 
-	private TextView mFeesTextView;
-	private TextView mFeesSecondaryTextView;
-	private ViewGroup mFeesContainer;
+	private WebViewFragment mBaggageFeeWebFrag;
+
+	private ViewGroup mFlightCardC;
+
+	private ViewGroup mBaggageFeesCardC;
+
+	private TextView mBaggageFeesHeader;
+	private ViewGroup mBaggageFeesWebViewC;
+
+	private ViewGroup mBaggageFeesLinkC;
+	private TextView mBaggageFeesLinkPrimaryTv;
+	private TextView mBaggageFeesLinkSecondaryTv;
+
+	private boolean mIsShowingDetails = true;
 
 	private FlightLegSummarySectionTablet mSelectedFlightLegAnimationRowSection;
 
@@ -112,6 +139,14 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	}
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		if (savedInstanceState != null) {
+			mIsShowingDetails = savedInstanceState.getBoolean(INSTANCE_IS_SHOWING_DETAILS, true);
+		}
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_flight_details, null);
@@ -134,11 +169,24 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 		mFlightLegsC = Ui.findView(mRootC, R.id.flight_legs_container);
 
-		mFeesContainer =Ui.findView(mRootC, R.id.fees_container);
-		mFeesTextView = Ui.findView(mRootC, R.id.fees_text_view);
-		mFeesSecondaryTextView = Ui.findView(mRootC, R.id.fees_secondary_text_view);
+		mFlightCardC = Ui.findView(mRootC, R.id.flight_card_container);
+		mBaggageFeesCardC = Ui.findView(mRootC, R.id.baggage_fee_card_container);
+
+		mBaggageFeesHeader = Ui.findView(mRootC, R.id.baggage_fee_header);
+		mBaggageFeesHeader.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				toggleDetailsCard(true, null, null, true);
+			}
+		});
+		mBaggageFeesWebViewC = Ui.findView(mRootC, R.id.baggage_fee_web_view_container);
+		mBaggageFeesLinkC = Ui.findView(mRootC, R.id.fees_container);
+		mBaggageFeesLinkPrimaryTv = Ui.findView(mRootC, R.id.fees_text_view);
+		mBaggageFeesLinkSecondaryTv = Ui.findView(mRootC, R.id.fees_secondary_text_view);
 
 		mSelectedFlightLegAnimationRowSection = Ui.findView(mRootC, R.id.details_animation_row);
+
+		prepareWebViewFragment();
 
 		setLegPosition(getArguments().getInt(ARG_LEG_NUMBER));
 
@@ -158,6 +206,8 @@ public class ResultsFlightDetailsFragment extends Fragment {
 			mBindInOnResume = false;
 			bindWithDb();
 		}
+
+		toggleDetailsCard(mIsShowingDetails, "", "", false);
 	}
 
 	@Override
@@ -169,6 +219,12 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		else {
 			BackgroundDownloader.getInstance().unregisterDownloadCallback(BGD_KEY_RATINGS);
 		}
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putBoolean(INSTANCE_IS_SHOWING_DETAILS, mIsShowingDetails);
 	}
 
 	public void setLegPosition(int legNumber) {
@@ -278,8 +334,159 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		}
 
 		// Baggage fees
-		FlightUtils.configureBaggageFeeViews(getActivity(), trip, flightLeg, mLegNumber,
-			mFeesTextView, mFeesContainer, mFeesSecondaryTextView);
+		FlightUtils.configureBaggageFeeViews(getActivity(), trip, flightLeg, mBaggageFeesLinkPrimaryTv, mBaggageFeesLinkC,
+			mBaggageFeesLinkSecondaryTv, new FlightUtils.OnBaggageFeeViewClicked() {
+				@Override
+				public void onBaggageFeeViewClicked(String title, String url) {
+					toggleDetailsCard(false, title, url, true);
+				}
+			});
+	}
+
+	private void prepareWebViewFragment() {
+		// Make sure the WebView fragment is attached!
+		FragmentManager manager = getChildFragmentManager();
+		manager.executePendingTransactions();
+
+		// WebView frag setup
+		mBaggageFeeWebFrag = (WebViewFragment) manager.findFragmentByTag(FRAG_TAG_WEB_VIEW);
+		if (mBaggageFeeWebFrag == null) {
+			String name = "";
+			boolean enableSignIn = true, loadCookies = true, allowUseableNetRedirects = true;
+			mBaggageFeeWebFrag = WebViewFragment.newInstance("", enableSignIn, loadCookies, allowUseableNetRedirects, name);
+
+			FragmentTransaction transaction = manager.beginTransaction();
+			transaction.add(mBaggageFeesWebViewC.getId(), mBaggageFeeWebFrag, FRAG_TAG_WEB_VIEW);
+			transaction.commit();
+		}
+	}
+
+	private static final long FLIP_ANIM_FULL_TIME = 300;
+	private static final long FLIP_ANIM_HALF_TIME = FLIP_ANIM_FULL_TIME / 2;
+
+	private Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
+
+	public void showFlightDetails() {
+		toggleDetailsCard(true, "", "", true);
+	}
+
+	public void showBaggageFeeInfo() {
+		toggleDetailsCard(false, "", "", true);
+	}
+
+	private void toggleDetailsCard(boolean showDetails, String title, String url, boolean animate) {
+		if (showDetails == mIsShowingDetails) {
+			// we've already done all we need to do
+			return;
+		}
+
+		// Update WebView page if we've received some new data to display
+		if (!TextUtils.isEmpty(url)) {
+			mBaggageFeesHeader.setText(title);
+			mBaggageFeeWebFrag.bind(url);
+		}
+
+		// Shortcut if no animation...
+		if (!animate) {
+			mIsShowingDetails = showDetails;
+			if (showDetails) {
+				mFlightCardC.setVisibility(View.VISIBLE);
+				mBaggageFeesCardC.setVisibility(View.GONE);
+			}
+			else {
+				mFlightCardC.setVisibility(View.GONE);
+				mBaggageFeesCardC.setVisibility(View.VISIBLE);
+			}
+
+			return;
+		}
+
+		// Animations
+		final boolean forward = !showDetails;
+		ViewGroup outC, inC;
+		int outRotStart, outRotEnd, inRotStart, inRotEnd;
+
+		if (forward) {
+			outC = mFlightCardC;
+			inC = mBaggageFeesCardC;
+
+			outRotStart = 0;
+			outRotEnd = 180;
+			inRotStart = -180;
+			inRotEnd = 0;
+		}
+		else {
+			outC = mBaggageFeesCardC;
+			inC = mFlightCardC;
+
+			outRotStart = 0;
+			outRotEnd = -180;
+			inRotStart = 180;
+			inRotEnd = 0;
+		}
+
+		AnimatorSet animatorSet = new AnimatorSet();
+		Collection<Animator> anims = new ArrayList<Animator>();
+
+		PropertyValuesHolder fadeOutPvh = PropertyValuesHolder.ofFloat("alpha", 1, 0);
+		PropertyValuesHolder rotOutPvh = PropertyValuesHolder.ofFloat("rotationY", outRotStart, outRotEnd);
+
+		PropertyValuesHolder fadeInPvh = PropertyValuesHolder.ofFloat("alpha", 0, 1);
+		PropertyValuesHolder rotInPvh = PropertyValuesHolder.ofFloat("rotationY", inRotStart, inRotEnd);
+
+		// Fade out the floating link container
+		int startA = forward ? 1 : 0;
+		int endA = forward ? 0 : 1;
+		ObjectAnimator bagTvFadeOutOa = ObjectAnimator.ofFloat(mBaggageFeesLinkC, "alpha", startA, endA);;
+		bagTvFadeOutOa.setStartDelay(FLIP_ANIM_HALF_TIME);
+
+		// Out with the old
+		ObjectAnimator fadeOutOa = ObjectAnimator.ofPropertyValuesHolder(outC, fadeOutPvh);
+		fadeOutOa.setStartDelay(FLIP_ANIM_HALF_TIME);
+		ObjectAnimator rotOutOa = ObjectAnimator.ofPropertyValuesHolder(outC, rotOutPvh);
+
+		// In with the new
+		ObjectAnimator fadeInOa = ObjectAnimator.ofPropertyValuesHolder(inC, fadeInPvh);
+		fadeInOa.setStartDelay(FLIP_ANIM_HALF_TIME);
+		ObjectAnimator rotInOa = ObjectAnimator.ofPropertyValuesHolder(inC, rotInPvh);
+
+		// All of the ObjectAnimators
+		anims.add(fadeOutOa);
+		anims.add(rotOutOa);
+		anims.add(fadeInOa);
+		anims.add(rotInOa);
+		anims.add(bagTvFadeOutOa);
+
+		// Start this shit
+		animatorSet.playTogether(anims);
+		animatorSet.setInterpolator(mInterpolator);
+		animatorSet.setDuration(FLIP_ANIM_FULL_TIME);
+		animatorSet.addListener(new AnimatorListenerAdapter() {
+
+			@Override
+			public void onAnimationStart(Animator animation) {
+				mFlightCardC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+				mBaggageFeesCardC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+
+				// Ensure flightCard in hierarchy for animation purpose (it will alpha fade in)
+				if (!forward) {
+					mFlightCardC.setVisibility(View.VISIBLE);
+				}
+			}
+
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				// Remove View from hierarchy for proper touching purposes (flightCard sits on top of WebView)
+				mFlightCardC.setVisibility(forward ? View.GONE : View.VISIBLE);
+
+				mFlightCardC.setLayerType(View.LAYER_TYPE_NONE, null);
+				mBaggageFeesCardC.setLayerType(View.LAYER_TYPE_NONE, null);
+
+				mIsShowingDetails = !forward;
+			}
+		});
+
+		animatorSet.start();
 	}
 
 	private String formatTime(Calendar cal) {

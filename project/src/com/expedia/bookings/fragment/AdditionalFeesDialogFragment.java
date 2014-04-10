@@ -7,19 +7,22 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.WebViewActivity;
+import com.expedia.bookings.utils.FlightUtils;
 
 public class AdditionalFeesDialogFragment extends DialogFragment {
 
 	private static final String ARG_BAGGAGE_FEES_URL = "ARG_BAGGAGE_FEES_URL";
 	private static final String ARG_OB_FEES_URL = "ARG_OB_FEES_URL";
 
-	public static AdditionalFeesDialogFragment newInstance(String baggageFeesUrl, String obFeesUrl) {
+	private FlightUtils.OnBaggageFeeViewClicked mCallback;
+
+	public static AdditionalFeesDialogFragment newInstance(String baggageFeesUrl, String obFeesUrl, FlightUtils.OnBaggageFeeViewClicked callback) {
 		AdditionalFeesDialogFragment fragment = new AdditionalFeesDialogFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_BAGGAGE_FEES_URL, baggageFeesUrl);
 		args.putString(ARG_OB_FEES_URL, obFeesUrl);
 		fragment.setArguments(args);
+		fragment.mCallback = callback;
 		return fragment;
 	}
 
@@ -45,11 +48,9 @@ public class AdditionalFeesDialogFragment extends DialogFragment {
 		builder.setItems(itemNames, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				WebViewActivity.IntentBuilder webBuilder = new WebViewActivity.IntentBuilder(getActivity());
-				webBuilder.setUrl(itemUrls[which]);
-				webBuilder.setTheme(R.style.FlightTheme);
-				webBuilder.setTitle(itemNamesResIds[which]);
-				getActivity().startActivity(webBuilder.getIntent());
+				if (mCallback != null) {
+					mCallback.onBaggageFeeViewClicked(itemNames[which], itemUrls[which]);
+				}
 			}
 		});
 		return builder.create();
