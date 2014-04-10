@@ -438,7 +438,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			if (state == ResultsSearchState.CALENDAR) {
 				if (mGdeFragment != null) {
 					SearchParams params = Sp.getParams();
-					mGdeFragment.setRoute(params.getOriginLocation(true), params.getDestinationLocation(true));
+					mGdeFragment.setGdeInfo(params.getOriginLocation(true), params.getDestinationLocation(true), null);
 				}
 			}
 		}
@@ -635,8 +635,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 		else if (tag == FTAG_FLIGHTS_GDE) {
 			SearchParams params = Sp.getParams();
-			((ResultsGdeFlightsFragment) frag).setRoute(params.getOriginLocation(true),
-				params.getDestinationLocation(true));
+			((ResultsGdeFlightsFragment) frag).setGdeInfo(params.getOriginLocation(true),
+				params.getDestinationLocation(true), null);
 		}
 	}
 

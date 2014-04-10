@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import org.joda.time.LocalDate;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
@@ -13,7 +15,9 @@ import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightHistogram;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightHistogramAdapter;
 
 /**
@@ -22,13 +26,20 @@ import com.expedia.bookings.widget.FlightHistogramAdapter;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ResultsFlightHistogramFragment extends ListFragment {
 
+	public interface IFlightHistogramListener {
+		public void onGdeDateSelected(LocalDate date);
+	}
+
 	private ListView mList;
 	private FlightHistogramAdapter mAdapter;
 	private int mColWidth = 0;
+	private IFlightHistogramListener mListener;
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
+
+		mListener = Ui.findFragmentListener(this, IFlightHistogramListener.class);
 	}
 
 	@Override
@@ -92,4 +103,15 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 			mColWidth = width;
 		}
 	}
+
+	@Override
+	public void onListItemClick(ListView list, View view, int pos, long id) {
+		if (list == mList && list.getAdapter() != null && list.getAdapter() == mAdapter) {
+			FlightHistogram histo = mAdapter.getItem(pos);
+			if (histo != null) {
+				mListener.onGdeDateSelected(histo.getDate());
+			}
+		}
+	}
+
 }

@@ -81,7 +81,7 @@ public class FlightHistogramAdapter extends BaseAdapter {
 	@Override
 	public FlightHistogram getItem(int position) {
 		if (mFlightHistogramResponse != null && mFlightHistogramResponse.getFlightHistograms() != null) {
-			mFlightHistogramResponse.getFlightHistograms().get(position);
+			return mFlightHistogramResponse.getFlightHistograms().get(position);
 		}
 		return null;
 	}
@@ -100,16 +100,18 @@ public class FlightHistogramAdapter extends BaseAdapter {
 		TextView dateTv = Ui.findView(row, R.id.flight_histogram_date);
 		TextView priceTv = Ui.findView(row, R.id.flight_histogram_price);
 
-		FlightHistogram gram = mFlightHistogramResponse.getFlightHistograms().get(position);
+		FlightHistogram gram = getItem(position);
 
 		dateTv.setText(sDateFormatter.print(gram.getDate()));
 		priceTv.setText(gram.getPriceAsStr());
-		priceTv.setBackgroundColor(mContext.getResources().getColor(mFlightHistogramResponse.getColorResIdForPrice(gram)));
+		priceTv
+			.setBackgroundColor(mContext.getResources().getColor(mFlightHistogramResponse.getColorResIdForPrice(gram)));
 
 		// relative width
 		double minPrice = mFlightHistogramResponse.getMinPrice();
 		double maxPrice = mFlightHistogramResponse.getMaxPrice();
-		double barPerc = (gram.getMinPrice() - minPrice) / (maxPrice - minPrice);
+
+		double barPerc = maxPrice == minPrice ? 1f : (gram.getMinPrice() - minPrice) / (maxPrice - minPrice);
 		int extraWidthToAdd = mColWidth - mMaxPriceWidth - mMaxDateWidth;
 		int totalDateWidth = mMaxDateWidth + ((int) (extraWidthToAdd * barPerc));
 

@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import org.joda.time.LocalDate;
 import org.json.JSONObject;
 
 import android.os.Bundle;
@@ -24,7 +25,8 @@ import com.mobiata.android.Log;
  * ResultsFlightFiltersFragment: The filters fragment designed for tablet results 2013
  */
 public class ResultsGdeFlightsFragment extends Fragment implements
-	FragmentAvailabilityUtils.IFragmentAvailabilityProvider, ExpediaServicesFragment.ExpediaServicesFragmentListener {
+	FragmentAvailabilityUtils.IFragmentAvailabilityProvider, ExpediaServicesFragment.ExpediaServicesFragmentListener,
+	ResultsFlightHistogramFragment.IFlightHistogramListener {
 
 	private static final String STATE_ORIGIN = "STATE_ORIGIN";
 	private static final String STATE_DESTINATION = "STATE_DESTINATION";
@@ -40,6 +42,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 	private Location mOrigin;
 	private Location mDestination;
+	private LocalDate mDepartureDate;
 
 	public static ResultsGdeFlightsFragment newInstance() {
 		ResultsGdeFlightsFragment frag = new ResultsGdeFlightsFragment();
@@ -89,7 +92,6 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 			FTAG_GDE_DOWNLOADER, manager, transaction, this,
 			0, false);
 
-
 		transaction.commit();
 
 		return view;
@@ -99,7 +101,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	public void onResume() {
 		super.onResume();
 
-		mGdeDownloadFrag.startOrResumeForRoute(mOrigin, mDestination);
+		mGdeDownloadFrag.startOrResumeForRoute(mOrigin, mDestination, mDepartureDate);
 	}
 
 	@Override
@@ -117,11 +119,12 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	 * Local methods
 	 */
 
-	protected void setRoute(Location origin, Location destination) {
+	protected void setGdeInfo(Location origin, Location destination, LocalDate departureDate) {
 		mOrigin = origin;
 		mDestination = destination;
+		mDepartureDate = departureDate;
 		if (mGdeDownloadFrag != null) {
-			mGdeDownloadFrag.startOrResumeForRoute(mOrigin, mDestination);
+			mGdeDownloadFrag.startOrResumeForRoute(mOrigin, mDestination, mDepartureDate);
 		}
 	}
 
@@ -154,7 +157,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
 		if (tag == FTAG_GDE_DOWNLOADER) {
-			((GdeDownloadFragment) frag).startOrResumeForRoute(mOrigin, mDestination);
+			((GdeDownloadFragment) frag).startOrResumeForRoute(mOrigin, mDestination, mDepartureDate);
 		}
 	}
 
@@ -178,5 +181,14 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 				Log.e("FLIGHT_GDE_SEARCH null response");
 			}
 		}
+	}
+
+	/*
+	IFlightHistogramListener
+	 */
+
+	@Override
+	public void onGdeDateSelected(LocalDate date) {
+		setGdeInfo(mOrigin, mDestination, date);
 	}
 }

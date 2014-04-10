@@ -41,14 +41,14 @@ import android.text.TextUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.AssociateUserToTripResponse;
-import com.expedia.bookings.data.ChildTraveler;
-import com.expedia.bookings.data.ExpediaImageResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.BookingResponse;
+import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImageManager.ImageType;
+import com.expedia.bookings.data.ExpediaImageResponse;
 import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
@@ -500,7 +500,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public FlightCheckoutResponse flightCheckout(FlightTrip flightTrip, Itinerary itinerary, BillingInfo billingInfo,
-												 List<Traveler> travelers, int flags) {
+		List<Traveler> travelers, int flags) {
 		List<BasicNameValuePair> query = generateFlightCheckoutParams(flightTrip, itinerary, billingInfo, travelers,
 			flags);
 		return doFlightsRequest("api/flight/checkout", query, new FlightCheckoutResponseHandler(mContext), flags
@@ -508,7 +508,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public List<BasicNameValuePair> generateFlightCheckoutParams(FlightTrip flightTrip, Itinerary itinerary,
-																 BillingInfo billingInfo, List<Traveler> travelers, int flags) {
+		BillingInfo billingInfo, List<Traveler> travelers, int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		query.add(new BasicNameValuePair("tripId", itinerary.getTripId()));
@@ -853,7 +853,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public BookingResponse reservation(HotelSearchParams params, Property property, Rate rate, BillingInfo billingInfo,
-									   String tripId, String userId, Long tuid) {
+		String tripId, String userId, Long tuid) {
 		List<BasicNameValuePair> query = generateHotelReservationParams(params, rate, billingInfo, tripId,
 			userId, tuid);
 
@@ -861,7 +861,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public List<BasicNameValuePair> generateHotelReservationParams(HotelSearchParams params, Rate rate,
-																   BillingInfo billingInfo, String tripId, String userId, Long tuid) {
+		BillingInfo billingInfo, String tripId, String userId, Long tuid) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		addCommonParams(query);
@@ -970,15 +970,22 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public FlightSearchHistogramResponse flightSearchHistogram(Location origin, Location destination) {
-		List<BasicNameValuePair> query = generateFlightHistogramParams(origin, destination);
+		return flightSearchHistogram(origin, destination, null);
+	}
+
+	public FlightSearchHistogramResponse flightSearchHistogram(Location origin, Location destination,
+		LocalDate departureDate) {
+		List<BasicNameValuePair> query = generateFlightHistogramParams(origin, destination, departureDate);
 		return doBasicGetRequest(getGdeEndpointUrl(), query, new FlightSearchHistogramResponseHandler());
 	}
 
 	public List<BasicNameValuePair> generateFlightSearchHistogramParams(FlightSearchParams params) {
-		return generateFlightHistogramParams(params.getDepartureLocation(), params.getArrivalLocation());
+		return generateFlightHistogramParams(params.getDepartureLocation(), params.getArrivalLocation(),
+			params.getDepartureDate());
 	}
 
-	public List<BasicNameValuePair> generateFlightHistogramParams(Location origin, Location destination) {
+	public List<BasicNameValuePair> generateFlightHistogramParams(Location origin, Location destination,
+		LocalDate departureDate) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
 		String destKey = destination.isMetroCode() ? "tripToMetroAirportCode" : "tripTo";
@@ -987,6 +994,11 @@ public class ExpediaServices implements DownloadListener {
 		if (origin != null) {
 			String origKey = origin.isMetroCode() ? "tripFromMetroAirportCode" : "tripFrom";
 			query.add(new BasicNameValuePair(origKey, origin.getDestinationId()));
+		}
+
+		if (departureDate != null) {
+			DateTimeFormatter fmt = ISODateTimeFormat.date();
+			query.add(new BasicNameValuePair("departDate", fmt.print(departureDate)));
 		}
 
 		// TODO the API might update and no longer require this field
@@ -1396,7 +1408,7 @@ public class ExpediaServices implements DownloadListener {
 	 * @return
 	 */
 	public FacebookLinkResponse facebookLinkNewUser(String facebookUserId, String facebookAccessToken,
-													String facebookEmailAddress) {
+		String facebookEmailAddress) {
 
 		Session fbSession = Session.getActiveSession();
 		if (fbSession == null || fbSession.isClosed()) {
@@ -1423,7 +1435,7 @@ public class ExpediaServices implements DownloadListener {
 	 * @return
 	 */
 	public FacebookLinkResponse facebookLinkExistingUser(String facebookUserId, String facebookAccessToken,
-														 String facebookEmailAddress, String expediaPassword) {
+		String facebookEmailAddress, String expediaPassword) {
 		Session fbSession = Session.getActiveSession();
 		if (fbSession == null || fbSession.isClosed()) {
 			throw new RuntimeException("We must be logged into facebook inorder to call facebookLinkNewUser");
@@ -1534,12 +1546,12 @@ public class ExpediaServices implements DownloadListener {
 	// Request code
 
 	private <T extends Response> T doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
-													ResponseHandler<T> responseHandler, int flags) {
+		ResponseHandler<T> responseHandler, int flags) {
 		return doE3Request(targetUrl, params, responseHandler, flags | F_FLIGHTS);
 	}
 
 	private <T extends Response> T doE3Request(String targetUrl, List<BasicNameValuePair> params,
-											   ResponseHandler<T> responseHandler, int flags) {
+		ResponseHandler<T> responseHandler, int flags) {
 		String serverUrl;
 
 		/*
@@ -1571,7 +1583,7 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private <T extends Response> T doBasicGetRequest(String url, List<BasicNameValuePair> params,
-													 ResponseHandler<T> responseHandler) {
+		ResponseHandler<T> responseHandler) {
 
 		Request.Builder base = createHttpGet(url, params);
 
@@ -1581,13 +1593,13 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	private <T extends Response> T doFlightStatsRequest(String baseUrl, List<BasicNameValuePair> params,
-														ResponseHandler<T> responseHandler) {
+		ResponseHandler<T> responseHandler) {
 		Request.Builder base = createHttpGet(baseUrl, params);
 		return doRequest(base, responseHandler, F_IGNORE_COOKIES);
 	}
 
 	private <T extends Response> T doReviewsRequest(String url, List<BasicNameValuePair> params,
-													ResponseHandler<T> responseHandler) {
+		ResponseHandler<T> responseHandler) {
 		Request.Builder get = createHttpGet(url, params);
 
 		Log.d(TAG_REQUEST, "User reviews request: " + url + "?" + NetUtils.getParamsForLogging(params));
