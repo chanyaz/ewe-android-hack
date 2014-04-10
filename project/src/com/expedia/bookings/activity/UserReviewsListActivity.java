@@ -161,9 +161,6 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 			Log.d("Tracking # of reviews seen: " + numReviewsSeen);
 			String referrerId = "App.Hotels.Reviews." + numReviewsSeen + "ReviewsViewed";
 			OmnitureTracking.trackSimpleEvent(this, null, null, referrerId);
-
-			// cancel all downloads
-			mPagerAdapter.cancelDownloads();
 		}
 	}
 

@@ -166,7 +166,12 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	@Override
 	public void onPause() {
 		super.onPause();
-		mBackgroundDownloader.unregisterDownloadCallback(mReviewsDownloadKey);
+		if (getActivity() != null && getActivity().isFinishing()) {
+			mBackgroundDownloader.cancelDownload(mReviewsDownloadKey);
+		}
+		else {
+			mBackgroundDownloader.unregisterDownloadCallback(mReviewsDownloadKey);
+		}
 	}
 
 	@Override
@@ -204,10 +209,6 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		if (!mAttemptedDownload && mProperty != null) {
 			mBackgroundDownloader.startDownload(mReviewsDownloadKey, mUserReviewDownload, mUserReviewDownloadCallback);
 		}
-	}
-
-	public void cancelReviewsDownload() {
-		mBackgroundDownloader.cancelDownload(mReviewsDownloadKey);
 	}
 
 	private final Download<ReviewsResponse> mUserReviewDownload = new Download<ReviewsResponse>() {
