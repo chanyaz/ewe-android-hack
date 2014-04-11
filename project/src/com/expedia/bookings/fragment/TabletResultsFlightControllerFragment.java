@@ -59,6 +59,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private static final String FTAG_FLIGHT_LOADING_INDICATOR = "FTAG_FLIGHT_LOADING_INDICATOR";
 	private static final String FTAG_FLIGHT_LEGS_CHOOSER = "FTAG_FLIGHT_LEGS_CHOOSER";
 
+	//Settings
+	private static final long PARAM_UPDATE_COOLDOWN_MS = 500;
 
 	//Containers
 	private ViewGroup mRootC;
@@ -77,6 +79,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private ResultsListLoadingFragment mLoadingGuiFrag;
 	private ResultsRecursiveFlightLegsFragment mFlightLegsFrag;
 	private ResultsListSearchErrorFragment mSearchErrorFrag;
+	private Runnable mSearchParamUpdateRunner;
 
 	//Other
 	private GridManager mGrid = new GridManager();
@@ -191,8 +194,23 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			setFlightsState(ResultsFlightsState.LOADING, false);
 		}
 		else {
-			importSearchParams();
-			mFlightSearchDownloadFrag.startOrResumeForParams(Db.getFlightSearch().getSearchParams());
+			if (mFlightSearchDownloadFrag != null) {
+				//We dont care if our last search finished, we are waiting for our cooldown period before we want to
+				//commit to doing a full search.
+				mFlightSearchDownloadFrag.ignoreNextDownload();
+			}
+			mSearchParamUpdateRunner = new Runnable() {
+				@Override
+				public void run() {
+					if (mSearchParamUpdateRunner == this && getActivity() != null
+						&& mFlightsStateManager.getState() == ResultsFlightsState.LOADING) {
+						importSearchParams();
+						mFlightSearchDownloadFrag.startOrResumeForParams(Db.getFlightSearch().getSearchParams());
+					}
+				}
+			};
+			mRootC.postDelayed(mSearchParamUpdateRunner, PARAM_UPDATE_COOLDOWN_MS);
+
 		}
 	}
 

@@ -96,6 +96,11 @@ public class FlightSearchDownloadFragment extends Fragment {
 		outState.putString(STATE_PARAMS, mSearchParams.toJson().toString());
 	}
 
+	public void ignoreNextDownload(){
+		BackgroundDownloader dl = BackgroundDownloader.getInstance();
+		dl.unregisterDownloadCallback(DL_SEARCH);
+	}
+
 	public void startSearch() {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (bd.isDownloading(DL_SEARCH)) {

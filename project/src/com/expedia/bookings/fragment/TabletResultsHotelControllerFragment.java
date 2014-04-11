@@ -74,6 +74,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private static final String FTAG_HOTEL_SEARCH_ERROR = "FTAG_HOTEL_SEARCH_ERROR";
 	private static final String FTAG_HOTEL_REVIEWS = "FTAG_HOTEL_REVIEWS";
 
+	//Settings
+	private static final long PARAM_UPDATE_COOLDOWN_MS = 500;
+
 	//Containers
 	private ViewGroup mRootC;
 	private FrameLayoutTouchController mHotelListC;
@@ -104,7 +107,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	//private int mShadeColor = Color.argb(220, 0, 0, 0);
 	private boolean mRoomsAndRatesInFront = true;//They start in front
 	private PercentageFadeColorDrawable mBgHotelMapDimmerDrawable;
-
+	private Runnable mSearchParamUpdateRunner;
 	private ArrayList<IResultsHotelSelectedListener> mHotelSelectedListeners = new ArrayList<IResultsHotelSelectedListener>();
 
 	@Override
@@ -191,8 +194,23 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			setHotelsState(ResultsHotelsState.LOADING, false);
 		}
 		else {
-			importSearchParams();
-			mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
+			if (mHotelSearchDownloadFrag != null) {
+				//We dont care if our last search finished, we are waiting for our cooldown period before we want to
+				//commit to doing a full search.
+				mHotelSearchDownloadFrag.ignoreNextDownload();
+			}
+			mSearchParamUpdateRunner = new Runnable() {
+				@Override
+				public void run() {
+					if (mSearchParamUpdateRunner == this && getActivity() != null
+						&& mHotelsStateManager.getState() == ResultsHotelsState.LOADING) {
+						importSearchParams();
+						mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
+					}
+				}
+			};
+			mRootC.postDelayed(mSearchParamUpdateRunner, PARAM_UPDATE_COOLDOWN_MS);
+
 		}
 	}
 
@@ -1080,7 +1098,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				break;
 			}
 			}
-			if (mMapFragment != null && state != ResultsHotelsState.ROOMS_AND_RATES && state != ResultsHotelsState.REVIEWS) {
+			if (mMapFragment != null && state != ResultsHotelsState.ROOMS_AND_RATES
+				&& state != ResultsHotelsState.REVIEWS) {
 				mMapFragment.setMapPaddingFromFilterState(state == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
 					|| state == ResultsHotelsState.ROOMS_AND_RATES_FILTERS);
 			}
