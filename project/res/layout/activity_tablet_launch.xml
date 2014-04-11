@@ -16,7 +16,7 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/search_bar_conatiner"
+            android:id="@+id/fake_search_bar_container"
             android:layout_width="@dimen/tablet_search_width"
             android:layout_height="@dimen/tablet_search_header_height"
             android:background="@drawable/bg_tablet_search_header"
@@ -26,7 +26,7 @@
             android:paddingRight="4dp">
 
             <TextView
-                android:id="@+id/waypoint_edit_text"
+                android:id="@+id/fake_waypoint_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/search_all_hint"

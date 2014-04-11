@@ -118,7 +118,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		View view = inflater.inflate(R.layout.fragment_tablet_results_search, null, false);
 
 		mRootC = Ui.findView(view, R.id.root_layout);
-		mSearchBarC = Ui.findView(view, R.id.search_bar_conatiner);
+		mSearchBarC = Ui.findView(view, R.id.search_bar_container);
 		mRightButtonsC = Ui.findView(view, R.id.right_buttons_container);
 		mBottomRightC = Ui.findView(view, R.id.bottom_right_container);
 		mBottomCenterC = Ui.findView(view, R.id.bottom_center_container);

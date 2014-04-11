@@ -90,7 +90,7 @@ public class TabletWaypointFragment extends Fragment
 		mBg.setConsumeTouch(true);
 
 		mWaypointEditText = Ui.findView(view, R.id.waypoint_edit_text);
-		mSearchBarC = Ui.findView(view, R.id.search_bar_conatiner);
+		mSearchBarC = Ui.findView(view, R.id.search_bar_container);
 		mSuggestionsC = Ui.findView(view, R.id.suggestions_container);
 		mLocationProgressBar = Ui.findView(view, R.id.location_loading_progress);
 		mErrorTv = Ui.findView(view, R.id.error_text_view);

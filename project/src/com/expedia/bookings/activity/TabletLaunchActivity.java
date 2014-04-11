@@ -72,7 +72,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 		mRootC = Ui.findView(this, R.id.root_container);
 		mWaypointC = Ui.findView(mRootC, R.id.waypoint_container);
-		mSearchBarC = Ui.findView(mRootC, R.id.search_bar_conatiner);
+		mSearchBarC = Ui.findView(mRootC, R.id.fake_search_bar_container);
 
 		FragmentManager fm = getSupportFragmentManager();
 		if (savedInstanceState == null) {
