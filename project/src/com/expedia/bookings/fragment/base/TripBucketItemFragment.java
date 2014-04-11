@@ -29,6 +29,7 @@ import com.mobiata.android.util.Ui;
 public abstract class TripBucketItemFragment extends Fragment implements IStateProvider<TripBucketItemState> {
 
 	private static final String STATE_BUCKET_ITEM_STATE = "STATE_BUCKET_ITEM_STATE";
+	private static final String STATE_OVERLAY_COLOR_FETCHED = "STATE_OVERLAY_COLOR_FETCHED";
 
 	protected static final int[] DEFAULT_GRADIENT_COLORS = new int[] {
 		0x00000000,
@@ -51,6 +52,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private ImageView mBookingCompleteCheckImg;
 	private HeaderBitmapColorAveragedDrawable mHeaderBitmapDrawable;
 
+	private boolean mIsOverlayColorFetched;
+
 	//Colors
 	private int mExpandedBgColor = Color.WHITE;
 	private int mCollapsedBgColor = Color.TRANSPARENT;
@@ -65,10 +68,11 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		mTopC = Ui.findView(mRootC, R.id.trip_bucket_item_top_container);
 		mExpandedC = Ui.findView(mRootC, R.id.trip_bucket_item_expanded_container);
 
-		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_BUCKET_ITEM_STATE)) {
+		if (savedInstanceState != null) {
 			String stateName = savedInstanceState.getString(STATE_BUCKET_ITEM_STATE);
 			TripBucketItemState state = TripBucketItemState.valueOf(stateName);
 			mStateManager.setDefaultState(state);
+			mIsOverlayColorFetched = savedInstanceState.getBoolean(STATE_OVERLAY_COLOR_FETCHED);
 		}
 
 		addTopView(inflater, mTopC);
@@ -101,12 +105,13 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(STATE_BUCKET_ITEM_STATE, mStateManager.getState().name());
+		outState.putBoolean(STATE_OVERLAY_COLOR_FETCHED, mIsOverlayColorFetched);
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		bind(true);
+		bind();
 	}
 
 	public void setState(TripBucketItemState state) {
@@ -117,8 +122,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		return mStateManager.getState();
 	}
 
-	public void bind(boolean refresh) {
-		if (mRootC != null && refresh) {
+	public void bind() {
+		if (mRootC != null) {
 			//refresh the state...
 			setState(mStateManager.getState());
 
@@ -128,9 +133,15 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mTripPriceText.setText(getTripPrice());
 			mNameText.setText(getNameText());
 			mDurationText.setText(getDateRangeText());
-			mOverLayView.setVisibility(View.INVISIBLE);
-			mHeaderBitmapDrawable.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.REFRESH);
-			addTripBucketImage(mTripBucketImageView, mHeaderBitmapDrawable);
+			if (doTripBucketImageRefresh()) {
+				mOverLayView.setVisibility(View.GONE);
+				mIsOverlayColorFetched = false;
+				mHeaderBitmapDrawable.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.REFRESH);
+				addTripBucketImage(mTripBucketImageView, mHeaderBitmapDrawable);
+			}
+			else {
+				mIsOverlayColorFetched = true;
+			}
 		}
 	}
 
@@ -140,6 +151,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			int colorDarkened = ColorAvgUtils.darken(colorScheme.primaryAccent, 0.4f);
 			int overLayWithAlpha = 0xCC000000 | 0xffffff & colorDarkened;
 			mOverLayView.setBackgroundColor(overLayWithAlpha);
+			mIsOverlayColorFetched = true;
 			// Due to timing issues this might get called after setVisibilityState, so let's take care of that.
 			if (mStateManager.getState() == TripBucketItemState.EXPANDED) {
 				mOverLayView.setVisibility(View.GONE);
@@ -198,7 +210,10 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		case DEFAULT:
 		case SHOWING_CHECKOUT_BUTTON:
 			mBookingCompleteCheckImg.setVisibility(View.GONE);
-			mOverLayView.setVisibility(View.VISIBLE);
+			if (mIsOverlayColorFetched) {
+				mOverLayView.setVisibility(View.VISIBLE);
+				mIsOverlayColorFetched = false;
+			}
 			mBookBtnContainer.setVisibility(View.VISIBLE);
 			mExpandedC.setVisibility(View.GONE);
 			break;
@@ -281,6 +296,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	public abstract void addExpandedView(LayoutInflater inflater, ViewGroup viewGroup);
 
 	public abstract void addTripBucketImage(ImageView imageView, HeaderBitmapColorAveragedDrawable headerBitmapDrawable);
+
+	public abstract boolean doTripBucketImageRefresh();
 
 	public abstract String getNameText();
 

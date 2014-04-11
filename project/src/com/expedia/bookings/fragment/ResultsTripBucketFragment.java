@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucket;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
@@ -52,7 +53,7 @@ public class ResultsTripBucketFragment extends Fragment
 
 	public void bind(TripBucket bucket) {
 		boolean showBucket = bucket != null && bucket.size() > 0;
-		boolean refreshBucket = bucket.doRefresh();
+		LineOfBusiness lobToRefresh = bucket.getLOBToRefresh();
 		if (showBucket) {
 			mEmptyTripC.setVisibility(View.GONE);
 			mTripBucketC.setVisibility(View.VISIBLE);
@@ -63,7 +64,7 @@ public class ResultsTripBucketFragment extends Fragment
 		}
 
 		if (mBucketFrag != null && mBucketFrag.isAdded() && showBucket) {
-			mBucketFrag.bind(bucket, refreshBucket);
+			mBucketFrag.bind(bucket, lobToRefresh);
 		}
 	}
 

@@ -87,6 +87,11 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	}
 
 	@Override
+	public boolean doTripBucketImageRefresh() {
+		return true;
+	}
+
+	@Override
 	public String getNameText() {
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel != null) {

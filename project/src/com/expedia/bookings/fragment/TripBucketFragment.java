@@ -15,6 +15,7 @@ import android.widget.ScrollView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucket;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
@@ -69,10 +70,10 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	 */
 
 	public void bindToDb() {
-		bind(Db.getTripBucket(), false);
+		bind(Db.getTripBucket(), null);
 	}
 
-	public void bind(TripBucket bucket, boolean refresh) {
+	public void bind(TripBucket bucket, LineOfBusiness lobToRefresh) {
 		//TODO: In the future, this thing should iterate over the trip bucket items and support N items etc.
 
 		FragmentManager manager = getChildFragmentManager();
@@ -92,12 +93,12 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 
 		transaction.commit();
 
-		if (showFlight) {
-			mTripBucketFlightFrag.bind(refresh);
+		if (showFlight && lobToRefresh!= null && lobToRefresh == LineOfBusiness.FLIGHTS) {
+			mTripBucketFlightFrag.bind();
 			mTripBucketFlightFrag.setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 		}
-		if (showHotel) {
-			mTripBucketHotelFrag.bind(refresh);
+		if (showHotel && lobToRefresh!= null && lobToRefresh == LineOfBusiness.HOTELS) {
+			mTripBucketHotelFrag.bind();
 			mTripBucketHotelFrag.setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 		}
 	}

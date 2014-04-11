@@ -41,8 +41,8 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	private FlightTrip mFlightTrip;
 	private ImageView mDestinationImageView;
 	private HeaderBitmapColorAveragedDrawable mHeaderBitmapDrawable;
-
-	private boolean mIsDestinationImageFetched;
+	private String mNewDestination;
+	private String mPreviousDestination;
 
 	public static TripBucketFlightFragment newInstance() {
 		TripBucketFlightFragment frag = new TripBucketFlightFragment();
@@ -104,41 +104,45 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	}
 
 	@Override
+	public boolean doTripBucketImageRefresh() {
+		mNewDestination = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+		if (mPreviousDestination != null && mPreviousDestination.equals(mNewDestination)) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
+	@Override
 	public void addTripBucketImage(ImageView imageView, HeaderBitmapColorAveragedDrawable headerBitmapDrawable) {
 		mHeaderBitmapDrawable = headerBitmapDrawable;
 		mDestinationImageView = imageView;
-		if (!mIsDestinationImageFetched && !BackgroundDownloader.getInstance()
-			.isDownloading(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY)) {
+
+		if (!BackgroundDownloader.getInstance().isDownloading(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY)) {
 			mDestinationImageView.setImageDrawable(mHeaderBitmapDrawable);
 
-			mHeaderBitmapDrawable
-				.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.PLACEHOLDER);
-			mHeaderBitmapDrawable
-				.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
-
-			ViewTreeObserver vto = mDestinationImageView.getViewTreeObserver();
-			vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			mHeaderBitmapDrawable.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.PLACEHOLDER);
+			mHeaderBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
+			mDestinationImageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
 				@Override
 				public void onGlobalLayout() {
-					if (mIsDestinationImageFetched) {
-						return;
-					}
+					// Let's listen for just one time
+					mDestinationImageView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 
-					String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
-					ExpediaImage bgImage = ExpediaImageManager.getInstance().getDestinationImage(code,
+					mPreviousDestination = mNewDestination;
+					ExpediaImage bgImage = ExpediaImageManager.getInstance().getDestinationImage(mNewDestination,
 						mDestinationImageView.getMeasuredWidth(), mDestinationImageView.getMeasuredHeight(), false);
 
 					if (bgImage == null) {
 						startDestinationImageDownload();
 					}
 					else {
-						mHeaderBitmapDrawable
-							.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.REFRESH);
-						mHeaderBitmapDrawable
-							.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), bgImage.getUrl(),
-								R.drawable.bg_itin_placeholder));
-						mIsDestinationImageFetched = true;
+
+						mHeaderBitmapDrawable.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.REFRESH);
+						mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), bgImage.getUrl(),
+							R.drawable.bg_itin_placeholder));
 					}
 				}
 			});
@@ -233,8 +237,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		public ExpediaImage doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY, services);
-			String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
-			return ExpediaImageManager.getInstance().getDestinationImage(code,
+			return ExpediaImageManager.getInstance().getDestinationImage(mNewDestination,
 				mDestinationImageView.getMeasuredWidth(), mDestinationImageView.getMeasuredHeight(), true);
 		}
 	};
@@ -247,10 +250,6 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 					.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.REFRESH);
 				mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), image.getUrl(),
 					R.drawable.bg_itin_placeholder));
-				mIsDestinationImageFetched = true;
-			}
-			else {
-				mIsDestinationImageFetched = false;
 			}
 		}
 	};
