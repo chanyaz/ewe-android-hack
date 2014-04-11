@@ -64,6 +64,7 @@ android {
         ExpediaAutomation {
             buildConfigField "boolean", "IS_EXPEDIA", "true"
             packageName "com.expedia.bookings.auto"
+            testInstrumentationRunner "com.expedia.bookings.tests.utils.SpoonInstrumentationTestRunner"
         }
 
         TravelocityAutomation {
@@ -114,6 +115,10 @@ android {
             renderscript.srcDirs = ['src']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
+        }
+
+        debug {
+            manifest.srcFile 'AndroidManifest-debug.xml'
         }
 
         androidTest {
