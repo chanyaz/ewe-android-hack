@@ -223,14 +223,14 @@
                         android:paddingLeft="@dimen/tablet_detail_padding"
                         android:paddingRight="@dimen/tablet_detail_padding"/>
 
-                    <!-- Hotel header section (#2058) -->
+                    <!-- Hotel header section (#2058, #2401) -->
                     <!-- This is out of order down here so it can always be on z-top -->
 
-                    <com.expedia.bookings.widget.StickyRelativeLayout
+                    <com.expedia.bookings.widget.HotelDetailsStickyHeaderLayout
                         android:id="@+id/sticky_container"
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
-                        android:background="#e54e4e52"
+                        android:background="@color/hotel_details_sticky_header_background"
                         android:layout_marginTop="-80dp"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentRight="true"
@@ -255,6 +255,7 @@
                             android:textStyle="bold"/>
 
                         <LinearLayout
+                            android:id="@+id/hotel_name_rating_container"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
@@ -333,7 +334,7 @@
                                     app:textStyle="light"/>
                             </LinearLayout>
                         </LinearLayout>
-                    </com.expedia.bookings.widget.StickyRelativeLayout>
+                    </com.expedia.bookings.widget.HotelDetailsStickyHeaderLayout>
                 </RelativeLayout>
             </com.expedia.bookings.widget.ScrollView>
         </com.expedia.bookings.widget.RoundedCornerFrameLayout>
