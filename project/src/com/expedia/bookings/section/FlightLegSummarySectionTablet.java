@@ -3,6 +3,7 @@ package com.expedia.bookings.section;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 
 /**
@@ -15,7 +16,13 @@ public class FlightLegSummarySectionTablet extends FlightLegSummarySection {
 		super(context, attrs);
 	}
 
-	void adjustLayout(final FlightLeg leg, boolean isIndividualFlight) {
+	@Override
+	protected int getBagWithXDrawableResId() {
+		return R.drawable.ic_tablet_baggage_check_fees;
+	}
+
+	@Override
+	protected void adjustLayout(final FlightLeg leg, boolean isIndividualFlight) {
 		// No special layout adjustments need to be made on the tablet
 		// flight leg summary rows.
 	}

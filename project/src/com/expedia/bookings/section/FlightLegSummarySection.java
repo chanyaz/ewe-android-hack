@@ -159,7 +159,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 			if (trip != null) {
 				if (trip.hasBagFee()) {
 					mAirlineTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-						R.drawable.ic_suitcase_baggage_fee_blue, 0);
+						getBagWithXDrawableResId(), 0);
 				}
 				else {
 					mAirlineTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
@@ -264,6 +264,10 @@ public class FlightLegSummarySection extends RelativeLayout {
 		}
 	}
 
+	protected int getBagWithXDrawableResId() {
+		return R.drawable.ic_suitcase_baggage_fee_blue;
+	}
+
 	/**
 	 * Perform any layout adjustments on this section, based on the data in this FlightLeg,
 	 * whether this is a summary card or an itin card, etc.
@@ -271,7 +275,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 	 * This is broken into its own method, so that descendent classes can make different
 	 * layout adjustments (looking at you, FlightLegSummarySectionTablet).
 	 */
-	void adjustLayout(final FlightLeg leg, boolean isIndividualFlight) {
+	protected void adjustLayout(final FlightLeg leg, boolean isIndividualFlight) {
 		Context context = getContext();
 		Flight firstFlight = leg.getSegment(0);
 
