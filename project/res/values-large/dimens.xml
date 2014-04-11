@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<dimen name="amenity_text_size_large">13sp</dimen>
-	<dimen name="amenity_text_size_small">12sp</dimen>
-	<dimen name="amenity_layout_width">70dp</dimen>
-
     <!-- LocalExpert -->
     <dimen name="attraction_bubble_start_text_size">48dp</dimen>
 

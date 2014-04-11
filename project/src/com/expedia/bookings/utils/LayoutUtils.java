@@ -10,6 +10,9 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Shader.TileMode;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
@@ -20,6 +23,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -33,6 +37,7 @@ import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Property.Amenity;
 import com.expedia.bookings.data.Rate;
+import com.larvalabs.svgandroid.widget.SVGView;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 
@@ -56,7 +61,7 @@ public class LayoutUtils {
 		v.setBackgroundResource(resId);
 
 		v.setPadding(v.getPaddingLeft() + left, v.getPaddingTop() + top, v.getPaddingRight() + right,
-				v.getPaddingBottom() + bottom);
+			v.getPaddingBottom() + bottom);
 	}
 
 	/**
@@ -65,19 +70,19 @@ public class LayoutUtils {
 	 */
 	public static void addPadding(View v, int left, int top, int right, int bottom) {
 		v.setPadding(v.getPaddingLeft() + left, v.getPaddingTop() + top, v.getPaddingRight() + right,
-				v.getPaddingBottom() + bottom);
+			v.getPaddingBottom() + bottom);
 	}
 
 	public static float getSaleTextSize(Context context) {
 		TextPaint textPaint = new TextPaint();
 		textPaint.setTypeface(Typeface.DEFAULT_BOLD);
 		return ViewUtils.getTextSizeForMaxLines(context, context.getString(R.string.percent_off_template, 50.0),
-				textPaint, 58, 1, 11.5f, 1);
+			textPaint, 58, 1, 11.5f, 1);
 	}
 
 	public static Drawable getDividerDrawable(Context context) {
 		BitmapDrawable drawable = new BitmapDrawable(BitmapFactory.decodeResource(context.getResources(),
-				R.drawable.list_stroke_shadow));
+			R.drawable.list_stroke_shadow));
 		drawable.setTileModeY(TileMode.REPEAT);
 		return drawable;
 	}
@@ -88,15 +93,15 @@ public class LayoutUtils {
 		// everything else == kilometers (pending a better way to determine this).
 		DistanceUnit distanceUnit = (filter != null) ? filter.getDistanceUnit() : DistanceUnit.getDefaultDistanceUnit();
 		int distanceStrId = (distanceUnit == DistanceUnit.MILES) ? R.string.filter_distance_miles_template
-				: R.string.filter_distance_kilometers_template;
+			: R.string.filter_distance_kilometers_template;
 
 		DecimalFormat df = new DecimalFormat("#.#");
 		((RadioButton) radiusFilterGroup.findViewById(R.id.radius_small_button)).setText(context.getString(
-				distanceStrId, df.format(SearchRadius.SMALL.getRadius(distanceUnit))));
+			distanceStrId, df.format(SearchRadius.SMALL.getRadius(distanceUnit))));
 		((RadioButton) radiusFilterGroup.findViewById(R.id.radius_medium_button)).setText(context.getString(
-				distanceStrId, df.format(SearchRadius.MEDIUM.getRadius(distanceUnit))));
+			distanceStrId, df.format(SearchRadius.MEDIUM.getRadius(distanceUnit))));
 		((RadioButton) radiusFilterGroup.findViewById(R.id.radius_large_button)).setText(context.getString(
-				distanceStrId, df.format(SearchRadius.LARGE.getRadius(distanceUnit))));
+			distanceStrId, df.format(SearchRadius.LARGE.getRadius(distanceUnit))));
 	}
 
 	private static final float MAX_AMENITY_TEXT_WIDTH_IN_DP = 60.0f;
@@ -115,34 +120,35 @@ public class LayoutUtils {
 
 	// These will be displayed in the order they're in this array
 	private static final AmenityInfo[] sAmenityInfo = new AmenityInfo[] {
-		new AmenityInfo(Amenity.POOL, R.drawable.ic_amenity_pool, Amenity.POOL_INDOOR, Amenity.POOL_OUTDOOR),
-		new AmenityInfo(Amenity.INTERNET, R.drawable.ic_amenity_internet),
-		new AmenityInfo(Amenity.BREAKFAST, R.drawable.ic_amenity_breakfast),
-		new AmenityInfo(Amenity.PARKING, R.drawable.ic_amenity_parking, Amenity.EXTENDED_PARKING, Amenity.FREE_PARKING),
-		new AmenityInfo(Amenity.PETS_ALLOWED, R.drawable.ic_amenity_pets),
-		new AmenityInfo(Amenity.RESTAURANT, R.drawable.ic_amenity_restaurant),
-		new AmenityInfo(Amenity.FITNESS_CENTER, R.drawable.ic_amenity_fitness_center),
-		new AmenityInfo(Amenity.ROOM_SERVICE, R.drawable.ic_amenity_room_service),
-		new AmenityInfo(Amenity.SPA, R.drawable.ic_amenity_spa),
-		new AmenityInfo(Amenity.BUSINESS_CENTER, R.drawable.ic_amenity_business),
-		new AmenityInfo(Amenity.FREE_AIRPORT_SHUTTLE, R.drawable.ic_amenity_airport_shuttle),
-		new AmenityInfo(Amenity.ACCESSIBLE_BATHROOM, R.drawable.ic_amenity_accessible_bathroom),
-		new AmenityInfo(Amenity.HOT_TUB, R.drawable.ic_amenity_hot_tub),
-		new AmenityInfo(Amenity.JACUZZI, R.drawable.ic_amenity_jacuzzi),
-		new AmenityInfo(Amenity.WHIRLPOOL_BATH, R.drawable.ic_amenity_whirl_pool),
-		new AmenityInfo(Amenity.KITCHEN, R.drawable.ic_amenity_kitchen),
-		new AmenityInfo(Amenity.KIDS_ACTIVITIES, R.drawable.ic_amenity_children_activities),
-		new AmenityInfo(Amenity.BABYSITTING, R.drawable.ic_amenity_baby_sitting),
-		new AmenityInfo(Amenity.ACCESSIBLE_PATHS, R.drawable.ic_amenity_accessible_ramp),
-		new AmenityInfo(Amenity.ROLL_IN_SHOWER, R.drawable.ic_amenity_accessible_shower),
-		new AmenityInfo(Amenity.HANDICAPPED_PARKING, R.drawable.ic_amenity_handicap_parking),
-		new AmenityInfo(Amenity.IN_ROOM_ACCESSIBILITY, R.drawable.ic_amenity_accessible_room),
-		new AmenityInfo(Amenity.DEAF_ACCESSIBILITY_EQUIPMENT, R.drawable.ic_amenity_deaf_access),
-		new AmenityInfo(Amenity.BRAILLE_SIGNAGE, R.drawable.ic_amenity_braille_signs),
+		new AmenityInfo(Amenity.POOL, R.raw.ic_amenity_pool, Amenity.POOL_INDOOR, Amenity.POOL_OUTDOOR),
+		new AmenityInfo(Amenity.INTERNET, R.raw.ic_amenity_internet),
+		new AmenityInfo(Amenity.BREAKFAST, R.raw.ic_amenity_breakfast),
+		new AmenityInfo(Amenity.PARKING, R.raw.ic_amenity_parking, Amenity.EXTENDED_PARKING, Amenity.FREE_PARKING),
+		new AmenityInfo(Amenity.PETS_ALLOWED, R.raw.ic_amenity_pets),
+		new AmenityInfo(Amenity.RESTAURANT, R.raw.ic_amenity_restaurant),
+		new AmenityInfo(Amenity.FITNESS_CENTER, R.raw.ic_amenity_fitness_center),
+		new AmenityInfo(Amenity.ROOM_SERVICE, R.raw.ic_amenity_room_service),
+		new AmenityInfo(Amenity.SPA, R.raw.ic_amenity_spa),
+		new AmenityInfo(Amenity.BUSINESS_CENTER, R.raw.ic_amenity_business),
+		new AmenityInfo(Amenity.FREE_AIRPORT_SHUTTLE, R.raw.ic_amenity_airport_shuttle),
+		new AmenityInfo(Amenity.ACCESSIBLE_BATHROOM, R.raw.ic_amenity_accessible_bathroom),
+		new AmenityInfo(Amenity.HOT_TUB, R.raw.ic_amenity_hot_tub),
+		new AmenityInfo(Amenity.JACUZZI, R.raw.ic_amenity_jacuzzi),
+		new AmenityInfo(Amenity.WHIRLPOOL_BATH, R.raw.ic_amenity_whirl_pool),
+		new AmenityInfo(Amenity.KITCHEN, R.raw.ic_amenity_kitchen),
+		new AmenityInfo(Amenity.KIDS_ACTIVITIES, R.raw.ic_amenity_children_activities),
+		new AmenityInfo(Amenity.BABYSITTING, R.raw.ic_amenity_baby_sitting),
+		new AmenityInfo(Amenity.ACCESSIBLE_PATHS, R.raw.ic_amenity_accessible_ramp),
+		new AmenityInfo(Amenity.ROLL_IN_SHOWER, R.raw.ic_amenity_accessible_shower),
+		new AmenityInfo(Amenity.HANDICAPPED_PARKING, R.raw.ic_amenity_handicap_parking),
+		new AmenityInfo(Amenity.IN_ROOM_ACCESSIBILITY, R.raw.ic_amenity_accessible_room),
+		new AmenityInfo(Amenity.DEAF_ACCESSIBILITY_EQUIPMENT, R.raw.ic_amenity_deaf_access),
+		new AmenityInfo(Amenity.BRAILLE_SIGNAGE, R.raw.ic_amenity_braille_signs),
 	};
 
 	/**
 	 * Estimates the width of the amenities if they'd be displayed on the screen.
+	 *
 	 * @param property
 	 * @return
 	 */
@@ -155,29 +161,39 @@ public class LayoutUtils {
 		}
 		Resources res = context.getResources();
 		float singleAmenityWidth = res.getDimension(R.dimen.amenity_layout_width)
-				+ res.getDimension(R.dimen.single_amenity_margin) * 2;
+			+ res.getDimension(R.dimen.single_amenity_margin) * 2;
 		return count * singleAmenityWidth;
 
 	}
 
 	/**
 	 * Generate a view with the amenities included in this Property.
+	 *
 	 * @param context
 	 * @param property
 	 * @param container
 	 */
 	public static void addAmenities(Context context, Property property, ViewGroup container) {
+		int srcColor = context.getResources().getColor(R.color.amenity_icon_color);
+		PorterDuff.Mode mode = PorterDuff.Mode.SRC_ATOP;
+		PorterDuffColorFilter filter = new PorterDuffColorFilter(srcColor, mode);
+		Paint paint = new Paint();
+		paint.setColorFilter(filter);
+
 		for (AmenityInfo ai : sAmenityInfo) {
 			if (property.hasAmenity(ai.amenity) || property.hasAnyAmenity(ai.aliases)) {
-				addAmenity(context, container, ai.amenity, ai.resId);
+				addAmenity(context, container, ai.amenity, ai.resId, paint);
 			}
 		}
 		container.scheduleLayoutAnimation();
 	}
 
-	private static void addAmenity(Context context, ViewGroup amenitiesTable, Amenity amenity, int iconResourceId) {
+	private static void addAmenity(Context context, ViewGroup amenitiesTable, Amenity amenity, int iconResourceId, Paint paint) {
 		LayoutInflater layoutInflater = LayoutInflater.from(context);
-		TextView amenityTextView = (TextView) layoutInflater.inflate(R.layout.snippet_amenity, amenitiesTable, false);
+		LinearLayout amenityLayout = (LinearLayout) layoutInflater.inflate(R.layout.snippet_amenity, amenitiesTable, false);
+		TextView amenityTextView = Ui.findView(amenityLayout, R.id.label);
+		SVGView amenityIconView = Ui.findView(amenityLayout, R.id.icon);
+		amenityIconView.setLayerType(View.LAYER_TYPE_SOFTWARE, paint);
 
 		String amenityStr = context.getString(amenity.getStrId());
 
@@ -189,14 +205,14 @@ public class LayoutUtils {
 
 		if (amenityStr.contains(" ") || measuredWidthOfStr > acceptableWidth) {
 			amenityTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					context.getResources().getDimension(R.dimen.amenity_text_size_small));
+				context.getResources().getDimension(R.dimen.amenity_text_size_small));
 		}
 
 		amenityTextView.setText(amenityStr);
-		Drawable icon = context.getResources().getDrawable(iconResourceId);
-		amenityTextView.setCompoundDrawablesWithIntrinsicBounds(null, icon, null, null);
 
-		amenitiesTable.addView(amenityTextView);
+		amenityIconView.setSVG(iconResourceId);
+
+		amenitiesTable.addView(amenityLayout);
 	}
 
 	public static String noHotelsFoundMessage(Context context) {
@@ -217,7 +233,7 @@ public class LayoutUtils {
 		if (longDescription != null) {
 			// Do a bit of formatting on it...
 			longDescription = longDescription.toString().replace("<strong>", "").replace("</strong>", ". ")
-					.replace(". .", ".");
+				.replace(". .", ".");
 			longDescription = Html.fromHtml(longDescription.toString());
 		}
 		else {
@@ -248,7 +264,7 @@ public class LayoutUtils {
 		return config.orientation == Configuration.ORIENTATION_PORTRAIT;
 	}
 
-	private static final int[] STYLEABLE_ACTION_BAR_SIZE = new int[] { android.R.attr.actionBarSize };
+	private static final int[] STYLEABLE_ACTION_BAR_SIZE = new int[] {android.R.attr.actionBarSize};
 
 	public static int getActionBarSize(Context context) {
 		TypedArray a = context.obtainStyledAttributes(null, R.styleable.SherlockActionBar, R.attr.actionBarStyle, 0);
@@ -273,7 +289,7 @@ public class LayoutUtils {
 
 	/**
 	 * Adjusts the top and bottom padding of a View based on its Activity and state.
-	 *
+	 * <p/>
 	 * This method makes a few assumptions, namely that you're setting things like the
 	 * action bar/split's height and the uiOptions in the XML rather than dynamically.
 	 * If you're doing it dynamically then you're on your own (but I can't see any use
@@ -282,10 +298,10 @@ public class LayoutUtils {
 	 * @param activity     the Activity who made have overlay
 	 * @param rootView     the root view to add padding to
 	 * @param hasMenuItems there appears to be no easy way to tell if the menu actually has any items,
-	 *        so we use this variable to determine whether or not to adjust for bottom padding
+	 *                     so we use this variable to determine whether or not to adjust for bottom padding
 	 */
 	public static void adjustPaddingForOverlayMode(Activity activity, View rootView,
-			boolean hasMenuItems) {
+												   boolean hasMenuItems) {
 		TypedArray a = activity.getTheme().obtainStyledAttributes(R.styleable.SherlockTheme);
 		boolean inOverlayMode = a.getBoolean(R.styleable.SherlockTheme_windowActionBarOverlay, false);
 		a.recycle();
@@ -297,7 +313,7 @@ public class LayoutUtils {
 
 			// Get top padding
 			a = activity.obtainStyledAttributes(null, R.styleable.SherlockActionBar,
-					R.attr.actionBarStyle, 0);
+				R.attr.actionBarStyle, 0);
 			int heightRes = a.getResourceId(R.styleable.SherlockActionBar_height, 0);
 			a.recycle();
 			if (heightRes != 0) {
@@ -315,7 +331,7 @@ public class LayoutUtils {
 			// Get bottom padding (if in split action bar mode)
 			if (needsBottomPaddingForOverlay(activity, hasMenuItems)) {
 				a = activity.obtainStyledAttributes(null, R.styleable.SherlockActionBar,
-						R.attr.actionBarSplitStyle, 0);
+					R.attr.actionBarSplitStyle, 0);
 				heightRes = a.getResourceId(R.styleable.SherlockActionBar_height, 0);
 				a.recycle();
 				if (heightRes != 0) {
@@ -331,7 +347,7 @@ public class LayoutUtils {
 
 			// Reset the padding with the additional top (and maybe bottom) padding
 			rootView.setPadding(rootView.getPaddingLeft(), rootView.getPaddingTop() + extraTopPadding,
-					rootView.getPaddingRight(), rootView.getPaddingBottom() + extraBottomPadding);
+				rootView.getPaddingRight(), rootView.getPaddingBottom() + extraBottomPadding);
 		}
 	}
 
@@ -340,7 +356,7 @@ public class LayoutUtils {
 			int uiOptions = ActionBarSherlockCompat.loadUiOptionsFromManifest(activity);
 			boolean splitWhenNarrow = (uiOptions & ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW) != 0;
 			return splitWhenNarrow
-					&& ResourcesCompat.getResources_getBoolean(activity, R.bool.abs__split_action_bar_is_narrow);
+				&& ResourcesCompat.getResources_getBoolean(activity, R.bool.abs__split_action_bar_is_narrow);
 		}
 		return false;
 	}
