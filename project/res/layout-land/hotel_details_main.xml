@@ -69,7 +69,8 @@
                         android:layout_height="wrap_content"
                         android:background="?attr/loginBookNowButtonDrawable"
                         android:text="?attr/hotelBookButtonString"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:textColor="?attr/hotelBookButtonColor"/>
 
                     <Button
                         android:id="@+id/book_by_phone_button"
