@@ -25,7 +25,7 @@ if [ -n "$BUILDER_NAME" -a -n "$BUILD_NUMBER" ] ; then
     # Archive to the master
     tar cvzf "$OUTPUT_TAR" 'spoon/unit'
     scp "$OUTPUT_TAR" "buildbot@buildbot.mobiata.com:/home/buildbot/artifacts/."
-    ssh "buildbot@buildbot.mobiata.com" 'cd /home/buildbot/artifacts ; umask 022 ; for i in *.tar.gz ; do echo Extrating "$i" ; tar xzf "$i" ; rm -f "$i" ; done'
+    ssh "buildbot@buildbot.mobiata.com" 'cd /home/buildbot/artifacts ; for i in *.tar.gz ; do echo Extracting "$i" ; tar xzf "$i" ; rm -f "$i" ; done ; /home/buildbot/fixperms.sh'
 
     ## Cleanup locally
     rm -rf "spoon"
