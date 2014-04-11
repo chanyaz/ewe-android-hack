@@ -105,22 +105,37 @@ public class FlightUtils {
 	}
 
 	public static void configureBaggageFeeViews(final Context context, final FlightTrip trip, FlightLeg leg, TextView feesTv,
-		ViewGroup mFeesContainer, TextView secondaryFeesTv, final OnBaggageFeeViewClicked callback) {
+		ViewGroup mFeesContainer, TextView secondaryFeesTv, boolean isPhone, final OnBaggageFeeViewClicked callback) {
 
 		// Configure the first TextView, "Baggage Fee Information"
 		int textViewResId;
 		int drawableResId;
 		if (leg.isSpirit()) {
 			textViewResId = R.string.carry_on_baggage_fees_apply;
-			drawableResId = R.drawable.ic_suitcase_baggage_fee;
+			if (isPhone) {
+				drawableResId = R.drawable.ic_suitcase_baggage_fee;
+			}
+			else {
+				drawableResId = R.drawable.ic_tablet_baggage_check_fees;
+			}
 		}
 		else if (trip.hasBagFee()) {
 			textViewResId = R.string.checked_baggage_not_included;
-			drawableResId = R.drawable.ic_suitcase_baggage_fee;
+			if (isPhone) {
+				drawableResId = R.drawable.ic_suitcase_baggage_fee;
+			}
+			else {
+				drawableResId = R.drawable.ic_tablet_baggage_check_fees;
+			}
 		}
 		else {
 			textViewResId = R.string.baggage_fee_info;
-			drawableResId = R.drawable.ic_suitcase_small;
+			if (isPhone) {
+				drawableResId = R.drawable.ic_suitcase_small;
+			}
+			else {
+				drawableResId = R.drawable.ic_tablet_baggage_fees;
+			}
 		}
 
 		ViewUtils.setAllCaps(feesTv);
@@ -129,6 +144,13 @@ public class FlightUtils {
 
 		// Configure the second TextView, "Payment Fees Apply"
 		if (trip.getMayChargeObFees()) {
+			if (isPhone) {
+				drawableResId = R.drawable.ic_payment_fee;
+			}
+			else {
+				drawableResId = R.drawable.ic_tablet_payment_fees;
+			}
+			secondaryFeesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0 ,0);
 			secondaryFeesTv.setVisibility(View.VISIBLE);
 			secondaryFeesTv.setText(context.getString(R.string.payment_and_baggage_fees_may_apply));
 			ViewUtils.setAllCaps(secondaryFeesTv);

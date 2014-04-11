@@ -338,7 +338,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 		// Baggage fees
 		FlightUtils.configureBaggageFeeViews(getActivity(), trip, flightLeg, mBaggageFeesLinkPrimaryTv, mBaggageFeesLinkC,
-			mBaggageFeesLinkSecondaryTv, new FlightUtils.OnBaggageFeeViewClicked() {
+			mBaggageFeesLinkSecondaryTv, false, new FlightUtils.OnBaggageFeeViewClicked() {
 				@Override
 				public void onBaggageFeeViewClicked(String title, String url) {
 					toggleDetailsCard(false, title, url, true);

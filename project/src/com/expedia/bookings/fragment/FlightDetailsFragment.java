@@ -33,7 +33,6 @@ import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -148,7 +147,7 @@ public class FlightDetailsFragment extends Fragment {
 
 		// Footer: https://mingle/projects/eb_ad_app/cards/660
 		FlightUtils.configureBaggageFeeViews(getActivity(), trip, leg, mFeesTextView, mFeesContainer,
-			mFeesSecondaryTextView, new FlightUtils.OnBaggageFeeViewClicked() {
+			mFeesSecondaryTextView, true, new FlightUtils.OnBaggageFeeViewClicked() {
 				@Override
 				public void onBaggageFeeViewClicked(String title, String url) {
 					String trackingName = null;
