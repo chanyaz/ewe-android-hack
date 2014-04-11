@@ -271,6 +271,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				mStateManager.animateThroughStates(ResultsFlightLegState.FILTERS, ResultsFlightLegState.DETAILS);
 			}
 			else {
+				mDetailsFrag.forceShowDetails();
 				setState(ResultsFlightLegState.DETAILS, true);
 			}
 			if (mNextLegFrag != null) {

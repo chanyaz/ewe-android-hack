@@ -63,7 +63,8 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 	private static final String ARG_LEG_NUMBER = "ARG_LEG_NUMBER";
 
-	private static final String INSTANCE_IS_SHOWING_DETAILS = "INSTANCE_IS_SHOWING_DETAILS";
+	private static final String INSTANCE_IS_SHOWING_BAGGAGE = "INSTANCE_IS_SHOWING_BAGGAGE";
+	private static final String INSTANCE_BAGGAGE_TITLE = "INSTANCE_BAGGAGE_TITLE";
 
 	private static final String BGD_KEY_RATINGS = "BGD_KEY_RATINGS";
 
@@ -109,7 +110,10 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	private TextView mBaggageFeesLinkPrimaryTv;
 	private TextView mBaggageFeesLinkSecondaryTv;
 
-	private boolean mIsShowingDetails = true;
+	private boolean mIsShowingBaggageFees = false;
+	private boolean mForceShowDetails;
+
+	private String mBaggageTitle;
 
 	private FlightLegSummarySectionTablet mSelectedFlightLegAnimationRowSection;
 
@@ -142,13 +146,13 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (savedInstanceState != null) {
-			mIsShowingDetails = savedInstanceState.getBoolean(INSTANCE_IS_SHOWING_DETAILS, true);
+			mIsShowingBaggageFees = savedInstanceState.getBoolean(INSTANCE_IS_SHOWING_BAGGAGE, false);
+			mBaggageTitle = savedInstanceState.getString(INSTANCE_BAGGAGE_TITLE);
 		}
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_flight_details, null);
 		mAnimationFlightRow = Ui.findView(mRootC, R.id.details_animation_row);
 		mAnimationFlightRow.setPivotX(0);
@@ -206,8 +210,6 @@ public class ResultsFlightDetailsFragment extends Fragment {
 			mBindInOnResume = false;
 			bindWithDb();
 		}
-
-		toggleDetailsCard(mIsShowingDetails, "", "", false);
 	}
 
 	@Override
@@ -224,7 +226,8 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putBoolean(INSTANCE_IS_SHOWING_DETAILS, mIsShowingDetails);
+		outState.putBoolean(INSTANCE_IS_SHOWING_BAGGAGE, mIsShowingBaggageFees);
+		outState.putString(INSTANCE_BAGGAGE_TITLE, mBaggageTitle);
 	}
 
 	public void setLegPosition(int legNumber) {
@@ -367,37 +370,80 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	private Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
 	public void showFlightDetails() {
-		toggleDetailsCard(true, "", "", true);
-	}
-
-	public void showBaggageFeeInfo() {
-		toggleDetailsCard(false, "", "", true);
-	}
-
-	private void toggleDetailsCard(boolean showDetails, String title, String url, boolean animate) {
-		if (showDetails == mIsShowingDetails) {
-			// we've already done all we need to do
-			return;
+		// State resolution time
+		boolean showDetails;
+		if (mForceShowDetails) {
+			showDetails = true;
+			mForceShowDetails = false;
+		}
+		else if (mIsShowingBaggageFees) {
+			showDetails = false;
+		}
+		else {
+			showDetails = true;
 		}
 
+
+		toggleDetailsCard(showDetails, "", "", true);
+	}
+
+	/**
+	 * When interacting manually, we want to force show details on next display/setState
+	 */
+	public void forceShowDetails() {
+		mForceShowDetails = true;
+	}
+
+	private void doPreAnimPrep(boolean showDetails) {
+		// Ensure the Views are in hierarchy for proper animation purposes
+		if (showDetails) {
+			mFlightCardC.setVisibility(View.VISIBLE);
+			mFlightCardC.setAlpha(0f);
+		}
+		else {
+			mBaggageFeesCardC.setVisibility(View.VISIBLE);
+			mBaggageFeesCardC.setAlpha(0f);
+		}
+	}
+
+	private void updateViewState(boolean showDetails) {
+		if (showDetails) {
+			mFlightCardC.setVisibility(View.VISIBLE);
+			mBaggageFeesCardC.setVisibility(View.GONE);
+		}
+		else {
+			mFlightCardC.setVisibility(View.GONE);
+			mBaggageFeesCardC.setVisibility(View.VISIBLE);
+			mBaggageFeesLinkC.setAlpha(0f);
+		}
+	}
+
+	private void bindBaggageData(String url, String title) {
 		// Update WebView page if we've received some new data to display
 		if (!TextUtils.isEmpty(url)) {
-			mBaggageFeesHeader.setText(title);
 			mBaggageFeeWebFrag.bind(url);
 		}
 
+		// Update the title if applicable
+		if (!TextUtils.isEmpty(title)) {
+			mBaggageTitle = title;
+		}
+		mBaggageFeesHeader.setText(mBaggageTitle);
+	}
+
+	private void toggleDetailsCard(boolean showDetails, String title, String url, boolean animate) {
+		if (showDetails == !mIsShowingBaggageFees) {
+			bindBaggageData(url, title);
+			updateViewState(showDetails);
+			return;
+		}
+
+		bindBaggageData(url, title);
+
 		// Shortcut if no animation...
 		if (!animate) {
-			mIsShowingDetails = showDetails;
-			if (showDetails) {
-				mFlightCardC.setVisibility(View.VISIBLE);
-				mBaggageFeesCardC.setVisibility(View.GONE);
-			}
-			else {
-				mFlightCardC.setVisibility(View.GONE);
-				mBaggageFeesCardC.setVisibility(View.VISIBLE);
-			}
-
+			mIsShowingBaggageFees = !showDetails;
+			updateViewState(showDetails);
 			return;
 		}
 
@@ -468,21 +514,17 @@ public class ResultsFlightDetailsFragment extends Fragment {
 				mFlightCardC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 				mBaggageFeesCardC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
-				// Ensure flightCard in hierarchy for animation purpose (it will alpha fade in)
-				if (!forward) {
-					mFlightCardC.setVisibility(View.VISIBLE);
-				}
+				doPreAnimPrep(!forward);
 			}
 
 			@Override
 			public void onAnimationEnd(Animator animation) {
-				// Remove View from hierarchy for proper touching purposes (flightCard sits on top of WebView)
-				mFlightCardC.setVisibility(forward ? View.GONE : View.VISIBLE);
+				updateViewState(!forward);
 
 				mFlightCardC.setLayerType(View.LAYER_TYPE_NONE, null);
 				mBaggageFeesCardC.setLayerType(View.LAYER_TYPE_NONE, null);
 
-				mIsShowingDetails = !forward;
+				mIsShowingBaggageFees = forward;
 			}
 		});
 
