@@ -210,7 +210,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				}
 			};
 			mRootC.postDelayed(mSearchParamUpdateRunner, PARAM_UPDATE_COOLDOWN_MS);
-
 		}
 	}
 
@@ -697,7 +696,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			if (response != null && !response.hasErrors()) {
 				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
 			}
-			else {
+			else if (!mFlightSearchDownloadFrag.isDownloadingFlightSearch()) {
+				//If we aren't downloading, and we dont have a valid response, we move to the error state
 				setFlightsState(ResultsFlightsState.SEARCH_ERROR, false);
 			}
 		}

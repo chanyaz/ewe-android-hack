@@ -141,6 +141,10 @@ public class HotelSearchDownloadFragment extends Fragment {
 		dl.startDownload(DL_SEARCH, mSearchDownload, mSearchCallback);
 	}
 
+	public boolean isDownloadingHotelSearch() {
+		return BackgroundDownloader.getInstance().isDownloading(DL_SEARCH);
+	}
+
 	protected void setSearchParams(HotelSearchParams params) {
 		mSearchParams = params;
 	}

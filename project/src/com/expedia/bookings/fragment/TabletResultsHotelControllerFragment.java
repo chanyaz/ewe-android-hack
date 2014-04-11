@@ -1219,7 +1219,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			if (response != null && !response.hasErrors()) {
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
 			}
-			else {
+			else if(!mHotelSearchDownloadFrag.isDownloadingHotelSearch()){
+				//If we aren't downloading, and we dont have a valid response, we move to the error state
 				setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
 			}
 		}
