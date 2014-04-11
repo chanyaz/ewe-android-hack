@@ -17,10 +17,12 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Response;
+import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.Log;
+import com.squareup.otto.Subscribe;
 
 /**
  * ResultsFlightFiltersFragment: The filters fragment designed for tablet results 2013
@@ -117,8 +119,14 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
-
 		mGdeDownloadFrag.startOrResumeForRoute(mOrigin, mDestination, mDepartureDate);
+		Sp.getBus().register(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		Sp.getBus().unregister(this);
 	}
 
 	@Override
@@ -136,6 +144,15 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	public void onDetach() {
 		super.onDetach();
 		mListener = null;
+	}
+
+	/*
+	 * Search Param updates
+	 */
+	@Subscribe
+	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
+		setGdeInfo(Sp.getParams().getOriginLocation(true), Sp.getParams().getDestinationLocation(true),
+			Sp.getParams().getStartDate());
 	}
 
 	/*

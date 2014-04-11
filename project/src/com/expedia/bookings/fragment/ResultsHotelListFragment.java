@@ -20,6 +20,7 @@ import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsHotelsListState;
@@ -123,7 +124,8 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 			mAdapter.setShowDistance(
 				search != null
 					&& search.getSearchParams().getSearchType() != null
-					&& search.getSearchParams().getSearchType().shouldShowDistance());
+					&& search.getSearchParams().getSearchType().shouldShowDistance()
+			);
 
 			if (Db.getHotelSearch().getSelectedProperty() != null) {
 				// In case there is a currently selected property, select it on the screen.
@@ -144,7 +146,11 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		}
 
 		CharSequence text = null;
-		if (count == total) {
+		if (Sp.getParams().getStartDate() == null) {
+			//It would be better to check Sp from outside, but this is a pretty cheap way to set this up
+			text = getString(R.string.hotels_tonight);
+		}
+		else if (count == total) {
 			text = getResources().getQuantityString(R.plurals.x_Hotels_TEMPLATE, total, total);
 		}
 		else {

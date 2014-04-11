@@ -68,7 +68,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	private GridManager mGrid = new GridManager();
 	private StateManager<ResultsSearchState> mSearchStateManager = new StateManager<ResultsSearchState>(
-		ResultsSearchState.DEFAULT, this);
+		ResultsSearchState.CALENDAR, this);
 	private boolean mWaypointAnimFromOrigin = true;
 
 	//Containers
@@ -207,7 +207,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mCalBtn.setText(dateStr);
 		}
 		else {
-			mCalBtn.setText("");
+			mCalBtn.setText(R.string.choose_flight_dates);
 		}
 
 		int numTravelers = params.getNumAdults() + params.getNumChildren();
@@ -346,6 +346,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				if (isHotelsUpTransition(stateOne, stateTwo)) {
 					//For hotels we also fade
 					setSlideUpHotelsOnlyHardwareLayers(true);
+
+					if (Sp.getParams().getStartDate() == null) {
+						mCalBtn.setAlpha(0f);
+					}
+					mCalBtn.setVisibility(View.VISIBLE);
 				}
 			}
 			else {
@@ -518,6 +523,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		private void setSlideUpHotelsOnlyAnimationPercentage(float percentage) {
 			mOrigBtn.setAlpha(1f - percentage);
+			if (Sp.getParams().getStartDate() == null) {
+				mCalBtn.setAlpha(1f - percentage);
+			}
 		}
 
 		private void setActionbarShowingState(ResultsSearchState state) {
@@ -539,6 +547,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			);
 			mBottomCenterC.setVisibility(mCalC.getVisibility());
 			mGdeC.setVisibility(mCalC.getVisibility());
+
+			mCalBtn.setVisibility(
+				(state == ResultsSearchState.HOTELS_UP && Sp.getParams().getStartDate() == null) ? View.INVISIBLE
+					: View.VISIBLE
+			);
 
 		}
 

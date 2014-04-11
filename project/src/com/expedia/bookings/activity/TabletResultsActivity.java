@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnPreDrawListener;
+import android.widget.LinearLayout;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -20,7 +21,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
-import com.expedia.bookings.enums.ResultsLoadingState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
 import com.expedia.bookings.fragment.ResultsTripBucketFragment;
@@ -47,6 +47,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
+import com.squareup.otto.Subscribe;
 
 /**
  * TabletResultsActivity: The results activity designed for tablet results 2013
@@ -79,8 +80,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	//Containers..
 	private ViewGroup mRootC;
 	private FrameLayoutTouchController mBgDestImageC;
-	private FrameLayoutTouchController mLoadingC;
 	private FrameLayoutTouchController mTripBucketC;
+	private LinearLayout mMissingFlightInfoC;
 
 	//Fragments
 	private ResultsBackgroundImageFragment mBackgroundImageFrag;
@@ -106,8 +107,8 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		mBgDestImageC = Ui.findView(this, R.id.bg_dest_image_overlay);
 		mBgDestImageC.setBlockNewEventsEnabled(true);
 		mBgDestImageC.setVisibility(View.VISIBLE);
-		mLoadingC = Ui.findView(this, R.id.loading_frag_container);
 		mTripBucketC = Ui.findView(this, R.id.trip_bucket_container);
+		mMissingFlightInfoC = Ui.findView(this, R.id.missing_flight_info_container);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CURRENT_STATE)) {
 			String stateName = savedInstanceState.getString(STATE_CURRENT_STATE);
@@ -117,18 +118,14 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		//Add default fragments
 		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-		mBackgroundImageFrag = (ResultsBackgroundImageFragment) FragmentAvailabilityUtils.setFragmentAvailability(true,
+		mBackgroundImageFrag = FragmentAvailabilityUtils.setFragmentAvailability(true,
 			FTAG_BACKGROUND_IMAGE,
 			manager, transaction, this, R.id.bg_dest_image_overlay, false);
-		mFlightsController = (TabletResultsFlightControllerFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-			true,
-			FTAG_FLIGHTS_CONTROLLER, manager, transaction, this,
-			R.id.full_width_flights_controller_container, false);
-		mHotelsController = (TabletResultsHotelControllerFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+		mHotelsController = FragmentAvailabilityUtils.setFragmentAvailability(
 			true,
 			FTAG_HOTELS_CONTROLLER, manager, transaction, this,
 			R.id.full_width_hotels_controller_container, false);
-		mSearchController = (TabletResultsSearchControllerFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+		mSearchController = FragmentAvailabilityUtils.setFragmentAvailability(
 			true,
 			FTAG_SEARCH_CONTROLLER, manager, transaction, this,
 			R.id.full_width_search_controller_container, false);
@@ -175,7 +172,15 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			}
 		});
 
+		Sp.getBus().register(this);
+
 		mHockeyPuck.onResume();
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		Sp.getBus().unregister(this);
 	}
 
 	@Override
@@ -206,18 +211,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 					flightState.ordinal() + 1,
 					flightState.name());
 			}
-
-
-			//TODO: REMOVE THIS, IT IS ONLY USEFUL FOR BUILDING THE LOADING STUFF
-			menu.add(100, ResultsLoadingState.ALL.ordinal() + 1, ResultsLoadingState.ALL.ordinal() + 1,
-				ResultsLoadingState.ALL.name());
-			menu.add(100, ResultsLoadingState.HOTELS.ordinal() + 1, ResultsLoadingState.HOTELS.ordinal() + 1,
-				ResultsLoadingState.HOTELS.name());
-			menu.add(100, ResultsLoadingState.FLIGHTS.ordinal() + 1, ResultsLoadingState.FLIGHTS.ordinal() + 1,
-				ResultsLoadingState.FLIGHTS.name());
-			menu.add(100, ResultsLoadingState.NONE.ordinal() + 1, ResultsLoadingState.NONE.ordinal() + 1,
-				ResultsLoadingState.NONE.name());
-
 
 			return true;
 		}
@@ -294,6 +287,57 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			}
 		}
 	}
+
+
+	/*
+	 Search Params, and the flights fragment
+	 */
+	@Subscribe
+	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
+		if (mFlightsController == null && Sp.getParams().hasEnoughInfoForFlightsSearch()) {
+			//Now we have enough params for a flight search, lets attach the flights controller
+			FragmentManager manager = getSupportFragmentManager();
+			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+			mFlightsController = FragmentAvailabilityUtils.setFragmentAvailability(
+				true,
+				FTAG_FLIGHTS_CONTROLLER, manager, transaction, this,
+				R.id.full_width_flights_controller_container, false);
+			transaction.commit();
+			manager.executePendingTransactions();//These must be finished before we continue..
+
+			//Register our listeners now that flights is attached
+			setListenerState(getState());
+		}
+		else if (mFlightsController != null && getState() != ResultsState.FLIGHTS && !Sp.getParams()
+			.hasEnoughInfoForFlightsSearch()) {
+			//Remove the listener, as we are detaching now...
+			mFlightsController.unRegisterStateListener(mFlightsStateHelper);
+
+			//We dont have enough info for a flight search, so we detach our flights controller
+			FragmentManager manager = getSupportFragmentManager();
+			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+			mFlightsController = FragmentAvailabilityUtils.setFragmentAvailability(
+				false,
+				FTAG_FLIGHTS_CONTROLLER, manager, transaction, this,
+				R.id.full_width_flights_controller_container, false);
+			transaction.commit();
+			manager.executePendingTransactions();//These must be finished before we continue..
+		}
+
+
+		if (mFlightsController == null) {
+			//Show the missing info pane
+			mMissingFlightInfoC.setVisibility(View.VISIBLE);
+		}
+		else {
+			//Hide the missing info pane
+			mMissingFlightInfoC.setVisibility(View.GONE);
+		}
+	}
+
+	/**
+	 * FRAGMENT AVAILABILITY
+	 */
 
 	@Override
 	public Fragment getExisitingLocalInstanceFromTag(String tag) {
@@ -437,17 +481,28 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	}
 
 	private void setListenerState(ResultsState state) {
+		//The hotels controller is always available, so lets register some listeners
 		if (state == ResultsState.HOTELS) {
-			mFlightsController.unRegisterStateListener(mFlightsStateHelper);
 			mHotelsController.registerStateListener(mHotelsStateHelper, false);
 		}
 		else if (state == ResultsState.FLIGHTS) {
-			mFlightsController.registerStateListener(mFlightsStateHelper, false);
 			mHotelsController.unRegisterStateListener(mHotelsStateHelper);
 		}
 		else {
-			mFlightsController.registerStateListener(mFlightsStateHelper, false);
 			mHotelsController.registerStateListener(mHotelsStateHelper, false);
+		}
+
+		//If we have a flights controller, lets register its listeners too
+		if (mFlightsController != null) {
+			if (state == ResultsState.HOTELS) {
+				mFlightsController.unRegisterStateListener(mFlightsStateHelper);
+			}
+			else if (state == ResultsState.FLIGHTS) {
+				mFlightsController.registerStateListener(mFlightsStateHelper, false);
+			}
+			else {
+				mFlightsController.registerStateListener(mFlightsStateHelper, false);
+			}
 		}
 	}
 
@@ -486,10 +541,10 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			mGrid.setColumnSize(1, spacerSize);
 			mGrid.setColumnSize(3, spacerSize);
 
-			mGrid.setContainerToColumnSpan(mLoadingC, 0, 2);
-			mGrid.setContainerToRow(mLoadingC, 1);
 			mGrid.setContainerToColumn(mTripBucketC, 4);
 			mGrid.setContainerToRow(mTripBucketC, 1);
+			mGrid.setContainerToColumn(mMissingFlightInfoC, 2);
+			mGrid.setContainerToRow(mMissingFlightInfoC, 1);
 
 			for (IMeasurementListener listener : mMeasurementListeners) {
 				listener.onContentSizeUpdated(totalWidth, totalHeight, isLandscape);

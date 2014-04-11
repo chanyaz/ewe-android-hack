@@ -2,8 +2,6 @@ package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
 
-import org.joda.time.LocalDate;
-
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -267,9 +265,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 		//Clear trip bucket before search
 		Db.getTripBucket().clear();
-
-		//Set the search date to be for today as a default
-		Sp.getParams().setStartDate(new LocalDate());
 
 		startActivity(new Intent(this, TabletResultsActivity.class));
 	}

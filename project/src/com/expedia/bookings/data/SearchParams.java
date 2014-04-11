@@ -311,6 +311,10 @@ public class SearchParams implements Parcelable, JSONable {
 	// For the time being, convert into HotelSearchParams or
 	// FlightSearchParams instead of trying to duplicate work for services.
 
+	public boolean hasEnoughInfoForHotelsSearch() {
+		return hasDestination();
+	}
+
 	public HotelSearchParams toHotelSearchParams() {
 		HotelSearchParams params = new HotelSearchParams();
 
@@ -380,6 +384,10 @@ public class SearchParams implements Parcelable, JSONable {
 			}
 		}
 		return params;
+	}
+
+	public boolean hasEnoughInfoForFlightsSearch() {
+		return hasOrigin() && hasDestination() && getStartDate() != null;
 	}
 
 	public FlightSearchParams toFlightSearchParams() {
