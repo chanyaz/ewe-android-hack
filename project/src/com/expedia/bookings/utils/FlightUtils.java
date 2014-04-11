@@ -110,50 +110,37 @@ public class FlightUtils {
 		// Configure the first TextView, "Baggage Fee Information"
 		int textViewResId;
 		int drawableResId;
+		int dimenResId = isPhone ? R.dimen.flight_details_baggage_text_size : R.dimen.tablet_flight_details_baggage_text_size;
+		float textSize = context.getResources().getDimension(dimenResId);
 		if (leg.isSpirit()) {
 			textViewResId = R.string.carry_on_baggage_fees_apply;
-			if (isPhone) {
-				drawableResId = R.drawable.ic_suitcase_baggage_fee;
-			}
-			else {
-				drawableResId = R.drawable.ic_tablet_baggage_check_fees;
-			}
+			drawableResId = isPhone ? R.drawable.ic_suitcase_baggage_fee : R.drawable.ic_tablet_baggage_check_fees;
 		}
 		else if (trip.hasBagFee()) {
 			textViewResId = R.string.checked_baggage_not_included;
-			if (isPhone) {
-				drawableResId = R.drawable.ic_suitcase_baggage_fee;
-			}
-			else {
-				drawableResId = R.drawable.ic_tablet_baggage_check_fees;
-			}
+			drawableResId = isPhone ? R.drawable.ic_suitcase_baggage_fee : R.drawable.ic_tablet_baggage_check_fees;
 		}
 		else {
 			textViewResId = R.string.baggage_fee_info;
-			if (isPhone) {
-				drawableResId = R.drawable.ic_suitcase_small;
-			}
-			else {
-				drawableResId = R.drawable.ic_tablet_baggage_fees;
-			}
+			drawableResId =  isPhone ? R.drawable.ic_suitcase_small : R.drawable.ic_tablet_baggage_fees;
 		}
 
-		ViewUtils.setAllCaps(feesTv);
+
 		feesTv.setText(textViewResId);
+		feesTv.setTextSize(textSize);
+		ViewUtils.setAllCaps(feesTv);
 		feesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
 
 		// Configure the second TextView, "Payment Fees Apply"
 		if (trip.getMayChargeObFees()) {
-			if (isPhone) {
-				drawableResId = R.drawable.ic_payment_fee;
-			}
-			else {
-				drawableResId = R.drawable.ic_tablet_payment_fees;
-			}
+			drawableResId = isPhone ? R.drawable.ic_payment_fee : R.drawable.ic_tablet_payment_fees;
+
 			secondaryFeesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0 ,0);
 			secondaryFeesTv.setVisibility(View.VISIBLE);
 			secondaryFeesTv.setText(context.getString(R.string.payment_and_baggage_fees_may_apply));
 			ViewUtils.setAllCaps(secondaryFeesTv);
+
+			secondaryFeesTv.setTextSize(textSize);
 
 			mFeesContainer.setOnClickListener(new View.OnClickListener() {
 				@Override

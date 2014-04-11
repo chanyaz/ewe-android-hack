@@ -585,7 +585,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		mDetailsPositionLeft = (int) (position.left + (additionalMarginPercentage * width));
 		mDetailsPositionTop = (int) (position.top + (additionalMarginPercentage * height));
 		mDetailsWidth = (int) (width - (2 * width * additionalMarginPercentage));
-		mDetailsHeight = (int) (height - (2 * height * additionalMarginPercentage));
+		mDetailsHeight = (int) (height - (1 * height * additionalMarginPercentage));
 
 		applyDetailsDimensions();
 	}

@@ -2,6 +2,7 @@
 <merge>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/fees_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,8 +22,7 @@
             android:gravity="center"
             android:text="@string/baggage_fee_info"
             android:textColor="#DDf3f3f3"
-            android:textSize="12dp"
-            android:textStyle="bold" />
+            app:textStyle="bold" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/fees_secondary_text_view"
@@ -33,8 +33,7 @@
             android:gravity="center"
             android:text="@string/payment_and_baggage_fees_may_apply"
             android:textColor="#DDf3f3f3"
-            android:textSize="12dp"
-            android:textStyle="bold"
+            app:textStyle="bold"
             android:visibility="gone" />
     </LinearLayout>
 </merge>
