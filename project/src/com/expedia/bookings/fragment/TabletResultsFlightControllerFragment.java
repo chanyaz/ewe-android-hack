@@ -203,7 +203,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				@Override
 				public void run() {
 					if (mSearchParamUpdateRunner == this && getActivity() != null
-						&& mFlightsStateManager.getState() == ResultsFlightsState.LOADING) {
+						&& mFlightsStateManager.getState() == ResultsFlightsState.LOADING
+						&& mFlightSearchDownloadFrag != null) {
 						importSearchParams();
 						mFlightSearchDownloadFrag.startOrResumeForParams(Db.getFlightSearch().getSearchParams());
 					}

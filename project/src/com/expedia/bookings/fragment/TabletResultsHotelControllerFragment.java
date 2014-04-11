@@ -203,7 +203,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				@Override
 				public void run() {
 					if (mSearchParamUpdateRunner == this && getActivity() != null
-						&& mHotelsStateManager.getState() == ResultsHotelsState.LOADING) {
+						&& mHotelsStateManager.getState() == ResultsHotelsState.LOADING
+						&& mHotelSearchDownloadFrag != null) {
 						importSearchParams();
 						mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
 					}
@@ -1219,7 +1220,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			if (response != null && !response.hasErrors()) {
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
 			}
-			else if(!mHotelSearchDownloadFrag.isDownloadingHotelSearch()){
+			else if (!mHotelSearchDownloadFrag.isDownloadingHotelSearch()) {
 				//If we aren't downloading, and we dont have a valid response, we move to the error state
 				setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
 			}
