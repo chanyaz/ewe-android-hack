@@ -90,8 +90,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		mAddToTripButton.setPivotY(0f);
 		mAddToTripButton.setOnClickListener(mAddToTripButtonClickListener);
 
-		mReviewsButton.setOnClickListener(mReviewsButtonClickedListener);
-
 		mRootC.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			public void onGlobalLayout() {
 				int paddingx = (int) (mRootC.getWidth() * 0.14f);
@@ -350,11 +348,13 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			DecimalFormat fmt = new DecimalFormat("0.#");
 			userRatingRing.setCountText(fmt.format(property.getAverageExpediaRating()));
 			readReviewsText.setText(R.string.Read_Reviews);
+			mReviewsButton.setOnClickListener(mReviewsButtonClickedListener);
 		}
 		else {
 			userRatingRing.setVisibility(View.INVISIBLE);
 			userRatingText.setVisibility(View.INVISIBLE);
 			readReviewsText.setText(R.string.No_Reviews);
+			mReviewsButton.setOnClickListener(null);
 		}
 	}
 
