@@ -298,7 +298,8 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 	}
 
 	public boolean canTrackWithFlightTrack() {
-		return NavUtils.isIntentAvailable(getActivity(), getFlightTrackIntent());
+		//Track with Flight track only for expedia.
+		return ExpediaBookingApp.IS_EXPEDIA ? NavUtils.isIntentAvailable(getActivity(), getFlightTrackIntent()) : false;
 	}
 
 }
