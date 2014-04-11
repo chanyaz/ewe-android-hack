@@ -9,6 +9,7 @@ class AppNameLabels {
             'com.expedia.bookings.latest' : 'Expedia Latest',
             'com.expedia.bookings.tablet' : 'Expedia Tablet',
             'com.expedia.bookings.next' : 'Expedia Next',
+            'com.expedia.bookings.auto.debug' : 'Expedia Auto',
 
             'com.expedia.bookings.vsc.debug' : 'VSC Debug',
             'com.expedia.bookings.vsc.latest' : 'VSC Latest',
