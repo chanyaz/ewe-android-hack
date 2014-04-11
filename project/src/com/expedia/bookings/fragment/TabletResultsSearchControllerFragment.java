@@ -70,6 +70,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private StateManager<ResultsSearchState> mSearchStateManager = new StateManager<ResultsSearchState>(
 		ResultsSearchState.CALENDAR, this);
 	private boolean mWaypointAnimFromOrigin = true;
+	private boolean mIgnoreDatePicker = false;
 
 	//Containers
 	private ViewGroup mRootC;
@@ -217,6 +218,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		String travStr = getResources()
 			.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers, numTravelers);
 		mTravBtn.setText(travStr);
+
+		updateClearDatesButtonState();
 	}
 
 	@Subscribe
@@ -235,8 +238,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	 * FRAG LISTENERS
 	 */
 
-	private boolean mIgnoreDatePicker = false;
-
 	@Override
 	public void onDatesChanged(LocalDate startDate, LocalDate endDate) {
 		if (!mIgnoreDatePicker) {
@@ -244,6 +245,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			Sp.getParams().setEndDate(endDate);
 			doSpUpdate();
 		}
+		updateClearDatesButtonState();
 	}
 
 	@Override
@@ -323,9 +325,16 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			ResultsSearchState state = getState();
 			if (state == ResultsSearchState.DEFAULT || state == ResultsSearchState.TRAVELER_PICKER
 				|| state == ResultsSearchState.CALENDAR) {
+
 				Sp.getParams().setStartDate(null);
 				Sp.getParams().setEndDate(null);
 				doSpUpdate();
+
+				if (mDatesFragment != null) {
+					mIgnoreDatePicker = true;
+					mDatesFragment.setDates(null, null);
+					mIgnoreDatePicker = false;
+				}
 
 				if (getState() == ResultsSearchState.DEFAULT) {
 					setState(ResultsSearchState.CALENDAR, true);
@@ -333,6 +342,17 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			}
 		}
 	};
+
+	private void updateClearDatesButtonState() {
+		ResultsSearchState state = getState();
+		if (Sp.getParams().getStartDate() != null && state != ResultsSearchState.HOTELS_UP
+			&& state != ResultsSearchState.FLIGHTS_UP) {
+			mClearDatesBtn.setVisibility(View.VISIBLE);
+		}
+		else {
+			mClearDatesBtn.setVisibility(View.GONE);
+		}
+	}
 
 
 	/*
@@ -370,11 +390,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				if (isHotelsUpTransition(stateOne, stateTwo)) {
 					//For hotels we also fade
 					setSlideUpHotelsOnlyHardwareLayers(true);
-
-					if (Sp.getParams().getStartDate() == null) {
-						mCalBtn.setAlpha(0f);
-					}
-					mCalBtn.setVisibility(View.VISIBLE);
 				}
 			}
 			else {
@@ -494,6 +509,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					mGdeFragment.setGdeInfo(params.getOriginLocation(true), params.getDestinationLocation(true), null);
 				}
 			}
+
+			updateClearDatesButtonState();
 		}
 
 		private boolean performingSlideUpOrDownTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
@@ -547,9 +564,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		private void setSlideUpHotelsOnlyAnimationPercentage(float percentage) {
 			mOrigBtn.setAlpha(1f - percentage);
-			if (Sp.getParams().getStartDate() == null) {
-				mCalBtn.setAlpha(1f - percentage);
-			}
 		}
 
 		private void setActionbarShowingState(ResultsSearchState state) {
@@ -573,18 +587,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mGdeC.setVisibility(mCalC.getVisibility());
 
 			mCalBtn.setVisibility(
-				(state == ResultsSearchState.HOTELS_UP && Sp.getParams().getStartDate() == null) ? View.INVISIBLE
+				(state == ResultsSearchState.HOTELS_UP && Sp.getParams().getStartDate() == null) ? View.GONE
 					: View.VISIBLE
 			);
-
-			if (Sp.getParams().getStartDate() != null && state != ResultsSearchState.HOTELS_UP
-				&& state != ResultsSearchState.FLIGHTS_UP) {
-				mClearDatesBtn.setVisibility(View.VISIBLE);
-			}
-			else {
-				mClearDatesBtn.setVisibility(View.GONE);
-			}
-
 		}
 
 		private void resetWidgetTranslations() {
