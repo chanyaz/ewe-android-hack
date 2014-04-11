@@ -61,10 +61,21 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 
 	private void refreshFlightTrip() {
 		if (mIsOnCheckout) {
-			mFlightTrip = Db.getFlightSearch().getSelectedFlightTrip();
+			if (Db.getFlightSearch() != null && Db.getFlightSearch().getSelectedFlightTrip() != null) {
+				mFlightTrip = Db.getFlightSearch().getSelectedFlightTrip();
+			}
+			else {
+				mFlightTrip = null;
+			}
 		}
 		else {
-			mFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+			if (Db.getTripBucket() != null && Db.getTripBucket().getFlight() != null
+				&& Db.getTripBucket().getFlight().getFlightTrip() != null) {
+				mFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+			}
+			else {
+				mFlightTrip = null;
+			}
 		}
 	}
 
@@ -96,11 +107,15 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	public void addTripBucketImage(ImageView imageView, HeaderBitmapColorAveragedDrawable headerBitmapDrawable) {
 		mHeaderBitmapDrawable = headerBitmapDrawable;
 		mDestinationImageView = imageView;
-		if (!mIsDestinationImageFetched && !BackgroundDownloader.getInstance().isDownloading(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY)) {
+		if (!mIsDestinationImageFetched && !BackgroundDownloader.getInstance()
+			.isDownloading(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY)) {
 			mDestinationImageView.setImageDrawable(mHeaderBitmapDrawable);
 
-			mHeaderBitmapDrawable.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.PLACEHOLDER);
-			mHeaderBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
+			mHeaderBitmapDrawable
+				.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.PLACEHOLDER);
+			mHeaderBitmapDrawable
+				.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
+
 			ViewTreeObserver vto = mDestinationImageView.getViewTreeObserver();
 			vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
@@ -118,9 +133,11 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 						startDestinationImageDownload();
 					}
 					else {
-						mHeaderBitmapDrawable.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.REFRESH);
-						mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), bgImage.getUrl(),
-							R.drawable.bg_itin_placeholder));
+						mHeaderBitmapDrawable
+							.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.REFRESH);
+						mHeaderBitmapDrawable
+							.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), bgImage.getUrl(),
+								R.drawable.bg_itin_placeholder));
 						mIsDestinationImageFetched = true;
 					}
 				}
@@ -166,11 +183,12 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 
 		// Dates
 		Calendar depDate = mFlightTrip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
-		Calendar retDate = mFlightTrip.getLeg(mFlightTrip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime();
+		Calendar retDate = mFlightTrip.getLeg(mFlightTrip.getLegCount() - 1).getLastWaypoint()
+			.getMostRelevantDateTime();
 		long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();
 		long end = DateTimeUtils.getTimeInLocalTimeZone(retDate).getTime();
 
-		String dateRange =  DateUtils.formatDateRange(getActivity(), start, end, DateUtils.FORMAT_SHOW_DATE);
+		String dateRange = DateUtils.formatDateRange(getActivity(), start, end, DateUtils.FORMAT_SHOW_DATE);
 		Ui.setText(mExpandedView, R.id.dates_text_view, dateRange);
 
 		// Num travelers
@@ -225,7 +243,8 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		@Override
 		public void onDownload(ExpediaImage image) {
 			if (image != null) {
-				mHeaderBitmapDrawable.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.REFRESH);
+				mHeaderBitmapDrawable
+					.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.REFRESH);
 				mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), image.getUrl(),
 					R.drawable.bg_itin_placeholder));
 				mIsDestinationImageFetched = true;
