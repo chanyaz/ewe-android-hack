@@ -12,65 +12,88 @@
         android:layout_height="?android:attr/actionBarSize"
         tools:ignore="NewApi">
 
-        <TextView
-            android:id="@+id/dest_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="22dp"
-            android:text="Paris, France"
-            android:textColor="#FFFFFF"
-            android:gravity="center_vertical"
-            android:layout_margin="8dp"
-            android:drawablePadding="8dp"
-            android:layout_gravity="center_vertical|left"
-            android:drawableLeft="@drawable/ic_action_bar_magnifying_glass" />
-
-
         <LinearLayout
-            android:id="@+id/right_buttons_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_gravity="center_vertical|right">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-
-            <TextView
-                android:id="@+id/origin_btn"
+            <com.mobiata.android.widget.AutoResizeTextView
+                android:id="@+id/dest_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
+                android:textSize="22dp"
+                android:text="Paris, France"
                 android:textColor="#FFFFFF"
                 android:gravity="center_vertical"
-                android:layout_marginRight="16dp"
+                android:layout_margin="8dp"
                 android:drawablePadding="8dp"
-                android:drawableLeft="@drawable/ic_suggest_current_location" />
+                android:layout_gravity="center_vertical|left"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:drawableLeft="@drawable/ic_action_bar_magnifying_glass" />
 
 
-            <TextView
-                android:id="@+id/calendar_btn"
+            <LinearLayout
+                android:id="@+id/right_buttons_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:textColor="#FFFFFF"
+                android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginRight="16dp"
-                android:drawablePadding="8dp"
-                android:drawableLeft="@drawable/ic_calendar" />
+                android:layout_weight="0"
+                android:animateLayoutChanges="true"
+                android:layout_gravity="center_vertical|right">
 
 
-            <TextView
-                android:id="@+id/traveler_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:textColor="#FFFFFF"
-                android:gravity="center_vertical"
-                android:layout_marginRight="16dp"
-                android:drawablePadding="8dp"
-                android:drawableLeft="@drawable/ic_traveler_white" />
+                <TextView
+                    android:id="@+id/origin_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#FFFFFF"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="16dp"
+                    android:drawablePadding="8dp"
+                    android:drawableLeft="@drawable/ic_suggest_current_location" />
 
 
+                <TextView
+                    android:id="@+id/calendar_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#FFFFFF"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="16dp"
+                    android:drawablePadding="8dp"
+                    android:drawableLeft="@drawable/ic_calendar" />
+
+
+                <TextView
+                    android:id="@+id/traveler_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#FFFFFF"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="16dp"
+                    android:drawablePadding="8dp"
+                    android:drawableLeft="@drawable/ic_traveler_white" />
+
+
+                <TextView
+                    android:id="@+id/clear_dates_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="#FFFFFF"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="16dp"
+                    android:drawablePadding="8dp"
+                    android:drawableLeft="@drawable/ic_reload_details"
+                    android:text="@string/clear_dates" />
+
+
+            </LinearLayout>
         </LinearLayout>
     </com.expedia.bookings.widget.FrameLayoutTouchController>
 

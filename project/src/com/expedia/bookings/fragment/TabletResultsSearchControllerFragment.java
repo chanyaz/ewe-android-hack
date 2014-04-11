@@ -91,6 +91,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private TextView mOrigBtn;
 	private TextView mCalBtn;
 	private TextView mTravBtn;
+	private TextView mClearDatesBtn;
 
 	//Frags
 	private ResultsWaypointFragment mWaypointFragment;
@@ -131,11 +132,13 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mOrigBtn = Ui.findView(view, R.id.origin_btn);
 		mCalBtn = Ui.findView(view, R.id.calendar_btn);
 		mTravBtn = Ui.findView(view, R.id.traveler_btn);
+		mClearDatesBtn = Ui.findView(view, R.id.clear_dates_btn);
 
 		mDestBtn.setOnClickListener(mDestClick);
 		mOrigBtn.setOnClickListener(mOrigClick);
 		mCalBtn.setOnClickListener(mCalClick);
 		mTravBtn.setOnClickListener(mTravClick);
+		mClearDatesBtn.setOnClickListener(mClearDatesClick);
 
 		registerStateListener(mSearchStateHelper, false);
 		registerStateListener(new StateListenerLogger<ResultsSearchState>(), false);
@@ -314,10 +317,31 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 	};
 
+	private View.OnClickListener mClearDatesClick = new View.OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			ResultsSearchState state = getState();
+			if (state == ResultsSearchState.DEFAULT || state == ResultsSearchState.TRAVELER_PICKER
+				|| state == ResultsSearchState.CALENDAR) {
+				Sp.getParams().setStartDate(null);
+				Sp.getParams().setEndDate(null);
+				doSpUpdate();
+
+				if (getState() == ResultsSearchState.DEFAULT) {
+					setState(ResultsSearchState.CALENDAR, true);
+				}
+			}
+		}
+	};
+
 
 	/*
 	 * SEARCH STATE LISTENER
 	 */
+
+	public ResultsSearchState getState() {
+		return mSearchStateManager.getState();
+	}
 
 	public void setState(ResultsSearchState state, boolean animate) {
 		ResultsSearchState curState = mSearchStateManager.getState();
@@ -552,6 +576,14 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				(state == ResultsSearchState.HOTELS_UP && Sp.getParams().getStartDate() == null) ? View.INVISIBLE
 					: View.VISIBLE
 			);
+
+			if (Sp.getParams().getStartDate() != null && state != ResultsSearchState.HOTELS_UP
+				&& state != ResultsSearchState.FLIGHTS_UP) {
+				mClearDatesBtn.setVisibility(View.VISIBLE);
+			}
+			else {
+				mClearDatesBtn.setVisibility(View.GONE);
+			}
 
 		}
 

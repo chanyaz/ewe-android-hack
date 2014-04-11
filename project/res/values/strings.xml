@@ -38,6 +38,8 @@
     <string name="missing_flight_info_header">Missing search information!</string>
     <!-- Missing flight info message "Please select a flight origin, and a valid date or date range."-->
     <string name="missing_flight_info_message">Please select a flight origin, and a valid date or date range.</string>
+    <!-- Clear dates -->
+    <string name="clear_dates">Clear dates</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
