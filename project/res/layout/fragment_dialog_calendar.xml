@@ -14,7 +14,7 @@
         mobiata:drawGridLines="false"
         mobiata:calendarHeaderBackground="@color/calendar_header"
         mobiata:nextMonthBackground="@drawable/bg_calendar_next"
-        mobiata:otherMonthCellBackground="@drawable/bg_calendar_cell_tablet"
+        mobiata:otherMonthCellBackground="?attr/calendarBackgroundCellDrawable"
         mobiata:otherMonthCellTextColor="@color/cell_text_other_month"
         mobiata:popupBackground="?attr/calendarDatePickerPopupDrawable"
         mobiata:previousMonthBackground="@drawable/bg_calendar_previous"
