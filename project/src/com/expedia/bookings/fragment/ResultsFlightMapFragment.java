@@ -223,4 +223,12 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 		mArrivalImage.setTranslationX(left);
 		mArrivalImage.setTranslationY(top);
 	}
+
+	@Override
+	public void setPadding(int l, int t, int r, int b) {
+		super.setPadding(l, t, r, b);
+		if (isMapGenerated()) {
+			generateMap();
+		}
+	}
 }

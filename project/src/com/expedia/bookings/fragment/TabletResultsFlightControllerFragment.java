@@ -259,16 +259,15 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
-
 		if (tag == FTAG_FLIGHT_MAP) {
 			updateMapFragSizes((ResultsFlightMapFragment) frag);
 		}
 	}
 
 	private void updateMapFragSizes(ResultsFlightMapFragment frag) {
-		if (frag != null && mGrid.isLandscape()) {
+		if (frag != null) {
 			int padding = getResources().getDimensionPixelSize(R.dimen.tablet_results_flight_map_padding);
-			frag.setPadding(mGrid.getColLeft(2) + padding, padding, padding, padding);
+			frag.setPadding(mGrid.getColLeft(4) + padding, padding, padding, padding);
 		}
 	}
 
