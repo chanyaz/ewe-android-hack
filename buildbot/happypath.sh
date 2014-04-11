@@ -3,8 +3,14 @@
 # Run tests
 APK="project/build/apk/project-ExpediaAutomation-debug-unaligned.apk"
 TEST_APK="project/build/apk/project-ExpediaAutomation-debug-test-unaligned.apk"
-OUTPUT_DIR="spoon/happy/${BUILDER_NAME}/${BUILD_NUMBER}"
 OUTPUT_TAR="spoon-happy-${BUILDER_NAME}-${BUILD_NUMBER}.tar.gz"
+
+if [ -n "$BUILDER_NAME" -a -n "$BUILD_NUMBER" ] ; then
+    export OUTPUT_DIR="spoon/happy/${BUILDER_NAME}/${BUILD_NUMBER}"
+else
+    export OUTPUT_DIR="spoon/happy"
+fi
+
 
 java \
     -jar lib/TestUtils/jars/spoon-runner-1.1.1-jar-with-dependencies.jar \
