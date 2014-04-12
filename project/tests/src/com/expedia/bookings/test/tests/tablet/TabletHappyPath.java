@@ -13,9 +13,9 @@ import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
 import com.mobiata.android.Log;
 
-public class TabletDemo extends ActivityInstrumentationTestCase2 {
+public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 
-	public TabletDemo() {
+	public TabletHappyPath() {
 		super(SearchActivity.class);
 		Launch.registerSuggestionResource();
 	}
