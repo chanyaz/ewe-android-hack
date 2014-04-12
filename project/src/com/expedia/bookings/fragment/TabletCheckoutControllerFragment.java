@@ -34,6 +34,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.enums.CheckoutFormState;
@@ -657,8 +658,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		FragmentTransaction transaction = manager.beginTransaction();
 
-		boolean flightBucketItemAvailable = true;
-		boolean hotelBucketItemAvailable = true;
+		boolean flightBucketItemAvailable = Db.getTripBucket().getFlight() != null;
+		boolean hotelBucketItemAvailable = Db.getTripBucket().getHotel() != null;
 		boolean checkoutFormsAvailable = true;
 		boolean slideToPurchaseAvailable = true;
 		boolean cvvAvailable =
@@ -792,7 +793,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			return new TabletHotelConfirmationFragment();
 		}
 		else if (FRAG_TAG_BLUR_BG.equals(tag)) {
-			String dest = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+			String dest = Sp.getParams().getDestination().getAirportCode();
 			return ResultsBackgroundImageFragment.newInstance(dest, true);
 		}
 		return null;
