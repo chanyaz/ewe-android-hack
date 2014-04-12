@@ -24,35 +24,16 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
-public class SearchScreen {
-
-	public SearchScreen() {
-	}
+public class Launch {
 
 	// Object access
 
-	public static ViewInteraction startSearchButton() {
-		return onView(withId(R.id.search_status_text_view));
-	}
-
-	public static ViewInteraction cancelButton() {
-		return onView(withId(R.id.cancel_button));
-	}
-
 	public static ViewInteraction searchButton() {
-		return onView(withId(R.id.search_button));
+		return onView(withId(R.id.fake_search_bar_container));
 	}
 
 	public static ViewInteraction destinationEditText() {
-		return onView(withId(R.id.destination_edit_text));
-	}
-
-	public static ViewInteraction searchDatesTextView() {
-		return onView(withId(R.id.search_dates_text_view));
-	}
-
-	public static ViewInteraction guestsTextView() {
-		return onView(withId(R.id.guests_text_view));
+		return onView(withId(R.id.waypoint_edit_text));
 	}
 
 	public static ViewInteraction calendarPicker() {
@@ -60,18 +41,6 @@ public class SearchScreen {
 	}
 
 	// Object interaction
-
-	public static void clickSuggestion(String text) {
-		onData(allOf(is(instanceOf(String.class)), equalTo(text))).usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()).perform(click());
-	}
-
-	public static void clickToStartSearch() {
-		startSearchButton().perform(click());
-	}
-
-	public static void clickCancelButton() {
-		cancelButton().perform(click());
-	}
 
 	public static void clickSearchButton() {
 		searchButton().perform(click());
@@ -89,8 +58,8 @@ public class SearchScreen {
 		destinationEditText().perform(typeText(text));
 	}
 
-	public static void clickGuestsButton() {
-		guestsTextView().perform(click());
+	public static void clickSuggestion(String text) {
+		onData(allOf(is(instanceOf(String.class)), equalTo(text))).usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()).perform(click());
 	}
 
 	public static void clickDate(final LocalDate start, final LocalDate end) {

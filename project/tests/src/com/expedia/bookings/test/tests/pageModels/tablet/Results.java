@@ -1,22 +1,30 @@
 package com.expedia.bookings.test.tests.pageModels.tablet;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.section.HotelSummarySection;
+import com.expedia.bookings.data.Property;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
+import com.google.android.apps.common.testing.ui.espresso.matcher.BoundedMatcher;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 
 import static com.expedia.bookings.test.utils.EspressoUtils.swipeUp;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withContentDescription;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.core.AllOf.allOf;
 
-public class SearchResults {
+public class Results {
 
 	public static ViewInteraction hotelList() {
 		return onView(withContentDescription("Hotel Search Results"));
@@ -42,11 +50,36 @@ public class SearchResults {
 		return onView(withId(android.R.id.home));
 	}
 
-	public static TripBucket tripBucket() {
-		return TripBucket.getInstance();
+	public static void clickAddHotel() {
+		onView(withId(R.id.button_add_to_trip)).perform(click());
 	}
 
-	public static DataInteraction getHotelFromList(int i) {
-		return onData(not(is(HotelSummarySection.class))).inAdapterView(withContentDescription("Hotel Search Results")).atPosition(i);
+	public static void clickBookHotel() {
+		onView(allOf(withId(R.id.book_button_text), withText("Book Hotel"))).perform(click());
+	}
+
+	public static void clickHotelWithName(String hotelName) {
+		onData(withHotelName(hotelName)).inAdapterView(withContentDescription("Hotel Search Results")).perform(click());
+	}
+
+	public static Matcher<Object> withHotelName(String expectedText) {
+		checkNotNull(expectedText);
+		return withHotelName(equalTo(expectedText));
+	}
+
+	public static Matcher<Object> withHotelName(final Matcher<String> textMatcher) {
+		checkNotNull(textMatcher);
+		return new BoundedMatcher<Object, Property>(Property.class) {
+			@Override
+			public boolean matchesSafely(Property property) {
+				return textMatcher.matches(property.getName());
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("with item content: ");
+				textMatcher.describeTo(description);
+			}
+		};
 	}
 }

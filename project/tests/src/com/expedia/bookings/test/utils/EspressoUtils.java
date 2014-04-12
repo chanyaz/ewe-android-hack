@@ -17,4 +17,9 @@ public class EspressoUtils {
 		return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.TOP_CENTER,
 				GeneralLocation.BOTTOM_CENTER, Press.FINGER);
 	}
+
+	public static ViewAction swipeRight() {
+		return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.CENTER_LEFT,
+				GeneralLocation.CENTER_RIGHT, Press.FINGER);
+	}
 }
