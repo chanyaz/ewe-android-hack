@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_flight_details_tablet_grey_top"
-                android:drawableLeft="?android:homeAsUpIndicator"
+                android:drawableLeft="@drawable/abs__ic_ab_back_holo_light"
                 android:paddingBottom="16dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="@dimen/tablet_flight_details_horizontal_padding"
