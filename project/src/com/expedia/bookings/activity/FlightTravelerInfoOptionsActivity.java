@@ -19,6 +19,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.dialog.ThrobberDialog;
+import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.fragment.FlightTravelerInfoOneFragment;
 import com.expedia.bookings.fragment.FlightTravelerInfoOptionsFragment;
 import com.expedia.bookings.fragment.FlightTravelerInfoOptionsFragment.TravelerInfoYoYoListener;
@@ -747,7 +748,13 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	@Override
 	public void displayCheckout() {
 		//First we commit our traveler stuff...
+		PassengerCategory passengerCategoryToSave = Db.getTravelers().get(mTravelerIndex).getPassengerCategory();
 		Traveler trav = Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex, this);
+		// If we're going back to checkout without the working traveler having a birthdate,
+		// we retain the previously set birthdate.
+		if (trav.getBirthDate() == null) {
+			trav.setPassengerCategory(passengerCategoryToSave);
+		}
 		Db.getWorkingTravelerManager().clearWorkingTraveler(this);
 		if (trav.getSaveTravelerToExpediaAccount() && User.isLoggedIn(this)) {
 			if (trav.hasTuid()) {

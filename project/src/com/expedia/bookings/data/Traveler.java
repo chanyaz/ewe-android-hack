@@ -327,8 +327,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public void setPassengerCategory(LocalDate birthdate) {
 		LocalDate endOfTrip = Db.getFlightSearch().getSearchParams().getReturnDate() != null ? Db.getFlightSearch().getSearchParams().getReturnDate() : Db.getFlightSearch().getSearchParams().getDepartureDate();
-		int yearsOld = Years.yearsBetween(mBirthDate, endOfTrip).getYears();
-		mPassengerCategory = yearsToPassengerCategory(yearsOld);
+		if (endOfTrip != null) {
+			int yearsOld = Years.yearsBetween(mBirthDate, endOfTrip).getYears();
+			mPassengerCategory = yearsToPassengerCategory(yearsOld);
+		}
 	}
 
 	public PassengerCategory getPassengerCategory() {
