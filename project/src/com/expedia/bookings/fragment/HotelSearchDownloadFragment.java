@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.server.ExpediaServices;
@@ -60,6 +61,8 @@ public class HotelSearchDownloadFragment extends Fragment {
 		mListener = Ui.findFragmentListener(this, ExpediaServicesFragment.ExpediaServicesFragmentListener.class);
 
 		if (mStartOrResumeOnAttach && mSearchParams != null) {
+			// Reset filter on param change
+			Db.resetFilter();
 			startOrResumeForParams(mSearchParams);
 		}
 	}
