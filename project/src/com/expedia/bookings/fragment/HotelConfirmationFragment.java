@@ -93,7 +93,7 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 		Media media = HotelUtils.getRoomMedia(property, selectedRate);
 		if (media != null) {
 			headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), media.getHighResUrls(),
-					R.drawable.bg_itin_placeholder));
+				com.expedia.bookings.utils.Ui.obtainThemeResID(getActivity(), R.attr.hotelConfirmationPlaceholderDrawable)));
 		}
 		else {
 			headerBitmapDrawable
