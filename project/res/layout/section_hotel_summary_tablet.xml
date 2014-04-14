@@ -11,18 +11,39 @@
     app:priceTextColor="?attr/hotelPriceStandardColor"
     app:salePriceTextColor="?attr/hotelPriceSaleColor">
 
+    <FrameLayout
+        android:id="@+id/urgency_message_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="3dp">
+
+        <TextView
+            android:id="@id/urgency_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:includeFontPadding="false"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:visibility="gone"/>
+    </FrameLayout>
+
     <!-- TODO: revisit the background view here. -->
 
     <com.expedia.bookings.widget.OptimizedImageView
         android:id="@+id/hotel_background_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/urgency_message_container"
+        android:layout_alignWithParentIfMissing="true"
         android:scaleType="fitCenter"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignBottom="@id/hotel_background_view"
         android:layout_margin="12dp"
         android:orientation="horizontal">
 
@@ -113,8 +134,8 @@
         android:id="@+id/vip_badge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@id/hotel_background_view"
+        android:layout_alignTop="@id/hotel_background_view"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/bg_vip_badge"
@@ -124,28 +145,14 @@
         android:paddingTop="1dp"
         android:text="@string/VIP"
         android:textColor="@android:color/white"
-
-    <!-- TODO: place the urgency message somewhere -->
-
-    <TextView
-        android:id="@id/urgency_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:includeFontPadding="false"
-        android:singleLine="true"
-        android:textColor="@color/hotel_cell_primary_color"
-        android:textStyle="bold"
-        android:visibility="gone" />
         android:visibility="gone"/>
 
     <TextView
         android:id="@+id/sale_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
+        android:layout_alignRight="@id/hotel_background_view"
+        android:layout_alignTop="@id/hotel_background_view"
         android:layout_marginRight="12dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/bg_sale_text_view"

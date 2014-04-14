@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -15,6 +17,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.bitmaps.DominantColorCalculator;
+import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
@@ -69,6 +73,7 @@ public class HotelSummarySection extends RelativeLayout {
 	private TextView mNotRatedText;
 	private TextView mProximityText;
 	private TextView mUrgencyText;
+	private ViewGroup mUrgencyContainer;
 
 	// Properties extracted from the view.xml
 	private Drawable mUnselectedBackground;
@@ -109,6 +114,7 @@ public class HotelSummarySection extends RelativeLayout {
 		mNotRatedText = Ui.findView(this, R.id.not_rated_text_view);
 		mProximityText = Ui.findView(this, R.id.proximity_text_view);
 		mUrgencyText = Ui.findView(this, R.id.urgency_text_view);
+		mUrgencyContainer = Ui.findView(this, R.id.urgency_message_container);
 	}
 
 	/**
@@ -235,7 +241,6 @@ public class HotelSummarySection extends RelativeLayout {
 		if (ExpediaBookingApp.IS_VSC) {
 			mUrgencyText.setVisibility(View.GONE);
 		}
-		// mUrgencyText will always be null for tripbucket hotel item - tablet 4.0, so we just skip.
 		else if (mUrgencyText != null) {
 			if (property.isLowestRateTonightOnly()) {
 				mUrgencyText.setText(context.getString(R.string.tonight_only));
@@ -257,6 +262,16 @@ public class HotelSummarySection extends RelativeLayout {
 				int visibility = property.isVipAccess() ? View.VISIBLE : View.INVISIBLE;
 				mVipView.setVisibility(visibility);
 			}
+		}
+
+		if (mUrgencyContainer != null && mUrgencyText.getVisibility() == View.VISIBLE) {
+			mUrgencyContainer.setBackgroundColor(getResources().getColor(R.color.transparent_dark));
+			mUrgencyContainer.setVisibility(View.VISIBLE);
+			// TODO: set the background color. Use L2ImageCache to load up the bitmap and figure
+			// out the color with DominantColorCalculator.
+		}
+		else {
+			mUrgencyContainer.setVisibility(View.GONE);
 		}
 
 		mPriceText.setTextSize(priceTextSize);
