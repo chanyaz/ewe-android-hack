@@ -199,19 +199,23 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				//commit to doing a full search.
 				mHotelSearchDownloadFrag.ignoreNextDownload();
 			}
-			mSearchParamUpdateRunner = new Runnable() {
-				@Override
-				public void run() {
-					if (mSearchParamUpdateRunner == this && getActivity() != null
-						&& mHotelsStateManager.getState() == ResultsHotelsState.LOADING
-						&& mHotelSearchDownloadFrag != null) {
-						importSearchParams();
-						mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
-					}
-				}
-			};
+			if (mSearchParamUpdateRunner != null) {
+				mRootC.removeCallbacks(mSearchParamUpdateRunner);
+			}
+			mSearchParamUpdateRunner = new SearchParamUpdateRunner();
 			mRootC.postDelayed(mSearchParamUpdateRunner, PARAM_UPDATE_COOLDOWN_MS);
+		}
+	}
 
+	private class SearchParamUpdateRunner implements Runnable {
+		@Override
+		public void run() {
+			if (mSearchParamUpdateRunner == this && getActivity() != null
+				&& mHotelsStateManager.getState() == ResultsHotelsState.LOADING
+				&& mHotelSearchDownloadFrag != null) {
+				importSearchParams();
+				mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
+			}
 		}
 	}
 

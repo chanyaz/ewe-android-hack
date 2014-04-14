@@ -199,18 +199,23 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				//commit to doing a full search.
 				mFlightSearchDownloadFrag.ignoreNextDownload();
 			}
-			mSearchParamUpdateRunner = new Runnable() {
-				@Override
-				public void run() {
-					if (mSearchParamUpdateRunner == this && getActivity() != null
-						&& mFlightsStateManager.getState() == ResultsFlightsState.LOADING
-						&& mFlightSearchDownloadFrag != null) {
-						importSearchParams();
-						mFlightSearchDownloadFrag.startOrResumeForParams(Db.getFlightSearch().getSearchParams());
-					}
-				}
-			};
+			if (mSearchParamUpdateRunner != null) {
+				mRootC.removeCallbacks(mSearchParamUpdateRunner);
+			}
+			mSearchParamUpdateRunner = new SearchParamUpdateRunner();
 			mRootC.postDelayed(mSearchParamUpdateRunner, PARAM_UPDATE_COOLDOWN_MS);
+		}
+	}
+
+	private class SearchParamUpdateRunner implements Runnable {
+		@Override
+		public void run() {
+			if (mSearchParamUpdateRunner == this && getActivity() != null
+				&& mFlightsStateManager.getState() == ResultsFlightsState.LOADING
+				&& mFlightSearchDownloadFrag != null) {
+				importSearchParams();
+				mFlightSearchDownloadFrag.startOrResumeForParams(Db.getFlightSearch().getSearchParams());
+			}
 		}
 	}
 
