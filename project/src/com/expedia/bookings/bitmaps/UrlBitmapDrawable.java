@@ -175,7 +175,7 @@ public class UrlBitmapDrawable extends BitmapDrawable implements L2ImageCache.On
 	 * Note that while it returns a Bitmap and Url, it probably should not be used;
 	 * the UrlBitmapDrawable should be handling the display itself.  If you want
 	 * to manipulate the Bitmap directly, you should probably be using
-	 * L2ImagCache directly instead of going through a UrlBitmapDrawable.
+	 * L2ImageCache directly instead of going through a UrlBitmapDrawable.
 	 */
 	public void setOnBitmapLoadedCallback(L2ImageCache.OnBitmapLoaded callback) {
 		if (callback != mCallback) {
