@@ -22,6 +22,7 @@
             android:gravity="center"
             android:text="@string/baggage_fee_info"
             android:textColor="#DDf3f3f3"
+            android:textSize="@dimen/flight_details_baggage_fee_text_view_text_size"
             app:textStyle="bold" />
 
         <com.expedia.bookings.widget.TextView
@@ -33,6 +34,7 @@
             android:gravity="center"
             android:text="@string/payment_and_baggage_fees_may_apply"
             android:textColor="#DDf3f3f3"
+            android:textSize="@dimen/flight_details_baggage_fee_text_view_text_size"
             app:textStyle="bold"
             android:visibility="gone" />
     </LinearLayout>

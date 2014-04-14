@@ -30,4 +30,7 @@
     <dimen name="single_amenity_margin">3dp</dimen>
     <dimen name="amenity_icon_size">42dp</dimen>
 
+    <!-- Tablet text size for Baggage fees TextViews -->
+    <dimen name="flight_details_baggage_fee_text_view_text_size">16dp</dimen>
+
 </resources>
