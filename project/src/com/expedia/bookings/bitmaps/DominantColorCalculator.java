@@ -46,7 +46,7 @@ public class DominantColorCalculator {
 		final int height = rescaledBitmap.getHeight();
 
 		final int[] rgbPixels = new int[width * height];
-		bitmap.getPixels(rgbPixels, 0, width, 0, 0, width, height);
+		rescaledBitmap.getPixels(rgbPixels, 0, width, 0, 0, width, height);
 
 		final MedianCutQuantizer mcq = new MedianCutQuantizer(rgbPixels, NUM_COLORS);
 

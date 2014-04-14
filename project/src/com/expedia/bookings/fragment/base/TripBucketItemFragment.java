@@ -149,7 +149,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		@Override
 		public void onDominantColorCalculated(ColorScheme colorScheme) {
 			int colorDarkened = ColorAvgUtils.darken(colorScheme.primaryAccent, 0.4f);
-			int overLayWithAlpha = 0xCC000000 | 0xffffff & colorDarkened;
+			int overLayWithAlpha = 0xCC000000 | 0x00ffffff & colorDarkened;
 			mOverLayView.setBackgroundColor(overLayWithAlpha);
 			mIsOverlayColorFetched = true;
 			// Due to timing issues this might get called after setVisibilityState, so let's take care of that.
