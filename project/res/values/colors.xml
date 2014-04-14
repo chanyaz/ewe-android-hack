@@ -193,4 +193,7 @@
     <!-- Tablet Confirmation Action Buttons -->
     <color name="tablet_confirmation_actionbutton_pressed">#20000000</color>
 
+    <!-- Price pins on map -->
+    <color name="map_price_pin_text_color">#ffffff</color>
+
 </resources>

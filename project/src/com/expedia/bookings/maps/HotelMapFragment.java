@@ -7,11 +7,15 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -24,6 +28,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.HotelFilter.OnFilterChangedListener;
+import com.expedia.bookings.data.HotelFilter.PriceRange;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Location;
@@ -71,6 +76,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 
 	private Map<Property, Marker> mPropertiesToMarkers = new HashMap<Property, Marker>();
 	private Map<Marker, Property> mMarkersToProperties = new HashMap<Marker, Property>();
+	private Map<String, BitmapDescriptor> mPricePins = new HashMap<String, BitmapDescriptor>();
 
 	private HotelMapFragmentListener mListener;
 
@@ -84,6 +90,8 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	private int mFilterViewWidth;
 	private int mCurrentLeftColWidth;
 	private boolean mFilterOpen = false;
+
+	private TextView mTextView;
 
 	public static HotelMapFragment newInstance() {
 		HotelMapFragment frag = new HotelMapFragment();
@@ -101,6 +109,12 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		}
 
 		mIsTablet = ExpediaBookingApp.useTabletInterface(activity);
+		if (mIsTablet) {
+			mTextView = new TextView(getActivity());
+			mTextView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			mTextView.setTextColor(getResources().getColor(R.color.map_price_pin_text_color));
+			mTextView.setTypeface(null, Typeface.BOLD);
+		}
 
 		mListener = Ui.findFragmentListener(this, HotelMapFragmentListener.class);
 		mListener.onHotelMapFragmentAttached(this);
@@ -415,32 +429,76 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 
 		marker.title(property.getName());
 
-		String snippet = "";
-		Distance distanceFromuser = property.getDistanceFromUser();
-		Rate lowestRate = property.getLowestRate();
-		boolean isOnSale = lowestRate != null && lowestRate.isSaleTenPercentOrBetter();
-		if (lowestRate != null) {
-			String formattedMoney = StrUtils.formatHotelPrice(lowestRate.getDisplayPrice());
-			snippet = getString(R.string.map_snippet_price_template, formattedMoney);
-		}
+		// We don't care about this for tablet because we use an Info Window
+		if (!mIsTablet) {
+			String snippet = "";
+			Distance distanceFromuser = property.getDistanceFromUser();
+			Rate lowestRate = property.getLowestRate();
+			boolean isOnSale = lowestRate != null && lowestRate.isSaleTenPercentOrBetter();
+			if (lowestRate != null) {
+				String formattedMoney = StrUtils.formatHotelPrice(lowestRate.getDisplayPrice());
+				snippet = getString(R.string.map_snippet_price_template, formattedMoney);
+			}
 
-		String secondSnippet = null;
-		if (mShowDistances && distanceFromuser != null) {
-			secondSnippet = distanceFromuser.formatDistance(getActivity(), DistanceUnit.getDefaultDistanceUnit());
-		}
-		else if (isOnSale) {
-			secondSnippet = getString(R.string.widget_savings_template, lowestRate.getDiscountPercent());
-		}
+			String secondSnippet = null;
+			if (mShowDistances && distanceFromuser != null) {
+				secondSnippet = distanceFromuser.formatDistance(getActivity(), DistanceUnit.getDefaultDistanceUnit());
+			}
+			else if (isOnSale) {
+				secondSnippet = getString(R.string.widget_savings_template, lowestRate.getDiscountPercent());
+			}
 
-		if (!TextUtils.isEmpty(secondSnippet)) {
-			snippet = getString(R.string.map_snippet_template, snippet, secondSnippet);
-		}
+			if (!TextUtils.isEmpty(secondSnippet)) {
+				snippet = getString(R.string.map_snippet_template, snippet, secondSnippet);
+			}
 
-		if (!TextUtils.isEmpty(snippet)) {
-			marker.snippet(snippet);
-		}
+			if (!TextUtils.isEmpty(snippet)) {
+				marker.snippet(snippet);
+			}
 
-		marker.icon(isOnSale ? mPinSale : mPin);
+			marker.icon(isOnSale ? mPinSale : mPin);
+		}
+		else {
+			marker.icon(mPin);
+			Rate lowestRate = property.getLowestRate();
+			if (lowestRate != null && mTextView != null) {
+				final String label = lowestRate.getDisplayPrice().getFormattedMoney();
+				BitmapDescriptor pin = mPricePins.get(label);
+				if (pin == null) {
+					mTextView.setText(label);
+					int backgroundId;
+					PriceRange range = Db.getHotelSearch().getSearchResponse().getPriceRange(property);
+					switch (range) {
+					case CHEAP:
+						backgroundId = R.drawable.map_price_pin_cheap;
+						break;
+					case MODERATE:
+						backgroundId = R.drawable.map_price_pin_moderate;
+						break;
+					case EXPENSIVE:
+						backgroundId = R.drawable.map_price_pin_expensive;
+						break;
+					case ALL:
+					default:
+						backgroundId = R.drawable.map_price_pin_all;
+						break;
+					}
+					mTextView.setBackgroundResource(backgroundId);
+					mTextView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+					final int w = mTextView.getMeasuredWidth();
+					final int h = mTextView.getMeasuredHeight();
+					Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+					Canvas c = new Canvas(bitmap);
+					mTextView.layout(0, 0, w, h);
+					mTextView.draw(c);
+
+					pin = BitmapDescriptorFactory.fromBitmap(bitmap);
+					mPricePins.put(label, pin);
+				}
+				marker.anchor(0.5f, 0.5f);
+				marker.icon(pin);
+			}
+		}
 
 		Marker actualMarker = mMap.addMarker(marker);
 

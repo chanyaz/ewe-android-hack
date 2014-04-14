@@ -146,6 +146,21 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		mFilteredPropertiesIgnoringNeighborhood = null;
 	}
 
+	public PriceRange getPriceRange(Property property) {
+		if (mPriceTiers.size() == 0) {
+			return PriceRange.ALL;
+		}
+
+		for (PriceRange range : PriceRange.values()) {
+			PriceTier tier = mPriceTiers.get(range);
+			if (tier.containsProperty(property)) {
+				return range;
+			}
+		}
+
+		return PriceRange.ALL;
+	}
+
 	/**
 	 * Returns a collection of properties filtered by this object's filter.
 	 *
