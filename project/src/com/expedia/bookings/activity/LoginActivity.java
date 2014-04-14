@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -17,6 +19,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.fragment.LoginExtender;
 import com.expedia.bookings.fragment.LoginFragment;
 import com.expedia.bookings.fragment.LoginFragment.TitleSettable;
+import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 
@@ -26,9 +29,12 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 	public static final String ARG_PATH_MODE = "ARG_PATH_MODE";
 	public static final String ARG_LOGIN_FRAGMENT_EXTENDER = "ARG_LOGIN_FRAGMENT_EXTENDER";
 
+	private static final String FRAG_TAG_IMAGE_FRAG = "FRAG_TAG_IMAGE_FRAG";
+
 	private static final String TAG_LOGIN_FRAGMENT = "TAG_LOGIN_FRAGMENT";
 	private static final String STATE_TITLE = "STATE_TITLE";
 
+	private ViewGroup mLoginContentContainer;
 	private ImageView mBgImageView;
 	private View mBgShadeView;
 
@@ -79,6 +85,7 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 
 		setContentView(R.layout.activity_login);
 
+		mLoginContentContainer = Ui.findView(this, R.id.login_fragment_container);
 		mBgImageView = Ui.findView(this, R.id.background_image_view);
 		mBgShadeView = Ui.findView(this, R.id.background_shade);
 
@@ -118,12 +125,35 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
+		// add padding top as size of ActionBar for bg-image purposes (overlay-mode)
+		int paddingTop = 0;
+		TypedValue tv = new TypedValue();
+		if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+			paddingTop = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+		}
+		else if (getTheme().resolveAttribute(R.attr.actionBarSize, tv, true)) {
+			paddingTop = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+		}
+		mLoginContentContainer.setPadding(mLoginContentContainer.getPaddingLeft(), paddingTop, mLoginContentContainer.getPaddingRight(),
+			mLoginContentContainer.getPaddingBottom());
+
 		//defaults to login
 		setActionBarTitle(null);
 
 		// Set the background (based on mode)
 		if (mLob.equals(LineOfBusiness.FLIGHTS)) {
-			ExpediaImageManager.getInstance().setDestinationBitmap(this, mBgImageView, Db.getFlightSearch(), true);
+			if (ExpediaBookingApp.useTabletInterface(this)) {
+				ResultsBackgroundImageFragment frag = Ui.findSupportFragment(this, FRAG_TAG_IMAGE_FRAG);
+				if (frag == null) {
+					String code = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+					frag = ResultsBackgroundImageFragment.newInstance(code, true);
+					getSupportFragmentManager().beginTransaction()
+						.add(R.id.background_image_container, frag, FRAG_TAG_IMAGE_FRAG).commit();
+				}
+			}
+			else {
+				ExpediaImageManager.getInstance().setDestinationBitmap(this, mBgImageView, Db.getFlightSearch(), true);
+			}
 			mBgShadeView.setBackgroundColor(getResources().getColor(R.color.login_shade_flights));
 		}
 

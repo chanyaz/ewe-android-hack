@@ -30,8 +30,6 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 
 	private static final int HALF_FADE_IN_TIME = 500;
 
-	private static final String KEY_IMG_DL = "KEY_IMG_DL";
-
 	private static final String ARG_DEST_CODE = "ARG_DEST_CODE";
 	private static final String ARG_BLUR = "ARG_BLUR";
 

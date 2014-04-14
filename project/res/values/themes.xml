@@ -265,6 +265,8 @@
         <item name="logo">@drawable/ic_ab_expedia_logo</item>
         <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_expedia_logo</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="windowActionBarOverlay">true</item>
     </style>
 
     <style name="LaunchTheme" parent="@style/Theme.Sherlock">
