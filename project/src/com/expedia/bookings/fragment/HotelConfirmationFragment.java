@@ -46,13 +46,13 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.SamsungWalletUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.CalendarAPIUtils;
-import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
 
 public class HotelConfirmationFragment extends ConfirmationFragment {
@@ -93,13 +93,12 @@ public class HotelConfirmationFragment extends ConfirmationFragment {
 
 		Rate selectedRate = Db.getTripBucket().getHotel().getRate();
 		Media media = HotelUtils.getRoomMedia(property, selectedRate);
+		int placeholderId = Ui.obtainThemeResID(getActivity(), R.attr.hotelConfirmationPlaceholderDrawable);
 		if (media != null) {
-			headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), media.getHighResUrls(),
-					R.drawable.bg_itin_placeholder));
+			headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), media.getHighResUrls(), placeholderId));
 		}
 		else {
-			headerBitmapDrawable
-					.setBitmap(BitmapFactory.decodeResource(getResources(), com.expedia.bookings.utils.Ui.obtainThemeResID(getActivity(), R.attr.hotelConfirmationPlaceholderDrawable)));
+			headerBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), placeholderId));
 		}
 
 		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
