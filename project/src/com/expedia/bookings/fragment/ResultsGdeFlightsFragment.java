@@ -164,7 +164,11 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		mDestination = destination;
 		mDepartureDate = departureDate;
 		if (mGdeDownloadFrag != null) {
-			mGdeDownloadFrag.startOrResumeForRoute(mOrigin, mDestination, mDepartureDate);
+			//We always pass null for the date here, because the one way search has all the information we need
+			mGdeDownloadFrag.startOrResumeForRoute(mOrigin, mDestination, null);
+		}
+		if (mHistogramFrag != null) {
+			mHistogramFrag.setSelectedDepartureDate(mDepartureDate);
 		}
 	}
 

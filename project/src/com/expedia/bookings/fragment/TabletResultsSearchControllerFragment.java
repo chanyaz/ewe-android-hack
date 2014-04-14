@@ -70,7 +70,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private StateManager<ResultsSearchState> mSearchStateManager = new StateManager<ResultsSearchState>(
 		ResultsSearchState.CALENDAR, this);
 	private boolean mWaypointAnimFromOrigin = true;
-	private boolean mIgnoreDatePicker = false;
+	private boolean mIgnoreDateChanges = false;
 
 	//Containers
 	private ViewGroup mRootC;
@@ -239,39 +239,56 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	 */
 
 	@Override
-	public void onDatesChanged(LocalDate startDate, LocalDate endDate) {
-		if (!mIgnoreDatePicker) {
-			Sp.getParams().setStartDate(startDate);
-			Sp.getParams().setEndDate(endDate);
-			doSpUpdate();
-		}
-		updateClearDatesButtonState();
-	}
-
-	@Override
 	public void onGuestsChanged(int numAdults, ArrayList<ChildTraveler> numChildren) {
 		Sp.getParams().setNumAdults(numAdults);
 		Sp.getParams().setChildTravelers(numChildren);
 		doSpUpdate();
 	}
 
+	private void dateChangeHelper(LocalDate startDate, LocalDate endDate, boolean broadcast) {
+		if (!mIgnoreDateChanges) {
+			mIgnoreDateChanges = true;
+
+			if (mDatesFragment != null) {
+				mDatesFragment.setDates(startDate, endDate);
+			}
+
+			if (mGdeFragment != null) {
+				mGdeFragment
+					.setGdeInfo(Sp.getParams().getOriginLocation(true), Sp.getParams().getDestinationLocation(true),
+						startDate);
+			}
+
+			Sp.getParams().setStartDate(startDate);
+			Sp.getParams().setEndDate(endDate);
+
+			if (broadcast) {
+				doSpUpdate();
+			}
+
+			updateClearDatesButtonState();
+			mIgnoreDateChanges = false;
+		}
+	}
+
+	@Override
+	public void onDatesChanged(LocalDate startDate, LocalDate endDate) {
+		dateChangeHelper(startDate, endDate, true);
+	}
+
 	@Override
 	public void onGdeFirstDateSelected(LocalDate date) {
-		//TODO: If we have a first date selected, the ui should reflect this, but not yet kick off a search.
+		dateChangeHelper(date, null, false);
 	}
 
 	@Override
 	public void onGdeOneWayTrip(LocalDate date) {
-		if (mDatesFragment != null) {
-			mDatesFragment.setDates(date, null);
-		}
+		dateChangeHelper(date, null, true);
 	}
 
 	@Override
 	public void onGdeTwoWayTrip(LocalDate depDate, LocalDate retDate) {
-		if (mDatesFragment != null) {
-			mDatesFragment.setDates(depDate, retDate);
-		}
+		dateChangeHelper(depDate, retDate, true);
 	}
 
 
@@ -326,15 +343,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			if (state == ResultsSearchState.DEFAULT || state == ResultsSearchState.TRAVELER_PICKER
 				|| state == ResultsSearchState.CALENDAR) {
 
-				Sp.getParams().setStartDate(null);
-				Sp.getParams().setEndDate(null);
-				doSpUpdate();
-
-				if (mDatesFragment != null) {
-					mIgnoreDatePicker = true;
-					mDatesFragment.setDates(null, null);
-					mIgnoreDatePicker = false;
-				}
+				dateChangeHelper(null, null, true);
 
 				if (getState() == ResultsSearchState.DEFAULT) {
 					setState(ResultsSearchState.CALENDAR, true);

@@ -95,6 +95,13 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 		}
 	}
 
+	public void setSelectedDepartureDate(LocalDate departureDate) {
+		if (mAdapter != null) {
+			mAdapter.setSelectedDepartureDate(departureDate);
+			mAdapter.notifyDataSetChanged();
+		}
+	}
+
 	public void setColWidth(int width) {
 		if (mAdapter != null) {
 			mAdapter.setColWidth(width);

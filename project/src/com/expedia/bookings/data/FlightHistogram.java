@@ -1,17 +1,20 @@
 package com.expedia.bookings.data;
 
+import java.util.HashMap;
+
 import org.joda.time.LocalDate;
 import org.json.JSONObject;
 
 import com.mobiata.android.json.JSONable;
 
-public class FlightHistogram implements JSONable {
+public class FlightHistogram implements JSONable, Comparable<FlightHistogram> {
 
 	private LocalDate mKeyDate;
 	private int mCount;
 	private float mTotalPrice;
 	private double mMinPrice;
 	private float mMaxPrice;
+	private HashMap<String, FlightHistogram> mReturnFlightDateHistograms;
 
 	// TODO priceAsStr is temporary!
 	private String mPriceAsStr;
@@ -56,6 +59,19 @@ public class FlightHistogram implements JSONable {
 		mMaxPrice = maxPrice;
 	}
 
+	/**
+	 * This is a HashMap of DateString to ReturnHistogram e.g. "2014-07-01" -> FlightHistogram
+	 *
+	 * @param returnFlightDatePrices
+	 */
+	public void setReturnFlightDateHistograms(HashMap<String, FlightHistogram> returnFlightDatePrices) {
+		mReturnFlightDateHistograms = returnFlightDatePrices;
+	}
+
+	public HashMap<String, FlightHistogram> getReturnFlightDateHistograms() {
+		return mReturnFlightDateHistograms;
+	}
+
 	public String getPriceAsStr() {
 		return mPriceAsStr;
 	}
@@ -76,5 +92,20 @@ public class FlightHistogram implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		return true;
+	}
+
+
+	@Override
+	public int compareTo(FlightHistogram another) {
+		if (another == null && getKeyDate() != null) {
+			return 1;
+		}
+		else if (getKeyDate() == null) {
+			return -1;
+		}
+		else if (getKeyDate() != null) {
+			return getKeyDate().compareTo(another.getKeyDate());
+		}
+		return 0;
 	}
 }
