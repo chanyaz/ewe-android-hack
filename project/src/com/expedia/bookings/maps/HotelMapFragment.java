@@ -704,8 +704,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 				marker.hideInfoWindow();
 			}
 		}
-		setPadding(mResultsViewWidth, getHeight()
-				- getResources().getDimensionPixelSize(R.dimen.hotels_map_pin_padding), 0, 0);
+		setPadding(mResultsViewWidth, getHeight() - getResources().getDimensionPixelSize(R.dimen.tablet_results_hotel_map_pin_padding), 0, 0);
 		focusProperty(Db.getHotelSearch().getSelectedProperty(), true);
 	}
 }
