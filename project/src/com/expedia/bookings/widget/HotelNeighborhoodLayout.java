@@ -57,7 +57,7 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 
 	public void setNeighborhoods(HotelSearchResponse response, HotelFilter filter) {
 		mCheckedNeighborhoods = filter.getNeighborhoods();
-		if (response == null) {
+		if (response == null || response.getProperties() == null) {
 			removeAllViews();
 		}
 		else {
