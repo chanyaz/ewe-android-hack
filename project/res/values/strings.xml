@@ -126,6 +126,10 @@
     <string name="loading_hotels_and_flights">Loading Hotels and Flights&#8230;</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">When To Fly</string>
+    <!-- Flight fare calendar header for return flights -->
+    <string name="when_to_return">When to Return</string>
+    <!-- Search one way flight -->
+    <string name="search_one_way_flight">Search One Way Flight</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">No waypoint information found! Please alter your query and try again.</string>
 
@@ -223,7 +227,7 @@
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
     <string name="spinner_text_hotel_create_trip">Creating the trip ...</string>
-    
+
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">Checkout</string>

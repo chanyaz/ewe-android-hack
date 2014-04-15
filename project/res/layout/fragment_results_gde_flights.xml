@@ -1,24 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
+    android:animateLayoutChanges="true"
     android:orientation="vertical">
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
-        android:id="@+id/histogram_container"
-        android:layout_marginTop="48dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <com.mobiata.android.widget.AutoResizeTextView
+        android:id="@+id/one_way_search_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:textSize="22dp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/search_one_way_flight"
+        android:layout_marginRight="16dp"
+        android:drawablePadding="8dp"
+        android:visibility="gone"
+        android:drawableLeft="@drawable/ic_searchbox" />
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <LinearLayout
         android:id="@+id/header_container"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@color/tablet_white_pane_bg"
         android:gravity="center_vertical"
+        android:animateLayoutChanges="true"
+        android:orientation="horizontal"
         android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/flight_histogram_back"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:visibility="gone"
+            android:src="@drawable/ic_left_enabled" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/flight_histogram_header"
@@ -26,6 +44,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical|left"
             android:layout_marginLeft="16dp"
+            android:layout_weight="1"
             android:gravity="center_vertical|left"
             android:text="@string/when_to_fly"
             android:textSize="18sp"
@@ -33,14 +52,19 @@
 
         <ProgressBar
             android:id="@+id/flight_histogram_progress_bar"
+            android:layout_weight="0"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_gravity="center_vertical|right"
             android:layout_marginRight="8dp"
-            android:gravity="center_vertical|right"
+            android:gravity="center_vertical"
             android:indeterminate="true"
             android:visibility="gone" />
 
-    </com.expedia.bookings.widget.FrameLayoutTouchController>
-</FrameLayout>
+    </LinearLayout>
+
+    <com.expedia.bookings.widget.FrameLayoutTouchController
+        android:id="@+id/histogram_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
 

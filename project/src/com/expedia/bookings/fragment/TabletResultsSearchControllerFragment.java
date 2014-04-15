@@ -135,6 +135,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mTravBtn = Ui.findView(view, R.id.traveler_btn);
 		mClearDatesBtn = Ui.findView(view, R.id.clear_dates_btn);
 
+		//We dont want our clicks to pass through this container
+		mGdeC.setConsumeTouch(true);
+
 		mDestBtn.setOnClickListener(mDestClick);
 		mOrigBtn.setOnClickListener(mOrigClick);
 		mCalBtn.setOnClickListener(mCalClick);
@@ -284,11 +287,13 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	@Override
 	public void onGdeOneWayTrip(LocalDate date) {
 		dateChangeHelper(date, null, true);
+		setState(ResultsSearchState.DEFAULT, true);
 	}
 
 	@Override
 	public void onGdeTwoWayTrip(LocalDate depDate, LocalDate retDate) {
 		dateChangeHelper(depDate, retDate, true);
+		setState(ResultsSearchState.DEFAULT, true);
 	}
 
 

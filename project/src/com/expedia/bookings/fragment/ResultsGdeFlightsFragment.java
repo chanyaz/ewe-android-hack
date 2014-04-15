@@ -11,6 +11,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -21,6 +23,7 @@ import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
@@ -47,6 +50,10 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 	private View mRootC;
 	private FrameLayoutTouchController mHistogramC;
+	private TextView mGdeHeaderTv;
+	private ImageView mGdeBack;
+	private ProgressBar mGdeProgressBar;
+	private View mOneWaySearchBtn;
 
 	private ResultsFlightHistogramFragment mHistogramFrag;
 	private GdeDownloadFragment mGdeDownloadFrag;
@@ -97,8 +104,28 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_results_gde_flights, container, false);
-		mHistogramC = Ui.findView(view, R.id.histogram_container);
+		mRootC = inflater.inflate(R.layout.fragment_results_gde_flights, container, false);
+		mHistogramC = Ui.findView(mRootC, R.id.histogram_container);
+		mGdeHeaderTv = Ui.findView(mRootC, R.id.flight_histogram_header);
+		mGdeBack = Ui.findView(mRootC, R.id.flight_histogram_back);
+		mGdeProgressBar = Ui.findView(mRootC, R.id.flight_histogram_progress_bar);
+		mOneWaySearchBtn = Ui.findView(mRootC, R.id.one_way_search_btn);
+
+		mGdeBack.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				setGdeInfo(mOrigin, mDestination, null);
+			}
+		});
+
+		mOneWaySearchBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mListener != null) {
+					mListener.onGdeOneWayTrip(mDepartureDate);
+				}
+			}
+		});
 
 		//Add default fragments
 		FragmentManager manager = getChildFragmentManager();
@@ -113,13 +140,13 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 		transaction.commit();
 
-		return view;
+		return mRootC;
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		mGdeDownloadFrag.startOrResumeForRoute(mOrigin, mDestination, mDepartureDate);
+		startOrResumeDownload(mGdeDownloadFrag);
 		Sp.getBus().register(this);
 	}
 
@@ -163,12 +190,33 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		mOrigin = origin;
 		mDestination = destination;
 		mDepartureDate = departureDate;
-		if (mGdeDownloadFrag != null) {
-			//We always pass null for the date here, because the one way search has all the information we need
-			mGdeDownloadFrag.startOrResumeForRoute(mOrigin, mDestination, null);
-		}
+
+		startOrResumeDownload(mGdeDownloadFrag);
+
 		if (mHistogramFrag != null) {
 			mHistogramFrag.setSelectedDepartureDate(mDepartureDate);
+		}
+
+		if (mRootC != null) {
+			if (departureDate != null) {
+				mGdeBack.setVisibility(View.VISIBLE);
+				mOneWaySearchBtn.setVisibility(View.VISIBLE);
+				mGdeHeaderTv.setText(R.string.when_to_return);
+			}
+			else {
+				mGdeBack.setVisibility(View.GONE);
+				mOneWaySearchBtn.setVisibility(View.GONE);
+				mGdeHeaderTv.setText(R.string.when_to_fly);
+			}
+		}
+
+	}
+
+	protected void startOrResumeDownload(GdeDownloadFragment frag) {
+		if (frag != null) {
+			//We always pass null for the date here, because the one way search has all the information we need
+			frag.startOrResumeForRoute(mOrigin, mDestination, null);
+			mGdeProgressBar.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -201,7 +249,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
 		if (tag == FTAG_GDE_DOWNLOADER) {
-			((GdeDownloadFragment) frag).startOrResumeForRoute(mOrigin, mDestination, mDepartureDate);
+			startOrResumeDownload((GdeDownloadFragment) frag);
 		}
 	}
 
@@ -223,6 +271,9 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 			}
 			else {
 				Log.e("FLIGHT_GDE_SEARCH null response");
+			}
+			if (mGdeProgressBar != null) {
+				mGdeProgressBar.setVisibility(View.GONE);
 			}
 		}
 	}
