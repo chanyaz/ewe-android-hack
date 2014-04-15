@@ -64,7 +64,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private ViewGroup mRootC;
 	private ViewGroup mHotelHeaderContainer;
 	private Button mAddToTripButton;
-	private View mReviewsButton;
 
 	private IAddToBucketListener mAddToBucketListener;
 	private IResultsHotelReviewsClickedListener mHotelReviewsClickedListener;
@@ -85,7 +84,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotel_details, null);
 		mHotelHeaderContainer = Ui.findView(mRootC, R.id.hotel_header_image_container);
 		mAddToTripButton = Ui.findView(mRootC, R.id.button_add_to_trip);
-		mReviewsButton = Ui.findView(mRootC, R.id.read_reviews_text);
 
 		mAddToTripButton.setPivotY(0f);
 		mAddToTripButton.setOnClickListener(mAddToTripButtonClickListener);
@@ -307,10 +305,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 	private void setupReviews(View view, Property property) {
 		RingedCountView roomsLeftRing = Ui.findView(view, R.id.rooms_left_ring);
-		RingedCountView userRatingRing = Ui.findView(view, R.id.user_rating_ring);
 		TextView roomsLeftText = Ui.findView(view, R.id.rooms_left_ring_text);
-		TextView userRatingText = Ui.findView(view, R.id.user_rating_ring_text);
-		TextView readReviewsText = Ui.findView(view, R.id.read_reviews_text);
 
 		boolean userRatingAvailable = property.getTotalReviews() != 0;
 
@@ -323,8 +318,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			roomsLeftRing.setPrimaryColor(color);
 			roomsLeftRing.setCountTextColor(color);
 			roomsLeftRing.setPercent(roomsLeft / 10f);
-			roomsLeftRing.setCount(roomsLeft);
-			roomsLeftText.setText(res.getQuantityText(R.plurals.rooms_left, roomsLeft));
+			roomsLeftRing.setCountText("");
+			roomsLeftText.setText(res.getQuantityString(R.plurals.n_rooms_left_TEMPLATE, roomsLeft, roomsLeft));
 		}
 		else if (property.getPercentRecommended() == 0f) {
 			roomsLeftRing.setVisibility(View.INVISIBLE);
@@ -334,27 +329,10 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			roomsLeftRing.setVisibility(View.VISIBLE);
 			roomsLeftText.setVisibility(View.VISIBLE);
 			roomsLeftRing.setPrimaryColor(res.getColor(R.color.details_ring_blue));
-			roomsLeftRing.setCountTextColor(res.getColor(R.color.details_ring_text));
 			roomsLeftRing.setPercent(property.getPercentRecommended() / 100f);
-			roomsLeftText.setText(R.string.recommend);
-			roomsLeftRing.setCountText(Math.round(property.getPercentRecommended()) + "%");
-		}
-
-		if (userRatingAvailable) {
-			float percent = (float) property.getAverageExpediaRating() / 5f;
-			userRatingRing.setVisibility(View.VISIBLE);
-			userRatingText.setVisibility(View.VISIBLE);
-			userRatingRing.setPercent(percent);
-			DecimalFormat fmt = new DecimalFormat("0.#");
-			userRatingRing.setCountText(fmt.format(property.getAverageExpediaRating()));
-			readReviewsText.setText(R.string.Read_Reviews);
-			mReviewsButton.setOnClickListener(mReviewsButtonClickedListener);
-		}
-		else {
-			userRatingRing.setVisibility(View.INVISIBLE);
-			userRatingText.setVisibility(View.INVISIBLE);
-			readReviewsText.setText(R.string.No_Reviews);
-			mReviewsButton.setOnClickListener(null);
+			roomsLeftRing.setCountText("");
+			int percent = Math.round(property.getPercentRecommended());
+			roomsLeftText.setText(getString(R.string.n_recommend_TEMPLATE, percent));
 		}
 	}
 

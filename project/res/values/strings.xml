@@ -192,6 +192,8 @@
     <string name="n_reviews_TEMPLATE">%1$s reviews</string>
     <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
     <string name="recommend">recommend</string>
+    <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
+    <string name="n_recommend_TEMPLATE">%s%% recommend</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
     <plurals name="rooms_left">
         <item quantity="zero">rooms left</item>
@@ -200,6 +202,15 @@
         <item quantity="few">rooms left</item>
         <item quantity="many">rooms left</item>
         <item quantity="other">rooms left</item>
+    </plurals>
+    <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
+    <plurals name="n_rooms_left_TEMPLATE">
+        <item quantity="zero">%s rooms left</item>
+        <item quantity="one">%s room left</item>
+        <item quantity="two">%s rooms left</item>
+        <item quantity="few">%s rooms left</item>
+        <item quantity="many">%s rooms left</item>
+        <item quantity="other">%s rooms left</item>
     </plurals>
     <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
     <string name="out_of_5">out of 5</string>

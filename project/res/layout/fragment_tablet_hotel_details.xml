@@ -93,7 +93,7 @@
 
                     <!-- Reviews section (#2059) -->
 
-                    <FrameLayout
+                    <LinearLayout
                         android:id="@+id/reviews_container"
                         android:layout_width="match_parent"
                         android:layout_height="86dp"
@@ -106,18 +106,16 @@
                         android:paddingTop="4dp" >
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="50dp"
-                            android:layout_gravity="center_vertical|left"
-                            android:gravity="center_vertical|left" >
+                            android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center" >
 
                             <com.expedia.bookings.widget.RingedCountView
                                 android:id="@+id/rooms_left_ring"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                app:countTextColor="@color/details_ring_red"
-                                app:countTextSize="16sp"
-                                app:countTextStyle="bold"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
                                 app:percent="0"
                                 app:primaryColor="@color/details_ring_red"
                                 app:ringThickness="4dp"
@@ -133,51 +131,40 @@
                                 app:textStyle="light" />
                         </LinearLayout>
 
+                        <View
+                            android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="#d1d1d1" />
+
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="50dp"
-                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
                             android:gravity="center" >
 
-                            <com.expedia.bookings.widget.RingedCountView
-                                android:id="@+id/user_rating_ring"
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                app:countTextColor="@color/details_ring_text"
-                                app:countTextSize="16sp"
-                                app:countTextStyle="bold"
-                                app:percent="0"
-                                app:primaryColor="@color/details_ring_blue"
-                                app:ringThickness="4dp"
-                                app:secondaryColor="@color/details_ring_gray" />
+                            <RatingBar
+                                android:id="@+id/user_rating_bar"
+                                style="?attr/hotelDetailsUserRatingStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:isIndicator="true"
+                                android:numStars="5"
+                                android:stepSize=".5"/>
 
                             <com.expedia.bookings.widget.TextView
-                                android:id="@+id/user_rating_ring_text"
+                                android:id="@+id/user_rating_text"
                                 android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="center_vertical"
-                                android:padding="8dp"
-                                android:text="@string/out_of_5"
-                                android:textColor="@color/details_ring_text"
-                                android:textSize="16sp"
-                                app:textStyle="light" />
+                                android:layout_height="wrap_content"
+                                android:singleLine="true"
+                                android:includeFontPadding="false"
+                                android:paddingLeft="4dp"
+                                android:textColor="#1b5698"
+                                app:textStyle="bold"/>
                         </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/read_reviews_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_vertical|right"
-                            android:drawableLeft="@drawable/ic_read_reviews"
-                            android:drawablePadding="4dp"
-                            android:gravity="center_vertical|right"
-                            android:padding="16dp"
-                            android:text="@string/Read_Reviews"
-                            android:textAllCaps="true"
-                            android:textColor="#db4d6680"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </FrameLayout>
+                    </LinearLayout>
 
                     <!-- Amenities section (#2060) -->
 
@@ -312,26 +299,6 @@
                                     android:textColor="#d3d7dc"
                                     app:textStyle="light"/>
 
-                                <RatingBar
-                                    android:id="@+id/user_rating_bar"
-                                    style="?attr/hotelDetailsUserRatingStyle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:isIndicator="true"
-                                    android:numStars="5"
-                                    android:stepSize=".5"/>
-
-                                <com.expedia.bookings.widget.TextView
-                                    android:id="@+id/user_rating_text"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:singleLine="true"
-                                    android:includeFontPadding="false"
-                                    android:paddingLeft="4dp"
-                                    android:paddingRight="8dp"
-                                    android:textColor="#d3d7dc"
-                                    app:textStyle="light"/>
                             </LinearLayout>
                         </LinearLayout>
                     </com.expedia.bookings.widget.HotelDetailsStickyHeaderLayout>
