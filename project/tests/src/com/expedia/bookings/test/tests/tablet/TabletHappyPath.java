@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.pageModels.tablet.Checkout;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
@@ -24,12 +25,23 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		Intent intent = new Intent();
-		intent.putExtra("isAutomation", true);
-		setActivityIntent(intent);
-
+		// This setUp is only applicable to tablets
 		// Espresso will not launch our activity for us, we must launch it via getActivity().
-		getActivity();
+		if (ExpediaBookingApp.useTabletInterface(getInstrumentation().getTargetContext())) {
+			Intent intent = new Intent();
+			intent.putExtra("isAutomation", true);
+			setActivityIntent(intent);
+
+			getActivity();
+		}
+	}
+
+	@Override
+	public void runTest() throws Throwable {
+		// These tests are only applicable to tablets
+		if (ExpediaBookingApp.useTabletInterface(getInstrumentation().getTargetContext())) {
+			super.runTest();
+		}
 	}
 
 	public void testBookHotel() throws InterruptedException {
