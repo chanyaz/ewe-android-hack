@@ -158,11 +158,14 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 			public boolean onMarkerClick(Marker marker) {
 				if (mListener != null) {
 					Property property = mMarkersToProperties.get(marker);
-					if (mIsTablet && !marker.isInfoWindowShown()) {
-						marker.showInfoWindow();
-					}
-					else if (property != null) {
-						mListener.onPropertyClicked(property);
+					if (property != null) {
+						if (mIsTablet && !marker.isInfoWindowShown()) {
+							marker.showInfoWindow();
+							focusProperty(property, true);
+						}
+						else {
+							mListener.onPropertyClicked(property);
+						}
 					}
 					else {
 						mListener.onExactLocationClicked();
