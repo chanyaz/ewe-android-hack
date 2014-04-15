@@ -284,7 +284,7 @@
     <dimen name="tablet_search_header_height">44dp</dimen>
     <dimen name="tablet_results_flight_map_padding">40dp</dimen>
     <dimen name="tablet_results_hotel_map_pin_padding">64dp</dimen>
-    <dimen name="hotel_map_price_pin_text_size">14sp</dimen>
+    <dimen name="hotel_map_price_pin_text_size">14dp</dimen>
 
     <!-- Tablet trip bucket dimens -->
     <dimen name="tablet_tripbucket_card_height">148dp</dimen>
