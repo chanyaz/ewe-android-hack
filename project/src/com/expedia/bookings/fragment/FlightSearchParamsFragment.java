@@ -443,6 +443,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		super.onResume();
 		Events.register(this);
 
+		refreshTravelerDataToDB();
+
 		if (isUsingEditTexts()) {
 			// Don't set the focus change listener until now, so that we can properly
 			// restore the state of the views.  Same with the adapter (so it doesn't
@@ -1088,6 +1090,22 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			updateNumTravelersText();
 		}
 	};
+
+	private void refreshTravelerDataToDB() {
+		int dbNumChildren = mSearchParams.getNumChildren();
+		int numPickerChildren = mChildrenNumberPicker.getValue();
+		int dbNumAdults = mSearchParams.getNumAdults();
+		int numPickerAdults = mAdultsNumberPicker.getValue();
+
+		if (dbNumChildren != numPickerChildren) {
+			mChildrenNumberPicker.setValue(dbNumChildren);
+		}
+		if (dbNumAdults != numPickerAdults) {
+			mAdultsNumberPicker.setValue(dbNumAdults);
+		}
+		GuestsPickerUtils.updateDefaultChildTravelers(getActivity(), mSearchParams.getChildren());
+		updateNumTravelersText();
+	}
 
 	private final OnItemSelectedListener mChildAgeSelectedListener = new OnItemSelectedListener() {
 

@@ -107,6 +107,7 @@ public class FlightSearchOverlayActivity extends SherlockFragmentActivity implem
 			else {
 				Intent intent = new Intent();
 				JSONUtils.putJSONable(intent, EXTRA_SEARCH_PARAMS, params);
+				Db.getFlightSearch().setSearchParams(params);
 				setResult(RESULT_OK, intent);
 				finish();
 			}
