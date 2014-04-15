@@ -12,6 +12,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
@@ -92,6 +93,8 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	private boolean mFilterOpen = false;
 
 	private TextView mTextView;
+	private int mPricePinSidePadding;
+	private int mPricePinTopPadding;
 
 	public static HotelMapFragment newInstance() {
 		HotelMapFragment frag = new HotelMapFragment();
@@ -112,8 +115,13 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		if (mIsTablet) {
 			mTextView = new TextView(getActivity());
 			mTextView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			mTextView.setGravity(Gravity.CENTER);
 			mTextView.setTextColor(getResources().getColor(R.color.map_price_pin_text_color));
+			mTextView.setTextSize(getResources().getDimension(R.dimen.hotel_map_price_pin_text_size));
 			mTextView.setTypeface(null, Typeface.BOLD);
+			float density = getResources().getDisplayMetrics().density;
+			mPricePinSidePadding = (int) (7 * density);
+			mPricePinTopPadding = (int) (5 * density);
 		}
 
 		mListener = Ui.findFragmentListener(this, HotelMapFragmentListener.class);
@@ -469,21 +477,20 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 					int backgroundId;
 					PriceRange range = Db.getHotelSearch().getSearchResponse().getPriceRange(property);
 					switch (range) {
-					case CHEAP:
-						backgroundId = R.drawable.map_price_pin_cheap;
-						break;
 					case MODERATE:
-						backgroundId = R.drawable.map_price_pin_moderate;
+						backgroundId = R.drawable.bg_tablet_hotel_price_pin_moderate;
 						break;
 					case EXPENSIVE:
-						backgroundId = R.drawable.map_price_pin_expensive;
+						backgroundId = R.drawable.bg_tablet_hotel_price_pin_expensive;
 						break;
+					case CHEAP:
 					case ALL:
 					default:
-						backgroundId = R.drawable.map_price_pin_all;
+						backgroundId = R.drawable.bg_tablet_hotel_price_pin_cheap;
 						break;
 					}
 					mTextView.setBackgroundResource(backgroundId);
+					mTextView.setPadding(mPricePinSidePadding, mPricePinTopPadding, mPricePinSidePadding, mPricePinTopPadding);
 					mTextView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 					final int w = mTextView.getMeasuredWidth();
 					final int h = mTextView.getMeasuredHeight();
