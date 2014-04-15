@@ -278,7 +278,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+
         <activity
             android:name="com.expedia.bookings.activity.TabletCheckoutActivity"
             android:label="@string/CheckOut"
@@ -292,7 +292,6 @@
 
         <!-- Testing activities -->
 
-        <activity android:name=".test.activity.CalendarDatePickerTestActivity" />
         <activity
             android:name="com.expedia.bookings.activity.StubConfigActivity"
             android:theme="@style/Theme.Phone" />
