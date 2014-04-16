@@ -116,7 +116,10 @@ public class FlightHistogramAdapter extends BaseAdapter {
 		if (mFlightHistogramResponse != null && mFlightHistogramResponse.getFlightHistograms() != null) {
 			if (mSelectedDepartureDate != null) {
 				if (mSelectedDeparturePosition >= 0
-					&& mFlightHistogramResponse.getFlightHistograms().size() > mSelectedDeparturePosition) {
+					&& mFlightHistogramResponse.getFlightHistograms().size() > mSelectedDeparturePosition
+					&& mFlightHistogramResponse.getFlightHistograms().get(mSelectedDeparturePosition) != null
+					&& mFlightHistogramResponse.getFlightHistograms().get(mSelectedDeparturePosition)
+					.getReturnFlightDateHistograms() != null) {
 					grams = new ArrayList(mFlightHistogramResponse.getFlightHistograms().get(mSelectedDeparturePosition)
 						.getReturnFlightDateHistograms().values());
 					//They sort based on keydate
