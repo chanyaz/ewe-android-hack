@@ -269,12 +269,13 @@
     <dimen name="app_widget_min_height">72dp</dimen>
     <dimen name="app_widget_min_width">294dp</dimen>
 
+
     <!-- For map pins on tablet launch screen -->
     <dimen name="tablet_launch_map_pin_image_size">172dp</dimen>
-    <dimen name="destination_search_stack_width">279dp</dimen>
-    <dimen name="destination_search_stack_height">240dp</dimen>
-    <dimen name="destination_search_tile_width">259dp</dimen>
-    <dimen name="destination_search_tile_height">220dp</dimen>
+    <dimen name="destination_search_stack_width">186dp</dimen>
+    <dimen name="destination_search_stack_height">160dp</dimen>
+    <dimen name="destination_search_tile_width">166dp</dimen>
+    <dimen name="destination_search_tile_height">140dp</dimen>
     <dimen name="destination_search_item_divider_padding">24dp</dimen>
     <dimen name="destination_stack_padding">5dp</dimen>
     <dimen name="destination_stack_text_container_height">56dp</dimen>

@@ -9,4 +9,10 @@
 
     <dimen name="hotel_checkout_overview_image_height">320dp</dimen>
 
+    <!-- For tablet launch screen -->
+    <dimen name="destination_search_stack_width">279dp</dimen>
+    <dimen name="destination_search_stack_height">240dp</dimen>
+    <dimen name="destination_search_tile_width">259dp</dimen>
+    <dimen name="destination_search_tile_height">220dp</dimen>
+
 </resources>
