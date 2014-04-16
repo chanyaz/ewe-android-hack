@@ -25,6 +25,8 @@ import com.expedia.bookings.utils.Ui;
 public class ResultsListLoadingFragment extends Fragment {
 
 	private final static String STATE_LOADING_TEXT = "STATE_LOADING_TEXT";
+	private final static String STATE_ALONE_GRAVITY = "STATE_ALONE_GRAVITY";
+	private final static String STATE_WITH_OTHERS_GRAVITY = "STATE_WITH_OTHERS_GRAVITY";
 
 	private LinearLayout mRootC;
 	private TextView mLoadingTv;
@@ -35,8 +37,8 @@ public class ResultsListLoadingFragment extends Fragment {
 	private ViewGroup mLoadingC;
 	private String mLoadingText;
 	private int mLastListenerCount = 0;
-	private int mLoadingAloneGravity = Gravity.NO_GRAVITY;
-	private int mLoadingWithOthersGravity = Gravity.NO_GRAVITY;
+	private int mLoadingAloneGravity = Gravity.CENTER;
+	private int mLoadingWithOthersGravity = Gravity.CENTER;
 
 	public static ResultsListLoadingFragment newInstance(String loadingText, int loadingAloneGravity,
 		int loadingWithOthersGravity) {
@@ -56,6 +58,8 @@ public class ResultsListLoadingFragment extends Fragment {
 			if (savedInstanceState.containsKey(STATE_LOADING_TEXT)) {
 				setLoadingText(savedInstanceState.getString(STATE_LOADING_TEXT));
 			}
+			mLoadingAloneGravity = savedInstanceState.getInt(STATE_ALONE_GRAVITY, mLoadingAloneGravity);
+			mLoadingWithOthersGravity = savedInstanceState.getInt(STATE_WITH_OTHERS_GRAVITY, mLoadingWithOthersGravity);
 		}
 
 		if (mLoadingText != null) {
@@ -83,6 +87,8 @@ public class ResultsListLoadingFragment extends Fragment {
 		if (mLoadingText != null) {
 			outState.putString(STATE_LOADING_TEXT, mLoadingText);
 		}
+		outState.putInt(STATE_ALONE_GRAVITY, mLoadingAloneGravity);
+		outState.putInt(STATE_WITH_OTHERS_GRAVITY, mLoadingWithOthersGravity);
 	}
 
 	public void setLoadingText(String text) {
