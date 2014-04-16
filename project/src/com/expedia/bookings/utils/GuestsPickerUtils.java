@@ -29,6 +29,12 @@ public class GuestsPickerUtils {
 	public static final int MIN_CHILD_AGE = 0;
 	public static final int MAX_CHILD_AGE = 17;
 
+	private static final int AGE_0_INFANT_IN_LAP_POS = 0;
+	private static final int AGE_0_INFANT_IN_SEAT_POS = 1;
+	private static final int AGE_1_INFANT_IN_LAP_POS = 2;
+	private static final int AGE_1_INFANT_IN_SEAT_POS = 3;
+	private static final int CHILD_AGE_TO_POS_OFFSET = 2;
+
 	public static void updateNumberPickerRanges(com.expedia.bookings.widget.NumberPicker adultsNumberPicker,
 												com.expedia.bookings.widget.NumberPicker childrenNumberPicker) {
 		adultsNumberPicker.setMinValue(MIN_ADULTS);
@@ -117,13 +123,13 @@ public class GuestsPickerUtils {
 	public static int getChildSpinnerSelection(ChildTraveler child) {
 		int selection;
 		if (child.getAge() == 0) {
-			selection = child.usingSeat() ? 1 : 0;
+			selection = child.usingSeat() ? AGE_0_INFANT_IN_SEAT_POS : AGE_0_INFANT_IN_LAP_POS;
 		}
 		else if (child.getAge() == 1) {
-			selection = child.usingSeat() ? 3 : 2;
+			selection = child.usingSeat() ? AGE_1_INFANT_IN_SEAT_POS : AGE_1_INFANT_IN_LAP_POS;
 		}
 		else {
-			selection = child.getAge() + 2;
+			selection = child.getAge() + CHILD_AGE_TO_POS_OFFSET;
 		}
 		return selection;
 	}
@@ -164,7 +170,6 @@ public class GuestsPickerUtils {
 
 	public static void setChildSpinnerPositions(View container, List<ChildTraveler> children) {
 		for (int i = 0; i < children.size(); i++) {
-			int age = children.get(i).getAge();
 			Spinner row = (Spinner) getChildAgeLayout(container, i);
 			row.setSelection(getChildSpinnerSelection(children.get(i)) - MIN_CHILD_AGE);
 		}
@@ -184,17 +189,17 @@ public class GuestsPickerUtils {
 
 	public static ChildTraveler spinnerPositionToChildTraveler(int position) {
 		ChildTraveler child = new ChildTraveler();
-		if (position != 0 && position != 2) {
+		if (position != AGE_0_INFANT_IN_LAP_POS && position != AGE_1_INFANT_IN_LAP_POS) {
 			child.setSeatUse(true);
 		}
-		if (position <= 1) {
+		if (position <= AGE_0_INFANT_IN_SEAT_POS) {
 			child.setAge(0);
 		}
-		else if (position == 2 || position == 3) {
+		else if (position == AGE_1_INFANT_IN_LAP_POS || position == AGE_1_INFANT_IN_SEAT_POS) {
 			child.setAge(1);
 		}
 		else {
-			child.setAge(position -= 2);
+			child.setAge(position -= CHILD_AGE_TO_POS_OFFSET);
 		}
 		return child;
 	}
