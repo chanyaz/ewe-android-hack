@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -19,7 +18,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,7 +42,6 @@ import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.ParallaxContainer;
 import com.expedia.bookings.widget.RingedCountView;
 import com.expedia.bookings.widget.ScrollView;
 import com.mobiata.android.BackgroundDownloader;
@@ -70,6 +67,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private IResultsHotelReviewsClickedListener mHotelReviewsClickedListener;
 
 	HotelOffersResponse mResponse;
+
+	private static final int ROOM_COUNT_URGENCY_CUTOFF = 5;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -485,6 +484,10 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				FormatUtils.series(getActivity(), unique, ",", null).toLowerCase(Locale.getDefault()))));
 			mUrgencyMessagingView.setVisibility(View.VISIBLE);
 		}
+		else if (showUrgencyMessaging(rate)) {
+			String urgencyString = getResources().getQuantityString(R.plurals.n_rooms_left_TEMPLATE, rate.getNumRoomsLeft(), rate.getNumRoomsLeft());
+			mUrgencyMessagingView.setText(urgencyString);
+		}
 		else {
 			mUrgencyMessagingView.setVisibility(View.GONE);
 		}
@@ -546,6 +549,11 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		Db.saveTripBucket(getActivity());
 
 		mAddToBucketListener.onItemAddedToBucket();
+	}
+
+	private boolean showUrgencyMessaging(Rate rate) {
+		int roomsLeft = rate.getNumRoomsLeft();
+		return roomsLeft > 0 && roomsLeft < ROOM_COUNT_URGENCY_CUTOFF;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
