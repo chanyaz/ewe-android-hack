@@ -502,7 +502,7 @@ public class SearchParams implements Parcelable, JSONable {
 	// Parcelable
 
 	private SearchParams(Parcel in) {
-		ClassLoader cl = getClass().getClassLoader();
+		ClassLoader cl = SearchParams.class.getClassLoader();
 
 		mOrigin = in.readParcelable(cl);
 		mDestination = in.readParcelable(cl);

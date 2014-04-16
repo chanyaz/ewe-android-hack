@@ -116,7 +116,7 @@ public class ResultsGuestPicker extends Fragment {
 		outState.putInt(STATE_ADULT_COUNT, mAdultCount);
 	}
 
-	private void initializeGuests(int initialAdultCount, List<ChildTraveler> initialChildren) {
+	public void initializeGuests(int initialAdultCount, List<ChildTraveler> initialChildren) {
 		mAdultCount = initialAdultCount;
 		if (initialChildren == null) {
 			mChildren = new ArrayList<ChildTraveler>();
