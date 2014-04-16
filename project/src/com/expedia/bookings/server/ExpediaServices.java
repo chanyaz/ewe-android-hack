@@ -1759,6 +1759,7 @@ public class ExpediaServices implements DownloadListener {
 			put("NO", "http://deals.expedia.no/beta/stats/flights.json");
 			put("SE", "http://deals.expedia.se/beta/stats/flights.json");
 			put("UK", "http://deals.expedia.co.uk/beta/stats/flights.json");
+			put("GB", "http://deals.expedia.co.uk/beta/stats/flights.json");
 			put("IN", "http://deals.expedia.co.in/beta/stats/flights.json");
 			put("JP", "http://deals.expedia.co.jp/beta/stats/flights.json");
 			put("MY", "http://deals.expedia.com.my/beta/stats/flights.json");
@@ -1769,7 +1770,11 @@ public class ExpediaServices implements DownloadListener {
 
 	public String getGdeEndpointUrl() {
 		String key = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toUpperCase();
-		return sGdePosUrlMap.get(key);
+		String url = sGdePosUrlMap.get(key);
+		if (url == null) {
+			throw new RuntimeException("No GDE url for pos=" + key);
+		}
+		return url;
 	}
 
 	public static EndPoint getEndPoint(Context context) {
