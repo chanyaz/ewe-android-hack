@@ -26,6 +26,7 @@ import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
 import com.expedia.bookings.graphics.PercentageFadeColorDrawable;
+import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
@@ -58,7 +59,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	ISortAndFilterListener, IResultsHotelSelectedListener, IFragmentAvailabilityProvider,
 	HotelMapFragmentListener, SupportMapFragmentListener, IBackManageable, IStateProvider<ResultsHotelsState>,
 	ExpediaServicesFragment.ExpediaServicesFragmentListener, IAddToBucketListener,
-	IResultsHotelReviewsClickedListener {
+	IResultsHotelReviewsClickedListener, IAcceptingListenersListener {
 
 	//State
 	private static final String STATE_HOTELS_STATE = "STATE_HOTELS_STATE";
@@ -127,6 +128,18 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			FragmentManager manager = getChildFragmentManager();
+			mMapFragment = FragmentAvailabilityUtils.getFrag(manager, FTAG_HOTEL_MAP);
+			mHotelListFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_HOTEL_LIST);
+			mHotelFiltersFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_HOTEL_FILTERS);
+			mHotelFilteredCountFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_HOTEL_FILTERED_COUNT);
+			mHotelDetailsFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_HOTEL_ROOMS_AND_RATES);
+			mHotelSearchDownloadFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_HOTEL_SEARCH_DOWNLOAD);
+			mLoadingGuiFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_HOTEL_LOADING_INDICATOR);
+			mSearchErrorFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_HOTEL_SEARCH_ERROR);
+			mHotelReviewsFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_HOTEL_REVIEWS);
+		}
 		View view = inflater.inflate(R.layout.fragment_tablet_results_hotels, null, false);
 
 		mRootC = Ui.findView(view, R.id.root_layout);
@@ -169,15 +182,25 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
-		mResultsStateHelper.registerWithProvider(this, false);
+		mResultsStateHelper.registerWithProvider(this, true);
 		mMeasurementHelper.registerWithProvider(this);
 		mBackManager.registerWithParent(this);
 		Sp.getBus().register(this);
+		IAcceptingListenersListener readyForListeners = Ui
+			.findFragmentListener(this, IAcceptingListenersListener.class, false);
+		if (readyForListeners != null) {
+			readyForListeners.acceptingListenersUpdated(this, true);
+		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
+		IAcceptingListenersListener readyForListeners = Ui
+			.findFragmentListener(this, IAcceptingListenersListener.class, false);
+		if (readyForListeners != null) {
+			readyForListeners.acceptingListenersUpdated(this, false);
+		}
 		Sp.getBus().unregister(this);
 		mResultsStateHelper.unregisterWithProvider(this);
 		mMeasurementHelper.unregisterWithProvider(this);
@@ -532,11 +555,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
-		if (tag == FTAG_HOTEL_LIST) {
-			ResultsHotelListFragment listFrag = (ResultsHotelListFragment) frag;
-			listFrag.registerStateListener(mListStateHelper, false);
-		}
-		else if (tag == FTAG_HOTEL_MAP) {
+		if (tag == FTAG_HOTEL_MAP) {
 			HotelMapFragment mapFrag = (HotelMapFragment) frag;
 			updateMapFragmentPositioningInfo(mapFrag);
 		}
@@ -938,6 +957,15 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mHotelsStateListeners.unRegisterStateListener(listener);
 	}
 
+	public void setListenerActive(IStateListener<ResultsHotelsState> listener, boolean active) {
+		if (active) {
+			mHotelsStateListeners.setListenerActive(listener);
+		}
+		else {
+			mHotelsStateListeners.setListenerInactive(listener);
+		}
+	}
+
 	/*
 	 * HOTELS STATE LISTENER
 	 */
@@ -1238,5 +1266,22 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	public void onItemAddedToBucket() {
 		//TODO: EVENTUALLY WE WANT TO ANIMATE THIS THING!
 		setHotelsState(ResultsHotelsState.ADDING_HOTEL_TO_TRIP, false);
+	}
+
+	/*
+	IAcceptingListenersListener
+	 */
+	@Override
+	public void acceptingListenersUpdated(Fragment frag, boolean acceptingListener) {
+		if (acceptingListener) {
+			if (frag == mHotelListFrag) {
+				mHotelListFrag.registerStateListener(mListStateHelper, false);
+			}
+		}
+		else {
+			if (frag == mHotelListFrag) {
+				mHotelListFrag.unRegisterStateListener(mListStateHelper);
+			}
+		}
 	}
 }

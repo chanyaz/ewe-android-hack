@@ -19,6 +19,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.enums.ResultsFlightLegState;
 import com.expedia.bookings.enums.ResultsFlightsListState;
 import com.expedia.bookings.enums.ResultsFlightsState;
+import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IResultsFlightLegSelected;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
@@ -52,7 +53,7 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ResultsRecursiveFlightLegsFragment extends Fragment implements IStateProvider<ResultsFlightLegState>,
 	FragmentAvailabilityUtils.IFragmentAvailabilityProvider, IBackManageable, IResultsFlightLegSelected,
-	IResultsFlightSelectedListener, ResultsFlightListFragment.IDoneClickedListener {
+	IResultsFlightSelectedListener, ResultsFlightListFragment.IDoneClickedListener, IAcceptingListenersListener {
 
 	public static ResultsRecursiveFlightLegsFragment newInstance(int legNumber) {
 		ResultsRecursiveFlightLegsFragment frag = new ResultsRecursiveFlightLegsFragment(legNumber);
@@ -126,12 +127,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		if (savedInstanceState != null) {
 			int legNumber = savedInstanceState.getInt(INSTANCE_LEG_NUMBER);
 			if (mLegNumber != legNumber) {
 				initLegNumber(legNumber);
 			}
-
 			mStateManager.setDefaultState(ResultsFlightLegState.valueOf(savedInstanceState.getString(INSTANCE_STATE)));
 		}
 
@@ -139,6 +140,14 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			FragmentManager manager = getChildFragmentManager();
+			mListFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_LIST);
+			mFilterFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_FILTERS);
+			mDetailsFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_DETAILS);
+			mNextLegFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_NEXT_LEG);
+		}
+
 		View view = inflater.inflate(R.layout.fragment_results_recursive_flight_legs, null, false);
 
 		mDetailsC = Ui.findView(view, R.id.details_container);
@@ -185,20 +194,25 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		else {
 			mParentLegStateListener.registerWithProvider(this, false);
 		}
+
+		IAcceptingListenersListener readyForListeners = Ui
+			.findFragmentListener(this, IAcceptingListenersListener.class, false);
+		if (readyForListeners != null) {
+			readyForListeners.acceptingListenersUpdated(this, true);
+		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
+		IAcceptingListenersListener readyForListeners = Ui
+			.findFragmentListener(this, IAcceptingListenersListener.class, false);
+		if (readyForListeners != null) {
+			readyForListeners.acceptingListenersUpdated(this, false);
+		}
+
 		mMeasurementHelper.unregisterWithProvider(this);
 		mBackManager.unregisterWithParent(this);
-
-		if (mNextLegFrag != null) {
-			mNextLegFrag.unRegisterStateListener(mNextLegStateListener);
-		}
-		if (mListFrag != null) {
-			mListFrag.unRegisterStateListener(mListStateListener);
-		}
 		mParentLegStateListener.unregisterWithProvider(this);
 		mResultsFlightsStateListener.unregisterWithProvider(this);
 
@@ -572,7 +586,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			updateVisibilitiesForState(state);
 			updateFragmentsForState(state);
 			updateListForState(state);
-			updateListenersForState(state);
 
 			//List and filters state
 			if (state == ResultsFlightLegState.LIST_DOWN) {
@@ -685,7 +698,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	protected void showDetailsAnimCleanUp() {
 		if (mDetailsFrag != null) {
-			int slideInDistance = mGrid.getColSpanWidth(1, 4);
 			mDetailsFrag.finalizeSlideInPercentage();
 			mDetailsFrag.setSlideInAnimationLayer(View.LAYER_TYPE_NONE);
 		}
@@ -1009,33 +1021,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		transaction.commit();
 	}
 
-	protected void updateListenersForState(ResultsFlightLegState state) {
-		if (isFirstLeg()) {
-			//If we are the first leg, we need to listen to the controller
-			mResultsFlightsStateListener.registerWithProvider(this, false);
-
-			//We only care about the list for the first leg (because we only drag the first list between overview and flights)
-			if (mListFrag != null && state == ResultsFlightLegState.LIST_DOWN
-				|| state == ResultsFlightLegState.FILTERS) {
-				mListFrag.registerStateListener(mListStateListener, false);
-			}
-			else if (mListFrag != null) {
-				mListFrag.unRegisterStateListener(mListStateListener);
-			}
-		}
-		else {
-			//If we are a later leg, listen to our parent
-			mParentLegStateListener.registerWithProvider(this, false);
-		}
-
-		if (mNextLegFrag != null && state == ResultsFlightLegState.LATER_LEG) {
-			mNextLegFrag.registerStateListener(mNextLegStateListener, false);
-		}
-		else if (mNextLegFrag != null) {
-			mNextLegFrag.unRegisterStateListener(mNextLegStateListener);
-		}
-	}
-
 	/**
 	 * IFragmentAvailabilityProvider
 	 */
@@ -1246,5 +1231,26 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	@Override
 	public void onStickyHeaderClicked() {
 		//THIS IS WHERE GOTO HISTOGRAM USED TO BE...
+	}
+
+	@Override
+	public void acceptingListenersUpdated(Fragment frag, boolean acceptingListener) {
+		if (acceptingListener) {
+
+			if (frag == mNextLegFrag) {
+				mNextLegFrag.registerStateListener(mNextLegStateListener, false);
+			}
+			else if (frag == mListFrag && mLegNumber == 0) {
+				mListFrag.registerStateListener(mListStateListener, false);
+			}
+		}
+		else {
+			if (frag == mNextLegFrag) {
+				mNextLegFrag.unRegisterStateListener(mNextLegStateListener);
+			}
+			else if (frag == mListFrag && mLegNumber == 0) {
+				mListFrag.unRegisterStateListener(mListStateListener);
+			}
+		}
 	}
 }

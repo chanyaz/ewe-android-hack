@@ -23,6 +23,7 @@ import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.ResultsFlightLegState;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsState;
+import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -46,7 +47,8 @@ import com.squareup.otto.Subscribe;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsFlightControllerFragment extends Fragment implements
 	IFragmentAvailabilityProvider, IBackManageable,
-	IStateProvider<ResultsFlightsState>, ExpediaServicesFragment.ExpediaServicesFragmentListener {
+	IStateProvider<ResultsFlightsState>, ExpediaServicesFragment.ExpediaServicesFragmentListener,
+	IAcceptingListenersListener {
 
 	//State
 	private static final String STATE_FLIGHTS_STATE = "STATE_FLIGHTS_STATE";
@@ -116,6 +118,17 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			FragmentManager manager = getChildFragmentManager();
+			mFlightMapFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_FLIGHT_MAP);
+			mAddToTripFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_FLIGHT_ADD_TO_TRIP);
+			mFlightSearchDownloadFrag = FragmentAvailabilityUtils
+				.getFrag(manager, FTAG_FLIGHT_SEARCH_DOWNLOAD);
+			mLoadingGuiFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_FLIGHT_LOADING_INDICATOR);
+			mFlightLegsFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_FLIGHT_LEGS_CHOOSER);
+			mSearchErrorFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_FLIGHT_SEARCH_ERROR);
+		}
+
 		View view = inflater.inflate(R.layout.fragment_tablet_results_flights, null, false);
 
 		mRootC = Ui.findView(view, R.id.root_layout);
@@ -148,19 +161,29 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
-		mResultsStateHelper.registerWithProvider(this, false);
+		mResultsStateHelper.registerWithProvider(this, true);
 		mMeasurementHelper.registerWithProvider(this);
 		mBackManager.registerWithParent(this);
 		Sp.getBus().register(this);
+		IAcceptingListenersListener readyForListeners = Ui
+			.findFragmentListener(this, IAcceptingListenersListener.class, false);
+		if (readyForListeners != null) {
+			readyForListeners.acceptingListenersUpdated(this, true);
+		}
 	}
 
 	@Override
 	public void onPause() {
+		super.onPause();
+		IAcceptingListenersListener readyForListeners = Ui
+			.findFragmentListener(this, IAcceptingListenersListener.class, false);
+		if (readyForListeners != null) {
+			readyForListeners.acceptingListenersUpdated(this, false);
+		}
 		Sp.getBus().unregister(this);
 		mBackManager.unregisterWithParent(this);
 		mMeasurementHelper.unregisterWithProvider(this);
 		mResultsStateHelper.unregisterWithProvider(this);
-		super.onPause();
 	}
 
 	private Rect getAddTripRect() {
@@ -206,6 +229,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			mRootC.postDelayed(mSearchParamUpdateRunner, PARAM_UPDATE_COOLDOWN_MS);
 		}
 	}
+
 
 	private class SearchParamUpdateRunner implements Runnable {
 		@Override
@@ -606,6 +630,15 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		mFlightsStateListeners.unRegisterStateListener(listener);
 	}
 
+	public void setListenerActive(IStateListener<ResultsFlightsState> listener, boolean active) {
+		if (active) {
+			mFlightsStateListeners.setListenerActive(listener);
+		}
+		else {
+			mFlightsStateListeners.setListenerInactive(listener);
+		}
+	}
+
 	/*
 	 * FLIGHTS STATE LISTENER
 	 */
@@ -671,12 +704,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				}
 			}
 
-			if (mFlightLegsFrag != null && (state == ResultsFlightsState.LOADING
-				|| state == ResultsFlightsState.SEARCH_ERROR)) {
-				mFlightLegsFrag.unRegisterStateListener(mLegStateListener);
-			}
-			else if (mFlightLegsFrag != null) {
-				mFlightLegsFrag.registerStateListener(mLegStateListener, false);
+			if (mFlightLegsFrag != null && state != ResultsFlightsState.LOADING
+				&& state != ResultsFlightsState.SEARCH_ERROR) {
 				mFlightLegsFrag.setAddToTripRect(getAddTripRect());
 			}
 
@@ -777,5 +806,21 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		}
 	};
 
+	/*
+	IAcceptingListenersListener
+	 */
 
+	@Override
+	public void acceptingListenersUpdated(Fragment frag, boolean acceptingListener) {
+		if (acceptingListener) {
+			if (frag == mFlightLegsFrag) {
+				mFlightLegsFrag.registerStateListener(mLegStateListener, false);
+			}
+		}
+		else {
+			if (frag == mFlightLegsFrag) {
+				mFlightLegsFrag.unRegisterStateListener(mLegStateListener);
+			}
+		}
+	}
 }

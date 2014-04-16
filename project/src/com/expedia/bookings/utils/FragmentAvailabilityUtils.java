@@ -16,6 +16,10 @@ public class FragmentAvailabilityUtils {
 		public void doFragmentSetup(String tag, Fragment frag);
 	}
 
+	public static <T extends Fragment> T getFrag(FragmentManager manager, String tag){
+		return (T) manager.findFragmentByTag(tag);
+	}
+
 	public static <T extends Fragment> T setFragmentAvailability(boolean available, String tag, FragmentManager manager,
 			FragmentTransaction transaction, IFragmentAvailabilityProvider provider, int container, boolean alwaysRunSetup) {
 		T frag = (T) provider.getExisitingLocalInstanceFromTag(tag);

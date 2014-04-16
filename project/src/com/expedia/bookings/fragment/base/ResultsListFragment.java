@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.enums.ResultsListState;
+import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -115,12 +116,21 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	public void onResume() {
 		super.onResume();
 		mListView.registerStateListener(mListStateHelper, false);
+		IAcceptingListenersListener readyForListeners = Ui.findFragmentListener(this, IAcceptingListenersListener.class, false);
+		if(readyForListeners != null){
+			readyForListeners.acceptingListenersUpdated(this, true);
+		}
 	}
 
 	@Override
 	public void onPause() {
-		mListView.unRegisterStateListener(mListStateHelper);
 		super.onPause();
+		IAcceptingListenersListener readyForListeners = Ui.findFragmentListener(this, IAcceptingListenersListener.class, false);
+		if(readyForListeners != null){
+			readyForListeners.acceptingListenersUpdated(this, false);
+		}
+		mListView.unRegisterStateListener(mListStateHelper);
+
 	}
 
 	@Override

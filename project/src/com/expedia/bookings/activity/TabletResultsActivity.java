@@ -27,6 +27,7 @@ import com.expedia.bookings.fragment.ResultsTripBucketFragment;
 import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsSearchControllerFragment;
+import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IMeasurementListener;
@@ -65,7 +66,7 @@ import com.squareup.otto.Subscribe;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsActivity extends SherlockFragmentActivity implements IBackButtonLockListener,
 	IFragmentAvailabilityProvider, IStateProvider<ResultsState>, IMeasurementProvider,
-	IBackManageable {
+	IBackManageable, IAcceptingListenersListener {
 
 	//State
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
@@ -113,6 +114,10 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CURRENT_STATE)) {
 			String stateName = savedInstanceState.getString(STATE_CURRENT_STATE);
 			mStateManager.setDefaultState(ResultsState.valueOf(stateName));
+
+			//If the flights fragment was attached before, we want the local reference to be accurate
+			FragmentManager manager = getSupportFragmentManager();
+			mFlightsController = FragmentAvailabilityUtils.getFrag(manager, FTAG_FLIGHTS_CONTROLLER);
 		}
 
 		//Add default fragments
@@ -164,7 +169,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			public boolean onPreDraw() {
 				if (mRootC.getWidth() > 0 && mRootC.getHeight() > 0) {
 					updateContentSize(mRootC.getWidth(), mRootC.getHeight());
-					mStateManager.setState(mStateManager.getState(), false);
+					setState(mStateManager.getState(), false);
 					mRootC.getViewTreeObserver().removeOnPreDrawListener(this);
 				}
 
@@ -310,8 +315,6 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		}
 		else if (mFlightsController != null && getState() != ResultsState.FLIGHTS && !Sp.getParams()
 			.hasEnoughInfoForFlightsSearch()) {
-			//Remove the listener, as we are detaching now...
-			mFlightsController.unRegisterStateListener(mFlightsStateHelper);
 
 			//We dont have enough info for a flight search, so we detach our flights controller
 			FragmentManager manager = getSupportFragmentManager();
@@ -481,27 +484,23 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	}
 
 	private void setListenerState(ResultsState state) {
-		//The hotels controller is always available, so lets register some listeners
-		if (state == ResultsState.HOTELS) {
-			mHotelsController.registerStateListener(mHotelsStateHelper, false);
-		}
-		else if (state == ResultsState.FLIGHTS) {
-			mHotelsController.unRegisterStateListener(mHotelsStateHelper);
-		}
-		else {
-			mHotelsController.registerStateListener(mHotelsStateHelper, false);
-		}
-
-		//If we have a flights controller, lets register its listeners too
-		if (mFlightsController != null) {
-			if (state == ResultsState.HOTELS) {
-				mFlightsController.unRegisterStateListener(mFlightsStateHelper);
-			}
-			else if (state == ResultsState.FLIGHTS) {
-				mFlightsController.registerStateListener(mFlightsStateHelper, false);
+		//If we are in flights mode, we don't care what the hotels controller says
+		if (mHotelsController != null) {
+			if (state == ResultsState.FLIGHTS) {
+				mHotelsController.setListenerActive(mHotelsStateHelper, false);
 			}
 			else {
-				mFlightsController.registerStateListener(mFlightsStateHelper, false);
+				mHotelsController.setListenerActive(mHotelsStateHelper, true);
+			}
+		}
+
+		//If we are in hotels mode, we don't care what the flights controller says
+		if (mFlightsController != null) {
+			if (state == ResultsState.HOTELS) {
+				mFlightsController.setListenerActive(mFlightsStateHelper, false);
+			}
+			else {
+				mFlightsController.setListenerActive(mFlightsStateHelper, true);
 			}
 		}
 	}
@@ -509,6 +508,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	@Override
 	public void registerStateListener(IStateListener<ResultsState> listener, boolean fireFinalizeState) {
 		mResultsStateListeners.registerStateListener(listener, fireFinalizeState);
+
 	}
 
 	@Override
@@ -697,4 +697,28 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			}
 		}
 	};
+
+	/*
+	IAcceptingListenersListener
+	 */
+
+	@Override
+	public void acceptingListenersUpdated(Fragment frag, boolean acceptingListener) {
+		if (acceptingListener) {
+			if (frag == mFlightsController) {
+				mFlightsController.registerStateListener(mFlightsStateHelper, false);
+			}
+			else if (frag == mHotelsController) {
+				mHotelsController.registerStateListener(mHotelsStateHelper, false);
+			}
+		}
+		else {
+			if (frag == mFlightsController) {
+				mFlightsController.unRegisterStateListener(mFlightsStateHelper);
+			}
+			else if (frag == mHotelsController) {
+				mHotelsController.unRegisterStateListener(mHotelsStateHelper);
+			}
+		}
+	}
 }
