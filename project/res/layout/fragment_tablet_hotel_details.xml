@@ -186,10 +186,10 @@
                             android:layout_marginLeft="12dp"
                             android:layout_marginTop="12dp"
                             android:background="@drawable/bg_vip_badge"
-                            android:paddingBottom="1dp"
-                            android:paddingLeft="5dp"
-                            android:paddingRight="5dp"
-                            android:paddingTop="1dp"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="12dp"
+                            android:paddingRight="12dp"
+                            android:paddingTop="5dp"
                             android:text="@string/VIP"
                             android:textColor="@android:color/white"
                             android:visibility="gone"/>
@@ -205,12 +205,14 @@
                             android:layout_marginRight="12dp"
                             android:layout_marginTop="12dp"
                             android:background="@drawable/bg_sale_text_view"
-                            android:paddingBottom="1dp"
-                            android:paddingLeft="5dp"
-                            android:paddingRight="5dp"
-                            android:paddingTop="1dp"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="12dp"
+                            android:paddingRight="12dp"
+                            android:paddingTop="5dp"
+                            android:includeFontPadding="false"
                             android:singleLine="true"
                             android:textColor="@android:color/white"
+                            android:textStyle="bold"
                             android:visibility="gone"/>
 
                         <FrameLayout
