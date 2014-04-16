@@ -26,7 +26,6 @@ public class HotelSearchDownloadFragment extends Fragment {
 	}
 
 	private HotelSearchParams mSearchParams;
-	private ExpediaServices mServices;
 	private ExpediaServicesFragment.ExpediaServicesFragmentListener mListener;
 
 	private boolean mStartOrResumeOnAttach = false;
@@ -34,8 +33,6 @@ public class HotelSearchDownloadFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		mServices = new ExpediaServices(getActivity());
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_PARAMS)) {
 			try {
@@ -155,15 +152,8 @@ public class HotelSearchDownloadFragment extends Fragment {
 	private final BackgroundDownloader.Download<HotelSearchResponse> mSearchDownload = new BackgroundDownloader.Download<HotelSearchResponse>() {
 		@Override
 		public HotelSearchResponse doDownload() {
-			//TODO: Remove try catch, write good search param validation so we don't kick off if we don't have data.
-			try {
-				return mServices.search(mSearchParams, ExpediaServices.F_HOTELS);
-			}
-			catch (Exception ex) {
-				Log.e("Hotel Search download exception.", ex);
-			}
-			return null;
-
+			ExpediaServices services = new ExpediaServices(getActivity());
+			return services.search(mSearchParams, ExpediaServices.F_HOTELS);
 		}
 	};
 

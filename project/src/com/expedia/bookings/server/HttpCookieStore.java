@@ -180,7 +180,9 @@ public class HttpCookieStore implements CookieStore {
 	}
 
 	private boolean isExpired(HttpCookie cookie) {
-		return cookie.getMaxAge() != -1 && mCreatedTimes.get(cookie) + cookie.getMaxAge() <= currentTimeSeconds();
+		return cookie.getMaxAge() != -1
+			&& mCreatedTimes.containsKey(cookie)
+			&& mCreatedTimes.get(cookie) + cookie.getMaxAge() <= currentTimeSeconds();
 	}
 
 	private long currentTimeSeconds() {
