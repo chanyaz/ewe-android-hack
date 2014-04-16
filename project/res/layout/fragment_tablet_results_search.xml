@@ -90,9 +90,7 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_weight="0"
-                android:animateLayoutChanges="true"
                 android:layout_gravity="center_vertical|right">
-
 
                 <TextView
                     android:id="@+id/origin_btn"

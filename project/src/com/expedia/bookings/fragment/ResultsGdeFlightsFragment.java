@@ -53,7 +53,6 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	private TextView mGdeHeaderTv;
 	private ImageView mGdeBack;
 	private ProgressBar mGdeProgressBar;
-	private View mOneWaySearchBtn;
 
 	private ResultsFlightHistogramFragment mHistogramFrag;
 	private GdeDownloadFragment mGdeDownloadFrag;
@@ -109,21 +108,11 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		mGdeHeaderTv = Ui.findView(mRootC, R.id.flight_histogram_header);
 		mGdeBack = Ui.findView(mRootC, R.id.flight_histogram_back);
 		mGdeProgressBar = Ui.findView(mRootC, R.id.flight_histogram_progress_bar);
-		mOneWaySearchBtn = Ui.findView(mRootC, R.id.one_way_search_btn);
 
 		mGdeBack.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				setGdeInfo(mOrigin, mDestination, null);
-			}
-		});
-
-		mOneWaySearchBtn.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (mListener != null) {
-					mListener.onGdeOneWayTrip(mDepartureDate);
-				}
 			}
 		});
 
@@ -200,12 +189,10 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		if (mRootC != null) {
 			if (departureDate != null) {
 				mGdeBack.setVisibility(View.VISIBLE);
-				mOneWaySearchBtn.setVisibility(View.VISIBLE);
 				mGdeHeaderTv.setText(R.string.when_to_return);
 			}
 			else {
 				mGdeBack.setVisibility(View.GONE);
-				mOneWaySearchBtn.setVisibility(View.GONE);
 				mGdeHeaderTv.setText(R.string.when_to_fly);
 			}
 		}
