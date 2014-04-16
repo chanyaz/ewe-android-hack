@@ -487,6 +487,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		else if (showUrgencyMessaging(rate)) {
 			String urgencyString = getResources().getQuantityString(R.plurals.n_rooms_left_TEMPLATE, rate.getNumRoomsLeft(), rate.getNumRoomsLeft());
 			mUrgencyMessagingView.setText(urgencyString);
+			mUrgencyMessagingView.setVisibility(View.VISIBLE);
 		}
 		else {
 			mUrgencyMessagingView.setVisibility(View.GONE);
