@@ -1104,6 +1104,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			mAdultsNumberPicker.setValue(dbNumAdults);
 		}
 		GuestsPickerUtils.updateDefaultChildTravelers(getActivity(), mSearchParams.getChildren());
+		GuestsPickerUtils.setChildSpinnerPositions(mChildAgesLayout, mSearchParams.getChildren());
 		updateNumTravelersText();
 	}
 

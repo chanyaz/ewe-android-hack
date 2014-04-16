@@ -162,6 +162,14 @@ public class GuestsPickerUtils {
 		SettingUtils.commitOrApply(editor);
 	}
 
+	public static void setChildSpinnerPositions(View container, List<ChildTraveler> children) {
+		for (int i = 0; i < children.size(); i++) {
+			int age = children.get(i).getAge();
+			Spinner row = (Spinner) getChildAgeLayout(container, i);
+			row.setSelection(getChildSpinnerSelection(children.get(i)) - MIN_CHILD_AGE);
+		}
+	}
+
 	public static void setChildrenFromSpinners(Context context, View container, List<ChildTraveler> children) {
 		for (int i = 0; i < children.size(); i++) {
 			View row = getChildAgeLayout(container, i);
