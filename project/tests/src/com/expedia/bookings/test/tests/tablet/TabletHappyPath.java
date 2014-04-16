@@ -9,6 +9,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.SearchActivity;
+import com.expedia.bookings.test.tests.pageModels.tablet.Common;
 import com.expedia.bookings.test.tests.pageModels.tablet.Checkout;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
@@ -63,6 +64,7 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 
 		Checkout.clickOnEnterPaymentInformation();
 		Checkout.enterCreditCardNumber("4111111111111111");
+		Common.closeSoftKeyboard(Checkout.creditCardNumber());
 		Checkout.setExpirationDate(2020, 12);
 		Checkout.enterNameOnCard("Mobiata Auto");
 		Checkout.enterPostalCode("95104");
