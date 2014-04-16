@@ -106,12 +106,16 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				getBaseState().name())));
 		}
 
-		if (Db.getFlightSearch() == null || Db.getFlightSearch().getSearchResponse() == null) {
-			if (!Db.loadCachedFlightData(getActivity())) {
-				mFlightsStateManager.setDefaultState(ResultsFlightsState.LOADING);
-			}
-			else {
-				Db.loadFlightSearchParamsFromDisk(getActivity());
+		//If we are in a state such that we think we should have data, lets try to load it.
+		ResultsFlightsState state = mFlightsStateManager.getState();
+		if (state != ResultsFlightsState.LOADING && state != ResultsFlightsState.SEARCH_ERROR) {
+			if (Db.getFlightSearch() == null || Db.getFlightSearch().getSearchResponse() == null) {
+				if (!Db.loadCachedFlightData(getActivity())) {
+					mFlightsStateManager.setDefaultState(ResultsFlightsState.LOADING);
+				}
+				else {
+					Db.loadFlightSearchParamsFromDisk(getActivity());
+				}
 			}
 		}
 	}

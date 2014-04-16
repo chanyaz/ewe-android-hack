@@ -119,10 +119,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mHotelsStateManager.setDefaultState(ResultsHotelsState.valueOf(savedInstanceState.getString(
 				STATE_HOTELS_STATE, getBaseState().name())));
 		}
-
-		if ((Db.getHotelSearch() == null || Db.getHotelSearch().getSearchResponse() == null) && !Db
-			.loadHotelSearchFromDisk(getActivity())) {
-			mHotelsStateManager.setDefaultState(ResultsHotelsState.LOADING);
+		ResultsHotelsState state = mHotelsStateManager.getState();
+		if (state != ResultsHotelsState.LOADING && state != ResultsHotelsState.SEARCH_ERROR) {
+			if ((Db.getHotelSearch() == null || Db.getHotelSearch().getSearchResponse() == null) && !Db
+				.loadHotelSearchFromDisk(getActivity())) {
+				mHotelsStateManager.setDefaultState(ResultsHotelsState.LOADING);
+			}
 		}
 	}
 
