@@ -49,6 +49,7 @@ import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.RingedCountView;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.BackgroundDownloader;
@@ -86,7 +87,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements IBackManag
 
 	private static final int NUM_SCROLLVIEW_HEADERS = 2; // Stats container + grey divider
 
-	private ViewGroup mRootC;
+	private FrameLayoutTouchController mRootC;
 	private ViewGroup mDetailsC;
 	private FlightLegSummarySectionTablet mAnimationFlightRow;
 
@@ -160,7 +161,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements IBackManag
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_flight_details, null);
+		mRootC = (FrameLayoutTouchController) inflater.inflate(R.layout.fragment_tablet_flight_details, null);
 		mAnimationFlightRow = Ui.findView(mRootC, R.id.details_animation_row);
 		mAnimationFlightRow.setPivotX(0);
 		mAnimationFlightRow.setPivotY(0);
@@ -523,6 +524,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements IBackManag
 			public void onAnimationStart(Animator animation) {
 				mFlightCardC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 				mBaggageFeesCardC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+				mRootC.setBlockNewEventsEnabled(true);
 
 				doPreAnimPrep(!forward);
 			}
@@ -533,8 +535,14 @@ public class ResultsFlightDetailsFragment extends Fragment implements IBackManag
 
 				mFlightCardC.setLayerType(View.LAYER_TYPE_NONE, null);
 				mBaggageFeesCardC.setLayerType(View.LAYER_TYPE_NONE, null);
+				mRootC.setBlockNewEventsEnabled(false);
 
 				mIsShowingBaggageFees = forward;
+			}
+
+			@Override
+			public void onAnimationCancel(Animator animation) {
+				mRootC.setBlockNewEventsEnabled(false);
 			}
 		});
 
