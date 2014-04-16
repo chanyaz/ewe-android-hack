@@ -28,9 +28,9 @@ import android.widget.FrameLayout;
 import com.expedia.bookings.R;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.Ui;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewFragment extends DialogFragment {
@@ -125,13 +125,7 @@ public class WebViewFragment extends DialogFragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
-		if (!(activity instanceof WebViewFragmentListener)) {
-			Log.d("WebView did not attach to an implementation of WebViewFragmentListener");
-		}
-		else {
-			mListener = (WebViewFragmentListener) activity;
-		}
+		mListener = Ui.findFragmentListener(this, WebViewFragmentListener.class, false);
 	}
 
 

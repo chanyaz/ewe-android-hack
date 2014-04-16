@@ -24,17 +24,34 @@
             android:layout_above="@+id/fees_container"
             android:orientation="vertical">
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/baggage_fee_header"
-                style="@style/V2.Widget.TextView.FlightDetailsHeader"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_flight_details_tablet_grey_top"
-                android:drawableLeft="@drawable/abs__ic_ab_back_holo_light"
-                android:paddingBottom="16dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="@dimen/tablet_flight_details_horizontal_padding"
-                android:paddingTop="16dp" />
+                android:orientation="horizontal"
+                android:background="@drawable/bg_flight_details_tablet_grey_top">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/baggage_fee_header"
+                    style="@style/V2.Widget.TextView.FlightDetailsHeader"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="16dp"
+                    android:drawableLeft="@drawable/abs__ic_ab_back_holo_light" />
+
+                <ProgressBar
+                    android:id="@+id/baggage_fee_progress_bar"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:indeterminate="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="8dp"/>
+
+
+            </LinearLayout>
 
             <ScrollView
                 android:layout_width="match_parent"

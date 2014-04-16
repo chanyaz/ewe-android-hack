@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout.LayoutParams;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
@@ -58,7 +59,7 @@ import com.mobiata.flightlib.utils.DateTimeUtils;
  * ResultsFlightDetailsFragment: The flight details fragment designed for tablet results 2013
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class ResultsFlightDetailsFragment extends Fragment {
+public class ResultsFlightDetailsFragment extends Fragment implements WebViewFragment.WebViewFragmentListener {
 
 	private static final String FRAG_TAG_WEB_VIEW = "FRAG_TAG_WEB_VIEW";
 
@@ -106,6 +107,8 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 	private TextView mBaggageFeesHeader;
 	private ViewGroup mBaggageFeesWebViewC;
+
+	private ProgressBar mBaggageProgressBar;
 
 	private ViewGroup mBaggageFeesLinkC;
 	private TextView mBaggageFeesLinkPrimaryTv;
@@ -179,6 +182,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		mBaggageFeesCardC = Ui.findView(mRootC, R.id.baggage_fee_card_container);
 
 		mBaggageFeesHeader = Ui.findView(mRootC, R.id.baggage_fee_header);
+		mBaggageProgressBar = Ui.findView(mRootC, R.id.baggage_fee_progress_bar);
 		mBaggageFeesHeader.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -831,4 +835,10 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		}
 	}
 
+	@Override
+	public void setLoading(boolean isLoading) {
+		if (mBaggageProgressBar != null) {
+			mBaggageProgressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+		}
+	}
 }
