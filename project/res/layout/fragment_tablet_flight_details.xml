@@ -38,14 +38,14 @@
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@drawable/bg_flight_details_tablet_white_bottom"
                 android:paddingBottom="2dp">
 
                 <FrameLayout
                     android:id="@+id/baggage_fee_web_view_container"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="wrap_content" />
 
             </ScrollView>
 

@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout.LayoutParams;
+import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -124,6 +125,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	int mDetailsPositionTop = -1;
 	int mDetailsWidth = -1;
 	int mDetailsHeight = -1;
+	int mDetailsVerticalMarginHeight = -1;
 	int mRowPositionLeft = -1;
 	int mRowPositionTop = -1;
 	int mRowWidth = -1;
@@ -582,6 +584,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		int width = position.right - position.left;
 		int height = position.bottom - position.top;
 
+		mDetailsVerticalMarginHeight = (int) (height * additionalMarginPercentage);
 		mDetailsPositionLeft = (int) (position.left + (additionalMarginPercentage * width));
 		mDetailsPositionTop = (int) (position.top + (additionalMarginPercentage * height));
 		mDetailsWidth = (int) (width - (2 * width * additionalMarginPercentage));
@@ -608,6 +611,14 @@ public class ResultsFlightDetailsFragment extends Fragment {
 			params.leftMargin = mDetailsPositionLeft;
 			params.topMargin = mDetailsPositionTop;
 			mDetailsC.setLayoutParams(params);
+		}
+		if (mBaggageFeesLinkC != null && mDetailsVerticalMarginHeight >= 0) {
+			RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mBaggageFeesLinkC.getLayoutParams();
+			if (params == null) {
+				params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mDetailsVerticalMarginHeight);
+			}
+			params.height = mDetailsVerticalMarginHeight;
+			mBaggageFeesLinkC.setLayoutParams(params);
 		}
 	}
 
