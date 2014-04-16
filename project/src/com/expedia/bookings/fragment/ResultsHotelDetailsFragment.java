@@ -23,6 +23,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -62,7 +63,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	private ViewGroup mRootC;
-	private ViewGroup mHotelHeaderContainer;
 	private Button mAddToTripButton;
 
 	private IAddToBucketListener mAddToBucketListener;
@@ -82,20 +82,22 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotel_details, null);
-		mHotelHeaderContainer = Ui.findView(mRootC, R.id.hotel_header_image_container);
 		mAddToTripButton = Ui.findView(mRootC, R.id.button_add_to_trip);
 
-		mAddToTripButton.setPivotY(0f);
 		mAddToTripButton.setOnClickListener(mAddToTripButtonClickListener);
 
+		// TODO: figure out how to use resource system for all of this instead
 		mRootC.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			public void onGlobalLayout() {
 				int paddingx = (int) (mRootC.getWidth() * 0.14f);
 				mRootC.setPadding(paddingx, mRootC.getPaddingTop(), paddingx, mRootC.getPaddingBottom());
 
 				int headerHeight = (mRootC.getHeight() - mRootC.getPaddingTop() - mRootC.getPaddingBottom()) / 2;
-				ViewGroup.LayoutParams params = Ui.findView(mRootC, R.id.hotel_header_image_container).getLayoutParams();
+				ViewGroup.LayoutParams params = Ui.findView(mRootC, R.id.header_container).getLayoutParams();
 				params.height = headerHeight;
+
+				RelativeLayout.LayoutParams reviewsParams = (RelativeLayout.LayoutParams)(Ui.findView(mRootC, R.id.reviews_container).getLayoutParams());
+				reviewsParams.topMargin = headerHeight;
 			}
 		});
 		return mRootC;
@@ -214,36 +216,15 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		//		}
 	}
 
-	private Runnable mAdjustParallax = new Runnable() {
-		@Override
-		public void run() {
-			View view = getView();
-			if (view != null) {
-				int offsetTop = Ui.getScreenLocationY(Ui.findView(view, R.id.scrolling_content));
-				int offsetBottom = getResources().getDisplayMetrics().heightPixels - offsetTop;
-				ParallaxContainer parallaxContainer = Ui.findView(view, R.id.hotel_header_image_container);
-				parallaxContainer.setOffsetTop(offsetTop);
-				parallaxContainer.setOffsetBottom(offsetBottom);
-			}
-		}
-	};
-
 	private void setupHeader(View view, Property property) {
 		ImageView hotelImage = Ui.findView(view, R.id.hotel_header_image);
 		TextView hotelName = Ui.findView(view, R.id.hotel_header_hotel_name);
 		TextView notRatedText = Ui.findView(view, R.id.not_rated_text_view);
 		RatingBar starRating = Ui.findView(view, R.id.star_rating_bar);
 		RatingBar userRating = Ui.findView(view, R.id.user_rating_bar);
-		TextView starRatingText = Ui.findView(view, R.id.star_rating_text);
 		TextView userRatingText = Ui.findView(view, R.id.user_rating_text);
 		TextView vipText = Ui.findView(view, R.id.vip_badge);
 		TextView saleText = Ui.findView(view, R.id.sale_text_view);
-
-		// Parallax effect
-		// Sometimes (like on rotation), Ui.runOnNextLayout happens too early, so post it too.
-		// If this doesn't work on all devices, we might need to add a repeating globalLayoutListener.
-		Ui.runOnNextLayout(view, mAdjustParallax);
-		view.post(mAdjustParallax);
 
 		// Hotel Image
 		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.hotelImagePlaceHolderDrawable);
@@ -277,15 +258,12 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		float starRatingValue = (float) property.getHotelRating();
 		if (starRatingValue == 0f) {
 			starRating.setVisibility(View.GONE);
-			starRatingText.setVisibility(View.GONE);
 			notRatedText.setVisibility(View.VISIBLE);
 		}
 		else {
 			starRating.setVisibility(View.VISIBLE);
-			starRatingText.setVisibility(View.VISIBLE);
 			notRatedText.setVisibility(View.GONE);
 			starRating.setRating(starRatingValue);
-			starRatingText.setText(getString(R.string.n_stars_TEMPLATE, starRatingValue));
 		}
 
 		// User Rating

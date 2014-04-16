@@ -10,7 +10,6 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 
 /**
  * This is a specialized StickyRelativeLayout designed specifically for Tablet Hotel Details. Once
@@ -28,11 +27,15 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 	private Rect mVisible = new Rect();
 
 	private float mCompactHeaderHeight;
-	private ColorDrawable mBackground;
+	private ColorDrawable mDominantColorBackground;
 
-	private View mAddToTripButton;
-	private View mHotelNameRatingContainer;
-	private View mRatingContainer;
+	private View mHotelHeaderImage;
+	private View mSaleTextView;
+	private View mVipBadge;
+	private View mStarRatingContainer;
+	private View mGradientMask;
+	private View mDominantMask;
+	private View mHotelName;
 
 	public HotelDetailsStickyHeaderLayout(Context context) {
 		super(context);
@@ -52,17 +55,24 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 	private void init() {
 		Resources res = getResources();
 		mCompactHeaderHeight = res.getDimension(R.dimen.tablet_details_compact_header_height);
-		mBackground = new ColorDrawable(res.getColor(R.color.hotel_details_sticky_header_background));
-		setBackgroundDrawable(mBackground);
+
+		//TODO: this should use our new dominant color algorithm
+		// dominant color (allthethings)!
+		mDominantColorBackground = new ColorDrawable(res.getColor(R.color.hotel_details_sticky_header_background));
 	}
 
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
 
-		mAddToTripButton = Ui.findView(this, R.id.button_add_to_trip);
-		mHotelNameRatingContainer = Ui.findView(this, R.id.hotel_name_rating_container);
-		mRatingContainer = Ui.findView(this, R.id.rating_container);
+		mHotelHeaderImage = Ui.findView(this, R.id.hotel_header_image);
+		mSaleTextView = Ui.findView(this, R.id.sale_text_view);
+		mVipBadge = Ui.findView(this, R.id.vip_badge);
+		mStarRatingContainer = Ui.findView(this, R.id.star_rating_container);
+		mHotelName = Ui.findView(this, R.id.hotel_header_hotel_name);
+		mGradientMask = Ui.findView(this, R.id.gradient_header_mask);
+		mDominantMask = Ui.findView(this, R.id.dominant_color_header_mask);
+		mDominantMask.setBackgroundDrawable(mDominantColorBackground);
 	}
 
 	@Override
@@ -76,25 +86,36 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 		parent.getLocalVisibleRect(mVisible);
 
 		float offset = Math.max(0f, mVisible.top - getTop());
+		int height = getHeight();
 
-		float headerHeightDiff = getHeight() - mCompactHeaderHeight;
+		// The height difference between when this view is fully expanded,
+		// and when it is maximally compacted
+		float headerHeightDiff = height - mCompactHeaderHeight;
 
 		// extra: the additional amount, beyond the top of the parent, which
 		// this view should scroll. The crux of this whole object.
-		float extra = Math.min(headerHeightDiff, offset / 2);
-
-		float extraPct = extra / headerHeightDiff;
-
-		mBackground.setAlpha(229 + (int) (extraPct * 26f));
+		float extra = Math.min(offset, headerHeightDiff);
 
 		setTranslationY(offset - extra);
 
-		mAddToTripButton.setTranslationY(extra / 2);
+		float extraPct = extra / headerHeightDiff;
 
-		mHotelNameRatingContainer.setTranslationY(extra);
+		mDominantColorBackground.setAlpha((int) (extraPct * 229f));
 
-		mRatingContainer.setTranslationY(-extra / 2);
-		mRatingContainer.setAlpha(1f - extraPct);
+		mHotelHeaderImage.setTranslationY(extra / 2);
+
+		mGradientMask.setAlpha(1 - extraPct);
+
+		float nameOffset = height - mCompactHeaderHeight / 2 - mHotelName.getHeight() / 2 - mHotelName.getTop();
+		mHotelName.setTranslationY(extraPct * nameOffset);
+
+		mStarRatingContainer.setAlpha(1 - extraPct);
+
+		mSaleTextView.setTranslationY(extra);
+		mSaleTextView.setAlpha(1 - extraPct);
+
+		mVipBadge.setTranslationY(extra);
+		mVipBadge.setAlpha(1 - extraPct);
 	}
 
 }
