@@ -39,7 +39,9 @@ import com.expedia.bookings.data.FlightStatsRatingResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IResultsFlightLegSelected;
+import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.section.FlightLegSummarySectionTablet;
 import com.expedia.bookings.section.FlightSegmentSection;
 import com.expedia.bookings.server.ExpediaServices;
@@ -59,7 +61,7 @@ import com.mobiata.flightlib.utils.DateTimeUtils;
  * ResultsFlightDetailsFragment: The flight details fragment designed for tablet results 2013
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class ResultsFlightDetailsFragment extends Fragment implements WebViewFragment.WebViewFragmentListener {
+public class ResultsFlightDetailsFragment extends Fragment implements IBackManageable, WebViewFragment.WebViewFragmentListener {
 
 	private static final String FRAG_TAG_WEB_VIEW = "FRAG_TAG_WEB_VIEW";
 
@@ -209,6 +211,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements WebViewFra
 	@Override
 	public void onResume() {
 		super.onResume();
+		mBackManager.registerWithParent(this);
 		if (BackgroundDownloader.getInstance().isDownloading(BGD_KEY_RATINGS)) {
 			BackgroundDownloader.getInstance().registerDownloadCallback(BGD_KEY_RATINGS, mRatingsCallback);
 		}
@@ -221,6 +224,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements WebViewFra
 	@Override
 	public void onPause() {
 		super.onPause();
+		mBackManager.unregisterWithParent(this);
 		if (getActivity().isFinishing()) {
 			BackgroundDownloader.getInstance().cancelDownload(BGD_KEY_RATINGS);
 		}
@@ -551,6 +555,10 @@ public class ResultsFlightDetailsFragment extends Fragment implements WebViewFra
 		mOnTimeTextView.setText(getActivity().getString(R.string.flight_on_time_TEMPLATE, formatPercent));
 	}
 
+	/**
+	 * FLIGHTSTATS DOWNLOAD
+	 */
+
 	private BackgroundDownloader.Download<FlightStatsRatingResponse> mRatingsDownload = new BackgroundDownloader.Download<FlightStatsRatingResponse>() {
 		@Override
 		public FlightStatsRatingResponse doDownload() {
@@ -574,6 +582,26 @@ public class ResultsFlightDetailsFragment extends Fragment implements WebViewFra
 				Db.getFlightSearch().addFlightStatsRating(mFlight, results.getFlightStatsRating());
 				bindFlightPunctuality(results.getFlightStatsRating());
 			}
+		}
+	};
+
+	/**
+	 * BACKMANAGER
+	 */
+
+	@Override
+	public BackManager getBackManager() {
+		return mBackManager;
+	}
+
+	private BackManager mBackManager = new BackManager(this) {
+		@Override
+		public boolean handleBackPressed() {
+			if (mIsShowingBaggageFees) {
+				toggleDetailsCard(true, null, null, true);
+				return true;
+			}
+			return false;
 		}
 	};
 
