@@ -6,6 +6,7 @@ import android.os.Build;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -62,6 +63,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		public void onClick(View arg0) {
 			Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 			mListener.onCheckoutDataUpdated();
+			Ui.hideKeyboard(getActivity(), InputMethodManager.HIDE_NOT_ALWAYS);
 			getActivity().onBackPressed();
 		}
 	};

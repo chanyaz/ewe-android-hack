@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 
 import com.expedia.bookings.R;
@@ -155,6 +156,8 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 
 				mListener.onCheckoutDataUpdated();
 				clearForm();
+
+				Ui.hideKeyboard(getActivity(), InputMethodManager.HIDE_NOT_ALWAYS);
 				getActivity().onBackPressed();
 			}
 		}
