@@ -186,6 +186,12 @@
     <string name="arrival_airports">Arrival Airports</string>
 
     <!-- Tablet hotel details -->
+    <!-- Rooms and rates price/night, i.e. $100/night -->
+    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/night</string>
+    <!-- Rooms and rates button to add selected room to trip -->
+    <string name="room_rate_button_add_to_trip">Add To Trip</string>
+    <!-- Rooms and rates button to select a particular room and view details -->
+    <string name="room_rate_button_select_room">Select Room</string>
     <!-- Caption next to the star rating bar, like "3 stars" -->
     <string name="n_stars_TEMPLATE">%1$s stars</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->

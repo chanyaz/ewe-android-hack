@@ -274,17 +274,4 @@
         </com.expedia.bookings.widget.RoundedCornerFrameLayout>
     </FrameLayout>
 
-    <Button
-        android:id="@+id/button_add_to_trip"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_gravity="top|left"
-        android:background="@drawable/btn_add_for_x"
-        android:gravity="center"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:textAllCaps="true"
-        android:textSize="14sp"
-        android:textStyle="bold"/>
-
 </FrameLayout>

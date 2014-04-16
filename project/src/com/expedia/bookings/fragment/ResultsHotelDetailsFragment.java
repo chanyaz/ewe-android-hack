@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -27,6 +28,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.BedType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelAvailability;
 import com.expedia.bookings.data.HotelOffersResponse;
@@ -63,7 +65,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	private ViewGroup mRootC;
-	private Button mAddToTripButton;
 
 	private IAddToBucketListener mAddToBucketListener;
 	private IResultsHotelReviewsClickedListener mHotelReviewsClickedListener;
@@ -82,9 +83,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotel_details, null);
-		mAddToTripButton = Ui.findView(mRootC, R.id.button_add_to_trip);
-
-		mAddToTripButton.setOnClickListener(mAddToTripButtonClickListener);
 
 		// TODO: figure out how to use resource system for all of this instead
 		mRootC.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
@@ -102,26 +100,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		});
 		return mRootC;
 	}
-
-	private OnClickListener mAddToTripButtonClickListener = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
-			scrollView.smoothScrollTo(0, 0);
-
-			HotelSearch search = Db.getHotelSearch();
-			Property property = search.getSelectedProperty();
-			Rate rate = search.getSelectedRate();
-			if (rate == null) {
-				rate = property.getLowestRate();
-			}
-			Db.getTripBucket().clearHotel();
-			Db.getTripBucket().add(property, rate);
-			Db.saveTripBucket(getActivity());
-
-			mAddToBucketListener.onItemAddedToBucket();
-		}
-	};
 
 	private OnClickListener mReviewsButtonClickedListener = new OnClickListener() {
 		@Override
@@ -361,8 +339,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		List<Rate> rates = mResponse.getRates();
 
-		List<String> common = mResponse.getCommonValueAdds();
-
 		// TODO: I wonder if we should use RoomsAndRatesAdapter, or similar
 		boolean first = true;
 		LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -371,10 +347,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			row.setTag(rate);
 			row.setOnClickListener(mRateClickListener);
 			TextView description = Ui.findView(row, R.id.text_room_description);
-			TextView valueAdds = Ui.findView(row, R.id.text_value_adds);
-			TextView nonRefundable = Ui.findView(row, R.id.text_non_refundable);
-			ImageView checkmark = Ui.findView(row, R.id.image_checkmark);
-			TextView select = Ui.findView(row, R.id.new_room_rate);
+			TextView pricePerNight = Ui.findView(row, R.id.text_price_per_night);
+			TextView bedType = Ui.findView(row, R.id.text_bed_type);
 
 			// Separator
 			if (!first) {
@@ -385,26 +359,15 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			// Description
 			description.setText(rate.getRoomDescription());
 
-			// Value Adds
-			List<String> unique = new ArrayList<String>(rate.getValueAdds());
-			if (common != null) {
-				unique.removeAll(common);
-			}
-			if (unique.size() > 0) {
-				valueAdds.setText(Html.fromHtml(getActivity().getString(R.string.value_add_template,
-					FormatUtils.series(getActivity(), unique, ",", null).toLowerCase(Locale.getDefault()))));
-				valueAdds.setVisibility(View.VISIBLE);
-			}
-			else {
-				valueAdds.setVisibility(View.GONE);
+			Set<BedType> bedTypes = rate.getBedTypes();
+			if (bedTypes.iterator().hasNext()) {
+				bedType.setVisibility(View.VISIBLE);
+				bedType.setText(bedTypes.iterator().next().getBedTypeDescription());
 			}
 
-			// Non Refundable
-			nonRefundable.setVisibility(rate.isNonRefundable() ? View.VISIBLE : View.GONE);
+			String formattedRoomRate = rate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL);
+			pricePerNight.setText(Html.fromHtml(getString(R.string.room_rate_per_night_template, formattedRoomRate)));
 
-			// Selected / +$20
-			checkmark.setVisibility(View.INVISIBLE);
-			select.setVisibility(View.INVISIBLE);
 			container.addView(row);
 			first = false;
 		}
@@ -435,73 +398,108 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	 * @param selectedRate
 	 */
 	@TargetApi(14)
-	private void setSelectedRate(Rate selectedRate) {
+	private void setSelectedRate(final Rate selectedRate) {
 		Db.getHotelSearch().setSelectedRate(selectedRate);
-
-		Button addToTrip = Ui.findView(getView(), R.id.button_add_to_trip);
-		String displayPriceText = selectedRate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL);
-		String addTripStr = getString(R.string.add_for_TEMPLATE, displayPriceText);
-		addToTrip.setText(addTripStr);
 
 		LinearLayout container = Ui.findView(getView(), R.id.rooms_rates_container);
 		for (int i = 0; i < container.getChildCount(); i++) {
 			View row = container.getChildAt(i);
-			Rate rowRate = (Rate) row.getTag();
+			final Rate rowRate = (Rate) row.getTag();
+			LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) row.getLayoutParams();
 
 			// Skip if this is a separator row
 			if (rowRate == null) {
 				continue;
 			}
 
-			FrameLayout frame = Ui.findView(row, R.id.rate_container);
-			frame.setVisibility(View.INVISIBLE);
-			ImageView checkmark = Ui.findView(row, R.id.image_checkmark);
-			TextView select = Ui.findView(row, R.id.new_room_rate);
+			LinearLayout mRoomRateDetailContainer = Ui.findView(row, R.id.room_rate_detail_container);
+			Button mAddSelectRoomButton = Ui.findView(row, R.id.room_rate_button_add_select);
+			mAddSelectRoomButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (rowRate.equals(selectedRate)) {
+						addSelectedRoomToTrip();
+					}
+					else {
+						setSelectedRate(rowRate);
+					}
+				}
+			});
+
 			if (rowRate.equals(selectedRate)) {
-				checkmark.setVisibility(View.VISIBLE);
-				select.setVisibility(View.INVISIBLE);
+				// Let's set layout height to wrap content.
+				row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+				mRoomRateDetailContainer.setVisibility(View.VISIBLE);
+				// Change button color and text
+				mAddSelectRoomButton.setText(getString(R.string.room_rate_button_add_to_trip));
+				mAddSelectRoomButton.setBackgroundColor(getResources().getColor(R.color.hotel_room_rate_add_room_button));
+				// Now let's bind the new room rate details.
+				bindSelectedRoomDetails(row, selectedRate);
 			}
 			else {
-				checkmark.setVisibility(View.INVISIBLE);
-				select.setVisibility(View.VISIBLE);
-				select.setText(rowRate.getRelativeDisplayPriceString(selectedRate));
+				// Reset row height, hide the detail view container and change button text, color.
+				int minHeightDimenValue = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_list_height);
+				layoutParams.height = minHeightDimenValue;
+				row.setLayoutParams(layoutParams);
+				mRoomRateDetailContainer.setVisibility(View.INVISIBLE);
+				mAddSelectRoomButton.setText(getString(R.string.room_rate_button_select_room));
+				mAddSelectRoomButton.setBackgroundColor(getResources().getColor(R.color.hotel_room_rate_select_room_button));
 			}
 		}
 
-		// This will make all blue price squares the same width,
-		// and the one that's checked centered appropriately.
-		int largestWidth = 0;
-		int minWidth = getResources().getDimensionPixelSize(R.dimen.add_rate_button_min_width);
-		for (int i = 0; i < container.getChildCount(); i++) {
-			View row = container.getChildAt(i);
-			TextView rateText = Ui.findView(row, R.id.new_room_rate);
-			if (rateText == null) {
-				continue;
-			}
-			int width = Math.max(minWidth,
-				(int) rateText.getPaint().measureText(rateText.getText().toString())
-					+ rateText.getPaddingLeft() + rateText.getPaddingRight());
-			if (width > largestWidth) {
-				largestWidth = width;
-			}
-		}
-		for (int i = 0; i < container.getChildCount(); i++) {
-			View row = container.getChildAt(i);
-			View frame = row.findViewById(R.id.rate_container);
-			if (frame == null) {
-				continue;
-			}
-			ViewGroup.LayoutParams params = frame.getLayoutParams();
-			params.width = largestWidth;
-
-			TextView rateText = Ui.findView(row, R.id.new_room_rate);
-			if (rateText.getVisibility() != View.INVISIBLE) {
-				frame.setAlpha(0f);
-				frame.animate().alpha(1f).setDuration(500).start();
-			}
-			frame.setVisibility(View.VISIBLE);
-		}
 		container.requestLayout();
+	}
+
+	private void bindSelectedRoomDetails(View row, Rate rate) {
+		ImageView mRoomDetailImageView = Ui.findView(row, R.id.room_rate_image_view);
+		TextView mUrgencyMessagingView = Ui.findView(row, R.id.room_rate_urgency_text);
+		final TextView mRoomLongDescriptionTextView = Ui.findView(row, R.id.room_rate_description_text);
+		TextView mRefundableTextView = Ui.findView(row, R.id.room_rate_refundable_text);
+
+		mRoomLongDescriptionTextView.setText(rate.getRoomLongDescription());
+		// #817. Let user tap to expand or contract the room description text.
+		mRoomLongDescriptionTextView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (mRoomLongDescriptionTextView.getEllipsize() != null) {
+					mRoomLongDescriptionTextView.setEllipsize(null);
+					mRoomLongDescriptionTextView.setMaxLines(Integer.MAX_VALUE);
+				}
+				else {
+					mRoomLongDescriptionTextView.setEllipsize(TextUtils.TruncateAt.END);
+					mRoomLongDescriptionTextView.setMaxLines(5);
+				}
+			}
+		});
+
+		List<String> common = mResponse.getCommonValueAdds();
+
+		// Value Adds
+		List<String> unique = new ArrayList<String>(rate.getValueAdds());
+		if (common != null) {
+			unique.removeAll(common);
+		}
+		if (unique.size() > 0) {
+			mUrgencyMessagingView.setText(Html.fromHtml(getActivity().getString(R.string.value_add_template,
+				FormatUtils.series(getActivity(), unique, ",", null).toLowerCase(Locale.getDefault()))));
+			mUrgencyMessagingView.setVisibility(View.VISIBLE);
+		}
+		else {
+			mUrgencyMessagingView.setVisibility(View.GONE);
+		}
+
+		// Refundable text visibility check
+		mRefundableTextView.setVisibility(rate.isNonRefundable() ? View.VISIBLE : View.GONE);
+
+		// Rooms and Rates detail image media
+		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.hotelImagePlaceHolderDrawable);
+		if (rate.getThumbnail() != null) {
+			rate.getThumbnail().fillImageView(mRoomDetailImageView, placeholderResId);
+		}
+		else {
+			mRoomDetailImageView.setImageResource(placeholderResId);
+		}
 	}
 
 	private void setupDescriptionSections(View view, Property property) {
@@ -531,6 +529,23 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				container.addView(sectionContainer);
 			}
 		}
+	}
+
+	private void addSelectedRoomToTrip() {
+		ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
+		scrollView.smoothScrollTo(0, 0);
+
+		HotelSearch search = Db.getHotelSearch();
+		Property property = search.getSelectedProperty();
+		Rate rate = search.getSelectedRate();
+		if (rate == null) {
+			rate = property.getLowestRate();
+		}
+		Db.getTripBucket().clearHotel();
+		Db.getTripBucket().add(property, rate);
+		Db.saveTripBucket(getActivity());
+
+		mAddToBucketListener.onItemAddedToBucket();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////

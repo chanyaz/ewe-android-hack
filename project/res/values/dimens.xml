@@ -309,4 +309,7 @@
     <dimen name="credit_card_checkout_width">318dp</dimen>
     <dimen name="credit_card_checkout_height">219dp</dimen>
 
+    <!-- Hotel Details Rooms and rates row initial/unexpanded height -->
+    <dimen name="hotel_room_rate_list_height">57dp</dimen>
+
 </resources>
