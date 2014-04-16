@@ -348,7 +348,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 				}
 			}
 
-			if ((flags & Notification.FLAG_SHARE) != 0) {
+			if (((flags & Notification.FLAG_SHARE) != 0) && ExpediaBookingApp.IS_EXPEDIA) {
 				Intent intent = StandaloneShareActivity.createIntent(mContext, mNotification.getItinId());
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				PendingIntent sharePendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
