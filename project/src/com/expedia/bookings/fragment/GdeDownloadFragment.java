@@ -196,7 +196,12 @@ public class GdeDownloadFragment extends Fragment {
 		@Override
 		public FlightSearchHistogramResponse doDownload() {
 			if (mOrigin != null && mDestination != null) {
-				return mServices.flightSearchHistogram(mOrigin, mDestination, mDepartureDate);
+				if (mServices == null) {
+					mStartOrResumeOnAttach = true;
+				}
+				else {
+					return mServices.flightSearchHistogram(mOrigin, mDestination, mDepartureDate);
+				}
 			}
 			return null;
 		}
