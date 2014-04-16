@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- The margins of this layout are dynamically changed by TabletResultsActivity -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="64dp" >
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:id="@+id/root_layout"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:padding="64dp">
 
     <FrameLayout
         android:id="@+id/popup_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_tablet_hotel_details" >
+        android:background="@drawable/bg_tablet_hotel_details">
 
         <com.expedia.bookings.widget.RoundedCornerFrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:radius="2dp" >
+            app:radius="2dp">
 
             <com.expedia.bookings.widget.ScrollView
                 android:id="@+id/scrolling_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="top" >
+                android:gravity="top">
 
                 <RelativeLayout
                     android:id="@+id/hotel_details_content"
@@ -42,14 +42,14 @@
                         android:background="@color/tablet_white_pane_bg"
                         android:paddingLeft="@dimen/tablet_detail_padding"
                         android:paddingRight="8dp"
-                        android:paddingTop="4dp" >
+                        android:paddingTop="4dp">
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
                             android:layout_gravity="center_vertical"
-                            android:gravity="center" >
+                            android:gravity="center">
 
                             <com.expedia.bookings.widget.RingedCountView
                                 android:id="@+id/rooms_left_ring"
@@ -58,7 +58,7 @@
                                 app:percent="0"
                                 app:primaryColor="@color/details_ring_red"
                                 app:ringThickness="4dp"
-                                app:secondaryColor="@color/details_ring_gray" />
+                                app:secondaryColor="@color/details_ring_gray"/>
 
                             <com.expedia.bookings.widget.TextView
                                 android:id="@+id/rooms_left_ring_text"
@@ -67,21 +67,21 @@
                                 android:gravity="center_vertical"
                                 android:padding="8dp"
                                 android:textSize="16sp"
-                                app:textStyle="light" />
+                                app:textStyle="light"/>
                         </LinearLayout>
 
                         <View
                             android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
                             android:layout_height="32dp"
                             android:layout_gravity="center_vertical"
-                            android:background="#d1d1d1" />
+                            android:background="#d1d1d1"/>
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
                             android:layout_gravity="center_vertical"
-                            android:gravity="center" >
+                            android:gravity="center">
 
                             <RatingBar
                                 android:id="@+id/user_rating_bar"
@@ -116,7 +116,7 @@
                         android:layout_below="@id/reviews_container"
                         android:background="@color/tablet_white_pane_bg"
                         android:paddingLeft="@dimen/tablet_detail_padding"
-                        android:paddingRight="@dimen/tablet_detail_padding" >
+                        android:paddingRight="@dimen/tablet_detail_padding">
 
                         <include
                             layout="@layout/include_amenities"
@@ -250,7 +250,7 @@
                         <View
                             android:id="@+id/dominant_color_header_mask"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"/>
 
                         <!-- Hotel name -->
 
