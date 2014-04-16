@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.joda.time.format.ISODateTimeFormat;
 
 import android.annotation.TargetApi;
 import android.graphics.Rect;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -61,11 +59,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	private static final String INSTANCE_RESULTS_SEARCH_STATE = "INSTANCE_RESULTS_SEARCH_STATE";
 	private static final String INSTANCE_ANIM_FROM_ORIGIN = "INSTANCE_ANIM_FROM_ORIGIN";
-	private static final String INSTANCE_HAS_CHANGES = "INSTANCE_HAS_CHANGES";
-	private static final String INSTANCE_TEMP_DEP_DATE = "INSTANCE_TEMP_DEP_DATE";
-	private static final String INSTANCE_TEMP_RET_DATE = "INSTANCE_TEMP_RET_DATE";
-	private static final String INSTANCE_TEMP_ADULTS = "INSTANCE_TEMP_ADULTS";
-	private static final String INSTANCE_TEMP_CHILDREN = "INSTANCE_TEMP_CHILDREN";
+	private static final String INSTANCE_LOCAL_PARAMS = "INSTANCE_LOCAL_PARAMS";
 
 	private static final String FTAG_CALENDAR = "FTAG_CALENDAR";
 	private static final String FTAG_TRAV_PICKER = "FTAG_TRAV_PICKER";
@@ -109,10 +103,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private TextView mSearchNowBtn;
 
 	//Uncommited data
-	private LocalDate mTempDepDate;
-	private LocalDate mTempRetDate;
-	private int mTempNumAdults;
-	private List<ChildTraveler> mTempChildren;
+	private SearchParams mLocalParams;
 
 
 	//Frags
@@ -122,6 +113,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private CurrentLocationFragment mCurrentLocationFragment;
 	private ResultsGdeFlightsFragment mGdeFragment;
 
+	public TabletResultsSearchControllerFragment() {
+		importParams();
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -133,21 +127,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				INSTANCE_RESULTS_SEARCH_STATE,
 				ResultsSearchState.DEFAULT.name())));
 
-			if (savedInstanceState.getBoolean(INSTANCE_HAS_CHANGES, false)) {
-				if (savedInstanceState.containsKey(INSTANCE_TEMP_ADULTS)) {
-					mTempNumAdults = savedInstanceState.getInt(INSTANCE_TEMP_ADULTS);
-				}
-				if (savedInstanceState.containsKey(INSTANCE_TEMP_CHILDREN)) {
-					mTempChildren = savedInstanceState.getParcelableArrayList(INSTANCE_TEMP_CHILDREN);
-				}
-				if (savedInstanceState.containsKey(INSTANCE_TEMP_DEP_DATE)) {
-					mTempDepDate = ISODateTimeFormat.basicDate()
-						.parseLocalDate(savedInstanceState.getString(INSTANCE_TEMP_DEP_DATE));
-				}
-				if (savedInstanceState.containsKey(INSTANCE_TEMP_RET_DATE)) {
-					mTempRetDate = ISODateTimeFormat.basicDate()
-						.parseLocalDate(savedInstanceState.getString(INSTANCE_TEMP_RET_DATE));
-				}
+			if (savedInstanceState.containsKey(INSTANCE_LOCAL_PARAMS)) {
+				mLocalParams = savedInstanceState.getParcelable(INSTANCE_LOCAL_PARAMS);
 			}
 		}
 	}
@@ -225,17 +206,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		outState.putBoolean(INSTANCE_ANIM_FROM_ORIGIN, mWaypointAnimFromOrigin);
 		outState.putString(INSTANCE_RESULTS_SEARCH_STATE, mSearchStateManager.getState().name());
 		if (hasChanges()) {
-			outState.putBoolean(INSTANCE_HAS_CHANGES, true);
-			outState.putInt(INSTANCE_TEMP_ADULTS, mTempNumAdults);
-			if (mTempChildren != null) {
-				outState.putParcelableArrayList(INSTANCE_TEMP_CHILDREN, new ArrayList<Parcelable>(mTempChildren));
-			}
-			if (mTempDepDate != null) {
-				outState.putString(INSTANCE_TEMP_DEP_DATE, ISODateTimeFormat.basicDate().print(mTempDepDate));
-			}
-			if (mTempRetDate != null) {
-				outState.putString(INSTANCE_TEMP_RET_DATE, ISODateTimeFormat.basicDate().print(mTempRetDate));
-			}
+			outState.putParcelable(INSTANCE_LOCAL_PARAMS, mLocalParams);
 		}
 	}
 
@@ -248,16 +219,15 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		//TODO: Improve string formats
 
 		//Origin/Destination - Note that these come strait from Params
-		SearchParams params = Sp.getParams();
-		if (params.hasDestination()) {
-			mDestBtn.setText(Html.fromHtml(params.getDestination().getDisplayName()));
+		if (mLocalParams.hasDestination()) {
+			mDestBtn.setText(Html.fromHtml(mLocalParams.getDestination().getDisplayName()));
 		}
 		else {
 			mDestBtn.setText("");
 		}
 
-		if (params.hasOrigin()) {
-			mOrigBtn.setText(getString(R.string.fly_from_TEMPLATE, params.getOrigin().getAirportCode()));
+		if (mLocalParams.hasOrigin()) {
+			mOrigBtn.setText(getString(R.string.fly_from_TEMPLATE, mLocalParams.getOrigin().getAirportCode()));
 		}
 		else {
 			mOrigBtn.setText("");
@@ -272,14 +242,15 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	}
 
 	private void bindCalBtn() {
-		if (mTempDepDate != null) {
+		if (mLocalParams != null && mLocalParams.getStartDate() != null) {
 			String dateStr;
 			int flags = DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_ABBREV_WEEKDAY;
-			if (mTempRetDate != null) {
-				dateStr = JodaUtils.formatDateRange(getActivity(), mTempDepDate, mTempRetDate, flags);
+			if (mLocalParams.getEndDate() != null) {
+				dateStr = JodaUtils
+					.formatDateRange(getActivity(), mLocalParams.getStartDate(), mLocalParams.getEndDate(), flags);
 			}
 			else {
-				dateStr = JodaUtils.formatLocalDate(getActivity(), mTempDepDate, flags);
+				dateStr = JodaUtils.formatLocalDate(getActivity(), mLocalParams.getStartDate(), flags);
 			}
 			mCalBtn.setText(dateStr);
 		}
@@ -289,7 +260,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	}
 
 	private void bindTravBtn() {
-		int numTravelers = mTempNumAdults + (mTempChildren == null ? 0 : mTempChildren.size());
+		int numTravelers = mLocalParams.getNumAdults() + mLocalParams.getNumChildren();
 		String travStr = getResources()
 			.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers, numTravelers);
 		mTravBtn.setText(travStr);
@@ -310,68 +281,27 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	protected boolean copyTempValuesToParams() {
 		if (hasChanges()) {
-			Sp.getParams().setStartDate(mTempDepDate);
-			Sp.getParams().setEndDate(mTempRetDate);
-			Sp.getParams().setNumAdults(mTempNumAdults);
-			Sp.getParams().setChildTravelers(mTempChildren);
+			Sp.setParams(mLocalParams, false);
 			return true;
 		}
 		return false;
 	}
 
 	protected boolean hasChanges() {
-		SearchParams params = Sp.getParams();
-		if (mTempNumAdults != params.getNumAdults()) {
-			return true;
-		}
-		if ((mTempChildren == null) != (params.getChildTravelers() == null)) {
-			return true;
-		}
-		if ((mTempDepDate == null) != (params.getStartDate() == null)) {
-			return true;
-		}
-		if ((mTempRetDate == null) != (params.getEndDate() == null)) {
-			return true;
-		}
-		if (mTempChildren != null && params.getChildTravelers() != null) {
-			if (mTempChildren.size() != params.getChildTravelers().size()) {
-				return true;
-			}
-			else {
-				for (int i = 0; i < mTempChildren.size(); i++) {
-					if (mTempChildren.get(i).compareTo(params.getChildTravelers().get(i)) != 0) {
-						return true;
-					}
-				}
-			}
-		}
-		if (mTempDepDate != null && params.getStartDate() != null && !mTempDepDate.equals(params.getStartDate())) {
-			return true;
-		}
-		if (mTempRetDate != null && params.getEndDate() != null && !mTempRetDate.equals(params.getEndDate())) {
-			return true;
-		}
-		return false;
+		return !mLocalParams.equals(Sp.getParams());
 	}
 
 	protected void clearChanges() {
 		if (hasChanges()) {
 			importParams();
 			bindSearchBtns();
-			guestsChangeHelper(mTempNumAdults, mTempChildren);
-			dateChangeHelper(mTempDepDate, mTempRetDate);
+			guestsChangeHelper(mLocalParams.getNumAdults(), mLocalParams.getChildTravelers());
+			dateChangeHelper(mLocalParams.getStartDate(), mLocalParams.getEndDate());
 		}
 	}
 
 	protected void importParams() {
-		SearchParams params = Sp.getParams();
-
-		//We set the temp values to match params, and now we can detect
-		//changes by comparing these values to params
-		mTempDepDate = Sp.getParams().getStartDate();
-		mTempRetDate = Sp.getParams().getEndDate();
-		mTempNumAdults = Sp.getParams().getNumAdults();
-		mTempChildren = Sp.getParams().getChildTravelers();
+		mLocalParams = new SearchParams(Sp.getParams());
 	}
 
 	/**
@@ -392,8 +322,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mGuestsFragment.bind();
 			}
 
-			mTempNumAdults = numAdults;
-			mTempChildren = children;
+			mLocalParams.setNumAdults(numAdults);
+			mLocalParams.setChildTravelers(children);
 			bindTravBtn();
 
 			mIgnoreGuestChanges = false;
@@ -410,12 +340,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 			if (mGdeFragment != null) {
 				mGdeFragment
-					.setGdeInfo(Sp.getParams().getOriginLocation(true), Sp.getParams().getDestinationLocation(true),
+					.setGdeInfo(mLocalParams.getOriginLocation(true), mLocalParams.getDestinationLocation(true),
 						startDate);
 			}
 
-			mTempDepDate = startDate;
-			mTempRetDate = endDate;
+			mLocalParams.setStartDate(startDate);
+			mLocalParams.setEndDate(endDate);
 			bindCalBtn();
 
 			mIgnoreDateChanges = false;
@@ -685,9 +615,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 			if (state == ResultsSearchState.CALENDAR) {
 				if (mGdeFragment != null) {
-					SearchParams params = Sp.getParams();
 					mGdeFragment
-						.setGdeInfo(params.getOriginLocation(true), params.getDestinationLocation(true), mTempDepDate);
+						.setGdeInfo(mLocalParams.getOriginLocation(true), mLocalParams.getDestinationLocation(true),
+							mLocalParams.getStartDate());
 				}
 				mClearDatesBtn.setVisibility(View.VISIBLE);
 			}
@@ -780,7 +710,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			);
 
 			mCalBtn.setVisibility(
-				(state == ResultsSearchState.HOTELS_UP && Sp.getParams().getStartDate() == null) ? View.GONE
+				(state == ResultsSearchState.HOTELS_UP && mLocalParams.getStartDate() == null) ? View.GONE
 					: View.VISIBLE
 			);
 		}
@@ -844,7 +774,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				transaction, this, R.id.waypoint_container, false);
 
 		mCurrentLocationFragment = FragmentAvailabilityUtils
-			.setFragmentAvailability(!Sp.getParams().hasOrigin(), FTAG_ORIGIN_LOCATION, manager, transaction, this, 0,
+			.setFragmentAvailability(!mLocalParams.hasOrigin(), FTAG_ORIGIN_LOCATION, manager, transaction, this, 0,
 				true);
 
 
@@ -877,7 +807,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			return new ResultsDatesFragment();
 		}
 		else if (tag == FTAG_TRAV_PICKER) {
-			return ResultsGuestPicker.newInstance(Sp.getParams().getNumAdults(), Sp.getParams().getChildTravelers());
+			return ResultsGuestPicker.newInstance(mLocalParams.getNumAdults(), mLocalParams.getChildTravelers());
 		}
 		else if (tag == FTAG_WAYPOINT) {
 			return new ResultsWaypointFragment();
@@ -894,18 +824,17 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
 		if (tag == FTAG_CALENDAR) {
-			((ResultsDatesFragment) frag).setDates(mTempDepDate, mTempRetDate);
+			((ResultsDatesFragment) frag).setDates(mLocalParams.getStartDate(), mLocalParams.getEndDate());
 		}
 		else if (tag == FTAG_ORIGIN_LOCATION) {
-			if (!Sp.getParams().hasOrigin()) {
+			if (!mLocalParams.hasOrigin()) {
 				//Will notify listener
 				((CurrentLocationFragment) frag).getCurrentLocation();
 			}
 		}
 		else if (tag == FTAG_FLIGHTS_GDE) {
-			SearchParams params = Sp.getParams();
-			((ResultsGdeFlightsFragment) frag).setGdeInfo(params.getOriginLocation(true),
-				params.getDestinationLocation(true), mTempDepDate);
+			((ResultsGdeFlightsFragment) frag).setGdeInfo(mLocalParams.getOriginLocation(true),
+				mLocalParams.getDestinationLocation(true), mLocalParams.getStartDate());
 		}
 	}
 
@@ -1093,18 +1022,20 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			|| mSearchStateManager.getState() == ResultsSearchState.DESTINATION)) {
 			boolean usingOrigin = mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN;
 			if (usingOrigin) {
-				Sp.getParams().setOrigin(suggest);
+				mLocalParams.setOrigin(suggest);
 			}
 			else {
-				Sp.getParams().setDestination(suggest);
+				mLocalParams.setDestination(suggest);
 				if (!TextUtils.isEmpty(qryText)) {
-					Sp.getParams().setCustomDestinationQryText(qryText);
+					mLocalParams.setCustomDestinationQryText(qryText);
 				}
 				else {
-					Sp.getParams().setDefaultCustomDestinationQryText();
+					mLocalParams.setDefaultCustomDestinationQryText();
 				}
 			}
-			doSpUpdate();
+			if (copyTempValuesToParams()) {
+				doSpUpdate();
+			}
 		}
 		setState(ResultsSearchState.DEFAULT, true);
 	}
@@ -1121,9 +1052,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	@Override
 	public void onCurrentLocation(Location location, SuggestionV2 suggestion) {
-		if (!Sp.getParams().hasOrigin()) {
-			Sp.getParams().setOrigin(suggestion);
-			doSpUpdate();
+		if (!mLocalParams.hasOrigin()) {
+			mLocalParams.setOrigin(suggestion);
+			if (copyTempValuesToParams()) {
+				doSpUpdate();
+			}
 		}
 	}
 

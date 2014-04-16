@@ -69,6 +69,13 @@ public class SearchParams implements Parcelable, JSONable {
 		restoreToDefaults();
 	}
 
+	public SearchParams(SearchParams params) {
+		//Simple copy constructor
+		if (params != null) {
+			fromJson(params.toJson());
+		}
+	}
+
 	public SuggestionV2 getOrigin() {
 		return mOrigin;
 	}
@@ -598,5 +605,44 @@ public class SearchParams implements Parcelable, JSONable {
 		mCustomDestinationQryText = obj.optString("customDestinationQryText");
 
 		return true;
+	}
+
+	/*
+
+	 */
+
+	@Override
+	public int hashCode() {
+		try {
+			return toJson().toString().hashCode();
+		}
+		catch (Exception ex) {
+			Log.e("Exception generating hashcode.", ex);
+		}
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (other == null) {
+			return false;
+		}
+		if (!(other instanceof SearchParams)) {
+			return false;
+		}
+		if (other == this) {
+			return true;
+		}
+
+		//TODO: This is the very lazy and very poor practice way to compare objects, we can do better
+		try {
+			String jsonStr = toJson().toString();
+			String otherJsonStr = ((SearchParams) other).toJson().toString();
+			return jsonStr.equals(otherJsonStr);
+		}
+		catch (Exception ex) {
+			Log.e("Error in SearchParams.equals. toJson() likely failing.", ex);
+		}
+		return false;
 	}
 }
