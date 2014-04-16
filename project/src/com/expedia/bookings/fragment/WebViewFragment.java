@@ -123,6 +123,19 @@ public class WebViewFragment extends DialogFragment {
 	}
 
 	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (!(activity instanceof WebViewFragmentListener)) {
+			Log.d("WebView did not attach to an implementation of WebViewFragmentListener");
+		}
+		else {
+			mListener = (WebViewFragmentListener) activity;
+		}
+	}
+
+
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -151,7 +164,7 @@ public class WebViewFragment extends DialogFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		if (!getArguments().getBoolean(ARG_DIALOG_MODE)) {
-			return generateView(inflater, container, savedInstanceState);
+			return generateView(savedInstanceState);
 		}
 		else {
 			//If we are in dialog mode, we need to pretend like we aren't overrideing onCreateView
@@ -162,14 +175,13 @@ public class WebViewFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		if (getArguments().getBoolean(ARG_DIALOG_MODE)) {
-			LayoutInflater inflater = getActivity().getLayoutInflater();
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			if (getArguments().containsKey(ARG_DIALOG_TITLE)
-					&& !TextUtils.isEmpty(getArguments().getString(ARG_DIALOG_TITLE))) {
+				&& !TextUtils.isEmpty(getArguments().getString(ARG_DIALOG_TITLE))) {
 				builder.setTitle(getArguments().getString(ARG_DIALOG_TITLE));
 			}
 			if (getArguments().containsKey(ARG_DIALOG_BUTTON_TEXT)
-					&& !TextUtils.isEmpty(getArguments().getString(ARG_DIALOG_BUTTON_TEXT))) {
+				&& !TextUtils.isEmpty(getArguments().getString(ARG_DIALOG_BUTTON_TEXT))) {
 				builder.setNeutralButton(getArguments().getString(ARG_DIALOG_BUTTON_TEXT), new OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int arg1) {
@@ -177,157 +189,12 @@ public class WebViewFragment extends DialogFragment {
 					}
 				});
 			}
-			builder.setView(generateView(inflater, null, savedInstanceState));
+			builder.setView(generateView(savedInstanceState));
 			return builder.create();
 		}
 		else {
 			//If we are NOT in dialog mode, we need to pretend like we aren't overrideing onCreateDialog
 			return super.onCreateDialog(savedInstanceState);
-		}
-	}
-
-	@SuppressLint("NewApi")
-	private View generateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mFrame = new FrameLayout(getActivity());
-		if (mWebView == null) {
-			mWebView = new WebView(getActivity());
-
-			mWebView.getSettings().setJavaScriptEnabled(true);
-			mWebView.getSettings().setLoadWithOverviewMode(true);
-			mWebView.getSettings().setUseWideViewPort(!getArguments().getBoolean(ARG_DIALOG_MODE));
-			mWebView.getSettings().setBuiltInZoomControls(true);
-
-			// To allow Usablenet redirects to view mobile version of site, we leave the user agent string as be. The
-			// default user-agent string contains "Android" which tips off the redirect to mobile.
-			if (!mAllowUseableNetRedirects) {
-				String userAgentString = ExpediaServices.getUserAgentString(getActivity());
-				mWebView.getSettings().setUserAgentString(userAgentString);
-			}
-
-			if (AndroidUtils.getSdkVersion() >= 11) {
-				mWebView.getSettings().setDisplayZoomControls(false);
-			}
-			mWebView.setWebViewClient(new WebViewClient() {
-
-				@Override
-				public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-					// Ignore
-					if (!AndroidUtils.isRelease(getActivity())) {
-						Log.d("WebViewFragment: Got an SSL certificate error (primary: " + error.getPrimaryError()
-								+ "), but we're going to proceed anyways because this is a debug build.  URL=" + mUrl);
-
-						handler.proceed();
-					}
-					else {
-						Log.w("WebViewFragment SSL Error: primaryError=" + error.getPrimaryError() + ", url=" + mUrl);
-
-						super.onReceivedSslError(view, handler, error);
-					}
-				}
-
-				@Override
-				public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-					Log.w("WebViewFragment error: code=" + errorCode + ", desc=" + description + ", url=" + failingUrl);
-
-					if (isAdded()) {
-						String errorFormatStr = getResources().getString(R.string.web_view_loading_error_TEMPLATE);
-						String errorMessage = String.format(errorFormatStr, description);
-						Ui.showToast(getActivity(), errorMessage);
-					}
-				}
-
-				@Override
-				public void onPageFinished(WebView webview, String url) {
-					//Stop progress spinner
-					mWebViewLoaded = true;
-					if (mListener != null) {
-						mListener.setLoading(false);
-					}
-
-					if (!enableSignIn) {
-						// Insert javascript to remove the signin button
-						webview.loadUrl("javascript:(function() { " +
-								"document.getElementsByClassName('sign_link')[0].style.visibility='hidden'; " +
-								"})()");
-					}
-
-					// Insert javascript to remove the native app download banner
-					webview.loadUrl("javascript:(function() { " +
-							"document.getElementById('SmartBanner').style.display='none'; " +
-							"})()");
-
-					//If we are showing the fragment as a dialog, we need to request layout after the page renders, otherwise the dialog
-					//doesnt measure correctly.
-					if (getArguments().getBoolean(ARG_DIALOG_MODE)) {
-						webview.postDelayed(new Runnable() {
-							private long mPostLoopStartTime = 0;
-
-							@Override
-							public void run() {
-								if (mPostLoopStartTime == 0) {
-									mPostLoopStartTime = System.currentTimeMillis();
-								}
-								else if (System.currentTimeMillis() - mPostLoopStartTime > 5000) {
-									//We dont want this loop to go on forever.
-									return;
-								}
-
-								if (isVisible() && mWebView != null && mWebView.getHeight() <= 0) {
-									mWebView.requestLayout();
-									mWebView.postDelayed(this, 50);
-								}
-							}
-						}, 50);
-					}
-				}
-
-				@Override
-				public boolean shouldOverrideUrlLoading(WebView view, String url) {
-					if (mLoadCookies) {
-						view.loadUrl(url);
-						return false;
-					}
-					else {
-						return super.shouldOverrideUrlLoading(view, url);
-					}
-				}
-
-			});
-		}
-
-		if (savedInstanceState != null) {
-			mWebViewLoaded = savedInstanceState.getBoolean(INSTANCE_LOADED, false);
-			mWebView.restoreState(savedInstanceState);
-		}
-
-		if (!mWebViewLoaded) {
-			if (mListener != null) {
-				mListener.setLoading(true);
-			}
-			if (!TextUtils.isEmpty(mHtmlData)) {
-				//Using .loadData() sometimes fails with unescaped html. loadDataWithBaseUrl() doesnt
-				mWebView.loadDataWithBaseURL(null, mHtmlData, "text/html", "UTF-8", null);
-			}
-			else {
-				mWebView.loadUrl(mUrl);
-			}
-		}
-		else {
-			if (mListener != null) {
-				mListener.setLoading(false);
-			}
-		}
-
-		return mFrame;
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-
-		//Important
-		if (mFrame != null) {
-			mFrame.removeAllViews();
 		}
 	}
 
@@ -356,22 +223,13 @@ public class WebViewFragment extends DialogFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		if (mFrame != null && mWebView != null) {
-			mFrame.addView(mWebView);
-		}
+		attachWebView();
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
-		if (!(activity instanceof WebViewFragmentListener)) {
-			Log.d("WebView did not attach to an implementation of WebViewFragmentListener");
-		}
-		else {
-			mListener = (WebViewFragmentListener) activity;
-		}
+	public void onPause() {
+		super.onPause();
+		detachWebView();
 	}
 
 	@Override
@@ -393,9 +251,174 @@ public class WebViewFragment extends DialogFragment {
 	}
 
 	public void bind(String url) {
-		if (mWebView != null) {
-			mWebView.loadUrl(url);
-			mWebView.scrollTo(0, 0);
+		mUrl = url;
+		mWebViewLoaded = false;
+		constructWebView();
+		actOnState(null);
+		attachWebView();
+	}
+
+	@SuppressLint("NewApi")
+	private View generateView(Bundle savedInstanceState) {
+		mFrame = new FrameLayout(getActivity());
+
+		if (mWebView == null) {
+			constructWebView();
+		}
+
+		actOnState(savedInstanceState);
+
+		return mFrame;
+	}
+
+	/**
+	 * Based on the state, should we load the URL, load HTML, etc..
+	 *
+	 * @param savedInstanceState
+	 */
+	private void actOnState(Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			mWebViewLoaded = savedInstanceState.getBoolean(INSTANCE_LOADED, false);
+			mWebView.restoreState(savedInstanceState);
+		}
+
+		if (!mWebViewLoaded) {
+			if (mListener != null) {
+				mListener.setLoading(true);
+			}
+			if (!TextUtils.isEmpty(mHtmlData)) {
+				//Using .loadData() sometimes fails with unescaped html. loadDataWithBaseUrl() doesnt
+				mWebView.loadDataWithBaseURL(null, mHtmlData, "text/html", "UTF-8", null);
+			}
+			else {
+				mWebView.loadUrl(mUrl);
+			}
+		}
+		else {
+			if (mListener != null) {
+				mListener.setLoading(false);
+			}
+		}
+	}
+
+	@SuppressLint("NewApi")
+	private void constructWebView() {
+		mWebView = new WebView(getActivity());
+
+		mWebView.getSettings().setJavaScriptEnabled(true);
+		mWebView.getSettings().setLoadWithOverviewMode(true);
+		mWebView.getSettings().setUseWideViewPort(!getArguments().getBoolean(ARG_DIALOG_MODE));
+		mWebView.getSettings().setBuiltInZoomControls(true);
+
+		// To allow Usablenet redirects to view mobile version of site, we leave the user agent string as be. The
+		// default user-agent string contains "Android" which tips off the redirect to mobile.
+		if (!mAllowUseableNetRedirects) {
+			String userAgentString = ExpediaServices.getUserAgentString(getActivity());
+			mWebView.getSettings().setUserAgentString(userAgentString);
+		}
+		if (AndroidUtils.getSdkVersion() >= 11) {
+			mWebView.getSettings().setDisplayZoomControls(false);
+		}
+
+		mWebView.setWebViewClient(new WebViewClient() {
+
+			@Override
+			public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+				// Ignore
+				if (!AndroidUtils.isRelease(getActivity())) {
+					Log.d("WebViewFragment: Got an SSL certificate error (primary: " + error.getPrimaryError()
+						+ "), but we're going to proceed anyways because this is a debug build.  URL=" + mUrl);
+
+					handler.proceed();
+				}
+				else {
+					Log.w("WebViewFragment SSL Error: primaryError=" + error.getPrimaryError() + ", url=" + mUrl);
+
+					super.onReceivedSslError(view, handler, error);
+				}
+			}
+
+			@Override
+			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+				Log.w("WebViewFragment error: code=" + errorCode + ", desc=" + description + ", url=" + failingUrl);
+
+				if (isAdded()) {
+					String errorFormatStr = getResources().getString(R.string.web_view_loading_error_TEMPLATE);
+					String errorMessage = String.format(errorFormatStr, description);
+					Ui.showToast(getActivity(), errorMessage);
+				}
+			}
+
+			@Override
+			public void onPageFinished(WebView webview, String url) {
+				//Stop progress spinner
+				mWebViewLoaded = true;
+				if (mListener != null) {
+					mListener.setLoading(false);
+				}
+
+				if (!enableSignIn) {
+					// Insert javascript to remove the signin button
+					webview.loadUrl("javascript:(function() { " +
+						"document.getElementsByClassName('sign_link')[0].style.visibility='hidden'; " +
+						"})()");
+				}
+
+				// Insert javascript to remove the native app download banner
+				webview.loadUrl("javascript:(function() { " +
+					"document.getElementById('SmartBanner').style.display='none'; " +
+					"})()");
+
+				//If we are showing the fragment as a dialog, we need to request layout after the page renders, otherwise the dialog
+				//doesnt measure correctly.
+				if (getArguments().getBoolean(ARG_DIALOG_MODE)) {
+					webview.postDelayed(new Runnable() {
+						private long mPostLoopStartTime = 0;
+
+						@Override
+						public void run() {
+							if (mPostLoopStartTime == 0) {
+								mPostLoopStartTime = System.currentTimeMillis();
+							}
+							else if (System.currentTimeMillis() - mPostLoopStartTime > 5000) {
+								//We dont want this loop to go on forever.
+								return;
+							}
+
+							if (isVisible() && mWebView != null && mWebView.getHeight() <= 0) {
+								mWebView.requestLayout();
+								mWebView.postDelayed(this, 50);
+							}
+						}
+					}, 50);
+				}
+			}
+
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+				if (mLoadCookies) {
+					view.loadUrl(url);
+					return false;
+				}
+				else {
+					return super.shouldOverrideUrlLoading(view, url);
+				}
+			}
+
+		});
+	}
+
+	private void attachWebView() {
+		if (mFrame != null && mWebView != null) {
+			mFrame.removeAllViews();
+			mFrame.addView(mWebView);
+		}
+	}
+
+	private void detachWebView() {
+		//Important
+		if (mFrame != null) {
+			mFrame.removeAllViews();
 		}
 	}
 
