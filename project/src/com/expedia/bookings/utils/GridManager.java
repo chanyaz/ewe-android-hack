@@ -335,6 +335,33 @@ public class GridManager {
 				mItemSizes[mNumItems - 1] += remainderSize;
 			}
 		}
+
+		@Override
+		public String toString() {
+			if (mItemSizes == null || mItemEdges == null || mItemSizes.length == 0 || mItemEdges.length == 0) {
+				return "This axis has no information";
+			}
+			else {
+				StringBuilder builder = new StringBuilder();
+				builder.append("Axis total size:" + getTotalSize());
+				for (int i = 0; i < getItemCount(); i++) {
+					builder.append("\n");
+					builder.append(
+						"i:" + i + " start:" + getItemEdge(i) + " <" + getItemSize(i) + "px> end:" + getItemFarEdge(i));
+				}
+				return builder.toString();
+			}
+		}
+	}
+
+	@Override
+	public String toString() {
+		if (mRows == null || mCols == null) {
+			return "This GridManager has no information.";
+		}
+		else {
+			return "ROWS:" + mRows.toString() + "\nCOLS:" + mCols.toString();
+		}
 	}
 
 }
