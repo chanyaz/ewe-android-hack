@@ -126,6 +126,8 @@ public class ResultsFlightDetailsFragment extends Fragment implements IBackManag
 
 	private String mBaggageTitle;
 
+	private AnimatorSet mAnimatorSet;
+
 	private FlightLegSummarySectionTablet mSelectedFlightLegAnimationRowSection;
 
 	private IResultsFlightLegSelected mFlightLegSelectedListener;
@@ -488,7 +490,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements IBackManag
 			inRotEnd = 0;
 		}
 
-		AnimatorSet animatorSet = new AnimatorSet();
+		mAnimatorSet = new AnimatorSet();
 		Collection<Animator> anims = new ArrayList<Animator>();
 
 		PropertyValuesHolder fadeOutPvh = PropertyValuesHolder.ofFloat("alpha", 1, 0);
@@ -521,10 +523,10 @@ public class ResultsFlightDetailsFragment extends Fragment implements IBackManag
 		anims.add(bagTvFadeOutOa);
 
 		// Start this shit
-		animatorSet.playTogether(anims);
-		animatorSet.setInterpolator(mInterpolator);
-		animatorSet.setDuration(FLIP_ANIM_FULL_TIME);
-		animatorSet.addListener(new AnimatorListenerAdapter() {
+		mAnimatorSet.playTogether(anims);
+		mAnimatorSet.setInterpolator(mInterpolator);
+		mAnimatorSet.setDuration(FLIP_ANIM_FULL_TIME);
+		mAnimatorSet.addListener(new AnimatorListenerAdapter() {
 
 			@Override
 			public void onAnimationStart(Animator animation) {
@@ -557,7 +559,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements IBackManag
 			}
 		});
 
-		animatorSet.start();
+		mAnimatorSet.start();
 	}
 
 	private String formatTime(Calendar cal) {
@@ -616,7 +618,11 @@ public class ResultsFlightDetailsFragment extends Fragment implements IBackManag
 	private BackManager mBackManager = new BackManager(this) {
 		@Override
 		public boolean handleBackPressed() {
-			if (mIsShowingBaggageFees) {
+			if (mAnimatorSet != null && mAnimatorSet.isRunning()) {
+				Log.i("ResultsFlightDetailsFragment - consuming and throwing away back press because it happened during animation.");
+				return true;
+			}
+			else if (mIsShowingBaggageFees) {
 				toggleDetailsCard(true, null, null, true);
 				return true;
 			}
