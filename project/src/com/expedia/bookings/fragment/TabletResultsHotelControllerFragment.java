@@ -305,8 +305,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(true);
 		}
 
-		if (hotelsState == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
-			|| hotelsState == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
+		if (hotelsState == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
 			mHotelFiltersC.setBlockNewEventsEnabled(false);
 		}
 		else {
@@ -325,8 +324,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 		else {
 			mBgHotelMapC.setAlpha(1f);
-			if (hotelsState == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
-				|| hotelsState == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
+			if (hotelsState == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
 				mHotelFiltersC.setVisibility(View.VISIBLE);
 				mHotelFilteredCountC.setVisibility(View.VISIBLE);
 			}
@@ -336,7 +334,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 
 			if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES
-				|| hotelsState == ResultsHotelsState.ROOMS_AND_RATES_FILTERS
 				|| hotelsState == ResultsHotelsState.ADDING_HOTEL_TO_TRIP) {
 				mHotelRoomsAndRatesC.setVisibility(View.VISIBLE);
 			}
@@ -457,7 +454,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mHotelListFrag.setTopRightTextButtonEnabled(true);
 				break;
 			}
-			case ROOMS_AND_RATES_FILTERS:
 			case HOTEL_LIST_AND_FILTERS: {
 				mHotelListFrag.setListLockedToTop(true);
 				mHotelListFrag.setTopRightTextButtonEnabled(false);
@@ -587,10 +583,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, true);
 		}
 		else if (state == ResultsHotelsState.ROOMS_AND_RATES) {
-			setHotelsState(ResultsHotelsState.ROOMS_AND_RATES_FILTERS, true);
-		}
-		else if (state == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
-			setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
+			mHotelsStateManager.animateThroughStates(true, ResultsHotelsState.HOTEL_LIST_UP,
+				ResultsHotelsState.HOTEL_LIST_AND_FILTERS);
 		}
 	}
 
@@ -903,10 +897,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 						setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, true);
 						return true;
 					}
-					else if (state == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
-						setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
-						return true;
-					}
 					else if (state == ResultsHotelsState.REVIEWS) {
 						setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
 						return true;
@@ -987,15 +977,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setRoomsAndRatesAnimationVisibilities();
 				setRoomsAndRatesAnimationHardwareRendering(true);
 			}
-			else if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
-				|| stateTwo == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
+			else if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
 				//SHOWING FILTERS
 				mHotelListFrag.setListLockedToTop(true);
 				setHotelsFiltersAnimationVisibilities(true);
 				setHotelsFiltersAnimationHardwareRendering(true);
 			}
-			else if (stateOne == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
-				|| stateOne == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
+			else if (stateOne == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
 				//HIDING FILTERS
 				mHotelListFrag.setListLockedToTop(true);
 				setHotelsFiltersAnimationVisibilities(true);
@@ -1035,14 +1023,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				//HIDING ROOMS AND RATES
 				setRoomsAndRatesShownPercentage(1f - percentage);
 			}
-			else if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
-				|| stateTwo == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
+			else if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
 				//SHOWING FILTERS
 				setHotelsFiltersShownPercentage(percentage);
 
 			}
-			else if (stateOne == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
-				|| stateOne == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
+			else if (stateOne == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
 				//HIDING FILTERS
 				setHotelsFiltersShownPercentage(1f - percentage);
 
@@ -1067,15 +1053,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				//SHOWING/HIDING ROOMS AND RATES
 				setRoomsAndRatesAnimationHardwareRendering(false);
 			}
-			else if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
-				|| stateTwo == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
+			else if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
 				//SHOWING FILTERS
 				setHotelsFiltersAnimationVisibilities(false);
 				setHotelsFiltersAnimationHardwareRendering(false);
 
 			}
-			else if (stateOne == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
-				|| stateOne == ResultsHotelsState.ROOMS_AND_RATES_FILTERS) {
+			else if (stateOne == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
 				//HIDING FILTERS
 				setHotelsFiltersAnimationVisibilities(false);
 				setHotelsFiltersAnimationHardwareRendering(false);
@@ -1121,7 +1105,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setRoomsAndRatesShownPercentage(1f);
 				break;
 			}
-			case ROOMS_AND_RATES_FILTERS:
 			case HOTEL_LIST_AND_FILTERS: {
 				setHotelsFiltersShownPercentage(1f);
 				setAddToTripPercentage(0f);
@@ -1135,8 +1118,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 			if (mMapFragment != null && state != ResultsHotelsState.ROOMS_AND_RATES
 				&& state != ResultsHotelsState.REVIEWS) {
-				mMapFragment.setMapPaddingFromFilterState(state == ResultsHotelsState.HOTEL_LIST_AND_FILTERS
-					|| state == ResultsHotelsState.ROOMS_AND_RATES_FILTERS);
+				mMapFragment.setMapPaddingFromFilterState(state == ResultsHotelsState.HOTEL_LIST_AND_FILTERS);
 			}
 
 			//Ensure we are downloading the correct data.
