@@ -411,9 +411,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				continue;
 			}
 
-			RelativeLayout mRoomRateDetailContainer = Ui.findView(row, R.id.room_rate_detail_container);
-			Button mAddSelectRoomButton = Ui.findView(row, R.id.room_rate_button_add_select);
-			mAddSelectRoomButton.setOnClickListener(new OnClickListener() {
+			RelativeLayout roomRateDetailContainer = Ui.findView(row, R.id.room_rate_detail_container);
+			Button addSelectRoomButton = Ui.findView(row, R.id.room_rate_button_add_select);
+			addSelectRoomButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (rowRate.equals(selectedRate)) {
@@ -428,10 +428,10 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			if (rowRate.equals(selectedRate)) {
 				// Let's set layout height to wrap content.
 				row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-				mRoomRateDetailContainer.setVisibility(View.VISIBLE);
+				roomRateDetailContainer.setVisibility(View.VISIBLE);
 				// Change button color and text
-				mAddSelectRoomButton.setText(getString(R.string.room_rate_button_add_to_trip));
-				mAddSelectRoomButton.setBackgroundColor(getResources().getColor(R.color.hotel_room_rate_add_room_button));
+				addSelectRoomButton.setText(getString(R.string.room_rate_button_add_to_trip));
+				addSelectRoomButton.setBackgroundColor(getResources().getColor(R.color.hotel_room_rate_add_room_button));
 				// Now let's bind the new room rate details.
 				bindSelectedRoomDetails(row, selectedRate);
 			}
@@ -440,9 +440,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				int minHeightDimenValue = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_list_height);
 				layoutParams.height = minHeightDimenValue;
 				row.setLayoutParams(layoutParams);
-				mRoomRateDetailContainer.setVisibility(View.INVISIBLE);
-				mAddSelectRoomButton.setText(getString(R.string.room_rate_button_select_room));
-				mAddSelectRoomButton.setBackgroundColor(getResources().getColor(R.color.hotel_room_rate_select_room_button));
+				roomRateDetailContainer.setVisibility(View.INVISIBLE);
+				addSelectRoomButton.setText(getString(R.string.room_rate_button_select_room));
+				addSelectRoomButton.setBackgroundColor(getResources().getColor(R.color.hotel_room_rate_select_room_button));
 			}
 		}
 
@@ -450,25 +450,25 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	private void bindSelectedRoomDetails(View row, Rate rate) {
-		ImageView mRoomDetailImageView = Ui.findView(row, R.id.room_rate_image_view);
-		TextView mUrgencyMessagingView = Ui.findView(row, R.id.room_rate_urgency_text);
-		final TextView mRoomLongDescriptionTextView = Ui.findView(row, R.id.room_rate_description_text);
-		TextView mRefundableTextView = Ui.findView(row, R.id.room_rate_refundable_text);
+		ImageView roomDetailImageView = Ui.findView(row, R.id.room_rate_image_view);
+		TextView urgencyMessagingView = Ui.findView(row, R.id.room_rate_urgency_text);
+		final TextView roomLongDescriptionTextView = Ui.findView(row, R.id.room_rate_description_text);
+		TextView refundableTextView = Ui.findView(row, R.id.room_rate_refundable_text);
 		TextView roomRateDiscountRibbon = Ui.findView(row, R.id.room_rate_discount_text);
 
-		mRoomLongDescriptionTextView.setText(rate.getRoomLongDescription());
+		roomLongDescriptionTextView.setText(rate.getRoomLongDescription());
 		// #817. Let user tap to expand or contract the room description text.
-		mRoomLongDescriptionTextView.setOnClickListener(new OnClickListener() {
+		roomLongDescriptionTextView.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if (mRoomLongDescriptionTextView.getEllipsize() != null) {
-					mRoomLongDescriptionTextView.setEllipsize(null);
-					mRoomLongDescriptionTextView.setMaxLines(Integer.MAX_VALUE);
+				if (roomLongDescriptionTextView.getEllipsize() != null) {
+					roomLongDescriptionTextView.setEllipsize(null);
+					roomLongDescriptionTextView.setMaxLines(Integer.MAX_VALUE);
 				}
 				else {
-					mRoomLongDescriptionTextView.setEllipsize(TextUtils.TruncateAt.END);
-					mRoomLongDescriptionTextView.setMaxLines(5);
+					roomLongDescriptionTextView.setEllipsize(TextUtils.TruncateAt.END);
+					roomLongDescriptionTextView.setMaxLines(5);
 				}
 			}
 		});
@@ -481,29 +481,29 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			unique.removeAll(common);
 		}
 		if (unique.size() > 0) {
-			mUrgencyMessagingView.setText(Html.fromHtml(getActivity().getString(R.string.value_add_template,
+			urgencyMessagingView.setText(Html.fromHtml(getActivity().getString(R.string.value_add_template,
 				FormatUtils.series(getActivity(), unique, ",", null).toLowerCase(Locale.getDefault()))));
-			mUrgencyMessagingView.setVisibility(View.VISIBLE);
+			urgencyMessagingView.setVisibility(View.VISIBLE);
 		}
 		else if (showUrgencyMessaging(rate)) {
 			String urgencyString = getResources().getQuantityString(R.plurals.n_rooms_left_TEMPLATE, rate.getNumRoomsLeft(), rate.getNumRoomsLeft());
-			mUrgencyMessagingView.setText(urgencyString);
-			mUrgencyMessagingView.setVisibility(View.VISIBLE);
+			urgencyMessagingView.setText(urgencyString);
+			urgencyMessagingView.setVisibility(View.VISIBLE);
 		}
 		else {
-			mUrgencyMessagingView.setVisibility(View.GONE);
+			urgencyMessagingView.setVisibility(View.GONE);
 		}
 
 		// Refundable text visibility check
-		mRefundableTextView.setVisibility(rate.isNonRefundable() ? View.VISIBLE : View.GONE);
+		refundableTextView.setVisibility(rate.isNonRefundable() ? View.VISIBLE : View.GONE);
 
 		// Rooms and Rates detail image media
 		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.hotelImagePlaceHolderDrawable);
 		if (rate.getThumbnail() != null) {
-			rate.getThumbnail().fillImageView(mRoomDetailImageView, placeholderResId);
+			rate.getThumbnail().fillImageView(roomDetailImageView, placeholderResId);
 		}
 		else {
-			mRoomDetailImageView.setImageResource(placeholderResId);
+			roomDetailImageView.setImageResource(placeholderResId);
 		}
 
 		// Room discount ribbon
