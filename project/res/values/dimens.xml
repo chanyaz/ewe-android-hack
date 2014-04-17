@@ -29,7 +29,7 @@
     <dimen name="tablet_flight_details_statistic_drawable_spacing">8dp</dimen>
 
     <!-- Tablet details -->
-    <dimen name="tablet_detail_padding">24dp</dimen>
+    <dimen name="tablet_detail_padding">28dp</dimen>
     <dimen name="non_refundable_tweak">0dp</dimen>
     <dimen name="add_rate_button_min_width">48dp</dimen>
     <dimen name="tablet_details_compact_header_height">57dp</dimen>
@@ -310,6 +310,6 @@
     <dimen name="credit_card_checkout_height">219dp</dimen>
 
     <!-- Hotel Details Rooms and rates row initial/unexpanded height -->
-    <dimen name="hotel_room_rate_list_height">57dp</dimen>
+    <dimen name="hotel_room_rate_list_height">84dp</dimen>
 
 </resources>
