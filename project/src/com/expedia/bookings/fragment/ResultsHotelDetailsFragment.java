@@ -93,7 +93,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				ViewGroup.LayoutParams params = Ui.findView(mRootC, R.id.header_container).getLayoutParams();
 				params.height = headerHeight;
 
-				RelativeLayout.LayoutParams reviewsParams = (RelativeLayout.LayoutParams)(Ui.findView(mRootC, R.id.reviews_container).getLayoutParams());
+				RelativeLayout.LayoutParams reviewsParams = (RelativeLayout.LayoutParams) (Ui.findView(mRootC, R.id.reviews_container).getLayoutParams());
 				reviewsParams.topMargin = headerHeight;
 			}
 		});
@@ -241,6 +241,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			starRating.setVisibility(View.VISIBLE);
 			notRatedText.setVisibility(View.GONE);
 			starRating.setRating(starRatingValue);
+			// Adjust it so it looks centered
+			float pct = 1 - starRatingValue / starRating.getNumStars();
+			starRating.setTranslationX(pct * starRating.getWidth() / 2);
 		}
 
 		// User Rating

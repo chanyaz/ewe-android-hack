@@ -31,24 +31,29 @@
 
                     <!-- Reviews section (#2059) -->
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:id="@+id/reviews_container"
                         android:layout_width="match_parent"
                         android:layout_height="86dp"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentTop="true"
-                        android:layout_marginTop="200dp"
                         android:background="@color/tablet_white_pane_bg"
-                        android:paddingLeft="@dimen/tablet_detail_padding"
-                        android:paddingRight="8dp"
                         android:paddingTop="4dp">
 
+                        <View
+                            android:id="@+id/reviews_section_divider"
+                            android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
+                            android:layout_height="32dp"
+                            android:layout_centerInParent="true"
+                            android:background="#d1d1d1"/>
+
                         <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_toLeftOf="@id/reviews_section_divider"
+                            android:layout_alignParentLeft="true"
                             android:gravity="center">
 
                             <com.expedia.bookings.widget.RingedCountView
@@ -63,24 +68,18 @@
                             <com.expedia.bookings.widget.TextView
                                 android:id="@+id/rooms_left_ring_text"
                                 android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="center_vertical"
-                                android:padding="8dp"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="8dp"
                                 android:textSize="16sp"
                                 app:textStyle="light"/>
                         </LinearLayout>
 
-                        <View
-                            android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
-                            android:layout_height="32dp"
-                            android:layout_gravity="center_vertical"
-                            android:background="#d1d1d1"/>
-
                         <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
+                            android:layout_toRightOf="@id/reviews_section_divider"
+                            android:layout_alignParentRight="true"
                             android:gravity="center">
 
                             <RatingBar
@@ -103,7 +102,7 @@
                                 android:textColor="#1b5698"
                                 app:textStyle="bold"/>
                         </LinearLayout>
-                    </LinearLayout>
+                    </RelativeLayout>
 
                     <!-- Amenities section (#2060) -->
 
