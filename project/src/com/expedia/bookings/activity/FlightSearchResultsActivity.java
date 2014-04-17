@@ -1181,7 +1181,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// FlightDetailsFragmentListener
+	// IResultsFlightDetailsListener
 
 	@Override
 	public void onFlightDetailsLayout(FlightDetailsFragment fragment) {

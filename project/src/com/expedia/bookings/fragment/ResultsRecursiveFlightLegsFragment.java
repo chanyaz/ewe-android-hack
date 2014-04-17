@@ -53,7 +53,8 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ResultsRecursiveFlightLegsFragment extends Fragment implements IStateProvider<ResultsFlightLegState>,
 	FragmentAvailabilityUtils.IFragmentAvailabilityProvider, IBackManageable, IResultsFlightLegSelected,
-	IResultsFlightSelectedListener, ResultsFlightListFragment.IDoneClickedListener, IAcceptingListenersListener {
+	IResultsFlightSelectedListener, ResultsFlightListFragment.IDoneClickedListener, IAcceptingListenersListener,
+	ResultsFlightDetailsFragment.IResultsFlightDetailsListener {
 
 	public static ResultsRecursiveFlightLegsFragment newInstance(int legNumber) {
 		ResultsRecursiveFlightLegsFragment frag = new ResultsRecursiveFlightLegsFragment(legNumber);
@@ -1214,6 +1215,15 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	@Override
 	public void unRegisterStateListener(IStateListener<ResultsFlightLegState> listener) {
 		mStateListeners.unRegisterStateListener(listener);
+	}
+
+	// Flight Details Fragment Listener
+
+	@Override
+	public void onFlightDetailsAnimation(boolean isAnimating) {
+		if (mListFrag != null) {
+			mListFrag.setEnableOnListItemClick(!isAnimating);
+		}
 	}
 
 	/*

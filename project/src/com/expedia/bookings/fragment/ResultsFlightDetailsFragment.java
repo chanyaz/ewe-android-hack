@@ -73,6 +73,10 @@ public class ResultsFlightDetailsFragment extends Fragment implements IBackManag
 
 	private static final String BGD_KEY_RATINGS = "BGD_KEY_RATINGS";
 
+	public interface IResultsFlightDetailsListener {
+		void onFlightDetailsAnimation(boolean isAnimating);
+	}
+
 	public static ResultsFlightDetailsFragment newInstance(int legNumber) {
 		ResultsFlightDetailsFragment frag = new ResultsFlightDetailsFragment();
 		Bundle args = new Bundle();
@@ -124,7 +128,8 @@ public class ResultsFlightDetailsFragment extends Fragment implements IBackManag
 
 	private FlightLegSummarySectionTablet mSelectedFlightLegAnimationRowSection;
 
-	private IResultsFlightLegSelected mListener;
+	private IResultsFlightLegSelected mFlightLegSelectedListener;
+	private IResultsFlightDetailsListener mDetailsFragmentListener;
 
 	// Position and size vars
 	int mDetailsPositionLeft = -1;
@@ -147,7 +152,8 @@ public class ResultsFlightDetailsFragment extends Fragment implements IBackManag
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		mListener = Ui.findFragmentListener(this, IResultsFlightLegSelected.class, true);
+		mFlightLegSelectedListener = Ui.findFragmentListener(this, IResultsFlightLegSelected.class, true);
+		mDetailsFragmentListener = Ui.findFragmentListener(this, IResultsFlightDetailsListener.class, true);
 	}
 
 	@Override
@@ -298,7 +304,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements IBackManag
 			@Override
 			public void onClick(View v) {
 				mSelectedFlightLegAnimationRowSection.bind(Db.getFlightSearch(), mLegNumber);
-				mListener.onTripAdded(mLegNumber);
+				mFlightLegSelectedListener.onTripAdded(mLegNumber);
 			}
 		});
 
@@ -522,6 +528,8 @@ public class ResultsFlightDetailsFragment extends Fragment implements IBackManag
 
 			@Override
 			public void onAnimationStart(Animator animation) {
+				mDetailsFragmentListener.onFlightDetailsAnimation(true);
+
 				mFlightCardC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 				mBaggageFeesCardC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 				mRootC.setBlockNewEventsEnabled(true);
@@ -535,14 +543,17 @@ public class ResultsFlightDetailsFragment extends Fragment implements IBackManag
 
 				mFlightCardC.setLayerType(View.LAYER_TYPE_NONE, null);
 				mBaggageFeesCardC.setLayerType(View.LAYER_TYPE_NONE, null);
-				mRootC.setBlockNewEventsEnabled(false);
 
 				mIsShowingBaggageFees = forward;
+
+				mRootC.setBlockNewEventsEnabled(false);
+				mDetailsFragmentListener.onFlightDetailsAnimation(false);
 			}
 
 			@Override
 			public void onAnimationCancel(Animator animation) {
 				mRootC.setBlockNewEventsEnabled(false);
+				mDetailsFragmentListener.onFlightDetailsAnimation(false);
 			}
 		});
 
