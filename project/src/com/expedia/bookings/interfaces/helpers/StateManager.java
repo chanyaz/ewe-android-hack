@@ -76,6 +76,10 @@ public class StateManager<T> {
 		return mAnimator != null && mAnimator.isStarted();
 	}
 
+	public boolean isChaining() {
+		return mStateChain != null;
+	}
+
 	private void setProvider(IStateProvider<T> provider) {
 		mProvider = provider;
 		if (provider instanceof Fragment) {
