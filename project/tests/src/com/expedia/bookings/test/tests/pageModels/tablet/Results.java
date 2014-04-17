@@ -51,7 +51,7 @@ public class Results {
 	}
 
 	public static void clickAddHotel() {
-		onView(withId(R.id.button_add_to_trip)).perform(click());
+		onView(allOf(withId(R.id.room_rate_button_add_select), withText("Add To Trip"))).perform(click());
 	}
 
 	public static void clickBookHotel() {
