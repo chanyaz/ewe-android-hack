@@ -15,6 +15,11 @@
     <dimen name="cvv_keypad_text_size">30sp</dimen>
     <dimen name="cvv_keypad_book_text_size">18dp</dimen>
 
+    <!-- Hotel Details -->
+    <dimen name="hotel_details_window_margin_x">90dp</dimen>
+    <dimen name="hotel_details_window_margin_y">64dp</dimen>
+    <dimen name="hotel_header_height">172dp</dimen>
+
     <!-- Tablet Flights -->
     <dimen name="flight_header_bottom_margin">140dp</dimen>
     <dimen name="plane_window_height">600dp</dimen>

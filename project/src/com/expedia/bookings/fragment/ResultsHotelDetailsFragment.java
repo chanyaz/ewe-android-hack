@@ -82,21 +82,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotel_details, null);
-
-		// TODO: figure out how to use resource system for all of this instead
-		mRootC.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-			public void onGlobalLayout() {
-				int paddingx = (int) (mRootC.getWidth() * 0.14f);
-				mRootC.setPadding(paddingx, mRootC.getPaddingTop(), paddingx, mRootC.getPaddingBottom());
-
-				int headerHeight = (mRootC.getHeight() - mRootC.getPaddingTop() - mRootC.getPaddingBottom()) / 2;
-				ViewGroup.LayoutParams params = Ui.findView(mRootC, R.id.header_container).getLayoutParams();
-				params.height = headerHeight;
-
-				RelativeLayout.LayoutParams reviewsParams = (RelativeLayout.LayoutParams) (Ui.findView(mRootC, R.id.reviews_container).getLayoutParams());
-				reviewsParams.topMargin = headerHeight;
-			}
-		});
 		return mRootC;
 	}
 
