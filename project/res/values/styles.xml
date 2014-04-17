@@ -273,8 +273,8 @@
 
     <style name="RatingBar.UserReview.HotelDetails">
         <item name="android:progressDrawable">@drawable/ratingbar_userreview_hotel_details</item>
-        <item name="android:minHeight">13dp</item>
-        <item name="android:maxHeight">13dp</item>
+        <item name="android:minHeight">19dp</item>
+        <item name="android:maxHeight">19dp</item>
     </style>
 
     <style name="Widget.EditText" parent="@android:style/Widget.EditText">
