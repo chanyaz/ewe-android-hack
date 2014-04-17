@@ -62,6 +62,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	private ViewGroup mRootC;
+	private View mUserRatingContainer;
 
 	private IAddToBucketListener mAddToBucketListener;
 	private IResultsHotelReviewsClickedListener mHotelReviewsClickedListener;
@@ -82,6 +83,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotel_details, null);
+
+		mUserRatingContainer = Ui.findView(mRootC, R.id.user_rating_container);
+
 		return mRootC;
 	}
 
@@ -251,6 +255,13 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		TextView roomsLeftText = Ui.findView(view, R.id.rooms_left_ring_text);
 
 		boolean userRatingAvailable = property.getTotalReviews() != 0;
+
+		if (userRatingAvailable) {
+			mUserRatingContainer.setOnClickListener(mReviewsButtonClickedListener);
+		}
+		else {
+			mUserRatingContainer.setOnClickListener(null);
+		}
 
 		Resources res = getResources();
 		int roomsLeft = property.getRoomsLeftAtThisRate();
