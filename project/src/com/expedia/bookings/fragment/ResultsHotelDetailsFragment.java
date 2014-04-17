@@ -411,7 +411,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				continue;
 			}
 
-			LinearLayout mRoomRateDetailContainer = Ui.findView(row, R.id.room_rate_detail_container);
+			RelativeLayout mRoomRateDetailContainer = Ui.findView(row, R.id.room_rate_detail_container);
 			Button mAddSelectRoomButton = Ui.findView(row, R.id.room_rate_button_add_select);
 			mAddSelectRoomButton.setOnClickListener(new OnClickListener() {
 				@Override
@@ -454,6 +454,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		TextView mUrgencyMessagingView = Ui.findView(row, R.id.room_rate_urgency_text);
 		final TextView mRoomLongDescriptionTextView = Ui.findView(row, R.id.room_rate_description_text);
 		TextView mRefundableTextView = Ui.findView(row, R.id.room_rate_refundable_text);
+		TextView roomRateDiscountRibbon = Ui.findView(row, R.id.room_rate_discount_text);
 
 		mRoomLongDescriptionTextView.setText(rate.getRoomLongDescription());
 		// #817. Let user tap to expand or contract the room description text.
@@ -503,6 +504,15 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		}
 		else {
 			mRoomDetailImageView.setImageResource(placeholderResId);
+		}
+
+		// Room discount ribbon
+		if (rate.getDiscountPercent() > 0) {
+			roomRateDiscountRibbon.setVisibility(View.VISIBLE);
+			roomRateDiscountRibbon.setText(getString(R.string.percent_minus_template, rate.getDiscountPercent()));
+		}
+		else {
+			roomRateDiscountRibbon.setVisibility(View.INVISIBLE);
 		}
 	}
 
