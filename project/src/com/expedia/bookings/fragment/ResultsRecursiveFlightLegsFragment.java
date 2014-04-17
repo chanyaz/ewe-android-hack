@@ -510,6 +510,10 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.FILTERS) {
 				showDetailsAnimPrep(1f);
 			}
+			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.DETAILS) {
+				// We want the bind to happen as early as possible when viewing different flights on details mode
+				mDetailsFrag.bindWithDb();
+			}
 			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.LATER_LEG) {
 				showNextLegAnimPrep(0f);
 			}
