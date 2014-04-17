@@ -12,6 +12,7 @@ import static com.expedia.bookings.test.utils.EspressoUtils.swipeUp;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withContentDescription;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
@@ -51,7 +52,7 @@ public class Results {
 	}
 
 	public static void clickAddHotel() {
-		onView(allOf(withId(R.id.room_rate_button_add_select), withText("Add To Trip"))).perform(click());
+		onView(allOf(withId(R.id.room_rate_button_add_select), withText("Add To Trip"))).perform(scrollTo(),click());
 	}
 
 	public static void clickBookHotel() {
