@@ -429,23 +429,25 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			});
 
 			if (rowRate.equals(selectedRate)) {
+				row.setSelected(true);
 				// Let's set layout height to wrap content.
 				row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 				roomRateDetailContainer.setVisibility(View.VISIBLE);
 				// Change button color and text
 				addSelectRoomButton.setText(getString(R.string.room_rate_button_add_to_trip));
-				addSelectRoomButton.setBackgroundColor(getResources().getColor(R.color.hotel_room_rate_add_room_button));
+				addSelectRoomButton.setBackgroundResource(R.drawable.tablet_hotel_room_add_button);
 				// Now let's bind the new room rate details.
 				bindSelectedRoomDetails(row, selectedRate);
 			}
 			else {
+				row.setSelected(false);
 				// Reset row height, hide the detail view container and change button text, color.
 				int minHeightDimenValue = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_list_height);
 				layoutParams.height = minHeightDimenValue;
 				row.setLayoutParams(layoutParams);
 				roomRateDetailContainer.setVisibility(View.INVISIBLE);
 				addSelectRoomButton.setText(getString(R.string.room_rate_button_select_room));
-				addSelectRoomButton.setBackgroundColor(getResources().getColor(R.color.hotel_room_rate_select_room_button));
+				addSelectRoomButton.setBackgroundResource(R.drawable.tablet_hotel_room_select_button);
 			}
 		}
 

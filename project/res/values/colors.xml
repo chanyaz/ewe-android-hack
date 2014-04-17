@@ -176,7 +176,9 @@
     <color name="sliding_group_text_dim">#4a4f54</color>
     <color name="hotel_details_sticky_header_background">#4e4e52</color>
     <color name="hotel_room_rate_select_room_button">#145999</color>
+    <color name="hotel_room_rate_select_room_button_pressed">#0d3861</color>
     <color name="hotel_room_rate_add_room_button">#e4822a</color>
+    <color name="hotel_room_rate_add_room_button_pressed">#ab601f</color>
 
     <!-- Tablet flights -->
     <color name="tablet_flight_filter_text_color">#4c5156</color>
