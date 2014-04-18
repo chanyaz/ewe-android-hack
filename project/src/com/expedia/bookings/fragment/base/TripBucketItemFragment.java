@@ -48,11 +48,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private TextView mTripPriceText;
 	private TextView mNameText;
 	private TextView mDurationText;
-	private View mOverLayView;
 	private ImageView mBookingCompleteCheckImg;
 	private HeaderBitmapColorAveragedDrawable mHeaderBitmapDrawable;
-
-	private boolean mIsOverlayColorFetched;
 
 	//Colors
 	private int mExpandedBgColor = Color.WHITE;
@@ -72,7 +69,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			String stateName = savedInstanceState.getString(STATE_BUCKET_ITEM_STATE);
 			TripBucketItemState state = TripBucketItemState.valueOf(stateName);
 			mStateManager.setDefaultState(state);
-			mIsOverlayColorFetched = savedInstanceState.getBoolean(STATE_OVERLAY_COLOR_FETCHED);
 		}
 
 		addTopView(inflater, mTopC);
@@ -90,7 +86,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		mTripPriceText = Ui.findView(root, R.id.trip_bucket_price_text);
 		mNameText = Ui.findView(root, R.id.name_text_view);
 		mDurationText = Ui.findView(root, R.id.trip_duration_text_view);
-		mOverLayView = Ui.findView(root, R.id.trip_bucket_overlay);
 		mBookingCompleteCheckImg = Ui.findView(root, R.id.booking_complete_check);
 
 		mHeaderBitmapDrawable = new HeaderBitmapColorAveragedDrawable();
@@ -98,14 +93,12 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		mHeaderBitmapDrawable.setCornerMode(HeaderBitmapDrawable.CornerMode.ALL);
 		mHeaderBitmapDrawable.setCornerRadius(getActivity().getResources().getDimensionPixelSize(R.dimen.tablet_result_corner_radius));
 		mTripBucketImageView.setImageDrawable(mHeaderBitmapDrawable);
-		mHeaderBitmapDrawable.setOnBitmapColorAverageListener(bitmapColorAverageDoneListener);
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(STATE_BUCKET_ITEM_STATE, mStateManager.getState().name());
-		outState.putBoolean(STATE_OVERLAY_COLOR_FETCHED, mIsOverlayColorFetched);
 	}
 
 	@Override
@@ -134,36 +127,13 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mNameText.setText(getNameText());
 			mDurationText.setText(getDateRangeText());
 			if (doTripBucketImageRefresh()) {
-				mOverLayView.setVisibility(View.GONE);
-				mIsOverlayColorFetched = false;
-				mHeaderBitmapDrawable.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.REFRESH);
+				mHeaderBitmapDrawable.enableOverlay();
 				addTripBucketImage(mTripBucketImageView, mHeaderBitmapDrawable);
-			}
-			else {
-				mIsOverlayColorFetched = true;
 			}
 		}
 	}
 
-	private HeaderBitmapColorAveragedDrawable.BitmapColorAverageDoneListener bitmapColorAverageDoneListener = new HeaderBitmapColorAveragedDrawable.BitmapColorAverageDoneListener() {
-		@Override
-		public void onDominantColorCalculated(ColorScheme colorScheme) {
-			int colorDarkened = ColorAvgUtils.darken(colorScheme.primaryAccent, 0.4f);
-			int overLayWithAlpha = 0xCC000000 | 0x00ffffff & colorDarkened;
-			mOverLayView.setBackgroundColor(overLayWithAlpha);
-			mIsOverlayColorFetched = true;
-			// Due to timing issues this might get called after setVisibilityState, so let's take care of that.
-			if (mStateManager.getState() == TripBucketItemState.EXPANDED) {
-				mOverLayView.setVisibility(View.GONE);
-			}
-			else {
-				mOverLayView.setVisibility(View.VISIBLE);
-			}
-
-		}
-	};
-
-/*
+	/*
 	ISTATELISTENER
 	*/
 
@@ -210,38 +180,30 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		case DEFAULT:
 		case SHOWING_CHECKOUT_BUTTON:
 			mBookingCompleteCheckImg.setVisibility(View.GONE);
-			if (mIsOverlayColorFetched) {
-				mOverLayView.setVisibility(View.VISIBLE);
-				mIsOverlayColorFetched = false;
-			}
 			mBookBtnContainer.setVisibility(View.VISIBLE);
 			mExpandedC.setVisibility(View.GONE);
 			break;
 
 		case DISABLED:
 			mBookingCompleteCheckImg.setVisibility(View.GONE);
-			mOverLayView.setVisibility(View.VISIBLE);
 			mBookBtnContainer.setVisibility(View.INVISIBLE);
 			mExpandedC.setVisibility(View.GONE);
 			break;
 
 		case EXPANDED:
 			mBookingCompleteCheckImg.setVisibility(View.GONE);
-			mOverLayView.setVisibility(View.GONE);
 			mBookBtnContainer.setVisibility(View.GONE);
 			mExpandedC.setVisibility(View.VISIBLE);
 			break;
 
 		case PURCHASED:
 			mBookingCompleteCheckImg.setVisibility(View.VISIBLE);
-			mOverLayView.setVisibility(View.VISIBLE);
 			mBookBtnContainer.setVisibility(View.GONE);
 			mExpandedC.setVisibility(View.GONE);
 			break;
 
 		case CONFIRMATION:
 			mBookingCompleteCheckImg.setVisibility(View.VISIBLE);
-			mOverLayView.setVisibility(View.VISIBLE);
 			mBookBtnContainer.setVisibility(View.GONE);
 			mExpandedC.setVisibility(View.VISIBLE);
 			break;

@@ -122,7 +122,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		if (!BackgroundDownloader.getInstance().isDownloading(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY)) {
 			mDestinationImageView.setImageDrawable(mHeaderBitmapDrawable);
 
-			mHeaderBitmapDrawable.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.PLACEHOLDER);
+			mHeaderBitmapDrawable.disableOverlay();
 			mHeaderBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
 			mDestinationImageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
@@ -140,7 +140,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 					}
 					else {
 
-						mHeaderBitmapDrawable.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.REFRESH);
+						mHeaderBitmapDrawable.enableOverlay();
 						mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), bgImage.getUrl(),
 							R.drawable.bg_itin_placeholder));
 					}
@@ -246,8 +246,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		@Override
 		public void onDownload(ExpediaImage image) {
 			if (image != null) {
-				mHeaderBitmapDrawable
-					.setState(HeaderBitmapColorAveragedDrawable.HeaderBitmapColorAveragedState.REFRESH);
+				mHeaderBitmapDrawable.enableOverlay();
 				mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), image.getUrl(),
 					R.drawable.bg_itin_placeholder));
 			}
