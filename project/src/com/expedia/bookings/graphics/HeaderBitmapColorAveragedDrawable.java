@@ -2,16 +2,10 @@ package com.expedia.bookings.graphics;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
-import android.view.View;
 
 import com.expedia.bookings.bitmaps.ColorAvgUtils;
 import com.expedia.bookings.bitmaps.ColorScheme;
-import com.expedia.bookings.bitmaps.DominantColorCalculator;
-import com.expedia.bookings.enums.TripBucketItemState;
-import com.mobiata.android.util.TimingLogger;
+import com.expedia.bookings.utils.ColorSchemeCache;
 
 public class HeaderBitmapColorAveragedDrawable extends HeaderBitmapDrawable {
 
@@ -30,26 +24,16 @@ public class HeaderBitmapColorAveragedDrawable extends HeaderBitmapDrawable {
 	}
 
 	@Override
-	public void setBitmap(final Bitmap bitmap) {
-		super.setBitmap(bitmap);
+	public void onBitmapLoaded(String url, Bitmap bitmap) {
+		super.onBitmapLoaded(url, bitmap);
 		if (mOverlayEnabled && bitmap != null) {
-			new DominantColorTask().execute(bitmap);
+			ColorSchemeCache.getScheme(url, bitmap, mCallback);
 		}
 	}
 
-	private class DominantColorTask extends AsyncTask<Bitmap, Void, ColorScheme> {
+	private ColorSchemeCache.Callback mCallback = new ColorSchemeCache.Callback() {
 		@Override
-		protected ColorScheme doInBackground(Bitmap... bitmaps) {
-			TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "BitmapColorAveraging");
-			DominantColorCalculator dominantColorCalculator = new DominantColorCalculator(bitmaps[0]);
-			startupTimer.addSplit("Bitmap average color scheme obtained.");
-			startupTimer.dumpToLog();
-
-			return dominantColorCalculator.getColorScheme();
-		}
-
-		@Override
-		protected void onPostExecute(ColorScheme colorScheme) {
+		public void callback(ColorScheme colorScheme) {
 			int colorDarkened = ColorAvgUtils.darken(colorScheme.primaryAccent, 0.4f);
 			int overLayWithAlpha = 0xCC000000 | 0x00ffffff & colorDarkened;
 			setOverlayDrawable(new ColorDrawable(overLayWithAlpha));
