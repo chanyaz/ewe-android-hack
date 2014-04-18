@@ -93,6 +93,7 @@ public class HotelsHappyPathE {
 			LogInScreen.typeTextEmailEditText(user.getLoginEmail());
 			LogInScreen.typeTextPasswordEditText(user.getLoginPassword());
 			LogInScreen.clickOnLoginButton();
+			ScreenActions.delay(1);
 
 			// Enter payment as logged in user
 			HotelsCheckoutScreen.clickSelectPaymentButton();

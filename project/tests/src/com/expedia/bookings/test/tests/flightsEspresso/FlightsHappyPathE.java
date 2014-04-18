@@ -85,6 +85,7 @@ public class FlightsHappyPathE {
 		LogInScreen.typeTextEmailEditText(mUser.getLoginEmail());
 		LogInScreen.typeTextPasswordEditText(mUser.getLoginPassword());
 		LogInScreen.clickOnLoginButton();
+		ScreenActions.delay(1);
 
 		// Enter new payment
 		FlightsCheckoutScreen.clickSelectPaymentButton();
