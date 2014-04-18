@@ -274,13 +274,28 @@ public class Media implements JSONable {
 	 * downloaded in the background.
 	 */
 	public void fillImageView(final ImageView view, final int placeholderResId) {
+		fillImageView(view, placeholderResId, null);
+	}
+
+	/**
+	 * Determines the best-sized Media to fit in the passed ImageView, creates a
+	 * UrlBitmapDrawable with that sized Media (falling back to lower resolutions
+	 * if necessary), and stuffs it into that ImageView. The Media will be
+	 * downloaded in the background. This variation allows the caller to hook a callback.
+	 */
+	public void fillImageView(final ImageView view, final int placeholderResId,
+							  final L2ImageCache.OnBitmapLoaded callback) {
 
 		// Do this OnPreDraw so that we are sure we have the imageView's width
 		view.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
 				view.getViewTreeObserver().removeOnPreDrawListener(this);
-				UrlBitmapDrawable.loadImageView(getBestUrls(view.getWidth()), view, placeholderResId);
+				UrlBitmapDrawable drawable = new UrlBitmapDrawable(view.getContext().getResources(),
+					getBestUrls(view.getWidth()), placeholderResId);
+				drawable.configureImageView(view);
+				drawable.setOnBitmapLoadedCallback(callback);
+
 				return true;
 			}
 		});
