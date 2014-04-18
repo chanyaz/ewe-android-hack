@@ -1,11 +1,10 @@
 package com.expedia.bookings.test.tests.pageModelsEspresso.common;
-import static com.expedia.bookings.test.utilsEspresso.ViewActions.slidePurchase;
+
 import com.expedia.bookings.R;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.swipeRight;
-
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.closeSoftKeyboard;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
@@ -61,7 +60,7 @@ public class CommonCheckoutScreen extends ScreenActions {
 	}
 
 	public static ViewInteraction slideToPurchaseStartView() {
-		return onView(withId(SLIDE_TO_PURCHASE_START_ID));
+		return onView(withId(R.id.slide_to_purchase_widget));
 	}
 
 	public static ViewInteraction slideToPurchaseEndView() {
@@ -155,6 +154,7 @@ public class CommonCheckoutScreen extends ScreenActions {
 	}
 
 	public static void slideToCheckout() {
-		slideToPurchaseStartView().perform(slidePurchase());
+		slideToPurchaseStartView().perform(swipeRight());
+
 	}
 }

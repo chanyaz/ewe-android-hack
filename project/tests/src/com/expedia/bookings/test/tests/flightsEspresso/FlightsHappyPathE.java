@@ -3,6 +3,7 @@ package com.expedia.bookings.test.tests.flightsEspresso;
 import java.util.Calendar;
 import org.joda.time.LocalDate;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.BillingAddressScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.CVVEntryScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.CardInfoScreen;
@@ -20,6 +21,8 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.test.tests.flights.FlightsHappyPath;
 import com.expedia.bookings.test.utils.HotelsUserData;
 
+import static com.expedia.bookings.test.utils.EspressoUtils.swipeRight;
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;

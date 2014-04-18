@@ -1,11 +1,17 @@
 package com.expedia.bookings.test.tests.pageModelsEspresso.hotels;
 
+import org.hamcrest.Matcher;
 
-import static com.expedia.bookings.test.utilsEspresso.ViewActions.increment;
-import static com.expedia.bookings.test.utilsEspresso.ViewActions.decrement;
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.hasSibling;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withParent;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.core.Is.is;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
@@ -39,19 +45,20 @@ public class HotelsGuestPicker extends ScreenActions {
 	}
 
 	public static void incrementChildrenButton() {
-		onView(((withId(CHILD_PICKER_VIEW_ID)))).perform(increment());
+		onView(allOf(withId(INCREMENT_BUTTON_ID),withParent(withId(CHILD_PICKER_VIEW_ID)))).perform(click());
 	}
 
 	public static void incrementAdultsButton() {
-		onView(((withId(ADULT_PICKER_VIEW_ID)))).perform(increment());
+		onView(allOf(withId(INCREMENT_BUTTON_ID),withParent(withId(ADULT_PICKER_VIEW_ID)))).perform(click());
+
 	}
 
 	public static void decrementChildrenButton() {
-		onView(((withId(CHILD_PICKER_VIEW_ID)))).perform(decrement());
+		onView(withId(DECREMENT_BUTTON_ID)).perform(click());
 	}
 
 	public static void decrementAdultsButton() {
-		onView(((withId(ADULT_PICKER_VIEW_ID)))).perform(decrement());
+		onView(withId(DECREMENT_BUTTON_ID)).perform(click());
 	}
 
 	public static String selectChildAgePlural(int quantity) {

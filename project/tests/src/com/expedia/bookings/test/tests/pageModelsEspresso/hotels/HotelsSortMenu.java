@@ -1,14 +1,12 @@
 package com.expedia.bookings.test.tests.pageModelsEspresso.hotels;
 
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 
 /**
  * Created by dmadan on 4/10/14.
@@ -51,23 +49,23 @@ public class HotelsSortMenu extends ScreenActions {
 	// Object interaction
 
 	public void clickSortByPopularityString() {
-		(getSortByPopularityString()).perform(click());
+		getSortByPopularityString().perform(click());
 	}
 
 	public static void clickSortByDealsString() {
-		(getSortByDealsString()).perform(click());
+		getSortByDealsString().perform(click());
 	}
 
 	public static void clickSortByPriceString() {
-		(getSortByPriceString()).perform(click());
+		getSortByPriceString().perform(click());
 	}
 
 	public static void clickSortByUserRatingString() {
-		(getSortByUserRatingString()).perform(click());
+		getSortByUserRatingString().perform(click());
 	}
 
 	public static void clickSortByDistanceString() {
-		(getSortByDistanceString()).perform(click());
+		getSortByDistanceString().perform(click());
 	}
 }
 

@@ -332,7 +332,7 @@ public class SlideToWidget extends RelativeLayout {
 		}
 	}
 
-	public void fireSlideAllTheWay() {
+	protected void fireSlideAllTheWay() {
 		for (ISlideToListener listener : mSlideToListeners) {
 			listener.onSlideAllTheWay();
 		}

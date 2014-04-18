@@ -17,6 +17,7 @@ import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsCheckoutScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsConfirmationScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsDetailsScreen;
+import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsGuestPicker;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.utils.HotelsUserData;
@@ -36,7 +37,7 @@ public class HotelsHappyPathE {
 
 	private static final String TAG = HotelsHappyPathE.class.getSimpleName();
 
-	public static void execute(HotelsUserData user, int numberOfHotelsToLookAt, SearchActivity s) throws Exception {
+	public static void execute(HotelsUserData user, int numberOfHotelsToLookAt, SearchActivity activity) throws Exception {
 
 		// Launch screen
 		ScreenActions.enterLog(TAG, "Launching hotels application");
@@ -50,7 +51,7 @@ public class HotelsHappyPathE {
 		HotelsSearchScreen.enterSearchText("New York,NY");
 
 		ScreenActions.enterLog(TAG, "HERE clicking suggestion");
-		onView(withText("New York, NY")).inRoot(withDecorView(not(is(s.getWindow().getDecorView())))).perform(click());
+		onView(withText("New York, NY")).inRoot(withDecorView(not(is(activity.getWindow().getDecorView())))).perform(click());
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(cal.YEAR);
 		int month = cal.get(cal.MONTH) + 1;
@@ -63,10 +64,7 @@ public class HotelsHappyPathE {
 
 		// Guest Picker
 		HotelsSearchScreen.clickOnGuestsButton();
-		ScreenActions.enterLog(TAG, "Incrementing number of adults and number of children by 1");
-		HotelsSearchScreen.guestPicker().clickIncrementAdultsButton();
-		HotelsSearchScreen.guestPicker().clickIncrementChildrenButton();
-		ScreenActions.enterLog(TAG, "Incremented number of adults and number of children by 1");
+		HotelsGuestPicker.incrementAdultsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 
 		// Sort

@@ -2,45 +2,22 @@ package com.expedia.bookings.test.tests.pageModelsEspresso.hotels;
 
 import org.joda.time.LocalDate;
 
-import android.app.Activity;
-import android.app.Instrumentation;
-import android.content.res.Resources;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-
 import static com.expedia.bookings.test.utilsEspresso.ViewActions.clickDates;
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.RootMatchers.withDecorView;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withContentDescription;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.closeSoftKeyboard;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
-import com.expedia.bookings.section.HotelSummarySection;
-import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelSearchResultRow;
-import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.*;
-import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsFilterMenu;
-import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsGuestPicker;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
-import com.expedia.bookings.test.utils.CalendarTouchUtils;
 import com.expedia.bookings.test.utils.HotelsUserData;
-import com.expedia.bookings.test.utils.TestPreferences;
-import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
-import com.mobiata.android.text.format.Time;
-import com.mobiata.android.widget.CalendarDatePicker;
-
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 
 /**
  * Created by dmadan on 4/10/14.
