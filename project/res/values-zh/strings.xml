@@ -30,6 +30,16 @@
     <string name="end_date_TEMPLATE">结束日期：%s</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">出发城市：%1$s</string>
+    <!-- Choose flight dates -->
+    <string name="choose_flight_dates">选择航班日期</string>
+    <!-- Hotels Tonight -->
+    <string name="hotels_tonight">当晚酒店</string>
+    <!-- Missing flight info header string "Missing search information!" -->
+    <string name="missing_flight_info_header">缺少搜索信息！</string>
+    <!-- Missing flight info message "Please select a flight origin, and a valid date or date range."-->
+    <string name="missing_flight_info_message">请选择航班起飞地点，以及有效的日期范围</string>
+    <!-- Clear dates -->
+    <string name="clear_dates">清除日期</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -116,6 +126,10 @@
     <string name="loading_hotels_and_flights">正在加载酒店和航班…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">出发日期</string>
+    <!-- Flight fare calendar header for return flights -->
+    <string name="when_to_return">返程日期</string>
+    <!-- Search one way flight -->
+    <string name="search_one_way_flight">搜索单程航班</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">未找到航点信息！请修改查询，然后再试一次。</string>
 
@@ -193,6 +207,8 @@
     <string name="No_Reviews">没有点评</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">不可退款</string>
+    <!-- Title for the reviews section after we get the property name -->
+    <string name="reviews_for_TEMPLATE">%1$s的点评</string>
 
     <!-- Tablet flight details -->
     <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
@@ -1216,8 +1232,12 @@
     <string name="add_adult_number_TEMPLATE">成人 %1$s 详细信息</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">儿童 %1$s 详细信息</string>
+    <!-- Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_TEMPLATE">%1$s 岁</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">怀抱婴儿 %1$s 详细信息</string>
+    <!-- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_TEMPLATE">婴儿占座位%1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">如果旅客的姓名与政府签发的带照片的身份证不符，则可能被拒绝登机。</string>
 
@@ -1807,6 +1827,8 @@
     <string name="vip_access_message">在 VIP Access 酒店，Expedia Elite Plus 会员可免费享受客房升级及其他尊享礼遇，具体取决于入住时的供应情况。</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">仅限 VIP Access 酒店</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">仅限 VIP 客户</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">打开</string>
     <string name="switch_off">关闭</string>

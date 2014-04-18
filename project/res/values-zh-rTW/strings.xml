@@ -30,6 +30,16 @@
     <string name="end_date_TEMPLATE">結束日期：%s</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">出發地：%1$s</string>
+    <!-- Choose flight dates -->
+    <string name="choose_flight_dates">選擇班機日期</string>
+    <!-- Hotels Tonight -->
+    <string name="hotels_tonight">今晚的飯店</string>
+    <!-- Missing flight info header string "Missing search information!" -->
+    <string name="missing_flight_info_header">缺少搜尋資訊！</string>
+    <!-- Missing flight info message "Please select a flight origin, and a valid date or date range."-->
+    <string name="missing_flight_info_message">請選擇班機的出發地和有效的日期或日期範圍。</string>
+    <!-- Clear dates -->
+    <string name="clear_dates">清除日期</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -115,7 +125,11 @@
     <!-- Loading Hotels and Flights… -->
     <string name="loading_hotels_and_flights">正在載入飯店和班機…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="when_to_fly">何時出發</string>
+    <string name="when_to_fly">出發時間</string>
+    <!-- Flight fare calendar header for return flights -->
+    <string name="when_to_return">回程時間</string>
+    <!-- Search one way flight -->
+    <string name="search_one_way_flight">搜尋單程班機</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">找不到位置資訊！請修改查詢，然後再試一次。</string>
 
@@ -193,6 +207,8 @@
     <string name="No_Reviews">沒有評語</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">不可退款</string>
+    <!-- Title for the reviews section after we get the property name -->
+    <string name="reviews_for_TEMPLATE">%1$s的評論</string>
 
     <!-- Tablet flight details -->
     <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
@@ -1017,7 +1033,7 @@
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
     <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">行李費資訊</string>
+    <string name="baggage_fee_info">行李費用資訊</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">在%2$s&lt;b&gt;轉機停留 %1$s&lt;/b&gt;</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
@@ -1055,7 +1071,7 @@
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
-    <string name="edit_current_payment_details">目前付款詳細資料</string>
+    <string name="edit_current_payment_details">目前付款資料</string>
     <!-- Or Select a new payment method -->
     <string name="or_select_new_paymet_method">選擇付款方式</string>
     <!-- Select Payment -->
@@ -1216,8 +1232,12 @@
     <string name="add_adult_number_TEMPLATE">成人 %1$s 資料</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">兒童 %1$s 資料</string>
+    <!-- Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_TEMPLATE">%1$s 歲兒童資料</string>
     <!-- Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_TEMPLATE">嬰兒不佔位 %1$s 資料</string>
+    <string name="add_infant_in_lap_number_TEMPLATE">不佔位嬰兒 %1$s 資料</string>
+    <!-- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_TEMPLATE">佔位嬰兒 %1$s 資料</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">如果旅客姓名與政府機關所核發之附相片的身份證明不同，可能會被拒絕登機。</string>
 
@@ -1807,6 +1827,8 @@
     <string name="vip_access_message">入住 VIP Access 飯店時，Expedia Elite Plus 的會員會獲得免費客房升級和其他禮遇 (視實際情況而定)。</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">僅限 VIP Access 飯店</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">僅限 VIP Access</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">開</string>
     <string name="switch_off">關</string>
@@ -1988,7 +2010,7 @@
     <!-- Label for room type -->
     <string name="room_type">房型</string>
     <!-- Error if we couldn't find the room type details -->
-    <string name="error_room_type_nonexistant">很抱歉，我們找不到這間客房的其他詳細資料。</string>
+    <string name="error_room_type_nonexistant">很抱歉，我們找不到更多此客房的資料。</string>
     <!-- Label for bed type -->
     <string name="bed_type">床型</string>
     <!-- Label for length of stay -->

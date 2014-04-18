@@ -30,6 +30,16 @@
     <string name="end_date_TEMPLATE">Date de fin: %s</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">Prendre un vol à %1$s</string>
+    <!-- Choose flight dates -->
+    <string name="choose_flight_dates">Choisir les dates de vol</string>
+    <!-- Hotels Tonight -->
+    <string name="hotels_tonight">Hôtels ce soir</string>
+    <!-- Missing flight info header string "Missing search information!" -->
+    <string name="missing_flight_info_header">Information de recherche manquante!</string>
+    <!-- Missing flight info message "Please select a flight origin, and a valid date or date range."-->
+    <string name="missing_flight_info_message">Veuillez sélectionner un vol d\&apos;origine, ainsi qu\&apos;une date ou une plage de dates valide.</string>
+    <!-- Clear dates -->
+    <string name="clear_dates">Effacer les dates</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -116,6 +126,10 @@
     <string name="loading_hotels_and_flights">Chargement des hôtels et des vols…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">Quand voler</string>
+    <!-- Flight fare calendar header for return flights -->
+    <string name="when_to_return">Quand revenir</string>
+    <!-- Search one way flight -->
+    <string name="search_one_way_flight">Rechercher un vol en aller simple</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">Aucune information sur le point de cheminement n\&apos;a été trouvée. Veuillez modifier votre demande et essayer de nouveau.</string>
 
@@ -193,6 +207,8 @@
     <string name="No_Reviews">Aucune évaluation</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">Non remboursable</string>
+    <!-- Title for the reviews section after we get the property name -->
+    <string name="reviews_for_TEMPLATE">Évaluations de %1$s</string>
 
     <!-- Tablet flight details -->
     <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
@@ -1017,7 +1033,7 @@
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
     <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">INFORMATION SUR LES FRAIS DE BAGAGE</string>
+    <string name="baggage_fee_info">Information sur les frais de bagages</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s temps d\&apos;attente&lt;/b&gt; à %2$s</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
@@ -1216,8 +1232,12 @@
     <string name="add_adult_number_TEMPLATE">Détails de %1$s adulte</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Détails de %1$s enfant</string>
+    <!-- Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_TEMPLATE">Détails %1$s ans</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Détails de %1$s bébé sur les genoux</string>
+    <!-- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_TEMPLATE">Détails %1$s bébé dans un siège</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">L\&apos;embarquement pourrait être refusé si le nom du voyageur ne correspond pas à celui sur la carte d\&apos;identité avec photo émise par le gouvernement.</string>
 
@@ -1807,6 +1827,8 @@
     <string name="vip_access_message">Les hôtels Accès VIP offrent le surclassement sans frais en catégorie supérieure aux membres Élite Plus, ainsi que de nombreux autres avantages, selon disponibilité à l\&apos;arrivée.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Seulement les hôtels Accès VIP</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">VIP Access seulement</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">Activé</string>
     <string name="switch_off">Désactivé</string>

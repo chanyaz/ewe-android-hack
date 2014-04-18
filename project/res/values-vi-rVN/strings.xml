@@ -30,6 +30,16 @@
     <string name="end_date_TEMPLATE">Ngày kết thúc: %s</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">Bay từ %1$s</string>
+    <!-- Choose flight dates -->
+    <string name="choose_flight_dates">Chọn ngày của chuyến bay</string>
+    <!-- Hotels Tonight -->
+    <string name="hotels_tonight">Khách sạn đêm nay</string>
+    <!-- Missing flight info header string "Missing search information!" -->
+    <string name="missing_flight_info_header">Thiếu thông tin tìm kiếm!</string>
+    <!-- Missing flight info message "Please select a flight origin, and a valid date or date range."-->
+    <string name="missing_flight_info_message">Vui lòng chọn nơi khởi hành chuyến bay và ngày hoặc nhóm ngày hợp lệ.</string>
+    <!-- Clear dates -->
+    <string name="clear_dates">Xóa ngày</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -116,6 +126,10 @@
     <string name="loading_hotels_and_flights">Đang tải Khách sạn và chuyến bay…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">Ngày bay</string>
+    <!-- Flight fare calendar header for return flights -->
+    <string name="when_to_return">Trở về</string>
+    <!-- Search one way flight -->
+    <string name="search_one_way_flight">Tìm chuyến bay một chiều</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">Không tìm được địa điểm! Vui lòng thay đổi yêu cầu và thử lại.</string>
 
@@ -193,6 +207,8 @@
     <string name="No_Reviews">Không có nhận xét</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">Không hoàn tiền</string>
+    <!-- Title for the reviews section after we get the property name -->
+    <string name="reviews_for_TEMPLATE">Nhận xét về %1$s</string>
 
     <!-- Tablet flight details -->
     <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
@@ -1017,7 +1033,7 @@
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
     <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">THÔNG TIN PHÍ HÀNH LÝ</string>
+    <string name="baggage_fee_info">Thông tin phí hành lý</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s tạm dừng&lt;/b&gt; tại %2$s</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
@@ -1211,13 +1227,17 @@
     <!-- Add Guest for hotels -->
     <string name="guest_details">Chi tiết khách</string>
     <!-- Add traveler number template -->
-    <string name="add_traveler_number_TEMPLATE">Chi tiết %1$s khách</string>
+    <string name="add_traveler_number_TEMPLATE">Chi tiết khách %1$s</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Chi tiết người lớn %1$s</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Chi tiết trẻ %1$s</string>
+    <!-- Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_TEMPLATE">Chi tiết trẻ %1$s tuổi</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Chi tiết trẻ sơ sinh ngồi trong lòng %1$s</string>
+    <!-- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_TEMPLATE">Chi tiết trẻ sơ sinh có chỗ riêng %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Khách có thể không được lên máy bay nếu tên khách không trùng khớp với giấy tờ tùy thân (ID) có ảnh hợp lệ.</string>
 
@@ -1807,6 +1827,8 @@
     <string name="vip_access_message">Tại các khách sạn VIP Access, thành viên Expedia Elite Plus sẽ được miễn phí nâng hạng phòng và nhận nhiều ưu đãi khác tùy theo khả năng đáp ứng thực tế của khách sạn vào thời điểm nhận phòng.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Chỉ các khách sạn VIP Access</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">Chỉ VIP Access</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">BẬT</string>
     <string name="switch_off">TẮT</string>

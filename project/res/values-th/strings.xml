@@ -30,6 +30,16 @@
     <string name="end_date_TEMPLATE">วันสิ้นสุด: %s</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">บินจาก%1$s</string>
+    <!-- Choose flight dates -->
+    <string name="choose_flight_dates">เลือกวันที่ของเที่ยวบิน</string>
+    <!-- Hotels Tonight -->
+    <string name="hotels_tonight">โรงแรมที่จะพักคืนนี้</string>
+    <!-- Missing flight info header string "Missing search information!" -->
+    <string name="missing_flight_info_header">ข้อมูลที่ใช้ในการค้นหาขาดหายไป!</string>
+    <!-- Missing flight info message "Please select a flight origin, and a valid date or date range."-->
+    <string name="missing_flight_info_message">โปรดเลือกจุดเริ่มต้นของเที่ยวบิน และวันที่หรือช่วงวันที่ที่ถูกต้อง</string>
+    <!-- Clear dates -->
+    <string name="clear_dates">ล้างวันที่</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -116,6 +126,10 @@
     <string name="loading_hotels_and_flights">กำลังโหลดโรงแรมและเที่ยวบิน…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">ต้องการบินเมื่อไหร่</string>
+    <!-- Flight fare calendar header for return flights -->
+    <string name="when_to_return">ต้องการกลับเมื่อไหร่</string>
+    <!-- Search one way flight -->
+    <string name="search_one_way_flight">ค้นหาเที่ยวบินแบบเที่ยวเดียว</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">ไม่พบข้อมูลสถานที่ตั้ง โปรดปรับการค้นหาของคุณแล้วลองใหม่</string>
 
@@ -193,6 +207,8 @@
     <string name="No_Reviews">ไม่มีรีวิว</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">ไม่สามารถขอคืนเงินได้</string>
+    <!-- Title for the reviews section after we get the property name -->
+    <string name="reviews_for_TEMPLATE">รีวิวสำหรับ %1$s</string>
 
     <!-- Tablet flight details -->
     <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
@@ -1216,8 +1232,12 @@
     <string name="add_adult_number_TEMPLATE">รายละเอียดผู้ใหญ่ %1$s</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">รายละเอียดเด็ก %1$s</string>
+    <!-- Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_TEMPLATE">รายละเอียดอายุ%1$s</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">รายละเอียดทารกนั่งตัก %1$s</string>
+    <!-- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_TEMPLATE">รายละเอียดทารกนั่งที่นั่ง %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">สายการบินอาจปฏิเสธการขึ้นเครื่องหากชื่อผู้เดินทางไม่ตรงกับบัตรประจำตัวที่มีรูปถ่ายที่ทางราชการออกให้</string>
 
@@ -1807,6 +1827,8 @@
     <string name="vip_access_message">ที่โรงแรม VIP Access สมาชิก Expedia Elite Plus จะได้รับการอัพเกรดห้องพักฟรี รวมถึงสิทธิประโยชน์อื่นๆ ที่มีพร้อมบริการขณะเข้าเช็คอิน</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">โรงแรม VIP Access เท่านั้น</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">เฉพาะ VIP Access เท่านั้น</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">เปิด</string>
     <string name="switch_off">ปิด</string>

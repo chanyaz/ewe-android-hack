@@ -30,6 +30,16 @@
     <string name="end_date_TEMPLATE">Tanggal Berakhir: %s</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">Penerbangan dari %1$s</string>
+    <!-- Choose flight dates -->
+    <string name="choose_flight_dates">Pilih tanggal penerbangan</string>
+    <!-- Hotels Tonight -->
+    <string name="hotels_tonight">Hotel Malam Ini</string>
+    <!-- Missing flight info header string "Missing search information!" -->
+    <string name="missing_flight_info_header">Informasi pencarian tidak ada!</string>
+    <!-- Missing flight info message "Please select a flight origin, and a valid date or date range."-->
+    <string name="missing_flight_info_message">Pilih asal penerbangan, dan tanggal atau rentang tanggal yang valid.</string>
+    <!-- Clear dates -->
+    <string name="clear_dates">Hapus tanggal</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -116,6 +126,10 @@
     <string name="loading_hotels_and_flights">Memuat Hotel dan Penerbangan…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">Waktu Penerbangan</string>
+    <!-- Flight fare calendar header for return flights -->
+    <string name="when_to_return">Waktu Kembali</string>
+    <!-- Search one way flight -->
+    <string name="search_one_way_flight">Cari Penerbangan Sekali Jalan</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">Informasi lokasi tidak ditemukan! Ubah pencarian, lalu coba lagi.</string>
 
@@ -193,6 +207,8 @@
     <string name="No_Reviews">Tidak Ada Ulasan</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">Tidak Dapat Dikembalikan</string>
+    <!-- Title for the reviews section after we get the property name -->
+    <string name="reviews_for_TEMPLATE">Ulasan untuk %1$s</string>
 
     <!-- Tablet flight details -->
     <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
@@ -1017,7 +1033,7 @@
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
     <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">INFORMASI BIAYA BAGASI</string>
+    <string name="baggage_fee_info">Informasi Biaya Bagasi</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s pemberhentian&lt;/b&gt; di %2$s</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
@@ -1216,8 +1232,12 @@
     <string name="add_adult_number_TEMPLATE">Detail dewasa %1$s</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Detail anak %1$s</string>
+    <!-- Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_TEMPLATE">Detail anak usia %1$s tahun</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Detail bayi di Pangkuan %1$s</string>
+    <!-- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_TEMPLATE">Detail Bayi di Tempat Duduk %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Anda mungkin akan ditolak naik pesawat jika nama pelancong tidak sama dengan nama pada kartu identitas resmi berfoto Anda.</string>
 
@@ -1807,6 +1827,8 @@
     <string name="vip_access_message">Di hotel VIP Access, anggota Expedia Elite Plus dapat menerima upgrade kamar gratis dan tambahan lainnya tergantung ketersediaan pada saat check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Hanya hotel VIP Access</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">Hanya VIP Access</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">AKTIF</string>
     <string name="switch_off">TIDAK AKTIF</string>

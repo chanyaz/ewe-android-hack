@@ -30,6 +30,16 @@
     <string name="end_date_TEMPLATE">End Date: %s</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">Fly from %1$s</string>
+    <!-- Choose flight dates -->
+    <string name="choose_flight_dates">Choose flight dates</string>
+    <!-- Hotels Tonight -->
+    <string name="hotels_tonight">Hotels Tonight</string>
+    <!-- Missing flight info header string "Missing search information!" -->
+    <string name="missing_flight_info_header">Missing search information!</string>
+    <!-- Missing flight info message "Please select a flight origin, and a valid date or date range."-->
+    <string name="missing_flight_info_message">Please select a flight origin, and a valid date or date range.</string>
+    <!-- Clear dates -->
+    <string name="clear_dates">Clear dates</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -116,6 +126,10 @@
     <string name="loading_hotels_and_flights">Loading Hotels and Flights…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">When To Fly</string>
+    <!-- Flight fare calendar header for return flights -->
+    <string name="when_to_return">When to Return</string>
+    <!-- Search one way flight -->
+    <string name="search_one_way_flight">Search One-Way Flight</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">No waypoint information found! Please alter your query and try again.</string>
 
@@ -193,6 +207,8 @@
     <string name="No_Reviews">No Reviews</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">Non Refundable</string>
+    <!-- Title for the reviews section after we get the property name -->
+    <string name="reviews_for_TEMPLATE">Reviews for %1$s</string>
 
     <!-- Tablet flight details -->
     <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
@@ -943,7 +959,7 @@
     <!-- Hint when no dates are selected for a flight trip -->
     <string name="hint_select_departure">Select a departure date</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
-    <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (One Way)</string>
+    <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (One-Way)</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
     <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; to &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Label for "sort" button -->
@@ -1000,7 +1016,7 @@
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
-    <string name="one_way_price_TEMPLATE">One way for &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="one_way_price_TEMPLATE">One-way for &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Round trip from $994" -->
     <string name="round_trip_price_TEMPLATE">Return from &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
@@ -1017,7 +1033,7 @@
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
     <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">BAGGAGE FEE INFORMATION</string>
+    <string name="baggage_fee_info">Baggage Fee Information</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; stopover in %2$s</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
@@ -1216,8 +1232,12 @@
     <string name="add_adult_number_TEMPLATE">Adult %1$s details</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Child %1$s details</string>
+    <!-- Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_TEMPLATE">%1$s yr old details</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Infant in Lap %1$s details</string>
+    <!-- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_TEMPLATE">Infant in Seat %1$s details</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Boarding may be denied if traveller name does not match government-issued photo ID.</string>
 
@@ -1807,6 +1827,8 @@
     <string name="vip_access_message">At VIP Access hotels, Expedia Elite Plus members receive free room upgrades and other perks upon availability at check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Only VIP Access Hotels</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">VIP Access Only</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">ON</string>
     <string name="switch_off">OFF</string>

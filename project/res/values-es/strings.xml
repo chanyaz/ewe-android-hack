@@ -30,6 +30,16 @@
     <string name="end_date_TEMPLATE">Fecha de finalización: %s</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">Quiero volar desde %1$s</string>
+    <!-- Choose flight dates -->
+    <string name="choose_flight_dates">Elegir fechas de vuelo</string>
+    <!-- Hotels Tonight -->
+    <string name="hotels_tonight">Hoteles para esta noche</string>
+    <!-- Missing flight info header string "Missing search information!" -->
+    <string name="missing_flight_info_header">Falta información de búsqueda</string>
+    <!-- Missing flight info message "Please select a flight origin, and a valid date or date range."-->
+    <string name="missing_flight_info_message">Selecciona un origen y una fecha o rangos de fecha válidos.</string>
+    <!-- Clear dates -->
+    <string name="clear_dates">Borrar fechas</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -116,6 +126,10 @@
     <string name="loading_hotels_and_flights">Cargando hoteles y vuelos…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">Cuándo volar</string>
+    <!-- Flight fare calendar header for return flights -->
+    <string name="when_to_return">Vuelta</string>
+    <!-- Search one way flight -->
+    <string name="search_one_way_flight">Buscar vuelos de solo ida</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">No se ha encontrado información sobre la ubicación. Modifica tu búsqueda e inténtalo de nuevo.</string>
 
@@ -194,6 +208,8 @@
     <string name="No_Reviews">Sin opiniones</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">No reembolsable</string>
+    <!-- Title for the reviews section after we get the property name -->
+    <string name="reviews_for_TEMPLATE">Opiniones sobre %1$s</string>
 
     <!-- Tablet flight details -->
     <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
@@ -1018,7 +1034,7 @@
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
     <!-- Button label for information about baggage fees -->
-    <string name="baggage_fee_info">INFORMACIÓN SOBRE TASAS DE EQUIPAJE</string>
+    <string name="baggage_fee_info">Información sobre tasas de equipaje</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
     <string name="layover_duration_location_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; de escala en %2$s</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
@@ -1217,8 +1233,12 @@
     <string name="add_adult_number_TEMPLATE">Datos del adulto %1$s</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Datos del niño %1$s</string>
+    <!-- Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_TEMPLATE">Datos del niño de %1$s años</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Datos del bebé en regazo %1$s</string>
+    <!-- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_TEMPLATE">Datos del bebé en regazo %1$s</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">El operador de la aerolínea puede denegar el embarque si el nombre del pasajero no coincide con el de alguna identificación oficial con fotografía.</string>
 
@@ -1808,6 +1828,8 @@
     <string name="vip_access_message">Los hoteles con acceso VIP ofrecen a los miembros Elite Plus de Expedia mejoras gratuitas de la categoría de la habitación, así como otras comodidades según disponibilidad en el momento de la llegada al hotel.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Solo hoteles con acceso VIP</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">Solo Acceso VIP</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">del</string>
     <string name="switch_off">MENOS</string>

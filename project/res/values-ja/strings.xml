@@ -30,6 +30,16 @@
     <string name="end_date_TEMPLATE">現地出発日 : %s</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">出発地 %1$s</string>
+    <!-- Choose flight dates -->
+    <string name="choose_flight_dates">フライト日を選択</string>
+    <!-- Hotels Tonight -->
+    <string name="hotels_tonight">今夜のホテル</string>
+    <!-- Missing flight info header string "Missing search information!" -->
+    <string name="missing_flight_info_header">検索情報が指定されていません !</string>
+    <!-- Missing flight info message "Please select a flight origin, and a valid date or date range."-->
+    <string name="missing_flight_info_message">フライト出発地、有効な日付または期間を選択してください。</string>
+    <!-- Clear dates -->
+    <string name="clear_dates">日付をクリア</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -116,6 +126,10 @@
     <string name="loading_hotels_and_flights">ホテルとフライトを読み込み中…</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
     <string name="when_to_fly">出発日</string>
+    <!-- Flight fare calendar header for return flights -->
+    <string name="when_to_return">現地出発日</string>
+    <!-- Search one way flight -->
+    <string name="search_one_way_flight">片道フライトを検索</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">ロケーション情報が見つかりませんでした ! 検索条件を変更して、もう一度お試しください。</string>
 
@@ -193,6 +207,8 @@
     <string name="No_Reviews">レビューなし</string>
     <!-- Text indicating a hotel room/rate is non-refundable -->
     <string name="Non_Refundable">返金不可</string>
+    <!-- Title for the reviews section after we get the property name -->
+    <string name="reviews_for_TEMPLATE">%1$sのレビュー</string>
 
     <!-- Tablet flight details -->
     <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
@@ -649,9 +665,9 @@
     <string name="car_category_oversize">オーバーサイズカー</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア自動車</string>
-    <string name="car_type_three_door">3 ドア自動車</string>
-    <string name="car_type_four_door">4 ドア自動車</string>
+    <string name="car_type_two_door">2 ドア 自動車</string>
+    <string name="car_type_three_door">3 ドア 自動車</string>
+    <string name="car_type_four_door">4 ドア 自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -1216,8 +1232,12 @@
     <string name="add_adult_number_TEMPLATE">大人 %1$s の詳細</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">お子様 %1$s の詳細</string>
+    <!-- Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_TEMPLATE">%1$s 才のお子様の詳細</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">膝抱きの乳幼児 %1$s の詳細</string>
+    <!-- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_TEMPLATE">座席が必要な乳幼児 %1$s の詳細</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">旅行者名がパスポートなど写真付きの公的証明書に記載された名前と一致しない場合は搭乗できません。</string>
 
@@ -1807,6 +1827,8 @@
     <string name="vip_access_message">IP Access ホテルでは、Expedia Elite Plus メンバーは、客室無料アップグレードおよびその他の特典をご利用いただけます (チェックイン時の利用状況による)。</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">VIP Access ホテルのみ</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="VIP_Access_Only">VIP Access のみ</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">オン</string>
     <string name="switch_off">オフ</string>
