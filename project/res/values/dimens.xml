@@ -312,4 +312,7 @@
     <!-- Hotel Details Rooms and rates row initial/unexpanded height -->
     <dimen name="hotel_room_rate_list_height">84dp</dimen>
 
+    <!-- User review dimens -->
+    <dimen name="user_review_text_padding_right">0dp</dimen>
+
 </resources>

@@ -30,6 +30,7 @@ import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
+import com.expedia.bookings.interfaces.IResultsHotelReviewsBackClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -59,7 +60,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	ISortAndFilterListener, IResultsHotelSelectedListener, IFragmentAvailabilityProvider,
 	HotelMapFragmentListener, SupportMapFragmentListener, IBackManageable, IStateProvider<ResultsHotelsState>,
 	ExpediaServicesFragment.ExpediaServicesFragmentListener, IAddToBucketListener,
-	IResultsHotelReviewsClickedListener, IAcceptingListenersListener {
+	IResultsHotelReviewsClickedListener, IAcceptingListenersListener, IResultsHotelReviewsBackClickedListener {
 
 	//State
 	private static final String STATE_HOTELS_STATE = "STATE_HOTELS_STATE";
@@ -617,12 +618,21 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	}
 
 	/*
-	 * IResultsHotelSelectedListener Functions
+	 * IResultsHotelReviewsClickedListener Functions
 	 */
 
 	@Override
 	public void onHotelReviewsClicked() {
 		setHotelsState(ResultsHotelsState.REVIEWS, true);
+	}
+
+	/*
+	 * IResultsHotelReviewsBackClickedListener Functions
+	 */
+
+	@Override
+	public void onHotelReviewsBackClicked() {
+		setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
 	}
 
 	/*

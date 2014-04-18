@@ -243,4 +243,14 @@
         <item name="android:progressDrawable">@drawable/ratingbar_userreview_flat_yellow</item>
     </style>
 
+    <!-- SegmentedControlGroup styling -->
+    <style name="V2.Widget.SegmentedControlGroup" />
+
+    <style name="V2.Widget.SegmentedControlGroup.TabletUserReviews">
+        <item name="centerButton">@drawable/btn_tablet_user_review_segment</item>
+        <item name="leftButton">@drawable/btn_tablet_user_review_segment</item>
+        <item name="rightButton">@drawable/btn_tablet_user_review_segment</item>
+        <item name="textColor">#000000</item>
+    </style>
+
 </resources>

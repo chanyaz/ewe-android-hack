@@ -10,6 +10,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,7 +23,9 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.fragment.UserReviewsFragment.ReviewWrapper;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.SpannableBuilder;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
@@ -147,11 +150,10 @@ public class UserReviewsAdapter extends BaseAdapter {
 	private static class UserReviewViewHolder {
 		public TextView title;
 		public RatingBar ratingBar;
-		public TextView nameAndLocation;
+		public TextView nameLocationDate;
 		public TextView submissionDate;
 		public TextView body;
-		public View readMore;
-		public View fade;
+		public View separator;
 	}
 
 	public UserReviewViewHolder getUserReviewViewHolder(View convertView) {
@@ -159,17 +161,16 @@ public class UserReviewsAdapter extends BaseAdapter {
 		viewHolder.title = Ui.findView(convertView, R.id.user_review_title_text_view);
 		viewHolder.ratingBar = Ui.findView(convertView, R.id.user_review_rating_bar);
 		viewHolder.body = Ui.findView(convertView, R.id.user_review_body_text_view);
-		viewHolder.readMore = Ui.findView(convertView, R.id.read_more_layout);
-		viewHolder.fade = Ui.findView(convertView, R.id.user_review_body_text_fade_bottom);
-		viewHolder.nameAndLocation = Ui.findView(convertView, R.id.user_review_name_and_location_text_view);
+		viewHolder.nameLocationDate = Ui.findView(convertView, R.id.user_review_name_location_date_text_view);
 		viewHolder.submissionDate = Ui.findView(convertView, R.id.user_review_date_text_view);
+		viewHolder.separator = Ui.findView(convertView, R.id.user_review_separator);
 		return viewHolder;
 	}
 
 	private void populateUserReviewsView(final UserReviewViewHolder viewHolder, final ReviewWrapper userReviewLoaded,
 			final int position) {
 		// This click listener is set outside of the convertView so that it displays the right data
-		viewHolder.readMore.setOnClickListener(new OnClickListener() {
+		viewHolder.body.setOnClickListener(new OnClickListener() {
 			@TargetApi(8)
 			@Override
 			public void onClick(View v) {
@@ -186,6 +187,13 @@ public class UserReviewsAdapter extends BaseAdapter {
 			}
 		});
 
+		if (position == 0) {
+			viewHolder.separator.setVisibility(View.GONE);
+		}
+		else {
+			viewHolder.separator.setVisibility(View.VISIBLE);
+		}
+
 		viewHolder.title.setText(userReviewLoaded.mReview.getTitle());
 		viewHolder.ratingBar.setRating(userReviewLoaded.mReview.getOverallSatisfaction());
 
@@ -195,7 +203,11 @@ public class UserReviewsAdapter extends BaseAdapter {
 		}
 		else if (userReviewLoaded.mBodyWasReduced) {
 			setupReducedReviewDisplay(viewHolder);
-			viewHolder.body.setText(userReviewLoaded.mBodyReduced);
+			SpannableBuilder builder = new SpannableBuilder();
+			builder.append(userReviewLoaded.mBodyReduced);
+			builder.append(" ");
+			builder.append(mContext.getString(R.string.more), new ForegroundColorSpan(0xFF245FB3), FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
+			viewHolder.body.setText(builder.build());
 		}
 		else {
 			setupFullReviewDisplay(viewHolder);
@@ -219,7 +231,6 @@ public class UserReviewsAdapter extends BaseAdapter {
 			nameAndLocationText = name;
 		}
 
-		viewHolder.nameAndLocation.setText(nameAndLocationText);
 
 		DateTime dateTime = userReviewLoaded.mReview.getSubmissionDate();
 		String submissionDateText;
@@ -233,17 +244,25 @@ public class UserReviewsAdapter extends BaseAdapter {
 		else {
 			submissionDateText = JodaUtils.formatDateTime(mContext, dateTime, DateUtils.FORMAT_NUMERIC_DATE);
 		}
-		viewHolder.submissionDate.setText(submissionDateText);
 
+		String combinedText = nameAndLocationText;
+		if (!TextUtils.isEmpty(submissionDateText)) {
+			if (TextUtils.isEmpty(nameAndLocationText)) {
+				combinedText = submissionDateText;
+			}
+			else {
+				combinedText = mContext.getString(R.string.submitted_by_on_date_TEMPLATE, combinedText, submissionDateText);
+			}
+		}
+
+		viewHolder.nameLocationDate.setText(combinedText);
 	}
 
 	private void setupReducedReviewDisplay(final UserReviewViewHolder viewHolder) {
-		viewHolder.readMore.setVisibility(View.VISIBLE);
-		viewHolder.fade.setVisibility(View.VISIBLE);
+		// FIXME
 	}
 
 	private void setupFullReviewDisplay(final UserReviewViewHolder viewHolder) {
-		viewHolder.readMore.setVisibility(View.GONE);
-		viewHolder.fade.setVisibility(View.GONE);
+		// FIXME
 	}
 }

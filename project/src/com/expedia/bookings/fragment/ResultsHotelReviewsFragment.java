@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.util.Set;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -20,6 +21,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.fragment.UserReviewsFragment;
 import com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsFragmentListener;
+import com.expedia.bookings.interfaces.IResultsHotelReviewsBackClickedListener;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
 import com.mobiata.android.widget.SegmentedControlGroup;
@@ -39,6 +41,14 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 
 	private UserReviewsFragmentPagerAdapter mPagerAdapter;
 
+	private IResultsHotelReviewsBackClickedListener mListener;
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mListener = Ui.findFragmentListener(this, IResultsHotelReviewsBackClickedListener.class);
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotel_reviews, null);
@@ -47,7 +57,9 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		mReviewSectionTitle.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				getActivity().onBackPressed();
+				if (mListener != null) {
+					mListener.onHotelReviewsBackClicked();
+				}
 			}
 		});
 

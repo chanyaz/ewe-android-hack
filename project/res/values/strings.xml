@@ -228,6 +228,8 @@
     <string name="Non_Refundable">Non Refundable</string>
     <!-- Title for the reviews section after we get the property name -->
     <string name="reviews_for_TEMPLATE">Reviews for %1$s</string>
+    <!-- Information for the review about who submitted it and when -->
+    <string name="submitted_by_on_date_TEMPLATE">%1$s on %2$s</string>
 
     <!-- Tablet flight details -->
     <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
@@ -1935,6 +1937,8 @@
     <string name="user_review_loading_more_reviews">Loading more reviews…</string>
     <!-- Read more of the review -->
     <string name="user_review_read_more">Read more</string>
+    <!-- Read more of the review -->
+    <string name="more">more</string>
     <!--
          User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
         1$ represents the number of guests that recommend this hotel

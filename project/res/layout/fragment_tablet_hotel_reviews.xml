@@ -24,45 +24,95 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/reviews_title"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/user_reviews_view"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_error_blue"
-                    android:padding="8dp"
-                    android:textSize="18dp" />
+                    android:background="#edeef0"
+                    android:orientation="vertical" >
 
-                <com.mobiata.android.widget.SegmentedControlGroup
-                    android:id="@+id/user_review_sort_group"
-                    style="@style/Widget.SegmentedControlGroup.UserReviews"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
 
-                    <RadioButton
-                        android:id="@+id/user_review_button_recent"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:contentDescription="@string/cd_display_recent_reviews"
-                        android:text="@string/user_review_sort_button_recent" />
+                        <TextView
+                            android:id="@+id/reviews_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="56dp"
+                            android:background="@drawable/btn_tablet_user_review_segment"
+                            android:drawableLeft="@drawable/abs__ic_ab_back_holo_light"
+                            android:gravity="center_vertical"
+                            android:padding="8dp"
+                            android:textSize="18dp" />
 
-                    <RadioButton
-                        android:id="@+id/user_review_button_favorable"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:contentDescription="@string/cd_display_favorable_reviews"
-                        android:text="@string/user_review_sort_button_favorable" />
+                    </FrameLayout>
 
-                    <RadioButton
-                        android:id="@+id/user_review_button_critical"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:contentDescription="@string/cd_display_critical_reviews"
-                        android:text="@string/user_review_sort_button_critical" />
-                </com.mobiata.android.widget.SegmentedControlGroup>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="4dp"
+                        android:background="@drawable/div_tablet_reviews_header" />
+
+                    <com.mobiata.android.widget.SegmentedControlGroup
+                        android:id="@+id/user_review_sort_group"
+                        style="@style/V2.Widget.SegmentedControlGroup.TabletUserReviews"
+                        android:layout_width="fill_parent"
+                        android:layout_height="56dp"
+                        android:background="#edeef0"
+                        android:orientation="horizontal" >
+
+                        <RadioButton
+                            android:id="@+id/user_review_button_recent"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/cd_display_recent_reviews"
+                            android:gravity="center"
+                            android:text="@string/user_review_sort_button_recent"
+                            android:textAllCaps="true"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="#19000000" />
+
+                        <RadioButton
+                            android:id="@+id/user_review_button_favorable"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/cd_display_favorable_reviews"
+                            android:gravity="center"
+                            android:text="@string/user_review_sort_button_favorable"
+                            android:textAllCaps="true"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="#19000000" />
+
+                        <RadioButton
+                            android:id="@+id/user_review_button_critical"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/cd_display_critical_reviews"
+                            android:gravity="center"
+                            android:text="@string/user_review_sort_button_critical"
+                            android:textAllCaps="true"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                    </com.mobiata.android.widget.SegmentedControlGroup>
+
+                </LinearLayout>
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/pager"

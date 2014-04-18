@@ -410,7 +410,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		public Review mReview;
 		public boolean mBodyWasReduced;
 		public boolean mIsDisplayingFull;
-		public String mBodyReduced;
+		public CharSequence mBodyReduced;
 
 		public boolean mIsDivider = false;
 		public boolean mIsLoadingFooter = false;
