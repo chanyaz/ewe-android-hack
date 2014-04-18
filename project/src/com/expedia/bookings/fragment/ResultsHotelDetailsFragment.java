@@ -8,6 +8,7 @@ import java.util.Set;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -16,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -26,6 +26,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.ColorScheme;
+import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.BedType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelAvailability;
@@ -40,8 +42,10 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
 import com.expedia.bookings.server.CrossContextHelper;
+import com.expedia.bookings.utils.ColorSchemeCache;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.HotelDetailsStickyHeaderLayout;
 import com.expedia.bookings.widget.RingedCountView;
 import com.expedia.bookings.widget.ScrollView;
 import com.mobiata.android.BackgroundDownloader;
@@ -63,6 +67,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 	private ViewGroup mRootC;
 	private View mUserRatingContainer;
+	private HotelDetailsStickyHeaderLayout mHeaderContainer;
 
 	private IAddToBucketListener mAddToBucketListener;
 	private IResultsHotelReviewsClickedListener mHotelReviewsClickedListener;
@@ -85,6 +90,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotel_details, null);
 
 		mUserRatingContainer = Ui.findView(mRootC, R.id.user_rating_container);
+		mHeaderContainer = Ui.findView(mRootC, R.id.header_container);
 
 		return mRootC;
 	}
@@ -195,7 +201,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		// Hotel Image
 		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.hotelImagePlaceHolderDrawable);
 		if (property.getThumbnail() != null) {
-			property.getThumbnail().fillImageView(hotelImage, placeholderResId);
+			property.getThumbnail().fillImageView(hotelImage, placeholderResId, mHeaderBitmapLoadedCallback);
 		}
 		else {
 			hotelImage.setImageResource(placeholderResId);
@@ -617,6 +623,26 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 			mResponse = response;
 			populateViews();
+		}
+	};
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Async handling of Header / ColorScheme
+
+	L2ImageCache.OnBitmapLoaded mHeaderBitmapLoadedCallback = new L2ImageCache.OnBitmapLoaded() {
+		@Override
+		public void onBitmapLoaded(String url, Bitmap bitmap) {
+			ColorSchemeCache.getScheme(url, bitmap, new ColorSchemeCache.Callback() {
+				@Override
+				public void callback(ColorScheme colorScheme) {
+					mHeaderContainer.setDominantColor(colorScheme);
+				}
+			});
+		}
+
+		@Override
+		public void onBitmapLoadFailed(String url) {
+			mHeaderContainer.resetDominantColor();
 		}
 	};
 

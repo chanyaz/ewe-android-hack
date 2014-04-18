@@ -9,6 +9,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.ColorAvgUtils;
+import com.expedia.bookings.bitmaps.ColorScheme;
 import com.expedia.bookings.utils.Ui;
 
 /**
@@ -56,9 +58,7 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 		Resources res = getResources();
 		mCompactHeaderHeight = res.getDimension(R.dimen.tablet_details_compact_header_height);
 
-		//TODO: this should use our new dominant color algorithm
-		// dominant color (allthethings)!
-		mDominantColorBackground = new ColorDrawable(res.getColor(R.color.hotel_details_sticky_header_background));
+		resetDominantColor();
 	}
 
 	@Override
@@ -116,6 +116,27 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 
 		mVipBadge.setTranslationY(extra);
 		mVipBadge.setAlpha(1 - extraPct);
+	}
+
+	public void setDominantColor(ColorScheme colorScheme) {
+		int colorDarkened = ColorAvgUtils.darken(colorScheme.primaryAccent, 0.4f);
+		setDominantColor(colorDarkened);
+	}
+
+	public void resetDominantColor() {
+		setDominantColor(getResources().getColor(R.color.hotel_details_sticky_header_background));
+	}
+
+	@TargetApi(11)
+	private void setDominantColor(int color) {
+		if (mDominantColorBackground == null) {
+			mDominantColorBackground = new ColorDrawable();
+			mDominantColorBackground.setAlpha(0);
+		}
+		int alpha = mDominantColorBackground.getAlpha();
+		int overlayWithAlpha = 0x01000000 * alpha | 0x00ffffff & color;
+		mDominantColorBackground.setColor(overlayWithAlpha);
+		mDominantColorBackground.invalidateSelf();
 	}
 
 }
