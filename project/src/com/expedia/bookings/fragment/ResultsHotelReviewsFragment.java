@@ -74,7 +74,7 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		mSortGroup = Ui.findView(mRootC, R.id.user_review_sort_group);
 		mSortGroup.setOnCheckedChangeListener(this);
 		int position = mViewPager.getCurrentItem();
-		((RadioButton) mSortGroup.getChildAt(position)).setChecked(true);
+		onPageSelected(position);
 
 		mRootC.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			public void onGlobalLayout() {
@@ -119,7 +119,20 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 
 	@Override
 	public void onPageSelected(int position) {
-		((RadioButton) mSortGroup.getChildAt(position)).setChecked(true);
+		int id = 0;
+		if (position == 0) {
+			id = R.id.user_review_button_recent;
+		}
+		else if (position == 1) {
+			id = R.id.user_review_button_favorable;
+		}
+		else {
+			id = R.id.user_review_button_critical;
+		}
+		RadioButton button = Ui.findView(mSortGroup, id);
+		if (button != null) {
+			button.setChecked(true);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
