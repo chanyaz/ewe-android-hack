@@ -39,6 +39,7 @@ public enum PointOfSaleId {
 	AIRASIAGO_MALAYSIA(1257),
 
 	TRAVELOCITY(80001),
+	TRAVELOCITY_CA(80004),
 	;
 
 	private int mId;

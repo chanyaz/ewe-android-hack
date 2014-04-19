@@ -1743,8 +1743,8 @@ public class ExpediaServices implements DownloadListener {
 		if (!TextUtils.isEmpty(urlTemplate)) {
 			String protocol = (flags & F_SECURE_REQUEST) != 0 ? "https" : "http";
 
-			// Use dot-less domain names for everything besides production
-			if (endPoint != EndPoint.PRODUCTION) {
+			// Use dot-less domain names for everything besides production & Travelocity integration
+			if (endPoint != EndPoint.PRODUCTION && !(endPoint == EndPoint.INTEGRATION && ExpediaBookingApp.IS_TRAVELOCITY)) {
 				domain = TextUtils.join("", domain.split("\\."));
 			}
 
