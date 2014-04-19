@@ -35,7 +35,8 @@ public enum PointOfSaleId {
 	UNITED_STATES(29),
 	VIETNAM(30),
 	VSC(31),
-	TRAVELOCITY(80001);
+	TRAVELOCITY(80001),
+	TRAVELOCITY_CA(80004);
 
 	private int mId;
 
