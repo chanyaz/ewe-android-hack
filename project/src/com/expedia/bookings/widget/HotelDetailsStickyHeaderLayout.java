@@ -134,8 +134,8 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 			mDominantColorBackground.setAlpha(0);
 		}
 		int alpha = mDominantColorBackground.getAlpha();
-		int overlayWithAlpha = 0x01000000 * alpha | 0x00ffffff & color;
-		mDominantColorBackground.setColor(overlayWithAlpha);
+		mDominantColorBackground.setColor(color);
+		mDominantColorBackground.setAlpha(alpha);
 		mDominantColorBackground.invalidateSelf();
 	}
 
