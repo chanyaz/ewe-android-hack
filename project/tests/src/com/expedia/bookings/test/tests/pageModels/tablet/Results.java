@@ -52,7 +52,7 @@ public class Results {
 	}
 
 	public static void clickAddHotel() {
-		onView(allOf(withId(R.id.room_rate_button_add_select), withText("Add To Trip"))).perform(scrollTo(),click());
+		onView(allOf(withId(R.id.room_rate_button_add), withText("Add To Trip"))).perform(scrollTo(),click());
 	}
 
 	public static void clickBookHotel() {
