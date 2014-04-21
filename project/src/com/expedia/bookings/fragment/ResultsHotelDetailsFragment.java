@@ -5,14 +5,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.TextUtils;
+import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -68,7 +72,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private ViewGroup mRootC;
 	private View mUserRatingContainer;
 	private HotelDetailsStickyHeaderLayout mHeaderContainer;
-
+	private ViewGroup mAmenitiesContainer;
+	private LinearLayout mRatesContainer;
+	private View mProgressContainer;
 	private IAddToBucketListener mAddToBucketListener;
 	private IResultsHotelReviewsClickedListener mHotelReviewsClickedListener;
 
@@ -79,19 +85,19 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
 		mAddToBucketListener = Ui.findFragmentListener(this, IAddToBucketListener.class);
 		mHotelReviewsClickedListener = Ui.findFragmentListener(this, IResultsHotelReviewsClickedListener.class);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotel_details, null);
-
+		mAmenitiesContainer = Ui.findView(mRootC, R.id.amenities_container);
+		mRatesContainer = Ui.findView(mRootC, R.id.rooms_rates_container);
 		mUserRatingContainer = Ui.findView(mRootC, R.id.user_rating_container);
 		mHeaderContainer = Ui.findView(mRootC, R.id.header_container);
-
+		mProgressContainer = Ui.findView(mRootC, R.id.progress_spinner_container);
+		toggleSpinner(mRootC, true);
 		return mRootC;
 	}
 
@@ -110,6 +116,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	public void onHotelSelected() {
+		scrollFragmentToTop();
 		downloadDetails();
 	}
 
@@ -307,11 +314,10 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		// Center the amenities if they don't take up the full width
 		float amenitiesWidth = LayoutUtils.estimateAmenitiesWidth(getActivity(), property);
-		ViewGroup amenitiesContainer = Ui.findView(view, R.id.amenities_container);
-		float desiredPadding = (amenitiesContainer.getWidth() - amenitiesWidth) / 2;
+		float desiredPadding = (mAmenitiesContainer.getWidth() - amenitiesWidth) / 2;
 		float minPadding = 0;
 		int padding = (int) Math.max(minPadding, desiredPadding);
-		amenitiesContainer.setPadding(padding, 0, padding, 0);
+		mAmenitiesContainer.setPadding(padding, 0, padding, 0);
 
 		LayoutUtils.addAmenities(getActivity(), property, amenitiesTableRow);
 
@@ -334,8 +340,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	};
 
 	private void setupRoomRates(View view, Property property) {
-		LinearLayout container = Ui.findView(view, R.id.rooms_rates_container);
-		container.removeAllViews();
+		mRatesContainer.removeAllViews();
 
 		if (mResponse == null) {
 			return;
@@ -347,7 +352,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		boolean first = true;
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		for (Rate rate : rates) {
-			View row = inflater.inflate(R.layout.row_tablet_room_rate, container, false);
+			View row = inflater.inflate(R.layout.row_tablet_room_rate, mRatesContainer, false);
 			row.setTag(rate);
 			row.setOnClickListener(mRateClickListener);
 			TextView description = Ui.findView(row, R.id.text_room_description);
@@ -356,8 +361,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 			// Separator
 			if (!first) {
-				View sep = inflater.inflate(R.layout.row_tablet_room_rate_separator, container, false);
-				container.addView(sep);
+				View sep = inflater.inflate(R.layout.row_tablet_room_rate_separator, mRatesContainer, false);
+				mRatesContainer.addView(sep);
 			}
 
 			// Description
@@ -372,8 +377,39 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			String formattedRoomRate = rate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL);
 			pricePerNight.setText(Html.fromHtml(getString(R.string.room_rate_per_night_template, formattedRoomRate)));
 
-			container.addView(row);
+			mRatesContainer.addView(row);
 			first = false;
+		}
+	}
+
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	private void toggleSpinner(View view, boolean enable) {
+		if (enable == (mProgressContainer.getVisibility() == View.VISIBLE)) {
+			return;
+		}
+		if (enable) {
+			mProgressContainer.setVisibility(View.VISIBLE);
+		}
+		else {
+			long animationDuration = getResources().getInteger(
+				android.R.integer.config_longAnimTime);
+			mAmenitiesContainer.setAlpha(0f);
+			mAmenitiesContainer.setVisibility(View.VISIBLE);
+			mRatesContainer.setAlpha(0f);
+			mRatesContainer.setVisibility(View.VISIBLE);
+
+			mAmenitiesContainer.animate().alpha(1f).setDuration(animationDuration).setListener(null);
+
+			mRatesContainer.animate().alpha(1f).setDuration(animationDuration).setListener(null);
+
+			mProgressContainer.animate().alpha(0f)
+				.setDuration(animationDuration)
+				.setListener(new AnimatorListenerAdapter() {
+					@Override
+					public void onAnimationEnd(Animator animation) {
+						mProgressContainer.setVisibility(View.GONE);
+					}
+				});
 		}
 	}
 
@@ -553,8 +589,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	private void addSelectedRoomToTrip() {
-		ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
-		scrollView.smoothScrollTo(0, 0);
+		scrollFragmentToTop();
 
 		HotelSearch search = Db.getHotelSearch();
 		Property property = search.getSelectedProperty();
@@ -567,6 +602,11 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		Db.saveTripBucket(getActivity());
 
 		mAddToBucketListener.onItemAddedToBucket();
+	}
+
+	private void scrollFragmentToTop() {
+		ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
+		scrollView.smoothScrollTo(0, 0);
 	}
 
 	private boolean showUrgencyMessaging(Rate rate) {
@@ -623,6 +663,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 			mResponse = response;
 			populateViews();
+			toggleSpinner(mRootC, false);
 		}
 	};
 

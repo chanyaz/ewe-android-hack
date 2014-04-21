@@ -136,7 +136,8 @@
                         android:layout_alignParentRight="true"
                         android:layout_below="@id/amenities_container"
                         android:background="@color/tablet_white_pane_bg"
-                        android:orientation="vertical"/>
+                        android:orientation="vertical"
+                        android:visibility="invisible"/>
 
                     <!-- Hotel Description section -->
 
@@ -151,6 +152,24 @@
                         android:orientation="vertical"
                         android:paddingLeft="@dimen/tablet_detail_padding"
                         android:paddingRight="@dimen/tablet_detail_padding"/>
+
+                    <!-- Loading Amenities and Rooms and Rates Spinner-->
+
+                    <LinearLayout
+                        android:id="@+id/progress_spinner_container"
+                        android:layout_below="@id/reviews_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center|top"
+                        android:visibility="visible">
+
+                        <ProgressBar
+                            android:id="@+id/idProgressBar"
+                            style="?android:attr/progressBarStyleLarge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"/>
+                    </LinearLayout>
 
                     <!-- Hotel header section (#2058, #2401) -->
                     <!-- This is out of order down here so it can always be on z-top -->
