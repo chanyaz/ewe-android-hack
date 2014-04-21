@@ -167,7 +167,7 @@ public class ExpediaServices implements DownloadListener {
 
 	// We want to use the cached client for all our requests except the ones that ignore cookies
 	private static OkHttpClient sCachedClient;
-	private static HttpCookieStore sCookieStore;
+	private static SyncronizedHttpCookieStore sCookieStore;
 	private OkHttpClient mClient;
 	private Request mRequest;
 
@@ -182,7 +182,7 @@ public class ExpediaServices implements DownloadListener {
 	public static void init(Context context) {
 		sCachedClient = makeOkHttpClient(context);
 
-		sCookieStore = new HttpCookieStore();
+		sCookieStore = new SyncronizedHttpCookieStore();
 		sCookieStore.init(context);
 
 		ExpediaCookiePolicy policy = new ExpediaCookiePolicy();
