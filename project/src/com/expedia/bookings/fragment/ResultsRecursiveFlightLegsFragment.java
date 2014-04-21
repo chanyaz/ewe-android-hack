@@ -53,8 +53,7 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ResultsRecursiveFlightLegsFragment extends Fragment implements IStateProvider<ResultsFlightLegState>,
 	FragmentAvailabilityUtils.IFragmentAvailabilityProvider, IBackManageable, IResultsFlightLegSelected,
-	IResultsFlightSelectedListener, ResultsFlightListFragment.IDoneClickedListener, IAcceptingListenersListener,
-	ResultsFlightDetailsFragment.IResultsFlightDetailsListener {
+	IResultsFlightSelectedListener, ResultsFlightListFragment.IDoneClickedListener, IAcceptingListenersListener {
 
 	public static ResultsRecursiveFlightLegsFragment newInstance(int legNumber) {
 		ResultsRecursiveFlightLegsFragment frag = new ResultsRecursiveFlightLegsFragment(legNumber);
@@ -286,7 +285,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				mStateManager.animateThroughStates(ResultsFlightLegState.FILTERS, ResultsFlightLegState.DETAILS);
 			}
 			else {
-				mDetailsFrag.forceShowDetails();
 				setState(ResultsFlightLegState.DETAILS, true);
 			}
 			if (mNextLegFrag != null) {
@@ -608,7 +606,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			if (state == ResultsFlightLegState.DETAILS) {
 				showDetailsAnimUpdate(1f);
 				mDetailsFrag.bindWithDb();
-				mDetailsFrag.showFlightDetails();
 			}
 			else {
 				showDetailsAnimUpdate(0f);
@@ -669,8 +666,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			if (hasValidDataForDetails()) {
 				mDetailsFrag.bindWithDb();
 			}
-
-			mDetailsFrag.showFlightDetails();
 
 			int slideInDistance = mGrid.getColSpanWidth(1, 4);
 			mDetailsFrag.setDetailsSlideInAnimationState(startPercentage, slideInDistance, true);
@@ -1215,15 +1210,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	@Override
 	public void unRegisterStateListener(IStateListener<ResultsFlightLegState> listener) {
 		mStateListeners.unRegisterStateListener(listener);
-	}
-
-	// Flight Details Fragment Listener
-
-	@Override
-	public void onFlightDetailsAnimation(boolean isAnimating) {
-		if (mListFrag != null) {
-			mListFrag.setEnableOnListItemClick(!isAnimating);
-		}
 	}
 
 	/*

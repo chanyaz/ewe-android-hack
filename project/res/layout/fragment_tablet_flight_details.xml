@@ -15,61 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Baggage fee WebView container -->
-
-        <LinearLayout
-            android:id="@+id/baggage_fee_card_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/fees_container"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/bg_flight_details_tablet_grey_top">
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/baggage_fee_header"
-                    style="@style/V2.Widget.TextView.FlightDetailsHeader"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingBottom="16dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingTop="16dp"
-                    android:drawableLeft="@drawable/abs__ic_ab_back_holo_light" />
-
-                <ProgressBar
-                    android:id="@+id/baggage_fee_progress_bar"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:indeterminate="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="8dp"/>
-
-
-            </LinearLayout>
-
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/bg_flight_details_tablet_white_bottom"
-                android:paddingBottom="2dp">
-
-                <FrameLayout
-                    android:id="@+id/baggage_fee_web_view_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </ScrollView>
-
-        </LinearLayout>
-
-        <!-- Flight details card -->
-
         <LinearLayout
             android:id="@+id/flight_card_container"
             android:layout_width="match_parent"
