@@ -22,6 +22,9 @@
     <dimen name="results_flight_histogram_horizontal_padding">16dp</dimen>
     <dimen name="results_flight_histogram_price_margin_left">10dp</dimen>
 
+    <dimen name="tablet_hotel_details_vertical_padding">64dp</dimen>
+    <fraction name="tablet_hotel_details_horizontal_spacing_percentage">14%</fraction>
+
     <!-- Flights -->
     <dimen name="tablet_filter_white_space">32dp</dimen>
     <dimen name="tablet_flight_details_horizontal_padding">24dp</dimen>

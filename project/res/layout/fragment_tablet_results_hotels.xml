@@ -16,6 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <com.expedia.bookings.widget.FrameLayoutTouchController
+        android:id="@+id/bg_map_dimmer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:alpha="0"
+        android:background="@color/map_dimmer" />
+
     <!-- FORGROUND CONTAINERS -->
 
     <com.expedia.bookings.widget.FrameLayoutTouchController

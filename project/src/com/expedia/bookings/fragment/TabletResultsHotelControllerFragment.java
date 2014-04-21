@@ -1,10 +1,7 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
-
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,7 +22,6 @@ import com.expedia.bookings.enums.ResultsHotelsListState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterListener;
-import com.expedia.bookings.graphics.PercentageFadeColorDrawable;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -48,6 +44,8 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilit
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.mobiata.android.Log;
+import com.mobiata.android.util.TimingLogger;
 import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
 
@@ -90,6 +88,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private FrameLayoutTouchController mHotelReviewsC;
 	private FrameLayoutTouchController mLoadingC;
 	private FrameLayoutTouchController mSearchErrorC;
+	private FrameLayoutTouchController mMapDimmer;
 
 	// Fragments
 	private HotelMapFragment mMapFragment;
@@ -106,11 +105,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private StateManager<ResultsHotelsState> mHotelsStateManager = new StateManager<ResultsHotelsState>(
 		ResultsHotelsState.LOADING, this);
 	private GridManager mGrid = new GridManager();
-	//private int mShadeColor = Color.argb(220, 0, 0, 0);
 	private boolean mRoomsAndRatesInFront = true;//They start in front
-	private PercentageFadeColorDrawable mBgHotelMapDimmerDrawable;
 	private Runnable mSearchParamUpdateRunner;
-	private ArrayList<IResultsHotelSelectedListener> mHotelSelectedListeners = new ArrayList<IResultsHotelSelectedListener>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -155,13 +151,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mHotelReviewsC = Ui.findView(view, R.id.hotel_reviews);
 		mLoadingC = Ui.findView(view, R.id.loading_container);
 		mSearchErrorC = Ui.findView(view, R.id.column_one_hotel_search_error);
+		mMapDimmer = Ui.findView(view, R.id.bg_map_dimmer);
 
 		//Default maps to be invisible (they get ignored by our setVisibilityState function so this is important)
 		mBgHotelMapC.setAlpha(0f);
-		int dimmedColor = getResources().getColor(R.color.map_dimmer);
-		mBgHotelMapDimmerDrawable = new PercentageFadeColorDrawable(Color.TRANSPARENT, dimmedColor);
-		mBgHotelMapDimmerDrawable.setPercentage(0);
-		mBgHotelMapC.setForeground(mBgHotelMapDimmerDrawable);
 
 		//Set up our maps touch passthrough. It is important to note that A) the touch receiver is set to be invisible,
 		//so that when it gets a touch, it will pass to whatever is behind it. B) It must be the same size as the
@@ -322,6 +315,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mHotelFilteredCountC.setVisibility(View.INVISIBLE);
 			mHotelRoomsAndRatesC.setVisibility(View.INVISIBLE);
 			mHotelReviewsC.setVisibility(View.INVISIBLE);
+			mMapDimmer.setVisibility(View.INVISIBLE);
 		}
 		else {
 			mBgHotelMapC.setAlpha(1f);
@@ -337,9 +331,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES
 				|| hotelsState == ResultsHotelsState.ADDING_HOTEL_TO_TRIP) {
 				mHotelRoomsAndRatesC.setVisibility(View.VISIBLE);
+				mMapDimmer.setVisibility(View.VISIBLE);
+				mMapDimmer.setAlpha(1f);
 			}
 			else {
 				mHotelRoomsAndRatesC.setVisibility(View.INVISIBLE);
+				mMapDimmer.setVisibility(View.INVISIBLE);
+				mMapDimmer.setAlpha(0f);
 			}
 
 			if (hotelsState == ResultsHotelsState.REVIEWS) {
@@ -595,26 +593,35 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Override
 	public void onHotelSelected() {
-		if (mMapFragment != null && mMapFragment.isAdded()) {
-			mMapFragment.onHotelSelected();
+		ResultsHotelsState state = mHotelsStateManager.getState();
+		if (state == ResultsHotelsState.ROOMS_AND_RATES) {
+			setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, false);
 		}
-		if (mHotelDetailsFrag != null && mHotelDetailsFrag.isAdded()) {
-			mHotelDetailsFrag.onHotelSelected();
-		}
-		if (mHotelReviewsFrag != null && mHotelReviewsFrag.isAdded()) {
-			mHotelReviewsFrag.onHotelSelected();
-		}
-		for (IResultsHotelSelectedListener listener : mHotelSelectedListeners) {
-			listener.onHotelSelected();
-		}
-
-		if (mHotelsStateManager.getState() == ResultsHotelsState.HOTEL_LIST_DOWN) {
+		else if (state == ResultsHotelsState.HOTEL_LIST_DOWN) {
 			mHotelsStateManager
 				.animateThroughStates(ResultsHotelsState.HOTEL_LIST_UP, ResultsHotelsState.ROOMS_AND_RATES);
 		}
 		else {
 			setHotelsState(ResultsHotelsState.ROOMS_AND_RATES, true);
 		}
+	}
+
+	private void updateFragsForRoomsAndRates() {
+		Log.d("TabletResultsHotelControllerFragment.updateFragsForRoomsAndRates");
+		TimingLogger logger = new TimingLogger("TabletResultsHotelControllerFragment", "updateFragsForRoomsAndRates");
+		if (mMapFragment != null && mMapFragment.isAdded()) {
+			mMapFragment.onHotelSelected();
+			logger.addSplit("mMapFragment.onHotelSelected()");
+		}
+		if (mHotelDetailsFrag != null && mHotelDetailsFrag.isAdded()) {
+			mHotelDetailsFrag.onHotelSelected();
+			logger.addSplit("mHotelDetailsFrag.onHotelSelected()");
+		}
+		if (mHotelReviewsFrag != null && mHotelReviewsFrag.isAdded()) {
+			mHotelReviewsFrag.onHotelSelected();
+			logger.addSplit("mHotelReviewsFrag.onHotelSelected()");
+		}
+		logger.dumpToLog();
 	}
 
 	/*
@@ -648,9 +655,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	@Override
 	public void onPropertyClicked(Property property) {
 		Db.getHotelSearch().setSelectedProperty(property);
-		if (mHotelListFrag != null && mHotelListFrag.isAdded()) {
-			mHotelListFrag.onHotelSelected();
-		}
 		onHotelSelected();
 	}
 
@@ -1062,6 +1066,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				|| (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.HOTEL_LIST_UP)) {
 				//SHOWING/HIDING ROOMS AND RATES
 				setRoomsAndRatesAnimationHardwareRendering(false);
+
 			}
 			else if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
 				//SHOWING FILTERS
@@ -1087,12 +1092,18 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateFinalized(ResultsHotelsState state) {
-
+			Log.d("TabletResultsHotelControllerFragment.onStateFinalized:" + state);
+			TimingLogger logger = new TimingLogger("TabletResultsHotelControllerFragment", "onStateFinalized");
 			setVisibilityState(state);
+			logger.addSplit("setVisibilityState");
 			setTouchState(state);
+			logger.addSplit("setTouchState");
 			setHotelsStateZIndex(state);
+			logger.addSplit("setHotelsStateZIndex");
 			setFragmentState(state);
+			logger.addSplit("setFragmentState");
 			setListState(state);
+			logger.addSplit("setListState");
 
 			switch (state) {
 			case LOADING:
@@ -1113,6 +1124,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setHotelsFiltersShownPercentage(0f);
 				setAddToTripPercentage(0f);
 				setRoomsAndRatesShownPercentage(1f);
+				updateFragsForRoomsAndRates();
 				break;
 			}
 			case HOTEL_LIST_AND_FILTERS: {
@@ -1126,16 +1138,22 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				break;
 			}
 			}
-			if (mMapFragment != null && state != ResultsHotelsState.ROOMS_AND_RATES
+			logger.addSplit("Switch Statement");
+
+			if (mMapFragment != null && !mHotelsStateManager.isChaining() && state != ResultsHotelsState.ROOMS_AND_RATES
 				&& state != ResultsHotelsState.REVIEWS) {
 				mMapFragment.setMapPaddingFromFilterState(state == ResultsHotelsState.HOTEL_LIST_AND_FILTERS);
 			}
+			logger.addSplit("mMapFragment.setMapPaddingFromFilterState");
+
 
 			//Ensure we are downloading the correct data.
 			if (state == ResultsHotelsState.LOADING && mHotelSearchDownloadFrag != null) {
 				importSearchParams();
 				mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
 			}
+			logger.addSplit("importSearchParams() && mHotelSearchDownloadFrag.startOrResumeForParams");
+			logger.dumpToLog();
 		}
 
 		/*
@@ -1166,16 +1184,19 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		private void setRoomsAndRatesAnimationVisibilities() {
 			mHotelRoomsAndRatesC.setVisibility(View.VISIBLE);
+			mMapDimmer.setAlpha(0f);
+			mMapDimmer.setVisibility(View.VISIBLE);
 		}
 
 		private void setRoomsAndRatesAnimationHardwareRendering(boolean useHardwareLayer) {
 			int layerValue = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
 			mHotelRoomsAndRatesC.setLayerType(layerValue, null);
+			mMapDimmer.setLayerType(layerValue, null);
 		}
 
 		private void setRoomsAndRatesShownPercentage(float percentage) {
 			mHotelRoomsAndRatesC.setTranslationY(-(1f - percentage) * mGrid.getTotalHeight());
-			mBgHotelMapDimmerDrawable.setPercentage(percentage);
+			mMapDimmer.setAlpha(percentage);
 		}
 
 		/*

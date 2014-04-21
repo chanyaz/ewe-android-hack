@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.TextUtils;
-import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,8 +44,10 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
+import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.ColorSchemeCache;
+import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.HotelDetailsStickyHeaderLayout;
@@ -56,6 +57,8 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.TimingLogger;
+
 
 /**
  * ResultsHotelDetailsFragment: The hotel details / rooms and rates
@@ -75,10 +78,16 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private ViewGroup mAmenitiesContainer;
 	private LinearLayout mRatesContainer;
 	private View mProgressContainer;
+	//private HotelDetailsStickyHeaderLayout mHeaderC;
+	private ViewGroup mPopupC;
+	private ViewGroup mReviewsC;
+
 	private IAddToBucketListener mAddToBucketListener;
 	private IResultsHotelReviewsClickedListener mHotelReviewsClickedListener;
 
-	HotelOffersResponse mResponse;
+	private HotelOffersResponse mResponse;
+
+	private GridManager mGrid = new GridManager();
 
 	private static final int ROOM_COUNT_URGENCY_CUTOFF = 5;
 
@@ -98,6 +107,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		mHeaderContainer = Ui.findView(mRootC, R.id.header_container);
 		mProgressContainer = Ui.findView(mRootC, R.id.progress_spinner_container);
 		toggleSpinner(mRootC, true);
+		mUserRatingContainer = Ui.findView(mRootC, R.id.user_rating_container);
+		mPopupC = Ui.findView(mRootC, R.id.popup_frame_layout);
+		mReviewsC = Ui.findView(mRootC, R.id.reviews_container);
 		return mRootC;
 	}
 
@@ -111,8 +123,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		populateViews();
-		downloadDetails();
+		mMeasurementHelper.registerWithProvider(this);
 	}
 
 	public void onHotelSelected() {
@@ -123,7 +134,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	@Override
 	public void onPause() {
 		super.onPause();
-
+		mMeasurementHelper.unregisterWithProvider(this);
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (getActivity().isFinishing()) {
 			bd.cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
@@ -134,14 +145,18 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	private void downloadDetails() {
+		TimingLogger logger = new TimingLogger("ResultshotelDetailsFragment", "downloadDetails");
 		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 		if (TextUtils.isEmpty(selectedId)) {
 			return;
 		}
+		logger.addSplit("Get and check selectedId");
 
 		final BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		final String key = CrossContextHelper.KEY_INFO_DOWNLOAD;
 		final HotelOffersResponse infoResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
+		logger.addSplit("Get downloader and old response");
+
 		if (infoResponse != null) {
 			// We may have been downloading the data here before getting it elsewhere, so cancel
 			// our own download once we have data
@@ -149,13 +164,18 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 			// Load the data
 			mInfoCallback.onDownload(infoResponse);
+			logger.addSplit("mInfoCallback.onDownload(infoResponse)");
+
 		}
 		else if (bd.isDownloading(key)) {
 			bd.registerDownloadCallback(key, mInfoCallback);
+			logger.addSplit("bd.registerDownloadCallback(key, mInfoCallback)");
 		}
 		else {
 			bd.startDownload(key, CrossContextHelper.getHotelOffersDownload(getActivity(), key), mInfoCallback);
+			logger.addSplit("bd.startDownload");
 		}
+		logger.dumpToLog();
 
 	}
 
@@ -165,18 +185,27 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	 * in here.
 	 */
 	private void populateViews() {
+		TimingLogger logger = new TimingLogger("ResultsHotelDetailsFragment", "populateViews");
 		Property property = Db.getHotelSearch().getSelectedProperty();
 		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
+		logger.addSplit("got property and selectedId");
 		if (property != null) {
 			setupHeader(mRootC, property);
+			logger.addSplit("setupHeader");
 			setupReviews(mRootC, property);
+			logger.addSplit("setupReviews");
 			setupAmenities(mRootC, property);
+			logger.addSplit("setupAmenities");
 			setupRoomRates(mRootC, property);
+			logger.addSplit("setupRoomRates");
 			setupDescriptionSections(mRootC, property);
+			logger.addSplit("setupDescriptionSections");
 			if (Db.getHotelSearch().getAvailability(selectedId) != null) {
 				setDefaultSelectedRate();
+				logger.addSplit("setDefaultSelectedRate");
 			}
 		}
+		logger.dumpToLog();
 	}
 
 	public void setTransitionToAddTripPercentage(float percentage) {
@@ -469,11 +498,13 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			if (rowRate.equals(selectedRate)) {
 				row.setSelected(true);
 				// Let's set layout height to wrap content.
-				row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+				row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT));
 				roomRateDetailContainer.setVisibility(View.VISIBLE);
 				// Change button color and text
 				addSelectRoomButton.setText(getString(R.string.room_rate_button_add_to_trip));
 				addSelectRoomButton.setBackgroundResource(R.drawable.tablet_hotel_room_add_button);
+
 				// Now let's bind the new room rate details.
 				bindSelectedRoomDetails(row, selectedRate);
 			}
@@ -529,7 +560,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			urgencyMessagingView.setVisibility(View.VISIBLE);
 		}
 		else if (showUrgencyMessaging(rate)) {
-			String urgencyString = getResources().getQuantityString(R.plurals.n_rooms_left_TEMPLATE, rate.getNumRoomsLeft(), rate.getNumRoomsLeft());
+			String urgencyString = getResources()
+				.getQuantityString(R.plurals.n_rooms_left_TEMPLATE, rate.getNumRoomsLeft(), rate.getNumRoomsLeft());
 			urgencyMessagingView.setText(urgencyString);
 			urgencyMessagingView.setVisibility(View.VISIBLE);
 		}
@@ -687,4 +719,46 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		}
 	};
 
+	/*
+	MEASUREMENT HELPER
+	 */
+
+	private MeasurementHelper mMeasurementHelper = new MeasurementHelper() {
+
+		@Override
+		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
+			//This attempts to replicate the global layout by doing 3 columns for our general results layout
+			//and 2 rows (where the first one represents the actionbar).
+			GridManager globalGm = new GridManager(2, 3);
+			globalGm.setDimensions(totalWidth, totalHeight);
+			globalGm.setRowSize(0, getActivity().getActionBar().getHeight());
+
+			//Now we set up our local positions
+			mGrid.setDimensions(globalGm.getColSpanWidth(1, 3), globalGm.getRowHeight(1));
+			mGrid.setNumCols(3);
+			mGrid.setNumRows(3);
+
+			int topBottomSpaceSize = getResources()
+				.getDimensionPixelSize(R.dimen.tablet_hotel_details_vertical_padding);
+			float leftRightSpacePerc = getResources()
+				.getFraction(R.fraction.tablet_hotel_details_horizontal_spacing_percentage, 1, 1);
+			mGrid.setRowSize(0, topBottomSpaceSize);
+			mGrid.setRowSize(2, topBottomSpaceSize);
+			mGrid.setColumnPercentage(0, leftRightSpacePerc);
+			mGrid.setColumnPercentage(2, leftRightSpacePerc);
+
+			mGrid.setContainerToRow(mPopupC, 1);
+			mGrid.setContainerToColumn(mPopupC, 1);
+
+			int halfContentSize = mGrid.getRowHeight(1) / 2;
+			if (mHeaderContainer.getLayoutParams() != null) {
+				mHeaderContainer.getLayoutParams().height = halfContentSize;
+				mHeaderContainer.setLayoutParams(mHeaderContainer.getLayoutParams());
+			}
+			if (mReviewsC.getLayoutParams() != null) {
+				((RelativeLayout.LayoutParams) mReviewsC.getLayoutParams()).topMargin = halfContentSize;
+				mReviewsC.setLayoutParams(mReviewsC.getLayoutParams());
+			}
+		}
+	};
 }
