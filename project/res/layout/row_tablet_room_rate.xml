@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_row"
     android:orientation="vertical"
     android:paddingLeft="@dimen/tablet_detail_padding"
     android:paddingRight="@dimen/tablet_detail_padding">
@@ -53,20 +52,44 @@
             android:text="@string/Non_Refundable"
             android:textSize="17sp" />
 
-        <Button
-            android:id="@+id/room_rate_button_add_select"
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="center_vertical"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/room_rate_button_add"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:background="@drawable/tablet_hotel_room_add_button"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:text="@string/room_rate_button_add_to_trip"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+
+
+            <Button
+                android:id="@+id/room_rate_button_select"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:background="@drawable/tablet_hotel_room_select_button"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:text="@string/room_rate_button_select_room"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+
+        </FrameLayout>
     </LinearLayout>
 
     <RelativeLayout
@@ -75,7 +98,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="26dp"
         android:layout_marginTop="24dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/room_rate_image_view"
@@ -84,7 +108,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginRight="24dp"
             android:gravity="center"
-            android:scaleType="centerCrop" />
+            android:scaleType="center" />
 
         <TextView
             android:id="@+id/room_rate_discount_text"

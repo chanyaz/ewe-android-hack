@@ -7,10 +7,14 @@ import java.util.Set;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -59,13 +63,14 @@ import com.mobiata.android.FormatUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.TimingLogger;
 
-
 /**
  * ResultsHotelDetailsFragment: The hotel details / rooms and rates
  * fragment designed for tablet results 2013
  */
 @TargetApi(11)
 public class ResultsHotelDetailsFragment extends Fragment {
+
+	private int ROOM_RATE_ANIMATION_DURATION = 300;
 
 	public static ResultsHotelDetailsFragment newInstance() {
 		ResultsHotelDetailsFragment frag = new ResultsHotelDetailsFragment();
@@ -487,45 +492,233 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			}
 
 			RelativeLayout roomRateDetailContainer = Ui.findView(row, R.id.room_rate_detail_container);
-			Button addSelectRoomButton = Ui.findView(row, R.id.room_rate_button_add_select);
-			addSelectRoomButton.setOnClickListener(new OnClickListener() {
+			Button addRoomButton = Ui.findView(row, R.id.room_rate_button_add);
+			Button selectRoomButton = Ui.findView(row, R.id.room_rate_button_select);
+
+			addRoomButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (rowRate.equals(selectedRate)) {
-						addSelectedRoomToTrip();
-					}
-					else {
-						setSelectedRate(rowRate);
-					}
+					addSelectedRoomToTrip();
+				}
+			});
+			selectRoomButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					setSelectedRate(rowRate);
 				}
 			});
 
 			if (rowRate.equals(selectedRate)) {
 				row.setSelected(true);
 				// Let's set layout height to wrap content.
-				row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT));
+				row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+				if (roomRateDetailContainer.getVisibility() == View.GONE) {
+					expand(row);
+				}
 				roomRateDetailContainer.setVisibility(View.VISIBLE);
-				// Change button color and text
-				addSelectRoomButton.setText(getString(R.string.room_rate_button_add_to_trip));
-				addSelectRoomButton.setBackgroundResource(R.drawable.tablet_hotel_room_add_button);
-
 				// Now let's bind the new room rate details.
 				bindSelectedRoomDetails(row, selectedRate);
 			}
 			else {
 				row.setSelected(false);
 				// Reset row height, hide the detail view container and change button text, color.
-				int minHeightDimenValue = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_list_height);
-				layoutParams.height = minHeightDimenValue;
-				row.setLayoutParams(layoutParams);
-				roomRateDetailContainer.setVisibility(View.INVISIBLE);
-				addSelectRoomButton.setText(getString(R.string.room_rate_button_select_room));
-				addSelectRoomButton.setBackgroundResource(R.drawable.tablet_hotel_room_select_button);
+				if (roomRateDetailContainer.getVisibility() == View.VISIBLE) {
+					collapse(row);
+				}
+				else {
+					row.setBackgroundResource(android.R.color.white);
+					addRoomButton.setVisibility(View.INVISIBLE);
+					selectRoomButton.setVisibility(View.VISIBLE);
+					int minHeightDimenValue = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_list_height);
+					layoutParams.height = minHeightDimenValue;
+					row.setLayoutParams(layoutParams);
+				}
 			}
 		}
 
+
+
 		container.requestLayout();
+	}
+
+	private void expand(View row) {
+		List<Animator> animators = new ArrayList<Animator>();
+
+		final Button addRoomButton = Ui.findView(row, R.id.room_rate_button_add);
+		final Button selectRoomButton = Ui.findView(row, R.id.room_rate_button_select);
+		RelativeLayout container = Ui.findView(row, R.id.room_rate_detail_container);
+		container.setVisibility(View.VISIBLE);
+
+		final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		container.measure(widthSpec, heightSpec);
+
+		// Animation to collapse the container.
+		ValueAnimator containerSlideAnimator = slideAnimator(container, 0, container.getMeasuredHeight());
+		containerSlideAnimator.setDuration(ROOM_RATE_ANIMATION_DURATION);
+		animators.add(containerSlideAnimator);
+
+		// Animate the add button in.
+		Animator addButtonAnimator = ObjectAnimator
+			.ofFloat(addRoomButton, "alpha", 1)
+			.setDuration(ROOM_RATE_ANIMATION_DURATION);
+		addButtonAnimator.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationStart(Animator arg0) {
+				addRoomButton.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationEnd(Animator arg0) {
+				addRoomButton.setVisibility(View.VISIBLE);
+			}
+		});
+		animators.add(addButtonAnimator);
+
+		// Animate the select button out.
+		Animator selectButtonAnimator = ObjectAnimator
+			.ofFloat(selectRoomButton, "alpha", 0)
+			.setDuration(ROOM_RATE_ANIMATION_DURATION);
+		selectButtonAnimator.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationStart(Animator arg0) {
+				selectRoomButton.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationEnd(Animator arg0) {
+				selectRoomButton.setVisibility(View.INVISIBLE);
+			}
+		});
+		animators.add(selectButtonAnimator);
+
+		final ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.bg_row_state_pressed));
+		row.setBackgroundDrawable(colorDrawable);
+
+		Animator colorDrawableAnimator = ObjectAnimator
+			.ofInt(colorDrawable, "alpha",0, 255)
+			.setDuration(ROOM_RATE_ANIMATION_DURATION);
+		animators.add(colorDrawableAnimator);
+
+		AnimatorSet set = new AnimatorSet();
+		set.playTogether(animators);
+		set.start();
+	}
+
+	private void collapse(final View row) {
+		final Button addRoomButton = Ui.findView(row, R.id.room_rate_button_add);
+		final Button selectRoomButton = Ui.findView(row, R.id.room_rate_button_select);
+		addRoomButton.setVisibility(View.INVISIBLE);
+		selectRoomButton.setVisibility(View.VISIBLE);
+
+		List<Animator> animators = new ArrayList<Animator>();
+
+		final RelativeLayout container = Ui.findView(row, R.id.room_rate_detail_container);
+
+		final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		container.measure(widthSpec, heightSpec);
+
+		// Animation to collapse the container.
+		ValueAnimator containerSlideAnimator = slideAnimator(container, container.getMeasuredHeight(), 0);
+		containerSlideAnimator.setDuration(ROOM_RATE_ANIMATION_DURATION);
+
+		containerSlideAnimator.addListener(new Animator.AnimatorListener() {
+			@Override
+			public void onAnimationStart(Animator animation) {
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animator animator) {
+				container.setVisibility(View.GONE);
+			}
+
+			@Override
+			public void onAnimationCancel(Animator animation) {
+
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator animation) {
+
+			}
+
+		});
+		animators.add(containerSlideAnimator);
+
+		int minHeightDimenValue = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_list_height);
+		final int widthSpec1 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		final int heightSpec1 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		row.measure(widthSpec1, heightSpec1);
+
+		// Animation to set the row height appropriately.
+		ValueAnimator mAnimator2 = slideAnimator(row, row.getMeasuredHeight(), minHeightDimenValue);
+		mAnimator2.setDuration(ROOM_RATE_ANIMATION_DURATION);
+		animators.add(mAnimator2);
+
+		// Animate the add button out.
+		Animator addButtonAnimator = ObjectAnimator
+			.ofFloat(addRoomButton, "alpha", 0)
+			.setDuration(ROOM_RATE_ANIMATION_DURATION);
+		addButtonAnimator.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationStart(Animator arg0) {
+				addRoomButton.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationEnd(Animator arg0) {
+				addRoomButton.setVisibility(View.INVISIBLE);
+			}
+		});
+		animators.add(addButtonAnimator);
+
+		// Animate the select button in.
+		Animator selectButtonAnimator = ObjectAnimator
+			.ofFloat(selectRoomButton, "alpha", 1)
+			.setDuration(ROOM_RATE_ANIMATION_DURATION);
+		selectButtonAnimator.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationStart(Animator arg0) {
+				selectRoomButton.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationEnd(Animator arg0) {
+				selectRoomButton.setVisibility(View.VISIBLE);
+			}
+		});
+		animators.add(selectButtonAnimator);
+
+		final ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.bg_row_state_pressed));
+		row.setBackgroundDrawable(colorDrawable);
+
+		Animator colorDrawableAnimator = ObjectAnimator
+			.ofInt(colorDrawable, "alpha",255, 0)
+			.setDuration(ROOM_RATE_ANIMATION_DURATION);
+		animators.add(colorDrawableAnimator);
+
+		AnimatorSet set = new AnimatorSet();
+		set.playTogether(animators);
+		set.start();
+	}
+
+	private ValueAnimator slideAnimator(final View row, int start, int end) {
+
+		ValueAnimator animator = ValueAnimator.ofInt(start, end);
+
+		animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator valueAnimator) {
+				//Update Height
+				int value = (Integer) valueAnimator.getAnimatedValue();
+				ViewGroup.LayoutParams layoutParams = row.getLayoutParams();
+				layoutParams.height = value;
+				row.setLayoutParams(layoutParams);
+			}
+		});
+		return animator;
 	}
 
 	private void bindSelectedRoomDetails(View row, Rate rate) {
