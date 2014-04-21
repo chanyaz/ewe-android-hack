@@ -25,8 +25,8 @@ import com.expedia.bookings.fragment.ResultsHotelListFragment.ISortAndFilterList
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IBackManageable;
-import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsBackClickedListener;
+import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -43,7 +43,6 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.android.util.Ui;
@@ -328,7 +327,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mHotelFilteredCountC.setVisibility(View.INVISIBLE);
 			}
 
-			if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES
+			if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES || hotelsState == ResultsHotelsState.REVIEWS
 				|| hotelsState == ResultsHotelsState.ADDING_HOTEL_TO_TRIP) {
 				mHotelRoomsAndRatesC.setVisibility(View.VISIBLE);
 				mMapDimmer.setVisibility(View.VISIBLE);
@@ -610,7 +609,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		Log.d("TabletResultsHotelControllerFragment.updateFragsForRoomsAndRates");
 		TimingLogger logger = new TimingLogger("TabletResultsHotelControllerFragment", "updateFragsForRoomsAndRates");
 		if (mMapFragment != null && mMapFragment.isAdded()) {
-			mMapFragment.onHotelSelected();
+			mMapFragment.onHotelSelected(mHotelDetailsFrag == null ? 0 : mHotelDetailsFrag.getTailHeight());
 			logger.addSplit("mMapFragment.onHotelSelected()");
 		}
 		if (mHotelDetailsFrag != null && mHotelDetailsFrag.isAdded()) {
@@ -674,8 +673,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Override
 	public void onHotelMapFragmentAttached(HotelMapFragment fragment) {
-		fragment.setInitialCameraPosition(CameraUpdateFactory.newLatLngBounds(HotelMapFragment.getAmericaBounds(), 0));
-		mMapFragment = fragment;
+
 	}
 
 	/*
@@ -1112,7 +1110,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setHotelsFiltersShownPercentage(0f);
 				setAddToTripPercentage(0f);
 				setRoomsAndRatesShownPercentage(0f);
-
 				break;
 			case HOTEL_LIST_UP:
 				mBgHotelMapC.setAlpha(1f);

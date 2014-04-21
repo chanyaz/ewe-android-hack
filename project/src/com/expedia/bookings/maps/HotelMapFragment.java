@@ -224,7 +224,8 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 							price.setText(Html.fromHtml(getString(R.string.From_x_per_night_template, formattedMoney)));
 						}
 						else {
-							price.setText(Html.fromHtml(getString(R.string.map_snippet_price_template, formattedMoney)));
+							price
+								.setText(Html.fromHtml(getString(R.string.map_snippet_price_template, formattedMoney)));
 						}
 					}
 					else {
@@ -238,7 +239,8 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 						image.setVisibility(View.GONE);
 					}
 					else {
-						List<String> urls = media.getBestUrls((int) (getResources().getDimension(R.dimen.tablet_hotel_map_popup_thumbnail_width)));
+						List<String> urls = media.getBestUrls(
+							(int) (getResources().getDimension(R.dimen.tablet_hotel_map_popup_thumbnail_width)));
 						Bitmap bitmap = null;
 						for (String url : urls) {
 							bitmap = L2ImageCache.sGeneralPurpose.getImage(url, false);
@@ -270,8 +272,10 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		}
 
 		// Load graphics
-		mPin = BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.hotelListMapMarkerDrawable));
-		mPinSale = BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.hotelListMapMarkerSaleDrawable));
+		mPin = BitmapDescriptorFactory
+			.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.hotelListMapMarkerDrawable));
+		mPinSale = BitmapDescriptorFactory
+			.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.hotelListMapMarkerSaleDrawable));
 
 		onRestoreSavedInstanceState(savedInstanceState);
 		runReadyActions();
@@ -376,8 +380,8 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	// Only call this if isReady()
 	private void addExactLocation() {
 		if (Db.getHotelSearch().getSearchResponse() != null
-				&& Db.getHotelSearch().getSearchParams().getSearchType() != null
-				&& Db.getHotelSearch().getSearchParams().getSearchType().shouldShowExactLocation()) {
+			&& Db.getHotelSearch().getSearchParams().getSearchType() != null
+			&& Db.getHotelSearch().getSearchParams().getSearchType().shouldShowExactLocation()) {
 			HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 			LatLng point = new LatLng(params.getSearchLatitude(), params.getSearchLongitude());
 
@@ -493,7 +497,8 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 						break;
 					}
 					mTextView.setBackgroundResource(backgroundId);
-					mTextView.setPadding(mPricePinSidePadding, mPricePinTopPadding, mPricePinSidePadding, mPricePinTopPadding);
+					mTextView.setPadding(mPricePinSidePadding, mPricePinTopPadding, mPricePinSidePadding,
+						mPricePinTopPadding);
 					mTextView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 					final int w = mTextView.getMeasuredWidth();
 					final int h = mTextView.getMeasuredHeight();
@@ -634,7 +639,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 			}
 
 			animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(),
-					(int) getResources().getDisplayMetrics().density * 50));
+				(int) getResources().getDisplayMetrics().density * 50));
 		}
 	}
 
@@ -673,7 +678,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 
 	private void initMapCameraToGoodSpot() {
 		setInitialCameraPosition(CameraUpdateFactory.newLatLngBounds(getAmericaBounds(), (int) getResources()
-				.getDisplayMetrics().density * 50));
+			.getDisplayMetrics().density * 50));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -708,13 +713,17 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		notifyFilterChanged();
 	}
 
-	public void onHotelSelected() {
+	public void onHotelSelected(int tailOffset) {
 		for (Marker marker : mMarkersToProperties.keySet()) {
 			if (marker.isInfoWindowShown()) {
 				marker.hideInfoWindow();
 			}
 		}
-		setPadding(mResultsViewWidth, getHeight() - getResources().getDimensionPixelSize(R.dimen.tablet_results_hotel_map_pin_padding), 0, 0);
+		setPadding(mResultsViewWidth,
+			getHeight() - getResources().getDimensionPixelSize(R.dimen.tablet_results_hotel_map_pin_padding)
+				- getResources().getDimensionPixelOffset(R.dimen.tablet_hotel_details_vertical_padding) + tailOffset, 0,
+			0
+		);
 		focusProperty(Db.getHotelSearch().getSelectedProperty(), true);
 	}
 }

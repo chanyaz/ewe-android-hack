@@ -78,8 +78,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private ViewGroup mAmenitiesContainer;
 	private LinearLayout mRatesContainer;
 	private View mProgressContainer;
-	//private HotelDetailsStickyHeaderLayout mHeaderC;
 	private ViewGroup mPopupC;
+	private ViewGroup mRoundedC;
 	private ViewGroup mReviewsC;
 
 	private IAddToBucketListener mAddToBucketListener;
@@ -109,6 +109,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		toggleSpinner(mRootC, true);
 		mUserRatingContainer = Ui.findView(mRootC, R.id.user_rating_container);
 		mPopupC = Ui.findView(mRootC, R.id.popup_frame_layout);
+		mRoundedC = Ui.findView(mRootC, R.id.rounded_corner_container);
 		mReviewsC = Ui.findView(mRootC, R.id.reviews_container);
 		return mRootC;
 	}
@@ -142,6 +143,10 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		else {
 			bd.unregisterDownloadCallback(CrossContextHelper.KEY_INFO_DOWNLOAD);
 		}
+	}
+
+	public int getTailHeight() {
+		return mPopupC.getHeight() - mRoundedC.getHeight();
 	}
 
 	private void downloadDetails() {
