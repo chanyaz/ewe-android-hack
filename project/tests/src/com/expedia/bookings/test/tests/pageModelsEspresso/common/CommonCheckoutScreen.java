@@ -52,7 +52,7 @@ public class CommonCheckoutScreen extends ScreenActions {
 	}
 
 	public static ViewInteraction addTravelerButton() {
-		return onView(withId(ADD_TRAVELER_BUTTON_ID));
+		return onView(withText("Enter a new traveler"));
 	}
 
 	public static ViewInteraction selectPaymentButton() {

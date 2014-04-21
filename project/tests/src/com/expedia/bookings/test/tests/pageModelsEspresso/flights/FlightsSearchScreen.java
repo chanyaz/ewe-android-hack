@@ -4,10 +4,12 @@ import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
+import com.google.android.apps.common.testing.ui.espresso.Espresso;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
 import static com.expedia.bookings.test.utilsEspresso.ViewActions.clickDates;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.closeSoftKeyboard;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
@@ -83,11 +85,11 @@ public class FlightsSearchScreen extends ScreenActions {
 	// Object interactions
 
 	public static void enterDepartureAirport(String text) {
-		departureEditText().perform(typeText(text));
+		departureEditText().perform(typeText(text),closeSoftKeyboard());
 	}
 
 	public static void enterArrivalAirport(String text) {
-		arrivalEditText().perform(typeText(text));
+		arrivalEditText().perform(typeText(text), closeSoftKeyboard());
 	}
 
 	public static void clickDepartureAirportField() {

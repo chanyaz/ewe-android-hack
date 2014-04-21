@@ -10,16 +10,16 @@ public class EspressoUtils {
 
 	public static ViewAction swipeUp() {
 		return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,
-				GeneralLocation.TOP_CENTER, Press.FINGER);
+			GeneralLocation.TOP_CENTER, Press.FINGER);
 	}
 
 	public static ViewAction swipeDown() {
 		return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.TOP_CENTER,
-				GeneralLocation.BOTTOM_CENTER, Press.FINGER);
+			GeneralLocation.BOTTOM_CENTER, Press.FINGER);
 	}
 
 	public static ViewAction swipeRight() {
 		return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.CENTER_LEFT,
-				GeneralLocation.CENTER_RIGHT, Press.FINGER);
+			GeneralLocation.CENTER_RIGHT, Press.FINGER);
 	}
 }

@@ -95,4 +95,8 @@ public class CVVEntryScreen extends ScreenActions {
 	public static void clickOkButton() {
 		okString().perform(click());
 	}
+
+	public static void clickCancelButton() {
+		onView(withText("Cancel")).perform(click());
+	}
 }

@@ -75,19 +75,19 @@ public class CommonTravelerInformationScreen extends ScreenActions {
 	// Object interaction
 
 	public static void enterFirstName(String firstName) {
-		firstNameEditText().perform(typeText(firstName), closeSoftKeyboard());
+		firstNameEditText().perform(typeText(firstName),closeSoftKeyboard());
 	}
 
 	public static void enterMiddleName(String middleName) {
-		firstNameEditText().perform(typeText(middleName), closeSoftKeyboard());
+		firstNameEditText().perform(typeText(middleName),closeSoftKeyboard());
 	}
 
 	public static void enterLastName(String lastName) {
-		lastNameEditText().perform(typeText(lastName), closeSoftKeyboard());
+		lastNameEditText().perform(typeText(lastName),closeSoftKeyboard());
 	}
 
 	public static void enterPhoneNumber(String phoneNumber) {
-		phoneNumberEditText().perform(typeText(phoneNumber), closeSoftKeyboard());
+		phoneNumberEditText().perform(typeText(phoneNumber),closeSoftKeyboard());
 	}
 
 	public static void clickBirthDateButton() {

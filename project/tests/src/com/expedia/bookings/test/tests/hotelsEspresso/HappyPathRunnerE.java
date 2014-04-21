@@ -3,10 +3,12 @@ package com.expedia.bookings.test.tests.hotelsEspresso;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.utils.ConfigFileUtils;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.TestPreferences;
+import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.mobiata.android.util.SettingUtils;
 
 /**
@@ -54,6 +56,8 @@ public class HappyPathRunnerE extends ActivityInstrumentationTestCase2<SearchAct
 
 	public void testMethod() throws Exception {
 		final int numberOfHotelsToLookAt = mConfigFileUtils.getIntegerConfigValue("Hotel Count");
-		HotelsHappyPathE.execute(mUser, numberOfHotelsToLookAt, activity);
+		ClearPrivateDataUtil.clear(getInstrumentation().getTargetContext());
+		SettingUtils.save(getInstrumentation().getTargetContext(), R.string.preference_which_api_to_use_key, "Trunk (Stubbed)");
+		HotelsHappyPathE.execute(mUser, activity);
 	}
 }

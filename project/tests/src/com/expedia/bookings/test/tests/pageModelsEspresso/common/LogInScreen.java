@@ -3,7 +3,6 @@ package com.expedia.bookings.test.tests.pageModelsEspresso.common;
 import com.expedia.bookings.R;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.closeSoftKeyboard;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -77,7 +76,7 @@ public class LogInScreen extends ScreenActions {
 	}
 
 	public static void typeTextEmailEditText(String text) {
-		emailAddressEditText().perform(typeText(text), closeSoftKeyboard());
+		emailAddressEditText().perform(typeText(text));
 	}
 
 	public static void typeTextPasswordEditText(String text) {

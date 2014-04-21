@@ -1,14 +1,16 @@
 package com.expedia.bookings.test.tests.flightsEspresso;
 
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.utils.ConfigFileUtils;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.test.utils.TestPreferences;
+import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.mobiata.android.util.SettingUtils;
 
 /**
  * Created by dmadan on 4/8/14.
@@ -45,9 +47,8 @@ public class HappyPathRunnerE extends ActivityInstrumentationTestCase2<SearchAct
 
 	public void testMethod() throws Exception {
 		mUser.setAirportsToRandomUSAirports();
-		mUser.setBookingServer(mConfigFileUtils.getConfigValue("Server"));
-		mUser.setServerIP(mConfigFileUtils.getConfigValue("Mock Proxy IP"));
-		mUser.setServerPort(mConfigFileUtils.getConfigValue("Mock Proxy Port"));
+		ClearPrivateDataUtil.clear(getInstrumentation().getTargetContext());
+		SettingUtils.save(getInstrumentation().getTargetContext(), R.string.preference_which_api_to_use_key, "Trunk (Stubbed)");
 		FlightsHappyPathE.execute(mUser);
 	}
 }

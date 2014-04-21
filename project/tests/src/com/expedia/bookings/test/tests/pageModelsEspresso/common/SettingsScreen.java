@@ -3,11 +3,15 @@ package com.expedia.bookings.test.tests.pageModelsEspresso.common;
 import com.expedia.bookings.R;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
-import static com.expedia.bookings.test.utils.EspressoUtils.swipeDown;
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
+
+import org.hamcrest.Matchers;
 
 /**
  * Created by dmadan on 4/7/14.
@@ -73,11 +77,22 @@ public class SettingsScreen extends ScreenActions {
 	}
 
 	public static void clickSelectAPIString() {
-		swipeDown();
 		onView(withText(SELECT_API_STRING_ID)).perform(click());
 	}
 
 	public static void clickServerProxyAddressString() {
 		onView(withText(SERVER_PROXY_STRING_ID)).perform(click());
+	}
+
+	public static void clickStubConfigPage() {
+		onView(withText(STUB_CONFIGURATION_PAGE_STRING_ID)).perform(click());
+	}
+
+	public static void clickMobileFlightCheckoutScenario() {
+		onData(allOf(is(String.class), Matchers.equalTo("MobileFlightCheckoutUK"))).inAdapterView(withId(android.R.id.list)).perform(click());
+	}
+
+	public static void clickHotelCheckoutScenario() {
+		onData(allOf(is(String.class), Matchers.equalTo("MobileHotelCheckoutUK"))).inAdapterView(withId(android.R.id.list)).perform(click());
 	}
 }

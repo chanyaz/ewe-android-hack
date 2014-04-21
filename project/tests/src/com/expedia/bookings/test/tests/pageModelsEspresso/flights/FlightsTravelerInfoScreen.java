@@ -4,6 +4,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.CommonTravelerInformationScreen;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
@@ -26,5 +27,10 @@ public class FlightsTravelerInfoScreen extends CommonTravelerInformationScreen {
 
 	public static ViewInteraction passportString() {
 		return onView(withText(R.string.passport));
+	}
+
+	public static void  clickSetButton(){
+		onView(withText("Set")).perform(click());
+
 	}
 }
