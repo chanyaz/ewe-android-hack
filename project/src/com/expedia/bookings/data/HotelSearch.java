@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.widget.SummarizedRoomRates;
+import com.expedia.bookings.otto.Events;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -116,7 +117,12 @@ public class HotelSearch implements JSONable {
 	 * @return the currently selected rate, selected from the rooms and rates screen
 	 */
 	public Rate getSelectedRate() {
-		return getAvailability(mSelectedPropertyId).getSelectedRate();
+		HotelAvailability availability = getAvailability(mSelectedPropertyId);
+		if (availability != null) {
+			return availability.getSelectedRate();
+		}
+
+		return null;
 	}
 
 	/**
@@ -126,6 +132,7 @@ public class HotelSearch implements JSONable {
 	 */
 	public void setSelectedRate(Rate rate) {
 		getAvailability(mSelectedPropertyId).setSelectedRate(rate);
+		Events.post(new Events.HotelRateSelected());
 	}
 
 	/**
@@ -185,6 +192,7 @@ public class HotelSearch implements JSONable {
 			mAvailabilityMap.put(propertyId, availability);
 		}
 		availability.setHotelOffersResponse(offersResponse);
+		Events.post(new Events.HotelAvailabilityUpdated());
 	}
 
 	public void addReviewsResponse(String id, ReviewsResponse response) {

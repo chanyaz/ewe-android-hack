@@ -330,4 +330,11 @@ public class Events {
 
 	public static class SuggestionResultsDelivered {
 	}
+
+	// HotelSearch update events
+	public static class HotelAvailabilityUpdated {
+	}
+
+	public static class HotelRateSelected {
+	}
 }
