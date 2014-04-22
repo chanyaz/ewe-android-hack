@@ -19,6 +19,8 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -75,6 +77,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private boolean mWaypointAnimFromOrigin = true;
 	private boolean mIgnoreDateChanges = false;
 	private boolean mIgnoreGuestChanges = false;
+	private Interpolator mCenterColumnUpDownInterpolator = new AccelerateInterpolator(1.2f);
 
 	//Containers
 	private ViewGroup mRootC;
@@ -696,7 +699,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mSearchBarC.setTranslationY(percentage * -barTransDistance);
 			mSearchActionsC.setTranslationY(percentage * -barTransDistance);
 			mBottomRightC.setTranslationY(percentage * widgetHeight);
-			mBottomCenterC.setTranslationY(percentage * widgetHeight);
+			mBottomCenterC.setTranslationY(mCenterColumnUpDownInterpolator.getInterpolation(percentage) * widgetHeight);
 			mDestBtn.setTranslationY(percentage * searchBarHeight);
 			mDestBtn.setAlpha(1f - percentage);
 			//TODO: Use better number than searchBarHeight (this is to move to the left of the action bar buttons)

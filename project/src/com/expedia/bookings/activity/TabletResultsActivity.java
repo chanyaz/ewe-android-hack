@@ -11,6 +11,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnPreDrawListener;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -83,6 +85,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private FrameLayoutTouchController mBgDestImageC;
 	private FrameLayoutTouchController mTripBucketC;
 	private LinearLayout mMissingFlightInfoC;
+	private ViewGroup mFlightsC;
 
 	//Fragments
 	private ResultsBackgroundImageFragment mBackgroundImageFrag;
@@ -95,6 +98,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private GridManager mGrid = new GridManager();
 	private StateManager<ResultsState> mStateManager = new StateManager<ResultsState>(ResultsState.OVERVIEW, this);
 	private boolean mBackButtonLocked = false;
+	private Interpolator mCenterColumnUpDownInterpolator = new AccelerateInterpolator(1.2f);
 
 	private HockeyPuck mHockeyPuck;
 
@@ -110,6 +114,7 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 		mBgDestImageC.setVisibility(View.VISIBLE);
 		mTripBucketC = Ui.findView(this, R.id.trip_bucket_container);
 		mMissingFlightInfoC = Ui.findView(this, R.id.missing_flight_info_container);
+		mFlightsC = Ui.findView(this, R.id.full_width_flights_controller_container);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CURRENT_STATE)) {
 			String stateName = savedInstanceState.getString(STATE_CURRENT_STATE);
@@ -410,22 +415,26 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	private StateListenerHelper<ResultsState> mStateListener = new StateListenerHelper<ResultsState>() {
 		@Override
 		public void onStateTransitionStart(ResultsState stateOne, ResultsState stateTwo) {
-			mTripBucketC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+			setEnteringProductHardwareLayers(View.LAYER_TYPE_HARDWARE,
+				stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS);
 		}
 
 		@Override
 		public void onStateTransitionUpdate(ResultsState stateOne, ResultsState stateTwo, float percentage) {
 			if (stateOne == ResultsState.OVERVIEW && stateTwo != ResultsState.OVERVIEW) {
-				setTripBucketSlideOutPercentage(percentage);
+				setEnteringProductPercentage(percentage,
+					stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS);
 			}
 			else if (stateOne != ResultsState.OVERVIEW && stateTwo == ResultsState.OVERVIEW) {
-				setTripBucketSlideOutPercentage(1f - percentage);
+				setEnteringProductPercentage(1f - percentage,
+					stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS);
 			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(ResultsState stateOne, ResultsState stateTwo) {
-			mTripBucketC.setLayerType(View.LAYER_TYPE_NONE, null);
+			setEnteringProductHardwareLayers(View.LAYER_TYPE_NONE,
+				stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS);
 		}
 
 		@Override
@@ -437,10 +446,10 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			}
 
 			if (state == ResultsState.OVERVIEW) {
-				setTripBucketSlideOutPercentage(0f);
+				setEnteringProductPercentage(0f, false);
 			}
 			else {
-				setTripBucketSlideOutPercentage(1f);
+				setEnteringProductPercentage(1f, state == ResultsState.HOTELS);
 			}
 		}
 	};
@@ -449,9 +458,24 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 	 * TRANSITIONS
 	 */
 
-	private void setTripBucketSlideOutPercentage(float percentage) {
-		if (mTripBucketC != null) {
-			mTripBucketC.setTranslationY(percentage * mTripBucketC.getHeight());
+	private void setEnteringProductHardwareLayers(int layerType, boolean enteringHotels) {
+		mTripBucketC.setLayerType(layerType, null);
+		mMissingFlightInfoC.setLayerType(layerType, null);
+		if (enteringHotels) {
+			mFlightsC.setLayerType(layerType, null);
+		}
+	}
+
+	private void setEnteringProductPercentage(float percentage, boolean enteringHotels) {
+		mTripBucketC.setTranslationY(percentage * mTripBucketC.getHeight());
+		mMissingFlightInfoC.setTranslationY(
+			mCenterColumnUpDownInterpolator.getInterpolation(percentage) * mGrid.getRowHeight(1));
+		if (enteringHotels) {
+			mFlightsC
+				.setTranslationY(mCenterColumnUpDownInterpolator.getInterpolation(percentage) * mGrid.getRowHeight(1));
+		}
+		else if (mFlightsC.getTranslationY() != 0) {
+			mFlightsC.setTranslationY(0f);
 		}
 	}
 
