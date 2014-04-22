@@ -220,7 +220,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		//Origin/Destination - Note that these come strait from Params
 		if (mLocalParams.hasDestination()) {
-			mDestBtn.setText(Html.fromHtml(mLocalParams.getDestination().getDisplayName()));
+			mDestBtn.setText(Html.fromHtml(mLocalParams.getDestination().getDisplayName()).toString());
 		}
 		else {
 			mDestBtn.setText("");
