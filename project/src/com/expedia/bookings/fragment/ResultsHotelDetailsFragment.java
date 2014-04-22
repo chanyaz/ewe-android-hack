@@ -579,7 +579,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 					expand(row);
 				}
 				// Now let's bind the new room rate details.
-				bindSelectedRoomDetails(row, selectedRate);
+				bindSelectedRoomDetails(roomRateDetailContainer, row, selectedRate);
 			}
 			else {
 				row.setSelected(false);
@@ -761,6 +761,12 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		AnimatorSet set = new AnimatorSet();
 		set.playTogether(animators);
 		set.start();
+
+		TextView roomLongDescriptionTextView = Ui.findView(row, R.id.room_rate_description_text);
+		if (roomLongDescriptionTextView.getEllipsize() == null) {
+			roomLongDescriptionTextView.setEllipsize(TextUtils.TruncateAt.END);
+			roomLongDescriptionTextView.setMaxLines(5);
+		}
 	}
 
 	private ValueAnimator slideAnimator(final View row, int start, int end) {
@@ -780,7 +786,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		return animator;
 	}
 
-	private void bindSelectedRoomDetails(View row, Rate rate) {
+	private void bindSelectedRoomDetails(final RelativeLayout container, final View row, Rate rate) {
 		ImageView roomDetailImageView = Ui.findView(row, R.id.room_rate_image_view);
 		TextView urgencyMessagingView = Ui.findView(row, R.id.room_rate_urgency_text);
 		final TextView roomLongDescriptionTextView = Ui.findView(row, R.id.room_rate_description_text);
@@ -793,6 +799,14 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
+				// We need to reset the layout params for the container and the row.
+				// So that we are ready to expand the textView when user wants it.
+				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+				int marginDP = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_detail_container_margin);
+				layoutParams.bottomMargin = marginDP;
+				layoutParams.topMargin = marginDP;
+				container.setLayoutParams(layoutParams);
+				row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 				if (roomLongDescriptionTextView.getEllipsize() != null) {
 					roomLongDescriptionTextView.setEllipsize(null);
 					roomLongDescriptionTextView.setMaxLines(Integer.MAX_VALUE);
