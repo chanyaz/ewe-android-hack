@@ -226,6 +226,11 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	private final Download<ReviewsResponse> mUserReviewDownload = new Download<ReviewsResponse>() {
 		@Override
 		public ReviewsResponse doDownload() {
+			if (getActivity() == null) {
+				// We lost the activity
+				return null;
+			}
+
 			ExpediaServices expediaServices = new ExpediaServices(getActivity());
 			mBackgroundDownloader.addDownloadListener(mReviewsDownloadKey, expediaServices);
 			return expediaServices.reviews(mProperty, mReviewSort, mPageNumber);
@@ -235,6 +240,11 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	private final OnDownloadComplete<ReviewsResponse> mUserReviewDownloadCallback = new OnDownloadComplete<ReviewsResponse>() {
 		@Override
 		public void onDownload(ReviewsResponse response) {
+			if (getActivity() == null) {
+				// We lost the activity
+				return;
+			}
+
 			if (response == null || response.hasErrors()) {
 				showReviewsUnavailableMessage();
 			}
