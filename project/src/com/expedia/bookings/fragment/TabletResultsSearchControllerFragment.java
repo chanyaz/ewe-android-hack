@@ -71,6 +71,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private GridManager mGrid = new GridManager();
 	private StateManager<ResultsSearchState> mSearchStateManager = new StateManager<ResultsSearchState>(
 		ResultsSearchState.CALENDAR, this);
+	private ResultsSearchState mLastDownState = ResultsSearchState.CALENDAR;
 	private boolean mWaypointAnimFromOrigin = true;
 	private boolean mIgnoreDateChanges = false;
 	private boolean mIgnoreGuestChanges = false;
@@ -84,12 +85,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private FrameLayoutTouchController mBottomCenterC;
 	private View mBottomRightBg;
 	private View mBottomCenterBg;
+
 	//Fragment Containers
 	private FrameLayoutTouchController mCalC;
 	private FrameLayoutTouchController mTravC;
 	private FrameLayoutTouchController mWaypointC;
 	private FrameLayoutTouchController mGdeC;
-
 
 	//Search action buttons
 	private TextView mDestBtn;
@@ -104,7 +105,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	//Uncommited data
 	private SearchParams mLocalParams;
-
 
 	//Frags
 	private ResultsWaypointFragment mWaypointFragment;
@@ -495,6 +495,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					//For hotels we also fade
 					setSlideUpHotelsOnlyHardwareLayers(true);
 				}
+
 			}
 			else {
 				if (stateShowsWaypoint(stateOne) || stateShowsWaypoint(stateTwo)) {
@@ -508,21 +509,41 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 						mWaypointAnimFromOrigin = false;
 					}
 				}
+			}
 
-				if (stateOne == ResultsSearchState.CALENDAR || stateTwo == ResultsSearchState.CALENDAR) {
-					mBottomRightC.setVisibility(View.VISIBLE);
-					mBottomCenterC.setVisibility(View.VISIBLE);
-					mCalC.setVisibility(View.VISIBLE);
-					mGdeC.setVisibility(View.VISIBLE);
-					mSearchActionsC.setVisibility(View.VISIBLE);
-				}
+			if (stateOne == ResultsSearchState.CALENDAR || stateTwo == ResultsSearchState.CALENDAR) {
+				mBottomRightC.setVisibility(View.VISIBLE);
+				mBottomCenterC.setVisibility(View.VISIBLE);
+				mCalC.setVisibility(View.VISIBLE);
+				mGdeC.setVisibility(View.VISIBLE);
+				mSearchActionsC.setVisibility(View.VISIBLE);
 
-				if (stateOne == ResultsSearchState.TRAVELER_PICKER || stateTwo == ResultsSearchState.TRAVELER_PICKER) {
-					mBottomRightC.setVisibility(View.VISIBLE);
-					mTravC.setVisibility(View.VISIBLE);
-					mSearchActionsC.setVisibility(View.VISIBLE);
+				if ((mDatesFragment == null || mDatesFragment.isDetached()) || (mGdeFragment == null || mGdeFragment
+					.isDetached())) {
+					FragmentManager manager = getChildFragmentManager();
+					FragmentTransaction transaction = manager.beginTransaction();
+					mDatesFragment = FragmentAvailabilityUtils.setFragmentAvailability(true, FTAG_CALENDAR, manager,
+						transaction, TabletResultsSearchControllerFragment.this, R.id.calendar_container, true);
+					mGdeFragment = FragmentAvailabilityUtils.setFragmentAvailability(true, FTAG_FLIGHTS_GDE, manager,
+						transaction, TabletResultsSearchControllerFragment.this, R.id.gde_container, true);
+					transaction.commit();
 				}
 			}
+
+			if (stateOne == ResultsSearchState.TRAVELER_PICKER || stateTwo == ResultsSearchState.TRAVELER_PICKER) {
+				mBottomRightC.setVisibility(View.VISIBLE);
+				mTravC.setVisibility(View.VISIBLE);
+				mSearchActionsC.setVisibility(View.VISIBLE);
+
+				if (mGuestsFragment == null || mGuestsFragment.isDetached()) {
+					FragmentManager manager = getChildFragmentManager();
+					FragmentTransaction transaction = manager.beginTransaction();
+					mGuestsFragment = FragmentAvailabilityUtils.setFragmentAvailability(true, FTAG_TRAV_PICKER, manager,
+						transaction, TabletResultsSearchControllerFragment.this, R.id.traveler_container, false);
+					transaction.commit();
+				}
+			}
+
 			setActionbarShowingState(stateTwo);
 		}
 
@@ -628,6 +649,14 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			if (state != ResultsSearchState.CALENDAR && state != ResultsSearchState.TRAVELER_PICKER) {
 				clearChanges();
 			}
+
+			if (!isUpState(state)) {
+				mLastDownState = state;
+			}
+		}
+
+		private boolean isUpState(ResultsSearchState state) {
+			return state == ResultsSearchState.FLIGHTS_UP || state == ResultsSearchState.HOTELS_UP;
 		}
 
 		private boolean performingSlideUpOrDownTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
@@ -638,13 +667,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 
 		private boolean goingUp(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return (stateOne == ResultsSearchState.DEFAULT && (stateTwo == ResultsSearchState.FLIGHTS_UP
-				|| stateTwo == ResultsSearchState.HOTELS_UP));
+			return !isUpState(stateOne) && isUpState(stateTwo);
 		}
 
 		private boolean goingDown(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return ((stateOne == ResultsSearchState.FLIGHTS_UP || stateOne == ResultsSearchState.HOTELS_UP)
-				&& stateTwo == ResultsSearchState.DEFAULT);
+			return isUpState(stateOne) && !isUpState(stateTwo);
 		}
 
 		private boolean isHotelsUpTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
@@ -910,7 +937,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				return ResultsSearchState.HOTELS_UP;
 			}
 			default: {
-				return ResultsSearchState.DEFAULT;
+				if (Db.getTripBucket().size() == 0 && mLastDownState != null) {
+					return mLastDownState;
+				}
+				else {
+					return ResultsSearchState.DEFAULT;
+				}
 			}
 			}
 		}
