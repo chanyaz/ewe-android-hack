@@ -12,6 +12,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
@@ -33,6 +34,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.bitmaps.ColorScheme;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.BedType;
@@ -61,6 +63,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.HtmlUtils;
 import com.mobiata.android.util.TimingLogger;
 
 /**
@@ -508,6 +511,24 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				}
 			});
 
+			// Show renovation fees notice
+			LinearLayout renovationNoticeContainer = Ui.findView(row, R.id.room_rate_renovation_container);
+			Property property = Db.getHotelSearch().getSelectedProperty();
+			final String renovationText;
+			if (property.getRenovationText() != null && !TextUtils.isEmpty(property.getRenovationText().getContent())) {
+				renovationNoticeContainer.setVisibility(View.VISIBLE);
+				renovationText = property.getRenovationText().getContent();
+				Ui.findView(row, R.id.room_rate_renovation_more_info).setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						openWebView(getString(R.string.renovation_notice), renovationText);
+					}
+				});
+			}
+			else {
+				renovationNoticeContainer.setVisibility(View.GONE);
+			}
+
 			if (rowRate.equals(selectedRate)) {
 				row.setSelected(true);
 				// Let's set layout height to wrap content.
@@ -515,7 +536,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				if (roomRateDetailContainer.getVisibility() == View.GONE) {
 					expand(row);
 				}
-				roomRateDetailContainer.setVisibility(View.VISIBLE);
 				// Now let's bind the new room rate details.
 				bindSelectedRoomDetails(row, selectedRate);
 			}
@@ -608,8 +628,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private void collapse(final View row) {
 		final Button addRoomButton = Ui.findView(row, R.id.room_rate_button_add);
 		final Button selectRoomButton = Ui.findView(row, R.id.room_rate_button_select);
-		addRoomButton.setVisibility(View.INVISIBLE);
-		selectRoomButton.setVisibility(View.VISIBLE);
 
 		List<Animator> animators = new ArrayList<Animator>();
 
@@ -787,6 +805,14 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		else {
 			roomRateDiscountRibbon.setVisibility(View.INVISIBLE);
 		}
+	}
+
+	private void openWebView(String title, String text) {
+		String html;
+		html = HtmlUtils.wrapInHeadAndBodyWithStandardTabletMargins(text);
+		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+		Intent intent = builder.setTitle(title).setHtmlData(html).setTheme(R.style.V2_Theme_Activity_TabletResults_WebActivity).getIntent();
+		startActivity(intent);
 	}
 
 	private void setupDescriptionSections(View view, Property property) {

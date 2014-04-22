@@ -2024,6 +2024,8 @@
     <string name="renovation_notice">Renovation Notice</string>
     <!-- This property is undergoing renovations -->
     <string name="property_undergoing_renovations">This property is undergoing renovations</string>
+    <!-- Rooms & rates more info link for renovation notice or resort fees -->
+    <string name="more_info">More Info</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
