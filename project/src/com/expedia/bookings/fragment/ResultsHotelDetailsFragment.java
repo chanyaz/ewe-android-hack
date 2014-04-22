@@ -574,7 +574,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		}
 
 
-
 		container.requestLayout();
 	}
 
@@ -633,7 +632,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		row.setBackgroundDrawable(colorDrawable);
 
 		Animator colorDrawableAnimator = ObjectAnimator
-			.ofInt(colorDrawable, "alpha",0, 255)
+			.ofInt(colorDrawable, "alpha", 0, 255)
 			.setDuration(ROOM_RATE_ANIMATION_DURATION);
 		animators.add(colorDrawableAnimator);
 
@@ -730,7 +729,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		row.setBackgroundDrawable(colorDrawable);
 
 		Animator colorDrawableAnimator = ObjectAnimator
-			.ofInt(colorDrawable, "alpha",255, 0)
+			.ofInt(colorDrawable, "alpha", 255, 0)
 			.setDuration(ROOM_RATE_ANIMATION_DURATION);
 		animators.add(colorDrawableAnimator);
 
