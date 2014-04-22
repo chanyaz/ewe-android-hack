@@ -37,8 +37,7 @@
                         android:layout_height="86dp"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="@dimen/hotel_header_height"
+                        android:layout_below="@id/header_container"
                         android:background="@color/tablet_white_pane_bg"
                         android:paddingTop="4dp">
 
@@ -50,11 +49,13 @@
                             android:background="#d1d1d1" />
 
                         <LinearLayout
+                            android:id="@+id/rooms_left_container"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_toLeftOf="@id/reviews_section_divider"
                             android:layout_alignParentLeft="true"
+                            android:layout_alignWithParentIfMissing="true"
                             android:gravity="center">
 
                             <com.expedia.bookings.widget.RingedCountView
@@ -75,13 +76,6 @@
                                 app:textStyle="light" />
                         </LinearLayout>
 
-                        <View
-                            android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
-                            android:layout_height="32dp"
-                            android:layout_gravity="center_vertical"
-                            android:background="#d1d1d1" />
-
-
                         <LinearLayout
                             android:id="@+id/user_rating_container"
                             android:layout_width="wrap_content"
@@ -89,6 +83,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_toRightOf="@id/reviews_section_divider"
                             android:layout_alignParentRight="true"
+                            android:layout_alignWithParentIfMissing="true"
                             android:gravity="center">
 
                             <RatingBar

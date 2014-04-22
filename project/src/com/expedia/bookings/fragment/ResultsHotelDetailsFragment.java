@@ -82,6 +82,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 	private ViewGroup mRootC;
 	private View mUserRatingContainer;
+	private View mRoomsLeftContainer;
 	private HotelDetailsStickyHeaderLayout mHeaderContainer;
 	private ViewGroup mAmenitiesContainer;
 	private LinearLayout mRatesContainer;
@@ -112,6 +113,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		mAmenitiesContainer = Ui.findView(mRootC, R.id.amenities_container);
 		mRatesContainer = Ui.findView(mRootC, R.id.rooms_rates_container);
 		mUserRatingContainer = Ui.findView(mRootC, R.id.user_rating_container);
+		mRoomsLeftContainer = Ui.findView(mRootC, R.id.rooms_left_container);
 		mHeaderContainer = Ui.findView(mRootC, R.id.header_container);
 		mProgressContainer = Ui.findView(mRootC, R.id.progress_spinner_container);
 		toggleSpinner(mRootC, true);
@@ -242,8 +244,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		TextView hotelName = Ui.findView(view, R.id.hotel_header_hotel_name);
 		TextView notRatedText = Ui.findView(view, R.id.not_rated_text_view);
 		RatingBar starRating = Ui.findView(view, R.id.star_rating_bar);
-		RatingBar userRating = Ui.findView(view, R.id.user_rating_bar);
-		TextView userRatingText = Ui.findView(view, R.id.user_rating_text);
 		TextView vipText = Ui.findView(view, R.id.vip_badge);
 		TextView saleText = Ui.findView(view, R.id.sale_text_view);
 
@@ -289,38 +289,41 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			float pct = 1 - starRatingValue / starRating.getNumStars();
 			starRating.setTranslationX(pct * starRating.getWidth() / 2);
 		}
+	}
 
-		// User Rating
-		float userRatingValue = (float) property.getAverageExpediaRating();
+	private void setupReviews(View view, Property property) {
+
+		// Reviews
+
+		RingedCountView roomsLeftRing = Ui.findView(view, R.id.rooms_left_ring);
+		TextView roomsLeftText = Ui.findView(view, R.id.rooms_left_ring_text);
 		int totalReviews = property.getTotalReviews();
-		if (totalReviews == 0) {
-			userRating.setVisibility(View.GONE);
-			userRatingText.setVisibility(View.GONE);
-		}
-		else {
+		boolean userRatingAvailable = totalReviews != 0;
+		if (userRatingAvailable) {
+			RatingBar userRating = Ui.findView(view, R.id.user_rating_bar);
+			TextView userRatingText = Ui.findView(view, R.id.user_rating_text);
+			mUserRatingContainer.setOnClickListener(mReviewsButtonClickedListener);
+			mUserRatingContainer.setVisibility(View.VISIBLE);
+
+			// User Rating
+			float userRatingValue = (float) property.getAverageExpediaRating();
 			userRating.setVisibility(View.VISIBLE);
 			userRatingText.setVisibility(View.VISIBLE);
 			userRating.setRating(userRatingValue);
 			userRatingText.setText(getString(R.string.n_reviews_TEMPLATE, totalReviews));
 		}
-	}
-
-	private void setupReviews(View view, Property property) {
-		RingedCountView roomsLeftRing = Ui.findView(view, R.id.rooms_left_ring);
-		TextView roomsLeftText = Ui.findView(view, R.id.rooms_left_ring_text);
-
-		boolean userRatingAvailable = property.getTotalReviews() != 0;
-
-		if (userRatingAvailable) {
-			mUserRatingContainer.setOnClickListener(mReviewsButtonClickedListener);
-		}
 		else {
 			mUserRatingContainer.setOnClickListener(null);
+			mUserRatingContainer.setVisibility(View.GONE);
 		}
+
+		// Urgency / % Recommended
 
 		Resources res = getResources();
 		int roomsLeft = property.getRoomsLeftAtThisRate();
+		boolean urgencyAvailable = roomsLeft <= 5 && roomsLeft >= 0 || property.getPercentRecommended() != 0f;
 		if (roomsLeft <= 5 && roomsLeft >= 0) {
+			mRoomsLeftContainer.setVisibility(View.VISIBLE);
 			int color = res.getColor(R.color.details_ring_red);
 			roomsLeftRing.setVisibility(View.VISIBLE);
 			roomsLeftText.setVisibility(View.VISIBLE);
@@ -330,11 +333,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			roomsLeftRing.setCountText("");
 			roomsLeftText.setText(res.getQuantityString(R.plurals.n_rooms_left_TEMPLATE, roomsLeft, roomsLeft));
 		}
-		else if (property.getPercentRecommended() == 0f) {
-			roomsLeftRing.setVisibility(View.INVISIBLE);
-			roomsLeftText.setVisibility(View.INVISIBLE);
-		}
-		else {
+		else if (property.getPercentRecommended() != 0f) {
+			mRoomsLeftContainer.setVisibility(View.VISIBLE);
 			roomsLeftRing.setVisibility(View.VISIBLE);
 			roomsLeftText.setVisibility(View.VISIBLE);
 			roomsLeftRing.setPrimaryColor(res.getColor(R.color.details_ring_blue));
@@ -342,6 +342,23 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			roomsLeftRing.setCountText("");
 			int percent = Math.round(property.getPercentRecommended());
 			roomsLeftText.setText(getString(R.string.n_recommend_TEMPLATE, percent));
+		}
+		else {
+			mRoomsLeftContainer.setVisibility(View.GONE);
+		}
+
+		// Show/hide views/containers as appropriate
+
+		if (urgencyAvailable && userRatingAvailable) {
+			mReviewsC.setVisibility(View.VISIBLE);
+			Ui.findView(mReviewsC, R.id.reviews_section_divider).setVisibility(View.VISIBLE);
+		}
+		else if (urgencyAvailable || userRatingAvailable) {
+			mReviewsC.setVisibility(View.VISIBLE);
+			Ui.findView(mReviewsC, R.id.reviews_section_divider).setVisibility(View.GONE);
+		}
+		else {
+			mReviewsC.setVisibility(View.GONE);
 		}
 	}
 
@@ -978,10 +995,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			if (mHeaderContainer.getLayoutParams() != null) {
 				mHeaderContainer.getLayoutParams().height = halfContentSize;
 				mHeaderContainer.setLayoutParams(mHeaderContainer.getLayoutParams());
-			}
-			if (mReviewsC.getLayoutParams() != null) {
-				((RelativeLayout.LayoutParams) mReviewsC.getLayoutParams()).topMargin = halfContentSize;
-				mReviewsC.setLayoutParams(mReviewsC.getLayoutParams());
 			}
 		}
 	};
