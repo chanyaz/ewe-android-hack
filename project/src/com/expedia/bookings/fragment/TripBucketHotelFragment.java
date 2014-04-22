@@ -81,7 +81,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	public void addTripBucketImage(ImageView imageView, HeaderBitmapColorAveragedDrawable headerBitmapDrawable) {
 		int placeholderResId = Ui.obtainThemeResID((Activity) getActivity(), R.attr.HotelRowThumbPlaceHolderDrawable);
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-		if (hotel != null) {
+		if (hotel != null && hotel.getProperty() != null && hotel.getProperty().getThumbnail() != null) {
 			hotel.getProperty().getThumbnail().fillHeaderBitmapDrawable(imageView, headerBitmapDrawable, placeholderResId);
 		}
 	}
