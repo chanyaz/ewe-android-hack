@@ -765,7 +765,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		TextView roomLongDescriptionTextView = Ui.findView(row, R.id.room_rate_description_text);
 		if (roomLongDescriptionTextView.getEllipsize() == null) {
 			roomLongDescriptionTextView.setEllipsize(TextUtils.TruncateAt.END);
-			roomLongDescriptionTextView.setMaxLines(5);
+			roomLongDescriptionTextView.setMaxLines(getResources().getInteger(R.integer.room_rates_description_maxlines));
 		}
 	}
 
@@ -813,7 +813,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				}
 				else {
 					roomLongDescriptionTextView.setEllipsize(TextUtils.TruncateAt.END);
-					roomLongDescriptionTextView.setMaxLines(5);
+					roomLongDescriptionTextView.setMaxLines(getResources().getInteger(R.integer.room_rates_description_maxlines));
 				}
 			}
 		});

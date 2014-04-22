@@ -24,6 +24,9 @@
     <!-- visibilities -->
     <integer name="attraction_bubble_visibility">0</integer>
 
+    <!-- Tablet Hotel Rooms Rates detail description maxlines -->
+    <integer name="room_rates_description_maxlines">4</integer>
+
     <!-- login button font style: 0 = normal, 32 = light -->
     <integer name="login_button_text_style">0</integer>
 
