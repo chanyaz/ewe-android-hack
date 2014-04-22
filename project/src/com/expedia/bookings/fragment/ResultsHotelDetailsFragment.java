@@ -546,6 +546,31 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				renovationNoticeContainer.setVisibility(View.GONE);
 			}
 
+			// Show resort fees notice
+			LinearLayout resortFeesContainer = Ui.findView(row, R.id.room_rate_resort_fees_container);
+			Money mandatoryFees = selectedRate == null ? null : selectedRate.getTotalMandatoryFees();
+			boolean hasMandatoryFees = mandatoryFees != null && !mandatoryFees.isZero();
+			boolean hasResortFeesMessage = property.getMandatoryFeesText() != null
+				&& !TextUtils.isEmpty(property.getMandatoryFeesText().getContent());
+			boolean mandatoryFeePriceType = selectedRate.getCheckoutPriceType() == Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES;
+
+			final String resortFeesMoreInfoText;
+			if (hasMandatoryFees && hasResortFeesMessage && !mandatoryFeePriceType) {
+				com.expedia.bookings.widget.TextView resortFeesNoticeText = Ui.findView(row, R.id.room_rate_resort_fees_text);
+				resortFeesNoticeText.setText(Html.fromHtml(getString(R.string.tablet_room_rate_resort_fees_template,mandatoryFees.getFormattedMoney())));
+				resortFeesContainer.setVisibility(View.VISIBLE);
+				resortFeesMoreInfoText = property.getMandatoryFeesText().getContent();
+				Ui.findView(row, R.id.room_rate_resort_fees_more_info).setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						openWebView(getString(R.string.additional_fees), resortFeesMoreInfoText);
+					}
+				});
+			}
+			else {
+				resortFeesContainer.setVisibility(View.GONE);
+			}
+
 			if (rowRate.equals(selectedRate)) {
 				row.setSelected(true);
 				// Let's set layout height to wrap content.

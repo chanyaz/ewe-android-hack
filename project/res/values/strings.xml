@@ -188,6 +188,8 @@
     <!-- Tablet hotel details -->
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/night</string>
+    <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_template">This hotel charges additional fees of &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">Add To Trip</string>
     <!-- Rooms and rates button to select a particular room and view details -->
