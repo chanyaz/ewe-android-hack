@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -30,7 +29,9 @@ import com.expedia.bookings.fragment.UserReviewsFragment;
 import com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsFragmentListener;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsBackClickedListener;
+import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
 import com.mobiata.android.widget.SegmentedControlGroup;
@@ -45,6 +46,7 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 	}
 
 	private ViewGroup mRootC;
+	private ViewGroup mPopupC;
 	private ViewPager mViewPager;
 	private SegmentedControlGroup mSortGroup;
 	private TextView mReviewSectionTitle;
@@ -53,6 +55,8 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 
 	private IAddToBucketListener mAddToBucketListener;
 	private IResultsHotelReviewsBackClickedListener mBackListener;
+
+	private GridManager mGrid = new GridManager();
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -64,6 +68,7 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotel_reviews, null);
+		mPopupC = Ui.findView(mRootC, R.id.popup_frame_layout);
 		mViewPager = Ui.findView(mRootC, R.id.pager);
 		mReviewSectionTitle = Ui.findView(mRootC, R.id.reviews_title);
 		mReviewSectionTitle.setOnClickListener(new View.OnClickListener() {
@@ -88,19 +93,13 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		int position = mViewPager.getCurrentItem();
 		onPageSelected(position);
 
-		mRootC.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-			public void onGlobalLayout() {
-				int paddingx = (int) (mRootC.getWidth() * 0.14f);
-				mRootC.setPadding(paddingx, mRootC.getPaddingTop(), paddingx, mRootC.getPaddingBottom());
-			}
-		});
-
 		return mRootC;
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
+		mMeasurementHelper.registerWithProvider(this);
 		if (Db.getHotelSearch() != null && Db.getHotelSearch().getSelectedProperty() != null) {
 			Property property = Db.getHotelSearch().getSelectedProperty();
 			bind(property);
@@ -111,6 +110,7 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 	@Override
 	public void onPause() {
 		super.onPause();
+		mMeasurementHelper.unregisterWithProvider(this);
 		Events.unregister(this);
 	}
 
@@ -253,4 +253,37 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 
 		mAddToBucketListener.onItemAddedToBucket();
 	}
+
+	/*
+	MEASUREMENT HELPER
+	 */
+
+	private MeasurementHelper mMeasurementHelper = new MeasurementHelper() {
+
+		@Override
+		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
+			//This attempts to replicate the global layout by doing 3 columns for our general results layout
+			//and 2 rows (where the first one represents the actionbar).
+			GridManager globalGm = new GridManager(2, 3);
+			globalGm.setDimensions(totalWidth, totalHeight);
+			globalGm.setRowSize(0, getActivity().getActionBar().getHeight());
+
+			//Now we set up our local positions
+			mGrid.setDimensions(globalGm.getColSpanWidth(1, 3), globalGm.getRowHeight(1));
+			mGrid.setNumCols(3);
+			mGrid.setNumRows(3);
+
+			int topBottomSpaceSize = getResources()
+				.getDimensionPixelSize(R.dimen.tablet_hotel_details_vertical_padding);
+			float leftRightSpacePerc = getResources()
+				.getFraction(R.fraction.tablet_hotel_details_horizontal_spacing_percentage, 1, 1);
+			mGrid.setRowSize(0, topBottomSpaceSize);
+			mGrid.setRowSize(2, topBottomSpaceSize);
+			mGrid.setColumnPercentage(0, leftRightSpacePerc);
+			mGrid.setColumnPercentage(2, leftRightSpacePerc);
+
+			mGrid.setContainerToRow(mPopupC, 1);
+			mGrid.setContainerToColumn(mPopupC, 1);
+		}
+	};
 }
