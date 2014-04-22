@@ -200,4 +200,7 @@
     <!-- Price pins on map -->
     <color name="map_price_pin_text_color">#ffffff</color>
 
+    <!-- Tablet Room Rate More Info button -->
+    <color name="tablet_room_rate_more_info_pressed">#20000000</color>
+
 </resources>

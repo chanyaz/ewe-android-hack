@@ -99,15 +99,14 @@
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/room_rate_renovation_notice_text"
                 style="@style/TabletRoomRateNoticeFeesText"
-                android:drawableLeft="@drawable/ic_renovation"
+                android:drawableLeft="@drawable/ic_renovation_tablet"
                 android:text="@string/property_undergoing_renovations"
                 app:textStyle="light" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/room_rate_renovation_more_info"
                 style="@style/TabletRoomRateNoticeMoreInfo"
-                android:text="@string/more_info"
-                android:textStyle="bold" />
+                app:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -119,15 +118,14 @@
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/room_rate_resort_fees_text"
                 style="@style/TabletRoomRateNoticeFeesText"
-                android:drawableLeft="@drawable/ic_renovation"
+                android:drawableLeft="@drawable/ic_fees_tablet"
                 android:text="@string/property_undergoing_renovations"
                 app:textStyle="light" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/room_rate_resort_fees_more_info"
                 style="@style/TabletRoomRateNoticeMoreInfo"
-                android:text="@string/more_info"
-                android:textStyle="bold" />
+                app:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>
