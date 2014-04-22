@@ -9,8 +9,10 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.SearchActivity;
-import com.expedia.bookings.test.tests.pageModels.tablet.Common;
 import com.expedia.bookings.test.tests.pageModels.tablet.Checkout;
+import com.expedia.bookings.test.tests.pageModels.tablet.Common;
+import com.expedia.bookings.test.tests.pageModels.tablet.IdlingResources;
+import com.expedia.bookings.test.tests.pageModels.tablet.IdlingResources.SuggestionResource;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
 import com.mobiata.android.Log;
@@ -19,28 +21,24 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 
 	public TabletHappyPath() {
 		super(SearchActivity.class);
-		Launch.registerSuggestionResource();
 	}
 
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-
-		// This setUp is only applicable to tablets
-		// Espresso will not launch our activity for us, we must launch it via getActivity().
-		if (ExpediaBookingApp.useTabletInterface(getInstrumentation().getTargetContext())) {
-			Intent intent = new Intent();
-			intent.putExtra("isAutomation", true);
-			setActivityIntent(intent);
-
-			getActivity();
-		}
-	}
+	private SuggestionResource mSuggestionResource;
 
 	@Override
 	public void runTest() throws Throwable {
 		// These tests are only applicable to tablets
 		if (ExpediaBookingApp.useTabletInterface(getInstrumentation().getTargetContext())) {
+			mSuggestionResource = new SuggestionResource();
+			IdlingResources.registerSuggestionResource(mSuggestionResource);
+
+			Intent intent = new Intent();
+			intent.putExtra("isAutomation", true);
+			setActivityIntent(intent);
+
+			// Espresso will not launch our activity for us, we must launch it via getActivity().
+			getActivity();
+
 			super.runTest();
 		}
 	}
@@ -80,6 +78,9 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
-		Launch.unregisterSuggestionResource();
+		// These tests are only applicable to tablets
+		if (ExpediaBookingApp.useTabletInterface(getInstrumentation().getTargetContext())) {
+			IdlingResources.unregisterSuggestionResource(mSuggestionResource);
+		}
 	}
 }
