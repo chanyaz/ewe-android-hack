@@ -176,6 +176,9 @@ public class ExpediaServices implements DownloadListener {
 	private boolean mCancellingDownload;
 
 	public ExpediaServices(Context context) {
+		if (context == null) {
+			throw new RuntimeException("Context passed to ExpediaServices cannot be null!");
+		}
 		mContext = context;
 	}
 

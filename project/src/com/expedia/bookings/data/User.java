@@ -156,12 +156,15 @@ public class User implements JSONable {
 	 */
 	public static boolean isLoggedInOnDisk(Context context) {
 		boolean isLoggedIn = false;
+		File file;
 
 		// Existence of the saved info indicates being logged in
-		isLoggedIn |= context.getFileStreamPath(SAVED_INFO_FILENAME).exists();
+		file = context.getFileStreamPath(SAVED_INFO_FILENAME);
+		isLoggedIn |= file != null && file.exists();
 
 		// Backwards compatible method for checking logged in state
-		isLoggedIn |= context.getFileStreamPath(IS_USER_LOGGED_IN_FILE).exists();
+		file = context.getFileStreamPath(IS_USER_LOGGED_IN_FILE);
+		isLoggedIn |= file != null && file.exists();
 
 		return isLoggedIn;
 	}
