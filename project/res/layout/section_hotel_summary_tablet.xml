@@ -11,18 +11,34 @@
     app:priceTextColor="?attr/hotelPriceStandardColor"
     app:salePriceTextColor="?attr/hotelPriceSaleColor">
 
+    <com.expedia.bookings.widget.OptimizedImageView
+        android:id="@+id/hotel_background_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
+
+    <View
+        android:id="@+id/gradient_header_mask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_hotel_details_header_gradient" />
+
+    <!-- This FrameLayout is required by HotelSummarySection.java for color matching -->
+
     <FrameLayout
         android:id="@+id/urgency_message_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="-8dp"
+        android:layout_marginBottom="2.5dp"
         android:padding="3dp">
 
         <TextView
             android:id="@id/urgency_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:gravity="center"
             android:includeFontPadding="false"
             android:singleLine="true"
             android:textColor="@android:color/white"
@@ -30,20 +46,11 @@
             android:visibility="gone"/>
     </FrameLayout>
 
-    <!-- TODO: revisit the background view here. -->
-
-    <com.expedia.bookings.widget.OptimizedImageView
-        android:id="@+id/hotel_background_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/urgency_message_container"
-        android:layout_alignWithParentIfMissing="true"
-        android:scaleType="fitCenter"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/hotel_background_view"
+        android:layout_above="@id/urgency_message_container"
+        android:layout_alignWithParentIfMissing="true"
         android:layout_margin="12dp"
         android:orientation="horizontal">
 
@@ -163,5 +170,10 @@
         android:singleLine="true"
         android:textColor="@android:color/white"
         android:visibility="gone"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/hotel_card_corners" />
 
 </com.expedia.bookings.section.HotelSummarySection>

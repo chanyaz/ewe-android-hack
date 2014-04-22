@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Color;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.util.AttributeSet;
@@ -17,7 +17,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.bitmaps.DominantColorCalculator;
+import com.expedia.bookings.bitmaps.ColorAvgUtils;
+import com.expedia.bookings.bitmaps.ColorScheme;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Money;
@@ -25,6 +26,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
+import com.expedia.bookings.utils.ColorSchemeCache;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.text.StrikethroughTagHandler;
@@ -196,7 +198,8 @@ public class HotelSummarySection extends RelativeLayout {
 					mStrikethroughPriceText.setText(Html.fromHtml(
 						context.getString(R.string.strike_template,
 							StrUtils.formatHotelPrice(rate.getDisplayBasePrice())), null,
-						new StrikethroughTagHandler()));
+						new StrikethroughTagHandler()
+					));
 				}
 				else {
 					mStrikethroughPriceText.setVisibility(View.GONE);
@@ -218,7 +221,8 @@ public class HotelSummarySection extends RelativeLayout {
 				mStrikethroughPriceText.setText(Html.fromHtml(
 					context.getString(R.string.strike_template,
 						StrUtils.formatHotelPrice(highestPriceFromSurvey)), null,
-					new StrikethroughTagHandler()));
+					new StrikethroughTagHandler()
+				));
 				mSaleText.setVisibility(View.GONE);
 				if (mSaleImageView != null) {
 					mSaleImageView.setVisibility(View.GONE);
@@ -268,10 +272,8 @@ public class HotelSummarySection extends RelativeLayout {
 
 		if (mUrgencyContainer != null) {
 			if (mUrgencyText.getVisibility() == View.VISIBLE) {
-				mUrgencyContainer.setBackgroundColor(getResources().getColor(R.color.transparent_dark));
+				setDominantColor(getResources().getColor(R.color.transparent_dark));
 				mUrgencyContainer.setVisibility(View.VISIBLE);
-				// TODO: set the background color. Use L2ImageCache to load up the bitmap and figure
-				// out the color with DominantColorCalculator.
 			}
 			else {
 				mUrgencyContainer.setVisibility(View.GONE);
@@ -329,13 +331,43 @@ public class HotelSummarySection extends RelativeLayout {
 			}
 			headerBitmapDrawable.setCornerMode(CornerMode.ALL);
 			headerBitmapDrawable.setCornerRadius(res.getDimensionPixelSize(R.dimen.tablet_result_corner_radius));
-			//TODO: headerBitmapDrawable.setOverlayDrawable(res.getDrawable(R.drawable.card_top_lighting));
 
 			int placeholderResId = Ui.obtainThemeResID((Activity) context, R.attr.HotelRowThumbPlaceHolderDrawable);
-			property.getThumbnail().fillHeaderBitmapDrawable(mHotelBackgroundView, headerBitmapDrawable, placeholderResId);
+			property.getThumbnail().fillImageView(mHotelBackgroundView, placeholderResId, mHeaderBitmapLoadedCallback);
 		}
 
 		// Set the background based on whether the row is selected or not
 		setBackgroundDrawable(useSelectedBackground && isSelected ? mSelectedBackground : mUnselectedBackground);
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Async handling of Mobile Exclusive Deals / ColorScheme
+
+	L2ImageCache.OnBitmapLoaded mHeaderBitmapLoadedCallback = new L2ImageCache.OnBitmapLoaded() {
+		@Override
+		public void onBitmapLoaded(String url, Bitmap bitmap) {
+			ColorSchemeCache.getScheme(url, bitmap, new ColorSchemeCache.Callback() {
+					@Override
+					public void callback(ColorScheme colorScheme) {
+						if (mUrgencyContainer != null) {
+							int colorDarkened = ColorAvgUtils.darken(colorScheme.primaryAccent, 0.4f);
+							int overlayWithAlpha = 0xCC000000 | 0x00ffffff & colorDarkened;
+							setDominantColor(overlayWithAlpha);
+						}
+					}
+				}
+			);
+		}
+
+		@Override
+		public void onBitmapLoadFailed(String url) {
+			if (mUrgencyContainer != null) {
+				setDominantColor(getResources().getColor(R.color.transparent_dark));
+			}
+		}
+	};
+
+	private void setDominantColor(int color) {
+		mUrgencyContainer.setBackgroundColor(color);
 	}
 }
