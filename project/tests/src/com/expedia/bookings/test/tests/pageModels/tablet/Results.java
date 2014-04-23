@@ -5,6 +5,7 @@ import com.expedia.bookings.data.Property;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 import com.google.android.apps.common.testing.ui.espresso.matcher.BoundedMatcher;
+import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
@@ -15,6 +16,7 @@ import static com.google.android.apps.common.testing.ui.espresso.action.ViewActi
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withContentDescription;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -52,7 +54,7 @@ public class Results {
 	}
 
 	public static void clickAddHotel() {
-		onView(allOf(withId(R.id.room_rate_button_add), withText("Add To Trip"))).perform(scrollTo(),click());
+		onView(allOf(withId(R.id.room_rate_button_add), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))).perform(scrollTo(), click());
 	}
 
 	public static void clickBookHotel() {
