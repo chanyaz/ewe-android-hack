@@ -16,10 +16,11 @@
 
         <ImageView
             android:id="@+id/flight_histogram_back"
-            android:layout_width="wrap_content"
+            android:layout_width="24dp"
             android:layout_marginLeft="16dp"
-            android:layout_height="match_parent"
+            android:layout_height="24dp"
             android:layout_weight="0"
+            android:background="#FFFFFF"
             android:visibility="gone"
             android:src="@drawable/ic_left_enabled" />
 
