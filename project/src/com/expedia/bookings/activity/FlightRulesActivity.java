@@ -17,6 +17,7 @@ public class FlightRulesActivity extends SherlockFragmentActivity {
 		setContentView(R.layout.activity_flight_rules);
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setLogo(R.drawable.ic_action_bar_dark);
 	}
 
 	@Override

@@ -16,6 +16,7 @@ public class HotelRulesActivity extends SherlockFragmentActivity {
 		setTheme(R.style.Theme_Phone_WebView);
 		setContentView(R.layout.activity_hotel_rules);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setLogo(R.drawable.ic_action_bar_dark);
 	}
 
 	@Override
