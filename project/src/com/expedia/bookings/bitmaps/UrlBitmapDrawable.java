@@ -162,6 +162,7 @@ public class UrlBitmapDrawable extends BitmapDrawable implements L2ImageCache.On
 		Drawable currDrawable = imageView.getDrawable();
 		if (currDrawable instanceof UrlBitmapDrawable) {
 			UrlBitmapDrawable oldDrawable = (UrlBitmapDrawable) currDrawable;
+			oldDrawable.mCallback = null;
 			oldDrawable.mImageView = null;
 		}
 
