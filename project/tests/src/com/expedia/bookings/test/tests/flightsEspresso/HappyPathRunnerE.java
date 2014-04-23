@@ -1,14 +1,11 @@
 package com.expedia.bookings.test.tests.flightsEspresso;
 
-import android.content.Intent;
-import android.content.res.Resources;
+import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
-import com.expedia.bookings.test.utils.ConfigFileUtils;
 import com.expedia.bookings.test.utils.HotelsUserData;
-import com.expedia.bookings.test.utils.TestPreferences;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.mobiata.android.util.SettingUtils;
 
@@ -20,35 +17,24 @@ public class HappyPathRunnerE extends ActivityInstrumentationTestCase2<SearchAct
 		super(SearchActivity.class);
 	}
 
-	private static final String TAG = "Flights Production Happy Path";
-
 	private HotelsUserData mUser;
-	private Resources mRes;
-	private TestPreferences mPreferences;
-	private ConfigFileUtils mConfigFileUtils;
+	Context mContext;
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		Intent intent = new Intent();
-		intent.putExtra("isAutomation", true);
-		setActivityIntent(intent);
-		getActivity();
 		mUser = new HotelsUserData(getInstrumentation());
-		mRes = getActivity().getResources();
-		mPreferences = new TestPreferences();
-		mConfigFileUtils = new ConfigFileUtils();
-		mPreferences.setRotationPermission(mConfigFileUtils.getBooleanConfigValue("Rotations"));
-		mPreferences.setScreenshotPermission(mConfigFileUtils.getBooleanConfigValue("Screenshots"));
+		mContext = getInstrumentation().getTargetContext();
+		SettingUtils.save(mContext, R.string.PointOfSaleKey, "28");
+		ClearPrivateDataUtil.clear(mContext);
+		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Trunk (Stubbed)");
+		getActivity();
 	}
 
 	// This test goes through a prototypical flight booking
 	// UI flow, up to finally checking out.
-	// It runs pulling from the server determined by the config.json file
 
 	public void testMethod() throws Exception {
 		mUser.setAirportsToRandomUSAirports();
-		ClearPrivateDataUtil.clear(getInstrumentation().getTargetContext());
-		SettingUtils.save(getInstrumentation().getTargetContext(), R.string.preference_which_api_to_use_key, "Trunk (Stubbed)");
 		FlightsHappyPathE.execute(mUser);
 	}
 }
