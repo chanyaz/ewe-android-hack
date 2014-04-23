@@ -304,11 +304,16 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	public void onTripAdded(int legNumber) {
 		Log.d("onTripAdded mLegNumber:" + mLegNumber + " legNumber:" + legNumber);
 		if (legNumber == mLegNumber) {
-			int totalLegs = Db.getFlightSearch().getSearchParams().getQueryLegCount();
 			if (isLastLeg()) {
+				// Set the Db properly
 				Db.getTripBucket().clearFlight();
 				Db.getTripBucket().add(Db.getFlightSearch().getSearchState());
 				Db.saveTripBucket(getActivity());
+
+				// Reset the query so we can re-select a new flight for trip bucket
+				resetQuery();
+
+				// Change state
 				setState(ResultsFlightLegState.ADDING_TO_TRIP, true);
 			}
 			else {

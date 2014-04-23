@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.section.FlightLegSummarySectionTablet;
@@ -96,7 +97,12 @@ public class ResultsFlightAddToTrip extends Fragment {
 		public void onStateFinalized(ResultsFlightsState state) {
 			mFlightCard.setTranslationY(0f);
 			if (state == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
-				mFlightCard.bindForTripBucket(Db.getFlightSearch());
+				TripBucketItemFlight flight = Db.getTripBucket().getFlight();
+				boolean isRoundTrip = Db.getFlightSearch().getSearchParams().isRoundTrip();
+				int legs = isRoundTrip ? 2 : 1;
+
+				mFlightCard.bindForTripBucket(flight.getFlightTrip(), flight.getFlightSearchState().getSelectedLegs(legs),
+					isRoundTrip);
 				mFlightCard.setVisibility(View.VISIBLE);
 			}
 			else {
