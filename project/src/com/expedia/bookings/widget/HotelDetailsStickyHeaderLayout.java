@@ -6,11 +6,14 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
+import android.util.Pair;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.ColorAvgUtils;
 import com.expedia.bookings.bitmaps.ColorScheme;
+import com.expedia.bookings.utils.TouchControlHelper;
 import com.expedia.bookings.utils.Ui;
 
 /**
@@ -39,6 +42,8 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 	private View mDominantMask;
 	private View mHotelName;
 
+	private TouchControlHelper mTouchHelper = new TouchControlHelper();
+
 	public HotelDetailsStickyHeaderLayout(Context context) {
 		super(context);
 		init();
@@ -57,8 +62,30 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 	private void init() {
 		Resources res = getResources();
 		mCompactHeaderHeight = res.getDimension(R.dimen.tablet_details_compact_header_height);
-
+		mTouchHelper.setConsumeTouch(true);
 		resetDominantColor();
+	}
+
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		Pair<Boolean, Boolean> touchControl = mTouchHelper.onInterceptTouchEvent(ev);
+		if (touchControl.first) {
+			return touchControl.second;
+		}
+		else {
+			return super.onInterceptTouchEvent(ev);
+		}
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent ev) {
+		Pair<Boolean, Boolean> touchControl = mTouchHelper.onTouchEvent(ev);
+		if (touchControl.first) {
+			return touchControl.second;
+		}
+		else {
+			return super.onTouchEvent(ev);
+		}
 	}
 
 	@Override
