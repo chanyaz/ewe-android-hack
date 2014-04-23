@@ -552,12 +552,15 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			boolean hasMandatoryFees = mandatoryFees != null && !mandatoryFees.isZero();
 			boolean hasResortFeesMessage = property.getMandatoryFeesText() != null
 				&& !TextUtils.isEmpty(property.getMandatoryFeesText().getContent());
-			boolean mandatoryFeePriceType = selectedRate.getCheckoutPriceType() == Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES;
+			boolean mandatoryFeePriceType =
+				selectedRate.getCheckoutPriceType() == Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES;
 
 			final String resortFeesMoreInfoText;
 			if (hasMandatoryFees && hasResortFeesMessage && !mandatoryFeePriceType) {
-				com.expedia.bookings.widget.TextView resortFeesNoticeText = Ui.findView(row, R.id.room_rate_resort_fees_text);
-				resortFeesNoticeText.setText(Html.fromHtml(getString(R.string.tablet_room_rate_resort_fees_template,mandatoryFees.getFormattedMoney())));
+				com.expedia.bookings.widget.TextView resortFeesNoticeText = Ui.findView(row,
+					R.id.room_rate_resort_fees_text);
+				resortFeesNoticeText.setText(Html.fromHtml(
+					getString(R.string.tablet_room_rate_resort_fees_template, mandatoryFees.getFormattedMoney())));
 				resortFeesContainer.setVisibility(View.VISIBLE);
 				resortFeesMoreInfoText = property.getMandatoryFeesText().getContent();
 				Ui.findView(row, R.id.room_rate_resort_fees_more_info).setOnClickListener(new OnClickListener() {
@@ -574,7 +577,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			if (rowRate.equals(selectedRate)) {
 				row.setSelected(true);
 				// Let's set layout height to wrap content.
-				row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+				row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT));
 				if (roomRateDetailContainer.getVisibility() == View.GONE) {
 					expand(row);
 				}
@@ -765,7 +769,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		TextView roomLongDescriptionTextView = Ui.findView(row, R.id.room_rate_description_text);
 		if (roomLongDescriptionTextView.getEllipsize() == null) {
 			roomLongDescriptionTextView.setEllipsize(TextUtils.TruncateAt.END);
-			roomLongDescriptionTextView.setMaxLines(getResources().getInteger(R.integer.room_rates_description_maxlines));
+			roomLongDescriptionTextView.setMaxLines(
+				getResources().getInteger(R.integer.room_rates_description_maxlines));
 		}
 	}
 
@@ -801,19 +806,22 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			public void onClick(View v) {
 				// We need to reset the layout params for the container and the row.
 				// So that we are ready to expand the textView when user wants it.
-				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+					LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 				int marginDP = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_detail_container_margin);
 				layoutParams.bottomMargin = marginDP;
 				layoutParams.topMargin = marginDP;
 				container.setLayoutParams(layoutParams);
-				row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+				row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT));
 				if (roomLongDescriptionTextView.getEllipsize() != null) {
 					roomLongDescriptionTextView.setEllipsize(null);
 					roomLongDescriptionTextView.setMaxLines(Integer.MAX_VALUE);
 				}
 				else {
 					roomLongDescriptionTextView.setEllipsize(TextUtils.TruncateAt.END);
-					roomLongDescriptionTextView.setMaxLines(getResources().getInteger(R.integer.room_rates_description_maxlines));
+					roomLongDescriptionTextView.setMaxLines(
+						getResources().getInteger(R.integer.room_rates_description_maxlines));
 				}
 			}
 		});
@@ -866,7 +874,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		String html;
 		html = HtmlUtils.wrapInHeadAndBodyWithStandardTabletMargins(text);
 		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
-		Intent intent = builder.setTitle(title).setHtmlData(html).setTheme(R.style.V2_Theme_Activity_TabletResults_WebActivity).getIntent();
+		Intent intent = builder.setTitle(title).setHtmlData(html).setTheme(
+			R.style.V2_Theme_Activity_TabletResults_WebActivity).getIntent();
 		startActivity(intent);
 	}
 
