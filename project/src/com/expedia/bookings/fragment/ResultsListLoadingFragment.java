@@ -131,6 +131,9 @@ public class ResultsListLoadingFragment extends Fragment {
 		}
 	}
 
+	private void setLoadingTextVisible(boolean visible) {
+		mLoadingTv.setVisibility(visible ? View.VISIBLE : View.GONE);
+	}
 
 	private int getNumberOfAnimationItems() {
 		if (mLoadingC != null) {
@@ -187,6 +190,7 @@ public class ResultsListLoadingFragment extends Fragment {
 			else {
 				sLoadingFrags.add(frag);
 			}
+			updateLoadingTextVisibilities();
 		}
 	}
 
@@ -196,6 +200,16 @@ public class ResultsListLoadingFragment extends Fragment {
 			sAnimNumber = 0;//Reset the ticker when we lose a listener
 			if (sLoadingFrags.size() == 0) {
 				sAnimRunner = null;
+			}
+			updateLoadingTextVisibilities();
+		}
+	}
+
+	private static void updateLoadingTextVisibilities() {
+		synchronized (sLoadingFrags) {
+			boolean vis = (sLoadingFrags.size() == 1);
+			for (ResultsListLoadingFragment frag : sLoadingFrags) {
+				frag.setLoadingTextVisible(vis);
 			}
 		}
 	}
