@@ -917,7 +917,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 	private void scrollFragmentToTop() {
 		ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
-		scrollView.smoothScrollTo(0, 0);
+		scrollView.scrollTo(0, 0);
 	}
 
 	private boolean showUrgencyMessaging(Rate rate) {
