@@ -34,10 +34,20 @@ public class ColorSchemeCache {
 	 * @param callback
 	 */
 	public static void getScheme(Bitmap bitmap, Callback callback) {
-		new ColorSchemeTask(null, callback).execute(bitmap);
+		start(null, bitmap, callback);
 	}
 
 	public static void getScheme(String url, Bitmap bitmap, Callback callback) {
+		start(url, bitmap, callback);
+	}
+
+	private static void start(String url, Bitmap bitmap, Callback callback) {
+		// For speed: test for a cache hit right now and short circuit
+		if (sCachedSchemes.containsKey(url)) {
+			callback.callback(sCachedSchemes.get(url));
+			return;
+		}
+
 		new ColorSchemeTask(url, callback).execute(bitmap);
 	}
 
