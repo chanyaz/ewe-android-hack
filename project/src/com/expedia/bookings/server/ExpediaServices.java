@@ -1733,7 +1733,8 @@ public class ExpediaServices implements DownloadListener {
 				"localhost:3000") + "/" + domain + "/";
 		}
 		else if (endPoint == EndPoint.CUSTOM_SERVER) {
-			String protocol = (flags & F_SECURE_REQUEST) != 0 ? "https" : "http";
+			boolean forceHttp = SettingUtils.get(mContext, mContext.getString(R.string.preference_force_custom_server_http_only), false);
+			String protocol = (flags & F_SECURE_REQUEST) != 0 && !forceHttp ? "https" : "http";
 			String server = SettingUtils
 				.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
 			return protocol + "://" + server + "/";
