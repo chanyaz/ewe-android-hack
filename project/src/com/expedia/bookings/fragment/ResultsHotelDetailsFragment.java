@@ -122,11 +122,11 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		mRoomsLeftContainer = Ui.findView(mRootC, R.id.rooms_left_container);
 		mHeaderContainer = Ui.findView(mRootC, R.id.header_container);
 		mProgressContainer = Ui.findView(mRootC, R.id.progress_spinner_container);
-		toggleSpinner(mRootC, true);
 		mUserRatingContainer = Ui.findView(mRootC, R.id.user_rating_container);
 		mPopupC = Ui.findView(mRootC, R.id.popup_frame_layout);
 		mRoundedC = Ui.findView(mRootC, R.id.rounded_corner_container);
 		mReviewsC = Ui.findView(mRootC, R.id.reviews_container);
+		toggleLoadingState(true);
 		return mRootC;
 	}
 
@@ -145,6 +145,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 	public void onHotelSelected() {
 		scrollFragmentToTop();
+		toggleLoadingState(true);
+		prepareDetailsForInfo(mRootC, Db.getHotelSearch().getSelectedProperty());
 		downloadDetails();
 	}
 
@@ -213,8 +215,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		if (property != null) {
 			setupHeader(mRootC, property);
 			logger.addSplit("setupHeader");
-			setupReviews(mRootC, property);
-			logger.addSplit("setupReviews");
 			setupAmenities(mRootC, property);
 			logger.addSplit("setupAmenities");
 			setupRoomRates(mRootC, property);
@@ -245,6 +245,23 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		//		}
 	}
 
+	private void prepareDetailsForInfo(View view, Property property) {
+		ImageView hotelImage = Ui.findView(view, R.id.hotel_header_image);
+		TextView hotelName = Ui.findView(view, R.id.hotel_header_hotel_name);
+
+		// Hotel Name
+		hotelName.setText(property.getName());
+
+		// Holder image, son
+		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.hotelImagePlaceHolderDrawable);
+		hotelImage.setImageResource(placeholderResId);
+
+		RatingBar starRating = Ui.findView(view, R.id.star_rating_bar);
+		starRating.setVisibility(View.INVISIBLE);
+
+		setupReviews(view, property);
+	}
+
 	private void setupHeader(View view, Property property) {
 		ImageView hotelImage = Ui.findView(view, R.id.hotel_header_image);
 		TextView hotelName = Ui.findView(view, R.id.hotel_header_hotel_name);
@@ -252,6 +269,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		RatingBar starRating = Ui.findView(view, R.id.star_rating_bar);
 		TextView vipText = Ui.findView(view, R.id.vip_badge);
 		TextView saleText = Ui.findView(view, R.id.sale_text_view);
+
+		// Hotel Name
+		hotelName.setText(property.getName());
 
 		// Hotel Image
 		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.hotelImagePlaceHolderDrawable);
@@ -277,9 +297,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		else {
 			saleText.setVisibility(View.GONE);
 		}
-
-		// Hotel Name
-		hotelName.setText(property.getName());
 
 		// Star Rating
 		float starRatingValue = (float) property.getHotelRating();
@@ -451,12 +468,16 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-	private void toggleSpinner(View view, boolean enable) {
+	private void toggleLoadingState(boolean enable) {
 		if (enable == (mProgressContainer.getVisibility() == View.VISIBLE)) {
 			return;
 		}
 		if (enable) {
 			mProgressContainer.setVisibility(View.VISIBLE);
+			LinearLayout container = Ui.findView(mRootC, R.id.description_details_sections_container);
+			container.setVisibility(View.GONE);
+			mAmenitiesContainer.setVisibility(View.GONE);
+			mRatesContainer.setVisibility(View.GONE);
 		}
 		else {
 			long animationDuration = getResources().getInteger(
@@ -476,6 +497,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 					@Override
 					public void onAnimationEnd(Animator animation) {
 						mProgressContainer.setVisibility(View.GONE);
+						mProgressContainer.setAlpha(1f);
 					}
 				});
 		}
@@ -1029,7 +1051,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 			mResponse = response;
 			populateViews();
-			toggleSpinner(mRootC, false);
+			toggleLoadingState(false);
 		}
 	};
 
