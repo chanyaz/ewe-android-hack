@@ -75,7 +75,8 @@ public class HotelSummarySection extends RelativeLayout {
 	private TextView mNotRatedText;
 	private TextView mProximityText;
 	private TextView mUrgencyText;
-	private ViewGroup mUrgencyContainer;
+	private boolean mDoUrgencyTextColorMatching = false;
+
 
 	// Properties extracted from the view.xml
 	private Drawable mUnselectedBackground;
@@ -115,8 +116,14 @@ public class HotelSummarySection extends RelativeLayout {
 		mUserRatingBar = Ui.findView(this, R.id.user_rating_bar);
 		mNotRatedText = Ui.findView(this, R.id.not_rated_text_view);
 		mProximityText = Ui.findView(this, R.id.proximity_text_view);
+
+		// We'll fill mUrgencyText either from urgency_text_view or urgency_text_view_color_matched
+		// and if it's from color_matched, then we know we'll need to do color matching later on.
 		mUrgencyText = Ui.findView(this, R.id.urgency_text_view);
-		mUrgencyContainer = Ui.findView(this, R.id.urgency_message_container);
+		if (mUrgencyText == null) {
+			mUrgencyText = Ui.findView(this, R.id.urgency_text_view_color_matched);
+			mDoUrgencyTextColorMatching = true;
+		}
 	}
 
 	/**
@@ -211,7 +218,7 @@ public class HotelSummarySection extends RelativeLayout {
 					mSaleImageView.setVisibility(View.VISIBLE);
 				}
 				mSaleText.setText(context.getString(R.string.percent_minus_template,
-					rate.getDiscountPercent()));
+					(float)rate.getDiscountPercent()));
 			}
 
 			// Story #790. Expedia's way of making it seem like they are offering a discount.
@@ -270,14 +277,8 @@ public class HotelSummarySection extends RelativeLayout {
 			}
 		}
 
-		if (mUrgencyContainer != null) {
-			if (mUrgencyText.getVisibility() == View.VISIBLE) {
-				setDominantColor(getResources().getColor(R.color.transparent_dark));
-				mUrgencyContainer.setVisibility(View.VISIBLE);
-			}
-			else {
-				mUrgencyContainer.setVisibility(View.GONE);
-			}
+		if (mDoUrgencyTextColorMatching && mUrgencyText.getVisibility() == View.VISIBLE) {
+			setDominantColor(getResources().getColor(R.color.transparent_dark));
 		}
 
 		mPriceText.setTextSize(priceTextSize);
@@ -346,28 +347,28 @@ public class HotelSummarySection extends RelativeLayout {
 	L2ImageCache.OnBitmapLoaded mHeaderBitmapLoadedCallback = new L2ImageCache.OnBitmapLoaded() {
 		@Override
 		public void onBitmapLoaded(String url, Bitmap bitmap) {
-			ColorSchemeCache.getScheme(url, bitmap, new ColorSchemeCache.Callback() {
-					@Override
-					public void callback(ColorScheme colorScheme) {
-						if (mUrgencyContainer != null) {
+			if (mDoUrgencyTextColorMatching) {
+				ColorSchemeCache.getScheme(url, bitmap, new ColorSchemeCache.Callback() {
+						@Override
+						public void callback(ColorScheme colorScheme) {
 							int colorDarkened = ColorAvgUtils.darken(colorScheme.primaryAccent, 0.4f);
 							int overlayWithAlpha = 0xCC000000 | 0x00ffffff & colorDarkened;
 							setDominantColor(overlayWithAlpha);
 						}
 					}
-				}
-			);
+				);
+			}
 		}
 
 		@Override
 		public void onBitmapLoadFailed(String url) {
-			if (mUrgencyContainer != null) {
+			if (mDoUrgencyTextColorMatching) {
 				setDominantColor(getResources().getColor(R.color.transparent_dark));
 			}
 		}
 	};
 
 	private void setDominantColor(int color) {
-		mUrgencyContainer.setBackgroundColor(color);
+		mUrgencyText.setBackgroundColor(color);
 	}
 }
