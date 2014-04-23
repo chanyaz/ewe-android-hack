@@ -216,12 +216,13 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 			mTopRightTextButton.setAlpha(1f - percentage);
 			if (percentage == 1f) {
 				mTopRightTextButton.setVisibility(View.INVISIBLE);
+				mTopRightTextButton.setEnabled(false);
 			}
 			else {
 				mTopRightTextButton.setVisibility(View.VISIBLE);
-			}
-			if (actionComplete) {
-				mTopRightTextButton.setEnabled(percentage == 0f);
+				if(percentage == 0) {
+					mTopRightTextButton.setEnabled(true);
+				}
 			}
 		}
 
