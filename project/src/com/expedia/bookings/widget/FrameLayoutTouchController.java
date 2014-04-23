@@ -2,49 +2,19 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.mobiata.android.Log;
+import com.expedia.bookings.utils.TouchControlHelper;
 
 /**
- * A FrameLayout that can manipulate touch handling.
- * <p/>
- * Touch handling is handled by the following methods and in the following order
- * <p/>
- * setBlockNewEventsEnabled(true):
- * This will cause the FrameLayout to intercept all new touch events and consume them
- * <p/>
- * setTouchPassThroughEnabled(true);
- * setTouchPassThroughReceiver(View);
- * These work together so that all touch events will be passed to the provided view.
- * <p/>
- * setConsumeTouch(true);
- * This wont always intercept the touch event but if the touch event is ours to deal with
- * we return true indicating that we have handled the touch event so it wont be passed along
+ * A FrameLayout that takes advantage of TouchControlHelper.
  */
 public class FrameLayoutTouchController extends FrameLayout {
 
-	//logging settings
-	private boolean mLoggingEnabled = false;
-	private String mLoggingTag = "";
-
-	//For preventing touches from firing
-	private boolean mBlockNewEvents = false;
-
-	//For passing touches to a different view
-	private boolean mPassThroughTouches = false;
-	private View mTouchGetter;
-
-	//For key mashing prevention
-	private boolean mPreventMashing = false;
-	private long mTouchCooldown = 150;//Arbitrary and small time
-	private long mLastTouchTime = 0;
-
-	//If we get the touch event (this does not interfere with touch intercept)
-	//we just return true to indicate that we have handled the touch event.
-	private boolean mConsumeTouch = false;
+	TouchControlHelper mTouchHelper = new TouchControlHelper();
 
 	public FrameLayoutTouchController(Context context) {
 		super(context);
@@ -58,102 +28,57 @@ public class FrameLayoutTouchController extends FrameLayout {
 		super(context, attrs, defStyle);
 	}
 
-	//Block touches
 	public void setBlockNewEventsEnabled(boolean enabled) {
-		mBlockNewEvents = enabled;
+		mTouchHelper.setBlockNewEventsEnabled(enabled);
 	}
 
-	//Pass touches to different view
 	public void setTouchPassThroughEnabled(boolean enabled) {
-		mPassThroughTouches = enabled;
+		mTouchHelper.setTouchPassThroughEnabled(enabled);
 	}
 
 	public void setTouchPassThroughReceiver(View view) {
-		mTouchGetter = view;
+		mTouchHelper.setTouchPassThroughReceiver(view);
 	}
 
-	//Set consume my touch
 	public void setConsumeTouch(boolean enabled) {
-		mConsumeTouch = enabled;
+		mTouchHelper.setConsumeTouch(enabled);
 	}
 
 	public void setPreventMashing(boolean enabled) {
-		mPreventMashing = enabled;
+		mTouchHelper.setPreventMashing(enabled);
 	}
 
 	public void setPreventMashing(boolean enabled, long touchCooldownMs) {
-		mTouchCooldown = touchCooldownMs;
-		mPreventMashing = enabled;
+		mTouchHelper.setPreventMashing(enabled, touchCooldownMs);
 	}
 
 	public void setLoggingEnabled(boolean enabled) {
-		mLoggingEnabled = enabled;
+		mTouchHelper.setLoggingEnabled(enabled);
 	}
 
 	public void setLoggingTag(String tag) {
-		mLoggingTag = tag == null ? "" : tag;
+		mTouchHelper.setLoggingTag(tag);
 	}
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		// Don't allow any new actions to be used by children
-		if (mBlockNewEvents && (ev.getAction() == MotionEvent.ACTION_DOWN
-			|| ev.getAction() == MotionEvent.ACTION_POINTER_DOWN)) {
-			log("onInterceptTouchEvent:mBlockNewEvents returning true");
-			return true;
+		Pair<Boolean, Boolean> touchControl = mTouchHelper.onInterceptTouchEvent(ev);
+		if (touchControl.first) {
+			return touchControl.second;
 		}
-		//Pass touches
-		else if (mPassThroughTouches && mTouchGetter != null) {
-
-			log("onInterceptTouchEvent:mPassThroughTouches returning true");
-
-			return true;
+		else {
+			return super.onInterceptTouchEvent(ev);
 		}
-		//Cooldown
-		else if (mPreventMashing &&
-			(ev.getAction() == MotionEvent.ACTION_DOWN || ev.getAction() == MotionEvent.ACTION_POINTER_DOWN)) {
-			if (mLastTouchTime > System.currentTimeMillis() - mTouchCooldown) {
-				mLastTouchTime = System.currentTimeMillis();
-				log("onInterceptTouchEvent:mPreventMashing returning true");
-				return true;
-			}
-			mLastTouchTime = System.currentTimeMillis();
-		}
-
-
-		return super.onInterceptTouchEvent(ev);
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		// Don't allow any actions to be used by parents
-		if (mBlockNewEvents) {
-			log("onTouchEvent:mBlockNewEvents returning true");
-			return true;
+	public boolean onTouchEvent(MotionEvent ev) {
+		Pair<Boolean, Boolean> touchControl = mTouchHelper.onTouchEvent(ev);
+		if (touchControl.first) {
+			return touchControl.second;
 		}
-		//pass touches
-		else if (mPassThroughTouches && mTouchGetter != null) {
-			mTouchGetter.dispatchTouchEvent(event);
-			log("onTouchEvent:mPassThroughTouches returning false");
-			return false;
-		}
-		else if (mConsumeTouch) {
-			log("onTouchEvent:mConsumeTouch returning true");
-			return true;
-		}
-		else if (mPreventMashing && (event.getAction() == MotionEvent.ACTION_DOWN
-			|| event.getAction() == MotionEvent.ACTION_POINTER_DOWN)) {
-			log("onTouchEvent:mPreventMashing returning true");
-			return true;
-		}
-
-		return super.onTouchEvent(event);
-	}
-
-	private void log(String msg) {
-		if (mLoggingEnabled) {
-			Log.d(mLoggingTag + " FrameLayoutTouchController " + msg);
+		else {
+			return super.onTouchEvent(ev);
 		}
 	}
-
 }
