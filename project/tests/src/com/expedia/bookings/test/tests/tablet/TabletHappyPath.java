@@ -80,7 +80,9 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 		super.tearDown();
 		// These tests are only applicable to tablets
 		if (ExpediaBookingApp.useTabletInterface(getInstrumentation().getTargetContext())) {
-			IdlingResources.unregisterSuggestionResource(mSuggestionResource);
+			if (mSuggestionResource != null) {
+				IdlingResources.unregisterSuggestionResource(mSuggestionResource);
+			}
 		}
 	}
 }
