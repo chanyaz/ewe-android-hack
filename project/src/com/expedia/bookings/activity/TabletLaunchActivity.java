@@ -337,6 +337,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	@Override
 	public void onWaypointSearchComplete(TabletWaypointFragment caller, SuggestionV2 suggest, String qryText) {
 		if (suggest != null) {
+			Sp.getParams().restoreToDefaults();
 			Sp.getParams().setDestination(suggest);
 			if (!TextUtils.isEmpty(qryText)) {
 				Sp.getParams().setCustomDestinationQryText(qryText);
