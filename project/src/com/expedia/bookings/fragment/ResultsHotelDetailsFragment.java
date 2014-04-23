@@ -21,10 +21,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -53,8 +55,10 @@ import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.ColorSchemeCache;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.HotelDetailsStickyHeaderLayout;
 import com.expedia.bookings.widget.RingedCountView;
@@ -74,6 +78,8 @@ import com.mobiata.android.util.TimingLogger;
 public class ResultsHotelDetailsFragment extends Fragment {
 
 	private int ROOM_RATE_ANIMATION_DURATION = 300;
+
+	private boolean mIsDescriptionTextSpanned;
 
 	public static ResultsHotelDetailsFragment newInstance() {
 		ResultsHotelDetailsFragment frag = new ResultsHotelDetailsFragment();
@@ -394,7 +400,10 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		@Override
 		public void onClick(View v) {
 			Rate clickedRate = (Rate) v.getTag();
-			setSelectedRate(clickedRate);
+			// Let's set and bind the roomRate only when a new roomRate is clicked.
+			if (!Db.getHotelSearch().getSelectedRate().equals(clickedRate)) {
+				setSelectedRate(clickedRate);
+			}
 		}
 	};
 
@@ -512,8 +521,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			}
 
 			RelativeLayout roomRateDetailContainer = Ui.findView(row, R.id.room_rate_detail_container);
-			Button addRoomButton = Ui.findView(row, R.id.room_rate_button_add);
-			Button selectRoomButton = Ui.findView(row, R.id.room_rate_button_select);
+			final Button addRoomButton = Ui.findView(row, R.id.room_rate_button_add);
+			final Button selectRoomButton = Ui.findView(row, R.id.room_rate_button_select);
 
 			addRoomButton.setOnClickListener(new OnClickListener() {
 				@Override
@@ -527,6 +536,26 @@ public class ResultsHotelDetailsFragment extends Fragment {
 					setSelectedRate(rowRate);
 				}
 			});
+
+			// Let's the width of both these buttons match.
+			final ViewTreeObserver vto = addRoomButton.getViewTreeObserver();
+			vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+				@Override
+				public void onGlobalLayout() {
+					int addButtonWidth = addRoomButton.getMeasuredWidth();
+					int selectButtonWidth = selectRoomButton.getMeasuredWidth();
+					if (addButtonWidth == selectButtonWidth) {
+						return;
+					}
+					else if (addButtonWidth > selectButtonWidth) {
+						selectRoomButton.setWidth(addButtonWidth);
+					}
+					else {
+						addRoomButton.setWidth(selectButtonWidth);
+					}
+				}
+			});
+
 
 			// Show renovation fees notice
 			LinearLayout renovationNoticeContainer = Ui.findView(row, R.id.room_rate_renovation_container);
@@ -665,6 +694,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			.setDuration(ROOM_RATE_ANIMATION_DURATION);
 		animators.add(colorDrawableAnimator);
 
+		ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
+		//scrollView.smoothScrollTo(0, row.getTop());
+
 		AnimatorSet set = new AnimatorSet();
 		set.playTogether(animators);
 		set.start();
@@ -766,12 +798,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		set.playTogether(animators);
 		set.start();
 
-		TextView roomLongDescriptionTextView = Ui.findView(row, R.id.room_rate_description_text);
-		if (roomLongDescriptionTextView.getEllipsize() == null) {
-			roomLongDescriptionTextView.setEllipsize(TextUtils.TruncateAt.END);
-			roomLongDescriptionTextView.setMaxLines(
-				getResources().getInteger(R.integer.room_rates_description_maxlines));
-		}
 	}
 
 	private ValueAnimator slideAnimator(final View row, int start, int end) {
@@ -791,40 +817,14 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		return animator;
 	}
 
+
+
 	private void bindSelectedRoomDetails(final RelativeLayout container, final View row, Rate rate) {
 		ImageView roomDetailImageView = Ui.findView(row, R.id.room_rate_image_view);
 		TextView urgencyMessagingView = Ui.findView(row, R.id.room_rate_urgency_text);
 		final TextView roomLongDescriptionTextView = Ui.findView(row, R.id.room_rate_description_text);
 		TextView refundableTextView = Ui.findView(row, R.id.room_rate_refundable_text);
 		TextView roomRateDiscountRibbon = Ui.findView(row, R.id.room_rate_discount_text);
-
-		roomLongDescriptionTextView.setText(rate.getRoomLongDescription());
-		// #817. Let user tap to expand or contract the room description text.
-		roomLongDescriptionTextView.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// We need to reset the layout params for the container and the row.
-				// So that we are ready to expand the textView when user wants it.
-				LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-				int marginDP = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_detail_container_margin);
-				layoutParams.bottomMargin = marginDP;
-				layoutParams.topMargin = marginDP;
-				container.setLayoutParams(layoutParams);
-				row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT));
-				if (roomLongDescriptionTextView.getEllipsize() != null) {
-					roomLongDescriptionTextView.setEllipsize(null);
-					roomLongDescriptionTextView.setMaxLines(Integer.MAX_VALUE);
-				}
-				else {
-					roomLongDescriptionTextView.setEllipsize(TextUtils.TruncateAt.END);
-					roomLongDescriptionTextView.setMaxLines(
-						getResources().getInteger(R.integer.room_rates_description_maxlines));
-				}
-			}
-		});
 
 		List<String> common = mResponse.getCommonValueAdds();
 
@@ -847,6 +847,52 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		else {
 			urgencyMessagingView.setVisibility(View.GONE);
 		}
+
+		mIsDescriptionTextSpanned = false;
+		final String description = rate.getRoomLongDescription().trim();
+		String descriptionReduced;
+		int lengthCutOff;
+		// Let's try to show as much text to begin with as possible, without exceeding the row height.
+		if (Ui.findView(row, R.id.room_rate_urgency_text).getVisibility() == View.VISIBLE) {
+			lengthCutOff = getResources().getInteger(R.integer.room_rate_description_body_length_cutoff_less);
+		}
+		else {
+			lengthCutOff = getResources().getInteger(R.integer.room_rate_description_body_length_cutoff_more);
+		}
+
+		if (description.length() > lengthCutOff) {
+			descriptionReduced = description.substring(0, lengthCutOff);
+			descriptionReduced += "...";
+			SpannableBuilder builder = new SpannableBuilder();
+			builder.append(descriptionReduced);
+			builder.append(" ");
+			builder.append(getResources().getString(R.string.more), new ForegroundColorSpan(0xFF245FB3), FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
+			mIsDescriptionTextSpanned = true;
+			roomLongDescriptionTextView.setText(builder.build());
+		}
+		else {
+			roomLongDescriptionTextView.setText(description);
+		}
+
+		// #817. Let user tap to expand or contract the room description text.
+		roomLongDescriptionTextView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// We need to reset the layout params for the container and the row.
+				// So that we are ready to expand the textView when user wants it.
+				if (mIsDescriptionTextSpanned) {
+					LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+					int marginDP = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_detail_container_margin);
+					layoutParams.bottomMargin = marginDP;
+					layoutParams.topMargin = marginDP;
+					container.setLayoutParams(layoutParams);
+					row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+					roomLongDescriptionTextView.setText(description);
+				}
+			}
+		});
 
 		// Refundable text visibility check
 		refundableTextView.setVisibility(rate.isNonRefundable() ? View.VISIBLE : View.GONE);
