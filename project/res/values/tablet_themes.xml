@@ -256,7 +256,7 @@
         <item name="centerButton">@drawable/btn_tablet_user_review_segment</item>
         <item name="leftButton">@drawable/btn_tablet_user_review_segment</item>
         <item name="rightButton">@drawable/btn_tablet_user_review_segment</item>
-        <item name="textColor">#000000</item>
+        <item name="textColor">#ffffff</item>
     </style>
 
 </resources>

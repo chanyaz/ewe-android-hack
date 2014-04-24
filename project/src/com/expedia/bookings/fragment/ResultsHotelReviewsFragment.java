@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.Set;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,12 +14,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
+
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.ColorAvgUtils;
+import com.expedia.bookings.bitmaps.ColorScheme;
+import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.BedType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearch;
@@ -31,6 +37,7 @@ import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsBackClickedListener;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.ColorSchemeCache;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
@@ -47,9 +54,11 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 
 	private ViewGroup mRootC;
 	private ViewGroup mPopupC;
-	private ViewPager mViewPager;
-	private SegmentedControlGroup mSortGroup;
+	private ImageView mHotelImage;
 	private TextView mReviewSectionTitle;
+	private SegmentedControlGroup mSortGroup;
+	private ViewPager mViewPager;
+	private View mDominantMask;
 
 	private UserReviewsFragmentPagerAdapter mPagerAdapter;
 
@@ -57,6 +66,8 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 	private IResultsHotelReviewsBackClickedListener mBackListener;
 
 	private GridManager mGrid = new GridManager();
+
+	private ColorDrawable mDominantColorBackground;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -69,6 +80,7 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotel_reviews, null);
 		mPopupC = Ui.findView(mRootC, R.id.popup_frame_layout);
+		mHotelImage = Ui.findView(mRootC, R.id.hotel_header_image);
 		mViewPager = Ui.findView(mRootC, R.id.pager);
 		mReviewSectionTitle = Ui.findView(mRootC, R.id.reviews_title);
 		mReviewSectionTitle.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +91,9 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 				}
 			}
 		});
+		resetDominantColor();
+		mDominantMask = Ui.findView(mRootC, R.id.dominant_color_header_mask);
+		mDominantMask.setBackgroundDrawable(mDominantColorBackground);
 
 		mPagerAdapter = new UserReviewsFragmentPagerAdapter(getChildFragmentManager(), savedInstanceState);
 
@@ -117,6 +132,15 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 	private void bind(Property property) {
 		mReviewSectionTitle.setText(getString(R.string.reviews_for_TEMPLATE, property.getName()));
 		mPagerAdapter.bind();
+
+		// Hotel Image
+		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.hotelImagePlaceHolderDrawable);
+		if (property.getThumbnail() != null) {
+			property.getThumbnail().fillImageView(mHotelImage, placeholderResId, mHeaderBitmapLoadedCallback);
+		}
+		else {
+			mHotelImage.setImageResource(placeholderResId);
+		}
 
 		if (Db.getHotelSearch() != null && Db.getHotelSearch().getSelectedProperty() != null && Db.getHotelSearch().getSelectedRate() != null) {
 			Rate rate = Db.getHotelSearch().getSelectedRate();
@@ -253,6 +277,45 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 
 		mAddToBucketListener.onItemAddedToBucket();
 	}
+
+	public void setDominantColor(ColorScheme colorScheme) {
+		int colorDarkened = ColorAvgUtils.darken(colorScheme.primaryAccent, 0.4f);
+		setDominantColor(colorDarkened);
+	}
+
+	public void resetDominantColor() {
+		setDominantColor(getResources().getColor(R.color.hotel_details_sticky_header_background));
+	}
+
+	private void setDominantColor(int color) {
+		if (mDominantColorBackground == null) {
+			mDominantColorBackground = new ColorDrawable();
+			mDominantColorBackground.setAlpha(0);
+		}
+		mDominantColorBackground.setColor(color);
+		mDominantColorBackground.setAlpha(229);
+		mDominantColorBackground.invalidateSelf();
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Async handling of Header / ColorScheme
+
+	L2ImageCache.OnBitmapLoaded mHeaderBitmapLoadedCallback = new L2ImageCache.OnBitmapLoaded() {
+		@Override
+		public void onBitmapLoaded(String url, Bitmap bitmap) {
+			ColorSchemeCache.getScheme(url, bitmap, new ColorSchemeCache.Callback() {
+				@Override
+				public void callback(ColorScheme colorScheme) {
+					setDominantColor(colorScheme);
+				}
+			});
+		}
+
+		@Override
+		public void onBitmapLoadFailed(String url) {
+			resetDominantColor();
+		}
+	};
 
 	/*
 	MEASUREMENT HELPER
