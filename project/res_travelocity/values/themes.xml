@@ -34,7 +34,7 @@
         <item name="aboutAppSupportString">@string/travelocity_app_support</item>
         <item name="aboutCopyrightString">@string/travelocity_copyright</item>
         <item name="aboutInfoUrlString">@string/travelocity_info_url</item>
-        <item name="aboutAppNameString">@string/app_name</item>
+        <item name="aboutAppNameString">@string/launcher_name</item>
         <item name="aboutAppLogoDrawable">@drawable/ic_launcher</item>
         <item name="logoutConfirmationString">@string/logout_confirmation_travelocity</item>
         <item name="webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_travelocity_logo_small</item>
