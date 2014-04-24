@@ -82,7 +82,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 			int overallTranslationY = 0;
 			for (int listIndex = 0; listIndex < listView.getChildCount(); listIndex++) {
 				View child = listView.getChildAt(listIndex);
-				child.setTranslationY(overallTranslationY);
+				//child.setTranslationY(overallTranslationY);
 				if (!(child instanceof HotelSummarySection)) {
 					continue;
 				}
