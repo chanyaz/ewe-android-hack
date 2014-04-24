@@ -77,7 +77,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="35dp"
         app:flightLineColor="#ffffff"
         app:waypointTextColor="@color/tablet_flight_trip_view_airport_text_color"
         app:waypointTextSize="@dimen/tablet_result_row_secondary_text_size"
