@@ -239,7 +239,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		});
 
 		// Statistics
-		mFlightDistanceTv.setText(FlightUtils.formatDistance(context, flightLeg, true));
+		mFlightDistanceTv.setText(FlightUtils.formatDistance(context, flightLeg, false));
 		mFlightDurationTv.setText(FlightUtils.formatDuration(context, flightLeg));
 
 		// Flight Leg container
