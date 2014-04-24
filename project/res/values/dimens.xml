@@ -309,6 +309,7 @@
     <dimen name="tablet_hotel_map_popup_thumbnail_width">111dp</dimen>
 
     <!-- Flight baggage fee stuff -->
+    <dimen name="tablet_flight_list_baggage_fee_icon_padding">5dp</dimen>
     <dimen name="flight_details_baggage_fee_text_view_text_size">12dp</dimen>
 
     <!-- Credit card dimens phone -->
