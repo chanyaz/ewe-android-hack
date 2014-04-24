@@ -1,15 +1,16 @@
 package com.expedia.bookings.section;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -58,7 +59,7 @@ public class HotelSummarySection extends RelativeLayout {
 		1f,
 	};
 
-	private static final int ROOMS_LEFT_CUTOFF = 5;
+	public static final int ROOMS_LEFT_CUTOFF = 5;
 
 	private static final int HOTEL_PRICE_TOO_LONG = 7;
 
@@ -76,7 +77,7 @@ public class HotelSummarySection extends RelativeLayout {
 	private TextView mProximityText;
 	private TextView mUrgencyText;
 	private boolean mDoUrgencyTextColorMatching = false;
-
+	private View mCardCornersBottom;
 
 	// Properties extracted from the view.xml
 	private Drawable mUnselectedBackground;
@@ -116,6 +117,7 @@ public class HotelSummarySection extends RelativeLayout {
 		mUserRatingBar = Ui.findView(this, R.id.user_rating_bar);
 		mNotRatedText = Ui.findView(this, R.id.not_rated_text_view);
 		mProximityText = Ui.findView(this, R.id.proximity_text_view);
+		mCardCornersBottom = Ui.findView(this, R.id.card_corners_bottom);
 
 		// We'll fill mUrgencyText either from urgency_text_view or urgency_text_view_color_matched
 		// and if it's from color_matched, then we know we'll need to do color matching later on.
@@ -218,7 +220,7 @@ public class HotelSummarySection extends RelativeLayout {
 					mSaleImageView.setVisibility(View.VISIBLE);
 				}
 				mSaleText.setText(context.getString(R.string.percent_minus_template,
-					(float)rate.getDiscountPercent()));
+					(float) rate.getDiscountPercent()));
 			}
 
 			// Story #790. Expedia's way of making it seem like they are offering a discount.
@@ -371,4 +373,14 @@ public class HotelSummarySection extends RelativeLayout {
 	private void setDominantColor(int color) {
 		mUrgencyText.setBackgroundColor(color);
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Show/hide MED callout
+
+	@TargetApi(11)
+	public void expandBy(float pixels) {
+		mUrgencyText.setTranslationY(pixels);
+		mCardCornersBottom.setTranslationY(pixels);
+	}
+
 }

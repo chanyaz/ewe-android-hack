@@ -27,12 +27,16 @@ import com.mobiata.android.util.ViewUtils;
 
 public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 
-	// We implement a selected state for rows here.  The reason for this is that in touch mode, a ListView
-	// does not have a "selected" state (unless you are in touch mode).  An alternative solution would have
-	// been to use checkboxes/checked states, but I think we may someday want to use checkboxes for multiselect
-	// so I don't want to block future functionality.
-	private static final int ROW_NORMAL = 0;
-	private static final int ROW_SELECTED = 1;
+	// We'll use the itemViewType's to indicate flags on a per-row basis.
+
+	// We implement a selected state for rows here. The reason for this is that in touch mode,
+	// a ListView does not have a "selected" state (unless you are in touch mode).
+	static final int BIT_SELECTED = 0x1;
+	// The expandable bit indicates (on tablet only) if the row can be "expanded"; i.e. depending
+	// on some set of circumstances, it can change its height from one height to another.
+	static final int BIT_EXPANDABLE = 0x2;
+
+	static final int VIEW_TYPE_COUNT = BIT_SELECTED + BIT_EXPANDABLE;
 
 	private Context mContext;
 	private LayoutInflater mInflater;
@@ -199,19 +203,32 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		}
 	}
 
+	public boolean isRowSelected(int position) {
+		return position == mSelectedPosition && mHighlightSelectedPosition;
+	}
+
+	public boolean isRowExpandable(int position) {
+		return false;
+	}
+
 	@Override
 	public int getItemViewType(int position) {
-		if (position == mSelectedPosition && mHighlightSelectedPosition) {
-			return ROW_SELECTED;
+		int ret = 0;
+
+		if (isRowSelected(position)) {
+			ret |= BIT_SELECTED;
 		}
-		else {
-			return ROW_NORMAL;
+
+		if (isRowExpandable(position)) {
+			ret |= BIT_EXPANDABLE;
 		}
+
+		return ret;
 	}
 
 	@Override
 	public int getViewTypeCount() {
-		return 2;
+		return VIEW_TYPE_COUNT;
 	}
 
 	@Override
@@ -229,7 +246,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 		HotelSummarySection section = (HotelSummarySection) convertView;
 		Property property = (Property) getItem(position);
 
-		boolean isSelected = getItemViewType(position) == ROW_SELECTED;
+		boolean isSelected = isRowSelected(position);
 		section.bind(property, mShouldShowVipIcon, mPriceTextSize,
 				mShowDistance, mDistanceUnit, isSelected);
 

@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.database.DataSetObserver;
 import android.os.Bundle;
@@ -27,6 +28,9 @@ import com.expedia.bookings.enums.ResultsHotelsListState;
 import com.expedia.bookings.enums.ResultsListState;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
+import com.expedia.bookings.interfaces.IStateListener;
+import com.expedia.bookings.section.HotelSummarySection;
+import com.expedia.bookings.widget.FruitList;
 import com.expedia.bookings.widget.TabletHotelAdapter;
 import com.mobiata.android.util.Ui;
 
@@ -60,6 +64,48 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
+	// All this work for awesome Hotel Card expand/contract animation
+	IStateListener<ResultsListState> mExpandyListener = new IStateListener<ResultsListState>() {
+		@Override
+		public void onStateTransitionStart(ResultsListState stateOne, ResultsListState stateTwo) {
+		}
+
+		@TargetApi(11)
+		@Override
+		public void onStateTransitionUpdate(ResultsListState stateOne, ResultsListState stateTwo, float percentage) {
+			float expandedPercentage = percentage;
+			if (stateOne == ResultsListState.AT_TOP) {
+				expandedPercentage = 1 - expandedPercentage;
+			}
+			FruitList listView = getListView();
+			int adapterPosition = listView.getFirstVisiblePosition();
+			int overallTranslationY = 0;
+			for (int listIndex = 0; listIndex < listView.getChildCount(); listIndex++) {
+				View child = listView.getChildAt(listIndex);
+				child.setTranslationY(overallTranslationY);
+				if (!(child instanceof HotelSummarySection)) {
+					continue;
+				}
+				int expandableHeight = mAdapter.estimateExpandableHeight(adapterPosition);
+				int expandPixels = (int)((expandedPercentage - 1) * expandableHeight);
+				if (expandableHeight != 0) {
+					HotelSummarySection hss = (HotelSummarySection) child;
+					hss.expandBy(expandPixels);
+					overallTranslationY += expandPixels;
+				}
+				adapterPosition++;
+			}
+		}
+
+		@Override
+		public void onStateTransitionEnd(ResultsListState stateOne, ResultsListState stateTwo) {
+		}
+
+		@Override
+		public void onStateFinalized(ResultsListState state) {
+		}
+	};
+
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -70,13 +116,23 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 			mAdapter.setShowVipIcon(shouldShowVipIcon);
 		}
 
+		getListView().registerStateListener(mExpandyListener, true);
 		Db.getFilter().addOnFilterChangedListener(this);
+
+		//TODO: make the list items start off collapsed. because this doesn't fire at the right time.
+		mAdapter.registerDataSetObserver(new DataSetObserver() {
+			@Override
+			public void onChanged() {
+				mExpandyListener.onStateTransitionUpdate(ResultsListState.AT_BOTTOM, ResultsListState.AT_TOP, 0f);
+			}
+		});
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
 
+		getListView().unRegisterStateListener(mExpandyListener);
 		Db.getFilter().removeOnFilterChangedListener(this);
 	}
 

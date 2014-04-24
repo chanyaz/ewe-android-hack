@@ -134,7 +134,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	}
 
 	@Override
-	public ListView getListView() {
+	public FruitList getListView() {
 		return mListView;
 	}
 
