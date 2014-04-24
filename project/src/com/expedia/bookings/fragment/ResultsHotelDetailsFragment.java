@@ -259,6 +259,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		RatingBar starRating = Ui.findView(view, R.id.star_rating_bar);
 		starRating.setVisibility(View.INVISIBLE);
 
+		TextView saleText = Ui.findView(view, R.id.sale_text_view);
+		saleText.setVisibility(View.GONE);
+
 		setupReviews(view, property);
 	}
 
