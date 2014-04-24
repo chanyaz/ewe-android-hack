@@ -56,6 +56,7 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 	private ViewGroup mPopupC;
 	private ImageView mHotelImage;
 	private TextView mReviewSectionTitle;
+	private View mDoneButton;
 	private SegmentedControlGroup mSortGroup;
 	private ViewPager mViewPager;
 	private View mDominantMask;
@@ -83,7 +84,8 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		mHotelImage = Ui.findView(mRootC, R.id.hotel_header_image);
 		mViewPager = Ui.findView(mRootC, R.id.pager);
 		mReviewSectionTitle = Ui.findView(mRootC, R.id.reviews_title);
-		mReviewSectionTitle.setOnClickListener(new View.OnClickListener() {
+		mDoneButton = Ui.findView(mRootC, R.id.done_button);
+		mDoneButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (mBackListener != null) {

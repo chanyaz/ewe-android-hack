@@ -52,24 +52,43 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical" >
 
-                        <FrameLayout
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="56dp"
                             android:gravity="center_vertical"
                             android:orientation="horizontal" >
 
-                            <TextView
-                                android:id="@+id/reviews_title"
+                            <com.expedia.bookings.widget.TextView
+                                android:id="@+id/done_button"
                                 android:layout_width="wrap_content"
-                                android:layout_height="56dp"
+                                android:layout_height="wrap_content"
                                 android:background="@drawable/btn_tablet_user_review_segment"
-                                android:drawableLeft="@drawable/ic_action_bar_back_arrow"
+                                android:drawableLeft="@drawable/ic_action_bar_checkmark_white"
                                 android:gravity="center_vertical"
-                                android:padding="8dp"
+                                android:padding="12dp"
+                                android:text="@string/Done"
+                                android:textAllCaps="true"
                                 android:textColor="#ffffff"
-                                android:textSize="18dp" />
+                                android:textSize="12dp"
+                                app:textStyle="bold" />
 
-                        </FrameLayout>
+                            <View
+                                android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
+                                android:layout_height="24dp"
+                                android:background="#66ffffff" />
+
+                            <com.expedia.bookings.widget.TextView
+                                android:id="@+id/reviews_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:padding="12dp"
+                                android:singleLine="true"
+                                android:textColor="#ffffff"
+                                android:textSize="18dp"
+                                app:textStyle="light" />
+
+                        </LinearLayout>
 
                         <com.mobiata.android.widget.SegmentedControlGroup
                             android:id="@+id/user_review_sort_group"
