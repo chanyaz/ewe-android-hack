@@ -87,7 +87,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 					continue;
 				}
 				int expandableHeight = mAdapter.estimateExpandableHeight(adapterPosition);
-				int expandPixels = (int)((expandedPercentage - 1) * expandableHeight);
+				int expandPixels = (int) ((expandedPercentage - 1) * expandableHeight);
 				if (expandableHeight != 0) {
 					HotelSummarySection hss = (HotelSummarySection) child;
 					hss.expandBy(expandPixels);
@@ -120,12 +120,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		Db.getFilter().addOnFilterChangedListener(this);
 
 		//TODO: make the list items start off collapsed. because this doesn't fire at the right time.
-		mAdapter.registerDataSetObserver(new DataSetObserver() {
-			@Override
-			public void onChanged() {
-				mExpandyListener.onStateTransitionUpdate(ResultsListState.AT_BOTTOM, ResultsListState.AT_TOP, 0f);
-			}
-		});
+		mExpandyListener.onStateTransitionUpdate(ResultsListState.AT_BOTTOM, ResultsListState.AT_TOP, 0f);
 	}
 
 	@Override
