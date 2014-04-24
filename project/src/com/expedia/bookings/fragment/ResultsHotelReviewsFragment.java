@@ -53,7 +53,6 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 	}
 
 	private ViewGroup mRootC;
-	private ViewGroup mPopupC;
 	private ImageView mHotelImage;
 	private TextView mReviewSectionTitle;
 	private View mDoneButton;
@@ -80,7 +79,6 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotel_reviews, null);
-		mPopupC = Ui.findView(mRootC, R.id.popup_frame_layout);
 		mHotelImage = Ui.findView(mRootC, R.id.hotel_header_image);
 		mViewPager = Ui.findView(mRootC, R.id.pager);
 		mReviewSectionTitle = Ui.findView(mRootC, R.id.reviews_title);
@@ -347,8 +345,8 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 			mGrid.setColumnPercentage(0, leftRightSpacePerc);
 			mGrid.setColumnPercentage(2, leftRightSpacePerc);
 
-			mGrid.setContainerToRow(mPopupC, 1);
-			mGrid.setContainerToColumn(mPopupC, 1);
+			mGrid.setContainerToRow(mRootC, 1);
+			mGrid.setContainerToColumn(mRootC, 1);
 		}
 	};
 }

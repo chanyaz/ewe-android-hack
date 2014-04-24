@@ -4,182 +4,169 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_tablet_hotel_details" >
 
-    <FrameLayout
-        android:id="@+id/popup_frame_layout"
+    <LinearLayout
+        android:id="@+id/user_reviews_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_tablet_hotel_details" >
+        android:orientation="vertical" >
 
-        <com.expedia.bookings.widget.RoundedCornerFrameLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:radius="2dp" >
+            android:layout_height="112dp" >
+
+            <ImageView
+                android:id="@+id/hotel_header_image"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/hotel_header_height"
+                android:layout_gravity="bottom"
+                android:background="#2a2a2a"
+                android:scaleType="centerCrop"
+                android:src="?attr/hotelImagePlaceHolderDrawable" />
+
+            <View
+                android:id="@+id/dominant_color_header_mask"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
+                android:layout_gravity="bottom"
+                android:background="#66000000" />
 
             <LinearLayout
-                android:id="@+id/user_reviews_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <FrameLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="112dp" >
+                    android:layout_height="56dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
 
-                    <ImageView
-                        android:id="@+id/hotel_header_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/hotel_header_height"
-                        android:layout_gravity="bottom"
-                        android:background="#2a2a2a"
-                        android:scaleType="centerCrop"
-                        android:src="?attr/hotelImagePlaceHolderDrawable" />
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/done_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/btn_tablet_user_review_segment"
+                        android:drawableLeft="@drawable/ic_action_bar_checkmark_white"
+                        android:gravity="center_vertical"
+                        android:padding="12dp"
+                        android:text="@string/Done"
+                        android:textAllCaps="true"
+                        android:textColor="#ffffff"
+                        android:textSize="12dp"
+                        app:textStyle="bold" />
 
                     <View
-                        android:id="@+id/dominant_color_header_mask"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
+                        android:layout_height="24dp"
+                        android:background="#66ffffff" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/one_px_hdpi_two_px_xhdpi"
-                        android:layout_gravity="bottom"
-                        android:background="#66000000" />
-
-                    <LinearLayout
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/reviews_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical" >
+                        android:ellipsize="end"
+                        android:padding="12dp"
+                        android:singleLine="true"
+                        android:textColor="#ffffff"
+                        android:textSize="18dp"
+                        app:textStyle="light" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="56dp"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal" >
+                </LinearLayout>
 
-                            <com.expedia.bookings.widget.TextView
-                                android:id="@+id/done_button"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/btn_tablet_user_review_segment"
-                                android:drawableLeft="@drawable/ic_action_bar_checkmark_white"
-                                android:gravity="center_vertical"
-                                android:padding="12dp"
-                                android:text="@string/Done"
-                                android:textAllCaps="true"
-                                android:textColor="#ffffff"
-                                android:textSize="12dp"
-                                app:textStyle="bold" />
+                <com.mobiata.android.widget.SegmentedControlGroup
+                    android:id="@+id/user_review_sort_group"
+                    style="@style/V2.Widget.SegmentedControlGroup.TabletUserReviews"
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal" >
 
-                            <View
-                                android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
-                                android:layout_height="24dp"
-                                android:background="#66ffffff" />
+                    <com.gridlayout.Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
 
-                            <com.expedia.bookings.widget.TextView
-                                android:id="@+id/reviews_title"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:padding="12dp"
-                                android:singleLine="true"
-                                android:textColor="#ffffff"
-                                android:textSize="18dp"
-                                app:textStyle="light" />
+                    <RadioButton
+                        android:id="@+id/user_review_button_recent"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:contentDescription="@string/cd_display_recent_reviews"
+                        android:gravity="center"
+                        android:text="@string/user_review_sort_button_recent"
+                        android:textAllCaps="true"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
 
-                        </LinearLayout>
+                    <com.gridlayout.Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
 
-                        <com.mobiata.android.widget.SegmentedControlGroup
-                            android:id="@+id/user_review_sort_group"
-                            style="@style/V2.Widget.SegmentedControlGroup.TabletUserReviews"
-                            android:layout_width="fill_parent"
-                            android:layout_height="56dp"
-                            android:orientation="horizontal" >
+                    <RadioButton
+                        android:id="@+id/user_review_button_favorable"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:contentDescription="@string/cd_display_favorable_reviews"
+                        android:gravity="center"
+                        android:text="@string/user_review_sort_button_favorable"
+                        android:textAllCaps="true"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
 
-                            <com.gridlayout.Space
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1" />
+                    <com.gridlayout.Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
 
-                            <RadioButton
-                                android:id="@+id/user_review_button_recent"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="2"
-                                android:contentDescription="@string/cd_display_recent_reviews"
-                                android:gravity="center"
-                                android:text="@string/user_review_sort_button_recent"
-                                android:textAllCaps="true"
-                                android:textSize="14dp"
-                                android:textStyle="bold" />
+                    <RadioButton
+                        android:id="@+id/user_review_button_critical"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:contentDescription="@string/cd_display_critical_reviews"
+                        android:gravity="center"
+                        android:text="@string/user_review_sort_button_critical"
+                        android:textAllCaps="true"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
 
-                            <com.gridlayout.Space
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1" />
+                    <com.gridlayout.Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
 
-                            <RadioButton
-                                android:id="@+id/user_review_button_favorable"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="2"
-                                android:contentDescription="@string/cd_display_favorable_reviews"
-                                android:gravity="center"
-                                android:text="@string/user_review_sort_button_favorable"
-                                android:textAllCaps="true"
-                                android:textSize="14dp"
-                                android:textStyle="bold" />
-
-                            <com.gridlayout.Space
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1" />
-
-                            <RadioButton
-                                android:id="@+id/user_review_button_critical"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="2"
-                                android:contentDescription="@string/cd_display_critical_reviews"
-                                android:gravity="center"
-                                android:text="@string/user_review_sort_button_critical"
-                                android:textAllCaps="true"
-                                android:textSize="14dp"
-                                android:textStyle="bold" />
-
-                            <com.gridlayout.Space
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1" />
-
-                        </com.mobiata.android.widget.SegmentedControlGroup>
-
-                    </LinearLayout>
-                </FrameLayout>
-
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/pager"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:background="@color/bg_row_state_pressed"
-                    android:paddingBottom="20dp"
-                    android:paddingLeft="@dimen/tablet_detail_padding"
-                    android:paddingRight="@dimen/tablet_detail_padding" >
-
-                    <include
-                        layout="@layout/snippet_tablet_room_rate_add_select" />
-
-                </FrameLayout>
+                </com.mobiata.android.widget.SegmentedControlGroup>
 
             </LinearLayout>
+        </FrameLayout>
 
-        </com.expedia.bookings.widget.RoundedCornerFrameLayout>
-    </FrameLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:background="@color/bg_row_state_pressed"
+            android:paddingBottom="20dp"
+            android:paddingLeft="@dimen/tablet_detail_padding"
+            android:paddingRight="@dimen/tablet_detail_padding" >
+
+            <include
+                layout="@layout/snippet_tablet_room_rate_add_select" />
+
+        </FrameLayout>
+
+    </LinearLayout>
 </FrameLayout>

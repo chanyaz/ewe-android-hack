@@ -94,8 +94,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private ViewGroup mAmenitiesContainer;
 	private LinearLayout mRatesContainer;
 	private View mProgressContainer;
-	private ViewGroup mPopupC;
-	private ViewGroup mRoundedC;
 	private ViewGroup mReviewsC;
 
 	private IAddToBucketListener mAddToBucketListener;
@@ -125,8 +123,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		mHeaderContainer = Ui.findView(mRootC, R.id.header_container);
 		mProgressContainer = Ui.findView(mRootC, R.id.progress_spinner_container);
 		mUserRatingContainer = Ui.findView(mRootC, R.id.user_rating_container);
-		mPopupC = Ui.findView(mRootC, R.id.popup_frame_layout);
-		mRoundedC = Ui.findView(mRootC, R.id.rounded_corner_container);
 		mReviewsC = Ui.findView(mRootC, R.id.reviews_container);
 		toggleLoadingState(true);
 		return mRootC;
@@ -171,7 +167,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	public int getTailHeight() {
-		return mPopupC.getHeight() - mRoundedC.getHeight();
+		return getResources().getDimensionPixelSize(R.dimen.tablet_hotel_details_vertical_padding);
 	}
 
 	private void downloadDetails() {
@@ -1130,8 +1126,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			mGrid.setColumnPercentage(0, leftRightSpacePerc);
 			mGrid.setColumnPercentage(2, leftRightSpacePerc);
 
-			mGrid.setContainerToRow(mPopupC, 1);
-			mGrid.setContainerToColumn(mPopupC, 1);
+			mGrid.setContainerToRow(mRootC, 1);
+			mGrid.setContainerToColumn(mRootC, 1);
 
 			int halfContentSize = mGrid.getRowHeight(1) / 2;
 			if (mHeaderContainer.getLayoutParams() != null) {
