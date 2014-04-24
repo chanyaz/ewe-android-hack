@@ -80,6 +80,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private int ROOM_RATE_ANIMATION_DURATION = 300;
 
 	private boolean mIsDescriptionTextSpanned;
+	private boolean mDoReScroll;
 
 	public static ResultsHotelDetailsFragment newInstance() {
 		ResultsHotelDetailsFragment frag = new ResultsHotelDetailsFragment();
@@ -523,6 +524,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				rate = mResponse.getRates().get(0);
 			}
 		}
+
+		mDoReScroll = false;
 		setSelectedRate(rate);
 	}
 
@@ -662,7 +665,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		container.requestLayout();
 	}
 
-	private void expand(View row) {
+	private void expand(final View row) {
 		List<Animator> animators = new ArrayList<Animator>();
 
 		final Button addRoomButton = Ui.findView(row, R.id.room_rate_button_add);
@@ -721,10 +724,23 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			.setDuration(ROOM_RATE_ANIMATION_DURATION);
 		animators.add(colorDrawableAnimator);
 
-		ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
-		//scrollView.smoothScrollTo(0, row.getTop());
-
 		AnimatorSet set = new AnimatorSet();
+		set.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				// Let's not scroll the selected room rate if it's the default one. Since we want the user to look at the other info first.
+				if (mDoReScroll) {
+					LinearLayout rootContainer = Ui.findView(mRootC, R.id.rooms_rates_container);
+					ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
+					int headerHeight = getResources().getDimensionPixelOffset(R.dimen.tablet_details_compact_header_height);
+					scrollView.smoothScrollTo(0, rootContainer.getTop() + row.getTop() - headerHeight);
+				}
+				else {
+					// Let's reset this check so we rescroll to keep the selected room rate here on.
+					mDoReScroll = true;
+				}
+			}
+		});
 		set.playTogether(animators);
 		set.start();
 	}
