@@ -480,7 +480,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		if (enable) {
 			mProgressContainer.setVisibility(View.VISIBLE);
 			descriptionsContainer.setVisibility(View.GONE);
-			mAmenitiesContainer.setVisibility(View.GONE);
+			mAmenitiesContainer.setVisibility(View.INVISIBLE);
 			mRatesContainer.setVisibility(View.GONE);
 		}
 		else {
