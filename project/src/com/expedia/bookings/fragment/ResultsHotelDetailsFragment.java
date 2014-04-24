@@ -472,10 +472,10 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		if (enable == (mProgressContainer.getVisibility() == View.VISIBLE)) {
 			return;
 		}
+		LinearLayout descriptionsContainer = Ui.findView(mRootC, R.id.description_details_sections_container);
 		if (enable) {
 			mProgressContainer.setVisibility(View.VISIBLE);
-			LinearLayout container = Ui.findView(mRootC, R.id.description_details_sections_container);
-			container.setVisibility(View.GONE);
+			descriptionsContainer.setVisibility(View.GONE);
 			mAmenitiesContainer.setVisibility(View.GONE);
 			mRatesContainer.setVisibility(View.GONE);
 		}
@@ -486,10 +486,12 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			mAmenitiesContainer.setVisibility(View.VISIBLE);
 			mRatesContainer.setAlpha(0f);
 			mRatesContainer.setVisibility(View.VISIBLE);
+			descriptionsContainer.setAlpha(0f);
+			descriptionsContainer.setVisibility(View.VISIBLE);
 
 			mAmenitiesContainer.animate().alpha(1f).setDuration(animationDuration).setListener(null);
-
 			mRatesContainer.animate().alpha(1f).setDuration(animationDuration).setListener(null);
+			descriptionsContainer.animate().alpha(1f).setDuration(animationDuration).setListener(null);
 
 			mProgressContainer.animate().alpha(0f)
 				.setDuration(animationDuration)
