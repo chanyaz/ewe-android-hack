@@ -28,7 +28,6 @@
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
                 android:singleLine="true"
-                android:text="11:04AM to 10:59PM"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/tablet_result_row_primary_text_size"
                 app:textStyle="medium" />
@@ -39,7 +38,6 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="middle"
                 android:singleLine="true"
-                android:text="DELTA"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/tablet_result_row_secondary_text_size"
                 app:textStyle="light"/>
@@ -64,7 +62,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="$180"
             android:textColor="#ffffff"
             android:textSize="@dimen/tablet_result_row_price_size"
             app:textStyle="medium" />
