@@ -11,7 +11,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.section.HotelSummarySection;
-import com.mobiata.android.Log;
 
 /**
  * Most of the functionality extends from HotelAdapter. This class
@@ -21,6 +20,8 @@ public class TabletHotelAdapter extends HotelAdapter {
 
 	LayoutInflater mInflater;
 	Context mContext;
+
+	float mCollapseNewViewsPercent = 0f;
 
 	public TabletHotelAdapter(Activity activity) {
 		super(activity);
@@ -90,6 +91,14 @@ public class TabletHotelAdapter extends HotelAdapter {
 			convertView = mInflater.inflate(R.layout.section_hotel_summary_tablet, parent, false);
 		}
 
-		return super.getView(position, convertView, parent);
+		HotelSummarySection section = (HotelSummarySection) super.getView(position, convertView, parent);
+
+		section.collapseBy(mCollapseNewViewsPercent * estimateExpandableHeight(position));
+
+		return section;
+	}
+
+	public void collapseNewViewsBy(float percentage) {
+		mCollapseNewViewsPercent = percentage;
 	}
 }

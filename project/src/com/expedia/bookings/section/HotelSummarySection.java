@@ -378,9 +378,9 @@ public class HotelSummarySection extends RelativeLayout {
 	// Show/hide MED callout
 
 	@TargetApi(11)
-	public void expandBy(float pixels) {
-		mUrgencyText.setTranslationY(pixels);
-		mCardCornersBottom.setTranslationY(pixels);
+	public void collapseBy(float pixels) {
+		mUrgencyText.setTranslationY(-pixels);
+		mCardCornersBottom.setTranslationY(-pixels);
 	}
 
 }

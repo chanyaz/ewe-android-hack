@@ -48,6 +48,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	private ISortAndFilterListener mSortAndFilterListener;
 	private IResultsHotelSelectedListener mHotelSelectedListener;
 	private List<ISortAndFilterListener> mSortAndFilterListeners = new ArrayList<ResultsHotelListFragment.ISortAndFilterListener>();
+	private ResultsHotelsListState mState = getDefaultState();
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -65,16 +66,16 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	}
 
 	// All this work for awesome Hotel Card expand/contract animation
-	IStateListener<ResultsListState> mExpandyListener = new IStateListener<ResultsListState>() {
+	IStateListener<ResultsHotelsListState> mExpandyListener = new IStateListener<ResultsHotelsListState>() {
 		@Override
-		public void onStateTransitionStart(ResultsListState stateOne, ResultsListState stateTwo) {
+		public void onStateTransitionStart(ResultsHotelsListState stateOne, ResultsHotelsListState stateTwo) {
 		}
 
 		@TargetApi(11)
 		@Override
-		public void onStateTransitionUpdate(ResultsListState stateOne, ResultsListState stateTwo, float percentage) {
+		public void onStateTransitionUpdate(ResultsHotelsListState stateOne, ResultsHotelsListState stateTwo, float percentage) {
 			float expandedPercentage = percentage;
-			if (stateOne == ResultsListState.AT_TOP) {
+			if (stateOne == ResultsHotelsListState.HOTELS_LIST_AT_TOP) {
 				expandedPercentage = 1 - expandedPercentage;
 			}
 			FruitList listView = getListView();
@@ -82,29 +83,41 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 			int overallTranslationY = 0;
 			for (int listIndex = 0; listIndex < listView.getChildCount(); listIndex++) {
 				View child = listView.getChildAt(listIndex);
+				//TODO: enable this
 				//child.setTranslationY(overallTranslationY);
 				if (!(child instanceof HotelSummarySection)) {
 					continue;
 				}
 				int expandableHeight = mAdapter.estimateExpandableHeight(adapterPosition);
-				int expandPixels = (int) ((expandedPercentage - 1) * expandableHeight);
+				int collapsePixels = (int) ((1 - expandedPercentage) * expandableHeight);
 				if (expandableHeight != 0) {
 					HotelSummarySection hss = (HotelSummarySection) child;
-					hss.expandBy(expandPixels);
-					overallTranslationY += expandPixels;
+					hss.collapseBy(collapsePixels);
+					overallTranslationY -= collapsePixels;
 				}
 				adapterPosition++;
 			}
 		}
 
 		@Override
-		public void onStateTransitionEnd(ResultsListState stateOne, ResultsListState stateTwo) {
+		public void onStateTransitionEnd(ResultsHotelsListState stateOne, ResultsHotelsListState stateTwo) {
 		}
 
 		@Override
-		public void onStateFinalized(ResultsListState state) {
+		public void onStateFinalized(ResultsHotelsListState state) {
+			mState = state;
+			expandOrCollapseViewsPerState();
 		}
 	};
+
+	private void expandOrCollapseViewsPerState() {
+		if (mState == ResultsHotelsListState.HOTELS_LIST_AT_BOTTOM) {
+			mAdapter.collapseNewViewsBy(1f);
+		}
+		else if (mState == ResultsHotelsListState.HOTELS_LIST_AT_TOP) {
+			mAdapter.collapseNewViewsBy(0f);
+		}
+	}
 
 	@Override
 	public void onStart() {
@@ -115,19 +128,25 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 				&& User.isElitePlus(getActivity());
 			mAdapter.setShowVipIcon(shouldShowVipIcon);
 		}
-
-		getListView().registerStateListener(mExpandyListener, true);
-		Db.getFilter().addOnFilterChangedListener(this);
-
-		//TODO: make the list items start off collapsed. because this doesn't fire at the right time.
-		mExpandyListener.onStateTransitionUpdate(ResultsListState.AT_BOTTOM, ResultsListState.AT_TOP, 0f);
 	}
 
 	@Override
-	public void onStop() {
-		super.onStop();
+	public void onResume() {
+		super.onResume();
 
-		getListView().unRegisterStateListener(mExpandyListener);
+		registerStateListener(mExpandyListener, true);
+
+		// TODO: the state manager may handle this in the future
+		expandOrCollapseViewsPerState();
+
+		Db.getFilter().addOnFilterChangedListener(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		unRegisterStateListener(mExpandyListener);
 		Db.getFilter().removeOnFilterChangedListener(this);
 	}
 
