@@ -336,14 +336,19 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES || hotelsState == ResultsHotelsState.REVIEWS
 				|| hotelsState == ResultsHotelsState.ADDING_HOTEL_TO_TRIP) {
-				mHotelRoomsAndRatesC.setVisibility(View.VISIBLE);
 				mMapDimmer.setVisibility(View.VISIBLE);
 				mMapDimmer.setAlpha(1f);
 			}
 			else {
-				mHotelRoomsAndRatesC.setVisibility(View.INVISIBLE);
 				mMapDimmer.setVisibility(View.INVISIBLE);
 				mMapDimmer.setAlpha(0f);
+			}
+
+			if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES) {
+				mHotelRoomsAndRatesC.setVisibility(View.VISIBLE);
+			}
+			else {
+				mHotelRoomsAndRatesC.setVisibility(View.INVISIBLE);
 			}
 
 			if (hotelsState == ResultsHotelsState.REVIEWS) {
