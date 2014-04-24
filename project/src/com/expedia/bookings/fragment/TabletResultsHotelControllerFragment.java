@@ -1024,6 +1024,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setAddToTripAnimationVis(true);
 				setAddToTripAnimationHardwareRendering(true);
 			}
+			else if (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.REVIEWS) {
+				setReviewsAnimationVisibilities(true);
+			}
+			else if (stateOne == ResultsHotelsState.REVIEWS && stateTwo == ResultsHotelsState.ROOMS_AND_RATES) {
+				setReviewsAnimationVisibilities(false);
+			}
 		}
 
 		@Override
@@ -1047,10 +1053,17 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				//HIDING ROOMS AND RATES
 				setRoomsAndRatesShownPercentage(1f - percentage);
 			}
+			else if (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.REVIEWS) {
+				//SHOWING REVIEWS
+				setReviewsShownPercentage(percentage);
+			}
+			else if (stateOne == ResultsHotelsState.REVIEWS && stateTwo == ResultsHotelsState.ROOMS_AND_RATES) {
+				//HIDING REVIEWS
+				setReviewsShownPercentage(1f - percentage);
+			}
 			else if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
 				//SHOWING FILTERS
 				setHotelsFiltersShownPercentage(percentage);
-
 			}
 			else if (stateOne == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
 				//HIDING FILTERS
@@ -1206,6 +1219,25 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		private void setRoomsAndRatesShownPercentage(float percentage) {
 			mHotelRoomsAndRatesC.setTranslationY(-(1f - percentage) * mGrid.getTotalHeight());
 			mMapDimmer.setAlpha(percentage);
+		}
+
+		/*
+		 * SHOW REVIEWS ANIMATION STUFF
+		 */
+
+		private void setReviewsAnimationVisibilities(boolean forwards) {
+			mHotelRoomsAndRatesC.setVisibility(View.VISIBLE);
+			mHotelReviewsC.setVisibility(View.VISIBLE);
+			if (forwards) {
+				mHotelReviewsC.setAlpha(0f);
+			}
+			else {
+				mHotelReviewsC.setAlpha(1f);
+			}
+		}
+
+		private void setReviewsShownPercentage(float percentage) {
+			mHotelReviewsC.setAlpha(percentage);
 		}
 
 		/*
