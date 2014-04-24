@@ -104,6 +104,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private HotelOffersResponse mResponse;
 
 	private GridManager mGrid = new GridManager();
+	private Property mCurrentProperty;
 
 	private static final int ROOM_COUNT_URGENCY_CUTOFF = 5;
 
@@ -145,10 +146,15 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	public void onHotelSelected() {
-		scrollFragmentToTop();
-		toggleLoadingState(true);
-		prepareDetailsForInfo(mRootC, Db.getHotelSearch().getSelectedProperty());
-		downloadDetails();
+		Property property = Db.getHotelSearch().getSelectedProperty();
+		if (mCurrentProperty == null || !mCurrentProperty.equals(property)) {
+			// We actually have work to do
+			mCurrentProperty = property;
+			scrollFragmentToTop();
+			toggleLoadingState(true);
+			prepareDetailsForInfo(mRootC, property);
+			downloadDetails();
+		}
 	}
 
 	@Override
