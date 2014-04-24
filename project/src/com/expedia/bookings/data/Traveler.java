@@ -345,10 +345,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private PassengerCategory yearsToPassengerCategory(int years) {
 		if (years < MIN_CHILD_AGE) {
 			if (Db.getFlightSearch().getSearchParams().infantSeatingInLap()) {
-				return PassengerCategory.INFANT_IN_SEAT;
+				return PassengerCategory.INFANT_IN_LAP;
 			}
 			else {
-				return PassengerCategory.INFANT_IN_LAP;
+				return PassengerCategory.INFANT_IN_SEAT;
 			}
 		}
 		else if (years < MIN_ADULT_CHILD_AGE) {
