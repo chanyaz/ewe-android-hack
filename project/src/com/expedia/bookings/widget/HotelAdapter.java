@@ -36,7 +36,7 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 	// on some set of circumstances, it can change its height from one height to another.
 	static final int BIT_EXPANDABLE = 0x2;
 
-	static final int VIEW_TYPE_COUNT = BIT_SELECTED + BIT_EXPANDABLE;
+	static final int VIEW_TYPE_COUNT = 4;
 
 	private Context mContext;
 	private LayoutInflater mInflater;
