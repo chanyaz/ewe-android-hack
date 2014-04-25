@@ -1026,11 +1026,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 			else if (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.REVIEWS) {
 				setReviewsAnimationVisibilities(true);
-				mHotelDetailsFrag.smoothScrollToReviewsHeader();
+				mHotelDetailsFrag.saveScrollPosition();
 			}
 			else if (stateOne == ResultsHotelsState.REVIEWS && stateTwo == ResultsHotelsState.ROOMS_AND_RATES) {
 				setReviewsAnimationVisibilities(false);
-				mHotelDetailsFrag.smoothScrollToSavedScrollPosition();
 			}
 		}
 
@@ -1148,7 +1147,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setHotelsFiltersShownPercentage(0f);
 				setAddToTripPercentage(0f);
 				setRoomsAndRatesShownPercentage(1f);
+				setReviewsShownPercentage(0f);
 				updateFragsForRoomsAndRates();
+				break;
+			}
+			case REVIEWS: {
+				setReviewsShownPercentage(1f);
 				break;
 			}
 			case HOTEL_LIST_AND_FILTERS: {
@@ -1239,7 +1243,14 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 
 		private void setReviewsShownPercentage(float percentage) {
-			mHotelReviewsC.setAlpha(percentage);
+			if (percentage < 0.5f) {
+				mHotelDetailsFrag.setScrollBetweenSavedAndHeader(percentage * 2.0f);
+				mHotelReviewsC.setAlpha(0f);
+			}
+			if (percentage > 0.6f) {
+				float projectedPercentage = (percentage - 0.5f) * 2.0f;
+				mHotelReviewsC.setAlpha(projectedPercentage);
+			}
 		}
 
 		/*

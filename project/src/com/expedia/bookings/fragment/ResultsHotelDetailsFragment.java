@@ -1026,18 +1026,18 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		return roomsLeft > 0 && roomsLeft < ROOM_COUNT_URGENCY_CUTOFF;
 	}
 
-	public void smoothScrollToReviewsHeader() {
+	public void saveScrollPosition() {
 		ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
 		mSavedScrollPosition = scrollView.getScrollY();
+	}
+
+	public void setScrollBetweenSavedAndHeader(float percentage) {
+		ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
 		float header = getResources().getDimension(R.dimen.tablet_reviews_header_height);
 		float image = getResources().getDimension(R.dimen.hotel_header_height);
 		float shift = image - header;
-		scrollView.smoothScrollTo(0, (int) shift);
-	}
-
-	public void smoothScrollToSavedScrollPosition() {
-		ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
-		scrollView.smoothScrollTo(0, mSavedScrollPosition);
+		float target = (mSavedScrollPosition - shift) * -percentage + mSavedScrollPosition;
+		scrollView.scrollTo(0, (int) target);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
