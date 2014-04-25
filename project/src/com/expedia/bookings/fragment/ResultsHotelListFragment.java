@@ -109,7 +109,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 
 		FruitList listView = getListView();
 		int adapterPosition = listView.getFirstVisiblePosition();
-		for (int listIndex = 0; listIndex < listView.getChildCount(); listIndex++) {
+		for (int listIndex = 0; listIndex < listView.getChildCount() && adapterPosition < mAdapter.getCount(); listIndex++) {
 			View child = listView.getChildAt(listIndex);
 			if (!(child instanceof HotelSummarySection)) {
 				continue;
