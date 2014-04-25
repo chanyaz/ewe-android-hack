@@ -346,6 +346,10 @@ public class HotelSearchParams implements JSONable {
 		return mChildren;
 	}
 
+	public int getNumTravelers() {
+		return getNumAdults() + getNumChildren();
+	}
+
 	public int getNumChildren() {
 		return mChildren == null ? 0 : mChildren.size();
 	}

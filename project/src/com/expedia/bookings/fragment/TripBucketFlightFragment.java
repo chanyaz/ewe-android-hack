@@ -198,7 +198,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		Ui.setText(mExpandedView, R.id.dates_text_view, dateRange);
 
 		// Num travelers
-		int numTravelers = Db.getFlightSearch().getSearchParams().getNumAdults();
+		int numTravelers = Db.getFlightSearch().getSearchParams().getNumTravelers();
 		String numTravStr = getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers,
 			numTravelers);
 		Ui.setText(mExpandedView, R.id.num_travelers_text_view, numTravStr);
