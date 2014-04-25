@@ -49,6 +49,8 @@
         <item name="hangTagKnobBackgroundDrawable">@drawable/gl_progress_knob_bg</item>
         <item name="HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder</item>
         <item name="costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
+        <item name="flightsCostSummaryDialogStripeDrawable">@drawable/border_horizontal_expedia_striped</item>
+        <item name="costSummaryBookingFeesString">@string/expedia_booking_fee</item>
         <item name="loginBookNowButtonDrawable">@drawable/btn_signin</item>
         <item name="loginWithExpediaButtonText">@string/Log_in_with_Expedia</item>
         <item name="loginWithExpediaTitleText">@string/expedia_account</item>
