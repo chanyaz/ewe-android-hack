@@ -15,13 +15,12 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="112dp" >
+            android:layout_height="@dimen/tablet_reviews_header_height" >
 
             <ImageView
                 android:id="@+id/hotel_header_image"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/hotel_header_height"
-                android:layout_gravity="bottom"
                 android:background="#2a2a2a"
                 android:scaleType="centerCrop"
                 android:src="?attr/hotelImagePlaceHolderDrawable" />

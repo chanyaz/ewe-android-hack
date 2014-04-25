@@ -108,6 +108,12 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		int position = mViewPager.getCurrentItem();
 		onPageSelected(position);
 
+		// Header
+		float header = getResources().getDimension(R.dimen.tablet_reviews_header_height);
+		float image = getResources().getDimension(R.dimen.hotel_header_height);
+		float shift = (header - image) / 2.0f;
+		mHotelImage.setTranslationY(shift);
+
 		return mRootC;
 	}
 

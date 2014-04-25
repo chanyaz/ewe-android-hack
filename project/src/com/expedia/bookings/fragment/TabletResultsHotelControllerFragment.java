@@ -1026,9 +1026,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 			else if (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.REVIEWS) {
 				setReviewsAnimationVisibilities(true);
+				mHotelDetailsFrag.smoothScrollToReviewsHeader();
 			}
 			else if (stateOne == ResultsHotelsState.REVIEWS && stateTwo == ResultsHotelsState.ROOMS_AND_RATES) {
 				setReviewsAnimationVisibilities(false);
+				mHotelDetailsFrag.smoothScrollToSavedScrollPosition();
 			}
 		}
 

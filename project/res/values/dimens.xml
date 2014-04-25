@@ -36,6 +36,7 @@
     <dimen name="non_refundable_tweak">0dp</dimen>
     <dimen name="add_rate_button_min_width">48dp</dimen>
     <dimen name="tablet_details_compact_header_height">57dp</dimen>
+    <dimen name="tablet_reviews_header_height">112dp</dimen>
 
     <!-- Tablet checkout -->
     <dimen name="trip_bucket_expanded_card_padding">2dp</dimen>

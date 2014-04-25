@@ -103,6 +103,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 	private GridManager mGrid = new GridManager();
 	private Property mCurrentProperty;
+	private int mSavedScrollPosition;
 
 	private static final int ROOM_COUNT_URGENCY_CUTOFF = 5;
 
@@ -1023,6 +1024,20 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private boolean showUrgencyMessaging(Rate rate) {
 		int roomsLeft = rate.getNumRoomsLeft();
 		return roomsLeft > 0 && roomsLeft < ROOM_COUNT_URGENCY_CUTOFF;
+	}
+
+	public void smoothScrollToReviewsHeader() {
+		ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
+		mSavedScrollPosition = scrollView.getScrollY();
+		float header = getResources().getDimension(R.dimen.tablet_reviews_header_height);
+		float image = getResources().getDimension(R.dimen.hotel_header_height);
+		float shift = image - header;
+		scrollView.smoothScrollTo(0, (int) shift);
+	}
+
+	public void smoothScrollToSavedScrollPosition() {
+		ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
+		scrollView.smoothScrollTo(0, mSavedScrollPosition);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
