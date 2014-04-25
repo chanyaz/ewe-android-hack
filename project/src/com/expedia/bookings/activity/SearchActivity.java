@@ -8,7 +8,6 @@ import android.os.Bundle;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.NavUtils;
 
 /**
@@ -40,10 +39,6 @@ public class SearchActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mContext = this;
-
-		if (getIntent().getBooleanExtra("isAutomation", false)) {
-			ClearPrivateDataUtil.clear(this);
-		}
 
 		// Track the app loading
 		OmnitureTracking.trackAppLoading(mContext);
