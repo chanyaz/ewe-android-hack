@@ -1,10 +1,6 @@
 package com.expedia.bookings.test.tests.tablet;
 
-import org.joda.time.LocalDate;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -15,7 +11,7 @@ import com.expedia.bookings.test.tests.pageModels.tablet.IdlingResources;
 import com.expedia.bookings.test.tests.pageModels.tablet.IdlingResources.SuggestionResource;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
-import com.mobiata.android.Log;
+import com.expedia.bookings.test.tests.pageModels.tablet.Settings;
 
 public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 
@@ -32,9 +28,9 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 			mSuggestionResource = new SuggestionResource();
 			IdlingResources.registerSuggestionResource(mSuggestionResource);
 
-			Intent intent = new Intent();
-			intent.putExtra("isAutomation", true);
-			setActivityIntent(intent);
+			Settings.clearPrivateData(getInstrumentation());
+			// Point to the mock server
+			Settings.setCustomServer(getInstrumentation(), "mocke3.mobiata.com");
 
 			// Espresso will not launch our activity for us, we must launch it via getActivity().
 			getActivity();
@@ -49,7 +45,8 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 		Launch.typeInDestinationEditText("Detroit, MI");
 		Launch.clickSuggestion("Detroit, MI");
 
-		Results.clickHotelWithName("Corktown Inn");
+		Results.swipeUpHotelList();
+		Results.clickHotelWithName("happy_path");
 		Results.clickAddHotel();
 		Results.clickBookHotel();
 
