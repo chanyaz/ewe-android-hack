@@ -18,6 +18,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -58,7 +59,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		// Dates
 		LocalDate checkIn = Db.getHotelSearch().getSearchParams().getCheckInDate();
 		LocalDate checkOut = Db.getHotelSearch().getSearchParams().getCheckOutDate();
-		String dateRange =  JodaUtils.formatDateRange(getActivity(), checkIn, checkOut, DateUtils.FORMAT_SHOW_DATE);
+		String dateRange = JodaUtils.formatDateRange(getActivity(), checkIn, checkOut, DateUtils.FORMAT_SHOW_DATE);
 		int numNights = Db.getHotelSearch().getSearchParams().getStayDuration();
 		String nightsStr = getResources().getQuantityString(R.plurals.length_of_stay, numNights, numNights);
 		String dateStr = getString(R.string.dates_and_nights_TEMPLATE, dateRange, nightsStr);
@@ -70,8 +71,10 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		Ui.setText(vg, R.id.num_travelers_text_view, numGuestsStr);
 
 		// Price
+		TextView priceTextView = Ui.findView(vg, R.id.price_expanded_bucket_text_view);
 		String price = rate.getDisplayTotalPrice().getFormattedMoney();
-		Ui.setText(vg, R.id.price_expanded_bucket_text_view, price);
+		priceTextView.setText(price);
+		priceTextView.setOnClickListener(getCostBreakdownListener());
 
 		root.addView(vg);
 
@@ -120,6 +123,20 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 			return null;
 		}
 	}
+
+	@Override
+	public OnClickListener getCostBreakdownListener() {
+		return mCostBreakDownListener;
+	}
+
+	private OnClickListener mCostBreakDownListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			BreakdownDialogFragment dialogFrag = BreakdownDialogFragment.buildHotelRateBreakdownDialog(getActivity(),
+				Db.getHotelSearch());
+			dialogFrag.show(getFragmentManager(), BreakdownDialogFragment.TAG);
+		}
+	};
 
 	@Override
 	public OnClickListener getOnBookClickListener() {

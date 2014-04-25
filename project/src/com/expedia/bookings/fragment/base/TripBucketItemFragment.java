@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.ColorAvgUtils;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
@@ -19,7 +18,6 @@ import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateManager;
-import com.expedia.bookings.bitmaps.ColorScheme;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.Ui;
 
@@ -268,5 +266,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	public abstract String getTripPrice();
 
 	public abstract OnClickListener getOnBookClickListener();
+
+	public abstract OnClickListener getCostBreakdownListener();
 
 }
