@@ -71,32 +71,16 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		public void onStateTransitionStart(ResultsHotelsListState stateOne, ResultsHotelsListState stateTwo) {
 		}
 
-		@TargetApi(11)
 		@Override
 		public void onStateTransitionUpdate(ResultsHotelsListState stateOne, ResultsHotelsListState stateTwo, float percentage) {
-			float expandedPercentage = percentage;
-			if (stateOne == ResultsHotelsListState.HOTELS_LIST_AT_TOP) {
-				expandedPercentage = 1 - expandedPercentage;
+			float collapsePct = 0f;
+			if (stateTwo == ResultsHotelsListState.HOTELS_LIST_AT_TOP) {
+				collapsePct = Math.max(0f, (0.5f - percentage) * 2f);
 			}
-			FruitList listView = getListView();
-			int adapterPosition = listView.getFirstVisiblePosition();
-			int overallTranslationY = 0;
-			for (int listIndex = 0; listIndex < listView.getChildCount(); listIndex++) {
-				View child = listView.getChildAt(listIndex);
-				//TODO: enable this
-				//child.setTranslationY(overallTranslationY);
-				if (!(child instanceof HotelSummarySection)) {
-					continue;
-				}
-				int expandableHeight = mAdapter.estimateExpandableHeight(adapterPosition);
-				int collapsePixels = (int) ((1 - expandedPercentage) * expandableHeight);
-				if (expandableHeight != 0) {
-					HotelSummarySection hss = (HotelSummarySection) child;
-					hss.collapseBy(collapsePixels);
-					overallTranslationY -= collapsePixels;
-				}
-				adapterPosition++;
+			else if (stateTwo == ResultsHotelsListState.HOTELS_LIST_AT_BOTTOM) {
+				collapsePct = Math.max(0f, (percentage - 0.5f) * 2f);
 			}
+			collapseRowsBy(collapsePct);
 		}
 
 		@Override
@@ -106,16 +90,34 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		@Override
 		public void onStateFinalized(ResultsHotelsListState state) {
 			mState = state;
-			expandOrCollapseViewsPerState();
+			collapseRowsPerState();
 		}
 	};
 
-	private void expandOrCollapseViewsPerState() {
+	private void collapseRowsPerState() {
 		if (mState == ResultsHotelsListState.HOTELS_LIST_AT_BOTTOM) {
-			mAdapter.collapseNewViewsBy(1f);
+			collapseRowsBy(1f);
 		}
 		else if (mState == ResultsHotelsListState.HOTELS_LIST_AT_TOP) {
-			mAdapter.collapseNewViewsBy(0f);
+			collapseRowsBy(0f);
+		}
+	}
+
+	@TargetApi(11)
+	private void collapseRowsBy(float percentage) {
+		mAdapter.collapseNewViewsBy(percentage);
+
+		FruitList listView = getListView();
+		int adapterPosition = listView.getFirstVisiblePosition();
+		for (int listIndex = 0; listIndex < listView.getChildCount(); listIndex++) {
+			View child = listView.getChildAt(listIndex);
+			if (!(child instanceof HotelSummarySection)) {
+				continue;
+			}
+			HotelSummarySection hss = (HotelSummarySection) child;
+			hss.collapseBy(percentage * mAdapter.estimateExpandableHeight(adapterPosition));
+			hss.setTranslationY(-mAdapter.estimateExpandableOffset(adapterPosition));
+			adapterPosition++;
 		}
 	}
 
@@ -137,7 +139,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		registerStateListener(mExpandyListener, true);
 
 		// TODO: the state manager may handle this in the future
-		expandOrCollapseViewsPerState();
+		collapseRowsPerState();
 
 		Db.getFilter().addOnFilterChangedListener(this);
 	}

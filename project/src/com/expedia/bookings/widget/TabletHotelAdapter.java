@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
@@ -23,15 +24,23 @@ public class TabletHotelAdapter extends HotelAdapter {
 
 	float mCollapseNewViewsPercent = 0f;
 
+	private int mCardHeight;
+	private int mMedContainerHeight;
+
 	public TabletHotelAdapter(Activity activity) {
 		super(activity);
 		mInflater = LayoutInflater.from(activity);
 		mContext = activity;
+
+		Resources res = mContext.getResources();
+		mCardHeight = res.getDimensionPixelSize(R.dimen.tablet_tripbucket_card_height);
+		mMedContainerHeight = res.getDimensionPixelSize(R.dimen.hotel_row_med_container_height);
 	}
 
 	/**
 	 * Will return true if the row at position [position] is expandable. In this case, it means
 	 * if there are Mobile Exclusive Deals or other Urgency Messages for this hotel.
+	 *
 	 * @param position
 	 * @return
 	 */
@@ -61,30 +70,53 @@ public class TabletHotelAdapter extends HotelAdapter {
 
 	/**
 	 * Returns the estimated height for the view at position [position].
+	 *
 	 * @param position
 	 * @return
 	 */
 	public int estimateViewHeight(int position) {
-		Resources res = mContext.getResources();
-		int height = res.getDimensionPixelSize(R.dimen.tablet_tripbucket_card_height);
+		int height = mCardHeight;
 		if (isRowExpandable(position)) {
-			height += res.getDimensionPixelSize(R.dimen.hotel_row_med_container_height);
+			height += mMedContainerHeight;
 		}
 		return height;
 	}
 
 	/**
-	 * returns the number of pixels by which the row at position [position] expands
+	 * Returns the number of pixels by which the row at position [position] expands
 	 * (if it's expandable at all).
+	 *
 	 * @param position
 	 * @return
 	 */
 	public int estimateExpandableHeight(int position) {
 		return isRowExpandable(position)
-			? mContext.getResources().getDimensionPixelSize(R.dimen.hotel_row_med_container_height)
+			? mMedContainerHeight
 			: 0;
 	}
 
+	/**
+	 * Returns the number of pixels by which the entire row at position [position] should
+	 * be translated upwards due to the percentage by which the rows are collapsed. This algorithm
+	 * is O(n); not the fastest but reasonbly fast for our situation (we should only be performing
+	 * a calculation on the first few rows).
+	 *
+	 * @param position
+	 * @return
+	 */
+	public int estimateExpandableOffset(int position) {
+		int offset = 0;
+
+		if (mCollapseNewViewsPercent != 0f) {
+			for (int i = 0; i < position; i++) {
+				offset += estimateExpandableHeight(i) * mCollapseNewViewsPercent;
+			}
+		}
+
+		return offset;
+	}
+
+	@TargetApi(11)
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
@@ -94,6 +126,7 @@ public class TabletHotelAdapter extends HotelAdapter {
 		HotelSummarySection section = (HotelSummarySection) super.getView(position, convertView, parent);
 
 		section.collapseBy(mCollapseNewViewsPercent * estimateExpandableHeight(position));
+		section.setTranslationY(-estimateExpandableOffset(position));
 
 		return section;
 	}
