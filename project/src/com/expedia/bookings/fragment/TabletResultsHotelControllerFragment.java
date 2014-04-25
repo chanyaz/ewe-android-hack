@@ -1025,10 +1025,12 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setAddToTripAnimationHardwareRendering(true);
 			}
 			else if (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.REVIEWS) {
+				setReviewsAnimationHardwareRendering(true);
 				setReviewsAnimationVisibilities(true);
 				mHotelDetailsFrag.saveScrollPosition();
 			}
 			else if (stateOne == ResultsHotelsState.REVIEWS && stateTwo == ResultsHotelsState.ROOMS_AND_RATES) {
+				setReviewsAnimationHardwareRendering(true);
 				setReviewsAnimationVisibilities(false);
 			}
 		}
@@ -1109,9 +1111,15 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setAddToTripAnimationVis(false);
 				setAddToTripAnimationHardwareRendering(false);
 			}
+			else if (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.REVIEWS) {
+				setReviewsAnimationHardwareRendering(false);
+			}
+			else if (stateOne == ResultsHotelsState.REVIEWS && stateTwo == ResultsHotelsState.ROOMS_AND_RATES) {
+				setReviewsAnimationHardwareRendering(false);
+				setReviewsAnimationVisibilities(false);
+			}
 
 			setTouchable(true, true);
-
 		}
 
 		@Override
@@ -1251,6 +1259,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				float projectedPercentage = (percentage - 0.5f) * 2.0f;
 				mHotelReviewsC.setAlpha(projectedPercentage);
 			}
+		}
+
+		private void setReviewsAnimationHardwareRendering(boolean useHardwareLayer) {
+			int layerValue = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
+			mHotelReviewsC.setLayerType(layerValue, null);
 		}
 
 		/*
