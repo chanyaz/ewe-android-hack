@@ -265,7 +265,9 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 				mUserReviews.addAll(newlyLoadedReviews);
 
 				mUserReviewsUtils.putReviews(mProperty.getPropertyId(), mReviewSort, mUserReviews);
-				mUserReviewsAdapter.setUserReviews(mUserReviews);
+				if (mUserReviewsAdapter != null) {
+					mUserReviewsAdapter.setUserReviews(mUserReviews);
+				}
 			}
 		}
 	};
