@@ -90,6 +90,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private ViewGroup mRootC;
 	private View mUserRatingContainer;
 	private View mRoomsLeftContainer;
+	private View mMobileExclusiveContainer;
 	private HotelDetailsStickyHeaderLayout mHeaderContainer;
 	private ViewGroup mAmenitiesContainer;
 	private LinearLayout mRatesContainer;
@@ -121,6 +122,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		mRatesContainer = Ui.findView(mRootC, R.id.rooms_rates_container);
 		mUserRatingContainer = Ui.findView(mRootC, R.id.user_rating_container);
 		mRoomsLeftContainer = Ui.findView(mRootC, R.id.rooms_left_container);
+		mMobileExclusiveContainer = Ui.findView(mRootC, R.id.mobile_exclusive_container);
 		mHeaderContainer = Ui.findView(mRootC, R.id.header_container);
 		mProgressContainer = Ui.findView(mRootC, R.id.progress_spinner_container);
 		mUserRatingContainer = Ui.findView(mRootC, R.id.user_rating_container);
@@ -351,8 +353,13 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		Resources res = getResources();
 		int roomsLeft = property.getRoomsLeftAtThisRate();
-		boolean urgencyAvailable = roomsLeft <= 5 && roomsLeft >= 0 || property.getPercentRecommended() != 0f;
-		if (roomsLeft <= 5 && roomsLeft >= 0) {
+		boolean urgencyAvailable = true;
+		if (property.isLowestRateMobileExclusive()) {
+			mMobileExclusiveContainer.setVisibility(View.VISIBLE);
+			mRoomsLeftContainer.setVisibility(View.GONE);
+		}
+		else if (roomsLeft <= 5 && roomsLeft >= 0) {
+			mMobileExclusiveContainer.setVisibility(View.GONE);
 			mRoomsLeftContainer.setVisibility(View.VISIBLE);
 			int color = res.getColor(R.color.details_ring_red);
 			roomsLeftRing.setVisibility(View.VISIBLE);
@@ -364,6 +371,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			roomsLeftText.setText(res.getQuantityString(R.plurals.n_rooms_left_TEMPLATE, roomsLeft, roomsLeft));
 		}
 		else if (property.getPercentRecommended() != 0f) {
+			mMobileExclusiveContainer.setVisibility(View.GONE);
 			mRoomsLeftContainer.setVisibility(View.VISIBLE);
 			roomsLeftRing.setVisibility(View.VISIBLE);
 			roomsLeftText.setVisibility(View.VISIBLE);
@@ -374,7 +382,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			roomsLeftText.setText(getString(R.string.n_recommend_TEMPLATE, percent));
 		}
 		else {
+			mMobileExclusiveContainer.setVisibility(View.GONE);
 			mRoomsLeftContainer.setVisibility(View.GONE);
+			urgencyAvailable = false;
 		}
 
 		// Show/hide views/containers as appropriate
