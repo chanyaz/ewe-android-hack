@@ -3,6 +3,10 @@ def shouldRunProguard = GradleUtil.shouldEnableProguard(project)
 apply plugin: 'android'
 apply plugin: AndroidExpediaPlugin
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     compile project(':lib:ActionBarSherlock:actionbarsherlock')
@@ -14,12 +18,20 @@ dependencies {
     compile project(':lib:ShareEverywhere:shareeverywhere')
     compile project(':lib:AndroidTime')
 
-    androidTestCompile fileTree('../lib/TestUtils/project/libs').include('*.jar')
+    androidTestCompile fileTree('../lib/TestUtils/project/libs').include(
+        'robotium-solo-5.0.1.jar',
+        'spoon-client-1.1.0.jar',
+    )
+    androidTestCompile 'com.jakewharton.espresso:espresso:1.1-r2'
 }
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
 
     defaultConfig {
         versionCode 33
