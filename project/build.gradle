@@ -20,9 +20,9 @@ dependencies {
 
     androidTestCompile fileTree('../lib/TestUtils/project/libs').include(
         'robotium-solo-5.0.1.jar',
-        'spoon-client-1.1.0.jar',
     )
     androidTestCompile 'com.jakewharton.espresso:espresso:1.1-r2'
+    androidTestCompile 'com.squareup.spoon:spoon-client:1.1.1'
 }
 
 android {
