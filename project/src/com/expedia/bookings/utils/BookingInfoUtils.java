@@ -111,27 +111,27 @@ public class BookingInfoUtils {
 
 		// If there are more numAdults from HotelSearchParams, add empty Travelers to the Db to anticipate the addition of
 		// new Travelers in order for check out
-		final int numTravelers = travelers.size();
-		int numAdults = travelers.size();
+		final int travelerSize = travelers.size();
+		int numTravelersNeeded;
 		if (lob == LineOfBusiness.FLIGHTS) {
-			numAdults = Db.getFlightSearch().getSearchParams().getNumAdults();
+			numTravelersNeeded = Db.getFlightSearch().getSearchParams().getNumTravelers();
 		}
 		else {
 			//Hotels currently always just has one traveler object
-			numAdults = 1;
+			numTravelersNeeded = 1;
 		}
-		Log.d("BookingInfoUtils - populateTravelerData - travelers.size():" + numTravelers + " numAdults:" + numAdults);
+		Log.d("BookingInfoUtils - populateTravelerData - travelers.size():" + travelerSize + " numTravelersNeeded:" + numTravelersNeeded);
 
-		if (numTravelers < numAdults) {
-			for (int i = numTravelers; i < numAdults; i++) {
+		if (travelerSize < numTravelersNeeded) {
+			for (int i = travelerSize; i < numTravelersNeeded; i++) {
 				travelers.add(new Traveler());
 			}
 		}
 
 		// If there are more Travelers than number of adults required by the HotelSearchParams, remove the extra Travelers,
 		// although, keep the first numAdults Travelers.
-		else if (numTravelers > numAdults) {
-			for (int i = numTravelers - 1; i >= numAdults; i--) {
+		else if (travelerSize > numTravelersNeeded) {
+			for (int i = travelerSize - 1; i >= numTravelersNeeded; i--) {
 				travelers.remove(i);
 			}
 		}
