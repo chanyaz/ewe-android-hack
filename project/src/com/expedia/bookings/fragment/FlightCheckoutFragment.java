@@ -46,6 +46,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.AccountButton;
@@ -511,41 +512,16 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 		TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
 		boolean isInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
+		ArrayList<String> travelerBoxLabels = TravelerUtils.generateTravelerBoxLabels(getActivity(), travelers);
 
-		int numAdultsAdded = 0;
-		int numChildrenAdded = 0;
-		int numInfantsInSeat = 0;
-		int numInfantsInLap = 0;
-		int sectionLabelId;
-		int displayNumber;
+		if (travelerBoxLabels.size() != travelers.size()) {
+			throw new RuntimeException("The traveler label list and traveler list are different sizes.");
+		}
 
-		for (int index = 0; index < numTravelers; index++) {
+		for (int index = 0; index < travelerBoxLabels.size(); index++) {
 			Traveler traveler = travelers.get(index);
-			PassengerCategory travelerPassengerCategory = traveler.getPassengerCategory();
-			switch (travelerPassengerCategory) {
-			case ADULT:
-			case SENIOR:
-				sectionLabelId = R.string.add_adult_number_TEMPLATE;
-				displayNumber = ++numAdultsAdded;
-				break;
-			case CHILD:
-			case ADULT_CHILD:
-				sectionLabelId = R.string.add_child_with_age_TEMPLATE;
-				displayNumber = traveler.getSearchedAge();
-				++numChildrenAdded;
-				break;
-			case INFANT_IN_LAP:
-				sectionLabelId = R.string.add_infant_in_lap_number_TEMPLATE;
-				displayNumber = ++numInfantsInLap;
-				break;
-			case INFANT_IN_SEAT:
-				sectionLabelId = R.string.add_infant_in_seat_number_TEMPLATE;
-				displayNumber = ++numInfantsInSeat;
-				break;
-			default:
-				throw new RuntimeException("Unidentified passenger category");
-			}
 
+			// If the traveler has complete data, display that.
 			if (traveler != null && state.allTravelerInfoValid(traveler, isInternational)) {
 				// The traveler has information, fill it in
 				// and ignore the sectionLabelId and display index
@@ -557,20 +533,13 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 				mTravelerContainer.addView(travelerSection);
 			}
-
 			// This traveler is likely blank, show the empty label, prompt user to fill in
 			else {
 				View v = inflater.inflate(R.layout.snippet_booking_overview_traveler, null);
 				dressSectionTraveler(v, index);
 
 				TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
-
-				if (numTravelers == 1) {
-					tv.setText(R.string.traveler_details);
-				}
-				else {
-					tv.setText(getString(sectionLabelId, displayNumber));
-				}
+				tv.setText(travelerBoxLabels.get(index));
 
 				// We need to add traveler sections for all passengers in order to best
 				// maintain matched indexing between travelers and their info sections
