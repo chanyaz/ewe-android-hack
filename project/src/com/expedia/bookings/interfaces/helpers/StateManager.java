@@ -11,6 +11,7 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.util.Pair;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -25,7 +26,7 @@ import com.mobiata.android.Log;
  */
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class StateManager<T> {
-	public static final int STATE_CHANGE_ANIMATION_DURATION = 300;
+	private static final int STATE_CHANGE_ANIMATION_DURATION = 300;
 
 	private IStateProvider<T> mProvider;
 	private ValueAnimator mAnimator;
@@ -226,14 +227,20 @@ public class StateManager<T> {
 	private ValueAnimator getTowardsStateAnimator(final T state, final IStateProvider<T> provider, int duration,
 		Interpolator interpolator) {
 		ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f).setDuration(duration);
+		final LooseLipsSinkShipsInterpolator wrappedInterpolator;
 		if (interpolator != null) {
-			animator.setInterpolator(interpolator);
+			wrappedInterpolator = new LooseLipsSinkShipsInterpolator(interpolator);
 		}
+		else {
+			wrappedInterpolator = new LooseLipsSinkShipsInterpolator(new AccelerateDecelerateInterpolator());
+		}
+		animator.setInterpolator(wrappedInterpolator);
 		animator.addUpdateListener(new AnimatorUpdateListener() {
 			@Override
 			public void onAnimationUpdate(ValueAnimator arg0) {
 				if (mAcceptAnimationUpdates) {
-					long remainingDuration = arg0.getDuration() - arg0.getCurrentPlayTime();
+					float totalDuration = arg0.getCurrentPlayTime() / wrappedInterpolator.getLastInput();
+					long remainingDuration = (long) (totalDuration - arg0.getCurrentPlayTime());
 
 					//Our animation percentage
 					mLastAnimPercentage = (Float) arg0.getAnimatedValue();
@@ -282,5 +289,24 @@ public class StateManager<T> {
 			}
 		});
 		return animator;
+	}
+
+	private static class LooseLipsSinkShipsInterpolator implements Interpolator {
+		private Interpolator mInterpolator;
+		private float mLastInput = 0.0f;
+
+		public LooseLipsSinkShipsInterpolator(Interpolator interpolator) {
+			mInterpolator = interpolator;
+		}
+
+		@Override
+		public float getInterpolation(float input) {
+			mLastInput = input;
+			return mInterpolator.getInterpolation(input);
+		}
+
+		public float getLastInput() {
+			return mLastInput;
+		}
 	}
 }
