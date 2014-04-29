@@ -234,9 +234,9 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 
 
 					Media media = property.getThumbnail();
-					final ImageView image = Ui.findView(v, R.id.hotel_thumbnail);
+					final ImageView imageView = Ui.findView(v, R.id.hotel_thumbnail);
 					if (media == null) {
-						image.setVisibility(View.GONE);
+						imageView.setVisibility(View.GONE);
 					}
 					else {
 						List<String> urls = media.getBestUrls(
@@ -245,7 +245,8 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 						for (String url : urls) {
 							bitmap = L2ImageCache.sGeneralPurpose.getImage(url, false);
 							if (bitmap != null) {
-								image.setImageBitmap(bitmap);
+								UrlBitmapDrawable bm = new UrlBitmapDrawable(getResources(), url);
+								bm.configureImageView(imageView);
 								break;
 							}
 						}
