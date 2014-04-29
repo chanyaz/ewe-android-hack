@@ -128,10 +128,14 @@ public class TravelerListGenerator {
 		// are more likely to be travelers we want to remove
 		// (i.e. they are less likely to have stored info
 		Collections.sort(mTravelerList, byPassengerCategory);
+		int numberRemoved = 0;
 		for (int i = mTravelerList.size() - 1; i > 0; i--) {
 			Traveler traveler = mTravelerList.get(i);
 			if (traveler.getPassengerCategory() == passengerCategory) {
 				mTravelerList.remove(traveler);
+				if (++numberRemoved == numberToRemove) {
+					break;
+				}
 			}
 		}
 	}

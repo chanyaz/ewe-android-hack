@@ -14,7 +14,6 @@ import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionTravelerInfo;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 public class TravelerButtonFragment extends LobableFragment {
@@ -32,6 +31,7 @@ public class TravelerButtonFragment extends LobableFragment {
 	private SectionTravelerInfo mSectionTraveler;
 	private ViewGroup mTravelerSectionContainer;
 	private ViewGroup mEmptyViewContainer;
+	private String mEmptyViewLabel;
 
 	private boolean mShowValidMarker = false;
 
@@ -173,10 +173,18 @@ public class TravelerButtonFragment extends LobableFragment {
 		return travSec;
 	}
 
+	public void setEmptyViewLabel(String label) {
+		mEmptyViewLabel = label;
+	}
+
+	public String getEmptyViewLabel() {
+		return mEmptyViewLabel;
+	}
+
 	public View addEmptyTravelerToLayout(ViewGroup group) {
 		View v = View.inflate(getActivity(), R.layout.snippet_booking_overview_traveler, group);
 		TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
-		tv.setText(R.string.Add_Traveler);
+		tv.setText(mEmptyViewLabel);
 		return v;
 	}
 

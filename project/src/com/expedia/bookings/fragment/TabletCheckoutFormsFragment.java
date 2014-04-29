@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -27,6 +28,7 @@ import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.fragment.CheckoutLoginButtonsFragment.IWalletButtonStateChangedListener;
@@ -45,6 +47,7 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.util.Ui;
 
@@ -423,6 +426,17 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	 * TRAVELER FORM STUFF
 	 */
 
+	private ArrayList<String> mTravelerBoxLabels;
+
+	private String getTravelerBoxLabelForIndex(int index) {
+		if (mTravelerBoxLabels == null) {
+			List<Traveler> travelers = Db.getTravelers();
+			//Collections.sort(travelers);
+			mTravelerBoxLabels = TravelerUtils.generateTravelerBoxLabels(getActivity(), Db.getTravelers());
+		}
+		return mTravelerBoxLabels.get(index);
+	}
+
 	protected void addTravelerView(final int travelerNumber) {
 
 		// Add the container to the layout (and make it actionable)
@@ -445,6 +459,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		if (btnFrag == null) {
 			btnFrag = TravelerButtonFragment.newInstance(getLob(), travelerNumber);
 		}
+		btnFrag.setEmptyViewLabel(getTravelerBoxLabelForIndex(travelerNumber));
 		btnFrag.enableShowValidMarker(true);
 		if (!btnFrag.isAdded()) {
 			FragmentTransaction transaction = manager.beginTransaction();
@@ -477,6 +492,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		}
 		if (viewNumber >= 0) {
 			mShowingViewIndex = viewNumber;
+			mTravelerForm.setHeaderText(getTravelerBoxLabelForIndex(travelerNumber));
 			mTravelerForm.bindToDb(travelerNumber);
 			setState(CheckoutFormState.EDIT_TRAVELER, true);
 		}

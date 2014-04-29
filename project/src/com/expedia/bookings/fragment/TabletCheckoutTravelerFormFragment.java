@@ -38,6 +38,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	private static final String STATE_TRAVELER_NUMBER = "STATE_TRAVELER_NUMBER";
 
 	private int mTravelerNumber = -1;
+	private String mHeaderString;
 	private SectionTravelerInfoTablet mSectionTraveler;
 	boolean mAttemptToLeaveMade = false;
 	private ICheckoutDataListener mListener;
@@ -80,7 +81,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		if (mSectionTraveler != null && travelerNumber >= 0 && travelerNumber < Db.getTravelers().size()) {
 			mSectionTraveler.bind(Db.getWorkingTravelerManager().getWorkingTraveler());
 
-			setHeadingText(getString(R.string.traveler_information_TEMPLATE, travelerNumber + 1));
+			setHeadingText(mHeaderString);
 			setHeadingButtonText(getString(R.string.done));
 			setHeadingButtonOnClick(mHeaderButtonClickListener);
 		}
@@ -270,6 +271,10 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 
 		formContainer.addView(mSectionTraveler);
 
+	}
+
+	public void setHeaderText(String headerString) {
+		mHeaderString = headerString;
 	}
 
 	@Override

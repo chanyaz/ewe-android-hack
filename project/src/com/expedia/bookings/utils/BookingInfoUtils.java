@@ -115,26 +115,27 @@ public class BookingInfoUtils {
 		int numTravelersNeeded;
 		if (lob == LineOfBusiness.FLIGHTS) {
 			numTravelersNeeded = Db.getFlightSearch().getSearchParams().getNumTravelers();
+			TravelerListGenerator gen = new TravelerListGenerator(Db.getFlightSearch().getSelectedFlightTrip().getPassengers(), travelers);
+			Db.setTravelers(gen.generateTravelerList());
 		}
 		else {
 			//Hotels currently always just has one traveler object
 			numTravelersNeeded = 1;
+			if (travelerSize < numTravelersNeeded) {
+				for (int i = travelerSize; i < numTravelersNeeded; i++) {
+					travelers.add(new Traveler());
+				}
+			}
+
+			// If there are more Travelers than number of adults required by the HotelSearchParams, remove the extra Travelers,
+			// although, keep the first numAdults Travelers.
+			else if (travelerSize > numTravelersNeeded) {
+				for (int i = travelerSize - 1; i >= numTravelersNeeded; i--) {
+					travelers.remove(i);
+				}
+			}
 		}
 		Log.d("BookingInfoUtils - populateTravelerData - travelers.size():" + travelerSize + " numTravelersNeeded:" + numTravelersNeeded);
-
-		if (travelerSize < numTravelersNeeded) {
-			for (int i = travelerSize; i < numTravelersNeeded; i++) {
-				travelers.add(new Traveler());
-			}
-		}
-
-		// If there are more Travelers than number of adults required by the HotelSearchParams, remove the extra Travelers,
-		// although, keep the first numAdults Travelers.
-		else if (travelerSize > numTravelersNeeded) {
-			for (int i = travelerSize - 1; i >= numTravelersNeeded; i--) {
-				travelers.remove(i);
-			}
-		}
 	}
 
 	/**
