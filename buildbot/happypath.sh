@@ -17,6 +17,7 @@ java \
     --apk  "$APK" \
     --test-apk "$TEST_APK" \
     --class-name com.expedia.bookings.test.tests.tablet.TabletHappyPath \
+    --method-name testBookHotel \
     --no-animations \
     --fail-on-failure \
     --output "$OUTPUT_DIR"
