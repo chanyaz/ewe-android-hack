@@ -11,10 +11,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ChildTraveler;
-import com.expedia.bookings.widget.RingedCountView;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -27,11 +27,12 @@ public class ResultsGuestPicker extends Fragment {
 	private static final String STATE_CHILDREN = "STATE_CHILDREN";
 
 	public static final int MAX_ADULTS = 6;
-	public static final int MAX_CHILDREN = 6;
+	public static final int MAX_CHILDREN = 5;
+	public static final int MAX_TRAVELERS = 6;
 
 	private ViewGroup mRootC;
-	private RingedCountView mAdultRing;
-	private RingedCountView mChildRing;
+	private TextView mAdultText;
+	private TextView mChildText;
 	private View mAdultMinus;
 	private View mAdultPlus;
 	private View mChildMinus;
@@ -63,11 +64,11 @@ public class ResultsGuestPicker extends Fragment {
 		}
 
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_results_guests, null);
-		mAdultRing = Ui.findView(mRootC, R.id.adults_ring);
+		mAdultText = Ui.findView(mRootC, R.id.adult_count_text);
 		mAdultMinus = Ui.findView(mRootC, R.id.adults_minus);
 		mAdultPlus = Ui.findView(mRootC, R.id.adults_plus);
 
-		mChildRing = Ui.findView(mRootC, R.id.children_ring);
+		mChildText = Ui.findView(mRootC, R.id.child_count_text);
 		mChildMinus = Ui.findView(mRootC, R.id.children_minus);
 		mChildPlus = Ui.findView(mRootC, R.id.children_plus);
 
@@ -128,8 +129,12 @@ public class ResultsGuestPicker extends Fragment {
 		}
 	}
 
+	public boolean canAddAnotherTraveler() {
+		return mAdultCount + mChildren.size() < MAX_TRAVELERS;
+	}
+
 	public void addAdult() {
-		if (mAdultCount < MAX_ADULTS) {
+		if (mAdultCount < MAX_ADULTS && canAddAnotherTraveler()) {
 			mAdultCount++;
 			mListener.onGuestsChanged(mAdultCount, mChildren);
 			bind();
@@ -145,7 +150,7 @@ public class ResultsGuestPicker extends Fragment {
 	}
 
 	public void addChild(int age) {
-		if (mChildren.size() < MAX_CHILDREN) {
+		if (mChildren.size() < MAX_CHILDREN && canAddAnotherTraveler()) {
 			mChildren.add(new ChildTraveler(age, false));
 			mListener.onGuestsChanged(mAdultCount, mChildren);
 			bind();
@@ -162,13 +167,8 @@ public class ResultsGuestPicker extends Fragment {
 
 	public void bind() {
 		if (mRootC != null) {
-			mAdultRing.setCaption(
-				getResources().getQuantityString(R.plurals.number_of_adults_TEMPLATE, mAdultCount, mAdultCount));
-			mAdultRing.animateTo(mAdultCount, mAdultCount / (float) MAX_ADULTS);
-
-			mChildRing.setCaption(
-				getResources().getQuantityString(R.plurals.number_of_children, mChildren.size(), mChildren.size()));
-			mChildRing.animateTo(mChildren.size(), mChildren.size() / (float) MAX_CHILDREN);
+			mAdultText.setText(getResources().getQuantityString(R.plurals.number_of_adults, mAdultCount, mAdultCount));
+			mChildText.setText(getResources().getQuantityString(R.plurals.number_of_children, mChildren.size(), mChildren.size()));
 		}
 	}
 

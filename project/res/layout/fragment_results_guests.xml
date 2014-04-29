@@ -23,27 +23,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="96dp"
+                android:textSize="32dp"
                 android:textColor="#3F3F3F"
                 android:layout_weight="1"
                 android:text="-" />
 
-            <com.expedia.bookings.widget.RingedCountView
-                android:id="@+id/adults_ring"
-                android:layout_width="128dp"
-                android:layout_height="128dp"
-                android:layout_weight="0"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                app:backgroundColor="#6F6F6F"
-                app:countTextColor="#ffffff"
-                app:captionTextColor="#ffffff"
-                app:primaryColor="#0FCFCF"
-                app:secondaryColor="#3f3f3f"
-                app:captionTextSize="14sp"
-                app:countTextSize="36sp"
-                app:ringThickness="8dp"
-                 />
+            <TextView
+                android:id="@+id/adult_count_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24dp" />
 
             <TextView
                 android:id="@+id/adults_plus"
@@ -52,7 +41,7 @@
                 android:gravity="center"
                 android:layout_weight="1"
                 android:textColor="#3F3F3F"
-                android:textSize="64dp"
+                android:textSize="32dp"
                 android:text="+" />
         </LinearLayout>
 
@@ -68,27 +57,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="96dp"
+                android:textSize="32dp"
                 android:textColor="#3F3F3F"
                 android:layout_weight="1"
                 android:text="-" />
 
-            <com.expedia.bookings.widget.RingedCountView
-                android:id="@+id/children_ring"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                android:layout_weight="0"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                app:backgroundColor="#6F6F6F"
-                app:countTextColor="#ffffff"
-                app:captionTextColor="#ffffff"
-                app:primaryColor="#0FCFCF"
-                app:secondaryColor="#3f3f3f"
-                app:ringThickness="6dp"
-                app:captionTextSize="12sp"
-                app:countTextSize="32sp"
-                 />
+            <TextView
+                android:id="@+id/child_count_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24dp"/>
 
             <TextView
                 android:id="@+id/children_plus"
@@ -97,7 +75,7 @@
                 android:gravity="center"
                 android:layout_weight="1"
                 android:textColor="#3F3F3F"
-                android:textSize="64dp"
+                android:textSize="32dp"
                 android:text="+" />
         </LinearLayout>
     </LinearLayout>
