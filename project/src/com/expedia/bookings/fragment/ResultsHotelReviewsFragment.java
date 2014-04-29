@@ -20,7 +20,6 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.ColorAvgUtils;
 import com.expedia.bookings.bitmaps.ColorScheme;
@@ -31,7 +30,6 @@ import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.fragment.UserReviewsFragment;
 import com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsFragmentListener;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsBackClickedListener;
@@ -189,6 +187,7 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 
 	public void onHotelSelected() {
 		bind(Db.getHotelSearch().getSelectedProperty());
+		mViewPager.setCurrentItem(0);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
