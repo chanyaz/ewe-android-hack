@@ -27,8 +27,8 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
 public class Checkout {
-	public static void clickOnAddTraveler() {
-		onView(withText("Add Traveler")).perform(click());
+	public static void clickOnTravelerDetails() {
+		onView(withText("Traveler details")).perform(click());
 	}
 
 	public static ViewInteraction firstName() {

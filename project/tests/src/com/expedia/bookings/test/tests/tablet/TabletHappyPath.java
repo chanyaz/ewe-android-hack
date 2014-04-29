@@ -50,7 +50,7 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 		Results.clickAddHotel();
 		Results.clickBookHotel();
 
-		Checkout.clickOnAddTraveler();
+		Checkout.clickOnTravelerDetails();
 		Checkout.enterFirstName("Mobiata");
 		Checkout.enterLastName("Auto");
 		Checkout.enterPhoneNumber("1112223333");
