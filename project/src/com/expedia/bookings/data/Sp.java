@@ -1,6 +1,13 @@
 package com.expedia.bookings.data;
 
+import org.json.JSONObject;
+
+import android.content.Context;
+import android.content.Intent;
+
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.IoUtils;
 import com.squareup.otto.Bus;
 
 /**
@@ -50,5 +57,44 @@ public class Sp {
 
 	private Sp() {
 
+	}
+
+	/**
+	 * SAVING AND RESTORING LOGIC. THIS LARGELY MIMICS Db.saveOrLoadDbForTesting.
+	 */
+	private static final String SP_TESTING_FILE_NAME = "sp_testing.json";
+
+	public static void saveOrLoadForTesting(android.app.Activity activity) {
+		if (AndroidUtils.isRelease(activity)) {
+			throw new RuntimeException("You may not call saveOrLoadForTesting on release builds");
+		}
+
+		Intent intent = activity.getIntent();
+		if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_MAIN)) {
+			loadFromDisk(activity, SP_TESTING_FILE_NAME);
+		}
+		else {
+			saveToDisk(activity, SP_TESTING_FILE_NAME);
+		}
+	}
+
+	private static void loadFromDisk(Context context, String fileName) {
+		try {
+			SearchParams params = new SearchParams();
+			params.fromJson(new JSONObject(IoUtils.readStringFromFile(fileName, context)));
+			setParams(params, false);
+		}
+		catch (Exception ex) {
+			Log.e("Exception reading Sp testing data from disk", ex);
+		}
+	}
+
+	private static void saveToDisk(Context context, String fileName) {
+		try {
+			IoUtils.writeStringToFile(fileName, getParams().toJson().toString(), context);
+		}
+		catch (Exception ex) {
+			Log.e("Exception writing Sp testing data to disk.", ex);
+		}
 	}
 }
