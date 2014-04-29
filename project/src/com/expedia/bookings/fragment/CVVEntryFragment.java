@@ -146,20 +146,25 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 			billingInfo = JSONUtils.getJSONable(getArguments(), ARG_BILLING_INFO, BillingInfo.class);
 		}
 
-		StoredCreditCard cc = billingInfo.getStoredCard();
-
-		String personName = "";
-		String cardName = "";
 		CreditCardType cardType = getCurrentCCType();
-		String cardNumber = billingInfo.getNumber();
-		if (cc != null) {
+
+		String personName, cardNumber, cardName;
+		if (billingInfo.getStoredCard() != null) {
+			StoredCreditCard storedCard = billingInfo.getStoredCard();
 			Traveler traveler = Db.getTravelers().get(0);
 			personName = traveler.getFirstName() + " " + traveler.getLastName();
-			cardName = cc.getDescription();
+			cardNumber = storedCard.getCardNumber();
+			cardName = storedCard.getDescription();
 		}
 		else if (billingInfo.getNumber() != null && billingInfo.getNumber().length() >= 4) {
 			personName = billingInfo.getNameOnCard();
+			cardNumber = billingInfo.getNumber();
 			cardName = getString(R.string.card_ending_TEMPLATE, cardNumber.substring(cardNumber.length() - 4));
+		}
+		else {
+			personName = null;
+			cardName = null;
+			cardNumber = null;
 		}
 
 		resetCVVText();

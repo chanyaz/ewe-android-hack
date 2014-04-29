@@ -12,6 +12,7 @@ public class StoredCreditCard implements JSONable {
 	private CreditCardType mType;
 	private String mDescription;
 	private String mRemoteId;
+	private String mCardNumber;
 
 	private boolean mIsGoogleWallet;
 
@@ -41,6 +42,18 @@ public class StoredCreditCard implements JSONable {
 
 	public String getDescription() {
 		return mDescription;
+	}
+
+	public void setCardNumber(String number) {
+		mCardNumber = number;
+	}
+
+	/**
+	 * TODO: this will always return null until the API gives us this information.
+	 * @return
+	 */
+	public String getCardNumber() {
+		return mCardNumber;
 	}
 
 	public void setIsGoogleWallet(boolean isGoogleWallet) {
