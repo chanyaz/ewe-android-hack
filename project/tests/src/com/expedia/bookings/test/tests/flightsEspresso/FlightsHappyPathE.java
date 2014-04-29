@@ -62,9 +62,8 @@ public class FlightsHappyPathE {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(cal.YEAR);
 		int month = cal.get(cal.MONTH) + 1;
-		int date = cal.get(cal.DATE);
-		LocalDate mStartDate = new LocalDate(year, month, date + 1);
-		LocalDate mEndDate = new LocalDate(year, month, date + 2);
+		LocalDate mStartDate = new LocalDate(year, month, 5);
+		LocalDate mEndDate = new LocalDate(year, month, 10);
 		ScreenActions.enterLog(TAG, "Selecting date with start,end dates: " + mStartDate.dayOfMonth() + "," + mEndDate.getDayOfMonth());
 		FlightsSearchScreen.clickDate(mStartDate, mEndDate);
 		ScreenActions.enterLog(TAG, "Click search button");

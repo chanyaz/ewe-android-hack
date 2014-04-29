@@ -54,16 +54,15 @@ public class HotelsHappyPathE {
 		HotelsSearchScreen.clickToClearSearchEditText();
 		ScreenActions.enterLog(TAG, "Setting hotel search city to: " + "New York, NY");
 		ScreenActions.enterLog(TAG, "HERE entering text");
-		HotelsSearchScreen.enterSearchText("New York,NY");
+		HotelsSearchScreen.enterSearchText("New York, NY");
 
 		ScreenActions.enterLog(TAG, "HERE clicking suggestion");
 		onView(withText("New York, NY")).inRoot(withDecorView(not(is(activity.getWindow().getDecorView())))).perform(click());
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(cal.YEAR);
 		int month = cal.get(cal.MONTH) + 1;
-		int date = cal.get(cal.DATE);
-		LocalDate mStartDate = new LocalDate(year, month, date + 1);
-		LocalDate mEndDate = new LocalDate(year, month, date + 2);
+		LocalDate mStartDate = new LocalDate(year, month, 5);
+		LocalDate mEndDate = new LocalDate(year, month, 10);
 		HotelsSearchScreen.clickOnCalendarButton();
 		HotelsSearchScreen.clickDate(mStartDate, mEndDate);
 

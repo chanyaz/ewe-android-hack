@@ -77,9 +77,8 @@ public class HotelsCheckoutNonMerchant extends ActivityInstrumentationTestCase2<
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(cal.YEAR);
 		int month = cal.get(cal.MONTH) + 1;
-		int date = cal.get(cal.DATE);
-		LocalDate mStartDate = new LocalDate(year, month, date + 1);
-		LocalDate mEndDate = new LocalDate(year, month, date + 2);
+		LocalDate mStartDate = new LocalDate(year, month, 5);
+		LocalDate mEndDate = new LocalDate(year, month, 10);
 		HotelsSearchScreen.clickOnCalendarButton();
 		HotelsSearchScreen.clickDate(mStartDate, mEndDate);
 
