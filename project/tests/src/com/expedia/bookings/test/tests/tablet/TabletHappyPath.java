@@ -1,5 +1,9 @@
 package com.expedia.bookings.test.tests.tablet;
 
+
+import org.joda.time.LocalDate;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 
@@ -70,6 +74,29 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 		Checkout.clickBookButton();
 
 		Checkout.clickDoneBooking();
+	}
+
+	public void testBookFlight() throws InterruptedException {
+		Launch.clickSearchButton();
+		Launch.clickDestinationEditText();
+		Launch.typeInDestinationEditText("Detroit, MI");
+		Launch.clickSuggestion("Detroit, MI");
+
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		Results.clickDate(startDate, null);
+		Results.clickSearchNow();
+		Results.swipeUpFlightList();
+		Results.clickFlightAtIndex(1);
+		Results.clickAddFlight();
+		Results.clickBookFlight();
+
+		Checkout.clickOnTravelerDetails();
+		Checkout.enterFirstName("Mobiata");
+		Checkout.enterLastName("Auto");
+		Checkout.enterPhoneNumber("1112223333");
+		Checkout.enterEmailAddress("aaa@aaa.com");
+		Checkout.enterDateOfBirth(1, 1, 1970);
+		Checkout.clickOnDone();
 	}
 
 	@Override

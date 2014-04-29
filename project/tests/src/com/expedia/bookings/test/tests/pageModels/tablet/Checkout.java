@@ -5,6 +5,7 @@ import com.expedia.bookings.data.Property;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 import com.google.android.apps.common.testing.ui.espresso.matcher.BoundedMatcher;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
@@ -12,6 +13,7 @@ import static com.expedia.bookings.test.utils.EspressoUtils.swipeRight;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
@@ -44,7 +46,27 @@ public class Checkout {
 	}
 
 	public static ViewInteraction emailAddress() {
-		return onView(withId(R.id.edit_email_address));
+		return onView(allOf(withId(R.id.edit_email_address), isDisplayed()));
+	}
+
+	public static ViewInteraction dateOfBirth() {
+		return onView(withId(R.id.edit_birth_date_text_btn));
+	}
+
+	public static ViewInteraction address1() {
+		return onView(withId(R.id.edit_address_line_one));
+	}
+
+	public static ViewInteraction address2() {
+		return onView(withId(R.id.edit_address_line_two));
+	}
+
+	public static ViewInteraction addressCity() {
+		return onView(withId(R.id.edit_address_city));
+	}
+
+	public static ViewInteraction addressState() {
+		return onView(withId(R.id.edit_address_state));
 	}
 
 	public static void enterFirstName(String text) {
@@ -67,6 +89,12 @@ public class Checkout {
 		emailAddress().perform(typeText(text));
 	}
 
+	public static void enterDateOfBirth(int year, int month, int day) {
+		//TODO: use year/month/day
+		dateOfBirth().perform(click());
+		onView(withText("Done")).perform(click());
+	}
+
 	public static void clickOnEnterPaymentInformation() {
 		onView(withText("Enter payment information")).perform(click());
 	}
@@ -81,6 +109,21 @@ public class Checkout {
 
 	public static ViewInteraction postalCode() {
 		return onView(withId(R.id.edit_address_postal_code));
+	}
+
+	public static void enterAddress1(String text) {
+		address1().perform(click());
+		address1().perform(typeText(text));
+	}
+
+	public static void enterAddress2(String text) {
+		address2().perform(click());
+		address2().perform(typeText(text));
+	}
+
+	public static void enterCity(String text) {
+		addressCity().perform(click());
+		addressCity().perform(typeText(text));
 	}
 
 	public static void enterCreditCardNumber(String text) {
@@ -101,7 +144,7 @@ public class Checkout {
 	}
 
 	public static void enterPostalCode(String text) {
-		postalCode().perform(click());
+		postalCode().perform(scrollTo(), click());
 		postalCode().perform(typeText(text));
 	}
 

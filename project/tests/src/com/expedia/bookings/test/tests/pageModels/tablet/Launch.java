@@ -1,14 +1,11 @@
 package com.expedia.bookings.test.tests.pageModels.tablet;
 
-import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
-import com.mobiata.android.time.widget.CalendarPicker;
 import com.mobiata.android.util.Ui;
 
-import static com.expedia.bookings.test.utils.ViewActions.clickDates;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
@@ -33,10 +30,6 @@ public class Launch {
 		return onView(withId(R.id.waypoint_edit_text));
 	}
 
-	public static ViewInteraction calendarPicker() {
-		return onView(withId(R.id.calendar_picker));
-	}
-
 	// Object interaction
 
 	public static void clickSearchButton() {
@@ -59,7 +52,4 @@ public class Launch {
 		onData(allOf(is(instanceOf(String.class)), equalTo(text))).usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()).perform(click());
 	}
 
-	public static void clickDate(final LocalDate start, final LocalDate end) {
-		calendarPicker().perform(clickDates(start, end));
-	}
 }
