@@ -661,8 +661,10 @@ public class L2ImageCache {
 	private static void handleMemCacheEviction(boolean evicted, Bitmap oldValue, Bitmap newValue) {
 		// Explicitly recycle the bitmap if it's been evicted or replaced;
 		// older Android phones need the push.
-		if (evicted || newValue != null) {
-			oldValue.recycle();
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+			if (evicted || newValue != null) {
+				oldValue.recycle();
+			}
 		}
 	}
 
