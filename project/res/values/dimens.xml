@@ -44,6 +44,7 @@
     <dimen name="cvv_text_view_right_margin_other">82dp</dimen>
     <dimen name="cvv_text_view_top_margin_amex">-10dp</dimen>
     <dimen name="cvv_text_view_top_margin_other">-15dp</dimen>
+    <dimen name="tablet_checkout_form_autocomplete_width">256dp</dimen>
 
     <!-- Launch dimens -->
     <dimen name="launch_tile_space_width">2dp</dimen>

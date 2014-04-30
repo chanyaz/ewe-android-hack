@@ -19,6 +19,7 @@ We have moved this because some Locales (Japan) prefer different name orders
             android:focusableInTouchMode="true"
             android:hint="@string/last_name"
             android:inputType="textPersonName|textCapWords"
+            android:dropDownWidth="@dimen/tablet_checkout_form_autocomplete_width"
             android:nextFocusDown="@+id/edit_middle_name"
             android:nextFocusRight="@+id/edit_middle_name"
             android:paddingBottom="12dp"
