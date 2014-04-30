@@ -16,6 +16,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
@@ -58,8 +59,12 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		Db.saveOrLoadDbForTesting(this);
+		Sp.saveOrLoadForTesting(this);
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tablet_checkout);
+
 
 		// Loading checkout data and blocking. this is disk i/o but we need the data loaded at this
 		// point due to how the code is structured.
@@ -135,6 +140,17 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 			}
 
 			// ActionBar title
+			ActionBar ab = getActionBar();
+			ab.setDisplayShowTitleEnabled(true);
+			ab.setTitle(getString(R.string.Checkout));
+		}else if(!AndroidUtils.isRelease(this)){
+			//TODO: This is only here so we can launch to this activity, this else if block can be deleted prior to release
+			if(Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null) {
+				mFragCheckoutController.setLob(LineOfBusiness.FLIGHTS);
+			}else{
+				mFragCheckoutController.setLob(LineOfBusiness.HOTELS);
+			}
+
 			ActionBar ab = getActionBar();
 			ab.setDisplayShowTitleEnabled(true);
 			ab.setTitle(getString(R.string.Checkout));
