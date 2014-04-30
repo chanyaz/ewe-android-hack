@@ -19,6 +19,10 @@
     <dimen name="hotel_details_window_margin_x">90dp</dimen>
     <dimen name="hotel_details_window_margin_y">64dp</dimen>
     <dimen name="hotel_header_height">172dp</dimen>
+    <dimen name="hotel_details_callout_text_margin_x">12dp</dimen>
+    <dimen name="hotel_details_callout_text_margin_y">12dp</dimen>
+    <dimen name="hotel_details_callout_text_padding_x">12dp</dimen>
+    <dimen name="hotel_details_callout_text_padding_y">5dp</dimen>
 
     <!-- Tablet Flights -->
     <dimen name="flight_header_bottom_margin">140dp</dimen>
