@@ -12,8 +12,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -55,8 +53,8 @@ import com.expedia.bookings.fragment.ConfirmItinRemoveDialogFragment;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
-import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.TravelerIconUtils;
 import com.expedia.bookings.widget.LinearLayout;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
@@ -231,61 +229,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	}
 
 	private Bitmap fetchIconBitmap(String displayName) {
-
-		String name = getInitialsFromDisplayName(displayName);
-
-		float density = mContext.getResources().getDisplayMetrics().density;
-		int size = (int) (62 * density);
-		Bitmap iconBmp = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-		Canvas canvas = new Canvas(iconBmp);
-
-		Paint iconBgPaint = new Paint();
-		iconBgPaint.setStyle(Paint.Style.FILL);
-		iconBgPaint.setAntiAlias(true);
-
-		Paint bgPaintWhite = new Paint();
-		bgPaintWhite.setStyle(Paint.Style.FILL);
-		bgPaintWhite.setColor(0xffffffff);
-		bgPaintWhite.setAntiAlias(true);
-
-		Paint txtPaint = new Paint();
-		txtPaint.setStyle(Paint.Style.FILL);
-		txtPaint.setTextAlign(Paint.Align.CENTER);
-		txtPaint.setAntiAlias(true);
-		// Fetch appropriate background color to paint in the icon.
-		iconBgPaint.setColor(getSharedItinIconBackground());
-		txtPaint.setColor(0xFFFFFFFF);
-		txtPaint.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
-		txtPaint.setTextSize(32 * density);
-
-		float textHeight = txtPaint.descent() - txtPaint.ascent();
-		float textOffset = (textHeight / 2) - txtPaint.descent();
-
-		int borderWidth = (int) (2.5 * density);
-		canvas.drawCircle(size / 2, size / 2, size / 2, bgPaintWhite);
-		canvas.drawCircle(size / 2, size / 2, size / 2 - borderWidth, iconBgPaint);
-		canvas.drawText(name, size / 2, (size / 2) + (textOffset), txtPaint);
-		return iconBmp;
-	}
-
-	/**
-	 * @param displayName Full name of the traveler
-	 * @return 2 character string, which are the 1st letter of firstname and lastname.
-	 * In case where displayName has only one name, then just return 1 character.
-	 */
-	private String getInitialsFromDisplayName(String displayName) {
-		String[] nameParts = displayName.split(" ");
-		if (nameParts.length == 1) {
-			return nameParts[0].substring(0, 1).toUpperCase(Locale.getDefault());
-		}
-		else if (nameParts.length == 2) {
-			return (nameParts[0].substring(0, 1) + nameParts[1].substring(0, 1)).toUpperCase(Locale.getDefault());
-		}
-		else if (nameParts.length == 3) {
-			return (nameParts[0].substring(0, 1) + nameParts[2].substring(0, 1)).toUpperCase(Locale.getDefault());
-		}
-
-		return null;
+		return TravelerIconUtils.generateCircularInitialIcon(mContext, displayName, getSharedItinIconBackground());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
