@@ -11,8 +11,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.CVVEntryScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.CardInfoScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.common.CommonTravelerInformationScreen;
+import com.expedia.bookings.test.tests.pageModelsEspresso.common.CommonPaymentMethodScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.LaunchScreen;
+import com.expedia.bookings.test.tests.pageModelsEspresso.common.LogInScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsCheckoutScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsConfirmationScreen;
@@ -103,8 +104,23 @@ public class HotelsCheckoutNonMerchant extends ActivityInstrumentationTestCase2<
 		// Checkout
 		HotelsCheckoutScreen.clickCheckoutButton();
 
-		// Select payment as guest user
+		// Log in
+		HotelsCheckoutScreen.clickLogInButton();
+		LogInScreen.typeTextEmailEditText(mUser.getLoginEmail());
+		LogInScreen.typeTextPasswordEditText(mUser.getLoginPassword());
+		LogInScreen.clickOnLoginButton();
+
+		// Enter payment as logged in user
 		HotelsCheckoutScreen.clickSelectPaymentButton();
+		ScreenActions.enterLog(TAG, "Using new credit card");
+		try {
+			CommonPaymentMethodScreen.clickOnAddNewCardTextView();
+		}
+		catch (Exception e) {
+			ScreenActions.enterLog(TAG, "No Add New Card button. Proceeding anyway.");
+		}
+
+		// Select payment as guest user
 		CardInfoScreen.typeTextCreditCardEditText(mUser.getCreditCardNumber());
 		CardInfoScreen.clickOnExpirationDateButton();
 		ScreenActions.enterLog(TAG, "Incrementing credit card exp. month and year by 1");
@@ -116,18 +132,7 @@ public class HotelsCheckoutNonMerchant extends ActivityInstrumentationTestCase2<
 		ScreenActions.enterLog(TAG, "Entering cardholder name: " + mUser.getFirstName() + " " + mUser.getLastName());
 		CardInfoScreen.typeTextNameOnCardEditText(mUser.getFirstName() + " " + mUser.getLastName());
 		CardInfoScreen.clickOnDoneButton();
-
-		// Manually add traveler
-		onView(withText("Guest details")).perform(click());
-		HotelsCheckoutScreen.clickAddTravelerButton();
-		ScreenActions.enterLog(TAG, "Entering first name: " + mUser.getFirstName());
-		CommonTravelerInformationScreen.enterFirstName(mUser.getFirstName());
-		ScreenActions.enterLog(TAG, "Entering last name: " + mUser.getLastName());
-		CommonTravelerInformationScreen.enterLastName(mUser.getLastName());
-		ScreenActions.enterLog(TAG, "Entering phone number: " + mUser.getPhoneNumber());
-		CommonTravelerInformationScreen.enterPhoneNumber(mUser.getPhoneNumber());
-		CommonTravelerInformationScreen.enterEmailAddress(mUser.getLoginEmail());
-		CommonTravelerInformationScreen.clickDoneButton();
+		CardInfoScreen.clickNoThanksButton();
 
 		//Slide to purchase
 		ScreenActions.enterLog(TAG, "Sliding to checkout");
