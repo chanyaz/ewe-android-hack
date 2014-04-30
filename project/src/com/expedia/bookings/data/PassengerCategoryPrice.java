@@ -1,15 +1,25 @@
 package com.expedia.bookings.data;
 
-import com.expedia.bookings.enums.PassengerCategory;
+import org.json.JSONObject;
 
-public class PassengerCategoryPrice implements Comparable<PassengerCategoryPrice> {
+import com.expedia.bookings.enums.PassengerCategory;
+import com.mobiata.android.Log;
+import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.json.JSONable;
+
+public class PassengerCategoryPrice implements Comparable<PassengerCategoryPrice>, JSONable {
 
 	private PassengerCategory mPassengerCategory;
 	private Money mTotalPrice;
 	private Money mBasePrice;
 	private Money mTaxesPrice;
 
-	public PassengerCategoryPrice(PassengerCategory passengerCategory, Money totalPrice, Money basePrice, Money taxesPrice) {
+	public PassengerCategoryPrice(){
+		//Default constructor, required by some of our JSONUtils functions
+	}
+
+	public PassengerCategoryPrice(PassengerCategory passengerCategory, Money totalPrice, Money basePrice,
+		Money taxesPrice) {
 		mPassengerCategory = passengerCategory;
 		mTotalPrice = totalPrice;
 		mBasePrice = basePrice;
@@ -46,4 +56,43 @@ public class PassengerCategoryPrice implements Comparable<PassengerCategoryPrice
 		return mPassengerCategory.compareTo(another.getPassengerCategory());
 	}
 
+
+	///////////////////////////////////////////////////////////////////////////
+	// JSONable
+
+	private static final String JSON_PASSENGER_CATEGORY = "JSON_PASSENGER_CATEGORY";
+	private static final String JSON_TOTAL_PRICE = "JSON_TOTAL_PRICE";
+	private static final String JSON_BASE_PRICE = "JSON_BASE_PRICE";
+	private static final String JSON_TAXES = "JSON_TAXES";
+
+	@Override
+	public JSONObject toJson() {
+		JSONObject obj = new JSONObject();
+		try {
+			JSONUtils.putEnum(obj, JSON_PASSENGER_CATEGORY, mPassengerCategory);
+			JSONUtils.putJSONable(obj, JSON_BASE_PRICE, mBasePrice);
+			JSONUtils.putJSONable(obj, JSON_TOTAL_PRICE, mTotalPrice);
+			JSONUtils.putJSONable(obj, JSON_TAXES, mTaxesPrice);
+			return obj;
+		}
+		catch (Exception ex) {
+			Log.e("Exception in PassengerCategoryPrice.toJson", ex);
+		}
+		return null;
+	}
+
+	@Override
+	public boolean fromJson(JSONObject obj) {
+		try {
+			mPassengerCategory = JSONUtils.getEnum(obj, JSON_PASSENGER_CATEGORY, PassengerCategory.class);
+			mBasePrice = JSONUtils.getJSONable(obj, JSON_BASE_PRICE, Money.class);
+			mTotalPrice = JSONUtils.getJSONable(obj, JSON_TOTAL_PRICE, Money.class);
+			mTaxesPrice = JSONUtils.getJSONable(obj, JSON_TAXES, Money.class);
+			return true;
+		}
+		catch (Exception ex) {
+			Log.e("Exception in PassengerCategoryPrice.fromJson", ex);
+		}
+		return false;
+	}
 }

@@ -62,7 +62,7 @@ public class FlightTrip implements JSONable {
 	 * only on price. This price difference can be attributed to the fare including baggage fees or not including baggage
 	 * fees. In the client we want to denote this difference to make it obvious to our users why there are essentially
 	 * duplicate FlightTrips in the list that have different prices.
-	 *
+	 * <p/>
 	 * Note: hasBagFee denotes that there is a bag fee that must be paid that is not included in the fare.
 	 * The mutually exclusive counterpart to hasBagFee is hasNoBagFee which denotes that the bag fee is already included
 	 * in the fare total. We don't use hasNoBagFee yet. Apparently Expedia backend is super whack and is set up to support the
@@ -70,7 +70,6 @@ public class FlightTrip implements JSONable {
 	 * norm being that baggage fee is included, and (2) explicitly call out that the baggage fee IS included, norm being
 	 * the baggage fee is NOT included. I guess Expedia backend is all-knowing and barks out orders on which type of
 	 * message we have to display. Hell, it might obscure some silly POS logic or something for all I know.
-	 *
 	 */
 	private boolean mHasBagFee;
 
@@ -194,6 +193,7 @@ public class FlightTrip implements JSONable {
 	/**
 	 * This method calculates the card fee based upon looking at the ValidPayments (and their associated fees) and also
 	 * the selected card from the given BillingInfo.
+	 *
 	 * @param billingInfo
 	 * @return cardFee as Money or null if no card fee
 	 */
@@ -247,7 +247,8 @@ public class FlightTrip implements JSONable {
 	 * Whether or not we show total fare with the card fee has some mildly complicated logic. We explicitly set that
 	 * the fare should be shown with card fee based upon (a) the user has a valid card selected in the billingInfo and
 	 * (b) if the user has visited the "checkout" screen (which we store in mShowFareWithCardFee).
-	 * @param context - context required to inflate the FlowState and validate the credit card
+	 *
+	 * @param context     - context required to inflate the FlowState and validate the credit card
 	 * @param billingInfo
 	 * @return
 	 */
@@ -395,6 +396,7 @@ public class FlightTrip implements JSONable {
 
 	/**
 	 * Does the trip contain any segments which cross into a different country?
+	 *
 	 * @return true if we cross an international border sometime in this trip
 	 */
 	public boolean isInternational() {
@@ -404,8 +406,8 @@ public class FlightTrip implements JSONable {
 			for (FlightLeg leg : mLegs) {
 				for (Flight flight : leg.getSegments()) {
 					if (flight.mDestination != null && flight.mDestination.getAirport() != null
-							&& flight.mDestination.getAirport().mCountryCode != null
-							&& !flight.mDestination.getAirport().mCountryCode.equalsIgnoreCase(countryCode)) {
+						&& flight.mDestination.getAirport().mCountryCode != null
+						&& !flight.mDestination.getAirport().mCountryCode.equalsIgnoreCase(countryCode)) {
 						//Country codes don't match so we consider the flight to be international
 						retVal = true;
 						break;
@@ -421,6 +423,7 @@ public class FlightTrip implements JSONable {
 
 	/**
 	 * Does this FlightTrip pass through the country supplied via the countryCode param
+	 *
 	 * @param countryCode - The country code as it will be found in a an airport object. Typically two letters like: "US"
 	 * @return
 	 */
@@ -437,8 +440,8 @@ public class FlightTrip implements JSONable {
 
 				for (Flight flight : leg.getSegments()) {
 					if (flight.mDestination != null && flight.mDestination.getAirport() != null
-							&& flight.mDestination.getAirport().mCountryCode != null
-							&& flight.mDestination.getAirport().mCountryCode.equalsIgnoreCase(countryCode)) {
+						&& flight.mDestination.getAirport().mCountryCode != null
+						&& flight.mDestination.getAirport().mCountryCode.equalsIgnoreCase(countryCode)) {
 						retVal = true;
 						break;
 					}
@@ -697,6 +700,7 @@ public class FlightTrip implements JSONable {
 	private static final String KEY_RULES = "s";
 	private static final String KEY_CURRENCY = "t";
 	private static final String KEY_VALID_PAYMENTS = "u";
+	private static final String KEY_PASSENGERS = "v";
 
 	@Override
 	public JSONObject toJson() {
@@ -761,6 +765,10 @@ public class FlightTrip implements JSONable {
 
 			if (mRules != null) {
 				JSONUtils.putJSONableList(obj, KEY_RULES, new ArrayList<Rule>(mRules.values()));
+			}
+
+			if (mPassengers != null) {
+				JSONUtils.putJSONableList(obj, KEY_PASSENGERS, mPassengers);
 			}
 
 			return obj;
@@ -832,7 +840,7 @@ public class FlightTrip implements JSONable {
 			initFlightSegmentAttributes(arr.length());
 			for (int a = 0; a < arr.length(); a++) {
 				List<FlightSegmentAttributes> attrs = JSONUtils.getJSONableList(arr, a,
-						FlightSegmentAttributes.class);
+					FlightSegmentAttributes.class);
 				mFlightSegmentAttrs[a] = attrs.toArray(new FlightSegmentAttributes[0]);
 			}
 		}
@@ -846,12 +854,17 @@ public class FlightTrip implements JSONable {
 			}
 		}
 
+		if (obj.has(KEY_PASSENGERS)) {
+			mPassengers = new ArrayList<PassengerCategoryPrice>(
+				JSONUtils.getJSONableList(obj, KEY_PASSENGERS, PassengerCategoryPrice.class));
+		}
+
 		return true;
 	}
 
 	/**
 	 * Backwards compatible (aka old) version of the FlightTrip parser.
-	 *
+	 * <p/>
 	 * Can slowly be phased out.
 	 */
 	public boolean fromJsonV1(JSONObject obj, Map<String, FlightLeg> legMap) {
