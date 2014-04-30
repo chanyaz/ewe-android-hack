@@ -30,6 +30,7 @@ public class UrlBitmapDrawable extends BitmapDrawable implements L2ImageCache.On
 
 	// We allow you to define a series of URLs to try (in order, from 0 and up).
 	private List<String> mUrls;
+	private boolean mBlur;
 	private int mIndex; // Keeps track of which URL we're going to try next
 
 	// Used for reloading the default drawable resource id
@@ -52,24 +53,48 @@ public class UrlBitmapDrawable extends BitmapDrawable implements L2ImageCache.On
 	private static L2ImageCache sL2ImageCache;
 
 	/**
-	 * Create a drawable that loads the requested URL
-	 * 
+	 * Create a drawable that loads the requested URL, not blurred.
+	 *
 	 * @param resources resources for setting target density
 	 * @param url the url of the image to load
 	 */
 	public UrlBitmapDrawable(Resources resources, String url) {
-		this(resources, Arrays.asList(url));
+		this(resources, Arrays.asList(url), false);
+	}
+
+	/**
+	 * Create a drawable that loads the requested URL
+	 *
+	 * @param resources resources for setting target density
+	 * @param url the url of the image to load
+	 * @param blur whether or not the image should be blurred
+	 */
+	public UrlBitmapDrawable(Resources resources, String url, boolean blur, L2ImageCache cacheImpl) {
+		this(resources, Arrays.asList(url), blur, 0, cacheImpl);
+	}
+
+	/**
+	 * Create a drawable that loads one of a list of URLs, in order
+	 * from index 0...n. Not blurred.
+	 * 
+	 * @param resources resources for setting target density
+	 * @param urls the urls to try for this image
+	 */
+
+	public UrlBitmapDrawable(Resources resources, List<String> urls) {
+		this(resources, urls, false, 0, DEFAULT_IMAGE_CACHE_IMPL);
 	}
 
 	/**
 	 * Create a drawable that loads one of a list of URLs, in order
 	 * from index 0...n
-	 * 
+	 *
 	 * @param resources resources for setting target density
 	 * @param urls the urls to try for this image
+	 * @param blur whether or not the image should be blurred
 	 */
-	public UrlBitmapDrawable(Resources resources, List<String> urls) {
-		this(resources, urls, 0, DEFAULT_IMAGE_CACHE_IMPL);
+	public UrlBitmapDrawable(Resources resources, List<String> urls, boolean blur) {
+		this(resources, urls, blur, 0, DEFAULT_IMAGE_CACHE_IMPL);
 	}
 
 	/**
@@ -81,11 +106,11 @@ public class UrlBitmapDrawable extends BitmapDrawable implements L2ImageCache.On
 	 * @param defaultResId the default image when not loading
 	 */
 	public UrlBitmapDrawable(Resources resources, String url, int defaultResId) {
-		this(resources, Arrays.asList(url), defaultResId, DEFAULT_IMAGE_CACHE_IMPL);
+		this(resources, Arrays.asList(url), false, defaultResId, DEFAULT_IMAGE_CACHE_IMPL);
 	}
 
 	public UrlBitmapDrawable(Resources resources, List<String> urls, int defaultResId) {
-		this(resources, urls, defaultResId, DEFAULT_IMAGE_CACHE_IMPL);
+		this(resources, urls, false, defaultResId, DEFAULT_IMAGE_CACHE_IMPL);
 	}
 
 	/**
@@ -96,11 +121,13 @@ public class UrlBitmapDrawable extends BitmapDrawable implements L2ImageCache.On
 	 * @param urls the urls to try for this image
 	 * @param defaultResId the default image when not loading
 	 */
-	public UrlBitmapDrawable(Resources resources, List<String> urls, int defaultResId, L2ImageCache cache) {
+	public UrlBitmapDrawable(Resources resources, List<String> urls, boolean blur, int defaultResId,
+		L2ImageCache cache) {
 		super(resources, loadBitmap(cache, resources, defaultResId));
 
 		mResources = new WeakReference<Resources>(resources);
 		mUrls = urls;
+		mBlur = blur;
 		mIndex = 0;
 		mDefaultResId = defaultResId;
 		sL2ImageCache = cache;
@@ -141,7 +168,7 @@ public class UrlBitmapDrawable extends BitmapDrawable implements L2ImageCache.On
 	 */
 	public static UrlBitmapDrawable loadImageView(List<String> urls, ImageView imageView, int defaultResId) {
 		UrlBitmapDrawable drawable = new UrlBitmapDrawable(imageView.getContext().getResources(), urls,
-			defaultResId, DEFAULT_IMAGE_CACHE_IMPL);
+			false, defaultResId, DEFAULT_IMAGE_CACHE_IMPL);
 		drawable.configureImageView(imageView);
 		return drawable;
 	}
@@ -201,8 +228,7 @@ public class UrlBitmapDrawable extends BitmapDrawable implements L2ImageCache.On
 			String url = getUrl();
 			if (!TextUtils.isEmpty(url)) {
 				mRetrieving = true;
-
-				sL2ImageCache.loadImage(mKey, getUrl(), false, UrlBitmapDrawable.this); //by default, no blur
+				sL2ImageCache.loadImage(mKey, getUrl(), mBlur, UrlBitmapDrawable.this);
 			}
 		}
 	}
