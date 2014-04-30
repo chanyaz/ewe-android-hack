@@ -12,7 +12,7 @@ We have moved this because some Locales (Japan) prefer different name orders
         android:layout_marginBottom="4dp"
         android:orientation="horizontal" >
 
-        <EditText
+        <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
             android:id="@+id/edit_first_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

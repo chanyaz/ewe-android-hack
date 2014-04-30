@@ -90,4 +90,9 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	protected void onFormClosed() {
 
 	}
+
+	@Override
+	public void onFormOpened() {
+
+	}
 }

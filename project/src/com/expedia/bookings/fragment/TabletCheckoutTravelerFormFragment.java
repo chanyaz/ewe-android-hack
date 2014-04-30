@@ -2,8 +2,11 @@ package com.expedia.bookings.fragment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +14,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
@@ -22,12 +28,12 @@ import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfoTablet;
-import com.expedia.bookings.section.TravelerSpinnerAdapter;
+import com.expedia.bookings.section.TravelerAutoCompleteAdapter;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFragment {
+public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFragment implements InputFilter {
 
 	public static TabletCheckoutTravelerFormFragment newInstance(LineOfBusiness lob) {
 		TabletCheckoutTravelerFormFragment frag = new TabletCheckoutTravelerFormFragment();
@@ -36,12 +42,16 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	}
 
 	private static final String STATE_TRAVELER_NUMBER = "STATE_TRAVELER_NUMBER";
+	private static final String STATE_FORM_IS_OPEN = "STATE_FORM_IS_OPEN";
 
 	private int mTravelerNumber = -1;
 	private String mHeaderString;
 	private SectionTravelerInfoTablet mSectionTraveler;
-	boolean mAttemptToLeaveMade = false;
+	private AutoCompleteTextView mFirstNameTravelerAutoComplete;
+	private TravelerAutoCompleteAdapter mTravelerAdapter;
+	private boolean mAttemptToLeaveMade = false;
 	private ICheckoutDataListener mListener;
+	private boolean mFormOpen = false;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -60,10 +70,15 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
 			mTravelerNumber = savedInstanceState.getInt(STATE_TRAVELER_NUMBER, mTravelerNumber);
-			if (Db.getWorkingTravelerManager().getAttemptToLoadFromDisk() && Db.getWorkingTravelerManager().hasTravelerOnDisk(getActivity())) {
+			if (Db.getWorkingTravelerManager().getAttemptToLoadFromDisk() && Db.getWorkingTravelerManager()
+				.hasTravelerOnDisk(getActivity())) {
 				Db.getWorkingTravelerManager().loadWorkingTravelerFromDisk(getActivity());
 			}
+			mFormOpen = savedInstanceState.getBoolean(STATE_FORM_IS_OPEN, false);
 		}
+
+		mTravelerAdapter = new TravelerAutoCompleteAdapter(getActivity());
+
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
@@ -84,47 +99,6 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			setHeadingText(mHeaderString);
 			setHeadingButtonText(getString(R.string.done));
 			setHeadingButtonOnClick(mHeaderButtonClickListener);
-		}
-
-		TravelerSpinnerAdapter adapter;
-		if (getHeadingSpinner().getAdapter() != null) {
-			adapter = (TravelerSpinnerAdapter) getHeadingSpinner().getAdapter();
-		}
-		else {
-			adapter = new TravelerSpinnerAdapter(getActivity());
-		}
-		if (adapter.getCount() > 0) {
-			getHeadingSpinner().setVisibility(View.VISIBLE);
-
-			//The adapter draws from static sources, so if we already have one adapter we dont need a new one
-			if (getHeadingSpinner().getAdapter() == null) {
-				getHeadingSpinner().setAdapter(adapter);
-				getHeadingSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-					@Override
-					public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-						//The first item is just a place holder
-						if (i == 0) {
-							return;
-						}
-						Traveler trav = (Traveler) getHeadingSpinner().getItemAtPosition(i);
-						if (trav != null) {
-							Db.getWorkingTravelerManager().setWorkingTravelerAndBase(trav);
-							bindToDb(mTravelerNumber);
-						}
-						//Always show the top item
-						adapterView.setSelection(0);
-					}
-
-					@Override
-					public void onNothingSelected(AdapterView<?> adapterView) {
-
-					}
-				});
-			}
-		}
-		else {
-			getHeadingSpinner().setAdapter(null);
-			getHeadingSpinner().setVisibility(View.GONE);
 		}
 	}
 
@@ -178,8 +152,9 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 				R.layout.section_hotel_tablet_edit_traveler, null);
 		}
 		else if (getLob() == LineOfBusiness.FLIGHTS) {
-			mSectionTraveler = (SectionTravelerInfoTablet) View.inflate(getActivity(), R.layout.section_flight_tablet_edit_traveler,
-				null);
+			mSectionTraveler = (SectionTravelerInfoTablet) View
+				.inflate(getActivity(), R.layout.section_flight_tablet_edit_traveler,
+					null);
 
 			//Here we setup our flights specific animations, namely just
 
@@ -268,9 +243,26 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			}
 		});
 
+		//We set up the AutoComplete view, but we let the focus
+		EditText editName = Ui.findView(mSectionTraveler, R.id.edit_first_name);
+		if (editName != null && editName instanceof AutoCompleteTextView) {
+			mFirstNameTravelerAutoComplete = (AutoCompleteTextView) editName;
+			//Create a filter that
+			InputFilter[] filters = new InputFilter[] { this };
+			mFirstNameTravelerAutoComplete.setFilters(filters);
+			mFirstNameTravelerAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					Traveler trav = mTravelerAdapter.getItem(position);
+					if (trav != null) {
+						Db.getWorkingTravelerManager().setWorkingTravelerAndBase(trav);
+						bindToDb(mTravelerNumber);
+					}
+				}
+			});
+		}
 
 		formContainer.addView(mSectionTraveler);
-
 	}
 
 	public void setHeaderText(String headerString) {
@@ -279,6 +271,60 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 
 	@Override
 	protected void onFormClosed() {
-		clearForm();
+		if (mFormOpen) {
+			mFirstNameTravelerAutoComplete.dismissDropDown();
+			mFirstNameTravelerAutoComplete.setAdapter((ArrayAdapter<Traveler>) null);
+
+			clearForm();
+		}
+		mFormOpen = false;
+	}
+
+	@Override
+	public void onFormOpened() {
+		if (!mFormOpen || mFirstNameTravelerAutoComplete.hasFocus()) {
+			mFirstNameTravelerAutoComplete.setOnFocusChangeListener(mNameFocusListener);
+			mFirstNameTravelerAutoComplete.requestFocus();//<-- This fires the onFocusChangeListener
+			mFirstNameTravelerAutoComplete.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					Context context = getActivity();
+					if (context != null) {
+						InputMethodManager imm = (InputMethodManager) context
+							.getSystemService(Context.INPUT_METHOD_SERVICE);
+						imm.showSoftInput(mFirstNameTravelerAutoComplete, 0);
+					}
+				}
+			}, 250);
+		}
+		mFormOpen = true;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Focus listener
+
+	private View.OnFocusChangeListener mNameFocusListener = new View.OnFocusChangeListener() {
+		@Override
+		public void onFocusChange(View v, boolean hasFocus) {
+			if (mFirstNameTravelerAutoComplete != null) {
+				if (hasFocus) {
+					mFirstNameTravelerAutoComplete.setAdapter(mTravelerAdapter);
+					mFirstNameTravelerAutoComplete.showDropDown();
+				}
+				else {
+					mFirstNameTravelerAutoComplete.dismissDropDown();
+					mFirstNameTravelerAutoComplete.setAdapter((ArrayAdapter<Traveler>) null);
+
+				}
+			}
+		}
+	};
+
+	//////////////////////////////////////////////////////////////////////////
+	// InputFilter
+
+	@Override
+	public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+		return null;
 	}
 }

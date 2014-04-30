@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -27,7 +26,7 @@
             app:textStyle="medium"
             android:drawableLeft="@drawable/ic_action_bar_checkmark_disabled"
             android:textStyle="bold"
-            android:textSize="14dp"/>
+            android:textSize="14dp" />
 
         <View
             android:layout_width="1dp"
@@ -35,7 +34,7 @@
             android:layout_weight="0"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:background="@color/divider_grey"/>
+            android:background="@color/divider_grey" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/header_tv"
@@ -45,23 +44,7 @@
             android:gravity="center_vertical"
             android:text="@string/traveler_num_and_category_TEMPLATE"
             app:textStyle="light"
-            android:textSize="16dp"/>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@color/divider_grey"/>
-
-        <Spinner
-            android:id="@+id/header_spinner"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:layout_height="wrap_content"/>
+            android:textSize="16dp" />
 
     </LinearLayout>
 
@@ -75,7 +58,7 @@
             android:layout_height="wrap_content"
             android:background="#E5E5E5"
             android:orientation="vertical"
-            android:padding="16dp"/>
+            android:padding="16dp" />
     </ScrollView>
 
 </LinearLayout>

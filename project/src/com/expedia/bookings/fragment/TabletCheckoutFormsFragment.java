@@ -51,6 +51,7 @@ import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.util.Ui;
 
+@SuppressWarnings("ResourceType")
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TabletCheckoutFormsFragment extends LobableFragment implements IBackManageable,
 	IStateProvider<CheckoutFormState>,
@@ -275,11 +276,21 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		//REMOVE ALL THE FRAGMENTS
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction removeFragsTransaction = fragmentManager.beginTransaction();
-		mTravelerForm = FragmentAvailabilityUtils.setFragmentAvailability(false, FRAG_TAG_TRAVELER_FORM, fragmentManager, removeFragsTransaction, this, R.id.traveler_form_container, false);
-		mPaymentForm = FragmentAvailabilityUtils.setFragmentAvailability(false, FRAG_TAG_PAYMENT_FORM, fragmentManager, removeFragsTransaction, this, R.id.payment_form_container, false);
-		mLoginButtons = FragmentAvailabilityUtils.setFragmentAvailability(false, FRAG_TAG_LOGIN_BUTTONS, fragmentManager, removeFragsTransaction, this, LOGIN_FRAG_CONTAINER_ID, false);
-		mPaymentButton = FragmentAvailabilityUtils.setFragmentAvailability(false, FRAG_TAG_PAYMENT_BUTTON, fragmentManager, removeFragsTransaction, this, PAYMENT_FRAG_CONTAINER_ID, false);
-		mCouponContainer = FragmentAvailabilityUtils.setFragmentAvailability(false, FRAG_TAG_COUPON_CONTAINER, fragmentManager, removeFragsTransaction, this, COUPON_FRAG_CONTAINER_ID, false);
+		mTravelerForm = FragmentAvailabilityUtils
+			.setFragmentAvailability(false, FRAG_TAG_TRAVELER_FORM, fragmentManager, removeFragsTransaction, this,
+				R.id.traveler_form_container, false);
+		mPaymentForm = FragmentAvailabilityUtils
+			.setFragmentAvailability(false, FRAG_TAG_PAYMENT_FORM, fragmentManager, removeFragsTransaction, this,
+				R.id.payment_form_container, false);
+		mLoginButtons = FragmentAvailabilityUtils
+			.setFragmentAvailability(false, FRAG_TAG_LOGIN_BUTTONS, fragmentManager, removeFragsTransaction, this,
+				LOGIN_FRAG_CONTAINER_ID, false);
+		mPaymentButton = FragmentAvailabilityUtils
+			.setFragmentAvailability(false, FRAG_TAG_PAYMENT_BUTTON, fragmentManager, removeFragsTransaction, this,
+				PAYMENT_FRAG_CONTAINER_ID, false);
+		mCouponContainer = FragmentAvailabilityUtils
+			.setFragmentAvailability(false, FRAG_TAG_COUPON_CONTAINER, fragmentManager, removeFragsTransaction, this,
+				COUPON_FRAG_CONTAINER_ID, false);
 		for (TravelerButtonFragment btnFrag : mTravelerButtonFrags) {
 			removeFragsTransaction.remove(btnFrag);
 		}
@@ -354,13 +365,15 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		}
 
 		// LEGAL BLURB
-		TextView legalBlurb = (TextView) addActionable(com.expedia.bookings.R.layout.include_tablet_legal_blurb_tv, new Runnable() {
-			@Override
-			public void run() {
-				Intent intent = new Intent(getActivity(), getLob() == LineOfBusiness.FLIGHTS ? FlightRulesActivity.class : HotelRulesActivity.class);
-				startActivity(intent);
-			}
-		});
+		TextView legalBlurb = (TextView) addActionable(com.expedia.bookings.R.layout.include_tablet_legal_blurb_tv,
+			new Runnable() {
+				@Override
+				public void run() {
+					Intent intent = new Intent(getActivity(),
+						getLob() == LineOfBusiness.FLIGHTS ? FlightRulesActivity.class : HotelRulesActivity.class);
+					startActivity(intent);
+				}
+			});
 		if (getLob() == com.expedia.bookings.data.LineOfBusiness.FLIGHTS) {
 			legalBlurb.setText(PointOfSale.getPointOfSale().getStylizedFlightBookingStatement(true));
 		}
@@ -370,12 +383,22 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 		//SET UP THE FORM FRAGMENTS
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
-		mTravelerForm = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_TRAVELER_FORM, fragmentManager, transaction, this, R.id.traveler_form_container, true);
-		mPaymentForm = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_PAYMENT_FORM, fragmentManager, transaction, this, R.id.payment_form_container, true);
-		mLoginButtons = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_LOGIN_BUTTONS, fragmentManager, transaction, this, LOGIN_FRAG_CONTAINER_ID, true);
-		mPaymentButton = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_PAYMENT_BUTTON, fragmentManager, transaction, this, PAYMENT_FRAG_CONTAINER_ID, true);
+		mTravelerForm = FragmentAvailabilityUtils
+			.setFragmentAvailability(true, FRAG_TAG_TRAVELER_FORM, fragmentManager, transaction, this,
+				R.id.traveler_form_container, true);
+		mPaymentForm = FragmentAvailabilityUtils
+			.setFragmentAvailability(true, FRAG_TAG_PAYMENT_FORM, fragmentManager, transaction, this,
+				R.id.payment_form_container, true);
+		mLoginButtons = FragmentAvailabilityUtils
+			.setFragmentAvailability(true, FRAG_TAG_LOGIN_BUTTONS, fragmentManager, transaction, this,
+				LOGIN_FRAG_CONTAINER_ID, true);
+		mPaymentButton = FragmentAvailabilityUtils
+			.setFragmentAvailability(true, FRAG_TAG_PAYMENT_BUTTON, fragmentManager, transaction, this,
+				PAYMENT_FRAG_CONTAINER_ID, true);
 		if (getLob() == LineOfBusiness.HOTELS) {
-			mCouponContainer = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_COUPON_CONTAINER, fragmentManager, transaction, this, COUPON_FRAG_CONTAINER_ID, true);
+			mCouponContainer = FragmentAvailabilityUtils
+				.setFragmentAvailability(true, FRAG_TAG_COUPON_CONTAINER, fragmentManager, transaction, this,
+					COUPON_FRAG_CONTAINER_ID, true);
 		}
 		transaction.commit();
 
@@ -694,16 +717,17 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 					if (viewNumber >= 0) {
 						mShowingViewIndex = viewNumber;
 					}
+					mPaymentForm.onFormOpened();
 				}
 				else if (state == CheckoutFormState.EDIT_TRAVELER) {
 					mTravelerFormC.setVisibility(View.VISIBLE);
 					mPaymentFormC.setVisibility(View.INVISIBLE);
+					mTravelerForm.onFormOpened();
 				}
 				mOverlayShade.setBlockNewEventsEnabled(true);
 				setEntryFormShowingPercentage(1f, mShowingViewIndex);
 			}
 		}
-
 	};
 
 	/*

@@ -8,6 +8,15 @@
     android:paddingLeft="2dp"
     android:paddingRight="2dp">
 
+    <!-- Dummy focus clear -->
+
+    <View
+        android:id="@+id/focus_stealer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"/>
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
