@@ -13,6 +13,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 
 /**
@@ -212,6 +213,12 @@ public class ExpediaImageManager {
 	 * @return
 	 */
 	public Bitmap getDestinationBitmap(Context context, FlightSearch flightSearch, boolean blur) {
+		String url = getDestinationBitmapKey(context, flightSearch);
+		boolean checkDisk = true;
+		return L2ImageCache.sDestination.getImage(url, blur, checkDisk);
+	}
+
+	public String getDestinationBitmapKey(Context context, FlightSearch flightSearch) {
 		Point p = AndroidUtils.getDisplaySize(context);
 		int temp;
 		if (p.x > p.y) {
@@ -222,8 +229,13 @@ public class ExpediaImageManager {
 
 		final String airportCode = flightSearch.getSearchParams().getArrivalLocation().getDestinationId();
 		ExpediaImage expImage = getDestinationImage(airportCode, p.x, p.y, false); // should be in memory
+		if (expImage == null) {
+			Log.e("ExpediaImageManager - Expected ExpediaImage data in memory but not present for airport=" + airportCode
+				+ " width=" + p.x + " height=" + p.y);
+			return null;
+		}
 		String url = expImage.getThumborUrl(p.x, p.y);
-		return L2ImageCache.sDestination.getImage(url, blur, true); // at very least should be in disk
+		return url;
 	}
 
 	/**
