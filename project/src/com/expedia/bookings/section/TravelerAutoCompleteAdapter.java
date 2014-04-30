@@ -19,6 +19,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.TravelerIconUtils;
 import com.mobiata.android.util.Ui;
 
@@ -95,7 +96,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 				//Remove travelers based on filter text
 				if (!TextUtils.isEmpty(mFilterStr) && !TextUtils.isEmpty(trav.getFullName()) && !trav.getFullName()
-					.toLowerCase().startsWith(mFilterStr.toLowerCase())) {
+					.toLowerCase().contains(mFilterStr.toLowerCase())) {
 					availableTravelers.remove(i);
 				}
 			}
@@ -103,6 +104,10 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 			return availableTravelers;
 		}
 		return new ArrayList<Traveler>();
+	}
+
+	public void clearFilter(){
+		mFilterStr = "";
 	}
 
 	@Override
@@ -119,6 +124,9 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 				return "";
 			}
 			else {
+				if(PointOfSale.getPointOfSale().showLastNameFirst()){
+					return ((Traveler) resultValue).getLastName();
+				}
 				return ((Traveler) resultValue).getFirstName();
 			}
 		}

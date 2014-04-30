@@ -23,6 +23,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.section.ISectionEditable;
@@ -47,7 +48,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	private int mTravelerNumber = -1;
 	private String mHeaderString;
 	private SectionTravelerInfoTablet mSectionTraveler;
-	private AutoCompleteTextView mFirstNameTravelerAutoComplete;
+	private AutoCompleteTextView mTravelerAutoComplete;
 	private TravelerAutoCompleteAdapter mTravelerAdapter;
 	private boolean mAttemptToLeaveMade = false;
 	private ICheckoutDataListener mListener;
@@ -207,7 +208,6 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 				}
 			});
 
-
 			redressBtn.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
@@ -243,14 +243,16 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			}
 		});
 
-		//We set up the AutoComplete view, but we let the focus
-		EditText editName = Ui.findView(mSectionTraveler, R.id.edit_first_name);
+		//We set up the AutoComplete view such that it will be the first name or last name field depending on POS.
+		//We leave the remainder of the AutoComplete's setup to onFormOpen and onFocus.
+		EditText editName = Ui.findView(mSectionTraveler,
+			PointOfSale.getPointOfSale().showLastNameFirst() ? R.id.edit_last_name : R.id.edit_first_name);
 		if (editName != null && editName instanceof AutoCompleteTextView) {
-			mFirstNameTravelerAutoComplete = (AutoCompleteTextView) editName;
+			mTravelerAutoComplete = (AutoCompleteTextView) editName;
 			//Create a filter that
 			InputFilter[] filters = new InputFilter[] { this };
-			mFirstNameTravelerAutoComplete.setFilters(filters);
-			mFirstNameTravelerAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			mTravelerAutoComplete.setFilters(filters);
+			mTravelerAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					Traveler trav = mTravelerAdapter.getItem(position);
@@ -272,8 +274,9 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	@Override
 	protected void onFormClosed() {
 		if (mFormOpen) {
-			mFirstNameTravelerAutoComplete.dismissDropDown();
-			mFirstNameTravelerAutoComplete.setAdapter((ArrayAdapter<Traveler>) null);
+			mTravelerAdapter.clearFilter();
+			mTravelerAutoComplete.dismissDropDown();
+			mTravelerAutoComplete.setAdapter((ArrayAdapter<Traveler>) null);
 
 			clearForm();
 		}
@@ -282,17 +285,17 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 
 	@Override
 	public void onFormOpened() {
-		if (!mFormOpen || mFirstNameTravelerAutoComplete.hasFocus()) {
-			mFirstNameTravelerAutoComplete.setOnFocusChangeListener(mNameFocusListener);
-			mFirstNameTravelerAutoComplete.requestFocus();//<-- This fires the onFocusChangeListener
-			mFirstNameTravelerAutoComplete.postDelayed(new Runnable() {
+		if (!mFormOpen || mTravelerAutoComplete.hasFocus()) {
+			mTravelerAutoComplete.setOnFocusChangeListener(mNameFocusListener);
+			mTravelerAutoComplete.requestFocus();//<-- This fires the onFocusChangeListener
+			mTravelerAutoComplete.postDelayed(new Runnable() {
 				@Override
 				public void run() {
 					Context context = getActivity();
 					if (context != null) {
 						InputMethodManager imm = (InputMethodManager) context
 							.getSystemService(Context.INPUT_METHOD_SERVICE);
-						imm.showSoftInput(mFirstNameTravelerAutoComplete, 0);
+						imm.showSoftInput(mTravelerAutoComplete, 0);
 					}
 				}
 			}, 250);
@@ -306,14 +309,14 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	private View.OnFocusChangeListener mNameFocusListener = new View.OnFocusChangeListener() {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
-			if (mFirstNameTravelerAutoComplete != null) {
+			if (mTravelerAutoComplete != null) {
 				if (hasFocus) {
-					mFirstNameTravelerAutoComplete.setAdapter(mTravelerAdapter);
-					mFirstNameTravelerAutoComplete.showDropDown();
+					mTravelerAutoComplete.setAdapter(mTravelerAdapter);
+					mTravelerAutoComplete.showDropDown();
 				}
 				else {
-					mFirstNameTravelerAutoComplete.dismissDropDown();
-					mFirstNameTravelerAutoComplete.setAdapter((ArrayAdapter<Traveler>) null);
+					mTravelerAutoComplete.dismissDropDown();
+					mTravelerAutoComplete.setAdapter((ArrayAdapter<Traveler>) null);
 
 				}
 			}
