@@ -16,8 +16,11 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ChildTraveler;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.mobiata.android.util.Ui;
+
+import static com.expedia.bookings.utils.FontCache.Font;
 
 /**
  * Results loading fragment for Tablet
@@ -40,6 +43,7 @@ public class ResultsGuestPicker extends Fragment {
 	private View mChildMinus;
 	private View mChildPlus;
 	private View mChildAgesLayout;
+	private TextView mHeaderTextView;
 
 	private int mAdultCount;
 	private ArrayList<ChildTraveler> mChildren = new ArrayList<ChildTraveler>();
@@ -78,6 +82,18 @@ public class ResultsGuestPicker extends Fragment {
 		mChildAgesLayout = Ui.findView(mRootC, R.id.child_ages_layout);
 		mChildAgesLayout.setVisibility(getChildAgesVisibility());
 
+		mHeaderTextView = Ui.findView(mRootC, R.id.tablet_guest_picker_header);
+		FontCache.setTypeface(mHeaderTextView, Font.ROBOTO_LIGHT);
+
+		TextView doneButton = Ui.findView(mRootC, R.id.tablet_guest_picker_done_button);
+		FontCache.setTypeface(doneButton, Font.ROBOTO_LIGHT);
+		doneButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				// Do something crazy
+			}
+		});
+
 		mAdultMinus.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -102,8 +118,9 @@ public class ResultsGuestPicker extends Fragment {
 		mChildPlus.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				//TODO: WE NEED A WAY TO DETERMINE CHILD AGE
-				addChild(10);
+				if (mChildren.size() < MAX_CHILDREN && canAddAnotherTraveler()) {
+					addChild(10);
+				}
 			}
 		});
 
@@ -175,6 +192,7 @@ public class ResultsGuestPicker extends Fragment {
 		if (mRootC != null) {
 			mAdultText.setText(getResources().getQuantityString(R.plurals.number_of_adults, mAdultCount, mAdultCount));
 			mChildText.setText(getResources().getQuantityString(R.plurals.number_of_children, mChildren.size(), mChildren.size()));
+			setHeaderString();
 			GuestsPickerUtils.setChildSpinnerPositions(mRootC, mChildren);
 			GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), mChildren, mRootC, mChildAgeSelectedListener);
 			mChildAgesLayout.setVisibility(getChildAgesVisibility());
@@ -198,5 +216,14 @@ public class ResultsGuestPicker extends Fragment {
 		}
 	};
 
+	public void setHeaderString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(mAdultText.getText());
+		if (mChildren.size() > 0) {
+			sb.append(", ");
+			sb.append(mChildText.getText());
+		}
+		mHeaderTextView.setText(sb.toString());
+	}
 
 }
