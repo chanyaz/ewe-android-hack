@@ -78,5 +78,10 @@
                 android:textSize="32dp"
                 android:text="+" />
         </LinearLayout>
+
+        <include
+            layout="@layout/include_child_age_selectors" />
+
+
     </LinearLayout>
 </ScrollView>

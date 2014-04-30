@@ -11,10 +11,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ChildTraveler;
+import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -37,6 +39,7 @@ public class ResultsGuestPicker extends Fragment {
 	private View mAdultPlus;
 	private View mChildMinus;
 	private View mChildPlus;
+	private View mChildAgesLayout;
 
 	private int mAdultCount;
 	private ArrayList<ChildTraveler> mChildren = new ArrayList<ChildTraveler>();
@@ -71,6 +74,9 @@ public class ResultsGuestPicker extends Fragment {
 		mChildText = Ui.findView(mRootC, R.id.child_count_text);
 		mChildMinus = Ui.findView(mRootC, R.id.children_minus);
 		mChildPlus = Ui.findView(mRootC, R.id.children_plus);
+
+		mChildAgesLayout = Ui.findView(mRootC, R.id.child_ages_layout);
+		mChildAgesLayout.setVisibility(getChildAgesVisibility());
 
 		mAdultMinus.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -169,7 +175,28 @@ public class ResultsGuestPicker extends Fragment {
 		if (mRootC != null) {
 			mAdultText.setText(getResources().getQuantityString(R.plurals.number_of_adults, mAdultCount, mAdultCount));
 			mChildText.setText(getResources().getQuantityString(R.plurals.number_of_children, mChildren.size(), mChildren.size()));
+			GuestsPickerUtils.setChildSpinnerPositions(mRootC, mChildren);
+			GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), mChildren, mRootC, mChildAgeSelectedListener);
+			mChildAgesLayout.setVisibility(getChildAgesVisibility());
 		}
 	}
+
+	private int getChildAgesVisibility() {
+		return mChildren.size() > 0 ? View.VISIBLE : View.INVISIBLE;
+	}
+
+	private final AdapterView.OnItemSelectedListener mChildAgeSelectedListener = new AdapterView.OnItemSelectedListener() {
+
+		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+			GuestsPickerUtils.setChildrenFromSpinners(getActivity(), mChildAgesLayout, mChildren);
+			GuestsPickerUtils.updateDefaultChildTravelers(getActivity(), mChildren);
+			mListener.onGuestsChanged(mAdultCount, mChildren);
+		}
+
+		public void onNothingSelected(AdapterView<?> parent) {
+			// Do nothing.
+		}
+	};
+
 
 }
