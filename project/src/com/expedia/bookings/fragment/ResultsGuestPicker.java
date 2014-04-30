@@ -29,7 +29,7 @@ public class ResultsGuestPicker extends Fragment {
 	private static final String STATE_CHILDREN = "STATE_CHILDREN";
 
 	public static final int MAX_ADULTS = 6;
-	public static final int MAX_CHILDREN = 5;
+	public static final int MAX_CHILDREN = 4;
 	public static final int MAX_TRAVELERS = 6;
 
 	private ViewGroup mRootC;
