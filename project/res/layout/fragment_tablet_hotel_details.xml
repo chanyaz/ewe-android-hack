@@ -48,10 +48,11 @@
                     android:layout_alignWithParentIfMissing="true"
                     android:gravity="center">
 
-                    <View
+                    <ImageView
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:background="#40ff0000"/>
+                        android:scaleType="center"
+                        android:src="@drawable/ic_med"/>
 
                     <com.expedia.bookings.widget.TextView
                         android:layout_width="wrap_content"
