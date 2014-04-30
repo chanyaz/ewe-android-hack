@@ -87,13 +87,9 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 		Results.clickSuggestion("San Francisco, CA");
 		Results.clickSelectFlightDates();
 		LocalDate startDate = LocalDate.now().plusDays(35);
-		LocalDate endDate = startDate.plusDays(6);
-		// Round trip search
-		Results.clickDate(startDate, endDate);
+		Results.clickDate(startDate, null);
 		Results.clickSearchNow();
 		Results.swipeUpFlightList();
-		Results.clickFlightAtIndex(1);
-		Results.clickAddFlight();
 		Results.clickFlightAtIndex(1);
 		Results.clickAddFlight();
 		Results.clickBookFlight();
@@ -122,7 +118,6 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 		Checkout.clickBookButton();
 
 		Checkout.clickDoneBooking();
-
 	}
 
 	@Override
