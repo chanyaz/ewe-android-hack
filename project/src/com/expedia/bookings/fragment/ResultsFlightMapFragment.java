@@ -90,10 +90,12 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 					mPrevDep = Db.getFlightSearch().getSearchParams().getDepartureLocation();
 					mPrevArr = Db.getFlightSearch().getSearchParams().getArrivalLocation();
 
-					setDepartureLatLng(mPrevDep.getLatitude(), mPrevDep.getLongitude());
-					setArrivalLatLng(mPrevArr.getLatitude(), mPrevArr.getLongitude());
+					if (mPrevDep != null && mPrevArr != null) {
+						setDepartureLatLng(mPrevDep.getLatitude(), mPrevDep.getLongitude());
+						setArrivalLatLng(mPrevArr.getLatitude(), mPrevArr.getLongitude());
 
-					generateMap();
+						generateMap();
+					}
 				}
 			}
 		});

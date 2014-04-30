@@ -168,7 +168,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		int headerCount = getListView().getHeaderViewsCount();
 		int itemPosition = position - headerCount;
-		if (itemPosition >= 0) {
+		if (itemPosition >= 0 && itemPosition < mAdapter.getCount()) {
 			mAdapter.setSelectedPosition(itemPosition);
 			mAdapter.notifyDataSetChanged();
 			Property property = (Property) mAdapter.getItem(itemPosition);
