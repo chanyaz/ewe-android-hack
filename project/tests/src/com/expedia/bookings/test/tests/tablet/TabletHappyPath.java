@@ -103,8 +103,26 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 		Checkout.enterLastName("Auto");
 		Checkout.enterPhoneNumber("1112223333");
 		Checkout.enterEmailAddress("aaa@aaa.com");
-		Checkout.enterDateOfBirth(1, 1, 1970);
+		Checkout.enterDateOfBirth(1970, 1, 1);
 		Checkout.clickOnDone();
+
+		Checkout.clickOnEnterPaymentInformation();
+		Checkout.setExpirationDate(2020, 12);
+		Checkout.enterCreditCardNumber("4111111111111111\n");
+		Checkout.enterNameOnCard("Mobiata Auto\n");
+		Checkout.enterAddress1("123 Main St.\n");
+		Checkout.enterAddress2("Apt. 1\n");
+		Checkout.enterCity("Madison\n");
+		Checkout.enterState("WI\n");
+		Checkout.enterPostalCode("53704\n");
+		Checkout.clickOnDone();
+
+		Checkout.slideToPurchase();
+		Checkout.enterCvv("111");
+		Checkout.clickBookButton();
+
+		Checkout.clickDoneBooking();
+
 	}
 
 	@Override

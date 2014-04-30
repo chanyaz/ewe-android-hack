@@ -12,6 +12,7 @@ import org.hamcrest.Matcher;
 import static com.expedia.bookings.test.utils.EspressoUtils.swipeRight;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
@@ -126,6 +127,12 @@ public class Checkout {
 		addressCity().perform(typeText(text));
 	}
 
+	public static void enterState(String text) {
+		addressState().perform(click());
+		addressState().perform(clearText());
+		addressState().perform(typeText(text));
+	}
+
 	public static void enterCreditCardNumber(String text) {
 		creditCardNumber().perform(click());
 		creditCardNumber().perform(typeText(text));
@@ -144,7 +151,7 @@ public class Checkout {
 	}
 
 	public static void enterPostalCode(String text) {
-		postalCode().perform(scrollTo(), click());
+		postalCode().perform(click());
 		postalCode().perform(typeText(text));
 	}
 
