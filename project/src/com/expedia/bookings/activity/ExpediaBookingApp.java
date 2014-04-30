@@ -60,6 +60,7 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	public static final boolean IS_EXPEDIA = AndroidUtils.getBuildConfigValue("IS_EXPEDIA"); // Check to see if this is an Expedia app build
 	public static final boolean IS_VSC = AndroidUtils.getBuildConfigValue("IS_VSC"); // Check to see if this is a VSC app build
 	public static final boolean IS_TRAVELOCITY = AndroidUtils.getBuildConfigValue("IS_TRAVELOCITY"); // Check to see if this is a Travelocity app build
+	public static final boolean IS_AUTOMATION = AndroidUtils.getBuildConfigValue("IS_AUTOMATION"); // Check to see if this is an automation build
 
 	public static final String MEDIA_URL = BuildConfigUtils.get("com.expedia.bookings", "MEDIA_URL");
 

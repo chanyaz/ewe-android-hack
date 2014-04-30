@@ -39,14 +39,13 @@ android {
         minSdkVersion 9
         targetSdkVersion 19
 
-        buildConfigField "boolean", "IS_VSC", "false"
-
         testPackageName "com.expedia.bookings.debug.test"
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
 
         buildConfigField "boolean", "IS_EXPEDIA", "false"
         buildConfigField "boolean", "IS_VSC", "false"
         buildConfigField "boolean", "IS_TRAVELOCITY", "false"
+        buildConfigField "boolean", "IS_AUTOMATION", "false"
         buildConfigField "String", "MEDIA_URL", "\"http://media.expedia.com\""
     }
 
@@ -75,12 +74,14 @@ android {
 
         ExpediaAutomation {
             buildConfigField "boolean", "IS_EXPEDIA", "true"
+            buildConfigField "boolean", "IS_AUTOMATION", "true"
             packageName "com.expedia.bookings.auto"
             testInstrumentationRunner "com.expedia.bookings.test.utils.SpoonInstrumentationTestRunner"
         }
 
         TravelocityAutomation {
             buildConfigField "boolean", "IS_TRAVELOCITY", "true"
+            buildConfigField "boolean", "IS_AUTOMATION", "true"
             packageName "com.travelocity.android.auto"
             versionCode 1
             versionName "1.0"
