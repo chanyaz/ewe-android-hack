@@ -11,11 +11,8 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Spinner;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightSearchActivity;
-import com.expedia.bookings.activity.FlightSearchOverlayActivity;
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.widget.ChildAgeSpinnerAdapter;
-import com.expedia.bookings.widget.FlightsChildAgeSpinnerAdapter;
 import com.mobiata.android.util.SettingUtils;
 
 public class GuestsPickerUtils {
@@ -28,12 +25,6 @@ public class GuestsPickerUtils {
 	private static final int DEFAULT_CHILD_AGE = 10;
 	public static final int MIN_CHILD_AGE = 0;
 	public static final int MAX_CHILD_AGE = 17;
-
-	private static final int AGE_0_INFANT_IN_LAP_POS = 0;
-	private static final int AGE_0_INFANT_IN_SEAT_POS = 1;
-	private static final int AGE_1_INFANT_IN_LAP_POS = 2;
-	private static final int AGE_1_INFANT_IN_SEAT_POS = 3;
-	private static final int CHILD_AGE_TO_POS_OFFSET = 2;
 
 	public static void updateNumberPickerRanges(com.expedia.bookings.widget.NumberPicker adultsNumberPicker,
 												com.expedia.bookings.widget.NumberPicker childrenNumberPicker) {
@@ -106,32 +97,12 @@ public class GuestsPickerUtils {
 					row.setTag(i);
 					spinner.setPrompt(context.getString(R.string.prompt_select_child_age,
 						GuestsPickerUtils.MIN_CHILD_AGE, GuestsPickerUtils.MAX_CHILD_AGE));
-					if (calledFromFlightsSearchActivity(context)) {
-						spinner.setAdapter(new FlightsChildAgeSpinnerAdapter(context));
-						spinner.setSelection(getChildSpinnerSelection(children.get(i)) - MIN_CHILD_AGE);
-					}
-					else {
-						spinner.setAdapter(new ChildAgeSpinnerAdapter(context));
-						spinner.setSelection(children.get(i).getAge() - MIN_CHILD_AGE);
-					}
+					spinner.setAdapter(new ChildAgeSpinnerAdapter(context));
+					spinner.setSelection(children.get(i).getAge() - MIN_CHILD_AGE);
 					spinner.setOnItemSelectedListener(listener);
 				}
 			}
 		}
-	}
-
-	public static int getChildSpinnerSelection(ChildTraveler child) {
-		int selection;
-		if (child.getAge() == 0) {
-			selection = child.usingSeat() ? AGE_0_INFANT_IN_SEAT_POS : AGE_0_INFANT_IN_LAP_POS;
-		}
-		else if (child.getAge() == 1) {
-			selection = child.usingSeat() ? AGE_1_INFANT_IN_SEAT_POS : AGE_1_INFANT_IN_LAP_POS;
-		}
-		else {
-			selection = child.getAge() + CHILD_AGE_TO_POS_OFFSET;
-		}
-		return selection;
 	}
 
 	public static void resizeChildrenList(Context context, List<ChildTraveler> children, int count) {
@@ -162,7 +133,8 @@ public class GuestsPickerUtils {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		SharedPreferences.Editor editor = prefs.edit();
 		for (int i = 0; i < children.size(); i++) {
-			editor.putInt("default_child_age_" + i, children.get(i).getAge());
+			editor.putInt("" +
+				"" + i, children.get(i).getAge());
 			editor.putBoolean("default_child_seat_use_" + i, children.get(i).usingSeat());
 		}
 		SettingUtils.commitOrApply(editor);
@@ -171,7 +143,7 @@ public class GuestsPickerUtils {
 	public static void setChildSpinnerPositions(View container, List<ChildTraveler> children) {
 		for (int i = 0; i < children.size(); i++) {
 			Spinner row = (Spinner) getChildAgeLayout(container, i);
-			row.setSelection(getChildSpinnerSelection(children.get(i)) - MIN_CHILD_AGE);
+			row.setSelection(children.get(i).getAge());
 		}
 	}
 
@@ -182,26 +154,9 @@ public class GuestsPickerUtils {
 				continue;
 			}
 			Integer position = (Integer) ((Spinner) row).getSelectedItem();
-			ChildTraveler child = calledFromFlightsSearchActivity(context) ? spinnerPositionToChildTraveler(position) : new ChildTraveler(position, false);
+			ChildTraveler child = new ChildTraveler(position, false);
 			children.set(i, child);
 		}
-	}
-
-	public static ChildTraveler spinnerPositionToChildTraveler(int position) {
-		ChildTraveler child = new ChildTraveler();
-		if (position != AGE_0_INFANT_IN_LAP_POS && position != AGE_1_INFANT_IN_LAP_POS) {
-			child.setSeatUse(true);
-		}
-		if (position <= AGE_0_INFANT_IN_SEAT_POS) {
-			child.setAge(0);
-		}
-		else if (position == AGE_1_INFANT_IN_LAP_POS || position == AGE_1_INFANT_IN_SEAT_POS) {
-			child.setAge(1);
-		}
-		else {
-			child.setAge(position -= CHILD_AGE_TO_POS_OFFSET);
-		}
-		return child;
 	}
 
 	public static View getChildAgeLayout(View parent, int index) {
@@ -222,9 +177,4 @@ public class GuestsPickerUtils {
 		}
 		return parent.findViewById(resId);
 	}
-
-	private static boolean calledFromFlightsSearchActivity(Context context) {
-		return context instanceof FlightSearchActivity || context instanceof FlightSearchOverlayActivity ? true : false;
-	}
-
 }
