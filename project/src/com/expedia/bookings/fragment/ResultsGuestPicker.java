@@ -84,6 +84,8 @@ public class ResultsGuestPicker extends Fragment {
 
 		mHeaderTextView = Ui.findView(mRootC, R.id.tablet_guest_picker_header);
 		FontCache.setTypeface(mHeaderTextView, Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(mAdultText, Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(mChildText, Font.ROBOTO_LIGHT);
 
 		TextView doneButton = Ui.findView(mRootC, R.id.tablet_guest_picker_done_button);
 		FontCache.setTypeface(doneButton, Font.ROBOTO_LIGHT);
