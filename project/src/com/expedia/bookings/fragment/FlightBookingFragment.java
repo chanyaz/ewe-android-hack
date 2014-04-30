@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.Traveler;
@@ -27,6 +29,8 @@ import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.wallet.FullWalletRequest;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
+import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.SettingUtils;
 
 public class FlightBookingFragment extends BookingFragment<FlightCheckoutResponse> implements
 		RetryErrorDialogFragmentListener {
@@ -208,6 +212,22 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 	};
 
 	private void onCreateTripSuccess(CreateItineraryResponse response) {
+		// Debug/Testing only flight price change fake. Let's add desired price change to the response object.
+		if (!AndroidUtils.isRelease(getActivity())) {
+			String val = SettingUtils.get(getActivity(),
+				getString(R.string.preference_fake_flight_price_change),
+				getString(R.string.preference_fake_price_change_default));
+			BigDecimal bigDecVal = new BigDecimal(val);
+			Money priceChangeMoney = new Money();
+			priceChangeMoney.setAmount(bigDecVal);
+
+			//Update total price and price change amount
+			Money currentTotalFare = response.getOffer().getTotalFare();
+			currentTotalFare.add(bigDecVal);
+			response.getOffer().setTotalFare(currentTotalFare);
+			response.getOffer().setPriceChangeAmount(priceChangeMoney);
+		}
+
 		Db.addItinerary(response.getItinerary());
 		Money originalPrice = mFlightTrip.getTotalFare();
 
