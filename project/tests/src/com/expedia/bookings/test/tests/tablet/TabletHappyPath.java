@@ -82,10 +82,18 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 		Launch.typeInDestinationEditText("Detroit, MI");
 		Launch.clickSuggestion("Detroit, MI");
 
+		Results.clickOriginButton();
+		Results.typeInOriginEditText("San Francisco, CA");
+		Results.clickSuggestion("San Francisco, CA");
+		Results.clickSelectFlightDates();
 		LocalDate startDate = LocalDate.now().plusDays(35);
-		Results.clickDate(startDate, null);
+		LocalDate endDate = startDate.plusDays(6);
+		// Round trip search
+		Results.clickDate(startDate, endDate);
 		Results.clickSearchNow();
 		Results.swipeUpFlightList();
+		Results.clickFlightAtIndex(1);
+		Results.clickAddFlight();
 		Results.clickFlightAtIndex(1);
 		Results.clickAddFlight();
 		Results.clickBookFlight();

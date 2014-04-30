@@ -17,11 +17,14 @@ import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withContentDescription;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withParent;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
@@ -65,6 +68,33 @@ public class Results {
 		calendarPicker().perform(clickDates(start, end));
 	}
 
+	public static ViewInteraction originButton() {
+		return onView(withId(R.id.origin_btn));
+	}
+
+	public static void clickOriginButton() {
+		originButton().perform(click());
+	}
+
+	public static ViewInteraction originEditText() {
+		return onView(withId(R.id.waypoint_edit_text));
+	}
+
+	public static void typeInOriginEditText(String text) {
+		originEditText().perform(typeText(text));
+	}
+
+	public static void clickSuggestion(String text) {
+		onData(allOf(is(instanceOf(String.class)), equalTo(text))) //
+			.inAdapterView(allOf(withId(android.R.id.list), withParent(withParent(withId(R.id.suggestions_container))))) //
+			.usingAdapterViewProtocol(SuggestionAdapterViewProtocol.getInstance()) //
+			.perform(click());
+	}
+
+	public static void clickSelectFlightDates() {
+		onView(withId(R.id.calendar_btn)).perform(click());
+	}
+
 	public static void clickSearchNow() {
 		onView(withId(R.id.search_now_btn)).perform(click());
 	}
@@ -78,7 +108,7 @@ public class Results {
 	}
 
 	public static void clickAddFlight() {
-		onView(withId(R.id.details_add_trip_button)).perform(click());
+		onView(allOf(withId(R.id.details_add_trip_button), isDisplayed())).perform(click());
 	}
 
 	public static void clickBookFlight() {
@@ -86,7 +116,10 @@ public class Results {
 	}
 
 	public static void clickFlightAtIndex(int index) {
-		onData(anything()).inAdapterView(withContentDescription("Flight Search Results")).atPosition(index).perform(click());
+		onData(anything()) //
+			.inAdapterView(allOf(withContentDescription("Flight Search Results"), isDisplayed())) //
+			.atPosition(index) //
+			.perform(click());
 	}
 
 	public static void clickHotelWithName(String hotelName) {
