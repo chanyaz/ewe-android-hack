@@ -14,6 +14,7 @@ import android.content.res.Configuration;
 import android.text.format.DateUtils;
 
 import com.activeandroid.ActiveAndroid;
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.appwidget.ExpediaBookingsWidgetProvider;
 import com.expedia.bookings.bitmaps.L2ImageCache;
@@ -57,12 +58,12 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	private static final String PREF_UPGRADED_TO_PRODUCTION_PUSH = "PREF_UPGRADED_TO_PRODUCTION_PUSH";
 
 	private static final int MIN_IMAGE_CACHE_SIZE = (1024 * 1024 * 6); // 6 MB
-	public static final boolean IS_EXPEDIA = AndroidUtils.getBuildConfigValue("IS_EXPEDIA"); // Check to see if this is an Expedia app build
-	public static final boolean IS_VSC = AndroidUtils.getBuildConfigValue("IS_VSC"); // Check to see if this is a VSC app build
-	public static final boolean IS_TRAVELOCITY = AndroidUtils.getBuildConfigValue("IS_TRAVELOCITY"); // Check to see if this is a Travelocity app build
-	public static final boolean IS_AUTOMATION = AndroidUtils.getBuildConfigValue("IS_AUTOMATION"); // Check to see if this is an automation build
+	public static final boolean IS_EXPEDIA = BuildConfig.IS_EXPEDIA;
+	public static final boolean IS_VSC = BuildConfig.IS_VSC;
+	public static final boolean IS_TRAVELOCITY = BuildConfig.IS_TRAVELOCITY;
+	public static final boolean IS_AUTOMATION = BuildConfig.IS_AUTOMATION;
 
-	public static final String MEDIA_URL = BuildConfigUtils.get("com.expedia.bookings", "MEDIA_URL");
+	public static final String MEDIA_URL = BuildConfig.MEDIA_URL;
 
 	private UncaughtExceptionHandler mOriginalUncaughtExceptionHandler;
 
