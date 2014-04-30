@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -29,7 +29,6 @@ public class BlurredBackgroundFragment extends Fragment {
 
 	private Bitmap mBgBitmap;
 	private Bitmap mBlurredBgBitmap;
-	private String mBitmapCacheKey;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,7 +57,6 @@ public class BlurredBackgroundFragment extends Fragment {
 	public void loadBitmapFromCache(Context context) {
 		Bitmap og = ExpediaImageManager.getInstance().getDestinationBitmap(context, Db.getFlightSearch(), false);
 		Bitmap bl = ExpediaImageManager.getInstance().getDestinationBitmap(context, Db.getFlightSearch(), true);
-		mBitmapCacheKey = ExpediaImageManager.getInstance().getDestinationBitmapKey(context, Db.getFlightSearch());
 
 		// If Bitmaps according to our FlightSearch aren't in memory, then we should default to the clouds from resources
 		if (og == null || bl == null) {
@@ -77,15 +75,11 @@ public class BlurredBackgroundFragment extends Fragment {
 	private void displayBackground() {
 		if (mBgBitmap != null && mBlurredBgBitmap != null) {
 			if (mBackgroundBgView != null) {
-				UrlBitmapDrawable ubp = new UrlBitmapDrawable(getResources(), mBitmapCacheKey, false,
-					L2ImageCache.sDestination);
-				ubp.configureImageView(mBackgroundBgView);
+				mBackgroundBgView.setImageDrawable(new BitmapDrawable(getResources(), mBgBitmap));
 			}
 
 			if (mBackgroundFgView != null) {
-				UrlBitmapDrawable ubp = new UrlBitmapDrawable(getResources(), mBitmapCacheKey, true,
-					L2ImageCache.sDestination);
-				ubp.configureImageView(mBackgroundFgView);
+				mBackgroundFgView.setImageDrawable(new BitmapDrawable(getResources(), mBlurredBgBitmap));
 			}
 		}
 	}
