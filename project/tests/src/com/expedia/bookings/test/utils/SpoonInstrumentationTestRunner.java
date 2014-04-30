@@ -1,4 +1,4 @@
-package com.expedia.bookings.tests.utils;
+package com.expedia.bookings.test.utils;
 
 import android.app.Application;
 import android.app.KeyguardManager;

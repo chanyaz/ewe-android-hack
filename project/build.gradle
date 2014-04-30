@@ -76,7 +76,7 @@ android {
         ExpediaAutomation {
             buildConfigField "boolean", "IS_EXPEDIA", "true"
             packageName "com.expedia.bookings.auto"
-            testInstrumentationRunner "com.expedia.bookings.tests.utils.SpoonInstrumentationTestRunner"
+            testInstrumentationRunner "com.expedia.bookings.test.utils.SpoonInstrumentationTestRunner"
         }
 
         TravelocityAutomation {
