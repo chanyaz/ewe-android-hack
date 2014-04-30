@@ -58,7 +58,7 @@ public class GuestsPickerUtils {
 	}
 
 	public static void showOrHideChildAgeSpinners(Context context, List<ChildTraveler> children, View container, OnItemSelectedListener listener) {
-		showOrHideChildAgeSpinners(context, children, container, listener, View.GONE);
+		showOrHideChildAgeSpinners(context, children, container, listener, View.INVISIBLE);
 	}
 
 	public static void showOrHideChildAgeSpinners(Context context, List<ChildTraveler> children, View container,

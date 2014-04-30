@@ -23,7 +23,7 @@
                 android:visibility="visible" />
 
             <include
-                android:id="@+id/child_2_age_layout"
+                android:id="@+id/child_3_age_layout"
                 layout="@layout/include_child_age_row"
                 android:visibility="visible" />
         </LinearLayout>
@@ -35,7 +35,7 @@
             android:orientation="vertical" >
 
             <include
-                android:id="@+id/child_3_age_layout"
+                android:id="@+id/child_2_age_layout"
                 layout="@layout/include_child_age_row"
                 android:visibility="visible" />
 
