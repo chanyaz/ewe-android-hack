@@ -67,7 +67,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 	private ArrayList<Traveler> getAvailableTravelers() {
 		boolean removeWorkingTraveler = true;
-		boolean removeDbTravelers = false;
+		boolean removeDbTravelers = true;
 
 		if (User.isLoggedIn(getContext()) && Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null) {
 			ArrayList<Traveler> availableTravelers = new ArrayList<Traveler>(Db.getUser().getAssociatedTravelers());
@@ -86,11 +86,16 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 				//Remove the travelers already in Db from the list of available travelers
 				if (removeDbTravelers && Db.getTravelers() != null) {
+					boolean removed = false;
 					for (Traveler dbTrav : Db.getTravelers()) {
 						if (dbTrav.compareNameTo(trav) == 0) {
 							availableTravelers.remove(i);
+							removed = true;
 							break;
 						}
+					}
+					if (removed) {
+						continue;
 					}
 				}
 
@@ -98,6 +103,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 				if (!TextUtils.isEmpty(mFilterStr) && !TextUtils.isEmpty(trav.getFullName()) && !trav.getFullName()
 					.toLowerCase().contains(mFilterStr.toLowerCase())) {
 					availableTravelers.remove(i);
+					continue;
 				}
 			}
 
@@ -106,7 +112,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 		return new ArrayList<Traveler>();
 	}
 
-	public void clearFilter(){
+	public void clearFilter() {
 		mFilterStr = "";
 	}
 
@@ -124,7 +130,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 				return "";
 			}
 			else {
-				if(PointOfSale.getPointOfSale().showLastNameFirst()){
+				if (PointOfSale.getPointOfSale().showLastNameFirst()) {
 					return ((Traveler) resultValue).getLastName();
 				}
 				return ((Traveler) resultValue).getFirstName();
