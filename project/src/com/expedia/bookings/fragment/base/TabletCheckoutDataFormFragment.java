@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.fragment.CheckoutLoginButtonsFragment;
+import com.expedia.bookings.widget.SlidingRadioGroup;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -22,6 +23,7 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 	private ViewGroup mFormContentC;
 	private TextView mHeadingText;
 	private TextView mHeadingButton;
+	private SlidingRadioGroup mSaveRadioGroup;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 		mFormContentC = Ui.findView(mRootC, R.id.content_container);
 		mHeadingText = Ui.findView(mRootC, R.id.header_tv);
 		mHeadingButton = Ui.findView(mRootC, R.id.header_text_button_tv);
+		mSaveRadioGroup = Ui.findView(mRootC, R.id.save_button_group);
 
 		setUpFormContent(mFormContentC);
 
@@ -63,6 +66,10 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 
 	public TextView getHeadingButtonTextView() {
 		return mHeadingButton;
+	}
+
+	public SlidingRadioGroup getSaveRadioGroup() {
+		return mSaveRadioGroup;
 	}
 
 	@Override
