@@ -17,14 +17,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
@@ -97,46 +95,13 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		}
 		mTravelerNumber = travelerNumber;
 		if (mSectionTraveler != null && travelerNumber >= 0 && travelerNumber < Db.getTravelers().size()) {
-			Traveler trav = Db.getWorkingTravelerManager().getWorkingTraveler();
-			mSectionTraveler.bind(trav);
+			mSectionTraveler.bind(Db.getWorkingTravelerManager().getWorkingTraveler());
 
 			setHeadingText(mHeaderString);
 			setHeadingButtonText(getString(R.string.done));
 			setHeadingButtonOnClick(mHeaderButtonClickListener);
-
-			if (User.isLoggedIn(getActivity())) {
-				if (trav.getSaveTravelerToExpediaAccount()) {
-					getSaveRadioGroup().check(R.id.save_true);
-				}
-				else {
-					getSaveRadioGroup().check(R.id.save_false);
-				}
-				getSaveRadioGroup().setVisibility(View.VISIBLE);
-				getSaveRadioGroup().setOnCheckedChangeListener(mSaveCheckChangedListener);
-			}
-			else {
-				getSaveRadioGroup().setOnCheckedChangeListener(null);
-				getSaveRadioGroup().setVisibility(View.GONE);
-			}
 		}
 	}
-
-	private RadioGroup.OnCheckedChangeListener mSaveCheckChangedListener = new RadioGroup.OnCheckedChangeListener() {
-
-		@Override
-		public void onCheckedChanged(RadioGroup group, int checkedId) {
-			switch (checkedId) {
-			case R.id.save_true: {
-				Db.getWorkingTravelerManager().getWorkingTraveler().setSaveTravelerToExpediaAccount(true);
-				break;
-			}
-			case R.id.save_false: {
-				Db.getWorkingTravelerManager().getWorkingTraveler().setSaveTravelerToExpediaAccount(false);
-				break;
-			}
-			}
-		}
-	};
 
 	private OnClickListener mHeaderButtonClickListener = new OnClickListener() {
 		@Override

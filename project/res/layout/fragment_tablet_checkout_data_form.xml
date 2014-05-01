@@ -46,50 +46,6 @@
             app:textStyle="light"
             android:textSize="16dp" />
 
-        <LinearLayout
-            android:id="@+id/header_right_container"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right">
-
-            <com.expedia.bookings.widget.SlidingRadioGroup
-                android:id="@+id/save_button_group"
-                style="?attr/hotelListingFilterGroupStyle"
-                android:layout_width="wrap_content"
-                android:visibility="gone"
-                android:layout_height="24dp">
-
-                <RadioButton
-                    android:id="@+id/save_true"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:layout_weight="1"
-                    android:checked="true"
-                    android:button="@android:color/transparent"
-                    android:contentDescription="@string/save"
-                    android:gravity="center"
-                    android:textSize="14dp"
-                    android:text="@string/save_traveler"
-                    android:textColor="@color/sliding_group_text" />
-
-                <RadioButton
-                    android:id="@+id/save_false"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:button="@android:color/transparent"
-                    android:contentDescription="@string/dont_save"
-                    android:gravity="center"
-                    android:textSize="14dp"
-                    android:text="@string/dont_save"
-                    android:textColor="@color/sliding_group_text" />
-            </com.expedia.bookings.widget.SlidingRadioGroup>
-        </LinearLayout>
     </LinearLayout>
 
     <ScrollView
