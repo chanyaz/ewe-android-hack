@@ -116,20 +116,21 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 			}
 		});
 
+		return mRootC;
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+
 		//Add default fragments
 		FragmentManager manager = getChildFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
 		mHistogramFrag = FragmentAvailabilityUtils.setFragmentAvailability(true,
-			FTAG_HISTOGRAM,
-			manager, transaction, this, R.id.histogram_container, false);
+			FTAG_HISTOGRAM, manager, transaction, this, R.id.histogram_container, false);
 		mGdeDownloadFrag = FragmentAvailabilityUtils.setFragmentAvailability(
-			true,
-			FTAG_GDE_DOWNLOADER, manager, transaction, this,
-			0, false);
-
+			true, FTAG_GDE_DOWNLOADER, manager, transaction, this, 0, false);
 		transaction.commit();
-
-		return mRootC;
 	}
 
 	@Override
