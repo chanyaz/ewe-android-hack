@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.joda.time.LocalDate;
 
@@ -62,7 +63,7 @@ public class WalletUtils {
 
 	// Force the separator to be '.', since that's the format that Google Wallet requires
 	static {
-		DecimalFormatSymbols symbols = MONEY_FORMAT.getDecimalFormatSymbols();
+		DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("en", "US"));
 		symbols.setDecimalSeparator('.');
 		MONEY_FORMAT.setDecimalFormatSymbols(symbols);
 	}
@@ -223,7 +224,9 @@ public class WalletUtils {
 	}
 
 	public static String formatAmount(Money money) {
-		return MONEY_FORMAT.format(money.getAmount());
+		final String result = MONEY_FORMAT.format(money.getAmount());
+		Log.d("Formatting amount for google wallet: " + result);
+		return result;
 	}
 
 	public static String getFormattedPaymentDescription(MaskedWallet maskedWallet) {
