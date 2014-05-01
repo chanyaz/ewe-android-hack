@@ -74,7 +74,14 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		TextView priceTextView = Ui.findView(vg, R.id.price_expanded_bucket_text_view);
 		String price = rate.getDisplayTotalPrice().getFormattedMoney();
 		priceTextView.setText(price);
-		priceTextView.setOnClickListener(getCostBreakdownListener());
+		priceTextView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				BreakdownDialogFragment dialogFrag = BreakdownDialogFragment.buildHotelRateBreakdownDialog(getActivity(),
+					Db.getHotelSearch());
+				dialogFrag.show(getFragmentManager(), BreakdownDialogFragment.TAG);
+			}
+		});
 
 		root.addView(vg);
 
@@ -123,20 +130,6 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 			return null;
 		}
 	}
-
-	@Override
-	public OnClickListener getCostBreakdownListener() {
-		return mCostBreakDownListener;
-	}
-
-	private OnClickListener mCostBreakDownListener = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			BreakdownDialogFragment dialogFrag = BreakdownDialogFragment.buildHotelRateBreakdownDialog(getActivity(),
-				Db.getHotelSearch());
-			dialogFrag.show(getFragmentManager(), BreakdownDialogFragment.TAG);
-		}
-	};
 
 	@Override
 	public OnClickListener getOnBookClickListener() {

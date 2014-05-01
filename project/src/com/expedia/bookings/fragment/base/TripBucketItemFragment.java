@@ -267,6 +267,4 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 	public abstract OnClickListener getOnBookClickListener();
 
-	public abstract OnClickListener getCostBreakdownListener();
-
 }

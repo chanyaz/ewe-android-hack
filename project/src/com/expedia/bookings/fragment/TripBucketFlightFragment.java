@@ -208,26 +208,19 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 			TextView priceTextView = Ui.findView(mExpandedView, R.id.price_expanded_bucket_text_view);
 			String price = mFlightTrip.getTotalFareWithCardFee(Db.getBillingInfo()).getFormattedMoney();
 			priceTextView.setText(price);
-			priceTextView.setOnClickListener(getCostBreakdownListener());
+			priceTextView.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					BreakdownDialogFragment dialogFrag = BreakdownDialogFragment.buildFlightBreakdownDialog(getActivity(),
+						Db.getFlightSearch(), Db.getBillingInfo());
+					dialogFrag.show(getFragmentManager(), BreakdownDialogFragment.TAG);
+				}
+			});
 		}
 		else {
 			Ui.showToast(getActivity(), "TODO fix billing data load timing issue!");
 		}
 	}
-
-	@Override
-	public OnClickListener getCostBreakdownListener() {
-		return mCostBreakDownListener;
-	}
-
-	private OnClickListener mCostBreakDownListener = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-		BreakdownDialogFragment dialogFrag = BreakdownDialogFragment.buildFlightBreakdownDialog(getActivity(),
-			Db.getFlightSearch(), Db.getBillingInfo());
-		dialogFrag.show(getFragmentManager(), BreakdownDialogFragment.TAG);
-		}
-	};
 
 	@Override
 	public OnClickListener getOnBookClickListener() {
