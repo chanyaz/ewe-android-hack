@@ -1012,6 +1012,8 @@
     <string name="prompt_departure_airport">Select departure airport</string>
     <!-- Prompt for spinner dialog when selecting arrival airport -->
     <string name="prompt_arrival_airport">Select arrival airport</string>
+    <!-- Prompt when user selects more infant travelers than available laps -->
+    <string name="not_enough_laps_for_infants">There must be one adult passenger for every infant if infants are going to sit in lap.</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->

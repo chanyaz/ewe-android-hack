@@ -181,4 +181,19 @@ public class GuestsPickerUtils {
 		}
 		return parent.findViewById(resId);
 	}
+
+	public static boolean moreInfantsThanAvailableLaps(int numAdults, List<ChildTraveler> children) {
+		int infantCount = 0;
+		int adultChildCount = 0;
+		for (ChildTraveler c : children) {
+			int age = c.getAge();
+			if (age < GuestsPickerUtils.MIN_CHILD_PC_AGE) {
+				infantCount++;
+			}
+			else if (age < GuestsPickerUtils.MIN_ADULT_PC_AGE && age >= GuestsPickerUtils.MIN_ADULT_CHILD_PC_AGE) {
+				adultChildCount++;
+			}
+		}
+		return infantCount > numAdults + adultChildCount;
+	}
 }

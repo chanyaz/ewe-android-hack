@@ -44,9 +44,11 @@ public class ResultsGuestPicker extends Fragment {
 	private View mChildPlus;
 	private View mChildAgesLayout;
 	private TextView mHeaderTextView;
+	private TextView mInfantAlertTextView;
 
 	private int mAdultCount;
 	private ArrayList<ChildTraveler> mChildren = new ArrayList<ChildTraveler>();
+	private boolean mInfantsInLaps;
 
 	private GuestsDialogFragment.GuestsDialogFragmentListener mListener;
 
@@ -83,9 +85,12 @@ public class ResultsGuestPicker extends Fragment {
 		mChildAgesLayout.setVisibility(getChildAgesVisibility());
 
 		mHeaderTextView = Ui.findView(mRootC, R.id.tablet_guest_picker_header);
+		mInfantAlertTextView = Ui.findView(mRootC, R.id.tablet_lap_infant_alert);
+
 		FontCache.setTypeface(mHeaderTextView, Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(mAdultText, Font.ROBOTO_LIGHT);
 		FontCache.setTypeface(mChildText, Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(mInfantAlertTextView, Font.ROBOTO_LIGHT);
 
 		TextView doneButton = Ui.findView(mRootC, R.id.tablet_guest_picker_done_button);
 		FontCache.setTypeface(doneButton, Font.ROBOTO_LIGHT);
@@ -161,7 +166,8 @@ public class ResultsGuestPicker extends Fragment {
 	public void addAdult() {
 		if (mAdultCount < MAX_ADULTS && canAddAnotherTraveler()) {
 			mAdultCount++;
-			mListener.onGuestsChanged(mAdultCount, mChildren);
+			toggleInfantSeatingStates();
+			mListener.onGuestsChanged(mAdultCount, mChildren, mInfantsInLaps);
 			bind();
 		}
 	}
@@ -169,7 +175,8 @@ public class ResultsGuestPicker extends Fragment {
 	public void removeAdult() {
 		if (mAdultCount > 1) {
 			mAdultCount--;
-			mListener.onGuestsChanged(mAdultCount, mChildren);
+			toggleInfantSeatingStates();
+			mListener.onGuestsChanged(mAdultCount, mChildren, mInfantsInLaps);
 			bind();
 		}
 	}
@@ -177,7 +184,8 @@ public class ResultsGuestPicker extends Fragment {
 	public void addChild(int age) {
 		if (mChildren.size() < MAX_CHILDREN && canAddAnotherTraveler()) {
 			mChildren.add(new ChildTraveler(age, false));
-			mListener.onGuestsChanged(mAdultCount, mChildren);
+			toggleInfantSeatingStates();
+			mListener.onGuestsChanged(mAdultCount, mChildren, mInfantsInLaps);
 			bind();
 		}
 	}
@@ -185,7 +193,8 @@ public class ResultsGuestPicker extends Fragment {
 	public void removeChild(int index) {
 		if (index >= 0 && index < mChildren.size()) {
 			mChildren.remove(index);
-			mListener.onGuestsChanged(mAdultCount, mChildren);
+			toggleInfantSeatingStates();
+			mListener.onGuestsChanged(mAdultCount, mChildren, mInfantsInLaps);
 			bind();
 		}
 	}
@@ -210,7 +219,8 @@ public class ResultsGuestPicker extends Fragment {
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 			GuestsPickerUtils.setChildrenFromSpinners(getActivity(), mChildAgesLayout, mChildren);
 			GuestsPickerUtils.updateDefaultChildTravelers(getActivity(), mChildren);
-			mListener.onGuestsChanged(mAdultCount, mChildren);
+			toggleInfantSeatingStates();
+			mListener.onGuestsChanged(mAdultCount, mChildren, mInfantsInLaps);
 		}
 
 		public void onNothingSelected(AdapterView<?> parent) {
@@ -218,7 +228,18 @@ public class ResultsGuestPicker extends Fragment {
 		}
 	};
 
-	public void setHeaderString() {
+	public void toggleInfantSeatingStates() {
+		if (GuestsPickerUtils.moreInfantsThanAvailableLaps(mAdultCount, mChildren)) {
+			mInfantAlertTextView.setVisibility(View.VISIBLE);
+			mInfantsInLaps = false;
+		}
+		else {
+			mInfantAlertTextView.setVisibility(View.GONE);
+			mInfantsInLaps = true;
+		}
+	}
+
+	private void setHeaderString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(mAdultText.getText());
 		if (mChildren.size() > 0) {

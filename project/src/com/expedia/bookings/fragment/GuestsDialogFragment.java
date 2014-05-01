@@ -219,5 +219,7 @@ public class GuestsDialogFragment extends DialogFragment {
 
 	public interface GuestsDialogFragmentListener {
 		public void onGuestsChanged(int numAdults, ArrayList<ChildTraveler> numChildren);
+
+		public void onGuestsChanged(int numAdults, ArrayList<ChildTraveler> numChildren, boolean infantsInLaps);
 	}
 }

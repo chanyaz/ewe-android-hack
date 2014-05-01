@@ -480,15 +480,11 @@ public class ExpediaServices implements DownloadListener {
 
 	private void addFlightChildTravelerParameters(List<BasicNameValuePair> query, FlightSearchParams params) {
 		List<ChildTraveler> children = params.getChildren();
-		boolean infantSeatingInLap = false;
 		if (children != null) {
 			for (ChildTraveler child : children) {
-				if (!child.usingSeat() && child.getAge() <= 1) {
-					infantSeatingInLap = true;
-				}
 				query.add(new BasicNameValuePair("childTravelerAge", Integer.toString(child.getAge())));
 			}
-			query.add(new BasicNameValuePair("infantSeatingInLap", Boolean.toString(infantSeatingInLap)));
+			query.add(new BasicNameValuePair("infantSeatingInLap", Boolean.toString(params.getInfantSeatingInLap())));
 		}
 	}
 

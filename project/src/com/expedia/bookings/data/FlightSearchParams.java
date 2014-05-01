@@ -61,15 +61,11 @@ public class FlightSearchParams implements JSONable {
 		return getNumChildren() - numberOfUnseatedTravelers;
 	}
 
-	public boolean infantSeatingInLap() {
-		boolean mInfantSeatingInLap = false;
-		if (getChildren() != null) {
-			for (ChildTraveler child : getChildren()) {
-				if (!child.usingSeat() && child.getAge() <= 1) {
-					mInfantSeatingInLap = true;
-				}
-			}
-		}
+	public void setInfantSeatingInLap(boolean infantSeatingInLap) {
+		mInfantSeatingInLap = infantSeatingInLap;
+	}
+
+	public boolean getInfantSeatingInLap() {
 		return mInfantSeatingInLap;
 	}
 
@@ -264,6 +260,7 @@ public class FlightSearchParams implements JSONable {
 			obj.put("adults", mAdults);
 			JSONUtils.putJSONableList(obj, "children", mChildren);
 			JSONUtils.putJSONableList(obj, "queryLegs", mQueryLegs);
+			obj.put("infantsInLaps", mInfantSeatingInLap);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -276,6 +273,7 @@ public class FlightSearchParams implements JSONable {
 		mAdults = obj.optInt("adults");
 		mChildren = JSONUtils.getJSONableList(obj, "children", ChildTraveler.class);
 		mQueryLegs = JSONUtils.getJSONableList(obj, "queryLegs", FlightSearchLeg.class);
+		mInfantSeatingInLap = obj.optBoolean("infantsInLaps");
 		return true;
 	}
 

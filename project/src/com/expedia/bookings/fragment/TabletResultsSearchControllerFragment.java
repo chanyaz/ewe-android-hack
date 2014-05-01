@@ -42,6 +42,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
+import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
@@ -312,11 +313,20 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	 */
 
 	@Override
+	public void onGuestsChanged(int numAdults, ArrayList<ChildTraveler> children, boolean infantsInLaps) {
+		guestsChangeHelper(numAdults, children, infantsInLaps);
+	}
+
+	@Override
 	public void onGuestsChanged(int numAdults, ArrayList<ChildTraveler> children) {
 		guestsChangeHelper(numAdults, children);
 	}
 
 	private void guestsChangeHelper(int numAdults, List<ChildTraveler> children) {
+		guestsChangeHelper(numAdults, children, !GuestsPickerUtils.moreInfantsThanAvailableLaps(numAdults, children));
+	}
+
+	private void guestsChangeHelper(int numAdults, List<ChildTraveler> children, boolean infantsInLaps) {
 		if (!mIgnoreGuestChanges) {
 			mIgnoreGuestChanges = true;
 
@@ -327,6 +337,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 			mLocalParams.setNumAdults(numAdults);
 			mLocalParams.setChildTravelers(children);
+			mLocalParams.setInfantsInLaps(infantsInLaps);
 			bindTravBtn();
 
 			mIgnoreGuestChanges = false;
