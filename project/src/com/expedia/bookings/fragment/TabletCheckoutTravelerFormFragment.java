@@ -43,6 +43,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	}
 
 	private static final String STATE_TRAVELER_NUMBER = "STATE_TRAVELER_NUMBER";
+	private static final String STATE_HEADER_STRING = "STATE_HEADER_STRING";
 	private static final String STATE_FORM_IS_OPEN = "STATE_FORM_IS_OPEN";
 
 	private int mTravelerNumber = -1;
@@ -65,12 +66,19 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	public void onResume() {
 		super.onResume();
 		bindToDb(mTravelerNumber);
+		if (mFormOpen) {
+			onFormOpened();
+		}
+		else {
+			onFormClosed();
+		}
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
 			mTravelerNumber = savedInstanceState.getInt(STATE_TRAVELER_NUMBER, mTravelerNumber);
+			mHeaderString = savedInstanceState.getString(STATE_HEADER_STRING, mHeaderString);
 			if (Db.getWorkingTravelerManager().getAttemptToLoadFromDisk() && Db.getWorkingTravelerManager()
 				.hasTravelerOnDisk(getActivity())) {
 				Db.getWorkingTravelerManager().loadWorkingTravelerFromDisk(getActivity());
@@ -87,6 +95,9 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt(STATE_TRAVELER_NUMBER, mTravelerNumber);
+		if (mHeaderString != null) {
+			outState.putString(STATE_HEADER_STRING, mHeaderString);
+		}
 	}
 
 	public void bindToDb(int travelerNumber) {
@@ -273,11 +284,10 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 
 	@Override
 	protected void onFormClosed() {
-		if (mFormOpen) {
+		if (isResumed() && mFormOpen) {
 			mTravelerAdapter.clearFilter();
 			mTravelerAutoComplete.dismissDropDown();
 			mTravelerAutoComplete.setAdapter((ArrayAdapter<Traveler>) null);
-
 			clearForm();
 		}
 		mFormOpen = false;
@@ -285,7 +295,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 
 	@Override
 	public void onFormOpened() {
-		if (!mFormOpen || mTravelerAutoComplete.hasFocus()) {
+		if (isResumed() && (!mFormOpen || mTravelerAutoComplete.hasFocus())) {
 			mTravelerAutoComplete.setOnFocusChangeListener(mNameFocusListener);
 			mTravelerAutoComplete.requestFocus();//<-- This fires the onFocusChangeListener
 			mTravelerAutoComplete.postDelayed(new Runnable() {
