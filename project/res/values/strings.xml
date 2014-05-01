@@ -163,6 +163,14 @@
     <string name="cd_sort_by_distance">Press to sort by the closest hotels.</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">From %s</string>
+    <!--  Header for toggling infant seat option -->
+    <string name="header_child_traveler_seating">Child Traveler Seating</string>
+    <!-- Title explanation for toggling infant seat option -->
+    <string name="infant_seating_spinner_title">Children under 2 yrs</string>
+    <!-- Drop down item for denoting that infant travellers are in laps -->
+    <string name="infants_in_laps">Infants in laps</string>
+    <!-- Drop down item for denoting that infant travellers are in seats -->
+    <string name="infants_in_seats">Infants in seats</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->

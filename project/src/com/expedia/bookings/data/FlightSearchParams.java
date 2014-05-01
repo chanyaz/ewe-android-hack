@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -248,6 +249,19 @@ public class FlightSearchParams implements JSONable {
 
 			mQueryLegs.add(returnLeg);
 		}
+	}
+
+	public boolean hasInfants() {
+		boolean ret = false;
+		if (mChildren != null) {
+			for (ChildTraveler c : mChildren) {
+				if (c.getAge() < GuestsPickerUtils.MIN_CHILD_PC_AGE) {
+					ret = true;
+					break;
+				}
+			}
+		}
+		return ret;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

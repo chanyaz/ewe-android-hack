@@ -10,8 +10,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -19,6 +21,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.section.InfantSeatingOptionSpinnerAdapter;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportFilterWidget;
 import com.expedia.bookings.widget.CheckBoxFilterWidget;
@@ -34,6 +37,8 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	private int mLegNumber;
 
 	private FlightFilter mFilter;
+
+	private Spinner mInfantSeatingSpinner;
 
 	private SlidingRadioGroup mSortGroup;
 	private SlidingRadioGroup mFilterGroup;
@@ -71,6 +76,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_flight_tablet_filter, container, false);
 
+		setUpInfantToggle(view);
 		mSortGroup = Ui.findView(view, R.id.flight_sort_control);
 		mFilterGroup = Ui.findView(view, R.id.flight_filter_control);
 
@@ -115,6 +121,41 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			bindSortFilter();
 			bindAirportFilter();
 			buildAirlineList();
+		}
+	}
+
+	public void setUpInfantToggle(View view) {
+		View toggleLayout = Ui.findView(view, R.id.infant_toggle_container);
+		View toggleHeader = Ui.findView(view, R.id.infant_toggle_header);
+		if (Db.getFlightSearch().getSearchParams().hasInfants()) {
+			toggleLayout.setVisibility(View.VISIBLE);
+			toggleHeader.setVisibility(View.VISIBLE);
+			mInfantSeatingSpinner = Ui.findView(view, R.id.edit_infant_seating_spinner);
+			mInfantSeatingSpinner.setAdapter(new InfantSeatingOptionSpinnerAdapter(getActivity()));
+			mInfantSeatingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+					boolean infantStatusDb = Db.getFlightSearch().getSearchParams().getInfantSeatingInLap();
+					boolean infantStatusSelected = (Boolean) mInfantSeatingSpinner.getAdapter().getItem(position);
+
+					if (infantStatusDb != infantStatusSelected) {
+						Db.getFlightSearch().getSearchParams().setInfantSeatingInLap(infantStatusSelected);
+						// TODO: Invalidate current flight results and show loading animation
+						// TODO: Kick off new search
+						// TODO: load it up
+					}
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> parent) {
+					// Nothing?
+				}
+			});
+		}
+		else {
+			toggleLayout.setVisibility(View.GONE);
+			toggleHeader.setVisibility(View.GONE);
 		}
 	}
 
