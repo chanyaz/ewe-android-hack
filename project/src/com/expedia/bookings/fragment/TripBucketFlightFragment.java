@@ -22,7 +22,6 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.server.ExpediaServices;
@@ -211,9 +210,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 			priceTextView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					BreakdownDialogFragment dialogFrag = BreakdownDialogFragment.buildFlightBreakdownDialog(getActivity(),
-						Db.getFlightSearch(), Db.getBillingInfo());
-					dialogFrag.show(getFragmentManager(), BreakdownDialogFragment.TAG);
+					showBreakdownDialog(LineOfBusiness.FLIGHTS);
 				}
 			});
 		}

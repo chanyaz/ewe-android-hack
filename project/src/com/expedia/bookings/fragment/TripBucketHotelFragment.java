@@ -18,7 +18,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemHotel;
-import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -77,9 +76,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		priceTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				BreakdownDialogFragment dialogFrag = BreakdownDialogFragment.buildHotelRateBreakdownDialog(getActivity(),
-					Db.getHotelSearch());
-				dialogFrag.show(getFragmentManager(), BreakdownDialogFragment.TAG);
+				showBreakdownDialog(LineOfBusiness.HOTELS);
 			}
 		});
 

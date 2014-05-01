@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
@@ -48,6 +51,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private TextView mDurationText;
 	private ImageView mBookingCompleteCheckImg;
 	private HeaderBitmapColorAveragedDrawable mHeaderBitmapDrawable;
+
+	private BreakdownDialogFragment mBreakdownFrag;
 
 	//Colors
 	private int mExpandedBgColor = Color.WHITE;
@@ -128,6 +133,24 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				mHeaderBitmapDrawable.enableOverlay();
 				addTripBucketImage(mTripBucketImageView, mHeaderBitmapDrawable);
 			}
+		}
+	}
+
+	protected void showBreakdownDialog(LineOfBusiness lob) {
+		mBreakdownFrag = com.expedia.bookings.utils.Ui.findSupportFragment(TripBucketItemFragment.this, BreakdownDialogFragment.TAG);
+		if (mBreakdownFrag == null) {
+			if (lob == LineOfBusiness.FLIGHTS) {
+				mBreakdownFrag = BreakdownDialogFragment.buildFlightBreakdownDialog(getActivity(), Db.getFlightSearch(), Db.getBillingInfo());
+			}
+			else if (lob == LineOfBusiness.HOTELS) {
+				mBreakdownFrag = BreakdownDialogFragment.buildHotelRateBreakdownDialog(getActivity(), Db.getHotelSearch());
+			}
+			else {
+				throw new UnsupportedOperationException("Attempting to show a price breakdown dialog for a LOB not supported.");
+			}
+		}
+		if (!mBreakdownFrag.isAdded()) {
+			mBreakdownFrag.show(getFragmentManager(), BreakdownDialogFragment.TAG);
 		}
 	}
 
