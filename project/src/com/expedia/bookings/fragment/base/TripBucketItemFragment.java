@@ -20,6 +20,7 @@ import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
+import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.widget.TextView;
@@ -50,6 +51,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private ImageView mTripBucketImageView;
 	private TextView mBookBtnText;
 	private TextView mTripPriceText;
+	private ViewGroup mNameAndDurationContainer;
 	private TextView mNameText;
 	private TextView mDurationText;
 	private android.widget.TextView mPriceChangedTv;
@@ -84,8 +86,10 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		mPriceChangedC = Ui.findView(mRootC, R.id.trip_bucket_item_price_change_container);
 
 		addTopView(inflater, mTopC);
+		addExpandedView(inflater, mExpandedC);
 		addPriceChangeNotificationView(inflater, mPriceChangedC);
 
+		registerStateListener(new StateListenerLogger<TripBucketItemState>(), false);
 		registerStateListener(mStateHelper, false);
 
 		return mRootC;
@@ -97,6 +101,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		mBookBtnContainer = Ui.findView(root, R.id.book_button_container);
 		mBookBtnText = Ui.findView(root, R.id.book_button_text);
 		mTripPriceText = Ui.findView(root, R.id.trip_bucket_price_text);
+		mNameAndDurationContainer = Ui.findView(root, R.id.name_and_trip_duration_container);
 		mNameText = Ui.findView(root, R.id.name_text_view);
 		mDurationText = Ui.findView(root, R.id.trip_duration_text_view);
 		mBookingCompleteCheckImg = Ui.findView(root, R.id.booking_complete_check);
@@ -108,6 +113,10 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		mTripBucketImageView.setImageDrawable(mHeaderBitmapDrawable);
 	}
 
+	private void addPriceChangeNotificationView(LayoutInflater inflater, ViewGroup viewGroup) {
+		ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_price_change_notification, viewGroup);
+		mPriceChangedTv = Ui.findView(root, R.id.price_change_notification_text);
+	}
 
 	@Override
 	public void onResume() {
@@ -119,11 +128,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	public void onPause() {
 		super.onPause();
 		Events.unregister(this);
-	}
-
-	private void addPriceChangeNotificationView(LayoutInflater inflater, ViewGroup viewGroup) {
-		ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_price_change_notification, viewGroup);
-		mPriceChangedTv = Ui.findView(root, R.id.price_change_notification_text);
 	}
 
 	@Override
@@ -139,8 +143,20 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		bind();
 	}
 
+	public int getTopHeight() {
+		return mTopC.getHeight();
+	}
+
+	public int getExpandedHeight() {
+		return mExpandedC.getHeight();
+	}
+
+	public int getPriceChangeHeight() {
+		return mPriceChangedC.getHeight();
+	}
+
 	public void setState(TripBucketItemState state) {
-		mStateManager.setState(state, false);
+		mStateManager.setState(state, true);
 	}
 
 	public TripBucketItemState getState() {
@@ -163,6 +179,13 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				addTripBucketImage(mTripBucketImageView, mHeaderBitmapDrawable);
 			}
 			mPriceChangedTv.setText(mPriceChangeNotificationText);
+		}
+	}
+
+	public void setPriceChangeNotificationText(String priceChangeText) {
+		if (priceChangeText != null) {
+			this.mPriceChangeNotificationText = priceChangeText;
+			mPriceChangedTv.setText(priceChangeText);
 		}
 	}
 
@@ -189,39 +212,146 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	*/
 
 	private StateListenerHelper<TripBucketItemState> mStateHelper = new StateListenerHelper<TripBucketItemState>() {
-
 		@Override
 		public void onStateTransitionStart(TripBucketItemState stateOne, TripBucketItemState stateTwo) {
-			//Currently we are never animating.
+			// Collapsed --> Expanded, Price Change
+			if ((stateOne == TripBucketItemState.SHOWING_CHECKOUT_BUTTON || stateOne == TripBucketItemState.DEFAULT)
+				&& stateTwo == TripBucketItemState.EXPANDED) {
+
+				mExpandedC.setVisibility(View.VISIBLE);
+				mBookBtnContainer.setVisibility(View.VISIBLE);
+				mBookBtnContainer.setAlpha(1.0f);
+				setNameAndDurationSlidePercentage(0.0f);
+				setExpandedSlidePercentage(0.0f);
+			}
+			if ((stateOne == TripBucketItemState.SHOWING_CHECKOUT_BUTTON || stateOne == TripBucketItemState.DEFAULT)
+				&& stateTwo == TripBucketItemState.SHOWING_PRICE_CHANGE) {
+
+				mExpandedC.setVisibility(View.VISIBLE);
+				mBookBtnContainer.setVisibility(View.VISIBLE);
+				mBookBtnContainer.setAlpha(1.0f);
+				setNameAndDurationSlidePercentage(0.0f);
+				setExpandedSlidePercentage(0.0f);
+
+				// TODO animate price change
+				mPriceChangedC.setVisibility(View.VISIBLE);
+			}
+
+			// Expanded, Price Change --> Collapsed
+			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
+				mBookBtnContainer.setVisibility(View.VISIBLE);
+				mBookBtnContainer.setAlpha(0.0f);
+				setNameAndDurationSlidePercentage(1.0f);
+				setExpandedSlidePercentage(1.0f);
+			}
+			if (stateOne == TripBucketItemState.SHOWING_PRICE_CHANGE && stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
+				mBookBtnContainer.setVisibility(View.VISIBLE);
+				mBookBtnContainer.setAlpha(0.0f);
+				setNameAndDurationSlidePercentage(1.0f);
+				setExpandedSlidePercentage(1.0f);
+
+				// TODO animate price change
+			}
+
+			// Expanded <--> Price change
+			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.SHOWING_PRICE_CHANGE) {
+				mPriceChangedC.setVisibility(View.VISIBLE);
+				// TODO animate price change
+			}
+			if (stateOne == TripBucketItemState.SHOWING_PRICE_CHANGE && stateTwo == TripBucketItemState.EXPANDED) {
+				mPriceChangedC.setVisibility(View.VISIBLE);
+				// TODO animate price change
+			}
 		}
 
 		@Override
 		public void onStateTransitionUpdate(TripBucketItemState stateOne, TripBucketItemState stateTwo, float percentage) {
-			//Currently we are never animating.
+			// Collapsed --> Expanded, Price Change
+			if ((stateOne == TripBucketItemState.SHOWING_CHECKOUT_BUTTON || stateOne == TripBucketItemState.DEFAULT)
+				&& stateTwo == TripBucketItemState.EXPANDED) {
+
+				mBookBtnContainer.setAlpha(1.0f - percentage);
+				setNameAndDurationSlidePercentage(percentage);
+				setExpandedSlidePercentage(percentage);
+			}
+			if ((stateOne == TripBucketItemState.SHOWING_CHECKOUT_BUTTON || stateOne == TripBucketItemState.DEFAULT)
+				&& stateTwo == TripBucketItemState.SHOWING_PRICE_CHANGE) {
+
+				mBookBtnContainer.setAlpha(1.0f - percentage);
+				setNameAndDurationSlidePercentage(percentage);
+				setExpandedSlidePercentage(percentage);
+				// TODO price change
+			}
+
+
+			// Expanded, Price Change --> Collapsed
+			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
+				mBookBtnContainer.setAlpha(percentage);
+				setNameAndDurationSlidePercentage(1.0f - percentage);
+				setExpandedSlidePercentage(1.0f - percentage);
+			}
+			if (stateOne == TripBucketItemState.SHOWING_PRICE_CHANGE && stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
+				mBookBtnContainer.setAlpha(percentage);
+				setNameAndDurationSlidePercentage(1.0f - percentage);
+				setExpandedSlidePercentage(1.0f - percentage);
+				// TODO price change
+			}
+
+
+			// Expanded <--> Price change
+			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.SHOWING_PRICE_CHANGE) {
+				setPriceChangePercentage(percentage);
+			}
+			if (stateOne == TripBucketItemState.SHOWING_PRICE_CHANGE && stateTwo == TripBucketItemState.EXPANDED) {
+				setPriceChangePercentage(1.0f - percentage);
+			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(TripBucketItemState stateOne, TripBucketItemState stateTwo) {
-			//Currently we are never animating.
+			// Collapsed --> Expanded, Price Change
+			if ((stateOne == TripBucketItemState.SHOWING_CHECKOUT_BUTTON || stateOne == TripBucketItemState.DEFAULT)
+				&& stateTwo == TripBucketItemState.EXPANDED) {
+
+				mBookBtnContainer.setAlpha(0.0f);
+				setNameAndDurationSlidePercentage(1.0f);
+				setExpandedSlidePercentage(1.0f);
+			}
+			if ((stateOne == TripBucketItemState.SHOWING_CHECKOUT_BUTTON || stateOne == TripBucketItemState.DEFAULT)
+				&& stateTwo == TripBucketItemState.SHOWING_PRICE_CHANGE) {
+
+				mBookBtnContainer.setAlpha(0.0f);
+				setNameAndDurationSlidePercentage(1.0f);
+				setExpandedSlidePercentage(1.0f);
+				// TODO animate price change
+			}
+
+
+			// Expanded, Price Change --> Collapsed
+			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
+				mBookBtnContainer.setAlpha(1.0f);
+				setNameAndDurationSlidePercentage(0.0f);
+				setExpandedSlidePercentage(0.0f);
+			}
+			if (stateOne == TripBucketItemState.SHOWING_PRICE_CHANGE && stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
+				mBookBtnContainer.setAlpha(1.0f);
+				setNameAndDurationSlidePercentage(0.0f);
+				setExpandedSlidePercentage(0.0f);
+				// TODO animate price change
+			}
+
+
+			// Expanded <--> Price change
+			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.SHOWING_PRICE_CHANGE) {
+				setPriceChangePercentage(1.0f);
+			}
+			if (stateOne == TripBucketItemState.SHOWING_PRICE_CHANGE && stateTwo == TripBucketItemState.EXPANDED) {
+				setPriceChangePercentage(0.0f);
+			}
 		}
 
 		@Override
 		public void onStateFinalized(TripBucketItemState state) {
-			if (state == TripBucketItemState.EXPANDED || state == TripBucketItemState.SHOWING_PRICE_CHANGE || state == TripBucketItemState.CONFIRMATION) {
-				int padding = (int) getResources().getDimension(R.dimen.trip_bucket_expanded_card_padding);
-				mRootC.setBackgroundColor(mExpandedBgColor);
-				mRootC.setPadding(padding, padding, padding, padding);
-
-				mExpandedC.removeAllViews();
-				addExpandedView(getLayoutInflater(null), mExpandedC);
-			}
-			else {
-				int padding = 0;
-				mRootC.setBackgroundColor(mCollapsedBgColor);
-				mRootC.setPadding(padding, padding, padding, padding);
-				mExpandedC.removeAllViews();
-			}
-
 			setVisibilityState(state);
 		}
 	};
@@ -238,7 +368,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 		case SHOWING_PRICE_CHANGE:
 			mBookingCompleteCheckImg.setVisibility(View.GONE);
-			mBookBtnContainer.setVisibility(View.GONE);
+			mBookBtnContainer.setVisibility(View.INVISIBLE);
 			mExpandedC.setVisibility(View.VISIBLE);
 			mPriceChangedC.setVisibility(View.VISIBLE);
 			break;
@@ -252,34 +382,40 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 		case EXPANDED:
 			mBookingCompleteCheckImg.setVisibility(View.GONE);
-			mBookBtnContainer.setVisibility(View.GONE);
+			mBookBtnContainer.setVisibility(View.INVISIBLE);
 			mExpandedC.setVisibility(View.VISIBLE);
 			mPriceChangedC.setVisibility(View.GONE);
 			break;
 
 		case PURCHASED:
 			mBookingCompleteCheckImg.setVisibility(View.VISIBLE);
-			mBookBtnContainer.setVisibility(View.GONE);
+			mBookBtnContainer.setVisibility(View.INVISIBLE);
 			mExpandedC.setVisibility(View.GONE);
 			mPriceChangedC.setVisibility(View.GONE);
 			break;
 
 		case CONFIRMATION:
 			mBookingCompleteCheckImg.setVisibility(View.VISIBLE);
-			mBookBtnContainer.setVisibility(View.GONE);
+			mBookBtnContainer.setVisibility(View.INVISIBLE);
 			mExpandedC.setVisibility(View.VISIBLE);
 			mPriceChangedC.setVisibility(View.GONE);
 			break;
 		}
 	}
 
-	public void setPriceChangeNotificationText(String priceChangeText) {
-		if (priceChangeText != null) {
-			this.mPriceChangeNotificationText = priceChangeText;
-			mPriceChangedTv.setText(priceChangeText);
-		}
+	public void setNameAndDurationSlidePercentage(float percentage) {
+		mNameAndDurationContainer.setTranslationY((mBookBtnContainer.getBottom() - mNameAndDurationContainer.getBottom()) * percentage);
 	}
-/*
+
+	public void setExpandedSlidePercentage(float percentage) {
+		mExpandedC.setTranslationY(mExpandedC.getHeight() * -(1.0f - percentage));
+	}
+
+	public void setPriceChangePercentage(float percentage) {
+		// TODO animate price change
+	}
+
+	/*
 	ISTATEPROVIDER
 	*/
 
@@ -318,7 +454,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 	/*
 	ABSTRACT METHODS
- 	*/
+	*/
 
 	public abstract CharSequence getBookButtonText();
 

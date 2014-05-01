@@ -2,8 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/tablet_tripbucket_card_height"
-    android:layout_marginBottom="10dp">
+    android:layout_height="@dimen/tablet_tripbucket_card_height" >
 
     <com.expedia.bookings.widget.OptimizedImageView
         android:id="@+id/tripbucket_card_background_view"
@@ -23,9 +22,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="22dp"
-            android:background="@drawable/ic_booking_complete_check" />
+            android:background="@drawable/ic_booking_complete_check"
+            android:visibility="gone" />
 
         <LinearLayout
+            android:id="@+id/name_and_trip_duration_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

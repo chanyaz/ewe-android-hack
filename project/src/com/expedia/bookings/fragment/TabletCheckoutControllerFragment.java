@@ -45,6 +45,7 @@ import com.expedia.bookings.fragment.FlightBookingFragment.FlightBookingState;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingState;
 import com.expedia.bookings.fragment.base.LobableFragment;
+import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -142,6 +143,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private StateManager<CheckoutState> mStateManager = new StateManager<CheckoutState>(
 		CheckoutState.OVERVIEW, this);
 
+	private TripBucketOrchestrator mBucketFlightFragStateListener;
+	private TripBucketOrchestrator mBucketHotelFragStateListener;
+
 	private ThrobberDialog mHotelProductDownloadThrobber;
 	private ThrobberDialog mCreateTripDownloadThrobber;
 	private ThrobberDialog mFlightCreateTripDownloadThrobber;
@@ -219,6 +223,11 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		registerStateListener(mStateHelper, false);
 		registerStateListener(new StateListenerLogger<CheckoutState>(), false);
+
+		mTripBucketItemViews = new ViewGroup[] {
+			mBucketHotelContainer,
+			mBucketFlightContainer,
+		};
 
 		return mRootC;
 	}
@@ -409,9 +418,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			else if (stateOne == CheckoutState.CVV && stateTwo == CheckoutState.BOOKING) {
 				setShowBookingPercentage(percentage);
 			}
-			else if (stateOne == CheckoutState.BOOKING && stateTwo == CheckoutState.CONFIRMATION) {
-				setShowConfirmationPercentage(percentage);
-			}
 			else if (stateOne == CheckoutState.READY_FOR_CHECKOUT && stateTwo == CheckoutState.BOOKING) {
 				setShowBookingPercentage(percentage);
 			}
@@ -466,6 +472,84 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			else if (state == CheckoutState.CONFIRMATION) {
 				setShowConfirmationPercentage(1f);
 			}
+		}
+	};
+
+	private TripBucketItemFragment[] mTripBucketItemFragments;
+	private ViewGroup[] mTripBucketItemViews;
+
+	private class TripBucketOrchestrator extends StateListenerHelper<TripBucketItemState> {
+		private TripBucketItemFragment mFragment;
+		private boolean mForward = true;
+		private int mShift = 0;
+		private int mExpandedPosition = 0;
+		private int mItemToExpandPosition = 0;
+
+		public TripBucketOrchestrator(TripBucketItemFragment frag) {
+			mFragment = frag;
+		}
+
+		@Override
+		public void onStateTransitionStart(TripBucketItemState stateOne, TripBucketItemState stateTwo) {
+			// Ignore
+		}
+
+		@Override
+		public void onStateTransitionUpdate(TripBucketItemState stateOne, TripBucketItemState stateTwo, float percentage) {
+			if (stateTwo == TripBucketItemState.EXPANDED || stateTwo == TripBucketItemState.SHOWING_PRICE_CHANGE) {
+				for (int i = 0; i < mTripBucketItemFragments.length; i++) {
+					TripBucketItemFragment f = mTripBucketItemFragments[i];
+					if (f.getState() == TripBucketItemState.EXPANDED || f.getState() == TripBucketItemState.SHOWING_PRICE_CHANGE) {
+						mExpandedPosition = i;
+					}
+					if (f == mFragment) {
+						mItemToExpandPosition = i;
+					}
+				}
+
+				mForward = mExpandedPosition < mItemToExpandPosition;
+				if (mForward) {
+					mShift = mTripBucketItemFragments[mExpandedPosition].getExpandedHeight();
+					mShift += mTripBucketItemFragments[mExpandedPosition].getPriceChangeHeight();
+				}
+				else {
+					mShift = mTripBucketItemFragments[mItemToExpandPosition].getExpandedHeight();
+					mShift += mTripBucketItemFragments[mItemToExpandPosition].getPriceChangeHeight();
+				}
+
+				float amount;
+				if (mForward) {
+					amount = -mShift * percentage;
+				}
+				else {
+					amount = mShift * (1.0f - percentage);
+				}
+
+				int start = Math.min(mExpandedPosition, mItemToExpandPosition);
+				int end = Math.max(mExpandedPosition, mItemToExpandPosition);
+				for (int i = start + 1; i <= end; i++) {
+					if (mForward) {
+						mTripBucketItemViews[i].setTranslationY(amount);
+					}
+					else {
+						mTripBucketItemViews[i].setTranslationY(-amount);
+					}
+				}
+			}
+		}
+
+		@Override
+		public void onStateTransitionEnd(TripBucketItemState stateOne, TripBucketItemState stateTwo) {
+			if (stateTwo == TripBucketItemState.EXPANDED) {
+				for (ViewGroup view : mTripBucketItemViews) {
+					view.setTranslationY(0);
+				}
+			}
+		}
+
+		@Override
+		public void onStateFinalized(TripBucketItemState state) {
+			// Ignore
 		}
 	};
 
@@ -694,6 +778,13 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		boolean mFlightConfAvailable = state == CheckoutState.CONFIRMATION && getLob() == LineOfBusiness.FLIGHTS;
 		boolean mHotelConfAvailable = state == CheckoutState.CONFIRMATION && getLob() == LineOfBusiness.HOTELS;
 
+		if (mBucketFlightFrag != null && mBucketFlightFragStateListener != null) {
+			mBucketFlightFrag.unRegisterStateListener(mBucketFlightFragStateListener);
+		}
+		if (mBucketHotelFrag != null && mBucketHotelFragStateListener != null) {
+			mBucketHotelFrag.unRegisterStateListener(mBucketHotelFragStateListener);
+		}
+
 		mBucketFlightFrag = FragmentAvailabilityUtils.setFragmentAvailability(
 			flightBucketItemAvailable, FRAG_TAG_BUCKET_FLIGHT,
 			manager, transaction, this, R.id.bucket_flight_frag_container, false);
@@ -723,6 +814,16 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			manager, transaction, this, R.id.blurred_dest_image_overlay, false);
 
 		transaction.commit();
+
+		mBucketFlightFragStateListener = new TripBucketOrchestrator(mBucketFlightFrag);
+		mBucketFlightFrag.registerStateListener(mBucketFlightFragStateListener, false);
+
+		mBucketHotelFragStateListener = new TripBucketOrchestrator(mBucketHotelFrag);
+		mBucketHotelFrag.registerStateListener(mBucketHotelFragStateListener, false);
+		mTripBucketItemFragments = new TripBucketItemFragment[] {
+			mBucketHotelFrag,
+			mBucketFlightFrag,
+		};
 	}
 
 	/*
