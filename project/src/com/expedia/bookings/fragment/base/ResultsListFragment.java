@@ -11,7 +11,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -143,7 +142,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		public boolean onPreDraw() {
 			if (mListView != null) {
 				float perc = mListView.getScrollDownPercentage();
-				updateStickyHeaderState(perc, false);
+				updateListExpandedState(perc, false);
 				return true;
 			}
 			else {
@@ -210,7 +209,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		}
 	}
 
-	private void updateStickyHeaderState(float percentage, boolean actionComplete) {
+	public void updateListExpandedState(float percentage, boolean actionComplete) {
 		//top right button stuff...
 		if (mTopRightButtonEnabled) {
 			mTopRightTextButton.setAlpha(1f - percentage);
@@ -262,7 +261,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 
 		@Override
 		public void onStateFinalized(ResultsListState state) {
-			updateStickyHeaderState(state == ResultsListState.AT_TOP ? 0f : 1f, true);
+			updateListExpandedState(state == ResultsListState.AT_TOP ? 0f : 1f, true);
 			finalizeState(translateState(state));
 		}
 	};

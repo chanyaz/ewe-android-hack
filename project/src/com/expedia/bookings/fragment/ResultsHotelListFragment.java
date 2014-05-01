@@ -94,6 +94,12 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		}
 	};
 
+	@Override
+	public void updateListExpandedState(float percentage, boolean actionComplete) {
+		super.updateListExpandedState(percentage, actionComplete);
+		collapseRowsBy(percentage);
+	}
+
 	private void collapseRowsPerState() {
 		if (mState == ResultsHotelsListState.HOTELS_LIST_AT_BOTTOM) {
 			collapseRowsBy(1f);
@@ -103,8 +109,15 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		}
 	}
 
+	private float mCollapsedBy = -1f;
+
 	@TargetApi(11)
 	private void collapseRowsBy(float percentage) {
+		if (mCollapsedBy == percentage) {
+			return;
+		}
+		mCollapsedBy = percentage;
+
 		mAdapter.collapseNewViewsBy(percentage);
 
 		FruitList listView = getListView();
