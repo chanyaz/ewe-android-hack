@@ -73,6 +73,7 @@ public class StoredCreditCard implements JSONable {
 			obj.putOpt("description", mDescription);
 			obj.putOpt("paymentsInstrumentsId", mRemoteId);
 			obj.putOpt("isGoogleWallet", mIsGoogleWallet);
+			obj.putOpt("cardNumber", mCardNumber);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -87,6 +88,7 @@ public class StoredCreditCard implements JSONable {
 		mDescription = obj.optString("description", null);
 		mRemoteId = obj.optString("paymentsInstrumentsId", null);
 		mIsGoogleWallet = obj.optBoolean("isGoogleWallet");
+		mCardNumber = obj.optString("cardNumber");
 		return true;
 	}
 }
