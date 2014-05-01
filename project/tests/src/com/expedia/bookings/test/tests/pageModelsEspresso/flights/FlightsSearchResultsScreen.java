@@ -2,12 +2,12 @@ package com.expedia.bookings.test.tests.pageModelsEspresso.flights;
 
 import android.view.View;
 
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
+import static com.expedia.bookings.test.utilsEspresso.ViewActions.storeResultListRowValue;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
@@ -79,8 +79,11 @@ public class FlightsSearchResultsScreen extends ScreenActions {
 
 	// Object interactions
 	public static void clickFirstListItem() {
-
 		firstListItem().perform(click());
+	}
+
+	public static void getFirstListItemvalues(String value, int id) {
+		onView(withId(id)).perform(storeResultListRowValue(value));
 	}
 
 	public static void clickSortFlightsButton() {

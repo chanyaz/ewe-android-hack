@@ -6,7 +6,10 @@ import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
+import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 
 
 /**
@@ -39,5 +42,10 @@ public class FlightsConfirmationScreen extends ConfirmationScreen {
 
 	public static void clickOnTrackWithFlightTrackTextView() {
 		trackWithFlightTrackTextView().perform(click());
+	}
+
+	public static void assertTrue(String text) {
+		onView(withText(text)).check(matches(isDisplayed()));
+
 	}
 }
