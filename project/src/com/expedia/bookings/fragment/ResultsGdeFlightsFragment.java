@@ -254,11 +254,17 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 					mHistogramFrag.setHistogramData((FlightSearchHistogramResponse) response);
 				}
 			}
-			else if (response != null) {
-				Log.e("FLIGHT_GDE_SEARCH Errors:" + response.gatherErrorMessage(getActivity()));
-			}
 			else {
-				Log.e("FLIGHT_GDE_SEARCH null response");
+				if (mHistogramFrag != null) {
+					mHistogramFrag.setHistogramData(null);
+				}
+
+				if (response != null) {
+					Log.e("FLIGHT_GDE_SEARCH Errors:" + response.gatherErrorMessage(getActivity()));
+				}
+				else {
+					Log.e("FLIGHT_GDE_SEARCH null response");
+				}
 			}
 			if (mGdeProgressBar != null) {
 				mGdeProgressBar.setVisibility(View.GONE);
