@@ -73,11 +73,11 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		formContainer.removeAllViews();
 		if (getLob() == LineOfBusiness.HOTELS) {
 			mSectionBillingInfo = (SectionBillingInfo) View.inflate(getActivity(),
-				R.layout.section_edit_creditcard_tablet_hotel, null);
+				R.layout.section_hotel_edit_creditcard, null);
 		}
 		else if (getLob() == LineOfBusiness.FLIGHTS) {
 			mSectionBillingInfo = (SectionBillingInfo) View.inflate(getActivity(),
-				R.layout.section_edit_creditcard_tablet_flight, null);
+				R.layout.section_flight_edit_creditcard, null);
 		}
 
 		mSectionBillingInfo.setLineOfBusiness(getLob());
