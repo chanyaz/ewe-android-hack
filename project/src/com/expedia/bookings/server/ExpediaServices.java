@@ -241,7 +241,11 @@ public class ExpediaServices implements DownloadListener {
 		}
 		// Be careful not to use the word "Android" here
 		// https://mingle/projects/e3_mobile_web/cards/676
-		String userAgent = "ExpediaBookings/" + versionName + " (EHad; Mobiata)";
+		String userAgentPrefix = "ExpediaBookings";
+		if (ExpediaBookingApp.IS_TRAVELOCITY) {
+			userAgentPrefix = "TravelocityBookings";
+		}
+		String userAgent = userAgentPrefix + "/" + versionName + " (android; Mobiata)";
 		return userAgent;
 	}
 
