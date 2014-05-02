@@ -161,11 +161,11 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		formContainer.removeAllViews();
 		if (getLob() == LineOfBusiness.HOTELS) {
 			mSectionTraveler = (SectionTravelerInfoTablet) View.inflate(getActivity(),
-				R.layout.section_hotel_tablet_edit_traveler, null);
+				R.layout.section_hotel_edit_traveler, null);
 		}
 		else if (getLob() == LineOfBusiness.FLIGHTS) {
 			mSectionTraveler = (SectionTravelerInfoTablet) View
-				.inflate(getActivity(), R.layout.section_flight_tablet_edit_traveler,
+				.inflate(getActivity(), R.layout.section_flight_edit_traveler,
 					null);
 
 			//Here we setup our flights specific animations, namely just

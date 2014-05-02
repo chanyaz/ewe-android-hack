@@ -30,7 +30,7 @@
 
             <include
                 android:id="@+id/traveler_info"
-                layout="@layout/section_edit_traveler_pt1" />
+                layout="@layout/section_flight_edit_traveler_pt1" />
 
         </FrameLayout>
     </ScrollView>

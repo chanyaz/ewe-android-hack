@@ -22,8 +22,8 @@ public class TravelerFlowState {
 		mContext = context;
 
 		LayoutInflater inflater = LayoutInflater.from(mContext);
-		mTravelerInfoOne = (SectionTravelerInfo) inflater.inflate(R.layout.section_edit_traveler_pt1, null);
-		mTravelerInfoTwo = (SectionTravelerInfo) inflater.inflate(R.layout.section_edit_traveler_pt2, null);
+		mTravelerInfoOne = (SectionTravelerInfo) inflater.inflate(R.layout.section_flight_edit_traveler_pt1, null);
+		mTravelerInfoTwo = (SectionTravelerInfo) inflater.inflate(R.layout.section_flight_edit_traveler_pt2, null);
 	}
 
 	public static TravelerFlowState getInstance(Context context) {

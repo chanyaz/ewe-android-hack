@@ -33,7 +33,7 @@
             android:id="@+id/traveler_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            layout="@layout/section_edit_traveler_pt3" />
+            layout="@layout/section_flight_edit_traveler_pt3" />
 
     </LinearLayout>
 </FrameLayout>
