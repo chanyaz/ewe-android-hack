@@ -44,47 +44,50 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom"
                 android:orientation="horizontal">
 
                 <com.expedia.bookings.widget.TelephoneSpinner
                     android:id="@+id/edit_phone_number_country_code_spinner"
                     style="@style/Widget.Spinner.Tablet"
-                    app:text_view_layout="@layout/simple_spinner_item_18"
                     android:layout_width="96dp"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom"
+                    app:text_view_layout="@layout/simple_spinner_item_18"/>
 
                 <EditText
                     android:id="@+id/edit_phone_number"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom"
                     android:hint="@string/phone_number_hint"
                     android:inputType="phone"
-                    android:singleLine="true"
-                    />
+                    android:singleLine="true"/>
             </LinearLayout>
 
             <TextView
                 android:id="@+id/edit_birth_date_text_btn"
                 style="@style/FakeSpinner"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_gravity="bottom"
                 android:bufferType="spannable"
                 android:gravity="center_vertical"
                 android:hint="@string/date_of_birth"
                 android:paddingLeft="5dp"
-                android:paddingTop="4dp"
+                android:singleLine="true"
                 android:textSize="18dp"/>
 
             <Spinner
                 android:id="@+id/edit_gender_spinner"
+                style="@style/Widget.Spinner.Tablet"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_weight="1"
-                android:layout_marginBottom="4dp"
+                android:layout_gravity="bottom"
                 android:contentDescription="@string/cd_traveler_gender_edit"/>
         </LinearLayout>
 
