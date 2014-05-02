@@ -457,6 +457,11 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			Traveler fp = new Traveler();
 			travelers.add(fp);
 		}
+		else {
+			Traveler primary = travelers.get(0);
+			travelers.clear();
+			travelers.add(primary);
+		}
 	}
 
 	private boolean hasSomeManuallyEnteredData(BillingInfo info) {
