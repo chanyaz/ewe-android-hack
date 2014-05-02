@@ -37,6 +37,7 @@ import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.jakewharton.disklrucache.DiskLruCache;
 import com.jakewharton.disklrucache.DiskLruCache.Editor;
 import com.jakewharton.disklrucache.DiskLruCache.Snapshot;
@@ -122,7 +123,10 @@ public class L2ImageCache {
 	private static void initDestinationImageCache(Context context) {
 		// Cache params
 		final String logTag = "DestinationImageCache";
-		final int numMemCacheEntries = 2; // One regular, one blur. or one portrait, one landscape
+		// NOTE: The phone flights flow requires both the regular and blurred versions of the destination
+		// image in memory at once to properly show the regular to blur transition on FlightSearchResults.
+		// Tablet only requires one Bitmap in memory at a given time.
+		final int numMemCacheEntries = ExpediaBookingApp.useTabletInterface(context) ? 1 : 2;
 		final int diskCacheSize = 1024 * 1024 * 20; // 20 mb
 
 		// Construct cache
@@ -582,6 +586,7 @@ public class L2ImageCache {
 				@Override
 				protected void entryRemoved(boolean evicted, String key, Bitmap oldValue, Bitmap newValue) {
 					super.entryRemoved(evicted, key, oldValue, newValue);
+					Log.i(mLogTag, "Entry removed key=" + key + " evicted=" + evicted);
 					handleMemCacheEviction(evicted, oldValue, newValue);
 				}
 			};
