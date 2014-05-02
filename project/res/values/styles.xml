@@ -669,6 +669,12 @@
         <item name="android:background">@drawable/spinner_holo_light</item>
     </style>
 
+    <style name="Widget.Spinner.Tablet" parent="Widget.Sherlock.Light.Spinner.DropDown.ActionBar">
+        <item name="android:background">@drawable/fake_spinner_default_holo_light</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:maxHeight">40dp</item>
+    </style>
+
     <style name="FakeSpinner" parent="Widget">
         <item name="android:background">@drawable/fake_spinner_default_holo_light</item>
         <item name="android:paddingLeft">12dp</item>

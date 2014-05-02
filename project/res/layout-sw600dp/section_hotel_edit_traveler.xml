@@ -45,7 +45,7 @@
 
                 <com.expedia.bookings.widget.TelephoneSpinner
                     android:id="@+id/edit_phone_number_country_code_spinner"
-                    style="@style/Widget.Spinner.Phone"
+                    style="@style/Widget.Spinner.Tablet"
                     app:text_view_layout="@layout/simple_spinner_item_18"
                     android:layout_width="96dp"
                     android:layout_height="wrap_content"
