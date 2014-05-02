@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
@@ -23,7 +24,6 @@ import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.TextView;
 
 /**
  * ResultsTripBucketYourTripToFragment: A simple fragment for displaying destination information, in the trip overview column - Tablet 2013
@@ -150,5 +150,17 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 			Ui.setText(getActivity(), R.id.price_expanded_bucket_text_view, price);
 		}
 
+	}
+
+	public void refreshRate(Rate newRate) {
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		if (hotel != null) {
+			Rate oldRate = hotel.getRate();
+			String priceChangeTemplate = getResources().getString(R.string.price_changed_from_TEMPLATE);
+			String priceChangeStr = String.format(priceChangeTemplate, oldRate.getTotalAmountAfterTax().getFormattedMoney());
+			setPriceChangeNotificationText(priceChangeStr);
+			Db.getTripBucket().getHotel().setNewRate(newRate);
+			refreshRate();
+		}
 	}
 }

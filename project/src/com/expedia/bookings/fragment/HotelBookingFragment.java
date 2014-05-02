@@ -7,6 +7,7 @@ import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
@@ -328,8 +329,15 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			boolean isPriceHigher = priceChange < 0;
 			HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher,
 				selectedRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());
-			dialog.show(getChildFragmentManager(), HOTEL_PRODUCT_RATEUP_DIALOG);
-			Events.post(new Events.HotelProductRateUp(newRate));
+			// Let's pop a dialog for phone and post Events.TripPriceChange event for tablet.
+			if (!ExpediaBookingApp.useTabletInterface(getActivity())) {
+				dialog.show(getChildFragmentManager(), HOTEL_PRODUCT_RATEUP_DIALOG);
+			}
+			else {
+				Events.post(new Events.HotelProductRateUp(newRate));
+			}
+
+
 		}
 
 		Db.getHotelSearch().getAvailability(selectedId).updateFrom(selectedRate.getRateKey(), response);

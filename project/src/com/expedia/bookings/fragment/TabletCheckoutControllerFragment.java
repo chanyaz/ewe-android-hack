@@ -257,6 +257,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		if (getActivity().isFinishing()) {
 			if (Db.getTripBucket().getHotel() != null) {
 				Db.getTripBucket().getHotel().setIsCouponApplied(false);
+				Db.getTripBucket().getHotel().setHasPriceChanged(false);
+			}
+			if (Db.getTripBucket().getFlight() != null) {
+				Db.getTripBucket().getFlight().setHasPriceChanged(false);
 			}
 		}
 	}
@@ -376,6 +380,14 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				mSlideContainer.setVisibility(View.VISIBLE);
 				mFormContainer.setVisibility(View.VISIBLE);
 				mSlideAndFormContainer.setVisibility(View.VISIBLE);
+				if (Db.getTripBucket().getFlight() != null
+					&& Db.getTripBucket().getFlight().getState() == TripBucketItemState.SHOWING_PRICE_CHANGE) {
+					Db.getTripBucket().getFlight().setState(TripBucketItemState.EXPANDED);
+				}
+				if (Db.getTripBucket().getHotel() != null
+					&& Db.getTripBucket().getHotel().getState() == TripBucketItemState.SHOWING_PRICE_CHANGE) {
+					Db.getTripBucket().getHotel().setState(TripBucketItemState.EXPANDED);
+				}
 			}
 		}
 
@@ -571,7 +583,14 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 					Db.getTripBucket().getHotel().setState(TripBucketItemState.PURCHASED);
 				}
 				if (Db.getTripBucket().getFlight() != null) {
-					Db.getTripBucket().getFlight().setState(TripBucketItemState.EXPANDED);
+					if (Db.getTripBucket().getFlight().hasPriceChanged()
+						// Let's not show the price change notification when state changes
+						&& (state != CheckoutState.READY_FOR_CHECKOUT && state != CheckoutState.CVV)) {
+						Db.getTripBucket().getFlight().setState(TripBucketItemState.SHOWING_PRICE_CHANGE);
+					}
+					else {
+						Db.getTripBucket().getFlight().setState(TripBucketItemState.EXPANDED);
+					}
 				}
 				if (Db.getTripBucket().getHotel() != null
 					&& Db.getTripBucket().getHotel().getState() != TripBucketItemState.PURCHASED) {
@@ -584,7 +603,14 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 					Db.getTripBucket().getFlight().setState(TripBucketItemState.PURCHASED);
 				}
 				if (Db.getTripBucket().getHotel() != null) {
-					Db.getTripBucket().getHotel().setState(TripBucketItemState.EXPANDED);
+					if (Db.getTripBucket().getHotel().hasPriceChanged()
+						// Let's not show the price change notification when state changes
+						&& (state != CheckoutState.READY_FOR_CHECKOUT && state != CheckoutState.CVV)) {
+						Db.getTripBucket().getHotel().setState(TripBucketItemState.SHOWING_PRICE_CHANGE);
+					}
+					else {
+						Db.getTripBucket().getHotel().setState(TripBucketItemState.EXPANDED);
+					}
 				}
 				if (Db.getTripBucket().getFlight() != null
 					&& Db.getTripBucket().getFlight().getState() != TripBucketItemState.PURCHASED) {
@@ -1058,8 +1084,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Subscribe
 	public void onHotelProductRateUp(HotelProductRateUp event) {
-		Db.getTripBucket().getHotel().setRate(event.newRate);
-		mBucketHotelFrag.refreshRate();
+		mBucketHotelFrag.refreshRate(event.newRate);
+		// Let's refresh state to reflect price change notification
+		setCheckoutState(CheckoutState.OVERVIEW, true);
 	}
 
 	@Subscribe
@@ -1175,7 +1202,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public void onFlightTripPriceChange(Events.FlightPriceChange event) {
 		String changeString = event.changeString;
 		if (changeString != null) {
-			Ui.showToast(getActivity(), changeString);
+			mBucketFlightFrag.refreshTripOnPriceChanged(event.changeString);
+			// Let's refresh state to reflect price change notification
+			setCheckoutState(CheckoutState.OVERVIEW, true);
 		}
 	}
 }

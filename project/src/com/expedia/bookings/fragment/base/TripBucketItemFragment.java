@@ -21,6 +21,7 @@ import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateManager;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.Ui;
 
@@ -31,6 +32,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 	private static final String STATE_BUCKET_ITEM_STATE = "STATE_BUCKET_ITEM_STATE";
 	private static final String STATE_OVERLAY_COLOR_FETCHED = "STATE_OVERLAY_COLOR_FETCHED";
+	private static final String STATE_PRICE_CHANGED_STRING = "STATE_PRICE_CHANGED_STRING";
 
 	protected static final int[] DEFAULT_GRADIENT_COLORS = new int[] {
 		0x00000000,
@@ -43,12 +45,14 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private ViewGroup mRootC;
 	private ViewGroup mTopC;
 	private ViewGroup mExpandedC;
+	private ViewGroup mPriceChangedC;
 	private ViewGroup mBookBtnContainer;
 	private ImageView mTripBucketImageView;
 	private TextView mBookBtnText;
 	private TextView mTripPriceText;
 	private TextView mNameText;
 	private TextView mDurationText;
+	private android.widget.TextView mPriceChangedTv;
 	private ImageView mBookingCompleteCheckImg;
 	private HeaderBitmapColorAveragedDrawable mHeaderBitmapDrawable;
 
@@ -62,6 +66,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private StateManager<TripBucketItemState> mStateManager = new StateManager<TripBucketItemState>(
 		TripBucketItemState.DEFAULT, this);
 
+	private String mPriceChangeNotificationText;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_tripbucket_item, null);
@@ -72,9 +78,13 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			String stateName = savedInstanceState.getString(STATE_BUCKET_ITEM_STATE);
 			TripBucketItemState state = TripBucketItemState.valueOf(stateName);
 			mStateManager.setDefaultState(state);
+			mPriceChangeNotificationText = savedInstanceState.getString(STATE_PRICE_CHANGED_STRING);
 		}
 
+		mPriceChangedC = Ui.findView(mRootC, R.id.trip_bucket_item_price_change_container);
+
 		addTopView(inflater, mTopC);
+		addPriceChangeNotificationView(inflater, mPriceChangedC);
 
 		registerStateListener(mStateHelper, false);
 
@@ -98,10 +108,29 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		mTripBucketImageView.setImageDrawable(mHeaderBitmapDrawable);
 	}
 
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		Events.register(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		Events.unregister(this);
+	}
+
+	private void addPriceChangeNotificationView(LayoutInflater inflater, ViewGroup viewGroup) {
+		ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_price_change_notification, viewGroup);
+		mPriceChangedTv = Ui.findView(root, R.id.price_change_notification_text);
+	}
+
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(STATE_BUCKET_ITEM_STATE, mStateManager.getState().name());
+		outState.putString(STATE_PRICE_CHANGED_STRING, mPriceChangeNotificationText);
 	}
 
 	@Override
@@ -133,6 +162,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				mHeaderBitmapDrawable.enableOverlay();
 				addTripBucketImage(mTripBucketImageView, mHeaderBitmapDrawable);
 			}
+			mPriceChangedTv.setText(mPriceChangeNotificationText);
 		}
 	}
 
@@ -177,7 +207,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 		@Override
 		public void onStateFinalized(TripBucketItemState state) {
-			if (state == TripBucketItemState.EXPANDED || state == TripBucketItemState.CONFIRMATION) {
+			if (state == TripBucketItemState.EXPANDED || state == TripBucketItemState.SHOWING_PRICE_CHANGE || state == TripBucketItemState.CONFIRMATION) {
 				int padding = (int) getResources().getDimension(R.dimen.trip_bucket_expanded_card_padding);
 				mRootC.setBackgroundColor(mExpandedBgColor);
 				mRootC.setPadding(padding, padding, padding, padding);
@@ -203,37 +233,53 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mBookingCompleteCheckImg.setVisibility(View.GONE);
 			mBookBtnContainer.setVisibility(View.VISIBLE);
 			mExpandedC.setVisibility(View.GONE);
+			mPriceChangedC.setVisibility(View.GONE);
+			break;
+
+		case SHOWING_PRICE_CHANGE:
+			mBookingCompleteCheckImg.setVisibility(View.GONE);
+			mBookBtnContainer.setVisibility(View.GONE);
+			mExpandedC.setVisibility(View.VISIBLE);
+			mPriceChangedC.setVisibility(View.VISIBLE);
 			break;
 
 		case DISABLED:
 			mBookingCompleteCheckImg.setVisibility(View.GONE);
 			mBookBtnContainer.setVisibility(View.INVISIBLE);
 			mExpandedC.setVisibility(View.GONE);
+			mPriceChangedC.setVisibility(View.GONE);
 			break;
 
 		case EXPANDED:
 			mBookingCompleteCheckImg.setVisibility(View.GONE);
 			mBookBtnContainer.setVisibility(View.GONE);
 			mExpandedC.setVisibility(View.VISIBLE);
+			mPriceChangedC.setVisibility(View.GONE);
 			break;
 
 		case PURCHASED:
 			mBookingCompleteCheckImg.setVisibility(View.VISIBLE);
 			mBookBtnContainer.setVisibility(View.GONE);
 			mExpandedC.setVisibility(View.GONE);
+			mPriceChangedC.setVisibility(View.GONE);
 			break;
 
 		case CONFIRMATION:
 			mBookingCompleteCheckImg.setVisibility(View.VISIBLE);
 			mBookBtnContainer.setVisibility(View.GONE);
 			mExpandedC.setVisibility(View.VISIBLE);
+			mPriceChangedC.setVisibility(View.GONE);
 			break;
 		}
 	}
 
-
-
-	/*
+	public void setPriceChangeNotificationText(String priceChangeText) {
+		if (priceChangeText != null) {
+			this.mPriceChangeNotificationText = priceChangeText;
+			mPriceChangedTv.setText(priceChangeText);
+		}
+	}
+/*
 	ISTATEPROVIDER
 	*/
 

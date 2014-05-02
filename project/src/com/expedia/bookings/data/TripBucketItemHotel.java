@@ -45,8 +45,9 @@ public class TripBucketItemHotel extends TripBucketItem {
 		}
 	}
 
-	public void setRate(Rate rate) {
+	public void setNewRate(Rate rate) {
 		mRate = rate;
+		setHasPriceChanged(true);
 	}
 
 	public boolean isCouponApplied() {

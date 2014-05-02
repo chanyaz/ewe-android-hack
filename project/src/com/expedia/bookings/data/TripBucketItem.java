@@ -17,6 +17,16 @@ public abstract class TripBucketItem implements JSONable {
 
 	private TripBucketItemState mState;
 
+	private boolean mHasPriceChanged;
+
+	public boolean hasPriceChanged() {
+		return mHasPriceChanged;
+	}
+
+	public void setHasPriceChanged(boolean priceChanged) {
+		this.mHasPriceChanged = priceChanged;
+	}
+
 	public TripBucketItemState getState() {
 		return mState;
 	}
