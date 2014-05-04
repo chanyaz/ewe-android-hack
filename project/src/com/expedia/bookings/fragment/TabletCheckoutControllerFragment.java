@@ -1,6 +1,8 @@
 package com.expedia.bookings.fragment;
 
 import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.joda.time.LocalDate;
 
@@ -475,7 +477,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 	};
 
-	private TripBucketItemFragment[] mTripBucketItemFragments;
+	private List<TripBucketItemFragment> mTripBucketItemFragments;
 	private ViewGroup[] mTripBucketItemViews;
 
 	private class TripBucketOrchestrator extends StateListenerHelper<TripBucketItemState> {
@@ -497,8 +499,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		@Override
 		public void onStateTransitionUpdate(TripBucketItemState stateOne, TripBucketItemState stateTwo, float percentage) {
 			if (stateTwo == TripBucketItemState.EXPANDED || stateTwo == TripBucketItemState.SHOWING_PRICE_CHANGE) {
-				for (int i = 0; i < mTripBucketItemFragments.length; i++) {
-					TripBucketItemFragment f = mTripBucketItemFragments[i];
+				for (int i = 0; i < mTripBucketItemFragments.size(); i++) {
+					TripBucketItemFragment f = mTripBucketItemFragments.get(i);
 					if (f.getState() == TripBucketItemState.EXPANDED || f.getState() == TripBucketItemState.SHOWING_PRICE_CHANGE) {
 						mExpandedPosition = i;
 					}
@@ -509,12 +511,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 				mForward = mExpandedPosition < mItemToExpandPosition;
 				if (mForward) {
-					mShift = mTripBucketItemFragments[mExpandedPosition].getExpandedHeight();
-					mShift += mTripBucketItemFragments[mExpandedPosition].getPriceChangeHeight();
+					mShift = mTripBucketItemFragments.get(mExpandedPosition).getExpandedHeight();
+					mShift += mTripBucketItemFragments.get(mExpandedPosition).getPriceChangeHeight();
 				}
 				else {
-					mShift = mTripBucketItemFragments[mItemToExpandPosition].getExpandedHeight();
-					mShift += mTripBucketItemFragments[mItemToExpandPosition].getPriceChangeHeight();
+					mShift = mTripBucketItemFragments.get(mItemToExpandPosition).getExpandedHeight();
+					mShift += mTripBucketItemFragments.get(mItemToExpandPosition).getPriceChangeHeight();
 				}
 
 				float amount;
@@ -528,11 +530,13 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				int start = Math.min(mExpandedPosition, mItemToExpandPosition);
 				int end = Math.max(mExpandedPosition, mItemToExpandPosition);
 				for (int i = start + 1; i <= end; i++) {
-					if (mForward) {
-						mTripBucketItemViews[i].setTranslationY(amount);
-					}
-					else {
-						mTripBucketItemViews[i].setTranslationY(-amount);
+					if (mTripBucketItemViews[i] != null) {
+						if (mForward) {
+							mTripBucketItemViews[i].setTranslationY(amount);
+						}
+						else {
+							mTripBucketItemViews[i].setTranslationY(-amount);
+						}
 					}
 				}
 			}
@@ -815,15 +819,27 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		transaction.commit();
 
-		mBucketFlightFragStateListener = new TripBucketOrchestrator(mBucketFlightFrag);
-		mBucketFlightFrag.registerStateListener(mBucketFlightFragStateListener, false);
+		if (mBucketFlightFrag != null) {
+			if (mBucketFlightFragStateListener == null) {
+				mBucketFlightFragStateListener = new TripBucketOrchestrator(mBucketFlightFrag);
+			}
+			mBucketFlightFrag.registerStateListener(mBucketFlightFragStateListener, false);
+		}
 
-		mBucketHotelFragStateListener = new TripBucketOrchestrator(mBucketHotelFrag);
-		mBucketHotelFrag.registerStateListener(mBucketHotelFragStateListener, false);
-		mTripBucketItemFragments = new TripBucketItemFragment[] {
-			mBucketHotelFrag,
-			mBucketFlightFrag,
-		};
+		if (mBucketHotelFrag != null) {
+			if (mBucketHotelFragStateListener == null) {
+				mBucketHotelFragStateListener = new TripBucketOrchestrator(mBucketHotelFrag);
+			}
+			mBucketHotelFrag.registerStateListener(mBucketHotelFragStateListener, false);
+		}
+
+		mTripBucketItemFragments = new ArrayList<TripBucketItemFragment>();
+		if (mBucketHotelFrag != null) {
+			mTripBucketItemFragments.add(mBucketHotelFrag);
+		}
+		if (mBucketFlightFrag != null) {
+			mTripBucketItemFragments.add(mBucketFlightFrag);
+		}
 	}
 
 	/*
