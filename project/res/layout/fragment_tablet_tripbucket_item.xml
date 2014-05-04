@@ -26,9 +26,16 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/trip_bucket_item_price_change_container"
+        android:id="@+id/trip_bucket_item_price_change_clip_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:layout_height="wrap_content" >
+
+        <FrameLayout
+            android:id="@+id/trip_bucket_item_price_change_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+    </FrameLayout>
 
 </LinearLayout>

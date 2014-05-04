@@ -46,6 +46,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private ViewGroup mRootC;
 	private ViewGroup mTopC;
 	private ViewGroup mExpandedC;
+	private ViewGroup mPriceChangedClipC;
 	private ViewGroup mPriceChangedC;
 	private ViewGroup mBookBtnContainer;
 	private ImageView mTripBucketImageView;
@@ -83,6 +84,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mPriceChangeNotificationText = savedInstanceState.getString(STATE_PRICE_CHANGED_STRING);
 		}
 
+		mPriceChangedClipC = Ui.findView(mRootC, R.id.trip_bucket_item_price_change_clip_container);
 		mPriceChangedC = Ui.findView(mRootC, R.id.trip_bucket_item_price_change_container);
 
 		addTopView(inflater, mTopC);
@@ -233,8 +235,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				setNameAndDurationSlidePercentage(0.0f);
 				setExpandedSlidePercentage(0.0f);
 
-				// TODO animate price change
 				mPriceChangedC.setVisibility(View.VISIBLE);
+				setPriceChangePercentage(0.0f);
 			}
 
 			// Expanded, Price Change --> Collapsed
@@ -287,7 +289,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				mBookBtnContainer.setAlpha(1.0f - percentage);
 				setNameAndDurationSlidePercentage(percentage);
 				setExpandedSlidePercentage(percentage);
-				// TODO price change
+				setPriceChangePercentage(percentage);
 			}
 
 
@@ -301,7 +303,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				mBookBtnContainer.setAlpha(percentage);
 				setNameAndDurationSlidePercentage(1.0f - percentage);
 				setExpandedSlidePercentage(1.0f - percentage);
-				// TODO price change
+				setPriceChangePercentage(1.0f - percentage);
 			}
 
 
@@ -335,7 +337,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				mBookBtnContainer.setAlpha(0.0f);
 				setNameAndDurationSlidePercentage(1.0f);
 				setExpandedSlidePercentage(1.0f);
-				// TODO animate price change
+				setPriceChangePercentage(1.0f);
 			}
 
 
@@ -349,7 +351,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				mBookBtnContainer.setAlpha(1.0f);
 				setNameAndDurationSlidePercentage(0.0f);
 				setExpandedSlidePercentage(0.0f);
-				// TODO animate price change
+				setPriceChangePercentage(0.0f);
 			}
 
 
@@ -425,11 +427,13 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	}
 
 	public void setExpandedSlidePercentage(float percentage) {
-		mExpandedC.setTranslationY(mExpandedC.getHeight() * -(1.0f - percentage));
+		float amount = mExpandedC.getHeight() * -(1.0f - percentage);
+		mExpandedC.setTranslationY(amount);
+		mPriceChangedClipC.setTranslationY(amount);
 	}
 
 	public void setPriceChangePercentage(float percentage) {
-		// TODO animate price change
+		mPriceChangedC.setTranslationY(-mPriceChangedC.getHeight() * (1.0f - percentage));
 	}
 
 	/*
