@@ -262,6 +262,13 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				mPriceChangedC.setVisibility(View.VISIBLE);
 				// TODO animate price change
 			}
+
+			// Show confirmation checkmark
+			if (stateTwo == TripBucketItemState.CONFIRMATION) {
+				mBookingCompleteCheckImg.setVisibility(View.VISIBLE);
+				mBookingCompleteCheckImg.setTranslationY(mBookBtnContainer.getBottom() - mNameAndDurationContainer.getBottom());
+				mBookingCompleteCheckImg.setAlpha(0.0f);
+			}
 		}
 
 		@Override
@@ -305,6 +312,11 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			if (stateOne == TripBucketItemState.SHOWING_PRICE_CHANGE && stateTwo == TripBucketItemState.EXPANDED) {
 				setPriceChangePercentage(1.0f - percentage);
 			}
+
+			// Show confirmation checkmark
+			if (stateTwo == TripBucketItemState.CONFIRMATION) {
+				mBookingCompleteCheckImg.setAlpha(percentage);
+			}
 		}
 
 		@Override
@@ -347,6 +359,11 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			}
 			if (stateOne == TripBucketItemState.SHOWING_PRICE_CHANGE && stateTwo == TripBucketItemState.EXPANDED) {
 				setPriceChangePercentage(0.0f);
+			}
+
+			// Show confirmation checkmark
+			if (stateTwo == TripBucketItemState.CONFIRMATION) {
+				mBookingCompleteCheckImg.setAlpha(1.0f);
 			}
 		}
 
