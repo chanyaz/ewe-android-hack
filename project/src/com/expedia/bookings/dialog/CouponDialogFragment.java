@@ -92,8 +92,14 @@ public class CouponDialogFragment extends DialogFragment {
 		});
 
 		// TODO: Add a theme that works back to v8
-		ContextThemeWrapper context = new ContextThemeWrapper(getActivity(),
-				android.R.style.Theme_Holo_Dialog);
+		ContextThemeWrapper context;
+		if (ExpediaBookingApp.useTabletInterface(getActivity())) {
+			// Tablet
+			context = new ContextThemeWrapper(getActivity(), R.style.V2_Dialog_Coupon_Tablet);
+		}
+		else {
+			context = new ContextThemeWrapper(getActivity(), R.style.V2_Dialog_Coupon_Phone);
+		}
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
 		builder.setTitle(R.string.enter_coupon_code);

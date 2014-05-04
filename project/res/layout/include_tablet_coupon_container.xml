@@ -9,11 +9,10 @@
         android:id="@+id/coupon_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/cd_checkout_enter_coupon"
         android:text="@string/coupon_code"
+        android:textColor="#FFFFFF"
         android:textSize="16dp"
         android:textStyle="bold" />
 
@@ -51,6 +50,7 @@
             android:layout_toLeftOf="@+id/coupon_clear"
             android:layout_toRightOf="@+id/coupon_tag"
             android:text="@string/coupon_applied"
+            android:textColor="#FFFFFF"
             android:textSize="18dp"
             android:textStyle="bold" />
 

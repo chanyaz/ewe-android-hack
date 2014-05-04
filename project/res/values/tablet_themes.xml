@@ -261,4 +261,14 @@
         <item name="textColor">#ffffff</item>
     </style>
 
+    <!-- Dialog styles -->
+
+    <style name="V2.Dialog" parent="@android:style/Theme.Holo.Dialog" />
+
+    <style name="V2.Dialog.Coupon" />
+
+    <style name="V2.Dialog.Coupon.Phone" />
+
+    <style name="V2.Dialog.Coupon.Tablet" parent="@android:style/Theme.Holo.Light.Dialog" />
+
 </resources>
