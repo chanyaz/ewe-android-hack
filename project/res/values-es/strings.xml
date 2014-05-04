@@ -40,6 +40,8 @@
     <string name="missing_flight_info_message">Selecciona un origen y una fecha o rangos de fecha válidos.</string>
     <!-- Clear dates -->
     <string name="clear_dates">Borrar fechas</string>
+    <!-- Search Now -->
+    <string name="search_now">Buscar ahora</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -184,21 +186,40 @@
     <string name="arrival_airports">Aeropuertos de llegada</string>
 
     <!-- Tablet hotel details -->
+    <!-- Rooms and rates price/night, i.e. $100/night -->
+    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt; por noche</string>
+    <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_template">Este hotel cobra un cargo adicional de &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates button to add selected room to trip -->
+    <string name="room_rate_button_add_to_trip">Añadir al viaje</string>
+    <!-- Rooms and rates button to select a particular room and view details -->
+    <string name="room_rate_button_select_room">Elegir habitación</string>
     <!-- Caption next to the star rating bar, like "3 stars" -->
     <string name="n_stars_TEMPLATE">%1$s estrellas</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s opiniones</string>
     <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
     <string name="recommend">lo recomiendan</string>
+    <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
+    <string name="n_recommend_TEMPLATE">El %s%% lo recomienda</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
     <plurals name="rooms_left">
-        <item quantity="zero">habitaciones</item>
+        <item quantity="zero">habitaciones disponibles</item>
         <item quantity="one">habitación
 </item>
         <item quantity="two">habitaciones</item>
         <item quantity="few">habitaciones</item>
         <item quantity="many">habitaciones</item>
-        <item quantity="other">habitaciones</item>
+        <item quantity="other">habitaciones disponibles</item>
+    </plurals>
+    <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
+    <plurals name="n_rooms_left_TEMPLATE">
+        <item quantity="zero">%s habitaciones disponibles</item>
+        <item quantity="one">%s habitación disponible</item>
+        <item quantity="two">%s habitaciones disponibles</item>
+        <item quantity="few">%s habitaciones disponibles</item>
+        <item quantity="many">%s habitaciones disponibles</item>
+        <item quantity="other">%s habitaciones disponibles</item>
     </plurals>
     <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
     <string name="out_of_5">de 5</string>
@@ -210,6 +231,8 @@
     <string name="Non_Refundable">No reembolsable</string>
     <!-- Title for the reviews section after we get the property name -->
     <string name="reviews_for_TEMPLATE">Opiniones sobre %1$s</string>
+    <!-- Information for the review about who submitted it and when -->
+    <string name="submitted_by_on_date_TEMPLATE">%1$s, el %2$s</string>
 
     <!-- Tablet flight details -->
     <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
@@ -1917,6 +1940,8 @@
     <string name="user_review_loading_more_reviews">Cargando más opiniones…</string>
     <!-- Read more of the review -->
     <string name="user_review_read_more">Seguir leyendo</string>
+    <!-- Read more of the review -->
+    <string name="more">Más…</string>
     <!--
          User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
         1$ represents the number of guests that recommend this hotel
@@ -2002,6 +2027,8 @@
     <string name="renovation_notice">Aviso de obras</string>
     <!-- This property is undergoing renovations -->
     <string name="property_undergoing_renovations">Esta propiedad se encuentra en obras</string>
+    <!-- Rooms & rates more info link for renovation notice or resort fees -->
+    <string name="more_info">Más información</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->

@@ -40,6 +40,8 @@
     <string name="missing_flight_info_message">Veuillez sélectionner un vol d\&apos;origine, ainsi qu\&apos;une date ou une plage de dates valide.</string>
     <!-- Clear dates -->
     <string name="clear_dates">Effacer les dates</string>
+    <!-- Search Now -->
+    <string name="search_now">Rechercher maintenant</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -184,12 +186,22 @@
     <string name="arrival_airports">Aéroports d\&apos;arrivée</string>
 
     <!-- Tablet hotel details -->
+    <!-- Rooms and rates price/night, i.e. $100/night -->
+    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/nuit</string>
+    <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_template">Cet hôtel exige des frais additionnels de &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates button to add selected room to trip -->
+    <string name="room_rate_button_add_to_trip">Ajouter au voyage</string>
+    <!-- Rooms and rates button to select a particular room and view details -->
+    <string name="room_rate_button_select_room">Sélectionner une chambre</string>
     <!-- Caption next to the star rating bar, like "3 stars" -->
     <string name="n_stars_TEMPLATE">%1$s étoiles</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s évaluations</string>
     <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
     <string name="recommend">recommandent</string>
+    <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
+    <string name="n_recommend_TEMPLATE">%s%% recommandent</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
     <plurals name="rooms_left">
         <item quantity="zero">chambres disponibles</item>
@@ -198,6 +210,15 @@
         <item quantity="few">chambres disponibles</item>
         <item quantity="many">chambres disponibles</item>
         <item quantity="other">chambres disponibles</item>
+    </plurals>
+    <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
+    <plurals name="n_rooms_left_TEMPLATE">
+        <item quantity="zero">%schambres disponibles</item>
+        <item quantity="one">%schambre disponible</item>
+        <item quantity="two">%schambres disponibles</item>
+        <item quantity="few">%schambres disponibles</item>
+        <item quantity="many">%schambres disponibles</item>
+        <item quantity="other">%schambres disponibles</item>
     </plurals>
     <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
     <string name="out_of_5">sur 5</string>
@@ -209,6 +230,8 @@
     <string name="Non_Refundable">Non remboursable</string>
     <!-- Title for the reviews section after we get the property name -->
     <string name="reviews_for_TEMPLATE">Évaluations de %1$s</string>
+    <!-- Information for the review about who submitted it and when -->
+    <string name="submitted_by_on_date_TEMPLATE">%1$s le %2$s</string>
 
     <!-- Tablet flight details -->
     <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
@@ -1916,6 +1939,8 @@
     <string name="user_review_loading_more_reviews">Chargement d\&apos;autres évaluations…</string>
     <!-- Read more of the review -->
     <string name="user_review_read_more">Lire plus</string>
+    <!-- Read more of the review -->
+    <string name="more">plus</string>
     <!--
          User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
         1$ represents the number of guests that recommend this hotel
@@ -2001,6 +2026,8 @@
     <string name="renovation_notice">Avis de rénovation</string>
     <!-- This property is undergoing renovations -->
     <string name="property_undergoing_renovations">Cet établissement est présentement en rénovations.</string>
+    <!-- Rooms & rates more info link for renovation notice or resort fees -->
+    <string name="more_info">Plus d\&apos;information</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->

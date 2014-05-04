@@ -40,6 +40,8 @@
     <string name="missing_flight_info_message">โปรดเลือกจุดเริ่มต้นของเที่ยวบิน และวันที่หรือช่วงวันที่ที่ถูกต้อง</string>
     <!-- Clear dates -->
     <string name="clear_dates">ล้างวันที่</string>
+    <!-- Search Now -->
+    <string name="search_now">ค้นหาตอนนี้</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -184,20 +186,39 @@
     <string name="arrival_airports">สนามบินปลายทาง</string>
 
     <!-- Tablet hotel details -->
+    <!-- Rooms and rates price/night, i.e. $100/night -->
+    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/คืน</string>
+    <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_template">โรงแรมนี้คิดค่าธรรมเนียมเพิ่มเติม &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates button to add selected room to trip -->
+    <string name="room_rate_button_add_to_trip">เพิ่มลงในทริป</string>
+    <!-- Rooms and rates button to select a particular room and view details -->
+    <string name="room_rate_button_select_room">เลือกห้อง</string>
     <!-- Caption next to the star rating bar, like "3 stars" -->
     <string name="n_stars_TEMPLATE">%1$s ดาว</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s รีวิว</string>
     <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
     <string name="recommend">แนะนำ</string>
+    <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
+    <string name="n_recommend_TEMPLATE">%s%% แนะนำ</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
     <plurals name="rooms_left">
-        <item quantity="zero">ห้อง - ยังว่าง</item>
+        <item quantity="zero">ห้องที่ยังว่าง</item>
         <item quantity="one">ห้อง - ยังว่าง</item>
         <item quantity="two">ห้อง - ยังว่าง</item>
         <item quantity="few">ห้อง - ยังว่าง</item>
         <item quantity="many">ห้อง - ยังว่าง</item>
-        <item quantity="other">ห้อง - ยังว่าง</item>
+        <item quantity="other">ห้องที่ยังว่าง</item>
+    </plurals>
+    <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
+    <plurals name="n_rooms_left_TEMPLATE">
+        <item quantity="zero">เหลือ %s ห้อง</item>
+        <item quantity="one">เหลือ %s ห้อง</item>
+        <item quantity="two">เหลือ %s ห้อง</item>
+        <item quantity="few">เหลือ %s ห้อง</item>
+        <item quantity="many">เหลือ %s ห้อง</item>
+        <item quantity="other">เหลือ %s ห้อง</item>
     </plurals>
     <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
     <string name="out_of_5">จาก 5</string>
@@ -209,6 +230,8 @@
     <string name="Non_Refundable">ไม่สามารถขอคืนเงินได้</string>
     <!-- Title for the reviews section after we get the property name -->
     <string name="reviews_for_TEMPLATE">รีวิวสำหรับ %1$s</string>
+    <!-- Information for the review about who submitted it and when -->
+    <string name="submitted_by_on_date_TEMPLATE">%1$s ในวันที่ %2$s</string>
 
     <!-- Tablet flight details -->
     <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
@@ -1916,6 +1939,8 @@
     <string name="user_review_loading_more_reviews">กำลังโหลดรีวิวเพิ่มเติม…</string>
     <!-- Read more of the review -->
     <string name="user_review_read_more">อ่านเพิ่มเติม</string>
+    <!-- Read more of the review -->
+    <string name="more">เพิ่มเติม</string>
     <!--
          User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
         1$ represents the number of guests that recommend this hotel
@@ -2001,6 +2026,8 @@
     <string name="renovation_notice">ประกาศการปรับปรุงพื้นที่</string>
     <!-- This property is undergoing renovations -->
     <string name="property_undergoing_renovations">โรงแรมนี้อยู่ในระหว่างการปรับปรุงพื้นที่</string>
+    <!-- Rooms & rates more info link for renovation notice or resort fees -->
+    <string name="more_info">ข้อมูลเพิ่มเติม</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->

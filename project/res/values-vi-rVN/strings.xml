@@ -40,6 +40,8 @@
     <string name="missing_flight_info_message">Vui lòng chọn nơi khởi hành chuyến bay và ngày hoặc nhóm ngày hợp lệ.</string>
     <!-- Clear dates -->
     <string name="clear_dates">Xóa ngày</string>
+    <!-- Search Now -->
+    <string name="search_now">Tìm ngay</string>
 
     <!-- Calendar picker strings -->
     <!-- Accessibility string describing calendar header. This is for the previous month label, which the user can click to go back one month. %s is the month, e.g. "September previous month" -->
@@ -184,12 +186,22 @@
     <string name="arrival_airports">Sân bay đến</string>
 
     <!-- Tablet hotel details -->
+    <!-- Rooms and rates price/night, i.e. $100/night -->
+    <string name="room_rate_per_night_template">&lt;font color="#145999"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/1 đêm</string>
+    <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_template">Khách sạn này thu phụ phí &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates button to add selected room to trip -->
+    <string name="room_rate_button_add_to_trip">Thêm vào chuyến đi</string>
+    <!-- Rooms and rates button to select a particular room and view details -->
+    <string name="room_rate_button_select_room">Chọn phòng</string>
     <!-- Caption next to the star rating bar, like "3 stars" -->
     <string name="n_stars_TEMPLATE">%1$s sao</string>
     <!-- Caption next to the user review rating bar, like "140 reviews" -->
     <string name="n_reviews_TEMPLATE">%1$s nhận xét</string>
     <!-- Caption for percent of guests who recommend this hotel, i.e. "90% recommend" -->
     <string name="recommend">đề xuất</string>
+    <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
+    <string name="n_recommend_TEMPLATE">%s%% đề xuất</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
     <plurals name="rooms_left">
         <item quantity="zero">phòng còn trống</item>
@@ -198,6 +210,15 @@
         <item quantity="few">phòng còn trống</item>
         <item quantity="many">phòng còn trống</item>
         <item quantity="other">phòng còn trống</item>
+    </plurals>
+    <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
+    <plurals name="n_rooms_left_TEMPLATE">
+        <item quantity="zero">Còn %s phòng</item>
+        <item quantity="one">Còn %s phòng</item>
+        <item quantity="two">Còn %s phòng</item>
+        <item quantity="few">Còn %s phòng</item>
+        <item quantity="many">Còn %s phòng</item>
+        <item quantity="other">Còn %s phòng</item>
     </plurals>
     <!-- Caption for user review count, i.e. 4.5 "out of 5" -->
     <string name="out_of_5">/ 5</string>
@@ -209,6 +230,8 @@
     <string name="Non_Refundable">Không hoàn tiền</string>
     <!-- Title for the reviews section after we get the property name -->
     <string name="reviews_for_TEMPLATE">Nhận xét về %1$s</string>
+    <!-- Information for the review about who submitted it and when -->
+    <string name="submitted_by_on_date_TEMPLATE">%1$s vào %2$s</string>
 
     <!-- Tablet flight details -->
     <!-- Name of button for selecting a flight (or hotel). %1$s is a price. example: "Add for $345" -->
@@ -1916,6 +1939,8 @@
     <string name="user_review_loading_more_reviews">Đang tải thêm nhận xét khác…</string>
     <!-- Read more of the review -->
     <string name="user_review_read_more">Đọc thêm</string>
+    <!-- Read more of the review -->
+    <string name="more">Xem thêm</string>
     <!--
          User review recommendation text (eg. 4 out of 5 guests recommend this hotel)
         1$ represents the number of guests that recommend this hotel
@@ -2001,6 +2026,8 @@
     <string name="renovation_notice">Thông báo nâng cấp</string>
     <!-- This property is undergoing renovations -->
     <string name="property_undergoing_renovations">Khách sạn này đang trong giai đoạn nâng cấp</string>
+    <!-- Rooms & rates more info link for renovation notice or resort fees -->
+    <string name="more_info">Thông tin khác</string>
 
     <!-- Gallery -->
     <!-- Label describing for property we are dispalying photos, e.g. "Photos of <Trump Towers>" -->
