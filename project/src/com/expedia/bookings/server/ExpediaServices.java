@@ -1652,8 +1652,6 @@ public class ExpediaServices implements DownloadListener {
 					);
 					return doRequest(request, responseHandler, flags);
 				}
-
-				// FIXME : cookieStore.save(mContext, COOKIES_FILE);
 			}
 			return (T) processedResponse;
 		}
