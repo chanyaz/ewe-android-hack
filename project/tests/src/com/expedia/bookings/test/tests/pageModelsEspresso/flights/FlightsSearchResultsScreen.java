@@ -1,16 +1,16 @@
 package com.expedia.bookings.test.tests.pageModelsEspresso.flights;
 
-import android.view.View;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
+import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
-import static com.expedia.bookings.test.utilsEspresso.ViewActions.storeResultListRowValue;
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.anything;
 
 /**
  * Created by dmadan on 4/7/14.
@@ -65,12 +65,8 @@ public class FlightsSearchResultsScreen extends ScreenActions {
 		return onView(withId(SEARCH_BUTTON_ID));
 	}
 
-	public static FlightsSearchResultRow getSearchResultModelFromView(View view) {
-		return new FlightsSearchResultRow(view);
-	}
-
-	public static ViewInteraction firstListItem() {
-		return onView(withId(android.R.id.list));
+	public static DataInteraction listItem() {
+		return onData(anything()).inAdapterView(withId(android.R.id.list));
 	}
 
 	public static ViewInteraction noFlightsWereFound() {
@@ -78,12 +74,8 @@ public class FlightsSearchResultsScreen extends ScreenActions {
 	}
 
 	// Object interactions
-	public static void clickFirstListItem() {
-		firstListItem().perform(click());
-	}
-
-	public static void getFirstListItemvalues(String value, int id) {
-		onView(withId(id)).perform(storeResultListRowValue(value));
+	public static void clickListItem(int index) {
+		listItem().atPosition(index).perform(click());
 	}
 
 	public static void clickSortFlightsButton() {

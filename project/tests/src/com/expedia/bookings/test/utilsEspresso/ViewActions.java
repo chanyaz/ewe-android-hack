@@ -57,9 +57,9 @@ public final class ViewActions {
 		}
 	}
 
-	//View Action to get the search result row values
+	//View Action to get the values for a view
 
-	public static ViewAction storeResultListRowValue(String value) {
+	public static ViewAction storeValue(String value) {
 		return new SearchResultRow(value);
 	}
 
@@ -87,7 +87,7 @@ public final class ViewActions {
 
 		@Override
 		public String getDescription() {
-			return "store search result row values";
+			return "store values";
 		}
 
 	}

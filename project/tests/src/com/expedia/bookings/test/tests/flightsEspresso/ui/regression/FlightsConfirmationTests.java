@@ -25,6 +25,7 @@ import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsConfirm
 import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsCheckoutScreen;
+import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.mobiata.android.util.SettingUtils;
@@ -68,9 +69,7 @@ public class FlightsConfirmationTests extends ActivityInstrumentationTestCase2<S
 		LaunchScreen.launchFlights();
 
 		// Flights search screen
-		ScreenActions.enterLog(TAG, "Set departure airport: " + mUser.getDepartureAirport());
 		FlightsSearchScreen.enterDepartureAirport("SFO");
-		ScreenActions.enterLog(TAG, "Set arrival airport: " + mUser.getArrivalAirport());
 		FlightsSearchScreen.enterArrivalAirport("LAS");
 		FlightsSearchScreen.clickSelectDepartureButton();
 		Calendar cal = Calendar.getInstance();
@@ -78,20 +77,17 @@ public class FlightsConfirmationTests extends ActivityInstrumentationTestCase2<S
 		int month = cal.get(cal.MONTH) + 1;
 		LocalDate mStartDate = new LocalDate(year, month, 5);
 		LocalDate mEndDate = new LocalDate(year, month, 1);
-		ScreenActions.enterLog(TAG, "Selecting date with start,end dates: " + mStartDate.dayOfMonth() + "," + mEndDate.getDayOfMonth());
 		FlightsSearchScreen.clickDate(mStartDate, mEndDate);
 		ScreenActions.enterLog(TAG, "Click search button");
 		FlightsSearchScreen.clickSearchButton();
 
 		// Search results
 		ScreenActions.enterLog(TAG, "Flight search results loaded");
-		ScreenActions.enterLog(TAG, "Selecting flight at index: " + 1);
-
-		FlightsSearchResultsScreen.clickFirstListItem();
+		FlightsSearchResultsScreen.clickListItem(1);
 		FlightLegScreen.clickSelectFlightButton();
-		FlightsSearchResultsScreen.getFirstListItemvalues(mAirlineCarrier, R.id.airline_text_view);
-		FlightsSearchResultsScreen.getFirstListItemvalues(mTakeOffTime, R.id.departure_time_text_view);
-		FlightsSearchResultsScreen.getFirstListItemvalues(mArrivalTime, R.id.arrival_time_text_view);
+		EspressoUtils.getValues(mAirlineCarrier, R.id.airline_text_view);
+		EspressoUtils.getValues(mTakeOffTime, R.id.departure_time_text_view);
+		EspressoUtils.getValues(mArrivalTime, R.id.arrival_time_text_view);
 
 		// Checkout
 		FlightsCheckoutScreen.clickCheckoutButton();
@@ -141,9 +137,9 @@ public class FlightsConfirmationTests extends ActivityInstrumentationTestCase2<S
 		ScreenActions.enterLog(TAG, "Entering CCV: " + mUser.getCCV());
 		CVVEntryScreen.parseAndEnterCVV(mUser.getCCV());
 		CVVEntryScreen.clickBookButton();
-		FlightsConfirmationScreen.assertTrue(prefs.getString(mAirlineCarrier, ""));
-		FlightsConfirmationScreen.assertTrue(prefs.getString(mTakeOffTime, ""));
-		FlightsConfirmationScreen.assertTrue(prefs.getString(mArrivalTime, ""));
+		EspressoUtils.assertTrue(prefs.getString(mAirlineCarrier, ""));
+		EspressoUtils.assertTrue(prefs.getString(mTakeOffTime, ""));
+		EspressoUtils.assertTrue(prefs.getString(mArrivalTime, ""));
 		FlightsConfirmationScreen.clickDoneButton();
 		ScreenActions.enterLog(TAG, "Clicking shop tab");
 		LaunchScreen.pressShop();

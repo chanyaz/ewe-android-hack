@@ -4,14 +4,12 @@ import java.util.Calendar;
 
 import org.joda.time.LocalDate;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsConfirmationScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsTravelerInfoScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.BillingAddressScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.CVVEntryScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.CardInfoScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.LaunchScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.common.LogInScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.SettingsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightLegScreen;
@@ -72,13 +70,13 @@ public class FlightsHappyPathE {
 		// Search results
 		ScreenActions.enterLog(TAG, "Flight search results loaded");
 		ScreenActions.enterLog(TAG, "Selecting flight at index: " + 1);
-		FlightsSearchResultsScreen.clickFirstListItem();
+		FlightsSearchResultsScreen.clickListItem(1);
 
 		// Flight leg confirmation
 		ScreenActions.enterLog(TAG, "Clicking select flight button");
 		FlightLegScreen.clickSelectFlightButton();
 
-		FlightsSearchResultsScreen.clickFirstListItem();
+		FlightsSearchResultsScreen.clickListItem(1);
 		FlightLegScreen.clickSelectFlightButton();
 
 		// Checkout
