@@ -37,7 +37,7 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 
 	public static Intent createIntent(Context context, LineOfBusiness lob) {
 		Intent intent = new Intent(context, TabletCheckoutActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		intent.putExtra(ARG_LOB, lob.name());
 		return intent;
 	}
@@ -124,6 +124,7 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 	@Override
 	public void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
+		setIntent(intent);
 		updateLobFromIntent(intent);
 		setCheckoutState(CheckoutState.OVERVIEW, false);
 	}

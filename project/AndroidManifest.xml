@@ -283,7 +283,8 @@
             android:name="com.expedia.bookings.activity.TabletCheckoutActivity"
             android:label="@string/CheckOut"
             android:theme="@style/V2.Theme.Activity.TabletCheckout"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="adjustPan"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
