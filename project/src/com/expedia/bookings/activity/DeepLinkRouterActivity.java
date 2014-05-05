@@ -48,6 +48,7 @@ public class DeepLinkRouterActivity extends Activity {
 		Intent intent = getIntent();
 		Uri data = intent.getData();
 		String host = data.getHost();
+		Log.d(TAG, "Got deeplink: " + host + "/" + data.toString());
 		Set<String> queryData = StrUtils.getQueryParameterNames(data);
 
 		AdX.trackDeepLinkLaunch(data);
