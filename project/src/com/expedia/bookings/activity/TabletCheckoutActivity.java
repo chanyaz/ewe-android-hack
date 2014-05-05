@@ -70,7 +70,6 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 		// point due to how the code is structured.
 		loadCachedData(true);
 
-		// TODO remove getAddedProperty/getAddedFlight and use selected
 		boolean hasSelectedProperty = Db.getHotelSearch().getSelectedProperty() != null;
 		boolean hasSelectedFlightTrip = Db.getFlightSearch().getSelectedFlightTrip() != null;
 
