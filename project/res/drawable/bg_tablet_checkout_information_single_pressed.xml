@@ -3,10 +3,10 @@
     <item>
         <nine-patch android:src="@drawable/bg_tablet_checkout_information_single_normal"/>
     </item>
-    <item android:left="2dp" android:right="2dp" android:top="0.5dp" android:bottom="3.5dp">
+    <item>
         <shape>
             <corners android:radius="2dp"/>
-            <solid android:color="#e0e0e0"/>
+            <solid android:color="#44000000"/>
         </shape>
     </item>
 </layer-list>
