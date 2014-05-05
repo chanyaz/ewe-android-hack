@@ -968,7 +968,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			roomRateDiscountRibbon.setText(getString(R.string.percent_minus_template, rate.getDiscountPercent()));
 		}
 		else {
-			roomRateDiscountRibbon.setVisibility(View.INVISIBLE);
+			roomRateDiscountRibbon.setVisibility(View.GONE);
 		}
 	}
 
