@@ -326,11 +326,11 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 
 		int priceChange = selectedRate.compareForPriceChange(newRate);
 		if (priceChange != 0) {
-			boolean isPriceHigher = priceChange < 0;
-			HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher,
-				selectedRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());
 			// Let's pop a dialog for phone and post Events.TripPriceChange event for tablet.
 			if (!ExpediaBookingApp.useTabletInterface(getActivity())) {
+				boolean isPriceHigher = priceChange < 0;
+				HotelPriceChangeDialog dialog = HotelPriceChangeDialog.newInstance(isPriceHigher,
+					selectedRate.getDisplayTotalPrice(), newRate.getDisplayTotalPrice());
 				dialog.show(getChildFragmentManager(), HOTEL_PRODUCT_RATEUP_DIALOG);
 			}
 			else {
