@@ -98,6 +98,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		if (mHeaderString != null) {
 			outState.putString(STATE_HEADER_STRING, mHeaderString);
 		}
+		outState.putBoolean(STATE_FORM_IS_OPEN, mFormOpen);
 	}
 
 	public void bindToDb(int travelerNumber) {
@@ -145,7 +146,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 				clearForm();
 
 				Ui.hideKeyboard(getActivity(), InputMethodManager.HIDE_NOT_ALWAYS);
-				getActivity().onBackPressed();
+				closeForm(true);
 			}
 		}
 	};
@@ -285,6 +286,8 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	@Override
 	protected void onFormClosed() {
 		if (isResumed() && mFormOpen) {
+			mAttemptToLeaveMade = false;
+			Db.getWorkingTravelerManager().deleteWorkingTravelerFile(getActivity());
 			mTravelerAdapter.clearFilter();
 			mTravelerAutoComplete.dismissDropDown();
 			mTravelerAutoComplete.setAdapter((ArrayAdapter<Traveler>) null);

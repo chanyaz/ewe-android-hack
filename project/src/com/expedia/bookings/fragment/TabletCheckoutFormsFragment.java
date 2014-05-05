@@ -34,6 +34,7 @@ import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.fragment.CheckoutLoginButtonsFragment.IWalletButtonStateChangedListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.base.LobableFragment;
+import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.interfaces.IStateListener;
@@ -58,7 +59,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	ICheckoutDataListener,
 	IFragmentAvailabilityProvider,
 	CheckoutLoginButtonsFragment.ILoginStateChangedListener,
-	IWalletButtonStateChangedListener {
+	IWalletButtonStateChangedListener,
+	TabletCheckoutDataFormFragment.ICheckoutDataFormListener {
 
 	private static final String STATE_CHECKOUTFORMSTATE = "STATE_CHECKOUTFORMSTATE";
 
@@ -373,7 +375,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 						getLob() == LineOfBusiness.FLIGHTS ? FlightRulesActivity.class : HotelRulesActivity.class);
 					startActivity(intent);
 				}
-			});
+			}
+		);
 		if (getLob() == com.expedia.bookings.data.LineOfBusiness.FLIGHTS) {
 			legalBlurb.setText(PointOfSale.getPointOfSale().getStylizedFlightBookingStatement(true));
 		}
@@ -537,29 +540,31 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			}
 		}
 
-		//Slide views
+		//Slide views (only if they are already measured etc.)
 		View selectedView = mCheckoutRowsC.getChildAt(viewIndex);
-		float aboveViewsTransY = percentage * selectedView.getTop();
-		float activeViewTransY = percentage
-			* (selectedView.getTop() / 2f - selectedView.getHeight() / 2f);
-		float belowViewsTransY = percentage * (overlayBottom - selectedView.getBottom());
-		for (int i = 0; i < viewIndex; i++) {
-			mCheckoutRowsC.getChildAt(i).setTranslationY(-aboveViewsTransY);
+		if(selectedView.getHeight() > 0) {
+			float aboveViewsTransY = percentage * selectedView.getTop();
+			float activeViewTransY = percentage
+				* (selectedView.getTop() / 2f - selectedView.getHeight() / 2f);
+			float belowViewsTransY = percentage * (overlayBottom - selectedView.getBottom());
+			for (int i = 0; i < viewIndex; i++) {
+				mCheckoutRowsC.getChildAt(i).setTranslationY(-aboveViewsTransY);
+			}
+			selectedView.setTranslationY(-activeViewTransY);
+			selectedView.setAlpha(1f - percentage);
+			selectedView.setPivotY(selectedView.getHeight());
+			selectedView.setScaleY(1f + (percentage / 2f) * (mOverlayContentC.getHeight() / selectedView.getHeight()));
+			for (int i = viewIndex + 1; i < mCheckoutRowsC.getChildCount(); i++) {
+				mCheckoutRowsC.getChildAt(i).setTranslationY(belowViewsTransY);
+			}
+			//Form cross fade/scale
+			mOverlayContentC.setAlpha(percentage);
+			mOverlayShade.setAlpha(percentage);
+			float minScaleY = selectedView.getHeight() / mOverlayContentC.getHeight();
+			float scaleYPercentage = minScaleY + percentage * (1f - minScaleY);
+			mOverlayContentC.setPivotY(selectedView.getBottom());
+			mOverlayContentC.setScaleY(scaleYPercentage);
 		}
-		selectedView.setTranslationY(-activeViewTransY);
-		selectedView.setAlpha(1f - percentage);
-		selectedView.setPivotY(selectedView.getHeight());
-		selectedView.setScaleY(1f + (percentage / 2f) * (mOverlayContentC.getHeight() / selectedView.getHeight()));
-		for (int i = viewIndex + 1; i < mCheckoutRowsC.getChildCount(); i++) {
-			mCheckoutRowsC.getChildAt(i).setTranslationY(belowViewsTransY);
-		}
-		//Form cross fade/scale
-		mOverlayContentC.setAlpha(percentage);
-		mOverlayShade.setAlpha(percentage);
-		float minScaleY = selectedView.getHeight() / mOverlayContentC.getHeight();
-		float scaleYPercentage = minScaleY + percentage * (1f - minScaleY);
-		mOverlayContentC.setPivotY(selectedView.getBottom());
-		mOverlayContentC.setScaleY(scaleYPercentage);
 	}
 
 	protected void bindTravelers() {
@@ -786,6 +791,20 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		mPaymentButton.setEnabled(!enable);
 		for (TravelerButtonFragment tbf : mTravelerButtonFrags) {
 			tbf.setEnabled(enable);
+		}
+	}
+
+	/*
+	 * ICheckoutDataFormListener
+	 */
+
+	@Override
+	public void onFormRequestingClosure(TabletCheckoutDataFormFragment caller, boolean animate) {
+		if (caller == mPaymentForm && mStateManager.getState() == CheckoutFormState.EDIT_PAYMENT) {
+			setState(CheckoutFormState.OVERVIEW, animate);
+		}
+		else if (caller == mTravelerForm && mStateManager.getState() == CheckoutFormState.EDIT_TRAVELER) {
+			setState(CheckoutFormState.OVERVIEW, animate);
 		}
 	}
 }

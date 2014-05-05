@@ -7,7 +7,6 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.widget.EditText;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.NumberMaskFormatter;
@@ -21,7 +20,7 @@ import com.expedia.bookings.utils.NumberMaskTextWatcher;
  *
  * Created by dmelton on 3/20/14.
  */
-public class NumberMaskEditText extends EditText {
+public class NumberMaskEditText extends AlwaysFilterAutoCompleteTextView {
 
 	private TextWatcher mTextWatcher;
 	private String mCustomNumberFormat;

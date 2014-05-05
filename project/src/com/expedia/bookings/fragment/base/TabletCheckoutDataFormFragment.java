@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment.base;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,10 +19,22 @@ import com.mobiata.android.util.Ui;
 public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 	implements CheckoutLoginButtonsFragment.ILoginStateChangedListener {
 
+	public interface ICheckoutDataFormListener{
+		public void onFormRequestingClosure(TabletCheckoutDataFormFragment caller, boolean animate);
+	}
+
 	private ViewGroup mRootC;
 	private ViewGroup mFormContentC;
 	private TextView mHeadingText;
 	private TextView mHeadingButton;
+
+	private ICheckoutDataFormListener mListener;
+
+	@Override
+	public void onAttach(Activity activity){
+		super.onAttach(activity);
+		mListener = Ui.findFragmentListener(this, ICheckoutDataFormListener.class);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,6 +50,10 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 		setUpFormContent(mFormContentC);
 
 		return mRootC;
+	}
+
+	public void closeForm(boolean animate){
+		mListener.onFormRequestingClosure(this, animate);
 	}
 
 	public void setHeadingText(CharSequence seq) {
