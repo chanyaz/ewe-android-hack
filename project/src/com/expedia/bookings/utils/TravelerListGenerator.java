@@ -70,6 +70,10 @@ public class TravelerListGenerator {
 			}
 		}
 		for (Traveler traveler : travelers) {
+			// If the Traveler in Db does not have a category assigned, we throw it out.
+			if (traveler.getPassengerCategory() == null) {
+				continue;
+			}
 			mTravelerList.add(traveler);
 			switch (traveler.getPassengerCategory()) {
 			case SENIOR:
