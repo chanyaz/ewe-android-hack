@@ -277,7 +277,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mHotelListC.setBlockNewEventsEnabled(false);
 		}
 
-		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN || hotelsState == ResultsHotelsState.ROOMS_AND_RATES) {
+		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN || hotelsState == ResultsHotelsState.ROOMS_AND_RATES || hotelsState == ResultsHotelsState.REVIEWS) {
 			mBgHotelMapC.setTouchPassThroughEnabled(true);
 		}
 		else {
