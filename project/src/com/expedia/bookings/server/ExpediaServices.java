@@ -719,7 +719,7 @@ public class ExpediaServices implements DownloadListener {
 			}
 		}
 
-		return doE3Request("MobileHotel/Webapp/SearchResults", query, rh, 0);
+		return doE3Request("m/api/hotel/search", query, rh, 0);
 	}
 
 	public List<BasicNameValuePair> generateHotelSearchParams(HotelSearchParams params, int flags) {
@@ -766,7 +766,7 @@ public class ExpediaServices implements DownloadListener {
 
 		HotelOffersResponseHandler responseHandler = new HotelOffersResponseHandler(mContext, params, property);
 
-		return doE3Request("MobileHotel/Webapp/HotelOffers", query, responseHandler, 0);
+		return doE3Request("m/api/hotel/offers", query, responseHandler, 0);
 	}
 
 	public List<BasicNameValuePair> generateHotelAvailabilityParams(HotelSearchParams params, Property property) {
@@ -795,13 +795,13 @@ public class ExpediaServices implements DownloadListener {
 
 		HotelOffersResponseHandler responseHandler = new HotelOffersResponseHandler(mContext, null, property);
 
-		return doE3Request("MobileHotel/Webapp/HotelInformation", query, responseHandler, 0);
+		return doE3Request("m/api/hotel/info", query, responseHandler, 0);
 	}
 
 	public HotelProductResponse hotelProduct(HotelSearchParams params, Property property, Rate rate) {
 		List<BasicNameValuePair> query = generateHotelProductParmas(params, property, rate);
 		HotelProductResponseHandler responseHandler = new HotelProductResponseHandler(mContext, params, property, rate);
-		return doE3Request("MobileHotel/Webapp/HotelProduct", query, responseHandler, 0);
+		return doE3Request("m/api/hotel/product", query, responseHandler, 0);
 	}
 
 	public List<BasicNameValuePair> generateHotelProductParmas(HotelSearchParams params, Property property, Rate rate) {
@@ -821,7 +821,7 @@ public class ExpediaServices implements DownloadListener {
 	public CreateTripResponse createTrip(HotelSearchParams params, Property property) {
 		List<BasicNameValuePair> query = generateCreateTripParams(property, params);
 		CreateTripResponseHandler responseHandler = new CreateTripResponseHandler(mContext, params, property);
-		return doE3Request("api/m/trip/create", query, responseHandler, F_SECURE_REQUEST);
+		return doE3Request("m/api/hotel/trip/create", query, responseHandler, F_SECURE_REQUEST);
 	}
 
 	public List<BasicNameValuePair> generateCreateTripParams(Property property, HotelSearchParams params) {
@@ -1122,7 +1122,7 @@ public class ExpediaServices implements DownloadListener {
 			User.signOut(mContext);
 		}
 
-		return doE3Request("MobileHotel/Webapp/SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
+		return doE3Request("api/user/sign-in", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
 	// Attempt to sign in again with the stored cookie
@@ -1136,7 +1136,7 @@ public class ExpediaServices implements DownloadListener {
 
 		addProfileTypes(query, flags);
 
-		return doE3Request("MobileHotel/Webapp/SignIn", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
+		return doE3Request("api/user/sign-in", query, new SignInResponseHandler(mContext), F_SECURE_REQUEST);
 	}
 
 	public AssociateUserToTripResponse associateUserToTrip(String tripId, int flags) {
