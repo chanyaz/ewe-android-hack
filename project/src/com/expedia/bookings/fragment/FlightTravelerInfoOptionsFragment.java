@@ -117,7 +117,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 			//We inflate the traveler as an option for the user to select
 			SectionTravelerInfo travelerInfo = (SectionTravelerInfo) inflater.inflate(
-				R.layout.section_display_traveler_info_btn, null);
+				R.layout.section_flight_display_traveler_info_btn, null);
 			travelerInfo.bind(traveler);
 
 			toggleTravelerSection(travelerInfo, !alreadyInUse);

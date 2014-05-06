@@ -349,7 +349,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				// The traveler has information, fill it in
 				// and ignore the sectionLabelId and display index
 				SectionTravelerInfo travelerSection = (SectionTravelerInfo) inflater.inflate(
-					R.layout.section_display_traveler_info_btn, null);
+					R.layout.section_flight_display_traveler_info_btn, null);
 
 				dressSectionTraveler(travelerSection, index);
 				mTravelerSections.add(travelerSection);
@@ -368,7 +368,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				// maintain matched indexing between travelers and their info sections
 				if (mTravelerSections.size() < numTravelers) {
 					SectionTravelerInfo travelerSection = (SectionTravelerInfo) inflater.inflate(
-						R.layout.section_display_traveler_info_btn, null);
+						R.layout.section_flight_display_traveler_info_btn, null);
 					dressSectionTraveler(travelerSection, index);
 					mTravelerSections.add(travelerSection);
 				}

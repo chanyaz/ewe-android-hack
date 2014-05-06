@@ -160,7 +160,7 @@ public class TravelerButtonFragment extends LobableFragment {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		SectionTravelerInfo travSec = null;
 		if (getLob() == LineOfBusiness.FLIGHTS) {
-			travSec = (SectionTravelerInfo) inflater.inflate(R.layout.section_display_traveler_info_btn, null);
+			travSec = (SectionTravelerInfo) inflater.inflate(R.layout.section_flight_display_traveler_info_btn, null);
 		}
 		else if (getLob() == LineOfBusiness.HOTELS) {
 			travSec = (SectionTravelerInfo) inflater.inflate(
