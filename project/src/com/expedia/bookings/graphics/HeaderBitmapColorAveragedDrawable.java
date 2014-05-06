@@ -3,9 +3,7 @@ package com.expedia.bookings.graphics;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 
-import com.expedia.bookings.bitmaps.ColorAvgUtils;
-import com.expedia.bookings.bitmaps.ColorScheme;
-import com.expedia.bookings.utils.ColorSchemeCache;
+import com.expedia.bookings.bitmaps.BitmapUtils;
 
 public class HeaderBitmapColorAveragedDrawable extends HeaderBitmapDrawable {
 
@@ -27,16 +25,7 @@ public class HeaderBitmapColorAveragedDrawable extends HeaderBitmapDrawable {
 	public void onBitmapLoaded(String url, Bitmap bitmap) {
 		super.onBitmapLoaded(url, bitmap);
 		if (mOverlayEnabled && bitmap != null) {
-			ColorSchemeCache.getScheme(url, bitmap, mCallback);
+			setOverlayDrawable(new ColorDrawable(BitmapUtils.getAvgColorOnePixelTrick(bitmap)));
 		}
 	}
-
-	private ColorSchemeCache.Callback mCallback = new ColorSchemeCache.Callback() {
-		@Override
-		public void callback(ColorScheme colorScheme) {
-			int colorDarkened = ColorAvgUtils.darken(colorScheme.primaryAccent, 0.4f);
-			int overLayWithAlpha = 0xCC000000 | 0x00ffffff & colorDarkened;
-			setOverlayDrawable(new ColorDrawable(overLayWithAlpha));
-		}
-	};
 }

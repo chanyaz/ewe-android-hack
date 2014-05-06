@@ -2,9 +2,11 @@ package com.expedia.bookings.fragment;
 
 import java.util.Set;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -21,8 +23,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.ColorAvgUtils;
-import com.expedia.bookings.bitmaps.ColorScheme;
+import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.BedType;
 import com.expedia.bookings.data.Db;
@@ -35,15 +36,15 @@ import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsBackClickedListener;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.ColorSchemeCache;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
 import com.mobiata.android.widget.SegmentedControlGroup;
 import com.squareup.otto.Subscribe;
 
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ResultsHotelReviewsFragment extends Fragment implements UserReviewsFragmentListener,
-		OnPageChangeListener, OnCheckedChangeListener {
+	OnPageChangeListener, OnCheckedChangeListener {
 
 	public static ResultsHotelReviewsFragment newInstance() {
 		ResultsHotelReviewsFragment frag = new ResultsHotelReviewsFragment();
@@ -146,7 +147,8 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 			mHotelImage.setImageResource(placeholderResId);
 		}
 
-		if (Db.getHotelSearch() != null && Db.getHotelSearch().getSelectedProperty() != null && Db.getHotelSearch().getSelectedRate() != null) {
+		if (Db.getHotelSearch() != null && Db.getHotelSearch().getSelectedProperty() != null
+			&& Db.getHotelSearch().getSelectedRate() != null) {
 			Rate rate = Db.getHotelSearch().getSelectedRate();
 
 			View selectRoomButton = Ui.findView(mRootC, R.id.room_rate_button_select);
@@ -180,7 +182,8 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 			pricePerNight.setText(Html.fromHtml(getString(R.string.room_rate_per_night_template, formattedRoomRate)));
 
 			View row = Ui.findView(mRootC, R.id.room_rate_add_select_container);
-			final ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.bg_row_state_pressed));
+			final ColorDrawable colorDrawable = new ColorDrawable(
+				getResources().getColor(R.color.bg_row_state_pressed));
 			row.setBackgroundDrawable(colorDrawable);
 		}
 	}
@@ -229,18 +232,18 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		String referrerId = null;
 		int position = 0;
 		switch (checkedId) {
-			case R.id.user_review_button_recent:
-				referrerId = "App.Hotels.Reviews.Sort.Recent";
-				position = 0;
-				break;
-			case R.id.user_review_button_favorable:
-				referrerId = "App.Hotels.Reviews.Sort.Favorable";
-				position = 1;
-				break;
-			case R.id.user_review_button_critical:
-				referrerId = "App.Hotels.Reviews.Sort.Critical";
-				position = 2;
-				break;
+		case R.id.user_review_button_recent:
+			referrerId = "App.Hotels.Reviews.Sort.Recent";
+			position = 0;
+			break;
+		case R.id.user_review_button_favorable:
+			referrerId = "App.Hotels.Reviews.Sort.Favorable";
+			position = 1;
+			break;
+		case R.id.user_review_button_critical:
+			referrerId = "App.Hotels.Reviews.Sort.Critical";
+			position = 2;
+			break;
 		}
 
 		mViewPager.setCurrentItem(position);
@@ -283,16 +286,11 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		mAddToBucketListener.onItemAddedToBucket();
 	}
 
-	public void setDominantColor(ColorScheme colorScheme) {
-		int colorDarkened = ColorAvgUtils.darken(colorScheme.primaryAccent, 0.4f);
-		setDominantColor(colorDarkened);
-	}
-
 	public void resetDominantColor() {
 		setDominantColor(getResources().getColor(R.color.hotel_details_sticky_header_background));
 	}
 
-	private void setDominantColor(int color) {
+	public void setDominantColor(int color) {
 		if (mDominantColorBackground == null) {
 			mDominantColorBackground = new ColorDrawable();
 			mDominantColorBackground.setAlpha(0);
@@ -308,12 +306,7 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 	L2ImageCache.OnBitmapLoaded mHeaderBitmapLoadedCallback = new L2ImageCache.OnBitmapLoaded() {
 		@Override
 		public void onBitmapLoaded(String url, Bitmap bitmap) {
-			ColorSchemeCache.getScheme(url, bitmap, new ColorSchemeCache.Callback() {
-				@Override
-				public void callback(ColorScheme colorScheme) {
-					setDominantColor(colorScheme);
-				}
-			});
+			setDominantColor(BitmapUtils.getAvgColorOnePixelTrick(bitmap));
 		}
 
 		@Override

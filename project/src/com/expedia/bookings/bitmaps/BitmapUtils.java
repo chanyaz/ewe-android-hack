@@ -23,19 +23,34 @@ import com.mobiata.android.util.TimingLogger;
 public class BitmapUtils {
 
 	/**
+	 * Get the avg color of a bitmap via shrinking the bmap down to one pixel and sampling the color of that pixel
+	 * <p/>
+	 * Note: This will not return the true average color. It makes use of some pretty serious optomizations to be able
+	 * to do this so quickly. If we are really after the true average we need to iteratively shrink the image by half
+	 * until only 1px remains, and that pixel should be the true average. This is faster and what iOS is doing.
+	 *
+	 * @param bmap - bitmap to determine the average color of
+	 * @return average color of image.
+	 */
+	public static int getAvgColorOnePixelTrick(Bitmap bmap) {
+		Bitmap px = Bitmap.createScaledBitmap(bmap, 1, 1, false);
+		return px.getPixel(0, 0);
+	}
+
+	/**
 	 * This will return a copy of a the supplied bitmap that has been stack blurred and darkened
 	 * according to the supplied params
-	 * 
-	 * @param bmapToBlur - the bitmap we plan to blur
+	 *
+	 * @param bmapToBlur       - the bitmap we plan to blur
 	 * @param context
-	 * @param reductionFactor - this is an optimization, typically 4 works well, basically we can shrink the bitmap before we blur and
-	 * thus have fewer pixels to blur.
-	 * @param blurRadius - the blur radius.
+	 * @param reductionFactor  - this is an optimization, typically 4 works well, basically we can shrink the bitmap before we blur and
+	 *                         thus have fewer pixels to blur.
+	 * @param blurRadius       - the blur radius.
 	 * @param darkenMultiplier - each color channel will be multiplied by this number
 	 * @return
 	 */
 	public static Bitmap stackBlurAndDarken(Bitmap bmapToBlur, Context context, int reductionFactor, int blurRadius,
-			float darkenMultiplier) {
+		float darkenMultiplier) {
 		//Shrink it, we will have a lot fewer pixels, and they are going to get blurred so nobody should care...
 		int w = bmapToBlur.getWidth() / reductionFactor;
 		int h = bmapToBlur.getHeight() / reductionFactor;
@@ -54,6 +69,7 @@ public class BitmapUtils {
 
 	/**
 	 * Newer Devices get super fast renderscript blur and darken.
+	 *
 	 * @param bitmap
 	 * @param context
 	 * @return
@@ -61,7 +77,7 @@ public class BitmapUtils {
 	@SuppressLint("NewApi")
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	private static Bitmap stackBlurAndDarkenRenderscript(Bitmap bitmap, Context context, int blurRadius,
-			float darkenMultiplier) {
+		float darkenMultiplier) {
 		TimingLogger tictoc = new TimingLogger("STACK_BLUR_AND_DARKEN", "RENDERSCRIPT");
 
 		Bitmap outputBmap = Bitmap.createBitmap(bitmap);
@@ -77,7 +93,7 @@ public class BitmapUtils {
 
 		ScriptIntrinsicColorMatrix darken = ScriptIntrinsicColorMatrix.create(mRs, Element.U8_4(mRs));
 		Matrix3f colorMatrix = new Matrix3f(
-				new float[] { darkenMultiplier, 0f, 0f, 0f, darkenMultiplier, 0f, 0f, 0f, darkenMultiplier });
+			new float[] { darkenMultiplier, 0f, 0f, 0f, darkenMultiplier, 0f, 0f, 0f, darkenMultiplier });
 		darken.setColorMatrix(colorMatrix);
 
 		Type.Builder typeBuilder = new Type.Builder(mRs, Element.U8_4(mRs));
@@ -323,7 +339,7 @@ public class BitmapUtils {
 		double maskValue = darkenMultiplier;
 		for (int d = 0; d < pix.length; d++) {
 			pix[d] = Color.rgb((int) (Color.red(pix[d]) * maskValue), (int) (Color.green(pix[d]) * maskValue),
-					(int) (Color.blue(pix[d]) * maskValue));
+				(int) (Color.blue(pix[d]) * maskValue));
 		}
 		tictoc.addSplit("Darken");
 

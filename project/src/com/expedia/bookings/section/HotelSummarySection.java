@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.util.AttributeSet;
@@ -18,8 +17,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.bitmaps.ColorAvgUtils;
-import com.expedia.bookings.bitmaps.ColorScheme;
+import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.Money;
@@ -27,7 +25,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
-import com.expedia.bookings.utils.ColorSchemeCache;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.text.StrikethroughTagHandler;
@@ -150,7 +147,7 @@ public class HotelSummarySection extends RelativeLayout {
 	 * @param isSelected
 	 */
 	public void bind(final Property property, boolean shouldShowVipIcon, float priceTextSize,
-					 boolean showDistance, DistanceUnit distanceUnit, boolean isSelected) {
+		boolean showDistance, DistanceUnit distanceUnit, boolean isSelected) {
 
 		Rate lowestRate = property.getLowestRate();
 		bind(property, lowestRate, shouldShowVipIcon, priceTextSize, showDistance, distanceUnit, isSelected, false);
@@ -168,7 +165,7 @@ public class HotelSummarySection extends RelativeLayout {
 	 * @param isSelected
 	 */
 	public void bind(final Property property, final Rate rate, boolean shouldShowVipIcon, float priceTextSize,
-					 boolean showDistance, DistanceUnit distanceUnit, boolean isSelected, boolean showTotal) {
+		boolean showDistance, DistanceUnit distanceUnit, boolean isSelected, boolean showTotal) {
 		final Context context = getContext();
 		final Resources res = context.getResources();
 
@@ -350,15 +347,7 @@ public class HotelSummarySection extends RelativeLayout {
 		@Override
 		public void onBitmapLoaded(String url, Bitmap bitmap) {
 			if (mDoUrgencyTextColorMatching) {
-				ColorSchemeCache.getScheme(url, bitmap, new ColorSchemeCache.Callback() {
-						@Override
-						public void callback(ColorScheme colorScheme) {
-							int colorDarkened = ColorAvgUtils.darken(colorScheme.primaryAccent, 0.4f);
-							int overlayWithAlpha = 0xCC000000 | 0x00ffffff & colorDarkened;
-							setDominantColor(overlayWithAlpha);
-						}
-					}
-				);
+				setDominantColor(BitmapUtils.getAvgColorOnePixelTrick(bitmap));
 			}
 		}
 

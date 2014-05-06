@@ -11,8 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.ColorAvgUtils;
-import com.expedia.bookings.bitmaps.ColorScheme;
 import com.expedia.bookings.utils.TouchControlHelper;
 import com.expedia.bookings.utils.Ui;
 
@@ -145,17 +143,12 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 		mVipBadge.setAlpha(1 - extraPct);
 	}
 
-	public void setDominantColor(ColorScheme colorScheme) {
-		int colorDarkened = ColorAvgUtils.darken(colorScheme.primaryAccent, 0.4f);
-		setDominantColor(colorDarkened);
-	}
-
 	public void resetDominantColor() {
 		setDominantColor(getResources().getColor(R.color.hotel_details_sticky_header_background));
 	}
 
 	@TargetApi(11)
-	private void setDominantColor(int color) {
+	public void setDominantColor(int color) {
 		if (mDominantColorBackground == null) {
 			mDominantColorBackground = new ColorDrawable();
 			mDominantColorBackground.setAlpha(0);

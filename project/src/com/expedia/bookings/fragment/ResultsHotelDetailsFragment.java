@@ -37,7 +37,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
-import com.expedia.bookings.bitmaps.ColorScheme;
+import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.BedType;
 import com.expedia.bookings.data.Db;
@@ -54,7 +54,6 @@ import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.server.CrossContextHelper;
-import com.expedia.bookings.utils.ColorSchemeCache;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -1109,12 +1108,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	L2ImageCache.OnBitmapLoaded mHeaderBitmapLoadedCallback = new L2ImageCache.OnBitmapLoaded() {
 		@Override
 		public void onBitmapLoaded(String url, Bitmap bitmap) {
-			ColorSchemeCache.getScheme(url, bitmap, new ColorSchemeCache.Callback() {
-				@Override
-				public void callback(ColorScheme colorScheme) {
-					mHeaderContainer.setDominantColor(colorScheme);
-				}
-			});
+			mHeaderContainer.setDominantColor(BitmapUtils.getAvgColorOnePixelTrick(bitmap));
 		}
 
 		@Override
