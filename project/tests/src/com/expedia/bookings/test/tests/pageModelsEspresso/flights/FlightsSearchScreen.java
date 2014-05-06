@@ -1,20 +1,28 @@
 package com.expedia.bookings.test.tests.pageModelsEspresso.flights;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.joda.time.LocalDate;
+
+import android.view.View;
+import android.widget.EditText;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
-import com.google.android.apps.common.testing.ui.espresso.Espresso;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
 import static com.expedia.bookings.test.utilsEspresso.ViewActions.clickDates;
+import static com.expedia.bookings.test.utilsEspresso.ViewActions.storeValue;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.closeSoftKeyboard;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
-
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
+import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withParent;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 
 /**
  * Created by dmadan on 4/7/14.
@@ -29,7 +37,6 @@ public class FlightsSearchScreen extends ScreenActions {
 	private static final int CALENDAR_DATE_PICKER_ID = R.id.calendar_date_picker;
 	private static final int SEARCH_BUTTON_ID = R.id.search_button;
 	private static final int DEPARTURE_ARRIVAL_SAME_ERROR_MESSAGE_ID = R.string.error_same_flight_departure_arrival;
-	private static final int ADULTS_PLURAL_STRING_FORMAT_ID = R.plurals.number_of_adults_TEMPLATE;
 	private static final int OK_STRING_ID = R.string.ok;
 
 	//Object retrievers
@@ -85,7 +92,7 @@ public class FlightsSearchScreen extends ScreenActions {
 	// Object interactions
 
 	public static void enterDepartureAirport(String text) {
-		departureEditText().perform(typeText(text),closeSoftKeyboard());
+		departureEditText().perform(typeText(text), closeSoftKeyboard());
 	}
 
 	public static void enterArrivalAirport(String text) {
@@ -97,14 +104,6 @@ public class FlightsSearchScreen extends ScreenActions {
 	}
 
 	public static void clickArrivalAirportField() {
-		arrivalEditText().perform(click());
-	}
-
-	public static void clearDepartureAirportField() {
-		departureEditText().perform(click());
-	}
-
-	public static void clearArrivalAirportField() {
 		arrivalEditText().perform(click());
 	}
 
@@ -128,11 +127,34 @@ public class FlightsSearchScreen extends ScreenActions {
 		calendarDatePicker().perform(clickDates(start, end));
 	}
 
-	public static void clickDepartureSpinner() {
-		departureAirportSpinner().perform(click());
+	public static void incrementAdultsButton() {
+		onView(allOf(withId(R.id.increment), withParent(withId(R.id.adults_number_picker)))).perform(click());
 	}
 
-	public static void clickArrivalSpinner() {
-		arrivalAirportSpinner().perform(click());
+	public static void getTravelerNumberText(String value) {
+		onView(allOf(withId(R.id.text_current), withParent(withId(R.id.adults_number_picker)))).perform(storeValue(value));
 	}
+
+	public static void checkHint(String hintText) {
+		selectDepartureButton().check(matches(withHint(hintText)));
+	}
+
+	public static Matcher<View> withHint(final String a) {
+		return new TypeSafeMatcher<View>() {
+
+			@Override
+			public boolean matchesSafely(View view) {
+				if (!(view instanceof EditText)) {
+					return false;
+				}
+				String hint = ((EditText) view).getHint().toString();
+				return a.equals(hint);
+			}
+
+			@Override
+			public void describeTo(Description description) {
+			}
+		};
+	}
+
 }
