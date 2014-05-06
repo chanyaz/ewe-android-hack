@@ -25,6 +25,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
+import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.text.StrikethroughTagHandler;
@@ -347,7 +348,9 @@ public class HotelSummarySection extends RelativeLayout {
 		@Override
 		public void onBitmapLoaded(String url, Bitmap bitmap) {
 			if (mDoUrgencyTextColorMatching) {
-				setDominantColor(BitmapUtils.getAvgColorOnePixelTrick(bitmap));
+				ColorBuilder builder = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)).darkenBy(0.4f)
+					.setAlpha(204);
+				setDominantColor(builder.build());
 			}
 		}
 

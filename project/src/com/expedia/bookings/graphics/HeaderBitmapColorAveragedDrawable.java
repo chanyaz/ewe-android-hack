@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 
 import com.expedia.bookings.bitmaps.BitmapUtils;
+import com.expedia.bookings.utils.ColorBuilder;
 
 public class HeaderBitmapColorAveragedDrawable extends HeaderBitmapDrawable {
 
@@ -25,7 +26,9 @@ public class HeaderBitmapColorAveragedDrawable extends HeaderBitmapDrawable {
 	public void onBitmapLoaded(String url, Bitmap bitmap) {
 		super.onBitmapLoaded(url, bitmap);
 		if (mOverlayEnabled && bitmap != null) {
-			setOverlayDrawable(new ColorDrawable(BitmapUtils.getAvgColorOnePixelTrick(bitmap)));
+			ColorBuilder builder = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)).darkenBy(0.4f)
+				.setAlpha(204);
+			setOverlayDrawable(new ColorDrawable(builder.build()));
 		}
 	}
 }

@@ -36,6 +36,7 @@ import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsBackClickedListener;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
@@ -306,7 +307,8 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 	L2ImageCache.OnBitmapLoaded mHeaderBitmapLoadedCallback = new L2ImageCache.OnBitmapLoaded() {
 		@Override
 		public void onBitmapLoaded(String url, Bitmap bitmap) {
-			setDominantColor(BitmapUtils.getAvgColorOnePixelTrick(bitmap));
+			ColorBuilder builder = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)).darkenBy(0.4f);
+			setDominantColor(builder.build());
 		}
 
 		@Override

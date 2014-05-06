@@ -54,6 +54,7 @@ import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.server.CrossContextHelper;
+import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -744,7 +745,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				if (mDoReScroll) {
 					LinearLayout rootContainer = Ui.findView(mRootC, R.id.rooms_rates_container);
 					ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
-					int headerHeight = getResources().getDimensionPixelOffset(R.dimen.tablet_details_compact_header_height);
+					int headerHeight = getResources()
+						.getDimensionPixelOffset(R.dimen.tablet_details_compact_header_height);
 					scrollView.smoothScrollTo(0, rootContainer.getTop() + row.getTop() - headerHeight);
 				}
 				else {
@@ -873,7 +875,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 
-
 	private void bindSelectedRoomDetails(final RelativeLayout container, final View row, Rate rate) {
 		ImageView roomDetailImageView = Ui.findView(row, R.id.room_rate_image_view);
 		TextView urgencyMessagingView = Ui.findView(row, R.id.room_rate_urgency_text);
@@ -921,7 +922,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			SpannableBuilder builder = new SpannableBuilder();
 			builder.append(descriptionReduced);
 			builder.append(" ");
-			builder.append(getResources().getString(R.string.more), new ForegroundColorSpan(0xFF245FB3), FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
+			builder.append(getResources().getString(R.string.more), new ForegroundColorSpan(0xFF245FB3),
+				FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
 			mIsDescriptionTextSpanned = true;
 			roomLongDescriptionTextView.setText(builder.build());
 		}
@@ -937,12 +939,15 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				// We need to reset the layout params for the container and the row.
 				// So that we are ready to expand the textView when user wants it.
 				if (mIsDescriptionTextSpanned) {
-					LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-					int marginDP = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_detail_container_margin);
+					LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+					int marginDP = getResources()
+						.getDimensionPixelSize(R.dimen.hotel_room_rate_detail_container_margin);
 					layoutParams.bottomMargin = marginDP;
 					layoutParams.topMargin = marginDP;
 					container.setLayoutParams(layoutParams);
-					row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+					row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT));
 
 					roomLongDescriptionTextView.setText(description);
 				}
@@ -1108,7 +1113,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	L2ImageCache.OnBitmapLoaded mHeaderBitmapLoadedCallback = new L2ImageCache.OnBitmapLoaded() {
 		@Override
 		public void onBitmapLoaded(String url, Bitmap bitmap) {
-			mHeaderContainer.setDominantColor(BitmapUtils.getAvgColorOnePixelTrick(bitmap));
+			ColorBuilder builder = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)).darkenBy(0.4f);
+			mHeaderContainer.setDominantColor(builder.build());
 		}
 
 		@Override
