@@ -158,7 +158,11 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	}
 
 	public void setState(TripBucketItemState state) {
-		mStateManager.setState(state, true);
+		setState(state, false);
+	}
+
+	public void setState(TripBucketItemState state, boolean animate) {
+		mStateManager.setState(state, animate);
 	}
 
 	public TripBucketItemState getState() {

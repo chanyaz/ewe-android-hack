@@ -140,6 +140,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	private boolean mIsDoneLoadingPriceChange = false;
 	private boolean mIsFlightTripDone = false;
+	private boolean mAnimateState = false;
 
 	//vars
 	private StateManager<CheckoutState> mStateManager = new StateManager<CheckoutState>(
@@ -243,6 +244,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		setCheckoutState(mStateManager.getState(), false);
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
 
@@ -252,9 +259,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		//TODO - There might be a better way of determining this?
 		if (bookingWithGoogleWallet() && mStateManager.getState() != CheckoutState.BOOKING) {
 			setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
-		}
-		else {
-			setCheckoutState(mStateManager.getState(), false);
 		}
 		checkForAddedTrips();
 	}
@@ -312,6 +316,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	 */
 
 	public void setCheckoutState(CheckoutState state, boolean animate) {
+		mAnimateState = animate;
 		mStateManager.setState(state, animate);
 	}
 
@@ -449,7 +454,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		public void onStateFinalized(CheckoutState state) {
 			setFragmentState(state);
 			setVisibilityState(state);
-			updateBucketForState(state);
+			updateBucketForState(state, mAnimateState);
 
 			if (state == CheckoutState.OVERVIEW) {
 				setShowCvvPercentage(0f);
@@ -630,7 +635,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 	}
 
-	private void updateBucketForState(CheckoutState state) {
+	private void updateBucketForState(CheckoutState state, boolean animate) {
 
 		//SETUP Db.getTripBucket() state
 		if (state == CheckoutState.CONFIRMATION) {
@@ -709,10 +714,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		//Apply state to frags
 		if (Db.getTripBucket().getFlight() != null) {
-			mBucketFlightFrag.setState(Db.getTripBucket().getFlight().getState());
+			mBucketFlightFrag.setState(Db.getTripBucket().getFlight().getState(), animate);
 		}
 		if (Db.getTripBucket().getHotel() != null) {
-			mBucketHotelFrag.setState(Db.getTripBucket().getHotel().getState());
+			mBucketHotelFrag.setState(Db.getTripBucket().getHotel().getState(), animate);
 		}
 
 	}

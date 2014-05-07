@@ -143,7 +143,8 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 			ActionBar ab = getActionBar();
 			ab.setDisplayShowTitleEnabled(true);
 			ab.setTitle(getString(R.string.Checkout));
-		}else if(!AndroidUtils.isRelease(this)){
+		}
+		else if (!AndroidUtils.isRelease(this)) {
 			//TODO: This is only here so we can launch to this activity, this else if block can be deleted prior to release
 			if(Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null) {
 				mFragCheckoutController.setLob(LineOfBusiness.FLIGHTS);
