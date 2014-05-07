@@ -55,7 +55,7 @@ public class InfantSeatingOptionSpinnerAdapter extends BaseAdapter {
 
 	private void fillInfantCategories() {
 		mInfantCategories = new ArrayList<Boolean>();
-		// True means infants in seats. False means infants in laps.
+		// True means infants in laps. False means infants in seats.
 		mInfantCategories.add(true);
 		mInfantCategories.add(false);
 	}
