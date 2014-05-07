@@ -3,7 +3,10 @@ package com.expedia.bookings.fragment;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,11 +17,13 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
+import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -36,8 +41,8 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	private String mDestinationCode;
 	private boolean mBlur;
 
-	private int mWidth = -1;
-	private int mHeight = -1;
+	private int mScreenWidth = -1;
+	private int mScreenHeight = -1;
 
 	private ImageView mImageView;
 
@@ -50,6 +55,14 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		args.putBoolean(ARG_BLUR, blur);
 		fragment.setArguments(args);
 		return fragment;
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		Point screenSize = AndroidUtils.getScreenSize(activity);
+		mScreenWidth = screenSize.x;
+		mScreenHeight = screenSize.y;
 	}
 
 	@Override
@@ -67,26 +80,15 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 		mImageView = new ImageView(getActivity());
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		mImageView.setLayoutParams(params);
-
-		final ExpediaImageManager imageManager = ExpediaImageManager.getInstance();
+		mImageView.setScaleType(ImageView.ScaleType.MATRIX);
 
 		// Check to see if bitmap was retrieved before onCreateView
 		if (mBgBitmap != null) {
 			handleBitmap(mBgBitmap, false);
 			mBgBitmap = null;
 		}
-		else if (!imageManager.isDownloadingDestinationImage(mBlur)) {
-			mImageView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-				@Override
-				public boolean onPreDraw() {
-					mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
-					mWidth = mImageView.getWidth();
-					mHeight = mImageView.getHeight();
-
-					imageManager.loadDestinationBitmap(makeImageParams(), ResultsBackgroundImageFragment.this);
-					return true;
-				}
-			});
+		else if (!ExpediaImageManager.getInstance().isDownloadingDestinationImage(mBlur)) {
+			mImageView.getViewTreeObserver().addOnPreDrawListener(mLoadImagePreDrawListener);
 		}
 
 		return mImageView;
@@ -121,28 +123,27 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 			}
 			else {
 				if (mImageView != null) {
-					mImageView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-						@Override
-						public boolean onPreDraw() {
-							mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
-							mWidth = mImageView.getWidth();
-							mHeight = mImageView.getHeight();
-
-							ExpediaImageManager.getInstance().loadDestinationBitmap(makeImageParams(), ResultsBackgroundImageFragment.this);
-							return true;
-						}
-					});
+					mImageView.getViewTreeObserver().addOnPreDrawListener(mLoadImagePreDrawListener);
 				}
 			}
 		}
 	}
 
+	private ViewTreeObserver.OnPreDrawListener mLoadImagePreDrawListener = new ViewTreeObserver.OnPreDrawListener() {
+		@Override
+		public boolean onPreDraw() {
+			mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
+			ExpediaImageManager.getInstance().loadDestinationBitmap(makeImageParams(), ResultsBackgroundImageFragment.this);
+			return true;
+		}
+	};
+
 	private boolean hasDimensions() {
-		return mWidth != -1 && mHeight != - 1;
+		return mScreenWidth != -1 && mScreenHeight != - 1;
 	}
 
 	private ExpediaImageManager.ImageParams makeImageParams() {
-		return new ExpediaImageManager.ImageParams().setBlur(mBlur).setWidth(mWidth).setHeight(mHeight);
+		return new ExpediaImageManager.ImageParams().setBlur(mBlur).setWidth(mScreenWidth).setHeight(mScreenHeight);
 	}
 
 	///////////////////////////////////////////////////////////////
@@ -161,6 +162,9 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	private void handleBitmap(final Bitmap bitmap, boolean fade) {
 		if (bitmap != null) {
 			if (mImageView != null) {
+				Matrix topCrop = BitmapUtils.createTopCropMatrix(bitmap.getWidth(), bitmap.getHeight(), mImageView.getWidth(), mImageView.getHeight());
+				mImageView.setImageMatrix(topCrop);
+
 				if (fade) {
 					// Use ViewPropertyAnimator to run a simple fade in + fade out animation to update the
 					// ImageView

@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
@@ -351,4 +352,22 @@ public class BitmapUtils {
 		return newbitmap;
 	}
 
+	/**
+	 * Creates a matrix to use in a drawable or ImageView to perform a TOP_CROP similar to CENTER_CROP
+	 */
+	public static Matrix createTopCropMatrix(int bitmapWidth, int bitmapHeight, int vwidth, int vheight) {
+		Matrix matrix = new Matrix();
+
+		float scale;
+		if (bitmapWidth * vheight > vwidth * bitmapHeight) {
+			scale = (float) vheight / (float) bitmapHeight;
+		}
+		else {
+			scale = (float) vwidth / (float) bitmapWidth;
+		}
+
+		matrix.setScale(scale, scale);
+
+		return matrix;
+	}
 }

@@ -13,6 +13,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 
+import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 
@@ -229,7 +230,7 @@ public class HeaderBitmapDrawable extends Drawable implements L2ImageCache.OnBit
 		if (mBitmapShader != null) {
 			Matrix matrix;
 			if (mScaleType == ScaleType.TOP_CROP) {
-				matrix = createTopCropMatrix(mBitmapWidth, mBitmapHeight, bounds);
+				matrix = BitmapUtils.createTopCropMatrix(mBitmapWidth, mBitmapHeight, bounds.width(), bounds.height());
 			}
 			else {
 				matrix = createCenterCropMatrix(mDx, mDy, mBitmapWidth, mBitmapHeight, bounds);
@@ -368,25 +369,6 @@ public class HeaderBitmapDrawable extends Drawable implements L2ImageCache.OnBit
 
 	//////////////////////////////////////////////////////////////////////////
 	// Utility
-
-	private Matrix createTopCropMatrix(int bitmapWidth, int bitmapHeight, Rect bounds) {
-		Matrix matrix = new Matrix();
-
-		int vwidth = bounds.width();
-		int vheight = bounds.height();
-
-		float scale;
-		if (bitmapWidth * vheight > vwidth * bitmapHeight) {
-			scale = (float) vheight / (float) bitmapHeight;
-		}
-		else {
-			scale = (float) vwidth / (float) bitmapWidth;
-		}
-
-		matrix.setScale(scale, scale);
-
-		return matrix;
-	}
 
 	private Matrix createCenterCropMatrix(float dX, float dY, int bitmapWidth, int bitmapHeight, Rect bounds) {
 		Matrix matrix = new Matrix();
