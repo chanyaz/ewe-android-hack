@@ -21,11 +21,14 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.section.InfantSeatingOptionSpinnerAdapter;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportFilterWidget;
 import com.expedia.bookings.widget.CheckBoxFilterWidget;
 import com.expedia.bookings.widget.SlidingRadioGroup;
+import com.squareup.otto.Subscribe;
 
 /**
  * ResultsFlightFiltersFragment: The filters fragment designed for tablet results 2013
@@ -33,6 +36,7 @@ import com.expedia.bookings.widget.SlidingRadioGroup;
 public class ResultsFlightFiltersFragment extends Fragment {
 
 	private static final String ARG_LEG_NUMBER = "ARG_LEG_NUMBER";
+	private static final int INFANT_CALLBACK_ID = 4000;
 
 	private int mLegNumber;
 
@@ -102,6 +106,17 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		bindAll();
+
+		Events.register(this);
+		Sp.getBus().register(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		Events.unregister(this);
+		Sp.getBus().unregister(this);
 	}
 
 	public void onFilterChanged() {
@@ -124,38 +139,65 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		}
 	}
 
+	// Infants
+
 	public void setUpInfantToggle(View view) {
 		View toggleLayout = Ui.findView(view, R.id.infant_toggle_container);
 		View toggleHeader = Ui.findView(view, R.id.infant_toggle_header);
 		if (Db.getFlightSearch().getSearchParams().hasInfants()) {
+			boolean infantInLap = Db.getFlightSearch().getSearchParams().getInfantSeatingInLap();
 			toggleLayout.setVisibility(View.VISIBLE);
 			toggleHeader.setVisibility(View.VISIBLE);
 			mInfantSeatingSpinner = Ui.findView(view, R.id.edit_infant_seating_spinner);
 			mInfantSeatingSpinner.setAdapter(new InfantSeatingOptionSpinnerAdapter(getActivity()));
-			mInfantSeatingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-					boolean infantStatusDb = Db.getFlightSearch().getSearchParams().getInfantSeatingInLap();
-					boolean infantStatusSelected = (Boolean) mInfantSeatingSpinner.getAdapter().getItem(position);
-
-					if (infantStatusDb != infantStatusSelected) {
-						Db.getFlightSearch().getSearchParams().setInfantSeatingInLap(infantStatusSelected);
-						// TODO: Invalidate current flight results and show loading animation
-						// TODO: Kick off new search
-						// TODO: load it up
-					}
-				}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> parent) {
-					// Nothing?
-				}
-			});
+			mInfantSeatingSpinner.setSelection(infantInLap ? 0 : 1);
+			mInfantSeatingSpinner.setOnItemSelectedListener(mInfantSpinnerListener);
 		}
 		else {
 			toggleLayout.setVisibility(View.GONE);
 			toggleHeader.setVisibility(View.GONE);
+		}
+	}
+
+	private final AdapterView.OnItemSelectedListener mInfantSpinnerListener = new AdapterView.OnItemSelectedListener() {
+		@Override
+		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+			boolean infantStatusDb = Db.getFlightSearch().getSearchParams().getInfantSeatingInLap();
+			boolean infantStatusSelected = (Boolean) mInfantSeatingSpinner.getAdapter().getItem(position);
+
+			if (infantStatusDb != infantStatusSelected) {
+				// Pop a simple dialog
+				String title = getString(R.string.infant_seating_preference);
+				String message = infantStatusSelected ? getString(R.string.infants_in_laps_prompt) : getString(R.string.infants_in_seats_prompt);
+				String button = getString(R.string.ok);
+				SimpleCallbackDialogFragment df = SimpleCallbackDialogFragment.newInstance(title, message, button, INFANT_CALLBACK_ID);
+				df.show(getFragmentManager(), "infantDialog");
+			}
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> parent) {
+			// No-op
+		}
+	};
+
+	@Subscribe
+	public void onSimpleDialogCallbackClick(Events.SimpleCallBackDialogOnClick click) {
+		if (click.callBackId == INFANT_CALLBACK_ID) {
+			boolean newLapPref = !Db.getFlightSearch().getSearchParams().getInfantSeatingInLap();
+			Sp.getParams().setInfantsInLaps(newLapPref);
+			Sp.reportSpUpdate();
+		}
+	}
+
+	@Subscribe
+	public void onSimpleDialogCallbackCancel(Events.SimpleCallBackDialogOnCancel cancel) {
+		if (cancel.callBackId == INFANT_CALLBACK_ID) {
+			// Revert the spinner to match Db
+			mInfantSeatingSpinner.setOnItemSelectedListener(null);
+			boolean infantInLap = Db.getFlightSearch().getSearchParams().getInfantSeatingInLap();
+			mInfantSeatingSpinner.setSelection(infantInLap ? 0 : 1);
+			mInfantSeatingSpinner.setOnItemSelectedListener(mInfantSpinnerListener);
 		}
 	}
 

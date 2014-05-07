@@ -171,6 +171,12 @@
     <string name="infants_in_laps">Infants in laps</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
     <string name="infants_in_seats">Infants in seats</string>
+    <!-- Title for infant seating preference -->
+    <string name="infant_seating_preference">Infant Seating Preference</string>
+    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
+    <string name="infants_in_seats_prompt">All infants under 2 (at time of travel) will have their own seats. We will now search again for the correct number of tickets.</string>
+    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
+    <string name="infants_in_laps_prompt">All infants under 2 (at time of travel) must sit in the lap of adult. We will now search again for the correct number of tickets.</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
