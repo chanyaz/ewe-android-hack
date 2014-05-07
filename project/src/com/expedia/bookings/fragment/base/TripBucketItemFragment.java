@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment.base;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
+import com.expedia.bookings.interfaces.ITripBucketBookClickListener;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
@@ -70,6 +72,15 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		TripBucketItemState.DEFAULT, this);
 
 	private String mPriceChangeNotificationText;
+
+	private ITripBucketBookClickListener mListener;
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		mListener = Ui.findFragmentListener(this, ITripBucketBookClickListener.class);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -143,6 +154,10 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		bind();
+	}
+
+	public ITripBucketBookClickListener getTripBucketBookClickedListener() {
+		return mListener;
 	}
 
 	public int getTopHeight() {

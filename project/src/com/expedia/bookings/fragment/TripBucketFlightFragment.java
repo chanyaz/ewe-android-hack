@@ -236,7 +236,9 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		@Override
 		public void onClick(View arg0) {
 			Db.getTripBucket().selectHotelAndFlight();
-			getActivity().startActivity(TabletCheckoutActivity.createIntent(getActivity(), LineOfBusiness.FLIGHTS));
+			if (getTripBucketBookClickedListener() != null) {
+				getTripBucketBookClickedListener().onTripBucketBookClicked(LineOfBusiness.FLIGHTS);
+			}
 		}
 	};
 

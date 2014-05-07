@@ -21,6 +21,7 @@ import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
+import com.expedia.bookings.interfaces.ITripBucketBookClickListener;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
@@ -33,7 +34,7 @@ import com.mobiata.android.util.AndroidUtils;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletCheckoutActivity extends SherlockFragmentActivity implements IBackButtonLockListener,
-	IBackManageable {
+	IBackManageable, ITripBucketBookClickListener {
 
 	public static Intent createIntent(Context context, LineOfBusiness lob) {
 		Intent intent = new Intent(context, TabletCheckoutActivity.class);
@@ -126,36 +127,35 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 		super.onNewIntent(intent);
 		setIntent(intent);
 		updateLobFromIntent(intent);
-		setCheckoutState(CheckoutState.OVERVIEW, false);
 	}
 
 	private void updateLobFromIntent(Intent intent) {
 		if (intent.hasExtra(ARG_LOB)) {
 			try {
 				LineOfBusiness lob = LineOfBusiness.valueOf(intent.getStringExtra(ARG_LOB));
-				mFragCheckoutController.setLob(lob);
+				updateLob(lob);
 			}
 			catch (Exception ex) {
 				Log.e("Exception parsing lob from intent.", ex);
 			}
-
-			// ActionBar title
-			ActionBar ab = getActionBar();
-			ab.setDisplayShowTitleEnabled(true);
-			ab.setTitle(getString(R.string.Checkout));
 		}
 		else if (!AndroidUtils.isRelease(this)) {
 			//TODO: This is only here so we can launch to this activity, this else if block can be deleted prior to release
-			if(Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null) {
-				mFragCheckoutController.setLob(LineOfBusiness.FLIGHTS);
-			}else{
-				mFragCheckoutController.setLob(LineOfBusiness.HOTELS);
+			if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null) {
+				updateLob(LineOfBusiness.FLIGHTS);
 			}
-
-			ActionBar ab = getActionBar();
-			ab.setDisplayShowTitleEnabled(true);
-			ab.setTitle(getString(R.string.Checkout));
+			else {
+				updateLob(LineOfBusiness.HOTELS);
+			}
 		}
+	}
+
+	private void updateLob(LineOfBusiness lob) {
+		mFragCheckoutController.setLob(lob);
+
+		ActionBar ab = getActionBar();
+		ab.setDisplayShowTitleEnabled(true);
+		ab.setTitle(getString(R.string.Checkout));
 	}
 
 	@Override
@@ -297,6 +297,15 @@ public class TabletCheckoutActivity extends SherlockFragmentActivity implements 
 	@Override
 	public void setBackButtonLockState(boolean locked) {
 		mBackButtonLocked = locked;
+	}
+
+	/*
+	 * ITripBucketBookClickListener
+	 */
+
+	public void onTripBucketBookClicked(LineOfBusiness lob) {
+		updateLob(lob);
+		setCheckoutState(CheckoutState.OVERVIEW, true);
 	}
 
 	/*

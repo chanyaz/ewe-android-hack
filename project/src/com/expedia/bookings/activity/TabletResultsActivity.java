@@ -20,6 +20,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
@@ -36,6 +37,7 @@ import com.expedia.bookings.interfaces.IMeasurementListener;
 import com.expedia.bookings.interfaces.IMeasurementProvider;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
+import com.expedia.bookings.interfaces.ITripBucketBookClickListener;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
@@ -68,7 +70,7 @@ import com.squareup.otto.Subscribe;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsActivity extends SherlockFragmentActivity implements IBackButtonLockListener,
 	IFragmentAvailabilityProvider, IStateProvider<ResultsState>, IMeasurementProvider,
-	IBackManageable, IAcceptingListenersListener {
+	IBackManageable, IAcceptingListenersListener, ITripBucketBookClickListener {
 
 	//State
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
@@ -721,6 +723,15 @@ public class TabletResultsActivity extends SherlockFragmentActivity implements I
 			}
 		}
 	};
+
+	/*
+	 * ITripBucketBookClickListener
+	 */
+
+	@Override
+	public void onTripBucketBookClicked(LineOfBusiness lob) {
+		startActivity(TabletCheckoutActivity.createIntent(this, lob));
+	}
 
 	/*
 	IAcceptingListenersListener
