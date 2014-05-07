@@ -446,7 +446,7 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 			}
 			else if (name.equals("basePrice")) {
 				basePrice.setCurrency(currencyCode);
-				totalPrice.setAmount(getRawAmount(parser));
+				basePrice.setAmount(getRawAmount(parser));
 			}
 			else if (name.equals("taxesPrice")) {
 				taxesPrice.setCurrency(currencyCode);
