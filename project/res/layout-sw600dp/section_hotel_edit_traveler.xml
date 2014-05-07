@@ -76,17 +76,6 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/email_disclaimer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:text="@string/email_disclaimer"
-            android:gravity="right"
-            android:textColor="@color/data_review_grey"
-            android:textSize="12sp"/>
-
     </LinearLayout>
 
 </com.expedia.bookings.section.SectionTravelerInfoTablet>

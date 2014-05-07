@@ -48,53 +48,15 @@
                 android:textSize="18dp"/>
         </LinearLayout>
 
-
-        <LinearLayout
+        <EditText
+            android:id="@+id/edit_name_on_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/edit_name_on_card"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginBottom="4dp"
-                android:hint="@string/name_on_card_hint"
-                android:inputType="textPersonName|textCapWords"
-                android:paddingBottom="12dp"
-                android:singleLine="true"/>
-
-            <EditText
-                android:id="@+id/edit_email_address"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/email_address_hint"
-                android:inputType="textEmailAddress"
-                android:paddingBottom="12dp"
-                android:singleLine="true"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:id="@+id/email_disclaimer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingLeft="8dp"
-                android:textColor="@color/data_review_grey"
-                android:textSize="12sp"/>
-        </LinearLayout>
+            android:layout_marginBottom="4dp"
+            android:hint="@string/name_on_card_hint"
+            android:inputType="textPersonName|textCapWords"
+            android:paddingBottom="12dp"
+            android:singleLine="true"/>
 
         <include
             android:id="@+id/section_location_address"
