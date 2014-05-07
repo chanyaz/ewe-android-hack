@@ -981,7 +981,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		html = HtmlUtils.wrapInHeadAndBodyWithStandardTabletMargins(text);
 		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 		Intent intent = builder.setTitle(title).setHtmlData(html).setTheme(
-			R.style.V2_Theme_Activity_TabletResults_WebActivity).getIntent();
+			R.style.Theme_Phone_WebView_WithTitle).getIntent();
 		startActivity(intent);
 	}
 
