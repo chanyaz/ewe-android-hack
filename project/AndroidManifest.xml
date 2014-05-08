@@ -183,9 +183,6 @@
         <activity android:name="com.expedia.bookings.activity.WebViewActivity" />
         <activity android:name="com.expedia.bookings.activity.AboutWebViewActivity" />
         <activity
-            android:name="com.expedia.bookings.activity.TextViewActivity"
-            android:theme="@style/Theme.Phone" />
-        <activity
             android:name="com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity"
             android:label="@string/Add_Traveler"
             android:theme="@style/Theme.Phone.Dark" />
