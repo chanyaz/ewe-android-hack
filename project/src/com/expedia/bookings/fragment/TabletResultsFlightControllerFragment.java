@@ -33,11 +33,12 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
-import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -60,6 +61,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private static final String FTAG_FLIGHT_SEARCH_ERROR = "FTAG_FLIGHT_SEARCH_ERROR";
 	private static final String FTAG_FLIGHT_LOADING_INDICATOR = "FTAG_FLIGHT_LOADING_INDICATOR";
 	private static final String FTAG_FLIGHT_LEGS_CHOOSER = "FTAG_FLIGHT_LEGS_CHOOSER";
+	private static final String FTAG_FLIGHT_INFANT_CHOOSER = "FTAG_FLIGHT_INFANT_CHOOSER";
 
 	//Settings
 	private static final long PARAM_UPDATE_COOLDOWN_MS = 500;
@@ -81,6 +83,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private ResultsListLoadingFragment mLoadingGuiFrag;
 	private ResultsRecursiveFlightLegsFragment mFlightLegsFrag;
 	private ResultsListSearchErrorFragment mSearchErrorFrag;
+	private InfantChooserDialogFragment mInfantFrag;
 	private Runnable mSearchParamUpdateRunner;
 
 	//Other
@@ -169,6 +172,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		mMeasurementHelper.registerWithProvider(this);
 		mBackManager.registerWithParent(this);
 		Sp.getBus().register(this);
+		Events.register(this);
 		IAcceptingListenersListener readyForListeners = Ui
 			.findFragmentListener(this, IAcceptingListenersListener.class, false);
 		if (readyForListeners != null) {
@@ -185,6 +189,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			readyForListeners.acceptingListenersUpdated(this, false);
 		}
 		Sp.getBus().unregister(this);
+		Events.unregister(this);
 		mBackManager.unregisterWithParent(this);
 		mMeasurementHelper.unregisterWithProvider(this);
 		mResultsStateHelper.unregisterWithProvider(this);
@@ -677,7 +682,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionEnd(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
-
+			if (stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN && stateTwo == ResultsFlightsState.CHOOSING_FLIGHT) {
+				popInfantPromptIfNeeded();
+			}
 		}
 
 		@Override
@@ -718,6 +725,29 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 		}
 	};
+
+	// Infants
+
+	private void popInfantPromptIfNeeded() {
+		if (Db.getFlightSearch().getSearchParams().hasInfants()) {
+			mInfantFrag = Ui.findSupportFragment(this, FTAG_FLIGHT_INFANT_CHOOSER);
+			if (mInfantFrag == null) {
+				mInfantFrag = InfantChooserDialogFragment.newInstance();
+			}
+			if (!mInfantFrag.isAdded()) {
+				mInfantFrag.show(getFragmentManager(), "infantChooser");
+			}
+		}
+	}
+
+	@Subscribe
+	public void onSimpleDialogCallbackClick(Events.SimpleCallBackDialogOnClick click) {
+		if (click.callBackId == Events.TABLET_FLIGHTS_INFANT_CHOOSER_CALLBACK_ID) {
+			boolean newLapPref = !Db.getFlightSearch().getSearchParams().getInfantSeatingInLap();
+			Sp.getParams().setInfantsInLaps(newLapPref);
+			Sp.reportSpUpdate();
+		}
+	}
 
 	/*
 	EXPEDIA SERVICES FRAG LISTENER
