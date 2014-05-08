@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import com.expedia.bookings.bitmaps.BitmapUtils;
@@ -41,8 +40,8 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	private String mDestinationCode;
 	private boolean mBlur;
 
-	private int mScreenWidth = -1;
-	private int mScreenHeight = -1;
+	private int mScreenWidth;
+	private int mScreenHeight;
 
 	private ImageView mImageView;
 
@@ -88,7 +87,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 			mBgBitmap = null;
 		}
 		else if (!ExpediaImageManager.getInstance().isDownloadingDestinationImage(mBlur)) {
-			mImageView.getViewTreeObserver().addOnPreDrawListener(mLoadImagePreDrawListener);
+			ExpediaImageManager.getInstance().loadDestinationBitmap(makeImageParams(), ResultsBackgroundImageFragment.this);
 		}
 
 		return mImageView;
@@ -118,28 +117,8 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 
 			// Start new dl
 			ExpediaImageManager.getInstance().cancelDownloadingDestinationImage(mBlur);
-			if (hasDimensions()) {
-				ExpediaImageManager.getInstance().loadDestinationBitmap(makeImageParams(), this);
-			}
-			else {
-				if (mImageView != null) {
-					mImageView.getViewTreeObserver().addOnPreDrawListener(mLoadImagePreDrawListener);
-				}
-			}
+			ExpediaImageManager.getInstance().loadDestinationBitmap(makeImageParams(), this);
 		}
-	}
-
-	private ViewTreeObserver.OnPreDrawListener mLoadImagePreDrawListener = new ViewTreeObserver.OnPreDrawListener() {
-		@Override
-		public boolean onPreDraw() {
-			mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
-			ExpediaImageManager.getInstance().loadDestinationBitmap(makeImageParams(), ResultsBackgroundImageFragment.this);
-			return true;
-		}
-	};
-
-	private boolean hasDimensions() {
-		return mScreenWidth != -1 && mScreenHeight != - 1;
 	}
 
 	private ExpediaImageManager.ImageParams makeImageParams() {
