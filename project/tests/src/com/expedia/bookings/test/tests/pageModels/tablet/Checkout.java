@@ -71,33 +71,29 @@ public class Checkout {
 	}
 
 	public static void enterFirstName(String text) {
-		firstName().perform(click());
-		firstName().perform(typeText(text));
+		firstName().perform(scrollTo(), click(), typeText(text));
 	}
 
 	public static void enterLastName(String text) {
-		lastName().perform(click());
-		lastName().perform(typeText(text));
+		lastName().perform(scrollTo(), click(), typeText(text));
 	}
 
 	public static void enterPhoneNumber(String text) {
-		phoneNumber().perform(click());
-		phoneNumber().perform(typeText(text));
+		phoneNumber().perform(scrollTo(), click(), typeText(text));
 	}
 
 	public static void enterEmailAddress(String text) {
-		emailAddress().perform(click());
-		emailAddress().perform(typeText(text));
+		emailAddress().perform(scrollTo(), click(), typeText(text));
 	}
 
 	public static void enterDateOfBirth(int year, int month, int day) {
 		//TODO: use year/month/day
-		dateOfBirth().perform(click());
+		dateOfBirth().perform(scrollTo(), click());
 		onView(withText("Done")).perform(click());
 	}
 
 	public static void clickOnEnterPaymentInformation() {
-		onView(withText("Enter payment information")).perform(click());
+		onView(withText("Enter payment information")).perform(scrollTo(), click());
 	}
 
 	public static ViewInteraction creditCardNumber() {
