@@ -320,19 +320,24 @@ public class ExpediaImageManager {
 		final String bgdKey = generateBackgroundDownloaderKey(params.isBlur());
 
 		// Start background download
-		BackgroundDownloader.getInstance().startDownload(bgdKey, new BackgroundDownloader.Download<Bitmap>() {
+		BackgroundDownloader.getInstance().startDownload(bgdKey, new BackgroundDownloader.Download<Object[]>() {
 			@Override
-			public Bitmap doDownload() {
+			public Object[] doDownload() {
 				// Grab the ExpediaImage metadata
 				ExpediaImage expImage = getDestinationImage(airportCode, params.getWidth(), params.getHeight(), true);
 
 				// Image url - use Thumbor for correct size
 				String url = expImage.getThumborUrl(params.getWidth(), params.getHeight());
 
-				// Invoke the callback with the Bitmap
 				Bitmap bitmap = L2ImageCache.sDestination.getImage(url, params.isBlur(), true);
 				if (bitmap != null) {
-					callback.onBitmapLoaded(url, bitmap);
+					// Pass the results along to the OnDownloadComplete to invoke callback.
+					// We want the callback to be invoked on the UI thread, as the given
+					// callback generally modifies Views.
+					Object[] results = new Object[2];
+					results[0] = url;
+					results[1] = bitmap;
+					return results;
 				}
 				else {
 					L2ImageCache.sDestination.loadImage(url, params.isBlur(), callback);
@@ -340,10 +345,15 @@ public class ExpediaImageManager {
 
 				return null;
 			}
-		}, new BackgroundDownloader.OnDownloadComplete<Bitmap>() {
+		}, new BackgroundDownloader.OnDownloadComplete<Object[]>() {
 			@Override
-			public void onDownload(Bitmap results) {
-
+			public void onDownload(Object... results) {
+				if (results != null) {
+					String url = (String) results[0];
+					Bitmap bitmap = (Bitmap) results[1];
+					Log.i("ExpediaImageManager - url=" + url + " found in destination cache.");
+					callback.onBitmapLoaded(url, bitmap);
+				}
 			}
 		});
 	}
