@@ -20,6 +20,7 @@ import android.widget.EditText;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
@@ -48,6 +49,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	private SectionLocation mSectionLocation;
 	private ICheckoutDataListener mListener;
 	private boolean mFormOpen = false;
+	private BillingInfo mBillingInfo;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -65,6 +67,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			mFormOpen = savedInstanceState.getBoolean(STATE_FORM_IS_OPEN, false);
 		}
 		mStoredCreditCardAdapter = new StoredCreditCardAutoCompleteAdapter(getActivity());
+
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
@@ -154,6 +157,30 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 
 				//We attempt to save on change
 				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
+
+				// Let's show airline fees (LCC Fees) or messages if any
+				mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
+				if (mBillingInfo.getCardType() != null) {
+					FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+					if (!trip.isCardTypeSupported(mBillingInfo.getCardType())) {
+						String message = getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, mBillingInfo
+							.getCardType().getHumanReadableName(getActivity()));
+						updateCardMessageText(message);
+						toggleCardMessage(true, true);
+					}
+					else if (trip.getCardFee(mBillingInfo) != null) {
+						String message = getString(R.string.airline_processing_fee_TEMPLATE,
+							trip.getCardFee(mBillingInfo).getFormattedMoney());
+						updateCardMessageText(message);
+						toggleCardMessage(true, true);
+					}
+					else {
+						hideCardMessageOrDisplayDefault(true);
+					}
+				}
+				else {
+					hideCardMessageOrDisplayDefault(true);
+				}
 			}
 		});
 
