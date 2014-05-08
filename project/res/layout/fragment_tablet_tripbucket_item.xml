@@ -14,7 +14,7 @@
             android:id="@+id/trip_bucket_item_expanded_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/tablet_tripbucket_card_height"
+            android:layout_marginTop="@dimen/hotel_flight_card_height"
             android:background="#ffffff"
             android:visibility="gone" />
 

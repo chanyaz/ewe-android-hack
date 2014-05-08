@@ -33,7 +33,7 @@ public class TabletHotelAdapter extends HotelAdapter {
 		mContext = activity;
 
 		Resources res = mContext.getResources();
-		mCardHeight = res.getDimensionPixelSize(R.dimen.tablet_tripbucket_card_height);
+		mCardHeight = res.getDimensionPixelSize(R.dimen.hotel_flight_card_height);
 		mMedContainerHeight = res.getDimensionPixelSize(R.dimen.hotel_row_med_container_height);
 	}
 

@@ -28,7 +28,7 @@
     <com.expedia.bookings.widget.OptimizedImageView
         android:id="@+id/hotel_background_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/tablet_tripbucket_card_height"
+        android:layout_height="@dimen/hotel_flight_card_height"
         android:scaleType="centerCrop"/>
 
     <View

@@ -6,8 +6,8 @@
 
     <include
         android:id="@+id/flight_row"
-        android:layout_width="@dimen/tablet_tripbucket_card_width"
-        android:layout_height="@dimen/tablet_tripbucket_card_height"
+        android:layout_width="@dimen/hotel_flight_card_width"
+        android:layout_height="@dimen/hotel_flight_card_height"
         android:layout_centerInParent="true"
         layout="@layout/flight_card_tablet_add_tripbucket" />
 
