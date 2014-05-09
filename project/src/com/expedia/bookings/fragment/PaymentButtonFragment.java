@@ -1,8 +1,7 @@
 package com.expedia.bookings.fragment;
 
-import java.util.List;
-
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +9,15 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionStoredCreditCard;
-import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.Ui;
 
 public class PaymentButtonFragment extends LobableFragment {
@@ -31,6 +31,8 @@ public class PaymentButtonFragment extends LobableFragment {
 	private ViewGroup mEmptyPaymentBtn;
 	private SectionStoredCreditCard mStoredCreditCardBtn;
 	private SectionBillingInfo mManualCreditCardBtn;
+	private ViewGroup mCCFeesMessageContainer;
+	private TextView mCCFeesMessageText;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,6 +40,8 @@ public class PaymentButtonFragment extends LobableFragment {
 		mStoredCreditCardBtn = Ui.findView(v, R.id.stored_creditcard_section_button);
 		mEmptyPaymentBtn = Ui.findView(v, R.id.payment_info_btn);
 		mManualCreditCardBtn = Ui.findView(v, R.id.creditcard_section_button);
+		mCCFeesMessageContainer = Ui.findView(v, R.id.credit_card_fees_container);
+		mCCFeesMessageText = Ui.findView(v, R.id.credit_card_fees_message_text);
 
 		//We init these here for later use;
 		if (getLob() == LineOfBusiness.HOTELS) {
@@ -72,6 +76,20 @@ public class PaymentButtonFragment extends LobableFragment {
 			else {
 				FlightPaymentFlowState state = FlightPaymentFlowState.getInstance(getActivity());
 				hasValidCardSelected = state.hasAValidCardSelected(bi);
+				// Set show CC fee to true, so that it can be eligible to be shown in cost breakdown.
+				Db.getFlightSearch().getSelectedFlightTrip().setShowFareWithCardFee(true);
+			}
+
+			// LCC Fees callout
+			FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+			Money cardFee = trip.getCardFee(bi);
+			if (cardFee != null && trip.showFareWithCardFee(getActivity(), bi)) {
+				mCCFeesMessageText.setText(Html.fromHtml(getString(R.string.airline_card_fee_TEMPLATE,
+					cardFee.getFormattedMoney())));
+				mCCFeesMessageContainer.setVisibility(View.VISIBLE);
+			}
+			else {
+				mCCFeesMessageContainer.setVisibility(View.GONE);
 			}
 
 			if (bi.hasStoredCard()) {

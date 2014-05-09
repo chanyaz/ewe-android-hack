@@ -350,7 +350,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		mPaymentView = new FrameLayout(getActivity());
 		mPaymentView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		mPaymentView.setId(PAYMENT_FRAG_CONTAINER_ID);
-		dressCheckoutView(mPaymentView, 0);
+		// Let's set the padding to payment view here fragment_checkout_payment_button.xml So we can add the LCC message view inside the fragment.
+		dressCheckoutView(mPaymentView, false);
 		addActionable(mPaymentView, new Runnable() {
 			@Override
 			public void run() {
@@ -442,10 +443,12 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		return view;
 	}
 
-	private void dressCheckoutView(View dressableView, int groupIndex) {
+	private void dressCheckoutView(View dressableView, boolean addPadding) {
 		dressableView.setBackgroundResource(R.drawable.bg_checkout_information_single);
-		int padding = getResources().getDimensionPixelSize(R.dimen.traveler_button_padding);
-		dressableView.setPadding(padding, padding, padding, padding);
+		if (addPadding) {
+			int padding = getResources().getDimensionPixelSize(R.dimen.traveler_button_padding);
+			dressableView.setPadding(padding, padding, padding, padding);
+		}
 	}
 
 	/*
@@ -475,7 +478,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				openTravelerEntry(travelerNumber);
 			}
 		});
-		dressCheckoutView(frame, travelerNumber);
+		dressCheckoutView(frame, true);
 		mTravelerViews.add(frame);
 
 		//Add fragment to the new container
