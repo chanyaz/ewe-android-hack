@@ -47,6 +47,9 @@
 
     <!-- Tablet trip bucket dimens -->
     <dimen name="hotel_flight_card_height">120dp</dimen>
+    <dimen name="hotel_flight_card_height_with_padding">132dp</dimen>
+    <dimen name="hotel_flight_card_padding_x">12dp</dimen>
+    <dimen name="hotel_flight_card_padding_y">6dp</dimen>
     <dimen name="tripbucket_bookbutton_height">40dp</dimen>
     <dimen name="trip_bucket_primary_dest_size">46dp</dimen>
     <dimen name="trip_bucket_root_layout_padding_top">80dp</dimen>
