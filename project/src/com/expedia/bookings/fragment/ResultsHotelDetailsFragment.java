@@ -96,6 +96,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private LinearLayout mRatesContainer;
 	private View mProgressContainer;
 	private ViewGroup mReviewsC;
+	private ScrollView mScrollView;
 
 	private IAddToBucketListener mAddToBucketListener;
 	private IResultsHotelReviewsClickedListener mHotelReviewsClickedListener;
@@ -127,6 +128,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		mProgressContainer = Ui.findView(mRootC, R.id.progress_spinner_container);
 		mUserRatingContainer = Ui.findView(mRootC, R.id.user_rating_container);
 		mReviewsC = Ui.findView(mRootC, R.id.reviews_container);
+		mScrollView = Ui.findView(mRootC, R.id.scrolling_content);
 		toggleLoadingState(true);
 		return mRootC;
 	}
@@ -142,6 +144,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		mMeasurementHelper.registerWithProvider(this);
+		if (mSavedScrollPosition != 0) {
+			mScrollView.scrollTo(0, mSavedScrollPosition);
+		}
 	}
 
 	public void onHotelSelected() {
@@ -167,6 +172,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		else {
 			bd.unregisterDownloadCallback(CrossContextHelper.KEY_INFO_DOWNLOAD);
 		}
+		// Let's save the scroll position, to restore it back on resume.
+		saveScrollPosition();
 	}
 
 	public int getTailHeight() {
@@ -744,10 +751,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				// Let's not scroll the selected room rate if it's the default one. Since we want the user to look at the other info first.
 				if (mDoReScroll) {
 					LinearLayout rootContainer = Ui.findView(mRootC, R.id.rooms_rates_container);
-					ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
 					int headerHeight = getResources()
 						.getDimensionPixelOffset(R.dimen.tablet_details_compact_header_height);
-					scrollView.smoothScrollTo(0, rootContainer.getTop() + row.getTop() - headerHeight);
+					mScrollView.smoothScrollTo(0, rootContainer.getTop() + row.getTop() - headerHeight);
 				}
 				else {
 					// Let's reset this check so we rescroll to keep the selected room rate here on.
@@ -1031,8 +1037,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	private void scrollFragmentToTop() {
-		ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
-		scrollView.scrollTo(0, 0);
+		mScrollView.scrollTo(0, 0);
 	}
 
 	private boolean showUrgencyMessaging(Rate rate) {
@@ -1041,17 +1046,15 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	public void saveScrollPosition() {
-		ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
-		mSavedScrollPosition = scrollView.getScrollY();
+		mSavedScrollPosition = mScrollView.getScrollY();
 	}
 
 	public void setScrollBetweenSavedAndHeader(float percentage) {
-		ScrollView scrollView = Ui.findView(mRootC, R.id.scrolling_content);
 		float header = getResources().getDimension(R.dimen.tablet_reviews_header_height);
 		float image = getResources().getDimension(R.dimen.hotel_header_height);
 		float shift = image - header;
 		float target = (mSavedScrollPosition - shift) * -percentage + mSavedScrollPosition;
-		scrollView.scrollTo(0, (int) target);
+		mScrollView.scrollTo(0, (int) target);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
