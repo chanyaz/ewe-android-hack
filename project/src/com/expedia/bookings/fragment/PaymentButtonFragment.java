@@ -81,15 +81,17 @@ public class PaymentButtonFragment extends LobableFragment {
 			}
 
 			// LCC Fees callout
-			FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
-			Money cardFee = trip.getCardFee(bi);
-			if (cardFee != null && trip.showFareWithCardFee(getActivity(), bi)) {
-				mCCFeesMessageText.setText(Html.fromHtml(getString(R.string.airline_card_fee_TEMPLATE,
-					cardFee.getFormattedMoney())));
-				mCCFeesMessageContainer.setVisibility(View.VISIBLE);
-			}
-			else {
-				mCCFeesMessageContainer.setVisibility(View.GONE);
+			if (getLob() == LineOfBusiness.FLIGHTS) {
+				FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+				Money cardFee = trip.getCardFee(bi);
+				if (cardFee != null && trip.showFareWithCardFee(getActivity(), bi)) {
+					mCCFeesMessageText.setText(Html.fromHtml(getString(R.string.airline_card_fee_TEMPLATE,
+						cardFee.getFormattedMoney())));
+					mCCFeesMessageContainer.setVisibility(View.VISIBLE);
+				}
+				else {
+					mCCFeesMessageContainer.setVisibility(View.GONE);
+				}
 			}
 
 			if (bi.hasStoredCard()) {
