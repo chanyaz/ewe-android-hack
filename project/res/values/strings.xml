@@ -163,20 +163,16 @@
     <string name="cd_sort_by_distance">Press to sort by the closest hotels.</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">From %s</string>
-    <!--  Header for toggling infant seat option -->
-    <string name="header_child_traveler_seating">Child Traveler Seating</string>
-    <!-- Title explanation for toggling infant seat option -->
-    <string name="infant_seating_spinner_title">Children under 2 yrs</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
-    <string name="infants_in_laps">Infants in laps</string>
+    <string name="infants_in_laps">Infants under 2 (at time of travel) in laps</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
-    <string name="infants_in_seats">Infants in seats</string>
+    <string name="infants_in_seats">Infants under 2 (at time of travel) in seats</string>
     <!-- Title for infant seating preference -->
-    <string name="infant_seating_preference">Infant Seating Preference</string>
+    <string name="infant_seating_preference">Seating Preference for Infants Under 2</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
     <string name="infants_in_seats_prompt">All infants under 2 (at time of travel) will have their own seats. We will now search again for the correct number of tickets.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">All infants under 2 (at time of travel) must sit in the lap of adult. We will now search again for the correct number of tickets.</string>
+    <string name="infants_in_laps_prompt">All infants under 2 (at time of travel) must be in the lap of someone who is at least 12 years old. We will now search again for the correct number of tickets.</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
