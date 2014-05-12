@@ -50,6 +50,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilit
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.expedia.bookings.widget.SizeCopyView;
 import com.mobiata.android.util.Ui;
 
 @SuppressWarnings("ResourceType")
@@ -61,6 +62,10 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	CheckoutLoginButtonsFragment.ILoginStateChangedListener,
 	IWalletButtonStateChangedListener,
 	TabletCheckoutDataFormFragment.ICheckoutDataFormListener {
+
+	public interface ISlideToPurchaseSizeProvider {
+		public View getSlideToPurchaseContainer();
+	}
 
 	private static final String STATE_CHECKOUTFORMSTATE = "STATE_CHECKOUTFORMSTATE";
 
@@ -96,6 +101,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private TabletCheckoutTravelerFormFragment mTravelerForm;
 	private TabletCheckoutPaymentFormFragment mPaymentForm;
 	private CheckoutCouponFragment mCouponContainer;
+	private SizeCopyView mSizeCopyView;
+
+	private ISlideToPurchaseSizeProvider mISlideToPurchaseSizeProvider;
 
 	private ArrayList<View> mTravelerViews = new ArrayList<View>();
 	private ArrayList<TravelerButtonFragment> mTravelerButtonFrags = new ArrayList<TravelerButtonFragment>();
@@ -112,6 +120,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		mCheckoutInfoListener = Ui.findFragmentListener(this, CheckoutInformationListener.class);
+		mISlideToPurchaseSizeProvider = Ui.findFragmentListener(this, ISlideToPurchaseSizeProvider.class);
 	}
 
 	@Override
@@ -123,6 +132,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		mOverlayShade = Ui.findView(mRootC, R.id.overlay_shade);
 		mTravelerFormC = Ui.findView(mRootC, R.id.traveler_form_container);
 		mPaymentFormC = Ui.findView(mRootC, R.id.payment_form_container);
+		mSizeCopyView = Ui.findView(mRootC, R.id.slide_container_size_copy_view);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CHECKOUTFORMSTATE)) {
 			String stateName = savedInstanceState.getString(STATE_CHECKOUTFORMSTATE);
@@ -149,6 +159,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		bindAll();
 
 		setState(mStateManager.getState(), false);
+
+		mSizeCopyView.mimicViewSize(mISlideToPurchaseSizeProvider.getSlideToPurchaseContainer(), true, false, true);
 	}
 
 	@Override
@@ -545,7 +557,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 		//Slide views (only if they are already measured etc.)
 		View selectedView = mCheckoutRowsC.getChildAt(viewIndex);
-		if(selectedView.getHeight() > 0) {
+		if (selectedView.getHeight() > 0) {
 			float aboveViewsTransY = percentage * selectedView.getTop();
 			float activeViewTransY = percentage
 				* (selectedView.getTop() / 2f - selectedView.getHeight() / 2f);
@@ -660,7 +672,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			}
 			return false;
 		}
-
 	};
 
 	/*

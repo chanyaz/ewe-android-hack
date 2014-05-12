@@ -1,7 +1,7 @@
 package com.expedia.bookings.fragment;
 
-import java.util.Calendar;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.LocalDate;
@@ -86,7 +86,8 @@ import com.squareup.otto.Subscribe;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletCheckoutControllerFragment extends LobableFragment implements IBackManageable,
 	IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener,
-	CheckoutInformationListener, SlideToWidgetJB.ISlideToListener {
+	CheckoutInformationListener, SlideToWidgetJB.ISlideToListener,
+	TabletCheckoutFormsFragment.ISlideToPurchaseSizeProvider {
 
 	private static final String STATE_CHECKOUT_STATE = "STATE_CHECKOUT_STATE";
 
@@ -502,11 +503,13 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 
 		@Override
-		public void onStateTransitionUpdate(TripBucketItemState stateOne, TripBucketItemState stateTwo, float percentage) {
+		public void onStateTransitionUpdate(TripBucketItemState stateOne, TripBucketItemState stateTwo,
+			float percentage) {
 			if (stateTwo == TripBucketItemState.EXPANDED || stateTwo == TripBucketItemState.SHOWING_PRICE_CHANGE) {
 				for (int i = 0; i < mTripBucketItemFragments.size(); i++) {
 					TripBucketItemFragment f = mTripBucketItemFragments.get(i);
-					if (f.getState() == TripBucketItemState.EXPANDED || f.getState() == TripBucketItemState.SHOWING_PRICE_CHANGE) {
+					if (f.getState() == TripBucketItemState.EXPANDED
+						|| f.getState() == TripBucketItemState.SHOWING_PRICE_CHANGE) {
 						mExpandedPosition = i;
 					}
 					if (f == mFragment) {
@@ -560,7 +563,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		public void onStateFinalized(TripBucketItemState state) {
 			// Ignore
 		}
-	};
+	}
+
+	;
 
 	private void setShowCvvPercentage(float percentage) {
 		mFormContainer.setTranslationX(percentage * mFormContainer.getWidth());
@@ -729,10 +734,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			getFragmentManager().executePendingTransactions();
 
 			if (!mFlightBookingFrag.isDownloadingCreateTrip()
-					&& TextUtils.isEmpty(Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber())
-					&& !mIsFlightTripDone) {
+				&& TextUtils.isEmpty(Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber())
+				&& !mIsFlightTripDone) {
 				mFlightCreateTripDownloadThrobber = ThrobberDialog
-						.newInstance(getString(R.string.loading_flight_details));
+					.newInstance(getString(R.string.loading_flight_details));
 				mFlightCreateTripDownloadThrobber.show(getFragmentManager(), TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG);
 				mFlightBookingFrag.startDownload(FlightBookingState.CREATE_TRIP);
 			}
@@ -1092,7 +1097,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public void onBookingResponse(Events.BookingDownloadResponse event) {
 		Response results = event.response;
 
-		if (!AndroidUtils.isRelease(getActivity()) && SettingUtils.get(getActivity(), R.string.preference_force_google_wallet_error, false)) {
+		if (!AndroidUtils.isRelease(getActivity()) && SettingUtils
+			.get(getActivity(), R.string.preference_force_google_wallet_error, false)) {
 			ServerError googleWalletError = new ServerError();
 			googleWalletError.setCode("GOOGLE_WALLET_ERROR");
 			results.addErrorToFront(googleWalletError);
@@ -1144,17 +1150,17 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	private void dismissLoadingDialogs() {
 		mHotelProductDownloadThrobber = Ui.findSupportFragment((FragmentActivity) getActivity(),
-				TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG);
+			TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG);
 		if (mHotelProductDownloadThrobber != null && mHotelProductDownloadThrobber.isAdded()) {
 			mHotelProductDownloadThrobber.dismiss();
 		}
 		mCreateTripDownloadThrobber = Ui.findSupportFragment((FragmentActivity) getActivity(),
-				TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
+			TAG_HOTEL_CREATE_TRIP_DOWNLOADING_DIALOG);
 		if (mCreateTripDownloadThrobber != null && mCreateTripDownloadThrobber.isAdded()) {
 			mCreateTripDownloadThrobber.dismiss();
 		}
 		mFlightCreateTripDownloadThrobber = Ui.findSupportFragment((FragmentActivity) getActivity(),
-				TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG);
+			TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG);
 		if (mFlightCreateTripDownloadThrobber != null && mFlightCreateTripDownloadThrobber.isAdded()) {
 			mFlightCreateTripDownloadThrobber.dismiss();
 		}
@@ -1328,5 +1334,14 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			// Let's refresh state to reflect price change notification
 			setCheckoutState(CheckoutState.OVERVIEW, true);
 		}
+	}
+
+	///////////////////////////////////
+	// ISlideToPurchaseSizeProvider
+	// The forms container needs to know about the slide to purchase container to size its content correctly.
+
+	@Override
+	public View getSlideToPurchaseContainer() {
+		return mSlideContainer;
 	}
 }
