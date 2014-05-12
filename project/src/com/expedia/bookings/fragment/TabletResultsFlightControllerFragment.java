@@ -749,6 +749,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		}
 	}
 
+	@Subscribe
+	public void onSimpleCallbackCancel(Events.SimpleCallBackDialogOnCancel cancel) {
+		if (cancel.callBackId == Events.TABLET_FLIGHTS_INFANT_CHOOSER_CALLBACK_ID) {
+			popInfantPromptIfNeeded();
+		}
+	}
+
 	/*
 	EXPEDIA SERVICES FRAG LISTENER
 	 */

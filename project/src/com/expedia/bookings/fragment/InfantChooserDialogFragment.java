@@ -55,7 +55,6 @@ public class InfantChooserDialogFragment extends DialogFragment {
 			.setNeutralButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					dismiss();
 					if (mNewSelection != -1 && mNewSelection != choiceInDb) {
 						// Pop a simple dialog
 						String title = getString(R.string.infant_seating_preference);
@@ -63,14 +62,11 @@ public class InfantChooserDialogFragment extends DialogFragment {
 						String button = getString(R.string.ok);
 						SimpleCallbackDialogFragment df = SimpleCallbackDialogFragment.newInstance(title, message, button,
 							Events.TABLET_FLIGHTS_INFANT_CHOOSER_CALLBACK_ID);
-						df.setCancelable(false);
 						df.show(getFragmentManager(), "infantDialog");
 					}
 				}
 			})
 			.create();
 	}
-
-
 
 }
