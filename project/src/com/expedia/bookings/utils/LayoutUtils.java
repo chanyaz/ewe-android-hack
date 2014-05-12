@@ -2,13 +2,17 @@ package com.expedia.bookings.utils;
 
 import java.text.DecimalFormat;
 
+import org.xmlpull.v1.XmlPullParser;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.content.res.XmlResourceParser;
 import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -27,7 +31,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.actionbarsherlock.internal.ActionBarSherlockCompat;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
@@ -352,11 +355,91 @@ public class LayoutUtils {
 
 	public static boolean needsBottomPaddingForOverlay(Activity activity, boolean hasMenuItems) {
 		if (hasMenuItems) {
-			int uiOptions = ActionBarSherlockCompat.loadUiOptionsFromManifest(activity);
+			int uiOptions = loadUiOptionsFromManifest(activity);
 			boolean splitWhenNarrow = (uiOptions & ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW) != 0;
 			return splitWhenNarrow
 				&& activity.getResources().getBoolean(R.bool.abs__split_action_bar_is_narrow);
 		}
 		return false;
 	}
+
+	// Ripped from ActionBarSherlock for needsBottomPaddingForOverlay(...)
+	public static int loadUiOptionsFromManifest(Activity activity) {
+		int uiOptions = 0;
+		try {
+			final String thisPackage = activity.getClass().getName();
+
+			final String packageName = activity.getApplicationInfo().packageName;
+			final AssetManager am = activity.createPackageContext(packageName, 0).getAssets();
+			final XmlResourceParser xml = am.openXmlResourceParser("AndroidManifest.xml");
+
+			int eventType = xml.getEventType();
+			while (eventType != XmlPullParser.END_DOCUMENT) {
+				if (eventType == XmlPullParser.START_TAG) {
+					String name = xml.getName();
+
+					if ("application".equals(name)) {
+						//Check if the <application> has the attribute
+						for (int i = xml.getAttributeCount() - 1; i >= 0; i--) {
+							if ("uiOptions".equals(xml.getAttributeName(i))) {
+								uiOptions = xml.getAttributeIntValue(i, 0);
+								break; //out of for loop
+							}
+						}
+					}
+					else if ("activity".equals(name)) {
+						//Check if the <activity> is us and has the attribute
+						Integer activityUiOptions = null;
+						String activityPackage = null;
+						boolean isOurActivity = false;
+
+						for (int i = xml.getAttributeCount() - 1; i >= 0; i--) {
+							//We need both uiOptions and name attributes
+							String attrName = xml.getAttributeName(i);
+							if ("uiOptions".equals(attrName)) {
+								activityUiOptions = xml.getAttributeIntValue(i, 0);
+							}
+							else if ("name".equals(attrName)) {
+								activityPackage = cleanActivityName(packageName, xml.getAttributeValue(i));
+								if (!thisPackage.equals(activityPackage)) {
+									break; //out of for loop
+								}
+								isOurActivity = true;
+							}
+
+							//Make sure we have both attributes before processing
+							if ((activityUiOptions != null) && (activityPackage != null)) {
+								//Our activity, uiOptions specified, override with our value
+								uiOptions = activityUiOptions.intValue();
+							}
+						}
+						if (isOurActivity) {
+							//If we matched our activity but it had no logo don't
+							//do any more processing of the manifest
+							break;
+						}
+					}
+				}
+				eventType = xml.nextToken();
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return uiOptions;
+	}
+
+	public static String cleanActivityName(String manifestPackage, String activityName) {
+		if (activityName.charAt(0) == '.') {
+			//Relative activity name (e.g., android:name=".ui.SomeClass")
+			return manifestPackage + activityName;
+		}
+		if (activityName.indexOf('.', 1) == -1) {
+			//Unqualified activity name (e.g., android:name="SomeClass")
+			return manifestPackage + "." + activityName;
+		}
+		//Fully-qualified activity name (e.g., "com.my.package.SomeClass")
+		return activityName;
+	}
+
 }
