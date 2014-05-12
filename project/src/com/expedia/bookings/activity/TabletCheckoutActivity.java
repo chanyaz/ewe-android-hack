@@ -6,12 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.ViewGroup;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.SubMenu;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
@@ -33,7 +33,7 @@ import com.mobiata.android.util.AndroidUtils;
  * TabletCheckoutActivity: The checkout activity designed for tablet 2014
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class TabletCheckoutActivity extends SherlockFragmentActivity implements IBackButtonLockListener,
+public class TabletCheckoutActivity extends FragmentActivity implements IBackButtonLockListener,
 	IBackManageable, ITripBucketBookClickListener {
 
 	public static Intent createIntent(Context context, LineOfBusiness lob) {

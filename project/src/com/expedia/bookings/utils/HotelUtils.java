@@ -3,12 +3,12 @@ package com.expedia.bookings.utils;
 import java.util.List;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
@@ -70,7 +70,7 @@ public class HotelUtils {
 	/**
 	 * Sets up the "checkmark" action bar item
 	 */
-	public static Button setupActionBarCheckmark(final SherlockFragmentActivity activity, final MenuItem menuItem,
+	public static Button setupActionBarCheckmark(final FragmentActivity activity, final MenuItem menuItem,
 			boolean enabled) {
 		Button tv = (Button) activity.getLayoutInflater().inflate(R.layout.actionbar_checkmark_item, null);
 		ViewUtils.setAllCaps(tv);

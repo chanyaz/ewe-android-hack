@@ -1,13 +1,13 @@
 package com.expedia.bookings.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.OmnitureTracking;
 
-public class HotelRulesActivity extends SherlockFragmentActivity {
+public class HotelRulesActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -15,14 +15,13 @@ public class HotelRulesActivity extends SherlockFragmentActivity {
 		setTitle(R.string.legal_information);
 		setTheme(R.style.Theme_Phone_WebView);
 		setContentView(R.layout.activity_hotel_rules);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setLogo(R.drawable.ic_action_bar_dark);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setLogo(R.drawable.ic_action_bar_dark);
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-
 		OmnitureTracking.trackPageLoadHotelsCheckoutWarsaw(this);
 	}
 

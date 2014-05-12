@@ -17,6 +17,7 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.Html;
 import android.text.TextUtils;
@@ -32,7 +33,6 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TerminalMapActivity;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
@@ -772,7 +772,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 				TerminalMapsOrDirectionsDialogFragment fragment = TerminalMapsOrDirectionsDialogFragment
 						.newInstance(airport);
-				FragmentManager fragManager = ((SherlockFragmentActivity) getContext()).getSupportFragmentManager();
+				FragmentManager fragManager = ((FragmentActivity) getContext()).getSupportFragmentManager();
 				fragment.show(fragManager, FRAG_TAG_AIRPORT_ACTION_CHOOSER);
 			}
 		});

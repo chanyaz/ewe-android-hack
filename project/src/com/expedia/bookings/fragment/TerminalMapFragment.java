@@ -3,12 +3,12 @@ package com.expedia.bookings.fragment;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.actionbarsherlock.app.SherlockFragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.Ui;
@@ -22,7 +22,7 @@ import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.AirportMap;
 
-public class TerminalMapFragment extends SherlockFragment {
+public class TerminalMapFragment extends Fragment {
 
 	private static final String NET_MAP_DOWNLOAD = "NET_MAP_DOWNLOAD";
 	private static final String STATE_SVG = "STATE_SVG";

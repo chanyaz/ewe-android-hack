@@ -27,19 +27,7 @@ public class DebugMenu {
 		}
 	}
 
-	public static void onCreateOptionsMenu(Context context, com.actionbarsherlock.view.Menu menu) {
-		if (!AndroidUtils.isRelease(context)) {
-			com.actionbarsherlock.view.MenuInflater inflater = new com.actionbarsherlock.view.MenuInflater(context);
-			inflater.inflate(R.menu.menu_debug, menu);
-			updateStatus(context, menu);
-		}
-	}
-
 	public static void onPrepareOptionsMenu(Context context, Menu menu) {
-		updateStatus(context, menu);
-	}
-
-	public static void onPrepareOptionsMenu(Context context, com.actionbarsherlock.view.Menu menu) {
 		updateStatus(context, menu);
 	}
 
@@ -53,30 +41,9 @@ public class DebugMenu {
 		return false;
 	}
 
-	public static boolean onOptionsItemSelected(Context context, com.actionbarsherlock.view.MenuItem item) {
-		// Do nothing for now, except consume debug item clicks
-		switch (item.getItemId()) {
-		case R.id.debug_menu_build_server:
-		case R.id.debug_menu_build_number:
-			return true;
-		}
-		return false;
-	}
-
 	private static void updateStatus(Context context, Menu menu) {
 		MenuItem serverMenuItem = menu.findItem(R.id.debug_menu_build_server);
 		MenuItem buildMenuItem = menu.findItem(R.id.debug_menu_build_number);
-		if (serverMenuItem != null) {
-			serverMenuItem.setTitle(getBuildServerString(context));
-		}
-		if (buildMenuItem != null) {
-			buildMenuItem.setTitle(getBuildNumberString(context));
-		}
-	}
-
-	private static void updateStatus(Context context, com.actionbarsherlock.view.Menu menu) {
-		com.actionbarsherlock.view.MenuItem serverMenuItem = menu.findItem(R.id.debug_menu_build_server);
-		com.actionbarsherlock.view.MenuItem buildMenuItem = menu.findItem(R.id.debug_menu_build_number);
 		if (serverMenuItem != null) {
 			serverMenuItem.setTitle(getBuildServerString(context));
 		}

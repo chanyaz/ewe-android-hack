@@ -1,17 +1,17 @@
 package com.expedia.bookings.activity;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -28,7 +28,7 @@ import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.Ui;
 
-public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implements HotelPaymentYoYoListener {
+public class HotelPaymentOptionsActivity extends FragmentActivity implements HotelPaymentYoYoListener {
 
 	public static final String OPTIONS_FRAGMENT_TAG = "OPTIONS_FRAGMENT_TAG";
 	public static final String CREDIT_CARD_FRAGMENT_TAG = "CREDIT_CARD_FRAGMENT_TAG";
@@ -129,7 +129,7 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 		}
 
 		//Actionbar
-		ActionBar actionBar = this.getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
@@ -181,7 +181,7 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_yoyo, menu);
+		getMenuInflater().inflate(R.menu.menu_yoyo, menu);
 		mMenuNext = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_next);
 		mMenuDone = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
 		return true;
@@ -270,7 +270,7 @@ public class HotelPaymentOptionsActivity extends SherlockFragmentActivity implem
 	}
 
 	private void displayActionBarTitleBasedOnState() {
-		ActionBar actionBar = this.getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
 				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
 		String titleStr = getString(R.string.payment_method);

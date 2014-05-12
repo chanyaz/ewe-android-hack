@@ -1,15 +1,15 @@
 package com.expedia.bookings.utils;
 
 import android.graphics.Rect;
+import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.widget.NavigationButton;
 import com.mobiata.android.util.ViewUtils;
 
@@ -26,7 +26,7 @@ public class ActionBarNavUtils {
 	 * 2. Sets up a listener to call onOptionsItemSelected() when the button is clicked.
 	 *
 	 */
-	public static MenuItem setupActionLayoutButton(final SherlockFragmentActivity activity, Menu menu, int resId) {
+	public static MenuItem setupActionLayoutButton(final FragmentActivity activity, Menu menu, int resId) {
 		final MenuItem item = menu.findItem(resId);
 
 		View actionView = item.getActionView();

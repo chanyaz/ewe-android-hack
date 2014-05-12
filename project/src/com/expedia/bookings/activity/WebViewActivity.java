@@ -3,20 +3,20 @@ package com.expedia.bookings.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.widget.Toast;
+import android.view.MenuItem;
+import android.view.Window;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.WebViewFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
-public class WebViewActivity extends SherlockFragmentActivity implements WebViewFragment.WebViewFragmentListener {
+public class WebViewActivity extends FragmentActivity implements WebViewFragment.WebViewFragmentListener {
 
 	private static final String ARG_URL = "ARG_URL";
 	private static final String ARG_STYLE_RES_ID = "ARG_STYLE_RES_ID";
@@ -109,13 +109,13 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 			setTitle(title);
 		}
 		else {
-			if (getSupportActionBar() != null) {
-				getSupportActionBar().setDisplayShowTitleEnabled(false);
+			if (getActionBar() != null) {
+				getActionBar().setDisplayShowTitleEnabled(false);
 			}
 		}
 
-		if (getSupportActionBar() != null) {
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		if (getActionBar() != null) {
+			getActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 
 		if (savedInstanceState == null) {
@@ -182,7 +182,6 @@ public class WebViewActivity extends SherlockFragmentActivity implements WebView
 
 	@Override
 	public void setLoading(boolean loading) {
-		getSherlock().setProgressBarIndeterminateVisibility(loading);
+		setProgressBarIndeterminateVisibility(loading);
 	}
-
 }

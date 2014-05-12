@@ -1,13 +1,16 @@
 package com.expedia.bookings.activity;
 
+import android.app.ActionBar;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -15,9 +18,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Gallery;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
@@ -30,7 +30,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 
-public class HotelGalleryActivity extends SherlockFragmentActivity {
+public class HotelGalleryActivity extends FragmentActivity {
 
 	private Gallery mGallery;
 	private ImageAdapter mGalleryAdapter;
@@ -82,13 +82,13 @@ public class HotelGalleryActivity extends SherlockFragmentActivity {
 		setGalleryVisibility();
 
 		if (ExpediaBookingApp.useTabletInterface(this)) {
-			ActionBar actionBar = getSupportActionBar();
+			ActionBar actionBar = getActionBar();
 			actionBar.setTitle(Html.fromHtml(getString(R.string.gallery_title_template, mProperty.getName())));
 			actionBar.setDisplayHomeAsUpEnabled(true);
 			actionBar.setDisplayUseLogoEnabled(false);
 		}
 		else if (AndroidUtils.isHoneycombVersionOrHigher()) {
-			ActionBar actionBar = getSupportActionBar();
+			ActionBar actionBar = getActionBar();
 			actionBar.hide();
 		}
 

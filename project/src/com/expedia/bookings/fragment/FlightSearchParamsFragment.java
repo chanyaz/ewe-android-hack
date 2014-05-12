@@ -11,6 +11,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
@@ -18,9 +19,12 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.DateUtils;
+import android.view.ActionMode;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.Surface;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,10 +51,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.animation.AnimationListenerAdapter;
@@ -900,7 +900,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 			// F1213 - Show action bar because landscape takes up the entire screen otherwise
 			if (mIsLandscape && !mIsTablet) {
-				((SherlockFragmentActivity) getActivity()).startActionMode(mCalendarActionMode);
+				((FragmentActivity) getActivity()).startActionMode(mCalendarActionMode);
 				mDepartureAirportEditText.setFocusable(false);
 				mArrivalAirportEditText.setFocusable(false);
 			}

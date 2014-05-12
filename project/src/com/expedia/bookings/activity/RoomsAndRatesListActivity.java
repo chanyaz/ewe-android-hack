@@ -2,20 +2,20 @@ package com.expedia.bookings.activity;
 
 import org.joda.time.DateTime;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.format.DateUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
@@ -35,7 +35,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 
-public class RoomsAndRatesListActivity extends SherlockFragmentActivity implements RoomsAndRatesFragmentListener {
+public class RoomsAndRatesListActivity extends FragmentActivity implements RoomsAndRatesFragmentListener {
 
 	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
 
@@ -100,7 +100,7 @@ public class RoomsAndRatesListActivity extends SherlockFragmentActivity implemen
 			thumbnailView.setVisibility(View.GONE);
 		}
 
-		ActionBar ab = getSupportActionBar();
+		ActionBar ab = getActionBar();
 		ab.setDisplayHomeAsUpEnabled(true);
 		ab.setDisplayShowTitleEnabled(true);
 		ab.setTitle(R.string.select_a_room_instruction);

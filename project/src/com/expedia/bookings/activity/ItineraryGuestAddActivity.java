@@ -1,17 +1,17 @@
 package com.expedia.bookings.activity;
 
+import android.app.ActionBar;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.ItineraryGuestAddFragment;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 
-public class ItineraryGuestAddActivity extends SherlockFragmentActivity {
+public class ItineraryGuestAddActivity extends FragmentActivity {
 
 	private static final String TAG_GUEST_ADD_FRAGMENT = "TAG_GUEST_ADD_FRAGMENT";
 
@@ -25,7 +25,7 @@ public class ItineraryGuestAddActivity extends SherlockFragmentActivity {
 		setContentView(R.layout.activity_itinerary_guest_add);
 
 		// Actionbar
-		ActionBar actionBar = this.getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);

@@ -1,12 +1,12 @@
 package com.expedia.bookings.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.BookingResponse;
@@ -20,7 +20,7 @@ import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.mobiata.android.Log;
 
-public class HotelConfirmationActivity extends SherlockFragmentActivity {
+public class HotelConfirmationActivity extends FragmentActivity {
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
@@ -113,7 +113,7 @@ public class HotelConfirmationActivity extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_confirmation, menu);
+		getMenuInflater().inflate(R.menu.menu_confirmation, menu);
 		ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
 
 		// 1615. VSC Asking for a different translation text for FR

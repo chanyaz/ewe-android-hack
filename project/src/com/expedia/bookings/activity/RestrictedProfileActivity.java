@@ -1,19 +1,19 @@
 package com.expedia.bookings.activity;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.mobiata.android.util.Ui;
 
-public class RestrictedProfileActivity extends SherlockFragmentActivity {
+public class RestrictedProfileActivity extends FragmentActivity {
 
 	public static Intent createIntent(Context context) {
 		Intent restrictedProfileIntent = new Intent(context, RestrictedProfileActivity.class);
@@ -25,7 +25,7 @@ public class RestrictedProfileActivity extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_restricted_profile);
 
-		ActionBar actionBar = this.getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 

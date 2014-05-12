@@ -1,17 +1,17 @@
 package com.expedia.bookings.activity;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImageManager;
@@ -23,7 +23,7 @@ import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 
-public class LoginActivity extends SherlockFragmentActivity implements TitleSettable {
+public class LoginActivity extends FragmentActivity implements TitleSettable {
 
 	public static final String ARG_BUNDLE = "ARG_BUNDLE";
 	public static final String ARG_PATH_MODE = "ARG_PATH_MODE";
@@ -108,7 +108,7 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 		}
 
 		// Actionbar
-		ActionBar actionBar = this.getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		switch (mLob) {
 		case HOTELS:
 			actionBar.setIcon(Ui.obtainThemeResID(this, R.attr.webViewPreferencesActionBarLogo));
@@ -200,7 +200,7 @@ public class LoginActivity extends SherlockFragmentActivity implements TitleSett
 	@Override
 	public void setActionBarTitle(String title) {
 		mTitle = title;
-		ActionBar actionBar = this.getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		if (mTitle == null) {
 			actionBar.setTitle(R.string.Log_In);
 		}

@@ -1,13 +1,13 @@
 package com.expedia.bookings.activity;
 
+import android.app.ActionBar;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.Codes;
@@ -21,7 +21,7 @@ import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
-public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity implements TravelerInfoYoYoListener {
+public class HotelTravelerInfoOptionsActivity extends FragmentActivity implements TravelerInfoYoYoListener {
 
 	public static final String OPTIONS_FRAGMENT_TAG = "OPTIONS_FRAGMENT_TAG";
 	public static final String ONE_FRAGMENT_TAG = "ONE_FRAGMENT_TAG";
@@ -98,7 +98,7 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 		}
 
 		//Actionbar
-		ActionBar actionBar = this.getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
@@ -140,7 +140,7 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_yoyo, menu);
+		getMenuInflater().inflate(R.menu.menu_yoyo, menu);
 		mMenuDone = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
 		return true;
 	}
@@ -211,7 +211,7 @@ public class HotelTravelerInfoOptionsActivity extends SherlockFragmentActivity i
 	}
 
 	public void displayActionBarTitleBasedOnState() {
-		ActionBar actionBar = this.getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
 				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
 		String titleStr = getString(R.string.traveler_information);

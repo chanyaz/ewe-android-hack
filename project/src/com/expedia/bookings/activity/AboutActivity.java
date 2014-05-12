@@ -1,24 +1,24 @@
 package com.expedia.bookings.activity;
 
+import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GestureDetectorCompat;
 import android.text.TextUtils;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialog;
@@ -42,7 +42,7 @@ import com.mobiata.android.util.HtmlUtils;
 import com.mobiata.android.util.MailChimpUtils;
 import com.mobiata.android.util.MailChimpUtils.MailChimpResult;
 
-public class AboutActivity extends SherlockFragmentActivity implements AboutSectionFragmentListener,
+public class AboutActivity extends FragmentActivity implements AboutSectionFragmentListener,
 		OnSubscribeEmailClickedListener {
 	private static final String TAG_CONTACT_US = "TAG_CONTACT_US";
 	private static final String TAG_ALSO_BY_US = "TAG_ALSO_BY_US";
@@ -87,7 +87,7 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 
 		setContentView(R.layout.activity_about);
 
-		ActionBar ab = getSupportActionBar();
+		ActionBar ab = getActionBar();
 		ab.setDisplayShowTitleEnabled(false);
 		ab.setDisplayHomeAsUpEnabled(true);
 
@@ -226,7 +226,7 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 
 		// #1242. For VSC and travelocity don't add social media menu items.
 		if (ExpediaBookingApp.IS_EXPEDIA) {
-			getSupportMenuInflater().inflate(R.menu.menu_about, menu);
+			getMenuInflater().inflate(R.menu.menu_about, menu);
 		}
 
 		return super.onCreateOptionsMenu(menu);

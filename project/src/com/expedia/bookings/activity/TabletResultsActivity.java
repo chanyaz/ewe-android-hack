@@ -2,12 +2,16 @@ package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
 
+import android.support.v4.app.FragmentActivity;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnPreDrawListener;
@@ -15,10 +19,6 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.SubMenu;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Sp;
@@ -68,7 +68,7 @@ import com.squareup.otto.Subscribe;
  * will be offloaded to elsewhere in the app eventually (if for nothing other than performance/ load time reasons).
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class TabletResultsActivity extends SherlockFragmentActivity implements IBackButtonLockListener,
+public class TabletResultsActivity extends FragmentActivity implements IBackButtonLockListener,
 	IFragmentAvailabilityProvider, IStateProvider<ResultsState>, IMeasurementProvider,
 	IBackManageable, IAcceptingListenersListener, ITripBucketBookClickListener {
 

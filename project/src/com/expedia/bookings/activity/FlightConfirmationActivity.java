@@ -1,11 +1,11 @@
 package com.expedia.bookings.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImageManager;
@@ -19,7 +19,7 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
-public class FlightConfirmationActivity extends SherlockFragmentActivity {
+public class FlightConfirmationActivity extends FragmentActivity {
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
@@ -105,7 +105,7 @@ public class FlightConfirmationActivity extends SherlockFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_confirmation, menu);
+		getMenuInflater().inflate(R.menu.menu_confirmation, menu);
 		ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
 		return super.onCreateOptionsMenu(menu);
 	}

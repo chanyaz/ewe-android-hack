@@ -2,8 +2,10 @@ package com.expedia.bookings.activity;
 
 import java.util.Date;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -14,15 +16,12 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver.OnPreDrawListener;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.internal.nineoldandroids.view.animation.AnimatorProxy;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
@@ -58,7 +57,7 @@ import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
-public class FlightTripOverviewActivity extends SherlockFragmentActivity implements LogInListener,
+public class FlightTripOverviewActivity extends FragmentActivity implements LogInListener,
 		CheckoutInformationListener, ISlideToListener, DoLogoutListener,
 		FlightTripPriceFragmentListener {
 
@@ -565,8 +564,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 				mOverviewFragment.setExpandedPercentage(1f - percentage);
 			}
 
-			AnimatorProxy proxy = AnimatorProxy.wrap(mCheckoutContainer);
-			proxy.setTranslationY((Math.max(mContentRoot.getHeight(), mUnstackedHeight) - mOverviewContainer
+			mCheckoutContainer.setTranslationY((Math.max(mContentRoot.getHeight(), mUnstackedHeight) - mOverviewContainer
 					.getHeight()) * (1f - percentage));
 
 			if (percentage > 0 && mCheckoutContainer.getVisibility() != View.VISIBLE) {
@@ -581,7 +579,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 	}
 
 	private void setActionBarOverviewMode() {
-		ActionBar actionBar = this.getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setCustomView(null);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
 				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
@@ -617,7 +615,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 		titleTextView.setText(yourTripToStr);
 		subtitleTextView.setText(travelers + ", " + dateRange);
 
-		ActionBar actionBar = this.getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP
 				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
 		actionBar.setCustomView(customView);
@@ -673,7 +671,7 @@ public class FlightTripOverviewActivity extends SherlockFragmentActivity impleme
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = this.getSupportMenuInflater();
+		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu_checkout, menu);
 		mCheckoutMenuItem = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_checkout);
 		return true;

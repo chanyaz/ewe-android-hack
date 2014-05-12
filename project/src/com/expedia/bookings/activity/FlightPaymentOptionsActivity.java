@@ -1,16 +1,16 @@
 package com.expedia.bookings.activity;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
@@ -29,7 +29,7 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 
-public class FlightPaymentOptionsActivity extends SherlockFragmentActivity implements FlightPaymentYoYoListener {
+public class FlightPaymentOptionsActivity extends FragmentActivity implements FlightPaymentYoYoListener {
 
 	public static final String OPTIONS_FRAGMENT_TAG = "OPTIONS_FRAGMENT_TAG";
 	public static final String ADDRESS_FRAGMENT_TAG = "ADDRESS_FRAGMENT_TAG";
@@ -149,7 +149,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 		}
 
 		//Actionbar
-		ActionBar actionBar = this.getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
@@ -207,7 +207,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_yoyo, menu);
+		getMenuInflater().inflate(R.menu.menu_yoyo, menu);
 		mMenuNext = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_next);
 		mMenuDone = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
 		return true;
@@ -300,7 +300,7 @@ public class FlightPaymentOptionsActivity extends SherlockFragmentActivity imple
 	}
 
 	private void displayActionBarTitleBasedOnState() {
-		ActionBar actionBar = this.getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
 				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
 		String titleStr = getString(R.string.payment_method);

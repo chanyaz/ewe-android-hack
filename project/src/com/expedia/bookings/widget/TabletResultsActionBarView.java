@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import org.joda.time.LocalDate;
 
+import android.app.ActionBar;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.enums.ResultsState;

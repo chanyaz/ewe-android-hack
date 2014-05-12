@@ -1,13 +1,13 @@
 package com.expedia.bookings.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.tracking.OmnitureTracking;
 
-public class FlightRulesActivity extends SherlockFragmentActivity {
+public class FlightRulesActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -16,8 +16,8 @@ public class FlightRulesActivity extends SherlockFragmentActivity {
 		setTitle(R.string.legal_information);
 		setContentView(R.layout.activity_flight_rules);
 
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setLogo(R.drawable.ic_action_bar_dark);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setLogo(R.drawable.ic_action_bar_dark);
 	}
 
 	@Override

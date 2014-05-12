@@ -1,9 +1,13 @@
 package com.expedia.bookings.activity;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -11,10 +15,6 @@ import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
@@ -35,7 +35,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 import com.squareup.otto.Subscribe;
 
-public class HotelOverviewActivity extends SherlockFragmentActivity implements BookingOverviewFragmentListener,
+public class HotelOverviewActivity extends FragmentActivity implements BookingOverviewFragmentListener,
 	LogInListener, ISlideToListener {
 
 	public static final String STATE_TAG_LOADED_DB_INFO = "STATE_TAG_LOADED_DB_INFO";
@@ -139,9 +139,9 @@ public class HotelOverviewActivity extends SherlockFragmentActivity implements B
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_booking_overview, menu);
+		getMenuInflater().inflate(R.menu.menu_booking_overview, menu);
 
-		ActionBar actionBar = getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);

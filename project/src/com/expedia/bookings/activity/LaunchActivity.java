@@ -6,26 +6,24 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.ActionBar.TabListener;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.Window;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.Tab;
-import com.actionbarsherlock.app.ActionBar.TabListener;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.internal.app.ActionBarImpl;
-import com.actionbarsherlock.internal.app.ActionBarWrapper;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
@@ -50,7 +48,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 
-public class LaunchActivity extends SherlockFragmentActivity implements OnListModeChangedListener,
+public class LaunchActivity extends FragmentActivity implements OnListModeChangedListener,
 		ItinItemListFragmentListener, LaunchFragmentListener, DoLogoutListener {
 
 	public static final String ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL";
@@ -142,10 +140,10 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 		});
 
 		// Tabs
-		Tab shopTab = getSupportActionBar().newTab().setText(R.string.shop).setTabListener(mShopTabListener);
-		Tab itineraryTab = getSupportActionBar().newTab().setText(R.string.trips).setTabListener(mItineraryTabListener);
+		Tab shopTab = getActionBar().newTab().setText(R.string.shop).setTabListener(mShopTabListener);
+		Tab itineraryTab = getActionBar().newTab().setText(R.string.trips).setTabListener(mItineraryTabListener);
 
-		ActionBar actionBar = getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		enableEmbeddedTabs(actionBar);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowTitleEnabled(false);
@@ -252,7 +250,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_launch, menu);
+		getMenuInflater().inflate(R.menu.menu_launch, menu);
 
 		DebugMenu.onCreateOptionsMenu(this, menu);
 		if (!AndroidUtils.isRelease(this)) {
@@ -426,7 +424,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 
 	private synchronized void gotoWaterfall() {
 		if (mPagerPosition != PAGER_POS_WATERFALL) {
-			ActionBar actionBar = getSupportActionBar();
+			ActionBar actionBar = getActionBar();
 
 			mPagerPosition = PAGER_POS_WATERFALL;
 			mViewPager.setCurrentItem(PAGER_POS_WATERFALL);
@@ -450,7 +448,7 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 
 	private synchronized void gotoItineraries() {
 		if (mPagerPosition != PAGER_POS_ITIN) {
-			ActionBar actionBar = getSupportActionBar();
+			ActionBar actionBar = getActionBar();
 
 			if (mItinListFragment != null) {
 				mItinListFragment.resetTrackingState();
@@ -474,12 +472,6 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 
 	private void enableEmbeddedTabs(Object actionBar) {
 		try {
-			if (!(actionBar instanceof ActionBarImpl) && actionBar instanceof ActionBarWrapper) {
-				Field actionBarField = actionBar.getClass().getDeclaredField("mActionBar");
-				actionBarField.setAccessible(true);
-				actionBar = actionBarField.get(actionBar);
-			}
-
 			Method setHasEmbeddedTabsMethod = actionBar.getClass().getDeclaredMethod("setHasEmbeddedTabs",
 					boolean.class);
 			setHasEmbeddedTabsMethod.setAccessible(true);
@@ -526,31 +518,35 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 
 	private TabListener mShopTabListener = new TabListener() {
 		@Override
-		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+		public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
 			gotoWaterfall();
 		}
 
 		@Override
-		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+		public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
+			// ignore
 		}
 
 		@Override
-		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+		public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
+			// ignore
 		}
 	};
 
 	private TabListener mItineraryTabListener = new TabListener() {
 		@Override
-		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+		public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
 			gotoItineraries();
 		}
 
 		@Override
-		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+		public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
+			// ignore
 		}
 
 		@Override
-		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+		public void onTabReselected(Tab tab, android.app.FragmentTransaction ft) {
+			// ignore
 		}
 	};
 
@@ -558,8 +554,8 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 	public void onListModeChanged(boolean isInDetailMode, boolean animate) {
 		mViewPager.setPageSwipingEnabled(!isInDetailMode);
 		if (isInDetailMode) {
-			if (getSupportActionBar().isShowing()) {
-				getSupportActionBar().hide();
+			if (getActionBar().isShowing()) {
+				getActionBar().hide();
 			}
 		}
 		else {
@@ -569,8 +565,8 @@ public class LaunchActivity extends SherlockFragmentActivity implements OnListMo
 			// mode change in between)
 			mViewPager.postDelayed(new Runnable() {
 				public void run() {
-					if (!mItinListFragment.isInDetailMode() && !getSupportActionBar().isShowing()) {
-						getSupportActionBar().show();
+					if (!mItinListFragment.isInDetailMode() && !getActionBar().isShowing()) {
+						getActionBar().show();
 					}
 				}
 			}, 200); // 400ms - 200ms

@@ -28,7 +28,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.actionbarsherlock.internal.ActionBarSherlockCompat;
-import com.actionbarsherlock.internal.ResourcesCompat;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
@@ -356,7 +355,7 @@ public class LayoutUtils {
 			int uiOptions = ActionBarSherlockCompat.loadUiOptionsFromManifest(activity);
 			boolean splitWhenNarrow = (uiOptions & ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW) != 0;
 			return splitWhenNarrow
-				&& ResourcesCompat.getResources_getBoolean(activity, R.bool.abs__split_action_bar_is_narrow);
+				&& activity.getResources().getBoolean(R.bool.abs__split_action_bar_is_narrow);
 		}
 		return false;
 	}

@@ -2,12 +2,13 @@ package com.expedia.bookings.widget.itin;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LocalExpertSite.Destination;
 import com.expedia.bookings.data.trips.ItinCardData;
@@ -16,13 +17,10 @@ import com.expedia.bookings.data.trips.ItinCardDataLocalExpert;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.AbsPopupMenu;
-import com.expedia.bookings.widget.AbsPopupMenu.OnDismissListener;
-import com.expedia.bookings.widget.PopupMenu;
 import com.mobiata.android.util.SettingUtils;
 
 public class ItinButtonCard<T extends ItinCardData> extends LinearLayout implements
-		AbsPopupMenu.OnMenuItemClickListener, OnDismissListener {
+		PopupMenu.OnMenuItemClickListener, PopupMenu.OnDismissListener {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC INTERFACES
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -207,7 +205,7 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 	}
 
 	@Override
-	public void onDismiss(AbsPopupMenu menu) {
+	public void onDismiss(PopupMenu menu) {
 		if (mDestination != null) {
 			OmnitureTracking.trackItinLocalExpertHideCancel(getContext(), mDestination);
 		}

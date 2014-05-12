@@ -1,8 +1,10 @@
 package com.expedia.bookings.fragment;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.InputFilter;
 import android.view.LayoutInflater;
@@ -11,8 +13,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
@@ -136,7 +136,7 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 	public void setCvvErrorMode(boolean enabled) {
 		mCVVTextView.setCvvErrorMode(enabled);
 
-		updateSherlockActionBar();
+		updateActionBar();
 	}
 
 	public void bind() {
@@ -187,7 +187,7 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 			);
 		}
 
-		updateSherlockActionBar();
+		updateActionBar();
 
 		mCreditCardSection.bind(personName, cardType, cardNumber);
 
@@ -208,14 +208,14 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 	}
 
 	// Special case for the subprompt ("see back of card"), if it's in the ActionBar (for phone)
-	private void updateSherlockActionBar() {
-		if (!(getActivity() instanceof SherlockFragmentActivity)) {
+	private void updateActionBar() {
+		if (!(getActivity() instanceof FragmentActivity)) {
 			return;
 		}
 
 		CreditCardType cardType = getCurrentCCType();
 
-		ActionBar actionBar = ((SherlockFragmentActivity) getActivity()).getSupportActionBar();
+		ActionBar actionBar = ((FragmentActivity) getActivity()).getActionBar();
 		View actionBarView = actionBar.getCustomView();
 		if (actionBarView != null) {
 			TextView abSubpromptTextView = Ui.findView(actionBarView, R.id.subtitle);

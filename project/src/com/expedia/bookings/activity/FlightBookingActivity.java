@@ -4,18 +4,18 @@ import java.math.BigDecimal;
 
 import org.joda.time.DateTime;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoPosition;
 import com.expedia.bookings.data.Db;
@@ -43,7 +43,7 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.otto.Subscribe;
 
-public class FlightBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener {
+public class FlightBookingActivity extends FragmentActivity implements CVVEntryFragmentListener {
 
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
 
@@ -237,7 +237,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 	}
 
 	private void setupActionBar(boolean isError) {
-		ActionBar actionBar = getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);

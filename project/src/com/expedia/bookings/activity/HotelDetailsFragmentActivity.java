@@ -1,21 +1,21 @@
 package com.expedia.bookings.activity;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
@@ -53,7 +53,7 @@ import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.animation.AnimatorProxy;
 
-public class HotelDetailsFragmentActivity extends SherlockFragmentActivity implements HotelMiniMapFragmentListener,
+public class HotelDetailsFragmentActivity extends FragmentActivity implements HotelMiniMapFragmentListener,
 		HotelMiniGalleryFragmentListener {
 
 	// Tags for this activity's fragments
@@ -279,13 +279,13 @@ public class HotelDetailsFragmentActivity extends SherlockFragmentActivity imple
 	@TargetApi(11)
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_hotel_details, menu);
+		getMenuInflater().inflate(R.menu.menu_hotel_details, menu);
 
 		if (checkFinishConditionsAndFinish()) {
 			return super.onCreateOptionsMenu(menu);
 		}
 
-		ActionBar actionBar = getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);

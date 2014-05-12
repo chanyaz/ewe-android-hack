@@ -1,17 +1,17 @@
 package com.expedia.bookings.activity;
 
+import android.app.ActionBar;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Location;
@@ -23,7 +23,7 @@ import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
-public class HotelMapActivity extends SherlockFragmentActivity implements HotelMapFragmentListener {
+public class HotelMapActivity extends FragmentActivity implements HotelMapFragmentListener {
 
 	private HotelMapFragment mHotelMapFragment;
 
@@ -109,9 +109,9 @@ public class HotelMapActivity extends SherlockFragmentActivity implements HotelM
 	@TargetApi(11)
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_hotel_details, menu);
+		getMenuInflater().inflate(R.menu.menu_hotel_details, menu);
 
-		ActionBar actionBar = getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);

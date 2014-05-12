@@ -1,14 +1,14 @@
 package com.expedia.bookings.activity;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
@@ -22,7 +22,7 @@ import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
-public class FlightSearchActivity extends SherlockFragmentActivity implements FlightSearchParamsFragmentListener {
+public class FlightSearchActivity extends FragmentActivity implements FlightSearchParamsFragmentListener {
 
 	public static final String EXTRA_DATA_EXPIRED = "EXTRA_DATA_EXPIRED";
 
@@ -90,7 +90,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 		}
 
 		//Actionbar
-		ActionBar actionBar = this.getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setTitle(R.string.search_flights);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
@@ -203,7 +203,7 @@ public class FlightSearchActivity extends SherlockFragmentActivity implements Fl
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_flight_search, menu);
+		getMenuInflater().inflate(R.menu.menu_flight_search, menu);
 		mSearchMenuItem = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.search);
 		return super.onCreateOptionsMenu(menu);
 	}

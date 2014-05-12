@@ -1,17 +1,17 @@
 package com.expedia.bookings.activity;
 
+import android.app.ActionBar;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.Html;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.StatusFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 
-public class FlightUnsupportedPOSActivity extends SherlockFragmentActivity {
+public class FlightUnsupportedPOSActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +20,7 @@ public class FlightUnsupportedPOSActivity extends SherlockFragmentActivity {
 		setContentView(R.layout.activity_unsupported_pos);
 		getWindow().setBackgroundDrawable(null);
 
-		// ActionBar
-		ActionBar actionBar = this.getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		setTitle(R.string.taking_off_soon);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 

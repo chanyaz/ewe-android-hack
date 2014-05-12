@@ -7,29 +7,28 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.ScrollView;
 
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.dgmltn.shareeverywhere.ShareView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.AbsPopupMenu;
 import com.expedia.bookings.widget.ItinActionsSection;
-import com.expedia.bookings.widget.PopupMenu;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.util.CalendarAPIUtils;
 
 /**
  * Standalone ItinCard fragment that can be placed anywhere
  */
-public class ItinCardFragment extends Fragment implements AbsPopupMenu.OnMenuItemClickListener,
+public class ItinCardFragment extends Fragment implements PopupMenu.OnMenuItemClickListener,
 		ShareView.OnShareTargetSelectedListener {
 
 	private ViewGroup mItinHeaderContainer;

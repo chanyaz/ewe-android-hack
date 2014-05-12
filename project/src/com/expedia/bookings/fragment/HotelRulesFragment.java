@@ -1,13 +1,13 @@
 package com.expedia.bookings.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragment;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
@@ -20,7 +20,7 @@ import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.util.HtmlUtils;
 import com.mobiata.android.util.ViewUtils;
 
-public class HotelRulesFragment extends SherlockFragment {
+public class HotelRulesFragment extends Fragment {
 	public static final String TAG = HotelRulesFragment.class.toString();
 
 	@Override

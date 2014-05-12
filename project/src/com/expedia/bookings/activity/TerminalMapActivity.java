@@ -2,19 +2,19 @@ package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
 
+import android.app.ActionBar;
+import android.app.ActionBar.OnNavigationListener;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.TerminalMapFragment;
 import com.expedia.bookings.fragment.TerminalMapLegendDialogFragment;
@@ -25,7 +25,7 @@ import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.AirportMap;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
-public class TerminalMapActivity extends SherlockFragmentActivity implements OnNavigationListener {
+public class TerminalMapActivity extends FragmentActivity implements OnNavigationListener {
 
 	public static final String ARG_AIRPORT_CODE = "ARG_AIRPORT_CODE";
 
@@ -49,7 +49,7 @@ public class TerminalMapActivity extends SherlockFragmentActivity implements OnN
 		super.onCreate(savedInstanceState);
 
 		// Actionbar
-		ActionBar actionBar = this.getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayUseLogoEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(true);
@@ -130,7 +130,7 @@ public class TerminalMapActivity extends SherlockFragmentActivity implements OnN
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = this.getSupportMenuInflater();
+		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.menu_terminal_map, menu);
 		ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_legend);
 		return true;

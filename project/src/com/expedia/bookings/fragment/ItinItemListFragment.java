@@ -2,11 +2,13 @@ package com.expedia.bookings.fragment;
 
 import java.util.Collection;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +20,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ItineraryGuestAddActivity;
 import com.expedia.bookings.activity.LoginActivity;
@@ -468,16 +468,16 @@ public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialo
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Access into SherlockFragmentActivity
+	// Access into FragmentActivity
 
 	private void invalidateOptionsMenu() {
 		if (getActivity() != null) {
-			((SherlockFragmentActivity) getActivity()).supportInvalidateOptionsMenu();
+			((FragmentActivity) getActivity()).invalidateOptionsMenu();
 		}
 	}
 
 	private ActionBar getSupportActionBar() {
-		return ((SherlockFragmentActivity) getActivity()).getSupportActionBar();
+		return ((FragmentActivity) getActivity()).getActionBar();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -15,7 +16,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Ui;
 

@@ -9,10 +9,9 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
@@ -57,8 +56,7 @@ public class AboutWebViewActivity extends WebViewActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater menuInflater = getSupportMenuInflater();
-		menuInflater.inflate(R.menu.menu_webview, menu);
+		getMenuInflater().inflate(R.menu.menu_webview, menu);
 
 		mEmailMenuItem = menu.findItem(R.id.menu_email);
 		mEmailMenuItem.setVisible(mShowEmailButton && !mLoading);

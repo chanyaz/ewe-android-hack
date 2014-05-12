@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -20,7 +20,7 @@ import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.json.JSONUtils;
 
-public class FlightSearchOverlayActivity extends SherlockFragmentActivity implements FlightSearchParamsFragmentListener {
+public class FlightSearchOverlayActivity extends FragmentActivity implements FlightSearchParamsFragmentListener {
 
 	public static final String EXTRA_SEARCH_PARAMS = "EXTRA_SEARCH_PARAMS";
 
@@ -48,7 +48,7 @@ public class FlightSearchOverlayActivity extends SherlockFragmentActivity implem
 			mSearchParamsFragment = Ui.findSupportFragment(this, FlightSearchParamsFragment.TAG);
 		}
 
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class FlightSearchOverlayActivity extends SherlockFragmentActivity implem
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_flight_search, menu);
+		getMenuInflater().inflate(R.menu.menu_flight_search, menu);
 		mSearchMenuItem = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.search);
 		return super.onCreateOptionsMenu(menu);
 	}

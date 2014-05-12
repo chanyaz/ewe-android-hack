@@ -2,6 +2,7 @@ package com.expedia.bookings.activity;
 
 import java.io.IOException;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -12,13 +13,12 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockPreferenceActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
@@ -29,7 +29,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
-public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity implements ClearPrivateDataListener {
+public class ExpediaBookingPreferenceActivity extends PreferenceActivity implements ClearPrivateDataListener {
 	public static final int RESULT_NO_CHANGES = 1;
 	public static final int RESULT_CHANGED_PREFS = 2;
 
@@ -97,7 +97,7 @@ public class ExpediaBookingPreferenceActivity extends SherlockPreferenceActivity
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		ActionBar ab = getSupportActionBar();
+		ActionBar ab = getActionBar();
 		ab.setDisplayHomeAsUpEnabled(true);
 		ab.setDisplayShowTitleEnabled(false);
 		return true;

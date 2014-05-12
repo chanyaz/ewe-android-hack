@@ -1,18 +1,18 @@
 package com.expedia.bookings.activity;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.Db;
@@ -37,7 +37,7 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
 import com.squareup.otto.Subscribe;
 
-public class HotelBookingActivity extends SherlockFragmentActivity implements CVVEntryFragmentListener {
+public class HotelBookingActivity extends FragmentActivity implements CVVEntryFragmentListener {
 
 	private static final String STATE_CVV_ERROR_MODE = "STATE_CVV_ERROR_MODE";
 
@@ -242,7 +242,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	}
 
 	private void setupActionBar(boolean isError) {
-		ActionBar actionBar = getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(true);

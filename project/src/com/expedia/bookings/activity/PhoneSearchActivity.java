@@ -8,6 +8,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -31,6 +32,7 @@ import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -39,11 +41,14 @@ import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.ActionMode;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.Surface;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
+import android.view.View.MeasureSpec;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -63,11 +68,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp.OnSearchParamsChangedInWidgetListener;
 import com.expedia.bookings.content.AutocompleteProvider;
@@ -128,7 +128,7 @@ import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.SegmentedControlGroup;
 
-public class PhoneSearchActivity extends SherlockFragmentActivity implements OnDrawStartedListener,
+public class PhoneSearchActivity extends FragmentActivity implements OnDrawStartedListener,
 	HotelListFragmentListener, HotelMapFragmentListener, OnFilterChangedListener,
 	LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -555,7 +555,7 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 		}
 
 		// Setup custom action bar view
-		ActionBar actionBar = getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 
 		if (!ExpediaBookingApp.IS_VSC) {
 			actionBar.setDisplayHomeAsUpEnabled(true);
@@ -883,11 +883,11 @@ public class PhoneSearchActivity extends SherlockFragmentActivity implements OnD
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_search, menu);
+		getMenuInflater().inflate(R.menu.menu_search, menu);
 
 		// #1169. Add "About/Info" menu and debug API status menu item if VSC build.
 		if (ExpediaBookingApp.IS_VSC) {
-			getSupportMenuInflater().inflate(R.menu.menu_launch_vsc, menu);
+			getMenuInflater().inflate(R.menu.menu_launch_vsc, menu);
 			DebugMenu.onCreateOptionsMenu(this, menu);
 		}
 

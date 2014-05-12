@@ -12,15 +12,16 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.dgmltn.shareeverywhere.ShareView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.ResizeAnimator;
@@ -46,7 +47,7 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 import com.nineoldandroids.view.ViewHelper;
 
-public class ItinCard<T extends ItinCardData> extends RelativeLayout implements AbsPopupMenu.OnMenuItemClickListener,
+public class ItinCard<T extends ItinCardData> extends RelativeLayout implements PopupMenu.OnMenuItemClickListener,
 		ShareView.OnShareTargetSelectedListener {
 
 	//////////////////////////////////////////////////////////////////////////////////////

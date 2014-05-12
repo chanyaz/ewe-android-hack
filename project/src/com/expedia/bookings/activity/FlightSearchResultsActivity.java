@@ -11,6 +11,7 @@ import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,20 +19,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Pair;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.internal.ResourcesCompat;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImageManager;
@@ -85,7 +84,7 @@ import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.squareup.otto.Subscribe;
 
-public class FlightSearchResultsActivity extends SherlockFragmentActivity implements FlightListFragmentListener,
+public class FlightSearchResultsActivity extends FragmentActivity implements FlightListFragmentListener,
 		OnBackStackChangedListener, RetryErrorDialogFragmentListener, NoFlightsFragmentListener,
 		FlightDetailsFragmentListener {
 
@@ -181,7 +180,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		mFlightDetailsFragment = Ui.findSupportFragment(this, FlightDetailsFragment.TAG);
 
 		// Configure the custom action bar view
-		ActionBar actionBar = this.getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setCustomView(R.layout.action_bar_flight_results);
@@ -623,7 +622,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	public boolean onCreateOptionsMenu(Menu menu) {
 		mMenu = menu;
 
-		getSupportMenuInflater().inflate(R.menu.menu_flight_results, menu);
+		getMenuInflater().inflate(R.menu.menu_flight_results, menu);
 
 		mSearchMenuItem = ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_search);
 
@@ -640,7 +639,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 		boolean gotNoResults = getTopBackStackName().equals(BACKSTACK_NO_FLIGHTS);
 		mFlightSummaryContainer.setVisibility(areFlightDetailsShowing ? View.GONE : View.VISIBLE);
 		mFlightDetailsActionContainer.setVisibility(areFlightDetailsShowing ? View.VISIBLE : View.GONE);
-		ActionBar actionBar = getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowHomeEnabled(!areFlightDetailsShowing);
 		actionBar.setDisplayHomeAsUpEnabled(!areFlightDetailsShowing);
 		actionBar.setDisplayShowCustomEnabled(!isSearching && !gotNoResults);
@@ -673,8 +672,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			// 1. You can detect split action bar status using ABS
 			// 2. There are a detectable # of menu items
 			// 3. The action bar is the full window width
-			if (ResourcesCompat.getResources_getBoolean(this, R.bool.abs__split_action_bar_is_narrow)
-					&& mSearchMenuItem.isVisible()) {
+			if (getResources().getBoolean(R.bool.abs__split_action_bar_is_narrow) && mSearchMenuItem.isVisible()) {
 				int numVisible = 0;
 				for (int a = 0; a < menu.size(); a++) {
 					if (menu.getItem(a).isVisible()) {

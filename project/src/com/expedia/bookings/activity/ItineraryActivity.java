@@ -7,13 +7,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItinCardData;
@@ -38,7 +38,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 /**
  * Full-screen Itinerary activity.  Used in tablets.
  */
-public class ItineraryActivity extends SherlockFragmentActivity implements ItinItemListFragmentListener,
+public class ItineraryActivity extends FragmentActivity implements ItinItemListFragmentListener,
 		OnCameraChangeListener, SupportMapFragmentListener, DoLogoutListener, ItineraryMapFragmentListener,
 		ItinerarySyncListener, OnListModeChangedListener {
 
@@ -306,9 +306,9 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		getSupportMenuInflater().inflate(R.menu.menu_itinerary, menu);
+		getMenuInflater().inflate(R.menu.menu_itinerary, menu);
 
 		mLogInMenuItem = menu.findItem(R.id.menu_log_in);
 		mLogOutMenuItem = menu.findItem(R.id.menu_log_out);
@@ -507,10 +507,10 @@ public class ItineraryActivity extends SherlockFragmentActivity implements ItinI
 		}
 
 		if (isInDetailMode) {
-			getSupportActionBar().hide();
+			getActionBar().hide();
 		}
 		else {
-			getSupportActionBar().show();
+			getActionBar().show();
 		}
 	}
 }

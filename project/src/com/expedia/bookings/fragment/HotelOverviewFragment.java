@@ -26,7 +26,6 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
@@ -700,7 +699,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		if (isInCheckout() && mShowSlideToWidget) {
 			final int screenHeight = AndroidUtils.getScreenSize(getActivity()).y;
-			final int actionBarHeight = ((SherlockFragmentActivity) getActivity()).getSupportActionBar().getHeight();
+			final int actionBarHeight = ((FragmentActivity) getActivity()).getActionBar().getHeight();
 
 			// We compute this based on screenHeight incase all of the content fits on the screen
 			// For example on a large tablet

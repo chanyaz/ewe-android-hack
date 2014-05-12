@@ -6,25 +6,25 @@ import java.util.Set;
 
 import org.joda.time.DateTime;
 
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.ActionBar.TabListener;
+import android.app.FragmentTransaction;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.format.DateUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.Tab;
-import com.actionbarsherlock.app.ActionBar.TabListener;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Property;
@@ -37,7 +37,7 @@ import com.expedia.bookings.utils.UserReviewsUtils;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
 import com.mobiata.android.Log;
 
-public class UserReviewsListActivity extends SherlockFragmentActivity implements UserReviewsFragmentListener,
+public class UserReviewsListActivity extends FragmentActivity implements UserReviewsFragmentListener,
 		TabListener, OnPageChangeListener {
 
 	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
@@ -112,7 +112,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 	@TargetApi(11)
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getSupportMenuInflater().inflate(R.menu.menu_hotel_details, menu);
+		getMenuInflater().inflate(R.menu.menu_hotel_details, menu);
 
 		final MenuItem select = menu.findItem(R.id.menu_select_hotel);
 		HotelUtils.setupActionBarCheckmark(this, select, Db.getHotelSearch().getSelectedProperty().isAvailable());
@@ -175,7 +175,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 	}
 
 	private void populateReviewsStats() {
-		View titleView = getSupportActionBar().getCustomView();
+		View titleView = getActionBar().getCustomView();
 		if (titleView == null) {
 			return;
 		}
@@ -200,7 +200,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 	}
 
 	private void initializeActionBar() {
-		ActionBar actionBar = getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -298,7 +298,7 @@ public class UserReviewsListActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public void onPageSelected(int position) {
-		ActionBar actionBar = getSupportActionBar();
+		ActionBar actionBar = getActionBar();
 		Tab tab = actionBar.getTabAt(position);
 		if (tab != actionBar.getSelectedTab()) {
 			tab.select();
