@@ -35,6 +35,7 @@ import com.expedia.bookings.fragment.CheckoutLoginButtonsFragment.IWalletButtonS
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
+import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.interfaces.IStateListener;
@@ -161,11 +162,23 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		setState(mStateManager.getState(), false);
 
 		mSizeCopyView.mimicViewSize(mISlideToPurchaseSizeProvider.getSlideToPurchaseContainer(), true, false, true);
+
+		IAcceptingListenersListener readyForListeners = Ui
+			.findFragmentListener(this, IAcceptingListenersListener.class, false);
+		if (readyForListeners != null) {
+			readyForListeners.acceptingListenersUpdated(this, true);
+		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
+
+		IAcceptingListenersListener readyForListeners = Ui
+			.findFragmentListener(this, IAcceptingListenersListener.class, false);
+		if (readyForListeners != null) {
+			readyForListeners.acceptingListenersUpdated(this, false);
+		}
 
 		if (Db.getTravelersAreDirty()) {
 			Db.kickOffBackgroundTravelerSave(getActivity());

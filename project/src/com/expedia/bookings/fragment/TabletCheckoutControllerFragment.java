@@ -48,6 +48,7 @@ import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationL
 import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingState;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
+import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -87,7 +88,7 @@ import com.squareup.otto.Subscribe;
 public class TabletCheckoutControllerFragment extends LobableFragment implements IBackManageable,
 	IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener,
 	CheckoutInformationListener, SlideToWidgetJB.ISlideToListener,
-	TabletCheckoutFormsFragment.ISlideToPurchaseSizeProvider {
+	TabletCheckoutFormsFragment.ISlideToPurchaseSizeProvider, IAcceptingListenersListener {
 
 	private static final String STATE_CHECKOUT_STATE = "STATE_CHECKOUT_STATE";
 
@@ -1344,4 +1345,70 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	public View getSlideToPurchaseContainer() {
 		return mSlideContainer;
 	}
+
+	///////////////////////////////////
+	// IAcceptingListenersListener
+
+	@Override
+	public void acceptingListenersUpdated(Fragment frag, boolean acceptingListener) {
+		if (frag == mCheckoutFragment) {
+			if (acceptingListener) {
+				mCheckoutFragment.registerStateListener(mCheckoutFormStateListener, true);
+			}
+			else {
+				mCheckoutFragment.unRegisterStateListener(mCheckoutFormStateListener);
+			}
+		}
+	}
+
+	///////////////////////////////////
+	// Listen to CheckoutFormState, hide the slide to checkout when required
+
+	private StateListenerHelper<CheckoutFormState> mCheckoutFormStateListener = new StateListenerHelper<CheckoutFormState>() {
+		private boolean mStartReacted = false;
+
+		@Override
+		public void onStateTransitionStart(CheckoutFormState stateOne, CheckoutFormState stateTwo) {
+			if (reactToFormOpening()) {
+				setShowReadyForCheckoutPercentage(stateIsOpen(stateOne) ? 0f : 1f);
+				mStartReacted = true;
+			}
+			else {
+				mStartReacted = false;
+			}
+		}
+
+		@Override
+		public void onStateTransitionUpdate(CheckoutFormState stateOne, CheckoutFormState stateTwo, float percentage) {
+			if (reactToFormOpening()) {
+				setShowReadyForCheckoutPercentage(stateIsOpen(stateOne) ? percentage : 1f - percentage);
+			}
+		}
+
+		@Override
+		public void onStateTransitionEnd(CheckoutFormState stateOne, CheckoutFormState stateTwo) {
+
+		}
+
+		@Override
+		public void onStateFinalized(CheckoutFormState state) {
+			if (reactToFormOpening()) {
+				setShowReadyForCheckoutPercentage(stateIsOpen(state) ? 0f : 1f);
+			}
+			else if (mStartReacted) {
+				//If we reacted at the start, but we aren't reacting here, lets be safe and reset the state.
+				setCheckoutState(mStateManager.getState(), false);
+			}
+			mStartReacted = false;
+		}
+
+		private boolean reactToFormOpening() {
+			return mStateManager.getState() == CheckoutState.READY_FOR_CHECKOUT;
+		}
+
+		private boolean stateIsOpen(CheckoutFormState state) {
+			return state != CheckoutFormState.OVERVIEW;
+		}
+	};
+
 }
