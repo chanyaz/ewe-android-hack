@@ -1275,19 +1275,19 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		int callBackId = event.callBackId;
 		switch (callBackId) {
-		case BookingFragment.DIALOG_CALLBACK_EXPIRED_CC:
-		case BookingFragment.DIALOG_CALLBACK_INVALID_CC:
-		case BookingFragment.DIALOG_CALLBACK_INVALID_POSTALCODE:
-		case BookingFragment.DIALOG_CALLBACK_INVALID_PAYMENT:
+		case SimpleCallbackDialogFragment.CODE_EXPIRED_CC:
+		case SimpleCallbackDialogFragment.CODE_INVALID_CC:
+		case SimpleCallbackDialogFragment.CODE_INVALID_POSTALCODE:
+		case SimpleCallbackDialogFragment.CODE_INVALID_PAYMENT:
 			mCheckoutFragment.setState(CheckoutFormState.EDIT_PAYMENT, false);
 			setCheckoutState(CheckoutState.OVERVIEW, true);
 			break;
-		case BookingFragment.DIALOG_CALLBACK_INVALID_PHONENUMBER:
+		case SimpleCallbackDialogFragment.CODE_INVALID_PHONENUMBER:
 			mCheckoutFragment.setState(CheckoutFormState.EDIT_TRAVELER, false);
 			setCheckoutState(CheckoutState.OVERVIEW, true);
 			break;
-		case BookingFragment.DIALOG_CALLBACK_INVALID_MINOR:
-		case BookingFragment.DIALOG_CALLBACK_MINOR:
+		case SimpleCallbackDialogFragment.CODE_INVALID_MINOR:
+		case SimpleCallbackDialogFragment.CODE_MINOR:
 		default:
 			setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
 			break;

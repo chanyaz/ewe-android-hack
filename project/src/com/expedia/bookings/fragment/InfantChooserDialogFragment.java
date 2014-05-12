@@ -8,7 +8,6 @@ import android.support.v4.app.DialogFragment;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.otto.Events;
 
 public class InfantChooserDialogFragment extends DialogFragment {
 
@@ -61,7 +60,7 @@ public class InfantChooserDialogFragment extends DialogFragment {
 						String message = mNewSelection == 0 ? getString(R.string.infants_in_laps_prompt) : getString(R.string.infants_in_seats_prompt);
 						String button = getString(R.string.ok);
 						SimpleCallbackDialogFragment df = SimpleCallbackDialogFragment.newInstance(title, message, button,
-							Events.TABLET_FLIGHTS_INFANT_CHOOSER_CALLBACK_ID);
+							SimpleCallbackDialogFragment.CODE_TABLET_FLIGHTS_INFANT_CHOOSER);
 						df.show(getFragmentManager(), "infantDialog");
 					}
 				}

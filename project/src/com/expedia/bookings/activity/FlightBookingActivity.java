@@ -25,11 +25,11 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.fragment.BookingFragment;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.FlightBookingFragment;
+import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
@@ -348,7 +348,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 		}
 
 		switch (callbackId) {
-		case BookingFragment.DIALOG_CALLBACK_INVALID_CC:
+		case SimpleCallbackDialogFragment.CODE_INVALID_CC:
 			//Go to CC number entry page
 			Intent gotoCCEntryIntent = new Intent(FlightBookingActivity.this, FlightPaymentOptionsActivity.class);
 			if (Db.getBillingInfo() != null && Db.getBillingInfo().hasStoredCard()) {
@@ -361,7 +361,7 @@ public class FlightBookingActivity extends SherlockFragmentActivity implements C
 			}
 			startActivity(gotoCCEntryIntent);
 			break;
-		case BookingFragment.DIALOG_CALLBACK_EXPIRED_CC:
+		case SimpleCallbackDialogFragment.CODE_EXPIRED_CC:
 			//Go to CC overview page
 			Intent gotoCCOverviewIntent = new Intent(FlightBookingActivity.this, FlightPaymentOptionsActivity.class);
 			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(Db.getBillingInfo());

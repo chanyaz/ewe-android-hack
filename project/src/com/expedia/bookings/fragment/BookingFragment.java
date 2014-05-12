@@ -29,14 +29,6 @@ import com.mobiata.android.util.SettingUtils;
 
 public abstract class BookingFragment<T extends Response> extends FullWalletFragment {
 
-	public static final int DIALOG_CALLBACK_INVALID_CC = 1001;
-	public static final int DIALOG_CALLBACK_INVALID_PAYMENT = 1002;
-	public static final int DIALOG_CALLBACK_INVALID_PHONENUMBER = 1003;
-	public static final int DIALOG_CALLBACK_INVALID_POSTALCODE = 1004;
-	public static final int DIALOG_CALLBACK_INVALID_MINOR = 1005;
-	public static final int DIALOG_CALLBACK_EXPIRED_CC = 1006;
-	public static final int DIALOG_CALLBACK_MINOR = 1007;
-
 	private String mDownloadKey;
 
 	// Sometimes we want to display dialogs but can't yet; in that case, defer until onResume()
@@ -288,7 +280,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			if (firstError.getDiagnosticFullText().contains("INVALID_CCNUMBER")) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
 						getString(R.string.error_invalid_card_number), getString(R.string.ok),
-						DIALOG_CALLBACK_INVALID_CC);
+						SimpleCallbackDialogFragment.CODE_INVALID_CC);
 				frag.show(getFragmentManager(), "badCcNumberDialog");
 				return;
 			}
@@ -304,7 +296,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			if (hasCreditCardNumberError && hasExpirationDateError && hasCVVError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
 						getString(R.string.e3_error_checkout_payment_failed), getString(R.string.ok),
-						DIALOG_CALLBACK_INVALID_PAYMENT);
+						SimpleCallbackDialogFragment.CODE_INVALID_PAYMENT);
 				frag.show(getFragmentManager(), "badPaymentDialog");
 
 				if (isFlightLOB) {
@@ -322,28 +314,28 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			else if (hasCreditCardNumberError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
 						getString(R.string.error_invalid_card_number), getString(R.string.ok),
-						DIALOG_CALLBACK_INVALID_CC);
+						SimpleCallbackDialogFragment.CODE_INVALID_CC);
 				frag.show(getFragmentManager(), "badCcNumberDialog");
 				return;
 			}
 			else if (hasPhoneError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
 						getString(R.string.ean_error_invalid_phone_number), getString(R.string.ok),
-						DIALOG_CALLBACK_INVALID_PHONENUMBER);
+						SimpleCallbackDialogFragment.CODE_INVALID_PHONENUMBER);
 				frag.show(getFragmentManager(), "badPhoneNumberDialog");
 				return;
 			}
 			else if (hasPostalCodeError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
 						getString(R.string.invalid_postal_code), getString(R.string.ok),
-						DIALOG_CALLBACK_INVALID_POSTALCODE);
+						SimpleCallbackDialogFragment.CODE_INVALID_POSTALCODE);
 				frag.show(getFragmentManager(), "badPostalCodeDialog");
 				return;
 			}
 			else if (hasExpirationDateError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
 						getString(R.string.error_expired_payment), getString(R.string.ok),
-						DIALOG_CALLBACK_EXPIRED_CC);
+						SimpleCallbackDialogFragment.CODE_EXPIRED_CC);
 				frag.show(getFragmentManager(), "expiredCcDialog");
 				return;
 			}
@@ -352,7 +344,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			else if (hasFlightMinorError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
 						getString(R.string.error_booking_with_minor), getString(R.string.ok),
-						DIALOG_CALLBACK_INVALID_MINOR);
+						SimpleCallbackDialogFragment.CODE_INVALID_MINOR);
 				frag.show(getFragmentManager(), "cannotBookWithMinorDialog");
 				return;
 			}
@@ -375,7 +367,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			DialogFragment frag = SimpleCallbackDialogFragment
 					.newInstance(null,
 							getString(R.string.error_booking_with_minor), getString(R.string.ok),
-							DIALOG_CALLBACK_MINOR);
+							SimpleCallbackDialogFragment.CODE_MINOR);
 			frag.show(getFragmentManager(), "cannotBookWithMinorDialog");
 			return;
 		}

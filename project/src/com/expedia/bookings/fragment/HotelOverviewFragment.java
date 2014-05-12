@@ -108,8 +108,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
 
-	private static final int CALLBACK_WALLET_PROMO_APPLY_ERROR = 1;
-
 	private boolean mInCheckout = false;
 	private BookingOverviewFragmentListener mBookingOverviewFragmentListener;
 
@@ -1359,7 +1357,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 							: R.string.error_wallet_promo_cannot_apply;
 					SimpleCallbackDialogFragment df = SimpleCallbackDialogFragment.newInstance(null,
 							getString(errorStrId), getString(R.string.ok),
-							CALLBACK_WALLET_PROMO_APPLY_ERROR);
+							SimpleCallbackDialogFragment.CODE_WALLET_PROMO_APPLY_ERROR);
 					df.show(getFragmentManager(), "couponWalletPromoErrorDialog");
 				}
 			});
@@ -1430,7 +1428,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	@Subscribe
 	public void onSimpleDialogClick(Events.SimpleCallBackDialogOnClick event) {
-		if (event.callBackId == CALLBACK_WALLET_PROMO_APPLY_ERROR) {
+		if (event.callBackId == SimpleCallbackDialogFragment.CODE_WALLET_PROMO_APPLY_ERROR) {
 			updateViewVisibilities();
 		}
 	}
@@ -1438,7 +1436,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	@Subscribe
 	public void onSimpleDialogCancel(Events.SimpleCallBackDialogOnCancel event) {
 		// #1687: Make sure to update view visibilities, as the slide-to-purchase may still have a state change yet
-		if (event.callBackId == CALLBACK_WALLET_PROMO_APPLY_ERROR) {
+		if (event.callBackId == SimpleCallbackDialogFragment.CODE_WALLET_PROMO_APPLY_ERROR) {
 			updateViewVisibilities();
 		}
 	}

@@ -101,8 +101,6 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 	private static final int REQUEST_CODE_SEARCH_PARAMS = 1;
 	private static final int REQUEST_CODE_FLIGHT_TRIP_OVERVIEW = 2;
 
-	private static final int SIMPLE_CALLBACK_DIALOG_CODE_INDIA_DOMESTIC = 1;
-
 	private static final String BACKSTACK_LOADING = "BACKSTACK_LOADING";
 	private static final String BACKSTACK_NO_FLIGHTS = "BACKSTACK_NO_FLIGHTS";
 	private static final String BACKSTACK_FLIGHT_DETAILS_PREFIX = "BACKSTACK_FLIGHT_DETAILS";
@@ -957,7 +955,7 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 			String body = getString(R.string.india_domestic_flights_not_available_body);
 			String ok = getString(R.string.ok);
 
-			SimpleCallbackDialogFragment.newInstance(title, body, ok, SIMPLE_CALLBACK_DIALOG_CODE_INDIA_DOMESTIC)
+			SimpleCallbackDialogFragment.newInstance(title, body, ok, SimpleCallbackDialogFragment.CODE_INDIA_DOMESTIC)
 					.show(getSupportFragmentManager(), "indiaDomesticDialog");
 			mStatusFragment.showError(null);
 
@@ -1194,14 +1192,14 @@ public class FlightSearchResultsActivity extends SherlockFragmentActivity implem
 
 	@Subscribe
 	public void onSimpleDialogClick(Events.SimpleCallBackDialogOnClick event) {
-		if (event.callBackId == SIMPLE_CALLBACK_DIALOG_CODE_INDIA_DOMESTIC) {
+		if (event.callBackId == SimpleCallbackDialogFragment.CODE_INDIA_DOMESTIC) {
 			finish();
 		}
 	}
 
 	@Subscribe
 	public void onSimpleDialogCancel(Events.SimpleCallBackDialogOnCancel event) {
-		if (event.callBackId == SIMPLE_CALLBACK_DIALOG_CODE_INDIA_DOMESTIC) {
+		if (event.callBackId == SimpleCallbackDialogFragment.CODE_INDIA_DOMESTIC) {
 			finish();
 		}
 	}

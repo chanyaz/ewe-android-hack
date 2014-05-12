@@ -20,11 +20,11 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.fragment.BookingFragment;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.HotelBookingFragment;
+import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.otto.Events;
@@ -346,9 +346,9 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 	public void onSimpleDialogClick(Events.SimpleCallBackDialogOnClick event) {
 		int callbackId = event.callBackId;
 		switch (callbackId) {
-		case BookingFragment.DIALOG_CALLBACK_INVALID_CC:
-		case BookingFragment.DIALOG_CALLBACK_INVALID_POSTALCODE:
-		case BookingFragment.DIALOG_CALLBACK_INVALID_PAYMENT:
+		case SimpleCallbackDialogFragment.CODE_INVALID_CC:
+		case SimpleCallbackDialogFragment.CODE_INVALID_POSTALCODE:
+		case SimpleCallbackDialogFragment.CODE_INVALID_PAYMENT:
 			// #1269: Don't do the invalid CC page jump if we're booking using Google Wallet
 			if (!mBookingFragment.willBookViaGoogleWallet()) {
 				launchHotelPaymentCreditCardFragment();
@@ -356,7 +356,7 @@ public class HotelBookingActivity extends SherlockFragmentActivity implements CV
 
 			finish();
 			break;
-		case BookingFragment.DIALOG_CALLBACK_INVALID_PHONENUMBER:
+		case SimpleCallbackDialogFragment.CODE_INVALID_PHONENUMBER:
 			launchHotelTravelerPhoneNumberFragment();
 			finish();
 			break;

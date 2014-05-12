@@ -103,8 +103,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private static final String INSTANCE_PARAMS = "INSTANCE_PARAMS";
 	private static final String INSTANCE_FIRST_LOCATION = "INSTANCE_FIRST_LOCATION";
 
-	private static final int ROUTES_FAILURE_CALLBACK_ID = 1;
-
 	public static final int MAX_RECENTS = 3;
 
 	// Controls the ratio of how large a selected EditText should take up
@@ -1184,7 +1182,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				// Throw up an error dialog that routes the user back to the start
 				SimpleCallbackDialogFragment df = SimpleCallbackDialogFragment.newInstance(null,
 					getString(R.string.error_could_not_load_air_asia), getString(R.string.ok),
-					ROUTES_FAILURE_CALLBACK_ID);
+					SimpleCallbackDialogFragment.CODE_FLIGHT_ROUTES_FAILURE);
 				df.show(getChildFragmentManager(), "error");
 			}
 			else {
