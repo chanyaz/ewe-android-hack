@@ -5,6 +5,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -23,18 +26,31 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.dialog.ThrobberDialog;
+import com.expedia.bookings.enums.TravelerFormState;
 import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
+import com.expedia.bookings.interfaces.IDialogForwardBackwardListener;
+import com.expedia.bookings.interfaces.IStateListener;
+import com.expedia.bookings.interfaces.IStateProvider;
+import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
+import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
+import com.expedia.bookings.interfaces.helpers.StateManager;
+import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfoTablet;
 import com.expedia.bookings.section.TravelerAutoCompleteAdapter;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFragment implements InputFilter {
+public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFragment implements InputFilter,
+	IStateProvider<TravelerFormState>, FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
+	IDialogForwardBackwardListener {
 
 	public static TabletCheckoutTravelerFormFragment newInstance(LineOfBusiness lob) {
 		TabletCheckoutTravelerFormFragment frag = new TabletCheckoutTravelerFormFragment();
@@ -42,9 +58,13 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		return frag;
 	}
 
+	private static final String FTAG_SAVE_DIALOG = "FTAG_SAVE_DIALOG";
+	private static final String FTAG_OVERWRITE_DIALOG = "FTAG_OVERWRITE_DIALOG";
+	private static final String FTAG_SAVING = "FTAG_SAVING";
+
 	private static final String STATE_TRAVELER_NUMBER = "STATE_TRAVELER_NUMBER";
 	private static final String STATE_HEADER_STRING = "STATE_HEADER_STRING";
-	private static final String STATE_FORM_IS_OPEN = "STATE_FORM_IS_OPEN";
+	private static final String STATE_TRAVELER_FORM_STATE = "STATE_TRAVELER_FORM_STATE";
 
 	private int mTravelerNumber = -1;
 	private String mHeaderString;
@@ -53,7 +73,20 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	private TravelerAutoCompleteAdapter mTravelerAdapter;
 	private boolean mAttemptToLeaveMade = false;
 	private ICheckoutDataListener mListener;
-	private boolean mFormOpen = false;
+
+	private StateManager<TravelerFormState> mStateManager = new StateManager<TravelerFormState>(
+		TravelerFormState.EDITING, this);
+
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		if (savedInstanceState != null) {
+			mStateManager.setDefaultState(TravelerFormState.valueOf(savedInstanceState.getString(
+				STATE_TRAVELER_FORM_STATE, TravelerFormState.EDITING.name())));
+		}
+	}
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -62,11 +95,12 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		mListener = Ui.findFragmentListener(this, ICheckoutDataListener.class);
 	}
 
+
 	@Override
 	public void onResume() {
 		super.onResume();
 		bindToDb(mTravelerNumber);
-		if (mFormOpen) {
+		if (isFormOpen()) {
 			onFormOpened();
 		}
 		else {
@@ -83,10 +117,11 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 				.hasTravelerOnDisk(getActivity())) {
 				Db.getWorkingTravelerManager().loadWorkingTravelerFromDisk(getActivity());
 			}
-			mFormOpen = savedInstanceState.getBoolean(STATE_FORM_IS_OPEN, false);
 		}
 
 		mTravelerAdapter = new TravelerAutoCompleteAdapter(getActivity());
+
+		registerStateListener(mStateHelper, false);
 
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
@@ -98,7 +133,11 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		if (mHeaderString != null) {
 			outState.putString(STATE_HEADER_STRING, mHeaderString);
 		}
-		outState.putBoolean(STATE_FORM_IS_OPEN, mFormOpen);
+		outState.putString(STATE_TRAVELER_FORM_STATE, mStateManager.getState().name());
+	}
+
+	public boolean isFormOpen() {
+		return mStateManager.getState() != TravelerFormState.COLLAPSED;
 	}
 
 	public void bindToDb(int travelerNumber) {
@@ -118,38 +157,148 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	private OnClickListener mHeaderButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
-			mAttemptToLeaveMade = true;
-			if (mSectionTraveler != null && mSectionTraveler.hasValidInput()) {
-				Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerNumber, getActivity());
-
-				BillingInfo billingInfo = Db.getBillingInfo();
-				Traveler traveler = Db.getTravelers().get(mTravelerNumber);
-				billingInfo.setFirstName(traveler.getFirstName());
-				billingInfo.setLastName(traveler.getLastName());
-				billingInfo.setTelephone(traveler.getPhoneNumber());
-				billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
-
-				String checkoutEmail = BookingInfoUtils.getCheckoutEmail(getActivity(), getLob());
-				if (!TextUtils.isEmpty(checkoutEmail)) {
-					billingInfo.setEmail(checkoutEmail);
-				}
-				else {
-					//TODO this is highly unlikely to happen. Since tablet checkout is still in the works, let's come back here when UI is in place.
-					billingInfo.setEmail(null);
-					Ui.showToast(getActivity(), R.string.please_enter_a_valid_email_address);
-				}
-
-				//Save BillingInfo
-				billingInfo.save(getActivity());
-
-				mListener.onCheckoutDataUpdated();
-				clearForm();
-
-				Ui.hideKeyboard(getActivity(), InputMethodManager.HIDE_NOT_ALWAYS);
-				closeForm(true);
-			}
+			proceed();
 		}
 	};
+
+	private StateListenerHelper<TravelerFormState> mStateHelper = new StateListenerHelper<TravelerFormState>() {
+		@Override
+		public void onStateTransitionStart(TravelerFormState stateOne, TravelerFormState stateTwo) {
+
+		}
+
+		@Override
+		public void onStateTransitionUpdate(TravelerFormState stateOne, TravelerFormState stateTwo, float percentage) {
+
+		}
+
+		@Override
+		public void onStateTransitionEnd(TravelerFormState stateOne, TravelerFormState stateTwo) {
+
+		}
+
+		@Override
+		public void onStateFinalized(TravelerFormState state) {
+			setFragmentState(state);
+		}
+	};
+
+	private void setFragmentState(TravelerFormState state) {
+		boolean showSaveDialog = (state == TravelerFormState.SAVE_PROMPT);
+		boolean showOverwriteDialog = (state == TravelerFormState.OVERWRITE_PROMPT);
+
+		FragmentManager manager = getChildFragmentManager();
+		FragmentTransaction transaction = manager.beginTransaction();
+		FragmentAvailabilityUtils.setFragmentAvailability(showSaveDialog, FTAG_SAVE_DIALOG, manager, transaction, this,
+			FragmentAvailabilityUtils.DIALOG_FRAG, true);
+		FragmentAvailabilityUtils
+			.setFragmentAvailability(showOverwriteDialog, FTAG_OVERWRITE_DIALOG, manager, transaction, this,
+				FragmentAvailabilityUtils.DIALOG_FRAG, true);
+		transaction.commit();
+	}
+
+	private void proceed() {
+		if (getActivity() == null) {
+			return;
+		}
+
+		mAttemptToLeaveMade = true;
+		if (mSectionTraveler != null && mSectionTraveler.hasValidInput()) {
+			Context context = getActivity();
+			if (context == null) {
+				return;
+			}
+
+			if (!User.isLoggedIn(context)) {
+				commitAndCloseForm();
+			}
+			else {
+				TravelerFormState state = mStateManager.getState();
+				if (state == TravelerFormState.EDITING) {
+					if (!Db.getWorkingTravelerManager().getWorkingTraveler()
+						.getSaveTravelerToExpediaAccount()) {
+						mStateManager.setState(TravelerFormState.SAVE_PROMPT, false);
+					}
+					else {
+						commitAndCloseForm();
+					}
+				}
+				else if (state == TravelerFormState.SAVE_PROMPT) {
+					if (Db.getWorkingTravelerManager().getWorkingTraveler().getSaveTravelerToExpediaAccount()) {
+						if (BookingInfoUtils.travelerRequiresOverwritePrompt(context,
+							Db.getWorkingTravelerManager().getWorkingTraveler())) {
+							mStateManager.setState(TravelerFormState.OVERWRITE_PROMPT, false);
+						}
+						else {
+							commitAndCloseForm();
+						}
+					}
+					else {
+						commitAndCloseForm();
+					}
+
+				}
+				else {
+					commitAndCloseForm();
+				}
+			}
+		}
+	}
+
+	private void commitAndCloseForm() {
+
+		//Save the traveler to the User account on a background thread
+		//We ignore errors and successes (for now) because this is a non-critical operation.
+		if (User.isLoggedIn(getActivity()) && Db.getWorkingTravelerManager().getWorkingTraveler()
+			.getSaveTravelerToExpediaAccount() && Db.getWorkingTravelerManager().workingTravelerDiffersFromBase()) {
+			Db.getWorkingTravelerManager()
+				.commitTravelerToAccount(getActivity(), Db.getWorkingTravelerManager().getWorkingTraveler(), false,
+					new WorkingTravelerManager.ITravelerUpdateListener() {
+						@Override
+						public void onTravelerUpdateFinished() {
+							//On tablet we are doing the save in the background, and don't reflect success failure on the ui.
+						}
+
+						@Override
+						public void onTravelerUpdateFailed() {
+							//On tablet we are doing the save in the background, and don't reflect success failure on the ui.
+						}
+					}
+				);
+		}
+
+		//Commit our changes
+		Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerNumber, getActivity());
+
+		//Migrate some of our data to BillingInfo if required.
+		if (mTravelerNumber == 0) {
+			BillingInfo billingInfo = Db.getBillingInfo();
+			Traveler traveler = Db.getTravelers().get(mTravelerNumber);
+			billingInfo.setFirstName(traveler.getFirstName());
+			billingInfo.setLastName(traveler.getLastName());
+			billingInfo.setTelephone(traveler.getPhoneNumber());
+			billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
+
+			String checkoutEmail = BookingInfoUtils.getCheckoutEmail(getActivity(), getLob());
+			if (!TextUtils.isEmpty(checkoutEmail)) {
+				billingInfo.setEmail(checkoutEmail);
+			}
+			else {
+				//TODO this is highly unlikely to happen. Since tablet checkout is still in the works, let's come back here when UI is in place.
+				billingInfo.setEmail(null);
+				Ui.showToast(getActivity(), R.string.please_enter_a_valid_email_address);
+			}
+
+			//Save BillingInfo
+			billingInfo.save(getActivity());
+		}
+
+		mListener.onCheckoutDataUpdated();
+		clearForm();
+
+		Ui.hideKeyboard(getActivity(), InputMethodManager.HIDE_NOT_ALWAYS);
+		closeForm(true);
+	}
 
 	private void clearForm() {
 		Db.getWorkingTravelerManager().clearWorkingTraveler(getActivity());
@@ -285,7 +434,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 
 	@Override
 	protected void onFormClosed() {
-		if (isResumed() && mFormOpen) {
+		if (isResumed() && isFormOpen()) {
 			mAttemptToLeaveMade = false;
 			Db.getWorkingTravelerManager().deleteWorkingTravelerFile(getActivity());
 			mTravelerAdapter.clearFilter();
@@ -293,12 +442,12 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			mTravelerAutoComplete.setAdapter((ArrayAdapter<Traveler>) null);
 			clearForm();
 		}
-		mFormOpen = false;
+		mStateManager.setState(TravelerFormState.COLLAPSED, false);
 	}
 
 	@Override
 	public void onFormOpened() {
-		if (isResumed() && (!mFormOpen || mTravelerAutoComplete.hasFocus())) {
+		if (isResumed() && (!isFormOpen() || mTravelerAutoComplete.hasFocus())) {
 			mTravelerAutoComplete.setOnFocusChangeListener(mNameFocusListener);
 			mTravelerAutoComplete.requestFocus();//<-- This fires the onFocusChangeListener
 			mTravelerAutoComplete.postDelayed(new Runnable() {
@@ -313,7 +462,9 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 				}
 			}, 250);
 		}
-		mFormOpen = true;
+		if (!isFormOpen()) {
+			mStateManager.setState(TravelerFormState.EDITING, false);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -342,5 +493,89 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	@Override
 	public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
 		return null;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Fragment provider
+
+	@Override
+	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+		return getChildFragmentManager().findFragmentByTag(tag);
+	}
+
+	@Override
+	public Fragment getNewFragmentInstanceFromTag(String tag) {
+		if (FTAG_SAVE_DIALOG.equals(tag)) {
+			return FlightTravelerSaveDialogFragment.newInstance();
+		}
+		else if (FTAG_OVERWRITE_DIALOG.equals(tag)) {
+			return OverwriteExistingTravelerDialogFragment.newInstance();
+		}
+		else if (FTAG_SAVING.equals(tag)) {
+			return ThrobberDialog.newInstance(getString(R.string.saving_traveler));
+		}
+		return null;
+	}
+
+	@Override
+	public void doFragmentSetup(String tag, Fragment frag) {
+		if (FTAG_SAVING.equals(tag)) {
+			((ThrobberDialog) frag).setCancelable(false);
+			((ThrobberDialog) frag).setCancelListener(new ThrobberDialog.CancelListener() {
+				@Override
+				public void onCancel() {
+
+				}
+			});
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// State Provider
+
+	private StateListenerCollection<TravelerFormState> mTravelerFormStateListeners = new StateListenerCollection<TravelerFormState>(
+		TravelerFormState.EDITING);
+
+	@Override
+	public void startStateTransition(TravelerFormState stateOne, TravelerFormState stateTwo) {
+		mTravelerFormStateListeners.startStateTransition(stateOne, stateTwo);
+	}
+
+	@Override
+	public void updateStateTransition(TravelerFormState stateOne, TravelerFormState stateTwo, float percentage) {
+		mTravelerFormStateListeners.updateStateTransition(stateOne, stateTwo, percentage);
+	}
+
+	@Override
+	public void endStateTransition(TravelerFormState stateOne, TravelerFormState stateTwo) {
+		mTravelerFormStateListeners.endStateTransition(stateOne, stateTwo);
+	}
+
+	@Override
+	public void finalizeState(TravelerFormState state) {
+		mTravelerFormStateListeners.finalizeState(state);
+	}
+
+	@Override
+	public void registerStateListener(IStateListener<TravelerFormState> listener, boolean fireFinalizeState) {
+		mTravelerFormStateListeners.registerStateListener(listener, fireFinalizeState);
+	}
+
+	@Override
+	public void unRegisterStateListener(IStateListener<TravelerFormState> listener) {
+		mTravelerFormStateListeners.unRegisterStateListener(listener);
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// IForwardBackwardListener for save/overwrite/saving popups
+
+	@Override
+	public void onDialogMoveForward() {
+		proceed();
+	}
+
+	@Override
+	public void onDialogMoveBackwards() {
+		commitAndCloseForm();
 	}
 }

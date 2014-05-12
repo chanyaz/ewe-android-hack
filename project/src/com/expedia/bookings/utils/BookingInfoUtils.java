@@ -23,6 +23,27 @@ import com.mobiata.android.Log;
 
 public class BookingInfoUtils {
 
+
+	public static boolean travelerRequiresOverwritePrompt(Context context, Traveler workingTraveler) {
+		boolean travelerAlreadyExistsOnAccount = false;
+		if (workingTraveler.getSaveTravelerToExpediaAccount() && User.isLoggedIn(context)
+			&& !workingTraveler.hasTuid()) {
+			//If we want to save, and we're logged in, and we have a new traveler
+			//We have to check if that travelers name matches an existing traveler
+			if (Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null
+				&& Db.getUser().getAssociatedTravelers().size() > 0) {
+				for (Traveler trav : Db.getUser().getAssociatedTravelers()) {
+					if (workingTraveler.compareNameTo(trav) == 0) {
+						//A traveler with this name already exists on the account. Foo. ok so lets show a dialog and be all like "Hey yall, you wanna overwrite your buddy dave bob?"
+						travelerAlreadyExistsOnAccount = true;
+						break;
+					}
+				}
+			}
+		}
+		return travelerAlreadyExistsOnAccount;
+	}
+
 	public static List<StoredCreditCard> getStoredCreditCards(Context context) {
 		List<StoredCreditCard> cards = new ArrayList<StoredCreditCard>();
 

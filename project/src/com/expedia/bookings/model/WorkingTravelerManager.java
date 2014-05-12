@@ -59,7 +59,8 @@ public class WorkingTravelerManager {
 			public void run() {
 				try {
 					if (hasTravelerOnDisk(context)) {
-						JSONObject obj = new JSONObject(IoUtils.readStringFromFile(WORKING_TRAVELER_FILE_NAME, context));
+						JSONObject obj = new JSONObject(
+							IoUtils.readStringFromFile(WORKING_TRAVELER_FILE_NAME, context));
 						if (obj.has(WORKING_TRAVELER_TAG)) {
 							mWorkingTraveler = JSONUtils.getJSONable(obj, WORKING_TRAVELER_TAG, Traveler.class);
 						}
@@ -90,6 +91,7 @@ public class WorkingTravelerManager {
 
 	/**
 	 * Set the current "working" traveler to be a copy of the traveler argument and set it's base traveler to be the same
+	 *
 	 * @param traveler
 	 */
 	public void setWorkingTravelerAndBase(Traveler traveler) {
@@ -105,6 +107,7 @@ public class WorkingTravelerManager {
 
 	/**
 	 * Set the working traveler to be the traveler argument but keep the current working traveler and set it as the base traveler
+	 *
 	 * @param traveler
 	 */
 	public void shiftWorkingTraveler(Traveler traveler) {
@@ -119,6 +122,7 @@ public class WorkingTravelerManager {
 
 	/**
 	 * Get a working traveler object. This will be a persistant traveler object that can be used to manipulate
+	 *
 	 * @return
 	 */
 	public Traveler getWorkingTraveler() {
@@ -131,6 +135,7 @@ public class WorkingTravelerManager {
 	/**
 	 * If the current traveler was created by calling rebaseWorkingTraveler we store a copy of the argument traveler.
 	 * We can then use origin traveler to compare to our working traveler and figure out what has changed.
+	 *
 	 * @return
 	 */
 	public Traveler getBaseTraveler() {
@@ -140,6 +145,7 @@ public class WorkingTravelerManager {
 	/**
 	 * Save the current working traveler to the Db object effectively commiting the changes locally.
 	 * We also kick off a save call to the server (which runs in the background)
+	 *
 	 * @param travelerNumber (0 indexed)
 	 */
 	public Traveler commitWorkingTravelerToDB(int travelerNumber, Context context) {
@@ -155,13 +161,14 @@ public class WorkingTravelerManager {
 
 	/**
 	 * This commits the traveler to the user account.
+	 *
 	 * @param context
-	 * @param trav - the traveler to commit
-	 * @param wait - do we block until the call finishes?
+	 * @param trav    - the traveler to commit
+	 * @param wait    - do we block until the call finishes?
 	 * @return the traveler passed in (and it will be updated if wait is set to true)
 	 */
 	public Traveler commitTravelerToAccount(Context context, Traveler trav, boolean wait,
-			ITravelerUpdateListener listener) {
+		ITravelerUpdateListener listener) {
 		commitTravelerToAccount(context, trav, listener);
 		if (wait) {
 			try {
@@ -194,6 +201,36 @@ public class WorkingTravelerManager {
 		}
 	}
 
+	public boolean workingTravelerNameDiffersFromBase() {
+		if (getBaseTraveler() != null) {
+			Traveler base = getBaseTraveler();
+			Traveler working = getWorkingTraveler();
+
+			if (TextUtils.isEmpty(base.getFirstName()) != TextUtils.isEmpty(working.getFirstName())) {
+				return true;
+			}
+			else if (base.getFirstName() != null && working.getFirstName() != null
+				&& base.getFirstName().trim().compareTo(working.getFirstName().trim()) != 0) {
+				return true;
+			}
+			else if (TextUtils.isEmpty(base.getLastName()) != TextUtils.isEmpty(working.getLastName())) {
+				return true;
+			}
+			else if (base.getLastName() != null && working.getLastName() != null
+				&& base.getLastName().trim().compareTo(working.getLastName().trim()) != 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean workingTravelerDiffersFromBase() {
+		if (getBaseTraveler() != null && getWorkingTraveler() != null) {
+			return getWorkingTraveler().compareTo(getBaseTraveler()) != 0;
+		}
+		return false;
+	}
+
 	/**
 	 * Start a thread, and try to commit the traveler changes. We use a semaphore, so only one request will run at a time.
 	 *
@@ -201,7 +238,7 @@ public class WorkingTravelerManager {
 	 * @param trav
 	 */
 	private void commitTravelerToAccount(final Context context, final Traveler trav,
-			final ITravelerUpdateListener listener) {
+		final ITravelerUpdateListener listener) {
 		if (User.isLoggedIn(context)) {
 			if (mCommitTravelerSem == null) {
 				mCommitTravelerSem = new Semaphore(1);
@@ -230,7 +267,7 @@ public class WorkingTravelerManager {
 										//However currently the api doesn't currently return the tuid for new travelers 10/30/2012
 										Traveler tTrav = new Traveler();
 										tTrav.fromJson(trav.toJson());
-										tTrav.setTuid(Long.getLong(resp.getTuid(),0L));
+										tTrav.setTuid(Long.getLong(resp.getTuid(), 0L));
 										Db.getUser().addAssociatedTraveler(tTrav);
 									}
 								}
@@ -270,6 +307,7 @@ public class WorkingTravelerManager {
 
 	/**
 	 * Call tryAquireState on the mTravelerSAveSempahore
+	 *
 	 * @return
 	 */
 	public boolean tryAquireSaveTravelerSemaphore() {
@@ -299,9 +337,9 @@ public class WorkingTravelerManager {
 	 * If another save operation is currently being performed this will be skipped.
 	 *
 	 * @param context
-	 * @param force - If true we wait to aquire the semaphore. If false we only run if the semaphore is available.
-	 * Basically if we are saving progress this should always be false, because we assume it will be called again after another change.
-	 * However, if the traveler is in a state that we want to make sure the save gets written to the disk, this should be set to true.
+	 * @param force   - If true we wait to aquire the semaphore. If false we only run if the semaphore is available.
+	 *                Basically if we are saving progress this should always be false, because we assume it will be called again after another change.
+	 *                However, if the traveler is in a state that we want to make sure the save gets written to the disk, this should be set to true.
 	 */
 	public void attemptWorkingTravelerSave(final Context context, boolean force) {
 

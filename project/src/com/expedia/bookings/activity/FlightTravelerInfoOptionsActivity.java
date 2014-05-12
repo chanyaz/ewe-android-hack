@@ -27,6 +27,7 @@ import com.expedia.bookings.fragment.FlightTravelerInfoThreeFragment;
 import com.expedia.bookings.fragment.FlightTravelerInfoTwoFragment;
 import com.expedia.bookings.fragment.FlightTravelerSaveDialogFragment;
 import com.expedia.bookings.fragment.OverwriteExistingTravelerDialogFragment;
+import com.expedia.bookings.interfaces.IDialogForwardBackwardListener;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.model.WorkingTravelerManager.ITravelerUpdateListener;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -36,7 +37,8 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
-public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity implements TravelerInfoYoYoListener {
+public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity implements TravelerInfoYoYoListener,
+	IDialogForwardBackwardListener {
 
 	public static final String OPTIONS_FRAGMENT_TAG = "OPTIONS_FRAGMENT_TAG";
 	public static final String ONE_FRAGMENT_TAG = "ONE_FRAGMENT_TAG";
@@ -536,32 +538,11 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 	}
 
 	private boolean workingTravelerDiffersFromBase() {
-		if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
-			return Db.getWorkingTravelerManager().getWorkingTraveler()
-					.compareTo(Db.getWorkingTravelerManager().getBaseTraveler()) != 0;
-		}
-		return false;
+		return Db.getWorkingTravelerManager().workingTravelerDiffersFromBase();
 	}
 
 	private boolean workingTravelerRequiresOverwritePrompt() {
-		boolean travelerAlreadyExistsOnAccount = false;
-		Traveler workingTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
-		if (workingTraveler.getSaveTravelerToExpediaAccount() && User.isLoggedIn(mContext)
-				&& !workingTraveler.hasTuid()) {
-			//If we want to save, and we're logged in, and we have a new traveler
-			//We have to check if that travelers name matches an existing traveler
-			if (Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null
-					&& Db.getUser().getAssociatedTravelers().size() > 0) {
-				for (Traveler trav : Db.getUser().getAssociatedTravelers()) {
-					if (workingTraveler.compareNameTo(trav) == 0) {
-						//A traveler with this name already exists on the account. Foo. ok so lets show a dialog and be all like "Hey yall, you wanna overwrite your buddy dave bob?"
-						travelerAlreadyExistsOnAccount = true;
-						break;
-					}
-				}
-			}
-		}
-		return travelerAlreadyExistsOnAccount;
+		return BookingInfoUtils.travelerRequiresOverwritePrompt(this, Db.getWorkingTravelerManager().getWorkingTraveler());
 	}
 
 	@Override
@@ -842,4 +823,17 @@ public class FlightTravelerInfoOptionsActivity extends SherlockFragmentActivity 
 		ft.commit();
 	}
 
+
+	/////////////////////////////////////////////
+	// IDialogMoveForwardBackwardListener - wire up the save and overwrite dialogs
+
+	@Override
+	public void onDialogMoveForward() {
+		moveForward();
+	}
+
+	@Override
+	public void onDialogMoveBackwards() {
+		moveBackwards();
+	}
 }

@@ -11,13 +11,14 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.interfaces.IDialogForwardBackwardListener;
 import com.mobiata.android.util.Ui;
 
 public class OverwriteExistingTravelerDialogFragment extends DialogFragment {
 
 	public static final String TAG = OverwriteExistingTravelerDialogFragment.class.getName();
 
-	FlightTravelerInfoOptionsFragment.TravelerInfoYoYoListener mListener;
+	private IDialogForwardBackwardListener mListener;
 
 	public static OverwriteExistingTravelerDialogFragment newInstance() {
 		return new OverwriteExistingTravelerDialogFragment();
@@ -27,7 +28,7 @@ public class OverwriteExistingTravelerDialogFragment extends DialogFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		mListener = Ui.findFragmentListener(this, FlightTravelerInfoOptionsFragment.TravelerInfoYoYoListener.class);
+		mListener = Ui.findFragmentListener(this, IDialogForwardBackwardListener.class);
 	}
 
 	@Override
@@ -58,7 +59,7 @@ public class OverwriteExistingTravelerDialogFragment extends DialogFragment {
 								}
 							}
 						}
-						mListener.moveForward();
+						mListener.onDialogMoveForward();
 					}
 
 				})
@@ -66,7 +67,7 @@ public class OverwriteExistingTravelerDialogFragment extends DialogFragment {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						Db.getWorkingTravelerManager().getWorkingTraveler().setSaveTravelerToExpediaAccount(false);
-						mListener.moveForward();
+						mListener.onDialogMoveForward();
 					}
 				}).create();
 		dialog.setCanceledOnTouchOutside(false);
@@ -77,7 +78,7 @@ public class OverwriteExistingTravelerDialogFragment extends DialogFragment {
 	public void onCancel(DialogInterface dialog) {
 		super.onCancel(dialog);
 		if (mListener != null) {
-			mListener.moveBackwards();
+			mListener.onDialogMoveBackwards();
 		}
 	}
 }
