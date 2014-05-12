@@ -327,6 +327,12 @@ public class Events {
 		}
 	}
 
+	/**
+	 * This event notifies that the LCC payment fees was added to the flight trip.
+	 */
+	public static class LCCPaymentFeesAdded {
+	}
+
 	// Suggestion query events
 	public static class SuggestionQueryStarted {
 	}

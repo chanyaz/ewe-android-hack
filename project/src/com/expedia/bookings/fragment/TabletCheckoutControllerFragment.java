@@ -1411,4 +1411,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 	};
 
+	@Subscribe
+	public void onLCCPaymentFeesAdded(Events.LCCPaymentFeesAdded event) {
+		mBucketFlightFrag.refreshExpandedTripPrice();
+	}
 }

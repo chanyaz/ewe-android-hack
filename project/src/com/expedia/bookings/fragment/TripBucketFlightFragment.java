@@ -219,10 +219,13 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		}
 	}
 
-	public void refreshTripOnPriceChanged(String priceChangeText) {
-		refreshFlightTrip();
+	public void refreshExpandedTripPrice() {
 		String price = mFlightTrip.getTotalFareWithCardFee(Db.getBillingInfo()).getFormattedMoney();
 		Ui.setText(getActivity(), R.id.price_expanded_bucket_text_view, price);
+	}
+	public void refreshTripOnPriceChanged(String priceChangeText) {
+		refreshFlightTrip();
+		refreshExpandedTripPrice();
 		setPriceChangeNotificationText(priceChangeText);
 		Db.getTripBucket().getFlight().setHasPriceChanged(true);
 	}

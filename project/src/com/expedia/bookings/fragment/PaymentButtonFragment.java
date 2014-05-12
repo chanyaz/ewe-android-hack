@@ -15,6 +15,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.model.HotelPaymentFlowState;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.widget.TextView;
@@ -59,6 +60,19 @@ public class PaymentButtonFragment extends LobableFragment {
 		//We do everything at bind time
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		Events.register(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		Events.unregister(this);
+	}
+
+
 	public void setEnabled(boolean enable) {
 		mEmptyPaymentBtn.setEnabled(enable);
 		mStoredCreditCardBtn.setEnabled(enable);
@@ -88,6 +102,7 @@ public class PaymentButtonFragment extends LobableFragment {
 					mCCFeesMessageText.setText(Html.fromHtml(getString(R.string.airline_card_fee_TEMPLATE,
 						cardFee.getFormattedMoney())));
 					mCCFeesMessageContainer.setVisibility(View.VISIBLE);
+					Events.post(new Events.LCCPaymentFeesAdded());
 				}
 				else {
 					mCCFeesMessageContainer.setVisibility(View.GONE);
