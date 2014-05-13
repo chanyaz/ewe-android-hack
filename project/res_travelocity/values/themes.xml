@@ -64,20 +64,14 @@
         <item name="numberPickerDownButtonStyle">@style/Widget.ImageButton.NumberPickerDownButton</item>
         <item name="numberPickerInputTextStyle">@style/Widget.EditText.NumberPickerInputText</item>
         <item name="numberPickerStyle">@style/Widget.NumberPicker</item>
-        <item name="logo">@drawable/ic_logo_flights</item>
         <item name="android:logo">@drawable/ic_logo_flights</item>
-        <item name="actionBarStyle">@style/FlightActionBarTravelocity</item>
         <item name="android:actionBarStyle">@style/FlightActionBarTravelocity</item>
-        <item name="actionMenuTextColor">@color/action_bar_flight_text_color</item>
         <item name="android:actionMenuTextColor">@color/action_bar_flight_text_color</item>
-        <item name="actionModeCloseDrawable">@drawable/btn_navigation_cancel</item>
         <item name="android:actionModeCloseDrawable">@drawable/btn_navigation_cancel</item>
         <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
         <item name="android:spinnerStyle">@style/Widget.Spinner.Phone.Flights</item>
         <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoComplete</item>
         <item name="travelerLabelOnCheckout">@string/Add_Traveler</item>
-        <!-- Only do this for ABS - newer versions will use latest holo radio button anyways -->
-        <item name="actionBarWidgetTheme">@style/FlightActionBarWidgetTheme</item>
         <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
         <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_tvly</item>
         <item name="flightCheckoutAccountLabel">@string/travelocity_account</item>
@@ -88,18 +82,14 @@
 
     <!-- Override the phone theme -->
     <style name="Theme.Phone" parent="@style/Theme.Travelocity">
-        <item name="actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
         <item name="android:actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
     </style>
 
-    <style name="LaunchTheme" parent="@style/Theme.Sherlock">
-        <item name="logo">@drawable/ic_ab_travelocity_logo</item>
+    <style name="LaunchTheme" parent="@android:style/Theme.Holo">
         <item name="android:logo">@drawable/ic_ab_travelocity_logo</item>
-        <item name="actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
         <item name="android:actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabTravelocityStyle</item>
         <!-- PopupMenu -->
-        <item name="dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
         <item name="android:dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
         <item name="logoutConfirmationString">@string/logout_confirmation_travelocity</item>
         <item name="itinActivityPlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_activities</item>
@@ -115,27 +105,21 @@
         <item name="itinDismissListSelectorDrawable">@drawable/list_selector_travelocity</item>
     </style>
 
-    <style name="LaunchActionBarTabTravelocityStyle" parent="@style/Widget.Sherlock.ActionBar.TabView">
-        <item name="background">@drawable/tab_indicator_ab_travelocity_launch</item>
+    <style name="LaunchActionBarTabTravelocityStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_travelocity_launch</item>
     </style>
 
     <style name="FlightActionBarTravelocity" parent="FlightActionBar">
-        <item name="background">@drawable/bg_action_bar_travelocity</item>
         <item name="android:background">@drawable/bg_action_bar_travelocity</item>
-        <item name="backgroundSplit">@drawable/bg_action_bar_flight_bottom_travelocity</item>
         <item name="android:backgroundSplit">@drawable/bg_action_bar_flight_bottom_travelocity</item>
     </style>
 
-    <style name="ItineraryTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
-        <item name="logo">@drawable/ic_action_bar_travelocity_logo_small</item>
+    <style name="ItineraryTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <item name="android:logo">@drawable/ic_action_bar_travelocity_logo_small</item>
-        <item name="actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
         <item name="android:actionBarStyle">@style/Dark.ActionBar.Travelocity</item>
         <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal_travelocity</item>
 
         <!-- PopupMenu -->
-        <item name="dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
         <item name="android:dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
         <item name="logoutConfirmationString">@string/logout_confirmation_travelocity</item>
         <item name="itinActivityPlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_activities</item>
@@ -154,7 +138,6 @@
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
-        <item name="logo">@drawable/ic_ab_travelocity_logo</item>
         <item name="android:logo">@drawable/ic_ab_travelocity_logo</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
