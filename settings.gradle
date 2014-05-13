@@ -5,7 +5,6 @@ include ':project'
 // Order matters in the dependencies block of individual projects
 include ':lib:FacebookSdk:facebook'
 include ':lib:svg-android:svgandroid'
-include ':lib:ActionBarSherlock:actionbarsherlock'
 include ':lib:google-play-services'
 include ':lib:FlightLib'
 include ':lib:Utils'

@@ -9,7 +9,6 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(':lib:ActionBarSherlock:actionbarsherlock')
     compile project(':lib:FacebookSdk:facebook')
     compile project(':lib:FlightLib')
     compile project(':lib:google-play-services')
