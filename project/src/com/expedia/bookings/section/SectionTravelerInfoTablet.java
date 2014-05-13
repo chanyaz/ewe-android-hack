@@ -45,16 +45,9 @@ public class SectionTravelerInfoTablet extends com.expedia.bookings.section.Sect
 		}
 	}
 
-	private void removeFieldsForLob(LineOfBusiness lob) {
-		if (LineOfBusiness.HOTELS == getLob()) {
-			mFields.removeField(mEditMiddleName);
-		}
-	}
-
 	@Override
 	protected void postFinishInflate() {
 		super.postFinishInflate();
-		removeFieldsForLob(getLob());
 	}
 
 	@Override
@@ -63,7 +56,6 @@ public class SectionTravelerInfoTablet extends com.expedia.bookings.section.Sect
 			throw new RuntimeException("Once set, LOB cannot be changed on SectionTravelerInfoTablet");
 		}
 		mLob = lob;
-		removeFieldsForLob(lob);
 	}
 
 	@Override
