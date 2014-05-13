@@ -8,9 +8,9 @@
     android:drawableLeft="?attr/actionBarCheckMarkDrawable"
     android:focusable="true"
     android:gravity="center_vertical"
-    android:minHeight="?attr/actionBarSize"
+    android:minHeight="?android:attr/actionBarSize"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:text="@string/search"
-    android:textAppearance="?attr/actionMenuTextAppearance"
+    android:textAppearance="?android:attr/actionMenuTextAppearance"
     android:textColor="?attr/actionBarButtonTextColor" />

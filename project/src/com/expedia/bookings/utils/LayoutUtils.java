@@ -266,27 +266,21 @@ public class LayoutUtils {
 		return config.orientation == Configuration.ORIENTATION_PORTRAIT;
 	}
 
-	private static final int[] STYLEABLE_ACTION_BAR_SIZE = new int[] {android.R.attr.actionBarSize};
+	private static final int[] ATTR_ACTION_BAR_SIZE = new int[] {android.R.attr.actionBarSize};
+	private static final int[] ATTR_WINDOW_ACTION_BAR_OVERLAY = new int[] {android.R.attr.windowActionBarOverlay};
 
 	public static int getActionBarSize(Context context) {
-		TypedArray a = context.obtainStyledAttributes(null, R.styleable.SherlockActionBar, R.attr.actionBarStyle, 0);
-		int heightRes = a.getResourceId(R.styleable.SherlockActionBar_height, 0);
+		TypedArray a = context.obtainStyledAttributes(null, ATTR_ACTION_BAR_SIZE);
+		int actionBarHeight = a.getDimensionPixelSize(0, 0);
 		a.recycle();
-
-		int actionBarHeight = 0;
-		if (heightRes != 0) {
-			actionBarHeight = (int) Math.round(context.getResources().getDimension(heightRes));
-		}
-		else {
-			// Getting here indicates that we're not using ABS for the action bar;
-			// get the height directly.  Use attributes (as height may not be set
-			// yet on the action bar, depending on timing - F911).
-			a = context.obtainStyledAttributes(null, STYLEABLE_ACTION_BAR_SIZE);
-			actionBarHeight = a.getDimensionPixelSize(0, 0);
-			a.recycle();
-		}
-
 		return actionBarHeight;
+	}
+
+	public static int getActionBarSplitSize(Context context) {
+		// FIXME: I don't think there is a way to do this outside of ActionBarSherlock
+		// The styleables are not exposed to us
+		// For now I just return the actionbar size
+		return getActionBarSize(context);
 	}
 
 	/**
@@ -302,49 +296,19 @@ public class LayoutUtils {
 	 * @param hasMenuItems there appears to be no easy way to tell if the menu actually has any items,
 	 *                     so we use this variable to determine whether or not to adjust for bottom padding
 	 */
-	public static void adjustPaddingForOverlayMode(Activity activity, View rootView,
-												   boolean hasMenuItems) {
-		TypedArray a = activity.getTheme().obtainStyledAttributes(R.styleable.SherlockTheme);
-		boolean inOverlayMode = a.getBoolean(R.styleable.SherlockTheme_windowActionBarOverlay, false);
+	public static void adjustPaddingForOverlayMode(Activity activity, View rootView, boolean hasMenuItems) {
+		TypedArray a = activity.getTheme().obtainStyledAttributes(ATTR_WINDOW_ACTION_BAR_OVERLAY);
+		boolean inOverlayMode = a.getBoolean(0, false);
 		a.recycle();
 
 		if (inOverlayMode) {
 			Resources res = activity.getResources();
-			int extraTopPadding = 0;
-			int extraBottomPadding = 0;
-
-			// Get top padding
-			a = activity.obtainStyledAttributes(null, R.styleable.SherlockActionBar,
-				R.attr.actionBarStyle, 0);
-			int heightRes = a.getResourceId(R.styleable.SherlockActionBar_height, 0);
-			a.recycle();
-			if (heightRes != 0) {
-				extraTopPadding = (int) Math.round(res.getDimension(heightRes));
-			}
-			else {
-				// Getting here indicates that we're not using ABS for the action bar;
-				// get the height directly.  Use attributes (as height may not be set
-				// yet on the action bar, depending on timing - F911).
-				a = activity.obtainStyledAttributes(null, STYLEABLE_ACTION_BAR_SIZE);
-				extraTopPadding = a.getDimensionPixelSize(0, 0);
-				a.recycle();
-			}
+			int extraTopPadding = getActionBarSize(activity);
 
 			// Get bottom padding (if in split action bar mode)
+			int extraBottomPadding = 0;
 			if (needsBottomPaddingForOverlay(activity, hasMenuItems)) {
-				a = activity.obtainStyledAttributes(null, R.styleable.SherlockActionBar,
-					R.attr.actionBarSplitStyle, 0);
-				heightRes = a.getResourceId(R.styleable.SherlockActionBar_height, 0);
-				a.recycle();
-				if (heightRes != 0) {
-					extraBottomPadding = (int) Math.round(res.getDimension(heightRes));
-				}
-				else {
-					// See comment above for explanation on this similar code
-					a = activity.obtainStyledAttributes(null, STYLEABLE_ACTION_BAR_SIZE);
-					extraBottomPadding = a.getDimensionPixelSize(0, 0);
-					a.recycle();
-				}
+				extraBottomPadding = getActionBarSplitSize(activity);
 			}
 
 			// Reset the padding with the additional top (and maybe bottom) padding

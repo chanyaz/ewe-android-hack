@@ -214,7 +214,7 @@
 
     <!-- TODO: get rid of all RatingBarSmall <<<<<<< -->
 
-    <style name="ProgressBar" parent="Widget.Sherlock.Light.ProgressBar" />
+    <style name="ProgressBar" parent="@android:style/Widget.Holo.Light.ProgressBar" />
 
     <style name="ProgressBar.Large">
         <item name="android:indeterminateDrawable">@drawable/progress_large_holo</item>
@@ -224,7 +224,7 @@
         <item name="android:maxHeight">76dp</item>
     </style>
 
-    <style name="ProgressBar.CandyCane" parent="Widget.Sherlock.ProgressBar.Horizontal">
+    <style name="ProgressBar.CandyCane" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
         <item name="android:indeterminateDrawable">@drawable/progressbar_candycane_horizontal</item>
         <item name="android:indeterminateOnly">true</item>
     </style>
@@ -476,27 +476,19 @@
         <item name="android:windowBackground">@drawable/bg_dialog</item>
     </style>
 
-    <style name="Light.ActionBar" parent="@android:style/Widget.ActionBar" tools:ignore="NewApi">
+    <style name="Light.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar" tools:ignore="NewApi">
         <item name="android:background">@drawable/bg_action_bar_light</item>
     </style>
 
-    <style name="Light.ActionBar.Sherlock" parent="Widget.Sherlock.ActionBar">
-        <item name="background">@drawable/bg_action_bar_light</item>
-        <item name="android:background">@drawable/bg_action_bar_light</item>
-    </style>
-
-    <style name="Dark.ActionBar" parent="Widget.Sherlock.ActionBar">
-        <item name="background">?attr/actionBarBackgroundDrawable</item>
+    <style name="Dark.ActionBar" parent="@android:style/Widget.Holo.ActionBar">
         <item name="android:background">?attr/actionBarBackgroundDrawable</item>
-        <item name="backgroundSplit">@drawable/bg_action_bar_bottom</item>
         <item name="android:backgroundSplit">@drawable/bg_action_bar_bottom</item>
-        <item name="titleTextStyle">@style/ActionBarTitle</item>
         <item name="android:titleTextStyle">@style/ActionBarTitle</item>
     </style>
 
     <style name="ActionBarTabBar" parent="android:style/Widget">
         <item name="android:background">@color/actionbar_bg</item>
-        <item name="android:divider">?attr/actionBarDivider</item>
+        <item name="android:divider">?android:attr/actionBarDivider</item>
         <item name="android:showDividers">middle</item>
         <item name="android:dividerPadding">12dp</item>
     </style>
@@ -515,11 +507,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="ActionBarTitle" parent="TextAppearance.Sherlock.Widget.ActionBar.Title">
+    <style name="ActionBarTitle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/actionbar_text</item>
     </style>
 
-    <style name="ActionBarMenu" parent="TextAppearance.Sherlock.Widget.ActionBar.Menu">
+    <style name="ActionBarMenu" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Menu">
         <item name="android:textColor">@color/actionbar_text</item>
     </style>
 
@@ -654,7 +646,11 @@
         <item name="android:background">#D1D1D1</item>
     </style>
 
-    <style name="Widget.Spinner.Phone" parent="Widget.Sherlock.Light.Spinner.DropDown.ActionBar">
+    <style name="Aosp.Widget.Holo.Light.Spinner.DropDown.ActionBar" parent="@android:style/Widget.Holo.Light.Spinner">
+        <item name="android:background">@drawable/spinner_ab_holo_light</item>
+    </style>
+
+    <style name="Widget.Spinner.Phone" parent="Aosp.Widget.Holo.Light.Spinner.DropDown.ActionBar">
         <item name="android:background">@drawable/spinner_holo_light</item>
         <item name="android:minHeight">40dp</item>
         <item name="android:maxHeight">40dp</item>
@@ -665,11 +661,11 @@
         <item name="android:textColor">@color/text_color_dark</item>
     </style>
 
-    <style name="Widget.Spinner.Phone.Flights" parent="Widget.Sherlock.Light.Spinner.DropDown.ActionBar">
+    <style name="Widget.Spinner.Phone.Flights" parent="Aosp.Widget.Holo.Light.Spinner.DropDown.ActionBar">
         <item name="android:background">@drawable/spinner_holo_light</item>
     </style>
 
-    <style name="Widget.Spinner.Tablet" parent="Widget.Sherlock.Light.Spinner.DropDown.ActionBar">
+    <style name="Widget.Spinner.Tablet" parent="Aosp.Widget.Holo.Light.Spinner.DropDown.ActionBar">
         <item name="android:background">@drawable/fake_spinner_default_holo_light</item>
         <item name="android:minHeight">40dp</item>
         <item name="android:maxHeight">40dp</item>

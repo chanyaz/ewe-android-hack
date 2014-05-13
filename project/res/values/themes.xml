@@ -13,14 +13,10 @@
     </style>
 
     <style name="Theme.Tablet" parent="Theme.Expedia" tools:targetApi="11">
-        <item name="actionMenuTextColor">#505966</item>
         <item name="android:actionMenuTextColor">#505966</item>
         <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
-        <item name="actionBarStyle">@style/Light.ActionBar.Sherlock</item>
         <item name="android:actionBarStyle">@style/Light.ActionBar</item>
-        <item name="actionOverflowButtonStyle">@style/Widget.Sherlock.Light.ActionButton.Overflow</item>
-        <item name="android:actionOverflowButtonStyle">@style/Widget.Sherlock.Light.ActionButton.Overflow</item>
-        <item name="homeAsUpIndicator">@drawable/abs__ic_ab_back_holo_light</item>
+        <item name="android:actionOverflowButtonStyle">@android:style/Widget.Holo.Light.ActionButton.Overflow</item>
         <item name="android:homeAsUpIndicator">@drawable/abs__ic_ab_back_holo_light</item>
         <!-- NumberPicker styles -->
         <item name="numberPickerUpButtonStyle">@style/Widget.ImageButton.NumberPickerUpButton</item>
@@ -32,9 +28,8 @@
         <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
     </style>
 
-    <style name="Theme.Tablet.Launcher" parent="@style/Theme.Sherlock.Light.DarkActionBar" tools:targetApi="11">
+    <style name="Theme.Tablet.Launcher" parent="@android:style/Theme.Holo.Light.DarkActionBar" tools:targetApi="11">
         <item name="android:actionBarStyle">@style/TabletLauncherActionBar</item>
-        <item name="actionBarStyle">@style/TabletLauncherActionBar</item>
 
         <!-- NumberPicker styles -->
         <item name="numberPickerUpButtonStyle">@style/Widget.ImageButton.NumberPickerUpButton</item>
@@ -46,13 +41,10 @@
         <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
     </style>
 
-    <style name="TabletLauncherActionBar" parent="Widget.Sherlock.ActionBar" tools:targetApi="11">
+    <style name="TabletLauncherActionBar" parent="@android:style/Widget.Holo.ActionBar" tools:targetApi="11">
         <item name="android:background">@drawable/bg_action_bar</item>
-        <item name="background">@drawable/bg_action_bar</item>
         <item name="android:logo">@drawable/ic_action_bar_expedia_logo</item>
-        <item name="logo">@drawable/ic_action_bar_expedia_logo</item>
         <item name="android:displayOptions">showHome|useLogo</item>
-        <item name="displayOptions">showHome|useLogo</item>
     </style>
 
     <style name="Theme.Tablet.Dark" parent="@style/Theme.Expedia" tools:targetApi="11">
@@ -68,7 +60,7 @@
     </style>
 
     <!-- From ABS, Light dialog window -->
-    <style name="Theme.Light.Dialog" parent="@style/Theme.Sherlock.Light">
+    <style name="Theme.Light.Dialog" parent="@android:style/Theme.Holo.Light">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowTitleStyle">@style/DialogWindowTitle.Light</item>
         <item name="android:windowBackground">@drawable/dialog_full_holo_light</item>
@@ -84,10 +76,8 @@
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:textColorPrimary">@color/abs__primary_text_holo_light</item>
         <item name="android:textColorPrimaryInverse">@color/abs__primary_text_holo_dark</item>
-        <item name="windowMinWidthMajor">@dimen/abs__dialog_min_width_major</item>
-        <item name="windowMinWidthMinor">@dimen/abs__dialog_min_width_minor</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowContentOverlay">@null</item>
+        <item name="android:windowMinWidthMajor">@dimen/abs__dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@dimen/abs__dialog_min_width_minor</item>
     </style>
 
     <!-- This is basically only used for TabletUserReviewsListActivity -->
@@ -99,7 +89,6 @@
 
     <style name="Theme.Tablet.Preferences" parent="@style/Theme.Light.Dialog">
         <item name="android:windowNoTitle">true</item>
-        <item name="windowNoTitle">true</item>
         <item name="android:listSeparatorTextViewStyle">@style/TabletPreferenceSeparator</item>
     </style>
 
@@ -121,16 +110,7 @@
         <item name="android:activityCloseExitAnimation">@anim/activity_close_exit</item>
     </style>
 
-    <style name="Theme.Expedia" parent="@style/Theme.Sherlock.Light.DarkActionBar">
-        <item name="actionBarItemBackground">@drawable/bg_actionbar_button</item>
-        <item name="actionBarStyle">@style/Dark.ActionBar</item>
-        <item name="actionBarTabBarStyle">@style/ActionBarTabBar</item>
-        <item name="actionBarTabStyle">@style/ActionBarTabView</item>
-        <item name="actionBarTabTextStyle">@style/ActionBarTabText</item>
-        <item name="actionMenuTextColor">@color/actionbar_text</item>
-        <item name="actionModeBackground">@drawable/bg_action_mode</item>
-        <item name="actionModeCloseDrawable">@drawable/btn_navigation_cancel</item>
-        <item name="actionModeCloseButtonStyle">@style/ActionModeCloseMode</item>
+    <style name="Theme.Expedia" parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <item name="android:actionBarItemBackground" tools:targetApi="14">@drawable/bg_actionbar_button</item>
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar</item>
         <item name="android:actionBarTabBarStyle" tools:targetApi="11">@style/ActionBarTabBar</item>
@@ -155,7 +135,6 @@
         <item name="simpleNumberPickerInputTextStyle">@style/NumberPickerText</item>
         <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_hotels</item>
-        <item name="logo">@drawable/ic_logo_hotels</item>
         <item name="actionBarSpinnerBackground">@drawable/ab_spinner</item>
         <!-- Custom attrs for Expedia/VSC switching -->
         <item name="hotelPriceStandardColor">@color/hotel_price_text_color</item>
@@ -233,24 +212,19 @@
     <style name="Theme.Phone" parent="@style/Theme.Expedia" />
 
     <style name="Theme.Phone.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
         <item name="android:windowActionBar" tools:targetApi="11">false</item>
         <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="Theme.Phone.WebView">
         <item name="android:logo" tools:targetApi="11">?attr/webViewPreferencesActionBarLogo</item>
-        <item name="logo">?attr/webViewPreferencesActionBarLogo</item>
     </style>
 
     <style name="Theme.Phone.WebView.WithTitle">
         <item name="android:logo" tools:targetApi="11">?attr/webViewPreferencesActionBarLogoWithTitle</item>
-        <item name="logo">?attr/webViewPreferencesActionBarLogoWithTitle</item>
     </style>
 
     <style name="Theme.Phone.Preferences">
-        <item name="logo">?attr/webViewPreferencesActionBarLogo</item>
         <item name="android:logo" tools:targetApi="11">?attr/webViewPreferencesActionBarLogo</item>
     </style>
 
@@ -262,23 +236,18 @@
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
-        <item name="logo">@drawable/ic_ab_expedia_logo</item>
         <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_expedia_logo</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowActionBarOverlay">true</item>
-        <item name="windowActionBarOverlay">true</item>
     </style>
 
-    <style name="LaunchTheme" parent="@style/Theme.Sherlock">
-        <item name="logo">@drawable/ic_ab_expedia_logo</item>
+    <style name="LaunchTheme" parent="@android:style/Theme.Holo">
         <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_expedia_logo</item>
-        <item name="actionBarStyle">@style/LaunchActionBar</item>
         <item name="android:actionBarStyle" tools:targetApi="11">@style/LaunchActionBar</item>
         <item name="android:actionBarTabStyle" tools:targetApi="11">@style/LaunchActionBarTabStyle</item>
 
         <!-- PopupMenu -->
-        <item name="dropDownListViewStyle">@style/Widget.Sherlock.Light.ListView.DropDown</item>
-        <item name="android:dropDownListViewStyle">@style/Widget.Sherlock.Light.ListView.DropDown</item>
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
         <item name="logoutConfirmationString">@string/logout_confirmation</item>
         <item name="itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
         <item name="itinCarPlaceholderDrawable">@drawable/default_flights_background</item>
@@ -293,14 +262,12 @@
         <item name="itinDismissListSelectorDrawable">@drawable/list_selector_holo_dark</item>
     </style>
 
-    <style name="ItineraryTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
-        <item name="logo">@drawable/ic_action_bar_expedia_logo_small</item>
+    <style name="ItineraryTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <item name="android:logo">@drawable/ic_action_bar_expedia_logo_small</item>
         <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal</item>
 
         <!-- PopupMenu -->
-        <item name="dropDownListViewStyle">@style/Widget.Sherlock.Light.ListView.DropDown</item>
-        <item name="android:dropDownListViewStyle">@style/Widget.Sherlock.Light.ListView.DropDown</item>
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
         <item name="logoutConfirmationString">@string/logout_confirmation</item>
         <item name="itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
         <item name="itinCarPlaceholderDrawable">@drawable/default_flights_background</item>
@@ -317,15 +284,12 @@
         <item name="itinTabletCardPopupHeaderDrawable">@drawable/bg_itinerary_card_popup_header</item>
     </style>
 
-    <style name="LaunchActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
-        <item name="displayOptions">showHome|useLogo</item>
+    <style name="LaunchActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:displayOptions" tools:targetApi="11">showHome|useLogo</item>
-        <item name="background">@drawable/bg_launch_ab</item>
         <item name="android:background">@drawable/bg_launch_ab</item>
     </style>
 
-    <style name="LaunchActionBarTabStyle" parent="@style/Widget.Sherlock.ActionBar.TabView">
-        <item name="background">@drawable/tab_indicator_ab_launch</item>
+    <style name="LaunchActionBarTabStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_launch</item>
     </style>
 
@@ -344,20 +308,14 @@
         <item name="numberPickerDownButtonStyle">@style/Widget.ImageButton.NumberPickerDownButton</item>
         <item name="numberPickerInputTextStyle">@style/Widget.EditText.NumberPickerInputText</item>
         <item name="numberPickerStyle">@style/Widget.NumberPicker</item>
-        <item name="logo">@drawable/ic_logo_flights</item>
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_flights</item>
-        <item name="actionBarStyle">@style/FlightActionBar</item>
         <item name="android:actionBarStyle" tools:targetApi="11">@style/FlightActionBar</item>
-        <item name="actionMenuTextColor">@color/action_bar_flight_text_color</item>
         <item name="android:actionMenuTextColor" tools:targetApi="11">@color/action_bar_flight_text_color</item>
-        <item name="actionModeCloseDrawable">@drawable/btn_navigation_cancel</item>
         <item name="android:actionModeCloseDrawable" tools:targetApi="11">@drawable/btn_navigation_cancel</item>
         <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
         <item name="android:spinnerStyle">@style/Widget.Spinner.Phone.Flights</item>
         <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoComplete</item>
         <item name="travelerLabelOnCheckout">@string/Add_Traveler</item>
-        <!-- Only do this for ABS - newer versions will use latest holo radio button anyways -->
-        <item name="actionBarWidgetTheme">@style/FlightActionBarWidgetTheme</item>
         <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
         <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
         <item name="flightCheckoutAccountLabel">@string/expedia_account</item>
@@ -372,7 +330,6 @@
     </style>
 
     <style name="FlightTheme.OverlayMode">
-        <item name="windowActionBarOverlay">true</item>
         <item name="android:windowActionBarOverlay" tools:targetApi="11">true</item>
     </style>
 
@@ -382,17 +339,12 @@
 
     <style name="HotelWebViewTheme" parent="Theme.Phone">
         <item name="android:actionBarStyle" tools:targetApi="11">@style/HotelWebViewActionBar</item>
-        <item name="actionBarStyle">@style/HotelWebViewActionBar</item>
     </style>
 
-    <style name="HotelWebViewActionBar" parent="Widget.Sherlock.ActionBar">
+    <style name="HotelWebViewActionBar" parent="@android:style/Widget.Holo.ActionBar">
         <item name="android:background">?attr/actionBarBackgroundDrawable</item>
-        <item name="background">?attr/actionBarBackgroundDrawable</item>
         <item name="android:logo" tools:targetApi="11">?attr/hotelwebViewActionBarLogo</item>
-        <item name="logo">?attr/hotelwebViewActionBarLogo</item>
-        <item name="titleTextStyle">@style/FlightActionBarTextAppearance</item>
         <item name="android:titleTextStyle" tools:targetApi="11">@style/FlightActionBarTextAppearance</item>
-        <item name="homeAsUpIndicator">@drawable/ic_action_bar_back_arrow</item>
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow</item>
     </style>
 
@@ -400,18 +352,14 @@
 	   We need this theme to set styles on inflated action bar widgets.  The parent is
 	   configured the same way as it is in ABS.
     -->
-    <style name="FlightActionBarWidgetTheme" parent="@style/Theme.Sherlock">
+    <style name="FlightActionBarWidgetTheme" parent="@android:style/Theme.Holo">
         <item name="android:radioButtonStyle">@style/Widget.RadioButton</item>
     </style>
 
-    <style name="FlightActionBar" parent="Widget.Sherlock.ActionBar">
-        <item name="background">@drawable/bg_action_bar_flight_top</item>
+    <style name="FlightActionBar" parent="@android:style/Widget.Holo.ActionBar">
         <item name="android:background">@drawable/bg_action_bar_flight_top</item>
-        <item name="backgroundSplit">@drawable/bg_action_bar_flight_bottom</item>
         <item name="android:backgroundSplit" tools:targetApi="14">@drawable/bg_action_bar_flight_bottom</item>
-        <item name="titleTextStyle">@style/FlightActionBarTextAppearance</item>
         <item name="android:titleTextStyle" tools:targetApi="11">@style/FlightActionBarTextAppearance</item>
-        <item name="homeAsUpIndicator">@drawable/ic_action_bar_back_arrow</item>
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow</item>
     </style>
 

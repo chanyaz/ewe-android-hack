@@ -8,9 +8,9 @@
     android:drawableLeft="?attr/actionBarCheckoutDrawable"
     android:focusable="true"
     android:gravity="center_vertical"
-    android:minHeight="?attr/actionBarSize"
+    android:minHeight="?android:attr/actionBarSize"
     android:paddingLeft="8dp"
     android:paddingRight="@dimen/yoyo_navigation_padding_right"
     android:text="@string/checkout_btn"
-    android:textAppearance="?attr/actionMenuTextAppearance"
+    android:textAppearance="?android:attr/actionMenuTextAppearance"
     android:textColor="?attr/actionBarButtonTextColor" />

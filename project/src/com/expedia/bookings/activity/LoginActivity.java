@@ -131,9 +131,6 @@ public class LoginActivity extends FragmentActivity implements TitleSettable {
 		if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
 			paddingTop = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
 		}
-		else if (getTheme().resolveAttribute(R.attr.actionBarSize, tv, true)) {
-			paddingTop = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-		}
 		mLoginContentContainer.setPadding(mLoginContentContainer.getPaddingLeft(), paddingTop, mLoginContentContainer.getPaddingRight(),
 			mLoginContentContainer.getPaddingBottom());
 
