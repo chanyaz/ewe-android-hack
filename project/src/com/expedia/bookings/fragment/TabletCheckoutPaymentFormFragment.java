@@ -159,28 +159,31 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
 
 				// Let's show airline fees (LCC Fees) or messages if any
-				mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
-				if (mBillingInfo.getCardType() != null) {
-					FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
-					if (!trip.isCardTypeSupported(mBillingInfo.getCardType())) {
-						String message = getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, mBillingInfo
-							.getCardType().getHumanReadableName(getActivity()));
-						updateCardMessageText(message);
-						toggleCardMessage(true, true);
-					}
-					else if (trip.getCardFee(mBillingInfo) != null) {
-						String message = getString(R.string.airline_processing_fee_TEMPLATE,
-							trip.getCardFee(mBillingInfo).getFormattedMoney());
-						updateCardMessageText(message);
-						toggleCardMessage(true, true);
+				if (getLob() == LineOfBusiness.FLIGHTS) {
+					mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
+					if (mBillingInfo.getCardType() != null) {
+						FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
+						if (!trip.isCardTypeSupported(mBillingInfo.getCardType())) {
+							String message = getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, mBillingInfo
+								.getCardType().getHumanReadableName(getActivity()));
+							updateCardMessageText(message);
+							toggleCardMessage(true, true);
+						}
+						else if (trip.getCardFee(mBillingInfo) != null) {
+							String message = getString(R.string.airline_processing_fee_TEMPLATE,
+								trip.getCardFee(mBillingInfo).getFormattedMoney());
+							updateCardMessageText(message);
+							toggleCardMessage(true, true);
+						}
+						else {
+							hideCardMessageOrDisplayDefault(true);
+						}
 					}
 					else {
 						hideCardMessageOrDisplayDefault(true);
 					}
 				}
-				else {
-					hideCardMessageOrDisplayDefault(true);
-				}
+
 			}
 		});
 
