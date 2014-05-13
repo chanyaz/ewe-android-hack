@@ -85,11 +85,11 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		FragmentTransaction transaction = manager.beginTransaction();
 
 		mTripBucketFlightFrag = FragmentAvailabilityUtils
-			.setFragmentAvailability(showFlight, FTAG_BUCKET_FLIGHT, manager, transaction, this, R.id.content_container,
-				true);
+			.setFragmentAvailability(showFlight, FTAG_BUCKET_FLIGHT, manager,
+				transaction, this, R.id.content_container, true);
 		mTripBucketHotelFrag = FragmentAvailabilityUtils
-			.setFragmentAvailability(showHotel, FTAG_BUCKET_HOTEL, manager, transaction, this, R.id.content_container,
-				true);
+			.setFragmentAvailability(showHotel, FTAG_BUCKET_HOTEL, manager,
+				transaction, this, R.id.content_container, true);
 
 		transaction.commit();
 

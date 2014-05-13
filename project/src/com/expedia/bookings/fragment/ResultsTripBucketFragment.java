@@ -39,9 +39,8 @@ public class ResultsTripBucketFragment extends Fragment
 		FragmentManager manager = getChildFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
 
-		mBucketFrag = FragmentAvailabilityUtils
-			.setFragmentAvailability(true, FTAG_BUCKET, manager, transaction, this, R.id.trip_bucket_container,
-				true);
+		mBucketFrag = FragmentAvailabilityUtils.setFragmentAvailability(true, FTAG_BUCKET,
+			manager, transaction, this, R.id.trip_bucket_container, true);
 		transaction.commit();
 
 		return view;
