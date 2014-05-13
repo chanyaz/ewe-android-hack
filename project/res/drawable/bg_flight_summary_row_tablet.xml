@@ -4,10 +4,10 @@
     <item>
         <color android:color="@color/tablet_white_pane_bg" />
     </item>
-    <item android:bottom="6dp"
-          android:left="12dp"
-          android:right="12dp"
-          android:top="6dp">
+    <item android:bottom="@dimen/hotel_flight_card_padding_y"
+          android:left="@dimen/hotel_flight_card_padding_x"
+          android:right="@dimen/hotel_flight_card_padding_x"
+          android:top="@dimen/hotel_flight_card_padding_y">
         <selector>
             <item android:state_pressed="true">
                 <shape>

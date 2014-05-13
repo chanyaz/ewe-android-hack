@@ -295,15 +295,6 @@
     <dimen name="tablet_results_hotel_map_pin_padding">64dp</dimen>
     <dimen name="hotel_map_price_pin_text_size">12dp</dimen>
 
-    <!-- Hotel/Flight Card dimensions. Also known as hotel summary section -->
-    <!-- These are also used on the hotel and flight trip bucket items -->
-    <!-- TODO: move this to layout-sw800dp -->
-    <dimen name="hotel_flight_card_height">148dp</dimen>
-    <dimen name="hotel_flight_card_width">352dp</dimen>
-    <dimen name="hotel_flight_card_height_with_padding">160dp</dimen>
-    <dimen name="hotel_flight_card_padding_x">12dp</dimen>
-    <dimen name="hotel_flight_card_padding_y">6dp</dimen>
-
     <!-- Tablet trip bucket dimens -->
     <!-- TODO: move this to layout-sw800dp -->
     <dimen name="tripbucket_bookbutton_height">50dp</dimen>

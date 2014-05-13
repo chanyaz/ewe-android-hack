@@ -20,4 +20,11 @@
     <dimen name="hotel_details_window_margin_y">64dp</dimen>
     <dimen name="hotel_header_height">272dp</dimen>
 
+    <!-- Hotel/Flight/Tripbucket Card dimensions -->
+    <dimen name="hotel_flight_card_height">150dp</dimen>
+    <dimen name="hotel_flight_card_height_with_padding">162dp</dimen>
+    <dimen name="hotel_flight_card_width">352dp</dimen>
+    <dimen name="hotel_flight_card_padding_x">32dp</dimen>
+    <dimen name="hotel_flight_card_padding_y">7dp</dimen>
+
 </resources>
