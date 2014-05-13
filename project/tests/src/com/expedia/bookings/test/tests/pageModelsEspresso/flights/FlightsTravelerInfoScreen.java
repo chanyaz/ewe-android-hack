@@ -29,8 +29,11 @@ public class FlightsTravelerInfoScreen extends CommonTravelerInformationScreen {
 		return onView(withText(R.string.passport));
 	}
 
-	public static void  clickSetButton(){
+	public static void clickSetButton() {
 		onView(withText("Set")).perform(click());
+	}
 
+	public static void clickTravelerDetails() {
+		onView(withId(R.id.traveler_empty_text_view)).perform(click());
 	}
 }

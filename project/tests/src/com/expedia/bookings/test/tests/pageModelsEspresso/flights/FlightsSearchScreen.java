@@ -12,6 +12,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
+import static com.expedia.bookings.test.utilsEspresso.CustomMatchers.withHint;
 import static com.expedia.bookings.test.utilsEspresso.ViewActions.clickDates;
 import static com.expedia.bookings.test.utilsEspresso.ViewActions.storeValue;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -138,23 +139,4 @@ public class FlightsSearchScreen extends ScreenActions {
 	public static void checkHint(String hintText) {
 		selectDepartureButton().check(matches(withHint(hintText)));
 	}
-
-	public static Matcher<View> withHint(final String a) {
-		return new TypeSafeMatcher<View>() {
-
-			@Override
-			public boolean matchesSafely(View view) {
-				if (!(view instanceof EditText)) {
-					return false;
-				}
-				String hint = ((EditText) view).getHint().toString();
-				return a.equals(hint);
-			}
-
-			@Override
-			public void describeTo(Description description) {
-			}
-		};
-	}
-
 }
