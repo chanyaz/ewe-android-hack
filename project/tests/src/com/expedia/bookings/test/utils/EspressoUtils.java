@@ -2,11 +2,13 @@ package com.expedia.bookings.test.utils;
 
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.ViewAction;
+import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 import com.google.android.apps.common.testing.ui.espresso.action.GeneralLocation;
 import com.google.android.apps.common.testing.ui.espresso.action.GeneralSwipeAction;
 import com.google.android.apps.common.testing.ui.espresso.action.Press;
 import com.google.android.apps.common.testing.ui.espresso.action.Swipe;
 
+import static com.expedia.bookings.test.utilsEspresso.ViewActions.getCount;
 import static com.expedia.bookings.test.utilsEspresso.ViewActions.storeValue;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
@@ -41,5 +43,9 @@ public class EspressoUtils {
 
 	public static void getListItemValues(DataInteraction row, int id, String value) {
 		row.onChildView(withId(id)).perform(storeValue(value));
+	}
+
+	public static void getListCount(ViewInteraction view, String key, int code) {
+		view.perform(getCount(key, code));
 	}
 }

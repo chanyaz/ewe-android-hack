@@ -3,6 +3,7 @@ package com.expedia.bookings.test.utilsEspresso;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.hamcrest.Matcher;
@@ -73,7 +74,7 @@ public final class ViewActions {
 		@SuppressWarnings("unchecked")
 		@Override
 		public Matcher<View> getConstraints() {
-			return Matchers.allOf(ViewMatchers.isDisplayed(), isAssignableFrom(TextView.class));
+			return Matchers.allOf(isAssignableFrom(TextView.class));
 		}
 
 		@Override
@@ -88,6 +89,48 @@ public final class ViewActions {
 		@Override
 		public String getDescription() {
 			return "store values";
+		}
+
+	}
+
+	//View Action to get the count of list view items
+
+	public static ViewAction getCount(String key, int code) {
+		return new CountListItems(key, code);
+	}
+
+	public final static class CountListItems implements ViewAction {
+		private String mKeyString;
+		private int mCode;
+
+		public CountListItems(String keystring, int code) {
+			mKeyString = keystring;
+			mCode = code;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public Matcher<View> getConstraints() {
+			return Matchers.allOf(ViewMatchers.isDisplayed(), isAssignableFrom(ListView.class));
+		}
+
+		@Override
+		public void perform(UiController uiController, View view) {
+
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view.getContext());
+			SharedPreferences.Editor editor = prefs.edit();
+			if (mCode == 1) {
+				editor.putInt(mKeyString, ((ListView) view).getCount());
+			}
+			else {
+				editor.putInt(mKeyString, ((ListView) view).getChildCount());
+			}
+			editor.commit();
+		}
+
+		@Override
+		public String getDescription() {
+			return "Get total list items count and list items per screen height count";
 		}
 
 	}
