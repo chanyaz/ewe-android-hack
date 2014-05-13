@@ -171,7 +171,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:background="@drawable/hotel_card_corners_top" />
+        android:background="@drawable/card_corners_top_white" />
 
     <View
         android:id="@+id/card_corners_bottom"
@@ -180,6 +180,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:background="@drawable/hotel_card_corners_bottom" />
+        android:background="@drawable/card_corners_bottom_white" />
 
 </com.expedia.bookings.section.HotelSummarySection>

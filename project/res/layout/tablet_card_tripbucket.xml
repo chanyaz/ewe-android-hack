@@ -100,13 +100,13 @@
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:layout_gravity="top"
-        android:background="@drawable/hotel_card_corners_top" />
+        android:background="@drawable/card_corners_top_white" />
 
     <View
         android:id="@+id/card_corners_bottom"
         android:layout_width="match_parent"
         android:layout_height="6dp"
         android:layout_gravity="bottom"
-        android:background="@drawable/hotel_card_corners_bottom" />
+        android:background="@drawable/card_corners_bottom_white" />
 
 </FrameLayout>
