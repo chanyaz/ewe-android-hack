@@ -5,7 +5,7 @@ import java.util.Locale;
 import android.app.Instrumentation;
 import android.util.Pair;
 
-import com.expedia.bookings.debug.test.R;
+import com.expedia.bookings.test.R;
 
 /* This class serves as a data structure to hold all Hotel Booking info
  * and to provide methods to easily change that data as desired.

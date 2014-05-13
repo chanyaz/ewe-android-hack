@@ -38,7 +38,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 19
 
-        testPackageName "com.expedia.bookings.debug.test"
+        testPackageName "com.expedia.bookings.test"
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
 
         buildConfigField "boolean", "IS_EXPEDIA", "false"
