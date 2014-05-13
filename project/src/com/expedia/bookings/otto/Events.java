@@ -253,8 +253,6 @@ public class Events {
 	 * It is primarily used for showing booking errors.
 	 */
 
-	public static final int TABLET_FLIGHTS_INFANT_CHOOSER_CALLBACK_ID = 987123;
-
 	public static class SimpleCallBackDialogOnClick {
 		public final int callBackId;
 
