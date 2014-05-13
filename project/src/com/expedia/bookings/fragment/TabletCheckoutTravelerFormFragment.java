@@ -151,7 +151,8 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			mSectionTraveler.resetValidation();
 
 			//We only show the email field for the first traveler, if we aren't logged in.
-			mSectionTraveler.setEmailFieldEnabled(!User.isLoggedIn(getActivity()) && mTravelerNumber == 0);
+			mSectionTraveler.setEmailFieldEnabled(
+				!User.isLoggedIn(getActivity()) && mTravelerNumber == 0 && !Db.getBillingInfo().isUsingGoogleWallet());
 
 			mSectionTraveler.bind(Db.getWorkingTravelerManager().getWorkingTraveler());
 
