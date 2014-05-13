@@ -175,4 +175,8 @@ public class Checkout {
 		onView(allOf(withId(R.id.done_booking), withText("Done Booking"))).perform(click());
 	}
 
+	public static void clickBookNextItem() {
+		onView(allOf(withId(R.id.book_next), withText("Book Next Item"))).perform(click());
+	}
+
 }
