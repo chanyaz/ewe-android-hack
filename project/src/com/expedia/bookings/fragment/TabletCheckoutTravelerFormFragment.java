@@ -146,6 +146,9 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		}
 		mTravelerNumber = travelerNumber;
 		if (mSectionTraveler != null && travelerNumber >= 0 && travelerNumber < Db.getTravelers().size()) {
+			//We only show the email field for the first traveler, if we aren't logged in.
+			mSectionTraveler.setEmailFieldEnabled(!User.isLoggedIn(getActivity()) && mTravelerNumber == 0);
+
 			mSectionTraveler.bind(Db.getWorkingTravelerManager().getWorkingTraveler());
 
 			setHeadingText(mHeaderString);

@@ -12,7 +12,7 @@ import com.mobiata.android.util.AndroidUtils;
  * This is a class for managing SectionField<?,?> instances within an ISection<?>
  *
  * @param <T> the type of data the SectionFields bind to.
- * e.g. if the fields are of type SectionField<?,Cats> then <T> = <Cats>
+ *            e.g. if the fields are of type SectionField<?,Cats> then <T> = <Cats>
  */
 public class SectionFieldList<T> extends AbstractList<SectionField<?, T>> {
 
@@ -35,6 +35,7 @@ public class SectionFieldList<T> extends AbstractList<SectionField<?, T>> {
 
 	/**
 	 * Call bindData for each SectionField
+	 *
 	 * @param data
 	 */
 	public void bindDataAll(T data) {
@@ -45,6 +46,7 @@ public class SectionFieldList<T> extends AbstractList<SectionField<?, T>> {
 
 	/**
 	 * Call bindField for each SectionField
+	 *
 	 * @param parent
 	 */
 	public void bindFieldsAll(View parent) {
@@ -60,6 +62,7 @@ public class SectionFieldList<T> extends AbstractList<SectionField<?, T>> {
 
 	/**
 	 * call isValid() on each SectionFieldEditable
+	 *
 	 * @return true if every field.isValid() returned true, otherwise false
 	 */
 	public boolean hasValidInput() {
@@ -77,6 +80,7 @@ public class SectionFieldList<T> extends AbstractList<SectionField<?, T>> {
 
 	/**
 	 * Remove a field via fieldId
+	 *
 	 * @param fieldId
 	 */
 	public void removeField(int fieldId) {
@@ -96,6 +100,7 @@ public class SectionFieldList<T> extends AbstractList<SectionField<?, T>> {
 	 * Remove field from layout by setting visibility to GONE
 	 * Remove field from field list so it is no longer validated against
 	 * Fix focus order if we removed a view that someone has set as nextFocus
+	 *
 	 * @param sectionFieldForRemoval
 	 */
 	@SuppressLint("NewApi")
@@ -133,6 +138,30 @@ public class SectionFieldList<T> extends AbstractList<SectionField<?, T>> {
 
 			//Hide view
 			removeView.setVisibility(View.GONE);
+		}
+	}
+
+	/**
+	 * Setting a field to being enabled means: VISIBLE and VALIDATED AGAINST
+	 * Setting a afield to being dispabled means: GONE and NOT VALIDATED AGAINST
+	 *
+	 * @param sectionField
+	 * @param enabled
+	 */
+	public void setFieldEnabled(SectionField<?, T> sectionField, boolean enabled) {
+		if (enabled) {
+			if (!mFields.contains(sectionField)) {
+				mFields.add(sectionField);
+			}
+			if (sectionField.hasBoundField()) {
+				sectionField.getField().setVisibility(View.VISIBLE);
+			}
+		}
+		else {
+			mFields.remove(sectionField);
+			if (sectionField.hasBoundField()) {
+				sectionField.getField().setVisibility(View.GONE);
+			}
 		}
 	}
 }

@@ -62,4 +62,8 @@ public class SectionTravelerInfoTablet extends com.expedia.bookings.section.Sect
 	public LineOfBusiness getLob() {
 		return mLob;
 	}
+
+	public void setEmailFieldEnabled(boolean enabled){
+		mFields.setFieldEnabled(mEditEmailAddress, enabled);
+	}
 }
