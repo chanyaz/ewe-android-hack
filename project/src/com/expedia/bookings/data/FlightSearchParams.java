@@ -34,6 +34,7 @@ public class FlightSearchParams implements JSONable {
 	public void reset() {
 		mAdults = 1;
 		mChildren.clear();
+		mInfantSeatingInLap = true;
 		mQueryLegs.clear();
 
 		// Must have at least one query leg (though it won't have all the details filled in initially)

@@ -248,6 +248,39 @@
                             layout="@layout/include_child_age_row"
                             android:visibility="gone"/>
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/infant_seating_preference_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="@string/infant_seating_preference"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold" />
+
+                    <RadioGroup
+                        android:id="@+id/infant_seating_preference_radio_group"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/infant_in_lap"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/in_laps" />
+
+                        <RadioButton
+                            android:id="@+id/infant_in_seat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/in_seats" />
+
+                    </RadioGroup>
+
                 </LinearLayout>
             </LinearLayout>
 

@@ -167,6 +167,10 @@
     <string name="infants_in_laps">Infants under 2 (at time of travel) in laps</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
     <string name="infants_in_seats">Infants under 2 (at time of travel) in seats</string>
+    <!-- Description for infant travelers sitting in laps -->
+    <string name="in_laps">In Laps</string>
+    <!-- Description for infant travelers sitting in seats -->
+    <string name="in_seats">In Seats</string>
     <!-- Title for infant seating preference -->
     <string name="infant_seating_preference">Seating Preference for Infants Under 2</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->

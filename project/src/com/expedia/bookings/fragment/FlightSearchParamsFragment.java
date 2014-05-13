@@ -51,6 +51,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -142,6 +143,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private View mButtonBarLayout;
 	private TextView mRefinementInfoTextView;
 	private TextView mSelectChildAgeTextView;
+	private TextView mInfantPreferenceTextView;
+	private RadioGroup mInfantPreferenceRadioGroup;
 
 	private FlightSearchParams mSearchParams;
 
@@ -254,6 +257,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mButtonBarLayout = Ui.findView(v, R.id.button_bar_layout);
 		mRefinementInfoTextView = Ui.findView(v, R.id.refinement_info_text_view);
 		mSelectChildAgeTextView = Ui.findView(v, R.id.label_select_each_childs_age);
+		mInfantPreferenceTextView = Ui.findView(v, R.id.infant_seating_preference_text_view);
+		mInfantPreferenceRadioGroup = Ui.findView(v, R.id.infant_seating_preference_radio_group);
 		mDoneButton = Ui.findView(v, R.id.guest_done_button);
 
 		// Configure views
@@ -418,6 +423,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		});
 
 		mDoneButton.setOnClickListener(mDoneButtonClickListener);
+
+		mInfantPreferenceRadioGroup.setOnCheckedChangeListener(mInfantChangeListener);
 
 		mAdultsNumberPicker.setFormatter(mAdultsNumberPickerFormatter);
 		mAdultsNumberPicker.setOnValueChangeListener(mNumberPickerChangedListener);
@@ -1112,10 +1119,34 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			List<ChildTraveler> children = getSearchParams(false).getChildren();
 			GuestsPickerUtils.setChildrenFromSpinners(getActivity(), mChildAgesLayout, children);
 			GuestsPickerUtils.updateDefaultChildTravelers(getActivity(), children);
+			showInfantSeatingPreferenceAsNecessary();
 		}
 
 		public void onNothingSelected(AdapterView<?> parent) {
 			// Do nothing.
+		}
+	};
+
+	// Infants
+
+	private void showInfantSeatingPreferenceAsNecessary() {
+		int vis = mSearchParams.hasInfants() ? View.VISIBLE : View.GONE;
+		mInfantPreferenceTextView.setVisibility(vis);
+		mInfantPreferenceRadioGroup.setVisibility(vis);
+
+		if (vis == View.VISIBLE) {
+			mInfantPreferenceRadioGroup.setOnCheckedChangeListener(null);
+			boolean inLap = Db.getFlightSearch().getSearchParams().getInfantSeatingInLap();
+			int idToCheck = inLap ? R.id.infant_in_lap : R.id.infant_in_seat;
+			mInfantPreferenceRadioGroup.check(idToCheck);
+			mInfantPreferenceRadioGroup.setOnCheckedChangeListener(mInfantChangeListener);
+		}
+	}
+
+	private final RadioGroup.OnCheckedChangeListener mInfantChangeListener = new RadioGroup.OnCheckedChangeListener() {
+		@Override
+		public void onCheckedChanged(RadioGroup group, int checkedId) {
+			mSearchParams.setInfantSeatingInLap(checkedId == R.id.infant_in_lap);
 		}
 	};
 
