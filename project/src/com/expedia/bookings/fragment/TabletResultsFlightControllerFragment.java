@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
@@ -729,7 +730,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	// Infants
 
 	private void popInfantPromptIfNeeded() {
-		if (Db.getFlightSearch().getSearchParams().hasInfants()) {
+		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+		if (params.hasInfants() && !params.hasMoreInfantsThanAvailableLaps()) {
 			mInfantFrag = Ui.findSupportFragment(this, FTAG_FLIGHT_INFANT_CHOOSER);
 			if (mInfantFrag == null) {
 				mInfantFrag = InfantChooserDialogFragment.newInstance();

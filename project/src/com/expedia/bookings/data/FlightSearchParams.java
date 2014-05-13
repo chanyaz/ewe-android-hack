@@ -264,6 +264,10 @@ public class FlightSearchParams implements JSONable {
 		return ret;
 	}
 
+	public boolean hasMoreInfantsThanAvailableLaps() {
+		return GuestsPickerUtils.moreInfantsThanAvailableLaps(mAdults, mChildren);
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 

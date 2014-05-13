@@ -173,6 +173,7 @@ public class SearchParams implements Parcelable, JSONable {
 
 	public SearchParams setNumAdults(int numAdults) {
 		mNumAdults = numAdults;
+		modifyDefaultInfantSeatingPreferenceAsNeeded();
 		return this;
 	}
 
@@ -214,12 +215,19 @@ public class SearchParams implements Parcelable, JSONable {
 
 	public SearchParams setChildTravelers(List<ChildTraveler> children) {
 		mChildTravelers = children;
+		modifyDefaultInfantSeatingPreferenceAsNeeded();
 		return this;
 	}
 
 	public SearchParams setInfantsInLaps(boolean infantsInLaps) {
 		mInfantsInLaps = infantsInLaps;
 		return this;
+	}
+
+	private void modifyDefaultInfantSeatingPreferenceAsNeeded() {
+		if (GuestsPickerUtils.moreInfantsThanAvailableLaps(mNumAdults, mChildTravelers)) {
+			mInfantsInLaps = false;
+		}
 	}
 
 	@Override
