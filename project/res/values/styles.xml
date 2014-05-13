@@ -1092,4 +1092,9 @@
         <item name="android:background">@drawable/bg_tablet_room_rate_more_info</item>
     </style>
 
+    <!-- For Trip bucket, hotel /night text -->
+    <style name="TripBucketHotelPerNight">
+        <item name="android:textSize">15sp</item>
+    </style>
+
 </resources>

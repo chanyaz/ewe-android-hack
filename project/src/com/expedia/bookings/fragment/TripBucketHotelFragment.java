@@ -4,6 +4,7 @@ import org.joda.time.LocalDate;
 
 import android.app.Activity;
 import android.text.format.DateUtils;
+import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -22,7 +22,9 @@ import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.utils.CalendarUtils;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
 
 /**
@@ -117,11 +119,16 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	}
 
 	@Override
-	public String getTripPrice() {
+	public CharSequence getTripPrice() {
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel != null) {
 			Rate rate = hotel.getRate();
-			return rate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL);
+			String rateString = rate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL);
+			TextAppearanceSpan perNight = new TextAppearanceSpan(getActivity(), R.style.TripBucketHotelPerNight);
+			SpannableBuilder spannedRateString = new SpannableBuilder();
+			spannedRateString.append(rateString);
+			spannedRateString.append(getString(R.string.per_night), FontCache.getSpan(FontCache.Font.ROBOTO_LIGHT), perNight);
+			return spannedRateString.build();
 		}
 		else {
 			return null;

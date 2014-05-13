@@ -508,7 +508,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 	public abstract String getDateRangeText();
 
-	public abstract String getTripPrice();
+	public abstract CharSequence getTripPrice();
 
 	public abstract OnClickListener getOnBookClickListener();
 

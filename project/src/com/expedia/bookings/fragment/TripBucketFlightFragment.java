@@ -13,7 +13,6 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImage;
@@ -173,7 +172,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	}
 
 	@Override
-	public String getTripPrice() {
+	public CharSequence getTripPrice() {
 		refreshFlightTrip();
 		if (Db.hasBillingInfo() && mFlightTrip != null) {
 			return mFlightTrip.getTotalFareWithCardFee(Db.getBillingInfo()).getFormattedMoney(Money.F_NO_DECIMAL);
