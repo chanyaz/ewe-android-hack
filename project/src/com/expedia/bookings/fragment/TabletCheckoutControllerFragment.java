@@ -258,10 +258,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		Events.register(this);
 
 		mBackManager.registerWithParent(this);
-		//TODO - There might be a better way of determining this?
-		if (bookingWithGoogleWallet() && mStateManager.getState() != CheckoutState.BOOKING) {
-			setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
-		}
+
 		checkForAddedTrips();
 	}
 
@@ -323,10 +320,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	private boolean bookingWithGoogleWallet() {
-		if (getCurrentBookingFragment() != null) {
-			return getCurrentBookingFragment().willBookViaGoogleWallet();
-		}
-		return false;
+		return Db.getBillingInfo().isUsingGoogleWallet();
 	}
 
 	public void rebindCheckoutFragment() {

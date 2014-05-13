@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +12,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.fragment.base.LobableFragment;
-import com.expedia.bookings.model.HotelTravelerFlowState;
-import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.mobiata.android.util.Ui;
 
@@ -25,6 +24,10 @@ public class TravelerButtonFragment extends LobableFragment {
 		return frag;
 	}
 
+	public interface ITravelerIsValidProvider {
+		public boolean travelerIsValid(int travelerNumber);
+	}
+
 	private static final String STATE_TRAVELER_NUMBER = "STATE_TRAVELER_NUMBER";
 
 	private int mTravelerNumber = -1;
@@ -32,6 +35,7 @@ public class TravelerButtonFragment extends LobableFragment {
 	private ViewGroup mTravelerSectionContainer;
 	private ViewGroup mEmptyViewContainer;
 	private String mEmptyViewLabel;
+	private ITravelerIsValidProvider mValidationProvider;
 
 	private boolean mShowValidMarker = false;
 
@@ -39,6 +43,12 @@ public class TravelerButtonFragment extends LobableFragment {
 		mTravelerSectionContainer.setEnabled(enable);
 		mEmptyViewContainer.setEnabled(enable);
 		mSectionTraveler.setEnabled(enable);
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		mValidationProvider = Ui.findFragmentListener(this, ITravelerIsValidProvider.class);
 	}
 
 	@Override
@@ -119,21 +129,7 @@ public class TravelerButtonFragment extends LobableFragment {
 	}
 
 	public boolean isValid() {
-		Traveler trav = getDbTraveler();
-		if (trav != null) {
-			if (getLob() == LineOfBusiness.FLIGHTS) {
-				//TODO: THIS WAS BLOWING UP, BUT WE SHOULD NOT BE ASSUMING DOMESTIC
-				boolean international = Db.getFlightSearch() != null
-					&& Db.getFlightSearch().getSelectedFlightTrip() != null
-					? Db.getFlightSearch().getSelectedFlightTrip().isInternational()
-					: false;
-				return TravelerFlowState.getInstance(getActivity()).allTravelerInfoValid(trav, international);
-			}
-			else {
-				return HotelTravelerFlowState.getInstance(getActivity()).hasValidTraveler(trav);
-			}
-		}
-		return false;
+		return mValidationProvider.travelerIsValid(mTravelerNumber);
 	}
 
 	private void setShowValidMarker(boolean showMarker, boolean valid) {

@@ -45,6 +45,7 @@ import com.expedia.bookings.section.SectionTravelerInfoTablet;
 import com.expedia.bookings.section.TravelerAutoCompleteAdapter;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
+import com.expedia.bookings.utils.TravelerUtils;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -151,8 +152,12 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			mSectionTraveler.resetValidation();
 
 			//We only show the email field for the first traveler, if we aren't logged in.
-			mSectionTraveler.setEmailFieldEnabled(
-				!User.isLoggedIn(getActivity()) && mTravelerNumber == 0 && !Db.getBillingInfo().isUsingGoogleWallet());
+			mSectionTraveler
+				.setEmailFieldEnabled(
+					TravelerUtils.travelerFormRequiresEmail(mTravelerNumber, getLob(), getActivity()));
+
+			//We only show the passport field if we are buying an international flight.
+			mSectionTraveler.setPassportCountryFieldEnabled(TravelerUtils.travelerFormRequiresPassport(getLob()));
 
 			mSectionTraveler.bind(Db.getWorkingTravelerManager().getWorkingTraveler());
 

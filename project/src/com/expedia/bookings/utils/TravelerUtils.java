@@ -6,7 +6,10 @@ import java.util.List;
 import android.content.Context;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.enums.PassengerCategory;
 
 public class TravelerUtils {
@@ -54,6 +57,27 @@ public class TravelerUtils {
 			}
 		}
 		return travelerLabels;
+	}
+
+
+	public static boolean travelerFormRequiresEmail(int travelerNumber, LineOfBusiness lob, Context context) {
+		if (travelerNumber == 0) {
+			if (!User.isLoggedIn(context)) {
+				if (Db.getBillingInfo() == null || !Db.getBillingInfo().isUsingGoogleWallet()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public static boolean travelerFormRequiresPassport(LineOfBusiness lob) {
+		if (lob == LineOfBusiness.FLIGHTS) {
+			return lob == LineOfBusiness.FLIGHTS && Db.getFlightSearch() != null
+				&& Db.getFlightSearch().getSelectedFlightTrip() != null && Db.getFlightSearch().getSelectedFlightTrip()
+				.isInternational();
+		}
+		return false;
 	}
 }
 

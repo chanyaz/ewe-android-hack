@@ -14,7 +14,6 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
-import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.WalletUtils;
@@ -151,8 +150,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	// Google Wallet
 
 	public boolean willBookViaGoogleWallet() {
-		StoredCreditCard scc = Db.getBillingInfo().getStoredCard();
-		return scc != null && scc.isGoogleWallet();
+		return Db.getBillingInfo().isUsingGoogleWallet();
 	}
 
 	// FullWalletFragment
@@ -265,8 +263,8 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			// This is sort of a second price change, to help figure out testing when we have obfees and a price change...
 			if (!AndroidUtils.isRelease(getActivity())) {
 				String val = SettingUtils.get(getActivity(),
-						getString(R.string.preference_fake_flight_price_change),
-						getString(R.string.preference_fake_price_change_default));
+					getString(R.string.preference_fake_flight_price_change),
+					getString(R.string.preference_fake_price_change_default));
 				currentOffer.getTotalFare().add(new BigDecimal(val));
 				newOffer.getTotalFare().add(new BigDecimal(val));
 			}
@@ -279,8 +277,8 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		case BOOKING_FAILED: {
 			if (firstError.getDiagnosticFullText().contains("INVALID_CCNUMBER")) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.error_invalid_card_number), getString(R.string.ok),
-						SimpleCallbackDialogFragment.CODE_INVALID_CC);
+					getString(R.string.error_invalid_card_number), getString(R.string.ok),
+					SimpleCallbackDialogFragment.CODE_INVALID_CC);
 				frag.show(getFragmentManager(), "badCcNumberDialog");
 				return;
 			}
@@ -295,8 +293,8 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 
 			if (hasCreditCardNumberError && hasExpirationDateError && hasCVVError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.e3_error_checkout_payment_failed), getString(R.string.ok),
-						SimpleCallbackDialogFragment.CODE_INVALID_PAYMENT);
+					getString(R.string.e3_error_checkout_payment_failed), getString(R.string.ok),
+					SimpleCallbackDialogFragment.CODE_INVALID_PAYMENT);
 				frag.show(getFragmentManager(), "badPaymentDialog");
 
 				if (isFlightLOB) {
@@ -313,29 +311,29 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			}
 			else if (hasCreditCardNumberError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.error_invalid_card_number), getString(R.string.ok),
-						SimpleCallbackDialogFragment.CODE_INVALID_CC);
+					getString(R.string.error_invalid_card_number), getString(R.string.ok),
+					SimpleCallbackDialogFragment.CODE_INVALID_CC);
 				frag.show(getFragmentManager(), "badCcNumberDialog");
 				return;
 			}
 			else if (hasPhoneError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.ean_error_invalid_phone_number), getString(R.string.ok),
-						SimpleCallbackDialogFragment.CODE_INVALID_PHONENUMBER);
+					getString(R.string.ean_error_invalid_phone_number), getString(R.string.ok),
+					SimpleCallbackDialogFragment.CODE_INVALID_PHONENUMBER);
 				frag.show(getFragmentManager(), "badPhoneNumberDialog");
 				return;
 			}
 			else if (hasPostalCodeError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.invalid_postal_code), getString(R.string.ok),
-						SimpleCallbackDialogFragment.CODE_INVALID_POSTALCODE);
+					getString(R.string.invalid_postal_code), getString(R.string.ok),
+					SimpleCallbackDialogFragment.CODE_INVALID_POSTALCODE);
 				frag.show(getFragmentManager(), "badPostalCodeDialog");
 				return;
 			}
 			else if (hasExpirationDateError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.error_expired_payment), getString(R.string.ok),
-						SimpleCallbackDialogFragment.CODE_EXPIRED_CC);
+					getString(R.string.error_expired_payment), getString(R.string.ok),
+					SimpleCallbackDialogFragment.CODE_EXPIRED_CC);
 				frag.show(getFragmentManager(), "expiredCcDialog");
 				return;
 			}
@@ -343,8 +341,8 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			// to being anble to handle booking tickets for minors. We shouldn't need this in the future.
 			else if (hasFlightMinorError) {
 				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-						getString(R.string.error_booking_with_minor), getString(R.string.ok),
-						SimpleCallbackDialogFragment.CODE_INVALID_MINOR);
+					getString(R.string.error_booking_with_minor), getString(R.string.ok),
+					SimpleCallbackDialogFragment.CODE_INVALID_MINOR);
 				frag.show(getFragmentManager(), "cannotBookWithMinorDialog");
 				return;
 			}
@@ -365,15 +363,15 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			return;
 		case CANNOT_BOOK_WITH_MINOR: {
 			DialogFragment frag = SimpleCallbackDialogFragment
-					.newInstance(null,
-							getString(R.string.error_booking_with_minor), getString(R.string.ok),
-							SimpleCallbackDialogFragment.CODE_MINOR);
+				.newInstance(null,
+					getString(R.string.error_booking_with_minor), getString(R.string.ok),
+					SimpleCallbackDialogFragment.CODE_MINOR);
 			frag.show(getFragmentManager(), "cannotBookWithMinorDialog");
 			return;
 		}
 		case GOOGLE_WALLET_ERROR:
 			DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-					getString(R.string.google_wallet_unavailable), getString(R.string.ok), 0);
+				getString(R.string.google_wallet_unavailable), getString(R.string.ok), 0);
 			frag.show(getFragmentManager(), "googleWalletErrorDialog");
 			return;
 		default:
@@ -391,7 +389,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		String caseNumber;
 		if (isFlightLOB) {
 			caseNumber = Db.getFlightSearch().getSelectedFlightTrip()
-					.getItineraryNumber();
+				.getItineraryNumber();
 		}
 		else {
 			caseNumber = "";

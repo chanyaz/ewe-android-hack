@@ -63,7 +63,14 @@ public class SectionTravelerInfoTablet extends com.expedia.bookings.section.Sect
 		return mLob;
 	}
 
-	public void setEmailFieldEnabled(boolean enabled){
+	public void setEmailFieldEnabled(boolean enabled) {
 		mFields.setFieldEnabled(mEditEmailAddress, enabled);
 	}
+
+	public void setPassportCountryFieldEnabled(boolean enabled) {
+		mFields.setFieldEnabled(mEditPassportCountrySpinner, enabled);
+		mFields.setFieldEnabled(mEditPassportCountryListView, enabled);
+	}
+
+
 }

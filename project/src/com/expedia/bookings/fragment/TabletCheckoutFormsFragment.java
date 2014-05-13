@@ -45,6 +45,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
+import com.expedia.bookings.model.TravelerFlowStateTablet;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
@@ -62,7 +63,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	IFragmentAvailabilityProvider,
 	CheckoutLoginButtonsFragment.ILoginStateChangedListener,
 	IWalletButtonStateChangedListener,
-	TabletCheckoutDataFormFragment.ICheckoutDataFormListener {
+	TabletCheckoutDataFormFragment.ICheckoutDataFormListener,
+	TravelerButtonFragment.ITravelerIsValidProvider {
 
 	public interface ISlideToPurchaseSizeProvider {
 		public View getSlideToPurchaseContainer();
@@ -103,6 +105,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private TabletCheckoutPaymentFormFragment mPaymentForm;
 	private CheckoutCouponFragment mCouponContainer;
 	private SizeCopyView mSizeCopyView;
+	private TravelerFlowStateTablet mTravelerFlowState;
 
 	private ISlideToPurchaseSizeProvider mISlideToPurchaseSizeProvider;
 
@@ -157,7 +160,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 		mBackManager.registerWithParent(this);
 
-		bindAll();
+		onCheckoutDataUpdated();
 
 		setState(mStateManager.getState(), false);
 
@@ -337,6 +340,10 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 		// CLEAN UP
 		clearCheckoutForm();
+
+
+		//Traveler validation
+		mTravelerFlowState = new TravelerFlowStateTablet(getActivity(), getLob());
 
 		// HEADING
 		String headingArg = "";
@@ -833,5 +840,20 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		else if (caller == mTravelerForm && mStateManager.getState() == CheckoutFormState.EDIT_TRAVELER) {
 			setState(CheckoutFormState.OVERVIEW, animate);
 		}
+	}
+
+	/*
+	 * ITravelerIsValidProvider
+	 */
+
+	@Override
+	public boolean travelerIsValid(int travelerNumber) {
+		if (travelerNumber >= 0 && Db.getTravelers() != null && travelerNumber < Db.getTravelers().size()
+			&& mTravelerFlowState != null) {
+			boolean needsEmail = TravelerUtils.travelerFormRequiresEmail(travelerNumber, getLob(), getActivity());
+			boolean needsPassport = TravelerUtils.travelerFormRequiresPassport(getLob());
+			return mTravelerFlowState.isValid(Db.getTravelers().get(travelerNumber), needsEmail, needsPassport);
+		}
+		return false;
 	}
 }
