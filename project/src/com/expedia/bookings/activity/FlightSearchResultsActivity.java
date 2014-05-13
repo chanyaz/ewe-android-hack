@@ -11,6 +11,9 @@ import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -79,9 +82,6 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.ViewUtils;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.nineoldandroids.animation.AnimatorSet;
 import com.squareup.otto.Subscribe;
 
 public class FlightSearchResultsActivity extends FragmentActivity implements FlightListFragmentListener,

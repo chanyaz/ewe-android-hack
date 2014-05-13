@@ -1,10 +1,9 @@
 package com.expedia.bookings.animation;
 
+import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.nineoldandroids.animation.ValueAnimator;
-import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 /**
  * This class contains static helper methods for building ValueAnimator objects that mimic ResizeAnimation.java

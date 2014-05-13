@@ -2,6 +2,10 @@ package com.expedia.bookings.widget;
 
 import java.util.Locale;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -24,10 +28,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LocalExpertAttraction;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 public class AttractionBubbleView extends LinearLayout {
 	//////////////////////////////////////////////////////////////////////////////////////

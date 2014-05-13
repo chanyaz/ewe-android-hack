@@ -1,5 +1,9 @@
 package com.expedia.bookings.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
@@ -47,11 +51,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.view.animation.AnimatorProxy;
 
 public class HotelDetailsFragmentActivity extends FragmentActivity implements HotelMiniMapFragmentListener,
 		HotelMiniGalleryFragmentListener {
@@ -457,12 +456,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 					View gallery = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
 					View pricePromo = findViewById(R.id.hotel_details_price_promo_fragment_container);
 					int windowWidth = getWindow().getDecorView().getWidth();
-					if (AndroidUtils.getSdkVersion() >= 11) {
-						gallery.setTranslationX(-windowWidth * 0.275f);
-					}
-					else {
-						AnimatorProxy.wrap(gallery).setTranslationX(-windowWidth * 0.275f);
-					}
+					gallery.setTranslationX(-windowWidth * 0.275f);
 					ViewGroup.LayoutParams lp = pricePromo.getLayoutParams();
 					lp.width = (int) (windowWidth * .45f) + 1;
 					pricePromo.setLayoutParams(lp);
@@ -635,14 +629,8 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 					lp.width = (int) (windowWidth * .45f) + 1;
 					pricePromoFragment.setLayoutParams(lp);
 
-					if (AndroidUtils.getSdkVersion() >= 11) {
-						pricePromoLayout.setTranslationX(0f);
-						vipAccessIcon.setTranslationX(0f);
-					}
-					else {
-						AnimatorProxy.wrap(pricePromoLayout).setTranslationX(0f);
-						AnimatorProxy.wrap(vipAccessIcon).setTranslationX(0f);
-					}
+					pricePromoLayout.setTranslationX(0f);
+					vipAccessIcon.setTranslationX(0f);
 
 					mPricePromoFragment.setVipIconEnabled(true);
 				}

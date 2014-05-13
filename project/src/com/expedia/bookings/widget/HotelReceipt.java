@@ -6,6 +6,8 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -38,8 +40,6 @@ import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.Animator.AnimatorListener;
 
 public class HotelReceipt extends LinearLayout {
 	public interface OnSizeChangedListener {

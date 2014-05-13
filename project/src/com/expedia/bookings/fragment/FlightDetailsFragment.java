@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.PropertyValuesHolder;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,10 +40,6 @@ import com.mobiata.android.json.JSONUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
 import com.mobiata.flightlib.utils.DateTimeUtils;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.PropertyValuesHolder;
 
 public class FlightDetailsFragment extends Fragment {
 

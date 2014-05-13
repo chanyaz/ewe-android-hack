@@ -3,6 +3,10 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -21,11 +25,6 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.Animator.AnimatorListener;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.view.animation.AnimatorProxy;
 
 public class SlideToWidget extends RelativeLayout {
 
@@ -204,12 +203,7 @@ public class SlideToWidget extends RelativeLayout {
 		dotParams.leftMargin = mHiddenImage.getWidth()/2 - mSliderDot.getWidth()/2;
 		mSliderDot.setLayoutParams(dotParams);
 
-		if (AndroidUtils.getSdkVersion() >= 11) {
-			mSliderLine.setPivotX(0);
-		}
-		else {
-			AnimatorProxy.wrap(mSliderLine).setPivotX(0);
-		}
+		mSliderLine.setPivotX(0);
 		ObjectAnimator drawLine = ObjectAnimator.ofFloat(this.mSliderLine, "scaleX", 0,1 );
 		drawLine.addListener(new AnimatorListener() {
 

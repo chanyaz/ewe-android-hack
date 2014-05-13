@@ -2,6 +2,8 @@ package com.expedia.bookings.fragment;
 
 import java.util.List;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -28,8 +30,6 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 public class HotelDetailsIntroFragment extends Fragment {
 

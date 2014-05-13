@@ -19,7 +19,6 @@ import com.expedia.bookings.section.FlightInfoBarSection;
 import com.expedia.bookings.section.SectionFlightLeg;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
-import com.nineoldandroids.view.animation.AnimatorProxy;
 
 public class FlightTripOverviewFragment extends Fragment {
 
@@ -235,8 +234,8 @@ public class FlightTripOverviewFragment extends Fragment {
 			View header = Ui.findView(tempFlight, R.id.info_text_view);
 			View airline = Ui.findView(tempFlight, R.id.airline_text_view);
 
-			setViewAlpha(percentage, header);
-			setViewAlpha(percentage, airline);
+			header.setAlpha(percentage);
+			airline.setAlpha(percentage);
 		}
 	}
 
@@ -253,21 +252,10 @@ public class FlightTripOverviewFragment extends Fragment {
 		}
 	}
 
-	@SuppressLint("NewApi")
-	protected void setViewAlpha(float percentage, View view) {
-		if (AndroidUtils.getSdkVersion() >= 11) {
-			view.setAlpha(percentage);
-		}
-		else {
-			//Leverage nineolddroids...
-			AnimatorProxy.wrap(view).setAlpha(percentage);
-		}
-	}
-
 	private void placeCardsFromMargins(int[] margins) {
 		for (int i = 0; i < mFlightContainer.getChildCount(); i++) {
 			SectionFlightLeg tempFlight = Ui.findView(mFlightContainer, ID_START_RANGE + i);
-			AnimatorProxy.wrap(tempFlight).setTranslationY(margins[i]);
+			tempFlight.setTranslationY(margins[i]);
 		}
 	}
 

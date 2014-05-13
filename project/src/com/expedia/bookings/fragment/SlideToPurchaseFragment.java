@@ -3,6 +3,10 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -20,11 +24,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.SlideToWidget;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.Animator.AnimatorListener;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.view.ViewHelper;
 
 public class SlideToPurchaseFragment extends Fragment {
 
@@ -230,7 +229,7 @@ public class SlideToPurchaseFragment extends Fragment {
 			@Override
 			public void onAnimationStart(Animator arg0) {
 				layoutConfirmTOS.setVisibility(View.VISIBLE);
-				ViewHelper.setAlpha(layoutSlideToPurchase, 0f);
+				layoutSlideToPurchase.setAlpha(0f);
 				layoutSlideToPurchase.setVisibility(View.VISIBLE);
 			}
 		});

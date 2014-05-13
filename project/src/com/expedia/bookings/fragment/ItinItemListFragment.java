@@ -2,6 +2,8 @@ package com.expedia.bookings.fragment;
 
 import java.util.Collection;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
@@ -40,8 +42,6 @@ import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.mobiata.android.app.SimpleDialogFragment;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 public class ItinItemListFragment extends Fragment implements ConfirmLogoutDialogFragment.DoLogoutListener,
 		ItinerarySyncListener {

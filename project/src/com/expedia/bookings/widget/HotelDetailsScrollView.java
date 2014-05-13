@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.PointF;
@@ -10,9 +12,6 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.util.AndroidUtils;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.animation.ValueAnimator;
-import com.nineoldandroids.view.animation.AnimatorProxy;
 
 /**
  * This class implements a parallax-like scrolling effect specifically for
@@ -33,10 +32,6 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	private int mInitialScrollTop = 0;
 	private int mIntroOffset = 0;
 	private boolean mHasBeenTouched = false;
-
-	//TODO: this won't be needed once minSdk >= 11
-	AnimatorProxy mGalleryAnimatorProxy;
-	AnimatorProxy mScrollAnimatorProxy;
 
 	ValueAnimator mAnimator;
 
@@ -105,13 +100,6 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		if (mGallery == null) {
 			mGallery = (HotelDetailsGallery) findViewById(R.id.images_gallery);
 			mGallery.setInvalidateView(mGalleryContainer);
-		}
-		if (mGalleryAnimatorProxy == null && AndroidUtils.getSdkVersion() < 11) {
-			mGalleryAnimatorProxy = AnimatorProxy.wrap(mGalleryContainer);
-		}
-
-		if (mScrollAnimatorProxy == null && AndroidUtils.getSdkVersion() < 11) {
-			mScrollAnimatorProxy = AnimatorProxy.wrap(this);
 		}
 
 		ViewGroup.LayoutParams lp = mGalleryContainer.getLayoutParams();
@@ -202,12 +190,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 			return;
 		}
 
-		if (AndroidUtils.getSdkVersion() < 11) {
-			mAnimator = ObjectAnimator.ofInt(mScrollAnimatorProxy, "scrollY", from, to).setDuration(200);
-		}
-		else {
-			mAnimator = ObjectAnimator.ofInt(this, "scrollY", from, to).setDuration(200);
-		}
+		mAnimator = ObjectAnimator.ofInt(this, "scrollY", from, to).setDuration(200);
 		mAnimator.start();
 	}
 
@@ -237,18 +220,10 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		float scale = mIGalleryScale.get(availableHeight);
 		int counterscroll = (int) mIGalleryScroll.get(availableHeight);
 
-		if (AndroidUtils.getSdkVersion() < 11) {
-			mGalleryAnimatorProxy.setPivotX(getWidth() / 2);
-			mGalleryAnimatorProxy.setPivotY(counterscroll + mGalleryHeight / 2);
-			mGalleryAnimatorProxy.setScaleX(scale);
-			mGalleryAnimatorProxy.setScaleY(scale);
-		}
-		else {
-			mGalleryContainer.setPivotX(getWidth() / 2);
-			mGalleryContainer.setPivotY(counterscroll + mGalleryHeight / 2);
-			mGalleryContainer.setScaleX(scale);
-			mGalleryContainer.setScaleY(scale);
-		}
+		mGalleryContainer.setPivotX(getWidth() / 2);
+		mGalleryContainer.setPivotY(counterscroll + mGalleryHeight / 2);
+		mGalleryContainer.setScaleX(scale);
+		mGalleryContainer.setScaleY(scale);
 
 		mGalleryContainer.scrollTo(0, -counterscroll);
 	}
@@ -284,12 +259,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 	@Override
 	public Object initScroller() {
-		if (AndroidUtils.getSdkVersion() < 9) {
-			return new HotelDetailsScroller(this);
-		}
-		else {
-			return new HotelDetailsOverScroller(this);
-		}
+		return new HotelDetailsOverScroller(this);
 	}
 
 	public int getInitialScrollTop() {

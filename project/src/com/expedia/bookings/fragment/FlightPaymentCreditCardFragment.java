@@ -1,5 +1,8 @@
 package com.expedia.bookings.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -29,9 +32,6 @@ import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FocusViewRunnable;
 import com.expedia.bookings.utils.Ui;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 public class FlightPaymentCreditCardFragment extends Fragment implements Validatable {
 

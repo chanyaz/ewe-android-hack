@@ -83,7 +83,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
-import com.nineoldandroids.view.ViewHelper;
 import com.squareup.otto.Subscribe;
 
 public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
@@ -260,7 +259,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			}
 		}
 
-		ViewHelper.setAlpha(mCheckoutLayout, 0);
+		mCheckoutLayout.setAlpha(0);
 
 		//We start loading the checkout data on the parent activity, but if it isn't finished we should wait
 		if (CheckoutDataLoader.getInstance().isLoading()) {
@@ -1116,7 +1115,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				alpha = 100;
 			}
 
-			ViewHelper.setAlpha(mCheckoutLayout, alpha);
+			mCheckoutLayout.setAlpha(alpha);
 
 			// If we've lifted our finger that means the scroll view is scrolling
 			// with the remaining momentum. If it's scrolling down, and it's gone

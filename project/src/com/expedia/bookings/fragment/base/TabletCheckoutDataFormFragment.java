@@ -1,5 +1,8 @@
 package com.expedia.bookings.fragment.base;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.res.Resources;
@@ -18,9 +21,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.CheckoutLoginButtonsFragment;
 import com.mobiata.android.util.Ui;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public abstract class TabletCheckoutDataFormFragment extends LobableFragment

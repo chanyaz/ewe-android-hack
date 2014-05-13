@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
+import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -59,11 +63,6 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.Animator.AnimatorListener;
-import com.nineoldandroids.animation.ValueAnimator;
-import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
-import com.nineoldandroids.view.animation.AnimatorProxy;
 
 /**
  * This fragment is for logging into expedia accounts via the standard method AND facebook connect.
@@ -1054,34 +1053,11 @@ public class LoginFragment extends Fragment implements LoginExtenderListener, Ac
 			expRotationX = percentage * maxDegrees + 180;
 		}
 
-		setViewAlpha(mOrFacebookContainer, fbAlpha);
-		setViewAlpha(mSigninWithExpediaButtonContainer, expAlpha);
+		mOrFacebookContainer.setAlpha(fbAlpha);
+		mSigninWithExpediaButtonContainer.setAlpha(expAlpha);
 
-		setViewRotationX(mOrFacebookContainer, fbRotationX);
-		setViewRotationX(mSigninWithExpediaButtonContainer, expRotationX);
-	}
-
-	//////////////////////////////////
-	// Animation Helpers
-
-	@SuppressLint("NewApi")
-	private void setViewAlpha(View v, float alpha) {
-		if (!AnimatorProxy.NEEDS_PROXY) {
-			v.setAlpha(alpha);
-		}
-		else {
-			AnimatorProxy.wrap(v).setAlpha(alpha);
-		}
-	}
-
-	@SuppressLint("NewApi")
-	private void setViewRotationX(View v, float rotationX) {
-		if (!AnimatorProxy.NEEDS_PROXY) {
-			v.setRotationX(rotationX);
-		}
-		else {
-			AnimatorProxy.wrap(v).setRotationX(rotationX);
-		}
+		mOrFacebookContainer.setRotationX(fbRotationX);
+		mSigninWithExpediaButtonContainer.setRotationX(expRotationX);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

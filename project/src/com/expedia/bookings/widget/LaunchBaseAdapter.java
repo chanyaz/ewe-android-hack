@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
@@ -10,7 +11,6 @@ import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
-import com.nineoldandroids.animation.ObjectAnimator;
 
 public abstract class LaunchBaseAdapter<T> extends CircularArrayAdapter<T> implements OnMeasureListener {
 

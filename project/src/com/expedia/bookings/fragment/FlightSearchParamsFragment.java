@@ -5,6 +5,11 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -82,11 +87,6 @@ import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.widget.CalendarDatePicker;
 import com.mobiata.android.widget.CalendarDatePicker.OnDateChangedListener;
 import com.mobiata.flightlib.data.Airport;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ValueAnimator;
-import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 import com.squareup.otto.Subscribe;
 
 public class FlightSearchParamsFragment extends Fragment implements OnDateChangedListener, InputFilter,

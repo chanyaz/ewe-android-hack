@@ -3,16 +3,14 @@ package com.expedia.bookings.utils;
 import java.util.Collection;
 import java.util.Stack;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
-
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.animation.PropertyValuesHolder;
-import com.nineoldandroids.animation.ValueAnimator;
-import com.nineoldandroids.view.animation.AnimatorProxy;
 
 public class AnimUtils {
 
@@ -48,10 +46,6 @@ public class AnimUtils {
 	 * NineOldAndroid's back-compat methods.
 	 */
 	public static ObjectAnimator ofPropertyValuesHolder(Object target, PropertyValuesHolder... values) {
-		if (AnimatorProxy.NEEDS_PROXY && target instanceof View && !(target instanceof AnimatorProxy)) {
-			target = AnimatorProxy.wrap((View) target);
-		}
-
 		return ObjectAnimator.ofPropertyValuesHolder(target, values);
 	}
 
@@ -79,22 +73,6 @@ public class AnimUtils {
 			}
 			else if (anim instanceof AnimatorSet) {
 				stack.addAll(((AnimatorSet) anim).getChildAnimations());
-			}
-		}
-	}
-
-	public static void reverseAnimator(android.animation.Animator animator) {
-		Stack<android.animation.Animator> stack = new Stack<android.animation.Animator>();
-		stack.add(animator);
-
-		while (!stack.isEmpty()) {
-			android.animation.Animator anim = stack.pop();
-
-			if (anim instanceof android.animation.ValueAnimator) {
-				((android.animation.ValueAnimator) anim).reverse();
-			}
-			else if (anim instanceof android.animation.AnimatorSet) {
-				stack.addAll(((android.animation.AnimatorSet) anim).getChildAnimations());
 			}
 		}
 	}

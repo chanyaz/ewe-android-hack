@@ -3,6 +3,13 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -38,14 +45,6 @@ import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.CalendarAPIUtils;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.animation.PropertyValuesHolder;
-import com.nineoldandroids.animation.ValueAnimator;
-import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
-import com.nineoldandroids.view.ViewHelper;
 
 public class ItinCard<T extends ItinCardData> extends RelativeLayout implements PopupMenu.OnMenuItemClickListener,
 		ShareView.OnShareTargetSelectedListener {
@@ -467,10 +466,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	}
 
 	public AnimatorSet collapse(boolean animate) {
-		if (AndroidUtils.getSdkVersion() < 11) {
-			return collapseLegacy(animate);
-		}
-
 		mDisplayState = DisplayState.COLLAPSED;
 		updateClickable();
 
@@ -502,14 +497,14 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 				animators.add(ObjectAnimator.ofFloat(mHeaderOverlayImageView, "alpha", 1).setDuration(400));
 			}
 			else {
-				ViewHelper.setAlpha(mHeaderOverlayImageView, 1f);
+				mHeaderOverlayImageView.setAlpha(1f);
 			}
 		}
 
 		//Header Text
-		boolean isDateHidden = ViewHelper.getAlpha(mHeaderTextDateView) < 1f;
-		boolean isTitleHidden = ViewHelper.getAlpha(mHeaderTextLayout) < 1f;
-		boolean isTitleTranslated = ViewHelper.getTranslationY(mHeaderTextView) != 0f;
+		boolean isDateHidden = mHeaderTextDateView.getAlpha() < 1f;
+		boolean isTitleHidden = mHeaderTextLayout.getAlpha() < 1f;
+		boolean isTitleTranslated = mHeaderTextView.getTranslationY() != 0f;
 		if (isDateHidden) {
 			if (animate) {
 				animators.add(ObjectAnimator
@@ -517,7 +512,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 						.setDuration(200));
 			}
 			else {
-				ViewHelper.setAlpha(mHeaderTextDateView, 1f);
+				mHeaderTextDateView.setAlpha(1f);
 			}
 		}
 		if (isTitleHidden) {
@@ -527,7 +522,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 						.setDuration(200));
 			}
 			else {
-				ViewHelper.setAlpha(mHeaderTextLayout, 1f);
+				mHeaderTextLayout.setAlpha(1f);
 			}
 		}
 		if (isTitleTranslated) {
@@ -537,7 +532,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 						.setDuration(400));
 			}
 			else {
-				ViewHelper.setTranslationY(mHeaderTextView, 0f);
+				mHeaderTextView.setTranslationY(0f);
 			}
 		}
 
@@ -580,25 +575,24 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 				animators.add(typeImageAnimator);
 			}
 			else {
-				ViewHelper.setAlpha(mItinTypeImageView, 1f);
+				mItinTypeImageView.setAlpha(1f);
 				mItinTypeImageView.setVisibility(View.VISIBLE);
 				mFixedItinTypeImageView.setVisibility(View.GONE);
 			}
 		}
 		// Itin type icon not hidden (for shared itins)
 		else {
-			float scale = ViewHelper.getScaleX(mItinTypeImageView);
+			float scale = mItinTypeImageView.getScaleX();
 			if (animate) {
 				// Animate the fixed image smoothly down into the smaller floating Image.
-				ViewHelper.setAlpha(mItinTypeImageView, 0f);
+				mItinTypeImageView.setAlpha(0f);
 				PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", scale);
 				PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", scale);
-				ObjectAnimator anim = AnimUtils.ofPropertyValuesHolder(
-						mFixedItinTypeImageView, scaleX, scaleY).setDuration(400);
+				ObjectAnimator anim = AnimUtils.ofPropertyValuesHolder(mFixedItinTypeImageView, scaleX, scaleY).setDuration(400);
 				anim.addListener(new AnimatorListenerAdapter() {
 					@Override
 					public void onAnimationEnd(Animator arg0) {
-						ViewHelper.setAlpha(mItinTypeImageView, 1f);
+						mItinTypeImageView.setAlpha(1f);
 						mItinTypeImageView.setVisibility(View.VISIBLE);
 						mFixedItinTypeImageView.setVisibility(View.GONE);
 					}
@@ -611,10 +605,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 						.setDuration(400));
 			}
 			else {
-				ViewHelper.setAlpha(mItinTypeImageView, 1f);
-				ViewHelper.setScaleX(mFixedItinTypeImageView, scale);
-				ViewHelper.setScaleY(mFixedItinTypeImageView, scale);
-				ViewHelper.setTranslationY(mFixedItinTypeImageView, mFixedItinTypeImageTranslation);
+				mItinTypeImageView.setAlpha(1f);
+				mFixedItinTypeImageView.setScaleX(scale);
+				mFixedItinTypeImageView.setScaleY(scale);
+				mFixedItinTypeImageView.setTranslationY(mFixedItinTypeImageTranslation);
 				mItinTypeImageView.setVisibility(View.VISIBLE);
 				mFixedItinTypeImageView.setVisibility(View.GONE);
 			}
@@ -656,7 +650,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			animators.add(ObjectAnimator.ofFloat(mChevronImageView, "rotation", 0f).setDuration(400));
 		}
 		else {
-			ViewHelper.setRotation(mChevronImageView, 0f);
+			mChevronImageView.setRotation(0f);
 		}
 
 		// Putting it all together
@@ -693,10 +687,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	}
 
 	public AnimatorSet expand(boolean animate) {
-		if (AndroidUtils.getSdkVersion() < 11) {
-			return expandLegacy(animate);
-		}
-
 		// CAUTION: don't setTranslationY here on mTitleLayout.
 		// That's already tweaked in updateLayout()
 
@@ -707,7 +697,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		inflateDetailsView();
 		updateClickable();
 
-		ViewHelper.setTranslationY(mCardLayout, 0);
+		mCardLayout.setTranslationY(0);
 
 		mHeaderBitmapDrawable.setCornerMode(CornerMode.NONE);
 
@@ -747,7 +737,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 				animators.add(headerOverlayAlphaAnimator);
 			}
 			else {
-				ViewHelper.setAlpha(mHeaderOverlayImageView, 0f);
+				mHeaderOverlayImageView.setAlpha(0f);
 			}
 		}
 
@@ -764,8 +754,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 				animators.add(headerTextAlphaAnimator);
 			}
 			else {
-				ViewHelper.setAlpha(mHeaderTextLayout, 0f);
-				ViewHelper.setTranslationY(mHeaderTextLayout, -50f);
+				mHeaderTextLayout.setAlpha(0f);
+				mHeaderTextLayout.setTranslationY(-50f);
 			}
 		}
 		else {
@@ -787,9 +777,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 				}
 			}
 			else {
-				ViewHelper.setAlpha(mHeaderTextDateView, 0f);
+				mHeaderTextDateView.setAlpha(0f);
 				if (!mShowSummary) {
-					ViewHelper.setTranslationY(mHeaderTextView, trans);
+					mHeaderTextView.setTranslationY(trans);
 				}
 			}
 		}
@@ -827,7 +817,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 				animators.add(itinTypeImageAlphaAnimator);
 			}
 			else {
-				ViewHelper.setAlpha(mItinTypeImageView, 0f);
+				mItinTypeImageView.setAlpha(0f);
 				mItinTypeImageView.setVisibility(View.INVISIBLE);
 			}
 		}
@@ -838,7 +828,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			// There's no need to animate anything here if this is the summary card
 			if (animate && !mShowSummary) {
 				// Animate the floating image smoothly into the full size fixed Image.
-				float scale = ViewHelper.getScaleX(mItinTypeImageView);
+				float scale = mItinTypeImageView.getScaleX();
 
 				mFixedItinTypeImageView.setVisibility(View.VISIBLE);
 				mItinTypeImageView.setVisibility(View.INVISIBLE);
@@ -854,10 +844,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 						.setDuration(400));
 			}
 			else {
-				ViewHelper.setScaleX(mFixedItinTypeImageView, 1f);
-				ViewHelper.setScaleY(mFixedItinTypeImageView, 1f);
-				ViewHelper.setTranslationY(mFixedItinTypeImageView, 0f);
-				ViewHelper.setAlpha(mItinTypeImageView, 0f);
+				mFixedItinTypeImageView.setScaleX(1f);
+				mFixedItinTypeImageView.setScaleY(1f);
+				mFixedItinTypeImageView.setTranslationY(0f);
+				mItinTypeImageView.setAlpha(0f);
 				mItinTypeImageView.setVisibility(View.INVISIBLE);
 				mFixedItinTypeImageView.setVisibility(View.VISIBLE);
 			}
@@ -880,7 +870,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			animators.add(ObjectAnimator.ofFloat(mChevronImageView, "rotation", 180f).setDuration(400));
 		}
 		else {
-			ViewHelper.setRotation(mChevronImageView, 180f);
+			mChevronImageView.setRotation(180f);
 		}
 
 		// Putting it all together
@@ -943,13 +933,13 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			final float typeImageTranslationY = mCardLayout.getTop() + typeImageY - typeImageHalfHeight;
 			final float viewTranslationY = Math.max(0, (headerImageHeight - (percent * headerImageHeight)) / 2);
 
-			ViewHelper.setTranslationY(mItinTypeImageView, typeImageTranslationY);
-			ViewHelper.setScaleX(mItinTypeImageView, percentIcon);
-			ViewHelper.setScaleY(mItinTypeImageView, percentIcon);
-			ViewHelper.setTranslationY(mHeaderTextLayout, (mItinTypeImageView.getHeight() * percentIcon) / 2);
-			ViewHelper.setTranslationY(mCardLayout, viewTranslationY);
+			mItinTypeImageView.setTranslationY(typeImageTranslationY);
+			mItinTypeImageView.setScaleX(percentIcon);
+			mItinTypeImageView.setScaleY(percentIcon);
+			mHeaderTextLayout.setTranslationY((mItinTypeImageView.getHeight() * percentIcon) / 2);
+			mCardLayout.setTranslationY(viewTranslationY);
 		}
-		else if ((AndroidUtils.getSdkVersion() < 11 || (mShowSummary && ViewHelper.getTranslationY(mHeaderTextLayout) == 0))
+		else if ((AndroidUtils.getSdkVersion() < 11 || (mShowSummary && mHeaderTextLayout.getTranslationY() == 0))
 				&& mFixedItinTypeImageView.getVisibility() == View.VISIBLE
 				&& mHeaderTextLayout.getVisibility() == View.VISIBLE) {
 			//If we are in expanded mode, and are making use the of the fixtedItinTypeImageView we need to ensure that the text is positioned below it
@@ -959,327 +949,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			int padding = mFixedItinTypeImageView.getPaddingBottom();
 			float centerOffset = (height * 0.5f) - ((height - padding) * 0.5f);
 			float translationY = centerOffset * 1.1f;//Add a little extra space between icon and text
-			ViewHelper.setTranslationY(mHeaderTextLayout, translationY);
-		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////
-	// LEGACY VERSIONS OF COLLAPSE/EXPAND
-	// These are versions of collapse/expand from version 3.4.2. We'll just use
-	// these on Gingerbread, since it was having issues with the new code. Lame.
-	//////////////////////////////////////////////////////////////////////////////////////
-
-	public AnimatorSet collapseLegacy(boolean animate) {
-		mDisplayState = DisplayState.COLLAPSED;
-		updateClickable();
-
-		List<Animator> animators = new ArrayList<Animator>();
-
-		final int startY = mScrollView.getScrollY();
-		final int stopY = 0;
-
-		//Title
-		if (animate) {
-			ValueAnimator titleResizeAnimator = ResizeAnimator.buildResizeAnimator(mTitleLayout, mTitleLayoutHeight, 0);
-			titleResizeAnimator.addUpdateListener(new AnimatorUpdateListener() {
-				@Override
-				public void onAnimationUpdate(ValueAnimator arg0) {
-					mScrollView.scrollTo(0, (int) (((stopY - startY) * arg0.getAnimatedFraction()) + startY));
-				}
-			});
-			animators.add(titleResizeAnimator);
-		}
-		else {
-			ResizeAnimator.setHeight(mTitleLayout, 0);
-			mScrollView.scrollTo(0, 0);
-		}
-
-		// Past overlay
-		if (animate) {
-			animators.add(ObjectAnimator.ofFloat(mHeaderOverlayImageView, "alpha", 1).setDuration(400));
-		}
-		else {
-			ViewHelper.setAlpha(mHeaderOverlayImageView, 1f);
-		}
-
-		//Header Text
-		if (animate) {
-			animators.add(ObjectAnimator.ofFloat(mHeaderTextLayout, "alpha", 1).setDuration(400));
-			animators.add(ObjectAnimator.ofFloat(mHeaderTextLayout, "translationY", 0).setDuration(400));
-		}
-		else {
-			ViewHelper.setAlpha(mHeaderTextLayout, 1f);
-			ViewHelper.setTranslationY(mHeaderTextLayout, 0f);
-		}
-
-		// Header Shade and Type Icon (for past itins).
-		// We couple the mHeaderShadeView stuff with Type Icon because they are both doing alpha animations on top of one another
-		// and create an animation glitch if both run at once ( The type icon displays as a black box during animation).
-		if (mHeaderShadeView.getVisibility() != View.GONE) {
-			if (animate) {
-				ObjectAnimator shadeAnim = ObjectAnimator.ofFloat(mHeaderShadeView, "alpha", 1f).setDuration(400);
-				shadeAnim.addListener(new AnimatorListenerAdapter() {
-					@Override
-					public void onAnimationEnd(Animator arg0) {
-						ViewHelper.setAlpha(mItinTypeImageView, 1f);
-						mItinTypeImageView.setVisibility(View.VISIBLE);
-						mFixedItinTypeImageView.setVisibility(View.GONE);
-					}
-
-				});
-				animators.add(shadeAnim);
-			}
-			else {
-				ViewHelper.setAlpha(mHeaderShadeView, 1f);
-				ViewHelper.setAlpha(mItinTypeImageView, 1f);
-				mItinTypeImageView.setVisibility(View.VISIBLE);
-				mFixedItinTypeImageView.setVisibility(View.GONE);
-			}
-		}
-		else {
-			// Type Icon (for present and future itins) - Note: No work is needed here for the shade view as it is gone and stays gone.
-			if (mItinContentGenerator.getHideDetailsTypeIcon()) {
-				if (animate) {
-					Animator typeImageAnimator = ObjectAnimator
-							.ofFloat(mItinTypeImageView, "alpha", 1)
-							.setDuration(400);
-					typeImageAnimator.addListener(new AnimatorListenerAdapter() {
-						@Override
-						public void onAnimationStart(Animator arg0) {
-							mItinTypeImageView.setVisibility(View.VISIBLE);
-						}
-
-						@Override
-						public void onAnimationEnd(Animator arg0) {
-							mItinTypeImageView.setVisibility(View.VISIBLE);
-							mFixedItinTypeImageView.setVisibility(View.GONE);
-						}
-					});
-					animators.add(typeImageAnimator);
-				}
-				else {
-					ViewHelper.setAlpha(mItinTypeImageView, 1f);
-					mItinTypeImageView.setVisibility(View.VISIBLE);
-					mFixedItinTypeImageView.setVisibility(View.GONE);
-				}
-			}
-			else {
-				if (animate) {
-					ValueAnimator dummy = ValueAnimator.ofInt(0, 1).setDuration(300);
-					dummy.addListener(new AnimatorListenerAdapter() {
-						@Override
-						public void onAnimationEnd(Animator arg0) {
-							ViewHelper.setAlpha(mItinTypeImageView, 1f);
-							mItinTypeImageView.setVisibility(View.VISIBLE);
-							mFixedItinTypeImageView.setVisibility(View.GONE);
-						}
-					});
-					animators.add(dummy);
-				}
-				else {
-					ViewHelper.setAlpha(mItinTypeImageView, 1f);
-					mItinTypeImageView.setVisibility(View.VISIBLE);
-					mFixedItinTypeImageView.setVisibility(View.GONE);
-				}
-			}
-		}
-
-		// Header image parallax
-		if (animate) {
-			ValueAnimator parallaxAnimator = ValueAnimator
-					.ofInt(mHeaderImageContainer.getScrollY(), 0)
-					.setDuration(300);
-			parallaxAnimator.addUpdateListener(new AnimatorUpdateListener() {
-				@Override
-				public void onAnimationUpdate(ValueAnimator arg0) {
-					mHeaderImageContainer.scrollTo(0, (Integer) arg0.getAnimatedValue());
-				}
-			});
-			animators.add(parallaxAnimator);
-		}
-		else {
-			mHeaderImageContainer.scrollTo(0, 0);
-		}
-
-		//Summary View views
-		if (!mShowSummary) {
-			if (animate) {
-				animators.add(ResizeAnimator.buildResizeAnimator(mHeaderLayout, mMiniCardHeaderImageHeight));
-				animators.add(ResizeAnimator.buildResizeAnimator(mHeaderImageView, mMiniCardHeaderImageHeight));
-				animators.add(ResizeAnimator.buildResizeAnimator(mActionButtonLayout, 0).setDuration(300));
-			}
-			else {
-				ResizeAnimator.setHeight(mHeaderLayout, mMiniCardHeaderImageHeight);
-				ResizeAnimator.setHeight(mHeaderImageView, mMiniCardHeaderImageHeight);
-				ResizeAnimator.setHeight(mActionButtonLayout, 0);
-			}
-		}
-
-		// Chevron rotation
-		if (animate) {
-			animators.add(ObjectAnimator.ofFloat(mChevronImageView, "rotation", 0f).setDuration(400));
-		}
-		else {
-			ViewHelper.setRotation(mChevronImageView, 0f);
-		}
-
-		// Putting it all together
-		if (animate) {
-			AnimatorSet set = new AnimatorSet();
-			set.playTogether(animators);
-			set.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationEnd(Animator arg0) {
-					finishCollapse();
-				}
-			});
-			return set;
-		}
-		else {
-			finishCollapse();
-			return null;
-		}
-	}
-
-	public AnimatorSet expandLegacy(boolean animate) {
-		mDisplayState = DisplayState.EXPANDED;
-
-		mCollapsedTop = getTop();
-
-		inflateDetailsView();
-		updateClickable();
-
-		ViewHelper.setTranslationY(mCardLayout, 0);
-
-		mHeaderBitmapDrawable.setCornerMode(CornerMode.NONE);
-
-		mSummaryDividerView.setVisibility(VISIBLE);
-		mDetailsLayout.setVisibility(VISIBLE);
-
-		ArrayList<Animator> animators = new ArrayList<Animator>();
-		if (animate) {
-			Animator titleLayoutResizeAnimator = ResizeAnimator
-					.buildResizeAnimator(mTitleLayout, 0, mTitleLayoutHeight);
-			animators.add(titleLayoutResizeAnimator);
-		}
-		else {
-			ResizeAnimator.setHeight(mTitleLayout, mTitleLayoutHeight);
-		}
-
-		if (mActionButtonLayout.getVisibility() != VISIBLE) {
-			mSummarySectionLayout.setVisibility(VISIBLE);
-			mActionButtonLayout.setVisibility(VISIBLE);
-			if (animate) {
-				Animator actionButtonResizeAnimator = ResizeAnimator.buildResizeAnimator(
-						mActionButtonLayout, mActionButtonLayoutHeight);
-				animators.add(actionButtonResizeAnimator);
-			}
-			else {
-				ResizeAnimator.setHeight(mActionButtonLayout, mActionButtonLayoutHeight);
-			}
-		}
-
-		//Header image gradient overlay
-		if (animate) {
-			ObjectAnimator headerOverlayAlphaAnimator = ObjectAnimator
-					.ofFloat(mHeaderOverlayImageView, "alpha", 0f)
-					.setDuration(200);
-			animators.add(headerOverlayAlphaAnimator);
-		}
-		else {
-			ViewHelper.setAlpha(mHeaderOverlayImageView, 0f);
-		}
-
-		// Header text
-		if (animate) {
-			ObjectAnimator headerTextAlphaAnimator = ObjectAnimator
-					.ofFloat(mHeaderTextLayout, "alpha", 0f)
-					.setDuration(200);
-			ObjectAnimator headerTextTranslationAnimator = ObjectAnimator
-					.ofFloat(mHeaderTextLayout, "translationY", -50f)
-					.setDuration(400);
-			animators.add(headerTextTranslationAnimator);
-			animators.add(headerTextAlphaAnimator);
-		}
-		else {
-			ViewHelper.setAlpha(mHeaderTextLayout, 0f);
-			ViewHelper.setTranslationY(mHeaderTextLayout, -50f);
-		}
-
-		// Header Shade (for past itins)
-		if (mHeaderShadeView.getVisibility() != View.GONE) {
-			if (animate) {
-				ObjectAnimator shadeAnim = ObjectAnimator.ofFloat(mHeaderShadeView, "alpha", 0f).setDuration(400);
-				shadeAnim.addListener(new AnimatorListenerAdapter() {
-
-					@Override
-					public void onAnimationStart(Animator arg0) {
-						//So the type icon image will flicker black if we let it live, shutting it off here is a pretty good way to do it
-						ViewHelper.setAlpha(mItinTypeImageView, 0f);
-						mItinTypeImageView.setVisibility(View.INVISIBLE);
-					}
-
-				});
-				animators.add(shadeAnim);
-			}
-			else {
-				ViewHelper.setRotation(mHeaderShadeView, 0f);
-			}
-		}
-
-		//Type icon
-		if (animate) {
-			ObjectAnimator itinTypeImageAlphaAnimator = ObjectAnimator
-					.ofFloat(mItinTypeImageView, "alpha", 0)
-					.setDuration(200);
-			itinTypeImageAlphaAnimator.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationEnd(Animator animator) {
-					mItinTypeImageView.setVisibility(View.INVISIBLE);
-				}
-			});
-			animators.add(itinTypeImageAlphaAnimator);
-		}
-		else {
-			ViewHelper.setAlpha(mItinTypeImageView, 0f);
-			mItinTypeImageView.setVisibility(View.INVISIBLE);
-		}
-
-		//Summary View views
-		if (!mShowSummary) {
-			if (animate) {
-				animators.add(ResizeAnimator.buildResizeAnimator(mHeaderLayout, mExpandedCardHeaderImageHeight));
-				animators.add(ResizeAnimator.buildResizeAnimator(mHeaderImageView, mExpandedCardHeaderImageHeight));
-			}
-			else {
-				ResizeAnimator.setHeight(mHeaderLayout, mExpandedCardHeaderImageHeight);
-				ResizeAnimator.setHeight(mHeaderImageView, mExpandedCardHeaderImageHeight);
-			}
-		}
-
-		// Chevron rotation
-		if (animate) {
-			animators.add(ObjectAnimator.ofFloat(mChevronImageView, "rotation", 180f).setDuration(400));
-		}
-		else {
-			ViewHelper.setRotation(mChevronImageView, 180f);
-		}
-
-		// Putting it all together
-		if (animate) {
-			AnimatorSet set = new AnimatorSet();
-			set.playTogether(animators);
-			set.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationEnd(Animator arg0) {
-					finishExpand();
-				}
-			});
-			return set;
-		}
-		else {
-			finishExpand();
-			return null;
+			mHeaderTextLayout.setTranslationY(translationY);
 		}
 	}
 
