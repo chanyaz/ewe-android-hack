@@ -13,7 +13,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="bottom"
         android:orientation="vertical">
 
         <ImageView
@@ -96,5 +95,18 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_gravity="top"
+        android:background="@drawable/hotel_card_corners_top" />
+
+    <View
+        android:id="@+id/card_corners_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/hotel_card_corners_bottom" />
 
 </FrameLayout>

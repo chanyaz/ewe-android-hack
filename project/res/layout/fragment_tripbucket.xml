@@ -9,8 +9,12 @@
         android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:orientation="vertical" />
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="@dimen/hotel_flight_card_padding_x"
+        android:layout_marginRight="@dimen/hotel_flight_card_padding_x"
+        android:orientation="vertical"
+        android:divider="@drawable/divider_trip_bucket">
 
+    </LinearLayout>
 
 </ScrollView>

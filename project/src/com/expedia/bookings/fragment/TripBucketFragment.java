@@ -76,6 +76,9 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	public void bind(TripBucket bucket, LineOfBusiness lobToRefresh) {
 		//TODO: In the future, this thing should iterate over the trip bucket items and support N items etc.
 
+		LinearLayout container = Ui.findView(getView(), R.id.content_container);
+		container.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+
 		FragmentManager manager = getChildFragmentManager();
 		manager.executePendingTransactions();
 

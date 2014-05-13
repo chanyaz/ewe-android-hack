@@ -121,8 +121,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 		mHeaderBitmapDrawable = new HeaderBitmapColorAveragedDrawable();
 		mHeaderBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
-		mHeaderBitmapDrawable.setCornerMode(HeaderBitmapDrawable.CornerMode.ALL);
-		mHeaderBitmapDrawable.setCornerRadius(getActivity().getResources().getDimensionPixelSize(R.dimen.tablet_result_corner_radius));
 		mTripBucketImageView.setImageDrawable(mHeaderBitmapDrawable);
 	}
 
