@@ -65,6 +65,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	private static final String STATE_TRAVELER_NUMBER = "STATE_TRAVELER_NUMBER";
 	private static final String STATE_HEADER_STRING = "STATE_HEADER_STRING";
 	private static final String STATE_TRAVELER_FORM_STATE = "STATE_TRAVELER_FORM_STATE";
+	private static final String STATE_ATTEMPT_TO_LEAVE = "STATE_ATTEMPT_TO_LEAVE";
 
 	private int mTravelerNumber = -1;
 	private String mHeaderString;
@@ -85,13 +86,13 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		if (savedInstanceState != null) {
 			mStateManager.setDefaultState(TravelerFormState.valueOf(savedInstanceState.getString(
 				STATE_TRAVELER_FORM_STATE, TravelerFormState.EDITING.name())));
+			mAttemptToLeaveMade = savedInstanceState.getBoolean(STATE_ATTEMPT_TO_LEAVE, mAttemptToLeaveMade);
 		}
 	}
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		mAttemptToLeaveMade = false;
 		mListener = Ui.findFragmentListener(this, ICheckoutDataListener.class);
 	}
 
@@ -134,6 +135,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			outState.putString(STATE_HEADER_STRING, mHeaderString);
 		}
 		outState.putString(STATE_TRAVELER_FORM_STATE, mStateManager.getState().name());
+		outState.putBoolean(STATE_ATTEMPT_TO_LEAVE, mAttemptToLeaveMade);
 	}
 
 	public boolean isFormOpen() {
@@ -146,6 +148,8 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		}
 		mTravelerNumber = travelerNumber;
 		if (mSectionTraveler != null && travelerNumber >= 0 && travelerNumber < Db.getTravelers().size()) {
+			mSectionTraveler.resetValidation();
+
 			//We only show the email field for the first traveler, if we aren't logged in.
 			mSectionTraveler.setEmailFieldEnabled(!User.isLoggedIn(getActivity()) && mTravelerNumber == 0);
 
@@ -304,6 +308,11 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	}
 
 	private void clearForm() {
+		mAttemptToLeaveMade = false;
+		if (mSectionTraveler != null) {
+			mSectionTraveler.resetValidation();
+		}
+
 		Db.getWorkingTravelerManager().clearWorkingTraveler(getActivity());
 		mTravelerNumber = -1;
 	}

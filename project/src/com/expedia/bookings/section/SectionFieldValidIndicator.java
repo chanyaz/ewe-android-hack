@@ -19,9 +19,9 @@ public abstract class SectionFieldValidIndicator<FieldType extends View, Data ex
 
 	public void postValidate(boolean isValid) {
 		if (this.hasBoundField()) {
-			onPostValidate(getField(), isValid);
+			onPostValidate(getField(), isValid, false);
 		}
 	}
 
-	protected abstract void onPostValidate(FieldType field, boolean isValid);
+	protected abstract void onPostValidate(FieldType field, boolean isValid, boolean force);
 }

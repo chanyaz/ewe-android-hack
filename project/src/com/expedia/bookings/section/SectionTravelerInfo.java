@@ -249,6 +249,13 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 	////// VALIDATION INDICATOR FIELDS
 	//////////////////////////////////////
 
+	/**
+	 * This will set all validators to their valid state
+	 */
+	public void resetValidation() {
+		mFields.setValidationIndicatorState(true);
+	}
+
 	ValidationIndicatorExclaimation<Traveler> mValidFirstName = new ValidationIndicatorExclaimation<Traveler>(
 		R.id.edit_first_name);
 
@@ -668,7 +675,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 					String formattedDate = JodaUtils.formatLocalDate(getContext(), localDate,
 						DateUtils.FORMAT_SHOW_DATE
 							| DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY
-							| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH);
+							| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH
+					);
 					setTitle(formattedDate);
 				}
 			};
@@ -752,7 +760,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				});
 			}
 			else {
-				Log.e("The Birthday picker is expecting a FragmentActivity to be the context. In it's current state, this will do nohting if the context is not a FragmentActivity");
+				Log.e(
+					"The Birthday picker is expecting a FragmentActivity to be the context. In it's current state, this will do nohting if the context is not a FragmentActivity");
 			}
 		}
 
@@ -947,7 +956,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 		protected void onFieldBind() {
 			super.onFieldBind();
 			if (hasBoundField()) {
-				mCountryAdapter = new CountrySpinnerAdapter(mContext, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
+				mCountryAdapter = new CountrySpinnerAdapter(mContext,
+					CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
 					android.R.layout.simple_list_item_1);
 				getField().setAdapter(mCountryAdapter);
 			}
