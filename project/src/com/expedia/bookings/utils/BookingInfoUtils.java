@@ -24,6 +24,51 @@ import com.mobiata.android.Log;
 public class BookingInfoUtils {
 
 
+	/**
+	 * This should get called before we do any sort of checkout network work.
+	 *
+	 * It ensures we have a valid checkout email address (returns false otherwise)
+	 * and it copies important information from the provided traveler to the billing
+	 * info object in Db.
+	 *
+	 * @param context
+	 * @param lob
+	 * @param traveler
+	 * @param save - should we save the Db billing info after we migrate data.
+	 * @return false if we couldnt find a valid email address to use, true otherwise.
+	 */
+	public static boolean migrateRequiredCheckoutDataToDbBillingInfo(Context context, LineOfBusiness lob,
+		Traveler traveler, boolean save) {
+
+		//Ensure the correct (and valid) email address makes it to billing info
+		String checkoutEmail = BookingInfoUtils.getCheckoutEmail(context, LineOfBusiness.FLIGHTS);
+		if (!TextUtils.isEmpty(checkoutEmail)) {
+			Db.getBillingInfo().setEmail(checkoutEmail);
+		}
+		else {
+			//We tried to fix the email address, but failed. Do something drastic (this should very very very rarely happen)
+			Db.getBillingInfo().setEmail(null);
+			return false;
+		}
+
+		//Currently the gui has us setting phone info on traveler information entry screens, copy that business to BillingInfo
+		BillingInfo billingInfo = Db.getBillingInfo();
+		if (lob == LineOfBusiness.HOTELS) {
+			billingInfo.setFirstName(traveler.getFirstName());
+			billingInfo.setLastName(traveler.getLastName());
+		}
+		billingInfo.setTelephone(traveler.getPhoneNumber());
+		billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
+
+
+		if (save) {
+			//Save it!
+			Db.getBillingInfo().save(context);
+		}
+
+		return true;
+	}
+
 	public static boolean travelerRequiresOverwritePrompt(Context context, Traveler workingTraveler) {
 		boolean travelerAlreadyExistsOnAccount = false;
 		if (workingTraveler.getSaveTravelerToExpediaAccount() && User.isLoggedIn(context)
@@ -136,7 +181,8 @@ public class BookingInfoUtils {
 		int numTravelersNeeded;
 		if (lob == LineOfBusiness.FLIGHTS) {
 			numTravelersNeeded = Db.getFlightSearch().getSearchParams().getNumTravelers();
-			TravelerListGenerator gen = new TravelerListGenerator(Db.getFlightSearch().getSelectedFlightTrip().getPassengers(), travelers);
+			TravelerListGenerator gen = new TravelerListGenerator(
+				Db.getFlightSearch().getSelectedFlightTrip().getPassengers(), travelers);
 			Db.setTravelers(gen.generateTravelerList());
 		}
 		else {
@@ -156,7 +202,8 @@ public class BookingInfoUtils {
 				}
 			}
 		}
-		Log.d("BookingInfoUtils - populateTravelerData - travelers.size():" + travelerSize + " numTravelersNeeded:" + numTravelersNeeded);
+		Log.d("BookingInfoUtils - populateTravelerData - travelers.size():" + travelerSize + " numTravelersNeeded:"
+			+ numTravelersNeeded);
 	}
 
 	/**

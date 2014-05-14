@@ -35,7 +35,8 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
-public class CheckoutLoginButtonsFragment extends LoadWalletFragment implements AccountButtonClickListener, ConfirmLogoutDialogFragment.DoLogoutListener, ILOBable {
+public class CheckoutLoginButtonsFragment extends LoadWalletFragment
+	implements AccountButtonClickListener, ConfirmLogoutDialogFragment.DoLogoutListener, ILOBable {
 	private static final String INSTANCE_REFRESHED_USER_TIME = "INSTANCE_REFRESHED_USER";
 	private static final String INSTANCE_WAS_LOGGED_IN = "INSTANCE_WAS_LOGGED_IN";
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
@@ -361,22 +362,6 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment implements 
 		// no existing credit card info entered
 		if (!fromPreauth || (TextUtils.isEmpty(billingInfo.getNumber()) && !billingInfo.hasStoredCard())) {
 			WalletUtils.bindWalletToBillingInfo(maskedWallet, billingInfo);
-		}
-
-		// Add primary traveler info to billing info
-		billingInfo.setFirstName(traveler.getFirstName());
-		billingInfo.setLastName(traveler.getLastName());
-		billingInfo.setTelephone(traveler.getPhoneNumber());
-		billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
-
-		String checkoutEmail = BookingInfoUtils.getCheckoutEmail(getActivity(), getLob());
-		if (!TextUtils.isEmpty(checkoutEmail)) {
-			billingInfo.setEmail(checkoutEmail);
-		}
-		else {
-			//TODO this is highly unlikely to happen. Since tablet checkout is still in the works, let's come back here when UI is in place.
-			billingInfo.setEmail(null);
-			Ui.showToast(getActivity(), R.string.please_enter_a_valid_email_address);
 		}
 
 		bind();

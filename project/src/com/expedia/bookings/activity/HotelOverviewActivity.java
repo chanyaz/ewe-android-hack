@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,12 +15,10 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.fragment.HotelOverviewFragment;
 import com.expedia.bookings.fragment.HotelOverviewFragment.BookingOverviewFragmentListener;
 import com.expedia.bookings.fragment.LoginFragment.LogInListener;
@@ -265,32 +262,17 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 
 	@Override
 	public void onSlideAllTheWay() {
-		//Ensure the correct (and valid) email address makes it to billing info
-		String checkoutEmail = BookingInfoUtils.getCheckoutEmail(this, LineOfBusiness.HOTELS);
-		if (!TextUtils.isEmpty(checkoutEmail)) {
-			Db.getBillingInfo().setEmail(checkoutEmail);
-		}
-		else {
-			//We tried to fix the email address, but failed. Do something drastic (this should very very very rarely happen)
-			Db.getBillingInfo().setEmail(null);
+
+		if (!BookingInfoUtils
+			.migrateRequiredCheckoutDataToDbBillingInfo(this, LineOfBusiness.HOTELS, Db.getTravelers().get(0), true)) {
 			if (mBookingOverviewFragment != null) {
 				mBookingOverviewFragment.resetSlider();
 			}
 			Ui.showToast(this, R.string.please_enter_a_valid_email_address);
-			mBookingOverviewFragment.startCheckout(false, false);//This will update all of our views (and re-validate everything).
+			mBookingOverviewFragment
+				.startCheckout(false, false);//This will update all of our views (and re-validate everything).
 			return;
 		}
-
-		//Ensure required billing info is migrated from our primary traveler
-		BillingInfo billingInfo = Db.getBillingInfo();
-		Traveler traveler = Db.getTravelers().get(0);
-		billingInfo.setFirstName(traveler.getFirstName());
-		billingInfo.setLastName(traveler.getLastName());
-		billingInfo.setTelephone(traveler.getPhoneNumber());
-		billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
-
-		//Save it!
-		billingInfo.save(this);
 
 		//Seal the deal
 		startActivity(new Intent(this, HotelBookingActivity.class));

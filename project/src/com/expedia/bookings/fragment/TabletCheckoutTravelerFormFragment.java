@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.InputFilter;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,7 +21,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
@@ -282,29 +280,6 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 
 		//Commit our changes
 		Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerNumber, getActivity());
-
-		//Migrate some of our data to BillingInfo if required.
-		if (mTravelerNumber == 0) {
-			BillingInfo billingInfo = Db.getBillingInfo();
-			Traveler traveler = Db.getTravelers().get(mTravelerNumber);
-			billingInfo.setFirstName(traveler.getFirstName());
-			billingInfo.setLastName(traveler.getLastName());
-			billingInfo.setTelephone(traveler.getPhoneNumber());
-			billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
-
-			String checkoutEmail = BookingInfoUtils.getCheckoutEmail(getActivity(), getLob());
-			if (!TextUtils.isEmpty(checkoutEmail)) {
-				billingInfo.setEmail(checkoutEmail);
-			}
-			else {
-				//TODO this is highly unlikely to happen. Since tablet checkout is still in the works, let's come back here when UI is in place.
-				billingInfo.setEmail(null);
-				Ui.showToast(getActivity(), R.string.please_enter_a_valid_email_address);
-			}
-
-			//Save BillingInfo
-			billingInfo.save(getActivity());
-		}
 
 		mListener.onCheckoutDataUpdated();
 		clearForm();

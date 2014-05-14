@@ -10,20 +10,19 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver.OnPreDrawListener;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
@@ -31,7 +30,6 @@ import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.fragment.ConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
@@ -58,8 +56,8 @@ import com.mobiata.android.Log;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
 public class FlightTripOverviewActivity extends FragmentActivity implements LogInListener,
-		CheckoutInformationListener, ISlideToListener, DoLogoutListener,
-		FlightTripPriceFragmentListener {
+	CheckoutInformationListener, ISlideToListener, DoLogoutListener,
+	FlightTripPriceFragmentListener {
 
 	public static final String TAG_OVERVIEW_FRAG = "TAG_OVERVIEW_FRAG";
 	public static final String TAG_CHECKOUT_FRAG = "TAG_CHECKOUT_FRAG";
@@ -100,14 +98,17 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	private ActivityKillReceiver mKillReceiver;
 
 	private enum TrackingMode {
-		OVERVIEW, CHECKOUT, SLIDE_TO_PURCHASE
+		OVERVIEW,
+		CHECKOUT,
+		SLIDE_TO_PURCHASE
 	}
 
 	// This variable exists to ensure that the correct tracking event gets called the correct number of times
 	private TrackingMode mLastTrackingMode;
 
 	private enum BottomBarMode {
-		PRICE_BAR, SLIDE_TO_PURCHASE
+		PRICE_BAR,
+		SLIDE_TO_PURCHASE
 	}
 
 	// Go to a mode on resume, if we need to change state during an unsafe time
@@ -276,8 +277,8 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 			checkoutFrag = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
 		}
 		if (checkoutFrag != null && Db.getFlightSearch() != null
-				&& Db.getFlightSearch().getSelectedFlightTrip() != null
-				&& !TextUtils.isEmpty(Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber())) {
+			&& Db.getFlightSearch().getSelectedFlightTrip() != null
+			&& !TextUtils.isEmpty(Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber())) {
 			// Disable Google Wallet if not a valid payment type
 			FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 			if (!trip.isCardTypeSupported(CreditCardType.GOOGLE_WALLET)) {
@@ -290,7 +291,8 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	public void attachCheckoutFragment() {
 		if (mSafeToAttach) {
 			boolean refreshCheckoutData = !mLoadedDbInfo;
-			loadCachedData(true);//because of the sLoaded variable, this will almost always do no work except if we end up in a strange state
+			loadCachedData(
+				true);//because of the sLoaded variable, this will almost always do no work except if we end up in a strange state
 			mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
 			if (mCheckoutFragment == null) {
 				mCheckoutFragment = FlightCheckoutFragment.newInstance();
@@ -339,7 +341,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 			if (!mSlideToPurchaseFragment.isAdded()) {
 				FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 				transaction.replace(R.id.trip_price_container_bottom, mSlideToPurchaseFragment,
-						TAG_SLIDE_TO_PURCHASE_FRAG);
+					TAG_SLIDE_TO_PURCHASE_FRAG);
 				transaction.commit();
 			}
 		}
@@ -486,7 +488,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	}
 
 	private class ScrollViewListener implements OnScrollListener,
-			OnTouchListener {
+		OnTouchListener {
 
 		private boolean mTouchDown = false;
 		private int mScrollY;
@@ -564,7 +566,8 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 				mOverviewFragment.setExpandedPercentage(1f - percentage);
 			}
 
-			mCheckoutContainer.setTranslationY((Math.max(mContentRoot.getHeight(), mUnstackedHeight) - mOverviewContainer
+			mCheckoutContainer
+				.setTranslationY((Math.max(mContentRoot.getHeight(), mUnstackedHeight) - mOverviewContainer
 					.getHeight()) * (1f - percentage));
 
 			if (percentage > 0 && mCheckoutContainer.getVisibility() != View.VISIBLE) {
@@ -582,7 +585,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		ActionBar actionBar = getActionBar();
 		actionBar.setCustomView(null);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
-				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+			| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
 		actionBar.setTitle(getString(R.string.overview_btn));
 
 		this.supportInvalidateOptionsMenu();
@@ -593,19 +596,20 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
 		int numTravelers = params.getNumAdults() + params.getNumChildren();
 		String travelers = getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers,
-				numTravelers);
+			numTravelers);
 
 		FlightTrip trip = Db.getFlightSearch().getFlightTrip(mTripKey);
 		String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
 		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
 
 		Date depDate = DateTimeUtils
-				.getTimeInLocalTimeZone(trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime());
+			.getTimeInLocalTimeZone(trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime());
 		Date retDate = DateTimeUtils.getTimeInLocalTimeZone(trip.getLeg(trip.getLegCount() - 1).getLastWaypoint()
-				.getMostRelevantDateTime());
+			.getMostRelevantDateTime());
 		String dateRange = DateUtils.formatDateRange(this, depDate.getTime(), retDate.getTime(),
-				DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY
-						| DateUtils.FORMAT_ABBREV_MONTH);
+			DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY
+				| DateUtils.FORMAT_ABBREV_MONTH
+		);
 
 		LayoutInflater inflater = LayoutInflater.from(this);
 		View customView = inflater.inflate(R.layout.action_bar_flight_results, null);
@@ -617,7 +621,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP
-				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+			| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
 		actionBar.setCustomView(customView);
 
 		this.supportInvalidateOptionsMenu();
@@ -691,7 +695,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 				FlightTrip trip = Db.getFlightSearch().getSelectedFlightTrip();
 				intent.putExtra(FlightSearchResultsActivity.EXTRA_DESELECT_LEG_ID, trip.getLeg(trip.getLegCount() - 1)
-						.getLegId());
+					.getLegId());
 				startActivity(intent);
 			}
 			return true;
@@ -781,31 +785,14 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 	@Override
 	public void onSlideAllTheWay() {
-
-		//Ensure the correct (and valid) email address makes it to billing info
-		String checkoutEmail = BookingInfoUtils.getCheckoutEmail(this, LineOfBusiness.FLIGHTS);
-		if (!TextUtils.isEmpty(checkoutEmail)) {
-			Db.getBillingInfo().setEmail(checkoutEmail);
-		}
-		else {
-			//We tried to fix the email address, but failed. Do something drastic (this should very very very rarely happen)
-			Db.getBillingInfo().setEmail(null);
+		if (!BookingInfoUtils
+			.migrateRequiredCheckoutDataToDbBillingInfo(this, LineOfBusiness.FLIGHTS, Db.getTravelers().get(0), true)) {
 			if (mSlideToPurchaseFragment != null) {
 				mSlideToPurchaseFragment.resetSlider();
 			}
 			Ui.showToast(this, R.string.please_enter_a_valid_email_address);
 			gotoCheckoutMode(false, true);
-			return;
 		}
-
-		//Currently the gui has us setting phone info on traveler information entry screens, copy that business to BillingInfo
-		BillingInfo billingInfo = Db.getBillingInfo();
-		Traveler traveler = Db.getTravelers().get(0);
-		billingInfo.setTelephone(traveler.getPhoneNumber());
-		billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
-
-		//Save it!
-		Db.getBillingInfo().save(this);
 
 		//IMPORTANT: Above we ensure we have the correct email address for booking, and we put it in billingInfo.
 		//However, on the api the information associated with the primary traveler takes precedence. So in

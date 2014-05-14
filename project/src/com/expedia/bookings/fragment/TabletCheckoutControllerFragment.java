@@ -66,6 +66,7 @@ import com.expedia.bookings.otto.Events.CreateTripDownloadRetryCancel;
 import com.expedia.bookings.otto.Events.CreateTripDownloadSuccess;
 import com.expedia.bookings.otto.Events.HotelProductDownloadSuccess;
 import com.expedia.bookings.otto.Events.HotelProductRateUp;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
@@ -1012,23 +1013,46 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Override
 	public void onSlideAllTheWay() {
 		final CheckoutState stateTwo = bookingWithGoogleWallet() ? CheckoutState.BOOKING : CheckoutState.CVV;
-		ValueAnimator anim = ValueAnimator.ofFloat(mSlideProgress, 1f);
-		anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator valueAnimator) {
-				updateStateTransition(CheckoutState.READY_FOR_CHECKOUT, stateTwo,
-					(Float) valueAnimator.getAnimatedValue());
-				setShowReadyForCheckoutPercentage(1f - valueAnimator.getAnimatedFraction());
+		if (!BookingInfoUtils
+			.migrateRequiredCheckoutDataToDbBillingInfo(getActivity(), getLob(), Db.getTravelers().get(0), true)) {
+			//Somehow we don't have the information we need. This should be very rare, but it could happen.
+
+			if (mSlideFragment != null) {
+				mSlideFragment.resetSlider();
 			}
-		});
-		anim.addListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationEnd(Animator animator) {
-				endStateTransition(CheckoutState.READY_FOR_CHECKOUT, stateTwo);
-				setCheckoutState(stateTwo, false);
+			if (TextUtils.isEmpty(Db.getBillingInfo().getEmail())) {
+				Ui.showToast(getActivity(), R.string.please_enter_a_valid_email_address);
 			}
-		});
-		anim.start();
+			else {
+				//TODO: This shouldn't happen, but if it does we show a worthless toast.
+				Ui.showToast(getActivity(), R.string.unknown);
+			}
+
+			//We clean up our transition and go back to ready for checkout.
+			endStateTransition(CheckoutState.READY_FOR_CHECKOUT, stateTwo);
+			setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, false);
+		}
+		else {
+			//Our data is legit, lets complete the transition
+			ValueAnimator anim = ValueAnimator.ofFloat(mSlideProgress, 1f);
+			anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+				@Override
+				public void onAnimationUpdate(ValueAnimator valueAnimator) {
+					updateStateTransition(CheckoutState.READY_FOR_CHECKOUT, stateTwo,
+						(Float) valueAnimator.getAnimatedValue());
+					setShowReadyForCheckoutPercentage(1f - valueAnimator.getAnimatedFraction());
+				}
+			});
+			anim.addListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationEnd(Animator animator) {
+					endStateTransition(CheckoutState.READY_FOR_CHECKOUT, stateTwo);
+					setCheckoutState(stateTwo, false);
+				}
+			});
+			anim.start();
+		}
+
 	}
 
 	@Override
