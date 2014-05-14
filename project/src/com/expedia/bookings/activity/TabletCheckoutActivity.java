@@ -48,6 +48,8 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 
 	private static final String CHECKOUT_FRAG_TAG = "CHECKOUT_FRAG_TAG";
 
+	private static final String INSTANCE_CURRENT_LOB = "INSTANCE_CURRENT_LOB";
+
 	//Containers..
 	private ViewGroup mRootC;
 
@@ -57,6 +59,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	//Other
 	private boolean mBackButtonLocked = false;
 	private HockeyPuck mHockeyPuck;
+	private LineOfBusiness mCurrentLob;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -109,7 +112,12 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 			TabletCheckoutControllerFragment.class, CHECKOUT_FRAG_TAG);
 
 		//Args
-		updateLobFromIntent(getIntent());
+		if (savedInstanceState == null) {
+			updateLobFromIntent(getIntent());
+		}
+		else {
+			updateLobFromString(savedInstanceState.getString(INSTANCE_CURRENT_LOB));
+		}
 
 		// HockeyApp init
 		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
@@ -123,6 +131,13 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	}
 
 	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		if (mCurrentLob != null) {
+			outState.putString(INSTANCE_CURRENT_LOB, mCurrentLob.name());
+		}
+	}
+
+	@Override
 	public void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 		setIntent(intent);
@@ -132,8 +147,9 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	private void updateLobFromIntent(Intent intent) {
 		if (intent.hasExtra(ARG_LOB)) {
 			try {
-				LineOfBusiness lob = LineOfBusiness.valueOf(intent.getStringExtra(ARG_LOB));
-				updateLob(lob);
+				String lobString = intent.getStringExtra(ARG_LOB);
+				intent.removeExtra(ARG_LOB);
+				updateLobFromString(lobString);
 			}
 			catch (Exception ex) {
 				Log.e("Exception parsing lob from intent.", ex);
@@ -150,7 +166,14 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		}
 	}
 
+	private void updateLobFromString(String lobString) {
+		LineOfBusiness lob = LineOfBusiness.valueOf(lobString);
+		updateLob(lob);
+	}
+
 	private void updateLob(LineOfBusiness lob) {
+		mCurrentLob = lob;
+
 		mFragCheckoutController.setLob(lob);
 
 		ActionBar ab = getActionBar();
