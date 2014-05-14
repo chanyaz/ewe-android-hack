@@ -255,6 +255,12 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 
 			if (!User.isLoggedIn(context)) {
 				commitAndCloseForm();
+			}else if(getLob() == LineOfBusiness.HOTELS){
+				//Here is our situation: the service that we use to commit traveler changes to the api requires a ton
+				//of info e.g. it will bomb if we don't supply gender. Our hotel travelers form does not include some
+				//of this required info, so saving is a moot point because it will always silently fail in the bg.
+				//TODO: Look into the save traveler service, and see if there is a way around this
+				commitAndCloseForm();
 			}
 			else {
 				TravelerFormState state = mStateManager.getState();
