@@ -132,7 +132,8 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 		Results.clickSuggestion("San Francisco, CA");
 		Results.clickSelectFlightDates();
 		LocalDate startDate = LocalDate.now().plusDays(35);
-		Results.clickDate(startDate, null);
+		LocalDate endDate = LocalDate.now().plusDays(40);
+		Results.clickDate(startDate, endDate);
 		Results.clickSearchNow();
 
 		// Add Hotel to trip bucket
@@ -142,6 +143,8 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 
 		// Add Flight to trip bucket
 		Results.swipeUpFlightList();
+		Results.clickFlightAtIndex(1);
+		Results.clickAddFlight();
 		Results.clickFlightAtIndex(1);
 		Results.clickAddFlight();
 
