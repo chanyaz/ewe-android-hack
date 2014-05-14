@@ -26,8 +26,8 @@
                 android:id="@+id/tablet_guest_picker_done_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:textSize="18sp"
+                android:layout_gravity="right|center_vertical"
+                android:textSize="14sp"
                 android:text="@string/DONE"
                 android:textColor="#3E79A3"
                 android:drawablePadding="8dp"
@@ -38,6 +38,7 @@
             android:id="@+id/adult_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -45,22 +46,20 @@
                 android:id="@+id/adults_minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="1"
                 android:src="@drawable/ic_tablet_traveler_minus"/>
 
             <TextView
                 android:id="@+id/adult_count_text"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:textSize="24dp"/>
 
             <ImageView
                 android:id="@+id/adults_plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="1"
                 android:src="@drawable/ic_tablet_traveler_plus"/>
         </LinearLayout>
 
@@ -68,6 +67,7 @@
             android:id="@+id/children_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -75,22 +75,20 @@
                 android:id="@+id/children_minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="1"
                 android:src="@drawable/ic_tablet_traveler_minus"/>
 
             <TextView
                 android:id="@+id/child_count_text"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:textSize="24dp"/>
 
             <ImageView
                 android:id="@+id/children_plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="1"
                 android:src="@drawable/ic_tablet_traveler_plus"/>
         </LinearLayout>
 
