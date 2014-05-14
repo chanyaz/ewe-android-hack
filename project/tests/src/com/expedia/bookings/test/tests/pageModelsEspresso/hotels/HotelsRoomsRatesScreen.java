@@ -4,9 +4,11 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.Matchers.anything;
 
 /**
  * Created by dmadan on 4/10/14.
@@ -104,4 +106,9 @@ public class HotelsRoomsRatesScreen extends ScreenActions {
 	public static void clickAdditionalFeesInfoButton() {
 		(additionalFeesInfoButton()).perform(click());
 	}
+
+	public static void selectRoomItem(int index) {
+		onData(anything()).inAdapterView(withId(android.R.id.list)).atPosition(index).perform(click());
+	}
+
 }

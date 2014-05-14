@@ -1,8 +1,10 @@
 package com.expedia.bookings.test.tests.pageModelsEspresso.hotels;
 
+import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
 
 import static com.expedia.bookings.test.utilsEspresso.ViewActions.clickDates;
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.RootMatchers.withDecorView;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
@@ -10,13 +12,13 @@ import static com.google.android.apps.common.testing.ui.espresso.action.ViewActi
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.not;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
-import com.expedia.bookings.test.utils.HotelsUserData;
+import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
 /**
@@ -157,7 +159,15 @@ public class HotelsSearchScreen extends ScreenActions {
 		return onView(withText(UNABLE_TO_DETERMINE_SEARCH_LOC_STRING_ID));
 	}
 
+	public static DataInteraction hotelListItem() {
+		return onData(anything()).inAdapterView(withId(android.R.id.list));
+	}
+
 	// Object interaction
+
+	public static void clickListItem(int index) {
+		hotelListItem().atPosition(index).perform(click());
+	}
 
 	public static void enterSearchText(String text) {
 		(searchEditText()).perform(typeText(text), closeSoftKeyboard());
@@ -199,8 +209,8 @@ public class HotelsSearchScreen extends ScreenActions {
 		hotelResultsListView().perform(click());
 	}
 
-	public static void clickSuggestion(SearchActivity activity, HotelsUserData user) {
-		onView(withText(user.getHotelSearchCity())).inRoot(withDecorView(not(is(activity.getWindow().getDecorView())))).perform(click());
+	public static void clickSuggestion(SearchActivity activity, String city) {
+		onView(withText(city)).inRoot(withDecorView(not(CoreMatchers.is(activity.getWindow().getDecorView())))).perform(click());
 	}
 }
 
