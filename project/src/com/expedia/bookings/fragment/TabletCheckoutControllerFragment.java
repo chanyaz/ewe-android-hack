@@ -73,6 +73,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilit
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.WalletUtils;
+import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.SlideToWidgetJB;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -103,7 +104,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private static final String FRAG_TAG_BLUR_BG = "FRAG_TAG_BLUR_BG";
 
 	//Containers
-	private ViewGroup mRootC;
+	private FrameLayoutTouchController mRootC;
 	private ScrollView mBucketScrollContainer;
 	private ViewGroup mBucketHotelContainer;
 	private ViewGroup mBucketFlightContainer;
@@ -183,7 +184,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_checkout_controller, null, false);
+		mRootC = (FrameLayoutTouchController) inflater.inflate(R.layout.fragment_tablet_checkout_controller, null, false);
 
 		Ui.findView(mRootC, R.id.blurred_dest_image_overlay);
 
@@ -475,6 +476,13 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			}
 			else if (state == CheckoutState.CONFIRMATION) {
 				setShowConfirmationPercentage(1f);
+			}
+
+			if (state == CheckoutState.BOOKING) {
+				mRootC.setBlockNewEventsEnabled(true);
+			}
+			else {
+				mRootC.setBlockNewEventsEnabled(false);
 			}
 		}
 	};
