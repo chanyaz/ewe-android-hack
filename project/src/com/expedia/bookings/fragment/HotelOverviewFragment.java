@@ -161,6 +161,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private HotelBookingFragment mHotelBookingFragment;
 
+	private Animation mPurchaseViewsAnimation;
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -550,8 +552,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		mStoredCreditCard.bind(mBillingInfo.getStoredCard());
 		mCreditCardSectionButton.bind(mBillingInfo);
-
-		updateViewVisibilities();
 	}
 
 	private void refreshAccountButtonState() {
@@ -619,9 +619,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		boolean paymentAddressValid = hasStoredCard ? hasStoredCard : state.hasValidBillingAddress(mBillingInfo);
 		boolean paymentCCValid = hasStoredCard ? hasStoredCard : state.hasValidCardInfo(mBillingInfo);
 		boolean travelerValid = hasValidTravelers();
+		boolean isNotDownloadingCoupon = !mHotelBookingFragment.isDownloadingCoupon();
 
-		mShowSlideToWidget = travelerValid && paymentAddressValid && paymentCCValid && mIsDoneLoadingPriceChange
-				&& !mHotelBookingFragment.isDownloadingCoupon();
+		mShowSlideToWidget = travelerValid && paymentAddressValid && paymentCCValid && mIsDoneLoadingPriceChange && isNotDownloadingCoupon;
 		if (isInCheckout() && mShowSlideToWidget) {
 			showPurchaseViews();
 		}
@@ -842,6 +842,12 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	private void showPurchaseViews(boolean animate) {
 		if (mSlideToPurchaseFragmentLayout.getVisibility() == View.VISIBLE) {
+			if (mPurchaseViewsAnimation != null) {
+				mPurchaseViewsAnimation.setAnimationListener(null);
+				mPurchaseViewsAnimation.cancel();
+				mPurchaseViewsAnimation = null;
+				mSlideToPurchaseFragmentLayout.setVisibility(View.VISIBLE);
+			}
 			return;
 		}
 
@@ -857,33 +863,61 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		setScrollSpacerViewHeight();
 
 		if (animate) {
-			mSlideToPurchaseFragmentLayout.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up));
+			mPurchaseViewsAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_up);
+			mPurchaseViewsAnimation.setAnimationListener(new AnimationListener() {
+				@Override
+				public void onAnimationStart(Animation animation) {
+					// Ignore
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+					// Ignore
+				}
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					setScrollSpacerViewHeight();
+					mPurchaseViewsAnimation = null;
+				}
+			});
+			mSlideToPurchaseFragmentLayout.startAnimation(mPurchaseViewsAnimation);
 		}
 	}
 
 	private void hidePurchaseViews() {
 		if (mSlideToPurchaseFragmentLayout.getVisibility() != View.VISIBLE) {
+			if (mPurchaseViewsAnimation != null) {
+				mPurchaseViewsAnimation.setAnimationListener(null);
+				mPurchaseViewsAnimation.cancel();
+				mPurchaseViewsAnimation = null;
+				mSlideToPurchaseFragmentLayout.setVisibility(View.INVISIBLE);
+				setScrollSpacerViewHeight();
+			}
 			return;
 		}
 
-		Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down);
-		animation.setAnimationListener(new AnimationListener() {
+		mPurchaseViewsAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.slide_down);
+		mPurchaseViewsAnimation.setAnimationListener(new AnimationListener() {
 			@Override
 			public void onAnimationStart(Animation animation) {
+				// Ignore
 			}
 
 			@Override
 			public void onAnimationRepeat(Animation animation) {
+				// Ignore
 			}
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				mSlideToPurchaseFragmentLayout.setVisibility(View.INVISIBLE);
+				setScrollSpacerViewHeight();
+				mPurchaseViewsAnimation = null;
 			}
 		});
 
-		setScrollSpacerViewHeight();
-		mSlideToPurchaseFragmentLayout.startAnimation(animation);
+		mSlideToPurchaseFragmentLayout.startAnimation(mPurchaseViewsAnimation);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1102,8 +1136,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		@Override
 		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
-			Log.t("ScrollY: %d", y);
-
 			mScrollY = y;
 
 			float alpha = ((float) y - ((mHotelReceipt.getHeight() + mMarginTop - mScaledFadeRange) / 2))
