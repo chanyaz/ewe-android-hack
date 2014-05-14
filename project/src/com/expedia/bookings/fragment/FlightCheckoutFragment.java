@@ -277,7 +277,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
 				&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
 				//We have a user (either from memory, or loaded from disk)
-				int userRefreshInterval = getResources().getInteger(R.integer.account_sync_interval);
+				int userRefreshInterval = getResources().getInteger(R.integer.account_sync_interval_ms);
 				if (mRefreshedUserTime + userRefreshInterval < System.currentTimeMillis()) {
 					Log.d("Refreshing user profile...");
 
