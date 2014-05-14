@@ -47,6 +47,7 @@
     </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/name_and_trip_duration_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/book_button_container"
@@ -61,7 +62,6 @@
             android:visibility="gone"/>
 
         <LinearLayout
-            android:id="@+id/name_and_trip_duration_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
