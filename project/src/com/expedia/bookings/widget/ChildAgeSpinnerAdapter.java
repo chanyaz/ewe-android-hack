@@ -50,7 +50,7 @@ public class ChildAgeSpinnerAdapter extends BaseAdapter {
 		else {
 			str = mResources.getQuantityString(R.plurals.child_age, age, age);
 		}
-		text.setText(Html.fromHtml(str));
+		text.setText(Html.fromHtml(str).toString()); // converts to Html, then strips out so no loc changes
 
 		return view;
 	}
