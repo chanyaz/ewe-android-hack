@@ -53,6 +53,18 @@ public class ThrobberDialog extends DialogFragment {
 		}
 	}
 
+
+	/*
+	THIS FIXES A BUG IN THE COMPAT LIB THAT DESTROYS THE DIALOG ON ROTATION
+	http://stackoverflow.com/questions/14657490/how-to-properly-retain-a-dialogfragment-through-rotation
+	 */
+	@Override
+	public void onDestroyView() {
+		if (getDialog() != null && getRetainInstance())
+			getDialog().setDismissMessage(null);
+		super.onDestroyView();
+	}
+
 	public void setCancelListener(CancelListener listener) {
 		mCancelListener = listener;
 	}

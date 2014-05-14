@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -23,6 +24,7 @@ import android.widget.EditText;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -41,9 +43,12 @@ import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfoTablet;
 import com.expedia.bookings.section.TravelerAutoCompleteAdapter;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.TravelerUtils;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -57,6 +62,9 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		return frag;
 	}
 
+	private static final String DL_FETCH_TRAVELER_INFO = "DL_FETCH_TRAVELER_INFO";
+
+	private static final String FTAG_FETCH_TRAVELER_INFO = "FTAG_FETCH_TRAVELER_INFO";
 	private static final String FTAG_SAVE_DIALOG = "FTAG_SAVE_DIALOG";
 	private static final String FTAG_OVERWRITE_DIALOG = "FTAG_OVERWRITE_DIALOG";
 	private static final String FTAG_SAVING = "FTAG_SAVING";
@@ -100,11 +108,35 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	public void onResume() {
 		super.onResume();
 		bindToDb(mTravelerNumber);
+
+		BackgroundDownloader dl = BackgroundDownloader.getInstance();
+
 		if (isFormOpen()) {
 			onFormOpened();
+
+			if (dl.isDownloading(DL_FETCH_TRAVELER_INFO)) {
+				dl.registerDownloadCallback(DL_FETCH_TRAVELER_INFO, mTravelerDetailsCallback);
+			}
 		}
 		else {
 			onFormClosed();
+
+			if (dl.isDownloading(DL_FETCH_TRAVELER_INFO)) {
+				dl.cancelDownload(DL_FETCH_TRAVELER_INFO);
+			}
+
+		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		BackgroundDownloader dl = BackgroundDownloader.getInstance();
+		if (getActivity().isFinishing()) {
+			dl.cancelDownload(DL_FETCH_TRAVELER_INFO);
+		}
+		else {
+			dl.unregisterDownloadCallback(DL_FETCH_TRAVELER_INFO, mTravelerDetailsCallback);
 		}
 	}
 
@@ -164,6 +196,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			setHeadingButtonOnClick(mHeaderButtonClickListener);
 		}
 	}
+
 
 	private OnClickListener mHeaderButtonClickListener = new OnClickListener() {
 		@Override
@@ -419,6 +452,26 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 					Traveler trav = mTravelerAdapter.getItem(position);
 					if (trav != null) {
 						Db.getWorkingTravelerManager().setWorkingTravelerAndBase(trav);
+
+						if (!trav.fromGoogleWallet()) {
+							//Cancel previous download
+							BackgroundDownloader dl = BackgroundDownloader.getInstance();
+							if (dl.isDownloading(DL_FETCH_TRAVELER_INFO)) {
+								dl.cancelDownload(DL_FETCH_TRAVELER_INFO);
+							}
+
+							// Begin loading flight details in the background, if we haven't already
+							// Show a loading dialog
+							ThrobberDialog df = ThrobberDialog
+								.newInstance(getString(R.string.loading_traveler_info));
+							df.show(getChildFragmentManager(), FTAG_FETCH_TRAVELER_INFO);
+							dl.startDownload(DL_FETCH_TRAVELER_INFO, mTravelerDetailsDownload,
+								mTravelerDetailsCallback);
+
+							//We update the traveler and bind again on the download callback
+						}
+
+						//This will refresh the ui with our new traveler (just with the name if we are downoading details).
 						bindToDb(mTravelerNumber);
 					}
 				}
@@ -578,4 +631,46 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	public void onDialogMoveBackwards() {
 		commitAndCloseForm();
 	}
+
+
+	//////////////////////////////////////////////////////////////////////////
+	// Flight details download
+
+
+	private BackgroundDownloader.Download<SignInResponse> mTravelerDetailsDownload = new BackgroundDownloader.Download<SignInResponse>() {
+		@Override
+		public SignInResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(getActivity());
+			BackgroundDownloader.getInstance().addDownloadListener(DL_FETCH_TRAVELER_INFO, services);
+			return services.updateTraveler(Db.getWorkingTravelerManager().getWorkingTraveler(), 0);
+		}
+	};
+
+	private BackgroundDownloader.OnDownloadComplete<SignInResponse> mTravelerDetailsCallback = new BackgroundDownloader.OnDownloadComplete<SignInResponse>() {
+		@Override
+		public void onDownload(SignInResponse results) {
+
+			ThrobberDialog df = (ThrobberDialog) getChildFragmentManager().findFragmentByTag(FTAG_FETCH_TRAVELER_INFO);
+			if (df != null) {
+				df.dismiss();
+			}
+
+			if (results == null || results.hasErrors()) {
+				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null,
+					getString(R.string.unable_to_load_traveler_message));
+				dialogFragment.show(getFragmentManager(), "errorFragment");
+				if (results != null && results.hasErrors()) {
+					String error = results.getErrors().get(0).getPresentableMessage(getActivity());
+					Log.e("Traveler Details Error:" + error);
+				}
+				else {
+					Log.e("Traveler Details Results == null!");
+				}
+			}
+			else {
+				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(results.getTraveler());
+				bindToDb(mTravelerNumber);
+			}
+		}
+	};
 }

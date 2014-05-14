@@ -269,7 +269,6 @@ public class WorkingTravelerManager {
 										tTrav.fromJson(trav.toJson());
 										tTrav.setTuid(Long.getLong(resp.getTuid(), 0L));
 										Db.getUser().addAssociatedTraveler(tTrav);
-										Log.d("JOE: traveler added to associated travelers");
 									}
 								}
 								break;
