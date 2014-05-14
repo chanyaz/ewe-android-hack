@@ -262,6 +262,13 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		//We ignore errors and successes (for now) because this is a non-critical operation.
 		if (User.isLoggedIn(getActivity()) && Db.getWorkingTravelerManager().getWorkingTraveler()
 			.getSaveTravelerToExpediaAccount() && Db.getWorkingTravelerManager().workingTravelerDiffersFromBase()) {
+
+			if (Db.getWorkingTravelerManager().getWorkingTraveler().hasTuid() && Db.getWorkingTravelerManager()
+				.workingTravelerNameDiffersFromBase()) {
+				//If the name has changed at all, we consider this a new traveler, and thereby remove the existing tuid.
+				Db.getWorkingTravelerManager().getWorkingTraveler().resetTuid();
+			}
+
 			Db.getWorkingTravelerManager()
 				.commitTravelerToAccount(getActivity(), Db.getWorkingTravelerManager().getWorkingTraveler(), false,
 					new WorkingTravelerManager.ITravelerUpdateListener() {
