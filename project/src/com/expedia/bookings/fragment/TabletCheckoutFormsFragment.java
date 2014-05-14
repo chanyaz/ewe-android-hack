@@ -330,6 +330,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		//REMOVE OLD REFS
 		mTravelerButtonFrags.clear();
 		mTravelerViews.clear();
+		mTravelerBoxLabels = null;
 
 		//CLEAR ALL VIEWS
 		mCheckoutRowsC.removeAllViews();
