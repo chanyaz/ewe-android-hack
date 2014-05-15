@@ -145,13 +145,11 @@
                 android:id="@+id/amenities_container"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
                 android:layout_below="@id/reviews_container"
                 android:background="@color/tablet_white_pane_bg"
                 android:paddingLeft="@dimen/tablet_detail_padding"
                 android:paddingRight="@dimen/tablet_detail_padding"
-                android:visibility="gone">
+                android:visibility="invisible">
 
                 <include
                     layout="@layout/include_amenities"

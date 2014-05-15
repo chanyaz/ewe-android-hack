@@ -420,10 +420,10 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		// Center the amenities if they don't take up the full width
 		float amenitiesWidth = LayoutUtils.estimateAmenitiesWidth(getActivity(), property);
-		float desiredPadding = (mAmenitiesContainer.getWidth() - amenitiesWidth) / 2;
+		float desiredPadding = (mGrid.getColWidth(1) - amenitiesWidth) / 2;
 		float minPadding = 0;
 		int padding = (int) Math.max(minPadding, desiredPadding);
-		mAmenitiesContainer.setPadding(padding, 0, padding, 0);
+		mAmenitiesContainer.setPadding(padding, 0, 0, 0);
 
 		LayoutUtils.addAmenities(getActivity(), property, amenitiesTableRow);
 
@@ -491,11 +491,10 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		}
 	}
 
+	private boolean mCurrentlyShowingLoadingProgress = false;
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	private void toggleLoadingState(boolean enable) {
-		if (enable == (mProgressContainer.getVisibility() == View.VISIBLE)) {
-			return;
-		}
+		Log.stackTrace(5, "HERE enable=" + enable);
 		LinearLayout descriptionsContainer = Ui.findView(mRootC, R.id.description_details_sections_container);
 		if (enable) {
 			mProgressContainer.setVisibility(View.VISIBLE);
@@ -504,28 +503,32 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			mRatesContainer.setVisibility(View.GONE);
 		}
 		else {
-			long animationDuration = getResources().getInteger(
-				android.R.integer.config_longAnimTime);
-			mAmenitiesContainer.setAlpha(0f);
-			mAmenitiesContainer.setVisibility(View.VISIBLE);
-			mRatesContainer.setAlpha(0f);
-			mRatesContainer.setVisibility(View.VISIBLE);
-			descriptionsContainer.setAlpha(0f);
+			mProgressContainer.setVisibility(View.VISIBLE);
 			descriptionsContainer.setVisibility(View.VISIBLE);
+			mAmenitiesContainer.setVisibility(View.VISIBLE);
+			mRatesContainer.setVisibility(View.VISIBLE);
 
-			mAmenitiesContainer.animate().alpha(1f).setDuration(animationDuration).setListener(null);
-			mRatesContainer.animate().alpha(1f).setDuration(animationDuration).setListener(null);
-			descriptionsContainer.animate().alpha(1f).setDuration(animationDuration).setListener(null);
+			long duration = getResources().getInteger(android.R.integer.config_longAnimTime);
 
-			mProgressContainer.animate().alpha(0f)
-				.setDuration(animationDuration)
-				.setListener(new AnimatorListenerAdapter() {
-					@Override
-					public void onAnimationEnd(Animator animation) {
-						mProgressContainer.setVisibility(View.GONE);
-						mProgressContainer.setAlpha(1f);
-					}
-				});
+			ObjectAnimator.ofFloat(mAmenitiesContainer, "alpha", 0.0f, 1.0f) //
+				.setDuration(duration) //
+				.start();
+			ObjectAnimator.ofFloat(mRatesContainer, "alpha", 0.0f, 1.0f) //
+				.setDuration(duration) //
+				.start();
+			ObjectAnimator.ofFloat(descriptionsContainer, "alpha", 0.0f, 1.0f) //
+				.setDuration(duration) //
+				.start();
+
+			ObjectAnimator a = ObjectAnimator.ofFloat(mProgressContainer, "alpha", 1.0f, 0.0f) //
+				.setDuration(duration);
+			a.addListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					mProgressContainer.setVisibility(View.GONE);
+				}
+			});
+			a.start();
 		}
 	}
 
