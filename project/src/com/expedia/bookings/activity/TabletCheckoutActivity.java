@@ -23,6 +23,7 @@ import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.ITripBucketBookClickListener;
 import com.expedia.bookings.interfaces.helpers.BackManager;
+import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -114,6 +115,10 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		//Args
 		if (savedInstanceState == null) {
 			updateLobFromIntent(getIntent());
+
+			//This is the first time we are arriving at this activity, so lets try to autopopulate our traveler/payment data.
+			BookingInfoUtils.populateTravelerDataFromUser(this, mCurrentLob);
+			BookingInfoUtils.populatePaymentDataFromUser(this, mCurrentLob);
 		}
 		else {
 			updateLobFromString(savedInstanceState.getString(INSTANCE_CURRENT_LOB));
