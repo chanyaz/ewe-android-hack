@@ -123,7 +123,9 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		startupTimer.addSplit("FS.db Init");
 
 		if (IS_VSC || IS_TRAVELOCITY) {
-			Locale locale = IS_VSC ? new Locale("fr", "FR") : new Locale("en", "US");
+
+			Locale locale = getLocaleForVscAndTvly();
+
 			Configuration myConfig = new Configuration(getResources().getConfiguration());
 			Locale.setDefault(locale);
 
@@ -350,21 +352,48 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	}
 
 	private void handleConfigurationChanged(final Configuration newConfig) {
-		Locale locale = IS_VSC ? new Locale("fr", "FR") : new Locale("en", "US");;
-		if (!newConfig.locale.equals(locale)) {
-			Log.d("Forcing locale to " + locale.getLanguage());
-			Configuration myConfig = new Configuration(newConfig);
-			Locale.setDefault(locale);
+		Locale locale = getLocaleForVscAndTvly();
 
-			myConfig.locale = locale;
-			getBaseContext().getResources().updateConfiguration(myConfig, getResources().getDisplayMetrics());
+		Log.d("Forcing locale to " + locale.getLanguage());
+		Configuration myConfig = new Configuration(newConfig);
+		Locale.setDefault(locale);
 
-			// Send broadcast so that we can re-create activities
-			Intent intent = IS_VSC ? new Intent(VSCLocaleChangeReceiver.ACTION_LOCALE_CHANGED) : new Intent(TravelocityLocaleChangeReceiver.ACTION_LOCALE_CHANGED);;
-			sendBroadcast(intent);
+		myConfig.locale = locale;
+		getBaseContext().getResources().updateConfiguration(myConfig, getResources().getDisplayMetrics());
+
+		// Send broadcast so that we can re-create activities
+		String action = VSCLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
+
+		if (IS_TRAVELOCITY) {
+			action = TravelocityLocaleChangeReceiver.ACTION_LOCALE_CHANGED;
 		}
 
+		Intent intent = new Intent(action);
+		sendBroadcast(intent);
+
 		super.onConfigurationChanged(newConfig);
+	}
+
+
+	private Locale getLocaleForVscAndTvly() {
+
+		Locale frFRlocale = new Locale("fr", "FR");
+		Locale frCALocale = new Locale("fr", "CA");
+		Locale enCALocale = new Locale("en", "CA");
+		Locale defaultEnUSLocale = new Locale("en", "US");
+
+		Locale currentLocale = getResources().getConfiguration().locale;
+
+		if (IS_VSC) {
+			return frFRlocale;
+		}
+		else if (IS_TRAVELOCITY && currentLocale.equals(frCALocale)) {
+			return frCALocale;
+		}
+		else if (IS_TRAVELOCITY && currentLocale.equals(enCALocale)) {
+			return enCALocale;
+		}
+		return defaultEnUSLocale;
 	}
 
 }
