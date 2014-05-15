@@ -178,6 +178,9 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			Db.getWorkingTravelerManager().setWorkingTravelerAndBase(Db.getTravelers().get(travelerNumber));
 		}
 		mTravelerNumber = travelerNumber;
+		if (mTravelerAdapter != null) {
+			mTravelerAdapter.setTravelerNumber(mTravelerNumber);
+		}
 		if (mSectionTraveler != null && travelerNumber >= 0 && travelerNumber < Db.getTravelers().size()) {
 			mSectionTraveler.resetValidation();
 
@@ -457,7 +460,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			mTravelerAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					Traveler trav = mTravelerAdapter.getItem(position);
+					Traveler trav = mTravelerAdapter.getItemFromId(id);
 					if (trav != null) {
 						Db.getWorkingTravelerManager().setWorkingTravelerAndBase(trav);
 

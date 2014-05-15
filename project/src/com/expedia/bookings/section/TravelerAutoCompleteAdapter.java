@@ -27,6 +27,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 	private TravelersFilter mFilter = new TravelersFilter();
 	private String mFilterStr;
+	private int mTravelerNumber = -1;
 
 	public TravelerAutoCompleteAdapter(Context context) {
 		super(context, R.layout.traveler_autocomplete_row);
@@ -38,9 +39,34 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 	}
 
 	@Override
+	public long getItemId(int position) {
+		return getItem(position).getTuid();
+	}
+
+	@Override
+	public boolean hasStableIds() {
+		return true;
+	}
+
+	@Override
 	public Traveler getItem(int position) {
 		if (getCount() > position) {
 			return getAvailableTravelers().get(position);
+		}
+		return null;
+	}
+
+	public void setTravelerNumber(int travelerNumber) {
+		mTravelerNumber = travelerNumber;
+	}
+
+	public Traveler getItemFromId(long id) {
+		if (Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null) {
+			for (Traveler trav : Db.getUser().getAssociatedTravelers()) {
+				if (trav.getTuid() == id) {
+					return trav;
+				}
+			}
 		}
 		return null;
 	}
@@ -87,8 +113,9 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 				//Remove the travelers already in Db from the list of available travelers
 				if (removeDbTravelers && Db.getTravelers() != null) {
 					boolean removed = false;
-					for (Traveler dbTrav : Db.getTravelers()) {
-						if (dbTrav.compareNameTo(trav) == 0) {
+					for (int j = 0; j < Db.getTravelers().size(); j++) {
+						Traveler dbTrav = Db.getTravelers().get(j);
+						if ((!removeWorkingTraveler || j != mTravelerNumber) && dbTrav.compareNameTo(trav) == 0) {
 							availableTravelers.remove(i);
 							removed = true;
 							break;
