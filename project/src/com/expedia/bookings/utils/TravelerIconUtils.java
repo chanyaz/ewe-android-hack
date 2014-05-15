@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.text.TextUtils;
 
 public class TravelerIconUtils {
 
@@ -50,7 +51,7 @@ public class TravelerIconUtils {
 		int borderWidth = (int) (2.5 * density);
 		canvas.drawCircle(size / 2, size / 2, size / 2, bgPaintWhite);
 		canvas.drawCircle(size / 2, size / 2, size / 2 - borderWidth, iconBgPaint);
-		canvas.drawText(name, size / 2, (size / 2) + (textOffset), txtPaint);
+		canvas.drawText(TextUtils.isEmpty(name) ? "?" : name, size / 2, (size / 2) + (textOffset), txtPaint);
 		return iconBmp;
 	}
 
@@ -69,6 +70,10 @@ public class TravelerIconUtils {
 		}
 		else if (nameParts.length == 3) {
 			return (nameParts[0].substring(0, 1) + nameParts[2].substring(0, 1)).toUpperCase(Locale.getDefault());
+		}
+		else if (nameParts.length > 3) {
+			//We have more than 3 parts, but that isn't very small so lets just go first letter.
+			return nameParts[0].substring(0, 1).toUpperCase(Locale.getDefault());
 		}
 
 		return null;
