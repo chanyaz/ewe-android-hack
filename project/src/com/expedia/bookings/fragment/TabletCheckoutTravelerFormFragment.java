@@ -268,7 +268,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 				if (state == TravelerFormState.EDITING) {
 					if (!Db.getWorkingTravelerManager().getWorkingTraveler()
 						.getSaveTravelerToExpediaAccount() && Db.getWorkingTravelerManager()
-						.workingTravelerNameDiffersFromBase()) {
+						.workingTravelerDiffersFromBase()) {
 						mStateManager.setState(TravelerFormState.SAVE_PROMPT, false);
 					}
 					else {
