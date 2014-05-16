@@ -101,6 +101,21 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 		return mHeadingButton;
 	}
 
+	/**
+	 * Attaches a view to this data form fragment's extra_heading_container (i.e. the
+	 * choose-a-stored-credit-card dropdown)
+	 * @param headingView
+	 */
+	public void attachExtraHeadingView(View headingView) {
+		ViewGroup extraHeadingContainer = Ui.findView(mRootC, R.id.extra_heading_container);
+		extraHeadingContainer.addView(headingView);
+	}
+
+	public void clearExtraHeadingView() {
+		ViewGroup extraHeadingContainer = Ui.findView(mRootC, R.id.extra_heading_container);
+		extraHeadingContainer.removeAllViews();
+	}
+
 	@Override
 	public void onLobSet(LineOfBusiness lob) {
 		if (mFormContentC != null) {

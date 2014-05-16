@@ -13,6 +13,38 @@
         android:src="@drawable/ic_tablet_checkout_generic_credit_card"/>
 
     <LinearLayout
+        android:id="@+id/stored_card_container"
+        android:layout_height="48dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/stored_card_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textSize="18sp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/remove_stored_card_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="8dp"
+            android:background="@drawable/bg_clickable_row"
+            android:src="@drawable/ic_log_out" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/new_card_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"

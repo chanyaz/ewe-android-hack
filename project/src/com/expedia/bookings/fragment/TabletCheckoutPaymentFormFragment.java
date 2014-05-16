@@ -2,23 +2,22 @@ package com.expedia.bookings.fragment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListPopupWindow;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -28,11 +27,13 @@ import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
-import com.expedia.bookings.section.StoredCreditCardAutoCompleteAdapter;
+import com.expedia.bookings.section.StoredCreditCardSpinnerAdapter;
+import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFragment implements InputFilter {
+public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFragment {
 
 	public static TabletCheckoutPaymentFormFragment newInstance(LineOfBusiness lob) {
 		TabletCheckoutPaymentFormFragment frag = new TabletCheckoutPaymentFormFragment();
@@ -42,14 +43,15 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 
 	private static final String STATE_FORM_IS_OPEN = "STATE_FORM_IS_OPEN";
 
-	private AutoCompleteTextView mCreditCardNumberAutoComplete;
-	private StoredCreditCardAutoCompleteAdapter mStoredCreditCardAdapter;
+	private StoredCreditCardSpinnerAdapter mStoredCreditCardAdapter;
 	private boolean mAttemptToLeaveMade = false;
 	private SectionBillingInfo mSectionBillingInfo;
 	private SectionLocation mSectionLocation;
 	private ICheckoutDataListener mListener;
 	private boolean mFormOpen = false;
 	private BillingInfo mBillingInfo;
+
+	private ViewGroup mMeasureParent;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -66,7 +68,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			}
 			mFormOpen = savedInstanceState.getBoolean(STATE_FORM_IS_OPEN, false);
 		}
-		mStoredCreditCardAdapter = new StoredCreditCardAutoCompleteAdapter(getActivity());
+		mStoredCreditCardAdapter = new StoredCreditCardSpinnerAdapter(getActivity());
 
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
@@ -111,8 +113,15 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		@Override
 		public void onClick(View arg0) {
 			mAttemptToLeaveMade = true;
-			if (mSectionBillingInfo != null && mSectionLocation != null && mSectionBillingInfo.hasValidInput()
-				&& mSectionLocation.hasValidInput()) {
+
+			// This case will happen if they've opened this form after already having selected
+			// a stored card, and then click "done"
+			if (Db.getBillingInfo().hasStoredCard()) {
+				closeForm(true);
+			}
+
+			if (mSectionBillingInfo != null	&& mSectionBillingInfo.hasValidInput()
+				&& mSectionLocation != null	&& mSectionLocation.hasValidInput()) {
 				commitAndLeave();
 			}
 
@@ -136,7 +145,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		view.setFocusableInTouchMode(true);
 		formContainer.addView(view, new ViewGroup.LayoutParams(0, 0));
 
-		//Actual form data
+		// Actual form data
 		if (getLob() == LineOfBusiness.HOTELS) {
 			mSectionBillingInfo = (SectionBillingInfo) View.inflate(getActivity(),
 				R.layout.section_hotel_edit_creditcard, null);
@@ -189,26 +198,9 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 
 		formContainer.addView(mSectionBillingInfo);
 
-		//We set up the AutoComplete view such that it will be the first name or last name field depending on POS.
-		//We leave the remainder of the AutoComplete's setup to onFormOpen and onFocus.
-		EditText editName = Ui.findView(mSectionBillingInfo, R.id.edit_creditcard_number);
-		if (editName != null && editName instanceof AutoCompleteTextView) {
-			mCreditCardNumberAutoComplete = (AutoCompleteTextView) editName;
-			InputFilter[] filters = new InputFilter[] { this };
-			mCreditCardNumberAutoComplete.setFilters(filters);
-			mCreditCardNumberAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					StoredCreditCard card = mStoredCreditCardAdapter.getItem(position);
-					if (card != null) {
-						Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(card);
-						commitAndLeave();
-					}
-				}
-			});
-		}
-
 		mSectionLocation = Ui.findView(mSectionBillingInfo, R.id.section_location_address);
+
+		setUpStoredCards();
 	}
 
 	@Override
@@ -216,30 +208,124 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		if (isResumed() && mFormOpen) {
 			mAttemptToLeaveMade = false;
 			Db.getWorkingBillingInfoManager().deleteWorkingBillingInfoFile(getActivity());
-			mCreditCardNumberAutoComplete.dismissDropDown();
-			mCreditCardNumberAutoComplete.setAdapter((ArrayAdapter<StoredCreditCard>) null);
+			if (mStoredCardPopup != null) {
+				mStoredCardPopup.dismiss();
+				mStoredCardPopup.setAdapter(null);
+			}
 		}
 		mFormOpen = false;
 	}
 
 	@Override
 	public void onFormOpened() {
-		if (isResumed() && (!mFormOpen || mCreditCardNumberAutoComplete.hasFocus())) {
-			mCreditCardNumberAutoComplete.setOnFocusChangeListener(mCardNumberFocusChangeListener);
-			mCreditCardNumberAutoComplete.requestFocus();//<-- This fires the onFocusChangeListener
-			mCreditCardNumberAutoComplete.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					Context context = getActivity();
-					if (context != null) {
-						InputMethodManager imm = (InputMethodManager) context
-							.getSystemService(Context.INPUT_METHOD_SERVICE);
-						imm.showSoftInput(mCreditCardNumberAutoComplete, 0);
-					}
-				}
-			}, 250);
+		if (isResumed()) {
+			if (Db.getBillingInfo().hasStoredCard()) {
+				showStoredCardContainer();
+			}
+			else {
+				showNewCardContainer();
+			}
 		}
 		mFormOpen = true;
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Stored cards
+
+	private ListPopupWindow mStoredCardPopup;
+
+	private void setUpStoredCards() {
+		int count = mStoredCreditCardAdapter.getCount();
+		clearExtraHeadingView();
+		if (count != 0) {
+			TextView storedCardButton = (TextView) View.inflate(getActivity(), R.layout.include_stored_card_spinner, null);
+			storedCardButton.setText(getString(R.string.x_Stored_Cards_TEMPLATE, count));
+			storedCardButton.setOnClickListener(mStoredCardButtonClickListener);
+			attachExtraHeadingView(storedCardButton);
+		}
+	}
+
+	private void showStoredCardContainer() {
+		Ui.findView(getActivity(), R.id.stored_card_container).setVisibility(View.VISIBLE);
+		Ui.findView(getActivity(), R.id.new_card_container).setVisibility(View.GONE);
+
+		StoredCreditCard card = Db.getBillingInfo().getStoredCard();
+
+		TextView cardName = Ui.findView(mSectionBillingInfo, R.id.stored_card_name);
+		cardName.setText(card.getDescription());
+
+		ImageView cardTypeIcon = Ui.findView(mSectionBillingInfo, R.id.display_credit_card_brand_icon_tablet);
+		CreditCardType cardType = card.getType();
+		if (cardType != null) {
+			cardTypeIcon.setImageResource(BookingInfoUtils.getTabletCardIcon(cardType));
+		}
+		else {
+			cardTypeIcon.setImageResource(R.drawable.ic_tablet_checkout_generic_credit_card);
+		}
+
+		Ui.findView(mSectionBillingInfo, R.id.remove_stored_card_button).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Db.getBillingInfo().setStoredCard(null);
+				showNewCardContainer();
+			}
+		});
+	}
+
+	private void showNewCardContainer() {
+		Ui.findView(mSectionBillingInfo, R.id.stored_card_container).setVisibility(View.GONE);
+		Ui.findView(mSectionBillingInfo, R.id.new_card_container).setVisibility(View.VISIBLE);
+		mSectionBillingInfo.bind(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+	}
+
+	private OnClickListener mStoredCardButtonClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			if (mStoredCardPopup == null) {
+				mStoredCardPopup = new ListPopupWindow(getActivity());
+				mStoredCardPopup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+						StoredCreditCard card = mStoredCreditCardAdapter.getItem(position);
+						if (card != null) {
+							Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(card);
+							commitAndLeave();
+							showStoredCardContainer();
+							mStoredCardPopup.dismiss();
+						}
+					}
+				});
+				mStoredCardPopup.setAnchorView(view);
+			}
+			mStoredCardPopup.setAdapter(mStoredCreditCardAdapter);
+			mStoredCardPopup.setContentWidth(measureContentWidth(mStoredCreditCardAdapter));
+			mStoredCardPopup.show();
+		}
+	};
+
+	// Copied from AOSP, ListPopupWindow.java
+	private int measureContentWidth(ListAdapter adapter) {
+		// Menus don't tend to be long, so this is more sane than it looks.
+		int width = 0;
+		View itemView = null;
+		int itemType = 0;
+		final int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		final int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		final int count = adapter.getCount();
+		for (int i = 0; i < count; i++) {
+			final int positionType = adapter.getItemViewType(i);
+			if (positionType != itemType) {
+				itemType = positionType;
+				itemView = null;
+			}
+			if (mMeasureParent == null) {
+				mMeasureParent = new FrameLayout(getActivity());
+			}
+			itemView = adapter.getView(i, itemView, mMeasureParent);
+			itemView.measure(widthMeasureSpec, heightMeasureSpec);
+			width = Math.max(width, itemView.getMeasuredWidth());
+		}
+		return width + 32;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -248,25 +334,17 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	private View.OnFocusChangeListener mCardNumberFocusChangeListener = new View.OnFocusChangeListener() {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
-			if (mCreditCardNumberAutoComplete != null) {
-				if (hasFocus) {
-					mCreditCardNumberAutoComplete.setAdapter(mStoredCreditCardAdapter);
-					mCreditCardNumberAutoComplete.showDropDown();
-				}
-				else {
-					mCreditCardNumberAutoComplete.dismissDropDown();
-					mCreditCardNumberAutoComplete.setAdapter((ArrayAdapter<StoredCreditCard>) null);
-				}
-			}
+//			if (mCreditCardNumberAutoComplete != null) {
+//				if (hasFocus) {
+//					mCreditCardNumberAutoComplete.setAdapter(mStoredCreditCardAdapter);
+//					mCreditCardNumberAutoComplete.showDropDown();
+//				}
+//				else {
+//					mCreditCardNumberAutoComplete.dismissDropDown();
+//					mCreditCardNumberAutoComplete.setAdapter((ArrayAdapter<StoredCreditCard>) null);
+//				}
+//			}
 		}
 	};
 
-
-	//////////////////////////////////////////////////////////////////////////
-	// InputFilter
-
-	@Override
-	public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-		return null;
-	}
 }

@@ -18,11 +18,9 @@ import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.mobiata.android.util.Ui;
 
-public class StoredCreditCardAutoCompleteAdapter extends ArrayAdapter<StoredCreditCard> implements Filterable {
+public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCard> {
 
-	private StoredCreditCardFilter mFilter = new StoredCreditCardFilter();
-
-	public StoredCreditCardAutoCompleteAdapter(Context context) {
+	public StoredCreditCardSpinnerAdapter(Context context) {
 		super(context, R.layout.traveler_autocomplete_row);
 	}
 
@@ -39,7 +37,11 @@ public class StoredCreditCardAutoCompleteAdapter extends ArrayAdapter<StoredCred
 		return null;
 	}
 
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+	@Override
+	public View getDropDownView(int position, View convertView, ViewGroup parent) {
+		return getView(position, convertView, parent);
+	}
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		StoredCreditCard card = getItem(position);
@@ -59,31 +61,6 @@ public class StoredCreditCardAutoCompleteAdapter extends ArrayAdapter<StoredCred
 
 	private List<StoredCreditCard> getAvailableStoredCards() {
 		return BookingInfoUtils.getStoredCreditCards(getContext());
-	}
-
-	@Override
-	public Filter getFilter() {
-		return mFilter;
-	}
-
-	private class StoredCreditCardFilter extends Filter {
-
-		@Override
-		//The return value of this gets stuck into the EditText when we select an item from the dropdown
-		public CharSequence convertResultToString(Object resultValue) {
-			return "";
-		}
-
-		@Override
-		protected FilterResults performFiltering(CharSequence constraint) {
-			//We never filter stored credit cards
-			return new FilterResults();
-		}
-
-		@Override
-		protected void publishResults(CharSequence constraint, FilterResults results) {
-			notifyDataSetChanged();
-		}
 	}
 
 }
