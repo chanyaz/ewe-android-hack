@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import org.hamcrest.Matcher;
@@ -132,7 +133,40 @@ public final class ViewActions {
 		public String getDescription() {
 			return "Get total list items count and list items per screen height count";
 		}
+	}
 
+	//View Action to get the rating for RatingBar
+
+	public static ViewAction getRating(String value) {
+		return new getRatings(value);
+	}
+
+	public final static class getRatings implements ViewAction {
+		private String mValueString;
+
+		public getRatings(String value) {
+			mValueString = value;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public Matcher<View> getConstraints() {
+			return Matchers.allOf(isAssignableFrom(RatingBar.class));
+		}
+
+		@Override
+		public void perform(UiController uiController, View view) {
+
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view.getContext());
+			SharedPreferences.Editor editor = prefs.edit();
+			editor.putFloat(mValueString, ((RatingBar) view).getRating());
+			editor.commit();
+		}
+
+		@Override
+		public String getDescription() {
+			return "get ratings from RatingBar widget";
+		}
 	}
 }
 
