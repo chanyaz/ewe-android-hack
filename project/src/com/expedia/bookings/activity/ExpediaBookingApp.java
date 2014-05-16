@@ -34,6 +34,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.SocketActivityHierarchyServer;
 import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
@@ -78,6 +79,18 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 		super.onCreate();
 
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
+
+		if (SettingUtils.get(this, getString(R.string.preference_should_start_hierarchy_server), false)) {
+			SocketActivityHierarchyServer activityHierarchyServer = new SocketActivityHierarchyServer();
+			try {
+				activityHierarchyServer.start();
+				registerActivityLifecycleCallbacks(activityHierarchyServer);
+			}
+			catch (Exception e) {
+				Log.e("Failed to start HierarchyServer", e);
+			}
+			startupTimer.addSplit("SocketActivityHierarchyServer Init");
+		}
 
 		ActiveAndroid.initialize(this);
 

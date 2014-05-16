@@ -52,6 +52,12 @@
             android:summary="Force the GOOGLE_WALLET error to be added to the checkout response. Will be the primary error, no matter what."
             android:title="Force Google Wallet error" />
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/preference_should_start_hierarchy_server"
+            android:summary="Needs app restart to take effect. Then you can use hierarchy viewing on a non-root device."
+            android:title="Start the hierarchy server on app launch" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Hotels" >
