@@ -137,6 +137,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
 		if (mCurrentLob != null) {
 			outState.putString(INSTANCE_CURRENT_LOB, mCurrentLob.name());
 		}
