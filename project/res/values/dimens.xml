@@ -20,7 +20,10 @@
     <dimen name="results_column_header_height">48dp</dimen>
 
     <dimen name="results_flight_histogram_horizontal_padding">16dp</dimen>
-    <dimen name="results_flight_histogram_price_margin_left">10dp</dimen>
+    <dimen name="results_flight_histogram_vertical_padding">10dp</dimen>
+    <dimen name="results_flight_histogram_price_horizontal_margin">10dp</dimen>
+    <dimen name="results_flight_histogram_vertical_margin">6dp</dimen>
+    <dimen name="results_flight_histogram_horizontal_margin">12dp</dimen>
 
     <dimen name="tablet_hotel_details_vertical_padding">64dp</dimen>
     <fraction name="tablet_hotel_details_horizontal_spacing_percentage">14%</fraction>
