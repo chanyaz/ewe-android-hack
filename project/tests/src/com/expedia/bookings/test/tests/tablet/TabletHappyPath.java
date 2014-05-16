@@ -15,8 +15,6 @@ import com.expedia.bookings.test.tests.pageModels.tablet.IdlingResources.Suggest
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
 import com.expedia.bookings.test.tests.pageModels.tablet.Settings;
-import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.mobiata.android.Log;
 
 public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 
@@ -207,15 +205,7 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 			if (mSuggestionResource != null) {
 				IdlingResources.unregisterSuggestionResource(mSuggestionResource);
 			}
-			try {
-				while (true) {
-					Espresso.pressBack();
-				}
-			}
-			catch (Exception e) {
-				// Ignore
-				Log.v("Pressed back a bunch of times: ", e);
-			}
+			Common.pressBackOutOfApp();
 		}
 	}
 }
