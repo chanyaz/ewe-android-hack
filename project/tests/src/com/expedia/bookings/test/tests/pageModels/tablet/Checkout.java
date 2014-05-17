@@ -119,13 +119,18 @@ public class Checkout {
 	}
 
 	public static void enterCity(String text) {
+		addressCity().perform(scrollTo());
 		addressCity().perform(click());
 		addressCity().perform(typeText(text));
 	}
 
 	public static void enterState(String text) {
+		addressState().perform(scrollTo());
 		addressState().perform(click());
+		Common.pressBack();
+		addressState().perform(scrollTo());
 		addressState().perform(clearText());
+		addressState().perform(scrollTo());
 		addressState().perform(typeText(text));
 	}
 
@@ -147,6 +152,7 @@ public class Checkout {
 	}
 
 	public static void enterPostalCode(String text) {
+		postalCode().perform(scrollTo());
 		postalCode().perform(click());
 		postalCode().perform(typeText(text));
 	}

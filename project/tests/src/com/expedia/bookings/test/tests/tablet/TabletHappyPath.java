@@ -103,13 +103,13 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 
 		Checkout.clickOnEnterPaymentInformation();
 		Checkout.setExpirationDate(2020, 12);
-		Checkout.enterCreditCardNumber("4111111111111111\n");
-		Checkout.enterNameOnCard("Mobiata Auto\n");
-		Checkout.enterAddress1("123 Main St.\n");
-		Checkout.enterAddress2("Apt. 1\n");
-		Checkout.enterCity("Madison\n");
-		Checkout.enterState("WI\n");
-		Checkout.enterPostalCode("53704\n");
+		Checkout.enterCreditCardNumber("4111111111111111");
+		Checkout.enterNameOnCard("Mobiata Auto");
+		Checkout.enterAddress1("123 Main St.");
+		Checkout.enterAddress2("Apt. 1");
+		Checkout.enterCity("Madison");
+		Checkout.enterState("WI");
+		Checkout.enterPostalCode("53704");
 		Checkout.clickOnDone();
 
 		Checkout.slideToPurchase();
@@ -181,13 +181,13 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 
 		Checkout.clickOnEnterPaymentInformation();
 		Checkout.setExpirationDate(2020, 12);
-		Checkout.enterCreditCardNumber("4111111111111111\n");
-		Checkout.enterNameOnCard("Mobiata Auto\n");
-		Checkout.enterAddress1("123 Main St.\n");
-		Checkout.enterAddress2("Apt. 1\n");
-		Checkout.enterCity("Madison\n");
-		Checkout.enterState("WI\n");
-		Checkout.enterPostalCode("53704\n");
+		Checkout.enterCreditCardNumber("4111111111111111");
+		Checkout.enterNameOnCard("Mobiata Auto");
+		Checkout.enterAddress1("123 Main St.");
+		Checkout.enterAddress2("Apt. 1");
+		Checkout.enterCity("Madison");
+		Checkout.enterState("WI");
+		Checkout.enterPostalCode("53704");
 		Checkout.clickOnDone();
 
 		Checkout.slideToPurchase();
