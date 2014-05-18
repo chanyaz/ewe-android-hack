@@ -683,10 +683,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 
 			dialog.updateDate(mYear, mMonth, mDay);
 
-			if (AndroidUtils.getSdkVersion() >= 11) {
-				//We set a max date for new apis, if we are stuck with an old api, they will be allowed to choose any date, but validation will fail
-				dialog.getDatePicker().setMaxDate(DateTime.now().getMillis());
-			}
+			//We set a max date for new apis, if we are stuck with an old api, they will be allowed to choose any date, but validation will fail
+			dialog.getDatePicker().setMaxDate(DateTime.now().getMillis());
 
 			return dialog;
 		}

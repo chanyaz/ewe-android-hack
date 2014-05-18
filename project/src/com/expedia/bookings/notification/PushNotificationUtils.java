@@ -180,7 +180,7 @@ public class PushNotificationUtils {
 
 						String airline = leg.getAirlinesFormatted();
 						String title;
-						if (AndroidUtils.getSdkVersion() >= 14 && !TextUtils.isEmpty(airline)) {
+						if (!TextUtils.isEmpty(airline)) {
 							title = context.getString(R.string.x_flight_to_x_TEMPLATE, airline, destination);
 						}
 						else {

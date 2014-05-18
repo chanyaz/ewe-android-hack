@@ -367,16 +367,6 @@ public class Money implements JSONable {
 				formatted = formatted.substring(0, formatted.length() - INR_MESSED_UP.length()) + "Rs";
 			}
 		}
-
-		// #12791 - PHP (Philippine Peso) doesn't display correctly on SGS2 Gingerbread, so fix it here.
-		else if (currencyCode.equals("PHP") && AndroidUtils.isGalaxyS2() && AndroidUtils.getSdkVersion() <= 10) {
-			if (formatted.startsWith(PHP_CURRENCY_UNICODE)) {
-				formatted = currencyCode + formatted.substring(PHP_CURRENCY_UNICODE.length());
-			}
-			else if (formatted.endsWith(PHP_CURRENCY_UNICODE)) {
-				formatted = formatted.substring(0, formatted.length() - PHP_CURRENCY_UNICODE.length()) + currencyCode;
-			}
-		}
 		else if (currencyCode.equals("IDR")) {
 			if (formatted.startsWith(GENERIC_CURRENCY_UNICODE)) {
 				formatted = "Rp" + formatted.substring(GENERIC_CURRENCY_UNICODE.length());
@@ -392,22 +382,6 @@ public class Money implements JSONable {
 			else if (formatted.endsWith(BRL_CURRENCY_STRING) && formatted.charAt(formatted.length() - 3) != ' ') {
 				formatted = formatted.substring(0, formatted.length() - BRL_CURRENCY_STRING.length()) + " R$";
 			}
-		}
-		// #1032 - EUR for a few 2.3 devices are displayed incorrectly. Ugly hack here
-		else if (currencyCode.equals("EUR") && AndroidUtils.getSdkVersion() <= 10) {
-			if (formatted.startsWith(GENERIC_CURRENCY_UNICODE)) {
-				formatted = EURO_CURRENCY_UNICODE + formatted.substring(GENERIC_CURRENCY_UNICODE.length());
-			}
-			else if (formatted.endsWith(GENERIC_CURRENCY_UNICODE)) {
-				formatted = formatted.substring(0, formatted.length() - GENERIC_CURRENCY_UNICODE.length())
-						+ EURO_CURRENCY_UNICODE;
-			}
-		}
-
-		// F830: Remove trailing decimal.  In Android 2.1, it seems to remain
-		// even if there is no fractional component.
-		if (Build.VERSION.SDK_INT == 7 && (flags & F_NO_DECIMAL) != 0 && formatted.endsWith(".")) {
-			formatted = formatted.substring(0, formatted.length() - 1);
 		}
 
 		return formatted;

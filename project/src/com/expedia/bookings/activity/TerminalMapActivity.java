@@ -72,17 +72,9 @@ public class TerminalMapActivity extends FragmentActivity implements OnNavigatio
 			}
 		}
 
-		if (AndroidUtils.getSdkVersion() > 11) {
-			mMapSelectorAdapter = new ArrayAdapter<String>(this,
-					R.layout.simple_spinner_dropdown_item_terminal_chooser,
-					mTerminalNames);
-		}
-		else {
-			//On 2.x dropdown items are not ellipsized properly in the nav dropdown spinner so we use a fixed width dropdown
-			mMapSelectorAdapter = new ArrayAdapter<String>(this,
-					R.layout.simple_spinner_dropdown_item_terminal_chooser_sdk11,
-					mTerminalNames);
-		}
+		mMapSelectorAdapter = new ArrayAdapter<String>(this,
+			R.layout.simple_spinner_dropdown_item_terminal_chooser,
+			mTerminalNames);
 		actionBar.setListNavigationCallbacks(mMapSelectorAdapter, this);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_POSITION)) {

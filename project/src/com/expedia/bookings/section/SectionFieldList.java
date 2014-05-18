@@ -138,10 +138,8 @@ public class SectionFieldList<T> extends AbstractList<SectionField<?, T>> {
 					if (view.getNextFocusRightId() == removeViewId) {
 						view.setNextFocusRightId(removeView.getNextFocusRightId());
 					}
-					if (AndroidUtils.getSdkVersion() >= 11) {
-						if (view.getNextFocusForwardId() == removeViewId) {
-							view.setNextFocusForwardId(removeView.getNextFocusForwardId());
-						}
+					if (view.getNextFocusForwardId() == removeViewId) {
+						view.setNextFocusForwardId(removeView.getNextFocusForwardId());
 					}
 				}
 			}

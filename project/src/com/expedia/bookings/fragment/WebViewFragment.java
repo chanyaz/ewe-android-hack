@@ -310,9 +310,8 @@ public class WebViewFragment extends DialogFragment {
 			String userAgentString = ExpediaServices.getUserAgentString(getActivity());
 			mWebView.getSettings().setUserAgentString(userAgentString);
 		}
-		if (AndroidUtils.getSdkVersion() >= 11) {
-			mWebView.getSettings().setDisplayZoomControls(false);
-		}
+
+		mWebView.getSettings().setDisplayZoomControls(false);
 
 		mWebView.setWebViewClient(new WebViewClient() {
 

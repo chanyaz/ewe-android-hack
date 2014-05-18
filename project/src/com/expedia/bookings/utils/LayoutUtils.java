@@ -244,26 +244,9 @@ public class LayoutUtils {
 		roomDetailsTextView.setText(longDescription);
 	}
 
-	// 10758: render this view on a software layer
-	// to avoid the fuzziness of the saved section background
-	@TargetApi(11)
-	public static void sayNoToJaggies(View... views) {
-		int sdkVersion = AndroidUtils.getSdkVersion();
-		if (sdkVersion >= 11 && sdkVersion <= 13) {
-			for (View v : views) {
-				v.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-			}
-		}
-	}
-
-	// Use a condensed rows if the screen width is not large enough
-	@TargetApi(13)
 	public static boolean isScreenNarrow(Context context) {
 		Configuration config = context.getResources().getConfiguration();
-		if (AndroidUtils.getSdkVersion() >= 13) {
-			return config.screenWidthDp <= 800;
-		}
-		return config.orientation == Configuration.ORIENTATION_PORTRAIT;
+		return config.screenWidthDp <= 800;
 	}
 
 	private static final int[] ATTR_ACTION_BAR_SIZE = new int[] {android.R.attr.actionBarSize};

@@ -177,13 +177,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 				viewHolder.body.setText(userReviewLoaded.mReview.getBody());
 				userReviewLoaded.mIsDisplayingFull = true;
 				setupFullReviewDisplay(viewHolder);
-
-				// #8783: If the review would be off the screen, scroll it into view.
-				// Since smoothScrollToPosition() was only added in api 8, we only do
-				// this on newer versions.  "Jumping" would be too sudden for this.
-				if (AndroidUtils.getSdkVersion() >= 8) {
-					mListView.smoothScrollToPosition(position + 1); //scroll to item (account for header)
-				}
+				mListView.smoothScrollToPosition(position + 1); //scroll to item (account for header)
 			}
 		});
 

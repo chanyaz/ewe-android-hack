@@ -171,21 +171,14 @@ public class HotelDetailsIntroFragment extends Fragment {
 		// User Rating Bar
 		if (userRatingBar.getRating() != userRating && (mAnimSet == null || !mAnimSet.isRunning())) {
 			userRatingBar.setRating(0f);
-			ObjectAnimator animRating = ObjectAnimator.ofFloat(userRatingBar, "rating", userRating);
-			mAnimSet = new AnimatorSet();
 
-			if (AndroidUtils.getSdkVersion() <= 10) {
-				// There are some weird black background effects going on here on <= 10.
-				// So let's just stick to animating the rating bar.
-				mAnimSet.play(animRating);
-			}
-			else {
-				// Please to be doing all the animations.
-				ObjectAnimator anim1 = ObjectAnimator.ofFloat(reviewsLayout, "alpha", 0f, 1f);
-				ObjectAnimator anim2 = ObjectAnimator.ofFloat(bannerTextView, "alpha", 0f, 1f);
-				ObjectAnimator anim3 = ObjectAnimator.ofFloat(verticalSep, "alpha", 0f, 1f);
-				mAnimSet.play(anim1).with(anim2).with(anim3).before(animRating);
-			}
+			ObjectAnimator animRating = ObjectAnimator.ofFloat(userRatingBar, "rating", userRating);
+			ObjectAnimator anim1 = ObjectAnimator.ofFloat(reviewsLayout, "alpha", 0f, 1f);
+			ObjectAnimator anim2 = ObjectAnimator.ofFloat(bannerTextView, "alpha", 0f, 1f);
+			ObjectAnimator anim3 = ObjectAnimator.ofFloat(verticalSep, "alpha", 0f, 1f);
+
+			mAnimSet = new AnimatorSet();
+			mAnimSet.play(anim1).with(anim2).with(anim3).before(animRating);
 
 			mAnimSet.start();
 		}

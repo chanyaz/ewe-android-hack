@@ -616,7 +616,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		String destinationCode = lastWaypoint.mAirportCode;
 
 		String body;
-		if (AndroidUtils.getSdkVersion() >= 14 && !TextUtils.isEmpty(airline)) {
+		if (!TextUtils.isEmpty(airline)) {
 			body = context.getString(R.string.x_flight_to_x_TEMPLATE, airline, destination);
 		}
 		else {
