@@ -939,11 +939,12 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			mHeaderTextLayout.setTranslationY((mItinTypeImageView.getHeight() * percentIcon) / 2);
 			mCardLayout.setTranslationY(viewTranslationY);
 		}
-		else if ((AndroidUtils.getSdkVersion() < 11 || (mShowSummary && mHeaderTextLayout.getTranslationY() == 0))
+		else if (mShowSummary
+				&& mHeaderTextLayout.getTranslationY() == 0
 				&& mFixedItinTypeImageView.getVisibility() == View.VISIBLE
 				&& mHeaderTextLayout.getVisibility() == View.VISIBLE) {
 			//If we are in expanded mode, and are making use the of the fixtedItinTypeImageView we need to ensure that the text is positioned below it
-			//not underneath it. This fixes a 2.x bug w.r.t. positioning, and it also fixes a rotation bug when a card is expanded and mShowSummary == true
+			//not underneath it. This fixes a rotation bug when a card is expanded and mShowSummary == true
 
 			int height = mFixedItinTypeImageView.getHeight();
 			int padding = mFixedItinTypeImageView.getPaddingBottom();

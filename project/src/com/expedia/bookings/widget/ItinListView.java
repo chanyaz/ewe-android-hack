@@ -692,28 +692,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		int firstVisiblePos = getFirstVisiblePosition();
 		int lastVisiblePos = getLastVisiblePosition();
 
-		//So this is the hacky magic to get jumping to a particular card working on 2.x
-		//We set the DetailPosition in the adapter which changes the result of getItemViewType for that view
-		//We then invalidate the list, which forces us to ask the adapter for new views.
-		//After this is ready to draw the new stuff, we should have the views we need, so we go ahead and tell the thing
-		//to expand for real.
-		if (AndroidUtils.getSdkVersion() < 11 && mAdapter.getDetailPosition() != position) {
-			mUiQueue.add(new Runnable() {
-				public void run() {
-					showDetails(position, animate);
-				}
-			});
-			mAdapter.setDetailPosition(position);
-
-			// This ends up triggering onDataSetChanged(), which eventually takes
-			// the next runnable off the UiQueue (the one we just added).
-			mAdapter.notifyDataSetChanged();
-
-			invalidate();
-			releaseSemaphore();
-			return;
-		}
-
 		// If this ListView hasn't drawn any children at all yet, wait until it has.
 		if (getChildCount() == 0) {
 			Ui.runOnNextLayout(this, new Runnable() {
@@ -841,16 +819,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		final int pos = mAdapter.getMostRelevantCardPosition();
 		if (pos >= 0) {
 			post(new Runnable() {
-				@SuppressLint("NewApi")
 				@Override
 				public void run() {
 					if (ItinListView.this != null && !isInDetailMode()) {
-						if (AndroidUtils.getSdkVersion() >= 11) {
-							smoothScrollToPositionFromTop(pos, 0);
-						}
-						else {
-							setSelectionFromTop(pos, 0);
-						}
+						smoothScrollToPositionFromTop(pos, 0);
 					}
 				}
 			});
