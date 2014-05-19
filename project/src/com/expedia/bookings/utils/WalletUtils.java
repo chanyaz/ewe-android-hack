@@ -135,12 +135,13 @@ public class WalletUtils {
 	// to do after the user books (as we do not want the
 	public static void unbindFullWalletDataFromBillingInfo(BillingInfo billingInfo) {
 		Log.d(TAG, "Unbinding full wallet data from billing info...");
-
-		billingInfo.setNumber(null);
-		billingInfo.setSecurityCode(null);
-		billingInfo.setLocation(null);
-		billingInfo.setNameOnCard(null);
-		billingInfo.setExpirationDate(null);
+		if (billingInfo.isUsingGoogleWallet()) {
+			billingInfo.setNumber(null);
+			billingInfo.setSecurityCode(null);
+			billingInfo.setLocation(null);
+			billingInfo.setNameOnCard(null);
+			billingInfo.setExpirationDate(null);
+		}
 	}
 
 	// If something goes wrong, we actually *don't* want GoogleWallet in the billing info anymore
