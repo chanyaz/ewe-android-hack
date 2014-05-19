@@ -746,10 +746,10 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				setEntryFormShowingPercentage(0f, mShowingViewIndex);
 				mShowingViewIndex = -1;
 
-				if(mTravelerForm != null){
+				if(mTravelerForm != null && mTravelerForm.isFormOpen()){
 					mTravelerForm.onFormClosed();
 				}
-				if(mPaymentForm != null){
+				if(mPaymentForm != null && mPaymentForm.isFormOpen()){
 					mPaymentForm.onFormClosed();
 				}
 

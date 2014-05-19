@@ -229,6 +229,10 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		mFormOpen = true;
 	}
 
+	public boolean isFormOpen() {
+		return mFormOpen;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Stored cards
 
