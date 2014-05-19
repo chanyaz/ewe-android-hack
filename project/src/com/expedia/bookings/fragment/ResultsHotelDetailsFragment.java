@@ -494,7 +494,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private boolean mCurrentlyShowingLoadingProgress = false;
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	private void toggleLoadingState(boolean enable) {
-		Log.stackTrace(5, "HERE enable=" + enable);
 		LinearLayout descriptionsContainer = Ui.findView(mRootC, R.id.description_details_sections_container);
 		if (enable) {
 			mProgressContainer.setVisibility(View.VISIBLE);
