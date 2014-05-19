@@ -219,6 +219,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	@Override
 	public void onFormOpened() {
 		if (isResumed()) {
+			setUpStoredCards();
 			if (Db.getBillingInfo().hasStoredCard()) {
 				showStoredCardContainer();
 			}
@@ -270,6 +271,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			@Override
 			public void onClick(View view) {
 				Db.getBillingInfo().setStoredCard(null);
+				setUpStoredCards();
 				showNewCardContainer();
 			}
 		});
