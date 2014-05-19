@@ -142,6 +142,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private static final String INSTANCE_DONE_LOADING_PRICE_CHANGE = "INSTANCE_DONE_LOADING_PRICE_CHANGE";
 	private static final String INSTANCE_FLIGHT_TRIP_ERROR = "INSTANCE_FLIGHT_TRIP_ERROR";
 
+	private static final String INSTANCE_CURRENT_LOB = "INSTANCE_CURRENT_LOB";
+
 	private boolean mIsDoneLoadingPriceChange = false;
 	private boolean mIsFlightTripDone = false;
 	private boolean mAnimateState = false;
@@ -156,6 +158,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private ThrobberDialog mHotelProductDownloadThrobber;
 	private ThrobberDialog mCreateTripDownloadThrobber;
 	private ThrobberDialog mFlightCreateTripDownloadThrobber;
+
+	private LineOfBusiness mCurrentLob;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -227,6 +231,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				CheckoutState.OVERVIEW.name())));
 			mIsDoneLoadingPriceChange = savedInstanceState.getBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE);
 			mIsFlightTripDone = savedInstanceState.getBoolean(INSTANCE_FLIGHT_TRIP_ERROR);
+			mCurrentLob = LineOfBusiness.valueOf(savedInstanceState.getString(INSTANCE_CURRENT_LOB));
 		}
 
 		registerStateListener(mStateHelper, false);
@@ -246,6 +251,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		outState.putString(STATE_CHECKOUT_STATE, mStateManager.getState().name());
 		outState.putBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE, mIsDoneLoadingPriceChange);
 		outState.putBoolean(INSTANCE_FLIGHT_TRIP_ERROR, mIsFlightTripDone);
+		if (mCurrentLob != null) {
+			outState.putString(INSTANCE_CURRENT_LOB, mCurrentLob.name());
+		}
 	}
 
 	@Override
@@ -305,6 +313,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public void onLobSet(LineOfBusiness lob) {
+		if (mCurrentLob != null && mCurrentLob != lob) {
+			Db.clearGoogleWallet();
+			WalletUtils.unbindAllWalletDataFromBillingInfo(Db.getBillingInfo());
+		}
+		mCurrentLob = lob;
+
 		if (mCheckoutFragment != null) {
 			mCheckoutFragment.setLob(lob);
 		}
@@ -1347,8 +1361,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Subscribe
 	public void onBookNext(Events.BookingConfirmationBookNext event) {
 		if (event.nextItem != null) {
-			Db.clearGoogleWallet();
-			WalletUtils.unbindAllWalletDataFromBillingInfo(Db.getBillingInfo());
 			setLob(event.nextItem);
 			setCheckoutState(CheckoutState.OVERVIEW, false);
 		}
