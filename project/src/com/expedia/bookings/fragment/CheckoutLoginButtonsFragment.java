@@ -171,6 +171,9 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 		if (mAccountButton != null) {
 			refreshAccountButtonState();
 		}
+		if (mWalletButton != null) {
+			onlyUpdateWalletViewVisibilities();
+		}
 	}
 
 	private void refreshAccountButtonState() {
@@ -371,6 +374,11 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 
 	@Override
 	protected void updateWalletViewVisibilities() {
+		boolean enabledButtons = onlyUpdateWalletViewVisibilities();
+		mWalletListener.onWalletButtonStateChanged(enabledButtons);
+	}
+
+	private boolean onlyUpdateWalletViewVisibilities() {
 		boolean showWalletButton = showWalletButton();
 		boolean isWalletLoading = isWalletLoading();
 
@@ -380,7 +388,8 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 		// Enable buttons if we're either not showing the wallet button or we're not loading a masked wallet
 		boolean enableButtons = !showWalletButton || !isWalletLoading;
 		mAccountButton.setEnabled(enableButtons);
-		mWalletListener.onWalletButtonStateChanged(enableButtons);
+
+		return enableButtons;
 	}
 
 	/*

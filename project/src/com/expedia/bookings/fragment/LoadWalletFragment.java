@@ -111,7 +111,8 @@ public abstract class LoadWalletFragment extends WalletFragment {
 
 		return isGoogleWalletEnabled()
 				&& maskedWallet == null
-				&& (!mWalletClient.isConnected()
+				&& (mWalletClient == null
+						|| !mWalletClient.isConnected()
 						|| !mCheckedPreAuth
 						|| mIsUserPreAuthorized);
 	}
