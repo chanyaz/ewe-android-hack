@@ -567,25 +567,27 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 
 	public void focusProperty(Property property, boolean animate, float zoom) {
 		Marker marker = mPropertiesToMarkers.get(property);
-		if (mShowInfoWindow) {
-			marker.showInfoWindow();
-		}
-		CameraUpdate camUpdate;
+		if (marker != null) {
+			if (mShowInfoWindow) {
+				marker.showInfoWindow();
+			}
+			CameraUpdate camUpdate;
 
-		if (zoom != -1.0f) {
-			LatLng position = offsetLatLng(marker.getPosition(), getCenterOffsetX(), getCenterOffsety(), zoom);
-			camUpdate = CameraUpdateFactory.newLatLngZoom(position, zoom);
-		}
-		else {
-			LatLng position = offsetLatLng(marker.getPosition());
-			camUpdate = CameraUpdateFactory.newLatLng(position);
-		}
+			if (zoom != -1.0f) {
+				LatLng position = offsetLatLng(marker.getPosition(), getCenterOffsetX(), getCenterOffsety(), zoom);
+				camUpdate = CameraUpdateFactory.newLatLngZoom(position, zoom);
+			}
+			else {
+				LatLng position = offsetLatLng(marker.getPosition());
+				camUpdate = CameraUpdateFactory.newLatLng(position);
+			}
 
-		if (animate) {
-			animateCamera(camUpdate);
-		}
-		else {
-			moveCamera(camUpdate);
+			if (animate) {
+				animateCamera(camUpdate);
+			}
+			else {
+				moveCamera(camUpdate);
+			}
 		}
 	}
 
