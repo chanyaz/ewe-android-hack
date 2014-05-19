@@ -45,7 +45,7 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		mRes = mContext.getResources();
 		ClearPrivateDataUtil.clear(mContext);
-		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Production");
+		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
 		getActivity();
 	}
 
@@ -54,9 +54,9 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
-		HotelsSearchScreen.enterSearchText("New York, NY");
+		HotelsSearchScreen.enterSearchText("Boston, MA");
 		ScreenActions.enterLog(TAG, "HERE clicking suggestion");
-		HotelsSearchScreen.clickSuggestion(getActivity(), "New York, NY");
+		HotelsSearchScreen.clickSuggestion(getActivity(), "Boston, MA");
 		EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView(), "totalHotels", 1);
 		int totalHotels = mPrefs.getInt("totalHotels", 0);
 		ScreenActions.enterLog(TAG, "totalHotels " + totalHotels);

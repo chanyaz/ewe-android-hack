@@ -35,7 +35,7 @@ public class HotelsHappyPathE {
 
 	private static final String TAG = HotelsHappyPathE.class.getSimpleName();
 
-	public static void execute(HotelsUserData user,SearchActivity activity) throws Exception {
+	public static void execute(HotelsUserData user, SearchActivity activity) throws Exception {
 
 		//Settings
 		LaunchScreen.openMenuDropDown();
@@ -53,11 +53,10 @@ public class HotelsHappyPathE {
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		ScreenActions.enterLog(TAG, "Setting hotel search city to: " + "New York, NY");
-		ScreenActions.enterLog(TAG, "HERE entering text");
 		HotelsSearchScreen.enterSearchText("New York, NY");
 
 		ScreenActions.enterLog(TAG, "HERE clicking suggestion");
-		onView(withText("New York, NY")).inRoot(withDecorView(not(is(activity.getWindow().getDecorView())))).perform(click());
+		HotelsSearchScreen.clickSuggestion(activity, "New York, NY");
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(cal.YEAR);
 		int month = cal.get(cal.MONTH) + 1;
@@ -80,12 +79,12 @@ public class HotelsHappyPathE {
 		ScreenActions.enterLog(TAG, "Popularity string clicked");
 		pressBack();
 		ScreenActions.enterLog(TAG, "Back button pressed");
-		HotelsSearchScreen.selectHotelFromList();
+		HotelsSearchScreen.clickListItem(1);
 		HotelsDetailsScreen.clickSelectButton();
 
 		// Rooms and rates
 		ScreenActions.enterLog(TAG, "Selecting first room listed for this hotel.");
-		HotelsRoomsRatesScreen.selectRoom();
+		HotelsRoomsRatesScreen.selectRoomItem(0);
 		SettingsScreen.clickOKString();
 
 		// Checkout

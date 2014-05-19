@@ -19,18 +19,13 @@ import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsCheckoutS
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsConfirmationScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsGuestPicker;
+import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.mobiata.android.util.SettingUtils;
 
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.pressBack;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.RootMatchers.withDecorView;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 
 /**
  * Created by dmadan on 4/22/14.
@@ -74,7 +69,7 @@ public class HotelsCheckoutNonMerchant extends ActivityInstrumentationTestCase2<
 		HotelsSearchScreen.enterSearchText("Las Vegas, NV");
 
 		ScreenActions.enterLog(TAG, "HERE clicking suggestion");
-		onView(withText("Las Vegas, NV")).inRoot(withDecorView(not(is(mActivity.getWindow().getDecorView())))).perform(click());
+		HotelsSearchScreen.clickSuggestion(getActivity(), "Las Vegas, NV");
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(cal.YEAR);
 		int month = cal.get(cal.MONTH) + 1;
@@ -94,12 +89,12 @@ public class HotelsCheckoutNonMerchant extends ActivityInstrumentationTestCase2<
 		ScreenActions.enterLog(TAG, "clicked on sort button");
 		HotelsSearchScreen.sortMenu().clickSortByPopularityString();
 		pressBack();
-		onView(withText("Las Vegas Hostel")).perform(click());
+		HotelsSearchScreen.clickListItem(1);
 		HotelsDetailsScreen.clickSelectButton();
 
 		// Rooms and rates
 		ScreenActions.enterLog(TAG, "Selecting first room listed for this hotel.");
-		onView(withText("Standard Rate Private Room With 1 King Size Bed And Bathroom Rates Are For Both Single And Double Occupancy And Include Wireless Internet,")).perform(click());
+		HotelsRoomsRatesScreen.selectRoomItem(0);
 
 		// Checkout
 		HotelsCheckoutScreen.clickCheckoutButton();
@@ -143,7 +138,5 @@ public class HotelsCheckoutNonMerchant extends ActivityInstrumentationTestCase2<
 		CVVEntryScreen.parseAndEnterCVV(mUser.getCCV());
 		CVVEntryScreen.clickBookButton();
 		HotelsConfirmationScreen.clickDoneButton();
-		ScreenActions.enterLog(TAG, "Clicking shop tab");
-		LaunchScreen.pressShop();
 	}
 }

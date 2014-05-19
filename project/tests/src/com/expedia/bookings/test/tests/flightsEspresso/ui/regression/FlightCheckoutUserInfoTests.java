@@ -61,7 +61,7 @@ public class FlightCheckoutUserInfoTests extends ActivityInstrumentationTestCase
 		mRes = mContext.getResources();
 		mUser = new HotelsUserData(getInstrumentation());
 		ClearPrivateDataUtil.clear(mContext);
-		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Production");
+		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
 		SettingUtils.save(mContext, R.id.preference_suppress_flight_booking_checkbox, "true");
 		getActivity();
 	}
