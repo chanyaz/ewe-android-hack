@@ -21,6 +21,7 @@ import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
@@ -95,7 +96,6 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	public void bindToDb() {
 		if (mSectionBillingInfo != null) {
 			BillingInfo info = new BillingInfo(Db.getBillingInfo());
-			info.setStoredCard(null);
 			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(info);
 			mSectionBillingInfo.bind(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
 		}
@@ -114,17 +114,15 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		public void onClick(View arg0) {
 			mAttemptToLeaveMade = true;
 
-			// This case will happen if they've opened this form after already having selected
-			// a stored card, and then click "done"
-			if (Db.getBillingInfo().hasStoredCard()) {
-				closeForm(true);
-			}
-
-			if (mSectionBillingInfo != null	&& mSectionBillingInfo.hasValidInput()
-				&& mSectionLocation != null	&& mSectionLocation.hasValidInput()) {
+			if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
+				//If we have a saved card we're good to go
 				commitAndLeave();
 			}
-
+			else if (mSectionBillingInfo != null && mSectionBillingInfo.hasValidInput()
+				&& mSectionLocation != null && mSectionLocation.hasValidInput()) {
+				//If we don't have a saved card, we must validate, if we have valid input, close
+				commitAndLeave();
+			}
 		}
 	};
 
@@ -220,7 +218,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	public void onFormOpened() {
 		if (isResumed()) {
 			setUpStoredCards();
-			if (Db.getBillingInfo().hasStoredCard()) {
+			if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
 				showStoredCardContainer();
 			}
 			else {
@@ -243,7 +241,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		int count = mStoredCreditCardAdapter.getCount();
 		clearExtraHeadingView();
 		if (count != 0) {
-			TextView storedCardButton = (TextView) View.inflate(getActivity(), R.layout.include_stored_card_spinner, null);
+			TextView storedCardButton = (TextView) View
+				.inflate(getActivity(), R.layout.include_stored_card_spinner, null);
 			storedCardButton.setOnClickListener(mStoredCardButtonClickListener);
 			attachExtraHeadingView(storedCardButton);
 		}
@@ -253,7 +252,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		Ui.findView(getActivity(), R.id.stored_card_container).setVisibility(View.VISIBLE);
 		Ui.findView(getActivity(), R.id.new_card_container).setVisibility(View.GONE);
 
-		StoredCreditCard card = Db.getBillingInfo().getStoredCard();
+		StoredCreditCard card = Db.getWorkingBillingInfoManager().getWorkingBillingInfo()
+			.getStoredCard();
 
 		TextView cardName = Ui.findView(mSectionBillingInfo, R.id.stored_card_name);
 		cardName.setText(card.getDescription());
@@ -270,7 +270,17 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		Ui.findView(mSectionBillingInfo, R.id.remove_stored_card_button).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Db.getBillingInfo().setStoredCard(null);
+				Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
+				Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setLocation(new Location());
+
+				//This is a special case, and it maybe deserves some more consideration. It is here to improve the following
+				//use case: A user has a stored card selected, they open the payment form, they hit the X button and remove the
+				//stored credit card, they start to enter in a CC number manually. At this point what should happen if
+				//they hit the back button? Typically we don't commit the changes until the user hits the Done button
+				//, however, it feels wrong to move back to the overview screen with the saved card back in the picture
+				//after they had removed it completely and started entering a card # manually. So we clear the Db version.
+				Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+
 				setUpStoredCards();
 				showNewCardContainer();
 			}
@@ -332,24 +342,5 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		}
 		return width + 32;
 	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Focus listener
-
-	private View.OnFocusChangeListener mCardNumberFocusChangeListener = new View.OnFocusChangeListener() {
-		@Override
-		public void onFocusChange(View v, boolean hasFocus) {
-//			if (mCreditCardNumberAutoComplete != null) {
-//				if (hasFocus) {
-//					mCreditCardNumberAutoComplete.setAdapter(mStoredCreditCardAdapter);
-//					mCreditCardNumberAutoComplete.showDropDown();
-//				}
-//				else {
-//					mCreditCardNumberAutoComplete.dismissDropDown();
-//					mCreditCardNumberAutoComplete.setAdapter((ArrayAdapter<StoredCreditCard>) null);
-//				}
-//			}
-		}
-	};
 
 }
