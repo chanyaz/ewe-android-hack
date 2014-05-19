@@ -6,6 +6,6 @@
     android:layout_gravity="right"
     android:padding="8dp"
     android:textAllCaps="true"
-    android:text="@string/x_Stored_Cards_TEMPLATE"
+    android:text="@string/Stored_Cards"
     android:background="@drawable/bg_clickable_row"
     app:textStyle="bold"/>

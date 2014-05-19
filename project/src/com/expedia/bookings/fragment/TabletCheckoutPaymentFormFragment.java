@@ -243,7 +243,6 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		clearExtraHeadingView();
 		if (count != 0) {
 			TextView storedCardButton = (TextView) View.inflate(getActivity(), R.layout.include_stored_card_spinner, null);
-			storedCardButton.setText(getString(R.string.x_Stored_Cards_TEMPLATE, count));
 			storedCardButton.setOnClickListener(mStoredCardButtonClickListener);
 			attachExtraHeadingView(storedCardButton);
 		}

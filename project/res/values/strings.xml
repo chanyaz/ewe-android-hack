@@ -3015,7 +3015,7 @@
     <string name="cd_traveler_seat_preference_edit">Select seat type that the traveler prefers</string>
     <!-- Credit Card Information -->
     <!-- Button text for choosing a stored payment. Clicking this button will open a popup listing all stored cards. -->
-    <string name="x_Stored_Cards_TEMPLATE">%s Stored Cards</string>
+    <string name="Stored_Cards">Stored Cards</string>
     <!-- Content description for action: Enter credit card number -->
     <string name="cd_card_info_card_number_edit_text">Enter credit card number</string>
     <!-- Content description for action: Enter cardholder name -->
