@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <!-- ActionBar spacer -->
 
@@ -18,7 +18,7 @@
         android:background="@drawable/bg_launch_gradient"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -41,15 +41,15 @@
         android:id="@+id/scroll_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:splitMotionEvents="false" >
+        android:splitMotionEvents="false">
 
         <ImageView
             android:id="@+id/tvly_home_bg_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
+            android:layout_alignParentStart="false"
             android:background="@drawable/bg_launch_tvly_maldives"
-            android:layout_alignParentStart="false" />
+            android:scaleType="centerCrop" />
 
         <View
             android:id="@+id/content_shadow"
@@ -68,31 +68,38 @@
                 android:id="@+id/tvly_home_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/icon_home_tvly"
-                android:layout_gravity="top"/>
+                android:layout_gravity="top"
+                android:background="@drawable/icon_home_tvly" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="bottom|center"
             android:paddingBottom="50dp">
 
-            <ImageView
+
+            <TextView
                 android:id="@+id/tvly_flights"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_tvly_flights"
-                android:layout_gravity="bottom"
-                android:layout_marginRight="50dp"/>
+                android:drawableTop="@drawable/btn_tvly_flights"
+                android:gravity="center"
+                android:paddingRight="50dp"
+                android:text="@string/nav_flights"
+                android:textSize="15dp" />
 
-            <ImageView
+
+            <TextView
                 android:id="@+id/tvly_hotels"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_tvly_hotels"
-                android:layout_gravity="bottom"/>
+                android:drawableTop="@drawable/btn_tvly_hotels"
+                android:gravity="center"
+                android:text="@string/nav_hotels"
+                android:textSize="15dp" />
+
 
         </LinearLayout>
     </RelativeLayout>
