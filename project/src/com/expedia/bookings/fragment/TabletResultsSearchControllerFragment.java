@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalDate;
@@ -56,7 +55,7 @@ import com.squareup.otto.Subscribe;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsSearchControllerFragment extends Fragment implements IBackManageable,
 	IStateProvider<ResultsSearchState>, FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
-	DatesFragment.DatesFragmentListener, GuestsDialogFragment.GuestsDialogFragmentListener,
+	DatesFragment.DatesFragmentListener, ResultsGuestPicker.GuestPickerFragmentListener,
 	TabletWaypointFragment.ITabletWaypointFragmentListener,
 	CurrentLocationFragment.ICurrentLocationListener, ResultsGdeFlightsFragment.IGdeFlightsListener {
 
@@ -313,12 +312,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	 */
 
 	@Override
-	public void onGuestsChanged(int numAdults, ArrayList<ChildTraveler> children, boolean infantsInLaps) {
+	public void onGuestsChanged(int numAdults, List<ChildTraveler> children, boolean infantsInLaps) {
 		guestsChangeHelper(numAdults, children, infantsInLaps);
 	}
 
 	@Override
-	public void onGuestsChanged(int numAdults, ArrayList<ChildTraveler> children) {
+	public void onGuestsChanged(int numAdults, List<ChildTraveler> children) {
 		guestsChangeHelper(numAdults, children);
 	}
 

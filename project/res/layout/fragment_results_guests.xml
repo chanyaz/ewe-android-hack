@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:background="#FFFFFF"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,14 +16,15 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/tablet_guest_picker_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:textSize="24sp"/>
+                android:textSize="24sp"
+                app:textStyle="light" />
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/tablet_guest_picker_done_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -31,71 +33,16 @@
                 android:text="@string/DONE"
                 android:textColor="#3E79A3"
                 android:drawablePadding="8dp"
-                android:drawableLeft="@drawable/ic_tablet_traveler_checkmark"/>
+                android:drawableLeft="@drawable/ic_tablet_traveler_checkmark"
+                app:textStyle="light" />
         </FrameLayout>
 
-        <LinearLayout
-            android:id="@+id/adult_container"
+        <com.expedia.bookings.widget.GuestPicker
+            android:id="@+id/guest_picker"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content" />
 
-            <ImageView
-                android:id="@+id/adults_minus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_tablet_traveler_minus"/>
-
-            <TextView
-                android:id="@+id/adult_count_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="24dp"/>
-
-            <ImageView
-                android:id="@+id/adults_plus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_tablet_traveler_plus"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/children_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/children_minus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_tablet_traveler_minus"/>
-
-            <TextView
-                android:id="@+id/child_count_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="24dp"/>
-
-            <ImageView
-                android:id="@+id/children_plus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_tablet_traveler_plus"/>
-        </LinearLayout>
-
-        <include
-            layout="@layout/include_child_age_selectors"/>
-
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/tablet_lap_infant_alert"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -104,6 +51,8 @@
             android:textColor="#F3F3F3"
             android:textSize="16sp"
             android:text="@string/not_enough_laps_for_infants"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            app:textStyle="light" />
+
     </LinearLayout>
 </ScrollView>
