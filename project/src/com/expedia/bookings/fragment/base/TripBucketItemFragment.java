@@ -436,7 +436,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	}
 
 	public void setExpandedSlidePercentage(float percentage) {
-		float amount = mExpandedC.getHeight() * (percentage - 1.0f);
+		float amount = -mExpandedC.getHeight() * (1f - percentage);
 		mExpandedC.setTranslationY(amount);
 		mPriceChangedClipC.setTranslationY(amount);
 	}
