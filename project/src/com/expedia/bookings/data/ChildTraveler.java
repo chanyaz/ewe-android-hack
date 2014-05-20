@@ -30,6 +30,13 @@ public class ChildTraveler implements JSONable, Parcelable, Comparable<ChildTrav
 		}
 	}
 
+	public ChildTraveler(Parcel in) {
+		mAge = in.readInt();
+		boolean[] bools = new boolean[1];
+		in.readBooleanArray(bools);
+		mUsingSeat = bools[0];
+	}
+
 	public int getAge() {
 		return mAge;
 	}
@@ -86,6 +93,17 @@ public class ChildTraveler implements JSONable, Parcelable, Comparable<ChildTrav
 		TextUtils.writeToParcel(Integer.toString(mAge), dest, flags);
 		TextUtils.writeToParcel(Boolean.toString(mUsingSeat), dest, flags);
 	}
+
+	public static final Parcelable.Creator<ChildTraveler> CREATOR =
+		new Parcelable.Creator<ChildTraveler>() {
+			public ChildTraveler createFromParcel(Parcel in) {
+				return new ChildTraveler(in);
+			}
+
+			public ChildTraveler[] newArray(int size) {
+				return new ChildTraveler[size];
+			}
+		};
 
 	// Comparator
 	// We want to compare by age
