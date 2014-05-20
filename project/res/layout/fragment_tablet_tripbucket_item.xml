@@ -71,10 +71,10 @@
 
             <ImageView
                 android:id="@+id/booking_complete_check"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/ic_booking_complete_check"
+                android:src="@drawable/ic_booking_complete_check"
                 android:visibility="visible"
                 android:layout_above="@id/book_button_container"
                 android:layout_alignParentTop="true"

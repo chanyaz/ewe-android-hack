@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment.base;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.ITripBucketBookClickListener;
@@ -49,6 +47,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private ViewGroup mRootC;
 	private ViewGroup mTopC;
 	private ViewGroup mExpandedC;
+	private View mCardCornersBottom;
 	private ViewGroup mPriceChangedClipC;
 	private ViewGroup mPriceChangedC;
 	private ViewGroup mBookBtnContainer;
@@ -84,6 +83,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_tripbucket_item, null);
 		mTopC = Ui.findView(mRootC, R.id.trip_bucket_item_top_container);
 		mExpandedC = Ui.findView(mRootC, R.id.trip_bucket_item_expanded_container);
+		mCardCornersBottom = Ui.findView(mRootC, R.id.card_corners_bottom);
 
 		if (savedInstanceState != null) {
 			String stateName = savedInstanceState.getString(STATE_BUCKET_ITEM_STATE);
@@ -124,6 +124,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	public void onResume() {
 		super.onResume();
 		Events.register(this);
+		setVisibilityState(getState());
 	}
 
 	@Override
@@ -276,7 +277,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			// Show confirmation checkmark
 			if (stateTwo == TripBucketItemState.CONFIRMATION) {
 				mBookingCompleteCheckImg.setVisibility(View.VISIBLE);
-				mBookingCompleteCheckImg.setTranslationY(mBookBtnContainer.getBottom() - mNameAndDurationContainer.getBottom());
 				mBookingCompleteCheckImg.setAlpha(0.0f);
 			}
 		}
@@ -391,6 +391,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mBookBtnContainer.setVisibility(View.VISIBLE);
 			mExpandedC.setVisibility(View.GONE);
 			mPriceChangedC.setVisibility(View.GONE);
+			setNameAndDurationSlidePercentage(0f);
 			break;
 
 		case SHOWING_PRICE_CHANGE:
@@ -405,6 +406,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mBookBtnContainer.setVisibility(View.INVISIBLE);
 			mExpandedC.setVisibility(View.GONE);
 			mPriceChangedC.setVisibility(View.GONE);
+			setNameAndDurationSlidePercentage(0f);
 			break;
 
 		case EXPANDED:
@@ -412,6 +414,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mBookBtnContainer.setVisibility(View.INVISIBLE);
 			mExpandedC.setVisibility(View.VISIBLE);
 			mPriceChangedC.setVisibility(View.GONE);
+			setNameAndDurationSlidePercentage(1f);
 			break;
 
 		case PURCHASED:
@@ -419,6 +422,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mBookBtnContainer.setVisibility(View.INVISIBLE);
 			mExpandedC.setVisibility(View.GONE);
 			mPriceChangedC.setVisibility(View.GONE);
+			setNameAndDurationSlidePercentage(1f);
 			break;
 
 		case CONFIRMATION:
@@ -426,18 +430,22 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mBookBtnContainer.setVisibility(View.INVISIBLE);
 			mExpandedC.setVisibility(View.VISIBLE);
 			mPriceChangedC.setVisibility(View.GONE);
+			setNameAndDurationSlidePercentage(1f);
 			break;
 		}
+		mCardCornersBottom.setTranslationY(0f);
 	}
 
 	public void setNameAndDurationSlidePercentage(float percentage) {
-		mNameAndDurationContainer.setTranslationY(
-			(mBookBtnContainer.getBottom() - mNameAndDurationContainer.getBottom()) * percentage);
+		int translationy = mBookBtnContainer.getBottom() - mNameAndDurationContainer.getBottom()
+			+ mNameText.getTop(); // Vertical padding of text inside mNameAndDurationContainer
+		mNameAndDurationContainer.setTranslationY(translationy * percentage);
 	}
 
 	public void setExpandedSlidePercentage(float percentage) {
 		float amount = -mExpandedC.getHeight() * (1f - percentage);
 		mExpandedC.setTranslationY(amount);
+		mCardCornersBottom.setTranslationY(amount);
 		mPriceChangedClipC.setTranslationY(amount);
 	}
 
