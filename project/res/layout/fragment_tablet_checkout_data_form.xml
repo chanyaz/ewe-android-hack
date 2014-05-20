@@ -12,16 +12,17 @@
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:orientation="horizontal">
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/header_text_button_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
+            android:background="@drawable/bg_clickable_row"
             android:drawableLeft="@drawable/ic_action_bar_checkmark_disabled"
             android:gravity="center_vertical"
+            android:padding="16dp"
             android:text="@string/done"
             android:textSize="14dp"
             android:textStyle="bold"
@@ -31,8 +32,9 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
             android:layout_weight="0"
             android:background="@color/divider_grey" />
 
@@ -49,12 +51,13 @@
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <FrameLayout
             android:id="@+id/extra_heading_container"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp">
             <!-- Content dynamically added here in TabletCheckoutDataFormFragment.attachSpinner() -->
         </FrameLayout>
 
@@ -89,7 +92,7 @@
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="17sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </RelativeLayout>
 
