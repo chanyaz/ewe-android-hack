@@ -57,4 +57,7 @@
     <!-- for visibility of Tvly CA Url string id while compiling ExpediaApp-->
     <item name="travelocity_info_url_CA" type="string"/>
 
+    <!-- Tvly contact phone text, adding to avoid compilation failure for Expedia-->
+    <item name="contact_phone_template_tvly" type="string"/>
+
  </resources>
