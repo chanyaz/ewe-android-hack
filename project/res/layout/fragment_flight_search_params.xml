@@ -165,6 +165,8 @@
             mobiata:toolTipTextColor="#FFFFFF"/>
     </LinearLayout>
 
+    <!-- Guest picker stuff -->
+
     <RelativeLayout
         android:id="@+id/guest_picker_container"
         android:layout_width="match_parent"
@@ -185,123 +187,53 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:padding="10dp"
             android:orientation="vertical"
+            android:background="@android:color/white"
             android:visibility="gone">
 
+            <com.expedia.bookings.widget.GuestPicker
+                android:id="@+id/guest_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <LinearLayout
-                android:id="@+id/child_ages_layout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:baselineAligned="false"
+                android:gravity="left|top">
 
                 <TextView
-                    android:id="@+id/label_select_each_childs_age"
-                    android:layout_width="fill_parent"
-                    android:layout_height="30dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text=""
+                    android:id="@+id/infant_seating_preference_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/infant_seating_preference"
                     android:textColor="@android:color/black"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
-                <LinearLayout
+                <RadioGroup
+                    android:id="@+id/infant_seating_preference_radio_group"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:baselineAligned="false"
-                    android:gravity="left|top"
-                    android:weightSum="100">
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="50"
-                        android:orientation="horizontal">
-
-                        <include
-                            android:id="@+id/child_1_age_layout"
-                            layout="@layout/include_child_age_row"
-                            android:visibility="gone"/>
-
-                        <include
-                            android:id="@+id/child_2_age_layout"
-                            layout="@layout/include_child_age_row"
-                            android:visibility="gone"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="50"
-                        android:orientation="horizontal">
-
-                        <include
-                            android:id="@+id/child_3_age_layout"
-                            layout="@layout/include_child_age_row"
-                            android:visibility="gone"/>
-
-                        <include
-                            android:id="@+id/child_4_age_layout"
-                            layout="@layout/include_child_age_row"
-                            android:visibility="gone"/>
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/infant_seating_preference_text_view"
+                    <RadioButton
+                        android:id="@+id/infant_in_lap"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="@string/infant_seating_preference"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold" />
+                        android:text="@string/in_laps" />
 
-                    <RadioGroup
-                        android:id="@+id/infant_seating_preference_radio_group"
-                        android:layout_width="fill_parent"
+                    <RadioButton
+                        android:id="@+id/infant_in_seat"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:orientation="horizontal">
+                        android:text="@string/in_seats" />
 
-                        <RadioButton
-                            android:id="@+id/infant_in_lap"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/in_laps" />
+                </RadioGroup>
 
-                        <RadioButton
-                            android:id="@+id/infant_in_seat"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/in_seats" />
-
-                    </RadioGroup>
-
-                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="#eeeeee"
-                android:orientation="horizontal">
-
-                <com.expedia.bookings.widget.SimpleNumberPicker
-                    android:id="@+id/adults_number_picker"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-
-                <com.expedia.bookings.widget.SimpleNumberPicker
-                    android:id="@+id/children_number_picker"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 

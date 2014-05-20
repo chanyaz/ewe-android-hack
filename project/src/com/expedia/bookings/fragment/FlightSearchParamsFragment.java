@@ -78,6 +78,8 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportDropDownAdapter;
 import com.expedia.bookings.widget.FlightRouteAdapter;
 import com.expedia.bookings.widget.FlightRouteAdapter.FlightRouteAdapterListener;
+import com.expedia.bookings.widget.GuestPicker;
+import com.expedia.bookings.widget.GuestPicker.GuestPickerListener;
 import com.expedia.bookings.widget.NumTravelersPopupDropdown;
 import com.expedia.bookings.widget.SimpleNumberPicker;
 import com.mobiata.android.BackgroundDownloader;
@@ -92,7 +94,7 @@ import com.squareup.otto.Subscribe;
 
 public class FlightSearchParamsFragment extends Fragment implements OnDateChangedListener, InputFilter,
 	SimpleProgressDialogFragmentListener, OnItemSelectedListener,
-	FlightRouteAdapterListener {
+	FlightRouteAdapterListener, GuestPickerListener {
 
 	public static final String TAG = FlightSearchParamsFragment.class.toString();
 	private static final String TAG_PROGRESS = TAG + ".DIALOG_PROGRESS";
@@ -134,15 +136,12 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private TextView mNumTravelersTextView;
 	private PopupWindow mNumTravelersPopup;
 
-	private SimpleNumberPicker mAdultsNumberPicker;
-	private SimpleNumberPicker mChildrenNumberPicker;
 	private ViewGroup mGuestsContainer;
 	private View mGuestsLayout;
-	private View mChildAgesLayout;
+	private GuestPicker mGuestPicker;
 	private View mDoneButton;
 	private View mButtonBarLayout;
 	private TextView mRefinementInfoTextView;
-	private TextView mSelectChildAgeTextView;
 	private TextView mInfantPreferenceTextView;
 	private RadioGroup mInfantPreferenceRadioGroup;
 
@@ -251,12 +250,10 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		mGuestsContainer = Ui.findView(v, R.id.guest_picker_container);
 		mGuestsLayout = Ui.findView(v, R.id.guests_layout);
-		mChildAgesLayout = Ui.findView(v, R.id.child_ages_layout);
-		mAdultsNumberPicker = Ui.findView(v, R.id.adults_number_picker);
-		mChildrenNumberPicker = Ui.findView(v, R.id.children_number_picker);
+		mGuestPicker = Ui.findView(v, R.id.guest_picker);
+		mGuestPicker.setListener(this);
 		mButtonBarLayout = Ui.findView(v, R.id.button_bar_layout);
 		mRefinementInfoTextView = Ui.findView(v, R.id.refinement_info_text_view);
-		mSelectChildAgeTextView = Ui.findView(v, R.id.label_select_each_childs_age);
 		mInfantPreferenceTextView = Ui.findView(v, R.id.infant_seating_preference_text_view);
 		mInfantPreferenceRadioGroup = Ui.findView(v, R.id.infant_seating_preference_radio_group);
 		mDoneButton = Ui.findView(v, R.id.guest_done_button);
@@ -426,18 +423,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		mInfantPreferenceRadioGroup.setOnCheckedChangeListener(mInfantChangeListener);
 
-		mAdultsNumberPicker.setFormatter(mAdultsNumberPickerFormatter);
-		mAdultsNumberPicker.setOnValueChangeListener(mNumberPickerChangedListener);
-		mAdultsNumberPicker.setMinValue(1);
-		mAdultsNumberPicker.setMaxValue(GuestsPickerUtils.getMaxAdults(0));
-		mAdultsNumberPicker.setValue(mSearchParams.getNumAdults());
-
-		mChildrenNumberPicker.setFormatter(mChildrenNumberPickerFormatter);
-		mChildrenNumberPicker.setOnValueChangeListener(mNumberPickerChangedListener);
-		mChildrenNumberPicker.setMinValue(0);
-		mChildrenNumberPicker.setMaxValue(GuestsPickerUtils.getMaxChildren(1));
-		mChildrenNumberPicker.setValue(mSearchParams.getNumChildren());
-
 		updateNumTravelersText();
 
 		return v;
@@ -531,21 +516,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		outState.putBoolean(INSTANCE_SHOW_CALENDAR, mCalendarContainer.getVisibility() == View.VISIBLE);
 		JSONUtils.putJSONable(outState, INSTANCE_PARAMS, mSearchParams);
 		JSONUtils.putJSONable(outState, INSTANCE_FIRST_LOCATION, mFirstAdapterLocation);
-	}
-
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-
-		// EB93: There is a crazy bug in earlier versions of Android that retain the Fragment
-		// if the user opens an EditText in some circumstances.  This was causing serious memory
-		// problems; below we remove the largest issue when retaining the Fragment.  It's a
-		// serious workaround, but better than nothing.
-		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
-			mCalendarContainer.removeAllViewsInLayout();
-			mCalendarDatePicker = null;
-			mGuestsContainer.removeAllViewsInLayout();
-		}
 	}
 
 	public boolean onBackPressed() {
@@ -1055,18 +1025,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		final int numAdults = searchParams.getNumAdults();
 		final int numChildren = searchParams.getNumChildren();
 		String text = StrUtils.formatGuests(getActivity(), numAdults, numChildren);
-
-		int orientation = getActivity().getWindowManager().getDefaultDisplay().getOrientation();
-		final int hidden = (orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180) ? View.GONE
-			: View.INVISIBLE;
-		mChildAgesLayout.setVisibility(numChildren == 0 ? hidden : View.VISIBLE);
-
-		mSelectChildAgeTextView.setText(getResources().getQuantityString(R.plurals.select_each_childs_age,
-			numChildren));
-
-		GuestsPickerUtils.showOrHideChildAgeSpinners(getActivity(), searchParams.getChildren(),
-			mChildAgesLayout, mChildAgeSelectedListener);
-
 		mRefinementInfoTextView.setText(text);
 	}
 
@@ -1082,52 +1040,27 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 	}
 
-	private final SimpleNumberPicker.OnValueChangeListener mNumberPickerChangedListener = new SimpleNumberPicker.OnValueChangeListener() {
-		@Override
-		public void onValueChange(SimpleNumberPicker picker, int oldVal, int newVal) {
-			int numAdults = mAdultsNumberPicker.getValue();
-			int numChildren = mChildrenNumberPicker.getValue();
-			FlightSearchParams searchParams = getSearchParams(false);
-			searchParams.setNumAdults(numAdults);
-			GuestsPickerUtils.resizeChildrenList(getActivity(), searchParams.getChildren(), numChildren);
-			GuestsPickerUtils.configureAndUpdateDisplayedValues(getActivity(), mAdultsNumberPicker, mChildrenNumberPicker);
-			displayRefinementInfo();
-			updateNumTravelersText();
-		}
-	};
-
 	private void refreshTravelerDataToDB() {
-		int dbNumChildren = mSearchParams.getNumChildren();
-		int numPickerChildren = mChildrenNumberPicker.getValue();
-		int dbNumAdults = mSearchParams.getNumAdults();
-		int numPickerAdults = mAdultsNumberPicker.getValue();
+		FlightSearchParams searchParams = getSearchParams(false);
+		mGuestPicker.initializeGuests(searchParams.getNumAdults(), searchParams.getChildren());
+		mGuestPicker.bind();
 
-		if (dbNumChildren != numPickerChildren) {
-			mChildrenNumberPicker.setValue(dbNumChildren);
-		}
-		if (dbNumAdults != numPickerAdults) {
-			mAdultsNumberPicker.setValue(dbNumAdults);
-		}
-		GuestsPickerUtils.updateDefaultChildTravelers(getActivity(), mSearchParams.getChildren());
-		GuestsPickerUtils.setChildSpinnerPositions(mChildAgesLayout, mSearchParams.getChildren());
+		displayRefinementInfo();
 		updateNumTravelersText();
+		showInfantSeatingPreferenceAsNecessary();
 	}
 
-	private final OnItemSelectedListener mChildAgeSelectedListener = new OnItemSelectedListener() {
-
-		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-			List<ChildTraveler> children = getSearchParams(false).getChildren();
-			GuestsPickerUtils.setChildrenFromSpinners(getActivity(), mChildAgesLayout, children);
-			GuestsPickerUtils.updateDefaultChildTravelers(getActivity(), children);
-			showInfantSeatingPreferenceAsNecessary();
-		}
-
-		public void onNothingSelected(AdapterView<?> parent) {
-			// Do nothing.
-		}
-	};
-
 	// Infants
+
+	@Override
+	public void onGuestsChanged(int numAdults, List<ChildTraveler> children) {
+		FlightSearchParams searchParams = getSearchParams(false);
+		searchParams.setNumAdults(numAdults);
+		searchParams.setChildren(children);
+		displayRefinementInfo();
+		updateNumTravelersText();
+		showInfantSeatingPreferenceAsNecessary();
+	}
 
 	private void showInfantSeatingPreferenceAsNecessary() {
 		int vis = mSearchParams.hasInfants() ? View.VISIBLE : View.GONE;
@@ -1147,21 +1080,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			mSearchParams.setInfantSeatingInLap(checkedId == R.id.infant_in_lap);
-		}
-	};
-
-	// Number picker formatters
-	private final SimpleNumberPicker.Formatter mAdultsNumberPickerFormatter = new SimpleNumberPicker.Formatter() {
-		@Override
-		public String format(int value) {
-			return getActivity().getResources().getQuantityString(R.plurals.number_of_adults, value, value);
-		}
-	};
-
-	private final SimpleNumberPicker.Formatter mChildrenNumberPickerFormatter = new SimpleNumberPicker.Formatter() {
-		@Override
-		public String format(int value) {
-			return getActivity().getResources().getQuantityString(R.plurals.number_of_children, value, value);
 		}
 	};
 
