@@ -54,4 +54,7 @@
     <item name="bg_launch_tvly_arizona" type="drawable"/>
     <item name="bg_launch_tvly_maldives" type="drawable"/>
 
+    <!-- for visibility of Tvly CA Url string id while compiling ExpediaApp-->
+    <item name="travelocity_info_url_CA" type="string"/>
+
  </resources>

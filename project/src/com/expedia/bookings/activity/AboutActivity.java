@@ -14,6 +14,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.dialog.ClearPrivateDataDialog;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
@@ -136,6 +137,9 @@ public class AboutActivity extends SherlockFragmentActivity implements AboutSect
 			copyBuilder.setCopyright(Ui.obtainThemeResID(this, R.attr.aboutCopyrightString));
 			copyBuilder.setLogo(Ui.obtainThemeResID(this, R.attr.aboutAppLogoDrawable));
 			copyBuilder.setLogoUrl(Ui.obtainThemeResID(this, R.attr.aboutInfoUrlString));
+			if(PointOfSale.getPointOfSale().getTpid() == PointOfSaleId.TRAVELOCITY_CA.getId()){
+				copyBuilder.setLogoUrl(R.string.travelocity_info_url_CA);
+			}
 			copyrightFragment = copyBuilder.build();
 			ft.add(R.id.section_copyright, copyrightFragment, TAG_COPYRIGHT);
 		}
