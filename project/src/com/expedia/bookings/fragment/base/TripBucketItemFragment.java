@@ -30,6 +30,7 @@ import com.mobiata.android.util.Ui;
 
 /**
  * TripBucketItemFragment: Tablet 2014
+ * Extended by TripBucketFlightFragment and TripBucketHotelFragment
  */
 public abstract class TripBucketItemFragment extends Fragment implements IStateProvider<TripBucketItemState> {
 
@@ -63,10 +64,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 	private BreakdownDialogFragment mBreakdownFrag;
 
-	//Colors
-	private int mExpandedBgColor = Color.WHITE;
-	private int mCollapsedBgColor = Color.TRANSPARENT;
-
 	//Misc
 	private StateManager<TripBucketItemState> mStateManager = new StateManager<TripBucketItemState>(
 		TripBucketItemState.DEFAULT, this);
@@ -95,38 +92,32 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mPriceChangeNotificationText = savedInstanceState.getString(STATE_PRICE_CHANGED_STRING);
 		}
 
-		mPriceChangedClipC = Ui.findView(mRootC, R.id.trip_bucket_item_price_change_clip_container);
-		mPriceChangedC = Ui.findView(mRootC, R.id.trip_bucket_item_price_change_container);
+		// Top Part
+		mTripBucketImageView = Ui.findView(mTopC, R.id.tripbucket_card_background_view);
+		mBookBtnContainer = Ui.findView(mTopC, R.id.book_button_container);
+		mBookBtnText = Ui.findView(mTopC, R.id.book_button_text);
+		mTripPriceText = Ui.findView(mTopC, R.id.trip_bucket_price_text);
+		mNameAndDurationContainer = Ui.findView(mTopC, R.id.name_and_trip_duration_container);
+		mNameText = Ui.findView(mTopC, R.id.name_text_view);
+		mDurationText = Ui.findView(mTopC, R.id.trip_duration_text_view);
+		mBookingCompleteCheckImg = Ui.findView(mTopC, R.id.booking_complete_check);
 
-		addTopView(inflater, mTopC);
+		mHeaderBitmapDrawable = new HeaderBitmapColorAveragedDrawable();
+		mHeaderBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
+		mTripBucketImageView.setImageDrawable(mHeaderBitmapDrawable);
+
+		// Expanded / Receipt Part
 		addExpandedView(inflater, mExpandedC);
-		addPriceChangeNotificationView(inflater, mPriceChangedC);
+
+		// Price Change Part
+		mPriceChangedClipC = Ui.findView(mRootC, R.id.trip_bucket_item_price_change_clip_container);
+		mPriceChangedC = Ui.findView(mPriceChangedClipC, R.id.price_change_notification_container);
+		mPriceChangedTv = Ui.findView(mPriceChangedC, R.id.price_change_notification_text);
 
 		registerStateListener(new StateListenerLogger<TripBucketItemState>(), false);
 		registerStateListener(mStateHelper, false);
 
 		return mRootC;
-	}
-
-	private void addTopView(LayoutInflater inflater, ViewGroup viewGroup) {
-		ViewGroup root = (ViewGroup) inflater.inflate(R.layout.tablet_card_tripbucket, viewGroup);
-		mTripBucketImageView = Ui.findView(root, R.id.tripbucket_card_background_view);
-		mBookBtnContainer = Ui.findView(root, R.id.book_button_container);
-		mBookBtnText = Ui.findView(root, R.id.book_button_text);
-		mTripPriceText = Ui.findView(root, R.id.trip_bucket_price_text);
-		mNameAndDurationContainer = Ui.findView(root, R.id.name_and_trip_duration_container);
-		mNameText = Ui.findView(root, R.id.name_text_view);
-		mDurationText = Ui.findView(root, R.id.trip_duration_text_view);
-		mBookingCompleteCheckImg = Ui.findView(root, R.id.booking_complete_check);
-
-		mHeaderBitmapDrawable = new HeaderBitmapColorAveragedDrawable();
-		mHeaderBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
-		mTripBucketImageView.setImageDrawable(mHeaderBitmapDrawable);
-	}
-
-	private void addPriceChangeNotificationView(LayoutInflater inflater, ViewGroup viewGroup) {
-		ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_price_change_notification, viewGroup);
-		mPriceChangedTv = Ui.findView(root, R.id.price_change_notification_text);
 	}
 
 	@Override
@@ -441,7 +432,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 	public void setNameAndDurationSlidePercentage(float percentage) {
 		mNameAndDurationContainer.setTranslationY(
-			(mBookBtnContainer.getBottom() - mNameAndDurationContainer.getBottom()) / 2f * percentage);
+			(mBookBtnContainer.getBottom() - mNameAndDurationContainer.getBottom()) * percentage);
 	}
 
 	public void setExpandedSlidePercentage(float percentage) {
