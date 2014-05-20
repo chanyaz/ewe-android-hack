@@ -516,6 +516,7 @@ public class BookingInfoUtils {
 			put(CreditCardType.MAESTRO, R.drawable.ic_tablet_checkout_maestro);
 			put(CreditCardType.MASTERCARD, R.drawable.ic_tablet_checkout_mastercard);
 			put(CreditCardType.VISA, R.drawable.ic_tablet_checkout_visa);
+			put(CreditCardType.GOOGLE_WALLET, R.drawable.ic_tablet_checkout_google_wallet);
 		}
 	};
 
