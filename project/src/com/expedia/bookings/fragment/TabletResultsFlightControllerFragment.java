@@ -205,12 +205,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	// 2. If we don't have FlightSearch data but do have flight histogram data, let's show that
 	// 3. Otherwise, let's just show the loading state
 	private ResultsFlightsState getBaseState() {
-		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null) {
-			return ResultsFlightsState.FLIGHT_LIST_DOWN;
-		}
-		else if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null && Db
+		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null && Db
 			.getFlightSearch().getSearchResponse().hasErrors()) {
 			return ResultsFlightsState.SEARCH_ERROR;
+		}
+		else if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null) {
+			return ResultsFlightsState.FLIGHT_LIST_DOWN;
 		}
 		else {
 			return ResultsFlightsState.LOADING;
