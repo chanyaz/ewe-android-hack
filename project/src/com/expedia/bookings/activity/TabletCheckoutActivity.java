@@ -50,6 +50,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	private static final String CHECKOUT_FRAG_TAG = "CHECKOUT_FRAG_TAG";
 
 	private static final String INSTANCE_CURRENT_LOB = "INSTANCE_CURRENT_LOB";
+	private static final String INSTANCE_LOADED_CACHED_DATA = "INSTANCE_LOADED_CACHED_DATA";
 
 	//Containers..
 	private ViewGroup mRootC;
@@ -64,15 +65,20 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Db.saveOrLoadDbForTesting(this);
-		Sp.saveOrLoadForTesting(this);
+		if (savedInstanceState == null) {
+			// We don't want to bother with these on rotation
+			Db.saveOrLoadDbForTesting(this);
+			Sp.saveOrLoadForTesting(this);
+		}
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tablet_checkout);
 
-
 		// Loading checkout data and blocking. this is disk i/o but we need the data loaded at this
 		// point due to how the code is structured.
+		if (savedInstanceState != null) {
+			mLoadedDbInfo = savedInstanceState.getBoolean(INSTANCE_LOADED_CACHED_DATA, false) && Db.hasBillingInfo();
+		}
 		loadCachedData(true);
 
 		boolean hasSelectedProperty = Db.getHotelSearch().getSelectedProperty() != null;
@@ -141,6 +147,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		if (mCurrentLob != null) {
 			outState.putString(INSTANCE_CURRENT_LOB, mCurrentLob.name());
 		}
+		outState.putBoolean(INSTANCE_LOADED_CACHED_DATA, mLoadedDbInfo);
 	}
 
 	@Override
