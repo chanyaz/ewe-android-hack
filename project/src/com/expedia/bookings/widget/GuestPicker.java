@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 
 import com.expedia.bookings.R;
@@ -73,6 +74,7 @@ public class GuestPicker extends LinearLayout {
 		mAdultMinus.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				performHapticFeedback(view);
 				removeAdult();
 			}
 		});
@@ -80,6 +82,7 @@ public class GuestPicker extends LinearLayout {
 		mAdultPlus.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				performHapticFeedback(view);
 				addAdult();
 			}
 		});
@@ -87,6 +90,7 @@ public class GuestPicker extends LinearLayout {
 		mChildMinus.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				performHapticFeedback(view);
 				removeChild(mChildren.size() - 1);
 			}
 		});
@@ -94,11 +98,16 @@ public class GuestPicker extends LinearLayout {
 		mChildPlus.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				performHapticFeedback(view);
 				if (mChildren.size() < MAX_CHILDREN && canAddAnotherTraveler()) {
 					addChild(10);
 				}
 			}
 		});
+	}
+
+	private void performHapticFeedback(View v) {
+		v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 	}
 
 	public void setListener(GuestPickerListener listener) {
