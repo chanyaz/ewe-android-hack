@@ -88,13 +88,22 @@ public class ExpediaImageManager {
 				// Try to retrieve the latest from disk
 				image = ExpediaImage.getImage(imageType, imageCode, width, height);
 
-				// If disk is nonexistant or  old, then resort to network
+				// If disk is non-existent or old, then resort to network
 				if (image == null || image.getTimestamp() + EXPIRATION < System.currentTimeMillis()) {
 					ExpediaServices services = new ExpediaServices(mContext);
 					ExpediaImageResponse newResponse = services.getExpediaImage(imageType, imageCode, width, height);
 
 					// We'll fall back to the old URL if we don't get a new one
-					if (newResponse != null && !newResponse.hasErrors()) {
+					if (newResponse == null) {
+						Log.e("ExpediaImageManager.getExpediaImage response is null. IOException?");
+					}
+					else if (newResponse.hasErrors()) {
+						Log.e("ExpediaImageManager.getExpediaImage response has errors.");
+						for (ServerError error : newResponse.getErrors()) {
+							Log.e("ExpImage error: " + error.toJson().toString());
+						}
+					}
+					else {
 						// See if we should expire the old cached image out of our image cache
 						if (image != null && !image.getCacheKey().equals(newResponse.getCacheKey())) {
 							cache.removeImage(image.getUrl());
@@ -325,6 +334,11 @@ public class ExpediaImageManager {
 			public Object[] doDownload() {
 				// Grab the ExpediaImage metadata
 				ExpediaImage expImage = getDestinationImage(airportCode, params.getWidth(), params.getHeight(), true);
+
+				if (expImage == null) {
+					// This shouldn't happen, but sometimes server requests fail
+					return null;
+				}
 
 				// Image url - use Thumbor for correct size
 				String url = expImage.getThumborUrl(params.getWidth(), params.getHeight());
