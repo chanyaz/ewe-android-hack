@@ -1078,9 +1078,12 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private void showNotEnoughLapsAsNecessary() {
 		if (mGuestPicker.moreInfantsThanAvailableLaps()) {
 			mInfantAlertTextView.setVisibility(View.VISIBLE);
+			mInfantPreferenceRadioGroup.getChildAt(0).setEnabled(false);
+			mInfantPreferenceRadioGroup.check(R.id.infant_in_seat);
 		}
 		else {
 			mInfantAlertTextView.setVisibility(View.GONE);
+			mInfantPreferenceRadioGroup.getChildAt(0).setEnabled(true);
 		}
 	}
 
