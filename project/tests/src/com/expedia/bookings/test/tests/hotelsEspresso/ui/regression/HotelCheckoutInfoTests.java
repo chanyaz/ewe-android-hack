@@ -100,7 +100,7 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 				ScreenActions.enterLog(TAG, "Assertion Passed: Hotel name from rooms and rates matches name in hotel details");
 				assertEquals(hotelRating, checkoutHotelRating);
 				ScreenActions.enterLog(TAG, "Assertion Passed: Hotel rating from rooms and rates matches rating in hotel details");
-				assertEquals(roomName, checkoutRoomName);
+				assertEquals(roomName.replaceAll("\\s+", ""), checkoutRoomName.replaceAll("\\s+", ""));
 				ScreenActions.enterLog(TAG, "Assertion Passed: Room title from rooms and rates matches room title in hotel checkout receipt");
 				HotelReceiptModel.clickGrandTotalTextView();
 				HotelReceiptModel.costSummaryString().check(matches(isDisplayed()));

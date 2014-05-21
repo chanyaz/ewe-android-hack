@@ -129,11 +129,11 @@ public class FlightsSearchScreen extends ScreenActions {
 	}
 
 	public static void incrementAdultsButton() {
-		onView(allOf(withId(R.id.increment), withParent(withId(R.id.adults_number_picker)))).perform(click());
+		onView(withId(R.id.adults_plus)).perform(click());
 	}
 
 	public static void getTravelerNumberText(String value) {
-		onView(allOf(withId(R.id.text_current), withParent(withId(R.id.adults_number_picker)))).perform(storeValue(value));
+		onView(withId(R.id.adult_count_text)).perform(storeValue(value));
 	}
 
 	public static void checkHint(String hintText) {
