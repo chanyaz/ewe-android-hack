@@ -302,7 +302,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		}
 		else if (tag == FTAG_FLIGHT_LOADING_INDICATOR) {
 			frag = ResultsListLoadingFragment.newInstance(getString(R.string.loading_flights), Gravity.CENTER,
-				Gravity.LEFT | Gravity.CENTER_VERTICAL);
+				Gravity.LEFT);
 		}
 		else if (tag == FTAG_FLIGHT_LEGS_CHOOSER) {
 			frag = ResultsRecursiveFlightLegsFragment.newInstance(0);
@@ -663,6 +663,24 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN)) {
 				mFlightMapC.setVisibility(View.VISIBLE);
 			}
+			else if (stateOne == ResultsFlightsState.LOADING && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+
+				if (mLoadingGuiFrag != null) {
+					//We need the legs fragment to start drawing so we can animate it in
+					FragmentManager manager = getChildFragmentManager();
+					FragmentTransaction transaction = manager.beginTransaction();
+					mFlightLegsFrag = FragmentAvailabilityUtils.setFragmentAvailability(
+						true,
+						FTAG_FLIGHT_LEGS_CHOOSER, manager, transaction, TabletResultsFlightControllerFragment.this,
+						R.id.flight_leg_container, false);
+					transaction.commit();
+					manager.executePendingTransactions();
+					mFlightLegsC.setVisibility(View.VISIBLE);
+
+					//init the animation
+					mLoadingGuiFrag.initGrowToRowsAnimation();
+				}
+			}
 
 		}
 
@@ -679,6 +697,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mFlightMapC.setAlpha(1f - percentage);
 			}
+			else if (stateOne == ResultsFlightsState.LOADING && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				mLoadingGuiFrag.setGrowToRowsAnimPercentage(percentage);
+			}
 		}
 
 		@Override
@@ -686,6 +707,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			if (stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN && stateTwo == ResultsFlightsState.CHOOSING_FLIGHT) {
 				popInfantPromptIfNeeded();
 			}
+			else if (stateOne == ResultsFlightsState.LOADING && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				//The loading fragment is about to be removed in onFinalize, but lets reset it beforehand regardless.
+				mLoadingC.setVisibility(View.INVISIBLE);
+				mLoadingGuiFrag.cleanUpGrowToRowsAnim();
+			}
+
 		}
 
 		@Override

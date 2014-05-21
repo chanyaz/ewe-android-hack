@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,17 +29,29 @@ public class ResultsListLoadingFragment extends Fragment {
 	private final static String STATE_ALONE_GRAVITY = "STATE_ALONE_GRAVITY";
 	private final static String STATE_WITH_OTHERS_GRAVITY = "STATE_WITH_OTHERS_GRAVITY";
 
-	private LinearLayout mRootC;
+	private ViewGroup mRootC;
+	private LinearLayout mContentC;
 	private TextView mLoadingTv;
+	private ViewGroup mLoadingC;
+	private View mBgView;
 
 	//loading anim vars
 	private int mLoadingColorDark = Color.DKGRAY;
 	private int mLoadingColorLight = Color.LTGRAY;
-	private ViewGroup mLoadingC;
 	private String mLoadingText;
+	private int mLastGravity = -1;
 	private int mLastListenerCount = 0;
 	private int mLoadingAloneGravity = Gravity.CENTER;
 	private int mLoadingWithOthersGravity = Gravity.CENTER;
+
+	//grow animation variables
+	private boolean mIgnoreAnimationUpdates = false;
+	private float mStartTranslationY;
+	private float mEndTranslationY;
+	private float mStartTranslationX;
+	private float mEndTranslationX;
+	private float mEndScaleY;
+	private float mEndScaleX;
 
 	public static ResultsListLoadingFragment newInstance(String loadingText, int loadingAloneGravity,
 		int loadingWithOthersGravity) {
@@ -50,9 +63,11 @@ public class ResultsListLoadingFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = (LinearLayout) inflater.inflate(R.layout.fragment_results_list_loading, null);
+		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_results_list_loading, null);
+		mContentC = Ui.findView(mRootC, R.id.content_container);
 		mLoadingTv = Ui.findView(mRootC, R.id.loading_tv);
 		mLoadingC = Ui.findView(mRootC, R.id.loading_bars_container);
+		mBgView = Ui.findView(mRootC, R.id.loading_bg_view);
 
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey(STATE_LOADING_TEXT)) {
@@ -66,13 +81,48 @@ public class ResultsListLoadingFragment extends Fragment {
 			setLoadingText(mLoadingText);
 		}
 
+		updateGravities(false, false);
+
+		//Add layout listener to update view positions if the layout changes
+		mRootC.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+			@Override
+			public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft,
+				int oldTop,
+				int oldRight,
+				int oldBottom) {
+				//If our width changes, update accordingly
+				if (right - left != oldRight - oldLeft) {
+					setLoadingGravity(mLoadingAloneGravity, mLoadingWithOthersGravity);
+				}
+			}
+		});
+
 		return mRootC;
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		registerForAnimUpdates(this);
+
+		mRootC.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+			@Override
+			public boolean onPreDraw() {
+				if (getActivity() == null || !isResumed()) {
+					mRootC.getViewTreeObserver().removeOnPreDrawListener(this);
+				}
+				if (mLoadingC != null && mLoadingC.getWidth() > 0) {
+					//Update our positioning before we draw
+					setLoadingGravity(mLoadingAloneGravity, mLoadingWithOthersGravity);
+
+					//Don't register for animations until we're drawing
+					registerForAnimUpdates(ResultsListLoadingFragment.this);
+
+					//Remove predraw listener
+					mRootC.getViewTreeObserver().removeOnPreDrawListener(this);
+				}
+				return true;
+			}
+		});
 	}
 
 	@Override
@@ -91,6 +141,105 @@ public class ResultsListLoadingFragment extends Fragment {
 		outState.putInt(STATE_WITH_OTHERS_GRAVITY, mLoadingWithOthersGravity);
 	}
 
+
+	public void initGrowToRowsAnimation() {
+		//We don't want the loading animation to be happening while we are growing our rows.
+		mIgnoreAnimationUpdates = true;
+		unRegisterForAnimUpdates(this);
+
+		//Set all cells to the light color
+		for (int i = 0; i < mLoadingC.getChildCount(); i++) {
+			mLoadingC.getChildAt(i).setBackgroundColor(mLoadingColorLight);
+		}
+
+		//Get our dimens and figure out where these things are going
+		//Based on what we know about the row heights, lets set up our animation.
+		int listMarginTop = getResources().getDimensionPixelSize(R.dimen.results_list_margin_top);
+		int dividerHeight = getResources().getDimensionPixelSize(R.dimen.results_list_spacer_height);
+		int yPaddding = getResources().getDimensionPixelSize(R.dimen.hotel_flight_card_padding_y);
+		int rowHeight = getResources().getDimensionPixelSize(R.dimen.hotel_flight_card_height_with_padding);
+		int xPadding = getResources().getDimensionPixelSize(R.dimen.hotel_flight_card_padding_x);
+
+		int animToWidth = mRootC.getWidth() - 2 * xPadding;
+		int animToHeight = 2 * dividerHeight + 3 * rowHeight;
+
+		//The final values of the animation
+		mEndScaleY = animToHeight / mLoadingC.getHeight();
+		mEndScaleX = animToWidth / mLoadingC.getWidth();
+		mStartTranslationY = mLoadingC.getTranslationY();
+		mEndTranslationY = (int) ((listMarginTop + dividerHeight + 2 * yPaddding) - mLoadingC.getY());
+		mStartTranslationX = mLoadingC.getTranslationX();
+		mEndTranslationX = xPadding;
+
+		//pivots
+		mLoadingC.setPivotY(0);
+		mLoadingC.setPivotX(0);
+
+		//Set up our hardware layers
+		mLoadingC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+		mBgView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+		mLoadingTv.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+	}
+
+	public void setGrowToRowsAnimPercentage(float percentage) {
+		//The text fades out
+		mLoadingTv.setAlpha(1f - percentage);
+
+		//The remainder of the animation is split into phases, this indicates where we switch between them
+		float animationSplit = 0.65f;
+
+		//Phase 1) Move and scale things into place
+		if (percentage < animationSplit) {
+			float firstHalfPercentage = percentage / animationSplit;
+			mLoadingC
+				.setTranslationX(mStartTranslationX + firstHalfPercentage * (mEndTranslationX - mStartTranslationX));
+			mLoadingC
+				.setTranslationY(mStartTranslationY + firstHalfPercentage * (mEndTranslationY - mStartTranslationY));
+			mLoadingC.setScaleX(1f + firstHalfPercentage * (mEndScaleX - 1f));
+			mLoadingC.setScaleY(1f + firstHalfPercentage * (mEndScaleY - 1f));
+		}
+		else {
+			mLoadingC.setTranslationY(mEndTranslationY);
+			mLoadingC.setTranslationX(mEndTranslationX);
+			mLoadingC.setScaleX(mEndScaleX);
+			mLoadingC.setScaleY(mEndScaleY);
+		}
+
+		//Phase 2) Fade out our views to expose the content behind
+		if (percentage >= animationSplit) {
+			float secondPartPerc = 1f - ((percentage - animationSplit) / (1f - animationSplit));
+			mContentC.setAlpha(secondPartPerc);
+			mBgView.setAlpha(secondPartPerc);
+		}
+		else {
+			mContentC.setAlpha(1f);
+			mBgView.setAlpha(1f);
+		}
+	}
+
+	public void cleanUpGrowToRowsAnim() {
+		mLoadingC.setTranslationY(0f);
+		mLoadingC.setTranslationX(0f);
+		mLoadingC.setScaleX(1f);
+		mLoadingC.setScaleY(1f);
+		mContentC.setAlpha(1f);
+		mBgView.setAlpha(1f);
+		mLoadingTv.setAlpha(1f);
+
+		mLoadingC.setLayerType(View.LAYER_TYPE_NONE, null);
+		mBgView.setLayerType(View.LAYER_TYPE_NONE, null);
+		mLoadingTv.setLayerType(View.LAYER_TYPE_NONE, null);
+
+		//Reset any required translations...
+		updateGravities(sLoadingFrags.size() <= 1, false);
+
+		//Go back to listening to animation updates as normal
+		if (isResumed()) {
+			registerForAnimUpdates(this);
+		}
+		mIgnoreAnimationUpdates = false;
+	}
+
 	public void setLoadingText(String text) {
 		mLoadingText = text;
 		if (mLoadingTv != null) {
@@ -101,11 +250,14 @@ public class ResultsListLoadingFragment extends Fragment {
 	public void setLoadingGravity(int aloneGravity, int withOthersGravity) {
 		mLoadingAloneGravity = aloneGravity;
 		mLoadingWithOthersGravity = withOthersGravity;
-		updateGravities(sLoadingFrags.size() <= 1);
+		updateGravities(sLoadingFrags.size() <= 1, false);
 	}
 
 
 	private void loadingAnimUpdate(int animNumber) {
+		if (mIgnoreAnimationUpdates) {
+			return;
+		}
 		if (mLoadingC != null && getActivity() != null && isResumed()) {
 			for (int i = 0; i < mLoadingC.getChildCount(); i++) {
 				mLoadingC.getChildAt(i)
@@ -114,25 +266,88 @@ public class ResultsListLoadingFragment extends Fragment {
 
 			int currentListenerCount = sLoadingFrags.size();
 			if (mLastListenerCount != currentListenerCount) {
-				updateGravities(currentListenerCount <= 1);
+				if (mLastListenerCount <= 1 && currentListenerCount > 1) {
+					updateGravities(currentListenerCount <= 1, true);
+				}
+				else if (mLastListenerCount > 1 && currentListenerCount <= 1) {
+					updateGravities(currentListenerCount <= 1, true);
+				}
 				mLastListenerCount = currentListenerCount;
 			}
 		}
 	}
 
-	private void updateGravities(boolean alone) {
-		if (mRootC != null) {
+	private void updateGravities(boolean alone, boolean animate) {
+		if (mContentC != null) {
 			if (alone) {
-				mRootC.setGravity(mLoadingAloneGravity);
+				setContentGravity(mLoadingAloneGravity, animate);
 			}
 			else {
-				mRootC.setGravity(mLoadingWithOthersGravity);
+				setContentGravity(mLoadingWithOthersGravity, animate);
 			}
 		}
 	}
 
+	private void setContentGravity(int gravity, boolean animate) {
+
+		int loadingBarWidth = mLoadingC.getWidth();
+		int textWidth = mLoadingTv.getVisibility() == View.VISIBLE ? mLoadingTv.getWidth() : 0;
+		int loadingAndTextWidth = Math.max(loadingBarWidth, textWidth);
+
+		float translationX = 0;
+
+		switch (gravity) {
+		case Gravity.CENTER: {
+			float centerX = mRootC.getWidth() / 2f;
+			float halfContent = loadingAndTextWidth / 2f;
+			translationX = centerX - halfContent;
+			break;
+		}
+		case Gravity.LEFT: {
+			int leftMargin = getResources().getDimensionPixelSize(R.dimen.hotel_flight_card_padding_x);
+			translationX = leftMargin;
+			break;
+		}
+		case Gravity.RIGHT: {
+			int rightMargin = getResources().getDimensionPixelSize(R.dimen.hotel_flight_card_padding_x);
+			translationX = mRootC.getWidth() - loadingAndTextWidth - rightMargin;
+			break;
+		}
+		default: {
+			throw new RuntimeException(
+				"ResultsListLoadingFragment currently only supports the following gravities: CENTER,LEFT,RIGHT");
+		}
+		}
+
+		if (textWidth > 0) {
+			if (textWidth > loadingBarWidth) {
+				setViewTranslationX(mLoadingTv, translationX, animate);
+				setViewTranslationX(mLoadingC, translationX + (textWidth - loadingBarWidth) / 2f, animate);
+			}
+			else {
+				setViewTranslationX(mLoadingTv, translationX + (loadingBarWidth - textWidth) / 2f, animate);
+				setViewTranslationX(mLoadingC, translationX, animate);
+			}
+		}
+		else {
+			setViewTranslationX(mLoadingC, translationX, animate);
+			setViewTranslationX(mLoadingTv, translationX, animate);
+		}
+
+		mLastGravity = gravity;
+	}
+
+	private void setViewTranslationX(View view, float translationX, boolean animate) {
+		if (animate) {
+			view.animate().translationX(translationX);
+		}
+		else {
+			view.setTranslationX(translationX);
+		}
+	}
+
 	private void setLoadingTextVisible(boolean visible) {
-		mLoadingTv.setVisibility(visible ? View.VISIBLE : View.GONE);
+		mLoadingTv.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
 	}
 
 	private int getNumberOfAnimationItems() {
@@ -187,7 +402,7 @@ public class ResultsListLoadingFragment extends Fragment {
 				};
 				sHandler.postDelayed(sAnimRunner, ANIM_UPDATE_TIME);
 			}
-			else {
+			else if (!sLoadingFrags.contains(frag)) {
 				sLoadingFrags.add(frag);
 			}
 			updateLoadingTextVisibilities();

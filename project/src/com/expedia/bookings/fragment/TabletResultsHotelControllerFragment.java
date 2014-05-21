@@ -277,7 +277,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mHotelListC.setBlockNewEventsEnabled(false);
 		}
 
-		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN || hotelsState == ResultsHotelsState.ROOMS_AND_RATES || hotelsState == ResultsHotelsState.REVIEWS) {
+		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN || hotelsState == ResultsHotelsState.ROOMS_AND_RATES
+			|| hotelsState == ResultsHotelsState.REVIEWS) {
 			mBgHotelMapC.setTouchPassThroughEnabled(true);
 		}
 		else {
@@ -315,6 +316,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	private void setVisibilityState(ResultsHotelsState hotelsState) {
 		mHotelListC.setVisibility(View.VISIBLE);
+		mLoadingC.setVisibility(hotelsState == ResultsHotelsState.LOADING ? View.VISIBLE : View.INVISIBLE);
 		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN || hotelsState == ResultsHotelsState.LOADING) {
 			mBgHotelMapC.setAlpha(0f);
 			mHotelFiltersC.setVisibility(View.INVISIBLE);
@@ -550,7 +552,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 		else if (tag == FTAG_HOTEL_LOADING_INDICATOR) {
 			frag = ResultsListLoadingFragment.newInstance(getString(R.string.loading_hotels), Gravity.CENTER,
-				Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+				Gravity.RIGHT);
 		}
 		else if (tag == FTAG_HOTEL_SEARCH_ERROR) {
 			frag = ResultsListSearchErrorFragment.newInstance(getString(R.string.search_error));
@@ -1033,6 +1035,22 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setReviewsAnimationHardwareRendering(true);
 				setReviewsAnimationVisibilities(false);
 			}
+			else if (stateOne == ResultsHotelsState.LOADING && stateTwo == ResultsHotelsState.HOTEL_LIST_DOWN) {
+				if (mLoadingGuiFrag != null) {
+					//We need the legs fragment to start drawing so we can animate it in
+					FragmentManager manager = getChildFragmentManager();
+					FragmentTransaction transaction = manager.beginTransaction();
+					mHotelListFrag = (ResultsHotelListFragment) FragmentAvailabilityUtils.setFragmentAvailability(
+						true, FTAG_HOTEL_LIST, manager,
+						transaction, TabletResultsHotelControllerFragment.this, R.id.column_one_hotel_list, false);
+					transaction.commit();
+					manager.executePendingTransactions();
+					mHotelListC.setVisibility(View.VISIBLE);
+
+					//init the animation
+					mLoadingGuiFrag.initGrowToRowsAnimation();
+				}
+			}
 		}
 
 		@Override
@@ -1083,6 +1101,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				//ADD TO HOTEL
 				setAddToTripPercentage(percentage);
 			}
+			else if (stateOne == ResultsHotelsState.LOADING && stateTwo == ResultsHotelsState.HOTEL_LIST_DOWN) {
+				mLoadingGuiFrag.setGrowToRowsAnimPercentage(percentage);
+			}
 
 		}
 
@@ -1117,6 +1138,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			else if (stateOne == ResultsHotelsState.REVIEWS && stateTwo == ResultsHotelsState.ROOMS_AND_RATES) {
 				setReviewsAnimationHardwareRendering(false);
 				setReviewsAnimationVisibilities(false);
+			}
+			else if (stateOne == ResultsHotelsState.LOADING && stateTwo == ResultsHotelsState.HOTEL_LIST_DOWN) {
+				mLoadingC.setVisibility(View.INVISIBLE);
+				mLoadingGuiFrag.cleanUpGrowToRowsAnim();
 			}
 
 			setTouchable(true, true);
@@ -1301,7 +1326,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mHotelFilteredCountC.bringToFront();
 				mHotelListC.bringToFront();
 				mRoomsAndRatesInFront = false;
+
+				//Loading container can always be in front! Yay!
+				mLoadingC.bringToFront();
 			}
+
 		}
 
 		/*
