@@ -2,12 +2,13 @@ package com.expedia.bookings.enums;
 
 /**
  * A brief explanation of states, as of 5/19/2014:
- * DEFAULT -
- * DISABLED -
+ * DEFAULT - Currently this is same as SHOWING_CHECKOUT_BUTTON state.
+ * DISABLED - For the 2nd item in the trip bucket during the CheckoutState.BOOKING
+ * 	we make the "Book" button invisible, so users can't book until checkout is completed.
  * SHOWING_CHECKOUT_BUTTON - The name and duration should be center aligned
- *   with text gravity center.
+ *  with text gravity center.
  * SHOWING_PRICE_CHANGE - exactly the same as EXPANDED,
- *   with the price change notification shown at the bottom of the expanded view
+ *  with the price change notification shown at the bottom of the expanded view
  * EXPANDED - They should be aligned at the bottom.
  * PURCHASED - Aligned bottom and checkmark above them.
  * CONFIRMATION - same as purchased.
