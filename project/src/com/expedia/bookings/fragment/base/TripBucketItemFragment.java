@@ -125,6 +125,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		super.onResume();
 		Events.register(this);
 		setVisibilityState(getState());
+		refreshTripPrice();
 	}
 
 	@Override
@@ -182,7 +183,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mBookBtnText.setText(getBookButtonText());
 			mBookBtnContainer.setOnClickListener(getOnBookClickListener());
 
-			mTripPriceText.setText(getTripPrice());
+			refreshTripPrice();
 			mNameText.setText(getNameText());
 			mDurationText.setText(getDateRangeText());
 			if (doTripBucketImageRefresh()) {
@@ -191,6 +192,10 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			}
 			mPriceChangedTv.setText(mPriceChangeNotificationText);
 		}
+	}
+
+	private void refreshTripPrice() {
+		mTripPriceText.setText(getTripPrice());
 	}
 
 	public void setPriceChangeNotificationText(String priceChangeText) {

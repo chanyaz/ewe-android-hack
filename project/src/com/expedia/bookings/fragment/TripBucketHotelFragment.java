@@ -123,12 +123,8 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel != null) {
 			Rate rate = hotel.getRate();
-			String rateString = rate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL);
-			TextAppearanceSpan perNight = new TextAppearanceSpan(getActivity(), R.style.TripBucketHotelPerNight);
-			SpannableBuilder spannedRateString = new SpannableBuilder();
-			spannedRateString.append(rateString);
-			spannedRateString.append(getString(R.string.per_night), FontCache.getSpan(FontCache.Font.ROBOTO_LIGHT), perNight);
-			return spannedRateString.build();
+			String rateString = rate.getDisplayTotalPrice().getFormattedMoney(Money.F_NO_DECIMAL);
+			return rateString;
 		}
 		else {
 			return null;
