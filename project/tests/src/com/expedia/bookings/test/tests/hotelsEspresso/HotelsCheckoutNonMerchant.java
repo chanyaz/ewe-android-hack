@@ -16,7 +16,6 @@ import com.expedia.bookings.test.tests.pageModelsEspresso.common.LaunchScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.LogInScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsCheckoutScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsConfirmationScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsGuestPicker;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsRoomsRatesScreen;
@@ -137,6 +136,5 @@ public class HotelsCheckoutNonMerchant extends ActivityInstrumentationTestCase2<
 		ScreenActions.enterLog(TAG, "Entering CCV: " + mUser.getCCV());
 		CVVEntryScreen.parseAndEnterCVV(mUser.getCCV());
 		CVVEntryScreen.clickBookButton();
-		HotelsConfirmationScreen.clickDoneButton();
 	}
 }

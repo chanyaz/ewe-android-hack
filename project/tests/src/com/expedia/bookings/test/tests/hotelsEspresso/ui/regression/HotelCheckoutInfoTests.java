@@ -31,9 +31,12 @@ import com.mobiata.android.util.SettingUtils;
 
 import static com.expedia.bookings.test.utilsEspresso.ViewActions.getRating;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anything;
 
 /**
@@ -61,6 +64,7 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 		SettingUtils.save(mContext, R.id.preference_suppress_hotel_booking_checkbox, "true");
 		getActivity();
 	}
+
 
 	public void testHotelHeaderInfo() throws Exception {
 		ScreenActions.enterLog(TAG, "START: HOTEL HEADER INFO TESTS");
@@ -144,15 +148,21 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 				HotelsDetailsScreen.clickSelectButton();
 				EspressoUtils.getListCount(HotelsRoomsRatesScreen.roomList(), "numberOfRooms", 1);
 				int numberOfRooms = mPrefs.getInt("numberOfRooms", 0) - 1;
+				ScreenActions.enterLog(TAG, "number of rooms:" + numberOfRooms);
 				for (int k = 0; k < numberOfRooms; k++) {
-					HotelsRoomsRatesScreen.selectRoomItem(k);
-					EspressoUtils.getValues("receiptGuestString", R.id.guests_text);
-					String receiptGuestString = mPrefs.getString("receiptGuestString", "");
-					int totalNumberOfGuests = currentPair.first + currentPair.second;
-					String expectedGuestString = mRes.getQuantityString(R.plurals.number_of_guests, totalNumberOfGuests, totalNumberOfGuests);
-					assertEquals(expectedGuestString, receiptGuestString);
-					ScreenActions.enterLog(TAG, "Receipt's guest string matched expected guest string.");
-					Espresso.pressBack();
+					try {
+						HotelsRoomsRatesScreen.selectRoomItem(k);
+						EspressoUtils.getValues("receiptGuestString", R.id.guests_text);
+						String receiptGuestString = mPrefs.getString("receiptGuestString", "");
+						int totalNumberOfGuests = currentPair.first + currentPair.second;
+						String expectedGuestString = mRes.getQuantityString(R.plurals.number_of_guests, totalNumberOfGuests, totalNumberOfGuests);
+						assertEquals(expectedGuestString, receiptGuestString);
+						Espresso.pressBack();
+					}
+					catch (Exception e) {
+						onView(withText("OK")).check(matches(isDisplayed())).perform(click());
+						break;
+					}
 				}
 				Espresso.pressBack();
 				Espresso.pressBack();

@@ -100,7 +100,7 @@ public class HotelConfirmationTests extends ActivityInstrumentationTestCase2<Sea
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 		HotelsSearchScreen.clickListItem(1);
 		HotelsDetailsScreen.clickSelectButton();
-		HotelsRoomsRatesScreen.selectRoomItem(1);
+		HotelsRoomsRatesScreen.selectRoomItem(0);
 	}
 
 	public void testLoggedInBookingConfirmation() throws Exception {

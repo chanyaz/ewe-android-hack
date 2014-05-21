@@ -112,7 +112,7 @@ public final class ViewActions {
 		@SuppressWarnings("unchecked")
 		@Override
 		public Matcher<View> getConstraints() {
-			return Matchers.allOf(ViewMatchers.isDisplayed(), isAssignableFrom(ListView.class));
+			return Matchers.allOf(isAssignableFrom(ListView.class));
 		}
 
 		@Override

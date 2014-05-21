@@ -21,12 +21,9 @@ import com.expedia.bookings.test.utils.HotelsUserData;
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
 
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.pressBack;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.RootMatchers.withDecorView;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 
 /**
  * Created by dmadan on 4/11/14.
@@ -85,7 +82,12 @@ public class HotelsHappyPathE {
 		// Rooms and rates
 		ScreenActions.enterLog(TAG, "Selecting first room listed for this hotel.");
 		HotelsRoomsRatesScreen.selectRoomItem(0);
-		SettingsScreen.clickOKString();
+		try {
+			SettingsScreen.clickOKString();
+		}
+		catch (Exception e) {
+			ScreenActions.enterLog(TAG, "No popup.");
+		}
 
 		// Checkout
 		HotelsCheckoutScreen.clickCheckoutButton();
