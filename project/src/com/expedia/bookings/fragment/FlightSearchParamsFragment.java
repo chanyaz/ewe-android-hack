@@ -13,7 +13,6 @@ import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -30,7 +29,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Surface;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -71,7 +69,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.CalendarUtils;
-import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -81,7 +78,6 @@ import com.expedia.bookings.widget.FlightRouteAdapter.FlightRouteAdapterListener
 import com.expedia.bookings.widget.GuestPicker;
 import com.expedia.bookings.widget.GuestPicker.GuestPickerListener;
 import com.expedia.bookings.widget.NumTravelersPopupDropdown;
-import com.expedia.bookings.widget.SimpleNumberPicker;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.app.SimpleProgressDialogFragment;
@@ -139,6 +135,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private ViewGroup mGuestsContainer;
 	private View mGuestsLayout;
 	private GuestPicker mGuestPicker;
+	private TextView mInfantAlertTextView;
 	private View mDoneButton;
 	private View mButtonBarLayout;
 	private TextView mRefinementInfoTextView;
@@ -252,6 +249,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mGuestsLayout = Ui.findView(v, R.id.guests_layout);
 		mGuestPicker = Ui.findView(v, R.id.guest_picker);
 		mGuestPicker.setListener(this);
+		mInfantAlertTextView = Ui.findView(v, R.id.infant_alert_text_view);
 		mButtonBarLayout = Ui.findView(v, R.id.button_bar_layout);
 		mRefinementInfoTextView = Ui.findView(v, R.id.refinement_info_text_view);
 		mInfantPreferenceTextView = Ui.findView(v, R.id.infant_seating_preference_text_view);
@@ -1060,6 +1058,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		displayRefinementInfo();
 		updateNumTravelersText();
 		showInfantSeatingPreferenceAsNecessary();
+		showNotEnoughLapsAsNecessary();
 	}
 
 	private void showInfantSeatingPreferenceAsNecessary() {
@@ -1076,10 +1075,21 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		}
 	}
 
+	private void showNotEnoughLapsAsNecessary() {
+		if (mGuestPicker.moreInfantsThanAvailableLaps()) {
+			mInfantAlertTextView.setVisibility(View.VISIBLE);
+		}
+		else {
+			mInfantAlertTextView.setVisibility(View.GONE);
+		}
+	}
+
 	private final RadioGroup.OnCheckedChangeListener mInfantChangeListener = new RadioGroup.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			mSearchParams.setInfantSeatingInLap(checkedId == R.id.infant_in_lap);
+			showNotEnoughLapsAsNecessary();
+			updateListener();
 		}
 	};
 

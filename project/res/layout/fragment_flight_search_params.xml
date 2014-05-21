@@ -204,13 +204,13 @@
                 android:baselineAligned="false"
                 android:gravity="left|top">
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/infant_seating_preference_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/infant_seating_preference"
                     android:textColor="@android:color/black"
-                    android:textStyle="bold" />
+                    mobiata:textStyle="bold" />
 
                 <RadioGroup
                     android:id="@+id/infant_seating_preference_radio_group"
@@ -233,6 +233,18 @@
                 </RadioGroup>
 
             </LinearLayout>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/infant_alert_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="#FF9900"
+                android:textColor="#F3F3F3"
+                android:textSize="16sp"
+                android:text="@string/not_enough_laps_for_infants"
+                android:visibility="gone"
+                mobiata:textStyle="light" />
 
         </LinearLayout>
     </RelativeLayout>

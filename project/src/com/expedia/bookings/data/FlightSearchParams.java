@@ -143,7 +143,11 @@ public class FlightSearchParams implements JSONable {
 	 * @return true if we can do a search with the data we currently have
 	 */
 	public boolean isFilled() {
-		return getDepartureDate() != null && getDepartureLocation() != null && getArrivalLocation() != null;
+		return getDepartureDate() != null && getDepartureLocation() != null && getArrivalLocation() != null && isValidInfantSearch();
+	}
+
+	private boolean isValidInfantSearch() {
+		return !(hasMoreInfantsThanAvailableLaps() && mInfantSeatingInLap);
 	}
 
 	/**
