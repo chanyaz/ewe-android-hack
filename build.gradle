@@ -12,5 +12,5 @@ buildscript {
 // Sub-projects/library projects will refer to these top-level SDK and buildTools versions
 
 ext.compileSdkVersion=19
-ext.buildToolsVersion="19.0.3"
+ext.buildToolsVersion="19.0.1"
 
