@@ -6,7 +6,6 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:id="@+id/user_reviews_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
@@ -15,27 +14,37 @@
             android:id="@+id/gallery_action_bar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-            android:background="#00ff00"
+            android:background="@drawable/bg_gallery_ab"
             android:gravity="center_vertical"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:paddingLeft="8dp" >
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/done_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/Done" />
+                android:drawableLeft="@drawable/ic_action_bar_checkmark_white"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:textColor="#ffffff"
+                android:textSize="18dp"
+                android:text="@string/Done"
+                app:textStyle="condensed" />
 
             <View
                 android:layout_width="@dimen/one_px_hdpi_two_px_xhdpi"
                 android:layout_height="28dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:background="#0000ff" />
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:background="#33ffffff" />
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/photos_for_hotel_text"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:textSize="18dp"
+                app:textStyle="condensed" />
 
         </LinearLayout>
 
@@ -44,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#ff0000" />
+            android:background="#E5000000" />
 
     </LinearLayout>
 
