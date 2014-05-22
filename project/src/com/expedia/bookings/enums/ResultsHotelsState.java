@@ -8,5 +8,6 @@ public enum ResultsHotelsState {
 	HOTEL_LIST_AND_FILTERS,
 	ROOMS_AND_RATES,
 	REVIEWS,
+	GALLERY,
 	ADDING_HOTEL_TO_TRIP,
 }

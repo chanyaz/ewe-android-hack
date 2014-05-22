@@ -51,8 +51,10 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
+import com.expedia.bookings.interfaces.IResultsHotelGalleryClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.FontCache;
@@ -100,6 +102,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 	private IAddToBucketListener mAddToBucketListener;
 	private IResultsHotelReviewsClickedListener mHotelReviewsClickedListener;
+	private IResultsHotelGalleryClickedListener mHotelGalleryClickedListener;
 
 	private HotelOffersResponse mResponse;
 
@@ -114,6 +117,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		super.onAttach(activity);
 		mAddToBucketListener = Ui.findFragmentListener(this, IAddToBucketListener.class);
 		mHotelReviewsClickedListener = Ui.findFragmentListener(this, IResultsHotelReviewsClickedListener.class);
+		mHotelGalleryClickedListener = Ui.findFragmentListener(this, IResultsHotelGalleryClickedListener.class);
 	}
 
 	@Override
@@ -137,6 +141,13 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		@Override
 		public void onClick(View v) {
 			mHotelReviewsClickedListener.onHotelReviewsClicked();
+		}
+	};
+
+	private OnClickListener mGalleryButtonClickedListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			mHotelGalleryClickedListener.onHotelGalleryClicked();
 		}
 	};
 
@@ -261,6 +272,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private void prepareDetailsForInfo(View view, Property property) {
 		ImageView hotelImage = Ui.findView(view, R.id.hotel_header_image);
 		TextView hotelName = Ui.findView(view, R.id.hotel_header_hotel_name);
+
+		hotelImage.setOnClickListener(mGalleryButtonClickedListener);
 
 		// Hotel Name
 		hotelName.setText(property.getName());
@@ -1109,6 +1122,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			mResponse = response;
 			populateViews();
 			toggleLoadingState(false);
+			Events.post(new Events.HotelAvailabilityUpdated());
 		}
 	};
 

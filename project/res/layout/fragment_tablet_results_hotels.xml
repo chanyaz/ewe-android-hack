@@ -57,6 +57,11 @@
         android:layout_height="match_parent" />
 
     <com.expedia.bookings.widget.FrameLayoutTouchController
+        android:id="@+id/hotel_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/loading_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

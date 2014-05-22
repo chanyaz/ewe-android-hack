@@ -216,6 +216,8 @@
     <string name="recommend">recommend</string>
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <string name="n_recommend_TEMPLATE">%s%% recommend</string>
+    <!-- Hotel gallery title -->
+    <string name="photos_for_TEMPLATE">Photos for %s</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
     <plurals name="rooms_left">
         <item quantity="zero">rooms left</item>
