@@ -414,7 +414,7 @@ public class TripParser {
 				segment.mDestination = parseWaypoint(segmentJson, Waypoint.F_ARRIVAL);
 
 				FlightCode flightCode = new FlightCode();
-				flightCode.mAirlineCode = segmentJson.optString("airlineCode");
+				flightCode.mAirlineCode = segmentJson.optString("externalAirlineCode");
 				flightCode.mNumber = segmentJson.optString("flightNumber").trim();
 				segment.addFlightCode(flightCode, Flight.F_PRIMARY_AIRLINE_CODE);
 
