@@ -666,17 +666,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			else if (stateOne == ResultsFlightsState.LOADING && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 
 				if (mLoadingGuiFrag != null) {
-					//We need the legs fragment to start drawing so we can animate it in
-					FragmentManager manager = getChildFragmentManager();
-					FragmentTransaction transaction = manager.beginTransaction();
-					mFlightLegsFrag = FragmentAvailabilityUtils.setFragmentAvailability(
-						true,
-						FTAG_FLIGHT_LEGS_CHOOSER, manager, transaction, TabletResultsFlightControllerFragment.this,
-						R.id.flight_leg_container, false);
-					transaction.commit();
-					manager.executePendingTransactions();
-					mFlightLegsC.setVisibility(View.VISIBLE);
-
 					//init the animation
 					mLoadingGuiFrag.initGrowToRowsAnimation();
 				}
@@ -801,6 +790,17 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 
 			if (response != null && !response.hasErrors()) {
+				//We need the legs fragment to start drawing so we can animate it in
+				FragmentManager manager = getChildFragmentManager();
+				FragmentTransaction transaction = manager.beginTransaction();
+				mFlightLegsFrag = FragmentAvailabilityUtils.setFragmentAvailability(
+					true,
+					FTAG_FLIGHT_LEGS_CHOOSER, manager, transaction, TabletResultsFlightControllerFragment.this,
+					R.id.flight_leg_container, false);
+				transaction.commit();
+				manager.executePendingTransactions();
+				mFlightLegsC.setVisibility(View.VISIBLE);
+
 				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
 			}
 			else if (!mFlightSearchDownloadFrag.isDownloadingFlightSearch()) {

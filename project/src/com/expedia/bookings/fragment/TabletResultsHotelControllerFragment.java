@@ -1110,16 +1110,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 			else if (stateOne == ResultsHotelsState.LOADING && stateTwo == ResultsHotelsState.HOTEL_LIST_DOWN) {
 				if (mLoadingGuiFrag != null) {
-					//We need the legs fragment to start drawing so we can animate it in
-					FragmentManager manager = getChildFragmentManager();
-					FragmentTransaction transaction = manager.beginTransaction();
-					mHotelListFrag = (ResultsHotelListFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-						true, FTAG_HOTEL_LIST, manager,
-						transaction, TabletResultsHotelControllerFragment.this, R.id.column_one_hotel_list, false);
-					transaction.commit();
-					manager.executePendingTransactions();
-					mHotelListC.setVisibility(View.VISIBLE);
-
 					//init the animation
 					mLoadingGuiFrag.initGrowToRowsAnimation();
 				}
@@ -1446,6 +1436,17 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			Db.kickOffBackgroundHotelSearchSave(context);
 
 			if (response != null && !response.hasErrors()) {
+
+				//We need the list fragment to start drawing so we can animate it in
+				FragmentManager manager = getChildFragmentManager();
+				FragmentTransaction transaction = manager.beginTransaction();
+				mHotelListFrag = FragmentAvailabilityUtils.setFragmentAvailability(
+					true, FTAG_HOTEL_LIST, manager,
+					transaction, TabletResultsHotelControllerFragment.this, R.id.column_one_hotel_list, false);
+				transaction.commit();
+				manager.executePendingTransactions();
+				mHotelListC.setVisibility(View.VISIBLE);
+
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
 			}
 			else if (!mHotelSearchDownloadFrag.isDownloadingHotelSearch()) {
