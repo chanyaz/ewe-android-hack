@@ -45,7 +45,6 @@ public class ResultsListLoadingFragment extends Fragment {
 	private int mLoadingWithOthersGravity = Gravity.CENTER;
 
 	//grow animation variables
-	private boolean mIgnoreAnimationUpdates = false;
 	private float mStartTranslationY;
 	private float mEndTranslationY;
 	private float mStartTranslationX;
@@ -144,7 +143,6 @@ public class ResultsListLoadingFragment extends Fragment {
 
 	public void initGrowToRowsAnimation() {
 		//We don't want the loading animation to be happening while we are growing our rows.
-		mIgnoreAnimationUpdates = true;
 		unRegisterForAnimUpdates(this);
 
 		//Set all cells to the light color
@@ -183,6 +181,7 @@ public class ResultsListLoadingFragment extends Fragment {
 
 	public void setGrowToRowsAnimPercentage(float percentage) {
 		//The text fades out
+		mLoadingTv.setTranslationY(percentage * mRootC.getHeight());
 		mLoadingTv.setAlpha(1f - percentage);
 
 		//The remainder of the animation is split into phases, this indicates where we switch between them
@@ -233,11 +232,18 @@ public class ResultsListLoadingFragment extends Fragment {
 		//Reset any required translations...
 		updateGravities(sLoadingFrags.size() <= 1, false);
 
-		//Go back to listening to animation updates as normal
-		if (isResumed()) {
-			registerForAnimUpdates(this);
-		}
-		mIgnoreAnimationUpdates = false;
+		//If 1 second passes, and we are still attached, lets Go back to listening to animation updates as normal
+		//This is setup like this because typically if we run this animation we are going to be detached after the animation
+		//so there is no good reason to register for updates again.
+		Runnable registerForUpdatesRunner = new Runnable() {
+			@Override
+			public void run() {
+				if (getActivity() != null && isResumed() && !isRemoving()) {
+					registerForAnimUpdates(ResultsListLoadingFragment.this);
+				}
+			}
+		};
+		mRootC.postDelayed(registerForUpdatesRunner, 1000);
 	}
 
 	public void setLoadingText(String text) {
@@ -255,9 +261,6 @@ public class ResultsListLoadingFragment extends Fragment {
 
 
 	private void loadingAnimUpdate(int animNumber) {
-		if (mIgnoreAnimationUpdates) {
-			return;
-		}
 		if (mLoadingC != null && getActivity() != null && isResumed()) {
 			for (int i = 0; i < mLoadingC.getChildCount(); i++) {
 				mLoadingC.getChildAt(i)
@@ -322,7 +325,15 @@ public class ResultsListLoadingFragment extends Fragment {
 		if (textWidth > 0) {
 			if (textWidth > loadingBarWidth) {
 				setViewTranslationX(mLoadingTv, translationX, animate);
-				setViewTranslationX(mLoadingC, translationX + (textWidth - loadingBarWidth) / 2f, animate);
+				if (gravity == Gravity.CENTER) {
+					setViewTranslationX(mLoadingC, translationX + (textWidth - loadingBarWidth) / 2f, animate);
+				}
+				else if (gravity == Gravity.LEFT) {
+					setViewTranslationX(mLoadingC, translationX, animate);
+				}
+				else if (gravity == Gravity.RIGHT) {
+					setViewTranslationX(mLoadingC, translationX + loadingAndTextWidth - loadingBarWidth, animate);
+				}
 			}
 			else {
 				setViewTranslationX(mLoadingTv, translationX + (loadingBarWidth - textWidth) / 2f, animate);
@@ -346,8 +357,17 @@ public class ResultsListLoadingFragment extends Fragment {
 		}
 	}
 
+	private void setViewTranslationY(View view, float translationY, boolean animate) {
+		if (animate) {
+			view.animate().translationY(translationY);
+		}
+		else {
+			view.setTranslationY(translationY);
+		}
+	}
+
 	private void setLoadingTextVisible(boolean visible) {
-		mLoadingTv.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+		mLoadingTv.setAlpha(visible ? 1f : 0f);
 	}
 
 	private int getNumberOfAnimationItems() {
