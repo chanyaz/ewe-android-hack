@@ -102,8 +102,8 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 		Checkout.clickOnDone();
 
 		Checkout.clickOnEnterPaymentInformation();
-		Checkout.setExpirationDate(2020, 12);
 		Checkout.enterCreditCardNumber("4111111111111111");
+		Checkout.setExpirationDate(2020, 12);
 		Checkout.enterNameOnCard("Mobiata Auto");
 		Checkout.enterAddress1("123 Main St.");
 		Checkout.enterAddress2("Apt. 1");
@@ -119,7 +119,7 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 		Checkout.clickDoneBooking();
 	}
 
-	public void testBookHotelFlight() throws InterruptedException {
+	public void testBookHotelAndFlight() throws InterruptedException {
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
 		Launch.typeInDestinationEditText("Detroit, MI");
@@ -158,7 +158,6 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 
 		Checkout.clickOnEnterPaymentInformation();
 		Checkout.enterCreditCardNumber("4111111111111111");
-		Common.closeSoftKeyboard(Checkout.creditCardNumber());
 		Checkout.setExpirationDate(2020, 12);
 		Checkout.enterNameOnCard("Mobiata Auto");
 		Checkout.enterPostalCode("95104");
@@ -180,14 +179,14 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 		Checkout.clickOnDone();
 
 		Checkout.clickOnEnterPaymentInformation();
-		Checkout.setExpirationDate(2020, 12);
 		Checkout.enterCreditCardNumber("4111111111111111");
-		Checkout.enterNameOnCard("Mobiata Auto");
+		Checkout.setExpirationDate(2020, 12);
+		// Name on card should come from hotel entry
 		Checkout.enterAddress1("123 Main St.");
 		Checkout.enterAddress2("Apt. 1");
 		Checkout.enterCity("Madison");
 		Checkout.enterState("WI");
-		Checkout.enterPostalCode("53704");
+		// Postal code should come from hotel entry
 		Checkout.clickOnDone();
 
 		Checkout.slideToPurchase();

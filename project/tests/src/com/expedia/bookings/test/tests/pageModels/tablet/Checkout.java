@@ -109,11 +109,13 @@ public class Checkout {
 	}
 
 	public static void enterAddress1(String text) {
+		address1().perform(scrollTo());
 		address1().perform(click());
 		address1().perform(typeText(text));
 	}
 
 	public static void enterAddress2(String text) {
+		address2().perform(scrollTo());
 		address2().perform(click());
 		address2().perform(typeText(text));
 	}
@@ -127,14 +129,12 @@ public class Checkout {
 	public static void enterState(String text) {
 		addressState().perform(scrollTo());
 		addressState().perform(click());
-		Common.pressBack();
-		addressState().perform(scrollTo());
 		addressState().perform(clearText());
-		addressState().perform(scrollTo());
 		addressState().perform(typeText(text));
 	}
 
 	public static void enterCreditCardNumber(String text) {
+		creditCardNumber().perform(scrollTo());
 		creditCardNumber().perform(click());
 		creditCardNumber().perform(typeText(text));
 	}
@@ -147,6 +147,7 @@ public class Checkout {
 	}
 
 	public static void enterNameOnCard(String text) {
+		nameOnCard().perform(scrollTo());
 		nameOnCard().perform(click());
 		nameOnCard().perform(typeText(text));
 	}
