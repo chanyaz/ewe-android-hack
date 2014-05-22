@@ -103,6 +103,7 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 
 		Checkout.clickOnEnterPaymentInformation();
 		Checkout.enterCreditCardNumber("4111111111111111");
+		Common.closeSoftKeyboard(Checkout.creditCardNumber());
 		Checkout.setExpirationDate(2020, 12);
 		Checkout.enterNameOnCard("Mobiata Auto");
 		Checkout.enterAddress1("123 Main St.");
@@ -158,6 +159,7 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 
 		Checkout.clickOnEnterPaymentInformation();
 		Checkout.enterCreditCardNumber("4111111111111111");
+		Common.closeSoftKeyboard(Checkout.creditCardNumber());
 		Checkout.setExpirationDate(2020, 12);
 		Checkout.enterNameOnCard("Mobiata Auto");
 		Checkout.enterPostalCode("95104");
@@ -179,7 +181,8 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 		Checkout.clickOnDone();
 
 		Checkout.clickOnEnterPaymentInformation();
-		Checkout.enterCreditCardNumber("4111111111111111");
+		// Credit card number should come from hotel entry
+		Common.closeSoftKeyboard(Checkout.creditCardNumber());
 		Checkout.setExpirationDate(2020, 12);
 		// Name on card should come from hotel entry
 		Checkout.enterAddress1("123 Main St.");

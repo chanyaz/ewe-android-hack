@@ -141,6 +141,7 @@ public class Checkout {
 
 	public static void setExpirationDate(int year, int month) {
 		// TODO use year and month
+		onView(withId(R.id.edit_creditcard_exp_text_btn)).perform(scrollTo());
 		onView(withId(R.id.edit_creditcard_exp_text_btn)).perform(click());
 		onView(withId(R.id.year_up)).perform(click());
 		onView(withText("Set")).perform(click());
