@@ -18,6 +18,7 @@ import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.data.TripBucket;
 import com.expedia.bookings.enums.ResultsHotelsListState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsState;
@@ -239,15 +240,22 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			if (mSearchParamUpdateRunner == this && getActivity() != null
 				&& mHotelsStateManager.getState() == ResultsHotelsState.LOADING
 				&& mHotelSearchDownloadFrag != null) {
-				importSearchParams();
-				mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
+				if (!Sp.getParams().toHotelSearchParams().equals(Db.getHotelSearch().getSearchParams())) {
+					importSearchParams();
+					mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
+				}
 			}
 		}
 	}
 
+	/**
+	 * The import of new search params will clear out the HotelSearch data from memory, as well as
+	 * the Hotel data in the TripBucket
+	 */
 	public void importSearchParams() {
 		Db.getHotelSearch().setSearchResponse(null);
 		Db.getHotelSearch().setSearchParams(Sp.getParams().toHotelSearchParams());
+		Db.getTripBucket().clearHotel();
 	}
 
 
@@ -1283,13 +1291,6 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 			logger.addSplit("mMapFragment.setMapPaddingFromFilterState");
 
-
-			//Ensure we are downloading the correct data.
-			if (state == ResultsHotelsState.LOADING && mHotelSearchDownloadFrag != null) {
-				importSearchParams();
-				mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
-			}
-			logger.addSplit("importSearchParams() && mHotelSearchDownloadFrag.startOrResumeForParams");
 			logger.dumpToLog();
 		}
 
