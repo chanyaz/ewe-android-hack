@@ -1,8 +1,11 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -22,6 +25,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.model.TravelerFlowState;
 import com.expedia.bookings.section.SectionTravelerInfo;
@@ -36,6 +40,9 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 
 public class FlightTravelerInfoOptionsFragment extends Fragment {
+
+	private static final String INSTANCE_TRAV_CURRENT_DLS = "INSTANCE_TRAV_CURRENT_DLS";
+	private static final String INSTANCE_TRAV_UPDATE_TIMES = "INSTANCE_TRAV_UPDATE_TIMES";
 
 	private static final String TRAVELER_DETAILS_DOWNLOAD = "TRAVELER_DETAILS_DOWNLOAD";
 	private static final String DIALOG_LOADING_TRAVELER = "DIALOG_LOADING_TRAVELER";
@@ -74,6 +81,24 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		//Restore state
+		if (savedInstanceState != null) {
+			mCurrentTravelerDownloads = savedInstanceState.getStringArrayList(INSTANCE_TRAV_CURRENT_DLS);
+			ArrayList<String> serializedUpdateTimes = savedInstanceState.getStringArrayList(INSTANCE_TRAV_UPDATE_TIMES);
+			for (String serialized : serializedUpdateTimes) {
+				String[] parts = serialized.split("|");
+				if (parts.length != 2) {
+					continue;
+				}
+				else {
+					Long tuid = Long.parseLong(parts[0]);
+					Long time = Long.parseLong(parts[1]);
+					mTuidDownloadTimes.put(tuid, time);
+				}
+			}
+		}
+
+
 		View v = inflater.inflate(R.layout.fragment_flight_traveler_info_options, container, false);
 
 		mCurrentTravelerIndex = getActivity().getIntent().getIntExtra(Codes.TRAVELER_INDEX, 0);
@@ -123,6 +148,9 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			toggleTravelerSection(travelerInfo, !alreadyInUse);
 
 			mAssociatedTravelersContainer.addView(travelerInfo);
+
+			//After we add the view, lets try to update the traveler (to fetch things like phone #)
+			startBackgroundTravelerUpdate(traveler, false);
 
 			//Add divider
 			View divider = new View(getActivity());
@@ -194,6 +222,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		if (bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
 			bd.registerDownloadCallback(TRAVELER_DETAILS_DOWNLOAD, mTravelerDetailsCallback);
 		}
+
+		reRegisterAllBgTravelerDownloads();
 	}
 
 	@Override
@@ -201,10 +231,26 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		super.onPause();
 		if (getActivity().isFinishing()) {
 			BackgroundDownloader.getInstance().cancelDownload(TRAVELER_DETAILS_DOWNLOAD);
+			cancelAllBgTravelerDownloads();
 		}
 		else {
 			BackgroundDownloader.getInstance().unregisterDownloadCallback(TRAVELER_DETAILS_DOWNLOAD);
+			unRegisterAllBgTravelerDownloads();
 		}
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putStringArrayList(INSTANCE_TRAV_CURRENT_DLS, mCurrentTravelerDownloads);
+
+		//This is sort of dumb but here it goes: we serialize the dl times map like <key>|<value> e.g. 1234|5342
+		ArrayList<String> dlTimesMapStrings = new ArrayList<String>();
+		for (Long key : mTuidDownloadTimes.keySet()) {
+			String serialized = key + "|" + mTuidDownloadTimes.get(key);
+			dlTimesMapStrings.add(serialized);
+		}
+		outState.putStringArrayList(INSTANCE_TRAV_UPDATE_TIMES, dlTimesMapStrings);
 	}
 
 	public interface TravelerInfoYoYoListener {
@@ -247,18 +293,24 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 					if (mCurrentTraveler.fromGoogleWallet()) {
 						onTravelerDetailsReceived(mCurrentTraveler);
 					}
-					else if (!state.allTravelerInfoValid(mCurrentTraveler, Db.getFlightSearch().getSelectedFlightTrip().isInternational())) {
+					else if (!state.allTravelerInfoValid(mCurrentTraveler,
+						Db.getFlightSearch().getSelectedFlightTrip().isInternational())) {
 						Db.getWorkingTravelerManager().setWorkingTravelerAndBase(mCurrentTraveler);
 						mListener.setMode(YoYoMode.EDIT);
 						mListener.displayTravelerEntryOne();
 					}
 					else if (!bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
-						// Begin loading flight details in the background, if we haven't already
-						// Show a loading dialog
-						ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.loading_traveler_info));
-						df.show(getFragmentManager(), DIALOG_LOADING_TRAVELER);
-						bd.startDownload(TRAVELER_DETAILS_DOWNLOAD, mTravelerDetailsDownload,
-							mTravelerDetailsCallback);
+						if (travelerIsFresh(mCurrentTraveler)) {
+							onTravelerDetailsReceived(mCurrentTraveler);
+						}
+						else {
+							// Begin loading flight details in the background, if we haven't already
+							// Show a loading dialog
+							ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.loading_traveler_info));
+							df.show(getFragmentManager(), DIALOG_LOADING_TRAVELER);
+							bd.startDownload(TRAVELER_DETAILS_DOWNLOAD, mTravelerDetailsDownload,
+								mTravelerDetailsCallback);
+						}
 
 						OmnitureTracking.trackLinkFlightCheckoutTravelerSelectExisting(getActivity());
 					}
@@ -289,7 +341,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		if (traveler != null) {
 			Db.getWorkingTravelerManager().shiftWorkingTraveler(traveler);
 			mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
-			mCurrentTraveler.setSaveTravelerToExpediaAccount(!mCurrentTraveler.fromGoogleWallet());//We default account travelers to save, unless the user alters the name
+			mCurrentTraveler.setSaveTravelerToExpediaAccount(!mCurrentTraveler
+				.fromGoogleWallet());//We default account travelers to save, unless the user alters the name
 			TravelerFlowState state = TravelerFlowState.getInstance(getActivity());
 			if (state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler)) {
 				boolean flightIsInternational = Db.getFlightSearch().getSelectedFlightTrip().isInternational();
@@ -310,6 +363,23 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			else {
 				mListener.setMode(YoYoMode.YOYO);
 				mListener.displayTravelerEntryOne();
+			}
+		}
+	}
+
+	public void updateTravelerInUi(Traveler traveler) {
+		if (mAssociatedTravelersContainer != null) {
+			for (int i = 0; i < mAssociatedTravelersContainer.getChildCount(); i++) {
+				View v = mAssociatedTravelersContainer.getChildAt(i);
+				if (v instanceof SectionTravelerInfo) {
+					SectionTravelerInfo section = (SectionTravelerInfo) v;
+					Traveler sectionTrav = section.getTraveler();
+					if (section.getTraveler() != null && section.getTraveler().hasTuid()
+						&& section.getTraveler().getTuid().equals(traveler.getTuid())) {
+						section.bind(traveler);
+						return;
+					}
+				}
 			}
 		}
 	}
@@ -352,8 +422,135 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		mPartialTraveler.bind(mCurrentTraveler);
 	}
 
+
 	//////////////////////////////////////////////////////////////////////////
-	// Flight details download
+	// Traveler details in the background download
+
+	//This stores the last successful update time for tuids - this way if we rotate or something we dont kick off fresh dls.
+	private HashMap<Long, Long> mTuidDownloadTimes = new HashMap<Long, Long>();
+	//This list contains the keys of our downloads, since we are generating our download keys we need to keep track.
+	private ArrayList<String> mCurrentTravelerDownloads = new ArrayList<String>();
+	//If a traveler's last update was older than this, don't hesitate to refresh again (this would be an app backgrounded case)
+	private long TRAVELER_EXPIRATION_MS = 1000 * 60 * 5;
+
+	private String genDlTag(long tuid) {
+		return "TRAV_DL_TUID_" + tuid;
+	}
+
+	private boolean travelerIsFresh(Traveler trav) {
+		if (trav.hasTuid()) {
+			if (mTuidDownloadTimes.containsKey(trav.getTuid())
+				&& mTuidDownloadTimes.get(trav.getTuid()) + TRAVELER_EXPIRATION_MS > System.currentTimeMillis()) {
+				return true;
+			}
+			return false;
+		}
+		return true;
+	}
+
+	private void startBackgroundTravelerUpdate(Traveler traveler, boolean force) {
+		Context context = getActivity();
+		if (context != null && traveler != null && traveler.hasTuid()) {
+			if (force || !travelerIsFresh(traveler)) {
+				BackgroundDownloader dl = BackgroundDownloader.getInstance();
+				String dlTag = genDlTag(traveler.getTuid());
+
+				if (mCurrentTravelerDownloads.contains(dlTag) || dl.isDownloading(dlTag)) {
+					dl.cancelDownload(dlTag);
+				}
+				else {
+					mCurrentTravelerDownloads.add(dlTag);
+				}
+
+				dl.startDownload(dlTag, new TravelerDownload(traveler), new OnTravelerDownloadComplete(dlTag));
+			}
+		}
+	}
+
+	private void cancelAllBgTravelerDownloads() {
+		BackgroundDownloader dl = BackgroundDownloader.getInstance();
+		for (String tag : mCurrentTravelerDownloads) {
+			dl.cancelDownload(tag);
+		}
+		mCurrentTravelerDownloads.clear();
+	}
+
+	private void unRegisterAllBgTravelerDownloads() {
+		BackgroundDownloader dl = BackgroundDownloader.getInstance();
+		for (String tag : mCurrentTravelerDownloads) {
+			dl.unregisterDownloadCallback(tag);
+		}
+	}
+
+	private void reRegisterAllBgTravelerDownloads() {
+		BackgroundDownloader dl = BackgroundDownloader.getInstance();
+		for (String tag : mCurrentTravelerDownloads) {
+			dl.registerDownloadCallback(tag, new OnTravelerDownloadComplete(tag));
+		}
+	}
+
+	private class TravelerDownload implements Download<SignInResponse> {
+
+		private Traveler mTrav;
+
+		public TravelerDownload(Traveler trav) {
+			mTrav = trav;
+		}
+
+		@Override
+		public SignInResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(getActivity());
+			BackgroundDownloader.getInstance().addDownloadListener(genDlTag(mTrav.getTuid()), services);
+			return services.updateTraveler(mTrav, 0);
+		}
+	}
+
+	private class OnTravelerDownloadComplete implements OnDownloadComplete<SignInResponse> {
+
+		String mDownloadTag;
+
+		public OnTravelerDownloadComplete(String downloadTag) {
+			mDownloadTag = downloadTag;
+		}
+
+		@Override
+		public void onDownload(SignInResponse results) {
+			Context context = getActivity();
+			if (context != null && User.isLoggedIn(context)) {
+				if (results == null) {
+					Log.e("Traveler download fail. results == null");
+				}
+				else if (results.hasErrors()) {
+					Log.e("Traveler download fail. results.hasErrors():" + results.gatherErrorMessage(context));
+				}
+				else if (results.getTraveler() == null) {
+					Log.e("Traveler download fail. results.getTraveler() == null");
+				}
+				else {
+					Traveler updatedTraveler = results.getTraveler();
+
+					//Update traveler in the associated travelers list
+					for (int i = 0; i < Db.getUser().getAssociatedTravelers().size(); i++) {
+						Traveler trav = Db.getUser().getAssociatedTravelers().get(i);
+						if (trav.hasTuid() && trav.getTuid().equals(updatedTraveler.getTuid())) {
+							Db.getUser().getAssociatedTravelers().set(i, updatedTraveler);
+							break;
+						}
+					}
+
+					//Update the ui with the new traveler info.
+					updateTravelerInUi(updatedTraveler);
+
+					//Update our download stats
+					mTuidDownloadTimes.put(updatedTraveler.getTuid(), System.currentTimeMillis());
+				}
+			}
+			mCurrentTravelerDownloads.remove(mDownloadTag);
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////
+	// Traveler selection details download
 
 	private Download<SignInResponse> mTravelerDetailsDownload = new Download<SignInResponse>() {
 		@Override
