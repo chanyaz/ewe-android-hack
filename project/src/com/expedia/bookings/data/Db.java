@@ -711,13 +711,13 @@ public class Db {
 				return true;
 			}
 			catch (Exception e) {
-				// It's not a severe issue if this all fails - just
+				// It's not a severe issue if this all fails - just sub-optimal
 				Log.w("Failed to save flight data", e);
 				return false;
 			}
 			catch (OutOfMemoryError err) {
 				Log.e("Ran out of memory trying to save flight data cache", err);
-				throw new RuntimeException(err);
+				return false;
 			}
 		}
 	}
