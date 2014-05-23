@@ -50,7 +50,7 @@
             android:background="#FF9900"
             android:textColor="#F3F3F3"
             android:textSize="16sp"
-            android:text="@string/not_enough_laps_for_infants"
+            android:text="@string/max_one_infant_per_lap"
             android:visibility="gone"
             app:textStyle="light" />
 

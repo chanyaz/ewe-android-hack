@@ -187,7 +187,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:padding="10dp"
+            android:paddingTop="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:orientation="vertical"
             android:background="@android:color/white"
             android:visibility="gone">
@@ -200,22 +202,25 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal"
                 android:baselineAligned="false"
-                android:gravity="left|top">
+                android:gravity="center_vertical">
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/infant_seating_preference_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/infant_seating_preference"
+                    android:text="@string/infants_under_two"
                     android:textColor="@android:color/black"
                     mobiata:textStyle="bold" />
 
                 <RadioGroup
                     android:id="@+id/infant_seating_preference_radio_group"
-                    android:layout_width="fill_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -239,10 +244,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
+                android:padding="4dp"
                 android:background="#FF9900"
                 android:textColor="#F3F3F3"
                 android:textSize="16sp"
-                android:text="@string/not_enough_laps_for_infants"
+                android:text="@string/max_one_infant_per_lap"
                 android:visibility="gone"
                 mobiata:textStyle="light" />
 

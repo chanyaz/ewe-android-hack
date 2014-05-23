@@ -167,6 +167,10 @@
     <string name="infants_in_laps">Infants under 2 (at time of travel) in laps</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
     <string name="infants_in_seats">Infants under 2 (at time of travel) in seats</string>
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two">Infants Under 2</string>
+    <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
+    <string name="max_one_infant_per_lap">Maximum of one infant per adult (>13) lap</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">In Laps</string>
     <!-- Description for infant travelers sitting in seats -->
