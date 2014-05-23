@@ -354,6 +354,11 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 	private void handleConfigurationChanged(final Configuration newConfig) {
 		Locale locale = getLocaleForVscAndTvly();
 
+		if (locale.equals(getResources().getConfiguration().locale)) {
+			Log.d("No Locale change required, locale=" + locale.toString());
+			return;
+		}
+
 		Log.d("Forcing locale to " + locale.getLanguage());
 		Configuration myConfig = new Configuration(newConfig);
 		Locale.setDefault(locale);
@@ -377,21 +382,25 @@ public class ExpediaBookingApp extends Application implements UncaughtExceptionH
 
 	private Locale getLocaleForVscAndTvly() {
 
-		Locale frFRlocale = new Locale("fr", "FR");
+		Locale frFRLocale = new Locale("fr", "FR");
 		Locale frCALocale = new Locale("fr", "CA");
 		Locale enCALocale = new Locale("en", "CA");
+
 		Locale defaultEnUSLocale = new Locale("en", "US");
 
 		Locale currentLocale = getResources().getConfiguration().locale;
 
 		if (IS_VSC) {
-			return frFRlocale;
+			return frFRLocale;
 		}
 		else if (IS_TRAVELOCITY && currentLocale.equals(frCALocale)) {
 			return frCALocale;
 		}
 		else if (IS_TRAVELOCITY && currentLocale.equals(enCALocale)) {
 			return enCALocale;
+		}
+		else if (IS_TRAVELOCITY && currentLocale.equals(frFRLocale)) {
+			return frFRLocale;
 		}
 		return defaultEnUSLocale;
 	}
