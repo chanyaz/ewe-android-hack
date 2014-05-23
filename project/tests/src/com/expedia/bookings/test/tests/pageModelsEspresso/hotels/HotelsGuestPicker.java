@@ -1,5 +1,8 @@
 package com.expedia.bookings.test.tests.pageModelsEspresso.hotels;
 
+import android.content.res.Resources;
+
+import static com.expedia.bookings.test.utilsEspresso.ViewActions.storeValue;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
@@ -54,16 +57,20 @@ public class HotelsGuestPicker extends ScreenActions {
 		onView(allOf(withId(R.id.decrement), withParent(withId(R.id.adults_number_picker)))).perform(click());
 	}
 
-	public static String selectChildAgePlural(int quantity) {
-		return mRes.getQuantityString(SELECT_CHILD_AGE_PLURAL_ID, quantity);
+	public static String selectChildAgePlural(int quantity, Resources res) {
+		return res.getQuantityString(SELECT_CHILD_AGE_PLURAL_ID, quantity);
 	}
 
-	public static String childPickerStringPlural(int numberOfChildren) {
-		return mRes.getQuantityString(NUMBER_OF_CHILDREN_PLURAL_ID, numberOfChildren, numberOfChildren);
+	public static String childPickerStringPlural(int numberOfChildren, Resources res) {
+		return res.getQuantityString(NUMBER_OF_CHILDREN_PLURAL_ID, numberOfChildren, numberOfChildren);
 	}
 
-	public static String adultPickerStringPlural(int numberOfAdults) {
-		return mRes.getQuantityString(NUMBER_OF_ADULTS_PLURAL_ID, numberOfAdults, numberOfAdults);
+	public static String adultPickerStringPlural(int numberOfAdults, Resources res) {
+		return res.getQuantityString(NUMBER_OF_ADULTS_PLURAL_ID, numberOfAdults, numberOfAdults);
+	}
+
+	public static void getGuestTextViewValue(int level, int resID, String key) {
+		onView(allOf(withId(level), withParent(withId(resID)))).perform(storeValue(key));
 	}
 
 	public static ViewInteraction adultPicker() {
