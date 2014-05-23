@@ -98,6 +98,7 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 		Checkout.enterLastName("Auto");
 		Checkout.enterPhoneNumber("1112223333");
 		Checkout.enterEmailAddress("aaa@aaa.com");
+		Common.closeSoftKeyboard(Checkout.emailAddress());
 		Checkout.enterDateOfBirth(1970, 1, 1);
 		Checkout.clickOnDone();
 
@@ -177,6 +178,7 @@ public class TabletHappyPath extends ActivityInstrumentationTestCase2 {
 		Checkout.enterLastName("Auto");
 		Checkout.enterPhoneNumber("1112223333");
 		Checkout.enterEmailAddress("aaa@aaa.com");
+		Common.closeSoftKeyboard(Checkout.emailAddress());
 		Checkout.enterDateOfBirth(1970, 1, 1);
 		Checkout.clickOnDone();
 
