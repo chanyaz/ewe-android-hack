@@ -98,8 +98,6 @@
     <string name="find_itinerary_pound">Find Itinerary #</string>
     <!-- Expedia Itinerary -->
     <string name="expedia_itinerary">Expedia Itinerary #</string>
-    <!-- Travelocity Itinerary -->
-    <string name="tvly_itinerary">Travelocity Itinerary #</string>
     <!-- Elite plus customer support -->
     <string name="elite_plus_customer_support">Elite Plus Customer Support</string>
     <!-- No upcoming trips -->

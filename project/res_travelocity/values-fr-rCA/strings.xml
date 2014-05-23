@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
     <string name="travelocity_app_name">Travelocity</string>
-    <string name="travelocity_best_price_guarantee">Travelocity Price Guarantee</string>
+    <string name="travelocity_best_price_guarantee">Garantie du prix Travelocity</string>
 
     <string name="customer_support_text">Téléphoner au soutien à la clientèle Travelocity</string>
     <string name="call_travelocity_customer_support">Téléphoner au soutien à la clientèle Travelocity</string>
@@ -15,8 +15,8 @@
     <string name="cd_checkout_log_in_with_travelocity">Appuyez pour ouvrir une session à votre compte Travelocity</string>
 
     <string name="contact_travelocity">Communiquer avec Travelocity</string>
-    <string name="travelocity_website">Site Web d\&apos;Travelocity</string>
-    <string name="travelocity_app_support">Travelocity App Support</string>
+    <string name="travelocity_website">Site Web de Travelocity</string>
+    <string name="travelocity_app_support">Soutien de l’appli Travelocity</string>
     <string name="travelocity_copyright">© Copyright 2012-2014 Travelocity\nTous droits réservés.</string>
     <string name="travelocity_info_url">http://www.travelocity.com/</string>
 
@@ -26,17 +26,17 @@
     <!-- Expedia booking fee -->
     <string name="travelocity_booking_fee">Frais de réservation par Travelocity</string>
 
-    <string name="error_flight_unhandled_travelocity_TEMPLATE">Désolés, nous ne pouvons pas traiter votre commande en ce moment. Veuillez réessayer ou téléphoner au soutien à la clientèle Travelocity en mentionnant le numéro d\&apos;itinéraire : %s</string>
-    <string name="error_server_travelocity">Désolé, nous n\&apos;avons pas pu nous connecter aux serveurs Travelocity. Veuillez réessayer plus tard.</string>
+    <string name="error_flight_unhandled_travelocity_TEMPLATE">Désolés, nous ne pouvons pas traiter votre commande en ce moment. Veuillez réessayer ou téléphoner au soutien à la clientèle Travelocity en mentionnant le numéro d’itinéraire :%s</string>
+    <string name="error_server_travelocity">Désolé, nous n’avons pas pu nous connecter aux serveurs Travelocity. Veuillez réessayer plus tard.</string>
 
     <!-- save billing info message -->
     <string name="save_billing_travelocity_info_message">Enregistrer cette méthode de paiement sous votre compte Travelocity pour accélérer vos achats futurs?</string>
 
     <!-- Save traveler name Template -->
-    <string name="save_traveler_travelocity_message_TEMPLATE">Enregistrer l\&apos;information %1$s sous votre compte Travelocity pour accélérer vos achats futurs?</string>
+    <string name="save_traveler_travelocity_message_TEMPLATE">Enregistrer l’information %1$s sous votre compte Travelocity pour accélérer vos achats futurs?</string>
 
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE_tvly">Numéro d\&apos;itinéraire Travelocity : %s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE_tvly">Nº d’itinéraire Travelocity : %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
     <string name="calendar_flight_desc_support_TEMPLATE_tvly">Soutien à la clientèle Travelocity : %s</string>
 
@@ -44,12 +44,15 @@
     <string name="dialog_message_logged_out_and_cleared_private_data_tvly">Votre session au compte Travelocity a été fermée et tous les renseignements de facturation et coordonnées ont été supprimés.</string>
 
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure_tvly">Désolé, nous n\&apos;avons pas pu établir la connexion avec Travelocity. Veuillez réessayer.</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_tvly">Désolé, nous n’avons pas pu établir la connexion avec Travelocity. Veuillez réessayer.</string>
 
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_travelocity_via">Communiquer avec Travelocity par…</string>
     <!-- Contact Expedia via email subject -->
     <string name="contact_travelocity_email_subject">Soutien Travelocity pour les réservations</string>
-    <string name="contact_phone_template_tvly">Si vous avez des questions au sujet de la réservation, veuillez communiquer avec Travelocity au %s.</string>
+    <!-- Travelocity- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_tvly">Si vous avez des questions au sujet de la réservation, veuillez contacter Travelocity au %s</string>
+    <!-- Travelocity Itinerary -->
+    <string name="tvly_itinerary">Nº d\&apos;itinéraire Travelocity</string>
 
 </resources>

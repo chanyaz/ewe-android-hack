@@ -60,4 +60,7 @@
     <!-- Tvly contact phone text, adding to avoid compilation failure for Expedia-->
     <item name="contact_phone_template_tvly" type="string"/>
 
+    <!-- Tvly tvly itin label text -->
+    <item name="tvly_itinerary" type="string"/>
+
  </resources>
