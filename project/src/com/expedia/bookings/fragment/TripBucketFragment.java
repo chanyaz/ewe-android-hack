@@ -89,12 +89,14 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 
 		mTripBucketFlightFrag = FragmentAvailabilityUtils
 			.setFragmentAvailability(showFlight, FTAG_BUCKET_FLIGHT, manager,
-				transaction, this, R.id.content_container, true);
+				transaction, this, R.id.trip_bucket_flight_trip, true);
 		mTripBucketHotelFrag = FragmentAvailabilityUtils
 			.setFragmentAvailability(showHotel, FTAG_BUCKET_HOTEL, manager,
-				transaction, this, R.id.content_container, true);
+				transaction, this, R.id.trip_bucket_hotel_trip, true);
 
 		transaction.commit();
+		Ui.findView(getView(), R.id.trip_bucket_flight_trip).setVisibility(showFlight ? View.VISIBLE : View.GONE);
+		Ui.findView(getView(), R.id.trip_bucket_hotel_trip).setVisibility(showHotel ? View.VISIBLE : View.GONE);
 
 		if (showFlight && lobToRefresh!= null && lobToRefresh == LineOfBusiness.FLIGHTS) {
 			mTripBucketFlightFrag.bind();

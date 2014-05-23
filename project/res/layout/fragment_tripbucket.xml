@@ -15,6 +15,17 @@
         android:orientation="vertical"
         android:divider="@drawable/divider_trip_bucket">
 
+        <FrameLayout
+            android:id="@+id/trip_bucket_flight_trip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <FrameLayout
+            android:id="@+id/trip_bucket_hotel_trip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
     </LinearLayout>
 
 </ScrollView>
