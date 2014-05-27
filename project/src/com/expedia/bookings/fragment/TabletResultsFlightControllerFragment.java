@@ -196,7 +196,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		mResultsStateHelper.unregisterWithProvider(this);
 	}
 
-	private Rect getAddTripRect() {
+	public Rect getAddTripRect() {
+		if (mAddToTripFrag == null || !mAddToTripFrag.isResumed()) {
+			return new Rect();
+		}
 		return mAddToTripFrag.getRowRect();
 	}
 
@@ -333,7 +336,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	 */
 
 	public void setFlightsState(ResultsFlightsState state, boolean animate) {
-		mFlightsStateManager.setState(state, animate);
+		if (animate && state == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
+			|| state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+			mFlightsStateManager.setState(state, 3000);
+		}
+		else {
+			mFlightsStateManager.setState(state, animate);
+		}
 	}
 
 	private void setTouchState(ResultsFlightsState flightsState) {

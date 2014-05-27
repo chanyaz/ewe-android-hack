@@ -2,11 +2,11 @@ package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
 
-import android.support.v4.app.FragmentActivity;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
@@ -106,7 +106,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		if(savedInstanceState == null) {
+		if (savedInstanceState == null) {
 			Sp.saveOrLoadForTesting(this);
 		}
 
@@ -698,6 +698,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 			//DO WORK
 			startStateTransition(getResultsStateFromFlights(stateOne), getResultsStateFromFlights(stateTwo));
+
+			if (mTripBucketFrag != null && stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
+				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				mTripBucketFrag.animInitAddToBucket(mFlightsController.getAddTripRect(), LineOfBusiness.FLIGHTS);
+			}
 		}
 
 		@Override
@@ -707,6 +712,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				+ " percentage:" + percentage);
 			updateStateTransition(getResultsStateFromFlights(stateOne), getResultsStateFromFlights(stateTwo),
 				percentage);
+
+			if (mTripBucketFrag != null && stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
+				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				mTripBucketFrag.animUpdateAddToBucket(percentage);
+			}
 		}
 
 		@Override
@@ -715,6 +725,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 			//DO WORK
 			endStateTransition(getResultsStateFromFlights(stateOne), getResultsStateFromFlights(stateTwo));
+
+			if (mTripBucketFrag != null && stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
+				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				mTripBucketFrag.animFinalizeAddToBucket();
+			}
 
 			mResultsStateListeners.setListenerActive(mFlightsController.getResultsListener());
 		}

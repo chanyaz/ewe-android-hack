@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -64,6 +65,32 @@ public class ResultsTripBucketFragment extends Fragment
 
 		if (mBucketFrag != null && mBucketFrag.isAdded() && showBucket) {
 			mBucketFrag.bind(bucket, lobToRefresh);
+		}
+	}
+
+
+	/**
+	 * IFragmentAvailabilityProvider
+	 */
+
+	private Rect mAnimAddToBucketOriginRect;
+	private LineOfBusiness mAnimAddToBucketLob;
+
+	public void animInitAddToBucket(Rect origin, LineOfBusiness lob){
+		mAnimAddToBucketOriginRect = origin;
+		mAnimAddToBucketLob = lob;
+	}
+
+	public void animUpdateAddToBucket(float percentage){
+		if(mAnimAddToBucketOriginRect != null && mAnimAddToBucketLob != null){
+
+		}
+	}
+
+	public void animFinalizeAddToBucket(){
+		if(mAnimAddToBucketOriginRect != null && mAnimAddToBucketLob != null){
+			mAnimAddToBucketOriginRect = null;
+			mAnimAddToBucketLob = null;
 		}
 	}
 
