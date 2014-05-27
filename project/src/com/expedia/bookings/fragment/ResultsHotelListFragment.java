@@ -62,7 +62,9 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		setListViewContentDescription(R.string.cd_tablet_results_hotel_list);
-		return super.onCreateView(inflater, container, savedInstanceState);
+		View view = super.onCreateView(inflater, container, savedInstanceState);
+		view.setBackgroundResource(R.drawable.bg_half_white);
+		return view;
 	}
 
 	// All this work for awesome Hotel Card expand/contract animation
