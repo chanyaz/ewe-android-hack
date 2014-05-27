@@ -1,15 +1,14 @@
 package com.expedia.bookings.test.tests.pageModels.tablet;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.Property;
-import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
-import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
-import com.google.android.apps.common.testing.ui.espresso.matcher.BoundedMatcher;
-import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
-
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.joda.time.LocalDate;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.Property;
+import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
+import com.google.android.apps.common.testing.ui.espresso.matcher.BoundedMatcher;
+import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
 import static com.expedia.bookings.test.utils.EspressoUtils.swipeUp;
 import static com.expedia.bookings.test.utils.ViewActions.clickDates;
@@ -23,16 +22,14 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withContentDescription;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withParent;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 
 public class Results {
 
@@ -104,7 +101,7 @@ public class Results {
 	}
 
 	public static void clickBookHotel() {
-		onView(allOf(withId(R.id.book_button_text), withText("Book Hotel"))).perform(click());
+		onView(allOf(withId(R.id.book_button_text), withText("Book Hotel"))).perform(scrollTo(), click());
 	}
 
 	public static void clickAddFlight() {

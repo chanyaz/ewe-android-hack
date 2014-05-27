@@ -2,8 +2,6 @@ package com.expedia.bookings.test.tests.tablet;
 
 import org.joda.time.LocalDate;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
