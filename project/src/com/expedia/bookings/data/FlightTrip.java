@@ -91,8 +91,6 @@ public class FlightTrip implements JSONable {
 	// Rules associated with offer (will not exist until we have an itinerary)
 	private Map<String, Rule> mRules;
 
-	private String mBaggageFeesUrl;
-
 	public String getProductKey() {
 		return mProductKey;
 	}
@@ -325,14 +323,6 @@ public class FlightTrip implements JSONable {
 
 	public String getRewardsPoints() {
 		return mRewardsPoints;
-	}
-
-	public void setBaggageFeesUrl(String url) {
-		mBaggageFeesUrl = url;
-	}
-
-	public String getBaggageFeesUrl() {
-		return mBaggageFeesUrl;
 	}
 
 	public void setMayChargeObFees(boolean mayChargeObFees) {
@@ -742,7 +732,6 @@ public class FlightTrip implements JSONable {
 
 			obj.putOpt(KEY_REWARDS_POINTS, mRewardsPoints);
 			obj.putOpt(KEY_SEATS_REMAINING, mSeatsRemaining);
-			obj.putOpt(KEY_BAGGAGE_FEES_URL, mBaggageFeesUrl);
 			if (mMayChargeObFees) {
 				obj.putOpt(KEY_MAY_CHARGE_OB_FEES, mMayChargeObFees);
 			}
@@ -830,7 +819,6 @@ public class FlightTrip implements JSONable {
 
 		mRewardsPoints = obj.optString(KEY_REWARDS_POINTS);
 		mSeatsRemaining = obj.optInt(KEY_SEATS_REMAINING);
-		mBaggageFeesUrl = obj.optString(KEY_BAGGAGE_FEES_URL);
 		mMayChargeObFees = obj.optBoolean(KEY_MAY_CHARGE_OB_FEES, false);
 		mHasBagFee = obj.optBoolean(KEY_SHOW_HAS_BAG_FEE, false);
 		mFareName = obj.optString(KEY_FARE_NAME, null);
@@ -888,7 +876,6 @@ public class FlightTrip implements JSONable {
 		mOnlineBookingFeesAmount = JSONUtils.getJSONable(obj, "onlineBookingFeesAmount", Money.class);
 		mRewardsPoints = obj.optString("rewardsPoints");
 		mSeatsRemaining = obj.optInt("seatsRemaining");
-		mBaggageFeesUrl = obj.optString("baggageFeesUrl");
 		mMayChargeObFees = obj.optBoolean("mayChargeObFees");
 		mHasBagFee = obj.optBoolean("showBaggageFeesNotIncluded");
 		mFareName = obj.optString("fareName");

@@ -28,6 +28,8 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	private List<Flight> mSegments = new ArrayList<Flight>();
 
+	private String mBaggageFeesUrl;
+
 	public String getLegId() {
 		return mLegId;
 	}
@@ -50,6 +52,14 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	public List<Flight> getSegments() {
 		return mSegments;
+	}
+
+	public String getBaggageFeesUrl() {
+		return mBaggageFeesUrl;
+	}
+
+	public void setBaggageFeesUrl(String baggageFeesUrl) {
+		mBaggageFeesUrl = baggageFeesUrl;
 	}
 
 	@Override
@@ -181,6 +191,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 			obj.putOpt("legId", mLegId);
 			JSONUtils.putJSONableList(obj, "segments", mSegments);
 			JSONUtils.putJSONable(obj, "shareInfo", mShareInfo);
+			obj.putOpt("baggageFeesUrl", mBaggageFeesUrl);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -194,6 +205,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 		mSegments = JSONUtils.getJSONableList(obj, "segments", Flight.class);
 		mShareInfo = JSONUtils.getJSONable(obj, "shareInfo", ItinShareInfo.class);
 		mShareInfo = mShareInfo == null ? new ItinShareInfo() : mShareInfo;
+		mBaggageFeesUrl = obj.optString("baggageFeesUrl");
 		return true;
 	}
 

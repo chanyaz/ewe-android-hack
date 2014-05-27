@@ -96,14 +96,6 @@ public class FlightSearchResponse extends Response {
 		Map<String, String> usedStringMap = new HashMap<String, String>();
 
 		for (FlightTrip trip : mTrips) {
-			String baggageFeesUrl = trip.getBaggageFeesUrl();
-			if (usedStringMap.containsKey(baggageFeesUrl)) {
-				trip.setBaggageFeesUrl(usedStringMap.get(baggageFeesUrl));
-			}
-			else {
-				usedStringMap.put(baggageFeesUrl, baggageFeesUrl);
-			}
-
 			String currency = trip.getBaseFare().getCurrency();
 			if (usedStringMap.containsKey(currency)) {
 				currency = usedStringMap.get(currency);

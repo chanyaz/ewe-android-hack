@@ -183,6 +183,9 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 					leg.addSegment(segment);
 				}
 			}
+			else if (name.equals("baggageFeesUrl")) {
+				leg.setBaggageFeesUrl(parser.getText());
+			}
 			else {
 				parser.skipChildren();
 			}
@@ -345,9 +348,6 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 			}
 			else if (name.equals("seatsRemaining")) {
 				trip.setSeatsRemaining(parser.getValueAsInt(0));
-			}
-			else if (name.equals("baggageFeesUrl")) {
-				trip.setBaggageFeesUrl(parser.getText());
 			}
 			else if (name.equals("mayChargeOBFees")) {
 				trip.setMayChargeObFees(parser.getValueAsBoolean(false));

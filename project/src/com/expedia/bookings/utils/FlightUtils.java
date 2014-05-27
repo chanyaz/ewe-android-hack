@@ -104,7 +104,7 @@ public class FlightUtils {
 		void onBaggageFeeViewClicked(String title, String url);
 	}
 
-	public static void configureBaggageFeeViews(final Context context, final FlightTrip trip, FlightLeg leg, TextView feesTv,
+	public static void configureBaggageFeeViews(final Context context, final FlightTrip trip, final FlightLeg leg, TextView feesTv,
 		ViewGroup mFeesContainer, TextView secondaryFeesTv, boolean isPhone, final OnBaggageFeeViewClicked callback) {
 
 		// Configure the first TextView, "Baggage Fee Information"
@@ -141,7 +141,7 @@ public class FlightUtils {
 				@Override
 				public void onClick(View v) {
 					AdditionalFeesDialogFragment dialogFragment = AdditionalFeesDialogFragment.newInstance(
-						trip.getBaggageFeesUrl(), Db.getFlightSearch().getSearchResponse().getObFeesDetails(), callback);
+						leg.getBaggageFeesUrl(), Db.getFlightSearch().getSearchResponse().getObFeesDetails(), callback);
 					dialogFragment.show(((FragmentActivity) context).getSupportFragmentManager(), "additionalFeesDialog");
 				}
 			});
@@ -151,7 +151,7 @@ public class FlightUtils {
 			mFeesContainer.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					callback.onBaggageFeeViewClicked(context.getString(R.string.baggage_fees), trip.getBaggageFeesUrl());
+					callback.onBaggageFeeViewClicked(context.getString(R.string.baggage_fees), leg.getBaggageFeesUrl());
 				}
 			});
 		}
