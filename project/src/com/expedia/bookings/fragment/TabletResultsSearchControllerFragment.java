@@ -269,6 +269,16 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mTravBtn.setText(travStr);
 	}
 
+	public void hideSearchBtns() {
+		mTravBtn.setVisibility(View.INVISIBLE);
+		mCalBtn.setVisibility(View.INVISIBLE);
+	}
+
+	public void showSearchBtns() {
+		mTravBtn.setVisibility(View.VISIBLE);
+		mCalBtn.setVisibility(View.VISIBLE);
+	}
+
 	@Subscribe
 	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
 		importParams();

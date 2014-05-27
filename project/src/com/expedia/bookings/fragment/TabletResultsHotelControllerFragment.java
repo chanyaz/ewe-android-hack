@@ -1101,12 +1101,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setReviewsAnimationVisibilities(false);
 			}
 			else if (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.GALLERY) {
-				getActivity().getActionBar().hide();
 				setGalleryAnimationHardwareRendering(true);
 				setGalleryAnimationVisibilities(true);
 			}
 			else if (stateOne == ResultsHotelsState.GALLERY && stateTwo == ResultsHotelsState.ROOMS_AND_RATES) {
-				getActivity().getActionBar().show();
 				setGalleryAnimationHardwareRendering(true);
 				setGalleryAnimationVisibilities(false);
 			}

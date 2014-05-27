@@ -628,6 +628,15 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 			//DO WORK
 			startStateTransition(getResultsStateFromHotels(stateOne), getResultsStateFromHotels(stateTwo));
+
+			if (stateTwo == ResultsHotelsState.GALLERY) {
+				getActionBar().hide();
+				mSearchController.hideSearchBtns();
+			}
+			if (stateOne == ResultsHotelsState.GALLERY) {
+				getActionBar().show();
+				mSearchController.showSearchBtns();
+			}
 		}
 
 		@Override
@@ -657,6 +666,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			setState(getResultsStateFromHotels(state), false);
 
 			mResultsStateListeners.setListenerActive(mHotelsController.getResultsListener());
+
+			if (state == ResultsHotelsState.GALLERY) {
+				getActionBar().hide();
+				mSearchController.hideSearchBtns();
+			}
 		}
 
 		private ResultsState getResultsStateFromHotels(ResultsHotelsState state) {
