@@ -238,8 +238,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		registerStateListener(new StateListenerLogger<CheckoutState>(), false);
 
 		mTripBucketItemViews = new ViewGroup[] {
-			mBucketHotelContainer,
 			mBucketFlightContainer,
+			mBucketHotelContainer
 		};
 
 		return mRootC;
@@ -863,11 +863,11 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 
 		mTripBucketItemFragments = new ArrayList<TripBucketItemFragment>();
-		if (mBucketHotelFrag != null) {
-			mTripBucketItemFragments.add(mBucketHotelFrag);
-		}
 		if (mBucketFlightFrag != null) {
 			mTripBucketItemFragments.add(mBucketFlightFrag);
+		}
+		if (mBucketHotelFrag != null) {
+			mTripBucketItemFragments.add(mBucketHotelFrag);
 		}
 	}
 
