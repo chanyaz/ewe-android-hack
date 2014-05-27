@@ -190,6 +190,7 @@
 		on orientation)
     -->
     <dimen name="gallery_size">200dp</dimen>
+    <dimen name="tablet_gallery_viewpager_gutter_margin">-500dp</dimen>
 
     <!-- The visible area of the map on the Hotel Details screen (when collapsed) -->
     <dimen name="hotel_details_map_visible_size">150dp</dimen>

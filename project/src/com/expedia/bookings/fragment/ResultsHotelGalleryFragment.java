@@ -55,6 +55,8 @@ public class ResultsHotelGalleryFragment extends Fragment {
 		mDoneText = Ui.findView(mRootC, R.id.done_button);
 		mHotelText = Ui.findView(mRootC, R.id.photos_for_hotel_text);
 		mPager = Ui.findView(mRootC, R.id.pager);
+		mPager.setPageMargin((int) getResources().getDimension(R.dimen.tablet_gallery_viewpager_gutter_margin));
+		mPager.setOffscreenPageLimit(5);
 
 		mDoneText.setOnClickListener(new OnClickListener() {
 			@Override
@@ -88,6 +90,7 @@ public class ResultsHotelGalleryFragment extends Fragment {
 		mHotelText.setText(photosForText);
 
 		if (property.getMediaList() != null) {
+			mPager.setCurrentItem(0);
 			mAdapter.replaceWith(property.getMediaList());
 		}
 	}
@@ -100,7 +103,6 @@ public class ResultsHotelGalleryFragment extends Fragment {
 		private List<Media> mMedia;
 
 		public void replaceWith(List<Media> media) {
-			Log.stackTrace(5, "replaceWith");
 			mMedia = media;
 			notifyDataSetChanged();
 		}
@@ -116,7 +118,7 @@ public class ResultsHotelGalleryFragment extends Fragment {
 			View root = inflater.inflate(R.layout.snippet_tablet_hotel_gallery_item, null);
 
 			Media media = mMedia.get(position);
-			ImageView image = (ImageView) root;
+			ImageView image = Ui.findView(root, R.id.image);
 			media.loadHighResImage(image, null);
 
 			ViewGroup group = (ViewGroup) collection;
