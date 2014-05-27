@@ -352,8 +352,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mHotelFilteredCountC.setVisibility(View.INVISIBLE);
 			}
 
-			if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES || hotelsState == ResultsHotelsState.REVIEWS
-				|| hotelsState == ResultsHotelsState.ADDING_HOTEL_TO_TRIP) {
+			if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES
+				|| hotelsState == ResultsHotelsState.REVIEWS
+				|| hotelsState == ResultsHotelsState.ADDING_HOTEL_TO_TRIP
+				|| hotelsState == ResultsHotelsState.GALLERY) {
 				mMapDimmer.setVisibility(View.VISIBLE);
 				mMapDimmer.setAlpha(1f);
 			}
@@ -362,7 +364,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mMapDimmer.setAlpha(0f);
 			}
 
-			if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES) {
+			if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES || hotelsState == ResultsHotelsState.GALLERY) {
 				mHotelRoomsAndRatesC.setVisibility(View.VISIBLE);
 			}
 			else {
