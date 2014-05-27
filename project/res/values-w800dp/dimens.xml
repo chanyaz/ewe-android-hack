@@ -3,5 +3,4 @@
 
     <!-- This needs to be a bit smaller than the qualifier width to account for padding -->
     <dimen name="tablet_search_width">768dp</dimen>
-
 </resources>

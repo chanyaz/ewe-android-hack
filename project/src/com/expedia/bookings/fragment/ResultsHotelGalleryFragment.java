@@ -56,6 +56,7 @@ public class ResultsHotelGalleryFragment extends Fragment {
 		mHotelText = Ui.findView(mRootC, R.id.photos_for_hotel_text);
 		mPager = Ui.findView(mRootC, R.id.pager);
 		mPager.setPageMargin((int) getResources().getDimension(R.dimen.tablet_gallery_viewpager_gutter_margin));
+		mPager.setClipToPadding(false);
 		mPager.setOffscreenPageLimit(5);
 
 		mDoneText.setOnClickListener(new OnClickListener() {
