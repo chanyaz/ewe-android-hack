@@ -71,7 +71,7 @@ public class HotelsCheckoutNonMerchant extends ActivityInstrumentationTestCase2<
 		HotelsSearchScreen.clickSuggestion(getActivity(), "Las Vegas, NV");
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(cal.YEAR);
-		int month = cal.get(cal.MONTH) + 1;
+		int month = cal.get(cal.MONTH) + 2;
 		LocalDate mStartDate = new LocalDate(year, month, 5);
 		LocalDate mEndDate = new LocalDate(year, month, 10);
 		HotelsSearchScreen.clickOnCalendarButton();
