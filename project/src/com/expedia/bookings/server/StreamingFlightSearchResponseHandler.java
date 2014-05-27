@@ -66,7 +66,7 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 
 		if (Log.isLoggingEnabled()) {
 			StringBuilder httpInfo = new StringBuilder();
-			httpInfo.append(response.statusLine());
+			httpInfo.append("HTTP " + response.code());
 			httpInfo.append("\n");
 			httpInfo.append(response.headers().toString());
 			Log.v(httpInfo.toString());

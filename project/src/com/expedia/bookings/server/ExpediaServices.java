@@ -110,6 +110,7 @@ import com.mobiata.flightlib.data.FlightCode;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
 
 @SuppressLint("SimpleDateFormat")
 public class ExpediaServices implements DownloadListener {
@@ -200,7 +201,7 @@ public class ExpediaServices implements DownloadListener {
 		client.setReadTimeout(100L, TimeUnit.SECONDS);
 
 		// 1902 - Allow redirecting from API calls
-		client.setFollowProtocolRedirects(true);
+		client.setFollowSslRedirects(true);
 
 		// When not a release build, allow SSL from all connections
 		// Our test servers use self signed certs
@@ -1091,7 +1092,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		Request.Builder post = new Request.Builder().url("http://e.xpda.co/v1/shorten");
-		Request.Body body = Request.Body.create(MediaType.parse("application/json"), args.toString());
+		RequestBody body = RequestBody.create(MediaType.parse("application/json"), args.toString());
 		post.post(body);
 
 		// Make sure the response comes back as JSON
@@ -1473,7 +1474,7 @@ public class ExpediaServices implements DownloadListener {
 		// Create the request
 		Request.Builder post = new Request.Builder().url(serverUrl);
 		String data = payload.toString();
-		Request.Body body = Request.Body.create(MediaType.parse("application/json"), data);
+		RequestBody body = RequestBody.create(MediaType.parse("application/json"), data);
 
 		// Adding the body sets the Content-type header for us
 		post.post(body);
@@ -1622,7 +1623,7 @@ public class ExpediaServices implements DownloadListener {
 		final String userAgent = getUserAgentString(mContext);
 
 		mClient = sCachedClient;
-		request.setUserAgent(userAgent);
+		request.addHeader("User-Agent", userAgent);
 		request.addHeader("Accept-Encoding", "gzip");
 
 		final boolean ignoreCookies = (flags & F_IGNORE_COOKIES) != 0;
@@ -1640,7 +1641,7 @@ public class ExpediaServices implements DownloadListener {
 		com.squareup.okhttp.Response response = null;
 		try {
 			mRequest = request.build();
-			response = mClient.execute(mRequest);
+			response = mClient.newCall(mRequest).execute();
 			Response processedResponse = responseHandler.handleResponse(response);
 			if (!ignoreCookies && !mCancellingDownload) {
 				if (cookiesAreLoggedIn != User.isLoggedIn(mContext)) {
@@ -1948,7 +1949,7 @@ public class ExpediaServices implements DownloadListener {
 		}
 
 		Request.Builder req = new Request.Builder().url(url);
-		Request.Body body = Request.Body.create(MediaType.parse("application/x-www-form-urlencoded"), data);
+		RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), data);
 		req.post(body);
 		return req;
 	}

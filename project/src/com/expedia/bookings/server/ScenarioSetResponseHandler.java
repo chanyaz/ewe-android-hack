@@ -10,7 +10,7 @@ public class ScenarioSetResponseHandler implements ResponseHandler<ScenarioSetRe
 	@Override
 	public ScenarioSetResponse handleResponse(Response response) throws IOException {
 		ScenarioSetResponse result = new ScenarioSetResponse();
-		result.setSuccess(response != null && response.statusLine().contains("200 OK"));
+		result.setSuccess(response != null && response.code() == 200);
 		return result;
 	}
 }
