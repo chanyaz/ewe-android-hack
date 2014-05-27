@@ -26,6 +26,8 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
+import com.mobiata.android.Log;
+
 public class ResultsHotelGalleryFragment extends Fragment {
 
 	public static ResultsHotelGalleryFragment newInstance() {
@@ -98,8 +100,14 @@ public class ResultsHotelGalleryFragment extends Fragment {
 		private List<Media> mMedia;
 
 		public void replaceWith(List<Media> media) {
+			Log.stackTrace(5, "replaceWith");
 			mMedia = media;
 			notifyDataSetChanged();
+		}
+
+		@Override
+		public int getItemPosition(Object object) {
+			return PagerAdapter.POSITION_NONE;
 		}
 
 		@Override
@@ -107,8 +115,8 @@ public class ResultsHotelGalleryFragment extends Fragment {
 			LayoutInflater inflater = LayoutInflater.from(collection.getContext());
 			View root = inflater.inflate(R.layout.snippet_tablet_hotel_gallery_item, null);
 
-			ImageView image = (ImageView) root;
 			Media media = mMedia.get(position);
+			ImageView image = (ImageView) root;
 			media.loadHighResImage(image, null);
 
 			ViewGroup group = (ViewGroup) collection;
