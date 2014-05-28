@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.L2ImageCache.OnBitmapLoaded;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
@@ -18,7 +19,7 @@ import com.mobiata.android.util.AndroidUtils;
 
 /**
  * Manages images retrieved from Expedia's database.
- *
+ * <p/>
  * Implementation note: currently, the way that Expedia images are sized is
  * based on the size of the device, not the desired display size of the image.
  * Once they fix that, we should stop defaulting to using the full-size
@@ -40,7 +41,7 @@ public class ExpediaImageManager {
 		public String getIdentifier() {
 			return mIdentifier;
 		}
-	};
+	}
 
 	private static final ExpediaImageManager sManager = new ExpediaImageManager();
 
@@ -70,15 +71,15 @@ public class ExpediaImageManager {
 	/**
 	 * Retrieves Expedia image URLs.
 	 *
-	 * @param imageType the type of image
-	 * @param imageCode the image code (determined by image type + other factors)
-	 * @param width the desired width (not guaranteed to be exact on return)
-	 * @param height the desired height (not guaranteed to be exact on return)
+	 * @param imageType  the type of image
+	 * @param imageCode  the image code (determined by image type + other factors)
+	 * @param width      the desired width (not guaranteed to be exact on return)
+	 * @param height     the desired height (not guaranteed to be exact on return)
 	 * @param useNetwork if true, will request .  If you set this to true, you better be operating on a non-UI thread!
 	 * @return the URL if available, or null if not
 	 */
 	public ExpediaImage getExpediaImage(ImageType imageType, String imageCode, int width, int height,
-			boolean useNetwork, L2ImageCache cache) {
+										boolean useNetwork, L2ImageCache cache) {
 		// The key should be unique for each request
 		String cacheUrl = getImageKey(imageType, imageCode, width, height);
 
@@ -135,7 +136,7 @@ public class ExpediaImageManager {
 	 * Defaults to expiring image from general-purpose cache
 	 */
 	public ExpediaImage getExpediaImage(ImageType imageType, String imageCode, int width, int height,
-			boolean useNetwork) {
+										boolean useNetwork) {
 		return getExpediaImage(imageType, imageCode, width, height, useNetwork, L2ImageCache.sGeneralPurpose);
 	}
 
@@ -143,7 +144,7 @@ public class ExpediaImageManager {
 	 * Retrieves a car image.
 	 */
 	public ExpediaImage getCarImage(Car.Category category, Car.Type type, int width, int height,
-			boolean useNetwork) {
+									boolean useNetwork) {
 		return getExpediaImage(ImageType.CAR, getImageCode(category, type), width, height, useNetwork);
 	}
 
@@ -209,11 +210,11 @@ public class ExpediaImageManager {
 	 * This is a specialized helper method designed for a specific use-case. This method will grab the
 	 * full-screen destination background image. This method is particularly useful for the phone checkout
 	 * flow. This method makes many assumptions:
-	 *
-	 * 	1. The image is the resolution of the full screen size via AndroidUtils.getDisplaySize()
-	 * 	2. The ExpediaImage metadata has been downloading from the network and is present in memory
-	 * 	3. The Bitmap is present in the memory cache
-	 *
+	 * <p/>
+	 * 1. The image is the resolution of the full screen size via AndroidUtils.getDisplaySize()
+	 * 2. The ExpediaImage metadata has been downloading from the network and is present in memory
+	 * 3. The Bitmap is present in the memory cache
+	 * <p/>
 	 * With these assumptions in mind, use the method appropriately.
 	 *
 	 * @param context
@@ -249,6 +250,7 @@ public class ExpediaImageManager {
 
 	/**
 	 * This helper method will set the ImageView Bitmap to the full-screen destination Bitmap sitting in memory.
+	 *
 	 * @param context
 	 * @param imageView
 	 * @param flightSearch
@@ -262,78 +264,54 @@ public class ExpediaImageManager {
 		imageView.setImageBitmap(bitmap);
 	}
 
+	/**
+	 * Use within the flights phone flow.
+	 */
 	public void loadDestinationBitmap(Context context, FlightSearch flightSearch, final boolean blur) {
 		final String airportCode = flightSearch.getSearchParams().getArrivalLocation().getDestinationId();
-		loadDestinationBitmap(context, airportCode, blur, null);
-	}
-
-	/**
-	 * For use within the phone flow
-	 * @param context
-	 * @param flightSearch
-	 * @param blur
-	 */
-	public void loadDestinationBitmap(Context context, final String airportCode, final boolean blur, final L2ImageCache.OnBitmapLoaded callback) {
-		// the params
-		final String bgdKey = generateBackgroundDownloaderKey(airportCode, blur);
-		final Point p = AndroidUtils.getDisplaySize(context);
-
-		// Start background download
-		BackgroundDownloader.getInstance().startDownload(bgdKey, new BackgroundDownloader.Download<Bitmap>() {
+		loadDestinationBitmap(context, airportCode, blur, new OnBitmapLoaded() {
 			@Override
-			public Bitmap doDownload() {
-				// Grab the ExpediaImage metadata
-				ExpediaImage expImage = getDestinationImage(airportCode, p.x, p.y, true);
-
-				// Image url - use Thumbor for correct size
-				String url = expImage.getThumborUrl(p.x, p.y);
-
-				// Invoke the callback with the Bitmap
-				Bitmap bitmap = L2ImageCache.sDestination.getImage(url, blur, true);
-				if (bitmap == null) {
-					L2ImageCache.sDestination.loadImage(url, blur, new L2ImageCache.OnBitmapLoaded() {
-						@Override
-						public void onBitmapLoaded(String url, Bitmap bitmap) {
-							if (callback != null) {
-								callback.onBitmapLoaded(url, bitmap);
-							}
-						}
-
-						@Override
-						public void onBitmapLoadFailed(String url) {
-							if (callback != null) {
-								callback.onBitmapLoadFailed(url);
-							}
-						}
-					});
-				}
-
-				return null;
+			public void onBitmapLoaded(String url, Bitmap bitmap) {
+				// Phone flow does not require callbacks
 			}
-		}, new BackgroundDownloader.OnDownloadComplete<Bitmap>() {
-			@Override
-			public void onDownload(Bitmap results) {
 
+			@Override
+			public void onBitmapLoadFailed(String url) {
+				// Phone flow does not require callback
 			}
 		});
 	}
 
 	/**
-	 * Use within the new tablet flow
-	 * @param params
-	 * @param callback
+	 * Use within the flights phone flow.
+	 */
+	public void loadDestinationBitmap(Context context, final String airportCode, final boolean blur, final OnBitmapLoaded callback) {
+		// the params
+		final String bgdKey = generateBackgroundDownloaderKey(airportCode, blur);
+		final Point p = AndroidUtils.getDisplaySize(context);
+
+		doImageDownload(airportCode, p.x, p.y, blur, bgdKey, callback);
+	}
+
+	/**
+	 * Use within the tablet flow
 	 */
 	public void loadDestinationBitmap(final ImageParams params, final L2ImageCache.OnBitmapLoaded callback) {
-		// Which destination?
 		final String airportCode = Sp.getParams().getDestination().getAirportCode();
 		final String bgdKey = generateBackgroundDownloaderKey(params.isBlur());
+
+		doImageDownload(airportCode, params.getWidth(), params.getHeight(), params.isBlur(), bgdKey, callback);
+	}
+
+	private void doImageDownload(final String airportCode, final int width, final int height, final boolean blur,
+								 final String bgdKey, final OnBitmapLoaded callback) {
 
 		// Start background download
 		BackgroundDownloader.getInstance().startDownload(bgdKey, new BackgroundDownloader.Download<Object[]>() {
 			@Override
 			public Object[] doDownload() {
 				// Grab the ExpediaImage metadata
-				ExpediaImage expImage = getDestinationImage(airportCode, params.getWidth(), params.getHeight(), true);
+				ExpediaImage expImage = getDestinationImage(airportCode, width, height, true);
 
 				if (expImage == null) {
 					// This shouldn't happen, but sometimes server requests fail
@@ -341,9 +319,9 @@ public class ExpediaImageManager {
 				}
 
 				// Image url - use Thumbor for correct size
-				String url = expImage.getThumborUrl(params.getWidth(), params.getHeight());
+				String url = expImage.getThumborUrl(width, height);
 
-				Bitmap bitmap = L2ImageCache.sDestination.getImage(url, params.isBlur(), true);
+				Bitmap bitmap = L2ImageCache.sDestination.getImage(url, blur, true);
 				if (bitmap != null) {
 					// Pass the results along to the OnDownloadComplete to invoke callback.
 					// We want the callback to be invoked on the UI thread, as the given
@@ -354,7 +332,7 @@ public class ExpediaImageManager {
 					return results;
 				}
 				else {
-					L2ImageCache.sDestination.loadImage(url, params.isBlur(), callback);
+					L2ImageCache.sDestination.loadImage(url, blur, callback);
 				}
 
 				return null;
