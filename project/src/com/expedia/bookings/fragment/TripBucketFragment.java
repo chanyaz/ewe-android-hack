@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
+import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -39,6 +41,8 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 
 	private ScrollView mScrollC;
 	private LinearLayout mContentC;
+	private ViewGroup mHotelC;
+	private ViewGroup mFlightC;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -50,6 +54,8 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		View view = inflater.inflate(R.layout.fragment_tripbucket, null, false);
 		mScrollC = Ui.findView(view, R.id.scroll_container);
 		mContentC = Ui.findView(view, R.id.content_container);
+		mHotelC = Ui.findView(view, R.id.trip_bucket_hotel_trip);
+		mFlightC = Ui.findView(view, R.id.trip_bucket_flight_trip);
 		return view;
 	}
 
@@ -75,38 +81,60 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 
 	public void bind(TripBucket bucket, LineOfBusiness lobToRefresh) {
 		//TODO: In the future, this thing should iterate over the trip bucket items and support N items etc.
-
-		LinearLayout container = Ui.findView(getView(), R.id.content_container);
-		container.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
-
-		FragmentManager manager = getChildFragmentManager();
-		manager.executePendingTransactions();
+		mContentC.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
 
 		boolean showFlight = bucket.getFlight() != null;
 		boolean showHotel = bucket.getHotel() != null;
 
-		FragmentTransaction transaction = manager.beginTransaction();
+		setFragState(showFlight,showHotel);
 
-		mTripBucketFlightFrag = FragmentAvailabilityUtils
-			.setFragmentAvailability(showFlight, FTAG_BUCKET_FLIGHT, manager,
-				transaction, this, R.id.trip_bucket_flight_trip, true);
-		mTripBucketHotelFrag = FragmentAvailabilityUtils
-			.setFragmentAvailability(showHotel, FTAG_BUCKET_HOTEL, manager,
-				transaction, this, R.id.trip_bucket_hotel_trip, true);
+		mFlightC.setVisibility(showFlight ? View.VISIBLE : View.GONE);
+		mHotelC.setVisibility(showHotel ? View.VISIBLE : View.GONE);
 
-		transaction.commit();
-		Ui.findView(getView(), R.id.trip_bucket_flight_trip).setVisibility(showFlight ? View.VISIBLE : View.GONE);
-		Ui.findView(getView(), R.id.trip_bucket_hotel_trip).setVisibility(showHotel ? View.VISIBLE : View.GONE);
-
-		if (showFlight && lobToRefresh!= null && lobToRefresh == LineOfBusiness.FLIGHTS) {
+		if (showFlight && lobToRefresh != null && lobToRefresh == LineOfBusiness.FLIGHTS) {
 			mTripBucketFlightFrag.bind();
 			mTripBucketFlightFrag.setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 		}
-		if (showHotel && lobToRefresh!= null && lobToRefresh == LineOfBusiness.HOTELS) {
+		if (showHotel && lobToRefresh != null && lobToRefresh == LineOfBusiness.HOTELS) {
 			mTripBucketHotelFrag.bind();
 			mTripBucketHotelFrag.setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 		}
 	}
+
+	private void setFragState(boolean attachFlight, boolean attachHotel){
+		FragmentManager manager = getChildFragmentManager();
+		manager.executePendingTransactions();
+
+		FragmentTransaction transaction = manager.beginTransaction();
+
+		mTripBucketFlightFrag = FragmentAvailabilityUtils
+			.setFragmentAvailability(attachFlight, FTAG_BUCKET_FLIGHT, manager,
+				transaction, this, R.id.trip_bucket_flight_trip, true);
+		mTripBucketHotelFrag = FragmentAvailabilityUtils
+			.setFragmentAvailability(attachHotel, FTAG_BUCKET_HOTEL, manager,
+				transaction, this, R.id.trip_bucket_hotel_trip, true);
+
+		transaction.commit();
+	}
+
+
+	/**
+	 * This method sets both containers to be invisible and adds our fragments (without binding) so they will be measured.
+	 */
+	public void setBucketPreparedForAdd() {
+		mFlightC.setVisibility(View.INVISIBLE);
+		mHotelC.setVisibility(View.INVISIBLE);
+		setFragState(true,true);
+	}
+
+	public Rect getFlightRect() {
+		return ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mFlightC);
+	}
+
+	public Rect getHotelRect() {
+		return ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mHotelC);
+	}
+
 
 	/*
 	 * MEASUREMENT LISTENER

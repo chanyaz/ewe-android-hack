@@ -70,13 +70,19 @@ public class ResultsFlightAddToTrip extends Fragment {
 		mDestRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(globalDestinationRect, mRootC);
 	}
 
+	private void resetFlightCard() {
+		mFlightCard.setTranslationY(0f);
+		mFlightCard.setTranslationX(0f);
+		mFlightCard.setScaleX(1f);
+		mFlightCard.setScaleY(1f);
+	}
+
 	private StateListenerHelper<ResultsFlightsState> mFlightsStateHelper = new StateListenerHelper<ResultsFlightsState>() {
 		@Override
 		public void onStateTransitionStart(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
 			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-				mFlightCard.setTranslationY(0f);
-				mFlightCard.setTranslationX(0f);
+				resetFlightCard();
 				mFlightCard.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			}
 		}
@@ -87,11 +93,19 @@ public class ResultsFlightAddToTrip extends Fragment {
 			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 
+				float endScaleX = mDestRect.width() / (float) mFlightCard.getWidth();
+				float endScaleY = mDestRect.height() / (float) mFlightCard.getHeight();
+				float scaleX = 1f + percentage * (endScaleX - 1f);
+				float scaleY = 1f + percentage * (endScaleY - 1f);
 				float transX = percentage * (mDestRect.left - mFlightCard.getLeft());
 				float transY = percentage * (mDestRect.top - mFlightCard.getTop());
 
+				mFlightCard.setPivotX(0);
+				mFlightCard.setPivotY(0);
 				mFlightCard.setTranslationX(transX);
 				mFlightCard.setTranslationY(transY);
+				mFlightCard.setScaleX(scaleX);
+				mFlightCard.setScaleY(scaleY);
 			}
 		}
 
@@ -118,8 +132,7 @@ public class ResultsFlightAddToTrip extends Fragment {
 			}
 			else {
 				mFlightCard.setVisibility(View.INVISIBLE);
-				mFlightCard.setTranslationY(0f);
-				mFlightCard.setTranslationX(0f);
+				resetFlightCard();
 			}
 		}
 	};

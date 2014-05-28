@@ -421,8 +421,15 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	private StateListenerHelper<ResultsState> mStateListener = new StateListenerHelper<ResultsState>() {
 		@Override
 		public void onStateTransitionStart(ResultsState stateOne, ResultsState stateTwo) {
+
+			if (stateTwo == ResultsState.OVERVIEW) {
+				//We change the visibility of some trip bucket items, this resets things
+				mTripBucketFrag.bindToDb();
+			}
+
 			setEnteringProductHardwareLayers(View.LAYER_TYPE_HARDWARE,
 				stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS);
+
 		}
 
 		@Override
@@ -449,6 +456,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 			if (mTripBucketFrag != null) {
 				mTripBucketFrag.bindToDb();
+				if (state == ResultsState.HOTELS || state == ResultsState.FLIGHTS) {
+					//This makes items in the bucket invisible
+					mTripBucketFrag.setBucketPreparedForAdd();
+				}
 			}
 
 			if (state == ResultsState.OVERVIEW) {
@@ -699,9 +710,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			//DO WORK
 			startStateTransition(getResultsStateFromFlights(stateOne), getResultsStateFromFlights(stateTwo));
 
-			if (mTripBucketFrag != null && stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
+			if (mFlightsController != null && mTripBucketFrag != null
+				&& stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-				mTripBucketFrag.animInitAddToBucket(mFlightsController.getAddTripRect(), LineOfBusiness.FLIGHTS);
+				mFlightsController
+					.setAnimateToBucketRect(mTripBucketFrag.getAddToTripBucketDestinationRect(LineOfBusiness.FLIGHTS));
 			}
 		}
 
@@ -712,11 +725,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				+ " percentage:" + percentage);
 			updateStateTransition(getResultsStateFromFlights(stateOne), getResultsStateFromFlights(stateTwo),
 				percentage);
-
-			if (mTripBucketFrag != null && stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
-				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-				mTripBucketFrag.animUpdateAddToBucket(percentage);
-			}
 		}
 
 		@Override
@@ -725,11 +733,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 			//DO WORK
 			endStateTransition(getResultsStateFromFlights(stateOne), getResultsStateFromFlights(stateTwo));
-
-			if (mTripBucketFrag != null && stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
-				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-				mTripBucketFrag.animFinalizeAddToBucket();
-			}
 
 			mResultsStateListeners.setListenerActive(mFlightsController.getResultsListener());
 		}

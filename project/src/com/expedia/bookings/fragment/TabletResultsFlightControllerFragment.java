@@ -203,6 +203,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		return mAddToTripFrag.getRowRect();
 	}
 
+	public void setAnimateToBucketRect(Rect globalRect) {
+		if (mAddToTripFrag != null && mAddToTripFrag.isResumed()) {
+			mAddToTripFrag.setDestRect(globalRect);
+		}
+	}
+
 	// Base state is semi-complicated at this point. For now, it'll work like this:
 	// 1. If we have actual FlightSearch data, let's show that.
 	// 2. If we don't have FlightSearch data but do have flight histogram data, let's show that
@@ -635,21 +641,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		//If we have arrived at the ADDING_FLIGHT_TO_TRIP state, we want to immediately move to the list down state.
 		//We do this here so that finalize has been called on all listeners before moving on.
 		if (state == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
-
-
-
-			if(mAddToTripFrag != null){
-
-				//Default to the bottom right corner.
-				Rect rect = new Rect();
-				rect.top = mRootC.getBottom() - mAddToTripFrag.getRowRect().height();
-				rect.left = mRootC.getRight() -  mAddToTripFrag.getRowRect().width();
-				rect.bottom = mRootC.getBottom();
-				rect.right = mRootC.getRight();
-
-				mAddToTripFrag.setDestRect(rect);
-			}
-
 			setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
 		}
 	}

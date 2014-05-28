@@ -68,30 +68,23 @@ public class ResultsTripBucketFragment extends Fragment
 		}
 	}
 
-
-	/**
-	 * IFragmentAvailabilityProvider
-	 */
-
-	private Rect mAnimAddToBucketOriginRect;
-	private LineOfBusiness mAnimAddToBucketLob;
-
-	public void animInitAddToBucket(Rect origin, LineOfBusiness lob){
-		mAnimAddToBucketOriginRect = origin;
-		mAnimAddToBucketLob = lob;
-	}
-
-	public void animUpdateAddToBucket(float percentage){
-		if(mAnimAddToBucketOriginRect != null && mAnimAddToBucketLob != null){
-
+	public void setBucketPreparedForAdd() {
+		if (mBucketFrag != null && mBucketFrag.isResumed()) {
+			mBucketFrag.setBucketPreparedForAdd();
 		}
 	}
 
-	public void animFinalizeAddToBucket(){
-		if(mAnimAddToBucketOriginRect != null && mAnimAddToBucketLob != null){
-			mAnimAddToBucketOriginRect = null;
-			mAnimAddToBucketLob = null;
+	public Rect getAddToTripBucketDestinationRect(LineOfBusiness lob) {
+		Rect rect = null;
+		if (mBucketFrag != null && mBucketFrag.isResumed()) {
+			if (lob == LineOfBusiness.HOTELS) {
+				rect = mBucketFrag.getHotelRect();
+			}
+			else if (lob == LineOfBusiness.FLIGHTS) {
+				rect = mBucketFrag.getFlightRect();
+			}
 		}
+		return rect;
 	}
 
 
