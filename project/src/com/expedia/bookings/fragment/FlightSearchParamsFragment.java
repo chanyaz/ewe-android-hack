@@ -1068,7 +1068,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 		if (vis == View.VISIBLE) {
 			mInfantPreferenceRadioGroup.setOnCheckedChangeListener(null);
-			boolean inLap = Db.getFlightSearch().getSearchParams().getInfantSeatingInLap();
+			boolean inLap = getSearchParams(false).getInfantSeatingInLap();
 			int idToCheck = inLap ? R.id.infant_in_lap : R.id.infant_in_seat;
 			mInfantPreferenceRadioGroup.check(idToCheck);
 			mInfantPreferenceRadioGroup.setOnCheckedChangeListener(mInfantChangeListener);
@@ -1107,7 +1107,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	// Access
 
 	/**
-	 * Returns the HotelSearchParams represented by this screen.
+	 * Returns the FlightSearchParams represented by this screen.
 	 * <p/>
 	 * Warning: doing this deselects all current fields (as a matter of
 	 * making sure we have current data).  You are only expected to call
