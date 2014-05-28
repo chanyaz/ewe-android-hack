@@ -310,8 +310,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 						}
 					}
 				});
-				mStoredCardPopup.setAnchorView(view);
 			}
+			mStoredCardPopup.setAnchorView(view);
 			mStoredCardPopup.setAdapter(mStoredCreditCardAdapter);
 			mStoredCardPopup.setContentWidth(measureContentWidth(mStoredCreditCardAdapter));
 			mStoredCardPopup.show();
