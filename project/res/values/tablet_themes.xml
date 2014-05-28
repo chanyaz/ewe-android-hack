@@ -85,6 +85,7 @@
         <item name="savePaymentToAccountString">@string/save_billing_info_message</item>
         <item name="saveTravelerToAccountString">@string/save_traveler_message_TEMPLATE</item>
         <item name="loginWithExpediaContentDescription">@string/cd_checkout_log_in_with_expedia</item>
+        <item name="cvvEntryTitleText">@string/security_code_TEMPLATE</item>
     </style>
 
     <style name="V2.Theme.Activity.TabletLaunch" tools:targetApi="11">

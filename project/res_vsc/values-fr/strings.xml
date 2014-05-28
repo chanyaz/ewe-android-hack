@@ -73,7 +73,7 @@
 
     <!-- Credit card input section -->
     <string name="book">Payer</string>
-    <string name="cvv_explaination_vsc">Veuillez saisir votre cryptogramme</string>
+    <string name="cvv_explanation_vsc">Veuillez saisir votre cryptogramme</string>
     <string name="app_name">Hôtel Voyages-sncf</string>
 
     <!-- Message displayed when search comes up with zero results -->

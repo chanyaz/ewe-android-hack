@@ -170,13 +170,8 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		resetCVVText();
 
 		//1752. VSC Change cvv prompt text
-		if (ExpediaBookingApp.IS_VSC) {
-			mCVVPromptTextView.setText(getString(Ui
-				.obtainThemeResID(getActivity(), R.attr.cvvEntryExplainationText)));
-		}
-		else {
-			mCVVPromptTextView.setText(Html.fromHtml(getString(R.string.security_code_TEMPLATE, cardName)));
-		}
+		int cvvEntryTitleResId = Ui.obtainThemeResID(getActivity(), R.attr.cvvEntryTitleText);
+		mCVVPromptTextView.setText(Html.fromHtml(getString(cvvEntryTitleResId, cardName)));
 
 		// Subprompt, i.e. "see front/back of card"
 		if (mCVVSubpromptTextView != null) {
