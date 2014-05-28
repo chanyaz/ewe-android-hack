@@ -47,6 +47,7 @@ import com.expedia.bookings.fragment.FlightBookingFragment.FlightBookingState;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingState;
 import com.expedia.bookings.fragment.base.LobableFragment;
+import com.expedia.bookings.fragment.BookingUnavailableFragment.BookingUnavailableFragmentListener;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -72,6 +73,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.SlideToWidgetJB;
@@ -90,7 +92,7 @@ import com.squareup.otto.Subscribe;
 public class TabletCheckoutControllerFragment extends LobableFragment implements IBackManageable,
 	IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener,
 	CheckoutInformationListener, SlideToWidgetJB.ISlideToListener,
-	TabletCheckoutFormsFragment.ISlideToPurchaseSizeProvider, IAcceptingListenersListener {
+	TabletCheckoutFormsFragment.ISlideToPurchaseSizeProvider, IAcceptingListenersListener, BookingUnavailableFragmentListener {
 
 	private static final String STATE_CHECKOUT_STATE = "STATE_CHECKOUT_STATE";
 
@@ -513,6 +515,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	private List<TripBucketItemFragment> mTripBucketItemFragments;
 	private ViewGroup[] mTripBucketItemViews;
+
+
 
 	private class TripBucketOrchestrator extends StateListenerHelper<TripBucketItemState> {
 		private TripBucketItemFragment mFragment;
@@ -1166,6 +1170,39 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		setCheckoutState(CheckoutState.BOOKING, true);
 	}
 
+	/*
+	 * BookingUnavailableFragment listener
+	 */
+
+	@Override
+	public void onTripBucketItemRemoved(LineOfBusiness lob) {
+		if (lob == LineOfBusiness.FLIGHTS) {
+			if (Db.getTripBucket().getHotel() != null) {
+				mBucketFlightFrag.triggerTripBucketBookAction(LineOfBusiness.HOTELS);
+			}
+			else {
+				getActivity().finish();
+			}
+		}
+		else {
+			if (Db.getTripBucket().getFlight() != null) {
+				mBucketFlightFrag.triggerTripBucketBookAction(LineOfBusiness.FLIGHTS);
+			}
+			else {
+				getActivity().finish();
+			}
+		}
+	}
+
+	@Override
+	public void onSelectNewTripItem(LineOfBusiness lob) {
+		if (lob == LineOfBusiness.FLIGHTS) {
+			NavUtils.restartFlightSearch(getActivity());
+		}
+		else {
+			NavUtils.restartHotelSearch(getActivity());
+		}
+	}
 
 	/*
 	 * (non-Javadoc)

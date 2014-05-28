@@ -530,6 +530,15 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	}
 
 	/*
+	* Convenience method to trigger "Book" button for trip bucket items.
+	*/
+	public void triggerTripBucketBookAction(LineOfBusiness lob) {
+		if (getTripBucketBookClickedListener() != null) {
+			getTripBucketBookClickedListener().onTripBucketBookClicked(lob);
+		}
+	}
+
+	/*
 	ABSTRACT METHODS
 	*/
 

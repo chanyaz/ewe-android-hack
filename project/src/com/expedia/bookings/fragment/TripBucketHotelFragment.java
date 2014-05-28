@@ -4,7 +4,6 @@ import org.joda.time.LocalDate;
 
 import android.app.Activity;
 import android.text.format.DateUtils;
-import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,9 +21,7 @@ import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.utils.CalendarUtils;
-import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
 
 /**
@@ -140,9 +137,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		@Override
 		public void onClick(View arg0) {
 			Db.getTripBucket().selectHotelAndFlight();
-			if (getTripBucketBookClickedListener() != null) {
-				getTripBucketBookClickedListener().onTripBucketBookClicked(LineOfBusiness.HOTELS);
-			}
+			triggerTripBucketBookAction(LineOfBusiness.HOTELS);
 		}
 	};
 
