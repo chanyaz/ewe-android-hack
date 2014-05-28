@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
@@ -119,6 +120,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		// Expanded / Receipt Part
 		addExpandedView(inflater, mExpandedC);
 
+
 		// Price Change Part
 		mPriceChangedClipC = Ui.findView(mRootC, R.id.trip_bucket_item_price_change_clip_container);
 		mPriceChangedC = Ui.findView(mPriceChangedClipC, R.id.price_change_notification_container);
@@ -222,16 +224,20 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	}
 
 	protected void showBreakdownDialog(LineOfBusiness lob) {
-		mBreakdownFrag = com.expedia.bookings.utils.Ui.findSupportFragment(TripBucketItemFragment.this, BreakdownDialogFragment.TAG);
+		mBreakdownFrag = com.expedia.bookings.utils.Ui
+			.findSupportFragment(TripBucketItemFragment.this, BreakdownDialogFragment.TAG);
 		if (mBreakdownFrag == null) {
 			if (lob == LineOfBusiness.FLIGHTS) {
-				mBreakdownFrag = BreakdownDialogFragment.buildFlightBreakdownDialog(getActivity(), Db.getFlightSearch(), Db.getBillingInfo());
+				mBreakdownFrag = BreakdownDialogFragment
+					.buildFlightBreakdownDialog(getActivity(), Db.getFlightSearch(), Db.getBillingInfo());
 			}
 			else if (lob == LineOfBusiness.HOTELS) {
-				mBreakdownFrag = BreakdownDialogFragment.buildHotelRateBreakdownDialog(getActivity(), Db.getHotelSearch());
+				mBreakdownFrag = BreakdownDialogFragment
+					.buildHotelRateBreakdownDialog(getActivity(), Db.getHotelSearch());
 			}
 			else {
-				throw new UnsupportedOperationException("Attempting to show a price breakdown dialog for a LOB not supported.");
+				throw new UnsupportedOperationException(
+					"Attempting to show a price breakdown dialog for a LOB not supported.");
 			}
 		}
 		if (!mBreakdownFrag.isAdded()) {
@@ -285,7 +291,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				setNameAndDurationSlidePercentage(1.0f);
 				setExpandedSlidePercentage(1.0f);
 			}
-			if (stateOne == TripBucketItemState.SHOWING_PRICE_CHANGE && stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
+			if (stateOne == TripBucketItemState.SHOWING_PRICE_CHANGE
+				&& stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
 				mBookBtnContainer.setVisibility(View.VISIBLE);
 				mBookBtnContainer.setAlpha(0.0f);
 				setNameAndDurationSlidePercentage(1.0f);
@@ -316,7 +323,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		}
 
 		@Override
-		public void onStateTransitionUpdate(TripBucketItemState stateOne, TripBucketItemState stateTwo, float percentage) {
+		public void onStateTransitionUpdate(TripBucketItemState stateOne, TripBucketItemState stateTwo,
+			float percentage) {
 			// Collapsed --> Expanded, Price Change
 			if ((stateOne == TripBucketItemState.SHOWING_CHECKOUT_BUTTON || stateOne == TripBucketItemState.DEFAULT)
 				&& stateTwo == TripBucketItemState.EXPANDED) {
@@ -347,7 +355,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				setExpandedSlidePercentage(1.0f - percentage);
 				mHeaderBitmapDrawable.setOverlayAlpha(1f - percentage);
 			}
-			if (stateOne == TripBucketItemState.SHOWING_PRICE_CHANGE && stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
+			if (stateOne == TripBucketItemState.SHOWING_PRICE_CHANGE
+				&& stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
 				mBookBtnContainer.setAlpha(percentage);
 				setNameAndDurationSlidePercentage(1.0f - percentage);
 				setExpandedSlidePercentage(1.0f - percentage);
@@ -405,7 +414,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				setExpandedSlidePercentage(0.0f);
 				mHeaderBitmapDrawable.setOverlayAlpha(1f);
 			}
-			if (stateOne == TripBucketItemState.SHOWING_PRICE_CHANGE && stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
+			if (stateOne == TripBucketItemState.SHOWING_PRICE_CHANGE
+				&& stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
 				mBookBtnContainer.setAlpha(1.0f);
 				setNameAndDurationSlidePercentage(0.0f);
 				setExpandedSlidePercentage(0.0f);
@@ -610,7 +620,10 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 	public abstract void addExpandedView(LayoutInflater inflater, ViewGroup viewGroup);
 
-	public abstract void addTripBucketImage(ImageView imageView, HeaderBitmapColorAveragedDrawable headerBitmapDrawable);
+	public abstract void bindExpandedView(TripBucketItem item);
+
+	public abstract void addTripBucketImage(ImageView imageView,
+		HeaderBitmapColorAveragedDrawable headerBitmapDrawable);
 
 	public abstract boolean doTripBucketImageRefresh();
 

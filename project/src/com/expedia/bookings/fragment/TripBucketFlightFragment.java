@@ -11,24 +11,26 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
+import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.enums.TripBucketItemState;
+import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 
@@ -39,20 +41,24 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 
 	private static final String DESTINATION_IMAGE_INFO_DOWNLOAD_KEY = "DESTINATION_IMAGE_INFO_DOWNLOAD_KEY";
 
-	private FlightTrip mFlightTrip;
+	//UI
+	private ViewGroup mExpandedView;
 	private ImageView mDestinationImageView;
 	private HeaderBitmapColorAveragedDrawable mHeaderBitmapDrawable;
+	private TextView mPriceTv;
+	private TextView mNumTravelersTv;
+	private TextView mDatesTv;
+
+	//Other
+	private FlightTrip mFlightTrip;
 	private String mNewDestination;
 	private String mPreviousDestination;
+	boolean mIsOnCheckout;
 
 	public static TripBucketFlightFragment newInstance() {
 		TripBucketFlightFragment frag = new TripBucketFlightFragment();
 		return frag;
 	}
-
-	private ViewGroup mExpandedView;
-
-	boolean mIsOnCheckout;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -104,7 +110,18 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	public void addExpandedView(LayoutInflater inflater, ViewGroup root) {
 		mExpandedView = Ui.inflate(inflater, R.layout.snippet_trip_bucket_expanded_dates_view, root, false);
 
-		bindExpandedView();
+		mDatesTv = Ui.findView(mExpandedView, R.id.dates_text_view);
+		mNumTravelersTv = Ui.findView(mExpandedView, R.id.num_travelers_text_view);
+		mPriceTv = Ui.findView(mExpandedView, R.id.price_expanded_bucket_text_view);
+
+		mPriceTv.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showBreakdownDialog(LineOfBusiness.FLIGHTS);
+			}
+		});
+
+		bindExpandedView(Db.getTripBucket().getFlight());
 
 		root.addView(mExpandedView);
 	}
@@ -129,29 +146,32 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 			mDestinationImageView.setImageDrawable(mHeaderBitmapDrawable);
 
 			mHeaderBitmapDrawable.disableOverlay();
-			mHeaderBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
-			mDestinationImageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			mHeaderBitmapDrawable
+				.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
+			mDestinationImageView.getViewTreeObserver()
+				.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
-				@Override
-				public void onGlobalLayout() {
-					// Let's listen for just one time
-					mDestinationImageView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+					@Override
+					public void onGlobalLayout() {
+						// Let's listen for just one time
+						mDestinationImageView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 
-					mPreviousDestination = mNewDestination;
-					ExpediaImage bgImage = ExpediaImageManager.getInstance().getDestinationImage(mNewDestination,
-						mDestinationImageView.getMeasuredWidth(), mDestinationImageView.getMeasuredHeight(), false);
+						mPreviousDestination = mNewDestination;
+						ExpediaImage bgImage = ExpediaImageManager.getInstance().getDestinationImage(mNewDestination,
+							mDestinationImageView.getMeasuredWidth(), mDestinationImageView.getMeasuredHeight(), false);
 
-					if (bgImage == null) {
-						startDestinationImageDownload();
+						if (bgImage == null) {
+							startDestinationImageDownload();
+						}
+						else {
+
+							mHeaderBitmapDrawable.enableOverlay();
+							mHeaderBitmapDrawable
+								.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), bgImage.getUrl(),
+									R.drawable.bg_itin_placeholder));
+						}
 					}
-					else {
-
-						mHeaderBitmapDrawable.enableOverlay();
-						mHeaderBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), bgImage.getUrl(),
-							R.drawable.bg_itin_placeholder));
-					}
-				}
-			});
+				});
 		}
 	}
 
@@ -180,54 +200,52 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	@Override
 	public CharSequence getTripPrice() {
 		refreshFlightTrip();
-		if (Db.hasBillingInfo() && mFlightTrip != null) {
-			return mFlightTrip.getTotalFareWithCardFee(Db.getBillingInfo()).getFormattedMoney(Money.F_NO_DECIMAL);
+		if (mFlightTrip != null) {
+			return mFlightTrip.getTotalFareWithCardFee(Db.hasBillingInfo() ? Db.getBillingInfo() : null)
+				.getFormattedMoney(Money.F_NO_DECIMAL);
 		}
 		else {
 			return null;
 		}
 	}
 
-	private void bindExpandedView() {
+	@Override
+	public void bindExpandedView(TripBucketItem item) {
 		refreshFlightTrip();
 
-		// Dates
-		Calendar depDate = mFlightTrip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
-		Calendar retDate = mFlightTrip.getLeg(mFlightTrip.getLegCount() - 1).getLastWaypoint()
-			.getMostRelevantDateTime();
-		long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();
-		long end = DateTimeUtils.getTimeInLocalTimeZone(retDate).getTime();
+		if (mFlightTrip != null) {
+			// Dates
+			Calendar depDate = mFlightTrip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime();
+			Calendar retDate = mFlightTrip.getLeg(mFlightTrip.getLegCount() - 1).getLastWaypoint()
+				.getMostRelevantDateTime();
+			long start = DateTimeUtils.getTimeInLocalTimeZone(depDate).getTime();
+			long end = DateTimeUtils.getTimeInLocalTimeZone(retDate).getTime();
+			String dateRange = DateUtils.formatDateRange(getActivity(), start, end, DateUtils.FORMAT_SHOW_DATE);
+			mDatesTv.setText(dateRange);
 
-		String dateRange = DateUtils.formatDateRange(getActivity(), start, end, DateUtils.FORMAT_SHOW_DATE);
-		Ui.setText(mExpandedView, R.id.dates_text_view, dateRange);
-
-		// Num travelers
-		int numTravelers = Db.getFlightSearch().getSearchParams().getNumTravelers();
-		String numTravStr = getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers,
-			numTravelers);
-		Ui.setText(mExpandedView, R.id.num_travelers_text_view, numTravStr);
-
-		// Price
-		if (Db.hasBillingInfo()) {
-			TextView priceTextView = Ui.findView(mExpandedView, R.id.price_expanded_bucket_text_view);
 			String price = mFlightTrip.getTotalFareWithCardFee(Db.getBillingInfo()).getFormattedMoney();
-			priceTextView.setText(price);
-			priceTextView.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					showBreakdownDialog(LineOfBusiness.FLIGHTS);
-				}
-			});
+			mPriceTv.setText(price);
 		}
-		else {
-			Ui.showToast(getActivity(), "TODO fix billing data load timing issue!");
+
+		FlightSearch search = Db.getFlightSearch();
+		if (search != null) {
+			FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+			if (params != null) {
+				// Num travelers
+				int numTravelers = Db.getFlightSearch().getSearchParams().getNumTravelers();
+				String numTravStr = getResources()
+					.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers,
+						numTravelers);
+				mNumTravelersTv.setText(numTravStr);
+			}
 		}
 	}
 
 	public void refreshExpandedTripPrice() {
 		String price = mFlightTrip.getTotalFareWithCardFee(Db.getBillingInfo()).getFormattedMoney();
-		Ui.setText(getActivity(), R.id.price_expanded_bucket_text_view, price);
+		mPriceTv.setText(price);
 	}
+
 	public void refreshTripOnPriceChanged(String priceChangeText) {
 		refreshFlightTrip();
 		refreshExpandedTripPrice();
