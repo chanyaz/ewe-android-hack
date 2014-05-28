@@ -32,8 +32,8 @@ public class ResultsFlightAddToTrip extends Fragment {
 
 	// Views
 	private ViewGroup mRootC;
-
 	private FlightLegSummarySectionTablet mFlightCard;
+	private Rect mDestRect;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -66,12 +66,17 @@ public class ResultsFlightAddToTrip extends Fragment {
 		return new Rect();
 	}
 
+	public void setDestRect(Rect globalDestinationRect) {
+		mDestRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(globalDestinationRect, mRootC);
+	}
+
 	private StateListenerHelper<ResultsFlightsState> mFlightsStateHelper = new StateListenerHelper<ResultsFlightsState>() {
 		@Override
 		public void onStateTransitionStart(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
 			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mFlightCard.setTranslationY(0f);
+				mFlightCard.setTranslationX(0f);
 				mFlightCard.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			}
 		}
@@ -81,7 +86,12 @@ public class ResultsFlightAddToTrip extends Fragment {
 			float percentage) {
 			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-				mFlightCard.setTranslationY(mFlightCard.getBottom() * -percentage);
+
+				float transX = percentage * (mDestRect.left - mFlightCard.getLeft());
+				float transY = percentage * (mDestRect.top - mFlightCard.getTop());
+
+				mFlightCard.setTranslationX(transX);
+				mFlightCard.setTranslationY(transY);
 			}
 		}
 
@@ -101,12 +111,15 @@ public class ResultsFlightAddToTrip extends Fragment {
 				boolean isRoundTrip = Db.getFlightSearch().getSearchParams().isRoundTrip();
 				int legs = isRoundTrip ? 2 : 1;
 
-				mFlightCard.bindForTripBucket(flight.getFlightTrip(), flight.getFlightSearchState().getSelectedLegs(legs),
-					isRoundTrip);
+				mFlightCard
+					.bindForTripBucket(flight.getFlightTrip(), flight.getFlightSearchState().getSelectedLegs(legs),
+						isRoundTrip);
 				mFlightCard.setVisibility(View.VISIBLE);
 			}
 			else {
 				mFlightCard.setVisibility(View.INVISIBLE);
+				mFlightCard.setTranslationY(0f);
+				mFlightCard.setTranslationX(0f);
 			}
 		}
 	};

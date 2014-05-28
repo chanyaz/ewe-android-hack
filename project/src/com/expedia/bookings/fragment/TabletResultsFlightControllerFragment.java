@@ -635,6 +635,21 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		//If we have arrived at the ADDING_FLIGHT_TO_TRIP state, we want to immediately move to the list down state.
 		//We do this here so that finalize has been called on all listeners before moving on.
 		if (state == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
+
+
+
+			if(mAddToTripFrag != null){
+
+				//Default to the bottom right corner.
+				Rect rect = new Rect();
+				rect.top = mRootC.getBottom() - mAddToTripFrag.getRowRect().height();
+				rect.left = mRootC.getRight() -  mAddToTripFrag.getRowRect().width();
+				rect.bottom = mRootC.getBottom();
+				rect.right = mRootC.getRight();
+
+				mAddToTripFrag.setDestRect(rect);
+			}
+
 			setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
 		}
 	}
