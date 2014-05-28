@@ -243,6 +243,10 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		if (mListFrag != null && mListFrag.isAdded()) {
 			mListFrag.resetQuery();
 		}
+		else {
+			Db.getFlightSearch().setSelectedLeg(mLegNumber, null);
+			Db.getFlightSearch().clearQuery(mLegNumber);
+		}
 		if (mFilterFrag != null && mFilterFrag.isAdded()) {
 			mFilterFrag.onFilterChanged();
 		}
