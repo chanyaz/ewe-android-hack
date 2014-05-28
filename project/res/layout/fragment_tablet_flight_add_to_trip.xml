@@ -4,11 +4,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <include
-        android:id="@+id/flight_row"
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="@dimen/hotel_flight_card_width"
         android:layout_height="@dimen/hotel_flight_card_height"
-        android:layout_centerInParent="true"
-        layout="@layout/section_flight_leg_tablet_blue_card" />
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>

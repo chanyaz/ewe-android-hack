@@ -6,6 +6,8 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +17,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
-import com.expedia.bookings.section.FlightLegSummarySectionTablet;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.mobiata.android.util.Ui;
 
@@ -25,6 +26,8 @@ import com.mobiata.android.util.Ui;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ResultsFlightAddToTrip extends Fragment {
 
+	private static final String FTAG_BUCKET_FLIGHT = "FTAG_BUCKET_FLIGHT";
+
 	public static ResultsFlightAddToTrip newInstance() {
 		ResultsFlightAddToTrip frag = new ResultsFlightAddToTrip();
 		return frag;
@@ -32,8 +35,9 @@ public class ResultsFlightAddToTrip extends Fragment {
 
 	// Views
 	private ViewGroup mRootC;
-	private FlightLegSummarySectionTablet mFlightCard;
+	private ViewGroup mBucketFlightC;
 	private Rect mDestRect;
+	private TripBucketFlightFragment mBucketFlightFrag;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -42,8 +46,21 @@ public class ResultsFlightAddToTrip extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_flight_add_to_trip, null);
-		mFlightCard = Ui.findView(mRootC, R.id.flight_row);
+
+		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_flight_add_to_trip, null);
+		mBucketFlightC = Ui.findView(mRootC, R.id.fragment_container);//Ui.findView(mRootC, R.id.flight_row);
+
+		FragmentManager manager = getChildFragmentManager();
+		mBucketFlightFrag = (TripBucketFlightFragment) manager.findFragmentByTag(FTAG_BUCKET_FLIGHT);
+		if (mBucketFlightFrag == null) {
+			mBucketFlightFrag = TripBucketFlightFragment.newInstance();
+		}
+		if (mBucketFlightFrag != null) {
+			FragmentTransaction transaction = manager.beginTransaction();
+			transaction.add(R.id.fragment_container, mBucketFlightFrag, FTAG_BUCKET_FLIGHT);
+			transaction.commit();
+		}
+
 		return mRootC;
 	}
 
@@ -60,8 +77,8 @@ public class ResultsFlightAddToTrip extends Fragment {
 	}
 
 	public Rect getRowRect() {
-		if (mFlightCard != null) {
-			return ScreenPositionUtils.getGlobalScreenPosition(mFlightCard);
+		if (mBucketFlightC != null) {
+			return ScreenPositionUtils.getGlobalScreenPosition(mBucketFlightC);
 		}
 		return new Rect();
 	}
@@ -71,10 +88,10 @@ public class ResultsFlightAddToTrip extends Fragment {
 	}
 
 	private void resetFlightCard() {
-		mFlightCard.setTranslationY(0f);
-		mFlightCard.setTranslationX(0f);
-		mFlightCard.setScaleX(1f);
-		mFlightCard.setScaleY(1f);
+		mBucketFlightC.setTranslationY(0f);
+		mBucketFlightC.setTranslationX(0f);
+		mBucketFlightC.setScaleX(1f);
+		mBucketFlightC.setScaleY(1f);
 	}
 
 	private StateListenerHelper<ResultsFlightsState> mFlightsStateHelper = new StateListenerHelper<ResultsFlightsState>() {
@@ -83,7 +100,7 @@ public class ResultsFlightAddToTrip extends Fragment {
 			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				resetFlightCard();
-				mFlightCard.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+				mBucketFlightC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			}
 		}
 
@@ -93,19 +110,19 @@ public class ResultsFlightAddToTrip extends Fragment {
 			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 
-				float endScaleX = mDestRect.width() / (float) mFlightCard.getWidth();
-				float endScaleY = mDestRect.height() / (float) mFlightCard.getHeight();
+				float endScaleX = mDestRect.width() / (float) mBucketFlightC.getWidth();
+				float endScaleY = mDestRect.height() / (float) mBucketFlightC.getHeight();
 				float scaleX = 1f + percentage * (endScaleX - 1f);
 				float scaleY = 1f + percentage * (endScaleY - 1f);
-				float transX = percentage * (mDestRect.left - mFlightCard.getLeft());
-				float transY = percentage * (mDestRect.top - mFlightCard.getTop());
+				float transX = percentage * (mDestRect.left - mBucketFlightC.getLeft());
+				float transY = percentage * (mDestRect.top - mBucketFlightC.getTop());
 
-				mFlightCard.setPivotX(0);
-				mFlightCard.setPivotY(0);
-				mFlightCard.setTranslationX(transX);
-				mFlightCard.setTranslationY(transY);
-				mFlightCard.setScaleX(scaleX);
-				mFlightCard.setScaleY(scaleY);
+				mBucketFlightC.setPivotX(0);
+				mBucketFlightC.setPivotY(0);
+				mBucketFlightC.setTranslationX(transX);
+				mBucketFlightC.setTranslationY(transY);
+				mBucketFlightC.setScaleX(scaleX);
+				mBucketFlightC.setScaleY(scaleY);
 			}
 		}
 
@@ -113,25 +130,26 @@ public class ResultsFlightAddToTrip extends Fragment {
 		public void onStateTransitionEnd(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
 			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-				mFlightCard.setLayerType(View.LAYER_TYPE_NONE, null);
+				mBucketFlightC.setLayerType(View.LAYER_TYPE_NONE, null);
 			}
 		}
 
 		@Override
 		public void onStateFinalized(ResultsFlightsState state) {
-			mFlightCard.setTranslationY(0f);
+			mBucketFlightC.setTranslationY(0f);
 			if (state == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
 				TripBucketItemFlight flight = Db.getTripBucket().getFlight();
 				boolean isRoundTrip = Db.getFlightSearch().getSearchParams().isRoundTrip();
 				int legs = isRoundTrip ? 2 : 1;
 
-				mFlightCard
-					.bindForTripBucket(flight.getFlightTrip(), flight.getFlightSearchState().getSelectedLegs(legs),
-						isRoundTrip);
-				mFlightCard.setVisibility(View.VISIBLE);
+				if (mBucketFlightFrag != null) {
+					mBucketFlightFrag.bind();
+				}
+
+				mBucketFlightC.setVisibility(View.VISIBLE);
 			}
 			else {
-				mFlightCard.setVisibility(View.INVISIBLE);
+				mBucketFlightC.setVisibility(View.INVISIBLE);
 				resetFlightCard();
 			}
 		}
