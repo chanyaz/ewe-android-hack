@@ -17,6 +17,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Itinerary;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.Response;
@@ -118,7 +119,7 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 
 	@Override
 	public void handleBookingErrorResponse(Response response) {
-		super.handleBookingErrorResponse(response, true);
+		super.handleBookingErrorResponse(response, LineOfBusiness.FLIGHTS);
 	}
 
 	@Override
@@ -263,11 +264,11 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 			case SESSION_TIMEOUT:
 				if (ExpediaBookingApp.useTabletInterface(getActivity())) {
 					// Post event for tablets to show the BookingUnavailableFragment
-					Events.post(new Events.BookingUnavailable(true));
+					Events.post(new Events.BookingUnavailable(LineOfBusiness.FLIGHTS));
 				}
 				else {
 					boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
-					BookingUnavailableDialogFragment df = BookingUnavailableDialogFragment.newInstance(isPlural, true);
+					BookingUnavailableDialogFragment df = BookingUnavailableDialogFragment.newInstance(isPlural, LineOfBusiness.FLIGHTS);
 					df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), FLIGHT_UNAVAILABLE_DIALOG);
 				}
 				return;

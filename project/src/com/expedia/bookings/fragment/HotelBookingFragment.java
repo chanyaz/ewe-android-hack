@@ -13,6 +13,7 @@ import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.HotelSearch;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.Response;
@@ -356,7 +357,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 					messageId = R.string.e3_error_hotel_offers_hotel_room_unavailable;
 					Db.getHotelSearch().getAvailability(selectedId).removeRate(response.getOriginalProductKey());
 					// Post event for tablets to show the BookingUnavailableFragment
-					Events.post(new Events.BookingUnavailable(false));
+					Events.post(new Events.BookingUnavailable(LineOfBusiness.HOTELS));
 				}
 			}
 		}
@@ -600,7 +601,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 
 	@Override
 	public void handleBookingErrorResponse(Response response) {
-		super.handleBookingErrorResponse(response, false);
+		super.handleBookingErrorResponse(response, LineOfBusiness.HOTELS);
 	}
 
 }

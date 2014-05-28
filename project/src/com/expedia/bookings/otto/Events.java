@@ -326,13 +326,13 @@ public class Events {
 	}
 
 	/**
-	 * This event notifies that the Flight createTrip succeeded with a price change.
+	 * This event notifies that the trip selected in the bucket is unavailable to checkout.
 	 */
 	public static class BookingUnavailable {
-		public final boolean isFlightLOB;
+		public final LineOfBusiness lineOfBusiness;
 
-		public BookingUnavailable(boolean isFlight) {
-			this.isFlightLOB = isFlight;
+		public BookingUnavailable(LineOfBusiness lob) {
+			this.lineOfBusiness = lob;
 		}
 	}
 

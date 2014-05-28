@@ -12,6 +12,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ErrorCode;
@@ -199,13 +200,13 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		Events.post(new Events.BookingDownloadResponse(response));
 	}
 
-	public void handleBookingErrorResponse(Response response, boolean isFlightLOB) {
+	public void handleBookingErrorResponse(Response response, LineOfBusiness lob) {
 		/*
 		 *  If response is null let's just show a popup message
 		 *  and have users pick from "Retry" "Call Customer Support" or "Cancel" options.
 		 */
 		if (response == null) {
-			showBookingUnhandledErrorDialog(isFlightLOB);
+			showBookingUnhandledErrorDialog(lob);
 			return;
 		}
 
@@ -287,7 +288,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		case PAYMENT_FAILED:
 		case INVALID_INPUT: {
 
-			if (firstError.getErrorCode() == ErrorCode.PAYMENT_FAILED && isFlightLOB) {
+			if (firstError.getErrorCode() == ErrorCode.PAYMENT_FAILED && lob == LineOfBusiness.FLIGHTS) {
 				OmnitureTracking.trackErrorPageLoadFlightPaymentFailed(getActivity());
 			}
 
@@ -297,14 +298,14 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 					SimpleCallbackDialogFragment.CODE_INVALID_PAYMENT);
 				frag.show(getFragmentManager(), "badPaymentDialog");
 
-				if (isFlightLOB) {
+				if (lob == LineOfBusiness.FLIGHTS) {
 					OmnitureTracking.trackErrorPageLoadFlightIncorrectCVV(getActivity());
 				}
 				return;
 			}
 			else if (hasCVVError) {
 				Events.post(new Events.BookingResponseErrorCVV(true));
-				if (isFlightLOB) {
+				if (lob == LineOfBusiness.FLIGHTS) {
 					OmnitureTracking.trackErrorPageLoadFlightIncorrectCVV(getActivity());
 				}
 				return;
@@ -354,20 +355,20 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			return;
 		case FLIGHT_SOLD_OUT:
 			if (ExpediaBookingApp.useTabletInterface(getActivity())) {
-				Events.post(new Events.BookingUnavailable(isFlightLOB));
+				Events.post(new Events.BookingUnavailable(lob));
 			}
 			else {
-				showBookingUnavailableErrorDialog(isFlightLOB);
+				showBookingUnavailableErrorDialog(lob);
 			}
 			OmnitureTracking.trackErrorPageLoadFlightSoldOut(getActivity());
 		case SESSION_TIMEOUT:
 			if (ExpediaBookingApp.useTabletInterface(getActivity())) {
-				Events.post(new Events.BookingUnavailable(isFlightLOB));
+				Events.post(new Events.BookingUnavailable(lob));
 			}
 			else {
-				showBookingUnavailableErrorDialog(isFlightLOB);
+				showBookingUnavailableErrorDialog(lob);
 			}
-			if (isFlightLOB) {
+			if (lob == LineOfBusiness.FLIGHTS) {
 				OmnitureTracking.trackErrorPageLoadFlightSearchExpired(getActivity());
 			}
 			return;
@@ -385,19 +386,19 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			frag.show(getFragmentManager(), "googleWalletErrorDialog");
 			return;
 		default:
-			if (isFlightLOB) {
+			if (lob == LineOfBusiness.FLIGHTS) {
 				OmnitureTracking.trackErrorPageLoadFlightCheckout(getActivity());
 			}
 			break;
 		}
 
 		// At this point, we haven't handled the error - use a generic response
-		showBookingUnhandledErrorDialog(isFlightLOB);
+		showBookingUnhandledErrorDialog(lob);
 	}
 
-	private void showBookingUnhandledErrorDialog(boolean isFlightLOB) {
+	private void showBookingUnhandledErrorDialog(LineOfBusiness lob) {
 		String caseNumber;
-		if (isFlightLOB) {
+		if (lob == LineOfBusiness.FLIGHTS) {
 			caseNumber = Db.getFlightSearch().getSelectedFlightTrip()
 				.getItineraryNumber();
 		}
@@ -408,12 +409,12 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		df.show(getFragmentManager(), "unhandledOrNoResultsErrorDialog");
 	}
 
-	private void showBookingUnavailableErrorDialog(boolean isFlightLOB) {
+	private void showBookingUnavailableErrorDialog(LineOfBusiness lob) {
 		boolean isPlural = false;
-		if (isFlightLOB) {
+		if (lob == LineOfBusiness.FLIGHTS) {
 			isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
 		}
-		BookingUnavailableDialogFragment df = BookingUnavailableDialogFragment.newInstance(isPlural, isFlightLOB);
+		BookingUnavailableDialogFragment df = BookingUnavailableDialogFragment.newInstance(isPlural, lob);
 		df.show(getFragmentManager(), "unavailableErrorDialog");
 	}
 

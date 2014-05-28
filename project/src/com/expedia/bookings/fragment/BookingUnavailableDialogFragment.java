@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.utils.NavUtils;
 
 public class BookingUnavailableDialogFragment extends DialogFragment implements OnClickListener {
@@ -19,11 +20,11 @@ public class BookingUnavailableDialogFragment extends DialogFragment implements 
 
 	private boolean mIsFlightLOB;
 
-	public static BookingUnavailableDialogFragment newInstance(boolean isPlural, boolean isFlightLOB) {
+	public static BookingUnavailableDialogFragment newInstance(boolean isPlural, LineOfBusiness lob) {
 		BookingUnavailableDialogFragment fragment = new BookingUnavailableDialogFragment();
 		Bundle args = new Bundle();
 		args.putBoolean(ARG_IS_PLURAL, isPlural);
-		args.putBoolean(ARG_IS_FLIGHT, isFlightLOB);
+		args.putBoolean(ARG_IS_FLIGHT, lob == LineOfBusiness.FLIGHTS ? true : false);
 		fragment.setArguments(args);
 		return fragment;
 	}
