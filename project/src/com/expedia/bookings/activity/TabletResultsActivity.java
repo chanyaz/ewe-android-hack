@@ -88,6 +88,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	private FrameLayoutTouchController mTripBucketC;
 	private LinearLayout mMissingFlightInfoC;
 	private ViewGroup mFlightsC;
+	private ViewGroup mHotelC;
 
 	//Fragments
 	private ResultsBackgroundImageFragment mBackgroundImageFrag;
@@ -101,8 +102,9 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	private StateManager<ResultsState> mStateManager = new StateManager<ResultsState>(ResultsState.OVERVIEW, this);
 	private boolean mBackButtonLocked = false;
 	private Interpolator mCenterColumnUpDownInterpolator = new AccelerateInterpolator(1.2f);
-
 	private HockeyPuck mHockeyPuck;
+	private boolean mDoingFlightsAddToBucket = false;
+	private boolean mDoingHotelsAddToBucket = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -121,6 +123,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		mTripBucketC = Ui.findView(this, R.id.trip_bucket_container);
 		mMissingFlightInfoC = Ui.findView(this, R.id.missing_flight_info_container);
 		mFlightsC = Ui.findView(this, R.id.full_width_flights_controller_container);
+		mHotelC = Ui.findView(this, R.id.full_width_hotels_controller_container);
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CURRENT_STATE)) {
 			String stateName = savedInstanceState.getString(STATE_CURRENT_STATE);
@@ -436,11 +439,12 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		public void onStateTransitionUpdate(ResultsState stateOne, ResultsState stateTwo, float percentage) {
 			if (stateOne == ResultsState.OVERVIEW && stateTwo != ResultsState.OVERVIEW) {
 				setEnteringProductPercentage(percentage,
-					stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS);
+					stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS, true);
 			}
 			else if (stateOne != ResultsState.OVERVIEW && stateTwo == ResultsState.OVERVIEW) {
 				setEnteringProductPercentage(1f - percentage,
-					stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS);
+					stateOne == ResultsState.HOTELS || stateTwo == ResultsState.HOTELS,
+					!mDoingFlightsAddToBucket && !mDoingHotelsAddToBucket);
 			}
 		}
 
@@ -463,10 +467,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			}
 
 			if (state == ResultsState.OVERVIEW) {
-				setEnteringProductPercentage(0f, false);
+				resetTranslations();
 			}
 			else {
-				setEnteringProductPercentage(1f, state == ResultsState.HOTELS);
+				//Make sure everything is off screen
+				setEnteringProductPercentage(1f, state == ResultsState.HOTELS, true);
 			}
 		}
 	};
@@ -479,20 +484,60 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		mTripBucketC.setLayerType(layerType, null);
 		mMissingFlightInfoC.setLayerType(layerType, null);
 		if (enteringHotels) {
+			//If we are entring hotels, we move the flights container
 			mFlightsC.setLayerType(layerType, null);
+		}
+		else {
+			//If we are entering flights, we move the hotels container
+			mHotelC.setLayerType(layerType, null);
 		}
 	}
 
-	private void setEnteringProductPercentage(float percentage, boolean enteringHotels) {
-		mTripBucketC.setTranslationY(percentage * mTripBucketC.getHeight());
-		mMissingFlightInfoC.setTranslationY(
-			mCenterColumnUpDownInterpolator.getInterpolation(percentage) * mGrid.getRowHeight(1));
-		if (enteringHotels) {
-			mFlightsC
-				.setTranslationY(mCenterColumnUpDownInterpolator.getInterpolation(percentage) * mGrid.getRowHeight(1));
+	private void resetTranslations() {
+		mTripBucketC.setTranslationX(0f);
+		mTripBucketC.setTranslationY(0f);
+		mMissingFlightInfoC.setTranslationX(0f);
+		mMissingFlightInfoC.setTranslationY(0f);
+		mFlightsC.setTranslationX(0f);
+		mFlightsC.setTranslationY(0f);
+		mHotelC.setTranslationX(0f);
+		mHotelC.setTranslationY(0f);
+	}
+
+	private void setEnteringProductPercentage(float percentage, boolean enteringHotels, boolean vertical) {
+		if (vertical) {
+			//Reset X things, because they dont change if we are in vertical mode
+			mTripBucketC.setTranslationX(0f);
+			mMissingFlightInfoC.setTranslationX(0f);
+			mFlightsC.setTranslationX(0f);
+
+			mTripBucketC.setTranslationY(percentage * mTripBucketC.getHeight());
+			mMissingFlightInfoC.setTranslationY(
+				mCenterColumnUpDownInterpolator.getInterpolation(percentage) * mGrid.getRowHeight(1));
+			if (enteringHotels) {
+				mFlightsC
+					.setTranslationY(
+						mCenterColumnUpDownInterpolator.getInterpolation(percentage) * mGrid.getRowHeight(1));
+			}
+			else if (mFlightsC.getTranslationY() != 0) {
+				mFlightsC.setTranslationY(0f);
+			}
 		}
-		else if (mFlightsC.getTranslationY() != 0) {
-			mFlightsC.setTranslationY(0f);
+		else {
+			//Reset Y things because they don't change if we are
+			mTripBucketC.setTranslationY(0);
+			mMissingFlightInfoC.setTranslationY(0f);
+			mFlightsC.setTranslationY(0);
+
+			mTripBucketC.setTranslationX(percentage * mTripBucketC.getWidth());
+			mMissingFlightInfoC.setTranslationX(percentage * -mGrid.getColRight(2));
+
+			if (enteringHotels) {
+				mFlightsC.setTranslationX(percentage * mGrid.getColSpanWidth(2, 5));
+			}
+			else {
+				mHotelC.setTranslationX(percentage * -mGrid.getColSpanWidth(0, 3));
+			}
 		}
 	}
 
@@ -647,6 +692,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				getActionBar().show();
 				mSearchController.showSearchBtns();
 			}
+
+			if (stateOne == ResultsHotelsState.ADDING_HOTEL_TO_TRIP && stateTwo == ResultsHotelsState.HOTEL_LIST_DOWN) {
+				mDoingHotelsAddToBucket = true;
+			}
+
 		}
 
 		@Override
@@ -670,12 +720,16 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			//DO WORK
 			setState(getResultsStateFromHotels(state), false);
 
-			mResultsStateListeners.setListenerActive(mHotelsController.getResultsListener());
-
 			if (state == ResultsHotelsState.GALLERY) {
 				getActionBar().hide();
 				mSearchController.hideSearchBtns();
 			}
+
+			if(state != ResultsHotelsState.ADDING_HOTEL_TO_TRIP) {
+				mDoingHotelsAddToBucket = false;
+			}
+
+			mResultsStateListeners.setListenerActive(mHotelsController.getResultsListener());
 		}
 
 		private ResultsState getResultsStateFromHotels(ResultsHotelsState state) {
@@ -699,6 +753,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		@Override
 		public void onStateTransitionStart(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
 			mResultsStateListeners.setListenerInactive(mFlightsController.getResultsListener());
+
+			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
+				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
+				mDoingFlightsAddToBucket = true;
+			}
 
 			//DO WORK
 			startStateTransition(getResultsStateFromFlights(stateOne), getResultsStateFromFlights(stateTwo));
@@ -732,6 +791,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 			//DO WORK
 			setState(getResultsStateFromFlights(state), false);
+
+			if(state != ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
+				mDoingFlightsAddToBucket = false;
+			}
 
 			mResultsStateListeners.setListenerActive(mFlightsController.getResultsListener());
 		}

@@ -12,7 +12,7 @@
         android:layout_height="match_parent" />
 
     <!-- TRIP BUCKET -->
-    <com.expedia.bookings.widget.FixedTranslationFrameLayout
+    <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/trip_bucket_container"
         android:background="@color/trip_bucket_background_color"
         android:layout_width="match_parent"
@@ -46,17 +46,17 @@
 
     <!-- CONTROLLER CONTAINERS -->
 
-    <com.expedia.bookings.widget.FixedTranslationFrameLayout
+    <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/full_width_flights_controller_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.FixedTranslationFrameLayout
+    <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/full_width_hotels_controller_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.FixedTranslationFrameLayout
+    <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/full_width_search_controller_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

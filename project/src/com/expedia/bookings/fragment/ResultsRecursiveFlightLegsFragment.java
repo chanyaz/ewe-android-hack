@@ -844,8 +844,8 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	protected void showAddingBackToDownAnimPrep(float startPercentage) {
 		if (isFirstLeg()) {
-			mListColumnC.setTranslationY((1f - startPercentage) * mGrid.getRowBottom(2));
-			mListColumnC.setTranslationX(0);
+			mListColumnC.setTranslationX((1f - startPercentage) * -mGrid.getColSpanWidth(0,3));
+			mListColumnC.setTranslationY(0);
 			mListColumnC.setVisibility(View.VISIBLE);
 			mListColumnC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			mListFrag.setListLockedToTop(false);
@@ -855,7 +855,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	protected void showAddingBackToDownPercentage(float percentage) {
 		if (isFirstLeg()) {
-			mListColumnC.setTranslationY((1f - percentage) * mGrid.getRowBottom(2));
+			mListColumnC.setTranslationX((1f - percentage) * -mGrid.getColSpanWidth(0,3));
 		}
 	}
 
