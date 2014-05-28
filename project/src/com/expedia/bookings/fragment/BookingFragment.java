@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
@@ -251,7 +252,6 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		// that it will be the first one.  If there are multiple errors, we assume right
 		// now that it will require a generic response.
 		ServerError firstError = errors.get(0);
-
 		// Check for special errors; return if we handled it
 		switch (firstError.getErrorCode()) {
 		// We get this error for ONLY flights.
@@ -353,10 +353,20 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			Events.post(new Events.BookingResponseErrorTripBooked());
 			return;
 		case FLIGHT_SOLD_OUT:
-			showBookingUnavailableErrorDialog(isFlightLOB);
+			if (ExpediaBookingApp.useTabletInterface(getActivity())) {
+				Events.post(new Events.BookingUnavailable(isFlightLOB));
+			}
+			else {
+				showBookingUnavailableErrorDialog(isFlightLOB);
+			}
 			OmnitureTracking.trackErrorPageLoadFlightSoldOut(getActivity());
 		case SESSION_TIMEOUT:
-			showBookingUnavailableErrorDialog(isFlightLOB);
+			if (ExpediaBookingApp.useTabletInterface(getActivity())) {
+				Events.post(new Events.BookingUnavailable(isFlightLOB));
+			}
+			else {
+				showBookingUnavailableErrorDialog(isFlightLOB);
+			}
 			if (isFlightLOB) {
 				OmnitureTracking.trackErrorPageLoadFlightSearchExpired(getActivity());
 			}

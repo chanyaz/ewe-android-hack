@@ -355,12 +355,17 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 					String selectedId = Db.getHotelSearch().getSelectedPropertyId();
 					messageId = R.string.e3_error_hotel_offers_hotel_room_unavailable;
 					Db.getHotelSearch().getAvailability(selectedId).removeRate(response.getOriginalProductKey());
+					// Post event for tablets to show the BookingUnavailableFragment
+					Events.post(new Events.BookingUnavailable(false));
 				}
 			}
 		}
 
-		dialog.setMessage(messageId);
-		dialog.show(getFragmentManager(), HOTEL_OFFER_ERROR_DIALOG);
+		// Let's show the error dialog only for phones.
+		if (!ExpediaBookingApp.useTabletInterface(getActivity())) {
+			dialog.setMessage(messageId);
+			dialog.show(getFragmentManager(), HOTEL_OFFER_ERROR_DIALOG);
+		}
 	}
 
 	/////////////////////////////////////////////////////

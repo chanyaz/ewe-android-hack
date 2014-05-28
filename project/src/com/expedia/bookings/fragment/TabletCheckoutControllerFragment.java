@@ -102,6 +102,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private static final String FRAG_TAG_CONF_FLIGHT = "FRAG_TAG_CONF_FLIGHT";
 	private static final String FRAG_TAG_CONF_HOTEL = "FRAG_TAG_CONF_HOTEL";
 	private static final String FRAG_TAG_BLUR_BG = "FRAG_TAG_BLUR_BG";
+	private static final String FRAG_TAG_BOOKING_UNAVAILABLE = "FRAG_TAG_BOOKING_UNAVAILABLE";
 
 	//Containers
 	private FrameLayoutTouchController mRootC;
@@ -113,6 +114,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private ViewGroup mFormContainer;
 	private ViewGroup mCvvContainer;
 	private ViewGroup mBookingContainer;
+	private ViewGroup mBookingUnavailableContainer;
 	private ViewGroup mConfirmationContainer;
 	private ViewGroup mBlurredDestImageOverlay;
 
@@ -130,6 +132,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private TabletFlightConfirmationFragment mFlightConfFrag;
 	private TabletHotelConfirmationFragment mHotelConfFrag;
 	private ResultsBackgroundImageFragment mBlurredBgFrag;
+	private BookingUnavailableFragment mBookingUnavailableFragment;
 
 	private static final int DIALOG_CALLBACK_INVALID_CC = 1;
 	private static final int DIALOG_CALLBACK_EXPIRED_CC = 2;
@@ -202,6 +205,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		mSlideContainer = Ui.findView(mRootC, R.id.slide_container);
 		mCvvContainer = Ui.findView(mRootC, R.id.cvv_container);
 		mBookingContainer = Ui.findView(mRootC, R.id.booking_container);
+		mBookingUnavailableContainer = Ui.findView(mRootC, R.id.booking_unavailable_container);
 		mConfirmationContainer = Ui.findView(mRootC, R.id.confirmation_container);
 
 		mBucketDateRange = Ui.findView(mRootC, R.id.trip_date_range);
@@ -439,7 +443,12 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				setShowBookingPercentage(percentage);
 			}
 			else if (stateOne == CheckoutState.READY_FOR_CHECKOUT && stateTwo == CheckoutState.BOOKING) {
+				setShowReadyForCheckoutPercentage(1f - percentage);
 				setShowBookingPercentage(percentage);
+			}
+			if (stateOne == CheckoutState.OVERVIEW && stateTwo == CheckoutState.BOOKING_UNAVAILABLE) {
+				setShowReadyForCheckoutPercentage(1f - percentage);
+				setShowBookingUnavailablePercentage(percentage);
 			}
 		}
 
@@ -595,6 +604,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		mSlideContainer.setAlpha(percentage);
 	}
 
+	private void setShowBookingUnavailablePercentage(float percentage) {
+		mBookingUnavailableContainer.setAlpha(percentage);
+	}
+
 	private void setShowConfirmationPercentage(float percentage) {
 		mBucketScrollContainer.setTranslationX((1f - percentage) * -mBucketScrollContainer.getWidth());
 	}
@@ -619,6 +632,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mCvvContainer.setVisibility(View.INVISIBLE);
 			mSlideAndFormContainer.setVisibility(View.VISIBLE);
 			mBookingContainer.setVisibility(View.GONE);
+			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.GONE);
 		}
 		else if (state == CheckoutState.READY_FOR_CHECKOUT) {
@@ -628,6 +642,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mCvvContainer.setVisibility(View.INVISIBLE);
 			mSlideAndFormContainer.setVisibility(View.VISIBLE);
 			mBookingContainer.setVisibility(View.GONE);
+			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.GONE);
 		}
 		else if (state == CheckoutState.CVV) {
@@ -637,6 +652,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mSlideContainer.setVisibility(View.INVISIBLE);
 			mSlideAndFormContainer.setVisibility(View.INVISIBLE);
 			mBookingContainer.setVisibility(View.GONE);
+			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.GONE);
 		}
 		else if (state == CheckoutState.BOOKING) {
@@ -646,6 +662,17 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mSlideContainer.setVisibility(View.INVISIBLE);
 			mSlideAndFormContainer.setVisibility(View.INVISIBLE);
 			mBookingContainer.setVisibility(View.VISIBLE);
+			mBookingUnavailableContainer.setVisibility(View.GONE);
+			mConfirmationContainer.setVisibility(View.INVISIBLE);
+		}
+		else if (state == CheckoutState.BOOKING_UNAVAILABLE) {
+			mFormContainer.setVisibility(View.INVISIBLE);
+			mBucketScrollContainer.setVisibility(View.VISIBLE);
+			mCvvContainer.setVisibility(View.INVISIBLE);
+			mSlideContainer.setVisibility(View.INVISIBLE);
+			mSlideAndFormContainer.setVisibility(View.INVISIBLE);
+			mBookingContainer.setVisibility(View.GONE);
+			mBookingUnavailableContainer.setVisibility(View.VISIBLE);
 			mConfirmationContainer.setVisibility(View.INVISIBLE);
 		}
 		else if (state == CheckoutState.CONFIRMATION) {
@@ -655,6 +682,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mSlideContainer.setVisibility(View.INVISIBLE);
 			mSlideAndFormContainer.setVisibility(View.INVISIBLE);
 			mBookingContainer.setVisibility(View.INVISIBLE);
+			mBookingUnavailableContainer.setVisibility(View.GONE);
 			mConfirmationContainer.setVisibility(View.VISIBLE);
 		}
 	}
@@ -693,6 +721,22 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				}
 			}
 		}
+		else if (state == CheckoutState.BOOKING_UNAVAILABLE) {
+			if (getLob() == LineOfBusiness.FLIGHTS) {
+				if (Db.getTripBucket().getHotel() != null
+					&& Db.getTripBucket().getHotel().getState() == TripBucketItemState.EXPANDED) {
+					Db.getTripBucket().getHotel().setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
+				}
+				Db.getTripBucket().getFlight().setState(TripBucketItemState.BOOKING_UNAVAILABLE);
+			}
+			else {
+				if (Db.getTripBucket().getFlight() != null
+					&& Db.getTripBucket().getFlight().getState() == TripBucketItemState.EXPANDED) {
+					Db.getTripBucket().getFlight().setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
+				}
+				Db.getTripBucket().getHotel().setState(TripBucketItemState.BOOKING_UNAVAILABLE);
+			}
+		}
 		else {
 			if (getLob() == LineOfBusiness.FLIGHTS) {
 				if (Db.getTripBucket().getHotel() != null
@@ -705,12 +749,16 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 						&& (state != CheckoutState.READY_FOR_CHECKOUT && state != CheckoutState.CVV)) {
 						Db.getTripBucket().getFlight().setState(TripBucketItemState.SHOWING_PRICE_CHANGE);
 					}
+					else if (Db.getTripBucket().getFlight().getState() == TripBucketItemState.BOOKING_UNAVAILABLE){
+						setCheckoutState(CheckoutState.BOOKING_UNAVAILABLE, true);
+					}
 					else {
 						Db.getTripBucket().getFlight().setState(TripBucketItemState.EXPANDED);
 					}
 				}
 				if (Db.getTripBucket().getHotel() != null
-					&& Db.getTripBucket().getHotel().getState() != TripBucketItemState.PURCHASED) {
+					&& Db.getTripBucket().getHotel().getState() != TripBucketItemState.PURCHASED
+					&& Db.getTripBucket().getHotel().getState() != TripBucketItemState.BOOKING_UNAVAILABLE) {
 					Db.getTripBucket().getHotel().setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 				}
 			}
@@ -725,12 +773,16 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 						&& (state != CheckoutState.READY_FOR_CHECKOUT && state != CheckoutState.CVV)) {
 						Db.getTripBucket().getHotel().setState(TripBucketItemState.SHOWING_PRICE_CHANGE);
 					}
+					else if (Db.getTripBucket().getHotel().getState() == TripBucketItemState.BOOKING_UNAVAILABLE){
+						setCheckoutState(CheckoutState.BOOKING_UNAVAILABLE, true);
+					}
 					else {
 						Db.getTripBucket().getHotel().setState(TripBucketItemState.EXPANDED);
 					}
 				}
 				if (Db.getTripBucket().getFlight() != null
-					&& Db.getTripBucket().getFlight().getState() != TripBucketItemState.PURCHASED) {
+					&& Db.getTripBucket().getFlight().getState() != TripBucketItemState.PURCHASED
+					&& Db.getTripBucket().getFlight().getState() != TripBucketItemState.BOOKING_UNAVAILABLE) {
 					Db.getTripBucket().getFlight().setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 				}
 			}
@@ -754,7 +806,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 			if (!mFlightBookingFrag.isDownloadingCreateTrip()
 				&& TextUtils.isEmpty(Db.getFlightSearch().getSelectedFlightTrip().getItineraryNumber())
-				&& !mIsFlightTripDone) {
+				&& !mIsFlightTripDone
+				&& Db.getTripBucket().getFlight() != null
+				&& Db.getTripBucket().getFlight().getState() != TripBucketItemState.BOOKING_UNAVAILABLE) {
 				mFlightCreateTripDownloadThrobber = ThrobberDialog
 					.newInstance(getString(R.string.loading_flight_details));
 				mFlightCreateTripDownloadThrobber.show(getFragmentManager(), TAG_FLIGHT_CREATE_TRIP_DOWNLOADING_DIALOG);
@@ -764,7 +818,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		else if (lob == LineOfBusiness.HOTELS) {
 			getFragmentManager().executePendingTransactions();
 
-			if (!mHotelBookingFrag.isDownloadingHotelProduct() && !mIsDoneLoadingPriceChange) {
+			if (!mHotelBookingFrag.isDownloadingHotelProduct() && !mIsDoneLoadingPriceChange
+				&& Db.getTripBucket().getHotel() != null
+				&& Db.getTripBucket().getHotel().getState() != TripBucketItemState.BOOKING_UNAVAILABLE) {
 				mHotelProductDownloadThrobber = ThrobberDialog
 					.newInstance(getString(R.string.calculating_taxes_and_fees));
 				mHotelProductDownloadThrobber.show(getFragmentManager(), TAG_HOTEL_PRODUCT_DOWNLOADING_DIALOG);
@@ -805,6 +861,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		boolean hotelBucketItemAvailable = Db.getTripBucket().getHotel() != null;
 		boolean checkoutFormsAvailable = true;
 		boolean slideToPurchaseAvailable = true;
+		boolean isBookingUnvailable = state == CheckoutState.BOOKING_UNAVAILABLE;
 		boolean cvvAvailable =
 			state != CheckoutState.OVERVIEW;//If we are in cvv mode or are ready to enter it, we add cvv
 
@@ -845,6 +902,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		mBlurredBgFrag = FragmentAvailabilityUtils.setFragmentAvailability(true, FRAG_TAG_BLUR_BG,
 			manager, transaction, this, R.id.blurred_dest_image_overlay, false);
+
+		mBookingUnavailableFragment = FragmentAvailabilityUtils.setFragmentAvailability(isBookingUnvailable, FRAG_TAG_BOOKING_UNAVAILABLE,
+			manager, transaction, this, R.id.booking_unavailable_container, true);
 
 		transaction.commit();
 
@@ -938,6 +998,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		else if (FRAG_TAG_BLUR_BG.equals(tag)) {
 			return mBlurredBgFrag;
 		}
+		else if (FRAG_TAG_BOOKING_UNAVAILABLE.equals(tag)) {
+			return mBookingUnavailableFragment;
+		}
 		return null;
 	}
 
@@ -968,6 +1031,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			String dest = Sp.getParams().getDestination().getAirportCode();
 			return ResultsBackgroundImageFragment.newInstance(dest, true);
 		}
+		else if (FRAG_TAG_BOOKING_UNAVAILABLE.equals(tag)) {
+			return BookingUnavailableFragment.newInstance();
+		}
 		return null;
 	}
 
@@ -983,6 +1049,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else if (FRAG_TAG_CHECKOUT_INFO.equals(tag)) {
 			TabletCheckoutFormsFragment f = (TabletCheckoutFormsFragment) frag;
+			f.setLob(getLob());
+		}
+		else if (FRAG_TAG_BOOKING_UNAVAILABLE.equals(tag)) {
+			BookingUnavailableFragment f = (BookingUnavailableFragment) frag;
 			f.setLob(getLob());
 		}
 		else if (FRAG_TAG_SLIDE_TO_PURCHASE.equals(tag)) {
@@ -1467,5 +1537,11 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Subscribe
 	public void onLCCPaymentFeesAdded(Events.LCCPaymentFeesAdded event) {
 		mBucketFlightFrag.refreshExpandedTripPrice();
+	}
+
+	@Subscribe
+	public void onBookingUnavailable(Events.BookingUnavailable event) {
+		dismissLoadingDialogs();
+		setCheckoutState(CheckoutState.BOOKING_UNAVAILABLE, true);
 	}
 }

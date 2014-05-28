@@ -326,6 +326,17 @@ public class Events {
 	}
 
 	/**
+	 * This event notifies that the Flight createTrip succeeded with a price change.
+	 */
+	public static class BookingUnavailable {
+		public final boolean isFlightLOB;
+
+		public BookingUnavailable(boolean isFlight) {
+			this.isFlightLOB = isFlight;
+		}
+	}
+
+	/**
 	 * This event notifies that the LCC payment fees was added to the flight trip.
 	 */
 	public static class LCCPaymentFeesAdded {

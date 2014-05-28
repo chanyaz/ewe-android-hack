@@ -5,5 +5,6 @@ public enum CheckoutState {
 	READY_FOR_CHECKOUT,
 	CVV,
 	BOOKING,
+	BOOKING_UNAVAILABLE,
 	CONFIRMATION
 }

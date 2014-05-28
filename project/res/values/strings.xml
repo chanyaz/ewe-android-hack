@@ -114,6 +114,8 @@
     <string name="trip_bucket_book_flight">Book Flight</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
     <string name="trip_bucket_book_hotel">Book Hotel</string>
+    <!-- Tablet Trip bucket, sold out text -->
+    <string name="trip_bucket_sold_out">Sold Out</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_roundtrip">Round Trip Flight to %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
@@ -3074,5 +3076,19 @@
     <string name="tablet_confirmation_done_booking">Done Booking</string>
     <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->
     <string name="tablet_confirmation_flights_from_to">%1$s to %2$s</string>
+
+    <!-- Tablet Sold Out Screen -->
+    <!-- Header text to indicating hotel sold out -->
+    <string name="tablet_sold_out_summary_text_hotel">This hotel is now sold out. Sorry!</string>
+    <!-- Button text to remove sold hotel -->
+    <string name="tablet_sold_out_remove_hotel">Remove hotel</string>
+    <!-- Button text to select another hotel -->
+    <string name="tablet_sold_out_select_hotel">Select another hotel</string>
+    <!-- Header text to indicating flight sold out -->
+    <string name="tablet_sold_out_summary_text_flight">This flight is now sold out. Sorry!</string>
+    <!-- Button text to remove sold flight -->
+    <string name="tablet_sold_out_remove_flight">Remove flight</string>
+    <!-- Button text to select another flight -->
+    <string name="tablet_sold_out_select_flight">Select another flight</string>
 
 </resources>

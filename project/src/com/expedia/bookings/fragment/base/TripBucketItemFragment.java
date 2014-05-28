@@ -51,8 +51,10 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private ViewGroup mPriceChangedClipC;
 	private ViewGroup mPriceChangedC;
 	private ViewGroup mBookBtnContainer;
+	private ViewGroup mSoldOutContainer;
 	private ImageView mTripBucketImageView;
 	private TextView mBookBtnText;
+	private TextView mSoldOutText;
 	private TextView mTripPriceText;
 	private ViewGroup mNameAndDurationContainer;
 	private TextView mNameText;
@@ -95,7 +97,9 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		// Top Part
 		mTripBucketImageView = Ui.findView(mTopC, R.id.tripbucket_card_background_view);
 		mBookBtnContainer = Ui.findView(mTopC, R.id.book_button_container);
+		mSoldOutContainer = Ui.findView(mTopC, R.id.sold_out_container);
 		mBookBtnText = Ui.findView(mTopC, R.id.book_button_text);
+		mSoldOutText = Ui.findView(mTopC, R.id.sold_out_text);
 		mTripPriceText = Ui.findView(mTopC, R.id.trip_bucket_price_text);
 		mNameAndDurationContainer = Ui.findView(mTopC, R.id.name_and_trip_duration_container);
 		mNameText = Ui.findView(mTopC, R.id.name_text_view);
@@ -182,6 +186,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 			mBookBtnText.setText(getBookButtonText());
 			mBookBtnContainer.setOnClickListener(getOnBookClickListener());
+			mSoldOutContainer.setOnClickListener(getOnBookClickListener());
 
 			refreshTripPrice();
 			mNameText.setText(getNameText());
@@ -306,7 +311,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				setPriceChangePercentage(percentage);
 			}
 
-
 			// Expanded, Price Change --> Collapsed
 			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
 				mBookBtnContainer.setAlpha(percentage);
@@ -358,7 +362,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				mHeaderBitmapDrawable.setOverlayAlpha(0f);
 			}
 
-
 			// Expanded, Price Change --> Collapsed
 			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
 				mBookBtnContainer.setAlpha(1.0f);
@@ -374,7 +377,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				mHeaderBitmapDrawable.setOverlayAlpha(1f);
 			}
 
-
 			// Expanded <--> Price change
 			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.SHOWING_PRICE_CHANGE) {
 				setPriceChangePercentage(1.0f);
@@ -388,6 +390,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				mBookingCompleteCheckImg.setAlpha(1.0f);
 				mHeaderBitmapDrawable.setOverlayAlpha(0f);
 			}
+
 		}
 
 		@Override
@@ -402,6 +405,17 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		case SHOWING_CHECKOUT_BUTTON:
 			mBookingCompleteCheckImg.setVisibility(View.GONE);
 			mBookBtnContainer.setVisibility(View.VISIBLE);
+			mSoldOutContainer.setVisibility(View.GONE);
+			mExpandedC.setVisibility(View.GONE);
+			mPriceChangedC.setVisibility(View.GONE);
+			setNameAndDurationSlidePercentage(0f);
+			mHeaderBitmapDrawable.setOverlayAlpha(0f);
+			break;
+
+		case BOOKING_UNAVAILABLE:
+			mBookingCompleteCheckImg.setVisibility(View.GONE);
+			mBookBtnContainer.setVisibility(View.GONE);
+			mSoldOutContainer.setVisibility(View.VISIBLE);
 			mExpandedC.setVisibility(View.GONE);
 			mPriceChangedC.setVisibility(View.GONE);
 			setNameAndDurationSlidePercentage(0f);
@@ -411,6 +425,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		case SHOWING_PRICE_CHANGE:
 			mBookingCompleteCheckImg.setVisibility(View.GONE);
 			mBookBtnContainer.setVisibility(View.INVISIBLE);
+			mSoldOutContainer.setVisibility(View.GONE);
 			mExpandedC.setVisibility(View.VISIBLE);
 			mPriceChangedC.setVisibility(View.VISIBLE);
 			setNameAndDurationSlidePercentage(0f);
@@ -420,6 +435,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		case DISABLED:
 			mBookingCompleteCheckImg.setVisibility(View.GONE);
 			mBookBtnContainer.setVisibility(View.INVISIBLE);
+			mSoldOutContainer.setVisibility(View.GONE);
 			mExpandedC.setVisibility(View.GONE);
 			mPriceChangedC.setVisibility(View.GONE);
 			setNameAndDurationSlidePercentage(0f);
@@ -429,6 +445,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		case EXPANDED:
 			mBookingCompleteCheckImg.setVisibility(View.GONE);
 			mBookBtnContainer.setVisibility(View.INVISIBLE);
+			mSoldOutContainer.setVisibility(View.GONE);
 			mExpandedC.setVisibility(View.VISIBLE);
 			mPriceChangedC.setVisibility(View.GONE);
 			setNameAndDurationSlidePercentage(1f);
@@ -438,6 +455,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		case PURCHASED:
 			mBookingCompleteCheckImg.setVisibility(View.VISIBLE);
 			mBookBtnContainer.setVisibility(View.INVISIBLE);
+			mSoldOutContainer.setVisibility(View.GONE);
 			mExpandedC.setVisibility(View.GONE);
 			mPriceChangedC.setVisibility(View.GONE);
 			setNameAndDurationSlidePercentage(1f);
@@ -447,6 +465,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		case CONFIRMATION:
 			mBookingCompleteCheckImg.setVisibility(View.VISIBLE);
 			mBookBtnContainer.setVisibility(View.INVISIBLE);
+			mSoldOutContainer.setVisibility(View.GONE);
 			mExpandedC.setVisibility(View.VISIBLE);
 			mPriceChangedC.setVisibility(View.GONE);
 			setNameAndDurationSlidePercentage(1f);

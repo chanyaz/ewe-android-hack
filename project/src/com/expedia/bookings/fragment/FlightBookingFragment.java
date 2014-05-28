@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.Db;
@@ -255,13 +256,20 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 		else {
 			ServerError firstError = response.getErrors().get(0);
 			Events.post(new Events.CreateTripDownloadError(firstError));
+
 			switch (firstError.getErrorCode()) {
 			case FLIGHT_PRODUCT_NOT_FOUND:
 			case FLIGHT_SOLD_OUT:
 			case SESSION_TIMEOUT:
-				boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
-				BookingUnavailableDialogFragment df = BookingUnavailableDialogFragment.newInstance(isPlural, true);
-				df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), FLIGHT_UNAVAILABLE_DIALOG);
+				if (ExpediaBookingApp.useTabletInterface(getActivity())) {
+					// Post event for tablets to show the BookingUnavailableFragment
+					Events.post(new Events.BookingUnavailable(true));
+				}
+				else {
+					boolean isPlural = (Db.getFlightSearch().getSearchParams().getQueryLegCount() != 1);
+					BookingUnavailableDialogFragment df = BookingUnavailableDialogFragment.newInstance(isPlural, true);
+					df.show(((FragmentActivity) getActivity()).getSupportFragmentManager(), FLIGHT_UNAVAILABLE_DIALOG);
+				}
 				return;
 			default:
 				showRetryErrorDialog();
