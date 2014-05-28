@@ -26,8 +26,6 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
-import com.mobiata.android.Log;
-
 public class ResultsHotelGalleryFragment extends Fragment {
 
 	public static ResultsHotelGalleryFragment newInstance() {
@@ -42,6 +40,10 @@ public class ResultsHotelGalleryFragment extends Fragment {
 
 	private MediaPagerAdapter mAdapter;
 	private IResultsHotelGalleryBackClickedListener mHotelGalleryBackClickedListener;
+
+	private static final String INSTANCE_CURRENT_IMAGE = "INSTANCE_CURRENT_IMAGE";
+	private static final int NO_IMAGE = 0;
+	private int mCurrentImagePosition = NO_IMAGE;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -66,9 +68,19 @@ public class ResultsHotelGalleryFragment extends Fragment {
 			}
 		});
 
+		if (savedInstanceState != null) {
+			mCurrentImagePosition = savedInstanceState.getInt(INSTANCE_CURRENT_IMAGE, NO_IMAGE);
+		}
+
 		mAdapter = new MediaPagerAdapter();
 		mPager.setAdapter(mAdapter);
 		return mRootC;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		mCurrentImagePosition = mPager.getCurrentItem();
+		outState.putInt(INSTANCE_CURRENT_IMAGE, mCurrentImagePosition);
 	}
 
 	@Override
@@ -91,8 +103,9 @@ public class ResultsHotelGalleryFragment extends Fragment {
 		mHotelText.setText(photosForText);
 
 		if (property.getMediaList() != null) {
-			mPager.setCurrentItem(0);
 			mAdapter.replaceWith(property.getMediaList());
+			mPager.setCurrentItem(mCurrentImagePosition);
+			mCurrentImagePosition = NO_IMAGE;
 		}
 	}
 
