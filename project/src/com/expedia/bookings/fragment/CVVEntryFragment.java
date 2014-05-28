@@ -175,7 +175,7 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 				.obtainThemeResID(getActivity(), R.attr.cvvEntryExplainationText)));
 		}
 		else {
-			mCVVPromptTextView.setText(Html.fromHtml(getString(R.string.cvv_code_TEMPLATE, cardName)));
+			mCVVPromptTextView.setText(Html.fromHtml(getString(R.string.security_code_TEMPLATE, cardName)));
 		}
 
 		// Subprompt, i.e. "see front/back of card"
