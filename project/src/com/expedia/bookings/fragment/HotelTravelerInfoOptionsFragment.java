@@ -237,8 +237,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 	private OnDownloadComplete<SignInResponse> mTravelerDetailsCallback = new OnDownloadComplete<SignInResponse>() {
 		@Override
 		public void onDownload(SignInResponse results) {
-			ThrobberDialog df = Ui.findSupportFragment(getCompatibilityActivity(),
-					DIALOG_LOADING_TRAVELER);
+			ThrobberDialog df = Ui.findSupportFragment(getActivity(), DIALOG_LOADING_TRAVELER);
 			df.dismiss();
 
 			if (results == null) {

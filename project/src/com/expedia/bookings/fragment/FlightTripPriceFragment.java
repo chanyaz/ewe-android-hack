@@ -183,7 +183,7 @@ public class FlightTripPriceFragment extends Fragment {
 	}
 
 	private void dismissDialog() {
-		ThrobberDialog df = Ui.findSupportFragment(getCompatibilityActivity(), DIALOG_LOADING_DETAILS);
+		ThrobberDialog df = Ui.findSupportFragment(getActivity(), DIALOG_LOADING_DETAILS);
 		df.dismiss();
 	}
 

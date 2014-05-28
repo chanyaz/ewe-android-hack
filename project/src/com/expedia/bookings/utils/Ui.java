@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.CompatFragmentActivity;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewStub;
@@ -36,16 +36,6 @@ public class Ui extends com.mobiata.android.util.Ui {
 			return (T) stub.inflate();
 		}
 		return null;
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T extends Fragment> T findSupportFragment(CompatFragmentActivity activity, String tag) {
-		return (T) activity.getSupportFragmentManager().findFragmentByTag(tag);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T extends Fragment> T findSupportFragment(CompatFragmentActivity activity, int id) {
-		return (T) activity.getSupportFragmentManager().findFragmentById(id);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -83,8 +73,7 @@ public class Ui extends com.mobiata.android.util.Ui {
 	 * <p/>
 	 * Should only be used if there is a single Fragment that is in android.R.id.content.
 	 */
-	public static <T extends Fragment> T findOrAddSupportFragment(CompatFragmentActivity activity,
-																  Class<T> fragmentClass, String tag) {
+	public static <T extends Fragment> T findOrAddSupportFragment(FragmentActivity activity, Class<T> fragmentClass, String tag) {
 		return findOrAddSupportFragment(activity, android.R.id.content, fragmentClass, tag);
 	}
 
@@ -98,8 +87,7 @@ public class Ui extends com.mobiata.android.util.Ui {
 	 * <p/>
 	 * Should only be used if there is a single Fragment that is in android.R.id.content.
 	 */
-	public static <T extends Fragment> T findOrAddSupportFragment(CompatFragmentActivity activity,
-																  int containerViewId, Class<T> fragmentClass, String tag) {
+	public static <T extends Fragment> T findOrAddSupportFragment(FragmentActivity activity, int containerViewId, Class<T> fragmentClass, String tag) {
 		T fragment = findSupportFragment(activity, tag);
 		if (fragment == null) {
 			try {
