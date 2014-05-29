@@ -258,6 +258,13 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				setPriceChangePercentage(0.0f);
 			}
 
+			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.BOOKING_UNAVAILABLE) {
+				mSoldOutContainer.setVisibility(View.VISIBLE);
+				mSoldOutContainer.setAlpha(0.0f);
+				setNameAndDurationSoldOutSlidePercentage(1.0f);
+				setExpandedSlidePercentage(1.0f);
+			}
+
 			// Expanded, Price Change --> Collapsed
 			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
 				mBookBtnContainer.setVisibility(View.VISIBLE);
@@ -311,6 +318,12 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				setPriceChangePercentage(percentage);
 			}
 
+			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.BOOKING_UNAVAILABLE) {
+				mSoldOutContainer.setAlpha(percentage);
+				setNameAndDurationSoldOutSlidePercentage(1.0f - percentage);
+				setExpandedSlidePercentage(1.0f - percentage);
+				mHeaderBitmapDrawable.setOverlayAlpha(1f - percentage);
+			}
 			// Expanded, Price Change --> Collapsed
 			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
 				mBookBtnContainer.setAlpha(percentage);
@@ -362,6 +375,12 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				mHeaderBitmapDrawable.setOverlayAlpha(0f);
 			}
 
+			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.BOOKING_UNAVAILABLE) {
+				mSoldOutContainer.setAlpha(1.0f);
+				setNameAndDurationSoldOutSlidePercentage(0.0f);
+				setExpandedSlidePercentage(0.0f);
+				mHeaderBitmapDrawable.setOverlayAlpha(1f);
+			}
 			// Expanded, Price Change --> Collapsed
 			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
 				mBookBtnContainer.setAlpha(1.0f);
@@ -414,7 +433,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 		case BOOKING_UNAVAILABLE:
 			mBookingCompleteCheckImg.setVisibility(View.GONE);
-			mBookBtnContainer.setVisibility(View.GONE);
+			mBookBtnContainer.setVisibility(View.INVISIBLE);
 			mSoldOutContainer.setVisibility(View.VISIBLE);
 			mExpandedC.setVisibility(View.GONE);
 			mPriceChangedC.setVisibility(View.GONE);
@@ -475,6 +494,11 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		mCardCornersBottom.setTranslationY(0f);
 	}
 
+	public void setNameAndDurationSoldOutSlidePercentage(float percentage) {
+		int translationy = mSoldOutContainer.getBottom() - mNameAndDurationContainer.getBottom()
+			+ mNameText.getTop(); // Vertical padding of text inside mNameAndDurationContainer
+		mNameAndDurationContainer.setTranslationY(translationy * percentage);
+	}
 	public void setNameAndDurationSlidePercentage(float percentage) {
 		int translationy = mBookBtnContainer.getBottom() - mNameAndDurationContainer.getBottom()
 			+ mNameText.getTop(); // Vertical padding of text inside mNameAndDurationContainer

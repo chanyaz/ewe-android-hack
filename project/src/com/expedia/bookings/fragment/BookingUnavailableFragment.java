@@ -11,6 +11,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.fragment.base.LobableFragment;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
@@ -41,6 +42,8 @@ public class BookingUnavailableFragment extends LobableFragment {
 		mSelectNewItemButton = Ui.findView(v, R.id.select_new_item_button);
 		mRemoveItemButton.setOnClickListener(mClickListener);
 		mSelectNewItemButton.setOnClickListener(mClickListener);
+		FontCache.setTypeface(mRemoveItemButton, R.id.remove_sold_out_button, FontCache.Font.ROBOTO_LIGHT);
+		FontCache.setTypeface(mSelectNewItemButton, R.id.select_new_item_button, FontCache.Font.ROBOTO_LIGHT);
 		updateViews();
 		return v;
 	}
