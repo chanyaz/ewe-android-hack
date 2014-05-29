@@ -437,6 +437,11 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	}
 
 	private void addHotelAttachData(List<ItinCardData> itinCardDatas) {
+		// Are we tablet?
+		if (ExpediaBookingApp.useTabletInterface(mContext)) {
+			return;
+		}
+
 		// Is Hotel Attach turned off?
 		if (SettingUtils.get(mContext, R.string.setting_hide_hotel_attach, false)) {
 			return;
