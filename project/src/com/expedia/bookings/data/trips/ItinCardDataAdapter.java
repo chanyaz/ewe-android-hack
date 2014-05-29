@@ -209,9 +209,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		addHotelAttachData(mItinCardDatasSync);
 
 		// Add local expert cards
-		if (ExpediaBookingApp.IS_EXPEDIA) {
-			addLocalExpertData(mItinCardDatasSync);
-		}
+		addLocalExpertData(mItinCardDatasSync);
 
 		// Do some calculations on the data
 		Pair<Integer, Integer> summaryCardPositions = calculateSummaryCardPositions(mItinCardDatasSync);
@@ -527,6 +525,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	}
 
 	private void addLocalExpertData(List<ItinCardData> itinCardDatas) {
+		if (!ExpediaBookingApp.IS_EXPEDIA) {
+			return;
+		}
+
 		if (ExpediaBookingApp.useTabletInterface(mContext)) {
 			return;
 		}
