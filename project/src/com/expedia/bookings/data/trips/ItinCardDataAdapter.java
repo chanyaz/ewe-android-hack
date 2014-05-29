@@ -527,6 +527,10 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	}
 
 	private void addLocalExpertData(List<ItinCardData> itinCardDatas) {
+		if (ExpediaBookingApp.useTabletInterface(mContext)) {
+			return;
+		}
+
 		// Is Local Expert turned off?
 		if (SettingUtils.get(mContext, R.string.setting_hide_local_expert, false)) {
 			return;
