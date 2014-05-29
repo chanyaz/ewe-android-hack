@@ -6,17 +6,20 @@ import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Property;
+import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 import com.google.android.apps.common.testing.ui.espresso.matcher.BoundedMatcher;
 import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
 import static com.expedia.bookings.test.utils.EspressoUtils.swipeUp;
 import static com.expedia.bookings.test.utils.ViewActions.clickDates;
+import static com.expedia.bookings.test.utilsEspresso.ViewActions.getViews;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.hasSibling;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withContentDescription;
@@ -112,15 +115,47 @@ public class Results {
 		onView(allOf(withId(R.id.book_button_text), withText("Book Flight"))).perform(click());
 	}
 
-	public static void clickFlightAtIndex(int index) {
-		onData(anything()) //
+	public static DataInteraction flightAtIndex(int index) {
+		return onData(anything()) //
 			.inAdapterView(allOf(withContentDescription("Flight Search Results"), isDisplayed())) //
-			.atPosition(index) //
-			.perform(click());
+			.atPosition(index);
+	}
+
+	public static void clickFlightAtIndex(int index) {
+		flightAtIndex(index).perform(click());
+	}
+
+	public static void clickToSortByPrice() {
+		onView(allOf(withId(R.id.flight_sort_price), withParent(withId(R.id.flight_sort_control)))).perform(click());
+	}
+
+	public static void clickToSortByArrival() {
+		onView(allOf(withId(R.id.flight_sort_arrives), withParent(withId(R.id.flight_sort_control)))).perform(click());
+	}
+
+	public static void clickToSortByDeparture() {
+		onView(allOf(withId(R.id.flight_sort_departs), withParent(withId(R.id.flight_sort_control)))).perform(click());
+	}
+
+	public static void clickToSortByDuration() {
+		onView(allOf(withId(R.id.flight_sort_duration), withParent(withId(R.id.flight_sort_control)))).perform(click());
 	}
 
 	public static void clickHotelWithName(String hotelName) {
 		onData(withHotelName(hotelName)).inAdapterView(withContentDescription("Hotel Search Results")).perform(click());
+	}
+
+	public static void getfilterAirlineView(int index, String key) {
+		onView(withId(R.id.filter_airline_container)).perform(getViews(index, key));
+	}
+
+	public static ViewInteraction airlineNameFilter(String airlineName) {
+		return onView(allOf(withText(airlineName), hasSibling(withId(R.id.filter_refinement_textview))));
+	}
+
+	public static void clickAirlineFilter(String airlineName) {
+		airlineNameFilter(airlineName).perform(scrollTo());
+		airlineNameFilter(airlineName).perform(click());
 	}
 
 	public static Matcher<Object> withHotelName(String expectedText) {

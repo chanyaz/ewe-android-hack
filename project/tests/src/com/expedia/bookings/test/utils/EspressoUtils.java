@@ -23,6 +23,11 @@ public class EspressoUtils {
 			GeneralLocation.TOP_CENTER, Press.FINGER);
 	}
 
+	public static ViewAction slowSwipeUp() {
+		return new GeneralSwipeAction(Swipe.SLOW, GeneralLocation.CENTER,
+			GeneralLocation.TOP_CENTER, Press.FINGER);
+	}
+
 	public static ViewAction swipeDown() {
 		return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.TOP_CENTER,
 			GeneralLocation.BOTTOM_CENTER, Press.FINGER);

@@ -3,6 +3,8 @@ package com.expedia.bookings.test.utilsEspresso;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -11,6 +13,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
+import com.expedia.bookings.R;
 import com.google.android.apps.common.testing.ui.espresso.ViewAction;
 import com.google.android.apps.common.testing.ui.espresso.UiController;
 import com.mobiata.android.widget.CalendarDatePicker;
@@ -166,6 +169,47 @@ public final class ViewActions {
 		@Override
 		public String getDescription() {
 			return "get ratings from RatingBar widget";
+		}
+	}
+
+	//View Action to get the airline checkbox text and count in Tablet flight results filter
+
+	public static ViewAction getViews(int index, String key) {
+		return new getViews(index, key);
+	}
+
+	public final static class getViews implements ViewAction {
+		int mIndex;
+		String mValueString;
+
+		public getViews(int index, String key) {
+			mIndex = index;
+			mValueString = key;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public Matcher<View> getConstraints() {
+			return Matchers.allOf(isAssignableFrom(LinearLayout.class));
+		}
+
+		@Override
+		public void perform(UiController uiController, View view) {
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view.getContext());
+			SharedPreferences.Editor editor = prefs.edit();
+			if (mIndex == -1) {
+				editor.putInt(mValueString, ((LinearLayout) view).getChildCount());
+			}
+			else {
+				View childView = ((LinearLayout) view).getChildAt(mIndex);
+				editor.putString(mValueString, ((CheckBox) childView.findViewById(R.id.filter_refinement_checkbox)).getText().toString());
+			}
+			editor.commit();
+		}
+
+		@Override
+		public String getDescription() {
+			return "get the  airline checkbox text";
 		}
 	}
 }
