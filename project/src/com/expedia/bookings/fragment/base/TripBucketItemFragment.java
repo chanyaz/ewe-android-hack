@@ -263,6 +263,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				mSoldOutContainer.setAlpha(0.0f);
 				setNameAndDurationSoldOutSlidePercentage(1.0f);
 				setExpandedSlidePercentage(1.0f);
+				// SelectedState for BOOKING_UNAVAILABLE. Let's add padding to the selected trip bucket item when sold out.
+				setItemSoldOutSelected(true);
 			}
 
 			// Expanded, Price Change --> Collapsed
@@ -295,6 +297,10 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			if (stateTwo == TripBucketItemState.CONFIRMATION) {
 				mBookingCompleteCheckImg.setVisibility(View.VISIBLE);
 				mBookingCompleteCheckImg.setAlpha(0.0f);
+			}
+
+			if (stateOne == TripBucketItemState.BOOKING_UNAVAILABLE && stateTwo == TripBucketItemState.BOOKING_UNAVAILABLE) {
+				setItemSoldOutSelected(isSelected());
 			}
 		}
 
@@ -380,6 +386,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				setNameAndDurationSoldOutSlidePercentage(0.0f);
 				setExpandedSlidePercentage(0.0f);
 				mHeaderBitmapDrawable.setOverlayAlpha(1f);
+
 			}
 			// Expanded, Price Change --> Collapsed
 			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
@@ -410,6 +417,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				mHeaderBitmapDrawable.setOverlayAlpha(0f);
 			}
 
+
+
 		}
 
 		@Override
@@ -417,6 +426,20 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			setVisibilityState(state);
 		}
 	};
+
+	/*
+	* Adjust UI changes to show if the sold out trip bucket card is selected or not.
+	*/
+	private void setItemSoldOutSelected(boolean isSelected) {
+		if (isSelected) {
+			int padding = getResources().getDimensionPixelSize(R.dimen.trip_bucket_sold_out_container_padding);
+			int paddingBottom = getResources().getDimensionPixelSize(R.dimen.trip_bucket_sold_out_container_padding_bottom);
+			mTopC.setPadding(padding, padding, padding, paddingBottom);
+		}
+		else {
+			mTopC.setPadding(0,0,0,0);
+		}
+	}
 
 	protected void setVisibilityState(TripBucketItemState state) {
 		switch (state) {
@@ -557,6 +580,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	* Convenience method to trigger "Book" button for trip bucket items.
 	*/
 	public void triggerTripBucketBookAction(LineOfBusiness lob) {
+		setSelected(true);
 		if (getTripBucketBookClickedListener() != null) {
 			getTripBucketBookClickedListener().onTripBucketBookClicked(lob);
 		}
@@ -581,5 +605,9 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	public abstract CharSequence getTripPrice();
 
 	public abstract OnClickListener getOnBookClickListener();
+
+	public abstract boolean isSelected();
+
+	public abstract void setSelected(boolean isSelected);
 
 }

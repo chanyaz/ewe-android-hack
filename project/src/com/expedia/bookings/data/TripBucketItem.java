@@ -19,6 +19,9 @@ public abstract class TripBucketItem implements JSONable {
 
 	private boolean mHasPriceChanged;
 
+	// Boolean check to indicate if this bucket item is actively being viewed/selected.
+	private boolean mIsSelected;
+
 	public boolean hasPriceChanged() {
 		return mHasPriceChanged;
 	}
@@ -35,7 +38,14 @@ public abstract class TripBucketItem implements JSONable {
 		mState = state;
 	}
 
-	//////////////////////////////////////////////////////////////////////////
+	public boolean isSelected() {
+		return mIsSelected;
+	}
+
+	public void setSelected(boolean isSelected) {
+		this.mIsSelected = isSelected;
+	}
+//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
 	@Override
@@ -43,6 +53,7 @@ public abstract class TripBucketItem implements JSONable {
 		try {
 			JSONObject obj = new JSONObject();
 			JSONUtils.putEnum(obj, "state", mState);
+			obj.put("isSelected", mIsSelected);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -54,6 +65,7 @@ public abstract class TripBucketItem implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mState = JSONUtils.getEnum(obj, "state", TripBucketItemState.class);
+		mIsSelected = obj.optBoolean("isSelected");
 		return true;
 	}
 

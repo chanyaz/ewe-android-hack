@@ -234,6 +234,19 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		return mBookOnClick;
 	}
 
+	@Override
+	public boolean isSelected() {
+		return Db.getTripBucket().getFlight().isSelected();
+	}
+
+	@Override
+	public void setSelected(boolean isSelected) {
+		Db.getTripBucket().getFlight().setSelected(isSelected);
+		if (Db.getTripBucket().getHotel() != null) {
+			Db.getTripBucket().getHotel().setSelected(!isSelected);
+		}
+	}
+
 	private OnClickListener mBookOnClick = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {

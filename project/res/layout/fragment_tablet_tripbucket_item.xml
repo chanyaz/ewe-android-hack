@@ -25,6 +25,7 @@
 
         <RelativeLayout
             android:id="@+id/trip_bucket_item_top_container"
+            android:background="#ffffff"
             android:layout_width="match_parent"
             android:layout_height="@dimen/hotel_flight_card_height">
 

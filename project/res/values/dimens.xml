@@ -310,6 +310,8 @@
     <dimen name="trip_bucket_primary_dest_size">60dp</dimen>
     <dimen name="trip_bucket_root_layout_padding_top">110dp</dimen>
     <dimen name="trip_bucket_empty_trip_container_padding_top">0dp</dimen>
+    <dimen name="trip_bucket_sold_out_container_padding">2dp</dimen>
+    <dimen name="trip_bucket_sold_out_container_padding_bottom">6dp</dimen>
 
     <!-- Tablet hotel map popup dimens -->
     <dimen name="tablet_hotel_map_popup_thumbnail_height">126dp</dimen>
