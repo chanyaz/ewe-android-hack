@@ -68,7 +68,7 @@ public class CouponDialogFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		// Create the core View to display
-		View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_coupon, null);
+		View view = Ui.inflate(getActivity(), R.layout.dialog_coupon, null);
 		mProgressContainer = Ui.findView(view, R.id.progress_container);
 		mCouponEditText = Ui.findView(view, R.id.coupon_edit_text);
 

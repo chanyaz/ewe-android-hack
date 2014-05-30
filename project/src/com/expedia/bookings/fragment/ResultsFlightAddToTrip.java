@@ -42,7 +42,7 @@ public class ResultsFlightAddToTrip extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_flight_add_to_trip, null);
+		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_flight_add_to_trip, null);
 		mFlightCard = Ui.findView(mRootC, R.id.flight_row);
 		return mRootC;
 	}

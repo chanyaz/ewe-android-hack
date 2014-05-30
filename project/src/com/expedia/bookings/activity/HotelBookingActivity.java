@@ -75,7 +75,7 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 		}
 
 		setContentView(R.layout.activity_hotel_booking);
-		mActionBarTextView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_cvv, null);
+		mActionBarTextView = Ui.inflate(this, R.layout.actionbar_cvv, null);
 
 		setupActionBar(false);
 

@@ -193,8 +193,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = (FrameLayoutTouchController) inflater
-			.inflate(R.layout.fragment_tablet_checkout_controller, null, false);
+		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_checkout_controller, null, false);
 
 		Ui.findView(mRootC, R.id.blurred_dest_image_overlay);
 

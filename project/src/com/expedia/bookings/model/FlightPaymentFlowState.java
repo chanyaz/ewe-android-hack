@@ -10,6 +10,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
+import com.expedia.bookings.utils.Ui;
 
 /***
  * This class uses our SectionClasses to perform validation, we take a minor performance penalty for doing a one time inflate.
@@ -22,8 +23,8 @@ public class FlightPaymentFlowState {
 
 	private FlightPaymentFlowState(Context context) {
 		LayoutInflater inflater = LayoutInflater.from(context);
-		mBillingAddress = (SectionLocation) inflater.inflate(R.layout.section_edit_address, null);
-		mCardInfo = (SectionBillingInfo) inflater.inflate(R.layout.section_flight_edit_creditcard, null);
+		mBillingAddress = Ui.inflate(context, R.layout.section_edit_address, null);
+		mCardInfo = Ui.inflate(context, R.layout.section_flight_edit_creditcard, null);
 		mBillingAddress.setLineOfBusiness(LineOfBusiness.FLIGHTS);
 		mCardInfo.setLineOfBusiness(LineOfBusiness.FLIGHTS);
 	}

@@ -78,7 +78,7 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotel_reviews, null);
+		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_hotel_reviews, null);
 		mHotelImage = Ui.findView(mRootC, R.id.hotel_header_image);
 		mViewPager = Ui.findView(mRootC, R.id.pager);
 		mReviewSectionTitle = Ui.findView(mRootC, R.id.reviews_title);

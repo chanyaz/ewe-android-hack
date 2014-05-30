@@ -92,7 +92,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 		ImageView bgImageView = Ui.findView(this, R.id.background_bg_view);
 		ExpediaImageManager.getInstance().setDestinationBitmap(this, bgImageView, Db.getFlightSearch(), true);
 
-		mActionBarTextView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_cvv, null);
+		mActionBarTextView = Ui.inflate(this, R.layout.actionbar_cvv, null);
 
 		setupActionBar(false);
 

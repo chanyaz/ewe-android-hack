@@ -129,7 +129,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_checkout_forms, container, false);
+		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_checkout_forms, container, false);
 		mCheckoutRowsC = Ui.findView(mRootC, R.id.checkout_forms_container);
 		mOverlayC = Ui.findView(mRootC, R.id.overlay_container);
 		mOverlayContentC = Ui.findView(mRootC, R.id.overlay_content_container);

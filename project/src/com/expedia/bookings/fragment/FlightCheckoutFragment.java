@@ -367,7 +367,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				// We need to add traveler sections for all passengers in order to best
 				// maintain matched indexing between travelers and their info sections
 				if (mTravelerSections.size() < numTravelers) {
-					SectionTravelerInfo travelerSection = (SectionTravelerInfo) inflater.inflate(
+					SectionTravelerInfo travelerSection = Ui.inflate(inflater,
 						R.layout.section_flight_display_traveler_info_btn, null);
 					dressSectionTraveler(travelerSection, index);
 					mTravelerSections.add(travelerSection);

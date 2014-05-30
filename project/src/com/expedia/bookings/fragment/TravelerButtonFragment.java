@@ -153,15 +153,12 @@ public class TravelerButtonFragment extends LobableFragment {
 	 */
 
 	public SectionTravelerInfo addTravelerSectionToLayout(ViewGroup group) {
-		LayoutInflater inflater = getActivity().getLayoutInflater();
 		SectionTravelerInfo travSec = null;
 		if (getLob() == LineOfBusiness.FLIGHTS) {
-			travSec = (SectionTravelerInfo) inflater.inflate(R.layout.section_flight_display_traveler_info_btn, null);
+			travSec = Ui.inflate(this, R.layout.section_flight_display_traveler_info_btn, null);
 		}
 		else if (getLob() == LineOfBusiness.HOTELS) {
-			travSec = (SectionTravelerInfo) inflater.inflate(
-				R.layout.section_hotel_display_traveler_info_btn,
-				null);
+			travSec = Ui.inflate(this, R.layout.section_hotel_display_traveler_info_btn, null);
 		}
 		if (travSec != null) {
 			group.addView(travSec);
@@ -178,7 +175,7 @@ public class TravelerButtonFragment extends LobableFragment {
 	}
 
 	public View addEmptyTravelerToLayout(ViewGroup group) {
-		View v = View.inflate(getActivity(), R.layout.snippet_booking_overview_traveler, group);
+		View v = Ui.inflate(getActivity(), R.layout.snippet_booking_overview_traveler, group);
 		TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
 		tv.setText(mEmptyViewLabel);
 		return v;

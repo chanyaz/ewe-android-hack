@@ -6,11 +6,11 @@ import java.util.Set;
 
 import org.joda.time.DateTime;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.FragmentTransaction;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -33,12 +33,13 @@ import com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsFragmentList
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserReviewsUtils;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
 import com.mobiata.android.Log;
 
 public class UserReviewsListActivity extends FragmentActivity implements UserReviewsFragmentListener,
-		TabListener, OnPageChangeListener {
+	TabListener, OnPageChangeListener {
 
 	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
 	private DateTime mLastResumeTime;
@@ -205,7 +206,7 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setCustomView(getLayoutInflater().inflate(R.layout.actionbar_reviews, null));
+		actionBar.setCustomView(Ui.inflate(this, R.layout.actionbar_reviews, null));
 
 		Tab recentTab = actionBar.newTab().setText(R.string.user_review_sort_button_recent);
 		recentTab.setTabListener(this);

@@ -39,6 +39,6 @@ public class FlightInfoSection extends LinearLayout {
 	}
 
 	public static FlightInfoSection inflate(LayoutInflater inflater, ViewGroup container) {
-		return (FlightInfoSection) inflater.inflate(R.layout.section_flight_info, container, false);
+		return Ui.inflate(inflater, R.layout.section_flight_info, container, false);
 	}
 }

@@ -55,7 +55,7 @@ public class ResultsGuestPicker extends Fragment implements GuestPicker.GuestPic
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_results_guests, null);
+		mRootC = Ui.inflate(inflater, R.layout.fragment_results_guests, null);
 		mGuestPicker = Ui.findView(mRootC, R.id.guest_picker);
 		mGuestPicker.setListener(this);
 

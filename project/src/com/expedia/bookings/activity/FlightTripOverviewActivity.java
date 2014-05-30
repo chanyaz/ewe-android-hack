@@ -611,8 +611,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 				| DateUtils.FORMAT_ABBREV_MONTH
 		);
 
-		LayoutInflater inflater = LayoutInflater.from(this);
-		View customView = inflater.inflate(R.layout.action_bar_flight_results, null);
+		View customView = Ui.inflate(this, R.layout.action_bar_flight_results, null);
 		TextView titleTextView = Ui.findView(customView, R.id.title_text_view);
 		TextView subtitleTextView = Ui.findView(customView, R.id.subtitle_text_view);
 

@@ -143,7 +143,7 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
 
-		ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_hotel_name_with_stars, null);
+		ViewGroup titleView = Ui.inflate(this, R.layout.actionbar_hotel_name_with_stars, null);
 
 		Property property = Db.getHotelSearch().getSelectedProperty();
 		if (property == null) {
@@ -158,7 +158,7 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 		actionBar.setCustomView(titleView);
 
 		final MenuItem checkoutItem = menu.findItem(R.id.menu_checkout);
-		Button tv = (Button) getLayoutInflater().inflate(R.layout.actionbar_checkout, null);
+		Button tv = Ui.inflate(this, R.layout.actionbar_checkout, null);
 		ViewUtils.setAllCaps(tv);
 		tv.setOnClickListener(new OnClickListener() {
 			@Override

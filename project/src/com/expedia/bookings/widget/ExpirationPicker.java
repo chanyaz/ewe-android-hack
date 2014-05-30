@@ -59,8 +59,7 @@ public class ExpirationPicker extends LinearLayout {
 	}
 
 	private void init(Context context) {
-		LayoutInflater inflater = LayoutInflater.from(context);
-		View view = inflater.inflate(R.layout.widget_expiration_picker, this);
+		View view = Ui.inflate(context, R.layout.widget_expiration_picker, this);
 		mMonthUp = Ui.findView(view, R.id.month_up);
 		mMonthDown = Ui.findView(view, R.id.month_down);
 		mYearUp = Ui.findView(view, R.id.year_up);

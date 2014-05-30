@@ -77,7 +77,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 				breakdownContainer.addView(divider);
 			}
 			else {
-				LinearLayout row = (LinearLayout) inflater.inflate(R.layout.snippet_breakdown_row, breakdownContainer,
+				LinearLayout row = Ui.inflate(inflater, R.layout.snippet_breakdown_row, breakdownContainer,
 					false);
 
 				if (lineItem.mIndent) {
@@ -109,7 +109,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 	}
 
 	private View createItemView(LayoutInflater inflater, LinearLayout container, Item item, boolean isLeft) {
-		TextView itemView = (TextView) inflater.inflate(R.layout.snippet_breakdown_text, container, false);
+		TextView itemView = Ui.inflate(inflater, R.layout.snippet_breakdown_text, container, false);
 
 		itemView.setText(item.mText);
 

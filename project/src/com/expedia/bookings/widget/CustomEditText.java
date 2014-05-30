@@ -22,6 +22,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.Ui;
 
 /**
  * This class is meant to serve as a workaround
@@ -470,8 +471,7 @@ public class CustomEditText extends EditText {
 	}
 
 	private void inflatePopup() {
-		LayoutInflater inflater = LayoutInflater.from(getContext());
-		final TextView err = (TextView) inflater.inflate(R.layout.textview_hint, null);
+		final TextView err = Ui.inflate(getContext(), R.layout.textview_hint, null);
 		err.setTextColor(getResources().getColor(mErrorTextColorResId));
 
 		final float scale = getResources().getDisplayMetrics().density;

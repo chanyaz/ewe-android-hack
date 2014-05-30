@@ -39,7 +39,7 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable, Com
 
 		setOrientation(HORIZONTAL);
 
-		LayoutInflater.from(context).inflate(R.layout.row_filter_refinement, this, true);
+		Ui.inflate(R.layout.row_filter_refinement, this, true);
 		mCheckBox = Ui.findView(this, R.id.filter_refinement_checkbox);
 		mPriceTextView = Ui.findView(this, R.id.filter_refinement_textview);
 

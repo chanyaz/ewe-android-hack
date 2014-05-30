@@ -121,7 +121,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotel_details, null);
+		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_hotel_details, null);
 		mAmenitiesContainer = Ui.findView(mRootC, R.id.amenities_container);
 		mRatesContainer = Ui.findView(mRootC, R.id.rooms_rates_container);
 		mUserRatingContainer = Ui.findView(mRootC, R.id.user_rating_container);
@@ -487,10 +487,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		// TODO: I wonder if we should use RoomsAndRatesAdapter, or similar
 		boolean first = true;
-		LayoutInflater inflater = getActivity().getLayoutInflater();
 		for (Rate rate : rates) {
-			RowRoomRateLayout row = (RowRoomRateLayout) inflater.inflate(
-				R.layout.row_tablet_room_rate, mRatesContainer, false);
+			RowRoomRateLayout row = Ui.inflate(R.layout.row_tablet_room_rate, mRatesContainer, false);
 			row.setRate(rate);
 			row.setOnClickListener(mRateClickListener);
 			TextView description = Ui.findView(row, R.id.text_room_description);
@@ -499,7 +497,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 			// Separator
 			if (!first) {
-				View sep = inflater.inflate(R.layout.row_tablet_room_rate_separator, mRatesContainer, false);
+				View sep = Ui.inflate(R.layout.row_tablet_room_rate_separator, mRatesContainer, false);
 				mRatesContainer.addView(sep);
 			}
 
@@ -1017,10 +1015,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		List<HotelTextSection> sections = property.getAllHotelText(getActivity());
 
 		if (sections != null && sections.size() > 0) {
-			LayoutInflater inflater = getActivity().getLayoutInflater();
 			for (int i = 0; i < sections.size(); i++) {
 				HotelTextSection section = sections.get(i);
-				View sectionContainer = inflater.inflate(R.layout.include_hotel_description_section,
+				View sectionContainer = Ui.inflate(R.layout.include_hotel_description_section,
 					container, false);
 
 				TextView titleText = Ui.findView(sectionContainer, R.id.title_text);

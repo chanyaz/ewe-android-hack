@@ -8,6 +8,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.interfaces.ILOBable;
 import com.expedia.bookings.section.SectionTravelerInfoTablet;
+import com.expedia.bookings.utils.Ui;
 
 /**
  * This class uses our SectionClasses to perform validation, we take a minor performance penalty for doing a one time inflate.
@@ -27,13 +28,11 @@ public class TravelerFlowStateTablet implements ILOBable {
 	@Override
 	public void setLob(LineOfBusiness lob) {
 		mLob = lob;
-		LayoutInflater inflater = LayoutInflater.from(mContext);
 		if (lob == LineOfBusiness.FLIGHTS) {
-			mSectionTraveler = (SectionTravelerInfoTablet) inflater
-				.inflate(R.layout.section_flight_edit_traveler, null);
+			mSectionTraveler = Ui.inflate(mContext, R.layout.section_flight_edit_traveler, null);
 		}
 		else if (lob == LineOfBusiness.HOTELS) {
-			mSectionTraveler = (SectionTravelerInfoTablet) inflater.inflate(R.layout.section_hotel_edit_traveler, null);
+			mSectionTraveler = Ui.inflate(mContext, R.layout.section_hotel_edit_traveler, null);
 		}
 	}
 

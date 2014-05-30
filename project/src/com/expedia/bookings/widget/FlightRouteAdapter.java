@@ -240,8 +240,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 		public View getView(View convertView, ViewGroup parent) {
 			TextView textView;
 			if (convertView == null) {
-				textView = (TextView) LayoutInflater.from(mContext)
-						.inflate(getAirportLayoutResId(), parent, false);
+				textView = Ui.inflate(getAirportLayoutResId(), parent, false);
 			}
 			else {
 				textView = (TextView) convertView;
@@ -321,8 +320,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 		public View getView(View convertView, ViewGroup parent) {
 			TextView textView;
 			if (convertView == null) {
-				textView = (TextView) LayoutInflater.from(mContext)
-						.inflate(getAirportLayoutResId(), parent, false);
+				textView = Ui.inflate(getAirportLayoutResId(), parent, false);
 			}
 			else {
 				textView = (TextView) convertView;
@@ -371,8 +369,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	private View useDropDownConvertView(View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			convertView = LayoutInflater.from(mContext)
-					.inflate(R.layout.spinner_airport_dropdown_row, parent, false);
+			convertView = Ui.inflate(R.layout.spinner_airport_dropdown_row, parent, false);
 
 			DropDownViewHolder holder = new DropDownViewHolder();
 			holder.mContainer = convertView;

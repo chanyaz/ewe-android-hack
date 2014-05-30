@@ -145,12 +145,10 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 
 		// Actual form data
 		if (getLob() == LineOfBusiness.HOTELS) {
-			mSectionBillingInfo = (SectionBillingInfo) View.inflate(getActivity(),
-				R.layout.section_hotel_edit_creditcard, null);
+			mSectionBillingInfo = Ui.inflate(this, R.layout.section_hotel_edit_creditcard, null);
 		}
 		else if (getLob() == LineOfBusiness.FLIGHTS) {
-			mSectionBillingInfo = (SectionBillingInfo) View.inflate(getActivity(),
-				R.layout.section_flight_edit_creditcard, null);
+			mSectionBillingInfo = Ui.inflate(this, R.layout.section_flight_edit_creditcard, null);
 		}
 
 		mSectionBillingInfo.setLineOfBusiness(getLob());
@@ -241,8 +239,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		int count = mStoredCreditCardAdapter.getCount();
 		clearExtraHeadingView();
 		if (count != 0) {
-			TextView storedCardButton = (TextView) View
-				.inflate(getActivity(), R.layout.include_stored_card_spinner, null);
+			TextView storedCardButton = Ui.inflate(this, R.layout.include_stored_card_spinner, null);
 			storedCardButton.setOnClickListener(mStoredCardButtonClickListener);
 			attachExtraHeadingView(storedCardButton);
 		}

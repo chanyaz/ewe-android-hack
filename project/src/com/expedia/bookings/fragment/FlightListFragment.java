@@ -104,7 +104,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		// Configure the header
 		mListView = Ui.findView(v, android.R.id.list);
 		mListView.setDividerHeight(0);
-		ViewGroup header = (ViewGroup) inflater.inflate(R.layout.snippet_flight_header, mListView, false);
+		ViewGroup header = Ui.inflate(inflater, R.layout.snippet_flight_header, mListView, false);
 		mNumFlightsTextView = Ui.findView(header, R.id.num_flights_text_view);
 		mNumFlightsTextView.setTypeface(FontCache.getTypeface(Font.ROBOTO_LIGHT));
 		mSectionFlightLeg = Ui.findView(header, R.id.flight_leg);

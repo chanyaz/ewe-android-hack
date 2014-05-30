@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.section.SectionTravelerInfo;
+import com.expedia.bookings.utils.Ui;
 
 /***
  * This class uses our SectionClasses to perform validation, we take a minor performance penalty for doing a one time inflate.
@@ -21,9 +22,7 @@ public class HotelTravelerFlowState {
 
 	private HotelTravelerFlowState(Context context) {
 		mContext = context;
-
-		LayoutInflater inflater = LayoutInflater.from(mContext);
-		mTravelerInfoOne = (SectionTravelerInfo) inflater.inflate(R.layout.section_hotel_edit_traveler_pt1, null);
+		mTravelerInfoOne = Ui.inflate(context, R.layout.section_hotel_edit_traveler_pt1, null);
 	}
 
 	public static HotelTravelerFlowState getInstance(Context context) {

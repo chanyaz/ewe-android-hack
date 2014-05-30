@@ -53,7 +53,7 @@ public class ResultsHotelGalleryFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_hotel_gallery, null);
+		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_hotel_gallery, null);
 		mDoneText = Ui.findView(mRootC, R.id.done_button);
 		mHotelText = Ui.findView(mRootC, R.id.photos_for_hotel_text);
 		mPager = Ui.findView(mRootC, R.id.pager);
@@ -128,8 +128,7 @@ public class ResultsHotelGalleryFragment extends Fragment {
 
 		@Override
 		public Object instantiateItem(ViewGroup collection, int position) {
-			LayoutInflater inflater = LayoutInflater.from(collection.getContext());
-			View root = inflater.inflate(R.layout.snippet_tablet_hotel_gallery_item, null);
+			View root = Ui.inflate(collection.getContext(), R.layout.snippet_tablet_hotel_gallery_item, null);
 
 			Media media = mMedia.get(position);
 			ImageView image = Ui.findView(root, R.id.image);

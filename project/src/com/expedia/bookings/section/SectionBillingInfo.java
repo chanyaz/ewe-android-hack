@@ -859,8 +859,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			}
 
-			LayoutInflater inflater = getActivity().getLayoutInflater();
-			View view = inflater.inflate(R.layout.fragment_dialog_expiration, null);
+			View view = Ui.inflate(this, R.layout.fragment_dialog_expiration, null);
 
 			int themeResId = ExpediaBookingApp.useTabletInterface(getActivity())
 				? R.style.Theme_Light_Fullscreen_Panel

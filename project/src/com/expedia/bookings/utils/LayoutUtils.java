@@ -191,8 +191,7 @@ public class LayoutUtils {
 	}
 
 	private static void addAmenity(Context context, ViewGroup amenitiesTable, Amenity amenity, int iconResourceId, Paint paint) {
-		LayoutInflater layoutInflater = LayoutInflater.from(context);
-		LinearLayout amenityLayout = (LinearLayout) layoutInflater.inflate(R.layout.snippet_amenity, amenitiesTable, false);
+		LinearLayout amenityLayout = Ui.inflate(R.layout.snippet_amenity, amenitiesTable, false);
 		TextView amenityTextView = Ui.findView(amenityLayout, R.id.label);
 		SVGView amenityIconView = Ui.findView(amenityLayout, R.id.icon);
 		amenityIconView.setLayerType(View.LAYER_TYPE_SOFTWARE, paint);

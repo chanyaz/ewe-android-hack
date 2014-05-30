@@ -77,7 +77,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 		// Measure the frontmost card - we need to know its height to correctly size the fake cards
 		FlightLeg frontmostLeg = trip.getLeg(0);
-		FlightLegSummarySection card = (FlightLegSummarySection) inflater.inflate(R.layout.section_flight_leg_summary,
+		FlightLegSummarySection card = Ui.inflate(inflater, R.layout.section_flight_leg_summary,
 				cardContainer, false);
 		card.bind(trip, frontmostLeg, Db.getBillingInfo());
 		LayoutUtils.setBackgroundResource(card, R.drawable.bg_flight_conf_row);

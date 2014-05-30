@@ -141,7 +141,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			boolean alreadyInUse = BookingInfoUtils.travelerInUse(traveler);
 
 			//We inflate the traveler as an option for the user to select
-			SectionTravelerInfo travelerInfo = (SectionTravelerInfo) inflater.inflate(
+			SectionTravelerInfo travelerInfo = Ui.inflate(inflater,
 				R.layout.section_flight_display_traveler_info_btn, null);
 			travelerInfo.bind(traveler);
 

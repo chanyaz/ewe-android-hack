@@ -15,6 +15,7 @@ import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.Ui;
 
 public class FlightAdapter extends BaseAdapter {
 
@@ -110,8 +111,7 @@ public class FlightAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.section_flight_leg_summary, parent,
-					false);
+			convertView = Ui.inflate(R.layout.section_flight_leg_summary, parent, false);
 
 			// Set a custom, interactive bg
 			if (getItemViewType(position) == ROW_TYPE_FIRST) {

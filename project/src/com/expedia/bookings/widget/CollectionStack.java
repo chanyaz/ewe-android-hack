@@ -54,8 +54,7 @@ public class CollectionStack extends FrameLayout {
 
 		mBasePadding = mContext.getResources().getDimension(R.dimen.destination_stack_padding);
 
-		LayoutInflater inflater = LayoutInflater.from(mContext);
-		View root = inflater.inflate(R.layout.widget_collection_stack, this);
+		View root = Ui.inflate(context, R.layout.widget_collection_stack, this);
 
 		mBackgroundColor = mContext.getResources().getColor(R.color.tablet_bg_tiles_blend);
 	}

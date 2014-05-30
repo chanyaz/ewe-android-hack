@@ -72,7 +72,7 @@ public class HotelUtils {
 	 */
 	public static Button setupActionBarCheckmark(final FragmentActivity activity, final MenuItem menuItem,
 			boolean enabled) {
-		Button tv = (Button) activity.getLayoutInflater().inflate(R.layout.actionbar_checkmark_item, null);
+		Button tv = Ui.inflate(activity, R.layout.actionbar_checkmark_item, null);
 		ViewUtils.setAllCaps(tv);
 
 		if (enabled) {

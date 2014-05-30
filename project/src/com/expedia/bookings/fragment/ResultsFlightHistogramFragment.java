@@ -44,7 +44,7 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mList = (ListView) inflater.inflate(R.layout.fragment_tablet_results_flight_histogram, container, false);
+		mList = Ui.inflate(inflater, R.layout.fragment_tablet_results_flight_histogram, container, false);
 
 		// Adapter setup
 		if (mAdapter == null) {

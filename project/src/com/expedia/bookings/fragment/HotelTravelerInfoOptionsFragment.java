@@ -112,7 +112,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 			}
 
 			//We inflate the traveler as an option for the user to select
-			SectionTravelerInfo travelerInfo = (SectionTravelerInfo) inflater.inflate(
+			SectionTravelerInfo travelerInfo = Ui.inflate(inflater,
 					R.layout.section_hotel_display_traveler_info_name, null);
 			travelerInfo.bind(traveler);
 			travelerInfo.setOnClickListener(new OnClickListener() {

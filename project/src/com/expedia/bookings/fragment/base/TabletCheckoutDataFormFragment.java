@@ -54,7 +54,7 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 			throw new RuntimeException("We should always have an LOB by the time onCreateView is being called.");
 		}
 
-		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_checkout_data_form, container, false);
+		mRootC = Ui.inflate(R.layout.fragment_tablet_checkout_data_form, container, false);
 		mFormContentC = Ui.findView(mRootC, R.id.content_container);
 		mHeadingText = Ui.findView(mRootC, R.id.header_tv);
 		mHeadingButton = Ui.findView(mRootC, R.id.header_text_button_tv);

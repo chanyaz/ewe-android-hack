@@ -92,7 +92,7 @@ public class HotelListFragment extends ListFragment {
 
 		// We expect hotel_list_header to be missing on phone. In this case, add it as a list header
 		if (mHotelListHeader == null) {
-			mHotelListHeader = (ViewGroup) inflater.inflate(R.layout.include_hotel_list_header, null, false);
+			mHotelListHeader = Ui.inflate(inflater, R.layout.include_hotel_list_header, null, false);
 
 			// In order for setVisibility() to work consistently on mHeaderLayout as an
 			// official headerView, it needs to be wrapped in another ViewGroup.

@@ -9,16 +9,15 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
+import com.expedia.bookings.utils.Ui;
 
 public class HotelPaymentFlowState {
 	SectionLocation mSectionLocation;
 	SectionBillingInfo mSectionBillingInfo;
 
 	private HotelPaymentFlowState(Context context) {
-		LayoutInflater inflater = LayoutInflater.from(context);
-
-		mSectionLocation = (SectionLocation) inflater.inflate(R.layout.section_hotel_edit_address, null);
-		mSectionBillingInfo = (SectionBillingInfo) inflater.inflate(R.layout.section_hotel_edit_creditcard, null);
+		mSectionLocation = Ui.inflate(context, R.layout.section_hotel_edit_address, null);
+		mSectionBillingInfo = Ui.inflate(context, R.layout.section_hotel_edit_creditcard, null);
 		mSectionLocation.setLineOfBusiness(LineOfBusiness.HOTELS);
 		mSectionBillingInfo.setLineOfBusiness(LineOfBusiness.HOTELS);
 	}

@@ -67,7 +67,7 @@ public class FlightTripOverviewFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootView = (ViewGroup) inflater.inflate(R.layout.fragment_flight_trip_overview, container, false);
+		mRootView = Ui.inflate(inflater, R.layout.fragment_flight_trip_overview, container, false);
 
 		mFlightContainer = Ui.findView(mRootView, R.id.flight_legs_container);
 		mFlightDateAndTravCount = Ui.findView(mRootView, R.id.date_and_travlers);
@@ -109,7 +109,7 @@ public class FlightTripOverviewFragment extends Fragment {
 		//Build the cards
 		SectionFlightLeg tempFlight;
 		for (int i = 0; i < mTrip.getLegCount(); i++) {
-			tempFlight = (SectionFlightLeg) inflater.inflate(R.layout.section_display_flight_leg, null);
+			tempFlight = Ui.inflate(inflater, R.layout.section_display_flight_leg, null);
 			tempFlight.setId(ID_START_RANGE + i);
 
 			//Set our background to be a selector so we can set opacity quickly later during animations

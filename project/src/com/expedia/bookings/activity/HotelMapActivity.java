@@ -116,7 +116,7 @@ public class HotelMapActivity extends FragmentActivity implements HotelMapFragme
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
 
-		ViewGroup titleView = (ViewGroup) getLayoutInflater().inflate(R.layout.actionbar_hotel_name_with_stars, null);
+		ViewGroup titleView = Ui.inflate(this, R.layout.actionbar_hotel_name_with_stars, null);
 
 		Property property = Db.getHotelSearch().getSelectedProperty();
 		String title = property.getName();

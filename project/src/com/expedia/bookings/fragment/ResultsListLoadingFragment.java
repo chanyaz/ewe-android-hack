@@ -62,7 +62,7 @@ public class ResultsListLoadingFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_results_list_loading, null);
+		mRootC = Ui.inflate(inflater, R.layout.fragment_results_list_loading, null);
 		mContentC = Ui.findView(mRootC, R.id.content_container);
 		mLoadingTv = Ui.findView(mRootC, R.id.loading_tv);
 		mLoadingC = Ui.findView(mRootC, R.id.loading_bars_container);

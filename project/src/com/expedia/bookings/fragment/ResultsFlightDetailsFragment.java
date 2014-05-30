@@ -115,7 +115,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = (FrameLayoutTouchController) inflater.inflate(R.layout.fragment_tablet_flight_details, null);
+		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_flight_details, null);
 		mAnimationFlightRow = Ui.findView(mRootC, R.id.details_animation_row);
 		mAnimationFlightRow.setPivotX(0);
 		mAnimationFlightRow.setPivotY(0);
@@ -250,7 +250,6 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 		FlightSegmentSection flightSegmentSection;
 
-		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		int numFlights = flightLeg.getSegmentCount();
 
 		// TODO recycle and rebind children views if we need it for performance
@@ -269,7 +268,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 				String duration = DateTimeUtils.formatDuration(getResources(), layover.mDuration);
 				String waypoint = StrUtils.formatWaypoint(flight.mOrigin);
 
-				ViewGroup layoverC = Ui.inflate(inflater, R.layout.snippet_tablet_flight_layover, mFlightLegsC, false);
+				ViewGroup layoverC = Ui.inflate(R.layout.snippet_tablet_flight_layover, mFlightLegsC, false);
 				TextView tv = Ui.findView(layoverC, R.id.flight_details_layover_text_view);
 				String layoverStr = res.getString(R.string.layover_duration_location_TEMPLATE, duration, waypoint);
 				tv.setText(Html.fromHtml(layoverStr).toString());
@@ -277,7 +276,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 			}
 
 			// The FlightLeg with lines and circles
-			flightSegmentSection = Ui.inflate(inflater, R.layout.section_flight_segment_tablet, mFlightLegsC, false);
+			flightSegmentSection = Ui.inflate(R.layout.section_flight_segment_tablet, mFlightLegsC, false);
 			flightSegmentSection.bind(flight, trip.getFlightSegmentAttributes(mLegNumber)[i], depTime, arrTime);
 
 			mFlightLegsC.addView(flightSegmentSection);

@@ -73,7 +73,7 @@ public class SvgMapFragment extends MeasurableFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		FrameLayout root = (FrameLayout) inflater.inflate(R.layout.fragment_svg_map, container, false);
+		FrameLayout root = Ui.inflate(inflater, R.layout.fragment_svg_map, container, false);
 		mMapView = Ui.findView(root, R.id.map_view);
 		return root;
 	}

@@ -131,7 +131,7 @@ public class FlightDetailsFragment extends Fragment {
 				mInfoContainer.addView(flightLayoverSection);
 			}
 
-			FlightSegmentSection flightSegmentSection = (FlightSegmentSection) inflater.inflate(
+			FlightSegmentSection flightSegmentSection = Ui.inflate(inflater,
 					R.layout.section_flight_segment, mInfoContainer, false);
 			flightSegmentSection.bind(flight, trip.getFlightSegmentAttributes(leg)[a], minTime, maxTime);
 			MarginLayoutParams params = (MarginLayoutParams) flightSegmentSection.getLayoutParams();

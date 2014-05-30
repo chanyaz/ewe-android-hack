@@ -88,7 +88,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_tripbucket_item, null);
+		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_tripbucket_item, null);
 		mTopC = Ui.findView(mRootC, R.id.trip_bucket_item_top_container);
 		mExpandedC = Ui.findView(mRootC, R.id.trip_bucket_item_expanded_container);
 		mCardCornersBottom = Ui.findView(mRootC, R.id.card_corners_bottom);

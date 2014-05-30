@@ -159,7 +159,7 @@ public class FlightHistogramAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			convertView = LayoutInflater.from(mContext).inflate(R.layout.row_flight_histogram, parent, false);
+			convertView = Ui.inflate(R.layout.row_flight_histogram, parent, false);
 		}
 		View row = convertView;
 		TextView dateTv = Ui.findView(row, R.id.flight_histogram_date);

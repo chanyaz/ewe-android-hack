@@ -53,7 +53,7 @@ public class ResultsFlightMapFragment extends SvgMapFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRoot = (FrameLayout) inflater.inflate(R.layout.fragment_results_flight_map, container, false);
+		mRoot = Ui.inflate(inflater, R.layout.fragment_results_flight_map, container, false);
 		mMapView = Ui.findView(mRoot, R.id.map_view);
 		mFlightLine = Ui.findView(mRoot, R.id.flight_line_view);
 		mDepartureImage = Ui.findView(mRoot, R.id.departure_image);

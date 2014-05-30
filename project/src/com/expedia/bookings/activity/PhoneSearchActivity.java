@@ -1096,7 +1096,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 			// Inflate a menu resource providing context menu items
 			mode.getMenuInflater().inflate(R.menu.action_mode_search, menu);
 			final MenuItem searchMenuItem = menu.findItem(R.id.menu_select_search);
-			Button searchButton = (Button) getLayoutInflater().inflate(R.layout.actionbar_checkmark_item, null);
+			Button searchButton = Ui.inflate(PhoneSearchActivity.this, R.layout.actionbar_checkmark_item, null);
 			searchButton.setText(getString(R.string.SEARCH));
 			ViewUtils.setAllCaps(searchButton);
 
@@ -1205,7 +1205,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 		mContentViewPager.setOnPageChangeListener(mListAndMapViewPagerAdapter);
 
 		// Handled in the actionbar's custom view now
-		mActionBarCustomView = getLayoutInflater().inflate(R.layout.actionbar_search_hotels, null);
+		mActionBarCustomView = Ui.inflate(this, R.layout.actionbar_search_hotels, null);
 		mSearchEditText = (AutoCompleteTextView) mActionBarCustomView.findViewById(R.id.search_edit_text);
 		mClearSearchButton = (ImageView) mActionBarCustomView.findViewById(R.id.clear_search_button);
 		mDatesButton = (ImageButton) mActionBarCustomView.findViewById(R.id.dates_button);
@@ -1243,7 +1243,7 @@ public class PhoneSearchActivity extends FragmentActivity implements OnDrawStart
 		CalendarUtils.configureCalendarDatePicker(mDatesCalendarDatePicker, CalendarDatePicker.SelectionMode.HYBRID,
 			LineOfBusiness.HOTELS);
 
-		mFilterLayout = getLayoutInflater().inflate(R.layout.popup_filter_options, null);
+		mFilterLayout = Ui.inflate(this, R.layout.popup_filter_options, null);
 		mFilterHotelNameEditText = (EditText) mFilterLayout.findViewById(R.id.filter_hotel_name_edit_text);
 		mRadiusButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.radius_filter_button_group);
 		mRatingButtonGroup = (SegmentedControlGroup) mFilterLayout.findViewById(R.id.rating_filter_button_group);

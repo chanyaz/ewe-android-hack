@@ -25,6 +25,7 @@ import com.expedia.bookings.graphics.RoundBitmapDrawable;
 import com.expedia.bookings.graphics.SvgDrawable;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.SpannableBuilder;
+import com.expedia.bookings.utils.Ui;
 import com.jhlabs.map.Point2D;
 
 public class TabletLaunchMapFragment extends SvgMapFragment {
@@ -127,7 +128,7 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	}
 
 	public void addPin(final double lat, final double lon, String name, String price, int drawableId) {
-		final TextView pin = (TextView) mInflater.inflate(R.layout.snippet_tablet_launch_map_pin, mRoot, false);
+		final TextView pin = Ui.inflate(mInflater, R.layout.snippet_tablet_launch_map_pin, mRoot, false);
 		mRoot.addView(pin);
 		setPinText(pin, name, price);
 		setPinImage(pin, drawableId);
