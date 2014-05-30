@@ -1075,7 +1075,7 @@ public class ExpediaServices implements DownloadListener {
 	//
 
 	public TripDetailsResponse getSharedItin(String shareableUrl) {
-		int flags = F_SECURE_REQUEST | F_GET | F_DONT_ADD_ENDPOINT;
+		int flags = F_SECURE_REQUEST | F_GET | F_DONT_ADD_ENDPOINT | F_IGNORE_COOKIES;
 		return doE3Request(shareableUrl, null, new TripDetailsResponseHandler(mContext), flags);
 	}
 
