@@ -38,7 +38,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.data.BedType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelAvailability;
 import com.expedia.bookings.data.HotelOffersResponse;
@@ -78,11 +77,6 @@ import com.mobiata.android.util.TimingLogger;
  */
 public class ResultsHotelDetailsFragment extends Fragment {
 
-	private int ROOM_RATE_ANIMATION_DURATION = 300;
-
-	private boolean mIsDescriptionTextSpanned;
-	private boolean mDoReScroll;
-
 	public static ResultsHotelDetailsFragment newInstance() {
 		ResultsHotelDetailsFragment frag = new ResultsHotelDetailsFragment();
 		return frag;
@@ -108,8 +102,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private GridManager mGrid = new GridManager();
 	private Property mCurrentProperty;
 	private int mSavedScrollPosition;
-
-	private static final int ROOM_COUNT_URGENCY_CUTOFF = 5;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -489,11 +481,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		boolean first = true;
 		for (Rate rate : rates) {
 			RowRoomRateLayout row = Ui.inflate(R.layout.row_tablet_room_rate, mRatesContainer, false);
-			row.setRate(rate);
+			row.bind(rate, mResponse.getCommonValueAdds());
 			row.setOnClickListener(mRateClickListener);
-			TextView description = Ui.findView(row, R.id.text_room_description);
-			TextView pricePerNight = Ui.findView(row, R.id.text_price_per_night);
-			TextView bedType = Ui.findView(row, R.id.text_bed_type);
 
 			// Separator
 			if (!first) {
@@ -501,24 +490,11 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				mRatesContainer.addView(sep);
 			}
 
-			// Description
-			description.setText(rate.getRoomDescription());
-
-			Set<BedType> bedTypes = rate.getBedTypes();
-			if (bedTypes.iterator().hasNext()) {
-				bedType.setVisibility(View.VISIBLE);
-				bedType.setText(bedTypes.iterator().next().getBedTypeDescription());
-			}
-
-			String formattedRoomRate = rate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL);
-			pricePerNight.setText(Html.fromHtml(getString(R.string.room_rate_per_night_template, formattedRoomRate)));
-
 			mRatesContainer.addView(row);
 			first = false;
 		}
 	}
 
-	private boolean mCurrentlyShowingLoadingProgress = false;
 	private void toggleLoadingState(boolean enable) {
 		LinearLayout descriptionsContainer = Ui.findView(mRootC, R.id.description_details_sections_container);
 		if (enable) {
@@ -573,7 +549,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			}
 		}
 
-		mDoReScroll = false;
 		setSelectedRate(rate);
 	}
 
@@ -596,7 +571,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			RowRoomRateLayout row = (RowRoomRateLayout) container.getChildAt(i);
 			final Rate rowRate = row.getRate();
 
-			RelativeLayout roomRateDetailContainer = Ui.findView(row, R.id.room_rate_detail_container);
 			final Button addRoomButton = Ui.findView(row, R.id.room_rate_button_add);
 			final Button selectRoomButton = Ui.findView(row, R.id.room_rate_button_select);
 
@@ -622,390 +596,10 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				}
 			});
 
-
-			// Show renovation fees notice
-			LinearLayout renovationNoticeContainer = Ui.findView(row, R.id.room_rate_renovation_container);
-			Property property = Db.getHotelSearch().getSelectedProperty();
-			final String renovationText;
-			if (property.getRenovationText() != null && !TextUtils.isEmpty(property.getRenovationText().getContent())) {
-				renovationNoticeContainer.setVisibility(View.VISIBLE);
-				renovationText = property.getRenovationText().getContent();
-				Ui.findView(row, R.id.room_rate_renovation_more_info).setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						openWebView(getString(R.string.renovation_notice), renovationText);
-					}
-				});
-			}
-			else {
-				renovationNoticeContainer.setVisibility(View.GONE);
-			}
-
-			// Show resort fees notice
-			LinearLayout resortFeesContainer = Ui.findView(row, R.id.room_rate_resort_fees_container);
-			Money mandatoryFees = selectedRate == null ? null : selectedRate.getTotalMandatoryFees();
-			boolean hasMandatoryFees = mandatoryFees != null && !mandatoryFees.isZero();
-			boolean hasResortFeesMessage = property.getMandatoryFeesText() != null
-				&& !TextUtils.isEmpty(property.getMandatoryFeesText().getContent());
-			boolean mandatoryFeePriceType =
-				selectedRate.getCheckoutPriceType() == Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES;
-
-			final String resortFeesMoreInfoText;
-			if (hasMandatoryFees && hasResortFeesMessage && !mandatoryFeePriceType) {
-				com.expedia.bookings.widget.TextView resortFeesNoticeText = Ui.findView(row,
-					R.id.room_rate_resort_fees_text);
-				resortFeesNoticeText.setText(Html.fromHtml(
-					getString(R.string.tablet_room_rate_resort_fees_template, mandatoryFees.getFormattedMoney())));
-				resortFeesContainer.setVisibility(View.VISIBLE);
-				resortFeesMoreInfoText = property.getMandatoryFeesText().getContent();
-				Ui.findView(row, R.id.room_rate_resort_fees_more_info).setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						openWebView(getString(R.string.additional_fees), resortFeesMoreInfoText);
-					}
-				});
-			}
-			else {
-				resortFeesContainer.setVisibility(View.GONE);
-			}
-
-			if (rowRate.equals(selectedRate)) {
-				row.setSelected(true);
-				// Let's set layout height to wrap content.
-				row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT));
-				if (roomRateDetailContainer.getVisibility() == View.GONE) {
-					expand(row);
-				}
-				// Now let's bind the new room rate details.
-				bindSelectedRoomDetails(roomRateDetailContainer, row, selectedRate);
-			}
-			else {
-				row.setSelected(false);
-				// Reset row height, hide the detail view container and change button text, color.
-				if (roomRateDetailContainer.getVisibility() == View.VISIBLE) {
-					collapse(row);
-				}
-				else {
-					row.setBackgroundResource(android.R.color.white);
-					addRoomButton.setVisibility(View.INVISIBLE);
-					selectRoomButton.setVisibility(View.VISIBLE);
-					int minHeightDimenValue = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_list_height);
-					LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) row.getLayoutParams();
-					layoutParams.height = minHeightDimenValue;
-					row.setLayoutParams(layoutParams);
-				}
-			}
+			row.setSelected(rowRate.equals(selectedRate));
 		}
-
 
 		container.requestLayout();
-	}
-
-	private void expand(final View row) {
-		List<Animator> animators = new ArrayList<Animator>();
-
-		final Button addRoomButton = Ui.findView(row, R.id.room_rate_button_add);
-		final Button selectRoomButton = Ui.findView(row, R.id.room_rate_button_select);
-		RelativeLayout container = Ui.findView(row, R.id.room_rate_detail_container);
-		container.setVisibility(View.VISIBLE);
-
-		final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-		final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-		container.measure(widthSpec, heightSpec);
-
-		// Animation to collapse the container.
-		ValueAnimator containerSlideAnimator = slideAnimator(container, 0, container.getMeasuredHeight());
-		containerSlideAnimator.setDuration(ROOM_RATE_ANIMATION_DURATION);
-		animators.add(containerSlideAnimator);
-
-		// Animate the add button in.
-		Animator addButtonAnimator = ObjectAnimator
-			.ofFloat(addRoomButton, "alpha", 1)
-			.setDuration(ROOM_RATE_ANIMATION_DURATION);
-		addButtonAnimator.addListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationStart(Animator arg0) {
-				addRoomButton.setVisibility(View.VISIBLE);
-			}
-
-			@Override
-			public void onAnimationEnd(Animator arg0) {
-				addRoomButton.setVisibility(View.VISIBLE);
-			}
-		});
-		animators.add(addButtonAnimator);
-
-		// Animate the select button out.
-		Animator selectButtonAnimator = ObjectAnimator
-			.ofFloat(selectRoomButton, "alpha", 0)
-			.setDuration(ROOM_RATE_ANIMATION_DURATION);
-		selectButtonAnimator.addListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationStart(Animator arg0) {
-				selectRoomButton.setVisibility(View.VISIBLE);
-			}
-
-			@Override
-			public void onAnimationEnd(Animator arg0) {
-				selectRoomButton.setVisibility(View.INVISIBLE);
-			}
-		});
-		animators.add(selectButtonAnimator);
-
-		final ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.bg_row_state_pressed));
-		row.setBackgroundDrawable(colorDrawable);
-
-		Animator colorDrawableAnimator = ObjectAnimator
-			.ofInt(colorDrawable, "alpha", 0, 255)
-			.setDuration(ROOM_RATE_ANIMATION_DURATION);
-		animators.add(colorDrawableAnimator);
-
-		AnimatorSet set = new AnimatorSet();
-		set.addListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationEnd(Animator animation) {
-				// Let's not scroll the selected room rate if it's the default one. Since we want the user to look at the other info first.
-				if (mDoReScroll) {
-					LinearLayout rootContainer = Ui.findView(mRootC, R.id.rooms_rates_container);
-					int headerHeight = getResources()
-						.getDimensionPixelOffset(R.dimen.tablet_details_compact_header_height);
-					mScrollView.smoothScrollTo(0, rootContainer.getTop() + row.getTop() - headerHeight);
-				}
-				else {
-					// Let's reset this check so we rescroll to keep the selected room rate here on.
-					mDoReScroll = true;
-				}
-			}
-		});
-		set.playTogether(animators);
-		set.start();
-	}
-
-	private void collapse(final View row) {
-		final Button addRoomButton = Ui.findView(row, R.id.room_rate_button_add);
-		final Button selectRoomButton = Ui.findView(row, R.id.room_rate_button_select);
-
-		List<Animator> animators = new ArrayList<Animator>();
-
-		final RelativeLayout container = Ui.findView(row, R.id.room_rate_detail_container);
-
-		final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-		final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-		container.measure(widthSpec, heightSpec);
-
-		// Animation to collapse the container.
-		ValueAnimator containerSlideAnimator = slideAnimator(container, container.getMeasuredHeight(), 0);
-		containerSlideAnimator.setDuration(ROOM_RATE_ANIMATION_DURATION);
-
-		containerSlideAnimator.addListener(new Animator.AnimatorListener() {
-			@Override
-			public void onAnimationStart(Animator animation) {
-
-			}
-
-			@Override
-			public void onAnimationEnd(Animator animator) {
-				container.setVisibility(View.GONE);
-			}
-
-			@Override
-			public void onAnimationCancel(Animator animation) {
-
-			}
-
-			@Override
-			public void onAnimationRepeat(Animator animation) {
-
-			}
-
-		});
-		animators.add(containerSlideAnimator);
-
-		int minHeightDimenValue = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_list_height);
-		final int widthSpec1 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-		final int heightSpec1 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-		row.measure(widthSpec1, heightSpec1);
-
-		// Animation to set the row height appropriately.
-		ValueAnimator mAnimator2 = slideAnimator(row, row.getMeasuredHeight(), minHeightDimenValue);
-		mAnimator2.setDuration(ROOM_RATE_ANIMATION_DURATION);
-		animators.add(mAnimator2);
-
-		// Animate the add button out.
-		Animator addButtonAnimator = ObjectAnimator
-			.ofFloat(addRoomButton, "alpha", 0)
-			.setDuration(ROOM_RATE_ANIMATION_DURATION);
-		addButtonAnimator.addListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationStart(Animator arg0) {
-				addRoomButton.setVisibility(View.VISIBLE);
-			}
-
-			@Override
-			public void onAnimationEnd(Animator arg0) {
-				addRoomButton.setVisibility(View.INVISIBLE);
-			}
-		});
-		animators.add(addButtonAnimator);
-
-		// Animate the select button in.
-		Animator selectButtonAnimator = ObjectAnimator
-			.ofFloat(selectRoomButton, "alpha", 1)
-			.setDuration(ROOM_RATE_ANIMATION_DURATION);
-		selectButtonAnimator.addListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationStart(Animator arg0) {
-				selectRoomButton.setVisibility(View.VISIBLE);
-			}
-
-			@Override
-			public void onAnimationEnd(Animator arg0) {
-				selectRoomButton.setVisibility(View.VISIBLE);
-			}
-		});
-		animators.add(selectButtonAnimator);
-
-		final ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.bg_row_state_pressed));
-		row.setBackgroundDrawable(colorDrawable);
-
-		Animator colorDrawableAnimator = ObjectAnimator
-			.ofInt(colorDrawable, "alpha", 255, 0)
-			.setDuration(ROOM_RATE_ANIMATION_DURATION);
-		animators.add(colorDrawableAnimator);
-
-		AnimatorSet set = new AnimatorSet();
-		set.playTogether(animators);
-		set.start();
-
-	}
-
-	private ValueAnimator slideAnimator(final View row, int start, int end) {
-
-		ValueAnimator animator = ValueAnimator.ofInt(start, end);
-
-		animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-			@Override
-			public void onAnimationUpdate(ValueAnimator valueAnimator) {
-				//Update Height
-				int value = (Integer) valueAnimator.getAnimatedValue();
-				ViewGroup.LayoutParams layoutParams = row.getLayoutParams();
-				layoutParams.height = value;
-				row.setLayoutParams(layoutParams);
-			}
-		});
-		return animator;
-	}
-
-
-	private void bindSelectedRoomDetails(final RelativeLayout container, final View row, Rate rate) {
-		ImageView roomDetailImageView = Ui.findView(row, R.id.room_rate_image_view);
-		TextView urgencyMessagingView = Ui.findView(row, R.id.room_rate_urgency_text);
-		final TextView roomLongDescriptionTextView = Ui.findView(row, R.id.room_rate_description_text);
-		TextView refundableTextView = Ui.findView(row, R.id.room_rate_refundable_text);
-		TextView roomRateDiscountRibbon = Ui.findView(row, R.id.room_rate_discount_text);
-
-		List<String> common = mResponse.getCommonValueAdds();
-
-		// Value Adds
-		List<String> unique = new ArrayList<String>(rate.getValueAdds());
-		if (common != null) {
-			unique.removeAll(common);
-		}
-		if (unique.size() > 0) {
-			urgencyMessagingView.setText(Html.fromHtml(getActivity().getString(R.string.value_add_template,
-				FormatUtils.series(getActivity(), unique, ",", null).toLowerCase(Locale.getDefault()))));
-			urgencyMessagingView.setVisibility(View.VISIBLE);
-		}
-		else if (showUrgencyMessaging(rate)) {
-			String urgencyString = getResources()
-				.getQuantityString(R.plurals.n_rooms_left_TEMPLATE, rate.getNumRoomsLeft(), rate.getNumRoomsLeft());
-			urgencyMessagingView.setText(urgencyString);
-			urgencyMessagingView.setVisibility(View.VISIBLE);
-		}
-		else {
-			urgencyMessagingView.setVisibility(View.GONE);
-		}
-
-		mIsDescriptionTextSpanned = false;
-		final String description = rate.getRoomLongDescription().trim();
-		String descriptionReduced;
-		int lengthCutOff;
-		// Let's try to show as much text to begin with as possible, without exceeding the row height.
-		if (Ui.findView(row, R.id.room_rate_urgency_text).getVisibility() == View.VISIBLE) {
-			lengthCutOff = getResources().getInteger(R.integer.room_rate_description_body_length_cutoff_less);
-		}
-		else {
-			lengthCutOff = getResources().getInteger(R.integer.room_rate_description_body_length_cutoff_more);
-		}
-
-		if (description.length() > lengthCutOff) {
-			descriptionReduced = description.substring(0, lengthCutOff);
-			descriptionReduced += "...";
-			SpannableBuilder builder = new SpannableBuilder();
-			builder.append(descriptionReduced);
-			builder.append(" ");
-			builder.append(getResources().getString(R.string.more), new ForegroundColorSpan(0xFF245FB3),
-				FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
-			mIsDescriptionTextSpanned = true;
-			roomLongDescriptionTextView.setText(builder.build());
-		}
-		else {
-			roomLongDescriptionTextView.setText(description);
-		}
-
-		// #817. Let user tap to expand or contract the room description text.
-		roomLongDescriptionTextView.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// We need to reset the layout params for the container and the row.
-				// So that we are ready to expand the textView when user wants it.
-				if (mIsDescriptionTextSpanned) {
-					LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-						LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-					int marginDP = getResources()
-						.getDimensionPixelSize(R.dimen.hotel_room_rate_detail_container_margin);
-					layoutParams.bottomMargin = marginDP;
-					layoutParams.topMargin = marginDP;
-					container.setLayoutParams(layoutParams);
-					row.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-						LinearLayout.LayoutParams.WRAP_CONTENT));
-
-					roomLongDescriptionTextView.setText(description);
-				}
-			}
-		});
-
-		// Refundable text visibility check
-		refundableTextView.setVisibility(rate.isNonRefundable() ? View.VISIBLE : View.GONE);
-
-		// Rooms and Rates detail image media
-		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.hotelImagePlaceHolderDrawable);
-		if (rate.getThumbnail() != null) {
-			rate.getThumbnail().fillImageView(roomDetailImageView, placeholderResId);
-		}
-		else {
-			roomDetailImageView.setImageResource(placeholderResId);
-		}
-
-		// Room discount ribbon
-		if (rate.getDiscountPercent() > 0) {
-			roomRateDiscountRibbon.setVisibility(View.VISIBLE);
-			roomRateDiscountRibbon.setText(getString(R.string.percent_minus_template, rate.getDiscountPercent()));
-		}
-		else {
-			roomRateDiscountRibbon.setVisibility(View.GONE);
-		}
-	}
-
-	private void openWebView(String title, String text) {
-		String html;
-		html = HtmlUtils.wrapInHeadAndBodyWithStandardTabletMargins(text);
-		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
-		Intent intent = builder.setTitle(title).setHtmlData(html).setTheme(
-			R.style.Theme_Phone_WebView_WithTitle).getIntent();
-		startActivity(intent);
 	}
 
 	private void setupDescriptionSections(View view, Property property) {
@@ -1054,11 +648,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 	private void scrollFragmentToTop() {
 		mScrollView.scrollTo(0, 0);
-	}
-
-	private boolean showUrgencyMessaging(Rate rate) {
-		int roomsLeft = rate.getNumRoomsLeft();
-		return roomsLeft > 0 && roomsLeft < ROOM_COUNT_URGENCY_CUTOFF;
 	}
 
 	public void saveScrollPosition() {

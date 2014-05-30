@@ -1,20 +1,55 @@
 package com.expedia.bookings.widget;
 
-import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.Html;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
+import com.expedia.bookings.R;
+import com.expedia.bookings.activity.WebViewActivity;
+import com.expedia.bookings.data.BedType;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.SpannableBuilder;
+import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.FormatUtils;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.HtmlUtils;
 
 public class RowRoomRateLayout extends LinearLayout {
 
+	private static final int ROOM_RATE_ANIMATION_DURATION = 300;
+	private static final int ROOM_COUNT_URGENCY_CUTOFF = 5;
+
 	// The Rate associated with this row and its children
 	private Rate mRate;
+
+	private boolean mIsDescriptionTextSpanned;
+	private boolean mDoReScroll;
 
 	public RowRoomRateLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -49,6 +84,44 @@ public class RowRoomRateLayout extends LinearLayout {
 		}
 	}
 
+	@Override
+	public void setSelected(boolean selected) {
+		super.setSelected(selected);
+
+		if (selected) {
+			// Let's set layout height to wrap content.
+			setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+			if (!isExpanded()) {
+				expand();
+			}
+		}
+		else {
+			// Reset row height, hide the detail view container and change button text, color.
+			if (isExpanded()) {
+				collapse();
+			}
+			else {
+				setBackgroundResource(android.R.color.white);
+				Ui.findView(this, R.id.room_rate_button_add).setVisibility(View.INVISIBLE);
+				Ui.findView(this, R.id.room_rate_button_select).setVisibility(View.VISIBLE);
+				int minHeightDimenValue = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_list_height);
+				LayoutParams layoutParams = (LayoutParams) getLayoutParams();
+				layoutParams.height = minHeightDimenValue;
+				setLayoutParams(layoutParams);
+			}
+		}
+	}
+
+	public boolean isExpanded() {
+		RelativeLayout roomRateDetailContainer = Ui.findView(this, R.id.room_rate_detail_container);
+		return roomRateDetailContainer.getVisibility() == View.VISIBLE;
+	}
+
+	private boolean showUrgencyMessaging() {
+		int roomsLeft = mRate.getNumRoomsLeft();
+		return roomsLeft > 0 && roomsLeft < ROOM_COUNT_URGENCY_CUTOFF;
+	}
+
 	public void setRate(Rate rate) {
 		mRate = rate;
 	}
@@ -56,4 +129,364 @@ public class RowRoomRateLayout extends LinearLayout {
 	public Rate getRate() {
 		return mRate;
 	}
+
+	public void bind(Rate rate, List<String> commonValueAdds) {
+		Resources res = getResources();
+
+		setRate(rate);
+		android.widget.TextView description = Ui.findView(this, R.id.text_room_description);
+		android.widget.TextView pricePerNight = Ui.findView(this, R.id.text_price_per_night);
+		android.widget.TextView bedType = Ui.findView(this, R.id.text_bed_type);
+
+		// Description
+		description.setText(rate.getRoomDescription());
+
+		Set<BedType> bedTypes = rate.getBedTypes();
+		if (bedTypes.iterator().hasNext()) {
+			bedType.setVisibility(View.VISIBLE);
+			bedType.setText(bedTypes.iterator().next().getBedTypeDescription());
+		}
+
+		String formattedRoomRate = rate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL);
+		String perNightString = res.getString(R.string.room_rate_per_night_template, formattedRoomRate);
+		pricePerNight.setText(Html.fromHtml(perNightString));
+
+		// Show renovation fees notice
+		android.widget.LinearLayout renovationNoticeContainer = Ui.findView(this, R.id.room_rate_renovation_container);
+		Property property = Db.getHotelSearch().getSelectedProperty();
+		if (property.getRenovationText() != null && !TextUtils.isEmpty(property.getRenovationText().getContent())) {
+			renovationNoticeContainer.setVisibility(View.VISIBLE);
+			final String renovationTitle = res.getString(R.string.renovation_notice);
+			final String renovationText = property.getRenovationText().getContent();
+			Ui.findView(this, R.id.room_rate_renovation_more_info).setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					openWebView(renovationTitle, renovationText);
+				}
+			});
+		}
+		else {
+			renovationNoticeContainer.setVisibility(View.GONE);
+		}
+
+		// Show resort fees notice
+		android.widget.LinearLayout resortFeesContainer = Ui.findView(this, R.id.room_rate_resort_fees_container);
+		Money mandatoryFees = rate == null ? null : rate.getTotalMandatoryFees();
+		boolean hasMandatoryFees = mandatoryFees != null && !mandatoryFees.isZero();
+		boolean hasResortFeesMessage = property.getMandatoryFeesText() != null
+			&& !TextUtils.isEmpty(property.getMandatoryFeesText().getContent());
+
+		if (hasMandatoryFees && hasResortFeesMessage
+			&& rate.getCheckoutPriceType() != Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
+
+			final String resortFeesTemplate = res.getString(R.string.tablet_room_rate_resort_fees_template,
+				mandatoryFees.getFormattedMoney());
+			final String resortFeesMoreInfoTitle = res.getString(R.string.additional_fees);
+			final String resortFeesMoreInfoText = property.getMandatoryFeesText().getContent();
+
+			TextView resortFeesNoticeText = Ui.findView(this, R.id.room_rate_resort_fees_text);
+			resortFeesNoticeText.setText(Html.fromHtml(resortFeesTemplate));
+			resortFeesContainer.setVisibility(View.VISIBLE);
+			Ui.findView(this, R.id.room_rate_resort_fees_more_info).setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					openWebView(resortFeesMoreInfoTitle, resortFeesMoreInfoText);
+				}
+			});
+		}
+		else {
+			resortFeesContainer.setVisibility(View.GONE);
+		}
+
+		android.widget.TextView urgencyMessagingView = Ui.findView(this, R.id.room_rate_urgency_text);
+
+		// Value Adds
+		List<String> unique = new ArrayList<>(mRate.getValueAdds());
+		if (commonValueAdds != null) {
+			unique.removeAll(commonValueAdds);
+		}
+
+		if (unique.size() > 0) {
+			urgencyMessagingView.setText(Html.fromHtml(getResources().getString(R.string.value_add_template,
+				FormatUtils.series(getContext(), unique, ",", null).toLowerCase(Locale.getDefault()))));
+			urgencyMessagingView.setVisibility(View.VISIBLE);
+		}
+		else if (showUrgencyMessaging()) {
+			String urgencyString = getResources()
+				.getQuantityString(R.plurals.n_rooms_left_TEMPLATE, mRate.getNumRoomsLeft(), mRate.getNumRoomsLeft());
+			urgencyMessagingView.setText(urgencyString);
+			urgencyMessagingView.setVisibility(View.VISIBLE);
+		}
+		else {
+			urgencyMessagingView.setVisibility(View.GONE);
+		}
+
+		final RelativeLayout container = Ui.findView(this, R.id.room_rate_detail_container);
+		ImageView roomDetailImageView = Ui.findView(this, R.id.room_rate_image_view);
+		final android.widget.TextView roomLongDescriptionTextView = Ui.findView(this, R.id.room_rate_description_text);
+		android.widget.TextView refundableTextView = Ui.findView(this, R.id.room_rate_refundable_text);
+		android.widget.TextView roomRateDiscountRibbon = Ui.findView(this, R.id.room_rate_discount_text);
+
+		mIsDescriptionTextSpanned = false;
+		final String roomLongDescription = mRate.getRoomLongDescription().trim();
+		String descriptionReduced;
+		int lengthCutOff;
+		// Let's try to show as much text to begin with as possible, without exceeding the row height.
+		if (Ui.findView(this, R.id.room_rate_urgency_text).getVisibility() == View.VISIBLE) {
+			lengthCutOff = getResources().getInteger(R.integer.room_rate_description_body_length_cutoff_less);
+		}
+		else {
+			lengthCutOff = getResources().getInteger(R.integer.room_rate_description_body_length_cutoff_more);
+		}
+
+		if (roomLongDescription.length() > lengthCutOff) {
+			descriptionReduced = roomLongDescription.substring(0, lengthCutOff);
+			descriptionReduced += "...";
+			SpannableBuilder builder = new SpannableBuilder();
+			builder.append(descriptionReduced);
+			builder.append(" ");
+			builder.append(getResources().getString(R.string.more), new ForegroundColorSpan(0xFF245FB3),
+				FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
+			mIsDescriptionTextSpanned = true;
+			roomLongDescriptionTextView.setText(builder.build());
+		}
+		else {
+			roomLongDescriptionTextView.setText(roomLongDescription);
+		}
+
+		// #817. Let user tap to expand or contract the room description text.
+		roomLongDescriptionTextView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// We need to reset the layout params for the container and the row.
+				// So that we are ready to expand the textView when user wants it.
+				if (mIsDescriptionTextSpanned) {
+					android.widget.LinearLayout.LayoutParams layoutParams = new android.widget.LinearLayout.LayoutParams(
+						android.widget.LinearLayout.LayoutParams.MATCH_PARENT, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
+					int marginDP = getResources()
+						.getDimensionPixelSize(R.dimen.hotel_room_rate_detail_container_margin);
+					layoutParams.bottomMargin = marginDP;
+					layoutParams.topMargin = marginDP;
+					container.setLayoutParams(layoutParams);
+					setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+
+					roomLongDescriptionTextView.setText(roomLongDescription);
+				}
+			}
+		});
+
+		// Refundable text visibility check
+		refundableTextView.setVisibility(mRate.isNonRefundable() ? View.VISIBLE : View.GONE);
+
+		// Rooms and Rates detail image media
+		int placeholderResId = Ui.obtainThemeResID(getContext(), R.attr.hotelImagePlaceHolderDrawable);
+		if (mRate.getThumbnail() != null) {
+			mRate.getThumbnail().fillImageView(roomDetailImageView, placeholderResId);
+		}
+		else {
+			roomDetailImageView.setImageResource(placeholderResId);
+		}
+
+		// Room discount ribbon
+		if (mRate.getDiscountPercent() > 0) {
+			roomRateDiscountRibbon.setVisibility(View.VISIBLE);
+			roomRateDiscountRibbon.setText(getResources().getString(R.string.percent_minus_template, (float) mRate.getDiscountPercent()));
+		}
+		else {
+			roomRateDiscountRibbon.setVisibility(View.GONE);
+		}
+	}
+
+	private void expand() {
+		List<Animator> animators = new ArrayList<>();
+
+		final Button addRoomButton = Ui.findView(this, R.id.room_rate_button_add);
+		final Button selectRoomButton = Ui.findView(this, R.id.room_rate_button_select);
+		RelativeLayout container = Ui.findView(this, R.id.room_rate_detail_container);
+		container.setVisibility(View.VISIBLE);
+
+		final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		container.measure(widthSpec, heightSpec);
+
+		// Animation to collapse the container.
+		ValueAnimator containerSlideAnimator = slideAnimator(container, 0, container.getMeasuredHeight());
+		containerSlideAnimator.setDuration(ROOM_RATE_ANIMATION_DURATION);
+		animators.add(containerSlideAnimator);
+
+		// Animate the add button in.
+		Animator addButtonAnimator = ObjectAnimator
+			.ofFloat(addRoomButton, "alpha", 1)
+			.setDuration(ROOM_RATE_ANIMATION_DURATION);
+		addButtonAnimator.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationStart(Animator arg0) {
+				addRoomButton.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationEnd(Animator arg0) {
+				addRoomButton.setVisibility(View.VISIBLE);
+			}
+		});
+		animators.add(addButtonAnimator);
+
+		// Animate the select button out.
+		Animator selectButtonAnimator = ObjectAnimator
+			.ofFloat(selectRoomButton, "alpha", 0)
+			.setDuration(ROOM_RATE_ANIMATION_DURATION);
+		selectButtonAnimator.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationStart(Animator arg0) {
+				selectRoomButton.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationEnd(Animator arg0) {
+				selectRoomButton.setVisibility(View.INVISIBLE);
+			}
+		});
+		animators.add(selectButtonAnimator);
+
+		final ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.bg_row_state_pressed));
+		this.setBackgroundDrawable(colorDrawable);
+
+		Animator colorDrawableAnimator = ObjectAnimator
+			.ofInt(colorDrawable, "alpha", 0, 255)
+			.setDuration(ROOM_RATE_ANIMATION_DURATION);
+		animators.add(colorDrawableAnimator);
+
+		AnimatorSet set = new AnimatorSet();
+		set.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				// Let's not scroll the selected room rate if it's the default one,
+				// since we want the user to look at the other info first.
+				if (mDoReScroll) {
+//TODO: fix re-scroll
+//					android.widget.LinearLayout rootContainer = Ui.findView(mRootC, R.id.rooms_rates_container);
+//					int headerHeight = getResources()
+//						.getDimensionPixelOffset(R.dimen.tablet_details_compact_header_height);
+//					mScrollView.smoothScrollTo(0, rootContainer.getTop() + getTop() - headerHeight);
+				}
+				else {
+					// Let's reset this check so we rescroll to keep the selected room rate here on.
+					mDoReScroll = true;
+				}
+			}
+		});
+		set.playTogether(animators);
+		set.start();
+	}
+
+	private void collapse() {
+		final Button addRoomButton = Ui.findView(this, R.id.room_rate_button_add);
+		final Button selectRoomButton = Ui.findView(this, R.id.room_rate_button_select);
+
+		List<Animator> animators = new ArrayList<>();
+
+		final RelativeLayout container = Ui.findView(this, R.id.room_rate_detail_container);
+
+		final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		container.measure(widthSpec, heightSpec);
+
+		// Animation to collapse the container.
+		ValueAnimator containerSlideAnimator = slideAnimator(container, container.getMeasuredHeight(), 0);
+		containerSlideAnimator.setDuration(ROOM_RATE_ANIMATION_DURATION);
+		containerSlideAnimator.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animator) {
+				container.setVisibility(View.GONE);
+			}
+		});
+		animators.add(containerSlideAnimator);
+
+		int minHeightDimenValue = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_list_height);
+		final int widthSpec1 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		final int heightSpec1 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		this.measure(widthSpec1, heightSpec1);
+
+		// Animation to set the row height appropriately.
+		ValueAnimator mAnimator2 = slideAnimator(this, getMeasuredHeight(), minHeightDimenValue);
+		mAnimator2.setDuration(ROOM_RATE_ANIMATION_DURATION);
+		animators.add(mAnimator2);
+
+		// Animate the add button out.
+		Animator addButtonAnimator = ObjectAnimator
+			.ofFloat(addRoomButton, "alpha", 0)
+			.setDuration(ROOM_RATE_ANIMATION_DURATION);
+		addButtonAnimator.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationStart(Animator arg0) {
+				addRoomButton.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationEnd(Animator arg0) {
+				addRoomButton.setVisibility(View.INVISIBLE);
+			}
+		});
+		animators.add(addButtonAnimator);
+
+		// Animate the select button in.
+		Animator selectButtonAnimator = ObjectAnimator
+			.ofFloat(selectRoomButton, "alpha", 1)
+			.setDuration(ROOM_RATE_ANIMATION_DURATION);
+		selectButtonAnimator.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationStart(Animator arg0) {
+				selectRoomButton.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationEnd(Animator arg0) {
+				selectRoomButton.setVisibility(View.VISIBLE);
+			}
+		});
+		animators.add(selectButtonAnimator);
+
+		final ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.bg_row_state_pressed));
+		this.setBackground(colorDrawable);
+
+		Animator colorDrawableAnimator = ObjectAnimator
+			.ofInt(colorDrawable, "alpha", 255, 0)
+			.setDuration(ROOM_RATE_ANIMATION_DURATION);
+		animators.add(colorDrawableAnimator);
+
+		AnimatorSet set = new AnimatorSet();
+		set.playTogether(animators);
+		set.start();
+
+	}
+
+	private ValueAnimator slideAnimator(final View row, int start, int end) {
+
+		ValueAnimator animator = ValueAnimator.ofInt(start, end);
+
+		animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator valueAnimator) {
+				//Update Height
+				int value = (Integer) valueAnimator.getAnimatedValue();
+				ViewGroup.LayoutParams layoutParams = row.getLayoutParams();
+				layoutParams.height = value;
+				row.setLayoutParams(layoutParams);
+			}
+		});
+		return animator;
+	}
+
+	private void openWebView(String title, String text) {
+		Context context = getContext();
+		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(context);
+		Intent intent = builder
+			.setTitle(title)
+			.setHtmlData(HtmlUtils.wrapInHeadAndBodyWithStandardTabletMargins(text))
+			.setTheme(R.style.Theme_Phone_WebView_WithTitle)
+			.getIntent();
+		context.startActivity(intent);
+	}
+
 }
