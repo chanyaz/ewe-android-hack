@@ -2,6 +2,7 @@ package com.expedia.bookings.fragment;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -1103,6 +1104,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			else if (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.GALLERY) {
 				setGalleryAnimationHardwareRendering(true);
 				setGalleryAnimationVisibilities(true);
+				mHotelDetailsHeaderImageWindowRect = mHotelDetailsFrag.getHotelHeaderImageLocationInWindow();
+				mHotelGalleryImageWindowRect = mHotelGalleryFrag.getCurrentImageLocationInWindow();
 			}
 			else if (stateOne == ResultsHotelsState.GALLERY && stateTwo == ResultsHotelsState.ROOMS_AND_RATES) {
 				setGalleryAnimationHardwareRendering(true);
@@ -1373,21 +1376,18 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		private void setGalleryAnimationVisibilities(boolean forwards) {
 			mHotelGalleryC.setVisibility(View.VISIBLE);
-			if (forwards) {
-				mHotelGalleryC.setAlpha(0f);
-			}
-			else {
-				mHotelGalleryC.setAlpha(1f);
-			}
 		}
 
+		private Rect mHotelDetailsHeaderImageWindowRect;
+		private Rect mHotelGalleryImageWindowRect;
+
 		private void setGalleryShownPercentage(float percentage) {
-			mHotelGalleryC.setAlpha(percentage);
+			mHotelGalleryFrag.setAnimationPercentage(percentage, mHotelDetailsHeaderImageWindowRect, mHotelGalleryImageWindowRect);
 		}
 
 		private void setGalleryAnimationHardwareRendering(boolean useHardwareLayer) {
 			int layerValue = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
-			mHotelGalleryC.setLayerType(layerValue, null);
+			mHotelGalleryFrag.setHardwareLayer(layerValue);
 		}
 
 		/*

@@ -5,6 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <View
+        android:id="@+id/background_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#E5000000" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -53,9 +59,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:clipChildren="false"
             android:paddingLeft="@dimen/tablet_gallery_viewpager_padding"
-            android:paddingRight="@dimen/tablet_gallery_viewpager_padding"
-            android:background="#E5000000" />
+            android:paddingRight="@dimen/tablet_gallery_viewpager_padding" />
 
     </LinearLayout>
 

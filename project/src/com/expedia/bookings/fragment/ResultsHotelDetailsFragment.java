@@ -12,6 +12,7 @@ import android.animation.PropertyValuesHolder;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -742,6 +743,15 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		float shift = image - header;
 		float target = (mSavedScrollPosition - shift) * -percentage + mSavedScrollPosition;
 		mScrollView.scrollTo(0, (int) target);
+	}
+
+	public Rect getHotelHeaderImageLocationInWindow() {
+		ImageView hotelImage = Ui.findView(mRootC, R.id.hotel_header_image);
+		int[] location = new int[2];
+		hotelImage.getLocationInWindow(location);
+		final int x = location[0];
+		final int y = location[1];
+		return new Rect(x, y, x + hotelImage.getWidth(), y + hotelImage.getHeight());
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
