@@ -349,13 +349,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	 */
 
 	public void setFlightsState(ResultsFlightsState state, boolean animate) {
-		if (animate && state == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
-			|| state == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-			mFlightsStateManager.setState(state, 3000);
-		}
-		else {
-			mFlightsStateManager.setState(state, animate);
-		}
+		mFlightsStateManager.setState(state, animate);
 	}
 
 	private void setTouchState(ResultsFlightsState flightsState) {
@@ -692,7 +686,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 					//init the animation
 					mLoadingGuiFrag.initGrowToRowsAnimation();
 				}
-			}else if(stateOne == ResultsFlightsState.CHOOSING_FLIGHT && stateTwo == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP){
+			}
+			else if (stateOne == ResultsFlightsState.CHOOSING_FLIGHT
+				&& stateTwo == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
 				mAddToTripShadeView.setAlpha(0f);
 				mAddToTripShadeView.setVisibility(View.VISIBLE);
 			}
@@ -707,7 +703,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				float perc = stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN ? percentage : 1f - percentage;
 				mFlightMapC.setAlpha(perc);
 			}
-			else if(stateOne == ResultsFlightsState.CHOOSING_FLIGHT && stateTwo == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
+			else if (stateOne == ResultsFlightsState.CHOOSING_FLIGHT
+				&& stateTwo == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
 				mAddToTripShadeView.setAlpha(percentage);
 			}
 			else if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
