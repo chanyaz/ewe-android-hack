@@ -10,13 +10,11 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -26,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
@@ -64,6 +63,7 @@ import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.HotelDetailsStickyHeaderLayout;
 import com.expedia.bookings.widget.RingedCountView;
+import com.expedia.bookings.widget.RowRoomRateLayout;
 import com.expedia.bookings.widget.ScrollView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -76,7 +76,6 @@ import com.mobiata.android.util.TimingLogger;
  * ResultsHotelDetailsFragment: The hotel details / rooms and rates
  * fragment designed for tablet results 2013
  */
-@TargetApi(11)
 public class ResultsHotelDetailsFragment extends Fragment {
 
 	private int ROOM_RATE_ANIMATION_DURATION = 300;
@@ -453,11 +452,27 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private OnClickListener mRateClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			Rate clickedRate = (Rate) v.getTag();
-			// Let's set and bind the roomRate only when a new roomRate is clicked.
-			if (!Db.getHotelSearch().getSelectedRate().equals(clickedRate)) {
-				setSelectedRate(clickedRate);
+			// Search up through view hierarchy until we find the RowRoomRateLayout
+			// that this view is a descendant of (worst case only 3 or 4 parents).
+			while (!(v == null || v instanceof RowRoomRateLayout)) {
+				ViewParent p = v.getParent();
+				v = p instanceof View ? (View) p : null;
 			}
+			if (v != null) {
+				RowRoomRateLayout row = (RowRoomRateLayout) v;
+				Rate clickedRate = row.getRate();
+				// Let's set and bind the roomRate only when a new roomRate is clicked.
+				if (!Db.getHotelSearch().getSelectedRate().equals(clickedRate)) {
+					setSelectedRate(clickedRate);
+				}
+			}
+		}
+	};
+
+	private OnClickListener mAddRoomClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			addSelectedRoomToTrip();
 		}
 	};
 
@@ -474,8 +489,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		boolean first = true;
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		for (Rate rate : rates) {
-			View row = inflater.inflate(R.layout.row_tablet_room_rate, mRatesContainer, false);
-			row.setTag(rate);
+			RowRoomRateLayout row = (RowRoomRateLayout) inflater.inflate(
+				R.layout.row_tablet_room_rate, mRatesContainer, false);
+			row.setRate(rate);
 			row.setOnClickListener(mRateClickListener);
 			TextView description = Ui.findView(row, R.id.text_room_description);
 			TextView pricePerNight = Ui.findView(row, R.id.text_price_per_night);
@@ -505,7 +521,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	private boolean mCurrentlyShowingLoadingProgress = false;
-	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	private void toggleLoadingState(boolean enable) {
 		LinearLayout descriptionsContainer = Ui.findView(mRootC, R.id.description_details_sections_container);
 		if (enable) {
@@ -570,37 +585,25 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	 *
 	 * @param selectedRate
 	 */
-	@TargetApi(14)
 	private void setSelectedRate(final Rate selectedRate) {
 		Db.getHotelSearch().setSelectedRate(selectedRate);
 
 		LinearLayout container = Ui.findView(getView(), R.id.rooms_rates_container);
 		for (int i = 0; i < container.getChildCount(); i++) {
-			View row = container.getChildAt(i);
-			final Rate rowRate = (Rate) row.getTag();
-			LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) row.getLayoutParams();
-
 			// Skip if this is a separator row
-			if (rowRate == null) {
+			if (!(container.getChildAt(i) instanceof RowRoomRateLayout)) {
 				continue;
 			}
+
+			RowRoomRateLayout row = (RowRoomRateLayout) container.getChildAt(i);
+			final Rate rowRate = row.getRate();
 
 			RelativeLayout roomRateDetailContainer = Ui.findView(row, R.id.room_rate_detail_container);
 			final Button addRoomButton = Ui.findView(row, R.id.room_rate_button_add);
 			final Button selectRoomButton = Ui.findView(row, R.id.room_rate_button_select);
 
-			addRoomButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					addSelectedRoomToTrip();
-				}
-			});
-			selectRoomButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					setSelectedRate(rowRate);
-				}
-			});
+			addRoomButton.setOnClickListener(mAddRoomClickListener);
+			selectRoomButton.setOnClickListener(mRateClickListener);
 
 			// Let's the width of both these buttons match.
 			final ViewTreeObserver vto = addRoomButton.getViewTreeObserver();
@@ -690,6 +693,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 					addRoomButton.setVisibility(View.INVISIBLE);
 					selectRoomButton.setVisibility(View.VISIBLE);
 					int minHeightDimenValue = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_list_height);
+					LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) row.getLayoutParams();
 					layoutParams.height = minHeightDimenValue;
 					row.setLayoutParams(layoutParams);
 				}
