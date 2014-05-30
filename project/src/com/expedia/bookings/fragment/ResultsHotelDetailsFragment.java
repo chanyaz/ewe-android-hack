@@ -479,8 +479,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		for (Rate rate : rates) {
 			RowRoomRateLayout row = Ui.inflate(R.layout.row_tablet_room_rate, mRatesContainer, false);
-			row.bind(rate, mResponse.getCommonValueAdds());
-			row.setOnClickListener(mRateClickListener);
+			row.bind(rate, mResponse.getCommonValueAdds(), mRateClickListener, mAddRoomClickListener);
 			mRatesContainer.addView(row);
 		}
 	}
@@ -554,34 +553,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		LinearLayout container = Ui.findView(getView(), R.id.rooms_rates_container);
 		for (int i = 0; i < container.getChildCount(); i++) {
 			RowRoomRateLayout row = (RowRoomRateLayout) container.getChildAt(i);
-			final Rate rowRate = row.getRate();
-
-			final Button addRoomButton = Ui.findView(row, R.id.room_rate_button_add);
-			final Button selectRoomButton = Ui.findView(row, R.id.room_rate_button_select);
-
-			addRoomButton.setOnClickListener(mAddRoomClickListener);
-			selectRoomButton.setOnClickListener(mRateClickListener);
-
-			// Let's the width of both these buttons match.
-			final ViewTreeObserver vto = addRoomButton.getViewTreeObserver();
-			vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-				@Override
-				public void onGlobalLayout() {
-					int addButtonWidth = addRoomButton.getMeasuredWidth();
-					int selectButtonWidth = selectRoomButton.getMeasuredWidth();
-					if (addButtonWidth == selectButtonWidth) {
-						return;
-					}
-					else if (addButtonWidth > selectButtonWidth) {
-						selectRoomButton.setWidth(addButtonWidth);
-					}
-					else {
-						addRoomButton.setWidth(selectButtonWidth);
-					}
-				}
-			});
-
-			row.setSelected(rowRate.equals(selectedRate));
+			boolean isSelected = row.getRate().equals(selectedRate);
+			row.setSelected(isSelected);
 		}
 
 		container.requestLayout();

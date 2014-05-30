@@ -46,14 +46,14 @@
         android:textSize="17sp" />
 
     <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="128dp"
+        android:layout_height="35dp"
         android:layout_gravity="center_vertical">
 
-        <Button
+        <com.expedia.bookings.widget.AutoResizeTextView
             android:id="@+id/room_rate_button_add"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:background="@drawable/tablet_hotel_room_add_button"
             android:gravity="center"
@@ -67,10 +67,10 @@
             android:textStyle="bold" />
 
 
-        <Button
+        <com.expedia.bookings.widget.AutoResizeTextView
             android:id="@+id/room_rate_button_select"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:background="@drawable/tablet_hotel_room_select_button"
             android:gravity="center"

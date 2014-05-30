@@ -130,13 +130,19 @@ public class RowRoomRateLayout extends LinearLayout {
 		return mRate;
 	}
 
-	public void bind(Rate rate, List<String> commonValueAdds) {
+	public void bind(Rate rate, List<String> commonValueAdds,
+					 OnClickListener selectRateClickListener, OnClickListener addRoomClickListener) {
 		Resources res = getResources();
 
 		setRate(rate);
 		android.widget.TextView description = Ui.findView(this, R.id.text_room_description);
 		android.widget.TextView pricePerNight = Ui.findView(this, R.id.text_price_per_night);
 		android.widget.TextView bedType = Ui.findView(this, R.id.text_bed_type);
+
+		// Buttons / Clicks
+		setOnClickListener(selectRateClickListener);
+		Ui.findView(this, R.id.room_rate_button_add).setOnClickListener(addRoomClickListener);
+		Ui.findView(this, R.id.room_rate_button_select).setOnClickListener(selectRateClickListener);
 
 		// Description
 		description.setText(rate.getRoomDescription());
@@ -301,8 +307,8 @@ public class RowRoomRateLayout extends LinearLayout {
 	private void expand() {
 		List<Animator> animators = new ArrayList<>();
 
-		final Button addRoomButton = Ui.findView(this, R.id.room_rate_button_add);
-		final Button selectRoomButton = Ui.findView(this, R.id.room_rate_button_select);
+		final View addRoomButton = Ui.findView(this, R.id.room_rate_button_add);
+		final View selectRoomButton = Ui.findView(this, R.id.room_rate_button_select);
 		RelativeLayout container = Ui.findView(this, R.id.room_rate_detail_container);
 		container.setVisibility(View.VISIBLE);
 
@@ -381,8 +387,8 @@ public class RowRoomRateLayout extends LinearLayout {
 	}
 
 	private void collapse() {
-		final Button addRoomButton = Ui.findView(this, R.id.room_rate_button_add);
-		final Button selectRoomButton = Ui.findView(this, R.id.room_rate_button_select);
+		final View addRoomButton = Ui.findView(this, R.id.room_rate_button_add);
+		final View selectRoomButton = Ui.findView(this, R.id.room_rate_button_select);
 
 		List<Animator> animators = new ArrayList<>();
 
@@ -448,7 +454,7 @@ public class RowRoomRateLayout extends LinearLayout {
 		animators.add(selectButtonAnimator);
 
 		final ColorDrawable colorDrawable = new ColorDrawable(getResources().getColor(R.color.bg_row_state_pressed));
-		this.setBackground(colorDrawable);
+		setBackgroundDrawable(colorDrawable);
 
 		Animator colorDrawableAnimator = ObjectAnimator
 			.ofInt(colorDrawable, "alpha", 255, 0)
