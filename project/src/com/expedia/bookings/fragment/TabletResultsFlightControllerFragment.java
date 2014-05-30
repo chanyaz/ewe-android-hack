@@ -75,7 +75,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private FrameLayoutTouchController mLoadingC;
 	private FrameLayoutTouchController mSearchErrorC;
 
-	private ArrayList<ViewGroup> mContainers = new ArrayList<ViewGroup>();
+	private ArrayList<View> mVisibilityControlledViews = new ArrayList<View>();
 
 	//Fragments
 	private ResultsFlightMapFragment mFlightMapFrag;
@@ -88,6 +88,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private Runnable mSearchParamUpdateRunner;
 
 	//Other
+	private View mAddToTripShadeView;
 	private GridManager mGrid = new GridManager();
 	private StateManager<ResultsFlightsState> mFlightsStateManager = new StateManager<ResultsFlightsState>(
 		ResultsFlightsState.LOADING, this);
@@ -145,17 +146,23 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		mLoadingC = Ui.findView(view, R.id.loading_container);
 		mFlightLegsC = Ui.findView(view, R.id.flight_leg_container);
 		mSearchErrorC = Ui.findView(view, R.id.search_error_container);
+		mAddToTripShadeView = Ui.findView(view, R.id.flights_add_to_trip_shade);
 
-		mContainers.add(mFlightMapC);
-		mContainers.add(mAddToTripC);
-		mContainers.add(mLoadingC);
-		mContainers.add(mFlightLegsC);
-		mContainers.add(mSearchErrorC);
+		mVisibilityControlledViews.add(mFlightMapC);
+		mVisibilityControlledViews.add(mAddToTripC);
+		mVisibilityControlledViews.add(mLoadingC);
+		mVisibilityControlledViews.add(mFlightLegsC);
+		mVisibilityControlledViews.add(mSearchErrorC);
+		mVisibilityControlledViews.add(mAddToTripShadeView);
 
 		registerStateListener(new StateListenerLogger<ResultsFlightsState>(), false);
 		registerStateListener(mFlightsStateHelper, false);
 
+		//TODO: This should not be here. We are consuming GPU memory needlessly most of the time.
+		//These views should be moved to hardware layers in onStateTransitionStart for relevant transitions and moved off
+		//of hardware layers in onStateTransitionEnd.
 		mFlightMapC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+		mAddToTripShadeView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
 		return view;
 	}
@@ -367,7 +374,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		}
 		}
 
-		for (ViewGroup vg : mContainers) {
+		for (View vg : mVisibilityControlledViews) {
 			if (vg instanceof FrameLayoutTouchController) {
 				if (touchableViews.contains(vg)) {
 					((FrameLayoutTouchController) vg).setBlockNewEventsEnabled(false);
@@ -380,7 +387,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	}
 
 	private void setVisibilityState(ResultsFlightsState flightsState) {
-		ArrayList<ViewGroup> visibleViews = new ArrayList<ViewGroup>();
+		ArrayList<View> visibleViews = new ArrayList<View>();
 
 		switch (flightsState) {
 		case SEARCH_ERROR: {
@@ -404,11 +411,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			visibleViews.add(mAddToTripC);
 			visibleViews.add(mFlightMapC);
 			visibleViews.add(mFlightLegsC);
+			visibleViews.add(mAddToTripShadeView);
 			break;
 		}
 		}
 
-		for (ViewGroup vg : mContainers) {
+		for (View vg : mVisibilityControlledViews) {
 			if (visibleViews.contains(vg)) {
 				vg.setVisibility(View.VISIBLE);
 			}
@@ -672,7 +680,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionStart(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
-			int layerType = View.LAYER_TYPE_HARDWARE;
+
 			if ((stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN && stateTwo == ResultsFlightsState.CHOOSING_FLIGHT)
 				|| (stateOne == ResultsFlightsState.CHOOSING_FLIGHT
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN)) {
@@ -684,8 +692,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 					//init the animation
 					mLoadingGuiFrag.initGrowToRowsAnimation();
 				}
+			}else if(stateOne == ResultsFlightsState.CHOOSING_FLIGHT && stateTwo == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP){
+				mAddToTripShadeView.setAlpha(0f);
+				mAddToTripShadeView.setVisibility(View.VISIBLE);
 			}
-
 		}
 
 		@Override
@@ -697,9 +707,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				float perc = stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN ? percentage : 1f - percentage;
 				mFlightMapC.setAlpha(perc);
 			}
+			else if(stateOne == ResultsFlightsState.CHOOSING_FLIGHT && stateTwo == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
+				mAddToTripShadeView.setAlpha(percentage);
+			}
 			else if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mFlightMapC.setAlpha(1f - percentage);
+				mAddToTripShadeView.setAlpha(1f - percentage);
 			}
 			else if (stateOne == ResultsFlightsState.LOADING && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mLoadingGuiFrag.setGrowToRowsAnimPercentage(percentage);
@@ -716,7 +730,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mLoadingC.setVisibility(View.INVISIBLE);
 				mLoadingGuiFrag.cleanUpGrowToRowsAnim();
 			}
-
 		}
 
 		@Override
