@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.tests.tablet.Flights.ui.regression;
 
+import java.util.GregorianCalendar;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
@@ -111,7 +113,14 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 			mNow = DateTime.now();
 			mCheck = 0;
 		}
-		DateTime flightTime = new DateTime(mNow.getYear(), mNow.getMonthOfYear(), mNow.getDayOfMonth() + searchOffset, hourAndMinutes.first, hourAndMinutes.second, 0);
+		int month = mNow.getMonthOfYear();
+		int day = mNow.getDayOfMonth() + searchOffset;
+		int daysInMonth = new GregorianCalendar().getActualMaximum(month);
+		if (day > daysInMonth) {
+			day = day - daysInMonth;
+			month = month + 1;
+		}
+		DateTime flightTime = new DateTime(mNow.getYear(), month, day, hourAndMinutes.first, hourAndMinutes.second, 0);
 		float diffInMillis = flightTime.getMillis() - mNow.getMillis();
 		return diffInMillis;
 	}

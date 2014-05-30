@@ -1,37 +1,26 @@
 package com.expedia.bookings.test.tests.pageModels.tablet;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Property;
-import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
-import com.google.android.apps.common.testing.ui.espresso.matcher.BoundedMatcher;
-
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 
 import static com.expedia.bookings.test.utils.EspressoUtils.swipeRight;
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withContentDescription;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasEntry;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 
 public class Checkout {
 	public static void clickOnTravelerDetails() {
 		onView(withText("Traveler details")).perform(click());
+	}
+
+	public static ViewInteraction loginButton() {
+		return onView(withId(R.id.login_text_view));
 	}
 
 	public static ViewInteraction firstName() {
@@ -40,6 +29,10 @@ public class Checkout {
 
 	public static ViewInteraction lastName() {
 		return onView(withId(R.id.edit_last_name));
+	}
+
+	public static ViewInteraction middleName() {
+		return onView(withId(R.id.edit_middle_name));
 	}
 
 	public static ViewInteraction phoneNumber() {
@@ -68,6 +61,22 @@ public class Checkout {
 
 	public static ViewInteraction addressState() {
 		return onView(withId(R.id.edit_address_state));
+	}
+
+	public static void clickLoginButton() {
+		loginButton().perform(click());
+	}
+
+	public static void clickLogOutButton() {
+		onView(withId(R.id.account_logout_logout_button)).perform(click());
+	}
+
+	public static void clickRedressNumberButton() {
+		onView(withId(R.id.redress_btn)).perform(click());
+	}
+
+	public static void enterRedressNumber(String text) {
+		onView(withId(R.id.edit_redress_number)).perform(typeText(text));
 	}
 
 	public static void enterFirstName(String text) {
@@ -139,6 +148,10 @@ public class Checkout {
 		creditCardNumber().perform(typeText(text));
 	}
 
+	public static ViewInteraction expirationDate() {
+		return onView(withId(R.id.edit_creditcard_exp_text_btn));
+	}
+
 	public static void setExpirationDate(int year, int month) {
 		// TODO use year and month
 		onView(withId(R.id.edit_creditcard_exp_text_btn)).perform(scrollTo());
@@ -187,4 +200,11 @@ public class Checkout {
 		onView(allOf(withId(R.id.book_next), withText("Book Next Item"))).perform(click());
 	}
 
+	public static void clickLegalTextView() {
+		onView(withId(R.id.legal_blurb)).perform(scrollTo(), click());
+	}
+
+	public static void clickLogOutString() {
+		onView(withText("Log Out")).perform(click());
+	}
 }
