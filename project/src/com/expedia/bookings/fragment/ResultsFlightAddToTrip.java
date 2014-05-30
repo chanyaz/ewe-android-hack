@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.animation.CubicBezierAnimation;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.enums.ResultsFlightsState;
@@ -95,11 +96,16 @@ public class ResultsFlightAddToTrip extends Fragment {
 	}
 
 	private StateListenerHelper<ResultsFlightsState> mFlightsStateHelper = new StateListenerHelper<ResultsFlightsState>() {
+
+		private CubicBezierAnimation mCurve;
+
 		@Override
 		public void onStateTransitionStart(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
 			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				resetFlightCard();
+				mCurve = CubicBezierAnimation.newOutsideInAnimation(0, 0, mDestRect.left - mBucketFlightC.getLeft(),
+					mDestRect.top - mBucketFlightC.getTop());
 				mBucketFlightC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			}
 		}
@@ -110,19 +116,18 @@ public class ResultsFlightAddToTrip extends Fragment {
 			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 
+
 				float endScaleX = mDestRect.width() / (float) mBucketFlightC.getWidth();
 				float endScaleY = mDestRect.height() / (float) mBucketFlightC.getHeight();
 				float scaleX = 1f + percentage * (endScaleX - 1f);
 				float scaleY = 1f + percentage * (endScaleY - 1f);
-				float transX = percentage * (mDestRect.left - mBucketFlightC.getLeft());
-				float transY = percentage * (mDestRect.top - mBucketFlightC.getTop());
-
 				mBucketFlightC.setPivotX(0);
 				mBucketFlightC.setPivotY(0);
-				mBucketFlightC.setTranslationX(transX);
-				mBucketFlightC.setTranslationY(transY);
 				mBucketFlightC.setScaleX(scaleX);
 				mBucketFlightC.setScaleY(scaleY);
+
+				mBucketFlightC.setTranslationX(mCurve.getXInterpolator().interpolate(percentage));
+				mBucketFlightC.setTranslationY(mCurve.getYInterpolator().interpolate(percentage));
 			}
 		}
 
