@@ -477,21 +477,11 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		List<Rate> rates = mResponse.getRates();
 
-		// TODO: I wonder if we should use RoomsAndRatesAdapter, or similar
-		boolean first = true;
 		for (Rate rate : rates) {
 			RowRoomRateLayout row = Ui.inflate(R.layout.row_tablet_room_rate, mRatesContainer, false);
 			row.bind(rate, mResponse.getCommonValueAdds());
 			row.setOnClickListener(mRateClickListener);
-
-			// Separator
-			if (!first) {
-				View sep = Ui.inflate(R.layout.row_tablet_room_rate_separator, mRatesContainer, false);
-				mRatesContainer.addView(sep);
-			}
-
 			mRatesContainer.addView(row);
-			first = false;
 		}
 	}
 
@@ -563,11 +553,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		LinearLayout container = Ui.findView(getView(), R.id.rooms_rates_container);
 		for (int i = 0; i < container.getChildCount(); i++) {
-			// Skip if this is a separator row
-			if (!(container.getChildAt(i) instanceof RowRoomRateLayout)) {
-				continue;
-			}
-
 			RowRoomRateLayout row = (RowRoomRateLayout) container.getChildAt(i);
 			final Rate rowRate = row.getRate();
 
