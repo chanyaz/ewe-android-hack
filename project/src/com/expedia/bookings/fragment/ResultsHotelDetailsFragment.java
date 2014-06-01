@@ -1,41 +1,30 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
@@ -44,7 +33,6 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelTextSection;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -55,20 +43,17 @@ import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.utils.ColorBuilder;
-import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.LayoutUtils;
-import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.ExpandingLinearLayout;
 import com.expedia.bookings.widget.HotelDetailsStickyHeaderLayout;
 import com.expedia.bookings.widget.RingedCountView;
 import com.expedia.bookings.widget.RowRoomRateLayout;
 import com.expedia.bookings.widget.ScrollView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.FormatUtils;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.HtmlUtils;
 import com.mobiata.android.util.TimingLogger;
 
 /**
@@ -92,6 +77,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private View mProgressContainer;
 	private ViewGroup mReviewsC;
 	private ScrollView mScrollView;
+	private LinearLayout mRoomsRatesContainer;
 
 	private IAddToBucketListener mAddToBucketListener;
 	private IResultsHotelReviewsClickedListener mHotelReviewsClickedListener;
@@ -124,6 +110,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		mUserRatingContainer = Ui.findView(mRootC, R.id.user_rating_container);
 		mReviewsC = Ui.findView(mRootC, R.id.reviews_container);
 		mScrollView = Ui.findView(mRootC, R.id.scrolling_content);
+		mRoomsRatesContainer = Ui.findView(mRootC, R.id.rooms_rates_container);
 		toggleLoadingState(true);
 		return mRootC;
 	}
@@ -550,14 +537,24 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private void setSelectedRate(final Rate selectedRate) {
 		Db.getHotelSearch().setSelectedRate(selectedRate);
 
-		LinearLayout container = Ui.findView(getView(), R.id.rooms_rates_container);
-		for (int i = 0; i < container.getChildCount(); i++) {
-			RowRoomRateLayout row = (RowRoomRateLayout) container.getChildAt(i);
+		for (int i = 0; i < mRoomsRatesContainer.getChildCount(); i++) {
+			final RowRoomRateLayout row = (RowRoomRateLayout) mRoomsRatesContainer.getChildAt(i);
 			boolean isSelected = row.getRate().equals(selectedRate);
 			row.setSelected(isSelected);
+			if (isSelected) {
+				mScrollView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+					@Override
+					public boolean onPreDraw() {
+						mScrollView.getViewTreeObserver().removeOnPreDrawListener(this);
+						int scrolly = mRoomsRatesContainer.getTop()
+							- (int) getResources().getDimension(R.dimen.tablet_details_compact_header_height)
+							+ row.getTop();
+						mScrollView.scrollTo(0, scrolly);
+						return false;
+					}
+				});
+			}
 		}
-
-		container.requestLayout();
 	}
 
 	private void setupDescriptionSections(View view, Property property) {
