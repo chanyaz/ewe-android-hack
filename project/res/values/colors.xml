@@ -214,5 +214,6 @@
 
     <!-- Trip Bucket Sold Out Overlays -->
     <color name="trip_bucket_sold_out_selected">#660e4d8c</color>
+    <color name="trip_bucket_sold_out_unselected">#cc525252</color>
 
 </resources>

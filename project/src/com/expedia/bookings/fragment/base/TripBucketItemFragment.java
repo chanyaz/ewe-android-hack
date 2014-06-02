@@ -67,6 +67,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private ImageView mBookingCompleteCheckImg;
 	private HeaderBitmapColorAveragedDrawable mHeaderBitmapDrawable;
 	private ColorDrawable mSoldOutSelectedOverlay;
+	private ColorDrawable mSoldOutUnSelectedOverlay;
 
 	private BreakdownDialogFragment mBreakdownFrag;
 
@@ -128,6 +129,9 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 		ColorBuilder builder = new ColorBuilder(getResources().getColor(R.color.trip_bucket_sold_out_selected));
 		mSoldOutSelectedOverlay = new ColorDrawable(builder.build());
+
+		builder = new ColorBuilder(getResources().getColor(R.color.trip_bucket_sold_out_unselected));
+		mSoldOutUnSelectedOverlay = new ColorDrawable(builder.build());
 
 		return mRootC;
 	}
@@ -424,8 +428,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				mHeaderBitmapDrawable.setOverlayAlpha(0f);
 			}
 
-
-
 		}
 
 		@Override
@@ -449,7 +451,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mHeaderBitmapDrawable.setOverlayDrawable(mSoldOutSelectedOverlay);
 		}
 		else {
-			mHeaderBitmapDrawable.disableOverlay();
+			mHeaderBitmapDrawable.setOverlayDrawable(mSoldOutUnSelectedOverlay);
 			mTopC.setPadding(0,0,0,0);
 		}
 
@@ -476,6 +478,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mPriceChangedC.setVisibility(View.GONE);
 			setNameAndDurationSlidePercentage(0f);
 			mHeaderBitmapDrawable.setOverlayAlpha(0f);
+			setItemSoldOutSelected(isSelected());
 			break;
 
 		case SHOWING_PRICE_CHANGE:
