@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/tablet_detail_padding"
     android:paddingRight="@dimen/tablet_detail_padding">
 
-    <include layout="@layout/snippet_tablet_room_rate_add_select" />
+    <include layout="@layout/snippet_tablet_room_rate_add_select"/>
 
     <RelativeLayout
         android:id="@+id/room_rate_detail_container"
@@ -25,7 +25,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginRight="24dp"
             android:gravity="center"
-            android:scaleType="center" />
+            android:scaleType="center"/>
 
         <TextView
             android:id="@+id/room_rate_discount_text"
@@ -41,7 +41,7 @@
             android:paddingRight="5dp"
             android:paddingTop="1dp"
             android:singleLine="true"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#008c5d"
                 android:textSize="16sp"
-                app:textStyle="bold" />
+                app:textStyle="bold"/>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/room_rate_description_text"
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
                 android:textSize="16sp"
-                app:textStyle="light" />
+                app:textStyle="light"/>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/room_rate_refundable_text"
@@ -72,7 +72,7 @@
                 android:text="@string/non_refundable"
                 android:textColor="#666666"
                 android:textSize="16sp"
-                app:textStyle="bold" />
+                app:textStyle="bold"/>
 
         </LinearLayout>
     </RelativeLayout>
@@ -80,7 +80,7 @@
     <View
         android:id="@+id/room_rate_center"
         android:layout_width="wrap_content"
-        android:layout_height="0dp" />
+        android:layout_height="0dp"/>
 
     <LinearLayout
         android:id="@+id/notice_container"
@@ -100,12 +100,12 @@
                 style="@style/TabletRoomRateNoticeFeesText"
                 android:drawableLeft="@drawable/ic_renovation_tablet"
                 android:text="@string/property_undergoing_renovations"
-                app:textStyle="light" />
+                app:textStyle="light"/>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/room_rate_renovation_more_info"
                 style="@style/TabletRoomRateNoticeMoreInfo"
-                app:textStyle="bold" />
+                app:textStyle="bold"/>
         </LinearLayout>
 
         <LinearLayout
@@ -120,12 +120,12 @@
                 style="@style/TabletRoomRateNoticeFeesText"
                 android:drawableLeft="@drawable/ic_fees_tablet"
                 android:text="@string/property_undergoing_renovations"
-                app:textStyle="light" />
+                app:textStyle="light"/>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/room_rate_resort_fees_more_info"
                 style="@style/TabletRoomRateNoticeMoreInfo"
-                app:textStyle="bold" />
+                app:textStyle="bold"/>
         </LinearLayout>
 
     </LinearLayout>
