@@ -291,15 +291,23 @@ public class Media implements JSONable {
 			@Override
 			public boolean onPreDraw() {
 				view.getViewTreeObserver().removeOnPreDrawListener(this);
-				UrlBitmapDrawable drawable = new UrlBitmapDrawable(view.getContext().getResources(),
-					getBestUrls(view.getWidth()), placeholderResId);
-				drawable.configureImageView(view);
-				drawable.setOnBitmapLoadedCallback(callback);
-
+				fillImageView(view, view.getWidth(), placeholderResId, callback);
 				return true;
 			}
 		});
+	}
 
+	/**
+	 * Creates a UrlBitmapDrawable with appropriately sized Media (falling back to lower resolutions
+	 * if necessary), and stuffs it into the passed ImageView. The Media will be
+	 * downloaded in the background.
+	 */
+	public void fillImageView(final ImageView view, final int width, final int placeholderResId,
+							  final L2ImageCache.OnBitmapLoaded callback) {
+		UrlBitmapDrawable drawable = new UrlBitmapDrawable(view.getContext().getResources(),
+			getBestUrls(width), placeholderResId);
+		drawable.configureImageView(view);
+		drawable.setOnBitmapLoadedCallback(callback);
 	}
 
 	/**
@@ -323,6 +331,5 @@ public class Media implements JSONable {
 				return true;
 			}
 		});
-
 	}
 }

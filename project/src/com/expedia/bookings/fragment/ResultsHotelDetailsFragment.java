@@ -46,7 +46,6 @@ import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.ExpandingLinearLayout;
 import com.expedia.bookings.widget.HotelDetailsStickyHeaderLayout;
 import com.expedia.bookings.widget.RingedCountView;
 import com.expedia.bookings.widget.RowRoomRateLayout;

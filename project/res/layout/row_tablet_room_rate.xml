@@ -20,12 +20,12 @@
 
         <ImageView
             android:id="@+id/room_rate_image_view"
-            android:layout_width="189dp"
-            android:layout_height="125dp"
+            android:layout_width="@dimen/hotel_room_rate_thumbnail_width"
+            android:layout_height="@dimen/hotel_room_rate_thumbnail_height"
             android:layout_alignParentLeft="true"
             android:layout_marginRight="24dp"
             android:gravity="center"
-            android:scaleType="center"/>
+            android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/room_rate_discount_text"

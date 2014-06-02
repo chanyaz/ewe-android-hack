@@ -285,7 +285,8 @@ public class RowRoomRateLayout extends LinearLayout {
 		// Rooms and Rates detail image media
 		int placeholderResId = Ui.obtainThemeResID(getContext(), R.attr.hotelImagePlaceHolderDrawable);
 		if (mRate.getThumbnail() != null) {
-			mRate.getThumbnail().fillImageView(roomDetailImageView, placeholderResId);
+			int width = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_thumbnail_width);
+			mRate.getThumbnail().fillImageView(roomDetailImageView, width, placeholderResId, null);
 		}
 		else {
 			roomDetailImageView.setImageResource(placeholderResId);
