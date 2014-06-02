@@ -1,6 +1,9 @@
 package com.expedia.bookings.fragment.base;
 
 import android.app.Activity;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,6 +26,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.Ui;
 
@@ -62,6 +66,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private android.widget.TextView mPriceChangedTv;
 	private ImageView mBookingCompleteCheckImg;
 	private HeaderBitmapColorAveragedDrawable mHeaderBitmapDrawable;
+	private ColorDrawable mSoldOutSelectedOverlay;
 
 	private BreakdownDialogFragment mBreakdownFrag;
 
@@ -120,6 +125,9 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 		registerStateListener(new StateListenerLogger<TripBucketItemState>(), false);
 		registerStateListener(mStateHelper, false);
+
+		ColorBuilder builder = new ColorBuilder(getResources().getColor(R.color.trip_bucket_sold_out_selected));
+		mSoldOutSelectedOverlay = new ColorDrawable(builder.build());
 
 		return mRootC;
 	}
@@ -328,7 +336,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				mSoldOutContainer.setAlpha(percentage);
 				setNameAndDurationSoldOutSlidePercentage(1.0f - percentage);
 				setExpandedSlidePercentage(1.0f - percentage);
-				mHeaderBitmapDrawable.setOverlayAlpha(1f - percentage);
 			}
 			// Expanded, Price Change --> Collapsed
 			if (stateOne == TripBucketItemState.EXPANDED && stateTwo == TripBucketItemState.SHOWING_CHECKOUT_BUTTON) {
@@ -431,14 +438,21 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	* Adjust UI changes to show if the sold out trip bucket card is selected or not.
 	*/
 	private void setItemSoldOutSelected(boolean isSelected) {
+		// Let's desaturate the destination/hotel image
+		ColorMatrix cm = new ColorMatrix();
+		cm.setSaturation(0.0f);
+		mTripBucketImageView.setColorFilter(new ColorMatrixColorFilter(cm));
 		if (isSelected) {
 			int padding = getResources().getDimensionPixelSize(R.dimen.trip_bucket_sold_out_container_padding);
 			int paddingBottom = getResources().getDimensionPixelSize(R.dimen.trip_bucket_sold_out_container_padding_bottom);
 			mTopC.setPadding(padding, padding, padding, paddingBottom);
+			mHeaderBitmapDrawable.setOverlayDrawable(mSoldOutSelectedOverlay);
 		}
 		else {
+			mHeaderBitmapDrawable.disableOverlay();
 			mTopC.setPadding(0,0,0,0);
 		}
+
 	}
 
 	protected void setVisibilityState(TripBucketItemState state) {

@@ -64,16 +64,16 @@ public class BookingUnavailableFragment extends LobableFragment {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.remove_sold_out_button:
-				Db.getTripBucket().clear(getLob());
 				if (mListener != null) {
 					mListener.onTripBucketItemRemoved(getLob());
 				}
+				Db.getTripBucket().clear(getLob());
 				break;
 			case R.id.select_new_item_button:
-				Db.getTripBucket().clear(getLob());
 				if (mListener != null) {
 					mListener.onSelectNewTripItem(getLob());
 				}
+				Db.getTripBucket().clear(getLob());
 				break;
 			}
 		}

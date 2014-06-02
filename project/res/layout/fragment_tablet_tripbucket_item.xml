@@ -90,8 +90,8 @@
                     android:gravity="center"
                     android:text="@string/trip_bucket_sold_out"
                     android:textAllCaps="true"
-                    android:textColor="#FFDB4C"
-                    android:textSize="18sp"
+                    android:textColor="#7FFFFFFF"
+                    android:textSize="16sp"
                     app:textStyle="medium" />
 
             </LinearLayout>
