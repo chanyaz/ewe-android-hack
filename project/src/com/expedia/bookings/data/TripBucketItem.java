@@ -54,6 +54,7 @@ public abstract class TripBucketItem implements JSONable {
 			JSONObject obj = new JSONObject();
 			JSONUtils.putEnum(obj, "state", mState);
 			obj.put("isSelected", mIsSelected);
+			obj.put("hasPriceChanged", mHasPriceChanged);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -66,6 +67,7 @@ public abstract class TripBucketItem implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 		mState = JSONUtils.getEnum(obj, "state", TripBucketItemState.class);
 		mIsSelected = obj.optBoolean("isSelected");
+		mHasPriceChanged = obj.optBoolean("hasPriceChanged");
 		return true;
 	}
 
