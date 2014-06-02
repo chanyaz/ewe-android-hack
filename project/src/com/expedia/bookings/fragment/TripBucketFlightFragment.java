@@ -236,7 +236,12 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 
 	@Override
 	public boolean isSelected() {
-		return Db.getTripBucket().getFlight().isSelected();
+		if (Db.getTripBucket().getFlight() != null) {
+			return Db.getTripBucket().getFlight().isSelected();
+		}
+		else {
+			return false;
+		}
 	}
 
 	@Override

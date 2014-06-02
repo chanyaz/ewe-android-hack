@@ -135,7 +135,12 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 
 	@Override
 	public boolean isSelected() {
-		return Db.getTripBucket().getHotel().isSelected();
+		if (Db.getTripBucket().getHotel() != null) {
+			return Db.getTripBucket().getHotel().isSelected();
+		}
+		else {
+			return false;
+		}
 	}
 
 	@Override
