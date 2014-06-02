@@ -425,8 +425,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		@Override
 		public void onStateTransitionStart(ResultsState stateOne, ResultsState stateTwo) {
 
-			if (stateTwo == ResultsState.OVERVIEW) {
-				//We change the visibility of some trip bucket items, this resets things
+			if (stateTwo == ResultsState.OVERVIEW && (mFlightsController == null
+				|| mFlightsController.getState() != ResultsFlightsState.ADDING_FLIGHT_TO_TRIP)) {
+				//We change the visibility of some trip bucket items, this resets things so trip bucket items are visible
+				//while they are sliding in.
 				mTripBucketFrag.bindToDb();
 			}
 
@@ -459,10 +461,12 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			setListenerState(state);
 
 			if (mTripBucketFrag != null) {
-				mTripBucketFrag.bindToDb();
-				if (state == ResultsState.HOTELS || state == ResultsState.FLIGHTS) {
-					//This makes items in the bucket invisible
-					mTripBucketFrag.setBucketPreparedForAdd();
+				if(state == ResultsState.HOTELS && mHotelsController != null && mHotelsController.getHotelsState() == ResultsHotelsState.ADDING_HOTEL_TO_TRIP){
+					mTripBucketFrag.setBucketPreparedForAdd(LineOfBusiness.HOTELS);
+				}else if(state == ResultsState.FLIGHTS && mFlightsController != null && mFlightsController.getState() == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP){
+					mTripBucketFrag.setBucketPreparedForAdd(LineOfBusiness.FLIGHTS);
+				}else{
+					mTripBucketFrag.bindToDb();
 				}
 			}
 
@@ -725,7 +729,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mSearchController.hideSearchBtns();
 			}
 
-			if(state != ResultsHotelsState.ADDING_HOTEL_TO_TRIP) {
+			if (state != ResultsHotelsState.ADDING_HOTEL_TO_TRIP) {
 				mDoingHotelsAddToBucket = false;
 			}
 
@@ -792,7 +796,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			//DO WORK
 			setState(getResultsStateFromFlights(state), false);
 
-			if(state != ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
+			if (state != ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
 				mDoingFlightsAddToBucket = false;
 			}
 

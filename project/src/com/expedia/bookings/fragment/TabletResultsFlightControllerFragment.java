@@ -352,6 +352,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		mFlightsStateManager.setState(state, animate);
 	}
 
+	public ResultsFlightsState getState() {
+		return mFlightsStateManager.getState();
+	}
+
 	private void setTouchState(ResultsFlightsState flightsState) {
 		ArrayList<ViewGroup> touchableViews = new ArrayList<ViewGroup>();
 		switch (flightsState) {

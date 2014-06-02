@@ -68,9 +68,9 @@ public class ResultsTripBucketFragment extends Fragment
 		}
 	}
 
-	public void setBucketPreparedForAdd() {
+	public void setBucketPreparedForAdd(LineOfBusiness lob) {
 		if (mBucketFrag != null && mBucketFrag.isResumed()) {
-			mBucketFrag.setBucketPreparedForAdd();
+			mBucketFrag.setBucketPreparedForAdd(lob);
 		}
 	}
 

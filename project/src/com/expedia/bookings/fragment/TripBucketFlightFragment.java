@@ -223,7 +223,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 			String dateRange = DateUtils.formatDateRange(getActivity(), start, end, DateUtils.FORMAT_SHOW_DATE);
 			mDatesTv.setText(dateRange);
 
-			String price = mFlightTrip.getTotalFareWithCardFee(Db.getBillingInfo()).getFormattedMoney();
+			String price = mFlightTrip.getTotalFare().getFormattedMoney();
 			mPriceTv.setText(price);
 		}
 

@@ -269,13 +269,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mHotelsStateManager.setState(state, animate);
 	}
 
-	public ResultsHotelsState getHotelsState(ResultsState state) {
-		if (state != ResultsState.HOTELS) {
-			return getBaseState();
-		}
-		else {
-			return mHotelsStateManager.getState();
-		}
+	public ResultsHotelsState getHotelsState(){
+		return mHotelsStateManager.getState();
 	}
 
 	private void setTouchState(ResultsHotelsState hotelsState) {

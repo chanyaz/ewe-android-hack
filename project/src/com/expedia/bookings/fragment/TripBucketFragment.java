@@ -86,7 +86,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		boolean showFlight = bucket.getFlight() != null;
 		boolean showHotel = bucket.getHotel() != null;
 
-		setFragState(showFlight,showHotel);
+		setFragState(showFlight, showHotel);
 
 		mFlightC.setVisibility(showFlight ? View.VISIBLE : View.GONE);
 		mHotelC.setVisibility(showHotel ? View.VISIBLE : View.GONE);
@@ -101,7 +101,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		}
 	}
 
-	private void setFragState(boolean attachFlight, boolean attachHotel){
+	private void setFragState(boolean attachFlight, boolean attachHotel) {
 		FragmentManager manager = getChildFragmentManager();
 		manager.executePendingTransactions();
 
@@ -121,10 +121,38 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	/**
 	 * This method sets both containers to be invisible and adds our fragments (without binding) so they will be measured.
 	 */
-	public void setBucketPreparedForAdd() {
-		mFlightC.setVisibility(View.INVISIBLE);
-		mHotelC.setVisibility(View.INVISIBLE);
-		setFragState(true,true);
+	public void setBucketPreparedForAdd(LineOfBusiness lob) {
+		//We are flying in a copy above the item in the tripbucket, but we dont want an old copy sliding in from the right
+		//while our new entry flys in from the left, so we make it invisible (and thus still measurable)
+		if (lob == LineOfBusiness.FLIGHTS && mFlightC.getVisibility() == View.VISIBLE) {
+			mFlightC.setVisibility(View.INVISIBLE);
+		}
+		if (lob == LineOfBusiness.HOTELS && mHotelC.getVisibility() == View.VISIBLE) {
+			mHotelC.setVisibility(View.INVISIBLE);
+		}
+
+		//We attach our fragments now so that they will be measured.
+		if (lob == LineOfBusiness.HOTELS) {
+			setFragState(Db.getTripBucket().getFlight() != null, true);
+		}
+		else if (lob == LineOfBusiness.FLIGHTS) {
+			setFragState(true, Db.getTripBucket().getHotel() != null);
+		}
+
+		//bind the LOB specific fragment
+		if (lob == LineOfBusiness.FLIGHTS && mTripBucketFlightFrag != null) {
+			mTripBucketFlightFrag.bind();
+			mTripBucketFlightFrag.setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
+		}
+		else if (lob == LineOfBusiness.HOTELS && mTripBucketHotelFrag != null) {
+			mTripBucketHotelFrag.bind();
+			mTripBucketHotelFrag.setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
+		}
+
+		//Move scrollview into place
+		if (lob == LineOfBusiness.FLIGHTS) {
+			mScrollC.scrollTo(0, 0);
+		}
 	}
 
 	public Rect getFlightRect() {
