@@ -425,11 +425,16 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		@Override
 		public void onStateTransitionStart(ResultsState stateOne, ResultsState stateTwo) {
 
-			if (stateTwo == ResultsState.OVERVIEW && (mFlightsController == null
-				|| mFlightsController.getState() != ResultsFlightsState.ADDING_FLIGHT_TO_TRIP)) {
+			if (stateTwo == ResultsState.OVERVIEW) {
 				//We change the visibility of some trip bucket items, this resets things so trip bucket items are visible
 				//while they are sliding in.
 				mTripBucketFrag.bindToDb();
+				if (mDoingHotelsAddToBucket) {
+					mTripBucketFrag.setBucketPreparedForAdd(LineOfBusiness.HOTELS);
+				}
+				else if (mDoingFlightsAddToBucket) {
+					mTripBucketFrag.setBucketPreparedForAdd(LineOfBusiness.FLIGHTS);
+				}
 			}
 
 			setEnteringProductHardwareLayers(View.LAYER_TYPE_HARDWARE,
@@ -461,12 +466,12 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			setListenerState(state);
 
 			if (mTripBucketFrag != null) {
-				if(state == ResultsState.HOTELS && mHotelsController != null && mHotelsController.getHotelsState() == ResultsHotelsState.ADDING_HOTEL_TO_TRIP){
+				mTripBucketFrag.bindToDb();
+				if (state == ResultsState.HOTELS) {
 					mTripBucketFrag.setBucketPreparedForAdd(LineOfBusiness.HOTELS);
-				}else if(state == ResultsState.FLIGHTS && mFlightsController != null && mFlightsController.getState() == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP){
+				}
+				else if (state == ResultsState.FLIGHTS) {
 					mTripBucketFrag.setBucketPreparedForAdd(LineOfBusiness.FLIGHTS);
-				}else{
-					mTripBucketFrag.bindToDb();
 				}
 			}
 

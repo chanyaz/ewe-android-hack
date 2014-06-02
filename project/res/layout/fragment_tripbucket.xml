@@ -19,13 +19,13 @@
             android:id="@+id/trip_bucket_flight_trip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"/>
+            android:visibility="invisible"/>
 
         <FrameLayout
             android:id="@+id/trip_bucket_hotel_trip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"/>
+            android:visibility="invisible"/>
     </LinearLayout>
 
 </ScrollView>

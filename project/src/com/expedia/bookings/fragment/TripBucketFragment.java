@@ -88,7 +88,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 
 		setFragState(showFlight, showHotel);
 
-		mFlightC.setVisibility(showFlight ? View.VISIBLE : View.GONE);
+		mFlightC.setVisibility(showFlight ? View.VISIBLE : (showHotel ? View.GONE : View.INVISIBLE));
 		mHotelC.setVisibility(showHotel ? View.VISIBLE : View.GONE);
 
 		if (showFlight && lobToRefresh != null && lobToRefresh == LineOfBusiness.FLIGHTS) {

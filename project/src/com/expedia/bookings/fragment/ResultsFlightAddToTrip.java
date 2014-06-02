@@ -56,7 +56,7 @@ public class ResultsFlightAddToTrip extends Fragment {
 		if (mBucketFlightFrag == null) {
 			mBucketFlightFrag = TripBucketFlightFragment.newInstance();
 		}
-		if (mBucketFlightFrag != null) {
+		if (mBucketFlightFrag != null && !mBucketFlightFrag.isAdded()) {
 			FragmentTransaction transaction = manager.beginTransaction();
 			transaction.add(R.id.fragment_container, mBucketFlightFrag, FTAG_BUCKET_FLIGHT);
 			transaction.commit();
