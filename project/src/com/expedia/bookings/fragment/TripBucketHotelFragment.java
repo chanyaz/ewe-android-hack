@@ -18,6 +18,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.utils.CalendarUtils;
@@ -81,6 +82,16 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 
 		root.addView(vg);
 
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		// Let's refresh the item state to reflect that of the existing bucket item. And update for only SHOWING_CHECKOUT_BUTTON & BOOKING_UNAVAILABLE states.
+		if (Db.getTripBucket().getHotel() != null
+			&& (Db.getTripBucket().getHotel().getState() == TripBucketItemState.SHOWING_CHECKOUT_BUTTON || Db.getTripBucket().getHotel().getState() == TripBucketItemState.BOOKING_UNAVAILABLE)) {
+			setVisibilityState(Db.getTripBucket().getHotel().getState());
+		}
 	}
 
 	@Override

@@ -31,7 +31,12 @@ public abstract class TripBucketItem implements JSONable {
 	}
 
 	public TripBucketItemState getState() {
-		return mState;
+		if (mState == null) {
+			return TripBucketItemState.DEFAULT;
+		}
+		else {
+			return mState;
+		}
 	}
 
 	public void setState(TripBucketItemState state) {

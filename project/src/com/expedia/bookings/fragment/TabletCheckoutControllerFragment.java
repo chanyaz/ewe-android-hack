@@ -289,9 +289,11 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			if (Db.getTripBucket().getHotel() != null) {
 				Db.getTripBucket().getHotel().setIsCouponApplied(false);
 				Db.getTripBucket().getHotel().setHasPriceChanged(false);
+				Db.getTripBucket().getHotel().setSelected(false);
 			}
 			if (Db.getTripBucket().getFlight() != null) {
 				Db.getTripBucket().getFlight().setHasPriceChanged(false);
+				Db.getTripBucket().getFlight().setSelected(false);
 			}
 		}
 	}

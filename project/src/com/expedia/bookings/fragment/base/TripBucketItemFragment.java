@@ -140,7 +140,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	public void onResume() {
 		super.onResume();
 		Events.register(this);
-		setVisibilityState(getState());
 		refreshTripPrice();
 	}
 
