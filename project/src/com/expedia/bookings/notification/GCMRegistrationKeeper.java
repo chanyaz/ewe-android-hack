@@ -146,7 +146,7 @@ public class GCMRegistrationKeeper implements JSONable {
 		Log.d("GCMRegistrationKeeper.loadFromGCM");
 		final String regId = getRegistrationId(context);
 		Log.d("GCM GCMRegistrar regId:" + regId);
-		if (regId.equals("")) {
+		if (TextUtils.isEmpty(regId)) {
 			registerWithGCMInBackground(context);
 		}
 		else {

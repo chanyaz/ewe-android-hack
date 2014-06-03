@@ -20,7 +20,7 @@ import com.mobiata.android.Log;
 public class GCMIntentService extends IntentService {
 
 	public GCMIntentService() {
-		super(PushNotificationUtils.SENDER_ID);
+		super("GCMIntentService: " + PushNotificationUtils.SENDER_ID);
 		Log.d("GCM GCMIntentService constructor");
 	}
 
