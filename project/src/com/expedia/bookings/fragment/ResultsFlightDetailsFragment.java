@@ -462,7 +462,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		}
 	}
 
-	public void prepareDepartureFlightSelectedAnimation(Rect globalDestSpot) {
+	public void prepareDepartureFlightSelectedAnimation(Rect globalDestSpot, boolean addingToTrip) {
 		//We move the row into its destination position. The animation itself will
 		//then start behind the Details and slide and scale its way back here.
 		Rect local = ScreenPositionUtils.translateGlobalPositionToLocalPosition(globalDestSpot, mRootC);
@@ -473,20 +473,17 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		applyRowDimensions();
 		applyRowPosition();
 
-		mAnimationFlightRow.setVisibility(View.VISIBLE);
 		mDetailsC.setVisibility(View.VISIBLE);
+		mAnimationFlightRow.setVisibility(addingToTrip ? View.INVISIBLE : View.VISIBLE);
 	}
 
-	public void setDepartureTripSelectedAnimationState(float percentage) {
+	public void setDepartureTripSelectedAnimationState(float percentage, boolean addingToTrip) {
 		if (mAnimationFlightRow != null) {
 			float rowScaleX = 1f + (((float) mDetailsWidth / mRowWidth) - 1f) * (1f - percentage);
-			//float rowScaleY = 1f + (((float) mDetailsHeight / mRowHeight) - 1f) * (1f - percentage);
-
 			float rowTranslationX = (1f - percentage) * (mDetailsPositionLeft - mRowPositionLeft);
 			float rowTranslationY = (1f - percentage) * (mDetailsPositionTop - mRowPositionTop);
 
 			mAnimationFlightRow.setScaleX(rowScaleX);
-			//mAnimationFlightRowC.setScaleY(rowScaleY);
 			mAnimationFlightRow.setTranslationX(rowTranslationX);
 			mAnimationFlightRow.setTranslationY(rowTranslationY);
 			mAnimationFlightRow.setAlpha(percentage);
@@ -517,73 +514,25 @@ public class ResultsFlightDetailsFragment extends Fragment {
 	 */
 
 	public void setAddToTripFromDetailsAnimationLayer(int layerType) {
-		//These solve the same problem, so we can just re-use for now
-		setDepartureTripSelectedAnimationLayer(layerType);
+		if (mAnimationFlightRow != null) {
+			mAnimationFlightRow.setLayerType(layerType, null);
+		}
 	}
 
 	public void prepareAddToTripFromDetailsAnimation(Rect globalAddToTripPosition) {
 		//These solve the same problem, so we can just re-use for now
-		prepareDepartureFlightSelectedAnimation(globalAddToTripPosition);
+		prepareDepartureFlightSelectedAnimation(globalAddToTripPosition, true);
 	}
 
 	public void setAddToTripFromDetailsAnimationState(float percentage) {
 		//These solve the same problem, so we can just re-use for now
-		setDepartureTripSelectedAnimationState(percentage);
+		setDepartureTripSelectedAnimationState(percentage, true);
 	}
 
 	public void finalizeAddToTripFromDetailsAnimation() {
 		finalizeDepartureFlightSelectedAnimation();
 	}
 
-	/*
-	 * ADD TO TRIP FROM DEPARTURE ANIMATION STUFF
-	 */
-
-	public void setAddToTripFromDepartureAnimationLayer(int layerType) {
-		if (mAnimationFlightRow != null) {
-			mAnimationFlightRow.setLayerType(layerType, null);
-		}
-	}
-
-	public void prepareAddToTripFromDepartureAnimation(Rect globalDepartureRowPosition, Rect globalAddToTripPosition) {
-		//This one is different, we set the row to be the dimensions of the start of the animation,
-		//this way it should just sit on top of the actual row and not cause a jump as the scaling gets strange
-		Rect local = ScreenPositionUtils.translateGlobalPositionToLocalPosition(globalDepartureRowPosition, mRootC);
-		mRowWidth = local.right - local.left;
-		mRowHeight = local.bottom - local.top;
-		mRowPositionLeft = local.left;
-		mRowPositionTop = local.top;
-
-		applyRowDimensions();
-		applyRowPosition();
-
-		mAddToTripRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(globalAddToTripPosition, mRootC);
-		mAnimationFlightRow.setVisibility(View.VISIBLE);
-		mDetailsC.setVisibility(View.INVISIBLE);
-	}
-
-	public void setAddToTripFromDepartureAnimationState(float percentage) {
-		if (mAnimationFlightRow != null && mAddToTripRect != null) {
-			float rowScaleX = 1f + (((float) (mAddToTripRect.right - mAddToTripRect.left) / mRowWidth) - 1f)
-				* percentage;
-			float rowScaleY = 1f + (((float) (mAddToTripRect.bottom - mAddToTripRect.top) / mRowHeight) - 1f)
-				* percentage;
-
-			float rowTranslationX = percentage * (mAddToTripRect.left - mRowPositionLeft);
-			float rowTranslationY = percentage * (mAddToTripRect.top - mRowPositionTop);
-
-			mAnimationFlightRow.setScaleX(rowScaleX);
-			mAnimationFlightRow.setScaleY(rowScaleY);
-			mAnimationFlightRow.setTranslationX(rowTranslationX);
-			mAnimationFlightRow.setTranslationY(rowTranslationY);
-		}
-	}
-
-	public void finalizeAddToTripFromDepartureAnimation() {
-		//reset our animation things.
-		resetDetailsC();
-		resetAnimationRow();
-	}
 
 	private void resetDetailsC() {
 		if (mDetailsC != null) {

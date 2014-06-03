@@ -87,7 +87,7 @@ public class ResultsFlightAddToTrip extends Fragment {
 	public void setDestRect(Rect globalDestinationRect) {
 		mDestRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(globalDestinationRect, mRootC);
 
-		if (mBucketFlightC != null && mDestRect != null && mDestRect.height() >  0 && mDestRect.width() > 0) {
+		if (mBucketFlightC != null && mDestRect != null && mDestRect.height() > 0 && mDestRect.width() > 0) {
 			ViewGroup.LayoutParams params = mBucketFlightC.getLayoutParams();
 			if (params == null || params.height != mDestRect.height() || params.width != mDestRect.width()) {
 				if (params == null) {
@@ -115,7 +115,13 @@ public class ResultsFlightAddToTrip extends Fragment {
 
 		@Override
 		public void onStateTransitionStart(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
-			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
+			if (stateOne == ResultsFlightsState.CHOOSING_FLIGHT
+				&& stateTwo == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
+				resetFlightCard();
+				mBucketFlightC.setAlpha(0f);
+				mBucketFlightC.setVisibility(View.VISIBLE);
+			}
+			else if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				resetFlightCard();
 				mCurve = CubicBezierAnimation.newOutsideInAnimation(0, 0, mDestRect.left - mBucketFlightC.getLeft(),
@@ -127,7 +133,15 @@ public class ResultsFlightAddToTrip extends Fragment {
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
 			float percentage) {
-			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
+			if (stateOne == ResultsFlightsState.CHOOSING_FLIGHT
+				&& stateTwo == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
+				float fadeInThreshold = 0.66f;
+				if (percentage > fadeInThreshold) {
+					float alpha = Math.max(0f, (percentage - fadeInThreshold) / (1f - fadeInThreshold));
+					mBucketFlightC.setAlpha(alpha);
+				}
+			}
+			else if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 
 
@@ -164,7 +178,7 @@ public class ResultsFlightAddToTrip extends Fragment {
 				if (mBucketFlightFrag != null) {
 					mBucketFlightFrag.bind();
 				}
-
+				mBucketFlightC.setAlpha(1f);
 				mBucketFlightC.setVisibility(View.VISIBLE);
 			}
 			else {

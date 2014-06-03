@@ -693,6 +693,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 			else if (stateOne == ResultsFlightsState.CHOOSING_FLIGHT
 				&& stateTwo == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
+				mAddToTripC.setAlpha(0f);
+				mAddToTripC.setVisibility(View.VISIBLE);
 				mAddToTripShadeView.setAlpha(0f);
 				mAddToTripShadeView.setVisibility(View.VISIBLE);
 			}
@@ -709,6 +711,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 			else if (stateOne == ResultsFlightsState.CHOOSING_FLIGHT
 				&& stateTwo == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
+				mAddToTripC.setAlpha(percentage);
 				mAddToTripShadeView.setAlpha(percentage);
 			}
 			else if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
@@ -768,6 +771,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 			if (state == ResultsFlightsState.LOADING) {
 				mNeedsQueryReset = true;
+			}
+
+			if (state == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
+				mAddToTripC.setAlpha(1f);
+			}
+			else {
+				mAddToTripC.setAlpha(0f);
 			}
 		}
 	};
