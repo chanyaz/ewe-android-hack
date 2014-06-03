@@ -473,20 +473,38 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		applyRowDimensions();
 		applyRowPosition();
 
+		if (addingToTrip && mLegNumber > 0) {
+			mAnimationFlightRow.setTranslationX(-mAnimationFlightRow.getLeft());
+			mAnimationFlightRow.setTranslationY(-mAnimationFlightRow.getTop());
+		}
+
 		mDetailsC.setVisibility(View.VISIBLE);
-		mAnimationFlightRow.setVisibility(addingToTrip ? View.INVISIBLE : View.VISIBLE);
+		if (!addingToTrip || (addingToTrip && mLegNumber > 0)) {
+			mAnimationFlightRow.setVisibility(View.VISIBLE);
+		}
+		else {
+			mAnimationFlightRow.setVisibility(View.INVISIBLE);
+		}
 	}
 
 	public void setDepartureTripSelectedAnimationState(float percentage, boolean addingToTrip) {
 		if (mAnimationFlightRow != null) {
-			float rowScaleX = 1f + (((float) mDetailsWidth / mRowWidth) - 1f) * (1f - percentage);
-			float rowTranslationX = (1f - percentage) * (mDetailsPositionLeft - mRowPositionLeft);
-			float rowTranslationY = (1f - percentage) * (mDetailsPositionTop - mRowPositionTop);
+			if (addingToTrip && mLegNumber > 0) {
+				mAnimationFlightRow.setTranslationX(-mAnimationFlightRow.getLeft() * (1f - percentage));
+				mAnimationFlightRow.setTranslationY(-mAnimationFlightRow.getTop() * (1f - percentage));
+				mAnimationFlightRow.setAlpha(percentage);
 
-			mAnimationFlightRow.setScaleX(rowScaleX);
-			mAnimationFlightRow.setTranslationX(rowTranslationX);
-			mAnimationFlightRow.setTranslationY(rowTranslationY);
-			mAnimationFlightRow.setAlpha(percentage);
+			}
+			else {
+				float rowScaleX = 1f + (((float) mDetailsWidth / mRowWidth) - 1f) * (1f - percentage);
+				float rowTranslationX = (1f - percentage) * (mDetailsPositionLeft - mRowPositionLeft);
+				float rowTranslationY = (1f - percentage) * (mDetailsPositionTop - mRowPositionTop);
+
+				mAnimationFlightRow.setScaleX(rowScaleX);
+				mAnimationFlightRow.setTranslationX(rowTranslationX);
+				mAnimationFlightRow.setTranslationY(rowTranslationY);
+				mAnimationFlightRow.setAlpha(percentage);
+			}
 		}
 
 		if (mDetailsC != null) {
