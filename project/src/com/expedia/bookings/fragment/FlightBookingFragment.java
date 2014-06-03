@@ -223,11 +223,13 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 			Money priceChangeMoney = new Money();
 			priceChangeMoney.setAmount(bigDecVal);
 
-			//Update total price and price change amount
-			Money currentTotalFare = response.getOffer().getTotalFare();
-			currentTotalFare.add(bigDecVal);
-			response.getOffer().setTotalFare(currentTotalFare);
-			response.getOffer().setPriceChangeAmount(priceChangeMoney);
+			//Update total price and price change amount ONLY if fake price is not zero amount.
+			if (!priceChangeMoney.isZero()) {
+				Money currentTotalFare = response.getOffer().getTotalFare();
+				currentTotalFare.add(bigDecVal);
+				response.getOffer().setTotalFare(currentTotalFare);
+				response.getOffer().setPriceChangeAmount(priceChangeMoney);
+			}
 		}
 
 		Db.addItinerary(response.getItinerary());
