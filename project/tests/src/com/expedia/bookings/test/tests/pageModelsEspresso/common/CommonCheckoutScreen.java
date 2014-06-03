@@ -4,6 +4,7 @@ import com.expedia.bookings.R;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.swipeRight;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.closeSoftKeyboard;
@@ -130,6 +131,7 @@ public class CommonCheckoutScreen extends ScreenActions {
 	}
 
 	public static void clickSelectPaymentButton() {
+		selectPaymentButton().perform(scrollTo());
 		selectPaymentButton().perform(click());
 	}
 
@@ -155,6 +157,15 @@ public class CommonCheckoutScreen extends ScreenActions {
 
 	public static void slideToCheckout() {
 		slideToPurchaseStartView().perform(swipeRight());
+	}
 
+	public static void clickTravelerDetails() {
+		onView(withText("Traveler details")).perform(scrollTo());
+		onView(withText("Traveler details")).perform(click());
+	}
+
+	public static void clickGuestDetails() {
+		onView(withText("Guest details")).perform(scrollTo());
+		onView(withText("Guest details")).perform(click());
 	}
 }

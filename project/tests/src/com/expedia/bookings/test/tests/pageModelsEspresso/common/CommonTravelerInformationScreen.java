@@ -5,7 +5,6 @@ import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.closeSoftKeyboard;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
@@ -75,19 +74,19 @@ public class CommonTravelerInformationScreen extends ScreenActions {
 	// Object interaction
 
 	public static void enterFirstName(String firstName) {
-		firstNameEditText().perform(typeText(firstName),closeSoftKeyboard());
+		firstNameEditText().perform(typeText(firstName));
 	}
 
 	public static void enterMiddleName(String middleName) {
-		firstNameEditText().perform(typeText(middleName),closeSoftKeyboard());
+		firstNameEditText().perform(typeText(middleName));
 	}
 
 	public static void enterLastName(String lastName) {
-		lastNameEditText().perform(typeText(lastName),closeSoftKeyboard());
+		lastNameEditText().perform(typeText(lastName));
 	}
 
 	public static void enterPhoneNumber(String phoneNumber) {
-		phoneNumberEditText().perform(typeText(phoneNumber),closeSoftKeyboard());
+		phoneNumberEditText().perform(typeText(phoneNumber));
 	}
 
 	public static void clickBirthDateButton() {
@@ -107,7 +106,7 @@ public class CommonTravelerInformationScreen extends ScreenActions {
 	}
 
 	public static void enterEmailAddress(String emailAddress) {
-		emailEditText().perform(typeText(emailAddress), closeSoftKeyboard());
+		emailEditText().perform(typeText(emailAddress));
 	}
 
 	public static void clickNextButton() {
