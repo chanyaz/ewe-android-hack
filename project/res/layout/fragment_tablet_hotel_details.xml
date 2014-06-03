@@ -147,8 +147,8 @@
                 android:layout_height="80dp"
                 android:layout_below="@id/reviews_container"
                 android:background="@color/tablet_white_pane_bg"
-                android:paddingLeft="@dimen/tablet_detail_padding"
-                android:paddingRight="@dimen/tablet_detail_padding"
+                android:paddingLeft="@dimen/hotel_details_horizontal_padding"
+                android:paddingRight="@dimen/hotel_details_horizontal_padding"
                 android:visibility="invisible">
 
                 <include
@@ -182,8 +182,8 @@
                 android:layout_below="@id/rooms_rates_container"
                 android:background="@color/tablet_white_pane_bg"
                 android:orientation="vertical"
-                android:paddingLeft="@dimen/tablet_detail_padding"
-                android:paddingRight="@dimen/tablet_detail_padding" />
+                android:paddingLeft="@dimen/hotel_details_horizontal_padding"
+                android:paddingRight="@dimen/hotel_details_horizontal_padding" />
 
             <!-- Hotel header section (#2058, #2401) -->
             <!-- This is out of order down here so it can always be on z-top -->

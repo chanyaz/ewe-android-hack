@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/tablet_detail_padding"
-        android:paddingRight="@dimen/tablet_detail_padding">
+        android:paddingLeft="@dimen/hotel_details_horizontal_padding"
+        android:paddingRight="@dimen/hotel_details_horizontal_padding">
 
         <include layout="@layout/snippet_tablet_room_rate_add_select"/>
 
@@ -17,8 +17,7 @@
             android:id="@+id/room_rate_detail_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/hotel_room_rate_detail_container_margin"
-            android:layout_marginTop="@dimen/hotel_room_rate_detail_container_margin"
+            android:paddingBottom="@dimen/hotel_room_rate_vertical_padding"
             android:visibility="gone">
 
             <ImageView

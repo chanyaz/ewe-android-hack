@@ -35,7 +35,6 @@
     <dimen name="tablet_flight_details_statistic_drawable_spacing">8dp</dimen>
 
     <!-- Tablet details -->
-    <dimen name="tablet_detail_padding">28dp</dimen>
     <dimen name="non_refundable_tweak">0dp</dimen>
     <dimen name="add_rate_button_min_width">48dp</dimen>
     <dimen name="tablet_details_compact_header_height">57dp</dimen>

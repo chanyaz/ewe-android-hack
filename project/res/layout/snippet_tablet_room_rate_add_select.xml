@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingTop="20dp" >
+    android:paddingTop="@dimen/hotel_room_rate_vertical_padding"
+    android:paddingBottom="@dimen/hotel_room_rate_vertical_padding">
 
     <LinearLayout
         android:layout_width="0dp"

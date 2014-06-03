@@ -5,8 +5,8 @@
         <color android:color="@color/tablet_white_pane_bg"/>
     </item>
     <item
-        android:left="@dimen/tablet_detail_padding"
-        android:right="@dimen/tablet_detail_padding">
+        android:left="@dimen/hotel_details_horizontal_padding"
+        android:right="@dimen/hotel_details_horizontal_padding">
         <shape>
             <size android:height="@dimen/one_pixel" />
             <solid android:color="#d9dce0"/>

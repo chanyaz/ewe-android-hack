@@ -158,9 +158,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:background="@color/bg_row_state_pressed"
-            android:paddingBottom="20dp"
-            android:paddingLeft="@dimen/tablet_detail_padding"
-            android:paddingRight="@dimen/tablet_detail_padding" >
+            android:paddingLeft="@dimen/hotel_details_horizontal_padding"
+            android:paddingRight="@dimen/hotel_details_horizontal_padding" >
 
             <include
                 layout="@layout/snippet_tablet_room_rate_add_select" />
