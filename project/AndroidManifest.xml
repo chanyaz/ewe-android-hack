@@ -119,6 +119,7 @@
 
         <activity
             android:name="com.expedia.bookings.activity.ItineraryActivity"
+            android:exported="true"
             android:label="@string/trips"
             android:launchMode="singleTop"
             android:theme="@style/ItineraryTheme" />

@@ -1,6 +1,7 @@
 package com.expedia.bookings.notification;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,11 +9,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
-import com.google.android.gcm.GCMRegistrar;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
@@ -25,7 +27,6 @@ import com.mobiata.android.util.IoUtils;
  * event, and that makes us look bad. Thus we have a persistant list of registration ids
  * and we make sure to keep them around until we have SUCCESSFULLY told the server
  * to remove our old registration ids.
- *
  */
 public class GCMRegistrationKeeper implements JSONable {
 
@@ -56,6 +57,7 @@ public class GCMRegistrationKeeper implements JSONable {
 
 	/**
 	 * Private constructor for our singleton.
+	 *
 	 * @param context
 	 */
 	private GCMRegistrationKeeper(Context context) {
@@ -105,25 +107,28 @@ public class GCMRegistrationKeeper implements JSONable {
 
 	/**
 	 * Tell the api about regids that should no longer get push notifications
+	 *
 	 * @param context
 	 */
 	private void unRegisterAllExpiredIds(final Context context) {
 		Log.d("GCMRegistrationKeeper.unRegisterAllExpiredIds");
 		for (final String oldRegId : mExpiredRegistrationIds) {
 			PushNotificationUtils.unRegister(context, oldRegId,
-					new OnDownloadComplete<PushNotificationRegistrationResponse>() {
-						@Override
-						public void onDownload(PushNotificationRegistrationResponse results) {
-							if (results != null && results.getSuccess()) {
-								onRegistrationIdSuccessfullyUnregistered(context, oldRegId);
-							}
+				new OnDownloadComplete<PushNotificationRegistrationResponse>() {
+					@Override
+					public void onDownload(PushNotificationRegistrationResponse results) {
+						if (results != null && results.getSuccess()) {
+							onRegistrationIdSuccessfullyUnregistered(context, oldRegId);
 						}
-					});
+					}
+				}
+			);
 		}
 	}
 
 	/**
 	 * Set the registrationId to be used for GCM.
+	 *
 	 * @param context
 	 * @return
 	 */
@@ -134,18 +139,15 @@ public class GCMRegistrationKeeper implements JSONable {
 
 	/**
 	 * This is the standard GCM workflow for getting a registrationId
+	 *
 	 * @param context
 	 */
 	private synchronized void loadFromGCM(Context context) {
 		Log.d("GCMRegistrationKeeper.loadFromGCM");
-		Log.d("GCM GCMRegistrar.checkDevice(this);");
-		GCMRegistrar.checkDevice(context);
-		Log.d("GCM GCMRegistrar.checkManifest(this);");
-		GCMRegistrar.checkManifest(context);
-		final String regId = GCMRegistrar.getRegistrationId(context);
+		final String regId = getRegistrationId(context);
 		Log.d("GCM GCMRegistrar regId:" + regId);
 		if (regId.equals("")) {
-			GCMRegistrar.register(context, PushNotificationUtils.SENDER_ID);
+			registerWithGCMInBackground(context);
 		}
 		else {
 			setRegistrationId(context, regId);
@@ -153,8 +155,26 @@ public class GCMRegistrationKeeper implements JSONable {
 		}
 	}
 
+	private void registerWithGCMInBackground(final Context context) {
+		new AsyncTask<Void, Void, Void>() {
+			@Override
+			protected Void doInBackground(Void... params) {
+				GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(context);
+				try {
+					String regId = gcm.register(PushNotificationUtils.SENDER_ID);
+					setRegistrationId(context, regId);
+				}
+				catch (IOException e) {
+					Log.d("GCMRegistrationKeeper: Unable to register with GCM.");
+				}
+				return null;
+			}
+		}.execute(null, null, null);
+	}
+
 	/**
 	 * Load instance from disk
+	 *
 	 * @param context
 	 */
 	private synchronized void loadFromDisk(Context context) {

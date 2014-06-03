@@ -5,7 +5,7 @@ import java.util.Collection;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.content.Context;
+import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,41 +15,26 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncAdapter;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent;
-import com.google.android.gcm.GCMBaseIntentService;
 import com.mobiata.android.Log;
 
-public class GCMIntentService extends GCMBaseIntentService {
+public class GCMIntentService extends IntentService {
 
 	public GCMIntentService() {
 		super(PushNotificationUtils.SENDER_ID);
 		Log.d("GCM GCMIntentService constructor");
 	}
 
-	@Override
-	public void onRegistered(Context context, String regId) {
-		Log.d("GCM onRegistered regId:" + regId);
-		GCMRegistrationKeeper.getInstance(context).setRegistrationId(context, regId);
-
-		//ItineraryManager.startSync needs to happen on the UI thread, hence the Handler magic
-		Handler handler = new Handler(Looper.getMainLooper());
-		handler.post(new Runnable() {
-			@Override
-			public void run() {
-				ItineraryManager.getInstance().startPushNotificationSync();
-			}
-		});
+	private void printIntent(Intent intent) {
+		Log.d("GCM printIntent");
+		for (String key : intent.getExtras().keySet()) {
+			Log.d("GCM key:" + key + " value:" + intent.getExtras().getString(key));
+		}
 	}
 
 	@Override
-	protected void onUnregistered(Context context, String regId) {
-		Log.d("GCM onUnregistered regId:" + regId);
-		GCMRegistrationKeeper.getInstance(context).setRegistrationId(context, "");
-	}
-
-	@Override
-	protected void onMessage(Context context, Intent intent) {
+	protected void onHandleIntent(Intent intent) {
 		Log.d("GCM onMessage intent:" + intent);
-		printItent(intent);
+		printIntent(intent);
 
 		Bundle extras = intent.getExtras();
 		if (extras != null) {
@@ -91,37 +76,28 @@ public class GCMIntentService extends GCMBaseIntentService {
 							}
 						});
 					}
-
 				}
 				catch (Exception ex) {
 					Log.e("GCM - Exception parsing bundle", ex);
 				}
 			}
 			else {
-				Log.e("GCM - Missing Required Extras");
+				StringBuilder errorBuilder = new StringBuilder("GCM - Missing Required Extras from fields: ");
+				if (!extras.containsKey("data")) {
+					errorBuilder.append("data, ");
+				}
+				if (!extras.containsKey("message")) {
+					errorBuilder.append("message, ");
+				}
+				if (!extras.containsKey("from")) {
+					errorBuilder.append("from");
+				}
+
+				Log.e(errorBuilder.toString());
 			}
 		}
 		else {
 			Log.e("GCM - No Extras Bundle");
-		}
-	}
-
-	@Override
-	protected void onError(Context arg0, String arg1) {
-		Log.d("GCM onError arg1:" + arg1);
-
-	}
-
-	@Override
-	public boolean onRecoverableError(Context context, String errorId) {
-		Log.d("GCM onRecoverableError errorId:" + errorId);
-		return false;
-	}
-
-	private void printItent(Intent intent) {
-		Log.d("GCM printItent");
-		for (String key : intent.getExtras().keySet()) {
-			Log.d("GCM key:" + key + " value:" + intent.getExtras().getString(key));
 		}
 	}
 
@@ -158,7 +134,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 							private void notify(Trip trip) {
 								PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey,
-										locArgs, type);
+									locArgs, type);
 								ItineraryManager.getInstance().removeSyncListener(this);
 							}
 						});
@@ -170,16 +146,15 @@ public class GCMIntentService extends GCMBaseIntentService {
 			}
 			else {
 				Log.w("GCM: Generating push notification but unable to find parentTrip for fhid=" + fhid + " type=" + type
-						+ "component=" + component.toJson().toString());
+					+ "component=" + component.toJson().toString());
 				PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey, locArgs, type);
 			}
 		}
 		else {
 			Log.w("GCM: Generating push notification, but can't find the tripComponent, thus no deepRefresh called fhid="
-					+ fhid + " type=" + type);
+				+ fhid + " type=" + type);
 			PushNotificationUtils.generateNotification(GCMIntentService.this, fhid, locKey, locArgs, type);
 		}
 
 	}
-
 }
