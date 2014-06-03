@@ -22,7 +22,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
@@ -85,24 +84,36 @@ public class RowRoomRateLayout extends FrameLayout {
 
 	@Override
 	public void setSelected(boolean selected) {
+		setSelected(selected, false);
+	}
+
+	public void setSelected(boolean selected, boolean animate) {
 		super.setSelected(selected);
 
 		if (selected) {
-			if (!isExpanded()) {
-				setHeight(LayoutParams.WRAP_CONTENT);
+			if (!animate) {
+				mExpanded = true;
+				expandNow();
+			}
+			else if (!isExpanded()) {
+				mExpanded = true;
 				expand();
 			}
 		}
 		else {
-			if (isExpanded()) {
-				setHeight(getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_list_height));
+			if (!animate) {
+				mExpanded = false;
+				collapseNow();
+			}
+			else if (isExpanded()) {
+				mExpanded = false;
 				collapse();
 			}
 		}
 	}
 
 	// This forces a re-layout. Let's hope it doesn't get called too often.
-	private void setHeight(int height) {
+	public void setHeight(int height) {
 		ViewGroup.LayoutParams layoutParams = getLayoutParams();
 		layoutParams.height = height;
 		setLayoutParams(layoutParams);
@@ -292,7 +303,7 @@ public class RowRoomRateLayout extends FrameLayout {
 	}
 
 	private void expand() {
-		mExpanded = true;
+		setHeight(LayoutParams.WRAP_CONTENT);
 
 		// Show the room rate detail container
 		Ui.findView(this, R.id.room_rate_detail_container).setVisibility(View.VISIBLE);
@@ -317,29 +328,33 @@ public class RowRoomRateLayout extends FrameLayout {
 		set.addListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator animator) {
-				addRoomButton.setAlpha(1f);
-				selectRoomButton.setAlpha(0f);
-				selectRoomButton.setVisibility(View.GONE);
-				getBackground().setAlpha(255);
+				expandNow();
 			}
 		});
 		set.start();
 	}
 
-	private void collapse() {
-		mExpanded = false;
+	private void expandNow() {
+		Ui.findView(this, R.id.room_rate_detail_container).setVisibility(View.VISIBLE);
+		Ui.findView(this, R.id.notice_container).setVisibility(View.VISIBLE);
+		Ui.findView(this, R.id.room_rate_button_add).setVisibility(View.VISIBLE);
+		Ui.findView(this, R.id.room_rate_button_add).setAlpha(1f);
+		Ui.findView(this, R.id.room_rate_button_select).setAlpha(0f);
+		Ui.findView(this, R.id.room_rate_button_select).setVisibility(View.GONE);
+		getBackground().setAlpha(255);
+		setHeight(LayoutParams.WRAP_CONTENT);
+	}
 
-		// Show the room rate detail container
-		Ui.findView(this, R.id.room_rate_detail_container).setVisibility(View.GONE);
-		Ui.findView(this, R.id.notice_container).setVisibility(View.GONE);
+	private void collapse() {
+		setHeight(getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_list_height));
 
 		// Animate children
-		final View addRoomButton = Ui.findView(this, R.id.room_rate_button_add);
+		View addRoomButton = Ui.findView(this, R.id.room_rate_button_add);
 		addRoomButton.setVisibility(View.VISIBLE);
 		addRoomButton.setAlpha(1f);
 		ObjectAnimator addButtonAnimator = ObjectAnimator.ofFloat(addRoomButton, "alpha", 0f);
 
-		final View selectRoomButton = Ui.findView(this, R.id.room_rate_button_select);
+		View selectRoomButton = Ui.findView(this, R.id.room_rate_button_select);
 		selectRoomButton.setVisibility(View.VISIBLE);
 		selectRoomButton.setAlpha(0f);
 		ObjectAnimator selectButtonAnimator = ObjectAnimator.ofFloat(selectRoomButton, "alpha", 1f);
@@ -352,13 +367,21 @@ public class RowRoomRateLayout extends FrameLayout {
 		set.addListener(new AnimatorListenerAdapter() {
 			@Override
 			public void onAnimationEnd(Animator animator) {
-				addRoomButton.setAlpha(0f);
-				addRoomButton.setVisibility(View.GONE);
-				selectRoomButton.setAlpha(1f);
-				getBackground().setAlpha(0);
+				collapseNow();
 			}
 		});
 		set.start();
+	}
+
+	private void collapseNow() {
+		Ui.findView(this, R.id.room_rate_detail_container).setVisibility(View.GONE);
+		Ui.findView(this, R.id.notice_container).setVisibility(View.GONE);
+		Ui.findView(this, R.id.room_rate_button_add).setVisibility(View.GONE);
+		Ui.findView(this, R.id.room_rate_button_add).setAlpha(0f);
+		Ui.findView(this, R.id.room_rate_button_select).setVisibility(View.VISIBLE);
+		Ui.findView(this, R.id.room_rate_button_select).setAlpha(1f);
+		getBackground().setAlpha(0);
+		setHeight(getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_list_height));
 	}
 
 	private void openWebView(String title, String text) {

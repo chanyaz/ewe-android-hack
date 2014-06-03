@@ -514,17 +514,23 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private void setDefaultSelectedRate() {
 		String propertyId = Db.getHotelSearch().getSelectedPropertyId();
 		HotelAvailability availability = Db.getHotelSearch().getAvailability(propertyId);
-		Rate rate = availability == null ? null : availability.getSelectedRate();
-		if (rate == null) {
+		Rate selectedRate = availability == null ? null : availability.getSelectedRate();
+		if (selectedRate == null) {
 			if (mResponse == null || mResponse.getRates() == null || mResponse.getRateCount() == 0) {
-				rate = Db.getHotelSearch().getSelectedProperty().getLowestRate();
+				selectedRate = Db.getHotelSearch().getSelectedProperty().getLowestRate();
 			}
 			else {
-				rate = mResponse.getRates().get(0);
+				selectedRate = mResponse.getRates().get(0);
 			}
 		}
 
-		setSelectedRate(rate);
+		Db.getHotelSearch().setSelectedRate(selectedRate);
+
+		for (int i = 0; i < mRoomsRatesContainer.getChildCount(); i++) {
+			final RowRoomRateLayout row = (RowRoomRateLayout) mRoomsRatesContainer.getChildAt(i);
+			boolean isSelected = row.getRate().equals(selectedRate);
+			row.setSelected(isSelected);
+		}
 	}
 
 	/**
