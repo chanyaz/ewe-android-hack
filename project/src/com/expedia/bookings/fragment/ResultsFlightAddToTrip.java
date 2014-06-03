@@ -49,7 +49,7 @@ public class ResultsFlightAddToTrip extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		mRootC = (ViewGroup) inflater.inflate(R.layout.fragment_tablet_flight_add_to_trip, null);
-		mBucketFlightC = Ui.findView(mRootC, R.id.fragment_container);//Ui.findView(mRootC, R.id.flight_row);
+		mBucketFlightC = Ui.findView(mRootC, R.id.fragment_container);
 
 		FragmentManager manager = getChildFragmentManager();
 		mBucketFlightFrag = (TripBucketFlightFragment) manager.findFragmentByTag(FTAG_BUCKET_FLIGHT);
@@ -86,6 +86,20 @@ public class ResultsFlightAddToTrip extends Fragment {
 
 	public void setDestRect(Rect globalDestinationRect) {
 		mDestRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(globalDestinationRect, mRootC);
+
+		if (mBucketFlightC != null && mDestRect != null && mDestRect.height() >  0 && mDestRect.width() > 0) {
+			ViewGroup.LayoutParams params = mBucketFlightC.getLayoutParams();
+			if (params == null || params.height != mDestRect.height() || params.width != mDestRect.width()) {
+				if (params == null) {
+					params = new ViewGroup.LayoutParams(mDestRect.width(), mDestRect.height());
+				}
+				else {
+					params.height = mDestRect.height();
+					params.width = mDestRect.width();
+				}
+				mBucketFlightC.setLayoutParams(params);
+			}
+		}
 	}
 
 	private void resetFlightCard() {
