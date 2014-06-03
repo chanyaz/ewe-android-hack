@@ -26,6 +26,12 @@
     <dimen name="hotel_room_rate_thumbnail_width">189dp</dimen>
     <dimen name="hotel_room_rate_thumbnail_height">125dp</dimen>
 
+    <!-- Hotel Details Rooms and rates row initial/unexpanded height -->
+    <dimen name="hotel_room_rate_list_height">84dp</dimen>
+
+    <!-- Hotel Details Rooms and rates detail container margin top/bottom -->
+    <dimen name="hotel_room_rate_detail_container_margin">24dp</dimen>
+
     <!-- Tablet Flights -->
     <dimen name="flight_header_bottom_margin">140dp</dimen>
     <dimen name="plane_window_height">600dp</dimen>

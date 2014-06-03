@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -37,7 +38,7 @@ import com.mobiata.android.FormatUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.HtmlUtils;
 
-public class RowRoomRateLayout extends LinearLayout {
+public class RowRoomRateLayout extends FrameLayout {
 
 	private static final int ROOM_RATE_ANIMATION_DURATION = 300;
 	private static final int ROOM_COUNT_URGENCY_CUTOFF = 5;
@@ -102,7 +103,7 @@ public class RowRoomRateLayout extends LinearLayout {
 
 	// This forces a re-layout. Let's hope it doesn't get called too often.
 	private void setHeight(int height) {
-		LayoutParams layoutParams = (LayoutParams) getLayoutParams();
+		ViewGroup.LayoutParams layoutParams = getLayoutParams();
 		layoutParams.height = height;
 		setLayoutParams(layoutParams);
 	}
@@ -155,7 +156,7 @@ public class RowRoomRateLayout extends LinearLayout {
 		pricePerNight.setText(Html.fromHtml(perNightString));
 
 		// Show renovation fees notice
-		android.widget.LinearLayout renovationNoticeContainer = Ui.findView(this, R.id.room_rate_renovation_container);
+		View renovationNoticeContainer = Ui.findView(this, R.id.room_rate_renovation_container);
 		Property property = Db.getHotelSearch().getSelectedProperty();
 		if (property.getRenovationText() != null && !TextUtils.isEmpty(property.getRenovationText().getContent())) {
 			renovationNoticeContainer.setVisibility(View.VISIBLE);
@@ -173,7 +174,7 @@ public class RowRoomRateLayout extends LinearLayout {
 		}
 
 		// Show resort fees notice
-		android.widget.LinearLayout resortFeesContainer = Ui.findView(this, R.id.room_rate_resort_fees_container);
+		View resortFeesContainer = Ui.findView(this, R.id.room_rate_resort_fees_container);
 		Money mandatoryFees = rate == null ? null : rate.getTotalMandatoryFees();
 		boolean hasMandatoryFees = mandatoryFees != null && !mandatoryFees.isZero();
 		boolean hasResortFeesMessage = property.getMandatoryFeesText() != null
@@ -224,7 +225,6 @@ public class RowRoomRateLayout extends LinearLayout {
 			urgencyMessagingView.setVisibility(View.GONE);
 		}
 
-		final RelativeLayout container = Ui.findView(this, R.id.room_rate_detail_container);
 		ImageView roomDetailImageView = Ui.findView(this, R.id.room_rate_image_view);
 		final android.widget.TextView roomLongDescriptionTextView = Ui.findView(this, R.id.room_rate_description_text);
 		android.widget.TextView refundableTextView = Ui.findView(this, R.id.room_rate_refundable_text);
@@ -262,18 +262,7 @@ public class RowRoomRateLayout extends LinearLayout {
 
 			@Override
 			public void onClick(View v) {
-				// We need to reset the layout params for the container and the row.
-				// So that we are ready to expand the textView when user wants it.
 				if (mIsDescriptionTextSpanned) {
-					android.widget.LinearLayout.LayoutParams layoutParams = new android.widget.LinearLayout.LayoutParams(
-						android.widget.LinearLayout.LayoutParams.MATCH_PARENT, android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
-					int marginDP = getResources()
-						.getDimensionPixelSize(R.dimen.hotel_room_rate_detail_container_margin);
-					layoutParams.bottomMargin = marginDP;
-					layoutParams.topMargin = marginDP;
-					container.setLayoutParams(layoutParams);
-					setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-
 					roomLongDescriptionTextView.setText(roomLongDescription);
 				}
 			}
@@ -306,8 +295,8 @@ public class RowRoomRateLayout extends LinearLayout {
 		mExpanded = true;
 
 		// Show the room rate detail container
-		final RelativeLayout container = Ui.findView(this, R.id.room_rate_detail_container);
-		container.setVisibility(View.VISIBLE);
+		Ui.findView(this, R.id.room_rate_detail_container).setVisibility(View.VISIBLE);
+		Ui.findView(this, R.id.notice_container).setVisibility(View.VISIBLE);
 
 		// Animate children
 		final View addRoomButton = Ui.findView(this, R.id.room_rate_button_add);
@@ -341,8 +330,8 @@ public class RowRoomRateLayout extends LinearLayout {
 		mExpanded = false;
 
 		// Show the room rate detail container
-		final RelativeLayout container = Ui.findView(this, R.id.room_rate_detail_container);
-		container.setVisibility(View.GONE);
+		Ui.findView(this, R.id.room_rate_detail_container).setVisibility(View.GONE);
+		Ui.findView(this, R.id.notice_container).setVisibility(View.GONE);
 
 		// Animate children
 		final View addRoomButton = Ui.findView(this, R.id.room_rate_button_add);
