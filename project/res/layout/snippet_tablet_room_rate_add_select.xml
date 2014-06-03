@@ -20,7 +20,7 @@
             android:id="@+id/text_room_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="marquee"
+            android:ellipsize="end"
             android:singleLine="true"
             android:textColor="#000000"
             android:textSize="17sp"
