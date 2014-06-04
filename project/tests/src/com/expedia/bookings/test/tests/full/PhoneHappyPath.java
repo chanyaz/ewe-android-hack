@@ -117,6 +117,14 @@ public class PhoneHappyPath extends ActivityInstrumentationTestCase2<SearchActiv
 		HotelsRoomsRatesScreen.selectRoomItem(0);
 		HotelsCheckoutScreen.clickCheckoutButton();
 
+		HotelsCheckoutScreen.clickGuestDetails();
+		HotelsCheckoutScreen.clickAddTravelerButton();
+		CommonTravelerInformationScreen.enterFirstName("Mobiata");
+		CommonTravelerInformationScreen.enterLastName("Auto");
+		CommonTravelerInformationScreen.enterPhoneNumber("1112223333");
+		CommonTravelerInformationScreen.enterEmailAddress("mobiataauto@gmail.com");
+		CommonTravelerInformationScreen.clickDoneButton();
+
 		HotelsCheckoutScreen.clickSelectPaymentButton();
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
 		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
@@ -127,14 +135,6 @@ public class PhoneHappyPath extends ActivityInstrumentationTestCase2<SearchActiv
 		CardInfoScreen.typeTextPostalCode("94015");
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
 		CardInfoScreen.clickOnDoneButton();
-
-		HotelsCheckoutScreen.clickGuestDetails();
-		HotelsCheckoutScreen.clickAddTravelerButton();
-		CommonTravelerInformationScreen.enterFirstName("Mobiata");
-		CommonTravelerInformationScreen.enterLastName("Auto");
-		CommonTravelerInformationScreen.enterPhoneNumber("1112223333");
-		CommonTravelerInformationScreen.enterEmailAddress("mobiataauto@gmail.com");
-		CommonTravelerInformationScreen.clickDoneButton();
 
 		HotelsCheckoutScreen.slideToCheckout();
 		CVVEntryScreen.parseAndEnterCVV("111");
