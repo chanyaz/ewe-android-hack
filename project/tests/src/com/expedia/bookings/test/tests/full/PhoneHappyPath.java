@@ -97,7 +97,6 @@ public class PhoneHappyPath extends ActivityInstrumentationTestCase2<SearchActiv
 		CVVEntryScreen.parseAndEnterCVV("111");
 		CVVEntryScreen.clickBookButton();
 		FlightsConfirmationScreen.clickDoneButton();
-		LaunchScreen.pressShop();
 	}
 
 	public void testBookHotel() throws InterruptedException {
@@ -140,6 +139,14 @@ public class PhoneHappyPath extends ActivityInstrumentationTestCase2<SearchActiv
 		CVVEntryScreen.parseAndEnterCVV("111");
 		CVVEntryScreen.clickBookButton();
 		HotelsConfirmationScreen.clickDoneButton();
-		LaunchScreen.pressShop();
+	}
+
+	@Override
+	public void tearDown() throws Exception {
+		super.tearDown();
+		// These tests are only applicable to phones
+		if (!ExpediaBookingApp.useTabletInterface(getInstrumentation().getTargetContext())) {
+			Common.pressBackOutOfApp();
+		}
 	}
 }
