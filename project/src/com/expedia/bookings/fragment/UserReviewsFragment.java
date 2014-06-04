@@ -40,7 +40,11 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 	// Constants
 	private static String REVIEWS_DOWNLOAD_KEY_PREFIX = "com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsDownload.";
-	private static final int BODY_LENGTH_CUTOFF = 270;
+	private static final int BODY_LENGTH_CUTOFF = 300;
+	private static final int BODY_LENGTH_CUT = 220;
+
+	private static final int TABLET_BODY_LENGTH_CUTOFF = 450;
+	private static final int TABLET_BODY_LENGTH_CUT = 300;
 
 	// Bundle strings
 	private static final String ARGUMENT_SORT_STRING = "ARGUMENT_SORT_STRING";
@@ -444,8 +448,13 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			loadedReview.mReview = review;
 
 			String body = review.getBody();
-			if (body.length() > BODY_LENGTH_CUTOFF) {
-				loadedReview.mBodyReduced = body.substring(0, BODY_LENGTH_CUTOFF);
+			if (ExpediaBookingApp.useTabletInterface(getActivity()) && body.length() > TABLET_BODY_LENGTH_CUTOFF) {
+				loadedReview.mBodyReduced = body.substring(0, TABLET_BODY_LENGTH_CUT);
+				loadedReview.mBodyReduced += "...";
+				loadedReview.mBodyWasReduced = true;
+			}
+			else if (body.length() > BODY_LENGTH_CUTOFF) {
+				loadedReview.mBodyReduced = body.substring(0, BODY_LENGTH_CUT);
 				loadedReview.mBodyReduced += "...";
 				loadedReview.mBodyWasReduced = true;
 			}
