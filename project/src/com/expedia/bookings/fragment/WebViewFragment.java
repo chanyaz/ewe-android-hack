@@ -48,6 +48,7 @@ public class WebViewFragment extends DialogFragment {
 	private static final String ARG_ENABLE_LOGIN = "ARG_ENABLE_LOGIN";
 	private static final String ARG_LOAD_EXPEDIA_COOKIES = "ARG_LOAD_EXPEDIA_COOKIES";
 	private static final String ARG_ALLOW_MOBILE_REDIRECTS = "ARG_ALLOW_MOBILE_REDIRECTS";
+	private static final String ARG_ATTEMPT_FORCE_MOBILE_SITE = "ARG_ATTEMPT_FORCE_MOBILE_SITE";
 
 	private static final String ARG_DIALOG_MODE = "ARG_DIALOG_MODE";
 	private static final String ARG_DIALOG_TITLE = "ARG_DIALOG_TITLE";
@@ -69,10 +70,16 @@ public class WebViewFragment extends DialogFragment {
 	private boolean enableSignIn;
 	private boolean mLoadCookies;
 	private boolean mAllowUseableNetRedirects;
+	private boolean mAttemptForceMobileSite;
 	private TrackingName mTrackingName;
 
 	public static WebViewFragment newInstance(String url, boolean enableSignIn, boolean loadCookies,
-			boolean allowUseableNetRedirects, String name) {
+											  boolean allowUseableNetRedirects, String name) {
+		return newInstance(url, enableSignIn, loadCookies, allowUseableNetRedirects, false, name);
+	}
+
+	public static WebViewFragment newInstance(String url, boolean enableSignIn, boolean loadCookies,
+			boolean allowUseableNetRedirects, boolean attemptForceMobileSite, String name) {
 		WebViewFragment frag = new WebViewFragment();
 
 		Bundle args = new Bundle();
@@ -80,6 +87,7 @@ public class WebViewFragment extends DialogFragment {
 		args.putBoolean(ARG_ENABLE_LOGIN, enableSignIn);
 		args.putBoolean(ARG_LOAD_EXPEDIA_COOKIES, loadCookies);
 		args.putBoolean(ARG_ALLOW_MOBILE_REDIRECTS, allowUseableNetRedirects);
+		args.putBoolean(ARG_ATTEMPT_FORCE_MOBILE_SITE, attemptForceMobileSite);
 		args.putString(ARG_TRACKING_NAME, name);
 		frag.setArguments(args);
 		frag.setRetainInstance(true);
@@ -153,6 +161,7 @@ public class WebViewFragment extends DialogFragment {
 		}
 
 		mAllowUseableNetRedirects = args.getBoolean(ARG_ALLOW_MOBILE_REDIRECTS, true);
+		mAttemptForceMobileSite = args.getBoolean(ARG_ATTEMPT_FORCE_MOBILE_SITE, false);
 	}
 
 	@Override
@@ -311,6 +320,11 @@ public class WebViewFragment extends DialogFragment {
 			mWebView.getSettings().setUserAgentString(userAgentString);
 		}
 
+		if (mAttemptForceMobileSite) {
+			StringBuilder sb = new StringBuilder("Android ");
+			sb.append(mWebView.getSettings().getUserAgentString());
+			mWebView.getSettings().setUserAgentString(sb.toString());
+		}
 		mWebView.getSettings().setDisplayZoomControls(false);
 
 		mWebView.setWebViewClient(new WebViewClient() {

@@ -26,6 +26,7 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 	private static final String ARG_TRACKING_NAME = "ARG_TRACKING_NAME";
 	private static final String ARG_HTML_DATA = "ARG_HTML_DATA";
 	private static final String ARG_ALLOW_MOBILE_REDIRECTS = "ARG_ALLOW_MOBILE_REDIRECTS";
+	private static final String ARG_ATTEMPT_FORCE_MOBILE_SITE = "ARG_ATTEMPT_FORCE_MOBILE_SITE";
 
 	private WebViewFragment mFragment;
 
@@ -87,6 +88,11 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 			mIntent.putExtra(ARG_ALLOW_MOBILE_REDIRECTS, allowMobileRedirects);
 			return this;
 		}
+
+		public IntentBuilder setAttemptForceMobileSite(boolean attemptForceMobileSite) {
+			mIntent.putExtra(ARG_ATTEMPT_FORCE_MOBILE_SITE, attemptForceMobileSite);
+			return this;
+		}
 	}
 
 	@Override
@@ -143,8 +149,8 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 					finish();
 					return;
 				}
-
-				mFragment = WebViewFragment.newInstance(url, enableLogin, injectExpediaCookies, allowMobileRedirects,
+				boolean attemptForceMobileWeb = extras.getBoolean(ARG_ATTEMPT_FORCE_MOBILE_SITE, false);
+				mFragment = WebViewFragment.newInstance(url, enableLogin, injectExpediaCookies, allowMobileRedirects, attemptForceMobileWeb,
 						name);
 			}
 
