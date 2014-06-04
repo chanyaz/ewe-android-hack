@@ -97,8 +97,8 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		super.onCreate(savedInstanceState);
 
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
