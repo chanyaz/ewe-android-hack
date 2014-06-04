@@ -62,8 +62,8 @@ public class PhoneHappyPath extends ActivityInstrumentationTestCase2<SearchActiv
 		FlightsCheckoutScreen.clickCheckoutButton();
 
 		FlightsCheckoutScreen.clickTravelerDetails();
-		FlightsTravelerInfoScreen.enterLastName("Mobile");
-		FlightsTravelerInfoScreen.enterFirstName("Expedia");
+		FlightsTravelerInfoScreen.enterFirstName("Mobiata");
+		FlightsTravelerInfoScreen.enterLastName("Auto");
 		FlightsTravelerInfoScreen.enterPhoneNumber("1112223333");
 		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.phoneNumberEditText());
 		FlightsTravelerInfoScreen.clickBirthDateButton();
@@ -84,12 +84,13 @@ public class PhoneHappyPath extends ActivityInstrumentationTestCase2<SearchActiv
 		BillingAddressScreen.clickNextButton();
 
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
+		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
 		CardInfoScreen.clickOnExpirationDateButton();
 		CardInfoScreen.clickMonthUpButton();
 		CardInfoScreen.clickYearUpButton();
 		CardInfoScreen.clickSetButton();
-		CardInfoScreen.typeTextNameOnCardEditText("Expedia Mobile");
-		CardInfoScreen.typeTextEmailEditText("Expedia@mobile.com");
+		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
+		CardInfoScreen.typeTextEmailEditText("mobiataauto@gmail.com");
 		CardInfoScreen.clickOnDoneButton();
 
 		FlightsCheckoutScreen.slideToCheckout();
@@ -118,20 +119,21 @@ public class PhoneHappyPath extends ActivityInstrumentationTestCase2<SearchActiv
 
 		HotelsCheckoutScreen.clickSelectPaymentButton();
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
+		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
 		CardInfoScreen.clickOnExpirationDateButton();
 		CardInfoScreen.clickMonthUpButton();
 		CardInfoScreen.clickYearUpButton();
 		CardInfoScreen.clickSetButton();
 		CardInfoScreen.typeTextPostalCode("94015");
-		CardInfoScreen.typeTextNameOnCardEditText("Expedia Mobile");
+		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
 		CardInfoScreen.clickOnDoneButton();
 
 		HotelsCheckoutScreen.clickGuestDetails();
 		HotelsCheckoutScreen.clickAddTravelerButton();
-		CommonTravelerInformationScreen.enterFirstName("Expedia");
-		CommonTravelerInformationScreen.enterLastName("Mobile");
+		CommonTravelerInformationScreen.enterFirstName("Mobiata");
+		CommonTravelerInformationScreen.enterLastName("Auto");
 		CommonTravelerInformationScreen.enterPhoneNumber("1112223333");
-		CommonTravelerInformationScreen.enterEmailAddress("Expedia@mob.com");
+		CommonTravelerInformationScreen.enterEmailAddress("mobiataauto@gmail.com");
 		CommonTravelerInformationScreen.clickDoneButton();
 
 		HotelsCheckoutScreen.slideToCheckout();
