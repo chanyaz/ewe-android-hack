@@ -507,9 +507,15 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 			if (state == CheckoutState.BOOKING) {
 				mRootC.setBlockNewEventsEnabled(true);
+				if (getActivity() != null && getActivity().getActionBar() != null) {
+					getActivity().getActionBar().setHomeButtonEnabled(false);
+				}
 			}
 			else {
 				mRootC.setBlockNewEventsEnabled(false);
+				if (getActivity() != null && getActivity().getActionBar() != null) {
+					getActivity().getActionBar().setHomeButtonEnabled(true);
+				}
 			}
 		}
 	};
