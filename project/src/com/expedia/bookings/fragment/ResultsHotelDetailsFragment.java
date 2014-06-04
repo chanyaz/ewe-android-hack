@@ -1,10 +1,14 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -542,24 +546,142 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private void setSelectedRate(final Rate selectedRate) {
 		Db.getHotelSearch().setSelectedRate(selectedRate);
 
+		// Store original positions of children of Rooms & Rates layout
+		final HashMap<View, int[]> oldCoordinates = new HashMap<>();
+		for (int i = mRoomsRatesContainer.getChildCount() - 1; i >= 0; i--) {
+			View v = mRoomsRatesContainer.getChildAt(i);
+			v.setHasTransientState(true);
+			((ViewGroup) v).setClipChildren(false);
+			oldCoordinates.put(v, new int[] {v.getTop(), v.getBottom()});
+		}
+
+		final HashMap<View, int[]> newCoordinates = new HashMap<>();
+
+		// Do expand/contract
+		RowRoomRateLayout selectedRow = null;
 		for (int i = 0; i < mRoomsRatesContainer.getChildCount(); i++) {
 			final RowRoomRateLayout row = (RowRoomRateLayout) mRoomsRatesContainer.getChildAt(i);
 			boolean isSelected = row.getRate().equals(selectedRate);
-			row.setSelected(isSelected);
+			row.setSelected(isSelected, true);
 			if (isSelected) {
-				mScrollView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-					@Override
-					public boolean onPreDraw() {
-						mScrollView.getViewTreeObserver().removeOnPreDrawListener(this);
-						int scrolly = mRoomsRatesContainer.getTop()
-							- (int) getResources().getDimension(R.dimen.tablet_details_compact_header_height)
-							+ row.getTop();
-						mScrollView.scrollTo(0, scrolly);
-						return false;
-					}
-				});
+				selectedRow = row;
 			}
 		}
+		final RowRoomRateLayout fSelectedRow = selectedRow;
+
+		/* What is this whole "pass" thing anyway?
+		 * The idea is that every re-layout triggers another draw. We want to intercept these
+		 * draw events to make sure the animation flows like butter.
+		 *
+		 * In the section above marked "Do expand/contract", we resize each hotel room rate
+		 * (one shrinks, one expands).
+		 *
+		 * Pass 0: After the expansion/contraction, we want to stop the actual screen draw, and just
+		 * take note of where on the screen each row ended up.
+		 *
+		 * The trick we're using is to animate setTop and setBottom starting from their original
+		 * positions (oldCoordinates) to their new positions (newCoordinates). We haven't done any
+		 * complicated math because we just let the layout system arrange them normally and then
+		 * hijack before they're drawn.
+		 *
+		 * Pass >= 1: We'll monitor the draws carefully, because sometimes a re-layout happens
+		 * that's not caused by our animation, thereby janking up the animation. Let's block these
+		 * drawing events from happening (by returning false from the OnPreDrawListener).
+		 */
+		mRootC.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+			int pass = 0;
+			boolean animating = true;
+
+			ArrayList<Animator> animations = new ArrayList<>();
+
+			@Override
+			public boolean onPreDraw() {
+				switch (pass++) {
+				case 0: {
+					// Also animate mScrollView.setScrollY so that the newly expanded rate
+					// moves to the top of the fragment
+					int scrolly = mRoomsRatesContainer.getTop() + fSelectedRow.getTop()
+						- getResources().getDimensionPixelOffset(R.dimen.tablet_details_compact_header_height);
+					animations.add(ObjectAnimator.ofInt(mScrollView, "scrollY", scrolly));
+
+					// Animate each rate row's setTop and setBottom from its old position
+					// (before the expand/collapse) to its new position (the position it's at now
+					// after one layout pass has taken place).
+					for (View v : oldCoordinates.keySet()) {
+						int[] old = oldCoordinates.get(v);
+						int oldtop = old[0];
+						int oldbot = old[1];
+						int newtop = v.getTop();
+						int newbot = v.getBottom();
+
+						if (oldtop != newtop || oldbot != newbot) {
+							PropertyValuesHolder translationTop = PropertyValuesHolder.ofInt("top", oldtop, newtop);
+							PropertyValuesHolder translationBottom = PropertyValuesHolder.ofInt("bottom", oldbot, newbot);
+
+							Animator anim = ObjectAnimator.ofPropertyValuesHolder(v, translationTop, translationBottom);
+
+							newCoordinates.put(v, new int[] {newtop, newbot});
+							animations.add(anim);
+							((RowRoomRateLayout) v).setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+						}
+					}
+
+					// Disabled the ListView for the duration of the animation.
+					mRoomsRatesContainer.setEnabled(false);
+					mRoomsRatesContainer.setClickable(false);
+
+					// Play all the animations created above together at the same time.
+					AnimatorSet s = new AnimatorSet();
+					s.playTogether(animations);
+					s.addListener(new AnimatorListenerAdapter() {
+						@Override
+						public void onAnimationEnd(Animator animation) {
+							animating = false;
+							mRoomsRatesContainer.setEnabled(true);
+							mRoomsRatesContainer.setClickable(true);
+							for (int i = mRoomsRatesContainer.getChildCount() - 1; i >= 0; i--) {
+								View v = mRoomsRatesContainer.getChildAt(i);
+								v.setHasTransientState(false);
+							}
+						}
+					});
+					s.start();
+					return false;
+				}
+
+				default: {
+					if (!animating) {
+						mRootC.getViewTreeObserver().removeOnPreDrawListener(this);
+						return true;
+					}
+
+					// Sometimes, some system-caused layouts break this setTop/setBottom animation.
+					// So, skip the drawing passes where views are drawn out-of-line with the animation.
+					for (View v : newCoordinates.keySet()) {
+						int[] oldvalue = oldCoordinates.get(v);
+						int[] newvalue = newCoordinates.get(v);
+						if (!between(v.getTop(), oldvalue[0], newvalue[0])
+							|| !between(v.getBottom(), oldvalue[1], newvalue[1])) {
+							mRoomsRatesContainer.invalidate();
+							return false;
+						}
+					}
+				}
+				}
+
+				return true;
+			}
+		});
+
+	}
+
+	// Returns true if v is between a (inclusive) and b (exclusive)
+	private boolean between(int v, int a, int b) {
+		return a == b
+			? a == v
+			: a < b
+			? a <= v && v < b
+			: b < v && v <= a;
 	}
 
 	private void setupDescriptionSections(View view, Property property) {
