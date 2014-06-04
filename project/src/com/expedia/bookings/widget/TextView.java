@@ -133,4 +133,11 @@ public class TextView extends android.widget.TextView {
 		}
 		}
 	}
+
+	@Override
+	public void requestLayout() {
+		if (!isInLayout()) {
+			super.requestLayout();
+		}
+	}
 }
