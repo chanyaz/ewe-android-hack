@@ -112,7 +112,7 @@ public class Results {
 	}
 
 	public static void clickBookFlight() {
-		onView(allOf(withId(R.id.book_button_text), withText("Book Flight"))).perform(click());
+		onView(allOf(withId(R.id.book_button_text), withText("Book Flight"), isDisplayed())).perform(click());
 	}
 
 	public static DataInteraction flightAtIndex(int index) {
