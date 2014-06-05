@@ -55,4 +55,8 @@
     <!-- Travelocity Itinerary -->
     <string name="tvly_itinerary">Nº d\&apos;itinéraire Travelocity</string>
 
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">Travelocity</string>
+
 </resources>
