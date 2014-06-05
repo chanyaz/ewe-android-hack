@@ -8,7 +8,7 @@
         android:left="@dimen/hotel_details_horizontal_padding"
         android:right="@dimen/hotel_details_horizontal_padding">
         <shape>
-            <size android:height="@dimen/one_pixel" />
+            <size android:height="@dimen/one_px_hdpi_two_px_xhdpi" />
             <solid android:color="#d9dce0"/>
         </shape>
     </item>
