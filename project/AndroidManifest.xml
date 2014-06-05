@@ -61,14 +61,6 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/mapsv2_key" />
 
-        <!-- Ad-X -->
-        <meta-data
-            android:name="APP_NAME"
-            android:value="com.expedia.bookings" />
-        <meta-data
-            android:name="ADX_CLIENT_ID"
-            android:value="exped2345789jo" />
-
         <!-- Google Play Services -->
         <meta-data
             android:name="com.google.android.gms.version"
