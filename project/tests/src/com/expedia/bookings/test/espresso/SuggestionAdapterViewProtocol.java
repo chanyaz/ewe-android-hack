@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.tests.pageModels.tablet;
+package com.expedia.bookings.test.espresso;
 
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;

@@ -6,10 +6,10 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.SearchActivity;
+import com.expedia.bookings.test.espresso.IdlingResources;
+import com.expedia.bookings.test.espresso.IdlingResources.SuggestionResource;
 import com.expedia.bookings.test.tests.pageModels.tablet.Checkout;
 import com.expedia.bookings.test.tests.pageModels.tablet.Common;
-import com.expedia.bookings.test.tests.pageModels.tablet.IdlingResources;
-import com.expedia.bookings.test.tests.pageModels.tablet.IdlingResources.SuggestionResource;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
 import com.expedia.bookings.test.tests.pageModels.tablet.Settings;

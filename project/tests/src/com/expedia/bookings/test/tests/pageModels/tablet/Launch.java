@@ -1,8 +1,8 @@
 package com.expedia.bookings.test.tests.pageModels.tablet;
 
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.test.espresso.SuggestionAdapterViewProtocol;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 import com.mobiata.android.util.Ui;
 
