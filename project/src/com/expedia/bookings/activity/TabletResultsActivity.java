@@ -3,6 +3,7 @@ package com.expedia.bookings.activity;
 import java.util.ArrayList;
 
 import android.annotation.TargetApi;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -473,6 +474,15 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				else if (state == ResultsState.FLIGHTS) {
 					mTripBucketFrag.setBucketPreparedForAdd(LineOfBusiness.FLIGHTS);
 				}
+
+				if (mFlightsController != null) {
+					Rect animDestRect = mTripBucketFrag.getAddToTripBucketDestinationRect(LineOfBusiness.FLIGHTS);
+					if (animDestRect != null && animDestRect.height() > 0 && animDestRect.width() > 0) {
+						mFlightsController
+							.setAnimateToBucketRect(animDestRect);
+					}
+				}
+
 			}
 
 			if (state == ResultsState.OVERVIEW) {
@@ -774,8 +784,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			if (mFlightsController != null && mTripBucketFrag != null
 				&& stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-				mFlightsController
-					.setAnimateToBucketRect(mTripBucketFrag.getAddToTripBucketDestinationRect(LineOfBusiness.FLIGHTS));
+				Rect animDestRect = mTripBucketFrag.getAddToTripBucketDestinationRect(LineOfBusiness.FLIGHTS);
+				if (animDestRect != null && animDestRect.height() > 0 && animDestRect.width() > 0) {
+					mFlightsController
+						.setAnimateToBucketRect(animDestRect);
+				}
 			}
 		}
 

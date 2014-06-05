@@ -14,6 +14,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucket;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
+import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.util.Ui;
 
@@ -82,6 +83,17 @@ public class ResultsTripBucketFragment extends Fragment
 			}
 			else if (lob == LineOfBusiness.FLIGHTS) {
 				rect = mBucketFrag.getFlightRect();
+			}
+		}
+		if (rect == null || rect.height() <= 0 || rect.width() <= 0) {
+			//So our rect is clearly not correct, so we do our best to guess
+			if (mTripBucketC != null && mTripBucketC.getHeight() > 0 && mTripBucketC.getWidth() > 0) {
+				int paddingX = getResources().getDimensionPixelSize(R.dimen.hotel_flight_card_padding_x);
+				int height = getResources().getDimensionPixelOffset(R.dimen.hotel_flight_card_height);
+				rect = ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mTripBucketC);
+				rect.left += paddingX;
+				rect.right -= paddingX;
+				rect.bottom = rect.top + height;
 			}
 		}
 		return rect;
