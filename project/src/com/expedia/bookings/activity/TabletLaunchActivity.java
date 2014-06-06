@@ -28,12 +28,14 @@ import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.enums.WaypointChooserState;
 import com.expedia.bookings.fragment.DestinationTilesFragment;
 import com.expedia.bookings.fragment.TabletLaunchMapFragment;
+import com.expedia.bookings.fragment.TabletLaunchPinDetailFragment;
 import com.expedia.bookings.fragment.TabletWaypointFragment;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.fragment.base.MeasurableFragmentListener;
 import com.expedia.bookings.interfaces.IMeasurementListener;
 import com.expedia.bookings.interfaces.IMeasurementProvider;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
@@ -41,6 +43,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
+import com.squareup.otto.Subscribe;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletLaunchActivity extends FragmentActivity implements MeasurableFragmentListener,
@@ -53,11 +56,13 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	private ViewGroup mRootC;
 	private ViewGroup mSearchBarC;
 	private ViewGroup mWaypointC;
+	private ViewGroup mPinDetailC;
 
 	//UI FRAGs
 	private MeasurableFragment mMapFragment;
 	private MeasurableFragment mTilesFragment;
 	private TabletWaypointFragment mWaypointFragment;
+	private TabletLaunchPinDetailFragment mPinFragment;
 
 	// HockeyApp
 	private HockeyPuck mHockeyPuck;
@@ -73,17 +78,20 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		mRootC = Ui.findView(this, R.id.root_container);
 		mWaypointC = Ui.findView(mRootC, R.id.waypoint_container);
 		mSearchBarC = Ui.findView(mRootC, R.id.fake_search_bar_container);
+		mPinDetailC = Ui.findView(mRootC, R.id.pin_detail_container);
 
 		FragmentManager fm = getSupportFragmentManager();
 		if (savedInstanceState == null) {
 			mMapFragment = TabletLaunchMapFragment.newInstance();
 			mTilesFragment = DestinationTilesFragment.newInstance();
 			mWaypointFragment = new TabletWaypointFragment();
+			mPinFragment = TabletLaunchPinDetailFragment.newInstance();
 
 			FragmentTransaction ft = fm.beginTransaction();
 			ft.add(R.id.map_container, mMapFragment);
 			ft.add(R.id.tiles_container, mTilesFragment);
 			ft.add(R.id.waypoint_container, mWaypointFragment);
+			ft.add(R.id.pin_detail_container, mPinFragment);
 
 			ft.commit();
 		}
@@ -91,6 +99,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 			mMapFragment = Ui.findSupportFragment(this, R.id.map_container);
 			mTilesFragment = Ui.findSupportFragment(this, R.id.tiles_container);
 			mWaypointFragment = Ui.findSupportFragment(this, R.id.waypoint_container);
+			mPinFragment = Ui.findSupportFragment(this, R.id.pin_detail_container);
 
 			if (savedInstanceState.getBoolean(STATE_SEARCH_SHOWING, false)) {
 				mWaypointFragment.setState(WaypointChooserState.VISIBLE, false);
@@ -112,6 +121,8 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	protected void onResume() {
 		super.onResume();
 
+		Events.register(this);
+
 		GooglePlayServicesDialog gpsd = new GooglePlayServicesDialog(this);
 		gpsd.startChecking();
 
@@ -122,6 +133,9 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	@Override
 	protected void onPause() {
 		super.onPause();
+
+		Events.unregister(this);
+
 		mWaypointFragment.unRegisterStateListener(mWaypointStateHelper);
 	}
 
@@ -129,6 +143,10 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	public void onBackPressed() {
 		if (mWaypointFragment.getState() == WaypointChooserState.VISIBLE) {
 			mWaypointFragment.setState(WaypointChooserState.HIDDEN, true);
+			return;
+		}
+		else if (mPinDetailC.getVisibility() == View.VISIBLE) {
+			mPinDetailC.setVisibility(View.INVISIBLE);
 			return;
 		}
 		super.onBackPressed();
@@ -348,4 +366,12 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 			doSearch();
 		}
 	}
+
+	@Subscribe
+	public void onAcceptPriceChange(Events.LaunchMapPinClicked event) {
+		mPinFragment.bind();
+		mPinDetailC.setVisibility(View.VISIBLE);
+		mPinFragment.animateFrom(null);
+	}
+
 }

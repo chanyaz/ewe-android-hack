@@ -120,6 +120,14 @@ public class Events {
 	}
 
 	/////////////////////////////////////////////////////////
+	/// TabletLaunchActivity related
+
+	public static class LaunchMapPinClicked {
+		public LaunchMapPinClicked(/*TODO: pass metadata about the pin*/) {
+		}
+	}
+
+	/////////////////////////////////////////////////////////
 	/// HotelBookingFragment related
 
 	/**

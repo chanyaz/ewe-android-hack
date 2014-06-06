@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.graphics.RoundBitmapDrawable;
 import com.expedia.bookings.graphics.SvgDrawable;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
@@ -132,6 +133,13 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		mRoot.addView(pin);
 		setPinText(pin, name, price);
 		setPinImage(pin, drawableId);
+
+		pin.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Events.post(new Events.LaunchMapPinClicked());
+			}
+		});
 
 		pin.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
