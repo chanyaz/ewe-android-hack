@@ -16,7 +16,7 @@ java \
     -jar lib/TestUtils/jars/spoon-runner-1.1.1-jar-with-dependencies.jar \
     --apk  "$APK" \
     --test-apk "$TEST_APK" \
-    --class-name com.expedia.bookings.test.tests.tablet.TabletHappyPath \
+    --class-name "com.expedia.bookings.test.tests.tablet.TabletHappyPath,com.expedia.bookings.test.tests.full.PhoneHappyPath" \
     --no-animations \
     --fail-on-failure \
     --output "$OUTPUT_DIR"
