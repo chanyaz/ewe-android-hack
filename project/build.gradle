@@ -54,8 +54,8 @@ android {
             buildConfigField "boolean", "IS_TRAVELOCITY", "true"
             buildConfigField "String", "MEDIA_URL", "\"http://media.travelocitycustomercare.com\""
             packageName "com.travelocity.android"
-            versionCode 1001
-            versionName "6.1-1001"
+            versionCode 1002
+            versionName "6.2-${versionCode}"
         }
     }
 
