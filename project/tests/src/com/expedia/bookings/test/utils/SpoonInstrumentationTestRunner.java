@@ -3,7 +3,6 @@ package com.expedia.bookings.test.utils;
 import android.app.Application;
 import android.app.KeyguardManager;
 import android.os.PowerManager;
-import android.test.InstrumentationTestRunner;
 
 import com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner;
 
