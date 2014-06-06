@@ -487,11 +487,7 @@ public class PointOfSale {
 				sCachedPOS = PointOfSaleId.VSC;
 				savePos = true;
 			}
-			//Travelocity default
-			else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				sCachedPOS = PointOfSaleId.TRAVELOCITY;
-				savePos = true;
-			}
+			// Expedia & Travelocity default
 			else {
 				// Get the default POS.  This is rare, thus we can excuse this excessive code.
 				Locale locale = Locale.getDefault();
@@ -512,8 +508,12 @@ public class PointOfSale {
 					}
 				}
 
+				// Default to US POS if nothing matches the user's locale && IS_TRAVELOCITY
+				if (sCachedPOS == null && ExpediaBookingApp.IS_TRAVELOCITY) {
+					sCachedPOS = PointOfSaleId.TRAVELOCITY;
+				}
 				// Default to UK POS if nothing matches the user's locale
-				if (sCachedPOS == null) {
+				else if(sCachedPOS == null) {
 					sCachedPOS = PointOfSaleId.UNITED_KINGDOM;
 				}
 
