@@ -662,6 +662,13 @@ public class FlightTrip implements JSONable {
 		}
 	}
 
+	public FlightTrip clone() {
+		JSONObject json = this.toJson();
+		FlightTrip flightTrip = new FlightTrip();
+		flightTrip.fromJson(json);
+		return flightTrip;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 	// There is a core problem that FlightTrips can be *very* numerous when

@@ -23,8 +23,8 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.data.TripBucketItem;
+import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.server.ExpediaServices;
@@ -58,6 +58,14 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	public static TripBucketFlightFragment newInstance() {
 		TripBucketFlightFragment frag = new TripBucketFlightFragment();
 		return frag;
+	}
+
+	@Override
+	public void bind() {
+		if (mRootC != null) {
+			refreshFlightTrip();
+		}
+		super.bind();
 	}
 
 	@Override

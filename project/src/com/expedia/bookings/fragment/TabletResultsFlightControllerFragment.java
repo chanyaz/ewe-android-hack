@@ -800,7 +800,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	@Subscribe
 	public void onSimpleDialogCallbackClick(Events.SimpleCallBackDialogOnClick click) {
 		if (click.callBackId == SimpleCallbackDialogFragment.CODE_TABLET_FLIGHTS_INFANT_CHOOSER) {
-			Db.getTripBucket().clear();
 
 			boolean newLapPref = !Db.getFlightSearch().getSearchParams().getInfantSeatingInLap();
 			Sp.getParams().setInfantsInLaps(newLapPref);

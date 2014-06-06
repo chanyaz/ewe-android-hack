@@ -36,18 +36,17 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.enums.TripBucketItemState;
+import com.expedia.bookings.fragment.BookingUnavailableFragment.BookingUnavailableFragmentListener;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.FlightBookingFragment.FlightBookingState;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingState;
 import com.expedia.bookings.fragment.base.LobableFragment;
-import com.expedia.bookings.fragment.BookingUnavailableFragment.BookingUnavailableFragmentListener;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -1039,8 +1038,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			return new TabletHotelConfirmationFragment();
 		}
 		else if (FRAG_TAG_BLUR_BG.equals(tag)) {
-			String dest = Sp.getParams().getDestination().getAirportCode();
-			return ResultsBackgroundImageFragment.newInstance(dest, true);
+			return ResultsBackgroundImageFragment.newInstance(getLob(), true);
 		}
 		else if (FRAG_TAG_BOOKING_UNAVAILABLE.equals(tag)) {
 			return BookingUnavailableFragment.newInstance();

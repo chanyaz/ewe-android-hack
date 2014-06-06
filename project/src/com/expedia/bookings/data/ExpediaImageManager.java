@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.widget.ImageView;
 
@@ -172,6 +173,7 @@ public class ExpediaImageManager {
 		private int mWidth;
 		private int mHeight;
 		private boolean mBlur;
+		private String mDestinationId;
 
 		public int getWidth() {
 			return mWidth;
@@ -198,6 +200,15 @@ public class ExpediaImageManager {
 
 		public ImageParams setBlur(boolean blur) {
 			mBlur = blur;
+			return this;
+		}
+
+		public String getDestinationId() {
+			return mDestinationId;
+		}
+
+		public ImageParams setDestinationId(String destinationId) {
+			mDestinationId = destinationId;
 			return this;
 		}
 	}
@@ -297,7 +308,7 @@ public class ExpediaImageManager {
 	 * Use within the tablet flow
 	 */
 	public void loadDestinationBitmap(final ImageParams params, final L2ImageCache.OnBitmapLoaded callback) {
-		final String airportCode = Sp.getParams().getDestination().getAirportCode();
+		final String airportCode = !TextUtils.isEmpty(params.getDestinationId()) ? params.getDestinationId() : Sp.getParams().getDestination().getAirportCode();
 		final String bgdKey = generateBackgroundDownloaderKey(params.isBlur());
 
 		doImageDownload(airportCode, params.getWidth(), params.getHeight(), params.isBlur(), bgdKey, callback);

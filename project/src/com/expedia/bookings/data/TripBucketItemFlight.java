@@ -11,14 +11,16 @@ import com.mobiata.android.json.JSONUtils;
  */
 public class TripBucketItemFlight extends TripBucketItem {
 
-	FlightSearchState mFlightSearchState;
+	FlightSearchParams mFlightSearchParams;
+	FlightTrip mFlightTrip;
 
 	public TripBucketItemFlight() {
 
 	}
 
-	public TripBucketItemFlight(FlightSearchState state) {
-		mFlightSearchState = state;
+	public TripBucketItemFlight(FlightSearchParams params, FlightTrip flightTrip) {
+		mFlightSearchParams = params.clone();
+		mFlightTrip = flightTrip.clone();
 	}
 
 	@Override
@@ -26,15 +28,12 @@ public class TripBucketItemFlight extends TripBucketItem {
 		return LineOfBusiness.FLIGHTS;
 	}
 
-	public FlightSearchState getFlightSearchState() {
-		return mFlightSearchState;
+	public FlightSearchParams getFlightSearchParams() {
+		return mFlightSearchParams;
 	}
 
 	public FlightTrip getFlightTrip() {
-		int numLegs = Db.getFlightSearch().getSearchParams().isRoundTrip() ? 2 : 1;
-		FlightTripLeg[] legs = mFlightSearchState.getSelectedLegs(numLegs);
-
-		return FlightSearch.getSelectedFlightTrip(mFlightSearchState.getSelectedLegs(numLegs), Db.getFlightSearch().getSearchResponse());
+		return mFlightTrip;
 	}
 
 
@@ -45,7 +44,8 @@ public class TripBucketItemFlight extends TripBucketItem {
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = super.toJson();
-			JSONUtils.putJSONable(obj, "flightSearchState", mFlightSearchState);
+			JSONUtils.putJSONable(obj, "flightSearchParams", mFlightSearchParams);
+			JSONUtils.putJSONable(obj, "flightTrip", mFlightTrip);
 			obj.putOpt("type", "flight");
 			return obj;
 		}
@@ -58,7 +58,8 @@ public class TripBucketItemFlight extends TripBucketItem {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
-		mFlightSearchState = JSONUtils.getJSONable(obj, "flightSearchState", FlightSearchState.class);
+		mFlightSearchParams = JSONUtils.getJSONable(obj, "flightSearchParams", FlightSearchParams.class);
+		mFlightTrip = JSONUtils.getJSONable(obj, "flightTrip", FlightTrip.class);
 		return true;
 	}
 }

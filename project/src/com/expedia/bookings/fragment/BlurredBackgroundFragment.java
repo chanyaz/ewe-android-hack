@@ -55,6 +55,7 @@ public class BlurredBackgroundFragment extends Fragment {
 	}
 
 	public void loadBitmapFromCache(Context context) {
+
 		Bitmap og = ExpediaImageManager.getInstance().getDestinationBitmap(context, Db.getFlightSearch(), false);
 		Bitmap bl = ExpediaImageManager.getInstance().getDestinationBitmap(context, Db.getFlightSearch(), true);
 

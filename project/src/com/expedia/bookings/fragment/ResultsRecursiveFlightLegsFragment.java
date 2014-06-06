@@ -311,7 +311,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			if (isLastLeg()) {
 				// Set the Db properly
 				Db.getTripBucket().clearFlight();
-				Db.getTripBucket().add(Db.getFlightSearch().getSearchState());
+				Db.getTripBucket().add(Db.getFlightSearch().getSearchParams(), Db.getFlightSearch().getSelectedFlightTrip());
 				Db.saveTripBucket(getActivity());
 
 				// Reset the query so we can re-select a new flight for trip bucket

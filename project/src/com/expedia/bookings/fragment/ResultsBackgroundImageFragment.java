@@ -18,7 +18,9 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImageManager;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.mobiata.android.Log;
@@ -50,6 +52,19 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	public static ResultsBackgroundImageFragment newInstance(String destination, boolean blur) {
 		ResultsBackgroundImageFragment fragment = new ResultsBackgroundImageFragment();
 		Bundle args = new Bundle();
+		args.putString(ARG_DEST_CODE, destination);
+		args.putBoolean(ARG_BLUR, blur);
+		fragment.setArguments(args);
+		return fragment;
+	}
+
+
+	// For Tablet Checkout, where our desired background image does not necessarily correspond
+	// to our current search parameters.
+	public static ResultsBackgroundImageFragment newInstance(LineOfBusiness lob, boolean blur) {
+		ResultsBackgroundImageFragment fragment = new ResultsBackgroundImageFragment();
+		Bundle args = new Bundle();
+		String destination = getMostRelevantDestinationCode(lob);
 		args.putString(ARG_DEST_CODE, destination);
 		args.putBoolean(ARG_BLUR, blur);
 		fragment.setArguments(args);
@@ -122,7 +137,22 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	}
 
 	private ExpediaImageManager.ImageParams makeImageParams() {
-		return new ExpediaImageManager.ImageParams().setBlur(mBlur).setWidth(mScreenWidth).setHeight(mScreenHeight);
+		return new ExpediaImageManager.ImageParams().setBlur(mBlur).setWidth(mScreenWidth).setHeight(mScreenHeight).setDestinationId(mDestinationCode);
+	}
+
+	private static String getMostRelevantDestinationCode(LineOfBusiness lob) {
+		String destination;
+		if (lob == LineOfBusiness.FLIGHTS) {
+			destination = Db.getTripBucket().getFlight().getFlightSearchParams().getArrivalLocation().getDestinationId();
+		}
+		else if (lob == LineOfBusiness.HOTELS) {
+			// TODO: destination = Db.getTripBucket().getHotel().getHotelSearchParams().getArrivalLocation().getDestinationId();
+			destination = Sp.getParams().getDestination().getAirportCode();
+		}
+		else {
+			destination =  Sp.getParams().getDestination().getAirportCode();
+		}
+		return destination;
 	}
 
 	///////////////////////////////////////////////////////////////

@@ -49,7 +49,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	protected static final float[] DEFAULT_GRADIENT_POSITIONS = null; // Distribute the gradient colors evenly
 
 	//Views
-	private ViewGroup mRootC;
+	protected ViewGroup mRootC;
 	private ViewGroup mTopC;
 	private ViewGroup mExpandedC;
 	private View mCardCornersBottom;

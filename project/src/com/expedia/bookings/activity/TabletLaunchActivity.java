@@ -189,6 +189,26 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 			frag = new TabletLaunchControllerFragment();
 		}
 		return frag;
+	};
+
+	private void doSearch() {
+		HotelSearch hotelSearch = Db.getHotelSearch();
+		FlightSearch flightSearch = Db.getFlightSearch();
+
+		// Search results filters
+		HotelFilter filter = Db.getFilter();
+		filter.reset();
+		filter.notifyFilterChanged();
+
+		// Start the search
+		Log.i("Starting search with params: " + Sp.getParams());
+		hotelSearch.setSearchResponse(null);
+		flightSearch.setSearchResponse(null);
+
+		Db.deleteCachedFlightData(this);
+		Db.deleteHotelSearchData(this);
+
+		startActivity(new Intent(this, TabletResultsActivity.class));
 	}
 
 	@Override

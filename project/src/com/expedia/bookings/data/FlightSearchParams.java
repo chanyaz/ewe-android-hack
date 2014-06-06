@@ -276,6 +276,13 @@ public class FlightSearchParams implements JSONable {
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
+	public FlightSearchParams clone() {
+		JSONObject json = this.toJson();
+		FlightSearchParams params = new FlightSearchParams();
+		params.fromJson(json);
+		return params;
+	}
+
 	@Override
 	public JSONObject toJson() {
 		try {

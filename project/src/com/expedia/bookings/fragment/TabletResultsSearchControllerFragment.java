@@ -286,7 +286,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	}
 
 	protected void doSpUpdate() {
-		Db.getTripBucket().clear();
 		if (getActivity() != null && isAdded() && isResumed()) {
 			Sp.reportSpUpdate();
 		}
