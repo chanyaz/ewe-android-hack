@@ -1,7 +1,5 @@
 package com.expedia.bookings.test.tests.hotelsEspresso.ui.regression;
 
-import java.util.Calendar;
-
 import org.joda.time.LocalDate;
 
 import android.content.Context;
@@ -13,7 +11,9 @@ import android.test.ActivityInstrumentationTestCase2;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.CVVEntryScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
+import com.expedia.bookings.test.tests.pageModelsEspresso.common.SettingsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsDetailsScreen;
+import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsGuestPicker;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsSearchScreen;
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
@@ -57,22 +57,32 @@ public class HotelDetailsTests extends ActivityInstrumentationTestCase2<PhoneSea
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("New York, NY");
-		HotelsSearchScreen.clickOnGuestsButton();
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(40);
+		HotelsSearchScreen.clickOnCalendarButton();
+		HotelsSearchScreen.clickDate(startDate, endDate);
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 		HotelsSearchScreen.clickOnFilterButton();
 		HotelsSearchScreen.filterMenu().clickVIPAccessFilterButton();
 		Espresso.pressBack();
-		EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView(), "totalHotels", 0);
+		EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView(), "totalHotels", 1);
 		int totalHotels = mPrefs.getInt("totalHotels", 0);
-		for (int i = 1; i < totalHotels - 1; i++) {
+		for (int i = 1; i < totalHotels - 2; i++) {
 			HotelsSearchScreen.clickListItem(i);
 			EspressoUtils.getValues("hotelName", R.id.title);
 			String hotelName = mPrefs.getString("hotelName", "");
 			ScreenActions.enterLog(TAG, "Verifying VIP Dialog for hotel: " + hotelName);
-			HotelsDetailsScreen.clickVIPImageView();
-			EspressoUtils.assertTrue("At VIP Access hotels, Expedia Elite Plus members receive free room upgrades and other perks upon availability at check-in.");
-			CVVEntryScreen.clickOkButton();
-			Espresso.pressBack();
+			try {
+				SettingsScreen.clickOKString();
+				HotelsGuestPicker.searchButton().check(matches(isDisplayed()));
+				ScreenActions.enterLog(TAG, "Room sold out popup was displayed");
+			}
+			catch (Exception e) {
+				HotelsDetailsScreen.clickVIPImageView();
+				EspressoUtils.assertTrue("At VIP Access hotels, Expedia Elite Plus members receive free room upgrades and other perks upon availability at check-in.");
+				CVVEntryScreen.clickOkButton();
+				Espresso.pressBack();
+			}
 		}
 	}
 
@@ -81,16 +91,13 @@ public class HotelDetailsTests extends ActivityInstrumentationTestCase2<PhoneSea
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("New York, NY");
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(cal.YEAR);
-		int month = cal.get(cal.MONTH) + 1;
-		LocalDate mStartDate = new LocalDate(year, month, 5);
-		LocalDate mEndDate = new LocalDate(year, month, 10);
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(40);
 		HotelsSearchScreen.clickOnCalendarButton();
-		HotelsSearchScreen.clickDate(mStartDate, mEndDate);
+		HotelsSearchScreen.clickDate(startDate, endDate);
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView(), "totalHotels", 0);
+		EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView(), "totalHotels", 1);
 		int totalHotels = mPrefs.getInt("totalHotels", 0);
 		for (int i = 1; i < totalHotels; i++) {
 			String value = "value";
@@ -98,7 +105,7 @@ public class HotelDetailsTests extends ActivityInstrumentationTestCase2<PhoneSea
 			EspressoUtils.getListItemValues(searchResultRow, R.id.name_text_view, value);
 			String rowHotelName = mPrefs.getString(value, "");
 			searchResultRow.perform(click());
-			try{
+			try {
 				ScreenActions.enterLog(TAG, "Verifying UI elements for details of: " + rowHotelName);
 				if (!rowHotelName.isEmpty() && !rowHotelName.contains("...")) {
 					EspressoUtils.getValues(value, R.id.title);

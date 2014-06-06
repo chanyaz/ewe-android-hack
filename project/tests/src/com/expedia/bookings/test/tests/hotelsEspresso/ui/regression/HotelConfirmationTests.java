@@ -1,10 +1,8 @@
 package com.expedia.bookings.test.tests.hotelsEspresso.ui.regression;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Random;
 
-import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
@@ -26,6 +24,7 @@ import com.expedia.bookings.test.tests.pageModelsEspresso.common.CommonPaymentMe
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.LaunchScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.LogInScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
+import com.expedia.bookings.test.tests.pageModelsEspresso.common.SettingsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsCheckoutScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsGuestPicker;
@@ -36,12 +35,6 @@ import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.mobiata.android.util.SettingUtils;
-
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.RootMatchers.withDecorView;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.is;
 
 /**
  * Created by dmadan on 5/13/14.
@@ -81,26 +74,29 @@ public class HotelConfirmationTests extends ActivityInstrumentationTestCase2<Sea
 		// Search screen
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
-		ScreenActions.enterLog(TAG, "Setting hotel search city to: " + "New York, NY");
-		ScreenActions.enterLog(TAG, "HERE entering text");
-		HotelsSearchScreen.enterSearchText("New York, NY");
-
-		ScreenActions.enterLog(TAG, "HERE clicking suggestion");
-		HotelsSearchScreen.clickSuggestion(getActivity(), "New York, NY");
-		onView(withText("New York, NY")).inRoot(withDecorView(Matchers.not(is(getActivity().getWindow().getDecorView())))).perform(click());
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(cal.YEAR);
-		int month = cal.get(cal.MONTH) + 1;
-		LocalDate mStartDate = new LocalDate(year, month, 5);
-		LocalDate mEndDate = new LocalDate(year, month, 10);
+		HotelsSearchScreen.enterSearchText("Boston, MA");
+		HotelsSearchScreen.clickSuggestion(getActivity(), "Boston, MA");
+		LocalDate startDate = LocalDate.now().plusDays(58);
+		LocalDate endDate = LocalDate.now().plusDays(61);
 		HotelsSearchScreen.clickOnCalendarButton();
-		HotelsSearchScreen.clickDate(mStartDate, mEndDate);
+		HotelsSearchScreen.clickDate(startDate, endDate);
 		HotelsSearchScreen.clickOnGuestsButton();
 		setGuests(pair.first, pair.second);
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 		HotelsSearchScreen.clickListItem(1);
 		HotelsDetailsScreen.clickSelectButton();
+		EspressoUtils.getListCount(HotelsRoomsRatesScreen.roomList(), "numberOfRooms", 1);
+		int numberOfRooms = mPrefs.getInt("numberOfRooms", 0) - 1;
 		HotelsRoomsRatesScreen.selectRoomItem(0);
+		try {
+			SettingsScreen.clickOKString();
+			if (numberOfRooms > 1) {
+				HotelsRoomsRatesScreen.selectRoomItem(1);
+			}
+		}
+		catch (Exception e) {
+			ScreenActions.enterLog(TAG, "No popup");
+		}
 	}
 
 	public void testLoggedInBookingConfirmation() throws Exception {
@@ -124,7 +120,6 @@ public class HotelConfirmationTests extends ActivityInstrumentationTestCase2<Sea
 		BillingAddressScreen.typeTextPostalCode(mUser.getAddressPostalCode());
 		CardInfoScreen.typeTextNameOnCardEditText(mUser.getFirstName() + " " + mUser.getLastName());
 		CardInfoScreen.clickOnExpirationDateButton();
-
 		ScreenActions.enterLog(TAG, "Incrementing credit card exp. month and year by 1");
 		CardInfoScreen.clickMonthUpButton();
 		CardInfoScreen.clickYearUpButton();

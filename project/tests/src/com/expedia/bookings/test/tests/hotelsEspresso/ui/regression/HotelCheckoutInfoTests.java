@@ -15,6 +15,7 @@ import android.util.Pair;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.PhoneSearchActivity;
+import com.expedia.bookings.test.tests.pageModelsEspresso.common.SettingsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelReceiptModel;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsCheckoutScreen;
@@ -31,12 +32,9 @@ import com.mobiata.android.util.SettingUtils;
 
 import static com.expedia.bookings.test.utilsEspresso.ViewActions.getRating;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anything;
 
 /**
@@ -65,36 +63,57 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 		getActivity();
 	}
 
-
 	public void testHotelHeaderInfo() throws Exception {
+		int numberOfRooms;
+		String hotelName, checkoutHotelName, checkoutRoomName;
+		float hotelRating, checkoutHotelRating;
 		ScreenActions.enterLog(TAG, "START: HOTEL HEADER INFO TESTS");
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("Boston, MA");
-		HotelsSearchScreen.clickOnGuestsButton();
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(40);
+		HotelsSearchScreen.clickOnCalendarButton();
+		HotelsSearchScreen.clickDate(startDate, endDate);
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
+		EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView(), "totalHotels", 0);
+		int totalHotels = mPrefs.getInt("totalHotels", 0);
 
-		for (int i = 1; i < 3; i++) {
+		for (int i = 1; i < totalHotels - 2; i++) {
 			HotelsSearchScreen.clickListItem(i);
 			HotelsDetailsScreen.clickSelectButton();
 			EspressoUtils.getListCount(HotelsRoomsRatesScreen.roomList(), "numberOfRooms", 1);
-			int numberOfRooms = mPrefs.getInt("numberOfRooms", 0) - 1;
+			numberOfRooms = mPrefs.getInt("numberOfRooms", 0) - 1;
 			EspressoUtils.getValues("hotelName", R.id.name_text_view);
-			String hotelName = mPrefs.getString("hotelName", "");
+			hotelName = mPrefs.getString("hotelName", "");
 			HotelsRoomsRatesScreen.hotelRatingBar().perform(getRating("starRating"));
-			float hotelRating = mPrefs.getFloat("starRating", 0);
+			hotelRating = mPrefs.getFloat("starRating", 0);
 			ScreenActions.enterLog(TAG, "Test is looking at hotel with name: " + hotelName);
-			for (int j = 0; j < numberOfRooms; j++) {
+			for (int j = 0; j < numberOfRooms - 1; j++) {
 				DataInteraction rowModel = onData(anything()).inAdapterView(withId(android.R.id.list)).atPosition(j);
 				EspressoUtils.getListItemValues(rowModel, R.id.room_description_text_view, "roomName");
 				String roomName = mPrefs.getString("roomName", "");
 				HotelsRoomsRatesScreen.selectRoomItem(j);
+				try {
+					SettingsScreen.clickOKString();
+					try {
+						HotelsCheckoutScreen.checkoutButton().check(matches(isDisplayed()));
+						ScreenActions.enterLog(TAG, "Great news popup");
+					}
+					catch (Exception e) {
+						ScreenActions.enterLog(TAG, "Rooms sold out popup");
+						break;
+					}
+				}
+				catch (Exception e) {
+					ScreenActions.enterLog(TAG, "No popup");
+				}
 				EspressoUtils.getValues("checkoutHotelName", R.id.title);
-				String checkoutHotelName = mPrefs.getString("checkoutHotelName", "");
+				checkoutHotelName = mPrefs.getString("checkoutHotelName", "");
 				HotelsDetailsScreen.ratingBar().perform(getRating("checkoutHotelRating"));
-				float checkoutHotelRating = mPrefs.getFloat("checkoutHotelRating", 0);
+				checkoutHotelRating = mPrefs.getFloat("checkoutHotelRating", 0);
 				EspressoUtils.getValues("checkoutRoomName", R.id.room_type_description_text_view);
-				String checkoutRoomName = mPrefs.getString("checkoutRoomName", "");
+				checkoutRoomName = mPrefs.getString("checkoutRoomName", "");
 
 				assertEquals(hotelName, checkoutHotelName);
 				ScreenActions.enterLog(TAG, "Assertion Passed: Hotel name from rooms and rates matches name in hotel details");
@@ -138,6 +157,12 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("Boston, MA");
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(40);
+		HotelsSearchScreen.clickOnCalendarButton();
+		HotelsSearchScreen.clickDate(startDate, endDate);
+		HotelsSearchScreen.guestPicker().clickOnSearchButton();
+
 		for (int i = 0; i < adultChildNumberPairs.size(); i++) {
 			Pair<Integer, Integer> currentPair = adultChildNumberPairs.get(i);
 			HotelsSearchScreen.clickOnGuestsButton();
@@ -150,19 +175,27 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 				int numberOfRooms = mPrefs.getInt("numberOfRooms", 0) - 1;
 				ScreenActions.enterLog(TAG, "number of rooms:" + numberOfRooms);
 				for (int k = 0; k < numberOfRooms; k++) {
+					HotelsRoomsRatesScreen.selectRoomItem(k);
 					try {
-						HotelsRoomsRatesScreen.selectRoomItem(k);
-						EspressoUtils.getValues("receiptGuestString", R.id.guests_text);
-						String receiptGuestString = mPrefs.getString("receiptGuestString", "");
-						int totalNumberOfGuests = currentPair.first + currentPair.second;
-						String expectedGuestString = mRes.getQuantityString(R.plurals.number_of_guests, totalNumberOfGuests, totalNumberOfGuests);
-						assertEquals(expectedGuestString, receiptGuestString);
-						Espresso.pressBack();
+						SettingsScreen.clickOKString();
+						try {
+							HotelsCheckoutScreen.checkoutButton().check(matches(isDisplayed()));
+							ScreenActions.enterLog(TAG, "Great news popup");
+						}
+						catch (Exception e) {
+							ScreenActions.enterLog(TAG, "Rooms sold out popup");
+							break;
+						}
 					}
 					catch (Exception e) {
-						onView(withText("OK")).check(matches(isDisplayed())).perform(click());
-						break;
+						ScreenActions.enterLog(TAG, "No popup");
 					}
+					EspressoUtils.getValues("receiptGuestString", R.id.guests_text);
+					String receiptGuestString = mPrefs.getString("receiptGuestString", "");
+					int totalNumberOfGuests = currentPair.first + currentPair.second;
+					String expectedGuestString = mRes.getQuantityString(R.plurals.number_of_guests, totalNumberOfGuests, totalNumberOfGuests);
+					assertEquals(expectedGuestString, receiptGuestString);
+					Espresso.pressBack();
 				}
 				Espresso.pressBack();
 				Espresso.pressBack();
@@ -199,6 +232,20 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 				int numberOfRooms = mPrefs.getInt("numberOfRooms", 0) - 1;
 				for (int k = 0; k < numberOfRooms; k++) {
 					HotelsRoomsRatesScreen.selectRoomItem(k);
+					try {
+						SettingsScreen.clickOKString();
+						try {
+							HotelsCheckoutScreen.checkoutButton().check(matches(isDisplayed()));
+							ScreenActions.enterLog(TAG, "Great news popup");
+						}
+						catch (Exception e) {
+							ScreenActions.enterLog(TAG, "Rooms sold out popup");
+							break;
+						}
+					}
+					catch (Exception e) {
+						ScreenActions.enterLog(TAG, "No popup");
+					}
 					String expectedNightsString = mRes.getQuantityString(R.plurals.number_of_nights, numberOfNights, numberOfNights);
 					EspressoUtils.getValues("shownNightsString", R.id.nights_text);
 					String shownNightsString = mPrefs.getString("shownNightsString", "");
@@ -224,7 +271,10 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		HotelsSearchScreen.enterSearchText("Boston, MA");
-		HotelsSearchScreen.clickOnGuestsButton();
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(40);
+		HotelsSearchScreen.clickOnCalendarButton();
+		HotelsSearchScreen.clickDate(startDate, endDate);
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 
 		for (int j = 1; j < 3; j++) {
@@ -234,6 +284,20 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 			int numberOfRooms = mPrefs.getInt("numberOfRooms", 0) - 1;
 			for (int k = 0; k < numberOfRooms; k++) {
 				HotelsRoomsRatesScreen.selectRoomItem(k);
+				try {
+					SettingsScreen.clickOKString();
+					try {
+						HotelsCheckoutScreen.checkoutButton().check(matches(isDisplayed()));
+						ScreenActions.enterLog(TAG, "Great news popup");
+					}
+					catch (Exception e) {
+						ScreenActions.enterLog(TAG, "Rooms sold out popup");
+						break;
+					}
+				}
+				catch (Exception e) {
+					ScreenActions.enterLog(TAG, "No popup");
+				}
 				EspressoUtils.getValues("hotelName", R.id.title);
 				String hotelName = mPrefs.getString("hotelName", "");
 				ScreenActions.enterLog(TAG, "Looking at hotel: " + hotelName);

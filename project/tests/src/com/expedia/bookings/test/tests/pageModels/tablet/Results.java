@@ -20,7 +20,6 @@ import static com.google.android.apps.common.testing.ui.espresso.action.ViewActi
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.hasSibling;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withContentDescription;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withEffectiveVisibility;
@@ -50,10 +49,6 @@ public class Results {
 
 	public static void swipeUpHotelList() {
 		hotelList().perform(swipeUp());
-	}
-
-	public static ViewInteraction sortAndFilterButton() {
-		return onView(allOf(withText(R.string.Sort_and_Filter), isCompletelyDisplayed()));
 	}
 
 	public static void swipeUpFlightList() {
@@ -123,6 +118,28 @@ public class Results {
 
 	public static void clickFlightAtIndex(int index) {
 		flightAtIndex(index).perform(click());
+	}
+
+	public static DataInteraction hotelAtIndex(int index) {
+		return onData(anything()) //
+			.inAdapterView(allOf(withContentDescription("Hotel Search Results"), isDisplayed())) //
+			.atPosition(index);
+	}
+
+	public static void clickHotelAtIndex(int index) {
+		hotelAtIndex(index).perform(click());
+	}
+
+	public static void clickHotelSortFilterButton() {
+		onView(withId(R.id.top_right_text_button)).perform(click());
+	}
+
+	public static void clickToSortHotelByPrice() {
+		onView(withId(R.id.sort_by_price_button)).perform(click());
+	}
+
+	public static void clickToSortHotelByRating() {
+		onView(withId(R.id.sort_by_rating_button)).perform(click());
 	}
 
 	public static void clickToSortByPrice() {

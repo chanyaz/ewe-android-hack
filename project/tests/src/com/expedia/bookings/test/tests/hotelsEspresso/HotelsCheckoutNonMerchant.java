@@ -1,7 +1,5 @@
 package com.expedia.bookings.test.tests.hotelsEspresso;
 
-import java.util.Calendar;
-
 import org.joda.time.LocalDate;
 
 import android.content.Context;
@@ -15,11 +13,13 @@ import com.expedia.bookings.test.tests.pageModelsEspresso.common.CommonPaymentMe
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.LaunchScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.LogInScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
+import com.expedia.bookings.test.tests.pageModelsEspresso.common.SettingsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsCheckoutScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsGuestPicker;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsSearchScreen;
+import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.mobiata.android.util.SettingUtils;
@@ -69,13 +69,10 @@ public class HotelsCheckoutNonMerchant extends ActivityInstrumentationTestCase2<
 
 		ScreenActions.enterLog(TAG, "HERE clicking suggestion");
 		HotelsSearchScreen.clickSuggestion(getActivity(), "Las Vegas, NV");
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(cal.YEAR);
-		int month = cal.get(cal.MONTH) + 2;
-		LocalDate mStartDate = new LocalDate(year, month, 5);
-		LocalDate mEndDate = new LocalDate(year, month, 10);
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(40);
 		HotelsSearchScreen.clickOnCalendarButton();
-		HotelsSearchScreen.clickDate(mStartDate, mEndDate);
+		HotelsSearchScreen.clickDate(startDate, endDate);
 
 		// Guest Picker
 		HotelsSearchScreen.clickOnGuestsButton();
@@ -94,6 +91,12 @@ public class HotelsCheckoutNonMerchant extends ActivityInstrumentationTestCase2<
 		// Rooms and rates
 		ScreenActions.enterLog(TAG, "Selecting first room listed for this hotel.");
 		HotelsRoomsRatesScreen.selectRoomItem(0);
+		try {
+			SettingsScreen.clickOKString();
+		}
+		catch (Exception e) {
+			ScreenActions.enterLog(TAG, "OK popup");
+		}
 
 		// Checkout
 		HotelsCheckoutScreen.clickCheckoutButton();
@@ -136,5 +139,6 @@ public class HotelsCheckoutNonMerchant extends ActivityInstrumentationTestCase2<
 		ScreenActions.enterLog(TAG, "Entering CCV: " + mUser.getCCV());
 		CVVEntryScreen.parseAndEnterCVV(mUser.getCCV());
 		CVVEntryScreen.clickBookButton();
+		EspressoUtils.assertTrue("Booking Complete");
 	}
 }
