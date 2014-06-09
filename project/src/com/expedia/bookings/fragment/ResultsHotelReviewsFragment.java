@@ -171,7 +171,7 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 			description.setText(rate.getRoomDescription());
 
 			Set<BedType> bedTypes = rate.getBedTypes();
-			if (bedTypes.iterator().hasNext()) {
+			if (bedTypes != null && bedTypes.iterator().hasNext()) {
 				bedType.setVisibility(View.VISIBLE);
 				bedType.setText(bedTypes.iterator().next().getBedTypeDescription());
 			}
