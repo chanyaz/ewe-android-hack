@@ -298,6 +298,17 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		return ResultsHotelsListState.HOTELS_LIST_AT_BOTTOM;
 	}
 
+	@Override
+	protected String getEmptyListText() {
+		return getString(R.string.tablet_search_results_hotels_unavailable);
+	}
+
+	@Override
+	protected int getEmptyListImageResource() {
+		// TODO: this is just a place holder, waiting on design.
+		return R.drawable.ic_no_flights;
+	}
+
 	public void onHotelSelected() {
 		Property property = Db.getHotelSearch().getSelectedProperty();
 		getListView().setSelection(getListView().getHeaderViewsCount() + mAdapter.getPositionOfProperty(property));

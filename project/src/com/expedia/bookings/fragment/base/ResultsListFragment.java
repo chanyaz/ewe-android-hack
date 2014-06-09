@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnPreDrawListener;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.enums.ResultsListState;
@@ -24,6 +24,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.FruitList;
+import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -39,6 +40,8 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	private FrameLayoutTouchController mStickyHeader;
 	private TextView mStickyHeaderTv;
 	private TextView mTopRightTextButton;
+	private TextView mEmptyListTextView;
+	private ImageView mEmptyListImageView;
 
 	private CharSequence mStickyHeaderText = "";
 	private CharSequence mTopRightTextButtonText = "";
@@ -76,6 +79,12 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		mStickyHeader.setConsumeTouch(false);
 		mStickyHeaderTv = Ui.findView(view, R.id.sticky_number_of_items);
 		mTopRightTextButton = Ui.findView(view, R.id.top_right_text_button);
+
+		mEmptyListTextView = Ui.findView(view, R.id.missing_search_result_text);
+		mEmptyListImageView = Ui.findView(view, R.id.missing_search_result_image);
+
+		mEmptyListTextView.setText(getEmptyListText());
+		mEmptyListImageView.setBackgroundResource(getEmptyListImageResource());
 
 		mStickyHeaderTv.setText(mStickyHeaderText);
 		mTopRightTextButton.setText(mTopRightTextButtonText);
@@ -329,5 +338,9 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	protected abstract T translateState(ResultsListState state);
 
 	protected abstract T getDefaultState();
+
+	protected abstract String getEmptyListText();
+
+	protected abstract int getEmptyListImageResource();
 
 }

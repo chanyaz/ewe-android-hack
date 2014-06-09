@@ -136,6 +136,10 @@
     <string name="search_one_way_flight">Search One Way Flight</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">No waypoint information found! Please alter your query and try again.</string>
+    <!-- Tablet search results, no hotels available -->
+    <string name="tablet_search_results_hotels_unavailable">Sorry, no hotels are \n currently available.</string>
+    <!-- Tablet search results, no flights available -->
+    <string name="tablet_search_results_flights_unavailable">Sorry, no flights are \n currently available.</string>
 
 
     <!-- Tablet hotel filters -->

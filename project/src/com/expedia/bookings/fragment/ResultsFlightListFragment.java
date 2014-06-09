@@ -218,4 +218,15 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 		return ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM;
 	}
 
+	@Override
+	protected String getEmptyListText() {
+		return getString(R.string.tablet_search_results_flights_unavailable);
+	}
+
+	@Override
+	protected int getEmptyListImageResource() {
+		// TODO: this is just a place holder, waiting on design.
+		return R.drawable.ic_no_flights;
+	}
+
 }
