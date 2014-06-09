@@ -106,7 +106,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private static final String FRAG_TAG_BLUR_BG = "FRAG_TAG_BLUR_BG";
 	private static final String FRAG_TAG_BOOKING_UNAVAILABLE = "FRAG_TAG_BOOKING_UNAVAILABLE";
 
-	//Containers
+	// Containers
 	private FrameLayoutTouchController mRootC;
 	private ScrollView mBucketScrollContainer;
 	private ViewGroup mBucketHotelContainer;
@@ -120,10 +120,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private ViewGroup mConfirmationContainer;
 	private ViewGroup mBlurredDestImageOverlay;
 
-	//Views
+	// Views
 	private TextView mBucketDateRange;
 
-	//frags
+	// Fragments
 	private TripBucketFlightFragment mBucketFlightFrag;
 	private TripBucketHotelFragment mBucketHotelFrag;
 	private TabletCheckoutFormsFragment mCheckoutFragment;

@@ -23,17 +23,16 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.SuggestionV2.ResultType;
-import com.expedia.bookings.enums.WaypointChooserState;
+import com.expedia.bookings.enums.LaunchState;
+import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.fragment.SuggestionsFragment.SuggestionsFragmentListener;
-import com.expedia.bookings.interfaces.IStateListener;
-import com.expedia.bookings.interfaces.IStateProvider;
-import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
-import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.section.AfterChangeTextWatcher;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
+import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.mobiata.android.Log;
 
 /**
  * A large search fragment only suitable for tablet sizes.
@@ -41,7 +40,7 @@ import com.expedia.bookings.widget.FrameLayoutTouchController;
 @TargetApi(14)
 public class TabletWaypointFragment extends Fragment
 	implements SuggestionsFragmentListener, FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
-	IStateProvider<WaypointChooserState>, CurrentLocationFragment.ICurrentLocationListener {
+	CurrentLocationFragment.ICurrentLocationListener {
 
 	private static final String FTAG_SUGGESTIONS = "FTAG_SUGGESTIONS";
 	private static final String FTAG_LOCATION = "FTAG_LOCATION";
@@ -67,9 +66,6 @@ public class TabletWaypointFragment extends Fragment
 	private EditText mWaypointEditText;
 	private TextView mErrorTv;
 	private ProgressBar mLocationProgressBar;
-
-	private StateManager<WaypointChooserState> mStateManager = new StateManager<WaypointChooserState>(
-		WaypointChooserState.HIDDEN, this);
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -107,8 +103,6 @@ public class TabletWaypointFragment extends Fragment
 		//State
 		if (savedInstanceState != null) {
 			mErrorMessage = savedInstanceState.getString(STATE_ERROR_MESSAGE);
-			mStateManager.setDefaultState(
-				WaypointChooserState.valueOf(savedInstanceState.getString(STATE_WAYPOINT_CHOOSER_STATE)));
 		}
 
 		//Setup the suggestions fragment
@@ -140,7 +134,13 @@ public class TabletWaypointFragment extends Fragment
 			}
 		});
 
-		registerStateListener(mStateHelper, false);
+		Fragment parent = getParentFragment();
+		if (parent instanceof TabletLaunchControllerFragment) {
+			((TabletLaunchControllerFragment) parent).registerStateListener(mLaunchStateHelper, false);
+		}
+		else if (parent instanceof TabletResultsSearchControllerFragment) {
+			((TabletResultsSearchControllerFragment)parent).registerStateListener(mResultsStateHelper, false);
+		}
 
 		return view;
 	}
@@ -160,18 +160,17 @@ public class TabletWaypointFragment extends Fragment
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putString(STATE_WAYPOINT_CHOOSER_STATE, mStateManager.getState().name());
 		outState.putString(STATE_ERROR_MESSAGE, mErrorMessage == null ? "" : mErrorMessage);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// General
 
+	private boolean mLoadingLocation = false;
+
 	public void unsetLoadingAndError() {
+		mLoadingLocation = false;
 		setErrorMessage(null);
-		if (mStateManager.getState() == WaypointChooserState.LOADING_LOCATION) {
-			mStateManager.setState(WaypointChooserState.VISIBLE, false);
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -252,7 +251,7 @@ public class TabletWaypointFragment extends Fragment
 		@Override
 		public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
 			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-				if (mSuggestionsFragment != null && getState() == WaypointChooserState.VISIBLE) {
+				if (mSuggestionsFragment != null && mLoadingLocation == false) {
 					SuggestionV2 suggest = mSuggestionsFragment.getBestChoiceForFilter();
 					if (suggest != null) {
 						handleSuggestion(suggest, mWaypointEditText.getText().toString());
@@ -315,7 +314,7 @@ public class TabletWaypointFragment extends Fragment
 		if (needsLocation(suggestion)) {
 			//This will fire the listener when the location is found
 			setErrorMessage(null);
-			setState(WaypointChooserState.LOADING_LOCATION, false);
+			mLoadingLocation = true;
 			mLocationFragment.getCurrentLocation();
 		}
 		else {
@@ -361,159 +360,207 @@ public class TabletWaypointFragment extends Fragment
 	public void doFragmentSetup(String tag, Fragment frag) {
 	}
 
-
 	//////////////////////////////////////////////////////////////////////////
-	// State Listener
+	// State Helpers. There's a couple slight differences between
+	// the Launch Screen and the Search Results screens:
+	// 1. The suggestion bar fades in on the results screen.
+	// 2. The state enums are different.
+	// TODO: These two could probably be consolidated a bit.
 
-	public void setState(WaypointChooserState state, boolean animate) {
-		mStateManager.setState(state, animate);
-	}
-
-	public WaypointChooserState getState() {
-		return mStateManager.getState();
-	}
-
-	private StateListenerHelper<WaypointChooserState> mStateHelper = new StateListenerHelper<WaypointChooserState>() {
+	private StateListenerHelper<LaunchState> mLaunchStateHelper = new StateListenerHelper<LaunchState>() {
 
 		private Rect mAnimFrom;
 		private float mMultX;
 		private float mMultY;
 
 		@Override
-		public void onStateTransitionStart(WaypointChooserState stateOne, WaypointChooserState stateTwo) {
-			if (transitionIsTopToBottom(stateOne, stateTwo)) {
-				mAnimFrom = mListener.getAnimOrigin();
-				mMultX = (mAnimFrom.width() / (float) mSearchBarC.getWidth());
-				mMultY = (mAnimFrom.height() / (float) mSearchBarC.getHeight());
+		public void onStateTransitionStart(LaunchState stateOne, LaunchState stateTwo) {
+			mAnimFrom = ScreenPositionUtils.translateGlobalPositionToLocalPosition(mListener.getAnimOrigin(), mRootC);
+			mMultX = (mAnimFrom.width() / (float) mSearchBarC.getWidth());
+			mMultY = (mAnimFrom.height() / (float) mSearchBarC.getHeight());
 
-				mSuggestionsC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-				mBg.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-				mSearchBarC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+			mSuggestionsC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+			mBg.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+			mSearchBarC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
-				mSearchBarC.setPivotX(0);
-				mSearchBarC.setPivotY(0);
-			}
+			mSearchBarC.setPivotX(0);
+			mSearchBarC.setPivotY(0);
 		}
 
 		@Override
-		public void onStateTransitionUpdate(WaypointChooserState stateOne, WaypointChooserState stateTwo,
-			float percentage) {
+		public void onStateTransitionUpdate(LaunchState stateOne, LaunchState stateTwo,
+											float percentage) {
 			if (transitionIsTopToBottom(stateOne, stateTwo)) {
-				float perc = stateTwo == WaypointChooserState.HIDDEN ? 1f - percentage : percentage;
-
-				float transX = (1f - perc) * (mAnimFrom.left - mSearchBarC.getLeft());
-				float transY = (1f - perc) * (mAnimFrom.bottom - (mSearchBarC.getBottom()));
-				float scaleX = mMultX + perc * (1f - mMultX);
-				float scaleY = mMultY + perc * (1f - mMultY);
-
-				mSearchBarC.setTranslationX(transX);
-				mSearchBarC.setTranslationY(transY);
-				mSearchBarC.setScaleX(scaleX);
-				mSearchBarC.setScaleY(scaleY);
-				mSuggestionsC.setTranslationY((1f - perc) * mSuggestionsC.getHeight());
-				mSearchBarC.setAlpha(perc);
-				mBg.setAlpha(perc);
+				percentage = 1 - percentage;
 			}
+
+			float transX = (1f - percentage) * (mAnimFrom.left - mSearchBarC.getLeft());
+			float transY = (1f - percentage) * (mAnimFrom.bottom - (mSearchBarC.getBottom()));
+			float scaleX = mMultX + percentage * (1f - mMultX);
+			float scaleY = mMultY + percentage * (1f - mMultY);
+
+			mSearchBarC.setTranslationX(transX);
+			mSearchBarC.setTranslationY(transY);
+			mSearchBarC.setScaleX(scaleX);
+			mSearchBarC.setScaleY(scaleY);
+			mSuggestionsC.setTranslationY((1f - percentage) * mSuggestionsC.getHeight());
+			mBg.setAlpha(percentage);
 		}
 
 		@Override
-		public void onStateTransitionEnd(WaypointChooserState stateOne, WaypointChooserState stateTwo) {
-			if (transitionIsTopToBottom(stateOne, stateTwo)) {
-				mSuggestionsC.setLayerType(View.LAYER_TYPE_NONE, null);
-				mBg.setLayerType(View.LAYER_TYPE_NONE, null);
-				mSearchBarC.setLayerType(View.LAYER_TYPE_NONE, null);
-			}
+		public void onStateTransitionEnd(LaunchState stateOne, LaunchState stateTwo) {
+			mSuggestionsC.setLayerType(View.LAYER_TYPE_NONE, null);
+			mBg.setLayerType(View.LAYER_TYPE_NONE, null);
+			mSearchBarC.setLayerType(View.LAYER_TYPE_NONE, null);
 		}
 
 		@Override
-		public void onStateFinalized(WaypointChooserState state) {
-			if (mRootC != null) {
-				if (state == WaypointChooserState.HIDDEN) {
-					mBg.setAlpha(0f);
-					mWaypointEditText.setText("");
-					mLocationProgressBar.setVisibility(View.GONE);
-					clearEditTextFocus(mWaypointEditText);
-					setErrorMessage(null);
-					if (mSuggestionsFragment != null && mSuggestionsFragment.getListAdapter() != null
-						&& mSuggestionsFragment.getListAdapter().getCount() > 0) {
-						//Reset the scroll position of the suggestions frag
-						mSuggestionsFragment.setSelection(0);
-					}
+		public void onStateFinalized(LaunchState state) {
+			if (mRootC == null) {
+				return;
+			}
+
+			if (state == LaunchState.WAYPOINT) {
+				mSearchBarC.setTranslationX(0);
+				mSearchBarC.setTranslationY(0);
+				mSearchBarC.setScaleX(1f);
+				mSearchBarC.setScaleY(1f);
+				mSuggestionsC.setTranslationY(0);
+				mSearchBarC.setAlpha(1f);
+				mBg.setAlpha(1f);
+
+				if (mLoadingLocation) {
+					mLocationProgressBar.setVisibility(View.VISIBLE);
+					mLocationFragment.getCurrentLocation();
 				}
 				else {
-					mSearchBarC.setTranslationX(0);
-					mSearchBarC.setTranslationY(0);
-					mSearchBarC.setScaleX(1f);
-					mSearchBarC.setScaleY(1f);
-					mSuggestionsC.setTranslationY(0);
-					mSearchBarC.setAlpha(1f);
-					mBg.setAlpha(1f);
-
-					if (state == WaypointChooserState.LOADING_LOCATION) {
-						mLocationProgressBar.setVisibility(View.VISIBLE);
-						mLocationFragment.getCurrentLocation();
-					}
-					else {
-						mLocationProgressBar.setVisibility(View.GONE);
-					}
-					setErrorMessage(mErrorMessage);
-					requestEditTextFocus(mWaypointEditText);
+					mLocationProgressBar.setVisibility(View.GONE);
+				}
+				setErrorMessage(mErrorMessage);
+				requestEditTextFocus(mWaypointEditText);
+			}
+			else {
+				mBg.setAlpha(0f);
+				mWaypointEditText.setText("");
+				mLocationProgressBar.setVisibility(View.GONE);
+				clearEditTextFocus(mWaypointEditText);
+				setErrorMessage(null);
+				if (mSuggestionsFragment != null
+					&& mSuggestionsFragment.isAdded()
+					&& mSuggestionsFragment.getListAdapter() != null
+					&& mSuggestionsFragment.getListAdapter().getCount() > 0) {
+					//Reset the scroll position of the suggestions frag
+					mSuggestionsFragment.setSelection(0);
 				}
 			}
 		}
 
-		private boolean transitionIsTopToBottom(WaypointChooserState stateOne, WaypointChooserState stateTwo) {
-			return (stateOne == WaypointChooserState.HIDDEN && (stateTwo == WaypointChooserState.VISIBLE
-				|| stateTwo == WaypointChooserState.LOADING_LOCATION)) || (
-				(stateOne == WaypointChooserState.VISIBLE || stateOne == WaypointChooserState.LOADING_LOCATION)
-					&& stateTwo == WaypointChooserState.HIDDEN);
+		private boolean transitionIsTopToBottom(LaunchState stateOne, LaunchState stateTwo) {
+			return stateOne == LaunchState.WAYPOINT && stateTwo != LaunchState.WAYPOINT;
 		}
-
-
 	};
 
-	//////////////////////////////////////////////////////////////////////////
-	// IStateProvider
+	private StateListenerHelper<ResultsSearchState> mResultsStateHelper = new StateListenerHelper<ResultsSearchState>() {
 
-	StateListenerCollection<WaypointChooserState> mL = new StateListenerCollection<WaypointChooserState>(
-		mStateManager.getState());
+		private Rect mAnimFrom;
+		private float mMultX;
+		private float mMultY;
 
-	@Override
-	public void startStateTransition(WaypointChooserState stateOne, WaypointChooserState stateTwo) {
-		mL.startStateTransition(stateOne, stateTwo);
-	}
+		@Override
+		public void onStateTransitionStart(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			mAnimFrom = ScreenPositionUtils.translateGlobalPositionToLocalPosition(mListener.getAnimOrigin(), mRootC);
+			mMultX = (mAnimFrom.width() / (float) mSearchBarC.getWidth());
+			mMultY = (mAnimFrom.height() / (float) mSearchBarC.getHeight());
 
-	@Override
-	public void updateStateTransition(WaypointChooserState stateOne, WaypointChooserState stateTwo, float percentage) {
-		mL.updateStateTransition(stateOne, stateTwo, percentage);
-	}
+			mSuggestionsC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+			mBg.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+			mSearchBarC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
-	@Override
-	public void endStateTransition(WaypointChooserState stateOne, WaypointChooserState stateTwo) {
-		mL.endStateTransition(stateOne, stateTwo);
-	}
+			mSearchBarC.setPivotX(0);
+			mSearchBarC.setPivotY(0);
+		}
 
-	@Override
-	public void finalizeState(WaypointChooserState state) {
-		mL.finalizeState(state);
-	}
+		@Override
+		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo,
+											float percentage) {
+			if (transitionIsTopToBottom(stateOne, stateTwo)) {
+				percentage = 1 - percentage;
+			}
 
-	@Override
-	public void registerStateListener(IStateListener<WaypointChooserState> listener, boolean fireFinalizeState) {
-		mL.registerStateListener(listener, fireFinalizeState);
-	}
+			float transX = (1f - percentage) * (mAnimFrom.left - mSearchBarC.getLeft());
+			float transY = (1f - percentage) * (mAnimFrom.bottom - (mSearchBarC.getBottom()));
+			float scaleX = mMultX + percentage * (1f - mMultX);
+			float scaleY = mMultY + percentage * (1f - mMultY);
 
-	@Override
-	public void unRegisterStateListener(IStateListener<WaypointChooserState> listener) {
-		mL.unRegisterStateListener(listener);
-	}
+			mSearchBarC.setTranslationX(transX);
+			mSearchBarC.setTranslationY(transY);
+			mSearchBarC.setScaleX(scaleX);
+			mSearchBarC.setScaleY(scaleY);
+			mSuggestionsC.setTranslationY((1f - percentage) * mSuggestionsC.getHeight());
+			mSearchBarC.setAlpha(percentage);
+			mBg.setAlpha(percentage);
+		}
+
+		@Override
+		public void onStateTransitionEnd(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			mSuggestionsC.setLayerType(View.LAYER_TYPE_NONE, null);
+			mBg.setLayerType(View.LAYER_TYPE_NONE, null);
+			mSearchBarC.setLayerType(View.LAYER_TYPE_NONE, null);
+		}
+
+		@Override
+		public void onStateFinalized(ResultsSearchState state) {
+			if (mRootC == null) {
+				return;
+			}
+
+			if (state == ResultsSearchState.FLIGHT_ORIGIN || state == ResultsSearchState.DESTINATION) {
+				mSearchBarC.setTranslationX(0);
+				mSearchBarC.setTranslationY(0);
+				mSearchBarC.setScaleX(1f);
+				mSearchBarC.setScaleY(1f);
+				mSuggestionsC.setTranslationY(0);
+				mSearchBarC.setAlpha(1f);
+				mBg.setAlpha(1f);
+
+				if (mLoadingLocation) {
+					mLocationProgressBar.setVisibility(View.VISIBLE);
+					mLocationFragment.getCurrentLocation();
+				}
+				else {
+					mLocationProgressBar.setVisibility(View.GONE);
+				}
+				setErrorMessage(mErrorMessage);
+				requestEditTextFocus(mWaypointEditText);
+			}
+			else {
+				mBg.setAlpha(0f);
+				mWaypointEditText.setText("");
+				mLocationProgressBar.setVisibility(View.GONE);
+				clearEditTextFocus(mWaypointEditText);
+				setErrorMessage(null);
+				if (mSuggestionsFragment != null
+					&& mSuggestionsFragment.isAdded()
+					&& mSuggestionsFragment.getListAdapter() != null
+					&& mSuggestionsFragment.getListAdapter().getCount() > 0) {
+					//Reset the scroll position of the suggestions frag
+					mSuggestionsFragment.setSelection(0);
+				}
+			}
+		}
+
+		private boolean transitionIsTopToBottom(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			return (stateOne == ResultsSearchState.FLIGHT_ORIGIN || stateOne == ResultsSearchState.DESTINATION)
+				&& (stateTwo != ResultsSearchState.FLIGHT_ORIGIN && stateTwo != ResultsSearchState.DESTINATION);
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////
 	// ICurrentLocationListener
 
 	@Override
 	public void onCurrentLocation(Location location, SuggestionV2 suggestion) {
-		if (mStateManager.getState() == WaypointChooserState.LOADING_LOCATION) {
+		if (mLoadingLocation) {
 			unsetLoadingAndError();
 			mListener.onWaypointSearchComplete(this, suggestion, null);
 		}
@@ -524,9 +571,8 @@ public class TabletWaypointFragment extends Fragment
 		switch (errorCode) {
 		case CurrentLocationFragment.ERROR_LOCATION_DATA:
 		case CurrentLocationFragment.ERROR_LOCATION_SERVICE:
-			if (mStateManager.getState() == WaypointChooserState.LOADING_LOCATION) {
+			if (mLoadingLocation) {
 				setErrorMessage(getString(R.string.geolocation_failed));
-				setState(WaypointChooserState.VISIBLE, false);
 			}
 			break;
 		case CurrentLocationFragment.ERROR_SUGGEST_DATA:
