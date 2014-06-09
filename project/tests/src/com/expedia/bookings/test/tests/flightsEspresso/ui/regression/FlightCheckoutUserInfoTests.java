@@ -5,11 +5,8 @@ import java.util.Calendar;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
-
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.LaunchActivity;
@@ -50,14 +47,12 @@ public class FlightCheckoutUserInfoTests extends ActivityInstrumentationTestCase
 
 	private static final String TAG = FlightCheckoutUserInfoTests.class.getSimpleName();
 	Context mContext;
-	SharedPreferences mPrefs;
 	Resources mRes;
 	HotelsUserData mUser;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		mContext = getInstrumentation().getTargetContext();
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		mRes = mContext.getResources();
 		mUser = new HotelsUserData(getInstrumentation());
 		ClearPrivateDataUtil.clear(mContext);
@@ -152,9 +147,7 @@ public class FlightCheckoutUserInfoTests extends ActivityInstrumentationTestCase
 
 		//Verify that the redress EditText allows a max of 7 chars, numbers only
 		FlightsTravelerInfoScreen.typeRedressText("12345678");
-		EspressoUtils.getValues("redressText", R.id.edit_redress_number);
-		String redressText = mPrefs.getString("redressText", "");
-		assertEquals("1234567", redressText);
+		FlightsTravelerInfoScreen.redressEditText().check(matches(withText("1234567")));
 		ScreenActions.enterLog(TAG, "Asserted that redress EditText has a max capacity of 7 chars");
 		FlightsTravelerInfoScreen.clickDoneButton();
 		FlightsCheckoutScreen.logInButton().check(matches(isDisplayed()));
@@ -221,9 +214,7 @@ public class FlightCheckoutUserInfoTests extends ActivityInstrumentationTestCase
 		String twentyChars = "12345123451234512345";
 		String nineteenChars = twentyChars.substring(0, 19);
 		CardInfoScreen.typeTextCreditCardEditText(twentyChars);
-		EspressoUtils.getValues("Credit Card Number", R.id.edit_creditcard_number);
-		String currentCCText = mPrefs.getString("Credit Card Number", "");
-		assertEquals(nineteenChars, currentCCText);
+		CardInfoScreen.creditCardNumberEditText().check(matches(withText(nineteenChars)));
 		ScreenActions.enterLog(TAG, "Successfully asserted that the CC edittext has a max capacity of 19 chars");
 		CardInfoScreen.creditCardNumberEditText().perform(clearText());
 

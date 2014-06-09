@@ -1,9 +1,7 @@
 package com.expedia.bookings.test.tests.hotelsEspresso.ui.regression;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.R;
@@ -29,14 +27,12 @@ public class HotelGuestPickerTests extends ActivityInstrumentationTestCase2<Sear
 	private static final String TAG = HotelGuestPickerTests.class.getSimpleName();
 
 	Context mContext;
-	SharedPreferences mPrefs;
 	Resources mRes;
 	String mValue;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		mContext = getInstrumentation().getTargetContext();
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		mRes = mContext.getResources();
 		mValue = "value";
 		ClearPrivateDataUtil.clear(mContext);
@@ -51,10 +47,8 @@ public class HotelGuestPickerTests extends ActivityInstrumentationTestCase2<Sear
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickOnGuestsButton();
 
-		HotelsGuestPicker.getGuestTextViewValue(R.id.text_lower, R.id.children_number_picker, mValue);
-		String lowerTextChildView = mPrefs.getString(mValue, "");
-		HotelsGuestPicker.getGuestTextViewValue(R.id.text_lower, R.id.adults_number_picker, mValue);
-		String lowerTextAdultView = mPrefs.getString(mValue, "");
+		String lowerTextChildView = HotelsGuestPicker.getGuestTextViewValue(R.id.text_lower, R.id.children_number_picker);
+		String lowerTextAdultView = HotelsGuestPicker.getGuestTextViewValue(R.id.text_lower, R.id.adults_number_picker);
 		assertEquals(lowerTextChildView, "");
 		assertEquals(lowerTextAdultView, "");
 
@@ -68,19 +62,16 @@ public class HotelGuestPickerTests extends ActivityInstrumentationTestCase2<Sear
 		String adultLowerTextViewValue;
 
 		for (int i = 1; i < adultMax; i++) {
-			HotelsGuestPicker.getGuestTextViewValue(R.id.text_current, R.id.adults_number_picker, mValue);
-			adultCurrentTextViewValue = mPrefs.getString(mValue, "");
+			adultCurrentTextViewValue = HotelsGuestPicker.getGuestTextViewValue(R.id.text_current, R.id.adults_number_picker);
 			assertEquals(HotelsGuestPicker.adultPickerStringPlural(adultCount, mRes), adultCurrentTextViewValue);
 
-			HotelsGuestPicker.getGuestTextViewValue(R.id.text_higher, R.id.adults_number_picker, mValue);
-			adultHigherTextViewValue = mPrefs.getString(mValue, "");
+			adultHigherTextViewValue = HotelsGuestPicker.getGuestTextViewValue(R.id.text_higher, R.id.adults_number_picker);
 			assertEquals(HotelsGuestPicker.adultPickerStringPlural(adultCount + 1, mRes), adultHigherTextViewValue);
 
 			HotelsGuestPicker.incrementAdultsButton();
 			adultCount++;
 
-			HotelsGuestPicker.getGuestTextViewValue(R.id.text_lower, R.id.adults_number_picker, mValue);
-			adultLowerTextViewValue = mPrefs.getString(mValue, "");
+			adultLowerTextViewValue = HotelsGuestPicker.getGuestTextViewValue(R.id.text_lower, R.id.adults_number_picker);
 			assertEquals(HotelsGuestPicker.adultPickerStringPlural(adultCount - 1, mRes), adultLowerTextViewValue);
 		}
 
@@ -93,19 +84,16 @@ public class HotelGuestPickerTests extends ActivityInstrumentationTestCase2<Sear
 		String childLowerTextViewValue;
 
 		for (int i = 0; i < childMax; i++) {
-			HotelsGuestPicker.getGuestTextViewValue(R.id.text_higher, R.id.children_number_picker, mValue);
-			childHigherTextViewValue = mPrefs.getString(mValue, "");
+			childHigherTextViewValue = HotelsGuestPicker.getGuestTextViewValue(R.id.text_higher, R.id.children_number_picker);
 			assertEquals(HotelsGuestPicker.childPickerStringPlural(childCount + 1, mRes), childHigherTextViewValue);
 
-			HotelsGuestPicker.getGuestTextViewValue(R.id.text_current, R.id.children_number_picker, mValue);
-			childCurrentTextViewValue = mPrefs.getString(mValue, "");
+			childCurrentTextViewValue = HotelsGuestPicker.getGuestTextViewValue(R.id.text_current, R.id.children_number_picker);
 			assertEquals(HotelsGuestPicker.childPickerStringPlural(childCount, mRes), childCurrentTextViewValue);
 
 			HotelsGuestPicker.incrementChildrenButton();
 			childCount++;
 
-			HotelsGuestPicker.getGuestTextViewValue(R.id.text_lower, R.id.children_number_picker, mValue);
-			childLowerTextViewValue = mPrefs.getString(mValue, "");
+			childLowerTextViewValue = HotelsGuestPicker.getGuestTextViewValue(R.id.text_lower, R.id.children_number_picker);
 			assertEquals(HotelsGuestPicker.childPickerStringPlural(childCount - 1, mRes), childLowerTextViewValue);
 		}
 	}

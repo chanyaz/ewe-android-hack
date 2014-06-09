@@ -5,8 +5,6 @@ import java.util.Calendar;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.R;
@@ -29,7 +27,6 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 public class FlightSearchTests extends ActivityInstrumentationTestCase2<SearchActivity> {
 	private static final String TAG = "FlightSearchTests";
 	private Context mContext;
-	private SharedPreferences mPrefs;
 	private Calendar mCal;
 	private int mYear;
 	private int mMonth;
@@ -43,7 +40,6 @@ public class FlightSearchTests extends ActivityInstrumentationTestCase2<SearchAc
 	protected void setUp() throws Exception {
 		super.setUp();
 		mContext = getInstrumentation().getTargetContext();
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		mCal = Calendar.getInstance();
 		mYear = mCal.get(mCal.YEAR);
 		mMonth = mCal.get(mCal.MONTH) + 1;
@@ -77,14 +73,11 @@ public class FlightSearchTests extends ActivityInstrumentationTestCase2<SearchAc
 	//Test number of traveler shows correctly in Textview
 	public void testGuestButtonTextView() throws Exception {
 		ScreenActions.enterLog(TAG, "START TEST:");
-		String value = "value";
 		LaunchScreen.launchFlights();
 		FlightsSearchScreen.clickPassengerSelectionButton();
 		for (int i = 1; i <= 6; i++) {
-			FlightsSearchScreen.getTravelerNumberText(value);
-			String adultQuantity = mPrefs.getString(value, "");
-			EspressoUtils.getValues(value, R.id.refinement_info_text_view);
-			String adultQuantityTextView = mPrefs.getString(value, "");
+			String adultQuantity = FlightsSearchScreen.getTravelerNumberText();
+			String adultQuantityTextView = EspressoUtils.getText(R.id.refinement_info_text_view);
 			assertEquals(adultQuantity, adultQuantityTextView);
 			FlightsSearchScreen.incrementAdultsButton();
 		}

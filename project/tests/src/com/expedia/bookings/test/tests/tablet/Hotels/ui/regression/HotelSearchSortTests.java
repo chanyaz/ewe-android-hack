@@ -1,9 +1,10 @@
 package com.expedia.bookings.test.tests.tablet.Hotels.ui.regression;
 
+
+import java.util.concurrent.atomic.AtomicReference;
+
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.R;
@@ -13,7 +14,7 @@ import com.expedia.bookings.test.tests.pageModels.tablet.Common;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
-import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsSearchScreen;
+
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
@@ -34,14 +35,12 @@ public class HotelSearchSortTests extends ActivityInstrumentationTestCase2<Searc
 
 	private static final String TAG = HotelSearchSortTests.class.getSimpleName();
 	Context mContext;
-	SharedPreferences mPrefs;
 	Resources mRes;
 	HotelsUserData mUser;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		mContext = getInstrumentation().getTargetContext();
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		mRes = mContext.getResources();
 		mUser = new HotelsUserData(getInstrumentation());
 		ClearPrivateDataUtil.clear(mContext);
@@ -66,17 +65,15 @@ public class HotelSearchSortTests extends ActivityInstrumentationTestCase2<Searc
 		initiateSearchHelper();
 		Results.clickHotelSortFilterButton();
 		Results.clickToSortHotelByPrice();
-		EspressoUtils.getListCount(Results.hotelList(), "totalHotels", 1);
-		int totalHotels = mPrefs.getInt("totalHotels", 0);
+		int totalHotels = EspressoUtils.getListCount(Results.hotelList());
+		ScreenActions.enterLog(TAG, ";" + totalHotels);
 		if (totalHotels > 1) {
 			DataInteraction prevResultRow = Results.hotelAtIndex(1);
-			EspressoUtils.getListItemValues(prevResultRow, R.id.price_text_view, "previousRowPrice");
-			String previousRowPriceString = mPrefs.getString("previousRowPrice", "");
+			String previousRowPriceString = EspressoUtils.getListItemValues(prevResultRow, R.id.price_text_view);
 			float previousRowPrice = getCleanFloatFromString(previousRowPriceString);
 			for (int j = 1; j < totalHotels - 1; j++) {
 				DataInteraction curentResultRow = Results.hotelAtIndex(j);
-				EspressoUtils.getListItemValues(curentResultRow, R.id.price_text_view, "currentRowPrice");
-				String currentRowPriceString = mPrefs.getString("currentRowPrice", "");
+				String currentRowPriceString = EspressoUtils.getListItemValues(curentResultRow, R.id.price_text_view);
 				float currentRowPrice = getCleanFloatFromString(currentRowPriceString);
 				ScreenActions.enterLog(TAG, "PRICE " + currentRowPrice + " >= " + previousRowPrice);
 				assertTrue(currentRowPrice >= previousRowPrice);
@@ -86,19 +83,20 @@ public class HotelSearchSortTests extends ActivityInstrumentationTestCase2<Searc
 	}
 
 	public void testSortByRating() throws Exception {
+		final AtomicReference<Float> rating = new AtomicReference<Float>();
 		initiateSearchHelper();
 		Results.clickHotelSortFilterButton();
 		Results.clickToSortHotelByRating();
-		EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView(), "totalHotels", 1);
-		int totalHotels = mPrefs.getInt("totalHotels", 0);
+		int totalHotels = EspressoUtils.getListCount(Results.hotelList());
+		ScreenActions.enterLog(TAG, ";" + totalHotels);
 		if (totalHotels > 1) {
 			DataInteraction prevResultRow = Results.hotelAtIndex(1);
-			prevResultRow.onChildView(withId(R.id.user_rating_bar)).perform(getRating("previousRowRating"));
-			float previousRowRating = mPrefs.getFloat("previousRowRating", 0);
+			prevResultRow.onChildView(withId(R.id.user_rating_bar)).perform(getRating(rating));
+			float previousRowRating = rating.get();
 			for (int i = 1; i < totalHotels - 1; i++) {
 				DataInteraction currentHotelRowView = Results.hotelAtIndex(i);
-				currentHotelRowView.onChildView(withId(R.id.user_rating_bar)).perform(getRating("currentRowRating"));
-				float currentRowRating = mPrefs.getFloat("currentRowRating", 0);
+				currentHotelRowView.onChildView(withId(R.id.user_rating_bar)).perform(getRating(rating));
+				float currentRowRating = rating.get();
 				ScreenActions.enterLog(TAG, "RATING " + previousRowRating + " >= " + currentRowRating);
 				assertTrue(previousRowRating >= currentRowRating);
 				previousRowRating = currentRowRating;

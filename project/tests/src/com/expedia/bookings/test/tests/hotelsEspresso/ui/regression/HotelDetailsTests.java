@@ -3,9 +3,7 @@ package com.expedia.bookings.test.tests.hotelsEspresso.ui.regression;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.R;
@@ -38,13 +36,11 @@ public class HotelDetailsTests extends ActivityInstrumentationTestCase2<PhoneSea
 	private static final String TAG = HotelDetailsTests.class.getName();
 
 	Context mContext;
-	SharedPreferences mPrefs;
 	Resources mRes;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		mContext = getInstrumentation().getTargetContext();
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		mRes = mContext.getResources();
 		ClearPrivateDataUtil.clear(mContext);
 		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
@@ -65,12 +61,11 @@ public class HotelDetailsTests extends ActivityInstrumentationTestCase2<PhoneSea
 		HotelsSearchScreen.clickOnFilterButton();
 		HotelsSearchScreen.filterMenu().clickVIPAccessFilterButton();
 		Espresso.pressBack();
-		EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView(), "totalHotels", 1);
-		int totalHotels = mPrefs.getInt("totalHotels", 0);
+
+		int totalHotels = EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView());
 		for (int i = 1; i < totalHotels - 2; i++) {
 			HotelsSearchScreen.clickListItem(i);
-			EspressoUtils.getValues("hotelName", R.id.title);
-			String hotelName = mPrefs.getString("hotelName", "");
+			String hotelName = EspressoUtils.getText(R.id.title);
 			ScreenActions.enterLog(TAG, "Verifying VIP Dialog for hotel: " + hotelName);
 			try {
 				SettingsScreen.clickOKString();
@@ -97,19 +92,16 @@ public class HotelDetailsTests extends ActivityInstrumentationTestCase2<PhoneSea
 		HotelsSearchScreen.clickDate(startDate, endDate);
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView(), "totalHotels", 1);
-		int totalHotels = mPrefs.getInt("totalHotels", 0);
-		for (int i = 1; i < totalHotels; i++) {
-			String value = "value";
+
+		int totalHotels = EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView()) - 1;
+		for (int i = 1; i < totalHotels; i = i + 2) {
 			DataInteraction searchResultRow = HotelsSearchScreen.hotelListItem().atPosition(i);
-			EspressoUtils.getListItemValues(searchResultRow, R.id.name_text_view, value);
-			String rowHotelName = mPrefs.getString(value, "");
+			String rowHotelName = EspressoUtils.getListItemValues(searchResultRow, R.id.name_text_view);
 			searchResultRow.perform(click());
 			try {
 				ScreenActions.enterLog(TAG, "Verifying UI elements for details of: " + rowHotelName);
 				if (!rowHotelName.isEmpty() && !rowHotelName.contains("...")) {
-					EspressoUtils.getValues(value, R.id.title);
-					String detailHotelsName = mPrefs.getString(value, "");
+					String detailHotelsName = EspressoUtils.getText(R.id.title);
 					ScreenActions.enterLog(TAG, "Testing that the hotel name: " + rowHotelName + " matches " + detailHotelsName);
 					assertEquals(rowHotelName, detailHotelsName);
 				}

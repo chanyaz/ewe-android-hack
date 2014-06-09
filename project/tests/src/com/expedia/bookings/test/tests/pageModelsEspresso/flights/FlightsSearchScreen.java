@@ -1,12 +1,8 @@
 package com.expedia.bookings.test.tests.pageModelsEspresso.flights;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
-import org.joda.time.LocalDate;
+import java.util.concurrent.atomic.AtomicReference;
 
-import android.view.View;
-import android.widget.EditText;
+import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
@@ -14,14 +10,13 @@ import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
 import static com.expedia.bookings.test.utilsEspresso.CustomMatchers.withHint;
 import static com.expedia.bookings.test.utilsEspresso.ViewActions.clickDates;
-import static com.expedia.bookings.test.utilsEspresso.ViewActions.storeValue;
+import static com.expedia.bookings.test.utilsEspresso.ViewActions.getString;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.closeSoftKeyboard;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withParent;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
@@ -132,8 +127,11 @@ public class FlightsSearchScreen extends ScreenActions {
 		onView(withId(R.id.adults_plus)).perform(click());
 	}
 
-	public static void getTravelerNumberText(String value) {
-		onView(withId(R.id.adult_count_text)).perform(storeValue(value));
+	public static String getTravelerNumberText() {
+		final AtomicReference<String> value = new AtomicReference<String>();
+		onView(withId(R.id.adult_count_text)).perform(getString(value));
+		String stringValue=value.get();
+		return stringValue;
 	}
 
 	public static void checkHint(String hintText) {

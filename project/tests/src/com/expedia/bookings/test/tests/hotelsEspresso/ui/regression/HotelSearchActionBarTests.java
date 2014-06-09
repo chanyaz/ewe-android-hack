@@ -5,9 +5,7 @@ import java.util.Calendar;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.format.DateUtils;
 
@@ -23,6 +21,9 @@ import com.expedia.bookings.utils.JodaUtils;
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
 import com.mobiata.android.util.SettingUtils;
 
+import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+
 /**
  * Created by dmadan on 5/21/14.
  */
@@ -34,7 +35,6 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 	private static final String TAG = HotelSearchActionBarTests.class.getSimpleName();
 
 	Context mContext;
-	SharedPreferences mPrefs;
 	Resources mRes;
 	Calendar mCal = Calendar.getInstance();
 	int mYear = mCal.get(mCal.YEAR);
@@ -44,7 +44,6 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 	protected void setUp() throws Exception {
 		super.setUp();
 		mContext = getInstrumentation().getTargetContext();
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		mRes = mContext.getResources();
 		ClearPrivateDataUtil.clear(mContext);
 		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
@@ -58,8 +57,7 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 		final int guestMax = 6;
 		final int childMax = 4;
 		LaunchScreen.launchHotels();
-		EspressoUtils.getValues("initialCount", R.id.guests_text_view);
-		String initialCountString = mPrefs.getString("initialCount", "");
+		String initialCountString = EspressoUtils.getText(R.id.guests_text_view);
 		final int initialCount = Integer.parseInt(initialCountString);
 		int currentCount = initialCount;
 		assertEquals(initialCount, currentCount);
@@ -70,8 +68,7 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 		for (int i = initialCount; i < guestMax; i++) {
 			diff++;
 			HotelsGuestPicker.incrementAdultsButton();
-			EspressoUtils.getValues("currentCount", R.id.guests_text_view);
-			String currentCountString = mPrefs.getString("currentCount", "");
+			String currentCountString = EspressoUtils.getText(R.id.guests_text_view);
 			currentCount = Integer.parseInt(currentCountString);
 			assertEquals(diff, currentCount - initialCount);
 		}
@@ -79,8 +76,7 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 		for (int i = currentCount; i > 1; i--) {
 			diff--;
 			HotelsGuestPicker.decrementAdultsButton();
-			EspressoUtils.getValues("currentCount", R.id.guests_text_view);
-			String currentCountString = mPrefs.getString("currentCount", "");
+			String currentCountString = EspressoUtils.getText(R.id.guests_text_view);
 			currentCount = Integer.parseInt(currentCountString);
 			assertEquals(diff, currentCount - initialCount);
 		}
@@ -89,8 +85,7 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 		for (int i = initialCount; i <= childMax; i++) {
 			diff++;
 			HotelsGuestPicker.incrementChildrenButton();
-			EspressoUtils.getValues("currentCount", R.id.guests_text_view);
-			String currentCountString = mPrefs.getString("currentCount", "");
+			String currentCountString = EspressoUtils.getText(R.id.guests_text_view);
 			currentCount = Integer.parseInt(currentCountString);
 			assertEquals(diff, currentCount - initialCount);
 		}
@@ -98,14 +93,12 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 		for (int i = currentCount; i > 1; i--) {
 			diff--;
 			HotelsGuestPicker.decrementChildrenButton();
-			EspressoUtils.getValues("currentCount", R.id.guests_text_view);
-			String currentCountString = mPrefs.getString("currentCount", "");
+			String currentCountString = EspressoUtils.getText(R.id.guests_text_view);
 			currentCount = Integer.parseInt(currentCountString);
 			assertEquals(diff, currentCount - initialCount);
 		}
 
-		EspressoUtils.getValues("currentCount", R.id.guests_text_view);
-		String currentCountString = mPrefs.getString("currentCount", "");
+		String currentCountString = EspressoUtils.getText(R.id.guests_text_view);
 		currentCount = Integer.parseInt(currentCountString);
 
 		diff = 0;
@@ -113,8 +106,7 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 			diff += 2;
 			HotelsGuestPicker.incrementAdultsButton();
 			HotelsGuestPicker.incrementChildrenButton();
-			EspressoUtils.getValues("currentCount", R.id.guests_text_view);
-			currentCountString = mPrefs.getString("currentCount", "");
+			currentCountString = EspressoUtils.getText(R.id.guests_text_view);
 			currentCount = Integer.parseInt(currentCountString);
 			assertEquals(diff, currentCount - initialCount);
 		}
@@ -123,8 +115,7 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 			diff -= 2;
 			HotelsGuestPicker.decrementAdultsButton();
 			HotelsGuestPicker.decrementChildrenButton();
-			EspressoUtils.getValues("currentCount", R.id.guests_text_view);
-			currentCountString = mPrefs.getString("currentCount", "");
+			currentCountString = EspressoUtils.getText(R.id.guests_text_view);
 			currentCount = Integer.parseInt(currentCountString);
 			assertEquals(diff, currentCount - initialCount);
 		}
@@ -141,16 +132,9 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 		LocalDate mStartDate = new LocalDate(mYear, mMonth, 5);
 		LocalDate mEndDate = new LocalDate(mYear, mMonth, 1);
 		HotelsSearchScreen.clickOnCalendarButton();
-		EspressoUtils.getValues("initialCalendarTextViewNumber", R.id.dates_text_view);
-		String initialCalendarTextViewString = mPrefs.getString("initialCalendarTextViewNumber", "");
-		int initialCalendarTextViewNumber = Integer.parseInt(initialCalendarTextViewString);
-		assertEquals(initialCalendarTextViewNumber, mDayOfMonth);
+		HotelsSearchScreen.calendarNumberTextView().check(matches(withText(Integer.toString(mDayOfMonth))));
 		HotelsSearchScreen.clickDate(mStartDate, mEndDate);
-
-		EspressoUtils.getValues("postChangeCalendarTextViewNumber", R.id.dates_text_view);
-		String postChangeCalendarTextViewString = mPrefs.getString("postChangeCalendarTextViewNumber", "");
-		int postChangeCalendarTextViewNumber = Integer.parseInt(postChangeCalendarTextViewString);
-		assertEquals(dateOffset, postChangeCalendarTextViewNumber);
+		HotelsSearchScreen.calendarNumberTextView().check(matches(withText(Integer.toString(dateOffset))));
 		Espresso.pressBack();
 		Espresso.pressBack();
 
@@ -164,10 +148,8 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 
-		EspressoUtils.getValues("dateRangeText", R.id.search_date_range_text);
-		String dateRangeText = mPrefs.getString("dateRangeText", "");
 		String tonight = mRes.getString(R.string.Tonight);
-		assertEquals(dateRangeText, tonight);
+		HotelsSearchScreen.dateRangeTextView().check(matches(withText(tonight)));
 		int daysOffset = 1;
 
 		LocalDate mStartDate = new LocalDate(mYear, mMonth, 5);
@@ -177,12 +159,11 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 
-		EspressoUtils.getValues("dateRangeText", R.id.search_date_range_text);
-		dateRangeText = mPrefs.getString("dateRangeText", "");
 		String firstDay = JodaUtils.formatLocalDate(mContext, new LocalDate(mYear, mMonth + 1, 5), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH);
 		String secondDay = JodaUtils.formatLocalDate(mContext, new LocalDate(mYear, mMonth + 1, 5 + daysOffset), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH);
 		String range = this.mRes.getString(R.string.date_range_TEMPLATE, firstDay, secondDay);
-		assertEquals(range, dateRangeText);
+		HotelsSearchScreen.dateRangeTextView().check(matches(withText(range)));
+
 		Espresso.pressBack();
 	}
 
@@ -193,9 +174,7 @@ public class HotelSearchActionBarTests extends ActivityInstrumentationTestCase2<
 		HotelsSearchScreen.enterSearchText("New York, NY");
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		EspressoUtils.getValues("priceInfoText", R.id.lawyer_label_text_view);
-		String priceInfoText = mPrefs.getString("priceInfoText", "");
 		String expectedText = mRes.getString(R.string.prices_avg_per_night);
-		assertEquals(expectedText, priceInfoText);
+		HotelsSearchScreen.pricingDescriptionTextView().check(matches(withText(expectedText)));
 	}
 }

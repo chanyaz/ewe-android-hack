@@ -3,9 +3,7 @@ package com.expedia.bookings.test.tests.tablet.Flights.ui.regression;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.R;
@@ -23,6 +21,8 @@ import com.mobiata.android.util.SettingUtils;
 
 import static com.expedia.bookings.test.tests.pageModels.tablet.Common.pressBack;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
+import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 
 /**
  * Created by dmadan on 5/29/14.
@@ -34,14 +34,12 @@ public class FlightCheckoutUserInfoTests extends ActivityInstrumentationTestCase
 
 	private static final String TAG = FlightCheckoutUserInfoTests.class.getSimpleName();
 	Context mContext;
-	SharedPreferences mPrefs;
 	Resources mRes;
 	HotelsUserData mUser;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		mContext = getInstrumentation().getTargetContext();
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		mRes = mContext.getResources();
 		mUser = new HotelsUserData(getInstrumentation());
 		ClearPrivateDataUtil.clear(mContext);
@@ -186,9 +184,7 @@ public class FlightCheckoutUserInfoTests extends ActivityInstrumentationTestCase
 		//Verify that the redress EditText allows a max of 7 chars, numbers only
 		Checkout.clickRedressNumberButton();
 		Checkout.enterRedressNumber("12345678");
-		EspressoUtils.getValues("redressText", R.id.edit_redress_number);
-		String redressText = mPrefs.getString("redressText", "");
-		assertEquals("1234567", redressText);
+		Checkout.redressNumber().check(matches(withText("1234567")));
 		ScreenActions.enterLog(TAG, "Asserted that redress EditText has a max capacity of 7 chars");
 		Checkout.clickOnDone();
 		Common.checkDisplayed(Checkout.loginButton());
@@ -212,9 +208,7 @@ public class FlightCheckoutUserInfoTests extends ActivityInstrumentationTestCase
 		Checkout.creditCardNumber().perform(clearText());
 		Checkout.enterCreditCardNumber(twentyChars);
 		Common.closeSoftKeyboard(Checkout.creditCardNumber());
-		EspressoUtils.getValues("Credit Card Number", R.id.edit_creditcard_number);
-		String currentCCText = mPrefs.getString("Credit Card Number", "");
-		assertEquals(nineteenChars, currentCCText);
+		Checkout.creditCardNumber().check(matches(withText(nineteenChars)));
 		ScreenActions.enterLog(TAG, "Successfully asserted that the CC edittext has a max capacity of 19 chars");
 		Checkout.creditCardNumber().perform(clearText());
 		Checkout.enterCreditCardNumber("4111111111111111");

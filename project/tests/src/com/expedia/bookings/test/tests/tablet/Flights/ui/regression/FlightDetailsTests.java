@@ -3,16 +3,13 @@ package com.expedia.bookings.test.tests.tablet.Flights.ui.regression;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
-import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
@@ -29,14 +26,12 @@ public class FlightDetailsTests extends ActivityInstrumentationTestCase2<SearchA
 
 	private static final String TAG = FlightDetailsTests.class.getSimpleName();
 	Context mContext;
-	SharedPreferences mPrefs;
 	Resources mRes;
 	HotelsUserData mUser;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		mContext = getInstrumentation().getTargetContext();
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		mRes = mContext.getResources();
 		mUser = new HotelsUserData(getInstrumentation());
 		ClearPrivateDataUtil.clear(mContext);
@@ -72,35 +67,25 @@ public class FlightDetailsTests extends ActivityInstrumentationTestCase2<SearchA
 	// Verifies that flight details info on the card matches the flight search results info
 
 	private void verifyFlightDetails() throws Exception {
-		String value = "value";
-		EspressoUtils.getListCount(Results.flightList(), "totalFlights", 1);
-		int totalFlights = mPrefs.getInt("totalFlights", 0);
+		int totalFlights = EspressoUtils.getListCount(Results.flightList());
 		for (int j = 1; j < totalFlights - 1; j++) {
 			DataInteraction previousRow = Results.flightAtIndex(j);
 			//Store flight search results info
-			EspressoUtils.getListItemValues(previousRow, R.id.airline_text_view, value);
-			String resultsFlightName = mPrefs.getString(value, "");
-			EspressoUtils.getListItemValues(previousRow, R.id.flight_time_text_view, value);
-			String flightTime = mPrefs.getString(value, "");
+			String resultsFlightName = EspressoUtils.getListItemValues(previousRow, R.id.airline_text_view);
+			String flightTime = EspressoUtils.getListItemValues(previousRow, R.id.flight_time_text_view);
 			String cleanedFlightTime = flightTime.substring(0, flightTime.lastIndexOf("M") + 1);
 			String arrivalTime = cleanedFlightTime.substring(cleanedFlightTime.indexOf("o") + 2, cleanedFlightTime.length());
 			String departureTime = cleanedFlightTime.substring(0, cleanedFlightTime.indexOf("t") - 1);
-			EspressoUtils.getListItemValues(previousRow, R.id.price_text_view, value);
-			String resultsPriceString = mPrefs.getString(value, "");
+			String resultsPriceString = EspressoUtils.getListItemValues(previousRow, R.id.price_text_view);
 			//Click on search result
 			Results.clickFlightAtIndex(j);
 			try {
 				//Store flight details info on the card
-				EspressoUtils.getValues(value, R.id.airline_and_cities_text_view);
-				String detailsFlightName = mPrefs.getString(value, "");
-				EspressoUtils.getValues(value, R.id.details_time_header);
-				String detailsFlightTime = mPrefs.getString(value, "");
-				EspressoUtils.getValues(value, R.id.arrival_time_text_view);
-				String detailsArrivalTime = mPrefs.getString(value, "");
-				EspressoUtils.getValues(value, R.id.departure_time_text_view);
-				String detailsDepartureTime = mPrefs.getString(value, "");
-				EspressoUtils.getValues(value, R.id.details_add_trip_button);
-				String detailsHeaderPrice = mPrefs.getString(value, "");
+				String detailsFlightName = EspressoUtils.getText(R.id.airline_and_cities_text_view);
+				String detailsFlightTime = EspressoUtils.getText(R.id.details_time_header);
+				String detailsArrivalTime = EspressoUtils.getText(R.id.arrival_time_text_view);
+				String detailsDepartureTime = EspressoUtils.getText(R.id.departure_time_text_view);
+				String detailsHeaderPrice = EspressoUtils.getText(R.id.details_add_trip_button);
 
 				assertTrue(detailsFlightName.contains(resultsFlightName));
 				assertEquals(cleanedFlightTime, detailsFlightTime);

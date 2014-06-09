@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.tests.pageModels.tablet;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.joda.time.LocalDate;
@@ -14,7 +16,7 @@ import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
 import static com.expedia.bookings.test.utils.EspressoUtils.swipeUp;
 import static com.expedia.bookings.test.utils.ViewActions.clickDates;
-import static com.expedia.bookings.test.utilsEspresso.ViewActions.getViews;
+import static com.expedia.bookings.test.utilsEspresso.ViewActions.getChildViewText;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -163,8 +165,11 @@ public class Results {
 		onData(withHotelName(hotelName)).inAdapterView(withContentDescription("Hotel Search Results")).perform(click());
 	}
 
-	public static void getfilterAirlineView(int index, String key) {
-		onView(withId(R.id.filter_airline_container)).perform(getViews(index, key));
+	public static String getfilterAirlineView(int index) {
+		final AtomicReference<String> value = new AtomicReference<String>();
+		onView(withId(R.id.filter_airline_container)).perform(getChildViewText(index, value));
+		String filterValue = value.get();
+		return filterValue;
 	}
 
 	public static ViewInteraction airlineNameFilter(String airlineName) {

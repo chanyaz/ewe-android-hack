@@ -1,11 +1,14 @@
 package com.expedia.bookings.test.utilsEspresso;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -64,153 +67,120 @@ public final class ViewActions {
 
 	//View Action to get the values for a view
 
-	public static ViewAction storeValue(String value) {
-		return new SearchResultRow(value);
-	}
+	public static ViewAction getString(final AtomicReference<String> value) {
+		return new ViewAction() {
 
-	public final static class SearchResultRow implements ViewAction {
-		private String mValueString;
-
-		public SearchResultRow(String value) {
-			mValueString = value;
-		}
-
-		@SuppressWarnings("unchecked")
-		@Override
-		public Matcher<View> getConstraints() {
-			return Matchers.allOf(isAssignableFrom(TextView.class));
-		}
-
-		@Override
-		public void perform(UiController uiController, View view) {
-
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view.getContext());
-			SharedPreferences.Editor editor = prefs.edit();
-			editor.putString(mValueString, ((TextView) view).getText().toString());
-			editor.commit();
-		}
-
-		@Override
-		public String getDescription() {
-			return "store values";
-		}
-
-	}
-
-	//View Action to get the count of list view items
-
-	public static ViewAction getCount(String key, int code) {
-		return new CountListItems(key, code);
-	}
-
-	public final static class CountListItems implements ViewAction {
-		private String mKeyString;
-		private int mCode;
-
-		public CountListItems(String keystring, int code) {
-			mKeyString = keystring;
-			mCode = code;
-		}
-
-		@SuppressWarnings("unchecked")
-		@Override
-		public Matcher<View> getConstraints() {
-			return Matchers.allOf(isAssignableFrom(ListView.class));
-		}
-
-		@Override
-		public void perform(UiController uiController, View view) {
-
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view.getContext());
-			SharedPreferences.Editor editor = prefs.edit();
-			if (mCode == 1) {
-				editor.putInt(mKeyString, ((ListView) view).getCount());
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(TextView.class));
 			}
-			else {
-				editor.putInt(mKeyString, ((ListView) view).getChildCount());
-			}
-			editor.commit();
-		}
 
-		@Override
-		public String getDescription() {
-			return "Get total list items count and list items per screen height count";
-		}
+			@Override
+			public void perform(UiController uiController, View view) {
+
+				value.set(((TextView) view).getText().toString());
+			}
+
+			@Override
+			public String getDescription() {
+				return "get text from Text View";
+			}
+		};
 	}
 
 	//View Action to get the rating for RatingBar
 
-	public static ViewAction getRating(String value) {
-		return new getRatings(value);
-	}
+	public static ViewAction getRating(final AtomicReference<Float> value) {
+		return new ViewAction() {
 
-	public final static class getRatings implements ViewAction {
-		private String mValueString;
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(RatingBar.class));
+			}
 
-		public getRatings(String value) {
-			mValueString = value;
-		}
+			@Override
+			public void perform(UiController uiController, View view) {
+				value.set(((RatingBar) view).getRating());
+			}
 
-		@SuppressWarnings("unchecked")
-		@Override
-		public Matcher<View> getConstraints() {
-			return Matchers.allOf(isAssignableFrom(RatingBar.class));
-		}
-
-		@Override
-		public void perform(UiController uiController, View view) {
-
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view.getContext());
-			SharedPreferences.Editor editor = prefs.edit();
-			editor.putFloat(mValueString, ((RatingBar) view).getRating());
-			editor.commit();
-		}
-
-		@Override
-		public String getDescription() {
-			return "get ratings from RatingBar widget";
-		}
+			@Override
+			public String getDescription() {
+				return "get ratings from RatingBar widget";
+			}
+		};
 	}
 
 	//View Action to get the airline checkbox text and count in Tablet flight results filter
 
-	public static ViewAction getViews(int index, String key) {
-		return new getViews(index, key);
+	public static ViewAction getChildViewText(final int index, final AtomicReference<String> value) {
+		return new ViewAction() {
+
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(ViewGroup.class));
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view.getContext());
+				SharedPreferences.Editor editor = prefs.edit();
+				if (index == -1) {
+					value.set(Integer.toString(((LinearLayout) view).getChildCount()));
+				}
+				else {
+					View childView = ((LinearLayout) view).getChildAt(index);
+					value.set(((CheckBox) childView.findViewById(R.id.filter_refinement_checkbox)).getText().toString());
+				}
+				editor.commit();
+			}
+
+			@Override
+			public String getDescription() {
+				return "get the  airline checkbox text";
+			}
+		};
 	}
 
-	public final static class getViews implements ViewAction {
-		int mIndex;
-		String mValueString;
+	//View Action to get the count of list view items
 
-		public getViews(int index, String key) {
-			mIndex = index;
-			mValueString = key;
-		}
-
-		@SuppressWarnings("unchecked")
-		@Override
-		public Matcher<View> getConstraints() {
-			return Matchers.allOf(isAssignableFrom(LinearLayout.class));
-		}
-
-		@Override
-		public void perform(UiController uiController, View view) {
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(view.getContext());
-			SharedPreferences.Editor editor = prefs.edit();
-			if (mIndex == -1) {
-				editor.putInt(mValueString, ((LinearLayout) view).getChildCount());
+	public static ViewAction getCount(final AtomicReference<Integer> count) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(AdapterView.class));
 			}
-			else {
-				View childView = ((LinearLayout) view).getChildAt(mIndex);
-				editor.putString(mValueString, ((CheckBox) childView.findViewById(R.id.filter_refinement_checkbox)).getText().toString());
-			}
-			editor.commit();
-		}
 
-		@Override
-		public String getDescription() {
-			return "get the  airline checkbox text";
-		}
+			@Override
+			public void perform(UiController uiController, View view) {
+				count.set(((AdapterView) view).getCount());
+			}
+
+			@Override
+			public String getDescription() {
+				return "Get total list items count";
+			}
+		};
+	}
+
+	//View Action to get the child count of list view items
+
+	public static ViewAction getChildCount(final AtomicReference<Integer> count) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(AdapterView.class));
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				count.set(((AdapterView) view).getChildCount());
+			}
+
+			@Override
+			public String getDescription() {
+				return "Get list items per screen height count";
+			}
+		};
 	}
 }
 

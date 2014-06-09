@@ -1,9 +1,7 @@
 package com.expedia.bookings.test.tests.hotelsEspresso.ui.regression;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.R;
@@ -42,14 +40,12 @@ public class HotelCheckoutUserInfoTests extends ActivityInstrumentationTestCase2
 
 	private static final String TAG = HotelCheckoutUserInfoTests.class.getSimpleName();
 	Context mContext;
-	SharedPreferences mPrefs;
 	Resources mRes;
 	HotelsUserData mUser;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		mContext = getInstrumentation().getTargetContext();
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		mRes = mContext.getResources();
 		mUser = new HotelsUserData(getInstrumentation());
 		ClearPrivateDataUtil.clear(mContext);

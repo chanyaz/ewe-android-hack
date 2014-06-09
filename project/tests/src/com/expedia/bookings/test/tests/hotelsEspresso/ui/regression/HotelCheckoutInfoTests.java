@@ -7,9 +7,7 @@ import java.util.Random;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Pair;
 
@@ -30,7 +28,6 @@ import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
 import com.mobiata.android.util.SettingUtils;
 
-import static com.expedia.bookings.test.utilsEspresso.ViewActions.getRating;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
@@ -47,14 +44,12 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 
 	private static final String TAG = HotelCheckoutInfoTests.class.getSimpleName();
 	Context mContext;
-	SharedPreferences mPrefs;
 	Resources mRes;
 	HotelsUserData mUser;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		mContext = getInstrumentation().getTargetContext();
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		mRes = mContext.getResources();
 		mUser = new HotelsUserData(getInstrumentation());
 		ClearPrivateDataUtil.clear(mContext);
@@ -76,23 +71,18 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 		HotelsSearchScreen.clickOnCalendarButton();
 		HotelsSearchScreen.clickDate(startDate, endDate);
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView(), "totalHotels", 0);
-		int totalHotels = mPrefs.getInt("totalHotels", 0);
-
-		for (int i = 1; i < totalHotels - 2; i++) {
+		int totalHotels = EspressoUtils.getListChildCount(HotelsSearchScreen.hotelResultsListView());
+		for (int i = 1; i < 3; i++) {
 			HotelsSearchScreen.clickListItem(i);
 			HotelsDetailsScreen.clickSelectButton();
-			EspressoUtils.getListCount(HotelsRoomsRatesScreen.roomList(), "numberOfRooms", 1);
-			numberOfRooms = mPrefs.getInt("numberOfRooms", 0) - 1;
-			EspressoUtils.getValues("hotelName", R.id.name_text_view);
-			hotelName = mPrefs.getString("hotelName", "");
-			HotelsRoomsRatesScreen.hotelRatingBar().perform(getRating("starRating"));
-			hotelRating = mPrefs.getFloat("starRating", 0);
+
+			numberOfRooms = EspressoUtils.getListCount(HotelsRoomsRatesScreen.roomList()) - 1;
+			hotelName = EspressoUtils.getText(R.id.name_text_view);
+			hotelRating = EspressoUtils.getRatingValue(HotelsRoomsRatesScreen.hotelRatingBar());
 			ScreenActions.enterLog(TAG, "Test is looking at hotel with name: " + hotelName);
 			for (int j = 0; j < numberOfRooms - 1; j++) {
 				DataInteraction rowModel = onData(anything()).inAdapterView(withId(android.R.id.list)).atPosition(j);
-				EspressoUtils.getListItemValues(rowModel, R.id.room_description_text_view, "roomName");
-				String roomName = mPrefs.getString("roomName", "");
+				String roomName = EspressoUtils.getListItemValues(rowModel, R.id.room_description_text_view);
 				HotelsRoomsRatesScreen.selectRoomItem(j);
 				try {
 					SettingsScreen.clickOKString();
@@ -108,12 +98,10 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 				catch (Exception e) {
 					ScreenActions.enterLog(TAG, "No popup");
 				}
-				EspressoUtils.getValues("checkoutHotelName", R.id.title);
-				checkoutHotelName = mPrefs.getString("checkoutHotelName", "");
-				HotelsDetailsScreen.ratingBar().perform(getRating("checkoutHotelRating"));
-				checkoutHotelRating = mPrefs.getFloat("checkoutHotelRating", 0);
-				EspressoUtils.getValues("checkoutRoomName", R.id.room_type_description_text_view);
-				checkoutRoomName = mPrefs.getString("checkoutRoomName", "");
+
+				checkoutHotelName = EspressoUtils.getText(R.id.title);
+				checkoutHotelRating = EspressoUtils.getRatingValue(HotelsDetailsScreen.ratingBar());
+				checkoutRoomName = EspressoUtils.getText(R.id.room_type_description_text_view);
 
 				assertEquals(hotelName, checkoutHotelName);
 				ScreenActions.enterLog(TAG, "Assertion Passed: Hotel name from rooms and rates matches name in hotel details");
@@ -171,8 +159,7 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 			for (int j = 1; j < 3; j++) {
 				HotelsSearchScreen.clickListItem(j);
 				HotelsDetailsScreen.clickSelectButton();
-				EspressoUtils.getListCount(HotelsRoomsRatesScreen.roomList(), "numberOfRooms", 1);
-				int numberOfRooms = mPrefs.getInt("numberOfRooms", 0) - 1;
+				int numberOfRooms = EspressoUtils.getListCount(HotelsRoomsRatesScreen.roomList()) - 1;
 				ScreenActions.enterLog(TAG, "number of rooms:" + numberOfRooms);
 				for (int k = 0; k < numberOfRooms; k++) {
 					HotelsRoomsRatesScreen.selectRoomItem(k);
@@ -190,8 +177,7 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 					catch (Exception e) {
 						ScreenActions.enterLog(TAG, "No popup");
 					}
-					EspressoUtils.getValues("receiptGuestString", R.id.guests_text);
-					String receiptGuestString = mPrefs.getString("receiptGuestString", "");
+					String receiptGuestString = EspressoUtils.getText(R.id.guests_text);
 					int totalNumberOfGuests = currentPair.first + currentPair.second;
 					String expectedGuestString = mRes.getQuantityString(R.plurals.number_of_guests, totalNumberOfGuests, totalNumberOfGuests);
 					assertEquals(expectedGuestString, receiptGuestString);
@@ -228,8 +214,7 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 			for (int j = 1; j < 3; j++) {
 				HotelsSearchScreen.clickListItem(j);
 				HotelsDetailsScreen.clickSelectButton();
-				EspressoUtils.getListCount(HotelsRoomsRatesScreen.roomList(), "numberOfRooms", 1);
-				int numberOfRooms = mPrefs.getInt("numberOfRooms", 0) - 1;
+				int numberOfRooms = EspressoUtils.getListCount(HotelsRoomsRatesScreen.roomList()) - 1;
 				for (int k = 0; k < numberOfRooms; k++) {
 					HotelsRoomsRatesScreen.selectRoomItem(k);
 					try {
@@ -247,8 +232,7 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 						ScreenActions.enterLog(TAG, "No popup");
 					}
 					String expectedNightsString = mRes.getQuantityString(R.plurals.number_of_nights, numberOfNights, numberOfNights);
-					EspressoUtils.getValues("shownNightsString", R.id.nights_text);
-					String shownNightsString = mPrefs.getString("shownNightsString", "");
+					String shownNightsString = EspressoUtils.getText(R.id.nights_text);
 					assertEquals(expectedNightsString, shownNightsString);
 					ScreenActions.enterLog(TAG, "Nights string in hotel receipt matched the number of nights selected.");
 					HotelReceiptModel.clickGrandTotalTextView();
@@ -280,8 +264,7 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 		for (int j = 1; j < 3; j++) {
 			HotelsSearchScreen.clickListItem(j);
 			HotelsDetailsScreen.clickSelectButton();
-			EspressoUtils.getListCount(HotelsRoomsRatesScreen.roomList(), "numberOfRooms", 1);
-			int numberOfRooms = mPrefs.getInt("numberOfRooms", 0) - 1;
+			int numberOfRooms = EspressoUtils.getListCount(HotelsRoomsRatesScreen.roomList()) - 1;
 			for (int k = 0; k < numberOfRooms; k++) {
 				HotelsRoomsRatesScreen.selectRoomItem(k);
 				try {
@@ -298,24 +281,17 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2<Pho
 				catch (Exception e) {
 					ScreenActions.enterLog(TAG, "No popup");
 				}
-				EspressoUtils.getValues("hotelName", R.id.title);
-				String hotelName = mPrefs.getString("hotelName", "");
+				String hotelName = EspressoUtils.getText(R.id.title);
 				ScreenActions.enterLog(TAG, "Looking at hotel: " + hotelName);
 
-				EspressoUtils.getValues("nightsString", R.id.nights_text);
-				String nightsString = mPrefs.getString("nightsString", "");
-				EspressoUtils.getValues("guestsString", R.id.guests_text);
-				String guestsString = mPrefs.getString("guestsString", "");
-				EspressoUtils.getValues("priceString", R.id.price_text);
-				String priceString = mPrefs.getString("priceString", "");
+				String nightsString = EspressoUtils.getText(R.id.nights_text);
+				String guestsString = EspressoUtils.getText(R.id.guests_text);
+				String priceString = EspressoUtils.getText(R.id.price_text);
 				HotelsCheckoutScreen.clickCheckoutButton();
 
-				EspressoUtils.getValues("nightsString", R.id.nights_text);
-				String secondNightsString = mPrefs.getString("nightsString", "");
-				EspressoUtils.getValues("guestsString", R.id.guests_text);
-				String secondGuestsString = mPrefs.getString("guestsString", "");
-				EspressoUtils.getValues("priceString", R.id.price_text);
-				String secondPriceString = mPrefs.getString("priceString", "");
+				String secondNightsString = EspressoUtils.getText(R.id.nights_text);
+				String secondGuestsString = EspressoUtils.getText(R.id.guests_text);
+				String secondPriceString = EspressoUtils.getText(R.id.price_text);
 
 				assertEquals(nightsString, secondNightsString);
 				ScreenActions.enterLog(TAG, "Nights string remained consistent after checkout scroll down.");

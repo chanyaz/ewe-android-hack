@@ -6,8 +6,6 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Pair;
 
@@ -38,14 +36,12 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 	private static final String TAG = "FlightSearchResultsSortTests";
 
 	Context mContext;
-	SharedPreferences mPrefs;
 	DateTime mNow;
 	int mCheck = 1;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		mContext = getInstrumentation().getTargetContext();
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		ClearPrivateDataUtil.clear(mContext);
 		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
 		getActivity();
@@ -130,22 +126,20 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 	public void testSortByPrice() throws Exception {
 		executeAFlightSearch();
 		Results.clickToSortByPrice();
-		EspressoUtils.getListCount(Results.flightList(), "totalFlights", 1);
-		int totalFlights = mPrefs.getInt("totalFlights", 0);
+		int totalFlights = EspressoUtils.getListCount(Results.flightList());
+
 		// If number of flights > 1, continue with test
 		if (totalFlights > 1) {
 
 			//Initialize first flight row and its associated variables
 			DataInteraction previousRow = Results.flightAtIndex(1);
-			EspressoUtils.getListItemValues(previousRow, R.id.price_text_view, "priceTextView");
-			String previousPriceString = mPrefs.getString("priceTextView", "");
+			String previousPriceString = EspressoUtils.getListItemValues(previousRow, R.id.price_text_view);
 			float previousPrice = getCleanFloatFromTextView(previousPriceString);
 
 			// Iterate through list and compare current values with previous values
 			for (int j = 1; j < totalFlights - 1; j++) {
 				DataInteraction currentRow = Results.flightAtIndex(j);
-				EspressoUtils.getListItemValues(currentRow, R.id.price_text_view, "priceTextView");
-				String currentPriceString = mPrefs.getString("priceTextView", "");
+				String currentPriceString = EspressoUtils.getListItemValues(currentRow, R.id.price_text_view);
 				float currentPrice = getCleanFloatFromTextView(currentPriceString);
 
 				if (currentPrice < previousPrice) {
@@ -165,16 +159,13 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 	public void testSortByArrival() throws Exception {
 		executeAFlightSearch();
 		Results.clickToSortByArrival();
-		EspressoUtils.getListCount(Results.flightList(), "totalFlights", 1);
-		int totalFlights = mPrefs.getInt("totalFlights", 0);
-
+		int totalFlights = EspressoUtils.getListCount(Results.flightList());
 		// If number of flights > 1, continue with test
 		if (totalFlights > 1) {
 			//Initialize first flight row and its associated arrival time
 			DataInteraction previousRow = Results.flightAtIndex(1);
 			int additionalDaysPrevious = 0;
-			EspressoUtils.getListItemValues(previousRow, R.id.flight_time_text_view, "ArrivalTime");
-			String textView = mPrefs.getString("ArrivalTime", "");
+			String textView = EspressoUtils.getListItemValues(previousRow, R.id.flight_time_text_view);
 			String previousArrivalTimeString = textView.substring(textView.indexOf("o") + 2);
 
 			//get additional day value from flight time text
@@ -189,8 +180,7 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 			for (int j = 1; j < totalFlights - 1; j++) {
 				DataInteraction currentRow = Results.flightAtIndex(j);
 				int additionalDaysCurrent = 0;
-				EspressoUtils.getListItemValues(currentRow, R.id.flight_time_text_view, "ArrivalTime");
-				textView = mPrefs.getString("ArrivalTime", "");
+				textView = EspressoUtils.getListItemValues(currentRow, R.id.flight_time_text_view);
 				String currentArrivalTimeString = textView.substring(textView.indexOf("o") + 2);
 
 				//get additional day value from flight time text in current flight result row
@@ -218,23 +208,20 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 	public void testSortByDeparture() throws Exception {
 		executeAFlightSearch();
 		Results.clickToSortByDeparture();
-		EspressoUtils.getListCount(Results.flightList(), "totalFlights", 1);
-		int totalFlights = mPrefs.getInt("totalFlights", 0);
+		int totalFlights = EspressoUtils.getListCount(Results.flightList());
 
 		// If number of flights > 1, continue with test
 		if (totalFlights > 1) {
 			//Initialize first flight row and its associated departure time
 			DataInteraction previousRow = Results.flightAtIndex(1);
-			EspressoUtils.getListItemValues(previousRow, R.id.flight_time_text_view, "DepartureTime");
-			String textView = mPrefs.getString("DepartureTime", "");
+			String textView = EspressoUtils.getListItemValues(previousRow, R.id.flight_time_text_view);
 			String previousDepartureTimeString = textView.substring(0, textView.indexOf("t") - 1);
 			float previousDepartureTime = getTimeMillisFromTextView(previousDepartureTimeString, 1);
 
 			// Iterate through list by section and compare current departure time with previous departure time
 			for (int j = 1; j < totalFlights - 1; j++) {
 				DataInteraction currentRow = Results.flightAtIndex(j);
-				EspressoUtils.getListItemValues(currentRow, R.id.flight_time_text_view, "DepartureTime");
-				textView = mPrefs.getString("DepartureTime", "");
+				textView = EspressoUtils.getListItemValues(currentRow, R.id.flight_time_text_view);
 				String currentDepartureTimeString = textView.substring(0, textView.indexOf("t") - 1);
 				float currentDepartureTime = getTimeMillisFromTextView(currentDepartureTimeString, 1);
 
@@ -255,15 +242,13 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 	public void testSortByDuration() throws Exception {
 		executeAFlightSearch();
 		Results.clickToSortByDuration();
-		EspressoUtils.getListCount(Results.flightList(), "totalFlights", 1);
-		int totalFlights = mPrefs.getInt("totalFlights", 0);
+		int totalFlights = EspressoUtils.getListCount(Results.flightList());
 
 		// Only run test if number of flights is > 1
 		if (totalFlights > 1) {
 			// get first flight's duration
 			Results.clickFlightAtIndex(1);
-			EspressoUtils.getValues("Duration", R.id.flight_overall_duration_text_view);
-			String duration = mPrefs.getString("Duration", "");
+			String duration = EspressoUtils.getText(R.id.flight_overall_duration_text_view);
 			Pair<Integer, Integer> previousDuration = getHourMinutePairFromHeaderTextView(duration);
 			pressBack();
 			Pair<Integer, Integer> currentDuration;
@@ -271,8 +256,7 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 			//iterate through list of flights, compare currently indexed flight's duration with flight at index - 1
 			for (int j = 1; j < totalFlights - 1; j++) {
 				Results.clickFlightAtIndex(j);
-				EspressoUtils.getValues("Duration", R.id.flight_overall_duration_text_view);
-				String currentDurationString = mPrefs.getString("Duration", "");
+				String currentDurationString = EspressoUtils.getText(R.id.flight_overall_duration_text_view);
 				currentDuration = getHourMinutePairFromHeaderTextView(currentDurationString);
 				pressBack();
 
@@ -294,23 +278,19 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 		executeAFlightSearch();
 
 		//get number of airlines in flight results filter
-		Results.getfilterAirlineView(-1, "numberOfAirlines");
-		int numberOfAirlines = mPrefs.getInt("numberOfAirlines", 0);
+		int numberOfAirlines = Integer.parseInt(Results.getfilterAirlineView(-1));
 
 		//go through all airlines in filter and verify the airline name in search results
 		for (int i = 0; i < numberOfAirlines; i++) {
-			Results.getfilterAirlineView(i, "airlineText");
-			String airlineFilterName = mPrefs.getString("airlineText", "");
+			String airlineFilterName = Results.getfilterAirlineView(i);
 			Results.clickAirlineFilter(airlineFilterName);
 
-			EspressoUtils.getListCount(Results.flightList(), "totalFlights", 1);
-			int totalFlights = mPrefs.getInt("totalFlights", 0);
+			int totalFlights = EspressoUtils.getListCount(Results.flightList());
 
 			//iterate through list of flights and verify filter airline name
 			for (int j = 1; j < totalFlights - 1; j++) {
 				DataInteraction currentRow = Results.flightAtIndex(j);
-				EspressoUtils.getListItemValues(currentRow, R.id.airline_text_view, "airlineName");
-				String airlineName = mPrefs.getString("airlineName", "");
+				String airlineName = EspressoUtils.getListItemValues(currentRow, R.id.airline_text_view);
 				assertEquals(airlineFilterName, airlineName);
 				ScreenActions.enterLog(TAG, "Airline name in Flight filters: " + airlineFilterName + " is same as: " + airlineName + " in the Flight results");
 			}

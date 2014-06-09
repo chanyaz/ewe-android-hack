@@ -24,4 +24,11 @@ public class HotelsConfirmationScreen extends ConfirmationScreen {
 		return onView(withId(HOTEL_NAME_TEXT_VIEW_ID));
 	}
 
+	public static ViewInteraction itineraryTextView() {
+		return onView(withId(R.id.itinerary_text_view));
+	}
+
+	public static ViewInteraction emailTextView() {
+		return onView(withId(R.id.email_text_view));
+	}
 }

@@ -71,12 +71,16 @@ public class Checkout {
 		onView(withId(R.id.account_logout_logout_button)).perform(click());
 	}
 
+	public static ViewInteraction redressNumber() {
+		return onView(withId(R.id.edit_redress_number));
+	}
+
 	public static void clickRedressNumberButton() {
 		onView(withId(R.id.redress_btn)).perform(click());
 	}
 
 	public static void enterRedressNumber(String text) {
-		onView(withId(R.id.edit_redress_number)).perform(typeText(text));
+		redressNumber().perform(typeText(text));
 	}
 
 	public static void enterFirstName(String text) {

@@ -6,9 +6,7 @@ import java.util.Random;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.format.DateUtils;
 import android.util.Pair;
@@ -26,6 +24,7 @@ import com.expedia.bookings.test.tests.pageModelsEspresso.common.LogInScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.SettingsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsCheckoutScreen;
+import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsConfirmationScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsGuestPicker;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsRoomsRatesScreen;
@@ -35,6 +34,10 @@ import com.expedia.bookings.test.utils.HotelsUserData;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.mobiata.android.util.SettingUtils;
+
+
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 
 /**
  * Created by dmadan on 5/13/14.
@@ -46,7 +49,6 @@ public class HotelConfirmationTests extends ActivityInstrumentationTestCase2<Sea
 
 	private static final String TAG = HotelConfirmationTests.class.getSimpleName();
 	Context mContext;
-	SharedPreferences mPrefs;
 	Resources mRes;
 	HotelsUserData mUser;
 	int mNumberOfGuests;
@@ -56,7 +58,6 @@ public class HotelConfirmationTests extends ActivityInstrumentationTestCase2<Sea
 	protected void setUp() throws Exception {
 		super.setUp();
 		mContext = getInstrumentation().getTargetContext();
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		mRes = mContext.getResources();
 		mUser = new HotelsUserData(getInstrumentation());
 		ClearPrivateDataUtil.clear(mContext);
@@ -85,8 +86,8 @@ public class HotelConfirmationTests extends ActivityInstrumentationTestCase2<Sea
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 		HotelsSearchScreen.clickListItem(1);
 		HotelsDetailsScreen.clickSelectButton();
-		EspressoUtils.getListCount(HotelsRoomsRatesScreen.roomList(), "numberOfRooms", 1);
-		int numberOfRooms = mPrefs.getInt("numberOfRooms", 0) - 1;
+
+		int numberOfRooms = EspressoUtils.getListCount(HotelsRoomsRatesScreen.roomList()) - 1;
 		HotelsRoomsRatesScreen.selectRoomItem(0);
 		try {
 			SettingsScreen.clickOKString();
@@ -127,8 +128,7 @@ public class HotelConfirmationTests extends ActivityInstrumentationTestCase2<Sea
 		CardInfoScreen.clickOnDoneButton();
 		CardInfoScreen.clickNoThanksButton();
 
-		EspressoUtils.getValues("HotelName", R.id.title);
-		mHotelName = mPrefs.getString("HotelName", "");
+		mHotelName = EspressoUtils.getText(R.id.title);
 		HotelsCheckoutScreen.slideToCheckout();
 		CVVEntryScreen.parseAndEnterCVV(mUser.getCCV());
 		CVVEntryScreen.clickBookButton();
@@ -179,27 +179,15 @@ public class HotelConfirmationTests extends ActivityInstrumentationTestCase2<Sea
 		String guestString = mRes.getQuantityString(R.plurals.number_of_guests, mNumberOfGuests, mNumberOfGuests);
 		mDateRangeString = CalendarUtils.formatDateRange2(getActivity(), params, DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH);
 		String expectedSummaryString = mRes.getString(R.string.stay_summary_TEMPLATE, guestString, mDateRangeString);
-		EspressoUtils.getValues("displayedDetailsString", R.id.stay_summary_text_view);
-		String displayedDetailsString = mPrefs.getString("displayedDetailsString", "");
-		assertEquals(expectedSummaryString, displayedDetailsString);
-		ScreenActions.enterLog(TAG, "summary string " + expectedSummaryString + "," + displayedDetailsString);
+		HotelsConfirmationScreen.summaryTextView().check(matches(withText(expectedSummaryString)));
 
-		EspressoUtils.getValues("displayedHotelName", R.id.hotel_name_text_view);
-		String displayedHotelName = mPrefs.getString("displayedHotelName", "");
-		assertEquals(mHotelName, displayedHotelName);
-		ScreenActions.enterLog(TAG, "hotelname " + mHotelName + "," + displayedHotelName);
+		HotelsConfirmationScreen.hotelNameTextView().check(matches(withText(mHotelName)));
 
-		EspressoUtils.getValues("itineraryConfirmationText", R.id.itinerary_text_view);
-		String itineraryConfirmationText = mPrefs.getString("itineraryConfirmationText", "");
 		String expectedItineraryNumber = Db.getBookingResponse().getItineraryId();
 		String expectedItineraryConfirmationText = mRes.getString(R.string.itinerary_confirmation_TEMPLATE, expectedItineraryNumber);
-		assertEquals(expectedItineraryConfirmationText, itineraryConfirmationText);
-		ScreenActions.enterLog(TAG, "itin conf " + expectedItineraryConfirmationText + "," + itineraryConfirmationText);
+		HotelsConfirmationScreen.itineraryTextView().check(matches(withText(expectedItineraryConfirmationText)));
 
-		EspressoUtils.getValues("displayedEmailAddress", R.id.email_text_view);
-		String displayedEmailAddress = mPrefs.getString("displayedEmailAddress", "");
 		String expectedEmailAddString = mUser.getLoginEmail();
-		assertEquals(expectedEmailAddString, displayedEmailAddress);
-		ScreenActions.enterLog(TAG, "email " + expectedEmailAddString + "," + displayedEmailAddress);
+		HotelsConfirmationScreen.emailTextView().check(matches(withText(expectedEmailAddString)));
 	}
 }

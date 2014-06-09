@@ -5,8 +5,6 @@ import java.util.Calendar;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.R;
@@ -35,12 +33,10 @@ public class FlightDetailsTests extends ActivityInstrumentationTestCase2<SearchA
 	private static final String TAG = FlightDetailsTests.class.getName();
 
 	Context mContext;
-	SharedPreferences mPrefs;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		mContext = getInstrumentation().getTargetContext();
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		ClearPrivateDataUtil.clear(mContext);
 		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
 		SettingUtils.save(mContext, R.id.preference_suppress_flight_booking_checkbox, "true");
@@ -81,36 +77,25 @@ public class FlightDetailsTests extends ActivityInstrumentationTestCase2<SearchA
 	// Verifies that flight details info on the card matches the flight search results info
 
 	private void verifyFlightDetails() throws Exception {
-		String value = "value";
 		DataInteraction searchResultRow = FlightsSearchResultsScreen.listItem().atPosition(1);
 
 		//Store flight search results info
-		EspressoUtils.getListItemValues(searchResultRow, R.id.airline_text_view, value);
-		String resultsFlightName = mPrefs.getString(value, "");
-		EspressoUtils.getListItemValues(searchResultRow, R.id.departure_time_text_view, value);
-		String resultsDepartureTime = mPrefs.getString(value, "");
-		EspressoUtils.getListItemValues(searchResultRow, R.id.arrival_time_text_view, value);
-		String resultsArrivalTime = mPrefs.getString(value, "");
-		EspressoUtils.getListItemValues(searchResultRow, R.id.price_text_view, value);
-		String resultsPriceString = mPrefs.getString(value, "");
+		String resultsFlightName = EspressoUtils.getListItemValues(searchResultRow, R.id.airline_text_view);
+		String resultsDepartureTime = EspressoUtils.getListItemValues(searchResultRow, R.id.departure_time_text_view);
+		String resultsArrivalTime = EspressoUtils.getListItemValues(searchResultRow, R.id.arrival_time_text_view);
+		String resultsPriceString = EspressoUtils.getListItemValues(searchResultRow, R.id.price_text_view);
 
 		//Click on search result
 		searchResultRow.perform(click());
 
 		//Store flight details info on the card
-		EspressoUtils.getValues(value, R.id.airline_text_view);
-		String detailsFlightName = mPrefs.getString(value, "");
-		EspressoUtils.getValues(value, R.id.departure_time_text_view);
-		String detailsDepartureTime = mPrefs.getString(value, "");
-		EspressoUtils.getValues(value, R.id.arrival_time_text_view);
-		String detailsArrivalTime = mPrefs.getString(value, "");
-		EspressoUtils.getValues(value, R.id.right_text_view);
-		String detailsHeaderPrice = mPrefs.getString(value, "");
-		EspressoUtils.getValues(value, R.id.details_text_view);
-		String detailsString = mPrefs.getString(value, "");
+		String detailsFlightName = EspressoUtils.getText(R.id.airline_text_view);
+		String detailsDepartureTime = EspressoUtils.getText(R.id.departure_time_text_view);
+		String detailsArrivalTime = EspressoUtils.getText(R.id.arrival_time_text_view);
+		String detailsHeaderPrice = EspressoUtils.getText(R.id.right_text_view);
+		String detailsString = EspressoUtils.getText(R.id.details_text_view);
 		String cardDurationString = detailsString.substring(0, detailsString.indexOf(' ', detailsString.indexOf(' ')));
-		EspressoUtils.getValues(value, R.id.left_text_view);
-		String headerDurationString = mPrefs.getString(value, "").substring(0, detailsString.indexOf(' ', detailsString.indexOf(' ')));
+		String headerDurationString = EspressoUtils.getText(R.id.left_text_view).substring(0, detailsString.indexOf(' ', detailsString.indexOf(' ')));
 
 		assertTrue(detailsFlightName.contains(resultsFlightName));
 		assertEquals(resultsDepartureTime, detailsDepartureTime);

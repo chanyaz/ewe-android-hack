@@ -1,9 +1,7 @@
 package com.expedia.bookings.test.tests.hotelsEspresso.ui.regression;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.R;
@@ -36,13 +34,11 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 	private static final String TAG = ReviewsTests.class.getName();
 
 	Context mContext;
-	SharedPreferences mPrefs;
 	Resources mRes;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		mContext = getInstrumentation().getTargetContext();
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		mRes = mContext.getResources();
 		ClearPrivateDataUtil.clear(mContext);
 		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
@@ -57,9 +53,7 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 		HotelsSearchScreen.enterSearchText("Boston, MA");
 		ScreenActions.enterLog(TAG, "HERE clicking suggestion");
 		HotelsSearchScreen.clickSuggestion(getActivity(), "Boston, MA");
-		EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView(), "totalHotels", 1);
-		int totalHotels = mPrefs.getInt("totalHotels", 0);
-		ScreenActions.enterLog(TAG, "totalHotels " + totalHotels);
+		int totalHotels = EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView());
 
 		//Number of times to scroll down the results list for another set of hotels
 		for (int i = 1; i < totalHotels; i++) {
@@ -70,15 +64,13 @@ public class ReviewsTests extends ActivityInstrumentationTestCase2<SearchActivit
 
 				// Go to Reviews screen for hotel and get the review count
 				verifyReviewsActionBarContentsExist();
-				EspressoUtils.getValues("reviewsTitleString", R.id.title);
-				String reviewsTitleString = mPrefs.getString("reviewsTitleString", "");
+				String reviewsTitleString = EspressoUtils.getText(R.id.title);
 				ScreenActions.enterLog(TAG, "reviewsTitleString: " + reviewsTitleString);
 				String reviewsScreenNumber = reviewsTitleString.substring(0, reviewsTitleString.indexOf(' '));
 				Espresso.pressBack();
 
 				// Go back to the hotel details screen and get the review count
-				EspressoUtils.getValues("detailsReviewString", R.id.user_rating_text_view);
-				String detailsReviewString = mPrefs.getString("detailsReviewString", "");
+				String detailsReviewString = EspressoUtils.getText(R.id.user_rating_text_view);
 				ScreenActions.enterLog(TAG, "detailsReviewString: " + detailsReviewString);
 				String hotelDetailsNumber = detailsReviewString.substring(0, detailsReviewString.indexOf(' '));
 

@@ -6,9 +6,7 @@ import java.util.Calendar;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.R;
@@ -24,6 +22,7 @@ import com.mobiata.android.util.SettingUtils;
 
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
+import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 
 /**
@@ -37,13 +36,11 @@ public class HotelSearchRegressionTests extends ActivityInstrumentationTestCase2
 	private static final String TAG = HotelSearchRegressionTests.class.getName();
 
 	Context mContext;
-	SharedPreferences mPrefs;
 	Resources mRes;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		mContext = getInstrumentation().getTargetContext();
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		mRes = mContext.getResources();
 		ClearPrivateDataUtil.clear(mContext);
 		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
@@ -73,8 +70,7 @@ public class HotelSearchRegressionTests extends ActivityInstrumentationTestCase2
 			HotelsSearchScreen.clickToClearSearchEditText();
 			HotelsSearchScreen.enterSearchText(hotel);
 			HotelsSearchScreen.clickSuggestion(getActivity(), hotel);
-			EspressoUtils.getValues("titleString", R.id.title);
-			titleString = mPrefs.getString("titleString", "");
+			titleString = EspressoUtils.getText(R.id.title);
 			if (titleString.equals(hotel)) {
 				ScreenActions.enterLog(TAG, "testSearchByHotelName passed with: " + hotel);
 			}
@@ -111,10 +107,7 @@ public class HotelSearchRegressionTests extends ActivityInstrumentationTestCase2
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 		ScreenActions.enterLog(TAG, "Testing geocoding with abbrevation string: " + cityAbbreviation);
-		EspressoUtils.getValues("resolvedCityName", R.id.search_edit_text);
-		String resolvedCityName = mPrefs.getString("resolvedCityName", "");
-		ScreenActions.enterLog(TAG, "Geocoding resolved abbreviation string to: " + resolvedCityName);
-		assertTrue(resolvedCityName.equals("New York, NY"));
+		HotelsSearchScreen.searchEditText().check(matches(withText("New York, NY")));
 		Espresso.pressBack();
 
 		cityAbbreviation = "SF";
@@ -125,10 +118,7 @@ public class HotelSearchRegressionTests extends ActivityInstrumentationTestCase2
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
 		ScreenActions.enterLog(TAG, "Testing geocoding with abbrevation string: " + cityAbbreviation);
-		EspressoUtils.getValues("resolvedCityName", R.id.search_edit_text);
-		resolvedCityName = mPrefs.getString("resolvedCityName", "");
-		ScreenActions.enterLog(TAG, "Geocoding resolved abbreviation string to: " + resolvedCityName);
-		assertTrue(resolvedCityName.equals("San Francisco, CA"));
+		HotelsSearchScreen.searchEditText().check(matches(withText("San Francisco, CA")));
 		Espresso.pressBack();
 	}
 
@@ -155,10 +145,7 @@ public class HotelSearchRegressionTests extends ActivityInstrumentationTestCase2
 		HotelsSearchScreen.enterSearchText(pointOfInterest);
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		EspressoUtils.getValues("resolvedPOIName", R.id.search_edit_text);
-		String resolvedPOIName = mPrefs.getString("resolvedPOIName", "");
-		ScreenActions.enterLog(TAG, "Geocoding resolved POI string to: " + resolvedPOIName);
-		assertTrue(resolvedPOIName.equals("Statue of Liberty National Monument, New York, NY 10004"));
+		HotelsSearchScreen.searchEditText().check(matches(withText("Statue of Liberty National Monument, New York, NY 10004")));
 		Espresso.pressBack();
 	}
 
@@ -171,9 +158,7 @@ public class HotelSearchRegressionTests extends ActivityInstrumentationTestCase2
 		HotelsSearchScreen.enterSearchText(postalCode);
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		EspressoUtils.getValues("resolvedPostalCodeString", R.id.search_edit_text);
-		String resolvedPostalCodeString = mPrefs.getString("resolvedPostalCodeString", "");
-		assertTrue(resolvedPostalCodeString.equals("San Francisco, CA 94104"));
+		HotelsSearchScreen.searchEditText().check(matches(withText("San Francisco, CA 94104")));
 		Espresso.pressBack();
 	}
 
@@ -185,8 +170,7 @@ public class HotelSearchRegressionTests extends ActivityInstrumentationTestCase2
 		HotelsSearchScreen.enterSearchText(initialSearch);
 		HotelsSearchScreen.clickOnGuestsButton();
 		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		EspressoUtils.getValues("resolvedSearchString", R.id.search_edit_text);
-		String resolvedSearchString = mPrefs.getString("resolvedSearchString", "");
+		String resolvedSearchString = EspressoUtils.getText(R.id.search_edit_text);
 		ScreenActions.enterLog(TAG, initialSearch + " resolved to: " + resolvedSearchString);
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();

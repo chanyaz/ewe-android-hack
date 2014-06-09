@@ -1,9 +1,9 @@
 package com.expedia.bookings.test.tests.hotelsEspresso.ui.regression;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.R;
@@ -31,13 +31,11 @@ public class HotelSearchSortTests extends ActivityInstrumentationTestCase2<Searc
 	private static final String TAG = HotelSearchSortTests.class.getName();
 
 	Context mContext;
-	SharedPreferences mPrefs;
 	Resources mRes;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		mContext = getInstrumentation().getTargetContext();
-		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		mRes = mContext.getResources();
 		ClearPrivateDataUtil.clear(mContext);
 		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
@@ -62,17 +60,14 @@ public class HotelSearchSortTests extends ActivityInstrumentationTestCase2<Searc
 		initiateSearchHelper("Boston, MA");
 		HotelsSearchScreen.clickOnSortButton();
 		HotelsSearchScreen.sortMenu().clickSortByPriceString();
-		EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView(), "totalFlights", 1);
-		int totalHotels = mPrefs.getInt("totalFlights", 0);
+		int totalHotels = EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView());
 		if (totalHotels > 1) {
 			DataInteraction prevResultRow = HotelsSearchScreen.hotelListItem().atPosition(1);
-			EspressoUtils.getListItemValues(prevResultRow, R.id.price_text_view, "previousRowPrice");
-			String previousRowPriceString = mPrefs.getString("previousRowPrice", "");
+			String previousRowPriceString = EspressoUtils.getListItemValues(prevResultRow, R.id.price_text_view);
 			float previousRowPrice = getCleanFloatFromString(previousRowPriceString);
 			for (int j = 1; j < totalHotels - 1; j++) {
 				DataInteraction curentResultRow = HotelsSearchScreen.hotelListItem().atPosition(j);
-				EspressoUtils.getListItemValues(curentResultRow, R.id.price_text_view, "currentRowPrice");
-				String currentRowPriceString = mPrefs.getString("currentRowPrice", "");
+				String currentRowPriceString = EspressoUtils.getListItemValues(curentResultRow, R.id.price_text_view);
 				float currentRowPrice = getCleanFloatFromString(currentRowPriceString);
 				ScreenActions.enterLog(TAG, "PRICE " + currentRowPrice + " >= " + previousRowPrice);
 				assertTrue(currentRowPrice >= previousRowPrice);
@@ -88,17 +83,14 @@ public class HotelSearchSortTests extends ActivityInstrumentationTestCase2<Searc
 		initiateSearchHelper(address);
 		HotelsSearchScreen.clickOnSortButton();
 		HotelsSearchScreen.sortMenu().clickSortByDistanceString();
-		EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView(), "totalFlights", 1);
-		int totalHotels = mPrefs.getInt("totalFlights", 0);
+		int totalHotels = EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView());
 		if (totalHotels > 1) {
 			DataInteraction prevResultRow = HotelsSearchScreen.hotelListItem().atPosition(1);
-			EspressoUtils.getListItemValues(prevResultRow, R.id.proximity_text_view, "previousRowDistance");
-			String previousRowDistanceString = mPrefs.getString("previousRowDistance", "");
+			String previousRowDistanceString = EspressoUtils.getListItemValues(prevResultRow, R.id.proximity_text_view);
 			float previousRowDistance = getCleanFloatFromString(previousRowDistanceString);
 			for (int j = 1; j < totalHotels - 1; j++) {
 				DataInteraction currentHotelRowView = HotelsSearchScreen.hotelListItem().atPosition(j);
-				EspressoUtils.getListItemValues(currentHotelRowView, R.id.proximity_text_view, "previousRowDistance");
-				String currentRowDistanceString = mPrefs.getString("previousRowDistance", "");
+				String currentRowDistanceString = EspressoUtils.getListItemValues(currentHotelRowView, R.id.proximity_text_view);
 				float currentRowDistance = getCleanFloatFromString(currentRowDistanceString);
 				ScreenActions.enterLog(TAG, "DISTANCE " + currentRowDistance + " >= " + previousRowDistance);
 				assertTrue(currentRowDistance >= previousRowDistance);
@@ -109,19 +101,19 @@ public class HotelSearchSortTests extends ActivityInstrumentationTestCase2<Searc
 	}
 
 	public void testSortByRating() throws Exception {
+		final AtomicReference<Float> rating = new AtomicReference<Float>();
 		initiateSearchHelper("Boston, MA");
 		HotelsSearchScreen.clickOnSortButton();
 		HotelsSearchScreen.sortMenu().clickSortByUserRatingString();
-		EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView(), "totalFlights", 1);
-		int totalHotels = mPrefs.getInt("totalFlights", 0);
+		int totalHotels = EspressoUtils.getListCount(HotelsSearchScreen.hotelResultsListView());
 		if (totalHotels > 1) {
 			DataInteraction prevResultRow = HotelsSearchScreen.hotelListItem().atPosition(1);
-			prevResultRow.onChildView(withId(R.id.user_rating_bar)).perform(getRating("previousRowRating"));
-			float previousRowRating = mPrefs.getFloat("previousRowRating", 0);
+			prevResultRow.onChildView(withId(R.id.user_rating_bar)).perform(getRating(rating));
+			float previousRowRating = rating.get();
 			for (int i = 1; i < totalHotels - 1; i++) {
 				DataInteraction currentHotelRowView = HotelsSearchScreen.hotelListItem().atPosition(i);
-				currentHotelRowView.onChildView(withId(R.id.user_rating_bar)).perform(getRating("currentRowRating"));
-				float currentRowRating = mPrefs.getFloat("currentRowRating", 0);
+				currentHotelRowView.onChildView(withId(R.id.user_rating_bar)).perform(getRating(rating));
+				float currentRowRating = rating.get();
 				ScreenActions.enterLog(TAG, "RATING " + previousRowRating + " >= " + currentRowRating);
 				assertTrue(previousRowRating >= currentRowRating);
 				previousRowRating = currentRowRating;

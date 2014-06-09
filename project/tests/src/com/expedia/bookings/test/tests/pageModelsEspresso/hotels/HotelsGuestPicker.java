@@ -1,8 +1,10 @@
 package com.expedia.bookings.test.tests.pageModelsEspresso.hotels;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import android.content.res.Resources;
 
-import static com.expedia.bookings.test.utilsEspresso.ViewActions.storeValue;
+import static com.expedia.bookings.test.utilsEspresso.ViewActions.getString;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
@@ -69,8 +71,11 @@ public class HotelsGuestPicker extends ScreenActions {
 		return res.getQuantityString(NUMBER_OF_ADULTS_PLURAL_ID, numberOfAdults, numberOfAdults);
 	}
 
-	public static void getGuestTextViewValue(int level, int resID, String key) {
-		onView(allOf(withId(level), withParent(withId(resID)))).perform(storeValue(key));
+	public static String getGuestTextViewValue(int level, int resID) {
+		final AtomicReference<String> value = new AtomicReference<String>();
+		onView(allOf(withId(level), withParent(withId(resID)))).perform(getString(value));
+		String stringValue=value.get();
+		return stringValue;
 	}
 
 	public static ViewInteraction adultPicker() {

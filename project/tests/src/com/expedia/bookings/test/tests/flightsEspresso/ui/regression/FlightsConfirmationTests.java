@@ -5,8 +5,6 @@ import java.util.Calendar;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.R;
@@ -21,7 +19,6 @@ import com.expedia.bookings.test.tests.pageModelsEspresso.common.LogInScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightLegScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsCheckoutScreen;
-import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsConfirmationScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsCheckoutScreen;
@@ -40,18 +37,13 @@ public class FlightsConfirmationTests extends ActivityInstrumentationTestCase2<S
 
 	private static final String TAG = FlightsConfirmationTests.class.getSimpleName();
 
-	String mAirlineCarrier = "AirlineCarrierName";
-	String mTakeOffTime = "takeOffTime";
-	String mArrivalTime = "arrivalTime";
 	Context mContext;
-	SharedPreferences prefs;
 	private HotelsUserData mUser;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		mContext = getInstrumentation().getTargetContext();
 		mUser = new HotelsUserData(getInstrumentation());
-		prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		ClearPrivateDataUtil.clear(mContext);
 		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
 		SettingUtils.save(mContext, R.id.preference_suppress_flight_booking_checkbox, "true");
@@ -85,9 +77,9 @@ public class FlightsConfirmationTests extends ActivityInstrumentationTestCase2<S
 		ScreenActions.enterLog(TAG, "Flight search results loaded");
 		FlightsSearchResultsScreen.clickListItem(1);
 		FlightLegScreen.clickSelectFlightButton();
-		EspressoUtils.getValues(mAirlineCarrier, R.id.airline_text_view);
-		EspressoUtils.getValues(mTakeOffTime, R.id.departure_time_text_view);
-		EspressoUtils.getValues(mArrivalTime, R.id.arrival_time_text_view);
+		String airlineName = EspressoUtils.getText(R.id.airline_text_view);
+		String departureTime = EspressoUtils.getText(R.id.departure_time_text_view);
+		String arrivalTime = EspressoUtils.getText(R.id.arrival_time_text_view);
 
 		// Checkout
 		FlightsCheckoutScreen.clickCheckoutButton();
@@ -137,11 +129,9 @@ public class FlightsConfirmationTests extends ActivityInstrumentationTestCase2<S
 		ScreenActions.enterLog(TAG, "Entering CCV: " + mUser.getCCV());
 		CVVEntryScreen.parseAndEnterCVV(mUser.getCCV());
 		CVVEntryScreen.clickBookButton();
-		EspressoUtils.assertTrue(prefs.getString(mAirlineCarrier, ""));
-		EspressoUtils.assertTrue(prefs.getString(mTakeOffTime, ""));
-		EspressoUtils.assertTrue(prefs.getString(mArrivalTime, ""));
-		FlightsConfirmationScreen.clickDoneButton();
-		ScreenActions.enterLog(TAG, "Clicking shop tab");
-		LaunchScreen.pressShop();
+		EspressoUtils.assertTrue(airlineName);
+		EspressoUtils.assertTrue(departureTime);
+		EspressoUtils.assertTrue(arrivalTime);
+		EspressoUtils.assertTrue("Booking Complete");
 	}
 }
