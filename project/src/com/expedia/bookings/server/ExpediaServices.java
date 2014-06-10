@@ -1523,7 +1523,8 @@ public class ExpediaServices implements DownloadListener {
 	//
 	// API Console: http://reviews-web-eweprod-a-lb-109857973.us-east-1.elb.amazonaws.com/static/index.html
 
-	private static final String REVIEWS_BASE_URL = "http://reviews-web-eweprod-a-lb-109857973.us-east-1.elb.amazonaws.com/reviews/v1/";
+	private static final String TEST_REVIEWS_BASE_URL = "http://test.reviewsvc.expedia.com/reviews/v1/";
+	private static final String PROD_REVIEWS_BASE_URL = "http://reviewsvc.expedia.com/reviews/v1/";
 
 	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber) {
 		return reviews(property, sort, pageNumber, REVIEWS_PER_PAGE);
@@ -1545,7 +1546,7 @@ public class ExpediaServices implements DownloadListener {
 	private static String getReviewsUrl(Property property) {
 		String locale = PointOfSale.getPointOfSale().getLocaleIdentifier();
 
-		String url = REVIEWS_BASE_URL;
+		String url = PROD_REVIEWS_BASE_URL;
 		url += "retrieve/getReviewsForHotelId/";
 		url += property.getPropertyId();
 		url += "/";
@@ -1616,7 +1617,7 @@ public class ExpediaServices implements DownloadListener {
 
 		Log.d(TAG_REQUEST, "User reviews request: " + url + "?" + NetUtils.getParamsForLogging(params));
 
-		return doRequest(get, responseHandler, 0);
+		return doRequest(get, responseHandler, F_IGNORE_COOKIES);
 	}
 
 	private <T extends Response> T doRequest(Request.Builder request, ResponseHandler<T> responseHandler, int flags) {
