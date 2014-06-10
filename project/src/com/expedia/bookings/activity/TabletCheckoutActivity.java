@@ -74,11 +74,12 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tablet_checkout);
 
-		// Loading checkout data and blocking. this is disk i/o but we need the data loaded at this
-		// point due to how the code is structured.
 		if (savedInstanceState != null) {
 			mLoadedDbInfo = savedInstanceState.getBoolean(INSTANCE_LOADED_CACHED_DATA, false) && Db.hasBillingInfo();
 		}
+
+		// Loading checkout data and blocking. this is disk i/o but we need the data loaded at this
+		// point due to how the code is structured.
 		loadCachedData(true);
 
 		boolean hasSelectedProperty = Db.getHotelSearch().getSelectedProperty() != null;
