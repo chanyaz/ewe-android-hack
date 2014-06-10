@@ -8,40 +8,10 @@
     <LinearLayout
         android:id="@+id/destinations_container"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/destination_search_stack_height"
         android:clipChildren="false"
         android:divider="@drawable/destinations_divider"
         android:orientation="horizontal" >
-
-        <com.expedia.bookings.widget.CollectionStack
-            android:id="@+id/stack_asia"
-            android:layout_width="@dimen/destination_search_stack_width"
-            android:layout_height="@dimen/destination_search_stack_height" />
-
-        <com.expedia.bookings.widget.CollectionStack
-            android:id="@+id/stack_seattle"
-            android:layout_width="@dimen/destination_search_stack_width"
-            android:layout_height="@dimen/destination_search_stack_height" />
-
-        <com.expedia.bookings.widget.CollectionStack
-            android:id="@+id/stack_historic"
-            android:layout_width="@dimen/destination_search_stack_width"
-            android:layout_height="@dimen/destination_search_stack_height" />
-
-        <com.expedia.bookings.widget.CollectionStack
-            android:id="@+id/stack_beaches"
-            android:layout_width="@dimen/destination_search_stack_width"
-            android:layout_height="@dimen/destination_search_stack_height" />
-
-        <com.expedia.bookings.widget.CollectionStack
-            android:id="@+id/stack_portland"
-            android:layout_width="@dimen/destination_search_stack_width"
-            android:layout_height="@dimen/destination_search_stack_height" />
-
-        <com.expedia.bookings.widget.CollectionStack
-            android:id="@+id/stack_toronto"
-            android:layout_width="@dimen/destination_search_stack_width"
-            android:layout_height="@dimen/destination_search_stack_height" />
 
     </LinearLayout>
 

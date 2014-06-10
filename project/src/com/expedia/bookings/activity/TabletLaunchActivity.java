@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LaunchDb;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.fragment.TabletLaunchControllerFragment;
 import com.expedia.bookings.fragment.base.MeasurableFragmentListener;
@@ -67,6 +68,8 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
 		mHockeyPuck.onCreate(savedInstanceState);
+
+		LaunchDb.getCollections(this);
 	}
 
 	@Override

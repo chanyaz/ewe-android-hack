@@ -9,11 +9,13 @@ import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LaunchCollection;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CollectionStack;
 import com.expedia.bookings.widget.HorizontalScrollView;
+import com.squareup.otto.Subscribe;
 
 public class DestinationTilesFragment extends MeasurableFragment implements HorizontalScrollView.OnScrollListener {
 
@@ -36,51 +38,6 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 
 		mItemsContainer = Ui.findView(root, R.id.destinations_container);
 		mItemsContainer.setShowDividers(ALL_DIVIDERS);
-
-		root.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
-			@Override
-			public boolean onPreDraw() {
-				root.getViewTreeObserver().removeOnPreDrawListener(this);
-				CollectionStack c;
-
-				c = Ui.findView(root, R.id.stack_seattle);
-				c.disableStack();
-				c.setStackBackgroundDrawable(Color.rgb(216, 164, 154), "http://media.expedia.com/mobiata/mobile/destination/sea_360_520.jpg");
-				c.setText("Destination Spotlight", "Flights from $80");
-				c.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						Events.post(new Events.LaunchTileClicked());
-					}
-				});
-
-				c = Ui.findView(root, R.id.stack_portland);
-				c.disableStack();
-				c.setStackBackgroundDrawable(Color.rgb(216, 164, 154), "http://media.expedia.com/mobiata/mobile/destination/pdx_360_520.jpg");
-				c.setText("City of Roses", "Accommodations from $78");
-
-				c = Ui.findView(root, R.id.stack_toronto);
-				c.disableStack();
-				c.setStackBackgroundDrawable(Color.rgb(216, 164, 154), "http://media.expedia.com/mobiata/mobile/destination/yyz_360_520.jpg");
-				c.setText("Pleasant getaway", "Packages from $730");
-
-				c = Ui.findView(root, R.id.stack_asia);
-				c.setStackBackgroundDrawable(Color.rgb(216, 164, 154), "http://media.expedia.com/mobiata/mobile/destination/pek_360_520.jpg");
-				c.setText("Adventures in Asia", "Flights from $340");
-
-				c = Ui.findView(root, R.id.stack_historic);
-				c.setStackBackgroundDrawable(Color.rgb(108, 85, 114), "http://media.expedia.com/hotels/1000000/20000/18200/18200/18200_146_z.jpg");
-				c.setText("Historic Hotels", "From $140 per night");
-
-				c = Ui.findView(root, R.id.stack_beaches);
-				c.setStackBackgroundDrawable(Color.rgb(117, 129, 187), "http://media.expedia.com/mobiata/mobile/destination/cun_720_1140.jpg");
-				c.setText("Hotels on the Beach", "From $110 per night");
-
-				onScrollChanged(mScrollView, 0, 0, 0, 0);
-
-				return true;
-			}
-		});
 
 		return root;
 	}
@@ -132,5 +89,43 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 				stack.setStackPosition(amount);
 			}
 		}
+	}
+
+	@Subscribe
+	public void onLaunchCollectionsAvailable(Events.LaunchCollectionsAvailable event) {
+		clearCollections();
+		if (getActivity() != null) {
+			LayoutInflater inflater = LayoutInflater.from(getActivity());
+			for (LaunchCollection collection : event.collections) {
+				addCollection(inflater, collection);
+			}
+		}
+
+		mItemsContainer.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+			@Override
+			public boolean onPreDraw() {
+				mItemsContainer.getViewTreeObserver().removeOnPreDrawListener(this);
+				onScrollChanged(mScrollView, 0, 0, 0, 0);
+				return true;
+			}
+		});
+	}
+
+	private void clearCollections() {
+		mItemsContainer.removeAllViews();
+	}
+
+	private void addCollection(LayoutInflater inflater, LaunchCollection collection) {
+		CollectionStack c = (CollectionStack) inflater.inflate(R.layout.snippet_destination_stack, mItemsContainer, false);
+		c.setStackBackgroundDrawable(Color.rgb(117, 129, 187), "http://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/LaunchDestinations/images/" + collection.imageCode + ".jpg");
+		c.setText(collection.title, collection.title);
+		c.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Events.post(new Events.LaunchTileClicked());
+			}
+		});
+
+		mItemsContainer.addView(c);
 	}
 }

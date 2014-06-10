@@ -1,9 +1,12 @@
 package com.expedia.bookings.otto;
 
+import java.util.List;
+
 import android.os.Handler;
 import android.os.Looper;
 
 import com.expedia.bookings.data.HotelProductResponse;
+import com.expedia.bookings.data.LaunchCollection;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
@@ -368,5 +371,14 @@ public class Events {
 	}
 
 	public static class HotelRateSelected {
+	}
+
+	// Tablet Launch Screen events
+	public static class LaunchCollectionsAvailable {
+		public List<LaunchCollection> collections;
+
+		public LaunchCollectionsAvailable(List<LaunchCollection> collections) {
+			this.collections = collections;
+		}
 	}
 }

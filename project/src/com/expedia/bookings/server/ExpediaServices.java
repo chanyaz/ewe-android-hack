@@ -57,12 +57,15 @@ import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightStatsFlightResponse;
 import com.expedia.bookings.data.FlightStatsRatingResponse;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.GsonResponse;
 import com.expedia.bookings.data.HotelAffinitySearchResponse;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
+import com.expedia.bookings.data.LaunchCollection;
+import com.expedia.bookings.data.LaunchDestinationCollections;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
@@ -1555,6 +1558,33 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
+	// Launch data
+
+	private String getLaunchEndpointUrl() {
+		String protocol = "http";
+		String server = SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
+		return protocol + "://" + server + "/static/mobile/launch/";
+	}
+
+	public LaunchDestinationCollections getLaunchCollections() {
+		String url = getLaunchEndpointUrl() + "launchDestinationCollections.json";
+		GsonResponse<LaunchDestinationCollections> result = doLaunchDataRequest(url, null, LaunchDestinationCollections.class);
+		if (result == null) {
+			return null;
+		}
+		return result.get();
+	}
+
+	public LaunchCollection getLaunchCollection(String id) {
+		String url = getLaunchEndpointUrl() + id + ".json";
+		GsonResponse<LaunchCollection> result = doLaunchDataRequest(url, null, LaunchCollection.class);
+		if (result == null) {
+			return null;
+		}
+		return result.get();
+	}
+
+	//////////////////////////////////////////////////////////////////////////
 	// Request code
 
 	private <T extends Response> T doFlightsRequest(String targetUrl, List<BasicNameValuePair> params,
@@ -1617,6 +1647,14 @@ public class ExpediaServices implements DownloadListener {
 		Log.d(TAG_REQUEST, "User reviews request: " + url + "?" + NetUtils.getParamsForLogging(params));
 
 		return doRequest(get, responseHandler, F_IGNORE_COOKIES);
+	}
+
+	private <T> GsonResponse<T> doLaunchDataRequest(String url, List<BasicNameValuePair> params, Class<T> clazz) {
+		Request.Builder get = createHttpGet(url, params);
+
+		Log.d(TAG_REQUEST, "Launch destination data request: " + url + "?" + NetUtils.getParamsForLogging(params));
+
+		return (GsonResponse) doRequest(get, new AutoJsonResponseHandler(clazz), F_IGNORE_COOKIES);
 	}
 
 	private <T extends Response> T doRequest(Request.Builder request, ResponseHandler<T> responseHandler, int flags) {
