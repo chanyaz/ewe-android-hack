@@ -16,4 +16,8 @@
 
     <dimen name="hotel_checkout_overview_width">450dp</dimen>
 
+    <!-- Tablet Empty Search Result related dimens -->
+    <dimen name="tablet_empty_search_result_bg_top">387dp</dimen>
+    <dimen name="tablet_empty_search_result_text_bottom_margin">150dp</dimen>
+
 </resources>

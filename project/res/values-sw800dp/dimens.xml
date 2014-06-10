@@ -27,4 +27,8 @@
     <dimen name="hotel_flight_card_padding_x">32dp</dimen>
     <dimen name="hotel_flight_card_padding_y">6dp</dimen>
 
+    <!-- Tablet Empty Search Result related dimens -->
+    <dimen name="tablet_empty_search_result_bg_top">307dp</dimen>
+    <dimen name="tablet_empty_search_result_text_bottom_margin">132dp</dimen>
+
 </resources>

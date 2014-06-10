@@ -4,7 +4,7 @@
     <item>
         <color android:color="#00FFFFFF" />
     </item>
-    <item android:top="307dp">
+    <item android:top="@dimen/tablet_empty_search_result_bg_top">
 
         <shape>
             <solid android:color="@color/tablet_white_pane_bg" />

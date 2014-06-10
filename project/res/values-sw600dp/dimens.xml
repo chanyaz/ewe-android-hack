@@ -65,4 +65,8 @@
     <dimen name="trip_bucket_root_layout_padding_top">80dp</dimen>
     <dimen name="trip_bucket_empty_trip_container_padding_top">-40dp</dimen>
 
+    <!-- Tablet Empty Search Result related dimens -->
+    <dimen name="tablet_empty_search_result_bg_top">207dp</dimen>
+    <dimen name="tablet_empty_search_result_text_bottom_margin">50dp</dimen>
+
 </resources>

@@ -34,10 +34,9 @@
 
             <LinearLayout
                 android:id="@+id/empty_bucket_container"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:gravity="center|bottom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <ImageView
@@ -48,12 +47,8 @@
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/empty_bucket_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="132dp"
+                    style="@style/TabletSearchResultEmptyText"
                     android:text="@string/trip_empty"
-                    android:textColor="#a5180e0d"
-                    android:textSize="18dp"
                     app:textStyle="condensed" />
             </LinearLayout>
 

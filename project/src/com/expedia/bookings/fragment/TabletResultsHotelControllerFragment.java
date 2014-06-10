@@ -587,7 +587,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				Gravity.RIGHT);
 		}
 		else if (tag == FTAG_HOTEL_SEARCH_ERROR) {
-			frag = ResultsListSearchErrorFragment.newInstance(getString(R.string.search_error));
+			frag = ResultsListSearchErrorFragment.newInstance(getString(R.string.tablet_search_results_hotels_unavailable), R.drawable.ic_tablet_sold_out_hotel);
 		}
 		else if (tag == FTAG_HOTEL_REVIEWS) {
 			frag = ResultsHotelReviewsFragment.newInstance();

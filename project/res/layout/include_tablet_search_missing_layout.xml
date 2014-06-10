@@ -18,12 +18,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/missing_search_result_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="132dp"
-        android:gravity="center"
-        android:textColor="#a5180e0d"
-        android:textSize="18dp"
+        style="@style/TabletSearchResultEmptyText"
         app:textStyle="condensed" />
 
 </LinearLayout>
