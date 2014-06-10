@@ -30,8 +30,8 @@ import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.ScreenPositionUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -53,6 +53,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	private ViewGroup mSearchBarC;
 	private ViewGroup mWaypointC;
 	private ViewGroup mPinDetailC;
+	private ViewGroup mTilesC;
 
 	// Fragments
 	private MeasurableFragment mMapFragment;
@@ -77,9 +78,10 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_launch, null, false);
 
-		mWaypointC = com.expedia.bookings.utils.Ui.findView(mRootC, R.id.waypoint_container);
-		mSearchBarC = com.expedia.bookings.utils.Ui.findView(mRootC, R.id.fake_search_bar_container);
-		mPinDetailC = com.expedia.bookings.utils.Ui.findView(mRootC, R.id.pin_detail_container);
+		mWaypointC = Ui.findView(mRootC, R.id.waypoint_container);
+		mSearchBarC = Ui.findView(mRootC, R.id.fake_search_bar_container);
+		mPinDetailC = Ui.findView(mRootC, R.id.pin_detail_container);
+		mTilesC = Ui.findView(mRootC, R.id.tiles_container);
 
 		FragmentManager fm = getChildFragmentManager();
 		if (savedInstanceState == null) {
@@ -97,10 +99,10 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			ft.commit();
 		}
 		else {
-			mMapFragment = com.expedia.bookings.utils.Ui.findSupportFragment(this, R.id.map_container);
-			mTilesFragment = com.expedia.bookings.utils.Ui.findSupportFragment(this, R.id.tiles_container);
-			mWaypointFragment = com.expedia.bookings.utils.Ui.findSupportFragment(this, R.id.waypoint_container);
-			mPinFragment = com.expedia.bookings.utils.Ui.findSupportFragment(this, R.id.pin_detail_container);
+			mMapFragment = Ui.findSupportFragment(this, R.id.map_container);
+			mTilesFragment = Ui.findSupportFragment(this, R.id.tiles_container);
+			mWaypointFragment = Ui.findSupportFragment(this, R.id.waypoint_container);
+			mPinFragment = Ui.findSupportFragment(this, R.id.pin_detail_container);
 
 			mStateManager.setDefaultState(LaunchState.valueOf(savedInstanceState.getString(
 				STATE_LAUNCH_STATE, LaunchState.DEFAULT.name())));
@@ -236,15 +238,38 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 
 		@Override
 		public void onStateTransitionStart(LaunchState stateOne, LaunchState stateTwo) {
-			if (stateTwo == LaunchState.WAYPOINT) {
+			if (stateOne == LaunchState.DEFAULT && stateTwo == LaunchState.WAYPOINT) {
 				getActivity().getActionBar().hide();
 				mSearchBarC.setVisibility(View.INVISIBLE);
 				mWaypointC.setVisibility(View.VISIBLE);
+			}
+			else if (stateOne == LaunchState.DEFAULT && stateTwo == LaunchState.DETAILS) {
+				// TODO: this better
+				mPinFragment.animateFrom(null);
+				mPinDetailC.setVisibility(View.VISIBLE);
+			}
+			else if (stateOne == LaunchState.DETAILS && stateTwo == LaunchState.DEFAULT) {
+				mSearchBarC.setVisibility(View.VISIBLE);
+				mTilesC.setVisibility(View.VISIBLE);
+				float y = mRootC.getHeight() - mSearchBarC.getTop();
+				mSearchBarC.setTranslationY(y);
+				mTilesC.setTranslationY(y);
 			}
 		}
 
 		@Override
 		public void onStateTransitionUpdate(LaunchState stateOne, LaunchState stateTwo, float percentage) {
+			float y = mRootC.getHeight() - mSearchBarC.getTop();
+			if (stateOne == LaunchState.DEFAULT && stateTwo == LaunchState.DETAILS) {
+				// Slide the tiles and search bar down off the bottom of the screen
+				mSearchBarC.setTranslationY(percentage * y);
+				mTilesC.setTranslationY(percentage * y);
+			}
+			else if (stateOne == LaunchState.DETAILS && stateTwo == LaunchState.DEFAULT) {
+				// Slide the tiles and search bar up from below the bottom of the screen
+				mSearchBarC.setTranslationY((1f - percentage) * y);
+				mTilesC.setTranslationY((1f - percentage) * y);
+			}
 		}
 
 		@Override
@@ -259,6 +284,9 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 				mSearchBarC.setVisibility(View.INVISIBLE);
 				mWaypointC.setVisibility(View.VISIBLE);
 				mPinDetailC.setVisibility(View.INVISIBLE);
+				mTilesC.setVisibility(View.INVISIBLE);
+				mSearchBarC.setTranslationY(0f);
+				mTilesC.setTranslationY(0f);
 				break;
 			}
 			case DETAILS: {
@@ -266,6 +294,9 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 				mSearchBarC.setVisibility(View.INVISIBLE);
 				mWaypointC.setVisibility(View.INVISIBLE);
 				mPinDetailC.setVisibility(View.VISIBLE);
+				mTilesC.setVisibility(View.INVISIBLE);
+				mSearchBarC.setTranslationY(0f);
+				mTilesC.setTranslationY(0f);
 				break;
 			}
 			default: {
@@ -273,6 +304,9 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 				mSearchBarC.setVisibility(View.VISIBLE);
 				mWaypointC.setVisibility(View.INVISIBLE);
 				mPinDetailC.setVisibility(View.INVISIBLE);
+				mTilesC.setVisibility(View.VISIBLE);
+				mSearchBarC.setTranslationY(0f);
+				mTilesC.setTranslationY(0f);
 				break;
 			}
 			}
@@ -337,7 +371,6 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	@Subscribe
 	public void onMapPinClicked(Events.LaunchMapPinClicked event) {
 		mPinFragment.bind();
-		mPinDetailC.setVisibility(View.VISIBLE);
-		mPinFragment.animateFrom(null);
+		setLaunchState(LaunchState.DETAILS, true);
 	}
 }
