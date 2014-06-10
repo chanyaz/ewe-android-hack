@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <integer name="search_params_weight_sum">3</integer>
-    <integer name="search_params_input_weight">2</integer>
-
-</resources>
