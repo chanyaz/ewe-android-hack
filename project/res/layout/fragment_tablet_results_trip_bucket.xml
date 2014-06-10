@@ -42,17 +42,19 @@
 
                 <ImageView
                     android:id="@+id/empty_bucket_img"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    android:src="@drawable/ic_trip_empty_suitcase" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_tablet_trip_bucket_suitcase" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/empty_bucket_tv"
-                    android:layout_marginTop="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="132dp"
                     android:text="@string/trip_empty"
-                    app:textStyle="light" />
+                    android:textColor="#a5180e0d"
+                    android:textSize="18dp"
+                    app:textStyle="condensed" />
             </LinearLayout>
 
         </com.expedia.bookings.widget.FrameLayoutTouchController>
