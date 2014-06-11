@@ -6,5 +6,5 @@ public class LaunchLocation {
 	public String id;
 	public String imageCode;
 	public SuggestionV2 location;
-	public int drawableId;
+	public int drawableId; //TODO: temporary
 }

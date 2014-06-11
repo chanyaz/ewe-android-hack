@@ -55,6 +55,7 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 	}
 
 	public void bind(Rect origin, LaunchLocation metadata) {
+		//TODO: why doesn't this work? Rect localOrigin = ScreenPositionUtils.translateGlobalPositionToLocalPosition(origin, mRootC);
 		mPinOriginX = origin.left - mRoundImage.getLeft() - 64; // TODO: resource? or calculate "64"?
 		mPinOriginY = origin.top - mRoundImage.getTop() - 50 - 64; // TODO: resource? or calculate "50" (status bar?) and "64"?
 		mScaleOrigin = (float) origin.width() / (float) getResources().getDimensionPixelSize(R.dimen.launch_pin_detail_size);
