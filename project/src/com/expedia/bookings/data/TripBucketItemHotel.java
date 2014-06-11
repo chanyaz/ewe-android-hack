@@ -83,6 +83,7 @@ public class TripBucketItemHotel extends TripBucketItem {
 			JSONObject obj = super.toJson();
 			JSONUtils.putJSONable(obj, "property", mProperty);
 			JSONUtils.putJSONable(obj, "rate", mRate);
+			JSONUtils.putJSONable(obj, "searchParams", mSearchParams);
 			obj.put("type", "hotel");
 			obj.put("couponApplied", mIsCouponApplied);
 			JSONUtils.putJSONable(obj, "couponRate", mCouponRate);
@@ -103,6 +104,7 @@ public class TripBucketItemHotel extends TripBucketItem {
 		mIsCouponApplied = obj.optBoolean("couponApplied");
 		mCouponRate = JSONUtils.getJSONable(obj, "couponRate", Rate.class);
 		mAvailability = JSONUtils.getJSONable(obj, "availability", HotelAvailability.class);
+		mSearchParams = JSONUtils.getJSONable(obj, "searchParams", HotelSearchParams.class);
 		return true;
 	}
 }
