@@ -91,13 +91,13 @@ public class TripBucket implements JSONable {
 
 	/**
 	 * Adds a Hotel to the trip bucket. Must specify the property and room rate.
-	 * @param property
 	 * @param rate
+	 * @param property
 	 */
-	public void add(Property property, Rate rate) {
+	public void add(HotelSearchParams params, Rate rate, Property property) {
 		mLastLOBAdded = LineOfBusiness.HOTELS;
 		mRefreshCount++;
-		mItems.add(new TripBucketItemHotel(property, rate));
+		mItems.add(new TripBucketItemHotel(property, rate, params));
 	}
 
 	/**
@@ -176,8 +176,10 @@ public class TripBucket implements JSONable {
 	private void selectHotel() {
 		TripBucketItemHotel item = getHotel();
 		if (item != null) {
+			Db.getHotelSearch().setSearchParams(item.getHotelSearchParams());
 			Db.getHotelSearch().setSelectedProperty(item.getProperty());
-			Db.getHotelSearch().setSelectedRate(item.getRate());
+			Db.getHotelSearch().setSelectedHotelAvailability(item.getHotelAvailability());
+			Db.getHotelSearch().setSelectedRate(item.getRate(), item.getHotelAvailability());
 		}
 	}
 

@@ -315,7 +315,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 			estimatedTotal = Db.getFlightSearch().getSelectedFlightTrip().getTotalFare();
 		}
 		else if (lob == LineOfBusiness.HOTELS) {
-			estimatedTotal = Db.getHotelSearch().getSelectedRate().getTotalAmountAfterTax();
+			estimatedTotal = Db.getHotelSearch().getCheckoutRate().getTotalAmountAfterTax();
 		}
 		return estimatedTotal;
 	}

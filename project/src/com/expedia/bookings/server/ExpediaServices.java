@@ -827,8 +827,7 @@ public class ExpediaServices implements DownloadListener {
 
 	public List<BasicNameValuePair> generateCreateTripParams(Property property, HotelSearchParams params) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		query.add(new BasicNameValuePair("productKey", Db.getHotelSearch().getSelectedRate().getRateKey()));
+		query.add(new BasicNameValuePair("productKey", Db.getHotelSearch().getCheckoutRate().getRateKey()));
 		query.add(
 			new BasicNameValuePair("roomInfoFields[0].room", "" + (params.getNumAdults() + params.getNumChildren())));
 

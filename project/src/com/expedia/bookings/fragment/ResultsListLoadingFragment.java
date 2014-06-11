@@ -109,7 +109,7 @@ public class ResultsListLoadingFragment extends Fragment {
 				if (getActivity() == null || !isResumed()) {
 					mRootC.getViewTreeObserver().removeOnPreDrawListener(this);
 				}
-				if (mLoadingC != null && mLoadingC.getWidth() > 0) {
+				if (mLoadingC != null && mLoadingC.getWidth() > 0 && isAdded()) {
 					//Update our positioning before we draw
 					setLoadingGravity(mLoadingAloneGravity, mLoadingWithOthersGravity);
 

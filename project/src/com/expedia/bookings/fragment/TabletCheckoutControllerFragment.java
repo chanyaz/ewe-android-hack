@@ -1075,7 +1075,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			else if (lob == LineOfBusiness.HOTELS) {
 				HotelSearch search = Db.getHotelSearch();
 				Property property = search.getSelectedProperty();
-				Rate rate = search.getSelectedRate();
+				Rate rate = search.getSelectedRate(Db.getTripBucket().getHotel().getHotelAvailability());
 				if (search.isCouponApplied()) {
 					rate = search.getCouponRate();
 				}

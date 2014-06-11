@@ -11,6 +11,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BookingResponse;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelAvailability;
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -18,6 +19,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.HotelPriceChangeDialog;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
@@ -269,7 +271,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 		public HotelProductResponse doDownload() {
 			ExpediaServices services = new ExpediaServices(getActivity());
 			BackgroundDownloader.getInstance().addDownloadListener(KEY_DOWNLOAD_HOTEL_PRODUCT_RESPONSE, services);
-			Rate selectedRate = Db.getHotelSearch().getSelectedRate();
+			Rate selectedRate = Db.getHotelSearch().getCheckoutRate();
 			return services.hotelProduct(Db.getHotelSearch().getSearchParams(), Db.getHotelSearch()
 				.getSelectedProperty(), selectedRate);
 		}
@@ -283,7 +285,7 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 			}
 			else {
 				final String selectedId = Db.getHotelSearch().getSelectedPropertyId();
-				Rate selectedRate = Db.getHotelSearch().getSelectedRate();
+				Rate selectedRate = Db.getHotelSearch().getCheckoutRate();
 				Rate newRate = response.getRate();
 
 				if (TextUtils.equals(selectedRate.getRateKey(), response.getOriginalProductKey())) {
@@ -341,8 +343,16 @@ public class HotelBookingFragment extends BookingFragment<BookingResponse> imple
 
 		}
 
-		Db.getHotelSearch().getAvailability(selectedId).updateFrom(selectedRate.getRateKey(), response);
-		Db.getHotelSearch().getAvailability(selectedId).setSelectedRate(newRate);
+		HotelAvailability selectedAvailability = Db.getHotelSearch().getSelectedHotelAvailability();
+		// On Tablet, we want to update use the selectedHotelAvailability set from TripBucket.
+		if (selectedAvailability != null) {
+			selectedAvailability.updateFrom(selectedRate.getRateKey(), response);
+			selectedAvailability.setSelectedRate(newRate);
+		}
+		else {
+			Db.getHotelSearch().getAvailability(selectedId).updateFrom(selectedRate.getRateKey(), response);
+			Db.getHotelSearch().getAvailability(selectedId).setSelectedRate(newRate);
+		}
 
 		Events.post(new Events.HotelProductDownloadSuccess(response));
 	}

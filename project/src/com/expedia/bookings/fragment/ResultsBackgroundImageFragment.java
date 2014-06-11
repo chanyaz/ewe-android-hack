@@ -146,8 +146,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 			destination = Db.getTripBucket().getFlight().getFlightSearchParams().getArrivalLocation().getDestinationId();
 		}
 		else if (lob == LineOfBusiness.HOTELS) {
-			// TODO: destination = Db.getTripBucket().getHotel().getHotelSearchParams().getArrivalLocation().getDestinationId();
-			destination = Sp.getParams().getDestination().getAirportCode();
+			destination = Db.getTripBucket().getHotel().getHotelSearchParams().getCorrespondingAirportCode();
 		}
 		else {
 			destination =  Sp.getParams().getDestination().getAirportCode();

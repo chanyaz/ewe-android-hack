@@ -29,7 +29,10 @@ public class HotelSearch implements JSONable {
 
 	private HotelSearchParams mSearchParams;
 	private HotelSearchResponse mSearchResponse;
-	private String mSelectedPropertyId;
+
+	// Tablet flow.
+	private Property mSelectedProperty;
+	private HotelAvailability mSelectedHotelAvailability;
 
 	// The result of a call to e3 for a coupon code discount
 	private CreateTripResponse mCreateTripResponse;
@@ -53,6 +56,8 @@ public class HotelSearch implements JSONable {
 		mPropertyMap = null;
 		mAvailabilityMap = null;
 		mReviewsResponses = null;
+		mSelectedProperty = null;
+		mSelectedHotelAvailability = null;
 	}
 
 	public void resetSearchParams() {
@@ -96,19 +101,31 @@ public class HotelSearch implements JSONable {
 	}
 
 	public void clearSelectedProperty() {
-		mSelectedPropertyId = null;
+		mSelectedProperty = null;
 	}
 
 	public void setSelectedProperty(Property property) {
-		mSelectedPropertyId = property.getPropertyId();
+		mSelectedProperty = property;
+	}
+
+	public void clearSelectedHotelAvailability() {
+		mSelectedHotelAvailability = null;
+	}
+
+	public void setSelectedHotelAvailability(HotelAvailability availability) {
+		mSelectedHotelAvailability = availability;
+	}
+
+	public HotelAvailability getSelectedHotelAvailability() {
+		return mSelectedHotelAvailability;
 	}
 
 	public Property getSelectedProperty() {
-		return getProperty(mSelectedPropertyId);
+		return mSelectedProperty;
 	}
 
 	public String getSelectedPropertyId() {
-		return mSelectedPropertyId;
+		return mSelectedProperty.getPropertyId();
 	}
 
 	/**
@@ -117,7 +134,10 @@ public class HotelSearch implements JSONable {
 	 * @return the currently selected rate, selected from the rooms and rates screen
 	 */
 	public Rate getSelectedRate() {
-		HotelAvailability availability = getAvailability(mSelectedPropertyId);
+		return getSelectedRate(getAvailability(mSelectedProperty.getPropertyId()));
+	}
+
+	public Rate getSelectedRate(HotelAvailability availability) {
 		if (availability != null) {
 			return availability.getSelectedRate();
 		}
@@ -126,13 +146,29 @@ public class HotelSearch implements JSONable {
 	}
 
 	/**
+	 * If there is a selectedHotelAvailability (Tablet, only, right now.), we grab the rate from
+	 * that availability object. The HotelSearch object may no longer
+	 * have the same HotelAvailability map (i.e. a new search with different params was kicked off.)
+	 */
+	public Rate getCheckoutRate() {
+		return (getSelectedHotelAvailability() != null ? getSelectedRate(getSelectedHotelAvailability()) : getSelectedRate());
+
+	}
+
+	/**
 	 * Helper method to set the selected rate of the currently selected hotel.
 	 *
 	 * @param rate
+	 * @param hotelAvailability
 	 */
-	public void setSelectedRate(Rate rate) {
-		getAvailability(mSelectedPropertyId).setSelectedRate(rate);
+
+	public void setSelectedRate(Rate rate, HotelAvailability hotelAvailability) {
+		hotelAvailability.setSelectedRate(rate);
 		Events.post(new Events.HotelRateSelected());
+	}
+
+	public void setSelectedRate(Rate rate) {
+		setSelectedRate(rate, getAvailability(mSelectedProperty.getPropertyId()));
 	}
 
 	/**
@@ -162,7 +198,7 @@ public class HotelSearch implements JSONable {
 			return getCouponRate();
 		}
 		else {
-			return getSelectedRate();
+			return getCheckoutRate();
 		}
 	}
 
@@ -210,7 +246,6 @@ public class HotelSearch implements JSONable {
 
 		}
 	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Get data
 
@@ -261,7 +296,7 @@ public class HotelSearch implements JSONable {
 			JSONObject obj = new JSONObject();
 			JSONUtils.putJSONable(obj, "searchParams", mSearchParams);
 			JSONUtils.putJSONable(obj, "searchResponse", mSearchResponse);
-			obj.putOpt("selectedPropertyId", mSelectedPropertyId);
+			JSONUtils.putJSONable(obj, "selectedProperty", mSelectedProperty);
 			JSONUtils.putJSONable(obj, "createTripResponse", mCreateTripResponse);
 
 			JSONUtils.putJSONableStringMap(obj, "availabilityMap", mAvailabilityMap);
@@ -280,7 +315,7 @@ public class HotelSearch implements JSONable {
 		setSearchParams(JSONUtils.getJSONable(obj, "searchParams", HotelSearchParams.class));
 		setSearchResponse(JSONUtils.getJSONable(obj, "searchResponse", HotelSearchResponse.class));
 
-		mSelectedPropertyId = obj.optString("selectedPropertyId", null);
+		mSelectedProperty = JSONUtils.getJSONable(obj, "selectedProperty", Property.class);
 		mCreateTripResponse = JSONUtils.getJSONable(obj, "createTripResponse", CreateTripResponse.class);
 
 		Map<String, HotelAvailability> availabilityMap = JSONUtils.getJSONableStringMap(obj, "availabilityMap",

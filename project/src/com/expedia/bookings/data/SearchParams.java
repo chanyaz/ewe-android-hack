@@ -368,6 +368,7 @@ public class SearchParams implements Parcelable, JSONable {
 		params.setChildren(mChildTravelers);
 
 		Location destLoc = getDestinationLocation(false);
+		params.setCorrespondingAirportCode(destLoc.getDestinationId());
 
 		// Map SuggestionV2.SearchType to HotelSearchParams.SearchType
 		if (mDestination.getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION && (destLoc.getLatitude() != 0

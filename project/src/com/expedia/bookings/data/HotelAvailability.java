@@ -78,6 +78,13 @@ public class HotelAvailability implements JSONable {
 		}
 	}
 
+	public HotelAvailability clone() {
+		HotelAvailability availability = new HotelAvailability();
+		JSONObject jsonObject = this.toJson();
+		availability.fromJson(jsonObject);
+		return availability;
+	}
+
 	@Override
 	public JSONObject toJson() {
 		try {

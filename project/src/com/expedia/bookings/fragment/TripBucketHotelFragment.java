@@ -78,6 +78,14 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	}
 
 	@Override
+	public void bind() {
+		if (mRootC != null) {
+			refreshRate();
+		}
+		super.bind();
+	}
+
+	@Override
 	public void bindExpandedView(TripBucketItem item) {
 		if (item != null && item instanceof TripBucketItemHotel) {
 			TripBucketItemHotel itemHotel = (TripBucketItemHotel) item;
@@ -156,9 +164,15 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 
 	@Override
 	public String getDateRangeText() {
-		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
-		return CalendarUtils.formatDateRange(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
-			| DateUtils.FORMAT_ABBREV_MONTH);
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		if (hotel != null) {
+			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
+			return CalendarUtils.formatDateRange(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
+				| DateUtils.FORMAT_ABBREV_MONTH);
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override

@@ -65,6 +65,7 @@ public class HotelSearchParams implements JSONable {
 	private double mSearchLatitude;
 	private double mSearchLongitude;
 	private boolean mSearchLatLonUpToDate;
+	private String mCorrespondingAirportCode;
 
 	// This might get filled as a result of an autosuggestion
 	private String mRegionId;
@@ -384,6 +385,14 @@ public class HotelSearchParams implements JSONable {
 		return mRegionId;
 	}
 
+	public void setCorrespondingAirportCode(String code) {
+		mCorrespondingAirportCode = code;
+	}
+
+	public String getCorrespondingAirportCode() {
+		return mCorrespondingAirportCode;
+	}
+
 	public boolean hasRegionId() {
 		return mRegionId != null && !mRegionId.equals("0");
 	}
@@ -466,6 +475,7 @@ public class HotelSearchParams implements JSONable {
 		mSearchLatLonUpToDate = obj.optBoolean("hasLatLon", false);
 		mSearchLatitude = obj.optDouble("latitude", 0);
 		mSearchLongitude = obj.optDouble("longitude", 0);
+		mCorrespondingAirportCode = obj.optString("correspondingAirlineCode", null);
 
 		mCheckInDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "checkInLocalDate", "checkinDate");
 		mCheckOutDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "checkOutLocalDate", "checkoutDate");
@@ -502,6 +512,7 @@ public class HotelSearchParams implements JSONable {
 				obj.put("latitude", mSearchLatitude);
 				obj.put("longitude", mSearchLongitude);
 			}
+			obj.put("correspondingAirlineCode", mCorrespondingAirportCode);
 
 			JodaUtils.putLocalDateInJson(obj, "checkInLocalDate", mCheckInDate);
 			JodaUtils.putLocalDateInJson(obj, "checkOutLocalDate", mCheckOutDate);
@@ -564,5 +575,12 @@ public class HotelSearchParams implements JSONable {
 		catch (JSONException e) {
 			return obj.toString();
 		}
+	}
+
+	public HotelSearchParams clone() {
+		JSONObject json = this.toJson();
+		HotelSearchParams params = new HotelSearchParams();
+		params.fromJson(json);
+		return params;
 	}
 }
