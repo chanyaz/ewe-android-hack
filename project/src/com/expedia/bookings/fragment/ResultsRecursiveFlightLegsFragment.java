@@ -1054,7 +1054,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	 */
 
 	@Override
-	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+	public Fragment getExistingLocalInstanceFromTag(String tag) {
 		if (tag == FTAG_DETAILS) {
 			return mDetailsFrag;
 		}

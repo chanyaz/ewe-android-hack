@@ -213,7 +213,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	 */
 
 	@Override
-	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+	public Fragment getExistingLocalInstanceFromTag(String tag) {
 		if (tag == FTAG_HISTOGRAM) {
 			return mHistogramFrag;
 		}

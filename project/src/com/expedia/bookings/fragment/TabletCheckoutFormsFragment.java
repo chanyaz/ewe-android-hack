@@ -201,7 +201,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	}
 
 	@Override
-	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+	public Fragment getExistingLocalInstanceFromTag(String tag) {
 		if (tag == FRAG_TAG_TRAVELER_FORM) {
 			return mTravelerForm;
 		}

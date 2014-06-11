@@ -183,7 +183,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	 */
 
 	@Override
-	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+	public Fragment getExistingLocalInstanceFromTag(String tag) {
 		if (tag == FTAG_BUCKET_FLIGHT) {
 			return mTripBucketFlightFrag;
 		}

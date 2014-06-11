@@ -832,7 +832,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	}
 
 	@Override
-	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+	public Fragment getExistingLocalInstanceFromTag(String tag) {
 		if (tag == FTAG_CALENDAR) {
 			return mDatesFragment;
 		}

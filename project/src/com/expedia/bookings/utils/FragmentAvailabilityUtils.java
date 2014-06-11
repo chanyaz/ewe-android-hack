@@ -10,7 +10,7 @@ public class FragmentAvailabilityUtils {
 	public static final int DIALOG_FRAG = -2;
 
 	public interface IFragmentAvailabilityProvider {
-		public Fragment getExisitingLocalInstanceFromTag(String tag);
+		public Fragment getExistingLocalInstanceFromTag(String tag);
 
 		public Fragment getNewFragmentInstanceFromTag(String tag);
 
@@ -24,7 +24,7 @@ public class FragmentAvailabilityUtils {
 	public static <T extends Fragment> T setFragmentAvailability(boolean available, String tag, FragmentManager manager,
 		FragmentTransaction transaction, IFragmentAvailabilityProvider provider, int container,
 		boolean alwaysRunSetup) {
-		T frag = (T) provider.getExisitingLocalInstanceFromTag(tag);
+		T frag = (T) provider.getExistingLocalInstanceFromTag(tag);
 		if (available) {
 			if (frag == null || !frag.isAdded()) {
 				if (frag == null) {

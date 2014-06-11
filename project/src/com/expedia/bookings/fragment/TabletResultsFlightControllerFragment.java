@@ -280,7 +280,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	 */
 
 	@Override
-	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+	public Fragment getExistingLocalInstanceFromTag(String tag) {
 		Fragment frag = null;
 		if (tag == FTAG_FLIGHT_MAP) {
 			frag = this.mFlightMapFrag;

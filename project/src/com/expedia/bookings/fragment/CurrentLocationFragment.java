@@ -99,7 +99,7 @@ public class CurrentLocationFragment extends Fragment
 	 */
 
 	@Override
-	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+	public Fragment getExistingLocalInstanceFromTag(String tag) {
 		if (tag == FTAG_CURLOCFRAG_LOCATION) {
 			return mLocationFragment;
 		}

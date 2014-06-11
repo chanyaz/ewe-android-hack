@@ -526,7 +526,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	 */
 
 	@Override
-	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+	public Fragment getExistingLocalInstanceFromTag(String tag) {
 		Fragment frag = null;
 		if (tag == FTAG_HOTEL_LIST) {
 			frag = mHotelListFrag;

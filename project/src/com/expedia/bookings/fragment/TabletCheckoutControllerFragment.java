@@ -984,7 +984,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	 */
 
 	@Override
-	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+	public Fragment getExistingLocalInstanceFromTag(String tag) {
 		if (FRAG_TAG_BUCKET_FLIGHT.equals(tag)) {
 			return mBucketFlightFrag;
 		}

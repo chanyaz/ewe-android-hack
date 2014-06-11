@@ -174,7 +174,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	 */
 
 	@Override
-	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+	public Fragment getExistingLocalInstanceFromTag(String tag) {
 		Fragment frag = null;
 		if (tag == FTAG_CONTROLLER_FRAGMENT) {
 			frag = mControllerFragment;

@@ -335,7 +335,7 @@ public class TabletWaypointFragment extends Fragment
 	// Fragment availability provider
 
 	@Override
-	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+	public Fragment getExistingLocalInstanceFromTag(String tag) {
 		if (tag == FTAG_SUGGESTIONS) {
 			return mSuggestionsFragment;
 		}

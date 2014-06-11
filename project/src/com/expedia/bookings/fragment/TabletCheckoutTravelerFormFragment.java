@@ -560,7 +560,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	// Fragment provider
 
 	@Override
-	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+	public Fragment getExistingLocalInstanceFromTag(String tag) {
 		return getChildFragmentManager().findFragmentByTag(tag);
 	}
 

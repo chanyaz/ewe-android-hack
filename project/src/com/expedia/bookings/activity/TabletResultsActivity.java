@@ -358,7 +358,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	 */
 
 	@Override
-	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+	public Fragment getExistingLocalInstanceFromTag(String tag) {
 		Fragment frag = null;
 		if (tag == FTAG_FLIGHTS_CONTROLLER) {
 			frag = mFlightsController;

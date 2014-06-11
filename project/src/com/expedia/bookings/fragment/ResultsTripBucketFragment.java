@@ -105,7 +105,7 @@ public class ResultsTripBucketFragment extends Fragment
 	 */
 
 	@Override
-	public Fragment getExisitingLocalInstanceFromTag(String tag) {
+	public Fragment getExistingLocalInstanceFromTag(String tag) {
 		if (tag == FTAG_BUCKET) {
 			return mBucketFrag;
 		}
