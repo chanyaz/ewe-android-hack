@@ -122,6 +122,12 @@ public class Events {
 	/////////////////////////////////////////////////////////
 	/// TabletLaunchActivity related
 
+	public static class LaunchTileClicked {
+		public LaunchTileClicked() {
+
+		}
+	}
+
 	public static class LaunchMapPinClicked {
 		public LaunchMapPinClicked(/*TODO: pass metadata about the pin*/) {
 		}

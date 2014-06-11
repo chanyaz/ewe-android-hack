@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CollectionStack;
 import com.expedia.bookings.widget.HorizontalScrollView;
@@ -46,6 +47,12 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 				c.disableStack();
 				c.setStackBackgroundDrawable(Color.rgb(216, 164, 154), "http://media.expedia.com/mobiata/mobile/destination/sea_360_520.jpg");
 				c.setText("Destination Spotlight", "Flights from $80");
+				c.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						Events.post(new Events.LaunchTileClicked());
+					}
+				});
 
 				c = Ui.findView(root, R.id.stack_portland);
 				c.disableStack();
@@ -76,6 +83,18 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 		});
 
 		return root;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		Events.register(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		Events.unregister(this);
 	}
 
 	@Override

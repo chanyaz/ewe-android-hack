@@ -57,7 +57,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 
 	// Fragments
 	private TabletLaunchMapFragment mMapFragment;
-	private MeasurableFragment mTilesFragment;
+	private DestinationTilesFragment mTilesFragment;
 	private TabletWaypointFragment mWaypointFragment;
 	private TabletLaunchPinDetailFragment mPinFragment;
 
@@ -368,6 +368,12 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	/*
 	 * Otto events
 	 */
+
+	@Subscribe
+	public void onTileClicked(Events.LaunchTileClicked event) {
+		// TODO re-render map
+		Ui.showToast(getActivity(), "wah wah wah");
+	}
 
 	@Subscribe
 	public void onMapPinClicked(Events.LaunchMapPinClicked event) {
