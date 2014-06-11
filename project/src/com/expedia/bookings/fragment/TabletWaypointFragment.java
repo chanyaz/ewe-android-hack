@@ -26,13 +26,13 @@ import com.expedia.bookings.data.SuggestionV2.ResultType;
 import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.fragment.SuggestionsFragment.SuggestionsFragmentListener;
-import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
+import com.expedia.bookings.interfaces.ISingleStateListener;
+import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.section.AfterChangeTextWatcher;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
-import com.mobiata.android.Log;
 
 /**
  * A large search fragment only suitable for tablet sizes.
@@ -134,17 +134,10 @@ public class TabletWaypointFragment extends Fragment
 			}
 		});
 
-		Fragment parent = getParentFragment();
-		if (parent instanceof TabletLaunchControllerFragment) {
-			((TabletLaunchControllerFragment) parent).registerStateListener(mLaunchStateHelper, false);
-		}
-		else if (parent instanceof TabletResultsSearchControllerFragment) {
-			((TabletResultsSearchControllerFragment)parent).registerStateListener(mResultsStateHelper, false);
-		}
+		setupStateTransitions();
 
 		return view;
 	}
-
 
 	@Override
 	public void onResume() {
@@ -361,20 +354,42 @@ public class TabletWaypointFragment extends Fragment
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// State Helpers. There's a couple slight differences between
-	// the Launch Screen and the Search Results screens:
-	// 1. The suggestion bar fades in on the results screen.
-	// 2. The state enums are different.
-	// TODO: These two could probably be consolidated a bit.
+	// State Transition Handlers
 
-	private StateListenerHelper<LaunchState> mLaunchStateHelper = new StateListenerHelper<LaunchState>() {
+	private void setupStateTransitions() {
+		Fragment parent = getParentFragment();
+		if (parent instanceof TabletLaunchControllerFragment) {
+			WaypointStateListener wsl = new WaypointStateListener(false);
+			SingleStateListener waypoint = new SingleStateListener<>(
+				LaunchState.DEFAULT, LaunchState.WAYPOINT, true, wsl);
+			TabletLaunchControllerFragment controller = (TabletLaunchControllerFragment) parent;
+			controller.registerStateListener(waypoint, false);
+		}
+		else if (parent instanceof TabletResultsSearchControllerFragment) {
+			WaypointStateListener wsl = new WaypointStateListener(true);
+			SingleStateListener flightOrigin = new SingleStateListener<>(
+				ResultsSearchState.DEFAULT, ResultsSearchState.FLIGHT_ORIGIN, true, wsl);
+			SingleStateListener destination = new SingleStateListener<>(
+				ResultsSearchState.DEFAULT, ResultsSearchState.DESTINATION, true, wsl);
 
+			TabletResultsSearchControllerFragment controller = (TabletResultsSearchControllerFragment) parent;
+			controller.registerStateListener(flightOrigin, false);
+			controller.registerStateListener(destination, false);
+		}
+	}
+
+	private class WaypointStateListener implements ISingleStateListener {
 		private Rect mAnimFrom;
 		private float mMultX;
 		private float mMultY;
+		private boolean mDoFadeSearchBar;
+
+		public WaypointStateListener(boolean doFadeSearchBar) {
+			mDoFadeSearchBar = doFadeSearchBar;
+		}
 
 		@Override
-		public void onStateTransitionStart(LaunchState stateOne, LaunchState stateTwo) {
+		public void onStateTransitionStart(boolean isReversed) {
 			mAnimFrom = ScreenPositionUtils.translateGlobalPositionToLocalPosition(mListener.getAnimOrigin(), mRootC);
 			mMultX = (mAnimFrom.width() / (float) mSearchBarC.getWidth());
 			mMultY = (mAnimFrom.height() / (float) mSearchBarC.getHeight());
@@ -388,12 +403,7 @@ public class TabletWaypointFragment extends Fragment
 		}
 
 		@Override
-		public void onStateTransitionUpdate(LaunchState stateOne, LaunchState stateTwo,
-											float percentage) {
-			if (transitionIsTopToBottom(stateOne, stateTwo)) {
-				percentage = 1 - percentage;
-			}
-
+		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
 			float transX = (1f - percentage) * (mAnimFrom.left - mSearchBarC.getLeft());
 			float transY = (1f - percentage) * (mAnimFrom.bottom - (mSearchBarC.getBottom()));
 			float scaleX = mMultX + percentage * (1f - mMultX);
@@ -404,23 +414,40 @@ public class TabletWaypointFragment extends Fragment
 			mSearchBarC.setScaleX(scaleX);
 			mSearchBarC.setScaleY(scaleY);
 			mSuggestionsC.setTranslationY((1f - percentage) * mSuggestionsC.getHeight());
+			if (mDoFadeSearchBar) {
+				mSearchBarC.setAlpha(percentage);
+			}
 			mBg.setAlpha(percentage);
 		}
 
 		@Override
-		public void onStateTransitionEnd(LaunchState stateOne, LaunchState stateTwo) {
+		public void onStateTransitionEnd(boolean isReversed) {
 			mSuggestionsC.setLayerType(View.LAYER_TYPE_NONE, null);
 			mBg.setLayerType(View.LAYER_TYPE_NONE, null);
 			mSearchBarC.setLayerType(View.LAYER_TYPE_NONE, null);
 		}
 
 		@Override
-		public void onStateFinalized(LaunchState state) {
+		public void onStateFinalized(boolean isReversed) {
 			if (mRootC == null) {
 				return;
 			}
 
-			if (state == LaunchState.WAYPOINT) {
+			if (isReversed) {
+				mBg.setAlpha(0f);
+				mWaypointEditText.setText("");
+				mLocationProgressBar.setVisibility(View.GONE);
+				clearEditTextFocus(mWaypointEditText);
+				setErrorMessage(null);
+				if (mSuggestionsFragment != null
+					&& mSuggestionsFragment.isAdded()
+					&& mSuggestionsFragment.getListAdapter() != null
+					&& mSuggestionsFragment.getListAdapter().getCount() > 0) {
+					//Reset the scroll position of the suggestions frag
+					mSuggestionsFragment.setSelection(0);
+				}
+			}
+			else {
 				mSearchBarC.setTranslationX(0);
 				mSearchBarC.setTranslationY(0);
 				mSearchBarC.setScaleX(1f);
@@ -439,121 +466,8 @@ public class TabletWaypointFragment extends Fragment
 				setErrorMessage(mErrorMessage);
 				requestEditTextFocus(mWaypointEditText);
 			}
-			else {
-				mBg.setAlpha(0f);
-				mWaypointEditText.setText("");
-				mLocationProgressBar.setVisibility(View.GONE);
-				clearEditTextFocus(mWaypointEditText);
-				setErrorMessage(null);
-				if (mSuggestionsFragment != null
-					&& mSuggestionsFragment.isAdded()
-					&& mSuggestionsFragment.getListAdapter() != null
-					&& mSuggestionsFragment.getListAdapter().getCount() > 0) {
-					//Reset the scroll position of the suggestions frag
-					mSuggestionsFragment.setSelection(0);
-				}
-			}
 		}
-
-		private boolean transitionIsTopToBottom(LaunchState stateOne, LaunchState stateTwo) {
-			return stateOne == LaunchState.WAYPOINT && stateTwo != LaunchState.WAYPOINT;
-		}
-	};
-
-	private StateListenerHelper<ResultsSearchState> mResultsStateHelper = new StateListenerHelper<ResultsSearchState>() {
-
-		private Rect mAnimFrom;
-		private float mMultX;
-		private float mMultY;
-
-		@Override
-		public void onStateTransitionStart(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			mAnimFrom = ScreenPositionUtils.translateGlobalPositionToLocalPosition(mListener.getAnimOrigin(), mRootC);
-			mMultX = (mAnimFrom.width() / (float) mSearchBarC.getWidth());
-			mMultY = (mAnimFrom.height() / (float) mSearchBarC.getHeight());
-
-			mSuggestionsC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-			mBg.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-			mSearchBarC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-
-			mSearchBarC.setPivotX(0);
-			mSearchBarC.setPivotY(0);
-		}
-
-		@Override
-		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo,
-											float percentage) {
-			if (transitionIsTopToBottom(stateOne, stateTwo)) {
-				percentage = 1 - percentage;
-			}
-
-			float transX = (1f - percentage) * (mAnimFrom.left - mSearchBarC.getLeft());
-			float transY = (1f - percentage) * (mAnimFrom.bottom - (mSearchBarC.getBottom()));
-			float scaleX = mMultX + percentage * (1f - mMultX);
-			float scaleY = mMultY + percentage * (1f - mMultY);
-
-			mSearchBarC.setTranslationX(transX);
-			mSearchBarC.setTranslationY(transY);
-			mSearchBarC.setScaleX(scaleX);
-			mSearchBarC.setScaleY(scaleY);
-			mSuggestionsC.setTranslationY((1f - percentage) * mSuggestionsC.getHeight());
-			mSearchBarC.setAlpha(percentage);
-			mBg.setAlpha(percentage);
-		}
-
-		@Override
-		public void onStateTransitionEnd(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			mSuggestionsC.setLayerType(View.LAYER_TYPE_NONE, null);
-			mBg.setLayerType(View.LAYER_TYPE_NONE, null);
-			mSearchBarC.setLayerType(View.LAYER_TYPE_NONE, null);
-		}
-
-		@Override
-		public void onStateFinalized(ResultsSearchState state) {
-			if (mRootC == null) {
-				return;
-			}
-
-			if (state == ResultsSearchState.FLIGHT_ORIGIN || state == ResultsSearchState.DESTINATION) {
-				mSearchBarC.setTranslationX(0);
-				mSearchBarC.setTranslationY(0);
-				mSearchBarC.setScaleX(1f);
-				mSearchBarC.setScaleY(1f);
-				mSuggestionsC.setTranslationY(0);
-				mSearchBarC.setAlpha(1f);
-				mBg.setAlpha(1f);
-
-				if (mLoadingLocation) {
-					mLocationProgressBar.setVisibility(View.VISIBLE);
-					mLocationFragment.getCurrentLocation();
-				}
-				else {
-					mLocationProgressBar.setVisibility(View.GONE);
-				}
-				setErrorMessage(mErrorMessage);
-				requestEditTextFocus(mWaypointEditText);
-			}
-			else {
-				mBg.setAlpha(0f);
-				mWaypointEditText.setText("");
-				mLocationProgressBar.setVisibility(View.GONE);
-				clearEditTextFocus(mWaypointEditText);
-				setErrorMessage(null);
-				if (mSuggestionsFragment != null
-					&& mSuggestionsFragment.isAdded()
-					&& mSuggestionsFragment.getListAdapter() != null
-					&& mSuggestionsFragment.getListAdapter().getCount() > 0) {
-					//Reset the scroll position of the suggestions frag
-					mSuggestionsFragment.setSelection(0);
-				}
-			}
-		}
-
-		private boolean transitionIsTopToBottom(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-			return (stateOne == ResultsSearchState.FLIGHT_ORIGIN || stateOne == ResultsSearchState.DESTINATION)
-				&& (stateTwo != ResultsSearchState.FLIGHT_ORIGIN && stateTwo != ResultsSearchState.DESTINATION);
-		}
-	};
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// ICurrentLocationListener
