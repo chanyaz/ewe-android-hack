@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -22,6 +23,7 @@ import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
@@ -49,6 +51,7 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
@@ -90,6 +93,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	private LinearLayout mMissingFlightInfoC;
 	private ViewGroup mFlightsC;
 	private ViewGroup mHotelC;
+	private TextView mMissingFlightText;
 
 	//Fragments
 	private ResultsBackgroundImageFragment mBackgroundImageFrag;
@@ -123,8 +127,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		mBgDestImageC.setVisibility(View.VISIBLE);
 		mTripBucketC = Ui.findView(this, R.id.trip_bucket_container);
 		mMissingFlightInfoC = Ui.findView(this, R.id.missing_flight_info_container);
+		mMissingFlightText = Ui.findView(this, R.id.missing_departure_text);
 		mFlightsC = Ui.findView(this, R.id.full_width_flights_controller_container);
 		mHotelC = Ui.findView(this, R.id.full_width_hotels_controller_container);
+
+		updateMissingFlightInfoText();
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CURRENT_STATE)) {
 			String stateName = savedInstanceState.getString(STATE_CURRENT_STATE);
@@ -195,6 +202,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		Sp.getBus().register(this);
 
 		mHockeyPuck.onResume();
+
+
 	}
 
 	@Override
@@ -342,10 +351,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			manager.executePendingTransactions();//These must be finished before we continue..
 		}
 
-
 		if (mFlightsController == null) {
 			//Show the missing info pane
 			mMissingFlightInfoC.setVisibility(View.VISIBLE);
+			updateMissingFlightInfoText();
 		}
 		else {
 			//Hide the missing info pane
@@ -494,6 +503,20 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			}
 		}
 	};
+
+	private void updateMissingFlightInfoText() {
+		String missingSearchParams = null;
+		SearchParams sp = Sp.getParams();
+		if (sp.getOriginLocation(true) == null) {
+			missingSearchParams = getString(R.string.missing_flight_info_message, Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString());
+		}
+		else if (sp.getStartDate() == null) {
+			missingSearchParams = getString(R.string.missing_flight_trip_date_message);
+		}
+
+		mMissingFlightText.setText(missingSearchParams);
+	}
+
 
 	/**
 	 * TRANSITIONS

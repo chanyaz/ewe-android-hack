@@ -48,6 +48,8 @@
 
     </LinearLayout>
 
+    <include layout="@layout/include_tablet_search_missing_flight_info" />
+
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/histogram_container"
         android:layout_width="match_parent"

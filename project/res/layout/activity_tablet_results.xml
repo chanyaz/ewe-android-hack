@@ -19,30 +19,7 @@
         android:layout_height="match_parent" />
 
     <!-- FLIGHT LIST PLACEHOLDER FOR WHEN WE DONT HAVE ENOUGH FLIGHT DATA -->
-    <LinearLayout
-        android:id="@+id/missing_flight_info_container"
-        android:background="#FFFFFF"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="32dp"
-            android:gravity="center"
-            android:text="@string/missing_flight_info_header" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:gravity="center"
-            android:text="@string/missing_flight_info_message" />
-    </LinearLayout>
+    <include layout="@layout/include_tablet_search_missing_flight_info" />
 
     <!-- CONTROLLER CONTAINERS -->
 

@@ -36,8 +36,10 @@
     <string name="hotels_tonight">Hotels Tonight</string>
     <!-- Missing flight info header string "Missing search information!" -->
     <string name="missing_flight_info_header">Missing search information!</string>
-    <!-- Missing flight info message "Please select a flight origin, and a valid date or date range."-->
-    <string name="missing_flight_info_message">Please select a flight origin, and a valid date or date range.</string>
+    <!-- Missing flight info message -->
+    <string name="missing_flight_info_message">Set Departure Airport \nfor Flights to %s</string>
+    <!-- Missing flight info message -->
+    <string name="missing_flight_trip_date_message">Please select a valid date or date range.</string>
     <!-- Clear dates -->
     <string name="clear_dates">Clear dates</string>
     <!-- Search Now -->
