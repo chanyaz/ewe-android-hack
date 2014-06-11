@@ -2,8 +2,10 @@ package com.expedia.bookings.otto;
 
 import java.util.List;
 
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
 
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.LaunchCollection;
@@ -132,7 +134,10 @@ public class Events {
 	}
 
 	public static class LaunchMapPinClicked {
-		public LaunchMapPinClicked(/*TODO: pass metadata about the pin*/) {
+		public final Rect origin;
+
+		public LaunchMapPinClicked(Rect origin) {
+			this.origin = origin;
 		}
 	}
 

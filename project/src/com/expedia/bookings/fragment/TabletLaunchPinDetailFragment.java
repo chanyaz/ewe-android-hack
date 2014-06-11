@@ -6,6 +6,7 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +14,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.fragment.base.Fragment;
 import com.expedia.bookings.graphics.RoundBitmapDrawable;
+import com.expedia.bookings.interfaces.ISingleStateListener;
+import com.expedia.bookings.interfaces.helpers.SingleStateListener;
+import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 
 public class TabletLaunchPinDetailFragment extends Fragment {
 	private ViewGroup mRootC;
+	private View mRoundImage;
+	private View mTextLayout;
+
+	private int mPinOriginX = -100;
+	private int mPinOriginY = -210;
+	private float mScaleOrigin = 0.5f;
+	private int mTextOriginX = -400;
 
 	// TODO: associated map pin data
 
@@ -31,38 +44,58 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = Ui.inflate(R.layout.fragment_tablet_launch_pin_detail, container, false);
 
+		mRoundImage = Ui.findView(mRootC, R.id.round_image);
+		mTextLayout = Ui.findView(mRootC, R.id.text_layout);
+
+		((TabletLaunchControllerFragment) getParentFragment()).registerStateListener(mDetailsStateListener, false);
+
 		return mRootC;
 	}
 
-	public void bind(/*TODO: associated map pin data*/) {
+	public void bind(Rect origin) {
+		mPinOriginX = origin.left - mRoundImage.getLeft() - 64; // TODO: resource? or calculate "64"?
+		mPinOriginY = origin.top - mRoundImage.getTop() - 50 - 64; // TODO: resource? or calculate "50" (status bar) and "64" (action bar)?
+		mScaleOrigin = (float) origin.width() / (float) getResources().getDimensionPixelSize(R.dimen.launch_pin_detail_size);
+
 		ImageView roundImage = Ui.findView(getView(), R.id.round_image);
 		roundImage.setImageDrawable(new RoundBitmapDrawable(getActivity(), R.drawable.mappin_sanfrancisco));
 	}
 
-	// These coordinates specify the source view from which the data expands
-	public void animateFrom(View view) {
-		int circleOriginX = -100;
-		int circleOriginY = -210;
-		float scaleOrigin = 0.5f;
+	private SingleStateListener<LaunchState> mDetailsStateListener = new SingleStateListener<>(
+		LaunchState.DEFAULT, LaunchState.DETAILS, true, new ISingleStateListener() {
 
-		int textOriginX = -400;
+		@Override
+		public void onStateTransitionStart(boolean isReversed) {
+		}
 
-		ArrayList<Animator> animations = new ArrayList<>();
+		@Override
+		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
+			float scale = delta(mScaleOrigin, 1f, percentage);
+			float translationx = delta(mPinOriginX, 0f, percentage);
+			float translationy = delta(mPinOriginY, 0f, percentage);
+			float textx = delta(mTextOriginX, 0f, percentage);
+			float textalpha = delta(0f, 1f, percentage);
+			mRootC.setTranslationX(translationx);
+			mRootC.setTranslationY(translationy);
+			mRoundImage.setScaleX(scale);
+			mRoundImage.setScaleY(scale);
+			mTextLayout.setTranslationX(textx);
+			mTextLayout.setAlpha(textalpha);
+			mTextLayout.setScaleX(scale);
+			mTextLayout.setScaleY(scale);
+		}
 
-		PropertyValuesHolder circleX = PropertyValuesHolder.ofFloat("translationX", circleOriginX, 0);
-		PropertyValuesHolder circleY = PropertyValuesHolder.ofFloat("translationY", circleOriginY, 0);
-		animations.add(ObjectAnimator.ofPropertyValuesHolder(mRootC, circleX, circleY));
+		@Override
+		public void onStateTransitionEnd(boolean isReversed) {
 
-		PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", scaleOrigin, 1f);
-		PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", scaleOrigin, 1f);
-		animations.add(ObjectAnimator.ofPropertyValuesHolder(Ui.findView(mRootC, R.id.round_image), scaleX, scaleY));
+		}
 
-		PropertyValuesHolder textX = PropertyValuesHolder.ofFloat("translationX", textOriginX, 0);
-		PropertyValuesHolder textAlpha = PropertyValuesHolder.ofFloat("alpha", 0f, 1f);
-		animations.add(ObjectAnimator.ofPropertyValuesHolder(Ui.findView(mRootC, R.id.text_layout), textX, textAlpha, scaleX, scaleY));
+		@Override
+		public void onStateFinalized(boolean isReversed) {
+		}
 
-		AnimatorSet s = new AnimatorSet();
-		s.playTogether(animations);
-		s.start();
-	}
+		private float delta(float start, float end, float percentage) {
+			return (end - start) * percentage + start;
+		}
+	});
 }

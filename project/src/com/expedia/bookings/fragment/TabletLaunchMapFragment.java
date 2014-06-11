@@ -4,10 +4,12 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
 import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
@@ -25,6 +27,7 @@ import com.expedia.bookings.graphics.RoundBitmapDrawable;
 import com.expedia.bookings.graphics.SvgDrawable;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
 import com.jhlabs.map.Point2D;
@@ -163,7 +166,12 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		pin.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Events.post(new Events.LaunchMapPinClicked());
+				Rect origin = ScreenPositionUtils.getGlobalScreenPosition(view);
+				int size = getResources().getDimensionPixelSize(R.dimen.launch_pin_size);
+				origin.bottom = origin.top + size;
+				origin.left = (origin.left + origin.right - size) / 2;
+				origin.right = origin.left + size;
+				Events.post(new Events.LaunchMapPinClicked(origin));
 			}
 		});
 
@@ -219,7 +227,9 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	}
 
 	private void setPinImage(TextView pin, int drawableId) {
-		RoundBitmapDrawable d = new RoundBitmapDrawable(getActivity(), drawableId);
+		//TODO: float size = getResources().getDimensionPixelSize(R.dimen.launch_pin_size);
+		Drawable d = new RoundBitmapDrawable(getActivity(), drawableId);
+
 		pin.setCompoundDrawablesWithIntrinsicBounds(null, d, null, null);
 	}
 }

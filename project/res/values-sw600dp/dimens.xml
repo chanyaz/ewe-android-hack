@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Launch Screen -->
+    <dimen name="launch_pin_size">86dp</dimen>
+    <dimen name="launch_pin_detail_size">150dp</dimen>
+
     <!-- Account / Login button -->
     <dimen name="account_button_margin_top">0dp</dimen>
     <dimen name="account_button_padding">10dp</dimen>

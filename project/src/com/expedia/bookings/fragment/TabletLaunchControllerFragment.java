@@ -21,9 +21,11 @@ import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.interfaces.IBackManageable;
+import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
+import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
@@ -109,7 +111,8 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 				STATE_LAUNCH_STATE, LaunchState.DEFAULT.name())));
 		}
 
-		registerStateListener(mStateHelper, false);
+		registerStateListener(mDetailsStateListener, false);
+		registerStateListener(mWaypointStateListener, false);
 		registerStateListener(new StateListenerLogger<LaunchState>(), false);
 
 		mSearchBarC.setOnClickListener(new View.OnClickListener() {
@@ -234,86 +237,90 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		mStateListeners.unRegisterStateListener(listener);
 	}
 
-
-	private StateListenerHelper<LaunchState> mStateHelper = new StateListenerHelper<LaunchState>() {
-
+	private SingleStateListener<LaunchState> mWaypointStateListener = new SingleStateListener<>(
+		LaunchState.DEFAULT, LaunchState.WAYPOINT, true, new ISingleStateListener() {
 		@Override
-		public void onStateTransitionStart(LaunchState stateOne, LaunchState stateTwo) {
-			if (stateOne == LaunchState.DEFAULT && stateTwo == LaunchState.WAYPOINT) {
+		public void onStateTransitionStart(boolean isReversed) {
+			if (!isReversed) {
 				getActivity().getActionBar().hide();
 				mSearchBarC.setVisibility(View.INVISIBLE);
 				mWaypointC.setVisibility(View.VISIBLE);
 			}
-			else if (stateOne == LaunchState.DEFAULT && stateTwo == LaunchState.DETAILS) {
-				// TODO: this better
-				mPinFragment.animateFrom(null);
-				mPinDetailC.setVisibility(View.VISIBLE);
-			}
-			else if (stateOne == LaunchState.DETAILS && stateTwo == LaunchState.DEFAULT) {
-				mSearchBarC.setVisibility(View.VISIBLE);
+			else {
+				getActivity().getActionBar().show();
 				mTilesC.setVisibility(View.VISIBLE);
-				float y = mRootC.getHeight() - mSearchBarC.getTop();
-				mSearchBarC.setTranslationY(y);
-				mTilesC.setTranslationY(y);
+				mTilesC.setAlpha(1f);
 			}
 		}
 
 		@Override
-		public void onStateTransitionUpdate(LaunchState stateOne, LaunchState stateTwo, float percentage) {
-			float y = mRootC.getHeight() - mSearchBarC.getTop();
-			if (stateOne == LaunchState.DEFAULT && stateTwo == LaunchState.DETAILS) {
-				// Slide the tiles and search bar down off the bottom of the screen
-				mSearchBarC.setTranslationY(percentage * y);
-				mTilesC.setTranslationY(percentage * y);
-			}
-			else if (stateOne == LaunchState.DETAILS && stateTwo == LaunchState.DEFAULT) {
-				// Slide the tiles and search bar up from below the bottom of the screen
-				mSearchBarC.setTranslationY((1f - percentage) * y);
-				mTilesC.setTranslationY((1f - percentage) * y);
-			}
+		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
+			mTilesC.setAlpha(1f - percentage);
 		}
 
 		@Override
-		public void onStateTransitionEnd(LaunchState stateOne, LaunchState stateTwo) {
+		public void onStateTransitionEnd(boolean isReversed) {
+
 		}
 
 		@Override
-		public void onStateFinalized(LaunchState state) {
-			switch (state) {
-			case WAYPOINT: {
-				getActivity().getActionBar().hide();
-				mSearchBarC.setVisibility(View.INVISIBLE);
-				mWaypointC.setVisibility(View.VISIBLE);
-				mPinDetailC.setVisibility(View.INVISIBLE);
+		public void onStateFinalized(boolean isReversed) {
+			if (!isReversed) {
 				mTilesC.setVisibility(View.INVISIBLE);
-				mSearchBarC.setTranslationY(0f);
-				mTilesC.setTranslationY(0f);
-				break;
 			}
-			case DETAILS: {
-				getActivity().getActionBar().show();
-				mSearchBarC.setVisibility(View.INVISIBLE);
-				mWaypointC.setVisibility(View.INVISIBLE);
-				mPinDetailC.setVisibility(View.VISIBLE);
-				mTilesC.setVisibility(View.INVISIBLE);
-				mSearchBarC.setTranslationY(0f);
-				mTilesC.setTranslationY(0f);
-				break;
-			}
-			default: {
-				getActivity().getActionBar().show();
+			else {
 				mSearchBarC.setVisibility(View.VISIBLE);
 				mWaypointC.setVisibility(View.INVISIBLE);
-				mPinDetailC.setVisibility(View.INVISIBLE);
-				mTilesC.setVisibility(View.VISIBLE);
-				mSearchBarC.setTranslationY(0f);
-				mTilesC.setTranslationY(0f);
-				break;
 			}
-			}
-			//TODO
 		}
-	};
+	}
+	);
+
+	private SingleStateListener<LaunchState> mDetailsStateListener = new SingleStateListener<>(
+		LaunchState.DEFAULT, LaunchState.DETAILS, true, new ISingleStateListener() {
+
+		private float mSearchBarY;
+
+		@Override
+		public void onStateTransitionStart(boolean isReversed) {
+			mSearchBarY = mRootC.getHeight() - mSearchBarC.getTop();
+
+			mSearchBarC.setVisibility(View.VISIBLE);
+			mTilesC.setVisibility(View.VISIBLE);
+			mPinDetailC.setVisibility(View.VISIBLE);
+
+			if (isReversed) {
+				mSearchBarC.setTranslationY(mSearchBarY);
+				mTilesC.setTranslationY(mSearchBarY);
+			}
+		}
+
+		@Override
+		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
+			// Slide the tiles and search bar down off the bottom of the screen
+			mSearchBarC.setTranslationY(percentage * mSearchBarY);
+			mTilesC.setTranslationY(percentage * mSearchBarY);
+		}
+
+		@Override
+		public void onStateTransitionEnd(boolean isReversed) {
+
+		}
+
+		@Override
+		public void onStateFinalized(boolean isReversed) {
+			mSearchBarC.setTranslationY(0f);
+			mTilesC.setTranslationY(0f);
+
+			if (!isReversed) {
+				mSearchBarC.setVisibility(View.INVISIBLE);
+				mTilesC.setVisibility(View.INVISIBLE);
+			}
+			if (isReversed) {
+				mPinDetailC.setVisibility(View.INVISIBLE);
+			}
+		}
+	});
 
 	/*
 	 * TabletWaypointFragment.ITabletWaypointFragmentListener
@@ -377,7 +384,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 
 	@Subscribe
 	public void onMapPinClicked(Events.LaunchMapPinClicked event) {
-		mPinFragment.bind();
+		mPinFragment.bind(event.origin);
 		setLaunchState(LaunchState.DETAILS, true);
 	}
 }
