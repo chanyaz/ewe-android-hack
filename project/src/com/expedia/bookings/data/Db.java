@@ -474,7 +474,7 @@ public class Db {
 
 		long start = System.currentTimeMillis();
 
-		File file = context.getFileStreamPath(SAVED_FLIGHT_DATA_FILE);
+		File file = context.getFileStreamPath(fileName);
 		if (!file.exists()) {
 			Log.d("DbDisk - There is no cached " + statsTag + " on disk to load.");
 			return false;
