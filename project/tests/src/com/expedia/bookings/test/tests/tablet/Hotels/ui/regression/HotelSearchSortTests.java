@@ -1,6 +1,5 @@
 package com.expedia.bookings.test.tests.tablet.Hotels.ui.regression;
 
-
 import java.util.concurrent.atomic.AtomicReference;
 
 import android.content.Context;
@@ -13,6 +12,7 @@ import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.pageModels.tablet.Common;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
+import com.expedia.bookings.test.tests.pageModels.tablet.SortFilter;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 
 import com.expedia.bookings.test.utils.EspressoUtils;
@@ -63,8 +63,8 @@ public class HotelSearchSortTests extends ActivityInstrumentationTestCase2<Searc
 
 	public void testSortByPrice() throws Exception {
 		initiateSearchHelper();
-		Results.clickHotelSortFilterButton();
-		Results.clickToSortHotelByPrice();
+		SortFilter.clickHotelSortFilterButton();
+		SortFilter.clickToSortHotelByPrice();
 		int totalHotels = EspressoUtils.getListCount(Results.hotelList());
 		ScreenActions.enterLog(TAG, ";" + totalHotels);
 		if (totalHotels > 1) {
@@ -85,8 +85,8 @@ public class HotelSearchSortTests extends ActivityInstrumentationTestCase2<Searc
 	public void testSortByRating() throws Exception {
 		final AtomicReference<Float> rating = new AtomicReference<Float>();
 		initiateSearchHelper();
-		Results.clickHotelSortFilterButton();
-		Results.clickToSortHotelByRating();
+		SortFilter.clickHotelSortFilterButton();
+		SortFilter.clickToSortHotelByRating();
 		int totalHotels = EspressoUtils.getListCount(Results.hotelList());
 		ScreenActions.enterLog(TAG, ";" + totalHotels);
 		if (totalHotels > 1) {

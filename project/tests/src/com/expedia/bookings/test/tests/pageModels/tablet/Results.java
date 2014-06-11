@@ -1,7 +1,5 @@
 package com.expedia.bookings.test.tests.pageModels.tablet;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.joda.time.LocalDate;
@@ -16,13 +14,11 @@ import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
 import static com.expedia.bookings.test.utils.EspressoUtils.swipeUp;
 import static com.expedia.bookings.test.utils.ViewActions.clickDates;
-import static com.expedia.bookings.test.utilsEspresso.ViewActions.getChildViewText;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.hasSibling;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withContentDescription;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withEffectiveVisibility;
@@ -133,52 +129,8 @@ public class Results {
 		hotelAtIndex(index).perform(click());
 	}
 
-	public static void clickHotelSortFilterButton() {
-		onView(withId(R.id.top_right_text_button)).perform(click());
-	}
-
-	public static void clickToSortHotelByPrice() {
-		onView(withId(R.id.sort_by_price_button)).perform(click());
-	}
-
-	public static void clickToSortHotelByRating() {
-		onView(withId(R.id.sort_by_rating_button)).perform(click());
-	}
-
-	public static void clickToSortByPrice() {
-		onView(allOf(withId(R.id.flight_sort_price), withParent(withId(R.id.flight_sort_control)))).perform(click());
-	}
-
-	public static void clickToSortByArrival() {
-		onView(allOf(withId(R.id.flight_sort_arrives), withParent(withId(R.id.flight_sort_control)))).perform(click());
-	}
-
-	public static void clickToSortByDeparture() {
-		onView(allOf(withId(R.id.flight_sort_departs), withParent(withId(R.id.flight_sort_control)))).perform(click());
-	}
-
-	public static void clickToSortByDuration() {
-		onView(allOf(withId(R.id.flight_sort_duration), withParent(withId(R.id.flight_sort_control)))).perform(click());
-	}
-
 	public static void clickHotelWithName(String hotelName) {
 		onData(withHotelName(hotelName)).inAdapterView(withContentDescription("Hotel Search Results")).perform(click());
-	}
-
-	public static String getfilterAirlineView(int index) {
-		final AtomicReference<String> value = new AtomicReference<String>();
-		onView(withId(R.id.filter_airline_container)).perform(getChildViewText(index, value));
-		String filterValue = value.get();
-		return filterValue;
-	}
-
-	public static ViewInteraction airlineNameFilter(String airlineName) {
-		return onView(allOf(withText(airlineName), hasSibling(withId(R.id.filter_refinement_textview))));
-	}
-
-	public static void clickAirlineFilter(String airlineName) {
-		airlineNameFilter(airlineName).perform(scrollTo());
-		airlineNameFilter(airlineName).perform(click());
 	}
 
 	public static Matcher<Object> withHotelName(String expectedText) {

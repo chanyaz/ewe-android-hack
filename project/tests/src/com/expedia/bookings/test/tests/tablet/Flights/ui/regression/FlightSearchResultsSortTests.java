@@ -13,6 +13,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
+import com.expedia.bookings.test.tests.pageModels.tablet.SortFilter;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
@@ -125,7 +126,7 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 
 	public void testSortByPrice() throws Exception {
 		executeAFlightSearch();
-		Results.clickToSortByPrice();
+		SortFilter.clickToSortByPrice();
 		int totalFlights = EspressoUtils.getListCount(Results.flightList());
 
 		// If number of flights > 1, continue with test
@@ -158,7 +159,7 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 
 	public void testSortByArrival() throws Exception {
 		executeAFlightSearch();
-		Results.clickToSortByArrival();
+		SortFilter.clickToSortByArrival();
 		int totalFlights = EspressoUtils.getListCount(Results.flightList());
 		// If number of flights > 1, continue with test
 		if (totalFlights > 1) {
@@ -207,7 +208,7 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 
 	public void testSortByDeparture() throws Exception {
 		executeAFlightSearch();
-		Results.clickToSortByDeparture();
+		SortFilter.clickToSortByDeparture();
 		int totalFlights = EspressoUtils.getListCount(Results.flightList());
 
 		// If number of flights > 1, continue with test
@@ -241,7 +242,7 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 
 	public void testSortByDuration() throws Exception {
 		executeAFlightSearch();
-		Results.clickToSortByDuration();
+		SortFilter.clickToSortByDuration();
 		int totalFlights = EspressoUtils.getListCount(Results.flightList());
 
 		// Only run test if number of flights is > 1
@@ -278,12 +279,12 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 		executeAFlightSearch();
 
 		//get number of airlines in flight results filter
-		int numberOfAirlines = Integer.parseInt(Results.getfilterAirlineView(-1));
+		int numberOfAirlines = Integer.parseInt(SortFilter.getfilterAirlineView(-1));
 
 		//go through all airlines in filter and verify the airline name in search results
 		for (int i = 0; i < numberOfAirlines; i++) {
-			String airlineFilterName = Results.getfilterAirlineView(i);
-			Results.clickAirlineFilter(airlineFilterName);
+			String airlineFilterName = SortFilter.getfilterAirlineView(i);
+			SortFilter.clickAirlineFilter(airlineFilterName);
 
 			int totalFlights = EspressoUtils.getListCount(Results.flightList());
 
@@ -294,7 +295,7 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 				assertEquals(airlineFilterName, airlineName);
 				ScreenActions.enterLog(TAG, "Airline name in Flight filters: " + airlineFilterName + " is same as: " + airlineName + " in the Flight results");
 			}
-			Results.clickAirlineFilter(airlineFilterName);
+			SortFilter.clickAirlineFilter(airlineFilterName);
 		}
 		pressBack();
 		pressBack();
