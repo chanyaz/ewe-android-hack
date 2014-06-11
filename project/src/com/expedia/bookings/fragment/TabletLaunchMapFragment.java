@@ -33,6 +33,12 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	private LayoutInflater mInflater;
 	private FrameLayout mRoot;
 
+	private double[] mLatLngs;
+
+	private ColorDrawable mBgColorDrawable;
+	private Drawable mTiledDotDrawable;
+	private GradientDrawable mLinearGradDrawable;
+
 	public static TabletLaunchMapFragment newInstance() {
 		TabletLaunchMapFragment frag = new TabletLaunchMapFragment();
 		frag.setMapResource(R.raw.map_tablet_launch);
@@ -46,6 +52,12 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	}
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		init();
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRoot = (FrameLayout) super.onCreateView(inflater, container, savedInstanceState);
 
@@ -53,13 +65,35 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 			@Override
 			public boolean onPreDraw() {
 				mRoot.getViewTreeObserver().removeOnPreDrawListener(this);
-				generateMap();
-				generatePins();
+				renderMap();
 				return true;
 			}
 		});
 
 		return mRoot;
+	}
+
+	public void setLatLngs(double... latLngs) {
+		mLatLngs = latLngs;
+	}
+
+	public void renderMap() {
+		generateMap();
+		generatePins();
+	}
+
+	private void init() {
+		mBgColorDrawable = new ColorDrawable(Color.parseColor("#1b2747"));
+
+		mTiledDotDrawable = getResources().getDrawable(R.drawable.tiled_dot);
+
+		// Linear Gradient
+		int[] linearGradColors = new int[] {
+			Color.parseColor("#001b2747"),
+			Color.parseColor("#98131c33"),
+			Color.parseColor("#ff131c33"),
+		};
+		mLinearGradDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, linearGradColors);
 	}
 
 	private void generateMap() {
@@ -73,29 +107,18 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		int otherPadding = getResources().getDimensionPixelSize(R.dimen.tablet_launch_map_pin_image_size) / 2;
 		int abHeight = getActivity().getActionBar().getHeight();
 		setPadding(otherPadding, otherPadding + abHeight, otherPadding, bottomPadding);
-		setBounds(
+		// TODO grab lat lngs from destination data type global data store
+		mLatLngs = new double[] {
 			37.770715, -122.405033,
 			41.893077, 12.481627,
 			40.425519, -3.709366,
 			25.797418, -80.226341,
 			45.525592, -73.553681
-		);
+		};
+		setBounds(mLatLngs);
 
 		// Draw scaled and translated map
-		ColorDrawable bgColorDrawable = new ColorDrawable(Color.parseColor("#1b2747"));
 		SvgDrawable mapDrawable = new SvgDrawable(getSvg(), getViewportMatrix());
-
-		// Dot grid
-		Drawable tiledDotDrawable = getResources().getDrawable(R.drawable.tiled_dot);
-
-		// Linear Gradient
-		int[] linearGradColors = new int[] {
-			Color.parseColor("#001b2747"),
-			Color.parseColor("#98131c33"),
-			Color.parseColor("#ff131c33"),
-		};
-
-		GradientDrawable linearGradDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, linearGradColors);
 
 		// Radial Gradient
 		int[] radialGradColors = new int[] {
@@ -108,11 +131,11 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		radialGradDrawable.setGradientCenter(0.5f, 0.5f);
 		radialGradDrawable.setGradientRadius(Math.min(w, h) * 0.65f);
 
-		Drawable[] drawables = new Drawable[]{
-			bgColorDrawable,
+		Drawable[] drawables = new Drawable[] {
+			mBgColorDrawable,
 			mapDrawable,
-			tiledDotDrawable,
-			linearGradDrawable,
+			mTiledDotDrawable,
+			mLinearGradDrawable,
 			radialGradDrawable,
 		};
 		LayerDrawable allDrawables = new LayerDrawable(drawables);
@@ -121,6 +144,7 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	}
 
 	private void generatePins() {
+		// TODO use data from launch JSON
 		addPin(37.770715, -122.405033, "San Francisco", "From $320", R.drawable.mappin_sanfrancisco);
 		addPin(41.893077, 12.481627, "Rome", "From $240", R.drawable.mappin_rome);
 		addPin(40.425519, -3.709366, "Madrid", "From $450", R.drawable.mappin_madrid);

@@ -56,7 +56,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	private ViewGroup mTilesC;
 
 	// Fragments
-	private MeasurableFragment mMapFragment;
+	private TabletLaunchMapFragment mMapFragment;
 	private MeasurableFragment mTilesFragment;
 	private TabletWaypointFragment mWaypointFragment;
 	private TabletLaunchPinDetailFragment mPinFragment;
@@ -86,6 +86,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		FragmentManager fm = getChildFragmentManager();
 		if (savedInstanceState == null) {
 			mMapFragment = TabletLaunchMapFragment.newInstance();
+			// TODO initialize MapFragment with a set of data from JSON
 			mTilesFragment = DestinationTilesFragment.newInstance();
 			mWaypointFragment = new TabletWaypointFragment();
 			mPinFragment = TabletLaunchPinDetailFragment.newInstance();
