@@ -8,7 +8,10 @@ import java.util.zip.GZIPInputStream;
 import android.text.TextUtils;
 
 import com.expedia.bookings.data.GsonResponse;
+import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.data.SuggestionV2TypeAdapter;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mobiata.android.Log;
 import com.squareup.okhttp.Response;
 
@@ -44,7 +47,10 @@ public class AutoJsonResponseHandler<T> implements ResponseHandler<GsonResponse<
 				is = response.body().byteStream();
 			}
 
-			Gson gson = new Gson();
+			Gson gson = new GsonBuilder() //
+			     .registerTypeAdapter(SuggestionV2.class, new SuggestionV2TypeAdapter()) //
+			     .create();
+
 			InputStreamReader isr = new InputStreamReader(is);
 			T obj = gson.fromJson(isr, mType);
 			response.body().close();
