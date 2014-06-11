@@ -284,7 +284,6 @@
 
 
     <!-- For map pins on tablet launch screen -->
-    <dimen name="tablet_launch_map_pin_image_size">172dp</dimen>
     <dimen name="destination_search_stack_width">186dp</dimen>
     <dimen name="destination_search_stack_height">160dp</dimen>
     <dimen name="destination_search_tile_width">166dp</dimen>

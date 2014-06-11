@@ -381,7 +381,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 
 	@Subscribe
 	public void onMapPinClicked(Events.LaunchMapPinClicked event) {
-		mPinFragment.bind(event.origin);
+		mPinFragment.bind(event.origin, event.metadata);
 		setLaunchState(LaunchState.DETAILS, true);
 	}
 }

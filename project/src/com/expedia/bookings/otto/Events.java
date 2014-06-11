@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.expedia.bookings.data.HotelProductResponse;
 import com.expedia.bookings.data.LaunchCollection;
+import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
@@ -135,9 +136,11 @@ public class Events {
 
 	public static class LaunchMapPinClicked {
 		public final Rect origin;
+		public final LaunchLocation metadata;
 
-		public LaunchMapPinClicked(Rect origin) {
+		public LaunchMapPinClicked(Rect origin, LaunchLocation metadata) {
 			this.origin = origin;
+			this.metadata = metadata;
 		}
 	}
 

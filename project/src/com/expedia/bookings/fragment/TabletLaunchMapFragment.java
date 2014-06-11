@@ -23,6 +23,9 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LaunchLocation;
+import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.graphics.RoundBitmapDrawable;
 import com.expedia.bookings.graphics.SvgDrawable;
 import com.expedia.bookings.otto.Events;
@@ -30,6 +33,7 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.LaunchPin;
 import com.jhlabs.map.Point2D;
 
 public class TabletLaunchMapFragment extends SvgMapFragment {
@@ -109,7 +113,7 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		int stackHeight = getResources().getDimensionPixelSize(R.dimen.destination_search_stack_height);
 		int bottomPadding = stackHeight + searchHeaderHeight * 3;
 
-		int otherPadding = getResources().getDimensionPixelSize(R.dimen.tablet_launch_map_pin_image_size) / 2;
+		int otherPadding = getResources().getDimensionPixelSize(R.dimen.launch_pin_size);
 		int abHeight = getActivity().getActionBar().getHeight();
 		setPadding(otherPadding, otherPadding + abHeight, otherPadding, bottomPadding);
 		// TODO grab lat lngs from destination data type global data store
@@ -148,6 +152,7 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		mRoot.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 	}
 
+	// TODO: this is all temporary
 	private void generatePins() {
 		// TODO use data from launch JSON
 		addPin(37.770715, -122.405033, "San Francisco", "From $320", R.drawable.mappin_sanfrancisco);
@@ -157,21 +162,35 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		addPin(45.525592, -73.553681, "Montreal", "From $100", R.drawable.mappin_montreal);
 	}
 
+	// TODO: this is all temporary
 	public void addPin(final double lat, final double lon, String name, String price, int drawableId) {
-		final TextView pin = Ui.inflate(mInflater, R.layout.snippet_tablet_launch_map_pin, mRoot, false);
+		LaunchLocation metadata = new LaunchLocation();
+		metadata.title = name;
+		metadata.description = price;
+		metadata.id = "";
+		metadata.imageCode = "";
+
+		SuggestionV2 suggestion = new SuggestionV2();
+		suggestion.setDisplayName(name);
+		Location location = new Location();
+		location.setLatitude(lat);
+		location.setLongitude(lon);
+		suggestion.setLocation(location);
+		metadata.location = suggestion;
+
+		metadata.drawableId = drawableId;
+		addPin(metadata);
+	}
+
+	public void addPin(final LaunchLocation metadata) {
+		final LaunchPin pin = Ui.inflate(mInflater, R.layout.snippet_tablet_launch_map_pin, mRoot, false);
+		pin.bind(metadata);
 		mRoot.addView(pin);
-		setPinText(pin, name, price);
-		setPinImage(pin, drawableId);
 
 		pin.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Rect origin = ScreenPositionUtils.getGlobalScreenPosition(view);
-				int size = getResources().getDimensionPixelSize(R.dimen.launch_pin_size);
-				origin.bottom = origin.top + size;
-				origin.left = (origin.left + origin.right - size) / 2;
-				origin.right = origin.left + size;
-				Events.post(new Events.LaunchMapPinClicked(origin));
+				Events.post(new Events.LaunchMapPinClicked(pin.getGlobalOrigin(), metadata));
 			}
 		});
 
@@ -181,7 +200,8 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 				pin.getViewTreeObserver().removeOnPreDrawListener(this);
 
 				// Position on screen now we know the pin dimensions
-				Point2D.Double transformed = projectToScreen(lat, lon);
+				Location loc = metadata.location.getLocation();
+				Point2D.Double transformed = projectToScreen(loc.getLatitude(), loc.getLongitude());
 				int marginLeft = (int) (transformed.x - pin.getWidth() / 2);
 				int marginTop = (int) (transformed.y - pin.getHeight() / 2);
 				MarginLayoutParams lp = (MarginLayoutParams) pin.getLayoutParams();
@@ -191,7 +211,7 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 				// Popin animation
 				pin.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 				pin.setPivotX(pin.getWidth() / 2.0f);
-				float mapPinImageSize = getResources().getDimension(R.dimen.tablet_launch_map_pin_image_size);
+				float mapPinImageSize = getResources().getDimension(R.dimen.launch_pin_size);
 				pin.setPivotY(mapPinImageSize / 2.0f);
 
 				pin.setScaleX(0.0f);
@@ -212,24 +232,5 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 				return true;
 			}
 		});
-	}
-
-	private void setPinText(TextView pin, String upper, String lower) {
-		TextAppearanceSpan upperSpan = new TextAppearanceSpan(getActivity(), R.style.MapPinUpperTextAppearance);
-		TextAppearanceSpan lowerSpan = new TextAppearanceSpan(getActivity(), R.style.MapPinLowerTextAppearance);
-
-		SpannableBuilder sb = new SpannableBuilder();
-		sb.append(upper, upperSpan);
-		sb.append("\n");
-		sb.append(lower, lowerSpan, FontCache.getSpan(FontCache.Font.ROBOTO_LIGHT));
-
-		pin.setText(sb.build(), TextView.BufferType.SPANNABLE);
-	}
-
-	private void setPinImage(TextView pin, int drawableId) {
-		//TODO: float size = getResources().getDimensionPixelSize(R.dimen.launch_pin_size);
-		Drawable d = new RoundBitmapDrawable(getActivity(), drawableId);
-
-		pin.setCompoundDrawablesWithIntrinsicBounds(null, d, null, null);
 	}
 }

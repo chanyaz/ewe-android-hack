@@ -12,8 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.fragment.base.Fragment;
 import com.expedia.bookings.graphics.RoundBitmapDrawable;
@@ -52,13 +54,19 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 		return mRootC;
 	}
 
-	public void bind(Rect origin) {
+	public void bind(Rect origin, LaunchLocation metadata) {
 		mPinOriginX = origin.left - mRoundImage.getLeft() - 64; // TODO: resource? or calculate "64"?
-		mPinOriginY = origin.top - mRoundImage.getTop() - 50 - 64; // TODO: resource? or calculate "50" (status bar) and "64" (action bar)?
+		mPinOriginY = origin.top - mRoundImage.getTop() - 50 - 64; // TODO: resource? or calculate "50" (status bar?) and "64"?
 		mScaleOrigin = (float) origin.width() / (float) getResources().getDimensionPixelSize(R.dimen.launch_pin_detail_size);
 
-		ImageView roundImage = Ui.findView(getView(), R.id.round_image);
-		roundImage.setImageDrawable(new RoundBitmapDrawable(getActivity(), R.drawable.mappin_sanfrancisco));
+		ImageView roundImage = Ui.findView(mRootC, R.id.round_image);
+		roundImage.setImageDrawable(new RoundBitmapDrawable(getActivity(), metadata.drawableId));
+
+		TextView textTitle = Ui.findView(mRootC, R.id.text_title);
+		textTitle.setText(metadata.title);
+
+		TextView textDescription = Ui.findView(mRootC, R.id.text_description);
+		textDescription.setText(metadata.description);
 	}
 
 	private SingleStateListener<LaunchState> mDetailsStateListener = new SingleStateListener<>(
