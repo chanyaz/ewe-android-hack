@@ -24,6 +24,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripBucketItem;
+import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
@@ -136,7 +137,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 
 	@Override
 	public boolean doTripBucketImageRefresh() {
-		mNewDestination = Db.getFlightSearch().getSearchParams().getArrivalLocation().getDestinationId();
+		mNewDestination = Db.getTripBucket().getFlight().getFlightSearchParams().getArrivalLocation().getDestinationId();
 		if (mPreviousDestination != null && mPreviousDestination.equals(mNewDestination)) {
 			return false;
 		}
@@ -200,9 +201,15 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 
 	@Override
 	public String getDateRangeText() {
-		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
-		return CalendarUtils.formatDateRange(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
-			| DateUtils.FORMAT_ABBREV_MONTH);
+		TripBucketItemFlight flight = Db.getTripBucket().getFlight();
+		if (flight != null) {
+			FlightSearchParams params = flight.getFlightSearchParams();
+			return CalendarUtils.formatDateRange(getActivity(), params, DateUtils.FORMAT_SHOW_DATE
+				| DateUtils.FORMAT_ABBREV_MONTH);
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override

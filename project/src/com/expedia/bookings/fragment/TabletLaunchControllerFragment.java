@@ -366,9 +366,6 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		Db.deleteCachedFlightData(getActivity());
 		Db.deleteHotelSearchData(getActivity());
 
-		//Clear trip bucket before search
-		Db.getTripBucket().clear();
-
 		startActivity(new Intent(getActivity(), TabletResultsActivity.class));
 	}
 

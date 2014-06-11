@@ -161,7 +161,9 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		bind();
+		if (Db.getTripBucket().getFlight() != null) {
+			bind();
+		}
 	}
 
 	public ITripBucketBookClickListener getTripBucketBookClickedListener() {

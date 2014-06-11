@@ -48,11 +48,19 @@ public class ResultsTripBucketFragment extends Fragment
 		return view;
 	}
 
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		if (Db.getTripBucket().isEmpty()) {
+			Db.loadTripBucket(getActivity());
+		}
+	}
+
 	public void bindToDb() {
 		bind(Db.getTripBucket());
 	}
 
-	public void bind(TripBucket bucket) {
+	private void bind(TripBucket bucket) {
 		boolean showBucket = bucket != null && bucket.size() > 0;
 		LineOfBusiness lobToRefresh = bucket.getLOBToRefresh();
 		if (showBucket) {
