@@ -64,8 +64,10 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		mRoot.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
-				mRoot.getViewTreeObserver().removeOnPreDrawListener(this);
-				renderMap();
+				if (mRoot.getWidth() > 0) {
+					mRoot.getViewTreeObserver().removeOnPreDrawListener(this);
+					renderMap();
+				}
 				return true;
 			}
 		});
