@@ -135,7 +135,7 @@ public class SuggestionV2TypeAdapter extends TypeAdapter<SuggestionV2> {
 								break;
 							}
 							case "lng": {
-								location.setLatitude(reader.nextDouble());
+								location.setLongitude(reader.nextDouble());
 								break;
 							}
 							}
