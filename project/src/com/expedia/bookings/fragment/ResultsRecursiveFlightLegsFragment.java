@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.enums.ResultsFlightLegState;
 import com.expedia.bookings.enums.ResultsFlightsListState;
 import com.expedia.bookings.enums.ResultsFlightsState;
@@ -311,7 +312,10 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			if (isLastLeg()) {
 				// Set the Db properly
 				Db.getTripBucket().clearFlight();
-				Db.getTripBucket().add(Db.getFlightSearch().getSearchParams(), Db.getFlightSearch().getSelectedFlightTrip());
+				FlightSearch flightSearch = Db.getFlightSearch();
+				// We must set the selected flight trip as what we selected.
+				flightSearch.setSelectedFlightTrip(flightSearch.getSelectedFlightTrip(flightSearch.getSelectedLegs(), flightSearch.getSearchResponse()));
+				Db.getTripBucket().add(flightSearch.getSearchParams(), flightSearch.getSelectedFlightTrip());
 				Db.saveTripBucket(getActivity());
 
 				// Reset the query so we can re-select a new flight for trip bucket
