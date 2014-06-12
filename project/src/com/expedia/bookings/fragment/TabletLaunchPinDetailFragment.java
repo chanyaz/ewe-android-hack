@@ -1,11 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
-
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,9 +16,7 @@ import com.expedia.bookings.graphics.RoundBitmapDrawable;
 import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 
 public class TabletLaunchPinDetailFragment extends Fragment {
 	private ViewGroup mRootC;
