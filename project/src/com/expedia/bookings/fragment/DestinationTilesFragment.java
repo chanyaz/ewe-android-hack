@@ -117,7 +117,7 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 
 	private void addCollection(LayoutInflater inflater, final LaunchCollection collection) {
 		CollectionStack c = (CollectionStack) inflater.inflate(R.layout.snippet_destination_stack, mItemsContainer, false);
-		c.setStackDrawable("http://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/LaunchDestinations/images/" + collection.imageCode + ".jpg");
+		c.setStackDrawable(collection.getImageUrl());
 		c.setText(collection.title);
 		c.setOnClickListener(new View.OnClickListener() {
 			@Override

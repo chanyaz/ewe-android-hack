@@ -7,4 +7,10 @@ public class LaunchCollection {
 	public String id;
 	public String imageCode;
 	public List<LaunchLocation> locations;
+
+	public static final String LAUNCH_MEDIA = "http://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/LaunchDestinations/images/";
+
+	public String getImageUrl() {
+		return LAUNCH_MEDIA + imageCode + ".jpg";
+	}
 }
