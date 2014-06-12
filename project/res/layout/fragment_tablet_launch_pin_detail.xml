@@ -28,7 +28,7 @@
             android:textSize="36sp"
             android:includeFontPadding="false"
             android:textAllCaps="true"
-            android:text="San Francisco"/>
+            android:text=""/>
 
         <TextView
             android:id="@+id/text_description"
@@ -37,7 +37,7 @@
             android:layout_marginBottom="8dp"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:text="Wandering artists, progressive reformers, and tech-savvy trendsetters stay true to San Francisco's creative roots."/>
+            android:text=""/>
 
         <TextView
             android:id="@+id/button_book_now"
@@ -48,7 +48,7 @@
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="Book A Trip from $450"/>
+            android:text="@string/book_now"/>
     </LinearLayout>
 
     <!-- Keep this on top, in the z-order, for animation -->
