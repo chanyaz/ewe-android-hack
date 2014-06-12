@@ -327,4 +327,9 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 			}
 		}
 	};
+
+	@Override
+	public TripBucketItemFlight getItem() {
+		return Db.getTripBucket().getFlight();
+	}
 }

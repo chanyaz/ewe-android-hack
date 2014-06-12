@@ -243,4 +243,9 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 			refreshRate();
 		}
 	}
+
+	@Override
+	public TripBucketItemHotel getItem() {
+		return Db.getTripBucket().getHotel();
+	}
 }
