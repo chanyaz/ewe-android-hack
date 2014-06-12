@@ -93,12 +93,8 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 
 	@Subscribe
 	public void onLaunchCollectionClicked(Events.LaunchCollectionClicked event) {
-		// Animate the map out
-
-		// Bind the new data
+		// TODO animation
 		renderMap(event.launchCollection);
-
-		// Animate the new pins in, with the new data
 	}
 
 	@Subscribe
@@ -188,7 +184,7 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		int otherPadding = getResources().getDimensionPixelSize(R.dimen.launch_pin_size);
 		int abHeight = getActivity().getActionBar().getHeight();
 		setPadding(otherPadding, otherPadding + abHeight, otherPadding, bottomPadding);
-		// TODO grab lat lngs from destination data type global data store
+
 		double[] latLngs = new double[launchCollection.locations.size() * 2];
 		for (int i = 0; i < launchCollection.locations.size(); i++) {
 			Location location = launchCollection.locations.get(i).location.getLocation();
@@ -223,7 +219,6 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		mRoot.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 	}
 
-	// TODO: this is all temporary
 	private void generatePins(LaunchCollection launchCollection) {
 		mPinC.removeAllViews();
 		for (LaunchLocation launchLocation : launchCollection.locations) {
