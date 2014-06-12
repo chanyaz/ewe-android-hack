@@ -21,6 +21,7 @@ import com.expedia.bookings.fragment.base.Fragment;
 import com.expedia.bookings.graphics.RoundBitmapDrawable;
 import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -54,7 +55,7 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 		return mRootC;
 	}
 
-	public void bind(Rect origin, LaunchLocation metadata) {
+	public void bind(Rect origin, final LaunchLocation metadata) {
 		//TODO: why doesn't this work? Rect localOrigin = ScreenPositionUtils.translateGlobalPositionToLocalPosition(origin, mRootC);
 		mPinOriginX = origin.left - mRoundImage.getLeft() - 64; // TODO: resource? or calculate "64"?
 		mPinOriginY = origin.top - mRoundImage.getTop() - 50 - 64; // TODO: resource? or calculate "50" (status bar?) and "64"?
@@ -68,6 +69,14 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 
 		TextView textDescription = Ui.findView(mRootC, R.id.text_description);
 		textDescription.setText(metadata.description);
+
+		TextView textBookNow = Ui.findView(mRootC, R.id.button_book_now);
+		textBookNow.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Events.post(new Events.SearchSuggestionSelected(metadata.location, null));
+			}
+		});
 	}
 
 	private SingleStateListener<LaunchState> mDetailsStateListener = new SingleStateListener<>(

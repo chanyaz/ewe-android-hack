@@ -339,12 +339,6 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	 */
 
 	@Subscribe
-	public void onTileClicked(Events.LaunchTileClicked event) {
-		// TODO re-render map
-		Ui.showToast(getActivity(), "wah wah wah");
-	}
-
-	@Subscribe
 	public void onMapPinClicked(Events.LaunchMapPinClicked event) {
 		mPinFragment.bind(event.origin, event.metadata);
 		setLaunchState(LaunchState.DETAILS, true);
@@ -383,15 +377,5 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		Db.deleteHotelSearchData(getActivity());
 
 		startActivity(new Intent(getActivity(), TabletResultsActivity.class));
-	}
-
-	/*
-	 * Otto events
-	 */
-
-	@Subscribe
-	public void onMapPinClicked(Events.LaunchMapPinClicked event) {
-		mPinFragment.bind(event.origin, event.metadata);
-		setLaunchState(LaunchState.DETAILS, true);
 	}
 }
