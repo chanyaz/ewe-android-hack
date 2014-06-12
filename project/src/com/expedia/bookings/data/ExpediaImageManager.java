@@ -309,7 +309,7 @@ public class ExpediaImageManager {
 	 */
 	public void loadDestinationBitmap(final ImageParams params, final L2ImageCache.OnBitmapLoaded callback) {
 		final String airportCode = !TextUtils.isEmpty(params.getDestinationId()) ? params.getDestinationId() : Sp.getParams().getDestination().getAirportCode();
-		final String bgdKey = generateBackgroundDownloaderKey(params.isBlur());
+		final String bgdKey = generateBackgroundDownloaderKey(airportCode, params.isBlur());
 
 		doImageDownload(airportCode, params.getWidth(), params.getHeight(), params.isBlur(), bgdKey, callback);
 	}
