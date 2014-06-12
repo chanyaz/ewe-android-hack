@@ -171,6 +171,15 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 			Color.parseColor("#ff131c33"),
 		};
 		mLinearGradDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, linearGradColors);
+
+		// Radial Gradient
+		int[] radialGradColors = new int[] {
+			Color.parseColor("#00000000"),
+			Color.parseColor("#5a000000"),
+		};
+		mRadialGradDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, radialGradColors);
+		mRadialGradDrawable.setGradientType(GradientDrawable.RADIAL_GRADIENT);
+		mRadialGradDrawable.setGradientCenter(0.5f, 0.5f);
 	}
 
 	private void generateMap(LaunchCollection launchCollection) {
@@ -196,15 +205,6 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		// Draw scaled and translated map
 		mMapDrawable = new SvgDrawable(getSvg(), getViewportMatrix());
 
-		// Radial Gradient
-		int[] radialGradColors = new int[] {
-			Color.parseColor("#00000000"),
-			Color.parseColor("#5a000000"),
-		};
-
-		mRadialGradDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, radialGradColors);
-		mRadialGradDrawable.setGradientType(GradientDrawable.RADIAL_GRADIENT);
-		mRadialGradDrawable.setGradientCenter(0.5f, 0.5f);
 		mRadialGradDrawable.setGradientRadius(Math.min(w, h) * 0.65f);
 
 		Drawable[] drawables = new Drawable[] {
