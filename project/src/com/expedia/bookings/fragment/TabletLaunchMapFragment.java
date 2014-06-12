@@ -96,7 +96,9 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 			public boolean onPreDraw() {
 				if (mRoot.getWidth() > 0) {
 					mRoot.getViewTreeObserver().removeOnPreDrawListener(this);
-					renderMap(event.collections.get(0));
+					if (event.collections != null && event.collections.size() > 0) {
+						renderMap(event.collections.get(0));
+					}
 				}
 				return true;
 			}
