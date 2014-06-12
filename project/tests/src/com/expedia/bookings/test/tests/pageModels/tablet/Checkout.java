@@ -113,6 +113,22 @@ public class Checkout {
 		return onView(withId(R.id.edit_creditcard_number));
 	}
 
+	public static ViewInteraction termsConditions() {
+		return onView(withId(R.id.terms_and_conditions));
+	}
+
+	public static ViewInteraction privacyPolicy() {
+		return onView(withId(R.id.privacy_policy));
+	}
+
+	public static ViewInteraction bestPriceGuarantee() {
+		return onView(withId(R.id.best_price_guarantee));
+	}
+
+	public static ViewInteraction cancellationPolicy() {
+		return onView(withId(R.id.cancellation_policy_header_text_view));
+	}
+
 	public static ViewInteraction nameOnCard() {
 		return onView(withId(R.id.edit_name_on_card));
 	}

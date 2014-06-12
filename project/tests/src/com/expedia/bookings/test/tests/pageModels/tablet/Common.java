@@ -32,6 +32,10 @@ public class Common {
 		v.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 	}
 
+	public static void enterLog(String TAG, String logText) {
+		android.util.Log.v(TAG, logText);
+	}
+
 	public static void pressBack() {
 		try {
 			Espresso.pressBack();
