@@ -22,8 +22,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LaunchCollection;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.graphics.SvgDrawable;
+import com.expedia.bookings.interfaces.ISingleStateListener;
+import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LaunchPin;
@@ -41,6 +43,8 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	private Drawable mTiledDotDrawable;
 	private GradientDrawable mLinearGradDrawable;
 	private GradientDrawable mRadialGradDrawable;
+
+	LaunchPin mClickedPin;
 
 	public static TabletLaunchMapFragment newInstance() {
 		TabletLaunchMapFragment frag = new TabletLaunchMapFragment();
@@ -64,6 +68,10 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRoot = (FrameLayout) super.onCreateView(inflater, container, savedInstanceState);
 		mPinC = Ui.findView(mRoot, R.id.pin_container);
+
+		TabletLaunchControllerFragment controller = (TabletLaunchControllerFragment) getParentFragment();
+		controller.registerStateListener(mDetailsStateListener, false);
+
 		return mRoot;
 	}
 
@@ -78,6 +86,10 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		super.onPause();
 		Events.unregister(this);
 	}
+
+	/*
+	 * Otto events
+	 */
 
 	@Subscribe
 	public void onLaunchCollectionClicked(Events.LaunchCollectionClicked event) {
@@ -105,13 +117,50 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		});
 	}
 
-	public void renderMap(LaunchCollection launchCollection) {
+	SingleStateListener mDetailsStateListener = new SingleStateListener<>(
+		LaunchState.DEFAULT, LaunchState.DETAILS, true, new ISingleStateListener() {
+		@Override
+		public void onStateTransitionStart(boolean isReversed) {
+			for (int i = 0; i < mPinC.getChildCount(); i++) {
+				View child = mPinC.getChildAt(i);
+				if (child instanceof LaunchPin) {
+					LaunchPin pin = (LaunchPin) child;
+					if (pin.equals(mClickedPin)) {
+						pin.setVisibility(View.INVISIBLE);
+					}
+				}
+			}
+		}
+
+		@Override
+		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
+			mPinC.setAlpha(1f - percentage);
+		}
+
+		@Override
+		public void onStateTransitionEnd(boolean isReversed) {
+
+		}
+
+		@Override
+		public void onStateFinalized(boolean isReversed) {
+			if (isReversed) {
+				for (int i = 0; i < mPinC.getChildCount(); i++) {
+					View child = mPinC.getChildAt(i);
+					child.setVisibility(View.VISIBLE);
+				}
+			}
+		}
+	}
+	);
+
+	/*
+	 * Private methods
+	 */
+
+	private void renderMap(LaunchCollection launchCollection) {
 		generateMap(launchCollection);
 		generatePins(launchCollection);
-	}
-
-	public ViewGroup getPinC() {
-		return mPinC;
 	}
 
 	private void init() {
@@ -182,7 +231,7 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		}
 	}
 
-	public void addPin(final LaunchLocation metadata) {
+	private void addPin(final LaunchLocation metadata) {
 		final LaunchPin pin = Ui.inflate(mInflater, R.layout.snippet_tablet_launch_map_pin, mRoot, false);
 		pin.bind(metadata);
 		mPinC.addView(pin);
@@ -190,6 +239,7 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		pin.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				mClickedPin = pin;
 				Events.post(new Events.LaunchMapPinClicked(pin.getGlobalOrigin(), metadata));
 			}
 		});

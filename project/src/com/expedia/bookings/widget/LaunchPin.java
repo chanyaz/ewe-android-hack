@@ -18,6 +18,8 @@ import com.mobiata.android.util.ViewUtils;
 
 public class LaunchPin extends TextView {
 
+	private LaunchLocation mLocation;
+
 	public LaunchPin(Context context) {
 		super(context);
 		init(context, null, 0);
@@ -36,7 +38,20 @@ public class LaunchPin extends TextView {
 	private void init(Context context, AttributeSet attrs, int defStyle) {
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof LaunchPin) {
+			LaunchPin p = (LaunchPin) o;
+			if (mLocation != null && p.mLocation != null) {
+				// TODO: better comparison than this?
+				return mLocation.title.equals(p.mLocation.title);
+			}
+		}
+		return false;
+	}
+
 	public void bind(LaunchLocation location) {
+		mLocation = location;
 		setPinText(location.title);
 		setPinImage(location.drawableId);
 	}

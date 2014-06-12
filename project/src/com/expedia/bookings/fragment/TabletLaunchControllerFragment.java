@@ -300,7 +300,6 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			// Slide the tiles and search bar down off the bottom of the screen
 			mSearchBarC.setTranslationY(percentage * mSearchBarY);
 			mTilesC.setTranslationY(percentage * mSearchBarY);
-			mMapFragment.getPinC().setAlpha(1f - percentage);
 		}
 
 		@Override
