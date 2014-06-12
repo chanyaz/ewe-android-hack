@@ -28,6 +28,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -182,6 +183,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		registerStateListener(mSearchStateHelper, false);
 		registerStateListener(new StateListenerLogger<ResultsSearchState>(), false);
 
+		if (!PointOfSale.getPointOfSale().supportsFlights()) {
+			mOrigBtn.setVisibility(View.GONE);
+		}
+
 		return view;
 	}
 
@@ -261,7 +266,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mCalBtn.setText(dateStr);
 		}
 		else {
-			mCalBtn.setText(R.string.choose_flight_dates);
+			if (PointOfSale.getPointOfSale().supportsFlights()) {
+				mCalBtn.setText(R.string.choose_flight_dates);
+			}
+			else {
+				mCalBtn.setText(R.string.choose_dates);
+			}
 		}
 	}
 
@@ -543,7 +553,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					FragmentTransaction transaction = manager.beginTransaction();
 					mDatesFragment = FragmentAvailabilityUtils.setFragmentAvailability(true, FTAG_CALENDAR, manager,
 						transaction, TabletResultsSearchControllerFragment.this, R.id.calendar_container, true);
-					mGdeFragment = FragmentAvailabilityUtils.setFragmentAvailability(true, FTAG_FLIGHTS_GDE, manager,
+					mGdeFragment = FragmentAvailabilityUtils.setFragmentAvailability(PointOfSale.getPointOfSale().supportsFlights(), FTAG_FLIGHTS_GDE, manager,
 						transaction, TabletResultsSearchControllerFragment.this, R.id.gde_container, true);
 					transaction.commit();
 				}
@@ -801,7 +811,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		boolean mParamFragsAvailable = state != ResultsSearchState.HOTELS_UP && state != ResultsSearchState.FLIGHTS_UP;
 
 		boolean mCalAvail = mParamFragsAvailable;
-		boolean mGdeAvail = mCalAvail;//Always shown with the calendar
+		boolean mGdeAvail = PointOfSale.getPointOfSale().supportsFlights(); //Always follows the POS
 		boolean mTravAvail = mParamFragsAvailable;
 		boolean mWaypointAvailable = mParamFragsAvailable;
 
@@ -820,7 +830,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				transaction, this, R.id.waypoint_container, false);
 
 		mCurrentLocationFragment = FragmentAvailabilityUtils
-			.setFragmentAvailability(!mLocalParams.hasOrigin(), FTAG_ORIGIN_LOCATION, manager, transaction, this, 0,
+			.setFragmentAvailability(!mLocalParams.hasOrigin() && mGdeAvail, FTAG_ORIGIN_LOCATION, manager, transaction, this, 0,
 				true);
 
 

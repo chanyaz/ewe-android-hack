@@ -32,6 +32,8 @@
     <string name="fly_from_TEMPLATE">Fly from %1$s</string>
     <!-- Choose flight dates -->
     <string name="choose_flight_dates">Choose flight dates</string>
+    <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
+    <string name="choose_dates">Choose dates</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">Hotels Tonight</string>
     <!-- Missing flight info header string "Missing search information!" -->

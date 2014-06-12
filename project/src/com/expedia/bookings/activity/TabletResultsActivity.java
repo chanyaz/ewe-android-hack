@@ -25,6 +25,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsState;
@@ -505,16 +506,21 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	};
 
 	private void updateMissingFlightInfoText() {
-		String missingSearchParams = null;
-		SearchParams sp = Sp.getParams();
-		if (sp.getOriginLocation(true) == null) {
-			missingSearchParams = getString(R.string.missing_flight_info_message, Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString());
-		}
-		else if (sp.getStartDate() == null) {
-			missingSearchParams = getString(R.string.missing_flight_trip_date_message);
-		}
+		if (PointOfSale.getPointOfSale().supportsFlights()) {
+			String missingSearchParams = null;
+			SearchParams sp = Sp.getParams();
+			if (sp.getOriginLocation(true) == null) {
+				missingSearchParams = getString(R.string.missing_flight_info_message, Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString());
+			}
+			else if (sp.getStartDate() == null) {
+				missingSearchParams = getString(R.string.missing_flight_trip_date_message);
+			}
 
-		mMissingFlightText.setText(missingSearchParams);
+			mMissingFlightText.setText(missingSearchParams);
+		}
+		else {
+			mMissingFlightText.setText(Html.fromHtml(getString(R.string.invalid_flights_pos).toString()));
+		}
 	}
 
 
