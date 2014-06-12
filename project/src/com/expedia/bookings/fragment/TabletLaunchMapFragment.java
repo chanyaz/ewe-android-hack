@@ -110,6 +110,10 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		generatePins(launchCollection);
 	}
 
+	public ViewGroup getPinC() {
+		return mPinC;
+	}
+
 	private void init() {
 		mBgColorDrawable = new ColorDrawable(Color.parseColor("#1b2747"));
 
