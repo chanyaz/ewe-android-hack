@@ -14,6 +14,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
+import com.expedia.bookings.data.SuggestionV2;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
 
@@ -388,6 +389,16 @@ public class Events {
 
 		public LaunchCollectionsAvailable(List<LaunchCollection> collections) {
 			this.collections = collections;
+		}
+	}
+
+	public static class SearchSuggestionSelected {
+		public final SuggestionV2 suggestion;
+		public final String queryText;
+
+		public SearchSuggestionSelected(SuggestionV2 suggestion, String queryText) {
+			this.suggestion = suggestion;
+			this.queryText = queryText;
 		}
 	}
 }

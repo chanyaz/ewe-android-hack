@@ -28,6 +28,7 @@ import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.fragment.SuggestionsFragment.SuggestionsFragmentListener;
 import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.section.AfterChangeTextWatcher;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
@@ -50,8 +51,6 @@ public class TabletWaypointFragment extends Fragment
 
 	public static interface ITabletWaypointFragmentListener {
 		public Rect getAnimOrigin();
-
-		public void onWaypointSearchComplete(TabletWaypointFragment caller, SuggestionV2 suggest, String qryText);
 	}
 
 	private SuggestionsFragment mSuggestionsFragment;
@@ -312,7 +311,7 @@ public class TabletWaypointFragment extends Fragment
 		}
 		else {
 			unsetLoadingAndError();
-			mListener.onWaypointSearchComplete(this, suggestion, qryText);
+			Events.post(new Events.SearchSuggestionSelected(suggestion, qryText));
 		}
 	}
 
@@ -476,7 +475,7 @@ public class TabletWaypointFragment extends Fragment
 	public void onCurrentLocation(Location location, SuggestionV2 suggestion) {
 		if (mLoadingLocation) {
 			unsetLoadingAndError();
-			mListener.onWaypointSearchComplete(this, suggestion, null);
+			Events.post(new Events.SearchSuggestionSelected(suggestion, null));
 		}
 	}
 

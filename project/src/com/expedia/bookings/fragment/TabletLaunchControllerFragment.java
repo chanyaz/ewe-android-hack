@@ -334,13 +334,29 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		return new Rect();
 	}
 
-	@Override
-	public void onWaypointSearchComplete(TabletWaypointFragment caller, SuggestionV2 suggest, String qryText) {
-		if (suggest != null) {
+	/*
+	 * Otto events
+	 */
+
+	@Subscribe
+	public void onTileClicked(Events.LaunchTileClicked event) {
+		// TODO re-render map
+		Ui.showToast(getActivity(), "wah wah wah");
+	}
+
+	@Subscribe
+	public void onMapPinClicked(Events.LaunchMapPinClicked event) {
+		mPinFragment.bind(event.origin, event.metadata);
+		setLaunchState(LaunchState.DETAILS, true);
+	}
+
+	@Subscribe
+	public void onSearchSuggestionSelected(Events.SearchSuggestionSelected event) {
+		if (event.suggestion != null) {
 			Sp.getParams().restoreToDefaults();
-			Sp.getParams().setDestination(suggest);
-			if (!TextUtils.isEmpty(qryText)) {
-				Sp.getParams().setCustomDestinationQryText(qryText);
+			Sp.getParams().setDestination(event.suggestion);
+			if (!TextUtils.isEmpty(event.queryText)) {
+				Sp.getParams().setCustomDestinationQryText(event.queryText);
 			}
 			else {
 				Sp.getParams().setDefaultCustomDestinationQryText();

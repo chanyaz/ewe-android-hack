@@ -39,6 +39,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
+import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -191,6 +192,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mMeasurementHelper.registerWithProvider(this);
 		mBackManager.registerWithParent(this);
 		Sp.getBus().register(this);
+		Events.register(this);
 		bindSearchBtns();
 	}
 
@@ -201,6 +203,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mMeasurementHelper.unregisterWithProvider(this);
 		mBackManager.unregisterWithParent(this);
 		Sp.getBus().unregister(this);
+		Events.unregister(this);
 	}
 
 	@Override
@@ -277,12 +280,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	public void showSearchBtns() {
 		mTravBtn.setVisibility(View.VISIBLE);
 		mCalBtn.setVisibility(View.VISIBLE);
-	}
-
-	@Subscribe
-	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
-		importParams();
-		bindSearchBtns();
 	}
 
 	protected void doSpUpdate() {
@@ -1071,30 +1068,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	 */
 
 	@Override
-	public void onWaypointSearchComplete(TabletWaypointFragment caller, SuggestionV2 suggest, String qryText) {
-		if (suggest != null && (mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN
-			|| mSearchStateManager.getState() == ResultsSearchState.DESTINATION)) {
-			boolean usingOrigin = mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN;
-			if (usingOrigin) {
-				mLocalParams.setOrigin(suggest);
-			}
-			else {
-				mLocalParams.setDestination(suggest);
-				if (!TextUtils.isEmpty(qryText)) {
-					mLocalParams.setCustomDestinationQryText(qryText);
-				}
-				else {
-					mLocalParams.setDefaultCustomDestinationQryText();
-				}
-			}
-			if (copyTempValuesToParams()) {
-				doSpUpdate();
-			}
-		}
-		setState(ResultsSearchState.DEFAULT, true);
-	}
-
-	@Override
 	public Rect getAnimOrigin() {
 		if (mWaypointAnimFromOrigin || mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN) {
 			return ScreenPositionUtils.getGlobalScreenPosition(mOrigBtn);
@@ -1118,4 +1091,39 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	public void onCurrentLocationError(int errorCode) {
 		//TODO: HANDLE ERRORS?
 	}
+
+	/*
+	 * Otto events
+	 */
+
+	@Subscribe
+	public void answerSearchParamUpdate(Sp.SpUpdateEvent event) {
+		importParams();
+		bindSearchBtns();
+	}
+
+	@Subscribe
+	public void onSearchSuggestionSelected(Events.SearchSuggestionSelected event) {
+		if (event.suggestion != null && (mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN
+			|| mSearchStateManager.getState() == ResultsSearchState.DESTINATION)) {
+			boolean usingOrigin = mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN;
+			if (usingOrigin) {
+				mLocalParams.setOrigin(event.suggestion);
+			}
+			else {
+				mLocalParams.setDestination(event.suggestion);
+				if (!TextUtils.isEmpty(event.queryText)) {
+					mLocalParams.setCustomDestinationQryText(event.queryText);
+				}
+				else {
+					mLocalParams.setDefaultCustomDestinationQryText();
+				}
+			}
+			if (copyTempValuesToParams()) {
+				doSpUpdate();
+			}
+		}
+		setState(ResultsSearchState.DEFAULT, true);
+	}
+
 }
