@@ -91,7 +91,7 @@ public class CollectionStack extends FrameLayout {
 		mIsStack = false;
 	}
 
-	public void setStackBackgroundDrawable(final int color, final String url) {
+	public void setStackDrawable(final String url) {
 		if (mIsStack) {
 			int gradColor;
 			HeaderBitmapDrawable drawable;
@@ -136,14 +136,11 @@ public class CollectionStack extends FrameLayout {
 		return headerBitmapDrawable;
 	}
 
-	public void setText(String upper, String lower) {
+	public void setText(String upper) {
 		TextAppearanceSpan upperSpan = new TextAppearanceSpan(getContext(), R.style.DestinationStackUpperTextAppearance);
-		TextAppearanceSpan lowerSpan = new TextAppearanceSpan(getContext(), R.style.DestinationStackLowerTextAppearance);
 
 		SpannableBuilder sb = new SpannableBuilder();
 		sb.append(upper, upperSpan);
-		sb.append("\n");
-		sb.append(lower, lowerSpan);
 
 		mTextView.setText(sb.build(), TextView.BufferType.SPANNABLE);
 	}
