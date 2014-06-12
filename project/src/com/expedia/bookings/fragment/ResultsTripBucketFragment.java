@@ -13,6 +13,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucket;
+import com.expedia.bookings.data.TripBucketItemFlight;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
@@ -53,6 +55,18 @@ public class ResultsTripBucketFragment extends Fragment
 		super.onActivityCreated(savedInstanceState);
 		if (Db.getTripBucket().isEmpty()) {
 			Db.loadTripBucket(getActivity());
+		}
+		if (Db.getTripBucket().getFlight() != null) {
+			TripBucketItemFlight flight = Db.getTripBucket().getFlight();
+			Db.getFlightSearch().clearSelectedLegs();
+			Db.getFlightSearch().setSearchParams(flight.getFlightSearchParams());
+			Db.getFlightSearch().setSelectedFlightTrip(flight.getFlightTrip());
+		}
+		if (Db.getTripBucket().getHotel() != null) {
+			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+			Db.getHotelSearch().setSelectedRate(hotel.getRate(), hotel.getHotelAvailability());
+			Db.getHotelSearch().setSelectedHotelAvailability(hotel.getHotelAvailability());
+			Db.getHotelSearch().setSelectedProperty(hotel.getProperty());
 		}
 	}
 
