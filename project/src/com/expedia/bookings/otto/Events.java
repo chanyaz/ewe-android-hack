@@ -50,7 +50,6 @@ import com.squareup.otto.Bus;
  * Always unregister in the onPause() to ensure that events are not consumed when not needed.
  * </code>
  * </p>
- *
  */
 public class Events {
 
@@ -128,9 +127,11 @@ public class Events {
 	/////////////////////////////////////////////////////////
 	/// TabletLaunchActivity related
 
-	public static class LaunchTileClicked {
-		public LaunchTileClicked() {
+	public static class LaunchCollectionClicked {
+		public final LaunchCollection launchCollection;
 
+		public LaunchCollectionClicked(LaunchCollection launchCollection) {
+			this.launchCollection = launchCollection;
 		}
 	}
 

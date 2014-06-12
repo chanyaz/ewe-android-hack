@@ -115,14 +115,14 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 		mItemsContainer.removeAllViews();
 	}
 
-	private void addCollection(LayoutInflater inflater, LaunchCollection collection) {
+	private void addCollection(LayoutInflater inflater, final LaunchCollection collection) {
 		CollectionStack c = (CollectionStack) inflater.inflate(R.layout.snippet_destination_stack, mItemsContainer, false);
 		c.setStackDrawable("http://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/LaunchDestinations/images/" + collection.imageCode + ".jpg");
 		c.setText(collection.title);
 		c.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Events.post(new Events.LaunchTileClicked());
+				Events.post(new Events.LaunchCollectionClicked(collection));
 			}
 		});
 

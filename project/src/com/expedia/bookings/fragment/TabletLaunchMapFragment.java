@@ -4,14 +4,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
-import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,31 +17,30 @@ import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LaunchCollection;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.SuggestionV2;
-import com.expedia.bookings.graphics.RoundBitmapDrawable;
 import com.expedia.bookings.graphics.SvgDrawable;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.ScreenPositionUtils;
-import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LaunchPin;
 import com.jhlabs.map.Point2D;
+import com.mobiata.android.Log;
+import com.squareup.otto.Subscribe;
 
 public class TabletLaunchMapFragment extends SvgMapFragment {
 	private LayoutInflater mInflater;
 	private FrameLayout mRoot;
-
-	private double[] mLatLngs;
+	private FrameLayout mPinC;
 
 	private ColorDrawable mBgColorDrawable;
+	private SvgDrawable mMapDrawable;
 	private Drawable mTiledDotDrawable;
 	private GradientDrawable mLinearGradDrawable;
+	private GradientDrawable mRadialGradDrawable;
 
 	public static TabletLaunchMapFragment newInstance() {
 		TabletLaunchMapFragment frag = new TabletLaunchMapFragment();
@@ -67,28 +63,49 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRoot = (FrameLayout) super.onCreateView(inflater, container, savedInstanceState);
+		mPinC = Ui.findView(mRoot, R.id.pin_container);
+		return mRoot;
+	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		Events.register(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		Events.unregister(this);
+	}
+
+	@Subscribe
+	public void onLaunchCollectionClicked(Events.LaunchCollectionClicked event) {
+		// Animate the map out
+
+		// Bind the new data
+		renderMap(event.launchCollection);
+
+		// Animate the new pins in, with the new data
+	}
+
+	@Subscribe
+	public void onLaunchCollectionsAvailable(final Events.LaunchCollectionsAvailable event) {
 		mRoot.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
 				if (mRoot.getWidth() > 0) {
 					mRoot.getViewTreeObserver().removeOnPreDrawListener(this);
-					renderMap();
+					renderMap(event.collections.get(0));
 				}
 				return true;
 			}
 		});
-
-		return mRoot;
 	}
 
-	public void setLatLngs(double... latLngs) {
-		mLatLngs = latLngs;
-	}
-
-	public void renderMap() {
-		generateMap();
-		generatePins();
+	public void renderMap(LaunchCollection launchCollection) {
+		generateMap(launchCollection);
+		generatePins(launchCollection);
 	}
 
 	private void init() {
@@ -105,7 +122,7 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		mLinearGradDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, linearGradColors);
 	}
 
-	private void generateMap() {
+	private void generateMap(LaunchCollection launchCollection) {
 		int w = getMapView().getWidth();
 		int h = getMapView().getHeight();
 
@@ -117,17 +134,16 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		int abHeight = getActivity().getActionBar().getHeight();
 		setPadding(otherPadding, otherPadding + abHeight, otherPadding, bottomPadding);
 		// TODO grab lat lngs from destination data type global data store
-		mLatLngs = new double[] {
-			37.770715, -122.405033,
-			41.893077, 12.481627,
-			40.425519, -3.709366,
-			25.797418, -80.226341,
-			45.525592, -73.553681
-		};
-		setBounds(mLatLngs);
+		double[] latLngs = new double[launchCollection.locations.size() * 2];
+		for (int i = 0; i < launchCollection.locations.size(); i++) {
+			Location location = launchCollection.locations.get(i).location.getLocation();
+			latLngs[2 * i] = location.getLatitude();
+			latLngs[2 * i + 1] = location.getLongitude();
+		}
+		setBounds(latLngs);
 
 		// Draw scaled and translated map
-		SvgDrawable mapDrawable = new SvgDrawable(getSvg(), getViewportMatrix());
+		mMapDrawable = new SvgDrawable(getSvg(), getViewportMatrix());
 
 		// Radial Gradient
 		int[] radialGradColors = new int[] {
@@ -135,17 +151,17 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 			Color.parseColor("#5a000000"),
 		};
 
-		GradientDrawable radialGradDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, radialGradColors);
-		radialGradDrawable.setGradientType(GradientDrawable.RADIAL_GRADIENT);
-		radialGradDrawable.setGradientCenter(0.5f, 0.5f);
-		radialGradDrawable.setGradientRadius(Math.min(w, h) * 0.65f);
+		mRadialGradDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, radialGradColors);
+		mRadialGradDrawable.setGradientType(GradientDrawable.RADIAL_GRADIENT);
+		mRadialGradDrawable.setGradientCenter(0.5f, 0.5f);
+		mRadialGradDrawable.setGradientRadius(Math.min(w, h) * 0.65f);
 
 		Drawable[] drawables = new Drawable[] {
 			mBgColorDrawable,
-			mapDrawable,
+			mMapDrawable,
 			mTiledDotDrawable,
 			mLinearGradDrawable,
-			radialGradDrawable,
+			mRadialGradDrawable,
 		};
 		LayerDrawable allDrawables = new LayerDrawable(drawables);
 		getMapView().setBackgroundDrawable(allDrawables);
@@ -153,39 +169,17 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	}
 
 	// TODO: this is all temporary
-	private void generatePins() {
-		// TODO use data from launch JSON
-		addPin(37.770715, -122.405033, "San Francisco", "From $320", R.drawable.mappin_sanfrancisco);
-		addPin(41.893077, 12.481627, "Rome", "From $240", R.drawable.mappin_rome);
-		addPin(40.425519, -3.709366, "Madrid", "From $450", R.drawable.mappin_madrid);
-		addPin(25.797418, -80.226341, "Miami", "From $140", R.drawable.mappin_miami);
-		addPin(45.525592, -73.553681, "Montreal", "From $100", R.drawable.mappin_montreal);
-	}
-
-	// TODO: this is all temporary
-	public void addPin(final double lat, final double lon, String name, String price, int drawableId) {
-		LaunchLocation metadata = new LaunchLocation();
-		metadata.title = name;
-		metadata.description = price;
-		metadata.id = "";
-		metadata.imageCode = "";
-
-		SuggestionV2 suggestion = new SuggestionV2();
-		suggestion.setDisplayName(name);
-		Location location = new Location();
-		location.setLatitude(lat);
-		location.setLongitude(lon);
-		suggestion.setLocation(location);
-		metadata.location = suggestion;
-
-		metadata.drawableId = drawableId;
-		addPin(metadata);
+	private void generatePins(LaunchCollection launchCollection) {
+		mPinC.removeAllViews();
+		for (LaunchLocation launchLocation : launchCollection.locations) {
+			addPin(launchLocation);
+		}
 	}
 
 	public void addPin(final LaunchLocation metadata) {
 		final LaunchPin pin = Ui.inflate(mInflater, R.layout.snippet_tablet_launch_map_pin, mRoot, false);
 		pin.bind(metadata);
-		mRoot.addView(pin);
+		mPinC.addView(pin);
 
 		pin.setOnClickListener(new View.OnClickListener() {
 			@Override

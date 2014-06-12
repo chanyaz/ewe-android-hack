@@ -37,7 +37,7 @@ public class LaunchPin extends TextView {
 	}
 
 	public void bind(LaunchLocation location) {
-		setPinText(location.title, location.description);
+		setPinText(location.title);
 		setPinImage(location.drawableId);
 	}
 
@@ -54,21 +54,18 @@ public class LaunchPin extends TextView {
 		return origin;
 	}
 
-	private void setPinText(String upper, String lower) {
+	private void setPinText(String upper) {
 		TextAppearanceSpan upperSpan = new TextAppearanceSpan(getContext(), R.style.MapPinUpperTextAppearance);
-		TextAppearanceSpan lowerSpan = new TextAppearanceSpan(getContext(), R.style.MapPinLowerTextAppearance);
 
 		SpannableBuilder sb = new SpannableBuilder();
 		sb.append(upper, upperSpan);
-		sb.append("\n");
-		sb.append(lower, lowerSpan, FontCache.getSpan(FontCache.Font.ROBOTO_LIGHT));
 
 		setText(sb.build(), android.widget.TextView.BufferType.SPANNABLE);
 	}
 
 	private void setPinImage(int drawableId) {
 		//TODO: float size = getResources().getDimensionPixelSize(R.dimen.launch_pin_size);
-		Drawable d = new RoundBitmapDrawable(getContext(), drawableId);
+		Drawable d = new RoundBitmapDrawable(getContext(), R.drawable.mappin_madrid);
 
 		setCompoundDrawablesWithIntrinsicBounds(null, d, null, null);
 	}

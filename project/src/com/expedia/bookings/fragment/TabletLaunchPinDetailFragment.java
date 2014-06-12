@@ -61,7 +61,7 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 		mScaleOrigin = (float) origin.width() / (float) getResources().getDimensionPixelSize(R.dimen.launch_pin_detail_size);
 
 		ImageView roundImage = Ui.findView(mRootC, R.id.round_image);
-		roundImage.setImageDrawable(new RoundBitmapDrawable(getActivity(), metadata.drawableId));
+		roundImage.setImageDrawable(new RoundBitmapDrawable(getActivity(), R.drawable.mappin_madrid));
 
 		TextView textTitle = Ui.findView(mRootC, R.id.text_title);
 		textTitle.setText(metadata.title);
