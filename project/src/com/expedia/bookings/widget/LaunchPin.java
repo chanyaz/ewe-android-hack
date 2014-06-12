@@ -1,41 +1,41 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LaunchLocation;
-import com.expedia.bookings.graphics.RoundBitmapDrawable;
-import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
-import com.mobiata.android.util.ViewUtils;
+import com.expedia.bookings.utils.Ui;
 
-public class LaunchPin extends TextView {
+public class LaunchPin extends FrameLayout {
+
+	private ImageView mImageView;
+	private TextView mTextView;
 
 	private LaunchLocation mLocation;
 
 	public LaunchPin(Context context) {
 		super(context);
-		init(context, null, 0);
 	}
 
 	public LaunchPin(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init(context, attrs, 0);
 	}
 
 	public LaunchPin(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		init(context, attrs, defStyle);
 	}
 
-	private void init(Context context, AttributeSet attrs, int defStyle) {
+	@Override
+	protected void onFinishInflate() {
+		super.onFinishInflate();
+		mImageView = Ui.findView(this, R.id.launch_pin_image_view);
+		mTextView = Ui.findView(this, R.id.launch_pin_text_view);
 	}
 
 	@Override
@@ -53,11 +53,11 @@ public class LaunchPin extends TextView {
 	public void bind(LaunchLocation location) {
 		mLocation = location;
 		setPinText(location.title);
-		setPinImage(location.drawableId);
 	}
 
 	/**
 	 * Returns a Rect matching the global location of the circle on the screen.
+	 *
 	 * @return
 	 */
 	public Rect getGlobalOrigin() {
@@ -75,14 +75,7 @@ public class LaunchPin extends TextView {
 		SpannableBuilder sb = new SpannableBuilder();
 		sb.append(upper, upperSpan);
 
-		setText(sb.build(), android.widget.TextView.BufferType.SPANNABLE);
-	}
-
-	private void setPinImage(int drawableId) {
-		//TODO: float size = getResources().getDimensionPixelSize(R.dimen.launch_pin_size);
-		Drawable d = new RoundBitmapDrawable(getContext(), R.drawable.mappin_madrid);
-
-		setCompoundDrawablesWithIntrinsicBounds(null, d, null, null);
+		mTextView.setText(sb.build(), android.widget.TextView.BufferType.SPANNABLE);
 	}
 
 }
