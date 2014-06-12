@@ -7,6 +7,8 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
@@ -16,6 +18,8 @@ public class LaunchPin extends FrameLayout {
 
 	private ImageView mImageView;
 	private TextView mTextView;
+
+	private int mImageSize;
 
 	private LaunchLocation mLocation;
 
@@ -36,6 +40,8 @@ public class LaunchPin extends FrameLayout {
 		super.onFinishInflate();
 		mImageView = Ui.findView(this, R.id.launch_pin_image_view);
 		mTextView = Ui.findView(this, R.id.launch_pin_text_view);
+
+		mImageSize = getResources().getDimensionPixelSize(R.dimen.launch_pin_size);
 	}
 
 	@Override
@@ -52,6 +58,7 @@ public class LaunchPin extends FrameLayout {
 
 	public void bind(LaunchLocation location) {
 		mLocation = location;
+		setPinImage(location);
 		setPinText(location.title);
 	}
 
@@ -67,6 +74,15 @@ public class LaunchPin extends FrameLayout {
 		origin.left = (origin.left + origin.right - size) / 2;
 		origin.right = origin.left + size;
 		return origin;
+	}
+
+	private void setPinImage(LaunchLocation location) {
+		ExpediaImageManager.ImageParams params = new ExpediaImageManager.ImageParams();
+		params.setDestinationId(location.location.getAirportCode());
+		params.setWidth(mImageSize);
+		params.setHeight(mImageSize);
+
+		L2ImageCache.sGeneralPurpose.loadImage(location.getImageUrl(), mImageView);
 	}
 
 	private void setPinText(String upper) {
