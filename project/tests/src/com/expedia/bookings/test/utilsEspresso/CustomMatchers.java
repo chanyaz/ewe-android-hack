@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.apps.common.testing.ui.espresso.matcher.BoundedMatcher;
@@ -35,6 +36,20 @@ public class CustomMatchers {
 					}
 				}
 				return false;
+			}
+		};
+	}
+
+	public static Matcher<View> withImageDrawable(final int resourceId) {
+		return new BoundedMatcher<View, ImageView>(ImageView.class) {
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("has image drawable resource " + resourceId);
+			}
+
+			@Override
+			public boolean matchesSafely(ImageView imageView) {
+				return sameBitmap(imageView.getContext(), imageView.getDrawable(), resourceId);
 			}
 		};
 	}
