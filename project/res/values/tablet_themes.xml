@@ -16,6 +16,7 @@
 
     <!-- Values that go into every *activity*.  Don't put anything here unless you want it in every *activity* -->
     <style name="V2.Theme.Activity">
+        <item name="android:actionOverflowButtonStyle">@style/V2.Widget.ActionBar.ActionButton.Overflow</item>
 
         <!-- Custom attrs for Expedia/VSC switching -->
         <item name="hotelPriceStandardColor">#ffffff</item>
@@ -110,7 +111,6 @@
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletCheckout</item>
         <item name="android:homeAsUpIndicator">@drawable/abs__ic_ab_back_holo_light</item>
-        <item name="android:actionOverflowButtonStyle">@android:style/Widget.Holo.Light.ActionButton.Overflow</item>
     </style>
 
     <!-- Action bar styling; directly linked to themes so not moving too far away -->
@@ -140,6 +140,10 @@
 
     <style name="V2.Widget.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title" tools:targetApi="14">
         <item name="android:textColor">@color/tablet_checkout_dark</item>
+    </style>
+
+    <style name="V2.Widget.ActionBar.ActionButton.Overflow" parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_tablet_overflow</item>
     </style>
 
     <!-- Calendar styling -->
