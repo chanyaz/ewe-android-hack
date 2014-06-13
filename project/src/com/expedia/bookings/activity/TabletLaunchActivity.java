@@ -142,6 +142,10 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case android.R.id.home: {
+			mBackManager.doOnBackPressed();
+			return true;
+		}
 		case R.id.menu_your_trips: {
 			startActivity(ItineraryActivity.createIntent(this));
 			return true;
@@ -189,7 +193,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 			frag = new TabletLaunchControllerFragment();
 		}
 		return frag;
-	};
+	}
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {

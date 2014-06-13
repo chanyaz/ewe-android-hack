@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -17,7 +18,6 @@ import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.Sp;
-import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -27,7 +27,6 @@ import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
-import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
@@ -315,12 +314,26 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			if (!isReversed) {
 				mSearchBarC.setVisibility(View.INVISIBLE);
 				mTilesC.setVisibility(View.INVISIBLE);
+
+				ActionBar ab = getActivity().getActionBar();
+				ab.setTitle(R.string.Destination);
+				ab.setDisplayHomeAsUpEnabled(true);
+				ab.setDisplayShowTitleEnabled(true);
+				ab.setDisplayUseLogoEnabled(false);
+				ab.setHomeButtonEnabled(true);
 			}
 			if (isReversed) {
 				mPinDetailC.setVisibility(View.INVISIBLE);
+
+				ActionBar ab = getActivity().getActionBar();
+				ab.setDisplayHomeAsUpEnabled(false);
+				ab.setDisplayShowTitleEnabled(false);
+				ab.setDisplayUseLogoEnabled(true);
+				ab.setHomeButtonEnabled(false);
 			}
 		}
-	});
+	}
+	);
 
 	/*
 	 * TabletWaypointFragment.ITabletWaypointFragmentListener
