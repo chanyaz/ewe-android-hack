@@ -20,8 +20,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearch;
-import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -30,6 +30,7 @@ import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.RateBreakdown;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
@@ -132,8 +133,10 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 	public static BreakdownDialogFragment buildHotelRateBreakdownDialog(Context context, HotelSearch search) {
 		Resources res = context.getResources();
-		HotelSearchParams params = search.getSearchParams();
-		Rate originalRate = search.getSelectedRate();
+		TripBucketItemHotel tripBucketHotel = Db.getTripBucket().getHotel();
+		boolean hasTripBucketHotel = tripBucketHotel != null;
+		HotelSearchParams params = (hasTripBucketHotel) ? tripBucketHotel.getHotelSearchParams() : search.getSearchParams();
+		Rate originalRate = search.getCheckoutRate();
 		Rate couponRate = search.getCouponRate();
 
 		Builder builder = new Builder();
@@ -267,7 +270,6 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 	public static BreakdownDialogFragment buildFlightBreakdownDialog(Context context, FlightSearch search,
 																	 BillingInfo billingInfo) {
-		FlightSearchParams params = search.getSearchParams();
 		FlightTrip trip = search.getSelectedFlightTrip();
 
 		Builder builder = new Builder();

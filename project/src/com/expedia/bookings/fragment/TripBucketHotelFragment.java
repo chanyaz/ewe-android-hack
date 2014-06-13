@@ -103,9 +103,9 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	}
 
 	private void bindToDbHotelSearch() {
-		HotelSearch search = Db.getHotelSearch();
-		if (search != null) {
-			HotelSearchParams params = search.getSearchParams();
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		if (hotel != null) {
+			HotelSearchParams params = hotel.getHotelSearchParams();
 			if (params != null) {
 				//Dates
 				LocalDate checkIn = params.getCheckInDate();

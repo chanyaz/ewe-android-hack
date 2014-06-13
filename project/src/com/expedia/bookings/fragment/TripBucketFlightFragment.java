@@ -242,12 +242,12 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 			mPriceTv.setText(price);
 		}
 
-		FlightSearch search = Db.getFlightSearch();
-		if (search != null) {
-			FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+		TripBucketItemFlight flight = Db.getTripBucket().getFlight();
+		if (flight != null) {
+			FlightSearchParams params = flight.getFlightSearchParams();
 			if (params != null) {
 				// Num travelers
-				int numTravelers = Db.getFlightSearch().getSearchParams().getNumTravelers();
+				int numTravelers = Db.getTripBucket().getFlight().getFlightSearchParams().getNumTravelers();
 				String numTravStr = getResources()
 					.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers,
 						numTravelers);
