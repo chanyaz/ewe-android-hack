@@ -149,6 +149,10 @@ public class ResultsFlightAddToTrip extends Fragment {
 				resetFlightCard();
 				mBucketFlightC.setAlpha(0f);
 				mBucketFlightC.setVisibility(View.VISIBLE);
+				if (mBucketFlightFrag != null && mBucketFlightFrag.isResumed()) {
+					//Bind it up fool!
+					mBucketFlightFrag.bind();
+				}
 			}
 			else if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
