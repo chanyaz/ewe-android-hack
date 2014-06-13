@@ -204,15 +204,15 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	}
 
 	public Rect getAddTripRect() {
-		if (mAddToTripFrag == null || !mAddToTripFrag.isResumed()) {
-			return new Rect();
+		if(mAddToTripFrag != null){
+			return mAddToTripFrag.getCenteredAddToTripRect();
 		}
-		return mAddToTripFrag.getRowRect();
+		return new Rect();
 	}
 
 	public void setAnimateToBucketRect(Rect globalRect) {
-		if (mAddToTripFrag != null && mAddToTripFrag.isResumed()) {
-			mAddToTripFrag.setDestRect(globalRect);
+		if (mAddToTripFrag != null) {
+			mAddToTripFrag.setGlobalDestinationRect(globalRect);
 		}
 	}
 

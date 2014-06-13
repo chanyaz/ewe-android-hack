@@ -37,7 +37,8 @@ public class ResultsFlightAddToTrip extends Fragment {
 	// Views
 	private ViewGroup mRootC;
 	private ViewGroup mBucketFlightC;
-	private Rect mDestRect;
+	private Rect mGlobalDestRect;
+	private Rect mLocalDestRect;
 	private TripBucketFlightFragment mBucketFlightFrag;
 
 	@Override
@@ -62,6 +63,8 @@ public class ResultsFlightAddToTrip extends Fragment {
 			transaction.commit();
 		}
 
+		setGlobalDestinationRect(mGlobalDestRect);
+
 		return mRootC;
 	}
 
@@ -77,27 +80,53 @@ public class ResultsFlightAddToTrip extends Fragment {
 		mFlightsStateHelper.unregisterWithProvider(this);
 	}
 
-	public Rect getRowRect() {
+	public Rect getCenteredAddToTripRect() {
 		if (mBucketFlightC != null) {
-			return ScreenPositionUtils.getGlobalScreenPosition(mBucketFlightC);
+			Rect bucketFlightRect = ScreenPositionUtils.getGlobalScreenPosition(mBucketFlightC);
+			if (mGlobalDestRect != null && mGlobalDestRect.width() > 0 && mRootC != null && mRootC.getWidth() > 0) {
+				if (bucketFlightRect.width() != mGlobalDestRect.width()) {
+					float halfWidth = bucketFlightRect.width() / 2f;
+					float centerX = mRootC.getWidth() / 2f;
+					//Center and size
+					bucketFlightRect.left = (int) (centerX - halfWidth);
+					bucketFlightRect.right = (int) (centerX + halfWidth);
+				}
+				if (bucketFlightRect.height() != mGlobalDestRect.height()) {
+					float halfHeight = bucketFlightRect.height() / 2f;
+					float centerY = mRootC.getHeight() / 2f;
+					//Center and size
+					bucketFlightRect.top = (int) (centerY - halfHeight);
+					bucketFlightRect.bottom = (int) (centerY + halfHeight);
+				}
+			}
+			return bucketFlightRect;
 		}
 		return new Rect();
 	}
 
-	public void setDestRect(Rect globalDestinationRect) {
-		mDestRect = ScreenPositionUtils.translateGlobalPositionToLocalPosition(globalDestinationRect, mRootC);
 
-		if (mBucketFlightC != null && mDestRect != null && mDestRect.height() > 0 && mDestRect.width() > 0) {
-			ViewGroup.LayoutParams params = mBucketFlightC.getLayoutParams();
-			if (params == null || params.height != mDestRect.height() || params.width != mDestRect.width()) {
-				if (params == null) {
-					params = new ViewGroup.LayoutParams(mDestRect.width(), mDestRect.height());
+	public void setGlobalDestinationRect(Rect globalDestinationRect) {
+		if (globalDestinationRect != null) {
+			mGlobalDestRect = globalDestinationRect;
+			if (mRootC != null) {
+				mLocalDestRect = ScreenPositionUtils
+					.translateGlobalPositionToLocalPosition(globalDestinationRect, mRootC);
+
+				if (mBucketFlightC != null && mLocalDestRect != null && mLocalDestRect.height() > 0
+					&& mLocalDestRect.width() > 0) {
+					ViewGroup.LayoutParams params = mBucketFlightC.getLayoutParams();
+					if (params == null || params.height != mLocalDestRect.height() || params.width != mLocalDestRect
+						.width()) {
+						if (params == null) {
+							params = new ViewGroup.LayoutParams(mLocalDestRect.width(), mLocalDestRect.height());
+						}
+						else {
+							params.height = mLocalDestRect.height();
+							params.width = mLocalDestRect.width();
+						}
+						mBucketFlightC.setLayoutParams(params);
+					}
 				}
-				else {
-					params.height = mDestRect.height();
-					params.width = mDestRect.width();
-				}
-				mBucketFlightC.setLayoutParams(params);
 			}
 		}
 	}
@@ -124,8 +153,9 @@ public class ResultsFlightAddToTrip extends Fragment {
 			else if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				resetFlightCard();
-				mCurve = CubicBezierAnimation.newOutsideInAnimation(0, 0, mDestRect.left - mBucketFlightC.getLeft(),
-					mDestRect.top - mBucketFlightC.getTop());
+				mCurve = CubicBezierAnimation
+					.newOutsideInAnimation(0, 0, mLocalDestRect.left - mBucketFlightC.getLeft(),
+						mLocalDestRect.top - mBucketFlightC.getTop());
 				mBucketFlightC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 			}
 		}
@@ -145,8 +175,8 @@ public class ResultsFlightAddToTrip extends Fragment {
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 
 
-				float endScaleX = mDestRect.width() / (float) mBucketFlightC.getWidth();
-				float endScaleY = mDestRect.height() / (float) mBucketFlightC.getHeight();
+				float endScaleX = mLocalDestRect.width() / (float) mBucketFlightC.getWidth();
+				float endScaleY = mLocalDestRect.height() / (float) mBucketFlightC.getHeight();
 				float scaleX = 1f + percentage * (endScaleX - 1f);
 				float scaleY = 1f + percentage * (endScaleY - 1f);
 				mBucketFlightC.setPivotX(0);
