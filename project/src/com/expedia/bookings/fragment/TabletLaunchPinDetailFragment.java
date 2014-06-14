@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.enums.LaunchState;
 import com.expedia.bookings.fragment.base.Fragment;
@@ -18,10 +20,11 @@ import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.RoundImageView;
 
 public class TabletLaunchPinDetailFragment extends Fragment {
 	private ViewGroup mRootC;
-	private View mRoundImage;
+	private RoundImageView mRoundImage;
 	private View mTextLayout;
 
 	private int mPinOriginX = -100;
@@ -54,8 +57,20 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 		mPinOriginY = origin.top - mRoundImage.getTop() - 50 - 64; // TODO: resource? or calculate "50" (status bar?) and "64"?
 		mScaleOrigin = (float) origin.width() / (float) getResources().getDimensionPixelSize(R.dimen.launch_pin_detail_size);
 
-		ImageView roundImage = Ui.findView(mRootC, R.id.round_image);
-		L2ImageCache.sGeneralPurpose.loadImage(metadata.getImageUrl(), roundImage);
+		final RoundImageView roundImage = Ui.findView(mRootC, R.id.round_image);
+
+		UrlBitmapDrawable bitmap = UrlBitmapDrawable.loadImageView(metadata.getImageUrl(), roundImage);
+		bitmap.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
+			@Override
+			public void onBitmapLoaded(String url, Bitmap bitmap) {
+				roundImage.setImageBitmap(bitmap);
+			}
+
+			@Override
+			public void onBitmapLoadFailed(String url) {
+
+			}
+		});
 
 		TextView textTitle = Ui.findView(mRootC, R.id.text_title);
 		textTitle.setText(metadata.title);

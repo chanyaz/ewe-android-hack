@@ -52,7 +52,7 @@
     </LinearLayout>
 
     <!-- Keep this on top, in the z-order, for animation -->
-    <ImageView
+    <com.expedia.bookings.widget.RoundImageView
         android:id="@+id/round_image"
         android:layout_width="150dp"
         android:layout_height="150dp"
