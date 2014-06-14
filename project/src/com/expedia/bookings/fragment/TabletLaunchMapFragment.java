@@ -160,7 +160,7 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	}
 
 	private void init() {
-		mBgColorDrawable = new ColorDrawable(Color.parseColor("#1b2747"));
+		mBgColorDrawable = new ColorDrawable(getResources().getColor(R.color.tablet_launch_bg));
 
 		mTiledDotDrawable = getResources().getDrawable(R.drawable.tiled_dot);
 

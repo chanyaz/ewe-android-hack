@@ -163,6 +163,7 @@
     <color name="dialog_window_holo_blue_light">#ff33b5e5</color>
 
     <!-- Tablet colors -->
+    <color name="tablet_launch_bg">#1b2747</color>
     <color name="tablet_grey_pane_bg">#f2f2f2</color>
     <color name="tablet_white_pane_bg">#ffffff</color>
     <color name="tablet_results_ab_default">@android:color/transparent</color>

@@ -54,8 +54,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 		mRootC = Ui.findView(this, R.id.root_layout);
 
-		getWindow().setBackgroundDrawable(null);
-
 		android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 		mControllerFragment = FragmentAvailabilityUtils.setFragmentAvailability(
