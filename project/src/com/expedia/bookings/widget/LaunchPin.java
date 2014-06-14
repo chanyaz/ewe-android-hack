@@ -1,13 +1,14 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
@@ -15,7 +16,7 @@ import com.expedia.bookings.utils.Ui;
 
 public class LaunchPin extends FrameLayout {
 
-	private ImageView mImageView;
+	private RoundImageView mImageView;
 	private TextView mTextView;
 
 	private LaunchLocation mLocation;
@@ -53,7 +54,7 @@ public class LaunchPin extends FrameLayout {
 
 	public void bind(LaunchLocation location) {
 		mLocation = location;
-		setPinImage(location);
+		retrieveImage(location);
 		setPinText(location.title);
 	}
 
@@ -71,8 +72,19 @@ public class LaunchPin extends FrameLayout {
 		return origin;
 	}
 
-	private void setPinImage(LaunchLocation location) {
-		L2ImageCache.sGeneralPurpose.loadImage(location.getImageUrl(), mImageView);
+	private void retrieveImage(LaunchLocation location) {
+		UrlBitmapDrawable bitmap = UrlBitmapDrawable.loadImageView(location.getImageUrl(), mImageView);
+		bitmap.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
+			@Override
+			public void onBitmapLoaded(String url, Bitmap bitmap) {
+				mImageView.setImageBitmap(bitmap);
+			}
+
+			@Override
+			public void onBitmapLoadFailed(String url) {
+
+			}
+		});
 	}
 
 	private void setPinText(String upper) {
