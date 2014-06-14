@@ -32,6 +32,7 @@ import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
@@ -61,6 +62,9 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	private DestinationTilesFragment mTilesFragment;
 	private TabletWaypointFragment mWaypointFragment;
 	private TabletLaunchPinDetailFragment mPinFragment;
+
+	private TextView mAbText1;
+	private TextView mAbText2;
 
 	//vars
 	private StateManager<LaunchState> mStateManager = new StateManager<>(LaunchState.DEFAULT, this);
@@ -109,6 +113,19 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			mStateManager.setDefaultState(LaunchState.valueOf(savedInstanceState.getString(
 				STATE_LAUNCH_STATE, LaunchState.DEFAULT.name())));
 		}
+
+		ActionBar ab = getActivity().getActionBar();
+		ab.setDisplayShowCustomEnabled(true);
+		ab.setCustomView(R.layout.actionbar_tablet_title);
+
+		mAbText1 = Ui.findView(ab.getCustomView(), R.id.text1);
+		mAbText1.setText(R.string.Explore);
+		mAbText2 = Ui.findView(ab.getCustomView(), R.id.text2);
+		mAbText2.setText(R.string.Destination);
+		mAbText2.setAlpha(0f);
+
+		ab.setDisplayHomeAsUpEnabled(false);
+		ab.setHomeButtonEnabled(false);
 
 		registerStateListener(mDetailsStateListener, false);
 		registerStateListener(mWaypointStateListener, false);
@@ -265,9 +282,11 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		@Override
 		public void onStateFinalized(boolean isReversed) {
 			if (!isReversed) {
+				getActivity().getActionBar().hide();
 				mTilesC.setVisibility(View.INVISIBLE);
 			}
 			else {
+				getActivity().getActionBar().show();
 				mSearchBarC.setVisibility(View.VISIBLE);
 				mWaypointC.setVisibility(View.INVISIBLE);
 			}
@@ -284,6 +303,10 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		public void onStateTransitionStart(boolean isReversed) {
 			mSearchBarY = mRootC.getHeight() - mSearchBarC.getTop();
 
+			ActionBar ab = getActivity().getActionBar();
+			mAbText1 = Ui.findView(ab.getCustomView(), R.id.text1);
+			mAbText2 = Ui.findView(ab.getCustomView(), R.id.text2);
+
 			mSearchBarC.setVisibility(View.VISIBLE);
 			mTilesC.setVisibility(View.VISIBLE);
 			mPinDetailC.setVisibility(View.VISIBLE);
@@ -299,6 +322,8 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			// Slide the tiles and search bar down off the bottom of the screen
 			mSearchBarC.setTranslationY(percentage * mSearchBarY);
 			mTilesC.setTranslationY(percentage * mSearchBarY);
+			mAbText1.setAlpha(1f - percentage);
+			mAbText2.setAlpha(percentage);
 		}
 
 		@Override
@@ -311,25 +336,16 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			mSearchBarC.setTranslationY(0f);
 			mTilesC.setTranslationY(0f);
 
+			ActionBar ab = getActivity().getActionBar();
+			ab.setDisplayHomeAsUpEnabled(!isReversed);
+			ab.setHomeButtonEnabled(!isReversed);
+
 			if (!isReversed) {
 				mSearchBarC.setVisibility(View.INVISIBLE);
 				mTilesC.setVisibility(View.INVISIBLE);
-
-				ActionBar ab = getActivity().getActionBar();
-				ab.setTitle(R.string.Destination);
-				ab.setDisplayHomeAsUpEnabled(true);
-				ab.setDisplayShowTitleEnabled(true);
-				ab.setDisplayUseLogoEnabled(false);
-				ab.setHomeButtonEnabled(true);
 			}
 			if (isReversed) {
 				mPinDetailC.setVisibility(View.INVISIBLE);
-
-				ActionBar ab = getActivity().getActionBar();
-				ab.setDisplayHomeAsUpEnabled(false);
-				ab.setDisplayShowTitleEnabled(false);
-				ab.setDisplayUseLogoEnabled(true);
-				ab.setHomeButtonEnabled(false);
 			}
 		}
 	}
