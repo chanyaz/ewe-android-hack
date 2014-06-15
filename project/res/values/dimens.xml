@@ -27,6 +27,7 @@
 
     <dimen name="tablet_hotel_details_vertical_padding">64dp</dimen>
     <fraction name="tablet_hotel_details_horizontal_spacing_percentage">14%</fraction>
+    <dimen name="bucket_top_margin">14dp</dimen>
 
     <!-- Flights -->
     <dimen name="tablet_filter_white_space">32dp</dimen>

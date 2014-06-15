@@ -156,11 +156,23 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	}
 
 	public Rect getFlightRect() {
-		return ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mFlightC);
+		if (mTripBucketFlightFrag != null && mTripBucketFlightFrag.isResumed()) {
+			return mTripBucketFlightFrag.getTopRect();
+		}
+		else if (mFlightC != null) {
+			return ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mFlightC);
+		}
+		return new Rect();
 	}
 
 	public Rect getHotelRect() {
-		return ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mHotelC);
+		if (mTripBucketHotelFrag != null && mTripBucketHotelFrag.isResumed()) {
+			return mTripBucketHotelFrag.getTopRect();
+		}
+		else if (mHotelC != null) {
+			return ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mHotelC);
+		}
+		return new Rect();
 	}
 
 

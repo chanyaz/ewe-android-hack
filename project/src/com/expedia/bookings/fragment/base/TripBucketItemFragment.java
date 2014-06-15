@@ -3,6 +3,7 @@ package com.expedia.bookings.fragment.base;
 import android.app.Activity;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.ColorBuilder;
+import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.Ui;
 
@@ -173,6 +175,13 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 	public int getTopHeight() {
 		return mTopC.getHeight();
+	}
+
+	public Rect getTopRect() {
+		if (mTopC != null) {
+			return ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mTopC);
+		}
+		return new Rect();
 	}
 
 	public int getExpandedHeight() {
@@ -320,7 +329,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				mBookingCompleteCheckImg.setAlpha(0.0f);
 			}
 
-			if (stateOne == TripBucketItemState.BOOKING_UNAVAILABLE && stateTwo == TripBucketItemState.BOOKING_UNAVAILABLE) {
+			if (stateOne == TripBucketItemState.BOOKING_UNAVAILABLE
+				&& stateTwo == TripBucketItemState.BOOKING_UNAVAILABLE) {
 				setItemSoldOutSelected(isSelected());
 			}
 		}
@@ -458,13 +468,14 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		mTripBucketImageView.setColorFilter(new ColorMatrixColorFilter(cm));
 		if (isSelected) {
 			int padding = getResources().getDimensionPixelSize(R.dimen.trip_bucket_sold_out_container_padding);
-			int paddingBottom = getResources().getDimensionPixelSize(R.dimen.trip_bucket_sold_out_container_padding_bottom);
+			int paddingBottom = getResources()
+				.getDimensionPixelSize(R.dimen.trip_bucket_sold_out_container_padding_bottom);
 			mTopC.setPadding(padding, padding, padding, paddingBottom);
 			mHeaderBitmapDrawable.setOverlayDrawable(mSoldOutSelectedOverlay);
 		}
 		else {
 			mHeaderBitmapDrawable.setOverlayDrawable(mSoldOutUnSelectedOverlay);
-			mTopC.setPadding(0,0,0,0);
+			mTopC.setPadding(0, 0, 0, 0);
 		}
 
 	}
@@ -551,6 +562,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			+ mNameText.getTop(); // Vertical padding of text inside mNameAndDurationContainer
 		mNameAndDurationContainer.setTranslationY(translationy * percentage);
 	}
+
 	public void setNameAndDurationSlidePercentage(float percentage) {
 		int translationy = mBookBtnContainer.getBottom() - mNameAndDurationContainer.getBottom()
 			+ mNameText.getTop(); // Vertical padding of text inside mNameAndDurationContainer
