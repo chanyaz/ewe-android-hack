@@ -26,6 +26,7 @@ import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
@@ -112,14 +113,14 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 			Db.loadTripBucket(this);
 		}
 
-		//Containers
+		// Containers
 		mRootC = Ui.findView(this, R.id.root_layout);
 
-		//Fragments
+		// Fragments
 		mFragCheckoutController = Ui.findOrAddSupportFragment(this, R.id.root_layout,
 			TabletCheckoutControllerFragment.class, CHECKOUT_FRAG_TAG);
 
-		//Args
+		// Args
 		if (savedInstanceState == null) {
 			updateLobFromIntent(getIntent());
 
@@ -130,6 +131,12 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		else {
 			updateLobFromString(savedInstanceState.getString(INSTANCE_CURRENT_LOB));
 		}
+
+		// Actionbar
+		ActionBar ab = getActionBar();
+		ab.setCustomView(R.layout.actionbar_tablet_title);
+		TextView title = com.mobiata.android.util.Ui.findView(ab.getCustomView(), R.id.text1);
+		title.setText(R.string.Checkout);
 
 		// HockeyApp init
 		mHockeyPuck = new HockeyPuck(this, getString(R.string.hockey_app_id), !AndroidUtils.isRelease(this));
@@ -189,10 +196,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		mCurrentLob = lob;
 
 		mFragCheckoutController.setLob(lob);
-
-		ActionBar ab = getActionBar();
-		ab.setDisplayShowTitleEnabled(true);
-		ab.setTitle(getString(R.string.Checkout));
 	}
 
 	@Override

@@ -89,57 +89,50 @@
         <item name="cvvEntryTitleText">@string/security_code_TEMPLATE</item>
     </style>
 
-    <style name="V2.Theme.Activity.TabletLaunch" tools:targetApi="11">
+    <style name="V2.Theme.Activity.TabletLaunch">
         <item name="android:windowBackground">@color/tablet_launch_bg</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletLaunch</item>
-    </style>
-
-    <style name="V2.Theme.Activity.TabletResults" tools:targetApi="11">
-        <item name="android:windowActionBarOverlay" tools:targetApi="11">true</item>
-        <item name="android:actionBarStyle" tools:targetApi="11">@style/V2.Widget.ActionBar.TabletResults</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <style name="V2.Theme.Activity.TabletResults.WebActivity" tools:targetApi="11">
-        <item name="android:windowActionBarOverlay" tools:targetApi="11">false</item>
-        <item name="android:actionBarStyle" tools:targetApi="11">@style/V2.Widget.ActionBar.TabletLaunch</item>
+    <style name="V2.Theme.Activity.TabletResults">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletResults</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="V2.Theme.Activity.TabletResults.WebActivity">
+        <item name="android:windowActionBarOverlay">false</item>
+        <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletLaunch</item>
     </style>
 
 
     <style name="V2.Theme.Activity.TabletCheckout" tools:targetApi="14">
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletCheckout</item>
-        <item name="android:homeAsUpIndicator">@drawable/abs__ic_ab_back_holo_light</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <!-- Action bar styling; directly linked to themes so not moving too far away -->
 
     <style name="V2.Widget" />
 
-    <style name="V2.Widget.ActionBar" parent="@android:style/Widget.Holo.ActionBar" tools:targetApi="11">
+    <style name="V2.Widget.ActionBar" parent="@android:style/Widget.Holo.ActionBar" tools:targetApi="14">
         <item name="android:logo">@drawable/ic_action_bar_dark</item>
+        <item name="android:background">@drawable/bg_tablet_actionbar</item>
     </style>
 
-    <style name="V2.Widget.ActionBar.TabletLaunch" tools:targetApi="11">
-        <item name="android:background">@drawable/ab_transparent_dark_blue</item>
-        <item name="android:windowContentOverlay">@drawable/ab_shadow_tablet_launch</item>
-        <item name="android:displayOptions">showHome|useLogo</item>
+    <style name="V2.Widget.ActionBar.TabletLaunch">
+        <item name="android:displayOptions">showHome|useLogo|showCustom</item>
     </style>
 
-    <style name="V2.Widget.ActionBar.TabletResults" tools:targetApi="14">
-        <item name="android:background">@android:color/transparent</item>
-        <item name="android:titleTextStyle">@android:style/TextAppearance.Holo.Widget.ActionBar.Title.Inverse</item>
+    <style name="V2.Widget.ActionBar.TabletResults">
+        <item name="android:displayOptions">showHome|useLogo|homeAsUp|showCustom</item>
     </style>
 
-    <style name="V2.Widget.ActionBar.TabletCheckout" parent="@android:style/Widget.Holo.Light.ActionBar" tools:targetApi="14">
-        <item name="android:background">@color/tablet_checkout_light</item>
-        <item name="android:displayOptions">showHome|useLogo|showTitle|homeAsUp</item>
-        <item name="android:titleTextStyle">@style/V2.Widget.ActionBar.TitleTextStyle</item>
-    </style>
-
-    <style name="V2.Widget.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title" tools:targetApi="14">
-        <item name="android:textColor">@color/tablet_checkout_dark</item>
+    <style name="V2.Widget.ActionBar.TabletCheckout">
+        <item name="android:displayOptions">showHome|useLogo|homeAsUp|showCustom</item>
     </style>
 
     <style name="V2.Widget.ActionBar.ActionButton.Overflow" parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">

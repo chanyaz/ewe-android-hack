@@ -284,6 +284,8 @@
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">Checkout</string>
+    <!-- Actionbar Title for default search results state -->
+    <string name="Create_a_Trip">Create a Trip</string>
     <!-- Your Trip -->
     <string name="your_trip">Your Trip</string>
     <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->

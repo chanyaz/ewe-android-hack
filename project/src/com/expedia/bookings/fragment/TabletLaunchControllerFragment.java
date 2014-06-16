@@ -116,7 +116,6 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		}
 
 		ActionBar ab = getActivity().getActionBar();
-		ab.setDisplayShowCustomEnabled(true);
 		ab.setCustomView(R.layout.actionbar_tablet_title);
 
 		mAbText1 = Ui.findView(ab.getCustomView(), R.id.text1);
@@ -124,9 +123,6 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		mAbText2 = Ui.findView(ab.getCustomView(), R.id.text2);
 		mAbText2.setText(R.string.Destination);
 		mAbText2.setAlpha(0f);
-
-		ab.setDisplayHomeAsUpEnabled(false);
-		ab.setHomeButtonEnabled(false);
 
 		registerStateListener(mDetailsStateListener, false);
 		registerStateListener(mWaypointStateListener, false);

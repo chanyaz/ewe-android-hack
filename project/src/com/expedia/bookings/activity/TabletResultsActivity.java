@@ -175,12 +175,9 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 		// We want the up button, and custom title font
 		ActionBar ab = getActionBar();
-		ab.setDisplayHomeAsUpEnabled(true);
-		ab.setDisplayShowCustomEnabled(true);
-		ab.setDisplayShowTitleEnabled(false);
 		ab.setCustomView(R.layout.actionbar_tablet_title);
 		TextView title = Ui.findView(ab.getCustomView(), R.id.text1);
-		title.setText(R.string.results);
+		title.setText(R.string.Create_a_Trip);
 	}
 
 	@Override

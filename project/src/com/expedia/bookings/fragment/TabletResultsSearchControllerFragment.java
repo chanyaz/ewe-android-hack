@@ -729,6 +729,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			int barTransDistance = mGrid.getRowSpanHeight(0, 3);
 
 			mSearchBarC.setTranslationY(percentage * -barTransDistance);
+			//TODO: mSearchBarC.getBackground().setAlpha((int)(255f * (1f - percentage)));
 			mSearchActionsC.setTranslationY(percentage * -barTransDistance);
 			mBottomRightC.setTranslationY(percentage * widgetHeight);
 			mBottomCenterC.setTranslationY(mCenterColumnUpDownInterpolator.getInterpolation(percentage) * widgetHeight);
