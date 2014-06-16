@@ -96,11 +96,10 @@ public class ItineraryActivity extends FragmentActivity implements ItinItemListF
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
 		if (getResources().getBoolean(R.bool.portrait)) {
 			requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 		}
+		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_itinerary);
 
