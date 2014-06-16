@@ -32,6 +32,7 @@ import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
@@ -54,7 +55,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	private ViewGroup mRootC;
 	private ViewGroup mSearchBarC;
 	private ViewGroup mWaypointC;
-	private ViewGroup mPinDetailC;
+	private FrameLayoutTouchController mPinDetailC;
 	private ViewGroup mTilesC;
 
 	// Fragments
@@ -310,6 +311,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			mSearchBarC.setVisibility(View.VISIBLE);
 			mTilesC.setVisibility(View.VISIBLE);
 			mPinDetailC.setVisibility(View.VISIBLE);
+			mPinDetailC.setConsumeTouch(!isReversed);
 
 			if (isReversed) {
 				mSearchBarC.setTranslationY(mSearchBarY);
