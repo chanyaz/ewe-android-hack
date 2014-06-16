@@ -5,6 +5,7 @@ import java.util.List;
 import org.joda.time.LocalDate;
 
 import android.annotation.TargetApi;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.location.Location;
 import android.os.Build;
@@ -540,6 +541,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				}
 			}
 
+			// Let's make this view invisible when Flights are not supported, so users can see the message.
+			if (!PointOfSale.getPointOfSale().supportsFlights()) {
+				mBottomCenterBg.setVisibility(View.INVISIBLE);
+			}
+
 			if (stateOne == ResultsSearchState.CALENDAR || stateTwo == ResultsSearchState.CALENDAR) {
 				mBottomRightC.setVisibility(View.VISIBLE);
 				mBottomCenterC.setVisibility(View.VISIBLE);
@@ -758,7 +764,13 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mCalC.getVisibility() == View.VISIBLE || mTravC.getVisibility() == View.VISIBLE ? View.VISIBLE
 					: View.INVISIBLE
 			);
-			mBottomCenterC.setVisibility(mCalC.getVisibility());
+			// Let's make this view invisible when Flights are not supported, so users can see the message.
+			if (PointOfSale.getPointOfSale().supportsFlights()) {
+				mBottomCenterC.setVisibility(mCalC.getVisibility());
+			}
+			else {
+				mBottomCenterC.setVisibility(View.INVISIBLE);
+			}
 			mGdeC.setVisibility(mCalC.getVisibility());
 			mSearchActionsC.setVisibility(
 				state == ResultsSearchState.CALENDAR || state == ResultsSearchState.TRAVELER_PICKER ? View.VISIBLE
