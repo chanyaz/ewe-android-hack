@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -252,6 +253,27 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 				MarginLayoutParams lp = (MarginLayoutParams) pin.getLayoutParams();
 				lp.setMargins(marginLeft, marginTop, 0, 0);
 				pin.setLayoutParams(lp);
+
+				// Remove the pin if it overlaps
+				Rect thisPinRect = new Rect(marginLeft, marginTop, marginLeft + pin.getWidth(), marginTop + pin.getHeight());
+
+				for (int i = 0; i < mPinC.getChildCount(); i++) {
+					LaunchPin otherPin = (LaunchPin) mPinC.getChildAt(i);
+					Location launchLocation = otherPin.getLaunchLocation().location.getLocation();
+					Point2D.Double otherTransformed = projectToScreen(launchLocation.getLatitude(), launchLocation.getLongitude());
+					int otherMarginLeft = (int) (otherTransformed.x - otherPin.getWidth() / 2);
+					int otherMarginTop = (int) (otherTransformed.y - otherPin.getHeight() / 2);
+					Rect containerPinRect = new Rect(otherMarginLeft, otherMarginTop, otherMarginLeft + otherPin.getWidth(), otherMarginTop + otherPin.getHeight());
+
+					boolean pinsAreVisible = pin.getVisibility() != View.GONE && otherPin.getVisibility() != View.GONE;
+					boolean notSamePin = !pin.equals(otherPin);
+					if (notSamePin && pinsAreVisible && Rect.intersects(thisPinRect, containerPinRect)) {
+						// Pin overlaps, we will not show it
+						Log.d("Removing overlapping pin " + otherPin.getLaunchLocation().title);
+						pin.setVisibility(View.GONE);
+						return true;
+					}
+				}
 
 				// Popin animation
 				pin.setLayerType(View.LAYER_TYPE_HARDWARE, null);

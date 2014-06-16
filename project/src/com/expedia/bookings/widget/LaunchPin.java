@@ -58,6 +58,10 @@ public class LaunchPin extends FrameLayout {
 		setPinText(location.title);
 	}
 
+	public LaunchLocation getLaunchLocation() {
+		return mLocation;
+	}
+
 	/**
 	 * Returns a Rect matching the global location of the circle on the screen.
 	 *
