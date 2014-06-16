@@ -236,7 +236,7 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 			@Override
 			public void onClick(View view) {
 				mClickedPin = pin;
-				Events.post(new Events.LaunchMapPinClicked(pin.getGlobalOrigin(), metadata));
+				Events.post(new Events.LaunchMapPinClicked(pin.getPinGlobalPosition(), metadata));
 			}
 		});
 

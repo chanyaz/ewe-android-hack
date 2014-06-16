@@ -51,6 +51,15 @@
             android:text="@string/book_now"/>
     </LinearLayout>
 
+    <!-- Keep this so we can animate the ImageView to this target -->
+    <View
+        android:id="@+id/round_image_target"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/center"
+        android:layout_marginRight="130dp" />
+
     <!-- Keep this on top, in the z-order, for animation -->
     <com.expedia.bookings.widget.RoundImageView
         android:id="@+id/round_image"

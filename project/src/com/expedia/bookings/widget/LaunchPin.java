@@ -67,12 +67,8 @@ public class LaunchPin extends FrameLayout {
 	 *
 	 * @return
 	 */
-	public Rect getGlobalOrigin() {
-		Rect origin = ScreenPositionUtils.getGlobalScreenPosition(this);
-		int size = getResources().getDimensionPixelSize(R.dimen.launch_pin_size);
-		origin.bottom = origin.top + size;
-		origin.left = (origin.left + origin.right - size) / 2;
-		origin.right = origin.left + size;
+	public Rect getPinGlobalPosition() {
+		Rect origin = ScreenPositionUtils.getGlobalScreenPosition(mImageView, true, true);
 		return origin;
 	}
 

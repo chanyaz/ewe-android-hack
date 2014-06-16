@@ -19,17 +19,18 @@ import com.expedia.bookings.graphics.RoundBitmapDrawable;
 import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.RoundImageView;
 
 public class TabletLaunchPinDetailFragment extends Fragment {
 	private ViewGroup mRootC;
 	private RoundImageView mRoundImage;
+	private View mRoundImageTarget;
 	private View mTextLayout;
 
-	private int mPinOriginX = -100;
-	private int mPinOriginY = -210;
-	private float mScaleOrigin = 0.5f;
+	private Rect mPinOrigin;
+	private Rect mPinDest;
 	private int mTextOriginX = -400;
 
 	// TODO: associated map pin data
@@ -44,6 +45,7 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 		mRootC = Ui.inflate(R.layout.fragment_tablet_launch_pin_detail, container, false);
 
 		mRoundImage = Ui.findView(mRootC, R.id.round_image);
+		mRoundImageTarget = Ui.findView(mRootC, R.id.round_image_target);
 		mTextLayout = Ui.findView(mRootC, R.id.text_layout);
 
 		((TabletLaunchControllerFragment) getParentFragment()).registerStateListener(mDetailsStateListener, false);
@@ -52,18 +54,13 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 	}
 
 	public void bind(Rect origin, final LaunchLocation metadata) {
-		//TODO: why doesn't this work? Rect localOrigin = ScreenPositionUtils.translateGlobalPositionToLocalPosition(origin, mRootC);
-		mPinOriginX = origin.left - mRoundImage.getLeft() - 64; // TODO: resource? or calculate "64"?
-		mPinOriginY = origin.top - mRoundImage.getTop() - 50 - 64; // TODO: resource? or calculate "50" (status bar?) and "64"?
-		mScaleOrigin = (float) origin.width() / (float) getResources().getDimensionPixelSize(R.dimen.launch_pin_detail_size);
+		mPinOrigin = origin;
 
-		final RoundImageView roundImage = Ui.findView(mRootC, R.id.round_image);
-
-		UrlBitmapDrawable bitmap = UrlBitmapDrawable.loadImageView(metadata.getImageUrl(), roundImage);
+		UrlBitmapDrawable bitmap = UrlBitmapDrawable.loadImageView(metadata.getImageUrl(), mRoundImage);
 		bitmap.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
 			@Override
 			public void onBitmapLoaded(String url, Bitmap bitmap) {
-				roundImage.setImageBitmap(bitmap);
+				mRoundImage.setImageBitmap(bitmap);
 			}
 
 			@Override
@@ -90,23 +87,36 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 	private SingleStateListener<LaunchState> mDetailsStateListener = new SingleStateListener<>(
 		LaunchState.DEFAULT, LaunchState.DETAILS, true, new ISingleStateListener() {
 
+		private float mMidX;
+		private float mMidY;
+		private float mRatio;
+
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
+			mPinDest = ScreenPositionUtils.getGlobalScreenPosition(mRoundImageTarget, false, false);
+			mMidX = (mPinOrigin.left + (mPinOrigin.right - mPinOrigin.left) / 2.0f)
+				- (mPinDest.left + (mPinDest.right - mPinDest.left) / 2.0f);
+
+			mMidY = (mPinOrigin.top + (mPinOrigin.bottom - mPinOrigin.top) / 2.0f)
+				- (mPinDest.top + (mPinDest.bottom - mPinDest.top) / 2.0f);
+
+			mRatio = mPinOrigin.width() / (float) mPinDest.width();
 		}
 
 		@Override
 		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
-			float scale = delta(mScaleOrigin, 1f, percentage);
-			float translationx = delta(mPinOriginX, 0f, percentage);
-			float translationy = delta(mPinOriginY, 0f, percentage);
-			float textx = delta(mTextOriginX, 0f, percentage);
-			float textalpha = delta(0f, 1f, percentage);
-			mRootC.setTranslationX(translationx);
-			mRootC.setTranslationY(translationy);
+			float scale = delta(mRatio, 1.0f, percentage);
+
+			float translationx = delta(mMidX, 0.0f, percentage);
+			float translationy = delta(mMidY, 0.0f, percentage);
+
+			mRoundImage.setTranslationX(translationx);
+			mRoundImage.setTranslationY(translationy);
 			mRoundImage.setScaleX(scale);
 			mRoundImage.setScaleY(scale);
-			mTextLayout.setTranslationX(textx);
-			mTextLayout.setAlpha(textalpha);
+
+			mTextLayout.setTranslationX(translationx);
+			mTextLayout.setAlpha(percentage);
 			mTextLayout.setScaleX(scale);
 			mTextLayout.setScaleY(scale);
 		}

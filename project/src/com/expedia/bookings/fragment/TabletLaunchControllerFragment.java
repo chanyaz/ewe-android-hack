@@ -308,8 +308,6 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			mAbText1 = Ui.findView(ab.getCustomView(), R.id.text1);
 			mAbText2 = Ui.findView(ab.getCustomView(), R.id.text2);
 
-			mSearchBarC.setVisibility(View.VISIBLE);
-			mTilesC.setVisibility(View.VISIBLE);
 			mPinDetailC.setVisibility(View.VISIBLE);
 			mPinDetailC.setConsumeTouch(!isReversed);
 
@@ -335,17 +333,10 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 
 		@Override
 		public void onStateFinalized(boolean isReversed) {
-			mSearchBarC.setTranslationY(0f);
-			mTilesC.setTranslationY(0f);
-
 			ActionBar ab = getActivity().getActionBar();
 			ab.setDisplayHomeAsUpEnabled(!isReversed);
 			ab.setHomeButtonEnabled(!isReversed);
 
-			if (!isReversed) {
-				mSearchBarC.setVisibility(View.INVISIBLE);
-				mTilesC.setVisibility(View.INVISIBLE);
-			}
 			if (isReversed) {
 				mPinDetailC.setVisibility(View.INVISIBLE);
 			}
