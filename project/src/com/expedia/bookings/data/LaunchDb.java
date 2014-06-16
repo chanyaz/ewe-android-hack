@@ -13,6 +13,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.squareup.otto.Produce;
+import com.squareup.otto.Subscribe;
 
 public class LaunchDb {
 
@@ -25,6 +26,7 @@ public class LaunchDb {
 	}
 
 	private List<LaunchCollection> mCollections;
+	private LaunchCollection mSelectedCollection;
 
 	public static void getCollections(Context context) {
 		if (sDb.mCollections == null) {
@@ -45,6 +47,16 @@ public class LaunchDb {
 	@Produce
 	public Events.LaunchCollectionsAvailable produceLaunchCollections() {
 		return new Events.LaunchCollectionsAvailable(mCollections);
+	}
+
+	@Subscribe
+	public void onLaunchCollectionClicked(Events.LaunchCollectionClicked event) {
+		mSelectedCollection = event.launchCollection;
+	}
+
+	@Produce
+	public Events.LaunchCollectionClicked produceLaunchCollectionClicked() {
+		return new Events.LaunchCollectionClicked(mSelectedCollection);
 	}
 
 	private static Download<List<LaunchCollection>> getDownload(final Context context) {
@@ -73,6 +85,7 @@ public class LaunchDb {
 		@Override
 		public void onDownload(List<LaunchCollection> collections) {
 			sDb.mCollections = collections;
+			sDb.mSelectedCollection = collections.get(0);
 			Events.register(sDb);
 		}
 	};

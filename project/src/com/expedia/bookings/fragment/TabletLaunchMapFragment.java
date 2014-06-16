@@ -93,25 +93,20 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	 */
 
 	@Subscribe
-	public void onLaunchCollectionClicked(Events.LaunchCollectionClicked event) {
-		// TODO animation
-		renderMap(event.launchCollection);
-	}
-
-	@Subscribe
-	public void onLaunchCollectionsAvailable(final Events.LaunchCollectionsAvailable event) {
-		mRoot.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
-			@Override
-			public boolean onPreDraw() {
-				if (mRoot.getWidth() > 0) {
+	public void onLaunchCollectionClicked(final Events.LaunchCollectionClicked event) {
+		if (isMeasurable()) {
+			renderMap(event.launchCollection);
+		}
+		else {
+			mRoot.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+				@Override
+				public boolean onPreDraw() {
 					mRoot.getViewTreeObserver().removeOnPreDrawListener(this);
-					if (event.collections != null && event.collections.size() > 0) {
-						renderMap(event.collections.get(0));
-					}
+					renderMap(event.launchCollection);
+					return true;
 				}
-				return true;
-			}
-		});
+			});
+		}
 	}
 
 	SingleStateListener mDetailsStateListener = new SingleStateListener<>(
