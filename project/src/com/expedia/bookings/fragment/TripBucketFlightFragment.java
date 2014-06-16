@@ -18,7 +18,6 @@ import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ExpediaImage;
 import com.expedia.bookings.data.ExpediaImageManager;
-import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -137,7 +136,10 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 
 	@Override
 	public boolean doTripBucketImageRefresh() {
-		mNewDestination = Db.getTripBucket().getFlight().getFlightSearchParams().getArrivalLocation().getDestinationId();
+		TripBucketItemFlight flight = Db.getTripBucket().getFlight();
+		if (flight != null) {
+			mNewDestination = flight.getFlightSearchParams().getArrivalLocation().getDestinationId();
+		}
 		if (mPreviousDestination != null && mPreviousDestination.equals(mNewDestination)) {
 			return false;
 		}
