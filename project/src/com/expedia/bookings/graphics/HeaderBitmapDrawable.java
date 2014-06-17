@@ -85,6 +85,8 @@ public class HeaderBitmapDrawable extends Drawable implements L2ImageCache.OnBit
 	// If you want to use an underlying Drawable to drive placeholder iamges
 	private Drawable mPlaceholderDrawable;
 
+	private L2ImageCache.OnBitmapLoaded mCallback;
+
 	public HeaderBitmapDrawable() {
 		mScaleType = ScaleType.CENTER_CROP;
 
@@ -159,6 +161,10 @@ public class HeaderBitmapDrawable extends Drawable implements L2ImageCache.OnBit
 		mPlaceholderDrawable = placeholderDrawable;
 
 		invalidateSelf();
+	}
+
+	public void setCallback(L2ImageCache.OnBitmapLoaded callback) {
+		mCallback = callback;
 	}
 
 	public void setCornerMode(CornerMode cornerMode) {
@@ -404,6 +410,9 @@ public class HeaderBitmapDrawable extends Drawable implements L2ImageCache.OnBit
 
 	@Override
 	public void onBitmapLoaded(String url, Bitmap bitmap) {
+		if (mCallback != null) {
+			mCallback.onBitmapLoaded(url, bitmap);
+		}
 		setBitmap(bitmap);
 	}
 
