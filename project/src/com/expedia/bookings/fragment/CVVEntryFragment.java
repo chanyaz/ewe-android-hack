@@ -14,7 +14,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
@@ -148,21 +147,27 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 		CreditCardType cardType = getCurrentCCType();
 
-		String personName, cardNumber, cardName;
+		char personFirstInitial;
+		String personLastName, cardNumber, cardName;
 		if (billingInfo.getStoredCard() != null) {
 			StoredCreditCard storedCard = billingInfo.getStoredCard();
 			Traveler traveler = Db.getTravelers().get(0);
-			personName = traveler.getFirstName() + " " + traveler.getLastName();
+			personFirstInitial = traveler.getFirstName().charAt(0);
+			personLastName = traveler.getLastName();
 			cardNumber = storedCard.getCardNumber();
 			cardName = storedCard.getDescription();
 		}
 		else if (billingInfo.getNumber() != null && billingInfo.getNumber().length() >= 4) {
-			personName = billingInfo.getNameOnCard();
+			final String nameOnCard = billingInfo.getNameOnCard();
+			personFirstInitial = nameOnCard.charAt(0);
+			final int lastNameIndex = nameOnCard.indexOf(' ') + 1;
+			personLastName = nameOnCard.substring(lastNameIndex);
 			cardNumber = billingInfo.getNumber();
 			cardName = getString(R.string.card_ending_TEMPLATE, cardNumber.substring(cardNumber.length() - 4));
 		}
 		else {
-			personName = null;
+			personFirstInitial = '\0';
+			personLastName = null;
 			cardName = null;
 			cardNumber = null;
 		}
@@ -183,8 +188,8 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		}
 
 		updateActionBar();
-
-		mCreditCardSection.bind(personName, cardType, cardNumber);
+		String signatureName = personFirstInitial + ". " + personLastName;
+		mCreditCardSection.bind(signatureName, cardType, cardNumber);
 
 		// A few minor UI tweaks on phone, depending on if amex
 		if (!AndroidUtils.isTablet(getActivity())) {
