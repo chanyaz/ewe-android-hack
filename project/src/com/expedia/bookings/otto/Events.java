@@ -386,9 +386,11 @@ public class Events {
 	// Tablet Launch Screen events
 	public static class LaunchCollectionsAvailable {
 		public List<LaunchCollection> collections;
+		public LaunchCollection selectedCollection;
 
-		public LaunchCollectionsAvailable(List<LaunchCollection> collections) {
+		public LaunchCollectionsAvailable(List<LaunchCollection> collections, LaunchCollection selectedCollection) {
 			this.collections = collections;
+			this.selectedCollection = selectedCollection;
 		}
 	}
 

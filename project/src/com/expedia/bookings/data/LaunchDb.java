@@ -46,17 +46,12 @@ public class LaunchDb {
 
 	@Produce
 	public Events.LaunchCollectionsAvailable produceLaunchCollections() {
-		return new Events.LaunchCollectionsAvailable(mCollections);
+		return new Events.LaunchCollectionsAvailable(mCollections, mSelectedCollection);
 	}
 
 	@Subscribe
 	public void onLaunchCollectionClicked(Events.LaunchCollectionClicked event) {
 		mSelectedCollection = event.launchCollection;
-	}
-
-	@Produce
-	public Events.LaunchCollectionClicked produceLaunchCollectionClicked() {
-		return new Events.LaunchCollectionClicked(mSelectedCollection);
 	}
 
 	private static Download<List<LaunchCollection>> getDownload(final Context context) {

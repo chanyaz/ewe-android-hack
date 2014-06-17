@@ -96,7 +96,7 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 		if (getActivity() != null) {
 			LayoutInflater inflater = LayoutInflater.from(getActivity());
 			for (LaunchCollection collection : event.collections) {
-				addCollection(inflater, collection);
+				addCollection(inflater, collection, event.selectedCollection);
 			}
 		}
 
@@ -138,18 +138,19 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 		}
 	}
 
-	private void addCollection(LayoutInflater inflater, final LaunchCollection collection) {
+	private void addCollection(LayoutInflater inflater, final LaunchCollection collectionToAdd, final LaunchCollection selectedCollection) {
 		final CollectionStack c = (CollectionStack) inflater.inflate(R.layout.snippet_destination_stack, mItemsContainer, false);
-		c.setStackDrawable(collection.getImageUrl());
-		c.setText(collection.title);
-		c.setTag(collection);
+		c.setStackDrawable(collectionToAdd.getImageUrl());
+		c.setText(collectionToAdd.title);
+		c.setTag(collectionToAdd);
 		c.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Events.post(new Events.LaunchCollectionClicked(collection));
+				Events.post(new Events.LaunchCollectionClicked(collectionToAdd));
 				setCheckedCollection(c);
 			}
 		});
+		c.setCheckEnabled(collectionToAdd.equals(selectedCollection));
 
 		mItemsContainer.addView(c);
 	}

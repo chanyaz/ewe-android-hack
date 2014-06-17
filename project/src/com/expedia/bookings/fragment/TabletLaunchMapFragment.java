@@ -92,16 +92,25 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	 */
 
 	@Subscribe
+	public void onLaunchCollectionsAvailable(final Events.LaunchCollectionsAvailable event) {
+		showMeTheMap(event.selectedCollection);
+	}
+
+	@Subscribe
 	public void onLaunchCollectionClicked(final Events.LaunchCollectionClicked event) {
+		showMeTheMap(event.launchCollection);
+	}
+
+	private void showMeTheMap(final LaunchCollection launchCollection) {
 		if (isMeasurable()) {
-			renderMap(event.launchCollection);
+			renderMap(launchCollection);
 		}
 		else {
 			mRoot.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 				@Override
 				public boolean onPreDraw() {
 					mRoot.getViewTreeObserver().removeOnPreDrawListener(this);
-					renderMap(event.launchCollection);
+					renderMap(launchCollection);
 					return true;
 				}
 			});
