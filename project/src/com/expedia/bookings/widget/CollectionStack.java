@@ -103,13 +103,13 @@ public class CollectionStack extends FrameLayout {
 
 			drawable = makeHeaderBitmapDrawable(url);
 			gradColor = Color.parseColor("#e5141d36");
-			drawable.setGradient(new int[]{gradColor, gradColor}, null);
+			drawable.setGradient(new int[] {gradColor, gradColor}, null);
 			mBackImageView.setImageDrawable(drawable);
 			mBackImageView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
 			drawable = makeHeaderBitmapDrawable(url);
 			gradColor = Color.parseColor("#b2141d36");
-			drawable.setGradient(new int[]{gradColor, gradColor}, null);
+			drawable.setGradient(new int[] {gradColor, gradColor}, null);
 			mMiddleImageView.setImageDrawable(drawable);
 			mMiddleImageView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 		}
