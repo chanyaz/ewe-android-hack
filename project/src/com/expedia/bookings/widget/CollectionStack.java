@@ -3,19 +3,22 @@ package com.expedia.bookings.widget;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.BitmapUtils;
+import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
+import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
 
@@ -131,6 +134,18 @@ public class CollectionStack extends FrameLayout {
 
 		ArrayList<String> urls = new ArrayList<String>();
 		urls.add(url);
+		headerBitmapDrawable.setCallback(new L2ImageCache.OnBitmapLoaded() {
+			@Override
+			public void onBitmapLoaded(String url, Bitmap bitmap) {
+				ColorBuilder builder = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)).darkenBy(0.4f);
+				mTextView.setBackgroundColor(builder.build());
+			}
+
+			@Override
+			public void onBitmapLoadFailed(String url) {
+
+			}
+		});
 		headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(mContext.getResources(), urls, R.drawable.bg_itin_placeholder));
 
 		headerBitmapDrawable.setScaleType(HeaderBitmapDrawable.ScaleType.TOP_CROP);
