@@ -39,7 +39,6 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	private FrameLayout mRoot;
 	private FrameLayout mPinC;
 
-	private ColorDrawable mBgColorDrawable;
 	private SvgDrawable mMapDrawable;
 	private Drawable mTiledDotDrawable;
 	private GradientDrawable mLinearGradDrawable;
@@ -158,8 +157,6 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	}
 
 	private void init() {
-		mBgColorDrawable = new ColorDrawable(getResources().getColor(R.color.tablet_launch_bg));
-
 		mTiledDotDrawable = getResources().getDrawable(R.drawable.tiled_dot);
 
 		// Linear Gradient
@@ -206,7 +203,6 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		mRadialGradDrawable.setGradientRadius(Math.min(w, h) * 0.65f);
 
 		Drawable[] drawables = new Drawable[] {
-			mBgColorDrawable,
 			mMapDrawable,
 			mTiledDotDrawable,
 			mLinearGradDrawable,
