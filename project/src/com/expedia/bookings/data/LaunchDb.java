@@ -85,7 +85,9 @@ public class LaunchDb {
 		@Override
 		public void onDownload(List<LaunchCollection> collections) {
 			sDb.mCollections = collections;
-			sDb.mSelectedCollection = collections.get(0);
+			if (collections.size() > 0) {
+				sDb.mSelectedCollection = collections.get(0);
+			}
 			Events.register(sDb);
 		}
 	};
