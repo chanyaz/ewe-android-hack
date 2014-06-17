@@ -138,8 +138,10 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		public void onStateFinalized(boolean isReversed) {
 			if (isReversed) {
 				for (int i = 0; i < mPinC.getChildCount(); i++) {
-					View child = mPinC.getChildAt(i);
-					child.setVisibility(View.VISIBLE);
+					LaunchPin child = (LaunchPin) mPinC.getChildAt(i);
+					if (mClickedPin.equals(child)) {
+						child.setVisibility(View.VISIBLE);
+					}
 				}
 			}
 		}
