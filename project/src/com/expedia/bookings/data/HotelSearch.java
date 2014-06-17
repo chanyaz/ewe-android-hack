@@ -220,6 +220,11 @@ public class HotelSearch implements JSONable {
 
 		String propertyId = offersResponse.getProperty().getPropertyId();
 		Property property = mPropertyMap.get(propertyId);
+
+		if (property == null) {
+			return;
+		}
+
 		property.updateFrom(offersResponse.getProperty());
 
 		HotelAvailability availability = mAvailabilityMap.get(propertyId);
