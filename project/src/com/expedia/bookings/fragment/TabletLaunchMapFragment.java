@@ -161,6 +161,10 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	 */
 
 	private void renderMap(LaunchCollection launchCollection) {
+		if (launchCollection == null || launchCollection.locations == null) {
+			return;
+		}
+
 		generateMap(launchCollection);
 		generatePins(launchCollection);
 	}
