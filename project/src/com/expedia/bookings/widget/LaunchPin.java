@@ -46,7 +46,7 @@ public class LaunchPin extends FrameLayout {
 			LaunchPin p = (LaunchPin) o;
 			if (mLocation != null && p.mLocation != null) {
 				// TODO: better comparison than this?
-				return mLocation.title.equals(p.mLocation.title);
+				return mLocation.equals(p.mLocation);
 			}
 		}
 		return false;

@@ -13,4 +13,12 @@ public class LaunchCollection {
 	public String getImageUrl() {
 		return LAUNCH_MEDIA + imageCode + ".jpg";
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof LaunchCollection) {
+			return title.equals(((LaunchCollection) o).title);
+		}
+		return false;
+	}
 }

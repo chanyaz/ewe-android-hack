@@ -43,6 +43,7 @@ public class CollectionStack extends FrameLayout {
 	private ImageView mMiddleImageView;
 	private ImageView mBackImageView;
 	private TextView mTextView;
+	private ImageView mCheckView;
 
 	private int mBackgroundColor;
 	private boolean mIsStack = true;
@@ -67,6 +68,7 @@ public class CollectionStack extends FrameLayout {
 		mMiddleImageView = Ui.findView(this, R.id.middle_image_view);
 		mBackImageView = Ui.findView(this, R.id.back_image_view);
 		mTextView = Ui.findView(this, R.id.text);
+		mCheckView = Ui.findView(this, R.id.checkmark);
 
 		mFrontImageView.setTranslationX(mBasePadding * 2);
 		mFrontImageView.setTranslationY(mBasePadding * 2);
@@ -165,5 +167,9 @@ public class CollectionStack extends FrameLayout {
 
 		mBackImageView.setTranslationX(backLeft);
 		mMiddleImageView.setTranslationX(middleLeft);
+	}
+
+	public void setCheckEnabled(boolean enabled) {
+		mCheckView.setVisibility(enabled ? View.VISIBLE : View.GONE);
 	}
 }

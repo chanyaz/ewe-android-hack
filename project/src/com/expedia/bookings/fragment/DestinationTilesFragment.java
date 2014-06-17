@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -111,18 +110,44 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 		});
 	}
 
+	@Subscribe
+	public void onLaunchCollectionClicked(Events.LaunchCollectionClicked event) {
+		clearChecks();
+		for (int i = 0; i < mItemsContainer.getChildCount(); i++) {
+			CollectionStack stack = (CollectionStack) mItemsContainer.getChildAt(i);
+			LaunchCollection launchCollection = (LaunchCollection) stack.getTag();
+			if (launchCollection.equals(event.launchCollection)) {
+				setCheckedCollection(stack);
+			}
+		}
+	}
+
+	private void setCheckedCollection(CollectionStack stack) {
+		clearChecks();
+		stack.setCheckEnabled(true);
+	}
+
 	private void clearCollections() {
 		mItemsContainer.removeAllViews();
 	}
 
+	private void clearChecks() {
+		for (int i = 0; i < mItemsContainer.getChildCount(); i++) {
+			CollectionStack c = (CollectionStack) mItemsContainer.getChildAt(i);
+			c.setCheckEnabled(false);
+		}
+	}
+
 	private void addCollection(LayoutInflater inflater, final LaunchCollection collection) {
-		CollectionStack c = (CollectionStack) inflater.inflate(R.layout.snippet_destination_stack, mItemsContainer, false);
+		final CollectionStack c = (CollectionStack) inflater.inflate(R.layout.snippet_destination_stack, mItemsContainer, false);
 		c.setStackDrawable(collection.getImageUrl());
 		c.setText(collection.title);
+		c.setTag(collection);
 		c.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				Events.post(new Events.LaunchCollectionClicked(collection));
+				setCheckedCollection(c);
 			}
 		});
 
