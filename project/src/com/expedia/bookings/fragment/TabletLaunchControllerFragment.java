@@ -92,7 +92,6 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		FragmentManager fm = getChildFragmentManager();
 		if (savedInstanceState == null) {
 			mMapFragment = TabletLaunchMapFragment.newInstance();
-			// TODO initialize MapFragment with a set of data from JSON
 			mTilesFragment = DestinationTilesFragment.newInstance();
 			mWaypointFragment = new TabletWaypointFragment();
 			mPinFragment = TabletLaunchPinDetailFragment.newInstance();
