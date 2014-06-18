@@ -253,16 +253,16 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		}
 	}
 
-	private void addPin(final LaunchLocation metadata) {
+	private void addPin(final LaunchLocation launchLocation) {
 		final LaunchPin pin = Ui.inflate(mInflater, R.layout.snippet_tablet_launch_map_pin, mRoot, false);
-		pin.bind(metadata);
+		pin.bind(launchLocation);
 		mPinC.addView(pin);
 
 		pin.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mSelectedLocation = metadata;
-				Events.post(new Events.LaunchMapPinClicked(metadata));
+				mSelectedLocation = launchLocation;
+				Events.post(new Events.LaunchMapPinClicked(launchLocation));
 			}
 		});
 
@@ -272,7 +272,7 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 				pin.getViewTreeObserver().removeOnPreDrawListener(this);
 
 				// Position on screen now we know the pin dimensions
-				Location loc = metadata.location.getLocation();
+				Location loc = launchLocation.location.getLocation();
 				Point2D.Double transformed = projectToScreen(loc.getLatitude(), loc.getLongitude());
 				int marginLeft = (int) (transformed.x - pin.getWidth() / 2);
 				int marginTop = (int) (transformed.y - pin.getHeight() / 2);
