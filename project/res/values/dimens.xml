@@ -293,7 +293,7 @@
     <dimen name="destination_stack_padding">5dp</dimen>
     <dimen name="destination_stack_text_container_height">56dp</dimen>
     <dimen name="destination_stack_corner_radius">3dp</dimen>
-    <dimen name="destination_search_tile_text_margin_top">174dp</dimen>
+    <dimen name="destination_search_tile_text_margin_top">94dp</dimen>
     <dimen name="hotels_map_pin_padding">50dp</dimen>
     <dimen name="tablet_search_header_height">44dp</dimen>
     <dimen name="tablet_results_flight_map_padding">40dp</dimen>
