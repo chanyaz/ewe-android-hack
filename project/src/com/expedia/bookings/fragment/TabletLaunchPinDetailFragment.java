@@ -22,6 +22,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.RoundImageView;
+import com.squareup.otto.Subscribe;
 
 public class TabletLaunchPinDetailFragment extends Fragment {
 	private ViewGroup mRootC;
@@ -31,9 +32,6 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 
 	private Rect mPinOrigin;
 	private Rect mPinDest;
-	private int mTextOriginX = -400;
-
-	// TODO: associated map pin data
 
 	public static TabletLaunchPinDetailFragment newInstance() {
 		TabletLaunchPinDetailFragment frag = new TabletLaunchPinDetailFragment();
@@ -53,35 +51,57 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 		return mRootC;
 	}
 
-	public void bind(Rect origin, final LaunchLocation metadata) {
+	@Override
+	public void onResume() {
+		super.onResume();
+		Events.register(this);
+	}
+
+	@Override
+	public void onPause() {
+		Events.unregister(this);
+		super.onPause();
+	}
+
+	@Subscribe
+	public void onLaunchCollectionsAvailable(final Events.LaunchCollectionsAvailable event) {
+		onLaunchMapPinClicked(new Events.LaunchMapPinClicked(new Rect(0, 0, 1, 1), event.selectedLocation));
+	}
+
+	@Subscribe
+	public void onLaunchMapPinClicked(final Events.LaunchMapPinClicked event) {
+		if (event.launchLocation != null) {
+			UrlBitmapDrawable bitmap = UrlBitmapDrawable.loadImageView(event.launchLocation.getImageUrl(), mRoundImage);
+			bitmap.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
+				@Override
+				public void onBitmapLoaded(String url, Bitmap bitmap) {
+					mRoundImage.setImageBitmap(bitmap);
+				}
+
+				@Override
+				public void onBitmapLoadFailed(String url) {
+
+				}
+			});
+
+			TextView textTitle = Ui.findView(mRootC, R.id.text_title);
+			textTitle.setText(event.launchLocation.title);
+
+			TextView textDescription = Ui.findView(mRootC, R.id.text_description);
+			textDescription.setText(event.launchLocation.description);
+
+			TextView textBookNow = Ui.findView(mRootC, R.id.button_book_now);
+			textBookNow.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					Events.post(new Events.SearchSuggestionSelected(event.launchLocation.location, null));
+				}
+			});
+		}
+	}
+
+	public void setOriginRect(Rect origin) {
 		mPinOrigin = origin;
-
-		UrlBitmapDrawable bitmap = UrlBitmapDrawable.loadImageView(metadata.getImageUrl(), mRoundImage);
-		bitmap.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
-			@Override
-			public void onBitmapLoaded(String url, Bitmap bitmap) {
-				mRoundImage.setImageBitmap(bitmap);
-			}
-
-			@Override
-			public void onBitmapLoadFailed(String url) {
-
-			}
-		});
-
-		TextView textTitle = Ui.findView(mRootC, R.id.text_title);
-		textTitle.setText(metadata.title);
-
-		TextView textDescription = Ui.findView(mRootC, R.id.text_description);
-		textDescription.setText(metadata.description);
-
-		TextView textBookNow = Ui.findView(mRootC, R.id.button_book_now);
-		textBookNow.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Events.post(new Events.SearchSuggestionSelected(metadata.location, null));
-			}
-		});
 	}
 
 	private SingleStateListener<LaunchState> mDetailsStateListener = new SingleStateListener<>(

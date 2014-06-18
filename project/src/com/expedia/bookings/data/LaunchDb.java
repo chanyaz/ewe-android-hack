@@ -7,6 +7,7 @@ import android.content.Context;
 
 import com.expedia.bookings.data.LaunchCollection;
 import com.expedia.bookings.data.LaunchDestinationCollections;
+import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.BackgroundDownloader;
@@ -27,6 +28,7 @@ public class LaunchDb {
 
 	private List<LaunchCollection> mCollections;
 	private LaunchCollection mSelectedCollection;
+	private LaunchLocation mSelectedPin;
 
 	public static void getCollections(Context context) {
 		if (sDb.mCollections == null) {
@@ -46,12 +48,17 @@ public class LaunchDb {
 
 	@Produce
 	public Events.LaunchCollectionsAvailable produceLaunchCollections() {
-		return new Events.LaunchCollectionsAvailable(mCollections, mSelectedCollection);
+		return new Events.LaunchCollectionsAvailable(mCollections, mSelectedCollection, mSelectedPin);
 	}
 
 	@Subscribe
 	public void onLaunchCollectionClicked(Events.LaunchCollectionClicked event) {
 		mSelectedCollection = event.launchCollection;
+	}
+
+	@Subscribe
+	public void onMapPinClicked(Events.LaunchMapPinClicked event) {
+		mSelectedPin = event.launchLocation;
 	}
 
 	private static Download<List<LaunchCollection>> getDownload(final Context context) {

@@ -128,6 +128,18 @@ public class Events {
 	/////////////////////////////////////////////////////////
 	/// TabletLaunchActivity related
 
+	public static class LaunchCollectionsAvailable {
+		public List<LaunchCollection> collections;
+		public LaunchCollection selectedCollection;
+		public LaunchLocation selectedLocation;
+
+		public LaunchCollectionsAvailable(List<LaunchCollection> collections, LaunchCollection selectedCollection, LaunchLocation selectedLocation) {
+			this.collections = collections;
+			this.selectedCollection = selectedCollection;
+			this.selectedLocation = selectedLocation;
+		}
+	}
+
 	public static class LaunchCollectionClicked {
 		public final LaunchCollection launchCollection;
 
@@ -138,11 +150,11 @@ public class Events {
 
 	public static class LaunchMapPinClicked {
 		public final Rect origin;
-		public final LaunchLocation metadata;
+		public final LaunchLocation launchLocation;
 
-		public LaunchMapPinClicked(Rect origin, LaunchLocation metadata) {
+		public LaunchMapPinClicked(Rect origin, LaunchLocation launchLocation) {
 			this.origin = origin;
-			this.metadata = metadata;
+			this.launchLocation = launchLocation;
 		}
 	}
 
@@ -381,17 +393,6 @@ public class Events {
 	}
 
 	public static class HotelRateSelected {
-	}
-
-	// Tablet Launch Screen events
-	public static class LaunchCollectionsAvailable {
-		public List<LaunchCollection> collections;
-		public LaunchCollection selectedCollection;
-
-		public LaunchCollectionsAvailable(List<LaunchCollection> collections, LaunchCollection selectedCollection) {
-			this.collections = collections;
-			this.selectedCollection = selectedCollection;
-		}
 	}
 
 	public static class SearchSuggestionSelected {
