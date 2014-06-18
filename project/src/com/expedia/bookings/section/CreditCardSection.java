@@ -15,12 +15,13 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.NumberMaskFormatter;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.AutoResizeTextView;
 import com.mobiata.android.util.AndroidUtils;
 
 public class CreditCardSection extends LinearLayout {
 
 	private ImageView mLogoImageView;
-	private TextView mSignatureTextView;
+	private AutoResizeTextView mSignatureTextView;
 
 	public CreditCardSection(Context context, AttributeSet attrs) {
 		super(context, attrs);
