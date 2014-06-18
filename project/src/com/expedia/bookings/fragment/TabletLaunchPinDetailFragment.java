@@ -90,7 +90,7 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 			TextView textDescription = Ui.findView(mRootC, R.id.text_description);
 			textDescription.setText(event.launchLocation.description);
 
-			TextView textBookNow = Ui.findView(mRootC, R.id.button_book_now);
+			TextView textBookNow = Ui.findView(mRootC, R.id.button_explore_now);
 			textBookNow.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {

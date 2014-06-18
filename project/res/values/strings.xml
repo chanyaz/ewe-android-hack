@@ -360,6 +360,8 @@
     <string name="Destination">Destination</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">This app requires Google Play Services. Please install the latest version of Google Play Services.</string>
+    <!-- Label for tablet launch pin button that starts new search -->
+    <string name="explore_now">Explore Now</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
