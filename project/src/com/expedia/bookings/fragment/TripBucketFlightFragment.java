@@ -3,7 +3,6 @@ package com.expedia.bookings.fragment;
 import java.util.Calendar;
 
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -54,7 +53,6 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	private FlightTrip mFlightTrip;
 	private String mNewDestination;
 	private String mPreviousDestination;
-	boolean mIsOnCheckout;
 
 	public static TripBucketFlightFragment newInstance() {
 		TripBucketFlightFragment frag = new TripBucketFlightFragment();
@@ -67,12 +65,6 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 			refreshFlightTrip();
 		}
 		super.bind();
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		mIsOnCheckout = getParentFragment() instanceof TabletCheckoutControllerFragment;
 	}
 
 	private void refreshFlightTrip() {

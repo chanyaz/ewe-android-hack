@@ -19,6 +19,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
 import com.expedia.bookings.enums.TripBucketItemState;
+import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -72,8 +73,11 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private HeaderBitmapColorAveragedDrawable mHeaderBitmapDrawable;
 	private ColorDrawable mSoldOutSelectedOverlay;
 	private ColorDrawable mSoldOutUnSelectedOverlay;
+	protected ImageView mRemoveItemBtn;
 
 	private BreakdownDialogFragment mBreakdownFrag;
+
+	protected boolean mIsOnCheckout;
 
 	//Misc
 	private StateManager<TripBucketItemState> mStateManager = new StateManager<TripBucketItemState>(
@@ -82,6 +86,12 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private String mPriceChangeNotificationText;
 
 	private ITripBucketBookClickListener mListener;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mIsOnCheckout = getParentFragment() instanceof TabletCheckoutControllerFragment;
+	}
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -116,6 +126,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		mNameText = Ui.findView(mTopC, R.id.name_text_view);
 		mDurationText = Ui.findView(mTopC, R.id.trip_duration_text_view);
 		mBookingCompleteCheckImg = Ui.findView(mTopC, R.id.booking_complete_check);
+		mRemoveItemBtn = Ui.findView(mTopC, R.id.tripbucket_remove_btn);
 
 		mHeaderBitmapDrawable = new HeaderBitmapColorAveragedDrawable();
 		mHeaderBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
@@ -138,6 +149,13 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 		builder = new ColorBuilder(getResources().getColor(R.color.trip_bucket_sold_out_unselected));
 		mSoldOutUnSelectedOverlay = new ColorDrawable(builder.build());
+
+		mRemoveItemBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Ui.showToast(getActivity(), "UNDO HOLDER");
+			}
+		});
 
 		return mRootC;
 	}
@@ -210,6 +228,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			//refresh the state...
 			setState(mStateManager.getState());
 
+			mRemoveItemBtn.setVisibility(mIsOnCheckout ? View.GONE : View.VISIBLE);
 			mBookBtnText.setText(getBookButtonText());
 			mBookBtnContainer.setOnClickListener(getOnBookClickListener());
 			mSoldOutContainer.setOnClickListener(getOnBookClickListener());
@@ -222,6 +241,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				addTripBucketImage(mTripBucketImageView, mHeaderBitmapDrawable);
 			}
 			mPriceChangedTv.setText(mPriceChangeNotificationText);
+
 		}
 	}
 

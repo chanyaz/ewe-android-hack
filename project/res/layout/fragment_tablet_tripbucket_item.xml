@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/hotel_flight_card_padding_y"
-    android:layout_marginBottom="@dimen/hotel_flight_card_padding_y"
-    android:orientation="vertical" >
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/hotel_flight_card_padding_y"
+              android:layout_marginBottom="@dimen/hotel_flight_card_padding_y"
+              android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <!-- Expanded / receipt Part -->
 
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/hotel_flight_card_height"
             android:background="#ffffff"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <!-- Top Part -->
 
@@ -34,6 +34,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"/>
+
+            <ImageView
+                android:id="@+id/tripbucket_remove_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/btn_x"/>
 
             <LinearLayout
                 android:id="@+id/book_button_container"
@@ -56,7 +64,7 @@
                     android:gravity="left|center_vertical"
                     android:textColor="#FFDB4C"
                     android:textSize="18sp"
-                    app:textStyle="medium" />
+                    app:textStyle="medium"/>
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/trip_bucket_price_text"
@@ -92,7 +100,7 @@
                     android:textAllCaps="true"
                     android:textColor="#7FFFFFFF"
                     android:textSize="16sp"
-                    app:textStyle="medium" />
+                    app:textStyle="medium"/>
 
             </LinearLayout>
 
@@ -161,7 +169,7 @@
     <FrameLayout
         android:id="@+id/trip_bucket_item_price_change_clip_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/price_change_notification_container"
@@ -177,13 +185,13 @@
                 android:layout_marginRight="30dp"
                 android:layout_gravity="right"
                 android:adjustViewBounds="true"
-                android:src="@drawable/bg_price_alert_arrow" />
+                android:src="@drawable/bg_price_alert_arrow"/>
 
             <View
                 android:id="@+id/grey_bar"
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
-                android:background="#BFBFBF" />
+                android:background="#BFBFBF"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -199,12 +207,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/ic_price_alert_exclamation" />
+                    android:src="@drawable/ic_price_alert_exclamation"/>
 
                 <TextView
                     android:id="@+id/price_change_notification_text"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
         </LinearLayout>
 
