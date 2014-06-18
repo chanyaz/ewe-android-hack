@@ -95,16 +95,6 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
-		// Let's refresh the item state to reflect that of the existing bucket item. And update for only SHOWING_CHECKOUT_BUTTON & BOOKING_UNAVAILABLE states.
-		if (Db.getTripBucket().getFlight() != null
-			&& (Db.getTripBucket().getFlight().getState() == TripBucketItemState.SHOWING_CHECKOUT_BUTTON || Db.getTripBucket().getFlight().getState() == TripBucketItemState.BOOKING_UNAVAILABLE)) {
-			setVisibilityState(Db.getTripBucket().getFlight().getState());
-		}
-	}
-
-	@Override
 	public void onPause() {
 		super.onPause();
 	}
@@ -290,6 +280,16 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		Db.getTripBucket().getFlight().setSelected(isSelected);
 		if (Db.getTripBucket().getHotel() != null) {
 			Db.getTripBucket().getHotel().setSelected(!isSelected);
+		}
+	}
+
+	@Override
+	public TripBucketItemState getItemState() {
+		if (Db.getTripBucket().getFlight() == null) {
+			return null;
+		}
+		else {
+			return Db.getTripBucket().getFlight().getState();
 		}
 	}
 

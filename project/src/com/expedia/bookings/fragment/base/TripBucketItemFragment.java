@@ -145,7 +145,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	public void onResume() {
 		super.onResume();
 		Events.register(this);
-		refreshTripPrice();
+		refreshBucketItem();
 	}
 
 	@Override
@@ -254,6 +254,18 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		}
 		if (!mBreakdownFrag.isAdded()) {
 			mBreakdownFrag.show(getFragmentManager(), BreakdownDialogFragment.TAG);
+		}
+	}
+
+	private void refreshBucketItem() {
+		refreshTripPrice();
+		/*
+		 * Let's refresh the item state to reflect that of the existing bucket item. Let's update only for PURCHASED & BOOKING_UNAVAILABLE,
+		 * since for the rest of the states we want the user to be able to book it, i.e. show the book now button.
+		 */
+		TripBucketItemState state = getItemState();
+		if (state != null && (state == TripBucketItemState.PURCHASED || state == TripBucketItemState.BOOKING_UNAVAILABLE)) {
+			setVisibilityState(state);
 		}
 	}
 
@@ -655,5 +667,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	public abstract boolean isSelected();
 
 	public abstract void setSelected(boolean isSelected);
+
+	public abstract TripBucketItemState getItemState();
 
 }

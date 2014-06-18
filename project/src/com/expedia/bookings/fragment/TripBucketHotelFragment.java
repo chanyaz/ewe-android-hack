@@ -127,16 +127,6 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
-		// Let's refresh the item state to reflect that of the existing bucket item. And update for only SHOWING_CHECKOUT_BUTTON & BOOKING_UNAVAILABLE states.
-		if (Db.getTripBucket().getHotel() != null
-			&& (Db.getTripBucket().getHotel().getState() == TripBucketItemState.SHOWING_CHECKOUT_BUTTON || Db.getTripBucket().getHotel().getState() == TripBucketItemState.BOOKING_UNAVAILABLE)) {
-			setVisibilityState(Db.getTripBucket().getHotel().getState());
-		}
-	}
-
-	@Override
 	public void addTripBucketImage(ImageView imageView, HeaderBitmapColorAveragedDrawable headerBitmapDrawable) {
 		int placeholderResId = Ui.obtainThemeResID((Activity) getActivity(), R.attr.HotelRowThumbPlaceHolderDrawable);
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
@@ -209,6 +199,16 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		Db.getTripBucket().getHotel().setSelected(isSelected);
 		if (Db.getTripBucket().getFlight() != null) {
 			Db.getTripBucket().getFlight().setSelected(!isSelected);
+		}
+	}
+
+	@Override
+	public TripBucketItemState getItemState() {
+		if (Db.getTripBucket().getHotel() == null) {
+			return null;
+		}
+		else {
+			return Db.getTripBucket().getHotel().getState();
 		}
 	}
 

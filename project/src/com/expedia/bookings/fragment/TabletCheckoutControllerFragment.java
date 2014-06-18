@@ -288,10 +288,21 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				Db.getTripBucket().getHotel().setIsCouponApplied(false);
 				Db.getTripBucket().getHotel().setHasPriceChanged(false);
 				Db.getTripBucket().getHotel().setSelected(false);
+				/*
+				 * If the state tripBucketItem state is CONFIRMATION, let's reset it to PURCHASED.
+				 * In the case when user hits back button and goes to results screen, we want to show the users it as PURCHASED.
+				 */
+				if (Db.getTripBucket().getHotel().getState() == TripBucketItemState.CONFIRMATION) {
+					Db.getTripBucket().getHotel().setState(TripBucketItemState.PURCHASED);
+				}
 			}
 			if (Db.getTripBucket().getFlight() != null) {
 				Db.getTripBucket().getFlight().setHasPriceChanged(false);
 				Db.getTripBucket().getFlight().setSelected(false);
+				// Same as for hotels, above.
+				if (Db.getTripBucket().getFlight().getState() == TripBucketItemState.CONFIRMATION) {
+					Db.getTripBucket().getFlight().setState(TripBucketItemState.PURCHASED);
+				}
 			}
 		}
 	}
