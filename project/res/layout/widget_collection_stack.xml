@@ -28,10 +28,9 @@
         android:id="@+id/checkmark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_booking_complete_check"
-        android:alpha="132"
         android:layout_gravity="center"
         android:layout_marginBottom="24dp"
+        android:src="@drawable/ic_booking_complete_check"
         android:visibility="gone" />
 
 </merge>

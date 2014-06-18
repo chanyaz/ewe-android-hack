@@ -137,8 +137,8 @@ public class CollectionStack extends FrameLayout {
 		headerBitmapDrawable.setCallback(new L2ImageCache.OnBitmapLoaded() {
 			@Override
 			public void onBitmapLoaded(String url, Bitmap bitmap) {
-				ColorBuilder builder = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)).darkenBy(0.4f);
-				mTextView.setBackgroundColor(builder.build());
+				int color = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)).darkenBy(0.4f).build();
+				mTextView.setBackgroundColor(Color.argb(224, Color.red(color), Color.green(color), Color.blue(color)));
 			}
 
 			@Override
