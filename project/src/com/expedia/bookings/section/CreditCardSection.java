@@ -17,6 +17,7 @@ import com.expedia.bookings.utils.NumberMaskFormatter;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AutoResizeTextView;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.ViewUtils;
 
 public class CreditCardSection extends LinearLayout {
 
@@ -90,7 +91,14 @@ public class CreditCardSection extends LinearLayout {
 
 		// #1116 - For some reason this typeface calculates the left edge
 		// bounds incorrectly, so we add a space just in case.
-		mSignatureTextView.setText(" " + name);
+		StringBuilder sb = new StringBuilder(name);
+		sb.insert(0, ' ');
+
+		// Always calculate a minimum text size so that we don't show the tiniest size possible
+		// after a rotation, and so if the name becomes shorter, we'll also use a larger size.
+		float minTextSize = ViewUtils.getTextSizeForMaxLines(getContext(), sb.toString(), mSignatureTextView.getPaint(), mSignatureTextView.getWidth(), 1, 40, 5);
+		mSignatureTextView.setMinTextSize(minTextSize);
+		mSignatureTextView.setText(sb.toString());
 
 		// Fill in card digits
 		TextView cardDigitsText = Ui.findView(this, R.id.obscured_card_digits);
