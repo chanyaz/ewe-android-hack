@@ -22,6 +22,7 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 
 	private HorizontalScrollView mScrollView;
 	private LinearLayout mItemsContainer;
+	private CollectionStack mSelectedStack;
 
 	public static DestinationTilesFragment newInstance() {
 		DestinationTilesFragment frag = new DestinationTilesFragment();
@@ -96,8 +97,9 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 		if (getActivity() != null) {
 			LayoutInflater inflater = LayoutInflater.from(getActivity());
 			for (LaunchCollection collection : event.collections) {
-				addCollection(inflater, collection, event.selectedCollection);
+				addCollection(inflater, collection);
 			}
+			onLaunchCollectionClicked(new Events.LaunchCollectionClicked(event.selectedCollection));
 		}
 
 		mItemsContainer.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
@@ -123,11 +125,13 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 
 	private void setCheckedCollection(CollectionStack stack) {
 		clearChecks();
+		mSelectedStack = stack;
 		stack.setCheckEnabled(true);
 	}
 
 	private void clearCollections() {
 		mItemsContainer.removeAllViews();
+		mSelectedStack = null;
 	}
 
 	private void clearChecks() {
@@ -137,7 +141,7 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 		}
 	}
 
-	private void addCollection(LayoutInflater inflater, final LaunchCollection collectionToAdd, final LaunchCollection selectedCollection) {
+	private void addCollection(LayoutInflater inflater, final LaunchCollection collectionToAdd) {
 		final CollectionStack c = (CollectionStack) inflater.inflate(R.layout.snippet_destination_stack, mItemsContainer, false);
 		c.setStackDrawable(collectionToAdd.getImageUrl());
 		c.setText(collectionToAdd.title);
@@ -145,12 +149,13 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 		c.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Events.post(new Events.LaunchCollectionClicked(collectionToAdd));
-				setCheckedCollection(c);
+				if (mSelectedStack != (CollectionStack) view) {
+					// Only fire event if the stack isn't already selected
+					Events.post(new Events.LaunchCollectionClicked(collectionToAdd));
+					setCheckedCollection(c);
+				}
 			}
 		});
-		c.setCheckEnabled(collectionToAdd.equals(selectedCollection));
-
 		mItemsContainer.addView(c);
 	}
 }
