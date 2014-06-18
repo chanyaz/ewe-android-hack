@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LaunchPin;
 import com.jhlabs.map.Point2D;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 public class TabletLaunchMapFragment extends SvgMapFragment {
@@ -243,7 +245,8 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		};
 		LayerDrawable allDrawables = new LayerDrawable(drawables);
 		getMapView().setBackgroundDrawable(allDrawables);
-		mRoot.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+		int layerType = AndroidUtils.hasJellyBeanMR1() ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_SOFTWARE;
+		getMapView().setLayerType(layerType, null);
 	}
 
 	private void generatePins(LaunchCollection launchCollection) {
