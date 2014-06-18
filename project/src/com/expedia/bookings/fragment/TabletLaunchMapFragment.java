@@ -44,7 +44,8 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	private GradientDrawable mLinearGradDrawable;
 	private GradientDrawable mRadialGradDrawable;
 
-	LaunchPin mClickedPin;
+	private LaunchCollection mSelectedCollection;
+	private LaunchLocation mSelectedLocation;
 
 	public static TabletLaunchMapFragment newInstance() {
 		TabletLaunchMapFragment frag = new TabletLaunchMapFragment();
@@ -93,43 +94,48 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 
 	@Subscribe
 	public void onLaunchCollectionsAvailable(final Events.LaunchCollectionsAvailable event) {
-		showMeTheMap(event.selectedCollection);
+		mSelectedCollection = event.selectedCollection;
+		mSelectedLocation = event.selectedLocation;
+		onLaunchCollectionClicked(new Events.LaunchCollectionClicked(event.selectedCollection));
 	}
 
 	@Subscribe
 	public void onLaunchCollectionClicked(final Events.LaunchCollectionClicked event) {
-		showMeTheMap(event.launchCollection);
-	}
-
-	private void showMeTheMap(final LaunchCollection launchCollection) {
 		if (isMeasurable()) {
-			renderMap(launchCollection);
+			renderMap(event.launchCollection);
 		}
 		else {
 			mRoot.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 				@Override
 				public boolean onPreDraw() {
 					mRoot.getViewTreeObserver().removeOnPreDrawListener(this);
-					renderMap(launchCollection);
+					renderMap(event.launchCollection);
 					return true;
 				}
 			});
 		}
 	}
 
+	private LaunchPin findClickedPin() {
+		for (int i = 0; i < mPinC.getChildCount(); i++) {
+			LaunchPin pin = (LaunchPin) mPinC.getChildAt(i);
+			if (pin.getLaunchLocation() == mSelectedLocation) {
+				return pin;
+			}
+		}
+
+		return null;
+	}
+
 	SingleStateListener mDetailsStateListener = new SingleStateListener<>(
 		LaunchState.DEFAULT, LaunchState.DETAILS, true, new ISingleStateListener() {
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
-			for (int i = 0; i < mPinC.getChildCount(); i++) {
-				View child = mPinC.getChildAt(i);
-				if (child instanceof LaunchPin) {
-					LaunchPin pin = (LaunchPin) child;
-					if (pin.equals(mClickedPin)) {
-						pin.setVisibility(View.INVISIBLE);
-					}
-				}
+			LaunchPin pin = findClickedPin();
+			if (pin != null) {
+				pin.setVisibility(View.INVISIBLE);
 			}
+			mPinC.setVisibility(View.VISIBLE);
 		}
 
 		@Override
@@ -145,16 +151,30 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		@Override
 		public void onStateFinalized(boolean isReversed) {
 			if (isReversed) {
-				for (int i = 0; i < mPinC.getChildCount(); i++) {
-					LaunchPin child = (LaunchPin) mPinC.getChildAt(i);
-					if (child.equals(mClickedPin)) {
-						child.setVisibility(View.VISIBLE);
-					}
+				LaunchPin pin = findClickedPin();
+				if (pin != null) {
+					pin.setVisibility(View.VISIBLE);
 				}
+			}
+
+			if (isReversed) {
+				mPinC.setVisibility(View.VISIBLE);
+			}
+			else {
+				mPinC.setVisibility(View.INVISIBLE);
 			}
 		}
 	}
 	);
+
+	public Rect getClickedPinRect() {
+		LaunchPin pin = findClickedPin();
+		if (pin != null) {
+			return pin.getPinGlobalPosition();
+		}
+
+		return null;
+	}
 
 	/*
 	 * Private methods
@@ -241,8 +261,8 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		pin.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mClickedPin = pin;
-				Events.post(new Events.LaunchMapPinClicked(pin.getPinGlobalPosition(), metadata));
+				mSelectedLocation = metadata;
+				Events.post(new Events.LaunchMapPinClicked(metadata));
 			}
 		});
 

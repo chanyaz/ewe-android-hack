@@ -65,7 +65,7 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 
 	@Subscribe
 	public void onLaunchCollectionsAvailable(final Events.LaunchCollectionsAvailable event) {
-		onLaunchMapPinClicked(new Events.LaunchMapPinClicked(new Rect(0, 0, 1, 1), event.selectedLocation));
+		onLaunchMapPinClicked(new Events.LaunchMapPinClicked(event.selectedLocation));
 	}
 
 	@Subscribe

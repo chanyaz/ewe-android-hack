@@ -183,6 +183,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	}
 
 	public void setLaunchState(LaunchState state, boolean animate) {
+		mPinFragment.setOriginRect(mMapFragment.getClickedPinRect());
 		mStateManager.setState(state, animate);
 	}
 
@@ -357,7 +358,6 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 
 	@Subscribe
 	public void onMapPinClicked(Events.LaunchMapPinClicked event) {
-		mPinFragment.setOriginRect(event.origin);
 		setLaunchState(LaunchState.DETAILS, true);
 	}
 

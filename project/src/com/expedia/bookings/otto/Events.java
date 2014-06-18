@@ -149,11 +149,9 @@ public class Events {
 	}
 
 	public static class LaunchMapPinClicked {
-		public final Rect origin;
 		public final LaunchLocation launchLocation;
 
-		public LaunchMapPinClicked(Rect origin, LaunchLocation launchLocation) {
-			this.origin = origin;
+		public LaunchMapPinClicked(LaunchLocation launchLocation) {
 			this.launchLocation = launchLocation;
 		}
 	}
