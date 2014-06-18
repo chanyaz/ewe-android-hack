@@ -107,6 +107,7 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 	private SingleStateListener<LaunchState> mDetailsStateListener = new SingleStateListener<>(
 		LaunchState.DEFAULT, LaunchState.DETAILS, true, new ISingleStateListener() {
 
+		private boolean mJustFadeAway = false;
 		private float mMidX;
 		private float mMidY;
 		private float mRatio;
@@ -114,40 +115,52 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 		@Override
 		public void onStateTransitionStart(boolean isReversed) {
 			mPinDest = ScreenPositionUtils.getGlobalScreenPosition(mRoundImageTarget, false, false);
-			mMidX = (mPinOrigin.left + (mPinOrigin.right - mPinOrigin.left) / 2.0f)
-				- (mPinDest.left + (mPinDest.right - mPinDest.left) / 2.0f);
 
-			mMidY = (mPinOrigin.top + (mPinOrigin.bottom - mPinOrigin.top) / 2.0f)
-				- (mPinDest.top + (mPinDest.bottom - mPinDest.top) / 2.0f);
+			mJustFadeAway = mPinOrigin == null || mPinDest == null;
 
-			mRatio = mPinOrigin.width() / (float) mPinDest.width();
+			if (!mJustFadeAway) {
+				mMidX = (mPinOrigin.left + (mPinOrigin.right - mPinOrigin.left) / 2.0f)
+					- (mPinDest.left + (mPinDest.right - mPinDest.left) / 2.0f);
+
+				mMidY = (mPinOrigin.top + (mPinOrigin.bottom - mPinOrigin.top) / 2.0f)
+					- (mPinDest.top + (mPinDest.bottom - mPinDest.top) / 2.0f);
+
+				mRatio = mPinOrigin.width() / (float) mPinDest.width();
+			}
 		}
 
 		@Override
 		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
-			float scale = delta(mRatio, 1.0f, percentage);
+			if (mJustFadeAway) {
+				mRoundImage.setAlpha(percentage);
+				mTextLayout.setAlpha(percentage);
+			}
+			else {
+				float scale = delta(mRatio, 1.0f, percentage);
 
-			float translationx = delta(mMidX, 0.0f, percentage);
-			float translationy = delta(mMidY, 0.0f, percentage);
+				float translationx = delta(mMidX, 0.0f, percentage);
+				float translationy = delta(mMidY, 0.0f, percentage);
 
-			mRoundImage.setTranslationX(translationx);
-			mRoundImage.setTranslationY(translationy);
-			mRoundImage.setScaleX(scale);
-			mRoundImage.setScaleY(scale);
+				mRoundImage.setTranslationX(translationx);
+				mRoundImage.setTranslationY(translationy);
+				mRoundImage.setScaleX(scale);
+				mRoundImage.setScaleY(scale);
 
-			mTextLayout.setTranslationX(translationx);
-			mTextLayout.setAlpha(percentage);
-			mTextLayout.setScaleX(scale);
-			mTextLayout.setScaleY(scale);
+				mTextLayout.setTranslationX(translationx);
+				mTextLayout.setAlpha(percentage);
+				mTextLayout.setScaleX(scale);
+				mTextLayout.setScaleY(scale);
+			}
 		}
 
 		@Override
 		public void onStateTransitionEnd(boolean isReversed) {
-
+			mTextLayout.setAlpha(isReversed ? 0.0f : 1.0f);
 		}
 
 		@Override
 		public void onStateFinalized(boolean isReversed) {
+			mRoundImage.setAlpha(1.0f);
 		}
 
 		private float delta(float start, float end, float percentage) {

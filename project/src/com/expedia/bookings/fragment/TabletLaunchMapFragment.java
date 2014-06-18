@@ -119,7 +119,7 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 	private LaunchPin findClickedPin() {
 		for (int i = 0; i < mPinC.getChildCount(); i++) {
 			LaunchPin pin = (LaunchPin) mPinC.getChildAt(i);
-			if (pin.getLaunchLocation() == mSelectedLocation) {
+			if (pin.getLaunchLocation() == mSelectedLocation && pin.getVisibility() != View.GONE) {
 				return pin;
 			}
 		}
