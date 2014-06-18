@@ -307,6 +307,8 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			mAbText1 = Ui.findView(ab.getCustomView(), R.id.text1);
 			mAbText2 = Ui.findView(ab.getCustomView(), R.id.text2);
 
+			mSearchBarC.setVisibility(View.VISIBLE);
+			mTilesC.setVisibility(View.VISIBLE);
 			mPinDetailC.setVisibility(View.VISIBLE);
 			mPinDetailC.setConsumeTouch(!isReversed);
 
