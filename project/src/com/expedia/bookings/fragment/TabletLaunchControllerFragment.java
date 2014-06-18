@@ -256,14 +256,14 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		public void onStateTransitionStart(boolean isReversed) {
 			if (!isReversed) {
 				getActivity().getActionBar().hide();
-				mSearchBarC.setVisibility(View.INVISIBLE);
-				mWaypointC.setVisibility(View.VISIBLE);
 			}
 			else {
 				getActivity().getActionBar().show();
-				mTilesC.setVisibility(View.VISIBLE);
-				mTilesC.setAlpha(1f);
 			}
+
+			mSearchBarC.setVisibility(View.INVISIBLE);
+			mWaypointC.setVisibility(View.VISIBLE);
+			mTilesC.setVisibility(View.VISIBLE);
 		}
 
 		@Override
@@ -280,10 +280,13 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 		public void onStateFinalized(boolean isReversed) {
 			if (!isReversed) {
 				getActivity().getActionBar().hide();
+				mSearchBarC.setVisibility(View.INVISIBLE);
 				mTilesC.setVisibility(View.INVISIBLE);
+				mWaypointC.setVisibility(View.VISIBLE);
 			}
 			else {
 				getActivity().getActionBar().show();
+				mTilesC.setVisibility(View.VISIBLE);
 				mSearchBarC.setVisibility(View.VISIBLE);
 				mWaypointC.setVisibility(View.INVISIBLE);
 			}
@@ -333,8 +336,19 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			ab.setDisplayHomeAsUpEnabled(!isReversed);
 			ab.setHomeButtonEnabled(!isReversed);
 
+			mPinDetailC.setConsumeTouch(!isReversed);
+
 			if (isReversed) {
+				// details hidden
+				mSearchBarC.setVisibility(View.VISIBLE);
+				mTilesC.setVisibility(View.VISIBLE);
 				mPinDetailC.setVisibility(View.INVISIBLE);
+			}
+			else {
+				// details showing
+				mSearchBarC.setVisibility(View.INVISIBLE);
+				mTilesC.setVisibility(View.INVISIBLE);
+				mPinDetailC.setVisibility(View.VISIBLE);
 			}
 		}
 	}
