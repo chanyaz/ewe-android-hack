@@ -579,15 +579,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				}
 			}
 
-			switch (stateTwo) {
-			case DESTINATION: {
-				mWaypointFragment.updateViewsForDestination();
-				break;
-			}
-			case FLIGHT_ORIGIN: {
+			if (stateTwo == ResultsSearchState.FLIGHT_ORIGIN) {
 				mWaypointFragment.updateViewsForOrigin();
-				break;
-			}
 			}
 
 			setActionbarShowingState(stateTwo);

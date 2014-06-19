@@ -4,8 +4,6 @@
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Search destinations and landmarks</string>
-    <!-- Hint in edit text that the user should type in a destination (location) -->
-    <string name="destinations_hint">Search destinations&#8230;</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
     <string name="origins_hint">Search origins&#8230;</string>
     <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
