@@ -233,6 +233,12 @@ public class TabletWaypointFragment extends Fragment
 		}
 	}
 
+	public void updateViewsForDestination() {
+		if (mWaypointEditText != null) {
+			mWaypointEditText.setHint(R.string.search_all_hint);
+		}
+	}
+
 	private TextView.OnEditorActionListener mSearchActionListener = new TextView.OnEditorActionListener() {
 		@Override
 		public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {

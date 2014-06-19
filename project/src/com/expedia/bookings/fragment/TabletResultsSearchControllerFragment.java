@@ -582,6 +582,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			if (stateTwo == ResultsSearchState.FLIGHT_ORIGIN) {
 				mWaypointFragment.updateViewsForOrigin();
 			}
+			else if (stateTwo == ResultsSearchState.DESTINATION) {
+				mWaypointFragment.updateViewsForDestination();
+			}
 
 			setActionbarShowingState(stateTwo);
 		}
