@@ -413,22 +413,21 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		ViewGroup amenitiesTableRow = Ui.findView(view, R.id.amenities_table_row);
 		amenitiesTableRow.removeAllViews();
 
-		// Center the amenities if they don't take up the full width
-		float amenitiesWidth = LayoutUtils.estimateAmenitiesWidth(getActivity(), property);
-		float desiredPadding = (mGrid.getColWidth(1) - amenitiesWidth) / 2;
-		float minPadding = 0;
-		int padding = (int) Math.max(minPadding, desiredPadding);
-		mAmenitiesContainer.setPadding(padding, 0, 0, 0);
-
-		LayoutUtils.addAmenities(getActivity(), property, amenitiesTableRow);
-
-		// Hide the text that indicated no amenities because there are amenities
-		view.findViewById(R.id.amenities_none_text).setVisibility(View.GONE);
 		if (property.hasAmenities()) {
+			// Center the amenities if they don't take up the full width
+			float amenitiesWidth = LayoutUtils.estimateAmenitiesWidth(getActivity(), property);
+			float desiredPadding = (mGrid.getColWidth(1) - amenitiesWidth) / 2;
+			float minPadding = 0;
+			int padding = (int) Math.max(minPadding, desiredPadding);
+			mAmenitiesContainer.setPadding(padding, 0, 0, 0);
+
+			LayoutUtils.addAmenities(getActivity(), property, amenitiesTableRow);
 			view.findViewById(R.id.amenities_scroll_view).setVisibility(View.VISIBLE);
+			view.findViewById(R.id.amenities_none_text).setVisibility(View.GONE);
 		}
 		else {
-			view.findViewById(R.id.amenities_scroll_view).setVisibility(View.GONE);
+		      view.findViewById(R.id.amenities_scroll_view).setVisibility(View.GONE);
+		      mAmenitiesContainer.setVisibility(View.GONE);
 		}
 	}
 
@@ -802,8 +801,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			// Notify affected child fragments to refresh.
 
 			mResponse = response;
-			populateViews();
 			toggleLoadingState(false);
+			populateViews();
 			Events.post(new Events.HotelAvailabilityUpdated());
 		}
 	};
