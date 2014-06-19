@@ -1,11 +1,18 @@
 package com.expedia.bookings.widget;
 
+import java.util.Random;
+
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewPropertyAnimator;
+import android.view.ViewTreeObserver.OnPreDrawListener;
+import android.view.animation.OvershootInterpolator;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.L2ImageCache;
@@ -17,6 +24,7 @@ import com.expedia.bookings.utils.Ui;
 
 public class LaunchPin extends FrameLayout {
 
+	private static final Random mRandom = new Random();
 	private RoundImageView mImageView;
 	private TextView mTextView;
 
@@ -55,7 +63,7 @@ public class LaunchPin extends FrameLayout {
 
 	public void bind(LaunchLocation location) {
 		mLocation = location;
-		retrieveImage(location);
+		setPinText(location.title);
 	}
 
 	public LaunchLocation getLaunchLocation() {
@@ -72,18 +80,26 @@ public class LaunchPin extends FrameLayout {
 		return origin;
 	}
 
-	private void retrieveImage(final LaunchLocation location) {
-		UrlBitmapDrawable bitmap = UrlBitmapDrawable.loadImageView(location.getImageUrl(), mImageView);
+	public void retrieveImageAndStartAnimation() {
+		setVisibility(View.INVISIBLE);
+		UrlBitmapDrawable bitmap = UrlBitmapDrawable.loadImageView(mLocation.getImageUrl(), mImageView);
 		bitmap.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
 			@Override
 			public void onBitmapLoaded(String url, Bitmap bitmap) {
 				setPinBitmap(bitmap);
-				setPinText(location.title);
+				getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+					@Override
+					public boolean onPreDraw() {
+						getViewTreeObserver().removeOnPreDrawListener(this);
+						startPopinAnimation();
+						return true;
+					}
+				});
 			}
 
 			@Override
 			public void onBitmapLoadFailed(String url) {
-
+				// Ignore
 			}
 		});
 	}
@@ -103,4 +119,28 @@ public class LaunchPin extends FrameLayout {
 		mTextView.setVisibility(View.VISIBLE);
 	}
 
+	private void startPopinAnimation() {
+		setLayerType(View.LAYER_TYPE_HARDWARE, null);
+		setPivotX(getWidth() / 2.0f);
+		float mapPinImageSize = getContext().getResources().getDimension(R.dimen.launch_pin_size);
+		setPivotY(mapPinImageSize / 2.0f);
+
+		setScaleX(0.0f);
+		setScaleY(0.0f);
+		setVisibility(View.VISIBLE);
+
+		ViewPropertyAnimator anim = animate();
+		anim.scaleX(1.0f);
+		anim.scaleY(1.0f);
+		anim.setListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator anim) {
+				setLayerType(View.LAYER_TYPE_NONE, null);
+			}
+		});
+		anim.setInterpolator(new OvershootInterpolator(2.0f));
+		anim.setDuration(500);
+		anim.setStartDelay(mRandom.nextInt(400));
+		anim.start();
+	}
 }
