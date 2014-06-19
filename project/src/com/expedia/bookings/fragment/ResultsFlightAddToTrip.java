@@ -151,6 +151,7 @@ public class ResultsFlightAddToTrip extends Fragment {
 				mBucketFlightC.setVisibility(View.VISIBLE);
 				if (mBucketFlightFrag != null && mBucketFlightFrag.isResumed()) {
 					//Bind it up fool!
+					mBucketFlightFrag.setRoundedCornersVisible(false);
 					mBucketFlightFrag.bind();
 				}
 			}

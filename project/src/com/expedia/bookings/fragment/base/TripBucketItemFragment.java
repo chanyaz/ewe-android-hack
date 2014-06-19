@@ -15,7 +15,6 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.dialog.BreakdownDialogFragment;
@@ -232,6 +231,12 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		if (priceChangeText != null) {
 			this.mPriceChangeNotificationText = priceChangeText;
 			mPriceChangedTv.setText(priceChangeText);
+		}
+	}
+
+	public void setRoundedCornersVisible(boolean visible) {
+		if (mCardCornersBottom != null) {
+			mCardCornersBottom.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
 		}
 	}
 
