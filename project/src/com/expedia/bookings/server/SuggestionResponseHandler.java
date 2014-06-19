@@ -41,6 +41,7 @@ public class SuggestionResponseHandler extends JsonResponseHandler<SuggestionRes
 
 			int len = suggestionsArr.length();
 			for (int a = 0; a < len; a++) {
+				boolean unknown = false;
 				JSONObject suggestionJson = suggestionsArr.optJSONObject(a);
 
 				// #2128 - Filter out minor airports from results as they are never useful
@@ -59,6 +60,7 @@ public class SuggestionResponseHandler extends JsonResponseHandler<SuggestionRes
 				}
 				else if (!TextUtils.isEmpty(resultType)) {
 					Log.w("Unknown suggest result type: \"" + resultType + "\"");
+					unknown = true;
 				}
 
 				String searchType = suggestionJson.optString("t");
@@ -76,6 +78,7 @@ public class SuggestionResponseHandler extends JsonResponseHandler<SuggestionRes
 				}
 				else if (!TextUtils.isEmpty(searchType)) {
 					Log.w("Unknown suggest search type: \"" + searchType + "\"");
+					unknown = true;
 				}
 
 				String regionType = suggestionJson.optString("rt");
@@ -102,6 +105,12 @@ public class SuggestionResponseHandler extends JsonResponseHandler<SuggestionRes
 				}
 				else if (!TextUtils.isEmpty(regionType)) {
 					Log.w("Unknown suggest region type: \"" + regionType + "\"");
+					unknown = true;
+				}
+
+				if (unknown) {
+					// Skip it
+					continue;
 				}
 
 				suggestion.setFullName(suggestionJson.optString("f", null));

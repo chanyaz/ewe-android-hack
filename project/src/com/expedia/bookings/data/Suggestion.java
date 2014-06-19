@@ -42,6 +42,7 @@ public class Suggestion implements JSONable {
 		ADDRESS,
 		HOTEL,
 		METROSTATION,
+		TRAINSTATION,
 	}
 
 	public Suggestion() {
