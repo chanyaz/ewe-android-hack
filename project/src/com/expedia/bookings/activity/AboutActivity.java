@@ -16,12 +16,14 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialog;
+import com.expedia.bookings.invaders.InvaderActivity;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.Ui;
@@ -442,9 +444,16 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 
 	private void activateSecret() {
 		// Normally we wouldn't access the Fragment's logo directly, but this is a special case.
-		ImageView logo = Ui.findView(this, R.id.logo);
+		ImageView logo = Ui.findView(this, com.mobiata.android.R.id.logo);
 		if (logo != null) {
 			logo.setImageResource(R.drawable.ic_secret);
+			logo.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					Intent intent = new Intent(AboutActivity.this, InvaderActivity.class);
+					startActivity(intent);
+				}
+			});
 		}
 	}
 }
