@@ -351,6 +351,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		if (mSlideFragment != null) {
 			mSlideFragment.setLob(lob);
 		}
+		if (mBookingUnavailableFragment != null) {
+			mBookingUnavailableFragment.setLob(lob);
+		}
 	}
 
 	/*

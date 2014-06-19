@@ -19,6 +19,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.CheckoutState;
+import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -353,15 +354,25 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	 * ITripBucketBookClickListener
 	 */
 
-	public void onTripBucketBookClicked(LineOfBusiness lob) {
-		updateLob(lob);
-		setCheckoutState(CheckoutState.OVERVIEW, true);
-	}
-
 	/*
 	 * CACHED DATA LOADING...
 	 */
 	private boolean mLoadedDbInfo = false;
+
+	public void onTripBucketBookClicked(LineOfBusiness lob) {
+		updateLob(lob);
+		CheckoutState state;
+		if (lob == LineOfBusiness.FLIGHTS && Db.getTripBucket().getFlight().getState() == TripBucketItemState.BOOKING_UNAVAILABLE) {
+			state = CheckoutState.BOOKING_UNAVAILABLE;
+		}
+		else if (lob == LineOfBusiness.HOTELS && Db.getTripBucket().getHotel().getState() == TripBucketItemState.BOOKING_UNAVAILABLE) {
+			state = CheckoutState.BOOKING_UNAVAILABLE;
+		}
+		else {
+			state = CheckoutState.OVERVIEW;
+		}
+		setCheckoutState(state, true);
+	}
 
 	private void loadCachedData(boolean wait) {
 		if (!mLoadedDbInfo) {

@@ -31,6 +31,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.CheckoutFormState;
+import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.fragment.CheckoutLoginButtonsFragment.IWalletButtonStateChangedListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.base.LobableFragment;
@@ -290,7 +291,13 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	@Override
 	public void onLobSet(LineOfBusiness lob) {
 		if (mRootC != null) {
-			buildCheckoutForm();
+			// Let's not build the checkout form when trip is sold out.
+			if (lob == LineOfBusiness.FLIGHTS && Db.getTripBucket().getFlight().getState() != TripBucketItemState.BOOKING_UNAVAILABLE) {
+				buildCheckoutForm();
+			}
+			else if (lob == LineOfBusiness.HOTELS && Db.getTripBucket().getHotel().getState() != TripBucketItemState.BOOKING_UNAVAILABLE) {
+				buildCheckoutForm();
+			}
 		}
 	}
 

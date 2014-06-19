@@ -57,6 +57,9 @@ public class BookingUnavailableFragment extends LobableFragment {
 
 	@Override
 	public void onLobSet(LineOfBusiness lob) {
+		if (isAdded()) {
+			updateViews();
+		}
 	}
 
 	private View.OnClickListener mClickListener = new View.OnClickListener() {
