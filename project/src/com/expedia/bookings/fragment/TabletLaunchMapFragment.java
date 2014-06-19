@@ -269,9 +269,6 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		Point2D.Double transformed = projectToScreen(loc.getLatitude(), loc.getLongitude());
 		int marginLeft = (int) (transformed.x - pin.getMeasuredWidth() / 2);
 		int marginTop = (int) (transformed.y - pin.getMeasuredHeight() / 2);
-		MarginLayoutParams lp = (MarginLayoutParams) pin.getLayoutParams();
-		lp.setMargins(marginLeft, marginTop, 0, 0);
-		pin.setLayoutParams(lp);
 
 		boolean overlaps = false;
 		Rect thisPinRect = new Rect(marginLeft, marginTop, marginLeft + pin.getMeasuredWidth(), marginTop + pin.getMeasuredHeight());
@@ -284,6 +281,10 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 
 		if (!overlaps) {
 			mNonOverlappingRects.add(thisPinRect);
+
+			MarginLayoutParams lp = (MarginLayoutParams) pin.getLayoutParams();
+			lp.setMargins(marginLeft, marginTop, 0, 0);
+			pin.setLayoutParams(lp);
 
 			mPinC.addView(pin);
 			pin.setOnClickListener(new View.OnClickListener() {
