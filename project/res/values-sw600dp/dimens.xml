@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Resources for TABLET SPECIFIC dimensions. These will be used on both 7" and 10" tablets.
+    Overrides for 10" tablet specific dimensions should go in values-sw800dp
+    and dimensions for app generic dimensions should go in values -->
+
+    <dimen name="tablet_search_width">460dp</dimen>
+    <dimen name="tablet_result_corner_radius">2dp</dimen>
+    <dimen name="tablet_result_row_primary_text_size">15sp</dimen>
+    <dimen name="tablet_result_row_secondary_text_size">14sp</dimen>
+    <dimen name="tablet_result_row_price_size">21sp</dimen>
+
     <!-- Launch Screen -->
     <dimen name="launch_pin_size">86dp</dimen>
     <dimen name="launch_pin_detail_size">150dp</dimen>
+
+    <!-- For map pins on tablet launch screen -->
+    <dimen name="destination_search_stack_width">186dp</dimen>
+    <dimen name="destination_search_stack_height">160dp</dimen>
+    <dimen name="destination_search_tile_width">166dp</dimen>
+    <dimen name="destination_search_tile_height">140dp</dimen>
+    <dimen name="destination_search_item_divider_padding">24dp</dimen>
+    <dimen name="destination_stack_padding">5dp</dimen>
+    <dimen name="destination_stack_text_container_height">56dp</dimen>
+    <dimen name="destination_stack_corner_radius">3dp</dimen>
+    <dimen name="destination_search_tile_text_margin_top">94dp</dimen>
+    <dimen name="hotels_map_pin_padding">50dp</dimen>
+    <dimen name="tablet_search_header_height">44dp</dimen>
+    <dimen name="tablet_results_flight_map_padding">40dp</dimen>
+    <dimen name="tablet_results_hotel_map_pin_padding">64dp</dimen>
+    <dimen name="hotel_map_price_pin_text_size">12dp</dimen>
 
     <!-- Account / Login button -->
     <dimen name="account_button_margin_top">0dp</dimen>
@@ -15,14 +41,33 @@
     <!-- Special dimensions for 7" tablets -->
     <dimen name="receipt_portrait_horizontal_margin">0dp</dimen>
 
-    <!-- CVV text entry for tablet -->
-    <dimen name="cvv_keypad_text_size">30sp</dimen>
-    <dimen name="cvv_keypad_book_text_size">18dp</dimen>
+    <!-- Search Results -->
+    <dimen name="checkbox_filter_widget_padding_left">38dp</dimen>
+    <dimen name="sliding_filter_row_height">44dp</dimen>
+    <dimen name="results_column_spacing">2dp</dimen>
+    <dimen name="results_list_spacer_height">8dp</dimen>
+    <dimen name="results_list_margin_top">40dp</dimen>
+    <dimen name="results_column_header_height">48dp</dimen>
+
+    <dimen name="results_flight_histogram_horizontal_padding">16dp</dimen>
+    <dimen name="results_flight_histogram_vertical_padding">10dp</dimen>
+    <dimen name="results_flight_histogram_price_horizontal_margin">10dp</dimen>
+    <dimen name="results_flight_histogram_vertical_margin">6dp</dimen>
+    <dimen name="results_flight_histogram_horizontal_margin">12dp</dimen>
+
+    <dimen name="tablet_hotel_details_vertical_padding">64dp</dimen>
+    <fraction name="tablet_hotel_details_horizontal_spacing_percentage">14%</fraction>
+    <dimen name="bucket_top_margin">14dp</dimen>
+
+    <!-- Empty Search Result related dimens -->
+    <dimen name="tablet_empty_search_result_bg_top">207dp</dimen>
+    <dimen name="tablet_empty_search_result_text_bottom_margin">50dp</dimen>
 
     <!-- Hotel Details -->
     <dimen name="hotel_details_window_margin_x">90dp</dimen>
     <dimen name="hotel_details_window_margin_y">64dp</dimen>
     <dimen name="hotel_header_height">172dp</dimen>
+    <dimen name="hotel_row_med_container_height">28dp</dimen>
     <dimen name="hotel_details_horizontal_padding">28dp</dimen>
     <dimen name="hotel_details_callout_text_margin_x">12dp</dimen>
     <dimen name="hotel_details_callout_text_margin_y">12dp</dimen>
@@ -30,6 +75,10 @@
     <dimen name="hotel_details_callout_text_padding_y">5dp</dimen>
     <dimen name="hotel_room_rate_thumbnail_width">189dp</dimen>
     <dimen name="hotel_room_rate_thumbnail_height">125dp</dimen>
+    <dimen name="non_refundable_tweak">0dp</dimen>
+    <dimen name="add_rate_button_min_width">48dp</dimen>
+    <dimen name="tablet_details_compact_header_height">57dp</dimen>
+    <dimen name="tablet_reviews_header_height">112dp</dimen>
 
     <!-- Hotel Details Rooms and rates row initial/unexpanded height -->
     <dimen name="hotel_room_rate_list_height">84dp</dimen>
@@ -68,9 +117,20 @@
     <dimen name="trip_bucket_primary_dest_size">46dp</dimen>
     <dimen name="trip_bucket_root_layout_padding_top">80dp</dimen>
     <dimen name="trip_bucket_empty_trip_container_padding_top">-40dp</dimen>
+    <dimen name="trip_bucket_item_horizontal_margin">32dp</dimen>
+    <dimen name="trip_bucket_swipe_out_distance">48dp</dimen>
+    <dimen name="trip_bucket_swipe_out_distance_half">24dp</dimen>
+    <dimen name="trip_bucket_sold_out_container_padding">2dp</dimen>
+    <dimen name="trip_bucket_sold_out_container_padding_bottom">6dp</dimen>
 
-    <!-- Tablet Empty Search Result related dimens -->
-    <dimen name="tablet_empty_search_result_bg_top">207dp</dimen>
-    <dimen name="tablet_empty_search_result_text_bottom_margin">50dp</dimen>
+    <!-- Tablet checkout -->
+    <dimen name="trip_bucket_expanded_card_padding">2dp</dimen>
+    <dimen name="cvv_text_view_right_margin_amex">20dp</dimen>
+    <dimen name="cvv_text_view_right_margin_other">82dp</dimen>
+    <dimen name="cvv_text_view_top_margin_amex">-10dp</dimen>
+    <dimen name="cvv_text_view_top_margin_other">-15dp</dimen>
+    <dimen name="tablet_checkout_form_autocomplete_width">256dp</dimen>
+    <dimen name="cvv_keypad_text_size">30sp</dimen>
+    <dimen name="cvv_keypad_book_text_size">18dp</dimen>
 
 </resources>

@@ -198,7 +198,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 				@Override
 				public View getInfoWindow(Marker marker) {
 					final Marker theMarker = marker;
-					View v = mInflater.inflate(R.layout.snippet_tablet_map_hotel_info_window, null);
+					View v = mInflater.inflate(R.layout.snippet_map_hotel_info_window, null);
 					Property property = mMarkersToProperties.get(marker);
 
 					TextView name = Ui.findView(v, R.id.hotel_name);
@@ -244,7 +244,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 					}
 					else {
 						List<String> urls = media.getBestUrls(
-							(int) (getResources().getDimension(R.dimen.tablet_hotel_map_popup_thumbnail_width)));
+							(int) (getResources().getDimension(R.dimen.hotel_map_popup_thumbnail_width)));
 						Bitmap bitmap = null;
 						for (String url : urls) {
 							bitmap = L2ImageCache.sGeneralPurpose.getImage(url, false);

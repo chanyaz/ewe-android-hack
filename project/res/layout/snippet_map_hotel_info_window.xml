@@ -75,8 +75,8 @@
 
             <ImageView
                 android:id="@+id/hotel_thumbnail"
-                android:layout_width="@dimen/tablet_hotel_map_popup_thumbnail_height"
-                android:layout_height="@dimen/tablet_hotel_map_popup_thumbnail_width"
+                android:layout_width="@dimen/hotel_map_popup_thumbnail_height"
+                android:layout_height="@dimen/hotel_map_popup_thumbnail_width"
                 android:scaleType="centerCrop" />
 
         </LinearLayout>
