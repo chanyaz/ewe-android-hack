@@ -18,6 +18,7 @@ import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.mobiata.flightlib.data.Flight;
+import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
 
 public class FlightBookingResponse extends GearResponse {
@@ -26,39 +27,23 @@ public class FlightBookingResponse extends GearResponse {
 
     @Override
     public JSONObject getResponseForGear() {
-
         generateFlightResponse();
-
         return responseForGear;
     }
 
-
     public void generateFlightResponse() {
-
         TripComponent component = this.tripComponent;
-
-        DateTime startDate = component.getStartDate();
-
         TripFlight compFlight = (TripFlight) component;
         FlightStatusProvider flightStatusProvider = new FlightStatusProvider();
 
         FlightTrip flightTrip = compFlight.getFlightTrip();
         int legCounts = flightTrip.getLegCount();
-        Log.d("GearAccessoryProviderService", "legCounts " + legCounts);
+
         FlightLeg flightLeg = null;
-        List<FlightConfirmation> confirmations = compFlight.getConfirmations();
         String confirmationNumber = null;
-        String airlineName = null;
         for (int i = 0; i < legCounts; i++) {
             flightLeg = flightTrip.getLeg(i);
             DateTime endTime = new DateTime(flightLeg.getLastWaypoint().getMostRelevantDateTime());
-            Log.d("GearAccessoryProviderService", endTime.toString());
-            Log.d("GearAccessoryProviderService", DateTime.now().toString());
-            Log.d("GearAccessoryProviderService", "cond " + endTime.isBeforeNow());
-			if (confirmations != null && i < confirmations.size()) {
-				confirmationNumber = getConfirmationNo(confirmations.get(i));
-				airlineName = getAirlineName(confirmations.get(i));
-			}
             if (endTime.isBeforeNow()) {
                 continue;
             }
@@ -66,35 +51,46 @@ public class FlightBookingResponse extends GearResponse {
         }
 
         Flight flight = flightStatusProvider.getMostRelevantFlightSegmentGear(flightLeg);
+        FlightCode flightCode = flight.getPrimaryFlightCode();
+
+        List<FlightConfirmation> confirmations = compFlight.getConfirmations();
+        for (int i = 0; i < confirmations.size(); i++) {
+            FlightConfirmation flightConfirmation = confirmations.get(i);
+            Log.d(GearAccessoryProviderService.TAG, "AirlineInfo Name:  " + flightCode.getAirline().mAirlineName + ", Code:  " + flightCode.mAirlineCode + " , Carrier " + flightConfirmation.getCarrier());
+            String flightName = flightCode.getAirline().mAirlineName;
+            if (flightConfirmation != null && flightName != null && (flightName.startsWith(flightConfirmation.getCarrier()) || flightName.equalsIgnoreCase(flightConfirmation.getCarrier()))) {
+                confirmationNumber = confirmations.get(i).getConfirmationCode();
+                break;
+            }
+        }
+        Log.d(GearAccessoryProviderService.TAG, "confirmationNumber  == " + confirmationNumber);
 
         String flightStatus = flightStatusProvider.getFlightStatus(flight);
-
-        Waypoint waypoint = flightLeg.getFirstWaypoint();
-        DateTime startDateTime = new DateTime(waypoint.getMostRelevantDateTime().getTimeInMillis());
+        Waypoint startWaypoint = flight.mOrigin;
         DateTimeZone timeZone = DateTimeZone.forOffsetMillis(TimeZone.getDefault().getOffset(Calendar.ZONE_OFFSET));
+        DateTime startDateTime = new DateTime(startWaypoint.getMostRelevantDateTime().getTimeInMillis());
         DateTime localDateTime = startDateTime.toDateTime(timeZone);
 
-        DateTime endDate = new DateTime(flightLeg.getLastWaypoint().getMostRelevantDateTime().getTimeInMillis());
+        Waypoint endWaypoint = flight.getArrivalWaypoint();
+        DateTime endDate = new DateTime(endWaypoint.getMostRelevantDateTime().getTimeInMillis());
         DateTime endDateTime = endDate.toDateTime(timeZone);
 
         responseForGear = new JSONObject();
         try {
             responseForGear.put("type", "FLIGHT");
             responseForGear.put("confirmationNo", confirmationNumber);
-            responseForGear.put("airlineName", airlineName + " " + flightLeg.getSegment(0).getPrimaryFlightCode().mNumber);
+            responseForGear.put("airlineName", flightCode.getAirline().mAirlineName + " " + flightCode.mNumber);
             responseForGear.put("flightStatus", flightStatus);
             responseForGear.put("departureTime", calFormatter.format(localDateTime.getMillis()));
             responseForGear.put("flightLegStartMillis", localDateTime.getMillis());
             responseForGear.put("flightLegEndMillis", endDateTime.getMillis());
-            responseForGear.put("landingInformation", calFormatter.format(flightLeg.getLastWaypoint().getMostRelevantDateTime().getTime()) + " (" + flightLeg.getLastWaypoint().getAirport().toJson().getString("name") + ")");
-            responseForGear.put("flightTerminalInfo", getTerminalInformation(flightLeg.getFirstWaypoint()));
+            responseForGear.put("landingInformation", calFormatter.format(endWaypoint.getMostRelevantDateTime().getTime()) + " (" + endWaypoint.getAirport().toJson().getString("name") + ")");
+            responseForGear.put("flightTerminalInfo", getTerminalInformation(startWaypoint));
             responseForGear.put("startDate", compFlight.getStartDate());
         } catch (Exception e) {
             Log.e(GearAccessoryProviderService.TAG, " Exception HotelsBookingResponse -- ", e);
         }
-
     }
-
 
     public String getConfirmationNo(FlightConfirmation obj) {
         return obj.getConfirmationCode();
@@ -115,5 +111,4 @@ public class FlightBookingResponse extends GearResponse {
         }
         return sb.toString();
     }
-
 }
