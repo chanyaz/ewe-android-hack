@@ -130,7 +130,7 @@ public class ExpediaServices implements DownloadListener {
 	private static final String FS_FLEX_APP_KEY = "6cf6ac9c083a45e93c6a290bf0cd442e";
 	private static final String FS_FLEX_BASE_URI = "https://api.flightstats.com/flex";
 
-	private static final String EXPEDIA_SUGGEST_BASE_URL = "http://suggest.expedia.com/hint/es/";
+	private static final String EXPEDIA_SUGGEST_BASE_URL = "http://suggest.expedia.com/";
 
 	public static final int REVIEWS_PER_PAGE = 25;
 
@@ -395,7 +395,16 @@ public class ExpediaServices implements DownloadListener {
 
 	private String getSuggestUrl(int version, SuggestType type) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(EXPEDIA_SUGGEST_BASE_URL);
+		String which = SettingUtils.get(mContext, mContext.getString(R.string.preference_which_api_to_use_key), "");
+		if (which.equals("Custom Server")) {
+			sb.append("http://" + SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address),
+				"localhost:3000") + "/");
+		}
+		else {
+			sb.append(EXPEDIA_SUGGEST_BASE_URL);
+		}
+
+		sb.append("hint/es/");
 
 		// Version #
 		sb.append("v" + Integer.toString(version) + "/");
