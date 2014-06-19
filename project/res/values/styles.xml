@@ -667,6 +667,15 @@
         <item name="android:maxHeight">40dp</item>
     </style>
 
+    <style name="Widget.Spinner.Tablet.CountryCode">
+        <item name="android:background">#7Fa6a6a6</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">-3dp</item>
+        <item name="android:gravity">center_horizontal|bottom</item>
+    </style>
+
     <style name="FakeSpinner" parent="Widget">
         <item name="android:background">@drawable/fake_spinner_default_holo_light</item>
         <item name="android:paddingLeft">12dp</item>
