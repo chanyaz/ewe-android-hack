@@ -54,6 +54,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	protected ViewGroup mRootC;
 	private ViewGroup mTopC;
 	private ViewGroup mExpandedC;
+	private View mCardCornersTop;
 	private View mCardCornersBottom;
 	private ViewGroup mPriceChangedClipC;
 	private ViewGroup mPriceChangedC;
@@ -95,6 +96,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		mTopC = Ui.findView(mRootC, R.id.trip_bucket_item_top_container);
 		mExpandedC = Ui.findView(mRootC, R.id.trip_bucket_item_expanded_container);
 		mCardCornersBottom = Ui.findView(mRootC, R.id.card_corners_bottom);
+		mCardCornersTop = Ui.findView(mRootC, R.id.card_corners_top);
 
 		if (savedInstanceState != null) {
 			String stateName = savedInstanceState.getString(STATE_BUCKET_ITEM_STATE);
@@ -237,6 +239,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	public void setRoundedCornersVisible(boolean visible) {
 		if (mCardCornersBottom != null) {
 			mCardCornersBottom.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+			mCardCornersTop.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
 		}
 	}
 
@@ -269,7 +272,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		 * since for the rest of the states we want the user to be able to book it, i.e. show the book now button.
 		 */
 		TripBucketItemState state = getItemState();
-		if (state != null && (state == TripBucketItemState.PURCHASED || state == TripBucketItemState.BOOKING_UNAVAILABLE)) {
+		if (state != null && (state == TripBucketItemState.PURCHASED
+			|| state == TripBucketItemState.BOOKING_UNAVAILABLE)) {
 			setVisibilityState(state);
 		}
 	}

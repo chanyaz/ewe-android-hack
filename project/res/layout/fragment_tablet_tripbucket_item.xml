@@ -143,6 +143,7 @@
         </RelativeLayout>
 
         <View
+            android:id="@+id/card_corners_top"
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:layout_gravity="top"
