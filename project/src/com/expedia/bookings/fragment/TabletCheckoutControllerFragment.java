@@ -307,6 +307,15 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 	}
 
+	public CheckoutState getCheckoutState() {
+		if (mStateManager != null) {
+			return mStateManager.getState();
+		}
+		else {
+			return null;
+		}
+	}
+
 	private void checkForAddedTrips() {
 		boolean hasHotel = Db.getTripBucket().getHotel() != null;
 		mBucketHotelContainer.setVisibility(hasHotel ? View.VISIBLE : View.GONE);
