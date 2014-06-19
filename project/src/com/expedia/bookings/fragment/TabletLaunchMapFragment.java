@@ -267,20 +267,26 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 		// Position on screen
 		Location loc = launchLocation.location.getLocation();
 		Point2D.Double transformed = projectToScreen(loc.getLatitude(), loc.getLongitude());
-		int marginLeft = (int) (transformed.x - pin.getMeasuredWidth() / 2);
-		int marginTop = (int) (transformed.y - pin.getMeasuredHeight() / 2);
+		final int marginLeft = (int) (transformed.x - pin.getMeasuredWidth() / 2);
+		final int marginTop = (int) (transformed.y - pin.getMeasuredHeight() / 2);
 
 		boolean overlaps = false;
-		Rect thisPinRect = new Rect(marginLeft, marginTop, marginLeft + pin.getMeasuredWidth(), marginTop + pin.getMeasuredHeight());
-		for (Rect otherPinRect : mNonOverlappingRects) {
-			if (Rect.intersects(thisPinRect, otherPinRect)) {
+		final int mapPinImageSize = getResources().getDimensionPixelSize(R.dimen.launch_pin_size);
+		final int imageLeft = (int) (pin.getMeasuredWidth() - mapPinImageSize) / 2;
+
+		// Break the pin down into its components for hit detection
+		Rect thisImageRect = new Rect(marginLeft + imageLeft, marginTop, marginLeft + imageLeft + mapPinImageSize, marginTop + mapPinImageSize);
+		Rect thisTextRect = new Rect(marginLeft, marginTop + mapPinImageSize, marginLeft + pin.getMeasuredWidth(), marginTop + pin.getMeasuredHeight());
+		for (Rect otherRect : mNonOverlappingRects) {
+			if (Rect.intersects(thisImageRect, otherRect) || Rect.intersects(thisTextRect, otherRect)) {
 				overlaps = true;
 				break;
 			}
 		}
 
 		if (!overlaps) {
-			mNonOverlappingRects.add(thisPinRect);
+			mNonOverlappingRects.add(thisImageRect);
+			mNonOverlappingRects.add(thisTextRect);
 
 			MarginLayoutParams lp = (MarginLayoutParams) pin.getLayoutParams();
 			lp.setMargins(marginLeft, marginTop, 0, 0);
