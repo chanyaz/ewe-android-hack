@@ -162,8 +162,10 @@ public class CollectionStack extends FrameLayout {
 		mTextView.setText(sb.build(), TextView.BufferType.SPANNABLE);
 	}
 
-	// From [-1, 1] because that's how I roll
-	// Used for animating the background stack effect
+	/**
+	 * Used for animating the background stack effect. Valid values range from [-1, 1].
+	 * @param amount
+	 */
 	public void setStackPosition(float amount) {
 		if (amount < -1.0f || amount > 1.0f) {
 			// Outside the bounds, just ignore

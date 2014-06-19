@@ -18,8 +18,6 @@ import com.squareup.otto.Subscribe;
 
 public class DestinationTilesFragment extends MeasurableFragment implements HorizontalScrollView.OnScrollListener {
 
-	private static final int ALL_DIVIDERS = LinearLayout.SHOW_DIVIDER_MIDDLE | LinearLayout.SHOW_DIVIDER_BEGINNING | LinearLayout.SHOW_DIVIDER_END;
-
 	private HorizontalScrollView mScrollView;
 	private LinearLayout mItemsContainer;
 	private CollectionStack mSelectedStack;
@@ -37,7 +35,6 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 		mScrollView.addOnScrollListener(this);
 
 		mItemsContainer = Ui.findView(root, R.id.destinations_container);
-		mItemsContainer.setShowDividers(ALL_DIVIDERS);
 
 		return root;
 	}
@@ -83,9 +80,10 @@ public class DestinationTilesFragment extends MeasurableFragment implements Hori
 
 			if (child instanceof CollectionStack) {
 				CollectionStack stack = (CollectionStack) child;
-				int stackCenter = left + (right - left) / 2;
-				int distance = (scrollCenter - stackCenter);
-				float amount = -1.0f * distance / scrollHalfWidth;
+				int stackHalfWidth = (right - left) / 2;
+				int stackCenter = left + stackHalfWidth;
+				int distance = scrollCenter - stackCenter;
+				float amount = distance / (scrollHalfWidth + stackHalfWidth);
 				stack.setStackPosition(amount);
 			}
 		}

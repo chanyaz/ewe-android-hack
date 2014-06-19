@@ -11,7 +11,8 @@
         android:layout_height="@dimen/destination_search_stack_height"
         android:clipChildren="false"
         android:divider="@drawable/destinations_divider"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:showDividers="beginning|end|middle">
 
     </LinearLayout>
 
