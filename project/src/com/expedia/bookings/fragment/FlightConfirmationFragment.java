@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -64,7 +64,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 		String destinationCity = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
 
 		// Format the flight cards
-		RelativeLayout cardContainer = Ui.findView(v, R.id.flight_card_container);
+		FrameLayout cardContainer = Ui.findView(v, R.id.flight_card_container);
 
 		// Only display the animation the first time the page loads
 		if (savedInstanceState == null) {
@@ -81,12 +81,11 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 				cardContainer, false);
 		card.bind(trip, frontmostLeg, Db.getBillingInfo());
 		LayoutUtils.setBackgroundResource(card, R.drawable.bg_flight_conf_row);
-		card.measure(MeasureSpec.makeMeasureSpec(LayoutParams.MATCH_PARENT, MeasureSpec.EXACTLY),
-				MeasureSpec.makeMeasureSpec(LayoutParams.WRAP_CONTENT, MeasureSpec.EXACTLY));
-		int cardHeight = card.getMeasuredHeight();
+		card.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+		final int cardHeight = card.getMeasuredHeight();
 
-		float initialOffset = res.getDimension(R.dimen.flight_card_initial_offset);
-		float offset = res.getDimension(R.dimen.flight_card_overlap_offset);
+		final float initialOffset = res.getDimension(R.dimen.flight_card_initial_offset);
+		final float offset = res.getDimension(R.dimen.flight_card_overlap_offset);
 		int numLegs = trip.getLegCount();
 		for (int a = numLegs - 1; a >= 0; a--) {
 			View view;
