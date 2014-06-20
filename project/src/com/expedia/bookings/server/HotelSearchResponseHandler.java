@@ -2,14 +2,10 @@ package com.expedia.bookings.server;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
-
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonToken;
 
 import android.content.Context;
 import android.text.Html;
@@ -27,6 +23,8 @@ import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.utils.LoggingInputStream;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -81,18 +79,19 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			in = new LoggingInputStream(in);
 		}
 
-		JsonFactory factory = new JsonFactory();
-		JsonParser parser = factory.createJsonParser(in);
+		JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
 
 		Log.d("Starting to read streaming search response...");
 
 		HotelSearchResponse searchResponse = null;
 		try {
-			searchResponse = readSearchResponse(parser);
+			searchResponse = readSearchResponse(reader);
 		}
-		catch (JsonParseException e) {
+		catch (Exception e) {
+			Log.e("HotelSearchResponseHandler exception parsing:", e);
 			searchResponse = null;
-			in.close();
+			// Closes the underlying reader too
+			reader.close();
 		}
 
 		return searchResponse;
@@ -103,57 +102,61 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			return null;
 		}
 
-		JsonFactory factory = new JsonFactory();
-		JsonParser parser = factory.createJsonParser(in);
+		JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
 
-		HotelSearchResponse searchResponse = readSearchResponse(parser);
+		HotelSearchResponse searchResponse = readSearchResponse(reader);
 
-		parser.close();
-		in.close();
+		// Closes the underlying reader too
+		reader.close();
 
 		return searchResponse;
 	}
 
-	private HotelSearchResponse readSearchResponse(JsonParser parser) throws IOException {
+	private HotelSearchResponse readSearchResponse(JsonReader reader) throws IOException {
 		long start = System.currentTimeMillis();
 
 		HotelSearchResponse searchResponse = new HotelSearchResponse();
 
-		if (parser.nextToken() != JsonToken.START_OBJECT) {
+		if (!reader.peek().equals(JsonToken.BEGIN_OBJECT)) {
 			throw new IOException("Expected readSearchResponse() to start with an Object, started with "
-				+ parser.getCurrentToken() + " instead.");
+				+ reader.peek() + " instead.");
 		}
 
 		String name;
-		JsonToken token;
-		while (parser.nextToken() != JsonToken.END_OBJECT) {
-			name = parser.getCurrentName();
-			token = parser.nextToken();
+		reader.beginObject();
+		JsonToken token = reader.peek();
+		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+			name = reader.nextName();
+			token = reader.peek();
 
 			if (name.equals("errors")) {
-				ParserUtils.readServerErrors(parser, searchResponse, ApiMethod.SEARCH_RESULTS);
+				ParserUtils.readServerErrors(reader, searchResponse, ApiMethod.SEARCH_RESULTS);
+				reader.skipValue();
 			}
 			else if (name.equals("hotelList")) {
-				if (token != JsonToken.START_ARRAY) {
+				if (!reader.peek().equals(JsonToken.BEGIN_ARRAY)) {
 					throw new IOException("Expected hotelList to start with an Array, started with "
-						+ parser.getCurrentToken() + " instead.");
+						+ reader.peek() + " instead.");
 				}
 
-				while (parser.nextToken() != JsonToken.END_ARRAY) {
-					readHotelSummary(parser, searchResponse);
+				reader.beginArray();
+				while (!reader.peek().equals(JsonToken.END_ARRAY)) {
+					readHotelSummary(reader, searchResponse);
 				}
+				reader.endArray();
 			}
 			else {
-				parser.skipChildren();
+				reader.skipValue();
 			}
 		}
+		reader.endObject();
 
 		Log.d("Hotel Search response parse time: " + (System.currentTimeMillis() - start) + " ms");
 
 		return searchResponse;
 	}
 
-	private void readHotelSummary(JsonParser parser, HotelSearchResponse searchResponse) throws IOException {
+	private void readHotelSummary(JsonReader reader, HotelSearchResponse searchResponse) throws IOException {
 		Property property = new Property();
 		property.setAvailable(true);
 
@@ -163,135 +166,139 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		// These are some variables that are stored between fields that are parsed
 		String promoDesc = null;
 
-		if (parser.getCurrentToken() != JsonToken.START_OBJECT && parser.nextToken() != JsonToken.START_OBJECT) {
+		if (!reader.peek().equals(JsonToken.BEGIN_OBJECT)) {
 			throw new IOException("Expected readHotelSummary() to start with an Object, started with "
-				+ parser.getCurrentToken() + " instead.");
+				+ reader.peek() + " instead.");
 		}
 
 		String name, mediaName;
 		String currencyCode = null;
 		JsonToken token, mediaToken;
-		while (parser.nextToken() != JsonToken.END_OBJECT) {
-			name = parser.getCurrentName();
-			token = parser.nextToken();
+		reader.beginObject();
+		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+			name = reader.nextName();
+			token = reader.peek();
 
-			if (token == JsonToken.VALUE_NULL) {
-				// Skip null values
+			if (token == JsonToken.NULL) {
+				reader.skipValue();
 			}
 			else if (name.equals("name")) {
 				// Property name can sometimes have HTML encoded entities in it (e.g. &amp;)
-				property.setName(Html.fromHtml(parser.getText()).toString());
+				property.setName(Html.fromHtml(reader.nextString()).toString());
 			}
 			else if (name.equals("hotelId")) {
-				property.setPropertyId(parser.getText());
+				property.setPropertyId(reader.nextString());
 			}
 			else if (name.equals("shortDescription")) {
-				property.setDescriptionText(parser.getText());
+				property.setDescriptionText(reader.nextString());
 			}
 			else if (name.equals("locationDescription")) {
-				location.setDescription(parser.getText());
+				location.setDescription(reader.nextString());
 			}
 			else if (name.equals("locationId")) {
-				location.setLocationId(parser.getValueAsInt());
+				location.setLocationId(reader.nextInt());
 			}
 			else if (name.equals("largeThumbnailUrl")) {
 				// The thumbnail url can sometimes assume a prefix
-				property.setThumbnail(ParserUtils.parseUrl(parser.getText()));
+				property.setThumbnail(ParserUtils.parseUrl(reader.nextString()));
 			}
 			else if (name.equals("supplierType")) {
-				property.setSupplierType(parser.getText());
+				property.setSupplierType(reader.nextString());
 			}
 			else if (name.equals("hotelStarRating")) {
-				property.setHotelRating(parser.getValueAsDouble());
+				property.setHotelRating(reader.nextDouble());
 			}
 			else if (name.equals("totalRecommendations")) {
-				property.setTotalRecommendations(parser.getValueAsInt());
+				property.setTotalRecommendations(reader.nextInt());
 			}
 			else if (name.equals("totalReviews")) {
-				int totalReviews = parser.getValueAsInt();
+				int totalReviews = reader.nextInt();
 				if (totalReviews < 0) {
 					totalReviews = 0;
 				}
 				property.setTotalReviews(totalReviews);
 			}
 			else if (name.equals("hotelGuestRating")) {
-				property.setAverageExpediaRating(parser.getValueAsDouble());
+				property.setAverageExpediaRating(reader.nextDouble());
 			}
 			// E3 is calculating miles by converting from km and then rounding; i.e. the km result is more accurate.
 			else if (name.equals("proximityDistanceInKiloMeters")) {
-				property.setDistanceFromUser(new Distance(parser.getValueAsDouble(), DistanceUnit.KILOMETERS));
+				property.setDistanceFromUser(new Distance(reader.nextDouble(), DistanceUnit.KILOMETERS));
 			}
 			// Use proximityDistanceInMiles as a backup in case proximityDistanceInKiloMeters isn't available.
 			else if (name.equals("proximityDistanceInMiles") && property.getDistanceFromUser() == null) {
-				property.setDistanceFromUser(new Distance(parser.getValueAsDouble(), DistanceUnit.MILES));
+				property.setDistanceFromUser(new Distance(reader.nextDouble(), DistanceUnit.MILES));
 			}
 			else if (name.equals("address")) {
 				List<String> streetAddress = new ArrayList<String>();
-				streetAddress.add(parser.getText());
+				streetAddress.add(reader.nextString());
 				location.setStreetAddress(streetAddress);
 			}
 			else if (name.equals("city")) {
-				location.setCity(parser.getText());
+				location.setCity(reader.nextString());
 			}
 			else if (name.equals("postalCode")) {
-				location.setPostalCode(parser.getText());
+				location.setPostalCode(reader.nextString());
 			}
 			else if (name.equals("countryCode")) {
-				location.setCountryCode(parser.getText());
+				location.setCountryCode(reader.nextString());
 			}
 			else if (name.equals("stateProvinceCode")) {
-				location.setStateCode(parser.getText());
+				location.setStateCode(reader.nextString());
 			}
 			else if (name.equals("latitude")) {
-				location.setLatitude(parser.getValueAsDouble());
+				location.setLatitude(reader.nextDouble());
 			}
 			else if (name.equals("longitude")) {
-				location.setLongitude(parser.getValueAsDouble());
+				location.setLongitude(reader.nextDouble());
 			}
 			else if (name.equals("discountMessage")) {
-				promoDesc = parser.getText();
+				promoDesc = reader.nextString();
 			}
 			else if (name.equals("media")) {
-				if (token != JsonToken.START_ARRAY) {
+				if (!reader.peek().equals(JsonToken.BEGIN_OBJECT)) {
 					throw new IOException("Expected media to start with an Array, started with "
-						+ parser.getCurrentToken() + " instead.");
+						+ reader.peek() + " instead.");
 				}
 
-				while (parser.nextToken() != JsonToken.END_ARRAY) {
-					if (parser.getCurrentToken() != JsonToken.START_OBJECT) {
+				reader.beginArray();
+				while (!reader.peek().equals(JsonToken.END_ARRAY)) {
+					if (!reader.peek().equals(JsonToken.BEGIN_OBJECT)) {
 						throw new IOException("Expected media item to start with an Object, started with "
-							+ parser.getCurrentToken() + " instead.");
+							+ reader.peek() + " instead.");
 					}
 
-					while (parser.nextToken() != JsonToken.END_OBJECT) {
-						mediaName = parser.getCurrentName();
-						mediaToken = parser.nextToken();
-						if (mediaName.equals("url") && mediaToken != JsonToken.VALUE_NULL) {
-							Media media = ParserUtils.parseUrl(parser.getText());
+					reader.beginObject();
+					while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+						mediaName = reader.nextName();
+						mediaToken = reader.peek();
+						if (mediaName.equals("url") && !mediaToken.equals(JsonToken.NULL)) {
+							Media media = ParserUtils.parseUrl(reader.nextString());
 							if (media != null) {
 								property.addMedia(media);
 							}
 						}
 					}
+					reader.endObject();
 				}
-
+				reader.endArray();
 			}
 			else if (name.equals("lowRateInfo")) {
-				Rate lowestRate = readLowRateInfo(parser);
+				Rate lowestRate = readLowRateInfo(reader);
 				lowestRate.setNumberOfNights(mNumNights);
 				property.setLowestRate(lowestRate);
 			}
 			else if (name.equals("roomsLeftAtThisRate")) {
-				property.setRoomsLeftAtThisRate(parser.getValueAsInt());
+				property.setRoomsLeftAtThisRate(reader.nextInt());
 			}
 			else if (name.equals("isDiscountRestrictedToCurrentSourceType")) {
-				property.setIsLowestRateMobileExclusive(parser.getValueAsBoolean());
+				property.setIsLowestRateMobileExclusive(reader.nextBoolean());
 			}
 			else if (name.equals("isSameDayDRR")) {
-				property.setIsLowestRateTonightOnly(parser.getValueAsBoolean());
+				property.setIsLowestRateTonightOnly(reader.nextBoolean());
 			}
 			else if (name.equals("rateCurrencyCode")) {
-				currencyCode = parser.getText();
+				currencyCode = reader.nextString();
 			}
 			else if (name.equals("highestPriceFromSurvey")) {
 				//if the API changes in the future and we end up parsing out of order,
@@ -300,15 +307,16 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 					String tempCurrencyCode = property.getLowestRate().getDisplayPrice().getCurrency();
 					currencyCode = tempCurrencyCode;
 				}
-				property.setHighestPriceFromSurvey(ParserUtils.createMoney(parser.getText(), currencyCode));
+				property.setHighestPriceFromSurvey(ParserUtils.createMoney(reader.nextString(), currencyCode));
 			}
 			else if (name.equals("isVipAccess")) {
-				property.setIsVipAccess(parser.getValueAsBoolean());
+				property.setIsVipAccess(reader.nextBoolean());
 			}
 			else {
-				parser.skipChildren();
+				reader.skipValue();
 			}
 		}
+		reader.endObject();
 
 		if (promoDesc != null && property.getLowestRate() != null) {
 			property.getLowestRate().setPromoDescription(promoDesc);
@@ -338,10 +346,10 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		}
 	}
 
-	private Rate readLowRateInfo(JsonParser parser) throws IOException {
-		if (parser.getCurrentToken() != JsonToken.START_OBJECT && parser.nextToken() != JsonToken.START_OBJECT) {
+	private Rate readLowRateInfo(JsonReader reader) throws IOException {
+		if (!reader.peek().equals(JsonToken.BEGIN_OBJECT)) {
 			throw new IOException("Expected readLowRateInfo() to start with an Object, started with "
-				+ parser.getCurrentToken() + " instead.");
+				+ reader.peek() + " instead.");
 		}
 
 		String currencyCode = null;
@@ -356,52 +364,51 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		String userPriceType = null;
 		String checkoutPriceType = null;
 
-		String name;
-		JsonToken token;
-		while (parser.nextToken() != JsonToken.END_OBJECT) {
-			name = parser.getCurrentName();
-			token = parser.nextToken();
+		reader.beginObject();
+		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+			String name = reader.nextName();
 
-			if (token == JsonToken.VALUE_NULL) {
+			if (reader.peek().equals(JsonToken.NULL)) {
 				// Skip null values
 			}
 			else if (name.equals("averageRate")) {
-				averageRate = parser.getText();
+				averageRate = reader.nextString();
 			}
 			else if (name.equals("averageBaseRate")) {
-				averageBaseRate = parser.getText();
+				averageBaseRate = reader.nextString();
 			}
 			else if (name.equals("discountPercent")) {
-				discountPercent = parser.getValueAsDouble();
+				discountPercent = reader.nextDouble();
 			}
 			else if (name.equals("surchargeTotalForEntireStay")) {
-				surchargeTotalForEntireStay = parser.getText();
+				surchargeTotalForEntireStay = reader.nextString();
 			}
 			else if (name.equals("totalMandatoryFees")) {
-				totalMandatoryFees = parser.getText();
+				totalMandatoryFees = reader.nextString();
 			}
 			else if (name.equals("totalPriceWithMandatoryFees")) {
-				totalPriceWithMandatoryFees = parser.getText();
+				totalPriceWithMandatoryFees = reader.nextString();
 			}
 			else if (name.equals("currencyCode")) {
-				currencyCode = parser.getText();
+				currencyCode = reader.nextString();
 			}
 			else if (name.equals("userPriceType")) {
-				userPriceType = parser.getText();
+				userPriceType = reader.nextString();
 			}
 			else if (name.equals("checkoutPriceType")) {
-				checkoutPriceType = parser.getText();
+				checkoutPriceType = reader.nextString();
 			}
 			else if (name.equals("strikethroughPriceToShowUsers")) {
-				strikethroughPriceToShowUsers = parser.getText();
+				strikethroughPriceToShowUsers = reader.nextString();
 			}
 			else if (name.equals("priceToShowUsers")) {
-				priceToShowUsers = parser.getText();
+				priceToShowUsers = reader.nextString();
 			}
 			else {
-				parser.skipChildren();
+				reader.skipValue();
 			}
 		}
+		reader.endObject();
 
 		Rate rate = new Rate();
 		rate.setAverageRate(ParserUtils.createMoney(averageRate, currencyCode));
@@ -417,43 +424,49 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		return rate;
 	}
 
-	private void readServerError(JsonParser parser, Response response) throws IOException {
+	private void readServerError(JsonReader reader, Response response) throws IOException {
 		ServerError serverError = new ServerError(ApiMethod.SEARCH_RESULTS);
 
-		if (parser.getCurrentToken() != JsonToken.START_OBJECT && parser.nextToken() != JsonToken.START_OBJECT) {
+		if (!reader.peek().equals(JsonToken.BEGIN_OBJECT)) {
 			throw new IOException("Expected readServerError() to start with an Object, started with "
-				+ parser.getCurrentToken() + " instead.");
+				+ reader.peek() + " instead.");
 		}
 
 		// TODO: FIGURE OUT MESSAGE TO DISPLAY TO USER ON ERROR
 
-		while (parser.nextToken() != JsonToken.END_OBJECT) {
-			String name = parser.getCurrentName();
-			JsonToken token = parser.nextToken();
+		reader.beginObject();
+		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+			String name = reader.nextName();
 
 			if (name.equals("errorCode")) {
-				serverError.setCode(parser.getText());
+				serverError.setCode(reader.nextString());
 			}
 			else if (name.equals("errorInfo")) {
-				if (token != JsonToken.START_OBJECT) {
+				if (!reader.peek().equals(JsonToken.BEGIN_OBJECT)) {
 					throw new IOException("Expected errorInfo to start with an Object, started with "
-						+ parser.getCurrentToken() + " instead.");
+						+ reader.peek() + " instead.");
 				}
-				while (parser.nextToken() != JsonToken.END_OBJECT) {
-					String name2 = parser.getCurrentName();
-					parser.nextToken();
+
+				reader.beginObject();
+				while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+					String name2 = reader.nextName();
 					if (name2.equals("field")) {
-						serverError.addExtra("field", parser.getText());
+						serverError.addExtra("field", reader.nextString());
 					}
 					else if (name2.equals("summary")) {
-						serverError.setMessage(parser.getText());
+						serverError.setMessage(reader.nextString());
+					}
+					else {
+						reader.skipValue();
 					}
 				}
+				reader.endObject();
 			}
 			else {
-				parser.skipChildren();
+				reader.skipValue();
 			}
 		}
+		reader.endObject();
 
 		response.addError(serverError);
 	}

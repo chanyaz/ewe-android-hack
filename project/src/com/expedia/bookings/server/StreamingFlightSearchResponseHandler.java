@@ -2,15 +2,15 @@ package com.expedia.bookings.server;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -95,14 +95,13 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		mAirlineNames = new HashMap<String, String>();
 		mOperatingAirlineNames = new HashMap<String, String>();
 
-		JsonFactory factory = new JsonFactory();
-		JsonParser parser = factory.createJsonParser(in);
+		JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
 
 		Log.d("Starting to read streaming flight search response...");
 
-		readSearchResponse(parser);
+		readSearchResponse(reader);
 
-		parser.close();
+		reader.close();
 
 		Log.d("Streaming flight search response parse time: " + ((System.nanoTime() - start) / 1000000)
 			+ " ms; # trips=" + mResponse.getTripCount() + ", # legs=" + mLegs.size());
@@ -114,47 +113,52 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 	 * Implementation note: It is assumed that "legs" appears before "offers" when parsing the JSON
 	 *  If this is ever no longer the case, this code will need to be reworked
 	 */
-	private void readSearchResponse(JsonParser parser) throws IOException {
+	private void readSearchResponse(JsonReader reader) throws IOException {
 		String name;
-		expectToken(parser, JsonToken.START_OBJECT);
-		while (parser.nextToken() != JsonToken.END_OBJECT) {
-			name = parser.getCurrentName();
-			parser.nextToken();
+		expectToken(reader, JsonToken.BEGIN_OBJECT);
+		reader.beginObject();
+		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+			name = reader.nextName();
 
 			if (name.equals("errors")) {
-				ParserUtils.readServerErrors(parser, mResponse, ApiMethod.SEARCH_RESULTS);
-			}
-			else if (name.equals("activityId")) {
-				ParserUtils.logActivityId(parser.getText());
+				ParserUtils.readServerErrors(reader, mResponse, ApiMethod.SEARCH_RESULTS);
+				reader.skipValue();
 			}
 			else if (name.equals("legs")) {
-				expectToken(parser, JsonToken.START_ARRAY);
-				while (parser.nextToken() != JsonToken.END_ARRAY) {
-					FlightLeg leg = readLeg(parser);
+				expectToken(reader, JsonToken.BEGIN_ARRAY);
+				reader.beginArray();
+				while (!reader.peek().equals(JsonToken.END_ARRAY)) {
+					FlightLeg leg = readLeg(reader);
 					mLegs.put(leg.getLegId(), leg);
 				}
+				reader.endArray();
 			}
 			else if (name.equals("offers")) {
-				expectToken(parser, JsonToken.START_ARRAY);
-				while (parser.nextToken() != JsonToken.END_ARRAY) {
-					FlightTrip trip = readTrip(parser);
+				expectToken(reader, JsonToken.BEGIN_ARRAY);
+				reader.beginArray();
+				while (!reader.peek().equals(JsonToken.END_ARRAY)) {
+					FlightTrip trip = readTrip(reader);
 					mResponse.addTrip(trip);
 				}
+				reader.endArray();
 			}
 			else if (name.equals("searchCities")) {
-				expectToken(parser, JsonToken.START_ARRAY);
-				while (parser.nextToken() != JsonToken.END_ARRAY) {
-					Location searchCity = readSearchCity(parser);
+				expectToken(reader, JsonToken.BEGIN_ARRAY);
+				reader.beginArray();
+				while (!reader.peek().equals(JsonToken.END_ARRAY)) {
+					Location searchCity = readSearchCity(reader);
 					mResponse.addSearchCity(searchCity);
 				}
+				reader.endArray();
 			}
 			else if (name.equals("obFeesDetails")) {
-				mResponse.setObFeesDetails(parser.getText());
+				mResponse.setObFeesDetails(reader.nextString());
 			}
 			else {
-				parser.skipChildren();
+				reader.skipValue();
 			}
 		}
+		reader.endObject();
 
 		// Put in all airline names, weighting towards non-operating names
 		mOperatingAirlineNames.putAll(mAirlineNames);
@@ -164,37 +168,40 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		mResponse.compact();
 	}
 
-	private FlightLeg readLeg(JsonParser parser) throws IOException {
+	private FlightLeg readLeg(JsonReader reader) throws IOException {
 		FlightLeg leg = new FlightLeg();
 
 		String name;
-		expectToken(parser, JsonToken.START_OBJECT);
-		while (parser.nextToken() != JsonToken.END_OBJECT) {
-			name = parser.getCurrentName();
-			parser.nextToken();
+		expectToken(reader, JsonToken.BEGIN_OBJECT);
+		reader.beginObject();
+		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+			name = reader.nextName();
 
 			if (name.equals("legId")) {
-				leg.setLegId(parser.getText());
+				leg.setLegId(reader.nextString());
 			}
 			else if (name.equals("segments")) {
-				expectToken(parser, JsonToken.START_ARRAY);
-				while (parser.nextToken() != JsonToken.END_ARRAY) {
-					Flight segment = readSegment(parser);
+				expectToken(reader, JsonToken.BEGIN_ARRAY);
+				reader.beginArray();
+				while (!reader.peek().equals(JsonToken.END_ARRAY)) {
+					Flight segment = readSegment(reader);
 					leg.addSegment(segment);
 				}
+				reader.endArray();
 			}
 			else if (name.equals("baggageFeesUrl")) {
-				leg.setBaggageFeesUrl(parser.getText());
+				leg.setBaggageFeesUrl(reader.nextString());
 			}
 			else {
-				parser.skipChildren();
+				reader.skipValue();
 			}
 		}
+		reader.endObject();
 
 		return leg;
 	}
 
-	private Flight readSegment(JsonParser parser) throws IOException {
+	private Flight readSegment(JsonReader reader) throws IOException {
 		Flight segment = new Flight();
 		Waypoint departure = segment.mOrigin = new Waypoint(Waypoint.ACTION_DEPARTURE);
 		Waypoint arrival = segment.mDestination = new Waypoint(Waypoint.ACTION_ARRIVAL);
@@ -214,52 +221,52 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		int arrTimeZoneOffsetSeconds = 0;
 
 		String name;
-		expectToken(parser, JsonToken.START_OBJECT);
-		while (parser.nextToken() != JsonToken.END_OBJECT) {
-			name = parser.getCurrentName();
-			parser.nextToken();
+		expectToken(reader, JsonToken.BEGIN_OBJECT);
+		reader.beginObject();
+		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+			name = reader.nextName();
 
 			if (name.equals("airlineCode")) {
-				flightCode.mAirlineCode = parser.getText();
+				flightCode.mAirlineCode = reader.nextString();
 			}
 			else if (name.equals("flightNumber")) {
-				flightCode.mNumber = parser.getText();
+				flightCode.mNumber = reader.nextString();
 			}
 			else if (name.equals("airlineName")) {
-				airlineName = parser.getText();
+				airlineName = reader.nextString();
 			}
 			else if (name.equals("operatingAirlineName")) {
-				opAirlineName = parser.getText();
+				opAirlineName = reader.nextString();
 			}
 			else if (name.equals("operatingAirlineFlightNumber")) {
-				opFlightNum = parser.getText();
+				opFlightNum = reader.nextString();
 			}
 			else if (name.equals("operatingAirlineCode")) {
-				opAirlineCode = parser.getText();
+				opAirlineCode = reader.nextString();
 			}
 			else if (name.equals("departureAirportCode")) {
-				departure.mAirportCode = parser.getText();
+				departure.mAirportCode = reader.nextString();
 			}
 			else if (name.equals("departureTimeEpochSeconds")) {
-				depTimeEpochSeconds = parser.getValueAsLong(0);
+				depTimeEpochSeconds = reader.nextLong();
 			}
 			else if (name.equals("departureTimeZoneOffsetSeconds")) {
-				depTimeZoneOffsetSeconds = parser.getValueAsInt(0);
+				depTimeZoneOffsetSeconds = reader.nextInt();
 			}
 			else if (name.equals("arrivalAirportCode")) {
-				arrival.mAirportCode = parser.getText();
+				arrival.mAirportCode = reader.nextString();
 			}
 			else if (name.equals("arrivalTimeEpochSeconds")) {
-				arrTimeEpochSeconds = parser.getValueAsLong(0);
+				arrTimeEpochSeconds = reader.nextLong();
 			}
 			else if (name.equals("arrivalTimeZoneOffsetSeconds")) {
-				arrTimeZoneOffsetSeconds = parser.getValueAsInt(0);
+				arrTimeZoneOffsetSeconds = reader.nextInt();
 			}
 			else if (name.equals("distance")) {
-				segment.mDistanceToTravel = parser.getValueAsInt(0);
+				segment.mDistanceToTravel = reader.nextInt();
 			}
 			else if (name.equals("distanceUnits")) {
-				String distanceUnits = parser.getText();
+				String distanceUnits = reader.nextString();
 				if (!TextUtils.isEmpty(distanceUnits) && !distanceUnits.equals("miles")) {
 					// Need to do this since I don't know what other values are possible.  Later we can convert
 					throw new RuntimeException("Parser does not yet handle non-miles distanceUnits.  Got: "
@@ -267,12 +274,13 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 				}
 			}
 			else if (name.equals("equipmentDescription")) {
-				segment.mAircraftType = parser.getText();
+				segment.mAircraftType = reader.nextString();
 			}
 			else {
-				parser.skipChildren();
+				reader.skipValue();
 			}
 		}
+		reader.endObject();
 
 		segment.addFlightCode(flightCode, Flight.F_PRIMARY_AIRLINE_CODE);
 
@@ -313,7 +321,7 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		return segment;
 	}
 
-	private FlightTrip readTrip(JsonParser parser) throws IOException {
+	private FlightTrip readTrip(JsonReader reader) throws IOException {
 		FlightTrip trip = new FlightTrip();
 
 		// Vars that we need to handle in conjuction later, after parsing the stream
@@ -324,60 +332,66 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		String fees = null;
 
 		String name;
-		expectToken(parser, JsonToken.START_OBJECT);
-		while (parser.nextToken() != JsonToken.END_OBJECT) {
-			name = parser.getCurrentName();
-			parser.nextToken();
+		expectToken(reader, JsonToken.BEGIN_OBJECT);
+		reader.beginObject();
+		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+			name = reader.nextName();
+
 			if (name.equals("productKey")) {
-				trip.setProductKey(parser.getText());
+				trip.setProductKey(reader.nextString());
 			}
 			else if (name.equals("currency")) {
-				currencyCode = parser.getText();
+				currencyCode = reader.nextString();
 			}
 			else if (name.equals("baseFare")) {
-				baseFare = parser.getText();
+				baseFare = reader.nextString();
 			}
 			else if (name.equals("totalFare")) {
-				totalFare = parser.getText();
+				totalFare = reader.nextString();
 			}
 			else if (name.equals("taxes")) {
-				taxes = parser.getText();
+				taxes = reader.nextString();
 			}
 			else if (name.equals("fees")) {
-				fees = parser.getText();
+				fees = reader.nextString();
 			}
 			else if (name.equals("seatsRemaining")) {
-				trip.setSeatsRemaining(parser.getValueAsInt(0));
+				trip.setSeatsRemaining(reader.nextInt());
 			}
 			else if (name.equals("mayChargeOBFees")) {
-				trip.setMayChargeObFees(parser.getValueAsBoolean(false));
+				trip.setMayChargeObFees(reader.nextBoolean());
 			}
 			else if (name.equals("hasBagFee")) {
-				trip.setHasBagFee(parser.getValueAsBoolean(false));
+				trip.setHasBagFee(reader.nextBoolean());
 			}
 			else if (name.equals("fareName")) {
-				trip.setFareName(parser.getText());
+				trip.setFareName(reader.nextString());
 			}
 			else if (name.equals("segmentAttributes")) {
-				trip.setFlightSegmentAttributes(readSegmentAttributesArray(parser));
+				trip.setFlightSegmentAttributes(readSegmentAttributesArray(reader));
 			}
 			else if (name.equals("legIds")) {
-				expectToken(parser, JsonToken.START_ARRAY);
-				while (parser.nextToken() != JsonToken.END_ARRAY) {
-					String legId = parser.getText();
+				expectToken(reader, JsonToken.BEGIN_ARRAY);
+				reader.beginArray();
+				while (!reader.peek().equals(JsonToken.END_ARRAY)) {
+					String legId = reader.nextString();
 					trip.addLeg(mLegs.get(legId));
 				}
+				reader.endArray();
 			}
 			else if (name.equals("pricePerPassengerCategory")) {
-				expectToken(parser, JsonToken.START_ARRAY);
-				while (parser.nextToken() != JsonToken.END_ARRAY) {
-					trip.addPassenger(readPricePerPassengerCategory(parser, currencyCode));
+				expectToken(reader, JsonToken.BEGIN_ARRAY);
+				reader.beginArray();
+				while (!reader.peek().equals(JsonToken.END_ARRAY)) {
+					trip.addPassenger(readPricePerPassengerCategory(reader, currencyCode));
 				}
+				reader.endArray();
 			}
 			else {
-				parser.skipChildren();
+				reader.skipValue();
 			}
 		}
+		reader.endObject();
 
 		if (!TextUtils.isEmpty(currencyCode)) {
 			trip.setBaseFare(ParserUtils.createMoney(baseFare, currencyCode));
@@ -391,12 +405,13 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 
 	// Due to the sheer number of times this is called (once per FlightTrip, which is up to 1600 rows)
 	// we try to reduce object creation overhead by caching the dynamically-sized Lists.
-	private FlightSegmentAttributes[][] readSegmentAttributesArray(JsonParser parser) throws IOException {
+	private FlightSegmentAttributes[][] readSegmentAttributesArray(JsonReader reader) throws IOException {
 		int size = mAttributes.size();
 		int index = 0;
 
-		expectToken(parser, JsonToken.START_ARRAY);
-		while (parser.nextToken() != JsonToken.END_ARRAY) {
+		expectToken(reader, JsonToken.BEGIN_ARRAY);
+		reader.beginArray();
+		while (!reader.peek().equals(JsonToken.END_ARRAY)) {
 			List<FlightSegmentAttributes> attrsRow;
 			if (index == size) {
 				attrsRow = new ArrayList<FlightSegmentAttributes>();
@@ -408,13 +423,16 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 				attrsRow.clear();
 			}
 
-			expectToken(parser, JsonToken.START_ARRAY);
-			while (parser.nextToken() != JsonToken.END_ARRAY) {
-				attrsRow.add(readSegmentAttributes(parser));
+			expectToken(reader, JsonToken.BEGIN_ARRAY);
+			reader.beginArray();
+			while (!reader.peek().equals(JsonToken.END_ARRAY)) {
+				attrsRow.add(readSegmentAttributes(reader));
 			}
+			reader.endArray();
 
 			index++;
 		}
+		reader.endArray();
 
 		// Convert to array
 		FlightSegmentAttributes[][] attrArray = new FlightSegmentAttributes[index][];
@@ -426,36 +444,38 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		return attrArray;
 	}
 
-	private PassengerCategoryPrice readPricePerPassengerCategory(JsonParser parser, String currencyCode) throws IOException {
+	private PassengerCategoryPrice readPricePerPassengerCategory(JsonReader reader, String currencyCode) throws IOException {
 		PassengerCategory passengerCategory = null;
 		Money totalPrice = new Money();
 		Money basePrice = new Money();
 		Money taxesPrice = new Money();
 
 		String name;
-		expectToken(parser, JsonToken.START_OBJECT);
-		while (parser.nextToken() != JsonToken.END_OBJECT) {
-			name = parser.getCurrentName();
-			parser.nextToken();
+		expectToken(reader, JsonToken.BEGIN_OBJECT);
+		reader.beginObject();
+		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+			name = reader.nextName();
+
 			if (name.equals("passengerCategory")) {
-				passengerCategory = Enum.valueOf(PassengerCategory.class, parser.getText());
+				passengerCategory = Enum.valueOf(PassengerCategory.class, reader.nextString());
 			}
 			else if (name.equals("totalPrice")) {
 				totalPrice.setCurrency(currencyCode);
-				totalPrice.setAmount(getRawAmount(parser));
+				totalPrice.setAmount(getRawAmount(reader));
 			}
 			else if (name.equals("basePrice")) {
 				basePrice.setCurrency(currencyCode);
-				basePrice.setAmount(getRawAmount(parser));
+				basePrice.setAmount(getRawAmount(reader));
 			}
 			else if (name.equals("taxesPrice")) {
 				taxesPrice.setCurrency(currencyCode);
-				taxesPrice.setAmount(getRawAmount(parser));
+				taxesPrice.setAmount(getRawAmount(reader));
 			}
 			else {
-				parser.skipChildren();
+				reader.skipValue();
 			}
 		}
+		reader.endObject();
 		return new PassengerCategoryPrice(passengerCategory, totalPrice, basePrice, taxesPrice);
 	}
 
@@ -463,41 +483,42 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 	// we can just grab the amount as a String, and format into a money object
 	// as needed.
 
-	private String getRawAmount(JsonParser parser) throws IOException {
+	private String getRawAmount(JsonReader reader) throws IOException {
 		String amount = null;
 		String name;
-		expectToken(parser, JsonToken.START_OBJECT);
-		while (parser.nextToken() != JsonToken.END_OBJECT) {
-			parser.nextToken();
-			name = parser.getCurrentName();
+		expectToken(reader, JsonToken.BEGIN_OBJECT);
+		reader.beginObject();
+		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+			name = reader.nextName();
 			if (name.equals("amount")) {
-				amount = parser.getText();
+				amount = reader.nextString();
 			}
 			else {
-				parser.skipChildren();
+				reader.skipValue();
 			}
 		}
+		reader.endObject();
 		return amount;
 	}
 
-	private FlightSegmentAttributes readSegmentAttributes(JsonParser parser) throws IOException {
+	private FlightSegmentAttributes readSegmentAttributes(JsonReader reader) throws IOException {
 		char bookingCode = 0;
 		CabinCode cabinCode = null;
 
 		String name;
-		expectToken(parser, JsonToken.START_OBJECT);
-		while (parser.nextToken() != JsonToken.END_OBJECT) {
-			name = parser.getCurrentName();
-			parser.nextToken();
+		expectToken(reader, JsonToken.BEGIN_OBJECT);
+		reader.beginObject();
+		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+			name = reader.nextName();
 
 			if (name.equals("bookingCode")) {
-				bookingCode = parser.getTextCharacters()[0];
+				bookingCode = reader.nextString().charAt(0);
 			}
 			else if (name.equals("cabinCode")) {
 				// Because each cabin code has a unique first letter, we parse
 				// based on that for speed.  If that ever becomes no longer the
 				// case, we should switch back to a slower, equals() based parser
-				char firstChar = parser.getTextCharacters()[0];
+				char firstChar = reader.nextString().charAt(0);
 				switch (firstChar) {
 				case 'c': // "coach"
 					cabinCode = CabinCode.COACH;
@@ -512,49 +533,51 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 					cabinCode = CabinCode.FIRST;
 					break;
 				default:
-					throw new RuntimeException("Ran into unknown cabin code: " + parser.getText());
+					throw new RuntimeException("Ran into unknown cabin code: " + reader.nextString());
 				}
 			}
 			else {
-				parser.skipChildren();
+				reader.skipValue();
 			}
 		}
+		reader.endObject();
 
 		return new FlightSegmentAttributes(bookingCode, cabinCode);
 	}
 
-	private Location readSearchCity(JsonParser parser) throws IOException {
+	private Location readSearchCity(JsonReader reader) throws IOException {
 		Location location = new Location();
 
 		String name;
-		expectToken(parser, JsonToken.START_OBJECT);
-		while (parser.nextToken() != JsonToken.END_OBJECT) {
-			name = parser.getCurrentName();
-			parser.nextToken();
+		expectToken(reader, JsonToken.BEGIN_OBJECT);
+		reader.beginObject();
+		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+			name = reader.nextName();
 
 			if (name.equals("city")) {
-				location.setCity(parser.getText());
+				location.setCity(reader.nextString());
 			}
 			else if (name.equals("province")) {
-				location.setStateCode(parser.getText());
+				location.setStateCode(reader.nextString());
 			}
 			else if (name.equals("code")) {
-				location.setDestinationId(parser.getText());
+				location.setDestinationId(reader.nextString());
 			}
 			else if (name.equals("searchType")) {
-				location.setSearchType(parser.getText());
+				location.setSearchType(reader.nextString());
 			}
 			else {
-				parser.skipChildren();
+				reader.skipValue();
 			}
 		}
+		reader.endObject();
 
 		return location;
 	}
 
-	private void expectToken(JsonParser parser, JsonToken expectedToken) throws IOException {
-		if (parser.getCurrentToken() != expectedToken && parser.nextToken() != expectedToken) {
-			throw new RuntimeException("Expected " + expectedToken + ", got " + parser.getCurrentToken());
+	private void expectToken(JsonReader reader, JsonToken expectedToken) throws IOException {
+		if (!reader.peek().equals(expectedToken)) {
+			throw new RuntimeException("Expected " + expectedToken + ", got " + reader.peek());
 		}
 	}
 }

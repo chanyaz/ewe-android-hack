@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonToken;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,6 +17,8 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import com.mobiata.android.Log;
 
 public class ParserUtils {
@@ -239,49 +239,53 @@ public class ParserUtils {
 		return serverError;
 	}
 
-	public static void readServerErrors(JsonParser parser, Response response, ApiMethod apiMethod) throws IOException {
-		while (parser.nextToken() != JsonToken.END_ARRAY) {
-			readServerError(parser, response, apiMethod);
+	public static void readServerErrors(JsonReader reader, Response response, ApiMethod apiMethod) throws IOException {
+		reader.beginArray();
+		while (!reader.peek().equals(JsonToken.END_ARRAY)) {
+			readServerError(reader, response, apiMethod);
 		}
+		reader.endArray();
 	}
 
-	public static void readServerError(JsonParser parser, Response response, ApiMethod apiMethod) throws IOException {
+	public static void readServerError(JsonReader reader, Response response, ApiMethod apiMethod) throws IOException {
 		ServerError serverError = new ServerError(apiMethod);
 
-		if (parser.getCurrentToken() != JsonToken.START_OBJECT && parser.nextToken() != JsonToken.START_OBJECT) {
+		if (!reader.peek().equals(JsonToken.BEGIN_OBJECT)) {
 			throw new IOException("Expected readServerError() to start with an Object, started with "
-				+ parser.getCurrentToken() + " instead.");
+				+ reader.peek() + " instead.");
 		}
 
 		// TODO: FIGURE OUT MESSAGE TO DISPLAY TO USER ON ERROR
 
-		while (parser.nextToken() != JsonToken.END_OBJECT) {
-			String name = parser.getCurrentName();
-			JsonToken token = parser.nextToken();
+		reader.beginObject();
+		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+			String name = reader.nextName();
 
 			if (name.equals("errorCode")) {
-				serverError.setCode(parser.getText());
+				serverError.setCode(reader.nextString());
 			}
 			else if (name.equals("errorInfo")) {
-				if (token != JsonToken.START_OBJECT) {
+				if (!reader.peek().equals(JsonToken.BEGIN_OBJECT)) {
 					throw new IOException("Expected errorInfo to start with an Object, started with "
-						+ parser.getCurrentToken() + " instead.");
+						+ reader.peek() + " instead.");
 				}
-				while (parser.nextToken() != JsonToken.END_OBJECT) {
-					String name2 = parser.getCurrentName();
-					parser.nextToken();
+				reader.beginObject();
+				while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+					String name2 = reader.nextName();
 					if (name2.equals("field")) {
-						serverError.addExtra("field", parser.getText());
+						serverError.addExtra("field", reader.nextString());
 					}
 					else if (name2.equals("summary")) {
-						serverError.setMessage(parser.getText());
+						serverError.setMessage(reader.nextString());
 					}
 				}
+				reader.endObject();
 			}
 			else {
-				parser.skipChildren();
+				reader.skipValue();
 			}
 		}
+		reader.endObject();
 
 		response.addError(serverError);
 	}
