@@ -35,7 +35,7 @@ public abstract class JsonResponseHandler<T> implements ResponseHandler<T> {
 
 	@Override
 	public T handleResponse(Response response) throws IOException {
-		if (response == null) {
+		if (response == null || response.body() == null) {
 			return null;
 		}
 
@@ -59,6 +59,12 @@ public abstract class JsonResponseHandler<T> implements ResponseHandler<T> {
 				responseStr = response.body().string();
 			}
 			response.body().close();
+
+			if (responseStr == null) {
+				Log.e("JsonResponseHandler response string was null");
+				return null;
+			}
+
 			if (Log.isLoggingEnabled()) {
 				Log.v("Response length: " + responseStr.length());
 			}
