@@ -1057,10 +1057,18 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		FlightSearchParams searchParams = getSearchParams(false);
 		searchParams.setNumAdults(numAdults);
 		searchParams.setChildren(children);
+
 		displayRefinementInfo();
 		updateNumTravelersText();
 		showInfantSeatingPreferenceAsNecessary();
 		showNotEnoughLapsAsNecessary();
+		updateInfantPreferenceAsNecessary();
+	}
+
+	private void updateInfantPreferenceAsNecessary() {
+		if (mGuestPicker.moreInfantsThanAvailableLaps()) {
+			mInfantPreferenceRadioGroup.check(R.id.infant_in_seat);
+		}
 	}
 
 	private void showInfantSeatingPreferenceAsNecessary() {
@@ -1081,7 +1089,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		if (mGuestPicker.moreInfantsThanAvailableLaps()) {
 			mInfantAlertTextView.setVisibility(View.VISIBLE);
 			mInfantPreferenceRadioGroup.getChildAt(0).setEnabled(false);
-			mInfantPreferenceRadioGroup.check(R.id.infant_in_seat);
 		}
 		else {
 			mInfantAlertTextView.setVisibility(View.GONE);
