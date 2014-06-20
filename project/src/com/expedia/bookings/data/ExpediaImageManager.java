@@ -81,6 +81,10 @@ public class ExpediaImageManager {
 	 */
 	public ExpediaImage getExpediaImage(ImageType imageType, String imageCode, int width, int height,
 										boolean useNetwork, L2ImageCache cache) {
+		if (TextUtils.isEmpty(imageCode)) {
+			throw new RuntimeException("Can't pass null as imageCode");
+		}
+
 		// The key should be unique for each request
 		String cacheUrl = getImageKey(imageType, imageCode, width, height);
 
