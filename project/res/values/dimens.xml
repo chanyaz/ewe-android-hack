@@ -260,4 +260,10 @@
     <!-- User review dimens -->
     <dimen name="user_review_text_padding_right">0dp</dimen>
 
+    <!-- CVV Screen -->
+    <dimen name="cvv_text_view_right_margin_amex">20dp</dimen>
+    <dimen name="cvv_text_view_right_margin_other">82dp</dimen>
+    <dimen name="cvv_text_view_top_margin_amex">-10dp</dimen>
+    <dimen name="cvv_text_view_top_margin_other">-15dp</dimen>
+
 </resources>

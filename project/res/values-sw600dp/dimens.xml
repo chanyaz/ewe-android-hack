@@ -123,13 +123,10 @@
     <dimen name="trip_bucket_sold_out_container_padding">2dp</dimen>
     <dimen name="trip_bucket_sold_out_container_padding_bottom">6dp</dimen>
 
-    <!-- Tablet checkout -->
-    <dimen name="trip_bucket_expanded_card_padding">2dp</dimen>
-    <dimen name="cvv_text_view_right_margin_amex">20dp</dimen>
-    <dimen name="cvv_text_view_right_margin_other">82dp</dimen>
-    <dimen name="cvv_text_view_top_margin_amex">-10dp</dimen>
-    <dimen name="cvv_text_view_top_margin_other">-15dp</dimen>
+    <!-- Checkout -->
     <dimen name="tablet_checkout_form_autocomplete_width">256dp</dimen>
+
+    <!-- CVV Screen -->
     <dimen name="cvv_keypad_text_size">30sp</dimen>
     <dimen name="cvv_keypad_book_text_size">18dp</dimen>
 
