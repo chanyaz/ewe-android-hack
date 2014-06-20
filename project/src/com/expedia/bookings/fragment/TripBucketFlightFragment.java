@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -158,8 +159,12 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 						mDestinationImageView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
 
 						mPreviousDestination = mNewDestination;
-						ExpediaImage bgImage = ExpediaImageManager.getInstance().getDestinationImage(mNewDestination,
-							mDestinationImageView.getMeasuredWidth(), mDestinationImageView.getMeasuredHeight(), false);
+
+						ExpediaImage bgImage = null;
+						if (!TextUtils.isEmpty(mNewDestination)) {
+							bgImage = ExpediaImageManager.getInstance().getDestinationImage(mNewDestination,
+								mDestinationImageView.getMeasuredWidth(), mDestinationImageView.getMeasuredHeight(), false);
+						}
 
 						if (bgImage == null) {
 							startDestinationImageDownload();
@@ -304,8 +309,10 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	private void startDestinationImageDownload() {
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (!bd.isDownloading(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY)) {
-			bd.startDownload(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY, mDestinationImageInfoDownload,
-				mDestinationImageInfoDownloadCallback);
+			if (!TextUtils.isEmpty(mNewDestination)) {
+				bd.startDownload(DESTINATION_IMAGE_INFO_DOWNLOAD_KEY, mDestinationImageInfoDownload,
+					mDestinationImageInfoDownloadCallback);
+			}
 		}
 	}
 
