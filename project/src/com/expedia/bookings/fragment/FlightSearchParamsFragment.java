@@ -1072,7 +1072,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	private void showInfantSeatingPreferenceAsNecessary() {
-		int vis = mSearchParams.hasInfants() ? View.VISIBLE : View.GONE;
+		int vis = mSearchParams.hasInfants() ? View.VISIBLE : View.INVISIBLE;
 		mInfantPreferenceTextView.setVisibility(vis);
 		mInfantPreferenceRadioGroup.setVisibility(vis);
 
@@ -1091,7 +1091,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			mInfantPreferenceRadioGroup.getChildAt(0).setEnabled(false);
 		}
 		else {
-			mInfantAlertTextView.setVisibility(View.GONE);
+			mInfantAlertTextView.setVisibility(View.INVISIBLE);
 			mInfantPreferenceRadioGroup.getChildAt(0).setEnabled(true);
 		}
 	}
