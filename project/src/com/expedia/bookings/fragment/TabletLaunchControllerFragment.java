@@ -94,6 +94,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 			mMapFragment = TabletLaunchMapFragment.newInstance();
 			mTilesFragment = DestinationTilesFragment.newInstance();
 			mWaypointFragment = new TabletWaypointFragment();
+			mWaypointFragment.clearBackgroundDrawable();
 			mPinFragment = TabletLaunchPinDetailFragment.newInstance();
 
 			FragmentTransaction ft = fm.beginTransaction();

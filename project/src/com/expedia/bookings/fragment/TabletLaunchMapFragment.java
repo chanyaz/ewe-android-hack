@@ -76,6 +76,7 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 
 		TabletLaunchControllerFragment controller = (TabletLaunchControllerFragment) getParentFragment();
 		controller.registerStateListener(mDetailsStateListener, false);
+		controller.registerStateListener(mWaypointStateListener, false);
 
 		return mRoot;
 	}
@@ -167,6 +168,30 @@ public class TabletLaunchMapFragment extends SvgMapFragment {
 			else {
 				mPinC.setVisibility(View.INVISIBLE);
 			}
+		}
+	}
+	);
+
+	SingleStateListener mWaypointStateListener = new SingleStateListener<>(
+		LaunchState.DEFAULT, LaunchState.WAYPOINT, true, new ISingleStateListener() {
+		@Override
+		public void onStateTransitionStart(boolean isReversed) {
+			mPinC.setVisibility(View.VISIBLE);
+		}
+
+		@Override
+		public void onStateTransitionUpdate(boolean isReversed, float percentage) {
+			mPinC.setAlpha(1f - percentage);
+		}
+
+		@Override
+		public void onStateTransitionEnd(boolean isReversed) {
+
+		}
+
+		@Override
+		public void onStateFinalized(boolean isReversed) {
+			mPinC.setVisibility(isReversed ? View.VISIBLE : View.INVISIBLE);
 		}
 	}
 	);
