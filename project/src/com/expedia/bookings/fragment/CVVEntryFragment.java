@@ -192,8 +192,9 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		mCreditCardSection.bind(signatureName, cardType, cardNumber);
 
 		// A few minor UI tweaks on phone, depending on if amex
+		boolean amex = cardType == CreditCardType.AMERICAN_EXPRESS;
+
 		if (!AndroidUtils.isTablet(getActivity())) {
-			boolean amex = cardType == CreditCardType.AMERICAN_EXPRESS;
 			mCVVPromptTextView.setVisibility(amex ? View.GONE : View.VISIBLE);
 			FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mCVVTextView.getLayoutParams();
 			int right = amex ? R.dimen.cvv_text_view_right_margin_amex : R.dimen.cvv_text_view_right_margin_other;
@@ -203,8 +204,8 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 			mCVVTextView.setLayoutParams(params);
 		}
 
-		// Configure vars that drive this fragment
-		mMinCvvLen = (cardType == CreditCardType.AMERICAN_EXPRESS) ? 4 : 3;
+		// Configuration vars that drive this fragment (on phone or tablet)
+		mMinCvvLen = amex ? 4 : 3;
 	}
 
 	// Special case for the subprompt ("see back of card"), if it's in the ActionBar (for phone)
