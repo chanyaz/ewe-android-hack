@@ -58,7 +58,7 @@
 
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/search_bar_container"
-        android:background="#66000000"
+        android:background="@drawable/bg_tablet_bottom_fade"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         tools:ignore="NewApi">

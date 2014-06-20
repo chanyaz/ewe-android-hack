@@ -48,6 +48,7 @@
     <dimen name="results_list_spacer_height">8dp</dimen>
     <dimen name="results_list_margin_top">40dp</dimen>
     <dimen name="results_column_header_height">48dp</dimen>
+    <dimen name="results_top_gradient_height">144dp</dimen>
 
     <dimen name="results_flight_histogram_horizontal_padding">16dp</dimen>
     <dimen name="results_flight_histogram_vertical_padding">10dp</dimen>

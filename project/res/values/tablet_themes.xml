@@ -130,6 +130,7 @@
 
     <style name="V2.Widget.ActionBar.TabletResults">
         <item name="android:displayOptions">showHome|useLogo|homeAsUp|showCustom</item>
+        <item name="android:background">@null</item>
     </style>
 
     <style name="V2.Widget.ActionBar.TabletCheckout">

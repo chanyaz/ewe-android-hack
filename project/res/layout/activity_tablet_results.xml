@@ -11,6 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/results_top_gradient_height"
+        android:layout_gravity="top"
+        android:background="@drawable/bg_tablet_actionbar"/>
+
     <!-- TRIP BUCKET -->
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/trip_bucket_container"
@@ -43,6 +49,5 @@
         android:id="@+id/undobar"
         android:layout_gravity="bottom"
         layout="@layout/view_undobar" />
-
 
 </FrameLayout>
