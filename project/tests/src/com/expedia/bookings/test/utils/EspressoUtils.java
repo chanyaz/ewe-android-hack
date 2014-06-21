@@ -16,9 +16,11 @@ import static com.expedia.bookings.test.utilsEspresso.ViewActions.getRating;
 import static com.expedia.bookings.test.utilsEspresso.ViewActions.getString;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.hasSibling;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isDisplayed;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 
 public class EspressoUtils {
 
@@ -49,6 +51,14 @@ public class EspressoUtils {
 	public static String getText(int id) {
 		final AtomicReference<String> value = new AtomicReference<String>();
 		onView(withId(id)).perform(getString(value));
+		String stringValue = value.get();
+		return stringValue;
+	}
+
+	// to avoid multiple matches to a view
+	public static String getTextWithSibling(int id, int siblingId) {
+		final AtomicReference<String> value = new AtomicReference<String>();
+		onView(allOf(withId(id), hasSibling(withId(siblingId)), isDisplayed())).perform(getString(value));
 		String stringValue = value.get();
 		return stringValue;
 	}

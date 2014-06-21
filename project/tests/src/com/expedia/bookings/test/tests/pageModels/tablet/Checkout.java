@@ -227,4 +227,13 @@ public class Checkout {
 	public static void clickLogOutString() {
 		onView(withText("Log Out")).perform(click());
 	}
+
+	public static void clickGrandTotalTextView() {
+		onView(withId(R.id.price_expanded_bucket_text_view)).perform(click());
+	}
+
+	public static ViewInteraction costSummaryText() {
+		return onView(withId(R.id.title_text_view));
+	}
+
 }

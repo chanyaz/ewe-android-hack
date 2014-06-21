@@ -46,6 +46,10 @@ public class Results {
 		return onView(withId(R.id.calendar_picker));
 	}
 
+	public static void clickTravelerButton() {
+		onView(withId(R.id.traveler_btn)).perform(click());
+	}
+
 	public static void swipeUpHotelList() {
 		hotelList().perform(swipeUp());
 	}
@@ -93,8 +97,12 @@ public class Results {
 		onView(withId(R.id.search_now_btn)).perform(click());
 	}
 
+	public static ViewInteraction addHotel() {
+		return onView(allOf(withId(R.id.room_rate_button_add), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+	}
+
 	public static void clickAddHotel() {
-		onView(allOf(withId(R.id.room_rate_button_add), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))).perform(scrollTo(), click());
+		addHotel().perform(scrollTo(), click());
 	}
 
 	public static void clickBookHotel() {
