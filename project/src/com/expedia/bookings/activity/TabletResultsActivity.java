@@ -7,6 +7,7 @@ import android.app.ActionBar;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -58,6 +59,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
+import com.mobiata.android.widget.UndoBarController;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -76,7 +78,7 @@ import com.squareup.otto.Subscribe;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsActivity extends FragmentActivity implements IBackButtonLockListener,
 	IFragmentAvailabilityProvider, IStateProvider<ResultsState>, IMeasurementProvider,
-	IBackManageable, IAcceptingListenersListener, ITripBucketBookClickListener {
+	IBackManageable, IAcceptingListenersListener, ITripBucketBookClickListener, UndoBarController.UndoListener {
 
 	//State
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
@@ -96,6 +98,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	private ViewGroup mFlightsC;
 	private ViewGroup mHotelC;
 	private TextView mMissingFlightText;
+	private ViewGroup mUndoBarView;
 
 	//Fragments
 	private ResultsBackgroundImageFragment mBackgroundImageFrag;
@@ -132,6 +135,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		mMissingFlightText = Ui.findView(this, R.id.missing_departure_text);
 		mFlightsC = Ui.findView(this, R.id.full_width_flights_controller_container);
 		mHotelC = Ui.findView(this, R.id.full_width_hotels_controller_container);
+		mUndoBarView = Ui.findView(this, R.id.undobar);
+		mUndoBarView.setVisibility(View.GONE);
 
 		updateMissingFlightInfoText();
 
@@ -895,5 +900,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mHotelsController.unRegisterStateListener(mHotelsStateHelper);
 			}
 		}
+	}
+
+	@Override
+	public void onUndo(Parcelable token) {
+		//TODO
 	}
 }

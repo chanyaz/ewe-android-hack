@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
@@ -247,5 +246,10 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	@Override
 	public TripBucketItemHotel getItem() {
 		return Db.getTripBucket().getHotel();
+	}
+
+	@Override
+	public String getUndoString() {
+		return getActivity().getResources().getString(R.string.tablet_tripbucket_hotel_removed);
 	}
 }
