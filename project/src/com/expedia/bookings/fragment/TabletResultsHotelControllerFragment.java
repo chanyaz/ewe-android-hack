@@ -63,10 +63,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	IResultsHotelReviewsClickedListener, IAcceptingListenersListener, IResultsHotelReviewsBackClickedListener,
 	IResultsHotelGalleryClickedListener, IResultsHotelGalleryBackClickedListener {
 
-	//State
+	// State
 	private static final String STATE_HOTELS_STATE = "STATE_HOTELS_STATE";
 
-	//Frag tags
+	// Frag tags
 	private static final String FTAG_HOTEL_LIST = "FTAG_HOTEL_LIST";
 	private static final String FTAG_HOTEL_FILTERS = "FTAG_HOTEL_FILTERS";
 	private static final String FTAG_HOTEL_FILTERED_COUNT = "FTAG_HOTEL_FILTERED_COUNT";
@@ -78,10 +78,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private static final String FTAG_HOTEL_REVIEWS = "FTAG_HOTEL_REVIEWS";
 	private static final String FTAG_HOTEL_GALLERY = "FTAG_HOTEL_GALLERY";
 
-	//Settings
+	// Settings
 	private static final long PARAM_UPDATE_COOLDOWN_MS = 500;
 
-	//Containers
+	// Containers
 	private ViewGroup mRootC;
 	private FrameLayoutTouchController mHotelListC;
 	private FrameLayoutTouchController mBgHotelMapC;
@@ -107,11 +107,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private ResultsHotelReviewsFragment mHotelReviewsFrag;
 	private ResultsHotelGalleryFragment mHotelGalleryFrag;
 
-	//Other
+	// Other
 	private StateManager<ResultsHotelsState> mHotelsStateManager = new StateManager<ResultsHotelsState>(
 		ResultsHotelsState.LOADING, this);
 	private GridManager mGrid = new GridManager();
-	private boolean mRoomsAndRatesInFront = true;//They start in front
+	private boolean mRoomsAndRatesInFront = true;// They start in front
 	private Runnable mSearchParamUpdateRunner;
 
 	@Override
@@ -161,13 +161,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mSearchErrorC = Ui.findView(view, R.id.column_one_hotel_search_error);
 		mMapDimmer = Ui.findView(view, R.id.bg_map_dimmer);
 
-		//Default maps to be invisible (they get ignored by our setVisibilityState function so this is important)
+		// Default maps to be invisible (they get ignored by our setVisibilityState function so this is important)
 		mBgHotelMapC.setAlpha(0f);
 
-		//Set up our maps touch passthrough. It is important to note that A) the touch receiver is set to be invisible,
-		//so that when it gets a touch, it will pass to whatever is behind it. B) It must be the same size as the
-		//the view sending it touch events, because no offsets or anything like that are performed. C) It must be
-		//behind the view getting the original touch event, otherwise it will create a loop.
+		// Set up our maps touch passthrough. It is important to note that A) the touch receiver is set to be invisible,
+		// so that when it gets a touch, it will pass to whatever is behind it. B) It must be the same size as the
+		// the view sending it touch events, because no offsets or anything like that are performed. C) It must be
+		// behind the view getting the original touch event, otherwise it will create a loop.
 		mBgHotelMapTouchDelegateC.setVisibility(View.INVISIBLE);
 		mBgHotelMapC.setTouchPassThroughReceiver(mBgHotelMapTouchDelegateC);
 
@@ -222,8 +222,8 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 		else {
 			if (mHotelSearchDownloadFrag != null) {
-				//We dont care if our last search finished, we are waiting for our cooldown period before we want to
-				//commit to doing a full search.
+				// We dont care if our last search finished, we are waiting for our cooldown period before we want to
+				// commit to doing a full search.
 				mHotelSearchDownloadFrag.ignoreNextDownload();
 			}
 			if (mSearchParamUpdateRunner != null) {
@@ -386,11 +386,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private void setFragmentState(ResultsHotelsState hotelsState) {
 		FragmentManager manager = getChildFragmentManager();
 
-		//All of the fragment adds/removes come through this method, and we want to make sure our last call
-		//is complete before moving forward, so this is important
+		// All of the fragment adds/removes come through this method, and we want to make sure our last call
+		// is complete before moving forward, so this is important
 		manager.executePendingTransactions();
 
-		//We will be adding all of our add/removes to this transaction
+		// We will be adding all of our add/removes to this transaction
 		FragmentTransaction transaction = manager.beginTransaction();
 
 		boolean hotelSearchDownloadAvailable = false;
@@ -436,7 +436,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			hotelGalleryAvailable = true;
 		}
 
-		//TODO: WE MAY WANT TO REMOVE SOME HEAVIER FRAGMENTS SOMETIMES, ESPECIALLY IF WE ARE IN FLIGHTS MODE OR SOMETHING
+		// TODO: WE MAY WANT TO REMOVE SOME HEAVIER FRAGMENTS SOMETIMES, ESPECIALLY IF WE ARE IN FLIGHTS MODE OR SOMETHING
 
 		mHotelListFrag = (ResultsHotelListFragment) FragmentAvailabilityUtils.setFragmentAvailability(
 			hotelListAvailable, FTAG_HOTEL_LIST, manager,
@@ -475,7 +475,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
 
-			//Button and locking
+			// Button and locking
 			switch (state) {
 			case LOADING:
 			case SEARCH_ERROR:
@@ -507,7 +507,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 			}
 
-			//List scroll position
+			// List scroll position
 			mHotelListFrag.setListenerEnabled(mListStateHelper, false);
 			if (state == ResultsHotelsState.HOTEL_LIST_DOWN || state == ResultsHotelsState.LOADING
 				|| state == ResultsHotelsState.SEARCH_ERROR) {
@@ -889,7 +889,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 					setHotelsState(ResultsHotelsState.HOTEL_LIST_UP, false);
 				}
 				else {
-					//The activity is still telling us something, so we better refresh our state.
+					// The activity is still telling us something, so we better refresh our state.
 					setHotelsState(mHotelsStateManager.getState(), false);
 				}
 			}
@@ -907,11 +907,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
 			mGrid.setDimensions(totalWidth, totalHeight);
 
-			//3 rows (AB,top half, bottom half)
-			//5 columns - left, spacer,center,spacer,right
+			// 3 rows (AB,top half, bottom half)
+			// 5 columns - left, spacer,center,spacer,right
 			mGrid.setGridSize(3, 5);
 
-			//The top row matches the height of the actionbar
+			// The top row matches the height of the actionbar
 			mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
 			mGrid.setRowPercentage(2, 0.5f);
 
@@ -919,7 +919,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mGrid.setColumnSize(1, spacerSize);
 			mGrid.setColumnSize(3, spacerSize);
 
-			//Tell all of the containers where they belong
+			// Tell all of the containers where they belong
 			mGrid.setContainerToColumn(mLoadingC, 0);
 			mGrid.setContainerToColumn(mSearchErrorC, 0);
 			mGrid.setContainerToColumn(mHotelListC, 0);
@@ -930,7 +930,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 2, 4);
 			mGrid.setContainerToColumnSpan(mHotelReviewsC, 2, 4);
 
-			//All of the views except for the map sit below the action bar
+			// All of the views except for the map sit below the action bar
 			mGrid.setContainerToRow(mLoadingC, 2);
 			mGrid.setContainerToRow(mSearchErrorC, 2);
 			mGrid.setContainerToRowSpan(mHotelListC, 1, 2);
@@ -941,7 +941,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mGrid.setContainerToRowSpan(mHotelRoomsAndRatesC, 1, 2);
 			mGrid.setContainerToRowSpan(mHotelReviewsC, 1, 2);
 
-			//tell the map where its bounds are
+			// Tell the map where its bounds are
 			updateMapFragmentPositioningInfo(mMapFragment);
 		}
 
@@ -963,7 +963,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			ResultsHotelsState state = mHotelsStateManager.getState();
 			if (state != getBaseState()) {
 				if (mHotelsStateManager.isAnimating()) {
-					//If we are in the middle of state transition, just reverse it
+					// If we are in the middle of state transition, just reverse it
 					setHotelsState(state, true);
 					return true;
 				}
@@ -989,7 +989,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 						return true;
 					}
 					else if (state == ResultsHotelsState.ADDING_HOTEL_TO_TRIP) {
-						//We return true here, because we want to block back presses in this state
+						// We return true here, because we want to block back presses in this state
 						return true;
 					}
 				}
@@ -1059,19 +1059,19 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			if ((stateOne == ResultsHotelsState.HOTEL_LIST_UP && stateTwo == ResultsHotelsState.ROOMS_AND_RATES)
 				|| (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.HOTEL_LIST_UP)) {
-				//SHOWING ROOMS AND RATES
+				// SHOWING ROOMS AND RATES
 				mHotelListFrag.setListLockedToTop(true);
 				setRoomsAndRatesAnimationVisibilities();
 				setRoomsAndRatesAnimationHardwareRendering(true);
 			}
 			else if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
-				//SHOWING FILTERS
+				// SHOWING FILTERS
 				mHotelListFrag.setListLockedToTop(true);
 				setHotelsFiltersAnimationVisibilities(true);
 				setHotelsFiltersAnimationHardwareRendering(true);
 			}
 			else if (stateOne == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
-				//HIDING FILTERS
+				// HIDING FILTERS
 				mHotelListFrag.setListLockedToTop(true);
 				setHotelsFiltersAnimationVisibilities(true);
 				setHotelsFiltersAnimationHardwareRendering(true);
@@ -1082,7 +1082,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			}
 			else if (stateTwo == ResultsHotelsState.ADDING_HOTEL_TO_TRIP) {
-				//ADD TO HOTEL
+				// ADD TO HOTEL
 				mHotelListFrag.setListLockedToTop(true);
 				setAddToTripAnimationVis(true);
 				setAddToTripAnimationHardwareRendering(true);
@@ -1108,7 +1108,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 			else if (stateOne == ResultsHotelsState.LOADING && stateTwo == ResultsHotelsState.HOTEL_LIST_DOWN) {
 				if (mLoadingGuiFrag != null) {
-					//init the animation
+					// init the animation
 					mLoadingGuiFrag.initGrowToRowsAnimation();
 				}
 			}
@@ -1118,45 +1118,45 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo,
 			float percentage) {
 			if (stateOne == ResultsHotelsState.HOTEL_LIST_DOWN && stateTwo == ResultsHotelsState.HOTEL_LIST_UP) {
-				//ENTERING HOTELS
+				// ENTERING HOTELS
 				mBgHotelMapC.setAlpha(percentage);
 				mHotelListFrag.setPercentage(1f - percentage, 0);
 			}
 			else if (stateOne == ResultsHotelsState.HOTEL_LIST_UP && stateTwo == ResultsHotelsState.HOTEL_LIST_DOWN) {
-				//LEAVING HOTELS
+				// LEAVING HOTELS
 				mBgHotelMapC.setAlpha(1f - percentage);
 				mHotelListFrag.setPercentage(percentage, 0);
 			}
 			else if (stateOne == ResultsHotelsState.HOTEL_LIST_UP && stateTwo == ResultsHotelsState.ROOMS_AND_RATES) {
-				//SHOWING ROOMS AND RATES
+				// SHOWING ROOMS AND RATES
 				setRoomsAndRatesShownPercentage(percentage);
 			}
 			else if (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.HOTEL_LIST_UP) {
-				//HIDING ROOMS AND RATES
+				// HIDING ROOMS AND RATES
 				setRoomsAndRatesShownPercentage(1f - percentage);
 			}
 			else if (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.REVIEWS) {
-				//SHOWING REVIEWS
+				// SHOWING REVIEWS
 				setReviewsShownPercentage(percentage);
 			}
 			else if (stateOne == ResultsHotelsState.REVIEWS && stateTwo == ResultsHotelsState.ROOMS_AND_RATES) {
-				//HIDING REVIEWS
+				// HIDING REVIEWS
 				setReviewsShownPercentage(1f - percentage);
 			}
 			else if (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.GALLERY) {
-				//SHOWING GALLERY
+				// SHOWING GALLERY
 				setGalleryShownPercentage(percentage);
 			}
 			else if (stateOne == ResultsHotelsState.GALLERY && stateTwo == ResultsHotelsState.ROOMS_AND_RATES) {
-				//HIDING GALLERY
+				// HIDING GALLERY
 				setGalleryShownPercentage(1f - percentage);
 			}
 			else if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
-				//SHOWING FILTERS
+				// SHOWING FILTERS
 				setHotelsFiltersShownPercentage(percentage);
 			}
 			else if (stateOne == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
-				//HIDING FILTERS
+				// HIDING FILTERS
 				setHotelsFiltersShownPercentage(1f - percentage);
 
 			}
@@ -1167,7 +1167,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mHotelListFrag.setPercentage(percentage, 0);
 			}
 			else if (stateTwo == ResultsHotelsState.ADDING_HOTEL_TO_TRIP) {
-				//ADD TO HOTEL
+				// ADD TO HOTEL
 				setAddToTripPercentage(percentage);
 			}
 			else if (stateOne == ResultsHotelsState.LOADING && stateTwo == ResultsHotelsState.HOTEL_LIST_DOWN) {
@@ -1180,24 +1180,24 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		public void onStateTransitionEnd(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
 			if ((stateOne == ResultsHotelsState.HOTEL_LIST_UP && stateTwo == ResultsHotelsState.ROOMS_AND_RATES)
 				|| (stateOne == ResultsHotelsState.ROOMS_AND_RATES && stateTwo == ResultsHotelsState.HOTEL_LIST_UP)) {
-				//SHOWING/HIDING ROOMS AND RATES
+				// SHOWING/HIDING ROOMS AND RATES
 				setRoomsAndRatesAnimationHardwareRendering(false);
 
 			}
 			else if (stateTwo == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
-				//SHOWING FILTERS
+				// SHOWING FILTERS
 				setHotelsFiltersAnimationVisibilities(false);
 				setHotelsFiltersAnimationHardwareRendering(false);
 
 			}
 			else if (stateOne == ResultsHotelsState.HOTEL_LIST_AND_FILTERS) {
-				//HIDING FILTERS
+				// HIDING FILTERS
 				setHotelsFiltersAnimationVisibilities(false);
 				setHotelsFiltersAnimationHardwareRendering(false);
 
 			}
 			else if (stateTwo == ResultsHotelsState.ADDING_HOTEL_TO_TRIP) {
-				//ADD TO HOTEL
+				// ADD TO HOTEL
 				setAddToTripAnimationVis(false);
 				setAddToTripAnimationHardwareRendering(false);
 			}
@@ -1282,7 +1282,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			logger.addSplit("mMapFragment.setMapPaddingFromFilterState");
 
 
-			//Ensure we are downloading the correct data.
+			// Ensure we are downloading the correct data.
 			if (state == ResultsHotelsState.LOADING && mHotelSearchDownloadFrag != null) {
 				importSearchParams();
 				mHotelSearchDownloadFrag.startOrResumeForParams(Db.getHotelSearch().getSearchParams());
@@ -1432,7 +1432,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			if (response != null && !response.hasErrors()) {
 
-				//We need the list fragment to start drawing so we can animate it in
+				// We need the list fragment to start drawing so we can animate it in
 				FragmentManager manager = getChildFragmentManager();
 				FragmentTransaction transaction = manager.beginTransaction();
 				mHotelListFrag = FragmentAvailabilityUtils.setFragmentAvailability(
@@ -1445,7 +1445,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				setHotelsState(ResultsHotelsState.HOTEL_LIST_DOWN, true);
 			}
 			else if (!mHotelSearchDownloadFrag.isDownloadingHotelSearch()) {
-				//If we aren't downloading, and we dont have a valid response, we move to the error state
+				// If we aren't downloading, and we dont have a valid response, we move to the error state
 				setHotelsState(ResultsHotelsState.SEARCH_ERROR, false);
 			}
 		}
@@ -1456,7 +1456,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	 */
 	@Override
 	public void onItemAddedToBucket() {
-		//TODO: EVENTUALLY WE WANT TO ANIMATE THIS THING!
+		// TODO: EVENTUALLY WE WANT TO ANIMATE THIS THING!
 		setHotelsState(ResultsHotelsState.ADDING_HOTEL_TO_TRIP, false);
 	}
 

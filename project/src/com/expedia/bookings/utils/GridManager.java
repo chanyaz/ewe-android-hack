@@ -92,6 +92,12 @@ public class GridManager {
 		return mRows.getItemSize(rowNum);
 	}
 
+	/**
+	 * Returns the sum of the height of columns [rowStart, rowEnd)
+	 * @param rowStart
+	 * @param rowEnd
+	 * @return
+	 */
 	public int getRowSpanHeight(int rowStart, int rowEnd) {
 		int height = 0;
 		for (int i = rowStart; i < rowEnd; i++) {
@@ -104,6 +110,12 @@ public class GridManager {
 		return mCols.getItemSize(colNum);
 	}
 
+	/**
+	 * Returns the sum of the widths of rows [colStart, colEnd)
+	 * @param colStart
+	 * @param colEnd
+	 * @return
+	 */
 	public int getColSpanWidth(int colStart, int colEnd) {
 		int width = 0;
 		for (int i = colStart; i < colEnd; i++) {

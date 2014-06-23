@@ -52,10 +52,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	IStateProvider<ResultsFlightsState>, ExpediaServicesFragment.ExpediaServicesFragmentListener,
 	IAcceptingListenersListener {
 
-	//State
+	// State
 	private static final String STATE_FLIGHTS_STATE = "STATE_FLIGHTS_STATE";
 
-	//Frag tags
+	// Frag tags
 	private static final String FTAG_FLIGHT_MAP = "FTAG_FLIGHT_MAP";
 	private static final String FTAG_FLIGHT_ADD_TO_TRIP = "FTAG_FLIGHT_ADD_TO_TRIP";
 	private static final String FTAG_FLIGHT_SEARCH_DOWNLOAD = "FTAG_FLIGHT_SEARCH_DOWNLOAD";
@@ -64,10 +64,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private static final String FTAG_FLIGHT_LEGS_CHOOSER = "FTAG_FLIGHT_LEGS_CHOOSER";
 	private static final String FTAG_FLIGHT_INFANT_CHOOSER = "FTAG_FLIGHT_INFANT_CHOOSER";
 
-	//Settings
+	// Settings
 	private static final long PARAM_UPDATE_COOLDOWN_MS = 500;
 
-	//Containers
+	// Containers
 	private ViewGroup mRootC;
 	private FrameLayoutTouchController mFlightMapC;
 	private FrameLayoutTouchController mAddToTripC;
@@ -77,7 +77,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	private ArrayList<View> mVisibilityControlledViews = new ArrayList<View>();
 
-	//Fragments
+	// Fragments
 	private ResultsFlightMapFragment mFlightMapFrag;
 	private ResultsFlightAddToTrip mAddToTripFrag;
 	private FlightSearchDownloadFragment mFlightSearchDownloadFrag;
@@ -87,13 +87,13 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	private InfantChooserDialogFragment mInfantFrag;
 	private Runnable mSearchParamUpdateRunner;
 
-	//Other
+	// Other
 	private View mAddToTripShadeView;
 	private GridManager mGrid = new GridManager();
 	private StateManager<ResultsFlightsState> mFlightsStateManager = new StateManager<ResultsFlightsState>(
 		ResultsFlightsState.LOADING, this);
 
-	//When we are downloading new data, we set this to true, so that we remember to resetQuery on our legs chooser.
+	// When we are downloading new data, we set this to true, so that we remember to resetQuery on our legs chooser.
 	private boolean mNeedsQueryReset = true;
 
 	@Override
@@ -111,7 +111,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				getBaseState().name())));
 		}
 
-		//If we are in a state such that we think we should have data, lets try to load it.
+		// If we are in a state such that we think we should have data, lets try to load it.
 		ResultsFlightsState state = mFlightsStateManager.getState();
 		if (state != ResultsFlightsState.LOADING && state != ResultsFlightsState.SEARCH_ERROR) {
 			if (Db.getFlightSearch() == null || Db.getFlightSearch().getSearchResponse() == null) {
@@ -158,9 +158,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		registerStateListener(new StateListenerLogger<ResultsFlightsState>(), false);
 		registerStateListener(mFlightsStateHelper, false);
 
-		//TODO: This should not be here. We are consuming GPU memory needlessly most of the time.
-		//These views should be moved to hardware layers in onStateTransitionStart for relevant transitions and moved off
-		//of hardware layers in onStateTransitionEnd.
+		// TODO: This should not be here. We are consuming GPU memory needlessly most of the time.
+		// These views should be moved to hardware layers in onStateTransitionStart for relevant transitions and moved off
+		// of hardware layers in onStateTransitionEnd.
 		mFlightMapC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 		mAddToTripShadeView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
@@ -244,8 +244,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		}
 		else {
 			if (mFlightSearchDownloadFrag != null) {
-				//We dont care if our last search finished, we are waiting for our cooldown period before we want to
-				//commit to doing a full search.
+				// We dont care if our last search finished, we are waiting for our cooldown period before we want to
+				// commit to doing a full search.
 				mFlightSearchDownloadFrag.ignoreNextDownload();
 			}
 			if (mSearchParamUpdateRunner != null) {
@@ -428,11 +428,11 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 		FragmentManager manager = getChildFragmentManager();
 
-		//All of the fragment adds/removes come through this method, and we want to make sure our last call
-		//is complete before moving forward, so this is important
+		// All of the fragment adds/removes come through this method, and we want to make sure our last call
+		// is complete before moving forward, so this is important
 		manager.executePendingTransactions();
 
-		//We will be adding all of our add/removes to this transaction
+		// We will be adding all of our add/removes to this transaction
 
 		FragmentTransaction transaction = manager.beginTransaction();
 
@@ -531,14 +531,14 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				setFlightsState(getBaseState(), false);
 			}
 			else {
-				//We are in flights mode
+				// We are in flights mode
 				if (mFlightsStateManager.hasState()
 					&& mFlightsStateManager.getState() == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-					//If we have a state, and that state is DOWN, lets go up
+					// If we have a state, and that state is DOWN, lets go up
 					setFlightsState(ResultsFlightsState.CHOOSING_FLIGHT, false);
 				}
 				else {
-					//The activity is still telling us something, so we better refresh our state.
+					// The activity is still telling us something, so we better refresh our state.
 					setFlightsState(mFlightsStateManager.getState(), false);
 				}
 			}
@@ -555,32 +555,33 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
 			mGrid.setDimensions(totalWidth, totalHeight);
 
-
+			// 3 rows (AB,top half, bottom half)
+			// 5 columns - left, spacer,center,spacer,right
 			mGrid.setGridSize(3, 5);
 
-			//The top row matches the height of the actionbar
+			// The top row matches the height of the actionbar
 			mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
 
-			//The bottom row
+			// The bottom row
 			mGrid.setRowPercentage(2, .50f);
 
-			//These columns are just the spacers between content columns
+			// These columns are just the spacers between content columns
 			int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
 			mGrid.setColumnSize(1, spacerSize);
 			mGrid.setColumnSize(3, spacerSize);
 
-			//Horizontal alignment
+			// Horizontal alignment
 			mGrid.setContainerToColumnSpan(mFlightMapC, 0, 4);
 			mGrid.setContainerToColumn(mLoadingC, 2);
 			mGrid.setContainerToColumn(mSearchErrorC, 2);
 			mGrid.setContainerToColumnSpan(mFlightLegsC, 0, 4);
 
-			//Special cases
+			// Special cases
 			mGrid.setContainerToRowSpan(mFlightMapC, 0, 2);
 			mGrid.setContainerToRow(mLoadingC, 2);
 			mGrid.setContainerToRow(mSearchErrorC, 2);
 
-			//Frag stuff
+			// Frag stuff
 			updateMapFragSizes(mFlightMapFrag);
 		}
 
@@ -601,7 +602,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		public boolean handleBackPressed() {
 			ResultsFlightsState state = mFlightsStateManager.getState();
 			if (mFlightsStateManager.isAnimating()) {
-				//If we are in the middle of state transition, just reverse it
+				// If we are in the middle of state transition, just reverse it
 				setFlightsState(state, true);
 				return true;
 			}
@@ -644,8 +645,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	public void finalizeState(ResultsFlightsState state) {
 		mFlightsStateListeners.finalizeState(state);
 
-		//If we have arrived at the ADDING_FLIGHT_TO_TRIP state, we want to immediately move to the list down state.
-		//We do this here so that finalize has been called on all listeners before moving on.
+		// If we have arrived at the ADDING_FLIGHT_TO_TRIP state, we want to immediately move to the list down state.
+		// We do this here so that finalize has been called on all listeners before moving on.
 		if (state == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP) {
 			setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
 		}
@@ -687,7 +688,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			else if (stateOne == ResultsFlightsState.LOADING && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 
 				if (mLoadingGuiFrag != null) {
-					//init the animation
+					// init the animation
 					mLoadingGuiFrag.initGrowToRowsAnimation();
 				}
 			}
@@ -730,7 +731,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				popInfantPromptIfNeeded();
 			}
 			else if (stateOne == ResultsFlightsState.LOADING && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
-				//The loading fragment is about to be removed in onFinalize, but lets reset it beforehand regardless.
+				// The loading fragment is about to be removed in onFinalize, but lets reset it beforehand regardless.
 				mLoadingC.setVisibility(View.INVISIBLE);
 				mLoadingGuiFrag.cleanUpGrowToRowsAnim();
 			}
@@ -750,7 +751,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mFlightMapC.setAlpha(1f);
 			}
 
-			//Make sure we are loading using the most recent params
+			// Make sure we are loading using the most recent params
 			if (mFlightSearchDownloadFrag != null && state == ResultsFlightsState.LOADING) {
 				importSearchParams();
 				mFlightSearchDownloadFrag.startOrResumeForParams(Db.getFlightSearch().getSearchParams());
@@ -828,7 +829,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 
 			if (response != null && !response.hasErrors()) {
-				//We need the legs fragment to start drawing so we can animate it in
+				// We need the legs fragment to start drawing so we can animate it in
 				FragmentManager manager = getChildFragmentManager();
 				FragmentTransaction transaction = manager.beginTransaction();
 				mFlightLegsFrag = FragmentAvailabilityUtils.setFragmentAvailability(
@@ -842,7 +843,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				setFlightsState(ResultsFlightsState.FLIGHT_LIST_DOWN, true);
 			}
 			else if (!mFlightSearchDownloadFrag.isDownloadingFlightSearch()) {
-				//If we aren't downloading, and we dont have a valid response, we move to the error state
+				// If we aren't downloading, and we dont have a valid response, we move to the error state
 				setFlightsState(ResultsFlightsState.SEARCH_ERROR, false);
 			}
 		}
