@@ -399,23 +399,24 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 					Db.getHotelSearch().setSearchResponse(searchResponse);
 				}
 
-				// Extract relevant data here
-				LaunchHotelData launchHotelData = new LaunchHotelData();
-				List<Property> properties = searchResponse.getFilteredAndSortedProperties(HotelFilter.Sort.DEALS,
-						NUM_HOTEL_PROPERTIES, Db.getHotelSearch().getSearchParams());
-				launchHotelData.setProperties(properties);
-				launchHotelData.setDistanceUnit(searchResponse.getFilter().getDistanceUnit());
-				Db.setLaunchHotelData(launchHotelData);
-				Db.setLaunchHotelFallbackData(null);
+				if (Db.getHotelSearch().getSearchParams() != null) {
+					// Extract relevant data here
+					LaunchHotelData launchHotelData = new LaunchHotelData();
+					List<Property> properties = searchResponse.getFilteredAndSortedProperties(HotelFilter.Sort.DEALS,
+							NUM_HOTEL_PROPERTIES, Db.getHotelSearch().getSearchParams());
+					launchHotelData.setProperties(properties);
+					launchHotelData.setDistanceUnit(searchResponse.getFilter().getDistanceUnit());
+					Db.setLaunchHotelData(launchHotelData);
+					Db.setLaunchHotelFallbackData(null);
 
-				mLaunchDataTimestamp = DateTime.now();
-				onHotelDataRetrieved();
+					mLaunchDataTimestamp = DateTime.now();
+					onHotelDataRetrieved();
+					return;
+				}
 			}
 
 			// Hotel search failed; use the fallback destination image plan
-			else {
-				startHotelFallbackDownload();
-			}
+			startHotelFallbackDownload();
 		}
 	};
 
