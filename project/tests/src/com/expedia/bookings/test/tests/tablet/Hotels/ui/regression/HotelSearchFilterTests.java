@@ -1,7 +1,5 @@
 package com.expedia.bookings.test.tests.tablet.Hotels.ui.regression;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.expedia.bookings.R;
@@ -12,12 +10,10 @@ import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.test.tests.pageModels.tablet.Common;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
+import com.expedia.bookings.test.tests.pageModels.tablet.Settings;
 import com.expedia.bookings.test.tests.pageModels.tablet.SortFilter;
-import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.utils.EspressoUtils;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
-import com.mobiata.android.util.SettingUtils;
 
 import static com.expedia.bookings.test.tests.pageModels.tablet.Common.pressBack;
 import static com.expedia.bookings.test.utils.EspressoUtils.slowSwipeUp;
@@ -35,16 +31,20 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Sea
 
 	private static final String TAG = HotelSearchFilterTests.class.getName();
 
-	Context mContext;
-	Resources mRes;
+	@Override
+	public void runTest() throws Throwable {
+		// These tests are only applicable to tablets
+		if (ExpediaBookingApp.useTabletInterface(getInstrumentation().getTargetContext())) {
 
-	protected void setUp() throws Exception {
-		super.setUp();
-		mContext = getInstrumentation().getTargetContext();
-		mRes = mContext.getResources();
-		ClearPrivateDataUtil.clear(mContext);
-		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
-		getActivity();
+			Settings.clearPrivateData(getInstrumentation());
+			// Point to the mock server
+			Settings.setCustomServer(getInstrumentation(), "mocke3.mobiata.com");
+
+			// Espresso will not launch our activity for us, we must launch it via getActivity().
+			getActivity();
+
+			super.runTest();
+		}
 	}
 
 	// Filter by stars test
@@ -55,7 +55,7 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Sea
 		for (int j = 1; j < currentHotelCount - 1; j++) {
 			Results.clickHotelAtIndex(j);
 			float starRating = EspressoUtils.getRatingValue(onView(withId(R.id.star_rating_bar)));
-			ScreenActions.enterLog(TAG, "Star rating and minimum rating:" + starRating + "," + minimumStarRating);
+			Common.enterLog(TAG, "Star rating and minimum rating:" + starRating + "," + minimumStarRating);
 			if (starRating < minimumStarRating) {
 				String hotelName = EspressoUtils.getText(R.id.title);
 				throw new Exception("Star rating of hotel: " + hotelName + " is < " + minimumStarRating + " stars, despite the filter.");
@@ -139,7 +139,7 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Sea
 			DataInteraction searchResultRow = Results.hotelAtIndex(j);
 			String distanceString = EspressoUtils.getListItemValues(searchResultRow, R.id.proximity_text_view);
 			float distance = getCleanFloatFromTextView(distanceString);
-			ScreenActions.enterLog(TAG, "Distance and maximum distance:" + distance + "," + maximumDistance);
+			Common.enterLog(TAG, "Distance and maximum distance:" + distance + "," + maximumDistance);
 			if (distance > maximumDistance) {
 				String hotelName = EspressoUtils.getListItemValues(searchResultRow, R.id.name_text_view);
 				throw new Exception("Hotel " + hotelName + " had distance > " + maximumDistance
@@ -174,23 +174,22 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Sea
 	private static final String[] FILTER_STRINGS = {
 		"a",
 		"b",
-		"Marriott",
+		"Tuscan",
 		"z",
-		"Hilton",
 	};
 
 	private void assertHotelTitlesContains(String filterText) throws Exception {
 		int currentHotelCount = EspressoUtils.getListCount(Results.hotelList()) - 1;
-		ScreenActions.enterLog(TAG, "Hotel count after adding filter text :" + currentHotelCount);
+		Common.enterLog(TAG, "Hotel count after adding filter text :" + currentHotelCount);
 		if (currentHotelCount != 0) {
 			for (int j = 1; j < currentHotelCount - 1; j++) {
 				DataInteraction searchResultRow = Results.hotelAtIndex(j);
-				String hotelName = EspressoUtils.getListItemValues(searchResultRow, R.id.name_text_view).toLowerCase(mRes.getConfiguration().locale);
-				ScreenActions.enterLog(TAG, "Hotel name in text view:" + hotelName);
+				String hotelName = EspressoUtils.getListItemValues(searchResultRow, R.id.name_text_view).toLowerCase(getActivity().getResources().getConfiguration().locale);
+				Common.enterLog(TAG, "Hotel name in text view:" + hotelName);
 
 				// If hotel name contains "..." don't test because it could produce false negative
 				if (!hotelName.contains("...")) {
-					if (!hotelName.contains(filterText.toLowerCase(mRes.getConfiguration().locale))) {
+					if (!hotelName.contains(filterText.toLowerCase(getActivity().getResources().getConfiguration().locale))) {
 						throw new Exception("Test fails because hotel name " + hotelName
 							+ " does not contain the filter text: " + filterText);
 					}
