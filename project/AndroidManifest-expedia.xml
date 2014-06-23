@@ -7,6 +7,16 @@
         <activity
             android:name="com.expedia.bookings.activity.DeepLinkRouterActivity"
             android:theme="@android:style/Theme.NoDisplay" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:host="e.xpda.co" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
