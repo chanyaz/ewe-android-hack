@@ -561,9 +561,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 			// The top row matches the height of the actionbar
 			mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
-
-			// The bottom row
-			mGrid.setRowPercentage(2, .50f);
+			mGrid.setRowSize(2, getResources().getDimensionPixelSize(R.dimen.results_collapsed_row_height));
 
 			// These columns are just the spacers between content columns
 			int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);

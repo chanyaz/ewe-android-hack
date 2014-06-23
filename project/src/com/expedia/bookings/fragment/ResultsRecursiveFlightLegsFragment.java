@@ -909,7 +909,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				}
 				else {
 					mListFrag.setListLockedToTop(false);
+
 					if (mListFrag.hasList()) {
+						// Give the FruitList a proper top gap
+						mListFrag.getListView().setTopSpacePixels(mGrid.getRowSpanHeight(0, 2)
+							- getResources().getDimensionPixelSize(R.dimen.results_column_header_height));
+
 						if ((state == ResultsFlightLegState.ADDING_TO_TRIP || state == ResultsFlightLegState.LIST_DOWN)
 							&& mListFrag.getPercentage() < 1) {
 							mListFrag.setPercentage(1f, 0);
@@ -1145,7 +1150,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
 
 			//The bottom row
-			mGrid.setRowPercentage(2, .50f);
+			mGrid.setRowSize(2, getResources().getDimensionPixelSize(R.dimen.results_collapsed_row_height));
 
 			//These columns are just the spacers between content columns
 			int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);

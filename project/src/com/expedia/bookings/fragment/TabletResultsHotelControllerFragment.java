@@ -470,10 +470,19 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		transaction.commit();
 	}
 
+	private void updateFruitListSize() {
+		if (mHotelListFrag != null) {
+			// Give the FruitList a proper top gap
+			mHotelListFrag.getListView().setTopSpacePixels(mGrid.getRowSpanHeight(0, 2)
+				- getResources().getDimensionPixelSize(R.dimen.results_column_header_height));
+		}
+	}
+
 	private void setListState(ResultsHotelsState state) {
 		if (mHotelListFrag != null) {
 
 			mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
+			updateFruitListSize();
 
 			// Button and locking
 			switch (state) {
@@ -600,10 +609,16 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
-		if (tag == FTAG_HOTEL_MAP) {
+		switch (tag) {
+		case FTAG_HOTEL_MAP:
 			HotelMapFragment mapFrag = (HotelMapFragment) frag;
 			updateMapFragmentPositioningInfo(mapFrag);
+			break;
+		case FTAG_HOTEL_LIST:
+			updateFruitListSize();
+			break;
 		}
+
 	}
 
 	private void updateMapFragmentPositioningInfo(HotelMapFragment mapFrag) {
@@ -913,7 +928,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			// The top row matches the height of the actionbar
 			mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
-			mGrid.setRowPercentage(2, 0.5f);
+			mGrid.setRowSize(2, getResources().getDimensionPixelSize(R.dimen.results_collapsed_row_height));
 
 			int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
 			mGrid.setColumnSize(1, spacerSize);
@@ -943,6 +958,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 			// Tell the map where its bounds are
 			updateMapFragmentPositioningInfo(mMapFragment);
+
+			// Adjust the height of the FruitList
+			updateFruitListSize();
 		}
 
 	};

@@ -22,6 +22,9 @@
     <dimen name="destination_search_tile_height">220dp</dimen>
     <dimen name="destination_search_tile_text_margin_top">174dp</dimen>
 
+    <!-- Search Results -->
+    <dimen name="results_collapsed_row_height">392dp</dimen>
+
     <!-- Hotel Details -->
     <dimen name="hotel_details_window_margin_x">120dp</dimen>
     <dimen name="hotel_details_window_margin_y">64dp</dimen>
