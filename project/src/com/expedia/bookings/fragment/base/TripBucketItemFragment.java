@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucketItem;
@@ -34,7 +33,6 @@ import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.Ui;
-import com.mobiata.android.widget.UndoBarController;
 
 /**
  * TripBucketItemFragment: Tablet 2014
@@ -155,8 +153,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		mRemoveItemBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				UndoBarController undoBar = new UndoBarController(Ui.findView(getActivity(), R.id.undobar), (TabletResultsActivity) getActivity());
-				undoBar.showUndoBar(true, getUndoString(), null);
+				IRemoveTBItemListener listener =(IRemoveTBItemListener) getActivity();
+				listener.tripBucketItemRemoved(getItem());
 			}
 		});
 
@@ -670,6 +668,10 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			getTripBucketBookClickedListener().onTripBucketBookClicked(lob);
 		}
 	}
+
+	public interface IRemoveTBItemListener {
+		public void tripBucketItemRemoved(TripBucketItem item);
+	};
 
 	/*
 	ABSTRACT METHODS

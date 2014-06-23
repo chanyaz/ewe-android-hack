@@ -248,8 +248,4 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		return Db.getTripBucket().getHotel();
 	}
 
-	@Override
-	public String getUndoString() {
-		return getActivity().getResources().getString(R.string.tablet_tripbucket_hotel_removed);
-	}
 }

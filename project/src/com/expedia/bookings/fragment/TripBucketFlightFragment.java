@@ -334,8 +334,4 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		return Db.getTripBucket().getFlight();
 	}
 
-	@Override
-	public String getUndoString() {
-		return getActivity().getResources().getString(R.string.tablet_tripbucket_flight_removed);
-	}
 }

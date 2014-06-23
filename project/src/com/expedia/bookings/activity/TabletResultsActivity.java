@@ -24,9 +24,13 @@ import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.data.TripBucketItem;
+import com.expedia.bookings.data.TripBucketItemFlight;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
@@ -36,6 +40,7 @@ import com.expedia.bookings.fragment.ResultsTripBucketFragment;
 import com.expedia.bookings.fragment.TabletResultsFlightControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsSearchControllerFragment;
+import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -57,6 +62,7 @@ import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.widget.UndoBarController;
@@ -78,7 +84,7 @@ import com.squareup.otto.Subscribe;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsActivity extends FragmentActivity implements IBackButtonLockListener,
 	IFragmentAvailabilityProvider, IStateProvider<ResultsState>, IMeasurementProvider,
-	IBackManageable, IAcceptingListenersListener, ITripBucketBookClickListener, UndoBarController.UndoListener {
+	IBackManageable, IAcceptingListenersListener, ITripBucketBookClickListener, UndoBarController.UndoListener, TripBucketItemFragment.IRemoveTBItemListener {
 
 	//State
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
@@ -757,7 +763,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 		@Override
 		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo,
-			float percentage) {
+											float percentage) {
 			updateStateTransition(getResultsStateFromHotels(stateOne), getResultsStateFromHotels(stateTwo), percentage);
 		}
 
@@ -831,7 +837,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
-			float percentage) {
+											float percentage) {
 			updateStateTransition(getResultsStateFromFlights(stateOne), getResultsStateFromFlights(stateTwo),
 				percentage);
 		}
@@ -903,7 +909,32 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	}
 
 	@Override
+	public void tripBucketItemRemoved(TripBucketItem item) {
+		UndoBarController undoBar = new UndoBarController(Ui.findView(this, R.id.undobar), this);
+		Bundle b = new Bundle();
+		JSONUtils.putEnum(b, "lob", item.getLineOfBusiness());
+		JSONUtils.putJSONable(b, "item", item);
+		// Remove the item from data and from view
+		Db.getTripBucket().clear(item.getLineOfBusiness());
+		mTripBucketFrag.bindToDb();
+
+		int stringId = item.getLineOfBusiness() == LineOfBusiness.FLIGHTS ?
+			R.string.tablet_tripbucket_flight_removed :
+			R.string.tablet_tripbucket_hotel_removed;
+		undoBar.showUndoBar(true, getString(stringId), b);
+	}
+
+	@Override
 	public void onUndo(Parcelable token) {
-		//TODO
+		LineOfBusiness itemLob = JSONUtils.getEnum((Bundle) token, "lob", LineOfBusiness.class);
+		if (itemLob == LineOfBusiness.FLIGHTS) {
+			TripBucketItemFlight flight = JSONUtils.getJSONable((Bundle) token, "item", TripBucketItemFlight.class);
+			Db.getTripBucket().add(flight.getFlightSearchParams(), flight.getFlightTrip());
+		}
+		else {
+			TripBucketItemHotel hotel = JSONUtils.getJSONable((Bundle) token, "item", TripBucketItemHotel.class);
+			Db.getTripBucket().add(hotel.getHotelSearchParams(), hotel.getRate(), hotel.getProperty());
+		}
+		mTripBucketFrag.bindToDb();
 	}
 }
