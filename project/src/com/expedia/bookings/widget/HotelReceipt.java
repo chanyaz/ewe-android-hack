@@ -188,17 +188,7 @@ public class HotelReceipt extends LinearLayout {
 		}
 
 		if (rate.shouldShowFreeCancellation()) {
-			DateTime window = rate.getFreeCancellationWindowDate();
-			if (window != null) {
-				CharSequence formattedDate = JodaUtils.formatDateTime(getContext(), window, DateUtils.FORMAT_SHOW_TIME
-						| DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH);
-				String formattedString = getContext()
-						.getString(R.string.free_cancellation_date_TEMPLATE, formattedDate);
-				addExtraRow(Html.fromHtml(formattedString));
-			}
-			else {
-				addExtraRow(R.string.free_cancellation);
-			}
+			addExtraRow(HotelUtils.getRoomCancellationText(getContext(), rate));
 		}
 
 		final Resources res = getContext().getResources();
