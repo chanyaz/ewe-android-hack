@@ -31,6 +31,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.FormatUtils;
@@ -237,8 +238,8 @@ public class RowRoomRateLayout extends FrameLayout {
 		}
 
 		ImageView roomDetailImageView = Ui.findView(this, R.id.room_rate_image_view);
-		final android.widget.TextView roomLongDescriptionTextView = Ui.findView(this, R.id.room_rate_description_text);
-		android.widget.TextView refundableTextView = Ui.findView(this, R.id.room_rate_refundable_text);
+		final TextView roomLongDescriptionTextView = Ui.findView(this, R.id.room_rate_description_text);
+		TextView refundableCancellationTv = Ui.findView(this, R.id.room_rate_refundable_cancellation_text);
 		android.widget.TextView roomRateDiscountRibbon = Ui.findView(this, R.id.room_rate_discount_text);
 
 		mIsDescriptionTextSpanned = false;
@@ -280,7 +281,15 @@ public class RowRoomRateLayout extends FrameLayout {
 		});
 
 		// Refundable text visibility check
-		refundableTextView.setVisibility(mRate.isNonRefundable() ? View.VISIBLE : View.GONE);
+		if (mRate.isNonRefundable()) {
+			refundableCancellationTv.setVisibility(View.VISIBLE);
+			refundableCancellationTv.setText(R.string.non_refundable);
+		}
+		else if (mRate.shouldShowFreeCancellation()) {
+			refundableCancellationTv.setVisibility(View.VISIBLE);
+			refundableCancellationTv.setText(HotelUtils.getRoomCancellationText(getContext(), mRate));
+
+		}
 
 		// Rooms and Rates detail image media
 		int placeholderResId = Ui.obtainThemeResID(getContext(), R.attr.hotelImagePlaceHolderDrawable);
