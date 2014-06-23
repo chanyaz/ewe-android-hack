@@ -922,6 +922,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			R.string.tablet_tripbucket_flight_removed :
 			R.string.tablet_tripbucket_hotel_removed;
 		undoBar.showUndoBar(true, getString(stringId), b);
+		Db.saveTripBucket(this);
 	}
 
 	@Override
@@ -933,8 +934,9 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		}
 		else {
 			TripBucketItemHotel hotel = JSONUtils.getJSONable((Bundle) token, "item", TripBucketItemHotel.class);
-			Db.getTripBucket().add(hotel.getHotelSearchParams(), hotel.getRate(), hotel.getProperty());
+			Db.getTripBucket().add(hotel.getHotelSearchParams(), hotel.getRate(), hotel.getProperty(), hotel.getHotelAvailability());
 		}
 		mTripBucketFrag.bindToDb();
+		Db.saveTripBucket(this);
 	}
 }
