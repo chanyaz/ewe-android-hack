@@ -24,9 +24,9 @@ public class TripBucketItemHotel extends TripBucketItem {
 
 	}
 
-	public TripBucketItemHotel(Property property, Rate rate, HotelSearchParams searchParams) {
+	public TripBucketItemHotel(Property property, Rate rate, HotelSearchParams searchParams, HotelAvailability availability) {
 		mProperty = property;
-		mAvailability = Db.getHotelSearch().getAvailability(property.getPropertyId());
+		mAvailability = availability;
 		mRate = rate;
 		mSearchParams = searchParams.clone();
 	}

@@ -722,7 +722,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			rate = property.getLowestRate();
 		}
 		Db.getTripBucket().clearHotel();
-		Db.getTripBucket().add(search.getSearchParams(), rate, property);
+		Db.getTripBucket().add(search.getSearchParams(), rate, property, search.getAvailability(property.getPropertyId()));
 		Db.saveTripBucket(getActivity());
 
 		mAddToBucketListener.onItemAddedToBucket();

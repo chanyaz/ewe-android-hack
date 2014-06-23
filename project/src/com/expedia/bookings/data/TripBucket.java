@@ -94,10 +94,10 @@ public class TripBucket implements JSONable {
 	 * @param rate
 	 * @param property
 	 */
-	public void add(HotelSearchParams params, Rate rate, Property property) {
+	public void add(HotelSearchParams params, Rate rate, Property property, HotelAvailability availability) {
 		mLastLOBAdded = LineOfBusiness.HOTELS;
 		mRefreshCount++;
-		mItems.add(new TripBucketItemHotel(property, rate, params));
+		mItems.add(new TripBucketItemHotel(property, rate, params, availability));
 	}
 
 	/**
