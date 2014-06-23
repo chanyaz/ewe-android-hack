@@ -44,7 +44,8 @@ public class InfantChooserDialogFragment extends DialogFragment {
 
 		final int choiceInDb = Db.getFlightSearch().getSearchParams().getInfantSeatingInLap() ? 0 : 1;
 
-		return new AlertDialog.Builder(getActivity()).setTitle(getString(R.string.infant_seating_preference))
+		return new AlertDialog.Builder(getActivity())
+			.setTitle(getString(R.string.infants_seating_preference_description))
 			.setSingleChoiceItems(items, choiceInDb, new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int newChoice) {
