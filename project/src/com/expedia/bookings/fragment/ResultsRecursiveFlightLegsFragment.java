@@ -1143,34 +1143,36 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		@Override
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
-			mGrid.setDimensions(totalWidth, totalHeight);
-			mGrid.setGridSize(3, 5);
+			if (isLandscape || true) {
+				mGrid.setDimensions(totalWidth, totalHeight);
+				mGrid.setGridSize(3, 5);
 
-			//The top row matches the height of the actionbar
-			mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
+				//The top row matches the height of the actionbar
+				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
 
-			//The bottom row
-			mGrid.setRowSize(2, getResources().getDimensionPixelSize(R.dimen.results_collapsed_row_height));
+				//The bottom row
+				mGrid.setRowPercentage(2, .50f);
 
-			//These columns are just the spacers between content columns
-			int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
-			mGrid.setColumnSize(1, spacerSize);
-			mGrid.setColumnSize(3, spacerSize);
+				//These columns are just the spacers between content columns
+				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
+				mGrid.setColumnSize(1, spacerSize);
+				mGrid.setColumnSize(3, spacerSize);
 
-			//Horizontal alignment
-			mGrid.setContainerToColumn(mFiltersC, 0);
-			mGrid.setContainerToColumn(mListColumnC, 2);
-			mGrid.setContainerToColumnSpan(mDetailsC, 0, 4);
+				//Horizontal alignment
+				mGrid.setContainerToColumn(mFiltersC, 0);
+				mGrid.setContainerToColumn(mListColumnC, 2);
+				mGrid.setContainerToColumnSpan(mDetailsC, 0, 4);
 
-			//Vertical alignment
+				//Vertical alignment
 
-			//Most content sits in rows 1 and 2 (below the actionbar)
-			mGrid.setContainerToRowSpan(mFiltersC, 1, 2);
-			mGrid.setContainerToRowSpan(mListColumnC, 1, 2);
-			mGrid.setContainerToRowSpan(mDetailsC, 1, 2);
+				//Most content sits in rows 1 and 2 (below the actionbar)
+				mGrid.setContainerToRowSpan(mFiltersC, 1, 2);
+				mGrid.setContainerToRowSpan(mListColumnC, 1, 2);
+				mGrid.setContainerToRowSpan(mDetailsC, 1, 2);
 
-			//Frag stuff
-			updateDetailsFragSizes(mDetailsFrag);
+				//Frag stuff
+				updateDetailsFragSizes(mDetailsFrag);
+			}
 		}
 	};
 

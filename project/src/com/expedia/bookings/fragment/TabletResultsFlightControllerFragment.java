@@ -553,34 +553,39 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 		@Override
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
-			mGrid.setDimensions(totalWidth, totalHeight);
+			if (isLandscape || true) {
+				mGrid.setDimensions(totalWidth, totalHeight);
 
-			// 3 rows (AB,top half, bottom half)
-			// 5 columns - left, spacer,center,spacer,right
-			mGrid.setGridSize(3, 5);
+				mGrid.setGridSize(3, 5);
 
-			// The top row matches the height of the actionbar
-			mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
-			mGrid.setRowSize(2, getResources().getDimensionPixelSize(R.dimen.results_collapsed_row_height));
+				//The top row matches the height of the actionbar
+				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
 
-			// These columns are just the spacers between content columns
-			int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
-			mGrid.setColumnSize(1, spacerSize);
-			mGrid.setColumnSize(3, spacerSize);
+				//The bottom row
+				mGrid.setRowPercentage(2, .50f);
 
-			// Horizontal alignment
-			mGrid.setContainerToColumnSpan(mFlightMapC, 0, 4);
-			mGrid.setContainerToColumn(mLoadingC, 2);
-			mGrid.setContainerToColumn(mSearchErrorC, 2);
-			mGrid.setContainerToColumnSpan(mFlightLegsC, 0, 4);
+				//These columns are just the spacers between content columns
+				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
+				mGrid.setColumnSize(1, spacerSize);
+				mGrid.setColumnSize(3, spacerSize);
 
-			// Special cases
-			mGrid.setContainerToRowSpan(mFlightMapC, 0, 2);
-			mGrid.setContainerToRow(mLoadingC, 2);
-			mGrid.setContainerToRow(mSearchErrorC, 2);
+				//Horizontal alignment
+				mGrid.setContainerToColumnSpan(mFlightMapC, 0, 4);
+				mGrid.setContainerToColumn(mLoadingC, 2);
+				mGrid.setContainerToColumn(mSearchErrorC, 2);
+				mGrid.setContainerToColumnSpan(mFlightLegsC, 0, 4);
 
-			// Frag stuff
-			updateMapFragSizes(mFlightMapFrag);
+				//Special cases
+				mGrid.setContainerToRowSpan(mFlightMapC, 0, 2);
+				mGrid.setContainerToRow(mLoadingC, 2);
+				mGrid.setContainerToRow(mSearchErrorC, 2);
+
+				//Frag stuff
+				updateMapFragSizes(mFlightMapFrag);
+			}
+			else {
+
+			}
 		}
 
 	};
