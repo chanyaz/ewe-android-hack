@@ -2,8 +2,12 @@ package com.expedia.bookings.utils;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
+import android.text.Html;
+import android.text.format.DateUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -93,6 +97,26 @@ public class HotelUtils {
 		menuItem.setActionView(tv);
 
 		return tv;
+	}
+
+	/**
+	 * Returns a string meant to be displayed along with a room description, describing the terms on
+	 * which the room can be cancelled.
+	 * @param context
+	 * @param rate
+	 * @return
+	 */
+	public static CharSequence getRoomCancellationText(Context context, final Rate rate) {
+		DateTime window = rate.getFreeCancellationWindowDate();
+		if (window != null) {
+			CharSequence formattedDate = JodaUtils.formatDateTime(context, window, DateUtils.FORMAT_SHOW_TIME
+				| DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH);
+			String formattedString = context.getString(R.string.free_cancellation_date_TEMPLATE, formattedDate);
+			return Html.fromHtml(formattedString);
+		}
+		else {
+			return context.getString(R.string.free_cancellation);
+		}
 	}
 
 	/**
