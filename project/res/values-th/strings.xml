@@ -3,7 +3,7 @@
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
-    <string name="search_all_hint">ค้นหาจุดหมายปลายทาง สถานที่สำคัญ และที่อยู่</string>
+    <string name="search_all_hint">ค้นหาจากเมืองปลายทางหรือสถานที่สำคัญ</string>
     <!-- Hint in edit text that the user should type in a destination (location) -->
     <string name="destinations_hint">ค้นหาจุดหมายปลายทาง…</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
@@ -32,12 +32,16 @@
     <string name="fly_from_TEMPLATE">บินจาก%1$s</string>
     <!-- Choose flight dates -->
     <string name="choose_flight_dates">เลือกวันที่ของเที่ยวบิน</string>
+    <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
+    <string name="choose_dates">เลือกวันที่</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">โรงแรมที่จะพักคืนนี้</string>
     <!-- Missing flight info header string "Missing search information!" -->
     <string name="missing_flight_info_header">ข้อมูลที่ใช้ในการค้นหาขาดหายไป!</string>
-    <!-- Missing flight info message "Please select a flight origin, and a valid date or date range."-->
-    <string name="missing_flight_info_message">โปรดเลือกจุดเริ่มต้นของเที่ยวบิน และวันที่หรือช่วงวันที่ที่ถูกต้อง</string>
+    <!-- Missing flight info message -->
+    <string name="missing_flight_info_message">เลือกสนามบินต้นทาง\nสำหรับเที่ยวบินไป %s</string>
+    <!-- Missing flight info message -->
+    <string name="missing_flight_trip_date_message">โปรดเลือกวันที่หรือช่วงวันที่ที่ถูกต้อง</string>
     <!-- Clear dates -->
     <string name="clear_dates">ล้างวันที่</string>
     <!-- Search Now -->
@@ -114,10 +118,12 @@
     <string name="trip_bucket_book_flight">จองเที่ยวบิน</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
     <string name="trip_bucket_book_hotel">จองโรงแรม</string>
+    <!-- Tablet Trip bucket, sold out text -->
+    <string name="trip_bucket_sold_out">หมดแล้ว</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_roundtrip">เที่ยวบินไป-กลับไปยัง%1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_trip">การเดินทางไปยัง%1$s</string>
+    <string name="trip_bucket_label_flight_trip">เที่ยวบินไปยัง%1$s</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">เที่ยวบินไปยัง%1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -134,6 +140,10 @@
     <string name="search_one_way_flight">ค้นหาเที่ยวบินแบบเที่ยวเดียว</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">ไม่พบข้อมูลสถานที่ตั้ง โปรดปรับการค้นหาของคุณแล้วลองใหม่</string>
+    <!-- Tablet search results, no hotels available -->
+    <string name="tablet_search_results_hotels_unavailable">ขออภัย ไม่มีโรงแรมว่าง\nในขณะนี้</string>
+    <!-- Tablet search results, no flights available -->
+    <string name="tablet_search_results_flights_unavailable">ขออภัย ไม่มีเที่ยวบินว่าง\nในขณะนี้</string>
 
 
     <!-- Tablet hotel filters -->
@@ -163,6 +173,24 @@
     <string name="cd_sort_by_distance">กดเพื่อเรียงโรงแรมที่อยู่ใกล้ที่สุด</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">เริ่มที่ %s</string>
+    <!-- Drop down item for denoting that infant travellers are in laps -->
+    <string name="infants_in_laps">ทารกอายุต่ำกว่า 2 ปี (ณ เวลาเดินทาง) นั่งตัก</string>
+    <!-- Drop down item for denoting that infant travellers are in seats -->
+    <string name="infants_in_seats">ทารกอายุต่ำกว่า 2 ปี (ณ เวลาเดินทาง) นั่งในที่นั่ง</string>
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two">ทารกอายุต่ำกว่า 2 ปี</string>
+    <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
+    <string name="max_one_infant_per_lap">ทารกนั่งตักได้สูงสุด 1 คนต่อผู้ใหญ่ (13 ปีขึ้นไป) 1 คน</string>
+    <!-- Description for infant travelers sitting in laps -->
+    <string name="in_laps">นั่งตัก</string>
+    <!-- Description for infant travelers sitting in seats -->
+    <string name="in_seats">นั่งในที่นั่ง</string>
+    <!-- Title for infant seating preference -->
+    <string name="infant_seating_preference">เลือกที่นั่งสำหรับทารกอายุต่ำกว่า 2 ปี</string>
+    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
+    <string name="infants_in_seats_prompt">ทารกอายุต่ำกว่า 2 ปีทุกคน (ณ เวลาเดินทาง) จะมีที่นั่งของตัวเอง เราจะทำการค้นหาอีกครั้งสำหรับจำนวนตั๋วที่ถูกต้อง</string>
+    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
+    <string name="infants_in_laps_prompt">ทารกอายุต่ำกว่า 2 ปีทุกคน (ณ เวลาเดินทาง) ต้องนั่งตักผู้โดยสารที่มีอายุอย่างน้อย 12 ปี เราจะทำการค้นหาอีกครั้งสำหรับจำนวนตั๋วที่ถูกต้อง</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -202,9 +230,11 @@
     <string name="recommend">แนะนำ</string>
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <string name="n_recommend_TEMPLATE">%s%% แนะนำ</string>
+    <!-- Hotel gallery title -->
+    <string name="photos_for_TEMPLATE">ภาพถ่ายสำหรับ %s</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
     <plurals name="rooms_left">
-        <item quantity="zero">ห้องที่ยังว่าง</item>
+        <item quantity="zero">ห้อง - ยังว่าง</item>
         <item quantity="one">ห้อง - ยังว่าง</item>
         <item quantity="two">ห้อง - ยังว่าง</item>
         <item quantity="few">ห้อง - ยังว่าง</item>
@@ -254,6 +284,8 @@
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">จอง</string>
+    <!-- Actionbar Title for default search results state -->
+    <string name="Create_a_Trip">สร้างการเดินทาง</string>
     <!-- Your Trip -->
     <string name="your_trip">การเดินทางของคุณ</string>
     <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
@@ -322,8 +354,14 @@
     <string name="error_launch_connection">ขออภัย ไม่สามารถเชื่อมต่อได้</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">การเดินทาง</string>
+    <!-- Actionbar Title on main launch screen -->
+    <string name="Explore">ค้นหา</string>
+    <!-- Actionbar Title when an exotic destination is being displayed -->
+    <string name="Destination">ปลายทาง</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">แอพนี้ต้องใช้ Google Play Services โปรดติดตั้ง Google Play Services เวอร์ชั่นล่าสุด</string>
+    <!-- Label for tablet launch pin button that starts new search -->
+    <string name="explore_now">ค้นหาเลย</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -974,7 +1012,7 @@
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">เครื่องกำลังจะออกในอีกไม่ช้า…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
-    <string name="invalid_flights_pos">ขออภัย การจองเที่ยวบินทางมือถือยัง&lt;b&gt;ไม่มีให้บริการ&lt;/b&gt; ในพื้นที่ของคุณ</string>
+    <string name="invalid_flights_pos">ขออภัย การจองเที่ยวบินทางมือถือยังไม่มีให้บริการในพื้นที่ของคุณ</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">สนามบินที่ออกเดินทางกับสนามบินปลายทางต้องไม่ใช่สนามบินเดียวกัน</string>
 
@@ -1012,6 +1050,8 @@
     <string name="prompt_departure_airport">เลือกสนามบินต้นทาง</string>
     <!-- Prompt for spinner dialog when selecting arrival airport -->
     <string name="prompt_arrival_airport">เลือกสนามบินปลายทาง</string>
+    <!-- Prompt when user selects more infant travelers than available laps -->
+    <string name="not_enough_laps_for_infants">สำหรับทารกที่นั่งตัก จะต้องมีผู้ใหญ่ 1 คนต่อทารก 1 คน</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1572,6 +1612,8 @@
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
     <string name="cvv_code_TEMPLATE">รหัส CVV สำหรับ &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Asks for a security code (CVV code or credit card code) for a card.  %s is the card name, E.g., "Security code for Dan's Platinum VISA" -->
+    <string name="security_code_TEMPLATE">รหัสรักษาความปลอดภัยสำหรับ &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">บัตรลงท้ายด้วย %s</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
@@ -2139,8 +2181,6 @@
     <string name="enrolled_in_expedia_rewards">ลงชื่อร่วมโปรแกรม Expedia Rewards\u2122</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_elite_plus_rewards">สมาชิก Elite Plus</string>
-    <!-- Loading rewards points message -->
-    <string name="loading_your_rewards_points">กำลังโหลดคะแนนของคุณ…</string>
     <!-- Label for account name -->
     <string name="logged_in_as">เข้าสู่ระบบในฐานะ</string>
     <!-- Label for signin screen -->
@@ -2804,98 +2844,6 @@
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">กระเป๋าของคุณจะอยู่บริเวณจุดรับกระเป๋า %1$s</string>
 
-    <!--
-    Shortened Push Notification Loc Strings
-    These are for older versions of android that can't wrap notification text. We shorten
-    the strings by removing the city argument from the string. The city string gets displayed
-    in the notification title, so no harm done.
-
-    NOTE: We are removing the first arg, but we will still be passing it to the format string, so the argument range now
-    must start at %2$s
-    -->
-    <!-- Your flight to _ delayed _ hour TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_short">ล่าช้า %2$s ชั่วโมง</string>
-    <!-- Your flight to _ delayed _ hours TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_short">ล่าช้า %2$s ชั่วโมง</string>
-    <!-- Your flight to _ delayed _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_short">ล่าช้า %2$s นาที</string>
-    <!-- Your flight to _ delayed _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_short">ล่าช้า %2$s นาที</string>
-    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_short">ล่าช้า %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_short">ล่าช้า %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_short">ล่าช้า %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_short">ล่าช้า %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ departs _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTE_short">ออกเดินทางก่อนกำหนด %2$s นาที</string>
-    <!-- Your flight to _ departs _ minutes early  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTES_short">ออกเดินทางก่อนกำหนด %2$s นาที</string>
-    <!-- Your flight to _ departs _ hour early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง</string>
-    <!-- Your flight to _ departs _ hours early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง</string>
-    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE_short">ล่าช้า %2$s นาที ขณะนี้กำลังออกจากประตู %3$s</string>
-    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE_short">ล่าช้า %2$s นาที ขณะนี้กำลังออกจากประตู %3$s</string>
-    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE_short">ล่าช้า %2$s ชั่วโมง ขณะนี้กำลังออกจากประตู %3$s</string>
-    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE_short">ล่าช้า %2$s ชั่วโมง ขณะนี้กำลังออกจากประตู %3$s</string>
-    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE_short">ล่าช้า %2$s ชั่วโมง %3$s นาที ขณะนี้กำลังออกจากประตู %4$s</string>
-    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE_short">ล่าช้า %2$s ชั่วโมง %3$s นาที ขณะนี้กำลังออกจากประตู %4$s</string>
-    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE_short">ล่าช้า %2$s ชั่วโมง %3$s นาที ขณะนี้กำลังออกจากประตู %4$s</string>
-    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE_short">ล่าช้า %2$s ชั่วโมง %3$s นาที ขณะนี้กำลังออกจากประตู %4$s</string>
-    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE_short">ออกเดินทางก่อนกำหนด %2$s นาทีจากประตู %3$s</string>
-    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE_short">ออกเดินทางก่อนกำหนด %2$s นาทีจากประตู %3$s</string>
-    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมงจากประตู %3$s</string>
-    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมงจากประตู %3$s</string>
-    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาทีจากประตู %4$s</string>
-    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาทีจากประตู %4$s</string>
-    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาทีจากประตู %4$s</string>
-    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE_short">ออกเดินทางก่อนกำหนด %2$s ชั่วโมง %3$s นาทีจากประตู %4$s</string>
-    <!-- Your flight from _ to _ has been cancelled TEMPLATE (short version) -->
-    <string name="S_Push_flight_from_CITY_to_CITY_cancelled_short">เที่ยวบินจาก %1$s ยกเลิก</string>
-    <!-- Your flight to _ departs in _ hour TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_short">ออกเดินทางภายใน %2$s ชั่วโมง</string>
-    <!-- Your flight to _ departs in _ hours TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_short">ออกเดินทางภายใน %2$s ชั่วโมง</string>
-    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE_short">ออกเดินทางภายใน %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES_short">ออกเดินทางภายใน %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE_short">ออกเดินทางภายใน %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES_short">ออกเดินทางภายใน %2$s ชั่วโมง %3$s นาที</string>
-    <!-- Your flight to _ departs in _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_MINUTES_short">ออกเดินทางภายใน %2$s นาที</string>
-    <!-- Your flight to _ now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_gate_GATE_short">ออกเดินทางจากประตู %2$s</string>
-
     <!-- VSC Info Screen -->
     <!-- Header for a list of apps also written by VSC -->
     <string name="AlsoByVSC">แอพอื่นๆ โดย VSC</string>
@@ -3090,6 +3038,8 @@
     <!-- Content description for action: Press to select window type that the traveler prefers -->
     <string name="cd_traveler_seat_preference_edit">เลือกประเภทที่นั่งที่ผู้เดินทางต้องการ</string>
     <!-- Credit Card Information -->
+    <!-- Button text for choosing a stored payment. Clicking this button will open a popup listing all stored cards. -->
+    <string name="Stored_Cards">บัตรที่บันทึกไว้</string>
     <!-- Content description for action: Enter credit card number -->
     <string name="cd_card_info_card_number_edit_text">ป้อนหมายเลขบัตรเครดิต</string>
     <!-- Content description for action: Enter cardholder name -->
@@ -3142,5 +3092,19 @@
     <string name="tablet_confirmation_done_booking">จองเสร็จแล้ว</string>
     <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->
     <string name="tablet_confirmation_flights_from_to">%1$s ไปยัง %2$s</string>
+
+    <!-- Tablet Sold Out Screen -->
+    <!-- Header text to indicating hotel sold out -->
+    <string name="tablet_sold_out_summary_text_hotel">ห้องนี้ขายหมดแล้ว ขออภัย</string>
+    <!-- Button text to remove sold hotel -->
+    <string name="tablet_sold_out_remove_hotel">นำโรงแรมออก</string>
+    <!-- Button text to select another hotel -->
+    <string name="tablet_sold_out_select_hotel">เลือกโรงแรมใหม่</string>
+    <!-- Header text to indicating flight sold out -->
+    <string name="tablet_sold_out_summary_text_flight">ขออภัย เที่ยวบินนี้ขายหมดแล้ว</string>
+    <!-- Button text to remove sold flight -->
+    <string name="tablet_sold_out_remove_flight">นำเที่ยวบินออก</string>
+    <!-- Button text to select another flight -->
+    <string name="tablet_sold_out_select_flight">เลือกเที่ยวบินใหม่</string>
 
 </resources>

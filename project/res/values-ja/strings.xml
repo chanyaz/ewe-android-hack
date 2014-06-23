@@ -3,7 +3,7 @@
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
-    <string name="search_all_hint">目的地、観光名所、住所で検索</string>
+    <string name="search_all_hint">目的地と観光スポットを検索</string>
     <!-- Hint in edit text that the user should type in a destination (location) -->
     <string name="destinations_hint">目的地で検索…</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
@@ -32,12 +32,16 @@
     <string name="fly_from_TEMPLATE">出発地 %1$s</string>
     <!-- Choose flight dates -->
     <string name="choose_flight_dates">フライト日を選択</string>
+    <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
+    <string name="choose_dates">日付を選択</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">今夜のホテル</string>
     <!-- Missing flight info header string "Missing search information!" -->
     <string name="missing_flight_info_header">検索情報が指定されていません !</string>
-    <!-- Missing flight info message "Please select a flight origin, and a valid date or date range."-->
-    <string name="missing_flight_info_message">フライト出発地、有効な日付または期間を選択してください。</string>
+    <!-- Missing flight info message -->
+    <string name="missing_flight_info_message">%s行きのフライトの\n出発空港を設定</string>
+    <!-- Missing flight info message -->
+    <string name="missing_flight_trip_date_message">有効な日付または期間を選択してください。</string>
     <!-- Clear dates -->
     <string name="clear_dates">日付をクリア</string>
     <!-- Search Now -->
@@ -114,10 +118,12 @@
     <string name="trip_bucket_book_flight">航空券を予約</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
     <string name="trip_bucket_book_hotel">ホテルを予約</string>
+    <!-- Tablet Trip bucket, sold out text -->
+    <string name="trip_bucket_sold_out">満席</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_roundtrip">%1$sへの往復フライト</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_trip">目的地 : %1$s</string>
+    <string name="trip_bucket_label_flight_trip">%1$sへのフライト</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">%1$sへのフライト</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -134,6 +140,10 @@
     <string name="search_one_way_flight">片道フライトを検索</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">ロケーション情報が見つかりませんでした ! 検索条件を変更して、もう一度お試しください。</string>
+    <!-- Tablet search results, no hotels available -->
+    <string name="tablet_search_results_hotels_unavailable">申し訳ございませんが、\n現在ご利用いただけるホテルはありません。</string>
+    <!-- Tablet search results, no flights available -->
+    <string name="tablet_search_results_flights_unavailable">申し訳ございませんが、\n現在ご利用いただけるフライトはありません。</string>
 
 
     <!-- Tablet hotel filters -->
@@ -163,6 +173,24 @@
     <string name="cd_sort_by_distance">タップして距離の近い順にホテルを並び替えてください。</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">%s ～</string>
+    <!-- Drop down item for denoting that infant travellers are in laps -->
+    <string name="infants_in_laps">膝抱きの 2 才未満 (旅行時) のお子様</string>
+    <!-- Drop down item for denoting that infant travellers are in seats -->
+    <string name="infants_in_seats">座席が必要な 2 才未満 (旅行時) のお子様</string>
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two">2 才未満のお子様</string>
+    <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
+    <string name="max_one_infant_per_lap">大人 (13 歳以上) 同伴で膝抱きのお子様の最大人数</string>
+    <!-- Description for infant travelers sitting in laps -->
+    <string name="in_laps">膝抱き</string>
+    <!-- Description for infant travelers sitting in seats -->
+    <string name="in_seats">座席利用</string>
+    <!-- Title for infant seating preference -->
+    <string name="infant_seating_preference">2 才未満のお子様の座席のご希望</string>
+    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
+    <string name="infants_in_seats_prompt">2 才未満 (旅行時) のすべてのお子様は座席の購入が必要です。正しいチケット枚数で再検索します。</string>
+    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
+    <string name="infants_in_laps_prompt">2 才未満 (旅行時) のすべてのお子様は、12 才以上の方の膝に抱きかかえていただく必要があります。正しいチケット枚数で再検索します。</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -202,6 +230,8 @@
     <string name="recommend">のゲストが推奨</string>
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <string name="n_recommend_TEMPLATE">%s%% のゲストが推奨</string>
+    <!-- Hotel gallery title -->
+    <string name="photos_for_TEMPLATE">%sの写真</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
     <plurals name="rooms_left">
         <item quantity="zero">室残り</item>
@@ -254,6 +284,8 @@
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">購入手続き</string>
+    <!-- Actionbar Title for default search results state -->
+    <string name="Create_a_Trip">旅行を作成する</string>
     <!-- Your Trip -->
     <string name="your_trip">お客様の旅行</string>
     <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
@@ -322,8 +354,14 @@
     <string name="error_launch_connection">接続できません。</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">予約確認</string>
+    <!-- Actionbar Title on main launch screen -->
+    <string name="Explore">検索</string>
+    <!-- Actionbar Title when an exotic destination is being displayed -->
+    <string name="Destination">目的地</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">このアプリの使用には Google Play Services が必要です。最新版の Google Play Services をインストールしてください。</string>
+    <!-- Label for tablet launch pin button that starts new search -->
+    <string name="explore_now">今すぐ検索</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -974,7 +1012,7 @@
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">近日リリース予定…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
-    <string name="invalid_flights_pos">モバイルフライト予約は、お客様のロケーションでは&lt;b&gt;まだご利用いただけません&lt;/b&gt;。</string>
+    <string name="invalid_flights_pos">モバイルフライト予約は、お客様のロケーションではまだご利用いただけません。</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">出発と到着にはそれぞれ別の空港を指定してください。</string>
 
@@ -1012,6 +1050,8 @@
     <string name="prompt_departure_airport">出発空港を選択</string>
     <!-- Prompt for spinner dialog when selecting arrival airport -->
     <string name="prompt_arrival_airport">到着空港を選択</string>
+    <!-- Prompt when user selects more infant travelers than available laps -->
+    <string name="not_enough_laps_for_infants">膝抱きの乳幼児 1 名に対して大人 1 名の同伴が必要です。</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1571,7 +1611,9 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
-    <string name="cvv_code_TEMPLATE">&lt;b&gt;%s&lt;/b&gt;様のセキュリティコード</string>
+    <string name="cvv_code_TEMPLATE">&lt;b&gt;%s&lt;/b&gt;のセキュリティコード</string>
+    <!-- Asks for a security code (CVV code or credit card code) for a card.  %s is the card name, E.g., "Security code for Dan's Platinum VISA" -->
+    <string name="security_code_TEMPLATE">&lt;b&gt;%s&lt;/b&gt;のセキュリティコード</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">末尾が %s のクレジットカード</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
@@ -2139,8 +2181,6 @@
     <string name="enrolled_in_expedia_rewards">Expedia Rewards\u2122 に参加</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_elite_plus_rewards">Elite Plus メンバー</string>
-    <!-- Loading rewards points message -->
-    <string name="loading_your_rewards_points">リワード ポイントを読み込み中…</string>
     <!-- Label for account name -->
     <string name="logged_in_as">ログイン済み</string>
     <!-- Label for signin screen -->
@@ -2804,98 +2844,6 @@
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">手荷物は手荷物受取場 %1$s に運ばれます。</string>
 
-    <!--
-    Shortened Push Notification Loc Strings
-    These are for older versions of android that can't wrap notification text. We shorten
-    the strings by removing the city argument from the string. The city string gets displayed
-    in the notification title, so no harm done.
-
-    NOTE: We are removing the first arg, but we will still be passing it to the format string, so the argument range now
-    must start at %2$s
-    -->
-    <!-- Your flight to _ delayed _ hour TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_short">%2$s 時間遅延。</string>
-    <!-- Your flight to _ delayed _ hours TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_short">%2$s 時間遅延。</string>
-    <!-- Your flight to _ delayed _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_short">%2$s 分遅延。</string>
-    <!-- Your flight to _ delayed _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_short">%2$s 分遅延。</string>
-    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_short">%2$s 時間 %3$s 分遅延。</string>
-    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_short">%2$s 時間 %3$s 分遅延。</string>
-    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_short">%2$s 時間 %3$s 分遅延。</string>
-    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_short">%2$s 時間 %3$s 分遅延。</string>
-    <!-- Your flight to _ departs _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTE_short">%2$s 分早く出発。</string>
-    <!-- Your flight to _ departs _ minutes early  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTES_short">%2$s 分早く出発。</string>
-    <!-- Your flight to _ departs _ hour early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_short">%2$s 時間早く出発。</string>
-    <!-- Your flight to _ departs _ hours early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_short">%2$s 時間早く出発。</string>
-    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_short">%2$s 時間 %3$s 分早く出発。</string>
-    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_short">%2$s 時間 %3$s 分早く出発。</string>
-    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_short">%2$s 時間 %3$s 分早く出発。</string>
-    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_short">%2$s 時間 %3$s 分早く出発。</string>
-    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE_short">%2$s 分遅延、出発ゲート %3$s に変更。</string>
-    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE_short">%2$s 分遅延、出発ゲート %3$s に変更。</string>
-    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE_short">%2$s 時間遅延、出発ゲート %3$s に変更。</string>
-    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE_short">%2$s 時間遅延、出発ゲート %3$s に変更。</string>
-    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE_short">%2$s 時間 %3$s 分遅延、出発ゲート %4$s に変更。</string>
-    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE_short">%2$s 時間 %3$s 分遅延、出発ゲート %4$s に変更。</string>
-    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE_short">%2$s 時間 %3$s 分遅延、出発ゲート %4$s に変更。</string>
-    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE_short">%2$s 時間 %3$s 分遅延、出発ゲート %4$s に変更。</string>
-    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE_short">ゲート %3$s から %2$s 分早く出発。</string>
-    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE_short">ゲート %3$s から %2$s 分早く出発。</string>
-    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE_short">ゲート %3$s から %2$s 時間早く出発。</string>
-    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE_short">ゲート %3$s から %2$s 時間早く出発。</string>
-    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE_short">ゲート %4$s から %2$s 時間 %3$s 分早く出発。</string>
-    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE_short">ゲート %4$s から %2$s 時間 %3$s 分早く出発。</string>
-    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE_short">ゲート %4$s から %2$s 時間 %3$s 分早く出発。</string>
-    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE_short">ゲート %4$s から %2$s 時間 %3$s 分早く出発。</string>
-    <!-- Your flight from _ to _ has been cancelled TEMPLATE (short version) -->
-    <string name="S_Push_flight_from_CITY_to_CITY_cancelled_short">%1$sからのフライトがキャンセルされました。</string>
-    <!-- Your flight to _ departs in _ hour TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_short">あと %2$s 時間で出発。</string>
-    <!-- Your flight to _ departs in _ hours TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_short">あと %2$s 時間で出発。</string>
-    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE_short">あと %2$s 時間 %3$s 分で出発。</string>
-    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES_short">あと %2$s 時間 %3$s 分で出発。</string>
-    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE_short">あと %2$s 時間 %3$s 分で出発。</string>
-    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES_short">あと %2$s 時間 %3$s 分で出発。</string>
-    <!-- Your flight to _ departs in _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_MINUTES_short">あと %2$s 分で出発。</string>
-    <!-- Your flight to _ now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_gate_GATE_short">ゲート %2$s から出発。</string>
-
     <!-- VSC Info Screen -->
     <!-- Header for a list of apps also written by VSC -->
     <string name="AlsoByVSC">Also by VSC</string>
@@ -3090,6 +3038,8 @@
     <!-- Content description for action: Press to select window type that the traveler prefers -->
     <string name="cd_traveler_seat_preference_edit">希望する座席を選択</string>
     <!-- Credit Card Information -->
+    <!-- Button text for choosing a stored payment. Clicking this button will open a popup listing all stored cards. -->
+    <string name="Stored_Cards">保存済みのカード</string>
     <!-- Content description for action: Enter credit card number -->
     <string name="cd_card_info_card_number_edit_text">クレジットカード番号を入力</string>
     <!-- Content description for action: Enter cardholder name -->
@@ -3142,5 +3092,19 @@
     <string name="tablet_confirmation_done_booking">予約完了</string>
     <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->
     <string name="tablet_confirmation_flights_from_to">%1$s → %2$s</string>
+
+    <!-- Tablet Sold Out Screen -->
+    <!-- Header text to indicating hotel sold out -->
+    <string name="tablet_sold_out_summary_text_hotel">この客室は現在満室となっています。申し訳ありません</string>
+    <!-- Button text to remove sold hotel -->
+    <string name="tablet_sold_out_remove_hotel">ホテルを削除</string>
+    <!-- Button text to select another hotel -->
+    <string name="tablet_sold_out_select_hotel">他のホテルを選択</string>
+    <!-- Header text to indicating flight sold out -->
+    <string name="tablet_sold_out_summary_text_flight">このフライトは現在満席となっています。申し訳ありません</string>
+    <!-- Button text to remove sold flight -->
+    <string name="tablet_sold_out_remove_flight">フライトを削除</string>
+    <!-- Button text to select another flight -->
+    <string name="tablet_sold_out_select_flight">他のフライトを選択</string>
 
 </resources>

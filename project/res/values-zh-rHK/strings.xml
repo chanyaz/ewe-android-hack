@@ -3,7 +3,7 @@
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
-    <string name="search_all_hint">搜尋目的地、地標和地址</string>
+    <string name="search_all_hint">搜尋目的地或地標</string>
     <!-- Hint in edit text that the user should type in a destination (location) -->
     <string name="destinations_hint">搜尋目的地…</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
@@ -32,12 +32,16 @@
     <string name="fly_from_TEMPLATE">由%1$s起飛</string>
     <!-- Choose flight dates -->
     <string name="choose_flight_dates">選擇機票日期</string>
+    <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
+    <string name="choose_dates">選擇日期</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">今晚的酒店</string>
     <!-- Missing flight info header string "Missing search information!" -->
     <string name="missing_flight_info_header">欠缺所須搜尋資料！</string>
-    <!-- Missing flight info message "Please select a flight origin, and a valid date or date range."-->
-    <string name="missing_flight_info_message">請選擇航班出發地，以及有效的日期或期間。</string>
+    <!-- Missing flight info message -->
+    <string name="missing_flight_info_message">設定前往%s航班的\n出發機場</string>
+    <!-- Missing flight info message -->
+    <string name="missing_flight_trip_date_message">請選擇有效的日期或日期範圍。</string>
     <!-- Clear dates -->
     <string name="clear_dates">清除日期</string>
     <!-- Search Now -->
@@ -114,10 +118,12 @@
     <string name="trip_bucket_book_flight">預訂機票</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
     <string name="trip_bucket_book_hotel">預訂酒店</string>
+    <!-- Tablet Trip bucket, sold out text -->
+    <string name="trip_bucket_sold_out">售罄</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_roundtrip">前往%1$s的來回行程</string>
+    <string name="trip_bucket_label_flight_roundtrip">來回%1$s機票</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_trip">前往%1$s的行程</string>
+    <string name="trip_bucket_label_flight_trip">%1$s單程機票</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">飛往%1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -134,6 +140,10 @@
     <string name="search_one_way_flight">搜尋單程機票</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">找不到位置資訊！請更改查詢，然後再試一次。</string>
+    <!-- Tablet search results, no hotels available -->
+    <string name="tablet_search_results_hotels_unavailable">很抱歉，目前沒有酒店\n可供預訂。</string>
+    <!-- Tablet search results, no flights available -->
+    <string name="tablet_search_results_flights_unavailable">很抱歉，目前沒有航班\n可供預訂。</string>
 
 
     <!-- Tablet hotel filters -->
@@ -163,6 +173,24 @@
     <string name="cd_sort_by_distance">按此以最近酒店順序。</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">低至 %s</string>
+    <!-- Drop down item for denoting that infant travellers are in laps -->
+    <string name="infants_in_laps">2 歲以下 (出發時計) 手抱幼童</string>
+    <!-- Drop down item for denoting that infant travellers are in seats -->
+    <string name="infants_in_seats">2 歲以下 (出發時計) 佔位幼童</string>
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two">2 歲以下幼童</string>
+    <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
+    <string name="max_one_infant_per_lap">每位成人 (13 歲以上) 最多手抱一位幼童</string>
+    <!-- Description for infant travelers sitting in laps -->
+    <string name="in_laps">手抱</string>
+    <!-- Description for infant travelers sitting in seats -->
+    <string name="in_seats">佔位</string>
+    <!-- Title for infant seating preference -->
+    <string name="infant_seating_preference">2 歲以下幼童座位喜好</string>
+    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
+    <string name="infants_in_seats_prompt">所有 2 歲以下 (出發時計) 幼童均會有自己的座位。我們現在會按正確機票數目再次搜尋。</string>
+    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
+    <string name="infants_in_laps_prompt">所有 2 歲以下 (出發時計) 幼童必須由年滿 12 歲人士手抱。我們現在會按正確機票數目再次搜尋。</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -202,6 +230,8 @@
     <string name="recommend">旅客推薦</string>
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <string name="n_recommend_TEMPLATE">%s%% 旅客推薦</string>
+    <!-- Hotel gallery title -->
+    <string name="photos_for_TEMPLATE">%s的照片</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
     <plurals name="rooms_left">
         <item quantity="zero">間剩餘客房</item>
@@ -254,6 +284,8 @@
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">結帳</string>
+    <!-- Actionbar Title for default search results state -->
+    <string name="Create_a_Trip">建立行程</string>
     <!-- Your Trip -->
     <string name="your_trip">您的旅行</string>
     <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
@@ -322,8 +354,14 @@
     <string name="error_launch_connection">抱歉，我們無法連線。</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">行程</string>
+    <!-- Actionbar Title on main launch screen -->
+    <string name="Explore">探索</string>
+    <!-- Actionbar Title when an exotic destination is being displayed -->
+    <string name="Destination">目的地</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">此應用程式需要 Google Play Services。請安裝最新版的 Google Play Services。</string>
+    <!-- Label for tablet launch pin button that starts new search -->
+    <string name="explore_now">開始探索</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -974,7 +1012,7 @@
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">快將推出…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
-    <string name="invalid_flights_pos">很抱歉，您的地點&lt;b&gt;尚未提供&lt;/b&gt;流動機票預訂服務。</string>
+    <string name="invalid_flights_pos">很抱歉，您的地點尚未提供流動機票預訂服務。</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">出發及抵達機場必須不同。</string>
 
@@ -1005,13 +1043,15 @@
     <!-- Message shown when we could not load the AirAsia flight routes -->
     <string name="error_could_not_load_air_asia">無法載入亞洲航空航線</string>
     <!-- Header row for airports that were used recently for a search -->
-    <string name="recent">近期</string>
+    <string name="recent">最近搜尋</string>
     <!-- Display for selected airport dropdown.  %1$s is the airport code, %2$s is the city, e.g. "(MSP) Minneapolis" -->
     <string name="dropdown_airport_selection">&lt;b&gt;%1$s&lt;/b&gt; %2$s</string>
     <!-- Prompt for spinner dialog when selecting departure airport -->
     <string name="prompt_departure_airport">選擇出發機場</string>
     <!-- Prompt for spinner dialog when selecting arrival airport -->
     <string name="prompt_arrival_airport">選擇抵達機場</string>
+    <!-- Prompt when user selects more infant travelers than available laps -->
+    <string name="not_enough_laps_for_infants">如幼童需為手抱，每位幼童均須有一位成年乘客同行。</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1571,7 +1611,9 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
-    <string name="cvv_code_TEMPLATE">&lt;b&gt;%s&lt;/b&gt; 的 CVV 代碼</string>
+    <string name="cvv_code_TEMPLATE">&lt;b&gt;%s&lt;/b&gt; 的安全驗證碼</string>
+    <!-- Asks for a security code (CVV code or credit card code) for a card.  %s is the card name, E.g., "Security code for Dan's Platinum VISA" -->
+    <string name="security_code_TEMPLATE">&lt;b&gt;%s&lt;/b&gt; 的安全碼</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">信用卡尾數：%s</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
@@ -2139,8 +2181,6 @@
     <string name="enrolled_in_expedia_rewards">已登記 Expedia Rewards\u2122</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_elite_plus_rewards">Elite Plus 會員</string>
-    <!-- Loading rewards points message -->
-    <string name="loading_your_rewards_points">正在載入您的獎賞積分…</string>
     <!-- Label for account name -->
     <string name="logged_in_as">已登入為</string>
     <!-- Label for signin screen -->
@@ -2804,98 +2844,6 @@
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">請於行李領取處 %1$s 領取您的行李。</string>
 
-    <!--
-    Shortened Push Notification Loc Strings
-    These are for older versions of android that can't wrap notification text. We shorten
-    the strings by removing the city argument from the string. The city string gets displayed
-    in the notification title, so no harm done.
-
-    NOTE: We are removing the first arg, but we will still be passing it to the format string, so the argument range now
-    must start at %2$s
-    -->
-    <!-- Your flight to _ delayed _ hour TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_short">延遲 %2$s 小時。</string>
-    <!-- Your flight to _ delayed _ hours TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_short">延遲 %2$s 小時。</string>
-    <!-- Your flight to _ delayed _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_short">延遲 %2$s 分鐘。</string>
-    <!-- Your flight to _ delayed _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_short">延遲 %2$s 分鐘。</string>
-    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_short">延遲 %2$s 小時 %3$s 分鐘。</string>
-    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_short">延遲 %2$s 小時 %3$s 分鐘。</string>
-    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_short">延遲 %2$s 小時 %3$s 分鐘。</string>
-    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_short">延遲 %2$s 小時 %3$s 分鐘。</string>
-    <!-- Your flight to _ departs _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTE_short">提早 %2$s 分鐘起飛。</string>
-    <!-- Your flight to _ departs _ minutes early  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTES_short">提早 %2$s 分鐘起飛。</string>
-    <!-- Your flight to _ departs _ hour early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_short">提早 %2$s 小時起飛。</string>
-    <!-- Your flight to _ departs _ hours early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_short">提早 %2$s 小時起飛。</string>
-    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_short">提早 %2$s 小時 %3$s 分鐘起飛。</string>
-    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_short">提早 %2$s 小時 %3$s 分鐘起飛。</string>
-    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_short">提早 %2$s 小時 %3$s 分鐘起飛。</string>
-    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_short">提早 %2$s 小時 %3$s 分鐘起飛。</string>
-    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE_short">延遲 %2$s 分鐘，登機閘口現為 %3$s。</string>
-    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE_short">延遲 %2$s 分鐘，登機閘口現為 %3$s。</string>
-    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE_short">延遲 %2$s 小時，登機閘口現為 %3$s。</string>
-    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE_short">延遲 %2$s 小時，登機閘口現為 %3$s。</string>
-    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE_short">延遲 %2$s 小時 %3$s 分鐘，登機閘口現為 %4$s。</string>
-    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE_short">延遲 %2$s 小時 %3$s 分鐘，登機閘口現為 %4$s。</string>
-    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE_short">延遲 %2$s 小時 %3$s 分鐘，登機閘口現為 %4$s。</string>
-    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE_short">延遲 %2$s 小時 %3$s 分鐘，登機閘口現為 %4$s。</string>
-    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE_short">提早 %2$s 分鐘起飛，登機閘口為 %3$s。</string>
-    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE_short">提早 %2$s 分鐘起飛，登機閘口為 %3$s。</string>
-    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE_short">提早 %2$s 小時起飛，登機閘口為 %3$s。</string>
-    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE_short">提早 %2$s 小時起飛，登機閘口為 %3$s。</string>
-    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE_short">提早 %2$s 小時 %3$s 分鐘起飛，登機閘口為 %4$s。</string>
-    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE_short">提早 %2$s 小時 %3$s 分鐘起飛，登機閘口為 %4$s。</string>
-    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE_short">提早 %2$s 小時 %3$s 分鐘起飛，登機閘口為 %4$s。</string>
-    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE_short">提早 %2$s 小時 %3$s 分鐘起飛，登機閘口為 %4$s。</string>
-    <!-- Your flight from _ to _ has been cancelled TEMPLATE (short version) -->
-    <string name="S_Push_flight_from_CITY_to_CITY_cancelled_short">來自%1$s的班機已取消。</string>
-    <!-- Your flight to _ departs in _ hour TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_short">將於 %2$s 小時內起飛。</string>
-    <!-- Your flight to _ departs in _ hours TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_short">將於 %2$s 小時內起飛。</string>
-    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE_short">將於 %2$s 小時 %3$s 分鐘內起飛。</string>
-    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES_short">將於 %2$s 小時 %3$s 分鐘內起飛。</string>
-    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE_short">將於 %2$s 小時 %3$s 分鐘內起飛。</string>
-    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES_short">將於 %2$s 小時 %3$s 分鐘內起飛。</string>
-    <!-- Your flight to _ departs in _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_MINUTES_short">將於 %2$s 分鐘內起飛。</string>
-    <!-- Your flight to _ now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_gate_GATE_short">登機閘口為 %2$s。</string>
-
     <!-- VSC Info Screen -->
     <!-- Header for a list of apps also written by VSC -->
     <string name="AlsoByVSC">VSC 的其他應用程式</string>
@@ -3090,6 +3038,8 @@
     <!-- Content description for action: Press to select window type that the traveler prefers -->
     <string name="cd_traveler_seat_preference_edit">請選擇旅客喜好的座位類型</string>
     <!-- Credit Card Information -->
+    <!-- Button text for choosing a stored payment. Clicking this button will open a popup listing all stored cards. -->
+    <string name="Stored_Cards">已儲存的信用卡</string>
     <!-- Content description for action: Enter credit card number -->
     <string name="cd_card_info_card_number_edit_text">請輸入信用卡號碼</string>
     <!-- Content description for action: Enter cardholder name -->
@@ -3142,5 +3092,19 @@
     <string name="tablet_confirmation_done_booking">完成預訂</string>
     <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->
     <string name="tablet_confirmation_flights_from_to">%1$s至%2$s</string>
+
+    <!-- Tablet Sold Out Screen -->
+    <!-- Header text to indicating hotel sold out -->
+    <string name="tablet_sold_out_summary_text_hotel">此客房現已售罄。很抱歉！</string>
+    <!-- Button text to remove sold hotel -->
+    <string name="tablet_sold_out_remove_hotel">移除酒店</string>
+    <!-- Button text to select another hotel -->
+    <string name="tablet_sold_out_select_hotel">選擇另一間酒店</string>
+    <!-- Header text to indicating flight sold out -->
+    <string name="tablet_sold_out_summary_text_flight">這個航班現已售罄。很抱歉！</string>
+    <!-- Button text to remove sold flight -->
+    <string name="tablet_sold_out_remove_flight">移除航班</string>
+    <!-- Button text to select another flight -->
+    <string name="tablet_sold_out_select_flight">選擇另一個航班</string>
 
 </resources>

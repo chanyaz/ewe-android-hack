@@ -3,7 +3,7 @@
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
-    <string name="search_all_hint">Søk blant destinasjoner, landemerker og adresser</string>
+    <string name="search_all_hint">Søk blant destinasjoner og landemerker</string>
     <!-- Hint in edit text that the user should type in a destination (location) -->
     <string name="destinations_hint">Søk blant destinasjoner…</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
@@ -32,12 +32,16 @@
     <string name="fly_from_TEMPLATE">Fly fra %1$s</string>
     <!-- Choose flight dates -->
     <string name="choose_flight_dates">Velg flydatoer</string>
+    <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
+    <string name="choose_dates">Velg datoer</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">Hoteller i kveld</string>
     <!-- Missing flight info header string "Missing search information!" -->
     <string name="missing_flight_info_header">Manglende søkeinformasjon!</string>
-    <!-- Missing flight info message "Please select a flight origin, and a valid date or date range."-->
-    <string name="missing_flight_info_message">Velg avreisested for fly og gyldig dato eller datointervall.</string>
+    <!-- Missing flight info message -->
+    <string name="missing_flight_info_message">Velg avreiseflyplass \nfor flyvninger til %s</string>
+    <!-- Missing flight info message -->
+    <string name="missing_flight_trip_date_message">Velg en gyldig dato eller tidsperiode.</string>
     <!-- Clear dates -->
     <string name="clear_dates">Tøm datoer</string>
     <!-- Search Now -->
@@ -114,10 +118,12 @@
     <string name="trip_bucket_book_flight">Bestill flyvning</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
     <string name="trip_bucket_book_hotel">Bestill hotell</string>
+    <!-- Tablet Trip bucket, sold out text -->
+    <string name="trip_bucket_sold_out">Utsolgt på appen vår</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_roundtrip">Tur-retur-reise til %1$s</string>
+    <string name="trip_bucket_label_flight_roundtrip">Tur-retur-flyvning til %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_trip">Reise til %1$s</string>
+    <string name="trip_bucket_label_flight_trip">Flyvning til %1$s</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">Flyvninger til %1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -134,6 +140,10 @@
     <string name="search_one_way_flight">Søk på enveisflyvning</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">Informasjon om sted ble ikke funnet. Endre søket ditt og prøv på nytt.</string>
+    <!-- Tablet search results, no hotels available -->
+    <string name="tablet_search_results_hotels_unavailable">Beklager, ingen hoteller er \n tilgjengelige for øyeblikket.</string>
+    <!-- Tablet search results, no flights available -->
+    <string name="tablet_search_results_flights_unavailable">Beklager, ingen flyvninger er \n tilgjengelige for øyeblikket.</string>
 
 
     <!-- Tablet hotel filters -->
@@ -163,6 +173,24 @@
     <string name="cd_sort_by_distance">Klikk for å sortere etter hotellene som ligger nærmest.</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">Fra %s</string>
+    <!-- Drop down item for denoting that infant travellers are in laps -->
+    <string name="infants_in_laps">Spedbarn under 2 år (ved reisetidspunktet) på fanget</string>
+    <!-- Drop down item for denoting that infant travellers are in seats -->
+    <string name="infants_in_seats">Spedbarn under 2 år (ved reisetidspunktet) i sete</string>
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two">Spedbarn under 2 år</string>
+    <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
+    <string name="max_one_infant_per_lap">Maksimum ett spedbarn per voksen (&gt;13)</string>
+    <!-- Description for infant travelers sitting in laps -->
+    <string name="in_laps">På fanget</string>
+    <!-- Description for infant travelers sitting in seats -->
+    <string name="in_seats">I seter</string>
+    <!-- Title for infant seating preference -->
+    <string name="infant_seating_preference">Plasseringspreferanse for spedbarn under 2 år</string>
+    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
+    <string name="infants_in_seats_prompt">Alle spedbarn under 2 år (ved reisetidspunktet) vil ha egne seter. Vi utfører søket på nytt med det korrekte antallet billetter.</string>
+    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
+    <string name="infants_in_laps_prompt">Alle spedbarn under 2 år (ved reisetidspunktet) må sitte på fanget til noen som er minst 12 år. Vi utfører søket på nytt med det korrekte antallet billetter.</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -202,6 +230,8 @@
     <string name="recommend">anbefal</string>
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <string name="n_recommend_TEMPLATE">%s%% anbefaler</string>
+    <!-- Hotel gallery title -->
+    <string name="photos_for_TEMPLATE">Bilder av %s</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
     <plurals name="rooms_left">
         <item quantity="zero">rom igjen</item>
@@ -254,6 +284,8 @@
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">Betaling</string>
+    <!-- Actionbar Title for default search results state -->
+    <string name="Create_a_Trip">Sett sammen en reise</string>
     <!-- Your Trip -->
     <string name="your_trip">Din reise</string>
     <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
@@ -322,8 +354,14 @@
     <string name="error_launch_connection">Beklager, det er ikke mulig å koble til.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Reiser</string>
+    <!-- Actionbar Title on main launch screen -->
+    <string name="Explore">Utforsk</string>
+    <!-- Actionbar Title when an exotic destination is being displayed -->
+    <string name="Destination">Destinasjon</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">Denne appen krever tjenester fra Google Play. Vennligst installer den siste versjonen av tjenester for Google Play.</string>
+    <!-- Label for tablet launch pin button that starts new search -->
+    <string name="explore_now">Utforsk nå</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -974,7 +1012,7 @@
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">Avgang snart…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
-    <string name="invalid_flights_pos">Beklager, flybestillinger på mobil er &lt;b&gt;ikke ennå tilgjengelig&lt;/b&gt; der du befinner deg.</string>
+    <string name="invalid_flights_pos">Beklager, flybestillinger på mobil er ikke ennå tilgjengelig der du befinner deg.</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Avreise- og ankomstflyplassene må være forskjellige.</string>
 
@@ -1012,6 +1050,8 @@
     <string name="prompt_departure_airport">Velg avreiseflyplass</string>
     <!-- Prompt for spinner dialog when selecting arrival airport -->
     <string name="prompt_arrival_airport">Velg ankomstflyplass</string>
+    <!-- Prompt when user selects more infant travelers than available laps -->
+    <string name="not_enough_laps_for_infants">Det må være minst én voksen passasjer for hvert spedbarn hvis spedbarnet skal sitte på fanget.</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1572,6 +1612,8 @@
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
     <string name="cvv_code_TEMPLATE">Sikkerhetskode for &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Asks for a security code (CVV code or credit card code) for a card.  %s is the card name, E.g., "Security code for Dan's Platinum VISA" -->
+    <string name="security_code_TEMPLATE">Sikkerhetskode for &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">kort som slutter med %s</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
@@ -1793,9 +1835,9 @@
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">Ingen hotellrom tilgjengelige</string>
     <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out">Beklager, dette rommet er nå utsolgt.</string>
+    <string name="error_room_is_now_sold_out">Beklager, dette rommet er nå utsolgt på appen vår.</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out">Beklager, dette hotellet er nå utsolgt.</string>
+    <string name="error_hotel_is_now_sold_out">Beklager, dette hotellet er nå utsolgt på appen vår.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -2139,8 +2181,6 @@
     <string name="enrolled_in_expedia_rewards">Medlem av Expedia Rewards \ u2122</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_elite_plus_rewards">Elite Plus Member</string>
-    <!-- Loading rewards points message -->
-    <string name="loading_your_rewards_points">Laster inn dine bonuspoeng…</string>
     <!-- Label for account name -->
     <string name="logged_in_as">Logget på som</string>
     <!-- Label for signin screen -->
@@ -2804,98 +2844,6 @@
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">Bagasjen din vil være i bagasjeutleveringen %1$s.</string>
 
-    <!--
-    Shortened Push Notification Loc Strings
-    These are for older versions of android that can't wrap notification text. We shorten
-    the strings by removing the city argument from the string. The city string gets displayed
-    in the notification title, so no harm done.
-
-    NOTE: We are removing the first arg, but we will still be passing it to the format string, so the argument range now
-    must start at %2$s
-    -->
-    <!-- Your flight to _ delayed _ hour TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_short">%2$s time forsinket.</string>
-    <!-- Your flight to _ delayed _ hours TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_short">%2$s timer forsinket.</string>
-    <!-- Your flight to _ delayed _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_short">%2$s minutt forsinket.</string>
-    <!-- Your flight to _ delayed _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_short">%2$s minutter forsinket.</string>
-    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_short">%2$s time og %3$s minutt forsinket.</string>
-    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_short">%2$s time og %3$s minutter forsinket.</string>
-    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_short">%2$s timer og %3$s minutt forsinket.</string>
-    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_short">%2$s timer og %3$s minutter forsinket.</string>
-    <!-- Your flight to _ departs _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTE_short">Avgang %2$s minutt før tiden.</string>
-    <!-- Your flight to _ departs _ minutes early  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTES_short">Har avgang %2$s minutter før tiden.</string>
-    <!-- Your flight to _ departs _ hour early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_short">Har avgang %2$s time før tiden.</string>
-    <!-- Your flight to _ departs _ hours early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_short">Har avgang %2$s timer før tiden.</string>
-    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_short">Har avgang %2$s time og %3$s minutt før tiden.</string>
-    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_short">Har avgang %2$s timer og %3$s minutt før tiden.</string>
-    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_short">Har avgang %2$s time og %3$s minutter før tiden.</string>
-    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_short">Har avgang %2$s timer og %3$s minutter før tiden.</string>
-    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE_short">Forsinket i %2$s minutt og har nå avgang fra gate %3$s.</string>
-    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE_short">Forsinket i %2$s minutter og har nå avgang fra gate %3$s.</string>
-    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE_short">Forsinket i %2$s timer og har nå avgang fra gate %3$s.</string>
-    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE_short">Forsinket i %2$s timer og har nå avgang fra gate %3$s.</string>
-    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE_short">Forsinket i %2$s time og %3$s minutt og har nå avgang fra gate %4$s.</string>
-    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE_short">Forsinket i %2$s timer og %3$s minutt og har nå avgang fra gate %4$s.</string>
-    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE_short">Forsinket i %2$s time og %3$s minutter og har nå avgang fra gate %4$s.</string>
-    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE_short">Forsinket i %2$s timer og %3$s minutter og har nå avgang fra gate %4$s.</string>
-    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE_short">Har avgang %2$s minutt før tiden fra gate %3$s.</string>
-    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE_short">Har avgang %2$s minutter før tiden fra gate %3$s.</string>
-    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE_short">Har avgang %2$s time før tiden fra gate %3$s.</string>
-    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE_short">Har avgang %2$s timer før tiden fra gate %3$s.</string>
-    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE_short">Har avgang %2$s time og %3$s minutt før tiden fra gate %4$s.</string>
-    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE_short">Har avgang %2$s timer og %3$s minutt før tiden fra gate %4$s.</string>
-    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE_short">Har avgang %2$s time og %3$s minutter før tiden fra gate %4$s.</string>
-    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE_short">Har avgang %2$s timer og %3$s minutter før tiden fra gate %4$s.</string>
-    <!-- Your flight from _ to _ has been cancelled TEMPLATE (short version) -->
-    <string name="S_Push_flight_from_CITY_to_CITY_cancelled_short">Flyvningen fra %1$s er kansellert.</string>
-    <!-- Your flight to _ departs in _ hour TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_short">Har avgang om %2$s time.</string>
-    <!-- Your flight to _ departs in _ hours TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_short">Har avgang om %2$s timer.</string>
-    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE_short">Har avgang om %2$s timer og %3$s minutt.</string>
-    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES_short">Har avgang om %2$s timer og %3$s minutter.</string>
-    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE_short">Har avgang om %2$s time og %3$s minutt.</string>
-    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES_short">Har avgang om %2$s time og %3$s minutter.</string>
-    <!-- Your flight to _ departs in _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_MINUTES_short">Har avgang om %2$s minutter.</string>
-    <!-- Your flight to _ now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_gate_GATE_short">Har avgang fra gate %2$s</string>
-
     <!-- VSC Info Screen -->
     <!-- Header for a list of apps also written by VSC -->
     <string name="AlsoByVSC">Også fra VSC</string>
@@ -3090,6 +3038,8 @@
     <!-- Content description for action: Press to select window type that the traveler prefers -->
     <string name="cd_traveler_seat_preference_edit">Velg setetypen den reisende foretrekker</string>
     <!-- Credit Card Information -->
+    <!-- Button text for choosing a stored payment. Clicking this button will open a popup listing all stored cards. -->
+    <string name="Stored_Cards">Lagrede kort</string>
     <!-- Content description for action: Enter credit card number -->
     <string name="cd_card_info_card_number_edit_text">Oppgi kredittkortnummer</string>
     <!-- Content description for action: Enter cardholder name -->
@@ -3142,5 +3092,19 @@
     <string name="tablet_confirmation_done_booking">Bestilling utført</string>
     <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->
     <string name="tablet_confirmation_flights_from_to">%1$s til %2$s</string>
+
+    <!-- Tablet Sold Out Screen -->
+    <!-- Header text to indicating hotel sold out -->
+    <string name="tablet_sold_out_summary_text_hotel">Denne flyvningen er nå utsolgt. Beklager.</string>
+    <!-- Button text to remove sold hotel -->
+    <string name="tablet_sold_out_remove_hotel">Fjern hotell</string>
+    <!-- Button text to select another hotel -->
+    <string name="tablet_sold_out_select_hotel">Velg et annet hotell</string>
+    <!-- Header text to indicating flight sold out -->
+    <string name="tablet_sold_out_summary_text_flight">Denne flyvningen er nå utsolgt. Beklager.</string>
+    <!-- Button text to remove sold flight -->
+    <string name="tablet_sold_out_remove_flight">Fjern flyvning</string>
+    <!-- Button text to select another flight -->
+    <string name="tablet_sold_out_select_flight">Velg et annet hotell</string>
 
 </resources>

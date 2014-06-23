@@ -3,7 +3,7 @@
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
-    <string name="search_all_hint">Tìm điểm đến, danh thắng và địa chỉ</string>
+    <string name="search_all_hint">Tìm điểm đến và địa danh</string>
     <!-- Hint in edit text that the user should type in a destination (location) -->
     <string name="destinations_hint">Tìm điểm đến…</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
@@ -32,12 +32,16 @@
     <string name="fly_from_TEMPLATE">Bay từ %1$s</string>
     <!-- Choose flight dates -->
     <string name="choose_flight_dates">Chọn ngày của chuyến bay</string>
+    <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
+    <string name="choose_dates">Chọn ngày</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">Khách sạn đêm nay</string>
     <!-- Missing flight info header string "Missing search information!" -->
     <string name="missing_flight_info_header">Thiếu thông tin tìm kiếm!</string>
-    <!-- Missing flight info message "Please select a flight origin, and a valid date or date range."-->
-    <string name="missing_flight_info_message">Vui lòng chọn nơi khởi hành chuyến bay và ngày hoặc nhóm ngày hợp lệ.</string>
+    <!-- Missing flight info message -->
+    <string name="missing_flight_info_message">Thiết lập sân bay khởi hành \ncho Chuyến bay đến %s</string>
+    <!-- Missing flight info message -->
+    <string name="missing_flight_trip_date_message">Vui lòng chọn ngày hoặc chuỗi ngày hợp lệ.</string>
     <!-- Clear dates -->
     <string name="clear_dates">Xóa ngày</string>
     <!-- Search Now -->
@@ -114,10 +118,12 @@
     <string name="trip_bucket_book_flight">Đặt chuyến bay</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
     <string name="trip_bucket_book_hotel">Đặt khách sạn</string>
+    <!-- Tablet Trip bucket, sold out text -->
+    <string name="trip_bucket_sold_out">Hết chỗ</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_roundtrip">Chuyến đi khứ hồi đến %1$s</string>
+    <string name="trip_bucket_label_flight_roundtrip">Chuyến bay khứ hồi đến %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_trip">Chuyến đi đến %1$s</string>
+    <string name="trip_bucket_label_flight_trip">Bay đến %1$s</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">Chuyến bay đến %1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -134,6 +140,10 @@
     <string name="search_one_way_flight">Tìm chuyến bay một chiều</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">Không tìm được địa điểm! Vui lòng thay đổi yêu cầu và thử lại.</string>
+    <!-- Tablet search results, no hotels available -->
+    <string name="tablet_search_results_hotels_unavailable">Rất tiếc, hiện không có \nkhách sạn.</string>
+    <!-- Tablet search results, no flights available -->
+    <string name="tablet_search_results_flights_unavailable">Rất tiếc, hiện không có \nchuyến bay.</string>
 
 
     <!-- Tablet hotel filters -->
@@ -163,6 +173,24 @@
     <string name="cd_sort_by_distance">Bấm để sắp xếp theo khách sạn gần nhất.</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">Từ %s</string>
+    <!-- Drop down item for denoting that infant travellers are in laps -->
+    <string name="infants_in_laps">Trẻ sơ sinh dưới 2 tuổi (khi thực hiện chuyến đi) ngồi trong lòng</string>
+    <!-- Drop down item for denoting that infant travellers are in seats -->
+    <string name="infants_in_seats">Trẻ sơ sinh dưới 2 tuổi (khi thực hiện chuyến đi) ngồi chỗ riêng</string>
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two">Trẻ sơ sinh dưới 2 tuổi</string>
+    <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
+    <string name="max_one_infant_per_lap">Tối đa 1 trẻ sơ sinh ngồi trong lòng 1 người lớn (&gt;13)</string>
+    <!-- Description for infant travelers sitting in laps -->
+    <string name="in_laps">Ngồi trong lòng</string>
+    <!-- Description for infant travelers sitting in seats -->
+    <string name="in_seats">Chỗ ngồi riêng</string>
+    <!-- Title for infant seating preference -->
+    <string name="infant_seating_preference">Chọn chỗ cho trẻ sơ sinh dưới 2 tuổi</string>
+    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
+    <string name="infants_in_seats_prompt">Tất cả trẻ sơ sinh dưới 2 tuổi (khi thực hiện chuyến đi) sẽ có chỗ riêng. Quý vị cần tìm lại để có số lượng vé chính xác.</string>
+    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
+    <string name="infants_in_laps_prompt">Trẻ sơ sinh dưới 2 tuổi (khi thực hiện chuyến đi) phải ngồi trong lòng 1 khách tối thiểu 12 tuổi. Quý vị cần tìm lại để có số lượng vé chính xác.</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -202,6 +230,8 @@
     <string name="recommend">đề xuất</string>
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <string name="n_recommend_TEMPLATE">%s%% đề xuất</string>
+    <!-- Hotel gallery title -->
+    <string name="photos_for_TEMPLATE">Ảnh %s</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
     <plurals name="rooms_left">
         <item quantity="zero">phòng còn trống</item>
@@ -254,6 +284,8 @@
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">Thanh toán</string>
+    <!-- Actionbar Title for default search results state -->
+    <string name="Create_a_Trip">Tạo chuyến đi</string>
     <!-- Your Trip -->
     <string name="your_trip">Chuyến đi của quý vị</string>
     <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
@@ -322,8 +354,14 @@
     <string name="error_launch_connection">Rất tiếc, chúng tôi không thể kết nối.</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Chuyến đi</string>
+    <!-- Actionbar Title on main launch screen -->
+    <string name="Explore">Tìm hiểu</string>
+    <!-- Actionbar Title when an exotic destination is being displayed -->
+    <string name="Destination">Điểm đến</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">Cần Google Play Services để sử dụng app này. Vui lòng cài đặt phiên bản Google Play Services mới nhất.</string>
+    <!-- Label for tablet launch pin button that starts new search -->
+    <string name="explore_now">Tìm hiểu ngay</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -974,7 +1012,7 @@
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">Sắp cất cánh…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
-    <string name="invalid_flights_pos">Rất tiếc, tính năng đặt chuyến bay qua di động hiện &lt;b&gt;chưa được áp dụng&lt;/b&gt; tại khu vực của quý vị.</string>
+    <string name="invalid_flights_pos">Rất tiếc, tính năng đặt chuyến bay qua di động hiện chưa được áp dụng tại khu vực của quý vị.</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Sân bay khởi hành và đến phải khác nhau.</string>
 
@@ -1012,6 +1050,8 @@
     <string name="prompt_departure_airport">Chọn sân bay khởi hành</string>
     <!-- Prompt for spinner dialog when selecting arrival airport -->
     <string name="prompt_arrival_airport">Chọn sân bay đến</string>
+    <!-- Prompt when user selects more infant travelers than available laps -->
+    <string name="not_enough_laps_for_infants">Cần 1 người lớn đi kèm mỗi trẻ sơ sinh nếu chọn cho trẻ ngồi trong lòng.</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1572,6 +1612,8 @@
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
     <string name="cvv_code_TEMPLATE">Mã CVV của &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Asks for a security code (CVV code or credit card code) for a card.  %s is the card name, E.g., "Security code for Dan's Platinum VISA" -->
+    <string name="security_code_TEMPLATE">Mã bảo mật của &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">thẻ kết thúc bằng %s</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
@@ -2139,8 +2181,6 @@
     <string name="enrolled_in_expedia_rewards">Tham gia Expedia Rewards\u2122</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_elite_plus_rewards">Thành viên Elite Plus</string>
-    <!-- Loading rewards points message -->
-    <string name="loading_your_rewards_points">Đang tải điểm thưởng của quý vị…</string>
     <!-- Label for account name -->
     <string name="logged_in_as">Đăng nhập bằng</string>
     <!-- Label for signin screen -->
@@ -2804,98 +2844,6 @@
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">Hành lý của quý vị sẽ được chuyển đến băng chuyền hành lý %1$s.</string>
 
-    <!--
-    Shortened Push Notification Loc Strings
-    These are for older versions of android that can't wrap notification text. We shorten
-    the strings by removing the city argument from the string. The city string gets displayed
-    in the notification title, so no harm done.
-
-    NOTE: We are removing the first arg, but we will still be passing it to the format string, so the argument range now
-    must start at %2$s
-    -->
-    <!-- Your flight to _ delayed _ hour TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_short">Hoãn %2$s giờ.</string>
-    <!-- Your flight to _ delayed _ hours TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_short">Hoãn %2$s giờ.</string>
-    <!-- Your flight to _ delayed _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_short">Hoãn %2$s phút.</string>
-    <!-- Your flight to _ delayed _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_short">Hoãn %2$s phút.</string>
-    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_short">Hoãn %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_short">Hoãn %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_short">Hoãn %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_short">Hoãn %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ departs _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTE_short">Khởi hành sớm %2$s phút.</string>
-    <!-- Your flight to _ departs _ minutes early  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTES_short">Khởi hành sớm %2$s phút.</string>
-    <!-- Your flight to _ departs _ hour early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_short">Khởi hành sớm %2$s giờ.</string>
-    <!-- Your flight to _ departs _ hours early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_short">Khởi hành sớm %2$s giờ.</string>
-    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_short">Khởi hành sớm %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_short">Khởi hành sớm %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_short">Khởi hành sớm %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_short">Khởi hành sớm %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE_short">Hoãn %2$s phút và hiện khởi hành từ cổng %3$s.</string>
-    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE_short">Hoãn %2$s phút và hiện khởi hành từ cổng %3$s.</string>
-    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE_short">Hoãn %2$s giờ và hiện khởi hành từ cổng %3$s.</string>
-    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE_short">Hoãn %2$s giờ và hiện khởi hành từ cổng %3$s.</string>
-    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE_short">Hoãn %2$s giờ %3$s phút và hiện khởi hành từ cổng %4$s.</string>
-    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE_short">Hoãn %2$s giờ %3$s phút và hiện khởi hành từ cổng %4$s.</string>
-    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE_short">Hoãn %2$s giờ %3$s phút và hiện khởi hành từ cổng %4$s.</string>
-    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE_short">Hoãn %2$s giờ %3$s phút và hiện khởi hành từ cổng %4$s.</string>
-    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE_short">Đang khởi hành sớm %2$s phút từ cổng %3$s.</string>
-    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE_short">Đang khởi hành sớm %2$s phút từ cổng %3$s.</string>
-    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE_short">Đang khởi hành sớm %2$s giờ từ cổng %3$s.</string>
-    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE_short">Đang khởi hành sớm %2$s giờ từ cổng %3$s.</string>
-    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE_short">Đang khởi hành sớm %2$s giờ %3$s phút từ cổng %4$s.</string>
-    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE_short">Đang khởi hành sớm %2$s giờ %3$s phút từ cổng %4$s.</string>
-    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE_short">Đang khởi hành sớm %2$s giờ %3$s phút từ cổng %4$s.</string>
-    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE_short">Đang khởi hành sớm %2$s giờ %3$s phút từ cổng %4$s.</string>
-    <!-- Your flight from _ to _ has been cancelled TEMPLATE (short version) -->
-    <string name="S_Push_flight_from_CITY_to_CITY_cancelled_short">Chuyến bay từ %1$s đã bị hủy.</string>
-    <!-- Your flight to _ departs in _ hour TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_short">Khởi hành trong %2$s giờ.</string>
-    <!-- Your flight to _ departs in _ hours TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_short">Khởi hành trong %2$s giờ.</string>
-    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE_short">Khởi hành trong %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES_short">Khởi hành trong %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE_short">Khởi hành trong %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES_short">Khởi hành trong %2$s giờ %3$s phút.</string>
-    <!-- Your flight to _ departs in _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_MINUTES_short">Khởi hành trong %2$s phút.</string>
-    <!-- Your flight to _ now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_gate_GATE_short">Khởi hành từ cổng %2$s.</string>
-
     <!-- VSC Info Screen -->
     <!-- Header for a list of apps also written by VSC -->
     <string name="AlsoByVSC">Cũng bởi VSC</string>
@@ -3090,6 +3038,8 @@
     <!-- Content description for action: Press to select window type that the traveler prefers -->
     <string name="cd_traveler_seat_preference_edit">Vui lòng chọn loại chỗ ngồi mong muốn</string>
     <!-- Credit Card Information -->
+    <!-- Button text for choosing a stored payment. Clicking this button will open a popup listing all stored cards. -->
+    <string name="Stored_Cards">Thẻ đã lưu</string>
     <!-- Content description for action: Enter credit card number -->
     <string name="cd_card_info_card_number_edit_text">Nhập số thẻ tín dụng</string>
     <!-- Content description for action: Enter cardholder name -->
@@ -3142,5 +3092,19 @@
     <string name="tablet_confirmation_done_booking">Hoàn tất đặt</string>
     <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->
     <string name="tablet_confirmation_flights_from_to">%1$s đến %2$s</string>
+
+    <!-- Tablet Sold Out Screen -->
+    <!-- Header text to indicating hotel sold out -->
+    <string name="tablet_sold_out_summary_text_hotel">Hiện đã hết phòng này. Thành thật xin lỗi!</string>
+    <!-- Button text to remove sold hotel -->
+    <string name="tablet_sold_out_remove_hotel">Xóa khách sạn</string>
+    <!-- Button text to select another hotel -->
+    <string name="tablet_sold_out_select_hotel">Chọn khách sạn khác</string>
+    <!-- Header text to indicating flight sold out -->
+    <string name="tablet_sold_out_summary_text_flight">Chuyến bay này vừa hết chỗ. Thành thật xin lỗi!</string>
+    <!-- Button text to remove sold flight -->
+    <string name="tablet_sold_out_remove_flight">Xóa chuyến bay</string>
+    <!-- Button text to select another flight -->
+    <string name="tablet_sold_out_select_flight">Chọn chuyến bay khác</string>
 
 </resources>

@@ -3,11 +3,11 @@
 
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
-    <string name="search_all_hint">Buscar por destino, punto de interés o dirección</string>
+    <string name="search_all_hint">Busca por destino o punto de interés</string>
     <!-- Hint in edit text that the user should type in a destination (location) -->
-    <string name="destinations_hint">Buscar un destino</string>
+    <string name="destinations_hint">Busca un destino</string>
     <!-- Hint in edit text that the user should type in an origin (location) -->
-    <string name="origins_hint">Buscar un origen</string>
+    <string name="origins_hint">Busca un origen</string>
     <!-- To a destination.  %s is a destination name, e.g. "To San Francisco" -->
     <string name="to_TEMPLATE">A %s</string>
     <!-- From an origin.  %s is an origin name, e.g. "From San Francisco" -->
@@ -32,12 +32,16 @@
     <string name="fly_from_TEMPLATE">Quiero volar desde %1$s</string>
     <!-- Choose flight dates -->
     <string name="choose_flight_dates">Elegir fechas de vuelo</string>
+    <!-- Choose dates. Used in tablet calendar, when flights are not supported for certain POS -->
+    <string name="choose_dates">Elegir fechas</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">Hoteles para esta noche</string>
     <!-- Missing flight info header string "Missing search information!" -->
     <string name="missing_flight_info_header">Falta información de búsqueda</string>
-    <!-- Missing flight info message "Please select a flight origin, and a valid date or date range."-->
-    <string name="missing_flight_info_message">Selecciona un origen y una fecha o rangos de fecha válidos.</string>
+    <!-- Missing flight info message -->
+    <string name="missing_flight_info_message">Selecciona un aeropuerto de salida \n para el vuelo a %s</string>
+    <!-- Missing flight info message -->
+    <string name="missing_flight_trip_date_message">Selecciona una fecha o rango de fechas válido.</string>
     <!-- Clear dates -->
     <string name="clear_dates">Borrar fechas</string>
     <!-- Search Now -->
@@ -114,10 +118,12 @@
     <string name="trip_bucket_book_flight">Reservar vuelo</string>
     <!-- Tablet Trip bucket, Book Hotel button text -->
     <string name="trip_bucket_book_hotel">Reservar hotel</string>
+    <!-- Tablet Trip bucket, sold out text -->
+    <string name="trip_bucket_sold_out">Sin plazas</string>
     <!-- Tablet Trip bucket Flight text - Round Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_roundtrip">Viaje de ida y vuelta a %1$s</string>
+    <string name="trip_bucket_label_flight_roundtrip">Vuelo de ida y vuelta a %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
-    <string name="trip_bucket_label_flight_trip">Viaje a %1$s</string>
+    <string name="trip_bucket_label_flight_trip">Vuelo a %1$s</string>
     <!-- Actionbar Tablet Resutls Flights Title e.g. "Flights to Paris"-->
     <string name="actionbar_tablet_results_flights_title_TEMPLATE">Vuelos a %1$s</string>
     <!-- Actionbar Tablet Results Hotels Title e.g. "Paris Hotels"-->
@@ -134,6 +140,10 @@
     <string name="search_one_way_flight">Buscar vuelos de solo ida</string>
     <!-- Waypoint fail message for when no suggestion is available. -->
     <string name="waypoint_suggestion_fail">No se ha encontrado información sobre la ubicación. Modifica tu búsqueda e inténtalo de nuevo.</string>
+    <!-- Tablet search results, no hotels available -->
+    <string name="tablet_search_results_hotels_unavailable">Vaya, no hay ningún hotel \n disponible en este momento.</string>
+    <!-- Tablet search results, no flights available -->
+    <string name="tablet_search_results_flights_unavailable">Vaya, no hay ningún vuelo \n disponible en este momento.</string>
 
 
     <!-- Tablet hotel filters -->
@@ -163,6 +173,24 @@
     <string name="cd_sort_by_distance">Pulsa para ordenar los resultados por distancia.</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">Desde %s</string>
+    <!-- Drop down item for denoting that infant travellers are in laps -->
+    <string name="infants_in_laps">Bebé de menos de 2 años (en el momento del viaje) en regazo</string>
+    <!-- Drop down item for denoting that infant travellers are in seats -->
+    <string name="infants_in_seats">Bebé de menos de 2 años (en el momento del viaje) en asiento</string>
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two">Bebé de menos de 2 años</string>
+    <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
+    <string name="max_one_infant_per_lap">1 niño de menos de 13 años en el regazo de 1 adulto como máximo.</string>
+    <!-- Description for infant travelers sitting in laps -->
+    <string name="in_laps">En regazo</string>
+    <!-- Description for infant travelers sitting in seats -->
+    <string name="in_seats">En asiento</string>
+    <!-- Title for infant seating preference -->
+    <string name="infant_seating_preference">Preferencia de asiento para bebés de menos de 2 años</string>
+    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
+    <string name="infants_in_seats_prompt">Todos los bebés de menos de 2 años (en el momento del viaje) tendrán su propio asiento. Volveremos a realizar la búsqueda con el número correcto de billetes.</string>
+    <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
+    <string name="infants_in_laps_prompt">Todos los bebés de menos de 2 años (en el momento del viaje) deben viajar en el regazo de una persona con al menos 12 años de edad. Volveremos a realizar la búsqueda con el número correcto de billetes.</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -202,6 +230,8 @@
     <string name="recommend">lo recomiendan</string>
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <string name="n_recommend_TEMPLATE">El %s%% lo recomienda</string>
+    <!-- Hotel gallery title -->
+    <string name="photos_for_TEMPLATE">Fotos de %s</string>
     <!-- Caption for number of rooms left count, i.e. 4 "rooms left" -->
     <plurals name="rooms_left">
         <item quantity="zero">habitaciones disponibles</item>
@@ -255,6 +285,8 @@
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
     <string name="Checkout">Completar reserva</string>
+    <!-- Actionbar Title for default search results state -->
+    <string name="Create_a_Trip">Crear un viaje</string>
     <!-- Your Trip -->
     <string name="your_trip">Tu viaje</string>
     <!-- now booking template (e.g. "Now Booking Hotel Lancaster") -->
@@ -323,8 +355,14 @@
     <string name="error_launch_connection">No ha sido posible conectarse</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Viajes</string>
+    <!-- Actionbar Title on main launch screen -->
+    <string name="Explore">Buscar</string>
+    <!-- Actionbar Title when an exotic destination is being displayed -->
+    <string name="Destination">Destino</string>
     <!-- Google play services unrecoverable error dialog message -->
     <string name="google_play_services_unrecoverable_error">Esta aplicación requiere Google Play Services. Instala la versión más reciente de Google Play Services.</string>
+    <!-- Label for tablet launch pin button that starts new search -->
+    <string name="explore_now">Buscar ahora</string>
 
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
@@ -975,7 +1013,7 @@
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">A punto de despegar…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
-    <string name="invalid_flights_pos">La reserva de vuelos a través del móvil &lt;b&gt;no se encuentra todavía disponible&lt;/b&gt; en tu región.</string>
+    <string name="invalid_flights_pos">La reserva de vuelos a través del móvil no se encuentra todavía disponible en tu región.</string>
     <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">El aeropuerto de salida y el de llegada deben ser distintos.</string>
 
@@ -1013,6 +1051,8 @@
     <string name="prompt_departure_airport">Selecciona el aeropuerto de salida</string>
     <!-- Prompt for spinner dialog when selecting arrival airport -->
     <string name="prompt_arrival_airport">Selecciona el aeropuerto de llegada</string>
+    <!-- Prompt when user selects more infant travelers than available laps -->
+    <string name="not_enough_laps_for_infants">Debe haber al menos un pasajero adulto por cada bebé que viaje en regazo.</string>
 
     <!-- Calendar instructions -->
     <!-- Nothing is selected -->
@@ -1573,6 +1613,8 @@
     <!-- Highlight view stuff -->
     <!-- Asks for a cvv code (credit card code) for a card.  %s is the card name, E.g., "CVV code for Dan's Credit Card" -->
     <string name="cvv_code_TEMPLATE">Código CVV de &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Asks for a security code (CVV code or credit card code) for a card.  %s is the card name, E.g., "Security code for Dan's Platinum VISA" -->
+    <string name="security_code_TEMPLATE">Código de seguridad de &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">tarjeta que termina en %s</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
@@ -2140,8 +2182,6 @@
     <string name="enrolled_in_expedia_rewards">Registrado en Expedia Rewards\u2122</string>
     <!-- Label for account status -->
     <string name="enrolled_in_expedia_elite_plus_rewards">Miembro Elite Plus</string>
-    <!-- Loading rewards points message -->
-    <string name="loading_your_rewards_points">Cargando tus puntos…</string>
     <!-- Label for account name -->
     <string name="logged_in_as">Registrado como</string>
     <!-- Label for signin screen -->
@@ -2805,98 +2845,6 @@
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">Encontrarás tus maletas en la cinta de recogida de equipaje %1$s.</string>
 
-    <!--
-    Shortened Push Notification Loc Strings
-    These are for older versions of android that can't wrap notification text. We shorten
-    the strings by removing the city argument from the string. The city string gets displayed
-    in the notification title, so no harm done.
-
-    NOTE: We are removing the first arg, but we will still be passing it to the format string, so the argument range now
-    must start at %2$s
-    -->
-    <!-- Your flight to _ delayed _ hour TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_short">%2$s hora de retraso.</string>
-    <!-- Your flight to _ delayed _ hours TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_short">%2$s horas de retraso.</string>
-    <!-- Your flight to _ delayed _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_short">%2$s minuto de retraso.</string>
-    <!-- Your flight to _ delayed _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_short">%2$s minutos de retraso.</string>
-    <!-- Your flight to _ delayed _ hour _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_short">%2$s hora y %3$s minuto de retraso.</string>
-    <!-- Your flight to _ delayed _ hour _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_short">%2$s hora y %3$s minutos de retraso.</string>
-    <!-- Your flight to _ delayed _ hours _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_short">%2$s horas y %3$s minuto de retraso.</string>
-    <!-- Your flight to _ delayed _ hours _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_short">%2$s horas y %3$s minutos de retraso.</string>
-    <!-- Your flight to _ departs _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTE_short">Sale con %2$s minuto de antelación.</string>
-    <!-- Your flight to _ departs _ minutes early  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTES_short">Sale con %2$s minutos de antelación.</string>
-    <!-- Your flight to _ departs _ hour early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_short">Sale con %2$s hora de antelación.</string>
-    <!-- Your flight to _ departs _ hours early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_short">Sale con %2$s horas de antelación.</string>
-    <!-- Your flight to _ departs _ hour _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_short">Sale con %2$s hora y %3$s minuto de antelación.</string>
-    <!-- Your flight to _ departs _ hours _ minute early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_short">Sale con %2$s horas y %3$s minuto de antelación.</string>
-    <!-- Your flight to _ departs _ hour _ minutes early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_short">Sale con %2$s hora y %3$s minutos de antelación.</string>
-    <!-- Your flight to _ departs _ hours _ minutes early TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_short">Sale con %2$s horas y %3$s minutos de antelación.</string>
-    <!-- Your flight to _ is delayed _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTE_gate_GATE_short">Sale con %2$s minuto de retraso desde la puerta %3$s.</string>
-    <!-- Your flight to _ is delayed _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_MINUTES_gate_GATE_short">Sale con %2$s minutos de retraso desde la puerta %3$s.</string>
-    <!-- Your flight to _ is delayed _ hour and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_gate_GATE_short">Sale con %2$s hora de retraso desde la puerta %3$s.</string>
-    <!-- Your flight to _ is delayed _ hours and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_gate_GATE_short">Sale con %2$s horas de retraso desde la puerta %3$s.</string>
-    <!-- Your flight to _ is delayed _ hour _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTE_gate_GATE_short">Sale con %2$s hora y %3$s minuto de retraso desde la puerta %4$s.</string>
-    <!-- Your flight to _ is delayed _ hours _ minute and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTE_gate_GATE_short">Sale con %2$s horas y %3$s minuto de retraso desde la puerta %4$s.</string>
-    <!-- Your flight ot _ is delayed _ hour _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOUR_MINUTES_gate_GATE_short">Sale con %2$s hora y %3$s minutos de retraso desde la puerta %4$s.</string>
-    <!-- Your flight to _ is delayed _ hours _ minutes and now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_delayed_HOURS_MINUTES_gate_GATE_short">Sale con %2$s horas y %3$s minutos de retraso desde la puerta %4$s.</string>
-    <!-- Your flight to _ is now departing _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTE_gate_GATE_short">Sale con %2$s minuto de antelación desde la puerta %3$s.</string>
-    <!-- Your flight to _ is now departing _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_MINUTES_gate_GATE_short">Sale con %2$s minutos de antelación desde la puerta %3$s.</string>
-    <!-- Your flight to _ is now departing _ hour early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_gate_GATE_short">Sale con %2$s hora de antelación desde la puerta %3$s.</string>
-    <!-- Your flight to _ is now departing _ hours early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_gate_GATE_short">Sale con %2$s horas de antelación desde la puerta %3$s.</string>
-    <!-- Your flight to _ is now departing _ hour _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTE_gate_GATE_short">Sale con %2$s hora y %3$s minuto de antelación desde la puerta %4$s.</string>
-    <!-- Your flight to _ is now departing _ hours _ minute early from gate _ TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTE_gate_GATE_short">Sale con %2$s horas y %3$s minuto de antelación desde la puerta %4$s.</string>
-    <!-- Your flight to _ is now departing _ hour _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOUR_MINUTES_gate_GATE_short">Sale con %2$s hora y %3$s minutos de antelación desde la puerta %4$s.</string>
-    <!-- Your flight to _ is now departing _ hours _ minutes early from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_early_HOURS_MINUTES_gate_GATE_short">Sale con %2$s horas y %3$s minutos de antelación desde la puerta %4$s.</string>
-    <!-- Your flight from _ to _ has been cancelled TEMPLATE (short version) -->
-    <string name="S_Push_flight_from_CITY_to_CITY_cancelled_short">Se ha cancelado el vuelo desde %1$s.</string>
-    <!-- Your flight to _ departs in _ hour TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_short">Sale en %2$s hora.</string>
-    <!-- Your flight to _ departs in _ hours TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_short">Sale en %2$s horas.</string>
-    <!-- Your flight to _ departs in _ hours _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTE_short">Sale en %2$s horas y %3$s minuto.</string>
-    <!-- Your flight to _ departs in _ hours _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOURS_MINUTES_short">Sale en %2$s horas y %3$s minutos.</string>
-    <!-- Your flight to _ departs in _ hour _ minute TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTE_short">Sale en %2$s hora y %3$s minuto.</string>
-    <!-- Your flight to _ departs in _ hour _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_HOUR_MINUTES_short">Sale en %2$s hora y %3$s minutos.</string>
-    <!-- Your flight to _ departs in _ minutes TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_departs_in_MINUTES_short">Sale en %2$s minutos.</string>
-    <!-- Your flight to _ now departs from gate _  TEMPLATE (short version) -->
-    <string name="S_Push_flight_CITY_gate_GATE_short">Sale desde la puerta %2$s.</string>
-
     <!-- VSC Info Screen -->
     <!-- Header for a list of apps also written by VSC -->
     <string name="AlsoByVSC">Otros productos de VSC</string>
@@ -3091,6 +3039,8 @@
     <!-- Content description for action: Press to select window type that the traveler prefers -->
     <string name="cd_traveler_seat_preference_edit">Selecciona el tipo de asiento que prefiere el pasajero</string>
     <!-- Credit Card Information -->
+    <!-- Button text for choosing a stored payment. Clicking this button will open a popup listing all stored cards. -->
+    <string name="Stored_Cards">Tarjetas guardadas</string>
     <!-- Content description for action: Enter credit card number -->
     <string name="cd_card_info_card_number_edit_text">Introduce el número de la tarjeta de crédito</string>
     <!-- Content description for action: Enter cardholder name -->
@@ -3143,5 +3093,19 @@
     <string name="tablet_confirmation_done_booking">Salir</string>
     <!-- Used in summary text for Flights {X to Y} %1$s is Departure city, %2$s is Arrival City -->
     <string name="tablet_confirmation_flights_from_to">%1$s - %2$s</string>
+
+    <!-- Tablet Sold Out Screen -->
+    <!-- Header text to indicating hotel sold out -->
+    <string name="tablet_sold_out_summary_text_hotel">Vaya, ya no quedan más habitaciones. Lo sentimos.</string>
+    <!-- Button text to remove sold hotel -->
+    <string name="tablet_sold_out_remove_hotel">Eliminar hotel</string>
+    <!-- Button text to select another hotel -->
+    <string name="tablet_sold_out_select_hotel">Selecciona otro hotel</string>
+    <!-- Header text to indicating flight sold out -->
+    <string name="tablet_sold_out_summary_text_flight">Vaya, ya no quedan más asientos en este vuelo. Lo sentimos.</string>
+    <!-- Button text to remove sold flight -->
+    <string name="tablet_sold_out_remove_flight">Eliminar vuelo</string>
+    <!-- Button text to select another flight -->
+    <string name="tablet_sold_out_select_flight">Selecciona otro vuelo</string>
 
 </resources>
