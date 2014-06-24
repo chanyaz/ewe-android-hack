@@ -833,31 +833,61 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
 			//This attempts to replicate the global layout by doing 3 columns for our general results layout
 			//and 2 rows (where the first one represents the actionbar).
-			GridManager globalGm = new GridManager(2, 3);
-			globalGm.setDimensions(totalWidth, totalHeight);
-			globalGm.setRowSize(0, getActivity().getActionBar().getHeight());
+			if (isLandscape) {
+				GridManager globalGm = new GridManager(2, 3);
+				globalGm.setDimensions(totalWidth, totalHeight);
+				globalGm.setRowSize(0, getActivity().getActionBar().getHeight());
 
-			//Now we set up our local positions
-			mGrid.setDimensions(globalGm.getColSpanWidth(1, 3), globalGm.getRowHeight(1));
-			mGrid.setNumCols(3);
-			mGrid.setNumRows(3);
+				//Now we set up our local positions
+				mGrid.setDimensions(globalGm.getColSpanWidth(1, 3), globalGm.getRowHeight(1));
+				mGrid.setNumCols(3);
+				mGrid.setNumRows(3);
 
-			int topBottomSpaceSize = getResources()
-				.getDimensionPixelSize(R.dimen.tablet_hotel_details_vertical_padding);
-			float leftRightSpacePerc = getResources()
-				.getFraction(R.fraction.tablet_hotel_details_horizontal_spacing_percentage, 1, 1);
-			mGrid.setRowSize(0, topBottomSpaceSize);
-			mGrid.setRowSize(2, topBottomSpaceSize);
-			mGrid.setColumnPercentage(0, leftRightSpacePerc);
-			mGrid.setColumnPercentage(2, leftRightSpacePerc);
+				int topBottomSpaceSize = getResources()
+					.getDimensionPixelSize(R.dimen.tablet_hotel_details_vertical_padding);
+				float leftRightSpacePerc = getResources()
+					.getFraction(R.fraction.tablet_hotel_details_horizontal_spacing_percentage, 1, 1);
+				mGrid.setRowSize(0, topBottomSpaceSize);
+				mGrid.setRowSize(2, topBottomSpaceSize);
+				mGrid.setColumnPercentage(0, leftRightSpacePerc);
+				mGrid.setColumnPercentage(2, leftRightSpacePerc);
 
-			mGrid.setContainerToRow(mRootC, 1);
-			mGrid.setContainerToColumn(mRootC, 1);
+				mGrid.setContainerToRow(mRootC, 1);
+				mGrid.setContainerToColumn(mRootC, 1);
 
-			int halfContentSize = mGrid.getRowHeight(1) / 2;
-			if (mHeaderContainer.getLayoutParams() != null) {
-				mHeaderContainer.getLayoutParams().height = halfContentSize;
-				mHeaderContainer.setLayoutParams(mHeaderContainer.getLayoutParams());
+				int halfContentSize = mGrid.getRowHeight(1) / 2;
+				if (mHeaderContainer.getLayoutParams() != null) {
+					mHeaderContainer.getLayoutParams().height = halfContentSize;
+					mHeaderContainer.setLayoutParams(mHeaderContainer.getLayoutParams());
+				}
+			}
+			else {
+				GridManager globalGm = new GridManager(2, 2);
+				globalGm.setDimensions(totalWidth, totalHeight);
+				globalGm.setRowSize(0, getActivity().getActionBar().getHeight());
+
+				//Now we set up our local positions
+				mGrid.setDimensions(globalGm.getColSpanWidth(0, 2), globalGm.getRowHeight(1));
+				mGrid.setNumCols(3);
+				mGrid.setNumRows(3);
+
+				int topBottomSpaceSize = getResources()
+					.getDimensionPixelSize(R.dimen.tablet_hotel_details_vertical_padding);
+				float leftRightSpacePerc = getResources()
+					.getFraction(R.fraction.tablet_hotel_details_horizontal_spacing_percentage, 1, 1);
+				mGrid.setRowSize(0, topBottomSpaceSize);
+				mGrid.setRowSize(2, topBottomSpaceSize);
+				mGrid.setColumnPercentage(0, leftRightSpacePerc);
+				mGrid.setColumnPercentage(2, leftRightSpacePerc);
+
+				mGrid.setContainerToRow(mRootC, 1);
+				mGrid.setContainerToColumn(mRootC, 1);
+
+				int halfContentSize = mGrid.getRowHeight(1) / 2;
+				if (mHeaderContainer.getLayoutParams() != null) {
+					mHeaderContainer.getLayoutParams().height = halfContentSize;
+					mHeaderContainer.setLayoutParams(mHeaderContainer.getLayoutParams());
+				}
 			}
 		}
 	};

@@ -971,7 +971,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mGrid.setDimensions(totalWidth, totalHeight);
 
 				//3 rows (AB,top half, bottom half)
-				//5 columns - left, spacer,center,spacer,right
+				//3 columns - left, spacer, right
 				mGrid.setGridSize(3, 3);
 
 				//The top row matches the height of the actionbar
@@ -1396,6 +1396,9 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		private void setRoomsAndRatesShownPercentage(float percentage) {
 			mHotelRoomsAndRatesC.setTranslationY(-(1f - percentage) * mGrid.getTotalHeight());
 			mMapDimmer.setAlpha(percentage);
+			if (!mGrid.isLandscape()) {
+				mHotelListC.setTranslationX(percentage * -mGrid.getColRight(0));
+			}
 		}
 
 		/*
