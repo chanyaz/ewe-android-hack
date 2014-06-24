@@ -35,14 +35,6 @@
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"/>
 
-            <ImageView
-                android:id="@+id/tripbucket_remove_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/btn_x"/>
-
             <LinearLayout
                 android:id="@+id/book_button_container"
                 android:layout_width="match_parent"

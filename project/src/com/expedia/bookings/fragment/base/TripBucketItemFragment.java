@@ -73,7 +73,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private HeaderBitmapColorAveragedDrawable mHeaderBitmapDrawable;
 	private ColorDrawable mSoldOutSelectedOverlay;
 	private ColorDrawable mSoldOutUnSelectedOverlay;
-	protected ImageView mRemoveItemBtn;
 
 	private BreakdownDialogFragment mBreakdownFrag;
 
@@ -126,7 +125,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		mNameText = Ui.findView(mTopC, R.id.name_text_view);
 		mDurationText = Ui.findView(mTopC, R.id.trip_duration_text_view);
 		mBookingCompleteCheckImg = Ui.findView(mTopC, R.id.booking_complete_check);
-		mRemoveItemBtn = Ui.findView(mTopC, R.id.tripbucket_remove_btn);
 
 		mHeaderBitmapDrawable = new HeaderBitmapColorAveragedDrawable();
 		mHeaderBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
@@ -149,14 +147,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 
 		builder = new ColorBuilder(getResources().getColor(R.color.trip_bucket_sold_out_unselected));
 		mSoldOutUnSelectedOverlay = new ColorDrawable(builder.build());
-
-		mRemoveItemBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				IRemoveTBItemListener listener =(IRemoveTBItemListener) getActivity();
-				listener.tripBucketItemRemoved(getItem());
-			}
-		});
 
 		return mRootC;
 	}
@@ -234,7 +224,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			//refresh the state...
 			setState(mStateManager.getState());
 
-			mRemoveItemBtn.setVisibility(mIsOnCheckout ? View.GONE : View.VISIBLE);
 			mBookBtnText.setText(getBookButtonText());
 			mBookBtnContainer.setOnClickListener(getOnBookClickListener());
 			mSoldOutContainer.setOnClickListener(getOnBookClickListener());
