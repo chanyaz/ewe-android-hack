@@ -4,6 +4,9 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Typeface;
+import android.text.TextPaint;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.section.HotelSummarySection;
+import com.mobiata.android.util.ViewUtils;
 
 /**
  * Most of the functionality extends from HotelAdapter. This class
@@ -116,7 +120,6 @@ public class TabletHotelAdapter extends HotelAdapter {
 		return offset;
 	}
 
-	@TargetApi(11)
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
@@ -129,6 +132,18 @@ public class TabletHotelAdapter extends HotelAdapter {
 		section.setTranslationY(-estimateExpandableOffset(position));
 
 		return section;
+	}
+
+	@Override
+	public float determinePriceTextSize(String longestPrice) {
+		Resources r = mContext.getResources();
+		DisplayMetrics dm = r.getDisplayMetrics();
+		float defaultTextSize = r.getDimension(R.dimen.tablet_result_row_price_size) / dm.scaledDensity;
+		float maxViewWidthdp = r.getDimension(R.dimen.tablet_result_row_price_max_width) / dm.density;
+		TextPaint textPaint = new TextPaint();
+		textPaint.setTypeface(Typeface.DEFAULT);
+		return ViewUtils.getTextSizeForMaxLines(mContext, longestPrice, textPaint,
+			maxViewWidthdp, 1, defaultTextSize, 5);
 	}
 
 	public void collapseNewViewsBy(float percentage) {

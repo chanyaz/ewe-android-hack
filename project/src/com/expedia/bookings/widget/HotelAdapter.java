@@ -126,15 +126,18 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			OmnitureTracking.trackErrorPage(mContext, "FilteredToZeroResults");
 		}
 		else {
-			determinePriceTextSize(properties);
+			mPriceTextSize = determinePriceTextSize(properties);
 		}
 
 		return properties;
 	}
 
-	private void determinePriceTextSize(List<Property> properties) {
+	private float determinePriceTextSize(List<Property> properties) {
 		if (properties == null || properties.size() == 0) {
-			return;
+			Resources r = mContext.getResources();
+			DisplayMetrics dm = r.getDisplayMetrics();
+			float defaultTextSize = r.getDimension(R.dimen.hotel_row_price_text_size) / dm.scaledDensity;
+			return defaultTextSize;
 		}
 
 		String longestPrice = "";
@@ -148,15 +151,18 @@ public class HotelAdapter extends BaseAdapter implements OnMeasureListener {
 			}
 		}
 
-		// Determine the price text size based on longest price
+		return determinePriceTextSize(longestPrice);
+	}
+
+	public float determinePriceTextSize(String longestPrice) {
 		Resources r = mContext.getResources();
 		DisplayMetrics dm = r.getDisplayMetrics();
-		float maxTextSize = r.getDimension(R.dimen.hotel_row_price_text_size) / dm.scaledDensity;
+		float defaultTextSize = r.getDimension(R.dimen.hotel_row_price_text_size) / dm.scaledDensity;
 		float maxViewWidthdp = r.getDimension(R.dimen.hotel_row_price_text_view_max_width) / dm.density;
 		TextPaint textPaint = new TextPaint();
 		textPaint.setTypeface(Typeface.DEFAULT_BOLD);
-		mPriceTextSize = ViewUtils.getTextSizeForMaxLines(mContext, longestPrice, textPaint,
-				maxViewWidthdp, 1, maxTextSize, 5);
+		return ViewUtils.getTextSizeForMaxLines(mContext, longestPrice, textPaint,
+			maxViewWidthdp, 1, defaultTextSize, 5);
 	}
 
 	public void setShowDistance(boolean showDistance) {
