@@ -20,9 +20,8 @@
                 android:id="@+id/trip_bucket_flight_trip_swipeout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="@dimen/trip_bucket_swipe_out_distance_half"
                 app:swipeOutContentId="@+id/trip_bucket_flight_trip"
-                app:swipeOutDirection="west"
+                app:swipeOutDirection="east"
                 app:swipeOutIndicatorId="@+id/flight_swipe_out_indicator_image">
 
                 <FrameLayout
@@ -43,21 +42,20 @@
                 android:id="@+id/trip_bucket_hotel_trip_swipeout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="@dimen/trip_bucket_swipe_out_distance_half"
                 app:swipeOutContentId="@+id/trip_bucket_hotel_trip"
-                app:swipeOutDirection="west"
+                app:swipeOutDirection="east"
                 app:swipeOutIndicatorId="@+id/hotel_swipe_out_indicator_image">
 
                 <FrameLayout
                     android:id="@id/trip_bucket_hotel_trip"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="match_parent"/>
 
                 <ImageView
                     android:id="@id/hotel_swipe_out_indicator_image"
                     android:layout_width="@dimen/trip_bucket_swipe_out_distance"
                     android:layout_height="match_parent"
-                    android:background="#66000000"
+                    android:background="#ffff0000"
                     android:src="@drawable/ic_error_blue"/>
 
             </com.expedia.bookings.widget.SwipeOutLayout>

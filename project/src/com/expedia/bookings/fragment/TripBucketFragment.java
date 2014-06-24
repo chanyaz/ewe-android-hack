@@ -37,6 +37,8 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	private static final String FTAG_BUCKET_FLIGHT = "FTAG_BUCKET_FLIGHT";
 	private static final String FTAG_BUCKET_HOTEL = "FTAG_BUCKET_HOTEL";
 
+	private static final float BUCKET_ITEM_SWIPE_THRESHOLD = 0.75f;
+
 	private TripBucketFlightFragment mTripBucketFlightFrag;
 	private TripBucketHotelFragment mTripBucketHotelFrag;
 
@@ -61,7 +63,10 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		mFlightC = Ui.findView(view, R.id.trip_bucket_flight_trip_swipeout);
 
 		mHotelC.addListener(new TripBucketSwipeListener(LineOfBusiness.HOTELS));
+		mHotelC.setSwipeOutThresholdPercentage(BUCKET_ITEM_SWIPE_THRESHOLD);
 		mFlightC.addListener(new TripBucketSwipeListener(LineOfBusiness.FLIGHTS));
+		mFlightC.setSwipeOutThresholdPercentage(BUCKET_ITEM_SWIPE_THRESHOLD);
+
 
 		return view;
 	}
