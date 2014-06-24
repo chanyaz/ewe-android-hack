@@ -17,13 +17,6 @@
         android:layout_gravity="top"
         android:background="@drawable/bg_tablet_actionbar"/>
 
-    <!-- TRIP BUCKET -->
-    <com.expedia.bookings.widget.FrameLayoutTouchController
-        android:id="@+id/trip_bucket_container"
-        android:background="@color/trip_bucket_background_color"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <!-- FLIGHT LIST PLACEHOLDER FOR WHEN WE DONT HAVE ENOUGH FLIGHT DATA -->
     <include layout="@layout/include_tablet_search_missing_flight_info" />
 
@@ -36,6 +29,13 @@
 
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/full_width_hotels_controller_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- TRIP BUCKET -->
+    <com.expedia.bookings.widget.FrameLayoutTouchController
+        android:id="@+id/trip_bucket_container"
+        android:background="@color/trip_bucket_background_color"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

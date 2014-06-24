@@ -682,18 +682,35 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			mLastReportedHeight = totalHeight;
 
 			//Setup grid manager
-			mGrid.setGridSize(2, 5);
-			mGrid.setDimensions(totalWidth, totalHeight);
+			if (isLandscape) {
+				mGrid.setDimensions(totalWidth, totalHeight);
+				mGrid.setGridSize(2, 5);
 
-			int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
-			mGrid.setColumnSize(1, spacerSize);
-			mGrid.setColumnSize(3, spacerSize);
-			mGrid.setRowSize(1, getResources().getDimensionPixelSize(R.dimen.results_collapsed_row_height));
+				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
+				mGrid.setColumnSize(1, spacerSize);
+				mGrid.setColumnSize(3, spacerSize);
 
-			mGrid.setContainerToColumn(mTripBucketC, 4);
-			mGrid.setContainerToRow(mTripBucketC, 1);
-			mGrid.setContainerToColumn(mMissingFlightInfoC, 2);
-			mGrid.setContainerToRow(mMissingFlightInfoC, 1);
+				mGrid.setContainerToColumn(mTripBucketC, 4);
+				mGrid.setContainerToRow(mTripBucketC, 1);
+				mGrid.setContainerToColumn(mMissingFlightInfoC, 2);
+				mGrid.setContainerToRow(mMissingFlightInfoC, 1);
+			}
+			else {
+				mGrid.setDimensions(totalWidth, totalHeight);
+				mGrid.setGridSize(3, 3);
+
+				mGrid.setRowPercentage(1, .3f);
+				mGrid.setRowPercentage(2, .3f);
+
+				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
+				mGrid.setColumnSize(1, spacerSize);
+
+				mGrid.setContainerToRow(mMissingFlightInfoC, 1);
+				mGrid.setContainerToColumnSpan(mMissingFlightInfoC, 0, 2);
+
+				mGrid.setContainerToRow(mTripBucketC, 2);
+				mGrid.setContainerToColumnSpan(mTripBucketC, 0, 2);
+			}
 
 			for (IMeasurementListener listener : mMeasurementListeners) {
 				listener.onContentSizeUpdated(totalWidth, totalHeight, isLandscape);
