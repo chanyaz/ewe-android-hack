@@ -18,11 +18,14 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucket;
+import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.enums.TripBucketItemState;
+import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
+import com.expedia.bookings.widget.SwipeOutLayout;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -41,8 +44,8 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 
 	private ScrollView mScrollC;
 	private LinearLayout mContentC;
-	private ViewGroup mHotelC;
-	private ViewGroup mFlightC;
+	private SwipeOutLayout mHotelC;
+	private SwipeOutLayout mFlightC;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -54,8 +57,12 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		View view = inflater.inflate(R.layout.fragment_tripbucket, null, false);
 		mScrollC = Ui.findView(view, R.id.scroll_container);
 		mContentC = Ui.findView(view, R.id.content_container);
-		mHotelC = Ui.findView(view, R.id.trip_bucket_hotel_trip);
-		mFlightC = Ui.findView(view, R.id.trip_bucket_flight_trip);
+		mHotelC = Ui.findView(view, R.id.trip_bucket_hotel_trip_swipeout);
+		mFlightC = Ui.findView(view, R.id.trip_bucket_flight_trip_swipeout);
+
+		mHotelC.addListener(new TripBucketSwipeListener(LineOfBusiness.HOTELS));
+		mFlightC.addListener(new TripBucketSwipeListener(LineOfBusiness.FLIGHTS));
+
 		return view;
 	}
 
@@ -117,7 +124,6 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		transaction.commit();
 	}
 
-
 	/**
 	 * This method sets both containers to be invisible and adds our fragments (without binding) so they will be measured.
 	 */
@@ -175,6 +181,29 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		return new Rect();
 	}
 
+	private class TripBucketSwipeListener implements SwipeOutLayout.ISwipeOutListener {
+
+		private LineOfBusiness mLob;
+
+		public TripBucketSwipeListener(LineOfBusiness lob) {
+			mLob = lob;
+		}
+
+		@Override
+		public void onSwipeStateChange(int oldState, int newState) {
+		}
+
+		@Override
+		public void onSwipeUpdate(float percentage) {
+		}
+
+		@Override
+		public void onSwipeAllTheWay() {
+			TripBucketItemFragment.IRemoveTBItemListener listener =(TripBucketItemFragment.IRemoveTBItemListener) getActivity();
+			TripBucketItem item = (mLob == LineOfBusiness.FLIGHTS ? Db.getTripBucket().getFlight() : Db.getTripBucket().getHotel());
+			listener.tripBucketItemRemoved(item);
+		}
+	};
 
 	/*
 	 * MEASUREMENT LISTENER

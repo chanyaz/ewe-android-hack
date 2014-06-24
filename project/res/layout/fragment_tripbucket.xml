@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scroll_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/scroll_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/content_container"
@@ -15,17 +16,51 @@
         android:orientation="vertical"
         android:divider="@drawable/divider_trip_bucket">
 
-        <FrameLayout
-            android:id="@+id/trip_bucket_flight_trip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"/>
+            <com.expedia.bookings.widget.SwipeOutLayout
+                android:id="@+id/trip_bucket_flight_trip_swipeout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/trip_bucket_swipe_out_distance_half"
+                app:swipeOutContentId="@+id/trip_bucket_flight_trip"
+                app:swipeOutDirection="west"
+                app:swipeOutIndicatorId="@+id/flight_swipe_out_indicator_image">
 
-        <FrameLayout
-            android:id="@+id/trip_bucket_hotel_trip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"/>
+                <FrameLayout
+                    android:id="@id/trip_bucket_flight_trip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@id/flight_swipe_out_indicator_image"
+                    android:layout_width="@dimen/trip_bucket_swipe_out_distance"
+                    android:layout_height="match_parent"
+                    android:background="#66000000"
+                    android:src="@drawable/ic_error_blue"/>
+            </com.expedia.bookings.widget.SwipeOutLayout>
+
+
+            <com.expedia.bookings.widget.SwipeOutLayout
+                android:id="@+id/trip_bucket_hotel_trip_swipeout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/trip_bucket_swipe_out_distance_half"
+                app:swipeOutContentId="@+id/trip_bucket_hotel_trip"
+                app:swipeOutDirection="west"
+                app:swipeOutIndicatorId="@+id/hotel_swipe_out_indicator_image">
+
+                <FrameLayout
+                    android:id="@id/trip_bucket_hotel_trip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@id/hotel_swipe_out_indicator_image"
+                    android:layout_width="@dimen/trip_bucket_swipe_out_distance"
+                    android:layout_height="match_parent"
+                    android:background="#66000000"
+                    android:src="@drawable/ic_error_blue"/>
+
+            </com.expedia.bookings.widget.SwipeOutLayout>
     </LinearLayout>
 
 </ScrollView>
