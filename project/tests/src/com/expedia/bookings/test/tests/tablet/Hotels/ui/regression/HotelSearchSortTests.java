@@ -15,7 +15,6 @@ import com.expedia.bookings.test.tests.pageModels.tablet.SortFilter;
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 
-import static com.expedia.bookings.test.utils.EspressoUtils.slowSwipeUp;
 import static com.expedia.bookings.test.utilsEspresso.ViewActions.getRating;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 
@@ -55,7 +54,7 @@ public class HotelSearchSortTests extends ActivityInstrumentationTestCase2<Searc
 		Launch.clickDestinationEditText();
 		Launch.typeInDestinationEditText("Detroit, MI");
 		Launch.clickSuggestion("Detroit, MI");
-		Results.hotelList().perform(slowSwipeUp());
+		Results.swipeUpHotelList();
 	}
 
 	public void testSortByPrice() throws Exception {

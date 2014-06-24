@@ -7,6 +7,7 @@ import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
 import static com.expedia.bookings.test.utilsEspresso.ViewActions.getChildViewText;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
@@ -107,6 +108,10 @@ public class SortFilter {
 
 	public static void enterFilterText(String text) {
 		filterEditText().perform(typeText(text));
+	}
+
+	public static void clearFilterText() {
+		filterEditText().perform(clearText());
 	}
 
 }

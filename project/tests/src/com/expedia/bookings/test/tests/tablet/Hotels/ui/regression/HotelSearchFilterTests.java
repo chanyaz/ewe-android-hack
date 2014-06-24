@@ -15,9 +15,7 @@ import com.expedia.bookings.test.tests.pageModels.tablet.SortFilter;
 import com.expedia.bookings.test.utils.EspressoUtils;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 
-import static com.expedia.bookings.test.tests.pageModels.tablet.Common.pressBack;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 
 /**
@@ -48,7 +46,7 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Sea
 
 	// Filter by stars test
 
-	//	 Helper method for testing star filter
+	// Helper method for testing star filter
 	private void assertStarRatings(int minimumStarRating) throws Exception {
 		int currentHotelCount = EspressoUtils.getListCount(Results.hotelList());
 		for (int j = 1; j < currentHotelCount - 1; j++) {
@@ -59,7 +57,7 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Sea
 				String hotelName = EspressoUtils.getText(R.id.title);
 				throw new Exception("Star rating of hotel: " + hotelName + " is < " + minimumStarRating + " stars, despite the filter.");
 			}
-			pressBack();
+			Common.pressBack();
 		}
 	}
 
@@ -75,25 +73,25 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Sea
 
 		SortFilter.clickHotelSortFilterButton();
 		SortFilter.clickHighRatingFilterButton();
-		pressBack();
+		Common.pressBack();
 		assertStarRatings(5);
 
 		// 4+ star filter
 		SortFilter.clickHotelSortFilterButton();
 		SortFilter.clickMediumRatingFilterButton();
-		pressBack();
+		Common.pressBack();
 		assertStarRatings(4);
 
 		// 3+ star filter
 		SortFilter.clickHotelSortFilterButton();
 		SortFilter.clickLowRatingFilterButton();
-		pressBack();
+		Common.pressBack();
 		assertStarRatings(3);
 
 		// All star filter
 		SortFilter.clickHotelSortFilterButton();
 		SortFilter.clickAllRatingFilterButton();
-		pressBack();
+		Common.pressBack();
 
 		int currentHotelCount = EspressoUtils.getListCount(Results.hotelList());
 
@@ -115,13 +113,13 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Sea
 		Results.swipeUpHotelList();
 		SortFilter.clickHotelSortFilterButton();
 		SortFilter.clickVIPAccessFilterButton();
-		pressBack();
+		Common.pressBack();
 
 		int currentHotelCount = EspressoUtils.getListCount(Results.hotelList()) - 1;
 		for (int j = 1; j < currentHotelCount; j = j + 1) {
 			Results.clickHotelAtIndex(j);
 			Common.checkDisplayed(SortFilter.vipImageView());
-			pressBack();
+			Common.pressBack();
 		}
 	}
 
@@ -154,17 +152,17 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Sea
 		Results.swipeUpHotelList();
 		SortFilter.clickHotelSortFilterButton();
 		SortFilter.clickLargeRadiusFilterButton();
-		pressBack();
+		Common.pressBack();
 		assertHotelDistances(HotelFilter.SearchRadius.LARGE.getRadius(Distance.DistanceUnit.MILES));
 
 		SortFilter.clickHotelSortFilterButton();
 		SortFilter.clickMediumRadiusFilterButton();
-		pressBack();
+		Common.pressBack();
 		assertHotelDistances(HotelFilter.SearchRadius.MEDIUM.getRadius(Distance.DistanceUnit.MILES));
 
 		SortFilter.clickHotelSortFilterButton();
 		SortFilter.clickSmallRadiusFilterButton();
-		pressBack();
+		Common.pressBack();
 		assertHotelDistances(HotelFilter.SearchRadius.SMALL.getRadius(Distance.DistanceUnit.MILES));
 	}
 
@@ -207,10 +205,10 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Sea
 		for (int i = 0; i < FILTER_STRINGS.length; i++) {
 			String filterString = FILTER_STRINGS[i];
 			SortFilter.clickHotelSortFilterButton();
-			SortFilter.filterEditText().perform(clearText());
+			SortFilter.clearFilterText();
 			SortFilter.enterFilterText(filterString);
 			Common.closeSoftKeyboard(SortFilter.filterEditText());
-			pressBack();
+			Common.pressBack();
 			assertHotelTitlesContains(filterString);
 		}
 	}
