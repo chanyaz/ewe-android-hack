@@ -32,7 +32,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.ColorBuilder;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.TextView;
-import com.mobiata.android.util.Ui;
+import com.expedia.bookings.utils.Ui;
 
 /**
  * TripBucketItemFragment: Tablet 2014
@@ -165,7 +165,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	public void onResume() {
 		super.onResume();
 		Events.register(this);
-		com.expedia.bookings.utils.Ui.runOnNextLayout(getView(),new Runnable() {
+		Ui.runOnNextLayout(getView(),new Runnable() {
 			@Override
 			public void run() {
 				refreshBucketItem();
