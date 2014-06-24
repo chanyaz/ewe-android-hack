@@ -699,14 +699,14 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mGrid.setDimensions(totalWidth, totalHeight);
 				mGrid.setGridSize(3, 3);
 
-				mGrid.setRowPercentage(1, .3f);
-				mGrid.setRowPercentage(2, .3f);
+				mGrid.setRowPercentage(1, .4f);
+				mGrid.setRowPercentage(2, .2f);
 
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
 				mGrid.setColumnSize(1, spacerSize);
 
 				mGrid.setContainerToRow(mMissingFlightInfoC, 1);
-				mGrid.setContainerToColumnSpan(mMissingFlightInfoC, 0, 2);
+				mGrid.setContainerToColumn(mMissingFlightInfoC, 2);
 
 				mGrid.setContainerToRow(mTripBucketC, 2);
 				mGrid.setContainerToColumnSpan(mTripBucketC, 0, 2);

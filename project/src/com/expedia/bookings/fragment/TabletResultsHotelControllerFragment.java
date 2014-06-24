@@ -621,6 +621,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	}
 
+	private void updateListSpacer(ResultsHotelListFragment listFrag) {
+		if (listFrag != null && mGrid.getTotalWidth() > 0) {
+			float spacerPercentage = mGrid.isLandscape() ? .5f : .4f;
+			listFrag.getListView().setTopSpacePercentage(spacerPercentage);
+		}
+	}
+
 	private void updateMapFragmentPositioningInfo(HotelMapFragment mapFrag) {
 		if (mapFrag != null && mGrid.getTotalWidth() > 0) {
 			mapFrag.setResultsViewWidth(mGrid.getColWidth(0));
@@ -920,7 +927,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
-			if (isLandscape || true) {
+			if (isLandscape) {
 				mGrid.setDimensions(totalWidth, totalHeight);
 
 				//3 rows (AB,top half, bottom half)
@@ -929,7 +936,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 				//The top row matches the height of the actionbar
 				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
-				mGrid.setRowPercentage(2, 0.5f);
+				mGrid.setRowPercentage(2, GridManager.TABLET_RESULTS_CONTENT_VERTICAL_SPACE_LANDSCAPE);
 
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
 				mGrid.setColumnSize(1, spacerSize);
@@ -961,8 +968,45 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				updateMapFragmentPositioningInfo(mMapFragment);
 			}
 			else {
+				mGrid.setDimensions(totalWidth, totalHeight);
 
+				//3 rows (AB,top half, bottom half)
+				//5 columns - left, spacer,center,spacer,right
+				mGrid.setGridSize(3, 3);
+
+				//The top row matches the height of the actionbar
+				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
+				mGrid.setRowPercentage(2, GridManager.TABLET_RESULTS_CONTENT_VERTICAL_SPACE_PORTRAIT);
+
+				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
+				mGrid.setColumnSize(1, spacerSize);
+
+				//Tell all of the containers where they belong
+				mGrid.setContainerToColumn(mLoadingC, 0);
+				mGrid.setContainerToColumn(mSearchErrorC, 0);
+				mGrid.setContainerToColumn(mHotelListC, 0);
+				mGrid.setContainerToColumn(mHotelFiltersC, 2);
+				mGrid.setContainerToColumn(mHotelFilteredCountC, 2);
+				mGrid.setContainerToColumnSpan(mBgHotelMapC, 0, 2);
+				mGrid.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 2);
+				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 0, 2);
+				mGrid.setContainerToColumnSpan(mHotelReviewsC, 0, 2);
+
+				//All of the views except for the map sit below the action bar
+				mGrid.setContainerToRow(mLoadingC, 2);
+				mGrid.setContainerToRow(mSearchErrorC, 2);
+				mGrid.setContainerToRowSpan(mHotelListC, 1, 2);
+				mGrid.setContainerToRowSpan(mHotelFiltersC, 1, 2);
+				mGrid.setContainerToRowSpan(mHotelFilteredCountC, 1, 2);
+				mGrid.setContainerToRowSpan(mBgHotelMapC, 0, 2);
+				mGrid.setContainerToRowSpan(mBgHotelMapTouchDelegateC, 0, 2);
+				mGrid.setContainerToRowSpan(mHotelRoomsAndRatesC, 1, 2);
+				mGrid.setContainerToRowSpan(mHotelReviewsC, 1, 2);
+
+				//tell the map where its bounds are
+				updateMapFragmentPositioningInfo(mMapFragment);
 			}
+			updateListSpacer(mHotelListFrag);
 		}
 
 	};

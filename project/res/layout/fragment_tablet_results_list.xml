@@ -18,7 +18,6 @@
         android:listSelector="@android:color/transparent"
         android:scrollbars="none"
         app:footerSpacerColor="@color/tablet_white_pane_bg"
-        app:headerSpacePercentage="0.5"
         app:headerSpacerColor="@android:color/transparent" />
 
     <!-- Empty List View -->

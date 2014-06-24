@@ -24,6 +24,7 @@ import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.enums.ResultsFlightLegState;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsState;
+import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IStateListener;
@@ -553,7 +554,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 		@Override
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
-			if (isLandscape || true) {
+			if (isLandscape) {
 				mGrid.setDimensions(totalWidth, totalHeight);
 
 				mGrid.setGridSize(3, 5);
@@ -562,7 +563,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
 
 				//The bottom row
-				mGrid.setRowPercentage(2, .50f);
+				mGrid.setRowPercentage(2, GridManager.TABLET_RESULTS_CONTENT_VERTICAL_SPACE_LANDSCAPE);
 
 				//These columns are just the spacers between content columns
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
@@ -584,7 +585,33 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				updateMapFragSizes(mFlightMapFrag);
 			}
 			else {
+				mGrid.setDimensions(totalWidth, totalHeight);
 
+				mGrid.setGridSize(3, 3);
+
+				//The top row matches the height of the actionbar
+				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
+
+				//The bottom row
+				mGrid.setRowPercentage(2, GridManager.TABLET_RESULTS_CONTENT_VERTICAL_SPACE_PORTRAIT);
+
+				//These columns are just the spacers between content columns
+				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
+				mGrid.setColumnSize(1, spacerSize);
+
+				//Horizontal alignment
+				mGrid.setContainerToColumnSpan(mFlightMapC, 0, 2);
+				mGrid.setContainerToColumn(mLoadingC, 2);
+				mGrid.setContainerToColumn(mSearchErrorC, 2);
+				mGrid.setContainerToColumnSpan(mFlightLegsC, 0, 2);
+
+				//Special cases
+				mGrid.setContainerToRowSpan(mFlightMapC, 0, 2);
+				mGrid.setContainerToRow(mLoadingC, 2);
+				mGrid.setContainerToRow(mSearchErrorC, 2);
+
+				//Frag stuff
+				updateMapFragSizes(mFlightMapFrag);
 			}
 		}
 

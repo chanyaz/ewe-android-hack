@@ -1115,6 +1115,13 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	 * Fragment Helpers
 	 */
 
+	private void updateListSpacer(ResultsFlightListFragment listFrag) {
+		if (listFrag != null && mGrid.getTotalWidth() > 0) {
+			float spacerPercentage = mGrid.isLandscape() ? .5f : .4f;
+			listFrag.getListView().setTopSpacePercentage(spacerPercentage);
+		}
+	}
+
 	private void updateDetailsFragSizes(ResultsFlightDetailsFragment frag) {
 		if (frag != null && mGrid.getTotalWidth() > 0) {
 			int actionbarHeight = getActivity().getActionBar().getHeight();
@@ -1143,7 +1150,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		@Override
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
-			if (isLandscape || true) {
+			if (isLandscape) {
 				mGrid.setDimensions(totalWidth, totalHeight);
 				mGrid.setGridSize(3, 5);
 
@@ -1151,7 +1158,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
 
 				//The bottom row
-				mGrid.setRowPercentage(2, .50f);
+				mGrid.setRowPercentage(2, GridManager.TABLET_RESULTS_CONTENT_VERTICAL_SPACE_LANDSCAPE);
 
 				//These columns are just the spacers between content columns
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
@@ -1173,6 +1180,36 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				//Frag stuff
 				updateDetailsFragSizes(mDetailsFrag);
 			}
+			else {
+				mGrid.setDimensions(totalWidth, totalHeight);
+				mGrid.setGridSize(3, 3);
+
+				//The top row matches the height of the actionbar
+				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
+
+				//The bottom row
+				mGrid.setRowPercentage(2, GridManager.TABLET_RESULTS_CONTENT_VERTICAL_SPACE_PORTRAIT);
+
+				//These columns are just the spacers between content columns
+				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
+				mGrid.setColumnSize(1, spacerSize);
+
+				//Horizontal alignment
+				mGrid.setContainerToColumn(mFiltersC, 0);
+				mGrid.setContainerToColumn(mListColumnC, 2);
+				mGrid.setContainerToColumnSpan(mDetailsC, 0, 2);
+
+				//Vertical alignment
+
+				//Most content sits in rows 1 and 2 (below the actionbar)
+				mGrid.setContainerToRowSpan(mFiltersC, 1, 2);
+				mGrid.setContainerToRowSpan(mListColumnC, 1, 2);
+				mGrid.setContainerToRowSpan(mDetailsC, 1, 2);
+
+				//Frag stuff
+				updateDetailsFragSizes(mDetailsFrag);
+			}
+			updateListSpacer(mListFrag);
 		}
 	};
 
