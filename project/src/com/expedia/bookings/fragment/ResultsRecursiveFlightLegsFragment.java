@@ -1125,8 +1125,16 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	private void updateDetailsFragSizes(ResultsFlightDetailsFragment frag) {
 		if (frag != null && mGrid.getTotalWidth() > 0) {
 			int actionbarHeight = getActivity().getActionBar().getHeight();
-			int leftCol = 2;
-			int rightCol = 4;
+
+			int leftCol, rightCol;
+			if (mGrid.isLandscape()) {
+				leftCol = 2;
+				rightCol = 4;
+			}
+			else {
+				leftCol = 0;
+				rightCol = 2;
+			}
 
 			Rect position = new Rect();
 			position.left = mGrid.getColLeft(leftCol);
@@ -1137,7 +1145,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		}
 
 		if (frag != null && mListFrag != null && mListFrag.hasList()) {
-			FruitList list = (FruitList) mListFrag.getListView();
+			FruitList list = mListFrag.getListView();
 			frag.setDetaultRowDimensions(mGrid.getColWidth(1), list.getRowHeight(false));
 		}
 	}
