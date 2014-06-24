@@ -165,7 +165,12 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	public void onResume() {
 		super.onResume();
 		Events.register(this);
-		refreshBucketItem();
+		com.expedia.bookings.utils.Ui.runOnNextLayout(getView(),new Runnable() {
+			@Override
+			public void run() {
+				refreshBucketItem();
+			}
+		});
 	}
 
 	@Override
