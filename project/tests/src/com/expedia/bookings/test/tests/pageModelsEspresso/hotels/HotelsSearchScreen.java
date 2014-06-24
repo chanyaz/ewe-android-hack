@@ -3,6 +3,8 @@ package com.expedia.bookings.test.tests.pageModelsEspresso.hotels;
 import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
 
+import android.app.Activity;
+
 import static com.expedia.bookings.test.utilsEspresso.ViewActions.clickDates;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
@@ -16,7 +18,6 @@ import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.not;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
@@ -209,7 +210,7 @@ public class HotelsSearchScreen extends ScreenActions {
 		hotelResultsListView().perform(click());
 	}
 
-	public static void clickSuggestion(SearchActivity activity, String city) {
+	public static void clickSuggestion(Activity activity, String city) {
 		onView(withText(city)).inRoot(withDecorView(not(CoreMatchers.is(activity.getWindow().getDecorView())))).perform(click());
 	}
 }

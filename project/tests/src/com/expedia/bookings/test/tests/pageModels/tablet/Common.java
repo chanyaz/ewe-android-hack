@@ -1,6 +1,9 @@
 package com.expedia.bookings.test.tests.pageModels.tablet;
 
+import android.app.Instrumentation;
+
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.google.android.apps.common.testing.ui.espresso.Espresso;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
@@ -34,6 +37,14 @@ public class Common {
 
 	public static void enterLog(String TAG, String logText) {
 		android.util.Log.v(TAG, logText);
+	}
+
+	public static boolean isTablet(Instrumentation inst) {
+		return ExpediaBookingApp.useTabletInterface(inst.getTargetContext());
+	}
+
+	public static boolean isPhone(Instrumentation inst) {
+		return !isTablet(inst);
 	}
 
 	public static void pressBack() {

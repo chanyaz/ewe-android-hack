@@ -1,11 +1,7 @@
-package com.expedia.bookings.test.tests.full;
+package com.expedia.bookings.test.happy;
 
 import org.joda.time.LocalDate;
 
-import android.test.ActivityInstrumentationTestCase2;
-
-import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.pageModels.tablet.Common;
 import com.expedia.bookings.test.tests.pageModels.tablet.Settings;
 import com.expedia.bookings.test.tests.pageModelsEspresso.common.BillingAddressScreen;
@@ -24,29 +20,10 @@ import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsConfirmat
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsDetailsScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsRoomsRatesScreen;
 import com.expedia.bookings.test.tests.pageModelsEspresso.hotels.HotelsSearchScreen;
+import com.expedia.bookings.test.utils.PhoneTestCase;
 
-public class PhoneHappyPath extends ActivityInstrumentationTestCase2<SearchActivity> {
-
-	public PhoneHappyPath() {
-		super(SearchActivity.class);
-	}
-
-	@Override
-	public void runTest() throws Throwable {
-		// These tests are only applicable to phones
-		if (!ExpediaBookingApp.useTabletInterface(getInstrumentation().getTargetContext())) {
-			Settings.clearPrivateData(getInstrumentation());
-			// Point to the mock server
-			Settings.setCustomServer(getInstrumentation(), "mocke3.mobiata.com");
-
-			// Espresso will not launch our activity for us, we must launch it via getActivity().
-			getActivity();
-
-			super.runTest();
-		}
-	}
-
-	public void testBookFlight() throws InterruptedException {
+public class PhoneHappyPath extends PhoneTestCase {
+	public void testBookFlight() throws Throwable {
 		LaunchScreen.launchFlights();
 		FlightsSearchScreen.enterDepartureAirport("LAX");
 		FlightsSearchScreen.enterArrivalAirport("SFO");
@@ -99,7 +76,7 @@ public class PhoneHappyPath extends ActivityInstrumentationTestCase2<SearchActiv
 		FlightsConfirmationScreen.clickDoneButton();
 	}
 
-	public void testBookHotel() throws InterruptedException {
+	public void testBookHotel() throws Throwable {
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
@@ -139,14 +116,5 @@ public class PhoneHappyPath extends ActivityInstrumentationTestCase2<SearchActiv
 		CVVEntryScreen.parseAndEnterCVV("111");
 		CVVEntryScreen.clickBookButton();
 		HotelsConfirmationScreen.clickDoneButton();
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		super.tearDown();
-		// These tests are only applicable to phones
-		if (!ExpediaBookingApp.useTabletInterface(getInstrumentation().getTargetContext())) {
-			Common.pressBackOutOfApp();
-		}
 	}
 }
