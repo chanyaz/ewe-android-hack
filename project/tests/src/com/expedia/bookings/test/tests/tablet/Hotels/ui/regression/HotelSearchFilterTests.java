@@ -16,7 +16,6 @@ import com.expedia.bookings.test.utils.EspressoUtils;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 
 import static com.expedia.bookings.test.tests.pageModels.tablet.Common.pressBack;
-import static com.expedia.bookings.test.utils.EspressoUtils.slowSwipeUp;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
@@ -69,7 +68,7 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Sea
 		Launch.clickDestinationEditText();
 		Launch.typeInDestinationEditText("Detroit, MI");
 		Launch.clickSuggestion("Detroit, MI");
-		Results.hotelList().perform(slowSwipeUp());
+		Results.swipeUpHotelList();
 
 		// Five star filter
 		int initialHotelCount = EspressoUtils.getListCount(Results.hotelList());
@@ -113,7 +112,7 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Sea
 		Launch.clickDestinationEditText();
 		Launch.typeInDestinationEditText("Detroit, MI");
 		Launch.clickSuggestion("Detroit, MI");
-		Results.hotelList().perform(slowSwipeUp());
+		Results.swipeUpHotelList();
 		SortFilter.clickHotelSortFilterButton();
 		SortFilter.clickVIPAccessFilterButton();
 		pressBack();
@@ -152,7 +151,7 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Sea
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
 		Launch.clickSuggestion("Current Location");
-		Results.hotelList().perform(slowSwipeUp());
+		Results.swipeUpHotelList();
 		SortFilter.clickHotelSortFilterButton();
 		SortFilter.clickLargeRadiusFilterButton();
 		pressBack();
@@ -203,7 +202,7 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Sea
 		Launch.clickDestinationEditText();
 		Launch.typeInDestinationEditText("Detroit, MI");
 		Launch.clickSuggestion("Detroit, MI");
-		Results.hotelList().perform(slowSwipeUp());
+		Results.swipeUpHotelList();
 
 		for (int i = 0; i < FILTER_STRINGS.length; i++) {
 			String filterString = FILTER_STRINGS[i];
@@ -219,7 +218,7 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Sea
 	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
-		// These tests are only applicable to phones
+		// These tests are only applicable to tablets
 		if (ExpediaBookingApp.useTabletInterface(getInstrumentation().getTargetContext())) {
 			Common.pressBackOutOfApp();
 		}

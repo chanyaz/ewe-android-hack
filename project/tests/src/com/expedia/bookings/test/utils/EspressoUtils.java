@@ -30,7 +30,7 @@ public class EspressoUtils {
 	}
 
 	public static ViewAction slowSwipeUp() {
-		return new GeneralSwipeAction(Swipe.SLOW, GeneralLocation.CENTER,
+		return new GeneralSwipeAction(Swipe.SLOW, GeneralLocation.BOTTOM_CENTER,
 			GeneralLocation.TOP_CENTER, Press.FINGER);
 	}
 

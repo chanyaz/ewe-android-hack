@@ -12,6 +12,7 @@ import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 import com.google.android.apps.common.testing.ui.espresso.matcher.BoundedMatcher;
 import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
+import static com.expedia.bookings.test.utils.EspressoUtils.slowSwipeUp;
 import static com.expedia.bookings.test.utils.EspressoUtils.swipeUp;
 import static com.expedia.bookings.test.utils.ViewActions.clickDates;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
@@ -51,7 +52,14 @@ public class Results {
 	}
 
 	public static void swipeUpHotelList() {
-		hotelList().perform(swipeUp());
+		onView(withId(R.id.column_one_hotel_list)).perform(slowSwipeUp());
+		// FIXME: OMG I HATE SLEEPS BUT WE NEED THIS FOR NOW
+		try {
+			Thread.sleep(1500);
+		}
+		catch (Exception e) {
+			// ignore
+		}
 	}
 
 	public static void swipeUpFlightList() {
