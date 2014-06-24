@@ -719,8 +719,10 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			mListColumnC.setTranslationX(0f);
 		}
 		else {
-			mFiltersC.setTranslationX(percentage * -mGrid.getColRight(0));
-			mListColumnC.setTranslationX(percentage * -mGrid.getColLeft(2));
+			// for landscape we shift the the columns over by one, for portrait we need to shift by two
+			int translateMultiplier = mGrid.isLandscape() ? -1 : -2;
+			mFiltersC.setTranslationX(percentage * translateMultiplier * mGrid.getColRight(0));
+			mListColumnC.setTranslationX(percentage * translateMultiplier * mGrid.getColLeft(2));
 			if (mDetailsFrag != null) {
 				int slideInDistance = mGrid.getColSpanWidth(1, 4);
 				mDetailsFrag.setDetailsSlideInAnimationState(percentage, slideInDistance, true);
