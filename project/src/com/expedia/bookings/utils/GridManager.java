@@ -9,6 +9,9 @@ import android.widget.FrameLayout;
 
 public class GridManager {
 
+	public static final float TABLET_RESULTS_CONTENT_VERTICAL_SPACE_LANDSCAPE = .50f;
+	public static final float TABLET_RESULTS_CONTENT_VERTICAL_SPACE_PORTRAIT = .60f;
+
 	private GridAxis mRows;
 	private GridAxis mCols;
 

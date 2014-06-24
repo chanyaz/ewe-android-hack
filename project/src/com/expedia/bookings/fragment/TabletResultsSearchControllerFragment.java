@@ -1005,11 +1005,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private MeasurementHelper mMeasurementHelper = new MeasurementHelper() {
 		@Override
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
-			if (isLandscape || true) {
+			if (isLandscape) {
 				mGrid.setDimensions(totalWidth, totalHeight);
-				mGrid.setNumRows(
-					5);// 1 - 4 = top half, 5 = bottom half, 1 = AB, 2 = space, 3 = AB height above 4, 4 = AB (down)
-				mGrid.setNumCols(5);//3 columns, 2 spacers
+				mGrid.setNumRows(5); // 1 - 4 = top half, 5 = bottom half, 1 = AB, 2 = space, 3 = AB height above 4, 4 = AB (down)
+				mGrid.setNumCols(5); // 3 columns, 2 spacers
 
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
 				mGrid.setColumnSize(1, spacerSize);
@@ -1018,7 +1017,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
 				mGrid.setRowSize(2, getActivity().getActionBar().getHeight());
 				mGrid.setRowSize(3, getActivity().getActionBar().getHeight());
-				mGrid.setRowPercentage(4, .50f);
+				mGrid.setRowPercentage(4, GridManager.TABLET_RESULTS_CONTENT_VERTICAL_SPACE_LANDSCAPE);
 
 				mGrid.setContainerToRow(mSearchBarC, 3);
 				mGrid.setContainerToRow(mSearchActionsC, 2);
@@ -1029,7 +1028,27 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mGrid.setContainerToColumn(mBottomCenterC, 2);
 			}
 			else {
+				mGrid.setDimensions(totalWidth, totalHeight);
 
+				mGrid.setNumRows(5);
+				mGrid.setNumCols(3); // 2 columns, 1 spacer
+
+				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
+				mGrid.setColumnSize(1, spacerSize);
+
+				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
+				mGrid.setRowSize(2, getActivity().getActionBar().getHeight());
+				mGrid.setRowSize(3, getActivity().getActionBar().getHeight());
+				mGrid.setRowPercentage(4, GridManager.TABLET_RESULTS_CONTENT_VERTICAL_SPACE_PORTRAIT);
+
+				mGrid.setContainerToRow(mSearchActionsC, 2);
+				mGrid.setContainerToRow(mSearchBarC, 3);
+				mGrid.setContainerToRowSpan(mWaypointC, 0, 4);
+				mGrid.setContainerToRow(mBottomRightC, 4);
+				mGrid.setContainerToColumn(mBottomRightC, 2);
+
+				mGrid.setContainerToRow(mBottomCenterC, 4);
+				mGrid.setContainerToColumn(mBottomCenterC, 0);
 			}
 		}
 	};
