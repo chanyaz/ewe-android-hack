@@ -52,11 +52,11 @@
     <dimen name="results_collapsed_row_height">284dp</dimen>
     <dimen name="results_top_gradient_height">144dp</dimen>
 
-    <dimen name="results_flight_histogram_horizontal_padding">16dp</dimen>
+    <dimen name="results_flight_histogram_horizontal_padding">30dp</dimen>
     <dimen name="results_flight_histogram_vertical_padding">10dp</dimen>
-    <dimen name="results_flight_histogram_price_horizontal_margin">10dp</dimen>
+    <dimen name="results_flight_histogram_price_horizontal_margin">25dp</dimen>
     <dimen name="results_flight_histogram_vertical_margin">6dp</dimen>
-    <dimen name="results_flight_histogram_horizontal_margin">12dp</dimen>
+    <dimen name="results_flight_histogram_horizontal_margin">@dimen/hotel_flight_card_padding_x</dimen>
 
     <dimen name="tablet_hotel_details_vertical_padding">64dp</dimen>
     <fraction name="tablet_hotel_details_horizontal_spacing_percentage">14%</fraction>
@@ -113,8 +113,8 @@
     <!-- Hotel/Flight/Tripbucket Card dimensions -->
     <dimen name="hotel_flight_card_height">120dp</dimen>
     <dimen name="hotel_flight_card_height_with_padding">132dp</dimen>
-    <dimen name="hotel_flight_card_width">352dp</dimen>
-    <dimen name="hotel_flight_card_padding_x">12dp</dimen>
+    <dimen name="hotel_flight_card_width">263dp</dimen>
+    <dimen name="hotel_flight_card_padding_x">27dp</dimen>
     <dimen name="hotel_flight_card_padding_y">6dp</dimen>
     <dimen name="tripbucket_bookbutton_height">40dp</dimen>
     <dimen name="trip_bucket_primary_dest_size">46dp</dimen>
