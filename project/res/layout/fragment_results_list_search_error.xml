@@ -6,10 +6,11 @@
     android:background="#FFFFFF"
     android:orientation="vertical">
 
-    <ImageView
+    <com.larvalabs.svgandroid.widget.SVGView
         android:id="@+id/search_error_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="@dimen/tablet_empty_search_result_svg_width"
+        android:layout_height="@dimen/tablet_empty_search_result_svg_height"
+        app:zoomMode="fitDocument" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/error_tv"

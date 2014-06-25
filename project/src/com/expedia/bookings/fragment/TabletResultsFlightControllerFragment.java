@@ -325,7 +325,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			frag = ResultsRecursiveFlightLegsFragment.newInstance(0);
 		}
 		else if (tag == FTAG_FLIGHT_SEARCH_ERROR) {
-			frag = ResultsListSearchErrorFragment.newInstance(getString(R.string.tablet_search_results_flights_unavailable), R.drawable.ic_tablet_sold_out_flight);
+			frag = ResultsListSearchErrorFragment.newInstance(getString(R.string.tablet_search_results_flights_unavailable), R.raw.ic_tablet_sold_out_flight);
 		}
 
 		return frag;

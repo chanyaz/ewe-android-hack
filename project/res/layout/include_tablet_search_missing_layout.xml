@@ -11,10 +11,11 @@
     android:paddingLeft="24dp"
     android:paddingRight="24dp">
 
-    <ImageView
+    <com.larvalabs.svgandroid.widget.SVGView
         android:id="@+id/missing_search_result_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="@dimen/tablet_empty_search_result_svg_width"
+        android:layout_height="@dimen/tablet_empty_search_result_svg_height"
+        app:zoomMode="fitDocument" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/missing_search_result_text"

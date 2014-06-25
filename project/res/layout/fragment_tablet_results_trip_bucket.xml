@@ -39,11 +39,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <ImageView
+                <com.larvalabs.svgandroid.widget.SVGView
                     android:id="@+id/empty_bucket_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_tablet_trip_bucket_suitcase" />
+                    android:layout_width="67dp"
+                    android:layout_height="52dp"
+                    app:src="@raw/ic_tablet_trip_bucket_suitcase"
+                    app:zoomMode="fitDocument" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/empty_bucket_tv"

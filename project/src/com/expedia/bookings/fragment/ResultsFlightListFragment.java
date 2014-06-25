@@ -225,7 +225,7 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 
 	@Override
 	protected int getEmptyListImageResource() {
-		return R.drawable.ic_tablet_sold_out_flight;
+		return R.raw.ic_tablet_sold_out_flight;
 	}
 
 }

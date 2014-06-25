@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
+import com.larvalabs.svgandroid.widget.SVGView;
 
 /**
  * ResultsListSearchErrorFragment for Tablet
@@ -26,7 +27,7 @@ public class ResultsListSearchErrorFragment extends Fragment {
 
 	private View mRootC;
 	private TextView mErrorTv;
-	private ImageView mErrorImageView;
+	private SVGView mErrorImageView;
 	private String mErrorText;
 	private int mErrorImageResId;
 
@@ -82,7 +83,7 @@ public class ResultsListSearchErrorFragment extends Fragment {
 	public void setErrorImage(int resId) {
 		mErrorImageResId = resId;
 		if (mErrorImageView != null) {
-			mErrorImageView.setBackgroundResource(resId);
+			mErrorImageView.setSVG(resId);
 		}
 	}
 }

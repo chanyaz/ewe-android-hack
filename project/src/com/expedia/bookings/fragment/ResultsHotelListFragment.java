@@ -305,7 +305,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 
 	@Override
 	protected int getEmptyListImageResource() {
-		return R.drawable.ic_tablet_sold_out_hotel;
+		return R.raw.ic_tablet_sold_out_hotel;
 	}
 
 	public void onHotelSelected() {

@@ -25,6 +25,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.FruitList;
 import com.expedia.bookings.widget.TextView;
+import com.larvalabs.svgandroid.widget.SVGView;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -41,7 +42,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	private TextView mStickyHeaderTv;
 	private TextView mTopRightTextButton;
 	private TextView mEmptyListTextView;
-	private ImageView mEmptyListImageView;
+	private SVGView mEmptyListImageView;
 
 	private CharSequence mStickyHeaderText = "";
 	private CharSequence mTopRightTextButtonText = "";
@@ -84,7 +85,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		mEmptyListImageView = Ui.findView(view, R.id.missing_search_result_image);
 
 		mEmptyListTextView.setText(getEmptyListText());
-		mEmptyListImageView.setBackgroundResource(getEmptyListImageResource());
+		mEmptyListImageView.setSVG(getEmptyListImageResource());
 
 		mStickyHeaderTv.setText(mStickyHeaderText);
 		mTopRightTextButton.setText(mTopRightTextButtonText);
