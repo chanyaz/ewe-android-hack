@@ -86,7 +86,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 				setTopSpacePixels(a.getDimension(R.styleable.FruitList_headerSpaceSize, mTopSpacerPixels));
 			}
 			else {
-				setTopSpacePercentage(a.getFloat(R.styleable.FruitList_headerSpacePercentage, mTopSpacerPercentage));
+				setTopSpacePercentage(a.getFraction(R.styleable.FruitList_headerSpacePercentage, 1, 1, mTopSpacerPercentage));
 			}
 			a.recycle();
 		}

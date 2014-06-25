@@ -360,7 +360,7 @@
     <declare-styleable name="FruitList">
         <attr name="headerSpacerColor" format="reference|color" />
         <attr name="footerSpacerColor" format="reference|color" />
-        <attr name="headerSpacePercentage" format="float" />
+        <attr name="headerSpacePercentage" format="fraction" />
         <attr name="headerSpaceSize" format="dimension|reference" />
     </declare-styleable>
 
