@@ -12,6 +12,7 @@ import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
@@ -54,6 +55,7 @@ public class SwipeOutLayout extends FrameLayout {
 	private Direction mSwipeDirection = Direction.NORTH;
 	private boolean mSwipeEnabled = false;
 	private boolean mAlwaysSnapBack = true;
+	private float mTouchSlop;
 
 	private SwipeOutTouchListener mTouchListener;
 
@@ -94,6 +96,7 @@ public class SwipeOutLayout extends FrameLayout {
 
 			ta.recycle();
 		}
+		mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
 		mTouchListener = new SwipeOutTouchListener(context);
 	}
 
@@ -363,6 +366,10 @@ public class SwipeOutLayout extends FrameLayout {
 			mGesDet = new GestureDetector(context, mListener);
 		}
 
+		public void setHasDown(boolean hasDown) {
+			mHasDown = hasDown;
+		}
+
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 			//If swiping out is disabled, we ignore touch events
@@ -471,5 +478,34 @@ public class SwipeOutLayout extends FrameLayout {
 			}
 		}
 
+	}
+
+	private float mStartX, mStartY;
+
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		switch (ev.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			mStartX = ev.getX();
+			mStartY = ev.getY();
+			mTouchListener.setHasDown(true);
+			break;
+
+		// Once we're moving, don't pass events to the children if the touch
+		// is within the bounds of system-defined, acceptable touch slop.
+		case MotionEvent.ACTION_MOVE:
+			float x = ev.getX();
+			float y = ev.getY();
+			float xDeltaTotal = Math.abs(x - mStartX);
+			float yDeltaTotal = Math.abs(y - mStartY);
+			if (xDeltaTotal > mTouchSlop && yDeltaTotal < mTouchSlop) {
+				mStartX = x;
+				mStartY = y;
+				return true;
+			}
+			break;
+
+		}
+		return false;
 	}
 }
