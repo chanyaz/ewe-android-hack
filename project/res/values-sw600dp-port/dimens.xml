@@ -22,4 +22,7 @@
     <fraction name="results_grid_collapsed_lists">40%</fraction>
     <fraction name="results_grid_tripbucket_height">20%</fraction>
 
+    <!-- Half of results_grid_bottom_half -->
+    <fraction name="results_grid_half_bottom_half">30%</fraction>
+
 </resources>

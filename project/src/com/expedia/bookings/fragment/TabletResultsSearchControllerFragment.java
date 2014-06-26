@@ -1030,7 +1030,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			else {
 				mGrid.setDimensions(totalWidth, totalHeight);
 
-				mGrid.setNumRows(5);
+				mGrid.setNumRows(6);
 				mGrid.setNumCols(3); // 2 columns, 1 spacer
 
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
@@ -1039,16 +1039,17 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
 				mGrid.setRowSize(2, getActivity().getActionBar().getHeight());
 				mGrid.setRowSize(3, getActivity().getActionBar().getHeight());
-				mGrid.setRowPercentage(4, getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1));
+				mGrid.setRowPercentage(4, getResources().getFraction(R.fraction.results_grid_half_bottom_half, 1, 1));
+				mGrid.setRowPercentage(5, getResources().getFraction(R.fraction.results_grid_half_bottom_half, 1, 1));
 
 				mGrid.setContainerToRow(mSearchActionsC, 2);
 				mGrid.setContainerToRow(mSearchBarC, 3);
-				mGrid.setContainerToRowSpan(mWaypointC, 0, 4);
+				mGrid.setContainerToRowSpan(mWaypointC, 0, 5);
 				mGrid.setContainerToRow(mBottomRightC, 4);
 				mGrid.setContainerToColumn(mBottomRightC, 2);
 
-				mGrid.setContainerToRow(mBottomCenterC, 4);
-				mGrid.setContainerToColumn(mBottomCenterC, 0);
+				mGrid.setContainerToRow(mBottomCenterC, 5);
+				mGrid.setContainerToColumn(mBottomCenterC, 2);
 			}
 		}
 	};
