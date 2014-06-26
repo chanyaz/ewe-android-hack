@@ -851,9 +851,14 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	protected void showAddToTripPercentage(float percentage) {
 		if (isLastLeg()) {
 			mDetailsFrag.setAddToTripFromDetailsAnimationState(percentage);
-			float listTransX = (int) (-mGrid.getColLeft(2) + percentage
-				* -mGrid.getColSpanWidth(0, 1));
-			mListColumnC.setTranslationX(listTransX);
+			if (mGrid.isLandscape()) {
+				float listTransX = (int) (-mGrid.getColLeft(2) + percentage
+					* -mGrid.getColSpanWidth(0, 1));
+				mListColumnC.setTranslationX(listTransX);
+			}
+			else {
+				mListColumnC.setVisibility(View.INVISIBLE);
+			}
 		}
 	}
 
