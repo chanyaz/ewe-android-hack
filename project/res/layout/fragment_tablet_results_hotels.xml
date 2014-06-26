@@ -53,7 +53,7 @@
         android:layout_height="match_parent" />
 
     <com.expedia.bookings.widget.FrameLayoutTouchController
-        android:id="@+id/hotel_rooms_and_rates"
+        android:id="@+id/hotel_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

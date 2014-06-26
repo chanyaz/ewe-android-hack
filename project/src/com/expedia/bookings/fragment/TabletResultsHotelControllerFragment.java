@@ -71,7 +71,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private static final String FTAG_HOTEL_FILTERS = "FTAG_HOTEL_FILTERS";
 	private static final String FTAG_HOTEL_FILTERED_COUNT = "FTAG_HOTEL_FILTERED_COUNT";
 	private static final String FTAG_HOTEL_MAP = "FTAG_HOTEL_MAP";
-	private static final String FTAG_HOTEL_ROOMS_AND_RATES = "FTAG_HOTEL_ROOMS_AND_RATES";
+	private static final String FTAG_HOTEL_DETAILS = "FTAG_HOTEL_DETAILS";
 	private static final String FTAG_HOTEL_SEARCH_DOWNLOAD = "FTAG_HOTEL_SEARCH_DOWNLOAD";
 	private static final String FTAG_HOTEL_LOADING_INDICATOR = "FTAG_HOTEL_LOADING_INDICATOR";
 	private static final String FTAG_HOTEL_SEARCH_ERROR = "FTAG_HOTEL_SEARCH_ERROR";
@@ -88,7 +88,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	private FrameLayoutTouchController mBgHotelMapTouchDelegateC;
 	private FrameLayoutTouchController mHotelFiltersC;
 	private FrameLayoutTouchController mHotelFilteredCountC;
-	private FrameLayoutTouchController mHotelRoomsAndRatesC;
+	private FrameLayoutTouchController mHotelDetailsC;
 	private FrameLayoutTouchController mHotelReviewsC;
 	private FrameLayoutTouchController mHotelGalleryC;
 	private FrameLayoutTouchController mLoadingC;
@@ -139,7 +139,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mHotelListFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_HOTEL_LIST);
 			mHotelFiltersFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_HOTEL_FILTERS);
 			mHotelFilteredCountFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_HOTEL_FILTERED_COUNT);
-			mHotelDetailsFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_HOTEL_ROOMS_AND_RATES);
+			mHotelDetailsFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_HOTEL_DETAILS);
 			mHotelSearchDownloadFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_HOTEL_SEARCH_DOWNLOAD);
 			mLoadingGuiFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_HOTEL_LOADING_INDICATOR);
 			mSearchErrorFrag = FragmentAvailabilityUtils.getFrag(manager, FTAG_HOTEL_SEARCH_ERROR);
@@ -154,7 +154,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mBgHotelMapTouchDelegateC = Ui.findView(view, R.id.bg_hotel_map_touch_delegate);
 		mHotelFiltersC = Ui.findView(view, R.id.column_two_hotel_filters);
 		mHotelFilteredCountC = Ui.findView(view, R.id.column_three_hotel_filtered_count);
-		mHotelRoomsAndRatesC = Ui.findView(view, R.id.hotel_rooms_and_rates);
+		mHotelDetailsC = Ui.findView(view, R.id.hotel_details);
 		mHotelReviewsC = Ui.findView(view, R.id.hotel_reviews);
 		mHotelGalleryC = Ui.findView(view, R.id.hotel_gallery);
 		mLoadingC = Ui.findView(view, R.id.loading_container);
@@ -269,7 +269,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		mHotelsStateManager.setState(state, animate);
 	}
 
-	public ResultsHotelsState getHotelsState(){
+	public ResultsHotelsState getHotelsState() {
 		return mHotelsStateManager.getState();
 	}
 
@@ -290,17 +290,17 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		}
 
 		if (hotelsState == ResultsHotelsState.HOTEL_LIST_DOWN) {
-			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(true);
+			mHotelDetailsC.setBlockNewEventsEnabled(true);
 		}
 		else {
-			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(false);
+			mHotelDetailsC.setBlockNewEventsEnabled(false);
 		}
 
 		if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES) {
-			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(false);
+			mHotelDetailsC.setBlockNewEventsEnabled(false);
 		}
 		else {
-			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(true);
+			mHotelDetailsC.setBlockNewEventsEnabled(true);
 		}
 
 		if (hotelsState == ResultsHotelsState.REVIEWS) {
@@ -332,7 +332,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mBgHotelMapC.setAlpha(0f);
 			mHotelFiltersC.setVisibility(View.INVISIBLE);
 			mHotelFilteredCountC.setVisibility(View.INVISIBLE);
-			mHotelRoomsAndRatesC.setVisibility(View.INVISIBLE);
+			mHotelDetailsC.setVisibility(View.INVISIBLE);
 			mHotelReviewsC.setVisibility(View.INVISIBLE);
 			mHotelGalleryC.setVisibility(View.INVISIBLE);
 			mMapDimmer.setVisibility(View.INVISIBLE);
@@ -361,10 +361,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			}
 
 			if (hotelsState == ResultsHotelsState.ROOMS_AND_RATES || hotelsState == ResultsHotelsState.GALLERY) {
-				mHotelRoomsAndRatesC.setVisibility(View.VISIBLE);
+				mHotelDetailsC.setVisibility(View.VISIBLE);
 			}
 			else {
-				mHotelRoomsAndRatesC.setVisibility(View.INVISIBLE);
+				mHotelDetailsC.setVisibility(View.INVISIBLE);
 			}
 
 			if (hotelsState == ResultsHotelsState.REVIEWS) {
@@ -438,35 +438,27 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		// TODO: WE MAY WANT TO REMOVE SOME HEAVIER FRAGMENTS SOMETIMES, ESPECIALLY IF WE ARE IN FLIGHTS MODE OR SOMETHING
 
-		mHotelListFrag = (ResultsHotelListFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-			hotelListAvailable, FTAG_HOTEL_LIST, manager,
-			transaction, this, R.id.column_one_hotel_list, false);
-		mHotelFiltersFrag = (ResultsHotelsFiltersFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-			hotelFiltersAvailable,
+		mHotelListFrag = FragmentAvailabilityUtils.setFragmentAvailability(hotelListAvailable,
+			FTAG_HOTEL_LIST, manager, transaction, this, R.id.column_one_hotel_list, false);
+		mHotelFiltersFrag = FragmentAvailabilityUtils.setFragmentAvailability(hotelFiltersAvailable,
 			FTAG_HOTEL_FILTERS, manager, transaction, this, R.id.column_two_hotel_filters, false);
-		mHotelFilteredCountFrag = (ResultsHotelsFilterCountFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-			hotelFilteredCountAvailable, FTAG_HOTEL_FILTERED_COUNT, manager, transaction, this,
-			R.id.column_three_hotel_filtered_count, false);
-		mMapFragment = (HotelMapFragment) FragmentAvailabilityUtils.setFragmentAvailability(hotelMapAvailable,
+		mHotelFilteredCountFrag = FragmentAvailabilityUtils.setFragmentAvailability(hotelFilteredCountAvailable,
+			FTAG_HOTEL_FILTERED_COUNT, manager, transaction, this, R.id.column_three_hotel_filtered_count, false);
+		mMapFragment = FragmentAvailabilityUtils.setFragmentAvailability(hotelMapAvailable,
 			FTAG_HOTEL_MAP, manager, transaction, this, R.id.bg_hotel_map, false);
-		mHotelDetailsFrag = (ResultsHotelDetailsFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-			hotelRoomsAndRatesAvailable,
-			FTAG_HOTEL_ROOMS_AND_RATES, manager, transaction, this, R.id.hotel_rooms_and_rates, false);
-		mHotelReviewsFrag = (ResultsHotelReviewsFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-			hotelReviewsAvailable,
+		mHotelDetailsFrag = FragmentAvailabilityUtils.setFragmentAvailability(hotelRoomsAndRatesAvailable,
+			FTAG_HOTEL_DETAILS, manager, transaction, this, R.id.hotel_details, false);
+		mHotelReviewsFrag = FragmentAvailabilityUtils.setFragmentAvailability(hotelReviewsAvailable,
 			FTAG_HOTEL_REVIEWS, manager, transaction, this, R.id.hotel_reviews, false);
-		mHotelGalleryFrag = (ResultsHotelGalleryFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-			hotelGalleryAvailable,
+		mHotelGalleryFrag = FragmentAvailabilityUtils.setFragmentAvailability(hotelGalleryAvailable,
 			FTAG_HOTEL_GALLERY, manager, transaction, this, R.id.hotel_gallery, false);
-		mHotelSearchDownloadFrag = (HotelSearchDownloadFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-			hotelSearchDownloadAvailable,
+		mHotelSearchDownloadFrag = FragmentAvailabilityUtils.setFragmentAvailability(hotelSearchDownloadAvailable,
 			FTAG_HOTEL_SEARCH_DOWNLOAD, manager, transaction, this, 0, false);
-		mLoadingGuiFrag = (ResultsListLoadingFragment) FragmentAvailabilityUtils.setFragmentAvailability(
-			loadingGuiAvailable,
+		mLoadingGuiFrag = FragmentAvailabilityUtils.setFragmentAvailability(loadingGuiAvailable,
 			FTAG_HOTEL_LOADING_INDICATOR, manager, transaction, this, R.id.loading_container, false);
-		mSearchErrorFrag = FragmentAvailabilityUtils
-			.setFragmentAvailability(searchErrorAvailable, FTAG_HOTEL_SEARCH_ERROR, manager, transaction, this,
-				R.id.column_one_hotel_search_error, false);
+		mSearchErrorFrag = FragmentAvailabilityUtils.setFragmentAvailability(searchErrorAvailable,
+			FTAG_HOTEL_SEARCH_ERROR, manager, transaction, this, R.id.column_one_hotel_search_error, false);
+
 		transaction.commit();
 	}
 
@@ -541,7 +533,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		else if (tag == FTAG_HOTEL_MAP) {
 			frag = mMapFragment;
 		}
-		else if (tag == FTAG_HOTEL_ROOMS_AND_RATES) {
+		else if (tag == FTAG_HOTEL_DETAILS) {
 			frag = mHotelDetailsFrag;
 		}
 		else if (tag == FTAG_HOTEL_SEARCH_DOWNLOAD) {
@@ -577,7 +569,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		else if (tag == FTAG_HOTEL_MAP) {
 			frag = HotelMapFragment.newInstance();
 		}
-		else if (tag == FTAG_HOTEL_ROOMS_AND_RATES) {
+		else if (tag == FTAG_HOTEL_DETAILS) {
 			frag = ResultsHotelDetailsFragment.newInstance();
 		}
 		else if (tag == FTAG_HOTEL_SEARCH_DOWNLOAD) {
@@ -782,7 +774,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionUpdate(ResultsHotelsListState stateOne, ResultsHotelsListState stateTwo,
-			float percentage) {
+											float percentage) {
 			if (shouldWeListenToScroll()) {
 				updateStateTransition(getHotelsStateFromListState(stateOne), getHotelsStateFromListState(stateTwo),
 					percentage);
@@ -936,7 +928,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mGrid.setContainerToColumnSpan(mHotelFilteredCountC, 3, 4);
 				mGrid.setContainerToColumnSpan(mBgHotelMapC, 0, 4);
 				mGrid.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 4);
-				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 2, 4);
+				mGrid.setContainerToColumnSpan(mHotelDetailsC, 2, 4);
 				mGrid.setContainerToColumnSpan(mHotelReviewsC, 2, 4);
 
 				//All of the views except for the map sit below the action bar
@@ -947,7 +939,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mGrid.setContainerToRowSpan(mHotelFilteredCountC, 1, 2);
 				mGrid.setContainerToRowSpan(mBgHotelMapC, 0, 2);
 				mGrid.setContainerToRowSpan(mBgHotelMapTouchDelegateC, 0, 2);
-				mGrid.setContainerToRowSpan(mHotelRoomsAndRatesC, 1, 2);
+				mGrid.setContainerToRowSpan(mHotelDetailsC, 1, 2);
 				mGrid.setContainerToRowSpan(mHotelReviewsC, 1, 2);
 
 				//tell the map where its bounds are
@@ -979,7 +971,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mGrid.setContainerToColumn(mHotelFilteredCountC, 2);
 				mGrid.setContainerToColumnSpan(mBgHotelMapC, 0, 2);
 				mGrid.setContainerToColumnSpan(mBgHotelMapTouchDelegateC, 0, 2);
-				mGrid.setContainerToColumnSpan(mHotelRoomsAndRatesC, 0, 2);
+				mGrid.setContainerToColumnSpan(mHotelDetailsC, 0, 2);
 				mGrid.setContainerToColumnSpan(mHotelReviewsC, 0, 2);
 
 				//All of the views except for the map sit below the action bar
@@ -990,7 +982,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 				mGrid.setContainerToRowSpan(mHotelFilteredCountC, 1, 2);
 				mGrid.setContainerToRowSpan(mBgHotelMapC, 0, 2);
 				mGrid.setContainerToRowSpan(mBgHotelMapTouchDelegateC, 0, 2);
-				mGrid.setContainerToRowSpan(mHotelRoomsAndRatesC, 1, 2);
+				mGrid.setContainerToRowSpan(mHotelDetailsC, 1, 2);
 				mGrid.setContainerToRowSpan(mHotelReviewsC, 1, 2);
 
 				//tell the map where its bounds are
@@ -1069,7 +1061,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 	@Override
 	public void updateStateTransition(ResultsHotelsState stateOne, ResultsHotelsState stateTwo,
-		float percentage) {
+									  float percentage) {
 		mHotelsStateListeners.updateStateTransition(stateOne, stateTwo, percentage);
 	}
 
@@ -1173,7 +1165,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo,
-			float percentage) {
+											float percentage) {
 			if (stateOne == ResultsHotelsState.HOTEL_LIST_DOWN && stateTwo == ResultsHotelsState.HOTEL_LIST_UP) {
 				// ENTERING HOTELS
 				mBgHotelMapC.setAlpha(percentage);
@@ -1375,19 +1367,19 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		 */
 
 		private void setRoomsAndRatesAnimationVisibilities() {
-			mHotelRoomsAndRatesC.setVisibility(View.VISIBLE);
+			mHotelDetailsC.setVisibility(View.VISIBLE);
 			mMapDimmer.setAlpha(0f);
 			mMapDimmer.setVisibility(View.VISIBLE);
 		}
 
 		private void setRoomsAndRatesAnimationHardwareRendering(boolean useHardwareLayer) {
 			int layerValue = useHardwareLayer ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE;
-			mHotelRoomsAndRatesC.setLayerType(layerValue, null);
+			mHotelDetailsC.setLayerType(layerValue, null);
 			mMapDimmer.setLayerType(layerValue, null);
 		}
 
 		private void setRoomsAndRatesShownPercentage(float percentage) {
-			mHotelRoomsAndRatesC.setTranslationY(-(1f - percentage) * mGrid.getTotalHeight());
+			mHotelDetailsC.setTranslationY(-(1f - percentage) * mGrid.getTotalHeight());
 			mMapDimmer.setAlpha(percentage);
 			if (!mGrid.isLandscape()) {
 				mHotelListC.setTranslationX(percentage * -mGrid.getColRight(0));
@@ -1399,7 +1391,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		 */
 
 		private void setReviewsAnimationVisibilities(boolean forwards) {
-			mHotelRoomsAndRatesC.setVisibility(View.VISIBLE);
+			mHotelDetailsC.setVisibility(View.VISIBLE);
 			mHotelReviewsC.setVisibility(View.VISIBLE);
 			if (forwards) {
 				mHotelReviewsC.setAlpha(0f);
@@ -1470,7 +1462,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			mBgHotelMapC.setTouchPassThroughEnabled(touchable);
 			mHotelFiltersC.setBlockNewEventsEnabled(touchable);
 			mHotelFilteredCountC.setBlockNewEventsEnabled(touchable);
-			mHotelRoomsAndRatesC.setBlockNewEventsEnabled(touchable);
+			mHotelDetailsC.setBlockNewEventsEnabled(touchable);
 			if (includingList) {
 				mHotelListC.setBlockNewEventsEnabled(touchable);
 			}
