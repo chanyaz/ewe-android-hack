@@ -767,7 +767,8 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			mNextLegFrag.hideLastLeg();
 		}
 
-		mListColumnC.setVisibility(View.VISIBLE);
+		int listVis = mGrid.isLandscape() ? View.VISIBLE : View.INVISIBLE;
+		mListColumnC.setVisibility(listVis);
 		mDetailsC.setVisibility(View.VISIBLE);
 		mNextLegC.setAlpha(startPercentage);
 		mNextLegC.setVisibility(View.VISIBLE);
