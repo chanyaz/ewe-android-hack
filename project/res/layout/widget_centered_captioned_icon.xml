@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.larvalabs.svgandroid.widget.SVGView
+        android:id="@+id/svg"
+        android:layout_width="@dimen/centered_captioned_icon_svg_width"
+        android:layout_height="@dimen/centered_captioned_icon_svg_height"
+        android:layout_centerInParent="true"
+        android:alpha="0.5"
+        app:zoomMode="fitDocument" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/caption"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/svg"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
+        android:gravity="center_horizontal"
+        android:textColor="#a5180e0d"
+        android:textSize="18sp"
+        app:textStyle="condensed" />
+
+</merge>

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- STYLEABLE DECLARATIONS -->
+
+    <!-- Used in more than one custom view -->
+    <attr name="caption" format="reference|string" />
+
     <!-- TextView -->
     <declare-styleable name="TextView">
         <attr name="textStyle" format="enum">
@@ -158,7 +161,7 @@
 
     <!-- RingedCountView -->
     <declare-styleable name="RingedCountView">
-        <attr name="caption" format="reference|string" />
+        <attr name="caption" />
         <attr name="backgroundColor" format="color" />
         <attr name="countTextColor" format="color" />
         <attr name="captionTextColor" format="color" />
@@ -220,6 +223,13 @@
         <attr name="exposedPadding" format="dimension"/>
         <attr name="maskColor" format="color"/>
     </declare-styleable>
+
+    <!-- CenteredCaptionedIcon -->
+    <declare-styleable name="CenteredCaptionedIcon">
+        <attr name="caption" />
+        <attr name="svg" format="reference" />
+    </declare-styleable>
+
 
     <!-- VSC/EB attributes used for style switching in themes -->
     <!-- Hotel Search price styles -->
