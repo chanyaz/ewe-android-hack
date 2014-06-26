@@ -1516,10 +1516,10 @@ public class Gallery extends AbsSpinner implements OnGestureListener {
 		private LayoutInflater mInflater;
 		private List<Media> mMedia;
 
-		private final LinearLayout.LayoutParams LAYOUT_WIDE = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				LayoutParams.FILL_PARENT);
-		private final LinearLayout.LayoutParams LAYOUT_TALL = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.FILL_PARENT);
+		private final LinearLayout.LayoutParams LAYOUT_WIDE = new LinearLayout.LayoutParams(
+			LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		private final LinearLayout.LayoutParams LAYOUT_TALL = new LinearLayout.LayoutParams(
+			LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
 
 		public ImageAdapter(Context context, List<Media> media) {
 			mInflater = LayoutInflater.from(context);

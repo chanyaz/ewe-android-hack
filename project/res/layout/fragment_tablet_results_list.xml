@@ -24,8 +24,8 @@
 
     <com.expedia.bookings.widget.CenteredCaptionedIcon
         android:id="@android:id/empty"
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
         android:background="@color/tablet_white_pane_bg"/>
 
     <!-- The sticky header view -->

@@ -82,7 +82,7 @@
                 <com.mobiata.android.widget.SegmentedControlGroup
                     android:id="@+id/user_review_sort_group"
                     style="@style/V2.Widget.SegmentedControlGroup.TabletUserReviews"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:orientation="horizontal" >
 
