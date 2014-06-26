@@ -37,7 +37,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	private static final String FTAG_BUCKET_FLIGHT = "FTAG_BUCKET_FLIGHT";
 	private static final String FTAG_BUCKET_HOTEL = "FTAG_BUCKET_HOTEL";
 
-	private static final float BUCKET_ITEM_SWIPE_THRESHOLD = 0.75f;
+	private static final float BUCKET_ITEM_SWIPE_THRESHOLD = 0.50f;
 
 	private TripBucketFlightFragment mTripBucketFlightFrag;
 	private TripBucketHotelFragment mTripBucketHotelFrag;
