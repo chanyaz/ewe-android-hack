@@ -333,8 +333,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
-		if (tag == FTAG_FLIGHT_MAP) {
+		switch (tag) {
+		case FTAG_FLIGHT_MAP:
 			updateMapFragSizes((ResultsFlightMapFragment) frag);
+			break;
 		}
 	}
 
@@ -563,7 +565,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
 
 				//The bottom row
-				mGrid.setRowPercentage(2, GridManager.TABLET_RESULTS_CONTENT_VERTICAL_SPACE_LANDSCAPE);
+				mGrid.setRowPercentage(2, getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1));
 
 				//These columns are just the spacers between content columns
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
@@ -593,7 +595,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
 
 				//The bottom row
-				mGrid.setRowPercentage(2, GridManager.TABLET_RESULTS_CONTENT_VERTICAL_SPACE_PORTRAIT);
+				mGrid.setRowPercentage(2, getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1));
 
 				//These columns are just the spacers between content columns
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);

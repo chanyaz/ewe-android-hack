@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnPreDrawListener;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 
 import com.expedia.bookings.R;
@@ -110,7 +109,24 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		mListView.setListLockedToTop(mLockedToTop);
 		setStickyHeaderText(initializeStickyHeaderString());
 
+		setTopSpacePixels(mTopSpacePixels);
+
 		return view;
+	}
+
+	private int mTopSpacePixels = 0;
+
+	/**
+	 * Updates the top space on this FruitList (taking into account the column header height).
+	 * @param pixels
+	 */
+	public void setTopSpacePixels(int pixels) {
+		mTopSpacePixels = pixels;
+		if (mListView != null) {
+			int topMargin = ((ViewGroup.MarginLayoutParams)mListView.getLayoutParams()).topMargin;
+			int dividerHeight = getResources().getDimensionPixelSize(R.dimen.results_list_spacer_height);
+			mListView.setTopSpacePixels(mTopSpacePixels - topMargin - dividerHeight);
+		}
 	}
 
 	@Override

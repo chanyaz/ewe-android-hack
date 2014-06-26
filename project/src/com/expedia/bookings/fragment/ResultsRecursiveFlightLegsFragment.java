@@ -919,10 +919,6 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 					mListFrag.setListLockedToTop(false);
 
 					if (mListFrag.hasList()) {
-						// Give the FruitList a proper top gap
-						mListFrag.getListView().setTopSpacePixels(mGrid.getRowSpanHeight(0, 2)
-							- getResources().getDimensionPixelSize(R.dimen.results_column_header_height));
-
 						if ((state == ResultsFlightLegState.ADDING_TO_TRIP || state == ResultsFlightLegState.LIST_DOWN)
 							&& mListFrag.getPercentage() < 1) {
 							mListFrag.setPercentage(1f, 0);
@@ -1072,16 +1068,14 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	@Override
 	public Fragment getExistingLocalInstanceFromTag(String tag) {
-		if (tag == FTAG_DETAILS) {
+		switch (tag) {
+		case FTAG_DETAILS:
 			return mDetailsFrag;
-		}
-		else if (tag == FTAG_FILTERS) {
+		case FTAG_FILTERS:
 			return mFilterFrag;
-		}
-		else if (tag == FTAG_LIST) {
+		case FTAG_LIST:
 			return mListFrag;
-		}
-		else if (tag == FTAG_NEXT_LEG) {
+		case FTAG_NEXT_LEG:
 			return mNextLegFrag;
 		}
 		return null;
@@ -1089,16 +1083,14 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	@Override
 	public Fragment getNewFragmentInstanceFromTag(String tag) {
-		if (tag == FTAG_DETAILS) {
+		switch (tag) {
+		case FTAG_DETAILS:
 			return ResultsFlightDetailsFragment.newInstance(mLegNumber);
-		}
-		else if (tag == FTAG_FILTERS) {
+		case FTAG_FILTERS:
 			return ResultsFlightFiltersFragment.newInstance(mLegNumber);
-		}
-		else if (tag == FTAG_LIST) {
+		case FTAG_LIST:
 			return ResultsFlightListFragment.getInstance(mLegNumber);
-		}
-		else if (tag == FTAG_NEXT_LEG) {
+		case FTAG_NEXT_LEG:
 			return ResultsRecursiveFlightLegsFragment.newInstance(mLegNumber + 1);
 		}
 		return null;
@@ -1106,29 +1098,26 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
-		if (tag == FTAG_DETAILS) {
+		switch (tag) {
+		case FTAG_DETAILS:
 			updateDetailsFragSizes((ResultsFlightDetailsFragment) frag);
-		}
-		else if (tag == FTAG_FILTERS) {
+			break;
+		case FTAG_FILTERS:
 			((ResultsFlightFiltersFragment) frag).bindAll();
-		}
-		else if (tag == FTAG_LIST) {
+			break;
+		case FTAG_LIST:
 			if (isFirstLeg()) {
-				((ResultsFlightListFragment) frag).setTopRightTextButtonText(getString(R.string.Done));
+				ResultsFlightListFragment listFrag = (ResultsFlightListFragment) frag;
+				listFrag.setTopRightTextButtonText(getString(R.string.Done));
+				listFrag.setTopSpacePixels(mGrid.getRowSpanHeight(0, 2));
 			}
+			break;
 		}
 	}
 
 	/**
 	 * Fragment Helpers
 	 */
-
-	private void updateListSpacer(ResultsFlightListFragment listFrag) {
-		if (listFrag != null && mGrid.getTotalWidth() > 0) {
-			float spacerPercentage = mGrid.isLandscape() ? .5f : .4f;
-			listFrag.getListView().setTopSpacePercentage(spacerPercentage);
-		}
-	}
 
 	private void updateDetailsFragSizes(ResultsFlightDetailsFragment frag) {
 		if (frag != null && mGrid.getTotalWidth() > 0) {
@@ -1174,7 +1163,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
 
 				//The bottom row
-				mGrid.setRowPercentage(2, GridManager.TABLET_RESULTS_CONTENT_VERTICAL_SPACE_LANDSCAPE);
+				mGrid.setRowPercentage(2, getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1));
 
 				//These columns are just the spacers between content columns
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
@@ -1204,7 +1193,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
 
 				//The bottom row
-				mGrid.setRowPercentage(2, GridManager.TABLET_RESULTS_CONTENT_VERTICAL_SPACE_PORTRAIT);
+				mGrid.setRowPercentage(2, getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1));
 
 				//These columns are just the spacers between content columns
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
@@ -1225,7 +1214,10 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				//Frag stuff
 				updateDetailsFragSizes(mDetailsFrag);
 			}
-			updateListSpacer(mListFrag);
+
+			if (mListFrag != null) {
+				mListFrag.setTopSpacePixels(mGrid.getRowSpanHeight(0, 2));
+			}
 		}
 	};
 

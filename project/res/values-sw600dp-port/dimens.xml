@@ -20,4 +20,10 @@
     <dimen name="tablet_empty_search_result_bg_top">387dp</dimen>
     <dimen name="tablet_empty_search_result_text_bottom_margin">150dp</dimen>
 
+    <!-- GridManager numbers for Search Results screen -->
+    <fraction name="results_grid_bottom_half">60%</fraction>
+    <!-- Note: results_grid_tripbucket_height + results_grid_collapsed_lists = results_grid_bottom_half -->
+    <fraction name="results_grid_collapsed_lists">40%</fraction>
+    <fraction name="results_grid_tripbucket_height">20%</fraction>
+
 </resources>

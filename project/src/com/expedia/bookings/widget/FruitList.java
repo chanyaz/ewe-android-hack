@@ -41,7 +41,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 	private int mFooterSpacerHeight = 0;
 
 	//How big is our top spacer - default to half the height
-	private float mTopSpacerPercentage = 0.5f;
+	private float mTopSpacerPercentage = 0.46f;
 	private float mTopSpacerPixels = -1f;
 
 	//Spacers, we need our list to fill its height regardless of row number

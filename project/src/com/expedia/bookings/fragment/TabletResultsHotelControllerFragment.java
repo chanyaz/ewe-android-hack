@@ -470,19 +470,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 		transaction.commit();
 	}
 
-	private void updateFruitListSize() {
-		if (mHotelListFrag != null) {
-			// Give the FruitList a proper top gap
-			mHotelListFrag.getListView().setTopSpacePixels(mGrid.getRowSpanHeight(0, 2)
-				- getResources().getDimensionPixelSize(R.dimen.results_column_header_height));
-		}
-	}
-
 	private void setListState(ResultsHotelsState state) {
 		if (mHotelListFrag != null) {
 
 			mHotelListFrag.setTopRightTextButtonText(getString(R.string.Sort_and_Filter));
-			updateFruitListSize();
+			mHotelListFrag.setTopSpacePixels(mGrid.getRowSpanHeight(0, 2));
 
 			// Button and locking
 			switch (state) {
@@ -615,17 +607,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			updateMapFragmentPositioningInfo(mapFrag);
 			break;
 		case FTAG_HOTEL_LIST:
-			updateFruitListSize();
+			ResultsHotelListFragment listFrag = (ResultsHotelListFragment) frag;
+			listFrag.setTopSpacePixels(mGrid.getRowSpanHeight(0, 2));
 			break;
 		}
 
-	}
-
-	private void updateListSpacer(ResultsHotelListFragment listFrag) {
-		if (listFrag != null && mGrid.getTotalWidth() > 0) {
-			float spacerPercentage = mGrid.isLandscape() ? .5f : .4f;
-			listFrag.getListView().setTopSpacePercentage(spacerPercentage);
-		}
 	}
 
 	private void updateMapFragmentPositioningInfo(HotelMapFragment mapFrag) {
@@ -936,7 +922,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 				//The top row matches the height of the actionbar
 				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
-				mGrid.setRowPercentage(2, GridManager.TABLET_RESULTS_CONTENT_VERTICAL_SPACE_LANDSCAPE);
+				mGrid.setRowPercentage(2, getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1));
 
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
 				mGrid.setColumnSize(1, spacerSize);
@@ -966,6 +952,10 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 				//tell the map where its bounds are
 				updateMapFragmentPositioningInfo(mMapFragment);
+
+				if (mHotelListFrag != null) {
+					mHotelListFrag.setTopSpacePixels(mGrid.getRowSpanHeight(0, 2));
+				}
 			}
 			else {
 				mGrid.setDimensions(totalWidth, totalHeight);
@@ -976,7 +966,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 				//The top row matches the height of the actionbar
 				mGrid.setRowSize(0, getActivity().getActionBar().getHeight());
-				mGrid.setRowPercentage(2, GridManager.TABLET_RESULTS_CONTENT_VERTICAL_SPACE_PORTRAIT);
+				mGrid.setRowPercentage(2, getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1));
 
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
 				mGrid.setColumnSize(1, spacerSize);
@@ -1005,8 +995,11 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 
 				//tell the map where its bounds are
 				updateMapFragmentPositioningInfo(mMapFragment);
+
+				if (mHotelListFrag != null) {
+					mHotelListFrag.setTopSpacePixels(mGrid.getRowSpanHeight(0, 2));
+				}
 			}
-			updateListSpacer(mHotelListFrag);
 		}
 
 	};

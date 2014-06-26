@@ -59,6 +59,9 @@
     <dimen name="results_flight_histogram_vertical_margin">6dp</dimen>
     <dimen name="results_flight_histogram_horizontal_margin">@dimen/hotel_flight_card_padding_x</dimen>
 
+    <!-- GridManager numbers for Search Results screen -->
+    <fraction name="results_grid_bottom_half">54%</fraction>
+
     <dimen name="tablet_hotel_details_vertical_padding">64dp</dimen>
     <fraction name="tablet_hotel_details_horizontal_spacing_percentage">14%</fraction>
     <dimen name="bucket_top_margin">14dp</dimen>

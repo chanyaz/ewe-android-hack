@@ -690,6 +690,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mGrid.setColumnSize(1, spacerSize);
 				mGrid.setColumnSize(3, spacerSize);
 
+				mGrid.setRowPercentage(1, getResources().getFraction(R.fraction.results_grid_bottom_half, 1, 1));
+
 				mGrid.setContainerToColumn(mTripBucketC, 4);
 				mGrid.setContainerToRow(mTripBucketC, 1);
 				mGrid.setContainerToColumn(mMissingFlightInfoC, 2);
@@ -699,8 +701,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mGrid.setDimensions(totalWidth, totalHeight);
 				mGrid.setGridSize(3, 3);
 
-				mGrid.setRowPercentage(1, .4f);
-				mGrid.setRowPercentage(2, .2f);
+				mGrid.setRowPercentage(1, getResources().getFraction(R.fraction.results_grid_collapsed_lists, 1, 1));
+				mGrid.setRowPercentage(2, getResources().getFraction(R.fraction.results_grid_tripbucket_height, 1, 1));
 
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
 				mGrid.setColumnSize(1, spacerSize);
