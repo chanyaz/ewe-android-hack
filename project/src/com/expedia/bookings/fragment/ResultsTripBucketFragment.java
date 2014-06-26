@@ -15,6 +15,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucket;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
+import com.expedia.bookings.widget.CenteredCaptionedIcon;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.mobiata.android.util.Ui;
 
@@ -29,14 +30,14 @@ public class ResultsTripBucketFragment extends Fragment
 	private TripBucketFragment mBucketFrag;
 
 	private FrameLayoutTouchController mTripBucketC;
-	private ViewGroup mEmptyTripC;
+	private CenteredCaptionedIcon mEmptyBucketView;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_tablet_results_trip_bucket, container, false);
 
 		mTripBucketC = Ui.findView(view, R.id.trip_bucket_container);
-		mEmptyTripC = Ui.findView(view, R.id.empty_bucket_container);
+		mEmptyBucketView = Ui.findView(view, R.id.empty_bucket_view);
 
 		FragmentManager manager = getChildFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
@@ -64,11 +65,11 @@ public class ResultsTripBucketFragment extends Fragment
 		boolean showBucket = bucket != null && bucket.size() > 0;
 		LineOfBusiness lobToRefresh = bucket.getLOBToRefresh();
 		if (showBucket) {
-			mEmptyTripC.setVisibility(View.GONE);
+			mEmptyBucketView.setVisibility(View.GONE);
 			mTripBucketC.setVisibility(View.VISIBLE);
 		}
 		else {
-			mEmptyTripC.setVisibility(View.VISIBLE);
+			mEmptyBucketView.setVisibility(View.VISIBLE);
 			mTripBucketC.setVisibility(View.INVISIBLE);
 		}
 

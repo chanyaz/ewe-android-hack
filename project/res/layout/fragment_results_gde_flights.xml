@@ -48,7 +48,12 @@
 
     </LinearLayout>
 
-    <include layout="@layout/include_tablet_search_missing_flight_info" />
+    <com.expedia.bookings.widget.CenteredCaptionedIcon
+        android:id="@+id/missing_flight_info_view"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:background="@color/tablet_white_pane_bg"
+        app:svg="@raw/ic_tablet_sold_out_flight"/>
 
     <com.expedia.bookings.widget.FrameLayoutTouchController
         android:id="@+id/histogram_container"

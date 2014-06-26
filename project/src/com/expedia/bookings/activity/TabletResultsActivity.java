@@ -58,8 +58,10 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
+import com.expedia.bookings.widget.CenteredCaptionedIcon;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TextView;
+import com.larvalabs.svgandroid.widget.SVGView;
 import com.mobiata.android.Log;
 import com.mobiata.android.hockey.HockeyPuck;
 import com.mobiata.android.json.JSONUtils;
@@ -100,10 +102,9 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	private ViewGroup mRootC;
 	private FrameLayoutTouchController mBgDestImageC;
 	private FrameLayoutTouchController mTripBucketC;
-	private LinearLayout mMissingFlightInfoC;
 	private ViewGroup mFlightsC;
 	private ViewGroup mHotelC;
-	private TextView mMissingFlightText;
+	private CenteredCaptionedIcon mMissingFlightInfo;
 	private ViewGroup mUndoBarView;
 
 	//Fragments
@@ -137,10 +138,9 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		mBgDestImageC.setBlockNewEventsEnabled(true);
 		mBgDestImageC.setVisibility(View.VISIBLE);
 		mTripBucketC = Ui.findView(this, R.id.trip_bucket_container);
-		mMissingFlightInfoC = Ui.findView(this, R.id.missing_flight_info_container);
-		mMissingFlightText = Ui.findView(this, R.id.missing_departure_text);
 		mFlightsC = Ui.findView(this, R.id.full_width_flights_controller_container);
 		mHotelC = Ui.findView(this, R.id.full_width_hotels_controller_container);
+		mMissingFlightInfo = Ui.findView(this, R.id.missing_flight_info_view);
 		mUndoBarView = Ui.findView(this, R.id.undobar);
 		mUndoBarView.setVisibility(View.GONE);
 
@@ -368,12 +368,12 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 		if (mFlightsController == null) {
 			//Show the missing info pane
-			mMissingFlightInfoC.setVisibility(View.VISIBLE);
+			mMissingFlightInfo.setVisibility(View.VISIBLE);
 			updateMissingFlightInfoText();
 		}
 		else {
 			//Hide the missing info pane
-			mMissingFlightInfoC.setVisibility(View.GONE);
+			mMissingFlightInfo.setVisibility(View.GONE);
 		}
 	}
 
@@ -530,10 +530,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				missingSearchParams = getString(R.string.missing_flight_trip_date_message);
 			}
 
-			mMissingFlightText.setText(missingSearchParams);
+			mMissingFlightInfo.setCaption(missingSearchParams);
 		}
 		else {
-			mMissingFlightText.setText(Html.fromHtml(getString(R.string.invalid_flights_pos).toString()));
+			mMissingFlightInfo.setCaption(Html.fromHtml(getString(R.string.invalid_flights_pos).toString()));
 		}
 	}
 
@@ -544,7 +544,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 	private void setEnteringProductHardwareLayers(int layerType, boolean enteringHotels) {
 		mTripBucketC.setLayerType(layerType, null);
-		mMissingFlightInfoC.setLayerType(layerType, null);
+		mMissingFlightInfo.setLayerType(layerType, null);
 		if (enteringHotels) {
 			//If we are entring hotels, we move the flights container
 			mFlightsC.setLayerType(layerType, null);
@@ -558,8 +558,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	private void resetTranslations() {
 		mTripBucketC.setTranslationX(0f);
 		mTripBucketC.setTranslationY(0f);
-		mMissingFlightInfoC.setTranslationX(0f);
-		mMissingFlightInfoC.setTranslationY(0f);
+		mMissingFlightInfo.setTranslationX(0f);
+		mMissingFlightInfo.setTranslationY(0f);
 		mFlightsC.setTranslationX(0f);
 		mFlightsC.setTranslationY(0f);
 		mHotelC.setTranslationX(0f);
@@ -570,11 +570,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		if (vertical) {
 			//Reset X things, because they dont change if we are in vertical mode
 			mTripBucketC.setTranslationX(0f);
-			mMissingFlightInfoC.setTranslationX(0f);
+			mMissingFlightInfo.setTranslationX(0f);
 			mFlightsC.setTranslationX(0f);
 
 			mTripBucketC.setTranslationY(percentage * mTripBucketC.getHeight());
-			mMissingFlightInfoC.setTranslationY(
+			mMissingFlightInfo.setTranslationY(
 				mCenterColumnUpDownInterpolator.getInterpolation(percentage) * mGrid.getRowHeight(1));
 			if (enteringHotels) {
 				mFlightsC
@@ -588,11 +588,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		else {
 			//Reset Y things because they don't change if we are
 			mTripBucketC.setTranslationY(0);
-			mMissingFlightInfoC.setTranslationY(0f);
+			mMissingFlightInfo.setTranslationY(0f);
 			mFlightsC.setTranslationY(0);
 
 			mTripBucketC.setTranslationX(percentage * mTripBucketC.getWidth());
-			mMissingFlightInfoC.setTranslationX(percentage * -mGrid.getColRight(2));
+			mMissingFlightInfo.setTranslationX(percentage * -mGrid.getColRight(2));
 
 			if (enteringHotels) {
 				mFlightsC.setTranslationX(percentage * mGrid.getColSpanWidth(2, 5));
@@ -694,8 +694,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 				mGrid.setContainerToColumn(mTripBucketC, 4);
 				mGrid.setContainerToRow(mTripBucketC, 1);
-				mGrid.setContainerToColumn(mMissingFlightInfoC, 2);
-				mGrid.setContainerToRow(mMissingFlightInfoC, 1);
+				mGrid.setContainerToColumn(mMissingFlightInfo, 2);
+				mGrid.setContainerToRow(mMissingFlightInfo, 1);
 			}
 			else {
 				mGrid.setDimensions(totalWidth, totalHeight);
@@ -707,8 +707,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
 				mGrid.setColumnSize(1, spacerSize);
 
-				mGrid.setContainerToRow(mMissingFlightInfoC, 1);
-				mGrid.setContainerToColumn(mMissingFlightInfoC, 2);
+				mGrid.setContainerToRow(mMissingFlightInfo, 1);
+				mGrid.setContainerToColumn(mMissingFlightInfo, 2);
 
 				mGrid.setContainerToRow(mTripBucketC, 2);
 				mGrid.setContainerToColumnSpan(mTripBucketC, 0, 2);

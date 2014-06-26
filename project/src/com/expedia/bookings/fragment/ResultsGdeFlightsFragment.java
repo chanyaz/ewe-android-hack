@@ -24,8 +24,10 @@ import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.CenteredCaptionedIcon;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TextView;
+import com.larvalabs.svgandroid.widget.SVGView;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
@@ -52,11 +54,11 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 	private View mRootC;
 	private FrameLayoutTouchController mHistogramC;
+
+	private CenteredCaptionedIcon mMissingFlightInfo;
 	private TextView mGdeHeaderTv;
 	private ImageView mGdeBack;
 	private ProgressBar mGdeProgressBar;
-	private LinearLayout mMissingFlightInfoC;
-	private TextView mMissingFlightText;
 
 	private ResultsFlightHistogramFragment mHistogramFrag;
 	private GdeDownloadFragment mGdeDownloadFrag;
@@ -113,10 +115,9 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		mGdeBack = Ui.findView(mRootC, R.id.flight_histogram_back);
 		mGdeProgressBar = Ui.findView(mRootC, R.id.flight_histogram_progress_bar);
 
-		mMissingFlightInfoC = Ui.findView(mRootC, R.id.missing_flight_info_container);
-		mMissingFlightText = Ui.findView(mRootC, R.id.missing_departure_text);
-		mMissingFlightText.setText(getString(R.string.missing_flight_info_message, Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString()));
-		mMissingFlightInfoC.setVisibility(View.GONE);
+		mMissingFlightInfo = Ui.findView(mRootC, R.id.missing_flight_info_view);
+		mMissingFlightInfo.setCaption(getString(R.string.missing_flight_info_message, Html.fromHtml(Sp.getParams().getDestination().getDisplayName()).toString()));
+		mMissingFlightInfo.setVisibility(View.GONE);
 
 		mGdeBack.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -214,7 +215,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 			//We always pass null for the date here, because the one way search has all the information we need
 			frag.startOrResumeForRoute(mOrigin, mDestination, null);
 			mGdeProgressBar.setVisibility(View.VISIBLE);
-			mMissingFlightInfoC.setVisibility(View.GONE);
+			mMissingFlightInfo.setVisibility(View.GONE);
 		}
 	}
 
@@ -281,8 +282,8 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 				mGdeProgressBar.setVisibility(View.GONE);
 			}
 			// Let's show the missing Flight search info if origin is not set.
-			if (mMissingFlightInfoC != null && Sp.getParams().getOriginLocation(true) == null) {
-				mMissingFlightInfoC.setVisibility(View.VISIBLE);
+			if (mMissingFlightInfo != null && Sp.getParams().getOriginLocation(true) == null) {
+				mMissingFlightInfo.setVisibility(View.VISIBLE);
 			}
 		}
 	}

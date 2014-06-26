@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -18,7 +20,13 @@
         android:background="@drawable/bg_tablet_actionbar"/>
 
     <!-- FLIGHT LIST PLACEHOLDER FOR WHEN WE DONT HAVE ENOUGH FLIGHT DATA -->
-    <include layout="@layout/include_tablet_search_missing_flight_info" />
+
+    <com.expedia.bookings.widget.CenteredCaptionedIcon
+        android:id="@+id/missing_flight_info_view"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:background="@color/tablet_white_pane_bg"
+        app:svg="@raw/ic_tablet_sold_out_flight"/>
 
     <!-- CONTROLLER CONTAINERS -->
 

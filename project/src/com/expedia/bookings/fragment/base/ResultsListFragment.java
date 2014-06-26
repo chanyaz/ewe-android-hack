@@ -21,10 +21,10 @@ import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
+import com.expedia.bookings.widget.CenteredCaptionedIcon;
 import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.FruitList;
 import com.expedia.bookings.widget.TextView;
-import com.larvalabs.svgandroid.widget.SVGView;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -35,19 +35,21 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 
 	private static final String STATE_LIST_STATE = "STATE_LIST_STATE";
 
+	private View mRootC;
+	private CenteredCaptionedIcon mEmptyView;
 	private FruitList mListView;
 	private String mListViewContentDescription;
 	private FrameLayoutTouchController mStickyHeader;
 	private TextView mStickyHeaderTv;
 	private TextView mTopRightTextButton;
-	private TextView mEmptyListTextView;
-	private SVGView mEmptyListImageView;
 
 	private CharSequence mStickyHeaderText = "";
 	private CharSequence mTopRightTextButtonText = "";
 
 	private boolean mTopRightButtonEnabled = true;
 	private boolean mLockedToTop = false;
+	private int mTopSpacePixels = 0;
+
 	private IBackButtonLockListener mBackLockListener;
 
 	@Override
@@ -72,19 +74,17 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_tablet_results_list, null);
-		mListView = Ui.findView(view, android.R.id.list);
+		mRootC = inflater.inflate(R.layout.fragment_tablet_results_list, null);
+		mListView = Ui.findView(mRootC, android.R.id.list);
 		mListView.setContentDescription(mListViewContentDescription);
-		mStickyHeader = Ui.findView(view, R.id.sticky_header_container);
+		mStickyHeader = Ui.findView(mRootC, R.id.sticky_header_container);
 		mStickyHeader.setConsumeTouch(false);
-		mStickyHeaderTv = Ui.findView(view, R.id.sticky_number_of_items);
-		mTopRightTextButton = Ui.findView(view, R.id.top_right_text_button);
+		mStickyHeaderTv = Ui.findView(mRootC, R.id.sticky_number_of_items);
+		mTopRightTextButton = Ui.findView(mRootC, R.id.top_right_text_button);
 
-		mEmptyListTextView = Ui.findView(view, R.id.missing_search_result_text);
-		mEmptyListImageView = Ui.findView(view, R.id.missing_search_result_image);
-
-		mEmptyListTextView.setText(getEmptyListText());
-		mEmptyListImageView.setSVG(getEmptyListImageResource());
+		mEmptyView = Ui.findView(mRootC, android.R.id.empty);
+		mEmptyView.setCaption(getEmptyListText());
+		mEmptyView.setSVG(getEmptyListImageResource());
 
 		mStickyHeaderTv.setText(mStickyHeaderText);
 		mTopRightTextButton.setText(mTopRightTextButtonText);
@@ -111,10 +111,8 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 
 		setTopSpacePixels(mTopSpacePixels);
 
-		return view;
+		return mRootC;
 	}
-
-	private int mTopSpacePixels = 0;
 
 	/**
 	 * Updates the top space on this FruitList (taking into account the column header height).
@@ -126,6 +124,10 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 			int topMargin = ((ViewGroup.MarginLayoutParams)mListView.getLayoutParams()).topMargin;
 			int dividerHeight = getResources().getDimensionPixelSize(R.dimen.results_list_spacer_height);
 			mListView.setTopSpacePixels(mTopSpacePixels - topMargin - dividerHeight);
+
+			ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mEmptyView.getLayoutParams();
+			params.topMargin = mTopSpacePixels - getActivity().getActionBar().getHeight();
+			mEmptyView.setLayoutParams(params);
 		}
 	}
 

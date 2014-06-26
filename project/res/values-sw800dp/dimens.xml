@@ -25,6 +25,10 @@
     <!-- Search Results -->
     <dimen name="results_collapsed_row_height">392dp</dimen>
 
+    <!-- Centered Captioned icon dimensions, used on the Results screen -->
+    <dimen name="centered_captioned_icon_svg_height">70dp</dimen>
+    <dimen name="centered_captioned_icon_svg_width">80dp</dimen>
+
     <!-- Hotel Details -->
     <dimen name="hotel_details_window_margin_x">120dp</dimen>
     <dimen name="hotel_details_window_margin_y">64dp</dimen>
@@ -40,9 +44,5 @@
     <dimen name="trip_bucket_primary_dest_size">60dp</dimen>
     <dimen name="trip_bucket_root_layout_padding_top">110dp</dimen>
     <dimen name="trip_bucket_empty_trip_container_padding_top">0dp</dimen>
-
-    <!-- Tablet Empty Search Result related dimens -->
-    <dimen name="tablet_empty_search_result_bg_top">307dp</dimen>
-    <dimen name="tablet_empty_search_result_text_bottom_margin">132dp</dimen>
 
 </resources>

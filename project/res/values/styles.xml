@@ -1109,13 +1109,4 @@
         <item name="android:textColor">#444444</item>
     </style>
 
-    <!-- Tablet Search Results, Error/no_flight/no_hotel/empty_tripBucket text -->
-    <style name="TabletSearchResultEmptyText">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:layout_marginBottom">@dimen/tablet_empty_search_result_text_bottom_margin</item>
-        <item name="android:textColor">#a5180e0d</item>
-    </style>
-
 </resources>

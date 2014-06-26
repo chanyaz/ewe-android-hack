@@ -1,20 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.CenteredCaptionedIcon
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:id="@+id/empty_bucket_view"
     android:layout_height="match_parent"
-    android:gravity="center|bottom"
-    android:background="#FFFFFF"
-    android:orientation="vertical">
-
-    <com.larvalabs.svgandroid.widget.SVGView
-        android:id="@+id/search_error_img"
-        android:layout_width="@dimen/tablet_empty_search_result_svg_width"
-        android:layout_height="@dimen/tablet_empty_search_result_svg_height"
-        app:zoomMode="fitDocument" />
-
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/error_tv"
-        style="@style/TabletSearchResultEmptyText"
-        app:textStyle="condensed"/>
-
-</LinearLayout>
+    android:layout_width="match_parent"
+    app:svg="@raw/ic_tablet_trip_bucket_suitcase"/>

@@ -32,26 +32,13 @@
                 android:layout_height="match_parent"
                 android:visibility="invisible" />
 
-            <LinearLayout
-                android:id="@+id/empty_bucket_container"
-                android:gravity="center|bottom"
-                android:layout_width="match_parent"
+            <com.expedia.bookings.widget.CenteredCaptionedIcon
+                android:id="@+id/empty_bucket_view"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <com.larvalabs.svgandroid.widget.SVGView
-                    android:id="@+id/empty_bucket_img"
-                    android:layout_width="67dp"
-                    android:layout_height="52dp"
-                    app:src="@raw/ic_tablet_trip_bucket_suitcase"
-                    app:zoomMode="fitDocument" />
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/empty_bucket_tv"
-                    style="@style/TabletSearchResultEmptyText"
-                    android:text="@string/trip_empty"
-                    app:textStyle="condensed" />
-            </LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_marginBottom="@dimen/results_column_header_height"
+                app:svg="@raw/ic_tablet_trip_bucket_suitcase"
+                app:caption="@string/trip_empty"/>
 
         </com.expedia.bookings.widget.FrameLayoutTouchController>
     </LinearLayout>

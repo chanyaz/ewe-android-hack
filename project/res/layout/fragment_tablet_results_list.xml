@@ -20,12 +20,15 @@
         app:footerSpacerColor="@color/tablet_white_pane_bg"
         app:headerSpacerColor="@android:color/transparent" />
 
-    <!-- Empty List View -->
-    <include
-        android:id="@android:id/empty" layout="@layout/include_tablet_search_missing_layout"/>
+    <!-- Empty View -->
+
+    <com.expedia.bookings.widget.CenteredCaptionedIcon
+        android:id="@android:id/empty"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:background="@color/tablet_white_pane_bg"/>
 
     <!-- The sticky header view -->
-
 
     <!-- Note that the layout_height on this container equals ( layout_marginTop + dividerHeight ) on @android:id/list -->
 

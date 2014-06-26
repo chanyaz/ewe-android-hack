@@ -7,12 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.TextView;
-import com.larvalabs.svgandroid.widget.SVGView;
+import com.expedia.bookings.widget.CenteredCaptionedIcon;
 
 /**
  * ResultsListSearchErrorFragment for Tablet
@@ -25,9 +22,7 @@ public class ResultsListSearchErrorFragment extends Fragment {
 	private final static String STATE_ERROR_TEXT = "STATE_ERROR_TEXT";
 	private final static String STATE_ERROR_IMAGE_RES_ID = "STATE_ERROR_IMAGE_RES_ID";
 
-	private View mRootC;
-	private TextView mErrorTv;
-	private SVGView mErrorImageView;
+	private CenteredCaptionedIcon mErrorView;
 	private String mErrorText;
 	private int mErrorImageResId;
 
@@ -40,9 +35,7 @@ public class ResultsListSearchErrorFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = inflater.inflate(R.layout.fragment_results_list_search_error, null);
-		mErrorTv = Ui.findView(mRootC, R.id.error_tv);
-		mErrorImageView = Ui.findView(mRootC, R.id.search_error_img);
+		mErrorView = (CenteredCaptionedIcon) inflater.inflate(R.layout.fragment_results_list_search_error, null);
 
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey(STATE_ERROR_TEXT)) {
@@ -58,7 +51,7 @@ public class ResultsListSearchErrorFragment extends Fragment {
 			setErrorImage(mErrorImageResId);
 		}
 
-		return mRootC;
+		return mErrorView;
 	}
 
 
@@ -75,15 +68,15 @@ public class ResultsListSearchErrorFragment extends Fragment {
 
 	public void setErrorText(String text) {
 		mErrorText = text;
-		if (mErrorTv != null) {
-			mErrorTv.setText(mErrorText);
+		if (mErrorView != null) {
+			mErrorView.setCaption(mErrorText);
 		}
 	}
 
 	public void setErrorImage(int resId) {
 		mErrorImageResId = resId;
-		if (mErrorImageView != null) {
-			mErrorImageView.setSVG(resId);
+		if (mErrorView != null) {
+			mErrorView.setSVG(resId);
 		}
 	}
 }

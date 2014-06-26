@@ -66,11 +66,9 @@
     <fraction name="tablet_hotel_details_horizontal_spacing_percentage">14%</fraction>
     <dimen name="bucket_top_margin">14dp</dimen>
 
-    <!-- Empty Search Result related dimens -->
-    <dimen name="tablet_empty_search_result_svg_height">70dp</dimen>
-    <dimen name="tablet_empty_search_result_svg_width">80dp</dimen>
-    <dimen name="tablet_empty_search_result_bg_top">207dp</dimen>
-    <dimen name="tablet_empty_search_result_text_bottom_margin">50dp</dimen>
+    <!-- Centered Captioned icon dimensions, used on the Results screen -->
+    <dimen name="centered_captioned_icon_svg_height">55dp</dimen>
+    <dimen name="centered_captioned_icon_svg_width">63dp</dimen>
 
     <!-- Hotel Details -->
     <dimen name="hotel_details_window_margin_x">90dp</dimen>
