@@ -170,7 +170,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	public int getTailHeight() {
-		return getResources().getDimensionPixelSize(R.dimen.tablet_hotel_details_vertical_padding);
+		return getResources().getDimensionPixelSize(R.dimen.tablet_hotel_details_bottom_padding);
 	}
 
 	private void downloadDetails() {
@@ -843,14 +843,14 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				mGrid.setNumCols(3);
 				mGrid.setNumRows(3);
 
-				int topBottomSpaceSize = getResources()
-					.getDimensionPixelSize(R.dimen.tablet_hotel_details_vertical_padding);
-				float leftRightSpacePerc = getResources()
-					.getFraction(R.fraction.tablet_hotel_details_horizontal_spacing_percentage, 1, 1);
-				mGrid.setRowSize(0, topBottomSpaceSize);
-				mGrid.setRowSize(2, topBottomSpaceSize);
-				mGrid.setColumnPercentage(0, leftRightSpacePerc);
-				mGrid.setColumnPercentage(2, leftRightSpacePerc);
+				Resources res = getResources();
+				int topSpaceSize = res.getDimensionPixelSize(R.dimen.tablet_hotel_details_top_padding);
+				int bottomSpaceSize = res.getDimensionPixelSize(R.dimen.tablet_hotel_details_bottom_padding);
+				float horizSpacePercentage = res.getFraction(R.fraction.tablet_hotel_details_horizontal_spacing_percentage, 1, 1);
+				mGrid.setRowSize(0, topSpaceSize);
+				mGrid.setRowSize(2, bottomSpaceSize);
+				mGrid.setColumnPercentage(0, horizSpacePercentage);
+				mGrid.setColumnPercentage(2, horizSpacePercentage);
 
 				mGrid.setContainerToRow(mRootC, 1);
 				mGrid.setContainerToColumn(mRootC, 1);
@@ -871,14 +871,14 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				mGrid.setNumCols(3);
 				mGrid.setNumRows(3);
 
-				int topBottomSpaceSize = getResources()
-					.getDimensionPixelSize(R.dimen.tablet_hotel_details_vertical_padding);
-				float leftRightSpacePerc = getResources()
-					.getFraction(R.fraction.tablet_hotel_details_horizontal_spacing_percentage, 1, 1);
-				mGrid.setRowSize(0, topBottomSpaceSize);
-				mGrid.setRowSize(2, topBottomSpaceSize);
-				mGrid.setColumnPercentage(0, leftRightSpacePerc);
-				mGrid.setColumnPercentage(2, leftRightSpacePerc);
+				Resources res = getResources();
+				int topSpaceSize = res.getDimensionPixelSize(R.dimen.tablet_hotel_details_top_padding);
+				int bottomSpaceSize = res.getDimensionPixelSize(R.dimen.tablet_hotel_details_bottom_padding);
+				float horizSpacePercentage = res.getFraction(R.fraction.tablet_hotel_details_horizontal_spacing_percentage, 1, 1);
+				mGrid.setRowSize(0, topSpaceSize);
+				mGrid.setRowSize(2, bottomSpaceSize);
+				mGrid.setColumnPercentage(0, horizSpacePercentage);
+				mGrid.setColumnPercentage(2, horizSpacePercentage);
 
 				mGrid.setContainerToRow(mRootC, 1);
 				mGrid.setContainerToColumn(mRootC, 1);

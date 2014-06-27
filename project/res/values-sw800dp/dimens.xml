@@ -25,6 +25,11 @@
     <!-- Search Results -->
     <dimen name="results_collapsed_row_height">392dp</dimen>
 
+    <!-- Hotel Details Fragment -->
+    <dimen name="tablet_hotel_details_top_padding">64dp</dimen>
+    <dimen name="tablet_hotel_details_bottom_padding">64dp</dimen>
+    <fraction name="tablet_hotel_details_horizontal_spacing_percentage">14%</fraction>
+
     <!-- Centered Captioned icon dimensions, used on the Results screen -->
     <dimen name="centered_captioned_icon_svg_height">70dp</dimen>
     <dimen name="centered_captioned_icon_svg_width">80dp</dimen>

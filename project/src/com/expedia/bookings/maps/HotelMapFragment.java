@@ -728,7 +728,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		}
 		setPadding(mResultsViewWidth,
 			getHeight() - getResources().getDimensionPixelSize(R.dimen.tablet_results_hotel_map_pin_padding)
-				- getResources().getDimensionPixelOffset(R.dimen.tablet_hotel_details_vertical_padding) + tailOffset, 0,
+				- getResources().getDimensionPixelOffset(R.dimen.tablet_hotel_details_top_padding) + tailOffset, 0,
 			0
 		);
 		focusProperty(Db.getHotelSearch().getSelectedProperty(), true);

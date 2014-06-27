@@ -62,8 +62,12 @@
     <!-- GridManager numbers for Search Results screen -->
     <fraction name="results_grid_bottom_half">54%</fraction>
 
-    <dimen name="tablet_hotel_details_vertical_padding">64dp</dimen>
+    <!-- Hotel Details Fragment -->
+    <dimen name="tablet_hotel_details_top_padding">0dp</dimen>
+    <dimen name="tablet_hotel_details_bottom_padding">36dp</dimen>
     <fraction name="tablet_hotel_details_horizontal_spacing_percentage">14%</fraction>
+
+    <!-- Trip Bucket Fragment -->
     <dimen name="bucket_top_margin">14dp</dimen>
 
     <!-- Centered Captioned icon dimensions, used on the Results screen -->
