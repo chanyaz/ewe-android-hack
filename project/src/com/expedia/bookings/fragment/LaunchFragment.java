@@ -38,6 +38,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FlightUnsupportedPOSActivity;
 import com.expedia.bookings.activity.HotelDetailsFragmentActivity;
 import com.expedia.bookings.data.Db;
@@ -227,7 +228,9 @@ public class LaunchFragment extends Fragment implements OnGlobalLayoutListener, 
 
 		onReactToUserActive();
 
-		startMarquee();
+		if (!ExpediaBookingApp.IS_AUTOMATION) {
+			startMarquee();
+		}
 
 		IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 		getActivity().registerReceiver(mConnReceiver, filter);
