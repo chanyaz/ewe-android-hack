@@ -16,8 +16,6 @@ TESTS=""
 TESTS+="com.expedia.bookings.test.tests.tablet.Hotels.ui.regression.HotelSearchFilterTests,"
 TESTS+="com.expedia.bookings.test.tests.tablet.Hotels.ui.regression.HotelSearchSortTests,"
 
-echo "|${TESTS}|"
-
 java \
     -jar lib/TestUtils/jars/spoon-runner-1.1.1-jar-with-dependencies.jar \
     --apk  "$APK" \
