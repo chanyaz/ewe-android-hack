@@ -1143,7 +1143,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		if (frag != null && mListFrag != null && mListFrag.hasList()) {
 			FruitList list = mListFrag.getListView();
-			frag.setDetaultRowDimensions(mGrid.getColWidth(1), list.getRowHeight(false));
+			frag.setDefaultRowDimensions(mGrid.getColWidth(1), list.getRowHeight(false));
 		}
 	}
 

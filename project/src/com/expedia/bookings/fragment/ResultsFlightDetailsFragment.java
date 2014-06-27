@@ -368,7 +368,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		applyDetailsDimensions();
 	}
 
-	public void setDetaultRowDimensions(int width, int height) {
+	public void setDefaultRowDimensions(int width, int height) {
 		mRowWidth = width;
 		mRowHeight = height;
 
