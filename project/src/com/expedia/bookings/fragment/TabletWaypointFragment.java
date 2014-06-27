@@ -30,6 +30,7 @@ import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.section.AfterChangeTextWatcher;
+import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
@@ -318,6 +319,16 @@ public class TabletWaypointFragment extends Fragment
 	}
 
 	protected void handleSuggestion(SuggestionV2 suggestion, String qryText) {
+		Location fakeLocation = ExpediaDebugUtil.getFakeLocation(getActivity());
+		if (suggestion.getResultType() == ResultType.CURRENT_LOCATION && fakeLocation != null) {
+			com.expedia.bookings.data.Location location = new com.expedia.bookings.data.Location();
+			location.setLatitude(fakeLocation.getLatitude());
+			location.setLongitude(fakeLocation.getLongitude());
+			location.setDestinationId("SFO");
+			suggestion.setLocation(location);
+			suggestion.setAirportCode("SFO");
+		}
+
 		if (needsLocation(suggestion)) {
 			//This will fire the listener when the location is found
 			setErrorMessage(null);
