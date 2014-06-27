@@ -32,6 +32,7 @@ import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.enums.ResultsState;
+import com.expedia.bookings.interfaces.IAcceptingListenersListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.interfaces.IStateProvider;
@@ -199,6 +200,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mBackManager.registerWithParent(this);
 		Sp.getBus().register(this);
 		Events.register(this);
+		IAcceptingListenersListener readyForListeners = Ui
+			.findFragmentListener(this, IAcceptingListenersListener.class, false);
+		if (readyForListeners != null) {
+			readyForListeners.acceptingListenersUpdated(this, true);
+		}
 		bindSearchBtns();
 	}
 
@@ -209,6 +215,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mMeasurementHelper.unregisterWithProvider(this);
 		mBackManager.unregisterWithParent(this);
 		Sp.getBus().unregister(this);
+		IAcceptingListenersListener readyForListeners = Ui
+			.findFragmentListener(this, IAcceptingListenersListener.class, false);
+		if (readyForListeners != null) {
+			readyForListeners.acceptingListenersUpdated(this, false);
+		}
 		Events.unregister(this);
 	}
 

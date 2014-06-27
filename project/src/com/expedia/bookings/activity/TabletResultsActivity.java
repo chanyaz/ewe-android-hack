@@ -34,6 +34,7 @@ import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
+import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.enums.ResultsState;
 import com.expedia.bookings.fragment.ResultsBackgroundImageFragment;
 import com.expedia.bookings.fragment.ResultsTripBucketFragment;
@@ -896,6 +897,62 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	};
 
 	/*
+	 * SEARCH RESULTS STATE LISTENER
+	 */
+
+	private StateListenerHelper<ResultsSearchState> mSearchStateHelper = new StateListenerHelper<ResultsSearchState>() {
+
+		@Override
+		public void onStateTransitionStart(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			if (isSearchControlsActiveTransition(stateOne, stateTwo) || isSearchControlsInactiveTransition(stateOne, stateTwo)) {
+				mTripBucketC.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+			}
+		}
+
+		@Override
+		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo, float percentage) {
+			if (isSearchControlsActiveTransition(stateOne, stateTwo)) {
+				if (!mGrid.isLandscape()) {
+					mTripBucketC.setTranslationY(percentage * mGrid.getRowTop(2));
+				}
+			}
+			else if (isSearchControlsInactiveTransition(stateOne, stateTwo)) {
+				if (!mGrid.isLandscape()) {
+					mTripBucketC.setTranslationY((1f - percentage) * mGrid.getRowTop(2));
+				}
+			}
+
+		}
+
+		@Override
+		public void onStateTransitionEnd(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			if (isSearchControlsActiveTransition(stateOne, stateTwo) || isSearchControlsInactiveTransition(stateOne, stateTwo)) {
+				mTripBucketC.setLayerType(View.LAYER_TYPE_NONE, null);
+			}
+		}
+
+		@Override
+		public void onStateFinalized(ResultsSearchState state) {
+			if (state == ResultsSearchState.CALENDAR || state == ResultsSearchState.TRAVELER_PICKER) {
+				mTripBucketC.setTranslationY(mGrid.getRowTop(2));
+			}
+			else if (state == ResultsSearchState.DEFAULT) {
+				mTripBucketC.setTranslationY(0);
+			}
+		}
+
+	};
+
+	private static boolean isSearchControlsActiveTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+		return stateOne == ResultsSearchState.DEFAULT && (stateTwo == ResultsSearchState.CALENDAR || stateTwo == ResultsSearchState.TRAVELER_PICKER);
+	}
+
+	private static boolean isSearchControlsInactiveTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+		return (stateOne == ResultsSearchState.CALENDAR || stateOne == ResultsSearchState.TRAVELER_PICKER) && stateTwo == ResultsSearchState.DEFAULT;
+	}
+
+
+	/*
 	 * ITripBucketBookClickListener
 	 */
 
@@ -917,6 +974,9 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			else if (frag == mHotelsController) {
 				mHotelsController.registerStateListener(mHotelsStateHelper, false);
 			}
+			else if (frag == mSearchController) {
+				mSearchController.registerStateListener(mSearchStateHelper, false);
+			}
 		}
 		else {
 			if (frag == mFlightsController) {
@@ -924,6 +984,9 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			}
 			else if (frag == mHotelsController) {
 				mHotelsController.unRegisterStateListener(mHotelsStateHelper);
+			}
+			else if (frag == mSearchController) {
+				mSearchController.unRegisterStateListener(mSearchStateHelper);
 			}
 		}
 	}
