@@ -1,10 +1,6 @@
 package com.expedia.bookings.test.tests.tablet.Hotels.ui.regression;
 
-import android.test.ActivityInstrumentationTestCase2;
-
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.test.tests.pageModels.tablet.Common;
@@ -13,6 +9,7 @@ import com.expedia.bookings.test.tests.pageModels.tablet.Results;
 import com.expedia.bookings.test.tests.pageModels.tablet.Settings;
 import com.expedia.bookings.test.tests.pageModels.tablet.SortFilter;
 import com.expedia.bookings.test.utils.EspressoUtils;
+import com.expedia.bookings.test.utils.TabletTestCase;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
 
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
@@ -21,28 +18,9 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 /**
  * Created by dmadan on 6/9/14.
  */
-public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<SearchActivity> {
-	public HotelSearchFilterTests() {
-		super(SearchActivity.class);
-	}
+public class HotelSearchFilterTests extends TabletTestCase {
 
 	private static final String TAG = HotelSearchFilterTests.class.getName();
-
-	@Override
-	public void runTest() throws Throwable {
-		// These tests are only applicable to tablets
-		if (ExpediaBookingApp.useTabletInterface(getInstrumentation().getTargetContext())) {
-
-			Settings.clearPrivateData(getInstrumentation());
-			// Point to the mock server
-			Settings.setCustomServer(getInstrumentation(), "mocke3.mobiata.com");
-
-			// Espresso will not launch our activity for us, we must launch it via getActivity().
-			getActivity();
-
-			super.runTest();
-		}
-	}
 
 	// Filter by stars test
 
@@ -212,15 +190,6 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Sea
 			Common.closeSoftKeyboard(SortFilter.filterEditText());
 			Common.pressBack();
 			assertHotelTitlesContains(filterString);
-		}
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		super.tearDown();
-		// These tests are only applicable to tablets
-		if (ExpediaBookingApp.useTabletInterface(getInstrumentation().getTargetContext())) {
-			Common.pressBackOutOfApp();
 		}
 	}
 }

@@ -5,20 +5,16 @@ import java.util.Random;
 
 import org.joda.time.LocalDate;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.util.Pair;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.pageModels.tablet.Checkout;
 import com.expedia.bookings.test.tests.pageModels.tablet.Common;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
-import com.expedia.bookings.test.tests.pageModels.tablet.Settings;
 import com.expedia.bookings.test.utils.EspressoUtils;
+import com.expedia.bookings.test.utils.TabletTestCase;
 
-import static com.expedia.bookings.test.tests.pageModels.tablet.Common.pressBack;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.scrollTo;
@@ -27,29 +23,9 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 /**
  * Created by dmadan on 6/13/14.
  */
-public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2 {
-
-	public HotelCheckoutInfoTests() {
-		super(SearchActivity.class);
-	}
+public class HotelCheckoutInfoTests extends TabletTestCase {
 
 	private static final String TAG = HotelCheckoutInfoTests.class.getSimpleName();
-
-	@Override
-	public void runTest() throws Throwable {
-		// These tests are only applicable to tablets
-		if (ExpediaBookingApp.useTabletInterface(getInstrumentation().getTargetContext())) {
-
-			Settings.clearPrivateData(getInstrumentation());
-			// Point to the mock server
-			Settings.setCustomServer(getInstrumentation(), "mocke3.mobiata.com");
-
-			// Espresso will not launch our activity for us, we must launch it via getActivity().
-			getActivity();
-
-			super.runTest();
-		}
-	}
 
 	public void testHotelHeaderInfo() throws Exception {
 		Common.enterLog(TAG, "START: HOTEL HEADER INFO TESTS");
@@ -80,7 +56,7 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2 {
 		assertEquals(bedType, checkoutBedType);
 		Checkout.clickGrandTotalTextView();
 		Common.checkDisplayed(Checkout.costSummaryText());
-		pressBack();
+		Common.pressBack();
 	}
 
 	public void testHotelReceiptGuestNumber() throws Exception {
@@ -108,7 +84,7 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2 {
 			int totalNumberOfGuests = currentPair.first + currentPair.second;
 			String expectedGuestString = getActivity().getResources().getQuantityString(R.plurals.number_of_guests, totalNumberOfGuests, totalNumberOfGuests);
 			assertEquals(expectedGuestString, receiptGuestString);
-			pressBack();
+			Common.pressBack();
 		}
 	}
 
@@ -143,10 +119,10 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2 {
 			Common.enterLog(TAG, "Number of nights selected is properly displayed in cost summary fragment.");
 			Common.checkDisplayed(Checkout.costSummaryText());
 			Common.enterLog(TAG, "Cost summary string is shown in cost summary fragment.");
-			pressBack();
-			pressBack();
-			pressBack();
-			pressBack();
+			Common.pressBack();
+			Common.pressBack();
+			Common.pressBack();
+			Common.pressBack();
 		}
 	}
 
@@ -185,15 +161,6 @@ public class HotelCheckoutInfoTests extends ActivityInstrumentationTestCase2 {
 
 		for (int i = 0; i < children; i++) {
 			onView(withId(R.id.children_plus)).perform(click());
-		}
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		super.tearDown();
-		// These tests are only applicable to phones
-		if (ExpediaBookingApp.useTabletInterface(getInstrumentation().getTargetContext())) {
-			Common.pressBackOutOfApp();
 		}
 	}
 }
