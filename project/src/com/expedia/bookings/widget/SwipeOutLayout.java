@@ -13,7 +13,9 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewPropertyAnimator;
 import android.widget.FrameLayout;
+import android.widget.ViewAnimator;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.Log;
@@ -25,10 +27,10 @@ import com.mobiata.android.util.Ui;
  *	n listeners.
  *
  *   SwipeOutLayout must be defined with exactly two children having ids: R.id.swipe_out_content and R.id.swipe_out_indicator
- * 
+ *
  *   SwipeOutLayout is expected to be defined in xml, and to have the following property app:swipeOutDirection="east" where east
  *   can be any of north,south,east,west.
- * 
+ *
  *   This was developed as a way to remove an item from a collection.
  *   E.g. We drag our view to the left, revealing a red x symbol, and when the user lets go a trip is removed.
  *
@@ -409,11 +411,11 @@ public class SwipeOutLayout extends FrameLayout {
 					if (getPercentageFromOffset(mCurrentDistance) >= mSwipeOutThreshold) {
 						reportSwipeAllTheWay();
 						if (mAlwaysSnapBack) {
-							setTranslation(0);
+							animateBackToStart();
 						}
 					}
 					else {
-						setTranslation(0);
+						animateBackToStart();
 					}
 
 					reportSwipeStateChanged(SWIPE_STATE_IDLE);
@@ -434,6 +436,7 @@ public class SwipeOutLayout extends FrameLayout {
 					mCurrentDistance = sanitizeOffset(mCurrentDistance - distanceX);
 				}
 				setTranslation(mCurrentDistance);
+				setAlpha(mCurrentDistance);
 				reportSwipeUpdate(getPercentageFromOffset(mCurrentDistance));
 				return true;
 			}
@@ -476,6 +479,23 @@ public class SwipeOutLayout extends FrameLayout {
 			else {
 				mContentView.setTranslationX(translation);
 			}
+		}
+
+		private void animateBackToStart() {
+			int duration = getContext().getResources().getInteger(android.R.integer.config_shortAnimTime);
+			ViewPropertyAnimator anim = mContentView.animate().alpha(1f).setDuration(duration);
+			if (mVertical) {
+				anim.translationY(0);
+			}
+			else {
+				anim.translationX(0);
+			}
+			anim.start();
+		}
+
+		private void setAlpha(float translation) {
+			float alpha = (mMaxSlideOutDistance - translation)/mMaxSlideOutDistance;
+			mContentView.setAlpha(alpha);
 		}
 
 	}
