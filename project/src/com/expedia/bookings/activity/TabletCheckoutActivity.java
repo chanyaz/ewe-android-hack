@@ -351,14 +351,13 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	}
 
 	/*
-	 * ITripBucketBookClickListener
-	 */
-
-	/*
 	 * CACHED DATA LOADING...
 	 */
 	private boolean mLoadedDbInfo = false;
 
+	/*
+	 * ITripBucketBookClickListener
+	 */
 	public void onTripBucketBookClicked(LineOfBusiness lob) {
 		updateLob(lob);
 		CheckoutState state;
