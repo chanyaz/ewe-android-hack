@@ -2,42 +2,17 @@ package com.expedia.bookings.test.tests.tablet.Flights.ui.regression;
 
 import org.joda.time.LocalDate;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.test.ActivityInstrumentationTestCase2;
-
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchActivity;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
 import com.expedia.bookings.test.utils.EspressoUtils;
-import com.expedia.bookings.test.utils.HotelsUserData;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.test.utils.TabletTestCase;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
-import com.mobiata.android.util.SettingUtils;
 
 /**
  * Created by dmadan on 6/2/14.
  */
-public class FlightDetailsTests extends ActivityInstrumentationTestCase2<SearchActivity> {
-	public FlightDetailsTests() {
-		super(SearchActivity.class);
-	}
-
-	private static final String TAG = FlightDetailsTests.class.getSimpleName();
-	Context mContext;
-	Resources mRes;
-	HotelsUserData mUser;
-
-	protected void setUp() throws Exception {
-		super.setUp();
-		mContext = getInstrumentation().getTargetContext();
-		mRes = mContext.getResources();
-		mUser = new HotelsUserData(getInstrumentation());
-		ClearPrivateDataUtil.clear(mContext);
-		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
-		getActivity();
-	}
+public class FlightDetailsTests extends TabletTestCase {
 
 	public void testFlightDetails() throws Exception {
 		// search for a flight that should always be direct
@@ -50,11 +25,11 @@ public class FlightDetailsTests extends ActivityInstrumentationTestCase2<SearchA
 	private void flightSearch() {
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
-		Launch.typeInDestinationEditText("Los Angeles, CA");
-		Launch.clickSuggestion("Los Angeles, CA");
+		Launch.typeInDestinationEditText("San Francisco, CA");
+		Launch.clickSuggestion("San Francisco, CA");
 		Results.clickOriginButton();
-		Results.typeInOriginEditText("San Francisco, CA");
-		Results.clickSuggestion("San Francisco, CA");
+		Results.typeInOriginEditText("Detroit, MI");
+		Results.clickSuggestion("Detroit, MI");
 		Results.clickSelectFlightDates();
 		int randomOffset = 20 + (int) (Math.random() * 100);
 		LocalDate startDate = LocalDate.now().plusDays(randomOffset);

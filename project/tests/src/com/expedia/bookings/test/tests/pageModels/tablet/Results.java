@@ -63,7 +63,13 @@ public class Results {
 	}
 
 	public static void swipeUpFlightList() {
-		flightList().perform(swipeUp());
+		onView(withId(R.id.list_column_container)).perform(slowSwipeUp());
+		try {
+			Thread.sleep(1500);
+		}
+		catch (Exception e) {
+			// ignore
+		}
 	}
 
 	public static ViewInteraction actionUpButton() {

@@ -5,64 +5,42 @@ import java.util.GregorianCalendar;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
-import android.content.Context;
-import android.test.ActivityInstrumentationTestCase2;
 import android.util.Pair;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.SearchActivity;
+import com.expedia.bookings.test.tests.pageModels.tablet.Common;
 import com.expedia.bookings.test.tests.pageModels.tablet.Launch;
 import com.expedia.bookings.test.tests.pageModels.tablet.Results;
 import com.expedia.bookings.test.tests.pageModels.tablet.SortFilter;
-import com.expedia.bookings.test.tests.pageModelsEspresso.common.ScreenActions;
 import com.expedia.bookings.test.utils.EspressoUtils;
-import com.expedia.bookings.utils.ClearPrivateDataUtil;
+import com.expedia.bookings.test.utils.TabletTestCase;
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
-import com.mobiata.android.util.SettingUtils;
 
 import junit.framework.AssertionFailedError;
-
-import static com.expedia.bookings.test.utils.EspressoUtils.slowSwipeUp;
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.pressBack;
 
 /**
  * Created by dmadan on 5/27/14.
  */
-public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCase2 {
+public class FlightSearchResultsSortTests extends TabletTestCase {
 
-	public FlightSearchResultsSortTests() {
-		super(SearchActivity.class);
-	}
-
-	private static final String TAG = "FlightSearchResultsSortTests";
-
-	Context mContext;
 	DateTime mNow;
-	int mCheck = 1;
-
-	protected void setUp() throws Exception {
-		super.setUp();
-		mContext = getInstrumentation().getTargetContext();
-		ClearPrivateDataUtil.clear(mContext);
-		SettingUtils.save(mContext, R.string.preference_which_api_to_use_key, "Integration");
-		getActivity();
-	}
 
 	// Helper methods
 
 	public void executeAFlightSearch() throws Exception {
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
-		Launch.typeInDestinationEditText("New York, NY");
-		Launch.clickSuggestion("New York, NY");
+		Launch.typeInDestinationEditText("San Francisco, CA");
+		Launch.clickSuggestion("San Francisco, CA");
 		Results.clickOriginButton();
-		Results.typeInOriginEditText("Paris, France");
-		Results.clickSuggestion("Paris, France");
+		Results.typeInOriginEditText("Detroit, MI");
+		Results.clickSuggestion("Detroit, MI");
 		Results.clickSelectFlightDates();
 		LocalDate startDate = LocalDate.now().plusDays(1);
 		Results.clickDate(startDate, null);
 		Results.clickSearchNow();
-		Results.flightList().perform(slowSwipeUp());
+		Results.swipeUpFlightList();
+		mNow = DateTime.now();
 	}
 
 	private float getCleanFloatFromTextView(String str) {
@@ -104,12 +82,8 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 		return hourAndMinutes;
 	}
 
-	private float getTimeMillisFromTextView(String str, int searchOffset) {
+	private float getTimeMillisFromTextView(String str, int searchOffset, DateTime mNow) {
 		Pair<Integer, Integer> hourAndMinutes = getHourMinutePairFromTimeTextView(str);
-		if (mCheck == 1) {
-			mNow = DateTime.now();
-			mCheck = 0;
-		}
 		int month = mNow.getMonthOfYear();
 		int day = mNow.getDayOfMonth() + searchOffset;
 		int daysInMonth = new GregorianCalendar().getActualMaximum(month);
@@ -153,8 +127,6 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 				previousPrice = currentPrice;
 			}
 		}
-		pressBack();
-		pressBack();
 	}
 
 	public void testSortByArrival() throws Exception {
@@ -175,7 +147,7 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 				//get arrival time from "flight time" text view of first flight row
 				previousArrivalTimeString = getCleanArrivalTime(previousArrivalTimeString);
 			}
-			float previousArrivalTime = getTimeMillisFromTextView(previousArrivalTimeString, additionalDaysPrevious + 1);
+			float previousArrivalTime = getTimeMillisFromTextView(previousArrivalTimeString, additionalDaysPrevious + 1, mNow);
 
 			// Iterate through list and compare current arrival time with previous arrival time
 			for (int j = 1; j < totalFlights - 1; j++) {
@@ -190,7 +162,7 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 					//get arrival time from "flight time" text view
 					currentArrivalTimeString = getCleanArrivalTime(currentArrivalTimeString);
 				}
-				float currentArrivalTime = getTimeMillisFromTextView(currentArrivalTimeString, additionalDaysCurrent + 1);
+				float currentArrivalTime = getTimeMillisFromTextView(currentArrivalTimeString, additionalDaysCurrent + 1, mNow);
 
 				if (currentArrivalTime < previousArrivalTime) {
 					throw new AssertionFailedError("Row's arrival time was "
@@ -202,8 +174,6 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 				previousArrivalTime = currentArrivalTime;
 			}
 		}
-		pressBack();
-		pressBack();
 	}
 
 	public void testSortByDeparture() throws Exception {
@@ -217,14 +187,14 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 			DataInteraction previousRow = Results.flightAtIndex(1);
 			String textView = EspressoUtils.getListItemValues(previousRow, R.id.flight_time_text_view);
 			String previousDepartureTimeString = textView.substring(0, textView.indexOf("t") - 1);
-			float previousDepartureTime = getTimeMillisFromTextView(previousDepartureTimeString, 1);
+			float previousDepartureTime = getTimeMillisFromTextView(previousDepartureTimeString, 1, mNow);
 
 			// Iterate through list by section and compare current departure time with previous departure time
 			for (int j = 1; j < totalFlights - 1; j++) {
 				DataInteraction currentRow = Results.flightAtIndex(j);
 				textView = EspressoUtils.getListItemValues(currentRow, R.id.flight_time_text_view);
 				String currentDepartureTimeString = textView.substring(0, textView.indexOf("t") - 1);
-				float currentDepartureTime = getTimeMillisFromTextView(currentDepartureTimeString, 1);
+				float currentDepartureTime = getTimeMillisFromTextView(currentDepartureTimeString, 1, mNow);
 
 				if (currentDepartureTime < previousDepartureTime) {
 					throw new AssertionFailedError("Row's departure time was "
@@ -236,8 +206,6 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 				previousDepartureTime = currentDepartureTime;
 			}
 		}
-		pressBack();
-		pressBack();
 	}
 
 	public void testSortByDuration() throws Exception {
@@ -251,7 +219,7 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 			Results.clickFlightAtIndex(1);
 			String duration = EspressoUtils.getText(R.id.flight_overall_duration_text_view);
 			Pair<Integer, Integer> previousDuration = getHourMinutePairFromHeaderTextView(duration);
-			pressBack();
+			Common.pressBack();
 			Pair<Integer, Integer> currentDuration;
 
 			//iterate through list of flights, compare currently indexed flight's duration with flight at index - 1
@@ -259,7 +227,7 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 				Results.clickFlightAtIndex(j);
 				String currentDurationString = EspressoUtils.getText(R.id.flight_overall_duration_text_view);
 				currentDuration = getHourMinutePairFromHeaderTextView(currentDurationString);
-				pressBack();
+				Common.pressBack();
 
 				if (currentDuration.first < previousDuration.first
 					|| (currentDuration.first == previousDuration.first
@@ -271,8 +239,6 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 				previousDuration = currentDuration;
 			}
 		}
-		pressBack();
-		pressBack();
 	}
 
 	public void testAirlineFilter() throws Exception {
@@ -293,11 +259,8 @@ public class FlightSearchResultsSortTests extends ActivityInstrumentationTestCas
 				DataInteraction currentRow = Results.flightAtIndex(j);
 				String airlineName = EspressoUtils.getListItemValues(currentRow, R.id.airline_text_view);
 				assertEquals(airlineFilterName, airlineName);
-				ScreenActions.enterLog(TAG, "Airline name in Flight filters: " + airlineFilterName + " is same as: " + airlineName + " in the Flight results");
 			}
 			SortFilter.clickAirlineFilter(airlineFilterName);
 		}
-		pressBack();
-		pressBack();
 	}
 }
