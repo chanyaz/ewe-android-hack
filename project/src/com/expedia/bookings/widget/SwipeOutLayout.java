@@ -363,10 +363,6 @@ public class SwipeOutLayout extends FrameLayout {
 			mGesDet = new GestureDetector(context, mListener);
 		}
 
-		public void setHasDown(boolean hasDown) {
-			mHasDown = hasDown;
-		}
-
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 			//If swiping out is disabled, we ignore touch events
@@ -475,26 +471,5 @@ public class SwipeOutLayout extends FrameLayout {
 			}
 		}
 
-	}
-
-	@Override
-	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		switch (ev.getAction()) {
-		// Once we're moving, don't pass events to the children.
-		case MotionEvent.ACTION_MOVE:
-			reportSwipeStateChanged(SWIPE_STATE_DRAGGING);
-			return true;
-		case MotionEvent.ACTION_DOWN:
-			mTouchListener.setHasDown(true);
-			// If the view has been idle, pass events through.
-			if (mLastReportedSwipeState == SWIPE_STATE_IDLE) {
-				return false;
-			}
-			// Otherwise, we want to the parent to handle them
-			else {
-				return true;
-			}
-		}
-		return false;
 	}
 }
