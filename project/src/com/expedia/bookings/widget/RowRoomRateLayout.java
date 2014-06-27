@@ -399,7 +399,7 @@ public class RowRoomRateLayout extends FrameLayout {
 		Intent intent = builder
 			.setTitle(title)
 			.setHtmlData(HtmlUtils.wrapInHeadAndBodyWithStandardTabletMargins(text))
-			.setTheme(R.style.Theme_Phone_WebView_WithTitle)
+			.setTheme(R.style.V2_Theme_Activity_TabletWeb)
 			.getIntent();
 		context.startActivity(intent);
 	}

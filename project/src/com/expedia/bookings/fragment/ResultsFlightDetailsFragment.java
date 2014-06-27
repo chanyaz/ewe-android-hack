@@ -296,10 +296,12 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 	private void openBaggageFees(String title, String url) {
 		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
-		Intent intent = builder.setUrl(url).setTitle(title)
-			.setTheme(R.style.V2_Theme_Activity_TabletResults_WebActivity).getIntent();
+		Intent intent = builder.setUrl(url) //
+			.setTheme(R.style.V2_Theme_Activity_TabletWeb) //
+			.setTitle(title) //
+			.setAllowMobileRedirects(false) //
+			.getIntent();
 		startActivity(intent);
-
 	}
 
 	private String formatTime(Calendar cal) {
