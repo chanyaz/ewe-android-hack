@@ -53,19 +53,9 @@
 
         <com.expedia.bookings.widget.AutoResizeTextView
             android:id="@+id/room_rate_button_add"
+            style="@style/V2.Widget.TextView.AddToTrip"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="@drawable/tablet_hotel_room_add_button"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:text="@string/room_rate_button_add_to_trip"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent" />
 
 
         <com.expedia.bookings.widget.AutoResizeTextView
