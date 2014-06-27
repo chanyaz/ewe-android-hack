@@ -38,6 +38,9 @@
     <dimen name="hotel_details_window_margin_x">120dp</dimen>
     <dimen name="hotel_details_window_margin_y">64dp</dimen>
     <dimen name="hotel_header_height">272dp</dimen>
+    <dimen name="tablet_details_compact_header_height">57dp</dimen>
+    <dimen name="hotel_details_star_rating_margin">18dp</dimen>
+    <dimen name="hotel_details_hotel_name_margin">10dp</dimen>
     <dimen name="hotel_details_reviews_section_height">86dp</dimen>
     <dimen name="hotel_details_reviews_section_top_padding">3dp</dimen>
     <dimen name="hotel_details_ring_size">36dp</dimen>

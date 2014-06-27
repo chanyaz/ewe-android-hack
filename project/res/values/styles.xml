@@ -248,12 +248,6 @@
         <item name="android:progressDrawable">@drawable/ratingbar_star_gray</item>
     </style>
 
-    <style name="RatingBar.Star.HotelDetails">
-        <item name="android:progressDrawable">@drawable/ratingbar_star_hotel_details</item>
-        <item name="android:minHeight">15dp</item>
-        <item name="android:maxHeight">15dp</item>
-    </style>
-
     <style name="RatingBar.UserReview">
         <item name="android:progressDrawable">@drawable/ratingbar_userreview_yellow</item>
         <item name="android:minHeight">12dp</item>
@@ -269,12 +263,6 @@
 
     <style name="RatingBar.UserReview.White">
         <item name="android:progressDrawable">@drawable/ratingbar_userreview_white</item>
-    </style>
-
-    <style name="RatingBar.UserReview.HotelDetails">
-        <item name="android:progressDrawable">@drawable/ratingbar_userreview_hotel_details</item>
-        <item name="android:minHeight">19dp</item>
-        <item name="android:maxHeight">19dp</item>
     </style>
 
     <style name="Widget.EditText" parent="@android:style/Widget.EditText">
