@@ -38,6 +38,15 @@
     <dimen name="hotel_details_window_margin_x">120dp</dimen>
     <dimen name="hotel_details_window_margin_y">64dp</dimen>
     <dimen name="hotel_header_height">272dp</dimen>
+    <dimen name="hotel_details_reviews_section_height">86dp</dimen>
+    <dimen name="hotel_details_reviews_section_top_padding">3dp</dimen>
+    <dimen name="hotel_details_ring_size">36dp</dimen>
+    <dimen name="hotel_details_amenities_section_height">80dp</dimen>
+    <dimen name="hotel_details_amenities_section_top_margin">0dp</dimen>
+
+    <!-- Tablet Amenities -->
+    <dimen name="amenity_layout_width">70dp</dimen>
+    <dimen name="amenity_icon_size">42dp</dimen>
 
     <!-- Hotel/Flight/Tripbucket Card dimensions -->
     <dimen name="hotel_flight_card_height">150dp</dimen>

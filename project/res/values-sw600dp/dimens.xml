@@ -77,7 +77,7 @@
     <!-- Hotel Details -->
     <dimen name="hotel_details_window_margin_x">90dp</dimen>
     <dimen name="hotel_details_window_margin_y">64dp</dimen>
-    <dimen name="hotel_header_height">172dp</dimen>
+    <dimen name="hotel_header_height">200dp</dimen>
     <dimen name="hotel_row_med_container_height">28dp</dimen>
     <dimen name="hotel_details_horizontal_padding">28dp</dimen>
     <dimen name="hotel_details_callout_text_margin_x">12dp</dimen>
@@ -90,6 +90,13 @@
     <dimen name="add_rate_button_min_width">48dp</dimen>
     <dimen name="tablet_details_compact_header_height">57dp</dimen>
     <dimen name="tablet_reviews_header_height">112dp</dimen>
+
+    <dimen name="hotel_details_reviews_section_height">72dp</dimen>
+    <dimen name="hotel_details_reviews_section_top_padding">0dp</dimen>
+    <dimen name="hotel_details_ring_size">32dp</dimen>
+    <dimen name="hotel_details_amenities_section_height">62dp</dimen>
+    <dimen name="hotel_details_amenities_section_top_margin">-5dp</dimen>
+
 
     <!-- Hotel Details Rooms and rates row initial/unexpanded height -->
     <dimen name="hotel_room_rate_list_height">84dp</dimen>
@@ -108,9 +115,9 @@
     <!-- Tablet Amenities -->
     <dimen name="amenity_text_size_large">13sp</dimen>
     <dimen name="amenity_text_size_small">12sp</dimen>
-    <dimen name="amenity_layout_width">70dp</dimen>
+    <dimen name="amenity_layout_width">58dp</dimen>
     <dimen name="single_amenity_margin">3dp</dimen>
-    <dimen name="amenity_icon_size">42dp</dimen>
+    <dimen name="amenity_icon_size">31dp</dimen>
 
     <!-- Tablet text size for Baggage fees TextViews -->
     <dimen name="flight_details_baggage_fee_text_view_text_size">16dp</dimen>

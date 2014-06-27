@@ -854,12 +854,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 				mGrid.setContainerToRow(mRootC, 1);
 				mGrid.setContainerToColumn(mRootC, 1);
-
-				int halfContentSize = mGrid.getRowHeight(1) / 2;
-				if (mHeaderContainer.getLayoutParams() != null) {
-					mHeaderContainer.getLayoutParams().height = halfContentSize;
-					mHeaderContainer.setLayoutParams(mHeaderContainer.getLayoutParams());
-				}
 			}
 			else {
 				GridManager globalGm = new GridManager(2, 2);
@@ -882,12 +876,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 				mGrid.setContainerToRow(mRootC, 1);
 				mGrid.setContainerToColumn(mRootC, 1);
-
-				int halfContentSize = mGrid.getRowHeight(1) / 2;
-				if (mHeaderContainer.getLayoutParams() != null) {
-					mHeaderContainer.getLayoutParams().height = halfContentSize;
-					mHeaderContainer.setLayoutParams(mHeaderContainer.getLayoutParams());
-				}
 			}
 		}
 	};

@@ -24,12 +24,12 @@
             <RelativeLayout
                 android:id="@+id/reviews_container"
                 android:layout_width="match_parent"
-                android:layout_height="86dp"
+                android:layout_height="@dimen/hotel_details_reviews_section_height"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/header_container"
                 android:background="@color/tablet_white_pane_bg"
-                android:paddingTop="4dp">
+                android:paddingTop="@dimen/hotel_details_reviews_section_top_padding">
 
                 <View
                     android:id="@+id/reviews_section_divider"
@@ -74,8 +74,8 @@
 
                     <com.expedia.bookings.widget.RingedCountView
                         android:id="@+id/rooms_left_ring"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
+                        android:layout_width="@dimen/hotel_details_ring_size"
+                        android:layout_height="@dimen/hotel_details_ring_size"
                         app:percent="0"
                         app:primaryColor="@color/details_ring_red"
                         app:ringThickness="4dp"
@@ -144,7 +144,7 @@
             <FrameLayout
                 android:id="@+id/amenities_container"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="@dimen/hotel_details_amenities_section_height"
                 android:layout_below="@id/reviews_container"
                 android:background="@color/tablet_white_pane_bg"
                 android:paddingLeft="@dimen/hotel_details_horizontal_padding"
@@ -153,6 +153,9 @@
 
                 <include
                     layout="@layout/include_amenities"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/hotel_details_amenities_section_top_margin"
                     android:visibility="visible" />
             </FrameLayout>
 
