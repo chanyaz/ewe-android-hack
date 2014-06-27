@@ -77,7 +77,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private View mMobileExclusiveContainer;
 	private HotelDetailsStickyHeaderLayout mHeaderContainer;
 	private ViewGroup mAmenitiesContainer;
-	private LinearLayout mRatesContainer;
 	private View mProgressContainer;
 	private ViewGroup mReviewsC;
 	private ScrollView mScrollView;
@@ -105,7 +104,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_hotel_details, null);
 		mAmenitiesContainer = Ui.findView(mRootC, R.id.amenities_container);
-		mRatesContainer = Ui.findView(mRootC, R.id.rooms_rates_container);
 		mUserRatingContainer = Ui.findView(mRootC, R.id.user_rating_container);
 		mRoomsLeftContainer = Ui.findView(mRootC, R.id.rooms_left_container);
 		mMobileExclusiveContainer = Ui.findView(mRootC, R.id.mobile_exclusive_container);
@@ -426,8 +424,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			view.findViewById(R.id.amenities_none_text).setVisibility(View.GONE);
 		}
 		else {
-		      view.findViewById(R.id.amenities_scroll_view).setVisibility(View.GONE);
-		      mAmenitiesContainer.setVisibility(View.GONE);
+			view.findViewById(R.id.amenities_scroll_view).setVisibility(View.GONE);
+			mAmenitiesContainer.setVisibility(View.GONE);
 		}
 	}
 
@@ -459,7 +457,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	};
 
 	private void setupRoomRates(View view, Property property) {
-		mRatesContainer.removeAllViews();
+		mRoomsRatesContainer.removeAllViews();
 
 		if (mResponse == null) {
 			return;
@@ -468,9 +466,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		List<Rate> rates = mResponse.getRates();
 
 		for (Rate rate : rates) {
-			RowRoomRateLayout row = Ui.inflate(R.layout.row_tablet_room_rate, mRatesContainer, false);
+			RowRoomRateLayout row = Ui.inflate(R.layout.row_tablet_room_rate, mRoomsRatesContainer, false);
 			row.bind(rate, mResponse.getCommonValueAdds(), mRateClickListener, mAddRoomClickListener);
-			mRatesContainer.addView(row);
+			mRoomsRatesContainer.addView(row);
 		}
 	}
 
@@ -480,20 +478,20 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			mProgressContainer.setVisibility(View.VISIBLE);
 			descriptionsContainer.setVisibility(View.GONE);
 			mAmenitiesContainer.setVisibility(View.INVISIBLE);
-			mRatesContainer.setVisibility(View.GONE);
+			mRoomsRatesContainer.setVisibility(View.GONE);
 		}
 		else {
 			mProgressContainer.setVisibility(View.VISIBLE);
 			descriptionsContainer.setVisibility(View.VISIBLE);
 			mAmenitiesContainer.setVisibility(View.VISIBLE);
-			mRatesContainer.setVisibility(View.VISIBLE);
+			mRoomsRatesContainer.setVisibility(View.VISIBLE);
 
 			long duration = getResources().getInteger(android.R.integer.config_longAnimTime);
 
 			ObjectAnimator.ofFloat(mAmenitiesContainer, "alpha", 0.0f, 1.0f) //
 				.setDuration(duration) //
 				.start();
-			ObjectAnimator.ofFloat(mRatesContainer, "alpha", 0.0f, 1.0f) //
+			ObjectAnimator.ofFloat(mRoomsRatesContainer, "alpha", 0.0f, 1.0f) //
 				.setDuration(duration) //
 				.start();
 			ObjectAnimator.ofFloat(descriptionsContainer, "alpha", 0.0f, 1.0f) //
