@@ -501,6 +501,9 @@ public class TabletWaypointFragment extends Fragment
 	public void onCurrentLocation(Location location, SuggestionV2 suggestion) {
 		if (mLoadingLocation) {
 			unsetLoadingAndError();
+			suggestion.getLocation().setLatitude(location.getLatitude());
+			suggestion.getLocation().setLongitude(location.getLongitude());
+			suggestion.setResultType(ResultType.CURRENT_LOCATION);
 			Events.post(new Events.SearchSuggestionSelected(suggestion, null));
 		}
 	}

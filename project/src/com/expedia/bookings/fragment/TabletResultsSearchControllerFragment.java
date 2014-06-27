@@ -242,7 +242,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		//TODO: Improve string formats
 
 		//Origin/Destination - Note that these come strait from Params
-		if (mLocalParams.hasDestination()) {
+		if (mLocalParams.hasDestination() && mLocalParams.getDestination().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION) {
+			mDestBtn.setText(R.string.current_location);
+
+		}
+		else if (mLocalParams.hasDestination()) {
 			mDestBtn.setText(Html.fromHtml(mLocalParams.getDestination().getDisplayName()).toString());
 		}
 		else {
@@ -1145,7 +1149,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	@Override
 	public void onCurrentLocation(Location location, SuggestionV2 suggestion) {
-		if (!mLocalParams.hasOrigin()) {
+		// Let's not update the origin when destination is CURRENT_LOCATION
+		if (!mLocalParams.hasOrigin() && mLocalParams.getDestination().getResultType() != SuggestionV2.ResultType.CURRENT_LOCATION) {
 			mLocalParams.setOrigin(suggestion);
 			if (copyTempValuesToParams()) {
 				doSpUpdate();
