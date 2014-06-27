@@ -43,22 +43,27 @@
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/details_add_trip_button"
+                    style="@style/V2.Widget.TextView.AddToTrip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="right"
                     android:layout_marginRight="4dp"
-                    android:background="#3987bf"
-                    android:gravity="center"
                     android:paddingBottom="4dp"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="4dp"
-                    android:textAllCaps="true"
-                    android:textColor="#fff"
-                    android:textSize="14sp"
-                    app:textStyle="bold" />
+                    android:paddingTop="4dp" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/details_price_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/details_add_trip_button"
+                    android:layout_marginRight="12dp"
+                    android:textColor="#3f86c2"
+                    android:textSize="15dp" />
+
+
             </RelativeLayout>
 
             <ScrollView

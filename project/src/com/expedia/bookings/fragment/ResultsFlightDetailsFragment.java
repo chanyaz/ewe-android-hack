@@ -72,6 +72,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 	private TextView mTimeHeaderTv;
 	private TextView mAddTripTv;
+	private TextView mPriceTv;
 
 	private ViewGroup mOnTimeContainer;
 	private RingedCountView mOnTimeRingView;
@@ -125,6 +126,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 
 		mTimeHeaderTv = Ui.findView(mRootC, R.id.details_time_header);
 		mAddTripTv = Ui.findView(mRootC, R.id.details_add_trip_button);
+		mPriceTv = Ui.findView(mRootC, R.id.details_price_text_view);
 
 		mOnTimeContainer = Ui.findView(mRootC, R.id.flight_punctuality_container);
 		mOnTimeRingView = Ui.findView(mRootC, R.id.flight_on_time_ring_view);
@@ -227,9 +229,7 @@ public class ResultsFlightDetailsFragment extends Fragment {
 		mTimeHeaderTv.setText(time);
 
 		// Add for $390
-		String addTripStr = res.getString(R.string.add_for_TEMPLATE,
-			trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
-		mAddTripTv.setText(addTripStr);
+		mPriceTv.setText(trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
 		mAddTripTv.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
