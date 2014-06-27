@@ -146,6 +146,8 @@ public class HotelSearchFilterTests extends ActivityInstrumentationTestCase2<Sea
 	}
 
 	public void testDistanceFilter() throws Exception {
+		Settings.setFakeCurrentLocation(getInstrumentation(), "37.7914", "-122.401");
+
 		Launch.clickSearchButton();
 		Launch.clickDestinationEditText();
 		Launch.clickSuggestion("Current Location");
