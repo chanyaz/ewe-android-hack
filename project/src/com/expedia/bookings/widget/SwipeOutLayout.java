@@ -518,7 +518,7 @@ public class SwipeOutLayout extends FrameLayout {
 			float y = ev.getY();
 			float xDeltaTotal = Math.abs(x - mStartX);
 			float yDeltaTotal = Math.abs(y - mStartY);
-			if (xDeltaTotal > mTouchSlop && yDeltaTotal < mTouchSlop) {
+			if (xDeltaTotal > mTouchSlop && yDeltaTotal < mTouchSlop * 2) {
 				mStartX = x;
 				mStartY = y;
 				return true;
