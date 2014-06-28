@@ -79,7 +79,7 @@
     <dimen name="hotel_details_window_margin_y">64dp</dimen>
     <dimen name="hotel_header_height">200dp</dimen>
     <dimen name="hotel_row_med_container_height">28dp</dimen>
-    <dimen name="hotel_details_horizontal_padding">28dp</dimen>
+    <dimen name="hotel_details_horizontal_padding">20dp</dimen>
     <dimen name="hotel_details_callout_text_margin_x">12dp</dimen>
     <dimen name="hotel_details_callout_text_margin_y">12dp</dimen>
     <dimen name="hotel_details_callout_text_padding_x">12dp</dimen>
@@ -98,12 +98,13 @@
     <dimen name="hotel_details_amenities_section_height">62dp</dimen>
     <dimen name="hotel_details_amenities_section_top_margin">-5dp</dimen>
 
-
-    <!-- Hotel Details Rooms and rates row initial/unexpanded height -->
+    <!-- Hotel Details Rooms and Rates -->
     <dimen name="hotel_room_rate_list_height">84dp</dimen>
-
-    <!-- Hotel Details Rooms and rates detail container margin top/bottom -->
     <dimen name="hotel_room_rate_vertical_padding">20dp</dimen>
+    <dimen name="hotel_room_rate_price_margin">17dp</dimen>
+    <dimen name="hotel_room_rate_price_text_size">14sp</dimen>
+    <dimen name="hotel_room_rate_button_width">120dp</dimen>
+    <dimen name="hotel_room_rate_button_height">32dp</dimen>
 
     <!-- Tablet Flights -->
     <dimen name="flight_header_bottom_margin">140dp</dimen>

@@ -38,6 +38,7 @@
     <dimen name="hotel_details_window_margin_x">120dp</dimen>
     <dimen name="hotel_details_window_margin_y">64dp</dimen>
     <dimen name="hotel_header_height">272dp</dimen>
+    <dimen name="hotel_details_horizontal_padding">28dp</dimen>
     <dimen name="tablet_details_compact_header_height">57dp</dimen>
     <dimen name="hotel_details_star_rating_margin">18dp</dimen>
     <dimen name="hotel_details_hotel_name_margin">10dp</dimen>
@@ -46,6 +47,12 @@
     <dimen name="hotel_details_ring_size">36dp</dimen>
     <dimen name="hotel_details_amenities_section_height">80dp</dimen>
     <dimen name="hotel_details_amenities_section_top_margin">0dp</dimen>
+
+    <!-- Hotel Details Rooms and Rates -->
+    <dimen name="hotel_room_rate_price_margin">24dp</dimen>
+    <dimen name="hotel_room_rate_price_text_size">15sp</dimen>
+    <dimen name="hotel_room_rate_button_width">128dp</dimen>
+    <dimen name="hotel_room_rate_button_height">35dp</dimen>
 
     <!-- Tablet Amenities -->
     <dimen name="amenity_layout_width">70dp</dimen>

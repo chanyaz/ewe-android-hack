@@ -16,6 +16,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
@@ -33,6 +35,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
+import com.expedia.bookings.utils.TypefaceSpan;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.json.JSONUtils;
@@ -163,9 +166,18 @@ public class RowRoomRateLayout extends FrameLayout {
 			bedType.setText(bedTypes.iterator().next().getBedTypeDescription());
 		}
 
-		String formattedRoomRate = rate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL);
-		String perNightString = res.getString(R.string.room_rate_per_night_template, formattedRoomRate);
-		pricePerNight.setText(Html.fromHtml(perNightString));
+		if (pricePerNight != null) {
+			String formattedRoomRate = rate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL);
+			String built = res.getString(R.string.room_rate_per_night_template, formattedRoomRate);
+			int rateOffset = built.indexOf(formattedRoomRate);
+			int rateLength = formattedRoomRate.length();
+			SpannableStringBuilder builder = new SpannableStringBuilder(built);
+			builder.setSpan(new TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD)),
+				rateOffset, rateLength, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			builder.setSpan(new ForegroundColorSpan(res.getColor(R.color.hotel_room_rate_select_room_button)),
+				rateOffset, rateLength, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+			pricePerNight.setText(builder);
+		}
 
 		// Show renovation fees notice
 		View renovationNoticeContainer = Ui.findView(this, R.id.room_rate_renovation_container);

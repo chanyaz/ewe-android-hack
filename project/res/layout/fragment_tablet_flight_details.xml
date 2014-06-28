@@ -43,7 +43,7 @@
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/details_add_trip_button"
-                    style="@style/V2.Widget.TextView.AddToTrip"
+                    style="@style/V2.Widget.TextView.RateButton.AddToTrip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

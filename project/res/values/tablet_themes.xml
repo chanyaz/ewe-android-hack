@@ -173,18 +173,27 @@
 
     <style name="V2.Widget.TextView" />
 
-    <style name="V2.Widget.TextView.AddToTrip">
-        <item name="android:text">@string/room_rate_button_add_to_trip</item>
-        <item name="android:textSize">15dp</item>
+    <style name="V2.Widget.TextView.RateButton">
+        <item name="android:textSize">@dimen/hotel_room_rate_price_text_size</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textAllCaps">true</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background">@drawable/tablet_hotel_room_add_button</item>
+        <item name="android:textAllCaps">true</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:paddingLeft">12dp</item>
         <item name="android:paddingRight">12dp</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="V2.Widget.TextView.RateButton.AddToTrip">
+        <item name="android:text">@string/room_rate_button_add_to_trip</item>
+        <item name="android:background">@drawable/tablet_hotel_room_add_button</item>
+    </style>
+
+    <style name="V2.Widget.TextView.RateButton.SelectRoom">
+        <item name="android:text">@string/room_rate_button_select_room</item>
+        <item name="android:background">@drawable/tablet_hotel_room_select_button</item>
     </style>
 
     <style name="V2.Widget.TextView.FlightDetailsHeader">
