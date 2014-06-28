@@ -3,7 +3,7 @@ package com.expedia.bookings.test.tests.pageModels.tablet;
 import com.expedia.bookings.R;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 
-import static com.expedia.bookings.test.utils.EspressoUtils.swipeRight;
+import static com.expedia.bookings.test.espresso.ViewActions.swipeRight;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;

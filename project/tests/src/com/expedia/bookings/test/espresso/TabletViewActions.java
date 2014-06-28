@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.utils;
+package com.expedia.bookings.test.espresso;
 
 import android.view.View;
 
@@ -8,12 +8,14 @@ import org.joda.time.LocalDate;
 
 import com.google.android.apps.common.testing.ui.espresso.UiController;
 import com.google.android.apps.common.testing.ui.espresso.ViewAction;
-import com.mobiata.android.time.widget.CalendarPicker;
 import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
+import com.mobiata.android.time.widget.CalendarPicker;
 
-public final class ViewActions {
+public final class TabletViewActions {
 
-	private ViewActions() {}
+	private TabletViewActions() {
+		// ignore
+	}
 
 	public static ViewAction clickDates(LocalDate start, LocalDate end) {
 		return new CalendarPickerClickDatesAction(start, end);

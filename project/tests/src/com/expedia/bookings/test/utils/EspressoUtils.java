@@ -3,12 +3,7 @@ package com.expedia.bookings.test.utils;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.google.android.apps.common.testing.ui.espresso.DataInteraction;
-import com.google.android.apps.common.testing.ui.espresso.ViewAction;
 import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
-import com.google.android.apps.common.testing.ui.espresso.action.GeneralLocation;
-import com.google.android.apps.common.testing.ui.espresso.action.GeneralSwipeAction;
-import com.google.android.apps.common.testing.ui.espresso.action.Press;
-import com.google.android.apps.common.testing.ui.espresso.action.Swipe;
 
 import static com.expedia.bookings.test.utilsEspresso.ViewActions.getChildCount;
 import static com.expedia.bookings.test.utilsEspresso.ViewActions.getCount;
@@ -23,26 +18,6 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static org.hamcrest.Matchers.allOf;
 
 public class EspressoUtils {
-
-	public static ViewAction swipeUp() {
-		return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,
-			GeneralLocation.TOP_CENTER, Press.FINGER);
-	}
-
-	public static ViewAction slowSwipeUp() {
-		return new GeneralSwipeAction(Swipe.SLOW, GeneralLocation.BOTTOM_CENTER,
-			GeneralLocation.TOP_CENTER, Press.FINGER);
-	}
-
-	public static ViewAction swipeDown() {
-		return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.TOP_CENTER,
-			GeneralLocation.BOTTOM_CENTER, Press.FINGER);
-	}
-
-	public static ViewAction swipeRight() {
-		return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.CENTER_LEFT,
-			GeneralLocation.CENTER_RIGHT, Press.FINGER);
-	}
 
 	public static void assertTrue(String text) {
 		onView(withText(text)).check(matches(isDisplayed()));

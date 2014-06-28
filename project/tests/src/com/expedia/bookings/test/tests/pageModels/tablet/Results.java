@@ -12,9 +12,9 @@ import com.google.android.apps.common.testing.ui.espresso.ViewInteraction;
 import com.google.android.apps.common.testing.ui.espresso.matcher.BoundedMatcher;
 import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
-import static com.expedia.bookings.test.utils.EspressoUtils.slowSwipeUp;
-import static com.expedia.bookings.test.utils.EspressoUtils.swipeUp;
-import static com.expedia.bookings.test.utils.ViewActions.clickDates;
+import static com.expedia.bookings.test.espresso.TabletViewActions.clickDates;
+import static com.expedia.bookings.test.espresso.ViewActions.slowSwipeUp;
+import static com.expedia.bookings.test.espresso.ViewActions.swipeUp;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onData;
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;
