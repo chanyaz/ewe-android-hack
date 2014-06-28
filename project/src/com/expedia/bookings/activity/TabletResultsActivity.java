@@ -557,8 +557,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	}
 
 	private void resetTranslations() {
-		mTripBucketC.setTranslationX(0f);
-		mTripBucketC.setTranslationY(0f);
 		mMissingFlightInfo.setTranslationX(0f);
 		mMissingFlightInfo.setTranslationY(0f);
 		mFlightsC.setTranslationX(0f);
