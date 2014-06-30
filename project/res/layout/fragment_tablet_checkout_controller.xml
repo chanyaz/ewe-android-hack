@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.FrameLayoutTouchController xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.widget.FrameLayoutTouchController
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
@@ -9,7 +10,8 @@
     <FrameLayout
         android:id="@+id/blurred_dest_image_overlay"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:foreground="#802f2433"/>
 
     <LinearLayout
         android:id="@+id/bucket_showing_root"
