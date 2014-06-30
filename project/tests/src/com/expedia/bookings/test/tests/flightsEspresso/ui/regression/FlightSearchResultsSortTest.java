@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.tests.flightsEspresso.ui.regression;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -34,7 +35,6 @@ public class FlightSearchResultsSortTest extends ActivityInstrumentationTestCase
 	private static final String TAG = "FlightSearchResultsTest";
 
 	Context mContext;
-	int mCheck = 1;
 	DateTime mNow;
 
 	protected void setUp() throws Exception {
@@ -52,14 +52,11 @@ public class FlightSearchResultsSortTest extends ActivityInstrumentationTestCase
 		FlightsSearchScreen.enterDepartureAirport("SFO");
 		FlightsSearchScreen.enterArrivalAirport("LAX");
 		FlightsSearchScreen.clickSelectDepartureButton();
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(cal.YEAR);
-		int month = cal.get(cal.MONTH);
-		int day = cal.get(cal.DAY_OF_MONTH) + 1;
-		LocalDate mStartDate = new LocalDate(year, month, day);
-		LocalDate mEndDate = new LocalDate(year, month, 1);
+		LocalDate mStartDate = LocalDate.now().plusDays(1);
+		LocalDate mEndDate = LocalDate.now().plusDays(2);
 		FlightsSearchScreen.clickDate(mStartDate, mEndDate);
 		FlightsSearchScreen.clickSearchButton();
+		mNow = DateTime.now();
 	}
 
 	private float getCleanFloatFromTextView(String str) {
@@ -87,19 +84,24 @@ public class FlightSearchResultsSortTest extends ActivityInstrumentationTestCase
 		if (timeString.contains("PM") && hour < 12) {
 			hour += 12;
 		}
+		if (timeString.contains("AM") && hour == 12) {
+			hour = 0;
+		}
 		int minutes = Integer.parseInt(timeString.substring(timeString.indexOf(':') + 1, timeString.lastIndexOf(' ')));
 		Pair<Integer, Integer> hourAndMinutes = new Pair<Integer, Integer>(hour, minutes);
 		return hourAndMinutes;
 	}
 
-	private float getTimeMillisFromTextView(String str, int searchOffset) {
+	private float getTimeMillisFromTextView(String str, int searchOffset, DateTime mNow) {
 		Pair<Integer, Integer> hourAndMinutes = getHourMinutePairFromTimeTextView(str);
-		if (mCheck == 1) {
-			mNow = DateTime.now();
-			mCheck = 0;
+		int month = mNow.getMonthOfYear();
+		int day = mNow.getDayOfMonth() + searchOffset;
+		int daysInMonth = new GregorianCalendar().getActualMaximum(Calendar.DAY_OF_MONTH);
+		if (day > daysInMonth) {
+			day = day - daysInMonth;
+			month = month + 1;
 		}
-		DateTime flightTime = new DateTime(mNow.getYear(), mNow.getMonthOfYear(), mNow.getDayOfMonth() + searchOffset, hourAndMinutes.first, hourAndMinutes.second, 0);
-		ScreenActions.enterLog(TAG, "flight time " + flightTime.getDayOfMonth() + "," + flightTime.getHourOfDay() + "," + flightTime.getMinuteOfHour());
+		DateTime flightTime = new DateTime(mNow.getYear(), month, day, hourAndMinutes.first, hourAndMinutes.second, 0);
 		float diffInMillis = flightTime.getMillis() - mNow.getMillis();
 		return diffInMillis;
 	}
@@ -155,7 +157,7 @@ public class FlightSearchResultsSortTest extends ActivityInstrumentationTestCase
 			}
 
 			String previousArrivalTime = EspressoUtils.getListItemValues(previousRow, R.id.arrival_time_text_view);
-			float previousRowArrivalTime = getTimeMillisFromTextView(previousArrivalTime, additionalDaysPreviousRow + 1);
+			float previousRowArrivalTime = getTimeMillisFromTextView(previousArrivalTime, additionalDaysPreviousRow + 1, mNow);
 
 			// Iterate through list by section, current values with previous values
 			for (int j = 2; j < totalFlights - 2; j++) {
@@ -166,8 +168,8 @@ public class FlightSearchResultsSortTest extends ActivityInstrumentationTestCase
 					additionalDaysCurrentRow = (int) getCleanFloatFromTextView(currentMultiDayTextView);
 				}
 				String currentArrivalTime = EspressoUtils.getListItemValues(currentFlightRowView, R.id.arrival_time_text_view);
-				float currentRowArrivalTime = getTimeMillisFromTextView(currentArrivalTime, additionalDaysCurrentRow + 1);
-
+				float currentRowArrivalTime = getTimeMillisFromTextView(currentArrivalTime, additionalDaysCurrentRow + 1, mNow);
+				ScreenActions.enterLog(TAG, "current time " + currentArrivalTime);
 				if (currentRowArrivalTime < previousRowArrivalTime) {
 					throw new AssertionFailedError("Row's arrival time was "
 						+ currentArrivalTime
@@ -175,6 +177,7 @@ public class FlightSearchResultsSortTest extends ActivityInstrumentationTestCase
 						+ previousArrivalTime);
 				}
 				previousRowArrivalTime = currentRowArrivalTime;
+				previousArrivalTime = currentArrivalTime;
 			}
 		}
 	}
@@ -190,13 +193,13 @@ public class FlightSearchResultsSortTest extends ActivityInstrumentationTestCase
 			//Initialize first flight row and its associated variables
 			DataInteraction previousRow = FlightsSearchResultsScreen.listItem().atPosition(1);
 			String previousDepartureTimeString = EspressoUtils.getListItemValues(previousRow, R.id.departure_time_text_view);
-			float previousDepartureTime = getTimeMillisFromTextView(previousDepartureTimeString, 1);
+			float previousDepartureTime = getTimeMillisFromTextView(previousDepartureTimeString, 1, mNow);
 
 			// Iterate through list by section, current values with previous values
 			for (int j = 1; j < totalFlights - 2; j++) {
 				DataInteraction currentFlightRowView = FlightsSearchResultsScreen.listItem().atPosition(j);
 				String currentDepartureTimeString = EspressoUtils.getListItemValues(currentFlightRowView, R.id.departure_time_text_view);
-				float currentRowDepartureTime = getTimeMillisFromTextView(currentDepartureTimeString, 1);
+				float currentRowDepartureTime = getTimeMillisFromTextView(currentDepartureTimeString, 1, mNow);
 
 				if (currentRowDepartureTime < previousDepartureTime) {
 					throw new AssertionFailedError("Row's departure time was "
