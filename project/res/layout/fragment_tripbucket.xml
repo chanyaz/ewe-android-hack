@@ -23,19 +23,22 @@
                 android:layout_height="wrap_content"
                 app:swipeOutContentId="@+id/trip_bucket_flight_trip"
                 app:swipeOutDirection="east"
-                app:swipeOutIndicatorId="@+id/flight_swipe_out_indicator_image">
+                app:swipeOutIndicatorId="@+id/flight_swipe_out_undo_bar">
 
                 <FrameLayout
                     android:id="@id/trip_bucket_flight_trip"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"/>
 
-                <ImageView
-                    android:id="@id/flight_swipe_out_indicator_image"
-                    android:layout_width="264dp"
-                    android:layout_height="match_parent"
-                    android:background="#00000000"
-                    android:src="@drawable/ic_error_blue"/>
+                <FrameLayout
+                    android:id="@id/flight_swipe_out_undo_bar"
+                    android:layout_width="@dimen/hotel_flight_card_width"
+                    android:layout_height="@dimen/hotel_flight_card_height">
+                    <include
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        layout="@layout/view_undobar" />
+                </FrameLayout>
             </com.expedia.bookings.widget.SwipeOutLayout>
 
 
@@ -45,19 +48,22 @@
                 android:layout_height="wrap_content"
                 app:swipeOutContentId="@+id/trip_bucket_hotel_trip"
                 app:swipeOutDirection="east"
-                app:swipeOutIndicatorId="@+id/hotel_swipe_out_indicator_image">
+                app:swipeOutIndicatorId="@+id/hotel_swipe_out_undo_bar">
 
                 <FrameLayout
                     android:id="@id/trip_bucket_hotel_trip"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"/>
 
-                <ImageView
-                    android:id="@id/hotel_swipe_out_indicator_image"
-                    android:layout_width="264dp"
-                    android:layout_height="match_parent"
-                    android:background="#00000000"
-                    android:src="@drawable/ic_error_blue"/>
+                <FrameLayout
+                    android:id="@id/hotel_swipe_out_undo_bar"
+                    android:layout_width="@dimen/hotel_flight_card_width"
+                    android:layout_height="@dimen/hotel_flight_card_height">
+                    <include
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        layout="@layout/view_undobar" />
+                </FrameLayout>
 
             </com.expedia.bookings.widget.SwipeOutLayout>
     </LinearLayout>

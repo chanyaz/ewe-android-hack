@@ -52,12 +52,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- TripBucket Item Removal Undo Bar -->
-    <include
-        android:id="@+id/undobar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        layout="@layout/view_undobar" />
-
 </FrameLayout>

@@ -5,12 +5,15 @@ import android.app.Activity;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
@@ -19,20 +22,26 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucket;
 import com.expedia.bookings.data.TripBucketItem;
+import com.expedia.bookings.data.TripBucketItemFlight;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.enums.TripBucketItemState;
-import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.SwipeOutLayout;
+import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.Ui;
+import com.mobiata.android.widget.UndoBarController;
+
+import static com.mobiata.android.widget.UndoBarController.AnimationListenerAdapter;
+import static com.mobiata.android.widget.UndoBarController.UndoListener;
 
 /**
  * TripBucketFragment: designed for tablet results 2014
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class TripBucketFragment extends Fragment implements FragmentAvailabilityUtils.IFragmentAvailabilityProvider {
+public class TripBucketFragment extends Fragment implements FragmentAvailabilityUtils.IFragmentAvailabilityProvider, UndoListener {
 
 	private static final String FTAG_BUCKET_FLIGHT = "FTAG_BUCKET_FLIGHT";
 	private static final String FTAG_BUCKET_HOTEL = "FTAG_BUCKET_HOTEL";
@@ -44,10 +53,15 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 
 	private GridManager mGrid = new GridManager();
 
+	private View mRootC;
 	private ScrollView mScrollC;
 	private LinearLayout mContentC;
 	private SwipeOutLayout mHotelC;
+	private FrameLayout mHotelCard;
+	private View mHotelUndo;
 	private SwipeOutLayout mFlightC;
+	private FrameLayout mFlightCard;
+	private View mFlightUndo;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -56,18 +70,24 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_tripbucket, null, false);
-		mScrollC = Ui.findView(view, R.id.scroll_container);
-		mContentC = Ui.findView(view, R.id.content_container);
-		mHotelC = Ui.findView(view, R.id.trip_bucket_hotel_trip_swipeout);
-		mFlightC = Ui.findView(view, R.id.trip_bucket_flight_trip_swipeout);
+		mRootC = inflater.inflate(R.layout.fragment_tripbucket, null, false);
+		mScrollC = Ui.findView(mRootC, R.id.scroll_container);
+		mContentC = Ui.findView(mRootC, R.id.content_container);
+
+		mHotelC = Ui.findView(mRootC, R.id.trip_bucket_hotel_trip_swipeout);
+		mHotelCard = Ui.findView(mRootC, R.id.trip_bucket_hotel_trip);
+		mHotelUndo = Ui.findView(mRootC, R.id.hotel_swipe_out_undo_bar);
+
+		mFlightC = Ui.findView(mRootC, R.id.trip_bucket_flight_trip_swipeout);
+		mFlightCard = Ui.findView(mRootC, R.id.trip_bucket_flight_trip);
+		mFlightUndo = Ui.findView(mRootC, R.id.flight_swipe_out_undo_bar);
 
 		mHotelC.addListener(new TripBucketSwipeListener(LineOfBusiness.HOTELS));
 		mHotelC.setSwipeOutThresholdPercentage(BUCKET_ITEM_SWIPE_THRESHOLD);
 		mFlightC.addListener(new TripBucketSwipeListener(LineOfBusiness.FLIGHTS));
 		mFlightC.setSwipeOutThresholdPercentage(BUCKET_ITEM_SWIPE_THRESHOLD);
 
-		return view;
+		return mRootC;
 	}
 
 	@Override
@@ -94,19 +114,20 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		//TODO: In the future, this thing should iterate over the trip bucket items and support N items etc.
 		mContentC.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
 
-		boolean showFlight = bucket.getFlight() != null;
-		boolean showHotel = bucket.getHotel() != null;
+		boolean showFlightContainer = bucket.getFlight() != null || mFlightUndo.isShown();
+		boolean showHotelContainer = bucket.getHotel() != null || mHotelUndo.isShown();
 
-		setFragState(showFlight, showHotel);
+		setFragState(showFlightContainer, showHotelContainer);
+		mFlightC.setVisibility(showFlightContainer ? View.VISIBLE : (showHotelContainer ? View.GONE : View.INVISIBLE));
+		mFlightCard.setVisibility(bucket.getFlight() != null ? View.VISIBLE : (showHotelContainer ? View.GONE : View.INVISIBLE));
+		mHotelC.setVisibility(showHotelContainer ? View.VISIBLE : View.GONE);
+		mHotelCard.setVisibility(bucket.getHotel() != null ? View.VISIBLE : View.GONE);
 
-		mFlightC.setVisibility(showFlight ? View.VISIBLE : (showHotel ? View.GONE : View.INVISIBLE));
-		mHotelC.setVisibility(showHotel ? View.VISIBLE : View.GONE);
-
-		if (showFlight && lobToRefresh != null && lobToRefresh == LineOfBusiness.FLIGHTS) {
+		if (showFlightContainer && lobToRefresh != null && lobToRefresh == LineOfBusiness.FLIGHTS) {
 			mTripBucketFlightFrag.bind();
 			mTripBucketFlightFrag.setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 		}
-		if (showHotel && lobToRefresh != null && lobToRefresh == LineOfBusiness.HOTELS) {
+		if (showHotelContainer && lobToRefresh != null && lobToRefresh == LineOfBusiness.HOTELS) {
 			mTripBucketHotelFrag.bind();
 			mTripBucketHotelFrag.setState(TripBucketItemState.SHOWING_CHECKOUT_BUTTON);
 		}
@@ -203,11 +224,12 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 
 		@Override
 		public void onSwipeAllTheWay() {
-			TripBucketItemFragment.IRemoveTBItemListener listener =(TripBucketItemFragment.IRemoveTBItemListener) getActivity();
 			TripBucketItem item = (mLob == LineOfBusiness.FLIGHTS ? Db.getTripBucket().getFlight() : Db.getTripBucket().getHotel());
-			listener.tripBucketItemRemoved(item);
+			tripBucketItemRemoved(item);
 		}
-	};
+	}
+
+	;
 
 	/*
 	 * MEASUREMENT LISTENER
@@ -253,4 +275,68 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	public void doFragmentSetup(String tag, Fragment frag) {
 
 	}
+
+	/*
+	 * Undo Bars
+	 */
+
+	public void tripBucketItemRemoved(final TripBucketItem item) {
+		View undoView = item.getLineOfBusiness() == LineOfBusiness.FLIGHTS ? mFlightUndo : mHotelUndo;
+		UndoBarController undoBar = new UndoBarController(undoView, this);
+		undoBar.setAdditionalAnimationCallBack(undoBarListener);
+
+		// Cache removed item in Bundle.
+		Bundle b = new Bundle();
+		JSONUtils.putEnum(b, "lob", item.getLineOfBusiness());
+		JSONUtils.putJSONable(b, "item", item);
+
+		String undoString = item.getLineOfBusiness() == LineOfBusiness.FLIGHTS ?
+			getString(R.string.tablet_tripbucket_flight_removed) :
+			getString(R.string.tablet_tripbucket_hotel_removed);
+
+		// Remove item from db, show undo bar
+		Db.getTripBucket().clear(item.getLineOfBusiness());
+		Db.saveTripBucket(getActivity());
+
+		// TODO - The next two lines could be sort of race condition-y
+		// bindToDb() depends on knowing if the undo bar is being shown
+		undoBar.showUndoBar(true, undoString, b);
+		bindToDb();
+	}
+
+	@Override
+	public void onUndo(Parcelable token) {
+		// Get item's LOB
+		LineOfBusiness itemLob = JSONUtils.getEnum((Bundle) token, "lob", LineOfBusiness.class);
+		// Add item back
+		if (itemLob == LineOfBusiness.FLIGHTS) {
+			TripBucketItemFlight flight = JSONUtils.getJSONable((Bundle) token, "item", TripBucketItemFlight.class);
+			Db.getTripBucket().add(flight.getFlightSearchParams(), flight.getFlightTrip());
+		}
+		else {
+			TripBucketItemHotel hotel = JSONUtils.getJSONable((Bundle) token, "item", TripBucketItemHotel.class);
+			Db.getTripBucket().add(hotel.getHotelSearchParams(), hotel.getRate(), hotel.getProperty(), hotel.getHotelAvailability());
+		}
+		Db.saveTripBucket(getActivity());
+		bindToDb();
+	}
+
+	// We need to bind the entire TripBucket back to DB once the animation ends.
+	private AnimationListenerAdapter undoBarListener = new AnimationListenerAdapter() {
+		@Override
+		public void onAnimationEnd(Animation animation) {
+			bindParent();
+		}
+	};
+
+	// Have to bind ResultsTripBucketFragment to toggle TB empty view.
+	private void bindParent() {
+		UndoAnimationEndListener listener = Ui.findFragmentListener(this, UndoAnimationEndListener.class);
+		listener.onUndoAnimationListenerEnd();
+	}
+
+	public interface UndoAnimationEndListener {
+		public void onUndoAnimationListenerEnd();
+	}
+
 }
