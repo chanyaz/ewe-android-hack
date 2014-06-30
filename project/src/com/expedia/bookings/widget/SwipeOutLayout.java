@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewPropertyAnimator;
 import android.widget.FrameLayout;
-import android.widget.ViewAnimator;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.Log;
@@ -403,8 +402,16 @@ public class SwipeOutLayout extends FrameLayout {
 					reportSwipeStateChanged(SWIPE_STATE_DRAGGING);
 				}
 
-				//Do scroll related stuff.
-				mGesDet.onTouchEvent(event);
+				float y = event.getY();
+				float yDeltaTotal = Math.abs(y - mStartY);
+
+				if (yDeltaTotal > mTouchSlop) {
+					animateBackToStart();
+				}
+				else {
+					// Do scroll related stuff.
+					mGesDet.onTouchEvent(event);
+				}
 
 				//clean up and fire listeners
 				if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
@@ -518,7 +525,7 @@ public class SwipeOutLayout extends FrameLayout {
 			float y = ev.getY();
 			float xDeltaTotal = Math.abs(x - mStartX);
 			float yDeltaTotal = Math.abs(y - mStartY);
-			if (xDeltaTotal > mTouchSlop && yDeltaTotal < mTouchSlop * 2) {
+			if (xDeltaTotal > mTouchSlop && yDeltaTotal < mTouchSlop) {
 				mStartX = x;
 				mStartY = y;
 				return true;
