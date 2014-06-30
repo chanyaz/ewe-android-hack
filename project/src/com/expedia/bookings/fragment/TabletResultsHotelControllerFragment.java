@@ -1358,8 +1358,13 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 			float filtersLeft = -(1f - percentage) * mGrid.getColLeft(2);
 			mHotelFiltersC.setTranslationX(filtersLeft);
 
-			float filteredCountLeft = mGrid.getColWidth(4) * (1f - percentage);
-			mHotelFilteredCountC.setTranslationX(filteredCountLeft);
+			if (mGrid.isLandscape()) {
+				float filteredCountLeft = mGrid.getColWidth(4) * (1f - percentage);
+				mHotelFilteredCountC.setTranslationX(filteredCountLeft);
+			}
+			else {
+				mHotelFilteredCountC.setVisibility(View.GONE);
+			}
 		}
 
 		/*
