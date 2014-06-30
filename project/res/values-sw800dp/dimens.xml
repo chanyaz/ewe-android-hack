@@ -69,4 +69,11 @@
     <dimen name="trip_bucket_root_layout_padding_top">110dp</dimen>
     <dimen name="trip_bucket_empty_trip_container_padding_top">0dp</dimen>
 
+    <!-- Confirmation Fragment -->
+    <dimen name="confirmation_width">605dp</dimen>
+    <dimen name="confirmation_image_height">235dp</dimen>
+    <!-- confirmation_image_height - (confirmation_checkmark_size/2) -->
+    <dimen name="confirmation_checkmark_margin">210dp</dimen>
+    <dimen name="confirmation_button_bar_height">72dp</dimen>
+
 </resources>

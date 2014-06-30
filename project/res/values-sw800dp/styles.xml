@@ -13,4 +13,8 @@
         <item name="android:maxHeight">19dp</item>
     </style>
 
+    <style name="V2.Fragment.Tablet.Confirmation">
+        <item name="android:layout_gravity">center</item>
+    </style>
+
 </resources>

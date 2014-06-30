@@ -150,4 +150,12 @@
     <dimen name="cvv_keypad_text_size">30sp</dimen>
     <dimen name="cvv_keypad_book_text_size">18dp</dimen>
 
+    <!-- Confirmation Fragment -->
+    <dimen name="confirmation_width">450dp</dimen>
+    <dimen name="confirmation_image_height">115dp</dimen>
+    <dimen name="confirmation_checkmark_size">50dp</dimen>
+    <!-- confirmation_image_height - (confirmation_checkmark_size/2) -->
+    <dimen name="confirmation_checkmark_margin">90dp</dimen>
+    <dimen name="confirmation_button_bar_height">48dp</dimen>
+
 </resources>

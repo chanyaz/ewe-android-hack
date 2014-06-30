@@ -37,7 +37,7 @@ public abstract class TabletConfirmationFragment extends Fragment {
 
 	private ViewGroup mBookNextContainer;
 	private ViewGroup mDoneBookingContainer;
-	private ViewGroup mImageCard;
+	private View mImageCard;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,8 +53,8 @@ public abstract class TabletConfirmationFragment extends Fragment {
 
 		// Setup a dropping animation with the image card.  Only animate on versions of Android
 		// that will allow us to make the animation nice and smooth.
-		mImageCard = Ui.findView(v, R.id.confirmation_card_container);
-		if (savedInstanceState == null && Build.VERSION.SDK_INT >= 14) {
+		mImageCard = Ui.findView(v, R.id.confirmation_image_view);
+		if (savedInstanceState == null) {
 			mImageCard.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 				@Override
 				public boolean onPreDraw() {
@@ -133,7 +133,7 @@ public abstract class TabletConfirmationFragment extends Fragment {
 
 		ViewPropertyAnimator animator = mImageCard.animate();
 		animator.translationY(0);
-		animator.setDuration(getResources().getInteger(android.R.integer.config_longAnimTime));
+		animator.setDuration(getResources().getInteger(android.R.integer.config_longAnimTime) * 2);
 		animator.setInterpolator(new OvershootInterpolator());
 
 		if (Build.VERSION.SDK_INT >= 16) {

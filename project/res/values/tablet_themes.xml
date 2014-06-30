@@ -301,4 +301,9 @@
 
     <style name="V2.Dialog.Coupon.Tablet" parent="@android:style/Theme.Holo.Light.Dialog" />
 
+    <!-- Fragment styles -->
+    <style name="V2.Fragment" />
+
+    <style name="V2.Fragment.Tablet" />
+
 </resources>
