@@ -105,7 +105,15 @@ public class LaunchPin extends FrameLayout {
 
 			@Override
 			public void onBitmapLoadFailed(String url) {
-				// Ignore
+				mImageView.setVisibility(View.GONE);
+				getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+					@Override
+					public boolean onPreDraw() {
+						getViewTreeObserver().removeOnPreDrawListener(this);
+						startPopinAnimation();
+						return true;
+					}
+				});
 			}
 		});
 	}
