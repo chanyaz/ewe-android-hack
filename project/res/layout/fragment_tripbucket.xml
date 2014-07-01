@@ -17,55 +17,46 @@
         android:orientation="vertical"
         android:divider="@drawable/divider_trip_bucket">
 
-            <com.expedia.bookings.widget.SwipeOutLayout
-                android:id="@+id/trip_bucket_flight_trip_swipeout"
+        <com.expedia.bookings.widget.SwipeOutLayout
+            android:id="@+id/trip_bucket_flight_trip_swipeout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:swipeOutContentId="@+id/trip_bucket_flight_trip"
+            app:swipeOutDirection="east"
+            app:swipeOutIndicatorId="@+id/flight_swipe_out_undo_bar">
+
+            <FrameLayout
+                android:id="@id/trip_bucket_flight_trip"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:swipeOutContentId="@+id/trip_bucket_flight_trip"
-                app:swipeOutDirection="east"
-                app:swipeOutIndicatorId="@+id/flight_swipe_out_undo_bar">
+                android:layout_height="match_parent"/>
 
-                <FrameLayout
-                    android:id="@id/trip_bucket_flight_trip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
-
-                <FrameLayout
-                    android:id="@id/flight_swipe_out_undo_bar"
-                    android:layout_width="@dimen/hotel_flight_card_width"
-                    android:layout_height="@dimen/hotel_flight_card_height">
-                    <include
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        layout="@layout/view_undobar" />
-                </FrameLayout>
-            </com.expedia.bookings.widget.SwipeOutLayout>
+            <include
+                android:id="@id/flight_swipe_out_undo_bar"
+                android:layout_width="@dimen/hotel_flight_card_width"
+                android:layout_height="@dimen/hotel_flight_card_height"
+                layout="@layout/view_undobar"/>
+        </com.expedia.bookings.widget.SwipeOutLayout>
 
 
-            <com.expedia.bookings.widget.SwipeOutLayout
-                android:id="@+id/trip_bucket_hotel_trip_swipeout"
+        <com.expedia.bookings.widget.SwipeOutLayout
+            android:id="@+id/trip_bucket_hotel_trip_swipeout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:swipeOutContentId="@+id/trip_bucket_hotel_trip"
+            app:swipeOutDirection="east"
+            app:swipeOutIndicatorId="@+id/hotel_swipe_out_undo_bar">
+
+            <FrameLayout
+                android:id="@id/trip_bucket_hotel_trip"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:swipeOutContentId="@+id/trip_bucket_hotel_trip"
-                app:swipeOutDirection="east"
-                app:swipeOutIndicatorId="@+id/hotel_swipe_out_undo_bar">
+                android:layout_height="match_parent"/>
 
-                <FrameLayout
-                    android:id="@id/trip_bucket_hotel_trip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
-
-                <FrameLayout
-                    android:id="@id/hotel_swipe_out_undo_bar"
-                    android:layout_width="@dimen/hotel_flight_card_width"
-                    android:layout_height="@dimen/hotel_flight_card_height">
-                    <include
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        layout="@layout/view_undobar" />
-                </FrameLayout>
-
-            </com.expedia.bookings.widget.SwipeOutLayout>
+            <include
+                android:id="@id/hotel_swipe_out_undo_bar"
+                android:layout_width="@dimen/hotel_flight_card_width"
+                android:layout_height="@dimen/hotel_flight_card_height"
+                layout="@layout/view_undobar"/>
+        </com.expedia.bookings.widget.SwipeOutLayout>
     </LinearLayout>
 
 </ScrollView>
