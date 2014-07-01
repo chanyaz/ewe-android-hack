@@ -10,8 +10,8 @@
 
         <ImageView
             android:id="@+id/icon_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/stored_credit_card_icon_size"
+            android:layout_height="@dimen/stored_credit_card_icon_size"
             android:layout_marginRight="@dimen/checkout_info_container_padding" />
 
         <LinearLayout
@@ -19,16 +19,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/google_wallet_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/google_wallet" />
+                android:text="@string/google_wallet"
+                style="@style/Widget.TextView.StoredCreditCard"/>
 
-            <TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/display_stored_card_desc"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                style="@style/Widget.TextView.StoredCreditCard"/>
         </LinearLayout>
     </LinearLayout>
 

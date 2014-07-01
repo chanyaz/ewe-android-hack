@@ -16,6 +16,10 @@
         <item name="minTextSize">15dp</item>
     </style>
 
+    <style name="Widget.TextView.StoredCreditCard">
+        <item name="textStyle">light</item>
+    </style>
+
     <style name="BookingSection">
         <item name="android:padding">8dp</item>
         <item name="android:background">@drawable/bg_checkout_information_single</item>
@@ -26,15 +30,17 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <!-- This is actually the "left" text -->
     <style name="LoginButtonTopTextStyle">
         <item name="android:textColor">#363636</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/login_button_text_size</item>
         <item name="textStyle">light</item>
     </style>
 
+    <!-- This is actually the "right" text -->
     <style name="LoginButtonBottomTextStyle">
         <item name="android:textColor">#cc363636</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/login_button_text_size</item>
         <item name="textStyle">light</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">right</item>

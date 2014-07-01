@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <style name="Widget.TextView.StoredCreditCard" />
+
     <style name="RatingBar.Star.HotelDetails">
         <item name="android:progressDrawable">@drawable/ratingbar_star_hotel_details</item>
         <item name="android:minHeight">15dp</item>

@@ -122,6 +122,8 @@
 
     <style name="Widget.TextView.CVVPrompt" parent="Widget.TextView.CVVPromptBase" />
 
+    <style name="Widget.TextView.StoredCreditCard" />
+
     <style name="TextAppearance" parent="@android:style/TextAppearance" />
 
     <style name="TextAppearance.Phone">

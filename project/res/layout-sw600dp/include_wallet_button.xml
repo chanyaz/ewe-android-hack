@@ -15,7 +15,7 @@
         android:layout_marginRight="17dp"
         android:text="@string/wallet_promo_offer"
         android:textColor="#cc363636"
-        android:textSize="18sp"
+        android:textSize="@dimen/login_button_text_size"
         app:textStyle="light" />
 
     <View

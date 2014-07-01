@@ -369,7 +369,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				headingArg = Db.getHotelSearch().getSelectedProperty().getName();
 			}
 		}
-		addGroupHeading(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, headingArg)));
+		if (getResources().getBoolean(R.bool.show_now_booking_heading)) {
+			addGroupHeading(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, headingArg)));
+		}
 
 		// LOGIN CONTAINER
 		FrameLayout frame = new FrameLayout(getActivity());
@@ -378,7 +380,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		add(frame);
 
 
-		//TRAVELER CONTAINERS
+		// TRAVELER CONTAINERS
 		BookingInfoUtils.populateTravelerData(getLob());
 		addGroupHeading(R.string.travelers);
 		for (int i = 0; i < Db.getTravelers().size(); i++) {

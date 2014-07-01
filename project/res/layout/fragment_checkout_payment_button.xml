@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:addStatesFromChildren="true"
     android:gravity="center_vertical"
     android:orientation="vertical">
@@ -13,17 +13,19 @@
 
     <LinearLayout
         android:id="@+id/payment_info_btn"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="@dimen/traveler_button_padding"
         android:visibility="visible">
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/checkout_data_button_icon_size"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
+            android:layout_marginLeft="@dimen/tablet_checkout_payment_button_image_left_margin"
             android:layout_marginRight="@dimen/checkout_info_container_padding"
+            android:layout_marginTop="@dimen/tablet_checkout_payment_button_image_vertical_margin"
+            android:layout_marginBottom="@dimen/tablet_checkout_payment_button_image_vertical_margin"
             android:layout_weight="0"
             android:src="@drawable/ic_tablet_checkout_generic_credit_card" />
 
@@ -33,7 +35,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:text="@string/enter_payment_information"
-            android:textSize="18sp"
+            android:textSize="@dimen/checkout_data_button_text_size"
             app:textStyle="light" />
     </LinearLayout>
 
@@ -50,9 +52,9 @@
 
         <ImageView
             android:id="@+id/display_credit_card_brand_icon_tablet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_width="@dimen/checkout_data_button_icon_size"
+            android:layout_height="@dimen/checkout_data_button_icon_size"
+            android:layout_marginLeft="@dimen/tablet_checkout_payment_button_new_cc_left_margin"
             android:layout_marginRight="10dp"
             android:layout_weight="0"
             android:src="@drawable/ic_tablet_checkout_generic_credit_card" />
@@ -67,7 +69,7 @@
                 android:id="@+id/display_creditcard_generic_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textSize="@dimen/checkout_data_button_text_size"
                 app:textStyle="light" />
 
             <com.expedia.bookings.widget.TextView
@@ -75,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#6b6b6b"
-                android:textSize="16sp"
+                android:textSize="@dimen/checkout_data_button_sub_text_size"
                 app:textStyle="light" />
         </LinearLayout>
 
@@ -97,9 +99,7 @@
         android:id="@+id/stored_creditcard_section_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/traveler_button_padding"
-        android:paddingLeft="20dp"
-        android:paddingTop="12.5dp"
+        android:padding="@dimen/stored_credit_card_button_padding"
         android:visibility="gone"
         app:cardIcon="@drawable/ic_tablet_checkout_generic_credit_card" />
 

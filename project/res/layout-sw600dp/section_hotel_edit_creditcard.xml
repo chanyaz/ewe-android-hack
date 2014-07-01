@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/display_credit_card_brand_icon_tablet"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/checkout_data_button_icon_size"
+        android:layout_height="@dimen/checkout_data_button_icon_size"
         android:layout_marginRight="8dp"
         android:src="@drawable/ic_tablet_checkout_generic_credit_card"/>
 
@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:textSize="18sp"/>
+            android:textSize="@dimen/checkout_data_button_text_size"/>
 
         <View
             android:layout_width="0dp"

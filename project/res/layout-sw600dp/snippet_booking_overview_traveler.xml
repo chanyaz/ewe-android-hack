@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/display_picture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/checkout_data_button_icon_size"
+        android:layout_height="@dimen/checkout_data_button_icon_size"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="@dimen/checkout_info_container_padding"
         android:src="@drawable/ic_tablet_checkout_generic_traveler" />
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical|left"
         android:text="@string/enter_traveler_info"
-        android:textSize="18sp"
+        android:textSize="@dimen/checkout_data_button_text_size"
         app:textStyle="light" />
 
 </LinearLayout>

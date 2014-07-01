@@ -18,8 +18,8 @@
         android:focusableInTouchMode="true"/>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/checkout_data_button_icon_size"
+        android:layout_height="@dimen/checkout_data_button_icon_size"
         android:layout_marginRight="8dp"
         android:src="@drawable/ic_tablet_checkout_generic_traveler"/>
 

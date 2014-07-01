@@ -15,12 +15,18 @@
 
     <dimen name="hotel_checkout_overview_image_height">320dp</dimen>
 
-    <!-- For tablet launch screen -->
+    <!-- Launch Screen -->
     <dimen name="destination_search_stack_width">279dp</dimen>
     <dimen name="destination_search_stack_height">240dp</dimen>
     <dimen name="destination_search_tile_width">259dp</dimen>
     <dimen name="destination_search_tile_height">220dp</dimen>
     <dimen name="destination_search_tile_text_margin_top">174dp</dimen>
+
+    <!-- Account / Login button -->
+    <dimen name="account_button_padding">10dp</dimen>
+    <dimen name="login_button_text_size">18sp</dimen>
+    <dimen name="card_icon_padding">12dp</dimen>
+    <dimen name="wallet_button_bottom_margin">8dp</dimen>
 
     <!-- Search Results -->
     <dimen name="results_collapsed_row_height">392dp</dimen>
@@ -68,6 +74,23 @@
     <dimen name="trip_bucket_primary_dest_size">60dp</dimen>
     <dimen name="trip_bucket_root_layout_padding_top">110dp</dimen>
     <dimen name="trip_bucket_empty_trip_container_padding_top">0dp</dimen>
+
+    <!-- Checkout -->
+    <dimen name="tablet_checkout_form_padding_x">32dp</dimen>
+    <dimen name="tablet_checkout_form_inter_card_gap">18dp</dimen>
+    <dimen name="tablet_checkout_form_group_heading_margin_top">32dp</dimen>
+    <dimen name="tablet_checkout_form_group_heading_margin_bottom">8dp</dimen>
+    <dimen name="tablet_checkout_coupon_button_gap">16dp</dimen>
+    <dimen name="checkout_data_button_icon_size">48dp</dimen>
+    <dimen name="checkout_data_button_text_size">18sp</dimen>
+    <dimen name="checkout_data_button_sub_text_size">15sp</dimen>
+    <dimen name="tablet_checkout_coupon_code_text_size">16sp</dimen>
+    <dimen name="traveler_button_padding">10dp</dimen>
+    <dimen name="stored_credit_card_icon_size">48dp</dimen>
+    <dimen name="tablet_checkout_payment_button_image_left_margin">4dp</dimen>
+    <dimen name="tablet_checkout_payment_button_image_vertical_margin">0dp</dimen>
+    <dimen name="tablet_checkout_payment_button_new_cc_left_margin">5dp</dimen>
+    <dimen name="stored_credit_card_button_padding">10dp</dimen>
 
     <!-- Confirmation Fragment -->
     <dimen name="confirmation_width">605dp</dimen>

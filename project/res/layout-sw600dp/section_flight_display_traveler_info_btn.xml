@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/display_picture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/checkout_data_button_icon_size"
+        android:layout_height="@dimen/checkout_data_button_icon_size"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="@dimen/checkout_info_container_padding"
         android:layout_weight="0"
@@ -29,14 +29,14 @@
             android:gravity="left"
             android:text="@string/enter_traveler_info"
             android:textColor="@color/data_review_dark"
-            android:textSize="@dimen/data_display_primary_text" />
+            android:textSize="@dimen/checkout_data_button_text_size" />
 
         <TextView
             android:id="@+id/display_phone_number_with_country_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/data_review_grey"
-            android:textSize="@dimen/data_display_sub_text" />
+            android:textSize="@dimen/tablet_data_button_sub_text_size" />
 
         <TextView
             android:id="@+id/display_special_assistance"
@@ -45,7 +45,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@color/data_review_grey"
-            android:textSize="@dimen/data_display_sub_text" />
+            android:textSize="@dimen/tablet_data_button_sub_text_size" />
     </LinearLayout>
 
     <ImageView
