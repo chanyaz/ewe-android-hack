@@ -46,6 +46,11 @@ public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateIt
 
 		// Parse itinerary
 		JSONObject itineraryJson = response.optJSONObject("newTrip");
+		if (itineraryJson == null) {
+			Log.e("CreateItineraryResponseHandler: Did not get trip info from server");
+			return null;
+		}
+
 		Itinerary itinerary = new Itinerary();
 		itinerary.setItineraryNumber(itineraryJson.optString("itineraryNumber"));
 		itinerary.setTravelRecordLocator(itineraryJson.optString("travelRecordLocator"));
