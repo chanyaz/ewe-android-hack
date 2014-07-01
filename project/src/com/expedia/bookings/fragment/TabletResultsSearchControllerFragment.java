@@ -90,8 +90,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private ViewGroup mSearchActionsC;
 	private FrameLayoutTouchController mBottomRightC;
 	private FrameLayoutTouchController mBottomCenterC;
-	private View mBottomRightBg;
-	private View mBottomCenterBg;
 
 	//Fragment Containers
 	private FrameLayoutTouchController mCalC;
@@ -153,8 +151,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mTravC = Ui.findView(view, R.id.traveler_container);
 		mCalC = Ui.findView(view, R.id.calendar_container);
 		mGdeC = Ui.findView(view, R.id.gde_container);
-		mBottomRightBg = Ui.findView(view, R.id.bottom_right_bg);
-		mBottomCenterBg = Ui.findView(view, R.id.bottom_center_bg);
 
 		//Fake AB form buttons
 		mDestBtn = Ui.findView(view, R.id.dest_btn);
@@ -556,11 +552,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				}
 			}
 
-			// Let's make this view invisible when Flights are not supported, so users can see the message.
-			if (!PointOfSale.getPointOfSale().supportsFlights()) {
-				mBottomCenterBg.setVisibility(View.INVISIBLE);
-			}
-
 			if (stateOne == ResultsSearchState.CALENDAR || stateTwo == ResultsSearchState.CALENDAR) {
 				mBottomRightC.setVisibility(View.VISIBLE);
 				mBottomCenterC.setVisibility(View.VISIBLE);
@@ -619,38 +610,30 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.CALENDAR) {
 					mCalC.setTranslationY((1f - percentage) * mBottomRightC.getHeight());
 					mGdeC.setTranslationY((1f - percentage) * mBottomCenterC.getHeight());
-					mBottomRightBg.setTranslationY((1f - percentage) * mBottomRightBg.getHeight());
-					mBottomCenterBg.setTranslationY((1f - percentage) * mBottomCenterBg.getHeight());
 					mSearchActionsC.setTranslationX((1f - percentage) * mSearchActionsC.getWidth());
 				}
 				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.DEFAULT) {
 					mCalC.setTranslationY(percentage * mBottomRightC.getHeight());
 					mGdeC.setTranslationY(percentage * mBottomCenterC.getHeight());
-					mBottomRightBg.setTranslationY(percentage * mBottomRightBg.getHeight());
-					mBottomCenterBg.setTranslationY(percentage * mBottomCenterBg.getHeight());
 					mSearchActionsC.setTranslationX(percentage * mSearchActionsC.getWidth());
 				}
 				else if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
 					mTravC.setTranslationY((1f - percentage) * mBottomRightC.getHeight());
-					mBottomRightBg.setTranslationY((1f - percentage) * mBottomRightBg.getHeight());
 					mSearchActionsC.setTranslationX((1f - percentage) * mSearchActionsC.getWidth());
 				}
 				else if (stateOne == ResultsSearchState.TRAVELER_PICKER && stateTwo == ResultsSearchState.DEFAULT) {
 					mTravC.setTranslationY(percentage * mBottomRightC.getHeight());
-					mBottomRightBg.setTranslationY(percentage * mBottomRightBg.getHeight());
 					mSearchActionsC.setTranslationX(percentage * mSearchActionsC.getWidth());
 				}
 				else if (stateOne == ResultsSearchState.TRAVELER_PICKER && stateTwo == ResultsSearchState.CALENDAR) {
 					mTravC.setTranslationX(percentage * mTravC.getWidth());
 					mCalC.setTranslationX((1f - percentage) * -mCalC.getWidth());
 					mGdeC.setTranslationY((1f - percentage) * -mBottomCenterC.getHeight());
-					mBottomCenterBg.setTranslationY((1f - percentage) * -mBottomCenterBg.getHeight());
 				}
 				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
 					mTravC.setTranslationX((1f - percentage) * mTravC.getWidth());
 					mCalC.setTranslationX(percentage * -mCalC.getWidth());
 					mGdeC.setTranslationY(percentage * -mBottomCenterC.getHeight());
-					mBottomCenterBg.setTranslationY(percentage * -mBottomCenterBg.getHeight());
 				}
 
 			}
@@ -818,10 +801,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mBottomRightC.setTranslationY(0f);
 			mBottomCenterC.setTranslationY(0f);
 			mBottomCenterC.setTranslationX(0f);
-			mBottomRightBg.setTranslationX(0f);
-			mBottomRightBg.setTranslationY(0f);
-			mBottomCenterBg.setTranslationX(0f);
-			mBottomCenterBg.setTranslationY(0f);
 			mSearchActionsC.setTranslationX(0f);
 			mSearchActionsC.setTranslationY(0f);
 		}

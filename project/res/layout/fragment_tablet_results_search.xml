@@ -138,12 +138,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
-            android:id="@+id/bottom_center_bg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FFFFFF" />
-
         <com.expedia.bookings.widget.FrameLayoutTouchController
             android:id="@+id/gde_container"
             android:visibility="invisible"
@@ -156,12 +150,6 @@
         android:id="@+id/bottom_right_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <View
-            android:id="@+id/bottom_right_bg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FFFFFF" />
 
         <com.expedia.bookings.widget.FrameLayoutTouchController
             android:id="@+id/calendar_container"
