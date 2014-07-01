@@ -22,6 +22,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
@@ -479,6 +480,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		public void onStateFinalized(ResultsState state) {
 			setListenerState(state);
 
+			if (hideTripBucketInPortrait()) {
+				int transY = mGrid.getRowTop(2);
+				mTripBucketC.setTranslationY(transY);
+			}
+
 			if (mTripBucketFrag != null) {
 				mTripBucketFrag.bindToDb();
 				if (state == ResultsState.HOTELS) {
@@ -707,6 +713,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		}
 	}
 
+	private boolean hideTripBucketInPortrait() {
+		return !mGrid.isLandscape() && Db.getTripBucket().isEmpty();
+	}
+
 	@Override
 	public void registerMeasurementListener(IMeasurementListener listener, boolean fireListener) {
 		mMeasurementListeners.add(listener);
@@ -898,12 +908,12 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		@Override
 		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo, float percentage) {
 			if (isSearchControlsActiveTransition(stateOne, stateTwo)) {
-				if (!mGrid.isLandscape()) {
+				if (!mGrid.isLandscape() && !hideTripBucketInPortrait()) {
 					mTripBucketC.setTranslationY(percentage * mGrid.getRowTop(2));
 				}
 			}
 			else if (isSearchControlsInactiveTransition(stateOne, stateTwo)) {
-				if (!mGrid.isLandscape()) {
+				if (!mGrid.isLandscape() && !hideTripBucketInPortrait()) {
 					mTripBucketC.setTranslationY((1f - percentage) * mGrid.getRowTop(2));
 				}
 			}
@@ -919,12 +929,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 		@Override
 		public void onStateFinalized(ResultsSearchState state) {
-			if (state == ResultsSearchState.CALENDAR || state == ResultsSearchState.TRAVELER_PICKER) {
-				mTripBucketC.setTranslationY(mGrid.getRowTop(2));
-			}
-			else if (state == ResultsSearchState.DEFAULT) {
-				mTripBucketC.setTranslationY(0);
-			}
+
 		}
 
 	};
