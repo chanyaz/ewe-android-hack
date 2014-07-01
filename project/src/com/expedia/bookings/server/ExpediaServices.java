@@ -1575,21 +1575,13 @@ public class ExpediaServices implements DownloadListener {
 	//		return protocol + "://" + server + "/static/mobile/launch/";
 
 		// TODO update endpoint url
-		return "http://mocke3.mobiata.com/static/mobile/launch/";
+		return "http://mocke3.mobiata.com/static/mobile/launch2";
 	}
 
-	public LaunchDestinationCollections getLaunchCollections() {
-		String url = getLaunchEndpointUrl() + "launchDestinationCollections.json";
+	public LaunchDestinationCollections getLaunchCollections(String localeString) {
+		String lowerPos = PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase();
+		String url = getLaunchEndpointUrl() + "/" + lowerPos + "/collections_" + localeString + ".json";
 		GsonResponse<LaunchDestinationCollections> result = doLaunchDataRequest(url, null, LaunchDestinationCollections.class);
-		if (result == null) {
-			return null;
-		}
-		return result.get();
-	}
-
-	public LaunchCollection getLaunchCollection(String id) {
-		String url = getLaunchEndpointUrl() + id + ".json";
-		GsonResponse<LaunchCollection> result = doLaunchDataRequest(url, null, LaunchCollection.class);
 		if (result == null) {
 			return null;
 		}

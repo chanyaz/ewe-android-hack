@@ -7,6 +7,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.text.TextUtils;
 import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
 import android.view.View;
@@ -63,7 +64,12 @@ public class LaunchPin extends FrameLayout {
 
 	public void bind(LaunchLocation location) {
 		mLocation = location;
-		setPinText(location.title);
+		if (TextUtils.isEmpty(location.subtitle)) {
+			setPinText(location.title);
+		}
+		else {
+			setPinText(location.title, location.subtitle);
+		}
 	}
 
 	public LaunchLocation getLaunchLocation() {
@@ -106,7 +112,6 @@ public class LaunchPin extends FrameLayout {
 
 	private void setPinBitmap(Bitmap bitmap) {
 		mImageView.setImageBitmap(bitmap);
-		mImageView.setVisibility(View.VISIBLE);
 	}
 
 	private void setPinText(String upper) {
@@ -116,7 +121,18 @@ public class LaunchPin extends FrameLayout {
 		sb.append(upper, upperSpan);
 
 		mTextView.setText(sb.build(), android.widget.TextView.BufferType.SPANNABLE);
-		mTextView.setVisibility(View.VISIBLE);
+	}
+
+	private void setPinText(String upper, String lower) {
+		TextAppearanceSpan upperSpan = new TextAppearanceSpan(getContext(), R.style.MapPinUpperTextAppearance);
+		TextAppearanceSpan lowerSpan = new TextAppearanceSpan(getContext(), R.style.MapPinLowerTextAppearance);
+
+		SpannableBuilder sb = new SpannableBuilder();
+		sb.append(upper, upperSpan);
+		sb.append("\n");
+		sb.append(lower, lowerSpan);
+
+		mTextView.setText(sb.build(), android.widget.TextView.BufferType.SPANNABLE);
 	}
 
 	private void startPopinAnimation() {

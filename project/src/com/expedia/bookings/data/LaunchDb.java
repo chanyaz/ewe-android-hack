@@ -2,6 +2,7 @@ package com.expedia.bookings.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
 
@@ -65,17 +66,20 @@ public class LaunchDb {
 		return new Download<List<LaunchCollection>>() {
 			@Override
 			public List<LaunchCollection> doDownload() {
-				List<LaunchCollection> collections = new ArrayList<>();
+				List<LaunchCollection> collections = null;
 				ExpediaServices services = new ExpediaServices(context);
+				LaunchDestinationCollections collectionsResponse;
 
-				LaunchDestinationCollections manifest = services.getLaunchCollections();
-				if (manifest != null && manifest.collectionIdentifiers != null) {
-					for (String collectionId : manifest.collectionIdentifiers) {
-						LaunchCollection collection = services.getLaunchCollection(collectionId);
-						if (collection != null) {
-							collections.add(collection);
-						}
-					}
+				Locale current = context.getResources().getConfiguration().locale;
+				collectionsResponse = services.getLaunchCollections(current.toString());
+
+				if (collectionsResponse == null) {
+					// fallback to default
+					collectionsResponse = services.getLaunchCollections("default");
+				}
+
+				if (collectionsResponse != null) {
+					collections = collectionsResponse.collections;
 				}
 
 				return collections;

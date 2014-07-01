@@ -38,6 +38,10 @@ public class AutoJsonResponseHandler<T> implements ResponseHandler<GsonResponse<
 				Log.v(httpInfo.toString());
 			}
 
+			if (response.code() != 200) {
+				return null;
+			}
+
 			String contentEncoding = response.headers().get("Content-Encoding");
 			InputStream is;
 			if (!TextUtils.isEmpty(contentEncoding) && "gzip".equalsIgnoreCase(contentEncoding)) {

@@ -7,8 +7,7 @@
         android:id="@+id/launch_pin_image_view"
         android:layout_width="@dimen/launch_pin_size"
         android:layout_height="@dimen/launch_pin_size"
-        android:layout_gravity="center_horizontal"
-        android:visibility="invisible"/>
+        android:layout_gravity="center_horizontal" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/launch_pin_text_view"
@@ -16,6 +15,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/launch_pin_size"
         android:layout_gravity="center_horizontal|bottom"
-        android:visibility="invisible"/>
+        android:gravity="center" />
 
 </com.expedia.bookings.widget.LaunchPin>
