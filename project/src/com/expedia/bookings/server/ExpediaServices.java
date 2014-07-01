@@ -1570,9 +1570,9 @@ public class ExpediaServices implements DownloadListener {
 	// Launch data
 
 	private String getLaunchEndpointUrl() {
-	//		String protocol = "http";
-	//		String server = SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
-	//		return protocol + "://" + server + "/static/mobile/launch/";
+		//String protocol = "http";
+		//String server = SettingUtils.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
+		//return protocol + "://" + server + "/static/mobile/launch2";
 
 		// TODO update endpoint url
 		return "http://mocke3.mobiata.com/static/mobile/launch2";
