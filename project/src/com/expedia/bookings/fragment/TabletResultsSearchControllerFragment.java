@@ -617,27 +617,27 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			}
 			else {
 				if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.CALENDAR) {
-					mCalC.setTranslationY((1f - percentage) * -mBottomRightC.getHeight());
-					mGdeC.setTranslationY((1f - percentage) * -mBottomCenterC.getHeight());
-					mBottomRightBg.setTranslationY((1f - percentage) * -mBottomRightBg.getHeight());
-					mBottomCenterBg.setTranslationY((1f - percentage) * -mBottomCenterBg.getHeight());
+					mCalC.setTranslationY((1f - percentage) * mBottomRightC.getHeight());
+					mGdeC.setTranslationY((1f - percentage) * mBottomCenterC.getHeight());
+					mBottomRightBg.setTranslationY((1f - percentage) * mBottomRightBg.getHeight());
+					mBottomCenterBg.setTranslationY((1f - percentage) * mBottomCenterBg.getHeight());
 					mSearchActionsC.setTranslationX((1f - percentage) * mSearchActionsC.getWidth());
 				}
 				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.DEFAULT) {
-					mCalC.setTranslationY(percentage * -mBottomRightC.getHeight());
-					mGdeC.setTranslationY(percentage * -mBottomCenterC.getHeight());
-					mBottomRightBg.setTranslationY(percentage * -mBottomRightBg.getHeight());
-					mBottomCenterBg.setTranslationY(percentage * -mBottomCenterBg.getHeight());
+					mCalC.setTranslationY(percentage * mBottomRightC.getHeight());
+					mGdeC.setTranslationY(percentage * mBottomCenterC.getHeight());
+					mBottomRightBg.setTranslationY(percentage * mBottomRightBg.getHeight());
+					mBottomCenterBg.setTranslationY(percentage * mBottomCenterBg.getHeight());
 					mSearchActionsC.setTranslationX(percentage * mSearchActionsC.getWidth());
 				}
 				else if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
-					mTravC.setTranslationY((1f - percentage) * -mBottomRightC.getHeight());
-					mBottomRightBg.setTranslationY((1f - percentage) * -mBottomRightBg.getHeight());
+					mTravC.setTranslationY((1f - percentage) * mBottomRightC.getHeight());
+					mBottomRightBg.setTranslationY((1f - percentage) * mBottomRightBg.getHeight());
 					mSearchActionsC.setTranslationX((1f - percentage) * mSearchActionsC.getWidth());
 				}
 				else if (stateOne == ResultsSearchState.TRAVELER_PICKER && stateTwo == ResultsSearchState.DEFAULT) {
-					mTravC.setTranslationY(percentage * -mBottomRightC.getHeight());
-					mBottomRightBg.setTranslationY(percentage * -mBottomRightBg.getHeight());
+					mTravC.setTranslationY(percentage * mBottomRightC.getHeight());
+					mBottomRightBg.setTranslationY(percentage * mBottomRightBg.getHeight());
 					mSearchActionsC.setTranslationX(percentage * mSearchActionsC.getWidth());
 				}
 				else if (stateOne == ResultsSearchState.TRAVELER_PICKER && stateTwo == ResultsSearchState.CALENDAR) {
