@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.widget.FrameLayoutTouchController xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:id="@+id/root_layout"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:background="#454235">
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#454235">
 
     <FrameLayout
         android:id="@+id/blurred_dest_image_overlay"
@@ -37,11 +37,10 @@
                 android:paddingRight="24dp"
                 android:paddingTop="8dp">
 
-                <LinearLayout
+                <FrameLayout
                     android:id="@+id/trip_bucket_header_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:paddingBottom="16dp"
                     android:paddingTop="16dp">
 
@@ -49,8 +48,7 @@
                         android:id="@+id/your_trip_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
+                        android:layout_gravity="left"
                         android:text="@string/your_trip"
                         android:textSize="18dp"/>
 
@@ -58,11 +56,9 @@
                         android:id="@+id/trip_date_range"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0"
-                        android:gravity="center_vertical"
-                        android:text=""
+                        android:layout_gravity="right"
                         android:textSize="18dp"/>
-                </LinearLayout>
+                </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/bucket_flight_frag_container"
