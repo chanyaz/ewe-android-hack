@@ -107,7 +107,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	// Containers
 	private FrameLayoutTouchController mRootC;
-	private ScrollView mBucketScrollContainer;
 	private ViewGroup mBucketHotelContainer;
 	private ViewGroup mBucketFlightContainer;
 	private ViewGroup mSlideAndFormContainer;
@@ -196,7 +195,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 		Ui.findView(mRootC, R.id.blurred_dest_image_overlay);
 
-		mBucketScrollContainer = Ui.findView(mRootC, R.id.trip_bucket_scroll);
 		mBucketHotelContainer = Ui.findView(mRootC, R.id.bucket_hotel_frag_container);
 		mBucketFlightContainer = Ui.findView(mRootC, R.id.bucket_flight_frag_container);
 
@@ -523,9 +521,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 				}
 				startBooking();
 			}
-			else if (state == CheckoutState.CONFIRMATION) {
-				setShowConfirmationPercentage(1f);
-			}
 
 			if (state == CheckoutState.BOOKING) {
 				mRootC.setBlockNewEventsEnabled(true);
@@ -641,10 +636,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		mBookingUnavailableContainer.setAlpha(percentage);
 	}
 
-	private void setShowConfirmationPercentage(float percentage) {
-		mBucketScrollContainer.setTranslationX((1f - percentage) * -mBucketScrollContainer.getWidth());
-	}
-
 	private void setShowBookingPercentage(float percentage) {
 		if (bookingWithGoogleWallet()) {
 			mFormContainer.setTranslationX(percentage * mFormContainer.getWidth());
@@ -655,12 +646,10 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		mBookingContainer.setTranslationX((1f - percentage) * mBookingContainer.getWidth());
 	}
 
-
 	private void setVisibilityState(CheckoutState state) {
 		//TODO: This is a little out of control, we probably want to switch to a whitelisting method
 		if (state == CheckoutState.OVERVIEW) {
 			mFormContainer.setVisibility(View.VISIBLE);
-			mBucketScrollContainer.setVisibility(View.VISIBLE);
 			mSlideContainer.setVisibility(View.GONE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
 			mSlideAndFormContainer.setVisibility(View.VISIBLE);
@@ -670,7 +659,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else if (state == CheckoutState.READY_FOR_CHECKOUT) {
 			mFormContainer.setVisibility(View.VISIBLE);
-			mBucketScrollContainer.setVisibility(View.VISIBLE);
 			mSlideContainer.setVisibility(View.VISIBLE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
 			mSlideAndFormContainer.setVisibility(View.VISIBLE);
@@ -680,7 +668,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else if (state == CheckoutState.CVV) {
 			mFormContainer.setVisibility(View.INVISIBLE);
-			mBucketScrollContainer.setVisibility(View.VISIBLE);
 			mCvvContainer.setVisibility(View.VISIBLE);
 			mSlideContainer.setVisibility(View.INVISIBLE);
 			mSlideAndFormContainer.setVisibility(View.INVISIBLE);
@@ -690,7 +677,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else if (state == CheckoutState.BOOKING) {
 			mFormContainer.setVisibility(View.INVISIBLE);
-			mBucketScrollContainer.setVisibility(View.VISIBLE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
 			mSlideContainer.setVisibility(View.INVISIBLE);
 			mSlideAndFormContainer.setVisibility(View.INVISIBLE);
@@ -700,7 +686,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else if (state == CheckoutState.BOOKING_UNAVAILABLE) {
 			mFormContainer.setVisibility(View.INVISIBLE);
-			mBucketScrollContainer.setVisibility(View.VISIBLE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
 			mSlideContainer.setVisibility(View.INVISIBLE);
 			mSlideAndFormContainer.setVisibility(View.INVISIBLE);
@@ -710,7 +695,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else if (state == CheckoutState.CONFIRMATION) {
 			mFormContainer.setVisibility(View.INVISIBLE);
-			mBucketScrollContainer.setVisibility(View.VISIBLE);
 			mCvvContainer.setVisibility(View.INVISIBLE);
 			mSlideContainer.setVisibility(View.INVISIBLE);
 			mSlideAndFormContainer.setVisibility(View.INVISIBLE);
