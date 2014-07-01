@@ -62,7 +62,7 @@ public class ResultsTripBucketFragment extends Fragment
 	}
 
 	private void bind(TripBucket bucket) {
-		boolean showBucket = bucket != null && bucket.size() > 0;
+		boolean showBucket = bucket != null && (bucket.size() > 0 || mBucketFrag.hasItemsInUndoState());
 		LineOfBusiness lobToRefresh = bucket.getLOBToRefresh();
 		if (showBucket) {
 			mEmptyBucketView.setVisibility(View.GONE);

@@ -51,6 +51,11 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	private TripBucketFlightFragment mTripBucketFlightFrag;
 	private TripBucketHotelFragment mTripBucketHotelFrag;
 
+	// "In limbo": Item is in transitory state, stored in undo bar Bundle.
+
+	private boolean mHotelInLimbo;
+	private boolean mFlightInLimbo;
+
 	private GridManager mGrid = new GridManager();
 
 	private View mRootC;
@@ -114,8 +119,8 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		//TODO: In the future, this thing should iterate over the trip bucket items and support N items etc.
 		mContentC.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
 
-		boolean showFlightContainer = bucket.getFlight() != null || mFlightUndo.isShown();
-		boolean showHotelContainer = bucket.getHotel() != null || mHotelUndo.isShown();
+		boolean showFlightContainer = bucket.getFlight() != null || mFlightInLimbo;
+		boolean showHotelContainer = bucket.getHotel() != null || mHotelInLimbo;
 
 		setFragState(showFlightContainer, showHotelContainer);
 		mFlightC.setVisibility(showFlightContainer ? View.VISIBLE : (showHotelContainer ? View.GONE : View.INVISIBLE));
@@ -298,8 +303,12 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		Db.getTripBucket().clear(item.getLineOfBusiness());
 		Db.saveTripBucket(getActivity());
 
-		// TODO - The next two lines could be sort of race condition-y
-		// bindToDb() depends on knowing if the undo bar is being shown
+		if (item.getLineOfBusiness() == LineOfBusiness.FLIGHTS) {
+			mFlightInLimbo = true;
+		}
+		else {
+			mHotelInLimbo = true;
+		}
 		undoBar.showUndoBar(true, undoString, b);
 		bindToDb();
 	}
@@ -312,10 +321,12 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		if (itemLob == LineOfBusiness.FLIGHTS) {
 			TripBucketItemFlight flight = JSONUtils.getJSONable((Bundle) token, "item", TripBucketItemFlight.class);
 			Db.getTripBucket().add(flight.getFlightSearchParams(), flight.getFlightTrip());
+			mFlightInLimbo = false;
 		}
 		else {
 			TripBucketItemHotel hotel = JSONUtils.getJSONable((Bundle) token, "item", TripBucketItemHotel.class);
 			Db.getTripBucket().add(hotel.getHotelSearchParams(), hotel.getRate(), hotel.getProperty(), hotel.getHotelAvailability());
+			mHotelInLimbo = false;
 		}
 		Db.saveTripBucket(getActivity());
 		bindToDb();
@@ -325,6 +336,15 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	private AnimationListenerAdapter undoBarListener = new AnimationListenerAdapter() {
 		@Override
 		public void onAnimationEnd(Animation animation) {
+			TripBucket tb = Db.getTripBucket();
+			// If an item is now null, but was marked as in limbo,
+			// toggle the limbo flag.
+			if (tb.getFlight() == null && mFlightInLimbo) {
+				mFlightInLimbo = false;
+			}
+			if (tb.getHotel() == null && mHotelInLimbo) {
+				mHotelInLimbo = false;
+			}
 			bindParent();
 		}
 	};
@@ -337,6 +357,10 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 
 	public interface UndoAnimationEndListener {
 		public void onUndoAnimationListenerEnd();
+	}
+
+	public boolean hasItemsInUndoState() {
+		return mHotelInLimbo || mFlightInLimbo;
 	}
 
 }
