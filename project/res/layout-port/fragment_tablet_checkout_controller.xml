@@ -11,18 +11,125 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
-        android:id="@+id/bucket_showing_root"
+    <!-- Content area for forms, cvv, confirmation and booking status -->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:baselineAligned="false"
-        android:paddingTop="?android:attr/actionBarSize"
-        android:orientation="vertical" >
+        android:layout_marginTop="60dp"
+        android:paddingTop="?android:attr/actionBarSize" >
+
+        <FrameLayout
+            android:id="@+id/cvv_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <FrameLayout
+            android:id="@+id/booking_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center" >
+
+                <ProgressBar
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:indeterminate="true" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/booking_unavailable_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <FrameLayout
+            android:id="@+id/checkout_forms_and_slide_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/checkout_forms_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top"/>
+
+            <FrameLayout
+                android:id="@+id/slide_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/slide_to_purchase_container_height"
+                android:layout_gravity="bottom"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/confirmation_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </FrameLayout>
+    </FrameLayout>
+
+    <!-- Trip bucket items -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="?android:attr/actionBarSize" >
+
+        <View
+            android:id="@+id/trip_bucket_dimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#66000000" />
+
+        <FrameLayout
+            android:id="@+id/trip_bucket_show_hide_container"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#66000000" >
+
+            <LinearLayout
+                android:id="@+id/trip_bucket_show_hide_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_clickable_row"
+                android:padding="8dp" >
+
+                <TextView
+                    android:id="@+id/number_of_items_in_trip_textview"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="8dp"
+                    android:background="#ffff00"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/items_in_trip_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="8dp"
+                    android:textColor="#ffffff" />
+
+                <ImageView
+                    android:id="@+id/collapsed_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_action_bar_checkout_arrow" />
+
+            </LinearLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:id="@+id/trip_bucket_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
             android:background="@color/trip_bucket_background_color"
             android:orientation="vertical"
             android:paddingBottom="8dp"
@@ -83,65 +190,7 @@
                 </FrameLayout>
 
             </LinearLayout>
-
         </LinearLayout>
+    </FrameLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <FrameLayout
-                android:id="@+id/cvv_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-            <FrameLayout
-                android:id="@+id/booking_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center" >
-
-                    <ProgressBar
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:indeterminate="true" />
-                </LinearLayout>
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/booking_unavailable_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-            <FrameLayout
-                android:id="@+id/checkout_forms_and_slide_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <FrameLayout
-                    android:id="@+id/checkout_forms_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="top"/>
-
-                <FrameLayout
-                    android:id="@+id/slide_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/slide_to_purchase_container_height"
-                    android:layout_gravity="bottom"
-                    android:visibility="gone"/>
-            </FrameLayout>
-
-            <FrameLayout
-                android:id="@+id/confirmation_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </FrameLayout>
-        </FrameLayout>
-    </LinearLayout>
 </com.expedia.bookings.widget.FrameLayoutTouchController>

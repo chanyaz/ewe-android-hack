@@ -120,6 +120,9 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	// Views
 	private TextView mBucketDateRange;
+	private ViewGroup mBucketContainer;
+	private View mBucketDimmer;
+	private ViewGroup mBucketShowHideButton;
 
 	// Fragments
 	private TripBucketFlightFragment mBucketFlightFrag;
@@ -144,6 +147,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	private static final String INSTANCE_DONE_LOADING_PRICE_CHANGE = "INSTANCE_DONE_LOADING_PRICE_CHANGE";
 	private static final String INSTANCE_FLIGHT_TRIP_ERROR = "INSTANCE_FLIGHT_TRIP_ERROR";
+	private static final String INSTANCE_TRIP_BUCKET_OPEN = "INSTANCE_TRIP_BUCKET_OPEN";
 
 	private static final String INSTANCE_CURRENT_LOB = "INSTANCE_CURRENT_LOB";
 
@@ -163,6 +167,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	private ThrobberDialog mFlightCreateTripDownloadThrobber;
 
 	private LineOfBusiness mCurrentLob;
+
+	private boolean mTripBucketOpen = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -227,6 +233,23 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		mBucketDateRange.setText(dateRange);
 
+		mBucketContainer = Ui.findView(mRootC, R.id.trip_bucket_container);
+		mBucketDimmer = Ui.findView(mRootC, R.id.trip_bucket_dimmer);
+		mBucketShowHideButton = Ui.findView(mRootC, R.id.trip_bucket_show_hide_button);
+		if (mBucketShowHideButton != null) {
+			mBucketShowHideButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (mBucketContainer == null || mBucketDimmer == null) {
+						return;
+					}
+
+					mTripBucketOpen = !mTripBucketOpen;
+					setTripBucketOpen(mTripBucketOpen);
+				}
+			});
+		}
+
 		if (savedInstanceState != null) {
 			mStateManager.setDefaultState(CheckoutState.valueOf(savedInstanceState.getString(
 				STATE_CHECKOUT_STATE,
@@ -234,6 +257,11 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mIsDoneLoadingPriceChange = savedInstanceState.getBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE);
 			mIsFlightTripDone = savedInstanceState.getBoolean(INSTANCE_FLIGHT_TRIP_ERROR);
 			mCurrentLob = LineOfBusiness.valueOf(savedInstanceState.getString(INSTANCE_CURRENT_LOB));
+			mTripBucketOpen = savedInstanceState.getBoolean(INSTANCE_TRIP_BUCKET_OPEN);
+		}
+
+		if (mBucketContainer != null && mBucketDimmer != null) {
+			setTripBucketOpen(mTripBucketOpen);
 		}
 
 		registerStateListener(mStateHelper, false);
@@ -244,6 +272,25 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mBucketHotelContainer
 		};
 
+		int numItemsInTripBucket = 0;
+
+		if (Db.getTripBucket().getFlight() != null) {
+			numItemsInTripBucket ++;
+		}
+		if (Db.getTripBucket().getHotel() != null) {
+			numItemsInTripBucket ++;
+		}
+
+		TextView numText = Ui.findView(mRootC, R.id.number_of_items_in_trip_textview);
+		if (numText != null) {
+			numText.setText("" + numItemsInTripBucket);
+		}
+
+		TextView itemsText = Ui.findView(mRootC, R.id.items_in_trip_textview);
+		if (itemsText != null) {
+			itemsText.setText(getResources().getQuantityString(R.plurals.items_in_trip, numItemsInTripBucket));
+		}
+
 		return mRootC;
 	}
 
@@ -253,6 +300,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		outState.putString(STATE_CHECKOUT_STATE, mStateManager.getState().name());
 		outState.putBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE, mIsDoneLoadingPriceChange);
 		outState.putBoolean(INSTANCE_FLIGHT_TRIP_ERROR, mIsFlightTripDone);
+		outState.putBoolean(INSTANCE_TRIP_BUCKET_OPEN, mTripBucketOpen);
 		if (mCurrentLob != null) {
 			outState.putString(INSTANCE_CURRENT_LOB, mCurrentLob.name());
 		}
@@ -813,6 +861,17 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			mBucketHotelFrag.setState(Db.getTripBucket().getHotel().getState(), animate);
 		}
 
+	}
+
+	private void setTripBucketOpen(boolean open) {
+		if (open) {
+			mBucketContainer.setVisibility(View.VISIBLE);
+			mBucketDimmer.setVisibility(View.VISIBLE);
+		}
+		else {
+			mBucketContainer.setVisibility(View.GONE);
+			mBucketDimmer.setVisibility(View.GONE);
+		}
 	}
 
 	private void doCreateTrip() {

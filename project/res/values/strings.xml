@@ -146,7 +146,15 @@
     <string name="tablet_tripbucket_flight_removed">Flight removed.</string>
     <!-- Remove Trip Bucket Hotel - Undo messaging -->
     <string name="tablet_tripbucket_hotel_removed">Hotel removed.</string>
-
+    <!-- Label indicating how many items are being booked for the current trip -->
+    <plurals name="items_in_trip">
+        <item quantity="zero">Items in Trip</item>
+        <item quantity="one">Item in Trip</item>
+        <item quantity="two">Items in Trip</item>
+        <item quantity="few">Items in Trip</item>
+        <item quantity="many">Items in Trip</item>
+        <item quantity="other">Items in Trip</item>
+    </plurals>
 
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
