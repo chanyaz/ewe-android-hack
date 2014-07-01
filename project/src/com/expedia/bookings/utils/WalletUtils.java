@@ -456,7 +456,7 @@ public class WalletUtils {
 		HotelSearch search = Db.getHotelSearch();
 
 		Property property = search.getSelectedProperty();
-		Rate originalRate = search.getSelectedRate();
+		Rate originalRate = search.getCheckoutRate();
 		Rate couponRate = search.getCouponRate();
 		Money total = couponRate == null ? originalRate.getTotalAmountAfterTax() : couponRate.getTotalAmountAfterTax();
 
