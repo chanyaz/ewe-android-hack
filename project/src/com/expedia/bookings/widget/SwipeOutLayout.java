@@ -402,16 +402,8 @@ public class SwipeOutLayout extends FrameLayout {
 					reportSwipeStateChanged(SWIPE_STATE_DRAGGING);
 				}
 
-				float y = event.getY();
-				float yDeltaTotal = Math.abs(y - mStartY);
-
-				if (yDeltaTotal > mTouchSlop) {
-					animateBackToStart();
-				}
-				else {
-					// Do scroll related stuff.
-					mGesDet.onTouchEvent(event);
-				}
+				// Do scroll related stuff.
+				mGesDet.onTouchEvent(event);
 
 				//clean up and fire listeners
 				if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
