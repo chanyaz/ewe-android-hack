@@ -625,11 +625,13 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					mSearchActionsC.setTranslationX(percentage * mSearchActionsC.getWidth());
 				}
 				else if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
-					mBottomRightC.setTranslationY((1f - percentage) * mBottomRightC.getHeight());
+					mBottomRightC.setTranslationY((1f - percentage) * dist * mBottomRightC.getHeight());
+					mBottomCenterC.setTranslationY((1f - percentage) * dist * mBottomCenterC.getHeight());
 					mSearchActionsC.setTranslationX((1f - percentage) * mSearchActionsC.getWidth());
 				}
 				else if (stateOne == ResultsSearchState.TRAVELER_PICKER && stateTwo == ResultsSearchState.DEFAULT) {
-					mBottomRightC.setTranslationY(percentage * mBottomRightC.getHeight());
+					mBottomRightC.setTranslationY(percentage * dist * mBottomRightC.getHeight());
+					mBottomCenterC.setTranslationY(percentage * dist * mBottomCenterC.getHeight());
 					mSearchActionsC.setTranslationX(percentage * mSearchActionsC.getWidth());
 				}
 				else if (stateOne == ResultsSearchState.TRAVELER_PICKER && stateTwo == ResultsSearchState.CALENDAR) {
