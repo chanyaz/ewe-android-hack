@@ -562,11 +562,15 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	private void setEnteringProductPercentage(float percentage, boolean enteringHotels, boolean vertical) {
 		if (vertical) {
 			//Reset X things, because they dont change if we are in vertical mode
-			mTripBucketC.setTranslationX(0f);
+			if (!hideTripBucketInPortrait()) {
+				mTripBucketC.setTranslationX(0f);
+			}
 			mMissingFlightInfo.setTranslationX(0f);
 			mFlightsC.setTranslationX(0f);
 
-			mTripBucketC.setTranslationY(percentage * mTripBucketC.getHeight());
+			if (!hideTripBucketInPortrait()) {
+				mTripBucketC.setTranslationY(percentage * mTripBucketC.getHeight());
+			}
 			mMissingFlightInfo.setTranslationY(
 				mCenterColumnUpDownInterpolator.getInterpolation(percentage) * mGrid.getRowHeight(1));
 			if (enteringHotels) {
@@ -580,11 +584,15 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		}
 		else {
 			//Reset Y things because they don't change if we are
-			mTripBucketC.setTranslationY(0);
+			if (!hideTripBucketInPortrait()) {
+				mTripBucketC.setTranslationY(0);
+			}
 			mMissingFlightInfo.setTranslationY(0f);
 			mFlightsC.setTranslationY(0);
 
-			mTripBucketC.setTranslationX(percentage * mTripBucketC.getWidth());
+			if (!hideTripBucketInPortrait()) {
+				mTripBucketC.setTranslationX(percentage * mTripBucketC.getWidth());
+			}
 			mMissingFlightInfo.setTranslationX(percentage * -mGrid.getColRight(2));
 
 			if (enteringHotels) {
