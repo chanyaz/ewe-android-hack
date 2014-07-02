@@ -1588,7 +1588,7 @@
     <!-- Error shown to user if their credit card number is invalid -->
     <string name="error_invalid_card_number">The credit card number you entered is invalid, please try again.</string>
     <!-- Error shown to user if their name on card is invalid -->
-    <string name="error_name_on_card_mismatch">The name on your credit card doesn't match or is invalid, please try again.</string>
+    <string name="error_name_on_card_mismatch">The name on your credit card does not match or is invalid, please try again.</string>
     <!-- Error shown to user if their credit card has expired -->
     <string name="error_expired_payment">The credit card you tried to use has expired, please use a different credit card.</string>
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
