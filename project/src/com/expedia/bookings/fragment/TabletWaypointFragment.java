@@ -50,6 +50,7 @@ public class TabletWaypointFragment extends Fragment
 	private static final String STATE_WAYPOINT_CHOOSER_STATE = "STATE_WAYPOINT_CHOOSER_STATE";
 	private static final String STATE_ERROR_MESSAGE = "STATE_ERROR_MESSAGE";
 	private static final String STATE_HAS_INVISIBLE_BACKGROUND = "STATE_HAS_INVISIBLE_BACKGROUND";
+	private static final String STATE_WAYPOINT_EDIT_TEXT = "STATE_WAYPOINT_EDIT_TEXT";
 
 	public static interface ITabletWaypointFragmentListener {
 		public Rect getAnimOrigin();
@@ -69,6 +70,7 @@ public class TabletWaypointFragment extends Fragment
 	private ProgressBar mLocationProgressBar;
 
 	private boolean mHasInvisibleBackground = false;
+	private String mWayPointString;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
@@ -88,6 +90,7 @@ public class TabletWaypointFragment extends Fragment
 		if (savedInstanceState != null) {
 			mErrorMessage = savedInstanceState.getString(STATE_ERROR_MESSAGE);
 			mHasInvisibleBackground = savedInstanceState.getBoolean(STATE_HAS_INVISIBLE_BACKGROUND);
+			mWayPointString = savedInstanceState.getString(STATE_WAYPOINT_EDIT_TEXT);
 		}
 		
 		//The background wont let any touches pass through it...
@@ -141,6 +144,10 @@ public class TabletWaypointFragment extends Fragment
 			}
 		});
 
+		if (!TextUtils.isEmpty(mWayPointString)) {
+			mWaypointEditText.setFocusableInTouchMode(true);
+			mWaypointEditText.setText(mWayPointString);
+		}
 		setupStateTransitions();
 
 		return view;
@@ -162,6 +169,7 @@ public class TabletWaypointFragment extends Fragment
 		super.onSaveInstanceState(outState);
 		outState.putString(STATE_ERROR_MESSAGE, mErrorMessage == null ? "" : mErrorMessage);
 		outState.putBoolean(STATE_HAS_INVISIBLE_BACKGROUND, mHasInvisibleBackground);
+		outState.putString(STATE_WAYPOINT_EDIT_TEXT, mWaypointEditText.getText().toString());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
