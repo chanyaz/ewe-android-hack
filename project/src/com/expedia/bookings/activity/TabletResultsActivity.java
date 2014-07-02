@@ -480,7 +480,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		public void onStateFinalized(ResultsState state) {
 			setListenerState(state);
 
-			if (hideTripBucketInPortrait()) {
+			if (hideTripBucketInPortrait() || searchControlsActive()) {
 				int transY = mGrid.getRowTop(2);
 				mTripBucketC.setTranslationY(transY);
 			}
@@ -723,6 +723,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 	private boolean hideTripBucketInPortrait() {
 		return !mGrid.isLandscape() && Db.getTripBucket().isEmpty();
+	}
+
+	private boolean searchControlsActive() {
+		ResultsSearchState state = mSearchController.getState();
+		return state == ResultsSearchState.TRAVELER_PICKER || state == ResultsSearchState.CALENDAR;
 	}
 
 	@Override
