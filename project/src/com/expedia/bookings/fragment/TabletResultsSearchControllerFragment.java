@@ -96,6 +96,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private FrameLayoutTouchController mTravC;
 	private FrameLayoutTouchController mWaypointC;
 	private FrameLayoutTouchController mGdeC;
+	private View mTravPickWhiteSpace;
 
 	//Search action buttons
 	private TextView mDestBtn;
@@ -151,6 +152,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mTravC = Ui.findView(view, R.id.traveler_container);
 		mCalC = Ui.findView(view, R.id.calendar_container);
 		mGdeC = Ui.findView(view, R.id.gde_container);
+		mTravPickWhiteSpace = Ui.findView(view, R.id.traveler_picker_port_white_space);
 
 		//Fake AB form buttons
 		mDestBtn = Ui.findView(view, R.id.dest_btn);
@@ -574,6 +576,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			if (stateOne == ResultsSearchState.TRAVELER_PICKER || stateTwo == ResultsSearchState.TRAVELER_PICKER) {
 				mBottomRightC.setVisibility(View.VISIBLE);
 				mTravC.setVisibility(View.VISIBLE);
+				if (!mGrid.isLandscape()) {
+					mBottomCenterC.setVisibility(View.VISIBLE);
+					mTravPickWhiteSpace.setVisibility(View.VISIBLE);
+				}
 				mSearchActionsC.setVisibility(View.VISIBLE);
 
 				if (mGuestsFragment == null || mGuestsFragment.isDetached()) {
@@ -634,6 +640,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					}
 					else {
 						mGdeC.setTranslationX((1f - percentage) * -mBottomCenterC.getWidth());
+						mTravPickWhiteSpace.setTranslationX(percentage * mBottomCenterC.getWidth());
 					}
 				}
 				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
@@ -644,6 +651,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					}
 					else {
 						mGdeC.setTranslationX(percentage * -mBottomCenterC.getWidth());
+						mTravPickWhiteSpace.setTranslationX((1f - percentage) * mBottomCenterC.getWidth());
 					}
 				}
 
@@ -781,14 +789,16 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mCalC.getVisibility() == View.VISIBLE || mTravC.getVisibility() == View.VISIBLE ? View.VISIBLE
 					: View.INVISIBLE
 			);
-			// Let's make this view invisible when Flights are not supported, so users can see the message.
-			if (PointOfSale.getPointOfSale().supportsFlights()) {
-				mBottomCenterC.setVisibility(mCalC.getVisibility());
-			}
-			else {
-				mBottomCenterC.setVisibility(View.INVISIBLE);
-			}
+
+			mBottomCenterC.setVisibility(mCalC.getVisibility());
 			mGdeC.setVisibility(mCalC.getVisibility());
+
+			if (!mGrid.isLandscape()) {
+				if (state == ResultsSearchState.TRAVELER_PICKER) {
+					mBottomCenterC.setVisibility(View.VISIBLE);
+					mTravPickWhiteSpace.setVisibility(View.VISIBLE);
+				}
+			}
 			mSearchActionsC.setVisibility(
 				state == ResultsSearchState.CALENDAR || state == ResultsSearchState.TRAVELER_PICKER ? View.VISIBLE
 					: View.INVISIBLE
