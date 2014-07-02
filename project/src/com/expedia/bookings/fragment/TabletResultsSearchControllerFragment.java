@@ -607,33 +607,44 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				}
 			}
 			else {
+				int dist = mGrid.isLandscape() ? 1 : 2;
 				if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.CALENDAR) {
-					mCalC.setTranslationY((1f - percentage) * mBottomRightC.getHeight());
-					mGdeC.setTranslationY((1f - percentage) * mBottomCenterC.getHeight());
+					mBottomRightC.setTranslationY((1f - percentage) * dist * mBottomRightC.getHeight());
+					mBottomCenterC.setTranslationY((1f - percentage) * dist * mBottomCenterC.getHeight());
 					mSearchActionsC.setTranslationX((1f - percentage) * mSearchActionsC.getWidth());
 				}
 				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.DEFAULT) {
-					mCalC.setTranslationY(percentage * mBottomRightC.getHeight());
-					mGdeC.setTranslationY(percentage * mBottomCenterC.getHeight());
+					mBottomRightC.setTranslationY(percentage * dist * mBottomRightC.getHeight());
+					mBottomCenterC.setTranslationY(percentage * dist * mBottomCenterC.getHeight());
 					mSearchActionsC.setTranslationX(percentage * mSearchActionsC.getWidth());
 				}
 				else if (stateOne == ResultsSearchState.DEFAULT && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
-					mTravC.setTranslationY((1f - percentage) * mBottomRightC.getHeight());
+					mBottomRightC.setTranslationY((1f - percentage) * mBottomRightC.getHeight());
 					mSearchActionsC.setTranslationX((1f - percentage) * mSearchActionsC.getWidth());
 				}
 				else if (stateOne == ResultsSearchState.TRAVELER_PICKER && stateTwo == ResultsSearchState.DEFAULT) {
-					mTravC.setTranslationY(percentage * mBottomRightC.getHeight());
+					mBottomRightC.setTranslationY(percentage * mBottomRightC.getHeight());
 					mSearchActionsC.setTranslationX(percentage * mSearchActionsC.getWidth());
 				}
 				else if (stateOne == ResultsSearchState.TRAVELER_PICKER && stateTwo == ResultsSearchState.CALENDAR) {
 					mTravC.setTranslationX(percentage * mTravC.getWidth());
 					mCalC.setTranslationX((1f - percentage) * -mCalC.getWidth());
-					mGdeC.setTranslationY((1f - percentage) * -mBottomCenterC.getHeight());
+					if (mGrid.isLandscape()) {
+						mGdeC.setTranslationY((1f - percentage) * -mBottomCenterC.getHeight());
+					}
+					else {
+						mGdeC.setTranslationX((1f - percentage) * -mBottomCenterC.getWidth());
+					}
 				}
 				else if (stateOne == ResultsSearchState.CALENDAR && stateTwo == ResultsSearchState.TRAVELER_PICKER) {
 					mTravC.setTranslationX((1f - percentage) * mTravC.getWidth());
 					mCalC.setTranslationX(percentage * -mCalC.getWidth());
-					mGdeC.setTranslationY(percentage * -mBottomCenterC.getHeight());
+					if (mGrid.isLandscape()) {
+						mGdeC.setTranslationY(percentage * -mBottomCenterC.getHeight());
+					}
+					else {
+						mGdeC.setTranslationX(percentage * -mBottomCenterC.getWidth());
+					}
 				}
 
 			}
