@@ -638,7 +638,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					mTravC.setTranslationX(percentage * mTravC.getWidth());
 					mCalC.setTranslationX((1f - percentage) * -mCalC.getWidth());
 					if (mGrid.isLandscape()) {
-						mGdeC.setTranslationY((1f - percentage) * -mBottomCenterC.getHeight());
+						mGdeC.setTranslationY((1f - percentage) * mBottomCenterC.getHeight());
 					}
 					else {
 						mGdeC.setTranslationX((1f - percentage) * -mBottomCenterC.getWidth());
@@ -649,7 +649,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					mTravC.setTranslationX((1f - percentage) * mTravC.getWidth());
 					mCalC.setTranslationX(percentage * -mCalC.getWidth());
 					if (mGrid.isLandscape()) {
-						mGdeC.setTranslationY(percentage * -mBottomCenterC.getHeight());
+						mGdeC.setTranslationY(percentage * mBottomCenterC.getHeight());
 					}
 					else {
 						mGdeC.setTranslationX(percentage * -mBottomCenterC.getWidth());
