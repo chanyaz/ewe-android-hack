@@ -174,5 +174,6 @@
     <!-- confirmation_image_height - (confirmation_checkmark_size/2) -->
     <dimen name="confirmation_checkmark_margin">90dp</dimen>
     <dimen name="confirmation_button_bar_height">48dp</dimen>
+    <dimen name="confirmation_custom_action_textsize">13sp</dimen>
 
 </resources>

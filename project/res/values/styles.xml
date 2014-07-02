@@ -723,17 +723,15 @@
     <style name="Confirmation.Tablet.Action">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_marginLeft">12dp</item>
-        <item name="android:layout_marginRight">12dp</item>
-        <item name="android:paddingTop">8dp</item>
-        <item name="android:paddingBottom">8dp</item>
-        <item name="android:paddingLeft">14dp</item>
-        <item name="android:paddingRight">8dp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">#2970CC</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:drawablePadding">10dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
         <item name="android:background">@drawable/bg_tablet_confirmation_actionbutton</item>
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">#2970CC</item>
+        <item name="android:textSize">@dimen/confirmation_custom_action_textsize</item>
+        <item name="textStyle">condensed_bold</item>
     </style>
 
     <style name="Confirmation" />
