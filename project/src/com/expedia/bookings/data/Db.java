@@ -135,6 +135,9 @@ public class Db {
 	// Do not persist!
 	private String mSamsungWalletTicketId;
 
+	// To store the fullscreen average color for the ui
+	private int mFullscreenAverageColor = 0x66000000;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
 
@@ -383,6 +386,14 @@ public class Db {
 				travelers.remove();
 			}
 		}
+	}
+
+	public static void setFullscreenAverageColor(int color) {
+		sDb.mFullscreenAverageColor = color;
+	}
+
+	public static int getFullscreenAverageColor() {
+		return sDb.mFullscreenAverageColor;
 	}
 
 	public static void clear() {

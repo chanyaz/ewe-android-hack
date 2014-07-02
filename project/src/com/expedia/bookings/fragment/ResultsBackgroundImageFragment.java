@@ -23,6 +23,7 @@ import com.expedia.bookings.data.ExpediaImageManager;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.fragment.base.MeasurableFragment;
+import com.expedia.bookings.utils.ColorBuilder;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
@@ -169,6 +170,15 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 
 	private void handleBitmap(final Bitmap bitmap, boolean fade) {
 		if (bitmap != null) {
+			if (!mBlur) {
+				int color = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)) //
+					.setSaturation(0.2f) //
+					.setOpacity(0.35f) //
+					.setAlpha(0xE5) //
+					.build();
+				Db.setFullscreenAverageColor(color);
+			}
+
 			if (mImageView != null) {
 				Matrix topCrop = BitmapUtils.createTopCropMatrix(bitmap.getWidth(), bitmap.getHeight(), mImageView.getWidth(), mImageView.getHeight());
 				mImageView.setImageMatrix(topCrop);
