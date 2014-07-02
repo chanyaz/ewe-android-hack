@@ -59,8 +59,8 @@ public class DatesFragment extends Fragment implements CalendarPicker.DateSelect
 		mArrowView = Ui.findView(view, R.id.arrow_view);
 		mCalendarPicker = Ui.findView(view, R.id.calendar_picker);
 
-		mCalendarPicker.setSelectableDateRange(LocalDate.now(), LocalDate.now().plusDays(330));
-		mCalendarPicker.setMaxSelectableDateRange(28);
+		mCalendarPicker.setSelectableDateRange(LocalDate.now(), LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)));
+		mCalendarPicker.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_flight_search));
 		mCalendarPicker.setSelectedDates(mStartDate, mEndDate);
 		mCalendarPicker.setDateChangedListener(this);
 
