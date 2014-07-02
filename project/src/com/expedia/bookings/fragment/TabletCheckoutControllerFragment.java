@@ -1498,6 +1498,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		case SimpleCallbackDialogFragment.CODE_INVALID_CC:
 		case SimpleCallbackDialogFragment.CODE_INVALID_POSTALCODE:
 		case SimpleCallbackDialogFragment.CODE_INVALID_PAYMENT:
+		case SimpleCallbackDialogFragment.CODE_NAME_ONCARD_MISMATCH:
 			mCheckoutFragment.setState(CheckoutFormState.EDIT_PAYMENT, false);
 			setCheckoutState(CheckoutState.OVERVIEW, true);
 			break;

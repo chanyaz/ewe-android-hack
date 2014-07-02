@@ -218,6 +218,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		boolean hasPhoneError = false;
 		boolean hasPostalCodeError = false;
 		boolean hasFlightMinorError = false;
+		boolean hasNameOnCardMismatchError = false;
 
 		// Log all errors, in case we need to see them
 		for (int a = 0; a < errors.size(); a++) {
@@ -246,6 +247,9 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			}
 			else if (field.equals("mainFlightPassenger.birthDate")) {
 				hasFlightMinorError = true;
+			}
+			else if (field.equals("nameOnCard")) {
+				hasNameOnCardMismatchError = true;
 			}
 		}
 
@@ -336,6 +340,13 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 					getString(R.string.error_expired_payment), getString(R.string.ok),
 					SimpleCallbackDialogFragment.CODE_EXPIRED_CC);
 				frag.show(getFragmentManager(), "expiredCcDialog");
+				return;
+			}
+			else if (hasNameOnCardMismatchError) {
+				DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
+					getString(R.string.error_name_on_card_mismatch), getString(R.string.ok),
+					SimpleCallbackDialogFragment.CODE_NAME_ONCARD_MISMATCH);
+				frag.show(getFragmentManager(), "nameOnCardMisMatchDialog");
 				return;
 			}
 			// 1643: Handle an odd API response. This is probably due to the transition

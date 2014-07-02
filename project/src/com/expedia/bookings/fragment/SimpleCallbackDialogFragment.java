@@ -27,6 +27,7 @@ public class SimpleCallbackDialogFragment extends DialogFragment {
 	public static final int CODE_INVALID_MINOR = 105;
 	public static final int CODE_EXPIRED_CC = 106;
 	public static final int CODE_MINOR = 107;
+	public static final int CODE_NAME_ONCARD_MISMATCH = 108;
 
 	public static final int CODE_FLIGHT_ROUTES_FAILURE = 200;
 
