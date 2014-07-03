@@ -37,6 +37,7 @@ import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.jakewharton.disklrucache.DiskLruCache;
 import com.jakewharton.disklrucache.DiskLruCache.Editor;
@@ -57,12 +58,10 @@ public class L2ImageCache {
 	private String mLogTag;
 
 	// Blur constants
-	// TODO make this configurable
-	private static final float DARKEN_MULTIPLIER = 0.65f;
 	private static final int BLURRED_IMAGE_SIZE_REDUCTION_FACTOR = 4;
 	private static final String BLUR_KEY_SUFFIX = "blurred";
-	private static final int DEFAULT_STACK_BLUR_RADIUS = 25;
 
+	private float mDarkenMultiplier;
 	private int mBlurRadius;
 
 	public L2ImageCache(Context context, String logTag, EvictionPolicy evictionPolicy) {
@@ -72,9 +71,13 @@ public class L2ImageCache {
 		mMemoryCache = evictionPolicy.generateMemCache();
 		mDiskCache = evictionPolicy.generateDiskCache();
 
+		Resources res = context.getResources();
+
+		// Compute the darken multiplier
+		mDarkenMultiplier = res.getFraction(R.fraction.stack_blur_darken_multiplier, 1, 1);
+
 		// Compute the blur radius
-		float density = context.getResources().getDisplayMetrics().density;
-		mBlurRadius = Math.round(DEFAULT_STACK_BLUR_RADIUS * density);
+		mBlurRadius = res.getDimensionPixelSize(R.dimen.stack_blur_radius);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -352,7 +355,7 @@ public class L2ImageCache {
 					}
 
 					bitmap = BitmapUtils.stackBlurAndDarken(regBitmap, mContext,
-						BLURRED_IMAGE_SIZE_REDUCTION_FACTOR, mBlurRadius, DARKEN_MULTIPLIER);
+						BLURRED_IMAGE_SIZE_REDUCTION_FACTOR, mBlurRadius, mDarkenMultiplier);
 				}
 				else {
 					bitmap = BitmapFactory.decodeResource(res, resId);
@@ -924,7 +927,7 @@ public class L2ImageCache {
 
 				// Allocate a new Bitmap for the blurred Bitmap
 				blurBitmap = BitmapUtils.stackBlurAndDarken(origBitmap, mContext,
-					BLURRED_IMAGE_SIZE_REDUCTION_FACTOR, mBlurRadius, DARKEN_MULTIPLIER);
+					BLURRED_IMAGE_SIZE_REDUCTION_FACTOR, mBlurRadius, mDarkenMultiplier);
 
 				// Write the Blurred bitmap into the disk cache
 				editor = mDiskCache.edit(getDiskKeyForBlurred(mOrigUrl));
