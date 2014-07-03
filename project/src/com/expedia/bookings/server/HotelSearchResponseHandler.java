@@ -17,6 +17,7 @@ import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
@@ -300,14 +301,9 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			else if (name.equals("rateCurrencyCode")) {
 				currencyCode = reader.nextString();
 			}
-			else if (name.equals("highestPriceFromSurvey")) {
-				//if the API changes in the future and we end up parsing out of order,
-				//then we should still try and fetch the correct currency from lowestRateInfo.
-				if (currencyCode == null) {
-					String tempCurrencyCode = property.getLowestRate().getDisplayPrice().getCurrency();
-					currencyCode = tempCurrencyCode;
-				}
-				property.setHighestPriceFromSurvey(ParserUtils.createMoney(reader.nextString(), currencyCode));
+			else if (name.equals("highestSurveyPriceAsPrice")) {
+				Money money = readMoney(reader);
+				property.setHighestPriceFromSurvey(money);
 			}
 			else if (name.equals("isVipAccess")) {
 				property.setIsVipAccess(reader.nextBoolean());
@@ -469,5 +465,38 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		reader.endObject();
 
 		response.addError(serverError);
+	}
+
+	private Money readMoney(JsonReader reader) throws IOException {
+		Money money = null;
+		String currencyCode = null;
+		double amount = -1.0d;
+		reader.beginObject();
+		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+			String name = reader.nextName();
+
+			if (name.equals("amount")) {
+				amount = reader.nextDouble();
+			}
+			else if (name.equals("currency")) {
+				reader.beginObject();
+				while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+					String innerName = reader.nextName();
+					if (innerName.equals("currencyCode")) {
+						currencyCode = reader.nextString();
+					}
+				}
+				reader.endObject();
+			}
+		}
+		reader.endObject();
+
+		if (!TextUtils.isEmpty(currencyCode)) {
+			money = new Money();
+			money.setAmount(amount);
+			money.setCurrency(currencyCode);
+		}
+
+		return money;
 	}
 }

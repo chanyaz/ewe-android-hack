@@ -63,6 +63,10 @@ public class Money implements JSONable {
 		}
 	}
 
+	public void setAmount(double amount) {
+		mAmount = new BigDecimal(amount);
+	}
+
 	public void setAmount(BigDecimal amount) {
 		this.mAmount = amount;
 	}
