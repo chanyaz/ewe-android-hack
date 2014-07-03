@@ -388,7 +388,6 @@ public class SwipeOutLayout extends FrameLayout {
 
 			//We only care about touch events that fall on top of our content view
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
-				stopTouchSteals(true);
 				mHasDown = true;
 				float x = event.getX();
 				float y = event.getY();
