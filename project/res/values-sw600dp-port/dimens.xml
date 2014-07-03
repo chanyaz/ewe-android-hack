@@ -25,4 +25,8 @@
     <!-- Half of results_grid_bottom_half -->
     <fraction name="results_grid_half_bottom_half">30%</fraction>
 
+    <!-- Hotel details -->
+    <dimen name="tablet_hotel_details_top_padding">36dp</dimen>
+    <fraction name="tablet_hotel_details_horizontal_spacing_percentage">8%</fraction>
+
 </resources>

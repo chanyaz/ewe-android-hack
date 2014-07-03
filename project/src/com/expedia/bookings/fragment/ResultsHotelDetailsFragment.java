@@ -829,9 +829,9 @@ public class ResultsHotelDetailsFragment extends Fragment {
 
 		@Override
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
-			//This attempts to replicate the global layout by doing 3 columns for our general results layout
-			//and 2 rows (where the first one represents the actionbar).
 			if (isLandscape) {
+				//This attempts to replicate the global layout by doing 3 columns for our general results layout
+				//and 2 rows (where the first one represents the actionbar).
 				GridManager globalGm = new GridManager(2, 3);
 				globalGm.setDimensions(totalWidth, totalHeight);
 				globalGm.setRowSize(0, getActivity().getActionBar().getHeight());
@@ -854,6 +854,8 @@ public class ResultsHotelDetailsFragment extends Fragment {
 				mGrid.setContainerToColumn(mRootC, 1);
 			}
 			else {
+				//This attempts to replicate the global layout by doing 2 columns for our general results layout
+				//and 2 rows (where the first one represents the actionbar).
 				GridManager globalGm = new GridManager(2, 2);
 				globalGm.setDimensions(totalWidth, totalHeight);
 				globalGm.setRowSize(0, getActivity().getActionBar().getHeight());
