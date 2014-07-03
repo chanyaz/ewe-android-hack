@@ -67,6 +67,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	//Settings
 	private static final float DETAILS_MARGIN_PERCENTAGE = 0.1f;
+	private static final float DETAILS_MARGIN_PORTRAIT_PERCENTAGE = 0.08f;
 
 	//Fragment tags
 	private static final String FTAG_DETAILS = "FTAG_DETAILS";
@@ -1124,7 +1125,8 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			int actionbarHeight = getActivity().getActionBar().getHeight();
 
 			int leftCol, rightCol;
-			if (mGrid.isLandscape()) {
+			boolean isLandscape = mGrid.isLandscape();
+			if (isLandscape) {
 				leftCol = 2;
 				rightCol = 4;
 			}
@@ -1138,7 +1140,8 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			position.right = mGrid.getColRight(rightCol);
 			position.top = 0;
 			position.bottom = mGrid.getTotalHeight() - actionbarHeight;
-			frag.setDefaultDetailsPositionAndDimensions(position, DETAILS_MARGIN_PERCENTAGE);
+			float marginPercentage = isLandscape ? DETAILS_MARGIN_PERCENTAGE : DETAILS_MARGIN_PORTRAIT_PERCENTAGE;
+			frag.setDefaultDetailsPositionAndDimensions(position, marginPercentage);
 		}
 
 		if (frag != null && mListFrag != null && mListFrag.hasList()) {
