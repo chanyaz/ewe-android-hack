@@ -9,12 +9,12 @@
         android:id="@+id/bg_flight_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
     <View
+        android:id="@+id/action_bar_background"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/results_top_gradient_height"
+        android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:background="@drawable/bg_tablet_actionbar"/>
+        android:background="@drawable/ab_gradient"/>
 
     <!-- FLIGHT LEG CONTAINER -->
     <com.expedia.bookings.widget.FrameLayoutTouchController

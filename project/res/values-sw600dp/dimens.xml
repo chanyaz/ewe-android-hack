@@ -5,8 +5,6 @@
     Overrides for 10" tablet specific dimensions should go in values-sw800dp
     and dimensions for app generic dimensions should go in values -->
 
-    <dimen name="tablet_top_gradient_height">89dp</dimen>
-
     <!-- Values that L2ImageCache will use for Stack Blur -->
     <fraction name="stack_blur_darken_multiplier">70%</fraction>
     <dimen name="stack_blur_radius">50dp</dimen>
@@ -58,7 +56,6 @@
     <!-- note: results_column_header_height should be equal to results_list_spacer_height + results_list_margin_top -->
     <dimen name="results_column_header_height">48dp</dimen>
     <dimen name="results_collapsed_row_height">284dp</dimen>
-    <dimen name="results_top_gradient_height">144dp</dimen>
 
     <dimen name="results_flight_histogram_horizontal_padding">30dp</dimen>
     <dimen name="results_flight_histogram_vertical_padding">10dp</dimen>

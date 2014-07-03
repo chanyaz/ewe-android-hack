@@ -97,6 +97,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	private FrameLayoutTouchController mTripBucketC;
 	private ViewGroup mFlightsC;
 	private ViewGroup mHotelC;
+	private ViewGroup mSearchC;
 	private CenteredCaptionedIcon mMissingFlightInfo;
 
 	//Fragments
@@ -132,6 +133,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		mTripBucketC = Ui.findView(this, R.id.trip_bucket_container);
 		mFlightsC = Ui.findView(this, R.id.full_width_flights_controller_container);
 		mHotelC = Ui.findView(this, R.id.full_width_hotels_controller_container);
+		mSearchC = Ui.findView(this, R.id.full_width_search_controller_container);
 		mMissingFlightInfo = Ui.findView(this, R.id.missing_flight_info_view);
 
 		updateMissingFlightInfoText();
@@ -794,6 +796,13 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo,
 											float percentage) {
 			updateStateTransition(getResultsStateFromHotels(stateOne), getResultsStateFromHotels(stateTwo), percentage);
+
+			if (isActionBarAppearing(stateOne, stateTwo)) {
+				mHotelC.findViewById(R.id.action_bar_background).setAlpha(percentage);
+			}
+			else if (isActionBarDisappearing(stateOne, stateTwo)) {
+				mHotelC.findViewById(R.id.action_bar_background).setAlpha(1f - percentage);
+			}
 		}
 
 		@Override
@@ -820,17 +829,40 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mDoingHotelsAddToBucket = false;
 			}
 
+			if (mHotelC != null) {
+				mHotelC.findViewById(R.id.action_bar_background).setAlpha(isActionBarVisibleFor(state) ? 1f : 0f);
+			}
+
 			mResultsStateListeners.setListenerActive(mHotelsController.getResultsListener());
 		}
 
 		private ResultsState getResultsStateFromHotels(ResultsHotelsState state) {
-			if (state == ResultsHotelsState.LOADING || state == ResultsHotelsState.HOTEL_LIST_DOWN
-				|| state == ResultsHotelsState.SEARCH_ERROR) {
+			switch (state) {
+			case LOADING:
+			case SEARCH_ERROR:
+			case HOTEL_LIST_DOWN:
 				return ResultsState.OVERVIEW;
-			}
-			else {
+			case HOTEL_LIST_UP:
+			case HOTEL_LIST_AND_FILTERS:
+			case ROOMS_AND_RATES:
+			case REVIEWS:
+			case GALLERY:
+			case ADDING_HOTEL_TO_TRIP:
+			default:
 				return ResultsState.HOTELS;
 			}
+		}
+
+		private boolean isActionBarAppearing(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
+			return !isActionBarVisibleFor(stateOne) && isActionBarVisibleFor(stateTwo);
+		}
+
+		private boolean isActionBarDisappearing(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {
+			return isActionBarVisibleFor(stateOne) && !isActionBarVisibleFor(stateTwo);
+		}
+
+		private boolean isActionBarVisibleFor(ResultsHotelsState state) {
+			return getResultsStateFromHotels(state) == ResultsState.HOTELS;
 		}
 
 	};
@@ -867,8 +899,15 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
 											float percentage) {
-			updateStateTransition(getResultsStateFromFlights(stateOne), getResultsStateFromFlights(stateTwo),
-				percentage);
+
+			updateStateTransition(getResultsStateFromFlights(stateOne), getResultsStateFromFlights(stateTwo), percentage);
+
+			if (isActionBarAppearing(stateOne, stateTwo)) {
+				mFlightsC.findViewById(R.id.action_bar_background).setAlpha(percentage);
+			}
+			else if (isActionBarDisappearing(stateOne, stateTwo)) {
+				mFlightsC.findViewById(R.id.action_bar_background).setAlpha(1f - percentage);
+			}
 		}
 
 		@Override
@@ -890,18 +929,38 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				mDoingFlightsAddToBucket = false;
 			}
 
+			if (mFlightsC != null) {
+				mFlightsC.findViewById(R.id.action_bar_background).setAlpha(isActionBarVisibleFor(state) ? 1f : 0f);
+			}
+
 			mResultsStateListeners.setListenerActive(mFlightsController.getResultsListener());
 		}
 
 		private ResultsState getResultsStateFromFlights(ResultsFlightsState state) {
-			if (state == ResultsFlightsState.LOADING || state == ResultsFlightsState.FLIGHT_LIST_DOWN ||
-				state == ResultsFlightsState.SEARCH_ERROR) {
+			switch (state) {
+			case LOADING:
+			case FLIGHT_LIST_DOWN:
+			case SEARCH_ERROR:
 				return ResultsState.OVERVIEW;
-			}
-			else {
+			case CHOOSING_FLIGHT:
+			case ADDING_FLIGHT_TO_TRIP:
+			default:
 				return ResultsState.FLIGHTS;
 			}
 		}
+
+		private boolean isActionBarAppearing(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
+			return !isActionBarVisibleFor(stateOne) && isActionBarVisibleFor(stateTwo);
+		}
+
+		private boolean isActionBarDisappearing(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
+			return isActionBarVisibleFor(stateOne) && !isActionBarVisibleFor(stateTwo);
+		}
+
+		private boolean isActionBarVisibleFor(ResultsFlightsState state) {
+			return getResultsStateFromFlights(state) == ResultsState.FLIGHTS;
+		}
+
 	};
 
 	/*
@@ -930,6 +989,12 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 				}
 			}
 
+			if (isActionBarAppearing(stateOne, stateTwo)) {
+				mSearchC.findViewById(R.id.action_bar_background).setAlpha(percentage);
+			}
+			else if (isActionBarDisappearing(stateOne, stateTwo)) {
+				mSearchC.findViewById(R.id.action_bar_background).setAlpha(1f - percentage);
+			}
 		}
 
 		@Override
@@ -941,19 +1006,42 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 		@Override
 		public void onStateFinalized(ResultsSearchState state) {
-
+			if (mSearchC != null) {
+				mSearchC.findViewById(R.id.action_bar_background).setAlpha(isActionBarVisibleFor(state) ? 1f : 0f);
+			}
 		}
 
+		private boolean isActionBarAppearing(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			return !isActionBarVisibleFor(stateOne) && isActionBarVisibleFor(stateTwo);
+		}
+
+		private boolean isActionBarDisappearing(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			return isActionBarVisibleFor(stateOne) && !isActionBarVisibleFor(stateTwo);
+		}
+
+		private boolean isActionBarVisibleFor(ResultsSearchState state) {
+			switch (state) {
+			case HOTELS_UP:
+			case FLIGHTS_UP:
+			case DESTINATION:
+			case FLIGHT_ORIGIN:
+				return false;
+			case DEFAULT:
+			case CALENDAR:
+			case TRAVELER_PICKER:
+			default:
+				return true;
+			}
+		}
+
+		private boolean isSearchControlsActiveTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			return stateOne == ResultsSearchState.DEFAULT && (stateTwo == ResultsSearchState.CALENDAR || stateTwo == ResultsSearchState.TRAVELER_PICKER);
+		}
+
+		private boolean isSearchControlsInactiveTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
+			return (stateOne == ResultsSearchState.CALENDAR || stateOne == ResultsSearchState.TRAVELER_PICKER) && stateTwo == ResultsSearchState.DEFAULT;
+		}
 	};
-
-	private static boolean isSearchControlsActiveTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-		return stateOne == ResultsSearchState.DEFAULT && (stateTwo == ResultsSearchState.CALENDAR || stateTwo == ResultsSearchState.TRAVELER_PICKER);
-	}
-
-	private static boolean isSearchControlsInactiveTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {
-		return (stateOne == ResultsSearchState.CALENDAR || stateOne == ResultsSearchState.TRAVELER_PICKER) && stateTwo == ResultsSearchState.DEFAULT;
-	}
-
 
 	/*
 	 * ITripBucketBookClickListener

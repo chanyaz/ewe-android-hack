@@ -13,12 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/results_top_gradient_height"
-        android:layout_gravity="top"
-        android:background="@drawable/bg_tablet_actionbar"/>
-
     <!-- FLIGHT LIST PLACEHOLDER FOR WHEN WE DONT HAVE ENOUGH FLIGHT DATA -->
 
     <com.expedia.bookings.widget.CenteredCaptionedIcon
