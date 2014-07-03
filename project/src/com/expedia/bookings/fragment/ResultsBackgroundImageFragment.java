@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.BitmapUtils;
 import com.expedia.bookings.bitmaps.L2ImageCache;
 import com.expedia.bookings.data.Db;
@@ -169,6 +170,10 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment implement
 	}
 
 	private void handleBitmap(final Bitmap bitmap, boolean fade) {
+		//TODO: TEMPORARY
+		//mImageView.setImageResource(R.drawable.temporary_paris_backdrop);
+		//mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+		//TODO: TEMPORARY
 		if (bitmap != null) {
 			if (!mBlur) {
 				int color = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)) //
