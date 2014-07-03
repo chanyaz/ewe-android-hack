@@ -69,7 +69,7 @@
     <fraction name="tablet_hotel_details_horizontal_spacing_percentage">14%</fraction>
 
     <!-- Trip Bucket Fragment -->
-    <dimen name="bucket_top_margin">8dp</dimen>
+    <dimen name="bucket_top_margin">7dp</dimen>
 
     <dimen name="bucket_card_divider_size">8dp</dimen>
 
