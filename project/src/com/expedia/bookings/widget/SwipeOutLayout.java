@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewPropertyAnimator;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.Log;
@@ -358,6 +359,13 @@ public class SwipeOutLayout extends FrameLayout {
 	 * TOUCH HANDLING
 	 */
 
+	public void stopTouchSteals(boolean stopSteals) {
+		LinearLayout parentView = (LinearLayout) getParent();
+		if (parentView != null) {
+			parentView.requestDisallowInterceptTouchEvent(stopSteals);
+		}
+	}
+
 	private class SwipeOutTouchListener implements OnTouchListener {
 		private float mCurrentDistance = 0f;
 		private boolean mHasDown = false;
@@ -380,9 +388,12 @@ public class SwipeOutLayout extends FrameLayout {
 
 			//We only care about touch events that fall on top of our content view
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
+				stopTouchSteals(true);
 				mHasDown = true;
 				float x = event.getX();
 				float y = event.getY();
+				mStartX = x;
+				mStartY = y;
 				if (mVertical) {
 					if (y < mContentView.getY() || (mPositiveDirection && y > (getHeight() - getSwipeOutDistance()))) {
 						mHasDown = false;
@@ -402,6 +413,12 @@ public class SwipeOutLayout extends FrameLayout {
 					reportSwipeStateChanged(SWIPE_STATE_DRAGGING);
 				}
 
+				float x = event.getX();
+				float xDeltaTotal = Math.abs(x - mStartX);
+				if (event.getAction() == MotionEvent.ACTION_MOVE && xDeltaTotal > mTouchSlop) {
+					stopTouchSteals(true);
+				}
+
 				// Do scroll related stuff.
 				mGesDet.onTouchEvent(event);
 
@@ -419,6 +436,8 @@ public class SwipeOutLayout extends FrameLayout {
 
 					reportSwipeStateChanged(SWIPE_STATE_IDLE);
 					resetVars();
+					stopTouchSteals(false);
+
 				}
 
 				return true;
@@ -444,6 +463,8 @@ public class SwipeOutLayout extends FrameLayout {
 		private void resetVars() {
 			mCurrentDistance = 0;
 			mHasDown = false;
+			mStartY = 0;
+			mStartX = 0;
 		}
 
 		private float getPercentageFromOffset(float offset) {
