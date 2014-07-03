@@ -92,6 +92,9 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		mFlightC.addListener(new TripBucketSwipeListener(LineOfBusiness.FLIGHTS));
 		mFlightC.setSwipeOutThresholdPercentage(BUCKET_ITEM_SWIPE_THRESHOLD);
 
+		mHotelUndo.setVisibility(View.INVISIBLE);
+		mFlightUndo.setVisibility(View.INVISIBLE);
+
 		return mRootC;
 	}
 
