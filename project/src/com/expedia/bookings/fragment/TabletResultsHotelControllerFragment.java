@@ -1051,8 +1051,7 @@ public class TabletResultsHotelControllerFragment extends Fragment implements
 	/*
 	 * HOTELS STATE PROVIDER
 	 */
-	private StateListenerCollection<ResultsHotelsState> mHotelsStateListeners = new StateListenerCollection<ResultsHotelsState>(
-		mHotelsStateManager.getState());
+	private StateListenerCollection<ResultsHotelsState> mHotelsStateListeners = new StateListenerCollection<ResultsHotelsState>();
 
 	@Override
 	public void startStateTransition(ResultsHotelsState stateOne, ResultsHotelsState stateTwo) {

@@ -118,7 +118,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		mLegNumber = legNumber;
 		ResultsFlightLegState defaultState = getBaseState();
 		mStateManager = new StateManager<ResultsFlightLegState>(defaultState, this);
-		mStateListeners = new StateListenerCollection<ResultsFlightLegState>(defaultState);
+		mStateListeners = new StateListenerCollection<ResultsFlightLegState>();
 	}
 
 	/**

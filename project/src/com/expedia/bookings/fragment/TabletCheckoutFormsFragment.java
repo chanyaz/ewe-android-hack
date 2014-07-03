@@ -789,8 +789,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	/*
 	 * ISTATEPROVIDER
 	 */
-	private StateListenerCollection<CheckoutFormState> mStateListeners = new StateListenerCollection<CheckoutFormState>(
-		mStateManager.getState());
+	private StateListenerCollection<CheckoutFormState> mStateListeners = new StateListenerCollection<CheckoutFormState>();
 
 	@Override
 	public void startStateTransition(CheckoutFormState stateOne, CheckoutFormState stateTwo) {

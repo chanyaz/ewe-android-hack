@@ -609,8 +609,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	 * STATE PROVIDER
 	 */
 
-	private StateListenerCollection<ResultsState> mResultsStateListeners = new StateListenerCollection<ResultsState>(
-		mStateManager.getDefaultState());
+	private StateListenerCollection<ResultsState> mResultsStateListeners = new StateListenerCollection<ResultsState>();
 
 	@Override
 	public void startStateTransition(ResultsState stateOne, ResultsState stateTwo) {

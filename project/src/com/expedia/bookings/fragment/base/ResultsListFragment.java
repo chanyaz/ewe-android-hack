@@ -294,7 +294,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 		}
 	};
 
-	private StateListenerCollection<T> mListeners = new StateListenerCollection<T>(getDefaultState());
+	private StateListenerCollection<T> mListeners = new StateListenerCollection<T>();
 
 	@Override
 	public void startStateTransition(T stateOne, T stateTwo) {

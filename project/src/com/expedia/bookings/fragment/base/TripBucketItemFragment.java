@@ -620,8 +620,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	ISTATEPROVIDER
 	*/
 
-	private StateListenerCollection<TripBucketItemState> mStateListeners = new StateListenerCollection<TripBucketItemState>(
-		mStateManager.getState());
+	private StateListenerCollection<TripBucketItemState> mStateListeners = new StateListenerCollection<TripBucketItemState>();
 
 	@Override
 	public void startStateTransition(TripBucketItemState stateOne, TripBucketItemState stateTwo) {

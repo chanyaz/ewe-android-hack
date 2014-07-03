@@ -632,8 +632,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 	 * STATE MANAGEMENT
 	 */
 
-	private StateListenerCollection<ResultsListState> mStateListeners = new StateListenerCollection<ResultsListState>(
-		ResultsListState.AT_BOTTOM);
+	private StateListenerCollection<ResultsListState> mStateListeners = new StateListenerCollection<ResultsListState>();
 
 	@Override
 	public void startStateTransition(ResultsListState stateOne, ResultsListState stateTwo) {

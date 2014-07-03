@@ -594,8 +594,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	//////////////////////////////////////////////////////////////////////////
 	// State Provider
 
-	private StateListenerCollection<TravelerFormState> mTravelerFormStateListeners = new StateListenerCollection<TravelerFormState>(
-		TravelerFormState.EDITING);
+	private StateListenerCollection<TravelerFormState> mTravelerFormStateListeners = new StateListenerCollection<TravelerFormState>();
 
 	@Override
 	public void startStateTransition(TravelerFormState stateOne, TravelerFormState stateTwo) {

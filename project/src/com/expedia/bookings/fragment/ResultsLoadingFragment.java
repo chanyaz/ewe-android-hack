@@ -465,7 +465,7 @@ public class ResultsLoadingFragment extends Fragment implements IStateProvider<R
 	 * STATE PROVIDER STUFF
 	 */
 
-	private StateListenerCollection<ResultsLoadingState> mStateListeners = new StateListenerCollection<ResultsLoadingState>(mStateManager.getState());
+	private StateListenerCollection<ResultsLoadingState> mStateListeners = new StateListenerCollection<ResultsLoadingState>();
 
 	@Override
 	public void startStateTransition(ResultsLoadingState stateOne, ResultsLoadingState stateTwo) {

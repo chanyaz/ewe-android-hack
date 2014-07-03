@@ -1102,8 +1102,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	 * RESULTS SEARCH STATE PROVIDER
 	 */
 
-	private StateListenerCollection<ResultsSearchState> mLis = new StateListenerCollection<ResultsSearchState>(
-		mSearchStateManager.getState());
+	private StateListenerCollection<ResultsSearchState> mLis = new StateListenerCollection<ResultsSearchState>();
 
 	@Override
 	public void startStateTransition(ResultsSearchState stateOne, ResultsSearchState stateTwo) {

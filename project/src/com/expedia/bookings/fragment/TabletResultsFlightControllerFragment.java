@@ -654,8 +654,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 	/*
 	 * FLIGHTS STATE PROVIDER
 	 */
-	private StateListenerCollection<ResultsFlightsState> mFlightsStateListeners = new StateListenerCollection<ResultsFlightsState>(
-		mFlightsStateManager.getState());
+	private StateListenerCollection<ResultsFlightsState> mFlightsStateListeners = new StateListenerCollection<ResultsFlightsState>();
 
 	@Override
 	public void startStateTransition(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {

@@ -218,8 +218,7 @@ public class TabletLaunchControllerFragment extends MeasurableFragment
 	 * IStateProvider<LaunchState>
 	 */
 
-	private StateListenerCollection<LaunchState> mStateListeners = new StateListenerCollection<>(
-		mStateManager.getState());
+	private StateListenerCollection<LaunchState> mStateListeners = new StateListenerCollection<>();
 
 	@Override
 	public void startStateTransition(LaunchState stateOne, LaunchState stateTwo) {

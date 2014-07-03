@@ -9,7 +9,6 @@ import org.joda.time.LocalDate;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -87,7 +86,6 @@ import com.squareup.otto.Subscribe;
  * TabletCheckoutControllerFragment: designed for tablet checkout 2014
  * This controls all the fragments relating to tablet checkout
  */
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletCheckoutControllerFragment extends LobableFragment implements IBackManageable,
 	IStateProvider<CheckoutState>, IFragmentAvailabilityProvider, CVVEntryFragmentListener,
 	CheckoutInformationListener, SlideToWidgetJB.ISlideToListener,
@@ -1011,8 +1009,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	 * CheckoutState ISTATEPROVIDER
 	 */
 
-	private StateListenerCollection<CheckoutState> mStateListeners = new StateListenerCollection<CheckoutState>(
-		mStateManager.getState());
+	private StateListenerCollection<CheckoutState> mStateListeners = new StateListenerCollection<CheckoutState>();
 
 	@Override
 	public void startStateTransition(CheckoutState stateOne, CheckoutState stateTwo) {

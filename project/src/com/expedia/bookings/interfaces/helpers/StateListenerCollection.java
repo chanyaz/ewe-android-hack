@@ -37,8 +37,8 @@ public class StateListenerCollection<T> {
 	private T mTransStartState;
 	private T mTransEndState;
 
-	public StateListenerCollection(T startState) {
-
+	public StateListenerCollection() {
+		// Ignore
 	}
 
 	public boolean setListenerInactive(IStateListener<T> listener) {
